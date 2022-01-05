@@ -169,16 +169,19 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题", methodName: "addTopic" },
+        // { title: "新增议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
         { title: "议题调整", methodName: "updateTopic" },
-        { title: "导入议题", methodName: "importTopic" },
+        // { title: "导入议题", methodName: "importTopic" },
+        { title: "批量调整", methodName: "batchAdjustment" },
       ],
       [
         { title: "修改议题", methodName: "editTopic", disabled: true },
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTop", disabled: true },
         { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
+        // { title: "拆分", methodName: "split", disabled: true },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
       ],
     ],
   },
@@ -194,9 +197,11 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题", methodName: "addTopic" },
+        // { title: "新增议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
+        { title: "批量调整", methodName: "batchAdjustment" },
       ],
       [
         // { title: "开始", methodName: "start" },
@@ -204,7 +209,8 @@ export const buttonList = [
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTop", disabled: true },
         { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
+        // { title: "拆分", methodName: "split", disabled: true },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
       ],
     ],
   },
@@ -221,9 +227,10 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题", methodName: "addTopic" },
+        // { title: "新增议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
         { title: "议题调整", methodName: "updateTopic" },
-        // { title: "导入议题", methodName: "importTopic" },
+        { title: "批量调整", methodName: "batchAdjustment" },
       ],
       [
         // { //   title: "开始议题", //   methodName: "startTopic", //   // disabled: true, //   triggerDisabled: true, // },

@@ -1,273 +1,305 @@
+import dayjs from '@/utils/dayjs.js'
 export const baseRules = {
   topic: [
-    { required: true, message: "必填", trigger: "blur" },
-    { min: 1, max: 255, message: "最大长度 255 字符", trigger: "blur" },
+    { required: true, message: '必填', trigger: 'blur' },
+    { min: 1, max: 255, message: '最大长度 255 字符', trigger: 'blur' }
   ],
   duration: [
-    { required: true, message: "必填", trigger: "blur" },
+    { required: true, message: '必填', trigger: 'blur' },
     {
-      type: "number",
-      message: "最大长度3位，单位（分钟），必须正整数",
-      trigger: "blur",
+      type: 'number',
+      message: '最大长度3位，单位（分钟），必须正整数',
+      trigger: 'blur',
       transform(value) {
-        if (value !== null && value !== "") {
+        if (value !== null && value !== '') {
           if (
-            String(value).trim() === "" ||
+            String(value).trim() === '' ||
             Number(value) <= 0 ||
             Number(value) >= 1000
           ) {
-            return false;
+            return false
           } else if (
-            String(value).indexOf(".") !== -1 ||
-            String(value).indexOf("-") !== -1
+            String(value).indexOf('.') !== -1 ||
+            String(value).indexOf('-') !== -1
           ) {
-            return false;
+            return false
           } else {
-            return Number(value);
+            return Number(value)
           }
         } else {
-          return null;
+          return null
         }
-      },
-    },
-  ],
-};
+      }
+    }
+  ]
+}
 
 // export const tableColumns =
 export const approvalBoolean = [
   {
-    value: "true",
-    label: "是",
+    value: 'true',
+    label: '是'
   },
   {
-    value: "false",
-    label: "否",
-  },
-];
+    value: 'false',
+    label: '否'
+  }
+]
 export const tableListColumns = [
   {
-    type: "selection",
+    type: 'selection'
   },
 
   {
-    prop: "positionCode",
+    prop: 'positionCode',
     // i18n: "APPROVAL.POSITION_CODE",
-    label: "会议名称",
+    label: '会议名称'
   },
   {
-    prop: "positionName",
+    prop: 'positionName',
     // i18n: "APPROVAL.POSITION_NAME",
-    label: "会议类型",
+    label: '会议类型'
   },
   {
-    prop: "positionUser",
+    prop: 'positionUser',
     // i18n: "APPROVAL.POSITION_USER",
-    label: "会议状态",
+    label: '会议状态'
   },
   {
-    prop: "positionUser",
-    label: "会议地点",
+    prop: 'positionUser',
+    label: '会议地点'
   },
   {
-    prop: "positionUser",
-    label: "会议日期",
-  },
-];
+    prop: 'positionUser',
+    label: '会议日期'
+  }
+]
 export const updateDatetableColumns = [
   {
-    type: "selection",
-    width: 40,
+    type: 'selection',
+    width: 40
   },
   {
-    prop: "会议名称",
-    label: "会议名称",
-    i18n: "会议名称",
+    prop: '会议名称',
+    label: '会议名称',
+    i18n: '会议名称',
     // width: 350,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议类型",
-    label: "会议类型",
-    i18n: "会议类型",
+    prop: '会议类型',
+    label: '会议类型',
+    i18n: '会议类型',
     // width: 90,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议状态",
-    label: "会议状态",
-    i18n: "会议状态",
+    prop: '会议状态',
+    label: '会议状态',
+    i18n: '会议状态',
     // width: 70,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议地点",
-    label: "会议地点",
-    i18n: "会议地点",
+    prop: '会议地点',
+    label: '会议地点',
+    i18n: '会议地点',
     // width: 150,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议时间",
-    label: "会议时间",
-    i18n: "会议时间",
+    prop: '会议时间',
+    label: '会议时间',
+    i18n: '会议时间',
     // width: 200,
     tooltip: false,
-    align: "center",
-  },
-];
+    align: 'center'
+  }
+]
 export const statusObj = {
-  "01": "草稿",
-  "02": "开放",
-  "03": "锁定",
-  "04": "开始",
-  "05": "结束",
-  "06": "关闭",
-};
+  '01': '草稿',
+  '02': '开放',
+  '03': '锁定',
+  '04': '开始',
+  '05': '结束',
+  '06': '关闭'
+}
 export const stateObj = {
-  "01": "未进行",
-  "02": "进行中",
-  "03": "已结束",
-  "04": "申请撤回",
-};
+  '01': '未进行',
+  '02': '进行中',
+  '03': '已结束',
+  '04': '申请撤回'
+}
 export const themenConclusion = {
-  "01": "待定",
-  "02": "定点",
-  "03": "发LOI",
-  "04": "转TER/TOP-TER",
-  "05": "下次Pre CSC",
-  "06": "转CSC",
-  "07": "关闭",
-};
+  '01': '待定',
+  '02': '定点',
+  '03': '发LOI',
+  '04': '转TER/TOP-TER',
+  '05': '下次Pre CSC',
+  '06': '转CSC',
+  '07': '关闭'
+}
 export const themenConclusionArrObj = [
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
+  // {
+  //   conclusionCsc: "02",
+  //   conclusionName: "定点",
+  // },
+  // {
+  //   conclusionCsc: "03",
+  //   conclusionName: "发LOI",
+  // },
+  // {
+  //   conclusionCsc: "04",
+  //   conclusionName: "转TER/TOP-TER",
+  // },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "下次Pre CSC",
+  // },
+  // {
+  //   conclusionCsc: "06",
+  //   conclusionName: "转CSC",
+  // },
+  // {
+  //   conclusionCsc: "07",
+  //   conclusionName: "关闭",
+  // },
   {
-    conclusionCsc: "01",
-    conclusionName: "待定",
+    conclusionCsc: '01',
+    conclusionName: '待定'
   },
   {
-    conclusionCsc: "02",
-    conclusionName: "定点",
+    conclusionCsc: '02',
+    conclusionName: '通过'
   },
   {
-    conclusionCsc: "03",
-    conclusionName: "发LOI",
+    conclusionCsc: '03',
+    conclusionName: '预备会议通过'
   },
   {
-    conclusionCsc: "04",
-    conclusionName: "转TER/TOP-TER",
+    conclusionCsc: '04',
+    conclusionName: '不通过'
   },
   {
-    conclusionCsc: "05",
-    conclusionName: "下次Pre CSC",
+    conclusionCsc: '05',
+    conclusionName: 'Last Call'
   },
   {
-    conclusionCsc: "06",
-    conclusionName: "转CSC",
-  },
-  {
-    conclusionCsc: "07",
-    conclusionName: "关闭",
-  },
-];
+    conclusionCsc: '06',
+    conclusionName: '分段定点'
+  }
+]
 export const numToLetter = {
-  "1": "A",
-  "2": "B",
-  "3": "C",
-  "4": "D",
-  "5": "E",
-  "6": "F",
-  "7": "G",
-  "8": "H",
-  "9": "I",
-  "10": "J",
-  "11": "K",
-  "12": "L",
-  "13": "M",
-  "14": "N",
-  "15": "O",
-  "16": "P",
-  "17": "Q",
-  "18": "R",
-  "19": "S",
-  "20": "T",
-  "21": "U",
-  "22": "V",
-  "23": "W",
-  "24": "X",
-  "25": "Y",
-  "26": "Z",
-};
+  1: 'A',
+  2: 'B',
+  3: 'C',
+  4: 'D',
+  5: 'E',
+  6: 'F',
+  7: 'G',
+  8: 'H',
+  9: 'I',
+  10: 'J',
+  11: 'K',
+  12: 'L',
+  13: 'M',
+  14: 'N',
+  15: 'O',
+  16: 'P',
+  17: 'Q',
+  18: 'R',
+  19: 'S',
+  20: 'T',
+  21: 'U',
+  22: 'V',
+  23: 'W',
+  24: 'X',
+  25: 'Y',
+  26: 'Z'
+}
 export const buttonList = [
   {
-    title: "开放",
-    methodName: "open",
+    title: '开放',
+    methodName: 'open',
     rightButtonList: [
-      { title: "锁定", methodName: "lock" },
-      { title: "开始", methodName: "start" },
-      { title: "修改", methodName: "edit" },
-      { title: "返回", methodName: "back" },
+      { title: '锁定', methodName: 'lock' },
+      { title: '开始', methodName: 'start' },
+      { title: '修改', methodName: 'edit' },
+      { title: '返回', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
-        { title: "新增手工议题", methodName: "addTopic" },
-        { title: "议题调整", methodName: "updateTopic" },
+        { title: '新增休息', methodName: 'addRest' },
+        { title: '新增议题', methodName: 'newAddTopic' },
+        // { title: "新增手工议题", methodName: "addTopic" },
+        { title: '议题调整', methodName: 'updateTopic' },
+        { title: '批量调整', methodName: 'batchAdjustment' }
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
-        { title: "修改议题", methodName: "editTopic", disabled: true },
-        { title: "维护资料", methodName: "protectInfo", disabled: true },
-        { title: "删除", methodName: "deleteTopAll", disabled: true },
-        { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
-      ],
-    ],
+        { title: '修改议题', methodName: 'editTopic', disabled: true },
+        { title: '维护资料', methodName: 'protectInfo', disabled: true },
+        { title: '删除', methodName: 'deleteTopAll', disabled: true },
+        { title: '改期', methodName: 'updateDate', disabled: true },
+        // { title: "拆分", methodName: "split", disabled: true },
+        { title: '结束议题', methodName: 'overTopic', disabled: true },
+        { title: '发送大会议程', methodName: 'sendAgenda', disabled: true }
+      ]
+    ]
   },
   {
-    title: "锁定",
-    methodName: "lock",
+    title: '锁定',
+    methodName: 'lock',
     rightButtonList: [
-      { title: "开始", methodName: "start" },
-      { title: "解锁", methodName: "deblock" },
-      { title: "返回", methodName: "back" },
+      { title: '开始', methodName: 'start' },
+      { title: '解锁', methodName: 'deblock' },
+      { title: '返回', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
-        { title: "新增手工议题", methodName: "addTopic" },
-        { title: "议题调整", methodName: "updateTopic" },
+        { title: '新增休息', methodName: 'addRest' },
+        { title: '新增议题', methodName: 'newAddTopic' },
+        // { title: "新增手工议题", methodName: "addTopic" },
+        { title: '议题调整', methodName: 'updateTopic' },
+        { title: '批量调整', methodName: 'batchAdjustment' }
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
         // { title: "开始", methodName: "start" },
-        { title: "修改议题", methodName: "editTopic", disabled: true },
-        { title: "维护资料", methodName: "protectInfo", disabled: true },
-        { title: "删除", methodName: "deleteTopAll", disabled: true },
-        { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
-      ],
-    ],
+        { title: '修改议题', methodName: 'editTopic', disabled: true },
+        { title: '维护资料', methodName: 'protectInfo', disabled: true },
+        { title: '删除', methodName: 'deleteTopAll', disabled: true },
+        { title: '改期', methodName: 'updateDate', disabled: true },
+        // { title: "拆分", methodName: "split", disabled: true },
+        { title: '结束议题', methodName: 'overTopic', disabled: true },
+        { title: '发送大会议程', methodName: 'sendAgenda', disabled: true }
+      ]
+    ]
   },
   {
-    title: "开始",
-    methodName: "start",
+    title: '开始',
+    methodName: 'start',
     rightButtonList: [
-      { title: "结束", methodName: "endMeeting" },
-      { title: "同屏", methodName: "sameScreen" },
-      { title: "展示", methodName: "displayShow" },
-      { title: "返回", methodName: "back" },
+      { title: '结束', methodName: 'endMeeting' },
+      { title: '同屏', methodName: 'sameScreen' },
+      { title: '展示', methodName: 'displayShow' },
+      { title: '返回', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
-        { title: "新增手工议题", methodName: "addTopic" },
-        { title: "议题调整", methodName: "updateTopic" },
+        { title: '新增休息', methodName: 'addRest' },
+        { title: '新增议题', methodName: 'newAddTopic' },
+        // { title: "新增手工议题", methodName: "addTopic" },
+        { title: '议题调整', methodName: 'updateTopic' },
+        { title: '批量调整', methodName: 'batchAdjustment' }
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
@@ -277,284 +309,210 @@ export const buttonList = [
         //   // disabled: true,
         //   triggerDisabled: true,
         // },
-        { title: "修改议题", methodName: "editTopic", disabled: true },
-        { title: "维护资料", methodName: "protectInfo", disabled: true },
-        { title: "删除", methodName: "deleteTopAll", disabled: true },
-        {
-          title: "结束议题",
-          methodName: "overTopic",
-          disabled: true,
-        },
-        {
-          title: "维护结论",
-          methodName: "protectResult",
-          disabled: true,
-        },
-        {
-          title: "查看结论",
-          methodName: "lookResult",
-          disabled: true,
-        },
-      ],
-    ],
+        { title: '修改议题', methodName: 'editTopic', disabled: true },
+        { title: '维护资料', methodName: 'protectInfo', disabled: true },
+        { title: '删除', methodName: 'deleteTopAll', disabled: true },
+        { title: '改期', methodName: 'updateDate', disabled: true },
+        { title: '结束议题', methodName: 'overTopic', disabled: true },
+        // { title: "维护结论", methodName: "protectResult", disabled: true, },
+        // { title: "查看结论", methodName: "lookResult", disabled: true, },
+        { title: '发送大会议程', methodName: 'sendAgenda', disabled: true }
+      ]
+    ]
   },
   {
-    title: "结束",
-    methodName: "end",
+    title: '结束',
+    methodName: 'end',
     rightButtonList: [
-      { title: "关闭", methodName: "close" },
-      { title: "生成会议纪要", methodName: "generateMeetingMinutes" },
-      { title: "返回", methodName: "back" },
+      { title: '关闭', methodName: 'close' },
+      { title: '生成会议纪要', methodName: 'generateMeetingMinutes' },
+      { title: '返回', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest", disabled: true },
-        { title: "新增议题", methodName: "addTopic", disabled: true },
-        { title: "议题调整", methodName: "updateTopic", disabled: true },
+        { title: '新增休息', methodName: 'addRest', disabled: true },
+        { title: '新增议题', methodName: 'addTopic', disabled: true },
+        { title: '议题调整', methodName: 'updateTopic', disabled: true }
       ],
       [
-        { title: "待定", methodName: "bePending", disabled: true },
-        { title: "定点", methodName: "fixedPoint", disabled: true },
-        { title: "转CSC", methodName: "translateCSC", disabled: true },
-        { title: "下次Pre CSC", methodName: "nextPreCSC", disabled: true },
-        { title: "发LOI", methodName: "senLol", disabled: true },
-        { title: "转TER/TOP-TER", methodName: "translateTer", disabled: true },
-        { title: "冻结RS单", methodName: "freezeRsBill", disabled: true },
-        { title: "关闭", methodName: "closeResult", disabled: true },
-        { title: "查看结论", methodName: "lookResult", disabled: true },
-      ],
-    ],
+        // { title: "待定", methodName: "bePending", disabled: true },
+        // { title: "定点", methodName: "fixedPoint", disabled: true },
+        // { title: "转CSC", methodName: "translateCSC", disabled: true },
+        // { title: "下次Pre CSC", methodName: "nextPreCSC", disabled: true },
+        // { title: "发LOI", methodName: "senLol", disabled: true },
+        // { title: "转TER/TOP-TER", methodName: "translateTer", disabled: true },
+        // { title: "冻结RS单", methodName: "freezeRsBill", disabled: true },
+        { title: '修改议题', methodName: 'editTopic', disabled: true },
+        { title: '维护资料', methodName: 'protectInfo', disabled: true },
+        { title: '删除', methodName: 'deleteTopAll', disabled: true },
+        { title: '改期', methodName: 'updateDate', disabled: true },
+        { title: '结束议题', methodName: 'overTopic', disabled: true },
+        { title: '发送大会议程', methodName: 'sendAgenda', disabled: false }
+      ]
+    ]
   },
   {
-    title: "关闭",
-    methodName: "close",
+    title: '关闭',
+    methodName: 'close',
     rightButtonList: [
-      { title: "生成会议纪要", methodName: "generateMeetingMinutes" },
-      { title: "返回", methodName: "back" },
+      { title: '生成会议纪要', methodName: 'generateMeetingMinutes' },
+      { title: '返回', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest", disabled: true },
-        { title: "新增手工议题", methodName: "addTopic", disabled: true },
-        { title: "议题调整", methodName: "updateTopic", disabled: true },
+        { title: '新增休息', methodName: 'addRest', disabled: true },
+        { title: '新增手工议题', methodName: 'addTopic', disabled: true },
+        { title: '议题调整', methodName: 'updateTopic', disabled: true }
       ],
-      [{ title: "查看结论", methodName: "lookResult", disabled: true }],
-    ],
+      [{ title: '查看结论', methodName: 'lookResult', disabled: true }]
+    ]
   },
   {
-    title: "草稿",
-    methodName: "draw",
+    title: '草稿',
+    methodName: 'draw',
     rightButtonList: [],
-    tableButtonList: [[], []],
-  },
-];
+    tableButtonList: [[], []]
+  }
+]
 
-// tableColumns: [
-//   {
-//     type: "selection",
-//     width: 40,
-//   },
-//   {
-//     prop: "itemNo",
-//     label: "NO.",
-//     i18n: "NO.",
-//     width: 50,
-//     tooltip: false,
-//     align: "center",
-//   },
-//   {
-//     prop: "count",
-//     label: "Count",
-//     i18n: "Count",
-//     align: "center",
-//     emit: "go-detail",
-//     width: 70,
-//     // customRender: (h, scope) => {
-//     //   return <span class="open-link-text">{scope.row.name}</span>;
-//     // },
-//     tooltip: false,
-//   },
-//   {
-//     prop: "topic",
-//     label: "Topic",
-//     i18n: "Topic",
-//     align: "center",
-//     // width: 130,
-//     tooltip: false,
-//     customRender: (h, scope) => {
-//       if (scope.row.state === "01")
-//         return h("span", [
-//           h(
-//             "a",
-//             {
-//               style: {
-//                 marginRight: "5px",
-//               },
-//               class: "open-link-text open-link-text-black",
-//               on: {
-//                 click: () => {
-//                   this.lookThemen(scope.row);
-//                 },
-//               },
-//             },
-//             scope.row.topic
-//           ),
-//         ]);
-//       if (scope.row.state === "03")
-//         return h("span", [
-//           h(
-//             "a",
-//             {
-//               style: {
-//                 marginRight: "5px",
-//               },
-//               class: "open-link-text open-link-text-grey",
-//               on: {
-//                 click: () => {
-//                   this.lookThemen(scope.row);
-//                 },
-//               },
-//             },
-//             scope.row.topic
-//           ),
-//         ]);
-//       return h("span", [
-//         h(
-//           "a",
-//           {
-//             style: {
-//               marginRight: "5px",
-//             },
-//             class: "open-link-text open-link-text-blue",
-//             on: {
-//               click: () => {
-//                 this.lookThemen(scope.row);
-//               },
-//             },
-//           },
-//           scope.row.topic
-//         ),
-//       ]);
-//     },
-//   },
-//   {
-//     prop: "duration",
-//     label: "Duration(min)",
-//     i18n: "Duration(min)",
-//     align: "center",
-//     // width: 90,
-//     tooltip: false,
-//     customRender: (h, scope) => {
-//       if (
-//         Number(this.$route.query.userId) === 2 &&
-//         this.meetingInfo.state === "03" &&
-//         scope.row.state === "04"
-//       ) {
-//         return h("div", { class: "open-clink-back-text" }, [
-//           h("div", {
-//             class: "open-text-text-choice",
-//             on: {
-//               click: () => {
-//                 this.recallTheThemen(scope.row);
-//               },
-//             },
-//           }),
-//           // h(
-//           //   "div",
-//           //   {
-//           //     class: "open-clink-back ",
-//           //   },
-//           //   scope.row.duration
-//           // ),
-//         ]);
-//         // if (
-//         //   this.selectedTableData &&
-//         //   this.selectedTableData.find((item) => {
-//         //     return item.id === scope.row.id;
-//         //   })
-//         // ) {
-//         //   return h("div", { class: "open-clink-back-text" }, [
-//         //     h("div", {
-//         //       class: "open-text-text-choice",
-//         //       on: {
-//         //         click: () => {
-//         //           this.recallTheThemen(scope.row);
-//         //         },
-//         //       },
-//         //     }),
-//         //     // h(
-//         //     //   "div",
-//         //     //   {
-//         //     //     class: "open-clink-back ",
-//         //     //   },
-//         //     //   scope.row.duration
-//         //     // ),
-//         //   ]);
-//         // }
-//         // return h("div", { class: "open-clink-back-text" }, [
-//         //   h("div", {
-//         //     class: "open-text-text",
-//         //     on: {
-//         //       click: () => {
-//         //         this.recallTheThemen(scope.row);
-//         //       },
-//         //     },
-//         //   }),
-//         //   h(
-//         //     "div",
-//         //     {
-//         //       class: "open-clink-back ",
-//         //     },
-//         //     scope.row.duration
-//         //   ),
-//         // ]);
-//       }
-//       return h("span", [h("span", scope.row.duration)]);
-//     },
-//   },
-//   {
-//     prop: "time",
-//     label: "Time",
-//     i18n: "Time",
-//     tooltip: false,
-//     // width: 110,
-//   },
-//   {
-//     prop: "presenter",
-//     label: "Presenter",
-//     i18n: "Presenter",
-//     // width: 100,
-//     tooltip: false,
-//   },
-//   {
-//     prop: "presenterDept",
-//     label: "Presenter Department",
-//     i18n: "Presenter Department",
-//     align: "center",
-//     emit: "go-detail",
-//     // width: 110,
-//     tooltip: false,
-//   },
-//   {
-//     prop: "supporter",
-//     label: "Supporter",
-//     i18n: "Supporter",
-//     align: "center",
-//     tooltip: false,
-//     // width: 100,
-//   },
-//   {
-//     prop: "supporterDept",
-//     label: "Supporter Department",
-//     i18n: "Supporter Department",
-//     tooltip: false,
-//     // width: 110,
-//   },
-//   {
-//     prop: "remark",
-//     label: "Remark",
-//     i18n: "Remark",
-//     tooltip: false,
-//     // width: 120,
-//   },
-// ],
+//列表
+export const TABLE_COLUMNS_DEFAULT = [
+  {
+    props: 'index',
+    name: '#',
+    width: 50
+  },
+  {
+    type: 'index',
+    label: '#',
+    i18n: '',
+    width: 50
+  },
+  {
+    props: 'currency',
+    name: '货币类型',
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
+  },
+  {
+    props: 'targetPrice',
+    name: '目标价',
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
+  },
+  {
+    props: 'finalPrice',
+    name: '最终成交价',
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
+  },
+  {
+    props: 'supplierName',
+    name: '供应商',
+    key: ''
+  }
+]
+// 表头 发送大会议程
+export const TABLE_COLUMNS_DEFAULTALl = [
+  {
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    label: '#',
+    i18n: '',
+    width: 50
+  },
+  {
+    value: 1,
+    prop: '',
+    label: '会议名称',
+    i18n: '',
+    customRender: (h, scope) => {
+      return <span class="open-link-text"> {scope.row.code} </span>
+    }
+  },
+  {
+    value: 2,
+    prop: '',
+    label: '会议类型',
+    i18n: ''
+  },
+  {
+    value: 3,
+    prop: '',
+    label: '会议状态',
+    i18n: ''
+  },
+  {
+    value: 4,
+    prop: '',
+    label: '会议地点',
+    i18n: ''
+  },
+  {
+    value: 5,
+    prop: '',
+    label: '会议时间',
+    i18n: ''
+  },
+  {
+    value: 6,
+    prop: '',
+    label: '周次',
+    i18n: ''
+  }
+]
+export const statusList = [
+  {
+    label: '草稿',
+    value: '01'
+  },
+  {
+    label: '开放',
+    value: '02'
+  },
+  {
+    label: '锁定',
+    value: '03'
+  },
+  {
+    label: '开始',
+    value: '04'
+  },
+  {
+    label: '结束',
+    value: '05'
+  },
+  {
+    label: '关闭',
+    value: '06'
+  }
+]
+// let weekNum = dayjs(dayjs().year()).isoWeeksInYear();
+const currentFistYearDay = `${dayjs().year()}-01-01`
+const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+const totalDay = isLeap ? 366 : 365
+const weekNum2 = new Date(currentFistYearDay).getDay()
+const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+
+let weekListInit = []
+for (let index = 0; index < weekNum; index++) {
+  if (index < 9) {
+    weekListInit.push({
+      label: 'CW0' + (index + 1) + '/' + weekNum,
+      value: index
+    })
+  } else {
+    weekListInit.push({
+      label: 'CW' + (index + 1) + '/' + weekNum,
+      value: index
+    })
+  }
+}
+export { weekListInit }

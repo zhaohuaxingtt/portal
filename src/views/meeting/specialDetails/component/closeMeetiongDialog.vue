@@ -152,7 +152,7 @@ export default {
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          { required: false, message: '请选择上传附件', trigger: 'blur' }
+          { required: false, message: this.$t('MT_QINGXUANZESHANGCHUANFUJIAN'), trigger: 'blur' }
         ]
       },
       approvalProcessList: []
@@ -174,9 +174,9 @@ export default {
     'rowState.isTriggerApproval': {
       handler(v) {
         if (v) {
-          this.isOrNot = this.$t('是')
+          this.isOrNot = this.$t('MT_SHI')
         } else {
-          this.isOrNot = this.$t('否')
+          this.isOrNot = this.$t('MT_FOU')
         }
       },
       immediate: true
@@ -258,18 +258,18 @@ export default {
       await uploadFile(formData)
         .then((res) => {
           this.attachment = res.data[0]
-          iMessage.success(this.$t('上传成功'))
+          iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })
         .catch(() => {
-          iMessage.error(this.$t('上传失败'))
+          iMessage.error(this.$t('MT_SHANGCHUANSHIBAI'))
         })
       this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error(this.$t('上传头像图片大小不能超过10MB!'))
+        this.$message.error(`${this.$t('MT_SHANGCHUANTOUXIANGTUPIANDAXIAOBUNENGCHAOGUO')}10MB!`)
       }
       return isLt10M
     },

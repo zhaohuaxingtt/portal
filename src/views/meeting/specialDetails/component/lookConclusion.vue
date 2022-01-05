@@ -11,7 +11,7 @@
       <div class="conclusion-box">
         <span class="conclusion-title"><span>{{$t('MT_JIELUN')}}:</span></span>
         <div class="conclusion-content">
-          {{ themenConclusion[selectedTableData[0].conclusionCsc] }}
+          {{ $t(themenConclusion[selectedTableData[0].conclusionCsc]) }}
         </div>
       </div>
       <div

@@ -22,16 +22,15 @@
           :defalutCollVal="!item.isEnd"
           @handleCollapse="(val) => handleCollapse(val, item)"
         >
-          <div slot="header-control">
-            {{ item.endTime }}
+          <div slot="header-control">{{ item.endTime }}</div>
+          <div v-if="!item.isEnd || item.ok">
+            <processNodeHorizontal
+              :detail="detail"
+              :panorama="item.panorama"
+              :isEnd="item.isEnd"
+              :instanceId="item.processInstanceId + index"
+            />
           </div>
-          <processNodeHorizontal
-            v-if="!item.isEnd || item.ok"
-            :detail="detail"
-            :panorama="item.panorama"
-            :isEnd="item.isEnd"
-            :instanceId="item.processInstanceId + index"
-          />
         </iCard>
       </div>
       <div v-if="panoramas.length === 1" style="overflow: auto">

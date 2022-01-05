@@ -29,12 +29,13 @@
               class="upload-button1"
               :loading="uploadLoading"
             >
-              {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text1"
+              {{ $t('MT_QINGXUANZEWENJIAN')
+              }}<span class="upload-text1"
                 ><img :src="uploadIcon" class="img1"
               /></span>
             </iButton>
             <div slot="tip" class="el-upload__tip">
-              {{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}10M
+              {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}10M
             </div>
           </el-upload>
         </iFormItem>
@@ -51,16 +52,16 @@
 </template>
 
 <script>
-import { iDialog, iFormItem, iButton, iMessage } from "rise";
-import iEditForm from "@/components/iEditForm";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import iTableCustom from "@/components/iTableCustom";
-import { uploadFile } from "@/api/meeting/type";
+import { iDialog, iFormItem, iButton, iMessage } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import iTableCustom from '@/components/iTableCustom'
+import { uploadFile } from '@/api/meeting/type'
 import {
   addThemenAttachment,
-  deleteThemenAttachment,
-} from "@/api/meeting/details";
-import { download } from "@/utils/downloadUtil";
+  deleteThemenAttachment
+} from '@/api/meeting/details'
+import { download } from '@/utils/downloadUtil'
 
 export default {
   components: {
@@ -68,27 +69,27 @@ export default {
     iFormItem,
     iEditForm,
     iButton,
-    iTableCustom,
+    iTableCustom
   },
   props: {
     dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
@@ -99,114 +100,115 @@ export default {
       currentThemen: {},
       tableColumns: [
         {
-          prop: "fileId",
-          label: "序号",
-          i18n: "序号",
+          prop: 'fileId',
+          label: '序号',
+          i18n: 'MT_XUHAO2',
           // width: 68,
-          tooltip: false,
+          tooltip: false
         },
         {
-          prop: "attachmentName",
-          label: "文件名称",
-          i18n: "文件名称",
-          align: "left",
+          prop: 'attachmentName',
+          label: '文件名称',
+          i18n: 'MT_WENJIANMINGCHENG',
+          align: 'left',
           // width: 300,
-          tooltip: false,
+          tooltip: false
         },
         {
-          label: "操作",
+          label: '操作',
+          i18n: 'MT_CAOZUO2',
           customRender: (h, scope) => {
-            return h("span", [
+            return h('span', [
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    marginRight: "5px",
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    marginRight: '5px',
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "el-icon-delete open-link-text",
+                  class: 'el-icon-delete open-link-text',
 
                   on: {
                     click: () => {
-                      this.deleFileInfo(scope.row);
-                    },
-                  },
+                      this.deleFileInfo(scope.row)
+                    }
+                  }
                 },
-                "删除"
+                this.$t('MT_SHANCHU')
               ),
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    marginRight: "5px",
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    marginRight: '5px',
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "open-link-text",
+                  class: 'open-link-text'
                 },
-                "|"
+                '|'
               ),
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "el-icon-download open-link-text",
+                  class: 'el-icon-download open-link-text',
                   on: {
                     click: () => {
-                      this.downLoadFileInfo(scope.row);
-                    },
-                  },
+                      this.downLoadFileInfo(scope.row)
+                    }
+                  }
                 },
-                "下载"
-              ),
-            ]);
-          },
-        },
-      ],
-    };
+                this.$t('MT_XIAZAI')
+              )
+            ])
+          }
+        }
+      ]
+    }
   },
   created() {
-    this.currentThemen = { ...this.selectedTableData[0] };
-    this.tableData = [...this.currentThemen.attachments];
+    this.currentThemen = { ...this.selectedTableData[0] }
+    this.tableData = [...this.currentThemen.attachments]
     // console.log(this.currentThemen);
-    this.generateTableNum();
+    this.generateTableNum()
   },
   methods: {
     beforeAvatarUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < 10;
+      const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error(this.$t("文件大小最大限制10M!"));
+        this.$message.error(`${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}10M!`)
       }
-      return isLt10M;
+      return isLt10M
     },
     //生成序号
     generateTableNum() {
       this.tableData = this.tableData.map((item, index) => {
         return {
           ...item,
-          fileId: index + 1,
-        };
-      });
+          fileId: index + 1
+        }
+      })
     },
     async deleFileInfo(row) {
       const data = {
         themenId: this.currentThemen.id,
         meetingId: this.meetingInfo.id,
-        id: row.id,
-      };
+        id: row.id
+      }
       await deleteThemenAttachment(data)
         .then((res) => {
-          this.tableData = [...res.attachments];
-          iMessage.success(this.$t("删除成功"));
-          this.generateTableNum();
+          this.tableData = [...res.attachments]
+          iMessage.success(this.$t('MT_SHANCHUCHENGGONG'))
+          this.generateTableNum()
         })
         .catch((err) => {
-          console.log("删除失败: " + err);
-        });
+          console.log('删除失败: ' + err)
+        })
     },
     //文件下载
     downLoadFileInfo(row) {
@@ -220,23 +222,23 @@ export default {
       //   },
       // });
       download({
-        fileIds:row.attachmentId,
+        fileIds: row.attachmentId,
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t("下载失败"));
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
-        },
-      });
+        }
+      })
     },
-    createAnchorLink(href, filename = "") {
-      const a = document.createElement("a");
-      a.download = filename;
-      a.setAttribute("crossOrigin", "anonymous");
-      a.href = href;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+    createAnchorLink(href, filename = '') {
+      const a = document.createElement('a')
+      a.download = filename
+      a.setAttribute('crossOrigin', 'anonymous')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
       // let $eleForm = document.createElement("form");
       // $eleForm.setAttribute("action", href);
       // $eleForm.setAttribute("method", "get");
@@ -246,54 +248,54 @@ export default {
     },
     //文件上传
     async httpUpload(content) {
-      this.uploadLoading = true;
-       let formData = new FormData();
+      this.uploadLoading = true
+      let formData = new FormData()
       // formData.append("file", content.file);
-      formData.append("multifile", content.file);
-      formData.append("applicationName", 111);
-      formData.append("businessId", 8025);
-      formData.append("currentUserId", -1);
-      formData.append("type", 1);
+      formData.append('multifile', content.file)
+      formData.append('applicationName', 111)
+      formData.append('businessId', 8025)
+      formData.append('currentUserId', -1)
+      formData.append('type', 1)
       await uploadFile(formData)
         .then((res) => {
           return {
-            ...res.data[0],
-          };
+            ...res.data[0]
+          }
         })
         .then((fileData) => {
           const nowAttachment = {
             attachmentId: fileData.id,
             attachmentName: fileData.name,
-            attachmentUrl: fileData.path,
-          };
+            attachmentUrl: fileData.path
+          }
           const data = {
             themenId: this.currentThemen.id,
             attachment: nowAttachment,
-            meetingId: this.meetingInfo.id,
-          };
+            meetingId: this.meetingInfo.id
+          }
           addThemenAttachment(data).then((res) => {
-            this.tableData = [...res.attachments];
-            this.generateTableNum();
-            iMessage.success(this.$t("上传成功"));
-          });
+            this.tableData = [...res.attachments]
+            this.generateTableNum()
+            iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
+          })
         })
         .catch((err) => {
-          iMessage.error("上传失败 " + err);
-        });
-      this.uploadLoading = false;
+          iMessage.error('上传失败 ' + err)
+        })
+      this.uploadLoading = false
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      console.log(file, fileList)
     },
     handlePreview(file) {
-      console.log(file);
+      console.log(file)
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("flushTable");
-    },
-  },
-};
+      this.$emit('input', false)
+      this.$emit('flushTable')
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

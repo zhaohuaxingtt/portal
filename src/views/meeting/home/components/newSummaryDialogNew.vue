@@ -162,8 +162,12 @@
                     </el-table-column>
                   </el-table>
                   <div v-if="item.conclusionCsc === '03'">
-                    <p>对于车型，发 LOI 给</p>
-                    <p>For carline send LOI to</p>
+                    <p
+                      v-if="item.loiResult"
+                      v-html="item.loiResult.replace(/\n/g, '<br/>')"
+                    ></p>
+                    <p v-if="!item.loiResult">对于车型，发 LOI 给</p>
+                    <p v-if="!item.loiResult">For carline send LOI to</p>
                   </div>
                   <div v-if="item.conclusionCsc === '04'">
                     <p>转 TER/TOP TER</p>
@@ -217,7 +221,7 @@ import {
   iSelect,
   iMessage
 } from 'rise'
-import { numToLetter } from '../../details/component/data'
+// import { numToLetter } from '../../details/component/data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
@@ -266,7 +270,7 @@ export default {
       userNameArr: [],
       userIdsArr: [],
       loadingCreate: false,
-      numToLetter,
+      // numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},
@@ -281,13 +285,13 @@ export default {
         attendees: [
           {
             required: true,
-            message: this.$t('请输入议题结论！'),
+            message: this.$t('MT_QINGSHURUYITIJIELUN'),
             trigger: 'blur'
           },
           {
             min: 0,
             max: 2048,
-            message: this.$t('最大长度2048字符'),
+            message: this.$t('MT_ZUIDACHANGDU2048ZIFU'),
             trigger: 'blur'
           }
         ],
@@ -295,20 +299,20 @@ export default {
           {
             min: 0,
             max: 2048,
-            message: this.$t('最大长度2048字符'),
+            message: this.$t('MT_ZUIDACHANGDU2048ZIFU'),
             trigger: 'blur'
           }
         ]
       },
       employeeDTOS: [],
       conclusionCscList: {
-        '01': '待定',
-        '02': '定点',
-        '03': '发LOI',
-        '04': '转TER/TOP-TER',
-        '05': '下次Pre CSC',
-        '06': '转CSC',
-        '07': '关闭'
+        '01': 'MT_DAIDING',
+        '02': 'MT_DINGDIAN',
+        '03': 'MT_FALOI',
+        '04': 'MT_ZHUANTER',
+        '05': 'MT_XIACIPRE',
+        '06': 'MT_ZHUANCSC',
+        '07': 'MT_GUANBI'
       },
       employeeStr: ''
     }
@@ -375,7 +379,7 @@ export default {
       if (item[field]) {
         return item[field]
       }
-      return '暂无'
+      return this.$t('MT_ZANWU')
     },
     // taskUserResult(item, index) {
     //   this.queryUserInfo([item.supporter, item.presenter]).then((res) => {
@@ -429,7 +433,7 @@ export default {
           this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then((res) => {
             if (Number(res.code) === 200) {
-              iMessage.success(this.$t('保存成功'))
+              iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
               this.$emit('handleOK')
             }
             this.loadingCreate = false

@@ -19,9 +19,9 @@
         >
           <el-row gutter="20">
             <el-col :span="12">
-              <iFormItem :label="formTitles.name" prop="appNameCn">
+              <iFormItem :label="language('中文名称')" prop="appNameCn">
                 <iInput
-                  :placeholder="formTitles.input"
+                  :placeholder="language('请输入')"
                   :disabled="isRead"
                   v-model="formData.appNameCn"
                   maxlength="20"
@@ -29,9 +29,9 @@
               </iFormItem>
             </el-col>
             <el-col :span="12">
-              <iFormItem :label="formTitles.nameEN" prop="appNameEn">
+              <iFormItem :label="language('英文名称')" prop="appNameEn">
                 <iInput
-                  :placeholder="formTitles.input"
+                  :placeholder="language('请输入')"
                   :disabled="isRead"
                   v-model="formData.appNameEn"
                   maxlength="20"
@@ -40,13 +40,17 @@
             </el-col>
             <el-col :span="12">
               <iFormItem :label="language('系统URL')" prop="url">
-                <iInput v-model="formData.url" :disabled="isRead"></iInput>
+                <iInput
+                  v-model="formData.url"
+                  :disabled="isRead"
+                  :placeholder="language('请输入')"
+                ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="24">
-              <iFormItem :label="formTitles.description" prop="description">
+              <iFormItem :label="language('系统功能说明')" prop="description">
                 <iInput
-                  :placeholder="formTitles.input"
+                  :placeholder="language('请输入')"
                   :disabled="isRead"
                   v-model="formData.description"
                   maxlength="100"
@@ -60,13 +64,13 @@
     <div slot="footer">
       <div class="buttons">
         <iButton v-if="isRead" @click="edit">
-          {{ buttonTitles.edit }}
+          {{ language('编辑') }}
         </iButton>
         <iButton v-if="!isRead" @click="comfirm">
-          {{ buttonTitles.true }}
+          {{ language('确认') }}
         </iButton>
         <iButton v-if="!isRead" @click="reset">
-          {{ buttonTitles.reset }}
+          {{ language('重置') }}
         </iButton>
       </div>
     </div>
@@ -112,24 +116,8 @@ export default {
         url: ''
       },
       formTitles: {
-        name: '中文名称',
-        nameEN: '英文名称',
-        group: '门户用户组',
-        ldap: 'LDAP属性',
-        type: '功能类型',
-        sysType: '系统类型',
-        sysTag: '系统标签',
-        description: '系统功能说明',
         createTitle: '新建/浏览页面',
-        editTitle: '新建/编辑页面',
-        input: '请输入',
-        iselect: '请选择',
-        appCode: 'App Code'
-      },
-      buttonTitles: {
-        edit: '编辑',
-        true: '确认',
-        reset: '重置'
+        editTitle: '新建/编辑页面'
       },
       rules: {
         appNameCn: [

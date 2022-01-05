@@ -35,7 +35,7 @@
         $t('MT_QUXIAO')
       }}</iButton>
       <iButton
-        @click="$emit('handleChooseReceiver', selectedTableData)"
+        @click="$emit('handleChooseReceiver', selectedTableData, status)"
         plain
         :disabled="selectedTableData.length == 0"
         >{{ $t('MT_QUEREN') }}</iButton
@@ -67,6 +67,12 @@ export default {
       default: () => {
         return false
       }
+    },
+    status: {
+      type: String,
+      default: () => {
+        return 'add'
+      }
     }
   },
   data() {
@@ -75,8 +81,8 @@ export default {
       search: '',
       selectedTableData: [],
       // data: this.tableData,
-      tableData: '',
-      tableDataAll: ''
+      tableData: [],
+      tableDataAll: []
     }
   },
   mounted() {
@@ -97,7 +103,7 @@ export default {
     },
 
     close() {
-      this.$emit('closeChooseDialog', false)
+      this.$emit('closeChooseDialog', false, this.status)
     },
     // 表格选中值集
     handleSelectionChange(val) {
@@ -109,7 +115,7 @@ export default {
         data = {
           current: this.page.currPage,
           size: this.page.pageSize,
-          nameZh: val
+          userInfo: val
         }
       } else {
         data = {
@@ -121,8 +127,6 @@ export default {
       getPageListByParam(data)
         .then((res) => {
           const { data, pageNum, pageSize, total, pages } = res
-          console.log('pageSize', pageSize)
-          console.log('pages', pages)
           this.page.currPage = pageNum
           this.page.pageSize = pageSize
           this.page.totalCount = total

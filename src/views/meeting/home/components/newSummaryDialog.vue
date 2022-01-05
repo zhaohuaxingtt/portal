@@ -127,7 +127,7 @@ import {
   iSelect,
   iMessage
 } from 'rise'
-import { numToLetter } from './data'
+// import { numToLetter } from './data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
@@ -160,7 +160,7 @@ export default {
   data() {
     return {
       loadingCreate: false,
-      numToLetter,
+      // numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},
@@ -169,11 +169,11 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: this.$t('请输入议题结论！'), trigger: 'blur' }
+          { required: true, message: this.$t('MT_QINGSHURUYITIJIELUN'), trigger: 'blur' }
         ]
       },
       rule: [
-        { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
+        { min: 0, max: 2048, message: this.$t('MT_ZUIDACHANGDU2048ZIFU'), trigger: 'blur' }
       ]
     }
   },
@@ -203,7 +203,7 @@ export default {
           this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then((res) => {
             if (Number(res.code) === 200) {
-              iMessage.success(this.$t('保存成功'))
+              iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
               this.$emit('handleOK')
             }
             this.loadingCreate = false

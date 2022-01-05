@@ -50,9 +50,11 @@
             class="search"
           >
           </iInput>
-          <iButton @click="$emit('addReceiverData')" class="add-receiver">{{
-            $t('MT_TIANJIASHOUJIANREN')
-          }}</iButton>
+          <iButton
+            @click="$emit('addReceiverData', 'edit')"
+            class="add-receiver"
+            >{{ $t('MT_TIANJIASHOUJIANREN') }}</iButton
+          >
         </div>
         <i-table-custom
           @removeReceiverDataList="removeReceiverDataList"
@@ -93,7 +95,7 @@ import {
   getReceiverById,
   getMettingType
 } from '@/api/meeting/type'
-import { baseRules } from './data'
+// import { baseRules } from './data'
 import iTableCustom from '@/components/iTableCustom'
 export default {
   components: {
@@ -135,14 +137,14 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: '序号',
+          i18n: 'MT_XUHAO2',
           width: 68,
           tooltip: false
         },
         {
           // prop: "nameZh",
           label: '姓名',
-          i18n: '姓名',
+          i18n: 'MT_XINGMING',
           width: 150,
           align: 'left',
           tooltip: true,
@@ -163,7 +165,7 @@ export default {
         {
           // prop: "email",
           label: '电子邮箱',
-          i18n: '电子邮箱',
+          i18n: 'MT_DIANZIYOUXIANG',
           width: 200,
           align: 'left',
           tooltip: true,
@@ -184,7 +186,7 @@ export default {
         {
           // prop: "userNum",
           label: '工号',
-          i18n: '工号',
+          i18n: 'MT_GONGHAO',
           width: 120,
           align: 'left',
           tooltip: true,
@@ -205,7 +207,7 @@ export default {
         {
           // prop: "deptList",
           label: '所属部门',
-          i18n: '所属部门',
+          i18n: 'MT_SUOSHUBUMEN',
           align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
@@ -224,6 +226,7 @@ export default {
         },
         {
           label: '操作',
+          i18n: 'MT_CAOZUO2',
           width: 80,
           customRender: (h, scope) => {
             return h('span', [
@@ -241,13 +244,26 @@ export default {
                     }
                   }
                 },
-                '移除'
+                this.$t('MT_YICHU')
               )
             ])
           }
         }
       ],
-      rules: baseRules,
+      rules: {
+        groupName: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 64,
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        meetingType: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }
+        ]
+      },
       ruleForm: {
         groupName: '',
         meetingType: ''
@@ -432,7 +448,7 @@ export default {
       this.change(this.search)
     },
     close() {
-      this.$emit('closeEditDialog', false)
+      this.$emit('closeEditDialog', false, 'edit')
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
@@ -443,7 +459,7 @@ export default {
             .then((data) => {
               if (data) {
                 this.close()
-                this.$message.success(this.$t('修改成功！'))
+                this.$message.success(this.$t('MT_XIUGAICHENGGONG'))
                 this.$emit('flushTable')
               }
             })

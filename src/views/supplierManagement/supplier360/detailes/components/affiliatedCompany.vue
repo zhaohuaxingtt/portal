@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -72,23 +72,24 @@ export default {
         this.handleTree();
       }
     },
-   groupRelationsVO(data) {
-      if (data) {
-        this.groupTableListData = data
-      } else {
-        this.groupTableListData = {
-          name: '',
-          realityControlName: '',
-          productName: '',
-          oemCustomer: '',
-          oemName: '',
-          deliveryStartDate: ''
+    groupRelationsVO(data) {
+        if(data){
+            this.groupTableListData = data
+        }else{
+            this.groupTableListData={
+                name:"",
+                realityControlName:"",
+                productName:'',
+                oemCustomer:'',
+                oemName:'',
+                deliveryStartDate:''
+            }
         }
-      }
+
     }
   },
   mounted() {
-    // this.handleTree()
+    this.handleTree()
   },
   methods: {
     handleTree() {

@@ -152,14 +152,19 @@ export default {
         })
         this.activeMenu = parentMeta
       }
+
+      if (!this.activeIndex && this.activeMenu && this.activeMenu.length) {
+        this.activeIndex = this.activeMenu[0]
+      }
     },
     handleShow(va) {
       this.contentShowFlag = !va
     },
     handleSelect(list) {
-      console.log(list, 'llll')
-      let activeMenu = this.$route.meta?.activeMenu || []
-      this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
+			localStorage.setItem('currMenu', JSON.stringify(this.activeMenu || []))
+			// const activeMenu = this.activeMenu || []
+			// window.location.href = list.path + '?currentMenu='+activeMenu.join(',')
+      window.location.href = list.path
     },
     getMenus() {
       const menuMap = this.getMenusMap(this.menuList)

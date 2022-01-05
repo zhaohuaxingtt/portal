@@ -107,20 +107,21 @@ export default {
         {
           prop: "fileId",
           label: "序号",
-          i18n: "MT_XUHAO",
+          i18n: "MT_XUHAO2",
           // width: 68,
           tooltip: false,
         },
         {
           prop: "attachmentName",
           label: "文件名称",
-          i18n: "文件名称",
+          i18n: "MT_WENJIANMINGCHENG",
           align: "left",
           // width: 300,
           tooltip: false,
         },
         {
           label: "操作",
+          i18n:"MT_CAOZUO2",
           customRender: (h, scope) => {
             return h("span", [
               h(
@@ -139,7 +140,7 @@ export default {
                     },
                   },
                 },
-                "删除"
+                this.$t("MT_SHANCHU")
               ),
               h(
                 "a",
@@ -167,7 +168,7 @@ export default {
                     },
                   },
                 },
-                "下载"
+                this.$t("MT_XIAZAI")
               ),
             ]);
           },
@@ -185,7 +186,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
-        this.$message.error(this.$t('文件大小最大限制10M!'));
+        this.$message.error(`${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}10M!`);
       }
       return isLt10M;
     },
@@ -207,7 +208,7 @@ export default {
       await deleteThemenAttachment(data)
         .then((res) => {
           this.tableData = [...res.attachments];
-          iMessage.success(this.$t("删除成功"));
+          iMessage.success(this.$t("MT_SHANCHUCHENGGONG"));
           this.generateTableNum();
         })
         .catch((err) => {
@@ -230,7 +231,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t('下载失败'));
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'));
           }
         },
       });
@@ -280,7 +281,7 @@ export default {
           addThemenAttachment(data).then((res) => {
             this.tableData = [...res.attachments];
             this.generateTableNum();
-            iMessage.success(this.$t('上传成功'));
+            iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'));
           });
         })
         .catch((err) => {

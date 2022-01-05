@@ -58,7 +58,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.state] }}</span
+            >{{ $t(statusObj[scope.row.state]) }}</span
           >
         </template>
       </el-table-column>
@@ -102,7 +102,7 @@
         width="90"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/53</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{handleWeeks()}}</span>
         </template>
       </el-table-column>
       <el-table-column width="81" align="center" label=""></el-table-column>
@@ -224,17 +224,26 @@ export default {
       open: false,
       id: '',
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },
   mounted() {},
   methods: {
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     handleEndTime(row) {
       // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
       let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
@@ -271,7 +280,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t('下载失败'))
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })

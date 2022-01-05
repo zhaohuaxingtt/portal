@@ -122,7 +122,8 @@ export default {
       meetingTypeList: [],
       statusList,
       startWeek: 0,
-      endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
+      // endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
+      endWeek: this.handleWeeks(),
       weekListInit,
       weekList: weekListInit
       // datePickerOptionsStart: {
@@ -167,50 +168,61 @@ export default {
           this.statusList = [
             {
               label: '草稿',
-              value: '01'
+              value: '01',
+              i18n: 'MT_CAOGAO'
             },
             {
               label: '开放',
-              value: '02'
+              value: '02',
+              i18n: 'MT_KAIFANG'
             },
             {
               label: '开始',
-              value: '04'
+              value: '04',
+              i18n: 'MT_KAISHI'
             },
             {
               label: '结束',
-              value: '05'
+              value: '05',
+              i18n: 'MT_JIESHU'
             },
             {
               label: '关闭',
-              value: '06'
+              value: '06',
+              i18n: 'MT_GUANBI'
             }
           ]
         } else {
           this.statusList = [
             {
               label: '草稿',
-              value: '01'
+              value: '01',
+              i18n: 'MT_CAOGAO'
             },
             {
               label: '开放',
-              value: '02'
+              value: '02',
+              i18n: 'MT_KAIFANG'
             },
             {
               label: '锁定',
-              value: '03'
+              value: '03',
+              i18n: 'MT_SUODING'
             },
             {
               label: '开始',
-              value: '04'
+              value: '04',
+              i18n: 'MT_KAISHI'
             },
             {
               label: '结束',
-              value: '05'
+              value: '05',
+              i18n: 'MT_JIESHU'
             },
             {
               label: '关闭',
-              value: '06'
+              value: '06',
+              i18n: 'MT_GUANBI'
             }
           ]
         }
@@ -221,6 +233,15 @@ export default {
     // keyUp(e) {
     //   e.target.value = e.target.value.replace(/[^\d]/g, '')
     // },
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     handleSearchReset() {
       this.form = {}
       this.weekList = weekListInit
@@ -255,7 +276,8 @@ export default {
       if (e) {
         this.endWeek = dayjs(e).week()
       } else {
-        this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
+        // this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
+        this.endWeek = this.handleWeeks();
       }
       let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
       this.weekList = weekListInit.slice(this.startWeek, this.endWeek)

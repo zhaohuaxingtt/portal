@@ -1,7 +1,7 @@
 /*
  * @Author: Zhangbin
  * @Date: 2021-04-19 17:50:00
- * @LastEditTime: 2021-10-15 16:12:21
+ * @LastEditTime: 2022-01-05 16:48:15
  * @Description: 联系人与用户
  */
 import axios from '@/utils/axios'
@@ -113,3 +113,47 @@ export function getCommitmentLetter(parmars, type) {
         : `${process.env.VUE_APP_SUPPLIER}/web`
   })
 }
+
+export function freeze(parmars, type) {
+  return requst({
+    url: '/user/freeze',
+    method: 'PUT',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    },
+    baseURL:
+      type < 4
+        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+        : `${process.env.VUE_APP_SUPPLIER}/web`
+  })
+}
+export function unFreeze(parmars, type) {
+  return requst({
+    url: '/user/unfreeze',
+    method: 'PUT',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    },
+    baseURL:
+      type < 4
+        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+        : `${process.env.VUE_APP_SUPPLIER}/web`
+  })
+}
+//应用操作权限
+export function appOperateAuth(params,type) {
+    return requst({
+      url: `/user/appOperateAuth`,
+      method: 'POST',
+      data: {
+        ...params,
+        supplierToken: store.state.home.valiCode
+      },
+      baseURL:
+        type < 4
+          ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+          : `${process.env.VUE_APP_SUPPLIER}/web`
+    })
+  }

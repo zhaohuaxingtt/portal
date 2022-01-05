@@ -161,7 +161,6 @@ export default {
         partsNum: this.partsNum
       }).then(res => {
         const list = res.data.filter(item => item.isPermission);  //  过滤权限
-        console.log(res.data,list,'list')
         this.$nextTick(() => {
           const chart1 = echarts().init(document.getElementById('echarts-box'))
 
@@ -189,7 +188,7 @@ export default {
             yAxis: {
               type: 'category',
               axisLine:false,
-              data: list.map(item => item.supplierName),
+              data: list.map(item => item.supplierSapCode + '-' + item.supplierName),
               axisLabel: {
                   formatter: function (value) {
                     let ret = "";// 拼接加\n返回的类目项

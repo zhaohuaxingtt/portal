@@ -34,6 +34,11 @@ export default {
     this.tabVal = '1'
     this.getData()
   },
+   watch: {
+    '$i18n.locale'() {
+      this.getChart();
+    }
+  },
   methods: {
     async getData() {
       this.loading=true
@@ -67,7 +72,7 @@ export default {
 
       this.option = {
         title: {
-          text: '供应商数量（家）',
+          text: this.language('GONGYINGSHANGSHULIANGJIA', '供应商数量（家）'),
           textStyle: {
             color: '#909091',
             fontSize: 10

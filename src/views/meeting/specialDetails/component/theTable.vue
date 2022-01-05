@@ -45,10 +45,10 @@
       <el-table-column show-overflow-tooltip align="center" :label="$t('MT_HUIYIZHUANGTAI')">
         <template slot-scope="scope">
           <span class="circle circle1" v-if="scope.row.state === '02'">{{
-            statusObj[scope.row.state]
+            $t(statusObj[scope.row.state])
           }}</span>
           <span class="circle circle2" v-if="scope.row.state === '03'">{{
-            statusObj[scope.row.state]
+           $t( statusObj[scope.row.state])
           }}</span>
         </template>
       </el-table-column>

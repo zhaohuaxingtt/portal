@@ -98,6 +98,7 @@
 			:questioningVisible="questioningVisible"
 			:questioningTitle="questioningTitle"
 			:questionAnswerContent="questionAnswerContent"
+			:currQuestionId="currQuestionId"
 			:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 			:currLabelId="currLabelId"
 			:zwFlag="zwFlag"
@@ -138,6 +139,7 @@ export default {
 			zwFlag: false,  // 追问 提问标志
 			questioningTitle: '',  // 追问 提问弹框title
 			questionAnswerContent: '',
+			currQuestionId: '',
 			listLoading: false,
 			hotQuestionList: [],  // 热门问题
 			currentMenu: [],  // 当前的二级模块菜单
@@ -161,14 +163,17 @@ export default {
 		QuestionDetail,
 		pageHeader
 	},
-	created() {
+	async created() {
 		// 获取当前路径
 		this.helpMoudle = this.$route.query.module || "manual"
 		// 站内信跳转 获取问题id
 		this.turnId = this.$route.query.id || ""
 		this.currentMoudleId = this.$route.query.currentMoudleId || ''
-		let params  = this.$route.params
-		this.currentMenu = params.currentMenu
+		// let params  = this.$route.params
+		this.currentMenu = JSON.parse(localStorage.getItem('currMenu'))
+		console.log(this.currentMenu, '1111111111')
+		await this.getMoudleList()
+		await this.getCurrentModule()
 	},
 	async mounted() {
 		let currMoudleName = this.$route.query.currMoudleName
@@ -176,9 +181,9 @@ export default {
 			this.currMoudleName = currMoudleName
 			this.$refs.problemDetail.turnPageInit(this.$route.query)
 		}
-		await this.getMoudleList()
+		// await this.getMoudleList()
 		await this.getAskModuleList()
-		await this.getCurrentModule()
+		// await this.getCurrentModule()
 	},
 	methods: {
 		turnAll() {
@@ -187,7 +192,8 @@ export default {
 		async getMoudleList() {
 			this.listLoading = true
 			await getModuleList().then((res) => {
-				if (res.code === '200') {
+				console.log(res, '2222222')
+				if (res?.code === '200') {
 					this.listLoading = false
 					this.moudleList = res?.data || []
 				}
@@ -201,10 +207,13 @@ export default {
 			})
 		},
 		// 根据当前url和模块列表定位具体模块及模块名称
-		getCurrentModule() {
+		async getCurrentModule() {
 			let currFlag = false
 			console.log(this.currentMenu, "this.currentMenu")
-			this.moudleList.map(item => {
+			// if (!this.currentMenu) {
+			// 	this.currentMenu = JSON.parse(localStorage.getItem('currMenu'))
+			// }
+			await this.moudleList.map(item => {
 				if (this.currentMenu?.includes(item.permissionKey)) {
 					this.currentMoudleId = item.id
 					this.currMoudleName = item.menuName
@@ -224,7 +233,12 @@ export default {
 				}
 				
 			}
-			this.getManauContent()
+			// if (this.helpMoudle === 'problem') {
+			// 	this.$refs.problemDetail.getLabelList('init')
+			// }
+			if (this.helpMoudle === 'manual') {
+				this.getManauContent()
+			}
 		},
 		// 获取用户手册内容
 		getManauContent() {
@@ -271,10 +285,11 @@ export default {
 			this.hotQuestionList = []
 		},
 		// 追问 打开问题弹框
-		handleZwQues(title, content) {
+		handleZwQues(title, content, currQuesId) {
 			console.log(title, content, "handleZwQues")
 			this.questioningVisible = true
 			this.questioningTitle = title
+			this.currQuestionId = currQuesId
 			this.questionAnswerContent = content
 			this.zwFlag = true
 		},
@@ -287,8 +302,12 @@ export default {
 			this.currLabelId = labelId
 		},
 		// 关闭问题弹框
-		closeQuesDialog(va) {
+		closeQuesDialog(va, currQuestionId) {
 			this.questioningVisible = va
+			if (currQuestionId) {
+				this.$refs.questionList.changeCurrQuesStatus(currQuestionId, 'bad')
+			}
+			
 		},
 		// 根据弹窗热门问题跳转到常见问题详情
 		gotoProblemDeatil(issue, fromPage) {

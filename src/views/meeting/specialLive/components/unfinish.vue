@@ -82,8 +82,9 @@
         prop="topic"
         align="center"
         label="Present Items"
-        min-width="223"
+        :width="setColumnWidth(tabData)"
       >
+        <!-- min-width="223" -->
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
@@ -109,14 +110,14 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-       <el-table-column
+      <!-- <el-table-column
         show-overflow-tooltip
         align="center"
         label="BEN(CN)"
         min-width="58"
         prop="benCn"
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -161,7 +162,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ scope.row.state ? stateObj[scope.row.state] : '' }}
+          {{ scope.row.state ? $t(stateObj[scope.row.state]) : '' }}
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -172,7 +173,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+          <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -214,6 +215,8 @@ import iTableML from '@/components/iTableML'
 import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
 import { recallThemen } from '@/api/meeting/details'
 import { stateObj, themenConclusion } from './data'
+import { getUserIdListTree } from '@/api/usercenter'
+
 export default {
   components: {
     // iInput,
@@ -228,6 +231,7 @@ export default {
   },
   data() {
     return {
+      isSelf: false,
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       themenConclusion,
@@ -329,12 +333,29 @@ export default {
     //     }
     //   }
     // },
-    lookOrEdit(row) {
+    async queryRelateUserList(currentUserId) {
+      const requestData = {
+        userId: currentUserId,
+        isAgent: true
+      }
+      return await getUserIdListTree(requestData)
+    },
+    async lookOrEdit(row) {
+      const getUserId = JSON.parse(sessionStorage.getItem('userInfo')).id
+      const currentUserId = getUserId ? getUserId.toString() : ''
+      const presenterId = row.presenterId ? row.presenterId.toString() : ''
+      const supporterId = row.supporterId ? row.supporterId.toString() : ''
+      this.isSelf =
+        currentUserId === presenterId || currentUserId === supporterId
       if (row.source === '04') {
-        // window.open(
-        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-        //     "_blank"
-        // );
+        if (!this.isSelf) {
+          const res = await this.queryRelateUserList(getUserId)
+          const list = res.data.map((item) => item.toString())
+          if (!(list.includes(presenterId) || list.includes(supporterId))) {
+            iMessage.warn(this.$t('MT_WUCHAKANQUANXIAN'))
+            return
+          }
+        }
         if (row.type === 'FS+MTZ') {
           window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
@@ -379,15 +400,17 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ?this.$t( '请确认是否发送议题撤回申请至会议管理员?')
-        : this.$t('是否确认撤回该议题?')
+        ? this.$t(
+            'MT_QINGQUERENSHIFOUFASONGYITICHEHUISHENQINGZHIHUIYIGUANLIYUAN'
+          )
+        : this.$t('MT_SHIFOUCHEHUIGAIYITI')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, this.$t('提示'), {
-          confirmButtonText: this.$t('是'),
-          cancelButtonText: this.$t('否'),
+        this.$confirm(warn, this.$t('MT_TISHI'), {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -411,7 +434,9 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
+                iMessage.success(
+                  this.$t('MT_YIFASONGCHEHUISHENQINGGEIGUANLIYUAN')
+                )
               } else {
                 iMessage.success(message)
               }
@@ -446,7 +471,9 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
+        iMessage.warn(
+          this.$t('MT_ZHIYOUKAIFANGHESUODINGZHUANGTAICAIKEYICHEHUI')
+        )
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",
@@ -559,6 +586,45 @@ export default {
       this.$router.push({
         path: '/meeting/live/special-more-themens'
       })
+    },
+    //表格列字符限制
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < 223) {
+        // 设置最小宽度
+        columnWidth = 223
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }

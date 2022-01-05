@@ -1,26 +1,23 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-13 14:54:11
- * @LastEditTime: 2021-04-14 17:54:50
- * @LastEditors: your name
+ * @LastEditTime: 2021-12-31 09:59:25
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\views\ws3\supplier360\index.vue
 -->
 <template>
   <div class="height100">
-    <navigation-bar
-      @changeCurrent="changeCurrent"
-      :current="current"
-      :list="supplierTabList"
-      class="margin-bottom20"
-    />
+    <navigation-bar @changeCurrent="changeCurrent"
+                    :current="current"
+                    :list="supplierTabList"
+                    class="margin-bottom20" />
     <div class="height100 mainContent pb">
-      <div v-for="item of supplierTabList" :key="item.current">
-        <component
-          v-if="current == item.current"
-          :is="item.component"
-          :ref="item.ref"
-        />
+      <div v-for="item of supplierTabList"
+           :key="item.current">
+        <component v-if="current == item.current"
+                   :is="item.component"
+                   :ref="item.ref" />
       </div>
     </div>
   </div>
@@ -74,7 +71,7 @@ export default {
     financialData,
     supplyCompany
   },
-  data() {
+  data () {
     return {
       current: 1,
       list: [
@@ -235,21 +232,21 @@ export default {
     }
   },
   computed: {
-    supplierTabList() {
+    supplierTabList () {
       return this.list
     }
   },
   methods: {
-    changeCurrent(index) {
+    changeCurrent (index) {
       this.current = index
     },
-    getRefNameData() {
+    getRefNameData () {
       this.refData = this.list.map((item) => {
         return item.ref
       })
     }
   },
-  created() {
+  created () {
     this.$store.dispatch('setValiCode', this.$route.query.supplierToken)
     if (this.$route.query.current) {
       this.current = Number(this.$route.query.current)

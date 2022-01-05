@@ -4,7 +4,7 @@
       <iButton v-show="!editable" @click="editable = true">
         {{ language('编辑') }}
       </iButton>
-      <iButton v-show="editable" @click="editable = false">
+      <iButton v-show="editable" @click="cancel">
         {{ language('取消') }}
       </iButton>
       <iButton v-show="editable" :loading="loading" @click="handleSave">
@@ -373,6 +373,10 @@ export default {
     this.setRules()
   },
   methods: {
+    cancel(){
+      this.$emit('the-detail-base-query')
+      this.editable = false
+    },
     setRules() {
       const requiredFields = {
         supplierType: '供应商类型',
