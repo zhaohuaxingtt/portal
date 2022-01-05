@@ -1,5 +1,5 @@
 <template>
-  <iCard tabCard class="card-list">
+  <div class="card-list" v-loading="loading">
     <position-card
       class="margin-bottom20"
       v-for="(item, index) in positionList"
@@ -7,14 +7,13 @@
       :item="item"
       :deptId="deptId"
     ></position-card>
-  </iCard>
+  </div>
 </template>
 
 <script>
 import positionCard from './positionCard'
-import { iCard } from 'rise'
 export default {
-  components: { iCard, positionCard },
+  components: { positionCard },
   props: {
     deptId: {
       type: Number
@@ -23,7 +22,15 @@ export default {
   computed: {
     positionList() {
       return this.$store.state.subPosition.subPositionList
+    },
+    loading() {
+      return this.$store.state.subPosition.getSubPositionLoading
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.card-list {
+  min-height: 200px;
+}
+</style>

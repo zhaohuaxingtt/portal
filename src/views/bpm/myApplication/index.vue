@@ -178,12 +178,17 @@ export default {
       this.recallDialogVisible = false
     },
     customMouseenter($event, row) {
-      this.currentInstanceId = row.instanceId
-      const ele = $event.toElement
       const popover = this.$refs.popover
-      popover.referenceElm = ele
-      popover.reference = ele
-      popover.doShow()
+      if (popover) {
+        popover.doClose()
+      }
+      setTimeout(() => {
+        this.currentInstanceId = row.instanceId
+        const ele = $event.toElement
+        popover.referenceElm = ele
+        popover.reference = ele
+        popover.doShow()
+      }, 200)
     },
     customMouseleave() {
       const popover = this.$refs.popover

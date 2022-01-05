@@ -15,7 +15,7 @@ export function getDept(data){
     return request({
         url:'/web/mtz/forecastOther/queryDeptSection',
         method:'POST',
-        data
+        // data
     })
 }
 

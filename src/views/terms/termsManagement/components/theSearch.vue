@@ -96,10 +96,10 @@
             collapse-tags
           >
             <el-option
-              :value="item.id"
-              :label="item.name"
+              :value="item.name"
+              :label="item.describe"
               v-for="item of signNodeList"
-              :key="item.id"
+              :key="item.name"
             ></el-option>
           </iSelect>
         </el-form-item>

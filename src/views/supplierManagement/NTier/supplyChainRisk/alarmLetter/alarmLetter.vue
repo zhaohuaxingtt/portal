@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-13 16:13:59
- * @LastEditTime: 2021-10-22 16:09:44
- * @LastEditors: zbin
+ * @LastEditTime: 2022-01-04 13:05:57
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\supplierManagement\NTier\alarmLetter\index.vue
 -->
@@ -16,11 +16,17 @@
           <iButton @click="tSave">
             {{language('ZANCUN','暂存')}}
           </iButton>
-          <uploadButton ref="uploadButtonAttachment" :buttonText="language('SHANGCHUANBAOJINGXIN', '上传报警信')" :uploadByBusiness="true" @uploadedCallback="handleUploadForm($event)" class="margin-left20" />
-          <iButton @click="download" class="margin-left20">
+          <uploadButton ref="uploadButtonAttachment"
+                        :buttonText="language('SHANGCHUANBAOJINGXIN', '上传报警信')"
+                        :uploadByBusiness="true"
+                        @uploadedCallback="handleUploadForm($event)"
+                        class="margin-left20" />
+          <iButton @click="download"
+                   class="margin-left20">
             {{language('XIAZAIBAOJINGXIN','下载报警信')}}
           </iButton>
-          <iButton @click="handleSubmit" class="margin-left20">
+          <iButton @click="handleSubmit"
+                   class="margin-left20">
             {{language('TIJIAO','提交')}}
           </iButton>
 
@@ -29,32 +35,62 @@
           </iButton> -->
         </div>
       </div>
-      <iCard style="margin-top:20px" :body-style="{ padding: '20px' }" class="cardItem">
+      <iCard style="margin-top:20px"
+             :body-style="{ padding: '20px' }"
+             class="cardItem">
         <div class="formItem">
           <label for="">{{language('BAOJINGFABUDUIXIANG','报警发布对象：')}}</label>
           <div class="flex earlyWarning">
-            <el-tag v-for="item in csssList" :key="item.id" color="#409EFF">
+            <el-tag v-for="item in csssList"
+                    :key="item.id"
+                    color="#409EFF">
               <span style="color:#fff">csss-{{item.userName}}</span>
             </el-tag>
-            <el-tag v-for="item in plrdList" :key="item.id" color="#409EFF">
+            <el-tag v-for="item in plrdList"
+                    :key="item.id"
+                    color="#409EFF">
               <span style="color:#fff">PLRD-{{item.userName}}</span>
             </el-tag>
-            <el-tag v-for="item in mulitList" :key="item.userId" color="#409EFF" closable @close="handleCloseTag(item)">
+            <el-tag v-for="item in mulitList"
+                    :key="item.userId"
+                    color="#409EFF"
+                    closable
+                    @close="handleCloseTag(item)">
               <span style="color:#fff">{{item.userName}}</span>
             </el-tag>
-            <iButton :disabled="linieList.length===mulitList.length" icon="el-icon-circle-plus-outline" type="info" size="mini" v-show="!downLoadFlag" plain @click="addPerson">{{language('TIANJIACAIGOUYUAN','添加采购员')}}</iButton>
+            <iButton :disabled="linieList.length===mulitList.length"
+                     icon="el-icon-circle-plus-outline"
+                     type="info"
+                     size="mini"
+                     v-show="!downLoadFlag"
+                     plain
+                     @click="addPerson">{{language('TIANJIACAIGOUYUAN','添加采购员')}}</iButton>
           </div>
         </div>
         <div class="formItem">
           <label for="">{{language('QITASOUJIANREN','其他收件人：')}}</label>
-          <el-autocomplete class="inline-input" v-model="cSubcategoryNo" :fetch-suggestions="querySearch" :placeholder="language('QINGSHURUSHANGQIDAZONGNEIBUYOUXIANGCOM','请输入上汽大众内部邮箱@csvw.com')" @select="handleSelect" @change="handleFocus">
-            <el-tag v-for="tag in selected" closable slot="prepend" class="tag" :disable-transitions="true" :key="tag" size="mini" type="info" @close="handleClose(tag)">
+          <el-autocomplete class="inline-input"
+                           v-model="cSubcategoryNo"
+                           :fetch-suggestions="querySearch"
+                           :placeholder="language('QINGSHURUSHANGQIDAZONGNEIBUYOUXIANGCOM','请输入上汽大众内部邮箱@csvw.com')"
+                           @select="handleSelect"
+                           @change="handleFocus">
+            <el-tag v-for="tag in selected"
+                    closable
+                    slot="prepend"
+                    class="tag"
+                    :disable-transitions="true"
+                    :key="tag"
+                    size="mini"
+                    type="info"
+                    @close="handleClose(tag)">
               <span class="el-select__tags-text">{{ tag }}</span>
             </el-tag>
           </el-autocomplete>
         </div>
       </iCard>
-      <iCard style="margin-top:20px" class="cardItem">
+      <iCard style="margin-top:20px"
+             class="cardItem">
         <template v-slot:header>
           <div class="flex header">
             <span class="title">{{language('GONGYINGSHANGJIBENXINGXI','供应商基本信息')}}</span>
@@ -63,10 +99,17 @@
         </template>
         <div>
           <!-- 供应商基本信息 -->
-          <supplierBasicInfo  ref="supplierBasicInfo" :supplierId="supplierId" :editMode="editMode" :isTurnoverStore="isTurnoverStore" :downLoadFlag="downLoadFlag" :warningLetterProductAddressList="warningLetterProductAddressList" :baseInfo="baseInfo"></supplierBasicInfo>
+          <supplierBasicInfo ref="supplierBasicInfo"
+                             :supplierId="supplierId"
+                             :editMode="editMode"
+                             :isTurnoverStore="isTurnoverStore"
+                             :downLoadFlag="downLoadFlag"
+                             :warningLetterProductAddressList="warningLetterProductAddressList"
+                             :baseInfo="baseInfo"></supplierBasicInfo>
         </div>
       </iCard>
-      <iCard style="margin-top:20px" class="cardItem">
+      <iCard style="margin-top:20px"
+             class="cardItem">
         <template v-slot:header>
           <div class="flex header">
             <span class="title">{{language('JINGQUEXINGXI','紧缺信息')}}</span>
@@ -74,10 +117,16 @@
         </template>
         <div>
           <!-- 紧缺信息 -->
-          <scarceInformation ref="scarceInformation"  :shortageReason="shortageReason" :downLoadFlag="downLoadFlag" :supplierId="supplierId" :shortageLevel="shortageLevel" :warningLetterPartRelList="warningLetterPartRelList"></scarceInformation>
+          <scarceInformation ref="scarceInformation"
+                             :shortageReason="shortageReason"
+                             :downLoadFlag="downLoadFlag"
+                             :supplierId="supplierId"
+                             :shortageLevel="shortageLevel"
+                             :warningLetterPartRelList="warningLetterPartRelList"></scarceInformation>
         </div>
       </iCard>
-      <iCard style="margin-top:20px" class="cardItem">
+      <iCard style="margin-top:20px"
+             class="cardItem">
         <template v-slot:header>
           <div class="flex header">
             <span class="title">{{language('YINGDUICUOSHI','应对措施')}}</span>
@@ -89,10 +138,12 @@
         </template>
         <div>
           <!-- 应对措施 -->
-          <countermeasures ref="countermeasures" :warningLetterSolutionList="warningLetterSolutionList"></countermeasures>
+          <countermeasures ref="countermeasures"
+                           :warningLetterSolutionList="warningLetterSolutionList"></countermeasures>
         </div>
       </iCard>
-      <iCard style="margin-top:20px" class="cardItem">
+      <iCard style="margin-top:20px"
+             class="cardItem">
         <template v-slot:header>
           <div class="flex header">
             <span class="title">{{language('BENCIJINGQUEJIANCHULIFUZHERENHELIANXIFANGSHI','本次紧缺件处理负责人和联系方式')}}</span>
@@ -104,25 +155,33 @@
         </template>
         <div>
           <!-- 本次紧缺件处理负责人和联系方式 -->
-          <chargePerson ref="chargePerson" :warningLetterOwnerList="warningLetterOwnerList"></chargePerson>
+          <chargePerson ref="chargePerson"
+                        :warningLetterOwnerList="warningLetterOwnerList"></chargePerson>
         </div>
       </iCard>
-      <iCard style="margin-top:20px" class="cardItem">
+      <iCard style="margin-top:20px"
+             class="cardItem">
         <template v-slot:header>
           <div class="flex header">
             <span class="title">{{language('','附件')}}</span>
             <div v-show="!downLoadFlag">
-              <uploadButton ref="uploadButtonAttachment" :buttonText="language('SHANGCHUAN', '上传')" :uploadByBusiness="true" @uploadedCallback="handleUpload($event)" class="margin-right20" />
+              <uploadButton ref="uploadButtonAttachment"
+                            :buttonText="language('SHANGCHUAN', '上传')"
+                            :uploadByBusiness="true"
+                            @uploadedCallback="handleUpload($event)"
+                            class="margin-right20" />
               <iButton @click="del('附件')">{{language('SHANCHU','删除')}}</iButton>
             </div>
           </div>
         </template>
         <div>
           <!-- 附件 -->
-          <enclosure ref="enclosure" :warningLetterAnnexList="warningLetterAnnexList"></enclosure>
+          <enclosure ref="enclosure"
+                     :warningLetterAnnexList="warningLetterAnnexList"></enclosure>
         </div>
       </iCard>
-      <div class="footer" v-show="downLoadFlag">
+      <div class="footer"
+           v-show="downLoadFlag">
         <div class="left">
           <p>{{language('ZONGJINGLI_QIANMING','总经理（签名）：')}}<i style="border-bottom:1px solid #000;width:190px;line-height:28px;display:inline-block; vertical-align: bottom;"></i></p>
         </div>
@@ -131,10 +190,21 @@
           <p>{{language('BAOJINGRIQI','报警日期：')}}<i style="border-bottom:1px solid #000;width:215px;line-height:28px;display:inline-block; vertical-align: bottom;"></i></p>
         </div>
       </div>
-      <iDialog :title="language('BAOJINGFABUDUIXIANG','报警发布对象')" :visible.sync="dialogVisible" width="20%" :before-close="handleDialog">
+      <iDialog :title="language('BAOJINGFABUDUIXIANG','报警发布对象')"
+               :visible.sync="dialogVisible"
+               width="20%"
+               :before-close="handleDialog">
         <label for="">{{language('XUANZHEFABUDUIXIANG','选择发布对象:')}}</label>
-        <iSelect class="margin-top20" v-model="temporaryPublishObj" @change="handlePublish" multiple collapse-tags :placeholder="language('QINGXUANZHE','请选择')">
-          <el-option v-for="item in publishObjList" :key="item.userId" :label="item.userName" :value="item.userId">
+        <iSelect class="margin-top20"
+                 v-model="temporaryPublishObj"
+                 @change="handlePublish"
+                 multiple
+                 collapse-tags
+                 :placeholder="language('QINGXUANZHE','请选择')">
+          <el-option v-for="item in publishObjList"
+                     :key="item.userId"
+                     :label="item.userName"
+                     :value="item.userId">
           </el-option>
         </iSelect>
         <!-- <iSelectCustom :data="linieList"
@@ -146,7 +216,8 @@
                        :disabled="false"
                        :search-method="handleMultiSearch"
                        :popoverClass="'popover-class'" /> -->
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer"
+             class="dialog-footer">
           <iButton @click="dialogVisible = false">{{language('QUXIAO','取消')}}</iButton>
           <iButton @click="sure">{{language('QUEDING','确定')}}</iButton>
         </div>
@@ -169,7 +240,7 @@ import { uploadUdFile } from "@/api/file/upload";
 import { queryWarningLetter, getFeedBackInfoById, uploadAnnex, saveFeedbackInfo, doCache, getCache } from '@/api/supplierManagement/supplyChainRisk'
 export default {
   name: "AlarmLetter",
-  data() {
+  data () {
     return {
       restaurants: [],
       cSubcategoryNo: '',
@@ -231,7 +302,7 @@ export default {
   },
 
   methods: {
-    init() {
+    init () {
       this.impactDetail = this.$route.query.impactDetail
       this.impactEndDate = this.$route.query.impactEndDate
       this.impactStartDate = this.$route.query.impactStartDate
@@ -277,7 +348,7 @@ export default {
           id: this.id
         }).then(res => {
           if (res.code === '200') {
-            
+
             if (res.data) {
 
               let data = res.data.warningLetterInfo
@@ -315,8 +386,7 @@ export default {
               this.handleFilter()
               this.publishObj = this.mulitList.map(item => item.userId)
               this.supplierId = data.supplierId
-
-console.log(this.supplierId)
+              console.log(this.supplierId)
             });
           } else {
             iMessage.error(res.desZh)
@@ -326,29 +396,29 @@ console.log(this.supplierId)
         }
       })
     },
-    querySearch(queryString, cb) {
+    querySearch (queryString, cb) {
       var restaurants = this.restaurants;
       var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
-    createFilter(queryString) {
+    createFilter (queryString) {
       return (restaurant) => {
         return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
-    loadAll() {
+    loadAll () {
       return [];
     },
-    handleMultiChange(val) {
+    handleMultiChange (val) {
       // this.mulitList = val
     },
-    handlePublish(val) {
+    handlePublish (val) {
       console.log(val);
       this.publishObj = [...this.publishObj, ...val]
       console.log(this.publishObj);
     },
-    sure() {
+    sure () {
       this.dialogVisible = false
       let newArr = []
       console.log(this.mulitList)
@@ -363,7 +433,7 @@ console.log(this.supplierId)
       this.handleFilter()
       console.log(this.publishObjList);
     },
-    handleFilter() {
+    handleFilter () {
       this.publishObjList = this.publishObjList.filter(item => {
         if (!this.publishObj.includes(item.userId)) {
           return item
@@ -372,21 +442,21 @@ console.log(this.supplierId)
       console.log(this.publishObjList);
     },
     //多选栏中的删除
-    handleClose(tag) {
+    handleClose (tag) {
       let item = this.selected.indexOf(tag);
       this.selected.splice(item, 1);
       this.selectedValue.splice(item, 1);
       console.log(this.selectedValue)
     },
-    addPerson() {
+    addPerson () {
       this.temporaryPublishObj = []
       this.dialogVisible = true
     },
-    handleDialog(done) {
+    handleDialog (done) {
       done()
     },
     //值
-    handleSelect(item) {
+    handleSelect (item) {
       let obj = {
         deptId: null,
         deptName: null,
@@ -403,7 +473,7 @@ console.log(this.supplierId)
       this.cSubcategoryNo = ""
 
     },
-    handleFocus(item) {
+    handleFocus (item) {
       var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@(csvw)+\.(com)$/;
       if (!reg.test(item)) {
         this.cSubcategoryNo = ""
@@ -426,7 +496,7 @@ console.log(this.supplierId)
       this.cSubcategoryNo = ""
     },
 
-    add(val) {
+    add (val) {
       let obj = {}
       switch (val) {
         case '应对措施':
@@ -451,7 +521,7 @@ console.log(this.supplierId)
           break;
       }
     },
-    del(val) {
+    del (val) {
       switch (val) {
         case '应对措施':
           this.$refs.countermeasures.multipleSelection.forEach(item => {
@@ -482,7 +552,7 @@ console.log(this.supplierId)
           break;
       }
     },
-    handleCloseTag(tag) {
+    handleCloseTag (tag) {
       this.mulitList.forEach((item, index) => {
         if (item.userId === tag.userId) {
           this.mulitList.splice(index, 1)
@@ -496,10 +566,10 @@ console.log(this.supplierId)
       console.log(tag);
       this.publishObjList.push(tag)
     },
-    random(min, max) {
+    random (min, max) {
       return Math.floor(Math.random() * (max - min)) + min;
     },
-    async handleUpload(content) {
+    async handleUpload (content) {
       this.cardLoading = true;
       const formData = new FormData();
       formData.append('files', content.file);
@@ -510,7 +580,7 @@ console.log(this.supplierId)
       })
     },
 
-    download() {
+    download () {
       this.downLoadFlag = true
       this.editMode = false
       const loading = this.$loading({
@@ -541,7 +611,7 @@ console.log(this.supplierId)
       }, 500)
 
     },
-    handleUploadForm(val) {
+    handleUploadForm (val) {
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -557,39 +627,39 @@ console.log(this.supplierId)
         loading.close();
       })
     },
-    handleSubmit(val) {
-        this.$refs.scarceInformation.tableList.forEach(item => {
-          if (item.involveCarType instanceof Array) {
-            this.$set(item, 'involveCarType', item.involveCarType.join(','))
-          }
-        })
-        let params = {
-          id: this.id,
-          impactDetail: this.impactDetail || null,
-          impactEndDate: this.impactEndDate || null,
-          impactStartDate: this.impactStartDate || null,
-          isWarningLetter: this.isWarningLetter || null,
-          warningLetterInfo: {
-            fillingDate: this.fillingDate,
-            fillingUserEmail: this.baseInfo.fillingUserEmail,
-            fillingUserName: this.baseInfo.fillingUserName,
-            fillingUserPhone: this.baseInfo.fillingUserPhone,
-            fillingUserPost: this.baseInfo.fillingUserPost,
-            isTurnoverStore: this.baseInfo.isTurnoverStore === '是' ? true : false,
-            otherShortageReason: this.$refs.scarceInformation.otherShortageReason,
-            pdfUrl: this.PdfUrl,
-            shortageLevel: this.$refs.scarceInformation.select,
-            shortageReason: this.$refs.scarceInformation.checkList.toString(),
-            warningLetterAnnexIdList: this.warningLetterAnnexIdList || null,
-            warningLetterOwnerList: this.$refs.chargePerson.tableList,
-            warningLetterPartRelList: this.$refs.scarceInformation.tableList,
-            warningLetterProductAddressList: this.$refs.supplierBasicInfo.tableData,
-            warningLetterReceiverList: this.warningLetterReceiverList,
-            warningLetterSolutionList: this.$refs.countermeasures.tableList,
-            warningLetterTitle: ""
-          }
+    handleSubmit (val) {
+      this.$refs.scarceInformation.tableList.forEach(item => {
+        if (item.involveCarType instanceof Array) {
+          this.$set(item, 'involveCarType', item.involveCarType.join(','))
         }
-        console.log(params)
+      })
+      let params = {
+        id: this.id,
+        impactDetail: this.impactDetail || null,
+        impactEndDate: this.impactEndDate || null,
+        impactStartDate: this.impactStartDate || null,
+        isWarningLetter: this.isWarningLetter || null,
+        warningLetterInfo: {
+          fillingDate: this.fillingDate,
+          fillingUserEmail: this.baseInfo.fillingUserEmail,
+          fillingUserName: this.baseInfo.fillingUserName,
+          fillingUserPhone: this.baseInfo.fillingUserPhone,
+          fillingUserPost: this.baseInfo.fillingUserPost,
+          isTurnoverStore: this.baseInfo.isTurnoverStore === '是' ? true : false,
+          otherShortageReason: this.$refs.scarceInformation.otherShortageReason,
+          pdfUrl: this.PdfUrl,
+          shortageLevel: this.$refs.scarceInformation.select,
+          shortageReason: this.$refs.scarceInformation.checkList.toString(),
+          warningLetterAnnexIdList: this.warningLetterAnnexIdList || null,
+          warningLetterOwnerList: this.$refs.chargePerson.tableList,
+          warningLetterPartRelList: this.$refs.scarceInformation.tableList,
+          warningLetterProductAddressList: this.$refs.supplierBasicInfo.tableData,
+          warningLetterReceiverList: this.warningLetterReceiverList,
+          warningLetterSolutionList: this.$refs.countermeasures.tableList,
+          warningLetterTitle: ""
+        }
+      }
+      console.log(params)
       this.$confirm(this.language('SHIFOUTIJIAOBAOJINGXING', '是否提交报警信?'), this.language('TISHI', '提示'), {
         confirmButtonText: this.language('QUEDING', '确定'),
         cancelButtonText: this.language('QUXIAO', '取消'),
@@ -642,7 +712,7 @@ console.log(this.supplierId)
       })
 
     },
-    tSave() {
+    tSave () {
       this.$refs.scarceInformation.tableList.forEach(item => {
         this.$set(item, 'involveCarType', item.involveCarType.join(','));
       })
@@ -681,11 +751,11 @@ console.log(this.supplierId)
       })
     }
   },
-  mounted() {
+  mounted () {
 
     this.restaurants = this.loadAll();
   },
-  created() {
+  created () {
     this.init()
   }
 

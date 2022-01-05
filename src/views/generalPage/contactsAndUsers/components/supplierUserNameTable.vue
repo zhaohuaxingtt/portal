@@ -212,14 +212,19 @@ export default {
         iMessage.warn('至少选择一条记录')
         return
       }
+      let res;
       if (!isActivity) {
-        await freeze({
+        res = await freeze({
           ids: this.selectTableData.map(item => item.id)
         })
       } else {
-        await unFreeze({
+        res = await unFreeze({
           ids: this.selectTableData.map(item => item.id)
         })
+      }
+      if (res.code !== '200') {
+        iMessage.error(res.desZh)
+        return
       }
       this.selectTableData.forEach((item, index) => {
         this.tableListData.map((i, x) => {
