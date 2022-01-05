@@ -36,7 +36,6 @@ export default {
 	},
 	methods: {
 		handleConfirm() {
-			this.keyword = ''
 			this.$emit('handleConfirm', {keyword: this.keyword})
 		},
 		handleReset() {

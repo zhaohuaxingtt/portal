@@ -1,5 +1,5 @@
 <template>
-	<iDialog :title="dialogTitle" style="margin-top:10vh" :visible.sync="show" v-if="show" width="500px" @close='closeDialogBtn' append-to-body class="glossaryForm">
+	<iDialog :title="dialogTitle"  :visible.sync="show" v-if="show" width="500px" @close='closeDialogBtn' append-to-body class="glossaryForm">
 		<el-form v-loading="loading" ref="form" :model="newGlossaryForm" :rules="newGlossaryRules" label-width="100px" class="glossaryForm validate-required-form">
 			<iFormItem :label="language('标题')" prop='title'>
 				<iInput v-model="newGlossaryForm.title" placeholder="请输入"></iInput>
@@ -22,19 +22,25 @@
 			<iFormItem :label="language('词条内容')" prop='termsContent'>
 				<iInput resize="none" :rows="3" type="textarea" v-model="newGlossaryForm.termsContent" placeholder="请输入" maxLength=100></iInput>
 			</iFormItem>
-			<div class="flex flex-row upload-box" v-if="type==='edit'">
-				<div class="upload-text">上传图片</div>
+			
+			<iFormItem :label="language('上传图片')" v-if="type==='edit'">
+
 				<iUpload
 					v-model="fileList"
 					:accept="acceptPicType"
 					:maxSize="maxSize"
+					btnTxt="添加图片"
+					tipTxt="可添加多张图片，单张图片不能超过10M"
+					isCustHttp
+					:uploadHandle="uploadHandle"
 				>
-					<div>
+					<!-- <div>
 						<iButton>添加图片</iButton>
 						<span style="marginLeft:20px" @click.stop=";">可添加多张图片，支持图片格式'jpg'，'png'，'gif'，单张图片不能超过10M</span>
-					</div>
+					</div> -->
 				</iUpload>
-			</div>
+			</iFormItem>
+
 			<div class="flex justify-end btn">
 				<iButton @click="close">{{ language('取消') }}</iButton>
 				<iButton @click.native="sure">{{ language('确定') }}</iButton>
@@ -46,8 +52,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
-import { createGlossary, modifyGlossaryById } from '@/api/adminProCS'
-import jsPDF from 'jspdf'
+import { createGlossary, modifyGlossaryById, uploadImage } from '@/api/adminProCS'
 export default {
 	name: 'addGlossary',
 	components: {
@@ -157,6 +162,19 @@ export default {
 			this.modifyGlossaryId = content.id
 			// Object.assign(this.newGlossaryForm, content)
 			this.newGlossaryForm = JSON.parse(JSON.stringify(content))
+		},
+		uploadHandle(file){
+			return new Promise((resolve,reject) => {
+				let formdata = new FormData()
+				formdata.append("file",file)
+				uploadImage(this.modifyGlossaryId,formdata).then(res => {
+					console.log(res);
+					resolve(true)
+				}).catch(() => {
+					reject()
+				})
+				
+			})
 		}
 	},
 	computed: {

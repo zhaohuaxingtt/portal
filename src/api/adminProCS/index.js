@@ -37,3 +37,13 @@ export function modifyGlossaryById(id, data) {
         formData: true
      })
 }
+
+// 修改词条
+export function uploadImage(id, data) {
+    return procsRequest({
+        url: `/terms_mgr/${id}/uploadImage.json`,
+        method: 'post',
+        data,
+        formData: true
+     })
+}

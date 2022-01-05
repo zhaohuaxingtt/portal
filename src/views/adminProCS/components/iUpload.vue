@@ -64,7 +64,19 @@
             tipTxt:{
                 type: String,
                 default:""
-            }
+            },
+            isCustHttp:{
+                type: Boolean,
+                default: false
+            },
+            uploadHandle:{
+                type:Function,
+                default:() => {}
+            },
+            removeHandle:{
+                type:Function,
+                default:() => {}
+            },
         },
         data() {
             return {
@@ -97,20 +109,36 @@
         methods: {
             async httpUpload(file){
                 return new Promise(async (resolve,reject) => {
-                    try {
-                        this.uploading = true
-                        let formData = new FormData();
-                        formData.append("file",file);
-                        let res = await uploadFile(formData);
-                        this.uploading = false
-                        this.$message.success("上传成功")
-                        resolve({
-                            fileName:res.name,
-                            fileUrl: res.path
-                        })
-                    } catch {
-                        this.$message.error("上传失败")
-                        reject()
+                    if(this.isCustHttp){
+                        try {
+                            this.uploading = true
+                            let res = await this.uploadHandle(file)
+                            resolve({
+                                fileName:res.name,
+                                fileUrl: res.path
+                            })
+                        } catch {
+                            reject()
+                        } finally {
+                            this.uploading = false
+                        }
+                        
+                    }else{
+                        try {
+                            this.uploading = true
+                            let formData = new FormData();
+                            formData.append("file",file);
+                            let res = await uploadFile(formData);
+                            this.uploading = false
+                            this.$message.success("上传成功")
+                            resolve({
+                                fileName:res.name,
+                                fileUrl: res.path
+                            })
+                        } catch {
+                            this.$message.error("上传失败")
+                            reject()
+                        }
                     }
                 })
             },
