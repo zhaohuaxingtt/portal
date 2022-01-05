@@ -24,6 +24,7 @@ module.exports = {
     _: true,
     AMap: true,
     Vue: true,
-    moment: true
+    moment: true,
+    VueRouter: true
   }
 }

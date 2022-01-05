@@ -52,6 +52,18 @@ export default {
   },
   watch: {
     nodeData() {
+      if (this.svgWidth === 0) {
+        this.$nextTick(() => {
+          this.svgWidth = document.querySelector(
+            '#hrizontalNode > .approval-process-content'
+          ).clientWidth
+          this.drawLine()
+        })
+      }
+    }
+  },
+  mounted() {
+    if (this.svgWidth === 0) {
       this.$nextTick(() => {
         this.svgWidth = document.querySelector(
           '#hrizontalNode > .approval-process-content'
@@ -59,14 +71,6 @@ export default {
         this.drawLine()
       })
     }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.svgWidth = document.querySelector(
-        '#hrizontalNode > .approval-process-content'
-      ).clientWidth
-      this.drawLine()
-    })
   },
   methods: {
     getLineStyle(status) {

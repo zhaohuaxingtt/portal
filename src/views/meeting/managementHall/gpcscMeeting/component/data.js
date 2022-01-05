@@ -182,14 +182,18 @@ export const themenConclusionArrObj = [
   },
   {
     conclusionCsc: "03",
-    conclusionName: "不通过",
+    conclusionName: "预备会议通过",
   },
   {
     conclusionCsc: "04",
-    conclusionName: "Last Call",
+    conclusionName: "不通过",
   },
   {
     conclusionCsc: "05",
+    conclusionName: "Last Call",
+  },
+  {
+    conclusionCsc: "06",
     conclusionName: "分段定点",
   },
 ];
@@ -331,15 +335,19 @@ export const buttonList = [
         { title: "议题调整", methodName: "updateTopic", disabled: true },
       ],
       [
-        { title: "待定", methodName: "bePending", disabled: true },
-        { title: "定点", methodName: "fixedPoint", disabled: true },
-        { title: "转CSC", methodName: "translateCSC", disabled: true },
-        { title: "下次Pre CSC", methodName: "nextPreCSC", disabled: true },
-        { title: "发LOI", methodName: "senLol", disabled: true },
-        { title: "转TER/TOP-TER", methodName: "translateTer", disabled: true },
-        { title: "冻结RS单", methodName: "freezeRsBill", disabled: true },
-        { title: "关闭", methodName: "closeResult", disabled: true },
-        { title: "查看结论", methodName: "lookResult", disabled: true },
+        // { title: "待定", methodName: "bePending", disabled: true },
+        // { title: "定点", methodName: "fixedPoint", disabled: true },
+        // { title: "转CSC", methodName: "translateCSC", disabled: true },
+        // { title: "下次Pre CSC", methodName: "nextPreCSC", disabled: true },
+        // { title: "发LOI", methodName: "senLol", disabled: true },
+        // { title: "转TER/TOP-TER", methodName: "translateTer", disabled: true },
+        // { title: "冻结RS单", methodName: "freezeRsBill", disabled: true },
+        { title: "修改议题", methodName: "editTopic", disabled: true },
+        { title: "维护资料", methodName: "protectInfo", disabled: true },
+        { title: "删除", methodName: "deleteTopAll", disabled: true },
+        { title: "改期", methodName: "updateDate", disabled: true },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
+        { title: "发送大会议程", methodName: "sendAgenda", disabled: false },
       ],
     ],
   },
@@ -370,29 +378,40 @@ export const buttonList = [
 
 //列表
 export const TABLE_COLUMNS_DEFAULT = [
-  // {
-  //   type: 'index',
-  //   label: '#',
-  //   i18n: '',
-  //   width: 50
-  // },
   {
-    props: '',
+    props: 'index',
+    name: '#',
+    width: 50
+  },
+  {
+    type: 'index',
+    label: '#',
+    i18n: '',
+    width: 50
+  },
+  {
+    props: 'currency',
     name: '货币类型',
-    key: ''
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
   },
   {
-    props: '',
+    props: 'targetPrice',
     name: '目标价',
-    key: ''
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
   },
   {
-    props: '',
+    props: 'finalPrice',
     name: '最终成交价',
-    key: ''
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
   },
   {
-    props: '',
+    props: 'supplierName',
     name: '供应商',
     key: ''
   },
