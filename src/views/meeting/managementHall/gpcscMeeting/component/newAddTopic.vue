@@ -76,7 +76,7 @@
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel :label="$t('采购员')" slot="label"></iLabel>
+            <iLabel :label="$t('采购员')" slot="label" required></iLabel>
             <el-select
               class="autoSearch"
               v-model="ruleForm.presenter"
@@ -112,7 +112,7 @@
             <iLabel :label="$t('股别')" slot="label" ></iLabel>
             <iInput
               v-model="ruleForm.presenterDept"
-              :disabled="editOrAdd === 'edit'"
+              disabled
             ></iInput>
           </iFormItem>
           <!-- 申请人 supporter  -->
@@ -130,7 +130,6 @@
           </iFormItem> -->
           <iFormItem
             label="Supporter"
-            prop="supporter"
             :hideRequiredAsterisk="true"
             class="item"
           >
@@ -143,7 +142,7 @@
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02'"
+              :disabled="editOrAdd === 'edit'"
             >
               <el-option
                 v-for="item in selectUserArr.length > 0
@@ -168,7 +167,10 @@
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.supporterDept" disabled ></iInput>
+            <!-- <iInput v-model="ruleForm.supporterDept"  ></iInput> -->
+            <el-select class="autoSearch" v-model="ruleForm.supporterDept">
+              <el-option></el-option>
+            </el-select>
           </iFormItem>
 
          
@@ -573,6 +575,8 @@ export default {
       console.log(this.selectUserArr,'重要');
       if (this.editOrAdd === 'edit') {
         this.ruleForm.presenter =  this.selectUserArr
+        this.ruleForm.supporter =  this.selectUserArr
+        console.log(this.ruleForm.supporter,'11111');
       }
     },
 
@@ -742,9 +746,11 @@ export default {
                       (e) => e.id === this.ruleForm.presenter
                     )[0].department
                   : '' || '',
-              supporterDept:
-                this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
-                  .department || ''
+              // supporterDept:
+              //   this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
+              //     .department || '',
+                presenter:this.ruleForm.presenter[0].id,
+                supporter:this.ruleForm.supporter[0].id,
             }
             updateThemen(formData)
               .then((data) => {

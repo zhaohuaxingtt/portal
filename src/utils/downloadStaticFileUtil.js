@@ -1,6 +1,14 @@
+/*
+ * @Author: your name
+ * @Date: 2021-12-16 20:59:19
+ * @LastEditTime: 2022-01-05 11:43:03
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\utils\downloadStaticFileUtil.js
+ */
 import axios from '@/utils/axios'
 const request = axios()
-const requestFile = axios(process.env.VUE_APP_FILEAPI)
+const requestFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 
 const createAnchorLink = (href, filename = '') => {
   const a = document.createElement('a')
