@@ -7,7 +7,9 @@
             <div class="nav main">
                 <el-tabs class="pro-tabs" v-model="currentName">
                     <el-tab-pane label="类型管理" name="typeManager">
-                        <div>类型管理</div>
+                        <TypeManage
+                            v-if="currentName==='typeManager'"
+                        />
                     </el-tab-pane>
                     <el-tab-pane label="内容管理" name="contentManager">
                         <ContentManger></ContentManger>
@@ -20,12 +22,15 @@
 
 <script>
 import pageHeader from '@/components/pageHeader'
+import TypeManage from './typeManage/index'
 import ContentManger from './content/index.vue';
 import { iPage } from 'rise'
 export default {
+    name: 'typeMaintain',
     components: {
         pageHeader,
         iPage,
+        TypeManage,
         ContentManger
     },
     data() {
