@@ -6,7 +6,6 @@
  * @Description: 针对所有的分页插件，实行方法混入。
  * @FilePath: \rise\src\utils\pageMixins.js
  */
-
 export const pageMixins = {
   data() {
     return {
@@ -21,7 +20,7 @@ export const pageMixins = {
   },
   methods: {
     handleSizeChange(val, callback) {
-      console.log(val, callback)
+      this.page.currPage = 1
       if (typeof callback != 'function')
         return console.warn(
           'function handleSizeChange parmars must be a function!'

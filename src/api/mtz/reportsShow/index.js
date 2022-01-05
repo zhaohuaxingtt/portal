@@ -46,3 +46,10 @@ export function yearBudgetDept(params) {
   })
 }
 
+//年月份-下拉
+export function yearDropDown(data) {
+  return request({
+    url: `/web/mtz/forecastReport/yearDropDown?isMonth=${data}`,
+    method: 'GET'
+  })
+}
