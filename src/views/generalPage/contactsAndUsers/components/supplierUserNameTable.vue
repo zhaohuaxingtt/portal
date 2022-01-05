@@ -198,9 +198,11 @@ export default {
     },
     handleDialog (row) {
          appOperateAuth({},this.supplierType).then(res=>{
-            if(res.data){
+           if(res&&res.code==200){
+                if(res.data){
                 this.rowList = row
                 this.userNameDialog = true
+            }
             }else{
                 iMessage.error(res.desZh)
             }
