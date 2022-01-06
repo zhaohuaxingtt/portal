@@ -89,3 +89,62 @@ export const monthlyTrackingNavList = [
   },
 
 ]
+
+
+export const  leftModelColumns=[
+  {
+    prop: "carModel",
+    label: "车型",
+    i18n: "LK_CHEXING",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+    emit: 'open-card-model',
+    customRender: (h, scope) =>{
+      return <el-link type="primary" >{scope.row.carModel}</el-link>
+    }
+  },
+  {
+    prop: "carModel",
+    label: "车型六位号",
+    i18n: "LK_CHEXINGLIUWEIHAO",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+  },
+  {
+    prop: "price",
+    label: "预算金额（元/车）",
+    i18n: "LK_YUSUANJINEYUANCHE",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+  },
+]
+
+export const rightModelColums=[
+  {
+    prop: "materialMediumNum",
+    label: "材料中类",
+    i18n: "LK_CAILIAOZHONGLEI",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+  },
+  {
+    prop: "mtzMaterialNumber",
+    label: "材料组",
+    i18n: "LK_CAILIAOZHU",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+  },
+  {
+    prop: "price",
+    label: "预算金额（元/车）",
+    i18n: "LK_YUSUANJINEYUANCHE",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+  },
+]
