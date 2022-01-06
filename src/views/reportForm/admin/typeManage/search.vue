@@ -136,18 +136,19 @@ export default {
 				{ 
 					name: '测试类型名称', 
 					createdAt: '2020-12-20',
-					peopleId: '3', 
-					people: '张三',
+					usersId: '3', 
+					users: '张三',
 					top: true, 
 					published: false, 
 					id: '1',
-					organizationId: '1',
-					organization: 'CS',
+					organizationsId: '1',
+					organization: '测试部门信息',
+					organizations: 'CS',  
 					location: 'location',
 					enName: 'enName',
 					phoneNumber: '122222222',
-					adminId: '1',
-					admin: '管理员1'
+					adminUsersId: '1',
+					adminUsers: '管理员1'
 				}
 			],
 			tableSetting: typeColumn,

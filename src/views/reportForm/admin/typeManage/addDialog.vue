@@ -60,9 +60,9 @@
             </div>
             <div>
                 <div>
-                    <iFormItem :label="language('管理员')" prop='admin'>
+                    <iFormItem :label="language('管理员')" prop='adminUsers'>
                         <iSelect
-                            v-model="form.admin"
+                            v-model="form.adminUsers"
                             filterable
                             placeholder="请选择"
                             clearable
@@ -76,9 +76,9 @@
                             </el-option>
                         </iSelect>
                     </iFormItem>
-                    <iFormItem :label="language('报表可见组织')" prop='organization'>
+                    <iFormItem :label="language('报表可见组织')" prop='organizations'>
                         <iSelect
-                            v-model="form.organization"
+                            v-model="form.organizations"
                             filterable
                             placeholder="请选择"
                             clearable
@@ -94,9 +94,9 @@
                     </iFormItem>
                 </div>
                 <div>
-                    <iFormItem :label="language('报表可见人员')" prop='people'>
+                    <iFormItem :label="language('报表可见人员')" prop='users'>
                         <iSelect
-                            v-model="form.people"
+                            v-model="form.users"
                             filterable
                             placeholder="请选择"
                             clearable
@@ -166,10 +166,11 @@ export default {
                 location: '',
                 enName: '',
                 phoneNumber: '',
-                admin: '',
-                people: '',
+                adminUsers: '',
+                users: '',
                 userList: [],
-                supplierList: []
+                supplierList: [],
+                organizations: ''
             },
             rules: {
                 name: { required:true, message:"请输入报表类型",trigger:'blur' },
@@ -261,9 +262,9 @@ export default {
         },
         initModify(row) {
             Object.assign(this.form, row)
-            this.form.people  = row.peopleId
-            this.form.organization = row.organizationId
-            this.form.admin = row.adminId
+            this.form.users  = row.usersId
+            this.form.organizations = row.organizationsId
+            this.form.adminUsers = row.adminUsersId
         }  
     },
     computed: {

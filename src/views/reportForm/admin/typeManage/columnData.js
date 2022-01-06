@@ -21,7 +21,7 @@ const typeColumn = [
     {
         // prop:'admin',
         label:'管理人',
-        align: 'center',
+        align: 'adminUsers',
         width: 120,
         customRender: (h, scope) => {
             const admin = scope.row.admin
@@ -36,9 +36,9 @@ const typeColumn = [
         align: 'center',
         width: 100,
         customRender: (h, scope) => {
-            const organization = scope.row.organization
+            const organizations = scope.row.organizations
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={organization}>{ organization }</div>
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={organizations}>{ organizations }</div>
             )
         }
     },
@@ -48,9 +48,9 @@ const typeColumn = [
         align: 'center',
         width: 100,
         customRender: (h, scope) => {
-            const people = scope.row.people
+            const users = scope.row.users
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={people}>{ people }</div>
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={users}>{ users }</div>
             )
         }
     },
