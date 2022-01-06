@@ -7,24 +7,24 @@
       @open="open"
     >
         <el-form :model="form" ref="form" label-width="90px" :inline="false" size="normal">
-            <iFormItem :label="language('报表类型')" prop="type" :rules="{ required:true, message:'请选择', trigger:'change'}">
-                <iSelect v-model="form.type" filterable clearable>
+            <iFormItem :label="language('报表类型')" prop="reportSection" :rules="{ required:true, message:'请选择', trigger:'change'}">
+                <iSelect v-model="form.reportSection" filterable clearable>
                     <el-option v-for="item in status" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
-            <iFormItem :label="language('报表标题')" prop="name" :rules="{ required:true, message:'请输入', trigger:'blur'}">
-                <iInput v-model="form.name"></iInput>
+            <iFormItem :label="language('报表标题')" prop="title" :rules="{ required:true, message:'请输入', trigger:'blur'}">
+                <iInput v-model="form.title"></iInput>
             </iFormItem>
-            <iFormItem :label="language('发布日期')" prop="date" :rules="{ required:true, message:'请输入', trigger:'blur'}">
+            <iFormItem :label="language('发布日期')" prop="publishDate" :rules="{ required:true, message:'请输入', trigger:'blur'}">
                 <iDatePicker
                     value-format="yyyy-MM-dd"
                     type="date"
-                    v-model="form.date"
+                    v-model="form.publishDate"
                     style="width:100%"
                     />
             </iFormItem>
-            <iFormItem :label="language('报表分类')" prop="cate" :rules="{ required:true, message:'请选择', trigger:'change'}">
-                <iSelect v-model="form.cate" filterable clearable>
+            <iFormItem :label="language('报表分类')" prop="reportCategory" :rules="{ required:true, message:'请选择', trigger:'change'}">
+                <iSelect v-model="form.reportCategory" filterable clearable>
                     <el-option v-for="item in status" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
@@ -69,7 +69,10 @@
                     type:""
                 },
                 rules:{
-
+                    reportSection:"",
+                    title:"",
+                    publishDate:"",
+                    reportCategory:""
                 }
             }
         },
@@ -86,7 +89,10 @@
             },
             handleClose(){
                 this.form = {
-                    
+                    reportSection:"",
+                    title:"",
+                    publishDate:"",
+                    reportCategory:""
                 }
                 this.$emit("update:show",false)
             }
