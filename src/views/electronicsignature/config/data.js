@@ -8,6 +8,7 @@ export const navList = [
     url: "/electronicSignature/productionpurchase/0",
     activePath: "/electronicSignature/productionpurchase/0",
     permissionName:'生产采购',
+
   },
   {
     value: 2,

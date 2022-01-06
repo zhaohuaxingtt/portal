@@ -13,8 +13,9 @@ export function searchReport(data){
 //获取当前用户下的科室
 export function getDept(data){
     return request({
-        url:'/web/mtz/forecastOther/queryDeptSection',
-        method:'POST',
+        // url:'/web/mtz/forecastOther/queryDeptSection',
+        url:'api/mtz/forecastReport/deptDropDown',
+        method:'GET',
         // data
     })
 }

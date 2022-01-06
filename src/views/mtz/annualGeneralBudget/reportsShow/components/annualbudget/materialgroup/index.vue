@@ -1,8 +1,7 @@
 <template>
   <div
     class="page-content"
-    v-permission.auto="ZHUANGTAIGENZONGBAOBIAO | 状态跟踪报表"
-  >
+    v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_MATERIAL_GROUP_PAGE|年度预算材料组页面'  >
     <!-- <iSearch :icon="true">
       <div class="search-box">
         <el-form>
