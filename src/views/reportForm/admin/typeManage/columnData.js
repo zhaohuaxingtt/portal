@@ -1,49 +1,49 @@
 const typeColumn = [
-    {
-        type: 'selection',
-        width: 50
-    },
+    // {
+    //     type: 'selection',
+    //     width: 50
+    // },
     {
         type:'index',
         label:'序号',
         width: 100
     },
     {
-        prop:'typeName',
+        prop:'name',
         label:'类型',
         align: 'center'
     },
     {
-        prop:'addDate',
+        prop:'createdAt',
         label:'添加日期',
         align: 'center'
     },
     {
-        prop:'manager',
+        // prop:'admin',
         label:'管理人',
         align: 'center',
         width: 120,
         customRender: (h, scope) => {
-            const manager = scope.row.manager
+            const admin = scope.row.admin
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={manager}>{ manager }</div>
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={admin}>{ admin }</div>
             )
         }
     },
     {
-        prop:'org',
+        // prop:'organization',
         label:'报表可见组织',
         align: 'center',
         width: 100,
         customRender: (h, scope) => {
-            const org = scope.row.org
+            const organization = scope.row.organization
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={org}>{ org }</div>
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={organization}>{ organization }</div>
             )
         }
     },
     {
-        prop:'people',
+        // prop:'people',
         label:'报表可见人员',
         align: 'center',
         width: 100,
@@ -79,7 +79,7 @@ const typeColumn = [
 		customRender: (h, scope) => {
 			// const status = scope.row.status
 			return (		
-				<el-switch value={scope.row.status} active-text="上架" inactive-text="下架"></el-switch>
+				<el-switch value={scope.row.published} active-text="上架" inactive-text="下架"></el-switch>
 			)
 		}
     },

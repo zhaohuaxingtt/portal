@@ -76,15 +76,15 @@
                             </el-option>
                         </iSelect>
                     </iFormItem>
-                    <iFormItem :label="language('报表可见组织')" prop='org'>
+                    <iFormItem :label="language('报表可见组织')" prop='organization'>
                         <iSelect
-                            v-model="form.org"
+                            v-model="form.organization"
                             filterable
                             placeholder="请选择"
                             clearable
                         >
                             <el-option
-                                v-for="item in adminList"
+                                v-for="item in organizationList"
                                 :key="item.id"
                                 :label="item.label"
                                 :value="item.value"
@@ -124,7 +124,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <iButton @click="save">保存</iButton>
-            <iButton @click="handleClose">取消</iButton>
+            <iButton @click="closeDialogBtn">取消</iButton>
         </span>
     </iDialog>
 </template>
@@ -167,7 +167,6 @@ export default {
                 enName: '',
                 phoneNumber: '',
                 admin: '',
-                org: '',
                 people: '',
                 userList: [],
                 supplierList: []
@@ -188,7 +187,12 @@ export default {
             peopleList: [
                 {label: '人员1', value: '1' , id: 1},
                 {label: '人员2', value: '2' , id: 2},
-                {label: '自定义', value: 'custom', id: 3}
+                {label: '张三', value: '3' , id: 3},
+                {label: '自定义', value: 'custom', id: 999}
+            ],
+            organizationList: [
+                {label: 'CS', value: '1' , id: 1},
+                {label: 'CF', value: '2' , id: 2},
             ],
             customFlag: false
         }
@@ -203,6 +207,9 @@ export default {
         closeDialogBtn () {
             this.$emit('update:show', false)
             this.imageUrl = ''
+            Object.keys(this.form).forEach(key => {
+                this.form[key] = ''
+            })
         },
         handleImageError(){
             let img = document.querySelector('avatar')
@@ -251,8 +258,13 @@ export default {
         },
         save(){
             console.log('123')
-        }
-               
+        },
+        initModify(row) {
+            Object.assign(this.form, row)
+            this.form.people  = row.peopleId
+            this.form.organization = row.organizationId
+            this.form.admin = row.adminId
+        }  
     },
     computed: {
         dialogTitle() {

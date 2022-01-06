@@ -3,11 +3,11 @@
 		<iSearch @sure="sure" @reset="reset" icon>
 			<el-form>
 				<iFormItem :label="language('类型名称')">
-					<iInput v-model="queryForm.typeName" clearable placeholder="请输入" />
+					<iInput v-model="queryForm.name" clearable placeholder="请输入" />
 				</iFormItem>
 				<iFormItem :label="language('状态')">
 					<iSelect
-						v-model="queryForm.status"
+						v-model="queryForm.published"
 						filterable
 						placeholder="请选择"
 						clearable
@@ -84,6 +84,7 @@
 			:typeShow.sync="showTypeDialog"
 		/>
 		<AddDialog
+			ref="typeDialog"
 			v-show="dialogShow"
 			:show.sync="dialogShow"
 			:operateType="operateType"
@@ -114,8 +115,8 @@ export default {
 	data () {
 		return {
 			queryForm: {
-				typeName: '',
-				status: '',
+				name: '',
+				published: '',
 				topFlag: '',
 				startAddDate: '',
 				endAddDate: ''
@@ -132,7 +133,22 @@ export default {
 			],
 			tableLoading: false,
 			tableData: [
-				{typeName: '测试类型名称', addDate: '2020-12-20', manager: '1111,2222,3333,4444,5555,666,777', org: 'CS', people: '张三', top: true, status: false, id: '1'}
+				{ 
+					name: '测试类型名称', 
+					createdAt: '2020-12-20',
+					peopleId: '3', 
+					people: '张三',
+					top: true, 
+					published: false, 
+					id: '1',
+					organizationId: '1',
+					organization: 'CS',
+					location: 'location',
+					enName: 'enName',
+					phoneNumber: '122222222',
+					adminId: '1',
+					admin: '管理员1'
+				}
 			],
 			tableSetting: typeColumn,
 			extraData: {
@@ -164,7 +180,7 @@ export default {
 			console.log(row, '1111')
 			this.tableData.map(item => {
 				if (item.id === row.id) {
-					item.status = !item.status
+					item.published = !item.published
 				}
 			})
 		},
@@ -193,7 +209,7 @@ export default {
 		},
 		del(row){
 			console.log(row, '111')
-			if (row.status) return this.$message({type: 'warning', message: `${this.commonText}删除!!!`})
+			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}删除!!!`})
             this.$confirm('确定删除此流程指导书吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -207,12 +223,14 @@ export default {
         },
 		modify(row) {
 			console.log('modify', row)
-			if (row.status) return this.$message({type: 'warning', message: `${this.commonText}修改!!!`})
+			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}修改!!!`})
 			this.dialogShow = true
 			this.operateType = 'edit'
+			let currRow = JSON.parse(JSON.stringify(row))
+			this.$refs.typeDialog.initModify(currRow)
 		},
 		addReportType(row) {
-			if (row.status) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})
+			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})
 			console.log('addReportType', row)
 			this.showTypeDialog = true
 		},
@@ -226,11 +244,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.manager-title {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
 .btn{
     text-align: right;
 }
