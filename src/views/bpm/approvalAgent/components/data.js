@@ -116,7 +116,8 @@ export const AGENT_STSTUESES = [
 export const SEARCH_DATA = {
   assignee: '',
   attorney: '',
-  status: ''
+  status: '',
+  category: ''
 }
 
 export const CHOOSE_STAFF_COLUMNS = [

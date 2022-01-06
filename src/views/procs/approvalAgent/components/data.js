@@ -116,7 +116,8 @@ export const AGENT_STSTUESES = [
 export const SEARCH_DATA = {
   assignee: '',
   attorney: '',
-  status: ''
+  status: '',
+  category: ''
 }
 
 export const CHOOSE_STAFF_COLUMNS = [
@@ -148,23 +149,6 @@ export const CHOOSE_STAFF_COLUMNS = [
     prop: 'tel',
     label: '电话',
     i18n: '电话'
-  }
-]
-
-export const TEST_STAFF_DATA = [
-  {
-    staffNo: '1212',
-    name: '小小',
-    dept: '部门1',
-    mobile: '13423231212',
-    tel: '023-23239394'
-  },
-  {
-    staffNo: '1212',
-    name: '小小',
-    dept: '部门1',
-    mobile: '13423231212',
-    tel: '023-23239394'
   }
 ]
 
