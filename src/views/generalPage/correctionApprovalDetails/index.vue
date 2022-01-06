@@ -8,38 +8,48 @@
       </span>
     </div>
     <!--供应商信息-->
-    <iCard tabCard collapse :title="$t('SUPPLIER_GONGYINGSHANGXINXI')" v-loading="loading">
+    <iCard tabCard
+           collapse
+           :title="$t('SUPPLIER_GONGYINGSHANGXINXI')"
+           v-loading="loading">
       <template slot="header-control">
-<!--        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>-->
+        <!--        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>-->
       </template>
-      <iFormGroup row="3" ref="baseRulesForm">
+      <iFormGroup row="3"
+                  ref="baseRulesForm">
         <iFormItem prop="nameZh">
           <!--供应商中文名-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGZHONGWENMING')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGZHONGWENMING')"
+                  slot="label"></iLabel>
           <iText>{{ detail.nameZh }}</iText>
         </iFormItem>
         <iFormItem prop="shortNameZh">
           <!--供应商简称（中）-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENZH')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENZH')"
+                  slot="label"></iLabel>
           <iText>{{ detail.shortNameZh }}</iText>
         </iFormItem>
         <iFormItem prop="socialcreditNo">
           <!--统一社会信用代码-->
-          <iLabel :label="$t('SUPPLIER_TONGYISHEHUIXINGYONGDAIMA')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_TONGYISHEHUIXINGYONGDAIMA')"
+                  slot="label"></iLabel>
           <iText>{{ detail.socialcreditNo }}</iText>
         </iFormItem>
         <iFormItem prop="nameEn">
           <!--供应商英文名-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGYINGWENMING')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGYINGWENMING')"
+                  slot="label"></iLabel>
           <iText>{{ detail.nameEn }}</iText>
         </iFormItem>
         <iFormItem prop="shortNameEn">
           <!--供应商简称（英）-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENGEN')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENGEN')"
+                  slot="label"></iLabel>
           <iText>{{ detail.shortNameEn }}</iText>
         </iFormItem>
         <iFormItem prop="dunsCode">
-          <iLabel label="DUNS" slot="label"></iLabel>
+          <iLabel label="DUNS"
+                  slot="label"></iLabel>
           <div class="duns flex-align-center">
             <iText>{{ detail.dunsCode }}</iText>
             <!--            <span></span>
@@ -50,22 +60,26 @@
         </iFormItem>
         <iFormItem prop="sapCode">
           <!--SAP号-->
-          <iLabel :label="$t('SUPPLIER_SAPHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_SAPHAO')"
+                  slot="label"></iLabel>
           <iText>{{ detail.sapCode }}</iText>
         </iFormItem>
         <iFormItem prop="svwTempCode">
           <!--临时号-->
-          <iLabel :label="$t('SUPPLIER_LINGSHIHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_LINGSHIHAO')"
+                  slot="label"></iLabel>
           <iText>{{ detail.svwTempCode }}</iText>
         </iFormItem>
         <iFormItem prop="svwCode">
           <!--SVW号-->
-          <iLabel :label="$t('SUPPLIER_SVWHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_SVWHAO')"
+                  slot="label"></iLabel>
           <iText>{{ detail.svwCode }}</iText>
         </iFormItem>
         <iFormItem prop="">
           <!--VW号-->
-          <iLabel :label="$t('SUPPLIER_VWHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_VWHAO')"
+                  slot="label"></iLabel>
           <iText></iText>
         </iFormItem>
       </iFormGroup>
@@ -74,42 +88,43 @@
     <iCard class="margin-top20">
       <div class="margin-bottom20">
         <span class="font18 font-weight">{{ $t('SUPPLIER_ZHUANZHENGSUOXUFUJIAN') }}</span>
-        <div class="floatright" v-if="$route.query.showButton">
-          <i-button :loading="approveLoading" @click="handleSubmit(true)">{{ $t('LK_QUEREN') }}</i-button>
-          <i-button :loading="rejectLoading" @click="handleSubmit(false)">{{ $t('LK_TUIHUI') }}</i-button>
+        <div class="floatright"
+             v-if="$route.query.showButton">
+          <i-button :loading="approveLoading"
+                    @click="handleSubmit(true)">{{ $t('LK_QUEREN') }}</i-button>
+          <i-button :loading="rejectLoading"
+                    @click="handleSubmit(false)">{{ $t('LK_TUIHUI') }}</i-button>
         </div>
       </div>
-      <table-list
-          :tableData="tableListData"
-          :tableTitle="tableTitle"
-          :tableLoading="tableLoading"
-          :index="true"
-          :selection="false"
-          :openPageGetRowData="true"
-          class="uploadTable"
-      >
+      <table-list :tableData="tableListData"
+                  :tableTitle="tableTitle"
+                  :tableLoading="tableLoading"
+                  :index="true"
+                  :selection="false"
+                  :openPageGetRowData="true"
+                  class="uploadTable">
         <template #templateName="scope">
-           <span class="openLinkText underline"
-                 @click="handleFileDownload(scope.row)"
-           >
+          <span class="openLinkText underline"
+                @click="handleFileDownload(scope.row)">
             {{ scope.row.templateName }}</span>
-          <span class="required  margin-left5" v-if="scope.row.required">*</span>
-          <el-popover
-              trigger="hover"
-              :content="scope.row.remark"
-              placement="top-start">
-            <icon slot="reference" symbol name="iconxinxitishi" class="exampleFileIconStyle margin-left5"
-                  v-if="scope.row.remark"/>
+          <span class="required  margin-left5"
+                v-if="scope.row.required">*</span>
+          <el-popover trigger="hover"
+                      :content="scope.row.remark"
+                      placement="top-start">
+            <icon slot="reference"
+                  symbol
+                  name="iconxinxitishi"
+                  class="exampleFileIconStyle margin-left5"
+                  v-if="scope.row.remark" />
           </el-popover>
         </template>
       </table-list>
     </iCard>
-    <attachment-dialog
-        :detail="attachmentDetail"
-        :loading="attachmentLoading"
-        :showFooter="false"
-        v-model="attachmentDialog"
-    />
+    <attachment-dialog :detail="attachmentDetail"
+                       :loading="attachmentLoading"
+                       :showFooter="false"
+                       v-model="attachmentDialog" />
   </iPage>
 </template>
 
@@ -119,7 +134,7 @@ import { getTaskDetails, handleTaskInfo } from '../../../api/supplier360/task'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
-import { downloadFile } from '@/api/file'
+import { downloadUdFile } from '@/api/file'
 import attachmentDialog from '../../generalPage/relevantAttachments/components/attachmentDialog'
 import { getAttachmentCommitment } from '@/api/register/relevantAttachments'
 
@@ -208,11 +223,11 @@ export default {
     },
     async handleFileDownload (row) {
       if (row.attachId && !row.isCommitment) {
-        const req = {
-          applicationName: 'rise',
-          fileList: [row.fileName]
-        }
-        await downloadFile(req)
+        // const req = {
+        //   applicationName: 'rise',
+        //   fileList: [row.fileName]
+        // }
+        await downloadUdFile(row.fileId)
       } else if (row.isCommitment) {
         await this.handleViewAttachment(row)
       } else {
@@ -273,5 +288,4 @@ export default {
     margin-bottom: 0;
   }
 }
-
 </style>
