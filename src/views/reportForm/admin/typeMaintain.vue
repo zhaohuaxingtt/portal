@@ -35,7 +35,7 @@ export default {
     },
     data() {
         return {
-            currentName: 'contentManager'
+            currentName: 'typeManager'
         }
     },
 }
