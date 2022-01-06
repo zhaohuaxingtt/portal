@@ -68,7 +68,7 @@
             <contrast 
               v-for="(item,index) in contrastData"
               :key="index"
-              :price='item'
+              :item='item'
             />
           </div>
         </div>
@@ -310,7 +310,7 @@ export default {
           this.yearData = []
           this.dataMonth = []
           data?.forEach((item)=>{
-            this.contrastData.push(item.diffPrice)
+            this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
             this.yearData.push(item.yearForecastPrice)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
