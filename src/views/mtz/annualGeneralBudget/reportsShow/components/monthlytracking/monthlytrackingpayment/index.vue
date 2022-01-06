@@ -215,7 +215,8 @@ export default {
                   show: true,
                   position: 'top',
                   formatter:(params)=>{
-                    return Number(params.value[1]).toFixed(2)
+                    // return Number().toFixed(2)
+                    return Number(params.value[1].toString().match(/^\d+(?:\.\d{0,2})?/))
                   },
                   textStyle: {
                     color: 'RGB(2,96,241)'
@@ -235,7 +236,8 @@ export default {
                   show: true,
                   position: 'top',
                   formatter:(params)=>{
-                    return Number(params.value[2]).toFixed(2)
+                    // return Number(params.value[2]).toFixed(2)
+                    return Number(params.value[2].toString().match(/^\d+(?:\.\d{0,2})?/))
                   },
                   textStyle: {
                     color: 'rgb(119,203,255)'
@@ -278,8 +280,8 @@ export default {
               const year = item.yearMonth.slice(0,4)
               const month = item.yearMonth.slice(4)
               const yearMonth = year+'-'+month
-              sourceData.push([yearMonth,item.actualPrice,item.payPrice])
-              this.calculate.push({price:item.diffPrice,priceType:item.priceType})
+              sourceData.push([yearMonth,Math.abs(Number(item.actualPrice))/1000000,Math.abs(Number(item.payPrice))/1000000])
+              this.calculate.push({price:Number(item.diffPrice)/1000000,priceType:item.priceType})
             })
             this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
             this.iniReport()
