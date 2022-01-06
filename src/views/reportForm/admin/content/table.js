@@ -23,14 +23,14 @@ export default [
     label: '状态',
     align: 'center',
     customRender: (h, scope, column, extraData) => {
-        return <el-switch value={scope.row.state} onchange={e => extraData.stateChange(e,scope.$index) }></el-switch>
+        return <el-switch value={scope.row.state} active-text="上架" inactive-text="下架" onchange={e => extraData.stateChange(e,scope.$index) }></el-switch>
     }
   },
   {
     label: '通知',
     align: 'center',
     customRender: (h, scope, column, extraData) => {
-        return <el-switch value={scope.row.notice} onChange={e => extraData.msgChange(e,scope.$index) }></el-switch>
+        return <el-switch value={scope.row.notice} active-text="通知" inactive-text="不通知" onChange={e => extraData.msgChange(e,scope.$index) }></el-switch>
     }
   },
   {
