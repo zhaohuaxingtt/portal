@@ -41,7 +41,8 @@ export default {
   data () {
     return {
       form: {
-
+        name:"",
+        creatTime:"",
       },
       loading:false,
     }
