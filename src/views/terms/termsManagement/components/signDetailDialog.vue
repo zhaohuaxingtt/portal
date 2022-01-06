@@ -67,6 +67,8 @@
                 :placeholder="$t('LK_QINGXUANZE')"
                 v-model="form.supplierType"
                 clearable
+                multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -140,7 +142,7 @@
             <span>{{ scope.row['shortNameZh'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="业务编码"
+        <el-table-column align="center" label="业务编号"
           ><template slot-scope="scope">
             <span>{{ scope.row['serviceCode'] }}</span>
           </template></el-table-column
@@ -525,6 +527,7 @@ export default {
       this.$emit('flushTable')
     },
     handleSizeChange(e) {
+      this.page.currPage = 1;
       this.page.pageSize = e
       let param = {
         ...this.form,
@@ -568,6 +571,36 @@ export default {
           })
           .join(',')
       }
+      if (
+        e.supplierType == '' ||
+        e.supplierType == null ||
+        e.supplierType == undefined
+      ) {
+        delete e.supplierType
+      } else {
+        e.supplierType = e.supplierType
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      // if (
+      //   e.supplierType == '' ||
+      //   e.supplierType == null ||
+      //   e.supplierType == undefined
+      // ) {
+      //   delete e.supplierType
+      // } else {
+      //   let temp = []
+      //   e.supplierType.includes('PP') ? temp.push('PP') : ''
+      //   e.supplierType.includes('GP') ? temp.push('GP') : ''
+      //   e.supplierType.includes('NT') ? temp.push('NT') : ''
+      //   e.supplierType = temp
+      //     .map((i) => {
+      //       return i
+      //     })
+      //     .join(',')
+      // }
       getSignatureResult(e)
         .then((res) => {
           // this.tableListData = res?.termsSupplierList;

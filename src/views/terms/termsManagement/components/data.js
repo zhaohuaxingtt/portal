@@ -192,13 +192,13 @@ export const supplierIdentityList = [
 // 是否个人条款
 export const isPersonalTermsList = [
   {
-    label: "是",
-    value: true,
+    label: '是',
+    value: true
   },
   {
-    label: "否",
-    value: false,
-  },
+    label: '否',
+    value: false
+  }
 ];
 
 // 供应商用户范围
