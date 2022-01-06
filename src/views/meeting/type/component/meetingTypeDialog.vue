@@ -468,7 +468,9 @@
                     :disabled="ruleForm.category === '02'"
                   >
                     <el-option
-                      v-for="item in isApprovalOption"
+                      v-for="item in ruleForm.category === '02'
+                        ? isApprovalOption
+                        : isApprovalOptionCSG"
                       :key="item.value"
                       :label="$t(item.i18n)"
                       :value="item.value"
@@ -663,7 +665,7 @@ export default {
           callback()
         }
       } else {
-        callback('MT_BITIAN')
+        callback(this.$t('MT_BITIAN'))
       }
     }
     const validateIncidenceRelation = (rule, value, callback) => {
@@ -856,6 +858,18 @@ export default {
         //   label: '是',
         //   value: true
         // },
+        {
+          label: '否',
+          value: false,
+          i18n: 'MT_FOU'
+        }
+      ],
+      isApprovalOptionCSG: [
+        {
+          label: '是',
+          value: true,
+          i18n: 'MT_SHI'
+        },
         {
           label: '否',
           value: false,

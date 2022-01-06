@@ -135,6 +135,7 @@ import {
   getMettingType,
   batchDeleteMeeting,
   getApprovalProcess
+  // modelList
 } from '@/api/meeting/type'
 import { pageMixins } from '@/utils/pageMixins'
 import {
@@ -247,11 +248,15 @@ export default {
       if (ids.length == 0) {
         this.$message.error(this.$t('MT_QINGXUANZEXUYAOSHANCHUDEHUIYILEIXING'))
       } else {
-        this.$confirm(this.$t('MT_SHIFOUSHANCHUGAIHUIYILEIXING'), this.$t('MT_TISHI'), {
-          confirmButtonText: this.$t('MT_SHI'),
-          cancelButtonText: this.$t('MT_FOU'),
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t('MT_SHIFOUSHANCHUGAIHUIYILEIXING'),
+          this.$t('MT_TISHI'),
+          {
+            confirmButtonText: this.$t('MT_SHI'),
+            cancelButtonText: this.$t('MT_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           batchDeleteMeeting({ ids: ids })
             .then(() => {
               this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
@@ -304,6 +309,11 @@ export default {
   },
   mounted() {
     getApprovalProcess().then((res) => {
+      // modelList({
+      //   pageNum: 1,
+      //   pageSize: 999
+      // }).then((res) => {
+      console.log('res', res)
       this.approvalProcess = res.data[0].subDictResultVo
       console.log('this.approvalProcess', this.approvalProcess)
     })
