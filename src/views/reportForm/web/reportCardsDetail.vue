@@ -1,0 +1,144 @@
+<template>
+    <iPage>
+        <pageHeader class="title">报表</pageHeader>
+        <iCard class="report">
+            <div class="report-box">
+                <div class="flex">
+                    <span>搜索</span>
+                    <iInput v-model="key" class="search">
+                        <i
+                            class="el-icon-search el-input__icon"
+                            slot="suffix"
+                            @click="handleIconClick">
+                        </i>
+                    </iInput>
+                    <iButton @click="$router.back()">返回</iButton>
+                </div>
+                <div class="detail">
+                    <div class="detail-item" v-for="l in list" :key="l.id">
+                        <h3 class="title" v-text="l.title"></h3>
+                        <div class="file" v-for="item in l.list">
+                            <span>{{item.name}}</span>
+                            <div>
+                                <iButton size="mini">分享</iButton>
+                                <iButton size="mini">下载</iButton>
+                            </div>
+                        </div>
+                        <iPagination
+                            v-update
+                            @current-change="query"
+                            background
+                            :current-page="l.page"
+                            :page-size="10"
+                            :page-sizes="[10]"
+                            :total="l.total"
+                            layout="sizes, prev, pager, next, jumper"
+                            />
+                    </div>
+                </div>
+            </div>
+        </iCard>
+    </iPage>
+</template>
+
+<script>
+    import pageHeader from '@/components/pageHeader'
+    import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
+    export default {
+        components:{
+            pageHeader,
+            iPage,
+            iInput,
+            iCard,
+            iButton,
+            iPagination
+        },
+        data() {
+            return {
+                pagination:{
+                    totalCount:2,
+                    currPage:1
+                },
+                list:[
+                    {
+                        total:10,
+                        page:1,
+                        title:"报告分类一",
+                        list:[
+                            {name:'PDF CW32 Special WOB-China-CSC minutes'}
+                        ]
+                    },
+                    {
+                        total:10,
+                        page:1,
+                        title:"报告分类二",
+                        list:[
+                            {name:'PDF CW32 Special WOB-China-CSC minutes'}
+                        ]
+                    },
+                ]
+            }
+        },
+        methods: {
+            query(v){
+                console.log(v);
+            }
+        },
+    }
+</script>
+
+<style lang="scss" scoped>
+.flex{
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+.flex-1{
+    flex: 1;
+}
+
+.report{
+    height: 100%;
+    overflow: hidden;
+    ::v-deep > div{
+        height: 100%;
+    }
+    ::v-deep .cardBody{
+        height: 100%;
+    }
+}
+.report-box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.search{
+    flex: 1;
+    margin: 0 10px;
+}
+.detail{
+    flex:1;
+    padding-right: 10px;
+    overflow-y: auto;
+
+    .detail-item{
+        padding: 30px 0;
+        border-bottom: 1px solid #eee;
+        &:last-child{
+            border:none
+        }
+       .title{
+           font-size: 18px;
+       }
+    }
+    .file{
+        margin: 30px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: rgb(73, 119, 248);
+    }
+}
+</style>

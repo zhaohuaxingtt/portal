@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import {iDialog,iButton,iInput, iSelect, iDatePicker} from 'rise';
+    import {iDialog,iButton,iInput, iSelect, iDatePicker, iFormItem} from 'rise';
     import iUpload from './../../components/iUpload.vue';
     export default {
         components: {
@@ -50,7 +50,8 @@
             iInput,
             iSelect,
             iDatePicker,
-            iUpload
+            iUpload,
+            iFormItem
         },
         props:{
             show:{
