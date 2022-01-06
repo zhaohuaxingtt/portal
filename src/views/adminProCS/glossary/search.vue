@@ -41,9 +41,6 @@ export default {
 		handleReset() {
 			this.keyword = ''
 			this.$emit('handleReset', {keyword: this.keyword})
-		},
-		addGlossary() {
-			this.$emit('addGlossary')
 		}
 	}
 }
