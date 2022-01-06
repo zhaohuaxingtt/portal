@@ -12,31 +12,17 @@
                     <iButton :disabled="disabled || selectList.length == 0" @del="del">删除</iButton>
                 </div>
             </div>
-            <el-table :data="tableListData" ref="table" class="single-choise" borderstyle="width: 100%" @selection-change="handleSelectionChange">
-                <el-table-column type="selection" width="50" align="center" :selectable="handleSelectable"></el-table-column>
-                <el-table-column type="index" label="序号" width="55" align="center"></el-table-column>
-                <el-table-column prop="name" label="标题" align="center"></el-table-column>
-                <el-table-column prop="updateDt" label="更新日期" align="center"></el-table-column>
-                <el-table-column prop="version" label="版本号" align="center"></el-table-column>
-                <el-table-column prop="state" label="状态" align="center">
-                    <template slot-scope="{$index}">
-                        <el-switch v-model="tableListData[$index].state" active-text="上架" inactive-text="下架" @change="updateState($event,$index)"></el-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="send" label="是否发送消息" align="center">
-                    <template slot-scope="{$index}">
-                        <el-switch v-model="tableListData[$index].send" active-text="是" inactive-text="否" @change="updateMsg($event,$index)"></el-switch>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <!-- <iTableCustom
+            <iTableCustom
                 :loading="tableLoading"
                 :data="tableListData"
                 :columns="tableSetting"
-                @stateChange="updateState"
-                @sendChange="updateMsg"
+                :extraData="{
+                    updateState,
+                    updateMsg
+                }"
                 singleChoice
-                /> -->
+                @handle-selection-change="handleSelectionChange"
+                />
 
             <iPagination
                 v-update
@@ -111,30 +97,14 @@ export default {
 
         },
         updateState(v,index){
-            // this.$set(this.extraData.tableListData[index],"state",!v)
-            let row = this.tableListData[index]
-            if(this.selectList[0] && this.selectList[0].id == row.id && row.state){
-               this.disabled = true
-            }else{
-                this.disabled = false
-            }
+            this.tableListData[index].state = v
         },
         // 是否发送消息
         updateMsg(v,index){
-            // this.$set(this.extraData.tableListData[index],"send",!v)
+            this.tableListData[index].send = v
         },
         handleSelectionChange(v){
             this.selectList = v
-        },
-        handleSelectable(row){
-            if(this.selectList.length > 0){
-                if (this.selectList[0].id == row.id) {
-                    return true
-                } else{
-                    return false
-                }
-            }
-            return true
         }
     },
 }
@@ -145,9 +115,5 @@ export default {
 .routerpage {
     overflow-x: hidden;
 }
-.single-choise {
-    ::v-deep thead .el-table-column--selection .cell {
-      display: none;
-    }
-}
+
 </style>

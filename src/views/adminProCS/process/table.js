@@ -1,4 +1,4 @@
-import ISwitch from './../components/iSwitch';
+
 export default [
     {
 		type: 'selection',
@@ -27,21 +27,15 @@ export default [
 	{
 		label:'状态',
 		align: 'center',
-		emit:'stateChange',
-		customRender: (h, scope) => {
-			return (		
-				<ISwitch currVal={ scope.row.state } currItem={ scope.row } active-text="上架" inactive-text="下架" />
-			)
+		customRender: (h, {row,$index}, col,{updateState}) => {
+			return <el-switch value={ row.state } active-text="上架" inactive-text="下架" on-change={ e => updateState(e,$index)}></el-switch>
 		}
 	},
 	{
 		label:'是否发送消息',
 		align: 'center',
-		emit:'sendChange',
-		customRender: (h, scope) => {
-			return (		
-				<ISwitch currVal={ scope.row.send } currItem={ scope.row } active-text="是" inactive-text="否" />
-			)
+		customRender: (h, {row,$index}, col,{updateMsg}) => {
+			return <el-switch value={ row.send } active-text="上架" inactive-text="下架" on-change={ e => updateMsg(e,$index)}></el-switch>
 		}
 	},
 ]
