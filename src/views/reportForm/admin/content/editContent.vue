@@ -41,14 +41,13 @@
 </template>
 
 <script>
-    import {iDialog,iButton,iInput,iFormItem, iSelect, iDatePicker} from 'rise';
+    import {iDialog,iButton,iInput, iSelect, iDatePicker} from 'rise';
     import iUpload from './../../components/iUpload.vue';
     export default {
         components: {
             iDialog,
             iButton,
             iInput,
-            iFormItem,
             iSelect,
             iDatePicker,
             iUpload

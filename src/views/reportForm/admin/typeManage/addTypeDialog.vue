@@ -10,7 +10,7 @@
     >
         <el-form class="form">
             <iFormItem :label="language('类型名称')">
-                <iInput width="120px" v-model="typeName" placeholder="请输入" clearable></iInput>
+                <iInput width="120px" v-model="name" placeholder="请输入" clearable></iInput>
             </iFormItem>
             <iFormItem class="btn">
                 <iButton @click="search">{{ language('查询') }}</iButton>
@@ -66,7 +66,7 @@ export default {
         return {
             dialogTitle: '添加报表分类',
             visible: false,
-            typeName: "",
+            name: "",
             tableLoading: false,
             tableData: [
                 { id: '1', name: '类型名称1' }
@@ -82,15 +82,15 @@ export default {
             this.$emit('update:typeShow', false)
         },
         search() {
-            console.log(this.typeName, 'typeName')
+            console.log(this.name, 'name')
         },
         add() {
-            if (!this.typeName) return this.$message({type: 'warning', message: '请先填写类型名称再添加!'})
+            if (!this.name) return this.$message({type: 'warning', message: '请先填写类型名称再添加!'})
             this.tableData.push({
-                name: this.typeName,
+                name: this.name,
                 id: '2'
             })
-            this.typeName = ''
+            this.name = ''
         },
         del(row){
             console.log(row, '1234')
