@@ -20,8 +20,7 @@
           :class="{
             'flex-between-center-center': true,
             menu: true,
-            active: $route.path === menu.url,
-            disabled: menu.name !== 'logout'
+            active: $route.path === menu.url
           }"
         >
           <span>{{ menu.title }}</span>
@@ -157,7 +156,8 @@ export default {
       if (menu.name === 'logout') {
         this.logout()
       } else {
-        iMessage.success('coming soon')
+        // iMessage.success('coming soon')
+        this.$emit('click-menu', menu.name)
       }
     },
     handleRedirect(menu) {
