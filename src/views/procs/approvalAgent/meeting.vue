@@ -12,7 +12,6 @@
         <iButton :disabled="editButtonDisable" @click="editRow">
           {{ language('编辑') }}
         </iButton>
-
         <iButton :disabled="cancelButtonDisable" @click="batchInvalidAgent">
           {{ language('失效') }}
         </iButton>
@@ -59,10 +58,7 @@ export default {
   },
   computed: {
     agentType() {
-      if (this.$route.query.type) {
-        return this.$route.query.type
-      }
-      return 'normal'
+      return 'meeting'
     },
     editButtonDisable() {
       return (
@@ -106,14 +102,14 @@ export default {
     },
     openPage(row) {
       this.$router.push({
-        name: 'ApprovalAgentEdit',
+        name: 'CF-ApprovalAgentEdit',
         params: { id: row.id },
         query: { type: this.agentType }
       })
     },
     addAgent() {
       this.$router.push({
-        name: 'ApprovalAgentEdit',
+        name: 'CF-ApprovalAgentAdd',
         query: { type: this.agentType }
       })
     },

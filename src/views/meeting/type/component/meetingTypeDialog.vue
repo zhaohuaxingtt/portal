@@ -468,7 +468,9 @@
                     :disabled="ruleForm.category === '02'"
                   >
                     <el-option
-                      v-for="item in isApprovalOption"
+                      v-for="item in ruleForm.category === '02'
+                        ? isApprovalOption
+                        : isApprovalOptionCSG"
                       :key="item.value"
                       :label="$t(item.i18n)"
                       :value="item.value"
@@ -663,7 +665,7 @@ export default {
           callback()
         }
       } else {
-        callback('MT_BITIAN')
+        callback(this.$t('MT_BITIAN'))
       }
     }
     const validateIncidenceRelation = (rule, value, callback) => {
@@ -862,6 +864,18 @@ export default {
           i18n: 'MT_FOU'
         }
       ],
+      isApprovalOptionCSG: [
+        {
+          label: '是',
+          value: true,
+          i18n: 'MT_SHI'
+        },
+        {
+          label: '否',
+          value: false,
+          i18n: 'MT_FOU'
+        }
+      ],
       categoryList: [
         {
           id: '01',
@@ -975,13 +989,21 @@ export default {
         : []
       this.queryEdit(userIdsArr).then((currentSearchUserData) => {
         this.initSelectArr = [...currentSearchUserData]
-        this.ruleForm = {
-          ...this.selectedTableData[0],
-          userIds: currentSearchUserData,
-          //设置触发审批全部为否
-          isTriggerApproval: false,
-          approvalProcessName: ''
+        if (this.selectedTableData[0].category === '03') {
+          this.ruleForm = {
+            ...this.selectedTableData[0],
+            userIds: currentSearchUserData
+          }
+        } else {
+          this.ruleForm = {
+            ...this.selectedTableData[0],
+            userIds: currentSearchUserData,
+            //设置触发审批全部为否
+            isTriggerApproval: false,
+            approvalProcessName: ''
+          }
         }
+
         this.handleLoad()
       })
       findMeetingTypesByProperties({ id: this.selectedTableData[0].id }).then(
@@ -1088,6 +1110,9 @@ export default {
     selectChanged() {
       this.ruleForm.conclusionConfig = []
       this.ruleForm.incidenceRelation = []
+      this.ruleForm.isTriggerApproval = false
+      this.ruleForm.approvalProcessId = ''
+      this.ruleForm.approvalProcessName = ''
       this.$nextTick(() => {
         this.$refs['ruleForm'].validate()
       })
@@ -1309,16 +1334,17 @@ export default {
             conclusionConfig: conclusionConfigStr
           }
           if (this.ruleForm.isTriggerApproval) {
-            // let approvalProcessId = this.ruleForm.approvalProcessId
-            //   ? this.approvalProcess.find((item) => {
-            //       return item.id === this.ruleForm.approvalProcessId
-            //     }).id
-            //   : this.approvalProcess.find((item) => {
-            //       return item.name === this.ruleForm.approvalProcessName
-            //     }).id
+            let approvalProcessId = this.ruleForm.approvalProcessId
+              ? this.approvalProcess.find((item) => {
+                  return item.id === this.ruleForm.approvalProcessId
+                }).id
+              : this.approvalProcess.find((item) => {
+                  return item.name === this.ruleForm.approvalProcessName
+                }).id
             formData = {
               ...this.ruleForm,
-              approvalProcessId: '',
+              approvalProcessId:
+                this.ruleForm.category === '03' ? approvalProcessId : '',
               userIds: userIdsStr,
               incidenceRelation: incidenceRelationStr,
               conclusionConfig: conclusionConfigStr
