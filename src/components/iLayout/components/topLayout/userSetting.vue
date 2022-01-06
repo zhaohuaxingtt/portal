@@ -20,7 +20,7 @@
           :class="{
             'flex-between-center-center': true,
             menu: true,
-            active: $route.path === menu.url
+            active: $route.path === menu.path
           }"
         >
           <span>{{ menu.title }}</span>
@@ -125,7 +125,9 @@ export default {
         },
         {
           title: _self.$t('setting'),
-          name: 'setting'
+          name: 'setting',
+          url: '/portal/#/setting',
+          path: '/setting'
         },
         {
           title: _self.$t('LK_TUICHUDENGLU'),

@@ -51,6 +51,8 @@ import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 import RouterTerms from './RouterTerms'
 
+import RouterSetting from './RouterSetting'
+
 export default {
   routes: [
     {
@@ -144,14 +146,16 @@ export default {
         )
     },
     {
-      path: "/terms/management/termsPreview",
-      name: "termsPreview",
-      component: () => import(`@/views/terms/termsManagement/components/preview.vue`),
+      path: '/terms/management/termsPreview',
+      name: 'termsPreview',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preview.vue`)
     },
     {
-      path: "/terms/management/clauseDetail/preText",
-      name: "preText",
-      component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+      path: '/terms/management/clauseDetail/preText',
+      name: 'preText',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preText.vue`)
     },
     {
       path: '/',
@@ -213,7 +217,8 @@ export default {
         ...RouterApplications,
         ...RouterOfflineDownload,
         ...RouterElectronicSignature,
-        ...RouterTerms
+        ...RouterTerms,
+        ...RouterSetting
       ]
     },
     ...RouterView,
