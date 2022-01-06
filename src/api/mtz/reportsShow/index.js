@@ -38,7 +38,7 @@ export  function  carSixCodeDropDown(carModel){
 //MTZ车型明细
 export  function carModelDetail(data){
   return request({
-    url:'/api/mtz/forecastReport/yearCarModelDetail',
+    url:'/web/mtz/forecastReport/yearCarModelDetail',
     method:'POST',
     data:data
   })

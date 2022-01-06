@@ -48,7 +48,7 @@ export default {
       this.formData = e
       this.page.currPage = 1
       let param = {
-        ...e,
+        ...this.formData,
         pageNum: 1,
         pageSize: this.page.pageSize
       }
@@ -73,6 +73,7 @@ export default {
       this.query(param)
     },
     handleSizeChange(e) {
+      this.page.currPage = 1;
       this.page.pageSize = e
       let param = {
         ...this.formData,
@@ -83,7 +84,7 @@ export default {
     },
     query(e) {
       this.tableLoading = true
-      if (e.isPersonalTerms == '') {
+      if (typeof e.isPersonalTerms != 'boolean') {
         delete e.isPersonalTerms
       }
       if (

@@ -66,11 +66,10 @@
         <div id="report-charts" ></div>
         <div class="difference-box">
           <div v-if="showDifference" class="display-difference" >
-          <!-- {{showDifference}} -->
           <difference 
             v-for='(item,index) in calculate'
             :key='index'
-            :price='item'
+            :item='item'
           />
           </div>
         </div>
@@ -274,15 +273,13 @@ export default {
             el.removeAttribute('_echarts_instance_')
           }else{
             const sourceData = []
-            //yearMonth年月 //actualPrice 应付 //payPrice 已支付
-            // data.yearMonth.forEach((item,index)=>{
-            //   sourceData.push([item,data.actualPrice[index],data.payPrice[index]])
-            // })
-            // this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
-            // this.calculate = data.diffPrice //差额
+            //yearMonth年月 //actualPrice 应付 //payPrice 已支付 //差额 diffPrice
             data.forEach((item)=>{
-              sourceData.push([item.yearMonth,item.actualPrice,item.payPrice])
-              this.calculate.push(item.diffPrice)
+              const year = item.yearMonth.slice(0,4)
+              const month = item.yearMonth.slice(4)
+              const yearMonth = year+'-'+month
+              sourceData.push([yearMonth,item.actualPrice,item.payPrice])
+              this.calculate.push({price:item.diffPrice,priceType:item.priceType})
             })
             this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
             this.iniReport()
