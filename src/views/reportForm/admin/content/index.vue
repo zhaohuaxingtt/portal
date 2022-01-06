@@ -99,7 +99,9 @@
             search(){
                 
             },
-            reset(){},
+            reset(){
+                this.searchForm = {}
+            },
             stateChange(e,index){
                 this.tableListData[index].state = e
             },
