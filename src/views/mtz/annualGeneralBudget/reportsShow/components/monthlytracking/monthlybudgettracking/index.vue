@@ -11,9 +11,9 @@
                   <i-select v-model="searchForm.department">
                     <el-option
                       v-for="item in deptOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value='item.value'
+                      :key="item.code"
+                      :label="item.message"
+                      :value='item.code'
                     ></el-option>
                   </i-select>
                 </i-form-item>
@@ -61,7 +61,7 @@
       </div>
     </i-card>
     <i-card class="report">
-      <div>
+      <div v-loading='loading'>
         <div id="report-charts"></div>
         <div class="contrast-box">
           <div class='report-contrast'>
@@ -103,6 +103,7 @@ export default {
   data(){
     return{
       onlySelf:false,
+      loading:false,
       time:'',
       //科室选择
       deptOption:[],
@@ -111,31 +112,18 @@ export default {
       //材料中类选择
       materialMiddleOption:[],
       //月度数据
-      dataMonth:[
-        2.1,
-        5.2,
-        7.4,
-        8,
-        5,
-        3,
-        7,
-        8,
-        6,
-        2,
-        5,
-        9
-      ],
+      dataMonth:[],
       //年度数据
       yearData:[],
       //差异数据
-      contrastData:[1,-2,3,-4,5,-3,6,7,-2,8,0,2],
+      contrastData:[],
       //x轴年月
       xAxisData:[],
       searchForm:{
         department:'',//科室简称
         materialMediumNum:'',//mtz材料组中类编号
         mtzMaterialNumber:'',//MTZ材料组编号
-        onlySeeMySelf:true,//是否只查看自己
+        onlySeeMySelf:false,//是否只查看自己
         yearMonth:''//年月
       },
       currentYearMonth:''//当前年月
@@ -151,12 +139,12 @@ export default {
     this.sure()
   },
   mounted(){
-    this.iniChart()
+    // this.iniChart()
   },
   methods:{
     iniChart(){
-      const date = new Date
-      const month = date.getMonth()
+      // const date = new Date
+      const month = this.currentYearMonth
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
       chart.setOption({
@@ -184,6 +172,11 @@ export default {
           },
           axisLabel:{
             fontWeight:'bold',
+            formatter:(params)=>{
+              const year = params.slice(0,4)
+              const month = params.slice(4)
+              return year+"-"+month
+            },
             margin:20
           },
           data:this.xAxisData
@@ -225,7 +218,7 @@ export default {
             itemStyle: {
               normal: {
                 color: function(params){
-                  if(params.dataIndex < month){
+                  if(params.name < month){
                     return 'rgb(2,96,241)'
                   }else{
                     return 'rgb(119,203,255)'
@@ -306,36 +299,51 @@ export default {
       const data = {
         ...this.searchForm
       }
+      this.loading = true
       searchTrackingReport(data).then(res => {
+        
         if(res.code ==200){
           // console.log(res.data,'====')
           const data = res.data 
-          this.contrastData = data.diffPrice//差额
-          this.dataMonth = [...data.actualPrice,...data.monthForecastPrice]//data.monthForecastPrice月度预测金额 data.actualPrice实际应付金额
-          this.yearData = data.yearForecastPrice//年度预测金额
-          this.xAxisData = data.yearMonth//年月
+          this.contrastData = []
+          this.xAxisData = []
+          this.yearData = []
+          this.dataMonth = []
+          data?.forEach((item)=>{
+            this.contrastData.push(item.diffPrice)
+            this.xAxisData.push(item.yearMonth)
+            this.yearData.push(item.yearForecastPrice)
+            // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
+            if(this.currentYearMonth > item.yearMonth){
+              this.dataMonth.push(item.actualPrice)
+            }else{
+              this.dataMonth.push(item.monthForecastPrice)
+            }
+          })
+          this.iniChart()
+          // this.contrastData = data.diffPrice//差额
+          // this.dataMonth = [...data.actualPrice,...data.monthForecastPrice]//data.monthForecastPrice月度预测金额 data.actualPrice实际应付金额
+          // this.yearData = data.yearForecastPrice//年度预测金额
+          // this.xAxisData = data.yearMonth//年月
         }else{
           this.$message.error(res.desZh || '获取数据失败')
         }
-      })
+      }).finally(()=>this.loading = false)
     },
     reset(){
       this.searchForm = {
         department:'',//科室简称
         materialMediumNum:'',//mtz材料组中类编号
         mtzMaterialNumber:'',//MTZ材料组编号
-        onlySeeMySelf:true,//是否只查看自己
+        onlySeeMySelf:false,//是否只查看自己
         yearMonth:this.currentYearMonth//年月
       }
     },
     //获取当前科室
     getDepartment(){
-      const data = {
-
-      }
       getDept().then(res => {
         if(res.code == 200){
-          console.log(res.data);
+          this.deptOption = res?.data
         }else{
           this.$message.error(res.desZh || '获取科室失败')
         }

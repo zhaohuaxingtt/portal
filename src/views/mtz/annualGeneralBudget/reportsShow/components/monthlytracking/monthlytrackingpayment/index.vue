@@ -11,9 +11,9 @@
                   <i-select v-model="searchForm.department">
                     <el-option 
                       v-for="item in deptOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value='item.value'
+                      :key="item.code"
+                      :label="item.message"
+                      :value='item.code'
                       >
                       </el-option>
                   </i-select>
@@ -62,7 +62,7 @@
       </div>
     </i-card>
     <i-card class="report">
-      <div>
+      <div v-loading='loading'>
         <div id="report-charts" ></div>
         <div class="difference-box">
           <div v-if="showDifference" class="display-difference" >
@@ -98,6 +98,7 @@ export default {
   data() {
     return {
       onlySelf: false,
+      loading:false,
       time:'',
       showDifference:true,
       //科室选择
@@ -114,7 +115,7 @@ export default {
         department:'',//科室简称
         materialMediumNum:'',//mtz材料组中类编号
         mtzMaterialNumber:'',//MTZ材料组编号
-        onlySeeMySelf:true,//是否只查看自己
+        onlySeeMySelf:false,//是否只查看自己
         yearMonth:''//年月
       },
       currentYearMonth:''//当前年月
@@ -174,8 +175,8 @@ export default {
         yAxis: [
           {
             //设置间距，需要计算
-            max: 40,
-            splitNumber: '10'
+            max: 18,
+            splitNumber: '9'
           }
         ],
         legend: [
@@ -261,8 +262,11 @@ export default {
       const data = {
         ...this.searchForm
       }
+      this.loading = true
       searchReport(data).then(res => {
         if(res?.code == 200){
+          this.sourceData = []
+          this.calculate = []
           const data = res.data
           if(data.length == 0){
             const el = document.getElementById('report-charts')
@@ -271,35 +275,37 @@ export default {
           }else{
             const sourceData = []
             //yearMonth年月 //actualPrice 应付 //payPrice 已支付
-            data.yearMonth.forEach((item,index)=>{
-              sourceData.push([item,data.actualPrice[index],data.payPrice[index]])
+            // data.yearMonth.forEach((item,index)=>{
+            //   sourceData.push([item,data.actualPrice[index],data.payPrice[index]])
+            // })
+            // this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
+            // this.calculate = data.diffPrice //差额
+            data.forEach((item)=>{
+              sourceData.push([item.yearMonth,item.actualPrice,item.payPrice])
+              this.calculate.push(item.diffPrice)
             })
             this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
-            this.calculate = data.diffPrice //差额
             this.iniReport()
           }
         }else{
           this.$message.error(res?.desZh || '获取失败')
         }
-      })
+      }).finally(()=>this.loading = false)
     },
     reset(){
       this.searchForm = {
         department:'',//科室简称
         materialMediumNum:'',//mtz材料组中类编号
         mtzMaterialNumber:'',//MTZ材料组编号
-        onlySeeMySelf:true,//是否只查看自己
+        onlySeeMySelf:false,//是否只查看自己
         yearMonth:this.currentYearMonth//年月
       }
     },
     //获取当前科室
     getDepartment(){
-      const data = {
-
-      }
       getDept().then(res => {
         if(res?.code == 200){
-          console.log(res.data);
+         this.deptOption = res.data
         }else{
           this.$message.error(res.desZh || '获取科室失败')
         }
