@@ -2,6 +2,7 @@ import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_MEETING)
 const requstFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
+const requestCommon = axios()
 
 export function getMettingType(data) {
   return requst({
@@ -87,8 +88,8 @@ export function getApprovalProcess() {
 }
 //从接口分页获取审批流程
 export function modelList(data) {
-  return requst({
-    url: `/modelList`,
+  return requestCommon({
+    url: `/taskNodeApi/web/activiti/service/modelList`,
     method: 'POST',
     data
   })
