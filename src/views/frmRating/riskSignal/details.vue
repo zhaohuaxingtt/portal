@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Descripttion: 风险信号
 -->
 <template>
@@ -87,11 +87,12 @@ export default {
       if (this.tableListData.versionNum === 0) {
         return
       }
-      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') === -1)) && this.$route.query.flag !== 'creat') {
+      if ((this.tableListData.status === 'MANAGEMENT' || (JSON.parse(sessionStorage.getItem('userInfo'))?.roleList[0]?.code?.indexOf('FRMGLY') === -1)) && this.$route.query.flag !== 'creat') {
         this.disabled = true
         this.preliminaryAssessmentDisabled = true
       }
-      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') === -1)) && this.$route.query.flag === 'view') {
+      if ((this.tableListData.status === 'MANAGEMENT' || (JSON.parse(sessionStorage.getItem('userInfo'))?.roleList[0]?.code?.indexOf('FRMGLY') === -1)) && this.$route.query.flag === 'view') {
+
         this.effectiveTimeDisabled = true
       }
       // 查看/复制进来信号来源是初评 风险信号大类合小类不可编辑
@@ -115,6 +116,12 @@ export default {
             description: signalThat,
             progress: evolve
           }
+         //frm管理员第一次新建时提交处置中
+        //  if(JSON.parse(sessionStorage.getItem('userInfo'))?.roleList[0]?.code?.indexOf('FRMGLY') !== -1&&this.$route.query.flag=='creat'){
+        //      console.log(1111)
+        //     pms.status='UNDER_DISPOSAL'
+        //     pms.statusName='处置中'
+        //  }
           if (step === 'submit') {
             // 新建  处置方式为初步评级 调整分和有效期不能为空
             if (pms.processType === 'PRELIMINARY_RATING') {
@@ -124,8 +131,9 @@ export default {
                 return false
               }
             }
+            
             iMessageBox(
-              pms.processType === '' && this.$route.query.flag !== 'creat' ? this.$t('SPR_FRM_FXXH_QXZCZFSHZJXTJ') : this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') !== -1 && pms.processType === '' && pms.status === '' ? this.$t('SPR_FRM_FXXH_QQRSFTJ') : this.$t('SPR_FRM_FXXH_SFQRTJ'), // 暂时处理
+              pms.processType === '' && this.$route.query.flag !== 'creat' ? this.$t('SPR_FRM_FXXH_QXZCZFSHZJXTJ') : JSON.parse(sessionStorage.getItem('userInfo'))?.roleList[0]?.code?.indexOf('FRMGLY') === -1 && pms.processType === '' && pms.status === '' ? this.$t('SPR_FRM_FXXH_QQRSFTJ') : this.$t('SPR_FRM_FXXH_SFQRTJ'), // 暂时处理
               this.$t('LK_WENXINTISHI'),
               { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
             ).then(async () => {
@@ -143,7 +151,7 @@ export default {
             const res = await temporaryStorage(pms)
             this.resultMessage(res, () => {
               this.loading = false
-              this.$router.push({ path: '/supplier/frmrating/riskSignal' })
+            //   this.$router.push({ path: '/supplier/frmrating/riskSignal' })
             }, () => {
               this.loading = false
             })
