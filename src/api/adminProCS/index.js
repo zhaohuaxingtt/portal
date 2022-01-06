@@ -38,7 +38,7 @@ export function modifyGlossaryById(id, data) {
      })
 }
 
-// 修改词条
+// 上传词条封面
 export function uploadImage(id, data) {
     return procsRequest({
         url: `/terms_mgr/${id}/uploadImage.json`,
@@ -46,4 +46,12 @@ export function uploadImage(id, data) {
         data,
         formData: true
      })
+}
+
+// 删除词条封面
+export function deleteImage(id) {
+    return procsRequest({
+        url: `/terms_mgr/${id}/deleteImage.json`,
+        method: 'delete',
+    })
 }

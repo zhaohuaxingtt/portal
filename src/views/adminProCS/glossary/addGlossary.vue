@@ -31,8 +31,9 @@
 					:maxSize="maxSize"
 					btnTxt="添加图片"
 					tipTxt="可添加多张图片，单张图片不能超过10M"
-					isCustHttp
+					:isCustHttp="true"
 					:uploadHandle="uploadHandle"
+					:removeHandle="removeHandle"
 				>
 					<!-- <div>
 						<iButton>添加图片</iButton>
@@ -52,7 +53,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
-import { createGlossary, modifyGlossaryById, uploadImage } from '@/api/adminProCS'
+import { createGlossary, modifyGlossaryById, uploadImage, deleteImage } from '@/api/adminProCS'
 export default {
 	name: 'addGlossary',
 	components: {
@@ -119,6 +120,7 @@ export default {
 		close () {
 			this.clearFormVal()
 			this.closeDialogBtn();
+			this.$emit('refresh')
 		},
 		clearFormVal() {
 			Object.keys(this.newGlossaryForm).map(key => this.newGlossaryForm[key] = '')
@@ -162,18 +164,35 @@ export default {
 			this.modifyGlossaryId = content.id
 			// Object.assign(this.newGlossaryForm, content)
 			this.newGlossaryForm = JSON.parse(JSON.stringify(content))
+			content.attachMents.map(item => {
+				this.fileList.push({
+					fileName: item.originalFileName,
+					fileUrl: item.url,
+					id: item.id || ''
+				})
+			})
 		},
 		uploadHandle(file){
 			return new Promise((resolve,reject) => {
 				let formdata = new FormData()
 				formdata.append("file",file)
 				uploadImage(this.modifyGlossaryId,formdata).then(res => {
-					console.log(res);
-					resolve(true)
+					resolve({
+						name: res.originalFileName,
+						path: res.url,
+						id: res.id
+					})
 				}).catch(() => {
 					reject()
 				})
 				
+			})
+		},
+		removeHandle(file, idx) {
+			deleteImage(file.id).then(res => {
+				if (res.success) {
+					this.fileList.splice(idx, 1)
+				}
 			})
 		}
 	},

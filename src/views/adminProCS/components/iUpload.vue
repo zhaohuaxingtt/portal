@@ -9,7 +9,7 @@
             <input class="ui-upload" ref="upload" :disabled="disabled" :accept="accept" :multiple="multiple" @change="change" type="file">
         </div>
         <template v-if="showFile">    
-            <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" @click="view(f)" :file="f" @del="removeFile(i)"></FileList>
+            <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" @click="view(f)" :file="f" @del="removeFile(i, f)"></FileList>
         </template>
 
         <imgViews ref="img" :list="imgList"></imgViews>
@@ -113,16 +113,18 @@
                         try {
                             this.uploading = true
                             let res = await this.uploadHandle(file)
+                            console.log(res, 'qqqq')
                             resolve({
                                 fileName:res.name,
-                                fileUrl: res.path
+                                fileUrl: res.path,
+                                id: res.id
                             })
+                            this.uploading = false
                         } catch {
                             reject()
                         } finally {
                             this.uploading = false
                         }
-                        
                     }else{
                         try {
                             this.uploading = true
@@ -138,6 +140,8 @@
                         } catch {
                             this.$message.error("上传失败")
                             reject()
+                        } finally {
+                            this.uploading = false
                         }
                     }
                 })
@@ -168,15 +172,21 @@
                 this.$emit("input",val);
                 this.$emit("onSuccess",fileList);
             },
-            removeFile(index){
+            removeFile(index, file){ 
                  this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                }).then(() => {
-                    let val = this.files;
-                    val.splice(index,1);
-                    this.$emit("input",val);
+                }).then(async () => {
+                    if (this.isCustHttp) {
+                        let res = await this.removeHandle(file ,index)
+                        console.log(res, 'qqqq')
+                    } else {
+                        let val = this.files;
+                        val.splice(index,1);
+                        this.$emit("input",val);
+                    }
+                    
                 })
             },
             view(file){
