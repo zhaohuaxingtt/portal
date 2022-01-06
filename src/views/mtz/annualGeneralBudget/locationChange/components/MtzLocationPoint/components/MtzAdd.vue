@@ -49,7 +49,7 @@ export default {
   created () {
     this.form.creatTime = getNowFormatDate()
     if(this.$route.query.appName){
-      this.form.name = this.$route.query.appName
+      this.form.name = this.$route.query.appName + "-MTZ"
     }
   },
   methods: {
