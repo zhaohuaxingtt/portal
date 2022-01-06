@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-23 20:52:20
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -11,9 +11,15 @@
       <iButton>{{language('CHONGZHISUOYOU','重置所有')}}</iButton>
       <iButton>{{language('CHAKANXIANGQING','查看详情')}}</iButton>
     </div>
-    <iTabsList v-model="tabVal" @tab-click="handleTabClick" type="card" slot="components" class='margin-top20 iTabsList'>
-      <el-tab-pane :name="1" :label="language('SANJIANGUOJIHUAFENXI','散件国际化分析')"> </el-tab-pane>
-      <el-tab-pane :name="2" :label="language('SANJIANGONGYINGSHANGGONGYINGJIZHONGDU','散件供应商供应集中度')"> </el-tab-pane>
+    <iTabsList v-model="tabVal"
+               @tab-click="handleTabClick"
+               type="card"
+               slot="components"
+               class='margin-top20 iTabsList'>
+      <el-tab-pane :name="1"
+                   :label="language('SANJIANGUOJIHUAFENXI','散件国际化分析')"> </el-tab-pane>
+      <el-tab-pane :name="2"
+                   :label="language('SANJIANGONGYINGJIZHONGDUFENXI','散件供应集中度分析')"> </el-tab-pane>
     </iTabsList>
   </div>
 </template>
@@ -25,7 +31,7 @@ import { iTabsList, iButton } from "rise";
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: { iTabsList, iButton },
-  data() {
+  data () {
     // 这里存放数据
     return {
       tabVal: 1
@@ -40,11 +46,11 @@ export default {
 
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
 
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
 }

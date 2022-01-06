@@ -329,6 +329,9 @@
               v-show="ruleForm.editMode == '01'"
               class="form-item"
             >
+              <!-- <div style="float: right; margin-top: -3rem">
+                <iButton @click="handlePreEdit()">{{ '预览' }}</iButton>
+              </div> -->
               <iFormItem label="条款正文" prop="termsText">
                 <iLabel :label="'条款正文'" slot="label" required></iLabel>
                 <div ref="editer" class="editer" id="editer"></div>
@@ -389,7 +392,7 @@
     </iCard>
     <!-- 附件 -->
     <iCard>
-      <div class="enclosure">附件</div>
+      <div class="enclosure">条款附件</div>
       <div class="form">
         <div class="input-box">
           <el-col :span="24" class="form-item">
@@ -698,6 +701,13 @@ export default {
       this.editor.create()
       this.editor.txt.html(this.ruleForm.termsText)
     },
+    handlePreEdit() {
+      let routeUrl = this.$router.resolve({
+        path: '/terms/management/clauseDetail/preText',
+        query: { termsText: this.ruleForm.termsText }
+      })
+      window.open(routeUrl.href, '_blank')
+    },
     handleSelect(item) {
       this.ruleForm.chargeId = item.id
       this.ruleForm.chargeName = item.nameZh
@@ -923,7 +933,13 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
-            } else {
+            }
+            // else if (
+            //   this.ruleForm.attachments.length == 0
+            // ) {
+            //   this.$message.error('条款附件不能为空！')
+            // } 
+            else {
               if (valid) {
                 this.submitLoading = true
                 this.ruleForm.supplierRange = this.ruleForm.supplierRange

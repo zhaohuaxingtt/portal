@@ -369,7 +369,7 @@
     </iCard>
     <!-- 附件 -->
     <iCard>
-      <div class="enclosure">附件</div>
+      <div class="enclosure">条款附件</div>
       <div class="form">
         <div class="input-box">
           <el-col :span="24" class="form-item">
