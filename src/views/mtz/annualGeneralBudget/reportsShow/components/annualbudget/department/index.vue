@@ -1,35 +1,50 @@
 <template>
-<div class="outFrame">
-  <el-row :gutter="10">
-    <el-col :span="12" class="total">
-      <iSelect :placeholder="$t('LK_QINGXUANZE')" class="selectsize">
-        <el-option value="" :label="$t('all') | capitalizeFilter"></el-option>
-        <el-option
-          v-for="(item, index) in getcontractsendsapstatusList2"
-          :key="index"
-          :value="item.code"
-          :label="item.name"
-        />
-      </iSelect>
-      <span>{{language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')}}</span>
-      <totalAmountComponent />
-    </el-col>
-    <el-col :span="12" class="totalTwo"
-      ><div class="dataList">
-        <span class="lastYearData">{{language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')}}</span
-        ><span class="unit">{{language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')}}</span>
-      </div>
-      <dataComparisonLastYear />
-    </el-col>
-  </el-row>
-</div>
+  <div class="outFrame">
+    <iButton @click="exportData" class="exportData">{{ $t('LK_DAOCHU') }}</iButton>
+    <el-row :gutter="10">
+      <el-col :span="12" class="total">
+        <iSelect
+          :placeholder="$t('LK_QINGXUANZE')"
+          class="selectsize"
+          v-model="form['yearDropList']"
+          @change="selectYear"
+        >
+          <el-option
+            value=""
+            :label="`${new Date().getFullYear()} 年`"
+          ></el-option>
+          <el-option
+            v-for="(item, index) in yearList"
+            :key="index"
+            :value="item.code"
+            :label="`${item.message} 年`"
+          />
+        </iSelect>
+        <span>{{
+          language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+        }}</span>
+        <totalAmountComponent />
+      </el-col>
+      <el-col :span="12" class="totalTwo"
+        ><div class="dataList">
+          <span class="lastYearData">{{
+            language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
+          }}</span
+          ><span class="unit">{{
+            language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+          }}</span>
+        </div>
+        <dataComparisonLastYear />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
-import { iPage, iSelect } from 'rise'
+import { iPage, iSelect,iButton } from 'rise'
 import totalAmountComponent from './components/totalAmountComponent'
 import dataComparisonLastYear from './components/dataComparisonLastYear'
-import { yearBudgetDept } from '@/api/mtz/reportsShow'
+import { yearBudgetDept, yearDropDown } from '@/api/mtz/reportsShow'
 import { form } from './components/data'
 export default {
   name: 'index',
@@ -37,23 +52,23 @@ export default {
     iPage,
     iSelect,
     totalAmountComponent,
-    dataComparisonLastYear
+    dataComparisonLastYear,
+    iButton
   },
   data() {
     return {
-      getcontractsendsapstatusList2: [1, 23, 2],
       form: form,
+      yearList: [] //年份数据
     }
   },
   created() {
     this.queryYearBudgetDept()
+    this.getYearDropDown()
   },
   methods: {
     //数据查询
-    queryYearBudgetDept(){
-      this.form.isDeptLead=true;
-      this.form.onlySeeMySelf=true;
-      this.form.year=2019;
+    queryYearBudgetDept() {
+      this.form.onlySeeMySelf = false
       yearBudgetDept(this.form)
         .then((res) => {
           console.log(res)
@@ -61,13 +76,38 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    //获取年数据
+    getYearDropDown() {
+      yearDropDown(false)
+        .then((res) => {
+          this.yearList = res.data.filter(
+            (i) => i.code != new Date().getFullYear()
+          )
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    //选择年
+    selectYear(val) {
+      console.log(val)
+      this.form.year = val
+      this.queryYearBudgetDept()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.outFrame{
+  position: relative;
+  .exportData{
+    position: absolute;
+   top: -58px;
+   right: 10px;
+  }
+}
 .total {
   position: relative;
   background-color: white;
@@ -84,9 +124,9 @@ export default {
   }
 }
 
-.el-row{
-  ::v-deep .el-col-12{
-    border-right:20px solid rgb(248, 249, 250) ;
+.el-row {
+  ::v-deep .el-col-12 {
+    border-right: 20px solid rgb(248, 249, 250);
     border-radius: 8px;
   }
 }
@@ -107,7 +147,7 @@ export default {
     color: black;
   }
 
-  .unit{
+  .unit {
     position: absolute;
     right: 30px;
     top: 30px;

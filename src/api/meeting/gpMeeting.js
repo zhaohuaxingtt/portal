@@ -72,3 +72,13 @@ export function findGpInfoByThemenId(data) {
     data
   })
 }
+// 导出会议纪要
+// /gpMeetingService/exportMeetingMinutes
+export function exportMeetingMinutes(data) {
+  return requst({
+    url: `/gpMeetingService/exportMeetingMinutes`,
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}

@@ -331,12 +331,14 @@ export default {
       this.getTableList();
     },
     getTableList () {
+      this.loading = true;
       pageMtzNomi({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.searchForm
       }).then(res => {
         if (res.code == 200 && res.data) {
+          this.loading = false;
           this.tableListData = res.data;
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
