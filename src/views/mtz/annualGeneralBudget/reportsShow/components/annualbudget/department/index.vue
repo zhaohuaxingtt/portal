@@ -1,5 +1,5 @@
 <template>
-  <div class="outFrame">
+  <div v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE|年度预算科室页面' class="outFrame">
     <iButton @click="exportData" class="exportData">{{ $t('LK_DAOCHU') }}</iButton>
     <el-row :gutter="10">
       <el-col :span="12" class="total">
