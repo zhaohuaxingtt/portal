@@ -214,8 +214,9 @@ export default {
     },
     //点击编号
     openDocNo(row) {
-      console.log(row)
-
+      if(row.docDetailUrl){
+        window.open(row.docDetailUrl, '_blank')
+      }
     },
     //查看
     openPage(row) {

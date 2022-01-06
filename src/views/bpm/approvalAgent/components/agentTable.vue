@@ -7,77 +7,115 @@
       <iButton @click="$emit('remove', selectedRows)">
         {{ language('删除') }}
       </iButton>
-      <iButton @click="$emit('save')">
+      <iButton @click="save">
         {{ language('保存') }}
       </iButton>
       <iButton @click="$router.go(-1)">
         {{ language('返回') }}
       </iButton>
     </div>
-
-    <el-table
-      :data="data"
-      :stripe="false"
-      @selection-change="handleSelectionChange"
+    <el-form
+      ref="ruleForm"
+      label-width="0px"
+      class="edit-form"
+      :rules="rules"
+      :model="ruleData"
     >
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column :label="language('授权人')" align="center" width="220">
-        <template slot-scope="scope">
-          <userSearch
-            v-model="scope.row.assignee"
-            :default-options="userDefaultOptions"
-            :disabled="!isAdminUser"
-          />
-        </template>
-      </el-table-column>
-      <el-table-column :label="language('代理内容')" align="center">
-        <template slot-scope="scope">
-          <iSelect
-            :placeholder="language('请选择')"
-            v-model="scope.row.category"
-          >
-            <el-option
-              v-for="item in templateOptions(scope.row)"
-              :key="item.category"
-              :value="item.category"
-              :label="item.modelName"
-            />
-          </iSelect>
-        </template>
-      </el-table-column>
-      <el-table-column :label="language('代理人')" align="center" width="220">
-        <template slot-scope="scope">
-          <userSearch
-            v-model="scope.row.attorney"
-            :filter-user-id="scope.row.assignee"
-          />
-        </template>
-      </el-table-column>
-      <el-table-column :label="language('代理时间')" align="center">
-        <template slot-scope="scope">
-          <div class="agent-date">
-            <iDatePicker
-              type="date"
-              v-model="scope.row.startTime"
-              :placeholder="language('请选择')"
-              :picker-options="startTimePickerOptions"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              @change="(val) => startTimeChange(val, scope.row)"
-            />
-            <span class="date-divider">至</span>
-            <iDatePicker
-              v-model="scope.row.endTime"
-              type="date"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              :placeholder="language('请选择')"
-              :picker-options="scope.row.endTimeOptions"
-            />
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
+      <el-table
+        :data="ruleData.data"
+        :stripe="false"
+        @selection-change="handleSelectionChange"
+        class="full-table-form"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column :label="language('授权人')" align="center" width="220">
+          <template slot-scope="scope">
+            <el-form-item
+              label=""
+              :prop="'data.' + scope.$index + '.assignee'"
+              :rules="rules.assignee"
+            >
+              <userSearch
+                v-model="scope.row.assignee"
+                :default-options="userDefaultOptions"
+                :disabled="!isAdminUser"
+              />
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column :label="language('代理内容')" align="center">
+          <template slot-scope="scope">
+            <el-form-item
+              label=""
+              :prop="'data.' + scope.$index + '.category'"
+              :rules="rules.category"
+            >
+              <iSelect
+                :placeholder="language('请选择')"
+                v-model="scope.row.category"
+              >
+                <el-option
+                  v-for="item in templateOptions(scope.row)"
+                  :key="item.category"
+                  :value="item.category"
+                  :label="item.modelName"
+                />
+              </iSelect>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column :label="language('代理人')" align="center" width="220">
+          <template slot-scope="scope">
+            <el-form-item
+              label=""
+              :prop="'data.' + scope.$index + '.attorney'"
+              :rules="rules.attorney"
+            >
+              <userSearch
+                v-model="scope.row.attorney"
+                :filter-user-id="scope.row.assignee"
+              />
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column :label="language('代理时间')" align="center">
+          <template slot-scope="scope">
+            <div class="agent-date">
+              <el-form-item
+                label=""
+                :prop="'data.' + scope.$index + '.startTime'"
+                :rules="rules.startTime"
+              >
+                <iDatePicker
+                  type="date"
+                  v-model="scope.row.startTime"
+                  :placeholder="language('请选择')"
+                  :picker-options="startTimePickerOptions"
+                  format="yyyy-MM-dd"
+                  value-format="yyyy-MM-dd"
+                  @change="(val) => startTimeChange(val, scope.row)"
+                />
+              </el-form-item>
+              <span class="date-divider">至</span>
+              <el-form-item
+                label=""
+                :prop="'data.' + scope.$index + '.endTime'"
+                :rules="rules.endTime"
+              >
+                <iDatePicker
+                  v-model="scope.row.endTime"
+                  type="date"
+                  format="yyyy-MM-dd"
+                  value-format="yyyy-MM-dd"
+                  :placeholder="language('请选择')"
+                  :picker-options="scope.row.endTimeOptions"
+                />
+              </el-form-item>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form>
     <chooseStaff v-if="visible" :visible="visible" />
   </div>
 </template>
@@ -119,6 +157,11 @@ export default {
           nameZh: this.$store.state.permission.userInfo.nameZh
         }
       ]
+    },
+    ruleData() {
+      return {
+        data: this.data
+      }
     }
   },
   data() {
@@ -133,7 +176,44 @@ export default {
           )
         }
       },
-      endTemePickOptions: []
+      endTemePickOptions: [],
+      rules: {
+        assignee: [
+          {
+            required: true,
+            message: '请选择授权人',
+            trigger: 'blur'
+          }
+        ],
+        category: [
+          {
+            required: true,
+            message: '请选择代理内容',
+            trigger: 'blur'
+          }
+        ],
+        attorney: [
+          {
+            required: true,
+            message: '请选择代理人',
+            trigger: 'blur'
+          }
+        ],
+        startTime: [
+          {
+            required: true,
+            message: '请选择代理开始时间',
+            trigger: 'blur'
+          }
+        ],
+        endTime: [
+          {
+            required: true,
+            message: '请选择授代理结束时间',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   methods: {
@@ -157,15 +237,14 @@ export default {
     },
     handleSelectAgentUser(item, row) {
       row.attorney = item.id
+    },
+    save() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.$emit('save')
+        }
+      })
     }
-    /* handleTaskIdChange(taskId, row) {
-      const approvalTodoItem = this.approvalTodos.filter(
-        e => e.taskId === taskId
-      )
-      if (approvalTodoItem && approvalTodoItem.length > 0) {
-        row.processId = approvalTodoItem[0].instanceId
-      }
-    } */
   }
 }
 </script>
