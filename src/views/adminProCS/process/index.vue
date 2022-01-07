@@ -5,7 +5,7 @@
             <div class="margin-bottom20 flex justify-between">
                 <div>
                     <iButton @click="dialog = true">添加流程</iButton>
-                    <iButton>主流程图</iButton>
+                    <iButton @click="handleMainChart">主流程图</iButton>
                 </div>
                 <div>
                     <iButton :disabled="disabled || selectList.length == 0" @click="edit">修改</iButton>
@@ -72,7 +72,8 @@ export default {
             tableSetting,
             selectList:[],
             dialog:false,
-            disabled:false
+            disabled:false,
+            mainChartDialog: false
         }
     },
     watch:{
@@ -105,6 +106,9 @@ export default {
         },
         handleSelectionChange(v){
             this.selectList = v
+        },
+        handleMainChart() {
+            this.$router.push('/adminProCS/process/mainProcess')
         }
     },
 }

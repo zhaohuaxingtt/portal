@@ -32,6 +32,14 @@ export default [
         activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
       },
       component: () => import('@/views/adminProCS/process/index')
+    }, {
+      path: 'process/mainProcess',
+      name: 'mainProcess',
+      meta: {
+        title: '流程管理',
+        activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
+      },
+      component: () => import('@/views/adminProCS/process/mainProcess')
     }]
   }
 ]
