@@ -50,6 +50,7 @@ export default {
     }
   },
   created() {
+    this.nodeData = []
     this.getDetail()
   },
   methods: {
@@ -202,6 +203,11 @@ export default {
       }
       return flag.substring(0, flag.lastIndexOf('_'))
     }
+  },
+  beforeDestroy() {
+    this.nodeData = []
+    this.stateCode = ''
+    this.panorama = []
   }
 }
 </script>
