@@ -16,14 +16,17 @@
         其他系统
       </div>
     </div>
+    <transition name="el-fade-in-linear">
+      <favouriteRise v-show="active === 'rise'" />
+    </transition>
   </div>
 </template>
 
 <script>
-import { iTabsList } from 'rise'
+import favouriteRise from './favouriteRise'
 export default {
   name: 'favourite',
-  components: { iTabsList },
+  components: { favouriteRise },
   data() {
     return {
       active: 'rise'

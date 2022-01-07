@@ -349,6 +349,10 @@ export default {
     border: {
       type: Boolean,
       default: true
+    },
+    // 默认展开的级别
+    defaultExpandLevel: {
+      type: Number
     }
   },
   computed: {
@@ -474,6 +478,7 @@ export default {
       this.virtualListConfig.pages = Math.ceil(this.data.length / 20)
       if (this.treeExpand) {
         this.tableData = this.getTreeTableData(this.data)
+        console.log('tableData', this.tableData)
         /****************** 20211130 如果有默认的，先emit */
         /* if (this.defaultSelectedRows) {
           this.selectedRows = this.tableData.filter((e) =>
@@ -527,12 +532,24 @@ export default {
         if (hasChild && (!row[childrenKey] || row[childrenKey].length === 0)) {
           hasChild = false
         }
-        const visible = uniqueId.includes('-') ? this.defaultExpand : true
+        const level = uniqueId.split('-').length
+        // 展开
+        let expanded = this.defaultExpand
+        if (expanded && this.defaultExpandLevel) {
+          expanded = level < this.defaultExpandLevel
+        }
+
+        // 显示隐藏
+        let visible = uniqueId.includes('-') ? this.defaultExpand : true
+        if (visible && this.defaultExpandLevel) {
+          visible = level <= this.defaultExpandLevel
+        }
+
         const resItem = {
           uniqueId,
           isLeaf: !hasChild,
-          expanded: this.defaultExpand,
-          visible: visible,
+          expanded,
+          visible,
           parentUniqueId: parentKey,
           childNum: (hasChild && row[childrenKey].length) || 0
         }
