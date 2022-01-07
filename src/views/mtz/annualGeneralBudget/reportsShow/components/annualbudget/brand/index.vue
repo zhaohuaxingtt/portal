@@ -1,5 +1,5 @@
 <template>
-  <i-card>
+  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_BRAND_PAGE|年度预算品牌页面'>
     <div class="title-box">
       <div class="left-box">
         <span>{{this.queryForm.year}}年总金额:{{this.curYearPrice|format}}人民币</span>

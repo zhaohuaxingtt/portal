@@ -28,6 +28,56 @@ export default [
   }
 ]
 
+const CFApprovalAgent = [
+  {
+    path: '/cfApprovalAgent',
+    name: 'cf-approvalAgent',
+    meta: {
+      title: '审批代理',
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+    },
+    component: () => import('@/layout/empty'),
+    redirect: '/cfApprovalAgent/normal',
+    children: [
+      {
+        path: 'normal',
+        name: 'CF-ApprovalAgent',
+        meta: {
+          title: '审批代理'
+        },
+        component: () => import('@/views/procs/approvalAgent/index.vue')
+      },
+      {
+        path: 'meeting',
+        name: 'CF-ApprovalAgent-meeting',
+        meta: {
+          title: '会议审批代理'
+        },
+        component: () => import('@/views/procs/approvalAgent/meeting.vue')
+      }
+    ]
+  }
+]
+
+const CFApprovalAgentDetail = [
+  {
+    path: '/cfApprovalAgent/add',
+    name: 'CF-ApprovalAgentAdd',
+    meta: {
+      title: '新建审批代理'
+    },
+    component: () => import('@/views/bpm/approvalAgent/add')
+  },
+  {
+    path: '/cfApprovalAgent/edit/:id',
+    name: 'CF-ApprovalAgentEdit',
+    meta: {
+      title: '编辑审批代理'
+    },
+    component: () => import('@/views/bpm/approvalAgent/edit')
+  }
+]
+
 export const cfProCS = [
   {
     path: '/cf-ProCS',
@@ -58,9 +108,11 @@ export const cfProCS = [
         },
         component: () => import('@/views/knowledge')
       },
-      ...CFPosition
+      ...CFPosition,
+      ...CFApprovalAgent
     ]
   },
   ...CFPositionAgentDetails,
-  ...CFPositionTransferDetails
+  ...CFPositionTransferDetails,
+  ...CFApprovalAgentDetail
 ]

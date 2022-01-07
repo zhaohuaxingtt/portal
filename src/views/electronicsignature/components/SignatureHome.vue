@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div >
     <!--搜索区--->
-    <i-search class='margin-bottom20' @sure='myQueryContractList' @reset='restQueryForm' :icon='true' :resetKey='QUEREN'
+    <i-search  class='margin-bottom20' @sure='myQueryContractList' @reset='restQueryForm' :icon='true' :resetKey='QUEREN'
               :searchKey='REST' v-permission.auto='ELECTRONIC_SIGNATURE_SEARCHAREA|电子签章搜索区'>
       <el-form :model='queryForm' ref='queryFormRef'>
         <!-- 编号 -->
@@ -73,10 +73,10 @@
 
       </el-form>
     </i-search>
-    <i-card>
+    <i-card v-permission.auto="ELECTRONIC-SIGNATURE_DATA_AREA|电子签章数据展示区" >
       <div class='floatright margin-bottom20'>
-        <i-button @click='sign'> {{ language('LK_QIANSHU', '签署') }}</i-button>
-        <i-button @click='revokeContract'> {{ language('LK_CHEXIAO', '撤销') }}</i-button>
+        <i-button v-permission.auto="ELECTRONIC-SIGNATURE_SIGN_BUTTON|签署按钮"  @click='sign'> {{ language('LK_QIANSHU', '签署') }}</i-button>
+        <i-button v-permission.auto="ELECTRONIC-SIGNATURE_REVOKE_BUTTON|撤销按钮" @click='revokeContract'> {{ language('LK_CHEXIAO', '撤销') }}</i-button>
       </div>
       <i-table-custom :columns='sinatureColumns'
                       :data='sinaturedatas'
@@ -214,8 +214,9 @@ export default {
     },
     //点击编号
     openDocNo(row) {
-      console.log(row)
-
+      if(row.docDetailUrl){
+        window.open(row.docDetailUrl, '_blank')
+      }
     },
     //查看
     openPage(row) {

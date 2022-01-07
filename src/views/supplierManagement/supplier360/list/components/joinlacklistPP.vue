@@ -28,7 +28,7 @@
           </el-form-item>
           <el-form-item
             prop="categoryCodes"
-            :label="language('CAILIAOZU', '材料组')"
+            :label="language('SHOUKONGCAILIAOZU', '受控材料组')"
           >
             <iSelect
               multiple
@@ -75,7 +75,7 @@
           </el-form-item>
           <el-form-item
             prop="ppStuffSaveDTOList"
-            :label="language('GONGYIZU', '工艺组')"
+            :label="language('SHOUKONGGONGYIZU', '受控工艺组')"
           >
             <iSelect
               multiple

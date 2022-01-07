@@ -1277,7 +1277,8 @@ import {
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
-import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
+// import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
+import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
 
 export default {
   mixins: [pageMixins],
@@ -1684,11 +1685,13 @@ export default {
         })
     },
     generateMeetingMinutes() {
+      debugger
       this.editNewSummary = true
       this.receiverId = this.meetingInfo?.receiverId
       this.openDialog('openNewSummaryDialogNew')
     },
     lookMeetingMinutes() {
+      debugger
       this.editNewSummary = false
       this.openDialog('openNewSummaryDialog')
     },
@@ -2007,10 +2010,8 @@ export default {
           // console.log(res.isGpPreCSC);
           // if (res.isGpPreCSC == true) {
           //   // 显示
-          //   debugger
           //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
           // }else{
-          //   debugger
           //   //隐藏
           //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
 
@@ -2439,7 +2440,6 @@ export default {
     },
     //新增gp议题
     newAddTopic(){
-      debugger
       this.editOrAdd = 'add'
       this.openDialog('openAddTopicNewDialog')//议题
     },

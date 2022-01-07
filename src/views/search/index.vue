@@ -124,11 +124,12 @@ export default {
       this.setSearchHistory(this.searchForm.words)
     },
     setSearchHistory(keyword) {
+      debugger
       let histories = []
       if (window.localStorage.getItem('search_history')) {
         histories = JSON.parse(window.localStorage.getItem('search_history'))
       }
-      histories.push(keyword)
+      histories.unshift(keyword)
       histories = [...new Set(histories)]
       if (histories.length > 10) {
         histories.length = 10

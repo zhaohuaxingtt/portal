@@ -77,11 +77,14 @@ export default {
     getMettingDetailType(param)
       .then((res) => {
         this.data = res
-        this.approvalProcess.forEach((item) => {
-          if (item.id == res.approvalProcessId) {
-            this.approvalProcessName = item.name
-          }
-        })
+        // this.approvalProcess.forEach((item) => {
+        //   if (item.id == res.approvalProcessId) {
+        //     this.approvalProcessName = item.name
+        //   }
+        // })
+        this.approvalProcessName = this.approvalProcess.find((item) => {
+          return item.modelId === res.approvalProcessId
+        }).modelName
       })
       .catch((err) => {
         console.log('err', err)

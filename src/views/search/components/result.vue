@@ -9,8 +9,8 @@
 <template>
   <div class="search-result">
     <result-item 
-      v-for="item in resultList"
-      :key="item.url"
+      v-for="(item,index) in resultList"
+      :key="index"
       :item='item'
     />
   </div>
