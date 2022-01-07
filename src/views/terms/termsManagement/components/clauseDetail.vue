@@ -869,7 +869,8 @@ export default {
       this.$router.push({
         path: '/terms/management/addClause',
         query: {
-          id: this.ruleForm.id
+          id: this.ruleForm.id,
+          updateTerms: true
         }
       })
     },
