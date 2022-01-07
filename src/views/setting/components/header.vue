@@ -8,6 +8,7 @@
           :key="item.value"
           :name="item.label"
           :active="item.value === activeTab"
+          :active-border="false"
           @click="toggleTab(item.value)"
         />
       </iTabBadge>

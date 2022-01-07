@@ -1,5 +1,5 @@
 <template>
-  <div class="task">
+  <div class="iAgree">
     <topHeader :data="categories" @toggle-active="toggleActive" />
 
     <iCard>
@@ -21,7 +21,7 @@ import { iCard, iMessage, iButton } from 'rise'
 import { getApprovalList } from '@/api/home'
 
 export default {
-  name: 'settingTask',
+  name: 'iAgree',
   components: { topHeader, topContent, iCard, iButton },
   created() {
     this.query()

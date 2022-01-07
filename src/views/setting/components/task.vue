@@ -21,7 +21,7 @@ import { iCard, iMessage, iButton } from 'rise'
 import { getDutyStatistics } from '@/api/duty'
 
 export default {
-  name: 'settingTask',
+  name: 'task',
   components: { topHeader, topContent, iCard, iButton },
   created() {
     this.query()
