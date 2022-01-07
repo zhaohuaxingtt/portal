@@ -104,7 +104,9 @@
              width="85%"
              @close='closeDiolog'>
       <partApplication @close="saveClose"
-                       :numIsNomi="numIsNomi"></partApplication>
+                      :numIsNomi="numIsNomi"
+                      :inforData="inforData"
+                       ></partApplication>
     </iDialog>
   </div>
 </template>
