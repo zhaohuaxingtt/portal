@@ -1176,6 +1176,7 @@ export default {
       this.$emit('handleChangePage', e)
     },
     handleSizeChange(event) {
+      this.page.currPage = 1
       this.$emit('handleSizePage', event)
     },
     setTimeRange(a, b, c) {

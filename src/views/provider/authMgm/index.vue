@@ -21,7 +21,7 @@
                     <span>{{ searchOptionTitles.supChina }}</span>
                     <iInput
                       :placeholder="searchOptionTitles.input"
-                      v-model="searchCondition.opcsCompanyNameZh"
+                      v-model="searchCondition.companyName"
                     ></iInput>
                   </el-form-item>
                 </el-col>
@@ -340,7 +340,7 @@ export default {
       searchCondition: {
         isMainContact: null, //是否主联系人 false：否，true：是
         nameZh: '', //联系人姓名
-        opcsCompanyNameZh: '', //供应商中文名
+        companyName: '', //供应商中文名
         telephoneM: '', //手机
         telephoneO: '', //座机
         position: '',

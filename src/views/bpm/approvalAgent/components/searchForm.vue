@@ -23,6 +23,16 @@
           </el-option>
         </iSelect>
       </iFormItem>
+      <iFormItem :label="language('代理内容')">
+        <iSelect :placeholder="language('请选择')" v-model="data.category">
+          <el-option
+            v-for="item in approvalTodos"
+            :key="item.category"
+            :value="item.category"
+            :label="item.modelName"
+          />
+        </iSelect>
+      </iFormItem>
     </el-form>
   </iSearch>
 </template>
@@ -31,6 +41,7 @@
 import { iSearch, iSelect, iFormItem } from 'rise'
 import { AGENT_TYPES, AGENT_STSTUESES } from './data'
 import { userSelect } from '@/components/remoteSelect'
+import { queryTemplates } from '@/api/approval'
 export default {
   name: 'SearchFrom',
   components: { iSearch, iSelect, iFormItem, userSearch: userSelect },
@@ -43,8 +54,12 @@ export default {
   data() {
     return {
       agentTypes: AGENT_TYPES,
-      agentStatuses: AGENT_STSTUESES
+      agentStatuses: AGENT_STSTUESES,
+      approvalTodos: []
     }
+  },
+  created() {
+    this.queryUndoApprovals()
   },
   methods: {
     sure() {
@@ -52,6 +67,19 @@ export default {
     },
     reset() {
       this.$emit('reset')
+    },
+    async queryUndoApprovals() {
+      const data = {
+        pageNo: 1,
+        pageSize: 1000,
+        type: this.agentType
+      }
+      this.tableLoading = true
+      queryTemplates(data).then((res) => {
+        const { data } = res.data
+        data.unshift({ category: '', modelName: '全部' })
+        this.approvalTodos = data
+      })
     }
   }
 }

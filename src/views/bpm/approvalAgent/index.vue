@@ -113,7 +113,7 @@ export default {
     },
     addAgent() {
       this.$router.push({
-        name: 'ApprovalAgentEdit',
+        name: 'ApprovalAgentAdd',
         query: { type: this.agentType }
       })
     },
