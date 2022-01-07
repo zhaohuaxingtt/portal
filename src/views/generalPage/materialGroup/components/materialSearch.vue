@@ -1,19 +1,19 @@
 <template>
   <i-search @reset="handleSearchReset" @sure="getTableList" :icon="true">
     <el-form>
-      <el-form-item :label="$t('SUPPLIER_KESHI')">
-        <iSelect v-permission="SUPPLIER_MATERIALGROUP_DEPT" :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieGroup">
+      <el-form-item :label="$t('SUPPLIER_KESHI')" v-permission="SUPPLIER_MATERIALGROUP_DEPT">
+        <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieGroup">
           <el-option :value='item.nameZh' :label="item.nameZh" v-for="(item,index) in fromGroup.deptList" :key="index"></el-option>
         </iSelect>
       </el-form-item>
-      <el-form-item :label="$t('SUPPLIER_CAILIAOZUMINGCHENG')">
-        <iInput v-permission="SUPPLIER_MATERIALGROUP_STUFFGATEGORYCATEGORYNAME" :placeholder="$t('LK_QINGSHURU')" v-model="form.categoryName"></iInput>
+      <el-form-item :label="$t('SUPPLIER_CAILIAOZUMINGCHENG')" v-permission="SUPPLIER_MATERIALGROUP_STUFFGATEGORYCATEGORYNAME">
+        <el-input :placeholder="$t('LK_QINGSHURU')" v-model="form.categoryName"></el-input>
       </el-form-item>
-      <el-form-item :label="$t('SUPPLIER_CAILIAOZUBIANHAO')">
-        <iInput v-permission="SUPPLIER_MATERIALGROUP_STUFFGATEGORYCATEGORYCODE" :placeholder="$t('LK_QINGSHURU')" v-model="form.categoryCode"></iInput>
+      <el-form-item :label="$t('SUPPLIER_CAILIAOZUBIANHAO')" v-permission="SUPPLIER_MATERIALGROUP_STUFFGATEGORYCATEGORYCODE" >
+        <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.categoryCode"></iInput>
       </el-form-item>
-      <el-form-item :label="$t('SUPPLIER_SHOUKONGZHUANGTAI')">
-        <iSelect v-permission="SUPPLIER_MATERIALGROUP_CONTROLLEDSTATE" :placeholder="$t('LK_QINGSHURU')" v-model="form.controlledState">
+      <el-form-item :label="$t('SUPPLIER_SHOUKONGZHUANGTAI')" v-permission="SUPPLIER_MATERIALGROUP_CONTROLLEDSTATE">
+        <iSelect :placeholder="$t('LK_QINGSHURU')" v-model="form.controlledState">
           <el-option :value='item.name' :label="item.name" v-for="(item,index) in fromGroup.controlListData" :key="index"></el-option>
         </iSelect>
       </el-form-item>
