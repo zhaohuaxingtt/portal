@@ -7,7 +7,7 @@ export default [
       activeMenu: ['RISE_WORKBENCH', '/electronicSignature']
     },
     component: () => import("@/views/electronicsignature"),
-    redirect: "/electronicSignature/productionpurchase/1",
+    redirect: "/electronicSignature/productionpurchase/0",
     children:[
       {
         path: "productionpurchase/:type",
