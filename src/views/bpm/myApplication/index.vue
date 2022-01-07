@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { iPage, iButton, iCard, iPagination } from 'rise'
+import { iPage, iButton, iCard, iPagination, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, searchForm as dataSearchForm } from './component/data'
 import filters from '@/utils/filters'
@@ -90,7 +90,7 @@ export default {
       tableLoading: false,
       tableTitle: tableTitle,
       selectTableData: [],
-      form: {},
+      form: { ...dataSearchForm },
       recallDialogVisible: false,
       finished: false,
       todoTotal: 0,
@@ -98,7 +98,8 @@ export default {
       extraData: {
         mouseenter: this.customMouseenter,
         mouseleave: this.customMouseleave
-      }
+      },
+      templates: []
     }
   },
   created() {
@@ -132,7 +133,9 @@ export default {
       )
       // this.showDialog = true
     },
-    search(val) {
+    search(val, templates) {
+      console.log('val', val, templates)
+      this.templates = templates || []
       this.form = { ...val }
       this.page.currPage = 1
       this.getTableList()
@@ -148,6 +151,14 @@ export default {
         ...filterEmptyValue(this.form),
         isAeko: false
       }
+      if (
+        data.categoryList &&
+        data.categoryList.length === 1 &&
+        data.categoryList[0] === ''
+      ) {
+        data.categoryList = this.templates.map((e) => e.name).filter((e) => e)
+      }
+
       console.log('this.form.procProgress', this.form.procProgress)
       if (this.form.procProgress) {
         data['procProgress'] = this.form.procProgress.toString()
@@ -155,19 +166,33 @@ export default {
         data['procProgress'] = '0'
       }
       this.tableLoading = true
+
       queryApplications(params, data)
         .then((res) => {
-          this.tableLoading = false
-          const { current, size, total, records } = res.data
-          this.page.currPage = current
-          this.page.pageSize = size
-          this.page.totalCount = total || 0
-          this.tableListData = records
-          if (!this.finished) {
-            this.todoTotal = total
+          if (res.result) {
+            this.tableLoading = false
+            const { current, size, total, records } = res.data
+            this.page.currPage = current
+            this.page.pageSize = size
+            this.page.totalCount = total || 0
+            this.tableListData = records
+            if (!this.finished) {
+              this.todoTotal = total
+            }
+          } else {
+            this.tableListData = []
+            this.page.totalCount = 0
+            this.todoTotal = 0
+            iMessage.error(res.desZh || '获取失败')
           }
         })
-        .catch(() => (this.tableLoading = false))
+        .catch((err) => {
+          this.tableListData = []
+          this.page.totalCount = 0
+          this.todoTotal = 0
+          iMessage.error(err.desZh || '获取失败')
+        })
+        .finally(() => (this.tableLoading = false))
     },
     recallSuccess() {
       this.recallDialogVisible = false

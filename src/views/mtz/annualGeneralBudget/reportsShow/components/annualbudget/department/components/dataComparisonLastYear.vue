@@ -4,16 +4,51 @@
 <script>
 import echarts from '@/utils/echarts'
 export default {
-  created() {
-    this.showRightEcharts()
+  props: {
+    deptData: { type: Array },
+    showEchart: { type: Boolean, default: false }
+  },
+  created() {},
+  watch: {
+    showEchart: {
+      handler: function (val) {
+        if (val) {
+          this.showRightEcharts()
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     showRightEcharts() {
       this.$nextTick(() => {
         const chart = echarts().init(document.getElementById('right-echart'))
+        console.log(this.deptData.lastDeptDataList)
+        let arrCurrent = []
+        arrCurrent = this.deptData.lastDeptDataList.map((i) => {
+          return  Math.floor((i.curPrice / 1000000) * 100) / 100
+        })
+        let prearrCurrent = []
+        prearrCurrent = this.deptData.lastDeptDataList.map((i) => {
+          return  i.curPrice
+        })
+        let arrLast = []
+        arrLast = this.deptData.lastDeptDataList.map((i) => {
+          return  Math.floor((i.lastPrice / 1000000) * 100) / 100
+        })
+        let prearrLast = []
+        prearrLast = this.deptData.lastDeptDataList.map((i) => {
+          return  i.lastPrice
+        })
+        let arrDept = []
+        arrDept = this.deptData.lastDeptDataList.map((i) => {
+          return  i.dept
+        })
         let option = {
           title: {
-            text: '总金额:300.40',
+            text: `总金额:${
+              Math.floor((this.deptData.lastYearPrice / 1000000) * 100) / 100
+            }`,
             x: 'center',
             y: '1%'
           },
@@ -22,9 +57,10 @@ export default {
             show: true,
             formatter: (params) => {
               let price = 0
-              params.seriesName == '2011'
-                ? (price = params.data * 1000000)
-                : (price = params.data * 1000000)
+              console.log(params)
+              params.seriesName == `${this.deptData.lastYear}`
+                ? (price = prearrCurrent[params.dataIndex])
+                : (price = prearrLast[params.dataIndex])
               price = String(price)
               const tempt = price
                 .split('')
@@ -58,16 +94,16 @@ export default {
           },
           yAxis: {
             type: 'category',
-            data: ['BU-B', 'CSE', 'CSX', 'CSI', 'CSP', 'CSM'],
+            data: arrDept,
             axisTick: {
               show: false
             }
           },
           series: [
             {
-              name: '2011',
+              name: `${this.deptData.lastYear}`,
               type: 'bar',
-              data: [18203, 23489, 29034, 104970, 131744, 30230],
+              data: arrCurrent,
               barWidth: 15,
               barCategoryGap: 1,
               center: ['50%', '45%'],
@@ -81,9 +117,9 @@ export default {
               }
             },
             {
-              name: '2012',
+              name: `${this.deptData.curYear}`,
               type: 'bar',
-              data: [19325, 23438, 31000, 121594, 134141, 81807],
+              data: arrLast,
               barWidth: 15,
               color: 'rgb(22, 96, 241)',
               center: ['50%', '45%'],

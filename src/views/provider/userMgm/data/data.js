@@ -35,7 +35,7 @@ export const tableColumnSetting = [
   },
   {
     prop: 'opcsCompanyNameEn',
-    label: '供应商中文名',
+    label: '供应商英文名',
     align: 'center',
     width: '150',
     tooltip: true
