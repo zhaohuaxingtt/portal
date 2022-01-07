@@ -126,14 +126,17 @@
             </iFormItem>
             <iFormItem prop="tcCurrence">
                 <iLabel :label="language('HUOBI','货币')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.tcCurrence"
-                         :user-options="tcCurrence"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="code"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <i-select v-model="contractForm.tcCurrence"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in tcCurrence"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="tcExchangeRate">
                 <iLabel :label="language('HUILV','汇率')" slot="label" :required="true"></iLabel>
@@ -444,6 +447,7 @@ export default {components: {
             effectFlag:0,
             tcExchangeRate:1,
             compensationRatio:1,
+            tcCurrence:"RMB",
             materialName:'',
             threshold:0,
             endDate:"2999-12-31",
@@ -748,7 +752,8 @@ export default {components: {
         rhodiumPrice:'',
         rhodiumDosage:'',
         palladiumPrice:"",
-        preciousMetalDosageUnit:""
+        preciousMetalDosageUnit:"",
+        tcCurrence:"RMB",
       }
       this.carlineNumber = []
       this.metalType = false;

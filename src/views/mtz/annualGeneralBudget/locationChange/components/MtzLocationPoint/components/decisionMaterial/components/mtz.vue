@@ -28,7 +28,7 @@
           <span class="buttonBox"
                 style="margin-top:-10px;"
                 v-if="!editMode">
-            <iButton v-if="RsObject && formData.flowTypeName == '流转'"
+            <iButton v-if="RsObject && formData.flowTypeName == '流转' && !(formData.appStatus == '流转完成' || formData.appStatus == '定点' || formData.appStatus == '未通过')"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
           <!-- <div class="tabs_box_right"> -->
@@ -37,16 +37,19 @@
               <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
             </div>
             <div class="small_text">
-              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
+              <span>Application date：</span>
               <span class="samll_val">{{formData.createDate}}</span>
             </div>
             <div class="small_text">
-              <span>{{language("KESHI","科室")}}：</span>
+              <!-- <span>{{language("KESHI","科室")}}：</span> -->
+              <span>Commodity：</span>
               <span class="samll_val">{{formData.linieDeptName}}</span>
             </div>
             <div>
-              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
-              <span class="samll_val">{{formData.linieName}}</span>
+              <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
+              <span>Buyer：</span>
+              <span class="samll_val">{{formData.linieNameEn}}</span>
             </div>
           </div>
         </div>
@@ -372,7 +375,7 @@ export default {
         if (res && res.code == 200) {
           this.formData = res.data
 
-          if(this.formData.flowType == "SIGN"){
+          if(this.formData.flowType == "SIGN" && !(this.formData.appStatus == '流转完成' || this.formData.appStatus == '定点' || this.formData.appStatus == '未通过')){
             if(this.meetingNumber == 0){
               if(this.RsObject){
                 this.meetingType = false;
@@ -487,7 +490,7 @@ $tabsInforHeight: 35px;
   }
   .buttonBox {
     position: absolute;
-    right: 0;
+    right: 13px;
   }
 }
 .applayDateBox1 {

@@ -6,13 +6,7 @@
     <searchForm :data="searchData" @search="search" @reset="reset" />
     <iCard>
       <div class="flex-end-center margin-bottom20">
-        <iButton
-          @click="
-            $router.push({
-              path: `/approval/agent/add?type=${agentType}`
-            })
-          "
-        >
+        <iButton @click="addAgent">
           {{ language('新增') }}
         </iButton>
         <iButton :disabled="editButtonDisable" @click="editRow">
@@ -114,6 +108,12 @@ export default {
       this.$router.push({
         name: 'ApprovalAgentEdit',
         params: { id: row.id },
+        query: { type: this.agentType }
+      })
+    },
+    addAgent() {
+      this.$router.push({
+        name: 'ApprovalAgentAdd',
         query: { type: this.agentType }
       })
     },

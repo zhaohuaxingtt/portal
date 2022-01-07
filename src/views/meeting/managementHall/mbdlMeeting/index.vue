@@ -910,7 +910,7 @@ export default {
           }
         })
     },
-    generateMeetingMinutes() {
+    generateMeetingMinutes() { 
       this.editNewSummary = true
       this.openDialog('openNewSummaryDialog')
     },
@@ -1766,7 +1766,7 @@ export default {
     },
     //修改议题
     editTopic() {
-      debugger
+      
       if (this.selectedTableData[0].state === '03') {
         iMessage.warn('已结束的议题不能进行修改议题')
         return
@@ -1779,7 +1779,6 @@ export default {
       }
       // this.openDialog('openAddTopicDialog')
       console.log('临时议题');
-      debugger
       this.openDialog('openAddTopicNewDialog')//议题
     },
     importTopic() {
@@ -1792,7 +1791,6 @@ export default {
     },
     //新增gp议题
     newAddTopic(){
-      debugger
       this.editOrAdd = 'add'
       this.openDialog('openAddTopicNewDialog')//议题
     },

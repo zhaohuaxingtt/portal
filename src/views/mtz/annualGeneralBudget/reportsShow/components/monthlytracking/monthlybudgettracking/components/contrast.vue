@@ -1,8 +1,8 @@
 <template>
 <div>
-    <div class="contrast-content" v-if="price!= 0">
-      <div :class='["contrast-img",price > 0 ? "green" : "red"]'></div>
-      <div style="margin-left:4px">{{Number(price).toFixed(2)}}</div>
+    <div class="contrast-content" v-if="item.price!= 0">
+      <div :class='["contrast-img",item.priceType == 2 ? "green" : "red"]'></div>
+      <div style="margin-left:4px">{{Number(item.price).toFixed(2)}}</div>
     </div>
     <div v-else class="contrast-content">
         
@@ -15,9 +15,14 @@
 export default {
     name:'tracking-contrast',
     props:{
-        price:{
-            type:String,
-            default:''
+        item:{
+            type:Object,
+            default:()=>{
+                return {
+                    price:'',
+                    priceType:''
+                }
+            }
         }
     },
 

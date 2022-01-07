@@ -57,7 +57,7 @@
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="版本号">
+        <el-table-column align="center" label="版本号" min-width="80">
           <template slot-scope="scope">
             <span>{{ scope.row["termsVersion"] }}</span>
           </template>
@@ -92,7 +92,7 @@
             <span>{{ signNodeListObj[scope.row["signNode"]] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="签署情况">
+        <el-table-column align="center" min-width="120" label="签署情况">
           <template slot-scope="scope">
             <span
               class="open-link-text"
@@ -156,7 +156,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="供应商用户">
+        <el-table-column align="center" min-width="120" label="供应商用户">
           <template slot-scope="scope">
             <span>{{
               scope.row["supplierContacts"] == "01"
@@ -167,7 +167,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="条款负责人">
+        <el-table-column align="center" min-width="120" label="条款负责人">
           <template slot-scope="scope">
             <span>{{ scope.row["chargeName"] }}</span>
           </template>

@@ -131,11 +131,8 @@ import iTableML from '@/components/iTableML'
 import { downloadAllExport } from '@/utils/downloadAll'
 
 // import axios from '@/utils/axios.download'
-import {
-  getMettingType,
-  batchDeleteMeeting,
-  getApprovalProcess
-} from '@/api/meeting/type'
+import { getMettingType, batchDeleteMeeting } from '@/api/meeting/type'
+import { queryTemplates } from '@/api/approval'
 import { pageMixins } from '@/utils/pageMixins'
 import {
   actionButtons,
@@ -247,11 +244,15 @@ export default {
       if (ids.length == 0) {
         this.$message.error(this.$t('MT_QINGXUANZEXUYAOSHANCHUDEHUIYILEIXING'))
       } else {
-        this.$confirm(this.$t('MT_SHIFOUSHANCHUGAIHUIYILEIXING'), this.$t('MT_TISHI'), {
-          confirmButtonText: this.$t('MT_SHI'),
-          cancelButtonText: this.$t('MT_FOU'),
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t('MT_SHIFOUSHANCHUGAIHUIYILEIXING'),
+          this.$t('MT_TISHI'),
+          {
+            confirmButtonText: this.$t('MT_SHI'),
+            cancelButtonText: this.$t('MT_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           batchDeleteMeeting({ ids: ids })
             .then(() => {
               this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
@@ -303,9 +304,22 @@ export default {
     }
   },
   mounted() {
-    getApprovalProcess().then((res) => {
-      this.approvalProcess = res.data[0].subDictResultVo
-      console.log('this.approvalProcess', this.approvalProcess)
+    // getApprovalProcess().then((res) => {
+    queryTemplates({
+      type: 2,
+      pageNo: 1,
+      pageSize: 100
+    }).then((res) => {
+      this.approvalProcess = res.data.data
+        ? [...res.data.data].map((item) => {
+            return {
+              ...item,
+              approvalProcessId: item.modelId,
+              approvalProcessName: item.modelName,
+              name: item.modelName
+            }
+          })
+        : []
     })
   }
 }
