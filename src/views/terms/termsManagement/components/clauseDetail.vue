@@ -167,7 +167,7 @@
             <!-- 第三行 -->
             <el-col :span="6" class="form-item">
               <iFormItem label="按业务事件签署" prop="isRound">
-                <iLabel :label="'按业务事件签署'" slot="label" required></iLabel>
+                <iLabel :label="'按业务事件签署'" slot="label"></iLabel>
                 <iSelect
                   v-model="ruleForm.isRound"
                   :placeholder="$t('LK_QINGXUANZE')"
