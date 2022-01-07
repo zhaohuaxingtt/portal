@@ -131,12 +131,8 @@ import iTableML from '@/components/iTableML'
 import { downloadAllExport } from '@/utils/downloadAll'
 
 // import axios from '@/utils/axios.download'
-import {
-  getMettingType,
-  batchDeleteMeeting,
-  getApprovalProcess
-  // modelList
-} from '@/api/meeting/type'
+import { getMettingType, batchDeleteMeeting } from '@/api/meeting/type'
+import { queryTemplates } from '@/api/approval'
 import { pageMixins } from '@/utils/pageMixins'
 import {
   actionButtons,
@@ -308,14 +304,22 @@ export default {
     }
   },
   mounted() {
-    getApprovalProcess().then((res) => {
-      // modelList({
-      //   pageNum: 1,
-      //   pageSize: 999
-      // }).then((res) => {
-      console.log('res', res)
-      this.approvalProcess = res.data[0].subDictResultVo
-      console.log('this.approvalProcess', this.approvalProcess)
+    // getApprovalProcess().then((res) => {
+    queryTemplates({
+      type: 2,
+      pageNo: 1,
+      pageSize: 100
+    }).then((res) => {
+      this.approvalProcess = res.data.data
+        ? [...res.data.data].map((item) => {
+            return {
+              ...item,
+              approvalProcessId: item.modelId,
+              approvalProcessName: item.modelName,
+              name: item.modelName
+            }
+          })
+        : []
     })
   }
 }

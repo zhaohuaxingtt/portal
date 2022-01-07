@@ -989,13 +989,26 @@ export default {
         : []
       this.queryEdit(userIdsArr).then((currentSearchUserData) => {
         this.initSelectArr = [...currentSearchUserData]
-        this.ruleForm = {
-          ...this.selectedTableData[0],
-          userIds: currentSearchUserData,
-          //设置触发审批全部为否
-          isTriggerApproval: false,
-          approvalProcessName: ''
+        if (this.selectedTableData[0].category === '03') {
+          this.ruleForm = {
+            ...this.selectedTableData[0],
+            userIds: currentSearchUserData,
+            approvalProcessName: this.approvalProcess.find((item) => {
+              return (
+                item.modelId === this.selectedTableData[0].approvalProcessId
+              )
+            }).modelName
+          }
+        } else {
+          this.ruleForm = {
+            ...this.selectedTableData[0],
+            userIds: currentSearchUserData,
+            //设置触发审批全部为否
+            isTriggerApproval: false,
+            approvalProcessName: ''
+          }
         }
+
         this.handleLoad()
       })
       findMeetingTypesByProperties({ id: this.selectedTableData[0].id }).then(
@@ -1024,9 +1037,11 @@ export default {
           }
         }
         this.$nextTick(() => {
-          this.$refs.selectProcess.querySelector(
-            '.el-form-item__error'
-          ).style.display = 'none'
+          this.$refs.selectProcess.querySelector('.el-form-item__error')
+            ? (this.$refs.selectProcess.querySelector(
+                '.el-form-item__error'
+              ).style.display = 'none')
+            : ''
         })
       },
       immediate: true
@@ -1102,6 +1117,9 @@ export default {
     selectChanged() {
       this.ruleForm.conclusionConfig = []
       this.ruleForm.incidenceRelation = []
+      this.ruleForm.isTriggerApproval = false
+      this.ruleForm.approvalProcessId = ''
+      this.ruleForm.approvalProcessName = ''
       this.$nextTick(() => {
         this.$refs['ruleForm'].validate()
       })
@@ -1323,16 +1341,17 @@ export default {
             conclusionConfig: conclusionConfigStr
           }
           if (this.ruleForm.isTriggerApproval) {
-            // let approvalProcessId = this.ruleForm.approvalProcessId
-            //   ? this.approvalProcess.find((item) => {
-            //       return item.id === this.ruleForm.approvalProcessId
-            //     }).id
-            //   : this.approvalProcess.find((item) => {
-            //       return item.name === this.ruleForm.approvalProcessName
-            //     }).id
+            let approvalProcessId = this.ruleForm.approvalProcessId
+              ? this.approvalProcess.find((item) => {
+                  return item.id === this.ruleForm.approvalProcessId
+                }).modelId
+              : this.approvalProcess.find((item) => {
+                  return item.name === this.ruleForm.approvalProcessName
+                }).modelId
             formData = {
               ...this.ruleForm,
-              approvalProcessId: '',
+              approvalProcessId:
+                this.ruleForm.category === '03' ? approvalProcessId : '',
               userIds: userIdsStr,
               incidenceRelation: incidenceRelationStr,
               conclusionConfig: conclusionConfigStr

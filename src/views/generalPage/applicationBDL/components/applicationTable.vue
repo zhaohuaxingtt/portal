@@ -126,10 +126,10 @@ export default {
       this.formGroup.userList = []
       this.form.linieId = ''
       if (this.mbdl) {
-        const res = await getPreUserList({ supplierToken: this.$route.query.supplierToken, deptNum: obj.deptNum, deptId: obj.id })
+        const res = await getPreUserList({ supplierToken: this.$route.query.supplierToken, deptNum: obj.deptNum, queryDeptId: obj.id })
         this.formGroup.userList = res.data
       } else {
-        const res = await getUserList({ id: val, deptNum: obj.deptNum, deptId: obj.id })
+        const res = await getUserList({ id: val, deptNum: obj.deptNum })
         this.formGroup.userList = res.data
       }
 
