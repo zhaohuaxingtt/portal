@@ -54,14 +54,10 @@ export default {
             tooltip: {
               show: true,
               formatter: (data) => {
-                console.log('xxxx->', data)
-                const curPriceData = this.deptData.lastDeptDataList.find((item) => item.dept == data.name).curPrice
-                // let curPriceData = this.deptData.lastDeptDataList.map((i) => {
-                //   if (i.dept == data.name) {
-                //     return i.curPrice
-                //   }
-                // })
-                return `${curPriceData}`
+                const curPriceData = this.deptData.lastDeptDataList.find(
+                  (item) => item.dept == data.name
+                ).curPrice
+                return `${curPriceData} (${((curPriceData / this.deptData.curYearPrice).toFixed(2) * 100).toFixed(2)}%)`
               }
             }
           },

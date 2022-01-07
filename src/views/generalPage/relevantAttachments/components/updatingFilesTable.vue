@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2021-12-31 10:24:17
- * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-07 11:35:45
+ * @LastEditors: Please set LastEditors
  * @Description: 相关附件
 -->
 <template>
@@ -12,37 +12,29 @@
         $t('SUPPLIER_FUJIANSHANGCHUAN')
       }}</span>
       <div class="floatright">
-        <i-button
-          @click="saveInfos('')"
-          v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT"
-        >
+        <i-button @click="saveInfos('')"
+                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">
           {{ $t('LK_BAOCUN') }}
         </i-button>
-        <i-button
-          @click="exportsTable"
-          v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT"
-          >{{ $t('LK_DAOCHU') }}
+        <i-button @click="exportsTable"
+                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">{{ $t('LK_DAOCHU') }}
         </i-button>
       </div>
     </div>
-    <table-list
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      @handleSelectionChange="handleSelectionChange"
-      @handleViewAttachment="handleViewAttachment"
-      @handleUploadedCallback="handleUploadedCallback"
-      @handleFileDownload="handleFileDownload"
-      @handleExampleDownload="handleExampleDownload"
-      :index="true"
-      v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"
-    />
-    <attachment-dialog
-      @handleSignature="handleSignature"
-      :detail="attachmentDetail"
-      :loading="attachmentLoading"
-      v-model="attachmentDialog"
-    />
+    <table-list :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                @handleSelectionChange="handleSelectionChange"
+                @handleViewAttachment="handleViewAttachment"
+                @handleUploadedCallback="handleUploadedCallback"
+                @handleFileDownload="handleFileDownload"
+                @handleExampleDownload="handleExampleDownload"
+                :index="true"
+                v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS" />
+    <attachment-dialog @handleSignature="handleSignature"
+                       :detail="attachmentDetail"
+                       :loading="attachmentLoading"
+                       v-model="attachmentDialog" />
   </i-card>
 </template>
 
@@ -58,7 +50,7 @@ import {
   saveAttachment
 } from '../../../../api/register/relevantAttachments'
 import attachmentDialog from './attachmentDialog'
-import { downloadFile } from '@/api/file'
+import { downloadUdFile } from '@/api/file'
 import { cloneDeep } from 'lodash'
 
 export default {
@@ -69,7 +61,7 @@ export default {
     tableList,
     attachmentDialog
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: upadtingFilesTableTitle,
@@ -79,14 +71,14 @@ export default {
       attachmentDetail: '',
       attachmentLoading: false,
       currentTemplateId: '',
-      attachmentInfo:{}
+      attachmentInfo: {}
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       try {
         const req = {
@@ -101,8 +93,8 @@ export default {
         this.tableLoading = false
       }
     },
-    async handleViewAttachment(row) {
-     this.attachmentInfo={}
+    async handleViewAttachment (row) {
+      this.attachmentInfo = {}
       this.attachmentDetail = ''
       this.attachmentDialog = true
       this.attachmentLoading = true
@@ -113,15 +105,15 @@ export default {
       const res = await getAttachmentCommitment(req)
       this.attachmentDetail = res.data.detail
       this.attachmentLoading = false
-      this.attachmentInfo=res.data
+      this.attachmentInfo = res.data
     },
-    async handleSignature() {
+    async handleSignature () {
       this.attachmentLoading = true
       const req = {
         step: 'submit',
         id: this.currentTemplateId,
-        termsId:this.attachmentInfo.termsId||'',
-        termsVersion:this.attachmentInfo.termsVersion||'',
+        termsId: this.attachmentInfo.termsId || '',
+        termsVersion: this.attachmentInfo.termsVersion || '',
       }
       const res = await signatureAttachment(req)
       this.attachmentLoading = false
@@ -131,7 +123,7 @@ export default {
         this.getTableList()
       })
     },
-    async handleUploadedCallback(evnet, row) {
+    async handleUploadedCallback (evnet, row) {
       const req = {
         list: [
           {
@@ -142,7 +134,8 @@ export default {
               // TODO上传返回的字段临时修改
               fileName: evnet.name,
               filePath: evnet.path,
-              fileSize: evnet.size
+              fileSize: evnet.size,
+              id: evnet.path.split('?')[1].split('=')[1]
             },
             ...row
           }
@@ -156,7 +149,7 @@ export default {
         this.getTableList()
       })
     },
-    async saveInfos(step = '', nextStep = false, hideMessage = false) {
+    async saveInfos (step = '', nextStep = false, hideMessage = false) {
       let newTableList = cloneDeep(this.tableListData)
       newTableList = newTableList.filter((item) => {
         return !item.isCommitment
@@ -194,30 +187,32 @@ export default {
         )
       }
     },
-    async handleFileDownload(row) {
+    async handleFileDownload (row) {
+      console.log(row)
       if (row.attachId && !row.isCommitment) {
-        const req = {
-          applicationName: 'rise',
-          fileList: [row.fileName]
-        }
-        await downloadFile(req)
+        // const req = {
+        //   applicationName: 'rise',
+        //   fileList: [row.fileName]
+        // }
+        await downloadUdFile(row.fileId)
       } else {
         return false
       }
     },
-    async handleExampleDownload(row) {
+    async handleExampleDownload (row) {
+      console.log(row)
       if (row.templateDemoUrl && !row.isCommitment) {
-        const req = {
-          applicationName: 'rise',
-          fileList: [row.templateDemoUrl]
-        }
-        await downloadFile(req)
+        // const req = {
+        //   applicationName: 'rise',
+        //   fileList: [row.templateDemoUrl]
+        // }
+        await downloadUdFile(row.fileId)
       } else {
         iMessage.warn('没有样例文件')
         return false
       }
     },
-    async handleNextStep(step = '') {
+    async handleNextStep (step = '') {
       await this.saveInfos(step, true)
       return this.nextStep
     }
