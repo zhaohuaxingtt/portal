@@ -36,7 +36,14 @@ export const tableSetting = [
     prop: 'opcsCompanyNameZh',
     label: '供应商中文名',
     align: 'center',
-    width: '200px',
+    width: '150',
+    tooltip: true
+  },
+  {
+    prop: 'opcsCompanyNameEn',
+    label: '供应商英文名',
+    align: 'center',
+    width: '150',
     tooltip: true
   },
   {

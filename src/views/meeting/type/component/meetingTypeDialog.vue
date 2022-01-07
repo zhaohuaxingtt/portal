@@ -992,7 +992,12 @@ export default {
         if (this.selectedTableData[0].category === '03') {
           this.ruleForm = {
             ...this.selectedTableData[0],
-            userIds: currentSearchUserData
+            userIds: currentSearchUserData,
+            approvalProcessName: this.approvalProcess.find((item) => {
+              return (
+                item.modelId === this.selectedTableData[0].approvalProcessId
+              )
+            }).modelName
           }
         } else {
           this.ruleForm = {
@@ -1032,9 +1037,11 @@ export default {
           }
         }
         this.$nextTick(() => {
-          this.$refs.selectProcess.querySelector(
-            '.el-form-item__error'
-          ).style.display = 'none'
+          this.$refs.selectProcess.querySelector('.el-form-item__error')
+            ? (this.$refs.selectProcess.querySelector(
+                '.el-form-item__error'
+              ).style.display = 'none')
+            : ''
         })
       },
       immediate: true
@@ -1337,10 +1344,10 @@ export default {
             let approvalProcessId = this.ruleForm.approvalProcessId
               ? this.approvalProcess.find((item) => {
                   return item.id === this.ruleForm.approvalProcessId
-                }).id
+                }).modelId
               : this.approvalProcess.find((item) => {
                   return item.name === this.ruleForm.approvalProcessName
-                }).id
+                }).modelId
             formData = {
               ...this.ruleForm,
               approvalProcessId:

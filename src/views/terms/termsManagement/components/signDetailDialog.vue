@@ -122,7 +122,7 @@
       </div>
 
       <iTableML
-        style="height: 34rem; overflow: scroll"
+        style="height: 34rem; overflow-y: scroll"
         tooltip-effect="light"
         :data="tableListData"
         :tableLoading="tableLoading"

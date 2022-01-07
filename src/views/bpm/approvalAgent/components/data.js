@@ -48,6 +48,10 @@ export const TABLE_COLUMNS = [
     }
   },
   {
+    prop: 'categoryDesc',
+    i18n: '代理内容'
+  },
+  {
     prop: 'startTime',
     label: '代理开始时间',
     i18n: '代理开始时间',
@@ -116,7 +120,8 @@ export const AGENT_STSTUESES = [
 export const SEARCH_DATA = {
   assignee: '',
   attorney: '',
-  status: ''
+  status: '',
+  category: ''
 }
 
 export const CHOOSE_STAFF_COLUMNS = [

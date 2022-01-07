@@ -21,7 +21,7 @@
                 <el-form-item :label="searchOptionTitles.providerName">
                   <iInput
                     :placeholder="searchOptionTitles.input"
-                    v-model="formData.opcsCompanyNameZh"
+                    v-model="formData.companyName"
                   >
                   </iInput>
                 </el-form-item>
@@ -359,7 +359,7 @@ export default {
         isValid: null, //是否过期   有效 true：有效 false：无效
         lastLoginDate: null, //最近登陆
         nameZh: '', //联系人姓名
-        opcsCompanyNameZh: '', //供应商中文名
+        companyName: '', //供应商中文名
         status: '', //状态 1.正常 2.冻结
         telephoneM: '', //手机
         telephoneO: '', //座机
