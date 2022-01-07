@@ -1,5 +1,5 @@
 <template>
-  <div class="outFrame">
+  <div v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE|年度预算科室页面' class="outFrame">
     <iButton @click="exportData" class="exportData">{{ $t('LK_DAOCHU') }}</iButton>
     <el-row :gutter="10">
       <el-col :span="12" class="total">
@@ -23,7 +23,7 @@
         <span>{{
           language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
         }}</span>
-        <totalAmountComponent />
+        <totalAmountComponent :key='keyString' :deptData="deptData" :showEchart="showEchart"/>
       </el-col>
       <el-col :span="12" class="totalTwo"
         ><div class="dataList">
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { iPage, iSelect,iButton } from 'rise'
+import { iPage, iSelect, iButton } from 'rise'
 import totalAmountComponent from './components/totalAmountComponent'
 import dataComparisonLastYear from './components/dataComparisonLastYear'
 import { yearBudgetDept, yearDropDown } from '@/api/mtz/reportsShow'
@@ -58,7 +58,10 @@ export default {
   data() {
     return {
       form: form,
-      yearList: [] //年份数据
+      yearList: [], //年份数据
+      deptData:'',//金额数据
+      keyString:0,
+      showEchart: false
     }
   },
   created() {
@@ -71,7 +74,11 @@ export default {
       this.form.onlySeeMySelf = false
       yearBudgetDept(this.form)
         .then((res) => {
-          console.log(res)
+          if (+res.code == 200) {
+            this.deptData=res.data
+            this.showEchart = true
+            this.keyString+=1
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -91,7 +98,6 @@ export default {
     },
     //选择年
     selectYear(val) {
-      console.log(val)
       this.form.year = val
       this.queryYearBudgetDept()
     }
@@ -100,12 +106,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.outFrame{
+.outFrame {
   position: relative;
-  .exportData{
+  .exportData {
     position: absolute;
-   top: -58px;
-   right: 10px;
+    top: -58px;
+    right: 10px;
   }
 }
 .total {

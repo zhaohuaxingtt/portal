@@ -166,6 +166,8 @@
 </template>
 
 <script>
+import { exportExcel } from '@/utils/gpfiledowLoad'
+import { exportMeetingMinutes } from '@/api/meeting/gpMeeting'
 import {
   iDialog,
   iInput,
@@ -275,6 +277,10 @@ export default {
                 this.loadingSummary = false
                 iMessage.success('保存成功')
                 this.$emit('handleOK')
+                //导出会议纪要
+              this.handleExport()
+
+
               }
             })
             .catch((err) => {
@@ -282,6 +288,17 @@ export default {
             })
         }
       })
+    },
+    //导出会议纪要  exportMeetingMinutes
+    handleExport(){
+      const params = {
+        id:this.$route.query.id,//会议id
+      }
+      exportMeetingMinutes(params).then((res) => {
+        debugger
+        exportExcel(res)
+      })
+
     },
     handleCancel() {
       this.$emit('handleCancel')

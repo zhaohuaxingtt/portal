@@ -1,49 +1,19 @@
 <template>
   <div
     class="page-content"
-    v-permission.auto="ZHUANGTAIGENZONGBAOBIAO | 状态跟踪报表"
+    v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS_PAGE|年度预算材料中类页面'
   >
-    <!-- <iSearch :icon="true">
-      <div class="search-box">
-        <el-form>
-          <el-form-item label="科室">
-            <iSelect v-model="searchParams" :placeholder="language('QINGXUANZE', '请选择')">
-              <el-option
-                v-for="item in selectOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </el-form-item>
-        </el-form>
-      </div>
-      <template slot="button">
-        <div class="button-box">
-          <show-me class="show-me"></show-me>
-          <iButton @click="search">{{ '确认' }}</iButton>
-          <iButton @click="reset">{{ '重置' }}</iButton>
-        </div>
-      </template>
-    </iSearch> -->
     <iCard id="powerBiReport"></iCard>
   </div>
 </template>
 
 <script>
-import { iPage, iCard, iSearch, iSelect, iButton } from 'rise'
+import {  iCard} from 'rise'
 import { statement } from '@/api/mtz/annualGeneralBudget/reportShow'
 import * as pbi from 'powerbi-client'
-import showMe from '../../comm/ShowMeComponents'
 export default {
   components: {
-    iPage,
     iCard,
-    iSearch,
-    iSelect,
-    iButton,
-    showMe
   },
   data() {
     return {

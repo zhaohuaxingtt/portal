@@ -1,36 +1,49 @@
 <template>
  <div class='year-change'>
    <span>{{  language('LK_QIEHUANNIANFEN', '切换年份') }}</span>
-   <iDatePicker v-model='year'  placeholder="请选择"
-                 :picker-options="pickerOptions"
-                 value-format="yyyy"
-                 @change='changeYear'
-                 type="year"></iDatePicker>
+   <i-select class='my_select' v-model='year'  placeholder="请选择" @change='changeYear'>
+     <el-option
+       v-for="item in years"
+       :key="item.code"
+       :label="`${item.message}年`"
+       :disabled="item.code>new Date().getFullYear()"
+       :value="item.code">
+     </el-option>
+   </i-select>
  </div>
 
 </template>
 
 <script>
 import {
-  iDatePicker,
+  iSelect,
 } from 'rise'
+import { yearDropDown } from '@/api/mtz/reportsShow'
 export default {
   name: 'YearChangeComponents',
   components:{
-    iDatePicker,
+    iSelect,
   },
   data(){
     return {
-      year:  new Date(),
-      pickerOptions:{
-        disabledDate: (time) => {
-            let nowYear = new Date().getFullYear();
-            return time.getFullYear()>nowYear;
-        }
-    },
+      year:  new Date().getFullYear()+'',
+      years:[],
+
     }
   },
+  created() {
+    this.getDropDownYear()
+  },
   methods:{
+    getDropDownYear(){
+      yearDropDown().then(res=>{
+        if(res.code==200){
+          this.years=res.data
+          this.years=this.years.reverse()
+          this.years=this.years.filter(item=>item.code!=null)
+        }
+      })
+    },
     changeYear(year){
       this.year=year
       this.$emit('changeYear', year)

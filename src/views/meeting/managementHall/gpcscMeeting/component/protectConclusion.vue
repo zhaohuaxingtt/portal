@@ -559,7 +559,6 @@ export default {
       // this.isShowTable = false
       // this.isShowSwitch = false
       // if (e.conclusionCsc === '02') {
-      //   debugger
       //   this.isShowSwitch = true
       //   this.ruleForm.isFrozenRs = true
       // }

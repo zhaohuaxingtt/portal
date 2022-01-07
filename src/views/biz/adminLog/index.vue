@@ -27,7 +27,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('日志类别')" slot="label"></iLabel>
-					<iSelect v-model="form.category" class="w-220" filterable clearable>
+					<iSelect v-model="form.category" class="w-220" filterable>
 						<el-option
 							v-for="item in logTypes"
 							:label="item.value"
@@ -194,7 +194,7 @@ export default {
                 this.form = {
                     module:"",
                     type:"",
-                    category:"",
+                    category:"1",
                     triggerType:"",
                     interfaceSystem:"",
                     bizId:"",
@@ -224,9 +224,10 @@ export default {
         },
 		// 查看详情
         msgDetail(row){
-			if(!row.trace_id) return this.$message.warning("trace_id为空")
+			if(!row.traceId) return this.$message.warning("traceId为空")
 			this.parmas = {
-				trace_id:row.trace_id
+				traceId:row.traceId,
+				category:row.category
 			}
 			this.show = true
 			this.$nextTick(() => {

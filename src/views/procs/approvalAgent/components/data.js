@@ -152,23 +152,6 @@ export const CHOOSE_STAFF_COLUMNS = [
   }
 ]
 
-export const TEST_STAFF_DATA = [
-  {
-    staffNo: '1212',
-    name: '小小',
-    dept: '部门1',
-    mobile: '13423231212',
-    tel: '023-23239394'
-  },
-  {
-    staffNo: '1212',
-    name: '小小',
-    dept: '部门1',
-    mobile: '13423231212',
-    tel: '023-23239394'
-  }
-]
-
 export const CHOOSE_STAFF_SEARCH_FORM = {
   staffNo: '',
   name: '',

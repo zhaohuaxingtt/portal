@@ -162,15 +162,12 @@ export default {
         // publishDate: "",
         // publishDateEnd: "",
       },
-      // clauseTypeList: [],
       statusList,
       supplierRangeList,
       supplierIdentityList,
       signNodeList: [],
       isSignatureList,
       isPersonalTermsList,
-      // supplierRange1: "",
-      // supplierCheckList: [],
     };
   },
   mounted() {
@@ -179,20 +176,6 @@ export default {
         this.signNodeList = res.data[0].subDictResultVo;
       }
     });
-    // this.signNodeList = [
-    //   {
-    //     name: "注册",
-    //     id: "01",
-    //   },
-    //   {
-    //     name: "询价",
-    //     id: "02",
-    //   },
-    //   {
-    //     name: "定点",
-    //     id: "03",
-    //   },
-    // ];
   },
   methods: {
     handleSearchReset() {
@@ -201,11 +184,8 @@ export default {
         this.$refs.iDateRangePicker.initDate();
       }, 4);
       this.getTableList();
-      // this.supplierRange1 = "";
-      // this.supplierCheckList = [];
     },
     getTableList() {
-      // this.form.supplierType = this.supplierRange1;
       this.$emit("getTableList", this.form);
     },
     changeStart(e) {
