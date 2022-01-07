@@ -18,6 +18,7 @@
                     <div class="detail-item" v-for="l in list" :key="l.id">
                         <h3 class="title" v-text="l.title"></h3>
                         <div class="file" v-for="item in l.list">
+                            <i class="bell"></i>
                             <span>{{item.name}}</span>
                             <div>
                                 <iButton size="mini">分享</iButton>
@@ -100,14 +101,14 @@
 }
 
 .report{
-    height: 100%;
-    overflow: hidden;
-    ::v-deep > div{
-        height: 100%;
-    }
-    ::v-deep .cardBody{
-        height: 100%;
-    }
+    // height: 100%;
+    // overflow: hidden;
+    // ::v-deep > div{
+    //     height: 100%;
+    // }
+    // ::v-deep .cardBody{
+    //     height: 100%;
+    // }
 }
 .report-box{
     height: 100%;
@@ -121,7 +122,7 @@
 .detail{
     flex:1;
     padding-right: 10px;
-    overflow-y: auto;
+    // overflow-y: auto;
 
     .detail-item{
         padding: 30px 0;
@@ -134,11 +135,22 @@
        }
     }
     .file{
+        position: relative;
         margin: 30px 0;
+        padding-left: 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         color: rgb(73, 119, 248);
+
+        .bell{
+            position: absolute;
+            left: -20px;
+            width: 30px;
+            height: 30px;
+            background: url("~@/assets/images/new.png") no-repeat;
+            background-size: cover;
+        }
     }
 }
 </style>

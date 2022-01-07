@@ -27,6 +27,9 @@
                         @click.native="$router.push({path:'/reportForm/web/reportCardsDetail'})"
                         >
                         <div class="top">
+                            <div class="bell">
+                                <i class="icon el-icon-message-solid"></i>
+                            </div>
                             <img class="img" src="http://cnsvwshvm1416.csvw.com/upload/2018/08/10/ReportSection_2100_Cover.jpg" alt="">
                             <div class="info">
                                 <span>共10份</span>
@@ -115,6 +118,24 @@
                 transform: scale(1.02);
             }
         }
+        .bell{
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            transform: rotate(-45deg);
+            font-size: 14px;
+            border: 50px solid #1763f7;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            .icon{
+                position: absolute;
+                right: 16px;
+                bottom: -10px;
+                transform: rotate(90deg);
+                color: #fff;
+            }
+        }
         .img{
             width: 100%;
             height: 100%;
@@ -124,7 +145,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 35px;
+            height: 40px;
             padding-left: 10px;
             display: flex;
             justify-content: space-between;
@@ -135,7 +156,7 @@
         .new{
             display: inline-block;
             height: 100%;
-            line-height: 35px;
+            line-height: 40px;
             padding: 0 10px;
             font-weight: bold;
             background-color: rgb(253,174,39);
