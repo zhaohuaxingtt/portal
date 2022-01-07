@@ -33,7 +33,7 @@
         <!-- 删除 -->
         <iButton
           @click="handleDelete"
-          :disabled="submitLoading || this.ruleForm.id == null"
+          :disabled="submitLoading || this.ruleForm.id == null || this.updateTerms"
           v-if="ruleForm.isNewest != false"
           >{{ '删除' }}</iButton
         >
@@ -552,6 +552,7 @@ export default {
   data() {
     return {
       // tableListDataSub: [],
+      updateTerms: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -648,6 +649,9 @@ export default {
       // 根据ID查询条款信息
       let param = { id: this.$route.query.id }
       this.query(param)
+    }
+    if (this.$route.query.updateTerms) {
+      this.updateTerms = this.$route.query.updateTerms
     }
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
