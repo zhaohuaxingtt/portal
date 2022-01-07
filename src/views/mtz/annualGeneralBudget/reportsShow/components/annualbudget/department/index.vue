@@ -34,7 +34,7 @@
             language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
           }}</span>
         </div>
-        <dataComparisonLastYear />
+        <dataComparisonLastYear :key='keyString' :deptData="deptData" :showEchart="showEchart"/>
       </el-col>
     </el-row>
   </div>
