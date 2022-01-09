@@ -324,7 +324,7 @@ export default {
         categoryCode: this.selectTableData[0].categoryCode,
         categoryId: this.selectTableData[0].categoryId,
         supplierToken: this.$route.query.supplierToken,
-        supplierId: this.selectTableData[0].supplierId,
+        // supplierId: this.selectTableData[0].supplierId,
         purchaseId: this.form.linieId
       }
       if (this.type === 'QQCGY') {
