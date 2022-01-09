@@ -330,11 +330,13 @@ export default {
       if (this.type === 'QQCGY') {
         const res = await associated(pms)
         this.resultMessage(res, () => {
+          this.cancel()
           this.getTableList()
         })
       } else if (this.type === 'LINIE') {
         const res = await mbdlCancelAssociated(pms)
         this.resultMessage(res, () => {
+          this.cancel()
           this.getTableList()
         })
       }
