@@ -63,17 +63,67 @@
                  :page-size="page.pageSize"
                  :layout="page.layout"
                  :total="page.totalCount" />
+    <iDialog :visible="show"
+             :title="papgeTitle"
+             :destroy-on-close="true"
+             @close="closeDialog"
+             width="200">
+      <el-form :model="form"
+               ref="formName"
+               label-position="left"
+               :inline-message="true">
+        <el-row :gutter="20"
+                align='middle'>
+          <el-col :span="10">
+            <el-form-item label-width="100px"
+                          :label="mbdl?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
+              <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
+                       @change="handleUser"
+                       :placeholder="$t('LK_QINGXUANZE')"
+                       v-model="form.deptId"
+                       :disabled="isAcc">
+                <el-option :value="item.id"
+                           :label="item.nameZh"
+                           v-for="(item, index) in formGroup.deptList"
+                           :key="index"></el-option>
+              </iSelect>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item prop="linieId"
+                          label-width="120px"
+                          :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
+                          :label="mbdl?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
+              <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
+                       :placeholder="$t('LK_QINGSHURU')"
+                       v-model="form.linieId"
+                       :disabled="isAcc">
+                <el-option :value="item.id"
+                           :label="item.nameZh"
+                           v-for="(item, index) in formGroup.userList"
+                           :key="index"></el-option>
+              </iSelect>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <template v-slot:footer>
+        <iButton @click="cancel">{{language('QUXIAO','取消')}}</iButton>
+        <iButton @click="sure">{{language('QUEDING','确定')}}</iButton>
+      </template>
+    </iDialog>
   </i-card>
 </template>
 
 <script>
-import { iCard, iButton, iMessage, iPagination } from "rise";
+import { iCard, iButton, iMessage, iPagination, iDialog, iSelect } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { materialTableTitle } from './data'
 import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl, mbdlCancelAssociated } from "../../../../api/supplier360/material";
 import { getDictByCode } from "../../../../api/dictionary/index";
+import { getPurchaseDeptList, getPurchaseUserList, associated } from '@/api/supplier360/material'
 
 export default {
   mixins: [generalPageMixins, pageMixins],
@@ -81,7 +131,9 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination
+    iPagination,
+    iDialog,
+    iSelect
   },
   data () {
     return {
@@ -91,6 +143,17 @@ export default {
       tableLoading: false,
       selectTableData: [],
       controlListData: [],
+      show: false,
+      type: "",
+      papgeTitle: "",
+      form: {
+        deptId: "",
+        linieId: ""
+      },
+      formGroup: {
+        deptList: [],
+        userList: []
+      }
       // total: 0
     }
   },
@@ -109,6 +172,13 @@ export default {
           return item.controlledState = 2
         }
       })
+    },
+    closeDialog () {
+      this.show = false
+      this.form = {
+        deptId: "",
+        linieId: ""
+      }
     },
     async getTableList (form) {
       console.log(this.$store.state, "2222")
@@ -190,32 +260,50 @@ export default {
         iMessage.warn('审批中不能申请移除BDL')
         return
       }
-      const pms = {
-        stuffBdlId: this.selectTableData[0].id,
-        categoryName: this.selectTableData[0].categoryNameZh,
-        categoryCode: this.selectTableData[0].categoryCode,
-        categoryId: this.selectTableData[0].categoryId
-      }
-      const res = await updateAssociated(pms)
-      this.resultMessage(res, () => {
-        this.getTableList()
+      this.show = true
+      this.type = 'LINIE'
+      let req = await getPurchaseDeptList({
+        categoryId: this.selectTableData[0].categoryId,
+        supplierId: this.selectTableData[0].supplierId,
+        supplierToken: this.$route.query.supplierToken,
+        type: this.type
       })
+      this.formGroup.deptList = req.data
+      // const pms = {
+      //   stuffBdlId: this.selectTableData[0].id,
+      //   categoryName: this.selectTableData[0].categoryNameZh,
+      //   categoryCode: this.selectTableData[0].categoryCode,
+      //   categoryId: this.selectTableData[0].categoryId
+      // }
+      // const res = await updateAssociated(pms)
+      // this.resultMessage(res, () => {
+      //   this.getTableList()
+      // })
     },
     async handleMbdlCance () {
       if (this.selectTableData.length !== 1) {
         iMessage.warn('只能提交一条数据')
         return
       }
-      const pms = {
-        stuffBdlId: this.selectTableData[0].id,
-        categoryName: this.selectTableData[0].categoryNameZh,
-        categoryCode: this.selectTableData[0].categoryCode,
-        categoryId: this.selectTableData[0].categoryId
-      }
-      const res = await mbdlCancelAssociated(pms)
-      this.resultMessage(res, () => {
-        this.getTableList()
+      this.show = true
+      this.type = 'QQCGY'
+      let req = await getPurchaseDeptList({
+        categoryId: this.selectTableData[0].categoryId,
+        supplierId: this.selectTableData[0].supplierId,
+        supplierToken: this.$route.query.supplierToken,
+        type: this.type
       })
+      this.formGroup.deptList = req.data
+      // const pms = {
+      //   stuffBdlId: this.selectTableData[0].id,
+      //   categoryName: this.selectTableData[0].categoryNameZh,
+      //   categoryCode: this.selectTableData[0].categoryCode,
+      //   categoryId: this.selectTableData[0].categoryId
+      // }
+      // const res = await mbdlCancelAssociated(pms)
+      // this.resultMessage(res, () => {
+      //   this.getTableList()
+      // })
     },
     toApplicationBDL () {
       this.$router.push({ path: '/supplier/application-BDL', query: { supplierToken: this.$route.query.supplierToken } })
@@ -231,6 +319,42 @@ export default {
       const res = await getPageMaterialGroup(pms)
       this.selectTableData = res.data
       this.exportsTable()
+    },
+    handleUser (val) {
+      getPurchaseUserList({
+        categoryId: this.selectTableData[0].categoryId,
+        supplierId: this.selectTableData[0].supplierId,
+        supplierToken: this.$route.query.supplierToken,
+        queryDeptId: val,
+        type: this.type
+      }).then(res => {
+        this.formGroup.userList = res.data
+      })
+    },
+    cancel () {
+      this.show = false
+    },
+    async sure () {
+      const pms = {
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryNameZh,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId,
+        supplierToken: this.$route.query.supplierToken,
+        supplierId: this.selectTableData[0].supplierId,
+        purchaseId: this.type === 'QQCGY' ? '前期采购员' : '专业采购员'
+      }
+      if (this.type === 'QQCGY') {
+        const res = await associated(pms)
+        this.resultMessage(res, () => {
+          this.getTableList()
+        })
+      } else if (this.type === 'LINIE') {
+        const res = await mbdlCancelAssociated(pms)
+        this.resultMessage(res, () => {
+          this.getTableList()
+        })
+      }
     }
   }
 }

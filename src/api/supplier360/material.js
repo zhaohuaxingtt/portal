@@ -147,3 +147,35 @@ export function getPreUserList(parmars) {
     data: parmars
   })
 }
+
+export function getPurchaseDeptList(parmars) {
+  return requst({
+    url: `/bdl/stuffMaterials/getPurchaseDeptList`,
+    method: 'POST',
+    data: parmars
+  })
+}
+//
+export function getPurchaseUserList(parmars) {
+  return requst({
+    url: `/bdl/stuffMaterials/getPurchaseUserList`,
+    method: 'POST',
+    data: parmars
+  })
+}
+//BDL取消关联-材料组
+export function associated(parmars) {
+  return requst({
+    url: `/materialGroup/cancel/associated`,
+    method: 'PUT',
+    data: parmars
+  })
+}
+// //MBDL取消关联
+// export function mbdlCancelAssociated(parmars) {
+//   return requst({
+//     url: `/materialGroup/materials/mbdlCancelAssociated`,
+//     method: 'POST',
+//     data: parmars
+//   })
+// }

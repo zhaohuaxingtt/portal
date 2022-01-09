@@ -84,7 +84,7 @@ import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
 import addBdlDialog from './addBdlDialog'
 import { getStuffMaterials, submitBdl, getUserList, getDeptList, getPreDeptList, getPreUserList } from "../../../../api/supplier360/material";
-
+import { getPurchaseDeptList, getPurchaseUserList } from '@/api/supplier360/material'
 
 export default {
   mixins: [generalPageMixins, pageMixins],
