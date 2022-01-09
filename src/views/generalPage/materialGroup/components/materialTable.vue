@@ -75,8 +75,8 @@
         <el-row :gutter="20"
                 align='middle'>
           <el-col :span="10">
-            <el-form-item label-width="100px"
-                          :label="mbdl?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
+            <el-form-item label-width="120px"
+                          :label="type==='QQCGY'?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
@@ -93,7 +93,7 @@
             <el-form-item prop="linieId"
                           label-width="120px"
                           :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
-                          :label="mbdl?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
+                          :label="type==='QQCGY'?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
                        v-model="form.linieId"
@@ -260,6 +260,7 @@ export default {
         iMessage.warn('审批中不能申请移除BDL')
         return
       }
+      this.papgeTitle = '附件材料组不需要选择Linie科室和Linie'
       this.show = true
       this.type = 'LINIE'
       let req = await getPurchaseDeptList({
@@ -269,22 +270,13 @@ export default {
         type: this.type
       })
       this.formGroup.deptList = req.data
-      // const pms = {
-      //   stuffBdlId: this.selectTableData[0].id,
-      //   categoryName: this.selectTableData[0].categoryNameZh,
-      //   categoryCode: this.selectTableData[0].categoryCode,
-      //   categoryId: this.selectTableData[0].categoryId
-      // }
-      // const res = await updateAssociated(pms)
-      // this.resultMessage(res, () => {
-      //   this.getTableList()
-      // })
     },
     async handleMbdlCance () {
       if (this.selectTableData.length !== 1) {
         iMessage.warn('只能提交一条数据')
         return
       }
+      this.papgeTitle = '附件材料组不需要选择前期采购员所属科室和前期采购员'
       this.show = true
       this.type = 'QQCGY'
       let req = await getPurchaseDeptList({
@@ -294,16 +286,6 @@ export default {
         type: this.type
       })
       this.formGroup.deptList = req.data
-      // const pms = {
-      //   stuffBdlId: this.selectTableData[0].id,
-      //   categoryName: this.selectTableData[0].categoryNameZh,
-      //   categoryCode: this.selectTableData[0].categoryCode,
-      //   categoryId: this.selectTableData[0].categoryId
-      // }
-      // const res = await mbdlCancelAssociated(pms)
-      // this.resultMessage(res, () => {
-      //   this.getTableList()
-      // })
     },
     toApplicationBDL () {
       this.$router.push({ path: '/supplier/application-BDL', query: { supplierToken: this.$route.query.supplierToken } })
@@ -329,6 +311,7 @@ export default {
         type: this.type
       }).then(res => {
         this.formGroup.userList = res.data
+        this.form.linieId = ""
       })
     },
     cancel () {
@@ -342,7 +325,7 @@ export default {
         categoryId: this.selectTableData[0].categoryId,
         supplierToken: this.$route.query.supplierToken,
         supplierId: this.selectTableData[0].supplierId,
-        purchaseId: this.type === 'QQCGY' ? '前期采购员' : '专业采购员'
+        purchaseId: this.form.linieId
       }
       if (this.type === 'QQCGY') {
         const res = await associated(pms)
