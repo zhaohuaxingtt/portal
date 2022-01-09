@@ -146,7 +146,7 @@ export const rightModelColums=[
     tooltip: true,
   },
   {
-    prop: "mtzMaterialNumber",
+    prop: "mtzMaterialNumbers",
     label: "材料组",
     i18n: "LK_CAILIAOZHU",
     headerAlign: "center",
@@ -160,5 +160,8 @@ export const rightModelColums=[
     headerAlign: "center",
     align: "center",
     tooltip: true,
+    customRender:(h, scope)=>{
+      return <span>{scope.row.price?.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')}</span>
+    }
   },
 ]

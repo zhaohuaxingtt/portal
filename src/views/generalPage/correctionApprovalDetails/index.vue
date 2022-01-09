@@ -104,7 +104,6 @@
                   :openPageGetRowData="true"
                   class="uploadTable">
         <template #templateName="scope">
-
           <span :class=" scope.row.fileId?['openLinkText', 'underline']:''"
                 @click="
                 handleFileDownload(scope.row)">
