@@ -8,7 +8,7 @@
             <el-row gutter="24">
               <el-col :span="6">
                 <i-form-item :label="language('科室')">
-                  <i-select v-model="searchForm.department">
+                  <i-select v-model="searchForm.department" :placeholder='language("请选择")'>
                     <el-option 
                       v-for="item in deptOption"
                       :key="item.code"
@@ -21,7 +21,7 @@
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('MTZ材料组')">
-                  <i-select v-model="searchForm.mtzMaterialNumber">
+                  <i-select v-model="searchForm.mtzMaterialNumber" :placeholder='language("请选择")'>
                     <el-option
                       v-for="item in mtzOption"
                       :key="item.materialGroupCode"
@@ -34,7 +34,7 @@
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('材料中类')">
-                  <i-select v-model="searchForm.materialMediumNum">
+                  <i-select v-model="searchForm.materialMediumNum" :placeholder='language("请选择")'>
                     <el-option
                       v-for="item in materialMiddleOption"
                       :key="item.materialCategoryCode"
