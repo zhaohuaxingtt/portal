@@ -40,17 +40,13 @@
         <el-form-item :label="language('LK_BIJIAOBANBEN', '比较版本')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['fixedAssetsCode']"
+            v-model="form['VersionMonthOne']"
           >
             <el-option
-              value=""
-              :label="$t('all') | capitalizeFilter"
-            ></el-option>
-            <el-option
-              v-for="(item, index) in getAssetStatusList"
+              v-for="(item, index) in getVersionMonth"
               :key="index"
-              :value="item.code"
-              :label="item.name"
+              :value="item.key"
+              :label="item.value"
             />
           </iSelect>
         </el-form-item>
@@ -59,17 +55,13 @@
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
             class="compareTwo"
-            v-model="form['fixedAssetsCode']"
+            v-model="form['VersionMonthTwo']"
           >
             <el-option
-              value=""
-              :label="$t('all') | capitalizeFilter"
-            ></el-option>
-            <el-option
-              v-for="(item, index) in getAssetStatusList"
+              v-for="(item, index) in getVersionMonth"
               :key="index"
-              :value="item.code"
-              :label="item.name"
+              :value="item.key"
+              :label="item.value"
             />
           </iSelect>
         </el-form-item>
@@ -77,7 +69,7 @@
           class="showMe"
           v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF"
         >
-          <span>{{ $t('LK_JINKANZIJI') }}</span>
+          <span>{{ language('只看自己 ') }}</span>
           <el-switch
           v-model="form['isOnly']"
             @change="showOnlyMyselfData($event)"
@@ -92,11 +84,12 @@
         }}</span>
         <el-date-picker
           class="monthlyPosition"
-          v-model="form['fixedAssetsCode']"
+          v-model="form['getMonth']"
           type="monthrange"
           range-separator="-"
           start-placeholder="开始月份"
           end-placeholder="结束月份"
+          value-format="yyyyMM"
         >
         </el-date-picker>
       </el-form>
@@ -117,7 +110,7 @@
 import { iSearch, iSelect, iCard, iButton } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
-import { queryMtzMaterial, queryMaterialMedium } from '@/api/mtz/reportsShow'
+import { queryMtzMaterial, queryMaterialMedium,getVersionData,yearMonthDropDown } from '@/api/mtz/reportsShow'
 export default {
   name: 'index',
   components: {
@@ -131,12 +124,18 @@ export default {
     return {
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
-      MaterialMediumList: [] //材料中类数据
+      MaterialMediumList: [], //材料中类数据
+      versionMonth: 'm', //比较版本
+      getVersionMonth: [], //获取后端传回来的比较版本
+      versionMonthValue: '' ,//
+      getMonthList: '', //获取默认月份
     }
   },
   created() {
     this.MtzMaterial()
     this.MaterialMedium()
+    this.getVersionDataList()
+    this.getyearMonthDropDown()
   },
   methods: {
     //MTZ材料组
@@ -154,6 +153,32 @@ export default {
       queryMaterialMedium()
         .then((res) => {
           this.MaterialMediumList = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    //比较版本
+    getVersionDataList() {
+      getVersionData(this.versionMonth)
+        .then((res) => {
+          this.getVersionMonth = res.data
+          this.form['VersionMonthOne'] = this.getVersionMonth[0].value
+          this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
+          this.versionMonthValue = this.getVersionMonth[0].value
+          // this.getdifferenceAnalysis()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    //获取年月份
+    getyearMonthDropDown() {
+      yearMonthDropDown()
+        .then((res) => {
+          this.getMonthList = res.data
+          let arr = [this.getMonthList[0].code, this.getMonthList[0].code]
+          this.form['getMonth'] = [arr[0], arr[1]]
         })
         .catch((err) => {
           console.log(err)
