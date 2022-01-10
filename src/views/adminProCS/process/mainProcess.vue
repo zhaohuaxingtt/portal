@@ -2,7 +2,9 @@
     <iPage>
         <div class="content">
             <div class="leftContent" @mousedown="test1" @mouseup="test2">
-                <div class="drag-box" id="testDiv"></div>
+                <div v-for="(item, idx) in projectInfoData" :key="idx">
+                    <div class="drag-box" :id="`testDiv${idx}`" @click="getID(idx)"></div>
+                </div>
                 <img src="~@/assets/images/mainProcess.png" class="img-process" />
             </div>
             <div class="rightContent">
@@ -13,8 +15,11 @@
                         />
                     </el-tab-pane>
                     <el-tab-pane label="项目信息" name="projectInfo" class="tab-project">
-                        <ProjectInfo 
-                            :data="projectInfoData"
+                        <ProjectInfo
+                            ref="project"
+                            :listData="projectInfoData"
+                            @handelStyle="handelStyle"
+                            @getId="getId"
                         />
                     </el-tab-pane>
                 </el-tabs>
@@ -46,8 +51,13 @@ export default {
             activeName: 'baseInfo',
             name: '主流程图',
             projectInfoData: [
-                {name: '测试111', id: 111, width: 40, height: 40, xco: 50, yco: 50 }
-            ]
+                {
+                    name: 'add',
+                    height: '',
+                    width: ''
+                }
+            ],
+            currId: 0
         }
     },
     methods: {
@@ -63,16 +73,40 @@ export default {
 			if (this.startX && this.startY && this.endX && this.endY) {
 				this.currWidth = this.endX - this.startX
 				this.currHeight = this.endY - this.startY
-				let testDiv = document.getElementById('testDiv')
+				let testDiv = document.getElementById(`testDiv${this.currId}`)
 				testDiv.style.display = 'block'
 				testDiv.style.top = `${this.startY}px`
 				testDiv.style.left = `${this.startX}px`
 				testDiv.style.width = `${this.currWidth}px`
 				testDiv.style.height = `${this.currHeight}px`
 				testDiv.style.borderRadius = '50%'
+                let obj = {
+                    yoc: this.startY,
+                    xoc: this.startX,
+                    width: this.currWidth,
+                    height: this.currHeight
+                }
+                this.$refs.project.initItem(obj)
 			}
 		},
-
+        handelStyle(e, va) {
+            let testDiv = document.getElementById(`testDiv${this.currId}`)
+            if (va === 'x') {
+                testDiv.style.left = `${e}px`
+            } else if (va === 'y') {
+                testDiv.style.top = `${e}px`
+            } else if (va === 'width') {
+                testDiv.style.width = `${e}px`
+            } else {
+                testDiv.style.height = `${e}px`
+            }
+        },
+        getID(idx) {
+            this.currId = idx - 1
+        },
+        getId(index) {
+            this.index = index - 1 
+        }
     }
 }
 </script>
