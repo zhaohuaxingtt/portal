@@ -25,23 +25,26 @@
           ></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :prop="supplierData.isAbroad ? '' : 'creditCode'">
+      <iFormItem :prop="!supplierData.isAbroad ? '' : 'creditCode'">
         <iLabel
           :label="$t('UnifySocialCreditCode')"
+          :required="supplierData.isAbroad"
           slot="label"
-          :required="!supplierData.isAbroad"
         ></iLabel>
         <iInput
-          :disabled="!editable"
-          :placeholder="$t('LK_QINGSHURU') + $t('UnifySocialCreditCode')"
+          :disabled="!editable || !supplierData.isAbroad"
           @change="getInfosByCode"
           v-model="supplierData.creditCode"
         ></iInput>
       </iFormItem>
-      <iFormItem prop="supplierNameCn">
-        <iLabel :label="$t('SupplierZh')" required slot="label"></iLabel>
+      <iFormItem :prop="supplierData.isAbroad ? '' : 'supplierNameCn'">
+        <iLabel
+          :label="$t('SupplierZh')"
+          :required="!supplierData.isAbroad"
+          slot="label"
+        ></iLabel>
         <iInput
-          :disabled="!editable"
+          :disabled="!editable || supplierData.isAbroad"
           :placeholder="$t('LK_QINGSHURU') + $t('SupplierZh')"
           v-model="supplierData.supplierNameCn"
         ></iInput>
@@ -61,10 +64,14 @@
         ></iInput>
       </iFormItem>
 
-      <iFormItem prop="supplierNameEn">
-        <iLabel :label="$t('SupplierEn')" slot="label" required></iLabel>
+      <iFormItem :prop="supplierData.isAbroad ? '' : 'supplierNameEn'">
+        <iLabel
+          :label="$t('SupplierEn')"
+          slot="label"
+          :required="!supplierData.isAbroad"
+        ></iLabel>
         <iInput
-          :disabled="!editable"
+          :disabled="!editable || supplierData.isAbroad"
           :placeholder="$t('LK_QINGSHURU') + $t('SupplierEn')"
           v-model="supplierData.supplierNameEn"
         ></iInput>
