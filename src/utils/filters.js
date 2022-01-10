@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-06 21:17:50
- * @LastEditTime: 2021-11-01 21:27:05
+ * @LastEditTime: 2022-01-09 10:49:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\utils\filters.js
@@ -24,9 +24,6 @@ export default {
     },
     format(num) {
       return (num + '').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
-    },
+    }
   }
-
 }
-
-

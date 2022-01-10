@@ -77,6 +77,15 @@
             {{ scope.row.dataChannelName }}
           </span>
         </template>
+        <template v-slot:currency="scope">
+          <iSelect v-model="scope.row['currency']">
+            <el-option v-for="item in currencyList"
+                       :key="item.id"
+                       :label="item.name"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </template>
         <template #operation="scope">
           <uploadButton :showText="true"
                         @uploadedCallback="handleUploadedCallback($event, scope.row)"
@@ -149,7 +158,7 @@
 import tableList from '@/components/commonTable'
 import financialSearch from './components/financialSearch'
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
-import { iCard, iButton, iMessage, iDatePicker } from 'rise'
+import { iCard, iButton, iMessage, iDatePicker, iSelect } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
@@ -168,6 +177,7 @@ import {
 import { downloadUdFile } from '@/api/file'
 import fetchExternalRatingsDialog from './components/fetchExternalRatingsDialog.vue'
 import { exportFinanceReport } from '@/api/frmRating/frmIntegratedManagement.js'
+import { getDictByCode } from '@/api/dictionary'
 
 export default {
   mixins: [generalPageMixins],
@@ -181,7 +191,8 @@ export default {
     tableList,
     uploadButton,
     iDatePicker,
-    fetchExternalRatingsDialog
+    fetchExternalRatingsDialog,
+    iSelect
   },
   data () {
     return {
@@ -216,18 +227,24 @@ export default {
       comparisonTableData: [],
       inputProps: [],
       selectProps: [],
-      supplierComplete
+      supplierComplete,
+      currencyList: []
     }
   },
   created () {
     if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
-      this.inputProps = ['auditUnit', 'currency', 'currencyUnit']
+      this.inputProps = ['auditUnit', 'currencyUnit']
       this.selectProps = ['isAudit', 'isMergeReport']
     }
+    this.getDictByCode()
     this.supplierDetail()
     this.getTableList()
   },
   methods: {
+    async getDictByCode () {
+      let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
+      this.currencyList = res.data[0].subDictResultVo
+    },
     supplierDetail () {
       supplierDetail(this.supplierType).then(res => {
         if (res.data) {

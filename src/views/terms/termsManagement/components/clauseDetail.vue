@@ -166,8 +166,8 @@
             </el-col>
             <!-- 第三行 -->
             <el-col :span="6" class="form-item">
-              <iFormItem label="是否按轮次" prop="isRound">
-                <iLabel :label="'是否按轮次'" slot="label" required></iLabel>
+              <iFormItem label="按业务事件签署" prop="isRound">
+                <iLabel :label="'按业务事件签署'" slot="label"></iLabel>
                 <iSelect
                   v-model="ruleForm.isRound"
                   :placeholder="$t('LK_QINGXUANZE')"
@@ -535,7 +535,7 @@ export default {
         chargeId: '', // 条款负责人
         chargeName: '', // 条款负责人名
         signResult: '', // 签署情况
-        isRound: false, // 是否按轮次
+        isRound: false, // 按业务事件签署
         supplierRange: [], // 供应商范围
         supplierIdentity: [], // 供应商身份
         supplierContacts: '', // 供应商用户范围
@@ -869,7 +869,8 @@ export default {
       this.$router.push({
         path: '/terms/management/addClause',
         query: {
-          id: this.ruleForm.id
+          id: this.ruleForm.id,
+          updateTerms: true
         }
       })
     },

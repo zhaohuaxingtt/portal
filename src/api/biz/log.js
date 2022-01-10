@@ -20,10 +20,18 @@ export function exportBizLog(data) {
   })
 }
 
-// 操作日志查询-分页
+// 日志分页查询- 操作、系统日志
 export function findRecordLogs(data) {
   return request({
     url: '/operationLog/findRecordLogs',
+    method: 'post',
+    data
+  })
+}
+// 日志分页查询- 接口日志
+export function findInterLogs(data) {
+  return request({
+    url: '/operationLog/findInterLogs',
     method: 'post',
     data
   })

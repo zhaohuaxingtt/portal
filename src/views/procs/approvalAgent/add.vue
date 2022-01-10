@@ -58,17 +58,6 @@ export default {
         const { data } = res.data
         this.approvalTodos = data
       })
-      /* 
-      const params = {
-        pageNo: 1,
-        pageSize: 1000
-      }
-      const data = {
-        userID: this.$store.state.permission.userInfo.id
-      }
-      const res = await queryUndoApprovals(params, data)
-      const list = res?.data?.records || []
-      this.approvalTodos = list */
     },
     addRow() {
       this.agentList.push({

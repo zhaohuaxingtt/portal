@@ -104,8 +104,9 @@
                   :openPageGetRowData="true"
                   class="uploadTable">
         <template #templateName="scope">
-          <span class="openLinkText underline"
-                @click="handleFileDownload(scope.row)">
+          <span :class=" scope.row.fileId?['openLinkText', 'underline']:''"
+                @click="
+                handleFileDownload(scope.row)">
             {{ scope.row.templateName }}</span>
           <span class="required  margin-left5"
                 v-if="scope.row.required">*</span>
