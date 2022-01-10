@@ -8,7 +8,7 @@
             <el-row gutter="24">
               <el-col :span="6">
                 <i-form-item :label="language('科室')">
-                  <i-select v-model="searchForm.department">
+                  <i-select v-model="searchForm.department" :placeholder='language("请选择")'>
                     <el-option 
                       v-for="item in deptOption"
                       :key="item.code"
@@ -21,7 +21,7 @@
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('MTZ材料组')">
-                  <i-select v-model="searchForm.mtzMaterialNumber">
+                  <i-select v-model="searchForm.mtzMaterialNumber" :placeholder='language("请选择")'>
                     <el-option
                       v-for="item in mtzOption"
                       :key="item.materialGroupCode"
@@ -34,7 +34,7 @@
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('材料中类')">
-                  <i-select v-model="searchForm.materialMediumNum">
+                  <i-select v-model="searchForm.materialMediumNum" :placeholder='language("请选择")'>
                     <el-option
                       v-for="item in materialMiddleOption"
                       :key="item.materialCategoryCode"
@@ -193,10 +193,17 @@ export default {
           formatter:(params)=>{
             let price = 0
             params.seriesName == '已支付' ? price = params.value[2] * 1000000 : price =  params.value[1] * 1000000
-            price = String(price)
-            const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
-            let currency = tempt.join(',').split('').reverse().join('')
-            return currency
+            const splitPrice = (price + '').split('.')
+            let leftPrice = splitPrice[0]
+            let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
+            const rgx = /(\d+)(\d{3})/
+            while(rgx.test(leftPrice)){
+              leftPrice =  leftPrice.replace(rgx, '$1' + ',' + '$2')
+            }
+            //  price = String(price)
+            // const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
+            // let currency = tempt.join(',').split('').reverse().join('')
+            return leftPrice + rightPrice
           }
         },
         //数据集
@@ -215,8 +222,8 @@ export default {
                   show: true,
                   position: 'top',
                   formatter:(params)=>{
-                    // return Number().toFixed(2)
-                    return Number(params.value[1].toString().match(/^\d+(?:\.\d{0,2})?/))
+                    return Number((params.value[1])).toFixed(2)
+                    // return Number(params.value[1].toString().match(/^\d+(?:\.\d{0,2})?/))
                   },
                   textStyle: {
                     color: 'RGB(2,96,241)'
@@ -236,8 +243,8 @@ export default {
                   show: true,
                   position: 'top',
                   formatter:(params)=>{
-                    // return Number(params.value[2]).toFixed(2)
-                    return Number(params.value[2].toString().match(/^\d+(?:\.\d{0,2})?/))
+                    return Number(params.value[2]).toFixed(2)
+                    // return Number(params.value[2].toString().match(/^\d+(?:\.\d{0,2})?/))
                   },
                   textStyle: {
                     color: 'rgb(119,203,255)'

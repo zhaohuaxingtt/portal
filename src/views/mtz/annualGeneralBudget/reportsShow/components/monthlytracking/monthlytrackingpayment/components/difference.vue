@@ -27,8 +27,16 @@ export default {
         showPrice(){
             // console.log(newVal,'---====');
             let newVal = String(this.item.price *1000000) 
-            const tempt = newVal.split('').reverse().join('').match(/(\d{1,3})/g)
-            return (this.item.priceType == 1  ? '-' :'') + tempt.join(',').split('').reverse().join('')
+            const splitPrice = (newVal + '').split('.')
+            let leftPrice = splitPrice[0]
+            let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
+            const rgx = /(\d+)(\d{3})/
+            while(rgx.test(leftPrice)){
+              leftPrice =  leftPrice.replace(rgx, '$1' + ',' + '$2')
+            }
+            // const tempt = newVal.split('').reverse().join('').match(/(\d{1,3})/g)
+            // return (this.item.priceType == 1  ? '-' :'') + tempt.join(',').split('').reverse().join('')
+            return (this.item.priceType == 1  ? '-' :'') + leftPrice + rightPrice
         }
     },
     data(){
