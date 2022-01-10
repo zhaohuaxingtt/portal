@@ -14,6 +14,8 @@
             class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
+          <!-- v-if="isSupplierDetail" -->
+          <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button>
           <i-button v-if="isSupplierDetail"
                     @click="addTableItem">{{
             $t('LK_XINZENG')
@@ -241,6 +243,9 @@ export default {
     this.getTableList()
   },
   methods: {
+    pullLevel(){
+      
+    },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
       this.currencyList = res.data[0].subDictResultVo
