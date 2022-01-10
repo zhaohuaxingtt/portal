@@ -159,7 +159,7 @@ export default {
         createTime: '',
         isLow: '',
         isAddition: '',
-        isHistory: '',
+        isHistory: '0',
       },
       allSelectObject: {},
     };
