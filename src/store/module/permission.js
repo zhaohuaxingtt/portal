@@ -9,6 +9,7 @@
 import { getSystemMeun, getUserInfoByToken } from '@/api/usercenter'
 import { getMenuResource } from '@/utils/auth'
 import { getModuleList } from '@/api/home'
+import constantMenu from '@/constants/menu'
 
 //初始化菜单，新增active字段和默认选中第一个点亮
 function initMeun(data) {
@@ -206,7 +207,8 @@ const actions = {
   getPermissinInfo({ commit }) {
     return new Promise((r, j) => {
       getSystemMeun()
-        .then((res) => {
+        .then(() => {
+          const res = constantMenu
           if (res.code === '200' && res.data) {
             const menuList = res.data?.menuList || []
             commit('SET_MENU_LIST', initMeun(menuList))

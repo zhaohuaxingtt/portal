@@ -5,7 +5,7 @@ export default [
     meta: {
       title: '新闻管理'
     },
-    component: () => import('@/views/newsManagement/index.vue'),
+    component: () => import('@/layout/innerTitleAndMenu.vue'),
     redirect: '/news/content',
     children: [
       {
@@ -48,7 +48,7 @@ export default [
     ]
   },
   {
-    path: '/news/hall',
+    path: '/news',
     name: 'newsHall',
     meta: {
       title: '新闻大厅'
@@ -57,31 +57,31 @@ export default [
     redirect: '/news/news',
     children: [
       {
-        path: '/news/news',
+        path: 'news',
         name: 'newsNews',
         meta: {
           title: '新闻',
-          activeMenu: ['RISE_COMMON_FUNCTION','CF_NEWS', ]
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_NEWS']
         },
         component: () => import('@/views/newsManagement/hall/news/index.vue')
       },
       {
-        path: '/news/notice',
+        path: 'notice',
         name: 'noticeList',
         meta: {
           title: '公告',
           // activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
-          activeMenu: ['RISE_COMMON_FUNCTION','CF_NEWS', ]
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_NEWS']
         },
         component: () => import('@/views/newsManagement/hall/notice/index.vue')
       },
       {
-        path: '/news/notice/noticeMore',
+        path: 'notice/noticeMore',
         name: 'noticeMore',
         meta: {
           title: '公告more',
           // activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
-          activeMenu: ['RISE_COMMON_FUNCTION','CF_NEWS', ]
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_NEWS']
         },
         component: () =>
           import('@/views/newsManagement/hall/notice/components/noticeMore.vue')
@@ -143,10 +143,9 @@ export default [
     path: '/news/topicDetail',
     name: 'topicDetail',
     meta: {
-      title: '供应商新闻详情',
+      title: '供应商新闻详情'
     },
-    component: () =>
-      import('@/views/newsManagement/topicDetail/index.vue')
+    component: () => import('@/views/newsManagement/topicDetail/index.vue')
   },
   // {
   //   path: "/news",
@@ -189,7 +188,7 @@ export default [
         name: 'newsModuleManagement',
         meta: {
           title: '模块管理',
-          activeMenu:['RISE_ADMIN','ADMIN_NEWS_MANAGEMENT_MODULE']
+          activeMenu: ['RISE_ADMIN', 'ADMIN_NEWS_MANAGEMENT_MODULE']
         },
         component: () =>
           import('@/views/newsManagement/management/moduleManagement/index.vue')
@@ -200,7 +199,7 @@ export default [
         name: 'newsUserManagement',
         meta: {
           title: '用户管理',
-          activeMenu:['RISE_ADMIN','ADMIN_NEWS_MANAGEMENT_MODULE']
+          activeMenu: ['RISE_ADMIN', 'ADMIN_NEWS_MANAGEMENT_MODULE']
         },
         component: () =>
           import('@/views/newsManagement/management/userManagement/index.vue')
