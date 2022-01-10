@@ -256,7 +256,6 @@ export default {
           iMessage.error(res.desZh)
         }
       })
-
     },
     addBDL () {
       this.addBdldialog = true
