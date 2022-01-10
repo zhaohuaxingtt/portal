@@ -23,7 +23,7 @@
                                 <iButton size="mini" @click="share(item)">
                                     分享
                                 </iButton>
-                                <iButton size="mini">下载</iButton>
+                                <iButton size="mini" @click="show = true">下载</iButton>
                             </div>
                         </div>
                         <iPagination
@@ -40,12 +40,14 @@
                 </div>
             </div>
         </iCard>
+        <Dialog :show.sync="show"></Dialog>
     </iPage>
 </template>
 
 <script>
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
+    import Dialog from './../components/dialog.vue';
     export default {
         components:{
             pageHeader,
@@ -53,7 +55,8 @@
             iInput,
             iCard,
             iButton,
-            iPagination
+            iPagination,
+            Dialog
         },
         data() {
             return {
@@ -80,7 +83,8 @@
                     },
                 ],
                 mailto: '',
-                keyword: ''
+                keyword: '',
+                show:false
             }
         },
         methods: {
