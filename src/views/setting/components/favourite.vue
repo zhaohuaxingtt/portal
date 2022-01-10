@@ -19,14 +19,18 @@
     <transition name="el-fade-in-linear">
       <favouriteRise v-show="active === 'rise'" />
     </transition>
+    <transition name="el-fade-in-linear">
+      <favouriteOther v-show="active === 'other'" />
+    </transition>
   </div>
 </template>
 
 <script>
 import favouriteRise from './favouriteRise'
+import favouriteOther from './favouriteOther'
 export default {
   name: 'favourite',
-  components: { favouriteRise },
+  components: { favouriteRise, favouriteOther },
   data() {
     return {
       active: 'rise'

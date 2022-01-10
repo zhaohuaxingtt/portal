@@ -1,6 +1,5 @@
 <template>
   <i-table-custom
-    v-if="tableColumns.length > 0"
     row-key="id"
     :height="tableHeight"
     ref="functionMenu"
@@ -10,6 +9,7 @@
     default-expand
     :default-expand-level="2"
     :treeExpand="tableExpanded"
+    :border="false"
   />
 </template>
 
