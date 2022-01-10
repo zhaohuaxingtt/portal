@@ -163,7 +163,7 @@ export default {
     handleSubmit () {
       checkCategory({
         categoryIds: this.selectTableData.map(item => item.categoryId),
-        checkUserId: this.$store.state.permission.userInfo.id
+        checkUserId: this.form.linieId
       }).then(async res => {
         if (res.code === '200') {
           if (res.data) {
@@ -228,7 +228,7 @@ export default {
     handleSelection (e) {
       checkCategory({
         categoryIds: e.map(item => item.categoryId),
-        checkUserId: this.form.linieId
+        checkUserId: this.$store.state.permission.userInfo.id
       }).then(res => {
         if (res.code === '200') {
           if (res.data) {
