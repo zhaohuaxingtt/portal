@@ -1685,13 +1685,11 @@ export default {
         })
     },
     generateMeetingMinutes() {
-      debugger
       this.editNewSummary = true
       this.receiverId = this.meetingInfo?.receiverId
       this.openDialog('openNewSummaryDialogNew')
     },
     lookMeetingMinutes() {
-      debugger
       this.editNewSummary = false
       this.openDialog('openNewSummaryDialog')
     },
@@ -2428,6 +2426,7 @@ export default {
       //   this.openDialog('openAddTopicDialog')
       // }
       this.openDialog('openAddTopicNewDialog')//议题
+      
     },
     //新增议题
     addTopic() {
