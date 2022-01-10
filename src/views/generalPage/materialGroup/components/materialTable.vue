@@ -107,10 +107,15 @@
           </el-col>
         </el-row>
       </el-form>
-      <template v-slot:footer>
-        <iButton @click="cancel">{{language('QUXIAO','取消')}}</iButton>
-        <iButton @click="sure">{{language('QUEDING','确定')}}</iButton>
-      </template>
+      <div slot='footer'
+           class="flex-between-center ">
+        <div style="font-size:14px;font-weight:bold">tips:{{language('RUOXIANGXUANZESHANGSHUFANWEIYIWAIDECAIGOUYUANQINGLIANXIXITONGGUANLIYUANWEIQITIANJIADANGQIANCAILIAOZUCAOZUOQUANXIAN','若想选择上述范围以外的采购员，请联系系统管理员为其添加当前材料组操作权限。')}}</div>
+        <div>
+          <iButton @click="cancel">{{language('QUXIAO','取消')}}</iButton>
+          <iButton @click="sure">{{language('QUEDING','确定')}}</iButton>
+        </div>
+
+      </div>
     </iDialog>
   </i-card>
 </template>
@@ -121,7 +126,7 @@ import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { materialTableTitle } from './data'
-import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl, mbdlCancelAssociated } from "../../../../api/supplier360/material";
+import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl, mbdlCancelAssociated, checkCategory } from "../../../../api/supplier360/material";
 import { getDictByCode } from "../../../../api/dictionary/index";
 import { getPurchaseDeptList, getPurchaseUserList, associated } from '@/api/supplier360/material'
 
@@ -260,32 +265,61 @@ export default {
         iMessage.warn('审批中不能申请移除BDL')
         return
       }
-      this.papgeTitle = '附件材料组不需要选择Linie科室和Linie'
-      this.show = true
-      this.type = 'LINIE'
-      let req = await getPurchaseDeptList({
-        categoryId: this.selectTableData[0].categoryId,
-        supplierId: this.selectTableData[0].supplierId,
-        supplierToken: this.$route.query.supplierToken,
-        type: this.type
+      checkCategory({
+        categoryIds: this.selectTableData.map(item => item.categoryId),
+        checkUserId: this.$store.state.permission.userInfo.id
+      }).then(async res => {
+        if (res.code === '200') {
+          if (res.data) {
+            this.papgeTitle = '附件材料组不需要选择Linie科室和Linie'
+            this.show = true
+            this.type = 'LINIE'
+            let req = await getPurchaseDeptList({
+              categoryId: this.selectTableData[0].categoryId,
+              supplierId: this.selectTableData[0].supplierId,
+              supplierToken: this.$route.query.supplierToken,
+              type: this.type
+            })
+            this.formGroup.deptList = req.data
+          } else {
+            iMessage.error(this.language('QINGLIANXIXITONGGUANLIYUANTIANJIAGAICAILIAOZUDECAOZUOQUANXIAN', '请联系系统管理员添加该材料组的操作权限'))
+          }
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
-      this.formGroup.deptList = req.data
+
     },
     async handleMbdlCance () {
       if (this.selectTableData.length !== 1) {
         iMessage.warn('只能提交一条数据')
         return
       }
-      this.papgeTitle = '附件材料组不需要选择前期采购员所属科室和前期采购员'
-      this.show = true
-      this.type = 'QQCGY'
-      let req = await getPurchaseDeptList({
-        categoryId: this.selectTableData[0].categoryId,
-        supplierId: this.selectTableData[0].supplierId,
-        supplierToken: this.$route.query.supplierToken,
-        type: this.type
+      checkCategory({
+        categoryIds: this.selectTableData.map(item => item.categoryId),
+        checkUserId: this.$store.state.permission.userInfo.id
+      }).then(async res => {
+        if (res.code === '200') {
+          if (res.data) {
+            this.papgeTitle = '附件材料组不需要选择前期采购员所属科室和前期采购员'
+            this.show = true
+            this.type = 'QQCGY'
+            let req = await getPurchaseDeptList({
+              categoryId: this.selectTableData[0].categoryId,
+              supplierId: this.selectTableData[0].supplierId,
+              supplierToken: this.$route.query.supplierToken,
+              type: this.type
+            })
+            this.formGroup.deptList = req.data
+          } else {
+            iMessage.error(this.language('QINGLIANXIXITONGGUANLIYUANTIANJIAGAICAILIAOZUDECAOZUOQUANXIAN', '请联系系统管理员添加该材料组的操作权限'))
+          }
+        } else {
+          iMessage.error(res.desZh)
+        }
+
       })
-      this.formGroup.deptList = req.data
+
     },
     toApplicationBDL () {
       this.$router.push({ path: '/supplier/application-BDL', query: { supplierToken: this.$route.query.supplierToken } })
