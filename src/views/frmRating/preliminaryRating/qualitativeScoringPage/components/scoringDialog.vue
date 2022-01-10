@@ -279,7 +279,7 @@ export default {
       if (step === 'tempStore') {
         valid = true
       }
-      if (valid) {
+      if (valid) {  
         try {
           this.handleSubmitOrTemporaryStorageButtonLoading(step, true)
 
@@ -294,6 +294,12 @@ export default {
           this.resultMessage(res, () => {
             this.$emit('handleSubmitCallback')
             this.getTableList()
+            
+            this.$nextTick(()=>{
+                if(step==='submit'){
+                     this.value=false
+                }
+            })
           })
           this.handleSubmitOrTemporaryStorageButtonLoading(step, false)
         } catch {

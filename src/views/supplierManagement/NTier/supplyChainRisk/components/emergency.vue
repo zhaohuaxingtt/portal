@@ -142,6 +142,7 @@
     <exportDialog v-model="exportDialog" />
     <!--编辑  -->
     <createEmergenciesDialog :eventDetail="eventDetail"
+                             :edit="edit"
                              v-model="createEmergenciesDialog" />
   </div>
 </template>
@@ -183,6 +184,7 @@ export default {
       tableListData: [],
       selectTableData: [],
       tableLoading: false,
+      edit: false
     }
   },
   // 监听属性 类似于data概念
@@ -209,6 +211,7 @@ export default {
     // 打开编辑窗口
     handleEdit () {
       this.createEmergenciesDialog = true
+      this.edit = true
     },
     // 展示链路
     handleLine () {
