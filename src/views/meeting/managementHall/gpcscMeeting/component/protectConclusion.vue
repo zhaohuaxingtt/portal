@@ -596,7 +596,11 @@ export default {
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
+      }else{
+        this.showIFormItemRS= false
+        this.showIFormItemelform= true
       }
+
     },
     //获取日期改期的更新的表格数据
     async getUpdateDateTableList(str, str2) {
