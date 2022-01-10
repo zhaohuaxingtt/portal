@@ -71,7 +71,7 @@ export default {
       try {
         this.tableLoading = true
         let params = {
-          pageNum:this.page.currPage,
+          pageNum:this.page.currPage - 1,
           pageSize: this.page.pageSize,
           ...this.params
         }

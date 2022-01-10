@@ -5,7 +5,7 @@
 		:visible.sync="typeShow" 
 		v-if="typeShow"
 		width="60%" 
-		@close='closeDialogBtn' 
+		@close="close"
 		append-to-body
 	>
         <el-form
@@ -52,6 +52,7 @@
 import { iDialog, iFormItem, iInput, iButton, iTableCustom, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { column } from './tableColumn'
+import { addCategory, queryCategory } from '@/api/adminProCS';
 export default {
     components: {
         iDialog,
@@ -79,30 +80,43 @@ export default {
                 name: { required:'true',message:"请输入知识分类名称",trigger:'blur' },
             },
             tableSetting: column,
-            tableListData: [
-                { name: '分类名称1', id: 1 },
-                { name: '分类名称2', id: 2 }
-            ],
+            tableListData: [],
             extraData: {
                 del: this.del
-            }
+            },
+			currId: null
         }
     },
-    mounted() {
-        this.page.totalCount = this.tableListData.length
-    },
     methods: {
+		getTableList() {
+			let params = {
+				page: this.page.currPage - 1,
+				size: this.page.pageSize
+			}
+			queryCategory(this.currId, params).then(res => {
+				console.log(res, '2222')
+			})
+		},
         closeDialogBtn () {
             this.$emit('update:typeShow', false)
+			this.newTypeForm.name = ''
         },
         close () {
             this.closeDialogBtn();
         },
-        add() {
-            this.tableListData.push({
-                name: this.newTypeForm.name,
-                id: 3
-            })
+        async add() {
+			console.log(this.currId, '2222')
+			if (!this.newTypeForm.name) return this.$message({type: 'warning', message: '请先填写知识分类名称'})
+			let formData = new FormData()
+			formData.append('name', this.newTypeForm.name)
+			await addCategory(this.currId, formData).then(res => {
+				console.log(res, '1222')
+				if (res) {
+					this.newTypeForm.name = ''
+					this.$message({type: 'success', message: '新增二级分类成功'})
+					this.getTableList()
+				}
+			})
         },
         del(row){
             console.log(row, '1234')

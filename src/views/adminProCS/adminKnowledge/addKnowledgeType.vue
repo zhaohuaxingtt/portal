@@ -4,13 +4,15 @@
 		style="margin-top:10vh"
 		:visible.sync="typeShow" 
 		v-if="typeShow"
+		v-loading="loading"
 		width="60%" 
-		@close='closeDialogBtn' 
+		@close="close"
 		append-to-body
 	>
-		<el-form 
+		<el-form
 			label-position="left" 
-			:model="newTypeForm" 
+			:model="newTypeForm"
+			ref="knowledgeTypeForm"
 			:rules="newTypeRules" 
 			label-width="100px" 
 			class="typeForm validate-required-form"
@@ -21,24 +23,24 @@
 			<iFormItem :label="language('英文名')" prop='enName'>
 				<iInput v-model="newTypeForm.enName" placeholder="请输入知识英文名称"></iInput>
 			</iFormItem>
-			<iFormItem :label="language('封面图片')" prop='coverPhoto'>
+			<iFormItem :label="language('封面图片')">
 				<div class="photo-content">
 					<div class="photo-text">请上传封面图片</div>
 					<ImgCutter
 						class="avatar-uploader"
 						fileType=".jpg, .jpeg, .png"
 						:rate = 'imgCutterRate'
-						@cutDown='upload'
+						@cutDown="upload"
 						:file-list="fileList"
 					>
 						<div slot="open">
-							<img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar" />
+							<img v-if="imageUrl" :src="imageUrl" @error="handleImageError" class="avatar" />
 							<!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
 							<i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
 							</i>
 						</div>
 					</ImgCutter>
-					<div v-if="imageUrl" class="delete-box" @click="deleteImg">{{`移除${imgName}`}}</div>
+					<div v-if="imgName" class="delete-box" @click="deleteImg">{{`移除${imgName}`}}</div>
 				</div>
 			</iFormItem>
 		</el-form>
@@ -53,6 +55,7 @@
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
+import { createKnowledgeType, modifyKnowledgeTypeById } from '@/api/adminProCS';
 export default {
 	name: 'addKnowledgeType',
 	components: {
@@ -77,17 +80,19 @@ export default {
 			visible: false,
 			newTypeForm: {
 				name: '',
-				enName: '',
-				coverPhoto: ''
+				enName: ''
 			},
 			newTypeRules: {
 				name: { required:'true',message:"请输入类型名称",trigger:'blur' },
-				enName: { required:'true',message:"请输入知识英文名称",trigger:'blur' },
-				coverPhoto: { required:'true',message:"请上传封面图片",trigger:'blur' }
+				enName: { required:'true',message:"请输入知识英文名称",trigger:'blur' }
 			},
 			imgCutterRate: '16 : 9',
 			fileList: [],
-			imageUrl: ''
+			imageUrl: '',
+			coverFileName: '',
+			loading: false,
+			modifyFlag: false,
+			modifyTypeId: null
 		}
 	},
 	methods: {
@@ -96,8 +101,14 @@ export default {
     },
 		close () {
       this.closeDialogBtn();
+			this.clearFormVal()
+			this.$emit('refresh')
 			this.imageUrl = ''
+			this.imgName = ''
     },
+		clearFormVal() {
+			Object.keys(this.newTypeForm).map(key => this.newTypeForm[key] = '')
+		},
 		handleImageError(){
       let img = document.querySelector('avatar')
       img.src = this.linkUrl()
@@ -117,6 +128,7 @@ export default {
       form.append('file',content.file)
       form.append('applicationName','popupImage')
 			console.log(content, "12345")
+			this.coverFile = content.dataURL
       uploadFileWithNOTokenTwo(form).then((result)=>{
         if(result.code == '200'){
 					console.log(result, "12222")
@@ -133,10 +145,47 @@ export default {
 			this.imageUrl = ''
 		},
 		sure() {
-			console.log(this.newTypeForm, "98989")
+			this.$refs.knowledgeTypeForm.validate(async v => {
+				if (v) {
+					try {
+						this.newTypeForm.coverFileName = this.imgName
+						this.newTypeForm.coverFile = this.coverFile
+						let formData = new FormData()
+						Object.keys(this.newTypeForm).forEach(key => {
+							formData.append(key,this.newTypeForm[key])
+						})
+						this.loading = true
+						if (this.modifyFlag) {
+							await modifyKnowledgeTypeById(this.modifyTypeId, formData).then((res) => {
+								if (res) {
+									this.$message({type: 'success', message: '修改知识类型成功.'})
+									this.modifyFlag = false
+									this.loading = false
+								}
+								
+							})
+						} else {
+							await createKnowledgeType(formData).then((res) => {
+								if (res) {
+									this.$message({type: 'success', message: '新增知识类型成功.'})
+									this.loading = false
+								}
+							})
+						}
+						this.close()
+					} finally {
+						this.loading = false
+						this.modifyFlag = false
+					}
+				}
+			})
 		},
 		initModify(currVa) {
-			this.newTypeForm = currVa
+			console.log(currVa, '1111')
+			this.modifyFlag = true
+			this.modifyTypeId = currVa.id
+			this.newTypeForm = JSON.parse(JSON.stringify(currVa))
+			this.imageUrl = currVa?.cover.split('uploader/')[1]
 		}
 	},
 	computed: {

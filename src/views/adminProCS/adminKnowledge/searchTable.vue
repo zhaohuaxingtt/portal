@@ -4,7 +4,7 @@
 			<iButton @click="addKnowledge">{{ language(`${addText}`) }}</iButton>
       <iButton @click="modifyHandler" :disabled='selectedItems.length == 0'>{{ language('修改') }}</iButton>
       <iButton @click="delHandler" :disabled='selectedItems.length == 0'>{{ language('删除') }}</iButton>
-			<iButton v-show="manageType!=='content'" @click="addType" :disabled='selectedItems.length == 0'>{{ language('添加知识分类') }}</iButton>
+			<iButton v-show="manageType!=='content'" @click="addTypeFun" :disabled='selectedItems.length == 0'>{{ language('添加知识分类') }}</iButton>
     </div>
 		<iTableCustom
       ref="testTable"
@@ -31,10 +31,11 @@
     />
 
 		<AddKnowledgeType
-			ref="addKnowledgeType"
+			ref="addKnowledgeTypeDialog"
 			v-show="showTypeDialog"
 			:typeShow.sync="showTypeDialog"
 			:operateType="operateType"
+			@refresh='getTableList'
 		/>
 
 		<AddKnowledgeContent
@@ -42,10 +43,11 @@
 			v-show="showContentDialog"
 			:contentShow.sync="showContentDialog"
 			:operateType="operateType"
+			@refresh='getTableList'
 		/>
 
 		<AddType
-			ref="addType"
+			ref="addTypeDialog"
 			v-show="showKnowTypeDialog"
 			:typeShow.sync="showKnowTypeDialog"
 		/>
@@ -59,6 +61,8 @@ import { contentColumn, typeColumn } from './tableColumn'
 import AddKnowledgeType from './addKnowledgeType.vue'
 import AddKnowledgeContent from './addKnowledgeContent'
 import AddType from './addType.vue'
+import { getContentList, queryKnowledgeTypeList, delKnowledgeTypeById, publishedKnowledgeTypeById } from '@/api/adminProCS';
+import moment from 'moment'
 export default {
 	components: {
 		iButton,
@@ -93,23 +97,35 @@ export default {
 			]
 		}
 	},
-	created() {
+	async created() {
+		// if (this.manageType === 'content') {
+		// 	this.tableSetting = contentColumn(this)
+		// } else {
+		// 	this.tableSetting = typeColumn(this)
+
+		// }
     this.tableSetting = this.manageType === 'content' ? contentColumn(this) : typeColumn(this)
-		this.tableListData = this.manageType === 'content' ? this.contentData : this.typeContent
+		await this.getTableList()
+		// this.tableListData = this.manageType === 'content' ? this.contentData : this.typeContent
   },
 	mounted() {
 		this.selectedItems = []
-		this.getTableList()
 	},
 	methods: {
-		publishChang(row){
+		async publishChang(row){
+			this.tableLoading = true
 			// 更改当前类型管理的发布状态
-			console.log(row,'----=====')
-			this.tableListData.map(item => {
-				if (item.id === row.id) {
-					item.published = !row.published
+			let formData = new FormData()
+			formData.append('published', !row.published)
+			await publishedKnowledgeTypeById(row.id, formData).then(res => {
+				console.log(res, '122222')
+				if (res?.success) {
+					this.$message({type: 'success', message: '已更改当前发布状态'})
+					this.getTableList()
 				}
-			})
+			}).catch(()=>{
+        this.$refs.testTable.clearSelection()
+      })
 		},
 		stateChang(row) {
 			console.log(row, 'stateChang')
@@ -127,15 +143,30 @@ export default {
 				}
 			})
 		},
-		getTableList(va) {
+		async getTableList(va) {
 			this.tableLoading = true
 			let params = {
 				keyword: va ? va : '',
-				pageNum:this.page.currPage,
-				pageSize: this.page.pageSize,
-				type: this.manageType
+				page: this.page.currPage - 1,
+				size: this.page.pageSize
 			}
-			console.log(params, "123")
+			let res = null
+			if (this.manageType === 'content') {
+				res = await getContentList(params)
+			} else {
+				res = await queryKnowledgeTypeList(params)
+			}
+			if (res) {
+				this.tableListData = res.content || []
+				this.page.totalCount = res.totalElements
+				if (this.manageType === 'content') {
+					console.log('111')
+				} else {
+					this.tableListData.map(item => {
+						item.createdAt = moment(item.createdAt).format('YYYY-MM-DD')
+					})
+				}
+			}
 			this.tableLoading = false
 		},
 		addKnowledge() {
@@ -162,7 +193,7 @@ export default {
 				this.showTypeDialog = true
 				this.operateType = 'edit'
 				console.log('1111')
-				this.$refs.addKnowledgeType.initModify(this.selectedItems[0])
+				this.$refs.addKnowledgeTypeDialog.initModify(this.selectedItems[0])
 			}
 		},
 		delHandler() {
@@ -174,24 +205,28 @@ export default {
         cancelButtonText:"取消",
         type:'warning'
       }).then(async ()=>{
-        // let ids = this.selectedItems.map(e => e.id)
-        // await removeLabel(ids)
-        // this.getTableList()
-				this.tableListData.map((item, idx) => {
-					if (item.id === this.selectedItems[0]?.id) {
-							this.tableListData.splice(idx, 1)
-					}
-				})
+				if (this.manageType === 'content') {
+					console.log('22')
+				} else {
+					await delKnowledgeTypeById(this.selectedItems[0].id).then(res => {
+						if (res.success) {
+							this.$message({type: 'success', message: '已删除当前类型'})
+							this.getTableList()
+						}
+					})
+				}
       }).catch(()=>{
         this.$refs.testTable.clearSelection()
       })
 		},
-		addType() {
+		addTypeFun() {
 			console.log('1234')
 			if (this.manageType !== 'content') {
 				if (this.selectedItems[0]?.published) return this.$message({type: 'warning', message: '上架的知识类型不能添加分类'})
 			}
 			this.showKnowTypeDialog = true
+			this.$refs.addTypeDialog.currId = this.selectedItems[0]?.id
+			this.$refs.addTypeDialog.getTableList()
 		},
 		handleSelectionChange(val) {
       this.selectedItems = val
