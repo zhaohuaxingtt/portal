@@ -76,12 +76,13 @@
                 align='middle'>
           <el-col :span="10">
             <el-form-item label-width="120px"
+                          prop="deptId"
+                          :rules="{required: true, message: '请选择'}"
                           :label="type==='QQCGY'?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
-                       v-model="form.deptId"
-                       :disabled="isAcc">
+                       v-model="form.deptId">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.deptList"
@@ -92,12 +93,11 @@
           <el-col :span="10">
             <el-form-item prop="linieId"
                           label-width="120px"
-                          :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
+                          :rules="{required: true, message: '请选择'}"
                           :label="type==='QQCGY'?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
-                       v-model="form.linieId"
-                       :disabled="isAcc">
+                       v-model="form.linieId">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.userList"
