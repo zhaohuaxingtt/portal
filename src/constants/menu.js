@@ -35815,35 +35815,56 @@ export default {
                 isDelete: false,
                 propertyMap: null,
                 properties: null,
-                menuList: [],
+                menuList: [
+                  { 
+                    name: '问答处理',
+                    permissionKey: 'ADMIN_PROCS_PROB_problemHandler',
+                    url: '/portal/#/assistant/problemMan?module=problemHandler'
+                  },
+                  {
+                    name: '问题报表',
+                    permissionKey: 'ADMIN_PROCS_PROB_problemStatement',
+                    url: '/portal/#/assistant/problemMan?module=problemStatement'
+                  },
+                  {
+                    name: '模块管理',
+                    permissionKey: 'ADMIN_PROCS_PROB_moduleManagement',
+                    url: '/portal/#/assistant/problemMan?module=moduleManagement'
+                  },
+                  {
+                    name: '标签管理',
+                    permissionKey: 'ADMIN_PROCS_PROB_labelManagement',
+                    url: '/portal/#/assistant/problemMan?module=labelManagement'
+                  },
+                  {
+                    name: '关键词管理',
+                    permissionKey: 'ADMIN_PROCS_PROB_keyWordsManagement',
+                    url: '/portal/#/assistant/problemMan?module=keyWordsManagement'
+                  }
+                ],
                 resourceList: null,
                 subResourceList: null,
                 fieldList: null
               },
               {
                 id: 11867,
-                name: '用户助手管理',
-                parentId: 4038,
-                parentResourceName: null,
-                url: '/portal/#/assistant/helpCenterMan',
-                orderNum: 60,
-                permissionKey: 'ADMIN_PROCS_USER_ASSIS',
-                parentPermissionKey: null,
-                type: 3,
-                level: 3,
-                module: null,
-                target: null,
-                createBy: null,
-                createDate: null,
-                updateBy: null,
-                updateDate: null,
-                isDelete: false,
-                propertyMap: null,
-                properties: null,
-                menuList: [],
-                resourceList: null,
-                subResourceList: null,
-                fieldList: null
+                name: '用户助手管理', 
+                url: '/portal/#/assistant/helpCenterMan', 
+                permissionKey: 'ADMIN_PROCS_USER_ASSIS', 
+                menuList: [
+                  {
+                    id: 118670001,
+                    name: '用户助手管理', 
+                    url: '/portal/#/assistant/helpCenterMan?module=manual', 
+                    permissionKey: 'ADMIN_PROCS_USER_ASSIS_manual', 
+                  },
+                  {
+                    id: 118670002,
+                    name: '常见问题', 
+                    url: '/portal/#/assistant/helpCenterMan?module=question', 
+                    permissionKey: 'ADMIN_PROCS_USER_ASSIS_question', 
+                  }
+                ]
               }
             ],
             resourceList: null,

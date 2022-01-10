@@ -3,7 +3,8 @@ export default [
     path: '/assistant/problemMan',
     name: 'problemMan',
     meta: {
-      title: 'problemMan'
+      title: 'problemMan',
+      activePath: '/assistant/problemMan'
     },
     component: () => import('@/views/assistant/problemMan')
   },
@@ -19,7 +20,8 @@ export default [
     path: '/assistant/helpCenterMan',
     name: 'helpCenterMan',
     meta: {
-      title: 'helpCenterMan'
+      title: 'helpCenterMan',
+      activePath: '/assistant/helpCenterMan'
     },
     component: () => import('@/views/assistant/helpCenterMan')
   }

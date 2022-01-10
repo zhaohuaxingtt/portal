@@ -84,6 +84,7 @@ import KeyWordsManagement from './components/keyWordsManagement'
 import { questionUnReplyCountApi } from '@/api/assistant'
 import pageHeader from '@/components/pageHeader'
 import store from '@/store'
+import { getSiblingMenus, generateMenuData } from '@/utils/menu'
 export default {
   data() {
     return {
@@ -115,74 +116,22 @@ export default {
     },
     // 3级菜单显示
     getMenusLevel3() {
-      const menus = this.getSiblingMenus(
+      const menus = getSiblingMenus(
         this.fullMenus,
         '/assistant/problemMan',
-        '',
-        ''
+        '/assistant/problemMan'
       )
-
-      const menusLevel3 = this.generateMenuData(menus, 3)
+      const menusLevel3 = generateMenuData(menus, 3)
+      menusLevel3.forEach((e) => {
+        if (e.url === '/assistant/helpCenterMan') {
+          e.activeMenu = '/assistant/helpCenterMan'
+        }
+        if (e.url === '/assistant/problemMan') {
+          e.activeMenu = '/assistant/problemMan'
+        }
+      })
       this.menusLevel3 = menusLevel3
       console.log('getMenusLevel3', menusLevel3)
-    },
-    getSiblingMenus(data, path, menuType, activePath) {
-      for (let i = 0; i < data.length; i++) {
-        const element = data[i]
-        const url =
-          element.url && element.url.indexOf('#') > -1
-            ? element.url.split('#')[1]
-            : element.url
-        if (
-          `${path}?menuType=${menuType}` === url ||
-          url === path ||
-          url === activePath
-        ) {
-          return data
-        }
-        if (element.menuList) {
-          const res = this.getSiblingMenus(
-            element.menuList,
-            path,
-            menuType,
-            activePath
-          )
-          if (res) {
-            return res
-          }
-        }
-      }
-    },
-    generateMenuData(diyMenus, level) {
-      diyMenus = diyMenus || []
-      const res = []
-      diyMenus.forEach((e, index) => {
-        let purePath = e.url || ''
-        if (e.url && e.url.includes('#')) {
-          purePath = e.url.split('#')[1]
-        }
-        const purePathArr = purePath.split('/')
-        let activePath =
-          level === 3
-            ? '/' + purePathArr[1]
-            : '/' + purePathArr[1] + '/' + purePathArr[2]
-        if (activePath.indexOf('?')) {
-          activePath = activePath.split('?')[0]
-        }
-        const url =
-          e.url && e.url.indexOf('#') > -1 ? e.url.split('#')[1] : e.url
-        res.push({
-          value: index + 1,
-          name: e.name,
-          message: 0,
-          url: url,
-          activePath: activePath,
-          key: e.name,
-          permissionKey: e.permissionKey,
-          permissionName: e.name
-        })
-      })
-      return res
     }
   },
   created() {
