@@ -228,7 +228,7 @@ export default {
     handleSelection (e) {
       checkCategory({
         categoryIds: e.map(item => item.categoryId),
-        checkUserId: this.$store.state.permission.userInfo.id
+        checkUserId: this.form.linieId
       }).then(res => {
         if (res.code === '200') {
           if (res.data) {
