@@ -288,7 +288,7 @@ export default {
               const month = item.yearMonth.slice(4)
               const yearMonth = year+'-'+month
               sourceData.push([yearMonth,Math.abs(Number(item.actualPrice))/1000000,Math.abs(Number(item.payPrice))/1000000])
-              this.calculate.push({price:Number(item.diffPrice)/1000000,priceType:item.priceType})
+              this.calculate.push({price:item.diffPrice,priceType:item.priceType})
             })
             this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
             this.iniReport()

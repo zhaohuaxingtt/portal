@@ -2,7 +2,7 @@
 <div>
     <el-tooltip placement="bottom" :content="showPrice" effect="light" :popper-class="[item.priceType == 1  ? 'del' : 'add' ]" >
         <div :class='[item.priceType ==1 ? "minus" : "difference","basic"]' >
-            {{Number(item.price).toFixed(2)}}
+            {{(Number(item.price)/1000000).toFixed(2)}}
         </div>
     </el-tooltip>
 </div>
@@ -26,8 +26,8 @@ export default {
     computed:{
         showPrice(){
             // console.log(newVal,'---====');
-            let newVal = String(this.item.price *1000000) 
-            const splitPrice = (newVal + '').split('.')
+            // let newVal = String(this.item.price *1000000) 
+            const splitPrice = (this.item.price + '').split('.')
             let leftPrice = splitPrice[0]
             let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
             const rgx = /(\d+)(\d{3})/
