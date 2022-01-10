@@ -33,19 +33,30 @@
                   :tableLoading="tableLoading"
                   @handleSelectionChange="handleSelectionChange"
                   :row-class-name="handleTableRow"
-                  :input-props="['year','currency','receivables','inventory','advancePayment','otherReceivables','rollingAssetsTotal','totalCurrentLab','totalLab','paidInCapital','totalOwnersEquity','assetsTotal','taking','cost','totalProfit','retainedProfits','debtRatio']"
-                  :index="true" />
+                  :input-props="['year','receivables','inventory','advancePayment','otherReceivables','rollingAssetsTotal','totalCurrentLab','totalLab','paidInCapital','totalOwnersEquity','assetsTotal','taking','cost','totalProfit','retainedProfits','debtRatio']"
+                  :index="true">
+        <template v-slot:currency="scope">
+          <iSelect v-model="scope.row['currency']">
+            <el-option v-for="item in currencyList"
+                       :key="item.id"
+                       :label="item.name"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </template>
+      </table-list>
     </i-card>
   </div>
 </template>
 
 <script>
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
-import { iCard, iButton, iMessage, iMessageBox } from "rise";
+import { iCard, iButton, iMessage, iMessageBox, iSelect } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './components/data'
 import { deleteFinancialBig, saveFinancialBig, selectFinancialBig } from "../../../api/register/financialBigNumbers";
+import { getDictByCode } from '@/api/dictionary'
 
 
 export default {
@@ -54,20 +65,27 @@ export default {
     iCard,
     iButton,
     tableList,
-    baseInfoCard
+    baseInfoCard,
+    iSelect
   },
   data () {
     return {
       tableListData: [],
       tableTitle: tableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      currencyList: []
     }
   },
   created () {
+    this.getDictByCode()
     this.getTableList()
   },
   methods: {
+    async getDictByCode () {
+      let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
+      this.currencyList = res.data[0].subDictResultVo
+    },
     async getTableList () {
       this.tableLoading = true
       const pms = {
