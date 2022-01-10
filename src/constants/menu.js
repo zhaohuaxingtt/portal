@@ -35816,7 +35816,7 @@ export default {
                 propertyMap: null,
                 properties: null,
                 menuList: [
-                  { 
+                  {
                     name: '问答处理',
                     permissionKey: 'ADMIN_PROCS_PROB_problemHandler',
                     url: '/portal/#/assistant/problemMan?module=problemHandler'
@@ -35848,21 +35848,21 @@ export default {
               },
               {
                 id: 11867,
-                name: '用户助手管理', 
-                url: '/portal/#/assistant/helpCenterMan', 
-                permissionKey: 'ADMIN_PROCS_USER_ASSIS', 
+                name: '用户助手管理',
+                url: '/portal/#/assistant/helpCenterMan',
+                permissionKey: 'ADMIN_PROCS_USER_ASSIS',
                 menuList: [
                   {
                     id: 118670001,
-                    name: '用户助手管理', 
-                    url: '/portal/#/assistant/helpCenterMan?module=manual', 
-                    permissionKey: 'ADMIN_PROCS_USER_ASSIS_manual', 
+                    name: '用户助手管理',
+                    url: '/portal/#/assistant/helpCenterMan?module=manual',
+                    permissionKey: 'ADMIN_PROCS_USER_ASSIS_manual'
                   },
                   {
                     id: 118670002,
-                    name: '常见问题', 
-                    url: '/portal/#/assistant/helpCenterMan?module=question', 
-                    permissionKey: 'ADMIN_PROCS_USER_ASSIS_question', 
+                    name: '常见问题',
+                    url: '/portal/#/assistant/helpCenterMan?module=question',
+                    permissionKey: 'ADMIN_PROCS_USER_ASSIS_question'
                   }
                 ]
               }
@@ -36000,48 +36000,32 @@ export default {
           {
             id: 4041,
             name: '审批流管理',
-            parentId: 4003,
-            parentResourceName: null,
             url: '/portal/#/processApproval',
-            orderNum: 70,
-            permissionKey: 'ADMIN_APPROVAL',
-            parentPermissionKey: null,
-            type: 3,
-            level: 2,
-            module: null,
-            target: null,
-            createBy: 1,
-            createDate: '2021-03-23 16:28:34',
-            updateBy: null,
-            updateDate: '2000-01-01 00:00:00',
-            isDelete: false,
-            propertyMap: null,
-            properties: null,
+            permissionKey: 'ADMIN_APPROVAL_MANAGEMENT',
             menuList: [
               {
-                id: 11000,
+                id: 404100001,
+                name: '流程模板管理',
+                url: '/portal/#/bpm/template',
+                permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_TEMPLATE'
+              },
+              {
+                id: 404100002,
+                name: '流程监控',
+                url: '/portal/#/bpm/monitoring',
+                permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_MONITOR'
+              },
+              {
+                id: 404100003,
                 name: '流程报表',
-                parentId: 4041,
-                parentResourceName: null,
                 url: '/portal/#/bpm/report',
-                orderNum: 70,
-                permissionKey: 'ADMIN_APPROAL_PROCESS_LIST',
-                parentPermissionKey: null,
-                type: 3,
-                level: 3,
-                module: null,
-                target: null,
-                createBy: 1,
-                createDate: '2021-03-23 16:28:34',
-                updateBy: null,
-                updateDate: '2000-01-01 00:00:00',
-                isDelete: false,
-                propertyMap: null,
-                properties: null,
-                menuList: [],
-                resourceList: null,
-                subResourceList: null,
-                fieldList: null
+                permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_REPORT'
+              },
+              {
+                id: 404100004,
+                name: '审批代理',
+                url: '/portal/#/approval/agent',
+                permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT'
               }
             ],
             resourceList: null,
@@ -36068,7 +36052,104 @@ export default {
             isDelete: false,
             propertyMap: null,
             properties: null,
-            menuList: [],
+            menuList: [
+              {
+                name: '车型/车型项目主数据',
+                url: '/portal/#/main-data/product-family',
+                permissionKey: 'ADMIN_MAIN_DATA_CARPROJECT_CARMODEL',
+                menuList: [
+                  {
+                    name: '产品家族',
+                    url: '/portal/#/main-data/product-family',
+                    permissionKey: 'ADMIN_MAIN_DATA_PRODUCT_FAMILY'
+                  },
+                  {
+                    name: '车型项目管理',
+                    url: '/portal/#/main-data/car-project',
+                    permissionKey: 'ADMIN_MAIN_DATA_CARPROJECT'
+                  },
+                  {
+                    name: '车型主数据管理',
+                    url: '/portal/#/main-data/car',
+                    permissionKey: 'ADMIN_MAIN_DATA_CARMODEL'
+                  }
+                ]
+              },
+              {
+                name: '物料主数据',
+                url: '/portal/#/materielData/parts-message',
+                permissionKey: 'ADMIN_MATERIEL_DATA',
+                menuList: [
+                  {
+                    name: '零件信息',
+                    url: '/portal/#/materielData/parts-message',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_PARTS_MESSAGE'
+                  },
+                  {
+                    name: '零件材料组信息',
+                    url: '/portal/#/materielData/material-group',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_MATERIAL_GROUP'
+                  },
+                  {
+                    name: '产品组信息',
+                    url: '/portal/#/materielData/product-message',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_PRODUCT_MESSAGE'
+                  },
+                  {
+                    name: '模具材料组信息',
+                    url: '/portal/#/materielData/mould',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_MOULD'
+                  },
+                  {
+                    name: 'Heavy Item信息',
+                    url: '/portal/#/materielData/Heavy-Item',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_HEAVY_ITEM'
+                  },
+                  {
+                    name: '原材料信息',
+                    url: '/portal/#/materielData/RAW-message',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_RAW_MESSAGE'
+                  },
+                  {
+                    name: 'MTZ原材料信息',
+                    url: '/portal/#/materielData/MTZ-RAW-materiel',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_MTZ_RAW_MATERIEL'
+                  },
+                  {
+                    name: 'MTZ材料组信息',
+                    url: '/portal/#/materielData/MTZ-materiel-group',
+                    permissionKey: 'ADMIN_MATERIEL_DATA_MTZ_MATERIEL_GROUP'
+                  }
+                ]
+              },
+              {
+                name: '供应商主数据',
+                url: '/portal/#/mainDataSupplier/list',
+                permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA',
+                menuList: [
+                  {
+                    name: '供应商信息',
+                    url: '/portal/#/mainDataSupplier/list',
+                    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_LIST'
+                  },
+                  {
+                    name: '供应商用户信息',
+                    url: '/portal/#/mainDataSupplier/user',
+                    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_USER'
+                  },
+                  {
+                    name: 'N-Tier供应商信息',
+                    url: '/portal/#/mainDataSupplier/N-Tier',
+                    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER'
+                  }
+                ]
+              },
+              {
+                name: '汇率管理',
+                url: '/portal/#/exchange-parities',
+                permissionKey: 'ADMIN_MAIN_DATA_EXCHANGE_PARTIES'
+              }
+            ],
             resourceList: null,
             subResourceList: null,
             fieldList: null
@@ -36093,7 +36174,159 @@ export default {
             isDelete: false,
             propertyMap: null,
             properties: null,
-            menuList: [],
+            menuList: [
+              {
+                id: 6201,
+                name: '错误管理',
+                parentId: 6200,
+                parentResourceName: null,
+                url: '/portal/#/errorMgmt',
+                orderNum: 900,
+                permissionKey: 'CF_ADMIN_INFO_MGMT_ERROR',
+                parentPermissionKey: null,
+                type: 3,
+                level: 3,
+                module: null,
+                target: '/infoMgmt',
+                createBy: null,
+                createDate: null,
+                updateBy: null,
+                updateDate: null,
+                isDelete: false,
+                propertyMap: null,
+                properties: null,
+                menuList: [],
+                resourceList: null,
+                subResourceList: null,
+                fieldList: null
+              },
+              {
+                id: 6202,
+                name: '提示管理',
+                parentId: 6200,
+                parentResourceName: null,
+                url: '/portal/#/tipsMgmt',
+                orderNum: 800,
+                permissionKey: 'CF_ADMIN_INFO_MGMT_TIPS',
+                parentPermissionKey: null,
+                type: 3,
+                level: 3,
+                module: null,
+                target: '/infoMgmt',
+                createBy: null,
+                createDate: null,
+                updateBy: null,
+                updateDate: null,
+                isDelete: false,
+                propertyMap: null,
+                properties: null,
+                menuList: [],
+                resourceList: null,
+                subResourceList: null,
+                fieldList: null
+              },
+              {
+                id: 6203,
+                name: '站内信/邮件模板管理',
+                parentId: 6200,
+                parentResourceName: null,
+                url: '/portal/#/infoTemplate',
+                orderNum: 700,
+                permissionKey: 'CF_ADMIN_INFO_MGMT_MSG',
+                parentPermissionKey: null,
+                type: 3,
+                level: 3,
+                module: null,
+                target: '/infoMgmt',
+                createBy: null,
+                createDate: null,
+                updateBy: null,
+                updateDate: null,
+                isDelete: false,
+                propertyMap: null,
+                properties: null,
+                menuList: [
+                  {
+                    id: 6204,
+                    name: '模板管理',
+                    parentId: 6203,
+                    parentResourceName: null,
+                    url: '/portal/#/infoTemplate/template',
+                    orderNum: 1,
+                    permissionKey: 'CF_ADMIN_INFO_MGMT_TEMPLATE',
+                    parentPermissionKey: null,
+                    type: 3,
+                    level: 4,
+                    module: null,
+                    target: '/infoMgmt',
+                    createBy: null,
+                    createDate: null,
+                    updateBy: null,
+                    updateDate: null,
+                    isDelete: false,
+                    propertyMap: null,
+                    properties: null,
+                    menuList: [],
+                    resourceList: null,
+                    subResourceList: null,
+                    fieldList: null
+                  },
+                  {
+                    id: 6205,
+                    name: '消息历史',
+                    parentId: 6203,
+                    parentResourceName: null,
+                    url: '/portal/#/infoTemplate/publish/history',
+                    orderNum: 1,
+                    permissionKey: 'CF_ADMIN_INFO_MGMT_PUBLIC',
+                    parentPermissionKey: null,
+                    type: 3,
+                    level: 4,
+                    module: null,
+                    target: '/infoMgmt',
+                    createBy: null,
+                    createDate: null,
+                    updateBy: null,
+                    updateDate: null,
+                    isDelete: false,
+                    propertyMap: null,
+                    properties: null,
+                    menuList: [],
+                    resourceList: null,
+                    subResourceList: null,
+                    fieldList: null
+                  }
+                ],
+                resourceList: null,
+                subResourceList: null,
+                fieldList: null
+              },
+              {
+                id: 6206,
+                name: '弹窗管理',
+                parentId: 6200,
+                parentResourceName: null,
+                url: '/portal/#/dialogMgmt',
+                orderNum: 600,
+                permissionKey: 'CF_ADMIN_INFO_MGMT_DIALOG',
+                parentPermissionKey: null,
+                type: 3,
+                level: 3,
+                module: null,
+                target: '/infoMgmt',
+                createBy: null,
+                createDate: null,
+                updateBy: null,
+                updateDate: null,
+                isDelete: false,
+                propertyMap: null,
+                properties: null,
+                menuList: [],
+                resourceList: null,
+                subResourceList: null,
+                fieldList: null
+              }
+            ],
             resourceList: null,
             subResourceList: null,
             fieldList: null
