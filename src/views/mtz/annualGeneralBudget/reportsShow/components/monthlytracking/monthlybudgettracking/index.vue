@@ -201,12 +201,19 @@ export default {
           // triggerOn:'click',
           formatter:(params)=>{
             let price = 0
-            price =  params.value * 1000000
-            price = String(price)
-            const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
-            let currency = tempt.join(',').split('').reverse().join('')
+            price =  params.value * 1000000 + ''
+            const splitPrice = price.split('.')
+            let leftPrice = splitPrice[0] //整数
+            let rightPrice = splitPrice.length > 1 ? '.'+splitPrice[1] : ''//小数
+            const rgx = /(\d+)(\d{3})/
+            while(rgx.test(leftPrice)){
+              leftPrice = leftPrice.replace(rgx, '$1' + ',' + '$2')
+            }
+            // price = String(price)
+            // const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
+            // let currency = tempt.join(',').split('').reverse().join('')
             
-            return currency
+            return leftPrice + rightPrice
           }
         },
         series:[
