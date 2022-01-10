@@ -171,6 +171,15 @@ export function associated(parmars) {
     data: parmars
   })
 }
+//BDL取消关联-材料组
+export function checkCategory(parmars) {
+  return requst({
+    url: `/bdl/checkCategory`,
+    method: 'POST',
+    data: parmars
+  })
+}
+
 // //MBDL取消关联
 // export function mbdlCancelAssociated(parmars) {
 //   return requst({
