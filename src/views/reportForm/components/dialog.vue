@@ -2,32 +2,23 @@
     <iDialog
       title="dialog"
       :visible.sync="show"
-      :width="w"
       class="i-dialog"
       @close="handleClose"
       append-to-body
+      ref="udialog"
       :close-on-click-modal="false"
       @open="open"
-      v-zoom="{value:true,maxw:1000,minw:600,ratio:0.6}"
+      v-zoom="{value:true,maxW:1000,minW:400}"
     >
-        <div :style="{height:h}" class="i-content">
+        <div class="i-content">
             dsad
         </div>
-        <!-- <i class="rank el-icon-rank" @mousedown.stop="start"></i> -->
-        <slot slot="footer" class="dialog-footer">
-         <div class='mouse'>
-          <!-- 通过此模块拖拽缩放 -->
-        </div>
-        </slot>
-        
     </iDialog>
 </template>
 
 <script>
     import {iDialog} from 'rise';
-    import drap from './drap.js';
-    var w1 = 500
-    var h1 = 300
+    import drag from './drag.js';
     export default {
         components:{
             iDialog
@@ -37,7 +28,7 @@
                 default:true
             }
         },
-        directives: drap,
+        directives: drag,
         data() {
             return {
                 startX:0,
@@ -48,7 +39,8 @@
                 originWidth:500,
                 originHeight:300,
                 w1:500,
-                h1:300
+                h1:300,
+                dialogEl:null
             }
         },
         methods: {
@@ -56,59 +48,12 @@
                 this.$emit("update:show",false)
             },
             open(){
-                this.originWidth = 500
-                this.originHeight = 300
-            },
-            start(e){
-                window.isPoint = true
-                this.startX = e.clientX
-                this.startY = e.clientY
-                let self = this
-                window.addEventListener("mousedown", (e) => {
-                    if(window.isPoint){
-                        console.log(self.startX,self.startY);
-                    }
+                // this.originWidth = 500
+                // this.originHeight = 300
+                this.$nextTick(() => {
+                    this.dialogEl = this.$refs.udialog
+                    console.log( this.dialogEl);
                 })
-                window.addEventListener("mousemove", (e) => {
-                    if(window.isPoint){
-                        self.x = e.clientX - self.startX
-                        self.y = e.clientY - self.startY
-                    }
-                })
-                window.addEventListener("mouseup", (e) => {
-                    if(window.isPoint){
-                        self.x = e.clientX - self.startX
-                        self.y = e.clientY - self.startY
-                        w1 = parseInt(self.w)
-                        h1 = parseInt(self.h)
-                        window.isPoint = false
-                        // localStorage.setItem("w1",w1)
-                        // localStorage.setItem("h1",h1)
-                    }
-                })
-            },
-        },
-        computed:{
-            w(){
-                console.log(w1);
-                let w = w1 == this.originWidth ? this.originWidth + this.x : w1 + this.x
-                if(w < 400){
-                    return "400px"
-                }else if(w >= 1100){
-                    return "1100px"
-                }else{
-                    return w + "px"
-                }
-            },
-            h(){
-                let h = h1 == this.originHeight ? this.originHeight + this.y : h1 + this.y
-                if(h < 200){
-                    return "200px"
-                }else if(h > 600){
-                    return "600px"
-                }else{
-                    return h + "px"
-                }
             }
         }
     }
@@ -118,8 +63,6 @@
 .i-dialog{
     ::v-deep .el-dialog{
         position: relative;
-        margin: 0 auto !important;
-
     }
 
     .rank{
