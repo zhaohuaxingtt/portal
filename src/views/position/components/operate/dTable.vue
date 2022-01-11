@@ -118,49 +118,6 @@ export default {
                   })}
                 </iSelect>
               )
-              /* return h('div', [
-                h(
-                  'i-select',
-                  {
-                    //i-select实现下拉框
-                    on: {
-                      input: (value) => {
-                        //随着下拉框的不同，文字框里的内容在边
-                        scope.row.dimension = value
-                        this.dimensionOption = _.filter(
-                          _self.dimensionOptions,
-                          (item) => {
-                            return item.id === scope.row.dimension
-                          }
-                        )[0]
-                        scope.row.contentOptions = this.dimensionOption
-                          ? this.dimensionOption.valueList
-                          : []
-                        scope.row.content = []
-                      }
-                    },
-                    props: {
-                      value: scope.row.dimension, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择',
-                      filterable: true
-                    }
-                  },
-                  [
-                    //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    _self.dimensionOptions.map((item) => {
-                      return h('el-option', {
-                        props: {
-                          value: item.id,
-                          label: item.description,
-                          disabled: !!_.find(_self.dimensions, (d) => {
-                            return d.dimension === item.id
-                          })
-                        }
-                      })
-                    })
-                  ]
-                )
-              ]) */
             }
           },
           {
@@ -190,40 +147,6 @@ export default {
                   })}
                 </iSelect>
               )
-              /* return h('div', [
-                h(
-                  'i-select',
-                  {
-                    //i-select实现下拉框
-                    on: {
-                      input: (value) => {
-                        //随着下拉框的不同，文字框里的内容在边
-                        console.log('..,,', value)
-                        scope.row.content = value
-                      }
-                    },
-                    props: {
-                      value: scope.row.content, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择',
-                      multiple: true,
-                      filterable: true
-                    }
-                  },
-                  [
-                    //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    scope.row.contentOptions
-                      ? scope.row.contentOptions.map((item) => {
-                          return h('el-option', {
-                            props: {
-                              value: item.valueId,
-                              label: item.value
-                            }
-                          })
-                        })
-                      : ''
-                  ]
-                )
-              ]) */
             }
           }
         ],
