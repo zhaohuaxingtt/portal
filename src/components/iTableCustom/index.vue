@@ -417,7 +417,11 @@ export default {
     this.getTableData()
   },
   mounted() {
-    if (this.tableVisibleColumns[0].type == 'customSelection') {
+    if (
+      this.tableVisibleColumns &&
+      this.tableVisibleColumns.length &&
+      this.tableVisibleColumns[0].type == 'customSelection'
+    ) {
       this.isCustomSelection = true
       const customSelectionLabel = this.tableVisibleColumns.map((item) => {
         return item.label

@@ -28,7 +28,7 @@ export default {}
   }
   .not-found {
     font-size: 98px;
-    color: #707070;
+    color: #bbb;
   }
 }
 </style>
