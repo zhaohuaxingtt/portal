@@ -323,7 +323,8 @@ export default {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
-        iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
+        // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
+        iMessage.error(this.language('WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA','未生效的报告，不能点击报告分发'))
         return
       }
       let deepCommentResult = this.currentSelect[0].deepCommentResult
