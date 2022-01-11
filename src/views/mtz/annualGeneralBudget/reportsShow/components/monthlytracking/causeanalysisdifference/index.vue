@@ -71,7 +71,7 @@
         >
           <span>{{ language('只看自己 ') }}</span>
           <el-switch
-            v-model="form['isOnly']"
+            v-model="form['onlySeeMySelf']"
             @change="showOnlyMyselfData($event)"
             active-color="#1660F1"
             inactive-color="#cccccc"
@@ -101,14 +101,23 @@
           $t('LK_DAOCHU')
         }}</iButton>
       </div>
-      <detailsList />
-      <iPagination @current-change="handleCurrentChange($event, clickQuery)" @size-change="handleSizeChange($event, clickQuery)" background  />
+      <detailsList
+        :differenceAnalysis="differenceAnalysis"
+        :dataTitle="dataTitle"
+        :num="num"
+      />
+      <iPagination
+        @current-change="handleCurrentChange($event, clickQuery)"
+        @size-change="handleSizeChange($event, clickQuery)"
+        background
+        :total="page.total"
+      />
     </iCard>
   </div>
 </template>
 
 <script>
-import { iSearch, iSelect, iCard, iButton,iPagination } from 'rise'
+import { iSearch, iSelect, iCard, iButton, iPagination } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
 import {
@@ -118,9 +127,10 @@ import {
   yearMonthDropDown,
   differenceAnalysis
 } from '@/api/mtz/reportsShow'
-
+import { pageMixins } from '@/utils/pageMixins'
 export default {
   name: 'index',
+  mixins: [pageMixins],
   components: {
     iSearch,
     iSelect,
@@ -137,14 +147,16 @@ export default {
       versionMonth: 'm', //比较版本
       getVersionMonth: [], //获取后端传回来的比较版本
       getMonthList: '', //获取默认月份
-      versionMonthValue: '' //
+      mothlyValue: '',
+      differenceAnalysis: '', //列表数据
+      dataTitle: '', //时间title
+      num: '' //
     }
   },
   created() {
     this.MtzMaterial()
     this.MaterialMedium()
     this.getVersionDataList()
-    this.getyearMonthDropDown()
   },
   methods: {
     //MTZ材料组
@@ -174,8 +186,7 @@ export default {
           this.getVersionMonth = res.data
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
-          this.versionMonthValue = this.getVersionMonth[0].value
-          this.getdifferenceAnalysis()
+          this.getyearMonthDropDown()
         })
         .catch((err) => {
           console.log(err)
@@ -186,22 +197,33 @@ export default {
       yearMonthDropDown()
         .then((res) => {
           this.getMonthList = res.data
-          let arr = [this.getMonthList[0].code, this.getMonthList[0].code]
+          var arr = [this.getMonthList[0].code, this.getMonthList[0].code]
           this.form['getMonth'] = [arr[0], arr[1]]
+          this.getdifferenceAnalysis()
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    //获取数据
+    //获取列表数据
     getdifferenceAnalysis() {
       this.form.pageNo = 1
       this.form.pageSize = 10
-      this.form.versionOneID = this.versionMonthValue
-      this.form.versionTwoID = this.versionMonthValue
+      this.form.versionOneName = this.form['VersionMonthTwo']
+      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.yearMonths = this.form['getMonth']
       differenceAnalysis(this.form)
         .then((res) => {
-          console.log('11111111111111111', res)
+          this.differenceAnalysis = res.data
+          this.page.total = res.total
+          this.page.currPage = res.pageNum
+          this.page.pageSize = res.pageSize
+          this.page.totalCount = res.pages
+          if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
+            this.dataTitle =
+              this.differenceAnalysis[0].compareDataList[0].compareName
+            this.num = 1
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -211,14 +233,17 @@ export default {
     //重置查询条件
     reset() {
       for (let i in this.form) {
-        if (i !== 'isOnly') {
+        if (i !== 'onlySeeMySelf') {
           this.form[i] = ''
         }
       }
     },
+    sure() {
+      this.getdifferenceAnalysis()
+    },
     //仅看自己
     showOnlyMyselfData(val) {
-      this.form.isOnly = val
+      this.form.onlySeeMySelf = val
       this.getdifferenceAnalysis()
     }
   }

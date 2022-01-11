@@ -4,5 +4,5 @@ export const form = {
     'VersionMonthOne': '', //比较版本
     'VersionMonthTwo': '', //比较版本2
     'getMonth': [], //比较月份
-    'isOnly': true, // 仅看自己
+    'onlySeeMySelf': true, // 仅看自己
 }
