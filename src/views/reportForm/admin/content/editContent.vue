@@ -7,12 +7,12 @@
       @open="open"
     >
         <el-form :model="form" ref="form" label-width="90px" :inline="false" size="normal">
-            <iFormItem :label="language('报表类型')" prop="reportSection" :rules="{ required:true, message:'请选择', trigger:'change'}">
+            <iFormItem :label="language('Report类型')" prop="reportSection" :rules="{ required:true, message:'请选择', trigger:'change'}">
                 <iSelect v-model="form.reportSection" filterable clearable>
                     <el-option v-for="item in status" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
-            <iFormItem :label="language('报表标题')" prop="title" :rules="{ required:true, message:'请输入', trigger:'blur'}">
+            <iFormItem :label="language('Report标题')" prop="title" :rules="{ required:true, message:'请输入', trigger:'blur'}">
                 <iInput v-model="form.title"></iInput>
             </iFormItem>
             <iFormItem :label="language('发布日期')" prop="publishDate" :rules="{ required:true, message:'请输入', trigger:'blur'}">

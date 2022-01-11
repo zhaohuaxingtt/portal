@@ -327,7 +327,8 @@ module.exports = {
       },
       // adminProcs
       [process.env.VUE_APP_ADMIN_PROCS]: {
-        target: `http://${BASE_IP}:8016/riseprocs`,
+        // target: `http://${BASE_IP}:8016/riseprocs`,
+        target: `http://10.160.140.174:8016/riseprocs`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
@@ -348,13 +349,13 @@ module.exports = {
         }
       },
       // adminProCS
-      [process.env.VUE_APP_ADMIN_PROCS]: {
-        target: `http://${BASE_IP}:8016/riseprocsApi`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
-        }
-      },
+      // [process.env.VUE_APP_ADMIN_PROCS]: {
+      //   target: `http://${BASE_IP}:8016/riseprocsApi`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+      //   }
+      // },
     }
   }
 }

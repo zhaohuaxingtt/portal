@@ -66,6 +66,7 @@
     import { pageMixins } from '@/utils/pageMixins'
     import editContent from './editContent.vue';
     import tableSetting from './table';
+    import { queryReportContentList } from '@/api/reportForm';
     export default {
         components:{
             iSearch,
@@ -94,8 +95,19 @@
                 },
             }
         },
+        created(){
+            this.query()
+        },
         methods: {
-            query(){},
+            async query(){
+                let data = {
+                    page:0,
+                    size:10,
+                    keyword:"",
+                    sort:"publishDate,DESC"
+                }
+                let res = await queryReportContentList(data) 
+            },
             search(){
                 
             },

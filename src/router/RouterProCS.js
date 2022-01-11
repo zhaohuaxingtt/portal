@@ -28,6 +28,7 @@ export default [
   }
 ]
 
+
 export const cfProCS = [
   {
     path: '/cf-ProCS',
@@ -47,7 +48,37 @@ export const cfProCS = [
           title: 'ProCS Index',
           activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
-        component: () => import('@/views/procs')
+        redirect: '/cf-ProCS/knowledgeManage',
+        component: () => import('@/views/procs'),
+        children: [
+          {
+            path: '/cf-ProCS/glossaryManage',
+            name: 'CFProCsGlossary',
+            meta: {
+              title: '词条管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/glossary')
+          },
+          {
+            path: '/cf-ProCS/knowledgeManage',
+            name: 'CFProCsKnowledge',
+            meta: {
+              title: '知识管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/knowledge')
+          },
+          {
+            path: '/cf-ProCS/processManage',
+            name: 'CFProCsProcess',
+            meta: {
+              title: '流程管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/process')
+          },
+        ]
       },
       {
         path: '/knowledge/index',
