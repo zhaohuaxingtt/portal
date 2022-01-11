@@ -183,6 +183,7 @@ export default {
     },
     closeDialog () {
       this.show = false
+      this.isAcc = false
       this.form = {
         deptId: "",
         linieId: ""
