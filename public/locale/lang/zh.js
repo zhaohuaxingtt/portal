@@ -2604,6 +2604,18 @@
 
     MT_XUHAO3: '序号',
 
+    MT_ZUZHIJIGOUMINGCHENGZHONG: '组织机构名称(中)',
+
+    MT_ZUZHIJIGOUMINGCHENGYING: '组织机构名称(英)',
+
+    MT_ZUZHIJIGOUBIANMA: '组织机构编码',
+
+    MT_ZUZHIJIBIE: '组织级别',
+
+    MT_MINGCHENG: '名称',
+
+    MT_TIANJIAZUZHI: '添加组织',
+
     MT_CAOZUO2: '操作',
 
     MT_PILIANGPAIXU: '批量排序',

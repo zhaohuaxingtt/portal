@@ -3,16 +3,16 @@
     <div class="group-box flex-align-center">
       <div class="base-info flex-align-center">
         <div class="margin-right20">{{ deptDetail.nameZh }}</div>
-        <div>负责人：{{ deptDetail.leadUserName || '暂无' }}</div>
+        <div>负责人：{{ deptDetail.leaderName || '暂无' }}</div>
       </div>
       <div class="group-tip margin-left20">
         <div v-if="materialUndistributed.length">
-          <span @click="handleOpenDialog" class="open-link-text">{{ materialUndistributed.length }}</span>
+          <span @click="handleOpenDialog" class="open-link-text">{{
+            materialUndistributed.length
+          }}</span>
           个材料组未分配完
         </div>
-        <div v-else>
-          所有材料组均已分配完
-        </div>
+        <div v-else>所有材料组均已分配完</div>
       </div>
     </div>
     <material-dialog :show.sync="showDialog" />
