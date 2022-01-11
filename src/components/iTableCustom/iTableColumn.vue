@@ -60,23 +60,23 @@ export default {
         </div>
       )
     }
-    if (column.openNewPage) {
-      return (
-        <div class="custom-render ">
-          {customRender
-            ? customRender(h, scope, column, extraData)
-            : scope.row[prop]}
-          <div class="showIcon">
-            <Icon symbol class="show " name="icontiaozhuananniu" />
-            <Icon
-              symbol
-              class="active"
-              name="icontiaozhuanxuanzhongzhuangtai"
-            />
-          </div>
-        </div>
-      )
-    }
+    // if (column.openNewPage) {
+    //   return (
+    //     <div class="custom-render ">
+    //       {customRender
+    //         ? customRender(h, scope, column, extraData)
+    //         : scope.row[prop]}
+    //       <div class="showIcon">
+    //         <Icon symbol class="show " name="icontiaozhuananniu" />
+    //         <Icon
+    //           symbol
+    //           class="active"
+    //           name="icontiaozhuanxuanzhongzhuangtai"
+    //         />
+    //       </div>
+    //     </div>
+    //   )
+    // }
     return (
       <span class="render">
         {customRender
@@ -121,41 +121,41 @@ export default {
     zoom: 0.8;
   }
 }
-.custom-render {
-  position: relative;
-  text-align: center;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  padding-right: 20px;
-  /* min-height: 20px; */
-  .showIcon {
-    position: absolute;
-    top: 50%;
-    right: 0px;
-    cursor: pointer;
-    transform: translateY(-50%);
-    .active {
-      display: none;
-    }
-    .show {
-      display: block;
-    }
-    .icon {
-      font-size: 14px;
-      height: 14px;
-      width: 14px;
-    }
-  }
-  .showIcon:hover {
-    cursor: pointer;
-    .show {
-      display: none;
-    }
-    .active {
-      display: block;
-    }
-  }
-}
+// .custom-render {
+//   position: relative;
+//   text-align: center;
+//   text-overflow: ellipsis;
+//   overflow: hidden;
+//   padding-right: 20px;
+//   /* min-height: 20px; */
+//   .showIcon {
+//     position: absolute;
+//     top: 50%;
+//     right: 0px;
+//     cursor: pointer;
+//     transform: translateY(-50%);
+//     .active {
+//       display: none;
+//     }
+//     .show {
+//       display: block;
+//     }
+//     .icon {
+//       font-size: 14px;
+//       height: 14px;
+//       width: 14px;
+//     }
+//   }
+//   .showIcon:hover {
+//     cursor: pointer;
+//     .show {
+//       display: none;
+//     }
+//     .active {
+//       display: block;
+//     }
+//   }
+// }
 // .textContent{
 //     width: calc(100% - 20px);
 //     overflow: hidden;
