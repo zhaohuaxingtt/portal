@@ -1894,8 +1894,8 @@ export default {
       //   }
       // })
       // /meeting/mbdlMeetingShow
+      debugger
       let routeUrl = this.$router.resolve({
-        // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
         path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
