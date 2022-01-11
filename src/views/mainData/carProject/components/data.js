@@ -10,8 +10,8 @@ export const CAR_PROJECT_COLUMNS = [
   },
   {
     prop: 'cartypeProjectZh',
-    label: '车型项目中文名称',
-    i18n: '',
+    i18n: '车型项目中文名称',
+    // i18n: '',
     minWidth: 100,
     emit: 'go-detail',
     tooltip: true,
@@ -22,23 +22,23 @@ export const CAR_PROJECT_COLUMNS = [
   },
   {
     prop: 'cartypeNameZh',
-    label: '车型',
-    i18n: ''
+    i18n: '车型',
+    // i18n: ''
   },
   {
     prop: 'cartypeProType',
-    label: '车型项目类型',
-    i18n: ''
+    i18n: '车型项目类型',
+    // i18n: ''
   },
   {
     prop: 'projectPurchaserUserNames',
-    label: '项目采购员',
-    i18n: ''
+    i18n: '项目采购员',
+    // i18n: ''
   },
   {
     prop: 'sopDate',
-    label: 'SOP时间',
-    i18n: '',
+    i18n: 'SOP时间',
+    // i18n: '',
     customRender: (h, scope) => {
       let dateTime = scope.row.sopDate
       let date = ''
@@ -50,13 +50,13 @@ export const CAR_PROJECT_COLUMNS = [
   },
   {
     prop: 'factoryNameStr',
-    label: '工厂',
-    i18n: ''
+    i18n: '工厂',
+    // i18n: ''
   },
   {
     prop: 'publishStatus',
-    label: '发布状态',
-    i18n: '',
+    i18n: '发布状态',
+    // i18n: '',
     customRender: (h, scope) => {
       if (scope.row.publishStatus == 1) {
         return '有效'
@@ -66,8 +66,8 @@ export const CAR_PROJECT_COLUMNS = [
   },
   {
     prop: 'isValid',
-    label: '是否有效',
-    i18n: '',
+    i18n: '是否有效',
+    // i18n: '',
     customRender: (h, scope) => {
       if (scope.row.isValid) {
         return '是'
@@ -84,15 +84,15 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
   {
     type: 'index',
     width: 50,
-    label: '序号'
+    i18n: '序号'
   },
   {
     prop: 'versionCode',
-    label: 'TIPS版本号'
+    i18n: 'TIPS版本号'
   },
   {
     prop: 'riseVersionCode',
-    label: '版本号'
+    i18n: '版本号'
   },
   // {
   //   prop: 'fullNameZh',
@@ -100,15 +100,15 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
   // },
   {
     prop: 'totalProduct',
-    label: '总产量'
+    i18n: '总产量'
   },
   {
     prop: 'creator',
-    label: '创建人'
+    i18n: '创建人'
   },
   {
     prop: 'createDate',
-    label: '创建日期',
+    i18n: '创建日期',
     customRender: (h, scope) => {
       let dateTime = scope.row.createDate
       let date = ''
@@ -120,7 +120,7 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
   },
   {
     prop: 'updateDate',
-    label: '更新日期',
+    i18n: '更新日期',
     customRender: (h, scope) => {
       let dateTime = scope.row.updateDate
       let date = ''
@@ -132,7 +132,7 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
   },
   {
     prop: 'isValid',
-    label: '是否有效',
+    i18n: '是否有效',
     width: 100,
     customRender: (h, scope, column, extraData) => {
       const { editable, validChange } = extraData
@@ -155,7 +155,7 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
   },
   {
     prop: 'isLastest',
-    label: '是否最新',
+    i18n: '是否最新',
     width: 100,
     customRender: (h, scope) => {
       return scope.row.isLastest ? '是' : '否'
@@ -163,7 +163,7 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
   },
   {
     prop: 'remark',
-    label: '备注',
+    i18n: '备注',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
         return (
@@ -188,7 +188,7 @@ export const CAR_PROJECT_PLAN_COLUMNS = [
 
 export const CAR_PROJECT_PLAN_DETAIL_ADD_COLUMNS = [
   {
-    label: '年份',
+    i18n: '年份',
     prop: 'year',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
@@ -210,7 +210,7 @@ export const CAR_PROJECT_PLAN_DETAIL_ADD_COLUMNS = [
     }
   },
   {
-    label: '车型年产量',
+    i18n: '车型年产量',
     prop: 'value',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
@@ -227,7 +227,7 @@ export const CAR_PROJECT_PLAN_DETAIL_ADD_COLUMNS = [
 
 export const CAR_PROJECT_PLAN_DETAIL_EDIT_COLUMNS = [
   {
-    label: '年份',
+    i18n: '年份',
     prop: 'year',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
@@ -249,7 +249,7 @@ export const CAR_PROJECT_PLAN_DETAIL_EDIT_COLUMNS = [
     }
   },
   {
-    label: '车型年产量',
+    i18n: '车型年产量',
     prop: 'value',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
@@ -282,19 +282,19 @@ export const CAR_PROJECT_CONFIG_COLUMNS = [
   {
     type: 'index',
     width: 50,
-    label: '序号'
+    i18n: '序号'
   },
   {
     prop: 'riseVersionCode',
-    label: '版本号'
+    i18n: '版本号'
   },
   {
     prop: 'carTypeProName',
-    label: '车型项目名称'
+    i18n: '车型项目名称'
   },
   {
     prop: 'isValid',
-    label: '是否有效',
+    i18n: '是否有效',
     customRender: (h, scope, column, extraData) => {
       const { editable, isValidChange } = extraData
       if (editable) {
@@ -316,14 +316,14 @@ export const CAR_PROJECT_CONFIG_COLUMNS = [
   },
   {
     prop: 'isLastest',
-    label: '是否最新',
+    i18n: '是否最新',
     customRender: (h, scope) => {
       return scope.row.isLastest ? '是' : '否'
     }
   },
   {
     prop: 'createTime',
-    label: '创建日期',
+    i18n: '创建日期',
     customRender: (h, scope) => {
       let dateTime = scope.row.createTime
       let date = ''
@@ -335,7 +335,7 @@ export const CAR_PROJECT_CONFIG_COLUMNS = [
   },
   {
     prop: 'creator',
-    label: '创建人'
+    i18n: '创建人'
   }
 ]
 
@@ -347,11 +347,11 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   {
     type: 'index',
     width: 50,
-    label: '序号'
+    i18n: '序号'
   },
   {
     prop: 'id',
-    label: '配置ID',
+    i18n: '配置ID',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
         return (
@@ -367,7 +367,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'cartypeId',
-    label: '车型编号',
+    i18n: '车型编号',
     customRender: (h, scope, column, extraData) => {
       console.log('车型编号', extraData.editable)
       if (extraData.editable) {
@@ -384,7 +384,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'engineType',
-    label: '发动机类型',
+    i18n: '发动机类型',
     customRender: (h, scope, column, extraData) => {
       const { editable, engineSelectOptions, engineSelectMap } = extraData
       if (editable) {
@@ -404,7 +404,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'gearboxName',
-    label: '变速箱型号',
+    i18n: '变速箱型号',
     customRender: (h, scope, column, extraData) => {
       const { editable, boxSelectOptions, boxSelectMap } = extraData
       if (editable) {
@@ -424,7 +424,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'batteryCapacity',
-    label: '电池容量 ',
+    i18n: '电池容量 ',
     customRender: (h, scope, column, extraData) => {
       const { editable, batterySelectOptions, batterySelectMap } = extraData
 
@@ -447,7 +447,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'otherConf',
-    label: '其它配置',
+    i18n: '其它配置',
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
         return (
@@ -463,7 +463,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'cartypeLevel',
-    label: '车型等级',
+    i18n: '车型等级',
     customRender: (h, scope, column, extraData) => {
       const {
         editable,
@@ -489,7 +489,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'cartypeLevelRate',
-    label: '配置比例',
+    i18n: '配置比例',
 
     customRender: (h, scope, column, extraData) => {
       if (extraData.editable) {
@@ -506,7 +506,7 @@ export const CAR_PROJECT_CONFIG_EDIT_COLUMNS = [
   },
   {
     prop: 'id',
-    label: '删除',
+    i18n: '删除',
     emit: 'delete-row',
     width: 50,
     customRender: h => {
@@ -538,31 +538,31 @@ export const CAR_PROJECT_SELECTOR_TableSetting = [
   {
     prop: '',
     type: 'index',
-    label: '编号'
+    i18n: '编号'
   },
   {
     prop: 'userNum',
-    label: '员工号'
+    i18n: '员工号'
   },
   {
     prop: 'nameZh',
-    label: '姓名'
+    i18n: '姓名'
   },
   {
     prop: 'deptList',
-    label: '所属部门'
+    i18n: '所属部门'
   },
   {
     prop: 'email',
-    label: '邮箱'
+    i18n: '邮箱'
   },
   {
     prop: 'mobile',
-    label: '手机'
+    i18n: '手机'
   },
   {
     prop: 'phone',
-    label: '电话'
+    i18n: '电话'
   }
 ]
 

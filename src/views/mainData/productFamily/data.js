@@ -5,7 +5,7 @@ export const tableColumnSetting = [
   },
   {
     prop: 'productCode',
-    label: 'PID',
+    i18n: 'PID',
     align: 'center',
     emit: 'showDetail',
     tooltip:true,
@@ -17,34 +17,34 @@ export const tableColumnSetting = [
   },
   {
     prop: 'productNameZh',
-    label: '产品家族名称',
+    i18n: '产品家族名称',
     align: 'center'
   },
   {
     prop: 'productNameEn',
-    label: '产品家族名称(英)',
+    i18n: '产品家族名称(英)',
     width: 110,
     align: 'center'
   },
   {
     prop: 'productNameDe',
-    label: '产品家族名称(德)',
+    i18n: '产品家族名称(德)',
     width: 110,
     align: 'center'
   },
   {
     prop: 'productType',
-    label: '产品类型',
+    i18n: '产品类型',
     align: 'center'
   },
   {
     prop: 'modelYear',
-    label: '当前车型年',
+    i18n: '当前车型年',
     align: 'center'
   },
   {
     prop: 'modelYearChangeDate',
-    label: '车型年切换日期',
+    i18n: '车型年切换日期',
     align: 'center',
     tooltip: true,
     customRender: (h, scope) => {
@@ -58,7 +58,7 @@ export const tableColumnSetting = [
   },
   {
     prop: 'productValidity',
-    label: '是否有效',
+    i18n: '是否有效',
     align: 'center',
     customRender: (h, scope) => {
       if (scope.row.productValidity) {
@@ -73,48 +73,48 @@ export const tableColumnSetting = [
 export const tableDetailColumnSetting = [
   {
     type: 'index',
-    label: '编号',
+    i18n: '编号',
     align: 'center'
   },
   {
     prop: 'vwModelCode',
-    label: '车型编号',
+    i18n: '车型编号',
     align: 'center',
     tooltip: true
   },
   {
     prop: 'modelNameZh',
-    label: '车型名称',
+    i18n: '车型名称',
     align: 'center',
     tooltip: true
   },
   {
     prop: 'brandName',
-    label: '所属品牌',
+    i18n: '所属品牌',
     align: 'center',
     tooltip: true
   },
   {
     prop: 'productCode',
-    label: 'PID',
+    i18n: 'PID',
     align: 'center',
     tooltip: true
   },
   {
     prop: 'carPlatformCode',
-    label: '平台属性',
+    i18n: '平台属性',
     align: 'center',
     tooltip: true
   },
   {
     prop: 'productFactoryNames',
-    label: '投产工厂',
+    i18n: '投产工厂',
     align: 'center',
     tooltip: true
   },
   {
     prop: 'isValid',
-    label: '是否有效',
+    i18n: '是否有效',
     align: 'center',
     customRender: (h, scope) => {
       if (scope.row.isValid) {
