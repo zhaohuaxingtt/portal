@@ -11,7 +11,7 @@ export const N_ITER_COLUMNS = [
     prop: 'nameZh',
     minWidth: '130px',
     tooltip: true,
-    openNewPage: true,
+    // openNewPage: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.nameZh}</span>

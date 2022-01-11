@@ -104,3 +104,12 @@ export function differenceAnalysis(params) {
     data: params
   })
 }
+
+//⻋型预算⽉度跟踪
+export function differenceAnalysisCarModel(params) {
+  return request({
+    url: '/web/mtz/forecastReport/differenceAnalysisCarModel',
+    method: 'POST',
+    data: params
+  })
+}
