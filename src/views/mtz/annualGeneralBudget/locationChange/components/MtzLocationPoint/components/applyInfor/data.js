@@ -304,7 +304,7 @@ export const tableTitleHistory = [
   { width: 150, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
   { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
   { width: 150, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
-  { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' }
+  { width: 150, props: 'sourceCode', name: '来源', key: 'LAIYUAN' }
 ]
 
 export const formRulesGZ = {

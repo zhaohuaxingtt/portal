@@ -94,13 +94,18 @@ export const supplierUserNameTableTitle = [
     key: 'SUPPLIER_SHIFOUHUODONG',
     tooltip: true
   },
-  { props: 'isExpire', name: '是否超期', key: '', tooltip: true },
-  { props: 'expireDate', name: '超期时间', key: '', tooltip: true },
+  { props: 'isExpire', name: '是否超期', key: 'SHIFOUCHAOQI', tooltip: true },
+  {
+    props: 'expireDate',
+    name: '超期时间',
+    key: 'CHAOQISHIJIAN',
+    tooltip: true
+  },
   {
     props: 'loginDate',
-    name: '登录CSC系统时间',
+    name: '登录rise系统时间',
     width: 170,
-    key: '',
+    key: 'DENGLURISEXITONGSHIJIAN',
     tooltip: true
   },
   { props: 'operation', name: '应用关联', key: '' }

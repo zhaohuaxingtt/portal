@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="$t('维护结论')"
+    :title="$t('MT_WEIHUJIELUN')"
     :visible.sync="open"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -16,12 +16,12 @@
         <iFormItem prop="conclusionCsc">
           <div class="operate">
             <div class="operate-title">
-              <span class="conclusion">{{ $t('结论') }}</span>
+              <span class="conclusion">{{ $t('MT_JIELUN') }}</span>
               <span class="required-icon">*</span>
             </div>
             <iSelect
               v-model="ruleForm.conclusion"
-              :placeholder="$t('结论')"
+              :placeholder="$t('MT_JIELUN')"
               @change="changeConclusion($event)"
               class="operate-select"
               value-key="conclusionCsc"
@@ -29,7 +29,7 @@
             >
               <el-option
                 :value="item"
-                :label="item.conclusionName"
+                :label="$t(item.i18n)"
                 v-for="(item, index) of themenConclusionArrObj"
                 :key="index"
               ></el-option>
@@ -39,7 +39,7 @@
         <iFormItem prop="conclusionCsc" v-show="isShowTable">
           <div class="next-meeting">
             <div class="operate-title">
-              <span class="conclusion">{{ $t('下次会议') }}</span>
+              <span class="conclusion">{{ $t('MT_XIACIHUIYI') }}</span>
               <span class="required-icon">*</span>
             </div>
             <iTableML
@@ -60,7 +60,7 @@
               <el-table-column
                 show-overflow-tooltip
                 align="left"
-                :label="$t('会议名称')"
+                :label="$t('MT_HUIYIMINGCHENG')"
                 prop="name"
               >
               </el-table-column>
@@ -72,37 +72,43 @@
           v-show="ruleForm.conclusion.conclusionCsc === '02'"
         >
           <div class="switch-content">
-            <div class="freeze">{{ $t('冻结RS单') }}</div>
+            <div class="freeze">{{ $t('MT_DONGJIERSDAN') }}</div>
             <div class="swicth">
               <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
-                {{ $t('是') }}
+                {{ $t('MT_SHI') }}
               </div>
-              <div class="text" v-else ref="sliderText">{{ $t('否') }}</div>
+              <div class="text" v-else ref="sliderText">{{ $t('MT_FOU') }}</div>
               <div class="circle" @click="handleSwitch" ref="slider"></div>
             </div>
           </div>
         </iFormItem>
         <iFormItem
-          :label="$t('任务')"
+          :label="$t('MT_RENWU')"
           prop="taskCsc"
           :hideRequiredAsterisk="true"
           class="task"
         >
-          <iLabel :label="$t('任务')" slot="label" class="task-title"></iLabel>
+          <iLabel
+            :label="$t('MT_RENWU')"
+            slot="label"
+            class="task-title"
+          ></iLabel>
           <iInput
             type="textarea"
             v-model="ruleForm.taskCsc"
             class="task-input"
-            :placeholder="$t('请输入任务')"
+            :placeholder="$t('MT_QINGSHURURENWU')"
           ></iInput>
         </iFormItem>
       </el-form>
     </iEditForm>
     <div class="button-list">
       <iButton class="sure" @click="handleSure" :loading="loading">{{
-        $t('确定')
+        $t('MT_QUEDING')
       }}</iButton>
-      <iButton class="cancel" @click="handleCancel">{{ $t('取消') }}</iButton>
+      <iButton class="cancel" @click="handleCancel">{{
+        $t('MT_QUXIAO')
+      }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -205,7 +211,9 @@ export default {
             ? this.autoOpenProtectConclusionObj.conclusion
             : '',
           isFrozenRs:
-            this.beforeResult === '02'
+            this.autoOpenProtectConclusionObj.type === 'MTZ'
+              ? false
+              : this.beforeResult === '02'
               ? this.autoOpenProtectConclusionObj.isFrozenRs
               : true
         },
@@ -243,7 +251,9 @@ export default {
             ? this.selectedTableData[0].conclusion
             : '',
           isFrozenRs:
-            this.beforeResult === '02'
+            this.selectedTableData[0].type === 'MTZ'
+              ? false
+              : this.beforeResult === '02'
               ? this.selectedTableData[0].isFrozenRs
               : true
         },
@@ -259,28 +269,34 @@ export default {
     if (this.meetingInfo.isCSC) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC',
+          i18n: 'MT_XIACIPRE'
         },
         {
           conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionName: '定点',
+          i18n: 'MT_DINGDIAN'
         },
         {
           conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionName: '发LOI',
+          i18n: 'MT_FALOI'
         },
         {
           conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionName: '转TER/TOP-TER',
+          i18n: 'MT_ZHUANTER'
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: '01',
+          conclusionName: '待定',
+          i18n: 'MT_DAIDING'
         },
         {
           conclusionCsc: '07',
-          conclusionName: '关闭'
+          conclusionName: '关闭',
+          i18n: 'MT_GUANBI'
         }
       ]
     }
@@ -331,28 +347,34 @@ export default {
         //   conclusionName: '关闭'
         // }
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC',
+          i18n: 'MT_XIACIPRE'
         },
         {
           conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionName: '定点',
+          i18n: 'MT_DINGDIAN'
         },
         {
           conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionName: '发LOI',
+          i18n: 'MT_FALOI'
         },
         {
           conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionName: '转TER/TOP-TER',
+          i18n: 'MT_ZHUANTER'
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: '01',
+          conclusionName: '待定',
+          i18n: 'MT_DAIDING'
         },
         {
           conclusionCsc: '07',
-          conclusionName: '关闭'
+          conclusionName: '关闭',
+          i18n: 'MT_GUANBI'
         }
       ]
     }
@@ -419,11 +441,11 @@ export default {
         this.ruleForm.conclusion.conclusionCsc === '06'
       ) {
         if (this.curChooseArr.length === 0) {
-          iMessage.error('请选择一个下次会议')
+          iMessage.error(this.$t('MT_QINGXUANZEYIGEXIACIHUIYI'))
           return
         }
         if (this.curChooseArr.length > 1) {
-          iMessage.error('下次会议只能选择一个!')
+          iMessage.error(this.$t('MT_XIACIHUIYIZHINENGXUANZEYIGE'))
           return
         }
         param.toDoMeeting = this.curChooseArr[0].id
@@ -447,7 +469,7 @@ export default {
       this.loading = true
       updateThemen(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success('维护成功!')
+          iMessage.success(this.$t('MT_WEIHUCHENGGONG'))
         }
         this.loading = false
         this.close()
@@ -457,11 +479,14 @@ export default {
       this.close()
     },
     changeConclusion(e) {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
       this.isShowTable = false
       this.isShowSwitch = false
       if (e.conclusionCsc === '02') {
         this.isShowSwitch = true
-        this.ruleForm.isFrozenRs = true
+        this.ruleForm.isFrozenRs = curObj.type === 'MTZ' ? false : true
       }
       if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
         this.isShowTable = true
@@ -512,6 +537,12 @@ export default {
       this.$emit('flushTable')
     },
     handleSwitch() {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
+      if (curObj.type === 'MTZ') {
+        return
+      }
       this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
     }
   }

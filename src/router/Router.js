@@ -48,6 +48,11 @@ import RouterAdminProCSMgm from './RouterAdminProCSMgm'
 
 // 嵌入表单的组件路由
 import RouterView from './RouterView'
+import RouterElectronicSignature from '@/router/RouterElectronicSignature'
+
+import RouterTerms from './RouterTerms'
+
+import RouterReportForm from './RouterReportForm'
 
 export default {
   routes: [
@@ -142,6 +147,16 @@ export default {
         )
     },
     {
+      path: "/terms/management/termsPreview",
+      name: "termsPreview",
+      component: () => import(`@/views/terms/termsManagement/components/preview.vue`),
+    },
+    {
+      path: "/terms/management/clauseDetail/preText",
+      name: "preText",
+      component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+    },
+    {
       path: '/',
       name: 'home',
       redirect: '/index',
@@ -200,7 +215,10 @@ export default {
         ...RouterColorParts,
         ...RouterApplications,
         ...RouterOfflineDownload,
-        ...RouterAdminProCSMgm
+        ...RouterAdminProCSMgm,
+        ...RouterElectronicSignature,
+        ...RouterTerms,
+        ...RouterReportForm
       ]
     },
     ...RouterView,

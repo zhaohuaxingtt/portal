@@ -4,28 +4,28 @@
       <ul class="button-list">
         <li class="button-item">
           <iButton @click="handleAdd" :disabled="!isCanAdd">{{
-            $t('新增')
+            $t('MT_XINZENG')
           }}</iButton>
         </li>
         <li class="button-item">
           <iButton
             @click="handleDelete"
             :disabled="selectedRow.length > 0 ? false : true"
-            >{{ $t('删除') }}</iButton
+            >{{ $t('MT_SHANCHU') }}</iButton
           >
         </li>
         <li class="button-item">
           <iButton
             @click="cancel"
             :disabled="ruleForm.meetingInfo.length <= 0"
-            >{{ $t('取消') }}</iButton
+            >{{ $t('MT_QUXIAO') }}</iButton
           >
         </li>
         <li class="button-item">
           <iButton
             @click="handleSubmit('ruleForm')"
             :disabled="ruleForm.meetingInfo.length <= 0"
-            >{{ $t('保存') }}</iButton
+            >{{ $t('MT_BAOCUN') }}</iButton
           >
         </li>
       </ul>
@@ -49,7 +49,7 @@
           ></el-table-column>
           <el-table-column
             align="center"
-            :label="$t('会议类型')"
+            :label="$t('MT_HUIYILEIXING')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -60,7 +60,7 @@
               >
                 <iSelect
                   v-model="scope.row.meetingTypeId"
-                  :placeholder="$t('请选择会议类型')"
+                  :placeholder="$t('MT_QINGXUANZEHUIYILEIXNG')"
                   value-key="id"
                   @change="hanldeChange"
                   @visible-change="
@@ -80,7 +80,7 @@
           ></el-table-column>
           <el-table-column
             align="center"
-            :label="$t('部门')"
+            :label="$t('MT_BUMEN')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -95,7 +95,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            :label="$t('办公室')"
+            :label="$t('MT_BANGONGSHI')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -110,7 +110,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            :label="$t('电话')"
+            :label="$t('MT_DIANHUA')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -125,7 +125,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            :label="$t('邮件')"
+            :label="$t('MT_YOUJIAN')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -161,10 +161,10 @@ export default {
     const validatePhone = (rule, value, callback) => {
       var reg = /(^[0-9-]{1,})/
       if (value.trim() === '') {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (!reg.test(value)) {
-          callback(new Error('电话格式不正确'))
+          callback(new Error(this.$t('MT_DIANHUAGESHIBUZHENGQUE')))
         } else {
           callback()
         }
@@ -174,10 +174,10 @@ export default {
       const reg =
         /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/
       if (value.trim() === '') {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (!reg.test(value)) {
-          callback(new Error('邮箱格式不正确'))
+          callback(new Error(this.$t('MT_YOUXIANGGESHIBUZHENGQUE')))
         } else {
           callback()
         }
@@ -185,7 +185,7 @@ export default {
     }
     const validateBase = (rule, value, callback) => {
       if (value.trim() === '') {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         callback()
       }
@@ -202,7 +202,7 @@ export default {
       baseRule: [{ validator: validateBase, trigger: 'blur' }],
       rulePhone: [{ validator: validatePhone, trigger: 'blur' }],
       ruleEmail: [{ validator: validateEmail, trigger: 'blur' }],
-      baseSelect: [{ required: true, message: '必选', trigger: 'change' }]
+      baseSelect: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }]
     }
   },
   mounted() {
@@ -264,9 +264,9 @@ export default {
       })
     },
     handleDelete() {
-      this.$confirm('你确定要删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('MT_NIQUEDINGYAOSHANCHUMA'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_QUEDING'),
+        cancelButtonText: this.$t('MT_QUXIAO'),
         type: 'warning'
       }).then(() => {
         this.ruleForm.meetingInfo = this.ruleForm.meetingInfo.filter((item) => {
@@ -325,7 +325,7 @@ export default {
           .catch((err) => {
             console.log(err)
             reject(err)
-            this.$message.error('获取失败！')
+            this.$message.error(this.$t('MT_HUOQUSHIBAI'))
           })
       })
     },
@@ -383,7 +383,7 @@ export default {
             uniqueId: 'a' + Math.random() + Math.random()
           }
         })
-        this.$message.success('保存成功！')
+        this.$message.success(this.$t('MT_BAOCUNCHENGGONG'))
       })
     },
     handleSubmit(formName) {

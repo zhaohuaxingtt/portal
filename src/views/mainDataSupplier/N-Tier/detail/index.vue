@@ -132,14 +132,15 @@ export default {
       selectDictByKeys(url).then((res) => {
         if (res.data) {
           this.fromGroup = res.data
-          this.supplierDetail(this.$route.query.id)
+          this.supplierDetail()
         }
       })
     },
-    supplierDetail(val) {
+    supplierDetail() {
       // 1464129746521894912
       this.isloading = true
-      getNtierSupplier(val)
+      const params = { supplierId: this.$route.query.id }
+      getNtierSupplier(params)
         .then((res) => {
           if (res && res.code == 200) {
             this.supplierData = {
@@ -226,6 +227,20 @@ export default {
       this.isloading = true
       this.supplierData.duns = dunsCode
       const reqTableList = cloneDeep(this.supplierDirectoryTable)
+      for (const iten of reqTableList) {
+        if (iten.country === '中国') {
+          if (!iten.province || !iten.city) {
+            iMessage.error(
+              this.language(
+                'SHENGFENCHENGSHIBUNENGWEIKONG',
+                '省份、城市不能为空！'
+              )
+            )
+            this.tableLoading = false
+            return
+          }
+        }
+      }
       const plantList = reqTableList.map((e) => {
         const item = {
           address: e.address,

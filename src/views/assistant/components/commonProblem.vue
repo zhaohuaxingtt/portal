@@ -85,7 +85,7 @@ export default {
 		}
 	},
 	mounted() {
-
+		console.log(this.currentMoudleId, '12345')
 	},
 	methods: {
 		select(menu){

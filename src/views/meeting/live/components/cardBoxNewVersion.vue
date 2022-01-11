@@ -76,7 +76,7 @@
           </div>
           <div class="time-right" v-else>
             {{ themen.startTime }}/
-            {{ themen.state === "01" ? "Next" : "Finished" }}!
+            {{ themen.state === "01" ? "Next" : "Finished" }}
           </div>
         </div>
       </div>
@@ -154,13 +154,6 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
-  },
-  watch: {
-    themen: {
-      handler(data) {
-        // console.log(data);
-      },
-    },
   },
   computed: {
     dom: function() {

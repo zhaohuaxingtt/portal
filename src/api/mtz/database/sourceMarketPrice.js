@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-10-26 11:02:33
- * @LastEditTime: 2021-10-27 15:23:24
+ * @LastEditTime: 2021-12-24 10:45:30
  * @LastEditors: Please set LastEditors
  * @Description: 市场价来源
  * @FilePath: \front-portal\src\api\mtz\database\sourceMarketPrice.js
@@ -64,6 +64,14 @@ export function fetchEdit(params) {
 export function fetchPriceRule(params) {
   return request({
     url: '/marketPriceSource/getPriceRule',
+    method: 'POST',
+    data: params
+  })
+}
+// 获取取价规则数据
+export function externalMaterialSelect(params) {
+  return request({
+    url: '/marketPriceSource/externalMaterialSelect',
     method: 'POST',
     data: params
   })

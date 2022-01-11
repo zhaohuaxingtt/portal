@@ -1,6 +1,6 @@
 <!--
  * @Author: HS   MBDL会议
- * @FilePath: \front-portal\front-portal\src\views\meeting\managementHall\mbdlMeeting\index.vue
+ * @FilePath: \front-portal\src\views\meeting\managementHall\mbdlMeeting\index.vue
 -->
 <template>
   <iPage>
@@ -100,6 +100,8 @@
           @overTopic="overTopic"
           @startTopic="startTopic"
           @close="close"
+           @batchAdjustment="batchAdjustment"
+           @newAddTopic="newAddTopic"
         />
 
         <!-- <i-table-custom
@@ -287,15 +289,25 @@
               <span class="open-link-text">{{ scope.row.itemNo }}</span>
             </template>
           </el-table-column>
+          <!-- MBDL名称    gpName  改 topic-->
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
-            <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row }}</span>
-            </template> -->
+            <template slot-scope="scope">
+              <span class="open-link-text look-themen-click" >{{ scope.row.topic }}</span>
+            </template>
           </el-table-column>
+          <!-- 英文名称  mbdlNameEn -->
            <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.mbdlNameEn }}</span>
+            </template>
           </el-table-column>
+          <!-- 采购分类  materialGroupName -->
            <el-table-column show-overflow-tooltip align="center" label="采购分类" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.materialGroupName }}</span>
+            </template>
           </el-table-column>
+          <!-- 有效期起   -->
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.createDate }}</span>
@@ -306,11 +318,23 @@
               <span class="open-link-text">{{ scope.row.updateDate }}</span>
             </template>
           </el-table-column>
+          <!-- 主要申请部门  applyDept 改 supporterDept-->
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporterDept }}</span>
+             </template>
           </el-table-column>
+          <!-- 股别  supporterDeptNosys -->
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
+             </template>
           </el-table-column>
+          <!-- 提交人   supporter-->
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporter }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
              <template slot-scope="scope">
@@ -319,145 +343,18 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.state }}</span>
+              <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
+          <!-- 会议结论/纪要  result-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.result] }}</span>
+             </template>
           </el-table-column>
          
         </iTableML>
         <!-- 只要把 他的id="table-drag" 代码删除就实现议题调整 -->
-        <div id="table-drag">
-          <!-- <i-table-custom
-            :loading="tableLoading"
-            :data="tableData"
-            :columns="tableColumns"
-            @go-detail="handleGoDetail"
-            @handle-selection-change="handleSelectionChange"
-            v-if="showUpdateTopicButtonList"
-          /> -->
-          <!-- 列表 -->
-          <iTableML
-            tooltip-effect="light"
-            @selectionChange="handleSelectionChange"
-            :loading="tableLoading"
-            :data="tableData"
-            @go-detail="handleGoDetail"
-            v-if="showUpdateTopicButtonList"
-            :rowClassName="tableRowClassName"
-          >
-            <el-table-column type="selection" align="center"></el-table-column>
-            <el-table-column show-overflow-tooltip align="center" label="No.">
-              <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.itemNo }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column show-overflow-tooltip align="center" label="Count">
-              <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.count }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column show-overflow-tooltip align="center" label="Topic">
-              <template slot-scope="scope">
-                <span
-                  class="open-link-text look-themen-click"
-                  @click="lookThemen(scope.row)"
-                  >{{ scope.row.topic }}</span
-                >
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Duration(min)"
-              width="100"
-            >
-              <template slot-scope="scope">
-                <!-- <div
-                  class="open-link-text open-clink-back-text"
-                  @click="recallTheThemen(scope.row)"
-                  v-if="
-                    isAdmin &&
-                      meetingInfo.state === '03' &&
-                      scope.row.state === '04'
-                  "
-                ></div> -->
-                <!-- <div
-                  class="open-link-text open-clink-back-text"
-                  @click="recallTheThemen(scope.row)"
-                  v-if="meetingInfo.state === '03' && scope.row.state === '04'"
-                >
-                  <div class="open-text-text-choice"></div>
-                </div> -->
-                <span class="open-link-text">{{ scope.row.duration }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column show-overflow-tooltip align="center" label="Time">
-              <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.time }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Presenter"
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span class="open-link-text" v-else>{{
-                  scope.row.presenter
-                }}</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Presenter Dept."
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span class="open-link-text" v-else>{{
-                  scope.row.presenterDept
-                }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Supporter"
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span class="open-link-text">{{ scope.row.supporter }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Supporter Dept."
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span class="open-link-text" v-else>{{
-                  scope.row.supporterDept
-                }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Remark"
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">-</span>
-                <span class="open-link-text" v-else>{{
-                  scope.row.remark
-                }}</span>
-              </template>
-            </el-table-column>
-          </iTableML>
-        </div>
         <div id="table-drag">
           <!-- 我的 -->
         <iTableML
@@ -481,13 +378,19 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
-            <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row }}</span>
-            </template> -->
+            <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.gpName }}</span>
+            </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.mbdlNameEn }}</span>
+            </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="采购分类" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.materialGroupName }}</span>
+            </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
@@ -500,10 +403,19 @@
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
+              <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporterDept }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
+             <!-- <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.source }}</span>
+             </template> -->
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
              <template slot-scope="scope">
@@ -515,7 +427,11 @@
               <span class="open-link-text">{{ scope.row.state }}</span>
             </template>
           </el-table-column>
+          <!-- 会议结论/纪要   result-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
+            <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.result }}</span>
+             </template>
           </el-table-column>
          
         </iTableML>
@@ -558,6 +474,17 @@
       :selectedTableData="selectedTableData"
       :lookThemenObj="lookThemenObj"
     />
+    <!-- 新增议题gp -->
+    <newAddTopic
+    @closeDialog="closeDialog"
+      :dialogStatusManageObj="dialogStatusManageObj"
+      v-if="dialogStatusManageObj.openAddTopicNewDialog"
+      @flushTable="flushTable"
+      :meetingInfo="meetingInfo"
+      :editOrAdd="editOrAdd"
+      :selectedTableData="selectedTableData"
+      :lookThemenObj="lookThemenObj">
+      </newAddTopic>
     <newProtectInfo
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
@@ -579,6 +506,7 @@
       :meetingInfo="meetingInfo"
       :selectedTableData="selectedTableData"
     ></confirmSplit>
+    <!-- 会议改期 -->
     <updateDate
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
@@ -662,11 +590,68 @@
       :errorList="errorList"
       @handleCloseError="handleCloseError"
     />
+    <!-- 批量调整 -->
+    <iDialog
+      v-if="batchAdjustmentDialog"
+      :title="language('批量排序', '批量排序')"
+      :visible.sync="batchAdjustmentDialog"
+      width="30%"
+      :append-to-body="true"
+    >
+    <template #title>
+      <div>
+        <span class="iDialogdiv">批量排序</span>
+        <span class="iDialogdivspan"> 上下拖拽即可调整顺序 </span>
+      </div>
+    </template>
+      <batchAdjustment
+        v-if="batchAdjustmentDialog"
+        @close="batchAdjustmentDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+      ></batchAdjustment>
+    </iDialog>
+    <!-- 结束议题 -->
+    <iDialog
+      v-if="protectConclusionDialog"
+      :title="language('结束议题', '结束议题')"
+      :visible.sync="protectConclusionDialog"
+      width="30%"
+      :append-to-body="true"
+    >
+      <protectConclusion
+        v-if="protectConclusionDialog"
+        @close="protectConclusionDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :selectThemenId='selectThemenId'
+      ></protectConclusion>
+    </iDialog>
+    <!-- 列表维护结论 -->
+    <iDialog
+      v-if="editprotectConclusionDialog"
+      :title="language('结束议题', '结束议题')"
+      :visible.sync="editprotectConclusionDialog"
+      width="30%"
+      :append-to-body="true"
+    >
+      <editprotectConclusion
+        v-if="editprotectConclusionDialog"
+        @close="editprotectConclusionDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
+      ></editprotectConclusion>
+    </iDialog>
     
   </iPage>
 </template>
 <script>
-import { iButton, iCard, iMessage, iPage, iPagination } from 'rise'
+import editprotectConclusion from './component/editprotectConclusion.vue'
+import newAddTopic from './component/newAddTopic.vue'
+import protectConclusion from './component/protectConclusion.vue'
+import batchAdjustment from './component/batchAdjustment'
+import { iButton, iCard, iMessage, iPage, iPagination , iDialog} from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { buttonList } from './component/data'
 // import iTableCustom from "@/components/iTableCustom";
@@ -685,18 +670,18 @@ import iTableML from '@/components/iTableML'
 import {
   deleteThemen,
   endThemen,
-  findThemenById,
+  // findThemenById,
   passThemenRecall,
   rejectThemenRecall,
   resortThemen,
   spiltThemen,
   startThemen
 } from '@/api/meeting/details'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import Sortable from 'sortablejs'
 import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../../home/components/updateMeetingDialog.vue'
-// import updateMeetingDialog from 'home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
 import {
   batchRecallMeeting,
@@ -710,6 +695,11 @@ import enclosure from '@/assets/images/enclosure.svg'
 export default {
   mixins: [pageMixins],
   components: {
+    editprotectConclusion,//维护结论
+    newAddTopic,//新增议题gp
+    protectConclusion,//结束议题
+    batchAdjustment,//批量调整
+    iDialog,
     iPage,
     iCard,
     iPagination,
@@ -733,6 +723,22 @@ export default {
   },
   data() {
     return {
+      editprotectConclusionDialog:false,//维护议题结论
+      selectThemenId:'',//当前议题行id
+      protectConclusionDialog:false,//结束议题
+      statusObj: {
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      },
+      resultObj:{
+        '01': '待定',
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
+      },
       curEndTime: '',
       openError: false,
       errorList: [],
@@ -756,6 +762,7 @@ export default {
         openSplitDialog: false,
         openImportTopicDialog: false,
         //修改对话框
+        openAddTopicNewDialog: false,
         openUpdate: false,
         openNewSummaryDialog: false,
         openCloseMeetiongDialog: false
@@ -785,7 +792,8 @@ export default {
       ],
       lookThemenObj: {},
       display: 'none',
-      changedArr: ''
+      changedArr: '',
+      batchAdjustmentDialog:false,//批量调整
     }
   },
   watch: {
@@ -807,6 +815,12 @@ export default {
     this.getTableData()
   },
   methods: {
+    //批量调整
+    batchAdjustment(){
+      this.batchAdjustmentDialog=true
+      // const meetingId = this.$route.query.id
+      
+    },
     handleEndTime(row) {
       let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
       let endTime =
@@ -1239,13 +1253,13 @@ export default {
     queryMeetingInfoById(id) {
       const data = {
         id
+        // 这里的id就是 this.$route.query.id
       }
       const _this = this
-      findThemenById(data)
-        .then((res) => {
-          console.log(res);
+      findThemenById(data).then((res) => {
+          console.log(res,'1111');
           _this.meetingInfo = res
-          // console.log(res);
+          //拿到状态state
           _this.goState(res.state)
           _this.resThemeData = [...res.themens]
           _this.handlePage(res.themens)
@@ -1552,7 +1566,32 @@ export default {
         new Date(`2021-7-1 ${dayjs(new Date()).format('HH:mm:ss')}`).getTime()
       )
     },
+    // 结束议题
     overTopic() {
+      // isBreak  true就是休息
+      if(this.selectedTableData[0].isBreak){
+        console.log("休息");
+        const params = {
+          meetingId:this.$route.query.id,//会议id
+          themenId:this.selectedTableData[0].id//议题id
+        }
+        console.log(params);
+        endThemen(params).then((res) => {
+          if (res.code) {
+            iMessage.success('结束议题成功！')
+            this.flushTable()
+          }else{
+            iMessage.success('结束会议失败！')
+          }
+        })
+      }else{
+        console.log(this.selectedTableData[0].isBreak);
+        this.protectConclusionDialog=true
+        this.selectThemenId=this.selectedTableData[0].id
+      }
+      // this.selectedTableData
+      console.log('结束议题');
+      return
       // alert("overTopic");
       let choiceThemen = this.selectedTableData && this.selectedTableData[0]
       choiceThemen = choiceThemen ? choiceThemen : this.haveThemenIsStarting()
@@ -1571,11 +1610,10 @@ export default {
         //   confirmButtonText: "是",
         //   type: "warning",
         // }).then(() => {
-        endThemen(param)
-          .then(() => {
+        endThemen(param).then(() => {
             iMessage.success('结束议题成功！')
             // this.refreshTable();
-            this.flushTable()
+            this.flushTable()//刷新表格
           })
           .catch(() => {
             // iMessage.error("结束会议失败！");
@@ -1587,7 +1625,7 @@ export default {
           .then(() => {
             iMessage.success('结束议题成功！')
             // this.refreshTable();
-            this.flushTable()
+            this.flushTable()//刷新表格
           })
           .catch(() => {
             // iMessage.error("结束会议失败！");
@@ -1658,6 +1696,7 @@ export default {
       })
     },
     updateDate() {
+      console.log(this.selectedTableData);//当前行数据
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
         iMessage.warn('休息议题不能进行改期')
@@ -1725,17 +1764,23 @@ export default {
       }
       this.openDialog('openProtectInfoDialog')
     },
+    //修改议题
     editTopic() {
+      debugger
       if (this.selectedTableData[0].state === '03') {
         iMessage.warn('已结束的议题不能进行修改议题')
         return
       }
       this.editOrAdd = 'edit'
       if (this.selectedTableData[0].isBreak) {
+        console.log('休息');
         this.openDialog('openAddRestDialog')
         return
       }
-      this.openDialog('openAddTopicDialog')
+      // this.openDialog('openAddTopicDialog')
+      console.log('临时议题');
+      debugger
+      this.openDialog('openAddTopicNewDialog')//议题
     },
     importTopic() {
       this.openDialog('openImportTopicDialog')
@@ -1744,6 +1789,12 @@ export default {
     addTopic() {
       this.editOrAdd = 'add'
       this.openDialog('openAddTopicDialog')
+    },
+    //新增gp议题
+    newAddTopic(){
+      debugger
+      this.editOrAdd = 'add'
+      this.openDialog('openAddTopicNewDialog')//议题
     },
 
     addRest() {
@@ -1824,6 +1875,7 @@ export default {
       })
       window.open(routeUrl.href, '_blank')
     },
+    //展示跳转
     displayShow() {
       // alert("展示");
       // 展示
@@ -1833,12 +1885,20 @@ export default {
       //     id: this.meetingInfo.id,
       //   },
       // });
+      // let routeUrl = this.$router.resolve({
+      //   // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
+      //   path:
+      //     this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
+      //       ? '/meeting/meetingShow' //新页面
+      //       : '/meeting/meeting-show', //旧页面
+      //   query: {
+      //     id: this.meetingInfo.id
+      //   }
+      // })
+      // /meeting/mbdlMeetingShow
       let routeUrl = this.$router.resolve({
         // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
-        path:
-          this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
-            ? '/meeting/meetingShow' //新页面
-            : '/meeting/meeting-show', //旧页面
+        path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
         }
@@ -1947,7 +2007,7 @@ export default {
       }
     },
 
-    // 表格选中值集
+    // 表格选中值集  当前行数据
     handleSelectionChange(val) {
       if (this.curState === '05') {
         val = [val[val.length - 1]]
@@ -1960,6 +2020,7 @@ export default {
       if (!val[0]) {
         return
       }
+      //当前行
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
@@ -1997,6 +2058,13 @@ export default {
         return 'active-row dragable-row'
       }
       return 'narmal-row'
+    },
+    //点击纪要  维护结论
+    handleResult(row){
+      console.log(row.result);
+      this.editprotectConclusionDialog=true
+      this.editprotectConclusionDialogRow=row
+      console.log(this.editprotectConclusionDialogRow);
     }
   }
 }

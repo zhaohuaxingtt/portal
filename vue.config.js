@@ -2,9 +2,9 @@ const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-const ChangeNginxConfig = require(resolve(
-  './loadersPlugins/pluginTranslateNginxConfig'
-))
+/* const ChangeNginxConfig = require(resolve(
+      './loadersPlugins/pluginTranslateNginxConfig'
+    )) */
 const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
@@ -92,9 +92,9 @@ module.exports = {
           },
           sourceMap: false,
           parallel: true
-        }),
+        })
         //环境代码
-        process.env.NODE_ENV === 'dev' ? '' : new ChangeNginxConfig()
+        /* process.env.NODE_ENV === 'dev' ? '' : new ChangeNginxConfig() */
       )
       config.plugins.push(
         new CompressionPlugin({
@@ -125,7 +125,7 @@ module.exports = {
   css: {
     //是否开起css分离
     extract: false,
-    sourceMap: process.env.NODE_ENV === 'production',
+    sourceMap: process.env.NODE_ENV !== 'production',
     requireModuleExtension: true,
     loaderOptions: {
       sass: {
@@ -194,7 +194,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034/`,
+        target: `http://${BASE_IP}:8034`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -218,6 +218,7 @@ module.exports = {
       }, // 主数据
       [process.env.VUE_APP_BASE_INFO]: {
         target: `http://${BASE_IP}:8011/baseinfo`,
+        //target: `http://10.160.139.23:8011/baseinfo`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_INFO]: ''
@@ -345,7 +346,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_AEKO]: ''
         }
-      }
+      },
+      // adminProCS
+      [process.env.VUE_APP_ADMIN_PROCS]: {
+        target: `http://${BASE_IP}:8016/riseprocsApi`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+        }
+      },
     }
   }
 }

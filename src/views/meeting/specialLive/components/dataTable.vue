@@ -29,7 +29,7 @@
       <el-table-column
         prop="name"
         align="left"
-        :label="$t('资料名称')"
+        :label="$t('MT_ZILIAOMINGCHENG')"
         width="756"
       >
         <template slot-scope="scope">
@@ -42,7 +42,7 @@
         show-overflow-tooltip
         prop="createUserName"
         align="center"
-        :label="$t('资料上传人')"
+        :label="$t('MT_ZILIAOSHANGCHUANREN')"
         width="402"
       >
       </el-table-column>
@@ -174,7 +174,7 @@ export default {
             callback: (e) => {
               if (!e) {
                 reject(e)
-                iMessage.error('下载失败')
+                iMessage.error(this.$t('MT_XIAZAISHIBAI'))
               }
               resolve(e)
             },
@@ -210,7 +210,7 @@ export default {
         filename: item.name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         },
         type: MIME_TYPE[suffix]

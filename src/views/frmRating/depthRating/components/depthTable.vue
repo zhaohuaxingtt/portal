@@ -22,31 +22,37 @@
         <iButton @click="exportsTable">{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
       </div>
     </div>
-    <tableList
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      :index="true"
-      :fixed="true"
-      @handleSelectionChange="handleSelectionChange"
-    >
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               :fixed="true"
+               @handleSelectionChange="handleSelectionChange">
       <!-- 供应商名称 -->
       <template #name="scope">
-        <p class="openPage" @click="jumpViewSuppliers(scope.row)">
+        <p class="openPage"
+           @click="jumpViewSuppliers(scope.row)">
           {{ scope.row.name }}
         </p>
       </template>
       <!-- 状态 -->
       <template #status="scope">
         <span v-if="scope.row.status == '信息收集' || scope.row.status == '财务经营与分析' ||scope.row.status == '访谈与调查' || scope.row.status == '报告完成'">
-          <iSelect class="selectCenter" @change="changeStatus(scope.row)" v-model="scope.row.status">
-            <el-option value="财务经营与分析" label="财务经营与分析"></el-option>
-            <el-option value="访谈与调查" label="访谈与调查"></el-option>
-            <el-option value="报告完成" label="报告完成"></el-option>
+          <iSelect class="selectCenter"
+                   @change="changeStatus(scope.row)"
+                   v-model="scope.row.status">
+            <el-option value="财务经营与分析"
+                       label="财务经营与分析"></el-option>
+            <el-option value="访谈与调查"
+                       label="访谈与调查"></el-option>
+            <el-option value="报告完成"
+                       label="报告完成"></el-option>
           </iSelect>
         </span>
         <span v-else-if="scope.row.status == '清单驳回' || scope.row.status == '报告驳回'">
-          <el-tooltip :content="scope.row.returnReason" placement="top" effect="light">
+          <el-tooltip :content="scope.row.returnReason"
+                      placement="top"
+                      effect="light">
             <span>{{ scope.row.status }}</span>
           </el-tooltip>
         </span>
@@ -54,93 +60,95 @@
       </template>
       <!-- 附件 -->
       <template #upload="scope">
-        <span class="openPage" @click="openUpload(scope.row.id)">{{$t('LK_SHANGCHUAN')}}</span>
+        <span class="openPage"
+              @click="openUpload(scope.row.id)">{{$t('LK_SHANGCHUAN')}}</span>
       </template>
       <!-- 访谈内容 -->
       <template #interView="scope">
-        <span class="openPage" @click="jumpInterView(scope.row.id)">{{$t('LK_CHAKAN')}}</span>
+        <span class="openPage"
+              @click="jumpInterView(scope.row.id)">{{$t('LK_CHAKAN')}}</span>
       </template>
       <!-- 深评报告 -->
       <template #depthReport="scope">
-        <span class="openPage" @click="jumpDepthReport(scope.row)">{{$t('LK_CHAKAN')}}</span>
+        <span class="openPage"
+              @click="jumpDepthReport(scope.row)">{{$t('LK_CHAKAN')}}</span>
       </template>
       <!-- 财务分析 -->
       <template #financialAnalysis="scope">
-        <span class="openPage" @click="jumpFinancialAnalysis(scope.row)">{{$t('LK_CHAKAN')}}</span>
+        <span class="openPage"
+              @click="jumpFinancialAnalysis(scope.row)">{{$t('LK_CHAKAN')}}</span>
       </template>
       <!-- 深评结果 -->
       <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == '绿'" symbol name="iconlvdeng"
-        ></icon>
-        <icon v-else-if="scope.row.deepCommentResult == '黄'" symbol name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == '红'" symbol name="iconhongdeng"></icon>
+        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
+              symbol
+              name="iconlvdeng"></icon>
+        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
+              symbol
+              name="iconhuangdeng"></icon>
+        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
+              symbol
+              name="iconhongdeng"></icon>
       </template>
       <!-- 备注 -->
       <template #remarks="scope">
-        <span class="openPage" v-if="scope.row.remarks" @click="openRemark(scope.row)">{{ $t('LK_CHAKAN') }}</span>
-        <span class="openPage" v-else @click="openRemark(scope.row)">{{$t('LK_TIANJIA')}}</span>
+        <span class="openPage"
+              v-if="scope.row.remarks"
+              @click="openRemark(scope.row)">{{ $t('LK_CHAKAN') }}</span>
+        <span class="openPage"
+              v-else
+              @click="openRemark(scope.row)">{{$t('LK_TIANJIA')}}</span>
       </template>
     </tableList>
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-    />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
     <!-- 新建集团 -->
-    <messageBox v-model="addGroup" :maxlength="50"
-      :title="$t('SPR_FRM_DEP_NEWGROUP')"
-      :tip="$t('SPR_FRM_DEP_INPUTGROUPNAME')"
-      @sure="sure"
-      :error="$t('SPR_FRM_DEP_GROUPNOTNAME')"
-    ></messageBox>
+    <messageBox v-model="addGroup"
+                :maxlength="50"
+                :title="$t('SPR_FRM_DEP_NEWGROUP')"
+                :tip="$t('SPR_FRM_DEP_INPUTGROUPNAME')"
+                @sure="sure"
+                :error="$t('SPR_FRM_DEP_GROUPNOTNAME')"></messageBox>
     <!-- 查看备注 -->
-    <messageBox
-      ref="remark"
-      v-model="remark"
-      type="textarea"
-      :required="false"
-      :title="$t('SPR_FRM_DEP_REMARKS')"
-      @sure="sureRemark"
-    ></messageBox>
+    <messageBox ref="remark"
+                v-model="remark"
+                type="textarea"
+                :required="false"
+                :title="$t('SPR_FRM_DEP_REMARKS')"
+                @sure="sureRemark"></messageBox>
     <!-- 报告分发 -->
-    <changeItem
-      ref="report"
-      v-model="report"
-      :tip="$t('SPR_FRM_DEP_QXZFFDX')"
-      multiple
-      :title="$t('SPR_FRM_DEP_REPORTDISN')"
-      @sure="sureChangeItems"
-    ></changeItem>
+    <changeItem ref="report"
+                v-model="report"
+                :tip="$t('SPR_FRM_DEP_QXZFFDX')"
+                multiple
+                :title="$t('SPR_FRM_DEP_REPORTDISN')"
+                @sure="sureChangeItems"></changeItem>
     <!-- 预计完成时间 -->
-    <overTime
-      v-model="overTimeShow"
-      :tip="$t('SPR_FRM_DEP_YJWCSJ')"
-      :title="$t('SPR_FRM_DEP_QXZYJWCSJ')"
-      @sure="sureChangeTime"
-    ></overTime>
+    <overTime v-model="overTimeShow"
+              :tip="$t('SPR_FRM_DEP_YJWCSJ')"
+              :title="$t('SPR_FRM_DEP_QXZYJWCSJ')"
+              @sure="sureChangeTime"></overTime>
     <!-- 终止审批页面 -->
-    <endRatingList
-      :disabled="endDisabled"
-      v-model="endRating"
-      @getTableList="getTableList"
-      ref="endRating"
-    ></endRatingList>
+    <endRatingList :disabled="endDisabled"
+                   v-model="endRating"
+                   @getTableList="getTableList"
+                   ref="endRating"></endRatingList>
     <!-- 上传附件 -->
-    <upload v-model="uploadShow" ref="upload"></upload>
+    <upload v-model="uploadShow"
+            ref="upload"></upload>
     <!-- 加入集团 -->
-    <joinGroup
-      v-model="joinGroupShow"
-      @addGroup="addOrMoveGroup"
-      :financialSuppleData="financialSuppleData"
-      :ids="getIds()"
-      ref="joinGroup"
-    ></joinGroup>
+    <joinGroup v-model="joinGroupShow"
+               @addGroup="addOrMoveGroup"
+               :financialSuppleData="financialSuppleData"
+               :ids="getIds()"
+               ref="joinGroup"></joinGroup>
   </iCard>
 </template>
 
@@ -199,10 +207,10 @@ export default {
     },
     form: {
       type: Object,
-      default: () => {}
+      default: () => { }
     }
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       fromGroup: [], //下拉框数据
@@ -221,20 +229,20 @@ export default {
       endDisabled: false //是否是终止深评
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange(currentSelect) {
+    handleSelectionChange (currentSelect) {
       this.currentSelect = currentSelect
     },
     // 搜索
-    search() {
+    search () {
       this.page.currPage = 1
       this.getTableList()
     },
     // 获取深评列表
-    getTableList() {
+    getTableList () {
       let data = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -250,7 +258,7 @@ export default {
       })
     },
     // 获取当前选中的ids
-    getIds() {
+    getIds () {
       let ids = []
       this.currentSelect.map((res) => {
         ids.push(res.id)
@@ -258,7 +266,7 @@ export default {
       return ids
     },
     // 改变状态值
-    changeStatus(row) {
+    changeStatus (row) {
       const data = {
         id: row.id,
         status: row.status
@@ -270,12 +278,12 @@ export default {
       })
     },
     //新加集团
-    openAddGroup() {
+    openAddGroup () {
       if (this.isSelect()) return
       this.addGroup = true
     },
     // 新加集团确认
-    sure(remark) {
+    sure (remark) {
       let data = {
         idList: this.getIds(),
         financialSupplementName: remark
@@ -289,13 +297,13 @@ export default {
       })
     },
     // 查看备注
-    openRemark(row) {
+    openRemark (row) {
       this.currentId = row.id
       this.$refs.remark.changeBackmark(row.remarks)
       this.remark = true
     },
     // 修改备注
-    sureRemark(remark) {
+    sureRemark (remark) {
       let data = {
         id: this.currentId,
         remarks: remark
@@ -309,10 +317,10 @@ export default {
       })
     },
     // 报告分发
-    openReport() {
+    openReport () {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.status == '生效')
-      if (!result) {  
+      if (!result) {
         iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
         return
       }
@@ -324,7 +332,7 @@ export default {
       let result2 = this.currentSelect.every(
         (item) => item.relevantDept == relevantDept
       )
-      console.log(result1,result2,deepCommentResult,relevantDept)
+      console.log(result1, result2, deepCommentResult, relevantDept)
       if (result1 && result2) {
         this.$refs.report.reportIssueUser(this.currentSelect[0].id)
         this.report = true
@@ -333,7 +341,7 @@ export default {
       }
     },
     // 报告分发确认
-    sureChangeItems(ids) {
+    sureChangeItems (ids) {
       let supplierIdList = []
       this.currentSelect.forEach((res) => {
         let obj = {}
@@ -354,12 +362,12 @@ export default {
       })
     },
     // 终止
-    openEnd() {
+    openEnd () {
       if (this.isSelect()) return
       // 判断是否满足终止条件
       let result = this.currentSelect.every(
         (item) =>
-          item.status == '草稿' ||
+          item.status == '报告驳回' ||
           item.status == '信息收集' ||
           item.status == '财务经营与分析' ||
           item.status == '访谈与调查' ||
@@ -374,7 +382,7 @@ export default {
           this.endDisabled = true
           this.endRating = true
           let statusList = [
-            '草稿',
+            '报告驳回',
             '信息收集',
             '财务经营与分析',
             '访谈与调查',
@@ -393,19 +401,19 @@ export default {
         })
     },
     // 判断是否选择了供应商
-    isSelect() {
+    isSelect () {
       if (this.currentSelect.length == 0) {
         iMessage.error('请选择需要操作的供应商数据')
         return true
       }
     },
     // 上传附件
-    openUpload(id) {
+    openUpload (id) {
       this.$refs.upload.getTableList(id)
       this.uploadShow = true
     },
     // 打开加入集团
-    openJoinGroup() {
+    openJoinGroup () {
       if (this.isSelect()) return
       let result = this.currentSelect.find(
         (item) => item.deepCommentSupplierName
@@ -418,7 +426,7 @@ export default {
       this.joinGroupShow = true
     },
     // 移除集团
-    moveGroup() {
+    moveGroup () {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.deepCommentSupplierName)
       if (!result) {
@@ -432,7 +440,7 @@ export default {
       this.addOrMoveGroup(data)
     },
     // 加入集团 移除集团
-    addOrMoveGroup(data) {
+    addOrMoveGroup (data) {
       addOrMoveGroup(data).then((res) => {
         if (data.isJoin) {
           this.joinGroupShow = false
@@ -443,30 +451,31 @@ export default {
       })
     },
     // 提交清单审批
-    openEndRating() {
+    openEndRating () {
       if (this.isSelect()) return
-      let result = this.currentSelect.every((item) => item.status == '草稿')
+      let result = this.currentSelect.every((item) => item.status == '草稿' || item.status == '清单审批驳回')
       if (result) {
         this.endDisabled = false
         this.endRating = true
-        let statusList = ['草稿']
+        let statusList = ['草稿', '清单审批驳回']
         this.$refs.endRating.getTableList(this.getIds(), statusList)
       } else {
         iMessage.error(this.$t('SPR_FRM_DEP_CHECKSPSTATUS'))
       }
     },
     // 跳转供应商财务数据
-    jumpViewSuppliers(row) {
+    jumpViewSuppliers (row) {
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
           supplierToken: row.supplierToken,
-          current: 18
+          current: 18,
+          supplierType: 4
         }
       })
     },
     // 跳转访谈清单
-    jumpInterView(id) {
+    jumpInterView (id) {
       // this.$router.push('/supplier/frmrating/depthRating/interView')
       let routeData = this.$router.resolve({
         name: 'supplierFrmDepthRatingInterView',
@@ -475,7 +484,7 @@ export default {
       window.open(routeData.href)
     },
     // 查看财报分析
-    jumpFinancialAnalysis(row) {
+    jumpFinancialAnalysis (row) {
       // this.$router.push('/supplier/frmrating/depthRating/financialAnalysis')
       let routeData = this.$router.resolve({
         name: 'depthRatingFinancialAnalysis',
@@ -487,7 +496,7 @@ export default {
       window.open(routeData.href)
     },
     //查看深评报告
-    jumpDepthReport(row) {
+    jumpDepthReport (row) {
       // this.$router.push('/supplier/frmrating/depthRating/depthReport')
       let routeData = this.$router.resolve({
         name: 'depthReport',
@@ -499,17 +508,17 @@ export default {
       window.open(routeData.href)
     },
     // 导出
-    exportsTable() {
+    exportsTable () {
       // if (this.isSelect()) return
-      excelExport(this.tableListData, this.tableTitle,"深入评级供应商列表")
+      excelExport(this.tableListData, this.tableTitle, "深入评级供应商列表")
     },
     // 预计完成时间
-    openOverTime() {
+    openOverTime () {
       if (this.isSelect()) return
       this.overTimeShow = true
     },
     // 修改预计完成时间
-    sureChangeTime(date) {
+    sureChangeTime (date) {
       let data = {
         ids: this.getIds(),
         estimateCompleteMonth: date
@@ -522,7 +531,7 @@ export default {
       })
     },
     // 提交深评报告审核
-    postExamine() {
+    postExamine () {
       if (this.isSelect()) return
       let data = {
         ids: this.getIds()
@@ -555,16 +564,15 @@ export default {
   .el-table__header {
     background-color: $color-table-header;
   }
-  .is-leaf{
-    background-color: rgb(231,239,254);
+  .is-leaf {
+    background-color: rgb(231, 239, 254);
   }
-  tbody{
-    tr:nth-of-type(even){
-        .el-table-column--selection{
-         background-color: rgb(231,239,254);
+  tbody {
+    tr:nth-of-type(even) {
+      .el-table-column--selection {
+        background-color: rgb(231, 239, 254);
       }
     }
   }
 }
-
 </style>

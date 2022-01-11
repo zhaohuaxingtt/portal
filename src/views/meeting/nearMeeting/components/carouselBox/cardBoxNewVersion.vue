@@ -62,7 +62,7 @@
           "
         >
           <div class="time-info">
-            <p class="top">{{$t('距离会议还有')}}</p>
+            <p class="top">{{$t('MT_JULIHUIYIHAIYOU')}}</p>
             <p class="bottom">
               <span>{{ day }}</span
               >{{$t('天')}}<span>{{ hour }}:{{ minutes }}:{{ seconds }}</span>
@@ -183,7 +183,7 @@ export default {
   methods: {
     handleDownLoadMinutes(themen) {
       if (!themen.attachments) {
-        iMessage.error("没有要下载的附件!");
+        iMessage.error(this.$t("MT_MEIYOUYAOXIAZAIDEFUJIAN"));
         return;
       }
       const file = themen.attachments.find((item) => {
@@ -196,7 +196,7 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败");
+              iMessage.error(this.$t("MT_XIAZAISHIBAI"));
             }
           },
         });
@@ -259,7 +259,7 @@ export default {
     },
     handleDownLoad(themen) {
       if (!themen.attachments) {
-        iMessage.error("没有要下载的附件!");
+        iMessage.error(this.$t("MT_MEIYOUYAOXIAZAIDEFUJIAN"));
         return;
       }
       const file = themen.attachments.find((item) => {
@@ -273,7 +273,7 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败");
+              iMessage.error(this.$t("MT_XIAZAISHIBAI"));
             }
           },
         });

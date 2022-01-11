@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">{{ $t('会议名称') }}</div>
+            <div class="name">{{ $t('MT_HUIYIMINGCHENG') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -12,7 +12,7 @@
               class="button"
               @click="currentButtonList.methodName"
               disabled
-              >{{ $t(currentButtonList.title) }}
+              >{{ $t(currentButtonList.i18n) }}
             </iButton>
           </div>
           <div class="button-list">
@@ -27,20 +27,20 @@
               "
               :disabled="item.disabled == true && tableData.length !== 0"
             >
-              {{ $t(item.title) }}
+              {{ $t(item.i18n) }}
             </iButton>
           </div>
         </div>
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">{{ $t('会议类型') }}</div>
+              <div class="title">{{ $t('MT_HUIYILEIXING') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议地点') }}</div>
+              <div class="title">{{ $t('MT_HUIYIDIDIAN') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议时间') }}</div>
+              <div class="title">{{ $t('MT_HUIYISHIJIAN') }}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -414,8 +414,8 @@
           :page-sizes="page.pages"
           :page-size="page.pageSize"
           layout="prev, pager, next"
-          :prev-text="$t('上一页')"
-          :next-text="$t('下一页')"
+          :prev-text="$t('MT_SHANGYIYE')"
+          :next-text="$t('MT_XIAYIYE')"
           :total="page.totalCount"
         />
       </iCard>
@@ -495,7 +495,7 @@
       </div>
     </importThemens> -->
     <updateFile
-      :title="$t('导入议题')"
+      :title="$t('MT_DAORUYITI')"
       :maxSize="10"
       :fileNum="1"
       :open="dialogStatusManageObj.openImportTopicDialog"
@@ -509,7 +509,7 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>{{ $t('下载模版') }}</span>
+        <span>{{ $t('MT_XIAZAIMUBAN') }}</span>
       </div>
     </updateFile>
     <updateMeetingDialog
@@ -683,7 +683,6 @@ export default {
       }
     }
   },
-  computed: {},
   mounted() {
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
@@ -711,14 +710,14 @@ export default {
     // 下载模版
     downDemo() {
       downloadStaticFile({
-        url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
-        filename: '议题模版',
+        url: '/meetingApi/meetingService/downloadThemenImportTemplate',
+        filename: this.$t('MT_YITIMUBAN'),
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
-            iMessage.success('下载模版成功')
+            iMessage.success(this.$t('MT_XIAZAIMUBANCHENGGONG'))
           } else {
-            iMessage.error('下载模版成功')
+            iMessage.error(this.$t('MT_XIAZAIMUBANSHIBAI'))
           }
         },
         noFileUd: true
@@ -732,19 +731,23 @@ export default {
         meetingId: this.meetingInfo.id,
         themenId: themen.id
       }
-      this.$confirm('是否同意撤回该议题？', '提示', {
-        confirmButtonText: '同意',
-        cancelButtonText: '拒绝',
-        distinguishCancelAndClose: true,
-        type: 'warning'
-      })
+      this.$confirm(
+        this.$t('MT_SHIFOUTONGYICHEHUIGAIYITI'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_TONGYI'),
+          cancelButtonText: this.$t('MT_JUJUE'),
+          distinguishCancelAndClose: true,
+          type: 'warning'
+        }
+      )
         .then(() => {
           passThemenRecall(params)
             .then((res) => {
               if (res.code === 200) {
                 this.flushTable()
                 // iMessage.success(res.message);
-                iMessage.success('审批通过')
+                iMessage.success(this.$t('MT_SHENPITONGGUO'))
                 return
               }
               iMessage.error(res.message)
@@ -762,7 +765,7 @@ export default {
               .then((res) => {
                 if (res.code === 200) {
                   this.flushTable()
-                  iMessage.success('拒绝成功!')
+                  iMessage.success(this.$t('MT_JUJUECHENGGONG'))
                   // iMessage.success(res.message);
                   return
                 }
@@ -806,7 +809,7 @@ export default {
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn('请导入议题后再保存')
+        iMessage.warn(this.$t('MT_QINGDAORUYITIHOUBAOCUN'))
         return
       }
       this.disabledImportThemenButton = true
@@ -831,7 +834,7 @@ export default {
           //   this.nameList = []
           // }
           if (res.length == 0) {
-            iMessage.success('导入议题成功')
+            iMessage.success(this.$t('MT_DAORUYITICHENGGONG'))
             this.openTopics = false
             this.disabledImportThemenButton = false
             // this.refreshTable()
@@ -855,7 +858,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
-      this.closeDialog();
+      this.closeDialog()
     },
     // 导入议题取消
     handleCancelTopics() {
@@ -905,14 +908,20 @@ export default {
       this.tableObject = new Sortable(tbody, {
         filter: '.dragable-row',
         onFilter() {
-          iMessage.warn('已结束或进行中的议题不可以被调整!')
+          iMessage.warn(
+            this.$t('MT_YIJIESHUHUOJINXINGZHONGDEYITIBUKEYIBEITIAOZHENG')
+          )
         },
         onMove(evt) {
           const classStr = evt.related.getAttribute('class')
           if (classStr.includes('dragable-row')) {
             if (!_this.timer) {
               _this.timer = true
-              iMessage.warn('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              iMessage.warn(
+                this.$t(
+                  'MT_BUKEYIBAYITITUOZHUAIDAOYIJIESHUHUOZHEJINXINGZHONGDEYITIZHIQIAN'
+                )
+              )
               let timers = setTimeout(() => {
                 _this.timer = null
                 clearTimeout(timers)
@@ -1281,9 +1290,9 @@ export default {
       resortThemen(formData)
         .then((data) => {
           if (data) {
-            iMessage.success('保存成功')
+            iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
           } else {
-            iMessage.error('保存失败')
+            iMessage.error(this.$t('MT_BAOCUNSHIBAI'))
           }
           this.changedArr = ''
           this.flushTable()
@@ -1319,21 +1328,31 @@ export default {
       // }
 
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-          confirmButtonText: '前往',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t(
+            'MT_SHANGWEISHENGCHENGHUIYIJIYAO_QIANWANGSHENGCHENGHUIYIJIYAO'
+          ),
+          this.$t('MT_TISHI'),
+          {
+            confirmButtonText: this.$t('MT_QIANWANG'),
+            cancelButtonText: this.$t('MT_QUXIAO'),
+            type: 'warning'
+          }
+        ).then(() => {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog("openCloseMeetiongDialog");
           this.generateMeetingMinutes()
         })
       } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t('MT_QINGQUERENSHIFOUXUYAOGUANBIHUIYI'),
+          this.$t('MT_TISHI'),
+          {
+            confirmButtonText: this.$t('MT_SHI'),
+            cancelButtonText: this.$t('MT_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           //在这里判断是不是已经生成会议纪要了
           this.openDialog('openCloseMeetiongDialog')
         })
@@ -1390,7 +1409,7 @@ export default {
       // alert("startTopic");
       // console.log(this.haveThemenIsStarting());
       if (this.haveThemenIsStarting()) {
-        iMessage.warn('已有进行中的议题！')
+        iMessage.warn(this.$t('MT_YIYOUJINXINGZHONGDEYITI'))
         return
       }
       if (
@@ -1398,11 +1417,11 @@ export default {
         this.selectedTableData.length >= 1 &&
         this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn('请按议题顺序开始议题！')
+        iMessage.warn(this.$t('MT_QINGANYITISHUNXUKAISHIYITI'))
         return
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn('该议题列表已全部结束！')
+        iMessage.warn(this.$t('MT_GAIYITILIEBIAOYIQUANBUJIESHU'))
         return
       }
       // this.$confirm("请确认是否需要开始该议题？", "提示", {
@@ -1416,12 +1435,12 @@ export default {
       }
       startThemen(param)
         .then(() => {
-          iMessage.success('开始议题成功！')
+          iMessage.success(this.$t('MT_KAISHIYITICHENGGONG'))
           // this.refreshTable();
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('开始议题失败！')
+          iMessage.error(this.$t('MT_KAISHIYITISGIBAI'))
         })
       // });
     },
@@ -1443,7 +1462,7 @@ export default {
         themenId: choiceThemen && choiceThemen.id
       }
       if (choiceThemen && choiceThemen.state !== '02') {
-        iMessage.warn('该议题未进行中，不能结束操作！')
+        iMessage.warn(this.$t('MT_GAIYITIWEIJINXINGZHONG_BUNENGJIESHUCAOZUO'))
         return
       }
       const bol = this.isOverTime(choiceThemen)
@@ -1455,7 +1474,7 @@ export default {
         // }).then(() => {
         endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success(this.$t('MT_JIESHUYITICHENGGONG'))
             // this.refreshTable();
             this.flushTable()
           })
@@ -1467,7 +1486,7 @@ export default {
       } else {
         endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success(this.$t('MT_JIESHUYITICHENGGONG'))
             // this.refreshTable();
             this.flushTable()
           })
@@ -1490,11 +1509,11 @@ export default {
       // }).then(() => {
       spiltThemen(data)
         .then(() => {
-          iMessage.success('拆分成功')
+          iMessage.success(this.$t('MT_CHAIFENCHENGGONG'))
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('拆分失败')
+          iMessage.error(this.$t('MT_CHAIFENSHIBAI'))
           this.flushTable()
         })
       // });
@@ -1514,7 +1533,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('开始议题成功！')
+            iMessage.success(this.$t('MT_KAISHIYITICHENGGONG'))
             this.flushTable()
           }
         })
@@ -1526,14 +1545,18 @@ export default {
     recall() {
       let ids = []
       ids.push(this.$route.query.id)
-      this.$confirm('是否撤回该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_SHIFOUTONGYICHEHUIGAIYITI'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
-            this.$message.success('撤回成功!')
+            this.$message.success(this.$t('MT_CHEHUICHENGGONG'))
             this.$router.go(-1)
           }
         })
@@ -1542,7 +1565,7 @@ export default {
     updateDate() {
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
-        iMessage.warn('休息议题不能进行改期')
+        iMessage.warn(this.$t('MT_XIUXIYITIBUNENGJINXINGHAIQI'))
         return
       }
       this.openDialog('openUpdateDateDialog')
@@ -1553,28 +1576,28 @@ export default {
         this.selectedTableData[0].state !== '01' &&
         this.selectedTableData[0].state !== '04'
       ) {
-        iMessage.warn('只能删除未进行的议题')
+        iMessage.warn(this.$t('MT_ZHINENGSHANCHUWEIJINXINGDEYITI'))
         return
       }
       if (
         this.selectedTableData[0] &&
         this.selectedTableData[0].state === '04'
       ) {
-        iMessage.warn('不能删除撤回中的议题')
+        iMessage.warn(this.$t('MT_BUNENGSHANCHUCHEHUIZHONGDEYITI'))
         return
       }
       const data = {
         meetingId: this.meetingInfo.id,
         id: this.selectedTableData[0].id
       }
-      this.$confirm('确认删除该议题吗?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('MT_QUERENSHANCHUGAIYITIMA'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_QUEREN'),
+        cancelButtonText: this.$t('MT_QUXIAO'),
         type: 'warning'
       }).then(() => {
         deleteThemen(data).then((res) => {
           if (res.code === 200) {
-            iMessage.success('删除成功')
+            iMessage.success(this.$t('MT_SHANCHUCHENGGONG'))
           }
           this.flushTable()
         })
@@ -1590,7 +1613,9 @@ export default {
           ? this.selectedTableData[0].state === '02'
           : ''
       ) {
-        iMessage.warn('进行中的议题不能进行会议资料维护')
+        iMessage.warn(
+          this.$t('MT_JINXINGZHONGDEYITIBUNENGJINXINGHUIYIZILIAOWEIHU')
+        )
         return
       }
       if (
@@ -1598,18 +1623,20 @@ export default {
           ? this.selectedTableData[0].state === '03'
           : ''
       ) {
-        iMessage.warn('已完成的议题不能进行会议资料维护')
+        iMessage.warn(
+          this.$t('MT_YIWANCHENGDEYITIBUNENGJINXINGHUIYIZILIAOWEIHU')
+        )
         return
       }
       if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : '') {
-        iMessage.warn('休息议题不可维护资料')
+        iMessage.warn(this.$t('MT_XIUXIYITIBUKEWEIHUZILIAO'))
         return
       }
       this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
       if (this.selectedTableData[0].state === '03') {
-        iMessage.warn('已结束的议题不能进行修改议题')
+        iMessage.warn(this.$t('MT_YIJIESHUDEDYITIBUNENGJINXINGXIUGAIYITI'))
         return
       }
       this.editOrAdd = 'edit'
@@ -1652,7 +1679,7 @@ export default {
       }
       changeStateMeeting(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success('开放会议成功！')
+          iMessage.success(this.$t('MT_KAIFANGHUIYICHENGGONG'))
         }
         // this.refreshTable();
         this.flushTable()
@@ -1685,7 +1712,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res.code === 200) {
-            iMessage.success('结束会议成功！')
+            iMessage.success(this.$t('MT_JIESHUHUIYICHENGGONG'))
             this.flushTable()
             this.getMeetingTypeObject()
           }
@@ -1732,24 +1759,28 @@ export default {
       // console.log(this.meetingInfo);
       // this.currentButtonList = buttonList[1];
       // 锁定
-      this.$confirm('请确认是否需要锁定会议？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_QINGQUERENSHIFOUXUYAOSUODINGHUIYI'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         let param = {
           id: this.meetingInfo.id,
           state: '03'
         }
         changeStateMeeting(param)
           .then(() => {
-            iMessage.success('锁定会议成功！')
+            iMessage.success(this.$t('MT_SUODINGHUIYICHENGGONG'))
             // this.refreshTable();
             this.getMeetingTypeObject()
             this.flushTable()
           })
           .catch(() => {
-            iMessage.error('锁定会议失败！')
+            iMessage.error(this.$t('MT_SUODINGHUIYISHIBAI'))
           })
       })
     },
@@ -1768,12 +1799,12 @@ export default {
       }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success('解锁会议成功！')
+          iMessage.success(this.$t('MT_JIESUOHUIYICHENGGONG'))
           this.getMeetingTypeObject()
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('解锁会议失败！')
+          iMessage.error(this.$t('MT_JIESUOHUIYISHIBAI'))
         })
       // });
     },

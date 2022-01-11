@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? $t('新增手工议题')
+        ? $t('MT_XINZENGSHOUGONGYITI')
         : editOrAdd === 'look'
-        ? $t('查看手工议题')
-        : $t('修改手工议题')
+        ? $t('MT_CHAKANSHOUGONGYITI')
+        : $t('MT_XIUGAISHOUGONGYITI')
     "
     :visible.sync="openAddTopic"
     width="58.25rem"
@@ -23,7 +23,7 @@
       >
         <div class="row-box">
           <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
-            <iLabel :label="$t('议题类型')" slot="label"></iLabel>
+            <iLabel :label="$t('MT_YITILEIXING')" slot="label"></iLabel>
             <iInput class="disabledAll" value="手工议题" disabled></iInput>
           </iFormItem>
           <iFormItem
@@ -198,7 +198,7 @@
             <iInput v-model="ruleForm.ep"></iInput>
           </iFormItem>
           <iFormItem label="议题资料" :hideRequiredAsterisk="true" class="item">
-            <iLabel :label="$t('议题资料')" slot="label"></iLabel>
+            <iLabel :label="$t('MT_YITIZILIAO')" slot="label"></iLabel>
             <el-upload
               class="upload-file"
               action="1"
@@ -216,9 +216,9 @@
                 :disabled="editOrAdd === 'look'"
               >
                 <span class="upload-text"><img :src="uploadIcon" /></span>
-                <span class="upload-text-content">{{$t('选择文件')}}</span>
+                <span class="upload-text-content">{{$t('MT_XUANZEWENJIAN')}}</span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">{{$t('文件大小最大限制30M')}}</div>
+              <div slot="tip" class="el-upload__tip">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}30M</div>
             </el-upload>
             <ul class="file-list">
               <li v-for="(item, index) of ruleForm.attachments" :key="index">
@@ -331,10 +331,10 @@ export default {
   data() {
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
@@ -372,13 +372,13 @@ export default {
             validator: validateTopic
           }
         ],
-        supporter: [{ required: true, message: '必选', trigger: 'blur' }],
+        supporter: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }],
         // presenter: [{ required: true, message: '必选', trigger: 'blur' }],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -403,16 +403,16 @@ export default {
           }
         ],
         benCn: [
-          { required: true, message: '必填', trigger: 'blur' },
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
         ],
         sourcingNo: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
         ],
-        tnr: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        benDe: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        carline: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        ep: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }]
+        tnr: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        benDe: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        carline: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        ep: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }]
       },
       subButtonFlag: false
     }
@@ -554,7 +554,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })
@@ -673,7 +673,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(`${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}30M!`)
       }
       return isLt30M
     },
@@ -694,7 +694,7 @@ export default {
             attachmentName: res.data[0].name
           }
           this.ruleForm.attachments.push(attachment)
-          iMessage.success(this.$t('上传成功'))
+          iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
           this.uploadLoading = false
         })
         .catch((err) => {
@@ -708,18 +708,18 @@ export default {
       this.$emit('flushTable')
     },
     clearDiolog() {
-      this.$confirm('是否取消编辑?', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('MT_SHIFOUQUXIAOBIANJI'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         this.close()
       })
     },
     handleSubmit() {
-      this.$confirm('是否保存议题？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('MT_SHIFOUBAOCUNYITI'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         this.submitForm('ruleForm')
@@ -752,7 +752,7 @@ export default {
             updateThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('MT_XIUGAICHENGGONG'))
                 } else {
                   iMessage.error('error')
                 }
@@ -787,7 +787,7 @@ export default {
             saveThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                 } else {
                   iMessage.error('error')
                 }

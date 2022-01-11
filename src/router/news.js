@@ -61,7 +61,7 @@ export default [
         name: 'newsNews',
         meta: {
           title: '新闻',
-          activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
+          activeMenu: ['RISE_COMMON_FUNCTION','CF_NEWS', ]
         },
         component: () => import('@/views/newsManagement/hall/news/index.vue')
       },
@@ -70,7 +70,8 @@ export default [
         name: 'noticeList',
         meta: {
           title: '公告',
-          activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
+          // activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
+          activeMenu: ['RISE_COMMON_FUNCTION','CF_NEWS', ]
         },
         component: () => import('@/views/newsManagement/hall/notice/index.vue')
       },
@@ -79,7 +80,8 @@ export default [
         name: 'noticeMore',
         meta: {
           title: '公告more',
-          activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
+          // activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
+          activeMenu: ['RISE_COMMON_FUNCTION','CF_NEWS', ]
         },
         component: () =>
           import('@/views/newsManagement/hall/notice/components/noticeMore.vue')
@@ -186,7 +188,8 @@ export default [
         path: '/news/management/moduleManagement/index',
         name: 'newsModuleManagement',
         meta: {
-          title: '模块管理'
+          title: '模块管理',
+          activeMenu:['RISE_ADMIN','ADMIN_NEWS_MANAGEMENT_MODULE']
         },
         component: () =>
           import('@/views/newsManagement/management/moduleManagement/index.vue')
@@ -196,7 +199,8 @@ export default [
         path: '/news/management/userManagement/index',
         name: 'newsUserManagement',
         meta: {
-          title: '用户管理'
+          title: '用户管理',
+          activeMenu:['RISE_ADMIN','ADMIN_NEWS_MANAGEMENT_MODULE']
         },
         component: () =>
           import('@/views/newsManagement/management/userManagement/index.vue')

@@ -1,6 +1,5 @@
 export { default as actionButtons } from './actionButtons'
-export { default as actionRow } from './actionRow'
-export { default as actionFinishedRow } from './actionFinishedRow'
+
 export { default as actionHeader } from './actionHeader'
 export { default as searchForm } from './searchForm'
 export { default as detailHeadForm } from './detailHeadForm'

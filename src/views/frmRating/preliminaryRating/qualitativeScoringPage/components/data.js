@@ -5,24 +5,49 @@
  */
 
 export const tableTitle = [
-  {props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO'},
+  { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   {
     props: 'nameZh',
     name: '供应商名称',
     key: 'LK_GONGYINGSHANGMINGCHENG',
     width: 200,
-    tooltip: true,
+    tooltip: true
   },
-  {props: 'qualitativeScoreStatus', name: '状态', key: 'LK_ZHUANGTAI', tooltip: true},
-  {props: 'versionNum', name: '版本', key: 'SPR_FRM_CBPJ_BB', tooltip: true},
-  {props: 'createDate', name: '评分发出时间', key: 'SPR_FRM_CBPJ_PFFCSJ', tooltip: true},
-  {props: 'qualitativeReturnDate', name: '评分返回时间', key: 'SPR_FRM_CBPJ_PFFHSJ', tooltip: true},
-  {props: 'sectionName', name: '负责科室', key: 'FUZEKESHI', tooltip: true},
-  {props: 'operateContent', name: '最新操作', key: 'SPR_FRM_CBPJ_ZXCZ', tooltip: true},
-  {props: 'view', name: '操作记录', key: 'SPR_FRM_CBPJ_CZJL', tooltip: true},
-  {props: 'nr', name: 'Nr.', width: 50, tooltip: true},
-  {props: 'returnReason', name: '退回理由', key: 'SPR_FRM_CBPJ_THLY', tooltip: true}
-];
+  {
+    props: 'qualitativeScoreStatus',
+    name: '状态',
+    key: 'LK_ZHUANGTAI',
+    tooltip: true
+  },
+  { props: 'versionNum', name: '版本', key: 'SPR_FRM_CBPJ_BB', tooltip: true },
+  {
+    props: 'createDate',
+    name: '评分发出时间',
+    key: 'SPR_FRM_CBPJ_PFFCSJ',
+    tooltip: true
+  },
+  {
+    props: 'qualitativeReturnDate',
+    name: '评分返回时间',
+    key: 'SPR_FRM_CBPJ_PFFHSJ',
+    tooltip: true
+  },
+  { props: 'sectionName', name: '负责科股', key: 'FUZEKEGU', tooltip: true },
+  {
+    props: 'operateContent',
+    name: '最新操作',
+    key: 'SPR_FRM_CBPJ_ZXCZ',
+    tooltip: true
+  },
+  { props: 'view', name: '操作记录', key: 'SPR_FRM_CBPJ_CZJL', tooltip: true },
+  { props: 'nr', name: 'Nr.', width: 50, tooltip: true },
+  {
+    props: 'returnReason',
+    name: '退回理由',
+    key: 'SPR_FRM_CBPJ_THLY',
+    tooltip: true
+  }
+]
 
 export const scroingTitle = [
   {
@@ -32,14 +57,14 @@ export const scroingTitle = [
     width: 120,
     tooltip: true
   },
-  {props: 'dept', name: '负责科室', key: 'FUZEKESHI', tooltip: true},
+  { props: 'dept', name: '负责科室', key: 'FUZEKESHI', tooltip: true },
   {
     props: 'policyImpact',
     name: '政策对行业的影响',
     key: 'SPR_FRM_CBPJ_ZCDHYDYX',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'industryDemandStatus',
@@ -47,7 +72,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_HYGQZK',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'managementStandardDegree',
@@ -55,7 +80,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_GLGFCD',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'projectManagementSkill',
@@ -63,7 +88,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_XMGLNL',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'industryReputation',
@@ -71,7 +96,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_HYDB',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'mainCustomerStrength',
@@ -79,7 +104,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_ZYKHSL',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'mainCustomerStableCooperation',
@@ -87,7 +112,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_YZYKHHZWDX',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'mainSupplierStrength',
@@ -95,7 +120,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_ZYGYSSL',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'mainSupplierStableCooperation',
@@ -103,7 +128,7 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_YZYGYSHZWDX',
     width: 170,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'contractCompliance',
@@ -111,15 +136,25 @@ export const scroingTitle = [
     key: 'SPR_FRM_CBPJ_HTLXQK',
     width: 150,
     required: true,
-    rule: [{required: true, message: '请选择', trigger: 'change'}],
+    rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
-  {props: 'updateDate', name: '最近更新时间', key: 'SPR_FRM_CBPJ_ZJGXSJ', width: 150},
-  {props: 'updateByName', name: '最近更新人', key: 'SPR_FRM_CBPJ_ZJGXR', width: 150},
-];
+  {
+    props: 'updateDate',
+    name: '最近更新时间',
+    key: 'SPR_FRM_CBPJ_ZJGXSJ',
+    width: 150
+  },
+  {
+    props: 'updateByName',
+    name: '最近更新人',
+    key: 'SPR_FRM_CBPJ_ZJGXR',
+    width: 150
+  }
+]
 
 export const operationRecordTableTitle = [
-  {props: 'operateContent', name: '操作', key: 'SUPPLIER_CAOZUO'},
-  {props: 'deptName', name: '操作科室', key: 'SPR_FRM_CBPJ_CZKS'},
-  {props: 'operatorName', name: '操作人', key: 'LK_CAOZUOREN'},
-  {props: 'createDate', name: '操作时间', key: 'LK_UpdateDate'},
-];
+  { props: 'operateContent', name: '操作', key: 'SUPPLIER_CAOZUO' },
+  { props: 'deptName', name: '操作科室', key: 'SPR_FRM_CBPJ_CZKS' },
+  { props: 'operatorName', name: '操作人', key: 'LK_CAOZUOREN' },
+  { props: 'createDate', name: '操作时间', key: 'LK_UpdateDate' }
+]

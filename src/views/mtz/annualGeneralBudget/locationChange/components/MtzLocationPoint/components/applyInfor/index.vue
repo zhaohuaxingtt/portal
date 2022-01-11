@@ -47,7 +47,7 @@
                     class="inforText"
                     v-model="inforData[item.prop]"></iInput>
           </el-tooltip>
-          <iSelect style="width:68%;"
+          <!-- <iSelect style="width:68%;"
                    v-else-if="item.type=='select'&&applyNumber==''"
                    :disabled="disabled"
                    :value="inforData[item.prop]"
@@ -57,8 +57,8 @@
                        :label="item.message"
                        v-for="item in getFlowTypeList"
                        :key="item.code"></el-option>
-          </iSelect>
-          <iSelect style="width:68%;"
+          </iSelect> -->
+          <!-- <iSelect style="width:68%;"
                    v-else-if="item.type=='select'&&applyNumber!==''"
                    :disabled="true"
                    :value="inforData[item.prop]"
@@ -68,7 +68,7 @@
                        :label="item.message"
                        v-for="item in getFlowTypeList"
                        :key="item.code"></el-option>
-          </iSelect>
+          </iSelect> -->
           <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                   class="inforText"
                   v-model="inforData[item.prop]"
@@ -118,11 +118,10 @@ import store from "@/store";
 import {
   page,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
-// import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 import {
   getAppFormInfo,
   modifyAppFormInfo,
-  getFlowTypeList,
+  // getFlowTypeList,
   disassociate,
   fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
@@ -143,7 +142,7 @@ export default {
   data () {
     return {
       beforReturn:false,
-      getFlowTypeList: [],
+      // getFlowTypeList: [],
       mtzAddShow: false,
       disabled: true,
       textarea: "",
@@ -209,7 +208,7 @@ export default {
     } else {
       this.init()
     }
-    this.getListData()
+    // this.getListData()
     if (this.$route.query.appId) {
       this.appIdType = false;
     }
@@ -231,7 +230,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
-        console.log(this.applyNumber);
+        // console.log(this.applyNumber);
         if (val !== "取消") {
           store.commit("submitBtnInfor", { ...res.data });
         }
@@ -252,11 +251,11 @@ export default {
     getsyncAuther () {
       syncAuther({ mtzAppId: this.$route.query.mtzAppId })
     },
-    getListData () {
-      getFlowTypeList({}).then(res => {
-        this.getFlowTypeList = res.data;
-      })
-    },
+    // getListData () {
+      // getFlowTypeList({}).then(res => {
+      //   this.getFlowTypeList = res.data;
+      // })
+    // },
     handleChange (val) {
       // this.searchForm.monthFrom = window.moment(val[0]).format('yyyy-MM-DD')
       // this.searchForm.monthTo = window.moment(val[1]).format('yyyy-MM-DD')
@@ -289,6 +288,9 @@ export default {
       this.disabled = false;
     },
     save () {
+      if(this.inforData.appName == ""){
+        return iMessage.error(this.language('SHENQINGDANMINGBUNENGWEIKONG', '申请单名不能为空'))
+      };
       if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
       }else{

@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{$t('会议展示 Meeting Live')}}</div>
+    <div class="header">{{ $t('MT_HUIYIZHANSHI') }} Meeting Live</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -59,6 +59,7 @@
           align="center"
           label="Present Items"
           show-overflow-tooltip
+          :width="setColumnWidth(dataList, 198)"
         >
           <template slot-scope="scope">
             <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
@@ -99,7 +100,7 @@
         </el-table-column>
 
         <!-- 零件中文名 -->
-        <el-table-column
+        <!-- <el-table-column
           prop="benCn"
           align="center"
           label="BEN(DE)"
@@ -109,7 +110,7 @@
             <span v-if="scope.row.benCn">{{ scope.row.benDe }}</span>
             <span v-else>-</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <!-- 车型 -->
         <el-table-column
@@ -190,7 +191,9 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.state">{{ statusObj[scope.row.state] }}</span>
+            <span v-if="scope.row.state">{{
+              $t(statusObj[scope.row.state])
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -231,8 +234,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        :prev-text="$t('上一页')"
-        :next-text="$t('下一页')"
+        :prev-text="$t('MT_SHANGYIYE')"
+        :next-text="$t('MT_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -276,9 +279,9 @@ export default {
       result: {},
       typeObj: {},
       statusObj: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        '01': 'MT_WEIJINXING',
+        '02': 'MT_JINXINGZHONG',
+        '03': 'MT_YIJIESHU'
       },
       timer: '',
       openAddTopic: false,
@@ -391,6 +394,45 @@ export default {
         return 'active-row'
       }
       return 'narmal-row'
+    },
+    //表格列字符限制
+    setColumnWidth(data, min) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < min) {
+        // 设置最小宽度
+        columnWidth = min
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }

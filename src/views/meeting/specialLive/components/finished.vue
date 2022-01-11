@@ -68,8 +68,9 @@
         prop="topic"
         align="center"
         label="Present Items"
-        min-width="223"
+        :width="setColumnWidth(tableData, 223)"
       >
+        <!-- min-width="223" -->
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
@@ -95,14 +96,14 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         show-overflow-tooltip
         align="center"
         label="BEN(CN)"
         min-width="58"
         prop="benCn"
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -147,7 +148,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          {{ $t(stateObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -158,7 +159,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+          <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -171,8 +172,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <!-- <detailDialog :openDialog="openDetail" v-if="openDetail" :id="id" /> -->
@@ -184,17 +185,20 @@
       @closeDialog="closeDialog"
       :topicInfo="lookThemenObj"
       :isGetInfoById="true"
+      :isSelf="isSelf"
     >
     </addTopicNew>
   </div>
 </template>
 
 <script>
-import { iPagination, iButton } from 'rise'
+import { iPagination, iButton, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 // import addTopic from './addTopic.vue'
 import { stateObj, themenConclusion } from './data'
 import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
+import { getUserIdListTree } from '@/api/usercenter'
+
 export default {
   components: {
     // iInput,
@@ -210,6 +214,7 @@ export default {
   },
   data() {
     return {
+      isSelf: false,
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
@@ -293,12 +298,29 @@ export default {
     closeDialog() {
       this.openAddTopic = false
     },
-    lookOrEdit(row) {
+    async queryRelateUserList(currentUserId) {
+      const requestData = {
+        userId: currentUserId,
+        isAgent: true
+      }
+      return await getUserIdListTree(requestData)
+    },
+    async lookOrEdit(row) {
+      const getUserId = JSON.parse(sessionStorage.getItem('userInfo')).id
+      const currentUserId = getUserId ? getUserId.toString() : ''
+      const presenterId = row.presenterId ? row.presenterId.toString() : ''
+      const supporterId = row.supporterId ? row.supporterId.toString() : ''
+      this.isSelf =
+        currentUserId === presenterId || currentUserId === supporterId
       if (row.source === '04') {
-        // window.open(
-        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-        //     "_blank"
-        // );
+        if (!this.isSelf) {
+          const res = await this.queryRelateUserList(getUserId)
+          const list = res.data.map((item) => item.toString())
+          if (!(list.includes(presenterId) || list.includes(supporterId))) {
+            iMessage.warn(this.$t('MT_WUCHAKANQUANXIAN'))
+            return
+          }
+        }
         if (row.type === 'FS+MTZ') {
           window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
@@ -381,6 +403,45 @@ export default {
       this.$router.push({
         path: '/meeting/live/special-more-themens'
       })
+    },
+    //表格列字符限制
+    setColumnWidth(data, min) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < min) {
+        // 设置最小宽度
+        columnWidth = min
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }

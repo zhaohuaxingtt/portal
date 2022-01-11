@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
-  <div>
+  <div style="padding-bottom:30px;">
     <div class="download_btn">
       <iButton v-if="!RsObject"
                @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
@@ -16,10 +16,10 @@
     <div ref="qrCodeDiv"
          id="qrCodeDiv"
            @click="rulesClick()"
-         style="padding-bottom:30px;position:relative;"
+         style="position:relative;"
         >
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard class='upload_hr'>
+      <iCard class='upload_hr' id="tabsBoxTitle">
       <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header"
              class="headBox"
@@ -179,14 +179,9 @@
           <div class="applayDateContent"
                v-for="(item, index) in applayDateData"
                :key="index">
-            <icon v-if="item.taskStatus==='同意'"
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-wancheng"></icon>
-            <icon v-else
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-quxiao"></icon>
+            <img class="margin-left5 applayDateIcon"
+               :src="item.taskStatus==='同意'?require('@/assets/images/icon/yes.png'):require('@/assets/images/icon/no.png')"
+               :fit="fit" />
             <div class="applayDateContentItem first_one">
               <span>部门：</span>
               <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
@@ -334,15 +329,21 @@ export default {
       } else {
         name = this.title;
       }
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       transverseDownloadPDF({
-      // downloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
-        direction:"flat",//hight
+        title:['#tabsBoxTitle .cardHeader'],//顶部页眉dom节点
         callback: async (pdf, pdfName) => {
           try {
+            loading.close();
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
             const pdfFile = pdf.output("datauristring");
             const blob = dataURLtoFile(pdfFile, filename);
@@ -453,7 +454,7 @@ export default {
 $tabsInforHeight: 35px;
 
 ::v-deep .cardHeader{
-  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+  padding:1.875rem 1.5625rem 0 2.4rem!important;
 }
 
 .tableTitle {
@@ -502,8 +503,9 @@ $tabsInforHeight: 35px;
   white-space: nowrap;
 }
 .applayDateIcon {
+  width:33px;
+  height:33px;
   margin-top: 10px;
-  font-size: 30px;
 }
 .applayDateContentItem {
   width: 100%;

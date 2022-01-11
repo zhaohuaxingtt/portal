@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('会议纪要')"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -156,7 +156,7 @@
               $t('LK_QUXIAO')
             }}</iButton>
             <iButton @click="handleOK" plain :loading="loadingSummary">{{
-             $t('创建')
+             $t('MT_CHUANGJIAN')
             }}</iButton>
           </el-form-item>
         </div>
@@ -233,7 +233,7 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' }
+          { required: true, message: this.$t('MT_QINGSHURUYITIJIELUN'), trigger: 'blur' }
         ]
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },
@@ -241,7 +241,7 @@ export default {
         // ],
       },
       rule: [
-        { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+        { min: 0, max: 2048, message: this.$t('MT_ZUIDACHANGDU2048ZIFU'), trigger: 'blur' }
       ]
     }
   },
@@ -273,7 +273,7 @@ export default {
             .then((res) => {
               if (Number(res.code) === 200) {
                 this.loadingSummary = false
-                iMessage.success('保存成功')
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                 this.$emit('handleOK')
               }
             })

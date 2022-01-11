@@ -7,11 +7,13 @@ export const COLUMNS = [
     prop: 'title',
     label: '主数据管理',
     i18n: '',
-    type: 'expanded',
     align: 'left',
     headerAlign: 'left',
     minWidth: 160,
-    emit: 'click-menu'
+    emit: 'click-menu',
+    customRender: (h, scope) => {
+      return <span class="cursor-pointer">{scope.row.title}</span>
+    }
   }
 ]
 
@@ -33,8 +35,8 @@ export const MENUS = [
     url: '/materielData/mould'
   },
   {
-    title:'Heavy Item信息',
-    url:'/materielData/Heavy-Item'
+    title: 'Heavy Item信息',
+    url: '/materielData/Heavy-Item'
   },
   {
     title: '原材料信息',

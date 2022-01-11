@@ -84,15 +84,16 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         }
         return Promise.resolve(responseData)
       } else {
-        return Promise.reject(response.data)
+        return Promise.reject(response.desZh)
       }
     },
     (error) => {
+      console.log(error.response.data);
       if (error && error.response && error.response.status) {
         const errorResponseData = error?.response?.data
         let message = error.message
-        if (errorResponseData && errorResponseData.message) {
-          message = errorResponseData.message
+        if (errorResponseData && (errorResponseData.message||errorResponseData.desZh)) {
+          message = errorResponseData.message||errorResponseData.desZh
         }
         if (
           document.getElementsByClassName('el-message').length === 0 &&

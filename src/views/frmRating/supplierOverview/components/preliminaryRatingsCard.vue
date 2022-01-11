@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: 初步评级
 -->
 <template>
@@ -33,14 +33,21 @@ export default {
       //   soon: soon
     }
   },
-
+ watch: {
+    '$i18n.locale'() {
+      this.getChart();
+    }
+  },
   mounted() {
-    initRatingCard().then(res => {
-      this.info = res.data
-      this.getChart()
-    })
+  this.getData()
   },
   methods: {
+      getData(){
+         initRatingCard().then(res => {
+      this.info = res.data
+      this.getChart()
+    })   
+      },
     handleTo() {
       this.$router.push({
         path: '/supplier/frmrating/preliminaryrating/preliminaryrating'
@@ -63,12 +70,12 @@ export default {
           top: 0,
           itemGap: 4,
           text:
-            'CCC及以下供应商数量/比例：' +
+            this.language('CCCJIYIXIAGONGYINGSHANGSHULIANGBILI', 'CCC及以下供应商数量/比例') +
             this.info.cccNumber +
             '/' +
             this.info.percent +
             '%）',
-          subtext: '数量（家）',
+          subtext:  this.language('SHULIANGJIA', '数量/家'),
           textStyle: {
             color: '#E30B0D',
             fontSize: 10
@@ -88,7 +95,7 @@ export default {
           formatter: function(data) {
               console.log(data)
             const type = data[0].axisValue
-            return `${type}-Rating数量：${data[0].value}<br/>${type}-Rating比例：${(
+            return `${type}-${ this.language('RATINGSHULIANG', 'Rating数量')}：${data[0].value}<br/>${type}-${ this.language('RATINGBILI', 'Rating比例')}：${(
               data[0].value / totalCount
             ).toFixed(2) * 100}%`
           }

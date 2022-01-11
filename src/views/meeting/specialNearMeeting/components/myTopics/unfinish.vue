@@ -36,7 +36,7 @@
           class="revort-topic"
           :disabled="disabledButton"
           @click="handleRevokeTopic"
-          >{{ $t('撤回议题') }}</iButton
+          >{{ $t('MT_CHEHUIYITI') }}</iButton
         >
         <iButton @click="handleMore">{{ 'MORE' }}</iButton>
       </div>
@@ -77,8 +77,9 @@
         prop="topic"
         align="center"
         label="Present Items"
-        min-width="223"
+        :width="setColumnWidth(tabData)"
       >
+        <!-- min-width="223" -->
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
@@ -104,14 +105,14 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-     <el-table-column
+      <!-- <el-table-column
         show-overflow-tooltip
         align="center"
         label="BEN(CN)"
         min-width="58"
         prop="benCn"
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -156,7 +157,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          {{ $t(stateObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -167,7 +168,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+          <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -180,8 +181,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <detailDialog
@@ -197,13 +198,14 @@
       :editOrAdd="editOrAdd"
       :topicInfo="lookThemenObj"
       :isGetInfoById="true"
+      :isSelf="isSelf"
     >
     </addTopicNew>
   </div>
 </template>
 
 <script>
-import { iPagination, iButton } from 'rise'
+import { iPagination, iButton, iMessage } from 'rise'
 // import iSearch from "@/components/iSearch/index.vue";
 // import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
 import iTableML from '@/components/iTableML'
@@ -211,6 +213,7 @@ import { findMyThemens } from '@/api/meeting/myMeeting'
 import detailDialog from './detailDialog.vue'
 import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
 import { stateObj, themenConclusion } from '../carouselBox/data.js'
+import { getUserIdListTree } from '@/api/usercenter'
 export default {
   components: {
     // iInput,
@@ -225,8 +228,9 @@ export default {
   },
   data() {
     return {
-            processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal:process.env.VUE_APP_POINT_PORTA,
+      isSelf: false,
+      processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
       disabledButton: true,
       selectedData: [],
       stateObj,
@@ -295,8 +299,29 @@ export default {
     closeDialog() {
       this.openAddTopic = false
     },
-    lookOrEdit(row) {
+    async queryRelateUserList(currentUserId) {
+      const requestData = {
+        userId: currentUserId,
+        isAgent: true
+      }
+      return await getUserIdListTree(requestData)
+    },
+    async lookOrEdit(row) {
+      const getUserId = JSON.parse(sessionStorage.getItem('userInfo')).id
+      const currentUserId = getUserId ? getUserId.toString() : ''
+      const presenterId = row.presenterId ? row.presenterId.toString() : ''
+      const supporterId = row.supporterId ? row.supporterId.toString() : ''
+      this.isSelf =
+        currentUserId === presenterId || currentUserId === supporterId
       if (row.source === '04') {
+        if (!this.isSelf) {
+          const res = await this.queryRelateUserList(getUserId)
+          const list = res.data.map((item) => item.toString())
+          if (!(list.includes(presenterId) || list.includes(supporterId))) {
+            iMessage.warn(this.$t('MT_WUCHAKANQUANXIAN'))
+            return
+          }
+        }
         if (row.type === 'FS+MTZ') {
           window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
@@ -342,7 +367,7 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/special-more-themens',
+        path: '/meeting/near-meeting/special-more-themens'
         // query: {
         //   meetingTypeId: this.meetingTypeId
         // }
@@ -397,6 +422,45 @@ export default {
       let from = (pageNum - 1) * this.page.pageSize
       let to = pageNum * this.page.pageSize
       this.tableData = data.slice(from, to)
+    },
+    //表格列字符限制
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < 223) {
+        // 设置最小宽度
+        columnWidth = 223
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }
@@ -422,8 +486,8 @@ export default {
   }
 }
 
-.my-topics-box {
-  /* ::v-deep .circle:before {
+/*.my-topics-box {
+   ::v-deep .circle:before {
     content: "";
     display: inline-block;
     border-radius: 50%;
@@ -455,8 +519,8 @@ export default {
   ::v-deep .el-pagination {
     margin-top: 30px !important;
     margin-bottom: 1px;
-  } */
-}
+  } 
+}*/
 
 ::v-deep .card .cardBody {
   padding: 0;

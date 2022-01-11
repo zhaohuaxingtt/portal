@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">{{ $t('会议名称') }}</div>
+            <div class="name">{{ $t('MT_HUIYIMINGCHENG') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -12,7 +12,7 @@
               class="button"
               @click="currentButtonList.methodName"
               disabled
-              >{{ $t(currentButtonList.title) }}</iButton
+              >{{ $t(currentButtonList.i18n) }}</iButton
             >
           </div>
           <div class="button-list">
@@ -27,20 +27,20 @@
               "
               :disabled="item.disabled == true && tableData.length !== 0"
             >
-              {{ $t(item.title) }}</iButton
+              {{ $t(item.i18n) }}</iButton
             >
           </div>
         </div>
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">{{ $t('会议类型') }}</div>
+              <div class="title">{{ $t('MT_HUIYILEIXING') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议地点') }}</div>
+              <div class="title">{{ $t('MT_HUIYIDIDIAN') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议时间') }}</div>
+              <div class="title">{{ $t('MT_HUIYISHIJIAN') }}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -80,7 +80,7 @@
           @click="handleClickColumn"
           class="display-column"
           :disabled="showUpdateTopicButtonList"
-          >{{ $t('列隐藏/显示') }}</iButton
+          >{{ $t('MT_LIEYINCANGHUOXIANSHI') }}</iButton
         >
         <actionButtons
           :currentButtonList="tableButtonList"
@@ -111,6 +111,7 @@
           @translateTer="translateTer"
           @freezeRsBill="freezeRsBill"
           @closeResult="closeResult"
+          @sortBatch="sortBatch"
         />
         <div class="table-container">
           <iTableML
@@ -169,13 +170,22 @@
               show-overflow-tooltip
               align="center"
               label="Present Items"
-              min-width="198"
+              :width="setColumnWidth(tableData, 198)"
             >
               <template slot-scope="scope">
                 <span
                   class="open-link-text look-themen-click inline"
                   @click="lookThemen(scope.row)"
-                  >{{ scope.row.topic }}</span
+                  ><span
+                    :title="$t('MT_DINGDIANRSDANWEIDONGJIE')"
+                    v-if="!scope.row.isFixedFrozenRs"
+                  >
+                    <img
+                      src="@/assets/images/icon/warning.svg"
+                      class="img-icon"
+                    />
+                  </span>
+                  {{ scope.row.topic }}</span
                 >
               </template>
             </el-table-column>
@@ -192,7 +202,7 @@
                   scope.row.isBreak
                     ? '-'
                     : scope.row.type === 'MANUAL'
-                    ? $t('手工议题')
+                    ? $t('MT_SHOUGONGYITI')
                     : scope.row.type
                 }}
               </template>
@@ -205,7 +215,7 @@
               min-width="75"
             >
               <template slot-scope="scope">
-                {{ stateObj[scope.row.state] }}
+                {{ $t(stateObj[scope.row.state]) }}
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -219,7 +229,7 @@
                 <span>{{
                   scope.row.isBreak
                     ? '-'
-                    : themenConclusion[scope.row.conclusionCsc]
+                    : $t(themenConclusion[scope.row.conclusionCsc])
                 }}</span>
               </template>
             </el-table-column>
@@ -252,6 +262,19 @@
             <el-table-column
               show-overflow-tooltip
               align="center"
+              label="Sourcing Team"
+              min-width="115"
+              prop="supporter"
+            >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '-' : scope.row.sourcingSectionCode
+                }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
               label="Linie"
               min-width="82"
               prop="presenter"
@@ -259,6 +282,19 @@
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.presenter }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="Linie Team"
+              min-width="82"
+              prop="presenter"
+            >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '-' : scope.row.linieSectionCode
+                }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
@@ -325,7 +361,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
-            <el-table-column
+            <!-- <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(CN)"
@@ -336,9 +372,9 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
-            <el-table-column
+            <!-- <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(DE)"
@@ -349,7 +385,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
@@ -450,13 +486,23 @@
                 show-overflow-tooltip
                 align="center"
                 label="Present Items"
-                min-width="198"
+                :width="setColumnWidth(tableData, 198)"
               >
                 <template slot-scope="scope">
                   <span
                     class="open-link-text look-themen-click inline"
                     @click="lookThemen(scope.row)"
-                    >{{ scope.row.topic }}</span
+                  >
+                    <span
+                      :title="$t('MT_DINGDIANRSDANWEIDONGJIE')"
+                      v-if="!scope.row.isFixedFrozenRs"
+                    >
+                      <img
+                        src="@/assets/images/icon/warning.svg"
+                        class="img-icon"
+                      />
+                    </span>
+                    {{ scope.row.topic }}</span
                   >
                 </template>
               </el-table-column>
@@ -473,7 +519,7 @@
                     scope.row.isBreak
                       ? '-'
                       : scope.row.type === 'MANUAL'
-                      ? $t('手工议题')
+                      ? $t('MT_SHOUGONGYITI')
                       : scope.row.type
                   }}
                 </template>
@@ -486,7 +532,7 @@
                 min-width="75"
               >
                 <template slot-scope="scope">
-                  {{ stateObj[scope.row.state] }}
+                  {{ $t(stateObj[scope.row.state]) }}
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -533,6 +579,19 @@
               <el-table-column
                 show-overflow-tooltip
                 align="center"
+                label="Sourcing Team"
+                min-width="115"
+                prop="supporter"
+              >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.sourcingSectionCode
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
                 label="Linie"
                 min-width="82"
                 prop="presenter"
@@ -540,6 +599,19 @@
                 <template slot-scope="scope">
                   <span>{{
                     scope.row.isBreak ? '-' : scope.row.presenter
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="Linie Team"
+                min-width="82"
+                prop="presenter"
+              >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.linieSectionCode
                   }}</span>
                 </template>
               </el-table-column>
@@ -607,7 +679,7 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
-              <el-table-column
+              <!-- <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(CN)"
@@ -618,9 +690,9 @@
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
-              <el-table-column
+              <!-- <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(DE)"
@@ -631,7 +703,7 @@
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
@@ -821,6 +893,18 @@
       :errorList="errorList"
       @handleCloseError="handleCloseError"
     />
+    <sortDialog
+      v-if="openSortDialog"
+      @closeDialog="handleCloseSortDialog"
+      :openSortDialog="openSortDialog"
+      :meetingInfo="meetingInfo"
+    ></sortDialog>
+    <freezeWarn
+      :warnTableData="warnTableData"
+      @closeDialog="closeFreeWarnDialog"
+      :openFreezeDialog="openFreezeDialog"
+      @stillYesCloseDialog="stillYesCloseDialog"
+    ></freezeWarn>
   </iPage>
 </template>
 <script>
@@ -838,6 +922,7 @@ import protectConclusion from './component/protectConclusion.vue'
 import addTopicNew from './component/addTopicNew.vue'
 import lookConclusion from './component/lookConclusion.vue'
 import importErrorDialog from './component/importErrorDialog.vue'
+import sortDialog from './component/sortDialog.vue'
 
 import {
   findThemenById,
@@ -865,6 +950,7 @@ import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
+import freezeWarn from './component/freezeWarn.vue'
 
 export default {
   mixins: [pageMixins],
@@ -888,10 +974,16 @@ export default {
     iTableML,
     newSummaryDialogNew,
     addTopicNew,
-    importErrorDialog
+    importErrorDialog,
+    sortDialog,
+    freezeWarn
   },
   data() {
     return {
+      openFreezeDialog: false,
+      warnTableData: [],
+      openSortDialog: false,
+      riseIcon: process.env.VUE_APP_EMAIL_ICON,
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
@@ -998,6 +1090,54 @@ export default {
   //   }
   // },
   methods: {
+    stillYesCloseDialog() {
+      this.close('still')
+    },
+    closeFreeWarnDialog() {
+      this.openFreezeDialog = false
+    },
+    handleAlert(data) {
+      this.warnTableData = [...data]
+      this.openFreezeDialog = true
+    },
+    sortBatch() {
+      this.handleSortDialog()
+    },
+    handleCloseSortDialog(str) {
+      this.openSortDialog = false
+      if (str === 'reset') {
+        this.$nextTick(() => {
+          this.handleSortDialog()
+        })
+      }
+      if (str === 'save') {
+        this.getMeetingTypeObject()
+        this.getTableData()
+      }
+    },
+    handleSortDialog() {
+      this.openSortDialog = true
+    },
+    createAnchorLink(href) {
+      // console.log('href', href)
+      const a = document.createElement('a')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    },
+    handleSendEmail(list) {
+      const subject = this.meetingInfo.name
+      const send = list ? list.join(';') : ''
+      // let minuteSrc = 'aaa'
+      const attachments = this.meetingInfo.attachments.find((item) => {
+        return item.source === '02'
+      })
+      const minuteSrc = attachments ? attachments.attachmentUrl : ''
+      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/>`
+      let href = `mailto:${send}?subject=${subject}&body=${body}`
+      this.createAnchorLink(href)
+    },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
     },
@@ -1164,13 +1304,13 @@ export default {
     downDemo() {
       downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
-        filename: '议题模版',
+        filename: this.$t('MT_YITIMUBAN'),
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
-            iMessage.success('下载模版成功')
+            iMessage.success(this.$t('MT_XIAZAIMUBANCHENGGONG'))
           } else {
-            iMessage.error('下载模版成功')
+            iMessage.error(this.$t('MT_XIAZAIMUBANSHIBAI'))
           }
         },
         noFileUd: true
@@ -1184,19 +1324,23 @@ export default {
         meetingId: this.meetingInfo.id,
         themenId: themen.id
       }
-      this.$confirm('是否同意撤回该议题？', '提示', {
-        confirmButtonText: '同意',
-        cancelButtonText: '拒绝',
-        distinguishCancelAndClose: true,
-        type: 'warning'
-      })
+      this.$confirm(
+        this.$t('MT_SHIFOUTONGYICHEHUIGAIYITI'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_TONGYI'),
+          cancelButtonText: this.$t('MT_JUJUE'),
+          distinguishCancelAndClose: true,
+          type: 'warning'
+        }
+      )
         .then(() => {
           passThemenRecall(params)
             .then((res) => {
               if (res.code === 200) {
                 this.flushTable()
                 // iMessage.success(res.message);
-                iMessage.success('审批通过')
+                iMessage.success(this.$t('MT_SHENPITONGGUO'))
                 return
               }
               iMessage.error(res.message)
@@ -1214,7 +1358,7 @@ export default {
               .then((res) => {
                 if (res.code === 200) {
                   this.flushTable()
-                  iMessage.success('拒绝成功!')
+                  iMessage.success(this.$t('MT_JUJUECHENGGONG'))
                   // iMessage.success(res.message);
                   return
                 }
@@ -1277,10 +1421,11 @@ export default {
     closeDialogTopic() {
       this.openAddTopic = false
     },
-    // 导入议题保存
-    handleOKTopics(info) {
+
+    handleOKTopics(info, list) {
       if (info === 'close') {
-        iMessage.success('关闭成功')
+        iMessage.success(this.$t('MT_GUANBICHENGGONG'))
+        this.handleSendEmail(list)
       }
       this.closeDialog()
       this.flushTable()
@@ -1288,7 +1433,7 @@ export default {
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn('请导入议题后再保存')
+        iMessage.warn(this.$t('MT_QINGDAORUYITIHOUBAOCUN'))
         return
       }
       this.disabledImportThemenButton = true
@@ -1313,7 +1458,7 @@ export default {
           //   this.nameList = []
           // }
           if (res.length == 0) {
-            iMessage.success('导入议题成功')
+            iMessage.success(this.$t('MT_DAORUYITICHENGGONG'))
             this.openTopics = false
             this.disabledImportThemenButton = false
             // this.refreshTable()
@@ -1385,14 +1530,20 @@ export default {
       this.tableObject = new Sortable(tbody, {
         filter: '.dragable-row',
         onFilter() {
-          iMessage.warn('已结束或进行中的议题不可以被调整!')
+          iMessage.warn(
+            this.$t('MT_YIJIESHUHUOJINXINGZHONGDEYITIBUKEYIBEITIAOZHENG')
+          )
         },
         onMove(evt) {
           const classStr = evt.related.getAttribute('class')
           if (classStr.includes('dragable-row')) {
             if (!_this.timer) {
               _this.timer = true
-              iMessage.warn('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              iMessage.warn(
+                this.$t(
+                  'MT_BUKEYIBAYITITUOZHUAIDAOYIJIESHUHUOZHEJINXINGZHONGDEYITIZHIQIAN'
+                )
+              )
               let timers = setTimeout(() => {
                 _this.timer = null
                 clearTimeout(timers)
@@ -1488,11 +1639,16 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: '撤回', methodName: 'recall', disabled: true },
-                { title: '锁定', methodName: 'lock' },
-                { title: '开始', methodName: 'start' },
-                { title: '修改', methodName: 'edit' },
-                { title: '返回', methodName: 'back' }
+                {
+                  title: '撤回',
+                  methodName: 'recall',
+                  disabled: true,
+                  i18n: 'MT_CHEHUI'
+                },
+                { title: '锁定', methodName: 'lock', i18n: 'MT_SUODING' },
+                { title: '开始', methodName: 'start', i18n: 'MT_KAISHI' },
+                { title: '修改', methodName: 'edit', i18n: 'MT_XIUGAI' },
+                { title: '返回', methodName: 'back', i18n: 'MT_FANHUI' }
               ],
               '锁定'
             )
@@ -1500,11 +1656,16 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: '撤回', methodName: 'recall', disabled: true },
-                { title: '锁定', methodName: 'lock' },
-                { title: '开始', methodName: 'start' },
-                { title: '修改', methodName: 'edit' },
-                { title: '返回', methodName: 'back' }
+                {
+                  title: '撤回',
+                  methodName: 'recall',
+                  disabled: true,
+                  i18n: 'MT_CHEHUI'
+                },
+                { title: '锁定', methodName: 'lock', i18n: 'MT_SUODING' },
+                { title: '开始', methodName: 'start', i18n: 'MT_KAISHI' },
+                { title: '修改', methodName: 'edit', i18n: 'MT_XIUGAI' },
+                { title: '返回', methodName: 'back', i18n: 'MT_FANHUI' }
               ],
               '开始'
             )
@@ -1656,9 +1817,9 @@ export default {
       resortThemen(formData)
         .then((data) => {
           if (data) {
-            iMessage.success('保存成功')
+            iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
           } else {
-            iMessage.error('保存失败')
+            iMessage.error(this.$t('MT_BAOCUNSHIBAI'))
           }
           this.changedArr = ''
           this.flushTable()
@@ -1668,23 +1829,42 @@ export default {
           console.log('err', err)
         })
     },
-    close() {
+    close(str) {
+      if (str !== 'still') {
+        const warnData = this.resThemeData.filter((item) => {
+          return !item.isFixedFrozenRs
+        })
+        if (warnData.length > 0) {
+          this.handleAlert(warnData)
+          return
+        }
+      }
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-          confirmButtonText: '前往',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t(
+            'MT_SHANGWEISHENGCHENGHUIYIJIYAO_QIANWANGSHENGCHENGHUIYIJIYAO'
+          ),
+          this.$t('MT_TISHI'),
+          {
+            confirmButtonText: this.$t('MT_QIANWANG'),
+            cancelButtonText: this.$t('MT_QUXIAO'),
+            type: 'warning'
+          }
+        ).then(() => {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog('openCloseMeetiongDialog')
           this.generateMeetingMinutes()
         })
       } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t('MT_QINGQUERENSHIFOUXUYAOGUANBIHUIYI'),
+          this.$t('MT_TISHI'),
+          {
+            confirmButtonText: this.$t('MT_SHI'),
+            cancelButtonText: this.$t('MT_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog('openCloseMeetiongDialog')
           this.$nextTick(() => {
@@ -1713,7 +1893,7 @@ export default {
     },
     startTopic() {
       if (this.haveThemenIsStarting()) {
-        iMessage.warn('已有进行中的议题！')
+        iMessage.warn(this.$t('MT_YIYOUJINXINGZHONGDEYITI'))
         return
       }
       if (
@@ -1721,11 +1901,11 @@ export default {
         this.selectedTableData.length >= 1 &&
         this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn('请按议题顺序开始议题！')
+        iMessage.warn(this.$t('MT_QINGANYITISHUNXUKAISHIYITI'))
         return
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn('该议题列表已全部结束！')
+        iMessage.warn(this.$t('MT_GAIYITILIEBIAOYIQUANBUJIESHU'))
         return
       }
       const param = {
@@ -1734,7 +1914,7 @@ export default {
       }
       startThemen(param)
         .then(() => {
-          iMessage.success('开始议题成功！')
+          iMessage.success(this.$t('MT_KAISHIYITICHENGGONG'))
           // this.refreshTable();
           this.flushTable()
         })
@@ -1761,7 +1941,7 @@ export default {
         themenId: choiceThemen && choiceThemen.id
       }
       if (choiceThemen && choiceThemen.state !== '02') {
-        iMessage.warn('该议题未进行中，不能结束操作！')
+        iMessage.warn(this.$t('MT_GAIYITIWEIJINXINGZHONG_BUNENGJIESHUCAOZUO'))
         return
       }
       const bol = this.isOverTime(choiceThemen)
@@ -1769,7 +1949,7 @@ export default {
         endThemen(param)
           .then((info) => {
             if (info.code === 200) {
-              iMessage.success('结束议题成功!')
+              iMessage.success(this.$t('MT_JIESHUYITICHENGGONG'))
               this.flushTable().then((res) => {
                 if (!choiceThemen.isBreak) {
                   let obj = res.themens.find((item) => {
@@ -1789,7 +1969,7 @@ export default {
       } else {
         endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success(this.$t('MT_JIESHUYITICHENGGONG'))
             // this.refreshTable();
             this.flushTable()
           })
@@ -1799,9 +1979,9 @@ export default {
       }
     },
     split() {
-      this.$confirm('确认拆分该议题么?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('MT_QUERENCHAIFENGAIYITIME'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_QUEREN'),
+        cancelButtonText: this.$t('MT_QUXIAO'),
         type: 'warning'
       }).then(() => {
         const data = {
@@ -1810,7 +1990,7 @@ export default {
         }
         spiltThemen(data)
           .then(() => {
-            iMessage.success('拆分成功!')
+            iMessage.success(this.$t('MT_CHAIFENCHENGGONG'))
             this.flushTable()
           })
           .catch((err) => {
@@ -1827,7 +2007,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('开始议题成功！')
+            iMessage.success(this.$t('MT_KAISHIYITICHENGGONG'))
             this.flushTable()
           }
         })
@@ -1839,14 +2019,14 @@ export default {
     recall() {
       let ids = []
       ids.push(this.$route.query.id)
-      this.$confirm('是否撤回该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('MT_SHIFOUCHEHUIGAIHUIYI'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
-            this.$message.success('撤回成功!')
+            this.$message.success(this.$t('MT_CHEHUICHENGGONG'))
             this.$router.go(-1)
           }
         })
@@ -1855,7 +2035,7 @@ export default {
     updateDate() {
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
-        iMessage.warn('休息议题不能进行改期')
+        iMessage.warn(this.$t('MT_XIUXIYITIBUNENGJINXINGHAIQI'))
         return
       }
       this.openDialog('openUpdateDateDialog')
@@ -1898,9 +2078,9 @@ export default {
     // },
     //批量删除
     deleteTopAll() {
-      this.$confirm('确认删除该议题么?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('MT_QUERENSHANCHUGAIYITIMA'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_QUEREN'),
+        cancelButtonText: this.$t('MT_QUXIAO'),
         type: 'warning'
       }).then(() => {
         let pArr = []
@@ -1922,11 +2102,11 @@ export default {
         })
         Promise.all(pArr)
           .then(() => {
-            iMessage.success('删除成功!')
+            iMessage.success(this.$t('MT_SHANCHUCHENGGONG'))
             this.flushTable()
           })
           .catch(() => {
-            iMessage.error('删除失败!')
+            iMessage.error(this.$t('MT_SHANCHUSHIBAI'))
           })
       })
     },
@@ -1936,7 +2116,9 @@ export default {
           ? this.selectedTableData[0].state === '02'
           : ''
       ) {
-        iMessage.warn('进行中的议题不能进行会议资料维护')
+        iMessage.warn(
+          this.$t('MT_JINXINGZHONGDEYITIBUNENGJINXINGHUIYIZILIAOWEIHU')
+        )
         return
       }
       if (
@@ -1944,18 +2126,20 @@ export default {
           ? this.selectedTableData[0].state === '03'
           : ''
       ) {
-        iMessage.warn('已完成的议题不能进行会议资料维护')
+        iMessage.warn(
+          this.$t('MT_YIWANCHENGDEYITIBUNENGJINXINGHUIYIZILIAOWEIHU')
+        )
         return
       }
       if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : '') {
-        iMessage.warn('休息议题不可维护资料')
+        iMessage.warn(this.$t('MT_XIUXIYITIBUKEWEIHUZILIAO'))
         return
       }
       this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
       if (this.selectedTableData[0].state === '03') {
-        iMessage.warn('已结束的议题不能进行修改议题')
+        iMessage.warn(this.$t('MT_YIJIESHUDEDYITIBUNENGJINXINGXIUGAIYITI'))
         return
       }
       this.editOrAdd = 'edit'
@@ -2004,7 +2188,7 @@ export default {
       }
       changeStateMeeting(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success('开放会议成功！')
+          iMessage.success(this.$t('MT_KAIFANGHUIYICHENGGONG'))
         }
         // this.refreshTable();
         this.flushTable()
@@ -2025,7 +2209,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res.code == 200) {
-            iMessage.success('结束会议成功！')
+            iMessage.success(this.$t('MT_JIESHUHUIYICHENGGONG'))
             this.flushTable()
             this.getMeetingTypeObject()
           }
@@ -2074,18 +2258,22 @@ export default {
     },
     lock() {
       // 锁定
-      this.$confirm('请确认是否需要锁定会议？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_QINGQUERENSHIFOUXUYAOSUODINGHUIYI'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         let param = {
           id: this.meetingInfo.id,
           state: '03'
         }
         changeStateMeeting(param)
           .then(() => {
-            iMessage.success('锁定会议成功！')
+            iMessage.success(this.$t('MT_SUODINGHUIYICHENGGONG'))
             // this.refreshTable();
             this.getMeetingTypeObject()
             this.flushTable()
@@ -2102,7 +2290,7 @@ export default {
       }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success('解锁会议成功！')
+          iMessage.success(this.$t('MT_JIESUOHUIYICHENGGONG'))
           this.getMeetingTypeObject()
           this.flushTable()
         })
@@ -2389,7 +2577,7 @@ export default {
                   'nextPreCSC',
                   'senLol',
                   'translateTer',
-                  'closeResult',
+                  'closeResult'
                   // 'translateCSC'
                   // "lookResult",
                 ],
@@ -2448,6 +2636,9 @@ export default {
             }
             if (val[0].fixedPointApplyType == 20) {
               this.handleButtonDisabled(['senLol', 'translateTer'], true)
+            }
+            if (val[0].type === 'MTZ') {
+              this.handleButtonDisabled(['freezeRsBill'], true)
             }
           }
         } else if (val[0].state === '02') {
@@ -2529,11 +2720,57 @@ export default {
         return 'active-row dragable-row'
       }
       return 'narmal-row'
+    },
+    //表格列字符限制
+    setColumnWidth(data, min) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < min) {
+        // 设置最小宽度
+        columnWidth = min
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.img-icon {
+  width: 12px;
+  height: 12px;
+  img {
+    transform: translateY(0.5px);
+  }
+}
 .display-column {
   transform: translateY(90px);
 }

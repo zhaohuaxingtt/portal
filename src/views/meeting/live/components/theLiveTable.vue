@@ -98,7 +98,7 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.count }}</span>
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="34" align="center" label=""></el-table-column>
@@ -238,11 +238,11 @@
           ></div> -->
             <span>{{
               scope.row.state === '01'
-                ? $t('未进行')
+                ? $t('MT_WEIJINXING')
                 : scope.row.state === '02'
-                ? $t('进行中')
+                ? $t('MT_JINXINGZHONG')
                 : scope.row.state === '03'
-                ? $t('已结束')
+                ? $t('MT_YIJIESHU')
                 : ''
             }}</span>
           </template>

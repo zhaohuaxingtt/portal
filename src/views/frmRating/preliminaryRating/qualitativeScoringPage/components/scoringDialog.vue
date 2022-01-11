@@ -1,35 +1,27 @@
 <template>
   <!--打分-->
-  <iDialog
-    :title="title"
-    :visible.sync="value"
-    width="90%"
-    @close="clearDiolog"
-    :close-on-click-modal="false"
-  >
+  <iDialog :title="title"
+           :visible.sync="value"
+           width="90%"
+           @close="clearDiolog"
+           :close-on-click-modal="false">
     <div class="content">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!--提交-->
-          <iButton
-            v-if="showSubmitButton"
-            @click="handleSubmit('submit')"
-            :loading="submitLoading"
-            >{{ $t('LK_TIJIAO') }}
+          <iButton v-if="showSubmitButton"
+                   @click="handleSubmit('submit')"
+                   :loading="submitLoading">{{ $t('LK_TIJIAO') }}
           </iButton>
           <!--暂存-->
-          <iButton
-            v-if="showTemporaryStorageButton"
-            @click="handleSubmit('tempStore')"
-            :loading="temporaryStorageLoading"
-            >{{ $t('SUPPLIER_ZANCUN') }}
+          <iButton v-if="showTemporaryStorageButton"
+                   @click="handleSubmit('tempStore')"
+                   :loading="temporaryStorageLoading">{{ $t('SUPPLIER_ZANCUN') }}
           </iButton>
           <!--沿用-->
-          <iButton
-            v-if="showFollowButton"
-            @click="handleFollow"
-            :loading="followButtonLoading"
-            >{{ $t('SPR_FRM_CBPJ_YY') }}
+          <iButton v-if="showFollowButton"
+                   @click="handleFollow"
+                   :loading="followButtonLoading">{{ $t('SPR_FRM_CBPJ_YY') }}
           </iButton>
         </div>
       </div>
@@ -46,67 +38,53 @@
                  ref="commonTable">
 
       </tableList> -->
-      <el-table @selection-change="handleSelectionChange" :data="tableListData">
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column
-          type="index"
-          width="50"
-          align="center"
-          label="#"
-        ></el-table-column>
-        <el-table-column
-          align="center"
-          prop="nameZh"
-          label="供应商名称"
-          width="120"
-        >
+      <el-table @selection-change="handleSelectionChange"
+                :data="tableListData">
+        <el-table-column type="selection"
+                         width="55"> </el-table-column>
+        <el-table-column type="index"
+                         width="50"
+                         align="center"
+                         label="#"></el-table-column>
+        <el-table-column align="center"
+                         prop="nameZh"
+                         label="供应商名称"
+                         width="120">
         </el-table-column>
-        <el-table-column
-          align="center"
-          prop="dept"
-          label="负责科室"
-          width="120"
-        >
+        <el-table-column align="center"
+                         prop="dept"
+                         label="负责科股"
+                         width="120">
         </el-table-column>
         <template v-for="(item, index) in tableTitleData">
-          <el-table-column
-            align="center"
-            :key="item.itemCode"
-            :prop="item.itemCode"
-            :label="item.itemNameZh"
-            width="150"
-          >
+          <el-table-column align="center"
+                           :key="item.itemCode"
+                           :prop="item.itemCode"
+                           :label="item.itemNameZh"
+                           width="150">
             <template slot-scope="scope">
-              <iSelect
-                v-model="scope.row.itemList[index]"
-                :placeholder="language('请选择')"
-                value-key="itemScore"
-              >
+              <iSelect v-model="scope.row.itemList[index]"
+                       :placeholder="language('请选择')"
+                       value-key="itemScore">
                 <!-- cloneList[scope.$index].itemList -->
-                <el-option
-                  v-for="item in selectData"
-                  :key="item.itemScore"
-                  :label="item.itemScore"
-                  :value="item"
-                >
+                <el-option v-for="item in selectData"
+                           :key="item.itemScore"
+                           :label="item.itemScore"
+                           :value="item">
                 </el-option>
               </iSelect>
             </template>
           </el-table-column>
         </template>
-        <el-table-column
-          align="center"
-          prop="updateDate"
-          label="最近更新时间"
-          width="150"
-        >
+        <el-table-column align="center"
+                         prop="updateDate"
+                         label="最近更新时间"
+                         width="150">
         </el-table-column>
-        <el-table-column
-          align="center"
-          prop="updateByName"
-          label="最近更新人"
-          width="150"
-        >
+        <el-table-column align="center"
+                         prop="updateByName"
+                         label="最近更新人"
+                         width="150">
         </el-table-column>
       </el-table>
     </div>
@@ -156,7 +134,7 @@ export default {
     action: { type: String, default: '' },
     selection: { type: Boolean, default: true }
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       selectDictResultVo: [],
@@ -170,41 +148,47 @@ export default {
       qualiativeTable: [],
       cloneList: [],
       selectData: [],
-      itemCodeArr: []
+      itemCodeArr: [],
+      infoData: []
     }
   },
-  created() {
+
+  created () {
     this.selectProps = ['isAudit', 'isMergeReport']
   },
   methods: {
-    async getTableTitle() {},
-    clearDiolog() {
+    async getTableTitle () { },
+    clearDiolog () {
       this.$emit('input', false)
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    async getEditTableList() {
+    async getEditTableList () {
       this.tableLoading = true
       this.tableListData = []
       try {
         let req = {}
-        const initialIds = this.outerSelectTableData.map((item) => {
+        const initialIds = this.infoData.map((item) => {
           return item.id
         })
+        console.log(this.outerSelectTableData)
+        console.log(this.infoData)
         req = {
           initialIds
         }
-        const res = await getQualitativeScoreDialogList(req)
+        // const res = await getQualitativeScoreDialogList(req)
+        const res = await getScoreViewList(req)
+        console.log(res)
         if (res.result) {
           this.tableListData = res.data
-           this.tableListData.forEach((res) => {
+          this.tableListData.forEach((res) => {
             if (res.itemList) {
               if (res.itemList == null || res.itemList == '') {
                 res.itemList = []
               }
-            }else{
-                res.itemList=[]
+            } else {
+              res.itemList = []
             }
           })
         }
@@ -214,7 +198,7 @@ export default {
         this.tableLoading = false
       }
     },
-    async getScoreSelectList() {
+    async getScoreSelectList () {
       this.selectData = []
       const res = await getDictByCode('QUALITATIVE_GRADE_ITEM_SCORE')
       const list = res.data[0].subDictResultVo
@@ -244,7 +228,7 @@ export default {
         contractCompliance: list
       }
     },
-    async handleSubmit(step) {
+    async handleSubmit (step) {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -328,14 +312,14 @@ export default {
       }
     },
 
-    handleSubmitOrTemporaryStorageButtonLoading(step, boolean) {
+    handleSubmitOrTemporaryStorageButtonLoading (step, boolean) {
       if (step === 'submit') {
         this.submitLoading = boolean
       } else if (step === 'tempStore') {
         this.temporaryStorageLoading = boolean
       }
     },
-    async handleFollow() {
+    async handleFollow () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -355,30 +339,32 @@ export default {
         this.followButtonLoading = false
       }
     },
-    async getViewTableList() {
+    async getViewTableList () {
       this.tableLoading = true
       this.tableListData = []
       try {
-        const initialIds = this.outerSelectTableData.map((item) => {
+        const initialIds = this.infoData.map((item) => {
           return item.id
         })
+        console.log(this.outerSelectTableData)
+        console.log(this.infoData)
         const req = {
           initialIds
         }
         const titleData = await getQualitativeMappingList()
         this.tableTitleData = titleData.data
-        
-        const res = await getQualitativeScoreDialogList(req)
-        //const res = await getScoreViewList(req)
+
+        // const res = await getQualitativeScoreDialogList(req)
+        const res = await getScoreViewList(req)
         if (res.result) {
           this.tableListData = res.data
-           this.tableListData.forEach((res) => {
+          this.tableListData.forEach((res) => {
             if (res.itemList) {
               if (res.itemList == null || res.itemList == '') {
                 res.itemList = []
               }
-            }else{
-                res.itemList=[]
+            } else {
+              res.itemList = []
             }
           })
           this.cloneList = _.cloneDeep(this.tableListData)
@@ -409,7 +395,8 @@ export default {
         this.tableLoading = false
       }
     },
-    getTableList() {
+    getTableList () {
+      console.log(this.action)
       if (this.action === 'view') {
         this.getViewTableList()
       } else {
@@ -418,10 +405,12 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    value (val) {
       if (val) {
+        this.infoData = this.outerSelectTableData
         this.getScoreSelectList()
         this.getViewTableList()
+        console.log(this.infoData)
       }
     }
   }

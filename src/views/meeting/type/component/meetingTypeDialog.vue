@@ -1,7 +1,11 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="editOrAdd === 'add' ? $t('创建会议类型') : $t('编辑会议类型')"
+    :title="
+      editOrAdd === 'add'
+        ? $t('MT_CHUANGJIANHUIYILEIXING')
+        : $t('MT_BIANJIHUIYILEIXING')
+    "
     :visible.sync="openDialog"
     width="65.5rem"
     :close-on-click-modal="false"
@@ -26,12 +30,12 @@
             />
             <div class="form-upload">
               <iFormItem
-                :label="$t('上传封面图片')"
+                :label="$t('MT_SHANGCHUANFENGMIANTUPIAN')"
                 prop="coverImage"
                 ref="ruleFormCoverImage"
               >
                 <iLabel
-                  :label="$t('上传封面图片')"
+                  :label="$t('MT_SHANGCHUANFENGMIANTUPIAN')"
                   slot="label"
                   required
                 ></iLabel>
@@ -47,11 +51,11 @@
                     class="upload-button"
                     :loading="uploadLoading"
                   >
-                    {{ $t('请选择文件')
+                    {{ $t('MT_QINGXUANZEWENJIAN')
                     }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <div slot="tip" class="el-upload__tip">
-                    {{ $t(' 建议使用16:9比例，图片最大15M') }}
+                    {{ $t('MT_JIANYISHIYONGBILI') }}
                   </div>
                 </el-upload>
               </iFormItem>
@@ -60,11 +64,15 @@
           <div class="input-box">
             <div class="form-row">
               <iFormItem
-                :label="$t('类型名称')"
+                :label="$t('MT_LEIXINGMINGCHENG')"
                 prop="name"
                 :hideRequiredAsterisk="true"
               >
-                <iLabel :label="$t('类型名称')" slot="label" required></iLabel>
+                <iLabel
+                  :label="$t('MT_LEIXINGMINGCHENG')"
+                  slot="label"
+                  required
+                ></iLabel>
                 <iInput
                   v-model="ruleForm.name"
                   :disabled="
@@ -76,7 +84,7 @@
                 ></iInput>
               </iFormItem>
               <iFormItem
-                :label="$t('生成会议名称后缀')"
+                :label="$t('MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI')"
                 prop="meetingNameSuffix"
                 :rules="
                   ruleForm.category == '01'
@@ -85,7 +93,7 @@
                 "
               >
                 <iLabel
-                  :label="$t('生成会议名称后缀')"
+                  :label="$t('MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI')"
                   slot="label"
                   :required="ruleForm.category == '01'"
                 ></iLabel>
@@ -101,15 +109,25 @@
               </iFormItem>
             </div>
             <div class="form-row">
-              <iFormItem :label="$t('会议信息描述')" prop="meetingInfoDesc">
-                <iLabel :label="$t('会议信息描述')" slot="label"></iLabel>
+              <iFormItem
+                :label="$t('MT_HUIYIXINXIMIAOSHU')"
+                prop="meetingInfoDesc"
+              >
+                <iLabel
+                  :label="$t('MT_HUIYIXINXIMIAOSHU')"
+                  slot="label"
+                ></iLabel>
                 <iInput v-model="ruleForm.meetingInfoDesc"></iInput>
               </iFormItem>
-              <iFormItem :label="$t('所属分类')" prop="category">
-                <iLabel :label="$t('所属分类')" slot="label" required></iLabel>
+              <iFormItem :label="$t('MT_SUOSHUFENLEI')" prop="category">
+                <iLabel
+                  :label="$t('MT_SUOSHUFENLEI')"
+                  slot="label"
+                  required
+                ></iLabel>
                 <iSelect
                   v-model="ruleForm.category"
-                  :placeholder="$t('请选择')"
+                  :placeholder="$t('MT_QINGXUANZE')"
                   value-key="id"
                   @change="selectChanged"
                   :disabled="
@@ -122,7 +140,7 @@
                   <el-option
                     v-for="item in categoryList"
                     :key="item.id"
-                    :label="item.name"
+                    :label="$t(item.i18n)"
                     :value="item.id"
                   >
                   </el-option>
@@ -131,13 +149,13 @@
             </div>
             <div class="form-row">
               <iFormItem
-                :label="$t('会议管理员')"
+                :label="$t('MT_HUIYIGUANLIYUAN')"
                 prop="userIds"
                 :hideRequiredAsterisk="true"
                 class="item"
               >
                 <iLabel
-                  :label="$t('会议管理员')"
+                  :label="$t('MT_HUIYIGUANLIYUAN')"
                   slot="label"
                   required
                 ></iLabel>
@@ -160,7 +178,7 @@
                 </iSelect>
               </iFormItem>
               <iFormItem
-                :label="$t('会议属性')"
+                :label="$t('MT_HUIYISHUXING')"
                 prop="meetingAttribute"
                 :hideRequiredAsterisk="true"
                 class="item"
@@ -171,7 +189,7 @@
                 "
               >
                 <iLabel
-                  :label="$t('会议属性')"
+                  :label="$t('MT_HUIYISHUXING')"
                   slot="label"
                   :required="ruleForm.category == '03'"
                 ></iLabel>
@@ -192,13 +210,13 @@
             </div>
             <div class="form-row" v-if="ruleForm.category != '01'">
               <iFormItem
-                :label="$t('会议结论配置')"
+                :label="$t('MT_HUIYIJIELUNPEIZHI')"
                 :hideRequiredAsterisk="true"
                 class="item conclusion-config"
                 prop="conclusionConfig"
               >
                 <iLabel
-                  :label="$t('会议结论配置')"
+                  :label="$t('MT_HUIYIJIELUNPEIZHI')"
                   slot="label"
                   required
                 ></iLabel>
@@ -213,19 +231,19 @@
                       ? conclusionConfigList3
                       : conclusionConfigList2"
                     :key="item.id"
-                    :label="item.name"
+                    :label="$t(item.i18n)"
                     :value="item.id"
                   >
                   </el-option>
                 </iSelect>
               </iFormItem>
               <iFormItem
-                :label="$t('会议上下限金额')"
+                :label="$t('MT_HUIYISHANGXIAXIANJINE')"
                 :hideRequiredAsterisk="true"
                 class="itemLimit"
               >
                 <iLabel
-                  :label="$t('会议上下限金额')"
+                  :label="$t('MT_HUIYISHANGXIAXIANJINE')"
                   slot="label"
                   :required="ruleForm.category == '03'"
                 ></iLabel>
@@ -240,7 +258,7 @@
                   >
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('下限')"
+                      :placeholder="$t('MT_XIAXIAN')"
                       v-model.number="ruleForm.lowerLimitMoney"
                       type="number"
                     ></iInput>
@@ -258,7 +276,7 @@
                   >
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('上限')"
+                      :placeholder="$t('MT_SHANGXIAN')"
                       v-model.number="ruleForm.upperLimitMoney"
                       type="number"
                     ></iInput>
@@ -268,13 +286,13 @@
             </div>
             <div class="form-row" v-show="ruleForm.category != '01'">
               <iFormItem
-                :label="$t('关联关系')"
+                :label="$t('MT_GUANLIANGUANXI')"
                 prop="incidenceRelation"
                 :hideRequiredAsterisk="true"
                 class="item incidate-relation"
                 :rules="rules.incidenceRelationRuleNoRequired"
               >
-                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
+                <iLabel :label="$t('MT_GUANLIANGUANXI')" slot="label"></iLabel>
                 <iSelect
                   class="autoSearch"
                   v-model="ruleForm.incidenceRelation"
@@ -295,13 +313,13 @@
                 </iSelect>
               </iFormItem>
               <iFormItem
-                :label="$t('默认议题时长')"
+                :label="$t('MT_MORENYITISHICHANG')"
                 :hideRequiredAsterisk="true"
                 class="time"
                 prop="duration"
               >
                 <iLabel
-                  :label="$t('默认议题时长')"
+                  :label="$t('MT_MORENYITISHICHANG')"
                   slot="label"
                   required
                 ></iLabel>
@@ -311,22 +329,25 @@
                     v-model.number="ruleForm.duration"
                     type="number"
                   ></iInput>
-                  <span class="margin-left8">{{ $t('分钟') }}</span>
+                  <span class="margin-left8">{{ $t('MT_FENZHONG') }}</span>
                 </div>
               </iFormItem>
             </div>
             <div class="form-row" v-show="ruleForm.category == '01'">
               <iFormItem
-                :label="$t('会议上下限金额')"
+                :label="$t('MT_HUIYISHANGXIAXIANJINE')"
                 :hideRequiredAsterisk="true"
                 class="itemLimit"
               >
-                <iLabel :label="$t('会议上下限金额')" slot="label"></iLabel>
+                <iLabel
+                  :label="$t('MT_HUIYISHANGXIAXIANJINE')"
+                  slot="label"
+                ></iLabel>
                 <el-col :span="12">
                   <iFormItem prop="lowerLimitMoney" :rules="limitMoney">
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('下限')"
+                      :placeholder="$t('MT_XIAXIAN')"
                       v-model.number="ruleForm.lowerLimitMoney"
                       type="number"
                     ></iInput>
@@ -337,7 +358,7 @@
                   <iFormItem prop="upperLimitMoney" :rules="limitMoney">
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('上限')"
+                      :placeholder="$t('MT_SHANGXIAN')"
                       v-model.number="ruleForm.upperLimitMoney"
                       type="number"
                     ></iInput>
@@ -346,12 +367,12 @@
               </iFormItem>
               <iFormItem
                 prop="incidenceRelation"
-                :label="$t('关联关系')"
+                :label="$t('MT_GUANLIANGUANXI')"
                 :hideRequiredAsterisk="true"
                 class="item"
                 :rules="rules.incidenceRelationRuleNoRequired"
               >
-                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
+                <iLabel :label="$t('MT_GUANLIANGUANXI')" slot="label"></iLabel>
                 <iSelect
                   class="autoSearch"
                   v-model="ruleForm.incidenceRelation"
@@ -376,7 +397,7 @@
               <div class="form-time-len">
                 <iFormItem label="默认议题时长" class="time" prop="duration">
                   <iLabel
-                    :label="$t('默认议题时长')"
+                    :label="$t('MT_MORENYITISHICHANG')"
                     slot="label"
                     required
                   ></iLabel>
@@ -385,25 +406,25 @@
                       v-model.number="ruleForm.duration"
                       type="number"
                     ></iInput>
-                    <span class="margin-left8">分钟</span>
+                    <span class="margin-left8">{{ $t('MT_FENZHONG') }}</span>
                   </div>
                 </iFormItem>
               </div>
               <div class="form-time-len">
                 <iFormItem :label="$t('是否触发审批')" prop="isTriggerApproval">
                   <iLabel
-                    :label="$t('是否触发审批')"
+                    :label="$t('MT_SHIFOUCHUFASHENPI')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.isTriggerApproval"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                   >
                     <el-option
                       v-for="item in isApprovalOption"
                       :key="item.value"
-                      :label="item.label"
+                      :label="$t(item.i18n)"
                       :value="item.value"
                     >
                     </el-option>
@@ -413,13 +434,13 @@
               <div class="form-time-len" ref="selectProcess">
                 <iFormItem :label="$t('审批流程')" prop="approvalProcessId">
                   <iLabel
-                    :label="$t('审批流程')"
+                    :label="$t('MT_SHENPILIUCHENG')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.approvalProcessName"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                     :disabled="!ruleForm.isTriggerApproval"
                   >
                     <el-option
@@ -437,19 +458,19 @@
               <div class="form-time-len">
                 <iFormItem :label="$t('是否触发审批')" prop="isTriggerApproval">
                   <iLabel
-                    :label="$t('是否触发审批')"
+                    :label="$t('MT_SHIFOUCHUFASHENPI')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.isTriggerApproval"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                     :disabled="ruleForm.category === '02'"
                   >
                     <el-option
                       v-for="item in isApprovalOption"
                       :key="item.value"
-                      :label="item.label"
+                      :label="$t(item.i18n)"
                       :value="item.value"
                     >
                     </el-option>
@@ -459,13 +480,13 @@
               <div class="form-time-len" ref="selectProcess">
                 <iFormItem :label="$t('审批流程')" prop="approvalProcessId">
                   <iLabel
-                    :label="$t('审批流程')"
+                    :label="$t('MT_SHENPILIUCHENG')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.approvalProcessName"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                     :disabled="!ruleForm.isTriggerApproval"
                   >
                     <el-option
@@ -493,7 +514,9 @@
           </el-form-item>
         </div>
         <div class="error-node" v-show="false">
-          <div class="el-form-item__error padding-left14">{{ $t('必选') }}</div>
+          <div class="el-form-item__error padding-left14">
+            {{ $t('MT_BIXUAN') }}
+          </div>
         </div>
       </el-form>
     </iEditForm>
@@ -598,7 +621,7 @@ export default {
 
       if (approvalProcessId === '' && this.ruleForm.isTriggerApproval) {
         // console.log(11111);
-        callback(new Error('必选'))
+        callback(new Error(this.$t('MT_BIXUAN')))
       }
       callback()
       // if (!this.ruleForm.isTriggerApproval) {
@@ -607,19 +630,19 @@ export default {
     }
     const validateApprovalCoverImage = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('MT_BITIAN')))
       }
       callback()
     }
     const validateLimitiMoney = (rule, value, callback) => {
       if (value !== null && value !== '') {
         if (String(value).trim() === '' || Number(value) <= 0) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else if (
           String(value).indexOf('.') !== -1 ||
           String(value).indexOf('-') !== -1
         ) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else {
           callback()
         }
@@ -630,23 +653,23 @@ export default {
     const validateLimitiMoneyRequired = (rule, value, callback) => {
       if (value !== null && value !== '') {
         if (String(value).trim() === '' || Number(value) <= 0) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else if (
           String(value).indexOf('.') !== -1 ||
           String(value).indexOf('-') !== -1
         ) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else {
           callback()
         }
       } else {
-        callback('必填')
+        callback('MT_BITIAN')
       }
     }
     const validateIncidenceRelation = (rule, value, callback) => {
       console.log('value', value)
       if (value.length === 0) {
-        callback(new Error('必选'))
+        callback(new Error(this.$t('MT_BIXUAN')))
         return
       }
       callback()
@@ -656,7 +679,7 @@ export default {
     }
     const validateConclusionConfig = (rule, value, callback) => {
       if (value.length === 0) {
-        callback(new Error('必选'))
+        callback(new Error(this.$t('MT_BIXUAN')))
         return
       }
       callback()
@@ -692,20 +715,28 @@ export default {
           }
         ],
         name: [
-          { required: true, message: '必填', trigger: ['blur', 'change'] },
+          {
+            required: true,
+            message: this.$t('MT_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           {
             min: 1,
             max: 64,
-            message: '最大长度 64 字符',
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
             trigger: ['blur', 'change']
           }
         ],
         meetingNameSuffix: [
-          { required: true, message: '必填', trigger: ['blur', 'change'] },
+          {
+            required: true,
+            message: this.$t('MT_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           {
             min: 1,
             max: 64,
-            message: '最大长度 64 字符',
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
             trigger: ['blur', 'change']
           }
         ],
@@ -713,31 +744,39 @@ export default {
           {
             min: 1,
             max: 64,
-            message: '最大长度 64 字符',
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
             trigger: ['blur', 'change']
           }
         ],
         meetingInfoDesc: [
           {
             max: 255,
-            message: '最大长度 255 字符',
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
             trigger: ['blur', 'change']
           }
         ],
         meetingAttribute: [
-          { required: true, message: '必选', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: this.$t('MT_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         meetingAttributeNoRequired: [{}],
         duration: [
-          { required: true, message: '必填', trigger: ['blur', 'change'] },
           {
-            type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            required: true,
+            message: this.$t('MT_BITIAN'),
             trigger: ['blur', 'change']
           },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
+            trigger: ['blur', 'change']
+          },
+          {
+            type: 'number',
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
             trigger: ['blur', 'change'],
             transform(value) {
               if (value !== null && value !== '') {
@@ -773,13 +812,25 @@ export default {
           { validator: validateApprovalProcessId, trigger: ['blur', 'change'] }
         ],
         isTriggerApproval: [
-          { required: true, message: '必选', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: this.$t('MT_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         userIds: [
-          { required: true, message: '必选', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: this.$t('MT_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         category: [
-          { required: true, message: '必选', trigger: ['blur', 'change'] }
+          {
+            required: true,
+            message: this.$t('MT_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
         ]
       },
 
@@ -807,78 +858,95 @@ export default {
         // },
         {
           label: '否',
-          value: false
+          value: false,
+          i18n: 'MT_FOU'
         }
       ],
       categoryList: [
         {
           id: '01',
-          name: '通用会议'
+          name: '通用会议',
+          i18n: 'MT_TONGYONGHUIYI'
         },
         {
           id: '02',
-          name: '生产采购CSC'
+          name: '生产采购CSC',
+          i18n: 'MT_SHENGCHANCAIGOUSCC'
         },
         {
           id: '03',
-          name: '一般采购CSG'
+          name: '一般采购CSG',
+          i18n: 'MT_YIBANCAIGOUCSG'
         }
       ],
       meetingAttributeList: [],
       conclusionConfigList2: [
         {
           id: '01',
-          name: '待定'
+          name: '待定',
+          i18n: 'MT_DAIDING'
         },
         {
           id: '08',
-          name: '通过'
+          name: '通过',
+          i18n: 'MT_TONGGUO'
         },
         {
           id: '09',
-          name: '预备会通过'
+          name: '预备会通过',
+          i18n: 'MT_YUBEIHUITONGGUO'
         },
         {
           id: '10',
-          name: '不通过'
+          name: '不通过',
+          i18n: 'MT_BUTONGGUO'
         },
         {
           id: '11',
-          name: 'Last Call'
+          name: 'Last Call',
+          i18n: 'Last Call'
         },
         {
           id: '12',
-          name: '分段定点'
+          name: '分段定点',
+          i18n: 'MT_FENDUANDINGDIAN'
         }
       ],
       conclusionConfigList3: [
         {
           id: '01',
-          name: '待定'
+          name: '待定',
+          i18n: 'MT_DAIDING'
         },
         {
           id: '02',
-          name: '定点'
+          name: '定点',
+          i18n: 'MT_DINGDIAN'
         },
         {
           id: '03',
-          name: '发LOI'
+          name: '发LOI',
+          i18n: 'MT_FALOI'
         },
         {
           id: '04',
-          name: '转TER/TOP-TER'
+          name: '转TER/TOP-TER',
+          i18n: 'MT_ZHUANTER'
         },
         {
           id: '05',
-          name: '下次Pre CSC'
+          name: '下次Pre CSC',
+          i18n: 'MT_XIACIPRE'
         },
         {
           id: '06',
-          name: '转CSC'
+          name: '转CSC',
+          i18n: 'MT_ZHUANCSC'
         },
         {
           id: '07',
-          name: '关闭'
+          name: '关闭',
+          i18n: 'MT_GUANBI'
         }
       ],
       value: '',
@@ -1014,7 +1082,7 @@ export default {
   methods: {
     quertMeetingPropertyList() {
       getMeetingPropertyList().then((res) => {
-        this.meetingAttributeList = res.data
+        this.meetingAttributeList = res.data[0].subDictResultVo
       })
     },
     selectChanged() {
@@ -1069,7 +1137,7 @@ export default {
           this.$refs['ruleFormCoverImage'].$el.querySelector(
             '.el-form-item__error'
           ).style.display = 'none'
-          iMessage.success(this.$t('上传成功'))
+          iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
           this.uploadLoading = false
         })
         .catch(() => {
@@ -1165,7 +1233,7 @@ export default {
       //   type: "warning",
       // }).then(() => {
       if (this.ruleForm.lowerLimitMoney > this.ruleForm.upperLimitMoney) {
-        iMessage.error('下限金额不能大于上限金额！')
+        iMessage.error(this.$t('MT_XIAXIANJINEBUNENGDAYUSHANGXIANJINE'))
       } else {
         this.submitForm('ruleForm')
       }
@@ -1241,16 +1309,16 @@ export default {
             conclusionConfig: conclusionConfigStr
           }
           if (this.ruleForm.isTriggerApproval) {
-            let approvalProcessId = this.ruleForm.approvalProcessId
-              ? this.approvalProcess.find((item) => {
-                  return item.id === this.ruleForm.approvalProcessId
-                }).id
-              : this.approvalProcess.find((item) => {
-                  return item.name === this.ruleForm.approvalProcessName
-                }).id
+            // let approvalProcessId = this.ruleForm.approvalProcessId
+            //   ? this.approvalProcess.find((item) => {
+            //       return item.id === this.ruleForm.approvalProcessId
+            //     }).id
+            //   : this.approvalProcess.find((item) => {
+            //       return item.name === this.ruleForm.approvalProcessName
+            //     }).id
             formData = {
               ...this.ruleForm,
-              approvalProcessId,
+              approvalProcessId: '',
               userIds: userIdsStr,
               incidenceRelation: incidenceRelationStr,
               conclusionConfig: conclusionConfigStr
@@ -1262,7 +1330,7 @@ export default {
                 // console.log("data", data);
                 if (data) {
                   this.clearDiolog('submit')
-                  iMessage.success('更新成功')
+                  iMessage.success(this.$t('MT_GENGXINCHENGGONG'))
                   this.$emit('flushTable')
                 } else {
                   this.clearDiolog('submit')
@@ -1278,7 +1346,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.clearDiolog('submit')
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                   this.$emit('flushTable')
                 } else {
                   this.clearDiolog('submit')
@@ -1303,12 +1371,14 @@ export default {
     handleAvatarSuccess() {},
     beforeAvatarUpload(file) {
       if (!file.type.includes('image/')) {
-        this.$message.error('请上传图片文件')
+        this.$message.error(this.$t('MT_QINGSHANGCHUANTUPIANWENJIAN'))
         return false
       }
       const isLt15M = file.size / 1024 / 1024 < 15
       if (!isLt15M) {
-        this.$message.error('上传头像图片大小不能超过 15MB!')
+        this.$message.error(
+          `${this.$t('MT_SHANGCHUANTOUXIANGTUPIANDAXIAOBUNENGCHAOGUO')}15MB!`
+        )
       }
       return isLt15M
     }

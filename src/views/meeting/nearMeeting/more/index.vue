@@ -37,10 +37,10 @@
       <div class="operation" v-if="!hiddenRight">
         <slot name="button">
           <iButton @click="query('search')" :v-permission="searchKey">{{
-            $t('搜索')
+            $t('MT_SOUSUO')
           }}</iButton>
           <iButton @click="goBack" :v-permission="resetKey">{{
-            $t('返回')
+            $t('MT_FANHUI')
           }}</iButton>
         </slot>
       </div>
@@ -156,7 +156,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.meetingStatus] }}</span
+            >{{ $t(statusObj[scope.row.meetingStatus]) }}</span
           >
         </template>
       </el-table-column>
@@ -267,8 +267,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <detailDialog
@@ -345,12 +345,12 @@ export default {
         }
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },
@@ -370,7 +370,7 @@ export default {
     // 取消关注
     handleUnfollow(e) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以取消关注!')
+        iMessage.warn('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU')
         return
       }
       if (!this.following) {
@@ -387,7 +387,7 @@ export default {
         unfollow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('取消关注成功!')
+              iMessage.success('MT_QUXIAOGUANZHUCHENGGONG')
             }
             this.query().then(() => {
               this.following = false
@@ -403,7 +403,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以添加关注!')
+        iMessage.warn('MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU')
         return
       }
       this.following = true
@@ -420,7 +420,7 @@ export default {
         follow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('关注成功')
+              iMessage.success('MT_GUANZHUCHENGGONG')
             }
             this.query().then(() => {
               this.following = false

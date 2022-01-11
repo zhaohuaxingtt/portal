@@ -19,7 +19,7 @@ const initInstance = (title, Tips, cancelButtonText, confirmButtonText,width) =>
     })
 }
 
-const NewMessageBox = obj => {
+export function NewMessageBox(obj){
     let { title, Tips, cancelButtonText, confirmButtonText,width } = obj
     return new Promise((reslove, reject) => {
         initInstance(title, Tips, cancelButtonText, confirmButtonText,width)
@@ -36,7 +36,15 @@ const NewMessageBox = obj => {
     })
 }
 
+export function NewMessageBoxClose(){
+    Vue.nextTick(() => {
+        if(instance){
+            instance.closeValue = false
+        }
+    })
+}
+
 // function NewMessageBox() {
 //     Vue.prototype.$NewMessageBox = showConfirm
 // }
-export default NewMessageBox
+export default { NewMessageBox,NewMessageBoxClose }

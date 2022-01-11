@@ -396,14 +396,14 @@ export default {
       this.$refs.childTopic
         .queryMeeting()
         .then(() => {
-          iMessage.success(bol ? '取消成功' : '关注成功')
+          iMessage.success(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
           this.$refs.childTopic.query().then(() => {
             obj.following = false
           })
         })
         .catch(() => {
           obj.following = false
-          iMessage.err(bol ? '取消成功' : '关注成功')
+          iMessage.err(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
         })
     },
     getMyTopics(themens) {

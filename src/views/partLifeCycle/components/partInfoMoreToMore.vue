@@ -7,7 +7,9 @@
            v-loading="dialogLoging">
     <div slot="title" class="title">
       <div>
-        {{ resData.mainAekoNum + '：' + resData.nodeDate }}
+        <!-- {{ resData.mainAekoNum + '：' + resData.nodeDate }} -->
+        <span v-if="resData.mainAekoNum">{{resData.mainAekoNum + '：'}}</span>
+        <span>{{resData.nodeDate}}</span>
       </div>
     </div>
     <div class="changePrice">
@@ -39,6 +41,17 @@
       <div class="aekoList">
         <div class="left">
           <div v-for="(item, index) in resData.frontList" :key="index">{{ item }}</div>
+          <!-- <Popover
+            placement="bottom"
+            width="200"
+            class="popStyle"
+            v-if="resData.frontList"
+            trigger="hover">
+            <div v-for="(item, index) in resData.frontList" :key="index">{{ item }}</div>
+            <div slot="reference">
+              {{resData.frontList[0]}}
+            </div>
+          </Popover> -->
         </div>
         <div class="right">
           <div v-for="(item, index) in resData.backList" :key="index">{{ item }}</div>
@@ -51,6 +64,7 @@
 </template>
 <script>
 import { iDialog, iSelect, iMessage } from 'rise'
+import { Popover } from 'element-ui'
 import { pageMixins } from '@/utils/pageMixins'
 import { getAmountAxle, getMany } from '@/api/partLifeCycle'
 
@@ -58,7 +72,8 @@ export default {
   mixins: [pageMixins],
   components: {
     iDialog,
-    iSelect
+    iSelect,
+    Popover
   },
   props: {
     value: { type: Boolean, default: false },
@@ -161,6 +176,7 @@ export default {
     height: 411px;
     top: 50%;
     transform: translateY(-50%);
+    overflow-y: auto;
   }
 }
 

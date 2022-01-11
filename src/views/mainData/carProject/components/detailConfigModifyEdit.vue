@@ -20,7 +20,7 @@
         </template>
       </el-table-column> -->
       <el-table-column
-        label="发动机类型"
+        :label="language('发动机类型')"
         prop="engineType"
         header-align="center"
         align="center"
@@ -37,7 +37,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="变速箱型号"
+        :label="language('变速箱型号')"
         prop="gearboxName"
         header-align="center"
         align="center"
@@ -54,7 +54,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="电池容量"
+        :label="language('电池容量')"
         prop="batteryId"
         header-align="center"
         align="center"
@@ -71,7 +71,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="其它配置"
+        :label="language('其它配置')"
         prop="otherConf"
         header-align="center"
         align="center"
@@ -81,7 +81,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="车型等级"
+        :label="language('车型等级')"
         prop="cartypeLevel"
         header-align="center"
         align="center"
@@ -92,7 +92,7 @@
               v-for="e in extraData.cartypeConfigLevelOptions"
               :value="e.name"
               :label="e.name"
-              :key="e.id"
+              :key="e.code"
             />
           </iSelect>
         </template>

@@ -1,40 +1,44 @@
 <template>
   <iPage>
     <div class="main">
-      <iSearch @sure="search" @reset="reset" class="margin-bottom20">
+      <iSearch class="margin-bottom20">
         <el-form>
           <el-row :gutter="20">
             <el-col :span="6">
-              <iFormItem :label="searchOptionTitles.name">
+              <iFormItem :label="language('中文名称')">
                 <iInput
-                  :placeholder="searchOptionTitles.input"
+                  :placeholder="language('请输入')"
                   v-model="formData.appNameCn"
                 />
               </iFormItem>
             </el-col>
             <el-col :span="6">
-              <iFormItem :label="searchOptionTitles.nameEN">
+              <iFormItem :label="language('英文名称')">
                 <iInput
-                  :placeholder="searchOptionTitles.input"
+                  :placeholder="language('请输入')"
                   v-model="formData.appNameEn"
                 />
               </iFormItem>
             </el-col>
           </el-row>
         </el-form>
+        <div slot="button">
+          <iButton @click="search">{{ $t('LK_INQUIRE') }}</iButton>
+          <iButton @click="reset">{{ $t('rfq.RFQRESET') }}</iButton>
+        </div>
       </iSearch>
       <div class="tableList">
         <iCard>
           <div class="tableButtons">
-            <iButton @click="create">{{ buttonTitles.create }}</iButton>
+            <iButton @click="create">{{ language('新建') }}</iButton>
             <iButton @click="edit" :disabled="selectedData.length !== 1">
               {{ language('编辑') }}
             </iButton>
             <iButton @click="deleteData" :disabled="selectedData.length === 0">
-              {{ buttonTitles.delete }}
+              {{ language('删除') }}
             </iButton>
             <button-download :download-method="exportData">
-              {{ buttonTitles.export }}
+              {{ language('导出') }}
             </button-download>
             <create-sys-mgm
               v-if="dialogFormVisible"
@@ -122,25 +126,7 @@ export default {
       tableData: [],
       formData: {
         appNameCn: '',
-        appNameEn: '',
-        description: '',
-        systemType: ''
-      },
-      searchOptionTitles: {
-        name: '中文名称',
-        nameEN: '英文名称',
-        buttons: {
-          search: '查询',
-          reset: '重置'
-        },
-        input: '请输入',
-        iselect: '请选择'
-      },
-      title: '供应商系统/SCENARIO管理',
-      buttonTitles: {
-        create: '新建',
-        delete: '删除',
-        export: '导出'
+        appNameEn: ''
       },
       systemOptions: [
         {
@@ -218,7 +204,7 @@ export default {
       this.selectedData = val
     },
     edit() {
-      this.isRead = true
+      this.isRead = false
       this.id = this.selectedData[0].id
       this.dialogFormVisible = true
     },
@@ -248,15 +234,16 @@ export default {
       })
     },
     exportData() {
-      return exportApplications({ ...this.formData, systemType: 3 })
+      const params = this.selectedData
+      if (this.selectedData.length > 0) {
+        params.applicationIdList = this.selectedData.map((e) => e.id)
+      }
+      return exportApplications({ ...params, systemType: 3 })
     },
     defaultFormData() {
       return {
         appNameCn: '',
-        appNameEn: '',
-        description: '',
-        systemType: '',
-        supplierType: []
+        appNameEn: ''
       }
     }
   }

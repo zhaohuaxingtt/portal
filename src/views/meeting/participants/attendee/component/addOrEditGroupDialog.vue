@@ -1,6 +1,10 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? $t('创建与会人分组') : $t('修改与会人分组')"
+    :title="
+      editOrAdd === 'add'
+        ? $t('MT_CHUANGJIANYUHUIRENFENZU')
+        : $t('MT_XIUGAIYUHUIRENFENZU')
+    "
     :visible.sync="openDialog"
     width="39rem"
     :close-on-click-modal="false"
@@ -14,10 +18,10 @@
         :hideRequiredAsterisk="true"
       >
         <iFormItem label="会议类型" class="name" prop="meetingType">
-          <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_HUIYILEIXING')" slot="label" required></iLabel>
           <iSelect
             v-model="ruleForm.meetingType"
-     :placeholder="$t('请选择')"
+            :placeholder="$t('MT_QINGXUANZE')"
             value-key="id"
           >
             <el-option
@@ -30,14 +34,14 @@
           </iSelect>
         </iFormItem>
         <iFormItem label="组名" class="name" prop="groupName">
-          <iLabel :label="$t('组名')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_ZUMING')" slot="label" required></iLabel>
           <div class="form-row">
             <iInput v-model="ruleForm.groupName"></iInput>
           </div>
         </iFormItem>
 
         <iFormItem label="与会人" class="attendee" prop="attendeeName">
-          <iLabel :label="$t('与会人')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_YUHUIREN')" slot="label" required></iLabel>
           <div class="form-row">
             <iInput
               type="textarea"
@@ -50,10 +54,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t("关闭")
+              $t('MT_GUANBI')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t("保存")
+              $t('MT_BAOCUN')
             }}</iButton>
           </el-form-item>
         </div>
@@ -63,10 +67,10 @@
 </template>
 
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from "rise";
-import iEditForm from "@/components/iEditForm";
-import { saveGroup, updateGroup, getMettingType } from "@/api/meeting/type";
-import { baseRules } from "./data";
+import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { saveGroup, updateGroup, getMettingType } from '@/api/meeting/type'
+// import { baseRules } from './data'
 export default {
   components: {
     iDialog,
@@ -75,53 +79,75 @@ export default {
     iLabel,
     iButton,
     iEditForm,
-    iSelect,
+    iSelect
   },
   props: {
     loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
+        return 'add'
+      }
     },
     clickScope: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
       meetingTypeList: [],
-      rules: baseRules,
-      ruleForm: {
-        groupName: "",
-        attendeeName: "",
-        meetingType: "",
+      rules: {
+        groupName: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 64,
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        attendeeName: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 1024,
+            message: this.$t('MT_ZUIDACHANGDU1024ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        meetingType: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }
+        ]
       },
-    };
+      ruleForm: {
+        groupName: '',
+        attendeeName: '',
+        meetingType: ''
+      }
+    }
   },
   mounted() {
-    if (this.editOrAdd === "edit") {
+    if (this.editOrAdd === 'edit') {
       this.getAllSelectList().then(() => {
         const meetingType = this.meetingTypeList.find(
           (item) => Number(item.id) === Number(this.clickScope.meetingTypeId)
-        );
+        )
         this.ruleForm = {
           ...this.clickScope,
-          meetingType,
-        };
-      });
+          meetingType
+        }
+      })
     } else {
-      this.getAllSelectList();
+      this.getAllSelectList()
     }
   },
   methods: {
@@ -129,56 +155,56 @@ export default {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true,
-      };
-      const res = await getMettingType(param);
-      this.meetingTypeList = res.data;
-      console.log(this.meetingTypeList);
+        isCurrentUser: true
+      }
+      const res = await getMettingType(param)
+      this.meetingTypeList = res.data
+      console.log(this.meetingTypeList)
     },
     close() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const formData = {
             ...this.ruleForm,
-            meetingTypeId: this.ruleForm.meetingType.id,
-          };
-          if (this.editOrAdd === "edit") {
+            meetingTypeId: this.ruleForm.meetingType.id
+          }
+          if (this.editOrAdd === 'edit') {
             updateGroup(formData)
               .then((data) => {
                 if (data) {
-                  this.close();
-                  this.$message.success("保存成功！");
-                  this.$emit("flushTable");
+                  this.close()
+                  this.$message.success(this.$t('MT_BAOCUNCHENGGONG'))
+                  this.$emit('flushTable')
                 }
               })
               .catch((err) => {
-                console.log(err);
-              });
+                console.log(err)
+              })
           } else {
             saveGroup(formData)
               .then((data) => {
                 if (data) {
-                  this.close();
-                  this.$message.success("创建成功！");
-                  this.$emit("flushTable");
+                  this.close()
+                  this.$message.success(this.$t('MT_CHUANGJIANCHENGGONG'))
+                  this.$emit('flushTable')
                 } else {
                   // this.$message.error(data.message);
-                  this.$emit("flushTable");
+                  this.$emit('flushTable')
                 }
               })
               .catch((err) => {
                 // this.$message.error("创建失败！");
-                console.log(err);
-              });
+                console.log(err)
+              })
           }
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

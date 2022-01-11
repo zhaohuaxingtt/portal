@@ -28,7 +28,7 @@
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE"
                   @click="deleteItem('ids', deleteUser)">{{ $t('LK_SHANCHU') }}</i-button>
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT"
-                  @click="exportsTable"
+                  @click="exportsTableHandler"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
@@ -56,7 +56,7 @@
         <div v-if="isSupplierUser">
           <!-- scope.row.id && scope.row.id !== 'null' &&  -->
           <i-button type="text"
-                    v-if="(isSupplierUser&&!scope.row.isDefault)||!isUser"
+                    v-if="(isSupplierUser && !scope.row.isDefault) || !isUser"
                     @click="handleDialog(scope.row)">操作</i-button>
         </div>
       </template>
@@ -104,12 +104,14 @@ import { supplierUserNameTableTitle } from './data'
 import {
   saveUser,
   selectUser,
-  deleteUser
+  deleteUser,
+  freeze, unFreeze
 } from '../../../../api/register/contactsAndUsers'
 import supplierUserNameDialog from './supplierUserNameDialog'
 import tipDialog from './tipDialog'
 import addDialog from './addDialog'
 import personalPrivacyPolicyDialog from './personalPrivacyPolicyDialog'
+import { excelExport } from '@/utils/filedowLoad'
 export default {
   mixins: [generalPageMixins],
   components: {
@@ -140,13 +142,14 @@ export default {
       userType: 1,
       isSupplierUser: true,
       isUser: true,
-      opcsCompanyNameZh: ""
+      opcsCompanyNameZh: ''
     }
   },
   created () {
     this.userType = this.$store.state.permission.userInfo.userType
     this.isMainContact = this.$store.state.permission.userInfo.isMainContact
-    this.opcsCompanyNameZh = this.$store.state.baseInfo.baseMsg.supplierDTO.nameZh
+    this.opcsCompanyNameZh =
+      this.$store.state.baseInfo.baseMsg.supplierDTO.nameZh
     if (this.isMainContact == null) this.isMainContact = false
     if (this.userType == 2 && this.isMainContact) {
       this.isSupplierUser = true
@@ -163,6 +166,20 @@ export default {
     this.getTableList()
   },
   methods: {
+    exportsTableHandler () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
+      }
+      const newData = this.selectTableData.map((item) => {
+        return {
+          ...item,
+          isDefault: item?.isDefault ? '是' : '否',
+          isActivity: item?.isActivity ? '是' : '否',
+          isExpire: item?.isExpire ? '是' : '否'
+        }
+      })
+      excelExport(newData, this.tableTitle)
+    },
     handleAdd () {
       if (this.addDialogFlag === 1) {
         this.addDialog = true
@@ -190,9 +207,23 @@ export default {
         this.tableTitle = supplierUserNameTableTitle
       }
     },
-    handleActivity (isActivity) {
+    async handleActivity (isActivity) {
       if (this.selectTableData.length === 0) {
         iMessage.warn('至少选择一条记录')
+        return
+      }
+      let res;
+      if (!isActivity) {
+        res = await freeze({
+          ids: this.selectTableData.map(item => item.id)
+        })
+      } else {
+        res = await unFreeze({
+          ids: this.selectTableData.map(item => item.id)
+        })
+      }
+      if (res.code !== '200') {
+        iMessage.error(res.desZh)
         return
       }
       this.selectTableData.forEach((item, index) => {
@@ -296,8 +327,8 @@ export default {
             if (this.tableListData.length === 1) {
               this.tableListData[0].isDefault = true
             }
-            this.tableListData.forEach(item => {
-              this.$set(item, 'opcsCompanyNameZh', this.opcsCompanyNameZh);
+            this.tableListData.forEach((item) => {
+              this.$set(item, 'opcsCompanyNameZh', this.opcsCompanyNameZh)
             })
             const pms = {
               list: this.tableListData,
@@ -337,5 +368,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

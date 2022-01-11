@@ -53,6 +53,9 @@ export default {
     infodata(data) {
       console.log(data)
       this.getData(data.sapCode)
+    },
+      '$i18n.locale'() {
+      this.getChart();
     }
   },
   mounted() {},
@@ -241,7 +244,7 @@ export default {
         ],
         series: [
                {
-            name: '涨价',
+            name: this.language('ZHANGJIA','涨价'),
             data: data2,
             type: 'bar',
             barWidth: 30,
@@ -260,7 +263,7 @@ export default {
             }
           },
           {
-            name: '降价',
+            name: this.language('JIANGJIA','降价'),
             data: data1,
             type: 'bar',
             barGap: '-100%',
@@ -280,7 +283,7 @@ export default {
           },
        
           {
-            name: '节降比',
+            name: this.language('JIEJIANGBI','节降比'),
             data: data3,
             type: 'line',
             label: {

@@ -73,7 +73,7 @@ import {
 } from "@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details"
 import { deepClone, getNowFormatDate } from "./util.js";
 
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "tabs1",
@@ -262,6 +262,9 @@ export default {
       this.page.currPage = val;
       this.getList();
     },
+  },
+  destroyed () {
+    NewMessageBoxClose();
   }
 }
 </script>

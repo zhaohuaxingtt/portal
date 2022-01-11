@@ -1,0 +1,118 @@
+<template>
+  <div id="right-echart" class="right-echart"></div>
+</template>
+<script>
+import echarts from '@/utils/echarts'
+export default {
+  created() {
+    this.showRightEcharts()
+  },
+  methods: {
+    showRightEcharts() {
+      this.$nextTick(() => {
+        const chart = echarts().init(document.getElementById('right-echart'))
+        let option = {
+          title: {
+            text: '总金额:300.40',
+            x: 'center',
+            y: '1%'
+          },
+
+          tooltip: {
+            show: true,
+            formatter: (params) => {
+              let price = 0
+              params.seriesName == '2011'
+                ? (price = params.data * 1000000)
+                : (price = params.data * 1000000)
+              price = String(price)
+              const tempt = price
+                .split('')
+                .reverse()
+                .join('')
+                .match(/(\d{1,3})/g)
+              let currency = tempt.join(',').split('').reverse().join('')
+
+              return currency
+            }
+          },
+
+          legend: {
+            top: '6%',
+            itemGap: 30,
+            icon: 'circle'
+          },
+          grid: {
+            left: '5%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis: {
+            show: false,
+            type: 'value',
+            boundaryGap: [0, 0.01],
+            splitLine: {
+              show: false
+            }
+          },
+          yAxis: {
+            type: 'category',
+            data: ['BU-B', 'CSE', 'CSX', 'CSI', 'CSP', 'CSM'],
+            axisTick: {
+              show: false
+            }
+          },
+          series: [
+            {
+              name: '2011',
+              type: 'bar',
+              data: [18203, 23489, 29034, 104970, 131744, 30230],
+              barWidth: 15,
+              barCategoryGap: 1,
+              center: ['50%', '45%'],
+              color: 'rgb(119, 203, 255)',
+              label: {
+                show: true,
+                position: 'right',
+                textStyle: {
+                  fontSize: '12'
+                }
+              }
+            },
+            {
+              name: '2012',
+              type: 'bar',
+              data: [19325, 23438, 31000, 121594, 134141, 81807],
+              barWidth: 15,
+              color: 'rgb(22, 96, 241)',
+              center: ['50%', '45%'],
+              label: {
+                show: true,
+                position: 'right',
+                textStyle: {
+                  fontSize: '12'
+                }
+              }
+            }
+          ]
+        }
+
+        chart.setOption(option)
+      })
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+// .aa{
+//     width: 3000px;
+//     height: 300px;
+//     background-color: violet;
+// }
+
+.right-echart {
+  width: 750px;
+  height: 590px;
+}
+</style>

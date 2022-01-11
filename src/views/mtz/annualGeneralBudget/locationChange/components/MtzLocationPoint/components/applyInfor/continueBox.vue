@@ -52,9 +52,9 @@
                                 :user-options="linieDeptId"
                                 clearable
                                 :placeholder="language('QINGXUANZE', '请选择')"
-                                display-member="existShareNum"
-                                value-member="existShareId"
-                                value-key="existShareId">
+                                display-member="message"
+                                value-member="code"
+                                value-key="code">
                 </custom-select>
             </el-form-item>
 
@@ -126,9 +126,10 @@ import tableList from '@/components/commonTable/index.vue';
 import {
   pageAppRuleHistory,
   getMtzMarketSourceList,
-  getMtzNomiRuleBuyer
+  getMtzNomiRuleBuyer,
+  getDeptLimitLevel
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-import { getDeptData } from '@/api/kpiChart/index'
+// import { getDeptData } from '@/api/kpiChart/index'
 
 export default {
   components: {
@@ -183,7 +184,7 @@ export default {
   },
   methods: {
     init(){
-        getDeptData().then(res=>{
+        getDeptLimitLevel({}).then(res=>{
           this.linieDeptId = res.data;
         })
         getMtzMarketSourceList({}).then(res=>{
@@ -201,7 +202,7 @@ export default {
           ...this.searchForm,
           pageNo:this.page.currPage,
           pageSize:this.page.pageSize,
-          // mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+          mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
       }).then(res=>{
         if(res.code == 200){
           this.tableData = res.data;

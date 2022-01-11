@@ -1,9 +1,18 @@
 <template>
-  <iCard class="margin-bottom20" title="基本信息" header-control collapse>
+  <iCard
+    class="margin-bottom20"
+    :title="language('基本信息')"
+    header-control
+    collapse
+  >
     <div class="top-buttons margin-bottom20">
-      <iButton v-if="isEditPage && !editable" @click="edit"> 编辑 </iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel"> 取消 </iButton>
+      <iButton v-if="isEditPage && !editable" @click="edit">{{
+        language('编辑')
+      }}</iButton>
+      <iButton v-show="editable" @click="save">{{ language('保存') }}</iButton>
+      <iButton v-show="editable" @click="cancel">{{
+        language('取消')
+      }}</iButton>
     </div>
     <div class="filter-form" v-loading="saveLoading">
       <el-form
@@ -86,9 +95,10 @@
             <iFormItem :label="formTitles.car" prop="cartypeId">
               <iSelect
                 :placeholder="formTitles.inputPlaceholder"
-                v-model="formData.cartypeNameZh"
+                v-model="formData.cartypeId"
                 remote
                 filterable
+                clearable
                 :remote-method="querySearchAsync"
                 :disabled="!editable"
                 @change="carTypeSelectedChange"
@@ -138,6 +148,7 @@
                 v-model="formData.werk"
                 :disabled="!editable"
                 filterable
+                multiple
               >
                 <el-option
                   v-for="item in procureFactorySelectList"
@@ -366,9 +377,15 @@ export default {
       //产品经理
       return this.dialogUserList(param)
     },
-    carTypeSelectedChange(parma) {
+    carTypeSelectedChange(cartypeId) {
       //车型选择
-      this.formData.cartypeId = parma
+      this.formData.cartypeId = cartypeId
+      const items = this.carTypes.filter((e) => e.id === cartypeId)
+      if (items.length) {
+        this.formData.cartypeNameZh = items[0].name
+      } else {
+        this.formData.cartypeNameZh = ''
+      }
     },
     dialogUserList(param) {
       console.log('params', param)
@@ -382,10 +399,9 @@ export default {
       return getUserListByIDs(params)
     },
     getCarTypeSelectOptions() {
-      let param = {}
-      carTypeSelectOptions(param).then((val) => {
+      carTypeSelectOptions().then((val) => {
         if (val.code == 200) {
-          this.carTypeSelectList = val.data.TYPE_VEHICLE_PROJECT
+          this.carTypeSelectList = val.data
         }
       })
     },
@@ -480,12 +496,13 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.werk.join(',') : []
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
-        projectManager: projectManagerId
+        projectManager: projectManagerId,
+        werk
       }
       this.saveLoading = true
       let val = await carProjectCreateBaseInfo(param).finally(() => {
@@ -523,13 +540,14 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.werk.join(',') : ''
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
         projectManager: projectManagerId,
-        id: carProjectID
+        id: carProjectID,
+        werk
       }
 
       this.saveLoading = true
@@ -558,7 +576,11 @@ export default {
         let projectManagerIDs = val.data.projectManager
 
         //通过绑定员工ID获取员工数组信息
-        let newFormData = { ...val.data }
+        let werk = []
+        if (typeof val.data.werk === 'string' && val.data.werk) {
+          werk = val.data.werk.split(',')
+        }
+        let newFormData = { ...val.data, werk }
         if (purchaseIDs) {
           let purchaseIDList = purchaseIDs.split(',')
           let purchaseIDNumList = purchaseIDList.map((item) => {
@@ -577,6 +599,15 @@ export default {
           let param = { userIdList: areaControllerIDNumList }
           let areaControllerList = await this.searchUser(param)
           newFormData.areaController = areaControllerList.data
+        }
+
+        if (val.data.cartypeId) {
+          this.carTypes = [
+            {
+              id: val.data.cartypeId,
+              name: val.data.cartypeNameZh
+            }
+          ]
         }
 
         if (projectManagerIDs) {
