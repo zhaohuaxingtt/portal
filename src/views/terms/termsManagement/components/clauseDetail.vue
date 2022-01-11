@@ -1087,4 +1087,10 @@ export default {
 ::v-deep .w-e-toolbar {
   z-index: 2 !important;
 }
+::v-deep .w-e-text ul li {
+  list-style: disc;
+}
+::v-deep .w-e-text ol li {
+  list-style: decimal;
+}
 </style>

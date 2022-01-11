@@ -1,6 +1,7 @@
-import { iMessage,iTableHeaderSorter } from 'rise'
+import { iMessage } from 'rise'
+import iTableHeaderSort from '@/components/iTableHeaderSort'
 export default {
-  components: { iTableHeaderSorter },
+  components: { iTableHeaderSort },
   computed: {
     unCols() {
       // 列权限控制，返回无权限的字段列表

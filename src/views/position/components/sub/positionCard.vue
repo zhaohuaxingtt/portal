@@ -30,11 +30,20 @@
       <iFormGroup row="2" ref="positionForm" :model="itemSelected">
         <iFormItem>
           <iLabel label="主负责人" slot="label"></iLabel>
-          <i-select v-model="itemSelected.chiefUserId" disabled>
+          <i-select
+            multiple
+            v-model="itemSelected.userDTOListIds"
+            :disabled="
+              !itemSelected.isEdit ||
+              (itemSelected.userDTOListIds &&
+                !itemSelected.userDTOListIds.length)
+            "
+          >
             <el-option
               :value="option.id"
               :label="option.nameZh"
-              v-for="option in itemSelected.leaderOptions"
+              v-for="option in userOptions"
+              :disabled="option.disabled"
               :key="option.id"
             ></el-option>
           </i-select>
@@ -57,26 +66,17 @@
         </iFormItem>
         <iFormItem>
           <iLabel label="其他负责人" slot="label"></iLabel>
-          <i-select
-            multiple
-            :placeholder="`请选择其他负责人`"
-            v-model="itemSelected.userDTOListIds"
-            :disabled="
-              !itemSelected.isEdit ||
-              (itemSelected.userDTOListIds &&
-                !itemSelected.userDTOListIds.length)
-            "
-          >
+          <i-select v-model="itemSelected.chiefUserId" disabled>
             <el-option
               :value="option.id"
               :label="option.nameZh"
-              v-for="option in userOptions"
-              :disabled="option.disabled"
+              v-for="option in itemSelected.leaderOptions"
               :key="option.id"
             ></el-option>
           </i-select>
         </iFormItem>
       </iFormGroup>
+
       <iTableCustom
         class="material-table"
         :loading="tableLoading"

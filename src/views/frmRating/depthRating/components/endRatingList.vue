@@ -39,7 +39,7 @@
 				<el-table-column :prop="isDeepComment" :label="$t('SPR_FRM_DEP_ISDEPTH')">
 					<template slot-scope="scope">
 						<iSelect v-if="scope.row.children!==undefined" v-model="scope.row.isDeepComment"
-							disabled>
+							>
 							<el-option :value="item.code" :label="item.name" v-for="item in fromGroup.TURE_FALSE"
 								:key="item.code"></el-option>
 						</iSelect>

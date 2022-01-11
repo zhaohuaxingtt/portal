@@ -26,7 +26,7 @@ export const tableColumns = [
     label: '流程标题',
     i18n: 'APPROVAL.FLOW_NAME',
     tooltip: true,
-    openNewPage: true,
+    // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.modelName}</span>
     },

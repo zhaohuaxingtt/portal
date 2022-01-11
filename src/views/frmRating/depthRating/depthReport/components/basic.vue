@@ -20,24 +20,24 @@
            collapse
            class="margin-top20"
            isRequired>
-      <tableList :tableData="tableListData"
+      <tableList class="tableStyle" :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :selection="false"
                  :index="true"
                  :tableLoading="tableLoading">
         <template #deepCommentRatingDate>
           <iDatePicker disabled
-                       style="width:120px !important"
+                       style="width:220px !important"
                        v-model="info.deepCommentRatingDate"
                        value-format="yyyy-MM-dd"></iDatePicker>
         </template>
         <template #deepCommentRatingResults>
-          <el-dropdown :split-button="true"
+          <el-dropdown   :split-button="true"
                        @command="changeGrade">
             <icon symbol
                   style="fontSize:12px"
                   :name="trans(info.deepCommentRatingResults)"></icon>
-            <el-dropdown-menu slot="dropdown"
+            <el-dropdown-menu  slot="dropdown"
                               v-if="!isDisabled">
               <el-dropdown-item v-for="item in grade"
                                 :key="item.id"
@@ -227,6 +227,7 @@ export default {
 </script>
 
 <style lang="scss" scoped="scoped">
+
 .el-dropdown {
   vertical-align: top;
 }
@@ -257,8 +258,7 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #e30b0d;
 }
 .red {
   color: #e30b0d;
