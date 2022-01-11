@@ -255,10 +255,10 @@ export default {
       // 检查是不是超出100%
       let totalRate = 0
       this.tableData.forEach((e) => {
-        totalRate += parseFloat(e.cartypeLevelRate)
+        totalRate += parseInt(parseFloat(e.cartypeLevelRate) * 1000000000)
       })
 
-      if (totalRate > 100) {
+      if (totalRate > 100000000000) {
         iMessage.error('配置比例总数不能超过100%')
         return
       }
