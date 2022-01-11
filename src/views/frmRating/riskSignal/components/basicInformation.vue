@@ -116,7 +116,7 @@
           </iSelect>
         </iFormItem>
         <iFormItem>
-          <iLabel :label="$t('SPR_FRM_DEP_DEPRESULT')"
+          <iLabel :label="language('PINGJIJIEGUO','评级结果')"
                   slot="label"></iLabel>
           <iText>
             <icon :name="form.furtherRatingResult==='红'?'iconhongdeng':form.furtherRatingResult==='绿'?'iconlvdeng':form.furtherRatingResult==='黄'?'iconhuangdeng':''"

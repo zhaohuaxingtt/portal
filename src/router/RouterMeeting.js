@@ -365,7 +365,17 @@ export default [
     meta: {
       title: '会议展示'
     },
-    component: () =>
-      import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
-  }
-]
+    component: () => import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
+  },
+  //GPCSC展示
+  {
+    path: '/meeting/GPCSCMeetingShow',
+    name: 'meetingShow',
+    meta: {
+      title: '会议展示'
+    },
+    component: () => import(`@/views/meeting/managementHall/GPCSCMeetingShow/index.vue`)
+  },
+  
+  
+] 

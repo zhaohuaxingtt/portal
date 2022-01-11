@@ -274,7 +274,7 @@ export default {
     },
     deleteDocumentType(e) {
       // console.log(e);
-      this.$confirm(this.$t('MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO?'), this.$t('MT_TISHI'), {
+      this.$confirm(this.$t('MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO'), this.$t('MT_TISHI'), {
         confirmButtonText: this.$t('MT_SHI'),
         cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'

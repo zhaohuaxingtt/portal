@@ -9,6 +9,7 @@
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
+            :placeholder='language("请选择")'
           >
             <el-option
               v-for="item in configVersions"
@@ -22,7 +23,7 @@
           :label="language('年份')"
           v-if="configVersions.length > 0"
         >
-          <iSelect v-model="searchData.year" @change="yearChange">
+          <iSelect v-model="searchData.year" @change="yearChange" :placeholder='language("请选择")'>
             <el-option
               v-for="item in yearOptions"
               :key="item"

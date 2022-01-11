@@ -40,7 +40,7 @@
           v-if="['selection', 'index'].includes(item.type)"
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
-          :label="item.i18n ? language(item.i18n, item.label) : item.label"
+          :label="item.i18n ? language(item.i18n, item.label) : language(item.label)"
           :width="item.width || '50'"
           :min-width="item.minWidth"
           :align="item.align || 'center'"
