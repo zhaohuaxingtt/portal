@@ -31,6 +31,18 @@
               symbol
               name="iconhongdeng"></icon>
       </template>
+      <template #vwagAssessResult="scope">
+        <icon v-if="scope.row.vwagAssessResult == 'green'"
+              symbol
+              name="iconlvdeng"></icon>
+        <icon v-else-if="scope.row.vwagAssessResult == 'yellow'"
+              symbol
+              name="iconhuangdeng"></icon>
+        <icon v-else-if="scope.row.vwagAssessResult == 'red'"
+              symbol
+              name="iconhongdeng"></icon>
+        <span v-else>{{scope.row.vwagAssessResult}}</span>
+      </template>
     </tableList>
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
