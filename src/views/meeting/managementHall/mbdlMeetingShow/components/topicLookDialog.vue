@@ -1,5 +1,5 @@
+  <!--展示-->
 <template>
-  <!--转派-->
   <iDialog
     title="TOPIC INFORMATION"
     :visible="openAddTopic"
