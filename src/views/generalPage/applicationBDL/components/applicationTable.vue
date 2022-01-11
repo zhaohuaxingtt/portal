@@ -163,7 +163,7 @@ export default {
     handleSubmit () {
       checkCategory({
         categoryIds: this.selectTableData.map(item => item.categoryId),
-        checkUserId: this.$store.state.permission.userInfo.id
+        checkUserId: this.form.linieId
       }).then(async res => {
         if (res.code === '200') {
           if (res.data) {
@@ -189,7 +189,7 @@ export default {
               this.selectTableData = []
             })
           } else {
-            iMessage.error('NINGXUANZEDECAIGOUYUANMEIYOUGAICAILIAOZUDECAOZUOQUANXIANQINGLIANXIXITONGGUANLIYUANTIANJIACAOZUOQUANXIAN', '您选择的采购员没有该材料组的操作权限，请联系系统管理员添加操作权限')
+            iMessage.error(this.language('NINXUANZEDECAIGOUYUANMEIYOUGAICAILIAOZUDECAOZUOQUANXIANQINGLIANXIXITONGGUANLIYUANTIANJIACAOZUOQUANXIAN', '您选择的采购员没有该材料组的操作权限，请联系系统管理员添加操作权限'))
           }
         } else {
           iMessage.error(res.desZh)
@@ -228,7 +228,7 @@ export default {
     handleSelection (e) {
       checkCategory({
         categoryIds: e.map(item => item.categoryId),
-        checkUserId: this.form.linieId
+        checkUserId: this.$store.state.permission.userInfo.id
       }).then(res => {
         if (res.code === '200') {
           if (res.data) {
