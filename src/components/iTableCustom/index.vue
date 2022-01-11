@@ -185,7 +185,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <iTableHeaderSorter
+    <iTableHeaderSort
       v-if="settingVisible"
       :data="tableSettingColumns"
       :show.sync="settingVisible"
