@@ -6,7 +6,7 @@
     :rules="ruleData.rules"
     :model="ruleData"
   >
-    <el-table :data="ruleData.data" :loading="loading">
+    <el-table :data="ruleData.data" v-loading="loading">
       <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
       <el-table-column type="index" header-align="center" align="center" />
       <!-- <el-table-column
