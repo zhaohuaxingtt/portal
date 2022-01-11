@@ -78,3 +78,38 @@ export function yearDropDown(data=false) {
     method: 'GET'
   })
 }
+
+
+//比较版本下拉框数据
+export function getVersionData(data) {
+  return request({
+    url: `/web/mtz/ReportBasicData/getVersionData?forecastType=${data}`,
+    method: 'GET'
+  })
+}
+
+//含月份-下拉
+export function yearMonthDropDown(data=true) {
+  return request({
+    url: `/web/mtz/forecastReport/yearDropDown?isMonth=${data}`,
+    method: 'GET'
+  })
+}
+
+//差异原因分析
+export function differenceAnalysis(params) {
+  return request({
+    url: '/web/mtz/forecastReport/differenceAnalysis',
+    method: 'POST',
+    data: params
+  })
+}
+
+//⻋型预算⽉度跟踪
+export function differenceAnalysisCarModel(params) {
+  return request({
+    url: '/web/mtz/forecastReport/differenceAnalysisCarModel',
+    method: 'POST',
+    data: params
+  })
+}

@@ -48,7 +48,7 @@ export const tableSetting = [
   },
   {
     prop: 'isMainContact',
-    label: '主联系人',
+    label: '是否主联系人',
     align: 'center',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
@@ -64,21 +64,12 @@ export const tableSetting = [
     align: 'center'
   },
   {
-    prop: 'position',
-    label: '职位',
-    align: 'center',
-    width: '100px'
+    i18n: '正式/SVW号',
+    prop: 'svwCode'
   },
   {
-    prop: 'dept',
-    label: '部门',
-    align: 'center',
-    width: '200px'
-  },
-  {
-    prop: 'telephoneAreaCode',
-    label: '区号',
-    align: 'center'
+    i18n: 'SAP号',
+    prop: 'sapNum'
   },
   {
     prop: 'telephoneO',

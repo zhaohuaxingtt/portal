@@ -4,15 +4,10 @@
     <el-row :gutter="10">
       <el-col :span="12" class="total">
         <iSelect
-          :placeholder="$t('LK_QINGXUANZE')"
           class="selectsize"
           v-model="form['yearDropList']"
           @change="selectYear"
         >
-          <el-option
-            value=""
-            :label="`${new Date().getFullYear()} 年`"
-          ></el-option>
           <el-option
             v-for="(item, index) in yearList"
             :key="index"
@@ -88,9 +83,8 @@ export default {
     getYearDropDown() {
       yearDropDown(false)
         .then((res) => {
-          this.yearList = res.data.filter(
-            (i) => i.code != new Date().getFullYear()
-          )
+          this.yearList = res.data
+          this.form['yearDropList']=this.yearList[0].message
         })
         .catch((err) => {
           console.log(err)

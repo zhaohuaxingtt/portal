@@ -1,9 +1,12 @@
 <template>
   <iPage>
     <!-- <div class="flex justify-between"> -->
-      <pageHeader class="title">
-        {{language('问题管理')}}
-         <div class="types" slot="actions">
+    <pageHeader class="title">
+      <!-- {{ language('问题管理') }} -->
+
+      <iNavMvp :list="menusLevel3" :lev="1" lang router-page />
+
+      <div class="types" slot="actions">
         <iTabBadge>
           <iTabBadgeItem
             :active="helpMoudle === 'problemHandler'"
@@ -33,9 +36,9 @@
           />
         </iTabBadge>
       </div>
-        </pageHeader>
-      <!-- <div class="content-title">{{ language('问题管理') }}</div> -->
-     
+    </pageHeader>
+    <!-- <div class="content-title">{{ language('问题管理') }}</div> -->
+
     <!-- </div> -->
     <div
       class="flex flex-row content mt20"
@@ -55,7 +58,7 @@
     >
       <ModuleManagement />
     </div>
-		<div
+    <div
       class="flex flex-row content mt20"
       v-if="helpMoudle === 'labelManagement'"
     >
@@ -71,46 +74,73 @@
 </template>
 
 <script>
-import { iPage } from 'rise'
+import { iPage, iNavMvp } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
-import ProblemHandler from './components/problemHandler/index';
+import ProblemHandler from './components/problemHandler/index'
 import LabelManagement from './components/labelManagement/index'
 import ModuleManagement from './components/moduleManagement/index'
 import ProblemStatement from './components/problemStatement/index'
 import KeyWordsManagement from './components/keyWordsManagement'
-import { questionUnReplyCountApi} from '@/api/assistant';
+import { questionUnReplyCountApi } from '@/api/assistant'
 import pageHeader from '@/components/pageHeader'
 import store from '@/store'
+import { getSiblingMenus, generateMenuData } from '@/utils/menu'
 export default {
   data() {
     return {
       text: '问答处理',
       helpMoudle: 'problemHandler',
       problemHandlerCount: 0,
+      menusLevel3: []
+    }
+  },
+  computed: {
+    fullMenus() {
+      return this.$store.state.permission.menuList
     }
   },
   methods: {
-		tabChange(val) {
-			this.$router.replace({path:this.$route.path,query:{module:val}})
-			this.helpMoudle = val
-		},
+    tabChange(val) {
+      this.$router.replace({ path: this.$route.path, query: { module: val } })
+      this.helpMoudle = val
+    },
     // 获取未读问题数量
     async questionUnReplyCount(selfOnly) {
-      const response = await questionUnReplyCountApi(selfOnly);
+      const response = await questionUnReplyCountApi(selfOnly)
       if (response?.code === '200') {
-        this.problemHandlerCount = response.data;
+        this.problemHandlerCount = response.data
       }
     },
     changeSelfHandle(val) {
-      this.questionUnReplyCount(val);
+      this.questionUnReplyCount(val)
+    },
+    // 3级菜单显示
+    getMenusLevel3() {
+      const menus = getSiblingMenus(
+        this.fullMenus,
+        '/assistant/problemMan',
+        '/assistant/problemMan'
+      )
+      const menusLevel3 = generateMenuData(menus, 3)
+      menusLevel3.forEach((e) => {
+        if (e.url === '/assistant/helpCenterMan') {
+          e.activeMenu = '/assistant/helpCenterMan'
+        }
+        if (e.url === '/assistant/problemMan') {
+          e.activeMenu = '/assistant/problemMan'
+        }
+      })
+      this.menusLevel3 = menusLevel3
+      console.log('getMenusLevel3', menusLevel3)
     }
-	},
-  created(){
-		this.helpMoudle = this.$route.query.module || "problemHandler"
+  },
+  created() {
+    this.helpMoudle = this.$route.query.module || 'problemHandler'
+    this.getMenusLevel3()
   },
   mounted() {
-    console.log(store.state, 'store.state');
-    this.questionUnReplyCount(1);
+    console.log(store.state, 'store.state')
+    this.questionUnReplyCount(1)
   },
   components: {
     iPage,
@@ -121,14 +151,15 @@ export default {
     ModuleManagement,
     ProblemStatement,
     KeyWordsManagement,
-    pageHeader
+    pageHeader,
+    iNavMvp
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../comon.scss';
-.content{
+.content {
   height: 100%;
 }
 .content-title {

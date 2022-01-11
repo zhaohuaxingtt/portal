@@ -20,22 +20,27 @@
                 </div>
                 <!-- <span class="time"> {{ `${begin}~${end}` }}</span> -->
                 <span class="time">{{
-                  `${meetingInfo.startDate} ${meetingInfo.startTime.substring(
-                    0,
-                    5
-                  )}
+                  `${meetingInfo.startDate} ${
+                    meetingInfo.startTime
+                      ? meetingInfo.startTime
+                        ? meetingInfo.startTime.substring(0, 5)
+                        : ''
+                      : ''
+                  }
                 ~
                 ${
-                  Number(
-                    meetingInfo.themens[meetingInfo.themens.length - 1]
-                      .plusDayEndTime
-                  ) > 0
-                    ? meetingInfo.endTime.substring(0, 5) +
-                      ` +${
-                        Number(meetingInfo.themens[meetingInfo.themens.length - 1]
-                          .plusDayEndTime)
-                      }`
-                    : meetingInfo.endTime.substring(0, 5)
+                  [...meetingInfo.themens].pop()
+                    ? Number([...meetingInfo.themens].pop().plusDayEndTime) > 0
+                      ? meetingInfo.endTime
+                        ? meetingInfo.endTime.substring(0, 5)
+                        : '' +
+                          ` +${Number(
+                            [...meetingInfo.themens].pop().plusDayEndTime
+                          )}`
+                      : meetingInfo.endTime
+                      ? meetingInfo.endTime.substring(0, 5)
+                      : ''
+                    : ''
                 }`
                 }}</span>
               </div>
@@ -396,14 +401,18 @@ export default {
       this.$refs.childTopic
         .queryMeeting()
         .then(() => {
-          iMessage.success(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
+          iMessage.success(
+            bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG')
+          )
           this.$refs.childTopic.query().then(() => {
             obj.following = false
           })
         })
         .catch(() => {
           obj.following = false
-          iMessage.err(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
+          iMessage.err(
+            bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG')
+          )
         })
     },
     getMyTopics(themens) {

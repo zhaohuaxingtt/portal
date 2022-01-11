@@ -28,7 +28,7 @@
                  :tableLoading="tableLoading">
         <template #deepCommentRatingDate>
           <iDatePicker disabled
-                       style="width:120px !important"
+                       style="width:220px !important"
                        v-model="info.deepCommentRatingDate"
                        value-format="yyyy-MM-dd"></iDatePicker>
         </template>
@@ -250,8 +250,7 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #e30b0d;
 }
 .red {
   color: #e30b0d;

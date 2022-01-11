@@ -68,8 +68,8 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
-              <iFormItem :label="$t('Url')">
+            <el-col :span="8" v-if="formData.systemType === '2'">
+              <iFormItem :label="$t('URL')">
                 <iInput v-model="formData.url" :disabled="isRead"></iInput>
               </iFormItem>
             </el-col>
