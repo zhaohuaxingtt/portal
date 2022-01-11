@@ -123,6 +123,15 @@ export function updateTerms(data) {
   });
 }
 
+// 更新有效条款
+export function updateEffectiveTerms(data) {
+  return requst({
+    url: `/termsService/updateEffectiveTerms`,
+    method: "POST",
+    data,
+  });
+}
+
 // 发布标准条款
 export function releaseTerms(data) {
   return requst({
