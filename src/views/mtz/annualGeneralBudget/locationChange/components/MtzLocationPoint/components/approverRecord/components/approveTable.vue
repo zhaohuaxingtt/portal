@@ -224,13 +224,13 @@ export default {
       disabled: false,
       rules: {
         approvalDepartment: [
-          { required: true, message: '请输入活动名称', trigger: 'change' },
+          { required: true, message: '请输入审批部门', trigger: 'change' },
         ],
-        approvalSection: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
-        ],
+        // approvalSection: [
+        //   { required: true, message: '请选择审批科室', trigger: 'change' }
+        // ],
         approvalName: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+          { required: true, message: '请选择审批人', trigger: 'change' }
         ],
 
       }
@@ -390,16 +390,15 @@ export default {
       
     },
     handleChangeDepartmentTtNominate(val, row){//审批部门
+      this.$set(row, 'userList', []);
       let obj = row.selectDeptList.find(item => item.message === val)
       row.approvalDepartmentName = obj.message
       row.approvalSectionName = ""
       row.approvalSection = ""
       row.approvalName = ""
       row.approvalBy = ""
-
       this.formData.approvalDepartmentNum = obj.code;
       this.formData.approvalSectionNum = "";
-      // this.approvalName = "";
 
       getSourceApproval({
         approvalBy:"",
@@ -411,8 +410,10 @@ export default {
           this.$set(row, 'selectSectionList', res.data.officeList);
         }
       })
+      console.log(row);
     },
     handleChangeApprovalSectionTtNominate(val, row){//审批科室
+      console.log(row);
       let obj = row.selectSectionList.find(item => item.message === val)
       row.approvalSectionName = obj.message
       row.approvalName = ""
@@ -534,6 +535,7 @@ export default {
     },
 
     handleChangeDepartment (val, row) {
+      this.$set(row, 'userList', []);
       let obj = row.selectDeptList.find(item => item.nameEn === val)
       row.approvalDepartmentName = obj.nameZh
       row.approvalSectionName = ""

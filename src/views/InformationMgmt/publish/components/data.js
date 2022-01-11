@@ -87,7 +87,7 @@ export const HISTORY_COLUMNS = [
     i18n: '消息名称',
     prop: 'name',
     emit: 'go-detail',
-    openNewPage:true,
+    // openNewPage:true,
     // minWidth:'150px',
     tooltip:true,
     customRender: (h, scope) => {

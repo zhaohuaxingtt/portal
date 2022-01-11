@@ -9,17 +9,17 @@
           <el-form>
             <el-row :gutter="20">
               <el-col :span="8">
-                <el-form-item :label="formTitle.pName">
+                <el-form-item :label="language(formTitle.pName)">
                   <iInput
-                    :placeholder="formTitle.inputPlaceholder"
+                    :placeholder="language(formTitle.inputPlaceholder)"
                     v-model="formData.productName"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item :label="formTitle.tName">
+                <el-form-item :label="language(formTitle.tName)">
                   <iSelect
-                    :placeholder="formTitle.inputPlaceholder"
+                    :placeholder="language('请选择')"
                     v-model="formData.carTypeName"
                     remote
                     filterable
@@ -37,9 +37,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item :label="formTitle.pType">
+                <el-form-item :label="language(formTitle.pType)">
                   <iSelect
-                    :placeholder="formTitle.iSelectPlaceholder"
+                    :placeholder="language(formTitle.iSelectPlaceholder)"
                     v-model="formData.productType"
                   >
                     <el-option
@@ -55,25 +55,25 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="8">
-                <el-form-item :label="formTitle.PID">
+                <el-form-item :label="language(formTitle.PID)">
                   <iInput
-                    :placeholder="formTitle.inputPlaceholder"
+                    :placeholder="language(formTitle.inputPlaceholder)"
                     v-model="formData.productCode"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item :label="formTitle.cCarTypeYear">
+                <el-form-item :label="language(formTitle.cCarTypeYear)">
                   <iInput
-                    :placeholder="formTitle.inputPlaceholder"
+                    :placeholder="language(formTitle.inputPlaceholder)"
                     v-model="formData.modelYear"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item :label="formTitle.isValid">
+                <el-form-item :label="language(formTitle.isValid)">
                   <iSelect
-                    :placeholder="formTitle.iSelectPlaceholder"
+                    :placeholder="language(formTitle.iSelectPlaceholder)"
                     v-model="formData.effect"
                   >
                     <el-option

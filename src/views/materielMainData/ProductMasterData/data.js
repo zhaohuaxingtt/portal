@@ -15,7 +15,7 @@ export const productTabelList = [
         i18n:'产品组编号',
         tooltip:true,
         width:'120px',
-        openNewPage: true,
+        // openNewPage: true,
         emit:'to-detail',
         customRender: (h,scope) =>{
             return <span class='link-text'>{scope.row.code}</span>

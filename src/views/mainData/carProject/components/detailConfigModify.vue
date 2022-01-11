@@ -9,6 +9,7 @@
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
+            :placeholder="language('请选择')"
           >
             <el-option
               v-for="item in configVersions"

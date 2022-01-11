@@ -2513,14 +2513,16 @@ export default {
       }
     },
     displayShow() {
+      debugger
       let routeUrl = this.$router.resolve({
         // path:
         //   this.meetingInfo.meetingTypeName == 'Pre CSC' ||
         //   this.meetingInfo.meetingTypeName == 'CSC'
-        path:
-          this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
-            ? '/meeting/meetingShow' //新页面
-            : '/meeting/meeting-show', //旧页面
+        // path:
+        //   this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
+        //     ? '/meeting/meetingShow' //新页面
+        //     : '/meeting/meeting-show', //旧页面
+        path:'/meeting/GPCSCMeetingShow',
         query: {
           id: this.meetingInfo.id
         }
