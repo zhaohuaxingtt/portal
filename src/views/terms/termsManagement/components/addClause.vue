@@ -682,7 +682,7 @@ export default {
         // 'code'
       ]
       // 配置字体
-      this.editor.config.fontNames = [
+      this.editor.config.fontNames = [ 
         // 字符串形式
         '黑体',
         '仿宋',
@@ -1236,5 +1236,12 @@ export default {
 
 ::v-deep .el-autocomplete {
   width: 15rem;
+}
+
+::v-deep .w-e-text ul li {
+  list-style: disc;
+}
+::v-deep .w-e-text ol li {
+  list-style: decimal;
 }
 </style>

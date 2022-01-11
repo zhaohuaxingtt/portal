@@ -189,7 +189,7 @@ export default {
               this.selectTableData = []
             })
           } else {
-            iMessage.error('NINGXUANZEDECAIGOUYUANMEIYOUGAICAILIAOZUDECAOZUOQUANXIANQINGLIANXIXITONGGUANLIYUANTIANJIACAOZUOQUANXIAN', '您选择的采购员没有该材料组的操作权限，请联系系统管理员添加操作权限')
+            iMessage.error(this.language('NINXUANZEDECAIGOUYUANMEIYOUGAICAILIAOZUDECAOZUOQUANXIANQINGLIANXIXITONGGUANLIYUANTIANJIACAOZUOQUANXIAN', '您选择的采购员没有该材料组的操作权限，请联系系统管理员添加操作权限'))
           }
         } else {
           iMessage.error(res.desZh)
