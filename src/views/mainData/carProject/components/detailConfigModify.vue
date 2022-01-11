@@ -2,7 +2,10 @@
   <div class="detail-config-modify">
     <pageHeader>
       <el-form inline>
-        <el-form-item :label="language('版本号')" v-if="configVersions.length > 0">
+        <el-form-item
+          :label="language('版本号')"
+          v-if="configVersions.length > 0"
+        >
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
@@ -21,16 +24,16 @@
       <div slot="actions" ref="detailPanel" id="detailPanel">
         <div class="flex-end-center margin-bottom20">
           <iButton v-show="editable" :disabled="loading" @click="add">
-            {{language('新增配置')}}
+            {{ language('新增配置') }}
           </iButton>
           <iButton v-show="!editable" :disabled="loading" @click="edit">
-            {{language('编辑')}}
+            {{ language('编辑') }}
           </iButton>
           <iButton v-show="editable" :disabled="loading" @click="save">
-            {{language('保存')}}
+            {{ language('保存') }}
           </iButton>
           <iButton v-show="editable" :disabled="loading" @click="cancel">
-            {{language('取消')}}
+            {{ language('取消') }}
           </iButton>
         </div>
       </div>
@@ -228,10 +231,10 @@ export default {
       // 检查是不是超出100%
       let totalRate = 0
       this.tableData.forEach((e) => {
-        totalRate += parseFloat(e.cartypeLevelRate)
+        totalRate += parseInt(parseFloat(e.cartypeLevelRate) * 1000000000)
       })
 
-      if (totalRate > 100) {
+      if (totalRate > 100000000000) {
         iMessage.error('配置比例总数不能超过100%')
         return
       }

@@ -6,7 +6,7 @@
     :rules="ruleData.rules"
     :model="ruleData"
   >
-    <el-table :data="ruleData.data" :loading="loading">
+    <el-table :data="ruleData.data" v-loading="loading">
       <el-table-column
         type="index"
         header-align="center"
@@ -127,6 +127,7 @@
               size="mini"
               v-model="scope.row.cartypeLevelRate"
               :ref="'inputRate' + scope.$index"
+              maxlength="10"
               @focus="() => cartypeLevelRateFocus('inputRate' + scope.$index)"
               :placeholder='language("请输入")'
             />
