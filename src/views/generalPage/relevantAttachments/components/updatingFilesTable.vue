@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-07 11:35:45
+ * @LastEditTime: 2022-01-11 10:57:44
  * @LastEditors: Please set LastEditors
  * @Description: 相关附件
 -->
@@ -206,7 +206,7 @@ export default {
         //   applicationName: 'rise',
         //   fileList: [row.templateDemoUrl]
         // }
-        await downloadUdFile(row.fileId)
+        await downloadUdFile(row.templateDemoUrl)
       } else {
         iMessage.warn('没有样例文件')
         return false
