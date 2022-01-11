@@ -40,7 +40,7 @@
       </tableList> -->
       <el-table @selection-change="handleSelectionChange"
                 :data="tableListData">
-        <el-table-column v-if="isView" type="selection"
+        <el-table-column v-if="!isView" type="selection"
                          width="55"> </el-table-column>
         <el-table-column type="index"
                          width="50"
@@ -116,7 +116,7 @@ export default {
   props: {
     title: { type: String, default: '' },
     value: { type: Boolean },
-    isView: { type: Boolean , default: false},
+    isView: { type: Boolean , default: true},
     showFollowButton: { type: Boolean, default: true },
     showTemporaryStorageButton: { type: Boolean, default: true },
     showSubmitButton: { type: Boolean, default: true },

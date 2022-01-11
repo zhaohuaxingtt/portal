@@ -15,6 +15,17 @@
 				</div>
 			</div>
 			<tableList :tableData="tableListData" :selection='false' :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true">
+                 <template #deepCommentResult="scope">
+                <icon v-if="scope.row.deepCommentResult == 'GREEN'"
+                    symbol
+                    name="iconlvdeng"></icon>
+                <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
+                    symbol
+                    name="iconhuangdeng"></icon>
+                <icon v-else-if="scope.row.deepCommentResult == 'RED'"
+                    symbol
+                    name="iconhongdeng"></icon>
+            </template>
 			</tableList>
 			<iPagination v-update @size-change="handleSizeChange($event, getTableList)"
 				@current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes"
@@ -25,7 +36,7 @@
 </template>
 
 <script>
-	import {iDialog,iButton,iPagination,iSelect,iMessage} from 'rise';
+	import {iDialog,iButton,iPagination,iSelect,iMessage,icon} from 'rise';
 	import tableList from '@/components/commonTable';
 	import {pageMixins} from '@/utils/pageMixins';
 	import {joinGroupTitle} from './data';
@@ -37,7 +48,8 @@
 			iButton,
 			iPagination,
 			tableList,
-			iSelect
+			iSelect,
+            icon
 		},
 		props: {
 			value: {
