@@ -5,7 +5,8 @@ export default [
     meta: {
       title: '新闻管理'
     },
-    component: () => import('@/layout/innerTitleAndMenu.vue'),
+    // component: () => import('@/layout/innerTitleAndMenu.vue'),
+    component: () => import('@/views/newsManagement/index.vue'),
     redirect: '/news/content',
     children: [
       {

@@ -270,6 +270,7 @@ export default {
         })
     },
     handleQualitativeScoring () {
+        this.isView=false
       if (!this.gzOperationCheck()) {
         return false
       }

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" :loading="loading">
+  <el-table :data="data" v-loading="loading">
     <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
     <el-table-column type="index" header-align="center" align="center" />
     <!-- <el-table-column
@@ -107,19 +107,19 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     cartypeLevels: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     extraData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           engineSelectMap: {},
           boxSelectMap: {},

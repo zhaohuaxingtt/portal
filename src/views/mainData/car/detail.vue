@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{ $route.query.id ? '编辑' : '新增' }}{{ language('车型主数据') }}
+      {{language( $route.query.id ? '编辑' : '新增' )}}{{ language('车型主数据') }}
     </pageHeader>
 
     <detailBase

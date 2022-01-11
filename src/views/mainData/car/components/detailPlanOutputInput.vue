@@ -12,6 +12,7 @@
     v-model="row.output"
     ref="outputInput"
     @focus="outputInputFocus"
+    :placeholder='language("请输入")'
   />
 </template>
 
