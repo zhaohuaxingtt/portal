@@ -204,6 +204,17 @@ export default [
         },
         component: () =>
           import('@/views/newsManagement/management/userManagement/index.vue')
+      },
+      {
+        // 知识类型管理
+        path: '/news/management/knowledgeManagement/index',
+        name: 'knowledgeManagement',
+        meta: {
+          title: '知识类型管理',
+          activeMenu:['RISE_ADMIN','ADMIN_NEWS_MANAGEMENT_KNOWLEDGE']
+        },
+        component: () =>
+          import('@/views/newsManagement/management/knowledgeManagement/index.vue')
       }
     ]
   },

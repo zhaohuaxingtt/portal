@@ -28,5 +28,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	@import '../comon.scss'
+	@import '../comon.scss';
 </style>
