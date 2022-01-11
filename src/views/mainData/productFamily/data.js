@@ -10,7 +10,7 @@ export const tableColumnSetting = [
     emit: 'showDetail',
     tooltip:true,
     minWidth: 100,
-    openNewPage: true,
+    // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.productCode}</span>
     }

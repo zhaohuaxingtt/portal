@@ -82,7 +82,7 @@ export default {
           tooltip: true,
           // align: 'left',
           emit: 'go-detail',
-          openNewPage: true,
+          // openNewPage: true,
           customRender: (h, scope) => {
             return <span class="open-link-text">{scope.row.fullNameZh}</span>
           }

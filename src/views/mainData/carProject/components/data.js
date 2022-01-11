@@ -15,7 +15,7 @@ export const CAR_PROJECT_COLUMNS = [
     minWidth: 100,
     emit: 'go-detail',
     tooltip: true,
-    openNewPage: true,
+    // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.cartypeProjectZh}</span>
     }
