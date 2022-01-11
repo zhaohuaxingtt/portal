@@ -40,7 +40,7 @@
       </tableList> -->
       <el-table @selection-change="handleSelectionChange"
                 :data="tableListData">
-        <el-table-column type="selection"
+        <el-table-column v-if="!isView" type="selection"
                          width="55"> </el-table-column>
         <el-table-column type="index"
                          width="50"
@@ -116,6 +116,7 @@ export default {
   props: {
     title: { type: String, default: '' },
     value: { type: Boolean },
+    isView: { type: Boolean , default: true},
     showFollowButton: { type: Boolean, default: true },
     showTemporaryStorageButton: { type: Boolean, default: true },
     showSubmitButton: { type: Boolean, default: true },
@@ -310,8 +311,8 @@ export default {
           //   '#' + (positionIndex + 1) + ':' + this.$t('SPR_FRM_CBPJ_QWCDF')
           // this.$t('SPR_FRM_CBPJ_QWCDF')
           this.language(
-            'BAOQIAN,QINGNINGWANCHENGSUOYOUXUANZE',
-            '抱歉！请您完成所有选择！'
+            'QINGWANCHENGSUOYOUXUANZE',
+            '请完成所有选择！'
           )
         )
         return false

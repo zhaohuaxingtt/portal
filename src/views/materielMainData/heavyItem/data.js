@@ -21,7 +21,7 @@ export const HEAVY_ITEM_COLUMNS=[
         label:'材料组名称(中)',
         prop:'stuffCategoryName',
         width:'120px',
-        openNewPage:true,
+        // openNewPage:true,
         tooltip:true,
         emit:'to-detail',
         customRender:(h,scope)=>{

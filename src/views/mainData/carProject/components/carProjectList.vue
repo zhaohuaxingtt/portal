@@ -2,14 +2,14 @@
   <iCard>
     <div class="flex-end-center margin-bottom20">
       <iButton @click="add">
-        {{ $t('新建') }}
+        {{language('新建') }}
       </iButton>
       <iButton @click="changeStatus" :disabled="selectedRows.length === 0">
-        {{ $t('失效') }}
+        {{language('失效') }}
       </iButton>
 
       <button-download :download-method="downloadTemplate">
-        {{ $t('下载产量计划模板') }}
+        {{ language('下载产量计划模板') }}
       </button-download>
       <el-upload
         action="1"
@@ -25,7 +25,7 @@
           class="btn-upload"
         >
           <span>
-            {{ $t('导入产量计划') }}
+            {{ language('导入产量计划') }}
           </span>
         </iButton>
       </el-upload>

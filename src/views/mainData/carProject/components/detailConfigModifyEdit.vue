@@ -6,7 +6,7 @@
     :rules="ruleData.rules"
     :model="ruleData"
   >
-    <el-table :data="ruleData.data" :loading="loading">
+    <el-table :data="ruleData.data" v-loading="loading">
       <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
       <el-table-column type="index" header-align="center" align="center" />
       <!-- <el-table-column
@@ -26,7 +26,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <iSelect v-model="scope.row.engineId" filterable>
+          <iSelect v-model="scope.row.engineId" filterable :placeholder="language('请选择')">
             <el-option
               v-for="e in extraData.engineSelectOptions"
               :value="e.id"
@@ -43,7 +43,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <iSelect v-model="scope.row.gearboxId" filterable>
+          <iSelect v-model="scope.row.gearboxId" filterable :placeholder="language('请选择')">
             <el-option
               v-for="e in extraData.boxSelectOptions"
               :value="e.id"
@@ -60,7 +60,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <iSelect v-model="scope.row.batteryId" filterable>
+          <iSelect v-model="scope.row.batteryId" filterable :placeholder="language('请选择')">
             <el-option
               v-for="e in extraData.batterySelectOptions"
               :value="e.id"
@@ -77,7 +77,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <iInput size="mini" v-model="scope.row.otherConf" />
+          <iInput size="mini" v-model="scope.row.otherConf" :placeholder="language('请输入')"/>
         </template>
       </el-table-column>
       <el-table-column
@@ -87,7 +87,7 @@
         align="center"
       >
         <template slot-scope="scope">
-          <iSelect v-model="scope.row.cartypeLevel" filterable>
+          <iSelect v-model="scope.row.cartypeLevel" filterable :placeholder="language('请选择')">
             <el-option
               v-for="e in extraData.cartypeConfigLevelOptions"
               :value="e.name"
@@ -114,6 +114,7 @@
               v-model="scope.row.cartypeLevelRate"
               :ref="'inputRate' + scope.$index"
               @focus="() => cartypeLevelRateFocus('inputRate' + scope.$index)"
+              :placeholder="language('请选择')"
             />
           </el-form-item>
         </template>

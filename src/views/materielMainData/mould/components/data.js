@@ -40,7 +40,7 @@ export const MOULD_TABLE_COLUMNS = [
     label: '模具材料组编号',
     i18n: '模具材料组编号',
     width:'120px',
-    openNewPage: true,
+    // openNewPage: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.code}</span>
@@ -73,7 +73,7 @@ export const DETAIL_PARTS_GROUP_COLUMNS = [
     label: '零件材料组编号',
     i18n: '零件材料组编号',
     width:'140px',
-    openNewPage:true,
+    // openNewPage:true,
     tooltip: true,
     emit:'to-detail',
     customRender:(h,scope)=>{

@@ -48,7 +48,7 @@ export const GROUP_TABLE_COLUMNS = [
     label: 'MTZ材料组编号',
     i18n: 'MTZ材料组编号',
     width: '120',
-    openNewPage:true,
+    // openNewPage:true,
     tooltip: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
@@ -135,7 +135,7 @@ export const DETAIL_PARTS_GROUP_COLUMNS = [
     i18n: '零件材料组编号',
     fixed: true,
     minWidth: 150,
-    openNewPage: true,
+    // openNewPage: true,
     tooltip: true,
     emit: 'to-detail',
     customRender: (h, scope) => {

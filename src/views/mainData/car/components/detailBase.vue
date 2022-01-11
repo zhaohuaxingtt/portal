@@ -32,17 +32,17 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('车型编号')" prop="vwModelCode">
-            <iInput v-model="baseForm.vwModelCode" :disabled="!editable" />
+            <iInput v-model="baseForm.vwModelCode" :disabled="!editable" :placeholder='language("请输入")'/>
           </iFormItem>
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('车型名称')" prop="modelNameZh">
-            <iInput v-model="baseForm.modelNameZh" :disabled="!editable" />
+            <iInput v-model="baseForm.modelNameZh" :disabled="!editable" :placeholder='language("请输入")'/>
           </iFormItem>
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('车型类型')" prop="type">
-            <iSelect v-model="baseForm.type" :disabled="!editable" filterable>
+            <iSelect v-model="baseForm.type" :disabled="!editable" filterable :placeholder='language("请选择")'>
               <el-option
                 v-for="item in carTypeOptions"
                 :key="item.code"
@@ -58,6 +58,7 @@
               v-model="baseForm.productCode"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in productFamilyOptions"
@@ -70,7 +71,7 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('中文描述')">
-            <iInput v-model="baseForm.description" :disabled="!editable" />
+            <iInput v-model="baseForm.description" :disabled="!editable" :placeholder='language("请输入")'/>
           </iFormItem>
         </el-col>
         <el-col :span="6">
@@ -79,6 +80,7 @@
               v-model="baseForm.carPlatformCode"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in platformCodeOptions"
@@ -95,6 +97,7 @@
               v-model="baseForm.brandCode"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in brandSelectOptions"
@@ -112,6 +115,7 @@
               filterable
               disabled
               multiple
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in productFactoryOptions"
@@ -128,6 +132,7 @@
               v-model="baseForm.calCartype"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in calCarTypeConfigOptions"
@@ -144,6 +149,7 @@
               v-model="baseForm.sourceType"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in sourceTypeOptions"
@@ -160,6 +166,7 @@
               v-model="baseForm.carTypeLevel"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in modelTypeLevelOptions"
@@ -176,6 +183,7 @@
               v-model="baseForm.isValid"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option :value="true" :label="language('有效')" />
               <el-option :value="false" :label="language('无效')" />
@@ -188,6 +196,7 @@
               v-model="baseForm.isModify"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option :value="true" :label="language('是')" />
               <el-option :value="false" :label="language('否')" />
@@ -200,6 +209,7 @@
               v-model="baseForm.eplModelCode"
               :disabled="!editable"
               filterable
+              :placeholder='language("请选择")'
             >
               <el-option
                 v-for="item in EPLOptions"
@@ -212,7 +222,7 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('BKM车型编号')">
-            <iInput :value="baseForm.bkmModelCode" disabled />
+            <iInput :value="baseForm.bkmModelCode" disabled  :placeholder='language("请输入")'/>
             <!-- <iSelect
               v-model="baseForm.bkmModelCode"
               :disabled="!editable"

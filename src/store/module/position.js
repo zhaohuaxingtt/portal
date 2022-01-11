@@ -11,6 +11,7 @@ import {
   UpdatePosition
 } from '@/api/position'
 import { getOrganizationList } from '@/api/organization'
+import { positionList } from '@/api/authorityMgmt'
 const tree2Array = (data) => {
   const result = []
   data.forEach((item) => {
@@ -205,6 +206,13 @@ const position = {
       if (dataVal.setCode && typeof dataVal.setCode === 'string') {
         dataVal.setCode = dataVal.setCode.split(',')
       }
+      if (dataVal.permissionList && data.permissionList.length) {
+        dataVal.permissionList.forEach((e) => {
+          if (e.valueList) {
+            e.valueIds = e.valueList.map((vl) => vl.valueId)
+          }
+        })
+      }
       state.pos.positionDetail = _.cloneDeep(dataVal)
       state.pos.originPosDetail = _.cloneDeep(dataVal)
 
@@ -328,8 +336,16 @@ const position = {
     },
 
     /** 新增维度 */
-    ADD_DIMENSION: (state, item = {}) => {
-      state.pos.dimensionList.push(item)
+    ADD_DIMENSION: (state) => {
+      state.pos.positionDetail.permissionList.push({
+        code: '',
+        description: '',
+        id: '',
+        name: '',
+        url: '',
+        valueList: [],
+        valueIds: []
+      })
     },
     /** 更改所选维度 */
     SET_DIMENSIONSELECTED: (state, data) => {
@@ -337,7 +353,7 @@ const position = {
     },
     /** 删除维度 */
     DEL_DIMENSION: (state) => {
-      const dimensionSelected = JSON.parse(
+      /* const dimensionSelected = JSON.parse(
         JSON.stringify(state.pos.dimensionSelected)
       )
       const dimensionList = JSON.parse(JSON.stringify(state.pos.dimensionList))
@@ -348,30 +364,11 @@ const position = {
           }
         }
       }
-      state.pos.dimensionList = dimensionList
-    },
-    /** 更改岗位信息里面的维度 */
-    SET_DETAIL_DIMENSION: (state) => {
-      for (let i = 0; i < state.pos.dimensionList.length; i++) {
-        state.pos.dimensionList[i].contentList = []
-        state.pos.dimensionList[i].dimensionObj = {}
-        state.pos.dimensionList[i].content.forEach((c) => {
-          const itemC = _.filter(
-            state.pos.dimensionList[i].contentOptions,
-            (it) => {
-              return it.valueId === c
-            }
-          )[0]
-          state.pos.dimensionList[i].contentList.push(itemC)
-        })
-        const itemD = _.filter(state.pos.dimensionOptions, (item) => {
-          return item.id === state.pos.dimensionList[i].dimension
-        })[0]
-        state.pos.dimensionList[i].dimensionObj = itemD
-      }
-      state.pos.positionDetail.permissionList = JSON.parse(
-        JSON.stringify(state.pos.dimensionList)
-      )
+      state.pos.dimensionList = dimensionList */
+      state.pos.positionDetail.permissionList =
+        state.pos.positionDetail.permissionList.filter(
+          (e) => !state.pos.dimensionSelected.includes(e)
+        )
     },
 
     INIT_DIMENSION_LIST: (state, data) => {
@@ -615,16 +612,28 @@ const position = {
       }
     },
     /** 新建岗位 */
-    async SavePosition({ commit }, data) {
-      const permissionList = _.cloneDeep(
+    async SavePosition({ commit, state }, data) {
+      /* const permissionList = _.cloneDeep(
         this.state.position.pos.positionDetail.permissionList
-      )
-      const temp = []
+      ) */
+      /* const temp = []
       permissionList.forEach((item) => {
+        console.log('item', item)
         let obj = {}
         item.dimensionObj.valueList = item.contentList
         obj = item.dimensionObj
         temp.push(obj)
+      }) */
+      const permissionList = _.cloneDeep(
+        state.pos.positionDetail.permissionList
+      )
+      const newPermissionList = permissionList.map((e) => {
+        const valueIds = e.valueIds || []
+        const options = e.contentOptions || e.valueList || []
+        return {
+          ...e,
+          valueList: options.filter((vl) => valueIds.includes(vl.valueId))
+        }
       })
       const { setCode } = this.state.position.pos.positionDetail
       const params = {
@@ -635,14 +644,17 @@ const position = {
         isDeptLead: this.state.position.pos.positionDetail.isDeptLead,
         tagList: this.state.position.pos.positionDetail.tagList,
         roleDTOList: this.state.position.pos.positionDetail.roleDTOList,
-        permissionList: temp,
+        permissionList: newPermissionList,
         deptId: data,
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
         setCode: setCode ? setCode.join(',') : ''
       }
-      const res = await SavePosition(params)
+      commit('SET_POSLOADING', true)
+      const res = await SavePosition(params).finally(() =>
+        commit('SET_POSLOADING', false)
+      )
       return res
     },
 
@@ -684,10 +696,12 @@ const position = {
 
     /* 获取岗位详情 */
     async GetPositionDetail({ commit }, data) {
+      commit('SET_POSLOADING', true)
       const res = await GetPositionDetail({
         id: data
-      })
+      }).finally(() => commit('SET_POSLOADING', false))
       if (res?.code === '200' && res?.data) {
+        res.data.permissionList = res.data.permissionList || []
         commit('SET_POSITION_DETAIL', res.data)
         commit('INIT_DIMENSION_LIST', res.data.permissionList)
         commit('INIT_ROLE_SELECTED', res.data.roleDTOList)
@@ -696,17 +710,19 @@ const position = {
     },
 
     /** 编辑岗位 */
-    async UpdatePosition({ commit }, data) {
-      const permissionList = JSON.parse(
-        JSON.stringify(this.state.position.pos.positionDetail.permissionList)
+    async UpdatePosition({ commit, state }, data) {
+      const permissionList = _.cloneDeep(
+        state.pos.positionDetail.permissionList
       )
-      const temp = []
-      permissionList.forEach((item) => {
-        let obj = {}
-        item.dimensionObj.valueList = item.contentList
-        obj = item.dimensionObj
-        temp.push(obj)
+      const newPermissionList = permissionList.map((e) => {
+        const valueIds = e.valueIds || []
+        const options = e.contentOptions || e.valueList || []
+        return {
+          ...e,
+          valueList: options.filter((vl) => valueIds.includes(vl.valueId))
+        }
       })
+
       const { setCode } = this.state.position.pos.positionDetail
       const params = {
         id: this.state.position.pos.positionDetail.id,
@@ -717,14 +733,17 @@ const position = {
         isDeptLead: this.state.position.pos.positionDetail.isDeptLead,
         tagList: this.state.position.pos.positionDetail.tagList,
         roleDTOList: this.state.position.pos.positionDetail.roleDTOList,
-        permissionList: temp,
+        permissionList: newPermissionList,
         deptId: data,
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
         setCode: setCode ? setCode.join(',') : ''
       }
-      const res = await UpdatePosition(params)
+      commit('SET_POSLOADING', true)
+      const res = await UpdatePosition(params).finally(() =>
+        commit('SET_POSLOADING', false)
+      )
       return res
     }
 

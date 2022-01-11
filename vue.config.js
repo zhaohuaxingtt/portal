@@ -125,7 +125,7 @@ module.exports = {
   css: {
     //是否开起css分离
     extract: false,
-    sourceMap: process.env.NODE_ENV !== 'production',
+    sourceMap: false, // process.env.NODE_ENV !== 'production',
     requireModuleExtension: true,
     loaderOptions: {
       sass: {
@@ -145,7 +145,10 @@ module.exports = {
     host: '0.0.0.0',
     port: 8080,
     https: false,
-    // hotOnly: true,
+    hotOnly: true,
+    hot: true,
+    compress: true,
+    disableHostCheck: true,
     proxy: {
       [process.env.VUE_APP_PROJECT]: {
         target: `http://${BASE_IP}:8005/projectmgt`,

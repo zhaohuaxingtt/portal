@@ -45,7 +45,7 @@ export default {
       )
     },
     generateAlert(message, title) {
-      this.$alert(message, title, {
+      this.$alert(this.language(message), this.language(title), {
         confirmButtonText: this.language('确定'),
         type: 'warning',
         callback: () => {}
@@ -53,8 +53,8 @@ export default {
     },
     cancelAlert() {
       return this.$confirm('页面内容有更新,是否保存?', '提示', {
-        confirmButtonText: '保存',
-        cancelButtonText: '不保存',
+        confirmButtonText: this.language('保存'),
+        cancelButtonText: this.language('不保存'),
         type: 'warning'
       })
     }

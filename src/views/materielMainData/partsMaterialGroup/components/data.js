@@ -18,7 +18,7 @@ export const PART_MATERIAL_COLUMNS = [
     i18n:'材料组编号',
     tooltip:true,
     minWidth:'50px',
-    openNewPage: true,
+    // openNewPage: true,
     emit: 'goDetail',
     customRender: (h, scope) =>{
       return (
@@ -66,7 +66,7 @@ export const TECHNOLOGY_COLUMNS = [
     i18n:'工艺组编号',
     tooltip:true,
     minWidth:'50px',
-    openNewPage: true,
+    // openNewPage: true,
     emit: 'goDetail',
     customRender: (h, scope) =>{
       return (
