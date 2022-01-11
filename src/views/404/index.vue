@@ -7,13 +7,28 @@
  * @FilePath: \rise\src\views\404\index.vue
 -->
 <template>
-  <div>
-    this is 404 page
+  <div class="container">
+    <h1 class="number">404</h1>
+    <h2 class="not-found">NOT FOUND</h2>
   </div>
 </template>
 <script>
-export default{
-}
+export default {}
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .number {
+    font-size: 188px;
+  }
+  .not-found {
+    font-size: 98px;
+    color: #707070;
+  }
+}
 </style>
