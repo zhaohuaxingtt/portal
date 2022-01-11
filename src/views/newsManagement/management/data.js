@@ -14,4 +14,11 @@ export const newsButtonList = [
     activePath: '/news/management/userManagement/index',
     key: language('NEWS_YONGHUZUSHEZHI','用户组设置'),
   },
+  {
+    value: 3,
+    name: language('知识分享类型管理'),
+    url: '/news/management/knowledgeManagement/index',
+    activePath: '/news/management/knowledgeManagement/index',
+    key: language('知识分享类型管理'),
+  }
 ];

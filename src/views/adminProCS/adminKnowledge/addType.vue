@@ -84,7 +84,8 @@ export default {
             extraData: {
                 del: this.del
             },
-			currTypeId: null
+			currTypeId: null,
+            tableLoading: false
         }
     },
     methods: {
@@ -93,8 +94,13 @@ export default {
 				page: this.page.currPage - 1,
 				size: this.page.pageSize
 			}
+            this.tableLoading = true
 			queryCategory(this.currTypeId, params).then(res => {
-				console.log(res, '2222')
+                if (res) {
+                    this.tableListData = res.content || []
+                    this.page.totalCount = res.totalElements
+                    this.tableLoading = false
+                }
 			})
 		},
         closeDialogBtn () {
@@ -105,15 +111,15 @@ export default {
             this.closeDialogBtn();
         },
         async add() {
-			console.log(this.currTypeId, '2222')
 			if (!this.newTypeForm.name) return this.$message({type: 'warning', message: '请先填写知识分类名称'})
 			let formData = new FormData()
 			formData.append('name', this.newTypeForm.name)
+            this.tableLoading = true
 			await addCategory(this.currTypeId, formData).then(res => {
-				console.log(res, '1222')
 				if (res) {
 					this.newTypeForm.name = ''
 					this.$message({type: 'success', message: '新增二级分类成功'})
+                    this.tableLoading = false
 					this.getTableList()
 				}
 			})
@@ -124,12 +130,15 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(async () => {
+                 this.tableLoading = true
                 await deleteCategory(row.id).then(res => {
                     if (res) {
+                        this.tableLoading = false
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
                         });
+                        this.getTableList()
                     }
                 })
                 

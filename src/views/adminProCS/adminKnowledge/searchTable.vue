@@ -147,7 +147,7 @@ export default {
 			this.tableLoading = true
 			let params = {
 				keyword: va ? va : '',
-				page: this.page.currPage - 1,
+				page: va ? 0 : this.page.currPage - 1,
 				size: this.page.pageSize
 			}
 			let res = null
