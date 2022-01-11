@@ -128,7 +128,7 @@ import {
   disassociate,
   fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-// import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 export default {
   name: "searchTabs",
   components: {
@@ -251,9 +251,9 @@ export default {
         this.beforReturn = true;
       })
     },
-    // getsyncAuther () {
-    //   syncAuther({ mtzAppId: this.$route.query.mtzAppId })
-    // },
+    getsyncAuther () {
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId })
+    },
     // getListData () {
       // getFlowTypeList({}).then(res => {
       //   this.getFlowTypeList = res.data;
@@ -356,7 +356,7 @@ export default {
           if (res.code == 200) {
             iMessage.success(res.desZh)
             this.applyNumber = "";
-            // this.getsyncAuther()
+            this.getsyncAuther()
             this.init();
           } else {
             iMessage.error(res.desZh)

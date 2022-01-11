@@ -15,7 +15,14 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!-- v-if="isSupplierDetail" -->
-          <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button>
+          <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
+          <!-- 调取外部评级 -->
+          <i-button @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <!-- <i-button v-if="
+              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
+            "
+                    @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
+          </i-button> -->
           <i-button v-if="isSupplierDetail"
                     @click="addTableItem">{{
             $t('LK_XINZENG')
@@ -55,11 +62,6 @@
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
                     @click="handleExportEarnings">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
-          </i-button>
-          <i-button v-if="
-              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
-            "
-                    @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
           </i-button>
         </div>
       </div>
@@ -243,9 +245,9 @@ export default {
     this.getTableList()
   },
   methods: {
-    pullLevel(){
+    // pullLevel(){
       
-    },
+    // },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
       this.currencyList = res.data[0].subDictResultVo
