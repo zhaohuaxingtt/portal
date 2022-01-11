@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-04-27 21:49:43
- * @LastEditTime: 2022-01-09 10:54:04
+ * @LastEditTime: 2022-01-11 15:28:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\generalPage\baseInfo\components\supplyStatus.vue
@@ -113,7 +113,7 @@ export default {
       } else if (val === '0') {
         return that.language('LINSHI', '临时')
       } else {
-        return '-'
+        return that.language('CHUXUCHI', '储蓄池')
       }
     }
   },
