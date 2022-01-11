@@ -81,6 +81,7 @@
                           :label="type==='QQCGY'?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
+                       :disabled="isAcc"
                        :placeholder="$t('LK_QINGXUANZE')"
                        v-model="form.deptId">
                 <el-option :value="item.id"
@@ -93,10 +94,11 @@
           <el-col :span="10">
             <el-form-item prop="linieId"
                           label-width="120px"
-                          :rules="{required: true, message: '请选择'}"
+                          :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
                           :label="type==='QQCGY'?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
+                       :disabled="isAcc"
                        v-model="form.linieId">
                 <el-option :value="item.id"
                            :label="item.nameZh"
@@ -149,6 +151,7 @@ export default {
       selectTableData: [],
       controlListData: [],
       show: false,
+      isAcc: false,
       type: "",
       papgeTitle: "",
       form: {
@@ -271,6 +274,19 @@ export default {
       }).then(async res => {
         if (res.code === '200') {
           if (res.data) {
+            var ids = []
+            this.selectTableData.forEach(item => {
+              this.tableListData.forEach(item => {
+                ids.push(item.id)
+              })
+              if (ids.includes(item.id)) {
+                if (item.categoryCode == "9999") {
+                  this.isAcc = true;
+                  Vue.set(this.form, "deptId", "")
+                  Vue.set(this.form, "linieId", "")
+                }
+              }
+            })
             this.papgeTitle = '附件材料组不需要选择Linie科室和Linie'
             this.show = true
             this.type = 'LINIE'
@@ -301,6 +317,19 @@ export default {
       }).then(async res => {
         if (res.code === '200') {
           if (res.data) {
+            var ids = []
+            this.selectTableData.forEach(item => {
+              this.tableListData.forEach(item => {
+                ids.push(item.id)
+              })
+              if (ids.includes(item.id)) {
+                if (item.categoryCode == "9999") {
+                  this.isAcc = true;
+                  Vue.set(this.form, "deptId", "")
+                  Vue.set(this.form, "linieId", "")
+                }
+              }
+            })
             this.papgeTitle = '附件材料组不需要选择前期采购员所属科室和前期采购员'
             this.show = true
             this.type = 'QQCGY'
