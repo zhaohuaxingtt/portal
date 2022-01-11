@@ -7,7 +7,7 @@
     
       <draggable v-model="syllable">
         <div v-for="(item , idx) in syllable" :key="idx" class="divheight">
-          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.supporterDeptNosys}}
+          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.presenterDept}}
         </div>
       </draggable>
       <div class="btn">

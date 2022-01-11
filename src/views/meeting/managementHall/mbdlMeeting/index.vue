@@ -379,7 +379,7 @@
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.gpName }}</span>
+              <span class="open-link-text">{{scope.row.topic}}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
@@ -413,9 +413,9 @@
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
-             <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.source }}</span>
-             </template> -->
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporter }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
              <template slot-scope="scope">
@@ -424,7 +424,7 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.state }}</span>
+              <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
           <!-- 会议结论/纪要   result-->
