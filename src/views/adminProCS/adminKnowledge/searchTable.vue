@@ -225,7 +225,7 @@ export default {
 				if (this.selectedItems[0]?.published) return this.$message({type: 'warning', message: '上架的知识类型不能添加分类'})
 			}
 			this.showKnowTypeDialog = true
-			this.$refs.addTypeDialog.currId = this.selectedItems[0]?.id
+			this.$refs.addTypeDialog.currTypeId = this.selectedItems[0]?.id
 			this.$refs.addTypeDialog.getTableList()
 		},
 		handleSelectionChange(val) {

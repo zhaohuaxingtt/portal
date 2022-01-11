@@ -124,6 +124,14 @@ export function queryCategory(id, data) {
     })
 }
 
+// 删除二级分类
+export function deleteCategory(id) {
+    return procsRequest({
+        url: `/knowledgeSection_mgr/${id}/deleteCategory.json`,
+        method: 'delete'
+    })
+}
+
 // 查询知识分享内容列表
 export function getContentList(data) {
     return procsRequest({

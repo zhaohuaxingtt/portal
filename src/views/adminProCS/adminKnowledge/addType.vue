@@ -52,7 +52,7 @@
 import { iDialog, iFormItem, iInput, iButton, iTableCustom, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { column } from './tableColumn'
-import { addCategory, queryCategory } from '@/api/adminProCS';
+import { addCategory, queryCategory, deleteCategory } from '@/api/adminProCS';
 export default {
     components: {
         iDialog,
@@ -84,7 +84,7 @@ export default {
             extraData: {
                 del: this.del
             },
-			currId: null
+			currTypeId: null
         }
     },
     methods: {
@@ -93,7 +93,7 @@ export default {
 				page: this.page.currPage - 1,
 				size: this.page.pageSize
 			}
-			queryCategory(this.currId, params).then(res => {
+			queryCategory(this.currTypeId, params).then(res => {
 				console.log(res, '2222')
 			})
 		},
@@ -105,11 +105,11 @@ export default {
             this.closeDialogBtn();
         },
         async add() {
-			console.log(this.currId, '2222')
+			console.log(this.currTypeId, '2222')
 			if (!this.newTypeForm.name) return this.$message({type: 'warning', message: '请先填写知识分类名称'})
 			let formData = new FormData()
 			formData.append('name', this.newTypeForm.name)
-			await addCategory(this.currId, formData).then(res => {
+			await addCategory(this.currTypeId, formData).then(res => {
 				console.log(res, '1222')
 				if (res) {
 					this.newTypeForm.name = ''
@@ -119,16 +119,20 @@ export default {
 			})
         },
         del(row){
-            console.log(row, '1234')
-            this.$confirm('确定删除此文档吗?', '提示', {
+            this.$confirm('是否删除已选中选项?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
+            }).then(async () => {
+                await deleteCategory(row.id).then(res => {
+                    if (res) {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+                
             })
         },
     }
