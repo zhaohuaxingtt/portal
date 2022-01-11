@@ -10,8 +10,8 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-const BASE_IP = '10.122.17.38'
-// const BASE_IP = '10.122.18.166'
+// const BASE_IP = '10.122.17.38'
+const BASE_IP = '10.122.18.166'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -338,7 +338,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_AEKO]: ''
         }
-      }
+      },
+      // adminProCS
+      [process.env.VUE_APP_ADMIN_PROCS]: {
+        target: `http://${BASE_IP}:8016/riseprocsApi`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+        }
+      },
     }
   }
 }
