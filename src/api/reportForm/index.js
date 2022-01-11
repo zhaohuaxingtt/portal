@@ -35,3 +35,38 @@ export function updateReportContent(id,data) {
         data
     })
 }
+
+// 删除类型
+export function deleteType(id) {
+    return requst({
+        url: `/reportSection_mgr/${id}.json`,
+        method: 'delete'
+    })
+}
+
+// 查询当前类型的二级分类
+export function queryCurrCategory(id, data) {
+    return requst({
+        url: `/reportSection_mgr/${id}/getCategory.json`,
+        method: 'get',
+        params: data
+    })
+}
+
+// 添加当前类型的二级分类
+export function createCurrCategory(id, data) {
+    return requst({
+        url: `/reportSection_mgr/${id}/addCategory.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+
+// 删除当前类型的二级分类
+export function deleteCurrCategory(id) {
+    return requst({
+        url: `/reportSection_mgr/${id}/deleteCategory.json`,
+        method: 'delete'
+    })
+}

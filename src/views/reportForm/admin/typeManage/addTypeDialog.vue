@@ -13,7 +13,7 @@
                 <iInput width="120px" v-model="name" placeholder="请输入" clearable></iInput>
             </iFormItem>
             <iFormItem class="btn">
-                <iButton @click="search">{{ language('查询') }}</iButton>
+                <!-- <iButton @click="search">{{ language('查询') }}</iButton> -->
                 <iButton @click="add" style="marge-left:20px">{{ language('添加') }}</iButton>
             </iFormItem>
         </el-form>
@@ -45,6 +45,7 @@
 import { iDialog, iFormItem, iInput, iButton, iTableCustom, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { addTypeColumn } from './columnData'
+import { queryCurrCategory, createCurrCategory, deleteCurrCategory } from '@/api/reportForm'
 export default {
     name: 'addTypeDialog',
     components: {
@@ -74,23 +75,34 @@ export default {
             tableSetting: addTypeColumn,
             extraData: {
                 del: this.del
-            }
+            },
+            currTypeId: null
         }
     },
     methods: {
         closeDialogBtn () {
             this.$emit('update:typeShow', false)
         },
-        search() {
-            console.log(this.name, 'name')
-        },
+        // search() {
+        //     console.log(this.name, 'name')
+        // },
         add() {
+            if (!this.currTypeId) return
             if (!this.name) return this.$message({type: 'warning', message: '请先填写类型名称再添加!'})
-            this.tableData.push({
-                name: this.name,
-                id: '2'
+            let formData = new FormData()
+            formData.append('name', this.name)
+            this.tableLoading = true
+            createCurrCategory(this.currTypeId, formData).then(res => {
+                console.log(res, '123333')
+                if (res) {
+                    this.name = ''
+                    this.tableData.push({
+                        id: res.id,
+                        name: res.name
+                    })
+                    this.tableLoading = false
+                }
             })
-            this.name = ''
         },
         del(row){
             console.log(row, '1234')
@@ -99,13 +111,35 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
+            }).then(async () => {
+                this.tableLoading = true
+                deleteCurrCategory(row.id).then(res => {
+                    console.log(res)
+                    if (res?.success) {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.getTableList(this.currTypeId)
+                        this.tableLoading = false
+                    }
+                })
+                
             })
         },
+        async getTableList(id) {
+            if (!id) return
+            this.currTypeId = id
+            let params = {
+				page: this.page.currPage - 1,
+				size: this.page.pageSize
+			}
+            this.tableLoading = true
+            await queryCurrCategory(id, params).then(res => {
+                console.log(res, '234543')
+                this.tableLoading = false
+            })
+        }
     }
 }
 </script>

@@ -80,6 +80,7 @@
 			/>
 		</iCard>
 		<AddTypeDialog
+			ref="categoryDialog"
 			v-show="showTypeDialog"
 			:typeShow.sync="showTypeDialog"
 		/>
@@ -98,6 +99,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { typeColumn } from './columnData'
 import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
+import { deleteType } from '@/api/reportForm';
 export default {
 	components: {
 		iInput,
@@ -215,7 +217,10 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-            }).then(() => {
+            }).then(async () => {
+				await deleteType(row.id).then(res => {
+					console.log(res, '22')
+				})
                 this.$message({
                     type: 'success',
                     message: '删除成功!'
@@ -234,6 +239,7 @@ export default {
 			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})
 			console.log('addReportType', row)
 			this.showTypeDialog = true
+			this.$refs.categoryDialog.getTableList(row.id)
 		},
 		addTypeFun() {
 			console.log('添加类型')
