@@ -3,6 +3,7 @@
 		:title="dialogTitle"
 		:visible.sync="contentShow" 
 		v-if="contentShow"
+		v-loading="loading"
 		width="60%" 
 		@close='closeDialogBtn' 
 		append-to-body
@@ -52,6 +53,7 @@
           filterable
           placeholder="请选择知识分类"
 					clearable
+					multiple
         >
           <el-option
             v-for="item in knowledgeCategoryList"
@@ -61,7 +63,7 @@
           ></el-option>
         </iSelect>
 			</iFormItem>
-			<iFormItem :label="language('所属科室')" prop='organizations'>
+			<!-- <iFormItem :label="language('所属科室')" prop='organizations'>
 				<iSelect
           v-model="newContentForm.organizations"
           filterable
@@ -75,10 +77,10 @@
             :value="item.id"
           ></el-option>
         </iSelect>
-			</iFormItem>
+			</iFormItem> -->
 			<iFormItem :label="language('上传附件')">
 				<iUpload 
-					v-model="newContentForm.fileList"
+					v-model="fileList"
 					maxSize= 10
 					:limit="1"
 					:uploadHandle="uploadHandle"
@@ -99,7 +101,7 @@
 					@cutDown='upload'
 				>
 					<div slot="open">
-						<img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar" />
+						<img v-if="imageUrl" :src="imageUrl" @error="handleImageError" class="avatar" />
 						<!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
 						<i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
 						</i>
@@ -120,7 +122,7 @@ import { iDialog, iFormItem, iInput, iSelect, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
-import { queryCurrType, getCurrCategory } from '@/api/adminProCS';
+import { queryCurrType, getCurrCategory, createKnowledgeContent } from '@/api/adminProCS';
 export default {
 	name: 'addKnowledgeContent',
 	components: {
@@ -140,8 +142,8 @@ export default {
 				summary: '',
 				speaker: '',
 				beginDate: '',
-				knowledgeCategory: '',
-				organizations: ''
+				knowledgeCategory: [],
+				organizations: []
 			},
 			newContentRules: {
 				knowledgeSection: { required:'true',message:"请选择知识分享类型",trigger:'select' },
@@ -150,7 +152,7 @@ export default {
 				speaker: { required:'true',message:"请输入主讲人",trigger:'blur' },
 				beginDate: { required:'true',message:"请选择开课日期",trigger:'blur' },
 				knowledgeCategory: { required:'true',message:"请选择知识分类",trigger:'select' },
-				organizations: { required:'true',message:"请选择所属科室",trigger:'select' }
+				// organizations: { required:'true',message:"请选择所属科室",trigger:'select' }
 			},
 			acceptPicType: "image/*",
 			// 调取接口
@@ -164,7 +166,10 @@ export default {
 			],
 			imgCutterRate: '16 : 9',
 			imageUrl: '',
-			uploadFileStream: null
+			uploadFileStream: null,
+			coverFile: null,
+			fileList: [],
+			loading: false,
 		}
 	},
 	props: {
@@ -194,7 +199,6 @@ export default {
 	methods: {
 		async getCurrTypeList() {
 			await queryCurrType().then(res => {
-				console.log(res, '11111')
 				if (res) {
 					res.map(item => {
 						this.knowledgeSectionList.push({
@@ -203,7 +207,6 @@ export default {
 						})
 					})
 				}
-				
 			})
 		},
 		closeDialogBtn () {
@@ -234,6 +237,7 @@ export default {
       form.append('file',content.file)
       form.append('applicationName','popupImage')
 			console.log(content, "12345")
+			this.coverFile = content.dataURL
       uploadFileWithNOTokenTwo(form).then((result)=>{
         if(result.code == '200'){
 					console.log(result, "12222")
@@ -250,23 +254,61 @@ export default {
 			this.imageUrl = ''
 		},
 		handleSection(va) {
-			console.log(va, '获取知识类型')
-			getCurrCategory(va).then(res => {
+			this.getCurrCategoryData(va)
+		},
+		async getCurrCategoryData(va) {
+			await getCurrCategory(va).then(res => {
 				if (res) {
 					this.knowledgeCategoryList = res
 				}
 			})
 		},
-		sure() {
-			console.log(this.newContentForm, "233456")
+		async sure() {
+			if (this.operateType === 'add') {
+				this.newContentForm.openingDate = moment(this.newContentForm.beginDate).format('YYYY-MM-DD')
+				this.newContentForm.file = this.uploadFileStream
+				this.newContentForm.coverFileName = this.imgName
+				this.newContentForm.coverFile = this.coverFile
+				this.newContentForm.organizations = '2222'  // 测试数据
+				console.log(this.newContentForm, "233456")
+				let formData = new FormData()
+				Object.keys(this.newContentForm).forEach(key => {
+					formData.append(key,this.newContentForm[key])
+				})
+				this.loading = true
+				await createKnowledgeContent(formData).then((res) => {
+					console.log(res, '2222')
+					if (res) {
+						this.$message({type: 'success', message: '新增知识内容成功.'})
+						this.loading = false
+					}
+				})
+			}
 		},
-		initModify(currVa) {
-			Object.assign(this.newContentForm, currVa)
+		async initModify(currVa) {
+			let obj = {
+				speaker: currVa.speaker,
+				summary: currVa.summary,
+				title: currVa.title,
+			}
+			Object.assign(this.newContentForm, obj)
+			await this.getCurrCategoryData(currVa.section?.id)
+			this.newContentForm.knowledgeSection = currVa.section?.id
 			this.newContentForm.beginDate = currVa.openingDate
+			currVa.category.map(item => {
+				this.newContentForm.knowledgeCategory.push(item.id)
+			})
+			this.fileList.push({
+				fileName: currVa.attachMents[0].originalFileName,
+				fileUrl: currVa.attachMents[0].url.split('uploader/')[1]
+			})
+			console.log(currVa?.cover.split('uploader/')[1], '222222')
+			this.imageUrl = currVa?.cover.split('uploader/')[1]
+			this.coverFile = this.imageUrl
 		},
 		uploadHandle(file){
 			console.log(file, '2222')
-			this.uploadFileStream= file
+			this.uploadFileStream = file
 			return new Promise((resolve) => {
 				resolve({
 					name: file.name
@@ -274,7 +316,7 @@ export default {
 			})
 		},
 		removeHandle(file, idx) {
-			this.newContentForm.fileList.splice(idx, 1)
+			this.fileList.splice(idx, 1)
 		}
 	}
 }

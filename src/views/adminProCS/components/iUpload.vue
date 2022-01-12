@@ -190,7 +190,8 @@
                 })
             },
             view(file){
-                if (!this.fileUrl) return
+                console.log(file, '3434')
+                if (!file.fileUrl) return
                 const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
                 if (this.imgFmt.includes(fileExtension)) {
                     this.$refs.img.show(file.fileUrl)

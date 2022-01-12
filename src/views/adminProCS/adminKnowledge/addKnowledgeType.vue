@@ -89,7 +89,6 @@ export default {
 			imgCutterRate: '16 : 9',
 			fileList: [],
 			imageUrl: '',
-			coverFileName: '',
 			loading: false,
 			modifyFlag: false,
 			modifyTypeId: null
@@ -105,6 +104,8 @@ export default {
 			this.$emit('refresh')
 			this.imageUrl = ''
 			this.imgName = ''
+			this.coverFile = ''
+			this.modifyFlag = false
     },
 		clearFormVal() {
 			Object.keys(this.newTypeForm).map(key => this.newTypeForm[key] = '')
@@ -143,28 +144,35 @@ export default {
     },
 		deleteImg() {
 			this.imageUrl = ''
+			this.imgName = ''
+			this.coverFile = ''
 		},
 		sure() {
 			this.$refs.knowledgeTypeForm.validate(async v => {
 				if (v) {
 					try {
-						this.newTypeForm.coverFileName = this.imgName
-						this.newTypeForm.coverFile = this.coverFile
-						let formData = new FormData()
-						Object.keys(this.newTypeForm).forEach(key => {
-							formData.append(key,this.newTypeForm[key])
-						})
-						this.loading = true
 						if (this.modifyFlag) {
+							this.newTypeForm.coverFile = this.coverFile ? this.coverFile : this.newTypeForm.coverFile
+							this.newTypeForm.coverFileName = this.imgName ? this.imgName : this.newTypeForm.coverFileName
+							let formData = new FormData()
+							Object.keys(this.newTypeForm).forEach(key => {
+								formData.append(key,this.newTypeForm[key])
+							})
 							await modifyKnowledgeTypeById(this.modifyTypeId, formData).then((res) => {
 								if (res) {
 									this.$message({type: 'success', message: '修改知识类型成功.'})
 									this.modifyFlag = false
 									this.loading = false
 								}
-								
 							})
 						} else {
+							this.newTypeForm.coverFile = this.coverFile
+							this.newTypeForm.coverFileName = this.imgName
+							let formData = new FormData()
+							Object.keys(this.newTypeForm).forEach(key => {
+								formData.append(key,this.newTypeForm[key])
+							})
+							this.loading = true
 							await createKnowledgeType(formData).then((res) => {
 								if (res) {
 									this.$message({type: 'success', message: '新增知识类型成功.'})
@@ -184,8 +192,12 @@ export default {
 			console.log(currVa, '1111')
 			this.modifyFlag = true
 			this.modifyTypeId = currVa.id
-			this.newTypeForm = JSON.parse(JSON.stringify(currVa))
+			// this.newTypeForm = JSON.parse(JSON.stringify(currVa))
+			this.newTypeForm.name = currVa.name
+			this.newTypeForm.enName = currVa.enName
 			this.imageUrl = currVa?.cover.split('uploader/')[1]
+			this.newTypeForm.coverFile = this.imageUrl
+			this.newTypeForm.coverFileName = `${currVa.name}.png`
 		}
 	},
 	computed: {

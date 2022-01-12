@@ -5,7 +5,7 @@
             <div class="report-box">
                 <div class="flex">
                     <span>搜索</span>
-                    <iInput v-model="key" class="search">
+                    <iInput v-model="keyword" class="search">
                         <i
                             class="el-icon-search el-input__icon"
                             slot="suffix"
@@ -22,21 +22,21 @@
                         :lg="6"
                         :xl="6"
                         class="card-item"
-                        v-for="l in 20"
-                        :key="l"
+                        v-for="(item, index) in cardsList"
+                        :key="index"
                         @click.native="$router.push({path:'/reportForm/web/reportCardsDetail'})"
                         >
                         <div class="top">
-                            <div class="bell">
+                            <div class="bell" v-if="item.isRead">
                                 <i class="icon el-icon-message-solid"></i>
                             </div>
-                            <img class="img" src="http://cnsvwshvm1416.csvw.com/upload/2018/08/10/ReportSection_2100_Cover.jpg" alt="">
+                            <img class="img" :src="item.cover" alt="">
                             <div class="info">
-                                <span>共10份</span>
-                                <span class="new">NEW</span>
+                                <span>共{{ item.reportCount }}份</span>
+                                <span class="new" v-if="item.isNew">NEW</span>
                             </div>
                         </div>
-                        <div class="title">中国塑料报道</div>
+                        <div class="title">{{ item.name }}</div>
                     </el-col>
                 </el-row>
             </div>
@@ -47,6 +47,7 @@
 <script>
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton } from 'rise'
+    import { getSectionList } from '@/api/reportForm';
     export default {
         components:{
             pageHeader,
@@ -57,11 +58,32 @@
         },
         data() {
             return {
-                
+                pageParams: {
+                    size: 12,
+                    page: 0
+                },
+                keyword: '',
+                cardsList: []
             }
         },
+        mounted() {
+            this.getCardList()
+        },
         methods: {
-            
+            async getCardList() {
+                if (this.keyword) {
+                    this.pageParams.keyword = this.keyword
+                }
+                await getSectionList(this.pageParams).then(res => {
+                    console.log(res, '2222')
+                    if (res) {
+                        this.cardsList = res || []
+                    }
+                })
+            },
+            handleIconClick() {
+                this.getCardList()
+            }
         },
     }
 </script>

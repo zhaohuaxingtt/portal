@@ -12,9 +12,16 @@ export const contentColumn = () => {
 			width: 100
 		},
 		{
-			prop:'name',
+			prop:'category',
 			label:'分类',
-			align: 'center'
+			align: 'center',
+			customRender: (h, scope) => {
+				const category = scope.row.category
+				let category_text = category.map((item)=>item.name).join(',');
+				return (		
+					category_text
+				)
+			}
 		},
 		{
 			prop:'title',
@@ -34,20 +41,33 @@ export const contentColumn = () => {
 		{
 			prop:'section',
 			label:'课程',
-			align: 'center'
+			align: 'center',
+			customRender: (h, scope) => {
+				const section = scope.row.section
+				return (		
+					section.name
+				)
+			}
 		},
 		{
-			prop:'department',
+			prop:'organizations',
 			label:'部门',
-			align: 'center'
+			align: 'center',
+			customRender: (h, scope) => {
+				const organizations = scope.row.organizations
+				let category_text = organizations.map((item)=>item.name).join(',');
+				return (		
+					category_text || ''
+				)
+			}
 		},
 		{
-			// prop:'state',
+			prop:'published',
 			label:'状态',
 			align: 'center',
 			emit:'stateChang',
 				customRender: (h, scope) => {
-					const state = scope.row.state
+					const state = scope.row.published
 					return (		
 						// <el-switch v-model={published} active-text="上架" inactive-text="下架"></el-switch>
 						<ISwitch currVal={ state } currItem = { scope.row } />
@@ -55,12 +75,12 @@ export const contentColumn = () => {
 				}
 		},
 		{
-			// prop:'send',
+			prop:'sendMessage',
 			label:'消息发送',
 			align: 'center',
 			emit:'sendChang',
 			customRender: (h, scope) => {
-				const send = scope.row.send
+				const send = scope.row.sendMessage
 				return (		
 					// <el-switch v-model={published} active-text="上架" inactive-text="下架"></el-switch>
 					<ISwitch currVal={ send } currItem = { scope.row } activeText = {'发送'} inactiveText = {'不发送'} />

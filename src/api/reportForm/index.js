@@ -78,3 +78,14 @@ export function deleteCurrCategory(id) {
         method: 'delete'
     })
 }
+
+//   web 端
+
+//  获取首页内容 一级内容
+export function getSectionList(data) {
+    return requst({
+        url: `/report/getListSection.json`,
+        method: 'get',
+        params: data
+    })
+}
