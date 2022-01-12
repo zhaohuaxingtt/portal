@@ -56,7 +56,7 @@
           <el-option
             v-for="item in knowledgeCategoryList"
             :key="item.id"
-            :label="item.label"
+            :label="item.name"
             :value="item.id"
           ></el-option>
         </iSelect>
@@ -79,13 +79,15 @@
 			<iFormItem :label="language('上传附件')">
 				<iUpload 
 					v-model="newContentForm.fileList"
-					:accept="acceptPicType"
 					maxSize= 10
 					:limit="1"
+					:uploadHandle="uploadHandle"
+					:removeHandle="removeHandle"
+					:isCustHttp="true"
 				>
 					<div>
-						<iButton>添加图片</iButton>
-						<span style="marginLeft:20px" @click.stop=";">支持图片格式'jpg'，'png'，'gif'，图片不能超过10M</span>
+						<iButton>添加附件</iButton>
+						<!-- <span style="marginLeft:20px" @click.stop=";">支持图片格式'jpg'，'png'，'gif'，图片不能超过10M</span> -->
 					</div>
 				</iUpload>
 			</iFormItem>
@@ -118,6 +120,7 @@ import { iDialog, iFormItem, iInput, iSelect, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
+import { queryCurrType, getCurrCategory } from '@/api/adminProCS';
 export default {
 	name: 'addKnowledgeContent',
 	components: {
@@ -151,22 +154,17 @@ export default {
 			},
 			acceptPicType: "image/*",
 			// 调取接口
-			knowledgeSectionList: [
-				{ id: '0', label: '月报' }, 
-				{ id: '1', label: '测试知识型类型' }
-			],
+			knowledgeSectionList: [],
 			// 选择知识类型时 获取知识分类
-			knowledgeCategoryList: [
-				{ id: '0', label: '一' }, 
-				{ id: '1', label: '二' }
-			],
+			knowledgeCategoryList: [],
 			// 调取接口获取科室数据
 			organizationsList: [
 				{ id: '0', label: '科室一' }, 
 				{ id: '1', label: '科室二' }
 			],
 			imgCutterRate: '16 : 9',
-			imageUrl: ''
+			imageUrl: '',
+			uploadFileStream: null
 		}
 	},
 	props: {
@@ -177,6 +175,10 @@ export default {
 		contentShow: {
 			type: Boolean,
 			default: false
+		},
+		manageType: {
+			type: String,
+      default: 'content'
 		}
 	},
 	computed: {
@@ -184,7 +186,26 @@ export default {
 			return this.operateType === 'add' ? '新增知识类型' : '修改知识类型'
 		}
 	},
+	created() {
+		if (this.manageType === 'content') {
+			this.getCurrTypeList()
+		}
+	},
 	methods: {
+		async getCurrTypeList() {
+			await queryCurrType().then(res => {
+				console.log(res, '11111')
+				if (res) {
+					res.map(item => {
+						this.knowledgeSectionList.push({
+							label: item.name,
+							id: item.id
+						})
+					})
+				}
+				
+			})
+		},
 		closeDialogBtn () {
 			Object.keys(this.newContentForm).map(key => this.newContentForm[key] = '')
       this.$emit('update:contentShow', false)
@@ -230,15 +251,30 @@ export default {
 		},
 		handleSection(va) {
 			console.log(va, '获取知识类型')
+			getCurrCategory(va).then(res => {
+				if (res) {
+					this.knowledgeCategoryList = res
+				}
+			})
 		},
 		sure() {
 			console.log(this.newContentForm, "233456")
 		},
 		initModify(currVa) {
-			// console.log(currVa, "2355")
-			// this.newContentForm = currVa
 			Object.assign(this.newContentForm, currVa)
 			this.newContentForm.beginDate = currVa.openingDate
+		},
+		uploadHandle(file){
+			console.log(file, '2222')
+			this.uploadFileStream= file
+			return new Promise((resolve) => {
+				resolve({
+					name: file.name
+				})
+			})
+		},
+		removeHandle(file, idx) {
+			this.newContentForm.fileList.splice(idx, 1)
 		}
 	}
 }

@@ -190,7 +190,7 @@
                 })
             },
             view(file){
-                // if (!this.disabled) return
+                if (!this.fileUrl) return
                 const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
                 if (this.imgFmt.includes(fileExtension)) {
                     this.$refs.img.show(file.fileUrl)

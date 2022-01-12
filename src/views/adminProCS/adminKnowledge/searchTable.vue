@@ -35,6 +35,7 @@
 			v-show="showTypeDialog"
 			:typeShow.sync="showTypeDialog"
 			:operateType="operateType"
+			:manageType="manageType"
 			@refresh='getTableList'
 		/>
 
@@ -43,6 +44,7 @@
 			v-show="showContentDialog"
 			:contentShow.sync="showContentDialog"
 			:operateType="operateType"
+			:manageType="manageType"
 			@refresh='getTableList'
 		/>
 

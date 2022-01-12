@@ -132,6 +132,22 @@ export function deleteCategory(id) {
     })
 }
 
+// 查询当前用户可见的知识分享类型
+export function queryCurrType() {
+    return procsRequest({
+        url: 'knowledge_mgr/findAllSection.json',
+        method: 'get'
+    })
+}
+
+// 新建内容时 根据所选的类型查询二级分类
+export function getCurrCategory(id) {
+    return procsRequest({
+        url: `/knowledge_mgr/${id}/findSectionByParent.json`,
+        method: 'get'
+    })
+}
+
 // 查询知识分享内容列表
 export function getContentList(data) {
     return procsRequest({
