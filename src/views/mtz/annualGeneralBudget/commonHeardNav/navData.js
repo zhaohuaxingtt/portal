@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-01-12 19:21:22
+ * @LastEditTime: 2022-01-12 19:22:23
  * @LastEditors: 水痕
  * @Description: In User Settings Edit
  * @FilePath: /front-portal/src/views/mtz/annualGeneralBudget/commonHeardNav/navData.js
@@ -28,8 +28,8 @@ export const tabRouterList = [
     name: '定点与变更',
     url: '/mtz/annualGeneralBudget/locationChange',
     activePath: '/mtz/annualGeneralBudget/locationChange',
-    key: '定点与变更'
-    permissionKey:"PORTAL_MTZ_NAV_DINGDIANYUBIANGENG"
+    key: '定点与变更',
+    permissionKey: 'PORTAL_MTZ_NAV_DINGDIANYUBIANGENG'
   },
   {
     value: 4,
@@ -45,6 +45,6 @@ export const tabRouterList = [
     url: '/mtz/dataBase',
     activePath: '/mtz/dataBase',
     key: 'SHUJUKU',
-    permissionKey:"PORTAL_MTZ_NAV_SHUJUKU"
+    permissionKey: 'PORTAL_MTZ_NAV_SHUJUKU'
   }
 ]
