@@ -57,10 +57,12 @@ export function postFinancialAnalysis(parmars) {
 }
 
 // 深评报告综述查询
-export function getSummarize(id, lang) {
+export function getSummarize(supplierId, id, lang) {
   return requst({
     url:
       '/deepCommentReport/summarize?deepCommentSupplierId=' +
+      supplierId +
+      '&id=' +
       id +
       `&lang=${lang ? 'en' : 'zh'}`,
     method: 'GET'

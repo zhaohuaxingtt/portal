@@ -20,7 +20,8 @@
            collapse
            class="margin-top20"
            isRequired>
-      <tableList class="tableStyle" :tableData="tableListData"
+      <tableList class="tableStyle"
+                 :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :selection="false"
                  :index="true"
@@ -32,12 +33,12 @@
                        value-format="yyyy-MM-dd"></iDatePicker>
         </template>
         <template #deepCommentRatingResults>
-          <el-dropdown   :split-button="true"
+          <el-dropdown :split-button="true"
                        @command="changeGrade">
             <icon symbol
                   style="fontSize:12px"
                   :name="trans(info.deepCommentRatingResults)"></icon>
-            <el-dropdown-menu  slot="dropdown"
+            <el-dropdown-menu slot="dropdown"
                               v-if="!isDisabled">
               <el-dropdown-item v-for="item in grade"
                                 :key="item.id"
@@ -118,7 +119,8 @@ export default {
         addAdvice: ''
       },
       range: window._.range,
-      grade: []
+      grade: [],
+      supplierId: 0
     }
   },
   props: {
@@ -128,6 +130,7 @@ export default {
     // console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
+    this.supplierId = this.$route.query.supplierId
     this.getGrade()
     this.getOverView()
   },
@@ -158,7 +161,7 @@ export default {
   },
   methods: {
     getOverView () {
-      getSummarize(this.id).then((result) => {
+      getSummarize(this.supplierId, this.id).then((result) => {
         if (result.data) {
           this.info = result.data
         }
@@ -227,7 +230,6 @@ export default {
 </script>
 
 <style lang="scss" scoped="scoped">
-
 .el-dropdown {
   vertical-align: top;
 }
