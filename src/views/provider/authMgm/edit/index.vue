@@ -17,7 +17,7 @@
           <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.contactName">
-                <iInput v-model="formData.nameZh" :disabled="isEdit"></iInput>
+                <iInput v-model="formData.nameZh" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -25,54 +25,47 @@
                 class="elFormItems"
                 :label="formLable.userLoginName"
               >
-                <iInput v-model="formData.userName" :disabled="isEdit"></iInput>
+                <iInput v-model="formData.userName" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.supChina">
-                <iInput
-                  v-model="formData.opcsCompanyNameZh"
-                  :disabled="true"
-                ></iInput>
+                <iInput v-model="formData.opcsCompanyNameZh" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item
-                class="elFormItems"
-                :label="formLable.temporaryNumber"
-              >
-                <iInput
-                  v-model="formData.temporaryNum"
-                  :disabled="isEdit"
-                ></iInput>
+              <el-form-item class="elFormItems" :label="language('临时号')">
+                <iInput v-model="formData.temporaryNum" disabled></iInput>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item class="elFormItems" :label="language('正式/SVW号')">
+                <iInput v-model="formData.svwCode" disabled></iInput>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item class="elFormItems" :label="language('SAP号')">
+                <iInput v-model="formData.sapNum" disabled></iInput>
+              </el-form-item>
+            </el-col>
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.position">
-                <iInput v-model="formData.position" :disabled="isEdit"></iInput>
+                <iInput v-model="formData.position" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.department">
-                <iInput v-model="formData.dept" :disabled="isEdit"></iInput>
+                <iInput v-model="formData.dept" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.areaCode">
-                <iInput
-                  v-model="formData.telephoneAreaCode"
-                  :disabled="isEdit"
-                ></iInput>
+                <iInput v-model="formData.telephoneAreaCode" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.contactPhone">
-                <iInput
-                  v-model="formData.telephoneO"
-                  :disabled="isEdit"
-                ></iInput>
+                <iInput v-model="formData.telephoneO" disabled></iInput>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="6">
@@ -83,22 +76,19 @@
                 ></iInput>
               </el-form-item>
             </el-col> -->
-          </el-row>
-
-          <el-row gutter="20">
             <el-col :span="6">
               <el-form-item class="elFormItems" :label="formLable.email">
-                <iInput v-model="formData.email" :disabled="isEdit"></iInput>
+                <iInput v-model="formData.email" disabled></iInput>
               </el-form-item>
             </el-col>
           </el-row>
-          <div class="buttons">
+          <!-- <div class="buttons">
             <iButton @click="edit" v-if="isEdit">{{ iButtons.edit }}</iButton>
             <iButton v-if="!isEdit" @click="sure">{{ iButtons.sure }}</iButton>
             <iButton v-if="!isEdit" @click="reset">{{
               iButtons.reset
             }}</iButton>
-          </div>
+          </div> -->
         </el-form>
       </iCard>
       <iCard
@@ -332,7 +322,7 @@ export default {
       isEditAuth: true,
       title: '',
       isSelect: false,
-      isEdit: true,
+      isEdit: false,
       isVisible: false,
       authStatus: true,
       itemMessage: '',

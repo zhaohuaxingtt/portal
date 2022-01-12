@@ -13,6 +13,7 @@ export const tabRouterList = [
     url: '/mtz/annualGeneralBudget/annualBudget',
     activePath: '/mtz/annualGeneralBudget/annualBudget',
     key: '年度预算',
+    // permissionKey:"PORTAL_MTZ_NAV_NAINDUYUSUAN"
   },
   {
     value: 2,
@@ -20,6 +21,7 @@ export const tabRouterList = [
     url: '/mtz/annualGeneralBudget/reportsShow',
     activePath: '/mtz/annualGeneralBudget/reportsShow',
     key: '报表展示',
+    // permissionKey:"PORTAL_MTZ_NAV_BAOBIAOZHANSHI"
   },
   {
     value: 3,
@@ -27,6 +29,7 @@ export const tabRouterList = [
     url: '/mtz/annualGeneralBudget/locationChange',
     activePath: '/mtz/annualGeneralBudget/locationChange',
     key: '定点与变更',
+    // permissionKey:"PORTAL_MTZ_NAV_DINGDIANYUBIANGENG"
   },
   {
     value: 4,
@@ -34,6 +37,7 @@ export const tabRouterList = [
     url: '/mtz/annualGeneralBudget/replenishmentManagement',
     activePath: '/mtz/annualGeneralBudget/replenishmentManagement',
     key: '补差管理',
+    // permissionKey:"PORTAL_MTZ_NAV_BUCHAGUANLI"
   },
   {
     value: 5,
@@ -41,5 +45,6 @@ export const tabRouterList = [
     url: '/mtz/dataBase',
     activePath: '/mtz/dataBase',
     key: 'SHUJUKU',
+    // permissionKey:"PORTAL_MTZ_NAV_SHUJUKU"
   }
 ];

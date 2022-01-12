@@ -13,37 +13,44 @@
         <span v-if="isEdit || isRead">{{ formTitles.editTitle }}</span>
       </div>
       <div class="content">
-        <el-form label-position="left" label-width="110px">
+        <el-form
+          label-position="left"
+          label-width="110px"
+          :rules="rules"
+          :model="formData"
+          ref="ruleForm"
+          class="validate-required-form"
+        >
           <el-row gutter="20">
             <el-col :span="8">
-              <iFormItem :label="formTitles.name">
+              <iFormItem :label="formTitles.name" prop="appNameCn">
                 <iInput
                   :placeholder="formTitles.input"
                   :disabled="isRead"
                   v-model="formData.appNameCn"
-                ></iInput>
+                />
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.nameEN">
+              <iFormItem :label="formTitles.nameEN" prop="appNameEn">
                 <iInput
                   :placeholder="formTitles.input"
                   :disabled="isRead"
                   v-model="formData.appNameEn"
-                ></iInput>
+                />
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.description">
+              <iFormItem :label="formTitles.description" prop="description">
                 <iInput
                   :placeholder="formTitles.input"
                   :disabled="isRead"
                   v-model="formData.description"
-                ></iInput>
+                />
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.sysType">
+              <iFormItem :label="formTitles.sysType" prop="systemType">
                 <iSelect v-model="formData.systemType" :disabled="isRead">
                   <el-option
                     v-for="item in systemOptions"
@@ -56,7 +63,10 @@
               </iFormItem>
             </el-col>
             <el-col :span="8" v-if="formData.systemType === '2'">
-              <iFormItem :label="language('父级菜单')">
+              <iFormItem
+                :label="language('父级菜单')"
+                :prop="formData.systemType === '2' ? 'parentResourceId' : ''"
+              >
                 <iSelect v-model="formData.parentResourceId" :disabled="isRead">
                   <el-option
                     v-for="item in rootMenus"
@@ -69,12 +79,15 @@
               </iFormItem>
             </el-col>
             <el-col :span="8" v-if="formData.systemType === '2'">
-              <iFormItem :label="$t('URL')">
+              <iFormItem
+                :label="$t('URL')"
+                :prop="formData.systemType === '2' ? 'url' : ''"
+              >
                 <iInput v-model="formData.url" :disabled="isRead"></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.sysTag">
+              <iFormItem :label="formTitles.sysTag" prop="supplierType">
                 <iSelect
                   v-model="formData.supplierType"
                   :disabled="isRead"
@@ -91,7 +104,10 @@
               </iFormItem>
             </el-col>
             <el-col :span="8" v-if="formData.systemType === '1'">
-              <iFormItem label="App Code">
+              <iFormItem
+                label="App Code"
+                :prop="formData.systemType === '1' ? 'appCode' : ''"
+              >
                 <iInput v-model="formData.appCode" :disabled="isRead"></iInput>
               </iFormItem>
             </el-col>
@@ -175,50 +191,53 @@ export default {
         })
     },
     comfirm() {
-      //确认
-      if (this.isEdit) {
-        //编辑系统
-        this.loading = true
-        let newFormData = _.cloneDeep(this.formData)
-        newFormData.supplierType = newFormData.supplierType.join(',')
-        let param = { ...newFormData, id: this.id }
-        editSys(param)
-          .then((val) => {
-            if (val.code == 200) {
-              //编辑成功
-              this.loading = false
-              this.dialogFormVisible = false
-              this.$emit('update')
-            } else {
-              iMessage.error(val.desZh || this.language('编辑失败'))
-            }
-          })
-          .catch((error) => {
-            this.loading = false
-            iMessage.error(error.desZh || this.language('编辑失败'))
-          })
-      } else {
-        //创建系统
-        this.loading = true
-        let newFormData = _.cloneDeep(this.formData)
-        newFormData.supplierType = newFormData.supplierType.join(',')
-        let param = { ...newFormData, id: this.id }
-        createSys(param)
-          .then((val) => {
-            if (val.code == 200) {
-              //创建成功
-              this.loading = false
-              this.dialogFormVisible = false
-              this.$emit('update')
-            } else {
-              iMessage.error(val.desZh || this.language('创建失败'))
-            }
-          })
-          .catch((error) => {
-            this.loading = false
-            iMessage.error(error.desZh || this.language('创建失败'))
-          })
-      }
+      this.$refs.ruleForm.validate((valid) => {
+        console.log('valid', valid)
+        if (valid) {
+          //确认
+          if (this.isEdit) {
+            //编辑系统
+            this.loading = true
+            let newFormData = _.cloneDeep(this.formData)
+            newFormData.supplierType = newFormData.supplierType.join(',')
+            let param = { ...newFormData, id: this.id }
+            editSys(param)
+              .then((val) => {
+                if (val.code == 200) {
+                  //编辑成功
+                  this.dialogFormVisible = false
+                  this.$emit('update')
+                } else {
+                  iMessage.error(val.desZh || this.language('编辑失败'))
+                }
+              })
+              .catch((error) => {
+                iMessage.error(error.desZh || this.language('编辑失败'))
+              })
+              .finally(() => (this.loading = false))
+          } else {
+            //创建系统
+            this.loading = true
+            let newFormData = _.cloneDeep(this.formData)
+            newFormData.supplierType = newFormData.supplierType.join(',')
+            let param = { ...newFormData }
+            createSys(param)
+              .then((val) => {
+                if (val.code == 200) {
+                  //创建成功
+                  this.dialogFormVisible = false
+                  this.$emit('update')
+                } else {
+                  iMessage.error(val.desZh || this.language('创建失败'))
+                }
+              })
+              .catch((error) => {
+                iMessage.error(error.desZh || this.language('创建失败'))
+              })
+              .finally(() => (this.loading = false))
+          }
+        }
+      })
     },
     reset() {
       //重置
@@ -329,7 +348,33 @@ export default {
           label: this.language('物流应用')
         }
       ],
-      rootMenus: []
+      rootMenus: [],
+      rules: {
+        appNameCn: [
+          { required: true, message: '请输入中文名称', trigger: 'blur' },
+          { max: 20, message: '长度在 20 个字符内', trigger: 'blur' }
+        ],
+        appNameEn: [
+          { required: true, message: '请输入英文名称', trigger: 'blur' },
+          { max: 20, message: '长度在 20 个字符内', trigger: 'blur' }
+        ],
+        systemType: [
+          { required: true, message: '请选择系统类型', trigger: 'blur' }
+        ],
+        parentResourceId: [
+          { required: true, message: '请选择父级菜单', trigger: 'blur' }
+        ],
+        url: [{ required: true, message: '请输入系统URL', trigger: 'blur' }],
+        description: [
+          { max: 100, message: '长度在 100 个字符内', trigger: 'blur' }
+        ],
+        supplierType: [
+          { required: true, message: '请选择系统标签', trigger: 'blur' }
+        ],
+        appCode: [
+          { required: true, message: '请输入App Code', trigger: 'blur' }
+        ]
+      }
     }
   }
 }
