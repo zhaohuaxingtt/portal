@@ -483,6 +483,7 @@ export default {
       this.getTableList()
     },
     save () {
+      this.loading = true
       this.$refs['tableForm'].validate((valid) => {
         if (valid) {
           this.muilteList.forEach(item => {
@@ -490,12 +491,11 @@ export default {
             delete item.selectSectionList
             delete item.userList
           })
-          this.loading = true
           modifyApprove({
             mtzAppId: this.mtzAppId || '',
             dataList: this.muilteList
           }).then(res => {
-            if (res?.code === '200') {
+            if (res.code == '200' && res.result) {
               this.editFlag = false
               this.loading = false
               this.tableData.forEach(item => {
@@ -505,10 +505,14 @@ export default {
               this.getTableList()
             } else {
               iMessage.error(res.desZh)
+              this.loading = false
             }
+          }).catch(res=>{
+            this.loading = false
           })
         } else {
           iMessage.error('请填写完整')
+          this.loading = false
           return false;
         }
       });

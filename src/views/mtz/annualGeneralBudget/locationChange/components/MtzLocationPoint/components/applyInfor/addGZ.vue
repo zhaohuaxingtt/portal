@@ -27,6 +27,7 @@
                 <iLabel :label="language('MTZCAILIAOZU','MTZ-材料组')" slot="label" :required="true"></iLabel>
                 <i-select v-model="contractForm.materialGroup"
                          clearable
+                         filterable
                          :placeholder="language('QINGSHURU', '请输入')"
                         >
                     <el-option
@@ -86,6 +87,7 @@
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label" :required="true"></iLabel>
                 <i-select v-model="contractForm.materialCode"
                          clearable
+                         filterable
                          @change="MaterialGrade"
                          :placeholder="language('QINGSHURU', '请输入')"
                         >
@@ -151,6 +153,7 @@
                 <iLabel :label="language('SHICHANGJIALAIYUAN','市场价来源')" slot="label" :required="true"></iLabel>
                 <i-select v-model="contractForm.source"
                     clearable
+                    filterable
                     :placeholder="language('QINGXUANZE', '请选择')"
                     >
                     <el-option

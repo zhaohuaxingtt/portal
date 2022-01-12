@@ -45,7 +45,7 @@
             <el-option
               v-for="(item, index) in getVersionMonth"
               :key="index"
-              :value="item.key"
+              :value="item.value"
               :label="item.value"
             />
           </iSelect>
@@ -60,7 +60,7 @@
             <el-option
               v-for="(item, index) in getVersionMonth"
               :key="index"
-              :value="item.key"
+              :value="item.value"
               :label="item.value"
             />
           </iSelect>
@@ -71,7 +71,7 @@
         >
           <span>{{ language('只看自己 ') }}</span>
           <el-switch
-          v-model="form['isOnly']"
+          v-model="form['onlySeeMySelf']"
             @change="showOnlyMyselfData($event)"
             active-color="#1660F1"
             inactive-color="#cccccc"
@@ -101,7 +101,8 @@
           $t('LK_DAOCHU')
         }}</iButton>
       </div>
-      <detailsList />
+      <detailsList :differenceAnalysisCarModel='differenceAnalysisCarModel' :dataTitle="form['VersionMonthOne']"
+        :dataTitleTwo="form['VersionMonthTwo']"/>
     </iCard>
   </div>
 </template>
@@ -110,7 +111,7 @@
 import { iSearch, iSelect, iCard, iButton } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
-import { queryMtzMaterial, queryMaterialMedium,getVersionData,yearMonthDropDown,differenceAnalysisCarModel } from '@/api/mtz/reportsShow'
+import { queryMtzMaterial, queryMaterialMedium,getVersionData,yearMonthDropDown,differenceAnalysisCarModel,differenceAnalysisCarModelExport } from '@/api/mtz/reportsShow'
 export default {
   name: 'index',
   components: {
@@ -130,6 +131,8 @@ export default {
       versionMonthValue: '' ,//
       getMonthList: '', //获取默认月份
       differenceAnalysisCarModel:'',//列表数据
+      dataTitle:'',
+      dataTitleTwo:'',
     }
   },
   created() {
@@ -190,9 +193,11 @@ export default {
     getdifferenceAnalysisCarModel() {
       this.form.pageNo = 1
       this.form.pageSize = 10
-      this.form.versionOneName = this.form['VersionMonthTwo']
-      this.form.versionTwoName = this.form['VersionMonthTwo']
-      this.form.yearMonths = this.form['getMonth']
+      this.form.versionOneName = '202005V1(5+7)'
+      this.form.versionTwoName = '202005V1(5+7)'
+      this.form.yearMonths = ["202006","202006"]
+      this.form.versionOneId=0
+      this.form.versionTwoId=0
       differenceAnalysisCarModel(this.form)
         .then((res) => {
           this.differenceAnalysisCarModel = res.data
@@ -200,11 +205,7 @@ export default {
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
-          if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
-            this.dataTitle =
-              this.differenceAnalysis[0].compareDataList[0].compareName
-            this.num = 1
-          }
+          
         })
         .catch((err) => {
           console.log(err)
@@ -213,16 +214,33 @@ export default {
     //重置查询条件
     reset() {
       for (let i in this.form) {
-        if (i !== 'isOnly') {
+        if (i !== 'onlySeeMySelf') {
           this.form[i] = ''
         }
       }
     },
     //仅看自己
     showOnlyMyselfData(val) {
-      console.log(val)
-      this.form.isOnly = val
+      this.form.onlySeeMySelf = val
+      this.getdifferenceAnalysisCarModel()
     },
+    //导出
+    exportData(){
+      this.form.pageNo = 1
+      this.form.pageSize = 10
+      this.form.versionOneName = '202005V1(5+7)'
+      this.form.versionTwoName = '202005V1(5+7)'
+      this.form.yearMonths = ["202006","202006"]
+      this.form.versionOneId=0
+      this.form.versionTwoId=0
+      differenceAnalysisCarModelExport(this.form)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
