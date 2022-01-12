@@ -65,7 +65,7 @@
         <div class="report-box">
           <div id="report-charts"></div>
           <div class="contrast-box">
-            <div class='report-contrast'>
+            <div class='report-contrast' v-show="showContrast">
               <contrast 
                 v-for="(item,index) in contrastData"
                 :key="index"
@@ -103,6 +103,7 @@ export default {
   },
   data(){
     return{
+      showContrast:false,
       onlySelf:false,
       loading:false,
       time:'',
@@ -205,7 +206,9 @@ export default {
             price =  params.value * 1000000 + ''
             const splitPrice = price.split('.')
             let leftPrice = splitPrice[0] //整数
-            let rightPrice = splitPrice.length > 1 ? '.'+splitPrice[1] : ''//小数
+            // let rightPrice = splitPrice.length > 1 ? '.'+splitPrice[1] : ''//小数
+            let rightPrice = splitPrice.length > 1 ? '.'+ Number("." + splitPrice[1]).toFixed(2).toString().split('.')[1]  : ''
+
             const rgx = /(\d+)(\d{3})/
             while(rgx.test(leftPrice)){
               leftPrice = leftPrice.replace(rgx, '$1' + ',' + '$2')
@@ -308,6 +311,7 @@ export default {
         ...this.searchForm
       }
       this.loading = true
+      this.showContrast = false
       searchTrackingReport(data).then(res => {
         
         if(res.code ==200){
@@ -336,7 +340,10 @@ export default {
         }else{
           this.$message.error(res.desZh || '获取数据失败')
         }
-      }).finally(()=>this.loading = false)
+      }).finally(()=>{
+        this.loading = false
+        this.showContrast = true
+      })
     },
     reset(){
       this.searchForm = {
@@ -399,19 +406,25 @@ export default {
   ::v-deep .el-date-editor--date{
     width: 100%;
   }
-  .contrast-box{
-    position: absolute;
+  .report-box{
     width: 100%;
-    top: 70px;
-    .report-contrast{
-      margin-left: 2%;
-      margin-right: 2%;
-      width: 92%;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+    height: 420px;
+    position: relative;
+    .contrast-box{
+      position: absolute;
+      width: 100%;
+      top: 50px;
+      .report-contrast{
+        margin-left: 2%;
+        margin-right: 2%;
+        width: 96%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
     }
   }
+  
   .btn-list{
     display: flex;
     align-items: center;

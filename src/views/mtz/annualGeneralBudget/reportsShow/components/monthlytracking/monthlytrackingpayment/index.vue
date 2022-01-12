@@ -66,16 +66,16 @@
         <div class="report-box">
           <div id="report-charts" ></div>
           <div class="difference-box">
-          <div class="fix-flex">
-              <div v-show="showDifference" class="display-difference" >
-              <difference 
-                v-for='(item,index) in calculate'
-                :key='index'
-                :item='item'
-              />
+            <div class="fix-flex">
+                <div v-show="showDifference" class="display-difference" >
+                <difference 
+                  v-for='(item,index) in calculate'
+                  :key='index'
+                  :item='item'
+                />
+              </div>
             </div>
           </div>
-        </div>
         </div>
     </div>
     </i-card>
