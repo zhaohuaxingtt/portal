@@ -78,6 +78,24 @@ export function getSignatureResult(data) {
   });
 }
 
+// 查询轮次条款未签署情况
+export function findRoundTerms(data) {
+  return requst({
+    url: `/termsQueryService/findRoundTerms`,
+    method: "POST",
+    data,
+  });
+}
+
+// 标记例外-批量
+export function excludeBatch(data) {
+  return requst({
+    url: `/termsService/excludeBatch`,
+    method: "POST",
+    data,
+  });
+}
+
 // 导出条款签署情况
 export function exportSignatureResult(data) {
   return requst({

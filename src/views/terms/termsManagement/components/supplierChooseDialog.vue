@@ -79,7 +79,7 @@
       <iButton @click="addTableData">{{ "添加" }}</iButton>
     </div>
     <iTableML
-      style="height: 34rem; overflow-y: scroll"
+      style="height: 30rem; overflow-y: scroll"
       tooltip-effect="light"
       :data="tableListOptional"
       :tableLoading="tableLoading"
@@ -173,7 +173,7 @@
     </div>
     <div style="padding-bottom: 2rem">
       <iTableML
-        style="height: 34rem; overflow-y: scroll"
+        style="height: 30rem; overflow-y: scroll"
         tooltip-effect="light"
         :data="tableListDataSelected"
         :tableLoading="tableLoading"

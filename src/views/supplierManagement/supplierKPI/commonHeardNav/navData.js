@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-06-22 11:05:40
- * @LastEditors: caopeng
+ * @LastEditors: 水痕
  * @Descripttion: your project
  */
 /*
@@ -43,7 +43,8 @@ export const tabRouterList = [
     name: 'N级供应链',
     url: '/supplier/NTier',
     activePath: '/supplier/NTier',
-    key: 'N级供应链'
+    key: 'N级供应链',
+    permissionKey: 'WORKBENCH_N_LEVEL_SUPPLIER'
   }
 ]
 
