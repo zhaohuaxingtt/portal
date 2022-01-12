@@ -1,5 +1,7 @@
 import axios from '@/utils/axios'
+import axiosFile from '@/utils/axios.download'
 const request = axios(process.env.VUE_APP_MTZ)
+const donwload = axiosFile(process.env.VUE_APP_MTZ)
 
 ///报表展示接口API
 //MTZ报表年度品牌
@@ -109,6 +111,24 @@ export function differenceAnalysis(params) {
 export function differenceAnalysisCarModel(params) {
   return request({
     url: '/web/mtz/forecastReport/differenceAnalysisCarModel',
+    method: 'POST',
+    data: params
+  })
+}
+
+//差异原因分析-导出
+export function differenceAnalysisExport(params) {
+  return donwload({
+    url: '/web/mtz/forecastReport/differenceAnalysisExport',
+    method: 'POST',
+    data: params
+  })
+}
+
+//⻋型⽉度预算跟踪-导出
+export function differenceAnalysisCarModelExport(params) {
+  return donwload({
+    url: '/web/mtz/forecastReport/differenceAnalysisCarModelExport',
     method: 'POST',
     data: params
   })

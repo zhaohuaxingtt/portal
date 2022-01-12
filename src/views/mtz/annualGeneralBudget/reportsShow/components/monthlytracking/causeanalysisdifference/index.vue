@@ -45,7 +45,7 @@
             <el-option
               v-for="(item, index) in getVersionMonth"
               :key="index"
-              :value="item.key"
+              :value="item.value"
               :label="item.value"
             />
           </iSelect>
@@ -60,7 +60,7 @@
             <el-option
               v-for="(item, index) in getVersionMonth"
               :key="index"
-              :value="item.key"
+              :value="item.value"
               :label="item.value"
             />
           </iSelect>
@@ -103,8 +103,9 @@
       </div>
       <detailsList
         :differenceAnalysis="differenceAnalysis"
-        :dataTitle="dataTitle"
+        :dataTitle="form['VersionMonthOne']"
         :num="num"
+        :dataTitleTwo="form['VersionMonthTwo']"
       />
       <iPagination
         @current-change="handleCurrentChange($event, clickQuery)"
@@ -125,7 +126,8 @@ import {
   queryMaterialMedium,
   getVersionData,
   yearMonthDropDown,
-  differenceAnalysis
+  differenceAnalysis,
+  differenceAnalysisExport
 } from '@/api/mtz/reportsShow'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
@@ -150,7 +152,8 @@ export default {
       mothlyValue: '',
       differenceAnalysis: '', //列表数据
       dataTitle: '', //时间title
-      num: '' //
+      num: '' ,//
+      dataTitleTwo:'',
     }
   },
   created() {
@@ -219,11 +222,12 @@ export default {
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
-          if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
-            this.dataTitle =
-              this.differenceAnalysis[0].compareDataList[0].compareName
-            this.num = 1
-          }
+          // console.log()
+          // if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
+          //   this.dataTitle =
+          //     this.differenceAnalysis[0].compareDataList[0].compareName
+          //   this.num = 1
+          // }
         })
         .catch((err) => {
           console.log(err)
@@ -245,6 +249,21 @@ export default {
     showOnlyMyselfData(val) {
       this.form.onlySeeMySelf = val
       this.getdifferenceAnalysis()
+    },
+    //导出
+    exportData(){
+      this.form.pageNo = 1
+      this.form.pageSize = 10
+      this.form.versionOneName = this.form['VersionMonthTwo']
+      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.yearMonths = this.form['getMonth']
+      differenceAnalysisExport(this.form)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
