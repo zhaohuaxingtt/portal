@@ -34,7 +34,7 @@ Vue.directive('permission', {
         !menuBtn
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
-        if(process.env.NODE_ENV == "SIT") el.parentNode.removeChild(el)
+        // if(process.env.NODE_ENV == "SIT") el.parentNode.removeChild(el)
       }
       
     }
