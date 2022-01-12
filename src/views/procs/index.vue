@@ -1,14 +1,14 @@
 <template>
-  <iPage>
-	<div class="flex">
-		<h1>ProCS</h1>
-		<iNavMvp 
-			:list="menus"
-			:lev="2"
-			router-page />
-	</div>
-	  <router-view></router-view>
-  </iPage>
+	<iPage>
+		<div class="flex">
+			<h1>ProCS</h1>
+			<iNavMvp 
+				:list="menus"
+				:lev="2"
+				router-page />
+		</div>
+		<router-view></router-view>
+	</iPage>
 </template>
 
 <script>
@@ -54,5 +54,6 @@ export default {
 	display: flex;
 	justify-content: space-between;
 }
+
 
 </style>
