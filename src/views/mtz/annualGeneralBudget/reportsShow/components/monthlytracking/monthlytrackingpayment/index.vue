@@ -61,16 +61,20 @@
         </div>
       </div>
     </i-card>
-    <i-card class="report">
-      <div v-loading='loading'>
-        <div id="report-charts" ></div>
-        <div class="difference-box">
-          <div v-if="showDifference" class="display-difference" >
-          <difference 
-            v-for='(item,index) in calculate'
-            :key='index'
-            :item='item'
-          />
+    <i-card class="report" >
+      <div v-loading='loading' >
+        <div class="report-box">
+          <div id="report-charts" ></div>
+          <div class="difference-box">
+            <div class="fix-flex">
+                <div v-show="showDifference" class="display-difference" >
+                <difference 
+                  v-for='(item,index) in calculate'
+                  :key='index'
+                  :item='item'
+                />
+              </div>
+            </div>
           </div>
         </div>
     </div>
@@ -96,6 +100,7 @@ export default {
   },
   data() {
     return {
+      ini:false,
       onlySelf: false,
       loading:false,
       time:'',
@@ -169,6 +174,9 @@ export default {
           axisLabel:{
             fontWeight:'bold',
             margin:20
+          },
+          nameTextStyle:{
+            width:'80px'
           }
         },
         yAxis: [
@@ -195,7 +203,10 @@ export default {
             params.seriesName == '已支付' ? price = params.value[2] * 1000000 : price =  params.value[1] * 1000000
             const splitPrice = (price + '').split('.')
             let leftPrice = splitPrice[0]
-            let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
+            // let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
+            let rightPrice = splitPrice.length > 1 ? '.'+ Number("." + splitPrice[1]).toFixed(2).toString().split('.')[1]  : ''
+
+            // rightPrice = (Number(rightPrice).toFixed(2).split('.')[1] )
             const rgx = /(\d+)(\d{3})/
             while(rgx.test(leftPrice)){
               leftPrice =  leftPrice.replace(rgx, '$1' + ',' + '$2')
@@ -270,7 +281,10 @@ export default {
       const data = {
         ...this.searchForm
       }
+      this.ini = false
       this.loading = true
+      this.showDifference = false
+      // debugger
       searchReport(data).then(res => {
         if(res?.code == 200){
           this.sourceData = []
@@ -296,7 +310,11 @@ export default {
         }else{
           this.$message.error(res?.desZh || '获取失败')
         }
-      }).finally(()=>this.loading = false)
+      }).finally(()=>{
+        this.loading = false
+        this.showDifference = true
+        this.ini = true
+      })
     },
     reset(){
       this.searchForm = {
@@ -354,27 +372,34 @@ export default {
 #report-charts {
   width: 100%;
   height: 420px;
-  position: relative;
+  // position: relative;
 }
 ::v-deep .el-date-editor--date {
   width: 100%;
 }
-
-.difference-box{
-  width: 92%;
-  position: absolute;
-  bottom: 30px;
-  .display-difference{
-    // margin-top: -30px;
-     width: 100%;
-    margin-left: 2%;
-    margin-right: 2%;
-    display: flex !important;
-    justify-content: space-around;
-    align-items: center;
-  }
+.report-box{
+  width: 100%;
+  height: 420px;
+  position: relative;
 }
-
+.difference-box{
+    width: 96%;
+    position: absolute;
+    bottom: 0px;
+      .fix-flex{
+        .display-difference{
+        // margin-top: -30px;
+        width: 100%;
+        margin-left: 2%;
+        margin-right: 2%;
+        display: flex !important;
+        justify-content: space-around;
+        align-items: center;
+      }
+    
+    }
+    
+  }
 .btn-list{
   display: flex;
   align-items: center;
