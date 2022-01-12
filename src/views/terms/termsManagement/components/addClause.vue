@@ -629,20 +629,20 @@ export default {
         }
       }
     },
-    'ruleForm.supplierIdentity': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierIdentity', val)
-      }
-    },
-    'ruleForm.supplierContacts': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierContacts', val)
-      }
-    }
+    // 'ruleForm.supplierIdentity': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierIdentity', val)
+    //   }
+    // },
+    // 'ruleForm.supplierContacts': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierContacts', val)
+    //   }
+    // }
   },
   mounted() {
     if (this.$route.query.id) {
@@ -787,7 +787,7 @@ export default {
           this.ruleForm.termsTextId = res.id
           this.ruleForm.termsTextUrl = res.path
           iMessage.success('上传成功')
-          console.log('res')
+          // console.log('res')
           getFileByIds([res.id]).then((res) => {
             this.termsTextName = res.name
           })
