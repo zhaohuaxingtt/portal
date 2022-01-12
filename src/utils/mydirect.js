@@ -1,8 +1,8 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2021-12-03 18:08:09
- * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-12 19:24:32
+ * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
  */
@@ -13,7 +13,7 @@ import { numberProcessor } from '@/utils'
 // 按钮权限
 // eslint-disable-next-line no-undef
 Vue.directive('permission', {
-  bind: function(el, binding, vnode) {
+  bind: function (el, binding, vnode) {
     // 处理可见不可编辑的输入框，select textarea ....
     if (isNeedJudgePermission()) {
       return true
@@ -24,7 +24,7 @@ Vue.directive('permission', {
       }
     }
   },
-  inserted: function(el, binding, Nodes) {
+  inserted: function (el, binding, Nodes) {
     if (isNeedJudgePermission()) {
       return true
     } else {
@@ -36,14 +36,13 @@ Vue.directive('permission', {
         // 处理控件中，不可见的组件 列入：Ibutton.
         // if(process.env.NODE_ENV == "SIT") el.parentNode.removeChild(el)
       }
-      
     }
   }
 })
 //切换I8n动态更新element值
 // eslint-disable-next-line no-undef
 Vue.directive('update', {
-  bind: function(el, binding, vnode) {
+  bind: function (el, binding, vnode) {
     vnode.key = Hash()
   }
 })
@@ -51,15 +50,15 @@ Vue.directive('update', {
 // 实现拖拽功能
 // eslint-disable-next-line no-undef
 Vue.directive('dragabled', {
-  bind: function(el, binding, vnode, oldVnode) {
+  bind: function (el, binding, vnode, oldVnode) {
     if (!binding) return
-    el.onmousedown = e => {
+    el.onmousedown = (e) => {
       // 鼠标按下，计算当前元素距离可视区的距离
       let disX = e.clientX
       let disY = e.clientY
       el.style.cursor = 'move'
 
-      document.onmousemove = function(e) {
+      document.onmousemove = function (e) {
         e.preventDefault() // 移动时禁用默认事件
 
         // 通过事件委托，计算移动的距离
@@ -72,7 +71,7 @@ Vue.directive('dragabled', {
         el.scrollTop += -top
       }
 
-      document.onmouseup = function(e) {
+      document.onmouseup = function (e) {
         el.style.cursor = 'auto'
         document.onmousemove = null
         document.onmouseup = null
@@ -88,16 +87,16 @@ export function Hash() {
 // Input 整数输入
 // eslint-disable-next-line no-undef
 Vue.directive('Int', {
-  bind: function(el) {
+  bind: function (el) {
     const input = el.getElementsByTagName('input')[0]
-    input.onkeyup = function(e) {
+    input.onkeyup = function (e) {
       if (input.value.length === 1) {
         input.value = input.value.replace(/[^1-9]/g, '')
       } else {
         input.value = input.value.replace(/[^\d]/g, '')
       }
     }
-    input.onblur = function(e) {
+    input.onblur = function (e) {
       if (input.value.length === 1) {
         input.value = input.value.replace(/[^1-9]/g, '')
       } else {
@@ -110,9 +109,9 @@ Vue.directive('Int', {
 // Input 浮点数
 // eslint-disable-next-line no-undef
 Vue.directive('float', {
-  bind: function(el, binding) {
+  bind: function (el, binding) {
     const input = el.getElementsByTagName('input')[0]
-    input.onkeyup = function(e) {
+    input.onkeyup = function (e) {
       input.value = numberProcessor(input.value, binding.expression || 4)
     }
   }
