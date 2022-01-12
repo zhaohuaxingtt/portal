@@ -7,6 +7,7 @@ export const tableColumnSetting = [
     prop: 'nameZh',
     label: '联系人姓名',
     align: 'center',
+    width: '120px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return (
@@ -24,21 +25,15 @@ export const tableColumnSetting = [
     prop: 'userName',
     label: '用户登录名',
     align: 'center',
+    width: '120px',
     tooltip: true
   },
   {
     prop: 'opcsCompanyNameZh',
-    label: '供应商中文名',
+    label: '供应商名',
     align: 'center',
     tooltip: true,
     width: '150'
-  },
-  {
-    prop: 'opcsCompanyNameEn',
-    label: '供应商英文名',
-    align: 'center',
-    width: '150',
-    tooltip: true
   },
   {
     prop: 'isMainContact',
@@ -82,32 +77,24 @@ export const tableColumnSetting = [
     }
   },
   {
-    prop: 'email',
-    label: '邮箱',
-    align: 'center',
-    tooltip: true
-  },
-  {
     prop: 'telephoneO',
     label: '联系电话',
     align: 'center',
-    tooltip: true
-    // customRender:(h,scope) =>{
-    //   let tele = []
-    //   if(scope.row.telephoneM){
-    //     tele.push(scope.row.telephoneM)
-    //   }
-    //   if(scope.row.telephoneO){
-    //     tele.push(scope.row.telephoneO)
-    //   }
-    //   let teleStr = tele.join("/")
-    //   return teleStr
-    // }
+    tooltip: true,
+    width: '120px'
+  },
+  {
+    prop: 'email',
+    label: '邮箱',
+    align: 'center',
+    tooltip: true,
+    minWidth: '180px'
   },
   {
     prop: 'isValid',
     label: '是否超期',
     align: 'center',
+
     customRender: (h, scope) => {
       if (scope.row.isValid) {
         return '否'
@@ -120,12 +107,14 @@ export const tableColumnSetting = [
     prop: 'expireDate',
     label: '超期时间',
     align: 'center',
+    width: '180px',
     tooltip: true
   },
   {
     prop: 'lastLoginDate',
     label: '最近登录时间',
     align: 'center',
+    width: '180px',
     tooltip: true
   }
 ]
