@@ -13,7 +13,7 @@
                 <iInput width="120px" v-model="name" placeholder="请输入" clearable></iInput>
             </iFormItem>
             <iFormItem class="btn">
-                <!-- <iButton @click="search">{{ language('查询') }}</iButton> -->
+                <iButton @click="search">{{ language('查询') }}</iButton>
                 <iButton @click="add" style="marge-left:20px">{{ language('添加') }}</iButton>
             </iFormItem>
         </el-form>
@@ -69,9 +69,7 @@ export default {
             visible: false,
             name: "",
             tableLoading: false,
-            tableData: [
-                { id: '1', name: '类型名称1' }
-            ],
+            tableData: [],
             tableSetting: addTypeColumn,
             extraData: {
                 del: this.del
@@ -83,9 +81,10 @@ export default {
         closeDialogBtn () {
             this.$emit('update:typeShow', false)
         },
-        // search() {
-        //     console.log(this.name, 'name')
-        // },
+        search() {
+            console.log(this.name, 'name')
+            this.getTableList(this.currTypeId)
+        },
         add() {
             if (!this.currTypeId) return
             if (!this.name) return this.$message({type: 'warning', message: '请先填写类型名称再添加!'})
@@ -101,6 +100,7 @@ export default {
                         name: res.name
                     })
                     this.tableLoading = false
+                    this.getTableList()
                 }
             })
         },
@@ -131,13 +131,18 @@ export default {
             if (!id) return
             this.currTypeId = id
             let params = {
-				page: this.page.currPage - 1,
-				size: this.page.pageSize
+				page: this.page.currPage,
+				size: this.page.pageSize,
+                name: this.name || ' '
 			}
             this.tableLoading = true
             await queryCurrCategory(id, params).then(res => {
                 console.log(res, '234543')
-                this.tableLoading = false
+                if (res) {
+                    this.tableData = res.data || []
+                    this.page.totalCount = res.total
+                    this.tableLoading = false
+                }
             })
         }
     }

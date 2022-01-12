@@ -23,7 +23,7 @@
 				</iFormItem>
 				<iFormItem :label="language('是否置顶')">
 					<iSelect
-						v-model="queryForm.topFlag"
+						v-model="queryForm.isTop"
 						filterable
 						placeholder="请选择"
 						clearable
@@ -39,7 +39,7 @@
 				</iFormItem>
 				<iFormItem :label="language('添加日期')">
 					<el-date-picker
-						v-model="queryForm.addTime"
+						v-model="addTime"
 						type="daterange"
 						range-separator="至"
 						start-placeholder="开始日期"
@@ -99,7 +99,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { typeColumn } from './columnData'
 import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
-import { deleteType } from '@/api/reportForm';
+import { deleteType, queryTypeList } from '@/api/reportForm';
 export default {
 	components: {
 		iInput,
@@ -119,19 +119,19 @@ export default {
 			queryForm: {
 				name: '',
 				published: '',
-				topFlag: '',
-				startAddDate: '',
-				endAddDate: ''
+				isTop: '',
+				startTime: '',
+				endTime: ''
 			},
 			aaa: false,
 			addTime: [],
 			statusList: [
-				{ label: '上架', value: '1', id: '0' },
-				{ label: '下架', value: '2', id: '1' },
+				{ label: '上架', value: true, id: '0' },
+				{ label: '下架', value: false, id: '1' },
 			],
 			topList: [
-				{ label: '是', value: '1', id: '0' },
-				{ label: '否', value: '2', id: '1' },
+				{ label: '是', value: true, id: '0' },
+				{ label: '否', value: false, id: '1' },
 			],
 			tableLoading: false,
 			tableData: [
@@ -160,17 +160,40 @@ export default {
 			showTypeDialog: false,
 			commonText: '上架的类型不允许',
 			dialogShow: false,
-			operateType: 'add'
+			operateType: 'add',
+			searchFlag: false
 		}
 	},
+	mounted() {
+		// this.getTableLst()
+	},
 	methods: {
+		async getTableLst() {
+			let params = {
+				page: this.page.currPage,
+				size: this.page.pageSize
+			}
+			if (this.searchFlag) {
+				Object.assign(params, this.queryForm)
+			}
+			this.tableLoading = true
+			await queryTypeList(params).then(res => {
+				if (res?.code === '200') {
+					this.tableData = res?.data || []
+					this.page.totalCount = res.total
+					this.tableLoading = false
+					this.searchFlag = false
+				}
+			})
+		},
 		sure() {
-			console.log(this.queryForm, '1111')
 			if (this.addTime.length > 0) {
-				this.queryForm.startAddDate = this.addTime?.[0] || ''
-				this.queryForm.endAddDate = this.addTime?.[1] || ''
+				this.queryForm.startTime = new Date(this.addTime?.[0] || '')
+				this.queryForm.endTime = new Date(this.addTime?.[1] || '')
 			}
 			this.page.currPage = 1
+			this.searchFlag = true
+			this.getTableLst()
 		},
 		reset() {
 			Object.keys(this.queryForm).forEach((item) => {
@@ -178,6 +201,8 @@ export default {
 			})
 			this.addTime = []
 			this.page.currPage = 1
+			this.searchFlag = false
+			this.getTableLst()
 		},
 		statusChang(row) {
 			console.log(row, '1111')

@@ -36,6 +36,15 @@ export function updateReportContent(id,data) {
     })
 }
 
+// 查询报告类型列表
+export function queryTypeList(data) {
+    return requst({
+        url: `/report_mgr/sectionMgrList.json`,
+        method: 'post',
+        data
+    })
+}
+
 // 删除类型
 export function deleteType(id) {
     return requst({
@@ -47,9 +56,8 @@ export function deleteType(id) {
 // 查询当前类型的二级分类
 export function queryCurrCategory(id, data) {
     return requst({
-        url: `/reportSection_mgr/${id}/getCategory.json`,
-        method: 'get',
-        params: data
+        url: `/reportSection_mgr/${data.page}/${data.size}/${id}/${data.name}/getCategory.json`,
+        method: 'get'
     })
 }
 
