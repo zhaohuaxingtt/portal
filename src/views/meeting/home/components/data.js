@@ -279,12 +279,12 @@ for (let index = 0; index < weekNum; index++) {
   if (index < 9) {
     weekListInit.push({
       label: 'CW0' + (index + 1) + '/' + weekNum,
-      value: index
+      value: index + 1
     })
   } else {
     weekListInit.push({
       label: 'CW' + (index + 1) + '/' + weekNum,
-      value: index
+      value: index + 1
     })
   }
 }
