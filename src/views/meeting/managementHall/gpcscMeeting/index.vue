@@ -9,7 +9,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">gpcsc会议名称</div>
+            <div class="name">会议名称</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>

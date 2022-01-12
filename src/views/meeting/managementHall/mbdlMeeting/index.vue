@@ -1705,6 +1705,13 @@ export default {
       this.openDialog('openUpdateDateDialog')
     },
     deleteTop() {
+      console.log(this.selectedTableData[0]);
+      // isBreak
+      if (this.selectedTableData[0].isBreak == false && this.selectedTableData[0].type == 'GP') {
+        iMessage.warn('改议题不能删除')
+        return
+      }
+      
       if (
         this.selectedTableData[0] &&
         this.selectedTableData[0].state !== '01' &&
