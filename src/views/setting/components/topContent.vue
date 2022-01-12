@@ -5,7 +5,7 @@
       :key="item.title"
       :data="item.data"
       :title="item.title"
-      :contentData="contentData"
+      :fullData="data"
     />
   </div>
 </template>

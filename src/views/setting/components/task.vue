@@ -6,7 +6,7 @@
       <div class="content" v-loading="loading">
         <div class="action flex-end-center">
           <iButton>重置</iButton>
-          <iButton>保存</iButton>
+          <iButton @click="handleSave">保存</iButton>
         </div>
         <topContent :data="data" :activeIndex="activeIndex" />
       </div>
@@ -19,10 +19,18 @@ import topHeader from './topHeader'
 import topContent from './topContent'
 import { iCard, iMessage, iButton } from 'rise'
 import { getDutyStatistics } from '@/api/duty'
-
+import { updateModules } from '@/api/home'
 export default {
   name: 'task',
   components: { topHeader, topContent, iCard, iButton },
+  props: {
+    moduleData: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
+  },
   created() {
     this.query()
   },
@@ -45,6 +53,8 @@ export default {
       this.loading = true
       this.categories = []
       this.data = []
+      const moduleData = JSON.parse(this.moduleData?.moduleData || '[]')
+      console.log('moduleData', moduleData)
       getDutyStatistics(params)
         .then((res) => {
           const data = res || []
@@ -58,12 +68,20 @@ export default {
                 title: e.taskCenterDtoList[0].taskName,
                 data: []
               }
+
               e.taskCenterDtoList.forEach((task) => {
+                console.log(
+                  task.taskTypeName,
+                  task.taskType,
+                  moduleData.find((md) => md.taskType === task.taskType)
+                )
                 dataItem.data.push({
                   ...task,
                   value: task.taskType,
                   label: task.taskTypeName,
-                  checked: false
+                  checked:
+                    moduleData.find((md) => md.taskType === task.taskType) !==
+                    undefined
                 })
               })
               this.data.push(dataItem)
@@ -77,6 +95,19 @@ export default {
     },
     toggleActive(val) {
       this.activeIndex = val
+    },
+    handleSave() {
+      const requestData = { ...this.moduleData }
+      const moduleData = []
+      this.data.forEach((e) => {
+        e.data.forEach((item) => {
+          if (item.checked) {
+            moduleData.push(item)
+          }
+        })
+      })
+      requestData.moduleData = JSON.stringify(moduleData)
+      console.log('requestData', requestData)
     }
   }
 }

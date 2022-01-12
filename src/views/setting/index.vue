@@ -3,10 +3,13 @@
     <settingHeader :active.sync="tabActive" />
     <div v-if="moduleReady">
       <transition name="el-fade-in-linear">
-        <task v-show="tabActive === 'task'" />
+        <task v-show="tabActive === 'task'" :module-data="moduleTaskData" />
       </transition>
       <transition name="el-fade-in-linear">
-        <iAgree v-show="tabActive === 'iAgree'" />
+        <iAgree
+          v-show="tabActive === 'iAgree'"
+          :module-data="moudleiAgreeData"
+        />
       </transition>
       <transition name="el-fade-in-linear">
         <favourite v-show="tabActive === 'favourites'" />
@@ -40,12 +43,12 @@ export default {
         .then((res) => {
           if (res.code === '200' && res.data) {
             this.moduleData = res.data
-            const taskData = res.data.find(
-              (e) => e.permissionKey === 'HOME_MODULE_TASK'
-            )
-            const iAgreeData = res.data.find(
-              (e) => e.permissionKey === 'HOME_MODULE_APPROVE'
-            )
+            this.moduleTaskData =
+              res.data.find((e) => e.permissionKey === 'HOME_MODULE_TASK') || {}
+            this.moudleiAgreeData =
+              res.data.find((e) => e.permissionKey === 'HOME_MODULE_APPROVE') ||
+              {}
+
             this.moduleReady = true
           } else {
             iMessage.error(res.desZh || '获取模块信息失败')

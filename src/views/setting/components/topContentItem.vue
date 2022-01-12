@@ -33,7 +33,7 @@ export default {
         return []
       }
     },
-    contentData: {
+    fullData: {
       type: Array,
       default: function () {
         return []
@@ -43,7 +43,7 @@ export default {
   computed: {
     checkedValues() {
       const checkedValues = []
-      this.contentData.forEach((e) => {
+      this.fullData.forEach((e) => {
         e.data.forEach((item) => {
           if (item.checked) {
             checkedValues.push(item.value)
