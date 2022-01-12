@@ -78,6 +78,15 @@ export const cfProCS = [
             },
             component: () => import('@/views/procs/process')
           },
+          {
+            path: '/cf-ProCS/collect',
+            name: 'CFProCsProcessCollect',
+            meta: {
+              title: '我的收藏',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/process/collect')
+          },
         ]
       },
       {

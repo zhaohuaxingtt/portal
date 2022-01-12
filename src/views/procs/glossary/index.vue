@@ -1,21 +1,20 @@
 <template>
     <div class="main">
-        <pageHeader class="title">
-			{{language('词条管理')}}
-		</pageHeader>
-
-        <el-image class="banner" src="http://cnsvwshvm1416.csvw.com/upload/2018/07/02/NewsMeta_1352250_Cover.jpg" lazy fit="fill"></el-image>
+       <LayHeader title="词条管理"></LayHeader>
 
         <div class="flex glossary">
-            <iCard class="glossary-index glossary-card">
+            <!-- <iCard class="glossary-index glossary-card">
                 <div class="tlt row-line">Glossary</div>
                 <div class="indexs row-line">
-                    <span v-for="(l, index) in indexs" :key="index">{{l}}</span>
+                    <span v-for="(l, index) in indexs" :key="index" :class="{active:activeIndex == l}" @click="click(l)">{{l}}</span>
                 </div>
-                <div class="index-list">
-                    <span class="row-line" v-for="(l, index) in 20" :key="index">{{l}}</span>
-                </div>
-            </iCard>
+                <transition name="moveR">
+                    <div class="index-list" v-show="list > 0">
+                        <span class="row-line" v-for="(l, index) in list" :key="index">{{l}}</span>
+                    </div>
+                </transition>
+            </iCard> -->
+            <IndexList title="Glossary"></IndexList>
             <div class="glossary-content">
                 <iInput placeholder="Search for MORE" v-model="key">
                     <i slot="suffix" class="el-input__icon el-icon-search" style="color:#1763F7"></i>
@@ -34,8 +33,8 @@
                         <div class="link-row flex justify-between">
                             <span class="flex-2 ellipsis mr20">1.上汽大众磁，上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众</span>
                             <div class="flex-1 flex justify-between"> 
-                                <span class="mr20 ellipsis">时间</span>
-                                <span>123</span>
+                                <span class="mr20 ellipsis flex-1">时间</span>
+                                <span> <i class="el-icon-view"></i> 123</span>
                             </div>
                         </div>
                     </div>
@@ -47,22 +46,35 @@
 
 <script>
 	import { iInput, iCard } from 'rise';
-    import pageHeader from '@/components/pageHeader'
+    import LayHeader from "./../components/LayHeader"
+    import IndexList from "./../components/IndexList"
     export default {
        components:{
-           pageHeader,
+           LayHeader,
            iCard,
-           iInput
+           iInput,
+           IndexList
        } ,
        data() {
            return {
                key: "",
                indexs:["all","A","B","D"],
+               activeIndex:"",
                index_list: [
                    {name:'ad'},
                    {name:'Bd'},
                    {name:'dd'},
-               ]
+               ],
+               list:10
+           }
+       },
+       methods: {
+           click(l){
+               this.activeIndex = l;
+               this.list = 0; 
+               setTimeout(() => {
+                   this.list = parseInt(Math.random()*30)
+               }, 500);
            }
        },
     }
@@ -70,7 +82,16 @@
 
 <style lang="scss" scoped>
 @import "./../comon";
-
+.moveR-enter-active,  .moveR-leave-active {
+    transition: all 0.2s ease-in;
+    transform: translateX(0);
+}
+.moveR-enter,  .moveR-leave {
+    transform: translateX(100%);
+}
+.moveR-leave-to{
+    transform: translateX(100%);
+}
 .main{
     width: 100%;
     height: 100%;
@@ -78,11 +99,7 @@
     flex-direction: column;
     overflow: hidden;
 }
-.banner{
-    width: 100%;
-    height: 300px;
-    border-radius: 8px;
-}
+
 
 .glossary{
     width: 100%;
@@ -102,19 +119,14 @@
     }
     .glossary-index{
         height: 100%;
-        display: flex;
-        flex-direction: column;
+        flex: 1;
+        padding-bottom: 10px;
         min-width: 300px;
         margin-right: 20px;
-        padding-bottom: 5px;
         color: #41434A;
         ::v-deep .cardBody{
-            padding: 0;
-            height: 100%;
-        }
-        & ::v-deep > div{
-            height: 100%;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .indexs{
@@ -130,7 +142,7 @@
                 cursor: pointer;
                 transition: all .2s ease;
                 &:hover{
-                    color:#fff;
+                    color:#fff !important;
                     background-color: #1660F1;
                 }
                 &.active{
@@ -157,7 +169,7 @@
         overflow: hidden;
 
         .content{
-            padding: 15px;
+            padding: 25px 20px;
             word-break: break-word;
         }        
         .link-row{
