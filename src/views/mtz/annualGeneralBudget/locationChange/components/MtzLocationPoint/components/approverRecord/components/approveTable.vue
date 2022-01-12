@@ -495,7 +495,7 @@ export default {
             mtzAppId: this.mtzAppId || '',
             dataList: this.muilteList
           }).then(res => {
-            if (res.code == '200' && res.data) {
+            if (res.code == '200' && res.result) {
               this.editFlag = false
               this.loading = false
               this.tableData.forEach(item => {
