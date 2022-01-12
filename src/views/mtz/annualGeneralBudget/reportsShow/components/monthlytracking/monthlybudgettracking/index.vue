@@ -413,7 +413,7 @@ export default {
     .contrast-box{
       position: absolute;
       width: 100%;
-      top: 50px;
+      top: 40px;
       .report-contrast{
         margin-left: 2%;
         margin-right: 2%;
