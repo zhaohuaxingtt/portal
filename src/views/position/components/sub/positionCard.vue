@@ -16,17 +16,8 @@
           ></i>
         </div>
       </div>
-      <div class="flex-end-center">
-        <iButton @click="handleEdit(itemSelected)" v-if="!itemSelected.isEdit"
-          >编辑</iButton
-        >
-        <div v-else>
-          <iButton @click="handleSave(itemSelected)">保存</iButton>
-          <iButton @click="handleCancel(itemSelected)">取消</iButton>
-        </div>
-      </div>
     </div>
-    <div class="card-content">
+    <div class="card-content" v-loading="loading">
       <iFormGroup row="2" ref="positionForm" :model="itemSelected">
         <iFormItem>
           <iLabel label="主负责人" slot="label"></iLabel>
@@ -77,22 +68,42 @@
         </iFormItem>
       </iFormGroup>
 
+      <div class="flex-end-center margin-bottom20">
+        <iButton v-show="!extraData.dimenssionEditable" @click="handleEdit"
+          >编辑</iButton
+        >
+        <iButton v-show="extraData.dimenssionEditable" @click="handleAdd">
+          增加维度
+        </iButton>
+        <iButton
+          v-show="extraData.dimenssionEditable"
+          @click="handleDel"
+          :disabled="selectedRows.length === 0"
+        >
+          删除维度
+        </iButton>
+        <iButton v-show="extraData.dimenssionEditable" @click="handleSave">
+          保存
+        </iButton>
+        <iButton v-show="extraData.dimenssionEditable" @click="handleCancel">
+          取消
+        </iButton>
+      </div>
       <iTableCustom
-        class="material-table"
         :loading="tableLoading"
-        :data="
-          typeof itemSelected.materialList === 'string'
-            ? JSON.parse(itemSelected.materialList)
-            : itemSelected.materialList
+        :data="newPermissionList"
+        :key="item.id + (extraData.dimenssionEditable && 'edit')"
+        :columns="
+          !extraData.dimenssionEditable ? tableSettingView : tableSetting
         "
-        :columns="item.isEdit ? tableSettingEdit : tableSettingDetail"
-      ></iTableCustom>
+        :extra-data="extraData"
+        @handle-selection-change="handleSelectionChange"
+      />
     </div>
   </iCard>
 </template>
 
 <script>
-import carType2Brand from './carType2Brand'
 import {
   iCard,
   iFormGroup,
@@ -103,6 +114,7 @@ import {
   iMessage
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
+import { UpdateSubPosition } from '@/api/position'
 export default {
   components: {
     iCard,
@@ -119,238 +131,161 @@ export default {
     },
     deptId: {
       type: Number
+    },
+    dimensionOptions: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    permissionList: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     const _self = this
     return {
-      originItem: null,
+      newPermissionList: [],
       tableLoading: false,
-      tableSettingDetail: [
+      extraData: {
+        dimenssionEditable: false,
+        dimensionOptions: this.dimensionOptions
+      },
+      tableSettingView: [
         {
-          label: '材料组',
-          customRender: (h, scope) => {
-            return scope.row.materialItem.value
-          }
+          type: 'index',
+          label: '序号',
+          width: 80
         },
         {
-          prop: 'carType',
-          label: '车型',
+          prop: 'description',
+          label: '维度',
           tooltip: false,
+          align: 'center'
+        },
+        {
+          prop: 'content',
+          label: '内容',
           align: 'center',
+          tooltip: false,
           customRender: (h, scope) => {
-            const valList = scope.row.carTypeList?.map((item) => {
+            const valList = scope.row.valueList?.map((item) => {
               return item.value
             })
             return valList?.join(',')
           }
+        }
+      ],
+      tableSetting: [
+        {
+          type: 'selection'
         },
         {
-          prop: 'brand',
-          label: '品牌',
+          type: 'index',
+          label: '序号',
+          width: 80
+        },
+        {
+          prop: 'dimension',
+          label: '维度',
+          tooltip: false,
+          align: 'center',
+          customRender: (h, scope) => {
+            const options = _self.dimensionOptions
+            return (
+              <iSelect
+                value={scope.row.id}
+                onchange={(val) => {
+                  scope.row.id = val
+                  const dimensionOption = options.filter((e) => {
+                    return e.id === val
+                  })
+                  if (
+                    dimensionOption &&
+                    dimensionOption.length &&
+                    dimensionOption[0].valueList
+                  ) {
+                    scope.row.code = dimensionOption[0].code
+                    scope.row.description = dimensionOption[0].description
+                    scope.row.id = dimensionOption[0].id
+                    scope.row.name = dimensionOption[0].name
+                    scope.row.url = dimensionOption[0].url
+                  } else {
+                    scope.row.contentOptions = []
+                  }
+                  scope.row.valueIds = []
+                }}
+              >
+                {options.map((item) => {
+                  return (
+                    <el-option
+                      value={item.id}
+                      label={item.description}
+                      disabled={_self.dimensionIds.includes(item.id)}
+                    ></el-option>
+                  )
+                })}
+              </iSelect>
+            )
+          }
+        },
+        {
+          prop: 'content',
+          label: '内容',
           align: 'center',
           tooltip: false,
           customRender: (h, scope) => {
-            // const valList = scope.row.carTypeList?.map(item => {
-            //   return item.brand
-            // })
-            // return valList?.join(',')
-            const brandArr = []
-            scope.row.carType?.forEach((c) => {
-              brandArr.push(carType2Brand[c.valueId] || 'VW')
+            let options = []
+            const dimensionOptions = _self.dimensionOptions
+            const dimensionOption = dimensionOptions.filter((e) => {
+              return e.id === scope.row.id
             })
-            return _.uniq(brandArr).join(',')
+            if (
+              dimensionOption &&
+              dimensionOption.length &&
+              dimensionOption[0].valueList
+            ) {
+              options = dimensionOption[0].valueList
+              scope.row.valueList = dimensionOption[0].valueList
+            }
+            return (
+              <iSelect
+                placeholder="请选择"
+                multiple={true}
+                filterable={true}
+                value={scope.row.valueIds}
+                onchange={(val) => (scope.row.valueIds = val)}
+              >
+                {options.map((item) => {
+                  return (
+                    <el-option
+                      value={item.valueId}
+                      label={item.value}
+                      key={item.valueId}
+                    />
+                  )
+                })}
+              </iSelect>
+            )
           }
         }
       ],
-      tableSettingEdit: [
-        {
-          label: '材料组',
-          align: 'center',
-          tooltip: false,
-          customRender: (h, scope) => {
-            return h('div', [
-              h(
-                'i-select',
-                {
-                  on: {
-                    change: (value) => {
-                      scope.row.material = value
-                      // scope.row.carTypeOptions =
-                      //   _self.dOptions.find(d => {
-                      //     return d.valueId === value
-                      //   })?.carType || []
-                      // const arr = _self.itemSelected.materialList.map(ml => {
-                      //   return ml.material
-                      // })
-                      // _self.dOptions.filter(d => {
-                      //   if (arr.includes(d.valueId)) {
-                      //     d.disabled = true
-                      //   } else {
-                      //     d.disabled = false
-                      //   }
-                      // })
-
-                      scope.row.carTypeOptions = _self.carTypeOptions
-                      const arr = _self.itemSelected.materialList.map((ml) => {
-                        return ml.material
-                      })
-                      _self.categoryOptions.filter((d) => {
-                        if (arr.includes(d.valueId)) {
-                          d.disabled = true
-                        } else {
-                          d.disabled = false
-                        }
-                      })
-                      scope.row.carType = []
-                    }
-                  },
-                  props: {
-                    value: scope.row.material,
-                    placeholder: '请选择材料组'
-                  }
-                },
-                [
-                  // _self.dOptions.map(item => {
-                  _self.categoryOptions.map((item) => {
-                    return h('el-option', {
-                      props: {
-                        value: item.valueId,
-                        label: item.value,
-                        disabled: item.disabled
-                      }
-                    })
-                  })
-                ]
-              )
-            ])
-          }
-        },
-        {
-          prop: 'carType',
-          label: '车型',
-          tooltip: false,
-          align: 'center',
-          customRender: (h, scope) => {
-            return h('div', [
-              h(
-                'i-select',
-                {
-                  on: {
-                    input: (value) => {
-                      scope.row.carType = value
-                    }
-                  },
-                  props: {
-                    value: scope.row.carType,
-                    placeholder: '请选择车型',
-                    multiple: true
-                  }
-                },
-                [
-                  // scope.row.carTypeOptions?.map(item => {
-                  _self.carTypeOptions?.map((item) => {
-                    return h('el-option', {
-                      props: {
-                        value: item.valueId,
-                        label: item.value
-                      }
-                    })
-                  })
-                ]
-              )
-            ])
-          }
-        },
-        {
-          prop: 'brand',
-          label: '品牌',
-          align: 'center',
-          tooltip: false,
-          customRender: (h, scope) => {
-            const brandArr = []
-            scope.row.carType?.forEach((c) => {
-              brandArr.push(carType2Brand[c.valueId] || 'VW')
-            })
-            return _.uniq(brandArr).join(',')
-            // const brandArr = []
-            // scope.row.carType?.forEach(c => {
-            //   const obj = scope.row.carTypeOptions?.find(o => {
-            //     return o.valueId === c
-            //   })
-            //   brandArr.push(obj)
-            // })
-            // return _.uniq(
-            //   brandArr?.map(i => {
-            //     return i?.brand
-            //   })
-            // ).join(',')
-          }
-        },
-        {
-          align: 'center',
-          width: 50,
-          headerRender: (h, { column }) => {
-            return h('div', [
-              h('i', {
-                class: 'el-icon-circle-plus-outline',
-                style: 'color:#1660F1;',
-                on: {
-                  click: (value) => {
-                    const mItem = {
-                      material: '',
-                      carType: []
-                    }
-                    _self.itemSelected.materialList.push(mItem)
-                  }
-                }
-              })
-            ])
-          },
-          tooltip: false,
-          customRender: (h, scope) => {
-            return h('div', [
-              h('i', {
-                class: 'el-icon-delete',
-                style: 'color:#5F6879;',
-                on: {
-                  click: (value) => {
-                    _self.itemSelected.materialList.splice(scope.$index, 1)
-                    const arr = _self.itemSelected.materialList.map((ml) => {
-                      return ml.material
-                    })
-                    // _self.dOptions.filter(d => {
-                    _self.categoryOptions.filter((d) => {
-                      if (arr.includes(d.valueId)) {
-                        d.disabled = true
-                      } else {
-                        d.disabled = false
-                      }
-                    })
-                  }
-                }
-              })
-            ])
-          }
-        }
-      ]
+      selectedRows: []
     }
   },
   mounted() {
-    this.originItem = JSON.parse(JSON.stringify(this.item))
+    this.newPermissionList = _.cloneDeep(this.permissionList)
   },
   computed: {
-    carTypeOptions() {
-      return this.$store.state.subPosition.carTypeOptions || []
-    },
-    categoryOptions() {
-      return this.$store.state.subPosition.categoryOptions || []
-    },
-    dOptions() {
-      return this.$store.state.subPosition.dOptions || []
-    },
-    positionList() {
-      return this.$store.state.subPosition.subPositionList
+    dimensionIds() {
+      return this.newPermissionList.map((e) => e.id)
     },
     userOptions() {
       return this.$store.state.subPosition.userOptions
@@ -368,65 +303,67 @@ export default {
     }
   },
   methods: {
-    handleEdit(item) {
-      const hasEditItem =
-        this.positionList.find((li) => {
-          return li.isEdit
-        }) || false
-      if (!hasEditItem) {
-        this.$set(item, 'isEdit', !item.isEdit)
-        this.$store.dispatch('GetAllUser', { positionId: item.id })
-        this.$store.commit('SET_NEW_CATEGORYOPTIONS', item)
-      } else {
-        iMessage.warn('请保存当前岗位后再编辑')
+    async handleSave() {
+      const emptyPermissions = this.newPermissionList.filter(
+        (e) => e.valueIds.length === 0
+      )
+      if (emptyPermissions.length > 0) {
+        iMessage.warn('增加的维度及内容不能为空')
       }
-    },
-
-    checkItemEmpty(item) {
-      const emptyItem = item.materialList.find((ml) => {
-        if (!ml.material || !ml.carType.length) {
-          return ml
+      const data = _.cloneDeep(this.item)
+      const permissionList = this.newPermissionList.map((e) => {
+        const options = e.contentOptions || e.valueList || []
+        const valueList = options.filter((option) =>
+          e.valueIds.includes(option.valueId)
+        )
+        return {
+          ...e,
+          valueList: valueList
         }
       })
-      return emptyItem
-    },
 
-    async handleSave(item) {
-      this.$refs['positionForm'].validate(async (valid) => {
-        if (valid) {
-          if (!item.materialList.length) {
-            iMessage.warn('请为该岗位增加材料组车型组合')
-            return
+      data.permissionList = permissionList
+      data.materialList = ''
+      this.loading = true
+      UpdateSubPosition(data)
+        .then((res) => {
+          if (res.result) {
+            this.item.permissionList = permissionList
+            this.newPermissionList = permissionList
+            this.extraData.dimenssionEditable = false
+            iMessage.success(res.desZh || '保存成功')
+          } else {
+            iMessage.error(res.desZh || '保存失败')
           }
-          if (this.checkItemEmpty(item)) {
-            iMessage.warn('材料组及车型不能为空')
-            return
-          }
-          const res = await this.$store.dispatch('UpdateSubPosition', item)
-          if (res.code === '200' && res.data) {
-            // this.$set(item, 'isEdit', !item.isEdit)
-            iMessage.success('更新下属岗位成功')
-            this.$store.dispatch('GetSubPosition', { deptId: this.deptId })
-          }
-        }
+        })
+        .finally(() => (this.loading = false))
+    },
+    handleEdit() {
+      this.newPermissionList = _.cloneDeep(this.permissionList)
+      this.extraData.dimenssionEditable = true
+    },
+    handleCancel() {
+      this.newPermissionList = _.cloneDeep(this.permissionList)
+      this.extraData.dimenssionEditable = false
+    },
+    handleAdd() {
+      this.newPermissionList.push({
+        code: '',
+        description: '',
+        id: '',
+        name: '',
+        url: '',
+        valueList: [],
+        valueIds: []
       })
     },
-
-    handleUserChange(val) {
-      this.itemSelected.chiefUserId = ''
-      const leaderOptions = this.userOptions.filter((user) => {
-        if (val.includes(user.id)) {
-          return user
-        }
-      })
-      this.itemSelected.leaderOptions = leaderOptions
+    handleDel() {
+      this.newPermissionList = this.newPermissionList.filter(
+        (e) => !this.selectedRows.includes(e)
+      )
     },
-
-    handleCancel(item) {
-      // this.$set(item, 'isEdit', !item.isEdit)
-      // this.itemSelected = this.originItem
-      // this.$forceUpdate()
-      this.$store.dispatch('GetSubPosition', { deptId: this.deptId })
+    handleSelectionChange(val) {
+      this.selectedRows = val
     }
   }
 }

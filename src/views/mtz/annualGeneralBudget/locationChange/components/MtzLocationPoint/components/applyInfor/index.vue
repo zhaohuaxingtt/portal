@@ -252,7 +252,7 @@ export default {
       })
     },
     getsyncAuther () {
-      syncAuther({ mtzAppId: this.$route.query.mtzAppId })
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId,tag:"" })
     },
     // getListData () {
       // getFlowTypeList({}).then(res => {
