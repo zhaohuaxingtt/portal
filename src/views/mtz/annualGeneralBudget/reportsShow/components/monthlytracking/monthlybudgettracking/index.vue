@@ -62,17 +62,18 @@
     </i-card>
     <i-card class="report">
       <div v-loading='loading'>
-        <div id="report-charts"></div>
-        <div class="contrast-box">
-          <div class='report-contrast'>
-            <contrast 
-              v-for="(item,index) in contrastData"
-              :key="index"
-              :item='item'
-            />
+        <div class="report-box">
+          <div id="report-charts"></div>
+          <div class="contrast-box">
+            <div class='report-contrast'>
+              <contrast 
+                v-for="(item,index) in contrastData"
+                :key="index"
+                :item='item'
+              />
+            </div>
           </div>
         </div>
-        
       </div>
     </i-card>
   </div>
