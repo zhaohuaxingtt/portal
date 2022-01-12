@@ -60,6 +60,7 @@ export default {
               }
               e.taskCenterDtoList.forEach((task) => {
                 dataItem.data.push({
+                  ...task,
                   value: task.taskType,
                   label: task.taskTypeName,
                   checked: false
