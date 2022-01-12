@@ -110,7 +110,7 @@
 import { iSearch, iSelect, iCard, iButton } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
-import { queryMtzMaterial, queryMaterialMedium,getVersionData,yearMonthDropDown } from '@/api/mtz/reportsShow'
+import { queryMtzMaterial, queryMaterialMedium,getVersionData,yearMonthDropDown,differenceAnalysisCarModel } from '@/api/mtz/reportsShow'
 export default {
   name: 'index',
   components: {
@@ -129,13 +129,14 @@ export default {
       getVersionMonth: [], //获取后端传回来的比较版本
       versionMonthValue: '' ,//
       getMonthList: '', //获取默认月份
+      differenceAnalysisCarModel:'',//列表数据
     }
   },
   created() {
     this.MtzMaterial()
     this.MaterialMedium()
     this.getVersionDataList()
-    this.getyearMonthDropDown()
+    
   },
   methods: {
     //MTZ材料组
@@ -166,7 +167,7 @@ export default {
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
           this.versionMonthValue = this.getVersionMonth[0].value
-          // this.getdifferenceAnalysis()
+          this.getyearMonthDropDown()
         })
         .catch((err) => {
           console.log(err)
@@ -179,6 +180,31 @@ export default {
           this.getMonthList = res.data
           let arr = [this.getMonthList[0].code, this.getMonthList[0].code]
           this.form['getMonth'] = [arr[0], arr[1]]
+          this.getdifferenceAnalysisCarModel()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    //获取列表数据
+    getdifferenceAnalysisCarModel() {
+      this.form.pageNo = 1
+      this.form.pageSize = 10
+      this.form.versionOneName = this.form['VersionMonthTwo']
+      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.yearMonths = this.form['getMonth']
+      differenceAnalysisCarModel(this.form)
+        .then((res) => {
+          this.differenceAnalysisCarModel = res.data
+          this.page.total = res.total
+          this.page.currPage = res.pageNum
+          this.page.pageSize = res.pageSize
+          this.page.totalCount = res.pages
+          if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
+            this.dataTitle =
+              this.differenceAnalysis[0].compareDataList[0].compareName
+            this.num = 1
+          }
         })
         .catch((err) => {
           console.log(err)
