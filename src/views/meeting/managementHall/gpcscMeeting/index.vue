@@ -536,9 +536,9 @@
               min-width="119"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.isSendBm == false ? '否' : scope.row.isSendBm == true ? '是' : ''}}</span>
+              </template>
             </el-table-column>
             <!-- CSC汇报材料  cscStatus-->
             <el-table-column
@@ -584,11 +584,11 @@
               show-overflow-tooltip
               align="center"
               label="CSC编号"
-              min-width="74"
+              min-width="90"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCode}}</span>
+              </template>
             </el-table-column>
           </iTableML>
           <div id="table-drag">
@@ -745,9 +745,9 @@
               min-width="119"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.isSendBm == false ? '否' : scope.row.isSendBm == true ? '是' : ''}}</span>
+              </template>
             </el-table-column>
             <!-- CSC汇报材料  cscStatus-->
             <el-table-column
@@ -793,11 +793,11 @@
               show-overflow-tooltip
               align="center"
               label="CSC编号"
-              min-width="74"
+              min-width="90"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCode}}</span>
+              </template>
             </el-table-column>
           </iTableML>
           </div>
