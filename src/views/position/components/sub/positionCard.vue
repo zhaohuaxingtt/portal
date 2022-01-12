@@ -217,7 +217,6 @@ export default {
                     scope.row.id = dimensionOption[0].id
                     scope.row.name = dimensionOption[0].name
                     scope.row.url = dimensionOption[0].url
-                    scope.row.contentOptions = dimensionOption[0].valueList
                   } else {
                     scope.row.contentOptions = []
                   }
@@ -243,8 +242,19 @@ export default {
           align: 'center',
           tooltip: false,
           customRender: (h, scope) => {
-            const options =
-              scope.row.contentOptions || scope.row.valueList || []
+            let options = []
+            const dimensionOptions = _self.dimensionOptions
+            const dimensionOption = dimensionOptions.filter((e) => {
+              return e.id === scope.row.id
+            })
+            if (
+              dimensionOption &&
+              dimensionOption.length &&
+              dimensionOption[0].valueList
+            ) {
+              options = dimensionOption[0].valueList
+              scope.row.valueList = dimensionOption[0].valueList
+            }
             return (
               <iSelect
                 placeholder="请选择"

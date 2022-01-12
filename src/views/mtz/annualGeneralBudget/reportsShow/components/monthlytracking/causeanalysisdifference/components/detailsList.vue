@@ -42,7 +42,7 @@
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column v-if="num == 1" :label="dataTitle" align="center">
+      <el-table-column :label="dataTitleTwo" align="center">
         <el-table-column
           :label="language('LK_SHICHANGJIA', '市场价')"
           align="center"
@@ -100,6 +100,7 @@ export default {
   props: {
     differenceAnalysis: { type: Array },
     dataTitle: { type: String },
+    dataTitleTwo: { type: String },
     num: { type: Number }
   },
   data() {
