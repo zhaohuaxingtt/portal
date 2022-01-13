@@ -5,8 +5,8 @@
     <iCard>
       <div class="content" v-loading="loading">
         <div class="action flex-end-center">
-          <iButton>重置</iButton>
-          <iButton>保存</iButton>
+          <iButton @click="setData">{{ language('重置') }}</iButton>
+          <iButton @click="handleSave">{{ language('保存') }}</iButton>
         </div>
         <topContent :data="data" :activeIndex="activeIndex" />
       </div>
@@ -19,10 +19,18 @@ import topHeader from './topHeader'
 import topContent from './topContent'
 import { iCard, iMessage, iButton } from 'rise'
 import { getApprovalList } from '@/api/home'
-
+import { updateModules } from '@/api/home'
 export default {
   name: 'iAgree',
   components: { topHeader, topContent, iCard, iButton },
+  props: {
+    cardData: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
+  },
   created() {
     this.query()
   },
@@ -36,7 +44,8 @@ export default {
       loading: false,
       data: [],
       categories: [],
-      activeIndex: -1
+      activeIndex: -1,
+      staticsticData: []
     }
   },
   methods: {
@@ -44,40 +53,81 @@ export default {
       this.loading = true
       this.categories = []
       this.data = []
+
       getApprovalList({ userID: this.userInfo.id })
         .then((res) => {
-          const { data } = res
-          if (data) {
-            console.log('task data', data)
-            data.forEach((e) => {
-              this.categories.push({
-                typeValue: e.typeValue
-              })
-
-              if (e.wfCategoryList && e.wfCategoryList.length) {
-                const dataItem = {
-                  title: e.typeValue,
-                  data: []
-                }
-                e.wfCategoryList.forEach((task) => {
-                  dataItem.data.push({
-                    value: task.subType,
-                    label: task.value,
-                    checked: false
-                  })
-                })
-                this.data.push(dataItem)
-              }
-            })
-          }
+          this.staticsticData = res.data || []
+          this.setData()
         })
         .catch((err) => {
-          iMessage.error(err.desZh || '获取任务信息失败')
+          iMessage.error(err.desZh || '获取iAgree信息失败')
         })
         .finally(() => (this.loading = false))
     },
+    setData() {
+      const moduleData = JSON.parse(this.cardData?.moduleData || '[]')
+      const data = []
+      this.staticsticData.forEach((e) => {
+        this.categories.push({
+          typeValue: e.typeValue
+        })
+
+        if (e.wfCategoryList && e.wfCategoryList.length) {
+          const dataItem = {
+            title: e.typeValue,
+            data: []
+          }
+          e.wfCategoryList.forEach((wfCategory) => {
+            dataItem.data.push({
+              typeName: e.typeName,
+              typeValue: e.typeValue,
+              ...wfCategory,
+              label: wfCategory.value,
+              uniqueId: wfCategory.subType + wfCategory.value,
+              checked:
+                moduleData.find(
+                  (md) =>
+                    md.typeValue === e.typeValue &&
+                    md.subType === wfCategory.subType
+                ) !== undefined
+            })
+          })
+          data.push(dataItem)
+        }
+      })
+      this.data = data
+    },
     toggleActive(val) {
       this.activeIndex = val
+    },
+    handleSave() {
+      const requestData = { ...this.cardData }
+      const moduleData = []
+      this.data.forEach((e) => {
+        e.data.forEach((item) => {
+          if (item.checked) {
+            moduleData.push(item)
+          }
+        })
+      })
+      requestData.moduleData = JSON.stringify(moduleData)
+      console.log(moduleData)
+      console.log('requestData', requestData)
+      this.loading = true
+      updateModules(requestData)
+        .then((res) => {
+          if (res.result) {
+            iMessage.success(res.desZh || '保存成功')
+          } else {
+            iMessage.error(res.desZh || '保存失败')
+          }
+        })
+        .catch((err) => {
+          iMessage.error(err.desZh || '保存失败')
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }

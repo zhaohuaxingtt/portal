@@ -3,12 +3,12 @@
     <div class="title">{{ title }}</div>
     <div class="content">
       <el-row>
-        <el-col :span="6" v-for="item in data" :key="item.value">
+        <el-col :span="6" v-for="item in data" :key="item.uniqueId">
           <div class="content-item">
             <el-checkbox
               v-model="item.checked"
               :disabled="
-                checkedValues.length >= 5 && !checkedValues.includes(item.value)
+                checkedIds.length >= 5 && !checkedIds.includes(item.uniqueId)
               "
             >
               {{ item.label }}
@@ -41,16 +41,16 @@ export default {
     }
   },
   computed: {
-    checkedValues() {
-      const checkedValues = []
+    checkedIds() {
+      const checkedIds = []
       this.fullData.forEach((e) => {
         e.data.forEach((item) => {
           if (item.checked) {
-            checkedValues.push(item.value)
+            checkedIds.push(item.uniqueId)
           }
         })
       })
-      return checkedValues
+      return checkedIds
     }
   }
 }

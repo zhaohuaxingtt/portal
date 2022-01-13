@@ -1,9 +1,14 @@
 <template>
   <div>
-    <bottomItem label="Phone:" text="021 89912" />
-    <bottomItem label="Email:" text="zhang.san@csvw.com" />
-    <bottomItem label="Role:" text="车型主数据管理员；专业采购员" />
-    <bottomItem ref="office" label="Office:" text="IMB2.301" editable />
+    <bottomItem label="Phone:" :text="userInfo.phone || userInfo.mobile" />
+    <bottomItem label="Email:" :text="userInfo.email" />
+    <bottomItem label="Role:" :text="role" />
+    <bottomItem
+      ref="office"
+      label="Office:"
+      :text="user.officeLocal"
+      editable
+    />
     <bottomItem
       ref="mobile"
       label="Mobile Phone:"
@@ -19,6 +24,17 @@ import bottomItem from './bottomItem'
 export default {
   name: 'bottom',
   components: { bottomItem },
+  computed: {
+    userInfo() {
+      return this.$store.state.permission.userInfo || {}
+    },
+    role() {
+      if (this.userInfo && this.userInfo.roleList) {
+        return this.userInfo.roleList.map((e) => e.fullNameZh).join(',')
+      }
+      return ''
+    }
+  },
   methods: {
     setEdit() {
       this.$refs.office.handleSetEdit(false)

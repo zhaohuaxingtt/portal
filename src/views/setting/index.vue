@@ -3,13 +3,10 @@
     <settingHeader :active.sync="tabActive" />
     <div v-if="moduleReady">
       <transition name="el-fade-in-linear">
-        <task v-show="tabActive === 'task'" :module-data="moduleTaskData" />
+        <task v-show="tabActive === 'task'" :card-data="cardTaskData" />
       </transition>
       <transition name="el-fade-in-linear">
-        <iAgree
-          v-show="tabActive === 'iAgree'"
-          :module-data="moudleiAgreeData"
-        />
+        <iAgree v-show="tabActive === 'iAgree'" :card-data="cardiAgreeData" />
       </transition>
       <transition name="el-fade-in-linear">
         <favourite v-show="tabActive === 'favourites'" />
@@ -30,8 +27,8 @@ export default {
       tabActive: 'task',
       moduleData: [],
       moduleReady: false,
-      moduleTaskData: {},
-      moudleiAgreeData: {}
+      cardTaskData: {},
+      cardiAgreeData: {}
     }
   },
   created() {
@@ -43,9 +40,9 @@ export default {
         .then((res) => {
           if (res.code === '200' && res.data) {
             this.moduleData = res.data
-            this.moduleTaskData =
+            this.cardTaskData =
               res.data.find((e) => e.permissionKey === 'HOME_MODULE_TASK') || {}
-            this.moudleiAgreeData =
+            this.cardiAgreeData =
               res.data.find((e) => e.permissionKey === 'HOME_MODULE_APPROVE') ||
               {}
 
