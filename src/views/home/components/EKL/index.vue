@@ -132,7 +132,8 @@ export default {
         dptCode: ''
       },
       tabList: [],
-      listData: []
+      listData: [],
+      chart: null
     }
   },
   computed: {
@@ -288,12 +289,16 @@ export default {
           }
         ]
       }
+      console.log('set echarts', option)
       this.chart && this.chart.setOption(option)
     },
     handleCheckYear(year) {
       this.query.year = year
       this.getEkl(this.query)
     }
+  },
+  beforeDestroy() {
+    this.chart = null
   }
 }
 </script>

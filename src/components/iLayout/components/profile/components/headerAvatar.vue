@@ -41,6 +41,7 @@ export default {
   height: 84px;
   border-radius: 42px;
   margin-right: 40px;
+  cursor: pointer;
 }
 .default-avatar {
   font-size: 84px;

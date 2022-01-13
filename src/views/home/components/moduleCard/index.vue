@@ -46,22 +46,6 @@
           <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>
         </div>
       </div>
-
-      <!-- 更多1 -->
-      <!-- <el-dropdown trigger="click">
-        <span class="el-dropdown-link">
-          <i class="el-icon-more"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown" class="card-dropdown">
-          <el-dropdown-item
-            @click.native="handleMore"
-            v-if="card.component === 'Task' || card.component === 'Approve'"
-          >
-            更多
-          </el-dropdown-item>
-          <el-dropdown-item @click.native="handleDel">删除</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
     </div>
     <div class="module-content">
       <component
@@ -149,7 +133,7 @@ export default {
       // } else {
       //   return this.$t('HOME_CARD.' + this.card.permissionKey)
       // }
-        return this.$t('HOME_CARD.' + this.card.permissionKey)
+      return this.$t('HOME_CARD.' + this.card.permissionKey)
     }
   },
   mounted() {
@@ -173,8 +157,14 @@ export default {
       }
     },
     handleMore() {
-      this.modalTitle = `Select ${this.card.name}`
-      this.showDialog = true
+      /* this.modalTitle = `Select ${this.card.name}`
+      this.showDialog = true */
+      if (this.card.permissionKey === 'HOME_MODULE_APPROVE') {
+        this.$router.push({ path: '/setting', query: { module: 'iAgree' } })
+      }
+      if (this.card.permissionKey === 'HOME_MODULE_TASK') {
+        this.$router.push({ path: '/setting', query: { module: 'task' } })
+      }
     },
     handleDel() {
       this.$confirm(`确认删除该卡片吗`, {

@@ -6,16 +6,25 @@
     <bottomItem
       ref="office"
       label="Office:"
-      :text="user.officeLocal"
+      text-key="officeLocal"
+      :text="userInfo.officeLocal"
       editable
+      @update="handleUpdate"
     />
     <bottomItem
       ref="mobile"
       label="Mobile Phone:"
-      text="15422309960"
+      text-key="mobile"
+      :text="userInfo.mobile"
       editable
     />
-    <bottomItem ref="wechat" label="Wechat :" text="0809_zhangsan" editable />
+    <bottomItem
+      ref="wechat"
+      text-key="wechat"
+      label="Wechat :"
+      text="0809_zhangsan"
+      editable
+    />
   </div>
 </template>
 
@@ -24,9 +33,15 @@ import bottomItem from './bottomItem'
 export default {
   name: 'bottom',
   components: { bottomItem },
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     userInfo() {
-      return this.$store.state.permission.userInfo || {}
+      return this.$store.state?.permission?.userInfo || {}
     },
     role() {
       if (this.userInfo && this.userInfo.roleList) {
@@ -36,7 +51,7 @@ export default {
     }
   },
   methods: {
-    setEdit() {
+    setReadonly() {
       this.$refs.office.handleSetEdit(false)
       this.$refs.mobile.handleSetEdit(false)
       this.$refs.wechat.handleSetEdit(false)

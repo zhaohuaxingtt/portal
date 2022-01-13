@@ -1,8 +1,8 @@
 <template>
   <div class="middle">
-    <middleItem label="Department:" value="CSS-2" />
-    <middleItem label="Position:" value="CSS-2采购员" />
-    <middleItem label="Employee Number:" value="66526" />
+    <middleItem label="Department:" :value="userInfo.deptDTO.nameZh" />
+    <middleItem label="Position:" :value="userInfo.positionDTO.fullNameZh" />
+    <middleItem label="Employee Number:" :value="userInfo.userNum" />
   </div>
 </template>
 
@@ -10,7 +10,12 @@
 import middleItem from './middleItem'
 export default {
   name: 'profileMiddle',
-  components: { middleItem }
+  components: { middleItem },
+  computed: {
+    userInfo() {
+      return this.$store.state.permission.userInfo || {}
+    }
+  }
 }
 </script>
 

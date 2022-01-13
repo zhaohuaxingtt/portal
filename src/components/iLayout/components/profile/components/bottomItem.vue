@@ -19,7 +19,7 @@
         v-model="dataValue"
         class="input-value"
       />
-      <span v-show="editable && isEdit" class="btn-edit" @click="save">
+      <span v-show="editable && isEdit" class="btn-edit" @click="handleSave">
         {{ language('保存', '保存') }}
       </span>
       <span
@@ -39,8 +39,10 @@ export default {
   props: {
     label: { type: String },
     text: { type: String },
+    textKey: { type: String },
     editable: { type: Boolean, default: false }
   },
+  inject: ['updateUser'],
   data() {
     return {
       isEdit: false,
@@ -60,7 +62,11 @@ export default {
       console.log(this)
       this.isEdit = val
     },
-    save() {}
+    handleSave() {
+      const data = {}
+      data[this.textKey] = this.dataValue
+      this.updateUser(data)
+    }
   }
 }
 </script>

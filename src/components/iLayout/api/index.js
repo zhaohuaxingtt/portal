@@ -20,21 +20,29 @@ export function updateBatchModules(data) {
 }
 
 //获取最新的popup
-export function getPopupList(data){
+export function getPopupList(data) {
   return requestPopup({
-      url:`/popup/lastest5/${data}`,
-      method:'GET',
-      data
+    url: `/popup/lastest5/${data}`,
+    method: 'GET',
+    data
   })
 }
 
 //改成这条消息已读
-export function changeCheckedSta(data){
+export function changeCheckedSta(data) {
   const userId = data.userId
   const popupId = data.popupId
   return requestPopup({
-      url:`/popup/detail/${userId}/${popupId}`,
-      method:'GET',
-      // params:data
+    url: `/popup/detail/${userId}/${popupId}`,
+    method: 'GET'
+    // params:data
+  })
+}
+
+export function updateUserInfo(data) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ result: true, code: '200', data: data })
+    }, 500)
   })
 }

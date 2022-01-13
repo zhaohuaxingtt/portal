@@ -56,6 +56,7 @@
       </el-col>
       <!-- </template> -->
     </el-row>
+    <myFavorite />
   </div>
 </template>
 
@@ -64,8 +65,9 @@ import { iInput } from 'rise'
 // import Sortable from 'sortablejs'
 import iSortable from '@/utils/iSortable'
 import { updateBatchModules } from '@/api/home'
+import myFavorite from './myFavorite'
 export default {
-  components: { iInput },
+  components: { iInput, myFavorite },
   data() {
     return {
       start: false,
@@ -196,6 +198,9 @@ export default {
   position: relative;
   padding: 0 32px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   > .others {
     position: absolute;
     top: -60px;
@@ -215,12 +220,13 @@ export default {
   }
   .card-container {
     padding: 15px 0;
-    margin: 10px 0 0 0;
+    margin: 10px 0 0 0; /* 
     min-height: 300px;
-    height: 600px;
+    height: 600px; */
+    flex: 2;
     overflow: auto;
     > div {
-      height: 235px;
+      min-height: 150px;
     }
     &.empty-container {
       // text-align: center;

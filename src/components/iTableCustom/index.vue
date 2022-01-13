@@ -478,7 +478,6 @@ export default {
       this.virtualListConfig.pages = Math.ceil(this.data.length / 20)
       if (this.treeExpand) {
         this.tableData = this.getTreeTableData(this.data)
-        console.log('tableData', this.tableData)
         /****************** 20211130 如果有默认的，先emit */
         /* if (this.defaultSelectedRows) {
           this.selectedRows = this.tableData.filter((e) =>

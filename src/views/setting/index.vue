@@ -33,6 +33,9 @@ export default {
   },
   created() {
     this.queryModelData()
+    if (this.$route.query.module) {
+      this.tabActive = this.$route.query.module
+    }
   },
   methods: {
     queryModelData() {

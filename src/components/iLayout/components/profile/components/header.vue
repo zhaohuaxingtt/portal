@@ -2,7 +2,7 @@
   <div class="header">
     <div class="profile">
       <headerAvatar avatar="" />
-      <headerUsername nameZh="张三" nameEn="Mr.Zhang san" />
+      <headerUsername :nameZh="userInfo.nameZh" :nameEn="userInfo.nameEn" />
     </div>
     <div class="logo">
       <img src="../../../assets/images/rise.png" alt="RiSE" />
@@ -15,7 +15,12 @@ import headerAvatar from './headerAvatar'
 import headerUsername from './headerUsername'
 export default {
   name: 'profileHeader',
-  components: { headerAvatar, headerUsername }
+  components: { headerAvatar, headerUsername },
+  computed: {
+    userInfo() {
+      return this.$store.state.permission.userInfo || {}
+    }
+  }
 }
 </script>
 
