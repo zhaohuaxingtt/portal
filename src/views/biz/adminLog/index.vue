@@ -122,7 +122,7 @@
 			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
 		</iCard>
 
-		<detail ref="detail" :show.sync="show" :parmas="parmas"></detail>
+		<detail ref="detail" :show.sync="show" :params="params"></detail>
   </iPage>
 </template>
 
@@ -161,7 +161,7 @@ export default {
             moduleMenu:[],
 			apiList:[],
             show:false,
-			parmas:{}
+			params:{}
 		}
 	},
     created(){
@@ -225,7 +225,7 @@ export default {
 		// 查看详情
         msgDetail(row){
 			if(!row.traceId) return this.$message.warning("traceId为空")
-			this.parmas = {
+			this.params = {
 				traceId:row.traceId,
 				category:row.category
 			}

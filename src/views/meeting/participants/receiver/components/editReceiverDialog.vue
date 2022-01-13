@@ -319,6 +319,15 @@ export default {
     })
     this.query()
   },
+  watch: {
+    'ruleForm.meetingType': {
+      handler(value) {
+        console.log('value', value)
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   // watch: {
   //   selectedTableData: {
   //     handler(val) {
@@ -491,6 +500,8 @@ export default {
         if (valid) {
           let formData = this.ruleForm
           formData.employeeDTOS = this.allReceiverData
+          formData.meetingTypeId = this.ruleForm.meetingType.id
+          Reflect.deleteProperty(formData, 'meetingType')
           updateReceiver(formData)
             .then((data) => {
               if (data) {
