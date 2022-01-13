@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-04-27 21:49:43
- * @LastEditTime: 2022-01-12 17:23:01
+ * @LastEditTime: 2022-01-13 14:08:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\generalPage\baseInfo\components\supplyStatus.vue
@@ -17,6 +17,7 @@
         <iLabel :label="$t('SHIFOUZAIGONG')"
                 slot="label"></iLabel>
         <iText>{{dicName('TURE_FALSE',supplierData[infoVo].isSupply)}}</iText>
+        <!-- <iText>{{supplierData[infoVo].isSupply}}</iText> -->
       </iFormItem>
       <!-- 供应商身份 -->
       <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS">
@@ -123,7 +124,8 @@ export default {
       let name = ""
       if (this.fromGroup[key]) {
         this.fromGroup[key].filter(item => {
-          if (value && item.code == value.toString()) {
+          console.log(item, value)
+          if (item.code == value.toString()) {
             name = item.name
           }
         })

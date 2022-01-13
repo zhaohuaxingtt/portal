@@ -60,8 +60,9 @@
           <el-table-column align="center"
                            :key="item.itemCode"
                            :prop="item.itemCode"
+
                            :label="item.itemNameZh"
-                           width="150">
+                           width="180">
             <template slot-scope="scope">
               <iSelect v-model="scope.row.itemList[index]"
                        :placeholder="language('请选择')"
@@ -427,5 +428,8 @@ export default {
 <style scoped lang="scss">
 .content {
   padding-bottom: 20px;
+}
+.el-input {
+width: 100%;
 }
 </style>

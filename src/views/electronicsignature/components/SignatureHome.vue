@@ -206,6 +206,7 @@ export default {
         this.tabloading = false
         if (code == 200) {
           this.sinaturedatas = data.records
+          this.page.totalCount = data.total
         } else {
           this.$message.error(res.desZh)
         }
@@ -241,9 +242,9 @@ export default {
       if (this.selSinaturedatas.length > 1) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANGQIANZHINENGXUANZEYITIAOYO', '抱歉，您当前您只能选择一条哟'))
       }
-      if (this.selSinaturedatas[0].signStatus != 3) {
+   /*   if (this.selSinaturedatas[0].signStatus != 3) {
         return this.$message.warning(this.language('LK_BAOQIANNINZHINENGCHEXIAOHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEHETONGYO', '抱歉，您只能撤销合同状态为待甲方签署的合同哟'))
-      }
+      }*/
       let item = this.selSinaturedatas[0]
       let reqData = { companyNumber: item.companyNumber, docNo: item.docNo, docTypeNo: item.docTypeNo }
       this.$confirm('是否确认撤销?', '提示', {

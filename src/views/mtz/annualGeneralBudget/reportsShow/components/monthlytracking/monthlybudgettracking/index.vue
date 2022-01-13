@@ -149,6 +149,7 @@ export default {
       const month = this.currentYearMonth
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
+      const _this = this
       chart.setOption({
         title: {
           text: '单位：⼈⺠币/百万',
@@ -229,7 +230,7 @@ export default {
             itemStyle: {
               normal: {
                 color: function(params){
-                  if(params.name < month){
+                  if(params.name < _this.searchForm.yearMonth){
                     return 'rgb(2,96,241)'
                   }else{
                     return 'rgb(119,203,255)'
@@ -324,12 +325,12 @@ export default {
           data?.forEach((item)=>{
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
-            this.yearData.push(item.yearForecastPrice)
+            this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
-            if(this.currentYearMonth > item.yearMonth){
-              this.dataMonth.push(item.actualPrice)
+            if(item.dataType == 1){
+              this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
             }else{
-              this.dataMonth.push(item.monthForecastPrice)
+              this.dataMonth.push(Math.abs(Number(item.monthForecastPrice))/1000000)
             }
           })
           this.iniChart()

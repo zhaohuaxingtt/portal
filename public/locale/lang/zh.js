@@ -2739,6 +2739,14 @@
 
     MT_XINGQIRI: '星期日',
 
+    MT_ZUZHI: '组织',
+
+    MT_YUANGONG: '员工',
+
+    MT_SOUSUOZUZHI: '搜索组织',
+
+    MT_XUANZEZUZHI: '选择组织',
+
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',

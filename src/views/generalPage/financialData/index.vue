@@ -154,7 +154,7 @@
                      class="margin-top20" />
     <dataComparison :comparisonTableData="comparisonTableData"
                     v-model="dataComparisonDialog" />
-    <fetchExternalRatingsDialog v-model="ratingsDialog" />
+    <fetchExternalRatingsDialog v-model="ratingsDialog" @refreshTable="refreshTable" />
   </div>
 </template>
 
@@ -248,6 +248,9 @@ export default {
     // pullLevel(){
       
     // },
+    refreshTable(){
+      this.getTableList();
+    },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
       this.currencyList = res.data[0].subDictResultVo
