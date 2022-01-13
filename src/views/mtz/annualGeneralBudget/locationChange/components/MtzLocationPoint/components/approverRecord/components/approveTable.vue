@@ -294,6 +294,7 @@ export default {
       this.muilteList = val
       if(this.formInfor.ttNominateAppId == ""){
         this.muilteList.forEach(item => {
+          this.$set(item, 'userList', []);
           selectDept({
             approvalBy:"",
             approvalDepartmentNum:"",
@@ -313,15 +314,19 @@ export default {
                 }).then((red) => {
                   this.$set(item, 'selectSectionList', red.data.officeList);
                   let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.message)
-                  item.approvalSectionName = deptList.message
-                  selectDept({
-                    approvalBy:"",
-                    approvalDepartmentNum:deptList.code,
-                    approvalSectionNum:approvalNameList.code,
-                    mtzAppId:this.mtzAppId || '',
-                  }).then(rez => {
-                    this.$set(item, 'userList', rez.data.approvalList);
-                  })
+                  if(approvalNameList == undefined){
+                    this.$set(item, 'userList', red.data.approvalList);
+                  }else{
+                    item.approvalSectionName = approvalNameList.message || ''
+                    selectDept({
+                      approvalBy:"",
+                      approvalDepartmentNum:deptList.code,
+                      approvalSectionNum:approvalNameList.code,
+                      mtzAppId:this.mtzAppId || '',
+                    }).then(rez => {
+                      this.$set(item, 'userList', rez.data.approvalList);
+                    })
+                  }
                 })
               }
             }
@@ -329,6 +334,7 @@ export default {
         })
       }else{
         this.muilteList.forEach(item => {
+          this.$set(item, 'userList', []);
           getSourceApproval({
             approvalBy:"",
             approvalDepartmentNum:"",
@@ -348,15 +354,19 @@ export default {
                 }).then((red) => {
                   this.$set(item, 'selectSectionList', red.data.officeList);
                   let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.message)
-                  item.approvalSectionName = deptList.message
-                  getSourceApproval({
-                    approvalBy:"",
-                    approvalDepartmentNum:deptList.code,
-                    approvalSectionNum:approvalNameList.code,
-                    mtzAppId:this.mtzAppId || '',
-                  }).then(rez => {
-                    this.$set(item, 'userList', rez.data.approvalList);
-                  })
+                  if(approvalNameList == undefined){
+                    this.$set(item, 'userList', red.data.approvalList);
+                  }else{
+                    item.approvalSectionName = approvalNameList.message || ''
+                    getSourceApproval({
+                      approvalBy:"",
+                      approvalDepartmentNum:deptList.code,
+                      approvalSectionNum:approvalNameList.code,
+                      mtzAppId:this.mtzAppId || '',
+                    }).then(rez => {
+                      this.$set(item, 'userList', rez.data.approvalList);
+                    })
+                  }
                 })
               }
             }
