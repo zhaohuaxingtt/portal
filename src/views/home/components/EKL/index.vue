@@ -35,7 +35,7 @@
         </div>
         <div
           class="middle middle-m"
-          style="font-size: 40px"
+          style="font-size: 24px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
@@ -259,7 +259,7 @@ export default {
                 position: 'center',
                 color: '#000',
                 formatter: this.tabsData.curSum,
-                fontSize: 30,
+                fontSize: 24,
                 fontWeight: 'bold'
               }
             },

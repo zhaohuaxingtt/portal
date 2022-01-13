@@ -7,7 +7,8 @@
 	<div>
 		<!-- 提示信息 -->
 		<iCard title="Reminder" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="Please enter." v-model="info.promptInfo"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="Please enter." v-model="info.promptInfo" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 财报分析 -->
 		<iCard title="Financial Statement Analysis" collapse class="margin-top20">
@@ -16,7 +17,8 @@
 					<iInput :disabled="isDisabled" v-model="scope.row.status" @change="updateData(scope.row,'status', $event)"></iInput>
 				</template>
 				<template #comment="scope">
-					<iInput :disabled="isDisabled" v-model="scope.row.comment" type='textarea' :autosize='{minRows:1}' @change="updateData(scope.row,'comment', $event)"></iInput>
+					<iInput :disabled="isDisabled" v-model="scope.row.comment" type='textarea' :autosize='{minRows:1}' @change="updateData(scope.row,'comment', $event)" maxlength="120"
+              show-word-limit></iInput>
 				</template>
 			</tableList>
 		</iCard>

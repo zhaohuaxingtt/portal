@@ -36,7 +36,7 @@
     "vue2-editor": "^2.10.3",
     "vuedraggable": "^2.24.3",
     "wangeditor": "^4.7.9",
-    "xlsx": "^0.17.4"
+    "xlsx": "^0.17.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

@@ -15,35 +15,43 @@
 		</iCard>
 		<!-- 集团及关联公司 -->
 		<iCard title="集团及关联公司" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.groupCompany"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.groupCompany" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 重要变更 -->
 		<iCard title="重要变更" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.importantChange"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.importantChange" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 融资信息 -->
 		<iCard title="融资信息" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.financingInformation"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.financingInformation" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 业务情况 -->
 		<iCard title="业务情况" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.businessSituation"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.businessSituation" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 搬迁情况 -->
 		<iCard title="搬迁情况" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.relocation"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.relocation" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 敏感信息 -->
 		<iCard title="敏感信息" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.sensitiveInformation"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.sensitiveInformation" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 公司简介 -->
 		<iCard title="公司简介" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.companyProfile"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.companyProfile" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<!-- 其他补充信息 -->
 		<iCard title="其他补充信息" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.otherSupplementaryInfo"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.otherSupplementaryInfo" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<el-row :gutter="50">
 			<el-col :span="14">
@@ -67,7 +75,8 @@
 		</el-row>
 		<!-- 备注 -->
 		<iCard title="备注" collapse class="margin-top20">
-			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.remark"></iInput>
+			<iInput :disabled="isDisabled" type='textarea' :autosize='rowRange'  placeholder="请输入" v-model="info.remark" maxlength="120"
+              show-word-limit></iInput>
 		</iCard>
 		<div class="remark">来源于公开信息，供应商提供信息和供应商访谈。</div>
 	</div>

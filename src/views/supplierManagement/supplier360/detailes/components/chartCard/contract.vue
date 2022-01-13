@@ -17,7 +17,6 @@
       </div>
       <img :src="img"
            class="imgIcon" />
-
       <div v-loading="loading2"
            ref="chart2"
            class="chartStyle2"></div>
@@ -39,7 +38,7 @@ export default {
   components: {
     iCard
   },
-  data() {
+  data () {
     return {
       info: {},
       option1: {},
@@ -57,17 +56,17 @@ export default {
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
-  mounted() {
+  mounted () {
     this.getData()
   },
-  created() {},
+  created () { },
   methods: {
-    getData() {
+    getData () {
       this.loading1 = true
       this.loading2 = true
       getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
@@ -94,7 +93,7 @@ export default {
       })
     },
     // 排序
-    compare(property, desc) {
+    compare (property, desc) {
       return function (a, b) {
         var value1 = a[property]
         var value2 = b[property]
@@ -107,14 +106,14 @@ export default {
         }
       }
     },
-    async getLeftChart() {
+    async getLeftChart () {
       var data1 = []
       this.info.forEach((e) => {
         data1.push({ value: Math.abs(e.receiveAmount), name: e.catogeryCode })
       })
       let total = 0
       data1 = data1.sort(this.compare('value', false))
-       if (data1.length > 4) {
+      if (data1.length > 4) {
         data1.splice(//数据源自带other，但在这不适用，需要自己取出前五材料组其余算为其他，并删除自带其他
           data1.findIndex((res) => res.name == 'other'),
           data1.findIndex((res) => res.name == 'other')
@@ -125,7 +124,7 @@ export default {
           total += res.value
         }
       })
-     
+
       data1 = data1.splice(0, 5)
       this.topcarogery = data1.map((res) => res.name)
 
@@ -139,10 +138,10 @@ export default {
           }
         })
       })
-      data1.push({ name: this.language('QITA','其他'), value: total })
-    //   data1 = data1.sort(this.compare('value', false))
+      data1.push({ name: this.language('QITA', '其他'), value: total })
+      //   data1 = data1.sort(this.compare('value', false))
       let obj = this
-        console.log(data1)
+      console.log(data1)
       const myChart = echarts().init(this.$refs.chart1)
       this.option1 = {
         title: {
@@ -206,7 +205,7 @@ export default {
               show: false,
               position: 'center'
             },
-            name:this.language('CAILIAOZUMINGCHENG','材料组名称'),
+            name: this.language('CAILIAOZUMINGCHENG', '材料组名称'),
             type: 'pie',
             radius: ['45%', '70%'],
             itemStyle: {
@@ -245,8 +244,8 @@ export default {
         else obj.chooseEquipment.data = params.percent
       })
     },
-    getRightChart(val) {
-        //其他为前五之后的累计
+    getRightChart (val) {
+      //其他为前五之后的累计
       var data1 = []
       var data2 = []
       var data3 = []
@@ -257,11 +256,11 @@ export default {
       const OthernewDataSum = {}
       var barData = []
       var otherData = cloneDeep(this.infoBar)
-    // 点击为其他时------------------------------
-      if (val == this.language('QITA','其他')) {
+      // 点击为其他时------------------------------
+      if (val == this.language('QITA', '其他')) {
         otherData.forEach((v, i) => {//'其他'需要过滤出排名前五的材料组集合和为自带other的集合
           this.topcarogery.forEach((res) => {
-            if (v.catogeryCode == res||v.catogeryCode == 'other') {
+            if (v.catogeryCode == res || v.catogeryCode == 'other') {
               otherData[i] = []
             }
           })
@@ -301,7 +300,7 @@ export default {
         //对应插入属性值获取按年累计
         newDataSum[e.year].push(e)
       })
-      newDataBar.other=otherSumData//第二种方法，将'其他'加入材料组集合，点击时 newDataBar[val]  val为other即可，需修改点击饼图传参
+      newDataBar.other = otherSumData//第二种方法，将'其他'加入材料组集合，点击时 newDataBar[val]  val为other即可，需修改点击饼图传参
       let total = 0
       //循环生成每一年分累计得总值
       for (var j in newDataSum) {
@@ -316,7 +315,7 @@ export default {
       //   计算好后赋值-------------------------------------
       //给当前材料idpush进当前年总值
       if (val) {
-        if (val != this.language('QITA','其他')) {
+        if (val != this.language('QITA', '其他')) {
           barData = newDataBar[val]
           sumData.forEach((v) => {
             barData.forEach((j) => {
@@ -337,25 +336,25 @@ export default {
       }
       //val有值代表被点击的值与综合对比
       if (val) {
-          //细分为点击其他和材料ID，其他为前五之后所有的累计
-        if (val == this.language('QITA','其他')) {
+        //细分为点击其他和材料ID，其他为前五之后所有的累计
+        if (val == this.language('QITA', '其他')) {
           barData = otherSumData
           barData.forEach((v) => {
             data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
             data3.push(v.year)
-             data1.push(parseInt(v.receiveAmountAll / 1000000))
+            data1.push(parseInt(v.receiveAmountAll / 1000000))
           })
-         data3.pop()
+          data3.pop()
         } else {
           barData = newDataBar[val]
-            console.log(barData)
+          console.log(barData)
           barData.forEach((v) => {
             data1.push(parseInt(v.receiveAmountAll / 1000000))
             data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
             data3.push(v.year)
           })
         }
-         //综合所有柱状图
+        //综合所有柱状图
       } else {
         sumData.forEach((v) => {
           data1 = []
@@ -463,7 +462,7 @@ export default {
       myChart.setOption(this.option2)
     },
     //千分位格式化
-    format(n) {
+    format (n) {
       let num = n.toString()
       let decimals = ''
       // 判断是否有小数
