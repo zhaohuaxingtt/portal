@@ -14,7 +14,7 @@
             <!-- 供应商身份  -->
             <el-form-item :label="'供应商身份'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.formalStatus"
                 clearable
               >
@@ -29,7 +29,7 @@
             <!-- 供应商类型 -->
             <el-form-item :label="'供应商类型'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierType"
                 clearable
               >
@@ -44,25 +44,21 @@
             <!-- 供应商 -->
             <el-form-item :label="'供应商名称'">
               <iInput
-                :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.shortNameZh"
               ></iInput>
             </el-form-item>
             <el-form-item :label="'供应商SAP号'">
               <iInput
-                :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.sapCode"
               ></iInput>
             </el-form-item>
             <el-form-item :label="'供应商临时号'">
               <iInput
-                :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.svwTempCode"
               ></iInput>
             </el-form-item>
             <el-form-item :label="'供应商SVW号'">
               <iInput
-                :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.svwCode"
               ></iInput>
             </el-form-item>
