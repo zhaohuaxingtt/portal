@@ -2191,6 +2191,7 @@ export default {
     },
     //新增议题
     addTopic() {
+      debugger
       this.editOrAdd = 'add'
       // if (this.meetingInfo.isPreCSC || this.meetingInfo.isCSC) {
       //   this.openDialog('openAddTopicNewDialog')//手工议题
