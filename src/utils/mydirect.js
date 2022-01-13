@@ -1,8 +1,8 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2021-12-03 18:08:09
- * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-12 19:24:32
+ * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
  */
@@ -34,7 +34,7 @@ Vue.directive('permission', {
         !menuBtn
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
-        if (process.env.NODE_ENV == 'SIT') el.parentNode.removeChild(el)
+        // if(process.env.NODE_ENV == "SIT") el.parentNode.removeChild(el)
       }
     }
   }

@@ -117,12 +117,14 @@
       <el-divider></el-divider>
 
       <div class="export">
+        <iButton @click="handleException" v-show="this.extendFields !== false">{{ '标记例外' }}</iButton>
         <iButton @click="handleExport">{{ '导出当前' }}</iButton>
         <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
       </div>
+      <div v-show="this.extendFields !== false" class="tips">若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。</div>
 
       <iTableML
-        style="height: 34rem; overflow-y: scroll"
+        style="height: 30rem; overflow-y: scroll"
         tooltip-effect="light"
         :data="tableListData"
         :tableLoading="tableLoading"
@@ -288,6 +290,13 @@
         @closeDialog="closeClauseDownloadDialog"
         @getTableList="getTableList"
       />
+      <exceptionTagDialog
+        v-if="openExceptionTagDialog"
+        :openDialog="openExceptionTagDialog"
+        :id="form.termsId"
+        @closeDialog="closeExceptionTagDialog"
+        @getTableList="getTableList"
+      />
     </div>
   </iDialog>
 </template>
@@ -306,6 +315,7 @@ import {
   supplierTypeObj,
   signStatusObj
 } from './data'
+import exceptionTagDialog from './exceptionTagDialog.vue'
 import uploadFileDialog from './uploadFileDialog.vue'
 import clauseDownloadDialog from './clauseDownloadDialog.vue'
 import { excelExport } from '@/utils/filedowLoad'
@@ -324,7 +334,8 @@ export default {
     iTableML,
     iButton,
     uploadFileDialog,
-    clauseDownloadDialog
+    clauseDownloadDialog,
+    exceptionTagDialog,
   },
   props: {
     openDialog: { type: Boolean, default: false },
@@ -342,6 +353,7 @@ export default {
       supplierTypeObj,
       signStatusObj,
       tableListData: [],
+      extendFields: false,
       // tableListDataSub: [],
       typeObject: {},
       approvalProcessName: '',
@@ -354,6 +366,7 @@ export default {
       },
       openUploadFileDialog: false,
       openClauseDownloadDialog: false,
+      openExceptionTagDialog: false,
       signStatus: '',
       supplierId: -1,
       userId: ''
@@ -460,6 +473,12 @@ export default {
       this.userId = row.userId
       this.supplierId = row.supplierId
       this.openUploadFileDialog = true
+    },
+    handleException(){
+      this.openExceptionTagDialog = true
+    },
+    closeExceptionTagDialog(bol){
+      this.openExceptionTagDialog = bol
     },
     closeUploadFileDialog(bol) {
       if (bol.isExclude == false) {
@@ -607,6 +626,7 @@ export default {
           // this.tableListDataSub = this.tableListData.slice(0, 10);
           // this.page.total = res?.termsSupplierList.length;
           this.tableListData = res.data
+          this.extendFields = res.extendFields.isRound
           this.page.total = res.total
           this.tableLoading = false
         })
@@ -658,11 +678,16 @@ export default {
     bottom: 1.5rem;
   }
 }
+.tips{
+  margin-bottom: 0.5rem;
+  font-family: Arial;
+  font-weight: 400;
+  color: #000000;
+}
 .export {
   display: flex;
-  justify-content: flex-end;
-  // float: right;
-  margin-bottom: 2rem;
+  justify-content: end;
+  margin-bottom: 1rem;
 }
 // .card {
 //   padding-bottom: 20px;

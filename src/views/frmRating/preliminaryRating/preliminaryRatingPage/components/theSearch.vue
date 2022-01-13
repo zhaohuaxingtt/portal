@@ -130,6 +130,18 @@
           </iSelect>
         </el-form-item>
       </el-row>
+       <el-row class="margin-bottom20">
+            <el-form-item :label="language('CHUPINGZHUANGTAI','初评状态')">
+          <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.preliminaryStatus">
+            <!--            <el-option value="" :label="$t('all')"></el-option>-->
+            <el-option
+                :value="item.code"
+                :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
+                v-for="item of allSelectObject.RELIMINARY_STATUS_CODE"
+                :key="item.name"></el-option>
+          </iSelect>
+        </el-form-item>
+       </el-row>
     </el-form>
   </iSearch>
 </template>
@@ -160,6 +172,7 @@ export default {
         isLow: '',
         isAddition: '',
         isHistory: '0',
+        preliminaryStatus:''
       },
       allSelectObject: {},
     };
@@ -182,7 +195,7 @@ export default {
       this.$emit('getTableList', form);
     },
     async getAllSelectList() {
-      const data = ['SUPPLIER_STATUS', 'RELEVANT_DEPT', 'ADJUSTED_RATING_LEVEL', 'TURE_FALSE'];
+      const data = ['SUPPLIER_STATUS', 'RELEVANT_DEPT', 'ADJUSTED_RATING_LEVEL', 'TURE_FALSE','RELIMINARY_STATUS_CODE'];
       let req = 'keys=';
       req = req + data.join('&keys=');
       const res = await selectDictByKeys(req);

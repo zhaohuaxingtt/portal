@@ -153,12 +153,6 @@ export default {
     this.getAllSelectList()
   },
   watch: {
-    'form.weekOfYears': {
-      handler(val) {
-        console.log('val', val)
-      },
-      immediate: true
-    },
     'form.meetingType': {
       handler(value) {
         if (!value) {

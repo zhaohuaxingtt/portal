@@ -25,7 +25,7 @@
           type="index"
           width="68"
           align="center"
-          :label="$t('MT_XUHAO2')"
+          :label="$t('MT_XUHAO3')"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -254,9 +254,11 @@ export default {
           }
         ).then(() => {
           batchDeleteMeeting({ ids: ids })
-            .then(() => {
-              this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
-              this.query()
+            .then((res) => {
+              if (res.code === 200) {
+                this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
+                this.query()
+              }
             })
             .catch(() => {
               // this.$message.error("删除失败!");
