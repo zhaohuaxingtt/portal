@@ -67,7 +67,16 @@ export const cfProCS = [
               title: '知识管理',
               activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
             },
-            component: () => import('@/views/procs/knowledge')
+            component: () => import('@/views/procs/knowledge'),
+          },
+          {
+            path: '/cf-ProCS/knowledgeManage/categoryInfo',
+            name: 'CFProCsKnowledgeCategoryInfo',
+            meta: {
+              title: '类型信息',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/knowledge/categoryInfo'),
           },
           {
             path: '/cf-ProCS/processManage',
@@ -77,6 +86,15 @@ export const cfProCS = [
               activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
             },
             component: () => import('@/views/procs/process')
+          },
+          {
+            path: '/cf-ProCS/processDetail',
+            name: 'CFProCsProcessDetail',
+            meta: {
+              title: '流程管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/process/processDetail')
           },
           {
             path: '/cf-ProCS/collect',

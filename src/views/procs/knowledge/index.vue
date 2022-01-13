@@ -12,7 +12,7 @@
                     class="card-item"
                     v-for="l in 20"
                     :key="l"
-                    @click.native="$router.push({path:'/reportForm/web/reportCardsDetail'})"
+                    @click.native="$router.push({path:'/cf-ProCS/knowledgeManage/categoryInfo'})"
                     >
                     <div class="top">
                         <!-- <div class="bell">
@@ -54,7 +54,7 @@
         .top{
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 280px;
             border-radius: 6px;
             overflow: hidden;
             cursor: pointer;

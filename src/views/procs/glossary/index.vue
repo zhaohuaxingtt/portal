@@ -14,7 +14,7 @@
                     </div>
                 </transition>
             </iCard> -->
-            <IndexList title="Glossary"></IndexList>
+            <IndexList title="Glossary" :indexIcon="false"></IndexList>
             <div class="glossary-content">
                 <iInput placeholder="Search for MORE" v-model="key">
                     <i slot="suffix" class="el-input__icon el-icon-search" style="color:#1763F7"></i>

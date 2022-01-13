@@ -5,10 +5,15 @@
             <slot name="head-right"></slot>
         </div>
         <div class="card-content">
-            <p class="flex card-content-item ellipsis" :class="{color:color}" :title="l[key]" v-for="l in list" :key="l.id" @click="$emit('row-click', l)">
-                <span class="flex-1">{{l[key]}}</span>
-                <slot name="item-right"></slot>
-            </p>
+            <template v-if="slots['content']">
+                <slot name="content"></slot>
+            </template>
+            <template v-else>
+                <p class="flex card-content-item ellipsis" :class="{color:color,active:active == i}" :title="l[key]" v-for="(l,i) in list" :key="l.id" @click="active = i;$emit('row-click', l)">
+                    <span class="flex-1 ellipsis mr20">{{l[key]}}</span>
+                    <slot name="item-right"></slot>
+                </p>
+            </template>
         </div>
     </div>
 </template>
@@ -32,7 +37,16 @@
                 type: Boolean,
                 default: true
             }
-            
+        },
+        data() {
+            return {
+                active:""
+            }
+        },
+        computed:{
+            slots(){
+                return this.$slots
+            }
         }
     }
 </script>
@@ -57,7 +71,12 @@
             cursor: pointer;
             transition: all .2s ease;
             &:hover{
-                background-color: #f8f8f8 !important;
+                background-color: rgb(226,234,254) !important;
+                color: #1660F1;
+            }
+            &.active{
+                background-color: rgb(226,234,254) !important;
+                color: #1660F1;
             }
 
             &.color:nth-child(odd){
