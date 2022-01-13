@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-06 09:54:08
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-15 17:17:15
+ * @LastEditTime: 2022-01-13 14:40:12
  * @FilePath: \front-portal-new\src\api\opcs\solPermission.js
  */
 import axios from '@/utils/axios'
@@ -9,6 +9,7 @@ import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 
+const requstUser = axios(process.env.VUE_APP_USER_CENTER)
 //应用管理--授权列表--查询
 export function queryList(parmars) {
     return requst({
@@ -168,5 +169,24 @@ export function userUpdown(parmars) {
         data: parmars
     })
 }
+//用户下拉
+export function getListByParam(parmars) {
+    return requstUser({
+        url: '/web/sapUser/getListByParam',
+        method: 'POST',
+        data: parmars
+    })
+}
+//新增应用
+export function opcsSupplier(parmars) {
+    return requst({
+        url: '/opcsSupplier',
+        method: 'POST',
+        data: parmars
+    })
+}
+
+
+
 
 
