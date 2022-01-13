@@ -39,14 +39,17 @@
           v-if="ruleForm.isNewest != false && ruleForm.state == '03'"
           >{{ '失效' }}</iButton
         >
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
         <!-- 更新版本 -->
         <iButton
           @click="handleUpdate"
-          v-if="ruleForm.isNewest != false && ruleForm.state == '03'"
+          v-if="
+            ruleForm.isNewest != false &&
+            (ruleForm.state == '03' || ruleForm.state == '04')
+          "
           >{{ '更新版本' }}</iButton
         >
+        <!-- 返回 -->
+        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
       </div>
     </div>
     <iCard>
@@ -904,7 +907,7 @@ export default {
         path: '/terms/management/addClause',
         query: {
           id: this.ruleForm.id,
-          updateTerms: true
+          // updateTerms: true
         }
       })
     },

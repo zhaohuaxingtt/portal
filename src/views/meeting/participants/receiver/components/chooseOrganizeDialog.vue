@@ -122,7 +122,7 @@ export default {
         data = {
           current: this.page.currPage,
           size: this.page.pageSize,
-          nameZh: val
+          deptInfo: val
         }
       } else {
         data = {

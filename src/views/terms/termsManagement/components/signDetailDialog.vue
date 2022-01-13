@@ -17,7 +17,6 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商名称')">
               <iInput
-                :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.shortNameZh"
               ></iInput>
             </el-form-item>
@@ -26,7 +25,7 @@
           <el-col :span="4">
             <el-form-item :label="'签署状态'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.signStatus"
                 clearable
                 multiple
@@ -45,7 +44,7 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商身份')">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierIdentity"
                 clearable
                 multiple
@@ -64,7 +63,7 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商类型')">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierType"
                 clearable
                 multiple
@@ -106,7 +105,6 @@
           <el-col :span="4">
             <el-form-item :label="$t('业务编号')">
               <iInput
-                :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.serviceCode"
               ></iInput>
             </el-form-item>
@@ -185,7 +183,7 @@
                 : scope.row.supplierType == 'GP'
                 ? '一般供应商'
                 : scope.row.supplierType == 'NT'
-                ? 'Ntier'
+                ? 'N-Tier'
                 : scope.row.supplierType == 'CM'
                 ? '自定义'
                 : ''
@@ -199,12 +197,12 @@
         >
         <el-table-column align="center" label="签署状态"
           ><template slot-scope="scope">
-            <span v-if="scope.row.signStatus == '01'" style="color: #1663f6">
+            <span v-if="scope.row.signStatus == '01'">
               未签署
             </span>
             <span v-if="scope.row.signStatus == '02'"> 已签署标准 </span>
-            <span v-if="scope.row.signStatus == '03'"> 已签署非标 </span>
-            <span v-if="scope.row.signStatus == '04'" style="color: #1663f6">
+            <span v-if="scope.row.signStatus == '03'" style="color: #F75526"> 已签署非标 </span>
+            <span v-if="scope.row.signStatus == '04'" style="color: #F75526">
               例外
             </span>
             <span v-else></span> </template
@@ -442,6 +440,13 @@ export default {
           })
           .join(',')
       }
+      if (this.form.supplierType) {
+        this.form.supplierType = this.form.supplierType
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
       exportFile({
         url:
           process.env.VUE_APP_NEWS +
@@ -464,6 +469,10 @@ export default {
           if (this.form?.supplierIdentity) {
             this.form.supplierIdentity =
               this.form?.supplierIdentity?.split(',')
+          }
+          if (this.form?.supplierType) {
+            this.form.supplierType =
+              this.form?.supplierType?.split(',')
           }
         }
       })
