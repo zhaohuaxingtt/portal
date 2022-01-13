@@ -121,7 +121,7 @@
                 : scope.row.supplierType == "GP"
                 ? "一般供应商"
                 : scope.row.supplierType == "NT"
-                ? "Ntier"
+                ? "N-Tier"
                 : scope.row.supplierType == "CM"
                 ? "自定义"
                 : ""

@@ -129,7 +129,7 @@
               : scope.row.supplierType == "GP"
               ? "一般供应商"
               : scope.row.supplierType == "NT"
-              ? "Ntier"
+              ? "N-Tier"
               : scope.row.supplierType == "CM"
               ? "自定义"
               : ""
@@ -223,7 +223,7 @@
                 : scope.row.supplierType == "GP"
                 ? "一般供应商"
                 : scope.row.supplierType == "NT"
-                ? "Ntier"
+                ? "N-Tier"
                 : scope.row.supplierType == "CM"
                 ? "自定义"
                 : ""
@@ -282,6 +282,7 @@ export default {
       supplierRangeList,
       tableListOptional: [],
       tableListDataSelected: [],
+      tableListDataSelectedSub: [],
       optionalTableData: [], // 可选项列表的数据-勾选
       selectedTableData: [], // 已选项列表的数据-勾选
       // typeObject: {},
@@ -303,6 +304,7 @@ export default {
       this.getTableList();
     },
     getTableList() {
+      // this.getChoosedTableList()
       this.page.currPage = 1;
       let param = {
         ...this.form,
@@ -319,6 +321,26 @@ export default {
         this.tableLoading = false;
       });
     },
+    // getChoosedTableList() {
+    //   // form是查询条件
+    //   // 备份了一下数据
+    //   let arr = this.tableListDataSelected;
+    //   // 通过遍历key值来循环处理
+    //   Object.keys(this.form).forEach((e) => {
+    //     // 调用自己定义好的筛选方法
+    //     arr = this.filterFunc(this.form[e], e, arr);
+    //   });
+    //   // 为表格赋值
+    //   this.tableListDataSelected = arr;
+    // },
+    // // val: 查询条件的值
+    // // target: 目标参数，就是你这个值对应的key
+    // // filterarr: 被筛选的数组
+    // filterFunc(val, target, filterArr) {
+    //   // 参数不存在或为空时，就相当于查询全部
+    //   if (val == undefined || val == "" || val == null) return filterArr;
+    //   return filterArr.filter((p) => p[target]?.indexOf(val) > -1);
+    // },
     handleCurrentChange(e) {
       this.page.currPage = e;
       let param = {
