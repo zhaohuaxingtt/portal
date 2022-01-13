@@ -11,14 +11,14 @@ export const tableTitle = [
   {
     props: 'nameZh',
     name: '供应商中文名',
-    width: 170,
+    width: 200,
     key: 'GONGYINGSHANGZHONGWENMING',
     tooltip: true
   },
   {
     props: 'nameEn',
     name: '供应商英文名',
-    width: 170,
+    width: 200,
     key: 'SupplierEn',
     tooltip: true
   },
@@ -26,18 +26,18 @@ export const tableTitle = [
   {
     props: 'socialcreditNo',
     name: '统一社会信用代码',
-    width: 150,
+    width: 200,
     key: 'UnifySocialCreditCode',
     tooltip: true
   },
   {
     props: 'supplierTagNameList',
     name: '供应商标签',
-    width: 180,
+    width: 200,
     key: 'GONGYINGSHANGBIAOQIAN',
     tooltip: true
   },
-  { props: 'dunsCode', name: 'DUNS', width: 120, tooltip: true },
+  { props: 'dunsCode', name: 'DUNS', width: 150, tooltip: true },
   {
     props: 'svwTempCode',
     name: '临时号',
