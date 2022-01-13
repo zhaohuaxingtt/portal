@@ -70,8 +70,10 @@
           :label="language('LK_SHICHANGJIACHAYI', '市场价差异')"
           align="center"
         >
-          <template slot-scope="scope">
-            {{ scope.row.marketPriceDifference }}
+          <template slot-scope="scope" >
+            <span class="greaterThanZero" v-if="scope.row.marketPriceDifference>0">{{ scope.row.marketPriceDifference }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `-${scope.row.marketPriceDifference}` }}</span>
+            <span  v-else>{{ scope.row.marketPriceDifference }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -79,7 +81,9 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.dosageDifference }}
+            <span class="greaterThanZero" v-if="scope.row.dosageDifference>0">{{ scope.row.dosageDifference }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.dosageDifference<0">{{ `-${scope.row.dosageDifference}` }}</span>
+            <span  v-else>{{ scope.row.dosageDifference }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -87,7 +91,9 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.totalDifference }}
+            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ scope.row.totalDifference }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `-${scope.row.totalDifference}` }}</span>
+            <span  v-else>{{ scope.row.totalDifference }}</span>
           </template>
         </el-table-column>
       </el-table-column>
