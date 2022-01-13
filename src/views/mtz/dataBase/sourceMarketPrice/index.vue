@@ -95,10 +95,10 @@
                      filterable
                      v-model="scope.row.externalMarketPriceSource"
                      :placeholder="language('QINGXUANZE', '请选择')">
-              <el-option v-for="item in externalMaterialSelectList"
-                         :key="item.externalMarketPriceSource"
-                         :value="item.externalMarketPriceSource"
-                         :label="item.externalMarketPriceSource">
+              <el-option v-for="item in dropDownData['dropDownExternalMarketPriceSourceData']"
+                         :key="item.code"
+                         :value="item.code"
+                         :label="item.message">
               </el-option>
             </iSelect>
             <p v-if="!editMode">{{scope.row.externalMarketPriceSource}}</p>
@@ -122,23 +122,22 @@
             <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
           </template>
           <!-- 取价规则 -->
-          <!-- <template #prPriceSourceTypeValue="scope">
-            <div class="priceRuleDropDownData">
+          <template #priceRuleValue="scope">
+            <div class="priceRuleDropDownData" v-if="editMode && scope.row.marketPriceSourceTypeValue == '系统自动'">
               <iSelect
               style="width: 450px;"
-              v-if="editMode"
-              v-model="scope.row.prPriceSourceTypeValue"
+              v-model="scope.row.priceRuleValue"
               :placeholder="language('QINGXUANZE', '请选择')">
                 <el-option 
-                v-for="(item, index) in priceRuleDropDownData" 
+                v-for="(item, index) in priceRuleValue" 
                 :key="index" 
                 :value="item.code" 
                 :label="item.message">
                 </el-option>
               </iSelect>
             </div>
-            <p v-if="!editMode">{{scope.row.prPriceSourceTypeValue}}</p>
-          </template> -->
+            <p v-else>{{scope.row.priceRuleValue}}</p>
+          </template>
         </tableList>
         <!-- 分页标签 -->
         <iPagination v-update
@@ -179,7 +178,7 @@ import {
   fetchUpload,
   fetchEdit,
   fetchPriceRule,
-  externalMaterialSelect
+  externalMaterialSelect,
 } from '@/api/mtz/database/sourceMarketPrice'
 export default {
   components: {
@@ -205,6 +204,7 @@ export default {
   },
   data () {
     return {
+      priceRuleValue:[],//取价规则
       searchForm: {}, //表单数据
       dropDownData: {},
       tableListData: [], //表格数据
@@ -405,7 +405,7 @@ export default {
     getPriceRule () {
       fetchPriceRule().then((res) => {
         if (res && res.code == 200) {
-          this.priceRuleDropDownData = res.data
+          this.priceRuleValue = res.data
         } else iMessage.error(res.desZh)
       })
     },
