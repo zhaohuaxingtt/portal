@@ -76,7 +76,7 @@
     </div>
     <div style="padding-bottom: 20px">
       <iTableML
-        style="height: 34rem; overflow-y: scroll"
+        style="height: 30rem; overflow-y: scroll"
         tooltip-effect="light"
         :data="supplierList"
         :tableLoading="tableLoading"

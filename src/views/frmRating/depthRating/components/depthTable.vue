@@ -325,7 +325,7 @@ export default {
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
         // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
-        iMessage.error(this.language('WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA','未生效的报告，不能点击报告分发'))
+        iMessage.error(this.language('WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA', '未生效的报告，不能点击报告分发'))
         return
       }
       let deepCommentResult = this.currentSelect[0].deepCommentResult
@@ -506,7 +506,8 @@ export default {
         name: 'depthReport',
         query: {
           id: row.id,
-          name: row.name
+          name: row.name,
+          supplierId: row.supplierId
         }
       })
       window.open(routeData.href)

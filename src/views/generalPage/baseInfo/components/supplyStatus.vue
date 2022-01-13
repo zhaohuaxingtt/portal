@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-04-27 21:49:43
- * @LastEditTime: 2022-01-11 15:28:23
+ * @LastEditTime: 2022-01-12 17:23:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\generalPage\baseInfo\components\supplyStatus.vue
@@ -130,6 +130,9 @@ export default {
         return name
       }
     }
+  },
+  mounted () {
+    // console.log(this.supplierData[infoVo])
   }
 }
 </script>

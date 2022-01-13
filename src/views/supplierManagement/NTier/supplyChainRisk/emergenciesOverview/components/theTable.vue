@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -14,18 +14,34 @@
       <!-- 创建突发事件-->
       <iButton @click="handleCreate">{{ language('CJTFSJ','创建突发事件') }}</iButton>
     </div>
-    <tableList :selection="false" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="false" @handleSelectionChange="handleSelectionChange">
+    <tableList :selection="false"
+               :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="false"
+               @handleSelectionChange="handleSelectionChange">
       <template #influenceNum="scope">
-        <span @click="handleEvent(scope.row)" class="cursor openLinkText">{{scope.row.influenceNum}}</span>
+        <span @click="handleEvent(scope.row)"
+              class="cursor openLinkText">{{scope.row.influenceNum}}</span>
       </template>
       <template #source="scope">
-        <a v-if="scope.row.sourceLink" class="cursor openLinkText" :href="scope.row.sourceLink">
+        <a v-if="scope.row.sourceLink"
+           class="cursor openLinkText"
+           :href="scope.row.sourceLink">
           {{scope.row.source}}
         </a>
         <span v-else>{{scope.row.source}}</span>
       </template>
     </tableList>
-    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page='page.currPage' :total="page.totalCount" />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
     <createEmergenciesDialog v-model="createEmergenciesDialog" />
   </iCard>
 </template>
@@ -49,7 +65,7 @@ export default {
     icon,
     createEmergenciesDialog
   },
-  data() {
+  data () {
     return {
       createEmergenciesDialog: false,
       tableListData: [],
@@ -58,28 +74,28 @@ export default {
       tableLoading: false,
     };
   },
-  created() {
+  created () {
     this.handleInit()
   },
   methods: {
     // 进入分线地图
-    handleEvent(row) {
+    handleEvent (row) {
       this.$router.push({ path: '/supplier/NTier/supplyChainRisk/map', query: { id: row.id } })
     },
     // 初始化
-    handleInit(reqParams) {
+    handleInit (reqParams) {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.getTableList(reqParams)
+      this.getTableList()
     },
     // 请求数据
-    async getTableList(reqParams) {
+    async getTableList () {
       this.tableLoading = true;
       try {
         const req = {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
-          ...reqParams,
+          ...this.$parent.$refs.theSearch.form,
         };
         const res = await eventInformation(req);
         if (res.result) {
@@ -94,10 +110,10 @@ export default {
         this.tableLoading = false;
       }
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    handleCreate() {
+    handleCreate () {
       this.createEmergenciesDialog = true
     },
   },
