@@ -1396,7 +1396,7 @@ export default {
         if (themen.source === '04') {
           if (themen.type === 'FS+MTZ') {
             window.open(
-              `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              `${this.processUrl}/desinatepreview/mtz?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
               '_blank'
             )
           } else if (themen.type === 'MTZ') {
@@ -1406,7 +1406,7 @@ export default {
             )
           } else {
             window.open(
-              `${this.processUrl}/designate/decisiondata/title?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              `${this.processUrl}/desinatepreview/title?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
               '_blank'
             )
           }
