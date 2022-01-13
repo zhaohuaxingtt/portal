@@ -8,7 +8,7 @@
  */
 import { iMessage } from 'rise'
 import { getToken } from '@/utils'
-
+const loadingMask = document.querySelector('.loading-mask')
 export default function httpRequest(baseUrl = '', timeOut = 600000) {
   // eslint-disable-next-line no-undef
   const instance = axios.create({
@@ -43,6 +43,9 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       }
       // 定义请求得数据结构是json
       config.headers['json-wrapper'] = '1'
+      if (loadingMask) {
+        loadingMask.style.display = 'block'
+      }
       return config
     },
     function (error) {
@@ -52,7 +55,11 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
 
   instance.interceptors.response.use(
     (response) => {
+      if (loadingMask) {
+        loadingMask.style.display = 'none'
+      }
       const responseData = response.data
+
       if (responseData) {
         // 自动提示错误或成功
         const responseDataMessage = response.data.desZh || response.data.desEn
@@ -81,12 +88,17 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       }
     },
     (error) => {
-      console.log(error.response.data);
+      if (loadingMask) {
+        loadingMask.style.display = 'none'
+      }
       if (error && error.response && error.response.status) {
         const errorResponseData = error?.response?.data
         let message = error.message
-        if (errorResponseData && (errorResponseData.message||errorResponseData.desZh)) {
-          message = errorResponseData.message||errorResponseData.desZh
+        if (
+          errorResponseData &&
+          (errorResponseData.message || errorResponseData.desZh)
+        ) {
+          message = errorResponseData.message || errorResponseData.desZh
         }
         if (
           document.getElementsByClassName('el-message').length === 0 &&
