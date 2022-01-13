@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <IndexList padding style="color:#777" :showIndex="activeName == 'all'">
+                    <IndexList padding style="color:#777" :showIndex="activeName == 'all'" @row-click="clickProcess">
                         <div slot="row-right" slot-scope="{data}">{{data}}</div>
                     </IndexList>
                 </div>
@@ -31,15 +31,15 @@
                 
             </div>
             <div class="side">
-               <UiCard title="我的收藏" :list="list1" @row-click="click1"></UiCard>
-               <UiCard title="最新词条" :list="list1" :color="false" @row-click="click1">
+               <UiCard title="我的收藏" :list="list1" @row-click="side($event, 'collect')"></UiCard>
+               <UiCard title="最新词条" :list="list1" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right">MORE</iButton>
                    <div slot="item-right">
                        <i class="el-icon-view"></i>
                        123
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="list1" @row-click="click1"></UiCard>
+               <UiCard title="常用附件" :list="list1" @row-click="side($event, 'attchment')"></UiCard>
             </div>
         </div>
     </div>
@@ -93,8 +93,19 @@
                     this.activeName = "draw"
                 }
             },
-            click1(l){
-                console.log(l);
+            clickProcess(v){
+                this.$router.push({name:'CFProCsProcessDetail'})
+            },
+            side(v,type){
+                console.log(v);
+                switch (type) {
+                    case "collect":
+                        this.$router.push({name:'CFProCsProcessCollect'})
+                        break;
+                
+                    default:
+                        break;
+                }
             }
         },
     }

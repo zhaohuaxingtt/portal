@@ -2,20 +2,20 @@
    <iCard class="ui-index index-card" :class="{padding:padding}">
         <div class="tlt row-line" v-if="title" v-text="title"></div>
         <div class="indexs row-line" v-if="showIndex">
-            <span v-for="(l, index) in indexs" :key="index" :class="{active:activeIndex == l}" @click="click(l)">{{l}}</span>
+            <span v-for="(l, index) in indexs" :key="index" :class="{active:activeIndex == l}" @click="clickIndex(l)">{{l}}</span>
         </div>
         <transition name="moveR">
             <div class="index-list" v-show="list > 0">
-                <div class="row row-line" v-for="(l, index) in list" :key="index">
-                    <span class="row-index">{{activeIndex}}</span>
-                    <div class="row-c">
+                <div class="row row-line"  v-for="(l, index) in list" :key="index" @click="clickItem(index)">
+                    <span class="row-index" v-if="indexIcon">{{activeIndex}}</span>
+                    <div class="row-c" :class="{active:activeItem == index}">
                         <span>dsadasd大大说阿斯顿阿斯顿{{l}} <i>NEW</i></span>
                         <slot :data="l" name="row-right"></slot>
                     </div>
                 </div>
-                <div v-if="list == 0" class="nodata">目前暂无数据</div>
             </div>
         </transition>
+        <div v-if="list == 0" class="nodata">目前暂无数据</div>
     </iCard>
 </template>
 
@@ -37,6 +37,10 @@
             showIndex:{     //是否显示索引
                 type: Boolean,
                 default: true
+            },
+            indexIcon:{     //索引图标
+                type: Boolean,
+                default: true
             }
         },
         data() {
@@ -48,16 +52,21 @@
                    {name:'Bd'},
                    {name:'dd'},
                ],
-               list:10
+               list:10,
+               activeItem:""
             }
         },
         methods: {
-            click(l){
+            clickIndex(l){
                this.activeIndex = l;
                this.list = 0; 
                setTimeout(() => {
                    this.list = parseInt(Math.random()*30)
                }, 500);
+           },
+           clickItem(l){
+               this.activeItem = l
+               this.$emit("row-click",l)
            }
         },
     }
@@ -148,6 +157,10 @@
                 &:hover{
                     color: #1763F7;
                 }
+                &.active{
+                    color: #1763F7;
+                }
+
             }
         }
     }
