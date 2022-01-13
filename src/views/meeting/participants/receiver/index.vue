@@ -257,14 +257,14 @@ export default {
       this.openEditDialog = false
     },
     deleteReceiver(e) {
-      this.$confirm(this.$t('请确认是否要删除该群组?'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         deleteReceiver({ id: e.id }).then((res) => {
           if (res.code === 200) {
-            this.$message.success(this.$t('删除成功!'))
+            this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
             this.query()
           }
         })
