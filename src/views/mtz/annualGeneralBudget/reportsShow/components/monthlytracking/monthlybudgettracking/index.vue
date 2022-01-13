@@ -325,7 +325,7 @@ export default {
           data?.forEach((item)=>{
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
-            this.yearData.push(item.yearForecastPrice)
+            this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
               this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
