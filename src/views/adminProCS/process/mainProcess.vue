@@ -1,9 +1,9 @@
 <template>
     <iPage>
         <div class="content">
-            <div class="leftContent" @mousedown="test1" @mouseup="test2">
+            <div class="leftContent" @mousedown.capture="test1" @mouseup.capture="test2">
                 <div v-for="(item, idx) in projectInfoData" :key="idx">
-                    <div class="drag-box" :id="`testDiv${idx}`" @click="getID(idx)"></div>
+                    <div :class="idx === currIndex ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yoc+'px',left:item.xoc+'px', display: 'block', borderRadius: '50%'}"></div>
                 </div>
                 <img src="~@/assets/images/mainProcess.png" class="img-process" />
             </div>
@@ -19,7 +19,8 @@
                             ref="project"
                             :listData="projectInfoData"
                             @handelStyle="handelStyle"
-                            @getId="getId"
+                            @getProjectId="getProjectId"
+                            @addData="addData"
                         />
                     </el-tab-pane>
                 </el-tabs>
@@ -57,7 +58,13 @@ export default {
                     width: ''
                 }
             ],
-            currId: 0
+            currIndex: 0,
+            modifyFlag: false
+        }
+    },
+    computed: {
+        indexVal() {
+            return this.currIndex
         }
     },
     methods: {
@@ -73,24 +80,53 @@ export default {
 			if (this.startX && this.startY && this.endX && this.endY) {
 				this.currWidth = this.endX - this.startX
 				this.currHeight = this.endY - this.startY
-				let testDiv = document.getElementById(`testDiv${this.currId}`)
-				testDiv.style.display = 'block'
-				testDiv.style.top = `${this.startY}px`
-				testDiv.style.left = `${this.startX}px`
-				testDiv.style.width = `${this.currWidth}px`
-				testDiv.style.height = `${this.currHeight}px`
-				testDiv.style.borderRadius = '50%'
+                // this.$nextTick(()=> {
+                    console.log(`testDiv${this.currIndex}`)
+                    let divIndex = null
+                    if (this.modifyFlag) {
+                        console.log('modify')
+                        divIndex = this.currIndex
+                    } else{
+                        console.log('add')
+                        divIndex = this.projectInfoData.length - 1
+                    }
+                    console.log(divIndex, '22222')
+                    let testDiv = document.getElementById(`testDiv${this.modifyFlag ? this.currIndex : this.projectInfoData.length - 1}`)
+                    console.log('test div', testDiv);
+                    testDiv.style.display = 'block'
+                    testDiv.style.top = `${this.startY}px`
+                    testDiv.style.left = `${this.startX}px`
+                    testDiv.style.width = `${this.currWidth}px`
+                    testDiv.style.height = `${this.currHeight}px`
+                    testDiv.style.borderRadius = '50%'
+                // })
                 let obj = {
                     yoc: this.startY,
                     xoc: this.startX,
                     width: this.currWidth,
                     height: this.currHeight
                 }
+                if (this.modifyFlag) {
+                    console.log(this.currIndex, '12222')
+                    obj.name = this.projectInfoData[this.currIndex + 1].name
+                    obj.contentId = this.projectInfoData[this.currIndex + 1].contentId
+                    let testArrData = JSON.parse(JSON.stringify(this.projectInfoData))
+                    // this.projectInfoData.splice(this.currIndex + 1, 1, obj)
+                    testArrData[this.currIndex + 1] = obj
+                    this.projectInfoData.splice(0, 0)
+                    this.projectInfoData = testArrData
+                    /* this.$nextTick(() => {
+                        this.projectInfoData = testArrData
+                        this.$forceUpdate()
+                    }) */
+                    // debugger
+                }
+                // this.modifyFlag = false
                 this.$refs.project.initItem(obj)
 			}
 		},
         handelStyle(e, va) {
-            let testDiv = document.getElementById(`testDiv${this.currId}`)
+            let testDiv = document.getElementById(`testDiv${this.currIndex}`)
             if (va === 'x') {
                 testDiv.style.left = `${e}px`
             } else if (va === 'y') {
@@ -101,11 +137,18 @@ export default {
                 testDiv.style.height = `${e}px`
             }
         },
-        getID(idx) {
-            this.currId = idx - 1
+        getCircleId(idx) {
+            this.currIndex = idx - 1
         },
-        getId(index) {
-            this.index = index - 1 
+        getProjectId(index) {
+            if (index !== 0) {
+                this.modifyFlag = true
+            }
+            this.currIndex = index - 1
+        },
+        addData(list, flag) {
+            this.projectInfoData = list
+            this.modifyFlag = flag
         }
     }
 }
@@ -131,6 +174,7 @@ export default {
                 position: absolute;
                 display: none;
                 background-color: red;
+                pointer-events: none;
             }
         }
         .rightContent {
@@ -150,5 +194,8 @@ export default {
         .el-tab-pane {
             height: 100%;
         }
+    }
+    .shadow {
+        box-shadow: 10px 10px 5px #888888;
     }
 </style>

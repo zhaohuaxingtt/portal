@@ -97,11 +97,18 @@ export default {
     },
     methods: {
         handleInfo(row, index) {
-            if (row) {
-                Object.assign(this.form, row)
-            }
+            console.log(row,  '2222')
             this.idx = index
-            this.$emit('getId', index)
+            if (row) {
+                Object.assign(this.form, this.listData[index])
+            }
+            if (row.name === 'add' && index === 0) {
+                this.form.name = ''
+                this.form.xoc = ''
+                this.form.yoc = ''
+                this.form.contentId = ''
+            } 
+            this.$emit('getProjectId', index)
         },
         initItem(obj) {
             Object.assign(this.form, obj)
@@ -111,8 +118,16 @@ export default {
         },
         save() {
             let testForm = JSON.parse(JSON.stringify(this.form))
-            this.listData.push(testForm)
-            Object.keys(this.form).forEach(key => this.form[key] = '')
+            if (this.idx === 0) {
+                this.listData.push(testForm)
+            } else {
+                this.listData[this.idx] = testForm
+            }
+            // this.$emit('addData', this.listData)
+            if (this.idx === 0) {
+                Object.keys(this.form).forEach(key => this.form[key] = '')
+            }
+            this.$emit('addData', this.listData)
         }
     }
 }

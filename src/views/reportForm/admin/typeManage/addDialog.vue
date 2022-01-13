@@ -13,6 +13,7 @@
             ref="form"
             :inline="true" 
             label-width="100px"
+            class="validate-required-form"
         >
             <div class="base-info">
                 <div style="width: 70%">
@@ -178,6 +179,7 @@ export default {
                 location: { required:true, message:"请输入location",trigger:'blur' },
                 enName: { required:true, message:"请输入英文名",trigger:'blur' },
                 phoneNumber: { required:true, message:"请输入Telefone",trigger:'blur' },
+                adminUsers: { required:true, message:"请选择adminUsers",trigger:'blur' }
             },
             imgCutterRate: '16 : 9',
             imageUrl: '',
