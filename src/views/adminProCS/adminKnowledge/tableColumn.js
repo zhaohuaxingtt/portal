@@ -14,12 +14,13 @@ export const contentColumn = () => {
 		{
 			prop:'category',
 			label:'分类',
+			width: 200,
 			align: 'center',
 			customRender: (h, scope) => {
 				const category = scope.row.category
 				let category_text = category.map((item)=>item.name).join(',');
 				return (		
-					category_text
+					<div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={category_text}>{ category_text }</div>
 				)
 			}
 		},

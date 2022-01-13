@@ -167,6 +167,16 @@ export function createKnowledgeContent(data) {
     })
 }
 
+// 修改知识分享内容
+export function modifyKnowledgeContent(id, data) {
+    return procsRequest({
+        url: `/knowledge_mgr/${id}/update.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
 // 知识分享内容上下架
 export function publishedKnowledgeById(id, data) {
     return procsRequest({
