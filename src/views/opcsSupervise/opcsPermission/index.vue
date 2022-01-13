@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-13 15:45:24
+ * @LastEditTime: 2022-01-13 18:15:05
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -210,6 +210,7 @@ export default {
             opcsSupplier(this.formData).then((res) => {
               if (res && res.code == 200) {
                 this.dialog = false
+                this.getTableData()
                 iMessage.error(res.desZh)
               } else iMessage.error(res.desZh)
             })
@@ -230,18 +231,10 @@ export default {
         )
         return false
       }
-
-      const req = { opcsSupplierId: this.selectTableData[0].id }
-      queryBase(req).then((res) => {
-        if (res && res.code == 200) {
           this.dialog = true
           this.dialogTitle = this.language('BIANJI', '编辑')
-          this.form = res.data
-          //   this.formData.contactUserName = this.userList.find(
-          //     (v) => v.id == this.formData.contactUserId
-          //   ).contactName
-        } else iMessage.error(res.desZh)
-      })
+          this.formData =this.selectTableData[0]
+          console.log(this.formData)
     },
     async getUser() {
       //   const res = await getListByParam({ roleCode: 'WLGLY' })
