@@ -67,7 +67,7 @@ export const tableSetting = [
     prop: 'sapNum'
   },
 
-  {
+  /* {
     i18n: '职位',
     prop: 'position',
     minWidth: '120px'
@@ -81,7 +81,7 @@ export const tableSetting = [
     i18n: '区号',
     prop: 'telephoneAreaCode',
     minWidth: '120px'
-  },
+  }, */
   {
     prop: 'telephoneO',
     label: '联系电话',
