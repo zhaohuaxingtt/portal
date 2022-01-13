@@ -156,3 +156,51 @@ export function getContentList(data) {
         params: data
     })
 }
+
+// 添加知识分享内容
+export function createKnowledgeContent(data) {
+    return procsRequest({
+        url: `/knowledge_mgr/create.json`,
+        method: 'POST',
+        data,
+        formData: true
+    })
+}
+
+// 修改知识分享内容
+export function modifyKnowledgeContent(id, data) {
+    return procsRequest({
+        url: `/knowledge_mgr/${id}/update.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
+// 知识分享内容上下架
+export function publishedKnowledgeById(id, data) {
+    return procsRequest({
+        url: `/knowledge_mgr/${id}/published.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
+// 知识分享内容发送消息
+export function sendKnowledgeMessage(id, data) {
+    return procsRequest({
+        url: `/knowledge_mgr/${id}/isSendMessage.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
+// 删除知识类型
+export function delKnowledgeById(id) {
+    return procsRequest({
+       url: `/knowledge_mgr/${id}.json`,
+       method: 'delete'
+    })
+}

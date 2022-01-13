@@ -165,7 +165,7 @@ export default {
 		}
 	},
 	mounted() {
-		// this.getTableLst()
+		this.getTableLst()
 	},
 	methods: {
 		async getTableLst() {

@@ -63,7 +63,7 @@ import { contentColumn, typeColumn } from './tableColumn'
 import AddKnowledgeType from './addKnowledgeType.vue'
 import AddKnowledgeContent from './addKnowledgeContent'
 import AddType from './addType.vue'
-import { getContentList, queryKnowledgeTypeList, delKnowledgeTypeById, publishedKnowledgeTypeById } from '@/api/adminProCS';
+import { getContentList, queryKnowledgeTypeList, delKnowledgeTypeById, publishedKnowledgeTypeById, publishedKnowledgeById, delKnowledgeById, sendKnowledgeMessage } from '@/api/adminProCS';
 import moment from 'moment'
 export default {
 	components: {
@@ -100,12 +100,6 @@ export default {
 		}
 	},
 	async created() {
-		// if (this.manageType === 'content') {
-		// 	this.tableSetting = contentColumn(this)
-		// } else {
-		// 	this.tableSetting = typeColumn(this)
-
-		// }
     this.tableSetting = this.manageType === 'content' ? contentColumn(this) : typeColumn(this)
 		await this.getTableList()
 		// this.tableListData = this.manageType === 'content' ? this.contentData : this.typeContent
@@ -126,22 +120,28 @@ export default {
 					this.getTableList()
 				}
 			}).catch(()=>{
-        this.$refs.testTable.clearSelection()
-      })
+				this.$refs.testTable.clearSelection()
+			})
 		},
-		stateChang(row) {
-			console.log(row, 'stateChang')
-			this.tableListData.map(item => {
-				if (item.id === row.id) {
-					item.state = !row.state
+		async stateChang(row) {
+			this.tableLoading = true
+			let formData = new FormData()
+			formData.append('published', !row.published)
+			await publishedKnowledgeById(row.id, formData).then(res => {
+				if (res?.success) {
+					this.$message({type: 'success', message: '已更改当前发布状态'})
+					this.getTableList()
 				}
 			})
 		},
-		sendChang(row) {
-			console.log(row, 'sendChang')
-			this.tableListData.map(item => {
-				if (item.id === row.id) {
-					item.send = !row.send
+		async sendChang(row) {
+			this.tableLoading = true
+			let formData = new FormData()
+			formData.append('sendMessage', !row.sendMessage)
+			await sendKnowledgeMessage(row.id, formData).then(res => {
+				if (res?.success) {
+					this.$message({type: 'success', message: '已更改当前消息发送状态'})
+					this.getTableList()
 				}
 			})
 		},
@@ -208,7 +208,12 @@ export default {
         type:'warning'
       }).then(async ()=>{
 				if (this.manageType === 'content') {
-					console.log('22')
+					await delKnowledgeById(this.selectedItems[0].id).then(res => {
+						if (res.success) {
+							this.$message({type: 'success', message: '已删除当前类型'})
+							this.getTableList()
+						}
+					})
 				} else {
 					await delKnowledgeTypeById(this.selectedItems[0].id).then(res => {
 						if (res.success) {

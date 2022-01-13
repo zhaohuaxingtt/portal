@@ -148,7 +148,6 @@ export default {
 								}
 							})
 						}
-						this.$emit('refresh')
 						this.modifyFlag = false
 						this.close()
 					} finally {

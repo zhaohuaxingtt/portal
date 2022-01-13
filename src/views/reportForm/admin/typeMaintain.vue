@@ -12,7 +12,7 @@
                         />
                     </el-tab-pane>
                     <el-tab-pane label="内容管理" name="contentManager">
-                        <ContentManger></ContentManger>
+                        <ContentManger v-if="currentName==='contentManager'"></ContentManger>
                     </el-tab-pane>
                 </el-tabs>
             </div>
