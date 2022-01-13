@@ -10,6 +10,7 @@
     :default-expand-level="2"
     :treeExpand="tableExpanded"
     :border="false"
+    :extra-data="extraData"
   />
 </template>
 
@@ -34,7 +35,10 @@ export default {
       fullMenu: [],
       tableLoading: false,
       tableColumns: COLUMNS_MENU,
-      tableExpanded: { expandKey: 'name', childrenKey: 'menuList' }
+      tableExpanded: { expandKey: 'name', childrenKey: 'menuList' },
+      extraData: {
+        handleFavorite: this.handleFavorite
+      }
     }
   },
   created() {
@@ -51,6 +55,9 @@ export default {
       if (riseMenu.length) {
         this.fullMenu = riseMenu[0].menuList
       }
+    },
+    handleFavorite(row) {
+      console.log('handleFavorite', row)
     }
   }
 }

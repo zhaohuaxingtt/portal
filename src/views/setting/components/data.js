@@ -15,8 +15,16 @@ export const COLUMNS_MENU = [
   },
   {
     width: '100px',
-    customRender: (h, scope) => {
-      return <span class="el-icon-star-off"></span>
+    customRender: (h, scope, column, extraData) => {
+      if (scope.row.childNum === 0) {
+        return (
+          <span
+            class="el-icon-star-off"
+            onclick={() => extraData.handleFavorite(scope.row)}
+          ></span>
+        )
+      }
+      return ''
     }
   }
 ]

@@ -5,7 +5,7 @@
         <iButton>重置</iButton>
         <iButton>保存</iButton>
       </div>
-      <h4 class="t">菜单列表</h4>
+      <h4 class="t">系统名称</h4>
       <div class="applications">
         <el-row>
           <el-col :span="6" v-for="item in applicaions" :key="item.id">

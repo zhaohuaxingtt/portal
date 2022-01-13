@@ -157,6 +157,8 @@ export default {
     handleProfileClick(menu) {
       if (menu.name === 'logout') {
         this.logout()
+      } else if (menu.name === 'setting') {
+        window.location.href = '/portal/#/setting'
       } else {
         // iMessage.success('coming soon')
         this.$emit('click-menu', menu.name)
