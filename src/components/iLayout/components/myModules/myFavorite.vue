@@ -18,7 +18,7 @@
           <span v-if="!item.isExt" class="icon-type el-icon-link"></span>
           <icon
             v-if="item.isExt"
-            name="iconliebiaoyizhiding"
+            name="iconshangchuanwenjian"
             class="icon-type-c"
             symbol
           />
