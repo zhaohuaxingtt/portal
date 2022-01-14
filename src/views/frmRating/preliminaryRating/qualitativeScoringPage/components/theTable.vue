@@ -66,7 +66,7 @@
                    :selectProps="scoreDiloagSelectProps"
                    @handleSubmitCallback="handleScoreDialogSubmitCallcak" />
     <!--重新打分-->
-    <scoringDialog :title="$t('SPR_FRM_CBPJ_CXDF')"
+    <scoringDialog :isView='isView' :title="$t('SPR_FRM_CBPJ_CXDF')"
                    :showFollowButton="false"
                    v-model="reScoringDialog"
                    :outerSelectTableData="selectTableData"
@@ -294,6 +294,7 @@ export default {
       }
     },
     async handleReScoring () {
+        this.isView=false
       if (!this.gzOperationCheck()) {
         return false
       }

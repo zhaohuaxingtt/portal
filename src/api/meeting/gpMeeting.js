@@ -26,13 +26,13 @@ export function findByRelationMeeting(data) {
     })
 } 
 // Mbdl议题结束接口
-// /gpMeetingService/endThemen
-export function endThemen(data) {
+// /gpMeetingService/endMbdlThemen
+export function endMbdlThemen(data) {
   return requst({
-    url: `/gpMeetingService/endThemen`,
+    url: `/gpMeetingService/endMbdlThemen`,
     method: 'POST',
     data
-  })
+  }) 
 }
 // 发送大会议程接口
 // /gpMeetingService/sendBigMeetingThemen
