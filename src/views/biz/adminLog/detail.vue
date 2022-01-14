@@ -56,7 +56,7 @@ export default {
     data() {
         return {
             loading:false,
-            list:[{},{}],
+            list:[],
             tableColumns:TABLE_DETAIL
         }
     },

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-17 17:49:40
+ * @LastEditTime: 2022-01-13 10:48:59
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -218,8 +218,8 @@ export default {
     },
     //应用关联弹窗
     openDialog(v) {
-        this.isdialog=true
         this.rowList=v
+        this.isdialog=true
     },
     //下载模板
     download() {
