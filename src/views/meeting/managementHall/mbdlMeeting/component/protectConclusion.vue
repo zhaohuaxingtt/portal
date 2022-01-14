@@ -1,7 +1,6 @@
 <!-- 结束结论 -->
 <template>
   <div>
-
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -60,7 +59,7 @@
     </div>
 </template>
 <script>
-import { endThemen } from '@/api/meeting/gpMeeting'
+import { endMbdlThemen } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -130,7 +129,7 @@ export default {
        themenId:this.selectThemenId//议题id
       }
       console.log(params);
-      endThemen(params).then((res) => {
+      endMbdlThemen(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
