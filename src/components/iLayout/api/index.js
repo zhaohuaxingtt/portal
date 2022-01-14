@@ -2,6 +2,7 @@ import axios from '@/utils/axios'
 
 const requestPopup = axios(process.env.VUE_APP_MAIL)
 const requestUSER = axios(process.env.VUE_APP_USER_CENTER)
+const requestFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 
 export function updateModules(params) {
   return requestUSER({
@@ -44,5 +45,13 @@ export function updateUserInfo(data) {
     setTimeout(() => {
       resolve({ result: true, code: '200', data: data })
     }, 500)
+  })
+}
+
+export function uploadAvatar(data) {
+  return requestFile({
+    url: `/udSignaturephoto`,
+    method: 'post',
+    data
   })
 }

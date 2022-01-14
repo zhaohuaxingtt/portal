@@ -29,8 +29,11 @@ export default {
       type: String
     }
   },
+  inject: ['uploadAvatar'],
   methods: {
-    handleCutDown(content) {}
+    handleCutDown(content) {
+      this.uploadAvatar(content)
+    }
   }
 }
 </script>

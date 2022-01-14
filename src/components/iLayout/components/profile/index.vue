@@ -20,7 +20,7 @@
 <script>
 import { iDialog, iButton, iMessage } from 'rise'
 import { profileHeader, middle, bottom } from './components'
-import { updateUserInfo } from '../../api'
+import { updateUserInfo, uploadAvatar } from '../../api'
 export default {
   name: 'UserProfile',
   components: { iDialog, profileHeader, middle, bottom, iButton },
@@ -32,7 +32,8 @@ export default {
   },
   provide() {
     return {
-      updateUser: this.handleUpdate
+      updateUser: this.handleUpdate,
+      uploadAvatar: this.handleUploadAvatar
     }
   },
   data() {
@@ -84,6 +85,32 @@ export default {
           })
           .finally(() => (this.loading = false))
       }
+    },
+    handleUploadAvatar(content) {
+      const formData = new FormData()
+      formData.append('file', content.file)
+      formData.append('applicationName', 'rise-usercenter')
+      formData.append('businessId', 1)
+      formData.append('isTemp', 0)
+      formData.append('type ', 1)
+      formData.append(
+        'currentUser',
+        this.$store.state.permission.userInfo.userName
+      )
+      this.loading = true
+      uploadAvatar(formData)
+        .then((res) => {
+          if (res && res.result) {
+            iMessage.success(res.desZh || this.language('上传成功'))
+          } else {
+            this.loading = false
+            iMessage.error(res.desZh || this.language('上传失败'))
+          }
+        })
+        .catch((err) => {
+          this.loading = false
+          iMessage.error(err.desZh || this.language('上传失败'))
+        })
     }
   }
 }
