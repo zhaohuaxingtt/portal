@@ -596,7 +596,9 @@ export default {
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
-      }else{
+      }
+      if(e.conclusionCsc == '03'){
+        debugger
         this.showIFormItemRS= false
         this.showIFormItemelform= true
       }

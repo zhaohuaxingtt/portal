@@ -49,7 +49,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('时间筛选')" slot="label"></iLabel>
-					<iDatePicker
+					<el-date-picker
 						v-model="date"
 						:start-placeholder="language('开始日期')"
 						:end-placeholder="language('结束日期')"
@@ -122,24 +122,24 @@
 			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
 		</iCard>
 
-		<detail ref="detail" :show.sync="show" :parmas="parmas"></detail>
+		<detail ref="detail" :show.sync="show" :params="params"></detail>
   </iPage>
 </template>
 
 <script>
 import pageHeader from '@/components/pageHeader'
-import { iPage,iSearch, iInput, iDatePicker, iSelect, iCard, iLabel} from 'rise'
+import { iPage,iSearch, iInput, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
 import {TABLE} from './table';
 import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu,listInterface} from '@/api/biz/log';
 import detail from './detail.vue';
+import moment from 'moment';
 export default {
 	components: { 
 		iPage,
 		pageHeader,
 		iSearch,
 		iInput,
-		iDatePicker,
 		iSelect,
 		iCard,
 		iLabel,
@@ -161,7 +161,7 @@ export default {
             moduleMenu:[],
 			apiList:[],
             show:false,
-			parmas:{}
+			params:{}
 		}
 	},
     created(){
@@ -208,7 +208,11 @@ export default {
                     success:true,
 					id:""
                 }	
-                this.date = ""
+				let end = moment().format('YYYY-MM-DD')
+				let start = moment(new Date(end).getTime() - (90 * 24 * 3600 * 1000)).format("YYYY-MM-DD")
+				this.date = [start, end]
+				this.form.createDate_gt = start
+				this.form.createDate_le = end
                 resolve()
             })
 		},
@@ -225,7 +229,7 @@ export default {
 		// 查看详情
         msgDetail(row){
 			if(!row.traceId) return this.$message.warning("traceId为空")
-			this.parmas = {
+			this.params = {
 				traceId:row.traceId,
 				category:row.category
 			}
@@ -255,5 +259,8 @@ export default {
 @import "./../common.scss";
 .p-date{
 	width: 485px !important;
+	height: 35px;
+	border-color: transparent;
+	box-shadow: 0 0 0.1875rem rgb(0 38 98 / 15%)
 }
 </style>

@@ -352,9 +352,7 @@ export default {
           }
         })
         dowbloadAPI({ templateId: this.uploadVersion }).then(res => {
-          if (res?.result === false) {
-            iMessage.error(res.desZh)
-          } else {
+          if (Object.prototype.toString.call(res) === '[object Blob]') {
             let URL = window.URL || window.webkitURL;
             let objectUrl = URL.createObjectURL(res);
             let a = document.createElement('a');
@@ -364,8 +362,10 @@ export default {
             a.click();
             a.remove();
             this.isShowDialog = false
+          } else {
+            iMessage.error(res.desZh)
+            return
           }
-
         })
       } else {//上传
         if (this.uploadVersion) {

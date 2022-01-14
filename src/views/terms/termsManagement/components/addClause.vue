@@ -24,23 +24,23 @@
         <span v-else class="title__clause">{{ '新建条款' }}</span>
       </div>
       <div>
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
-        <!-- 发布 -->
-        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
-          '发布'
-        }}</iButton>
-        <!-- 删除 -->
-        <iButton
-          @click="handleDelete"
-          :disabled="submitLoading || this.ruleForm.id == null || this.updateTerms"
-          v-if="ruleForm.isNewest != false"
-          >{{ '删除' }}</iButton
-        >
         <!-- 保存 -->
         <iButton @click="handleSubmit(1)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
           '保存'
         }}</iButton>
+        <!-- 删除 -->
+        <iButton
+          @click="handleDelete"
+          :disabled="submitLoading"
+          v-if="ruleForm.isNewest == true&&(this.ruleForm.state == '01' || this.ruleForm.state == '02')"
+          >{{ '删除' }}</iButton
+        >
+        <!-- 发布 -->
+        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
+          '发布'
+        }}</iButton>
+        <!-- 返回 -->
+        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
       </div>
     </div>
     <iCard>
@@ -552,7 +552,7 @@ export default {
   data() {
     return {
       // tableListDataSub: [],
-      updateTerms: false,
+      // updateTerms: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -650,9 +650,9 @@ export default {
       let param = { id: this.$route.query.id }
       this.query(param)
     }
-    if (this.$route.query.updateTerms) {
-      this.updateTerms = this.$route.query.updateTerms
-    }
+    // if (this.$route.query.updateTerms) {
+    //   this.updateTerms = this.$route.query.updateTerms
+    // }
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo
