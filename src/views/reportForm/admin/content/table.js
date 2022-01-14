@@ -5,32 +5,34 @@ export default [
     label: '序号'
   },
   {
-    prop: 'type',
+    prop: 'sectionName',
     label: '类型',
     align: 'center'
   },
   {
-    prop: 'menuName',
+    prop: 'title',
     label: '报告标题',
     align: 'center'
   },
   {
-    prop: 'menuName',
+    prop: 'publishDate',
     label: '发布日期',
     align: 'center'
   },
   {
     label: '状态',
     align: 'center',
-    customRender: (h, scope, column, extraData) => {
-        return <el-switch value={scope.row.state} active-text="上架" inactive-text="下架" onchange={e => extraData.stateChange(e,scope.$index) }></el-switch>
+    emit: 'stateChange',
+    customRender: (h, scope) => {
+        return <el-switch value={scope.row.published} active-text="上架" inactive-text="下架"></el-switch>
     }
   },
   {
     label: '通知',
     align: 'center',
-    customRender: (h, scope, column, extraData) => {
-        return <el-switch value={scope.row.notice} active-text="通知" inactive-text="不通知" onChange={e => extraData.msgChange(e,scope.$index) }></el-switch>
+    emit: 'msgChange',
+    customRender: (h, scope) => {
+        return <el-switch value={scope.row.isSendMessage} active-text="通知" inactive-text="不通知"></el-switch>
     }
   },
   {

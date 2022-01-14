@@ -2,22 +2,22 @@
     <div>
         <iSearch @sure='search' @reset="reset" icon>
             <el-form>
-                <iFormItem :label='language("类型")'>
-                    <iInput v-model="searchForm.type" :placeholder='language("请输入")'></iInput>
+                <iFormItem :label='language("报告标题")'>
+                    <iInput v-model="searchForm.name" :placeholder='language("请输入")' filterable></iInput>
                 </iFormItem>
                 <iFormItem :label='language("状态")'>
-                    <iSelect v-model="searchForm.state" filterable clearable>
-                        <el-option v-for="item in status" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
+                    <iSelect v-model="searchForm.published" filterable clearable>
+                        <el-option v-for="item in publishedList" :key="item.id" :label="item.labelName" :value="item.id"></el-option>
                     </iSelect>
                 </iFormItem>
                 <iFormItem :label='language("消息发送")'>
-                     <iSelect v-model="searchForm.sendMsg" filterable clearable>
-                        <el-option v-for="item in status" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
+                     <iSelect v-model="searchForm.isSend" filterable clearable>
+                        <el-option v-for="item in sendList" :key="item.id" :label="item.labelName" :value="item.id"></el-option>
                     </iSelect>
                 </iFormItem>
                 <iFormItem :label='language("发布日期")'>
                     <el-date-picker
-                        v-model="searchForm.publicDate"
+                        v-model="publicDate"
                         type="daterange"
                         range-separator="至"
                         style="width:320px;"
@@ -35,13 +35,15 @@
             <iTableCustom
                 class="margin-top20"
                 :data="tableListData"
+                :loading="tableLoading"
                 :columns="tableSetting"
+				@stateChange="stateChange"
+				@msgChange="msgChange"
                 :extraData="{
-                    stateChange:stateChange,
-                    msgChange,
                     edit,
                     del
-                    }"
+                }"
+
                 >
                 </iTableCustom>
             <iPagination
@@ -66,7 +68,7 @@
     import { pageMixins } from '@/utils/pageMixins'
     import editContent from './editContent.vue';
     import tableSetting from './table';
-    import { queryReportContentList } from '@/api/reportForm';
+    import { queryReportContentList, publishedContentById, sendContentById } from '@/api/reportForm';
     export default {
         components:{
             iSearch,
@@ -83,16 +85,27 @@
         data() {
             return {
                 tableSetting,
-                tableListData:[{id:1,state:false,notice:true,type:1,name:'test'}],
-                selectList:[],
-                status:[
-                    {labelName:1,id:1}
+                tableListData:[],
+                publishedList :[
+                    { labelName: '上架', id: true },
+                    { labelName: '下架', id: false }
                 ],
-                searchForm:{},
+                sendList: [
+                    { labelName: '发送', id: true },
+                    { labelName: '未发送', id: false }
+                ],
+                searchForm:{
+                    name: '',
+                    published: '',
+                    idSend: ''
+                },
+                publicDate: [],
                 dialog:{
                     show:false,
                     form:{}
                 },
+                searchFlag: false,
+                tableLoading: false
             }
         },
         created(){
@@ -100,25 +113,60 @@
         },
         methods: {
             async query(){
-                let data = {
-                    page:0,
-                    size:10,
-                    keyword:"",
-                    sort:"publishDate,DESC"
+                let params = {
+                    page: this.page.currPage,
+                    size: this.page.pageSize
                 }
-                let res = await queryReportContentList(data) 
+                if (this.searchFlag) {
+                    Object.assign(params, this.searchForm)
+                }
+                this.tableLoading = true
+                await queryReportContentList(params).then(res => {
+                    console.log(res)
+                    if (res?.code === '200') {
+                        this.tableListData = res?.data || []
+                        this.page.totalCount = res.total
+                        this.tableLoading = false
+                        this.searchFlag = false
+                    }
+                })
             },
             search(){
-                
+                if (this.publicDate.length > 0) {
+                    this.searchForm.startTime = this.publicDate[0]
+                    this.searchForm.endTime = this.publicDate[1]
+                }
+                this.page.currPage = 1
+                this.searchFlag = true
+                this.query()
             },
             reset(){
                 this.searchForm = {}
+                this.searchFlag = false
+				this.page.currPage = 1
+                this.query()
             },
-            stateChange(e,index){
-                this.tableListData[index].state = e
+            stateChange(row){
+				let params = {
+					published: !row.published
+				}
+				publishedContentById(row.id, params).then(res => {
+					if (res?.success) {
+						this.$message({type: 'success', message: '已更改当前消息发送状态'})
+						this.query()
+					}
+				})
             },
-            msgChange(e,index){
-                this.tableListData[index].notice = e
+            msgChange(row){
+				let params = {
+					isSendMessage: !row.isSendMessage
+				}
+				sendContentById(row.id, params).then(res => {
+					if (res?.success) {
+						this.$message({type: 'success', message: '已更改当前通知状态'})
+						this.query()
+					}
+				})
             },
             add(){
                 this.dialog.form = {}

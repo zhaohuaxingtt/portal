@@ -19,65 +19,61 @@ const typeColumn = [
         align: 'center'
     },
     {
-        // prop:'admin',
+        prop:'adminUsers',
         label:'管理人',
-        align: 'adminUsers',
-        width: 120,
+        align: 'center',
+        width: 150,
         customRender: (h, scope) => {
-            const admin = scope.row.admin
+            const adminUsers = scope.row.adminUsers
+            let new_adminUsers = adminUsers.length > 0 ? adminUsers.slice(0,4).map((item)=>item.name).join(',') : ''
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={admin}>{ admin }</div>
+                adminUsers.length>0? adminUsers.length>4?`${new_adminUsers}等${adminUsers.length}人`:`${new_adminUsers}`:''
             )
         }
     },
     {
-        // prop:'organization',
+        prop:'organizations',
         label:'报表可见组织',
         align: 'center',
-        width: 100,
+        width: 150,
         customRender: (h, scope) => {
             const organizations = scope.row.organizations
+            let new_organizations = organizations.length > 0 ? organizations.slice(0,4).map((item)=>item.name).join(',') : ''
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={organizations}>{ organizations }</div>
+                organizations.length>0? organizations.length>4?`${new_organizations}等${organizations.length}人`:`${new_organizations}`:''
             )
         }
     },
     {
-        // prop:'people',
+        prop:'users',
         label:'报表可见人员',
         align: 'center',
-        width: 100,
+        width: 150,
         customRender: (h, scope) => {
             const users = scope.row.users
+            let new_users = users.length > 0 ? users.slice(0,4).map((item)=>item.name).join(',') : ''
             return (
-                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={users}>{ users }</div>
+                users.length>0? users.length>4?`${new_users}等${users.length}人`:`${new_users}`:''
             )
         }
     },
     {
-        // prop:'top',
+        prop:'isTop',
         label:'是否置顶',
         align: 'center',
         emit: 'topChang',
 		customRender: (h, scope) => {
 			return (		
-				<el-switch value={scope.row.top} active-text="是" inactive-text="否"></el-switch>
+				<el-switch value={scope.row.isTop} active-text="是" inactive-text="否"></el-switch>
 			)
-			//const top = scope.row.top
-			// return (		
-			// 	<el-switch value={scope.row.top} onchange={val=>{
-            //         console.log('aaaaa',val);
-            //         scope.row.top = val}} active-text="是" inactive-text="否"></el-switch>
-			// )
 		}
     },
     {
-        // prop:'top',
+        prop:'published',
         label:'状态',
         align: 'center',
         emit:'statusChang',
 		customRender: (h, scope) => {
-			// const status = scope.row.status
 			return (		
 				<el-switch value={scope.row.published} active-text="上架" inactive-text="下架"></el-switch>
 			)

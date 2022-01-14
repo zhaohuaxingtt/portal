@@ -13,26 +13,59 @@ export function listReports(id) {
 //报表内容列表查询
 export function queryReportContentList(data) {
     return requst({
-        url: `/report_mgr/list.json`,
-        method: 'get',
-        params:data
-    })
-}
-// 添加报表内容
-export function addReportContent(data) {
-    return requst({
-        url: `/report_mgr/create.json`,
+        url: `/report_content/contentList.json`,
         method: 'post',
         data
     })
 }
 
-// 编辑报表内容
-export function updateReportContent(id,data) {
+// 报表内容上下架
+export function publishedContentById(id,data) {
     return requst({
-        url: `/report_mgr/${id}/update.json`,
+        url: `/report_content/${id}/published.json`,
         method: 'put',
         data
+    })
+}
+
+// 报表内容是否通知
+export function sendContentById(id,data) {
+    return requst({
+        url: `/report_content/${id}/isSendMessage.json`,
+        method: 'put',
+        data
+    })
+}
+
+// 添加报表内容
+export function addReportContent(data) {
+    return requst({
+        url: `/report_content/create.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+
+// 修改报表内容
+export function updateReportContent(id,data) {
+    return requst({
+        url: `/report_content/${id}/update.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
+/**  类型管理 */
+
+// 添加报告类型
+export function addReportType(data) {
+    return requst({
+        url: `/report_mgr/create.json`,
+        method: 'post',
+        data
+        // formData: true
     })
 }
 
@@ -44,6 +77,27 @@ export function queryTypeList(data) {
         data
     })
 }
+
+// 类型是否置顶
+export function topType(id, data) {
+    return requst({
+        url: `/report_mgr/${id}/isTop.json`,
+        method: 'put',
+        data
+        // formData: true
+    })
+}
+
+// 报表类型上下架
+export function publishedTypeById(id, data) {
+    return requst({
+        url: `/report_mgr/${id}/published.json`,
+        method: 'put',
+        data
+        // formData: true
+    })
+}
+
 
 // 删除类型
 export function deleteType(id) {
@@ -85,6 +139,34 @@ export function deleteCurrCategory(id) {
 export function getSectionList(data) {
     return requst({
         url: `/report/getListSection.json`,
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取一条详情
+export function detailData(id) {
+    return requst({
+        url: `/reportSection_mgr/${id}/detail.json`,
+        method: 'get',
+        // params: data
+    })
+}
+
+//  用户相关
+//获取用户
+export function userListData(data) {
+    return requst({
+        url: `/master/users`,
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取组织
+export function organizationsListData(data) {
+    return requst({
+        url: `/master/organizations.json`,
         method: 'get',
         params: data
     })

@@ -4,15 +4,16 @@
         :visible.sync="show" 
 		v-if="show"
 		width="70%" 
-		@close='closeDialogBtn' 
+		@close='close' 
 		append-to-body
     >
         <el-form 
             :model="form"
             :rules="rules"
-            ref="form"
+            ref="typeForm"
             :inline="true" 
             label-width="100px"
+            v-loading="loading"
             class="validate-required-form"
         >
             <div class="base-info">
@@ -34,8 +35,8 @@
                         </iFormItem>
                     </div>
                     <div>
-                        <iFormItem :label="language('Telefone')" prop='phoneNumber'>
-                            <iInput v-model="form.phoneNumber" placeholder="请输入" clearable maxLength="30"></iInput>
+                        <iFormItem :label="language('Telefone')" prop='telefone'>
+                            <iInput v-model="form.telefone" placeholder="请输入" clearable maxLength="30"></iInput>
                         </iFormItem>
                     </div>
                 </div>
@@ -49,7 +50,7 @@
                             @cutDown='upload'
                         >
                             <div slot="open">
-                                <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar" />
+                                <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" class="avatar" />
                                 <!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
                                 <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
                                 </i>
@@ -67,6 +68,7 @@
                             filterable
                             placeholder="请选择"
                             clearable
+                            multiple
                         >
                             <el-option
                                 v-for="item in adminList"
@@ -83,28 +85,30 @@
                             filterable
                             placeholder="请选择"
                             clearable
+                            multiple
                         >
                             <el-option
                                 v-for="item in organizationList"
                                 :key="item.id"
-                                :label="item.label"
-                                :value="item.value"
+                                :label="item.name"
+                                :value="item.id"
                             >
                             </el-option>
                         </iSelect>
                     </iFormItem>
                 </div>
                 <div>
-                    <iFormItem :label="language('报表可见人员')" prop='users'>
+                    <iFormItem :label="language('报表可见人员')" prop='canUsers'>
                         <iSelect
-                            v-model="form.users"
+                            v-model="form.canUsers"
                             filterable
                             placeholder="请选择"
                             clearable
                             @change="handlePerson"
+                            multiple
                         >
                             <el-option
-                                v-for="item in peopleList"
+                                v-for="item in usersList"
                                 :key="item.id"
                                 :label="item.label"
                                 :value="item.value"
@@ -115,10 +119,10 @@
                 </div>
                 <div v-if="customFlag">
                     <iFormItem :label="language('选择人员')">
-                        <userSelector v-model="form.userList" @change="userListChange" />
+                        <userSelector v-model="form.users" @change="userListChange" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
-                        <supplierSelect v-model="form.supplierList" @change="supplierListChange" />
+                        <supplierSelect v-model="form.suppliers" @change="supplierListChange" />
                     </iFormItem>
                 </div>
             </div>
@@ -136,6 +140,7 @@ import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
+import { userListData, organizationsListData, addReportType } from '@/api/reportForm';
 export default {
     name: 'addTypeDialog',
     components: {
@@ -166,11 +171,11 @@ export default {
                 organization: '',
                 location: '',
                 enName: '',
-                phoneNumber: '',
-                adminUsers: '',
-                users: '',
-                userList: [],
-                supplierList: [],
+                telefone: '',
+                adminUsers: [],
+                canUsers: [],
+                users: [],
+                suppliers: [],
                 organizations: ''
             },
             rules: {
@@ -178,41 +183,74 @@ export default {
                 organization: { required:true, message:"请输入部门信息",trigger:'blur' },
                 location: { required:true, message:"请输入location",trigger:'blur' },
                 enName: { required:true, message:"请输入英文名",trigger:'blur' },
-                phoneNumber: { required:true, message:"请输入Telefone",trigger:'blur' },
-                adminUsers: { required:true, message:"请选择adminUsers",trigger:'blur' }
+                telefone: { required:true, message:"请输入Telefone",trigger:'blur' },
+                adminUsers: { required:true, message:"请选择adminUsers",trigger:'blur' },
+                organizations: { required:true, message:"请选择报表可见组织",trigger:'blur' }
             },
             imgCutterRate: '16 : 9',
             imageUrl: '',
-            adminList: [
-                {label: '管理员1', value: '1', id: 1},
-                {label: '管理员2', value: '2', id: 2}
-            ],
-            peopleList: [
-                {label: '人员1', value: '1' , id: 1},
-                {label: '人员2', value: '2' , id: 2},
-                {label: '张三', value: '3' , id: 3},
-                {label: '自定义', value: 'custom', id: 999}
-            ],
-            organizationList: [
-                {label: 'CS', value: '1' , id: 1},
-                {label: 'CF', value: '2' , id: 2},
-            ],
-            customFlag: false
+            adminList: [],
+            organizationList: [],
+            customFlag: false,
+            cover: null,
         }
     },
     methods: {
+        async getUsersList() {
+            let params = {
+                keyword: ' '
+            }
+            await userListData(params).then(res => {
+                console.log(res, '1111')
+                this.adminList = [
+                    {label: '管理员1', value: 1, id: 1},
+                    {label: '管理员2', value: 2, id: 2}
+                ]
+                let arr = JSON.parse(JSON.stringify(this.adminList))
+                arr.push({
+                    label: '自定义',
+                    value: 'custom',
+                    id: 999
+                })
+                console.log(arr, '4444')
+                this.usersList = arr
+            })
+        },
+        async getOrganizationsList() {
+            let params = {
+                keyword: ' '
+            }
+            await organizationsListData(params).then(res => {
+                if (res) {
+                    this.organizationList = res || []
+                }
+            }) 
+        },
         userListChange(val){
-            this.form.userList = val
+            console.log(val, '1111')
+            // this.form.users = return val.map(item => )
+            val.map(item => {
+                this.form.users.push(item.userId * 1)
+            })
         },
         supplierListChange(val){
-            this.form.supplierList = val
+            // this.form.suppliers = val
+            val.map(item => {
+                this.form.suppliers.push(item.id * 1)
+            })
         }, 
         closeDialogBtn () {
             this.$emit('update:show', false)
             this.imageUrl = ''
-            Object.keys(this.form).forEach(key => {
-                this.form[key] = ''
-            })
+            // Object.keys(this.form).forEach(key => {
+            //     this.form[key] = ''
+            // })
+        },
+        close() {
+            this.closeDialogBtn();
+            Object.keys(this.form).forEach(key => this.newContentForm[key] = '')
+            this.imageUrl = ''
+            this.$emit('refresh')
         },
         handleImageError(){
             let img = document.querySelector('avatar')
@@ -238,6 +276,7 @@ export default {
                     console.log(result, "12222")
                     let data = result.data
                     this.imageUrl = data.path
+                    this.cover = data.objectUrl
                     this.imgName = `${data?.name.split('.')[0]}.${data?.extensionName}`
                     this.$emit('imgUrl',this.imageUrl)
                 }else{
@@ -250,7 +289,7 @@ export default {
         },
         handlePerson(va) {
             console.log(va, '111')
-            if (va === 'custom') {
+            if (va.includes('custom')) {
                 this.customFlag = true
             } else {
                 this.customFlag = false
@@ -260,11 +299,40 @@ export default {
             this.$emit("update:show",false)
         },
         save(){
-            console.log('123')
+            if (!this.cover) return this.$message({type: 'warning', message: "请上传一张封面！"})
+            this.$refs.typeForm.validate(async v => {
+                if (v) {
+                    try {
+                        if (this.operateType === 'add') {
+                            console.log(this.form, '123')
+                            this.form.cover = this.cover
+                            if (this.customFlag) {
+                                this.form.canUsers.map(item => {
+                                    if (item !== 'custom') {
+                                        this.form.users.push(item)
+                                    }
+                                })
+                            } else {
+                                this.form.users = [...this.form.canUsers]
+                            }
+                            this.loading = true
+                            await addReportType(this.form).then(res => {
+                                console.log(res)
+                                this.loading = false
+                            })
+                        } else {
+                            console.log('modify')
+                        }
+                        this.close()
+                    } finally {
+                        this.loading = false
+                    }
+                }
+            })
         },
         initModify(row) {
             Object.assign(this.form, row)
-            this.form.users  = row.usersId
+            this.form.canUsers  = row.usersId
             this.form.organizations = row.organizationsId
             this.form.adminUsers = row.adminUsersId
         }  

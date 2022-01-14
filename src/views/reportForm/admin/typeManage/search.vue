@@ -89,6 +89,7 @@
 			v-show="dialogShow"
 			:show.sync="dialogShow"
 			:operateType="operateType"
+			@refresh='getTableList'
 		/>
 	</div>
 </template>
@@ -99,7 +100,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { typeColumn } from './columnData'
 import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
-import { deleteType, queryTypeList } from '@/api/reportForm';
+import { deleteType, queryTypeList, topType, publishedTypeById } from '@/api/reportForm';
 export default {
 	components: {
 		iInput,
@@ -134,25 +135,7 @@ export default {
 				{ label: '否', value: false, id: '1' },
 			],
 			tableLoading: false,
-			tableData: [
-				{ 
-					name: '测试类型名称', 
-					createdAt: '2020-12-20',
-					usersId: '3', 
-					users: '张三',
-					top: true, 
-					published: false, 
-					id: '1',
-					organizationsId: '1',
-					organization: '测试部门信息',
-					organizations: 'CS',  
-					location: 'location',
-					enName: 'enName',
-					phoneNumber: '122222222',
-					adminUsersId: '1',
-					adminUsers: '管理员1'
-				}
-			],
+			tableData: [],
 			tableSetting: typeColumn,
 			extraData: {
 				operate: this.operate
@@ -204,19 +187,26 @@ export default {
 			this.searchFlag = false
 			this.getTableLst()
 		},
-		statusChang(row) {
-			console.log(row, '1111')
-			this.tableData.map(item => {
-				if (item.id === row.id) {
-					item.published = !item.published
+		async statusChang(row) {
+			let params = {
+				published: !row.published
+			}
+			await publishedTypeById(row.id, params).then(res => {
+				if (res?.success) {
+					this.$message({type: 'success', message: '已更改当前消息发送状态'})
+					this.getTableList()
 				}
 			})
 		},
-		topChang(row) {
+		async topChang(row) {
 			console.log(row, '22222')
-			this.tableData.map(item => {
-				if (item.id === row.id) {
-					item.top = !item.top
+			let params = {
+				isTop: !row.isTop
+			}
+			await topType(row.id, params).then(res => {
+				if (res?.success) {
+					this.$message({type: 'success', message: '已更改当前置顶状态'})
+					this.getTableList()
 				}
 			})
 		},
@@ -245,11 +235,15 @@ export default {
             }).then(async () => {
 				await deleteType(row.id).then(res => {
 					console.log(res, '22')
+					if (res?.success) {
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+						this.getTableList()
+					}
 				})
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
+                
             })
         },
 		modify(row) {
@@ -262,7 +256,6 @@ export default {
 		},
 		addReportType(row) {
 			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})
-			console.log('addReportType', row)
 			this.showTypeDialog = true
 			this.$refs.categoryDialog.getTableList(row.id)
 		},
@@ -270,6 +263,8 @@ export default {
 			console.log('添加类型')
 			this.dialogShow = true
 			this.operateType = 'add'
+			this.$refs.typeDialog.getUsersList()
+			this.$refs.typeDialog.getOrganizationsList()
 		}
 	}
 }

@@ -9,7 +9,7 @@
         <el-form :model="form" ref="form" label-width="90px" :inline="false" size="normal">
             <iFormItem :label="language('Report类型')" prop="reportSection" :rules="{ required:true, message:'请选择', trigger:'change'}">
                 <iSelect v-model="form.reportSection" filterable clearable>
-                    <el-option v-for="item in status" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
+                    <el-option v-for="item in reportSectionList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
             <iFormItem :label="language('Report标题')" prop="title" :rules="{ required:true, message:'请输入', trigger:'blur'}">
@@ -43,6 +43,7 @@
 <script>
     import {iDialog,iButton,iInput, iSelect, iDatePicker, iFormItem} from 'rise';
     import iUpload from './../../components/iUpload.vue';
+    import { addReportContent, queryTypeList } from '@/api/reportForm';
     export default {
         components: {
             iDialog,
@@ -66,6 +67,7 @@
         data() {
             return {
                 form:{
+                    reportSection: '',
                     type:""
                 },
                 rules:{
@@ -73,10 +75,23 @@
                     title:"",
                     publishDate:"",
                     reportCategory:""
-                }
+                },
+                reportSectionList: []
             }
         },
+        created() {
+            this.getTypeList()
+        },
         methods: {
+            async getTypeList() {
+                let params = {
+                    page: this.page.currPage,
+                    size: this.page.pageSize
+                }
+                await queryTypeList(params).then(res => {
+                    console.log(res, '12222')
+                })
+            },
             save(){
                 this.$refs.form.validate(v => {
                     if(v){
@@ -89,7 +104,7 @@
             },
             handleClose(){
                 this.form = {
-                    reportSection:"",
+                    reportSection: '',
                     title:"",
                     publishDate:"",
                     reportCategory:""
