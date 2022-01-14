@@ -1,5 +1,5 @@
 <template>
-  <iCard title="工艺组信息" class="margin-top20" header-control collapse>
+  <iCard :title="language('工艺组信息')" class="margin-top20" header-control collapse>
     <div class="button-top margin-bottom20" v-if="!readOnly">
       <iButton @click="newTechnology" >{{language('新增')}}</iButton>
       <iButton @click="deleteTechnology" :disabled='selectTableData.length == 0 '>{{language('删除')}}</iButton>
