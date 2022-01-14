@@ -2,7 +2,11 @@
   <div class="header">
     <div class="profile">
       <headerAvatar avatar="" />
-      <headerUsername :nameZh="userInfo.nameZh" :nameEn="userInfo.nameEn" />
+      <headerUsername
+        :nameZh="userInfo.nameZh"
+        :nameEn="userInfo.nameEn"
+        :gender="userInfo.gender"
+      />
     </div>
     <div class="logo">
       <img src="../../../assets/images/rise.png" alt="RiSE" />

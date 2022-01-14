@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <settingHeader :active.sync="tabActive" />
-    <div v-if="moduleReady">
+    <div class="setting-container" v-if="moduleReady" v-loading="loading">
       <transition name="el-fade-in-linear">
         <task v-show="tabActive === 'task'" :card-data="cardTaskData" />
       </transition>
@@ -28,7 +28,8 @@ export default {
       moduleData: [],
       moduleReady: false,
       cardTaskData: {},
-      cardiAgreeData: {}
+      cardiAgreeData: {},
+      loading: false
     }
   },
   created() {
@@ -39,6 +40,7 @@ export default {
   },
   methods: {
     queryModelData() {
+      this.loading = true
       getModuleList({})
         .then((res) => {
           if (res.code === '200' && res.data) {
@@ -57,9 +59,14 @@ export default {
         .catch((err) => {
           iMessage.error(err.desZh || '获取模块信息失败')
         })
+        .finally(() => (this.loading = false))
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.setting-container {
+  min-height: 600px;
+}
+</style>

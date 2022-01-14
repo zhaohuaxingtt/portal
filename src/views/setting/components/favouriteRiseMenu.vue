@@ -4,7 +4,7 @@
     :height="tableHeight"
     ref="functionMenu"
     :loading="tableLoading"
-    :data="fullMenu"
+    :data="menus"
     :columns="tableColumns"
     default-expand
     :default-expand-level="2"
@@ -21,6 +21,12 @@ import { COLUMNS_MENU } from './data'
 export default {
   name: 'favouriteRiseMenu',
   components: { iTableCustom },
+  props: {
+    filterStr: {
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     tableHeight() {
       const bodyHeight = document.body.clientHeight
@@ -28,11 +34,20 @@ export default {
         return bodyHeight - 230 + 'px'
       }
       return '500px'
+    },
+    menus() {
+      if (!this.filterStr) {
+        return this.fullMenu
+      }
+      return this.flatFullMenu.filter((e) =>
+        e.name.toLowerCase().includes(this.filterStr.toLowerCase())
+      )
     }
   },
   data() {
     return {
       fullMenu: [],
+      flatFullMenu: [],
       tableLoading: false,
       tableColumns: COLUMNS_MENU,
       tableExpanded: { expandKey: 'name', childrenKey: 'menuList' },
@@ -54,7 +69,34 @@ export default {
       const riseMenu = data.filter((e) => e.name === 'RiSE')
       if (riseMenu.length) {
         this.fullMenu = riseMenu[0].menuList
+        this.flatFullMenu = this.getFlatFullMenu(this.fullMenu)
+        console.log('flatFullMenu', this.flatFullMenu)
       }
+    },
+    // 扁平化菜单数据
+    getFlatFullMenu(menuList, res) {
+      res = res || []
+      for (let i = 0; i < menuList.length; i++) {
+        const menu = menuList[i]
+
+        const parentItem = res.find((e) => e.id === menu.parentId)
+        const nameLinked = parentItem
+          ? `${parentItem.nameLinked} - ${menu.name}`
+          : menu.name
+        const item = {
+          name: menu.name,
+          nameLinked: nameLinked,
+          id: menu.id,
+          parentId: menu.parentId,
+          permissionKey: menu.permissionKey,
+          level: menu.level
+        }
+        res.push(item)
+        if (menu.menuList && menu.menuList.length) {
+          this.getFlatFullMenu(menu.menuList, res)
+        }
+      }
+      return res
     },
     handleFavorite(row) {
       console.log('handleFavorite', row)

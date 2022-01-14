@@ -1,13 +1,16 @@
 <template>
   <iCard>
-    <favouriteRiseSearch />
+    <favouriteRiseSearch @search="search" />
     <h4 class="t">菜单列表</h4>
     <div class="content">
       <div class="content-panel menu">
-        <favouriteRiseMenu />
+        <favouriteRiseMenu :favourited="favourited" :filter-str="filterStr" />
       </div>
       <div class="content-panel has-menu">
-        <favouriteRiseMenuHas />
+        <favouriteRiseMenuHas
+          :favourited="favourited"
+          :filter-str="filterStr"
+        />
       </div>
     </div>
   </iCard>
@@ -25,6 +28,48 @@ export default {
     favouriteRiseSearch,
     favouriteRiseMenu,
     favouriteRiseMenuHas
+  },
+  data() {
+    return {
+      riseFavourited: [],
+      filterStr: ''
+    }
+  },
+  created() {
+    this.queryRiseFavourited()
+  },
+  methods: {
+    search(val) {
+      this.filterStr = val
+    },
+    queryRiseFavourited() {
+      this.riseFavourited = [
+        {
+          createBy: 1,
+          createDate: '2021-03-23 16:28:34',
+          fieldList: null,
+          id: 4001,
+          isDelete: false,
+          level: 1,
+          module: null,
+          name: 'Workbench',
+          orderNum: 6999,
+          parentId: 5800,
+          parentPermissionKey: null,
+          parentResourceName: null,
+          permissionKey: 'RISE_WORKBENCH',
+          properties: null,
+          propertyMap: null,
+          resourceList: null,
+          subResourceList: null,
+          target: null,
+          type: 3,
+          updateBy: null,
+          updateDate: '2000-01-01 00:00:00',
+          url: null
+        }
+      ]
+    }
   }
 }
 </script>

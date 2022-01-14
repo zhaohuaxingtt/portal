@@ -3,7 +3,7 @@
     <div class="title">Profile</div>
     <div class="text">
       <div class="zh">{{ nameZh }}</div>
-      <div class="en">{{ nameEn }}</div>
+      <div class="en">{{ title }} {{ nameEn }}</div>
     </div>
   </div>
 </template>
@@ -13,7 +13,19 @@ export default {
   name: 'profileHeaderName',
   props: {
     nameZh: { type: String },
-    nameEn: { type: String }
+    nameEn: { type: String },
+    gender: { type: String }
+  },
+  computed: {
+    title() {
+      if (['male', '1'].includes(this.gender)) {
+        return '男'
+      }
+      if (['female', '2'].includes(this.gender)) {
+        return '女'
+      }
+      return ''
+    }
   }
 }
 </script>

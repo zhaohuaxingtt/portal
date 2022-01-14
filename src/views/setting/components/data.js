@@ -11,12 +11,14 @@ export const COLUMNS_MENU = [
     i18n: '名称',
     type: 'expanded',
     align: 'left',
-    emit: 'row-click'
+    customRender: (h, scope) => {
+      return scope.row.nameLinked || scope.row.name
+    }
   },
   {
     width: '100px',
     customRender: (h, scope, column, extraData) => {
-      if (scope.row.childNum === 0) {
+      if (scope.row.level > 1) {
         return (
           <span
             class="el-icon-star-off"

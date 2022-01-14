@@ -5,8 +5,8 @@
       <iInput v-model="menuName" />
     </div>
     <div class="actions">
-      <iButton>搜索</iButton>
-      <iButton>重置</iButton>
+      <iButton @click="search">搜索</iButton>
+      <iButton @click="search">重置</iButton>
     </div>
   </div>
 </template>
@@ -15,7 +15,21 @@
 import { iInput, iButton } from 'rise'
 export default {
   name: 'favouriteRiseSearch',
-  components: { iInput, iButton }
+  components: { iInput, iButton },
+  data() {
+    return {
+      menuName: ''
+    }
+  },
+  methods: {
+    search() {
+      this.$emit('search', this.menuName)
+    },
+    reset() {
+      this.menuName = ''
+      this.search()
+    }
+  }
 }
 </script>
 
