@@ -19,7 +19,7 @@
               <el-form  label-width='120px' label-position="left" :rules="rules" ref="itemContent" :model='itemContent' class="validate-required-form">
                   <el-row gutter="24" class="materiel">
                       <el-col :span='6' v-if='isDisabled>0 ? true : false'>
-                          <iFormItem :label='itemLabel.number' prop='partNum'>
+                          <iFormItem :label='language(itemLabel.number)' prop='partNum'>
                             <iInput  v-model="itemContent.partNum" :disabled='isDisabled>0?true:false' ></iInput>
                           </iFormItem>
                       </el-col>
