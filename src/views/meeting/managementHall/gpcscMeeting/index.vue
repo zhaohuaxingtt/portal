@@ -432,7 +432,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 上会次数 preCount-->
+            <!-- 上会次数 Csccount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -441,7 +441,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.preCount}}</span>
+                <span>{{scope.row.Csccount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -579,7 +579,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
-            <!-- CSC编号 -->
+            <!-- CSC编号  cscCode-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -641,7 +641,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 上会次数 preCount-->
+            <!-- 上会次数 Csccount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -650,7 +650,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.preCount}}</span>
+                <span>{{scope.row.Csccount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -2191,6 +2191,7 @@ export default {
     },
     //新增议题
     addTopic() {
+      debugger
       this.editOrAdd = 'add'
       // if (this.meetingInfo.isPreCSC || this.meetingInfo.isCSC) {
       //   this.openDialog('openAddTopicNewDialog')//手工议题

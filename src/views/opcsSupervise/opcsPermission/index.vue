@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-13 18:15:05
+ * @LastEditTime: 2022-01-14 08:59:38
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -66,6 +66,7 @@
     <iDialog :visible.sync="dialog"
              width="70%"
              top="10%"
+             :key="Math.random()"
              @close="cleardialog('close')"
              :title="dialogTitle">
       <iFormGroup row="2"
