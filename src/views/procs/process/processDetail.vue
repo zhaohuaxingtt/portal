@@ -17,7 +17,7 @@
         </div>
         <div class="mt20 flex">
             <div class="flex-1 mr20">
-                <div class="card-l">
+                <div class="card-l mb20">
                     <div class="content">
                         • CSF： 
                         送样采购员（CSFF）：磁铁 项目启动会并编写启动会会议纪要，负责发放零件批量模具数模（TM）、图纸（TZ）及技术标准等用于试制的资料，负责协调各方确定送样具体时间节点及送样细节，负责跟踪送样情况； 
@@ -40,20 +40,36 @@
                         <span>分页</span>
                     </div>
                 </div>
-
+                 <UiCard title="常见问题" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
+                    <iButton slot="head-right">MORE</iButton>
+                   <template slot="content">
+                        <div class="qs">
+                            <div class="title">测试问题内容</div>
+                            <div class="flex justify-between items-center">
+                                <div>测试问题问答</div>
+                                <iButton>MORE</iButton>
+                            </div>
+                            <div class="opearte mt20 cursor"><i class="el-icon-edit"></i> 提问</div>
+                            <div class="flex mt20">
+                                <div class="opearte mr20 cursor"><i class="el-icon-share"></i>分享</div>
+                                <div class="opearte cursor"><i class="el-icon-star-off"></i>收藏</div>
+                            </div>
+                        </div>
+                   </template>
+                </UiCard>
             </div>
             <div class="side">
-               <UiCard title="ProD文档" :list="list" @row-click="side($event, 'prod')">
+               <UiCard title="ProD文档" :list="list" :color="false" @row-click="side($event, 'prod')">
                    <div slot="item-right">
                        2022-1-1
                    </div>
                </UiCard>
-               <UiCard title="流程图" class="process-img" :list="list" @row-click="side($event, 'img')">
+               <UiCard title="流程图" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
                    <div slot="content" class="draw">
                        <img style="width:100%" src="http://cnsvwshvm1416.csvw.com/upload/2021/12/16/FlowChart_150/%E4%B8%BB%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="">
                    </div>
                 </UiCard>
-               <UiCard title="系统操作" class="process-img" :list="list" @row-click="side($event, 'img')">
+               <UiCard title="系统操作" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
                    <div slot="head-right" class="video-btn cursor">
                        <i class="el-icon-video-play"></i>
                        视频
@@ -83,7 +99,8 @@
         components:{
             LayHeader,
             iCard,
-            UiCard
+            UiCard,
+            iButton
         },
         data() {
             return {
@@ -175,7 +192,24 @@ $line-color: #BBC4D6;
         padding: 20px;
         border-top: 1px solid $line-color;
     }
+
 }
+    .qs{
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid $line-color;
+        border-radius: 10px;
+
+        .title{
+            color: #1660F1;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .opearte{
+            color: #666;
+        }
+    }
 .side{
     width: 450px;
 }
