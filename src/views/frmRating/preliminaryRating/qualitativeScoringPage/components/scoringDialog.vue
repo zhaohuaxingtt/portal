@@ -60,9 +60,8 @@
           <el-table-column align="center"
                            :key="item.itemCode"
                            :prop="item.itemCode"
-
                            :label="item.itemNameZh"
-                           width="180">
+                           width="150">
             <template slot-scope="scope">
               <iSelect v-model="scope.row.itemList[index]"
                        :placeholder="language('请选择')"
@@ -252,23 +251,17 @@ export default {
       //       })
       //     })
       this.selectTableData.forEach((arr) => {
-        if (arr.itemList.length != this.tableTitleData.length) {
+          console.log(arr.itemList.length )
+          console.log( this.tableTitleData.length )
+          if (arr.itemList.length < this.tableTitleData.length) {
           valid = false
-        } else if (arr.itemList.length != this.tableTitleData.length) {
+        } else{
           valid = true
         }
         console.log(arr.itemList.length + '+' + this.tableTitleData.length)
         arr.itemList.forEach((code, index) => {
-          code.id = code.id || ''
+        //   code.id = code.id || ''
           code.parentId = arr.id
-          // this.tableTitleData.forEach((j, i) => {
-
-          //   if (index == i) {
-          //     code.itemCode = j.itemCode
-          //     code.itemId = j.id
-          //   }
-          // code.itemCode = this.tableTitleData[index].itemCode
-          // })
         })
         arr.itemList = arr.itemList.map((item, i) => {
           return {
@@ -428,8 +421,5 @@ export default {
 <style scoped lang="scss">
 .content {
   padding-bottom: 20px;
-}
-.el-input {
-width: 100%;
 }
 </style>

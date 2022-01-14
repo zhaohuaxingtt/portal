@@ -43,31 +43,23 @@
             </el-form-item>
             <!-- 供应商 -->
             <el-form-item :label="'供应商名称'">
-              <iInput
-                v-model="form.shortNameZh"
-              ></iInput>
+              <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
             <el-form-item :label="'供应商SAP号'">
-              <iInput
-                v-model="form.sapCode"
-              ></iInput>
+              <iInput v-model="form.sapCode"></iInput>
             </el-form-item>
             <el-form-item :label="'供应商临时号'">
-              <iInput
-                v-model="form.svwTempCode"
-              ></iInput>
+              <iInput v-model="form.svwTempCode"></iInput>
             </el-form-item>
             <el-form-item :label="'供应商SVW号'">
-              <iInput
-                v-model="form.svwCode"
-              ></iInput>
+              <iInput v-model="form.svwCode"></iInput>
             </el-form-item>
           </el-row>
         </el-form>
       </div>
       <div class="button__list">
-        <iButton @click="getTableList" class="cancel">{{ "查询" }}</iButton>
-        <iButton @click="handleSearchReset">{{ "重置" }}</iButton>
+        <iButton @click="getTableList" class="cancel">{{ '查询' }}</iButton>
+        <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
       </div>
     </div>
     <div style="padding-bottom: 20px">
@@ -88,55 +80,55 @@
         ></el-table-column>
         <el-table-column align="center" label="供应商中文名"
           ><template slot-scope="scope">
-            <span>{{ scope.row["shortNameZh"] }}</span>
+            <span>{{ scope.row['shortNameZh'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="供应商英文名">
           <template slot-scope="scope">
-            <span>{{ scope.row["shortNameEn"] }}</span>
+            <span>{{ scope.row['shortNameEn'] }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="供应商身份"
           ><template slot-scope="scope">
             <span>{{
-              scope.row.formalStatus == "0"
-                ? "临时"
-                : scope.row.formalStatus == "1"
-                ? "正式"
-                : scope.row.formalStatus == "2"
-                ? "储蓄池"
-                : ""
+              scope.row.formalStatus == '0'
+                ? '临时'
+                : scope.row.formalStatus == '1'
+                ? '正式'
+                : scope.row.formalStatus == '2'
+                ? '储蓄池'
+                : ''
             }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="供应商类型"
           ><template slot-scope="scope">
             <span>{{
-              scope.row.supplierType == "PP"
-                ? "生产供应商"
-                : scope.row.supplierType == "GP"
-                ? "一般供应商"
-                : scope.row.supplierType == "NT"
-                ? "N-Tier"
-                : scope.row.supplierType == "CM"
-                ? "自定义"
-                : ""
+              scope.row.supplierType == 'PP'
+                ? '生产供应商'
+                : scope.row.supplierType == 'GP'
+                ? '一般供应商'
+                : scope.row.supplierType == 'NT'
+                ? 'N-Tier'
+                : scope.row.supplierType == 'CM'
+                ? '自定义'
+                : ''
             }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="临时号">
           <template slot-scope="scope">
-            <span>{{ scope.row["svwTempCode"] }}</span>
+            <span>{{ scope.row['svwTempCode'] }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="SVW号"
           ><template slot-scope="scope">
-            <span>{{ scope.row["svwCode"] }}</span>
+            <span>{{ scope.row['svwCode'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="SAP号">
           <template slot-scope="scope">
-            <span>{{ scope.row["sapCode"] }}</span>
+            <span>{{ scope.row['sapCode'] }}</span>
           </template>
         </el-table-column>
       </iTableML>
@@ -158,11 +150,11 @@
 </template>
 
 <script>
-import { iDialog, iInput, iButton, iSelect } from "rise";
-import iTableML from "@/components/iTableML";
+import { iDialog, iInput, iButton, iSelect } from 'rise'
+import iTableML from '@/components/iTableML'
 // import { getSignatureResult } from "@/api/terms/terms";
-import { pageMixins } from "@/utils/pageMixins";
-import { supplierIdentityList, supplierRangeList } from "./data";
+import { pageMixins } from '@/utils/pageMixins'
+import { supplierIdentityList, supplierRangeList } from './data'
 export default {
   mixins: [pageMixins],
   components: {
@@ -170,7 +162,7 @@ export default {
     iTableML,
     iSelect,
     iButton,
-    iInput,
+    iInput
     // iPagination,
   },
   props: {
@@ -178,9 +170,9 @@ export default {
     supplierList: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
@@ -188,48 +180,48 @@ export default {
       supplierIdentityList,
       supplierRangeList,
       // tableListData: [],
-      tableListDataSub: [],
+      tableListDataSub: []
       // typeObject: {},
       // form: {
       //   termsId: this.id,
       // },
       // supplierId: -1,
-    };
+    }
   },
   mounted() {
     // console.log("supplierList", this.supplierList);
     // let param = { termsId: this.id };
     // this.getTableList(param);
-    this.tableListDataSub = this.supplierList;
+    this.tableListDataSub = this.supplierList
   },
   methods: {
     clearDiolog() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     handleSearchReset() {
-      this.form = {};
-      this.supplierList = this.tableListDataSub;
+      this.form = {}
+      this.supplierList = this.tableListDataSub
     },
     getTableList() {
       // form是查询条件
       // 备份了一下数据
-      let arr = this.tableListDataSub;
+      let arr = this.tableListDataSub
       // 通过遍历key值来循环处理
       Object.keys(this.form).forEach((e) => {
         // 调用自己定义好的筛选方法
-        arr = this.filterFunc(this.form[e], e, arr);
-      });
+        arr = this.filterFunc(this.form[e], e, arr)
+      })
       // 为表格赋值
-      this.supplierList = arr;
+      this.supplierList = arr
     },
     // val: 查询条件的值
     // target: 目标参数，就是你这个值对应的key
     // filterarr: 被筛选的数组
     filterFunc(val, target, filterArr) {
       // 参数不存在或为空时，就相当于查询全部
-      if (val == undefined || val == "" || val == null) return filterArr;
-      return filterArr.filter((p) => p[target]?.indexOf(val) > -1);
-    },
+      if (val == undefined || val == '' || val == null) return filterArr
+      return filterArr.filter((p) => p[target]?.indexOf(val) > -1)
+    }
     // handleChangePage(e) {
     //   this.page.currPage = e;
     //   this.tableListDataSub = this.tableListData.slice(
@@ -244,8 +236,8 @@ export default {
     //     this.page.total = res?.termsSupplierList.length;
     //   });
     // },
-  },
-};
+  }
+}
 </script>
 <style scoped lang="scss">
 .search_title {
