@@ -8,7 +8,7 @@
                 <img src="~@/assets/images/mainProcess.png" class="img-process" />
             </div>
             <div class="rightContent">
-                <el-tabs v-model="activeName" class="tabs">
+                <el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
                     <el-tab-pane label="基本信息" name="baseInfo">
                         <BaseInfo 
                             :name="name"
@@ -59,21 +59,27 @@ export default {
                 }
             ],
             currIndex: 0,
-            modifyFlag: false
-        }
-    },
-    computed: {
-        indexVal() {
-            return this.currIndex
+            modifyFlag: false,
+            canDrawFlag: false
         }
     },
     methods: {
+        handleClick(tab, event) {
+            console.log(tab, event, 'event')
+            if (tab === 'projectInfo') {
+                this.canDrawFlag = true
+            } else {
+                this.canDrawFlag = false
+            }
+        },
         test1(e) {
+            if (!this.canDrawFlag) return
 			this.startX = e.layerX
 			this.startY = e.layerY
 			this.clickFlag = true
 		},
         test2(e) {
+            if (!this.canDrawFlag) return
 			this.endX = e.layerX
 			this.endY = e.layerY
 			this.clickFlag = false
