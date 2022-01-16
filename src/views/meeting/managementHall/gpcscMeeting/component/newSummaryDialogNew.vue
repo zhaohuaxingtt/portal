@@ -115,7 +115,7 @@
                       ? conclusionCscList[item.conclusionCsc]
                       : ''
                   }} -->
-                  {{item.result}}
+                  {{conclusionCscList[item.conclusion]}}
                 </p>
                 <iFormItem class="meet-desc">
                   <el-table
@@ -291,13 +291,19 @@ export default {
       },
       employeeDTOS: [],
       conclusionCscList: {
+        // '01': '待定',
+        // '02': '定点',
+        // '03': '发LOI',
+        // '04': '转TER/TOP-TER',
+        // '05': '下次Pre CSC',
+        // '06': '转CSC',
+        // '07': '关闭',
         '01': '待定',
-        '02': '定点',
-        '03': '发LOI',
-        '04': '转TER/TOP-TER',
-        '05': '下次Pre CSC',
-        '06': '转CSC',
-        '07': '关闭'
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
       },
       employeeStr: ''
     }
