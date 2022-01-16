@@ -184,11 +184,11 @@
          <!--定点金额   price -->
          <el-col :span="12" >
             <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
-                <i-input
-                v-model="fromData.price"
-                  disabled
-                ></i-input>
-              </el-form-item>
+                <i-input v-model="fromData.price" disabled>
+                </i-input>
+                 <!-- <span class="iconWid" v-if="iconShowA">高</span> -->
+                 <!-- <span class="iconWid" v-if="iconShowB">低</span> -->
+            </el-form-item>
          </el-col>
       </el-row>
           
@@ -214,6 +214,7 @@ import {
   iInput,
   iButton,
   iMessage,
+  icon
 } from 'rise'
 import { themenConclusionArrObj, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
 import { getMettingList } from '@/api/meeting/home'
@@ -230,7 +231,8 @@ export default {
     iInput,
     iButton,
     iTableML,
-    commonTable
+    commonTable,
+    icon
   },
   props: {
     autoOpenProtectConclusionObj: {
@@ -520,8 +522,11 @@ export default {
       findGpInfoByThemenId(params).then((res) => {
         console.log(res);
         this.fromData=res
+        //判断是否显示图标
+        // if (this.fromData.price) {
+          
+        // }
       })
-
     },
     handleSelectionChange(val) {
       this.selectedRow=val
@@ -598,7 +603,6 @@ export default {
         this.showIFormItemelform= true
       }
       if(e.conclusionCsc == '03'){
-        debugger
         this.showIFormItemRS= false
         this.showIFormItemelform= true
       }
@@ -785,5 +789,19 @@ export default {
   line-height: 16px;
   white-space: nowrap;
   color: #4d4f5c;
+}
+.iconWid{
+  position:absolute;
+  bottom: 10px;
+  right: 20px;
+  background-color: red;
+  color:#fff;
+  width: 18px;
+  line-height:18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  padding-left:1px;
+  display: inline-block;
 }
 </style>

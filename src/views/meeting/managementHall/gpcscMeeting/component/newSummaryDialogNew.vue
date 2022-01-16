@@ -1,5 +1,5 @@
+  <!--会议纪要-->
 <template>
-  <!--转派-->
   <iDialog
     :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
@@ -7,7 +7,7 @@
     :close-on-click-modal="false"
     @close="handleCancel"
   >
-
+123123
      <iEditForm>
       <el-form
         :model="resultData"
@@ -98,22 +98,24 @@
                     }}
                   </div>
                 </div>
-                <iFormItem prop="conclusion" class="meet-desc">
+                <iFormItem prop="result" class="meet-desc">
                   <iInput
-                    v-model="item.conclusion"
+                    v-model="item.result"
                     type="textarea"
                     resize="none"
                     rows="4"
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{
+                  Result：
+                  <!-- {{
                     item.conclusionCsc === '01'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '02'
                       ? conclusionCscList[item.conclusionCsc]
                       : ''
-                  }}
+                  }} -->
+                  {{item.result}}
                 </p>
                 <iFormItem class="meet-desc">
                   <el-table
