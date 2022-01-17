@@ -8,17 +8,18 @@
 </template>
 
 <script>
-import { iPage, iLog,iUserLog } from 'rise'
+import { iPage, iLog, iUserLog } from 'rise'
+// import iLog from '@/components/iLog'
 // import iUserLog from '@/components/iUserLog'
 export default {
   data() {
     return {
       showDialog: false,
       bizId: 2,
-      showDialog1: false,
+      showDialog1: false
     }
   },
-  components: { iPage, iLog,iUserLog },
+  components: { iPage, iLog, iUserLog },
   methods: {
     open() {
       this.showDialog = true

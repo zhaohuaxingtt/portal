@@ -432,7 +432,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 上会次数 Csccount-->
+            <!-- 上会次数 cscCount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -441,7 +441,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.Csccount}}</span>
+                <span>{{scope.row.cscCount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -641,7 +641,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 上会次数 Csccount-->
+            <!-- 上会次数 cscCount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -650,7 +650,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.Csccount}}</span>
+                <span>{{scope.row.cscCount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -1201,10 +1201,12 @@ export default {
     },
     //发送大会议程
     sendAgenda(){
+      debugger
+      console.log(this.meetingInfo);
       // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
-      if (this.selectedTableData[0].isGpPreCSC == true) {
+      if (this.meetingInfo.isGpPreCSC == true) {
         this.sendAgendaDialog=true
-      this.rowId=this.selectedTableData[0].id
+        this.rowId=this.selectedTableData[0].id
       }else{
         iMessage.error('不是预备会，不能发送大会议程！')
       }

@@ -7,6 +7,13 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  <theSearch
+      @searchTableList="searchTableList"
+      @handleSearchReset="handleSearchReset"
+      @setTypeObj="setTypeObj"
+      @deleteWeek="deleteWeek"
+      :form="form"
+    />
     <theTable
       ref="theTable"
       :page="page"
@@ -37,6 +44,7 @@
 </template>
 
 <script>
+import theSearch from '@/views/meeting/managementHall/gpcscMeeting/common/theSearch.vue'
 import { iDialog, iButton, iMessage } from 'rise'
 import theTable from './theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'
@@ -49,7 +57,8 @@ export default {
   components: {
     iDialog,
     iButton,
-    theTable
+    theTable,
+    theSearch
   },
   props: {
     selectedTableData: {
@@ -142,6 +151,7 @@ export default {
     },
     //会议改期调取会议大厅列表
     queryMettingList(e) {
+      console.log(e);
       getMettingList(e).then((res) => {
         // let dataArr = res.data ? res.data : [];
         // this.tableListData = dataArr.filter((item) => {
@@ -167,7 +177,26 @@ export default {
         this.close()
         // });
       }
-    }
+    },
+
+
+
+    // --------------------------------------------
+    //重置
+    searchTableList() {
+      this.page.currPage = 1
+      this.queryMettingList()
+    },
+    //查询
+    handleSearchReset() {
+      this.form = {
+        weekOfYears: [],
+        startDate: '',
+        startTime: ''
+      }
+      this.page.currPage = 1
+      this.queryMettingList()
+    },
   }
 }
 </script>

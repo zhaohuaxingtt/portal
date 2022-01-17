@@ -1,8 +1,8 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: caopeng
- * @LastEditTime: 2021-12-08 16:42:23
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-17 15:09:34
  * @Description:
  * @FilePath: \front-portal-new\src\router\Router.js
  */
@@ -50,6 +50,9 @@ import RouterView from './RouterView'
 import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 import RouterTerms from './RouterTerms'
+
+// 后台管理  scoreConfig
+import backstagemanagement from './backstagemanagement'
 
 export default {
   routes: [
@@ -213,7 +216,8 @@ export default {
         ...RouterApplications,
         ...RouterOfflineDownload,
         ...RouterElectronicSignature,
-        ...RouterTerms
+        ...RouterTerms,
+        ...backstagemanagement
       ]
     },
     ...RouterView,
