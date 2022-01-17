@@ -26,19 +26,19 @@ export default {
         console.log(this.deptData.lastDeptDataList)
         let arrCurrent = []
         arrCurrent = this.deptData.lastDeptDataList.map((i) => {
-          return  Math.floor((i.curPrice / 1000000) * 100) / 100
+          return  Math.floor((i.lastPrice / 1000000) * 100) / 100
         })
         let prearrCurrent = []
         prearrCurrent = this.deptData.lastDeptDataList.map((i) => {
-          return  i.curPrice
+          return  i.lastPrice
         })
         let arrLast = []
         arrLast = this.deptData.lastDeptDataList.map((i) => {
-          return  Math.floor((i.lastPrice / 1000000) * 100) / 100
+          return  Math.floor((i.curPrice / 1000000) * 100) / 100
         })
         let prearrLast = []
         prearrLast = this.deptData.lastDeptDataList.map((i) => {
-          return  i.lastPrice
+          return  i.curPrice
         })
         let arrDept = []
         arrDept = this.deptData.lastDeptDataList.map((i) => {

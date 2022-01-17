@@ -1201,10 +1201,12 @@ export default {
     },
     //发送大会议程
     sendAgenda(){
+      debugger
+      console.log(this.meetingInfo);
       // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
-      if (this.selectedTableData[0].isGpPreCSC == true) {
+      if (this.meetingInfo.isGpPreCSC == true) {
         this.sendAgendaDialog=true
-      this.rowId=this.selectedTableData[0].id
+        this.rowId=this.selectedTableData[0].id
       }else{
         iMessage.error('不是预备会，不能发送大会议程！')
       }

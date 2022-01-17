@@ -21,15 +21,8 @@
       <iFormGroup row="2" ref="positionForm" :model="itemSelected">
         <iFormItem>
           <iLabel label="主负责人" slot="label"></iLabel>
-          <i-select
-            multiple
-            v-model="itemSelected.userDTOListIds"
-            :disabled="
-              !itemSelected.isEdit ||
-              (itemSelected.userDTOListIds &&
-                !itemSelected.userDTOListIds.length)
-            "
-          >
+          <iInput :value="mainUser" disabled />
+          <!-- <i-select multiple v-model="itemSelected.userDTOListIds" disabled>
             <el-option
               :value="option.id"
               :label="option.nameZh"
@@ -37,16 +30,11 @@
               :disabled="option.disabled"
               :key="option.id"
             ></el-option>
-          </i-select>
+          </i-select> -->
         </iFormItem>
         <iFormItem>
           <iLabel label="基础角色" slot="label"></iLabel>
-          <i-select
-            multiple
-            :placeholder="`请选择基础角色`"
-            v-model="itemSelected.roleDTOListIds"
-            disabled
-          >
+          <i-select multiple v-model="itemSelected.roleDTOListIds" disabled>
             <el-option
               :value="option.id"
               :label="option.fullNameZh"
@@ -57,14 +45,15 @@
         </iFormItem>
         <iFormItem>
           <iLabel label="其他负责人" slot="label"></iLabel>
-          <i-select v-model="itemSelected.chiefUserId" disabled>
+          <iInput :value="otherUser" disabled />
+          <!-- <i-select v-model="itemSelected.chiefUserId" disabled>
             <el-option
               :value="option.id"
               :label="option.nameZh"
               v-for="option in itemSelected.leaderOptions"
               :key="option.id"
             ></el-option>
-          </i-select>
+          </i-select> -->
         </iFormItem>
       </iFormGroup>
 
@@ -111,7 +100,8 @@ import {
   iSelect,
   iLabel,
   iButton,
-  iMessage
+  iMessage,
+  iInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { UpdateSubPosition } from '@/api/position'
@@ -123,7 +113,8 @@ export default {
     iSelect,
     iLabel,
     iButton,
-    iTableCustom
+    iTableCustom,
+    iInput
   },
   props: {
     item: {
@@ -300,6 +291,24 @@ export default {
       set(val) {
         this.item = val
       }
+    },
+    mainUser() {
+      if (this.item.userDTOList) {
+        const users = this.item.userDTOList.filter(
+          (e) => e.positionUserType === 1
+        )
+        return users.map((e) => e.nameZh).join(',')
+      }
+      return ''
+    },
+    otherUser() {
+      if (this.item.userDTOList) {
+        const users = this.item.userDTOList.filter(
+          (e) => e.positionUserType !== 1
+        )
+        return users.map((e) => e.nameZh).join(',')
+      }
+      return ''
     }
   },
   methods: {

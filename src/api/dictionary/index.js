@@ -61,5 +61,12 @@ export function isSigned(params) {
     })
   }
 
+export function selectDictByKeyss(type) {
+  return requst({
+      url: `/web/selectDictByKeys?keys=${type}`,
+      method: 'GET'
+  })
+}
+
   
 
