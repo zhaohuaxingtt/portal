@@ -4,7 +4,7 @@
         :visible.sync="show" 
 		v-if="show"
 		width="70%" 
-		@close='close' 
+		@close='closeDialogBtn' 
 		append-to-body
     >
         <el-form 
@@ -51,12 +51,10 @@
                         >
                             <div slot="open">
                                 <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" class="avatar" />
-                                <!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
                                 <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
                                 </i>
                             </div>
                         </ImgCutter>
-                        <!-- <div v-if="imageUrl" class="delete-box" @click="deleteImg">{{`移除${imgName}`}}</div> -->
                     </div>
                 </div>
             </div>
@@ -72,9 +70,9 @@
                         >
                             <el-option
                                 v-for="item in adminList"
-                                :key="item.id"
-                                :label="item.label"
-                                :value="item.value"
+                                :key="item.userId"
+                                :label="item.nameZh"
+                                :value="item.userId"
                             >
                             </el-option>
                         </iSelect>
@@ -109,9 +107,9 @@
                         >
                             <el-option
                                 v-for="item in usersList"
-                                :key="item.id"
-                                :label="item.label"
-                                :value="item.value"
+                                :key="item.userId"
+                                :label="item.nameZh"
+                                :value="item.userId"
                             >
                             </el-option>
                         </iSelect>
@@ -140,7 +138,8 @@ import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
-import { userListData, organizationsListData, addReportType } from '@/api/reportForm';
+import { organizationsListData, addReportType, modifyReportType } from '@/api/reportForm';
+import { getUserSelectPageList } from '@/api/authorityMgmt/index'
 export default {
     name: 'addTypeDialog',
     components: {
@@ -192,28 +191,23 @@ export default {
             adminList: [],
             organizationList: [],
             customFlag: false,
-            cover: null,
+            loading: false,
+            modifyId: null
         }
     },
     methods: {
         async getUsersList() {
-            let params = {
-                keyword: ' '
-            }
-            await userListData(params).then(res => {
-                console.log(res, '1111')
-                this.adminList = [
-                    {label: '管理员1', value: 1, id: 1},
-                    {label: '管理员2', value: 2, id: 2}
-                ]
-                let arr = JSON.parse(JSON.stringify(this.adminList))
-                arr.push({
-                    label: '自定义',
-                    value: 'custom',
-                    id: 999
-                })
-                console.log(arr, '4444')
-                this.usersList = arr
+            let params = {current:1, size:999, pageNo:1}
+            await getUserSelectPageList(params).then(res => {
+                if (res?.code === '200') {
+                    this.adminList = res?.data || []
+                    let arr = JSON.parse(JSON.stringify(this.adminList))
+                    arr.unshift({
+                        nameZh: '自定义',
+                        userId: 999
+                    })
+                    this.usersList = arr
+                }
             })
         },
         async getOrganizationsList() {
@@ -227,14 +221,11 @@ export default {
             }) 
         },
         userListChange(val){
-            console.log(val, '1111')
-            // this.form.users = return val.map(item => )
             val.map(item => {
                 this.form.users.push(item.userId * 1)
             })
         },
         supplierListChange(val){
-            // this.form.suppliers = val
             val.map(item => {
                 this.form.suppliers.push(item.id * 1)
             })
@@ -242,14 +233,12 @@ export default {
         closeDialogBtn () {
             this.$emit('update:show', false)
             this.imageUrl = ''
-            // Object.keys(this.form).forEach(key => {
-            //     this.form[key] = ''
-            // })
+            this.customFlag = false
+            this.modifyId = null
+            Object.keys(this.form).forEach(key => this.form[key] = '')
         },
         close() {
             this.closeDialogBtn();
-            Object.keys(this.form).forEach(key => this.newContentForm[key] = '')
-            this.imageUrl = ''
             this.$emit('refresh')
         },
         handleImageError(){
@@ -270,13 +259,10 @@ export default {
             let form = new FormData()
             form.append('file',content.file)
             form.append('applicationName','popupImage')
-            console.log(content, "12345")
             uploadFileWithNOTokenTwo(form).then((result)=>{
                 if(result.code == '200'){
-                    console.log(result, "12222")
                     let data = result.data
-                    this.imageUrl = data.path
-                    this.cover = data.objectUrl
+                    this.imageUrl = data.objectUrl
                     this.imgName = `${data?.name.split('.')[0]}.${data?.extensionName}`
                     this.$emit('imgUrl',this.imageUrl)
                 }else{
@@ -284,12 +270,8 @@ export default {
                 }
             })
         },
-        deleteImg() {
-            this.imageUrl = ''
-        },
         handlePerson(va) {
-            console.log(va, '111')
-            if (va.includes('custom')) {
+            if (va.includes(999)) {
                 this.customFlag = true
             } else {
                 this.customFlag = false
@@ -299,16 +281,16 @@ export default {
             this.$emit("update:show",false)
         },
         save(){
-            if (!this.cover) return this.$message({type: 'warning', message: "请上传一张封面！"})
+            if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
             this.$refs.typeForm.validate(async v => {
                 if (v) {
                     try {
                         if (this.operateType === 'add') {
                             console.log(this.form, '123')
-                            this.form.cover = this.cover
+                            this.form.cover = this.imageUrl
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
-                                    if (item !== 'custom') {
+                                    if (item !== 999) {
                                         this.form.users.push(item)
                                     }
                                 })
@@ -317,11 +299,38 @@ export default {
                             }
                             this.loading = true
                             await addReportType(this.form).then(res => {
-                                console.log(res)
-                                this.loading = false
+                                if (res?.success) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '新增类型成功!'
+                                    });
+                                    this.loading = false
+                                }
+                                
                             })
                         } else {
-                            console.log('modify')
+                            this.form.cover = this.imageUrl
+                            this.form.id = this.modifyId
+                            if (this.customFlag) {
+                                this.form.canUsers.map(item => {
+                                    if (item !== 999) {
+                                        this.form.users.push(item)
+                                    }
+                                })
+                            } else {
+                                this.form.users = [...this.form.canUsers]
+                            }
+                            this.loading = true
+                            await modifyReportType(this.form).then(res => {
+                                if (res?.success) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '修改类型成功!'
+                                    });
+                                    this.loading = false
+                                }
+                                
+                            })
                         }
                         this.close()
                     } finally {
@@ -332,10 +341,17 @@ export default {
         },
         initModify(row) {
             Object.assign(this.form, row)
-            this.form.canUsers  = row.usersId
-            this.form.organizations = row.organizationsId
-            this.form.adminUsers = row.adminUsersId
-        }  
+            this.imageUrl = row.cover
+            this.modifyId = row.id
+            // 返回的信息有供应商 说明是自定义
+            if (row.suppliers) {
+                this.form.canUsers.unshift({
+                    nameZh: '自定义',
+                    userId: 999
+                })
+                this.customFlag = true
+            }
+        }
     },
     computed: {
         dialogTitle() {

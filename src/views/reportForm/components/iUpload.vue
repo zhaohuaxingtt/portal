@@ -77,6 +77,10 @@
                 type:Function,
                 default:() => {}
             },
+            picObject: {
+                type: Boolean,
+                default: false
+            }
         },
         data() {
             return {
@@ -129,11 +133,12 @@
                             let formData = new FormData();
                             formData.append("file",file);
                             let res = await uploadFile(formData);
+                            console.log(res, '222222')
                             this.uploading = false
                             this.$message.success("上传成功")
                             resolve({
                                 fileName:res.name,
-                                fileUrl: res.path
+                                fileUrl: this.picObject ? res.objectUrl : res.path
                             })
                         } catch {
                             this.$message.error("上传失败")

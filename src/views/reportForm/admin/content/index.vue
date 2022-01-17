@@ -59,7 +59,7 @@
                 />
         </iCard>
 
-        <editContent :show.sync="dialog.show" :params="dialog.form"></editContent>
+        <editContent ref="editDialog" :show.sync="dialog.show" :params="dialog.form" :operateType="operateType"></editContent>
     </div>
 </template>
 
@@ -68,7 +68,7 @@
     import { pageMixins } from '@/utils/pageMixins'
     import editContent from './editContent.vue';
     import tableSetting from './table';
-    import { queryReportContentList, publishedContentById, sendContentById } from '@/api/reportForm';
+    import { queryReportContentList, publishedContentById, sendContentById, deleteContent } from '@/api/reportForm';
     export default {
         components:{
             iSearch,
@@ -105,7 +105,8 @@
                     form:{}
                 },
                 searchFlag: false,
-                tableLoading: false
+                tableLoading: false,
+				operateType: 'add'
             }
         },
         created(){
@@ -147,10 +148,9 @@
                 this.query()
             },
             stateChange(row){
-				let params = {
-					published: !row.published
-				}
-				publishedContentById(row.id, params).then(res => {
+				let formData = new FormData()
+				formData.append('published', !row.published)
+				publishedContentById(row.id, formData).then(res => {
 					if (res?.success) {
 						this.$message({type: 'success', message: '已更改当前消息发送状态'})
 						this.query()
@@ -161,7 +161,11 @@
 				let params = {
 					isSendMessage: !row.isSendMessage
 				}
-				sendContentById(row.id, params).then(res => {
+				let formData = new FormData()
+				Object.keys(params).forEach(key => {
+					formData.append(key,params[key])
+				})
+				sendContentById(row.id, formData).then(res => {
 					if (res?.success) {
 						this.$message({type: 'success', message: '已更改当前通知状态'})
 						this.query()
@@ -171,11 +175,16 @@
             add(){
                 this.dialog.form = {}
                 this.dialog.show = true
+				this.operateType = 'add'
+				this.$refs.editDialog.getTypeList()
             },
             edit(row){
+				console.log(row, '111111')
                 if(row.state) return this.$message.warning("请先下架，再进行修改操作")
                 this.dialog.form = row
                 this.dialog.show = true
+				this.operateType = 'modify'
+				this.$refs.editDialog.getTypeList()
             },
             del(row){
                 if(row.state) return this.$message.warning("请先下架，再进行删除操作")
@@ -183,11 +192,16 @@
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                }).then(async () => {
+					await deleteContent(row.id).then(res => {
+						if (res?.success) {
+							this.$message({
+								type: 'success',
+								message: '删除成功!'
+							});
+							this.query()
+						}
+					})
                 })  
             }
         },

@@ -24,7 +24,8 @@ export function publishedContentById(id,data) {
     return requst({
         url: `/report_content/${id}/published.json`,
         method: 'put',
-        data
+        data,
+        formData: true
     })
 }
 
@@ -33,7 +34,8 @@ export function sendContentById(id,data) {
     return requst({
         url: `/report_content/${id}/isSendMessage.json`,
         method: 'put',
-        data
+        data,
+        formData: true
     })
 }
 
@@ -42,8 +44,7 @@ export function addReportContent(data) {
     return requst({
         url: `/report_content/create.json`,
         method: 'post',
-        data,
-        formData: true
+        data
     })
 }
 
@@ -52,8 +53,15 @@ export function updateReportContent(id,data) {
     return requst({
         url: `/report_content/${id}/update.json`,
         method: 'put',
-        data,
-        formData: true
+        data
+    })
+}
+
+// 删除一条报表内容
+export function deleteContent(id) {
+    return requst({
+        url: `/report_content/${id}.json`,
+        method: 'delete'
     })
 }
 
@@ -63,6 +71,24 @@ export function updateReportContent(id,data) {
 export function addReportType(data) {
     return requst({
         url: `/report_mgr/create.json`,
+        method: 'post',
+        data
+        // formData: true
+    })
+}
+
+// 获取报告类型详情
+export function reportTypeDetailById(id) {
+    return requst({
+        url: `/report_mgr/${id}/detail.json`,
+        method: 'get'
+    })
+}
+
+// 修改报告类型
+export function modifyReportType(data) {
+    return requst({
+        url: `/report_mgr/update.json`,
         method: 'post',
         data
         // formData: true
@@ -83,8 +109,8 @@ export function topType(id, data) {
     return requst({
         url: `/report_mgr/${id}/isTop.json`,
         method: 'put',
-        data
-        // formData: true
+        data,
+        formData: true
     })
 }
 
@@ -93,8 +119,8 @@ export function publishedTypeById(id, data) {
     return requst({
         url: `/report_mgr/${id}/published.json`,
         method: 'put',
-        data
-        // formData: true
+        data,
+        formData: true
     })
 }
 
