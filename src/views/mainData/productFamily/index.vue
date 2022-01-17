@@ -1,5 +1,5 @@
 <template>
-  <iPage v-loading="loading">
+  <iPage >
     <!-- <carTypeLifeCycle /> -->
 
     <div class="main">
@@ -97,6 +97,7 @@
           </div>
           <iTableCustom
             ref="testTable"
+            :loading='loading'
             :columns="tableColumnSetting"
             :data="tableListData"
             @showDetail="showDetail"
@@ -159,6 +160,7 @@ export default {
     },
     getTableList() {
       //获取列表数据
+      this.loading = true
       let param = {
         ...this.formData,
         size: this.page.pageSize,
@@ -174,6 +176,7 @@ export default {
         .catch((error) => {
           iMessage.error(error.desZh || '获取数据失败')
         })
+        .finally(()=>this.loading = false)
     },
     searchBtnClick() {
       this.page.currPage = 1
