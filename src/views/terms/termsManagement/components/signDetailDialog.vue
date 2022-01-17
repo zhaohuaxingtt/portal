@@ -116,7 +116,7 @@
 
       <div class="export">
         <iButton @click="handleException" v-show="this.extendFields !== false">{{ '标记例外' }}</iButton>
-        <iButton @click="handleExport">{{ '导出当前' }}</iButton>
+        <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
         <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
       </div>
       <div v-show="this.extendFields !== false" class="tips">若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。</div>
@@ -514,6 +514,9 @@ export default {
       } else this.openUploadFileDialog = false
     },
     getTableList(e) {
+      this.form.countryId = ''
+      this.form.provinceId = ''
+      this.form.cityId = ''
       this.form = e
       if (this.form.area && this.form.area.length != 0) {
         this.form.countryId = this.form.area
