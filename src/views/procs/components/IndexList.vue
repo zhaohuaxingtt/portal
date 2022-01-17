@@ -1,12 +1,12 @@
 <template>
-   <iCard class="ui-index index-card" :class="{padding:padding}">
+   <iCard class="ui-index index-card" v-loading="loading" :class="{padding:padding}">
         <div class="tlt row-line" v-if="title" v-text="title"></div>
         <div class="indexs row-line" v-if="showIndex">
             <span v-for="(l, index) in indexs" :key="index" :class="{active:activeIndex == l}" @click="clickIndex(l)">{{l}}</span>
         </div>
         <div v-if="list == 0" class="nodata">目前暂无数据</div>
         <transition name="moveR">
-            <div class="index-list" v-show="list > 0">
+            <div class="index-list" v-show="!loading">
                 <div class="row row-line"  v-for="(l, index) in list" :key="index" @click="clickItem(index)">
                     <span class="row-index" v-if="indexIcon">{{activeIndex}}</span>
                     <div class="row-c" :class="{active:activeItem == index}">
@@ -45,7 +45,7 @@
         },
         data() {
             return {
-                indexs:["all","A","B","D"],
+                indexs:["all","A","B"],
                 activeIndex:"all",
                 index_list: [
                    {name:'ad'},
@@ -53,16 +53,19 @@
                    {name:'dd'},
                ],
                list:10,
-               activeItem:""
+               activeItem:"",
+               loading:false
             }
         },
         methods: {
             clickIndex(l){
                this.activeIndex = l;
-               this.list = 0; 
+            //    this.list = 0; 
+               this.loading = true
                setTimeout(() => {
                    this.list = parseInt(Math.random()*30)
-               }, 500);
+                    this.loading = false
+               }, 200);
            },
            clickItem(l){
                this.activeItem = l
@@ -74,8 +77,10 @@
 
 <style lang="scss" scoped>
 .moveR-enter-active,  .moveR-leave-active {
-    transition: all 0.2s ease-in-out;
     transform: translateX(0);
+}
+.moveR-enter-active{
+    transition: all 0.2s ease-in-out;
 }
 .moveR-enter,  .moveR-leave {
     transform: translateX(100%);
@@ -114,6 +119,8 @@
             & > span{
                 display: inline-block;
                 padding: 3px 6px;
+                margin-bottom: 10px;
+                margin-top: 10px;
                 margin-right: 15px;
                 font-weight: bold;
                 font-size: 18px;

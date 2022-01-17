@@ -33,7 +33,7 @@ export const TABLE = [
       width: "150px"
     },
     {
-      prop: 'rqTime',
+      prop: 'bizId',
       i18n: '业务编号'
     },
     {

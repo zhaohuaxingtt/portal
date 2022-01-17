@@ -33,11 +33,19 @@
 
 <script>
     import LayHeader from "./../components/LayHeader.vue";
-
+    import {queryKnowledgeTypeList} from '@/api/procs';
     export default {
         components:{
             LayHeader
-        }
+        },
+        data() {
+            return {
+                
+            }
+        },
+        created() {
+            queryKnowledgeTypeList()
+        },
     }
 </script>
 

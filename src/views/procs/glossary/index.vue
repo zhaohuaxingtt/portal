@@ -39,6 +39,7 @@
 	import { iInput, iCard } from 'rise';
     import LayHeader from "./../components/LayHeader"
     import IndexList from "./../components/IndexList"
+    import {glossaryList} from '@/api/procs';
     export default {
        components:{
            LayHeader,
@@ -59,7 +60,13 @@
                list:10
            }
        },
+       created(){
+           this.queryGlossary()
+       },
        methods: {
+           queryGlossary(){
+               glossaryList()
+           },
            click(l){
                this.activeIndex = l;
                this.list = 0; 
