@@ -102,8 +102,8 @@ export default {
           },
           {
             conclusionCsc: "02",
-            conclusionName: "通过",
-          },
+            conclusionName: "冻结",
+          }, 
           {
             conclusionCsc: "04",
             conclusionName: "不通过",
