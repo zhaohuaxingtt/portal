@@ -17,6 +17,7 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  12312
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
@@ -102,17 +103,16 @@
               </el-option>
             </iSelect>
           </iFormItem> -->
-          <iFormItem
-            label="Supporter"
+           <iFormItem
+            label="presenter"
             :hideRequiredAsterisk="true"
-            class="item"
+            prop="presenter"
+            class="item"  
           >
-            <iLabel :label="$t('采购员')" slot="label"></iLabel>
+            <iLabel :label="$t('采购员')" slot="label" required></iLabel>
             <el-select
               class="autoSearch"
               v-model="ruleForm.presenter"
-              multiple
-              filterable
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
@@ -129,7 +129,7 @@
                 }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin : ''
                 }`"
-                :value="item"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -147,7 +147,7 @@
             ></iInput>
           </iFormItem>
           <!-- 申请人  presenter 改 supporter-->
-           <iFormItem
+          <iFormItem
             label="Supporter"
             :hideRequiredAsterisk="true"
             class="item"
@@ -156,8 +156,7 @@
             <el-select
               class="autoSearch"
               v-model="ruleForm.supporter"
-              multiple
-              filterable
+              
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
@@ -173,7 +172,7 @@
                 }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin : ''
                 }`"
-                :value="item"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -568,6 +567,7 @@ export default {
       findTheThemenById(data).then((res) => {
         this.ruleForm.supporter = res.supporter
         this.ruleForm.presenter = res.presenter
+        this.ruleForm.supporterDept = res.supporterDept
       })
     },
     handleDownload(row) {
@@ -769,7 +769,7 @@ export default {
               //   this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
               //     .department || ''
               presenter:this.ruleForm.presenter[0].id,
-                supporter:this.ruleForm.supporter[0].id,
+              supporter:this.ruleForm.supporter[0].id,
             }
             updateThemen(formData)
               .then((data) => {
@@ -794,18 +794,18 @@ export default {
                 id: '',
                 meetingId: this.meetingInfo.id,
                 isBreak: false,
-                presenterDept:
-                  this.userData.filter((e) => e.id === this.ruleForm.presenter)
-                    .length > 0
-                    ? this.userData.filter(
-                        (e) => e.id === this.ruleForm.presenter
-                      )[0].department
-                    : '' || '',
+                // presenterDept:
+                //   this.userData.filter((e) => e.id === this.ruleForm.presenter)
+                //     .length > 0
+                //     ? this.userData.filter(
+                //         (e) => e.id === this.ruleForm.presenter
+                //       )[0].department
+                //     : '' || '',
                 // supporterDept: this.userData.filter(
                 //   (e) => e.id === this.ruleForm.supporter
                 // )[0].department
-                presenter:this.ruleForm.presenter[0].id,
-                supporter:this.ruleForm.supporter[0].id,
+                // presenter:this.ruleForm.presenter[0].id,
+                // supporter:this.ruleForm.supporter[0].id,
               }
             }
             saveThemen(formData)
