@@ -5,7 +5,7 @@
             <div class="report-box">
                 <div class="flex">
                     <span>搜索</span>
-                    <iInput v-model="keyword" class="search">
+                    <iInput v-model="keyword" @keydown.enter="handleIconClick" class="search">
                         <i
                             class="el-icon-search el-input__icon"
                             slot="suffix"
@@ -24,7 +24,7 @@
                         class="card-item"
                         v-for="(item, index) in cardsList"
                         :key="index"
-                        @click.native="$router.push({path:'/reportForm/web/reportCardsDetail'})"
+                        @click.native="$router.push({path:'/reportForm/web/reportCardsDetail',query:{id:item.id}})"
                         >
                         <div class="top">
                             <div class="bell" v-if="item.isRead">
@@ -134,11 +134,7 @@
             border-radius: 6px;
             overflow: hidden;
             cursor: pointer;
-            transition: all .3s ease;
-            &:hover{
-                box-shadow: 0 2px 5px rgba(0,0,0,.3);
-                transform: scale(1.02);
-            }
+           
         }
         .bell{
             position: absolute;
@@ -161,6 +157,10 @@
         .img{
             width: 100%;
             height: 100%;
+            transition: all .3s ease;
+            &:hover{
+                transform: scale(1.08);
+            }
         }
         .info{
             position: absolute;

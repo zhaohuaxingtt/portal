@@ -48,6 +48,7 @@
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
     import Dialog from './../components/dialog.vue';
+    import {queryReportContentList} from '@/api/reportForm';
     export default {
         components:{
             pageHeader,
@@ -88,8 +89,15 @@
             }
         },
         methods: {
-            query(v){
+            async query(v){
                 console.log(v);
+                let data = {
+                    size:10,
+                    current:1,
+                    categoryId: this.$route.query.id
+                }
+                let res = await queryReportContentList(data)
+                console.log(res);
             },
             share(item) {
                 console.log(item, '1234')

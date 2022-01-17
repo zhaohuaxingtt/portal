@@ -4,7 +4,16 @@
 
         <div class="flex glossary">
             <div class="card-l">
-                <IndexList class="indexs" title="Glossary" :indexIcon="false"></IndexList>
+                <IndexList class="indexs"
+                    title="Glossary" 
+                    :list="indexs.list" 
+                    :indexs="indexs.idxs" 
+                    :loading="indexs.loading" 
+                    :indexIcon="false"
+                    @click-index="indexChange"
+                    @row-click="indexRowChange"
+                    >
+                </IndexList>
             </div>
             <div class="glossary-content">
                 <iInput placeholder="Search for MORE" v-model="key">
@@ -49,9 +58,16 @@
        } ,
        data() {
            return {
-               key: "",
-               indexs:["all","A","B","D"],
-               activeIndex:"",
+                key: "",
+                indexs: {
+                    idxs:["all","A","B","D"],
+                    loading: false,
+                    list: [
+                        {name:"eq",id:1},
+                        {name:"eq",id:2},
+                        {name:"eq",id:3},
+                    ]
+                },
                index_list: [
                    {name:'ad'},
                    {name:'Bd'},
@@ -64,9 +80,23 @@
            this.queryGlossary()
        },
        methods: {
-           queryGlossary(){
-               glossaryList()
-           },
+            async queryGlossary(){
+                try {
+                    this.indexs.loading = true
+                    // let list = await glossaryList()
+                    // list.map(e => {
+                    //     return e
+                    // })
+                } finally {
+                    this.indexs.loading = false
+                }
+            },
+            indexChange(index){
+                console.log(index);
+            },
+            indexRowChange(index){
+                console.log(index);
+            },
            click(l){
                this.activeIndex = l;
                this.list = 0; 

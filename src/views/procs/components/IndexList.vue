@@ -7,10 +7,10 @@
         <div v-if="list == 0" class="nodata">目前暂无数据</div>
         <transition name="moveR">
             <div class="index-list" v-show="!loading">
-                <div class="row row-line"  v-for="(l, index) in list" :key="index" @click="clickItem(index)">
+                <div class="row row-line"  v-for="l in list" :key="l.id" @click="clickItem(l.id)">
                     <span class="row-index" v-if="indexIcon">{{activeIndex}}</span>
-                    <div class="row-c" :class="{active:activeItem == index}">
-                        <span>dsadasd大大说阿斯顿阿斯顿{{l}} <i>NEW</i></span>
+                    <div class="row-c" :class="{active:activeItem == l.id}">
+                        <span>dsadasd大大说阿斯顿阿斯顿{{l.name}} <i>NEW</i></span>
                         <slot :data="l" name="row-right"></slot>
                     </div>
                 </div>
@@ -41,31 +41,31 @@
             indexIcon:{     //索引图标
                 type: Boolean,
                 default: true
+            },
+            indexs:{
+                type: Array,
+                default:() => []
+            },
+            loading:{
+                type:Boolean,
+                default:false
+            },
+            list:{
+                type: Array,
+                default:() => []
             }
         },
         data() {
             return {
-                indexs:["all","A","B"],
                 activeIndex:"all",
-                index_list: [
-                   {name:'ad'},
-                   {name:'Bd'},
-                   {name:'dd'},
-               ],
-               list:10,
-               activeItem:"",
-               loading:false
+                activeItem:"",
             }
         },
         methods: {
             clickIndex(l){
+                // 点击索引
                this.activeIndex = l;
-            //    this.list = 0; 
-               this.loading = true
-               setTimeout(() => {
-                   this.list = parseInt(Math.random()*30)
-                    this.loading = false
-               }, 200);
+               this.$emit("click-index",l)
            },
            clickItem(l){
                this.activeItem = l
