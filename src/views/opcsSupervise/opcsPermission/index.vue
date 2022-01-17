@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-14 08:59:38
+ * @LastEditTime: 2022-01-14 17:03:36
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -139,7 +139,6 @@ import {
   queryList,
   exportFile,
   getListByParam,
-  queryBase,
   opcsSupplier
 } from '@/api/opcs/solPermission'
 export default {
@@ -238,7 +237,7 @@ export default {
           console.log(this.formData)
     },
     async getUser() {
-      //   const res = await getListByParam({ roleCode: 'WLGLY' })
+        const res = await getListByParam({ roleCode: 'WLGLY' })
       //   this.userList = res
     },
     //获取列表接口

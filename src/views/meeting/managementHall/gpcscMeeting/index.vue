@@ -432,7 +432,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 上会次数 Csccount-->
+            <!-- 上会次数 cscCount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -441,7 +441,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.Csccount}}</span>
+                <span>{{scope.row.cscCount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -641,7 +641,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 上会次数 Csccount-->
+            <!-- 上会次数 cscCount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -650,7 +650,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.Csccount}}</span>
+                <span>{{scope.row.cscCount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
