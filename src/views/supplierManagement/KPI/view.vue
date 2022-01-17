@@ -342,7 +342,7 @@ export default {
     upfileChange (e) {
       this.file = e.target.files[0]
     },
-    handleSure () {
+    async handleSure () {
       if (this.isDownload) {//下载
         if (!this.uploadVersion) return this.$message({ type: 'warning', message: '请选择版本' })
         let name = ""
@@ -351,22 +351,8 @@ export default {
             name = x.value
           }
         })
-        dowbloadAPI({ templateId: this.uploadVersion }).then(res => {
-          if (Object.prototype.toString.call(res) === '[object Blob]') {
-            let URL = window.URL || window.webkitURL;
-            let objectUrl = URL.createObjectURL(res);
-            let a = document.createElement('a');
-            a.href = objectUrl;
-            a.download = `${name}.xls`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            this.isShowDialog = false
-          } else {
-            iMessage.error(res.desZh)
-            return
-          }
-        })
+        await dowbloadAPI({ templateId: this.uploadVersion })
+        this.isShowDialog = false
       } else {//上传
         if (this.uploadVersion) {
           let formdata = new FormData()
