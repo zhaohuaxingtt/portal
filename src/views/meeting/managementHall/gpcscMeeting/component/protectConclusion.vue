@@ -184,11 +184,11 @@
          <!--定点金额   price -->
          <el-col :span="12" >
             <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
-                <i-input
-                v-model="fromData.price"
-                  disabled
-                ></i-input>
-              </el-form-item>
+                <i-input v-model="fromData.price" disabled>
+                </i-input>
+                 <!-- <span class="iconWid" v-if="iconShowA">高</span> -->
+                 <!-- <span class="iconWid" v-if="iconShowB">低</span> -->
+            </el-form-item> 
          </el-col>
       </el-row>
           
@@ -203,6 +203,7 @@
 </template>
 <script>
 import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId} from '@/api/meeting/gpMeeting'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -214,6 +215,7 @@ import {
   iInput,
   iButton,
   iMessage,
+  icon
 } from 'rise'
 import { themenConclusionArrObj, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
 import { getMettingList } from '@/api/meeting/home'
@@ -230,7 +232,8 @@ export default {
     iInput,
     iButton,
     iTableML,
-    commonTable
+    commonTable,
+    icon
   },
   props: {
     autoOpenProtectConclusionObj: {
@@ -369,8 +372,7 @@ export default {
     const curObj = this.autoOpenProtectConclusionObj
       ? this.autoOpenProtectConclusionObj
       : this.selectedTableData[0]
-    // if (this.meetingInfo.meetingTypeName === 'CSC') {
-    if (this.meetingInfo.isCSC) {
+    if ( curObj.type === 'MANUAL' ) {
       this.themenConclusionArrObj = [
         {
           conclusionCsc: "01",
@@ -381,8 +383,23 @@ export default {
           conclusionName: "通过",
         },
         {
+          conclusionCsc: "04",
+          conclusionName: "不通过",
+        },
+      ]
+    }else{
+      this.themenConclusionArrObj=[
+        {
+          conclusionCsc: "01",
+          conclusionName: "待定",
+        },
+        {
+          conclusionCsc: "02",
+          conclusionName: "通过",
+        },
+        {
           conclusionCsc: "03",
-          conclusionName: "预备会通过",
+          conclusionName: "预备会议通过",
         },
         {
           conclusionCsc: "04",
@@ -393,57 +410,9 @@ export default {
           conclusionName: "Last Call",
         },
         {
-          conclusionCsc: "05",
+          conclusionCsc: "06",
           conclusionName: "分段定点",
         },
-      ]
-    }
-    if (
-      // this.meetingInfo.meetingTypeName === 'Pre CSC' &&
-      this.meetingInfo.isPreCSC &&
-      curObj.type === 'MANUAL'
-    ) {
-      this.themenConclusionArrObj = [
-        {
-          conclusionCsc: '01',
-          conclusionName: '待定'
-        },
-        {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
-        },
-        {
-          conclusionCsc: '06',
-          conclusionName: '转CSC'
-        },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
-      ]
-    }
-    if (
-      // this.meetingInfo.meetingTypeName === 'CSC' &&
-      this.meetingInfo.isCSC &&
-      curObj.type === 'MANUAL'
-    ) {
-      this.themenConclusionArrObj = [
-        {
-          conclusionCsc: '01',
-          conclusionName: '待定'
-        },
-        {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
-        },
-        {
-          conclusionCsc: '06',
-          conclusionName: '转CSC'
-        },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
       ]
     }
     if (curObj.conclusionCsc === '05') {
@@ -459,9 +428,53 @@ export default {
         }
       )
     }
-    // this.$nextTick(() => {
-    //   this.$refs.tableRef.setCurrentRow(this.currentRow)
-    // })
+    
+    //判断MANUAL --临时议题    GP  --上会议题  结论不一样
+    console.log(curObj.type);
+
+    // if (curObj.type == "MANUAL") {
+    //   themenConclusionArrObjALL:[
+    //     {
+    //       conclusionCsc: "01",
+    //       conclusionName: "待定",
+    //     },
+    //     {
+    //       conclusionCsc: "02",
+    //       conclusionName: "通过",
+    //     },
+    //     {
+    //       conclusionCsc: "04",
+    //       conclusionName: "不通过",
+    //     },
+    //   ]
+    // }else{
+    //   themenConclusionArrObj:[
+    //     {
+    //       conclusionCsc: "01",
+    //       conclusionName: "待定",
+    //     },
+    //     {
+    //       conclusionCsc: "02",
+    //       conclusionName: "通过",
+    //     },
+    //     {
+    //       conclusionCsc: "03",
+    //       conclusionName: "预备会议通过",
+    //     },
+    //     {
+    //       conclusionCsc: "04",
+    //       conclusionName: "不通过",
+    //     },
+    //     {
+    //       conclusionCsc: "05",
+    //       conclusionName: "Last Call",
+    //     },
+    //     {
+    //       conclusionCsc: "06",
+    //       conclusionName: "分段定点",
+    //     },
+    //   ]
+    // }
   },
   watch: {
     'ruleForm.isFrozenRs': {
@@ -508,6 +521,7 @@ export default {
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
         this.tableDataList=res.data
+        this.handleIntercept()
       })
 
     },
@@ -520,8 +534,11 @@ export default {
       findGpInfoByThemenId(params).then((res) => {
         console.log(res);
         this.fromData=res
+        //判断是否显示图标
+        // if (this.fromData.price) {
+          
+        // }
       })
-
     },
     handleSelectionChange(val) {
       this.selectedRow=val
@@ -596,7 +613,8 @@ export default {
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
-      }else{
+      }
+      if(e.conclusionCsc == '03'){
         this.showIFormItemRS= false
         this.showIFormItemelform= true
       }
@@ -639,6 +657,18 @@ export default {
     },
     handleSwitch() {
       this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
+    },
+    //获取会议字段截取  meetingTypeName
+    // gpMeetingService/findById
+    handleIntercept(){
+      const data = {
+        id:this.$route.query.id
+      }
+      findThemenById(data).then((res) => {
+          console.log(res.meetingTypeName);
+
+      })
+
     }
   }
 }
@@ -783,5 +813,19 @@ export default {
   line-height: 16px;
   white-space: nowrap;
   color: #4d4f5c;
+}
+.iconWid{
+  position:absolute;
+  bottom: 10px;
+  right: 20px;
+  background-color: red;
+  color:#fff;
+  width: 18px;
+  line-height:18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  padding-left:1px;
+  display: inline-block;
 }
 </style>

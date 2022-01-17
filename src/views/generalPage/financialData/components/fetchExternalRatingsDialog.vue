@@ -75,13 +75,10 @@ export default {
             ratingSupplierId: this.$route.query.supplierId
           }
           const res = await externalRating(pms)
-          this.resultMessage(
-            res,
-            () => {
+          this.resultMessage(res,() => {
               this.clearDiolog()
-            },
-            () => {}
-          )
+              this.$emit("refreshTable","")
+          },() => {})
         }
       })
     },

@@ -14,7 +14,9 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="Please enter."
-              v-model="info.sfrmOverallMerit"></iInput>
+              v-model="info.sfrmOverallMerit"
+              maxlength="120"
+              show-word-limit></iInput>
     </iCard>
     <!-- 深入评级结果 -->
     <iCard title="In-depth analysis result"
@@ -80,7 +82,9 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="Please enter."
-              v-model="info.addAdvice"></iInput>
+              v-model="info.addAdvice"
+              maxlength="120"
+              show-word-limit></iInput>
     </iCard>
     <!-- 背景 -->
     <iCard title="Background"
@@ -90,7 +94,9 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="Please enter."
-              v-model="info.supplementarySuggestions"></iInput>
+              v-model="info.supplementarySuggestions"
+              maxlength="120"
+              show-word-limit></iInput>
     </iCard>
     <div class="remark">The report is only used for SAIC VOLKSWAGEN internal business decision reference. Any information relating to the report shall not.</div>
   </div>
@@ -120,7 +126,8 @@ export default {
         addAdvice: ''
       },
       range: window._.range,
-      grade: []
+      grade: [],
+      supplierId: ""
     }
   },
   props: {

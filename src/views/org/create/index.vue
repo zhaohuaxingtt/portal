@@ -15,7 +15,7 @@
     <div class="Main">
       <div class="Header">
         <div class="HeaderTitle">
-          <span> {{ pageTitle }} </span>
+          <span> {{ language(pageTitle) }} </span>
         </div>
         <div class="HeaderButtons">
           <iButton class="True" :loading="loading" @click="trueBtnClick">{{

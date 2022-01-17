@@ -14,7 +14,7 @@
             <!-- 供应商身份  -->
             <el-form-item :label="'供应商身份'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.formalStatus"
                 clearable
               >
@@ -29,7 +29,7 @@
             <!-- 供应商类型 -->
             <el-form-item :label="'供应商类型'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierType"
                 clearable
               >
@@ -42,41 +42,29 @@
               </iSelect>
             </el-form-item>
             <el-form-item :label="'供应商名称'">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.shortNameZh"
-              ></iInput>
+              <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
             <el-form-item :label="'供应商SAP号'">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.sapCode"
-              ></iInput>
+              <iInput v-model="form.sapCode"></iInput>
             </el-form-item>
             <el-form-item :label="'供应商临时号'">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.svwTempCode"
-              ></iInput>
+              <iInput v-model="form.svwTempCode"></iInput>
             </el-form-item>
             <el-form-item :label="'供应商SVW号'">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.svwCode"
-              ></iInput>
+              <iInput v-model="form.svwCode"></iInput>
             </el-form-item>
           </el-row>
         </el-form>
       </div>
       <div class="button__list">
-        <iButton @click="getTableList" class="cancel">{{ "查询" }}</iButton>
-        <iButton @click="handleSearchReset">{{ "重置" }}</iButton>
+        <iButton @click="getTableList" class="cancel">{{ '查询' }}</iButton>
+        <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
       </div>
     </div>
     <div class="divider"></div>
     <div class="table_title">
       <div class="choose">可选项</div>
-      <iButton @click="addTableData">{{ "添加" }}</iButton>
+      <iButton @click="addTableData">{{ '添加' }}</iButton>
     </div>
     <iTableML
       style="height: 30rem; overflow-y: scroll"
@@ -100,55 +88,55 @@
       ></el-table-column>
       <el-table-column align="center" label="供应商中文名"
         ><template slot-scope="scope">
-          <span>{{ scope.row["shortNameZh"] }}</span>
+          <span>{{ scope.row['shortNameZh'] }}</span>
         </template></el-table-column
       >
       <el-table-column align="center" label="供应商英文名">
         <template slot-scope="scope">
-          <span>{{ scope.row["shortNameEn"] }}</span>
+          <span>{{ scope.row['shortNameEn'] }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="供应商身份"
         ><template slot-scope="scope">
           <span>{{
-            scope.row.formalStatus == "0"
-              ? "临时"
-              : scope.row.formalStatus == "1"
-              ? "正式"
-              : scope.row.formalStatus == "2"
-              ? "储蓄池"
-              : ""
+            scope.row.formalStatus == '0'
+              ? '临时'
+              : scope.row.formalStatus == '1'
+              ? '正式'
+              : scope.row.formalStatus == '2'
+              ? '储蓄池'
+              : ''
           }}</span>
         </template></el-table-column
       >
       <el-table-column align="center" label="供应商类型"
         ><template slot-scope="scope">
           <span>{{
-            scope.row.supplierType == "PP"
-              ? "生产供应商"
-              : scope.row.supplierType == "GP"
-              ? "一般供应商"
-              : scope.row.supplierType == "NT"
-              ? "Ntier"
-              : scope.row.supplierType == "CM"
-              ? "自定义"
-              : ""
+            scope.row.supplierType == 'PP'
+              ? '生产供应商'
+              : scope.row.supplierType == 'GP'
+              ? '一般供应商'
+              : scope.row.supplierType == 'NT'
+              ? 'N-Tier'
+              : scope.row.supplierType == 'CM'
+              ? '自定义'
+              : ''
           }}</span>
         </template></el-table-column
       >
       <el-table-column align="center" label="临时号">
         <template slot-scope="scope">
-          <span>{{ scope.row["svwTempCode"] }}</span>
+          <span>{{ scope.row['svwTempCode'] }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="SVW号"
         ><template slot-scope="scope">
-          <span>{{ scope.row["svwCode"] }}</span>
+          <span>{{ scope.row['svwCode'] }}</span>
         </template></el-table-column
       >
       <el-table-column align="center" label="SAP号">
         <template slot-scope="scope">
-          <span>{{ scope.row["sapCode"] }}</span>
+          <span>{{ scope.row['sapCode'] }}</span>
         </template>
       </el-table-column>
     </iTableML>
@@ -169,13 +157,13 @@
     <div class="divider"></div>
     <div class="table_title">
       <div class="choose">已选项</div>
-      <iButton @click="deleteTableData">{{ "删除" }}</iButton>
+      <iButton @click="deleteTableData">{{ '删除' }}</iButton>
     </div>
     <div style="padding-bottom: 2rem">
       <iTableML
         style="height: 30rem; overflow-y: scroll"
         tooltip-effect="light"
-        :data="tableListDataSelected"
+        :data="tableListDataSelectedSub"
         :tableLoading="tableLoading"
         :border="true"
         class="customer-table"
@@ -194,55 +182,55 @@
         ></el-table-column>
         <el-table-column align="center" label="供应商中文名"
           ><template slot-scope="scope">
-            <span>{{ scope.row["shortNameZh"] }}</span>
+            <span>{{ scope.row['shortNameZh'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="供应商英文名">
           <template slot-scope="scope">
-            <span>{{ scope.row["shortNameEn"] }}</span>
+            <span>{{ scope.row['shortNameEn'] }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="供应商身份"
           ><template slot-scope="scope">
             <span>{{
-              scope.row.formalStatus == "0"
-                ? "临时"
-                : scope.row.formalStatus == "1"
-                ? "正式"
-                : scope.row.formalStatus == "2"
-                ? "储蓄池"
-                : ""
+              scope.row.formalStatus == '0'
+                ? '临时'
+                : scope.row.formalStatus == '1'
+                ? '正式'
+                : scope.row.formalStatus == '2'
+                ? '储蓄池'
+                : ''
             }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="供应商类型"
           ><template slot-scope="scope">
             <span>{{
-              scope.row.supplierType == "PP"
-                ? "生产供应商"
-                : scope.row.supplierType == "GP"
-                ? "一般供应商"
-                : scope.row.supplierType == "NT"
-                ? "Ntier"
-                : scope.row.supplierType == "CM"
-                ? "自定义"
-                : ""
+              scope.row.supplierType == 'PP'
+                ? '生产供应商'
+                : scope.row.supplierType == 'GP'
+                ? '一般供应商'
+                : scope.row.supplierType == 'NT'
+                ? 'N-Tier'
+                : scope.row.supplierType == 'CM'
+                ? '自定义'
+                : ''
             }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="临时号">
           <template slot-scope="scope">
-            <span>{{ scope.row["svwTempCode"] }}</span>
+            <span>{{ scope.row['svwTempCode'] }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="SVW号"
           ><template slot-scope="scope">
-            <span>{{ scope.row["svwCode"] }}</span>
+            <span>{{ scope.row['svwCode'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="SAP号">
           <template slot-scope="scope">
-            <span>{{ scope.row["sapCode"] }}</span>
+            <span>{{ scope.row['sapCode'] }}</span>
           </template>
         </el-table-column>
       </iTableML>
@@ -251,11 +239,11 @@
 </template>
 
 <script>
-import { iDialog, iInput, iButton, iPagination, iSelect } from "rise";
-import iTableML from "@/components/iTableML";
-import { pageMixins } from "@/utils/pageMixins";
-import { findSupplierPage } from "@/api/terms/terms";
-import { supplierIdentityList, supplierRangeList } from "./data";
+import { iDialog, iInput, iButton, iPagination, iSelect } from 'rise'
+import iTableML from '@/components/iTableML'
+import { pageMixins } from '@/utils/pageMixins'
+import { findSupplierPage } from '@/api/terms/terms'
+import { supplierIdentityList, supplierRangeList } from './data'
 export default {
   mixins: [pageMixins],
   components: {
@@ -264,16 +252,16 @@ export default {
     iSelect,
     iButton,
     iPagination,
-    iInput,
+    iInput
   },
   props: {
     openDialog: { type: Boolean, default: false },
     supplierList: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
@@ -282,101 +270,162 @@ export default {
       supplierRangeList,
       tableListOptional: [],
       tableListDataSelected: [],
+      tableListDataSelectedSub: [],
       optionalTableData: [], // 可选项列表的数据-勾选
-      selectedTableData: [], // 已选项列表的数据-勾选
+      selectedTableData: [] // 已选项列表的数据-勾选
       // typeObject: {},
       // supplierId: -1,
-    };
+    }
   },
   mounted() {
     // let param = { termsId: this.id };
-    this.getTableList();
-    this.tableListDataSelected = this.supplierList;
+    this.getTableList()
+    this.tableListDataSelectedSub = this.supplierList
+    this.tableListDataSelected = this.tableListDataSelectedSub
+  },
+  watch: {
+    tableListDataSelectedSub: {
+      immediate: true,
+      deep: true,
+      handler() {
+        if (this.tableListDataSelected != null) {
+          let supplierIdList = this.tableListDataSelected.map((item) => {
+            return item.supplierId
+          })
+          for (let i = 0; i < this.optionalTableData.length; i++) {
+            if (
+              !supplierIdList.includes(this.optionalTableData[i].supplierId)
+            ) {
+              this.tableListDataSelected?.push(this.optionalTableData[i])
+            }
+          }
+        } else {
+          this.tableListDataSelected = []
+          let supplierIdList = []
+          for (let i = 0; i < this.optionalTableData.length; i++) {
+            if (
+              !supplierIdList.includes(this.optionalTableData[i].supplierId)
+            ) {
+              this.tableListDataSelected?.push(this.optionalTableData[i])
+            }
+          }
+        }
+      }
+    }
   },
   methods: {
     clearDiolog() {
-      this.$emit("closeDialog", false);
-      this.$emit("selectedTableData", this.tableListDataSelected);
+      this.$emit('closeDialog', false)
+      this.$emit('selectedTableData', this.tableListDataSelected)
     },
     handleSearchReset() {
-      this.form = {};
-      this.getTableList();
+      this.form = {}
+      this.tableListDataSelectedSub = this.tableListDataSelected
+      this.getTableList()
     },
     getTableList() {
-      this.page.currPage = 1;
+      // this.tableListDataSelectedSub = this.tableListDataSelected;
+      this.getChoosedTableList()
+      this.page.currPage = 1
       let param = {
         ...this.form,
         pageNum: 1,
-        pageSize: this.page.pageSize,
-      };
-      this.query(param);
+        pageSize: this.page.pageSize
+      }
+      this.query(param)
     },
     query(e) {
-      this.tableLoading = true;
+      this.tableLoading = true
       findSupplierPage(e).then((res) => {
-        this.tableListOptional = res.data;
-        this.page.total = res.total;
-        this.tableLoading = false;
-      });
+        this.tableListOptional = res.data
+        this.page.total = res.total
+        this.tableLoading = false
+      })
+    },
+    getChoosedTableList() {
+      // form是查询条件
+      // 备份了一下数据
+      let arr = this.tableListDataSelected
+      // 通过遍历key值来循环处理
+      Object.keys(this.form).forEach((e) => {
+        // 调用自己定义好的筛选方法
+        arr = this.filterFunc(this.form[e], e, arr)
+      })
+      // 为表格赋值
+      this.tableListDataSelectedSub = arr
+    },
+    // val: 查询条件的值
+    // target: 目标参数，就是你这个值对应的key
+    // filterarr: 被筛选的数组
+    filterFunc(val, target, filterArr) {
+      // 参数不存在或为空时，就相当于查询全部
+      if (val == undefined || val == '' || val == null) return filterArr
+      return filterArr.filter((p) => p[target]?.indexOf(val) > -1)
     },
     handleCurrentChange(e) {
-      this.page.currPage = e;
+      this.page.currPage = e
       let param = {
         ...this.formData,
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.query(param);
+        pageSize: this.page.pageSize
+      }
+      this.query(param)
     },
     handleSizeChange(e) {
-      this.page.pageSize = e;
+      this.page.pageSize = e
       let param = {
         ...this.formData,
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.query(param);
+        pageSize: this.page.pageSize
+      }
+      this.query(param)
     },
     // 表格选中值集-可选
     handleOptionalChange(val) {
-      this.optionalTableData = val;
+      this.optionalTableData = val
     },
     addTableData() {
-      if (this.tableListDataSelected!=null) {
-        let supplierIdList = this.tableListDataSelected.map((item) => {
-          return item.supplierId;
-        });
+      if (this.tableListDataSelectedSub != null) {
+        let supplierIdList = this.tableListDataSelectedSub.map((item) => {
+          return item.supplierId
+        })
         for (let i = 0; i < this.optionalTableData.length; i++) {
           if (!supplierIdList.includes(this.optionalTableData[i].supplierId)) {
-            this.tableListDataSelected?.push(this.optionalTableData[i]);
+            this.tableListDataSelectedSub?.push(this.optionalTableData[i])
           }
         }
       } else {
-        this.tableListDataSelected = [];
-        let supplierIdList = [];
+        this.tableListDataSelectedSub = []
+        let supplierIdList = []
         for (let i = 0; i < this.optionalTableData.length; i++) {
           if (!supplierIdList.includes(this.optionalTableData[i].supplierId)) {
-            this.tableListDataSelected?.push(this.optionalTableData[i]);
+            this.tableListDataSelectedSub?.push(this.optionalTableData[i])
           }
         }
       }
     },
     // 表格选中值集-已选
     handleSelectionChange(val) {
-      this.selectedTableData = val;
+      this.selectedTableData = val
     },
     deleteTableData() {
       this.selectedTableData.map((i) => {
         this.tableListDataSelected.map((item) => {
           if (item.supplierId == i.supplierId) {
-            let index = this.tableListDataSelected.indexOf(item);
-            this.tableListDataSelected.splice(index, 1);
+            let index = this.tableListDataSelected.indexOf(item)
+            this.tableListDataSelected.splice(index, 1)
           }
-        });
-      });
-    },
-  },
-};
+        })
+        this.tableListDataSelectedSub.map((item) => {
+          if (item.supplierId == i.supplierId) {
+            let index = this.tableListDataSelectedSub.indexOf(item)
+            this.tableListDataSelectedSub.splice(index, 1)
+          }
+        })
+      })
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .search_title {

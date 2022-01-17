@@ -1,15 +1,15 @@
 <template>
   <iDialog
-    :title="$t('选择组织')"
+    :title="$t('MT_XUANZEZUZHI')"
     :visible.sync="openOrganizeDialog"
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
   >
-    <div class="searchReceiver">{{ $t('搜索组织') }}</div>
+    <div class="searchReceiver">{{ $t('MT_SOUSUOZUZHI') }}</div>
     <iInput suffix-icon="el-icon-search" v-model="search" @change="change">
     </iInput>
-    <div class="receiver">{{ $t('组织') }}</div>
+    <div class="receiver">{{ $t('MT_ZUZHI') }}</div>
     <i-table-custom
       :loading="!tableLoading"
       :data="tableData"
@@ -122,7 +122,7 @@ export default {
         data = {
           current: this.page.currPage,
           size: this.page.pageSize,
-          nameZh: val
+          deptInfo: val
         }
       } else {
         data = {

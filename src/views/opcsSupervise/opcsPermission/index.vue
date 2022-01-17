@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-09 17:06:43
+ * @LastEditTime: 2022-01-14 17:03:36
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -18,23 +18,32 @@
           </iInput>
         </el-form-item>
         <el-form-item :label="language('YINGYONGFUZEREN', '应用负责人')">
-          <iInput :placeholder="language('QINGSHURU', '请输入')"
-                  v-model="form.userName">
-          </iInput>
+          <iSelect filterable
+                   v-model="form.userName">
+            <el-option :value="item.id"
+                       :label="item.contactName"
+                       v-for="(item, index) in userList"
+                       :key="index"></el-option>
+          </iSelect>
+
         </el-form-item>
       </el-form>
     </iSearch>
     <iCard style="margin-top: 20px">
-      <div class="margin-bottom20">
+      <div>
         <span class="font18 font-weight">{{
           language('XIANGQINGLIEBIAO', '详情列表')
         }}</span>
         <div class="floatright">
-          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
+          <i-button @click="add()">{{ language('XINZENG','新增') }}</i-button>
+          <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
+          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button>
+          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button> -->
           <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
-      <table-list :tableData="tableListData"
+      <table-list style="margin-top: 20px"
+                  :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   :openPageProps="'nameZh'"
@@ -54,6 +63,55 @@
                    :current-page="page.currPage"
                    :total="page.totalCount" />
     </iCard>
+    <iDialog :visible.sync="dialog"
+             width="70%"
+             top="10%"
+             :key="Math.random()"
+             @close="cleardialog('close')"
+             :title="dialogTitle">
+      <iFormGroup row="2"
+                  :rules="dialogRules"
+                  :model="formData"
+                  ref="dialogRules">
+        <iFormItem prop="nameZh">
+          <iLabel :label="language('YINGYONGZHONGWENMING', '应用中文名')"
+                  required
+                  slot="label"></iLabel>
+          <iInput v-model="formData.nameZh"
+                  :placeholder="$t('LK_QINGSHURU')"></iInput>
+        </iFormItem>
+        <iFormItem prop="nameEn">
+          <iLabel :label="language('YINGYONGYINGWENMING', '应用英文名')"
+                  required
+                  slot="label"></iLabel>
+          <iInput v-model="formData.nameEn"
+                  :placeholder="$t('LK_QINGSHURU')"></iInput>
+        </iFormItem>
+        <iFormItem prop="shortName">
+          <iLabel :label="language('YINGYONGJIANCHENG', '应⽤简称')"
+                  required
+                  slot="label"></iLabel>
+          <iInput v-model="formData.shortName"
+                  :placeholder="$t('LK_QINGSHURU')"></iInput>
+        </iFormItem>
+        <iFormItem prop="contactUserId">
+          <iLabel :label="language('YINGYONGFUZEREN', '应用负责人')"
+                  required
+                  slot="label"></iLabel>
+          <iSelect filterable
+                   v-model="formData.contactUserId">
+            <el-option :value="item.value"
+                       :label="item.label"
+                       v-for="(item, index) in userList"
+                       :key="index"></el-option>
+          </iSelect>
+        </iFormItem>
+      </iFormGroup>
+      <div class="btnBox">
+        <i-button @click="addBtn()">{{ language('QUEREN','确认') }}</i-button>
+        <i-button @click="cleardialog()">{{ language('CHONGZHI','重置') }}</i-button>
+      </div>
+    </iDialog>
   </iPage>
 </template>
 
@@ -61,6 +119,8 @@
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import {
+  iLabel,
+  iFormItem,
   iSearch,
   iButton,
   iCard,
@@ -68,31 +128,70 @@ import {
   iMessage,
   iInput,
   iMessageBox,
-  iPage
+  iPage,
+  iSelect,
+  iDialog,
+  iFormGroup
 } from 'rise'
 import { tableTitle } from './components/data'
-import { deleteList, queryList, exportFile } from '@/api/opcs/solPermission'
+import {
+  deleteList,
+  queryList,
+  exportFile,
+  getListByParam,
+  opcsSupplier
+} from '@/api/opcs/solPermission'
 export default {
   mixins: [pageMixins],
   components: {
+    iLabel,
+    iFormItem,
+    iFormGroup,
     iButton,
     iSearch,
     iCard,
     iPagination,
     iInput,
     tableList,
-    iPage
+    iPage,
+    iSelect,
+    iDialog
   },
   data() {
     return {
+      dialogTitle: '',
+      formData: {},
       tableTitle: tableTitle,
       selectTableData: [],
       form: {},
       tableListData: [],
-      tableLoading: false
+      userList: [{ value: 9016, label: '曹鹏' }],
+      tableLoading: false,
+      dialog: false,
+      dialogRules: {
+        nameZh: [
+          { required: true, message: '请输入应用中文名', trigger: 'blur' }
+        ],
+        nameEn: [
+          { required: true, message: '请输入应用英文名', trigger: 'blur' }
+        ],
+        shortName: [
+          { required: true, message: '请输入应用简称', trigger: 'blur' },
+          {
+            pattern: /^[A-Za-z0-9]+$/,
+            message: '请输入 1 到 7个字符',
+            trigger: 'blur'
+          },
+          { min: 1, max: 7, message: '长度在 1 到 7个字符', trigger: 'blur' }
+        ],
+        contactUserId: [
+          { required: true, message: '请选择应用负责人', trigger: 'change' }
+        ]
+      }
     }
   },
   created() {
+    this.getUser()
     this.getTableData()
   },
   methods: {
@@ -100,7 +199,47 @@ export default {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-
+    add() {
+      this.dialog = true
+      this.dialogTitle = this.language('XINZENG', '新增')
+    },
+    addBtn() {
+      this.$refs.dialogRules.validate(
+        (valid) => {
+          if (valid) {
+            opcsSupplier(this.formData).then((res) => {
+              if (res && res.code == 200) {
+                this.dialog = false
+                this.getTableData()
+                iMessage.error(res.desZh)
+              } else iMessage.error(res.desZh)
+            })
+          } else {
+            return false
+          }
+        }
+      )
+    },
+    edit() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      if (this.selectTableData.length > 1) {
+        iMessage.warn(
+          this.language('ZUIDUOZHINENGXUANZEYITIAOJILU', '最多只能选择一条记录')
+        )
+        return false
+      }
+          this.dialog = true
+          this.dialogTitle = this.language('BIANJI', '编辑')
+          this.formData =this.selectTableData[0]
+          console.log(this.formData)
+    },
+    async getUser() {
+        const res = await getListByParam({ roleCode: 'WLGLY' })
+      //   this.userList = res
+    },
     //获取列表接口
     getTableData() {
       this.tableLoading = true
@@ -124,8 +263,8 @@ export default {
       }
       iMessageBox(
         this.language(
-          'QUERENSHANCHUGAIYINGYONGSHOUQUAN',
-          '确认删除该应用授权？'
+          'SHANCHUGAIYINGYOINGSHI,SUOYOUBANGDINGYONGHUSHOUQUANJIANGYIQISHANCHU',
+          '删除该应用时，所有绑定用户的授权将一并删除，是否继续？'
         ),
         this.language('SHANCHU', '删除'),
         {
@@ -147,12 +286,12 @@ export default {
       })
     },
     openPage(row) {
-        console.log(row)
+      console.log(row)
       let routeData = this.$router.resolve({
         path: '/provider/opcs/list/application',
         query: {
           opcsSupplierId: row.id || '',
-          nameZh:row.nameZh||''
+          nameZh: row.nameZh || ''
         }
       })
       window.open(routeData.href)
@@ -171,6 +310,17 @@ export default {
       this.form = {}
       this.getTableData()
     },
+    cleardialog(v) {
+      if (v == 'close') {
+        this.dialog = false
+      }
+      this.formData = {
+        contactUserId: '',
+        shortName: '',
+        nameEn: '',
+        nameZh: ''
+      }
+    },
     sure() {
       this.page.currPage = 1
       this.page.pageSize = 10
@@ -180,4 +330,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btnBox {
+  text-align: right;
+  padding: 20px 0;
+}
+</style>
