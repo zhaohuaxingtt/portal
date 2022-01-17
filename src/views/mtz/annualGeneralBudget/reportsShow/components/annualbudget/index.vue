@@ -27,7 +27,7 @@
 
 <script>
 import { iTabsList, iButton } from 'rise'
-import { subNavList } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
+import { subNavListOne,subNavListtwo } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
 
 export default {
   name: 'index',
@@ -38,18 +38,23 @@ export default {
   data() {
     return {
       tab: '1',
-      subNavList,
+      subNavList:[],
       showBtn: false
     }
   },
   created() {
+    if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
+      this.subNavList=subNavListtwo
+    }
+    else{
+      this.subNavList=subNavListOne
+    }
     if (this.$route.name == 'materialGroup') {
       this.tab = '1'
     }
     if (this.$route.name == 'classMaterial') {
       this.tab = '2'
     }
-
     if (this.$route.name == 'department') {
       this.tab = '3'
     }
@@ -69,7 +74,7 @@ export default {
         typeof this.$refs.child?.exportReport == 'function' || false
     },
     handleTabClick(tab) {
-      let item = subNavList.find((item) => item.code == tab.name)
+      let item = this.subNavList.find((item) => item.code == tab.name)
       if (item != null && item.path != this.$route.path) {
         this.$router.replace({
           path: item.path
