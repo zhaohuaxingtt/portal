@@ -8,23 +8,27 @@
         </a>
       </span>
     </div>
-    <div class="my-favorite-list">
+    <div
+      class="my-favorite-list"
+      v-loading="loading"
+      element-loading-background="rgba(0, 0, 0, 0)"
+    >
       <div
         class="my-favorite-list-item"
         v-for="item in favorites"
         :key="item.name"
       >
         <div class="icon-panel">
-          <span v-if="!item.isExt" class="icon-type el-icon-link"></span>
+          <span v-if="item.objType === 1" class="icon-type el-icon-link"></span>
           <icon
-            v-if="item.isExt"
+            v-if="item.objType === 2"
             name="iconshangchuanwenjian"
             class="icon-type-c"
             symbol
           />
         </div>
         <div class="url">
-          <a :href="item.url" :title="item.name">{{ item.name }}</a>
+          <a :href="item.url" :title="item.objName">{{ item.objName }}</a>
         </div>
       </div>
     </div>
@@ -33,48 +37,29 @@
 
 <script>
 import { Icon } from 'rise'
+import { queryFavorites } from './../../api'
 export default {
   name: 'myFavorite',
   components: { Icon },
   data() {
     return {
-      favorites: [
-        {
-          name: '菜单1',
-          isExt: false,
-          url: ''
-        },
-        {
-          name: '菜单2-菜单2-菜单2-菜单2-菜单2-菜单2-菜单2-菜单2',
-          isExt: true,
-          url: ''
-        },
-        {
-          name: '菜单3',
-          isExt: false,
-          url: ''
-        },
-        {
-          name: '菜单4',
-          isExt: false,
-          url: ''
-        },
-        {
-          name: '菜单5',
-          isExt: false,
-          url: ''
-        },
-        {
-          name: '菜单6',
-          isExt: false,
-          url: ''
-        },
-        {
-          name: '菜单7',
-          isExt: false,
-          url: ''
-        }
-      ]
+      favorites: [],
+      loading: false
+    }
+  },
+  created() {
+    this.queryFavourites()
+  },
+  methods: {
+    async queryFavourites() {
+      const requestData = {
+        userId: this.$store.state.permission.userInfo.id
+      }
+      this.loading = true
+      const { data = [] } = await queryFavorites(requestData).finally(() => {
+        this.loading = false
+      })
+      this.favorites = data
     }
   }
 }

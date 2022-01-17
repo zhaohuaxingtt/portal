@@ -1,5 +1,5 @@
 <template>
-  <div class="favourite">
+  <div class="favourite" v-loading="loading">
     <div class="tab">
       <div
         class="tab-item"
@@ -17,10 +17,14 @@
       </div>
     </div>
     <transition name="el-fade-in-linear">
-      <favouriteRise v-show="active === 'rise'" />
+      <favouriteRise
+        v-show="active === 'rise'"
+        :favorites="favorites"
+        @refresh-favourites="queryFavourites"
+      />
     </transition>
     <transition name="el-fade-in-linear">
-      <favouriteOther v-show="active === 'other'" />
+      <favouriteOther v-show="active === 'other'" :favorites="favorites" />
     </transition>
   </div>
 </template>
@@ -28,12 +32,30 @@
 <script>
 import favouriteRise from './favouriteRise'
 import favouriteOther from './favouriteOther'
+import { queryFavorites } from '@/api/setting'
 export default {
   name: 'favourite',
   components: { favouriteRise, favouriteOther },
   data() {
     return {
-      active: 'rise'
+      active: 'rise',
+      loading: false,
+      favorites: []
+    }
+  },
+  created() {
+    this.queryFavourites()
+  },
+  methods: {
+    async queryFavourites() {
+      const requestData = {
+        userId: this.$store.state.permission.userInfo.id
+      }
+      this.loading = true
+      const { data = [] } = await queryFavorites(requestData).finally(() => {
+        this.loading = false
+      })
+      this.favorites = data
     }
   }
 }

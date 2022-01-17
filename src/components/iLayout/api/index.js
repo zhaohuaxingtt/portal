@@ -39,18 +39,31 @@ export function changeCheckedSta(data) {
     // params:data
   })
 }
-
+//  个人信息/更新局部字段
 export function updateUserInfo(data) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({ result: true, code: '200', data: data })
-    }, 500)
+  return requestUSER({
+    url: '/web/sapUser/updateUserInfo',
+    method: 'POST',
+    data
   })
 }
 
 export function uploadAvatar(data) {
   return requestFile({
-    url: `/udSignaturephoto`,
+    url: `/udSingleFile`,
+    method: 'post',
+    data
+  })
+}
+
+/**
+ *
+ * @param {*} data
+ * @returns 查询已收藏
+ */
+export function queryFavorites(data) {
+  return requestUSER({
+    url: '/web/sapUser/getFavoriteList',
     method: 'post',
     data
   })

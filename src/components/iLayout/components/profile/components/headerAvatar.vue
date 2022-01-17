@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar">
+  <div class="avatar" title="点击上传头像">
     <ImgCutter
       :cutWidth="400"
       :cutHeight="400"
@@ -14,6 +14,8 @@
         class="default-avatar"
         slot="open"
       />
+
+      <img v-else :src="avatar" class="avatar-img" slot="open" />
     </ImgCutter>
   </div>
 </template>
@@ -46,6 +48,12 @@ export default {
   margin-right: 40px;
   cursor: pointer;
 }
+.avatar-img {
+  width: 84px;
+  height: 84px;
+  border-radius: 42px;
+}
+
 .default-avatar {
   font-size: 84px;
 }

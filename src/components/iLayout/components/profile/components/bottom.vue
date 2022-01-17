@@ -21,8 +21,8 @@
     <bottomItem
       ref="wechat"
       text-key="wechat"
-      label="Wechat :"
-      text="0809_zhangsan"
+      label="Wechat:"
+      :text="userInfo.wechat"
       editable
     />
   </div>

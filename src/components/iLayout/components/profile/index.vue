@@ -62,18 +62,20 @@ export default {
     },
     handleUpdate(data) {
       if (data) {
-        const requestData = Object.assign(this.userInfo, data)
         this.loading = true
-        updateUserInfo(requestData)
+        updateUserInfo(data)
           .then((res) => {
             if (res.result) {
               const keys = Object.keys(data)
-              this.userInfo[keys[0]] = data[keys[0]]
+              keys.forEach((key) => {
+                this.userInfo[key] = data[key]
+              })
+
               window.sessionStorage.setItem(
                 'userInfo',
                 JSON.stringify(this.userInfo)
               )
-              this.$$store.commit('SET_USER_INFO', this.userInfo)
+              this.$store.commit('SET_USER_INFO', this.userInfo)
               this.$refs.bottom.setReadonly()
               iMessage.success(res.desZh || '更新成功')
             } else {
@@ -81,6 +83,7 @@ export default {
             }
           })
           .catch((err) => {
+            console.log('err', err)
             iMessage.error(err.desZh || '更新失败')
           })
           .finally(() => (this.loading = false))
@@ -101,7 +104,7 @@ export default {
       uploadAvatar(formData)
         .then((res) => {
           if (res && res.result) {
-            iMessage.success(res.desZh || this.language('上传成功'))
+            this.handleUpdate({ profile: res.data, profileId: res.data.id })
           } else {
             this.loading = false
             iMessage.error(res.desZh || this.language('上传失败'))

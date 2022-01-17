@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     handleSetEdit(val) {
-      console.log(this)
       this.isEdit = val
     },
     handleSave() {

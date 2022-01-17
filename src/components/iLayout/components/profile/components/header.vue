@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="profile">
-      <headerAvatar avatar="" />
+      <headerAvatar :avatar="avatar" />
       <headerUsername
         :nameZh="userInfo.nameZh"
         :nameEn="userInfo.nameEn"
@@ -23,6 +23,9 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.permission.userInfo || {}
+    },
+    avatar() {
+      return this.userInfo?.profile?.path || ''
     }
   }
 }

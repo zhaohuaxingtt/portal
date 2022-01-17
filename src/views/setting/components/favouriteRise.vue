@@ -1,26 +1,35 @@
 <template>
   <iCard>
-    <favouriteRiseSearch @search="search" />
-    <h4 class="t">菜单列表</h4>
-    <div class="content">
-      <div class="content-panel menu">
-        <favouriteRiseMenu :favourited="favourited" :filter-str="filterStr" />
-      </div>
-      <div class="content-panel has-menu">
-        <favouriteRiseMenuHas
-          :favourited="favourited"
-          :filter-str="filterStr"
-        />
+    <div v-loading="loading">
+      <favouriteRiseSearch @search="search" />
+      <h4 class="t">菜单列表</h4>
+
+      <div class="content">
+        <div class="content-panel menu">
+          <favouriteRiseMenu
+            :favourites="riseFavourites"
+            :filter-str="filterStr"
+            @save="handleSave"
+          />
+        </div>
+        <div class="content-panel has-menu">
+          <favouriteRiseMenuHas
+            :favourites="riseFavourites"
+            :filter-str="filterStr"
+            @save="handleSave"
+          />
+        </div>
       </div>
     </div>
   </iCard>
 </template>
 
 <script>
-import { iCard } from 'rise'
+import { iCard, iMessage } from 'rise'
 import favouriteRiseSearch from './favouriteRiseSearch'
 import favouriteRiseMenu from './favouriteRiseMenu'
 import favouriteRiseMenuHas from './favouriteRiseMenuHas'
+import { saveFavoriteMenu } from '@/api/setting'
 export default {
   name: 'favouriteRise',
   components: {
@@ -29,46 +38,70 @@ export default {
     favouriteRiseMenu,
     favouriteRiseMenuHas
   },
+  props: {
+    favorites: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
+  watch: {
+    favorites() {
+      this.getFavorites()
+    }
+  },
+  provide() {
+    return {
+      queryFavouritedLoading: this.queryFavouritedLoading
+    }
+  },
   data() {
     return {
-      riseFavourited: [],
-      filterStr: ''
+      riseFavourites: [],
+      filterStr: '',
+      queryFavouritedLoading: false,
+      loading: false
     }
   },
   created() {
-    this.queryRiseFavourited()
+    this.getFavorites()
   },
   methods: {
     search(val) {
       this.filterStr = val
     },
-    queryRiseFavourited() {
-      this.riseFavourited = [
-        {
-          createBy: 1,
-          createDate: '2021-03-23 16:28:34',
-          fieldList: null,
-          id: 4001,
-          isDelete: false,
-          level: 1,
-          module: null,
-          name: 'Workbench',
-          orderNum: 6999,
-          parentId: 5800,
-          parentPermissionKey: null,
-          parentResourceName: null,
-          permissionKey: 'RISE_WORKBENCH',
-          properties: null,
-          propertyMap: null,
-          resourceList: null,
-          subResourceList: null,
-          target: null,
-          type: 3,
-          updateBy: null,
-          updateDate: '2000-01-01 00:00:00',
-          url: null
-        }
-      ]
+    getFavorites() {
+      this.riseFavourites = this.favorites.filter((e) => e.objType === 1)
+    },
+    handleSave(item) {
+      console.log('this.riseFavourites', this.riseFavourites)
+      console.log('item', item)
+      const isFavorited = this.riseFavourites.some((e) => e.objId === item.id)
+      const data = isFavorited
+        ? this.riseFavourites.filter((e) => e.objId !== item.id)
+        : [...this.riseFavourites, item]
+      this.loading = true
+      saveFavoriteMenu(data)
+        .then((res) => {
+          if (res && res.result) {
+            this.riseFavourites = data
+            this.$emit('refresh-favourites')
+            iMessage.success(
+              res.desZh || (isFavorited ? '已取消收藏' : '收藏成功')
+            )
+          } else {
+            iMessage.success(
+              res.desZh || (isFavorited ? '取消收藏失败' : '收藏失败')
+            )
+          }
+        })
+        .catch((err) => {
+          iMessage.success(
+            err.desZh || (isFavorited ? '取消收藏失败' : '收藏失败')
+          )
+        })
+        .finally(() => (this.loading = false))
     }
   }
 }

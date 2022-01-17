@@ -18,6 +18,7 @@
 import iTableCustom from '@/components/iTableCustom'
 import { fetchResource } from '@/api/role'
 import { COLUMNS_MENU } from './data'
+
 export default {
   name: 'favouriteRiseMenu',
   components: { iTableCustom },
@@ -25,6 +26,12 @@ export default {
     filterStr: {
       type: String,
       default: ''
+    },
+    favourites: {
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
   computed: {
@@ -52,8 +59,14 @@ export default {
       tableColumns: COLUMNS_MENU,
       tableExpanded: { expandKey: 'name', childrenKey: 'menuList' },
       extraData: {
-        handleFavorite: this.handleFavorite
+        handleFavorite: this.handleFavorite,
+        favourites: this.favourites
       }
+    }
+  },
+  watch: {
+    favourites() {
+      Vue.set(this.extraData, 'favourites', this.favourites)
     }
   },
   created() {
@@ -99,7 +112,7 @@ export default {
       return res
     },
     handleFavorite(row) {
-      console.log('handleFavorite', row)
+      this.$emit('save', row)
     }
   }
 }

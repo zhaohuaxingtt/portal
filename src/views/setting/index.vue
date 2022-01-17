@@ -1,16 +1,18 @@
 <template>
   <iPage>
     <settingHeader :active.sync="tabActive" />
-    <div class="setting-container" v-if="moduleReady" v-loading="loading">
-      <transition name="el-fade-in-linear">
-        <task v-show="tabActive === 'task'" :card-data="cardTaskData" />
-      </transition>
-      <transition name="el-fade-in-linear">
-        <iAgree v-show="tabActive === 'iAgree'" :card-data="cardiAgreeData" />
-      </transition>
-      <transition name="el-fade-in-linear">
-        <favourite v-show="tabActive === 'favourites'" />
-      </transition>
+    <div class="setting-container" v-loading="loading">
+      <div v-if="moduleReady">
+        <transition name="el-fade-in-linear">
+          <task v-show="tabActive === 'task'" :card-data="cardTaskData" />
+        </transition>
+        <transition name="el-fade-in-linear">
+          <iAgree v-show="tabActive === 'iAgree'" :card-data="cardiAgreeData" />
+        </transition>
+        <transition name="el-fade-in-linear">
+          <favourite v-show="tabActive === 'favourites'" />
+        </transition>
+      </div>
     </div>
   </iPage>
 </template>

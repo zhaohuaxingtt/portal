@@ -61,7 +61,7 @@
 <script>
 import { iSearch, iInput, iFormItem, iDatePicker, iSelect } from 'rise'
 import { FILTER_FORM, FILTER_TYPES } from './data'
-import { fetchBizLogCategories } from '@/api/biz/log'
+import { fetchBizLog as fetchBizLogCategories } from '@/api/biz/log'
 export default {
   name: 'FilterPanel',
   components: { iSearch, iInput, iDatePicker, iFormItem, iSelect },

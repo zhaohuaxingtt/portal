@@ -19,10 +19,17 @@ export const COLUMNS_MENU = [
     width: '100px',
     customRender: (h, scope, column, extraData) => {
       if (scope.row.level > 1) {
+        const { row } = scope
+        const { handleFavorite, favourites } = extraData
+        const favouriteItem = favourites.find((e) => e.objId === row.id)
+        const classes =
+          favouriteItem !== undefined
+            ? 'el-icon-star-on text-blue'
+            : 'el-icon-star-off text-blue'
         return (
           <span
-            class="el-icon-star-off"
-            onclick={() => extraData.handleFavorite(scope.row)}
+            class={classes}
+            onclick={() => handleFavorite(scope.row)}
           ></span>
         )
       }
@@ -33,17 +40,22 @@ export const COLUMNS_MENU = [
 
 export const COLUMNS_FAVOURITE_MENU = [
   {
-    prop: 'name',
+    prop: 'objName',
     label: '已收藏',
     i18n: '已收藏',
-    type: 'expanded',
-    align: 'left',
-    emit: 'row-click'
+    align: 'left'
   },
   {
     width: '100px',
-    customRender: (h, scope) => {
-      return <span class="el-icon-star-off"></span>
+    align: 'center',
+    customRender: (h, scope, column, extraData) => {
+      const { handleFavorite } = extraData
+      return (
+        <span
+          onclick={() => handleFavorite(scope.row)}
+          class="el-icon-star-on text-blue"
+        ></span>
+      )
     }
   }
 ]
