@@ -4,6 +4,7 @@
         <div class="indexs row-line" v-if="showIndex">
             <span v-for="(l, index) in indexs" :key="index" :class="{active:activeIndex == l}" @click="clickIndex(l)">{{l}}</span>
         </div>
+        <div v-if="list == 0" class="nodata">目前暂无数据</div>
         <transition name="moveR">
             <div class="index-list" v-show="list > 0">
                 <div class="row row-line"  v-for="(l, index) in list" :key="index" @click="clickItem(index)">
@@ -15,7 +16,6 @@
                 </div>
             </div>
         </transition>
-        <div v-if="list == 0" class="nodata">目前暂无数据</div>
     </iCard>
 </template>
 
@@ -175,5 +175,6 @@
     }
     .nodata{
         margin: 20px auto;
+        color: #666;
     }
 </style>

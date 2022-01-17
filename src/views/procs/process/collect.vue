@@ -56,6 +56,7 @@
     .item{
         padding: 15px 25px;
         border-bottom: 1px solid #BBC4D6;
+        cursor: pointer;
         &:hover{
             color:#1660F1;
         }

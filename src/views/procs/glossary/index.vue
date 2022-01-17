@@ -1,25 +1,16 @@
 <template>
-    <div class="main">
+    <div>
        <LayHeader title="词条管理"></LayHeader>
 
         <div class="flex glossary">
-            <!-- <iCard class="glossary-index glossary-card">
-                <div class="tlt row-line">Glossary</div>
-                <div class="indexs row-line">
-                    <span v-for="(l, index) in indexs" :key="index" :class="{active:activeIndex == l}" @click="click(l)">{{l}}</span>
-                </div>
-                <transition name="moveR">
-                    <div class="index-list" v-show="list > 0">
-                        <span class="row-line" v-for="(l, index) in list" :key="index">{{l}}</span>
-                    </div>
-                </transition>
-            </iCard> -->
-            <IndexList title="Glossary" :indexIcon="false"></IndexList>
+            <div class="card-l">
+                <IndexList class="indexs" title="Glossary" :indexIcon="false"></IndexList>
+            </div>
             <div class="glossary-content">
                 <iInput placeholder="Search for MORE" v-model="key">
                     <i slot="suffix" class="el-input__icon el-icon-search" style="color:#1763F7"></i>
                 </iInput>
-                <iCard class="mt20 glossary-card flex-1">
+                <iCard class="mt20 glossary-card">
                     <div class="flex row-line justify-between">
                         <span class="tlt">title</span>
                         <span>date</span>
@@ -82,88 +73,37 @@
 
 <style lang="scss" scoped>
 @import "./../comon";
-.moveR-enter-active,  .moveR-leave-active {
-    transition: all 0.2s ease-in;
-    transform: translateX(0);
-}
-.moveR-enter,  .moveR-leave {
-    transform: translateX(100%);
-}
-.moveR-leave-to{
-    transform: translateX(100%);
-}
-.main{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
+
 
 
 .glossary{
     width: 100%;
-    height: 100%;
-    overflow: hidden;
     margin-top: 20px;
 
+
+    .card-l{
+        width: 450px;
+    }
+    .indexs{
+        height: 600px;
+    }
     .glossary-card{
         ::v-deep .cardBody{
             padding: 0;
-            height: 100%;
+            // height: 100%;
         }
         & ::v-deep > div{
-            height: 100%;
+            // height: 100%;
             overflow: hidden;
         }
     }
-    .glossary-index{
-        height: 100%;
-        flex: 1;
-        padding-bottom: 10px;
-        min-width: 300px;
-        margin-right: 20px;
-        color: #41434A;
-        ::v-deep .cardBody{
-            display: flex;
-            flex-direction: column;
-        }
 
-        .indexs{
-            display: flex;
-            flex-wrap: wrap;
-            & > span{
-                display: inline-block;
-                padding: 3px 6px;
-                margin-right: 15px;
-                font-weight: bold;
-                font-size: 18px;
-                border-radius: 3px;
-                cursor: pointer;
-                transition: all .2s ease;
-                &:hover{
-                    color:#fff !important;
-                    background-color: #1660F1;
-                }
-                &.active{
-                    color:#1660F1;
-                }
-            }
-        }
-        .index-list{
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            height: 100%;
-            overflow: auto;
-        }
-    }
     .row-line{
         padding: 15px 20px;
         border-bottom: 1px solid #BBC4D6;
     }
     .glossary-content{
-        // flex: 3;
+        flex: 1;
         display: flex;
         flex-direction: column;
         overflow: hidden;

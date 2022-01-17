@@ -5,15 +5,24 @@
             <div class="title">标题 <i class="cursor el-icon-download"></i></div>
             <div class="expert">
                 <div class="flex">
-                    <span>流程专家: </span>
-                    <span class="name">郭艺钧</span>
+                    <span>流程专家： </span>
+                    <span class="name" @click="showInfo = true">郭艺钧</span>
+                    <span class="name" @click="showInfo = true">郭艺钧1</span>
                 </div>
                 <div>版本：ProCS-CSF-001,1.01 最后更新 2018/07/25</div>
             </div>
         </div>
         <div class="subtitle">
             <div class="tlt">标题1</div>
-            <div>分页</div>
+            <!-- <div>分页</div> -->
+             <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="100"
+                layout="prev, pager, next, jumper"
+                :total="1000">
+                </el-pagination>
         </div>
         <div class="mt20 flex">
             <div class="flex-1 mr20">
@@ -37,24 +46,21 @@
                     </div>
                     <div class="card-bottom flex justify-between items-center">
                         <span>100</span>
-                        <span>分页</span>
+                        <!-- <span>分页</span> -->
+                         <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="currentPage"
+                            :page-size="100"
+                            layout="prev, pager, next, jumper"
+                            :total="1000">
+                            </el-pagination>
                     </div>
                 </div>
                  <UiCard title="常见问题" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
                     <iButton slot="head-right">MORE</iButton>
                    <template slot="content">
-                        <div class="qs">
-                            <div class="title">测试问题内容</div>
-                            <div class="flex justify-between items-center">
-                                <div>测试问题问答</div>
-                                <iButton>MORE</iButton>
-                            </div>
-                            <div class="opearte mt20 cursor"><i class="el-icon-edit"></i> 提问</div>
-                            <div class="flex mt20">
-                                <div class="opearte mr20 cursor"><i class="el-icon-share"></i>分享</div>
-                                <div class="opearte cursor"><i class="el-icon-star-off"></i>收藏</div>
-                            </div>
-                        </div>
+                       <iQuestion></iQuestion>
                    </template>
                 </UiCard>
             </div>
@@ -65,17 +71,17 @@
                    </div>
                </UiCard>
                <UiCard title="流程图" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
-                   <div slot="content" class="draw">
+                   <div slot="content" class="draw cursor" @click="view('img')">
                        <img style="width:100%" src="http://cnsvwshvm1416.csvw.com/upload/2021/12/16/FlowChart_150/%E4%B8%BB%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="">
                    </div>
                 </UiCard>
                <UiCard title="系统操作" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
-                   <div slot="head-right" class="video-btn cursor">
+                   <div slot="head-right" class="video-btn cursor" @click="view('video')">
                        <i class="el-icon-video-play"></i>
                        视频
                    </div>
                    <template slot="content">
-                        <div class="draw">
+                        <div class="draw cursor">
                             <img style="width:100%" src="http://cnsvwshvm1416.csvw.com/upload/2021/12/16/FlowChart_150/%E4%B8%BB%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="">
                         </div>
                         <div class="file-tlt">流程附件</div>
@@ -87,20 +93,38 @@
                 </UiCard>
             </div>
         </div>
+        <!-- 专家信息 -->
+        <expertInfo :show.sync="showInfo"></expertInfo>
+
+        <iDialog
+            :title="dialog.type == 'img' ? '流程图' : '视频'"
+            :visible.sync="dialog.show" 
+            width="70%" 
+            @close='closeDialog' 
+            append-to-body
+        >
+            <div class="pb20">
+                <img style="width:100%" v-if="dialog.type == 'img'" :src="dialog.url" alt="">
+                <video style="width:100%" ref="video" controls v-else :src="dialog.url"></video>
+            </div>
+        </iDialog>
     </div>
 </template>
 
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import UiCard from "./../components/UiCard.vue";
-    import {iCard, iButton} from 'rise';
-
+    import {iButton, iDialog} from 'rise';
+    import expertInfo from './components/expertInfo';
+    import iQuestion from './components/iQuestion.vue';
     export default {
         components:{
             LayHeader,
-            iCard,
             UiCard,
-            iButton
+            iButton,
+            expertInfo,
+            iQuestion,
+            iDialog
         },
         data() {
             return {
@@ -108,12 +132,40 @@
                     {name:'TFW生产运营绩效评价管理办法',id:1},
                     {name:'TFW生产运营绩效评价管理办法',id:1},
                     {name:'TFW生产运营绩效评价管理办法',id:1}
-                ]
+                ],
+                showInput: false,
+                val: "",
+                showInfo: false,
+                currentPage: 1,
+                dialog:{
+                    show:false,
+                    type:'img',
+                    url:""
+                }
             }
         },
         methods: {
             side(){
                 
+            },
+            handleSizeChange(v){
+                console.log(v);
+            },
+            handleCurrentChange(v){
+                console.log(v);
+            },
+            view(t){
+                this.dialog.type = t
+                if(t == "img"){
+                    this.dialog.url = "http://cnsvwshvm1416.csvw.com/upload/2021/12/16/FlowChart_150/%E4%B8%BB%E6%B5%81%E7%A8%8B%E5%9B%BE.png"
+                }else{
+                    this.dialog.url = "http://cnsvwshvm1416.csvw.com/upload/2018/07/30/Attachment_56604_path.mp4?t=0.33881052792501865"
+                }
+                this.dialog.show = true
+            },
+            closeDialog(){
+                this.$refs.video && this.$refs.video.pause()
+                this.dialog.show = false
             }
         },
     }
@@ -194,22 +246,7 @@ $line-color: #BBC4D6;
     }
 
 }
-    .qs{
-        margin: 20px;
-        padding: 20px;
-        border: 1px solid $line-color;
-        border-radius: 10px;
 
-        .title{
-            color: #1660F1;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .opearte{
-            color: #666;
-        }
-    }
 .side{
     width: 450px;
 }
