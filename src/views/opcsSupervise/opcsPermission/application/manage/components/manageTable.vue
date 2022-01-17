@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-15 16:55:21
+ * @LastEditTime: 2022-01-17 18:15:49
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -13,20 +13,9 @@
         language('JICHUXINXI', '基础信息')
       }}</span>
       <div class="floatright">
-        <i-button v-if="edit"
-                  @click="add">{{ language('XINZENG', '新增') }}
+        <i-button @click="add">{{ language('XINZENG', '新增') }}
         </i-button>
-        <i-button v-if="edit"
-                  @click="remove">{{ language('SHANCHU', '删除') }}
-        </i-button>
-        <i-button v-if="edit"
-                  @click="cancelBtn">{{ language('QUXIAO', '取消') }}
-        </i-button>
-        <i-button v-if="edit"
-                  @click="save">{{ language('BAOCUN', '保存') }}
-        </i-button>
-        <i-button v-if="!edit"
-                  @click="editBtn">{{ language('BIANJI', '编辑') }}
+        <i-button @click="remove">{{ language('SHANCHU', '删除') }}
         </i-button>
       </div>
     </div>
@@ -34,15 +23,8 @@
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
-                :input-props="inputProps"
                 :index="true"
                 ref="commonTable">
-      <template #position="scope">
-        <iInput v-if="!scope.row.id"
-                v-model="scope.row.position"
-                :placeholder="language('QINGSHURU', '请输入')" />
-        <p v-if="scope.row.id">{{ scope.row.position }}</p>
-      </template>
     </table-list>
     <iPagination style="margin-top: 20px"
                  v-update
@@ -54,10 +36,13 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
+    <systeamDetailAdd @save="save" v-model="dialog"
+                      :key="Math.random()"></systeamDetailAdd>
   </iCard>
 </template>
 
 <script>
+import systeamDetailAdd from '../../userManage/components/systeamDetailAdd'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
 import { pageMixins } from '@/utils/pageMixins'
@@ -66,26 +51,19 @@ import {
   addDetails,
   deleteDetails
 } from '@/api/opcs/solPermission'
-import {
-  iCard,
-  iButton,
-  iSelect,
-  iInput,
-  iPagination,
-  iMessage,
-  iMessageBox
-} from 'rise'
+import { iCard, iButton, iPagination, iMessage, iMessageBox } from 'rise'
 export default {
   mixins: [pageMixins],
   components: {
     iCard,
     iButton,
-    iInput,
+    systeamDetailAdd,
     tableList,
     iPagination
   },
   data() {
     return {
+      dialog: false,
       inputProps: [],
       edit: false,
       tableLoading: false,
@@ -98,56 +76,31 @@ export default {
     this.getTableData()
   },
   methods: {
-    editBtn() {
-      this.inputProps = ['nameZh', 'nameEn', 'ldapSchema']
-      this.edit = true
-    
+    add() {
+      this.dialog = true
     },
-    cancelBtn() {
-      this.inputProps = []
-      this.tableListData = []
-      this.getTableData()
-      this.$refs.commonTable.$refs.commonTableForm.clearValidate()
-      this.edit = false
-    },
-    save() {
-      this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
-        if (valid) {
-          let req = {
-            opcsAppsList: this.tableListData,
-            opcsSupplierKeyId: this.$route.query.opcsSupplierId
-          }
-          addDetails(req).then((res) => {
-            if (res && res.code == 200) {
-              this.getTableData()
-              this.edit = false
-              this.inputProps = []
-              iMessage.success(res.desZh)
-            }
-          })
+    save(row) {
+      let req = {
+        opcsAppsList: row,
+        opcsSupplierKeyId: this.$route.query.opcsSupplierId
+      }
+      addDetails(req).then((res) => {
+        if (res && res.code == 200) {
+          this.getTableData()
+          this.edit = false
+          this.inputProps = []
+          iMessage.success(res.desZh)
         }
       })
     },
-    add() {
-      const newItemList = this.tableTitle.map((item) => {
-        return item.props
-      })
-      const newItem = {}
-      newItemList.map((item) => {
-        newItem[item] = ''
-      })
-      this.tableListData.push({
-        ...newItem
-      })
-    },
+
     //获取列表接口
     getTableData() {
       this.tableLoading = true
       const params = {
         opcsSupplierId: this.$route.query.opcsSupplierId,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        ...this.form
+        // pageNo: this.page.currPage,
+        // pageSize: this.page.pageSize,
       }
       pageQueryDetails(params).then((res) => {
         this.tableLoading = false
@@ -163,19 +116,26 @@ export default {
         return false
       }
       iMessageBox(
-        this.language('QUERENSHANCHUGAIYINGYONG', '确认删除该应用？'),
+        this.language(
+          'SHANCHUGAIYINGYOINGSHI,SUOYOUBANGDINGYONGHUSHOUQUANJIANGYIQISHANCHU',
+          '删除该应用时，所有绑定用户的授权将一并删除，是否继续？'
+        ),
         this.language('SHANCHU', '删除'),
         {
           confirmButtonText: this.language('SHI', '是'),
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
-        this.tableListData.map((j, i) => {
-          this.selectTableData.map((v) => {
-            if (v === j) {
-              this.tableListData.splice(i, 1)
-            }
+        let req = {
+          id: this.selectTableData.map((v) => {
+            return v.id
           })
+        }
+        deleteDetails(req).then((res) => {
+          if (res && res.code == 200) {
+            this.getTableData()
+            iMessage.success(res.desZh)
+          }
         })
       })
     },

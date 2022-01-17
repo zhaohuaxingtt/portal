@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-06 09:54:08
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-13 14:40:12
+ * @LastEditTime: 2022-01-17 18:15:51
  * @FilePath: \front-portal-new\src\api\opcs\solPermission.js
  */
 import axios from '@/utils/axios'
@@ -53,7 +53,7 @@ export function queryBase(parmars) {
 //应用管理--详情列表--查询
 export function pageQueryDetails(parmars) {
     return requst({
-        url: '/opcsSupplier/pageQueryDetails',
+        url: '/opcsSupplierApps/binding/'+parmars.opcsSupplierId ,
         method: 'POST',
         data: parmars
     })
@@ -128,7 +128,7 @@ export function exportUser(parmars) {
 }
 //联系人与用户管理--详情列表--导入
 export function imports(parmars) {
-    return requestDownload({
+    return requst({
         url: '/opcsUser/imports',
         method: 'POST',
         data: parmars
