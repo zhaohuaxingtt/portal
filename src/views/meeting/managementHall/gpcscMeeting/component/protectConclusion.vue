@@ -203,6 +203,7 @@
 </template>
 <script>
 import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId} from '@/api/meeting/gpMeeting'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -520,6 +521,7 @@ export default {
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
         this.tableDataList=res.data
+        this.handleIntercept()
       })
 
     },
@@ -655,6 +657,18 @@ export default {
     },
     handleSwitch() {
       this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
+    },
+    //获取会议字段截取  meetingTypeName
+    // gpMeetingService/findById
+    handleIntercept(){
+      const data = {
+        id:this.$route.query.id
+      }
+      findThemenById(data).then((res) => {
+          console.log(res.meetingTypeName);
+
+      })
+
     }
   }
 }
