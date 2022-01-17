@@ -737,7 +737,7 @@ export default {
         '03': '预备会议通过',
         '04': '不通过',
         '05': 'Last Call',
-        '06': '分段待定'
+        '06': '分段定点'
       },
       curEndTime: '',
       openError: false,

@@ -417,7 +417,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys }}</span>
+                <span>{{scope.row.presenterDept }}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName 改 topic-->
@@ -631,7 +631,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys }}</span>
+                <span>{{scope.row.presenterDept }}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName 改 topic-->
@@ -1078,7 +1078,7 @@ export default {
         '03': '预备会议通过',
         '04': '不通过',
         '05': 'Last Call',
-        '06': '分段待定'
+        '06': '分段定点'
       },
       openError: false,
       errorList: [],
