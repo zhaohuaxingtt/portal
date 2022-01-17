@@ -1,5 +1,5 @@
+  <!--会议纪要-->
 <template>
-  <!--转派-->
   <iDialog
     :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
@@ -7,7 +7,7 @@
     :close-on-click-modal="false"
     @close="handleCancel"
   >
-
+123123
      <iEditForm>
       <el-form
         :model="resultData"
@@ -98,22 +98,24 @@
                     }}
                   </div>
                 </div>
-                <iFormItem prop="conclusion" class="meet-desc">
+                <iFormItem prop="result" class="meet-desc">
                   <iInput
-                    v-model="item.conclusion"
+                    v-model="item.result"
                     type="textarea"
                     resize="none"
                     rows="4"
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{
+                  Result：
+                  <!-- {{
                     item.conclusionCsc === '01'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '02'
                       ? conclusionCscList[item.conclusionCsc]
                       : ''
-                  }}
+                  }} -->
+                  {{conclusionCscList[item.conclusion]}}
                 </p>
                 <iFormItem class="meet-desc">
                   <el-table
@@ -289,13 +291,19 @@ export default {
       },
       employeeDTOS: [],
       conclusionCscList: {
+        // '01': '待定',
+        // '02': '定点',
+        // '03': '发LOI',
+        // '04': '转TER/TOP-TER',
+        // '05': '下次Pre CSC',
+        // '06': '转CSC',
+        // '07': '关闭',
         '01': '待定',
-        '02': '定点',
-        '03': '发LOI',
-        '04': '转TER/TOP-TER',
-        '05': '下次Pre CSC',
-        '06': '转CSC',
-        '07': '关闭'
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
       },
       employeeStr: ''
     }
