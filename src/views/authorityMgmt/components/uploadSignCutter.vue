@@ -29,7 +29,6 @@
         />
       </iInput>
       <ImgCutter
-        v-on:cutDown="cutDown"
         :cutWidth="400"
         :cutHeight="300"
         rate="4:3"
