@@ -188,7 +188,7 @@
                 </i-input>
                  <!-- <span class="iconWid" v-if="iconShowA">高</span> -->
                  <!-- <span class="iconWid" v-if="iconShowB">低</span> -->
-            </el-form-item>
+            </el-form-item> 
          </el-col>
       </el-row>
           

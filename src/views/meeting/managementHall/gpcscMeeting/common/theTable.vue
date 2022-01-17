@@ -756,6 +756,8 @@ export default {
         }
         sendBigMeetingThemen(param).then((res) => {
           iMessage.success('发送大会议程成功!');
+          //关闭弹窗
+          this.$emit('handleCloseSaveOk')
         })
       }
 
