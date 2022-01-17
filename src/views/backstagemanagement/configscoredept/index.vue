@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-06-17 13:44:35
- * @LastEditTime: 2022-01-17 14:35:51
+ * @LastEditTime: 2022-01-17 15:42:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-sourcing\src\views\configscoredept\index.vue
@@ -33,24 +33,24 @@
       :searchKey="PARTSIGN_CONFIRMBUTTON"
     >
       <el-form>
-        <el-form-item :label="language('CONFIGSCOREDEPT_PINGFENLEIXING', '评分类型')">
+        <el-form-item v-permission.auto="CONFIGSCOREDEPT_SEARCH_TYPE|评分类型"  :label="language('CONFIGSCOREDEPT_PINGFENLEIXING', '评分类型')">
           <iDicoptions v-model="form.rateTag" optionKey="score_dept"/>
         </el-form-item>
-        <el-form-item :label="language('CONFIGSCOREDEPT_PINGFENGU', '评分股')">
+        <el-form-item v-permission.auto="CONFIGSCOREDEPT_SEARCH_PINGFENGU|评分股" :label="language('CONFIGSCOREDEPT_PINGFENGU', '评分股')">
           <iInput v-model="form.deptNum" :placeholder="language('LK_QINGSHURU','请输入')" />
         </el-form-item>
-        <el-form-item :label="language('CONFIGSCOREDEPT_PINGFENREN', '评分人')">
+        <el-form-item v-permission.auto="CONFIGSCOREDEPT_SEARCH_PINGFENREN|评分人" :label="language('CONFIGSCOREDEPT_PINGFENREN', '评分人')">
           <iInput v-model="form.userName" :placeholder="language('LK_QINGSHURU','请输入')" />
         </el-form-item>
       </el-form>
     </iSearch>
     <iCard class="margin-top20">
       <template v-slot:header-control>
-        <iButton @click="edit">{{ language("BIANJI", "编辑") }}</iButton>
-        <iButton @click="add">{{language("TIANJIA", "添加")}}</iButton>
-        <iButton @click="deleteItem" :loading="btnLoading.deleteItem">{{ language('SHANCHU', '删除') }}</iButton>
+        <iButton @click="edit" v-permission.auto="CONFIGSCOREDEPT_BUTTON_EDIT|编辑">{{ language("BIANJI", "编辑") }}</iButton>
+        <iButton @click="add" v-permission.auto="CONFIGSCOREDEPT_BUTTON_ADD|添加">{{language("TIANJIA", "添加")}}</iButton>
+        <iButton @click="deleteItem" v-permission.auto="CONFIGSCOREDEPT_BUTTON_DELETE|删除" :loading="btnLoading.deleteItem">{{ language('SHANCHU', '删除') }}</iButton>
       </template>
-      <div class="body">
+      <div class="body"  v-permission.auto="CONFIGSCOREDEPT_TABLE|评分部门设置表单">
         <tableList
           class="table"
           index

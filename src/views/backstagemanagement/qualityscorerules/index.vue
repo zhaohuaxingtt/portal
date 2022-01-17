@@ -30,20 +30,20 @@
       :searchKey="PARTSIGN_CONFIRMBUTTON"
     >
         <el-form>
-            <el-form-item :label="language('QUALITYSCORERULES_PINGFENGU', '评分股')" >
+            <el-form-item v-permission.auto="QUALITYSCORERULES_SEARCH_PINGFENGU|评分股" :label="language('QUALITYSCORERULES_PINGFENGU', '评分股')" >
                 <iInput v-model="searchForm.deptName" :placeholder="language('LK_QINGSHURU','请输入')"/>
             </el-form-item>
-            <el-form-item :label="language('UALITYSCORERULES_PINGFENREN', '评分人')">
+            <el-form-item v-permission.auto="QUALITYSCORERULES_SEARCH_PINGFENREN|评分人" :label="language('UALITYSCORERULES_PINGFENREN', '评分人')">
                 <iInput v-model="searchForm.userName" :placeholder="language('LK_QINGSHURU','请输入')"/>
             </el-form-item>
         </el-form>
     </iSearch>
     <iCard class="margin-top20">
         <template v-slot:header-control>
-            <iButton @click="changeVisible('addRulesDialogVisible',true)">{{language("TIANJIA", "添加")}}</iButton>
-            <iButton @click="deletRule" :loading="btnLoading.deletRule">{{ language('SHANCHU', '删除') }}</iButton>
+            <iButton v-permission.auto="QUALITYSCORERULES_BUTTON_ADD|添加" @click="changeVisible('addRulesDialogVisible',true)">{{language("TIANJIA", "添加")}}</iButton>
+            <iButton v-permission.auto="QUALITYSCORERULES_BUTTON_DELETE|删除" @click="deletRule" :loading="btnLoading.deletRule">{{ language('SHANCHU', '删除') }}</iButton>
         </template>
-        <div class="body">
+        <div class="body" v-permission.auto="QUALITYSCORERULES_TABLE|质量评分预设规则表单">
             <tableList
             class="table"
             index
