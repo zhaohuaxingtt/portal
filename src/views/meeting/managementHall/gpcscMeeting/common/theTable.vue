@@ -763,7 +763,9 @@ export default {
           relationMeetingId: this.rowId //当前议题的id
         }
         sendBigMeetingThemen(param).then((res) => {
-          iMessage.success('发送大会议程成功!')
+          iMessage.success('发送大会议程成功!');
+          //关闭弹窗
+          this.$emit('handleCloseSaveOk')
         })
       }
     },

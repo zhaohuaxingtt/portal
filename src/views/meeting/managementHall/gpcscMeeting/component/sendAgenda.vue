@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-12-31 13:01:35
+ * @LastEditTime: 2022-01-17 15:25:58
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
@@ -31,6 +31,7 @@
       @handleSizePage="handleSizePage"
       @getTableList="getTableList"
       :meetingTypeName="form.meetingType ? form.meetingType.name : ''"
+      @handleCloseSaveOk='handleCloseSaveOk'
     />
   </div>
 </template>
@@ -103,6 +104,10 @@ export default {
   //   },
   // },
   methods: {
+    //关闭弹窗
+    handleCloseSaveOk(){
+      this.$emit('close')
+    },
     getTableList() {
       let param = {
         ...this.form,
