@@ -734,7 +734,7 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span>{{ resultObj[scope.row.conclusion] }}</span>
+                <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->
@@ -2719,6 +2719,13 @@ export default {
         return 'active-row dragable-row'
       }
       return 'narmal-row'
+    },
+    //点击纪要  维护结论
+    handleResult(row){
+      console.log(row.result);
+      // this.editprotectConclusionDialog=true
+      // this.editprotectConclusionDialogRow=row
+      // console.log(this.editprotectConclusionDialogRow);
     }
   }
 }

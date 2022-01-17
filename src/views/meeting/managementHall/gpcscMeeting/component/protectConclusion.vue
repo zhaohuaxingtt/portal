@@ -520,7 +520,7 @@ export default {
       }
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
-        this.tableDataList=res.data
+        this.tableDataList=res
         this.handleIntercept()
       })
 
