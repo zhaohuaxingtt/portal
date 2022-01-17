@@ -16,9 +16,7 @@
           <!-- 供应商 -->
           <el-col :span="4">
             <el-form-item :label="$t('供应商名称')">
-              <iInput
-                v-model="form.shortNameZh"
-              ></iInput>
+              <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
           </el-col>
           <!-- 签署状态 -->
@@ -87,6 +85,7 @@
                 :props="{ multiple: true }"
                 :clearable="true"
                 popper-class="area-select"
+                :placeholder="'全部'"
                 collapse-tags
                 filterable
               ></el-cascader>
@@ -104,9 +103,7 @@
           <!-- 业务编号 -->
           <el-col :span="4">
             <el-form-item :label="$t('业务编号')">
-              <iInput
-                v-model="form.serviceCode"
-              ></iInput>
+              <iInput v-model="form.serviceCode"></iInput>
             </el-form-item>
           </el-col>
         </el-row>
@@ -115,11 +112,17 @@
       <el-divider></el-divider>
 
       <div class="export">
-        <iButton @click="handleException" v-show="this.extendFields !== false">{{ '标记例外' }}</iButton>
+        <iButton
+          @click="handleException"
+          v-show="this.extendFields !== false"
+          >{{ '标记例外' }}</iButton
+        >
         <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
         <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
       </div>
-      <div v-show="this.extendFields !== false" class="tips">若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。</div>
+      <div v-show="this.extendFields !== false" class="tips">
+        若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。
+      </div>
 
       <iTableML
         style="height: 30rem; overflow-y: scroll"
@@ -197,12 +200,12 @@
         >
         <el-table-column align="center" label="签署状态"
           ><template slot-scope="scope">
-            <span v-if="scope.row.signStatus == '01'">
-              未签署
-            </span>
+            <span v-if="scope.row.signStatus == '01'"> 未签署 </span>
             <span v-if="scope.row.signStatus == '02'"> 已签署标准 </span>
-            <span v-if="scope.row.signStatus == '03'" style="color: #F75526"> 已签署非标 </span>
-            <span v-if="scope.row.signStatus == '04'" style="color: #F75526">
+            <span v-if="scope.row.signStatus == '03'" style="color: #f75526">
+              已签署非标
+            </span>
+            <span v-if="scope.row.signStatus == '04'" style="color: #f75526">
               例外
             </span>
             <span v-else></span> </template
@@ -333,7 +336,7 @@ export default {
     iButton,
     uploadFileDialog,
     clauseDownloadDialog,
-    exceptionTagDialog,
+    exceptionTagDialog
   },
   props: {
     openDialog: { type: Boolean, default: false },
@@ -467,12 +470,10 @@ export default {
             this.form.signStatus = this.form?.signStatus?.split(',')
           }
           if (this.form?.supplierIdentity) {
-            this.form.supplierIdentity =
-              this.form?.supplierIdentity?.split(',')
+            this.form.supplierIdentity = this.form?.supplierIdentity?.split(',')
           }
           if (this.form?.supplierType) {
-            this.form.supplierType =
-              this.form?.supplierType?.split(',')
+            this.form.supplierType = this.form?.supplierType?.split(',')
           }
         }
       })
@@ -483,10 +484,10 @@ export default {
       this.supplierId = row.supplierId
       this.openUploadFileDialog = true
     },
-    handleException(){
+    handleException() {
       this.openExceptionTagDialog = true
     },
-    closeExceptionTagDialog(bol){
+    closeExceptionTagDialog(bol) {
       this.openExceptionTagDialog = bol
     },
     closeUploadFileDialog(bol) {
@@ -558,7 +559,7 @@ export default {
       this.$emit('flushTable')
     },
     handleSizeChange(e) {
-      this.page.currPage = 1;
+      this.page.currPage = 1
       this.page.pageSize = e
       let param = {
         ...this.form,
@@ -682,6 +683,27 @@ export default {
   -webkit-transform: translateY(-90%);
   transform: translateY(-90%);
 }
+::v-deep .el-form-item {
+  margin-bottom: 1rem;
+  width: 220px;
+  float: left;
+  margin-right: 50px;
+  padding-left: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  .el-form-item__label {
+    font-size: 14px;
+    color: $color-black;
+    font-weight: 400;
+    line-height: 14px;
+    margin-bottom: 8px;
+  }
+
+  .el-form-item__content {
+    line-height: inherit;
+  }
+}
 .form__first {
   position: relative;
   .search {
@@ -690,7 +712,7 @@ export default {
     bottom: 1.5rem;
   }
 }
-.tips{
+.tips {
   margin-bottom: 0.5rem;
   font-family: Arial;
   font-weight: 400;
