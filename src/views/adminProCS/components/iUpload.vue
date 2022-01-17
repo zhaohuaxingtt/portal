@@ -77,6 +77,10 @@
                 type:Function,
                 default:() => {}
             },
+            picObject:{
+                type: Boolean,
+                default: false
+            },
         },
         data() {
             return {
@@ -131,11 +135,13 @@
                             let formData = new FormData();
                             formData.append("file",file);
                             let res = await uploadFile(formData);
+                            console.log(res, '22222222333333')
                             this.uploading = false
                             this.$message.success("上传成功")
                             resolve({
-                                fileName:res.name,
-                                fileUrl: res.path
+                                fileName: res.name,
+                                // fileUrl: res.path
+                                fileUrl: this.picObject ? res.objectUrl : res.path
                             })
                         } catch {
                             this.$message.error("上传失败")
@@ -190,7 +196,6 @@
                 })
             },
             view(file){
-                console.log(file, '3434')
                 if (!file.fileUrl) return
                 const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
                 if (this.imgFmt.includes(fileExtension)) {

@@ -100,7 +100,8 @@ import { pageMixins } from '@/utils/pageMixins'
 import { typeColumn } from './columnData'
 import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
-import { deleteType, queryTypeList, topType, publishedTypeById } from '@/api/reportForm';
+import { deleteType, queryTypeList, topType, publishedTypeById, reportTypeDetailById } from '@/api/reportForm';
+import moment from 'moment'
 export default {
 	components: {
 		iInput,
@@ -148,10 +149,10 @@ export default {
 		}
 	},
 	mounted() {
-		this.getTableLst()
+		this.getTableList()
 	},
 	methods: {
-		async getTableLst() {
+		async getTableList() {
 			let params = {
 				page: this.page.currPage,
 				size: this.page.pageSize
@@ -163,6 +164,9 @@ export default {
 			await queryTypeList(params).then(res => {
 				if (res?.code === '200') {
 					this.tableData = res?.data || []
+					this.tableData.map(item => {
+						item.createdAt = moment(item.createdAt).format('YYYY-MM-DD')
+					})
 					this.page.totalCount = res.total
 					this.tableLoading = false
 					this.searchFlag = false
@@ -176,7 +180,7 @@ export default {
 			}
 			this.page.currPage = 1
 			this.searchFlag = true
-			this.getTableLst()
+			this.getTableList()
 		},
 		reset() {
 			Object.keys(this.queryForm).forEach((item) => {
@@ -185,13 +189,13 @@ export default {
 			this.addTime = []
 			this.page.currPage = 1
 			this.searchFlag = false
-			this.getTableLst()
+			this.getTableList()
 		},
 		async statusChang(row) {
-			let params = {
-				published: !row.published
-			}
-			await publishedTypeById(row.id, params).then(res => {
+			let formData = new FormData()
+			formData.append('published', !row.published)
+			this.tableLoading = true
+			await publishedTypeById(row.id, formData).then(res => {
 				if (res?.success) {
 					this.$message({type: 'success', message: '已更改当前消息发送状态'})
 					this.getTableList()
@@ -199,11 +203,10 @@ export default {
 			})
 		},
 		async topChang(row) {
-			console.log(row, '22222')
-			let params = {
-				isTop: !row.isTop
-			}
-			await topType(row.id, params).then(res => {
+			let formData = new FormData()
+			formData.append('isTop', !row.isTop)
+			this.tableLoading = true
+			await topType(row.id, formData).then(res => {
 				if (res?.success) {
 					this.$message({type: 'success', message: '已更改当前置顶状态'})
 					this.getTableList()
@@ -228,7 +231,7 @@ export default {
 		del(row){
 			console.log(row, '111')
 			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}删除!!!`})
-            this.$confirm('确定删除此流程指导书吗?', '提示', {
+            this.$confirm('确定删除此类型吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -246,13 +249,22 @@ export default {
                 
             })
         },
-		modify(row) {
+		async modify(row) {
 			console.log('modify', row)
 			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}修改!!!`})
+			let currDetail = null
+			this.tableLoading = true
+			await reportTypeDetailById(row.id).then(res => {
+				if (res) {
+					currDetail = res
+				}
+				this.tableLoading = false
+			})
+			this.$refs.typeDialog.getUsersList()
+			this.$refs.typeDialog.getOrganizationsList()
 			this.dialogShow = true
 			this.operateType = 'edit'
-			let currRow = JSON.parse(JSON.stringify(row))
-			this.$refs.typeDialog.initModify(currRow)
+			this.$refs.typeDialog.initModify(currDetail)
 		},
 		addReportType(row) {
 			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})
