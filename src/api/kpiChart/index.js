@@ -1,13 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2021-08-07 10:24:35
- * @LastEditTime: 2021-12-21 10:38:10
+ * @LastEditTime: 2022-01-17 14:39:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\api\kpiChart\index.js
  */
 import axios from '@/utils/axios'
+import axiosDownLoad from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const requstDownLoad = axiosDownLoad(process.env.VUE_APP_SUPPLIER + '/web')
 const chrequst = axios(process.env.VUE_APP_AON)
 const requestSpi = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requstDIC = axios(process.env.VUE_APP_BASE_INFO)
@@ -30,7 +32,7 @@ export function slelectkpiList(params) {
 
 // kpi 下载
 export function dowbloadAPI(data) {
-  return requst({
+  return requstDownLoad({
     url: '/kpi/template/download',
     method: 'POST',
     responseType: 'blob',

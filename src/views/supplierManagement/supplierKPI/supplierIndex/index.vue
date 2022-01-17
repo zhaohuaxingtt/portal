@@ -198,7 +198,10 @@ export default {
       })
     },
     handleRouter(row) {
-      window.open(row.url, '_blank')
+      let routeData = this.$router.resolve({
+        path: `${row.url}`
+      })
+      window.open(routeData.href, '_blank')
     },
     //导出页面
     handleExportCurrent() {

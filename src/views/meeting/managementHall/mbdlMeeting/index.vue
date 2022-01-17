@@ -1711,7 +1711,6 @@ export default {
         iMessage.warn('改议题不能删除')
         return
       }
-      
       if (
         this.selectedTableData[0] &&
         this.selectedTableData[0].state !== '01' &&

@@ -56,13 +56,19 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
-            <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row }}</span>
-            </template> -->
+            <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.topic }}</span>
+            </template> 
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.mbdlNameEn }}</span>
+            </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="采购分类" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.materialGroupName }}</span>
+            </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
@@ -75,10 +81,19 @@
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporterDept }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.presenterDept }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporter }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
              <template slot-scope="scope">
@@ -103,6 +118,9 @@
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
+           <template slot-scope="scope">
+              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.result] }}</span>
+             </template>
           </el-table-column>
          
         </iTableML>
@@ -129,7 +147,8 @@
 <script>
 import { iPage, iCard, iPagination } from 'rise'
 import iTableML from '@/components/iTableML'
-import { getMeetingDetail } from '@/api/meeting/home'
+// import { getMeetingDetail } from '@/api/meeting/home'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import { getMettingType } from '@/api/meeting/type'
 import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
@@ -157,6 +176,14 @@ export default {
         '01': '未进行',
         '02': '进行中',
         '03': '已结束'
+      },
+      resultObj:{
+        '01': '待定',
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
       },
       timer: '',
       openAddTopic: false,
@@ -186,7 +213,7 @@ export default {
       })
     },
     query() {
-      getMeetingDetail(this.$route.query).then((res) => {
+      findThemenById(this.$route.query).then((res) => {
         this.result = res
         this.data = res.themens
         this.dataTable = res.themens.slice(0, 1 * this.pageSize)

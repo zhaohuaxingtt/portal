@@ -290,6 +290,9 @@ export default {
     handleCheckYear() {
       this.getEklAffix(this.query)
     }
+  },
+  beforeDestroy() {
+    this.chart = null
   }
 }
 </script>
