@@ -53,7 +53,7 @@
             </div> -->
           <iSelect
               v-model="fromData.isFrozenRs"
-              :placeholder="$t('SELECT_PLACEHOLDER')"
+              :placeholder="$t('请选择')"
               class="operate-selectALL"
             >
               <el-option :value="true" label="是"></el-option>
@@ -81,7 +81,6 @@
     <!-- 列表 -->
     <div v-if="showIFormItemList">
       <div class="commonTablediv">RFQ发送对象</div>
-          
           <commonTable
           class="commonTablediv"
             v-update
@@ -99,13 +98,13 @@
                 /> -->
                 <iSelect
               v-model="scope.row.currency"
-              :placeholder="$t('SELECT_PLACEHOLDER')"
+              :placeholder="$t('请选择')"
             >
-                <!-- v-for="item in currencyS"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value" -->
               <el-option
+                v-for="item in currencyS"
+                :key="item.destCurrency"
+                :label="item.destCurrency"
+                :value="item.destCurrency"
               ></el-option>
             </iSelect>
             </template>
@@ -220,7 +219,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId} from '@/api/meeting/gpMeeting'
+import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
@@ -294,6 +293,7 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        currencyS:[],
         iconShowA:false,
         iconShowB:false,
         selectedRow:[],
@@ -342,6 +342,7 @@ export default {
       }
     } else {
       return {
+        currencyS:[],
         iconShowA:false,
         iconShowB:false,
         selectedRow:[],
@@ -530,12 +531,24 @@ export default {
   created() {  
     this.getList()
     this.getDate()
+    this.getCurrency()
     // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
     // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
     //货币下拉框
     getCurrency(){
+      const params = {
+        id:this.selectedTableData[0].id//议题id
+      }
+      getCscCurrencyList(params).then((res) => {
+        if (res == '') {
+          this.currencyS.push({ destCurrency: 'RMB', destCurrency: 'RMB' })
+        }else{
+          this.currencyS=res
+        }
+        
+      })
     },
     // 列表   findGpBidderInfoByThemenId
     getList(){
@@ -547,9 +560,7 @@ export default {
         console.log(res);
         this.tableDataList=res
         this.handleIntercept()
-         
       })
-
     },
     // form表单   findGpInfoByThemenId
     getDate(){
@@ -586,12 +597,13 @@ export default {
       const params = {
        conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
        meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.taskCsc,//任务
+       result:this.fromData.result,//任务
        themenId:this.selectedTableData[0].id,//议题id
-       isLoi: this.ruleForm.isFrozenRs ,   //是否发送loi审批
+       isLoi: this.fromData.isFrozenRs ,   //是否发送loi审批
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
+      return
       endCscThemen(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
@@ -639,20 +651,28 @@ export default {
         this.showIFormItemRS= false
         this.showIFormItemList= false
         this.showIFormItemelform= false
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }else if(e.conclusionCsc == '05' ){
         // 结论 任务 列表
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }else if(e.conclusionCsc == '04' || e.conclusionCsc == '02'){
         // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }
       if(e.conclusionCsc == '03'){
         this.showIFormItemRS= false
         this.showIFormItemelform= true
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }
 
     },
