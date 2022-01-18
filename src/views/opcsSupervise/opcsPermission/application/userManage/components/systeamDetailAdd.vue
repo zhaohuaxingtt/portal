@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 18:06:53
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-17 18:00:50
+ * @LastEditTime: 2022-01-17 18:17:46
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systeamDetailAdd.vue
 -->
 
@@ -14,7 +14,7 @@
            @close="closeDiolog"
            :title="language('GUANLIANYINGYONG', '关联应用')">
     <div class="btnbox">
-      <i-button @click="add">{{ language('TIANJIA', '添加') }}
+      <i-button @click="add">{{ language('QUEREN', '确认') }}
       </i-button>
     </div>
     <table-list  style="padding-bottom:20px" :tableData="tableListData"
@@ -63,9 +63,7 @@ export default {
       this.tableLoading = true
       const params = {
         opcsSupplierId: this.$route.query.opcsSupplierId,
-        pageNo: 1,
-        pageSize: 99999,
-        opcsUserId: this.rowList.id
+   
       }
       relateQuery(params).then((res) => {
         this.tableLoading = false
@@ -75,9 +73,9 @@ export default {
       })
     },
   add(){
-      this.$emit('selectTableDataDetail',this.selectTableData)
+      this.$emit('save',this.selectTableData)
       this.closeDiolog()
-        iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
+        // iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
   },
     //修改表格改动列
     handleSelectionChange(val) {

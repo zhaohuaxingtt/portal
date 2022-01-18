@@ -21,7 +21,8 @@
 <script>
 import {icon, iButton , iMessage} from 'rise'
 import draggable from "vuedraggable";
-import { findThemenById ,resortThemen} from '@/api/meeting/details'
+import {  resortThemen} from '@/api/meeting/details'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 export default {
   components: {
     iButton,
@@ -47,6 +48,7 @@ export default {
       findThemenById(data) .then((res) => {
          console.log(res.themens);
          this.syllable=res.themens
+         console.log(this.syllable);
         }) .catch((err) => {
           console.log(err)
         })

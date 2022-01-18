@@ -63,6 +63,8 @@ export default {
   created() {},
   methods: {
     getTableList() {
+      console.log(this.comparisonTableData)
+
       this.$refs.dataComparsionTable.getTableList();
     },
     clearDiolog() {

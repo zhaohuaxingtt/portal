@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-13 10:48:59
+ * @LastEditTime: 2022-01-17 15:34:47
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -52,7 +52,7 @@
                    :before-upload="beforeAvatarUpload"
                    :show-file-list="false"
                    :http-request="httpUpload"
-                   :disabled="uploadLoading">
+                   :disabled="importLoading">
           <div>
             <i-button>{{ language('DAORU', '导入') }}
             </i-button>
@@ -74,7 +74,8 @@
         <span v-if="scope.row.markExpiration==0">否</span>
       </template>
       <template #system='scope'>
-        <iButton  @click="openDialog(scope.row)" type="text">{{ language('CAOZUO', '操作') }}
+        <iButton @click="openDialog(scope.row)"
+                 type="text">{{ language('CAOZUO', '操作') }}
         </iButton>
       </template>
     </table-list>
@@ -88,19 +89,38 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
-  <systemDetail  @closeDiolog="closeDiolog"    v-model="isdialog" :rowList="rowList"></systemDetail>
-    
- 
+    <systemDetail @closeDiolog="closeDiolog"
+                  v-model="isdialog"
+                  :rowList="rowList"></systemDetail>
+    <iDialog :visible.sync="importDialog"
+             width="90%"
+             top="2%"
+             :title="language('DAORU', '导入')">
+      <table-list style="padding-bottom:20px"
+                  :tableData="tableListDetail"
+                  :tableTitle="tableTitleEdit"
+                  :tableLoading="tableLoading">
+
+      </table-list>
+    </iDialog>
+
   </iCard>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
-import  systemDetail  from './systemDetail'
+import systemDetail from './systemDetail'
 import { tableTitle, tableTitleEdit } from './data'
 import store from '@/store'
-import { iCard, iButton, iMessage, iPagination, iMessageBox } from 'rise'
+import {
+  iCard,
+  iButton,
+  iMessage,
+  iPagination,
+  iMessageBox,
+  iDialog
+} from 'rise'
 import {
   queryDetailUser,
   thawUser,
@@ -118,19 +138,23 @@ export default {
     iButton,
     tableList,
     iPagination,
-    systemDetail
+    systemDetail,
+    iDialog
   },
   data() {
     return {
-        isdialog:false,
-        rowList:{},
+      importDialog: false,
+      isdialog: false,
+      rowList: {},
       inputProps: [],
       edit: false,
       tableLoading: false,
       selectTableData: [],
       tableTitle: tableTitle,
       tableTitleEdit: tableTitleEdit,
-      tableListData: []
+      tableListData: [],
+      importLoading: false,
+      tableListDetail: []
     }
   },
   created() {
@@ -149,7 +173,6 @@ export default {
             if (res && res.code == 200) {
               this.inputProps = []
               this.edit = false
-
               this.getTableData()
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
@@ -195,15 +218,21 @@ export default {
     },
     //导入
     async httpUpload(info) {
+      this.importLoading = true
       let formData = new FormData()
       formData.append('file', info.file)
       formData.append('opcsSupplierId ', this.$route.query.opcsSupplierId)
       formData.append('userId ', store.state.permission.userInfo.id)
-      await imports(formData)
-        .then((res) => {})
-        .catch((err) => {
-          iMessage.error('上传失败')
-        })
+      //    const res= await imports(formData)
+      await imports(formData).then((res) => {
+        if (res.code == 200 && res) {
+          if (res.data.length > 0) {
+            this.importDialog = true
+            this.tableListDetail = res.data
+          }
+        }
+      })
+      this.importLoading = false
     },
     // 上传前校验
     beforeAvatarUpload(file) {
@@ -213,13 +242,13 @@ export default {
       }
       return isLt10M
     },
-    closeDiolog(){
-        this.isdialog=false
+    closeDiolog() {
+      this.isdialog = false
     },
     //应用关联弹窗
     openDialog(v) {
-        this.rowList=v
-        this.isdialog=true
+      this.rowList = v
+      this.isdialog = true
     },
     //下载模板
     download() {

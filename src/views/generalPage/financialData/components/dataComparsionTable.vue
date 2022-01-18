@@ -142,6 +142,7 @@ export default {
       );
     },
     async getTableList () {
+      console.log(this.comparisonTableData)
       this.tableLoading = true;
       try {
         const pms = {
