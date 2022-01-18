@@ -69,8 +69,8 @@
 			</iTableCustom>
 			<iPagination
 				v-update
-				@size-change="handleSizeChange($event, getList)"
-				@current-change="handleCurrentChange($event, getList)"
+				@size-change="handleSizeChange($event, getTableList)"
+				@current-change="handleCurrentChange($event, getTableList)"
 				background
 				:current-page="page.currPage"
 				:page-sizes="page.pageSizes"

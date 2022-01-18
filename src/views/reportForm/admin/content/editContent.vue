@@ -9,7 +9,7 @@
         <el-form :model="form" ref="form" label-width="90px" :inline="false" size="normal" class="validate-required-form" v-loading="loading">
             <iFormItem :label="language('Report类型')" prop="reportSection" :rules="{ required:true, message:'请选择', trigger:'change'}">
                 <iSelect v-model="form.reportSection" filterable clearable @change="handleTypeChange">
-                    <el-option v-for="item in reportSectionList" :key="item.id" :label="item.sectionName" :value="item.id"></el-option>
+                    <el-option v-for="item in reportSectionList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
             <iFormItem :label="language('Report标题')" prop="title" :rules="{ required:true, message:'请输入', trigger:'blur'}">
@@ -25,7 +25,7 @@
             </iFormItem>
             <iFormItem :label="language('报表分类')" prop="reportCategory" :rules="{ required:true, message:'请选择', trigger:'change'}">
                 <iSelect v-model="form.reportCategory" filterable clearable>
-                    <el-option v-for="item in reportCategoryList" :key="item.id" :label="item.sectionName" :value="item.id"></el-option>
+                    <el-option v-for="item in reportCategoryList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
             <iFormItem :label="language('上传附件')" prop="file" :rules="{ required:true, message:'请选择', trigger:'change'}">
@@ -49,7 +49,7 @@
 <script>
     import {iDialog,iButton,iInput, iSelect, iDatePicker, iFormItem} from 'rise';
     import iUpload from '@/views/adminProCS/components/iUpload.vue';
-    import { addReportContent, queryTypeList, queryCurrCategory } from '@/api/reportForm';
+    import { addReportContent, updateReportContent, queryTypeList, queryCurrCategory } from '@/api/reportForm';
     export default {
         components: {
             iDialog,
@@ -92,7 +92,8 @@
                 reportSectionList: [],
                 reportCategoryList: [],
                 loading: false,
-                uploadFileStream: null
+                uploadFileStream: null,
+                currId: null
             }
         },
         methods: {
@@ -102,12 +103,11 @@
                     page: 1,
                     size: 99
                 }
+                this.loading = true
                 await queryTypeList(params).then(res => {
-                    console.log(res, '12222')
                     if (res?.code) {
-                        this.reportSectionList = [
-                            {id: '12', sectionName: '测试一级分类'}
-                        ]
+                        this.reportSectionList = res?.data
+                        this.loading = false
                     }
                 })
             },
@@ -121,10 +121,9 @@
                     name: ' '
                 }
                 await queryCurrCategory(va, param).then(res => {
-                    console.log(res, '12222')
-                    this.reportCategoryList = [
-                        {id: '12', sectionName: '测试二级分类'}
-                    ]
+                    if (res?.code === '200') {
+                        this.reportCategoryList = res?.data || []
+                    }
                 })
             },
             save(){
@@ -133,12 +132,24 @@
                         try {
                             if (this.operateType === 'add') {
                                 this.form.file = this.form.file[0]?.fileUrl || ''
+                                this.loading = true
                                 await addReportContent(this.form).then(res => {
-                                    console.log(res, '2222')
+                                    if (res?.success) {
+                                        this.$message({type: 'success', message: '新增内容成功'})
+                                        this.loading = false
+                                    }
                                 })
                             } else {
-                                console.log('modify')
+                                this.form.file = Array.isArray(this.form.file) ? this.form.file[0]?.fileUrl || '' : this.form.file
+                                this.loading = true
+                                await updateReportContent(this.currId, this.form).then(res => {
+                                    if (res?.success) {
+                                        this.$message({type: 'success', message: '修改内容成功'})
+                                        this.loading = false
+                                    }
+                                })
                             }
+                            this.close()
                         } finally {
                             this.loading = false
                         }
@@ -156,17 +167,13 @@
                     reportCategory:""
                 }
                 this.uploadFileStream = null
+                this.currId = null
                 this.$emit("update:show",false)
             },
-            // uploadHandle(file){
-            //     console.log(file, '2222')
-            //     // this.uploadFileStream = file
-            //     return new Promise((resolve) => {
-            //         resolve({
-            //             name: file.name
-            //         })
-            //     })
-            // },
+            close() {
+                this.handleClose()
+                this.$emit('refresh')
+            }
         },
     }
 </script>

@@ -204,7 +204,7 @@ export default {
                     let arr = JSON.parse(JSON.stringify(this.adminList))
                     arr.unshift({
                         nameZh: '自定义',
-                        userId: 999
+                        userId: 7250
                     })
                     this.usersList = arr
                 }
@@ -221,11 +221,13 @@ export default {
             }) 
         },
         userListChange(val){
+            console.log(val, '22222')
             val.map(item => {
                 this.form.users.push(item.userId * 1)
             })
         },
         supplierListChange(val){
+            console.log(val, '3333')
             val.map(item => {
                 this.form.suppliers.push(item.id * 1)
             })
@@ -271,7 +273,7 @@ export default {
             })
         },
         handlePerson(va) {
-            if (va.includes(999)) {
+            if (va.includes(7250)) {
                 this.customFlag = true
             } else {
                 this.customFlag = false
@@ -290,7 +292,7 @@ export default {
                             this.form.cover = this.imageUrl
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
-                                    if (item !== 999) {
+                                    if (item !== 7250) {
                                         this.form.users.push(item)
                                     }
                                 })
@@ -313,7 +315,7 @@ export default {
                             this.form.id = this.modifyId
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
-                                    if (item !== 999) {
+                                    if (item !== 7250) {
                                         this.form.users.push(item)
                                     }
                                 })
@@ -347,7 +349,7 @@ export default {
             if (row.suppliers) {
                 this.form.canUsers.unshift({
                     nameZh: '自定义',
-                    userId: 999
+                    userId: 7250
                 })
                 this.customFlag = true
             }
