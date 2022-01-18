@@ -474,7 +474,8 @@ export default {
         query: {
           supplierToken: row.supplierToken,
           current: 18,
-          supplierType: 4
+          supplierType: 4,
+          supplierId:row.supplierId
         }
       })
     },

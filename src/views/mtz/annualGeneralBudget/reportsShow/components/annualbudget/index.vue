@@ -20,6 +20,9 @@
       <iButton v-if="showBtn" class="export" @click="exportReport"
         >导出</iButton
       >
+      <!-- 品牌导出 -->
+      <iButton v-show="showPinpai" class="export" @click="exportReportPP">导出</iButton>
+      <iButton v-show="showCar" class="export" @click="exportReportCAR">导出</iButton>
     </div>
     <router-view ref="child"></router-view>
   </div>
@@ -39,7 +42,9 @@ export default {
     return {
       tab: '1',
       subNavList:[],
-      showBtn: false
+      showBtn: false,
+      showPinpai:false,
+      showCar:false,
     }
   },
   created() {
@@ -60,9 +65,11 @@ export default {
     }
     if (this.$route.name == 'brand') {
       this.tab = '4'
+      this.showPinpai = true;
     }
     if (this.$route.name == 'model') {
       this.tab = '5'
+      this.showCar = true;
     }
   },
   mounted() {
@@ -74,6 +81,7 @@ export default {
         typeof this.$refs.child?.exportReport == 'function' || false
     },
     handleTabClick(tab) {
+      console.log(this.$refs.child)
       let item = this.subNavList.find((item) => item.code == tab.name)
       if (item != null && item.path != this.$route.path) {
         this.$router.replace({
@@ -85,6 +93,12 @@ export default {
       if (typeof this.$refs.child.exportReport == 'function') {
         this.$refs.child.exportReport()
       }
+    },
+    exportReportPP(){
+      this.$refs.child.Upload();
+    },
+    exportReportCAR(){
+      this.$refs.child.Upload();
     }
   }
 }

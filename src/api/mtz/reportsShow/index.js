@@ -133,3 +133,13 @@ export function differenceAnalysisCarModelExport(params) {
     data: params
   })
 }
+
+//车型导出
+export function yearCarModelExport(params) {
+  return request({
+    url: "/web/mtz/forecastReport/yearCarModelExport",
+    method: "POST",
+    responseType: 'blob',
+    data: params
+  })
+}
