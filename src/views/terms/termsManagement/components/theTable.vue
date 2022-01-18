@@ -479,6 +479,7 @@ export default {
       this.signTitle = {
         name: e.name,
         termsVersion: e.termsVersion,
+        state: e.state
       };
       this.id = e.id;
       this.openSignDetailDialog = true;
