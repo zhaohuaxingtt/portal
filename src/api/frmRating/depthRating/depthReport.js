@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:18
- * @LastEditTime: 2022-01-13 18:56:34
+ * @LastEditTime: 2022-01-18 14:12:53
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\api\frmRating\depthRating\depthReport.js
@@ -67,13 +67,15 @@ export function postFinancialAnalysis(parmars) {
 }
 
 // 深评报告综述查询
-export function getSummarize(supplierId, id, lang) {
+export function getSummarize(supplierId, id, deepCommentId, lang) {
   return requst({
     url:
       '/deepCommentReport/summarize?deepCommentSupplierId=' +
       supplierId +
       '&id=' +
       id +
+      '&deepCommentId=' +
+      deepCommentId +
       `&lang=${lang ? 'en' : 'zh'}`,
     method: 'GET'
   })

@@ -49,7 +49,7 @@
                        label="财务经营与分析"></el-option>
             <el-option value="报告完成"
                        label="报告完成"></el-option>
- 
+
           </iSelect>
         </span>
         <span v-else-if="scope.row.status == '清单驳回' || scope.row.status == '报告驳回'">
@@ -336,7 +336,6 @@ export default {
       let result2 = this.currentSelect.every(
         (item) => item.relevantDept == relevantDept
       )
-      console.log(result1, result2, deepCommentResult, relevantDept)
       if (result1 && result2) {
         this.$refs.report.reportIssueUser(this.currentSelect[0].id)
         this.report = true
