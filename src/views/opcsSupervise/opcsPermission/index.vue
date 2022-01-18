@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-14 17:03:36
+ * @LastEditTime: 2022-01-17 13:54:34
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -37,8 +37,8 @@
         <div class="floatright">
           <i-button @click="add()">{{ language('XINZENG','新增') }}</i-button>
           <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button>
-          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button> -->
+          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button> -->
+          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>

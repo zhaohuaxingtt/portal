@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-16 17:27:41
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-17 17:46:52
+ * @LastEditTime: 2022-01-17 18:19:39
  * @FilePath: \front-portal-new\src\api\opcs\system.js
  */
 import axios from '@/utils/axios'
@@ -20,7 +20,7 @@ export function operationAdd(parmars) {
 //应用管理--授权列表--查询
 export function operationQuery(parmars) {
     return requst({
-        url: '/opcsUser/operationQuery',
+        url: '/opcsUser/unBindingOperationQuery',
         method: 'POST',
         data: parmars
     })
@@ -28,7 +28,7 @@ export function operationQuery(parmars) {
 //应用管理--授权列表--关联应用
 export function relateQuery(parmars) {
     return requst({
-        url: '/opcsSupplier/relateQuery',
+        url: '/opcsSupplierApps/unbindingQuery/'+parmars.opcsSupplierId,
         method: 'POST',
         data: parmars
     })

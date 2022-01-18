@@ -383,12 +383,6 @@ export const TABLE_COLUMNS_DEFAULT = [
     width: 50
   },
   {
-    type: 'index',
-    label: '#',
-    i18n: '',
-    width: 50
-  },
-  {
     props: 'currency',
     name: '货币类型',
     key: '',

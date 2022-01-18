@@ -17,6 +17,7 @@
           <el-form-item :label="'操作类型'">
             <iSelect
               v-model="query.type"
+              @change="onTypeChange"
               filterable
               placeholder="请选择（支持搜索）"
             >
@@ -37,8 +38,8 @@
         :data="tableData"
         style="width: 100%"
         class="log-table"
-        default-expand-all
         v-loading="loading"
+        default-expand-all
       >
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -71,7 +72,6 @@
 
 <script>
 import { iDialog, iSearch, iInput, iSelect, iPagination } from 'rise'
-
 export default {
   components: { iDialog, iSearch, iInput, iSelect, iPagination },
   props: {
@@ -94,6 +94,16 @@ export default {
     },
     env: {
       // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
+      type: String,
+      default: ''
+    },
+    // 根据字典查询下拉key
+    optionDicKey: {
+      type: String,
+      default: ''
+    },
+    // 字典查询筛选参数，通常用于三级字典查询，根据已有的列表查询
+    optionDicKey2: {
       type: String,
       default: ''
     }
@@ -128,14 +138,25 @@ export default {
     appEnv() {
       return window.sessionStorage.getItem('env') || this.env
     },
+    dicApiPrefix() {
+      const baseMap = {
+        '': '/baseApi/web',
+        dev: '/baseApi/web',
+        sit: '/baseApi/web',
+        vmsit: '/baseApi/web',
+        uat: '/baseApi/web',
+        production: '/baseApi/web'
+      }
+      return baseMap[this.appEnv.toLowerCase()] || '/baseinfo/web'
+    },
     bizLogApiPrefix() {
       const baseMap = {
-        '': '/api',
+        '': '/bizlogApi',
         dev: '/bizlogApi',
         sit: '/bizlogApi',
         vmsit: '/bizlogApi',
         uat: '/bizlogApi',
-        production: '/api'
+        production: '/bizlogApi'
       }
       return baseMap[this.appEnv.toLowerCase()] || '/api'
     }
@@ -164,8 +185,51 @@ export default {
       }
     },
     handleOpen() {
-      this.getOptions()
+      // 传了字典key的，默认通过字典接口查询下拉
+      if (this.optionDicKey) {
+        this.getDicOptions()
+      } else {
+        this.getOptions()
+      }
       this.getList()
+    },
+    // 根据key查字典
+    getDicOptions() {
+      const key = this.optionDicKey || ''
+      const http = new XMLHttpRequest()
+      const url = `${this.dicApiPrefix}/selectDictByKeys?keys=${key}`
+      http.open('GET', url, true)
+      http.setRequestHeader('content-type', 'application/json')
+      http.onreadystatechange = () => {
+        if (http.readyState === 4) {
+          let data = JSON.parse(http.responseText)?.data || []
+          data = (data && data[key]) || []
+          const options = data.map((o) => {
+            o.value = o.name
+            return o
+          })
+          // 需要查询三级
+          if (this.optionDicKey2) {
+            let selectOptions = options.find(
+              (o) => o.code === this.optionDicKey2
+            )
+            selectOptions =
+              selectOptions &&
+              selectOptions.subSelectVos &&
+              selectOptions.subSelectVos.length
+                ? selectOptions.subSelectVos
+                : []
+            this.options = selectOptions.map((o) => {
+              o.value = o.name
+              return o
+            })
+          } else {
+            // 直接取字典回来的数组
+            this.options = options
+          }
+        }
+      }
+      http.send()
     },
     getOptions() {
       const http = new XMLHttpRequest()
@@ -177,7 +241,7 @@ export default {
           this.options = JSON.parse(http.responseText)?.data || []
         }
       }
-      http.send(JSON.stringify({ isAdmin: false }))
+      http.send()
     },
     getList() {
       this.loading = true
@@ -190,6 +254,7 @@ export default {
       http.setRequestHeader('content-type', 'application/json')
       http.onreadystatechange = () => {
         if (http.readyState === 4) {
+          this.loading = false
           if (this.isPage) {
             const { data } = JSON.parse(http.responseText)
             this.tableData = data.content || []
@@ -198,12 +263,11 @@ export default {
             this.tableData = JSON.parse(http.responseText)?.data || []
           }
         }
-        this.loading = false
       }
       this.query.bizId = this.bizId
       const extendParams = this.extendParams || {}
       const sendData = {
-        extendFields: { ...this.query, ...extendParams }
+        extendFields: { ...extendParams, ...this.query }
       }
       if (this.isPage) {
         sendData.current = this.page.currPage - 1
@@ -218,10 +282,14 @@ export default {
     handleCurrentChange(val) {
       this.page.currPage = val
       this.getList()
+    },
+    onTypeChange(type) {
+      this.$emit('onTypeChange', type)
     }
   }
 }
 </script>
+
 <style lang="scss">
 .pagination-box {
   padding-bottom: 30px;
