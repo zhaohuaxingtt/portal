@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-17 18:15:49
+ * @LastEditTime: 2022-01-18 09:34:20
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -36,8 +36,8 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
-    <systeamDetailAdd @save="save" v-model="dialog"
-                      :key="Math.random()"></systeamDetailAdd>
+    <systeamDetailAdd @closeDiolog='closeDiolog' @save="save" v-model="dialog"
+                      ></systeamDetailAdd>
   </iCard>
 </template>
 
@@ -64,8 +64,6 @@ export default {
   data() {
     return {
       dialog: false,
-      inputProps: [],
-      edit: false,
       tableLoading: false,
       selectTableData: [],
       tableTitle: tableTitle,
@@ -88,7 +86,6 @@ export default {
         if (res && res.code == 200) {
           this.getTableData()
           this.edit = false
-          this.inputProps = []
           iMessage.success(res.desZh)
         }
       })
@@ -99,14 +96,11 @@ export default {
       this.tableLoading = true
       const params = {
         opcsSupplierId: this.$route.query.opcsSupplierId,
-        // pageNo: this.page.currPage,
-        // pageSize: this.page.pageSize,
       }
       pageQueryDetails(params).then((res) => {
         this.tableLoading = false
         if (res && res.code == 200) {
           this.tableListData = res.data
-          this.page.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },
@@ -138,6 +132,9 @@ export default {
           }
         })
       })
+    },
+    closeDiolog(){
+        this.dialog=false
     },
     //修改表格改动列
     handleSelectionChange(val) {
