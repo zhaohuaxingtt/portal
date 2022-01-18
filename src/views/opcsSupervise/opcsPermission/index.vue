@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 10:15:51
+ * @LastEditTime: 2022-01-18 11:21:35
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -21,7 +21,7 @@
           <iSelect filterable
                    v-model="form.userName">
             <el-option :value="item.id"
-                       :label="item.contactName"
+                       :label="item.nameZh"
                        v-for="(item, index) in userList"
                        :key="index"></el-option>
           </iSelect>
@@ -100,8 +100,8 @@
                   slot="label"></iLabel>
           <iSelect filterable
                    v-model="formData.contactUserId">
-            <el-option :value="item.value"
-                       :label="item.label"
+            <el-option :value="item.id"
+                       :label="item.nameZh"
                        v-for="(item, index) in userList"
                        :key="index"></el-option>
           </iSelect>
@@ -165,7 +165,7 @@ export default {
       selectTableData: [],
       form: {},
       tableListData: [],
-      userList: [{ value: 9016, label: '曹鹏' }],
+      userList: [],
       tableLoading: false,
       dialog: false,
       dialogRules: {
@@ -238,8 +238,8 @@ export default {
           console.log(this.formData)
     },
     async getUser() {
-        const res = await getListByParam({ roleCode: 'WLGLY' })
-      //   this.userList = res
+        const res = await getListByParam({ roleCode: 'WLGYSGLY' })
+        this.userList = res.data
     },
     //获取列表接口
     getTableData() {
