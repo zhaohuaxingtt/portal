@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 09:46:19
+ * @LastEditTime: 2022-01-18 10:15:38
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -170,7 +170,7 @@ export default {
         if (valid) {
           let parmars = {
             saveUserList: this.tableListData,
-            opcsSupplierKeyId: this.$route.query.opcsSupplierId
+            opcsSupplierId: this.$route.query.opcsSupplierId
           }
           console.log(parmars)
           saveUser(parmars).then((res) => {
