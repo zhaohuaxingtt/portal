@@ -5,7 +5,7 @@
             <div class="report-box">
                 <div class="flex">
                     <span>搜索</span>
-                    <iInput v-model="params.name" class="search" @keydown.enter="handleIconClick" clearable>
+                    <iInput v-model="keyword" class="search" @keydown.enter="handleIconClick" clearable>
                         <i
                             class="el-icon-search el-input__icon"
                             slot="suffix"
@@ -15,27 +15,27 @@
                     <iButton @click="$router.back()">返回</iButton>
                 </div>
                 <div class="detail">
-                    <div class="detail-item" v-for="l in list" :key="l.id">
-                        <h3 class="title" v-text="l.title"></h3>
-                        <div class="file" v-for="(item,idx) in l.list" :key="idx">
-                            <span>{{item.name}}</span>
+                    <div class="detail-item" v-for="(l,idx) in dataList" :key="idx">
+                        <h3 class="title" v-text="l.categoryName"></h3>
+                        <div class="file" v-for="(item) in l.list" :key="item.id">
+                            <span>{{item.title}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item)">
                                     分享
                                 </iButton>
-                                <iButton size="mini" @click="show = true">下载</iButton>
+                                <iButton size="mini" @click="handLoad(item)">下载</iButton>
                             </div>
                         </div>
                         <iPagination
                             v-update
-                            @current-change="query"
+                            @current-change="queryPage($event, l.categoryIds, idx)"
                             background
                             :current-page="params.current"
                             :page-size="params.size"
                             :page-sizes="[10]"
-                            :total="total"
+                            :total="l.total"
                             layout="sizes, prev, pager, next, jumper"
-                            />
+                        />
                     </div>
                 </div>
             </div>
@@ -61,60 +61,93 @@
         },
         data() {
             return {
-                pagination:{
-                    totalCount:2,
-                    currPage:1
-                },
-                list:[
-                    {
-                        total:10,
-                        page:1,
-                        title:"报告分类一",
-                        list:[
-                            {name:'PDF CW32 Special WOB-China-CSC minutes', url: 'www.baidu.com'}
-                        ]
-                    },
-                    {
-                        total:10,
-                        page:1,
-                        title:"报告分类二",
-                        list:[
-                            {name:'PDF CW32 Special WOB-China-CSC minutes', url: 'www.baidu.com'}
-                        ]
-                    },
-                ],
+                dataList:[],
                 params:{
-                    name:"",
-                    categoryId: this.$route.query.id,
-                    size:10,
-                    current:1
+                    size: 10,
+                    current: 1
                 },
-                total:1,
                 mailto: '',
                 keyword: '',
                 show:false,
                 loading:false,
-                title:this.$route.query.name
+                title: '',
+                categoryIds: []
             }
         },
         created(){
-            this.query(1)
+            let queryObj = this.$route.query
+            this.title = queryObj.name || ''
+            this.categoryIds = queryObj.categoryIds || []
+            if (this.categoryIds) {
+                this.query()
+            }
+            
         },
         methods: {
-            async query(page){
-                console.log(page);
-                this.params.current = page
+            query(){
+                if (this.keyword) {
+                    this.params.name = this.keyword
+                }
                 try {
                     this.loading = true
-                    let res = await queryReportContentList(this.params)
+                    let dataList = []
+                    this.categoryIds.map(async (cate, index)=> {
+                        this.params.categoryIds = cate
+                        let res = await queryReportContentList(this.params)
+                        console.log(res, '2222')
+                        if (res?.code === '200') {
+                            let data = res?.data
+                            console.log(data, data[0]?.categoryName)
+                            dataList.push({
+                                categoryName: data[0]?.categoryName,
+                                total: res.total,
+                                page: res.pageNum,
+                                list: [],
+                                categoryIds: this.categoryIds[index]
+                            })
+                            data.map(item => {
+                                dataList[index].list.push({
+                                    title: item.title || '',
+                                    cover: item.cover,
+                                    id: item.id
+                                })
+                            })
+                        }
+                    })
+                    this.dataList = dataList
                 } finally {
                     this.loading = false
                 }
             },
+            async queryPage(page, id, index) {
+                console.log(page, id, index, '1222')
+                this.params.current = page
+                this.params.categoryIds = id
+                await queryReportContentList(this.params).then(res => {
+                    if (res?.code === '200') {
+                        let data = res?.data
+                        let demoArr = []
+                        demoArr.push({
+                            categoryName: data[0]?.categoryName,
+                            total: res.total,
+                            page: res.pageNum,
+                            list: [],
+                            categoryIds: this.categoryIds[index]
+                        })
+                        data.map(item => {
+                            demoArr[0].list.push({
+                                title: item.title || '',
+                                cover: item.cover,
+                                id: item.id
+                            })
+                        })
+                        this.dataList[index] = demoArr
+                    }
+                })
+            },
             share(item) {
-                console.log(item, '1234')
-                let subject = `我与你分享了一条${item.name}`
-                let body = `我与你分享了一条内容 ${item.name} %0a%0d ${item.url}`
+                let subject = `我与你分享了一条${item.title}`
+                let body = `我与你分享了一条内容 ${item.title} %0a%0d ${item.cover}`
                 let href = `mailto:?subject=${subject}&body=${body}`
                 this.createAnchorLink(href)
             },
@@ -122,6 +155,13 @@
                 const a = document.createElement('a')
                 a.href = href
                 document.body.appendChild(a)
+                a.click()
+                a.remove()
+            },
+            handLoad(row) {
+                const a = document.createElement('a')
+                a.href = row.cover
+                a.download = row.title
                 a.click()
                 a.remove()
             },

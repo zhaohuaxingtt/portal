@@ -24,7 +24,7 @@
                         class="card-item"
                         v-for="(item, index) in cardsList"
                         :key="index"
-                        @click.native="$router.push({path:'/reportForm/web/reportCardsDetail',query:{id:item.id,name:item.name}})"
+                        @click.native="handleClick(item)"
                         >
                         <div class="top">
                             <div class="bell" v-if="item.isRead">
@@ -73,6 +73,7 @@ import { fetchCarTypeLevelSelect } from '@/api/mainData/carProject';
         },
         methods: {
             async getCardList() {
+                this.pageParams.keyword = ''
                 if (this.keyword) {
                     this.pageParams.keyword = this.keyword
                 }
@@ -89,6 +90,10 @@ import { fetchCarTypeLevelSelect } from '@/api/mainData/carProject';
             },
             handleIconClick() {
                 this.getCardList()
+            },
+            handleClick(item) {
+                if (!item.categoryIds) return this.$message({type: 'warning', message: '该报表暂时还没有内容'})
+                this.$router.push( {path:'/reportForm/web/reportCardsDetail', query:{ categoryIds:item.categoryIds || [], name: item.name } } )
             }
         },
     }

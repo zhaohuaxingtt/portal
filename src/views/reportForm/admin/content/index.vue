@@ -188,6 +188,7 @@
                         this.dialog.show = true
                         this.operateType = 'modify'
                         this.tableLoading = false
+                        this.$refs.editDialog.currId = row.id
                         this.$refs.editDialog.getTypeList()
                     }
                 })
