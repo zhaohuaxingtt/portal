@@ -525,40 +525,13 @@ export default {
       },
       immediate: true,
       deep: true
-    },
-    'fromData.isFrozenRs': {
-      handler(bol) {
-        if (!bol) {
-          this.$nextTick(() => {
-            this.$refs['slider'].style.transform = 'translate(-1.25rem,-50%)'
-            this.$refs['slider'].parentNode.style.backgroundColor = '#ccc'
-            this.$refs['slider'].style.transition = '0.2s'
-            this.$nextTick(() => {
-              this.$refs['sliderText'].style.transition = '0.2s'
-              this.$refs['sliderText'].style.transform = 'translate(1.25rem,0)'
-            })
-          })
-        } else {
-          this.$nextTick(() => {
-            this.$refs['slider'].style.transform = 'translateY(-50%)'
-            this.$refs['slider'].parentNode.style.backgroundColor = '#1663f6'
-            this.$refs['slider'].style.transition = '0.2s'
-            this.$nextTick(() => {
-              this.$refs['sliderText'].style.transition = '0.2s'
-              this.$refs['sliderText'].style.transform = 'translate(0.5rem,0)'
-            })
-          })
-        }
-      },
-      immediate: true,
-      deep: true
     }
   },
   created() {  
     this.getList()
     this.getDate()
-    this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
-    {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
+    // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
+    // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
     //货币下拉框
@@ -572,7 +545,7 @@ export default {
       }
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
-        // this.tableDataList=res
+        this.tableDataList=res
         this.handleIntercept()
          
       })
