@@ -379,11 +379,6 @@ export const buttonList = [
 //列表
 export const TABLE_COLUMNS_DEFAULT = [
   {
-    props: 'index',
-    name: '#',
-    width: 50
-  },
-  {
     props: 'currency',
     name: '货币类型',
     key: '',
