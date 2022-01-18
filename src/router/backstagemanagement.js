@@ -9,7 +9,7 @@ export default [
       path: "/backstagemanagement",
       meta: { 
         title: "设置评分管理",
-        activeMenu: ['RISE_ADMIN', 'BACKSTAGEMANAGEMENT']
+        activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
       },
       component: () => import("@/views/backstagemanagement"),
       redirect: "/backstagemanagement/configscoredept",
@@ -19,7 +19,7 @@ export default [
             name: "configscoredept",
             meta: { 
               title: "评分部门设置",
-              activeMenu: ['RISE_ADMIN', 'BACKSTAGEMANAGEMENT']
+              activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
           },
             component: () => import("@/views/backstagemanagement/configscoredept"),
         },
@@ -28,7 +28,7 @@ export default [
             name: "qualityscorerules",
             meta: { 
               title: "质量评分预设规则",
-              activeMenu: ['RISE_ADMIN', 'BACKSTAGEMANAGEMENT']
+              activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
           },
             component: () => import("@/views/backstagemanagement/qualityscorerules"),
           }
