@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-17 15:34:47
+ * @LastEditTime: 2022-01-18 10:15:38
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -70,8 +70,12 @@
                 ref="commonTable">
 
       <template #markExpiration='scope'>
-        <span v-if="scope.row.markExpiration==1">是</span>
-        <span v-if="scope.row.markExpiration==0">否</span>
+        <span v-if="ratioDate(scope.row)">是</span>
+        <span v-if="!ratioDate(scope.row)">否</span>
+      </template>
+      <template #isActive='scope'>
+        <span v-if="scope.row.isActive=='Y'||scope.row.isActive==1||scope.row.isActive==true">是</span>
+        <span v-if="scope.row.isActive=='N'||scope.row.isActive==0||scope.row.isActive==false">否</span>
       </template>
       <template #system='scope'>
         <iButton @click="openDialog(scope.row)"
@@ -166,7 +170,7 @@ export default {
         if (valid) {
           let parmars = {
             saveUserList: this.tableListData,
-            opcsSupplierKeyId: this.$route.query.opcsSupplierId
+            opcsSupplierId: this.$route.query.opcsSupplierId
           }
           console.log(parmars)
           saveUser(parmars).then((res) => {
@@ -354,6 +358,15 @@ export default {
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
+    },
+    ratioDate(row) {
+      var strtime = row.markExpiration.replace('/-/g', '/') //时间转换
+      //时间
+      var date1 = new Date(strtime)
+      //现在时间
+      var date2 = new Date()
+      //判断时间是否过期
+      return date1 < date2 ? true : false
     }
   }
 }
