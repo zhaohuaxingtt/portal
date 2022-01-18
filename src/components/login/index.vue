@@ -44,7 +44,7 @@
 <script>
 import { iMessage } from 'rise'
 import { login } from './api'
-import { encryptPwd, setToken } from './utils'
+import { encryptPwd, setToken, getToken } from './utils'
 export default {
   data() {
     return {
@@ -102,7 +102,13 @@ export default {
     if (this.$route.path.indexOf('superLogin') > -1) {
       //nothing to do
     } else {
-      if (process.env.VUE_APP_LOGIN_URL) {
+      const token = getToken()
+      if (token) {
+        if (process.env.VUE_APP_LOGOUT_URL) {
+          this.ssoLogin = true
+          location.href = process.env.VUE_APP_LOGOUT_URL
+        }
+      } else if (process.env.VUE_APP_LOGIN_URL) {
         this.ssoLogin = true
         location.href = process.env.VUE_APP_LOGIN_URL
       }
