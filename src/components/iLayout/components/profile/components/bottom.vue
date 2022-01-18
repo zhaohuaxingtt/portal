@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bottomItem label="Phone:" :text="userInfo.phone || userInfo.mobile" />
+    <bottomItem label="Phone:" :text="userInfo.phone" />
     <bottomItem label="Email:" :text="userInfo.email" />
     <bottomItem label="Role:" :text="role" />
     <bottomItem

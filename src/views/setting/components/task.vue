@@ -80,7 +80,7 @@ export default {
           e.taskCenterDtoList.forEach((task) => {
             dataItem.data.push({
               ...task,
-              uniqueId: task.taskType,
+              uniqueId: task.taskType + '-' + task.taskTypeName,
               label: task.taskTypeName,
               checked:
                 moduleData.find(
