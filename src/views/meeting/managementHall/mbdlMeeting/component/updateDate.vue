@@ -3,7 +3,7 @@
   <iDialog
     :title="$t('会议改期')"
     :visible.sync="dialogStatusManageObj.openUpdateDateDialog"
-    width="67.5rem"
+    width="90%"
     :close-on-click-modal="false"
     @close="close"
   >
