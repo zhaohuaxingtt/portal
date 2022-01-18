@@ -47,7 +47,7 @@
           <div class="switch-content">
             <div class="freeze">提交LOI审批</div>
             <div class="swicth">
-              <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
+              <div class="text" v-if="fromData.isFrozenRs" ref="sliderText">
                 是
               </div>
               <div class="text" v-else ref="sliderText">否</div>
@@ -58,14 +58,14 @@
         <!-- 任务 -->
         <iFormItem 
           label="任务"
-          prop="taskCsc"
+          prop="result"
           :hideRequiredAsterisk="true"
           class="task"
         >
           <iLabel :label="$t('任务')" slot="label" class="task-title"></iLabel>
           <iInput
             type="textarea"
-            v-model="ruleForm.taskCsc"
+            v-model="fromData.result"
             class="task-input"
             placeholder="请输入任务"
           ></iInput>
@@ -186,8 +186,8 @@
             <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
                 <i-input v-model="fromData.price" disabled>
                 </i-input>
-                 <!-- <span class="iconWid" v-if="iconShowA">高</span> -->
-                 <!-- <span class="iconWid" v-if="iconShowB">低</span> -->
+                 <span class="iconWid" v-if="iconShowA">高</span>
+                 <span class="iconWid" v-if="iconShowB">低</span>
             </el-form-item> 
          </el-col>
       </el-row>
@@ -276,6 +276,8 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        iconShowA:false,
+        iconShowB:false,
         selectedRow:[],
         tableDataList:[],
         fromData:[],
@@ -322,6 +324,8 @@ export default {
       }
     } else {
       return {
+        iconShowA:false,
+        iconShowB:false,
         selectedRow:[],
         tableDataList:[],
         fromData:[],
@@ -522,6 +526,7 @@ export default {
         console.log(res);
         this.tableDataList=res
         this.handleIntercept()
+         
       })
 
     },
@@ -535,9 +540,18 @@ export default {
         console.log(res);
         this.fromData=res
         //判断是否显示图标
-        // if (this.fromData.price) {
-          
-        // }
+        //判断图标
+        // 最低金额  lowerLimitMoney    最高金额  upperLimitMoney
+        console.log(res.upperLimitMoney,res.lowerLimitMoney);
+        if (res.price !== null) {
+          debugger
+          if (res.price > res.upperLimitMoney) {
+            this.iconShowA =true
+          }
+          if (res.price < res.lowerLimitMoney){
+            this.iconShowB =true
+          }
+        }
       })
     },
     handleSelectionChange(val) {
