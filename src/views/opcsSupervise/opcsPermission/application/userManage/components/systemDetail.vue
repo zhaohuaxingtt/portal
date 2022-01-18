@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 17:21:59
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 11:23:37
+ * @LastEditTime: 2022-01-18 15:30:28
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systemDetail.vue
 -->
 <template>
@@ -14,11 +14,11 @@
       <el-form inline
                label-position="left">
         <el-form-item :label="language('YINGYONGZHONGWENMING', '应用中文名')">
-          <iInput v-model="form.appNameCn"
+          <iInput v-model="form.nameZh"
                   :placeholder="language('QINGSHURU', '请输入')"></iInput>
         </el-form-item>
         <el-form-item :label="language('YINGYONGYINGWENMING', '应用英文名')">
-          <iInput v-model="form.appNameEn"
+          <iInput v-model="form.nameEn"
                   :placeholder="language('QINGSHURU', '请输入')"></iInput>
         </el-form-item>
 
@@ -58,7 +58,7 @@
             {{ language('YIYOUYINGYONGQUANXIAN', '已有应用权限') }}
           </span>
           <iButton :disabled="selectDelArr.length == 0"
-                   @click="clickDel">{{
+                   @click="del">{{
               language('SHANCHU', '删除')
             }}</iButton>
         </div>
@@ -81,7 +81,12 @@
 import tableList from '@/components/commonTable'
 import { iDialog, iButton, iMessage, iInput } from 'rise'
 import { tableTitleDetail } from './data'
-import { operationAdd, operationQuery, relateQuery } from '@/api/opcs/system'
+import {
+  operationAdd,
+  operationQuery,
+  relateQuery,
+  operationRemove
+} from '@/api/opcs/system'
 export default {
   components: {
     iDialog,
@@ -95,14 +100,7 @@ export default {
   },
   watch: {
     value() {
-        this.getAddList()
-        this.getDelList()
-        this.$nextTick(() => {
-            console.log(111)
-          this.tabledataAdd = this.tabledataAdd.filter(
-            (item) => !this.tabledataDel.some((ele) => ele.id === item.id)
-          )
-        })
+      this.getAddList()
     }
   },
   data() {
@@ -111,7 +109,6 @@ export default {
       tableLoadingAdd: false,
       tableLoadingDel: false,
       tableTitle: tableTitleDetail,
-      selectTableData: [],
       tableListDataAdd: [],
       tableListDataDel: [],
       selectAddArr: [],
@@ -136,6 +133,7 @@ export default {
       operationQuery(params).then((res) => {
         this.tableLoadingAdd = false
         if (res && res.code == 200) {
+          this.getDelList()
           this.tableListDataAdd = res.data
         } else iMessage.error(res.desZh)
       })
@@ -152,29 +150,44 @@ export default {
       relateQuery(params).then((res) => {
         this.tableLoadingDel = false
         if (res && res.code == 200) {
+          this.$nextTick(() => {
+            this.tableListDataAdd = this.tableListDataAdd.filter(
+              (item) => !this.tableListDataDel.some((ele) => ele.id === item.id)
+            )
+          })
           this.tableListDataDel = res.data
         } else iMessage.error(res.desZh)
       })
     },
     clickadd() {
       let parmars = {
-        saveUserList: this.tableListDataAdd,
-        opcsSupplierId: this.$route.query.opcsSupplierId
+        appList: this.selectAddArr,
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        opcsUserId: this.$route.query.opcsUserId
       }
       operationAdd(parmars).then((res) => {
         if (res && res.code == 200) {
-          this.getDelList()
           this.getAddList()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
     },
-    del() {},
-
-    selectTableDataDetail(val) {
-      console.log(val)
-      val.forEach((v) => {
-        this.tableListDataAdd.push(v)
+    del() {
+      if (this.selectDelArr.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return
+      }
+      const req = {
+        appIds: this.selectDelArr.map((v) => {
+          return v.id
+        }),
+        opcsUserId: this.$route.query.opcsUserId
+      }
+      operationRemove(req).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+           this.getAddList()
+        } else iMessage.error(res.desZh)
       })
     },
 
@@ -189,6 +202,7 @@ export default {
     },
     clickReset() {
       this.form = {}
+      this.getAddList()
     }
   }
 }
