@@ -67,7 +67,7 @@ export default {
       resortThemen(data).then((res) => {
          if (res) {
              iMessage.success('保存成功')
-            this.$emit('flushTable')
+            this.$emit('flushTable') 
             this.$emit('close')
           } 
       })

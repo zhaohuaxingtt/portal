@@ -75,8 +75,6 @@ export default {
       this.riseFavourites = this.favorites.filter((e) => e.objType === 1)
     },
     handleSave(item) {
-      console.log('this.riseFavourites', this.riseFavourites)
-      console.log('item', item)
       const isFavorited = this.riseFavourites.some((e) => e.objId === item.id)
       const data = isFavorited
         ? this.riseFavourites.filter((e) => e.objId !== item.id)

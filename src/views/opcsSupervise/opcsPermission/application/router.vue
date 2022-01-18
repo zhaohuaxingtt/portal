@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 17:53:54
+ * @LastEditTime: 2022-01-18 14:26:45
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -30,7 +30,7 @@
                  @close="handleClose">
           <el-menu-item v-for="(item,index) in applicationRouterList"
                         :index="item.url"
-                        :route="{ path: item.url, query: { opcsSupplierId: $route.query.opcsSupplierId ,nameZh:$route.query.nameZh} }"
+                        :route="{ path: item.url, query: { opcsSupplierId: $route.query.opcsSupplierId ,nameZh:$route.query.nameZh,opcsUserId:$route.query.opcsUserId} }"
                         :key="index">
             <i :class="item.icon"></i>
             <span slot="title">{{language(item.key, item.name)}}</span>
