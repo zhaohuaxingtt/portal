@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 18:07:46
+ * @LastEditTime: 2022-01-18 09:46:03
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export const tableTitle = [{
@@ -88,7 +88,7 @@ export const tableTitle = [{
         key: 'YONGHUMING',
     },
     {
-        props: 'position',
+        props: 'isActive',
         name: '是否激活',
         key: 'SHIFOUJIHUO',
     },
