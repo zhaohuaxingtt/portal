@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-17 13:54:34
+ * @LastEditTime: 2022-01-18 10:15:51
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -66,7 +66,7 @@
     <iDialog :visible.sync="dialog"
              width="70%"
              top="10%"
-             :key="Math.random()"
+             v-if="dialog"
              @close="cleardialog('close')"
              :title="dialogTitle">
       <iFormGroup row="2"
@@ -77,21 +77,21 @@
           <iLabel :label="language('YINGYONGZHONGWENMING', '应用中文名')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.nameZh"
+          <iInput v-model.trim="formData.nameZh"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="nameEn">
           <iLabel :label="language('YINGYONGYINGWENMING', '应用英文名')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.nameEn"
+          <iInput v-model.trim="formData.nameEn"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="shortName">
           <iLabel :label="language('YINGYONGJIANCHENG', '应⽤简称')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.shortName"
+          <iInput v-model.trim="formData.shortName"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="contactUserId">
@@ -201,6 +201,7 @@ export default {
     },
     add() {
       this.dialog = true
+      this.cleardialog()
       this.dialogTitle = this.language('XINZENG', '新增')
     },
     addBtn() {
