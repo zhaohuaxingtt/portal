@@ -93,13 +93,10 @@
             :tableTitle="tableColumns">
             <!-- 货币 -->
             <template slot="currency" slot-scope="scope">
-                <!-- <iInput
-                  v-model="scope.row.currency"
-                /> -->
                 <iSelect
-              v-model="scope.row.currency"
-              :placeholder="$t('请选择')"
-            >
+                  v-model="scope.row.currency"
+                  :placeholder="$t('请选择')"
+                >
               <el-option
                 v-for="item in currencyS"
                 :key="item.destCurrency"
@@ -603,7 +600,6 @@ export default {
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
-      return
       endCscThemen(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
