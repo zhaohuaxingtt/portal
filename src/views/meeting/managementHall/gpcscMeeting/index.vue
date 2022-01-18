@@ -968,6 +968,7 @@
         v-if="sendAgendaDialog"
         @close="sendAgendaDialog = false"
         style="padding-bottom: 20px"
+        @flushTable="flushTable"
         :rowId="rowId"
       ></sendAgenda>
     </iDialog>
@@ -989,6 +990,7 @@
         v-if="batchAdjustmentDialog"
         @close="batchAdjustmentDialog = false"
         style="padding-bottom: 20px"
+        @flushTable="flushTable"
       ></batchAdjustment>
     </iDialog>
   </iPage>
