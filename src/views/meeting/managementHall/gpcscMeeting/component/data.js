@@ -395,14 +395,14 @@ export const TABLE_COLUMNS_DEFAULT = [
     name: '目标价',
     key: '',
     required: true,
-    rule: { required: true, message: '货币类型', trigger: 'change' }
+    rule: { required: true, message: '目标价', trigger: 'change' }
   },
   {
     props: 'finalPrice',
     name: '最终成交价',
     key: '',
     required: true,
-    rule: { required: true, message: '货币类型', trigger: 'change' }
+    rule: { required: true, message: '最终成交价', trigger: 'change' }
   },
   {
     props: 'supplierName',
