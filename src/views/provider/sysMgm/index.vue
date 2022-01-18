@@ -60,7 +60,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="searchOptionTitles.sysTag">
-                  <iSelect v-model="formData.supplierType">
+                  <iSelect v-model="formData.supplierType" multiple>
                     <el-option
                       v-for="item in systemTagOptions"
                       :key="item.id"
@@ -166,8 +166,12 @@ export default {
       newFormData.supplierType = newFormData.supplierType
         ? newFormData.supplierType.join(',')
         : '' */
+      const supplierType = newFormData.supplierType
+        ? newFormData.supplierType.join(',')
+        : ''
       let param = {
         ...newFormData,
+        supplierType,
         size: this.page.pageSize,
         current: this.page.currPage
       }
