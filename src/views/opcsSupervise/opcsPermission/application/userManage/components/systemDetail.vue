@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 17:21:59
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 09:57:03
+ * @LastEditTime: 2022-01-18 11:23:37
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systemDetail.vue
 -->
 <template>
@@ -97,7 +97,7 @@ export default {
     value() {
         this.getAddList()
         this.getDelList()
-        this.$$nextTick(() => {
+        this.$nextTick(() => {
             console.log(111)
           this.tabledataAdd = this.tabledataAdd.filter(
             (item) => !this.tabledataDel.some((ele) => ele.id === item.id)
@@ -159,7 +159,7 @@ export default {
     clickadd() {
       let parmars = {
         saveUserList: this.tableListDataAdd,
-        opcsSupplierKeyId: this.$route.query.opcsSupplierId
+        opcsSupplierId: this.$route.query.opcsSupplierId
       }
       operationAdd(parmars).then((res) => {
         if (res && res.code == 200) {
