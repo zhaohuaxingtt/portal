@@ -21,7 +21,8 @@
 <script>
 import {icon, iButton, iMessage} from 'rise'
 import draggable from "vuedraggable";
-import { findThemenById ,resortThemen} from '@/api/meeting/details'
+import { resortThemen} from '@/api/meeting/details'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 export default {
   components: {
     iButton,

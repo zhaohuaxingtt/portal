@@ -417,7 +417,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys }}</span>
+                <span>{{scope.row.presenterDept }}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName 改 topic-->
@@ -631,7 +631,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys }}</span>
+                <span>{{scope.row.presenterDept }}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName 改 topic-->
@@ -734,7 +734,7 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span>{{ resultObj[scope.row.conclusion] }}</span>
+                <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->
@@ -1078,7 +1078,7 @@ export default {
         '03': '预备会议通过',
         '04': '不通过',
         '05': 'Last Call',
-        '06': '分段待定'
+        '06': '分段定点'
       },
       openError: false,
       errorList: [],
@@ -2719,6 +2719,13 @@ export default {
         return 'active-row dragable-row'
       }
       return 'narmal-row'
+    },
+    //点击纪要  维护结论
+    handleResult(row){
+      console.log(row.result);
+      // this.editprotectConclusionDialog=true
+      // this.editprotectConclusionDialogRow=row
+      // console.log(this.editprotectConclusionDialogRow);
     }
   }
 }

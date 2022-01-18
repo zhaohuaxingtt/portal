@@ -5,7 +5,7 @@
 			<el-form :model="form" ref="form" class="search-form" :inline="true" size="normal">	
 				<div class="form-item">
 					<iLabel class="label" :label="language('模块菜单')" slot="label"></iLabel>
-					<iSelect v-model="form.module" class="w-220" filterable clearable>
+					<iSelect v-model="form.menuId" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in moduleMenu"
 							:label="item.value"
@@ -192,7 +192,7 @@ export default {
 		restForm(){
 			return new Promise((resolve) => {
                 this.form = {
-                    module:"",
+                    menuId:"",
                     type:"",
                     category:"1",
                     triggerType:"",

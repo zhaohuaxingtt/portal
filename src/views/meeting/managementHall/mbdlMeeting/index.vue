@@ -346,10 +346,10 @@
               <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
-          <!-- 会议结论/纪要  result-->
+          <!-- 会议结论/纪要  conclusion-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.result] }}</span>
+              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
              </template>
           </el-table-column>
          
@@ -427,10 +427,10 @@
               <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
-          <!-- 会议结论/纪要   result-->
+          <!-- 会议结论/纪要   conclusion-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.result }}</span>
+              <span class="open-link-text">{{ scope.row.conclusion }}</span>
              </template>
           </el-table-column>
          
@@ -737,7 +737,7 @@ export default {
         '03': '预备会议通过',
         '04': '不通过',
         '05': 'Last Call',
-        '06': '分段待定'
+        '06': '分段定点'
       },
       curEndTime: '',
       openError: false,

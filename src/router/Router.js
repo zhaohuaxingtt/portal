@@ -53,6 +53,7 @@ import RouterTerms from './RouterTerms'
 
 // 后台管理  scoreConfig
 import backstagemanagement from './backstagemanagement'
+import RouterSetting from './RouterSetting'
 
 export default {
   routes: [
@@ -147,14 +148,16 @@ export default {
         )
     },
     {
-      path: "/terms/management/termsPreview",
-      name: "termsPreview",
-      component: () => import(`@/views/terms/termsManagement/components/preview.vue`),
+      path: '/terms/management/termsPreview',
+      name: 'termsPreview',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preview.vue`)
     },
     {
-      path: "/terms/management/clauseDetail/preText",
-      name: "preText",
-      component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+      path: '/terms/management/clauseDetail/preText',
+      name: 'preText',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preText.vue`)
     },
     {
       path: '/',
@@ -217,7 +220,8 @@ export default {
         ...RouterOfflineDownload,
         ...RouterElectronicSignature,
         ...RouterTerms,
-        ...backstagemanagement
+        ...backstagemanagement,
+        ...RouterSetting
       ]
     },
     ...RouterView,
