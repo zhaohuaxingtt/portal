@@ -115,6 +115,7 @@
         <iButton
           @click="handleException"
           v-show="this.extendFields !== false"
+          :disabled="signTitle.state == '04'"
           >{{ '标记例外' }}</iButton
         >
         <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
@@ -280,6 +281,7 @@
         :supplierId="supplierId"
         :userId="userId"
         :signStatus="signStatus"
+        :clauseState="signTitle.state"
         @closeDialog="closeUploadFileDialog"
         @getTableList="getTableList"
       />

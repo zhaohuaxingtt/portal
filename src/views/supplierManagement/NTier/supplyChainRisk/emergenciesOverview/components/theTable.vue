@@ -9,7 +9,7 @@
   <iCard>
     <div class="margin-bottom20 flex-between-center-center">
       <div class="title">
-        {{language('TUFASHIJIANZONGLAN','突发事件总览')}}
+        {{language('TUFASHIJIANZONGLAN1','突发事件总览')}}
       </div>
       <!-- 创建突发事件-->
       <iButton @click="handleCreate">{{ language('CJTFSJ','创建突发事件') }}</iButton>

@@ -12,7 +12,7 @@ export const COLUMNS_MENU = [
     type: 'expanded',
     align: 'left',
     customRender: (h, scope) => {
-      return scope.row.nameLinked || scope.row.name
+      return scope.row.name
     }
   },
   {

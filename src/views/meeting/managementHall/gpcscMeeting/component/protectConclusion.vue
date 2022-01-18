@@ -513,8 +513,8 @@ export default {
   created() {  
     this.getList()
     this.getDate()
-    this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
-    {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
+    // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
+    // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
     // 列表   findGpBidderInfoByThemenId
@@ -525,7 +525,7 @@ export default {
       }
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
-        // this.tableDataList=res
+        this.tableDataList=res
         this.handleIntercept()
          
       })
