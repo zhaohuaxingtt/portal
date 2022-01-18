@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 17:21:59
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-13 11:04:55
+ * @LastEditTime: 2022-01-18 11:23:37
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systemDetail.vue
 -->
 <template>
@@ -94,11 +94,15 @@ export default {
     rowList: { type: Object }
   },
   watch: {
-    rowList(val) {
-      if (val) {
+    value() {
         this.getAddList()
         this.getDelList()
-      }
+        this.$nextTick(() => {
+            console.log(111)
+          this.tabledataAdd = this.tabledataAdd.filter(
+            (item) => !this.tabledataDel.some((ele) => ele.id === item.id)
+          )
+        })
     }
   },
   data() {
@@ -155,7 +159,7 @@ export default {
     clickadd() {
       let parmars = {
         saveUserList: this.tableListDataAdd,
-        opcsSupplierKeyId: this.$route.query.opcsSupplierId
+        opcsSupplierId: this.$route.query.opcsSupplierId
       }
       operationAdd(parmars).then((res) => {
         if (res && res.code == 200) {
@@ -182,6 +186,9 @@ export default {
     },
     clearDiolog() {
       this.$emit('input', false)
+    },
+    clickReset() {
+      this.form = {}
     }
   }
 }

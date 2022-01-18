@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-14 17:03:36
+ * @LastEditTime: 2022-01-18 11:21:35
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -21,7 +21,7 @@
           <iSelect filterable
                    v-model="form.userName">
             <el-option :value="item.id"
-                       :label="item.contactName"
+                       :label="item.nameZh"
                        v-for="(item, index) in userList"
                        :key="index"></el-option>
           </iSelect>
@@ -37,8 +37,8 @@
         <div class="floatright">
           <i-button @click="add()">{{ language('XINZENG','新增') }}</i-button>
           <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button>
-          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button> -->
+          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button> -->
+          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
@@ -66,7 +66,7 @@
     <iDialog :visible.sync="dialog"
              width="70%"
              top="10%"
-             :key="Math.random()"
+             v-if="dialog"
              @close="cleardialog('close')"
              :title="dialogTitle">
       <iFormGroup row="2"
@@ -77,21 +77,21 @@
           <iLabel :label="language('YINGYONGZHONGWENMING', '应用中文名')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.nameZh"
+          <iInput v-model.trim="formData.nameZh"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="nameEn">
           <iLabel :label="language('YINGYONGYINGWENMING', '应用英文名')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.nameEn"
+          <iInput v-model.trim="formData.nameEn"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="shortName">
           <iLabel :label="language('YINGYONGJIANCHENG', '应⽤简称')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.shortName"
+          <iInput v-model.trim="formData.shortName"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="contactUserId">
@@ -100,8 +100,8 @@
                   slot="label"></iLabel>
           <iSelect filterable
                    v-model="formData.contactUserId">
-            <el-option :value="item.value"
-                       :label="item.label"
+            <el-option :value="item.id"
+                       :label="item.nameZh"
                        v-for="(item, index) in userList"
                        :key="index"></el-option>
           </iSelect>
@@ -165,7 +165,7 @@ export default {
       selectTableData: [],
       form: {},
       tableListData: [],
-      userList: [{ value: 9016, label: '曹鹏' }],
+      userList: [],
       tableLoading: false,
       dialog: false,
       dialogRules: {
@@ -201,6 +201,7 @@ export default {
     },
     add() {
       this.dialog = true
+      this.cleardialog()
       this.dialogTitle = this.language('XINZENG', '新增')
     },
     addBtn() {
@@ -237,8 +238,8 @@ export default {
           console.log(this.formData)
     },
     async getUser() {
-        const res = await getListByParam({ roleCode: 'WLGLY' })
-      //   this.userList = res
+        const res = await getListByParam({ roleCode: 'WLGYSGLY' })
+        this.userList = res.data
     },
     //获取列表接口
     getTableData() {

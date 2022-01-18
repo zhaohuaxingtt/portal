@@ -113,6 +113,8 @@ export default {
   methods: {
     handleSearchReset () {
       this.form = {};
+      this.rating = [];
+      this.nextRating = [];
       this.$emit('reset', this.form);
     },
     getTableList () {
