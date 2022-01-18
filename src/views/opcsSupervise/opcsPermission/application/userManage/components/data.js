@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 09:46:03
+ * @LastEditTime: 2022-01-18 15:46:20
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export const tableTitle = [{
@@ -211,11 +211,7 @@ export const tableTitleDetailAdd = [{
     props: 'nameEn',
     name: '应⽤英⽂名',
     key: 'YINGYONGYINGWENMING',
-}, {
-    props: 'shortName',
-    name: '应⽤简称',
-    key: 'YINGYONGJIANCHENG',
-},
+}, 
 {
     props: 'ldapSchema',
     name: '安全中心LDAP属性',

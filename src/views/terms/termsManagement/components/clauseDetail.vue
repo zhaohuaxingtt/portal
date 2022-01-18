@@ -74,7 +74,7 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款名称" prop="name">
                 <iLabel :label="'条款名称'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.name" disabled></iInput>
+                <iInput v-model="ruleForm.name" :disabled="ruleForm.state != '03'"></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -162,7 +162,15 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款负责人" prop="chargeName">
                 <iLabel :label="'条款负责人'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.chargeName" disabled></iInput>
+                <!-- <iInput v-model="ruleForm.chargeName" :disabled="ruleForm.state != '03'"></iInput> -->
+                <el-autocomplete
+                  style="width: 100%"
+                  :disabled="ruleForm.state != '03'"
+                  v-model="ruleForm.chargeName"
+                  :fetch-suggestions="querySearchAsync"
+                  :placeholder="$t('请输入')"
+                  @select="handleSelect"
+                ></el-autocomplete>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -303,7 +311,7 @@
                 <iLabel :label="'备注'" slot="label"></iLabel>
                 <iInput
                   v-model="ruleForm.remark"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                   class="textarea"
                   type="textarea"
                   :rows="3"
@@ -527,7 +535,8 @@ import {
   findById,
   deleteAttachment,
   saveAttachment,
-  updateEffectiveTerms
+  updateEffectiveTerms,
+  getPageListByParam
 } from '@/api/terms/terms'
 import { getDictByCode } from '@/api/dictionary/index'
 import { download, downloadZip } from '@/utils/downloadUtil'
@@ -972,6 +981,29 @@ export default {
           }
         }
       })
+    },
+    handleSelect(item) {
+      this.ruleForm.chargeId = item.id
+      this.ruleForm.chargeName = item.nameZh
+    },
+    async querySearchAsync(queryString, cb) {
+      let res = await this.getUsersAll(queryString)
+      res = res || { data: [] }
+      let userArr = res.data || []
+      userArr = userArr.map((item) => {
+        return {
+          value: item.nameZh,
+          ...item
+        }
+      })
+      cb(userArr)
+    },
+    async getUsersAll(str) {
+      const data = {
+        nameZh: str
+      }
+      let res = await getPageListByParam(data)
+      return res
     },
     handleSave() {
       this.$confirm('是否保存该条款？', '提示', {
