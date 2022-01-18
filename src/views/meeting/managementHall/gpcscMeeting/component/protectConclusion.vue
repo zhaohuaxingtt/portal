@@ -45,14 +45,20 @@
         <iFormItem prop="isFrozenRs" v-if="showIFormItemRS" 
         >
           <div class="switch-content">
-            <div class="freeze">提交LOI审批</div>
-            <div class="swicth">
-              <div class="text" v-if="fromData.isFrozenRs" ref="sliderText">
-                是
-              </div>
+            <div class="freeze" style="margin-right:23px;">提交LOI审批</div>
+            <!-- <div class="swicth">
+              <div class="text" v-if="fromData.isFrozenRs" ref="sliderText"> 是</div>
               <div class="text" v-else ref="sliderText">否</div>
               <div class="circle" @click="handleSwitch" ref="slider"></div>
-            </div>
+            </div> -->
+          <iSelect
+              v-model="fromData.isFrozenRs"
+              :placeholder="$t('SELECT_PLACEHOLDER')"
+              class="operate-selectALL"
+            >
+              <el-option :value="true" label="是"></el-option>
+              <el-option :value="false" label="否"></el-option>
+            </iSelect>
           </div>
         </iFormItem>
         <!-- 任务 -->
@@ -88,9 +94,20 @@
             :tableTitle="tableColumns">
             <!-- 货币 -->
             <template slot="currency" slot-scope="scope">
-                <iInput
+                <!-- <iInput
                   v-model="scope.row.currency"
-                />
+                /> -->
+                <iSelect
+              v-model="scope.row.currency"
+              :placeholder="$t('SELECT_PLACEHOLDER')"
+            >
+                <!-- v-for="item in currencyS"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value" -->
+              <el-option
+              ></el-option>
+            </iSelect>
             </template>
             <!-- 目标价 -->
             <template slot="targetPrice" slot-scope="scope">
@@ -517,6 +534,9 @@ export default {
     // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
+    //货币下拉框
+    getCurrency(){
+    },
     // 列表   findGpBidderInfoByThemenId
     getList(){
       const params = {
@@ -538,7 +558,7 @@ export default {
        themenId:this.selectedTableData[0].id//议题id
       }
       findGpInfoByThemenId(params).then((res) => {
-        console.log(res);
+        console.log(res)
         this.fromData=res
         //判断是否显示图标
         //判断图标
@@ -672,7 +692,7 @@ export default {
       this.$emit('flushTable')
     },
     handleSwitch() {
-      this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
+      this.fromData.isFrozenRs = !this.fromData.isFrozenRs
     },
     //获取会议字段截取  meetingTypeName
     // gpMeetingService/findById
@@ -785,6 +805,10 @@ export default {
     /* transform: translate(-10px, -50%); */
   }
 }
+.operate-selectALL {
+    height: 35px;
+    width: 240px;
+  }
 .next-meeting {
   .operate-select {
     height: 35px;
