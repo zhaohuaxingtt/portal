@@ -13,7 +13,13 @@
       v-loading="loading"
       element-loading-background="rgba(0, 0, 0, 0)"
     >
-      <div
+      <myFavoriteItem
+        v-for="item in favorites"
+        :key="item.name"
+        :item="item"
+        :flatFullMenus="flatFullMenus"
+      />
+      <!-- <div
         class="my-favorite-list-item"
         v-for="item in favorites"
         :key="item.name"
@@ -30,25 +36,32 @@
         <div class="url">
           <a :href="item.url" :title="item.objName">{{ item.objName }}</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import { Icon } from 'rise'
 import { queryFavorites } from './../../api'
+import myFavoriteItem from './myFavoriteItem'
 export default {
   name: 'myFavorite',
-  components: { Icon },
+  components: { myFavoriteItem },
+  computed: {
+    fullMenus() {
+      return this.$store.state.permission.menuList
+    }
+  },
   data() {
     return {
       favorites: [],
-      loading: false
+      loading: false,
+      flatFullMenus: []
     }
   },
   created() {
     this.queryFavourites()
+    this.flatFullMenus = this.getFlatFullMenu(this.fullMenus)
   },
   methods: {
     async queryFavourites() {
@@ -60,6 +73,31 @@ export default {
         this.loading = false
       })
       this.favorites = data
+    },
+    // 扁平化菜单数据
+    getFlatFullMenu(menuList, res) {
+      res = res || []
+      for (let i = 0; i < menuList.length; i++) {
+        const menu = menuList[i]
+
+        const parentItem = res.find((e) => e.id === menu.parentId)
+        const nameLinked = parentItem
+          ? `${parentItem.nameLinked} - ${menu.name}`
+          : menu.name
+        const item = {
+          name: menu.name,
+          nameLinked: nameLinked,
+          id: menu.id,
+          parentId: menu.parentId,
+          permissionKey: menu.permissionKey,
+          level: menu.level
+        }
+        res.push(item)
+        if (menu.menuList && menu.menuList.length) {
+          this.getFlatFullMenu(menu.menuList, res)
+        }
+      }
+      return res
     }
   }
 }
@@ -89,32 +127,5 @@ export default {
   overflow-y: auto;
   margin: 10px 0px;
   height: 150px;
-  .my-favorite-list-item {
-    font-size: 12px;
-    line-height: 18px;
-    padding: 6px 0px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-
-    .icon-panel {
-      width: 24px;
-    }
-    .icon-type {
-      font-size: 18px;
-      color: #1763f7;
-      font-weight: bold;
-    }
-    .icon-type-c {
-      font-size: 14px;
-      transform: rotate(90deg);
-    }
-    .url {
-      width: calc(100% - 24px);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
 }
 </style>

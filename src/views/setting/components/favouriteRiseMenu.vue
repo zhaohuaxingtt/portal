@@ -67,6 +67,7 @@ export default {
   watch: {
     favourites() {
       Vue.set(this.extraData, 'favourites', this.favourites)
+      this.queryFullMenu()
     }
   },
   created() {
@@ -74,8 +75,10 @@ export default {
   },
   methods: {
     async queryFullMenu() {
+      this.fullMenu = _.cloneDeep(this.$store.state.permission.menuList)
+      this.flatFullMenu = this.getFlatFullMenu(this.fullMenu)
       // 查询所有菜单
-      this.tableLoading = true
+      /* this.tableLoading = true
       const { data } = await fetchResource({ type: 3 }).finally(
         () => (this.tableLoading = false)
       )
@@ -84,7 +87,7 @@ export default {
         this.fullMenu = riseMenu[0].menuList
         this.flatFullMenu = this.getFlatFullMenu(this.fullMenu)
         console.log('flatFullMenu', this.flatFullMenu)
-      }
+      } */
     },
     // 扁平化菜单数据
     getFlatFullMenu(menuList, res) {
