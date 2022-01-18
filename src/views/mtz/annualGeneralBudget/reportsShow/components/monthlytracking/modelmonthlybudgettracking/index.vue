@@ -219,6 +219,9 @@ export default {
         }
       }
     },
+    sure() {
+      this.getdifferenceAnalysisCarModel()
+    },
     //仅看自己
     showOnlyMyselfData(val) {
       this.form.onlySeeMySelf = val

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 09:34:20
+ * @LastEditTime: 2022-01-18 15:55:48
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -17,16 +17,18 @@
         </i-button>
         <i-button @click="remove">{{ language('SHANCHU', '删除') }}
         </i-button>
+        <i-button @click="exportFile">{{ language('DAOCHU', '导出') }}
+        </i-button>
+
       </div>
     </div>
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
-                @handleSelectionChange="handleSelectionChange"
-                :index="true"
+                :selection="false"
                 ref="commonTable">
     </table-list>
-    <iPagination style="margin-top: 20px"
+    <!-- <iPagination style="margin-top: 20px"
                  v-update
                  @size-change="handleSizeChange($event, getTableData)"
                  @current-change="handleCurrentChange($event, getTableData)"
@@ -35,9 +37,10 @@
                  :page-size="page.pageSize"
                  :layout="page.layout"
                  :current-page="page.currPage"
-                 :total="page.totalCount" />
-    <systeamDetailAdd @closeDiolog='closeDiolog' @save="save" v-model="dialog"
-                      ></systeamDetailAdd>
+                 :total="page.totalCount" /> -->
+    <systeamDetailAdd @closeDiolog='closeDiolog'
+                      @save="save"
+                      v-model="dialog"></systeamDetailAdd>
   </iCard>
 </template>
 
@@ -45,13 +48,14 @@
 import systeamDetailAdd from '../../userManage/components/systeamDetailAdd'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
+import { excelExport } from "@/utils/filedowLoad"
 import { pageMixins } from '@/utils/pageMixins'
 import {
   pageQueryDetails,
   addDetails,
   deleteDetails
 } from '@/api/opcs/solPermission'
-import { iCard, iButton, iPagination, iMessage, iMessageBox } from 'rise'
+import { iCard, iButton, iMessage, iMessageBox } from 'rise'
 export default {
   mixins: [pageMixins],
   components: {
@@ -59,7 +63,7 @@ export default {
     iButton,
     systeamDetailAdd,
     tableList,
-    iPagination
+    // iPagination
   },
   data() {
     return {
@@ -95,7 +99,7 @@ export default {
     getTableData() {
       this.tableLoading = true
       const params = {
-        opcsSupplierId: this.$route.query.opcsSupplierId,
+        opcsSupplierId: this.$route.query.opcsSupplierId
       }
       pageQueryDetails(params).then((res) => {
         this.tableLoading = false
@@ -133,12 +137,11 @@ export default {
         })
       })
     },
-    closeDiolog(){
-        this.dialog=false
+    exportFile() {
+            excelExport(this.tableListData, this.tableTitle, this.language('YINGYONGLIEBIAO', '应用列表'))
     },
-    //修改表格改动列
-    handleSelectionChange(val) {
-      this.selectTableData = val
+    closeDiolog() {
+      this.dialog = false
     }
   }
 }

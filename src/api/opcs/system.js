@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-16 17:27:41
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-17 18:19:39
+ * @LastEditTime: 2022-01-18 14:32:22
  * @FilePath: \front-portal-new\src\api\opcs\system.js
  */
 import axios from '@/utils/axios'
@@ -21,6 +21,14 @@ export function operationAdd(parmars) {
 export function operationQuery(parmars) {
     return requst({
         url: '/opcsUser/unBindingOperationQuery',
+        method: 'POST',
+        data: parmars
+    })
+}
+//应用管理--授权列表--移除
+export function operationRemove(parmars) {
+    return requst({
+        url: '/opcsUser/operationRemove',
         method: 'POST',
         data: parmars
     })
