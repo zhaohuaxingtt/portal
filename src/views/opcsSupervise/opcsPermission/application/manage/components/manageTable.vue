@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 09:34:20
+ * @LastEditTime: 2022-01-18 15:32:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -22,8 +22,7 @@
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
-                @handleSelectionChange="handleSelectionChange"
-                :index="true"
+                :selection="false"
                 ref="commonTable">
     </table-list>
     <iPagination style="margin-top: 20px"
@@ -136,10 +135,7 @@ export default {
     closeDiolog(){
         this.dialog=false
     },
-    //修改表格改动列
-    handleSelectionChange(val) {
-      this.selectTableData = val
-    }
+  
   }
 }
 </script>

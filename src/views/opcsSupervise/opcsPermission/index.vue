@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 11:21:35
+ * @LastEditTime: 2022-01-18 15:43:34
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -31,11 +31,9 @@
     </iSearch>
     <iCard style="margin-top: 20px">
       <div>
-        <span class="font18 font-weight">{{
-          language('XIANGQINGLIEBIAO', '详情列表')
-        }}</span>
-        <div class="floatright">
-          <i-button @click="add()">{{ language('XINZENG','新增') }}</i-button>
+     
+        <div class="floatright" style="margin-bottom: 20px">
+          <i-button @click="add()">{{ language('XINJIAN','新建') }}</i-button>
           <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
           <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button> -->
           <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
@@ -173,16 +171,16 @@ export default {
           { required: true, message: '请输入应用中文名', trigger: 'blur' }
         ],
         nameEn: [
-          { required: true, message: '请输入应用英文名', trigger: 'blur' }
-        ],
-        shortName: [
-          { required: true, message: '请输入应用简称', trigger: 'blur' },
-          {
+          { required: true, message: '请输入应用英文名', trigger: 'blur' },
+             {
             pattern: /^[A-Za-z0-9]+$/,
             message: '请输入 1 到 7个字符',
             trigger: 'blur'
           },
-          { min: 1, max: 7, message: '长度在 1 到 7个字符', trigger: 'blur' }
+        ],
+        shortName: [
+          { required: true, message: '请输入应用简称', trigger: 'blur' },
+          { min: 1, max: 7, message: '请输入1-7位英文字母或数字', trigger: 'blur' }
         ],
         contactUserId: [
           { required: true, message: '请选择应用负责人', trigger: 'change' }
@@ -202,24 +200,22 @@ export default {
     add() {
       this.dialog = true
       this.cleardialog()
-      this.dialogTitle = this.language('XINZENG', '新增')
+      this.dialogTitle = this.language('XINJIAN', '新建')
     },
     addBtn() {
-      this.$refs.dialogRules.validate(
-        (valid) => {
-          if (valid) {
-            opcsSupplier(this.formData).then((res) => {
-              if (res && res.code == 200) {
-                this.dialog = false
-                this.getTableData()
-                iMessage.error(res.desZh)
-              } else iMessage.error(res.desZh)
-            })
-          } else {
-            return false
-          }
+      this.$refs.dialogRules.validate((valid) => {
+        if (valid) {
+          opcsSupplier(this.formData).then((res) => {
+            if (res && res.code == 200) {
+              this.dialog = false
+              this.getTableData()
+              iMessage.success(res.desZh)
+            } else iMessage.error(res.desZh)
+          })
+        } else {
+          return false
         }
-      )
+      })
     },
     edit() {
       if (this.selectTableData.length == 0) {
@@ -232,14 +228,14 @@ export default {
         )
         return false
       }
-          this.dialog = true
-          this.dialogTitle = this.language('BIANJI', '编辑')
-          this.formData =this.selectTableData[0]
-          console.log(this.formData)
+      this.dialog = true
+      this.dialogTitle = this.language('BIANJI', '编辑')
+      this.formData = this.selectTableData[0]
+      console.log(this.formData)
     },
     async getUser() {
-        const res = await getListByParam({ roleCode: 'WLGYSGLY' })
-        this.userList = res.data
+      const res = await getListByParam({ roleCode: 'WLGYSGLY' })
+      this.userList = res.data
     },
     //获取列表接口
     getTableData() {
@@ -292,7 +288,8 @@ export default {
         path: '/provider/opcs/list/application',
         query: {
           opcsSupplierId: row.id || '',
-          nameZh: row.nameZh || ''
+          nameZh: row.nameZh || '',
+          opcsUserId: row.contactUserId || ''
         }
       })
       window.open(routeData.href)
