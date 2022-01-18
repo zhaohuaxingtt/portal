@@ -26,22 +26,23 @@
                 type:String,
                 default:"请输入关键字"
             },
+            options:{
+                type:Array,
+                default:() => []
+            }
         },
         data() {
             return {
-                loading:false,
-                options:[]
+                loading:false
             }
         },
         methods: {
             remoteMethod(query) {
+                console.log(query);
                 if (query !== '') {
                 this.loading = true;
-                // api
-                setTimeout(() => {
-                    this.loading = false;
-                    this.options = [{label:1,value:2}]
-                }, 200);
+                    // api
+                    
                 } 
             }
         },

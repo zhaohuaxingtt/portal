@@ -10,9 +10,10 @@ export function glossaryList(keyword) {
     })
 }
 // 知识列表查询
-export function queryKnowledgeTypeList() {
+export function queryKnowledgeTypeList(data) {
     return procsRequest({
-        url: '/knowledgeSection_mgr/list.json',
+        url: '/knowledge/listSection.json',
         method: 'get',
+        params:data
     })
 }

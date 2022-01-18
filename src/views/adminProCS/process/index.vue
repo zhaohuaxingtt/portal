@@ -1,6 +1,6 @@
 <template>
     <iPage>
-        <Search @confirm="search" @reset="reset"></Search>
+        <Search v-model="keyWord" @confirm="query" @reset="rest"></Search>
         <iCard class="margin-top20">
             <div class="margin-bottom20 flex justify-between">
                 <div>
@@ -49,6 +49,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
 import processDetail from "./processDetail/index.vue";
 import tableSetting from './table';
+import {queryProcessList} from '@/api/adminProCS';
 export default {
     mixins:[pageMixins],
     components: {
@@ -85,12 +86,24 @@ export default {
            }
        } 
     },
+    created() {
+        this.query()
+    },
     methods: {
-        query(){
-
+        async query(){
+            try {
+                this.tableLoading = true
+                let res = await queryProcessList({page:this.page.currPage,size:this.page.pageSize})
+                this.tableListData = res?.content || []
+                this.page.totalCount = res?.totalPages || 0
+            } finally {
+                this.tableLoading = false
+            }
         },
-        search(){},
-        reset(){},
+        reset(){
+            this.page.currPage = 1
+            this.query()
+        },
         edit(){
 
         },

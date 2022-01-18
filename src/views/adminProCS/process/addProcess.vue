@@ -7,6 +7,7 @@
 		append-to-body
 	>
 		<el-form 
+			v-loading="loading"
 			:model="form" 
 			:rules="rules" 
 			label-width="90px" 
@@ -23,10 +24,10 @@
 				<iInput v-model="form.nameEn" class="w-300" placeholder="请输入英文标题"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('英文首字母')" prop='firstLetterEn'>
-				<iInput v-model="form.firstLetterEn" class="w-300" placeholder="请输入版本号"></iInput>
+				<iInput v-model="form.firstLetterEn" class="w-300" placeholder="请输入英文标题首字母"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="form.version" class="w-300" placeholder="请输入英文标题首字母"></iInput>
+				<iInput v-model="form.version" class="w-300" placeholder="请输入版本号"></iInput>
 			</iFormItem>
 			
 			<iFormItem :label="language('更新日期')" prop='updateDt'>
@@ -39,10 +40,15 @@
 					/>
 			</iFormItem>
 			<iFormItem :label="language('流程专家')" prop='exports'>
-				<ISelect v-model="form.exports" class="w-300" placeholder="请输入用户名、邮箱进行搜索"></ISelect>
+				<iSelect v-model="form.exports" class="w-300" filterable multiple placeholder="可进行搜索">
+					<el-option v-for="user in userList" :key="user.id" :label="user.name" :value="user.id"></el-option>
+				</iSelect>
+				
 			</iFormItem>
 			<iFormItem :label="language('关联机构')" prop='organizations'>
-				<ISelect v-model="form.organizations" class="w-300" placeholder="请至少输入2个字符进行搜索"></ISelect>
+				<iSelect v-model="form.organizations" class="w-300" filterable multiple placeholder="可进行搜索">
+					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id"></el-option>
+				</iSelect>
 			</iFormItem>
 		</el-form>
 		<div class="flex felx-row mt20 pb20 justify-end ">
@@ -53,9 +59,10 @@
 </template>
 
 <script>
-import { iDialog, iFormItem, iInput,iDatePicker, iButton } from 'rise'
-import ISelect from './../components/ISelect.vue';
-import { getOrganizationList, getUsersList } from '@/api/adminProCS';
+import { iDialog, iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
+import moment from 'moment';
+// import ISelect from './../components/ISelect.vue';
+import { getOrganizationList, getUsersList,addProcess,updateProcess } from '@/api/adminProCS';
 
 export default {
 	components: {
@@ -63,7 +70,7 @@ export default {
 		iFormItem,
 		iInput,
 		iDatePicker,
-		ISelect,
+		iSelect,
 		iButton
 	},
 	props: {
@@ -123,31 +130,45 @@ export default {
 				exports: { required:true,message:"请输入用户名、邮箱进行搜索",trigger:'blur' },
 				organizations: { required:true,message:"请至少输入2个字符进行搜索",trigger:'blur' },
 			},
+			orgList:[],
+			userList:[],
+			loading:false
 		}
+	},
+	created() {
+		this.organizationList()
+		this.usersList()
 	},
 	methods: {
 		closeDialogBtn () {
 			this.$emit('update:show', false)
 		},
 		save(){
-			this.$refs.form.validate(v => {
+			this.$refs.form.validate(async v => {
 				if(v){
 					// 保存
+					try {
+						this.loading = true
+						let formData = new FormData()
+						Object.keys(this.form).forEach(key => {
+							formData.append(key, this.form[key])
+						})
+						await addProcess(formData)
+						
+					} finally {
+						this.loading = false	
+					}
 				}
 			})
 		},
 		async organizationList() {
-			await getOrganizationList().then(res => {
-				console.log(res, 1111)
-			})
+			this.orgList = await getOrganizationList()
 		},
 		async usersList() {
 			let params = {
-				keyword: ' '
+				keyword: ''
 			}
-			await getUsersList(params).then(res => {
-				console.log(res, 2222)
-			})
+			this.userList = await getUsersList(params)
 		}
 	},
 	computed: {
@@ -163,7 +184,9 @@ export default {
 .typeForm {
 	padding-bottom: 20px;
 }
-.right-content {
-	
+
+
+::v-deep .el-loading-mask{
+	z-index: 2000;
 }
 </style>

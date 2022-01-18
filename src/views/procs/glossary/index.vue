@@ -83,7 +83,7 @@
             async queryGlossary(){
                 try {
                     this.indexs.loading = true
-                    // let list = await glossaryList()
+                    let list = await glossaryList()
                     // list.map(e => {
                     //     return e
                     // })

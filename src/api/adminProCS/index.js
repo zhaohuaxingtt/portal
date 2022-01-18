@@ -229,10 +229,11 @@ export function delKnowledgeById(id) {
  */
 
 // 获取流程专家列表
-export function getUsersList() {
+export function getUsersList(data) {
     return procsRequest({
         url: '/master/users',
-        method: 'get'
+        method: 'get',
+        params:data
     })
 }
 
@@ -242,5 +243,51 @@ export function getOrganizationList() {
         url: '/master/organizations.json',
         method: 'get'
         // params: data
+    })
+}
+// 流程列表查询
+export function queryProcessList(data) {
+    return procsRequest({
+        url: '/workflow_mgr/list.json',
+        method: 'get',
+        params: data
+    })
+}
+// 流程上下架
+export function changeProcsState(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/published.json`,
+        method: 'put',
+    })
+}
+// 流程是否发送消息
+export function changeProcsSendMessage(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/isSendMessage.json`,
+        method: 'put',
+    })
+}
+// 添加流程
+export function addProcess(data) {
+    return procsRequest({
+        url: `/workflow_mgr/workflow.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 修改流程
+export function updateProcess(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/update.json`,
+        method: 'put',
+        data
+    })
+}
+// 删除流程
+export function deleteProcess(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/detete.json`,
+        method: 'delete'
     })
 }

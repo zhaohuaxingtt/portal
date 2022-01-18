@@ -10,21 +10,18 @@
                     :lg="6"
                     :xl="6"
                     class="card-item"
-                    v-for="l in 20"
-                    :key="l"
-                    @click.native="$router.push({path:'/cf-ProCS/knowledgeManage/categoryInfo'})"
+                    v-for="l in list"
+                    :key="l.id"
+                    @click.native="$router.push({path:'/cf-ProCS/knowledgeManage/categoryInfo',query:{id:l.id}})"
                     >
                     <div class="top">
-                        <!-- <div class="bell">
-                            <i class="icon el-icon-message-solid"></i>
-                        </div> -->
-                        <img class="img" src="http://cnsvwshvm1416.csvw.com/upload/2018/08/10/ReportSection_2100_Cover.jpg" alt="">
+                        <img class="img" :src="l.cover" alt="">
                         <div class="info">
-                            <span>共10门</span>
+                            <span>共{{l.knowlegeCount}}门</span>
                             <span class="new">NEW</span>
                         </div>
                     </div>
-                    <div class="title">中国塑料报道</div>
+                    <div class="title" v-text="l.name"></div>
                 </el-col>
             </el-row>
         </div>
@@ -40,11 +37,12 @@
         },
         data() {
             return {
-                
+                list:[]
             }
         },
-        created() {
-            queryKnowledgeTypeList()
+        async created() {
+            let res = await queryKnowledgeTypeList({page:1,size:9999})
+            this.list = res.content || []
         },
     }
 </script>

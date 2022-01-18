@@ -5,7 +5,7 @@
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<iFormItem>
-							<iInput v-model="keyword" clearable placeholder="请输入" />
+							<iInput v-model="value" @input="input" clearable placeholder="请输入" />
 						</iFormItem>
 					</el-col>
 					<el-col :span="16" :push="12">
@@ -22,26 +22,32 @@
 
 <script>
 	import { iCard, iInput, iButton } from 'rise'
-export default {
-
-	data () {
-		return {
-			keyword: ''
-		}
-	},
-	components: {
-		iCard,
-		iInput,
-		iButton
-	},
-	methods: {
-		handleConfirm() {
-			this.$emit('confirm', this.keyword)
+	export default {
+		props:{
+			value:{}	
 		},
-		handleReset() {
-			this.keyword = ''
-			this.$emit('reset', this.keyword)
+		data () {
+			return {
+				keyword: ''
+			}
+		},
+		components: {
+			iCard,
+			iInput,
+			iButton
+		},
+
+		methods: {
+			handleConfirm() {
+				this.$emit('confirm', this.keyword)
+			},
+			handleReset() {
+				this.keyword = ''
+				this.$emit('reset', this.keyword)
+			},
+			input(v){
+				this.$emit("input",v)
+			}
 		}
 	}
-}
 </script>
