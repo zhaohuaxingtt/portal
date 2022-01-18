@@ -1,11 +1,11 @@
 <template>
     <iPage>
-        <pageHeader class="title">报表</pageHeader>
-        <iCard class="report">
+        <pageHeader class="title">{{title}}</pageHeader>
+        <iCard class="report" v-loading="loading">
             <div class="report-box">
                 <div class="flex">
                     <span>搜索</span>
-                    <iInput v-model="keyword" class="search" clearable>
+                    <iInput v-model="params.name" class="search" @keydown.enter="handleIconClick" clearable>
                         <i
                             class="el-icon-search el-input__icon"
                             slot="suffix"
@@ -30,10 +30,10 @@
                             v-update
                             @current-change="query"
                             background
-                            :current-page="l.page"
-                            :page-size="10"
+                            :current-page="params.current"
+                            :page-size="params.size"
                             :page-sizes="[10]"
-                            :total="l.total"
+                            :total="total"
                             layout="sizes, prev, pager, next, jumper"
                             />
                     </div>
@@ -83,21 +83,33 @@
                         ]
                     },
                 ],
+                params:{
+                    name:"",
+                    categoryId: this.$route.query.id,
+                    size:10,
+                    current:1
+                },
+                total:1,
                 mailto: '',
                 keyword: '',
-                show:false
+                show:false,
+                loading:false,
+                title:this.$route.query.name
             }
         },
+        created(){
+            this.query(1)
+        },
         methods: {
-            async query(v){
-                console.log(v);
-                let data = {
-                    size:10,
-                    current:1,
-                    categoryId: this.$route.query.id
+            async query(page){
+                console.log(page);
+                this.params.current = page
+                try {
+                    this.loading = true
+                    let res = await queryReportContentList(this.params)
+                } finally {
+                    this.loading = false
                 }
-                let res = await queryReportContentList(data)
-                console.log(res);
             },
             share(item) {
                 console.log(item, '1234')
@@ -114,7 +126,8 @@
                 a.remove()
             },
             handleIconClick() {
-                console.log(this.keyword, '12345')
+                this.params.current = 1
+                this.query()
             }
         },
     }

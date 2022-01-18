@@ -14,7 +14,7 @@
                     </iInput>
                     <iButton >返回</iButton>
                 </div>
-                <el-row :gutter="20" class="cards">
+                <el-row :gutter="20" class="cards" v-loading="loading">
                     <el-col
                         :xs="24"
                         :sm="12"
@@ -24,7 +24,7 @@
                         class="card-item"
                         v-for="(item, index) in cardsList"
                         :key="index"
-                        @click.native="$router.push({path:'/reportForm/web/reportCardsDetail',query:{id:item.id}})"
+                        @click.native="$router.push({path:'/reportForm/web/reportCardsDetail',query:{id:item.id,name:item.name}})"
                         >
                         <div class="top">
                             <div class="bell" v-if="item.isRead">
@@ -48,6 +48,7 @@
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton } from 'rise'
     import { getSectionList } from '@/api/reportForm';
+import { fetchCarTypeLevelSelect } from '@/api/mainData/carProject';
     export default {
         components:{
             pageHeader,
@@ -63,7 +64,8 @@
                     page: 0
                 },
                 keyword: '',
-                cardsList: []
+                cardsList: [],
+                loading:fetchCarTypeLevelSelect
             }
         },
         mounted() {
@@ -74,12 +76,16 @@
                 if (this.keyword) {
                     this.pageParams.keyword = this.keyword
                 }
-                await getSectionList(this.pageParams).then(res => {
-                    console.log(res, '2222')
-                    if (res) {
-                        this.cardsList = res || []
-                    }
-                })
+                try {
+                    this.loading = true
+                    await getSectionList(this.pageParams).then(res => {
+                        if (res) {
+                            this.cardsList = res || []
+                        }
+                    })
+                } finally {
+                    this.loading = false
+                }
             },
             handleIconClick() {
                 this.getCardList()
