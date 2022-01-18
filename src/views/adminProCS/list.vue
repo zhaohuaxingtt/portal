@@ -20,6 +20,14 @@ export default {
       menus: [
         {
           value: 1,
+          name: '流程管理',
+          message: 0,
+          url: '/adminProCS/process/index',
+          activePath: '/adminProCS/process/index',
+          key: '流程管理'
+        },
+        {
+          value: 2,
           name: '词条管理',
           message: 0,
           url: '/adminProCS/glossary/index',
@@ -27,20 +35,12 @@ export default {
           key: '词条管理'
         },
         {
-          value: 2,
+          value: 3,
           name: '知识管理',
           message: 0,
           url: '/adminProCS/adminKnowledge/index',
           activePath: '/adminProCS/adminKnowledge/index',
           key: '知识管理'
-        },
-        {
-          value: 3,
-          name: '流程管理',
-          message: 0,
-          url: '/adminProCS/process/index',
-          activePath: '/adminProCS/process/index',
-          key: '流程管理'
         }
       ]
     }

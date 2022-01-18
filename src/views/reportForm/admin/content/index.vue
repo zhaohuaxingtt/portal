@@ -68,7 +68,7 @@
     import { pageMixins } from '@/utils/pageMixins'
     import editContent from './editContent.vue';
     import tableSetting from './table';
-    import { queryReportContentList, publishedContentById, sendContentById, deleteContent } from '@/api/reportForm';
+    import { queryReportContentList, reportContentDetailById, publishedContentById, sendContentById, deleteContent } from '@/api/reportForm';
     export default {
         components:{
             iSearch,
@@ -178,13 +178,19 @@
 				this.operateType = 'add'
 				this.$refs.editDialog.getTypeList()
             },
-            edit(row){
+            async edit(row){
 				console.log(row, '111111')
                 if(row.state) return this.$message.warning("请先下架，再进行修改操作")
-                this.dialog.form = row
-                this.dialog.show = true
-				this.operateType = 'modify'
-				this.$refs.editDialog.getTypeList()
+                this.tableLoading = true
+                await reportContentDetailById(row.id).then(res => {
+                    if (res) {
+                        this.dialog.form = res
+                        this.dialog.show = true
+                        this.operateType = 'modify'
+                        this.tableLoading = false
+                        this.$refs.editDialog.getTypeList()
+                    }
+                })
             },
             del(row){
                 if(row.state) return this.$message.warning("请先下架，再进行删除操作")

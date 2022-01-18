@@ -19,26 +19,32 @@
           <iFormItem :label="language('管理者:')">
               <iSelect v-model="adminUsers" multiple :placeholder="language(请选择)">
 				<el-option
-					v-for="item in options"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value">
+					v-for="item in adminUsersList"
+					:key="item.id"
+					:label="item.name"
+					:value="item.id">
 				</el-option>
 			</iSelect>
           </iFormItem>
         </el-form>
+		<div class="btn">
+			<iButton @click="close">取消</iButton>
+			<iButton @click="save">确定</iButton>
+		</div>
     </iDialog>
 </template>
 
 <script>
-import { iDialog, iFormItem, iSelect, iInput } from 'rise'
+import { iDialog, iFormItem, iSelect, iInput, iButton } from 'rise'
+import { getKnowledgeUser, saveKnowledgeUser } from '@/api/adminProCS';
 export default {
     name: 'modifyDialog',
     components: {
         iDialog,
         iFormItem,
         iSelect,
-		iInput
+		iInput,
+		iButton
     },
     props: {
         show: {
@@ -51,32 +57,46 @@ export default {
             dialogTitle: '修改知识分享类型',
             name: '',
             adminUsers: [],
-			options: [{
-				value: '选项1',
-				label: '黄金糕'
-				}, {
-				value: '选项2',
-				label: '双皮奶'
-				}, {
-				value: '选项3',
-				label: '蚵仔煎'
-				}, {
-				value: '选项4',
-				label: '龙须面'
-				}, {
-				value: '选项5',
-				label: '北京烤鸭'
-			}],         
+			currId: null   
 		}
     },
     methods: {
         close () {
+			this.currId = null
+			this.adminUsers = [],
             this.$emit('update:show', false)
+			this.$emit('refresh')
         },
-		initDialog(row) {
-			console.log(row, '1234')
+		async initDialog(row) {
+			// 获取管理者列表
+			let params = {
+				privilege: 'ZSNRGLY'
+			}
+			await getKnowledgeUser(params).then(res => {
+				if (res) {
+					this.adminUsersList = res
+				}
+			})
 			this.name = row.name
-			this.adminUsers = row.adminUsers
+			this.currId = row.id
+			row.adminUsers?.map(item => {
+				this.adminUsers.push(item.id)
+			})
+		},
+		async save() {
+			if (!this.currId) return 
+			if (this.adminUsers.length === 0) return this.$message({type: 'warning', message: '请先选择管理人员'})
+			let formData = new FormData()
+			this.adminUsers.map(item => {
+				formData.append('adminUsers', item)
+			})
+			await saveKnowledgeUser(this.currId, formData).then(res => {
+				console.log(res, '1234')
+				if (res) {
+					this.$message({type: 'success', message: "修改成功"})
+					this.close()
+				}
+			})
 		}
     }
 }
@@ -85,5 +105,10 @@ export default {
 <style lang="scss" scoped>
     .typeForm {
 		padding-bottom: 40px;
+	}
+	.btn {
+		padding-bottom: 20px;
+		display: flex;
+		justify-content: flex-end;
 	}
 </style>

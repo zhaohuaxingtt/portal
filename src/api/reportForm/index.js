@@ -48,6 +48,14 @@ export function addReportContent(data) {
     })
 }
 
+// 获取报表内容详情
+export function reportContentDetailById(id) {
+    return requst({
+        url: `/report_content/${id}/detail.json`,
+        method: 'get'
+    })
+}
+
 // 修改报表内容
 export function updateReportContent(id,data) {
     return requst({

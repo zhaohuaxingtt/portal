@@ -4,7 +4,7 @@
         <iCard class="margin-top20">
             <div class="margin-bottom20 flex justify-between">
                 <div>
-                    <iButton @click="dialog = true">添加流程</iButton>
+                    <iButton @click="addFun">添加流程</iButton>
                     <iButton @click="handleMainChart">主流程图</iButton>
                 </div>
                 <div>
@@ -38,7 +38,7 @@
         </iCard>
         <processDetail></processDetail>
 
-        <addProcess :show.sync="dialog"></addProcess>
+        <addProcess :show.sync="dialog" ref="addDialog"></addProcess>
     </iPage>
 </template>
 
@@ -109,6 +109,11 @@ export default {
         },
         handleMainChart() {
             this.$router.push('/adminProCS/process/mainProcess')
+        },
+        addFun() {
+            this.$refs.addDialog.organizationList()
+            this.$refs.addDialog.usersList()
+            this.dialog = true
         }
     },
 }

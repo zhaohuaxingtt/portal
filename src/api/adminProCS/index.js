@@ -135,8 +135,27 @@ export function deleteCategory(id) {
 // 查询当前用户可见的知识分享类型
 export function queryCurrType() {
     return procsRequest({
-        url: 'knowledge_mgr/findAllSection.json',
+        url: '/knowledge_mgr/findAllSection.json',
         method: 'get'
+    })
+}
+
+// 查询配置知识分享类型的管理者列表
+export function getKnowledgeUser(data) {
+    return procsRequest({
+        url: `/master/privilege/users.json`,
+        method: 'get',
+        params: data
+    })
+}
+
+// 报讯配置知识分享类型的管理者
+export function saveKnowledgeUser(id, data) {
+    return procsRequest({
+        url: `knowledgeSection_mgr/${id}/newBindPrivileges.json`,
+        method: 'post',
+        data,
+        formData: true
     })
 }
 
@@ -202,5 +221,26 @@ export function delKnowledgeById(id) {
     return procsRequest({
        url: `/knowledge_mgr/${id}.json`,
        method: 'delete'
+    })
+}
+
+/**
+ * 流程
+ */
+
+// 获取流程专家列表
+export function getUsersList() {
+    return procsRequest({
+        url: '/master/users',
+        method: 'get'
+    })
+}
+
+// 获取管理机构列表
+export function getOrganizationList() {
+    return procsRequest({
+        url: '/master/organizations.json',
+        method: 'get'
+        // params: data
     })
 }

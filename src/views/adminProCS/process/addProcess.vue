@@ -2,7 +2,7 @@
 	<iDialog
 		:title="dialogTitle"
 		:visible.sync="show" 
-		width="700px" 
+		width="500px" 
 		@close='closeDialogBtn' 
 		append-to-body
 	>
@@ -11,23 +11,22 @@
 			:rules="rules" 
 			label-width="90px" 
 			ref="form"
-			inline
 			class="validate-required-form"
 		>
 			<iFormItem :label="language('流程标题')" prop='name'>
-				<iInput v-model="form.name" class="w-250" placeholder="请输入流程标题"></iInput>
+				<iInput v-model="form.name" class="w-300" placeholder="请输入流程标题"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('首字母')" prop='firstLetter'>
-				<iInput v-model="form.firstLetter" class="w-250" placeholder="请输入标题首字母"></iInput>
+				<iInput v-model="form.firstLetter" class="w-300" placeholder="请输入标题首字母"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('英文标题')" prop='nameEn'>
-				<iInput v-model="form.nameEn" class="w-250" placeholder="请输入英文标题"></iInput>
+				<iInput v-model="form.nameEn" class="w-300" placeholder="请输入英文标题"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('英文首字母')" prop='firstLetterEn'>
-				<iInput v-model="form.firstLetterEn" class="w-250" placeholder="请输入版本号"></iInput>
+				<iInput v-model="form.firstLetterEn" class="w-300" placeholder="请输入版本号"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="form.version" class="w-250" placeholder="请输入英文标题首字母"></iInput>
+				<iInput v-model="form.version" class="w-300" placeholder="请输入英文标题首字母"></iInput>
 			</iFormItem>
 			
 			<iFormItem :label="language('更新日期')" prop='updateDt'>
@@ -35,15 +34,15 @@
 					value-format="yyyy-MM-dd"
 					type="date"
 					v-model="form.updateDt"
-					class="w-250"
+					class="w-300"
 					:placeholder="language('请选择')"
 					/>
 			</iFormItem>
 			<iFormItem :label="language('流程专家')" prop='exports'>
-				<ISelect v-model="form.exports" class="w-250" placeholder="请输入用户名、邮箱进行搜索"></ISelect>
+				<ISelect v-model="form.exports" class="w-300" placeholder="请输入用户名、邮箱进行搜索"></ISelect>
 			</iFormItem>
 			<iFormItem :label="language('关联机构')" prop='organizations'>
-				<ISelect v-model="form.organizations" class="w-250" placeholder="请至少输入2个字符进行搜索"></ISelect>
+				<ISelect v-model="form.organizations" class="w-300" placeholder="请至少输入2个字符进行搜索"></ISelect>
 			</iFormItem>
 		</el-form>
 		<div class="flex felx-row mt20 pb20 justify-end ">
@@ -56,6 +55,7 @@
 <script>
 import { iDialog, iFormItem, iInput,iDatePicker, iButton } from 'rise'
 import ISelect from './../components/ISelect.vue';
+import { getOrganizationList, getUsersList } from '@/api/adminProCS';
 
 export default {
 	components: {
@@ -134,6 +134,19 @@ export default {
 				if(v){
 					// 保存
 				}
+			})
+		},
+		async organizationList() {
+			await getOrganizationList().then(res => {
+				console.log(res, 1111)
+			})
+		},
+		async usersList() {
+			let params = {
+				keyword: ' '
+			}
+			await getUsersList(params).then(res => {
+				console.log(res, 2222)
 			})
 		}
 	},

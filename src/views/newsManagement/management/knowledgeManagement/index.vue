@@ -23,12 +23,13 @@
             ref="modifyType"
             v-show="modifyDialogFlag"
             :show.sync="modifyDialogFlag"
+            @refresh='getTableList'
         />
     </div>
 </template>
 
 <script>
-import {iPagination, iTableCustom } from 'rise';
+import { iPagination, iTableCustom } from 'rise';
 import { pageMixins } from '@/utils/pageMixins';
 import { typeColumn } from './data.js' 
 import { queryKnowledgeTypeList } from '@/api/adminProCS';
