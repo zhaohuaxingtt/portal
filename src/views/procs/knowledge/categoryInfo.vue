@@ -10,32 +10,35 @@
                     :lg="8"
                     :xl="8"
                     class="card-item"
-                    v-for="l in 10"
-                    :key="l"
+                    v-for="l in list"
+                    :key="l.id"
                     >
                     <div class="top">
-                        <img class="img" src="http://cnsvwshvm1416.csvw.com/upload/2018/08/10/ReportSection_2100_Cover.jpg" alt="">
-                        <span class="new">NEW</span>
+                        <img class="img" :src="l.cover" alt="">
+                        <span class="new" v-if="isNew(l.updatedAt)">NEW</span>
                         <div class="detail">
-                            <div>测试相关信息</div>
-                            <div>供应商管理 <span class="cursor"><i class="el-icon-download"></i>10</span></div>
-                            <div>2022.1.1</div>
+                            <div>{{l.summary}}</div>
+                            <div>{{l.category.map(e => e.name).join(" ")}} <span class="cursor"><i class="el-icon-download"></i>{{l.downloadCount}}</span></div>
+                            <div>{{l.openingDate}}</div>
                             <button class="down">DOWNLOAD</button>
                         </div>
                     </div>
                     <div class="flex justify-between items-center title">
-                        <div>111</div>
-                        <div>主讲人</div>
+                        <div>{{l.title}}</div>
+                        <div>{{l.organizations.map(e => e.code).join(",")}} {{l.speaker}}</div>
                     </div>
 
                 </el-col>
             </el-row>
             <div class="info-r">
-               <UiCard title="知识分类" :list="list1" :color="false" @row-click="cateChange"></UiCard>
-               <UiCard title="科室" :list="list1" :color="false">
-                   <div class="department" slot="content">
-                       <div class="department-item" :class="{active:depart == l}" v-for="l in 10" @click="departChange(l)">CS-{{l+1}}</div>
-                   </div>
+               <UiCard title="知识分类" :list="knowList" :color="false" @row-click="cateChange"></UiCard>
+               <UiCard title="科室" :color="false">
+                   <template slot="content">
+                        <div class="department" v-if="departList.length > 0">
+                            <div class="department-item" :class="{active:organizations.includes(l.id)}" v-for="(l,i) in departList" :key="l.id" @click="departChange(l.id,i)">{{l.name}}</div>
+                        </div>
+                        <p class="no-data" v-if="departList.length == 0">暂无数据</p>
+                   </template>
                </UiCard>
             </div>
         </div>
@@ -45,6 +48,7 @@
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import UiCard from "./../components/UiCard.vue";
+    import {queryKnowledgeTwoLevelCard, listCategoryBySection, queryKnowledgeDepartment} from '@/api/procs';
     export default {
         components:{
             LayHeader,
@@ -52,22 +56,55 @@
         },
         data() {
             return {
-                show:false,
-                list1:[
-                    {name:'一类',id:1},
-                    {name:'二类',id:2},
-                    {name:'三类',id:3},
-                    {name:'四类',id:4}
-                ],
-                depart:0,
+                list:{},
+                knowList:[],
+                departList:[],
+
+                knowledgeCategory:"",
+                organizations:[]
             }
         },
+        created () {
+            this.init()
+            this.queryDetail()
+        },
         methods: {
-            departChange(l){
-                this.depart = l
+            async init(){
+                // 科室
+                this.departList = await queryKnowledgeDepartment(1100)
+                //  知识分类
+                this.knowList = await listCategoryBySection(1100)
+            },
+            async queryDetail(){
+                let data = {
+                    page:1,
+                    size:9,
+                    knowledgeCategory: this.knowledgeCategory,
+                    organizations: this.organizations,
+                    sort:"openingDate,DESC"
+                }
+                let formdata = new FormData()
+                for (const key in data) {
+                    formdata.append(key, data[key])
+                }
+                let res = await queryKnowledgeTwoLevelCard(1100, formdata)
+                this.list = res.content || []
+            },
+            departChange(id,i){
+                if(this.organizations.includes(id)){
+                    this.organizations.splice(i,1)
+                }else{
+                    this.organizations.push(id)
+                }
+                this.queryDetail()
             },
             cateChange(v){
-                console.log(v);
+                this.knowledgeCategory = v.id   
+                this.queryDetail()
+            },
+            isNew(date){
+                let difference = new Date() -  new Date(date).getTime()
+                return (difference / 1000 / 60 / 60 / 24 / 30) < 1
             }
         },
     }

@@ -2,7 +2,7 @@
    <iCard class="ui-index index-card" v-loading="loading" :class="{padding:padding}">
         <div class="tlt row-line" v-if="title" v-text="title"></div>
         <div class="indexs row-line" v-if="indexs.length > 0 && showIndex">
-            <span v-for="l in indexs" :key="l" :class="{active:activeIndex == l}" @click="clickIndex(l)">{{l}}</span>
+            <span v-for="(l,i) in indexs" :key="l" :class="{active:activeIndex == l}" @click="clickIndex(l)" @mouseenter.stop="en(l,i)" @mouseleave.stop="enterActive = ''">{{enterActive && enterActive.index == i ? indexs_data[enterActive.name].length : l}}</span>
         </div>
         <div v-if="list == 0" class="nodata">目前暂无数据</div>
         <transition name="moveR">
@@ -10,7 +10,9 @@
                 <div class="row row-line"  v-for="l in list" :key="l.id" @click="clickItem(l.id)">
                     <span class="row-index" v-if="indexIcon">{{activeIndex}}</span>
                     <div class="row-c" :class="{active:activeItem == l.id}">
-                        <span>{{l[nameKey]}} <i>NEW</i></span>
+                        <span>{{l[nameKey]}} 
+                            <!-- <i>NEW</i> -->
+                        </span>
                         <slot :data="l" name="row-right"></slot>
                     </div>
                 </div>
@@ -61,7 +63,8 @@
                 activeItem:"",
                 list:[],
                 indexs_data:{},
-                indexs:[]
+                indexs:[],
+                enterActive:""
             }
         },
         watch:{
@@ -82,16 +85,19 @@
            
         },
         methods: {
+            en(l,i){
+               this.enterActive = {index:i,name:l}
+            },
             clickIndex(l){
                 // 点击索引
                 this.activeIndex = l;
                 this.$emit("update:loading",true)
                 setTimeout(() => {
                     this.list = this.indexs_data[l]
+                    this.clickItem(this.list[0].id)
                     this.$emit("update:loading",false)
                 }, 200);
                 this.$emit("click-index",l)
-                this.clickItem(this.list[0].id)
             },
             clickItem(l){
                 this.activeItem = l
@@ -144,10 +150,13 @@
             color: #41434A;
             & > span{
                 display: inline-block;
-                padding: 3px 6px;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
                 margin-bottom: 10px;
                 margin-top: 10px;
                 margin-right: 15px;
+                text-align: center;
                 font-weight: bold;
                 font-size: 18px;
                 border-radius: 3px;

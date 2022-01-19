@@ -18,7 +18,7 @@
                         <img class="img" :src="l.cover" alt="">
                         <div class="info">
                             <span>共{{l.knowlegeCount}}门</span>
-                            <span class="new">NEW</span>
+                            <span class="new" v-if="isNew(l.createdAt)">NEW</span>
                         </div>
                     </div>
                     <div class="title" v-text="l.name"></div>
@@ -43,6 +43,12 @@
         async created() {
             let res = await queryKnowledgeTypeList({page:1,size:9999})
             this.list = res.content || []
+        },
+        methods: {
+            isNew(date){
+                let difference = new Date() -  new Date(date).getTime()
+                return (difference / 1000 / 60 / 60 / 24 / 30) < 1
+            }
         },
     }
 </script>

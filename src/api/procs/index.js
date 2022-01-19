@@ -16,11 +16,36 @@ export function queryGlossaryDetail(id) {
         method: 'get',
     })
 }
+
+
 // 知识列表查询
 export function queryKnowledgeTypeList(data) {
     return procsRequest({
         url: '/knowledge/listSection.json',
         method: 'get',
         params:data
+    })
+}
+//   web知识查询子项
+export function queryKnowledgeTwoLevelCard(id,data) {
+    return procsRequest({
+        url: `/knowledge/${id}/listBySection.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+//   web知识管理 - 知识分类查询
+export function listCategoryBySection(id) {
+    return procsRequest({
+        url: `/knowledge/${id}/listCategoryBySection.json`,
+        method: 'get'
+    })
+}
+//   web知识管理 - 科室查询
+export function queryKnowledgeDepartment() {
+    return procsRequest({
+        url: `/knowledge_mgr/findAllDepartment.json`,
+        method: 'get'
     })
 }
