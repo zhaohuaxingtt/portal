@@ -154,12 +154,16 @@ export const  leftModelColumns=[
     }
   },
   {
-    prop: "carModel",
+    prop: "carModel6Code",
     label: "车型六位号",
     i18n: "LK_CHEXINGLIUWEIHAO",
     headerAlign: "center",
     align: "center",
     tooltip: true,
+    emit:'click-six-code',
+    customRender:(h,scope)=>{
+      return <span class='link-text'>{scope.row.carModel6Code}</span>
+    }
   },
   {
     prop: "price",
