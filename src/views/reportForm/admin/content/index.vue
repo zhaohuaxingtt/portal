@@ -59,7 +59,7 @@
                 />
         </iCard>
 
-        <editContent ref="editDialog" :show.sync="dialog.show" :params="dialog.form" :operateType="operateType"></editContent>
+        <editContent ref="editDialog" :show.sync="dialog.show" :params="dialog.form" :operateType="operateType" @refresh='query'></editContent>
     </div>
 </template>
 
@@ -115,7 +115,7 @@
         methods: {
             async query(){
                 let params = {
-                    page: this.page.currPage,
+                    current: this.page.currPage,
                     size: this.page.pageSize
                 }
                 if (this.searchFlag) {
@@ -179,17 +179,20 @@
 				this.$refs.editDialog.getTypeList()
             },
             async edit(row){
-				console.log(row, '111111')
                 if(row.state) return this.$message.warning("请先下架，再进行修改操作")
                 this.tableLoading = true
                 await reportContentDetailById(row.id).then(res => {
                     if (res) {
+                        res.file = [
+                            {fileName: res.source, fileUrl: res.cover}
+                        ]
                         this.dialog.form = res
                         this.dialog.show = true
                         this.operateType = 'modify'
                         this.tableLoading = false
-                        this.$refs.editDialog.currId = row.id
+                        this.$refs.editDialog.currId = res.id
                         this.$refs.editDialog.getTypeList()
+                        this.$refs.editDialog.getCurrCategory(res.reportSectionId)
                     }
                 })
             },

@@ -313,6 +313,7 @@ export default {
                         } else {
                             this.form.cover = this.imageUrl
                             this.form.id = this.modifyId
+                            debugger
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
                                     if (item !== 7250) {
@@ -342,9 +343,11 @@ export default {
             })
         },
         initModify(row) {
+            console.log(row, '2222')
             Object.assign(this.form, row)
             this.imageUrl = row.cover
             this.modifyId = row.id
+            console.log(this.form, '22222')
             // 返回的信息有供应商 说明是自定义
             if (row.suppliers) {
                 this.form.canUsers.unshift({
@@ -352,6 +355,22 @@ export default {
                     userId: 7250
                 })
                 this.customFlag = true
+            } else {
+                this.customFlag = false
+            }
+            if (this.form.organizations) {
+                let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
+                this.form.organizations = []
+                testOrganizationsArr.map(item => {
+                    this.form.organizations.push(item.id)
+                })
+            }
+            if (this.form.adminUsers) {
+                let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
+                this.form.adminUsers = []
+                testAdminUsersArr.map(item => {
+                    this.form.adminUsers.push(item.id)
+                })
             }
         }
     },

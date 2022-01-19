@@ -93,14 +93,10 @@ export default {
             this.tableLoading = true
             createCurrCategory(this.currTypeId, formData).then(res => {
                 console.log(res, '123333')
-                if (res) {
+                if (res?.success) {
                     this.name = ''
-                    this.tableData.push({
-                        id: res.id,
-                        name: res.name
-                    })
                     this.tableLoading = false
-                    this.getTableList()
+                    this.getTableList(this.currTypeId)
                 }
             })
         },

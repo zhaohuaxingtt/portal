@@ -154,7 +154,7 @@ export default {
 	methods: {
 		async getTableList() {
 			let params = {
-				page: this.page.currPage,
+				current: this.page.currPage,
 				size: this.page.pageSize
 			}
 			if (this.searchFlag) {
@@ -162,6 +162,7 @@ export default {
 			}
 			this.tableLoading = true
 			await queryTypeList(params).then(res => {
+				console.log(res, '111')
 				if (res?.code === '200') {
 					this.tableData = res?.data || []
 					this.tableData.map(item => {
@@ -257,14 +258,15 @@ export default {
 			await reportTypeDetailById(row.id).then(res => {
 				if (res) {
 					currDetail = res
+					this.tableLoading = false
+					this.$refs.typeDialog.getUsersList()
+					this.$refs.typeDialog.getOrganizationsList()
+					this.dialogShow = true
+					this.operateType = 'edit'
+					this.$refs.typeDialog.initModify(currDetail)
 				}
-				this.tableLoading = false
 			})
-			this.$refs.typeDialog.getUsersList()
-			this.$refs.typeDialog.getOrganizationsList()
-			this.dialogShow = true
-			this.operateType = 'edit'
-			this.$refs.typeDialog.initModify(currDetail)
+			
 		},
 		addReportType(row) {
 			if (row.published) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})

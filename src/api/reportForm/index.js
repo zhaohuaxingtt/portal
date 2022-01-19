@@ -57,9 +57,9 @@ export function reportContentDetailById(id) {
 }
 
 // 修改报表内容
-export function updateReportContent(id,data) {
+export function updateReportContent(data) {
     return requst({
-        url: `/report_content/${id}/update.json`,
+        url: `/report_content/update.json`,
         method: 'put',
         data
     })
@@ -70,6 +70,14 @@ export function deleteContent(id) {
     return requst({
         url: `/report_content/${id}.json`,
         method: 'delete'
+    })
+}
+
+// 添加报告时获取二级分类
+export function getCategoryById(id) {
+    return requst({
+        url: `/report_mgr/${id}/findSectionByParent.json`,
+        method: 'get'
     })
 }
 
@@ -97,7 +105,7 @@ export function reportTypeDetailById(id) {
 export function modifyReportType(data) {
     return requst({
         url: `/report_mgr/update.json`,
-        method: 'post',
+        method: 'put',
         data
         // formData: true
     })

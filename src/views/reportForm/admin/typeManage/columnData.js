@@ -24,10 +24,11 @@ const typeColumn = [
         align: 'center',
         width: 150,
         customRender: (h, scope) => {
-            const adminUsers = scope.row.adminUsers
-            let new_adminUsers = adminUsers.length > 0 ? adminUsers.slice(0,4).map((item)=>item.name).join(',') : ''
+            const adminUsers = scope.row.adminUsers || []
+            let new_adminUsers = adminUsers?.length > 0 ? adminUsers.slice(0,4).map((item)=>item.nameZh).join(',') : ''
+            let text = adminUsers?.length> 0 ? adminUsers.length>4?`${new_adminUsers}等${adminUsers.length}人`:`${new_adminUsers}`:''
             return (
-                adminUsers.length>0? adminUsers.length>4?`${new_adminUsers}等${adminUsers.length}人`:`${new_adminUsers}`:''
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={text}>{text}</div>
             )
         }
     },
@@ -37,10 +38,11 @@ const typeColumn = [
         align: 'center',
         width: 150,
         customRender: (h, scope) => {
-            const organizations = scope.row.organizations
-            let new_organizations = organizations.length > 0 ? organizations.slice(0,4).map((item)=>item.name).join(',') : ''
+            const organizations = scope.row.organizations || []
+            let new_organizations = organizations?.length > 0 ? organizations.slice(0,4).map((item)=>item.name).join(',') : ''
+            let text = organizations?.length>0? organizations.length>4?`${new_organizations}等${organizations.length}人`:`${new_organizations}`:''
             return (
-                organizations.length>0? organizations.length>4?`${new_organizations}等${organizations.length}人`:`${new_organizations}`:''
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={text}>{text}</div>
             )
         }
     },
@@ -50,10 +52,11 @@ const typeColumn = [
         align: 'center',
         width: 150,
         customRender: (h, scope) => {
-            const users = scope.row.users
-            let new_users = users.length > 0 ? users.slice(0,4).map((item)=>item.name).join(',') : ''
+            const users = scope.row.users || []
+            let new_users = users?.length > 0 ? users.slice(0,4).map((item)=>item.nameZh).join(',') : ''
+            let text = users?.length>0? users.length>4?`${new_users}等${users.length}人`:`${new_users}`:''
             return (
-                users.length>0? users.length>4?`${new_users}等${users.length}人`:`${new_users}`:''
+                <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={text}>{text}</div>
             )
         }
     },

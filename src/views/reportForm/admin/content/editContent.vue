@@ -7,8 +7,8 @@
       @open="open"
     >
         <el-form :model="form" ref="form" label-width="90px" :inline="false" size="normal" class="validate-required-form" v-loading="loading">
-            <iFormItem :label="language('Report类型')" prop="reportSection" :rules="{ required:true, message:'请选择', trigger:'change'}">
-                <iSelect v-model="form.reportSection" filterable clearable @change="handleTypeChange">
+            <iFormItem :label="language('Report类型')" prop="reportSectionId" :rules="{ required:true, message:'请选择', trigger:'change'}">
+                <iSelect v-model="form.reportSectionId" filterable clearable @change="handleTypeChange">
                     <el-option v-for="item in reportSectionList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
@@ -23,8 +23,8 @@
                     style="width:100%"
                     />
             </iFormItem>
-            <iFormItem :label="language('报表分类')" prop="reportCategory" :rules="{ required:true, message:'请选择', trigger:'change'}">
-                <iSelect v-model="form.reportCategory" filterable clearable>
+            <iFormItem :label="language('报表分类')" prop="reportCategoryId" :rules="{ required:true, message:'请选择', trigger:'change'}">
+                <iSelect v-model="form.reportCategoryId" filterable clearable>
                     <el-option v-for="item in reportCategoryList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </iSelect>
             </iFormItem>
@@ -49,7 +49,7 @@
 <script>
     import {iDialog,iButton,iInput, iSelect, iDatePicker, iFormItem} from 'rise';
     import iUpload from '@/views/adminProCS/components/iUpload.vue';
-    import { addReportContent, updateReportContent, queryTypeList, queryCurrCategory } from '@/api/reportForm';
+    import { addReportContent, updateReportContent, queryTypeList, getCategoryById } from '@/api/reportForm';
     export default {
         components: {
             iDialog,
@@ -78,16 +78,16 @@
             return {
                 form:{
                     title: '',
-                    reportSection: '',
+                    reportSectionId: '',
                     publishDate: '',
-                    reportCategory: '',
+                    reportCategoryId: '',
                     file: null
                 },
                 rules:{
-                    reportSection: { required:true, message:"请选择报表类型",trigger:'blur' },
+                    reportSectionId: { required:true, message:"请选择报表类型",trigger:'blur' },
                     title: { required:true, message:"请输入报表标题",trigger:'blur' },
                     publishDate: { required:true, message:"请选择报表发布时期",trigger:'blur' },
-                    reportCategory: { required:true, message:"请输入报表类型",trigger:'blur' }
+                    reportCategoryId: { required:true, message:"请输入报表类型",trigger:'blur' }
                 },
                 reportSectionList: [],
                 reportCategoryList: [],
@@ -115,14 +115,9 @@
                 this.getCurrCategory(va)
             },
             async getCurrCategory(va) {
-                let param = {
-                    page: 1,
-                    size: 99,
-                    name: ' '
-                }
-                await queryCurrCategory(va, param).then(res => {
-                    if (res?.code === '200') {
-                        this.reportCategoryList = res?.data || []
+                await getCategoryById(va).then(res => {
+                    if (res) {
+                        this.reportCategoryList = res || []
                     }
                 })
             },
@@ -131,7 +126,9 @@
                     if(v){
                         try {
                             if (this.operateType === 'add') {
-                                this.form.file = this.form.file[0]?.fileUrl || ''
+                                this.form.cover = this.form.file[0]?.fileUrl || ''
+                                this.form.source = this.form.file[0]?.fileName || ''
+                                this.form.reportCategoryId = this.form.reportCategoryId + ''
                                 this.loading = true
                                 await addReportContent(this.form).then(res => {
                                     if (res?.success) {
@@ -140,9 +137,11 @@
                                     }
                                 })
                             } else {
-                                this.form.file = Array.isArray(this.form.file) ? this.form.file[0]?.fileUrl || '' : this.form.file
+                                this.form.cover = this.form.file[0]?.fileUrl || ''
+                                this.form.source = this.form.file[0]?.fileName || ''
+                                this.form.reportCategoryId = this.form.reportCategoryId + ''
                                 this.loading = true
-                                await updateReportContent(this.currId, this.form).then(res => {
+                                await updateReportContent(this.form).then(res => {
                                     if (res?.success) {
                                         this.$message({type: 'success', message: '修改内容成功'})
                                         this.loading = false
@@ -161,10 +160,10 @@
             },
             handleClose(){
                 this.form = {
-                    reportSection: '',
+                    reportSectionId: '',
                     title:"",
                     publishDate:"",
-                    reportCategory:""
+                    reportCategoryId:""
                 }
                 this.uploadFileStream = null
                 this.currId = null

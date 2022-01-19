@@ -15,10 +15,10 @@
                     <iButton @click="$router.back()">返回</iButton>
                 </div>
                 <div class="detail">
-                    <div class="detail-item" v-for="(l,idx) in dataList" :key="idx">
+                    <div class="detail-item" v-for="(l,index) in dataList" :key="index">
                         <h3 class="title" v-text="l.categoryName"></h3>
                         <div class="file" v-for="(item) in l.list" :key="item.id">
-                            <span>{{item.title}}</span>
+                            <span class="title-text" @click="openFun(item)">{{`${item.title}-${item.publishDate}`}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item)">
                                     分享
@@ -28,7 +28,7 @@
                         </div>
                         <iPagination
                             v-update
-                            @current-change="queryPage($event, l.categoryIds, idx)"
+                            @current-change="queryPage($event, l.categoryId, idx)"
                             background
                             :current-page="params.current"
                             :page-size="params.size"
@@ -61,7 +61,7 @@
         },
         data() {
             return {
-                dataList:[],
+                dataList: [],
                 params:{
                     size: 10,
                     current: 1
@@ -92,25 +92,16 @@
                     this.loading = true
                     let dataList = []
                     this.categoryIds.map(async (cate, index)=> {
-                        this.params.categoryIds = cate
+                        this.params.categoryId = cate
                         let res = await queryReportContentList(this.params)
-                        console.log(res, '2222')
                         if (res?.code === '200') {
                             let data = res?.data
-                            console.log(data, data[0]?.categoryName)
                             dataList.push({
                                 categoryName: data[0]?.categoryName,
                                 total: res.total,
                                 page: res.pageNum,
-                                list: [],
-                                categoryIds: this.categoryIds[index]
-                            })
-                            data.map(item => {
-                                dataList[index].list.push({
-                                    title: item.title || '',
-                                    cover: item.cover,
-                                    id: item.id
-                                })
+                                list: data,
+                                categoryId: this.categoryIds[index]
                             })
                         }
                     })
@@ -120,9 +111,8 @@
                 }
             },
             async queryPage(page, id, index) {
-                console.log(page, id, index, '1222')
                 this.params.current = page
-                this.params.categoryIds = id
+                this.params.categoryId = id
                 await queryReportContentList(this.params).then(res => {
                     if (res?.code === '200') {
                         let data = res?.data
@@ -131,15 +121,8 @@
                             categoryName: data[0]?.categoryName,
                             total: res.total,
                             page: res.pageNum,
-                            list: [],
-                            categoryIds: this.categoryIds[index]
-                        })
-                        data.map(item => {
-                            demoArr[0].list.push({
-                                title: item.title || '',
-                                cover: item.cover,
-                                id: item.id
-                            })
+                            list: data,
+                            categoryId: this.categoryIds[index]
                         })
                         this.dataList[index] = demoArr
                     }
@@ -168,6 +151,9 @@
             handleIconClick() {
                 this.params.current = 1
                 this.query()
+            },
+            openFun(item) {
+                window.open(item.cover)
             }
         },
     }
@@ -237,5 +223,8 @@
             background-size: cover;
         }
     }
+}
+.title-text {
+    cursor: pointer;
 }
 </style>

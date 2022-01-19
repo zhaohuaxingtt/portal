@@ -97,7 +97,8 @@
             },
             imgList(){
                 let arr = []
-                let l = this.files
+                console.log(this.files, '2222221111')
+                let l = this.files || []
                 l.forEach(e => {
                     let fmt = e.fileName.split(".")[e.fileName.split(".").length - 1]
                     if(this.imgFmt.includes(fmt)){
