@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 15:55:48
+ * @LastEditTime: 2022-01-18 16:20:06
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -48,7 +48,7 @@
 import systeamDetailAdd from '../../userManage/components/systeamDetailAdd'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
-import { excelExport } from "@/utils/filedowLoad"
+import { excelExport } from '@/utils/filedowLoad'
 import { pageMixins } from '@/utils/pageMixins'
 import {
   pageQueryDetails,
@@ -62,7 +62,7 @@ export default {
     iCard,
     iButton,
     systeamDetailAdd,
-    tableList,
+    tableList
     // iPagination
   },
   data() {
@@ -138,7 +138,11 @@ export default {
       })
     },
     exportFile() {
-            excelExport(this.tableListData, this.tableTitle, this.language('YINGYONGLIEBIAO', '应用列表'))
+      excelExport(
+        this.tableListData,
+        this.tableTitle,
+        this.language('YINGYONGLIEBIAO', '应用列表')
+      )
     },
     closeDiolog() {
       this.dialog = false
