@@ -26,7 +26,7 @@ export default {
   },
   data(){
     return {
-      year:  new Date().getFullYear()+'',
+      year:  '',
       years:[],
 
     }
@@ -39,6 +39,7 @@ export default {
       yearDropDown().then(res=>{
         if(res.code==200){
           this.years=res.data
+          this.changeYear(res.data[0].code)
           this.years=this.years.reverse()
           this.years=this.years.filter(item=>item.code!=null)
         }

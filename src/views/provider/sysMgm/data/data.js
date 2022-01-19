@@ -1,4 +1,5 @@
 import riseLogo from '@/assets/images/rise.png'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export const tableColumnSetting = [
   {
     type: 'selection',
@@ -56,20 +57,7 @@ export const tableColumnSetting = [
     align: 'center',
     customRender: (h, scope) => {
       let type = scope.row.supplierType
-      let sysTags = [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: '生产采购'
-        },
-        {
-          id: '2',
-          label: '一般采购'
-        }
-      ]
+      let sysTags = SYSTEM_TAGS
       let array = type ? type.split(',') : []
       let strArray = []
       if (array.length > 0) {

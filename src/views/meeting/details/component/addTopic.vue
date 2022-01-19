@@ -453,7 +453,8 @@ import {
   saveThemen,
   updateThemen
 } from '@/api/meeting/details'
-import { getReceiverById, uploadFile } from '@/api/meeting/type'
+// import { getReceiverById, uploadFile } from '@/api/meeting/type'
+import { findUsersById, uploadFile } from '@/api/meeting/type'
 import { download } from '@/utils/downloadUtil'
 
 export default {
@@ -616,7 +617,11 @@ export default {
           }
         ],
         remark: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
@@ -1023,7 +1028,8 @@ export default {
         // pageSize: 1000,
         id: this.meetingInfo.receiverId
       }
-      getReceiverById(data).then((res) => {
+      // getReceiverById(data).then((res) => {
+      findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS
         this.currentSearchUserData = [...res.employeeDTOS]
       })

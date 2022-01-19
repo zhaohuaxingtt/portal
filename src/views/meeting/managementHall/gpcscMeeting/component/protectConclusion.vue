@@ -10,6 +10,7 @@
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
+  12312
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -45,14 +46,20 @@
         <iFormItem prop="isFrozenRs" v-if="showIFormItemRS" 
         >
           <div class="switch-content">
-            <div class="freeze">提交LOI审批</div>
-            <div class="swicth">
-              <div class="text" v-if="fromData.isFrozenRs" ref="sliderText">
-                是
-              </div>
+            <div class="freeze" style="margin-right:23px;">提交LOI审批</div>
+            <!-- <div class="swicth">
+              <div class="text" v-if="fromData.isFrozenRs" ref="sliderText"> 是</div>
               <div class="text" v-else ref="sliderText">否</div>
               <div class="circle" @click="handleSwitch" ref="slider"></div>
-            </div>
+            </div> -->
+          <iSelect
+              v-model="fromData.isFrozenRs"
+              :placeholder="$t('请选择')"
+              class="operate-selectALL"
+            >
+              <el-option :value="true" label="是"></el-option>
+              <el-option :value="false" label="否"></el-option>
+            </iSelect>
           </div>
         </iFormItem>
         <!-- 任务 -->
@@ -75,7 +82,6 @@
     <!-- 列表 -->
     <div v-if="showIFormItemList">
       <div class="commonTablediv">RFQ发送对象</div>
-          
           <commonTable
           class="commonTablediv"
             v-update
@@ -88,9 +94,17 @@
             :tableTitle="tableColumns">
             <!-- 货币 -->
             <template slot="currency" slot-scope="scope">
-                <iInput
+                <iSelect
                   v-model="scope.row.currency"
-                />
+                  :placeholder="$t('请选择')"
+                >
+              <el-option
+                v-for="item in currencyS"
+                :key="item.destCurrency"
+                :label="item.destCurrency"
+                :value="item.destCurrency"
+              ></el-option>
+            </iSelect>
             </template>
             <!-- 目标价 -->
             <template slot="targetPrice" slot-scope="scope">
@@ -203,7 +217,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId} from '@/api/meeting/gpMeeting'
+import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
@@ -277,6 +291,7 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        currencyS:[],
         iconShowA:false,
         iconShowB:false,
         selectedRow:[],
@@ -325,6 +340,7 @@ export default {
       }
     } else {
       return {
+        currencyS:[],
         iconShowA:false,
         iconShowB:false,
         selectedRow:[],
@@ -513,10 +529,25 @@ export default {
   created() {  
     this.getList()
     this.getDate()
+    this.getCurrency()
     // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
     // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
+    //货币下拉框
+    getCurrency(){
+      const params = {
+        id:this.selectedTableData[0].id//议题id
+      }
+      getCscCurrencyList(params).then((res) => {
+        if (res == '') {
+          this.currencyS.push({ destCurrency: 'RMB', destCurrency: 'RMB' })
+        }else{
+          this.currencyS=res
+        }
+        
+      })
+    },
     // 列表   findGpBidderInfoByThemenId
     getList(){
       const params = {
@@ -527,9 +558,7 @@ export default {
         console.log(res);
         this.tableDataList=res
         this.handleIntercept()
-         
       })
-
     },
     // form表单   findGpInfoByThemenId
     getDate(){
@@ -538,7 +567,7 @@ export default {
        themenId:this.selectedTableData[0].id//议题id
       }
       findGpInfoByThemenId(params).then((res) => {
-        console.log(res);
+        console.log(res)
         this.fromData=res
         //判断是否显示图标
         //判断图标
@@ -566,9 +595,9 @@ export default {
       const params = {
        conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
        meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.taskCsc,//任务
+       result:this.fromData.result,//任务
        themenId:this.selectedTableData[0].id,//议题id
-       isLoi: this.ruleForm.isFrozenRs ,   //是否发送loi审批
+       isLoi: this.fromData.isFrozenRs ,   //是否发送loi审批
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
@@ -619,20 +648,28 @@ export default {
         this.showIFormItemRS= false
         this.showIFormItemList= false
         this.showIFormItemelform= false
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }else if(e.conclusionCsc == '05' ){
         // 结论 任务 列表
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }else if(e.conclusionCsc == '04' || e.conclusionCsc == '02'){
         // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }
       if(e.conclusionCsc == '03'){
         this.showIFormItemRS= false
         this.showIFormItemelform= true
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }
 
     },
@@ -672,7 +709,7 @@ export default {
       this.$emit('flushTable')
     },
     handleSwitch() {
-      this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
+      this.fromData.isFrozenRs = !this.fromData.isFrozenRs
     },
     //获取会议字段截取  meetingTypeName
     // gpMeetingService/findById
@@ -704,7 +741,13 @@ export default {
     color: #333333;
     font-size: 14px;
     font-weight: 400;
+    span {
+      /* display: block; */
+      width: 100%;
+      text-align: right;
   }
+  }
+  
 }
 .button-list {
   display: flex;
@@ -785,6 +828,10 @@ export default {
     /* transform: translate(-10px, -50%); */
   }
 }
+.operate-selectALL {
+    height: 35px;
+    width: 240px;
+  }
 .next-meeting {
   .operate-select {
     height: 35px;

@@ -192,7 +192,7 @@ import { numToLetter } from './data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
-import { getReceiverById } from '@/api/meeting/type'
+import { findUsersById } from '@/api/meeting/type'
 export default {
   components: {
     iDialog,
@@ -266,7 +266,7 @@ export default {
       id: this.receiverId
     }
     //查询收件人
-    getReceiverById(data).then((res) => {
+    findUsersById(data).then((res) => {
       this.employeeDTOS = res?.employeeDTOS
     })
   },

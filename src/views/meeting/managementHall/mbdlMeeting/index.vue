@@ -577,12 +577,13 @@
 
     <!-- 关闭触发审批流 -->
     <closeMeetiongDialog
-      v-if="dialogStatusManageObj.openCloseMeetiongDialog"
+      v-show="dialogStatusManageObj.openCloseMeetiongDialog"
       :openCloseMeeting="dialogStatusManageObj.openCloseMeetiongDialog"
       :row="meetingInfo"
       :id="$route.query.id"
       @handleOK="handleOKTopics"
       @handleClose="handleCloseCancelTopics"
+      ref="closeDialog"
     />
     <importErrorDialog
       v-if="openError"
@@ -643,10 +644,27 @@
         :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
       ></editprotectConclusion>
     </iDialog>
+    <!-- MBDL改期 -->
+    <iDialog
+      v-if="updateDateNEWDialog"
+      :title="language('改期会议列表', '改期会议列表')"
+      :visible.sync="updateDateNEWDialog"
+      width="90%"
+      :append-to-body="true"
+      >
+      <updateDateNEW
+        v-if="updateDateNEWDialog"
+        @close="updateDateNEWDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :updateDateNEWDialogRow='updateDateNEWDialogRow'
+      ></updateDateNEW>
     
+    </iDialog>
   </iPage>
 </template>
 <script>
+import updateDateNEW from './component/updateDateNEW.vue'
 import editprotectConclusion from './component/editprotectConclusion.vue'
 import newAddTopic from './component/newAddTopic.vue'
 import protectConclusion from './component/protectConclusion.vue'
@@ -695,6 +713,7 @@ import enclosure from '@/assets/images/enclosure.svg'
 export default {
   mixins: [pageMixins],
   components: {
+    updateDateNEW,//改期
     editprotectConclusion,//维护结论
     newAddTopic,//新增议题gp
     protectConclusion,//结束议题
@@ -723,6 +742,7 @@ export default {
   },
   data() {
     return {
+      updateDateNEWDialog:false,//改期
       editprotectConclusionDialog:false,//维护议题结论
       selectThemenId:'',//当前议题行id
       protectConclusionDialog:false,//结束议题
@@ -992,6 +1012,7 @@ export default {
       this.closeDialog()
     },
     handleCloseCancelTopics() {
+      debugger
       this.closeDialog()
       this.getMeetingTypeObject()
       this.getTableData()
@@ -1449,50 +1470,56 @@ export default {
       //     this.openDialog("openCloseMeetiongDialog");
       //   });
       // }
-
-      if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-          confirmButtonText: '前往',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          //在这里判断是不是已经生成会议纪要了
-          // this.openDialog("openCloseMeetiongDialog");
-          this.generateMeetingMinutes()
-        })
-      } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
-        }).then(() => {
-          //在这里判断是不是已经生成会议纪要了
-          this.openDialog('openCloseMeetiongDialog')
-        })
-      }
-      // alert("close");
-      // this.$confirm("是否生成会议纪要", "提示", {
-      //   confirmButtonText: "是",
-      //   cancelButtonText: "否",
-      //   type: "warning",
-      // })
-      //   .then(() => {
-      //     this.$confirm("请确认是否需要关闭会议?", "提示", {
-      //       confirmButtonText: "是",
-      //       cancelButtonText: "否",
-      //       type: "warning",
-      //     }).then(() => {
-      //       //在这里判断是不是已经生成会议纪要了
-      //       if (this.meetingInfo.attachments.length > 0) {
-      //         this.openDialog("openCloseMeetiongDialog");
-      //       } else {
-      //         iMessage.warn("尚未生成会议纪要,现在不能关闭会议!");
-      //       }
-      //     });
+debugger
+      // if (this.meetingInfo.attachments.length <= 0) {
+      //   this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
+      //     confirmButtonText: '前往',
+      //     cancelButtonText: '取消',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     //在这里判断是不是已经生成会议纪要了
+      //     // this.openDialog("openCloseMeetiongDialog");
+      //     this.generateMeetingMinutes()
       //   })
-      //   .catch((err) => {
-      //     iMessage.error("尚未生成会议纪要,现在不能关闭会议!");
-      //   });
+      // } else {
+      //   this.$confirm('请确认是否需要关闭会议?', '提示', {
+      //     confirmButtonText: '是',
+      //     cancelButtonText: '否',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     //在这里判断是不是已经生成会议纪要了
+      //     this.openDialog('openCloseMeetiongDialog')
+      //   })
+      // }
+      this.$confirm("是否生成会议纪要", "提示", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "warning",
+      })
+        .then(() => {
+          this.$confirm("请确认是否需要关闭会议?", "提示", {
+            confirmButtonText: "是",
+            cancelButtonText: "否",
+            type: "warning",
+          }).then(() => {
+            //在这里判断是不是已经生成会议纪要了
+            if (this.meetingInfo.attachments.length > 0) {
+              console.log(this.meetingInfo.attachments);
+              // this.openDialog("openCloseMeetiongDialog");
+              // 关闭会议
+              // this.handleCloseCancelTopics()
+                this.$nextTick(()=>{
+                   this.$refs['closeDialog'].handleSubmit()
+                })
+                // console.log(this.$refs.closeDialog);
+            } else {
+              iMessage.warn("尚未生成会议纪要,现在不能关闭会议!");
+            }
+          });
+        })
+        .catch((err) => {
+          iMessage.error("尚未生成会议纪要,现在不能关闭会议!");
+        });
     },
     //查看议题里面是否有进行中的议题
     haveThemenIsStarting() {
@@ -1702,7 +1729,9 @@ export default {
         iMessage.warn('休息议题不能进行改期')
         return
       }
-      this.openDialog('openUpdateDateDialog')
+      debugger
+      // this.openDialog('openUpdateDateDialog')
+      this.updateDateNEWDialog = true
     },
     deleteTop() {
       console.log(this.selectedTableData[0]);

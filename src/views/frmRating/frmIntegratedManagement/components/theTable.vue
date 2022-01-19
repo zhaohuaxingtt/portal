@@ -157,7 +157,12 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'));
       }
-      this.inDepthRatingDialog = true;
+      if (this.selectTableData[0].deepStatus === "生效" || this.selectTableData[0].deepStatus === "终止" || this.selectTableData[0].deepStatus === "历史" || !this.selectTableData[0].deepStatus) {
+        this.inDepthRatingDialog = true;
+      } else {
+        return iMessage.warn(this.language('CIGONGYINGSHANGYICUNZAIZHENGZAIJINGXINGDESHENRUPINGJI', '此供应商已存在正在进行的深入评级'));
+      }
+
     },
     openVwagRatingDialog () {
       if (this.selectTableData.length === 0) {

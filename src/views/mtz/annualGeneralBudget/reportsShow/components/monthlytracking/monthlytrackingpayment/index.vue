@@ -104,6 +104,8 @@ export default {
       onlySelf: false,
       loading:false,
       time:'',
+      //最大刻度
+      maximumScale:0,
       showDifference:true,
       //科室选择
       deptOption:[],
@@ -141,13 +143,7 @@ export default {
     iniReport() {
       const el = document.getElementById('report-charts')
       let chart = echarts().init(el)
-      // chart.showLoading({
-      //   text:'loading',
-      //   color: '#c23531',
-      //   textColor: '#fff',
-      //   maskColor: 'rgba(255, 255, 255, 0.2)',
-      //   zlevel: 0,
-      // })
+      let _this = this
       chart.setOption({
         title: {
           text: '单位：⼈⺠币/百万',
@@ -160,7 +156,7 @@ export default {
           }
         },
         grid:{
-          left:'2%',
+          left:'3%',
           right:'2%'
         },
         xAxis: {
@@ -182,8 +178,8 @@ export default {
         yAxis: [
           {
             //设置间距，需要计算
-            max: 18,
-            splitNumber: '9'
+            max: _this.maximumScale,
+            splitNumber: '10'
           }
         ],
         legend: [
@@ -296,14 +292,17 @@ export default {
             el.removeAttribute('_echarts_instance_')
           }else{
             const sourceData = []
+            const allPrice = []
             //yearMonth年月 //actualPrice 应付 //payPrice 已支付 //差额 diffPrice
             data.forEach((item)=>{
               const year = item.yearMonth.slice(0,4)
               const month = item.yearMonth.slice(4)
               const yearMonth = year+'-'+month
               sourceData.push([yearMonth,Math.abs(Number(item.actualPrice))/1000000,Math.abs(Number(item.payPrice))/1000000])
+              allPrice.push(Math.abs(Number(item.actualPrice))/1000000,Math.abs(Number(item.payPrice))/1000000)
               this.calculate.push({price:item.diffPrice,priceType:item.priceType})
             })
+            this.maximumScale = Number(Math.ceil((Math.max(...allPrice)).toFixed()/10)*10)
             this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
             this.iniReport()
           }
@@ -383,14 +382,14 @@ export default {
   position: relative;
 }
 .difference-box{
-    width: 96%;
+    width: 95.5%;
     position: absolute;
     bottom: 0px;
       .fix-flex{
         .display-difference{
         // margin-top: -30px;
         width: 100%;
-        margin-left: 2%;
+        margin-left: 3%;
         margin-right: 2%;
         display: flex !important;
         justify-content: space-around;

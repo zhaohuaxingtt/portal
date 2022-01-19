@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 15:43:34
+ * @LastEditTime: 2022-01-19 16:28:41
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -33,11 +33,11 @@
       <div>
      
         <div class="floatright" style="margin-bottom: 20px">
-          <i-button @click="add()">{{ language('XINJIAN','新建') }}</i-button>
-          <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button> -->
-          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
-          <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
+          <i-button  v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
+          <i-button  v-if="stateAdmin" >{{ language('JIHUO','激活') }}</i-button>
+          <i-button  v-if="stateAdmin" @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
+          <i-button  v-if="stateAdmin||stateOpcs" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
       <table-list style="margin-top: 20px"
@@ -46,7 +46,8 @@
                   :tableLoading="tableLoading"
                   :openPageProps="'nameZh'"
                   @openPage="openPage"
-                  :openPageGetRowData="true"
+                  :selection='stateAdmin'
+                  :openPageGetRowData="stateAdmin||stateOpcs"
                   @handleSelectionChange="handleSelectionChange"
                   :index="true">
       </table-list>
@@ -174,7 +175,7 @@ export default {
           { required: true, message: '请输入应用英文名', trigger: 'blur' },
              {
             pattern: /^[A-Za-z0-9]+$/,
-            message: '请输入 1 到 7个字符',
+            message: '请输入1-7位英文字母或数字',
             trigger: 'blur'
           },
         ],
@@ -188,6 +189,14 @@ export default {
       }
     }
   },
+      computed: {
+            stateAdmin() {
+                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'ADMIN')
+            },
+              stateOpcs() {
+                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'WLGYSGLY' )
+            },
+        },
   created() {
     this.getUser()
     this.getTableData()
@@ -284,8 +293,14 @@ export default {
     },
     openPage(row) {
       console.log(row)
+      let path=""
+      if(this.stateOpcs){
+            path='/provider/opcs/list/application/userManage'
+      }else{
+          path='/provider/opcs/list/application'
+      }
       let routeData = this.$router.resolve({
-        path: '/provider/opcs/list/application',
+        path: path,
         query: {
           opcsSupplierId: row.id || '',
           nameZh: row.nameZh || '',
