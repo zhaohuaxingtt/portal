@@ -1,5 +1,7 @@
 <template>
-  <div ref="charMap" id="container" :class="$route.path==='/supplier/NTier/NTierMap'?'amap-wrapper60':'amap-wrapper70'">
+  <div ref="charMap"
+       id="container"
+       :class="$route.path==='/supplier/NTier/NTierMap'?'amap-wrapper60':'amap-wrapper70'">
   </div>
 </template>
 
@@ -21,7 +23,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       temporaryMarker: [],//临时点
       p: 0,
@@ -76,7 +78,7 @@ export default {
   },
   watch: {
     object: {
-      async handler(data) {
+      async handler (data) {
         this.marker = []
         this.markerList = data.areaList || []
         this.markerList.map(item => item.flag = 'supplier')
@@ -87,12 +89,12 @@ export default {
       }
     }
   },
-  created() { },
-  mounted() {
+  created () { },
+  mounted () {
     this.showCityInfo();
   },
   methods: {
-    async querySvwFactory() {
+    async querySvwFactory () {
       this.svwList = []
       const res = await querySvwFactory()
       res.data.forEach(item => {
@@ -106,7 +108,7 @@ export default {
         }
       })
     },
-    showCityInfo() {
+    showCityInfo () {
       this.map = new AMap.Map('container', {
         WebGLParams: {
           preserveDrawingBuffer: true
@@ -124,7 +126,7 @@ export default {
       this.handleMarker()
     },
     // 生成点
-    handleMarker() {
+    handleMarker () {
       // svw
       this.svwList.map((item, index) => {
         if (item.procureFactory == '1000') {
@@ -191,7 +193,7 @@ export default {
       })
     },
     // 弹框信息
-    async getChainPart(data, item) {
+    async getChainPart (data, item) {
       const pms = {
         supplierId: data.supplierId,
         partNum: data.partNum,
@@ -214,7 +216,7 @@ export default {
             components: {
               tipTable: tipTable
             },
-            data() {
+            data () {
               return {
                 tableDataList: res.data,
                 rate: rate.data
@@ -228,7 +230,7 @@ export default {
       }
     },
     // 生成贝塞尔曲线row:选择的数据
-    handleRecursion(data, partNum, viewType) {
+    handleRecursion (data, partNum, viewType) {
       data.forEach((item, index) => {
         this.marker.forEach((val, i) => {
           if (item.supplierId == val._opts.extData.supplierId && item.chainLevel === 1) {
@@ -298,7 +300,7 @@ export default {
       })
     },
     // 点击零件|供应商
-    async handleCurrentChange(row, viewType) {
+    async handleCurrentChange (row, viewType) {
       this.map.clearInfoWindow()
       this.p = 0
       this.temporaryMarker = []

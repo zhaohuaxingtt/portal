@@ -374,6 +374,7 @@ export default {
           item.status == '报告驳回' ||
           item.status == '信息收集' ||
           item.status == '财务经营与分析' ||
+          item.status == '清单审批驳回' ||
           item.status == '访谈与调查' ||
           item.status == '报告完成'
       )
@@ -389,6 +390,7 @@ export default {
             '报告驳回',
             '信息收集',
             '财务经营与分析',
+            '清单审批驳回',
             '访谈与调查',
             '报告完成'
           ]
