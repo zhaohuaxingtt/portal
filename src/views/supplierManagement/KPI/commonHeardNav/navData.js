@@ -29,7 +29,8 @@ export const tabRouterList = [
     name: 'KPI',
     url: '/supplier/kpiList',
     activePath: '/supplier/kpiList',
-    key: 'KPI'
+    key: 'KPI',
+    permissionKey: 'WORKBENCH_KPI'
   },
   {
     value: 4,

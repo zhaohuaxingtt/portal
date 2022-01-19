@@ -22,7 +22,11 @@
       >
       <!-- 品牌导出 -->
       <iButton v-show="showPinpai" class="export" @click="exportReportPP">导出</iButton>
-      <iButton v-show="showCar" class="export" @click="exportReportCAR">导出</iButton>
+
+      <div class="export" v-show="showCar" style="display:flex;">
+        <show-me-components class='margin-right30' @showOnlyMyselfData='leftShowOnlyMyselfData' />
+        <iButton @click="exportReportCAR">导出</iButton>
+      </div>
     </div>
     <router-view ref="child"></router-view>
   </div>
@@ -31,12 +35,13 @@
 <script>
 import { iTabsList, iButton } from 'rise'
 import { subNavListOne,subNavListtwo } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
-
+import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/ShowMeComponents'
 export default {
   name: 'index',
   components: {
     iTabsList,
-    iButton
+    iButton,
+    ShowMeComponents
   },
   data() {
     return {
@@ -99,7 +104,11 @@ export default {
     },
     exportReportCAR(){
       this.$refs.child.Upload();
-    }
+    },
+    leftShowOnlyMyselfData(val){
+      this.$refs.child.leftShowOnlyMyselfData(val);
+      this.$refs.child.rightShowOnlyMysel(val);
+    },
   }
 }
 </script>

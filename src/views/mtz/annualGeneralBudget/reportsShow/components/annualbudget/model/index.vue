@@ -11,7 +11,7 @@
               :value="item.code">
             </el-option>
           </i-select>
-          <show-me-components class='margin-right30' @showOnlyMyselfData='leftShowOnlyMyselfData' :is-only-myself='leftQueryForm.onlySeeMySelf' />
+          <show-me-components class='margin-right30' v-show="false" @showOnlyMyselfData='leftShowOnlyMyselfData' :is-only-myself='leftQueryForm.onlySeeMySelf' />
         </div>
         <div class='left-query'>
           <el-form>
@@ -50,7 +50,7 @@
     <div class='right'>
       <div class='right-top'>
         <p>{{language('LK_CHEXINGYUSUANJINEMINGXI','车型预算金额明细')}}</p>
-        <show-me-components :is-only-myself='rightQueryForm.onlySeeMySelf' @showOnlyMyselfData='rightShowOnlyMysel' />
+        <show-me-components :is-only-myself='rightQueryForm.onlySeeMySelf' v-show="false" @showOnlyMyselfData='rightShowOnlyMysel' />
       </div>
       <div class='right-query'>
           <i-select class='my-sel' v-model='rightQueryForm.carModel' filterable clearable :placeholder='language("LK_CHEXING","车型")' @change='rightChangeCard'>
