@@ -125,6 +125,7 @@ import {
   sysDetail,
   fetchSupplierRootMenu
 } from '@/api/provider/index'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   name: 'UserApplicationDetail',
   methods: {
@@ -312,20 +313,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: '生产采购'
-        },
-        {
-          id: '2',
-          label: '一般采购'
-        }
-      ],
+      systemTagOptions: SYSTEM_TAGS,
       rootMenus: []
     }
   }

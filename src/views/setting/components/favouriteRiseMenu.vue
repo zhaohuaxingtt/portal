@@ -16,7 +16,6 @@
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
-import { fetchResource } from '@/api/role'
 import { COLUMNS_MENU } from './data'
 
 export default {
@@ -77,17 +76,6 @@ export default {
     async queryFullMenu() {
       this.fullMenu = _.cloneDeep(this.$store.state.permission.menuList)
       this.flatFullMenu = this.getFlatFullMenu(this.fullMenu)
-      // 查询所有菜单
-      /* this.tableLoading = true
-      const { data } = await fetchResource({ type: 3 }).finally(
-        () => (this.tableLoading = false)
-      )
-      const riseMenu = data.filter((e) => e.name === 'RiSE')
-      if (riseMenu.length) {
-        this.fullMenu = riseMenu[0].menuList
-        this.flatFullMenu = this.getFlatFullMenu(this.fullMenu)
-        console.log('flatFullMenu', this.flatFullMenu)
-      } */
     },
     // 扁平化菜单数据
     getFlatFullMenu(menuList, res) {

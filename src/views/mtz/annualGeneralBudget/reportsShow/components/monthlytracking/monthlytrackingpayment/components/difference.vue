@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 .basic{
-    width: 90px;
+    width: 100px;
     height: 30px;
     border-radius: 6px;
     font-weight: bold;

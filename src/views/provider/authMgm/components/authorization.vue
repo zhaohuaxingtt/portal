@@ -105,7 +105,7 @@ import {
   cancelAuth,
   authList as queryAuthList
 } from '@/api/provider/index'
-
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   components: {
     iDialog,
@@ -366,20 +366,7 @@ export default {
         supplierType: ''
         // systemType: ''
       },
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: this.language('生产采购')
-        },
-        {
-          id: '2',
-          label: this.language('一般采购')
-        }
-      ],
+      systemTagOptions: SYSTEM_TAGS,
       systemOptions: [
         {
           id: '1',

@@ -26,7 +26,7 @@
         <el-table-column :label="language('LK_NIANDUYUSUANCHAYI','年度预算差异')" align="center">
           <template slot-scope="scope">
             <span class="greaterThanZero" v-if="scope.row.yearForecastDiffPrice>0">{{ scope.row.yearForecastDiffPrice }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.yearForecastDiffPrice<0">{{ `-${scope.row.yearForecastDiffPrice}` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.yearForecastDiffPrice<0">{{ `${scope.row.yearForecastDiffPrice}` }}</span>
             <span  v-else>{{ scope.row.yearForecastDiffPrice }}</span>
           </template>
         </el-table-column>
