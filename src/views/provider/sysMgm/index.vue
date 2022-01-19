@@ -146,6 +146,7 @@ import { tableColumnSetting } from './data/data'
 import CreateSysMgm from './create/CreateSysMgm'
 import { pageMixins } from '@/utils/pageMixins'
 import { sysList, deleteSys, sysExport } from '@/api/provider/index'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   methods: {
     search() {
@@ -319,20 +320,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: this.language('生产采购')
-        },
-        {
-          id: '2',
-          label: this.language('一般采购')
-        }
-      ]
+      systemTagOptions: SYSTEM_TAGS
     }
   }
 }
