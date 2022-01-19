@@ -1013,7 +1013,6 @@ export default {
       this.closeDialog()
     },
     handleCloseCancelTopics() {
-      debugger
       this.closeDialog()
       this.getMeetingTypeObject()
       this.getTableData()
@@ -1471,7 +1470,7 @@ export default {
       //     this.openDialog("openCloseMeetiongDialog");
       //   });
       // }
-debugger
+
       // if (this.meetingInfo.attachments.length <= 0) {
       //   this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
       //     confirmButtonText: '前往',
@@ -1730,7 +1729,7 @@ debugger
         iMessage.warn('休息议题不能进行改期')
         return
       }
-      debugger
+      
       // this.openDialog('openUpdateDateDialog')
       this.rowId=this.selectedTableData[0].id
       this.updateDateNEWDialog=true
@@ -1931,7 +1930,7 @@ debugger
       //   }
       // })
       // /meeting/mbdlMeetingShow
-      debugger
+      
       let routeUrl = this.$router.resolve({
         path:'/meeting/mbdlMeetingShow',
         query: {
