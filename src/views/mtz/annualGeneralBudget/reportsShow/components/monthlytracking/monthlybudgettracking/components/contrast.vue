@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
     .contrast-content{
-        width: 80px;
+        width: 100px;
         display: flex;
         justify-content: center;
         align-items: center;
