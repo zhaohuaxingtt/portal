@@ -54,7 +54,6 @@
 						:start-placeholder="language('开始日期')"
 						:end-placeholder="language('结束日期')"
 						type="daterange"
-						format="yyyy-MM-dd"
 						range-separator="至"
 						value-format="yyyy-MM-dd"
 						class="p-date"
@@ -64,7 +63,7 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('对接外部系统')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceSystem" @change="sysChange" class="w-220" filterable clearable>
+					<iSelect v-model="form.interfaceSystemCode" @change="sysChange" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in interfaceSystemList"
 							:label="item.value"
@@ -196,7 +195,7 @@ export default {
                     type:"",
                     category:"1",
                     triggerType:"",
-                    interfaceSystem:"",
+                    interfaceSystemCode:"",
                     bizId:"",
                     content_like:"",
                     userPosition:"",
@@ -218,10 +217,10 @@ export default {
 		},
 		async reset() {
             await this.restForm()
-			this.search()
+			this.search(true)
 		},
-		search() {
-            this.$refs.table.query()
+		search(t) {
+            this.$refs.table.query(t)
 		},
         exportExcel(){
             return exportBizLog({ extendFields: this.form })
