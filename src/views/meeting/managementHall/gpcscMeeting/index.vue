@@ -993,7 +993,7 @@
         @flushTable="flushTable"
       ></batchAdjustment>
     </iDialog>
-    <!-- MBDL改期 -->
+    <!-- CSC改期 --> 
     <iDialog
       v-if="updateDateNEWDialog"
       :title="language('改期会议列表', '改期会议列表')"
@@ -1007,6 +1007,7 @@
         style="padding-bottom: 20px"
         @flushTable='flushTable'
         :updateDateNEWDialogRow='updateDateNEWDialogRow'
+        :rowId="rowId"
       ></updateDateNEW>
     
     </iDialog>
@@ -2133,6 +2134,7 @@ export default {
         return
       }
       // this.openDialog('openUpdateDateDialog')
+      this.rowId=this.selectedTableData[0].id
       this.updateDateNEWDialog=true
     },
     //批量删除
@@ -2781,7 +2783,7 @@ export default {
 }
 .span-index {
   width: 15px;
-  text-align: center;
+  // text-align: center;
   justify-content: center;
 }
 ::v-deep .cell {
@@ -2791,7 +2793,7 @@ export default {
   span {
     /* display: block; */
     width: 100%;
-    text-align: center;
+    text-align: right;
   }
   .el-checkbox {
     width: 100%;
