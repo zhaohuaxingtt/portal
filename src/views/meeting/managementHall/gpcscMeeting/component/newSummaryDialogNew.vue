@@ -436,7 +436,6 @@ export default {
         id:this.$route.query.id,//会议id
       }
       exportMeetingMinutes(params).then((res) => {
-        debugger
         exportExcel(res)
       })
 
