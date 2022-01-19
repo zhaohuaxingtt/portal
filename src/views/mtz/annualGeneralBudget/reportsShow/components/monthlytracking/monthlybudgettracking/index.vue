@@ -91,6 +91,7 @@ import echarts from '@/utils/echarts'
 import contrast from './components/contrast'
 import {searchTrackingReport,getDept} from '@/api/mtz/reportsShow/monthlytrackingpayment'
 import {queryMtzMaterial,queryMaterialMedium} from '@/api/mtz/reportsShow'
+import { math } from '@/utils'
 export default {
   name: 'paymentTracking',
   components:{
@@ -107,6 +108,8 @@ export default {
       onlySelf:false,
       loading:false,
       time:'',
+      //最大刻度
+      maximumScale:0,
       //科室选择
       deptOption:[],
       //MTZ材料组选择
@@ -146,7 +149,7 @@ export default {
   methods:{
     iniChart(){
       // const date = new Date
-      const month = this.currentYearMonth
+      // const month = this.currentYearMonth
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
       const _this = this
@@ -162,7 +165,7 @@ export default {
           }
         },
         grid:{
-          left:'2%',
+          left:'3%',
           right:'2%'
         },
         xAxis: {
@@ -187,8 +190,8 @@ export default {
         yAxis: [
           {
             //设置间距，需要计算
-            max: 10,
-            splitNumber: '10',
+            max: _this.maximumScale,
+            splitNumber: 10,
           }
         ],
         legend: {
@@ -225,7 +228,7 @@ export default {
           {
             name:'实际应付',
             type: 'bar',
-            barWidth:'30',
+            barWidth:'40',
             data:this.dataMonth,
             itemStyle: {
               normal: {
@@ -322,22 +325,25 @@ export default {
           this.xAxisData = []
           this.yearData = []
           this.dataMonth = []
+          const allPrice = []
           data?.forEach((item)=>{
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
+            allPrice.push(Math.abs(Number(item.yearForecastPrice)))
             this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
               this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
+              allPrice.push(Math.abs(Number(item.actualPrice)))
             }else{
               this.dataMonth.push(Math.abs(Number(item.monthForecastPrice))/1000000)
+              allPrice.push(Math.abs(Number(item.monthForecastPrice)))
             }
           })
+          this.maximumScale = Number(Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10)*10)
+          //  +  Number(Math.ceil((Math.max(...allPrice)/1000000)))
+          // console.log(this.maximumScale,Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10), Number(Math.ceil((Math.max(...allPrice)/1000000))),'=======');
           this.iniChart()
-          // this.contrastData = data.diffPrice//差额
-          // this.dataMonth = [...data.actualPrice,...data.monthForecastPrice]//data.monthForecastPrice月度预测金额 data.actualPrice实际应付金额
-          // this.yearData = data.yearForecastPrice//年度预测金额
-          // this.xAxisData = data.yearMonth//年月
         }else{
           this.$message.error(res.desZh || '获取数据失败')
         }
@@ -416,9 +422,9 @@ export default {
       width: 100%;
       top: 40px;
       .report-contrast{
-        margin-left: 2%;
+        margin-left: 3%;
         margin-right: 2%;
-        width: 96%;
+        width: 95%;
         display: flex;
         justify-content: space-around;
         align-items: center;

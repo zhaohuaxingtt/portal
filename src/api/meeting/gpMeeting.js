@@ -82,3 +82,12 @@ export function exportMeetingMinutes(data) {
     responseType: 'blob'
   })
 }
+//货币下拉框
+// gpMeetingService/getCscCurrencyList
+export function getCscCurrencyList(data) {
+  return requst({
+    url: `/gpMeetingService/getCscCurrencyList`,
+    method: 'POST',
+    data,
+  })
+}

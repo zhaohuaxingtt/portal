@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 14:26:45
+ * @LastEditTime: 2022-01-19 10:30:10
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -12,9 +12,9 @@
       <p class="font20 font-weight">
         {{ language('YINGYONGMINGCHENG', '应⽤名称') }}-{{$route.query.nameZh}}
       </p>
-      <!-- <div class="logButton">
+      <div class="logButton">
         <i-button @click="$router.push({path:'/provider/opcs/list'})">{{ language('FANHUI', '返回') }}</i-button>
-      </div> -->
+      </div>
     </div>
     <div class="box">
       <div :class="isCollapse?'menuor menu':'menu'">
@@ -26,11 +26,10 @@
                  router
                  :default-active="$route.path"
                  class="el-menu-vertical-demo"
-                 @open="handleOpen"
-                 @close="handleClose">
+                >
           <el-menu-item v-for="(item,index) in applicationRouterList"
                         :index="item.url"
-                        :route="{ path: item.url, query: { opcsSupplierId: $route.query.opcsSupplierId ,nameZh:$route.query.nameZh,opcsUserId:$route.query.opcsUserId} }"
+                        :route="{ path: item.url, query: $route.query }"
                         :key="index">
             <i :class="item.icon"></i>
             <span slot="title">{{language(item.key, item.name)}}</span>
@@ -125,13 +124,15 @@ export default {
     width: 4%;
   }
   .section {
+      margin-top: 15px;
     margin-left: 17%;
-    width: 82%;
+    width: 82.5%;
     height: 88vh;
     overflow-y: auto;
     transition: all 0.5s ease;
   }
   .sectionor {
+       margin-top: 15px;
     width: 95%;
         height: 88vh;
     overflow-y: auto;

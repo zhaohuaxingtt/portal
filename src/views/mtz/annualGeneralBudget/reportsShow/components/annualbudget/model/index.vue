@@ -83,7 +83,7 @@
 import { iCard, iSelect, iButton } from 'rise'
 import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/ShowMeComponents'
 import iTableCustom from '@/components/iTableCustom'
-import { cardList, carModelDetail, carSixCodeDropDown, yearCardModel, yearDropDown } from '@/api/mtz/reportsShow'
+import { cardList, carModelDetail, carSixCodeDropDown, yearCardModel, yearDropDown,yearCarModelExport } from '@/api/mtz/reportsShow'
 import { leftModelColumns, rightModelColums } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
 
 export default {
@@ -135,6 +135,28 @@ export default {
     }
   },
   methods:{
+    Upload(){
+      yearCarModelExport({
+        carModel:this.leftQueryForm.carModel,
+        carModelSixNum:this.leftQueryForm.carModelSixNum,
+        onlySeeMySelf:this.leftQueryForm.onlySeeMySelf,
+        year:this.year,
+      }).then(res=>{
+        let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        let fname = this.year+"年MTZ车型预算.xlsx";
+        link.setAttribute("download", fname);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        this.$message({
+          type: "success",
+          message: "链接成功!"
+        });
+      })
+    },
     rightShowOnlyMysel(val){
       this.rightQueryForm.onlySeeMySelf=val
       if(this.rightQueryForm.carModel){
@@ -250,8 +272,7 @@ export default {
       this.rightQueryForm.carModel=row.carModel
       this.rightQueryForm.carModelSixNum=row.carModel6Code
       this.getCarModelDetail()
-    }
-
+    },
   }
 }
 </script>
