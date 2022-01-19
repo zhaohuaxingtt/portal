@@ -2,8 +2,8 @@
   <div class="card-list" v-loading="loading">
     <position-card
       class="margin-bottom20"
-      v-for="(item, index) in subPositionList"
-      :key="index"
+      v-for="item in subPositionList"
+      :key="item.id"
       :item="item"
       :deptId="deptId"
       :dimensionOptions="dimensionOptions"

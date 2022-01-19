@@ -80,7 +80,8 @@
           class="commonTablediv"
             v-update
             :selection="true"
-            @handle-selection-change="handleSelectionChange"
+            :index="true"
+            @handleSelectionChange="handleSelectionChange"
             :customClass="true"
             :tableLoading="loading"
             :tableData="tableDataList"
@@ -193,7 +194,7 @@
       </el-row>
           
       </el-form>
-    </div>
+    </div> 
    
     <div class="button-list">
       <iButton class="sure" @click="handleSure" :loading="loading" >提交</iButton >
@@ -544,7 +545,6 @@ export default {
         // 最低金额  lowerLimitMoney    最高金额  upperLimitMoney
         console.log(res.upperLimitMoney,res.lowerLimitMoney);
         if (res.price !== null) {
-          debugger
           if (res.price > res.upperLimitMoney) {
             this.iconShowA =true
           }
@@ -555,12 +555,14 @@ export default {
       })
     },
     handleSelectionChange(val) {
+      console.log(val);
       this.selectedRow=val
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
     // 提交 endCscThemen
     handleSure(){
+      console.log(this.selectedRow);
       const params = {
        conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
        meetingId:this.$route.query.id,//会议id

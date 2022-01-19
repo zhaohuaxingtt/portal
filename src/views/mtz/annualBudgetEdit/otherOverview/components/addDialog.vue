@@ -118,7 +118,7 @@
 
 <script>
 import { iDialog, iButton, iSelect, iInput, iMessage } from 'rise'
-import { fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchRemoteDept,getDeptSection } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { debounce } from '@/views/mtz/debounce.js'
 import { getDeptData } from '@/api/kpiChart/index'
 export default {
@@ -196,7 +196,12 @@ export default {
         linieName,
         sectionCode: departId,
         sectionName: departNameEn
-      }
+      };
+
+      getDeptSection(linieId).then(res=>{
+        console.log(res);
+      })
+
     },
     // 远程搜索材料中类数据
     remoteGetMaterialMinorList(query) {

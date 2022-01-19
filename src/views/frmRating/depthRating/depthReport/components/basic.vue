@@ -167,9 +167,11 @@ export default {
   },
   methods: {
     getOverView () {
-      getSummarize(this.supplierId, this.id).then((result) => {
+      getSummarize(this.supplierId, this.id, this.id).then((result) => {
         if (result.data) {
           this.info = result.data
+          this.info.deepCommentSupplierId = this.id
+          this.info.deepCommentId = this.id
         }
       }).catch(() => {
 

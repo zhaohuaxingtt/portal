@@ -24,6 +24,7 @@ import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/compon
 import YearChangeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/YearChangeComponents'
 import iTableCustom from '@/components/iTableCustom'
 import { yearBrand } from '@/api/mtz/reportsShow'
+import { yearBrandExport } from '@/api/mtz/annualGeneralBudget/reportShow'
 export default {
   name: 'index',
   components: {
@@ -92,7 +93,26 @@ export default {
       this.queryForm.year=year
       this.queryYearBrand()
     },
-
+    Upload(){
+       yearBrandExport({
+         onlySeeMySelf:this.queryForm.onlySeeMySelf,
+         year:this.queryForm.year,
+       }).then(res=>{
+        let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        let fname = this.queryForm.year+"年MTZ品牌预算.xlsx";
+        link.setAttribute("download", fname);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        this.$message({
+          type: "success",
+          message: "链接成功!"
+        });
+      })
+    },
     queryYearBrand(){
       yearBrand(this.queryForm).then(res=>{
         if(res.code==200){
