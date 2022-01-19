@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2022-01-17 15:25:58
+ * @LastEditTime: 2022-01-20 00:40:00
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
@@ -125,6 +125,8 @@ export default {
     },
     // 数据列表请求
     query(e) {
+      //  states 03  02  04
+      console.log(this.form);
       console.log(this.rowId);
       console.log(this.$route.query.id);
       this.loading = true
@@ -134,7 +136,8 @@ export default {
         meetingId:this.$route.query.id,
         pageNum: this.page.currPage,
         pageSize: 10,
-        relationMeetingId:this.rowId
+        relationMeetingId:this.rowId,
+
       } 
       findByRelationMeeting(query).then((res) => {
           console.log(res,'1111');
