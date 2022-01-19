@@ -30,8 +30,8 @@
 
 <script>
   import {iPage, iNavMvp, iButton} from 'rise';
-  import {tabRouterList, btnsgroup1} from '../data';
-  import {getPowerBiVal} from '@/api/achievement'
+  import {tabRouterList, btnsgroup1,} from '../data';
+  import {getPowerBiVal,getEklPbil} from '@/api/achievement'
   import * as pbi from 'powerbi-client';
   import zfbmsj from './components/zfbmsj.vue'
   import zfkssj from './components/zfkssj.vue'
@@ -205,6 +205,9 @@
     },
 
     mounted() {
+        getEklPbil().then(res=>{
+            
+        })
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长

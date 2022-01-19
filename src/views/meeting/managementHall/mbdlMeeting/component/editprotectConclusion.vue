@@ -8,8 +8,6 @@
 <!-- 1)	当结论=冻结/不通过时，任务可编辑，点击确认更新任务；
 2)	当结论=待定时，结论和任务均可编辑，点击确认后更新结论和任务，
 如果结论不为待定，回调GP接口，更行MBDL状态； -->
-
-  
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -47,13 +45,13 @@
           label="任务"
           prop="taskCsc"
           :hideRequiredAsterisk="true"
-          class="task"
+          class="result"
         >
           <iLabel :label="$t('任务')" slot="label" class="task-title"></iLabel>
           <iInput
           :disabled="isDisabled"
             type="textarea"
-            v-model="ruleForm.taskCsc"
+            v-model="ruleForm.result"
             placeholder="请输入任务"
             :rows="6"
           ></iInput>
@@ -67,7 +65,7 @@
     </div>
 </template>
 <script>
-import { endThemen } from '@/api/meeting/gpMeeting'
+import { endMbdlThemen } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -97,7 +95,7 @@ export default {
     return {
       ruleForm:{
         conclusion:'',
-        taskCsc:''
+        result:''
       },
       themenConclusionArrObj:[
           {
@@ -133,20 +131,20 @@ export default {
           this.optionDisabled = false
       }
     console.log(this.editprotectConclusionDialogRow.conclusion)
-    this.ruleForm.conclusion=this.editprotectConclusionDialogRow.result
-    this.ruleForm.taskCsc=this.editprotectConclusionDialogRow.conclusion
+    this.ruleForm.conclusion=this.editprotectConclusionDialogRow.conclusion  
+    this.ruleForm.result=this.editprotectConclusionDialogRow.result
   },
   methods: {
     // 提交
     handleSure(){
       const params = {
-       conclusion:this.ruleForm.taskCsc,//任务
+       conclusion:this.ruleForm.result,//任务
        meetingId:this.$route.query.id,//会议id
        result:this.ruleForm.conclusion,//结论
        themenId:this.editprotectConclusionDialogRow.id//议题id
       }
       console.log(params);
-      endThemen(params).then((res) => {
+      endMbdlThemen(params).then((res) => {
         if (res.code) {
           iMessage.success('修改议题成功！')
           this.$emit('flushTable')

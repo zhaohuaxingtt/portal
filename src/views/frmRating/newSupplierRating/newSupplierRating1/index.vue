@@ -6,7 +6,7 @@
 <template>
   <iPage>
     <supplierMessage @handleSumbit='handleSumbit' class="margin-bottom20" />
-    <financialDataTable class="margin-bottom20"></financialDataTable>
+    <financialDataTable @submitCalculateRefresh="submitCalculateRefresh" class="margin-bottom20"></financialDataTable>
     <basicInformationTable v-loading='loading' :basicDTO='basicDTO' ref="basicInformationTable" class="margin-bottom20" />
     <shareholderInformationTable class="margin-bottom20" />
     <financialOverview v-loading='loading' :financeDTO='financeDTO' class="margin-bottom20" />
@@ -103,6 +103,9 @@ export default {
       var remark = this.$refs.remarks.backRemark()
       await this.$refs.pkpiTable.$refs.pkpiTable2.saveInfos(remark, regMoney, flag)
       return true
+    },
+    submitCalculateRefresh(viewType){
+      this.submitCalculate(viewType);
     },
     async submitCalculate(viewType) {
       this.loading = true

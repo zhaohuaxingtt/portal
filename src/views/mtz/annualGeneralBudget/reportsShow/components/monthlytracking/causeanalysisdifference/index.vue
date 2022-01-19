@@ -152,8 +152,9 @@ export default {
       mothlyValue: '',
       differenceAnalysis: '', //列表数据
       dataTitle: '', //时间title
-      num: '' ,//
-      dataTitleTwo:'',
+      num: '', //
+      dataTitleTwo: '',
+      currentMonth: '' //当前月份
     }
   },
   created() {
@@ -189,20 +190,33 @@ export default {
           this.getVersionMonth = res.data
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
-          this.getyearMonthDropDown()
+          this.getCurrentMonth()
         })
         .catch((err) => {
           console.log(err)
         })
     },
+    //获取当月月份
+    getCurrentMonth() {
+      var dd = new Date()
+      var m = dd.getMonth() + 1
+      this.currentMonth = m
+      this.getyearMonthDropDown()
+    },
     //获取年月份
     getyearMonthDropDown() {
       yearMonthDropDown()
         .then((res) => {
-          this.getMonthList = res.data
-          var arr = [this.getMonthList[0].code, this.getMonthList[0].code]
-          this.form['getMonth'] = [arr[0], arr[1]]
-          this.getdifferenceAnalysis()
+          if (this.currentMonth == '1' || this.currentMonth == '2') {
+            var arr = ['', '']
+            this.form['getMonth'] = [arr[0], arr[1]]
+            this.getdifferenceAnalysis()
+          } else {
+            this.getMonthList = res.data
+            var arr = [this.getMonthList[1].code, this.getMonthList[0].code]
+            this.form['getMonth'] = [arr[0], arr[1]]
+            this.getdifferenceAnalysis()
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -240,6 +254,7 @@ export default {
         if (i !== 'onlySeeMySelf') {
           this.form[i] = ''
         }
+        this.getVersionDataList()
       }
     },
     sure() {
@@ -251,7 +266,7 @@ export default {
       this.getdifferenceAnalysis()
     },
     //导出
-    exportData(){
+    exportData() {
       this.form.pageNo = 1
       this.form.pageSize = 10
       this.form.versionOneName = this.form['VersionMonthTwo']

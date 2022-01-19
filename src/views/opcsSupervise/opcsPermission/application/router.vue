@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-19 10:30:10
+ * @LastEditTime: 2022-01-19 14:37:46
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="box">
-      <div :class="isCollapse?'menuor menu':'menu'">
+      <div  :class="isCollapse?'menuor menu':'menu'">
         <div class="btn"
              @click="toggleCollapse ()">
           <i :class="isCollapse?'el-icon-caret-right':'el-icon-caret-left'"></i>
@@ -32,7 +32,7 @@
                         :route="{ path: item.url, query: $route.query }"
                         :key="index">
             <i :class="item.icon"></i>
-            <span slot="title">{{language(item.key, item.name)}}</span>
+            <span slot="title" >{{language(item.key, item.name)}}</span>
           </el-menu-item>
         </el-menu>
       </div>
@@ -49,7 +49,7 @@
 // 例如：import 《组件名称》 from '《组件路径》';
 // import { iNavMvp } from 'rise'
 import {  iButton } from 'rise'
-import { applicationRouterList } from '../../commonHeardNav/navData.js'
+import { applicationRouterList,applicationRouterListOpcs } from '../../commonHeardNav/navData.js'
 import { cloneDeep } from 'lodash'
 
 export default {
@@ -66,7 +66,11 @@ export default {
     }
   },
   // 监听属性 类似于data概念
-  computed: {},
+     computed: {
+              stateAdmin() {
+                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'ADMIN')
+            },
+        },
   // 监控data中的数据变化
   watch: {},
   // 方法集合
@@ -77,7 +81,16 @@ export default {
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+      this.$nextTick(()=>{
+        if(this.stateAdmin){
+            this.applicationRouterList=applicationRouterList
+        }else{
+            this.applicationRouterList=applicationRouterListOpcs
+        }
+      })
+  
+  },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {}
 }

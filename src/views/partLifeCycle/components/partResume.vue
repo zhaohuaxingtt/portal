@@ -542,7 +542,6 @@
       toUrl(item,typeName) {
         let {type,desinateId, designateType, projectId, rfqId,letterId,aekoId,loiId,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,rsNum,businessType,aekoCode} = item
         let path = ''
-        console.log(type,'type',item)
         if(type==1) path = ''                        // 会议
         if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${businessTitle}` // 寻源 ok
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${loiId}` // LOI
