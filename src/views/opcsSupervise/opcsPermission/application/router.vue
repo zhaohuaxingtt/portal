@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-19 10:28:49
+ * @LastEditTime: 2022-01-19 10:30:10
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -26,11 +26,10 @@
                  router
                  :default-active="$route.path"
                  class="el-menu-vertical-demo"
-                 @open="handleOpen"
-                 @close="handleClose">
+                >
           <el-menu-item v-for="(item,index) in applicationRouterList"
                         :index="item.url"
-                        :route="{ path: item.url, query: { opcsSupplierId: $route.query.opcsSupplierId ,nameZh:$route.query.nameZh,opcsUserId:$route.query.opcsUserId} }"
+                        :route="{ path: item.url, query: $route.query }"
                         :key="index">
             <i :class="item.icon"></i>
             <span slot="title">{{language(item.key, item.name)}}</span>
