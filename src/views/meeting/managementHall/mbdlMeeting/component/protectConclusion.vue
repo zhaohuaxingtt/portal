@@ -38,14 +38,14 @@
         <!-- 任务 -->
         <iFormItem  v-if="isShow"
           label="任务"
-          prop="taskCsc"
+          prop="result"
           :hideRequiredAsterisk="true"
           class="task"
         >
           <iLabel :label="$t('任务')" slot="label" class="task-title"></iLabel>
           <iInput
             type="textarea"
-            v-model="ruleForm.taskCsc"
+            v-model="ruleForm.result"
             placeholder="请输入任务"
             :rows="6"
           ></iInput>

@@ -993,9 +993,27 @@
         @flushTable="flushTable"
       ></batchAdjustment>
     </iDialog>
+    <!-- MBDL改期 -->
+    <iDialog
+      v-if="updateDateNEWDialog"
+      :title="language('改期会议列表', '改期会议列表')"
+      :visible.sync="updateDateNEWDialog"
+      width="90%"
+      :append-to-body="true"
+      >
+      <updateDateNEW
+        v-if="updateDateNEWDialog"
+        @close="updateDateNEWDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :updateDateNEWDialogRow='updateDateNEWDialogRow'
+      ></updateDateNEW>
+    
+    </iDialog>
   </iPage>
 </template>
 <script>
+import updateDateNEW from './component/updateDateNEW'
 import batchAdjustment from './component/batchAdjustment'
 import sendAgenda from './component/sendAgenda'
 import newAddTopic from './component/newAddTopic.vue'
@@ -1046,6 +1064,7 @@ import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
 export default {
   mixins: [pageMixins],
   components: {
+    updateDateNEW,
     batchAdjustment,//批量调整
     sendAgenda,//发送大会议程
     newAddTopic,//新增议题gp
@@ -1074,6 +1093,7 @@ export default {
   },
   data() {
     return {
+      updateDateNEWDialog:false,
       resultObj:{
         '01': '待定',
         '02': '通过',
@@ -2112,7 +2132,8 @@ export default {
         iMessage.warn('休息议题不能进行改期')
         return
       }
-      this.openDialog('openUpdateDateDialog')
+      // this.openDialog('openUpdateDateDialog')
+      this.updateDateNEWDialog=true
     },
     //批量删除
     deleteTopAll() {
@@ -2716,7 +2737,7 @@ export default {
     // 行高亮
     tableRowClassName(row) {
       if (row.row.state === '03') {
-        return 'unuse-row dragable-row'
+        return 'unuse-row dragable-row' 
       } else if (row.row.state === '02') {
         return 'active-row dragable-row'
       }
