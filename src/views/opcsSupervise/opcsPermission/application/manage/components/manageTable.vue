@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 15:55:48
+ * @LastEditTime: 2022-01-19 10:17:57
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -10,7 +10,7 @@
          collapse>
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{
-        language('JICHUXINXI', '基础信息')
+        language('YINGYONGGUANLI', '应用管理')
       }}</span>
       <div class="floatright">
         <i-button @click="add">{{ language('XINZENG', '新增') }}
@@ -25,7 +25,8 @@
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
-                :selection="false"
+                @handleSelectionChange="handleSelectionChange"
+                :index="true"
                 ref="commonTable">
     </table-list>
     <!-- <iPagination style="margin-top: 20px"
@@ -48,7 +49,7 @@
 import systeamDetailAdd from '../../userManage/components/systeamDetailAdd'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
-import { excelExport } from "@/utils/filedowLoad"
+import { excelExport } from '@/utils/filedowLoad'
 import { pageMixins } from '@/utils/pageMixins'
 import {
   pageQueryDetails,
@@ -62,7 +63,7 @@ export default {
     iCard,
     iButton,
     systeamDetailAdd,
-    tableList,
+    tableList
     // iPagination
   },
   data() {
@@ -108,6 +109,10 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
+        //修改表格改动列
+    handleSelectionChange(val) {
+      this.selectTableData = val
+    },
     remove() {
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
@@ -138,7 +143,11 @@ export default {
       })
     },
     exportFile() {
-            excelExport(this.tableListData, this.tableTitle, this.language('YINGYONGLIEBIAO', '应用列表'))
+      excelExport(
+        this.tableListData,
+        this.tableTitle,
+        this.language('YINGYONGLIEBIAO', '应用列表')
+      )
     },
     closeDiolog() {
       this.dialog = false

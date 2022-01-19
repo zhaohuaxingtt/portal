@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 15:34:44
+ * @LastEditTime: 2022-01-18 16:36:08
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\components\data.js
  */
 export const tableTitle=[
@@ -26,11 +26,11 @@ export const tableTitle=[
         name: '修改时间',
         key: 'XIUGAISHIJIAN',
     },
-    // {
-    //     props: 'markDelete',
-    //     name: '是否删除',
-    //     key: 'SHANCHUBIAOJI',
-    // },  
+    {
+        props: 'markDelete',
+        name: '是否删除',
+        key: 'SHANCHUBIAOJI',
+    },  
      {
         props: 'contactUserName',
         name: '应⽤负责⼈',

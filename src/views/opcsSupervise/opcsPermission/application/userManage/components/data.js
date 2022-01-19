@@ -212,9 +212,8 @@ export const tableTitleDetailAdd = [{
     name: '应⽤英⽂名',
     key: 'YINGYONGYINGWENMING',
 }, 
-{
-    props: 'ldapSchema',
-    name: '安全中心LDAP属性',
-    key: 'ANQUANZHONGXINLDAPSHUXING',
+{    props: 'ldapSchema',
+    name: 'AppCode',
+    key: 'AppCode',
 },
 ]

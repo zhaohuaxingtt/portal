@@ -141,6 +141,7 @@ import {
   sysDetail,
   fetchSupplierRootMenu
 } from '@/api/provider/index'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   methods: {
     onClose() {
@@ -330,24 +331,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: this.language('生产采购')
-        },
-        {
-          id: '2',
-          label: this.language('一般采购')
-        },
-        {
-          id: '4',
-          label: this.language('物流应用')
-        }
-      ],
+      systemTagOptions: SYSTEM_TAGS,
       rootMenus: [],
       rules: {
         appNameCn: [
