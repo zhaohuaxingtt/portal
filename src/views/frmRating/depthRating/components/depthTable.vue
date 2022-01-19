@@ -92,6 +92,7 @@
         <icon v-else-if="scope.row.deepCommentResult == 'RED'"
               symbol
               name="iconhongdeng"></icon>
+        <span v-else-if="!scope.row.deepCommentResult"></span>
       </template>
       <!-- 备注 -->
       <template #remarks="scope">
@@ -474,7 +475,7 @@ export default {
           supplierToken: row.supplierToken,
           current: 18,
           supplierType: 4,
-          supplierId:row.supplierId
+          supplierId: row.supplierId
         }
       })
     },
@@ -506,8 +507,7 @@ export default {
         name: 'depthReport',
         query: {
           id: row.id,
-          name: row.name,
-          supplierId: row.supplierId
+          name: row.name
         }
       })
       window.open(routeData.href)
