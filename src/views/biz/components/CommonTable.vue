@@ -59,13 +59,13 @@ export default {
                 this.page.currPage = 1
             }
             try {
-                this.params.createDate_gt = this.params.createDate_gt ? `${this.params.createDate_gt.split(" ")[0]} 00:00:00` : ""
-                this.params.createDate_le = this.params.createDate_le ? `${this.params.createDate_le.split(" ")[0]} 23:59:59` : ""
+                this.params.startDate = this.params.startDate ? `${this.params.startDate.split(" ")[0]} 00:00:00` : ""
+                this.params.endDate = this.params.endDate ? `${this.params.endDate.split(" ")[0]} 23:59:59` : ""
                 console.log(this.params);
                 let data = {
                     current: this.page.currPage - 1,
                     size: this.page.pageSize,
-                    extendFields: this.params
+                    ...this.params
                 }
                 this.loading = true
                 let res = {}

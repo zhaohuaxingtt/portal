@@ -74,7 +74,7 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('接口名称')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceName" class="w-220" filterable clearable>
+					<iSelect v-model="form.interfaceCode" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in apiList"
 							:label="item.value"
@@ -89,7 +89,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作内容')" slot="label"></iLabel>
-					<iInput v-model="form.content_like" class="w-220" :placeholder="language('请输入')" />
+					<iInput v-model="form.content" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('岗位')" slot="label"></iLabel>
@@ -98,7 +98,7 @@
 				
 				<div class="form-item">
 					<iLabel class="label" :label="language('用户')" slot="label"></iLabel>
-					<iInput v-model="form.userRole" class="w-220" :placeholder="language('请输入')" />
+					<iInput v-model="form.creator" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('接口流水号')" slot="label"></iLabel>
@@ -197,21 +197,21 @@ export default {
                     triggerType:"",
                     interfaceSystemCode:"",
                     bizId:"",
-                    content_like:"",
+                    content:"",
                     userPosition:"",
-                    interfaceName:"",
-                    userRole:"",
+                    interfaceCode:"",
+                    creator:"",
                     interfaceSerial:"",
-                    createDate_gt:"",
-                    createDate_le:"",
+                    startDate:"",
+                    endDate:"",
                     success:true,
 					id:""
                 }	
 				let end = moment().format('YYYY-MM-DD')
 				let start = moment(new Date(end).getTime() - (90 * 24 * 3600 * 1000)).format("YYYY-MM-DD")
 				this.date = [start, end]
-				this.form.createDate_gt = start
-				this.form.createDate_le = end
+				this.form.startDate = start
+				this.form.endDate = end
                 resolve()
             })
 		},
@@ -238,15 +238,15 @@ export default {
 			})
         },
         dateChange(date){
-            this.form.createDate_gt = date ? date[0] : ""
-            this.form.createDate_le = date ? date[1] : ""
+            this.form.startDate = date ? date[0] : ""
+            this.form.endDate = date ? date[1] : ""
         },
         statusChange(){
             this.search()
         },
 		async sysChange(v){
 			// 获取接口名称
-			this.form.interfaceName = ""
+			this.form.interfaceCode = ""
 			let res = await listInterface(v)
 			this.apiList = res.data
 		}
