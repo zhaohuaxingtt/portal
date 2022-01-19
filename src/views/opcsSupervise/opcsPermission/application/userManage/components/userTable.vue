@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-19 10:20:17
+ * @LastEditTime: 2022-01-19 15:54:14
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -54,7 +54,7 @@
                    :http-request="httpUpload"
                    :disabled="importLoading">
           <div>
-            <i-button>{{ language('DAORU', '导入') }}
+            <i-button>{{ language('PILIANGDAORU', '批量导入') }}
             </i-button>
           </div>
         </el-upload>
