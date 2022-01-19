@@ -13,6 +13,7 @@
                     <span class="flex-1 ellipsis mr20">{{l[key]}}</span>
                     <slot name="item-right"></slot>
                 </p>
+                <p class="no-data" v-if="list.length == 0">暂无数据</p>
             </template>
         </div>
     </div>
@@ -98,5 +99,6 @@
             border: none;
         }
     }
+
 }
 </style>
