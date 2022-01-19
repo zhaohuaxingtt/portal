@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 14:54:54
+ * @LastEditTime: 2022-01-19 10:20:17
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -9,7 +9,7 @@
          collapse>
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{
-        language('JICHUXINXI', '基础信息')
+        language('LIANXIRENYUYONGHU', '联系人与用户')
       }}</span>
       <div class="floatright">
         <i-button v-if="edit"

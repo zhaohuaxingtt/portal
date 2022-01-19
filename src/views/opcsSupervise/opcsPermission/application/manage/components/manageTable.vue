@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 16:20:06
+ * @LastEditTime: 2022-01-19 10:17:57
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -10,7 +10,7 @@
          collapse>
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{
-        language('JICHUXINXI', '基础信息')
+        language('YINGYONGGUANLI', '应用管理')
       }}</span>
       <div class="floatright">
         <i-button @click="add">{{ language('XINZENG', '新增') }}
@@ -25,7 +25,8 @@
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
-                :selection="false"
+                @handleSelectionChange="handleSelectionChange"
+                :index="true"
                 ref="commonTable">
     </table-list>
     <!-- <iPagination style="margin-top: 20px"
@@ -107,6 +108,10 @@ export default {
           this.tableListData = res.data
         } else iMessage.error(res.desZh)
       })
+    },
+        //修改表格改动列
+    handleSelectionChange(val) {
+      this.selectTableData = val
     },
     remove() {
       if (this.selectTableData.length == 0) {
