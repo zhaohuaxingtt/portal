@@ -307,15 +307,15 @@
               <span class="open-link-text">{{ scope.row.materialGroupName }}</span>
             </template>
           </el-table-column>
-          <!-- 有效期起   -->
+          <!-- 有效期起   validFrom-->
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.createDate }}</span>
+              <span class="open-link-text">{{ scope.row.validFrom }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.updateDate }}</span>
+              <span class="open-link-text">{{ scope.row.validTo }}</span>
             </template>
           </el-table-column>
           <!-- 主要申请部门  applyDept 改 supporterDept-->
@@ -330,10 +330,10 @@
               <span class="open-link-text">{{ scope.row.presenterDept }}</span>
              </template>
           </el-table-column>
-          <!-- 提交人   supporter-->
+          <!-- 提交人   supporter 改 presenter-->
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporter }}</span>
+              <span class="open-link-text">{{ scope.row.presenter }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
@@ -394,12 +394,12 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.createDate }}</span>
+              <span class="open-link-text">{{ scope.row.validFrom }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.updateDate }}</span>
+              <span class="open-link-text">{{ scope.row.validTo }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
@@ -414,7 +414,7 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporter }}</span>
+              <span class="open-link-text">{{ scope.row.presenter }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
