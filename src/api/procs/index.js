@@ -9,6 +9,13 @@ export function glossaryList(keyword) {
         params:{keyword}
     })
 }
+// 词条详情查询
+export function queryGlossaryDetail(id) {
+    return procsRequest({
+        url: `/terms/${id}/getDeatil.json`,
+        method: 'get',
+    })
+}
 // 知识列表查询
 export function queryKnowledgeTypeList(data) {
     return procsRequest({

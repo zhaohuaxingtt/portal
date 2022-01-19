@@ -6,9 +6,8 @@
             <div class="card-l">
                 <IndexList class="indexs"
                     title="Glossary" 
-                    :list="indexs.list" 
-                    :indexs="indexs.idxs" 
-                    :loading="indexs.loading" 
+                    :loading.sync="indexs.loading"
+                    :data="indexs.data" 
                     :indexIcon="false"
                     @click-index="indexChange"
                     @row-click="indexRowChange"
@@ -16,17 +15,17 @@
                 </IndexList>
             </div>
             <div class="glossary-content">
-                <iInput placeholder="Search for MORE" v-model="key">
-                    <i slot="suffix" class="el-input__icon el-icon-search" style="color:#1763F7"></i>
+                <iInput placeholder="Search for MORE" v-model="keyword" @keydown.native.enter="queryGlossary">
+                    <i slot="suffix" class="el-input__icon el-icon-search" @click.native="queryGlossary" style="color:#1763F7"></i>
                 </iInput>
-                <iCard class="mt20 glossary-card">
+                <iCard class="mt20 glossary-card" v-loading="loading">
                     <div class="flex row-line justify-between">
-                        <span class="tlt">title</span>
-                        <span>date</span>
+                        <span class="tlt" v-text="detail.title"></span>
+                        <span>{{detail.publishDate}}</span>
                     </div>
                     <div class="content row-line">
-                        <img src="" alt="">
-                        上汽大众磁，上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁上汽大众磁XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                        <img v-for="atc in detail.attachMents" :key="atc.id" :src="atc.url" alt="">
+                        <div v-html="detail.termsContent"></div>
                     </div>
                     <div>
                         <p class="link-row">关联流程</p>
@@ -48,7 +47,7 @@
 	import { iInput, iCard } from 'rise';
     import LayHeader from "./../components/LayHeader"
     import IndexList from "./../components/IndexList"
-    import {glossaryList} from '@/api/procs';
+    import {glossaryList,queryGlossaryDetail} from '@/api/procs';
     export default {
        components:{
            LayHeader,
@@ -58,22 +57,13 @@
        } ,
        data() {
            return {
-                key: "",
+                keyword: "",
                 indexs: {
-                    idxs:["all","A","B","D"],
                     loading: false,
-                    list: [
-                        {name:"eq",id:1},
-                        {name:"eq",id:2},
-                        {name:"eq",id:3},
-                    ]
+                    data:{}
                 },
-               index_list: [
-                   {name:'ad'},
-                   {name:'Bd'},
-                   {name:'dd'},
-               ],
-               list:10
+                loading:false,
+                detail:{}
            }
        },
        created(){
@@ -83,10 +73,15 @@
             async queryGlossary(){
                 try {
                     this.indexs.loading = true
-                    let list = await glossaryList()
-                    // list.map(e => {
-                    //     return e
-                    // })
+                    let list = await glossaryList(this.keyword)
+                    let obj = {}
+                    list.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.data = obj
                 } finally {
                     this.indexs.loading = false
                 }
@@ -94,17 +89,16 @@
             indexChange(index){
                 console.log(index);
             },
-            indexRowChange(index){
-                console.log(index);
-            },
-           click(l){
-               this.activeIndex = l;
-               this.list = 0; 
-               setTimeout(() => {
-                   this.list = parseInt(Math.random()*30)
-               }, 500);
-           }
-       },
+            async indexRowChange(id){
+                try {
+                    this.loading = true
+                    this.detail = await queryGlossaryDetail(id)
+
+                } finally {
+                    this.loading = false
+                }
+            }
+       }
     }
 </script>
 
