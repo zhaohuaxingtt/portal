@@ -238,6 +238,7 @@ export default {
       this.leftQueryForm.year=new Date().getFullYear()+''
       this.year=new Date().getFullYear()+''
       this.leftTableList=[]
+      this.leftCarSixCode = []
       this.getyearCardModel()
     },
    //右侧重置
@@ -247,6 +248,7 @@ export default {
       this.rightQueryForm.carModel=''
       this.year=new Date().getFullYear()+''
       this.rightTableList=[]
+      this.rightCarSixCode = []
       this.getCarModelDetail()
     },
     //点击列表车型
