@@ -235,6 +235,7 @@ export default {
         if (i !== 'onlySeeMySelf') {
           this.form[i] = ''
         }
+        this.getVersionDataList()
       }
     },
     sure() {
