@@ -643,10 +643,27 @@
         :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
       ></editprotectConclusion>
     </iDialog>
+    <!-- MBDL改期 -->
+    <iDialog
+      v-if="updateDateNEWDialog"
+      :title="language('改期会议列表', '改期会议列表')"
+      :visible.sync="updateDateNEWDialog"
+      width="90%"
+      :append-to-body="true"
+      >
+      <updateDateNEW
+        v-if="updateDateNEWDialog"
+        @close="updateDateNEWDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :updateDateNEWDialogRow='updateDateNEWDialogRow'
+      ></updateDateNEW>
     
+    </iDialog>
   </iPage>
 </template>
 <script>
+import updateDateNEW from './component/updateDateNEW.vue'
 import editprotectConclusion from './component/editprotectConclusion.vue'
 import newAddTopic from './component/newAddTopic.vue'
 import protectConclusion from './component/protectConclusion.vue'
@@ -695,6 +712,7 @@ import enclosure from '@/assets/images/enclosure.svg'
 export default {
   mixins: [pageMixins],
   components: {
+    updateDateNEW,//改期
     editprotectConclusion,//维护结论
     newAddTopic,//新增议题gp
     protectConclusion,//结束议题
@@ -723,6 +741,7 @@ export default {
   },
   data() {
     return {
+      updateDateNEWDialog:false,//改期
       editprotectConclusionDialog:false,//维护议题结论
       selectThemenId:'',//当前议题行id
       protectConclusionDialog:false,//结束议题
@@ -1702,7 +1721,9 @@ export default {
         iMessage.warn('休息议题不能进行改期')
         return
       }
-      this.openDialog('openUpdateDateDialog')
+      debugger
+      // this.openDialog('openUpdateDateDialog')
+      this.updateDateNEWDialog = true
     },
     deleteTop() {
       console.log(this.selectedTableData[0]);

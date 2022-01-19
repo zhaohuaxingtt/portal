@@ -11,7 +11,6 @@
                :lev='1'
                routerPage
                :query="query" />
-
       <div class="flex-align-center">
         <iNavMvp :list="interViewTabList"
                  :lev='2'

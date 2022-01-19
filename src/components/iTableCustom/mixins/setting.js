@@ -37,14 +37,14 @@ export default {
     usercenterApiPrefix() {
       let env = window.sessionStorage.getItem('env') || this.env
       const baseMap = {
-        '': '/api',
+        '': '/usercenterApi',
         dev: '/usercenterApi',
         sit: '/usercenterApi',
         vmsit: '/usercenterApi',
         uat: '/usercenterApi',
-        production: '/api'
+        production: '/usercenterApi'
       }
-      return baseMap[env.toLowerCase()] || '/api'
+      return baseMap[env.toLowerCase()] || '/usercenterApi'
     }
   },
   created() {
