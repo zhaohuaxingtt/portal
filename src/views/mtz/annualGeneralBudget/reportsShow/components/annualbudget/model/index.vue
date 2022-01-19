@@ -39,9 +39,12 @@
           </div>
         </div>
       <p class='margin-top25'><span class='money-title'>车型总金额:</span><span class='money'>{{leftAllPrice|format}}人民币</span></p>
-      <i-table-custom class='margin-top20 margin-right20'  :columns="leftModelColumns"
-                      :data="leftTableList"
-                      @open-card-model='openCardModel'
+      <i-table-custom 
+        class='margin-top20 margin-right20'  
+        :columns="leftModelColumns"
+        :data="leftTableList"
+        @open-card-model='openCardModel'
+        @click-six-code='clickSixCode'
       ></i-table-custom>
     </div>
     <div class='right'>
@@ -222,7 +225,7 @@ export default {
     //获取车型明细
     getCarModelDetail(){
       this.rightQueryForm.year=this.year
-      if(this.rightQueryForm.carModel){
+      // if(this.rightQueryForm.carModel){
         carModelDetail(this.rightQueryForm).then(res=>{
           if(res.code==200){
             this.rightAllPrice=res.data.allPrice
@@ -231,21 +234,22 @@ export default {
             }
           }
         })
-      }else{
-        this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
-      }
+      // }else{
+      //   this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
+      // }
     },
     //获取年度车型汇总
     getyearCardModel(){
       this.leftQueryForm.year=this.year
-      if(this.leftQueryForm.carModel){
+      // if(this.leftQueryForm.carModel){
         yearCardModel(this.leftQueryForm).then(res=>{
           this.leftAllPrice=res.data.allPrice
-          this.leftTableList=res.data.lists
+          this.leftTableList=res.data.lists ? res.data.lists : []
         })
-      }else{
-        this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
-      }
+      // }
+      // else{
+      //   this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
+      // }
 
     },
     //左侧置空
@@ -269,6 +273,12 @@ export default {
     },
     //点击列表车型
     openCardModel(row){
+      this.rightQueryForm.carModel=row.carModel
+      this.rightQueryForm.carModelSixNum=''
+      this.getCarModelDetail()
+    },
+    //点击列表六位号
+    clickSixCode(row){
       this.rightQueryForm.carModel=row.carModel
       this.rightQueryForm.carModelSixNum=row.carModel6Code
       this.getCarModelDetail()

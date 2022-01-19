@@ -179,7 +179,6 @@ export default {
     console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
-    this.supplierId = this.$route.query.supplierId;
     this.getOverView()
   },
   destroyed () {
@@ -194,7 +193,7 @@ export default {
   },
   methods: {
     getOverView () {
-      getCompanyOverview(this.supplierId, this.id).then((result) => {
+      getCompanyOverview(this.id).then((result) => {
         if (result && result.data !== null) {
           this.info = result.data
         }

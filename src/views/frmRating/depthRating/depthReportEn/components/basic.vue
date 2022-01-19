@@ -137,7 +137,6 @@ export default {
     // console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
-    this.supplierId = this.$route.query.supplierId;
     this.getGrade()
     this.getOverView()
   },
@@ -169,11 +168,9 @@ export default {
   methods: {
 
     getOverView () {
-      getSummarize(this.supplierId, this.id, this.id, 'en').then((result) => {
+      getSummarize(this.id, 'en').then((result) => {
         if (result.data) {
           this.info = result.data
-          this.info.deepCommentSupplierId = this.id
-          this.info.deepCommentId = this.id
         }
       }).catch(() => {
 
