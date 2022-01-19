@@ -658,6 +658,7 @@
         style="padding-bottom: 20px"
         @flushTable='flushTable'
         :updateDateNEWDialogRow='updateDateNEWDialogRow'
+        :rowId="rowId"
       ></updateDateNEW>
     
     </iDialog>
@@ -1731,7 +1732,8 @@ debugger
       }
       debugger
       // this.openDialog('openUpdateDateDialog')
-      this.updateDateNEWDialog = true
+      this.rowId=this.selectedTableData[0].id
+      this.updateDateNEWDialog=true
     },
     deleteTop() {
       console.log(this.selectedTableData[0]);

@@ -5,13 +5,13 @@
 import dayjs from '@/utils/dayjs.js';
 // 会议列表查询字段
 export const MEETING_SEARCH_DATA = {
-    meetingName: null,
+    name: null,
     meetingTypeId: 149,
     startDateBegin: null,
     startDateEnd: null,
     states: [],
     weekOfYears: []
-  }
+}
   let weekNum = dayjs(dayjs().year()).isoWeeksInYear();
   let weekListInit = [];
   for (let index = 0; index < weekNum; index++) {
