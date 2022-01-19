@@ -1935,7 +1935,7 @@ export default {
         path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
-        }
+        } 
       })
       window.open(routeUrl.href, '_blank')
     },
