@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-19 14:25:40
+ * @LastEditTime: 2022-01-19 16:28:41
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -175,7 +175,7 @@ export default {
           { required: true, message: '请输入应用英文名', trigger: 'blur' },
              {
             pattern: /^[A-Za-z0-9]+$/,
-            message: '请输入 1 到 7个字符',
+            message: '请输入1-7位英文字母或数字',
             trigger: 'blur'
           },
         ],

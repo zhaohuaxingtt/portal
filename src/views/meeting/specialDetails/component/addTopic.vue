@@ -457,7 +457,7 @@ import {
   addThemenAttachment,
   findTheThemenById
 } from '@/api/meeting/details'
-import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { uploadFile, findUsersById } from '@/api/meeting/type'
 import { download } from '@/utils/downloadUtil'
 export default {
   components: {
@@ -967,7 +967,7 @@ export default {
         // pageSize: 1000,
         id: this.meetingInfo.receiverId
       }
-      getReceiverById(data).then((res) => {
+      findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS
         this.currentSearchUserData = [...res.employeeDTOS]
       })

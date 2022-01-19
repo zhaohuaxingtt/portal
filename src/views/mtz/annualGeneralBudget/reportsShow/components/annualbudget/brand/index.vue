@@ -11,6 +11,7 @@
       </div>
     </div>
     <i-table-custom
+      :loading='loading'
       class="margin-top20"
       :columns="brandMTZTitle"
       :data="brandMTZList"
@@ -38,13 +39,14 @@ export default {
   },
   created() {
     this.changeTableTile()
-    this.queryYearBrand()
+    // this.queryYearBrand()
   },
   data() {
     return {
+      loading:false,
       queryForm:{
         onlySeeMySelf:false,
-        year:new Date().getFullYear()
+        year:''
       },
       curYearPrice:'',//当前年度总额
       lastYearPrice:'',//上一年度总额
@@ -114,6 +116,7 @@ export default {
       })
     },
     queryYearBrand(){
+      this.loading = true
       yearBrand(this.queryForm).then(res=>{
         if(res.code==200){
           this.curYearPrice=res.data.curYearPrice
@@ -130,7 +133,7 @@ export default {
           this.lastYearPrice=0
           this.brandMTZList=[]
         }
-      })
+      }).finally(()=>this.loading = false)
     }
   }
 }

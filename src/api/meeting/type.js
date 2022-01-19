@@ -158,6 +158,15 @@ export function getReceiverById(data) {
   })
 }
 
+// 通过id查询收件人(包含对组的处理)
+export function findUsersById(data) {
+  return requst({
+    url: `/receiverService/findUsersById`,
+    method: 'POST',
+    data
+  })
+}
+
 // 创建收件人
 export function saveReceiver(data) {
   return requst({
