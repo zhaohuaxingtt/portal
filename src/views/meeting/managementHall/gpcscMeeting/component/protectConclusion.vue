@@ -10,6 +10,7 @@
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
+  12312
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -740,7 +741,13 @@ export default {
     color: #333333;
     font-size: 14px;
     font-weight: 400;
+    span {
+      /* display: block; */
+      width: 100%;
+      text-align: right;
   }
+  }
+  
 }
 .button-list {
   display: flex;

@@ -72,7 +72,7 @@
         >
           <template slot-scope="scope" >
             <span class="greaterThanZero" v-if="scope.row.marketPriceDifference>0">{{ scope.row.marketPriceDifference }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `-${scope.row.marketPriceDifference}` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `${scope.row.marketPriceDifference}` }}</span>
             <span  v-else>{{ scope.row.marketPriceDifference }}</span>
           </template>
         </el-table-column>
