@@ -24,7 +24,7 @@ export const TABLE = [
       i18n: '触发类型'
     },
     {
-      prop: 'interfaceSystem',
+      prop: 'interfaceSystemName',
       i18n: '外部系统'
     },
     {
