@@ -1,6 +1,6 @@
 <template>
     <iPage>
-        <iButton class="btn" @click="goBack">返回主流程列表</iButton>
+        <iButton class="btn" @click="$router.back()">返回主流程列表</iButton>
         <processDetail></processDetail>
     </iPage>
 </template>
