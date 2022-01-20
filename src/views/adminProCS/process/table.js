@@ -35,7 +35,7 @@ export default [
 		label:'是否发送消息',
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateMsg}) => {
-			return <el-switch value={ row.send } active-text="是" inactive-text="否" on-change={ e => updateMsg(e,$index)}></el-switch>
+			return <el-switch value={ row.send } active-text="是" disabled={row.published} inactive-text="否" on-change={ e => updateMsg(e,$index)}></el-switch>
 		}
 	},
 ]

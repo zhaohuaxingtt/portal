@@ -9,7 +9,7 @@
                 <slot name="content"></slot>
             </template>
             <template v-else>
-                <p class="flex card-content-item ellipsis" :class="{color:color,active:active == i}" :title="l[key]" v-for="(l,i) in list" :key="l.id" @click="active = i;$emit('row-click', l)">
+                <p class="flex card-content-item ellipsis" :class="{color:color,active:active == l.id}" :title="l[key]" v-for="l in list" :key="l.id" @click="active = l.id;$emit('row-click', l)">
                     <span class="flex-1 ellipsis mr20">{{l[key]}}</span>
                     <slot name="item-right"></slot>
                 </p>

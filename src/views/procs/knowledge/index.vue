@@ -15,7 +15,7 @@
                     @click.native="$router.push({path:'/cf-ProCS/knowledgeManage/categoryInfo',query:{id:l.id}})"
                     >
                     <div class="top">
-                        <img class="img" :src="l.cover" alt="">
+                        <img class="img" :src="fileFmt(l.cover)" alt="">
                         <div class="info">
                             <span>共{{l.knowlegeCount}}门</span>
                             <span class="new" v-if="isNew(l.createdAt)">NEW</span>
@@ -31,17 +31,20 @@
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import {queryKnowledgeTypeList} from '@/api/procs';
+    import mixin from '../mixins/index';
+
     export default {
         components:{
             LayHeader
         },
+        mixins:[mixin],
         data() {
             return {
                 list:[]
             }
         },
         async created() {
-            let res = await queryKnowledgeTypeList({page:1,size:9999})
+            let res = await queryKnowledgeTypeList({page:0,size:9999})
             this.list = res.content || []
         },
         methods: {
