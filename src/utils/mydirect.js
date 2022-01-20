@@ -43,7 +43,7 @@ Vue.directive('permission', {
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         //-----------------------2022-1-20 修改权限配置内容start------------------------------
-        if(process.env.NODE_ENV == "SIT"){
+        if(process.env.NODE_ENV == "SIT" || process.env.NODE_ENV == "vmsit"){
           if(!store.state.permission.whiteBtnList[pagePermission]){
             el.parentNode.removeChild(el)
           }
