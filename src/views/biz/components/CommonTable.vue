@@ -61,19 +61,45 @@ export default {
             try {
                 this.params.startDate = this.params.startDate ? `${this.params.startDate.split(" ")[0]} 00:00:00` : ""
                 this.params.endDate = this.params.endDate ? `${this.params.endDate.split(" ")[0]} 23:59:59` : ""
-                console.log(this.params);
-                let data = {
-                    current: this.page.currPage - 1,
-                    size: this.page.pageSize,
-                    ...this.params
-                }
+                // let data = {
+                //     current: this.page.currPage - 1,
+                //     size: this.page.pageSize,
+                //     ...this.params
+                // }
                 this.loading = true
                 let res = {}
                 if(this.params.category == 2){
+                    let data = {
+                        current: this.page.currPage - 1,
+                        size: this.page.pageSize,
+                        ...this.params
+                    }
+                    delete data.category
                     // 接口日志
                     res = await findInterLogs(data)
                 }else{
                     // 操作、系统日志
+                    let data = {
+                        current: this.page.currPage - 1,
+                        size: this.page.pageSize,
+                        extendFields: {
+                            menuId: this.params.menuId,
+                            type: this.params.type,
+                            category: this.params.category,
+                            triggerType: this.params.triggerType,
+                            interfaceSystemCode: this.params.interfaceSystemCode,
+                            bizId_like: this.params.bizId,
+                            content_like: this.params.content,
+                            userPosition_like: this.params.userPosition,
+                            interfaceCode: this.params.interfaceCode,
+                            creator_like: this.params.creator,
+                            interfaceSerial_like: this.params.interfaceSerial,
+                            createDate_gt:this.params.startDate,
+                            createDate_le: this.params.endDate,
+                            success: this.params.success,
+                            id_like: this.params.id
+                        }
+                    }
                     res = await findRecordLogs(data)
                 }
                 this.list = res.data?.content || []

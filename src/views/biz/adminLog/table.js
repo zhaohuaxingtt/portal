@@ -102,7 +102,7 @@ export const TABLE_DETAIL = [
   {
     prop: 'content',
     i18n: '操作内容',
-    minWidth: 200,
+    minWidth: "200px",
     tooltip: true
   },
   {
