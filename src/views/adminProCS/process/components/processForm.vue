@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div v-loading="loading">
 		<el-form 
-			v-loading="loading"
 			:model="form" 
 			:rules="rules" 
 			label-width="90px" 
 			ref="form"
-			class="validate-required-form"
+            :inline="type == 'edit'"
+			class="validate-required-form process-form"
 		>
 			<iFormItem :label="language('流程标题')" prop='name'>
 				<iInput v-model="form.name" class="w-300" placeholder="请输入流程标题"></iInput>
@@ -46,7 +46,8 @@
 			</iFormItem>
 		</el-form>
 		<div class="flex felx-row mt20 pb20 justify-end ">
-			<iButton @click="closeDialogBtn">{{ language('取消') }}</iButton>
+			<iButton @click="closeDialogBtn" v-if="type == 'add'">{{ language('取消') }}</iButton>
+			<iButton @click="$router.back()" v-else>{{ language('返回') }}</iButton>
 			<iButton @click.native="save">{{ language('保存') }}</iButton>
 		</div>
     </div>
@@ -54,7 +55,7 @@
 
 <script>
 import { iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
-import { getOrganizationList, getUsersList, addProcess,updateProcess } from '@/api/adminProCS';
+import { getOrganizationList, getUsersList, addProcess,updateProcess, getProcess } from '@/api/adminProCS';
 
 export default {
 	components: {
@@ -65,7 +66,7 @@ export default {
 		iButton
 	},
 	props: {
-		operateType: {
+		type: {
 			type: String,
 			default: 'add'
 		}
@@ -85,7 +86,6 @@ export default {
 				callback(new Error("请输入大写字母"));
 			}
 		}
-		
 		return {
 			visible: false,
 			form: {
@@ -136,12 +136,22 @@ export default {
 				version:"",
 				updateDt:"",
 				exports:"",
-				organizations:""
+				organizations:"" 
 			}
 			this.$refs.form.resetFields()
 			this.$emit('update:show', false)
 			this.$emit('refresh')
 		},
+        async queryDetail(id){
+            try {
+                this.loading = true
+                this.form = await getProcess(id)
+                this.form.exports = this.form.experts
+                delete this.form.experts
+            } finally {
+                this.loading = false
+            }
+        },
 		save(){
 			this.$refs.form.validate(async v => {
 				if(v){
@@ -152,13 +162,18 @@ export default {
 						Object.keys(this.form).forEach(key => {
 							formData.append(key, this.form[key])
 						})
-						await addProcess(formData).then(res => {
-							if (res) {
-								this.$message({type: 'success', message: '新增流程成功'})
-							}
-						})
-						this.$parent.refresh()
-						this.closeDialogBtn()
+                        if(this.type == "add"){
+                            await addProcess(formData).then(res => {
+                                if (res) {
+                                    this.$message({type: 'success', message: '新增流程成功'})
+                                    this.$parent.refresh()
+                                    this.$parent.closeDialogBtn()
+                                }
+                            })
+                        }else{
+                            await updateProcess(this.form.id, formData)
+                            this.$message({type: 'success', message: '保存成功'})
+                        }
 					} finally {
 						this.loading = false	
 					}
@@ -198,8 +213,13 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../comon.scss';
-.typeForm {
-	padding-bottom: 20px;
+.process-form {
+    ::v-deep &.el-form--inline {
+        .el-form-item{
+            margin-right: 30px !important;
+        }
+    }
+
 }
 
 

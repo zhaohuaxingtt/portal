@@ -68,9 +68,14 @@ export default {
       // 当前route的兄弟菜单
       const pathMenus =
         this.getSiblingMenus(this.fullMenus, path, menuType, activePath) || []
-
-      if (pathMenus.length === 0) {
-        console.log('没有这个菜单呀', this.$route)
+      console.log('没有这个菜单呀', this.$route)
+      const isDetailPage =
+        Object.keys(query).length !== 0 ||
+        path.includes('add') ||
+        path.includes('edit') ||
+        path.includes('detail') ||
+        path.includes('create')
+      if (pathMenus.length === 0 && !isDetailPage) {
         this.fixedNoHasAuthMenu()
       } else {
         // 获取菜单
