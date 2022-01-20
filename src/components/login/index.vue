@@ -44,7 +44,8 @@
 <script>
 import { iMessage } from 'rise'
 import { login } from './api'
-import { encryptPwd, setToken, getToken } from '@/utils'
+import { encryptPwd, setToken } from './utils'
+import { getToken } from '@/utils'
 export default {
   data() {
     return {
@@ -112,8 +113,7 @@ export default {
         redirectUrl =
           process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
       }
-      console.log('redirectUrl', redirectUrl)
-      if (redirectUrl) {
+      if (redirectUrl && redirectUrl !== '/portal/#/login') {
         this.ssoLogin = true
         location.href = redirectUrl
       }
