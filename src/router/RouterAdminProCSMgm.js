@@ -36,10 +36,18 @@ export default [
       path: 'process/mainProcess',
       name: 'mainProcess',
       meta: {
-        title: '流程管理',
+        title: '主流程',
         activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
       },
       component: () => import('@/views/adminProCS/process/mainProcess')
+    }, {
+      path: 'process/edit',
+      name: 'edit',
+      meta: {
+        title: '流程修改',
+        activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
+      },
+      component: () => import('@/views/adminProCS/process/edit')
     }]
   }
 ]

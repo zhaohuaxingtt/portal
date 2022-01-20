@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-01-20 15:07:12
- * @LastEditTime: 2022-01-20 17:10:21
+ * @LastEditTime: 2022-01-20 17:25:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainAnalysis\components\tabs1.vue
@@ -288,4 +288,12 @@ export default {
 iframe {
   border: none;
 }
+// .content {
+//   position: relative;
+//   .btn {
+//     position: absolute;
+//     top: 0.4rem;
+//     right: 0;
+//   }
+// }
 </style>

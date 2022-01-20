@@ -1,6 +1,6 @@
 <template>
   <iCard
-    v-if="form.stateCode === 3"
+    v-if="isShow"
     :title="language('补充材料')"
     header-control
     collapse
@@ -58,6 +58,12 @@ export default {
     }
   },
   computed: {
+    isShow() {
+      return (
+        (this.form.stateCode === 3 || this.form.stateCode === 4) &&
+        this.form.addMaterialsNote
+      )
+    },
     textareaRows() {
       const nodeItemLength = this.nodeItem.taskAttachments
         ? this.nodeItem.taskAttachments.length

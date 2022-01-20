@@ -254,19 +254,21 @@ export function queryProcessList(data) {
     })
 }
 // 流程上下架
-export function changeProcsState(id, data) {
+export function changeProcsState(id,data) {
     return procsRequest({
         url: `/workflow_mgr/${id}/published.json`,
         method: 'put',
-        data
+        data,
+        formData: true
     })
 }
 // 流程是否发送消息
-export function changeProcsSendMessage(id, data) {
+export function changeProcsSendMessage(id,data) {
     return procsRequest({
         url: `/workflow_mgr/${id}/isSendMessage.json`,
         method: 'put',
-        data
+        data,
+        formData: true
     })
 }
 // 添加流程
