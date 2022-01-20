@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-20 11:31:06
+ * @LastEditTime: 2022-01-20 15:07:29
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -237,6 +237,8 @@ export default {
             this.importDialog = true
             this.tableListDetail = res.data
           }
+        }else{
+            this.$message.error(res.desZh)
         }
       })
       this.importLoading = false
@@ -313,6 +315,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -328,6 +331,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -343,6 +347,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -358,6 +363,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
