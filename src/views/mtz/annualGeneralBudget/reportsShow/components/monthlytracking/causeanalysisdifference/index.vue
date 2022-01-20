@@ -32,8 +32,8 @@
             <el-option
               v-for="(item, index) in MaterialMediumList"
               :key="index"
-              :value="item.materialCategoryCode"
-              :label="item.materialNameZh"
+              :value="item.value"
+              :label="item.label"
             />
           </iSelect>
         </el-form-item>
@@ -177,7 +177,14 @@ export default {
     MaterialMedium() {
       queryMaterialMedium()
         .then((res) => {
-          this.MaterialMediumList = res.data
+          const data = res.data
+          this.MaterialMediumList = data.map((item)=>{
+            return {
+              label:`${item.materialCategoryCode}-${item.materialNameZh}`,
+              value:item.materialCategoryCode
+            }
+          })
+          // this.MaterialMediumList = res.data
         })
         .catch((err) => {
           console.log(err)
