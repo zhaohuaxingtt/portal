@@ -36,7 +36,6 @@
                 :total="page.totalCount"
                 />
         </iCard>
-        <processDetail></processDetail>
 
         <addProcess :show.sync="dialog" ref="addDialog" @refresh='query'></addProcess>
     </iPage>
@@ -47,7 +46,6 @@ import { iPage, iCard, iPagination, iButton, iTableCustom } from 'rise'
 import Search from '../components/search.vue';
 import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
-import processDetail from "./processDetail/index.vue";
 import tableSetting from './table';
 import {queryProcessList, deleteProcess, changeProcsState, changeProcsSendMessage} from '@/api/adminProCS';
 export default {
@@ -59,7 +57,6 @@ export default {
         iPagination,
         iButton,
         addProcess,
-        processDetail,
         iTableCustom
     },
     data() {
@@ -102,7 +99,9 @@ export default {
             this.query()
         },
         edit(){
-
+            let id = this.selectList[0]?.id
+            // window.location = `/portal/#/adminProCS/process/edit`
+            this.$router.push({path: '/adminProCS/process/edit', query: {id: id}})
         },
         async del(){
             let id = this.selectList[0]?.id
@@ -116,11 +115,13 @@ export default {
         },
         async updateState(v,index){
             let id = this.tableListData[index].id
-            let params = {
-                published: v
-            }
+            // let params = {
+            //     published: v
+            // }
+            let formData = new FormData()
+            formData.append('published', v)
             this.tableLoading = true
-            await changeProcsState(id, params).then(res => {
+            await changeProcsState(id, formData).then(res => {
                 if (res?.success) {
                     this.$message({type: 'success', message: "修改当前状态成功"})
                     this.query()
@@ -130,11 +131,13 @@ export default {
         // 是否发送消息
         async updateMsg(v,index){
             let id = this.tableListData[index].id
-            let params = {
-                send: v
-            }
+            // let params = {
+            //     sendMessage: v
+            // }
+            let formData = new FormData()
+            formData.append('sendMessage', v)
             this.tableLoading = true
-            await changeProcsSendMessage(id, params).then(res => {
+            await changeProcsSendMessage(id, formData).then(res => {
                 if (res?.success) {
                     this.$message({type: 'success', message: "修改发送消息成功"})
                     this.query()
