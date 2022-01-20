@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
- * @Date: 2022-01-20 15:07:12
- * @LastEditTime: 2022-01-20 17:25:12
+ * @Date: 2022-01-20 15:07:20
+ * @LastEditTime: 2022-01-20 15:23:09
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainAnalysis\components\tabs1.vue
+ * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainAnalysis\components\tabs2.vue
 -->
 <!--
  * @author: shujie
@@ -18,7 +18,8 @@
     <!--      <span @click="toEN"> 英文</span>-->
     <!--    </div>-->
     <!-- v-permission="TOOLING_PAYMENTPLAN_PAYMENTBOARD" -->
-    <iPage class="page-content">
+    <iPage class="page-content"
+           v-permission="TOOLING_PAYMENTPLAN_PAYMENTBOARD">
       <iCard id='powerBi'>
 
       </iCard>
@@ -28,8 +29,8 @@
 </template>
 
 <script>
-import { iPage, iCard } from 'rise';
-import { getLoosePartsPbi } from "@/api/supplierManagement/supplyChainRisk";
+import { iPage, iCard, iButton } from 'rise';
+// import { powerBiUrl, averageName, supplierName } from "@/api/ws2/investmentAdmin/payBlock";
 import * as pbi from 'powerbi-client';
 import store from "@/store";
 export default {
@@ -65,8 +66,8 @@ export default {
     if (this.$route.query.name) {
       this.name = this.$route.query.name;
     }
-    this.filter = { ...this.filter, filterType: pbi.models.FilterType.BasicFilter }
-    this.powerBiUrl()
+    this.filter = { ...this.filter, filterType: pbi.models.FilterType.BasicFilter },
+      this.powerBiUrl()
   },
   methods: {
     toZH () {
@@ -104,9 +105,14 @@ export default {
 
       this.report.setFilters([newfilter])
     },
+
+    //维护行业均值
+    onJumpIndustryAverage () {
+      this.$router.push('/supplier/frmrating/depthRating/industryAverage')
+    },
     // 获取财报iframeurl
     powerBiUrl () {
-      getLoosePartsPbi().then(res => {
+      powerBiUrl().then(res => {
         if (res.data) {
           this.url = res.data
           this.renderBi()
@@ -270,7 +276,7 @@ export default {
 
 <style lang="scss" scoped>
 .page-content {
-  padding: 20px 20px 0 0 !important;
+  padding: 20px 0 0 0 !important;
 }
 .title {
   font-weight: bold;
@@ -283,17 +289,4 @@ export default {
   width: 100%;
   height: calc(100vh - 190px);
 }
-</style>
-<style lang="scss">
-iframe {
-  border: none;
-}
-// .content {
-//   position: relative;
-//   .btn {
-//     position: absolute;
-//     top: 0.4rem;
-//     right: 0;
-//   }
-// }
 </style>
