@@ -49,7 +49,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
 import processDetail from "./processDetail/index.vue";
 import tableSetting from './table';
-import {queryProcessList} from '@/api/adminProCS';
+import {queryProcessList,changeProcsState,changeProcsSendMessage} from '@/api/adminProCS';
 export default {
     mixins:[pageMixins],
     components: {
@@ -66,10 +66,7 @@ export default {
         return {
             keyWord:"",
             tableLoading: false,
-            tableListData: [
-                {id:1, state:false,send:true},
-                {id:2, state:false,send:true},
-                ],
+            tableListData: [],
             tableSetting,
             selectList:[],
             dialog:false,
@@ -110,12 +107,24 @@ export default {
         del(){
 
         },
-        updateState(v,index){
-            this.tableListData[index].published = v
+        async updateState(v,index,row){
+            try {
+                this.tableLoading = true
+                await changeProcsState(row.id,{published: v})
+                this.tableListData[index].published = v
+            } finally {
+                this.tableLoading = false
+            }
         },
         // 是否发送消息
-        updateMsg(v,index){
-            this.tableListData[index].send = v
+        async updateMsg(v,index,row){
+            try {
+                this.tableLoading = true
+                await changeProcsSendMessage(row.id,{sendMessage: v})
+                this.tableListData[index].send = v
+            } finally {
+                this.tableLoading = false
+            }
         },
         handleSelectionChange(v){
             this.selectList = v
