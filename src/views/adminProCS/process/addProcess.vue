@@ -60,7 +60,6 @@
 
 <script>
 import { iDialog, iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
-import moment from 'moment';
 // import ISelect from './../components/ISelect.vue';
 import { getOrganizationList, getUsersList,addProcess,updateProcess } from '@/api/adminProCS';
 
@@ -141,6 +140,17 @@ export default {
 	},
 	methods: {
 		closeDialogBtn () {
+			this.form = {
+				name: '',
+				firstLetter:"",
+				nameEn:"",
+				firstLetterEn:"",
+				version:"",
+				updateDt:"",
+				exports:"",
+				organizations:""
+			}
+			this.$refs.form.resetFields()
 			this.$emit('update:show', false)
 		},
 		save(){
@@ -154,7 +164,8 @@ export default {
 							formData.append(key, this.form[key])
 						})
 						await addProcess(formData)
-						
+						this.$parent.query()
+						this.closeDialogBtn()
 					} finally {
 						this.loading = false	
 					}

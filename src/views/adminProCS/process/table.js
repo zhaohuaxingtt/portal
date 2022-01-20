@@ -28,7 +28,7 @@ export default [
 		label:'状态',
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateState}) => {
-			return <el-switch value={ row.state } active-text="上架" inactive-text="下架" on-change={ e => updateState(e,$index)}></el-switch>
+			return <el-switch value={ row.published } active-text="上架" inactive-text="下架" on-change={ e => updateState(e,$index,row)}></el-switch>
 		}
 	},
 	{

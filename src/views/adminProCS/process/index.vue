@@ -93,7 +93,7 @@ export default {
         async query(){
             try {
                 this.tableLoading = true
-                let res = await queryProcessList({page:this.page.currPage,size:this.page.pageSize})
+                let res = await queryProcessList({page:this.page.currPage - 1,size:this.page.pageSize})
                 this.tableListData = res?.content || []
                 this.page.totalCount = res?.totalPages || 0
             } finally {
@@ -111,7 +111,7 @@ export default {
 
         },
         updateState(v,index){
-            this.tableListData[index].state = v
+            this.tableListData[index].published = v
         },
         // 是否发送消息
         updateMsg(v,index){
