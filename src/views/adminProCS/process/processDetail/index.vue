@@ -2,19 +2,19 @@
     <div>
         <el-tabs v-model="currType">
             <el-tab-pane label="流程页面" name="page">
-                <processPage></processPage>
+                <processPage :id="id"></processPage>
             </el-tab-pane>
             <el-tab-pane label="ProD文档" name="doc">
-                <doc></doc>
+                <doc :id="id"></doc>
             </el-tab-pane>
             <el-tab-pane label="流程指导书" name="guide">
-                <guide></guide>
+                <guide :id="id"></guide>
             </el-tab-pane>
             <el-tab-pane label="常见问题" name="qs">
-                <question></question>
+                <question :id="id"></question>
             </el-tab-pane>
             <el-tab-pane label="流程附件" name="attachment">
-                <attachment></attachment>
+                <attachment :id="id"></attachment>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -33,6 +33,11 @@
             guide,
             processPage,
             question
+        },
+        props:{
+            id:{
+                default:""
+            }
         },
         data() {
             return {
