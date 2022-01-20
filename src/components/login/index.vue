@@ -103,14 +103,17 @@ export default {
       //nothing to do
     } else {
       const token = getToken()
+      let redirectUrl = ''
       if (token) {
-        if (process.env.VUE_APP_LOGOUT_URL) {
-          this.ssoLogin = true
-          location.href = process.env.VUE_APP_LOGOUT_URL
-        }
-      } else if (process.env.VUE_APP_LOGIN_URL) {
+        redirectUrl =
+          process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
+      } else {
+        redirectUrl =
+          process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
+      }
+      if (redirectUrl) {
         this.ssoLogin = true
-        location.href = process.env.VUE_APP_LOGIN_URL
+        location.href = redirectUrl
       }
     }
   }
