@@ -51,6 +51,7 @@
     import {glossaryList,queryGlossaryDetail} from '@/api/procs';
     import imgViews from './../components/imgViews'
     import moment from 'moment';
+    import mixin from '../mixins/index';
     export default {
        components:{
            LayHeader,
@@ -59,6 +60,7 @@
            IndexList,
            imgViews
        } ,
+       mixins:[mixin],
        data() {
            return {
                 keyword: "",
@@ -109,12 +111,6 @@
             },
             view(url){
                 this.$refs.imgView.show(this.fileFmt(url))
-            },
-            fileFmt(url){
-                if(url && url.includes("/uploader/")){
-                    return url.split("/uploader/")[1]
-                }
-                return ""
             },
             timeFmt(time){
                 let difference = new Date() - new Date(time).getTime();

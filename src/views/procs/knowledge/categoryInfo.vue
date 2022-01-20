@@ -57,7 +57,7 @@
         data() {
             return {
                 list:{},
-                knowList:[],
+                knowList:[{name:"全部",id:""}],
                 departList:[],
 
                 knowledgeCategory:"",
@@ -70,10 +70,11 @@
         },
         methods: {
             async init(){
-                // 科室
-                this.departList = await queryKnowledgeDepartment(1100)
                 //  知识分类
-                this.knowList = await listCategoryBySection(1100)
+                let cate = await listCategoryBySection(this.$route.query.id)
+                this.knowList.push(...cate)
+                 // 科室
+                this.departList = await queryKnowledgeDepartment()
             },
             async queryDetail(){
                 let data = {
@@ -87,7 +88,7 @@
                 for (const key in data) {
                     formdata.append(key, data[key])
                 }
-                let res = await queryKnowledgeTwoLevelCard(1100, formdata)
+                let res = await queryKnowledgeTwoLevelCard(this.$route.query.id, formdata)
                 this.list = res.content || []
             },
             departChange(id,i){

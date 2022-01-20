@@ -227,7 +227,7 @@ export default {
         },
 		// 查看详情
         msgDetail(row){
-			if(!row.traceId) return this.$message.warning("traceId为空")
+			if(!row.traceId) return this.$message.success("没有关联信息")
 			this.params = {
 				traceId:row.traceId,
 				category:row.category
