@@ -7,7 +7,7 @@ import axios from '@/utils/axios'
 import $qsAjax from '@/utils/ajax'
 
 let requst,qsAjax;
-
+let requstAno=axios(process.env.VUE_APP_AON+'/api/aon/')
 if(process.env.NODE_ENV=='dev') {
   requst = axios(process.env.VUE_APP_EKL)
   qsAjax = $qsAjax(process.env.VUE_APP_EKL)
@@ -510,6 +510,14 @@ export function getPowerBiVal(data) {
     return requst({
         url: `/eklApi/piEklreportEntity/getPowerBiVal`,
         method: 'POST',
+        data
+    })
+}
+// 获取eklPbi对应的的信息
+export function getEklPbil(data) {
+    return requstAno({
+        url: `/batchOverview/getEklPbi`,
+        method: 'GET',
         data
     })
 }

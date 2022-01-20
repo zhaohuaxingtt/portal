@@ -1,149 +1,215 @@
+  <!--会议纪要-->
 <template>
-  <!--转派-->
   <iDialog
-    title="会议纪要"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
     @close="handleCancel"
   >
     <iEditForm>
-      <el-form
-        :model="resultData"
-        :rules="rules"
-        ref="ruleForm"
-        :hideRequiredAsterisk="true"
-        class="new-summary"
-      >
-        <el-row class="form-row">
-          <iFormItem class="meet-desc">
-            <iLabel :label="resultData.name" slot="label" required></iLabel>
-            <iSelect v-model="resultData.attendeeGroupName" :disabled="!edit">
-              <el-option
-                v-for="(item, index) in [
-                  {
-                    value: resultData.attendeeGroupName,
-                    label: resultData.attendeeGroupName
-                  }
-                ]"
-                :key="index"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-          <iFormItem prop="attendees" class="meet-desc">
-            <iInput
-              v-model="resultData.attendees"
-              type="textarea"
-              resize="none"
-              rows="4"
-              :disabled="!edit"
-            />
-          </iFormItem>
-        </el-row>
-        <div>
-          <p class="agenda-box-title">
-            <span>Agenda items</span>
-            <span
-              >(Please click the following tittle which will lead to the detail
-              content.)</span
-            >
-          </p>
-          <ul class="agenda-item-box">
-            <li
-              v-for="(item, index) in resultData.themens"
-              :key="item.id"
-              :class="[
-                choosedIndex == index + 1 ? 'active-agenda-item' : '',
-                'agenda-item'
+    <el-form
+      :model="resultData"
+      :rules="rules"
+      ref="ruleForm"
+      :hideRequiredAsterisk="true"
+      class="new-summary"
+    >
+      <el-row class="form-row">
+        <iFormItem class="meet-desc">
+          <iLabel :label="resultData.name" slot="label" required></iLabel>
+          <iSelect v-model="resultData.attendeeGroupName" :disabled="true">
+            <el-option
+              v-for="(item, index) in [
+                {
+                  value: resultData.attendeeGroupName,
+                  label: resultData.attendeeGroupName
+                }
               ]"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
             >
-              <div class="agenda-item-title" @click="chooseItem(index + 1)">
-                <div class="title-left">
-                  <div class="title-index">{{ index + 1 }}</div>
-                  <div class="title-name">{{ item.topic }}</div>
+            </el-option>
+          </iSelect>
+        </iFormItem>
+        <iFormItem prop="attendees" class="meet-desc">
+          <iInput
+            v-model="resultData.attendees"
+            type="textarea"
+            resize="none"
+            rows="4"
+          />
+        </iFormItem>
+      </el-row>
+      <div>
+        <p class="agenda-box-title">
+          <span>Agenda items</span>
+          <span
+            >(Please click the following tittle which will lead to the detail
+            content.)</span
+          >
+        </p>
+        <ul class="agenda-item-box">
+          <li
+            v-for="(item, index) in resultData.themens"
+            :key="item.id"
+            :class="[
+              choosedIndex == index + 1 ? 'active-agenda-item' : '',
+              'agenda-item'
+            ]"
+          >
+            <div
+              class="agenda-item-title"
+              @click="chooseItem(index + 1, item)"
+            >
+              <div class="title-left">
+                <div class="title-index">{{ index + 1 }}</div>
+                <div class="title-name">{{ item.topic }}</div>
+              </div>
+              <div class="up-arrow">
+                <img :src="upArrow" alt="" srcset="" />
+              </div>
+            </div>
+            <div class="agenda-item-content">
+              <p class="task">Task</p>
+              <div class="task-title">
+                <div>
+                  {{$t('MT_BUMEN')}}：<span>{{
+                    taskDeptResult(item, 'supporterDept', 'presenterDept')
+                  }}</span>
                 </div>
-                <div class="up-arrow">
-                  <img :src="upArrow" alt="" srcset="" />
+                <div>
+                  {{
+                    userNameArr.length === resultData.themens.length
+                      ? userNameArr[index][0]
+                      : ''
+                  }}
+                  {{
+                    userNameArr.length === resultData.themens.length
+                      ? userNameArr[index][0] && userNameArr[index][1] && '/'
+                      : ''
+                  }}
+                  {{
+                    userNameArr.length === resultData.themens.length
+                      ? userNameArr[index][1]
+                      : ''
+                  }}
                 </div>
               </div>
-              <div class="agenda-item-content">
-                <p class="task">Task</p>
-                <div class="task-title">
-                  <div>部门：<span>暂无</span></div>
-                  <div>Xiao Hua / Xiao Li</div>
+              <iFormItem prop="result" class="meet-desc">
+                <iInput
+                  v-model="item.result"
+                  type="textarea"
+                  resize="none"
+                  rows="4"
+                />
+              </iFormItem>
+              <p class="task">
+                Result：
+                <!-- {{
+                  item.conclusionCsc === '01'
+                    ? conclusionCscList[item.conclusionCsc]
+                    : item.conclusionCsc === '02'
+                    ? conclusionCscList[item.conclusionCsc]
+                    : ''
+                }} -->
+                {{conclusionCscList[item.conclusion]}}
+              </p>
+              <iFormItem class="meet-desc">
+                <el-table
+                  v-if="item.conclusionCsc === '02'"
+                  :data="item.partDTOS ? item.partDTOS : []"
+                  border
+                  style="width: 100%"
+                >
+                  <el-table-column
+                    prop="partNameZh"
+                    align="center"
+                    label="零件名/Partname"
+                    :render-header="renderHeader"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="modelNameZh"
+                    align="center"
+                    label="车型/Carline"
+                    :render-header="renderHeader"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="partNum"
+                    align="center"
+                    label="零件号/PartNo."
+                    :render-header="renderHeader"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="supplierName"
+                    align="center"
+                    label="定点供应商/NomlSupplier"
+                    :render-header="renderHeader"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    align="center"
+                    label="份额/Share"
+                    :render-header="renderHeader"
+                  >
+                    <template slot-scope="scope">
+                      {{ scope.row.ratio + '%' }}
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <div v-if="item.conclusionCsc === '03'">
+                  <p>对于车型，发 LOI 给</p>
+                  <p>For carline send LOI to</p>
                 </div>
-                <iFormItem prop="conclusion" class="meet-desc">
-                  <iInput
-                    v-model="item.conclusion"
-                    type="textarea"
-                    resize="none"
-                    rows="4"
-                    :disabled="!edit"
-                  />
-                </iFormItem>
-                <p class="task">Result：定点</p>
-                <iFormItem class="meet-desc">
-                  <el-table :data="tableData" border style="width: 100%">
-                    <el-table-column
-                      prop="date"
-                      align="center"
-                      label="零件名/Partname"
-                      :render-header="renderHeader"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="name"
-                      align="center"
-                      label="车型/Carline"
-                      :render-header="renderHeader"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="address"
-                      align="center"
-                      label="零件号/PartNo."
-                      :render-header="renderHeader"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="address"
-                      align="center"
-                      label="定点供应商/NomlSupplier"
-                      :render-header="renderHeader"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="address"
-                      align="center"
-                      label="份额/Share"
-                      :render-header="renderHeader"
-                    >
-                    </el-table-column>
-                  </el-table>
-                </iFormItem>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="button-list" v-show="edit">
-          <el-form-item>
-            <iButton @click="handleCancel" plain class="cancel">{{
-              $t('LK_QUXIAO')
-            }}</iButton>
-            <iButton @click="handleOK" plain :loading="loadingCreate" :disabled="loadingCreate">{{
-              '创建'
-            }}</iButton>
-          </el-form-item>
-        </div>
-      </el-form>
+                <div v-if="item.conclusionCsc === '04'">
+                  <p>转 TER/TOP TER</p>
+                  <p>Present in TER/TOP TER</p>
+                </div>
+                <div v-if="item.conclusionCsc === '05'">
+                  <p>在 {{ item.toDoMeetingWeekOfYear }} 周预备会上展示</p>
+                  <p>
+                    Present in {{ item.toDoMeetingWeekOfYear }} SVW Pre CSC
+                  </p>
+                </div>
+                <div v-if="item.conclusionCsc === '06'">
+                  <p>在 {{ item.toDoMeetingWeekOfYear }} 周正式会上展示</p>
+                  <p>Present in {{ item.toDoMeetingWeekOfYear }} SVW CSC</p>
+                </div>
+                <div v-if="item.conclusionCsc === '07'">
+                  <p>议题关闭</p>
+                  <p>The items are closed</p>
+                </div>
+              </iFormItem>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="button-list">
+        <el-form-item>
+          <iButton @click="handleCancel" plain class="cancel">{{
+            $t('LK_QUXIAO')
+          }}</iButton>
+          <iButton
+            @click="handleOK"
+            plain
+            :loading="loadingCreate"
+            :disabled="loadingCreate"
+            >{{ $t('MT_CHUANGJIAN') }}</iButton
+          >
+        </el-form-item>
+      </div>
+    </el-form>
     </iEditForm>
   </iDialog>
 </template>
 
 <script>
+import { exportExcel } from '@/utils/gpfiledowLoad'
+import { exportMeetingMinutes } from '@/api/meeting/gpMeeting'
 import {
   iDialog,
   iInput,
@@ -153,10 +219,12 @@ import {
   iSelect,
   iMessage
 } from 'rise'
-import { numToLetter } from '../../details/component/data'
+import { numToLetter } from '../../../details/component/data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
+// import { getReceiverById } from '@/api/meeting/type'
+import { getUsers } from '@/api/usercenter/receiver.js'
 
 export default {
   components: {
@@ -182,6 +250,12 @@ export default {
         return ''
       }
     },
+    receiverId: {
+      type: Number || String,
+      default: () => {
+        return ''
+      }
+    },
     edit: {
       type: Boolean,
       default: () => {
@@ -191,12 +265,14 @@ export default {
   },
   data() {
     return {
+      userNameArr: [],
+      userIdsArr: [],
       loadingCreate: false,
       numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},
-      tableData: [],
+      // tableData: [],
       resultData: {
         name: '',
         attendeeGroupName: '',
@@ -211,13 +287,101 @@ export default {
         conclusion: [
           { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
         ]
-      }
+      },
+      employeeDTOS: [],
+      conclusionCscList: {
+        // '01': '待定',
+        // '02': '定点',
+        // '03': '发LOI',
+        // '04': '转TER/TOP-TER',
+        // '05': '下次Pre CSC',
+        // '06': '转CSC',
+        // '07': '关闭',
+        '01': '待定',
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
+      },
+      employeeStr: ''
     }
   },
+  // created() {
+  //   const data = {
+  //     id: this.receiverId
+  //   }
+  //   //查询收件人
+  //   getReceiverById(data).then((res) => {
+  //     this.employeeDTOS = res?.employeeDTOS
+  //   })
+  // },
   mounted() {
     this.getMeetingSummary()
   },
   methods: {
+    // 一维数组转二维 数组
+    arrTrans(num, arr) {
+      const newArr = []
+      while (arr.length > 0) {
+        newArr.push(arr.splice(0, num))
+      }
+      return newArr
+    },
+    async queryUserInfo(userIdsArr) {
+      const res = await getUsers({ userIdList: [...userIdsArr] })
+      const userData = res.data ? res.data : []
+      let arrObj = userIdsArr.map((item) => {
+        let user = userData.find((it) => {
+          return item == it.id
+        })
+        return user
+      })
+      let arr = arrObj.map((item) => {
+        return item ? item.nameZh : ''
+      })
+      this.userNameArr = this.arrTrans(2, [...arr])
+      // return res.data
+    },
+    taskDeptResult(item, field, field1) {
+      if (
+        item[field]
+          ? item[field].toString().trim()
+          : '' && item[field1]
+          ? item[field1].toString().trim()
+          : '' && item[field]
+          ? item[field].toString().trim()
+          : '' === item[field1]
+          ? item[field1].toString().trim()
+          : ''
+      ) {
+        return item[field]
+      } else if (
+        !(item[field] ? item[field].toString().trim() : '') &&
+        !(item[field1] ? item[field1].toString().trim() : '')
+      ) {
+        return '暂无'
+      } else {
+        return item[field1] + '/' + item[field]
+      }
+    },
+    // taskUserResult(item, index) {
+    //   this.queryUserInfo([item.supporter, item.presenter]).then((res) => {
+    //     console.log('res', res)
+    //   })
+    //   // let supporter = this.employeeDTOS?.filter(
+    //   //   (e) => e.id === item.supporter
+    //   // )[0] || { name: '' }
+    //   // let presenter = this.employeeDTOS?.filter(
+    //   //   (e) => e.id === item.presenter
+    //   // )[0] || { name: '' }
+    //   // this.employeeStr = supporter?.name + '/' + presenter?.name
+    //   // console.log(265, this.employeeStr)
+    //   return supporter?.name + '/' + presenter?.name
+    // },
+    toDoMeetingName(item) {
+      return item.toDoMeetingName?.substring(0, 9)
+    },
     //表头汉子两行展示
     renderHeader(h, { column }) {
       return h('span', {}, [
@@ -233,6 +397,11 @@ export default {
       getMeetingSummary(param).then((res) => {
         console.log(242, res)
         this.resultData = res
+        res.themens.forEach((item) => {
+          this.userIdsArr.push(item.presenter)
+          this.userIdsArr.push(item.supporter)
+        })
+        this.queryUserInfo(this.userIdsArr)
         // this.$set(this.resultData.name, res.name)
         // this.resultData.name = res.name;
         // this.resultData.attendeeGroupName = res.attendeeGroupName;
@@ -247,18 +416,35 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loadingCreate = true
-          saveMeetingMinutes(this.resultData).then(() => {
+          saveMeetingMinutes(this.resultData).then((res) => {
+            if (Number(res.code) === 200) {
+              iMessage.success('保存成功')
+              this.$emit('handleOK')
+              //导出会议纪要
+              this.handleExport()
+
+            }
             this.loadingCreate = false
-            iMessage.success('保存成功')
-            this.$emit('handleOK')
           })
         }
       })
     },
+    //导出会议纪要  exportMeetingMinutes
+    handleExport(){
+      const params = {
+        id:this.$route.query.id,//会议id
+      }
+      exportMeetingMinutes(params).then((res) => {
+        exportExcel(res)
+      })
+
+    },
     handleCancel() {
       this.$emit('handleCancel')
     },
-    chooseItem(e) {
+    chooseItem(e, o) {
+      console.log('o', o)
+      // this.taskUserResult()
       if (this.choosedIndex == e) {
         this.choosedIndex = -1
       } else {
@@ -296,6 +482,7 @@ export default {
   }
 
   .meet-desc {
+    color: #000;
     margin-bottom: 27px;
   }
   .agenda-box-title {
@@ -352,7 +539,7 @@ export default {
           }
         }
         .up-arrow {
-          // width: 100px;
+          width: 100px;
           padding-right: 10px;
           text-align: right;
           cursor: pointer;

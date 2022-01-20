@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div >
     <!--搜索区--->
-    <i-search class='margin-bottom20' @sure='myQueryContractList' @reset='restQueryForm' :icon='true' :resetKey='QUEREN'
+    <i-search  class='margin-bottom20' @sure='myQueryContractList' @reset='restQueryForm' :icon='true' :resetKey='QUEREN'
               :searchKey='REST' v-permission.auto='ELECTRONIC_SIGNATURE_SEARCHAREA|电子签章搜索区'>
       <el-form :model='queryForm' ref='queryFormRef'>
         <!-- 编号 -->
@@ -73,10 +73,10 @@
 
       </el-form>
     </i-search>
-    <i-card>
+    <i-card v-permission.auto="ELECTRONIC-SIGNATURE_DATA_AREA|电子签章数据展示区" >
       <div class='floatright margin-bottom20'>
-        <i-button @click='sign'> {{ language('LK_QIANSHU', '签署') }}</i-button>
-        <i-button @click='revokeContract'> {{ language('LK_CHEXIAO', '撤销') }}</i-button>
+        <i-button v-permission.auto="ELECTRONIC-SIGNATURE_SIGN_BUTTON|签署按钮"  @click='sign'> {{ language('LK_QIANSHU', '签署') }}</i-button>
+        <i-button v-permission.auto="ELECTRONIC-SIGNATURE_REVOKE_BUTTON|撤销按钮" @click='revokeContract'> {{ language('LK_CHEXIAO', '撤销') }}</i-button>
       </div>
       <i-table-custom :columns='sinatureColumns'
                       :data='sinaturedatas'
@@ -206,6 +206,7 @@ export default {
         this.tabloading = false
         if (code == 200) {
           this.sinaturedatas = data.records
+          this.page.totalCount = data.total
         } else {
           this.$message.error(res.desZh)
         }
@@ -214,8 +215,9 @@ export default {
     },
     //点击编号
     openDocNo(row) {
-      console.log(row)
-
+      if(row.docDetailUrl){
+        window.open(row.docDetailUrl, '_blank')
+      }
     },
     //查看
     openPage(row) {
@@ -240,9 +242,9 @@ export default {
       if (this.selSinaturedatas.length > 1) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANGQIANZHINENGXUANZEYITIAOYO', '抱歉，您当前您只能选择一条哟'))
       }
-      if (this.selSinaturedatas[0].signStatus != 3) {
+   /*   if (this.selSinaturedatas[0].signStatus != 3) {
         return this.$message.warning(this.language('LK_BAOQIANNINZHINENGCHEXIAOHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEHETONGYO', '抱歉，您只能撤销合同状态为待甲方签署的合同哟'))
-      }
+      }*/
       let item = this.selSinaturedatas[0]
       let reqData = { companyNumber: item.companyNumber, docNo: item.docNo, docTypeNo: item.docTypeNo }
       this.$confirm('是否确认撤销?', '提示', {

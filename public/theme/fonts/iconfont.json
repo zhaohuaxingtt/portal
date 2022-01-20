@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "26742150",
+      "name": "拍卖",
+      "font_class": "paimai",
+      "unicode": "e780",
+      "unicode_decimal": 59264
+    },
+    {
+      "icon_id": "26620808",
+      "name": "供应商黑名单",
+      "font_class": "gongyingshangheimingdan",
+      "unicode": "e77f",
+      "unicode_decimal": 59263
+    },
+    {
+      "icon_id": "26489759",
+      "name": "竞标",
+      "font_class": "jingbiao",
+      "unicode": "e77e",
+      "unicode_decimal": 59262
+    },
+    {
       "icon_id": "26229598",
       "name": "cs蓝",
       "font_class": "cslan",

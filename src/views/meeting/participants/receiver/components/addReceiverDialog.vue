@@ -49,6 +49,11 @@
         <div class="receiverLine">
           <div class="receiver">{{ $t('MT_SHOUJIANREN') }}</div>
           <iButton
+            @click="$emit('addOrganizeData', 'add')"
+            class="add-organize"
+            >{{ $t('MT_TIANJIAZUZHI') }}</iButton
+          >
+          <iButton
             @click="$emit('addReceiverData', 'add')"
             class="add-receiver"
             >{{ $t('MT_TIANJIASHOUJIANREN') }}</iButton
@@ -58,6 +63,7 @@
           @removeReceiverDataList="removeReceiverDataList"
           :data="selectedFilterData"
           :columns="receiverTableColumns"
+          :tableLoading="!tableLoading"
         />
 
         <el-pagination
@@ -133,19 +139,41 @@ export default {
   },
   data() {
     return {
+      tableLoading: false,
       meetingTypeList: [],
       receiverTableColumns: [
         {
           type: 'index',
           label: '序号',
-          i18n: 'MT_XUHAO2',
+          i18n: 'MT_XUHAO3',
           width: 68,
           tooltip: false
         },
         {
           // prop: "nameZh",
-          label: '姓名',
-          i18n: 'MT_XINGMING',
+          label: '类型',
+          i18n: 'MT_LEIXING',
+          // width: 70,
+          align: 'left',
+          tooltip: true,
+          customRender: (h, scope) => {
+            return h(
+              'div',
+              {
+                style: {
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
+              },
+              scope.row.isDept ? this.$t('组织') : this.$t('员工')
+            )
+          }
+        },
+        {
+          // prop: "nameZh",
+          label: '名称',
+          i18n: 'MT_MINGCHENG',
           // width: 70,
           align: 'left',
           tooltip: true,
@@ -322,6 +350,7 @@ export default {
       }
       const res = await getMettingType(param)
       this.meetingTypeList = res.data
+      this.tableLoading = true
     },
     removeReceiverDataList(scope) {
       for (let i = 0; i < this.selectedFilterData.length; i++) {
@@ -356,16 +385,16 @@ export default {
             ...this.ruleForm,
             meetingTypeId: this.ruleForm.meetingType.id
           }
-          console.log('formData', formData)
-          let res = this.currentPageData.map(
-            ({ id, userName, deptList, email, userNum }) => ({
-              department: deptList,
-              email: email,
-              jobNumber: userNum,
-              id: id,
-              name: userName
-            })
-          )
+          let res = this.currentPageData.map((item) => {
+            return {
+              department: item.deptList,
+              email: item.email,
+              jobNumber: item.userNum,
+              id: item.id,
+              name: item.userName,
+              isDept: item.isDept
+            }
+          })
           formData.employeeDTOS = res
           saveReceiver(formData)
             .then((data) => {
@@ -415,8 +444,10 @@ export default {
 .receiverLine {
   margin-top: 35px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   .receiver {
+    position: absolute;
+    left: 40px;
     height: 35px;
     line-height: 16px;
     font-size: 14px;
@@ -431,6 +462,9 @@ export default {
     height: 35px;
     width: 120px;
     margin-bottom: 15px;
+  }
+  .add-organize {
+    height: 35px;
   }
 }
 ::v-deep .el-pagination .btn-prev {

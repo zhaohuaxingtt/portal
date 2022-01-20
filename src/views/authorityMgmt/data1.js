@@ -95,11 +95,12 @@ export const tableSetting = [
     tooltip: true
   },
   {
-    prop: 'updateDate',
+    prop: 'lastLoginDate',
     label: '最近登录',
     align: 'center',
     i18n: 'staffManagement.RECENTLYTHELOGIN',
-    tooltip: true
+    tooltip: true,
+    width: '150'
   }
 ]
 

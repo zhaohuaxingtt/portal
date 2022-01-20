@@ -3,30 +3,6 @@
     <pageHeader class="margin-bottom20">
       <span>{{ this.form.id ? '编辑' : '新增' }}岗位代理</span>
     </pageHeader>
-    <iCard>
-      <iSteps :active="active" align-center>
-        <iStep title="发起岗位代理申请" status="finish">
-          <template slot="icon">
-            <icon symbol name="iconshenpiliu-daishenpi" class="icon" />
-          </template>
-        </iStep>
-        <iStep title="代理岗位领导审批">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="原有岗位领导审批">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="申请结果">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-      </iSteps>
-    </iCard>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
@@ -127,9 +103,6 @@ import {
   iPage,
   iMessage
 } from 'rise'
-// import { addPositionAgent } from "@/views/position/agent/apply";
-import iSteps from '@/components/iSteps'
-import iStep from '@/components/iStep'
 import choosePosition from '../transfer/components/choosePosition'
 import {
   applyPositionAgent,
@@ -143,8 +116,6 @@ export default {
     iCard,
     iPage,
     Icon,
-    iSteps,
-    iStep,
     iFormItem,
     iInput,
     iButton,
@@ -239,7 +210,9 @@ export default {
           this.canEdit = value.data.status == 1 //不可编辑
         }
       })
-      .catch((val) => {})
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     handleOpenChoosePositionDialog() {

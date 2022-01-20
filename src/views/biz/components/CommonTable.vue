@@ -26,7 +26,7 @@
 import {iPagination} from 'rise';
 import { pageMixins } from '@/utils/pageMixins'
 import iTableCustom from '@/components/iTableCustom'
-import {findRecordLogs} from '@/api/biz/log';
+import {findRecordLogs,findInterLogs} from '@/api/biz/log';
 export default {
     components: {
         iPagination,
@@ -54,15 +54,28 @@ export default {
         }
     },
     methods: {
-        async query(){
+        async query(t){
+            if(t){
+                this.page.currPage = 1
+            }
             try {
+                this.params.startDate = this.params.startDate ? `${this.params.startDate.split(" ")[0]} 00:00:00` : ""
+                this.params.endDate = this.params.endDate ? `${this.params.endDate.split(" ")[0]} 23:59:59` : ""
+                console.log(this.params);
                 let data = {
                     current: this.page.currPage - 1,
                     size: this.page.pageSize,
-                    extendFields: this.params
+                    ...this.params
                 }
                 this.loading = true
-                let res = await findRecordLogs(data)
+                let res = {}
+                if(this.params.category == 2){
+                    // 接口日志
+                    res = await findInterLogs(data)
+                }else{
+                    // 操作、系统日志
+                    res = await findRecordLogs(data)
+                }
                 this.list = res.data?.content || []
                 this.page.totalCount = res.data.total
             } finally {

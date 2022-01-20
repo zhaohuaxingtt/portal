@@ -60,9 +60,9 @@
                        placeholder="输入关键词搜索"
                        @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
                   <el-option v-for="item in scope.row.selectDeptList"
-                            :key="item.id"
-                            :label="item.nameEn"
-                            :value="item.nameEn">
+                            :key="item.code"
+                            :label="item.message"
+                            :value="item.message">
                   </el-option>
                 </iSelect>
                 <iSelect v-else
@@ -97,9 +97,9 @@
                       placeholder="输入关键词搜索"
                       @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
                   <el-option v-for="item in scope.row.selectSectionList"
-                            :key="item.id"
-                            :label="item.nameEn"
-                            :value="item.nameEn">
+                            :key="item.code"
+                            :label="item.message"
+                            :value="item.message">
                   </el-option>
                 </iSelect>
                 <iSelect v-else
@@ -132,9 +132,9 @@
                        :remote-method="queryOptions"
                        @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
                   <el-option v-for="item in scope.row.userList"
-                            :key="item.id"
-                            :label="item.nameZh"
-                            :value="item.nameZh">
+                            :key="item.code"
+                            :label="item.message"
+                            :value="item.message">
                   </el-option>
                 </iSelect>
                 <iSelect v-else
@@ -187,6 +187,7 @@
                  :total="page.totalCount" />
     <el-dialog title="审批流"
                :visible.sync="dialogVisible"
+               v-if="dialogVisible"
                width="40%"
                :before-close="handleClose">
       <process-vertical :instanceId="riseId" :tableData="tableData" :formInfor="formInfor" />
@@ -223,13 +224,13 @@ export default {
       disabled: false,
       rules: {
         approvalDepartment: [
-          { required: true, message: '请输入活动名称', trigger: 'change' },
+          { required: true, message: '请输入审批部门', trigger: 'change' },
         ],
-        approvalSection: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
-        ],
+        // approvalSection: [
+        //   { required: true, message: '请选择审批科室', trigger: 'change' }
+        // ],
         approvalName: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+          { required: true, message: '请选择审批人', trigger: 'change' }
         ],
 
       }
@@ -293,23 +294,39 @@ export default {
       this.muilteList = val
       if(this.formInfor.ttNominateAppId == ""){
         this.muilteList.forEach(item => {
+          this.$set(item, 'userList', []);
           selectDept({
-            appId: this.ttNominateFlag ? this.mtzAppId : ""
-          }).then((res) => {
+            approvalBy:"",
+            approvalDepartmentNum:"",
+            approvalSectionNum:"",
+            mtzAppId:this.mtzAppId || '',
+          }).then(res=>{
             if (res?.code === '200') {
-              this.$set(item, 'selectDeptList', res.data);
-              let deptList = item.selectDeptList.find(i => item.approvalDepartment === i.nameEn)
+              this.$set(item, 'selectDeptList', res.data.deptList);
+              let deptList = item.selectDeptList.find(i => item.approvalDepartment === i.message)
               if (deptList) {
-                item.approvalDepartmentName = deptList.nameZh || ''
-                selectSection({
-                  lineDeptId: deptList.id,
-                  appId: this.ttNominateFlag ? this.mtzAppId : ""
-                }).then((res) => {
-                  console.log(res.data)
-                  this.$set(item, 'selectSectionList', res.data);
-                  let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.nameEn)
-                  item.approvalSectionName = deptList.nameZh
-                  this.$set(item, 'userList', approvalNameList.userDTOList || '');
+                item.approvalDepartmentName = deptList.message || ''
+                selectDept({
+                  approvalBy:"",
+                  approvalDepartmentNum:deptList.code,
+                  approvalSectionNum:"",
+                  mtzAppId:this.mtzAppId || '',
+                }).then((red) => {
+                  this.$set(item, 'selectSectionList', red.data.officeList);
+                  let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.message)
+                  if(approvalNameList == undefined){
+                    this.$set(item, 'userList', red.data.approvalList);
+                  }else{
+                    item.approvalSectionName = approvalNameList.message || ''
+                    selectDept({
+                      approvalBy:"",
+                      approvalDepartmentNum:deptList.code,
+                      approvalSectionNum:approvalNameList.code,
+                      mtzAppId:this.mtzAppId || '',
+                    }).then(rez => {
+                      this.$set(item, 'userList', rez.data.approvalList);
+                    })
+                  }
                 })
               }
             }
@@ -317,6 +334,7 @@ export default {
         })
       }else{
         this.muilteList.forEach(item => {
+          this.$set(item, 'userList', []);
           getSourceApproval({
             approvalBy:"",
             approvalDepartmentNum:"",
@@ -336,15 +354,19 @@ export default {
                 }).then((red) => {
                   this.$set(item, 'selectSectionList', red.data.officeList);
                   let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.message)
-                  item.approvalSectionName = deptList.message
-                  getSourceApproval({
-                    approvalBy:"",
-                    approvalDepartmentNum:deptList.code,
-                    approvalSectionNum:approvalNameList.code,
-                    mtzAppId:this.mtzAppId || '',
-                  }).then(rez => {
-                    this.$set(item, 'userList', rez.data.approvalList);
-                  })
+                  if(approvalNameList == undefined){
+                    this.$set(item, 'userList', red.data.approvalList);
+                  }else{
+                    item.approvalSectionName = approvalNameList.message || ''
+                    getSourceApproval({
+                      approvalBy:"",
+                      approvalDepartmentNum:deptList.code,
+                      approvalSectionNum:approvalNameList.code,
+                      mtzAppId:this.mtzAppId || '',
+                    }).then(rez => {
+                      this.$set(item, 'userList', rez.data.approvalList);
+                    })
+                  }
                 })
               }
             }
@@ -371,7 +393,7 @@ export default {
           appId: this.ttNominateFlag ? this.mtzAppId : ""
         }).then((res) => {
           if (res?.code === '200') {
-            this.$set(obj, 'selectDeptList', res.data);
+            this.$set(obj, 'selectDeptList', res.data.deptList);
           }
         })
       }else{
@@ -388,17 +410,41 @@ export default {
       }
       
     },
-    handleChangeDepartmentTtNominate(val, row){//审批部门
+    handleChangeDepartment (val, row) {//部门
+      this.$set(row, 'userList', []);
       let obj = row.selectDeptList.find(item => item.message === val)
       row.approvalDepartmentName = obj.message
       row.approvalSectionName = ""
       row.approvalSection = ""
       row.approvalName = ""
       row.approvalBy = ""
-
       this.formData.approvalDepartmentNum = obj.code;
       this.formData.approvalSectionNum = "";
-      // this.approvalName = "";
+      // selectSection({ lineDeptId: obj.id, appId: this.ttNominateFlag ? this.mtzAppId : "" }).then(res => {
+      //   this.$set(row, 'selectSectionList', res.data);
+      // })
+      selectDept({
+        approvalBy:"",
+        approvalDepartmentNum:obj.code,
+        approvalSectionNum:"",
+        mtzAppId:this.mtzAppId || '',
+      }).then(res=>{
+        if (res?.code === '200') {
+          this.$set(row, 'selectSectionList', res.data.officeList);
+          this.$set(row, 'userList', res.data.approvalList);
+        }
+      })
+    },
+    handleChangeDepartmentTtNominate(val, row){//审批部门
+      this.$set(row, 'userList', []);
+      let obj = row.selectDeptList.find(item => item.message === val)
+      row.approvalDepartmentName = obj.message
+      row.approvalSectionName = ""
+      row.approvalSection = ""
+      row.approvalName = ""
+      row.approvalBy = ""
+      this.formData.approvalDepartmentNum = obj.code;
+      this.formData.approvalSectionNum = "";
 
       getSourceApproval({
         approvalBy:"",
@@ -408,6 +454,26 @@ export default {
       }).then(res=>{
         if (res?.code === '200') {
           this.$set(row, 'selectSectionList', res.data.officeList);
+          this.$set(row, 'userList', res.data.approvalList);
+        }
+      })
+    },
+    handleChangeApprovalSection (val, row) {//审批科室
+      let obj = row.selectSectionList.find(item => item.message === val)
+      row.approvalSectionName = obj.message
+      row.approvalName = ""
+      row.approvalBy = ""
+
+      this.formData.approvalSectionNum = obj.code;
+
+      selectDept({
+        approvalBy:"",
+        approvalDepartmentNum:this.formData.approvalDepartmentNum,
+        approvalSectionNum:obj.code,
+        mtzAppId:this.mtzAppId || '',
+      }).then(res=>{
+        if (res?.code === '200') {
+          this.$set(row, 'userList', res.data.approvalList);
         }
       })
     },
@@ -429,6 +495,10 @@ export default {
           this.$set(row, 'userList', res.data.approvalList);
         }
       })
+    },
+    handleChangeApprovalName (val, row) {
+      let obj = row.userList.find(item => item.message === val)
+      row.approvalBy = Number(obj.code)
     },
     handleChangeApprovalNameTtNominate (val, row) {//审批人
       let obj = row.userList.find(item => item.message === val)
@@ -481,6 +551,7 @@ export default {
       this.getTableList()
     },
     save () {
+      this.loading = true
       this.$refs['tableForm'].validate((valid) => {
         if (valid) {
           this.muilteList.forEach(item => {
@@ -488,12 +559,11 @@ export default {
             delete item.selectSectionList
             delete item.userList
           })
-          this.loading = true
           modifyApprove({
             mtzAppId: this.mtzAppId || '',
             dataList: this.muilteList
           }).then(res => {
-            if (res?.code === '200') {
+            if (res.code == '200' && res.result) {
               this.editFlag = false
               this.loading = false
               this.tableData.forEach(item => {
@@ -503,10 +573,14 @@ export default {
               this.getTableList()
             } else {
               iMessage.error(res.desZh)
+              this.loading = false
             }
+          }).catch(res=>{
+            this.loading = false
           })
         } else {
           iMessage.error('请填写完整')
+          this.loading = false
           return false;
         }
       });
@@ -530,32 +604,7 @@ export default {
     },
     handleClose (done) {
       done();
-    },
-
-    handleChangeDepartment (val, row) {
-      let obj = row.selectDeptList.find(item => item.nameEn === val)
-      row.approvalDepartmentName = obj.nameZh
-      row.approvalSectionName = ""
-      row.approvalSection = ""
-      row.approvalName = ""
-      row.approvalBy = ""
-      selectSection({ lineDeptId: obj.id, appId: this.ttNominateFlag ? this.mtzAppId : "" }).then(res => {
-        this.$set(row, 'selectSectionList', res.data);
-      })
-    },
-    handleChangeApprovalSection (val, row) {
-      let obj = row.selectSectionList.find(item => item.nameEn === val)
-      row.approvalSectionName = obj.nameZh
-      row.approvalName = ""
-      row.approvalBy = ""
-      this.$set(row, 'userList', obj.userDTOList);
-    },
-    
-    handleChangeApprovalName (val, row) {
-      let obj = row.userList.find(item => item.nameZh === val)
-      row.approvalBy = obj.id
-      // row.approvalName = obj.id
-    },
+    }, 
     handleSync (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '', tag: params || "" }).then(res => {
         if (res?.code === '200') {

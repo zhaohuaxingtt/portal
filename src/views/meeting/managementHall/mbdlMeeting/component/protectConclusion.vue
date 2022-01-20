@@ -1,7 +1,6 @@
 <!-- 结束结论 -->
 <template>
   <div>
-
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -39,14 +38,14 @@
         <!-- 任务 -->
         <iFormItem  v-if="isShow"
           label="任务"
-          prop="taskCsc"
+          prop="result"
           :hideRequiredAsterisk="true"
           class="task"
         >
           <iLabel :label="$t('任务')" slot="label" class="task-title"></iLabel>
           <iInput
             type="textarea"
-            v-model="ruleForm.taskCsc"
+            v-model="ruleForm.result"
             placeholder="请输入任务"
             :rows="6"
           ></iInput>
@@ -60,7 +59,7 @@
     </div>
 </template>
 <script>
-import { endThemen } from '@/api/meeting/gpMeeting'
+import { endMbdlThemen } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -103,8 +102,8 @@ export default {
           },
           {
             conclusionCsc: "02",
-            conclusionName: "通过",
-          },
+            conclusionName: "冻结",
+          }, 
           {
             conclusionCsc: "04",
             conclusionName: "不通过",
@@ -130,7 +129,7 @@ export default {
        themenId:this.selectThemenId//议题id
       }
       console.log(params);
-      endThemen(params).then((res) => {
+      endMbdlThemen(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')

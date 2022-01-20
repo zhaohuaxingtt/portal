@@ -11,15 +11,12 @@
       <el-row>
         <!-- 条款名称 -->
         <el-form-item :label="'条款名称'">
-          <iInput
-            :placeholder="$t('LK_QINGSHURU')"
-            v-model="form.name"
-          ></iInput>
+          <iInput v-model="form.name"></iInput>
         </el-form-item>
         <!-- 是否个人条款  -->
         <el-form-item :label="'是否个人条款'">
           <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
+            :placeholder="'全部'"
             v-model="form.isPersonalTerms"
             clearable
           >
@@ -34,7 +31,7 @@
         <!-- 供应商范围 -->
         <el-form-item :label="'供应商范围'">
           <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
+            :placeholder="'全部'"
             v-model="form.supplierRange"
             clearable
             multiple
@@ -51,7 +48,7 @@
         <!-- 供应商身份  -->
         <el-form-item :label="'供应商身份'">
           <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
+            :placeholder="'全部'"
             v-model="form.supplierIdentity"
             clearable
             multiple
@@ -68,7 +65,7 @@
         <!-- 条款状态 -->
         <el-form-item :label="'条款状态'">
           <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
+            :placeholder="'全部'"
             v-model="form.state"
             clearable
             multiple
@@ -89,29 +86,26 @@
         <!-- 签署节点 -->
         <el-form-item :label="'签署节点'">
           <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
+            :placeholder="'全部'"
             v-model="form.signNode"
             clearable
             multiple
             collapse-tags
           >
             <el-option
-              :value="item.id"
-              :label="item.name"
+              :value="item.name"
+              :label="item.describe"
               v-for="item of signNodeList"
-              :key="item.id"
+              :key="item.name"
             ></el-option>
           </iSelect>
         </el-form-item>
         <!-- 条款负责人 -->
         <el-form-item :label="'条款负责人'">
-          <iInput
-            :placeholder="$t('LK_QINGSHURU')"
-            v-model="form.chargeName"
-          ></iInput>
+          <iInput v-model="form.chargeName"></iInput>
         </el-form-item>
         <!-- 发布日期 -->
-        <iDateRangePicker
+        <!-- <iDateRangePicker
           class="LastSearchOption"
           :startDateProps="form.publishDate"
           :endDateProps="form.publishDateEnd"
@@ -119,27 +113,41 @@
           @change-end="changeEnd"
           ref="iDateRangePicker"
           :label="$t('发布日期')"
-        />
+        /> -->
+        <el-form-item label="发布日期" class="searchFormItem">
+          <iDatePicker
+            v-model="resolutionPassTime"
+            @change="handleChangeDate"
+            :start-placeholder="'开始日期'"
+            :end-placeholder="'结束日期'"
+            type="daterange"
+            range-separator="至"
+            style="width: 300px"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+          >
+          </iDatePicker>
+        </el-form-item>
       </el-row>
     </el-form>
     <template v-slot:button>
-      <iButton @click="getTableList">{{ "查询" }}</iButton>
-      <iButton @click="handleSearchReset">{{ "重置" }}</iButton>
+      <iButton @click="getTableList">{{ '查询' }}</iButton>
+      <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
     </template>
   </iSearch>
 </template>
 
 <script>
-import { iInput, iSelect, iButton, iSearch } from "rise";
-import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
+import { iInput, iSelect, iButton, iSearch, iDatePicker } from 'rise'
+// import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
 import {
   statusList,
   isSignatureList,
   isPersonalTermsList,
   supplierRangeList,
-  supplierIdentityList,
-} from "./data";
-import { getDictByCode } from "@/api/dictionary/index";
+  supplierIdentityList
+} from './data'
+import { getDictByCode } from '@/api/dictionary/index'
 
 export default {
   components: {
@@ -147,7 +155,8 @@ export default {
     iSelect,
     iSearch,
     iButton,
-    iDateRangePicker,
+    // iDateRangePicker,
+    iDatePicker
   },
   data() {
     return {
@@ -162,58 +171,44 @@ export default {
         // publishDate: "",
         // publishDateEnd: "",
       },
-      // clauseTypeList: [],
       statusList,
       supplierRangeList,
       supplierIdentityList,
       signNodeList: [],
       isSignatureList,
       isPersonalTermsList,
-      // supplierRange1: "",
-      // supplierCheckList: [],
-    };
+      resolutionPassTime: []
+    }
   },
   mounted() {
-    getDictByCode("SIGN_NODE").then((res) => {
+    getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
-        this.signNodeList = res.data[0].subDictResultVo;
+        this.signNodeList = res.data[0].subDictResultVo
       }
-    });
-    // this.signNodeList = [
-    //   {
-    //     name: "注册",
-    //     id: "01",
-    //   },
-    //   {
-    //     name: "询价",
-    //     id: "02",
-    //   },
-    //   {
-    //     name: "定点",
-    //     id: "03",
-    //   },
-    // ];
+    })
   },
   methods: {
+    handleChangeDate(val) {
+      this.form.publishDate = val ? val[0] : ''
+      this.form.publishDateEnd = val ? val[1] : ''
+    },
     handleSearchReset() {
-      this.form = {};
-      setTimeout(() => {
-        this.$refs.iDateRangePicker.initDate();
-      }, 4);
-      this.getTableList();
-      // this.supplierRange1 = "";
-      // this.supplierCheckList = [];
+      this.form = {}
+      // setTimeout(() => {
+      //   this.$refs.iDateRangePicker.initDate();
+      // }, 4);
+      this.resolutionPassTime = []
+      this.getTableList()
     },
     getTableList() {
-      // this.form.supplierType = this.supplierRange1;
-      this.$emit("getTableList", this.form);
-    },
-    changeStart(e) {
-      this.form.publishDate = e
-    },
-    changeEnd(e) {
-      this.form.publishDateEnd = e
-    },
+      this.$emit('getTableList', this.form)
+    }
+    // changeStart(e) {
+    //   this.form.publishDate = e
+    // },
+    // changeEnd(e) {
+    //   this.form.publishDateEnd = e
+    // },
     // getAllSelectList() {
     //   let param = {
     //     pageSize: 1000,
@@ -224,8 +219,8 @@ export default {
     //     console.log(res);
     //   });
     // },
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

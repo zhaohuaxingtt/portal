@@ -559,7 +559,7 @@
         prop="weekOfYear"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/53</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="20" align="center" label=""></el-table-column>
@@ -880,6 +880,15 @@ export default {
     }
   },
   methods: {
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     async queryThemensByMeetingId(id) {
       const data = {
         id
@@ -900,7 +909,7 @@ export default {
     //   const minuteSrc = attachments ? attachments.attachmentUrl : ''
     //   const src = process.env.VUE_APP_EMAIL_ICON
     //   console.log('src', src, process.env)
-    //   let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${src}'/>`
+    //   let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
     //   let href = `mailto:${send}?subject=${subject}&body=${body}`
     //   this.createAnchorLink(href)
     // },
@@ -960,7 +969,7 @@ export default {
         return item.source === '02'
       })
       const minuteSrc = attachments ? attachments.attachmentUrl : ''
-      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/>`
+      let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
       let href = `mailto:${send}?subject=${subject}&body=${body}`
       this.createAnchorLink(href)
     },
@@ -1167,6 +1176,7 @@ export default {
       this.$emit('handleChangePage', e)
     },
     handleSizeChange(event) {
+      this.page.currPage = 1
       this.$emit('handleSizePage', event)
     },
     setTimeRange(a, b, c) {

@@ -266,18 +266,25 @@ export const approvalBoolean = [
   }
 ]
 
-let weekNum = dayjs(dayjs().year()).isoWeeksInYear()
+// let weekNum = dayjs(dayjs().year()).isoWeeksInYear()
+const currentFistYearDay = `${dayjs().year()}-01-01`
+const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+const totalDay = isLeap ? 366 : 365
+const weekNum2 = new Date(currentFistYearDay).getDay()
+const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+
 let weekListInit = []
 for (let index = 0; index < weekNum; index++) {
   if (index < 9) {
     weekListInit.push({
       label: 'CW0' + (index + 1) + '/' + weekNum,
-      value: index
+      value: index + 1
     })
   } else {
     weekListInit.push({
       label: 'CW' + (index + 1) + '/' + weekNum,
-      value: index
+      value: index + 1
     })
   }
 }

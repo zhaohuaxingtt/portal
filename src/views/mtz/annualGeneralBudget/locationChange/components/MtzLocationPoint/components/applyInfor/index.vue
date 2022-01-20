@@ -41,6 +41,7 @@
           <span>{{language(item.key,item.name)}}</span>
           <el-tooltip class="item"
                       effect="light"
+                      :placement="item.tooltipStyle"
                       :content="inforData[item.prop]"
                       v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
@@ -103,7 +104,9 @@
              width="85%"
              @close='closeDiolog'>
       <partApplication @close="saveClose"
-                       :numIsNomi="numIsNomi"></partApplication>
+                      :numIsNomi="numIsNomi"
+                      :inforData="inforData"
+                       ></partApplication>
     </iDialog>
   </div>
 </template>
@@ -249,7 +252,7 @@ export default {
       })
     },
     getsyncAuther () {
-      syncAuther({ mtzAppId: this.$route.query.mtzAppId })
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId,tag:"" })
     },
     // getListData () {
       // getFlowTypeList({}).then(res => {

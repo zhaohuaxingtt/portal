@@ -1,5 +1,5 @@
 <template>
-  <i-card>
+  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_BRAND_PAGE|年度预算品牌页面'>
     <div class="title-box">
       <div class="left-box">
         <span>{{this.queryForm.year}}年总金额:{{this.curYearPrice|format}}人民币</span>
@@ -11,6 +11,7 @@
       </div>
     </div>
     <i-table-custom
+      :loading='loading'
       class="margin-top20"
       :columns="brandMTZTitle"
       :data="brandMTZList"
@@ -24,6 +25,7 @@ import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/compon
 import YearChangeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/YearChangeComponents'
 import iTableCustom from '@/components/iTableCustom'
 import { yearBrand } from '@/api/mtz/reportsShow'
+import { yearBrandExport } from '@/api/mtz/annualGeneralBudget/reportShow'
 export default {
   name: 'index',
   components: {
@@ -37,13 +39,14 @@ export default {
   },
   created() {
     this.changeTableTile()
-    this.queryYearBrand()
+    // this.queryYearBrand()
   },
   data() {
     return {
+      loading:false,
       queryForm:{
         onlySeeMySelf:false,
-        year:new Date().getFullYear()
+        year:''
       },
       curYearPrice:'',//当前年度总额
       lastYearPrice:'',//上一年度总额
@@ -92,8 +95,28 @@ export default {
       this.queryForm.year=year
       this.queryYearBrand()
     },
-
+    Upload(){
+       yearBrandExport({
+         onlySeeMySelf:this.queryForm.onlySeeMySelf,
+         year:this.queryForm.year,
+       }).then(res=>{
+        let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        let fname = this.queryForm.year+"年MTZ品牌预算.xlsx";
+        link.setAttribute("download", fname);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        this.$message({
+          type: "success",
+          message: "链接成功!"
+        });
+      })
+    },
     queryYearBrand(){
+      this.loading = true
       yearBrand(this.queryForm).then(res=>{
         if(res.code==200){
           this.curYearPrice=res.data.curYearPrice
@@ -110,7 +133,7 @@ export default {
           this.lastYearPrice=0
           this.brandMTZList=[]
         }
-      })
+      }).finally(()=>this.loading = false)
     }
   }
 }

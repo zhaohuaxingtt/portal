@@ -24,22 +24,23 @@
         <span v-else class="title__clause">{{ '新建条款' }}</span>
       </div>
       <div>
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
-        <!-- 发布 -->
-        <iButton @click="handleSubmit(0)" :disabled="submitLoading">{{
-          '发布'
+        <!-- 保存 -->
+        <iButton @click="handleSubmit(1)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
+          '保存'
         }}</iButton>
         <!-- 删除 -->
         <iButton
           @click="handleDelete"
-          :disabled="submitLoading || this.ruleForm.id == null"
+          :disabled="submitLoading"
+          v-if="ruleForm.isNewest == true&&(this.ruleForm.state == '01' || this.ruleForm.state == '02')"
           >{{ '删除' }}</iButton
         >
-        <!-- 保存 -->
-        <iButton @click="handleSubmit(1)" :disabled="submitLoading">{{
-          '保存'
+        <!-- 发布 -->
+        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
+          '发布'
         }}</iButton>
+        <!-- 返回 -->
+        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
       </div>
     </div>
     <iCard>
@@ -130,9 +131,9 @@
                 >
                   <el-option
                     v-for="item in signNodeList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
+                    :key="item.name"
+                    :label="item.describe"
+                    :value="item.name"
                   >
                   </el-option>
                 </iSelect>
@@ -159,8 +160,8 @@
             </el-col>
             <!-- 第三行 -->
             <el-col :span="6" class="form-item">
-              <iFormItem label="是否按轮次" prop="isRound">
-                <iLabel :label="'是否按轮次'" slot="label"></iLabel>
+              <iFormItem label="按业务事件签署" prop="isRound">
+                <iLabel :label="'按业务事件签署'" slot="label"></iLabel>
                 <iSelect
                   v-model="ruleForm.isRound"
                   :placeholder="$t('LK_QINGXUANZE')"
@@ -328,6 +329,9 @@
               v-show="ruleForm.editMode == '01'"
               class="form-item"
             >
+              <div style="float: right; margin-top: -3rem">
+                <iButton @click="handlePreEdit()">{{ '预览' }}</iButton>
+              </div>
               <iFormItem label="条款正文" prop="termsText">
                 <iLabel :label="'条款正文'" slot="label" required></iLabel>
                 <div ref="editer" class="editer" id="editer"></div>
@@ -377,7 +381,7 @@
                 </li>
                 <iButton
                   @click="handlePre()"
-                  :disabled="this.ruleForm.termsTextId == ''"
+                  :disabled="this.ruleForm.termsTextId == '' || this.ruleForm.termsTextId == null"
                   >{{ '预览' }}</iButton
                 >
               </iFormItem>
@@ -388,7 +392,7 @@
     </iCard>
     <!-- 附件 -->
     <iCard>
-      <div class="enclosure">附件</div>
+      <div class="enclosure">条款附件</div>
       <div class="form">
         <div class="input-box">
           <el-col :span="24" class="form-item">
@@ -459,6 +463,17 @@
                 </template></el-table-column
               >
             </iTableML>
+            <!-- <iPagination
+              v-update
+              @current-change="handleChangePage($event)"
+              background
+              :page-size="page.pageSize"
+              prev-text="上一页"
+              next-text="下一页"
+              layout="prev, pager, next, jumper"
+              :current-page="page.currPage"
+              :total="this.ruleForm.attachments.length"
+            /> -->
           </el-col>
         </div>
       </div>
@@ -489,8 +504,10 @@ import {
   iSelect,
   iMessage,
   iDatePicker,
-  iCard
+  iCard,
+  // iPagination,
 } from 'rise'
+// import { pageMixins } from '@/utils/pageMixins'
 import E from 'wangeditor'
 import UploadMenu from './UploadPanel'
 import {
@@ -517,6 +534,7 @@ import {
 } from '@/api/terms/terms'
 import { getFileByIds } from '@/api/terms/uploadFile'
 export default {
+  // mixins: [pageMixins],
   components: {
     iPage,
     iSelect,
@@ -527,11 +545,14 @@ export default {
     iCard,
     iDatePicker,
     iTableML,
+    // iPagination,
     supplierListDialog,
     supplierChooseDialog
   },
   data() {
     return {
+      // tableListDataSub: [],
+      // updateTerms: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -550,7 +571,7 @@ export default {
         chargeId: '1', // 条款负责人
         chargeName: '', // 条款负责人名
         signResult: '', // 签署情况
-        isRound: false, // 是否按轮次
+        isRound: false, // 按业务事件签署
         supplierRange: [], // 供应商范围
         supplierIdentity: [], // 供应商身份
         supplierContacts: '', // 供应商用户范围
@@ -608,20 +629,20 @@ export default {
         }
       }
     },
-    'ruleForm.supplierIdentity': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierIdentity', val)
-      }
-    },
-    'ruleForm.supplierContacts': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierContacts', val)
-      }
-    }
+    // 'ruleForm.supplierIdentity': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierIdentity', val)
+    //   }
+    // },
+    // 'ruleForm.supplierContacts': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierContacts', val)
+    //   }
+    // }
   },
   mounted() {
     if (this.$route.query.id) {
@@ -629,20 +650,9 @@ export default {
       let param = { id: this.$route.query.id }
       this.query(param)
     }
-    // this.signNodeList = [
-    //   {
-    //     name: "注册",
-    //     id: "01",
-    //   },
-    //   {
-    //     name: "询价",
-    //     id: "02",
-    //   },
-    //   {
-    //     name: "定点",
-    //     id: "03",
-    //   },
-    // ];
+    // if (this.$route.query.updateTerms) {
+    //   this.updateTerms = this.$route.query.updateTerms
+    // }
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo
@@ -651,6 +661,13 @@ export default {
     this.createEditor()
   },
   methods: {
+    // handleChangePage(e) {
+    //   this.page.currPage = e;
+    //   this.tableListDataSub = this.ruleForm.attachments.slice(
+    //     (this.page.currPage - 1) * 10,
+    //     (this.page.currPage - 1) * 10 + 10
+    //   );
+    // },
     createEditor() {
       let that = this
       this.editor = new E('#editer')
@@ -665,7 +682,7 @@ export default {
         // 'code'
       ]
       // 配置字体
-      this.editor.config.fontNames = [
+      this.editor.config.fontNames = [ 
         // 字符串形式
         '黑体',
         '仿宋',
@@ -696,6 +713,13 @@ export default {
       }
       this.editor.create()
       this.editor.txt.html(this.ruleForm.termsText)
+    },
+    handlePreEdit() {
+      let routeUrl = this.$router.resolve({
+        path: '/terms/management/clauseDetail/preText',
+        query: { termsText: this.ruleForm.termsText }
+      })
+      window.open(routeUrl.href, '_blank')
     },
     handleSelect(item) {
       this.ruleForm.chargeId = item.id
@@ -739,6 +763,7 @@ export default {
             this.termsTextName = res.name
           })
         }
+        // this.handleChangePage(this.page.currPage)
       })
     },
     upload(file) {
@@ -762,7 +787,7 @@ export default {
           this.ruleForm.termsTextId = res.id
           this.ruleForm.termsTextUrl = res.path
           iMessage.success('上传成功')
-          console.log('res')
+          // console.log('res')
           getFileByIds([res.id]).then((res) => {
             this.termsTextName = res.name
           })
@@ -792,6 +817,7 @@ export default {
             attachmentSize: (content.file.size / 1024).toFixed(0),
             uploadDate: createDate
           })
+          // this.handleChangePage(this.page.currPage)
           iMessage.success('上传成功')
         })
         .catch(() => {
@@ -867,6 +893,7 @@ export default {
           }
         })
       })
+      // this.handleChangePage(this.page.currPage)
     },
     changeDisplayVersion(value) {
       this.query({ id: value })
@@ -922,7 +949,13 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
-            } else {
+            }
+            // else if (
+            //   this.ruleForm.attachments.length == 0
+            // ) {
+            //   this.$message.error('条款附件不能为空！')
+            // } 
+            else {
               if (valid) {
                 this.submitLoading = true
                 this.ruleForm.supplierRange = this.ruleForm.supplierRange
@@ -1203,5 +1236,12 @@ export default {
 
 ::v-deep .el-autocomplete {
   width: 15rem;
+}
+
+::v-deep .w-e-text ul li {
+  list-style: disc;
+}
+::v-deep .w-e-text ol li {
+  list-style: decimal;
 }
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-17 17:49:40
+ * @LastEditTime: 2022-01-19 15:54:14
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -9,7 +9,7 @@
          collapse>
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{
-        language('JICHUXINXI', '基础信息')
+        language('LIANXIRENYUYONGHU', '联系人与用户')
       }}</span>
       <div class="floatright">
         <i-button v-if="edit"
@@ -52,9 +52,9 @@
                    :before-upload="beforeAvatarUpload"
                    :show-file-list="false"
                    :http-request="httpUpload"
-                   :disabled="uploadLoading">
+                   :disabled="importLoading">
           <div>
-            <i-button>{{ language('DAORU', '导入') }}
+            <i-button>{{ language('PILIANGDAORU', '批量导入') }}
             </i-button>
           </div>
         </el-upload>
@@ -70,11 +70,16 @@
                 ref="commonTable">
 
       <template #markExpiration='scope'>
-        <span v-if="scope.row.markExpiration==1">是</span>
-        <span v-if="scope.row.markExpiration==0">否</span>
+        <span v-if="ratioDate(scope.row)">是</span>
+        <span v-if="!ratioDate(scope.row)">否</span>
+      </template>
+      <template #isActive='scope'>
+        <span v-if="scope.row.isActive=='Y'||scope.row.isActive==1||scope.row.isActive==true">是</span>
+        <span v-if="scope.row.isActive=='N'||scope.row.isActive==0||scope.row.isActive==false">否</span>
       </template>
       <template #system='scope'>
-        <iButton  @click="openDialog(scope.row)" type="text">{{ language('CAOZUO', '操作') }}
+        <iButton @click="openDialog(scope.row)"
+                 type="text">{{ language('CAOZUO', '操作') }}
         </iButton>
       </template>
     </table-list>
@@ -88,19 +93,38 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
-  <systemDetail  @closeDiolog="closeDiolog"    v-model="isdialog" :rowList="rowList"></systemDetail>
-    
- 
+    <systemDetail @closeDiolog="closeDiolog"
+                  v-model="isdialog"
+                  :rowList="rowList"></systemDetail>
+    <iDialog :visible.sync="importDialog"
+             width="90%"
+             top="2%"
+             :title="language('DAORU', '导入')">
+      <table-list style="padding-bottom:20px"
+                  :tableData="tableListDetail"
+                  :tableTitle="tableTitleEdit"
+                  :tableLoading="tableLoading">
+
+      </table-list>
+    </iDialog>
+
   </iCard>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
-import  systemDetail  from './systemDetail'
+import systemDetail from './systemDetail'
 import { tableTitle, tableTitleEdit } from './data'
 import store from '@/store'
-import { iCard, iButton, iMessage, iPagination, iMessageBox } from 'rise'
+import {
+  iCard,
+  iButton,
+  iMessage,
+  iPagination,
+  iMessageBox,
+  iDialog
+} from 'rise'
 import {
   queryDetailUser,
   thawUser,
@@ -118,19 +142,23 @@ export default {
     iButton,
     tableList,
     iPagination,
-    systemDetail
+    systemDetail,
+    iDialog
   },
   data() {
     return {
-        isdialog:false,
-        rowList:{},
+      importDialog: false,
+      isdialog: false,
+      rowList: {},
       inputProps: [],
       edit: false,
       tableLoading: false,
       selectTableData: [],
       tableTitle: tableTitle,
       tableTitleEdit: tableTitleEdit,
-      tableListData: []
+      tableListData: [],
+      importLoading: false,
+      tableListDetail: []
     }
   },
   created() {
@@ -142,14 +170,13 @@ export default {
         if (valid) {
           let parmars = {
             saveUserList: this.tableListData,
-            opcsSupplierKeyId: this.$route.query.opcsSupplierId
+            opcsSupplierId: this.$route.query.opcsSupplierId,
           }
           console.log(parmars)
           saveUser(parmars).then((res) => {
             if (res && res.code == 200) {
               this.inputProps = []
               this.edit = false
-
               this.getTableData()
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
@@ -195,15 +222,21 @@ export default {
     },
     //导入
     async httpUpload(info) {
+      this.importLoading = true
       let formData = new FormData()
       formData.append('file', info.file)
       formData.append('opcsSupplierId ', this.$route.query.opcsSupplierId)
       formData.append('userId ', store.state.permission.userInfo.id)
-      await imports(formData)
-        .then((res) => {})
-        .catch((err) => {
-          iMessage.error('上传失败')
-        })
+      //    const res= await imports(formData)
+      await imports(formData).then((res) => {
+        if (res.code == 200 && res) {
+          if (res.data.length > 0) {
+            this.importDialog = true
+            this.tableListDetail = res.data
+          }
+        }
+      })
+      this.importLoading = false
     },
     // 上传前校验
     beforeAvatarUpload(file) {
@@ -213,13 +246,13 @@ export default {
       }
       return isLt10M
     },
-    closeDiolog(){
-        this.isdialog=false
+    closeDiolog() {
+      this.isdialog = false
     },
     //应用关联弹窗
     openDialog(v) {
-        this.isdialog=true
-        this.rowList=v
+      this.rowList = v
+      this.isdialog = true
     },
     //下载模板
     download() {
@@ -325,6 +358,15 @@ export default {
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
+    },
+    ratioDate(row) {
+      var strtime = row.markExpiration.replace('/-/g', '/') //时间转换
+      //时间
+      var date1 = new Date(strtime)
+      //现在时间
+      var date2 = new Date()
+      //判断时间是否过期
+      return date1 < date2 ? true : false
     }
   }
 }

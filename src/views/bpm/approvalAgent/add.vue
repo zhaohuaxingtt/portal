@@ -33,7 +33,7 @@ export default {
       return this.language('新建') + this.language('会议审批代理')
     },
     agentType() {
-      return this.$route.query.type === 'normal' ? 2 : 1
+      return this.$route.query.type === 'meeting' ? 2 : 1
     }
   },
   data() {

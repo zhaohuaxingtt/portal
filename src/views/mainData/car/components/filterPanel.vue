@@ -14,7 +14,7 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="language('所属品牌')">
-            <iSelect v-model="formData.brandCode" filterable>
+            <iSelect v-model="formData.brandCode" filterable :placeholder='language("请选择")'>
               <el-option
                 v-for="item in brandSelectOptions"
                 :key="item.code"
@@ -26,7 +26,7 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="language('平台属性')">
-            <iSelect v-model="formData.carPlatformCode" filterable>
+            <iSelect v-model="formData.carPlatformCode" filterable :placeholder='language("请选择")'>
               <el-option
                 v-for="item in platformCodeOptions"
                 :key="item.code"
@@ -38,12 +38,12 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="language('车型项目')">
-            <iInput v-model="formData.carTypeProjectCode" />
+            <iInput v-model="formData.carTypeProjectCode" :placeholder='language("请输入")'/>
           </iFormItem>
         </el-col>
         <el-col :span="8">
           <iFormItem :label="language('投产工厂')">
-            <iSelect v-model="formData.productFactory" filterable>
+            <iSelect v-model="formData.productFactory" filterable :placeholder='language("请选择")'>
               <el-option
                 v-for="item in productFactoryOptions"
                 :key="item.id"
@@ -55,7 +55,7 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="language('是否有效')">
-            <iSelect v-model="formData.isValid" filterable>
+            <iSelect v-model="formData.isValid" filterable :placeholder='language("请选择")'>
               <el-option value="" :label="language('全部')" />
               <el-option :value="true" :label="language('是')" />
               <el-option :value="false" :label="language('否')" />

@@ -13,6 +13,8 @@
       <iInput :disabled="isDisabled"
               type='textarea'
               :autosize='rowRange'
+              maxlength="120"
+              show-word-limit
               v-model="info.sfrmOverallMerit"></iInput>
     </iCard>
     <!-- 深入评级结果 -->
@@ -20,14 +22,15 @@
            collapse
            class="margin-top20"
            isRequired>
-      <tableList :tableData="tableListData"
+      <tableList class="tableStyle"
+                 :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :selection="false"
                  :index="true"
                  :tableLoading="tableLoading">
         <template #deepCommentRatingDate>
           <iDatePicker disabled
-                       style="width:120px !important"
+                       style="width:220px !important"
                        v-model="info.deepCommentRatingDate"
                        value-format="yyyy-MM-dd"></iDatePicker>
         </template>
@@ -77,6 +80,8 @@
       <iInput :disabled="isDisabled"
               type='textarea'
               :autosize='rowRange'
+              maxlength="120"
+              show-word-limit
               placeholder="请输入"
               v-model="info.addAdvice"></iInput>
     </iCard>
@@ -88,6 +93,8 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="请输入"
+              maxlength="120"
+              show-word-limit
               v-model="info.supplementarySuggestions"></iInput>
     </iCard>
     <div class="remark">本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。</div>
@@ -118,7 +125,8 @@ export default {
         addAdvice: ''
       },
       range: window._.range,
-      grade: []
+      grade: [],
+      supplierId: 0
     }
   },
   props: {
@@ -257,8 +265,7 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #e30b0d;
 }
 .red {
   color: #e30b0d;

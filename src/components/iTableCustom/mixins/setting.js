@@ -1,6 +1,7 @@
-import { iMessage,iTableHeaderSorter } from 'rise'
+import { iMessage } from 'rise'
+import iTableHeaderSort from '@/components/iTableHeaderSort'
 export default {
-  components: { iTableHeaderSorter },
+  components: { iTableHeaderSort },
   computed: {
     unCols() {
       // 列权限控制，返回无权限的字段列表
@@ -36,14 +37,14 @@ export default {
     usercenterApiPrefix() {
       let env = window.sessionStorage.getItem('env') || this.env
       const baseMap = {
-        '': '/api',
+        '': '/usercenterApi',
         dev: '/usercenterApi',
         sit: '/usercenterApi',
         vmsit: '/usercenterApi',
         uat: '/usercenterApi',
-        production: '/api'
+        production: '/usercenterApi'
       }
-      return baseMap[env.toLowerCase()] || '/api'
+      return baseMap[env.toLowerCase()] || '/usercenterApi'
     }
   },
   created() {

@@ -43,6 +43,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { tableListColumns } from './components/data'
 import { datestring } from '@/utils/utils.js'
+
 export default {
   mixins: [pageMixins, resultMessageMixin],
   components: {

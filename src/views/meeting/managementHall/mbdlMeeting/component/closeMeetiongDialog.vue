@@ -8,6 +8,7 @@
     destroy-on-close
     @close="handleClose"
   >
+  123123
     <iEditForm>
       <el-form
         :model="rowState"
@@ -191,51 +192,51 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
-      this.$refs['ruleFormCloseMeeting'].validate((valid) => {
-        if (valid) {
-          this.loading = true
-          let hashArr = window.location.hash.split('/')
-          hashArr.pop()
-          let param = {
-            id: this.id,
-            approvalProcessId: this.rowState.approvalProcessId,
-            isTriggerApproval:
-              this.rowState.isTriggerApproval == 'true' ? true : false,
-            fromUrl:
-              window.location.origin +
-              window.location.pathname +
-              hashArr.join('/') +
-              '/details?id=' +
-              this.id
-          }
-          if (this.attachment.id) {
-            param.attachment = {
-              attachmentId: this.attachment.id,
-              attachmentName: this.attachment.name,
-              attachmentUrl: this.attachment.attachmentUrl,
-              source: '05'
-            }
-          }
-          closeMeeting(param)
-            .then((res) => {
-              this.loading = false
-              if (res.code === 200) {
-                iMessage.success('关闭成功')
-                this.$emit('handleOK')
-                this.handleClose()
-              } else {
-                // iMessage.success('关闭失败')
-                this.handleClose()
-              }
-            })
-            .catch((err) => {
-              this.loading = false
-              console.log('err', err)
-            })
-        } else {
-          return false
+      // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
+        this.loading = true
+        let hashArr = window.location.hash.split('/')
+        hashArr.pop()
+        let param = {
+          id: this.id,
+          approvalProcessId: this.rowState.approvalProcessId,
+          isTriggerApproval:
+            this.rowState.isTriggerApproval == 'true' ? true : false,
+          fromUrl:
+            window.location.origin +
+            window.location.pathname +
+            hashArr.join('/') +
+            '/details?id=' +
+            this.id
         }
-      })
+        if (this.attachment.id) {
+          param.attachment = {
+            attachmentId: this.attachment.id,
+            attachmentName: this.attachment.name,
+            attachmentUrl: this.attachment.attachmentUrl,
+            source: '05'
+          }
+        }
+        closeMeeting(param)
+          .then((res) => {
+            this.loading = false
+            if (res.code === 200) {
+              iMessage.success('关闭成功')
+              this.$emit('handleOK')
+              this.handleClose()
+            } else {
+              // iMessage.success('关闭失败')
+              this.handleClose()
+            }
+          })
+          .catch((err) => {
+            this.loading = false
+            console.log('err', err)
+          })
+      //   if (valid) {
+      //   } else {
+      //     return false
+      //   }
+      // })
     },
     changeTriggerApproval() {
       // this.closeMeetingRules = {

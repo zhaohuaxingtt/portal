@@ -1,28 +1,34 @@
 <template>
   <!--VWAG评级-->
-  <iDialog
-      :title="$t('SPR_FRM_FRMGL_VWAGPJ')"
-      :visible.sync="value"
-      width="381px"
-      @close="clearDiolog"
-      :close-on-click-modal="false"
-  >
+  <iDialog :title="$t('SPR_FRM_FRMGL_VWAGPJ')"
+           :visible.sync="value"
+           width="381px"
+           @close="clearDiolog"
+           :close-on-click-modal="false">
     <div class="content">
       <!-- 请选择评级结果-->
       <div class="row1">{{ $t('SPR_FRM_FRMGL_QXZPJJG') }}</div>
-      <iSelect
-          v-model="form.vwagAssessResult"
-          style="width: 320px"
-          class="margin-top10"
-          :placeholder="$t('LK_QINGXUANZE')"
-      >
-        <el-option :value="item.name" :label="item.name" v-for="item of selectList" :key="item.name">
-          <icon symbol name="iconhongdeng" v-if="item.name === '红'"/>
-          <icon symbol name="iconhuangdeng" v-else-if="item.name === '黄'"/>
-          <icon symbol name="iconlvdeng" v-else-if="item.name === '绿'"/>
+      <iSelect v-model="form.vwagAssessResult"
+               style="width: 320px"
+               class="margin-top10"
+               :placeholder="$t('LK_QINGXUANZE')">
+        <el-option :value="item.code"
+                   :label="item.name"
+                   v-for="item of selectList"
+                   :key="item.name">
+          <icon symbol
+                name="iconhongdeng"
+                v-if="item.nameEn === 'red'" />
+          <icon symbol
+                name="iconhuangdeng"
+                v-else-if="item.nameEn === 'yellow'" />
+          <icon symbol
+                name="iconlvdeng"
+                v-else-if="item.nameEn === 'green'" />
         </el-option>
       </iSelect>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer"
+           class="dialog-footer">
         <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
       </div>
     </div>
@@ -30,8 +36,8 @@
 </template>
 
 <script>
-import {iDialog, iSelect, iButton, icon} from 'rise';
-import {getDictByCode} from '../../../../api/dictionary';
+import { iDialog, iSelect, iButton, icon } from 'rise';
+import { getDictByCode } from '../../../../api/dictionary';
 
 export default {
   components: {
@@ -41,9 +47,9 @@ export default {
     icon,
   },
   props: {
-    value: {type: Boolean},
+    value: { type: Boolean },
   },
-  data() {
+  data () {
     return {
       form: {
         vwagAssessResult: '',
@@ -51,14 +57,14 @@ export default {
       selectList: [],
     };
   },
-  created() {
+  created () {
     this.getSelectList();
   },
   methods: {
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false);
     },
-    async getSelectList() {
+    async getSelectList () {
       try {
         const res = await getDictByCode('vwag_rating_results');
         this.selectList = res.data[0].subDictResultVo;
@@ -66,12 +72,12 @@ export default {
         this.selectList = [];
       }
     },
-    handleSubmit() {
+    handleSubmit () {
       this.$emit('handleSubmit', this.form);
     },
   },
   watch: {
-    value() {
+    value () {
       this.form = {};
     },
   },

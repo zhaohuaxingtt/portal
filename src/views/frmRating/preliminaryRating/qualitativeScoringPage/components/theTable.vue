@@ -60,13 +60,13 @@
                     :loading="transferQualitativeScoreLoading"
                     @handleSubmit="handleTransferQualitativeScoreSubmit" />
     <!--定性打分-->
-    <scoringDialog :title="$t('SPR_FRM_FRMGL_DXDAF')"
+    <scoringDialog :isView='isView' :title="$t('SPR_FRM_FRMGL_DXDAF')"
                    v-model="qualitativeScoringDialog"
                    :outerSelectTableData="selectTableData"
                    :selectProps="scoreDiloagSelectProps"
                    @handleSubmitCallback="handleScoreDialogSubmitCallcak" />
     <!--重新打分-->
-    <scoringDialog :title="$t('SPR_FRM_CBPJ_CXDF')"
+    <scoringDialog :isView='isView' :title="$t('SPR_FRM_CBPJ_CXDF')"
                    :showFollowButton="false"
                    v-model="reScoringDialog"
                    :outerSelectTableData="selectTableData"
@@ -122,6 +122,7 @@ export default {
   },
   data () {
     return {
+      isView:false,
       tableListData: [],
       tableTitle,
       selectTableData: [],
@@ -269,6 +270,7 @@ export default {
         })
     },
     handleQualitativeScoring () {
+        this.isView=false
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -292,6 +294,7 @@ export default {
       }
     },
     async handleReScoring () {
+        this.isView=false
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -320,6 +323,7 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
+      this.isView=true
       this.viewDialog = true
     },
     handleOpenPage (row) {

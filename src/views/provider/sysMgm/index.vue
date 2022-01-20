@@ -60,7 +60,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item :label="searchOptionTitles.sysTag">
-                  <iSelect v-model="formData.supplierType">
+                  <iSelect v-model="formData.supplierType" multiple>
                     <el-option
                       v-for="item in systemTagOptions"
                       :key="item.id"
@@ -146,6 +146,7 @@ import { tableColumnSetting } from './data/data'
 import CreateSysMgm from './create/CreateSysMgm'
 import { pageMixins } from '@/utils/pageMixins'
 import { sysList, deleteSys, sysExport } from '@/api/provider/index'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   methods: {
     search() {
@@ -166,8 +167,12 @@ export default {
       newFormData.supplierType = newFormData.supplierType
         ? newFormData.supplierType.join(',')
         : '' */
+      const supplierType = newFormData.supplierType
+        ? newFormData.supplierType.join(',')
+        : ''
       let param = {
         ...newFormData,
+        supplierType,
         size: this.page.pageSize,
         current: this.page.currPage
       }
@@ -315,20 +320,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: this.language('生产采购')
-        },
-        {
-          id: '2',
-          label: this.language('一般采购')
-        }
-      ]
+      systemTagOptions: SYSTEM_TAGS
     }
   }
 }

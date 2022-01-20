@@ -10,7 +10,7 @@ export const tableSetting = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
-    //   i18n:"",
+    minWidth: '120px',
     align: 'center',
     emit: 'goEdit',
     customRender: (h, scope) => {
@@ -36,13 +36,14 @@ export const tableSetting = [
     prop: 'opcsCompanyNameZh',
     label: '供应商中文名',
     align: 'center',
-    width: '200px',
+    width: '150',
     tooltip: true
   },
   {
     prop: 'isMainContact',
-    label: '主联系人',
+    label: '是否主联系人',
     align: 'center',
+    width: '100px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
@@ -57,45 +58,42 @@ export const tableSetting = [
     align: 'center'
   },
   {
+    i18n: '正式/SVW号',
+    width: '100px',
+    prop: 'svwCode'
+  },
+  {
+    i18n: 'SAP号',
+    prop: 'sapNum'
+  },
+
+  /* {
+    i18n: '职位',
     prop: 'position',
-    label: '职位',
-    align: 'center',
-    width: '100px'
+    minWidth: '120px'
   },
   {
+    i18n: '部门',
     prop: 'dept',
-    label: '部门',
-    align: 'center',
-    width: '200px'
+    minWidth: '120px'
   },
   {
+    i18n: '区号',
     prop: 'telephoneAreaCode',
-    label: '区号',
-    align: 'center'
-  },
+    minWidth: '120px'
+  }, */
   {
     prop: 'telephoneO',
     label: '联系电话',
     align: 'center',
     width: '100px',
     tooltip: true
-    // customRender:(h,scope) =>{
-    //   let tele = []
-    //   if(scope.row.telephoneM){
-    //     tele.push(scope.row.telephoneM)
-    //   }
-    //   if(scope.row.telephoneO){
-    //     tele.push(scope.row.telephoneO)
-    //   }
-    //   let teleStr = tele.join("/")
-    //   return teleStr
-    // }
   },
   {
     prop: 'email',
     label: '邮箱',
     align: 'center',
-    width: '100px',
+    minWidth: '180px',
     tooltip: true
   }
 ]

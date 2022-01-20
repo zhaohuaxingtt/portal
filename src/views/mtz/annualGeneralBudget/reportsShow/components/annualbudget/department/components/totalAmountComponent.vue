@@ -4,33 +4,62 @@
 <script>
 import echarts from '@/utils/echarts'
 export default {
+  props: {
+    deptData: { type: Array },
+    showEchart: { type: Boolean, default: false }
+  },
   created() {
-    this.showLeftEcharts()
+    // this.showLeftEcharts()
+  },
+  watch: {
+    showEchart: {
+      handler: function (val) {
+        if (val) {
+          this.showLeftEcharts()
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     showLeftEcharts() {
       this.$nextTick(() => {
         const chart = echarts().init(document.getElementById('left-echart'))
+        let arr = []
+        this.deptData.lastDeptDataList.forEach((element) => {
+          arr.push({
+            value: element.curPrice,
+            name: element.dept
+          })
+        })
         let option = {
           tooltip: {
-            formatter: (params) => {
-              let price = 0
-              price = params.value * 1000000
-              price = String(price)
-              const tempt = price
-                .split('')
-                .reverse()
-                .join('')
-                .match(/(\d{1,3})/g)
-              let currency = tempt.join(',').split('').reverse().join('')
-
-              return currency
-            }
+            // formatter: (params) => {
+            //   let price = 0
+            //   price = params.value * 1000000
+            //   price = String(price)
+            //   const tempt = price
+            //     .split('')
+            //     .reverse()
+            //     .join('')
+            //     .match(/(\d{1,3})/g)
+            //   let currency = tempt.join(',').split('').reverse().join('')
+            //   return currency
+            // }
           },
           legend: {
             bottom: '10%',
             itemGap: 30,
             icon: 'circle',
+            tooltip: {
+              show: true,
+              formatter: (data) => {
+                const curPriceData = this.deptData.lastDeptDataList.find(
+                  (item) => item.dept == data.name
+                ).curPrice
+                return `${curPriceData} (${((curPriceData / this.deptData.curYearPrice).toFixed(2) * 100).toFixed(2)}%)`
+              }
+            }
           },
           color: [
             'rgb(22, 96, 241)',
@@ -41,7 +70,9 @@ export default {
             'rgb(216, 229, 253)'
           ],
           title: {
-            text: '总金额:340.40',
+            text: `总金额:${
+              Math.floor((this.deptData.curYearPrice / 1000000) * 100) / 100
+            }`,
             x: 'center',
             y: '3%'
           },
@@ -66,14 +97,7 @@ export default {
               labelLine: {
                 show: false
               },
-              data: [
-                { value: 1048, name: 'CSM' },
-                { value: 735, name: 'CSP' },
-                { value: 580, name: 'CSI' },
-                { value: 484, name: 'CSX' },
-                { value: 300, name: 'CSE' },
-                { value: 300, name: 'BU-B' }
-              ]
+              data: arr
             }
           ]
         }

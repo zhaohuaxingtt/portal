@@ -27,6 +27,7 @@
                 <iLabel :label="language('MTZCAILIAOZU','MTZ-材料组')" slot="label" :required="true"></iLabel>
                 <i-select v-model="contractForm.materialGroup"
                          clearable
+                         filterable
                          :placeholder="language('QINGSHURU', '请输入')"
                         >
                     <el-option
@@ -86,6 +87,7 @@
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label" :required="true"></iLabel>
                 <i-select v-model="contractForm.materialCode"
                          clearable
+                         filterable
                          @change="MaterialGrade"
                          :placeholder="language('QINGSHURU', '请输入')"
                         >
@@ -126,14 +128,17 @@
             </iFormItem>
             <iFormItem prop="tcCurrence">
                 <iLabel :label="language('HUOBI','货币')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.tcCurrence"
-                         :user-options="tcCurrence"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="code"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <i-select v-model="contractForm.tcCurrence"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in tcCurrence"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="tcExchangeRate">
                 <iLabel :label="language('HUILV','汇率')" slot="label" :required="true"></iLabel>
@@ -148,6 +153,7 @@
                 <iLabel :label="language('SHICHANGJIALAIYUAN','市场价来源')" slot="label" :required="true"></iLabel>
                 <i-select v-model="contractForm.source"
                     clearable
+                    filterable
                     :placeholder="language('QINGXUANZE', '请选择')"
                     >
                     <el-option
@@ -444,6 +450,7 @@ export default {components: {
             effectFlag:0,
             tcExchangeRate:1,
             compensationRatio:1,
+            tcCurrence:"RMB",
             materialName:'',
             threshold:0,
             endDate:"2999-12-31",
@@ -748,7 +755,8 @@ export default {components: {
         rhodiumPrice:'',
         rhodiumDosage:'',
         palladiumPrice:"",
-        preciousMetalDosageUnit:""
+        preciousMetalDosageUnit:"",
+        tcCurrence:"RMB",
       }
       this.carlineNumber = []
       this.metalType = false;
