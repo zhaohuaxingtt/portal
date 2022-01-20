@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <iButton :disabled="disabled || selectList.length == 0" @click="edit">修改</iButton>
-                    <iButton :disabled="disabled || selectList.length == 0" @del="del">删除</iButton>
+                    <iButton :disabled="disabled || selectList.length == 0" @click="del">删除</iButton>
                 </div>
             </div>
             <iTableCustom
@@ -38,7 +38,7 @@
         </iCard>
         <processDetail></processDetail>
 
-        <addProcess :show.sync="dialog" ref="addDialog"></addProcess>
+        <addProcess :show.sync="dialog" ref="addDialog" @refresh='query'></addProcess>
     </iPage>
 </template>
 
@@ -49,7 +49,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
 import processDetail from "./processDetail/index.vue";
 import tableSetting from './table';
-import {queryProcessList} from '@/api/adminProCS';
+import {queryProcessList, deleteProcess, changeProcsState, changeProcsSendMessage} from '@/api/adminProCS';
 export default {
     mixins:[pageMixins],
     components: {
@@ -66,10 +66,7 @@ export default {
         return {
             keyWord:"",
             tableLoading: false,
-            tableListData: [
-                {id:1, state:false,send:true},
-                {id:2, state:false,send:true},
-                ],
+            tableListData: [],
             tableSetting,
             selectList:[],
             dialog:false,
@@ -107,15 +104,42 @@ export default {
         edit(){
 
         },
-        del(){
-
+        async del(){
+            let id = this.selectList[0]?.id
+            this.tableLoading = true
+            await deleteProcess(id).then(res => {
+                if (res?.success) {
+                    this.$message({type: 'success', message: "成功删除该条流程"})
+                    this.query()
+                }
+            })
         },
-        updateState(v,index){
-            this.tableListData[index].published = v
+        async updateState(v,index){
+            let id = this.tableListData[index].id
+            let params = {
+                published: v
+            }
+            this.tableLoading = true
+            await changeProcsState(id, params).then(res => {
+                if (res?.success) {
+                    this.$message({type: 'success', message: "修改当前状态成功"})
+                    this.query()
+                }
+            })
         },
         // 是否发送消息
-        updateMsg(v,index){
-            this.tableListData[index].send = v
+        async updateMsg(v,index){
+            let id = this.tableListData[index].id
+            let params = {
+                send: v
+            }
+            this.tableLoading = true
+            await changeProcsSendMessage(id, params).then(res => {
+                if (res?.success) {
+                    this.$message({type: 'success', message: "修改发送消息成功"})
+                    this.query()
+                }
+            })
         },
         handleSelectionChange(v){
             this.selectList = v
