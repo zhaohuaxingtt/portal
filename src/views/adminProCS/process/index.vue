@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <iButton :disabled="disabled || selectList.length == 0" @click="edit">修改</iButton>
-                    <iButton :disabled="disabled || selectList.length == 0" @del="del">删除</iButton>
+                    <iButton :disabled="disabled || selectList.length == 0" @click="del">删除</iButton>
                 </div>
             </div>
             <iTableCustom
@@ -38,7 +38,7 @@
         </iCard>
         <processDetail></processDetail>
 
-        <addProcess :show.sync="dialog" ref="addDialog"></addProcess>
+        <addProcess :show.sync="dialog" ref="addDialog" @refresh='query'></addProcess>
     </iPage>
 </template>
 
@@ -49,7 +49,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
 import processDetail from "./processDetail/index.vue";
 import tableSetting from './table';
-import {queryProcessList,changeProcsState,changeProcsSendMessage} from '@/api/adminProCS';
+import {queryProcessList, deleteProcess, changeProcsState, changeProcsSendMessage} from '@/api/adminProCS';
 export default {
     mixins:[pageMixins],
     components: {
@@ -104,14 +104,22 @@ export default {
         edit(){
 
         },
-        del(){
-
+        async del(){
+            let id = this.selectList[0]?.id
+            this.tableLoading = true
+            await deleteProcess(id).then(res => {
+                if (res?.success) {
+                    this.$message({type: 'success', message: "成功删除该条流程"})
+                    this.query()
+                }
+            })
         },
         async updateState(v,index,row){
             try {
                 this.tableLoading = true
                 await changeProcsState(row.id,{published: v})
                 this.tableListData[index].published = v
+                this.$message.success("修改成功")
             } finally {
                 this.tableLoading = false
             }
@@ -122,6 +130,7 @@ export default {
                 this.tableLoading = true
                 await changeProcsSendMessage(row.id,{sendMessage: v})
                 this.tableListData[index].send = v
+                this.$message.success("修改成功")
             } finally {
                 this.tableLoading = false
             }

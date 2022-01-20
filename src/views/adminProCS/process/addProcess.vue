@@ -61,7 +61,7 @@
 <script>
 import { iDialog, iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
 // import ISelect from './../components/ISelect.vue';
-import { getOrganizationList, getUsersList,addProcess,updateProcess } from '@/api/adminProCS';
+import { getOrganizationList, getUsersList, addProcess,updateProcess } from '@/api/adminProCS';
 
 export default {
 	components: {
@@ -152,6 +152,7 @@ export default {
 			}
 			this.$refs.form.resetFields()
 			this.$emit('update:show', false)
+			this.$emit('refresh')
 		},
 		save(){
 			this.$refs.form.validate(async v => {
@@ -163,8 +164,12 @@ export default {
 						Object.keys(this.form).forEach(key => {
 							formData.append(key, this.form[key])
 						})
-						await addProcess(formData)
-						this.$parent.query()
+						await addProcess(formData).then(res => {
+							if (res) {
+								this.$message({type: 'success', message: '新增流程成功'})
+							}
+						})
+						// this.$parent.query()
 						this.closeDialogBtn()
 					} finally {
 						this.loading = false	
