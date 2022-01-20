@@ -518,7 +518,7 @@ export default {
             self.fintRootId(conn.targetId) !=
             self.fintRootId(conn.connection.suspendedElementId)
           ) {
-            // debugger
+            // 
             // jsPlumb.deleteConnection(conn);
             // var edgeList = [];
             // edgeList[0] = {

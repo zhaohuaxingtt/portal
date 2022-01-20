@@ -245,7 +245,8 @@ import {
   addThemenAttachment,
   findTheThemenById
 } from '@/api/meeting/details'
-import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { uploadFile, findUsersById } from '@/api/meeting/type'
+
 import { download } from '@/utils/downloadUtil'
 export default {
   components: {
@@ -586,7 +587,7 @@ export default {
         id: this.meetingInfo.receiverId
       }
       //查询收件人
-      getReceiverById(data).then((res) => {
+      findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS.filter((e) => e.id !== null)
         this.currentSearchUserData = [...res.employeeDTOS]
         this.remoteMethod()

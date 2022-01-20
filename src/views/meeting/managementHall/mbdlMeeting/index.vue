@@ -307,15 +307,15 @@
               <span class="open-link-text">{{ scope.row.materialGroupName }}</span>
             </template>
           </el-table-column>
-          <!-- 有效期起   -->
+          <!-- 有效期起   validFrom-->
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.createDate }}</span>
+              <span class="open-link-text">{{ scope.row.validFrom }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.updateDate }}</span>
+              <span class="open-link-text">{{ scope.row.validTo }}</span>
             </template>
           </el-table-column>
           <!-- 主要申请部门  applyDept 改 supporterDept-->
@@ -330,10 +330,10 @@
               <span class="open-link-text">{{ scope.row.presenterDept }}</span>
              </template>
           </el-table-column>
-          <!-- 提交人   supporter-->
+          <!-- 提交人   supporter 改 presenter-->
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporter }}</span>
+              <span class="open-link-text">{{ scope.row.presenter }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
@@ -394,12 +394,12 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.createDate }}</span>
+              <span class="open-link-text">{{ scope.row.validFrom }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.updateDate }}</span>
+              <span class="open-link-text">{{ scope.row.validTo }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
@@ -414,7 +414,7 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporter }}</span>
+              <span class="open-link-text">{{ scope.row.presenter }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
@@ -658,6 +658,7 @@
         style="padding-bottom: 20px"
         @flushTable='flushTable'
         :updateDateNEWDialogRow='updateDateNEWDialogRow'
+        :rowId="rowId"
       ></updateDateNEW>
     
     </iDialog>
@@ -1012,7 +1013,6 @@ export default {
       this.closeDialog()
     },
     handleCloseCancelTopics() {
-      debugger
       this.closeDialog()
       this.getMeetingTypeObject()
       this.getTableData()
@@ -1470,7 +1470,7 @@ export default {
       //     this.openDialog("openCloseMeetiongDialog");
       //   });
       // }
-debugger
+
       // if (this.meetingInfo.attachments.length <= 0) {
       //   this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
       //     confirmButtonText: '前往',
@@ -1729,9 +1729,10 @@ debugger
         iMessage.warn('休息议题不能进行改期')
         return
       }
-      debugger
+      
       // this.openDialog('openUpdateDateDialog')
-      this.updateDateNEWDialog = true
+      this.rowId=this.selectedTableData[0].id
+      this.updateDateNEWDialog=true
     },
     deleteTop() {
       console.log(this.selectedTableData[0]);
@@ -1929,12 +1930,12 @@ debugger
       //   }
       // })
       // /meeting/mbdlMeetingShow
-      debugger
+      
       let routeUrl = this.$router.resolve({
         path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
-        }
+        } 
       })
       window.open(routeUrl.href, '_blank')
     },
