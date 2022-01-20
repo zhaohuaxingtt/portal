@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-19 17:01:30
+ * @LastEditTime: 2022-01-20 11:04:47
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export function codeFun(rule, value, callback) {
@@ -108,8 +108,8 @@ export const tableTitle = [{
     },
     {
         props: 'isActive',
-        name: '是否激活',
-        key: 'SHIFOUJIHUO',
+        name: '是否活动',
+        key: 'SHIGOUHUODONG',
     },
     {
         props: 'markExpiration',
