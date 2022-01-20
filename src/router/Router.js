@@ -44,6 +44,7 @@ import ApproveDetails from '@/views/generalPage/approveDetails/preview'
 import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
 
 import RouterOfflineDownload from './RouterOfflineDownload'
+import RouterAdminProCSMgm from './RouterAdminProCSMgm'
 
 // 嵌入表单的组件路由
 import RouterView from './RouterView'
@@ -51,6 +52,7 @@ import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 import RouterTerms from './RouterTerms'
 
+import RouterReportForm from './RouterReportForm'
 // 后台管理  scoreConfig
 import backstagemanagement from './backstagemanagement'
 import RouterSetting from './RouterSetting'
@@ -218,8 +220,10 @@ export default {
         ...RouterColorParts,
         ...RouterApplications,
         ...RouterOfflineDownload,
+        ...RouterAdminProCSMgm,
         ...RouterElectronicSignature,
         ...RouterTerms,
+        ...RouterReportForm,
         ...backstagemanagement,
         ...RouterSetting
       ]
