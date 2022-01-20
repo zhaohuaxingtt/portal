@@ -112,8 +112,7 @@ export default {
         redirectUrl =
           process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
       }
-      console.log('redirectUrl', redirectUrl)
-      if (redirectUrl) {
+      if (redirectUrl && redirectUrl !== '/portal/#/login') {
         this.ssoLogin = true
         location.href = redirectUrl
       }
