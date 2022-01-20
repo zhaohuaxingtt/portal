@@ -280,6 +280,13 @@ export function addProcess(data) {
         formData: true
     })
 }
+// 查流程详情
+export function getProcess(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/detail.json`,
+        method: 'get',
+    })
+}
 // 修改流程
 export function updateProcess(id,data) {
     return procsRequest({
@@ -295,3 +302,15 @@ export function deleteProcess(id) {
         method: 'delete'
     })
 }
+
+
+// 查询流程页面list
+export function loadProcessPageList(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/pageList.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+

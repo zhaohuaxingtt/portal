@@ -44,7 +44,8 @@
 <script>
 import { iMessage } from 'rise'
 import { login } from './api'
-import { encryptPwd, setToken, getToken } from '@/utils'
+import { encryptPwd, setToken } from './utils'
+import { getToken } from '@/utils'
 export default {
   data() {
     return {

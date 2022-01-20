@@ -2,7 +2,7 @@
     <iCard>
         <div class="flex justify-between margin-bottom20">
             <div class="flex">
-                <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyWord" />
+                <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyword" />
                 <iButton style="margin-left:10px">搜索</iButton>
             </div>
             <div>
@@ -11,7 +11,7 @@
                 <iButton @click="processDialog.show = true">流程目录</iButton>
             </div>
         </div>
-        <ITable :tableSetting='tableSetting' :extraData="extraData"></ITable>
+        <ITable ref="table" :tableSetting='tableSetting' :extraData="extraData" :query-method="query"></ITable>
         <!-- 新增和编辑 -->
         <Edit :show.sync="editDialog.show"></Edit>
         <!-- 操作手册 -->
@@ -38,6 +38,7 @@ import Video from './video.vue';
 import Question from './question.vue';
 import Attachment from './attachment.vue';
 import ProcessDirectory from './processDirectory.vue';
+import {loadProcessPageList} from '@/api/adminProCS';
 export default {
     components:{
         ITable,
@@ -51,10 +52,15 @@ export default {
         Attachment,
         ProcessDirectory
     },
+    props:{
+        id:{
+            default:""
+        }
+    },
     data() {
         return {
             tableSetting:PROCESS_PAGE,
-            keyWord:"",
+            keyword:"",
             extraData:{
                 operate:this.operate,
             },
@@ -72,10 +78,33 @@ export default {
             },
             processDialog:{
                 show:false
-            }
+            },
+            query: this.queryTable
         }
     },
+    mounted () {
+        this.$refs.table.query()
+    },
     methods: {
+        queryTable(page){
+            return new Promise(async (reslove,reject) => {
+                let data = {
+                    page: page.currPage - 1,
+                    size: page.pageSize,
+                    keyword: this.keyword
+                }
+                try {
+                    let formData = new FormData()
+                    for (const key in data) {
+                        formData.append(key, data[key])
+                    }
+                    let res = await loadProcessPageList(this.id, formData)
+                    reslove(res)
+                } catch(err) {
+                    reject(err)
+                }
+            })
+        },
         /**
          * @param type 操作类型
          */
