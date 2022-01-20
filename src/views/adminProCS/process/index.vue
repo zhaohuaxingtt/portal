@@ -1,6 +1,6 @@
 <template>
     <iPage>
-        <Search v-model="keyWord" @confirm="query" @reset="rest"></Search>
+        <Search v-model="keyword" @confirm="search" @reset="reset"></Search>
         <iCard class="margin-top20">
             <div class="margin-bottom20 flex justify-between">
                 <div>
@@ -36,7 +36,6 @@
                 :total="page.totalCount"
                 />
         </iCard>
-        <processDetail></processDetail>
 
         <addProcess :show.sync="dialog" ref="addDialog" @refresh='query'></addProcess>
     </iPage>
@@ -47,7 +46,6 @@ import { iPage, iCard, iPagination, iButton, iTableCustom } from 'rise'
 import Search from '../components/search.vue';
 import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
-import processDetail from "./processDetail/index.vue";
 import tableSetting from './table';
 import {queryProcessList, deleteProcess, changeProcsState, changeProcsSendMessage} from '@/api/adminProCS';
 export default {
@@ -59,12 +57,11 @@ export default {
         iPagination,
         iButton,
         addProcess,
-        processDetail,
         iTableCustom
     },
     data() {
         return {
-            keyWord:"",
+            keyword:"",
             tableLoading: false,
             tableListData: [],
             tableSetting,
@@ -90,19 +87,24 @@ export default {
         async query(){
             try {
                 this.tableLoading = true
-                let res = await queryProcessList({page:this.page.currPage - 1,size:this.page.pageSize})
+                let res = await queryProcessList({page:this.page.currPage - 1,size:this.page.pageSize,keyword:this.keyword})
                 this.tableListData = res?.content || []
                 this.page.totalCount = res?.totalPages || 0
             } finally {
                 this.tableLoading = false
             }
         },
-        reset(){
+        search(){
             this.page.currPage = 1
             this.query()
         },
+        reset(){
+            this.keyword = "" 
+            this.search()
+        },
         edit(){
-
+            let id = this.selectList[0]?.id
+            this.$router.push({path: '/adminProCS/process/edit', query: {id: id}})
         },
         async del(){
             let id = this.selectList[0]?.id
@@ -116,30 +118,38 @@ export default {
         },
         async updateState(v,index){
             let id = this.tableListData[index].id
-            let params = {
-                published: v
-            }
+            let formData = new FormData()
+            formData.append('published', v)
             this.tableLoading = true
-            await changeProcsState(id, params).then(res => {
-                if (res?.success) {
-                    this.$message({type: 'success', message: "修改当前状态成功"})
-                    this.query()
-                }
-            })
+            try {
+                await changeProcsState(id, formData).then(res => {
+                    if (res?.success) {
+                        this.$message({type: 'success', message: "修改当前状态成功"})
+                        // this.query()
+                        this.tableListData[index].published = v
+                    }
+                })
+            } finally {
+                this.tableLoading = false
+            }
         },
         // 是否发送消息
         async updateMsg(v,index){
             let id = this.tableListData[index].id
-            let params = {
-                send: v
-            }
+            let formData = new FormData()
+            formData.append('sendMessage', v)
             this.tableLoading = true
-            await changeProcsSendMessage(id, params).then(res => {
-                if (res?.success) {
-                    this.$message({type: 'success', message: "修改发送消息成功"})
-                    this.query()
-                }
-            })
+            try {
+                await changeProcsSendMessage(id, formData).then(res => {
+                    if (res?.success) {
+                        this.$message({type: 'success', message: "修改发送消息成功"})
+                        // this.query()
+                        this.tableListData[index].send = v
+                    }
+                })
+            } finally {
+                this.tableLoading = false
+            }
         },
         handleSelectionChange(v){
             this.selectList = v
