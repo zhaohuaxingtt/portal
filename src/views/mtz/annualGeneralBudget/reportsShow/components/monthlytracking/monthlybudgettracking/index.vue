@@ -35,9 +35,9 @@
                   <i-select v-model="searchForm.materialMediumNum" :placeholder='language("请选择")'>
                     <el-option
                       v-for="item in materialMiddleOption"
-                      :key="item.materialCategoryCode"
-                      :label="item.materialNameZh"
-                      :value='item.materialCategoryCode'
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
                     ></el-option>
                   </i-select>
                 </i-form-item>
@@ -386,7 +386,14 @@ export default {
     getMaterialMedium(){
       queryMaterialMedium().then(res => {
         if(res.code == 200){
-          this.materialMiddleOption = res.data
+          const data = res.data
+          this.materialMiddleOption = data.map((item)=>{
+            return {
+              label:`${item.materialCategoryCode}-${item.materialNameZh}`,
+              value:item.materialCategoryCode
+            }
+          })
+          // this.materialMiddleOption = res.data
         }else{
           this.$message.error(res.desZh || '获取材料组中类失败')
         }

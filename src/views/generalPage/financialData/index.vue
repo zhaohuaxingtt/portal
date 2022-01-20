@@ -250,6 +250,7 @@ export default {
     // },
     refreshTable(){
       this.getTableList();
+      this.$emit("submitCalculateRefresh","view")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')

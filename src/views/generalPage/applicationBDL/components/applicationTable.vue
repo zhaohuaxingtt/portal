@@ -176,6 +176,7 @@ export default {
             this.selectTableData.forEach((item) => {
               pms.bdlSaveList.push({
                 stuffId: item.id,
+                stuffCode: item.stuffCode,
                 categoryId: item.categoryId,
                 categoryCode: item.categoryCode,
                 categoryNameZh: item.categoryNameZh,

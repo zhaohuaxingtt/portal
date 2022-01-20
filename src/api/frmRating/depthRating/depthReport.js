@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:18
- * @LastEditTime: 2022-01-19 14:46:31
+ * @LastEditTime: 2022-01-19 17:38:05
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\api\frmRating\depthRating\depthReport.js
@@ -16,7 +16,7 @@ import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
 // 深评报告企业概况查询
-export function getCompanyOverview(suppierId, id, lang) {
+export function getCompanyOverview(id, lang) {
   return requst({
     url:
       '/deepCommentReport/companyOverview?deepCommentSupplierId=' +

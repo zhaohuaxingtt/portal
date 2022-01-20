@@ -100,6 +100,7 @@ export default {
         approveRemarks: "",
         disabled: false
       },
+      disabled: false,
       rules: {
         appName: [
           { required: true, message: '请输入申请单名', trigger: 'blur' },
@@ -169,14 +170,15 @@ export default {
           }
           saveGenericAppChange(params).then(res => {
             if (res && res.code === '200') {
-              // iMessage.success(res.desZh)
+              iMessage.success(res.desZh)
               // this.getGenericAppChangeDetail()
               if (type === 2) {
                 this.$store.dispatch('setMtzChangeBtn', true);
-                let routeData = this.$router.resolve({
-                  path: '/mtz/annualGeneralBudget/locationChange/MtzLocationChange'
-                })
-                window.open(routeData.href)
+                
+                // let routeData = this.$router.resolve({
+                //   path: '/mtz/annualGeneralBudget/locationChange/MtzLocationChange'
+                // })
+                // window.open(routeData.href)
               }
             } else {
               iMessage.error(res.desZh)

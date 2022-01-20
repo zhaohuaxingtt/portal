@@ -29,7 +29,8 @@ export const tabRouterList = [
     name: 'KPI',
     url: '/supplier/kpiRouter',
     activePath: '/supplier/kpiRouter',
-    key: 'KPI'
+    key: 'KPI',
+    permissionKey: 'WORKBENCH_KPI'
   },
   //   {
   //     value: 4,
@@ -43,7 +44,8 @@ export const tabRouterList = [
     name: 'N级供应链',
     url: '/supplier/NTier',
     activePath: '/supplier/NTier',
-    key: 'NJIGONGYINGLIAN'
+    key: 'NJIGONGYINGLIAN',
+    permissionKey: 'WORKBENCH_N_LEVEL_SUPPLIER'
   }
   //   {
   //     value: 6,

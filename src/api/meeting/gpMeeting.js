@@ -91,3 +91,20 @@ export function getCscCurrencyList(data) {
     data,
   })
 }
+// 改期页面信息
+// /gpMeetingService/findToReschedule
+export function findToReschedule(data) {
+  return requst({
+    url: `/gpMeetingService/findToReschedule`,
+    method: 'POST',
+    data,
+  })
+}
+// 会议议题改期
+export function rescheduleThemen(data) {
+  return requst({
+    url: `/meetingService/rescheduleThemen`,
+    method: 'POST',
+    data
+  })
+}

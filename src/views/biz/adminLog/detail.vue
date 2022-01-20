@@ -66,9 +66,10 @@ export default {
                 let data = {
                     current: this.page.currPage - 1,
                     size: this.page.pageSize,
-                    extendFields: {
-                        traceId: this.params.traceId
-                    }
+                    traceId: this.params.traceId
+                    // extendFields: {
+                    //     traceId: this.params.traceId
+                    // }
                 }
                 this.loading = true
                 let res = {}

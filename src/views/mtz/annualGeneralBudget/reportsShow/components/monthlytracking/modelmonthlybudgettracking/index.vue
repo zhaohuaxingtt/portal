@@ -32,8 +32,8 @@
             <el-option
               v-for="(item, index) in MaterialMediumList"
               :key="index"
-              :value="item.materialCategoryCode"
-              :label="item.materialNameZh"
+              :value="item.value"
+              :label="item.label"
             />
           </iSelect>
         </el-form-item>
@@ -133,6 +133,7 @@ export default {
       differenceAnalysisCarModel:'',//列表数据
       dataTitle:'',
       dataTitleTwo:'',
+      currentMonth: '' //当前月份
     }
   },
   created() {
@@ -156,7 +157,15 @@ export default {
     MaterialMedium() {
       queryMaterialMedium()
         .then((res) => {
-          this.MaterialMediumList = res.data
+          const data = res.data
+          
+          this.MaterialMediumList = data.map((item)=>{
+            return {
+              label:`${item.materialCategoryCode}-${item.materialNameZh}`,
+              value:item.materialCategoryCode
+            }
+          })
+          // this.MaterialMediumList = res.data
         })
         .catch((err) => {
           console.log(err)
@@ -170,20 +179,37 @@ export default {
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
           this.versionMonthValue = this.getVersionMonth[0].value
-          this.getyearMonthDropDown()
+           this.getCurrentMonth()
         })
         .catch((err) => {
           console.log(err)
         })
     },
+    //获取当月月份
+    getCurrentMonth() {
+      var dd = new Date()
+      var m = dd.getMonth() + 1
+      this.currentMonth = m
+      this.getyearMonthDropDown()
+    },
     //获取年月份
     getyearMonthDropDown() {
       yearMonthDropDown()
         .then((res) => {
-          this.getMonthList = res.data
-          let arr = [this.getMonthList[0].code, this.getMonthList[0].code]
-          this.form['getMonth'] = [arr[0], arr[1]]
-          this.getdifferenceAnalysisCarModel()
+          if (this.currentMonth == '1' || this.currentMonth == '2') {
+            var arr = ['', '']
+            this.form['getMonth'] = [arr[0], arr[1]]
+            this.getdifferenceAnalysisCarModel()
+          } else {
+            this.getMonthList = res.data
+            var arr = [this.getMonthList[1].code, this.getMonthList[0].code]
+            this.form['getMonth'] = [arr[0], arr[1]]
+            this.getdifferenceAnalysisCarModel()
+          }
+          // this.getMonthList = res.data
+          // let arr = [this.getMonthList[0].code, this.getMonthList[0].code]
+          // this.form['getMonth'] = [arr[0], arr[1]]
+          // this.getdifferenceAnalysisCarModel()
         })
         .catch((err) => {
           console.log(err)
@@ -217,6 +243,7 @@ export default {
         if (i !== 'onlySeeMySelf') {
           this.form[i] = ''
         }
+        this.getVersionDataList()
       }
     },
     sure() {

@@ -12,7 +12,7 @@
           prop="meetingName"
         >
           <i-input
-            v-model="formData.meetingName"
+            v-model="formData.name"
             :placeholder="language('请输入', '请输入')"
           /> 
         </el-form-item>
@@ -96,20 +96,18 @@
         <iButton @click="sure">{{ language('QUEDING', ' 确定') }}</iButton>
       </div>
       <commonTable
-        @handle-selection-change="handleSelectionChange"
+        @handleSelectionChange="handleSelectionChange"
         :height="400"
         :customClass="true"
         :index="true"
-        openPageProps="name"
         :openPageGetRowData="true"
-        @openPage="goDetail"
         :tableLoading="loading"
         :tableData="tableData"
         :tableTitle="tableColumns"
       >
-        <template slot="startDate" slot-scope="scope">
+        <!-- <template slot="startDate" slot-scope="scope">
           {{ meetingTime(scope.row) }}
-        </template>
+        </template> -->
       </commonTable>
       <iPagination
         v-update
@@ -134,6 +132,7 @@ import { MEETING_SEARCH_DATA, MEETING_TABLE_COLUMNS,  weekListInit } from './dat
 import dayjs from '@/utils/dayjs.js'
 import { pageMixins } from '@/utils/pageMixins'
 import { getMettingType } from '@/api/meeting/type'
+import { findToReschedule , rescheduleThemen} from '@/api/meeting/gpMeeting'
 export default {
    mixins: [pageMixins],
    components: {
@@ -192,24 +191,54 @@ export default {
       }
     }
   },
+  props: {
+    rowId:{
+      type: String,
+    }
+  },
   created() {  
-      this.getAllSelectList()
+    this.getAllSelectList()
+    this.query()
   },
   methods:{
-      getAllSelectList() {
+    //获取列表
+    query(){
+      const params = {
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize,
+        themenId:this.rowId,
+        meetingId: this.$route.query.id,
+        ...this.formDataDefault
+      }
+      findToReschedule(params).then((res) => {
+        this.tableData = res.data
+        this.page.totalCount = res.total
+        this.tableData.forEach(x=>{
+          this.meetingStatus.forEach(y=>{
+            if (x.state == y.code) {
+              x.state = y.name 
+            }
+          })
+        })
+      })
+    },
+    //会议类型
+    getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
         isCurrentUser: true
       }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data
+        this.meetingTypeList = res.data.map(item => 
+        ({id: Number(item.id), name: item.name}))
       })
     },
       // 查询
     search() {
+      console.log(this.formData);
       this.page.currPage = 1
-      this.formDataDefault = this._.cloneDeep(this.formData)
+      this.formDataDefault =(this.formData)
       this.query()
     },
     // 重置
@@ -219,6 +248,7 @@ export default {
     },
     //当前行
     handleSelectionChange(selection) {
+      console.log(selection);
       this.selectRows = selection
     },
     changeStart(e) {
@@ -237,10 +267,31 @@ export default {
       this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
       this.formData.weekOfYears = []
     },
-    //列表勾选确认
+    //列表勾选确认  rescheduleThemen
     sure(){
+     if (this.selectRows.length > 1 || this.selectRows < 1)
+        return this.$alert(
+          this.$t('请选择一条数据'),
+          this.$t('温馨提示'),
+          {
+            type: 'warning'
+          }
+    )
+      const params = {
+        sourceMeetingId: this.$route.query.id,
+        targetMeetingId:this.selectRows[0].id,
+        themenId:this.rowId,
+
+      }
+      rescheduleThemen(params) .then(() => {
+          iMessage.success('改期成功')
+          this.$emit('flushTable')
+          this.$emit('close')
+      })
+        
 
     }
+
 
   }
 

@@ -993,7 +993,7 @@
         @flushTable="flushTable"
       ></batchAdjustment>
     </iDialog>
-    <!-- MBDL改期 -->
+    <!-- CSC改期 --> 
     <iDialog
       v-if="updateDateNEWDialog"
       :title="language('改期会议列表', '改期会议列表')"
@@ -1007,6 +1007,7 @@
         style="padding-bottom: 20px"
         @flushTable='flushTable'
         :updateDateNEWDialogRow='updateDateNEWDialogRow'
+        :rowId="rowId"
       ></updateDateNEW>
     
     </iDialog>
@@ -1223,7 +1224,6 @@ export default {
     },
     //发送大会议程
     sendAgenda(){
-      debugger
       console.log(this.meetingInfo);
       // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
       if (this.meetingInfo.isGpPreCSC == true) {
@@ -2133,6 +2133,7 @@ export default {
         return
       }
       // this.openDialog('openUpdateDateDialog')
+      this.rowId=this.selectedTableData[0].id
       this.updateDateNEWDialog=true
     },
     //批量删除
@@ -2216,7 +2217,6 @@ export default {
     },
     //新增议题
     addTopic() {
-      debugger
       this.editOrAdd = 'add'
       // if (this.meetingInfo.isPreCSC || this.meetingInfo.isCSC) {
       //   this.openDialog('openAddTopicNewDialog')//手工议题
@@ -2300,7 +2300,6 @@ export default {
       }
     },
     displayShow() {
-      debugger
       let routeUrl = this.$router.resolve({
         // path:
         //   this.meetingInfo.meetingTypeName == 'Pre CSC' ||
@@ -2781,7 +2780,7 @@ export default {
 }
 .span-index {
   width: 15px;
-  text-align: center;
+  // text-align: center;
   justify-content: center;
 }
 ::v-deep .cell {
@@ -2791,7 +2790,7 @@ export default {
   span {
     /* display: block; */
     width: 100%;
-    text-align: center;
+    text-align: right;
   }
   .el-checkbox {
     width: 100%;

@@ -24,7 +24,7 @@ export const TABLE = [
       i18n: '触发类型'
     },
     {
-      prop: 'interfaceSystem',
+      prop: 'interfaceSystemName',
       i18n: '外部系统'
     },
     {
@@ -41,8 +41,8 @@ export const TABLE = [
       i18n: '用户ID'
     },
     {
-      prop: 'userType',
-      i18n: '用户类型'
+      prop: 'userRole',
+      i18n: '用户角色'
     },
     {
       prop: 'creator',
@@ -102,7 +102,7 @@ export const TABLE_DETAIL = [
   {
     prop: 'content',
     i18n: '操作内容',
-    minWidth: 200,
+    minWidth: "200px",
     tooltip: true
   },
   {
@@ -145,7 +145,7 @@ export const TABLE_DETAIL = [
     i18n: '接口名称'
   },
   {
-    prop: 'interfaceSystem',
+    prop: 'interfaceSystemName',
     i18n: '对接系统'
   },
 ]
