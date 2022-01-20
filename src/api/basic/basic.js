@@ -44,3 +44,13 @@ export function getTags(parmars) {
     }
   })
 }
+//标签
+export function synchronizationSap(parmars) {
+  return requst({
+    url: '/changeApproval/synchronizationSap',
+    method: 'POST',
+    data: {
+      ...parmars
+    }
+  })
+}

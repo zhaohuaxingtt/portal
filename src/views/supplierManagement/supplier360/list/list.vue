@@ -118,6 +118,7 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
+          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
@@ -269,7 +270,7 @@ import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, dictByCode } from './data'
 import listDialog from './listDialog'
-import { getBasicList } from '@/api/basic/basic'
+import { getBasicList, synchronizationSap } from '@/api/basic/basic'
 import { addInitial } from '@/api/frmRating/overView/overView.js'
 export default {
   mixins: [generalPageMixins, pageMixins],
@@ -510,6 +511,21 @@ export default {
           }
         }
       }
+    },
+    synchro () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(this.language('ZHINENGXUANZEYITIAO', '只能选择一条'))
+      }
+      synchronizationSap({ supplierId: this.selectTableData[0].subSupplierId }).then(res => {
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
     },
 
     async handleInfo () {
