@@ -10,8 +10,8 @@
         <iPagination
             v-if="showPage"
             v-update
-            @size-change="handleSizeChange($event, queryList)"
-            @current-change="handleCurrentChange($event, queryList)"
+            @size-change="handleSizeChange($event, query)"
+            @current-change="handleCurrentChange($event, query)"
             background
             :current-page="page.currPage"
             :page-sizes="page.pageSizes"
@@ -45,10 +45,10 @@ export default {
             type: Boolean,
             default: true
         },
-        query:{
+        queryMethod:{
             type: Function,
             default:()=>{}
-        }
+        },
     },
     data() {
         return {
@@ -57,12 +57,12 @@ export default {
         }
     },
     methods: {
-        async queryList(){
+        async query(){
             try {
                 this.tableLoading = true
-                let res = await this.query(this.page)
-                this.tableListData = res?.list || []
-                this.page.totalCount = res?.total || 0
+                let res = await this.queryMethod(this.page)
+                this.tableListData = res?.content || []
+                this.page.totalCount = res?.totalElements || 0
             } finally {
                 this.tableLoading = false
             }
