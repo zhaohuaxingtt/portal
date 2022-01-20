@@ -161,8 +161,10 @@ export default {
       this.contentShowFlag = !va
     },
     handleSelect (list) {
-      let activeMenu = this.$route.meta?.activeMenu || []
-      this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
+      // let activeMenu = this.$route.meta?.activeMenu || []
+      // this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
+      localStorage.setItem('currMenu', JSON.stringify(this.activeMenu || []))
+      window.location.href = list.path
     },
     getMenus() {
       const menuMap = this.getMenusMap(this.menuList)
