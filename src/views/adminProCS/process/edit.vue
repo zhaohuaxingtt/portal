@@ -1,27 +1,31 @@
 <template>
     <iPage>
-        <iButton class="btn" @click="goBack">返回主流程列表</iButton>
-        <processDetail></processDetail>
+        <iButton class="btn mb20" @click="$router.back()">返回主流程列表</iButton>
+		<ProcessForm ref="form" type="edit"></ProcessForm>
+        <processDetail :id="currId"></processDetail>
     </iPage>
 </template>
 
 <script>
 import { iPage, iButton } from 'rise'
 import processDetail from "./processDetail/index.vue";
+import ProcessForm from './components/processForm.vue';
+
 export default {
     components: {
         iPage,
         iButton,
         processDetail,
+        ProcessForm
     },
     data() {
         return {
             currId: null
         }
     },
-    created() {
-        let query = this.$route.query
-        this.currId = query.id
+    mounted() {
+        this.currId = this.$route.query.id
+        this.$refs.form.queryDetail(this.$route.query.id)
     },
     methods: {
         goBack() {
@@ -32,6 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./../comon";
     .btn {
         display: flex;
         justify-content: flex-end

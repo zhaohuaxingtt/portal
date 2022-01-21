@@ -6,77 +6,20 @@
 		@close='closeDialogBtn' 
 		append-to-body
 	>
-		<el-form 
-			v-loading="loading"
-			:model="form" 
-			:rules="rules" 
-			label-width="90px" 
-			ref="form"
-			class="validate-required-form"
-		>
-			<iFormItem :label="language('流程标题')" prop='name'>
-				<iInput v-model="form.name" class="w-300" placeholder="请输入流程标题"></iInput>
-			</iFormItem>
-			<iFormItem :label="language('首字母')" prop='firstLetter'>
-				<iInput v-model="form.firstLetter" class="w-300" placeholder="请输入标题首字母"></iInput>
-			</iFormItem>
-			<iFormItem :label="language('英文标题')" prop='nameEn'>
-				<iInput v-model="form.nameEn" class="w-300" placeholder="请输入英文标题"></iInput>
-			</iFormItem>
-			<iFormItem :label="language('英文首字母')" prop='firstLetterEn'>
-				<iInput v-model="form.firstLetterEn" class="w-300" placeholder="请输入英文标题首字母"></iInput>
-			</iFormItem>
-			<iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="form.version" class="w-300" placeholder="请输入版本号"></iInput>
-			</iFormItem>
-			
-			<iFormItem :label="language('更新日期')" prop='updateDt'>
-				<iDatePicker
-					value-format="yyyy-MM-dd"
-					type="date"
-					v-model="form.updateDt"
-					class="w-300"
-					:placeholder="language('请选择')"
-					/>
-			</iFormItem>
-			<iFormItem :label="language('流程专家')" prop='exports'>
-				<iSelect v-model="form.exports" class="w-300" filterable multiple placeholder="可进行搜索">
-					<el-option v-for="user in userList" :key="user.id" :label="user.name" :value="user.id"></el-option>
-				</iSelect>
-				
-			</iFormItem>
-			<iFormItem :label="language('关联机构')" prop='organizations'>
-				<iSelect v-model="form.organizations" class="w-300" filterable multiple placeholder="可进行搜索">
-					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id"></el-option>
-				</iSelect>
-			</iFormItem>
-		</el-form>
-		<div class="flex felx-row mt20 pb20 justify-end ">
-			<iButton @click="closeDialogBtn">{{ language('取消') }}</iButton>
-			<iButton @click.native="save">{{ language('保存') }}</iButton>
-		</div>
+		<ProcessForm ref="form" type="add"></ProcessForm>
 	</iDialog>
 </template>
 
 <script>
-import { iDialog, iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
-// import ISelect from './../components/ISelect.vue';
-import { getOrganizationList, getUsersList, addProcess,updateProcess } from '@/api/adminProCS';
+import { iDialog } from 'rise';
+import ProcessForm from './components/processForm.vue';
 
 export default {
 	components: {
 		iDialog,
-		iFormItem,
-		iInput,
-		iDatePicker,
-		iSelect,
-		iButton
+		ProcessForm
 	},
 	props: {
-		operateType: {
-			type: String,
-			default: 'add'
-		},
 		show: {
 			type: Boolean,
 			default: false
@@ -134,57 +77,13 @@ export default {
 			loading:false
 		}
 	},
-	created() {
-		this.organizationList()
-		this.usersList()
-	},
 	methods: {
 		closeDialogBtn () {
-			this.form = {
-				name: '',
-				firstLetter:"",
-				nameEn:"",
-				firstLetterEn:"",
-				version:"",
-				updateDt:"",
-				exports:"",
-				organizations:""
-			}
-			this.$refs.form.resetFields()
+			this.$refs.form.reset()
 			this.$emit('update:show', false)
+		},
+		refresh(){
 			this.$emit('refresh')
-		},
-		save(){
-			this.$refs.form.validate(async v => {
-				if(v){
-					// 保存
-					try {
-						this.loading = true
-						let formData = new FormData()
-						Object.keys(this.form).forEach(key => {
-							formData.append(key, this.form[key])
-						})
-						await addProcess(formData).then(res => {
-							if (res) {
-								this.$message({type: 'success', message: '新增流程成功'})
-							}
-						})
-						// this.$parent.query()
-						this.closeDialogBtn()
-					} finally {
-						this.loading = false	
-					}
-				}
-			})
-		},
-		async organizationList() {
-			this.orgList = await getOrganizationList()
-		},
-		async usersList() {
-			let params = {
-				keyword: ''
-			}
-			this.userList = await getUsersList(params)
 		}
 	},
 	computed: {
