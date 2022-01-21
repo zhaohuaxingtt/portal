@@ -28,14 +28,17 @@ export const COLUMNS = [
 export const MENUS = [
   {
     title: '产品家族',
-    url: '/main-data/product-family'
+    url: '/main-data/product-family',
+    permissionKey: 'ADMIN_MAIN_DATA_PRODUCT_FAMILY'
   },
   {
     title: '车型项目管理',
-    url: '/main-data/car-project'
+    url: '/main-data/car-project',
+    permissionKey: 'ADMIN_MAIN_DATA_CARPROJECT'
   },
   {
     title: '车型主数据管理',
-    url: '/main-data/car'
+    url: '/main-data/car',
+    permissionKey: 'ADMIN_MAIN_DATA_CARMODEL'
   }
 ]
