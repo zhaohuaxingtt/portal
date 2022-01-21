@@ -88,7 +88,7 @@
                             <el-option
                                 v-for="item in organizationList"
                                 :key="item.id"
-                                :label="item.name"
+                                :label="item.nameZh"
                                 :value="item.id"
                             >
                             </el-option>
@@ -140,6 +140,7 @@ import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import { organizationsListData, addReportType, modifyReportType } from '@/api/reportForm';
 import { getUserSelectPageList } from '@/api/authorityMgmt/index'
+import { getDeptDropDownList } from '@/api/authorityMgmt'
 export default {
     name: 'addTypeDialog',
     components: {
@@ -211,23 +212,21 @@ export default {
             })
         },
         async getOrganizationsList() {
-            let params = {
-                keyword: ' '
-            }
-            await organizationsListData(params).then(res => {
-                if (res) {
-                    this.organizationList = res || []
+            // let params = {
+            //     keyword: ' '
+            // }
+            await getDeptDropDownList({}).then(res => {
+                if (res?.code === '200') {
+                    this.organizationList = res?.data || []
                 }
             }) 
         },
         userListChange(val){
-            console.log(val, '22222')
             val.map(item => {
                 this.form.users.push(item.userId * 1)
             })
         },
         supplierListChange(val){
-            console.log(val, '3333')
             val.map(item => {
                 this.form.suppliers.push(item.id * 1)
             })
@@ -303,7 +302,6 @@ export default {
                 if (v) {
                     try {
                         if (this.operateType === 'add') {
-                            console.log(this.form, '123')
                             this.form.cover = this.imageUrl
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
@@ -323,7 +321,6 @@ export default {
                                     });
                                     this.loading = false
                                 }
-                                
                             })
                         } else {
                             this.form.cover = this.imageUrl
@@ -447,7 +444,4 @@ export default {
 	color: #F8F8FA;
 	background-color: red;
 }
-
-
-
 </style>
