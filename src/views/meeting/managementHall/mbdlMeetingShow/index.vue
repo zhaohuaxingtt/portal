@@ -96,8 +96,31 @@
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
-             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.time }}</span>
+            <!-- <template slot-scope="scope">
+                <span>
+                  {{ scope.row.startDate.substring(0, 0) + ' ' + scope.row.startTime.substring(0, 5) }}
+                  <span v-if="scope.row.endTime">{{  '~' + scope.row.endTime.substring(0, 5) }} </span>
+                  <span v-else>~{{ handleEndTime(scope.row) }}</span>
+                </span>
+              </template> -->
+              <template slot-scope="scope">
+              <div v-if="scope.row.startTime">
+                <span>{{
+                  Number(scope.row.plusDayStartTime) > 0
+                    ? scope.row.startTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayStartTime)
+                    : scope.row.startTime.substring(0, 5)
+                }}</span
+                ><span>~</span>
+                <span v-if="scope.row.endTime">{{
+                  Number(scope.row.plusDayEndTime) > 0
+                    ? scope.row.endTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayEndTime)
+                    : scope.row.endTime.substring(0, 5)
+                }}</span>
+              </div>
             </template>
           </el-table-column>
            <!-- <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
@@ -153,6 +176,7 @@ import { getMettingType } from '@/api/meeting/type'
 import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
 import topicLookDialog from './components/topicLookDialog.vue'
+import { login } from '@/api/usercenter'
 
 export default {
   components: {
