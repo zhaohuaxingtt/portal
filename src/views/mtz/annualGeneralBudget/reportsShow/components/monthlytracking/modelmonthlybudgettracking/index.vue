@@ -4,6 +4,7 @@
     class="OuterFrame"
     v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING"
   >
+  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE|车型预算月度跟踪页面'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -125,6 +126,7 @@
         :total="page.total"
       />
     </iCard>
+  </div>
   </div>
 </template>
 

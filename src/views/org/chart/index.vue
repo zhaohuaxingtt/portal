@@ -243,7 +243,8 @@ export default {
                   positionEn: position.fullNameEn,
                   categoryNameZh: userDTO.categoryNameZh,
                   orgFullCode: position.orgFullCode,
-                  deptLogo: position.deptLogo
+                  deptLogo: position.deptLogo,
+                  wechat: userDTO.wechat
                 }
                 if (
                   Object.keys(this.searchItem).length > 0 &&

@@ -67,8 +67,9 @@ export default {
     setData() {
       const moduleData = JSON.parse(this.cardData?.moduleData || '[]')
       const data = []
+      const categories = []
       this.staticsticData.forEach((e) => {
-        this.categories.push({
+        categories.push({
           typeValue: e.typeValue
         })
 
@@ -96,6 +97,7 @@ export default {
         }
       })
       this.data = data
+      this.categories = categories
     },
     toggleActive(val) {
       this.activeIndex = val
