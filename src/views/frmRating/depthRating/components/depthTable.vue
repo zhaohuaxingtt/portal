@@ -451,9 +451,15 @@ export default {
         if (data.isJoin) {
           this.joinGroupShow = false
         }
-        this.resultMessage(res, () => {
+        if (res?.code === '200') {
+          iMessage.success(this.language('YICONGDABAOJITUANZHONGYICHU', '已从打包集团中移除'))
           this.getTableList()
-        })
+        } else {
+          iMessage.error(res.desZh)
+        }
+        // this.resultMessage(res, () => {
+        //   this.getTableList()
+        // })
       })
     },
     // 提交清单审批

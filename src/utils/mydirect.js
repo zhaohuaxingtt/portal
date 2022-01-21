@@ -31,7 +31,7 @@ Vue.directive('permission', {
     const value = binding.value ? binding.value : binding.expression.trim()
     const splitValue = value.split('|')
     //去除控件传参中存在换行空格等情况
-    const pagePermission = splitValue[0]?splitValue[0].trim():splitValue[0]
+    const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
     //-----------------------2022-1-20 修改权限配置内容end------------------------------
     if (isNeedJudgePermission()) {
       return true
@@ -43,8 +43,8 @@ Vue.directive('permission', {
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         //-----------------------2022-1-20 修改权限配置内容start------------------------------
-        if(process.env.NODE_ENV == "SIT" || process.env.NODE_ENV == "vmsit"){
-          if(!store.state.permission.whiteBtnList[pagePermission]){
+        if (['VMSIT', 'SIT'].includes(process.env.NODE_ENV)) {
+          if (!store.state.permission.whiteBtnList[pagePermission]) {
             el.parentNode.removeChild(el)
           }
         }
