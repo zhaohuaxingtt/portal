@@ -154,10 +154,10 @@ export default {
       this.tabList = this.leadTabList
     } else {
       this.tabList = this.eklTabList
-      if (this.eklTabList.length > 0) {
-        this.query.type = this.eklTabList[0].type
-        this.activeName = this.eklTabList[0].name
-      }
+    }
+    if(this.tabList.length > 0){
+      this.query.type = this.tabList[0].type || ""
+      this.activeName = this.tabList[0].name || ""
     }
     this.getEkl(this.query)
     // log.js
