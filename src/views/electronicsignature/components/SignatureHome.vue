@@ -267,6 +267,8 @@ export default {
     },
     //签署
     sign() {
+      console.log(this.selSinaturedatas);
+
       if (this.selSinaturedatas.length <= 0) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOQIANSHUDEHETONG', '抱歉，您当前还未选择需要签署的合同'))
       }
@@ -274,6 +276,9 @@ export default {
       if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
         return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
       }
+      // let companyNo = this.selSinaturedatas[0].companyNumber
+      // let f = this.selSinaturedatas.find(e => e.companyNumber != companyNo)
+      // if(f) return this.$message.error(this.language('请选择相同公司编码的数据进行批量签署'))
       let reqData = filterRes.map(item => ({
         companyNumber: item.companyNumber,
         docNo: item.docNo,
