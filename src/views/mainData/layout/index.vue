@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mainData\layout\index.vue
 -->
 <template>
-  <iPage style="padding-top: 0px;">
+  <iPage style="padding-top: 0px">
     <div class="main-data">
       <!-- <pageHeader> {{ title }} </pageHeader> -->
       <div class="main-data-body margin-top20">
@@ -48,12 +48,23 @@ export default {
         return bodyHeight - 100 + 'px'
       }
       return '500px'
+    },
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    },
+    menus() {
+      const res = []
+      MENUS.forEach((element) => {
+        if (this.whiteBtnList[element.permissionKey]) {
+          res.push(element)
+        }
+      })
+      return res
     }
   },
   data() {
     return {
       columns: COLUMNS,
-      menus: MENUS,
       tableExpanded: { expandKey: 'title', childrenKey: 'children' }
     }
   },

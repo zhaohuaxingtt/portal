@@ -51,12 +51,23 @@ export default {
         return bodyHeight - 100 + 'px'
       }
       return '500px'
+    },
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    },
+    menus() {
+      const res = []
+      MENUS.forEach((element) => {
+        if (this.whiteBtnList[element.permissionKey]) {
+          res.push(element)
+        }
+      })
+      return res
     }
   },
   data() {
     return {
       columns: COLUMNS,
-      menus: MENUS,
       tableExpanded: { expandKey: 'title', childrenKey: 'children' }
     }
   },
