@@ -23,27 +23,31 @@ export default {
     showRightEcharts() {
       this.$nextTick(() => {
         const chart = echarts().init(document.getElementById('right-echart'))
-        console.log(this.deptData.lastDeptDataList)
         let arrCurrent = []
         arrCurrent = this.deptData.lastDeptDataList.map((i) => {
           return  Math.floor((i.lastPrice / 1000000) * 100) / 100
         })
+        arrCurrent.reverse()
         let prearrCurrent = []
         prearrCurrent = this.deptData.lastDeptDataList.map((i) => {
           return  i.lastPrice
         })
+       prearrCurrent.reverse()
         let arrLast = []
         arrLast = this.deptData.lastDeptDataList.map((i) => {
           return  Math.floor((i.curPrice / 1000000) * 100) / 100
         })
+       arrLast.reverse()
         let prearrLast = []
         prearrLast = this.deptData.lastDeptDataList.map((i) => {
           return  i.curPrice
         })
+        prearrLast.reverse()
         let arrDept = []
         arrDept = this.deptData.lastDeptDataList.map((i) => {
           return  i.dept
         })
+       arrDept.reverse()
         let option = {
           title: {
             text: `总金额:${
