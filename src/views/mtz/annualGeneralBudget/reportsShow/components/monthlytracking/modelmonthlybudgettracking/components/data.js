@@ -3,6 +3,7 @@ export const form = {
     'MaterialMedium': '', //材料中类
     'VersionMonthOne': '', //比较版本
     'VersionMonthTwo': '', //比较版本2
-    'getMonth': '', //比较月份
+    'yearMonthOne': '', //开始月份
+    'yearMonthTwo': '', //结束月份
     'onlySeeMySelf': false, // 仅看自己
 }
