@@ -12,13 +12,16 @@
       >
         {{ language('修改', '修改') }}
       </span>
-
+      <!-- 
       <input
         type="text"
         v-show="editable && isEdit"
         v-model="dataValue"
         class="input-value"
-      />
+      /> -->
+      <div v-show="editable && isEdit" class="input-value">
+        <iInput v-model="dataValue" :placeholder="placeholder" />
+      </div>
       <span v-show="editable && isEdit" class="btn-edit" @click="handleSave">
         {{ language('保存', '保存') }}
       </span>
@@ -34,13 +37,17 @@
 </template>
 
 <script>
+import { iInput } from 'rise'
+
 export default {
   name: 'bottomItem',
+  components: { iInput },
   props: {
     label: { type: String },
     text: { type: String },
     textKey: { type: String },
-    editable: { type: Boolean, default: false }
+    editable: { type: Boolean, default: false },
+    placeholder: { type: String, default: '请输入' }
   },
   inject: ['updateUser'],
   data() {
@@ -101,13 +108,7 @@ export default {
   cursor: pointer;
 }
 .input-value {
-  background: #f8f8fa;
   width: 170px;
   height: 31px;
-  border-radius: 5px;
-  border: solid 1px #f8f8fa;
-  outline: none;
-  padding: 6px 10px;
-  font-size: 14px;
 }
 </style>

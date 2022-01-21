@@ -2,7 +2,9 @@
   <div class="manage-box">
     <iPage>
       <div class="tab-list-box">
-        <div class="title">{{ language('NEWS_XINWENGUANLI', '新闻管理') }}</div>
+        <div class="title">
+          {{ language('NEWS_XINWENGUANLI', '新闻管理') }}
+        </div>
         <iNavMvp
           :list="newsButtonList"
           class="margin-bottom20"
@@ -30,7 +32,38 @@ export default {
       newsButtonList
     }
   },
-  methods: {}
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
+  created() {
+    this.checkHasEnterMenu()
+  },
+  methods: {
+    checkHasEnterMenu() {
+      const { path } = this.$route
+      const menuList = newsButtonList
+      const menuItem = menuList.find((e) => e.url === path)
+      if (menuItem) {
+        const permissionKey = menuItem.permissionKey
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              redirectUrl = menu.url
+              break
+            }
+          }
+          if (redirectUrl) {
+            this.$router.push({ path: redirectUrl })
+          }
+        }
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

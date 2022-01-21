@@ -1,16 +1,16 @@
 <template>
-  <!-- <div
+  <div
     v-permission.auto="
       MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE | 年度预算科室页面
     "
     class="outFrame"
-  > -->
-    <div
+  >
+    <!-- <div
     v-permission.auto="
       MTZ_REPORT_ANNUAL_BUDGET_DEPARTMENT
     "
     class="outFrame"
-  >
+  > -->
     <iButton @click="handleDownPdf" class="exportData">{{
       $t('LK_DAOCHU')
     }}</iButton>
