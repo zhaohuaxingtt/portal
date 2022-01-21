@@ -1,6 +1,6 @@
 <!--差异原因分析--->
 <template>
-  <div class="OuterFrame">
+  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -82,15 +82,9 @@
         <span class="monthlyCompare">{{
           language('LK_YUEFENBIJIAO', '月份比较')
         }}</span>
-        <el-date-picker
-          class="monthlyPosition"
-          v-model="form['getMonth']"
-          type="monthrange"
-          range-separator="-"
-          start-placeholder="开始月份"
-          end-placeholder="结束月份"
-          value-format="yyyyMM"
-        >
+        <el-date-picker class="monthlyPosition" v-model="form['yearMonthOne']" type="month" value-format="yyyyMM" placeholder="开始月份">
+        </el-date-picker>
+        <el-date-picker class="monthlyPositionTwo" v-model="form['yearMonthTwo']" type="month" value-format="yyyyMM" placeholder="结束月份">
         </el-date-picker>
       </el-form>
     </iSearch>
@@ -103,9 +97,9 @@
       </div>
       <detailsList
         :differenceAnalysis="differenceAnalysis"
-        :dataTitle="form['VersionMonthOne']"
+        :dataTitle="dataTitle"
         :num="num"
-        :dataTitleTwo="form['VersionMonthTwo']"
+        :dataTitleTwo="dataTitleTwo"
       />
       <iPagination
         @current-change="handleCurrentChange($event, clickQuery)"
@@ -178,10 +172,10 @@ export default {
       queryMaterialMedium()
         .then((res) => {
           const data = res.data
-          this.MaterialMediumList = data.map((item)=>{
+          this.MaterialMediumList = data.map((item) => {
             return {
-              label:`${item.materialCategoryCode}-${item.materialNameZh}`,
-              value:item.materialCategoryCode
+              label: `${item.materialCategoryCode}-${item.materialNameZh}`,
+              value: item.materialCategoryCode
             }
           })
           // this.MaterialMediumList = res.data
@@ -216,12 +210,13 @@ export default {
         .then((res) => {
           if (this.currentMonth == '1' || this.currentMonth == '2') {
             var arr = ['', '']
-            this.form['getMonth'] = [arr[0], arr[1]]
+            this.form['yearMonthOne']=arr[0]
+            this.form['yearMonthTwo']=arr[1]
             this.getdifferenceAnalysis()
           } else {
             this.getMonthList = res.data
-            var arr = [this.getMonthList[1].code, this.getMonthList[0].code]
-            this.form['getMonth'] = [arr[0], arr[1]]
+            this.form['yearMonthOne']=this.getMonthList[1].code
+            this.form['yearMonthTwo']=this.getMonthList[0].code
             this.getdifferenceAnalysis()
           }
         })
@@ -243,12 +238,20 @@ export default {
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
-          // console.log()
-          // if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
-          //   this.dataTitle =
-          //     this.differenceAnalysis[0].compareDataList[0].compareName
-          //   this.num = 1
-          // }
+          //给表格tatile赋值
+          if (this.form['yearMonthOne']=='' && this.form['yearMonthTwo']=='') {
+            this.dataTitle = form['VersionMonthOne']
+            this.dataTitleTwo = form['VersionMonthTwo']
+          } else {
+            let dataTransform = moment(this.form['yearMonthOne']).format(
+              'yyyy-MM'
+            )
+            let dataTransformTwo = moment(this.form['yearMonthTwo']).format(
+              'yyyy-MM'
+            )
+            this.dataTitle = `${form['VersionMonthOne']}-${dataTransform}`
+            this.dataTitleTwo = `${form['VersionMonthTwo']}-${dataTransformTwo}`
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -322,6 +325,12 @@ export default {
   width: 220px;
   position: absolute;
   left: 40px;
+  top: 138px;
+}
+.monthlyPositionTwo {
+  width: 220px;
+  position: absolute;
+  left: 310px;
   top: 138px;
 }
 .OuterIsearch {

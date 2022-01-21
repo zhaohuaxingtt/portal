@@ -37,7 +37,7 @@ export const tabRouterList = [
     url: '/supplier/frmrating/preliminaryrating',
     activePath: '/supplier/frmrating/preliminaryrating',
     key: 'SUPPLIER_CHUBUPINGJI',
-    permissionKey:"PORTAL_SUPPLIER_NAV_CHUBUPINGJI"
+    permissionKey:"WORKBENCH_MTZ_SOURCING_CHUBUPINGJI"
   },
   {
     value: 5,
