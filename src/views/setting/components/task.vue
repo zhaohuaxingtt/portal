@@ -68,9 +68,10 @@ export default {
     setData() {
       const moduleData = JSON.parse(this.cardData?.moduleData || '[]')
       const data = []
+      const categories = []
       this.staticsticData.forEach((e) => {
         if (e.taskCenterDtoList && e.taskCenterDtoList.length) {
-          this.categories.push({
+          categories.push({
             typeValue: e.taskCenterDtoList[0].taskName
           })
           const dataItem = {
@@ -93,6 +94,7 @@ export default {
           data.push(dataItem)
         }
       })
+      this.categories = categories
       this.data = data
     },
     toggleActive(val) {
