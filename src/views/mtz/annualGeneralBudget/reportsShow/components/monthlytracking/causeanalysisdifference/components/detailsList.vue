@@ -3,7 +3,7 @@
     <el-table :data="differenceAnalysis" style="width: 100%">
       <el-table-column
         prop="num"
-        :label="language('LK_YUEFEN', '月份')"
+        :label="language('LK_YUEFEN', '月份/序号')"
         align="center"
       >
       </el-table-column>

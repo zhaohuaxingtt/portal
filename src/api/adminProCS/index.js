@@ -254,19 +254,21 @@ export function queryProcessList(data) {
     })
 }
 // 流程上下架
-export function changeProcsState(id, data) {
+export function changeProcsState(id,data) {
     return procsRequest({
         url: `/workflow_mgr/${id}/published.json`,
         method: 'put',
-        data
+        data,
+        formData: true
     })
 }
 // 流程是否发送消息
-export function changeProcsSendMessage(id, data) {
+export function changeProcsSendMessage(id,data) {
     return procsRequest({
         url: `/workflow_mgr/${id}/isSendMessage.json`,
         method: 'put',
-        data
+        data,
+        formData: true
     })
 }
 // 添加流程
@@ -276,6 +278,13 @@ export function addProcess(data) {
         method: 'post',
         data,
         formData: true
+    })
+}
+// 查流程详情
+export function getProcess(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/detail.json`,
+        method: 'get',
     })
 }
 // 修改流程
@@ -293,3 +302,15 @@ export function deleteProcess(id) {
         method: 'delete'
     })
 }
+
+
+// 查询流程页面list
+export function loadProcessPageList(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/pageList.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+

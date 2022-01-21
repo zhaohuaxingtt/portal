@@ -108,6 +108,9 @@
         <!-- <template slot="startDate" slot-scope="scope">
           {{ meetingTime(scope.row) }}
         </template> -->
+        <template slot="weekOfYear" slot-scope="scope">
+          <span>CW{{ scope.row.weekOfYear }}/53</span> 
+        </template>
       </commonTable>
       <iPagination
         v-update

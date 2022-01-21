@@ -275,7 +275,7 @@ export default {
 			this.$refs.knowledgeContentForm.validate(async v => {
 				if (v) {
 					try {
-						this.newContentForm.openingDate = moment(this.newContentForm.beginDate).format('YYYY-MM-DD')
+						this.newContentForm.openingDate = moment(this.newContentForm.beginDate).format('YYYY-MM-DD HH:mm:ss')
 						this.newContentForm.file = this.uploadFileStream  // 老系统修改的时候没有传值
 						this.newContentForm.coverFileName = this.imgName || `${this.newContentForm.title}.png`
 						this.newContentForm.coverFile = this.coverFile

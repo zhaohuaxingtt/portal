@@ -11,7 +11,7 @@
                     </iSelect>
                 </iFormItem>
                 <iFormItem :label='language("消息发送")'>
-                     <iSelect v-model="searchForm.isSend" filterable clearable>
+                     <iSelect v-model="searchForm.isSendMessage" filterable clearable>
                         <el-option v-for="item in sendList" :key="item.id" :label="item.labelName" :value="item.id"></el-option>
                     </iSelect>
                 </iFormItem>
@@ -96,8 +96,8 @@
                 ],
                 searchForm:{
                     name: '',
-                    published: '',
-                    idSend: ''
+                    published: null,
+                    isSendMessage: null
                 },
                 publicDate: [],
                 dialog:{

@@ -29,7 +29,8 @@ export const tabRouterList = [
     url: '/mtz/annualGeneralBudget/locationChange',
     activePath: '/mtz/annualGeneralBudget/locationChange',
     key: '定点与变更',
-    permissionKey: 'PORTAL_MTZ_NAV_DINGDIANYUBIANGENG'
+    // permissionKey: 'PORTAL_MTZ_NAV_DINGDIANYUBIANGENG',
+    permissionKey: 'WORKBENCH_MTZ_SOURCING'
   },
   {
     value: 4,
