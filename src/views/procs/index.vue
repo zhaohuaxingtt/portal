@@ -5,6 +5,7 @@
 			<iNavMvp 
 				:list="menus"
 				:lev="2"
+				lang
 				router-page />
 		</div>
 		<router-view></router-view>
@@ -22,25 +23,22 @@ export default {
 			{
 			value: 1,
 			name: '词条管理',
-			message: 0,
 			url: '/cf-ProCS/glossaryManage',
-			activePath: '/cf-ProCS/glossary',
+			activePath: '/cf-ProCS/glossaryManage',
 			key: '词条管理'
 			},
 			{
 			value: 2,
 			name: '知识管理',
-			message: 0,
 			url: '/cf-ProCS/knowledgeManage',
-			activePath: '/cf-ProCS/knowledge',
+			activePath: '/cf-ProCS/knowledgeManage',
 			key: '知识管理'
 			},
 			{
 			value: 3,
 			name: '流程管理',
-			message: 0,
 			url: '/cf-ProCS/processManage',
-			activePath: '/cf-ProCS/process',
+			activePath: '/cf-ProCS/processManage',
 			key: '流程管理'
 			},
 		]
