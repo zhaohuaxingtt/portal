@@ -1,6 +1,6 @@
 <!--预算月度跟踪--->
 <template>
-  <div>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING'>
     <i-card class='search'>
       <div class="search-content">
         <div class="form-condition">
@@ -91,7 +91,7 @@ import echarts from '@/utils/echarts'
 import contrast from './components/contrast'
 import {searchTrackingReport,getDept} from '@/api/mtz/reportsShow/monthlytrackingpayment'
 import {queryMtzMaterial,queryMaterialMedium} from '@/api/mtz/reportsShow'
-import { math } from '@/utils'
+// import { math } from '@/utils'
 export default {
   name: 'paymentTracking',
   components:{

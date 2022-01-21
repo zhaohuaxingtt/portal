@@ -49,11 +49,14 @@ export default {
   },
   created() {
     this.getMenus()
+
   },
   methods: {
     getMenus() {
       const { matched, query, meta, params, path } = this.$route
       const { menuType } = query
+
+      
       const activePath = meta.activePath
       const hasParams = params && Object.keys(params).length > 0
       // pathIndex 对应几级菜单
@@ -198,10 +201,13 @@ export default {
       for (let i = 0; i < matched.length; i++) {
         const element = matched[i]
         if (element.redirect === path) {
+          console.log("-----", element.redirect , path);
           parentPath = element.path
+        }else{
+          parentPath = path     //d
         }
       }
-      console.log('parentPath', parentPath)
+      console.log('parentPath', parentPath,this.fullMenus)
       const childMenus = this.getChildrenMenus(this.fullMenus, parentPath) || []
       console.log('childMenus', childMenus)
       if (childMenus.length > 0) {

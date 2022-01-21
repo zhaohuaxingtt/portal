@@ -88,7 +88,7 @@
                             <el-option
                                 v-for="item in organizationList"
                                 :key="item.id"
-                                :label="item.name"
+                                :label="item.nameZh"
                                 :value="item.id"
                             >
                             </el-option>
@@ -140,6 +140,7 @@ import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import { organizationsListData, addReportType, modifyReportType } from '@/api/reportForm';
 import { getUserSelectPageList } from '@/api/authorityMgmt/index'
+import { getDeptDropDownList } from '@/api/authorityMgmt'
 export default {
     name: 'addTypeDialog',
     components: {
@@ -175,7 +176,7 @@ export default {
                 canUsers: [],
                 users: [],
                 suppliers: [],
-                organizations: ''
+                organizations: []
             },
             rules: {
                 name: { required:true, message:"请输入报表类型",trigger:'blur' },
@@ -211,33 +212,46 @@ export default {
             })
         },
         async getOrganizationsList() {
-            let params = {
-                keyword: ' '
-            }
-            await organizationsListData(params).then(res => {
-                if (res) {
-                    this.organizationList = res || []
+            // let params = {
+            //     keyword: ' '
+            // }
+            await getDeptDropDownList({}).then(res => {
+                if (res?.code === '200') {
+                    this.organizationList = res?.data || []
                 }
             }) 
         },
         userListChange(val){
-            console.log(val, '22222')
             val.map(item => {
                 this.form.users.push(item.userId * 1)
             })
         },
         supplierListChange(val){
-            console.log(val, '3333')
             val.map(item => {
                 this.form.suppliers.push(item.id * 1)
             })
-        }, 
+        },
+        clear() {
+            this.form = {
+                name: '',
+                organization: '',
+                location: '',
+                enName: '',
+                telefone: '',
+                adminUsers: [],
+                canUsers: [],
+                users: [],
+                suppliers: [],
+                organizations: []
+            }
+        },
         closeDialogBtn () {
             this.$emit('update:show', false)
             this.imageUrl = ''
             this.customFlag = false
             this.modifyId = null
-            Object.keys(this.form).forEach(key => this.form[key] = '')
+            // Object.keys(this.form).forEach(key => this.form[key] = '')
+            this.clear()
         },
         close() {
             this.closeDialogBtn();
@@ -288,7 +302,6 @@ export default {
                 if (v) {
                     try {
                         if (this.operateType === 'add') {
-                            console.log(this.form, '123')
                             this.form.cover = this.imageUrl
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
@@ -308,7 +321,6 @@ export default {
                                     });
                                     this.loading = false
                                 }
-                                
                             })
                         } else {
                             this.form.cover = this.imageUrl
@@ -343,13 +355,30 @@ export default {
             })
         },
         initModify(row) {
-            console.log(row, '2222')
             Object.assign(this.form, row)
             this.imageUrl = row.cover
             this.modifyId = row.id
-            console.log(this.form, '22222')
+            if (this.form.organizations) {
+                let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
+                testOrganizationsArr.map(item => {
+                    this.form.organizations.push(item.id)
+                })
+            }
+            if (this.form.adminUsers) {
+                let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
+                testAdminUsersArr.map(item => {
+                    this.form.adminUsers.push(item.id)
+                })
+            }
+            if (this.form.users) {
+                let testUsersArr = JSON.parse(JSON.stringify(this.form.users))
+                this.form.canUsers = []
+                testUsersArr.map(item => {
+                    this.form.canUsers.push(item.id)
+                })
+            }
             // 返回的信息有供应商 说明是自定义
-            if (row.suppliers) {
+            if (this.form.suppliers) {
                 this.form.canUsers.unshift({
                     nameZh: '自定义',
                     userId: 7250
@@ -357,20 +386,6 @@ export default {
                 this.customFlag = true
             } else {
                 this.customFlag = false
-            }
-            if (this.form.organizations) {
-                let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
-                this.form.organizations = []
-                testOrganizationsArr.map(item => {
-                    this.form.organizations.push(item.id)
-                })
-            }
-            if (this.form.adminUsers) {
-                let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
-                this.form.adminUsers = []
-                testAdminUsersArr.map(item => {
-                    this.form.adminUsers.push(item.id)
-                })
             }
         }
     },
@@ -429,7 +444,4 @@ export default {
 	color: #F8F8FA;
 	background-color: red;
 }
-
-
-
 </style>
