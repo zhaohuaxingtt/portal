@@ -221,13 +221,11 @@ export default {
             }) 
         },
         userListChange(val){
-            console.log(val, '22222')
             val.map(item => {
                 this.form.users.push(item.userId * 1)
             })
         },
         supplierListChange(val){
-            console.log(val, '3333')
             val.map(item => {
                 this.form.suppliers.push(item.id * 1)
             })
@@ -303,7 +301,6 @@ export default {
                 if (v) {
                     try {
                         if (this.operateType === 'add') {
-                            console.log(this.form, '123')
                             this.form.cover = this.imageUrl
                             if (this.customFlag) {
                                 this.form.canUsers.map(item => {
@@ -323,7 +320,6 @@ export default {
                                     });
                                     this.loading = false
                                 }
-                                
                             })
                         } else {
                             this.form.cover = this.imageUrl
@@ -447,7 +443,4 @@ export default {
 	color: #F8F8FA;
 	background-color: red;
 }
-
-
-
 </style>
