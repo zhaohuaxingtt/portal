@@ -1,6 +1,6 @@
 <!--差异原因分析--->
 <template>
-  <div class="OuterFrame">
+  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -103,9 +103,9 @@
       </div>
       <detailsList
         :differenceAnalysis="differenceAnalysis"
-        :dataTitle="form['VersionMonthOne']"
+        :dataTitle="dataTitle"
         :num="num"
-        :dataTitleTwo="form['VersionMonthTwo']"
+        :dataTitleTwo="dataTitleTwo"
       />
       <iPagination
         @current-change="handleCurrentChange($event, clickQuery)"
@@ -243,12 +243,17 @@ export default {
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
-          // console.log()
-          // if ((this.differenceAnalysis[0].compareDataList.length = 1)) {
-          //   this.dataTitle =
-          //     this.differenceAnalysis[0].compareDataList[0].compareName
-          //   this.num = 1
-          // }
+          //给表格tatile赋值
+          if (this.form['getMonth'].some((i) => i == '')) {
+            this.dataTitle = form['VersionMonthOne']
+            this.dataTitleTwo=form['VersionMonthTwo']
+          }
+          else{
+            let dataTransform=moment(this.form['getMonth'][0]).format('yyyy-MM')
+             let dataTransformTwo=moment(this.form['getMonth'][1]).format('yyyy-MM')
+            this.dataTitle = `${form['VersionMonthOne']}-${dataTransform}`
+            this.dataTitleTwo = `${form['VersionMonthTwo']}-${dataTransformTwo}`
+          }
         })
         .catch((err) => {
           console.log(err)

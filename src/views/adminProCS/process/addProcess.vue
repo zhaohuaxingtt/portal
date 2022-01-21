@@ -6,14 +6,13 @@
 		@close='closeDialogBtn' 
 		append-to-body
 	>
-		<ProcessForm ref="form" :operateType="operateType"></ProcessForm>
+		<ProcessForm ref="form" type="add"></ProcessForm>
 	</iDialog>
 </template>
 
 <script>
 import { iDialog } from 'rise';
 import ProcessForm from './components/processForm.vue';
-import { getOrganizationList, getUsersList, addProcess,updateProcess } from '@/api/adminProCS';
 
 export default {
 	components: {
@@ -21,10 +20,6 @@ export default {
 		ProcessForm
 	},
 	props: {
-		operateType: {
-			type: String,
-			default: 'add'
-		},
 		show: {
 			type: Boolean,
 			default: false

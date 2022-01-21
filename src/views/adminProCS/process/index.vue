@@ -73,7 +73,7 @@ export default {
     },
     watch:{
        selectList(n){
-           if(n[0] && n[0].state){
+           if(n[0] && n[0].published){
                this.disabled = true
            }else{
                this.disabled = false

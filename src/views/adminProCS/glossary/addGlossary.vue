@@ -12,7 +12,7 @@
 					v-model="newGlossaryForm.publishDate"
 					type="date"
 					style="width:100%;"
-					value-format="yyyy-MM-dd"
+					value-format="yyyy-MM-dd HH:mm:ss"
 					placeholder="选择日期">
 				</el-date-picker>
 			</iFormItem>

@@ -49,11 +49,14 @@ export default {
   },
   created() {
     this.getMenus()
+
   },
   methods: {
     getMenus() {
       const { matched, query, meta, params, path } = this.$route
       const { menuType } = query
+
+      
       const activePath = meta.activePath
       const hasParams = params && Object.keys(params).length > 0
       // pathIndex 对应几级菜单
@@ -68,9 +71,14 @@ export default {
       // 当前route的兄弟菜单
       const pathMenus =
         this.getSiblingMenus(this.fullMenus, path, menuType, activePath) || []
-
-      if (pathMenus.length === 0) {
-        console.log('没有这个菜单呀', this.$route)
+      console.log('没有这个菜单呀', this.$route)
+      const isDetailPage =
+        Object.keys(query).length !== 0 ||
+        path.includes('add') ||
+        path.includes('edit') ||
+        path.includes('detail') ||
+        path.includes('create')
+      if (pathMenus.length === 0 && !isDetailPage) {
         this.fixedNoHasAuthMenu()
       } else {
         // 获取菜单
@@ -193,10 +201,13 @@ export default {
       for (let i = 0; i < matched.length; i++) {
         const element = matched[i]
         if (element.redirect === path) {
+          console.log("-----", element.redirect , path);
           parentPath = element.path
+        }else{
+          parentPath = path     //d
         }
       }
-      console.log('parentPath', parentPath)
+      console.log('parentPath', parentPath,this.fullMenus)
       const childMenus = this.getChildrenMenus(this.fullMenus, parentPath) || []
       console.log('childMenus', childMenus)
       if (childMenus.length > 0) {
