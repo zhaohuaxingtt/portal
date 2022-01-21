@@ -74,7 +74,10 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款名称" prop="name">
                 <iLabel :label="'条款名称'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.name" :disabled="ruleForm.state != '03'"></iInput>
+                <iInput
+                  v-model="ruleForm.name"
+                  :disabled="ruleForm.state != '03'"
+                ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -915,7 +918,7 @@ export default {
       this.$router.push({
         path: '/terms/management/addClause',
         query: {
-          id: this.ruleForm.id,
+          id: this.ruleForm.id
           // updateTerms: true
         }
       })
@@ -1006,6 +1009,7 @@ export default {
       return res
     },
     handleSave() {
+      console.log('this.ruleForm', this.ruleForm)
       this.$confirm('是否保存该条款？', '提示', {
         confirmButtonText: '是',
         cancelButtonText: '否',
@@ -1018,6 +1022,12 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              (this.ruleForm.supplierList?.length == 0 ||
+                this.ruleForm.supplierList == null)
+            ) {
+              this.$message.error('供应商列表不能为空！')
             } else {
               this.ruleForm.supplierRange = this.ruleForm.supplierRange
                 .map((i) => {

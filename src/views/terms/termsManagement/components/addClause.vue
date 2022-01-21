@@ -949,6 +949,11 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              this.ruleForm.supplierList.length == 0
+            ) {
+              this.$message.error('供应商列表不能为空！')
             }
             // else if (
             //   this.ruleForm.attachments.length == 0

@@ -313,4 +313,43 @@ export function loadProcessPageList(id,data) {
         formData: true
     })
 }
+// 新增流程页面
+export function ProcessAddPage(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/createPage.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 编辑流程页面
+export function ProcessEditPage(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/updatePage.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 获取流程页面详情
+export function getProcessPage(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/pageDetail.json`,
+        method: 'get'
+    })
+}
+// 删除流程页面
+export function deleteProcessPage(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/deletePage.json`,
+        method: 'delete'
+    })
+}
+// 删除页面附件（手册/视频）
+export function deletePageFile(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/deletePageFile.json`,
+        method: 'delete'
+    })
+}
 
