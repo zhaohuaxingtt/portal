@@ -175,7 +175,7 @@ export default {
                 canUsers: [],
                 users: [],
                 suppliers: [],
-                organizations: ''
+                organizations: []
             },
             rules: {
                 name: { required:true, message:"请输入报表类型",trigger:'blur' },
@@ -231,13 +231,28 @@ export default {
             val.map(item => {
                 this.form.suppliers.push(item.id * 1)
             })
-        }, 
+        },
+        clear() {
+            this.form = {
+                name: '',
+                organization: '',
+                location: '',
+                enName: '',
+                telefone: '',
+                adminUsers: [],
+                canUsers: [],
+                users: [],
+                suppliers: [],
+                organizations: []
+            }
+        },
         closeDialogBtn () {
             this.$emit('update:show', false)
             this.imageUrl = ''
             this.customFlag = false
             this.modifyId = null
-            Object.keys(this.form).forEach(key => this.form[key] = '')
+            // Object.keys(this.form).forEach(key => this.form[key] = '')
+            this.clear()
         },
         close() {
             this.closeDialogBtn();
@@ -343,13 +358,30 @@ export default {
             })
         },
         initModify(row) {
-            console.log(row, '2222')
             Object.assign(this.form, row)
             this.imageUrl = row.cover
             this.modifyId = row.id
-            console.log(this.form, '22222')
+            if (this.form.organizations) {
+                let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
+                testOrganizationsArr.map(item => {
+                    this.form.organizations.push(item.id)
+                })
+            }
+            if (this.form.adminUsers) {
+                let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
+                testAdminUsersArr.map(item => {
+                    this.form.adminUsers.push(item.id)
+                })
+            }
+            if (this.form.users) {
+                let testUsersArr = JSON.parse(JSON.stringify(this.form.users))
+                this.form.canUsers = []
+                testUsersArr.map(item => {
+                    this.form.canUsers.push(item.id)
+                })
+            }
             // 返回的信息有供应商 说明是自定义
-            if (row.suppliers) {
+            if (this.form.suppliers) {
                 this.form.canUsers.unshift({
                     nameZh: '自定义',
                     userId: 7250
@@ -357,20 +389,6 @@ export default {
                 this.customFlag = true
             } else {
                 this.customFlag = false
-            }
-            if (this.form.organizations) {
-                let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
-                this.form.organizations = []
-                testOrganizationsArr.map(item => {
-                    this.form.organizations.push(item.id)
-                })
-            }
-            if (this.form.adminUsers) {
-                let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
-                this.form.adminUsers = []
-                testAdminUsersArr.map(item => {
-                    this.form.adminUsers.push(item.id)
-                })
             }
         }
     },
