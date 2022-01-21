@@ -740,6 +740,11 @@ export default {
     color: #333333;
     font-size: 14px;
     font-weight: 400;
+     span {
+      /* display: block; */
+      width: 100%;
+      text-align: right!important;
+    }
   }
 }
 .button-list {
@@ -883,5 +888,14 @@ export default {
   text-align: center;
   padding-left:1px;
   display: inline-block;
+}
+::v-deep .el-form-item__error{
+  color: #EF3737;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding-top: 0.25rem;
+    position: absolute;
+    top: 100%;
+    left: 28px;
 }
 </style>

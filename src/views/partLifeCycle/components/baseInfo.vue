@@ -213,7 +213,6 @@
       handleJumpData(data) {
         let path = '';
         const {id, isOrder, type} = data;
-        console.log(data)
         if (type) {
           if (type == 55) {
             path = `ws2/createbatchframework?frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
@@ -242,7 +241,6 @@
         } else {
           return iMessage.error('返回数据类型不存在，无法跳转！')
         }
-        console.log(path)
         if (path) window.open(this.baseUrl + `/order/#/${path}`, '_blank');
       },
 

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-19 10:20:17
+ * @LastEditTime: 2022-01-20 15:07:29
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -36,11 +36,14 @@
         <!-- <i-button v-if="!edit"
                   @click="upload">{{ language('SHANGCHUAN', '上传') }}
         </i-button> -->
-        <i-button v-if="!edit"
+        <!-- <i-button v-if="!edit"
                   @click="activeBtn">{{ language('JIHUO', '激活') }}
-        </i-button>
-        <i-button v-if="!edit"
+        </i-button> -->
+        <!-- <i-button v-if="!edit"
                   @click="renewalBtn">{{ language('XUQI', '续期') }}
+        </i-button> -->
+        <i-button v-if="!edit"
+                 @click="exportFile">{{ language('DAOCHU', '导出') }}
         </i-button>
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
@@ -54,7 +57,7 @@
                    :http-request="httpUpload"
                    :disabled="importLoading">
           <div>
-            <i-button>{{ language('DAORU', '导入') }}
+            <i-button>{{ language('PILIANGDAORU', '批量导入') }}
             </i-button>
           </div>
         </el-upload>
@@ -234,6 +237,8 @@ export default {
             this.importDialog = true
             this.tableListDetail = res.data
           }
+        }else{
+            this.$message.error(res.desZh)
         }
       })
       this.importLoading = false
@@ -279,7 +284,7 @@ export default {
         return false
       }
       iMessageBox(
-        this.language('QUERENSHANCHUGAIYINGYONG', '确认删除该应用？'),
+        this.language('QUERENSHANCHU', '确认删除？'),
         this.language('SHANCHU', '删除'),
         {
           confirmButtonText: this.language('SHI', '是'),
@@ -310,6 +315,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -325,6 +331,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -340,6 +347,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -355,6 +363,7 @@ export default {
         idList: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
+            this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })

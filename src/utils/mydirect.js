@@ -8,6 +8,7 @@
  */
 
 import store from '../store'
+import router from '@/router'
 import { isNeedJudgePermission } from './index'
 import { numberProcessor } from '@/utils'
 // 按钮权限
@@ -25,6 +26,13 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+    //-----------------------2022-1-20 修改权限配置内容start------------------------------
+    //如果是个变量则使用变量，否则当做字符串处理
+    const value = binding.value ? binding.value : binding.expression.trim()
+    const splitValue = value.split('|')
+    //去除控件传参中存在换行空格等情况
+    const pagePermission = splitValue[0]?splitValue[0].trim():splitValue[0]
+    //-----------------------2022-1-20 修改权限配置内容end------------------------------
     if (isNeedJudgePermission()) {
       return true
     } else {
@@ -34,7 +42,13 @@ Vue.directive('permission', {
         !menuBtn
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
-        // if(process.env.NODE_ENV == "SIT") el.parentNode.removeChild(el)
+        //-----------------------2022-1-20 修改权限配置内容start------------------------------
+        // if(process.env.NODE_ENV == "SIT" || process.env.NODE_ENV == "vmsit"){
+        //   if(!store.state.permission.whiteBtnList[pagePermission]){
+        //     el.parentNode.removeChild(el)
+        //   }
+        // }
+        //-----------------------2022-1-20 修改权限配置内容end------------------------------
       }
     }
   }

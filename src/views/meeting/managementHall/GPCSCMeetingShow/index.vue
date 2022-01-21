@@ -63,7 +63,7 @@
                     scope.row.sign=='s' ? 'icon-baofeichuzhi' : scope.row.sign=='f' ?'icon-fenduandingdian':''" ></icon>
               </template>
             </el-table-column>
-            <!-- 股别 supporterDeptNosys  -->
+            <!-- 股别 presenterDept  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -73,7 +73,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys}}</span>
+                <span>{{scope.row.presenterDept}}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName 改 topic-->

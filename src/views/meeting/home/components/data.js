@@ -273,6 +273,8 @@ const totalDay = isLeap ? 366 : 365
 const weekNum2 = new Date(currentFistYearDay).getDay()
 const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
 const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+const curDayNum = dayjs(new Date()).dayOfYear()
+const curWeekNum = Math.ceil((curDayNum - shouldDel) / 7)
 
 let weekListInit = []
 for (let index = 0; index < weekNum; index++) {
@@ -288,7 +290,7 @@ for (let index = 0; index < weekNum; index++) {
     })
   }
 }
-export { weekListInit }
+export { weekListInit, curWeekNum }
 
 export const baseRules = {
   meetingTypeId: [

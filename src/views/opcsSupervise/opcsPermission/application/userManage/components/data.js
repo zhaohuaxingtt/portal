@@ -1,15 +1,34 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 15:46:20
+ * @LastEditTime: 2022-01-20 15:18:44
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
+export function codeFun(rule, value, callback) {
+ 
+    
+    var arr = []
+    arr = value.split(',')
+    if(!/^\d+$/.test(arr.join(""))){
+        callback(new Error('只能输入逗号分开的五位数字！'));
+    }
+    var p = arr.every(v => {
+        console.log(v)
+        return v.toString().length ==5
+    });
+    if (p) {
+        callback()
+    } else {
+        callback(new Error('只能输入逗号分开的五位数字！'));
+    }
+    // value.join()
+}
 export const tableTitle = [{
         props: 'supplierNum',
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
         required: true,
-        width: 120,
+        width: 150,
         rule: [{
             required: true,
             message: '请输入',
@@ -84,13 +103,13 @@ export const tableTitle = [{
     },
     {
         props: 'userName',
-        name: '用户名',
-        key: 'YONGHUMING',
+        name: '用户登录名',
+        key: 'YONGHUDENGLUMING',
     },
     {
         props: 'isActive',
-        name: '是否激活',
-        key: 'SHIFOUJIHUO',
+        name: '是否活动',
+        key: 'SHIFOUHUODONG',
     },
     {
         props: 'markExpiration',
@@ -114,10 +133,11 @@ export const tableTitleEdit = [{
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
         required: true,
+        type: 'number',
+        width: 240,
         rule: [{
             required: true,
-            pattern: /^[0-9]\d{4,4}$/,
-            message: '供应商编号为五位数字',
+            validator: codeFun,
             trigger: 'blur'
         }]
     },
@@ -185,35 +205,36 @@ export const tableTitleEdit = [{
 ]
 
 export const tableTitleDetail = [{
-    props: 'nameZh',
-    name: '应⽤中⽂名',
-    key: 'YINGYONGZHONGWENMING',
-}, {
-    props: 'nameEn',
-    name: '应⽤英⽂名',
-    key: 'YINGYONGYINGWENMING',
-}, {
-    props: 'shortName',
-    name: '应⽤简称',
-    key: 'YINGYONGJIANCHENG',
-},
-{
-    props: 'ldapSchema',
-    name: '安全中心LDAP属性',
-    key: 'ANQUANZHONGXINLDAPSHUXING',
-},
+        props: 'nameZh',
+        name: '应⽤中⽂名',
+        key: 'YINGYONGZHONGWENMING',
+    }, {
+        props: 'nameEn',
+        name: '应⽤英⽂名',
+        key: 'YINGYONGYINGWENMING',
+    }, {
+        props: 'shortName',
+        name: '应⽤简称',
+        key: 'YINGYONGJIANCHENG',
+    },
+    {
+        props: 'ldapSchema',
+        name: '安全中心LDAP属性',
+        key: 'ANQUANZHONGXINLDAPSHUXING',
+    },
 ]
 export const tableTitleDetailAdd = [{
-    props: 'nameZh',
-    name: '应⽤中⽂名',
-    key: 'YINGYONGZHONGWENMING',
-}, {
-    props: 'nameEn',
-    name: '应⽤英⽂名',
-    key: 'YINGYONGYINGWENMING',
-}, 
-{    props: 'ldapSchema',
-    name: 'AppCode',
-    key: 'AppCode',
-},
+        props: 'nameZh',
+        name: '应⽤中⽂名',
+        key: 'YINGYONGZHONGWENMING',
+    }, {
+        props: 'nameEn',
+        name: '应⽤英⽂名',
+        key: 'YINGYONGYINGWENMING',
+    },
+    {
+        props: 'ldapSchema',
+        name: 'AppCode',
+        key: 'AppCode',
+    },
 ]

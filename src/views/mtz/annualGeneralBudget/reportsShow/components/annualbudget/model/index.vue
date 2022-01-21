@@ -11,7 +11,7 @@
               :value="item.code">
             </el-option>
           </i-select>
-          <show-me-components class='margin-right30' @showOnlyMyselfData='leftShowOnlyMyselfData' :is-only-myself='leftQueryForm.onlySeeMySelf' />
+          <show-me-components class='margin-right30' v-show="false" @showOnlyMyselfData='leftShowOnlyMyselfData' :is-only-myself='leftQueryForm.onlySeeMySelf' />
         </div>
         <div class='left-query'>
           <el-form>
@@ -50,7 +50,7 @@
     <div class='right'>
       <div class='right-top'>
         <p>{{language('LK_CHEXINGYUSUANJINEMINGXI','车型预算金额明细')}}</p>
-        <show-me-components :is-only-myself='rightQueryForm.onlySeeMySelf' @showOnlyMyselfData='rightShowOnlyMysel' />
+        <show-me-components :is-only-myself='rightQueryForm.onlySeeMySelf' v-show="false" @showOnlyMyselfData='rightShowOnlyMysel' />
       </div>
       <div class='right-query'>
           <i-select class='my-sel' v-model='rightQueryForm.carModel' filterable clearable :placeholder='language("LK_CHEXING","车型")' @change='rightChangeCard'>
@@ -114,9 +114,10 @@ export default {
         carModel:'',
         carModelSixNum:'',
         onlySeeMySelf:false,
-        year:new Date().getFullYear()+''
+        year:''
       },
-      year:new Date().getFullYear()+'',
+      // year:new Date().getFullYear()+'',
+      year:'',
       //车型明细请求参数
       rightQueryForm:{
         carModel:'',
@@ -200,6 +201,8 @@ export default {
       yearDropDown().then(res=>{
        if(res.code==200){
          this.years=res.data
+         this.year = res.data[0].code
+         this.leftQueryForm.year = res.data[0].code
          this.years=this.years.reverse()
          this.years=this.years.filter(item=>item.code!=null)
        }
@@ -257,9 +260,10 @@ export default {
       this.leftQueryForm.carModel=''
       this.leftQueryForm.carModelSixNum=''
       this.leftQueryForm.onlySeeMySelf=false
-      this.leftQueryForm.year=new Date().getFullYear()+''
-      this.year=new Date().getFullYear()+''
+      this.leftQueryForm.year=this.years[this.years.length-1].code
+      this.year=this.years[this.years.length-1].code
       this.leftTableList=[]
+      this.leftCarSixCode = []
       this.getyearCardModel()
     },
    //右侧重置
@@ -267,8 +271,9 @@ export default {
       this.rightQueryForm.onlySeeMySelf=false
       this.rightQueryForm.carModelSixNum=''
       this.rightQueryForm.carModel=''
-      this.year=new Date().getFullYear()+''
+      // this.year=this.years[this.years.length-1].code
       this.rightTableList=[]
+      this.rightCarSixCode = []
       this.getCarModelDetail()
     },
     //点击列表车型

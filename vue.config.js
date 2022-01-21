@@ -328,6 +328,15 @@ module.exports = {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
       },
+      // adminProcs
+      [process.env.VUE_APP_ADMIN_PROCS]: {
+        target: `http://10.160.142.1:8016/riseprocs`,
+        // target: `http://${BASE_IP}:8016/riseprocs`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+        }
+      },
       // '/fileCross': {
       //   target: `http://${BASE_IP}:8034`,
       //   changeOrigin: true,
@@ -342,6 +351,14 @@ module.exports = {
           ['^' + process.env.VUE_APP_AEKO]: ''
         }
       }
+      // adminProCS
+      // [process.env.VUE_APP_ADMIN_PROCS]: {
+      //   target: `http://${BASE_IP}:8016/riseprocsApi`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+      //   }
+      // },
     }
   }
 }
