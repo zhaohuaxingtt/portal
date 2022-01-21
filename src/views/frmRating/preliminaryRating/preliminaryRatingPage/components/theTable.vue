@@ -7,25 +7,25 @@
         <!--财报比较-->
         <iButton @click="handleFinancialReportComparison">{{ $t('SPR_FRM_CBPJ_CBBJ') }}</iButton>
         <!--有效-->
-        <iButton @click="handleValidOrInvalid(1)" :loading="validButtonLoading">{{ $t('SUPPLIER_YOUXIAO') }}</iButton>
+        <iButton @click="handleValidOrInvalid(1)"
+                 :loading="validButtonLoading">{{ $t('SUPPLIER_YOUXIAO') }}</iButton>
         <!--无效-->
-        <iButton @click="handleValidOrInvalid(0)" :loading="invalidButtonLoading">{{ $t('SUPPLIER_WUXIAO') }}</iButton>
+        <iButton @click="handleValidOrInvalid(0)"
+                 :loading="invalidButtonLoading">{{ $t('SUPPLIER_WUXIAO') }}</iButton>
         <!--导出初评模板-->
         <iButton @click="handleExport">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
         <!--初步评级-->
         <iButton @click="handlePreliminaryRating">{{ $t('SUPPLIER_CHUBUPINGJI') }}</iButton>
       </div>
     </div>
-    <tableList
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        :index="true"
-        @handleSelectionChange="handleSelectionChange"
-        openPageProps="nameZh"
-        @openPage="handleOpenPage"
-        :openPageGetRowData="true"
-    >
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               @handleSelectionChange="handleSelectionChange"
+               openPageProps="nameZh"
+               @openPage="handleOpenPage"
+               :openPageGetRowData="true">
       <template #effectFlag='scope'>
         {{ scope.row.effectFlag === 1 ? $t('SUPPLIER_YOUXIAO') : $t('SUPPLIER_WUXIAO') }}
       </template>
@@ -39,36 +39,31 @@
         {{ handleIsAdditionWord(scope.row.isAddition) }}
       </template>
     </tableList>
-    <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page='page.currPage'
-        :total="page.totalCount"/>
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
     <!--无法评级-->
-    <notRatedDialog
-        v-model="notRatedDialog"
-        :loading="notRatedDialogLoading"
-        @handleSubmit="handleNotRatedSubmit"
-    />
+    <notRatedDialog v-model="notRatedDialog"
+                    :loading="notRatedDialogLoading"
+                    @handleSubmit="handleNotRatedSubmit" />
     <!--财报比较-->
-    <financialReportComparisonDialog
-        :selectTableData="selectTableData"
-        v-model="financialReportComparisonDialog"
-    />
+    <financialReportComparisonDialog :selectTableData="selectTableData"
+                                     v-model="financialReportComparisonDialog" />
   </iCard>
 </template>
 
 <script>
-import {iCard, iButton, iPagination, iMessageBox, iMessage} from 'rise';
+import { iCard, iButton, iPagination, iMessageBox, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
-import {pageMixins} from '@/utils/pageMixins';
+import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
-import {tableTitle} from './data';
+import { tableTitle } from './data';
 import notRatedDialog from './notRatedDialog';
 import financialReportComparisonDialog from './financialReportComparisonDialog';
 import {
@@ -76,7 +71,8 @@ import {
   updatePreliminaryStatus,
   initCommentRating,
 } from '../../../../../api/frmRating/preliminaryRating/preliminaryRatingPage';
-import {excelExport} from '@/utils/filedowLoad';
+// import { excelExport } from '@/utils/filedowLoad';
+import { downloadUdFile } from '@/api/file'
 import {
   // INITIAL_STATUS,
   SUPPLIER_STATUS,
@@ -92,7 +88,7 @@ export default {
     notRatedDialog,
     financialReportComparisonDialog,
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle,
@@ -113,18 +109,18 @@ export default {
       SUPPLIER_STATUS,
     };
   },
-  created() {
+  created () {
     this.getTableList();
   },
   methods: {
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val;
     },
-    handleSearch() {
+    handleSearch () {
       this.page.currPage = 1;
       this.getTableList();
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       const searchItem = this.$parent.$children.filter(item => {
         return item.$attrs.name === 'theSearch';
@@ -152,32 +148,32 @@ export default {
         this.tableLoading = false;
       }
     },
-    handleOpenAssign() {
+    handleOpenAssign () {
       this.assignDialog = true;
     },
-    handleReturn() {
+    handleReturn () {
       this.returnDialog = true;
     },
-    handleTransfer() {
+    handleTransfer () {
       this.transferDialog = true;
     },
-    handleQualitativeScoring() {
+    handleQualitativeScoring () {
       this.qualitativeScoringDialog = true;
     },
-    handleReScoring() {
+    handleReScoring () {
       this.reScoringDialog = true;
     },
-    handleView() {
+    handleView () {
       this.viewDialog = true;
     },
-    handleNotRated() {
+    handleNotRated () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
       const status = this.checkNotRatedButtonStatus();
       status && (this.notRatedDialog = true);
     },
-    checkNotRatedButtonStatus() {
+    checkNotRatedButtonStatus () {
       let flag = true;
       this.selectTableData.some(item => {
         if (['已完成', '无法评级'].includes(item.preliminaryStatus)) {
@@ -188,7 +184,7 @@ export default {
       !flag && iMessage.error(this.$t('SPR_FRM_CBPJ_SXZTYWQCXQZ'));
       return flag;
     },
-    async handleNotRatedSubmit(params) {
+    async handleNotRatedSubmit (params) {
       try {
         this.notRatedDialogLoading = true;
         const ids = this.selectTableData.map(item => {
@@ -209,7 +205,7 @@ export default {
         this.notRatedDialogLoading = false;
       }
     },
-    async handleFinancialReportComparison() {
+    async handleFinancialReportComparison () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
@@ -218,7 +214,7 @@ export default {
       }
       this.financialReportComparisonDialog = true;
     },
-    async handleValidOrInvalid(effectFlag) {
+    async handleValidOrInvalid (effectFlag) {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
@@ -243,30 +239,31 @@ export default {
       });
       this.handleValidOrInvalidButtonLoading(effectFlag, false);
     },
-    handleValidOrInvalidButtonLoading(val, boolean) {
+    handleValidOrInvalidButtonLoading (val, boolean) {
       if (val === 1) {
         this.validButtonLoading = boolean;
       } else if (val === 0) {
         this.invalidButtonLoading = boolean;
       }
     },
-    handleExport() {
+    handleExport () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_CBPJ_CPMBDCTIPS'));
       }
-      excelExport(this.selectTableData, this.tableTitle);
+      downloadUdFile(this.selectTableData[0].userModelId)
+      // excelExport(this.selectTableData, this.tableTitle);
     },
-    handlePreliminaryRating() {
+    handlePreliminaryRating () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
       iMessageBox(
-          this.$t('SPR_FRM_CBPJ_JXCPLC'),
-          this.$t('SUPPLIER_CHUBUPINGJI'),
-          {confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO')},
+        this.$t('SPR_FRM_CBPJ_JXCPLC'),
+        this.$t('SUPPLIER_CHUBUPINGJI'),
+        { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') },
       ).then(async () => {
         const ids = this.selectTableData.map(item => {
           return item.id;
@@ -283,13 +280,13 @@ export default {
         });
       });
     },
-    handleOpenPage(row) {
-      const {href} = this.$router.resolve({
+    handleOpenPage (row) {
+      const { href } = this.$router.resolve({
         path: `/supplier/frmrating/preliminaryevaluationofsuppliers?id=${row.id}&supplierId=${row.supplierId}`,
       });
       window.open(href);
     },
-    handleIsAdditionWord(val) {
+    handleIsAdditionWord (val) {
       if (val == 1) {
         return '有';
       } else if (val == 0) {
