@@ -285,7 +285,7 @@ import {
 } from '@/api/meeting/details'
 // import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
 // import { download, createAnchorLink } from "@/utils/downloadUtil";
-import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { uploadFile, findUsersById } from '@/api/meeting/type'
 import { download } from '@/utils/downloadUtil'
 // import { MOCK_FILE_URL } from "@/constants";
 // import { getFileByIds } from "@/api/file/filedownload.js";
@@ -331,10 +331,10 @@ export default {
   data() {
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error(this.$t('必填')))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('最大不能超过255字符')))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
@@ -372,13 +372,13 @@ export default {
             validator: validateTopic
           }
         ],
-        supporter: [{ required: true, message: this.$t('必选'), trigger: 'blur' }],
+        supporter: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }],
         // presenter: [{ required: true, message: '必选', trigger: 'blur' }],
         duration: [
-          { required: true, message: this.$t('必填'), trigger: 'blur' },
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
           {
             type: 'number',
-            message: this.$t('最大长度3位，单位（分钟），必须正整数'),
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -403,16 +403,16 @@ export default {
           }
         ],
         benCn: [
-          { required: true, message: this.$t('必填'), trigger: 'blur' },
-          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
         ],
         sourcingNo: [
-          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
+          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
         ],
-        tnr: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
-        benDe: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
-        carline: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
-        ep: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }]
+        tnr: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        benDe: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        carline: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        ep: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }]
       },
       subButtonFlag: false
     }
@@ -554,7 +554,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t('下载失败'))
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })
@@ -637,7 +637,7 @@ export default {
         id: this.meetingInfo.receiverId
       }
       //查询收件人
-      getReceiverById(data).then((res) => {
+      findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS.filter((e) => e.id !== null)
         this.currentSearchUserData = [...res.employeeDTOS]
         this.remoteMethod()
@@ -673,7 +673,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error(this.$t('文件大小最大限制30M!'))
+        this.$message.error(`${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}30M!`)
       }
       return isLt30M
     },
@@ -694,7 +694,7 @@ export default {
             attachmentName: res.data[0].name
           }
           this.ruleForm.attachments.push(attachment)
-          iMessage.success(this.$t('上传成功'))
+          iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
           this.uploadLoading = false
         })
         .catch((err) => {
@@ -708,18 +708,18 @@ export default {
       this.$emit('flushTable')
     },
     clearDiolog() {
-      this.$confirm(this.$t('是否取消编辑?'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_SHIFOUQUXIAOBIANJI'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         this.close()
       })
     },
     handleSubmit() {
-      this.$confirm(this.$t('是否保存议题？'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_SHIFOUBAOCUNYITI'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         this.submitForm('ruleForm')
@@ -752,7 +752,7 @@ export default {
             updateThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success(this.$t('修改成功'))
+                  iMessage.success(this.$t('MT_XIUGAICHENGGONG'))
                 } else {
                   iMessage.error('error')
                 }
@@ -787,7 +787,7 @@ export default {
             saveThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success(this.$t('保存成功'))
+                  iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                 } else {
                   iMessage.error('error')
                 }

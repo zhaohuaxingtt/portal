@@ -346,7 +346,7 @@ export default {
         {
           prop: 'sixPartCode',
           label: '零件6位号',
-          i18n: '',
+          i18n: '零件6位号',
           emit: 'go-detail',
           customRender: (h, scope) => {
             return <span class="open-link-text">{scope.row.sixPartCode}</span>
@@ -355,12 +355,12 @@ export default {
         {
           prop: 'partNameZh',
           label: '零件名称（中）',
-          i18n: ''
+          i18n: '零件名称（中）'
         },
         {
           prop: 'partNameDe',
           label: '零件名称（德）',
-          i18n: ''
+          i18n: '零件名称（德）'
         },
         // {
         //   prop:'partNameEn',
@@ -370,17 +370,17 @@ export default {
         {
           prop: 'linieNames',
           label: 'Linie',
-          i18n: ''
+          i18n: 'Linie'
         },
         {
           prop: 'deptCodes',
           label: 'Linie科室',
-          i18n: ''
+          i18n: 'Linie科室'
         },
         {
           prop: 'isFixAsset',
           label: '入账是否抽查',
-          i18n: ''
+          i18n: '入账是否抽查'
         }
       ],
       newAddDialogVisible: false,

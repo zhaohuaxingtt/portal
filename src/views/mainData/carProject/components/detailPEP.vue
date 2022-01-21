@@ -1,16 +1,16 @@
 <template>
   <iCard
     class="margin-bottom20"
-    title="车型项目PEP节点时间"
+    :title="language('车型项目PEP节点时间')"
     header-control
     collapse
   >
     <div class="top-buttons margin-bottom20">
       <iButton v-if="isEditPage && !editable" @click="edit">
-        编辑
+        {{language('编辑')}}
       </iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel">取消</iButton>
+      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
+      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
     <carTypeLifeCycle
       class="margin-bottom20"
@@ -29,13 +29,13 @@
           <el-col span="6">
             <el-form-item
               label-width="100px"
-              :label="formTitles.PDTBT"
+              :label="language(formTitles.PDTBT)"
               prop="pepPd"
             >
               <iDatePicker
                 v-model="formData.pepPd"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
                 :disabled="!editable"
@@ -45,13 +45,13 @@
           <el-col span="6">
             <el-form-item
               label-width="100px"
-              :label="formTitles.PFTBT"
+              :label="language(formTitles.PFTBT)"
               prop="pepPf"
             >
               <iDatePicker
                 v-model="formData.pepPf"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="pfOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -62,13 +62,13 @@
           <el-col span="6">
             <el-form-item
               label-width="100px"
-              :label="formTitles.KFTBT"
+              :label="language(formTitles.KFTBT)"
               prop="pepKf"
             >
               <iDatePicker
                 v-model="formData.pepKf"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="kfOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -79,13 +79,13 @@
           <el-col span="6">
             <el-form-item
               label-width="100px"
-              :label="formTitles.PLFTBT"
+              :label="language(formTitles.PLFTBT)"
               prop="pepPlf"
             >
               <iDatePicker
                 v-model="formData.pepPlf"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="plfOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -98,13 +98,13 @@
           <el-col span="6">
             <el-form-item
               label-width="100px"
-              :label="formTitles.BFTBT"
+              :label="language(formTitles.BFTBT)"
               prop="pepBf"
             >
               <iDatePicker
                 v-model="formData.pepBf"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="bfOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -115,13 +115,13 @@
           <el-col span="6">
             <el-form-item
               label-width="100px"
-              :label="formTitles.LFTBT"
+              :label="language(formTitles.LFTBT)"
               prop="pepLf"
             >
               <iDatePicker
                 v-model="formData.pepLf"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="lfOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -132,13 +132,13 @@
           <el-col span="6">
             <iFormItem
               label-width="100px"
-              :label="formTitles.VFFTBT"
+              :label="language(formTitles.VFFTBT)"
               prop="pepVff"
             >
               <iDatePicker
                 v-model="formData.pepVff"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="vffOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -149,13 +149,13 @@
           <el-col span="6">
             <iFormItem
               label-width="100px"
-              :label="formTitles.PVSTBT"
+              :label="language(formTitles.PVSTBT)"
               prop="pepPvs"
             >
               <iDatePicker
                 v-model="formData.pepPvs"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="pvsOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -168,13 +168,13 @@
           <el-col span="6">
             <iFormItem
               label-width="100px"
-              :label="formTitles.oSTBT"
+              :label="language(formTitles.oSTBT)"
               prop="pepOs"
             >
               <iDatePicker
                 v-model="formData.pepOs"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="osOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -185,13 +185,13 @@
           <el-col span="6">
             <iFormItem
               label-width="100px"
-              :label="formTitles.SOPTBT"
+              :label="language(formTitles.SOPTBT)"
               prop="pepSop"
             >
               <iDatePicker
                 v-model="formData.pepSop"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="sopOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -200,11 +200,11 @@
             </iFormItem>
           </el-col>
           <el-col span="6">
-            <iFormItem label-width="100px" :label="formTitles.ME" prop="pepMe">
+            <iFormItem label-width="100px" :label="language(formTitles.ME)" prop="pepMe">
               <iDatePicker
                 v-model="formData.pepMe"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language(formTitles.selectPlaceholder)"
                 :picker-options="meOptions"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
@@ -468,9 +468,13 @@ export default {
     },
     saveToServer() {
       const data = {
+        // cartypeProId: this.carTypeProId,
+        // carProjectId:this.carTypeProId,
+        // createBy: this.$store.state.permission.userInfo.id,
+        ...this.formData,
         cartypeProId: this.carTypeProId,
+        carProjectId:this.carTypeProId,
         createBy: this.$store.state.permission.userInfo.id,
-        ...this.formData
       }
       savePepDateNode(data)
         .then(res => {

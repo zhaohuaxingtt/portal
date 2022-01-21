@@ -7,6 +7,7 @@
  */
 import axios from '@/utils/axios'
 const request = axios(process.env.VUE_APP_AEKO + '/web/')
+const requestMTZ = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 
 // 补差单号下拉框
 export function getMtzDocNos(params) {
@@ -90,3 +91,15 @@ export function statement(data) {
     data
   })
 }
+
+// 获取报表
+export function yearBrandExport(params) {
+  return requestMTZ({
+    url: `/forecastReport/yearBrandExport`,
+    method: "POST",
+    responseType: 'blob',
+    data: params
+  })
+}
+
+

@@ -21,14 +21,18 @@
         :hideRequiredAsterisk="true"
       >
         <div class="meeting">
-          <div class="meeting-type">{{$t('MT_YITILEIXING')}}</div>
+          <div class="meeting-type">{{ $t('MT_YITILEIXING') }}</div>
           <div class="meeting-rest">
             <!-- {{ typeObject[meetingInfo.meetingTypeId] }} -->
-            {{$t('MT_HUIYIXIUXI')}}
+            {{ $t('MT_HUIYIXIUXI') }}
           </div>
         </div>
         <iFormItem label="议题名称" prop="topic" :hideRequiredAsterisk="true">
-          <iLabel :label="$t('MT_YITIMINGCHENG')" slot="label" required></iLabel>
+          <iLabel
+            :label="$t('MT_YITIMINGCHENG')"
+            slot="label"
+            required
+          ></iLabel>
           <iInput
             v-model="ruleForm.topic"
             :disabled="Boolean(editOrAdd === 'look') || ruleForm.state === '02'"
@@ -42,7 +46,7 @@
               type="number"
               :disabled="Boolean(editOrAdd === 'look')"
             ></iInput>
-            <span> {{$t('MT_FENZHONG')}}</span>
+            <span> {{ $t('MT_FENZHONG') }}</span>
           </div>
         </iFormItem>
         <div class="button-list" v-if="editOrAdd !== 'look'">
@@ -62,7 +66,7 @@
 <script>
 import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from 'rise'
 import iEditForm from '@/components/iEditForm'
-import { baseRules } from './data'
+// import { baseRules } from './data'
 import { addRestThemen, updateRestThemen } from '@/api/meeting/details'
 
 export default {
@@ -119,7 +123,40 @@ export default {
         topic: '休息 Break',
         duration: 10
       },
-      rules: baseRules
+      rules: {
+        topic: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          { min: 1, max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+        ],
+        duration: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            type: 'number',
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
+            trigger: 'blur',
+            transform(value) {
+              if (value !== null && value !== '') {
+                if (
+                  String(value).trim() === '' ||
+                  Number(value) <= 0 ||
+                  Number(value) >= 1000
+                ) {
+                  return false
+                } else if (
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
+                ) {
+                  return false
+                } else {
+                  return Number(value)
+                }
+              } else {
+                return null
+              }
+            }
+          }
+        ]
+      }
     }
   },
   created() {
@@ -201,7 +238,7 @@ export default {
               id: '',
               // itemNo: this.meetingInfo.themens.length + 1,
               meetingId: this.meetingInfo.id,
-              isBreak: true,
+              isBreak: true
               // themenId: this.selectedTableData[0]
               //   ? this.selectedTableData[0].id
               //   : null

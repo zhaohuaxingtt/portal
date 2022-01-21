@@ -63,7 +63,6 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('XUNJIACAIGOUYUAN','询价采购员')" class="formItem">
               <iInput v-model="searchForm.buyerName"
-                          :disabled="true"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -71,6 +70,7 @@
             <!-- :editPlaceholder="language('QINGSHURU','请输入')" -->
             <el-form-item style="marginRight:68px;width:180px" :label="language('LINIE','LINIE')" class="formItem">
               <iInput v-model="searchForm.linieName"
+                          :disabled="true"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -181,7 +181,7 @@ export default {
     tableList,
     iSearch
   },
-  props: ["detailObj","numIsNomi"],
+  props: ["detailObj","numIsNomi","inforData"],
   mixins: [pageMixins],
   data () {
     return {
@@ -240,7 +240,7 @@ export default {
           //   message: "已提交"
           // },
           {
-            code:"NOTPASS",
+            code:"FLOWED_FAIL",
             message: "未通过"
           },
         ],
@@ -265,6 +265,7 @@ export default {
     });
   },
   created() {
+    console.log(this.inforData);
     this.init()
   },
   methods: {
@@ -283,8 +284,7 @@ export default {
       })
 
       // getCurrentUser({}).then(res=>{
-        // console.log(res)
-        this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
+        this.searchForm.linieName = this.inforData.linieName;
         this.getTableList();
       // })
     },
@@ -306,7 +306,7 @@ export default {
     handleSearchReset(form) {
       this.searchForm = {
         applicationStatus:"NEW",
-        buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
+        linieName:this.inforData.linieName
       };
       this.page.currPage = 1;
       this.page.pageSize = 10;

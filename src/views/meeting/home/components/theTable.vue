@@ -91,7 +91,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.state] }}</span
+            >{{ $t(statusObj[scope.row.state]) }}</span
           >
         </template>
       </el-table-column>
@@ -559,7 +559,7 @@
         prop="weekOfYear"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/53</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="20" align="center" label=""></el-table-column>
@@ -744,8 +744,9 @@ import newSummaryDialog from './newSummaryDialog.vue'
 // import { debounce } from '@/utils/utils.js'
 import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
-
 import dayjs from 'dayjs'
+import { findThemenById } from '@/api/meeting/details'
+
 export default {
   components: {
     iCard,
@@ -879,6 +880,23 @@ export default {
     }
   },
   methods: {
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
+    async queryThemensByMeetingId(id) {
+      const data = {
+        id
+      }
+      const res = await findThemenById(data)
+      const themens = res.themens
+      return themens
+    },
     // handleTestSendEmail(row, list) {
     //   const subject = row ? row.name : '哈哈哈'
     //   const send = list ? list.join(';') : ''
@@ -891,7 +909,7 @@ export default {
     //   const minuteSrc = attachments ? attachments.attachmentUrl : ''
     //   const src = process.env.VUE_APP_EMAIL_ICON
     //   console.log('src', src, process.env)
-    //   let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${src}'/>`
+    //   let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
     //   let href = `mailto:${send}?subject=${subject}&body=${body}`
     //   this.createAnchorLink(href)
     // },
@@ -951,7 +969,7 @@ export default {
         return item.source === '02'
       })
       const minuteSrc = attachments ? attachments.attachmentUrl : ''
-      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
+      let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
       let href = `mailto:${send}?subject=${subject}&body=${body}`
       this.createAnchorLink(href)
     },
@@ -1158,6 +1176,7 @@ export default {
       this.$emit('handleChangePage', e)
     },
     handleSizeChange(event) {
+      this.page.currPage = 1
       this.$emit('handleSizePage', event)
     },
     setTimeRange(a, b, c) {
@@ -1401,13 +1420,16 @@ export default {
           })
           window.open(routeUrl.href, '_blank')
         },
-        closeVedio: (e, str) => {
+        closeVedio: async (e, str) => {
           this.currentCloseRow = { ...e }
-          const warnData = e.themens.filter((item) => {
-            return !item.isFixedFrozenRs
-          })
-          if (warnData.length > 0) {
-            if (str !== 'still') {
+          if ((e.isPreCSC || e.isCSC) && str !== 'still') {
+            const themens = await this.queryThemensByMeetingId(
+              this.currentCloseRow.id
+            )
+            const warnData = themens.filter((item) => {
+              return !item.isFixedFrozenRs
+            })
+            if (warnData.length > 0) {
               this.handleAlert(warnData)
               return
             }

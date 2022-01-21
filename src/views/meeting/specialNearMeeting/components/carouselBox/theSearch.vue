@@ -37,7 +37,7 @@
               <el-option value="" :label="$t('all')"></el-option>
               <el-option
                 :value="item.value"
-                :label="item.label"
+                :label="$t(item.i18n)"
                 v-for="item of statusList"
                 :key="item.value"
               ></el-option>
@@ -89,11 +89,11 @@
 <script>
 import { iInput, iSelect } from 'rise'
 import { getMettingType } from '@/api/meeting/type'
-import { weekListInit } from './data'
 import { getPageListByParam } from '@/api/usercenter/receiver.js'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iSearch from '@/components/iSearch/index.vue'
 import dayjs from '@/utils/dayjs.js'
+import { datestring } from '@/utils/utils.js'
 export default {
   components: {
     iSearch,
@@ -121,23 +121,28 @@ export default {
         // },
         {
           label: '开放',
-          value: '02'
+          value: '02',
+          i18n: 'MT_KAIFANG'
         },
         {
           label: '锁定',
-          value: '03'
+          value: '03',
+          i18n: 'MT_SUODING'
         },
         {
           label: '开始',
-          value: '04'
+          value: '04',
+          i18n: 'MT_KAISHI'
         },
         {
           label: '结束',
-          value: '05'
+          value: '05',
+          i18n: 'MT_JIESHU'
         },
         {
           label: '关闭',
-          value: '06'
+          value: '06',
+          i18n: 'MT_GUANBI'
         }
       ],
       datePickerOptionsStart: {
@@ -162,15 +167,82 @@ export default {
       },
       pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6,
       startWeek: 0,
-      endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
-      weekListInit,
-      weekList: weekListInit
+      // endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
+      endWeek: 0,
+      weekListInit: [],
+      weekList: [],
+      startDate: '',
+      endDate: ''
     }
+  },
+  created() {
+    this.startDate = datestring(
+      new Date(new Date().valueOf()) - 24 * 60 * 60 * 1000 * 13
+    )
+    this.endDate = datestring(
+      Number(new Date(new Date().valueOf())) + 24 * 60 * 60 * 1000 * 6
+    )
+    this.startWeek = this.getCurWeekNum(this.startDate)
+    this.endWeek = this.getCurWeekNum(this.endDate)
+    this.weekListInit = this.getWeekList(this.startWeek, this.endWeek)
+    this.weekList = this.getWeekList(this.startWeek, this.endWeek)
   },
   mounted() {
     this.getAllSelectList()
   },
   methods: {
+    getWeekList(startWeek, endWeek) {
+      let list = []
+      if (startWeek <= endWeek) {
+        for (let index = startWeek; index <= endWeek; index++) {
+          let str = index < 9 ? '0' + index : index
+          list.push({
+            label:
+              'CW' + str + '/' + this.handleWeeks(`${dayjs().year()}-01-01`),
+            value: index
+          })
+        }
+      } else {
+        let middleYear = dayjs(
+          this.form.startDateBegin ? this.form.startDateBegin : this.startDate
+        ).year()
+        for (let index = startWeek; index <= middleYear; index++) {
+          let str = index < 9 ? '0' + index : index
+          list.push({
+            label: 'CW' + str + '/' + this.handleWeeks(`${middleYear}-01-01`),
+            value: index
+          })
+        }
+        let curWeekNum = this.getCurWeekNum(
+          this.form.startDateEnd ? this.form.startDateEnd : this.endDate
+        )
+        for (let index = 1; index <= curWeekNum; index++) {
+          let str = index < 9 ? '0' + index : index
+          list.push({
+            label:
+              'CW' + str + '/' + this.handleWeeks(`${middleYear + 1}-01-01`),
+            value: index
+          })
+        }
+      }
+      return list
+    },
+    getCurWeekNum(e) {
+      const weekNum2 = new Date(e).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const curDayNum = dayjs(e).dayOfYear()
+      const curWeekNum = Math.ceil((curDayNum - shouldDel) / 7)
+      return curWeekNum
+    },
+    handleWeeks(e) {
+      const currentFistYearDay = e ? e : `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     async querySearchAsync(queryString, cb) {
       let res = await this.getUsersAll(queryString)
       res = res || { data: [] }
@@ -197,7 +269,7 @@ export default {
     },
     handleSearchReset() {
       this.form = {}
-      this.weekList = weekListInit
+      this.weekList = [...this.weekListInit]
       this.$nextTick(() => {
         this.$refs.iDateRangePicker.c()
       })
@@ -219,20 +291,38 @@ export default {
     },
     changeStart(e) {
       this.form.startDateBegin = e
-      this.startWeek = dayjs(e).week() - 1
-      let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
-      this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+
+      // this.startWeek = dayjs(e).week() - 1
+      // let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
+      // this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      this.weekList = this.getWeekList(
+        this.getCurWeekNum(
+          this.form.startDateBegin ? this.form.startDateBegin : this.startDate
+        ),
+        this.getCurWeekNum(
+          this.form.startDateEnd ? this.form.startDateEnd : this.endDate
+        )
+      )
       this.$emit('deleteWeek')
     },
     changeEnd(e) {
       this.form.startDateEnd = e
-      if (e) {
-        this.endWeek = dayjs(e).week()
-      } else {
-        this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
-      }
-      let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
-      this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      // if (e) {
+      //   this.endWeek = dayjs(e).week()
+      // } else {
+      //   // this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
+      //   this.endWeek = this.handleWeeks()
+      // }
+      // let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
+      // this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      this.weekList = this.getWeekList(
+        this.getCurWeekNum(
+          this.form.startDateBegin ? this.form.startDateBegin : this.startDate
+        ),
+        this.getCurWeekNum(
+          this.form.startDateEnd ? this.form.startDateEnd : this.endDate
+        )
+      )
       this.$emit('deleteWeek')
     }
   }

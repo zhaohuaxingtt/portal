@@ -44,8 +44,12 @@ export default {
   watch: {
     infodata(data) {
          this.getData(data.sapCode)
+    },
+     '$i18n.locale'() {
+      this.getChart();
     }
   },
+
   mounted() {
 
   },
@@ -66,14 +70,14 @@ export default {
         data3.push(e.month)
       })
       data3=data3.map(res=>{
-         return res=parseInt(res)+'月'
+         return res=parseInt(res)+this.language('m','月')
       })
       let max = Math.max(...data1)
       const myChart = echarts().init(this.$refs.chart)
       this.option = {
         title: {
           top: 0,
-          text: '供货率（%）',
+          text:this.language('GONGHUOLV','供货率（%）') ,
           textStyle: {
             color: '#909091',
             fontSize: 10
@@ -146,7 +150,7 @@ export default {
         series: [
           {
             showSymbol: false,
-            name: '供应商',
+            name:this.language('GONGYINGSHANG','供应商'),
             data: data2,
             type: 'line',
             smooth: true,
@@ -161,7 +165,7 @@ export default {
           },
           {
             showSymbol: false,
-            name: '平均参考',
+            name: this.language('PINGJUNCANKAO','平均参考'),
             data: data1,
             type: 'line',
             smooth: true,

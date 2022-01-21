@@ -3,9 +3,9 @@
     <el-form ref="searchForm">
       <el-row :gutter="24">
         <el-col :span="8">
-          <iFormItem :label="formTitles.carTypeProName">
+          <iFormItem :label="language(formTitles.carTypeProName)">
             <iSelect
-              :placeholder="formTitles.inputPlaceholder"
+              :placeholder="language(formTitles.inputPlaceholder)"
               v-model="formData.carTypeProName"
               remote
               filterable
@@ -22,10 +22,10 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="formTitles.carTypeProType">
+          <iFormItem :label="language(formTitles.carTypeProType)">
             <!-- <iInput v-model="formData.carTypeProType" /> -->
             <iSelect
-              :placeholder="formTitles.inputPlaceholder"
+              :placeholder="language(formTitles.inputPlaceholder)"
               v-model="formData.carTypeId"
               remote
               filterable
@@ -41,8 +41,8 @@
             </iSelect> </iFormItem
         ></el-col>
         <el-col :span="8">
-          <iFormItem :label="formTitles.publishStatus">
-            <iSelect v-model="formData.publishStatus" filterable>
+          <iFormItem :label="language(formTitles.publishStatus)">
+            <iSelect v-model="formData.publishStatus" filterable :placeholder='language("请选择")'>
               <el-option
                 v-for="item in releaseStatusOptions"
                 :key="item.code"
@@ -54,8 +54,8 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="formTitles.isValid">
-            <iSelect v-model="formData.isValid" filterable>
+          <iFormItem :label="language(formTitles.isValid)">
+            <iSelect v-model="formData.isValid" filterable :placeholder='language("请选择")'>
               <el-option
                 v-for="item in validSelecOptions"
                 :key="item.value"

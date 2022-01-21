@@ -7,34 +7,78 @@
     
       <draggable v-model="syllable">
         <div v-for="(item , idx) in syllable" :key="idx" class="divheight">
-          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.name}}
+          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.presenterDept}}
         </div>
       </draggable>
       <div class="btn">
         <iButton @click="handleSave">保存</iButton>
-        <iButton>重置</iButton>
-        <iButton>退出</iButton>
+        <iButton @click="handleReset">重置</iButton>
+        <iButton @click="handleOut">退出</iButton>
       </div>
   </div>
 </template>
 
 <script>
-import {icon, iButton} from 'rise'
+import {icon, iButton , iMessage} from 'rise'
 import draggable from "vuedraggable";
+import {  resortThemen} from '@/api/meeting/details'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 export default {
   components: {
     iButton,
     draggable,
-    icon
+    icon,
+    iMessage
   },
   data(){
     return {
-      syllable:[{id:1,name:'11'},{id:2,name:'22'},{id:3,name:'33'}]
+      syllable:[]
     }
   },
+  created() {  
+    this.queryMeetingInfoById()
+  },
   methods:{
+    // 数据请求  
+    //meetingApi/meetingService/findById
+    queryMeetingInfoById() {
+      const data = {
+        id:this.$route.query.id
+      }
+      findThemenById(data) .then((res) => {
+         console.log(res.themens);
+         this.syllable=res.themens
+         console.log(this.syllable);
+        }) .catch((err) => {
+          console.log(err)
+        })
+    },
+     // 保存
+     //meetingService/resortThemen
     handleSave(){
-      console.log(this.syllable)
+      let resortThemens =[]
+      this.syllable.forEach((x,index)=>{
+        resortThemens.push({itemNo:index+1,themenId:x.id})
+      })
+      const data = {
+        meetingId:this.$route.query.id,
+        resortThemens:resortThemens
+      }
+      resortThemen(data).then((res) => {
+         if (res) {
+             iMessage.success('保存成功')
+            this.$emit('flushTable') 
+            this.$emit('close')
+          } 
+      })
+    },
+    //重置
+    handleReset(){
+      this.queryMeetingInfoById()
+    },
+    //退出
+    handleOut(){
+      this.$emit('close')
     }
   }
  

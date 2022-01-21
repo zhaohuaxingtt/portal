@@ -20,10 +20,18 @@ export function exportBizLog(data) {
   })
 }
 
-// 操作日志查询-分页
+// 日志分页查询- 操作、系统日志
 export function findRecordLogs(data) {
   return request({
     url: '/operationLog/findRecordLogs',
+    method: 'post',
+    data
+  })
+}
+// 日志分页查询- 接口日志
+export function findInterLogs(data) {
+  return request({
+    url: '/operationLog/findInterLogs',
     method: 'post',
     data
   })
@@ -50,6 +58,16 @@ export function listInterfaceSystem() {
     method: 'post'
   })
 }
+// 接口名称下拉列表
+export function listInterface(code) {
+  return request({
+    url: '/operationLog/listInterface',
+    method: 'post',
+    data:{code}
+  })
+}
+
+
 // 触发类型下拉列表
 export function listTriggerType() {
   return request({

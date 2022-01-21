@@ -19,7 +19,7 @@ export const ROLE_COLUMNS = [
     i18n: '角色代码',
     emit: 'go-detail',
     tooltip: true,
-    openNewPage: true,
+    // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.code}</span>
     }

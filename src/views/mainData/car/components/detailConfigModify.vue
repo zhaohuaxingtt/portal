@@ -9,6 +9,7 @@
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
+            :placeholder='language("请选择")'
           >
             <el-option
               v-for="item in configVersions"
@@ -22,7 +23,7 @@
           :label="language('年份')"
           v-if="configVersions.length > 0"
         >
-          <iSelect v-model="searchData.year" @change="yearChange">
+          <iSelect v-model="searchData.year" @change="yearChange" :placeholder='language("请选择")'>
             <el-option
               v-for="item in yearOptions"
               :key="item"
@@ -255,10 +256,10 @@ export default {
       // 检查是不是超出100%
       let totalRate = 0
       this.tableData.forEach((e) => {
-        totalRate += parseFloat(e.cartypeLevelRate)
+        totalRate += parseInt(parseFloat(e.cartypeLevelRate) * 1000000000)
       })
 
-      if (totalRate > 100) {
+      if (totalRate > 100000000000) {
         iMessage.error('配置比例总数不能超过100%')
         return
       }

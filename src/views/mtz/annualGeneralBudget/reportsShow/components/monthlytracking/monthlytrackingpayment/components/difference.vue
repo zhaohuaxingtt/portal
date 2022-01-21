@@ -1,8 +1,8 @@
 <template>
 <div>
-    <el-tooltip placement="bottom" :content="showPrice" effect="light" :popper-class="[price < 0 ? 'del' : 'add' ]" >
-        <div :class='[price < 0 ? "minus" : "difference","basic"]' >
-            {{Number(price).toFixed(2)}}
+    <el-tooltip placement="bottom" :content="showPrice" effect="light" :popper-class="[item.priceType == 1  ? 'del' : 'add' ]" >
+        <div :class='[item.priceType ==1 ? "minus" : "difference","basic"]' >
+            {{(Number(item.price)/1000000).toFixed(2)}}
         </div>
     </el-tooltip>
 </div>
@@ -13,17 +13,30 @@
 export default {
     name:'differenceDisplay',
     props:{
-        price:{
-            type:String,
-            default:''
+        item:{
+            type:Object,
+            default:()=>{
+                return{
+                    price:'',
+                    priceType:''
+                }
+            }
         }
     },
     computed:{
         showPrice(){
             // console.log(newVal,'---====');
-            let newVal = String(this.price *1000000) 
-            const tempt = newVal.split('').reverse().join('').match(/(\d{1,3})/g)
-            return (this.price < 0 ? '-' :'') + tempt.join(',').split('').reverse().join('')
+            // let newVal = String(this.item.price *1000000) 
+            const splitPrice = (this.item.price + '').split('.')
+            let leftPrice = splitPrice[0]
+            let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
+            const rgx = /(\d+)(\d{3})/
+            while(rgx.test(leftPrice)){
+              leftPrice =  leftPrice.replace(rgx, '$1' + ',' + '$2')
+            }
+            // const tempt = newVal.split('').reverse().join('').match(/(\d{1,3})/g)
+            // return (this.item.priceType == 1  ? '-' :'') + tempt.join(',').split('').reverse().join('')
+            return (this.item.priceType == 1  ? '-' :'') + leftPrice + rightPrice
         }
     },
     data(){
@@ -36,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 .basic{
-    width: 80px;
+    width: 100px;
     height: 30px;
     border-radius: 6px;
     font-weight: bold;

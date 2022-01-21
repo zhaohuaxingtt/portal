@@ -1,49 +1,23 @@
 <template>
+  <!-- <div
+    class="page-content"
+    v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS_PAGE|年度预算材料中类页面'
+  > -->
   <div
     class="page-content"
-    v-permission.auto="ZHUANGTAIGENZONGBAOBIAO | 状态跟踪报表"
+    v-permission='MTZ_REPORT_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS'
   >
-    <!-- <iSearch :icon="true">
-      <div class="search-box">
-        <el-form>
-          <el-form-item label="科室">
-            <iSelect v-model="searchParams" :placeholder="language('QINGXUANZE', '请选择')">
-              <el-option
-                v-for="item in selectOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </el-form-item>
-        </el-form>
-      </div>
-      <template slot="button">
-        <div class="button-box">
-          <show-me class="show-me"></show-me>
-          <iButton @click="search">{{ '确认' }}</iButton>
-          <iButton @click="reset">{{ '重置' }}</iButton>
-        </div>
-      </template>
-    </iSearch> -->
     <iCard id="powerBiReport"></iCard>
   </div>
 </template>
 
 <script>
-import { iPage, iCard, iSearch, iSelect, iButton } from 'rise'
+import {  iCard} from 'rise'
 import { statement } from '@/api/mtz/annualGeneralBudget/reportShow'
 import * as pbi from 'powerbi-client'
-import showMe from '../../comm/ShowMeComponents'
 export default {
   components: {
-    iPage,
     iCard,
-    iSearch,
-    iSelect,
-    iButton,
-    showMe
   },
   data() {
     return {
@@ -95,9 +69,9 @@ export default {
     // 获取财报iframeurl
     powerBiUrl() {
       let params = {
-        workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
-        reportId: '3ce8a5ad-1c94-41dc-b844-f5baf9441ecc',
-        datasets: ['93fa7924-a4c1-4c91-a763-55b68b996c47'],
+        workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+        reportId: '90f82db8-cc99-42a6-914a-3180e82585cc',
+        datasets: ['c2e4ff2e-50ba-4686-a042-0416ab276d06'],
         username: this.userInfo.id,
         roles: ['role'] // 固定参数，报表端自己判断角色权限
       }

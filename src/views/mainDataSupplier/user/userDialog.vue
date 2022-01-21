@@ -56,7 +56,7 @@
                 :disabled="!editSta" />
       </iFormItem>
       <iFormItem :label="language('联系电话')"
-                 prop="telephoneM">
+                 prop="telephoneO">
         <iInput v-model="detail.telephoneO"
                 v-int
                 maxlength="11"
@@ -130,7 +130,20 @@ export default {
     detail: {
       type: Object,
       default: function () {
-        return {}
+        return {
+          nameZh: '',
+          opcsCompanyNameZh: '',
+          position: '',
+          department: '',
+          sapNum: '',
+          svwCode: '',
+          temporaryNum: '',
+          userName: '',
+          email: '',
+          telephoneO: '',
+          startDate: '',
+          endDate: ''
+        }
       }
     }
   },
@@ -160,7 +173,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        telephoneM: [
+        telephoneO: [
           {
             required: true,
             message: '联系电话不能为空',

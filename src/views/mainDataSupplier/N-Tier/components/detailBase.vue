@@ -32,11 +32,11 @@
           ></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :prop="supplierData.isAbroad ? '' : 'creditCode'">
+      <iFormItem>
         <iLabel
           :label="language('统一社会信用代码')"
           slot="label"
-          :required="!supplierData.isAbroad"
+          :disabled="!supplierData.isAbroad"
         />
         <iInput
           :placeholder="language('请输入') + language('统一社会信用代码')"
@@ -49,7 +49,9 @@
         <iLabel :label="language('供应商中文名')" required slot="label" />
         <iInput
           :placeholder="language('请输入') + language('供应商中文名')"
-          :disabled="!editable"
+          :disabled="
+            !editable || supplierData.isAbroad || supplierData.isAbroad
+          "
           v-model="supplierData.supplierNameCn"
         />
       </iFormItem>
@@ -78,7 +80,9 @@
         <iInput
           :placeholder="language('请输入') + language('供应商英文名')"
           v-model="supplierData.supplierNameEn"
-          :disabled="!editable"
+          :disabled="
+            !editable || supplierData.isAbroad || supplierData.isAbroad
+          "
         />
       </iFormItem>
       <iFormItem prop="supplierShortNameEn">

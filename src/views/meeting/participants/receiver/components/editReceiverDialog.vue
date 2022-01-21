@@ -50,14 +50,22 @@
             class="search"
           >
           </iInput>
-          <iButton @click="$emit('addReceiverData','edit')" class="add-receiver">{{
-            $t('MT_TIANJIASHOUJIANREN')
-          }}</iButton>
+          <iButton
+            @click="$emit('addOrganizeData', 'edit')"
+            class="add-organize"
+            >{{ $t('MT_TIANJIAZUZHI') }}</iButton
+          >
+          <iButton
+            @click="$emit('addReceiverData', 'edit')"
+            class="add-receiver"
+            >{{ $t('MT_TIANJIASHOUJIANREN') }}</iButton
+          >
         </div>
         <i-table-custom
           @removeReceiverDataList="removeReceiverDataList"
           :data="editReceiverData"
           :columns="getReceiverTableColumns"
+          :tableLoading="!tableLoading"
         />
         <el-pagination
           @current-change="handleCurrentChange"
@@ -93,7 +101,7 @@ import {
   getReceiverById,
   getMettingType
 } from '@/api/meeting/type'
-import { baseRules } from './data'
+// import { baseRules } from './data'
 import iTableCustom from '@/components/iTableCustom'
 export default {
   components: {
@@ -128,6 +136,7 @@ export default {
   },
   data() {
     return {
+      tableLoading: false,
       employeeDTOS: [],
       allReceiverData: [],
       meetingTypeList: [],
@@ -135,14 +144,35 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: 'MT_XUHAO2',
+          i18n: 'MT_XUHAO3',
           width: 68,
           tooltip: false
         },
         {
           // prop: "nameZh",
-          label: '姓名',
-          i18n: 'MT_XINGMING',
+          label: '类型',
+          i18n: 'MT_LEIXING',
+          // width: 70,
+          align: 'left',
+          tooltip: true,
+          customRender: (h, scope) => {
+            return h(
+              'div',
+              {
+                style: {
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
+              },
+              scope.row.isDept ? this.$t('组织') : this.$t('员工')
+            )
+          }
+        },
+        {
+          // prop: "nameZh",
+          label: '名称',
+          i18n: 'MT_MINGCHENG',
           width: 150,
           align: 'left',
           tooltip: true,
@@ -224,7 +254,7 @@ export default {
         },
         {
           label: '操作',
-          i18n:"MT_CAOZUO2",
+          i18n: 'MT_CAOZUO2',
           width: 80,
           customRender: (h, scope) => {
             return h('span', [
@@ -248,7 +278,20 @@ export default {
           }
         }
       ],
-      rules: baseRules,
+      rules: {
+        groupName: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 64,
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        meetingType: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }
+        ]
+      },
       ruleForm: {
         groupName: '',
         meetingType: ''
@@ -277,46 +320,60 @@ export default {
     this.query()
   },
   watch: {
-    selectedTableData: {
-      handler(val) {
-        // console.log("val", val);
-        // for (let i = 0; i < val.length; i++) {
-        //   if (!this.selectList.includes(val[i].id)) {
-        //     this.allReceiverData.push(val[i])
-        //     this.selectList.push(val[i].id)
-        //   }
-        // }
-        let selectArr = val.map(({ id, nameZh, email, userNum, deptList }) => {
-          return {
-            deptList,
-            email,
-            id: id,
-            nameZh,
-            userNum
-          }
-        })
-        let employeeDTOSReal = this.employeeDTOS.map(
-          ({ id, name, email, jobNumber, department }) => ({
-            deptList: department,
-            email,
-            id: id,
-            nameZh: name,
-            userNum: jobNumber
-          })
-        )
-        this.allReceiverData = this.deleMuptil([
-          ...employeeDTOSReal,
-          ...selectArr
-        ])
-        this.total = this.allReceiverData.length
-        this.nowReceiverData = this.allReceiverData
-        this.editReceiverData = this.nowReceiverData.slice(0, 10)
-        this.currentPage = 1
-        this.change(this.search)
-        return this.editReceiverData
-      }
+    'ruleForm.meetingType': {
+      handler(value) {
+        console.log('value', value)
+      },
+      immediate: true,
+      deep: true
     }
   },
+  // watch: {
+  //   selectedTableData: {
+  //     handler(val) {
+  //       console.log('val', val)
+  //       // console.log("val", val);
+  //       // for (let i = 0; i < val.length; i++) {
+  //       //   if (!this.selectList.includes(val[i].id)) {
+  //       //     this.allReceiverData.push(val[i])
+  //       //     this.selectList.push(val[i].id)
+  //       //   }
+  //       // }
+  //       let selectArr = val.map(
+  //         ({ id, nameZh, email, userNum, deptList, isDept }) => {
+  //           return {
+  //             deptList,
+  //             email,
+  //             id: id,
+  //             nameZh,
+  //             userNum,
+  //             isDept
+  //           }
+  //         }
+  //       )
+  //       let employeeDTOSReal = this.employeeDTOS.map(
+  //         ({ id, name, email, jobNumber, department, isDept }) => ({
+  //           deptList: department,
+  //           email,
+  //           id: id,
+  //           nameZh: name,
+  //           userNum: jobNumber,
+  //           isDept
+  //         })
+  //       )
+  //       this.allReceiverData = this.deleMuptil([
+  //         ...employeeDTOSReal,
+  //         ...selectArr
+  //       ])
+  //       this.total = this.allReceiverData.length
+  //       this.nowReceiverData = this.allReceiverData
+  //       this.editReceiverData = this.nowReceiverData.slice(0, 10)
+  //       this.currentPage = 1
+  //       this.change(this.search)
+  //       return this.editReceiverData
+  //     }
+  //   }
+  // },
   methods: {
     handleCurrentChange: function (currentPage) {
       // 页码切换
@@ -379,23 +436,25 @@ export default {
         .then((res) => {
           const { employeeDTOS } = res
           let selectArr = this.selectedTableData.map(
-            ({ id, nameZh, email, userNum, deptList }) => {
+            ({ id, nameZh, email, userNum, deptList, isDept }) => {
               return {
                 deptList,
                 email,
                 id: id,
                 nameZh,
-                userNum
+                userNum,
+                isDept
               }
             }
           )
           let employeeDTOSReal = [...employeeDTOS].map(
-            ({ id, name, email, jobNumber, department }) => ({
+            ({ id, name, email, jobNumber, department, isDept }) => ({
               deptList: department,
               email,
               id: id,
               nameZh: name,
-              userNum: jobNumber
+              userNum: jobNumber,
+              isDept
             })
           )
           this.allReceiverData = this.deleMuptil([
@@ -414,6 +473,7 @@ export default {
           this.editReceiverData = this.allReceiverData.slice(0, 10)
           this.currentPage = 1
           this.change(this.search)
+          this.tableLoading = true
           return this.editReceiverData
         })
         .catch(() => {
@@ -433,13 +493,15 @@ export default {
       this.change(this.search)
     },
     close() {
-      this.$emit('closeEditDialog', false,'edit')
+      this.$emit('closeEditDialog', false, 'edit')
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let formData = this.ruleForm
           formData.employeeDTOS = this.allReceiverData
+          formData.meetingTypeId = this.ruleForm.meetingType.id
+          Reflect.deleteProperty(formData, 'meetingType')
           updateReceiver(formData)
             .then((data) => {
               if (data) {
@@ -472,8 +534,10 @@ export default {
 .receiverLine {
   margin-top: 35px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   .receiver {
+    width: 80px;
+    white-space: nowrap;
     height: 35px;
     line-height: 16px;
     font-size: 14px;
@@ -482,16 +546,21 @@ export default {
     align-items: center;
     font-family: Arial;
     text-align: center;
+    /* margin-right: 12px; */
   }
   .search {
-    width: 570px;
-    margin-bottom: 15px;
+    margin-right: 12px;
   }
   .add-receiver {
-    // top: 23px;
     // float: right;
     height: 35px;
     width: 120px;
+    margin-bottom: 15px;
+    padding: 0;
+    text-align: center;
+  }
+  .add-organize {
+    height: 35px;
   }
 }
 .button-list {

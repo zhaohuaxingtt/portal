@@ -148,7 +148,7 @@ export const statusList = [
     value: "02",
   },
   {
-    label: "有效",
+    label: "生效",
     value: "03",
   },
   {
@@ -168,7 +168,7 @@ export const supplierRangeList = [
     value: "GP",
   },
   {
-    label: "Ntier",
+    label: "N-Tier",
     value: "NT",
   },
 ];
@@ -192,13 +192,13 @@ export const supplierIdentityList = [
 // 是否个人条款
 export const isPersonalTermsList = [
   {
-    label: "是",
-    value: true,
+    label: '是',
+    value: true
   },
   {
-    label: "否",
-    value: false,
-  },
+    label: '否',
+    value: false
+  }
 ];
 
 // 供应商用户范围
@@ -265,14 +265,14 @@ export const isPersonalTermsObj = {
 export const stateObj = {
   "01": "草稿",
   "02": "待生效",
-  "03": "有效",
+  "03": "生效",
   "04": "失效",
 };
 
 export const supplierRangeObj = {
   PP: "生产供应商",
   GP: "一般供应商",
-  NT: "Ntier",
+  NT: "N-Tier",
 };
 
 export const supplierContactsObj = {
@@ -289,7 +289,7 @@ export const supplierIdentityObj = {
 export const supplierTypeObj = {
   PP: "生产供应商",
   GP: "一般供应商",
-  NT: "Ntier",
+  NT: "N-Tier",
   CM: "自定义",
 };
 

@@ -8,6 +8,7 @@
     @close="handleCancel"
     class="summary-dialog-box"
   >
+  123123
     <iEditForm>
       <el-form
         :model="resultData"
@@ -86,15 +87,17 @@
                   :rules="rule"
                 >
                   <iInput
-                    v-model="item.conclusion"
+                    v-model="item.result"
                     type="textarea"
                     resize="none"
                     rows="4"
                     :disabled="!edit"
                   />
                 </iFormItem>
-                <p class="task">Result</p>
-                <iFormItem
+                <p class="task">Result
+                  {{conclusionCscList[item.conclusion]}}
+                  </p> 
+                <!-- <iFormItem
                   :prop="'conclusion' + index"
                   class="meet-desc"
                   :rules="rule"
@@ -106,7 +109,7 @@
                     rows="4"
                     :disabled="!edit"
                   />
-                </iFormItem>
+                </iFormItem> -->
                 <!-- <iInput v-model="item.conclusion" type="textarea" resize="none" rows="4" @blur='blur(item.conclusion, index)'/> -->
                 <!-- <div class="item-info-box">
                   <ul>
@@ -166,6 +169,8 @@
 </template>
 
 <script>
+import { exportExcel } from '@/utils/gpfiledowLoad'
+import { exportMeetingMinutes } from '@/api/meeting/gpMeeting'
 import {
   iDialog,
   iInput,
@@ -242,7 +247,15 @@ export default {
       },
       rule: [
         { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
-      ]
+      ],
+      conclusionCscList: {
+        '01': '待定',
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
+      },
     }
   },
   mounted() {
@@ -275,6 +288,10 @@ export default {
                 this.loadingSummary = false
                 iMessage.success('保存成功')
                 this.$emit('handleOK')
+                //导出会议纪要
+              this.handleExport()
+
+
               }
             })
             .catch((err) => {
@@ -282,6 +299,17 @@ export default {
             })
         }
       })
+    },
+    //导出会议纪要  exportMeetingMinutes
+    handleExport(){
+      const params = {
+        id:this.$route.query.id,//会议id
+      }
+      exportMeetingMinutes(params).then((res) => {
+        
+        exportExcel(res)
+      })
+
     },
     handleCancel() {
       this.$emit('handleCancel')

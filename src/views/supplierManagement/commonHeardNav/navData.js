@@ -15,21 +15,24 @@ export const tabRouterList = [
     name: '供应商360',
     url: '/supplier/supplierList',
     activePath: '/supplier/supplierList',
-    key: '供应商360'
+    key: 'GONGYINGSHANGLIST',
+    permissionKey: 'SUPPLIER_WORKBENCH_360'
   },
   {
     value: 2,
     name: '供应商绩效',
     url: '/supplier/spiIndex',
     activePath: '/supplier/spiIndex',
-    key: '供应商绩效'
+    key: 'GONGYINGSHYANGJIXIAO',
+    permissionKey: 'SUPPLIER_MERITS'
   },
   {
     value: 3,
     name: 'KPI',
     url: '/supplier/kpiRouter',
     activePath: '/supplier/kpiRouter',
-    key: 'KPI'
+    key: 'KPI',
+    permissionKey: 'WORKBENCH_KPI'
   },
   //   {
   //     value: 4,
@@ -43,7 +46,8 @@ export const tabRouterList = [
     name: 'N级供应链',
     url: '/supplier/NTier',
     activePath: '/supplier/NTier',
-    key: 'N级供应链'
+    key: 'NJIGONGYINGLIAN',
+    permissionKey: 'WORKBENCH_N_LEVEL_SUPPLIER'
   }
   //   {
   //     value: 6,
@@ -60,28 +64,28 @@ export const categoryManagementAssistantList = [
     name: '总览',
     url: '/supplier/spiIndex/spiAll',
     activePath: '/supplier/spiIndex/spiAll',
-    key: '总览'
+    key: 'ZONGLAN'
   },
   {
     value: 2,
     name: '供应商绩效',
     url: '/supplier/spiIndex/supplierPowerBi',
     activePath: '/supplier/spiIndex/supplierPowerBi',
-    key: '供应商绩效'
+    key: 'GONGYINGSHANGJIXIAO'
   },
   {
     value: 3,
     name: '年度重点追踪',
     url: '/supplier/spiIndex/supplierPoint',
     activePath: '/supplier/spiIndex/supplierPoint',
-    key: '年度重点追踪'
+    key: 'NIANDUZHONGDIANZHUIZONG'
   },
   {
     value: 4,
     name: '半年报回顾',
     url: '/supplier/spiIndex/supplierList',
     activePath: '/supplier/spiIndex/supplierList',
-    key: '半年报回顾 '
+    key: 'BANNIANBAOHUIGU '
   }
 ]
 
@@ -91,14 +95,14 @@ export const categoryManagementAssistantListkpi = [
     name: '总览',
     url: '/supplier/kpiRouter/kpiList',
     activePath: '/supplier/kpiRouter/kpiList',
-    key: '总览'
+    key: 'ZONGLAN'
   },
   {
     value: 2,
     name: '详情',
     url: '/supplier/kpiRouter/supplierKpiTreeTable',
     activePath: '/supplier/kpiRouter/supplierKpiTreeTable',
-    key: '详情'
+    key: 'XIANGQING'
   }
 ]
 
@@ -108,27 +112,27 @@ export const nTierRouterList = [
     name: 'N级供应链地图',
     url: '/supplier/NTier/NTierMap',
     activePath: '/supplier/NTier/NTierMap',
-    key: 'N级供应链地图'
+    key: 'NJIGONGYINGLIANDITU'
   },
   {
     value: 2,
     name: 'N级供应链风险',
     url: '/supplier/NTier/supplyChainRisk',
     activePath: '/supplier/NTier/supplyChainRisk',
-    key: 'N级供应链风险'
+    key: 'NJIGONGYINGLIANFENGXIAN'
   },
   {
     value: 3,
     name: 'N级供应链分析',
     url: '/supplier/NTier/supplyChainAnalysis',
     activePath: '/supplier/NTier/supplyChainAnalysis',
-    key: 'N级供应链分析'
+    key: 'NJIGONGYINGLIANFENXI'
   },
   {
     value: 4,
     name: 'N级供应链维护',
     url: '/supplier/NTier/supplyMaintain/nTierBKL',
     activePath: '/supplier/NTier/supplyMaintain/nTierBKL',
-    key: 'N级供应链维护'
+    key: 'NJIGONGYINGLIANWEIHU'
   }
 ]

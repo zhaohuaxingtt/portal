@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierDirectoryTable.vue
 -->
@@ -12,34 +12,24 @@
         $t('SUPPLIER_GONGYINGSHANGTONGXUNLU')
       }}</span>
       <div class="floatright">
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
-          v-if="this.supplierType === 4"
-          @click="saveInfos('submit')"
-          >{{ $t('LK_BAOCUN') }}</i-button
-        >
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
         <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_ADD" @click="addTableItem">新增</i-button> -->
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
-          @click="deleteItem('ids', deleteContacts)"
-          >{{ $t('LK_SHANCHU') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
-          @click="exportsTable"
-          v-if="showExportsButton"
-          >{{ $t('LK_DAOCHU') }}</i-button
-        >
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
+                  @click="deleteItem('ids', deleteContacts)">{{ $t('LK_SHANCHU') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
+                  @click="exportsTable"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list
-      v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
-      ref="commonTable"
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      @handleSelectionChange="handleSelectionChange"
-      :input-props="[
+    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
+                ref="commonTable"
+                :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                @handleSelectionChange="handleSelectionChange"
+                :input-props="[
         'nameZh',
         'designation',
         'dept',
@@ -49,13 +39,16 @@
         'email',
         'remark'
       ]"
-      :index="true"
-    >
+                :index="true">
       <template #contactType="scope">
-        <div v-if="scope.row.contactType === '商务联系人'">
+
+        <!-- <div v-if="scope.row.contactType === '商务联系人'">
           {{ scope.row.contactType }} <span style="color: red">*</span>
         </div>
-        <div v-else>{{ scope.row.contactType }}</div>
+        <div v-else>{{ scope.row.contactType }}</div> -->
+        <div>
+          {{ scope.row.nameType }}<span style="color: red">*</span>
+        </div>
       </template>
     </table-list>
   </i-card>
@@ -79,7 +72,7 @@ export default {
     iButton,
     tableList
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: supplierDirectoryTableTitle,
@@ -87,12 +80,12 @@ export default {
       selectTableData: []
     }
   },
-  async created() {
+  async created () {
     await this.getDictByCode()
     await this.getTableList()
   },
   methods: {
-    async getDictByCode() {
+    async getDictByCode () {
       const res = await getDictByCode('SUPPLIER_CODE_TYPE')
       res.data[0].subDictResultVo.forEach((item) => {
         this.tableListData.push({
@@ -101,7 +94,7 @@ export default {
         })
       })
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       const pms = {
         step: 'register',
@@ -125,10 +118,10 @@ export default {
       this.tableListData = cust
       console.log(this.tableListData)
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    deleteItem(idName, fun) {
+    deleteItem (idName, fun) {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -173,7 +166,7 @@ export default {
         this.tableLoading = false
       })
     },
-    async saveInfos(step = '') {
+    async saveInfos (step = '') {
       let p = 0
       this.tableListData.map((item) => {
         if (item.nameType === '商务联系人') {
@@ -257,7 +250,7 @@ export default {
         })
       })
     },
-    async handleNextStep() {
+    async handleNextStep () {
       await this.saveInfos()
       return this.nextStep
     },

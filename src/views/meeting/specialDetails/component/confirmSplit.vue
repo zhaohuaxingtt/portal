@@ -6,7 +6,7 @@
     @close="close"
   >
     <iEditForm class="content">
-      <div class="delete-info">{{$t('确认拆分该议题吗?')}}</div>
+      <div class="delete-info">{{$t('MT_QUERENCHAIFENGAIYITIME')}}</div>
       <div class="button-list">
         <iButton @click="clearDiolog" class="cancel">{{
           $t('LK_QUXIAO')
@@ -68,7 +68,7 @@ export default {
       spiltThemen(data)
         .then(() => {
           this.loading = false
-          iMessage.success('拆分成功')
+          iMessage.success('MT_CHAIFENCHENGGONG')
           this.$emit('flushTable')
           this.close()
         })

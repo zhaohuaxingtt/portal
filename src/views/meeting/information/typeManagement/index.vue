@@ -141,7 +141,7 @@ export default {
                     }
                   }
                 },
-                this.$t('修改')
+                this.$t('MT_XIUGAI')
               ),
               h(
                 'a',
@@ -169,7 +169,7 @@ export default {
                     }
                   }
                 },
-                this.$t('删除')
+                this.$t('MT_SHANCHU')
               )
             ])
           }
@@ -274,15 +274,15 @@ export default {
     },
     deleteDocumentType(e) {
       // console.log(e);
-      this.$confirm(this.$t('请确认是否要删除该资料?'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         deleteDocumentType({ id: e.id })
           .then((res) => {
             if (res.code === 200) {
-              this.$message.success(this.$t('删除成功!'))
+              this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
             }
             this.query()
           })

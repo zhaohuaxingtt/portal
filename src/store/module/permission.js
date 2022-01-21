@@ -60,7 +60,7 @@ const state = {
   eklTabList: [],
   eklPfjTabList: [],
   leadTabList: [],
-  whiteBtnList: [],
+  whiteBtnList: {},
   userInfo: {},
   isLeader: false,
   cardList: [],
@@ -223,13 +223,13 @@ const actions = {
             r(menuList)
           } else {
             commit('SET_MENU_LIST', [])
-            commit('SET_WIHTEBTN_LIST', [])
+            commit('SET_WIHTEBTN_LIST', {})
             j()
           }
         })
-        .catch((err) => {
+        .catch(() => {
           commit('SET_MENU_LIST', [])
-          commit('SET_WIHTEBTN_LIST', [])
+          commit('SET_WIHTEBTN_LIST', {})
           j()
         })
     })
@@ -280,7 +280,8 @@ const actions = {
               commit('SET_ROLE_EklTabList_LEAD', [
                 {
                   name: `EKL-${res.data.deptDTO.fullCode}`,
-                  id: 1
+                  id: 1,
+                  type: 4
                 }
               ])
             }

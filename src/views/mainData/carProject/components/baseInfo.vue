@@ -1,9 +1,18 @@
 <template>
-  <iCard class="margin-bottom20" title="基本信息" header-control collapse>
+  <iCard
+    class="margin-bottom20"
+    :title="language('基本信息')"
+    header-control
+    collapse
+  >
     <div class="top-buttons margin-bottom20">
-      <iButton v-if="isEditPage && !editable" @click="edit"> 编辑 </iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel"> 取消 </iButton>
+      <iButton v-if="isEditPage && !editable" @click="edit">{{
+        language('编辑')
+      }}</iButton>
+      <iButton v-show="editable" @click="save">{{ language('保存') }}</iButton>
+      <iButton v-show="editable" @click="cancel">{{
+        language('取消')
+      }}</iButton>
     </div>
     <div class="filter-form" v-loading="saveLoading">
       <el-form
@@ -16,18 +25,18 @@
       >
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="formTitles.num" prop="cartypeProjectCode">
+            <iFormItem :label="language(formTitles.num)" prop="cartypeProjectCode">
               <iInput
-                :placeholder="formTitles.inputPlaceholder"
+                :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.cartypeProjectCode"
                 :disabled="!editable"
               />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.type" prop="cartypeProType">
+            <iFormItem :label="language(formTitles.type)" prop="cartypeProType">
               <iSelect
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.cartypeProType"
                 :disabled="!editable"
                 filterable
@@ -46,9 +55,9 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.materail" prop="carProTypeCode">
+            <iFormItem :label="language(formTitles.materail)" prop="carProTypeCode">
               <iSelect
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.carProTypeCode"
                 :disabled="!editable"
                 filterable
@@ -65,30 +74,31 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="formTitles.nameCN" prop="cartypeProjectZh">
+            <iFormItem :label="language(formTitles.nameCN)" prop="cartypeProjectZh">
               <iInput
-                :placeholder="formTitles.inputPlaceholder"
+                :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.cartypeProjectZh"
                 :disabled="isEditPage"
               />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.nameEN" prop="cartypeProjectEn">
+            <iFormItem :label="language(formTitles.nameEN)" prop="cartypeProjectEn">
               <iInput
-                :placeholder="formTitles.inputPlaceholder"
+                :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.cartypeProjectEn"
                 :disabled="!editable"
               />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.car" prop="cartypeId">
+            <iFormItem :label="language(formTitles.car)" prop="cartypeId">
               <iSelect
-                :placeholder="formTitles.inputPlaceholder"
-                v-model="formData.cartypeNameZh"
+                :placeholder="language('请选择')"
+                v-model="formData.cartypeId"
                 remote
                 filterable
+                clearable
                 :remote-method="querySearchAsync"
                 :disabled="!editable"
                 @change="carTypeSelectedChange"
@@ -106,11 +116,11 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="formTitles.sop" prop="sopDate">
+            <iFormItem :label="language(formTitles.sop)" prop="sopDate">
               <iDatePicker
                 v-model="formData.sopDate"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 :picker-options="endDateOptions"
                 value-format="yyyy-MM-dd hh:mm:ss"
                 style="width: 100%"
@@ -119,11 +129,11 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.eop" prop="eopDate">
+            <iFormItem :label="language(formTitles.eop)" prop="eopDate">
               <iDatePicker
                 v-model="formData.eopDate"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 :picker-options="endDateOptions"
                 value-format="yyyy-MM-dd hh:mm:ss"
                 style="width: 100%"
@@ -132,9 +142,9 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.factory" prop="werk">
+            <iFormItem :label="language(formTitles.factory)" prop="werk">
               <iSelect
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.werk"
                 :disabled="!editable"
                 filterable
@@ -152,7 +162,7 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="formTitles.saler" prop="projectPurchaser">
+            <iFormItem :label="language(formTitles.saler)" prop="projectPurchaser">
               <iSelectorInput
                 v-model="formData.projectPurchaser"
                 :tagLabel="'nameZh'"
@@ -162,7 +172,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.controller" prop="areaController">
+            <iFormItem :label="language(formTitles.controller)" prop="areaController">
               <iSelectorInput
                 v-model="formData.areaController"
                 :tagLabel="'nameZh'"
@@ -172,7 +182,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.producter" prop="projectManager">
+            <iFormItem :label="language(formTitles.producter)" prop="projectManager">
               <iSelectorInput
                 v-model="formData.projectManager"
                 :tagLabel="'nameZh'"
@@ -184,20 +194,20 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="formTitles.sap" prop="sapCartypeProjectNum">
+            <iFormItem :label="language(formTitles.sap)" prop="sapCartypeProjectNum">
               <iInput
-                :placeholder="formTitles.inputPlaceholder"
+                :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.sapCartypeProjectNum"
                 :disabled="isEditPage"
               />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.starttime" prop="beginTime">
+            <iFormItem :label="language(formTitles.starttime)" prop="beginTime">
               <iDatePicker
                 v-model="formData.beginTime"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 :picker-options="endDateOptions"
                 value-format="yyyy-MM-dd hh:mm:ss"
                 style="width: 100%"
@@ -206,11 +216,11 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.closetime" prop="closeTime">
+            <iFormItem :label="language(formTitles.closetime)" prop="closeTime">
               <iDatePicker
                 v-model="formData.closeTime"
                 type="date"
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 :picker-options="endDateOptions"
                 value-format="yyyy-MM-dd hh:mm:ss"
                 style="width: 100%"
@@ -221,9 +231,9 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="formTitles.releasestatus" prop="publishStatus">
+            <iFormItem :label="language(formTitles.releasestatus)" prop="publishStatus">
               <iSelect
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.publishStatus"
                 :disabled="!editable"
                 filterable
@@ -238,9 +248,9 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="formTitles.isvalid" prop="isValid">
+            <iFormItem :label="language(formTitles.isvalid)" prop="isValid">
               <iSelect
-                :placeholder="formTitles.selectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.isValid"
                 :disabled="!editable"
                 filterable
@@ -259,6 +269,7 @@
             <iFormItem :label="language('是否TIPS同步')">
               <iSelect
                 v-model="formData.isModify"
+                :placeholder="language('请选择')"
                 :disabled="!editable"
                 filterable
               >
@@ -367,9 +378,15 @@ export default {
       //产品经理
       return this.dialogUserList(param)
     },
-    carTypeSelectedChange(parma) {
+    carTypeSelectedChange(cartypeId) {
       //车型选择
-      this.formData.cartypeId = parma
+      this.formData.cartypeId = cartypeId
+      const items = this.carTypes.filter((e) => e.id === cartypeId)
+      if (items.length) {
+        this.formData.cartypeNameZh = items[0].name
+      } else {
+        this.formData.cartypeNameZh = ''
+      }
     },
     dialogUserList(param) {
       console.log('params', param)
@@ -583,6 +600,15 @@ export default {
           let param = { userIdList: areaControllerIDNumList }
           let areaControllerList = await this.searchUser(param)
           newFormData.areaController = areaControllerList.data
+        }
+
+        if (val.data.cartypeId) {
+          this.carTypes = [
+            {
+              id: val.data.cartypeId,
+              name: val.data.cartypeNameZh
+            }
+          ]
         }
 
         if (projectManagerIDs) {

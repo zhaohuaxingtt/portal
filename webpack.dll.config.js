@@ -16,11 +16,14 @@ module.exports = {
       'wangeditor',
       'jspdf',
       'powerbi-client',
-      'html2canvas'
+      'html2canvas',
+      'element-ui',
+      'file-saver',
+      'xlsx'
     ]
   },
   output: {
-    path: path.join(__dirname, './static/js'), // 打包后文件输出的位置
+    path: path.join(__dirname, './public/dll'), // 打包后文件输出的位置
     filename: '[name].dll.js',
     library: '[name]_library'
     // vendor.dll.js中暴露出的全局变量名。

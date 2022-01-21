@@ -6,13 +6,7 @@
     <searchForm :data="searchData" @search="search" @reset="reset" />
     <iCard>
       <div class="flex-end-center margin-bottom20">
-        <iButton
-          @click="
-            $router.push({
-              path: `/approval/agent/add?type=${agentType}`
-            })
-          "
-        >
+        <iButton @click="addAgent">
           {{ language('新增') }}
         </iButton>
         <iButton :disabled="editButtonDisable" @click="editRow">
@@ -50,10 +44,8 @@ import { pageMixins } from '@/utils/pageMixins'
 import { TABLE_COLUMNS, SEARCH_DATA } from './components/data'
 import { iPage, iButton, iCard, iMessage, iPagination } from 'rise'
 import searchForm from './components/searchForm'
-import pageHeader from '@/components/pageHeader'
 import iTableCustom from '@/components/iTableCustom'
 import { fetchAgents, batchInvalidAgent } from '@/api/approval/agent'
-import { actionHeader } from './components'
 export default {
   name: 'approvalAgentIndex',
   mixins: [pageMixins],
@@ -62,10 +54,8 @@ export default {
     iCard,
     iPagination,
     iButton,
-    pageHeader,
     searchForm,
-    iTableCustom,
-    actionHeader
+    iTableCustom
   },
   computed: {
     agentType() {
@@ -121,9 +111,15 @@ export default {
         query: { type: this.agentType }
       })
     },
+    addAgent() {
+      this.$router.push({
+        name: 'ApprovalAgentAdd',
+        query: { type: this.agentType }
+      })
+    },
     async query() {
       const data = { ...this.searchData }
-      data.type = this.agentType === 'normal' ? 2 : 1
+      data.type = this.agentType === 'meeting' ? 2 : 1
       const params = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize

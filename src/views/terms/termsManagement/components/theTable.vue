@@ -6,7 +6,7 @@
           <div class="">
             <!-- 新建 -->
             <iButton @click="handleAdd">新建</iButton>
-            <iButton @click="handleExport">导出当前</iButton>
+            <!-- <iButton @click="handleExport">导出当前</iButton> -->
             <iButton @click="handleExportAll">导出全部</iButton>
             <!-- 失效 -->
             <!-- <iButton
@@ -41,7 +41,7 @@
           width="80"
           align="center"
         ></el-table-column>
-        <el-table-column align="center" label="条款编码"
+        <el-table-column align="center" label="条款编码" min-width="100"
           ><template slot-scope="scope">
             <span>{{ scope.row["termsCode"] }}</span>
           </template></el-table-column
@@ -50,19 +50,19 @@
           show-overflow-tooltip
           align="center"
           label="条款名称"
-          min-width="160"
+          min-width="400"
           ><template slot-scope="scope">
             <span class="open-link-text" @click="handleGoDetail(scope.row)">{{
               scope.row["name"]
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="版本号">
+        <el-table-column align="center" label="版本号" min-width="80">
           <template slot-scope="scope">
             <span>{{ scope.row["termsVersion"] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="条款状态"
+        <el-table-column align="center" label="条款状态" min-width="100"
           ><template slot-scope="scope">
             {{
               scope.row.state === "01"
@@ -70,29 +70,29 @@
                 : scope.row.state === "02"
                 ? "待生效"
                 : scope.row.state === "03"
-                ? "有效"
+                ? "生效"
                 : scope.row.state === "04"
                 ? "失效"
                 : ""
             }}
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="100" label="条款生效时间"
+        <el-table-column align="center" min-width="140" label="条款生效时间"
           ><template slot-scope="scope">
             <span>{{ scope.row["inDate"] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="100" label="发布日期"
+        <el-table-column align="center" min-width="120" label="发布日期"
           ><template slot-scope="scope">
             <span>{{ scope.row["publishDate"] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="80" label="签署节点">
+        <el-table-column align="center" min-width="120" label="签署节点">
           <template slot-scope="scope">
             <span>{{ signNodeListObj[scope.row["signNode"]] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="签署情况">
+        <el-table-column align="center" min-width="120" label="签署情况">
           <template slot-scope="scope">
             <span
               class="open-link-text"
@@ -103,7 +103,7 @@
             <span v-else>{{ scope.row["signResult"] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="是否个人条款" min-width="100">
+        <el-table-column align="center" label="是否个人条款" min-width="120">
           <template slot-scope="scope">
             <span>{{
               scope.row.isPersonalTerms == true
@@ -156,7 +156,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="供应商用户">
+        <el-table-column align="center" min-width="120" label="供应商用户">
           <template slot-scope="scope">
             <span>{{
               scope.row["supplierContacts"] == "01"
@@ -167,7 +167,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="条款负责人">
+        <el-table-column align="center" min-width="120" label="条款负责人">
           <template slot-scope="scope">
             <span>{{ scope.row["chargeName"] }}</span>
           </template>
@@ -284,7 +284,7 @@ export default {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo;
         this.signNodeList.map((item) => {
-          this.signNodeListObj[item.id] = item.name;
+          this.signNodeListObj[item.name] = item.describe;
         });
       }
     });
@@ -297,18 +297,18 @@ export default {
   filters: {
     supplierRangeFilter: function (value) {
       let supplierRangeList = [];
-      value.split(",").map((i) => {
+      value?.split(",").map((i) => {
         i == "PP"
           ? (supplierRangeList += "生产供应商，")
           : i == "GP"
           ? (supplierRangeList += "一般供应商，")
           : i == "NT"
-          ? (supplierRangeList += "Ntier，")
+          ? (supplierRangeList += "N-Tier，")
           : i == "CM"
           ? (supplierRangeList += "自定义，")
           : (supplierRangeList += "");
       });
-      supplierRangeList = supplierRangeList.slice(
+      supplierRangeList.length == 0 ? supplierRangeList = '' : supplierRangeList = supplierRangeList.slice(
         0,
         supplierRangeList.length - 1
       );
@@ -316,7 +316,7 @@ export default {
     },
     supplierIdentityFilter: function (value) {
       let supplierIdentityList = [];
-      value.split(",").map((i) => {
+      value?.split(",").map((i) => {
         i == "0"
           ? (supplierIdentityList += "临时，")
           : i == "1"
@@ -325,7 +325,7 @@ export default {
           ? (supplierIdentityList += "储蓄池，")
           : (supplierIdentityList += "");
       });
-      supplierIdentityList = supplierIdentityList.slice(
+      supplierIdentityList.length == 0 ? supplierIdentityList = '' : supplierIdentityList = supplierIdentityList.slice(
         0,
         supplierIdentityList.length - 1
       );
@@ -344,13 +344,13 @@ export default {
         // item.supplierRange = this.supplierRangeObj[item.supplierRange];
         // item.supplierIdentity = this.supplierIdentityObj[item.supplierIdentity];
         let supplierRangeList = [];
-        item.supplierRange.split(",").map((i) => {
+        item.supplierRange?.split(",").map((i) => {
           i == "PP"
             ? (supplierRangeList += "生产供应商，")
             : i == "GP"
             ? (supplierRangeList += "一般供应商，")
             : i == "NT"
-            ? (supplierRangeList += "Ntier，")
+            ? (supplierRangeList += "N-Tier，")
             : i == "CM"
             ? (supplierRangeList += "自定义，")
             : (supplierRangeList += "");
@@ -361,7 +361,7 @@ export default {
         );
         item.supplierRange = supplierRangeList;
         let supplierIdentityList = [];
-        item.supplierIdentity.split(",").map((i) => {
+        item.supplierIdentity?.split(",").map((i) => {
           i == "0"
             ? (supplierIdentityList += "临时，")
             : i == "1"
@@ -479,6 +479,7 @@ export default {
       this.signTitle = {
         name: e.name,
         termsVersion: e.termsVersion,
+        state: e.state
       };
       this.id = e.id;
       this.openSignDetailDialog = true;

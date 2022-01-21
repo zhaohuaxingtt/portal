@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
+ * @LastEditTime: 2022-01-08 12:54:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -11,36 +11,39 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{$t('SUPPLIER_ZHONGDASHIXIANGSIFAXINXI')}}</span>
       <div class="floatright">
-        <i-button @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button @click="exportsTable"
+                  v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        :index="true"
-        openPageProps="view"
-        :customOpenPageWord="$t('LK_CHAKAN')"
-        @handleSelectionChange="handleSelectionChange"
-        @openPage="handleOpenPage"
-        :openPageGetRowData="true"
-        v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION"
-    />
+    <table-list :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                :index="true"
+                openPageProps="view"
+                :customOpenPageWord="$t('LK_CHAKAN')"
+                @handleSelectionChange="handleSelectionChange"
+                @openPage="handleOpenPage"
+                :openPageGetRowData="true"
+                v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION">
+      <template v-slot:currency="scope">
+        <span>{{currency(scope.row.currency)}}</span>
+      </template>
+    </table-list>
+
     <!--内容框-->
-    <content-dialog
-        v-model="contentDialog"
-        :detail="content"
-    />
+    <content-dialog v-model="contentDialog"
+                    :detail="content" />
   </i-card>
 </template>
 
 <script>
-import {iCard, iButton} from "rise";
-import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
+import { iCard, iButton } from "rise";
+import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import {judicialInformationTableTitle} from './data'
-import {getJudiciaryInfoListView} from '../../../../api/supplier360/majorIssues'
+import { judicialInformationTableTitle } from './data'
+import { getJudiciaryInfoListView } from '../../../../api/supplier360/majorIssues'
 import contentDialog from './contentDialog'
+import { getDictByCode } from '@/api/dictionary'
 
 
 export default {
@@ -51,21 +54,38 @@ export default {
     tableList,
     contentDialog
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: judicialInformationTableTitle,
       tableLoading: false,
       selectTableData: [],
       contentDialog: false,
-      content: ''
+      content: '',
+      currencyList: []
     }
   },
-  created() {
+  created () {
+    this.getDictByCode()
     this.getTableList()
   },
+  computed: {
+    currency () {
+      return function (data) {
+        this.currencyList.forEach(item => {
+          if (item.code === data) {
+            return item.name
+          }
+        })
+      }
+    }
+  },
   methods: {
-    async getTableList() {
+    async getDictByCode () {
+      let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
+      this.currencyList = res.data[0].subDictResultVo
+    },
+    async getTableList () {
       this.tableLoading = true
       const req = {
         pageNo: 1,
@@ -79,7 +99,7 @@ export default {
         this.tableLoading = false
       }
     },
-    handleOpenPage(row) {
+    handleOpenPage (row) {
       this.contentDialog = true
       this.content = row.content
     }
@@ -88,5 +108,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

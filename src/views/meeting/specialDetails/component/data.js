@@ -37,11 +37,13 @@ export const baseRules = {
 export const approvalBoolean = [
   {
     value: 'true',
-    label: '是'
+    label: '是',
+    i18n: 'MT_SHI'
   },
   {
     value: 'false',
-    label: '否'
+    label: '否',
+    i18n: 'MT_FOU'
   }
 ]
 export const tableListColumns = [
@@ -51,25 +53,27 @@ export const tableListColumns = [
 
   {
     prop: 'positionCode',
-    // i18n: "APPROVAL.POSITION_CODE",
+    i18n: 'MT_HUIYIMINGCHENG',
     label: '会议名称'
   },
   {
     prop: 'positionName',
-    // i18n: "APPROVAL.POSITION_NAME",
+    i18n: 'MT_HUIYILEIXING',
     label: '会议类型'
   },
   {
     prop: 'positionUser',
-    // i18n: "APPROVAL.POSITION_USER",
+    i18n: 'MT_HUIYIZHUANGTAI',
     label: '会议状态'
   },
   {
     prop: 'positionUser',
+    i18n: 'MT_HUIYIDIDIAN',
     label: '会议地点'
   },
   {
     prop: 'positionUser',
+    i18n: 'MT_HUIYIRIQI',
     label: '会议日期'
   }
 ]
@@ -81,7 +85,7 @@ export const updateDatetableColumns = [
   {
     prop: '会议名称',
     label: '会议名称',
-    i18n: '会议名称',
+    i18n: 'MT_HUIYIMINGCHENG',
     // width: 350,
     tooltip: false,
     align: 'left'
@@ -89,7 +93,7 @@ export const updateDatetableColumns = [
   {
     prop: '会议类型',
     label: '会议类型',
-    i18n: '会议类型',
+    i18n: 'MT_HUIYILEIXING',
     // width: 90,
     tooltip: false,
     align: 'left'
@@ -97,7 +101,7 @@ export const updateDatetableColumns = [
   {
     prop: '会议状态',
     label: '会议状态',
-    i18n: '会议状态',
+    i18n: 'MT_HUIYIZHUANGTAI',
     // width: 70,
     tooltip: false,
     align: 'left'
@@ -105,7 +109,7 @@ export const updateDatetableColumns = [
   {
     prop: '会议地点',
     label: '会议地点',
-    i18n: '会议地点',
+    i18n: 'MT_HUIYIDIDIAN',
     // width: 150,
     tooltip: false,
     align: 'left'
@@ -113,63 +117,70 @@ export const updateDatetableColumns = [
   {
     prop: '会议时间',
     label: '会议时间',
-    i18n: '会议时间',
+    i18n: 'MT_HUIYISHIJIAN',
     // width: 200,
     tooltip: false,
     align: 'center'
   }
 ]
 export const statusObj = {
-  '01': '草稿',
-  '02': '开放',
-  '03': '锁定',
-  '04': '开始',
-  '05': '结束',
-  '06': '关闭'
+  '01': 'MT_CAOGAO',
+  '02': 'MT_KAIFANG',
+  '03': 'MT_SUODING',
+  '04': 'MT_KAISHI',
+  '05': 'MT_JIESHU',
+  '06': 'MT_GUANBI'
 }
 export const stateObj = {
-  '01': '未进行',
-  '02': '进行中',
-  '03': '已结束',
-  '04': '申请撤回'
+  '01': 'MT_WEIJINXING',
+  '02': 'MT_JINXINGZHONG',
+  '03': 'MT_YIJIESHU',
+  '04': 'MT_SHENQINGCHEHUI'
 }
 export const themenConclusion = {
-  '01': '待定',
-  '02': '定点',
-  '03': '发LOI',
-  '04': '转TER/TOP-TER',
-  '05': '下次Pre CSC',
-  '06': '转CSC',
-  '07': '关闭'
+  '01': 'MT_DAIDING',
+  '02': 'MT_DINGDIAN',
+  '03': 'MT_FALOI',
+  '04': 'MT_ZHUANTER',
+  '05': 'MT_XIACIPRE',
+  '06': 'MT_ZHUANCSC',
+  '07': 'MT_GUANBI'
 }
 export const themenConclusionArrObj = [
   {
     conclusionCsc: '05',
-    conclusionName: '下次Pre CSC'
+    conclusionName: '下次Pre CSC',
+    i18n: 'MT_XIACIPRE'
   },
   {
     conclusionCsc: '06',
-    conclusionName: '转CSC'
+    conclusionName: '转CSC',
+    i18n: 'MT_ZHUANCSC'
   },
   {
     conclusionCsc: '02',
-    conclusionName: '定点'
+    conclusionName: '定点',
+    i18n: 'MT_DINGDIAN'
   },
   {
     conclusionCsc: '03',
-    conclusionName: '发LOI'
+    conclusionName: '发LOI',
+    i18n: 'MT_FALOI'
   },
   {
     conclusionCsc: '04',
-    conclusionName: '转TER/TOP-TER'
+    conclusionName: '转TER/TOP-TER',
+    i18n: 'MT_ZHUANTER'
   },
   {
     conclusionCsc: '01',
-    conclusionName: '待定'
+    conclusionName: '待定',
+    i18n: 'MT_DAIDING'
   },
   {
     conclusionCsc: '07',
-    conclusionName: '关闭'
+    conclusionName: '关闭',
+    i18n: 'MT_GUANBI'
   }
 ]
 export const numToLetter = {

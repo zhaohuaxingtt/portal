@@ -61,7 +61,7 @@
 <script>
 import { iSearch, iInput, iFormItem, iDatePicker, iSelect } from 'rise'
 import { FILTER_FORM, FILTER_TYPES } from './data'
-import { fetchBizLogCategories } from '@/api/biz/log'
+import { listCategory } from '@/api/biz/log'
 export default {
   name: 'FilterPanel',
   components: { iSearch, iInput, iDatePicker, iFormItem, iSelect },
@@ -101,7 +101,7 @@ export default {
       this.$emit('search', searchData)
     },
     queryCategories() {
-      fetchBizLogCategories({ isAdmin: true }).then((res) => {
+      listCategory({ isAdmin: true }).then((res) => {
         if (res.result) {
           this.typeOptions = res.data || []
         }

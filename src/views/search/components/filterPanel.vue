@@ -87,7 +87,7 @@ export default {
     }
   },
   mounted(){
-    
+    window.addEventListener('scroll',this.handleScroll,true)
   },
   methods: {
     dataSource(val){
@@ -114,23 +114,27 @@ export default {
         return item.value.indexOf(this.searchForm.words) > -1
       })
     },
-    handleSelect() {
-      this.search()
-    },
+    // handleSelect() {
+    //   this.search()
+    // },
     selectedSugges(val){
       console.log('pppp',val);
       this.searchForm.words = val.value
       this.search()
     },
-    inputChange(){
-      // this.selectedSugges
-      this.showSuggestion = false
+    // inputChange(){
+    //   // this.selectedSugges
+    //   this.showSuggestion = false
 
-    },
+    // },
     handleHideSuggestion(){
       window.setTimeout(()=>{
         this.showSuggestion = false
       },200)
+    },
+    handleScroll(){
+      // console.log('--');
+      this.showSuggestion = false
     }
   }
 }

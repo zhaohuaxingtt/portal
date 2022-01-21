@@ -5,8 +5,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 
 /* const ChangeNginxConfig = require(resolve(
-  './loadersPlugins/pluginTranslateNginxConfig'
-)) */
+      './loadersPlugins/pluginTranslateNginxConfig'
+    )) */
 const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
@@ -113,7 +113,7 @@ module.exports = {
   css: {
     //是否开起css分离
     extract: false,
-    sourceMap: process.env.NODE_ENV !== 'production',
+    sourceMap: false, // process.env.NODE_ENV !== 'production',
     requireModuleExtension: true,
     loaderOptions: {
       sass: {
@@ -133,7 +133,10 @@ module.exports = {
     host: '0.0.0.0',
     port: 8080,
     https: false,
-    // hotOnly: true,
+    hotOnly: true,
+    hot: true,
+    compress: true,
+    disableHostCheck: true,
     proxy: {
       [process.env.VUE_APP_PROJECT]: {
         target: `http://${BASE_IP}:8005/projectmgt`,
@@ -182,7 +185,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034/`,
+        target: `http://${BASE_IP}:8034`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -206,6 +209,7 @@ module.exports = {
       }, // 主数据
       [process.env.VUE_APP_BASE_INFO]: {
         target: `http://${BASE_IP}:8011/baseinfo`,
+        //target: `http://10.160.136.248:8011/baseinfo`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_INFO]: ''
@@ -312,6 +316,15 @@ module.exports = {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
       },
+      // adminProcs
+      [process.env.VUE_APP_ADMIN_PROCS]: {
+        // target: `http://10.160.138.225:8016/riseprocs`,
+        target: `http://${BASE_IP}:8016/riseprocs`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+        }
+      },
       // '/fileCross': {
       //   target: `http://${BASE_IP}:8034`,
       //   changeOrigin: true,
@@ -326,6 +339,14 @@ module.exports = {
           ['^' + process.env.VUE_APP_AEKO]: ''
         }
       }
+      // adminProCS
+      // [process.env.VUE_APP_ADMIN_PROCS]: {
+      //   target: `http://${BASE_IP}:8016/riseprocsApi`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
+      //   }
+      // },
     }
   }
 }

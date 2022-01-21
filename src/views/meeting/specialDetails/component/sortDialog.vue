@@ -1,13 +1,13 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('批量排序')"
+    :title="$t('MT_PILIANGPAIXU')"
     :visible.sync="openSortDialog"
     width="28.75rem"
     @close="clearDiolog"
     :close-on-click-modal="false"
   >
-    <div class="warn-content">上下拖拽即可调整顺序</div>
+    <div class="warn-content">{{$t('MT_SHANGXIATUOZHUAIKETIAOZHENGSHUNXU')}}</div>
     <draggable
       class="dragArea list-group"
       v-bind="dragOptions"
@@ -29,9 +29,9 @@
       </transition-group>
     </draggable>
     <ul class="button-list">
-      <iButton @click="handleSave" class="btn-c">保存</iButton>
-      <iButton @click="handleReset" class="btn-c">重置</iButton>
-      <iButton @click="handleCancel" class="btn-c">退出</iButton>
+      <iButton @click="handleSave" class="btn-c">{{$t('MT_BAOCUN')}}</iButton>
+      <iButton @click="handleReset" class="btn-c">{{$t('MT_CHONGZHI')}}</iButton>
+      <iButton @click="handleCancel" class="btn-c">{{$t('MT_TUICHU')}}</iButton>
     </ul>
   </iDialog>
 </template>
@@ -93,7 +93,7 @@ export default {
       resortThemenBySection(data).then((res) => {
         if (res.code === 200) {
           this.$emit('closeDialog',"save")
-          iMessage.success('排序完成')
+          iMessage.success(this.$t('MT_PAIXUWANCHENG'))
         }
       })
     },

@@ -23,33 +23,40 @@
         </span>
       </div>
       <div>
+        <!-- 保存 -->
+        <iButton @click="handleSave" v-if="ruleForm.state == '03'">{{
+          '保存'
+        }}</iButton>
         <!-- 生效 -->
         <iButton
           @click="handleEffect"
           v-if="ruleForm.isNewest != false && ruleForm.state == '04'"
-          >{{ "生效" }}</iButton
+          >{{ '生效' }}</iButton
         >
         <!-- 失效 -->
         <iButton
           @click="handleInvalida"
           v-if="ruleForm.isNewest != false && ruleForm.state == '03'"
-          >{{ "失效" }}</iButton
+          >{{ '失效' }}</iButton
         >
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ "返回" }}</iButton>
         <!-- 更新版本 -->
         <iButton
           @click="handleUpdate"
-          v-if="ruleForm.isNewest != false && ruleForm.state == '03'"
-          >{{ "更新版本" }}</iButton
+          v-if="
+            ruleForm.isNewest != false &&
+            (ruleForm.state == '03' || ruleForm.state == '04')
+          "
+          >{{ '更新版本' }}</iButton
         >
+        <!-- 返回 -->
+        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
       </div>
     </div>
     <iCard>
       <div class="basic">基本信息</div>
       <el-form
         :model="ruleForm"
-        label-width="9rem"
+        label-width="10rem"
         :rules="rules"
         ref="ruleForm"
         :hideRequiredAsterisk="true"
@@ -67,7 +74,7 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款名称" prop="name">
                 <iLabel :label="'条款名称'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.name" disabled></iInput>
+                <iInput v-model="ruleForm.name" :disabled="ruleForm.state != '03'"></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -93,6 +100,7 @@
               <iFormItem label="生效时间" prop="inDate">
                 <iLabel :label="'生效时间'" slot="label" required></iLabel>
                 <iDatePicker
+                  style="width: 100%"
                   value-format="yyyy-MM-dd"
                   type="date"
                   v-model="ruleForm.inDate"
@@ -131,9 +139,9 @@
                 >
                   <el-option
                     v-for="item in signNodeList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
+                    :key="item.name"
+                    :label="item.describe"
+                    :value="item.name"
                   >
                   </el-option>
                 </iSelect>
@@ -154,7 +162,15 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款负责人" prop="chargeName">
                 <iLabel :label="'条款负责人'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.chargeName" disabled></iInput>
+                <!-- <iInput v-model="ruleForm.chargeName" :disabled="ruleForm.state != '03'"></iInput> -->
+                <el-autocomplete
+                  style="width: 100%"
+                  :disabled="ruleForm.state != '03'"
+                  v-model="ruleForm.chargeName"
+                  :fetch-suggestions="querySearchAsync"
+                  :placeholder="$t('请输入')"
+                  @select="handleSelect"
+                ></el-autocomplete>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -165,8 +181,8 @@
             </el-col>
             <!-- 第三行 -->
             <el-col :span="6" class="form-item">
-              <iFormItem label="是否按轮次" prop="isRound">
-                <iLabel :label="'是否按轮次'" slot="label" required></iLabel>
+              <iFormItem label="按业务事件签署" prop="isRound">
+                <iLabel :label="'按业务事件签署'" slot="label"></iLabel>
                 <iSelect
                   v-model="ruleForm.isRound"
                   :placeholder="$t('LK_QINGXUANZE')"
@@ -189,18 +205,44 @@
                   style="display: inline-block"
                   v-model="ruleForm.supplierRange"
                   @input="handleGroupCheckList"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                 >
-                  <el-checkbox label="PP">生产供应商</el-checkbox>
-                  <el-checkbox label="GP">一般供应商</el-checkbox>
-                  <el-checkbox label="NT">N-Tier</el-checkbox>
-                  <el-checkbox label="CM">自定义</el-checkbox>
+                  <el-checkbox
+                    label="PP"
+                    :disabled="controlForm.supplierRange.includes('CM')"
+                    >生产供应商</el-checkbox
+                  >
+                  <el-checkbox
+                    label="GP"
+                    :disabled="controlForm.supplierRange.includes('CM')"
+                    >一般供应商</el-checkbox
+                  >
+                  <el-checkbox
+                    label="NT"
+                    :disabled="controlForm.supplierRange.includes('CM')"
+                    >N-Tier</el-checkbox
+                  >
+                  <el-checkbox
+                    label="CM"
+                    :disabled="
+                      controlForm.supplierRange.includes('PP') ||
+                      controlForm.supplierRange.includes('GP') ||
+                      controlForm.supplierRange.includes('NT')
+                    "
+                    >自定义</el-checkbox
+                  >
                 </el-checkbox-group>
                 <div class="searchInput">
                   <iInput
                     :placeholder="'选择器'"
                     @focus="handleOpenSupplierChooseDialog()"
-                    disabled
+                    :disabled="
+                      controlForm.supplierRange.includes('PP') ||
+                      controlForm.supplierRange.includes('GP') ||
+                      controlForm.supplierRange.includes('NT') ||
+                      !ruleForm.supplierRange.includes('CM') ||
+                      ruleForm.state != '03'
+                    "
                   >
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                   </iInput>
@@ -220,11 +262,18 @@
                 <el-checkbox-group
                   v-model="ruleForm.supplierIdentity"
                   @input="handleGroupCheckList"
-                  disabled
+                  :disabled="
+                    ruleForm.state != '03' ||
+                    controlForm.supplierRange.includes('CM')
+                  "
                 >
                   <el-checkbox label="0">临时</el-checkbox>
                   <el-checkbox label="1">正式</el-checkbox>
-                  <el-checkbox label="2">储蓄池</el-checkbox>
+                  <el-checkbox
+                    label="2"
+                    :disabled="!ruleForm.supplierRange.includes('NT')"
+                    >储蓄池</el-checkbox
+                  >
                 </el-checkbox-group>
               </iFormItem>
             </el-col>
@@ -246,7 +295,7 @@
                 <el-radio-group
                   v-model="ruleForm.supplierContacts"
                   @input="handleGroupCheckList"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                 >
                   <el-radio
                     v-for="item in supplierContactsList"
@@ -257,12 +306,12 @@
                 </el-radio-group>
               </iFormItem>
             </el-col>
-            <el-col :span="24">
+            <el-col :span="24" class="form-item">
               <iFormItem label="备注" prop="remark">
                 <iLabel :label="'备注'" slot="label"></iLabel>
                 <iInput
                   v-model="ruleForm.remark"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                   class="textarea"
                   type="textarea"
                   :rows="3"
@@ -278,7 +327,7 @@
       <div class="editBox">编辑框</div>
       <el-form
         :model="ruleForm"
-        label-width="9rem"
+        label-width="10rem"
         :rules="rules"
         ref="ruleFormEdit"
         :hideRequiredAsterisk="true"
@@ -302,16 +351,24 @@
                 </el-radio-group>
               </iFormItem>
             </el-col>
-            <el-col :span="24" v-show="ruleForm.editMode == '01'">
+            <el-col
+              :span="24"
+              v-show="ruleForm.editMode == '01'"
+              class="form-item"
+            >
               <div style="float: right; margin-top: -3rem">
-                <iButton @click="handlePreEdit()">{{ "预览" }}</iButton>
+                <iButton @click="handlePreEdit()">{{ '预览' }}</iButton>
               </div>
               <iFormItem label="条款正文" prop="termsText">
                 <iLabel :label="'条款正文'" slot="label" required></iLabel>
                 <div ref="editer" class="editer" id="editer"></div>
               </iFormItem>
             </el-col>
-            <el-col :span="24" v-show="ruleForm.editMode == '02'">
+            <el-col
+              :span="24"
+              v-show="ruleForm.editMode == '02'"
+              class="form-item"
+            >
               <iFormItem label="条款正文" prop="termsTextId">
                 <iLabel :label="'条款正文'" slot="label" required></iLabel>
                 <el-upload
@@ -347,7 +404,11 @@
                   </label>
                   <i @click="handleDeleteAccessory()" class="el-icon-close"></i>
                 </li>
-                <iButton @click="handlePre()" :disabled="this.ruleForm.termsTextId == ''">{{ "预览" }}</iButton>
+                <iButton
+                  @click="handlePre()"
+                  :disabled="this.ruleForm.termsTextId == ''"
+                  >{{ '预览' }}</iButton
+                >
               </iFormItem>
             </el-col>
           </div>
@@ -356,10 +417,10 @@
     </iCard>
     <!-- 附件 -->
     <iCard>
-      <div class="enclosure">附件</div>
+      <div class="enclosure">条款附件</div>
       <div class="form">
         <div class="input-box">
-          <el-col :span="24">
+          <el-col :span="24" class="form-item">
             <div class="upload-box">
               <!-- <el-upload
                 :on-success="handleAvatarSuccess"
@@ -377,7 +438,7 @@
               <iButton
                 @click="handleDownload"
                 :disabled="this.selectedFileData.length === 0"
-                >{{ "下载附件" }}</iButton
+                >{{ '下载附件' }}</iButton
               >
               <!-- <iButton
                 @click="handleDel"
@@ -387,7 +448,7 @@
               > -->
             </div>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" class="form-item">
             <iTableML
               tooltip-effect="light"
               :data="this.ruleForm.attachments"
@@ -412,18 +473,18 @@
                   <span
                     class="open-link-text"
                     @click="handleDownFile(scope.row)"
-                    >{{ scope.row["attachmentName"] }}</span
+                    >{{ scope.row['attachmentName'] }}</span
                   >
                 </template></el-table-column
               >
               <el-table-column align="center" label="大小（KB）"
                 ><template slot-scope="scope">
-                  <span>{{ scope.row["attachmentSize"] }}</span>
+                  <span>{{ scope.row['attachmentSize'] }}</span>
                 </template></el-table-column
               >
               <el-table-column align="center" label="上传日期"
                 ><template slot-scope="scope">
-                  <span>{{ scope.row["uploadDate"] }}</span>
+                  <span>{{ scope.row['uploadDate'] }}</span>
                 </template></el-table-column
               >
             </iTableML>
@@ -442,6 +503,7 @@
       :openDialog="openSupplierChooseDialog"
       @closeDialog="closeSupplierChooseDialog"
       @selectedTableData="selectedTableData"
+      :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
 </template>
@@ -456,27 +518,33 @@ import {
   iSelect,
   iMessage,
   iDatePicker,
-  iCard,
-} from "rise";
-import E from "wangeditor";
-import UploadMenu from "./UploadPanel";
+  iCard
+} from 'rise'
+import E from 'wangeditor'
+import UploadMenu from './UploadPanel'
 import {
   baseRules,
   statusList,
   supplierContactsList,
-  editModeList,
-} from "./data";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import { uploadFile } from "@/api/terms/uploadFile.js";
-import iTableML from "@/components/iTableML";
-import { findById, deleteAttachment, saveAttachment } from "@/api/terms/terms";
-import { getDictByCode } from "@/api/dictionary/index";
-import { download, downloadZip } from "@/utils/downloadUtil";
-import supplierListDialog from "./supplierListDialog.vue";
-import supplierChooseDialog from "./supplierChooseDialog.vue";
-import { invalidateTerms, releaseTerms } from "@/api/terms/terms";
-import { getFileByIds } from "@/api/terms/uploadFile";
-import dayjs from "dayjs";
+  editModeList
+} from './data'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { uploadFile } from '@/api/terms/uploadFile.js'
+import iTableML from '@/components/iTableML'
+import {
+  findById,
+  deleteAttachment,
+  saveAttachment,
+  updateEffectiveTerms,
+  getPageListByParam
+} from '@/api/terms/terms'
+import { getDictByCode } from '@/api/dictionary/index'
+import { download, downloadZip } from '@/utils/downloadUtil'
+import supplierListDialog from './supplierListDialog.vue'
+import supplierChooseDialog from './supplierChooseDialog.vue'
+import { invalidateTerms, releaseTerms } from '@/api/terms/terms'
+import { getFileByIds } from '@/api/terms/uploadFile'
+import dayjs from 'dayjs'
 export default {
   components: {
     iPage,
@@ -489,18 +557,18 @@ export default {
     iDatePicker,
     iTableML,
     supplierListDialog,
-    supplierChooseDialog,
+    supplierChooseDialog
   },
   props: {
     loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     id: { type: Number, default: -1 },
-    state: { type: String, default: "" },
+    state: { type: String, default: '' }
   },
   data() {
     return {
@@ -510,47 +578,52 @@ export default {
       editModeList,
       signNodeList: [], // 签署节点
       statusList,
-      termsTextName: "",
+      termsTextName: '',
       ruleForm: {
-        termsVersion: "", // 条款版本
-        termsCode: "", // 条款编码
-        name: "", // 条款名称
-        state: "01", // 条款状态
-        inDate: dayjs().format("YYYY-MM-DD"), // 生效时间
+        termsVersion: '', // 条款版本
+        termsCode: '', // 条款编码
+        name: '', // 条款名称
+        state: '01', // 条款状态
+        inDate: dayjs().format('YYYY-MM-DD'), // 生效时间
         isPersonalTerms: false, // 是否个人条款
-        signNode: "", // 签署节点
-        chargeId: "", // 条款负责人
-        chargeName: "", // 条款负责人名
-        signResult: "", // 签署情况
-        isRound: false, // 是否按轮次
+        signNode: '', // 签署节点
+        chargeId: '', // 条款负责人
+        chargeName: '', // 条款负责人名
+        signResult: '', // 签署情况
+        isRound: false, // 按业务事件签署
         supplierRange: [], // 供应商范围
         supplierIdentity: [], // 供应商身份
-        supplierContacts: "", // 供应商用户范围
+        supplierContacts: '', // 供应商用户范围
         supplierList: [], // 供应商列表
-        remark: "", // 备注
-        editMode: "01", // 编辑方式
-        termsText: "", // 正文
-        termsTextId: "", // 条款正文id
-        termsTextUrl: "", // 条款正文url
+        remark: '', // 备注
+        editMode: '01', // 编辑方式
+        termsText: '', // 正文
+        termsTextId: '', // 条款正文id
+        termsTextUrl: '', // 条款正文url
         attachments: [], // 附件列表
-        termsHistoryList: [],
+        termsHistoryList: []
+      },
+      controlForm: {
+        supplierRange: [], // 供应商范围
+        supplierIdentity: [], // 供应商身份
+        supplierContacts: '' // 供应商用户范围
       },
       selectedFileData: [],
       pickerOptions: {
         disabledDate: (time) => {
-          let curDate = Date.now() - 8.64e7;
-          return time.getTime() < curDate;
-        },
+          let curDate = Date.now() - 8.64e7
+          return time.getTime() < curDate
+        }
       },
       isApprovalOption: [
         {
-          label: "是",
-          value: true,
+          label: '是',
+          value: true
         },
         {
-          label: "否",
-          value: false,
-        },
+          label: '否',
+          value: false
+        }
       ],
       uploadLoading: false,
       submitLoading: false,
@@ -558,217 +631,203 @@ export default {
       openSupplierChooseDialog: false,
       supplierCheckList: [],
       exc: -1,
-      supplierExcCheckList: [],
-    };
+      supplierExcCheckList: []
+    }
   },
   computed: {},
   watch: {
-    "ruleForm.supplierRange": {
+    'ruleForm.supplierRange': {
       immediate: true,
       deep: true,
       handler(val) {
-        if (val.includes("NT")) {
-          if (this.ruleForm.supplierIdentity.indexOf("2") == -1) {
-            this.ruleForm.supplierIdentity.push("2");
+        if (val.includes('NT')) {
+          if (this.ruleForm.supplierIdentity.indexOf('2') == -1) {
+            this.ruleForm.supplierIdentity.push('2')
           }
-        } else if (val.includes("CM")) {
-          this.ruleForm.supplierIdentity = [];
+        } else if (val.includes('CM')) {
+          this.ruleForm.supplierIdentity = []
         } else {
-          const indexSupplier = this.ruleForm.supplierIdentity.indexOf("2");
+          const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
           if (indexSupplier != -1) {
-            this.ruleForm.supplierIdentity.splice(indexSupplier, 1);
+            this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
           }
         }
-      },
-    },
-    "ruleForm.supplierIdentity": {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log("supplierIdentity", val);
-      },
-    },
-    "ruleForm.supplierContacts": {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log("supplierContacts", val);
-      },
-    },
+      }
+    }
+    // 'ruleForm.supplierIdentity': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierIdentity', val)
+    //   }
+    // },
+    // 'ruleForm.supplierContacts': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierContacts', val)
+    //   }
+    // }
   },
   mounted() {
     if (this.$route.query.id) {
       // 根据ID查询条款信息
-      let param = { id: this.$route.query.id };
-      this.query(param);
+      let param = { id: this.$route.query.id }
+      this.query(param)
     }
-    // this.signNodeList = [
-    //   {
-    //     name: "注册",
-    //     id: "01",
-    //   },
-    //   {
-    //     name: "询价",
-    //     id: "02",
-    //   },
-    //   {
-    //     name: "定点",
-    //     id: "03",
-    //   },
-    // ];
-    getDictByCode("SIGN_NODE").then((res) => {
+    getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
-        this.signNodeList = res.data[0].subDictResultVo;
+        this.signNodeList = res.data[0].subDictResultVo
       }
-    });
-    this.createEditor();
+    })
+    this.createEditor()
   },
   methods: {
     createEditor() {
-      let that = this;
-      this.editor = new E("#editer");
+      let that = this
+      this.editor = new E('#editer')
       // 配置菜单栏，设置不需要的菜单
       this.editor.config.excludeMenus = [
-        "list",
-        "todo",
-        "emoticon",
-        "image",
-        "video",
-        "table",
-        "code",
-      ];
+        // "list",
+        // "todo",
+        // "emoticon",
+        'image'
+        // "video",
+        // "table",
+        // "code",
+      ]
       // 配置字体
       this.editor.config.fontNames = [
         // 字符串形式
-        "黑体",
-        "仿宋",
-        "楷体",
-        "标楷体",
-        "华文仿宋",
-        "华文楷体",
-        "宋体",
-        "微软雅黑",
-        "Arial",
-        "Tahoma",
-        "Verdana",
-        "Times New Roman",
-        "Courier New",
-      ];
-      this.editor.config.menus = this.editor.config.menus.concat("uploadMenu"); // 配置菜单栏，删减菜单，调整顺序
+        '黑体',
+        '仿宋',
+        '楷体',
+        '标楷体',
+        '华文仿宋',
+        '华文楷体',
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana',
+        'Times New Roman',
+        'Courier New'
+      ]
+      this.editor.config.menus = this.editor.config.menus.concat('uploadMenu') // 配置菜单栏，删减菜单，调整顺序
       this.editor.config.customUploadImg = async (files, callaback) => {
-        const urls = [];
+        const urls = []
         for (let i = 0; i < files.length; i++) {
-          const res = await this.upload(files[i]);
-          urls.push(res);
+          const res = await this.upload(files[i])
+          urls.push(res)
         }
-        callaback(urls);
-      };
-      this.editor.menus.extend("uploadMenu", UploadMenu); // 配置扩展的菜单
+        callaback(urls)
+      }
+      this.editor.menus.extend('uploadMenu', UploadMenu) // 配置扩展的菜单
       this.editor.config.onchange = function (newHtml) {
-        that.ruleForm.termsText = newHtml;
-      };
-      this.editor.create();
-      this.editor.txt.html(this.ruleForm.termsText);
+        that.ruleForm.termsText = newHtml
+      }
+      this.editor.create()
+      this.editor.txt.html(this.ruleForm.termsText)
     },
     handlePreEdit() {
       let routeUrl = this.$router.resolve({
-        path: "/terms/management/clauseDetail/preText",
-        query: { termsText: this.ruleForm.termsText },
-      });
-      window.open(routeUrl.href, "_blank");
+        path: '/terms/management/clauseDetail/preText',
+        query: { termsText: this.ruleForm.termsText }
+      })
+      window.open(routeUrl.href, '_blank')
     },
     handleEffect() {
-      this.$confirm("是否将该条款设为生效？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('是否将该条款设为生效？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
         this.ruleForm.supplierRange = this.ruleForm.supplierRange
           .map((i) => {
-            return i;
+            return i
           })
-          .join(",");
+          .join(',')
         this.ruleForm.supplierIdentity = this.ruleForm.supplierIdentity
           .map((i) => {
-            return i;
+            return i
           })
-          .join(",");
-        this.ruleForm.isPublish = true;
+          .join(',')
+        this.ruleForm.isPublish = true
         releaseTerms(this.ruleForm)
           .then(() => {
-            this.$message.success("更新成功！");
+            this.$message.success('更新成功！')
             this.$router.push({
-              path: "/terms/management",
-            });
+              path: '/terms/management'
+            })
             // this.query({ id: this.$route.query.id });
           })
           .catch(() => {
             // this.$message.error("删除失败!");
-          });
-      });
+          })
+      })
     },
     handleInvalida() {
-      this.$confirm("是否将该条款设为失效？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('是否将该条款设为失效？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
         invalidateTerms({ ids: this.ruleForm.id })
           .then(() => {
-            this.$message.success("更新成功！");
+            this.$message.success('更新成功！')
             this.$router.push({
-              path: "/terms/management",
-            });
+              path: '/terms/management'
+            })
             // this.query({ id: this.$route.query.id });
           })
           .catch(() => {
             // this.$message.error("删除失败!");
-          });
-      });
+          })
+      })
     },
     upload(file) {
       return new Promise((resolve) => {
-        let formData = new FormData();
-        formData.append("file", file);
+        let formData = new FormData()
+        formData.append('file', file)
         uploadFile(formData)
           .then((res) => {
-            resolve(res.path);
+            resolve(res.path)
           })
-          .catch(() => {});
-      });
+          .catch(() => {})
+      })
     },
     async httpUpload(content) {
-      this.uploadLoading = true;
-      this.submitLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      this.uploadLoading = true
+      this.submitLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       await uploadFile(formData)
         .then((res) => {
           let createDate = new Date(+new Date() + 8 * 3600 * 1000)
             .toJSON()
             .substr(0, 19)
-            .replace("T", " ");
+            .replace('T', ' ')
           let fileData = {
             termsId: this.ruleForm.id,
-            fileType: "01",
+            fileType: '01',
             attachmentId: res.id,
             attachmentName: res.name,
             attachmentUrl: res.path,
             attachmentSize: (content.file.size / 1024).toFixed(0),
-            uploadDate: createDate,
-          };
+            uploadDate: createDate
+          }
           saveAttachment(fileData).then((data) => {
             if (data) {
-              this.query({ id: this.$route.query.id });
+              this.query({ id: this.$route.query.id })
             }
-          });
-          iMessage.success("上传成功");
+          })
+          iMessage.success('上传成功')
         })
         .catch(() => {
-          iMessage.error("上传失败");
-        });
-      this.uploadLoading = false;
-      this.submitLoading = false;
+          iMessage.error('上传失败')
+        })
+      this.uploadLoading = false
+      this.submitLoading = false
     },
     handleDownloadFile(id, name) {
       download({
@@ -776,25 +835,34 @@ export default {
         filename: name,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     handleDownload() {
       const fileNameids = this.selectedFileData
         .map((i) => {
-          return i.attachmentId;
+          return i.attachmentId
         })
-        .join(",");
+        .join(',')
+      const filename =
+        this.selectedFileData.length == 1
+          ? ''
+          : this.ruleForm.name +
+            '_' +
+            this.ruleForm.termsVersion +
+            '_' +
+            new Date().getTime()
       downloadZip({
         fileIds: fileNameids,
+        filename: filename,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     handleDownFile(row) {
       download({
@@ -802,74 +870,76 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     handlePre() {
       let routeUrl = this.$router.resolve({
-        path: "/terms/management/termsPreview",
+        path: '/terms/management/termsPreview',
         query: {
-          id: this.ruleForm.termsTextId,
-        },
-      });
-      window.open(routeUrl.href, "_blank");
+          id: this.ruleForm.termsTextId
+        }
+      })
+      window.open(routeUrl.href, '_blank')
     },
     handleSelectionChange(val) {
-      this.selectedFileData = val;
+      this.selectedFileData = val
     },
     changeDisplayVersion(value) {
-      this.query({ id: value });
+      // console.log("value",value)
+      this.query({ id: value })
     },
     handleOpenSupplierListDialog() {
-      this.openSupplierListDialog = true;
+      this.openSupplierListDialog = true
     },
     closeSupplierListDialog(bol) {
-      this.openSupplierListDialog = bol;
+      this.openSupplierListDialog = bol
     },
     handleOpenSupplierChooseDialog() {
-      this.openSupplierChooseDialog = true;
+      this.openSupplierChooseDialog = true
     },
     closeSupplierChooseDialog(bol) {
-      this.openSupplierChooseDialog = bol;
+      this.openSupplierChooseDialog = bol
     },
     selectedTableData(val) {
-      this.ruleForm.supplierList = val;
+      this.ruleForm.supplierList = val
     },
     // 退出
     clearDiolog() {
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
     // 更新版本
     handleUpdate() {
       this.$router.push({
-        path: "/terms/management/addClause",
+        path: '/terms/management/addClause',
         query: {
-          id: this.$route.query.id,
-        },
-      });
+          id: this.ruleForm.id,
+          // updateTerms: true
+        }
+      })
     },
     // 根据id删除附件
     handleDel() {
-      const ids = [];
+      const ids = []
       this.selectedFileData.forEach((e) => {
-        ids.push(e.id);
-      });
-      this.$confirm("是否将选择的附件删除？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+        ids.push(e.id)
+      })
+      this.$confirm('是否将选择的附件删除？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
-        deleteAttachment({ ids: ids.join(",") })
+        deleteAttachment({ ids: ids.join(',') })
           .then(() => {
-            this.$message.success("删除成功！");
-            this.query({ id: this.$route.query.id });
+            this.$message.success('删除成功！')
+            this.query({ id: this.$route.query.id })
           })
           .catch(() => {
             // this.$message.error("删除失败!");
-          });
-      });
+          })
+      })
     },
     // changeDisplayVersion(value) {
     //   this.query({ id: value });
@@ -890,20 +960,95 @@ export default {
     query(e) {
       // 根据ID查询条款信息
       findById(e).then((res) => {
-        res.supplierRange = res.supplierRange?.split(",");
-        res.supplierIdentity = res.supplierIdentity?.split(",");
-        this.ruleForm = res;
-        this.editor.txt.html(this.ruleForm.termsText);
-        this.editor.disable();
-        if (this.ruleForm.editMode == "02") {
-          getFileByIds([this.ruleForm.termsTextId]).then((res) => {
-            this.termsTextName = res.name;
-          });
+        if ((res.state == '01' || res.state == '02') && res.isNewest == true) {
+          this.$router.push({
+            path: '/terms/management/addClause',
+            query: {
+              id: res.id
+            }
+          })
+        } else {
+          res.supplierRange = res.supplierRange?.split(',')
+          res.supplierIdentity = res.supplierIdentity?.split(',')
+          this.ruleForm = res
+          this.controlForm = JSON.parse(JSON.stringify(this.ruleForm))
+          this.editor.txt.html(this.ruleForm.termsText)
+          this.editor.disable()
+          if (this.ruleForm.editMode == '02') {
+            getFileByIds([this.ruleForm.termsTextId]).then((res) => {
+              this.termsTextName = res.name
+            })
+          }
         }
-      });
+      })
     },
-  },
-};
+    handleSelect(item) {
+      this.ruleForm.chargeId = item.id
+      this.ruleForm.chargeName = item.nameZh
+    },
+    async querySearchAsync(queryString, cb) {
+      let res = await this.getUsersAll(queryString)
+      res = res || { data: [] }
+      let userArr = res.data || []
+      userArr = userArr.map((item) => {
+        return {
+          value: item.nameZh,
+          ...item
+        }
+      })
+      cb(userArr)
+    },
+    async getUsersAll(str) {
+      const data = {
+        nameZh: str
+      }
+      let res = await getPageListByParam(data)
+      return res
+    },
+    handleSave() {
+      this.$confirm('是否保存该条款？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        this.$refs['ruleForm'].validate((validBase) => {
+          if (validBase) {
+            if (
+              this.ruleForm.supplierRange[0] != 'CM' &&
+              this.ruleForm.supplierIdentity.length == 0
+            ) {
+              this.$message.error('供应商身份不能为空！')
+            } else {
+              this.ruleForm.supplierRange = this.ruleForm.supplierRange
+                .map((i) => {
+                  return i
+                })
+                .join(',')
+              this.ruleForm.supplierIdentity = this.ruleForm.supplierIdentity
+                .map((i) => {
+                  return i
+                })
+                .join(',')
+              updateEffectiveTerms(this.ruleForm).then((data) => {
+                if (data) {
+                  iMessage.success(this.$t('保存成功！'))
+                  this.$router.push({
+                    path: '/terms/management'
+                  })
+                } else {
+                  this.ruleForm.supplierRange =
+                    this.ruleForm.supplierRange?.split(',')
+                  this.ruleForm.supplierIdentity =
+                    this.ruleForm.supplierIdentity?.split(',')
+                }
+              })
+            }
+          }
+        })
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -950,18 +1095,19 @@ export default {
   width: 100%;
   .input-box {
     width: 100%;
-    .form-item + .form-item {
+    margin-left: -2rem;
+    .form-item {
       padding-left: 2rem;
     }
   }
-  .input-box {
-    :nth-child(4n + 5) {
-      padding-left: 0px !important;
-    }
-    :nth-child(11) {
-      padding-left: 0px !important;
-    }
-  }
+  // .input-box {
+  //   :nth-child(4n + 5) {
+  //     padding-left: 0px !important;
+  //   }
+  //   :nth-child(11) {
+  //     padding-left: 0px !important;
+  //   }
+  // }
 }
 
 .upload-box {
@@ -1031,7 +1177,7 @@ export default {
   border: 2px solid #fff;
   // 不覆盖下面的 会 导致对号变形
   box-sizing: content-box;
-  content: "";
+  content: '';
   border-left: 0;
   border-top: 0;
 }
@@ -1052,5 +1198,11 @@ export default {
 }
 ::v-deep .w-e-toolbar {
   z-index: 2 !important;
+}
+::v-deep .w-e-text ul li {
+  list-style: disc;
+}
+::v-deep .w-e-text ol li {
+  list-style: decimal;
 }
 </style>

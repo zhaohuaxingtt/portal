@@ -1,7 +1,8 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_MEETING)
-const requstFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
+const requstFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
+const requestCommon = axios()
 
 export function getMettingType(data) {
   return requst({
@@ -85,6 +86,14 @@ export function getApprovalProcess() {
     }
   })
 }
+//从接口分页获取审批流程
+export function modelList(data) {
+  return requestCommon({
+    url: `/taskNodeApi/web/activiti/service/modelList`,
+    method: 'POST',
+    data
+  })
+}
 
 // 分页查询参会人信息
 export function getAttendee(data) {
@@ -144,6 +153,15 @@ export function getReceiver(data) {
 export function getReceiverById(data) {
   return requst({
     url: `/receiverService/findById`,
+    method: 'POST',
+    data
+  })
+}
+
+// 通过id查询收件人(包含对组的处理)
+export function findUsersById(data) {
+  return requst({
+    url: `/receiverService/findUsersById`,
     method: 'POST',
     data
   })

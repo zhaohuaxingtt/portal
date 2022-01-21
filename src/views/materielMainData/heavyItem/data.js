@@ -21,7 +21,7 @@ export const HEAVY_ITEM_COLUMNS=[
         label:'材料组名称(中)',
         prop:'stuffCategoryName',
         width:'120px',
-        openNewPage:true,
+        // openNewPage:true,
         tooltip:true,
         emit:'to-detail',
         customRender:(h,scope)=>{
@@ -93,7 +93,10 @@ export const HEAVY_ITEM_COLUMNS=[
 
             if(!extraData.edit && (scope.row.heavyItemList.indexOf('BUC') > -1 || scope.row.heavyItemList.indexOf('PRA') > -1)){
                 return <partAnalyseSelect row={scope.row} partAnalyseOption={extraData.partAnalyseOption} />
-             }else if(scope.row.partsAnalyst){
+             }else if(!extraData.edit && scope.row.heavyItemList.indexOf('TIA') == -1){
+                return ''
+             }
+             else if(scope.row.partsAnalyst){
                 const name = []
                 scope.row.partsAnalyst.forEach((item) => {
                     if(item){
@@ -114,7 +117,10 @@ export const HEAVY_ITEM_COLUMNS=[
         customRender:(h,scope, column, extraData)=>{
             if(!extraData.edit && scope.row.heavyItemList.indexOf('TIA') > -1){
                 return  <moldAnalyseSelect row ={scope.row} moldAnalyseOption={extraData.moldAnalyseOption}></moldAnalyseSelect>
-            }else  if(scope.row.moldAnalyst){
+            }else if(!extraData.edit && scope.row.heavyItemList.indexOf('TIA') == -1){
+                return ''
+            }
+            else  if(scope.row.moldAnalyst){
                 const name = []
                 scope.row.moldAnalyst.forEach((item) => {
                     if(item){

@@ -1,30 +1,6 @@
 <template>
   <div>
     <pageHeader class="margin-bottom20"> 轮岗明细 </pageHeader>
-    <iCard>
-      <iSteps :active="active" align-center>
-        <iStep title="发起轮岗申请" status="finish">
-          <template slot="icon">
-            <icon symbol name="iconshenpiliu-daishenpi" class="icon" />
-          </template>
-        </iStep>
-        <iStep title="轮岗领导审批" status="finish">
-          <template #icon>
-            <icon name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="原有岗位领导审批" status="finish">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="申请结果">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-      </iSteps>
-    </iCard>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
@@ -116,8 +92,6 @@
 <script>
 import { iCard, Icon, iFormItem, iInput, iSelect, iMessage } from 'rise'
 
-import iSteps from '@/components/iSteps'
-import iStep from '@/components/iStep'
 import pageHeader from '@/components/pageHeader'
 import {
   positionAgentDetail,
@@ -129,8 +103,6 @@ export default {
   components: {
     iCard,
     Icon,
-    iSteps,
-    iStep,
     iFormItem,
     iInput,
     iSelect,

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" :loading="loading">
+  <el-table :data="data" v-loading="loading">
     <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
     <el-table-column type="index" header-align="center" align="center" />
     <!-- <el-table-column
@@ -9,7 +9,7 @@
       align="center"
     /> -->
     <el-table-column
-      label="发动机类型"
+      :label="language('发动机类型')"
       prop="engineId"
       header-align="center"
       align="center"
@@ -24,7 +24,7 @@
       </template>
     </el-table-column>
     <el-table-column
-      label="变速箱型号"
+      :label="language('变速箱型号')"
       prop="gearboxId"
       header-align="center"
       align="center"
@@ -37,7 +37,7 @@
       </template>
     </el-table-column>
     <el-table-column
-      label="电池容量"
+      :label="language('电池容量')"
       prop="batteryId"
       header-align="center"
       align="center"
@@ -52,20 +52,20 @@
       </template>
     </el-table-column>
     <el-table-column
-      label="其它配置"
+      :label="language('其它配置')"
       prop="otherConf"
       header-align="center"
       align="center"
     />
     <el-table-column
-      label="车型等级"
+      :label="language('车型等级')"
       prop="cartypeLevel"
       header-align="center"
       align="center"
     >
       <el-table-column
         v-for="field in cartypeLevels"
-        :label="field"
+        :label="language(field)"
         :key="field"
         :prop="field"
         header-align="center"
@@ -107,19 +107,19 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     cartypeLevels: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     extraData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           engineSelectMap: {},
           boxSelectMap: {},

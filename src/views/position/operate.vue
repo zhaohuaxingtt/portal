@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="position-operate-page">
+    <div class="position-operate-page" v-loading="loading">
       <pageHeader class="margin-bottom20">
         {{ $route.query.id ? '编辑' : '新增' }}岗位
 
@@ -62,6 +62,9 @@ export default {
     },
     originPosDetail() {
       return this.$store.state.position.pos.originPosDetail
+    },
+    loading() {
+      return this.$store.state.position.pos.loading
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -114,8 +117,6 @@ export default {
 
       if (valid1 && valid2) {
         this.saveLoading = true
-        this.$store.commit('SET_DETAIL_DIMENSION')
-        this.$store.commit('SET_DETAIL_ROLE')
         const res =
           this.type === 'add'
             ? await this.$store

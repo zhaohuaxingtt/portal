@@ -41,13 +41,14 @@
           <span>{{language(item.key,item.name)}}</span>
           <el-tooltip class="item"
                       effect="light"
+                      :placement="item.tooltipStyle"
                       :content="inforData[item.prop]"
                       v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                     class="inforText"
                     v-model="inforData[item.prop]"></iInput>
           </el-tooltip>
-          <iSelect style="width:68%;"
+          <!-- <iSelect style="width:68%;"
                    v-else-if="item.type=='select'&&applyNumber==''"
                    :disabled="disabled"
                    :value="inforData[item.prop]"
@@ -57,8 +58,8 @@
                        :label="item.message"
                        v-for="item in getFlowTypeList"
                        :key="item.code"></el-option>
-          </iSelect>
-          <iSelect style="width:68%;"
+          </iSelect> -->
+          <!-- <iSelect style="width:68%;"
                    v-else-if="item.type=='select'&&applyNumber!==''"
                    :disabled="true"
                    :value="inforData[item.prop]"
@@ -68,7 +69,7 @@
                        :label="item.message"
                        v-for="item in getFlowTypeList"
                        :key="item.code"></el-option>
-          </iSelect>
+          </iSelect> -->
           <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                   class="inforText"
                   v-model="inforData[item.prop]"
@@ -103,7 +104,9 @@
              width="85%"
              @close='closeDiolog'>
       <partApplication @close="saveClose"
-                       :numIsNomi="numIsNomi"></partApplication>
+                      :numIsNomi="numIsNomi"
+                      :inforData="inforData"
+                       ></partApplication>
     </iDialog>
   </div>
 </template>
@@ -121,7 +124,7 @@ import {
 import {
   getAppFormInfo,
   modifyAppFormInfo,
-  getFlowTypeList,
+  // getFlowTypeList,
   disassociate,
   fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
@@ -142,7 +145,7 @@ export default {
   data () {
     return {
       beforReturn:false,
-      getFlowTypeList: [],
+      // getFlowTypeList: [],
       mtzAddShow: false,
       disabled: true,
       textarea: "",
@@ -208,7 +211,7 @@ export default {
     } else {
       this.init()
     }
-    this.getListData()
+    // this.getListData()
     if (this.$route.query.appId) {
       this.appIdType = false;
     }
@@ -230,7 +233,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
-        console.log(this.applyNumber);
+        // console.log(this.applyNumber);
         if (val !== "取消") {
           store.commit("submitBtnInfor", { ...res.data });
         }
@@ -249,13 +252,13 @@ export default {
       })
     },
     getsyncAuther () {
-      syncAuther({ mtzAppId: this.$route.query.mtzAppId })
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId,tag:"" })
     },
-    getListData () {
-      getFlowTypeList({}).then(res => {
-        this.getFlowTypeList = res.data;
-      })
-    },
+    // getListData () {
+      // getFlowTypeList({}).then(res => {
+      //   this.getFlowTypeList = res.data;
+      // })
+    // },
     handleChange (val) {
       // this.searchForm.monthFrom = window.moment(val[0]).format('yyyy-MM-DD')
       // this.searchForm.monthTo = window.moment(val[1]).format('yyyy-MM-DD')

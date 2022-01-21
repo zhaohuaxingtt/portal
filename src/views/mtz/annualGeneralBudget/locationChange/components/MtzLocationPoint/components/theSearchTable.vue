@@ -216,6 +216,7 @@ import MtzClose from "./MtzClose";
 import inputCustom from '@/components/inputCustom'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { pageMixins } from "@/utils/pageMixins"
+// import store from "@/store";
 import {
   pageMtzNomi,
   getFlowTypeList,
@@ -330,12 +331,14 @@ export default {
       this.getTableList();
     },
     getTableList () {
+      this.loading = true;
       pageMtzNomi({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.searchForm
       }).then(res => {
         if (res.code == 200 && res.data) {
+          this.loading = false;
           this.tableListData = res.data;
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
@@ -417,6 +420,12 @@ export default {
         }
       })
       window.open(routeData.href)
+    },
+    addMtz () {
+      let routeData = this.$router.resolve({
+        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`
+      })
+      window.open(routeData.href, '_blank')
     },
     // 选中table数据
     handleSelectionChange (val) {
@@ -621,13 +630,6 @@ export default {
           } else iMessage.error(res.desZh)
         })
       }
-    },
-
-    addMtz () {
-      let routeData = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`
-      })
-      window.open(routeData.href, '_blank')
     },
     reasonClose () {
       this.mtzReasonShow = false;

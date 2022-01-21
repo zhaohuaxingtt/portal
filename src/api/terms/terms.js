@@ -1,6 +1,7 @@
 import axios from '@/utils/axios'
 import store from '@/store'
 const requst = axios(process.env.VUE_APP_NEWS)
+const requstInvalidate = axios(process.env.VUE_APP_NEWS)
 const requstDIC = axios(process.env.VUE_APP_BASE_INFO)
 const requstUser = axios(process.env.VUE_APP_USER_CENTER)
 
@@ -61,10 +62,10 @@ export function saveAttachment(data) {
 
 // 根据 Id 使条款失效
 export function invalidateTerms(data) {
-  return requst({
+  return requstInvalidate({
     url: `/termsService/invalidateTerms`,
     method: "POST",
-    params: data,
+    params: {...data,userId: store.state.permission.userInfo.id},
   });
 }
 
@@ -72,6 +73,24 @@ export function invalidateTerms(data) {
 export function getSignatureResult(data) {
   return requst({
     url: `/termsQueryService/getSignatureResult`,
+    method: "POST",
+    data,
+  });
+}
+
+// 查询轮次条款未签署情况
+export function findRoundTerms(data) {
+  return requst({
+    url: `/termsQueryService/findRoundTerms`,
+    method: "POST",
+    data,
+  });
+}
+
+// 标记例外-批量
+export function excludeBatch(data) {
+  return requst({
+    url: `/termsService/excludeBatch`,
     method: "POST",
     data,
   });
@@ -117,6 +136,15 @@ export function saveTerms(data) {
 export function updateTerms(data) {
   return requst({
     url: `/termsService/updateTerms`,
+    method: "POST",
+    data,
+  });
+}
+
+// 更新有效条款
+export function updateEffectiveTerms(data) {
+  return requst({
+    url: `/termsService/updateEffectiveTerms`,
     method: "POST",
     data,
   });

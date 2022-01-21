@@ -157,12 +157,12 @@ export default {
         searchData.startTime = this.date[0]
         searchData.endTime = this.date[1]
       }
-      this.$emit('search', searchData)
+      this.$emit('search', searchData, this.templates)
     },
     reset() {
       this.date = ''
       this.form = { ...searchForm }
-      this.$emit('search', this.form)
+      this.$emit('search', this.form, this.templates)
     },
     handleProcProgressChange(val) {
       if (val.length > 0) {

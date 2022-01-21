@@ -14,7 +14,9 @@
       :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
       :row-class-name="rowClassName"
       v-loading="tableLoading"
+      @select="handleSelect"
       @selection-change="handleSelectionChange"
+      @select-all="handleSelectAll"
       highlight-current-row
       ref="tableML"
       :border="border"
@@ -124,6 +126,12 @@ export default {
         return item.id === row.id
       })
       this.handleSelectCheckBox(row, !bol)
+    },
+    handleSelect(selection, row){
+      this.$emit('handle-select', selection, row)
+    },
+    handleSelectAll(selection){
+      this.$emit('handle-select-all', selection)
     },
     handleSelectionChange(val) {
       let selectArr = val

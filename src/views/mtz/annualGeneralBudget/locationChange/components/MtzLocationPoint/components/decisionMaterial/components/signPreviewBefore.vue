@@ -21,16 +21,19 @@
               <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
             </div>
             <div class="small_text">
-              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
+              <span>Application date：</span>
               <span class="samll_val">{{formData.createDate}}</span>
             </div>
             <div class="small_text">
-              <span>{{language("KESHI","科室")}}：</span>
+              <!-- <span>{{language("KESHI","科室")}}：</span> -->
+              <span>Commodity：</span>
               <span class="samll_val">{{formData.linieDeptName}}</span>
             </div>
             <div>
-              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
-              <span class="samll_val">{{formData.linieName}}</span>
+              <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
+              <span>Buyer：</span>
+              <span class="samll_val">{{formData.linieNameEn}}</span>
             </div>
           </div>
         </div>
@@ -108,9 +111,13 @@
               <img class="margin-left5 applayDateIcon"
                :src="item.taskStatus==='同意'?require('@/assets/images/icon/yes.png'):require('@/assets/images/icon/no.png')"
                :fit="fit" />
-              <div class="applayDateContentItem">
+              <div class="applayDateContentItem first_one">
                 <span>部门：</span>
                 <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
+              </div>
+              <div class="applayDateContentItem">
+                <span>审批人：</span>
+                <span>{{item.nameZh}}</span>
               </div>
               <div class="applayDateContentItem">
                 <span>日期：</span>
@@ -368,7 +375,7 @@ $tabsInforHeight: 35px;
   }
   .buttonBox {
     position: absolute;
-    right: 0;
+    right: 13px;
   }
 }
 .applayDateBox1 {
@@ -386,7 +393,7 @@ $tabsInforHeight: 35px;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
   .applayDateDeptTitle {
@@ -500,5 +507,8 @@ $tabsInforHeight: 35px;
 
 ::v-deep .el-form-item__content{
   line-height: 20px!important;
+}
+.first_one{
+  margin-top: 30px!important;
 }
 </style>

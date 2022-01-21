@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-24 11:31:29
- * @LastEditTime: 2021-10-13 18:41:17
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-07 16:53:16
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\chart.vue
+ * @FilePath: \front-portal-new\src\views\mtz\dataBase\marketPriceEnquiry\components\chart.vue
 -->
 <template>
   <div>
@@ -59,6 +59,7 @@ export default {
     // 初始化图表
     initCharts() {
       this.handleColor(this.chartData)
+      console.log(this.chartData)
       this.myChart = echarts().init(this.$refs.chart)
       const option = {
           color: this.chartData.map(item => item.colorCode),
@@ -276,7 +277,9 @@ export default {
             if(obj) {
               colorCode = obj.colorCode
             } else {
-              colorCode = this.getRandomColor(colorArray)
+            //   colorCode = this.getRandomColor(colorArray)
+            let i=0
+            colorCode=colorArray[i++]
               window._.remove(colorArray, x => x === colorCode)
             }
             break;

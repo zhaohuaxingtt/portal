@@ -97,7 +97,7 @@
 <script>
 import { iInput, iSelect } from 'rise'
 import { getMettingType } from '@/api/meeting/type'
-import { statusList, weekListInit } from './data'
+import { statusList, weekListInit, curWeekNum } from './data'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iSearch from '@/components/iSearch/index.vue'
 import dayjs from '@/utils/dayjs.js'
@@ -121,10 +121,11 @@ export default {
     return {
       meetingTypeList: [],
       statusList,
-      startWeek: 0,
-      endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
+      startWeek: curWeekNum - 1,
+      // endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
+      endWeek: this.handleWeeks(),
       weekListInit,
-      weekList: weekListInit
+      weekList: weekListInit.slice(curWeekNum - 1)
       // datePickerOptionsStart: {
       //   // 日期选择
       //   disabledDate: (date) => {
@@ -152,12 +153,6 @@ export default {
     this.getAllSelectList()
   },
   watch: {
-    'form.weekOfYears': {
-      handler(val) {
-        console.log('val', val)
-      },
-      immediate: true
-    },
     'form.meetingType': {
       handler(value) {
         if (!value) {
@@ -232,6 +227,15 @@ export default {
     // keyUp(e) {
     //   e.target.value = e.target.value.replace(/[^\d]/g, '')
     // },
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     handleSearchReset() {
       this.form = {}
       this.weekList = weekListInit
@@ -254,22 +258,33 @@ export default {
         this.$emit('setTypeObj', res.data)
       })
     },
+    getCurWeekNum(e) {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const curDayNum = dayjs(e).dayOfYear()
+      const curWeekNum = Math.ceil((curDayNum - shouldDel) / 7)
+      return curWeekNum
+    },
     changeStart(e) {
       this.form.startDateBegin = e
-      this.startWeek = dayjs(e).week() - 1
+      // this.startWeek = dayjs(e).week() - 1
+      this.startWeek = this.getCurWeekNum(e)
       let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
-      this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      this.weekList = weekListInit.slice(this.startWeek-1, this.endWeek)
       this.$emit('deleteWeek')
     },
     changeEnd(e) {
       this.form.startDateEnd = e
       if (e) {
-        this.endWeek = dayjs(e).week()
+        // this.endWeek = dayjs(e).week()
+        this.endWeek = this.getCurWeekNum(e)
       } else {
-        this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
+        // this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
+        this.endWeek = this.handleWeeks()
       }
       let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
-      this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      this.weekList = weekListInit.slice(this.startWeek-1, this.endWeek)
       this.$emit('deleteWeek')
     }
   }

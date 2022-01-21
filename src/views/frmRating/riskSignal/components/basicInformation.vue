@@ -116,7 +116,7 @@
           </iSelect>
         </iFormItem>
         <iFormItem>
-          <iLabel :label="$t('SPR_FRM_DEP_DEPRESULT')"
+          <iLabel :label="language('PINGJIJIEGUO','评级结果')"
                   slot="label"></iLabel>
           <iText>
             <icon :name="form.furtherRatingResult==='红'?'iconhongdeng':form.furtherRatingResult==='绿'?'iconlvdeng':form.furtherRatingResult==='黄'?'iconhuangdeng':''"
@@ -264,6 +264,7 @@ export default {
     if (this.$route.query.flag === 'creat') {
       this.form.signalFrom = this.$store?.state?.permission?.userInfo?.nameZh
       this.form.relativeDept = this.$store?.state?.permission?.userInfo?.deptDTO?.nameZh
+    //   if()
     } else {
       this.formGoup.riskBigTypeList.forEach((item) => {
         if (item.code === this.form.riskBigType) {
@@ -307,7 +308,8 @@ export default {
   },
   computed: {
     isFRM () {
-      return this.$store?.state?.permission?.userInfo?.deptDTO?.deptNum?.indexOf('CSSS-2') === -1
+    //   return this.$store?.state?.permission?.userInfo?.deptDTO?.deptNum?.indexOf('CSSS-1') === -1
+    return JSON.parse(sessionStorage.getItem('userInfo'))?.roleList[0]?.code?.indexOf('FRMGLY') === -1
     }
   }
 }

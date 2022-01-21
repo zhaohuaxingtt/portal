@@ -11,7 +11,7 @@
     </iInput>
     <div class="receiver">{{ $t('MT_SHOUJIANREN') }}</div>
     <i-table-custom
-      @editReceiver="editReceiver"
+      :loading="!tableLoading"
       :data="tableData"
       :columns="chooseReceiverTableColumns"
       @handle-selection-change="handleSelectionChange"
@@ -35,7 +35,7 @@
         $t('MT_QUXIAO')
       }}</iButton>
       <iButton
-        @click="$emit('handleChooseReceiver', selectedTableData, status)"
+        @click="$emit('handleChoose', selectedTableData, status)"
         plain
         :disabled="selectedTableData.length == 0"
         >{{ $t('MT_QUEREN') }}</iButton
@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      tableLoading: false,
       chooseReceiverTableColumns,
       search: '',
       selectedTableData: [],
@@ -86,7 +87,6 @@ export default {
     }
   },
   mounted() {
-    console.log('this.status', this.status)
     this.query()
   },
   methods: {
@@ -104,12 +104,16 @@ export default {
     },
 
     close() {
-      console.log('this.status', this.status)
       this.$emit('closeChooseDialog', false, this.status)
     },
     // 表格选中值集
     handleSelectionChange(val) {
-      this.selectedTableData = val
+      this.selectedTableData = val.map((item) => {
+        return {
+          ...item,
+          isDept: false
+        }
+      })
     },
     query(val) {
       let data = {}
@@ -117,7 +121,7 @@ export default {
         data = {
           current: this.page.currPage,
           size: this.page.pageSize,
-          nameZh: val
+          userInfo: val
         }
       } else {
         data = {
@@ -135,6 +139,7 @@ export default {
           this.page.pages = pages
           this.tableData = [...data]
           this.tableDataAll = [...data]
+          this.tableLoading = true
         })
         .catch(() => {
           this.tableLoading = false

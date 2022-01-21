@@ -2,20 +2,24 @@
   <iPage>
     <el-button @click="open">open</el-button>
     <iLog :show.sync="showDialog" :bizId="bizId" is-page />
+    <el-button @click="showDialog1 = true">open user log</el-button>
+    <iUserLog :show.sync="showDialog1" bizId="1" menuId="2" is-page />
   </iPage>
 </template>
 
 <script>
-import { iPage } from 'rise'
-import iLog from '@/components/iLog'
+import { iPage, iLog, iUserLog } from 'rise'
+// import iLog from '@/components/iLog'
+// import iUserLog from '@/components/iUserLog'
 export default {
   data() {
     return {
       showDialog: false,
-      bizId: 2
+      bizId: 2,
+      showDialog1: false
     }
   },
-  components: { iPage, iLog },
+  components: { iPage, iLog, iUserLog },
   methods: {
     open() {
       this.showDialog = true

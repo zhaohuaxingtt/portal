@@ -5,17 +5,17 @@
         <el-form>
           <el-row :gutter="20">
             <el-col :span="6">
-              <iFormItem :label="searchOptionTitles.name">
+              <iFormItem :label="language('中文名称')">
                 <iInput
-                  :placeholder="searchOptionTitles.input"
+                  :placeholder="language('请输入')"
                   v-model="formData.appNameCn"
                 />
               </iFormItem>
             </el-col>
             <el-col :span="6">
-              <iFormItem :label="searchOptionTitles.nameEN">
+              <iFormItem :label="language('英文名称')">
                 <iInput
-                  :placeholder="searchOptionTitles.input"
+                  :placeholder="language('请输入')"
                   v-model="formData.appNameEn"
                 />
               </iFormItem>
@@ -30,15 +30,15 @@
       <div class="tableList">
         <iCard>
           <div class="tableButtons">
-            <iButton @click="create">{{ buttonTitles.create }}</iButton>
+            <iButton @click="create">{{ language('新建') }}</iButton>
             <iButton @click="edit" :disabled="selectedData.length !== 1">
               {{ language('编辑') }}
             </iButton>
             <iButton @click="deleteData" :disabled="selectedData.length === 0">
-              {{ buttonTitles.delete }}
+              {{ language('删除') }}
             </iButton>
             <button-download :download-method="exportData">
-              {{ buttonTitles.export }}
+              {{ language('导出') }}
             </button-download>
             <create-sys-mgm
               v-if="dialogFormVisible"
@@ -96,6 +96,7 @@ import {
   exportApplications
 } from '@/api/applications'
 import deleteMixin from '@/mixins/deleteMixin'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   name: 'UserApplicationDetail',
   components: {
@@ -128,22 +129,6 @@ export default {
         appNameCn: '',
         appNameEn: ''
       },
-      searchOptionTitles: {
-        name: '中文名称',
-        nameEN: '英文名称',
-        buttons: {
-          search: '查询',
-          reset: '重置'
-        },
-        input: '请输入',
-        iselect: '请选择'
-      },
-      title: '供应商系统/SCENARIO管理',
-      buttonTitles: {
-        create: '新建',
-        delete: '删除',
-        export: '导出'
-      },
       systemOptions: [
         {
           id: '1',
@@ -154,20 +139,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: '生产采购'
-        },
-        {
-          id: '2',
-          label: '一般采购'
-        }
-      ]
+      systemTagOptions: SYSTEM_TAGS
     }
   },
   methods: {

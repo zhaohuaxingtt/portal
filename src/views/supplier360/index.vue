@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-13 14:54:11
- * @LastEditTime: 2021-04-14 17:54:50
- * @LastEditors: your name
+ * @LastEditTime: 2022-01-11 11:14:24
+ * @LastEditors: 水痕
  * @Description: In User Settings Edit
- * @FilePath: \front-web\src\views\ws3\supplier360\index.vue
+ * @FilePath: /front-portal/src/views/supplier360/index.vue
 -->
 <template>
   <div class="height100">

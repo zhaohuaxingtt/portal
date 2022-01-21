@@ -16,19 +16,18 @@
           <!-- 供应商 -->
           <el-col :span="4">
             <el-form-item :label="$t('供应商名称')">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.shortNameZh"
-              ></iInput>
+              <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
           </el-col>
           <!-- 签署状态 -->
           <el-col :span="4">
             <el-form-item :label="'签署状态'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.signStatus"
                 clearable
+                multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -43,9 +42,11 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商身份')">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierIdentity"
                 clearable
+                multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -60,9 +61,11 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商类型')">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierType"
                 clearable
+                multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -82,6 +85,7 @@
                 :props="{ multiple: true }"
                 :clearable="true"
                 popper-class="area-select"
+                :placeholder="'全部'"
                 collapse-tags
                 filterable
               ></el-cascader>
@@ -89,8 +93,8 @@
           </el-col>
 
           <div class="search">
-            <iButton @click="getTableList(form)">{{ "查询" }}</iButton>
-            <iButton @click="handleSearchReset">{{ "重置" }}</iButton>
+            <iButton @click="getTableList(form)">{{ '查询' }}</iButton>
+            <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
           </div>
         </el-row>
 
@@ -99,10 +103,7 @@
           <!-- 业务编号 -->
           <el-col :span="4">
             <el-form-item :label="$t('业务编号')">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.serviceCode"
-              ></iInput>
+              <iInput v-model="form.serviceCode"></iInput>
             </el-form-item>
           </el-col>
         </el-row>
@@ -111,12 +112,21 @@
       <el-divider></el-divider>
 
       <div class="export">
-        <iButton @click="handleExport">{{ "导出当前" }}</iButton>
-        <iButton @click="handleExportAll">{{ "导出全部" }}</iButton>
+        <iButton
+          @click="handleException"
+          v-show="this.extendFields !== false"
+          :disabled="signTitle.state == '04'"
+          >{{ '标记例外' }}</iButton
+        >
+        <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
+        <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
+      </div>
+      <div v-show="this.extendFields !== false" class="tips">
+        若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。
       </div>
 
       <iTableML
-        style="height: 34rem; overflow: scroll"
+        style="height: 30rem; overflow-y: scroll"
         tooltip-effect="light"
         :data="tableListData"
         :tableLoading="tableLoading"
@@ -133,70 +143,70 @@
           min-width="160px"
           label="供应商名称"
           ><template slot-scope="scope">
-            <span>{{ scope.row["shortNameZh"] }}</span>
+            <span>{{ scope.row['shortNameZh'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="业务编码"
+        <el-table-column align="center" label="业务编号"
           ><template slot-scope="scope">
-            <span>{{ scope.row["serviceCode"] }}</span>
+            <span>{{ scope.row['serviceCode'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="临时号">
           <template slot-scope="scope">
-            <span>{{ scope.row["svwTempCode"] }}</span>
+            <span>{{ scope.row['svwTempCode'] }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="SVW号"
           ><template slot-scope="scope">
-            <span>{{ scope.row["svwCode"] }}</span>
+            <span>{{ scope.row['svwCode'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="SAP号"
           ><template slot-scope="scope">
-            <span>{{ scope.row["sapCode"] }}</span>
+            <span>{{ scope.row['sapCode'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="供应商身份"
           ><template slot-scope="scope">
             <span>{{
-              scope.row.formalStatus == "0"
-                ? "临时"
-                : scope.row.formalStatus == "1"
-                ? "正式"
-                : scope.row.formalStatus == "2"
-                ? "储蓄池"
-                : ""
+              scope.row.formalStatus == '0'
+                ? '临时'
+                : scope.row.formalStatus == '1'
+                ? '正式'
+                : scope.row.formalStatus == '2'
+                ? '储蓄池'
+                : ''
             }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="供应商类型"
           ><template slot-scope="scope">
             <span>{{
-              scope.row.supplierType == "PP"
-                ? "生产供应商"
-                : scope.row.supplierType == "GP"
-                ? "一般供应商"
-                : scope.row.supplierType == "NT"
-                ? "Ntier"
-                : scope.row.supplierType == "CM"
-                ? "自定义"
-                : ""
+              scope.row.supplierType == 'PP'
+                ? '生产供应商'
+                : scope.row.supplierType == 'GP'
+                ? '一般供应商'
+                : scope.row.supplierType == 'NT'
+                ? 'N-Tier'
+                : scope.row.supplierType == 'CM'
+                ? '自定义'
+                : ''
             }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="签署人"
           ><template slot-scope="scope">
-            <span>{{ scope.row["signName"] }}</span>
+            <span>{{ scope.row['signName'] }}</span>
           </template></el-table-column
         >
         <el-table-column align="center" label="签署状态"
           ><template slot-scope="scope">
-            <span v-if="scope.row.signStatus == '01'" style="color: #1663f6">
-              未签署
-            </span>
+            <span v-if="scope.row.signStatus == '01'"> 未签署 </span>
             <span v-if="scope.row.signStatus == '02'"> 已签署标准 </span>
-            <span v-if="scope.row.signStatus == '03'"> 已签署非标 </span>
-            <span v-if="scope.row.signStatus == '04'" style="color: #1663f6">
+            <span v-if="scope.row.signStatus == '03'" style="color: #f75526">
+              已签署非标
+            </span>
+            <span v-if="scope.row.signStatus == '04'" style="color: #f75526">
               例外
             </span>
             <span v-else></span> </template
@@ -204,7 +214,7 @@
         <el-table-column align="center" label="签署日期">
           <template slot-scope="scope">
             <span>{{
-              scope.row["signDate"] && scope.row["signDate"].substring(0, 10)
+              scope.row['signDate'] && scope.row['signDate'].substring(0, 10)
             }}</span>
           </template>
         </el-table-column>
@@ -217,19 +227,19 @@
                   class="open-link-text"
                   @click="handleDownloadFile(scope.row)"
                   style="margin-right: 8px"
-                  >{{ "非标条款下载" }}</span
+                  >{{ '非标条款下载' }}</span
                 >
                 <a
                   class="el-icon-paperclip open-link-text"
                   style="font-size: 16px; margin-right: 2.5rem"
                 ></a>
                 <span style="color: #5d5d5d; opacity: 0.2">{{
-                  "例外操作"
+                  '例外操作'
                 }}</span>
               </div>
               <div v-else>
                 <span style="margin-right: 8px; color: #5d5d5d; opacity: 0.2">{{
-                  "非标条款下载"
+                  '非标条款下载'
                 }}</span>
                 <a
                   class="el-icon-paperclip"
@@ -243,7 +253,7 @@
                 <span
                   class="open-link-text"
                   @click="handleUploadFile(scope.row)"
-                  >{{ "例外操作" }}</span
+                  >{{ '例外操作' }}</span
                 >
               </div>
             </div>
@@ -271,6 +281,7 @@
         :supplierId="supplierId"
         :userId="userId"
         :signStatus="signStatus"
+        :clauseState="signTitle.state"
         @closeDialog="closeUploadFileDialog"
         @getTableList="getTableList"
       />
@@ -282,29 +293,37 @@
         @closeDialog="closeClauseDownloadDialog"
         @getTableList="getTableList"
       />
+      <exceptionTagDialog
+        v-if="openExceptionTagDialog"
+        :openDialog="openExceptionTagDialog"
+        :id="form.termsId"
+        @closeDialog="closeExceptionTagDialog"
+        @getTableList="getTableList"
+      />
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from "rise";
+import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from 'rise'
 // import iTableCustom from "@/components/iTableCustom";
-import iTableML from "@/components/iTableML";
-import { getSignatureResult, getCity, markExclude } from "@/api/terms/terms";
-import { pageMixins } from "@/utils/pageMixins";
+import iTableML from '@/components/iTableML'
+import { getSignatureResult, getCity, markExclude } from '@/api/terms/terms'
+import { pageMixins } from '@/utils/pageMixins'
 import {
   supplierIdentityList,
   signStatusList,
   supplierRangeList,
   supplierIdentityObj,
   supplierTypeObj,
-  signStatusObj,
-} from "./data";
-import uploadFileDialog from "./uploadFileDialog.vue";
-import clauseDownloadDialog from "./clauseDownloadDialog.vue";
-import { excelExport } from "@/utils/filedowLoad";
-import { exportFile } from "@/utils/exportFileUtil";
-import { signTableTitle } from "./data";
+  signStatusObj
+} from './data'
+import exceptionTagDialog from './exceptionTagDialog.vue'
+import uploadFileDialog from './uploadFileDialog.vue'
+import clauseDownloadDialog from './clauseDownloadDialog.vue'
+import { excelExport } from '@/utils/filedowLoad'
+import { exportFile } from '@/utils/exportFileUtil'
+import { signTableTitle } from './data'
 import store from '@/store'
 // import { createAnchorLink } from "@/utils/downloadUtil";
 
@@ -319,12 +338,13 @@ export default {
     iButton,
     uploadFileDialog,
     clauseDownloadDialog,
+    exceptionTagDialog
   },
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number, default: -1 },
     approvalProcess: { type: Array },
-    signTitle: { type: Object },
+    signTitle: { type: Object }
   },
   data() {
     return {
@@ -336,173 +356,219 @@ export default {
       supplierTypeObj,
       signStatusObj,
       tableListData: [],
+      extendFields: false,
       // tableListDataSub: [],
       typeObject: {},
-      approvalProcessName: "",
+      approvalProcessName: '',
       form: {
         termsId: this.id,
-        area: [],
+        area: []
       },
       formGoup: {
-        areaList: [],
+        areaList: []
       },
       openUploadFileDialog: false,
       openClauseDownloadDialog: false,
-      signStatus: "",
+      openExceptionTagDialog: false,
+      signStatus: '',
       supplierId: -1,
-      userId: "",
+      userId: ''
       // attachmentId: "",
       // attachmentName: "",
-    };
+    }
   },
   created() {
-    this.getCityInfo();
+    this.getCityInfo()
   },
   mounted() {
-    let param = { termsId: this.id };
-    this.getTableList(param);
+    let param = { termsId: this.id }
+    this.getTableList(param)
   },
   methods: {
     async getCityInfo() {
-      const res = await getCity();
-      this.formGoup.areaList = res;
+      const res = await getCity()
+      this.formGoup.areaList = res
     },
     handleExport() {
-      const tableArr = window._.cloneDeep(this.tableListData);
+      const tableArr = window._.cloneDeep(this.tableListData)
       tableArr.map((item) => {
-        item.signStatus = this.signStatusObj[item.signStatus];
-        let supplierRangeList = [];
-        item.supplierType.split(",").map((i) => {
-          i == "PP"
-            ? (supplierRangeList += "生产供应商，")
-            : i == "GP"
-            ? (supplierRangeList += "一般供应商，")
-            : i == "NT"
-            ? (supplierRangeList += "Ntier，")
-            : i == "CM"
-            ? (supplierRangeList += "自定义，")
-            : (supplierRangeList += "");
-        });
+        item.signStatus = this.signStatusObj[item.signStatus]
+        let supplierRangeList = []
+        item.supplierType.split(',').map((i) => {
+          i == 'PP'
+            ? (supplierRangeList += '生产供应商，')
+            : i == 'GP'
+            ? (supplierRangeList += '一般供应商，')
+            : i == 'NT'
+            ? (supplierRangeList += 'Ntier，')
+            : i == 'CM'
+            ? (supplierRangeList += '自定义，')
+            : (supplierRangeList += '')
+        })
         supplierRangeList = supplierRangeList.slice(
           0,
           supplierRangeList.length - 1
-        );
-        item.supplierType = supplierRangeList;
-        let supplierIdentityList = [];
-        item.formalStatus.split(",").map((i) => {
-          i == "0"
-            ? (supplierIdentityList += "临时，")
-            : i == "1"
-            ? (supplierIdentityList += "正式，")
-            : i == "2"
-            ? (supplierIdentityList += "储蓄池，")
-            : (supplierIdentityList += "");
-        });
-        item.signDate = item.signDate.substring(0, 10);
+        )
+        item.supplierType = supplierRangeList
+        let supplierIdentityList = []
+        item.formalStatus.split(',').map((i) => {
+          i == '0'
+            ? (supplierIdentityList += '临时，')
+            : i == '1'
+            ? (supplierIdentityList += '正式，')
+            : i == '2'
+            ? (supplierIdentityList += '储蓄池，')
+            : (supplierIdentityList += '')
+        })
+        item.signDate = item.signDate?.substring(0, 10)
         supplierIdentityList = supplierIdentityList.slice(
           0,
           supplierIdentityList.length - 1
-        );
-        item.formalStatus = supplierIdentityList;
-      });
-      excelExport(tableArr, this.signTableTitle, "签署情况");
+        )
+        item.formalStatus = supplierIdentityList
+      })
+      excelExport(tableArr, this.signTableTitle, '签署情况')
     },
     handleExportAll() {
+      if (this.form.supplierIdentity) {
+        this.form.supplierIdentity = this.form.supplierIdentity
+          .sort()
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (this.form.signStatus) {
+        this.form.signStatus = this.form.signStatus
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (this.form.supplierType) {
+        this.form.supplierType = this.form.supplierType
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
       exportFile({
-        url: process.env.VUE_APP_NEWS +`/rise-terms/termsQueryService/exportSignatureResult?userId=`+store.state.permission.userInfo.id,
+        url:
+          process.env.VUE_APP_NEWS +
+          `/termsQueryService/exportSignatureResult?userId=` +
+          store.state.permission.userInfo.id,
         data: {
           ...this.form,
           pageNum: this.page.currPage,
-          pageSize: this.page.pageSize,
+          pageSize: this.page.pageSize
         },
-        callback: (e) => {
-          if (e) {
-            iMessage.success("导出成功");
-          } else {
-            iMessage.error("导出失败");
+        callback: () => {
+          // if (e) {
+          //   iMessage.success('导出成功')
+          // } else {
+          //   iMessage.error("导出失败");
+          // }
+          if (this.form?.signStatus) {
+            this.form.signStatus = this.form?.signStatus?.split(',')
           }
-        },
-      });
+          if (this.form?.supplierIdentity) {
+            this.form.supplierIdentity = this.form?.supplierIdentity?.split(',')
+          }
+          if (this.form?.supplierType) {
+            this.form.supplierType = this.form?.supplierType?.split(',')
+          }
+        }
+      })
     },
     handleUploadFile(row) {
-      this.signStatus = row.signStatus;
-      this.userId = row.userId;
-      this.supplierId = row.supplierId;
-      this.openUploadFileDialog = true;
+      this.signStatus = row.signStatus
+      this.userId = row.userId
+      this.supplierId = row.supplierId
+      this.openUploadFileDialog = true
+    },
+    handleException() {
+      this.openExceptionTagDialog = true
+    },
+    closeExceptionTagDialog(bol) {
+      this.openExceptionTagDialog = bol
     },
     closeUploadFileDialog(bol) {
       if (bol.isExclude == false) {
-        this.openUploadFileDialog = false;
-        this.$confirm("请确认是否取消例外?", "提示", {
-          confirmButtonText: "确认",
-          cancelButtonText: "返回",
-          type: "warning",
+        this.openUploadFileDialog = false
+        this.$confirm('请确认是否取消例外?', '提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '返回',
+          type: 'warning'
         })
           .then(() => {
-            const submitFile = bol;
+            const submitFile = bol
             markExclude(submitFile)
               .then((res) => {
                 if (res.code == 200) {
-                  iMessage.success(this.$t("操作成功！"));
-                  this.getTableList({ termsId: submitFile.termsId });
+                  iMessage.success(this.$t('操作成功！'))
+                  this.getTableList({ termsId: submitFile.termsId })
                 }
               })
-              .catch(() => {});
+              .catch(() => {})
           })
           .catch(() => {
-            this.openUploadFileDialog = true;
-          });
-      } else this.openUploadFileDialog = false;
+            this.openUploadFileDialog = true
+          })
+      } else this.openUploadFileDialog = false
     },
     getTableList(e) {
-      this.form = e;
+      this.form.countryId = ''
+      this.form.provinceId = ''
+      this.form.cityId = ''
+      this.form = e
       if (this.form.area && this.form.area.length != 0) {
         this.form.countryId = this.form.area
           .map((item) => {
-            return item[0];
+            return item[0]
           })
-          .join(",");
+          .join(',')
         this.form.provinceId = this.form.area
           .map((item) => {
-            return item[1];
+            return item[1]
           })
-          .join(",");
+          .join(',')
         this.form.cityId = this.form.area
           .map((item) => {
-            return item[2];
+            return item[2]
           })
-          .join(",");
+          .join(',')
       }
       // delete this.form.area;
-      this.page.currPage = 1;
+      this.page.currPage = 1
       let param = {
         ...e,
         pageNum: 1,
-        pageSize: this.page.pageSize,
-      };
-      this.query(param);
+        pageSize: this.page.pageSize
+      }
+      this.query(param)
     },
     handleChangePage(e) {
-      this.page.currPage = e;
+      this.page.currPage = e
       let param = {
         ...this.form,
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.query(param);
+        pageSize: this.page.pageSize
+      }
+      this.query(param)
     },
     clearDiolog() {
-      this.$emit("closeDialog", false);
-      this.$emit("flushTable");
+      this.$emit('closeDialog', false)
+      this.$emit('flushTable')
     },
     handleSizeChange(e) {
-      this.page.pageSize = e;
+      this.page.currPage = 1
+      this.page.pageSize = e
       let param = {
         ...this.form,
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.query(param);
+        pageSize: this.page.pageSize
+      }
+      this.query(param)
     },
     // handleChangePage(e) {
     //   this.page.currPage = e;
@@ -512,33 +578,91 @@ export default {
     //   );
     // },
     query(e) {
+      if (
+        e.supplierIdentity == '' ||
+        e.supplierIdentity == null ||
+        e.supplierIdentity == undefined
+      ) {
+        delete e.supplierIdentity
+      } else {
+        e.supplierIdentity = e.supplierIdentity
+          .sort()
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (
+        e.signStatus == '' ||
+        e.signStatus == null ||
+        e.signStatus == undefined
+      ) {
+        delete e.signStatus
+      } else {
+        e.signStatus = e.signStatus
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (
+        e.supplierType == '' ||
+        e.supplierType == null ||
+        e.supplierType == undefined
+      ) {
+        delete e.supplierType
+      } else {
+        e.supplierType = e.supplierType
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      // if (
+      //   e.supplierType == '' ||
+      //   e.supplierType == null ||
+      //   e.supplierType == undefined
+      // ) {
+      //   delete e.supplierType
+      // } else {
+      //   let temp = []
+      //   e.supplierType.includes('PP') ? temp.push('PP') : ''
+      //   e.supplierType.includes('GP') ? temp.push('GP') : ''
+      //   e.supplierType.includes('NT') ? temp.push('NT') : ''
+      //   e.supplierType = temp
+      //     .map((i) => {
+      //       return i
+      //     })
+      //     .join(',')
+      // }
       getSignatureResult(e)
         .then((res) => {
           // this.tableListData = res?.termsSupplierList;
           // this.tableListDataSub = this.tableListData.slice(0, 10);
           // this.page.total = res?.termsSupplierList.length;
-          this.tableListData = res.data;
-          this.page.total = res.total;
-          this.tableLoading = false;
+          this.tableListData = res.data
+          this.extendFields = res.extendFields.isRound
+          this.page.total = res.total
+          this.tableLoading = false
         })
         .catch(() => {
-          this.tableLoading = false;
-        });
+          this.tableLoading = false
+        })
     },
     handleDownloadFile(row) {
-      this.userId = row.userId;
-      this.supplierId = row.supplierId;
-      this.openClauseDownloadDialog = true;
+      this.userId = row.userId
+      this.supplierId = row.supplierId
+      this.openClauseDownloadDialog = true
     },
     closeClauseDownloadDialog(bol) {
-      this.openClauseDownloadDialog = bol;
+      this.openClauseDownloadDialog = bol
     },
     handleSearchReset() {
-      this.form = { termsId: this.id };
-      this.getTableList(this.form);
-    },
-  },
-};
+      this.form = { termsId: this.id }
+      this.getTableList(this.form)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -561,6 +685,27 @@ export default {
   -webkit-transform: translateY(-90%);
   transform: translateY(-90%);
 }
+::v-deep .el-form-item {
+  margin-bottom: 1rem;
+  width: 220px;
+  float: left;
+  margin-right: 50px;
+  padding-left: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  .el-form-item__label {
+    font-size: 14px;
+    color: $color-black;
+    font-weight: 400;
+    line-height: 14px;
+    margin-bottom: 8px;
+  }
+
+  .el-form-item__content {
+    line-height: inherit;
+  }
+}
 .form__first {
   position: relative;
   .search {
@@ -569,11 +714,16 @@ export default {
     bottom: 1.5rem;
   }
 }
+.tips {
+  margin-bottom: 0.5rem;
+  font-family: Arial;
+  font-weight: 400;
+  color: #000000;
+}
 .export {
   display: flex;
-  justify-content: flex-end;
-  // float: right;
-  margin-bottom: 2rem;
+  justify-content: end;
+  margin-bottom: 1rem;
 }
 // .card {
 //   padding-bottom: 20px;

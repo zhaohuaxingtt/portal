@@ -2,7 +2,7 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton>{{ $t('提交') }}</iButton>
+        <iButton @click="handleSaveOk">{{ $t('提交') }}</iButton>
       </div>
     </div>
     <iTableML
@@ -35,11 +35,10 @@
         :label="$t('MT_HUIYIMINGCHENG')"
       >
         <template slot-scope="scope">
-          <span
-            :class="scope.row.state === '01' ? '' : 'open-link-text'"
-            >{{ scope.row.name }}</span
-          >
-            <!-- @click="goDetail(scope.row, scope.row.state)" -->
+          <span :class="scope.row.state === '01' ? '' : 'open-link-text'">{{
+            scope.row.name
+          }}</span>
+          <!-- @click="goDetail(scope.row, scope.row.state)" -->
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
@@ -543,7 +542,7 @@
         prop="weekOfYear"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/53</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="20" align="center" label=""></el-table-column>
@@ -565,6 +564,7 @@
 </template>
 
 <script>
+import { sendBigMeetingThemen } from '@/api/meeting/gpMeeting'
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import updateFile from '@/components/updateFile'
@@ -613,7 +613,7 @@ export default {
     iButton,
     iTableML,
     iPagination,
-    updateFile,
+    updateFile
     // importThemens,
     // addMeetingSingleDialog,
     // addMeetingMultipleDialo,
@@ -626,6 +626,12 @@ export default {
   },
   mixins: [resultMessageMixin],
   props: {
+    rowId: {
+      type: String,
+      default: () => {
+        return []
+      }
+    },
     tableListData: {
       type: Array,
       default: () => {
@@ -736,6 +742,35 @@ export default {
     }
   },
   methods: {
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
+    // 提交接口   单选 sendBigMeetingThemen
+    handleSaveOk() {
+      if (this.selectedRow.length < 1) {
+        iMessage.success('请选择一条数据')
+      } else if (this.selectedRow.length > 1) {
+        iMessage.success('请选择一条数据')
+      } else {
+        const param = {
+          meetingId: this.$route.query.id,
+          relationMeetingId:this.selectedRow[0].id,//勾选数据
+          themenId:this.rowId //当前议题的id
+        }
+        console.log(param);
+        sendBigMeetingThemen(param).then((res) => {
+          iMessage.success('发送大会议程成功!');
+          //关闭弹窗
+          this.$emit('handleCloseSaveOk')
+        })
+      }
+    },
     handleEndTime(row) {
       // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
       let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
@@ -958,6 +993,7 @@ export default {
         })
       })
     },
+    //当前行数据
     handleChoose(e) {
       this.selectedRow = e
     },
@@ -1296,8 +1332,8 @@ export default {
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
-// --------------------------------------------//        
-        // 原meeting代码先注释
+      // --------------------------------------------//
+      // 原meeting代码先注释
       // if (e.isCSC || e.isPreCSC) {
       //   this.$router.push({
       //     path: '/meeting/specialDetails',
@@ -1314,7 +1350,7 @@ export default {
       //     }
       //   })
       // }
-// --------------------------------------------//  
+      // --------------------------------------------//
       // gpMBDL会议  /meeting/managementHall/mbdlMeeting
       //gpCSC会议   /meeting/managementHall/gpcscMeeting
       // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
@@ -1326,21 +1362,21 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.meetingNameSuffix == "gpCSC") {
+      } else if (e.meetingNameSuffix == 'gpCSC') {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.meetingNameSuffix == "MBDL") {
+      } else if (e.meetingNameSuffix == 'MBDL') {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {
             id: e.id
           }
         })
-      }else {
+      } else {
         this.$router.push({
           path: '/meeting/details',
           query: {

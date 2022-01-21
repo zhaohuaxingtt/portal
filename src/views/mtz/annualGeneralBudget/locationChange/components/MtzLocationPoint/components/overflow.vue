@@ -31,10 +31,14 @@
         </div>
       </div>
       <div class="opration">
-        <!-- && ttNominateAppId !== '' -->
-        <iButton @click="submit"
-                  v-show="locationNow==3&&meetingNumber == 0"
-                 :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+        <template v-if="ttNominateAppId == '' && appStatus == '通过'">
+          <iButton @click="submitPass" v-show="locationNow==3&&meetingNumber == 0" >{{ language('TIJIAO', '提交') }}</iButton>
+        </template>
+        <template v-else>
+          <iButton @click="submit"
+                    v-show="locationNow==3&&meetingNumber == 0"
+                  :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+        </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
       </div>
     </div>
@@ -103,6 +107,7 @@ import {
   modifyAppFormInfo,
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
@@ -174,14 +179,29 @@ export default {
       } else {
         this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId;
       }
+      // console.log("watch")
       this.getType();
     }
   },
   created () {
-    console.log(this.meetingNumber)
+    
+
     if (JSON.parse(sessionStorage.getItem('MtzLIst')) == null) {
       sessionStorage.setItem('MtzLIst', JSON.stringify({ mtzAppId: undefined }))
     }
+
+    // console.log(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId)
+    // console.log(this.$route.query.mtzAppId)
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId !== this.$route.query.mtzAppId){
+      var data = deepClone(this.$route.query);
+      store.commit("routerMtzData", {
+        mtzAppId:data.mtzAppId
+      });
+      sessionStorage.setItem("MtzLIst", JSON.stringify({
+        mtzAppId:data.mtzAppId
+      }))
+    }
+
     if (this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined) {
       this.beforReturn = true;
     } else {
@@ -190,7 +210,7 @@ export default {
       this.mtzAppName = this.$route.query.mtzAppName;
       this.user = this.$route.query.user;
       this.dept = this.$route.query.dept;
-
+      // console.log("created")
       this.getType();
     }
     getMtzAppCheckVO({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
@@ -223,6 +243,24 @@ export default {
     })
   },
   methods: {
+    submitPass(){
+      mtzAppNomiSubmit({
+        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      }).then(res => {
+        if (res.result && res.code == 200) {
+          iMessage.success(this.language(res.desEn, res.desZh))
+
+          var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+          data.refresh = true;
+          store.commit("routerMtzData", data);
+          sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+          console.log("submitRequest")
+          this.getType();
+        }else{
+          iMessage.error(res.desZh)
+        }
+      })
+    },
     chioce(data, name){
       // console.log(data)
       pageAppRule({
@@ -259,10 +297,22 @@ export default {
           data.refresh = true;
           store.commit("routerMtzData", data);
           sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+          console.log("saveEdit")
+
+          this.handleSync("");
           this.getType();
         })
       }).catch(res => {
-
+        
+      })
+    },
+    handleSync (params) {
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId, tag: params || "" }).then(res => {
+        if (res?.code === '200') {
+          // iMessage.success(res.desZh)
+        } else {
+          // iMessage.error(res.desZh)
+        }
       })
     },
     getType () {
@@ -354,6 +404,7 @@ export default {
             data.refresh = true;
             store.commit("routerMtzData", data);
             sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+            console.log("submitRequest")
             this.getType();
           }else{
             iMessage.error(res.desZh)
@@ -422,13 +473,14 @@ export default {
     closeDiolog () {
       this.mtzAddShow = false;
     },
-    closeBingo (valdata) {
+    closeBingo (val) {
       this.closeDiolog();
-      if (valdata = "refresh") {
+      if (val == "refresh") {
         var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
         store.commit("routerMtzData", data);
         sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+        console.log("closeBingo")
         this.getType();
       }
     },
@@ -437,8 +489,8 @@ export default {
     },
   },
   destroyed () {
-    sessionStorage.setItem("MtzLIst", JSON.stringify({}))
-    store.commit("routerMtzData", {});
+    // sessionStorage.setItem("MtzLIst", JSON.stringify({}))
+    // store.commit("routerMtzData", {});
     NewMessageBoxClose();
   }
 }

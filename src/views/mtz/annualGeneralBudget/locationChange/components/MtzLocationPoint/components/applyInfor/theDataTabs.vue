@@ -542,14 +542,14 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
+    <iPagination @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
                  :page-sizes="page.pageSizes"
                  :page-size="page.pageSize"
                  :current-page="page.currPage"
                  :total="page.totalCount"
                  :layout="page.layout">
-    </iPagination> -->
+    </iPagination>
 
     <iDialog :title="language('YINYONGRFQZHONGLINGJIAN', '引用RFQ中零件')"
              :visible.sync="rfqShowType"
@@ -610,7 +610,7 @@ import quoteData from "./quoteData";
 import addData from "./addData";
 import cancelReqestNo from "./cancelReqestNo";
 import historyBox from "./historyBox";
-import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+// import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
   pagePartMasterData,//维护MTZ零件主数据-分页查询
   addBatchPartMasterData,//维护MTZ零件主数据-新增多条
@@ -622,9 +622,9 @@ import {
   getDosageUnitList,
   downloadFile,//下载
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-import {
-  getMtzSupplierList,//获取原材料牌号
-} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
+// import {
+//   getMtzSupplierList,//获取原材料牌号
+// } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 
 import { deepClone } from "./util"
 
@@ -676,7 +676,7 @@ export default {
         },
         uploadUrl:process.env.VUE_APP_MTZ + "/web/mtz/mtzAppNomi/uploadData",
         uploadData:{},
-        supplierList:[],//供应商编号
+        // supplierList:[],//供应商编号
         ruleNo:[],//规则编号
         tableData: [],
         dosageMeasureUnit:[],
@@ -684,7 +684,7 @@ export default {
         editId:"",
         selectList:[],
         loading: false,
-        materialCode:[],
+        // materialCode:[],
         thresholdCompensationLogic:[
             {
                 code:"A",
@@ -724,9 +724,9 @@ export default {
       userId:JSON.parse(sessionStorage.getItem('userInfo')).id
     };
     this.pageAppRequest();
-    getMtzSupplierList({}).then(res => {
-      this.supplierList = res.data;
-    })
+    // getMtzSupplierList({}).then(res => {
+    //   this.supplierList = res.data;
+    // })
     getDosageUnitList({}).then(res=>{
         this.dosageMeasureUnit = res.data;
     })
@@ -741,9 +741,9 @@ export default {
       } else {
         this.getTableDown();
       }
-      getRawMaterialNos({}).then(res => {
-        this.materialCode = res.data;
-      })
+      // getRawMaterialNos({}).then(res => {
+      //   this.materialCode = res.data;
+      // })
     },
     download(){
       iMessageBox(this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'), this.language('LK_WENXINTISHI', '温馨提示'), {
@@ -1038,14 +1038,14 @@ export default {
     getTableList () {
         this.loading = true
         pagePartMasterData({
-            pageNo: 1,
-            pageSize: 99999,
+            pageNo: this.page.currPage,
+            pageSize: this.page.pageSize,
             mtzAppId:this.inforData.mtzAppId,
         }).then(res=>{
             this.tableData = res.data;
-            // this.page.currPage = res.pageNum
-            // this.page.pageSize = res.pageSize
-            // this.page.totalCount = res.total
+            this.page.currPage = res.pageNum
+            this.page.pageSize = res.pageSize
+            this.page.totalCount = res.total
             this.loading = false;
         })
     },
