@@ -376,7 +376,9 @@ export default {
           item.status == '财务经营与分析' ||
           item.status == '清单审批驳回' ||
           item.status == '访谈与调查' ||
-          item.status == '报告完成'
+          item.status == '报告审批驳回' ||
+          item.status == '报告审批中' ||
+          item.status == '清单审批中'
       )
       if (!result) {
         iMessage.error(this.$t('SPR_FRM_DEP_STOPMSG'))
@@ -392,7 +394,10 @@ export default {
             '财务经营与分析',
             '清单审批驳回',
             '访谈与调查',
-            '报告完成'
+            '报告完成',
+            '报告审批驳回',
+            '报告审批中',
+            '清单审批中'
           ]
           this.$refs.endRating.getTableList(this.getIds(), statusList)
           // termination({idList:this.getIds()}).then(res=>{
@@ -540,6 +545,15 @@ export default {
     // 提交深评报告审核
     postExamine () {
       if (this.isSelect()) return
+    //    let result = this.currentSelect.every(
+    //     (item) =>
+    //       item.status == '报告完成' ||
+    //       item.status == '报告审批驳回' 
+    //   )
+    //       if (!result) {
+    //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
+    //     return
+    //   }
       let data = {
         ids: this.getIds()
       }
