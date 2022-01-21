@@ -57,7 +57,10 @@ export default {
         }
     },
     methods: {
-        async query(){
+        async query(type){
+            if(type == "rest"){
+                this.page.currPage = 1
+            }
             try {
                 this.tableLoading = true
                 let res = await this.queryMethod(this.page)
