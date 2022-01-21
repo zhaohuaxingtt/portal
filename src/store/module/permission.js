@@ -60,7 +60,7 @@ const state = {
   eklTabList: [],
   eklPfjTabList: [],
   leadTabList: [],
-  whiteBtnList: [],
+  whiteBtnList: {},
   userInfo: {},
   isLeader: false,
   cardList: [],
@@ -223,13 +223,13 @@ const actions = {
             r(menuList)
           } else {
             commit('SET_MENU_LIST', [])
-            commit('SET_WIHTEBTN_LIST', [])
+            commit('SET_WIHTEBTN_LIST', {})
             j()
           }
         })
         .catch(() => {
           commit('SET_MENU_LIST', [])
-          commit('SET_WIHTEBTN_LIST', [])
+          commit('SET_WIHTEBTN_LIST', {})
           j()
         })
     })
