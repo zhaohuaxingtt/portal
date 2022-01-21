@@ -9,7 +9,7 @@ export default [
   {
     path: '/provider',
     name: 'provider',
-    redirect: '/provider/opcs/list',
+    redirect: '/provider/userMgm/list',
     meta: {
       title: 'provider',
       activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
