@@ -1,7 +1,7 @@
 <template>
   <div class="detailsList">
     <el-table :data="differenceAnalysisCarModel" style="width: 100%">
-      <el-table-column prop="num" label="#" align="center"> </el-table-column>
+      <el-table-column prop="num" :label="language('LK_YUEFEN', '月份/序号')" align="center"> </el-table-column>
       <el-table-column prop="carType" :label="language('LK_CHEXINGMINGCHENG','车型名称')" align="center">
       </el-table-column>
       <el-table-column prop="carType6Code" :label="language('LK_CHEXINGLIUWEIHAO','车型六位号')" align="center">
