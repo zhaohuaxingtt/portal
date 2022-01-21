@@ -44,11 +44,11 @@
                               v-if="!isDisabled">
               <el-dropdown-item v-for="item in grade"
                                 :key="item.id"
-                                :value="item.name"
-                                :label="item.name"
-                                :command="item.name">
+                                :value="item.code"
+                                :label="item.code"
+                                :command="item.code">
                 <icon symbol
-                      :name="trans(item.name)"></icon>
+                      :name="trans(item.code)"></icon>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -149,11 +149,11 @@ export default {
     }),
     trans () {
       return (color) => {
-        if (color === '绿') {
+        if (color === 'GREEN') {
           return 'iconlvdeng'
-        } else if (color === '黄') {
+        } else if (color === 'YELLOW') {
           return 'iconhuangdeng'
-        } else if (color === '红') {
+        } else if (color === 'RED') {
           return 'iconhongdeng'
         } else {
           return ""
@@ -197,7 +197,7 @@ export default {
           params.deepCommentRatingResults = 'RED'
           break;
         case '黄':
-          params.deepCommentRatingResults = 'YELOW'
+          params.deepCommentRatingResults = 'YELLOW'
           break;
         case '绿':
           params.deepCommentRatingResults = 'GREEN'
