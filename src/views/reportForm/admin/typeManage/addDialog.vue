@@ -88,7 +88,7 @@
                             <el-option
                                 v-for="item in organizationList"
                                 :key="item.id"
-                                :label="item.name"
+                                :label="item.nameZh"
                                 :value="item.id"
                             >
                             </el-option>
@@ -140,6 +140,7 @@ import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import { organizationsListData, addReportType, modifyReportType } from '@/api/reportForm';
 import { getUserSelectPageList } from '@/api/authorityMgmt/index'
+import { getDeptDropDownList } from '@/api/authorityMgmt'
 export default {
     name: 'addTypeDialog',
     components: {
@@ -211,12 +212,12 @@ export default {
             })
         },
         async getOrganizationsList() {
-            let params = {
-                keyword: ' '
-            }
-            await organizationsListData(params).then(res => {
-                if (res) {
-                    this.organizationList = res || []
+            // let params = {
+            //     keyword: ' '
+            // }
+            await getDeptDropDownList({}).then(res => {
+                if (res?.code === '200') {
+                    this.organizationList = res?.data || []
                 }
             }) 
         },
