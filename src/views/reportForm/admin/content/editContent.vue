@@ -34,7 +34,6 @@
                     btnTxt="选择文件"
                     maxSize= 10
                     :limit="1"
-                    :picObject="true"
                 ></iUpload>
             </iFormItem>
         </el-form>

@@ -1,6 +1,6 @@
 <!--支付金额月度跟踪--->
 <template>
-  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_PAYMENT_AMOUNT_TRACKING'>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_PAYMENT_AMOUNT_TRACKING_PAGE|支付金额月度跟踪'>
     <i-card class="search">
       <div class="search-content">
         <div class="form-condition">
