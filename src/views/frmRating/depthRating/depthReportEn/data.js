@@ -1,10 +1,10 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-08-02 16:45:36
- * @LastEditTime: 2021-08-19 16:20:21
- * @LastEditors: 舒杰
+ * @LastEditTime: 2022-01-21 18:13:35
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\frmRating\depthRating\depthReportEn\data.js
+ * @FilePath: \front-portal-new\src\views\frmRating\depthRating\depthReportEn\data.js
  */
 export const interViewTabList = [{
 		value: 1,
@@ -24,7 +24,7 @@ export const interViewTabList = [{
 ];
 // 深入评级结果
 export const depthResult=[
-	{props: 'deepCommentRatingDate', name: 'Analysis time', key: ''},
+	{props: 'deepCommentRatingDate', name: 'Further time', key: ''},
 	{props: 'deepCommentRatingResults', name: 'Status', key: ''}
 ]
 
