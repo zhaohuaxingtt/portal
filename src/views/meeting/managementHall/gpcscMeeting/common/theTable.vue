@@ -751,9 +751,11 @@ export default {
         iMessage.success('请选择一条数据');
       }else{
         const param = {
-          meetingId:this.$route.query.id,
-          relationMeetingId:this.rowId,//当前议题的id
+          meetingId: this.$route.query.id,
+          relationMeetingId:this.selectedRow[0].id,//勾选数据
+          themenId:this.rowId //当前议题的id
         }
+        console.log(param);
         sendBigMeetingThemen(param).then((res) => {
           iMessage.success('发送大会议程成功!');
           //关闭弹窗
