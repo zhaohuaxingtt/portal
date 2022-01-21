@@ -3,7 +3,7 @@
         <div class="flex justify-between margin-bottom20">
             <div class="flex">
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyword" />
-                <iButton style="margin-left:10px">搜索</iButton>
+                <iButton style="margin-left:10px" @click="queryList('rest')">搜索</iButton>
             </div>
             <div>
                 <iButton @click="editDialog.show = true">添加页面</iButton>
@@ -83,9 +83,12 @@ export default {
         }
     },
     mounted () {
-        this.$refs.table.query()
+        this.queryList()
     },
     methods: {
+        queryList(t){
+            this.$refs.table.query(t)
+        },
         queryTable(page){
             return new Promise(async (reslove,reject) => {
                 let data = {

@@ -47,16 +47,6 @@ export default [
               activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
             },
             component: () => import('@/views/popupWindowManagement')
-          },
-          {
-            path: 'popup-window-management/create',
-            name: 'create-new',
-            meta: {
-              title: 'create-new',
-              activePath: '/dialogMgmt/popup-window-management',
-              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
-            },
-            component: () => import('@/views/popupWindowManagement/createNew')
           }
         ]
       },
@@ -139,5 +129,15 @@ export default [
       activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
     },
     component: () => import('@/views/InformationMgmt/publish/viewTemplate')
+  },
+  {
+    path: '/dialogMgmt/popup-window-management/create',
+    name: 'create-new-dialog',
+    meta: {
+      title: 'create-new-dialog',
+      activePath: '/dialogMgmt/popup-window-management',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
+    },
+    component: () => import('@/views/popupWindowManagement/createNew')
   }
 ]

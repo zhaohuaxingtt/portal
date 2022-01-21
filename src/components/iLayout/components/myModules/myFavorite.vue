@@ -44,9 +44,11 @@
 <script>
 import { queryFavorites } from './../../api'
 import myFavoriteItem from './myFavoriteItem'
+import { Icon } from 'rise'
+
 export default {
   name: 'myFavorite',
-  components: { myFavoriteItem },
+  components: { myFavoriteItem, Icon },
   computed: {
     fullMenus() {
       return this.$store.state.permission.menuList
@@ -107,6 +109,7 @@ export default {
 .my-favorites {
   flex: 1;
   overflow: hidden;
+  margin-top: 20px;
 }
 .my-favorites-name {
   display: flex;

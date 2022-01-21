@@ -278,7 +278,7 @@ export default {
             uploadFileWithNOTokenTwo(form).then((result)=>{
                 if(result.code == '200'){
                     let data = result.data
-                    this.imageUrl = data.objectUrl
+                    this.imageUrl = data.path
                     this.imgName = `${data?.name.split('.')[0]}.${data?.extensionName}`
                     this.$emit('imgUrl',this.imageUrl)
                 }else{

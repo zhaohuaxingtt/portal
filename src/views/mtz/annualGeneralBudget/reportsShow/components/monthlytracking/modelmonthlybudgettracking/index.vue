@@ -1,6 +1,6 @@
 <!--车型预算月度跟踪--->
 <template>
-  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING'>
+  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE|车型预算月度跟踪页面'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -82,15 +82,9 @@
         <span class="monthlyCompare">{{
           language('LK_YUEFENBIJIAO', '月份比较')
         }}</span>
-        <el-date-picker
-          class="monthlyPosition"
-          v-model="form['getMonth']"
-          type="monthrange"
-          range-separator="-"
-          start-placeholder="开始月份"
-          end-placeholder="结束月份"
-          value-format="yyyyMM"
-        >
+        <el-date-picker class="monthlyPosition" v-model="form['yearMonthOne']" type="month" value-format="yyyyMM" placeholder="开始月份">
+        </el-date-picker>
+        <el-date-picker class="monthlyPositionTwo" v-model="form['yearMonthTwo']" type="month" value-format="yyyyMM" placeholder="结束月份">
         </el-date-picker>
       </el-form>
     </iSearch>
@@ -101,8 +95,14 @@
           $t('LK_DAOCHU')
         }}</iButton>
       </div>
-      <detailsList :differenceAnalysisCarModel='differenceAnalysisCarModel' :dataTitle="form['VersionMonthOne']"
-        :dataTitleTwo="form['VersionMonthTwo']"/>
+      <detailsList :differenceAnalysisCarModel='differenceAnalysisCarModel' :dataTitle="dataTitle"
+        :dataTitleTwo="dataTitleTwo"/>
+        <iPagination
+        @current-change="handleCurrentChange($event, clickQuery)"
+        @size-change="handleSizeChange($event, clickQuery)"
+        background
+        :total="page.total"
+      />
     </iCard>
   </div>
 </template>
@@ -111,9 +111,11 @@
 import { iSearch, iSelect, iCard, iButton } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
+import { pageMixins } from '@/utils/pageMixins'
 import { queryMtzMaterial, queryMaterialMedium,getVersionData,yearMonthDropDown,differenceAnalysisCarModel,differenceAnalysisCarModelExport } from '@/api/mtz/reportsShow'
 export default {
   name: 'index',
+  mixins: [pageMixins],
   components: {
     iSearch,
     iSelect,
@@ -198,18 +200,15 @@ export default {
         .then((res) => {
           if (this.currentMonth == '1' || this.currentMonth == '2') {
             var arr = ['', '']
-            this.form['getMonth'] = [arr[0], arr[1]]
+            this.form['yearMonthOne']=arr[0]
+            this.form['yearMonthTwo']=arr[1]
             this.getdifferenceAnalysisCarModel()
           } else {
             this.getMonthList = res.data
-            var arr = [this.getMonthList[1].code, this.getMonthList[0].code]
-            this.form['getMonth'] = [arr[0], arr[1]]
+            this.form['yearMonthOne']=this.getMonthList[1].code
+            this.form['yearMonthTwo']=this.getMonthList[0].code
             this.getdifferenceAnalysisCarModel()
           }
-          // this.getMonthList = res.data
-          // let arr = [this.getMonthList[0].code, this.getMonthList[0].code]
-          // this.form['getMonth'] = [arr[0], arr[1]]
-          // this.getdifferenceAnalysisCarModel()
         })
         .catch((err) => {
           console.log(err)
@@ -219,9 +218,8 @@ export default {
     getdifferenceAnalysisCarModel() {
       this.form.pageNo = 1
       this.form.pageSize = 10
-      this.form.versionOneName = '202005V1(5+7)'
-      this.form.versionTwoName = '202005V1(5+7)'
-      this.form.yearMonths = ["202006","202006"]
+      this.form.versionOneName = this.form['VersionMonthTwo']
+      this.form.versionTwoName = this.form['VersionMonthTwo']
       this.form.versionOneId=0
       this.form.versionTwoId=0
       differenceAnalysisCarModel(this.form)
@@ -231,7 +229,21 @@ export default {
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
-          
+          if(this.form['yearMonthOne']=='' && this.form['yearMonthTwo']==''){
+            this.dataTitle = form['versionOneName']
+            this.dataTitleTwo = form['versionTwoName']
+            
+          }
+          else{
+             let dataTransform = moment(this.form['yearMonthOne']).format(
+              'yyyy-MM'
+            )
+            let dataTransformTwo = moment(this.form['yearMonthTwo']).format(
+              'yyyy-MM'
+            )
+            this.dataTitle = `${form['VersionMonthOne']}-${dataTransform}`
+            this.dataTitleTwo = `${form['VersionMonthTwo']}-${dataTransformTwo}`
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -327,7 +339,12 @@ export default {
   top: 56px;
   left: 800px;
 }
-
+.monthlyPositionTwo {
+  width: 220px;
+  position: absolute;
+  left: 310px;
+  top: 138px;
+}
 .exportPosition {
   position: absolute;
   right: 40px;
