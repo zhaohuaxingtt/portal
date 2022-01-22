@@ -1,19 +1,24 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2021-10-27 11:33:58
+ * @LastEditTime: 2022-01-22 17:08:32
  * @LastEditors: Please set LastEditors
  * @Description: 年度预算总览-负责人
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\index.vue
 -->
 <template>
   <div>
-    <budget ref="childBudget" @handleSubmitSearch="handleSubmitSearch" @handleSearchReset="handleSearchReset">
+    <budget ref="childBudget"
+            @handleSubmitSearch="handleSubmitSearch"
+            @handleSearchReset="handleSearchReset">
       <template v-slot:mainContent>
         <iCard class="margin-top20">
-          <div slot="header" class="headBox">
+          <div slot="header"
+               class="headBox">
             <p class="headTitle">{{language('XIANGQINGLIEBIAO', '详情列表')}}</p>
-            <el-tooltip :content="language('JINETISHI', '将鼠标移到金额上时会展示具体数字')" placement="top" effect="light">
+            <el-tooltip :content="language('JINETISHI', '将鼠标移到金额上时会展示具体数字')"
+                        placement="top"
+                        effect="light">
               <i class="el-icon-warning-outline rotate"></i>
             </el-tooltip>
             <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
@@ -27,62 +32,79 @@
               <iButton @click="handleIssue">{{language('FABU', '发布')}}</iButton>
             </span>
           </div>
-          <tableList
-            class="margin-top20"
-            :tableData="tableListData"
-            :tableTitle="tableTitle"
-            :tableLoading="loading"
-            :index="true"
-            @handleCurrentChange="handleClickRow"
-            :selection="false"
-            :highlightCurrentRow="true">
+          <tableList class="margin-top20"
+                     :tableData="tableListData"
+                     :tableTitle="tableTitle"
+                     :tableLoading="loading"
+                     :index="true"
+                     @handleCurrentChange="handleClickRow"
+                     :selection="false"
+                     :highlightCurrentRow="true">
             <template #demandVersion="scope">
               <p>{{scope.row.demandType}} {{scope.row.demandType && scope.row.demandVersion ? '-' : ''}} {{scope.row.demandVersion}}</p>
             </template>
             <template #status="scope">
-              <div v-if="scope.row.status == '计算失败'" @click="handleClickRefresh(scope.row)">
+              <div v-if="scope.row.status == '计算失败'"
+                   @click="handleClickRefresh(scope.row)">
                 {{scope.row.status}}
-                <icon class="margin-left5 refreshIcon" symbol name="iconmojukanbanshuaxin"></icon>
+                <icon class="margin-left5 refreshIcon"
+                      symbol
+                      name="iconmojukanbanshuaxin"></icon>
               </div>
               <div v-else>
                 {{scope.row.status}}
               </div>
             </template>
             <template #option="scope">
-              <div class="openPage" @click="handleEdit(scope.row)">编辑</div>
+              <div class="openPage"
+                   @click="handleEdit(scope.row)">编辑</div>
             </template>
             <template #startForecastAmount="scope">
-              <el-tooltip :content="moneyInfo(scope.row['startForecastAmount'])" placement="top" effect="light">
+              <el-tooltip :content="moneyInfo(scope.row['startForecastAmount'])"
+                          placement="top"
+                          effect="light">
                 <p>{{money(scope.row['startForecastAmount'])}}</p>
               </el-tooltip>
             </template>
             <template #endForecastAmount="scope">
-              <el-tooltip :content="moneyInfo(scope.row['endForecastAmount'])" placement="top" effect="light">
+              <el-tooltip :content="moneyInfo(scope.row['endForecastAmount'])"
+                          placement="top"
+                          effect="light">
                 <p>{{money(scope.row['endForecastAmount'])}}</p>
               </el-tooltip>
             </template>
           </tableList>
-          <iPagination
-            v-update
-            @size-change="handleSizeChange($event, () => {
+          <iPagination v-update
+                       @size-change="handleSizeChange($event, () => {
               this.page.currPage = 1
               this.getTableData()
             })"
-            @current-change="handleCurrentChange($event, getTableData)"
-            background
-            :page-sizes="page.pageSizes"
-            :page-size="page.pageSize"
-            :layout="page.layout"
-            :current-page='page.currPage'
-            :total="page.totalCount"/>
+                       @current-change="handleCurrentChange($event, getTableData)"
+                       background
+                       :page-sizes="page.pageSizes"
+                       :page-size="page.pageSize"
+                       :layout="page.layout"
+                       :current-page='page.currPage'
+                       :total="page.totalCount" />
         </iCard>
       </template>
     </budget>
-    <addDialog :key="addModalParams.key" v-model="addModalParams.visible" @closeDiolog="closeDiolog" @handleSubmitAdd="handleSubmitAdd"/>
-    <linie :key="linieModalParams.key" v-model="linieModalParams.visible" @closeDiolog="closeDiolog" @handleSubmitLinie="handleSubmitLinie"/>
-    <changeLevel :key="changLevelParams.key" v-model="changLevelParams.visible" @closeDiolog="closeDiolog" @handleSubmitChangeLevel="handleSubmitChangeLevel"/>
+    <addDialog :key="addModalParams.key"
+               v-model="addModalParams.visible"
+               @closeDiolog="closeDiolog"
+               @handleSubmitAdd="handleSubmitAdd" />
+    <linie :key="linieModalParams.key"
+           v-model="linieModalParams.visible"
+           @closeDiolog="closeDiolog"
+           @handleSubmitLinie="handleSubmitLinie" />
+    <changeLevel :key="changLevelParams.key"
+                 v-model="changLevelParams.visible"
+                 @closeDiolog="closeDiolog"
+                 @handleSubmitChangeLevel="handleSubmitChangeLevel" />
     <!-- <changeLog :key="changLogParams.key" v-model="changLogParams.visible" @closeDiolog="closeDiolog"/> -->
-    <iLog :show.sync="changLogParams.visible" :bizId="changLogParams.bizId"/>
+    <iUserLog :show.sync="changLogParams.visible"
+              :bizId="changLogParams.bizId"
+              menuId="2" />
   </div>
 </template>
 
@@ -114,7 +136,7 @@ export default {
     changeLevel,
     icon
   },
-  data(){
+  data () {
     return {
       annualBudgetEdit: '/mtz/annualBudgetEdit',
       type: 'leader',
@@ -144,30 +166,30 @@ export default {
     }
   },
   computed: {
-    money() {
-      return function(val) {
+    money () {
+      return function (val) {
         let res = ''
-        if(val) {
+        if (val) {
           // res = Number(val/1000000).toFixed(2)
           res = getMoney(val)
         }
         return res
       }
     },
-    moneyInfo() {
-      return function(val) {
+    moneyInfo () {
+      return function (val) {
         let res = ''
-        if(val) {
+        if (val) {
           res = getMoneyInfo(val)
         }
         return res
       }
     }
   },
-  created() {
-    
+  created () {
+
   },
-  mounted() {
+  mounted () {
     this.$nextTick(_ => {
       this.initSearch()
       this.getTableData()
@@ -175,11 +197,11 @@ export default {
   },
   methods: {
     // 初始化检索条件
-    initSearch() {
+    initSearch () {
       this.searchForm = this.$refs.childBudget.searchForm
     },
     // 获取数据
-    getTableData() {
+    getTableData () {
       return new Promise(resolve => {
         this.loading = true
         const params = {
@@ -191,44 +213,44 @@ export default {
         }
         fetchTableDataOfLeader(params).then(res => {
           this.loading = false
-          if(res && res.code == 200) {
+          if (res && res.code == 200) {
             this.tableListData = res.data
             this.page.totalCount = res.total
             resolve(res.data)
-          } else iMessage.error(res.desZh) 
+          } else iMessage.error(res.desZh)
         })
       })
     },
     // 提交查询 
-    handleSubmitSearch(val) {
+    handleSubmitSearch (val) {
       this.searchForm = val
       this.page.currPage = 1
       this.getTableData()
     },
     // 重置
-    handleSearchReset() {
+    handleSearchReset () {
       this.initSearch()
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTableData()
     },
     // 选中数据
-    handleClickRow(val) {
+    handleClickRow (val) {
       this.selection = val
     },
     // 删除
-    handleDel() {
-      if(!this.selection) {
+    handleDel () {
+      if (!this.selection) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
       }
-      if(this.selection.status != '草稿' && this.selection.status != '计算失败') {
+      if (this.selection.status != '草稿' && this.selection.status != '计算失败') {
         return iMessage.warn(this.language('ZNSCCGJSSBZTDYSBB', '只能删除草稿、计算失败状态的预算版本'))
       }
-      iMessageBox(this.language('QRSCGBBNDYS','确认删除该版本年度预算？'),this.language('LK_WENXINTISHI','温馨提示')).then(()=>{
+      iMessageBox(this.language('QRSCGBBNDYS', '确认删除该版本年度预算？'), this.language('LK_WENXINTISHI', '温馨提示')).then(() => {
         fetchDel({
           id: this.selection.id
         }).then(res => {
-          if(res && res.code == 200) {
+          if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableData()
           } else iMessage.error(res.desZh)
@@ -236,7 +258,7 @@ export default {
       })
     },
     // 新增
-    handleAdd() {
+    handleAdd () {
       this.addModalParams = {
         ...this.addModalParams,
         key: Math.random(),
@@ -244,13 +266,13 @@ export default {
       }
     },
     // 校验新增数据
-    checkAdd(data) {
+    checkAdd (data) {
       return new Promise(resolve => {
         fetchCheckAdd(data).then(res => {
-          if(res && res.code == 200) {
-            if(res.data > 0) {
+          if (res && res.code == 200) {
+            if (res.data > 0) {
               this.addModalParams.visible = false
-              iMessageBox(this.language('YCZXTYLBBYSSJSFCXJS','已存在相同用量版本预算数据，是否重新计算？'),this.language('LK_WENXINTISHI','温馨提示')).then(()=>{
+              iMessageBox(this.language('YCZXTYLBBYSSJSFCXJS', '已存在相同用量版本预算数据，是否重新计算？'), this.language('LK_WENXINTISHI', '温馨提示')).then(() => {
                 resolve()
               })
             } else {
@@ -262,11 +284,11 @@ export default {
       })
     },
     // 提交新增数据
-    handleSubmitAdd(val) {
+    handleSubmitAdd (val) {
       this.checkAdd(val).then(_ => {
         // this.addModalParams.visible = false
         fetchAddBudgetLeader(val).then(res => {
-          if(res && res.code == 200) {
+          if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableData()
           } else iMessage.error(res.desZh)
@@ -274,8 +296,8 @@ export default {
       })
     },
     // changeLog
-    handleChangeLog() {
-      if(!this.selection) {
+    handleChangeLog () {
+      if (!this.selection) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
       }
       this.changLogParams = {
@@ -285,12 +307,12 @@ export default {
       }
     },
     // 通知linie
-    handleLinie() {
-      if(!this.selection) {
+    handleLinie () {
+      if (!this.selection) {
         iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
-        return 
+        return
       }
-      if(this.selection.status != '草稿') {
+      if (this.selection.status != '草稿') {
         return iMessage.warn(this.language('QXZCGZTSJJXTZCZ', '请选择草稿状态数据进行通知操作'))
       }
       this.linieModalParams = {
@@ -300,33 +322,33 @@ export default {
       }
     },
     // 提交linie数据
-    handleSubmitLinie(val) {
+    handleSubmitLinie (val) {
       const params = {
-        listConfirm: [{forecastId: this.selection.id}],
+        listConfirm: [{ forecastId: this.selection.id }],
         requireTime: val.date
       }
       fetchNoticeLinie(params).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableData()
         } else iMessage.error(res.desZh)
       })
-      this.linieModalParams.visible = false      
+      this.linieModalParams.visible = false
     },
     // 导出财务审批
-    handleExportAudit() {
-      if(!this.selection) {
+    handleExportAudit () {
+      if (!this.selection) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
       }
-      fetchExportFinance({forecastId: this.selection.id}).then(res => {
+      fetchExportFinance({ forecastId: this.selection.id }).then(res => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
     },
     // 更改用量版本
-    handleChangeLevel() {
-      if(!this.selection) {
+    handleChangeLevel () {
+      if (!this.selection) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
       }
       this.changLevelParams = {
@@ -336,14 +358,14 @@ export default {
       }
     },
     // 提交更改用量版本数据
-    handleSubmitChangeLevel(data) {
+    handleSubmitChangeLevel (data) {
       fetchEditDemand({
         id: this.selection.id,
         forecastTime: this.selection.forecastTime,
         demandVersion: data.demandVersion,
         demandType: data.demandType,
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableData()
           this.changLevelParams.visible = false
@@ -351,7 +373,7 @@ export default {
       })
     },
     // 发布前检测
-    checkPublish() {
+    checkPublish () {
       return new Promise(resolve => {
         fetchCheckPublish({
           // forecastDTOS: [this.selection],
@@ -359,9 +381,9 @@ export default {
           forecastTime: this.selection.forecastTime,
           status: this.selection.status
         }).then(res => {
-          if(res && res.code == 200) {
-            if(res.data > 0) {
-              iMessageBox(this.language('YFBGZSYSBBSFZCFB','已发布过正式预算版本，是否再次发布？'),this.language('LK_WENXINTISHI','温馨提示')).then(()=>{
+          if (res && res.code == 200) {
+            if (res.data > 0) {
+              iMessageBox(this.language('YFBGZSYSBBSFZCFB', '已发布过正式预算版本，是否再次发布？'), this.language('LK_WENXINTISHI', '温馨提示')).then(() => {
                 resolve()
               })
             } else {
@@ -372,19 +394,19 @@ export default {
       })
     },
     // 发布
-    handleIssue() {
-      if(!this.selection) {
+    handleIssue () {
+      if (!this.selection) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
       }
       console.log('selection', this.selection);
-      if(this.selection.status != '草稿' && this.selection.status != '正式') {
+      if (this.selection.status != '草稿' && this.selection.status != '正式') {
         return iMessage.warn(this.language('NDYSJSWWCWFFB', '年度预算计算未完成，无法发布'))
       }
       this.checkPublish().then(_ => {
         fetchPublish({
           forecastDTOS: [this.selection]
         }).then(res => {
-          if(res && res.code == 200) {
+          if (res && res.code == 200) {
             iMessage.success(this.language('NDYSZZBFBCG', '年度预算最终版发布成功！'))
             this.getTableData()
           } else iMessage.error(res.desZh)
@@ -392,7 +414,7 @@ export default {
       })
     },
     // 编辑
-    handleEdit(row) {
+    handleEdit (row) {
       this.$router.push({
         path: this.annualBudgetEdit,
         query: {
@@ -404,21 +426,21 @@ export default {
       })
     },
     // 关闭弹窗
-    closeDiolog() {
+    closeDiolog () {
       this.addModalParams.visible = false
       this.linieModalParams.visible = false
       this.changLogParams.visible = false
       this.changLevelParams.visible = false
     },
     // 计算失败-刷新
-    handleClickRefresh(data) {
+    handleClickRefresh (data) {
       fetchRecount({
         id: data.id,
         forecastTime: data.forecastTime,
         demandVersion: data.demandVersion,
         demandType: data.demandType,
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableData()
         } else iMessage.error(res.desZh)
@@ -457,7 +479,7 @@ export default {
   }
   .rotate {
     transform: rotate(180deg);
-    color: #A0BFFC;
+    color: #a0bffc;
     margin-left: 10px;
     font-size: 24px;
   }
