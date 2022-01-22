@@ -35,7 +35,7 @@
             </i-select>
           </el-form>
           <div class='left-btns'>
-            <i-button @click='getyearCardModel()'>{{ language('LK_CHAXUN', '查询') }}</i-button>
+            <i-button @click='getyearCardModel()'>{{ language('search', '搜索') }}</i-button>
             <i-button @click='leftRest()'>{{ language('LK_CHONGZHI', '重置') }}</i-button>
           </div>
         </div>
@@ -72,7 +72,7 @@
             </el-option>
           </i-select>
         <div >
-          <i-button @click='getCarModelDetail()'>{{ language('LK_CHAXUN', '查询') }}</i-button>
+          <i-button @click='getCarModelDetail()'>{{ language('search', '搜索') }}</i-button>
           <i-button @click='rightRest()'>{{ language('LK_CHONGZHI', '重置') }}</i-button>
         </div>
       </div>
