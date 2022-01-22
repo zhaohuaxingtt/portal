@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -148,7 +148,6 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
@@ -158,12 +157,13 @@
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
                     v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
-            $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
-          }}</i-button>
-          <i-button @click="handleRegister">{{
-            $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
-          }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
+          <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                    @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                    @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
+          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -322,12 +322,12 @@ export default {
     setTagdilog,
     setTagList
   },
-  data() {
+  data () {
     return {
       tagdropDownList: [],
       supplierId: '',
-      vwStatuslist:[],
-      groupList:[],
+      vwStatuslist: [],
+      groupList: [],
       gpRemoveParams: {
         key: 0,
         visible: false
@@ -411,7 +411,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.handleInfo()
     // this.$nextTick(() => {
     this.getUserType()
@@ -419,12 +419,12 @@ export default {
     // })
   },
   methods: {
-    remoteGetGroup(query) {
+    remoteGetGroup (query) {
       if (!query.match(/^[ ]*$/)) {
         const params = {
           keyword: query,
-        //   supplierId: this.clickTableList.subSupplierId,
-        //   deptIds: this.form.deptIds
+          //   supplierId: this.clickTableList.subSupplierId,
+          //   deptIds: this.form.deptIds
         }
         // purchaseListSearch(params).then((res) => {
         //   if (res && res.code == 200) {
@@ -433,7 +433,7 @@ export default {
         // })
       }
     },
-    changTag() {
+    changTag () {
       this.form.tagNameList = []
       //获取标签列表
       //   let isMeRelated = 0
@@ -447,7 +447,7 @@ export default {
         }
       })
     },
-    getUserType() {
+    getUserType () {
       getBuyerType({}).then((res) => {
         if (res && res.code == 200) {
           this.userType = res.data
@@ -470,7 +470,7 @@ export default {
       })
     },
     //加入黑名单
-    lacklistBtn(type, text) {
+    lacklistBtn (type, text) {
       if (this.selectTableData.length == 0) {
         this.supplierId = ''
       } else {
@@ -558,7 +558,19 @@ export default {
         }
       }
     },
-    synchro() {
+    toApplicationBDL () {
+      this.$router.push({
+        path: '/supplier/application-BDL',
+        query: { supplierToken: this.$route.query.supplierToken }
+      })
+    },
+    toApplicationMBDL () {
+      this.$router.push({
+        path: '/supplier/application-BDL',
+        query: { supplierToken: this.$route.query.supplierToken, mbdl: true }
+      })
+    },
+    synchro () {
       if (this.selectTableData.length === 0) {
         return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
       }
@@ -578,7 +590,7 @@ export default {
       })
     },
 
-    async handleInfo() {
+    async handleInfo () {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
@@ -588,23 +600,23 @@ export default {
       this.fromGroup.supplierTypeList = res4
     },
     //标签设置弹窗
-    setTagBtn() {
+    setTagBtn () {
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
       } else this.isSetTag = true
     },
     //标签列表弹窗
-    handleTagsList(row) {
+    handleTagsList (row) {
       this.rowList = row
       this.issetTagList = true
     },
-    tagTab() {
+    tagTab () {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierTag'
       })
       window.open(routeData.href)
     },
-    async handleRating() {
+    async handleRating () {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -623,10 +635,10 @@ export default {
         // })
       })
     },
-    handleRegister() {
+    handleRegister () {
       this.listDialog = true
     },
-    openPage(params) {
+    openPage (params) {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierList/details',
         query: {
@@ -637,7 +649,7 @@ export default {
       window.open(routeData.href)
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
     },
-    handleSearchReset() {
+    handleSearchReset () {
       this.form.relatedToMe == true
       this.relatedToMe = true
       this.form = {
@@ -651,8 +663,8 @@ export default {
         vwCode: '',
         tagdropDownList: [],
         isActive: '',
-        groupId:'',
-        vwStatus:'',
+        groupId: '',
+        vwStatus: '',
         supplierType: this.userType,
         dept: ''
       }
@@ -661,7 +673,7 @@ export default {
       this.getUserType()
     },
 
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       const pms = {
         ...this.form,
@@ -685,10 +697,10 @@ export default {
       this.page.totalCount = res.total
       this.tableLoading = false
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    handleBlackList(row) {
+    handleBlackList (row) {
       this.rowList = row
       if (this.form.supplierType == 'GP') {
         this.gpBlackParams = {
@@ -706,18 +718,18 @@ export default {
       }
     },
     // 选中数据
-    handleClickRow(val) {
+    handleClickRow (val) {
       this.selectTableList = val
     },
-    changeSupplierType() {
+    changeSupplierType () {
       this.closeDiolog(1)
     },
-    getLsitBtn() {
+    getLsitBtn () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTableList()
     },
-    closeDiolog(v) {
+    closeDiolog (v) {
       if (v == 1) {
         this.getLsitBtn()
       }
