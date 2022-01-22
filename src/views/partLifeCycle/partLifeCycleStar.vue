@@ -616,6 +616,8 @@ export default {
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
             if(this.currentDefaultPart) this.getRelationParts()
+          } else {
+            this.relationPartsList = []
           }
         } else {
           iMessage.error(result)
@@ -846,6 +848,8 @@ export default {
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
             if(this.currentDefaultPart) this.getRelationParts()
+          } else {
+            this.relationPartsList = []
           }
         } else {
           iMessage.error(result)

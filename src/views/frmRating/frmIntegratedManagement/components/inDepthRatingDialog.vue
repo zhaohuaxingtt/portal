@@ -1,29 +1,28 @@
 <template>
   <!--深入评级-->
-  <iDialog
-      :title="$t('SUPPLIER_SHENRUPINGJI')"
-      :visible.sync="value"
-      width="381px"
-      @close="clearDiolog"
-      :close-on-click-modal="false"
-  >
-    <div class="content" v-loading="loading">
+  <iDialog :title="$t('SUPPLIER_SHENRUPINGJI')"
+           :visible.sync="value"
+           width="381px"
+           @close="clearDiolog"
+           :close-on-click-modal="false">
+    <div class="content"
+         v-loading="loading">
       <!-- 选择深评原因-->
       <div class="row1">{{ $t('SPR_FRM_FRMGL_XZSPYY') }}</div>
-      <iSelect
-          v-model="form.deepCommentReasons"
-          style="width: 320px"
-          class="margin-bottom20 margin-top10"
-          :placeholder="$t('LK_QINGXUANZE')"
-      >
-        <el-option :value="item.name" :label="item.name" v-for="item of reasonList" :key="item.name"></el-option>
+      <iSelect v-model="form.deepCommentReasons"
+               style="width: 320px"
+               class="margin-bottom20 margin-top10"
+               :placeholder="$t('LK_QINGXUANZE')">
+        <el-option :value="item.name"
+                   :label="item.name"
+                   v-for="item of reasonList"
+                   :key="item.name"></el-option>
       </iSelect>
-      <iInput
-          v-model="form.deepCommentOtherReasons"
-          :placeholder="$t('SPR_FRM_FRMGL_QSRXXYY')"
-          style="width: 320px"
-      />
-      <div slot="footer" class="dialog-footer">
+      <iInput v-model="form.deepCommentOtherReasons"
+              :placeholder="$t('SPR_FRM_FRMGL_QSRXXYY')"
+              style="width: 320px" />
+      <div slot="footer"
+           class="dialog-footer">
         <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
       </div>
     </div>
@@ -31,8 +30,8 @@
 </template>
 
 <script>
-import {iDialog, iSelect, iButton, iInput} from 'rise';
-import {getDictByCode} from '../../../../api/dictionary';
+import { iDialog, iSelect, iButton, iInput, iMessage } from 'rise';
+import { getDictByCode } from '../../../../api/dictionary';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 
 export default {
@@ -44,10 +43,10 @@ export default {
     iInput,
   },
   props: {
-    value: {type: Boolean},
-    loading: {type: Boolean, default: false},
+    value: { type: Boolean },
+    loading: { type: Boolean, default: false },
   },
-  data() {
+  data () {
     return {
       form: {
         deepCommentReasons: '',
@@ -56,14 +55,14 @@ export default {
       reasonList: [],
     };
   },
-  created() {
+  created () {
     this.getReasonList();
   },
   methods: {
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false);
     },
-    async getReasonList() {
+    async getReasonList () {
       try {
         const res = await getDictByCode('DEEP_COMMENT_REASON');
         this.reasonList = res.data[0].subDictResultVo;
@@ -71,12 +70,15 @@ export default {
         this.reasonList = [];
       }
     },
-    handleSubmit() {
+    handleSubmit () {
+      if (!this.form.deepCommentReasons) {
+        return iMessage.error(this.language('QINGXUANZESHENPINGYUANYIN', '请选择深评原因'))
+      }
       this.$emit('handleSubmit', this.form);
     },
   },
   watch: {
-    value() {
+    value () {
       this.form = {};
     },
   },

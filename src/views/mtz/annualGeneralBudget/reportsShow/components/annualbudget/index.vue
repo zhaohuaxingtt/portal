@@ -20,6 +20,13 @@
       <iButton v-if="showBtn" class="export" @click="exportReport"
         >导出</iButton
       >
+      <!-- 品牌导出 -->
+      <iButton v-show="showPinpai" class="export" @click="exportReportPP">导出</iButton>
+
+      <div class="export" v-show="showCar" style="display:flex;">
+        <show-me-components class='margin-right30' @showOnlyMyselfData='leftShowOnlyMyselfData' />
+        <iButton @click="exportReportCAR">导出</iButton>
+      </div>
     </div>
     <router-view ref="child"></router-view>
   </div>
@@ -27,37 +34,47 @@
 
 <script>
 import { iTabsList, iButton } from 'rise'
-import { subNavList } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
-
+import { subNavListOne,subNavListtwo } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
+import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/ShowMeComponents'
 export default {
   name: 'index',
   components: {
     iTabsList,
-    iButton
+    iButton,
+    ShowMeComponents
   },
   data() {
     return {
       tab: '1',
-      subNavList,
-      showBtn: false
+      subNavList:[],
+      showBtn: false,
+      showPinpai:false,
+      showCar:false,
     }
   },
   created() {
+    if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
+      this.subNavList=subNavListtwo
+    }
+    else{
+      this.subNavList=subNavListOne
+    }
     if (this.$route.name == 'materialGroup') {
       this.tab = '1'
     }
     if (this.$route.name == 'classMaterial') {
       this.tab = '2'
     }
-
     if (this.$route.name == 'department') {
       this.tab = '3'
     }
     if (this.$route.name == 'brand') {
       this.tab = '4'
+      this.showPinpai = true;
     }
     if (this.$route.name == 'model') {
       this.tab = '5'
+      this.showCar = true;
     }
   },
   mounted() {
@@ -69,7 +86,8 @@ export default {
         typeof this.$refs.child?.exportReport == 'function' || false
     },
     handleTabClick(tab) {
-      let item = subNavList.find((item) => item.code == tab.name)
+      console.log(this.$refs.child)
+      let item = this.subNavList.find((item) => item.code == tab.name)
       if (item != null && item.path != this.$route.path) {
         this.$router.replace({
           path: item.path
@@ -80,7 +98,17 @@ export default {
       if (typeof this.$refs.child.exportReport == 'function') {
         this.$refs.child.exportReport()
       }
-    }
+    },
+    exportReportPP(){
+      this.$refs.child.Upload();
+    },
+    exportReportCAR(){
+      this.$refs.child.Upload();
+    },
+    leftShowOnlyMyselfData(val){
+      this.$refs.child.leftShowOnlyMyselfData(val);
+      this.$refs.child.rightShowOnlyMysel(val);
+    },
   }
 }
 </script>

@@ -15,17 +15,15 @@ import { cardBox } from './components'
 import { iPage } from 'rise'
 export default {
   components: { groupBox, iPage, searchBox, cardBox },
-  data() {
-    return {
-      deptId: '',
-      positionId: ''
+  computed: {
+    deptId() {
+      return this.$store.state.permission.userInfo.deptDTO.id
+    },
+    positionId() {
+      return this.$route.query.positionId
     }
   },
   async mounted() {
-    
-    // this.deptId = this.$route.query.deptId
-    this.deptId =  this.$store.state.permission.userInfo.deptDTO?.id
-    this.positionId = this.$route.query.positionId
     this.$store.dispatch('GetDeptDetail', { deptId: this.deptId })
     this.$store.dispatch('GetRoleOptions')
     this.$store.dispatch('GetAllUser', { deptId: this.deptId })

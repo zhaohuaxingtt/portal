@@ -15,7 +15,7 @@ export const TABLE_COLUMNS = [
     label: '任务名称',
     i18n: 'APPROVAL.TASK_NAME',
     emit: 'go-detail',
-    openNewPage: true,
+    // openNewPage: true,
     // minWidth:'150px',
     tooltip: true,
     customRender: (h, scope) => {

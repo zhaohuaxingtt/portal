@@ -6,7 +6,7 @@
           <div class="">
             <!-- 新建 -->
             <iButton @click="handleAdd">新建</iButton>
-            <iButton @click="handleExport">导出当前</iButton>
+            <!-- <iButton @click="handleExport">导出当前</iButton> -->
             <iButton @click="handleExportAll">导出全部</iButton>
             <!-- 失效 -->
             <!-- <iButton
@@ -70,7 +70,7 @@
                 : scope.row.state === "02"
                 ? "待生效"
                 : scope.row.state === "03"
-                ? "有效"
+                ? "生效"
                 : scope.row.state === "04"
                 ? "失效"
                 : ""
@@ -303,7 +303,7 @@ export default {
           : i == "GP"
           ? (supplierRangeList += "一般供应商，")
           : i == "NT"
-          ? (supplierRangeList += "Ntier，")
+          ? (supplierRangeList += "N-Tier，")
           : i == "CM"
           ? (supplierRangeList += "自定义，")
           : (supplierRangeList += "");
@@ -350,7 +350,7 @@ export default {
             : i == "GP"
             ? (supplierRangeList += "一般供应商，")
             : i == "NT"
-            ? (supplierRangeList += "Ntier，")
+            ? (supplierRangeList += "N-Tier，")
             : i == "CM"
             ? (supplierRangeList += "自定义，")
             : (supplierRangeList += "");
@@ -479,6 +479,7 @@ export default {
       this.signTitle = {
         name: e.name,
         termsVersion: e.termsVersion,
+        state: e.state
       };
       this.id = e.id;
       this.openSignDetailDialog = true;

@@ -40,7 +40,8 @@
       </tableList> -->
       <el-table @selection-change="handleSelectionChange"
                 :data="tableListData">
-        <el-table-column type="selection"
+        <el-table-column v-if="!isView"
+                         type="selection"
                          width="55"> </el-table-column>
         <el-table-column type="index"
                          width="50"
@@ -63,7 +64,8 @@
                            :label="item.itemNameZh"
                            width="150">
             <template slot-scope="scope">
-              <iSelect v-model="scope.row.itemList[index]"
+              <iSelect @change="changeSelect"
+                       v-model="scope.row.itemList[index]"
                        :placeholder="language('请选择')"
                        value-key="itemScore">
                 <!-- cloneList[scope.$index].itemList -->
@@ -116,6 +118,7 @@ export default {
   props: {
     title: { type: String, default: '' },
     value: { type: Boolean },
+    isView: { type: Boolean, default: true },
     showFollowButton: { type: Boolean, default: true },
     showTemporaryStorageButton: { type: Boolean, default: true },
     showSubmitButton: { type: Boolean, default: true },
@@ -134,7 +137,7 @@ export default {
     action: { type: String, default: '' },
     selection: { type: Boolean, default: true }
   },
-  data () {
+  data() {
     return {
       tableListData: [],
       selectDictResultVo: [],
@@ -153,18 +156,18 @@ export default {
     }
   },
 
-  created () {
+  created() {
     this.selectProps = ['isAudit', 'isMergeReport']
   },
   methods: {
-    async getTableTitle () { },
-    clearDiolog () {
+    async getTableTitle() {},
+    clearDiolog() {
       this.$emit('input', false)
     },
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.selectTableData = val
     },
-    async getEditTableList () {
+    async getEditTableList() {
       this.tableLoading = true
       this.tableListData = []
       try {
@@ -172,8 +175,7 @@ export default {
         const initialIds = this.infoData.map((item) => {
           return item.id
         })
-        console.log(this.outerSelectTableData)
-        console.log(this.infoData)
+
         req = {
           initialIds
         }
@@ -192,13 +194,14 @@ export default {
             }
           })
         }
+        this.cloneList = _.cloneDeep(this.tableListData)
         this.tableLoading = false
       } catch {
         this.tableListData = []
         this.tableLoading = false
       }
     },
-    async getScoreSelectList () {
+    async getScoreSelectList() {
       this.selectData = []
       const res = await getDictByCode('QUALITATIVE_GRADE_ITEM_SCORE')
       const list = res.data[0].subDictResultVo
@@ -228,7 +231,15 @@ export default {
         contractCompliance: list
       }
     },
-    async handleSubmit (step) {
+    //保留初始id
+    changeSelect(val) {
+      this.tableListData.forEach((v) => {
+        if (v.itemList.length == this.tableTitleData.length) {
+          console.log(val)
+        }
+      })
+    },
+    async handleSubmit(step) {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -250,50 +261,55 @@ export default {
       //       })
       //     })
       this.selectTableData.forEach((arr) => {
-        if (arr.itemList.length != this.tableTitleData.length) {
+        if (arr.itemList.length < this.tableTitleData.length) {
           valid = false
-        } else if (arr.itemList.length != this.tableTitleData.length) {
+        } else {
           valid = true
         }
-        console.log(arr.itemList.length + '+' + this.tableTitleData.length)
-        arr.itemList.forEach((code, index) => {
-          code.id = code.id || ''
-          code.parentId = arr.id
-          // this.tableTitleData.forEach((j, i) => {
-
-          //   if (index == i) {
-          //     code.itemCode = j.itemCode
-          //     code.itemId = j.id
-          //   }
-          // code.itemCode = this.tableTitleData[index].itemCode
-          // })
+        arr.itemList.forEach((r) => {
+          r.versionNum = 0
         })
         arr.itemList = arr.itemList.map((item, i) => {
           return {
             ...item,
+            parentId: arr.id,
             itemId: this.tableTitleData[i].id,
             itemCode: this.tableTitleData[i].itemCode
+          }
+        })
+        //返回数据若所有下拉框有回填数据，itemList的每个id不能为空，要为返回的id，第一次提交itemList的id为空
+        this.cloneList.forEach((res) => {
+          if (res.id == arr.id) {
+            if (res.itemList.length == this.tableTitleData.length) {
+              arr.itemList.forEach((j, index) => {
+                if (j.itemCode == res.itemList[index].itemCode) {
+                  j.id = res.itemList[index].id
+                }
+              })
+            }
           }
         })
       })
       if (step === 'tempStore') {
         valid = true
       }
+      console.log(this.selectTableData)
       if (valid) {
         try {
           this.handleSubmitOrTemporaryStorageButtonLoading(step, true)
-
           const req = {
             step,
             list: this.selectTableData
           }
-          console.log(this.selectTableData)
-
-          console.log(this.qualiativeTable)
           const res = await saveQualitativeScore(req)
           this.resultMessage(res, () => {
             this.$emit('handleSubmitCallback')
             this.getTableList()
+            this.$nextTick(()=>{
+                if(step==='submit'){
+                     this.value=false
+                }
+            })
           })
           this.handleSubmitOrTemporaryStorageButtonLoading(step, false)
         } catch {
@@ -303,23 +319,20 @@ export default {
         iMessage.warn(
           //   '#' + (positionIndex + 1) + ':' + this.$t('SPR_FRM_CBPJ_QWCDF')
           // this.$t('SPR_FRM_CBPJ_QWCDF')
-          this.language(
-            'BAOQIAN,QINGNINGWANCHENGSUOYOUXUANZE',
-            '抱歉！请您完成所有选择！'
-          )
+          this.language('QINGWANCHENGSUOYOUXUANZE', '请完成所有选择！')
         )
         return false
       }
     },
 
-    handleSubmitOrTemporaryStorageButtonLoading (step, boolean) {
+    handleSubmitOrTemporaryStorageButtonLoading(step, boolean) {
       if (step === 'submit') {
         this.submitLoading = boolean
       } else if (step === 'tempStore') {
         this.temporaryStorageLoading = boolean
       }
     },
-    async handleFollow () {
+    async handleFollow() {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -339,7 +352,7 @@ export default {
         this.followButtonLoading = false
       }
     },
-    async getViewTableList () {
+    async getViewTableList() {
       this.tableLoading = true
       this.tableListData = []
       try {
@@ -395,7 +408,7 @@ export default {
         this.tableLoading = false
       }
     },
-    getTableList () {
+    getTableList() {
       console.log(this.action)
       if (this.action === 'view') {
         this.getViewTableList()
@@ -405,7 +418,7 @@ export default {
     }
   },
   watch: {
-    value (val) {
+    value(val) {
       if (val) {
         this.infoData = this.outerSelectTableData
         this.getScoreSelectList()

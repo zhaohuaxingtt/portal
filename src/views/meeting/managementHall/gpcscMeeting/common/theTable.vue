@@ -760,10 +760,14 @@ export default {
       } else {
         const param = {
           meetingId: this.$route.query.id,
-          relationMeetingId: this.rowId //当前议题的id
+          relationMeetingId:this.selectedRow[0].id,//勾选数据
+          themenId:this.rowId //当前议题的id
         }
+        console.log(param);
         sendBigMeetingThemen(param).then((res) => {
-          iMessage.success('发送大会议程成功!')
+          iMessage.success('发送大会议程成功!');
+          //关闭弹窗
+          this.$emit('handleCloseSaveOk')
         })
       }
     },

@@ -72,16 +72,15 @@
           </iFormItem>
           <!-- 采购员 选择采购员带出申请部门  presenter  -->
          <iFormItem
-            label="Supporter"
+            label="presenter"
             :hideRequiredAsterisk="true"
-            class="item"
+            prop="presenter"
+            class="item"  
           >
-            <iLabel :label="$t('采购员')" slot="label"></iLabel>
+            <iLabel :label="$t('采购员')" slot="label" required></iLabel>
             <el-select
               class="autoSearch"
               v-model="ruleForm.presenter"
-              multiple
-              filterable
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
@@ -98,7 +97,7 @@
                 }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin : ''
                 }`"
-                :value="item"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -110,7 +109,7 @@
             class="item"
           >
           <!-- required 校验-->
-            <iLabel :label="$t('股别')" slot="label" ></iLabel>
+            <iLabel :label="$t('股别')" slot="label" required></iLabel>
             <iInput
               v-model="ruleForm.presenterDept"
               disabled
@@ -138,8 +137,7 @@
             <el-select
               class="autoSearch"
               v-model="ruleForm.supporter"
-              multiple
-              filterable
+              
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
@@ -155,20 +153,19 @@
                 }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin : ''
                 }`"
-                :value="item"
+                :value="item.id"
               >
               </el-option>
             </el-select>
           </iFormItem>
           <!-- 申请部门 -->
           <iFormItem
-            label="Supporter Department"
+            label="申请部门"
             prop="supporterDept"
             :hideRequiredAsterisk="true"
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <!-- <iInput v-model="ruleForm.supporterDept"  ></iInput> -->
             <el-select class="autoSearch" v-model="ruleForm.supporterDept"
             :disabled="editOrAdd === 'edit'">
               <el-option></el-option>
@@ -377,7 +374,7 @@ export default {
           }
         ],
         supporter: [{ required: true, message: '必选', trigger: 'blur' }],
-        // presenter: [{ required: true, message: '必选', trigger: 'blur' }],
+        presenter: [{ required: true, message: '必选', trigger: 'blur' }],
         duration: [
           { required: true, message: '必填', trigger: 'blur' },
           {
@@ -550,7 +547,7 @@ export default {
         console.log(res,'重要');
         this.ruleForm.supporter = res.supporter  //申请人
         console.log(res.supporter,res.presenter);
-        // this.ruleForm.presenter = res.presenter  //采购员
+        this.ruleForm.presenter = res.presenter  //采购员
         this.ruleForm.supporterDept = res.supporterDept
       })
     },
@@ -578,7 +575,6 @@ export default {
       if (this.editOrAdd === 'edit') {
         this.ruleForm.presenter =  this.selectUserArr
         this.ruleForm.supporter =  this.selectUserArr
-        console.log(this.ruleForm.supporter,'11111');
       }
     },
 
@@ -771,6 +767,7 @@ export default {
                 this.subButtonFlag = false
               })
           } else {
+            console.log(this.ruleForm.supporter );
             const formData = {
               themen: { 
                 // supporter是  string
@@ -778,22 +775,23 @@ export default {
                 id: '',
                 meetingId: this.meetingInfo.id,
                 isBreak: false,
-                presenterDept:
-                  this.userData.filter((e) => e.id === this.ruleForm.presenter)
-                    .length > 0
-                    ? this.userData.filter(
-                        (e) => e.id === this.ruleForm.presenter
-                      )[0].department
-                    : '' || '',
+                // presenterDept:
+                //   this.userData.filter((e) => e.id === this.ruleForm.presenter)
+                //     .length > 0
+                //     ? this.userData.filter(
+                //         (e) => e.id === this.ruleForm.presenter
+                //       )[0].department
+                //     : '' || '',
                 // supporterDept: this.userData.filter(
                 //   (e) => e.id === this.ruleForm.supporter
                 // )[0].department
-                presenter:this.ruleForm.presenter[0].id,
-                supporter:this.ruleForm.supporter[0].id,
+                // presenter:this.ruleForm.presenter[0].id,
+                // supporter:this.ruleForm.supporter[0].id,
+               
+                
               }
             }
             // 采购员 id
-            console.log(this.ruleForm.presenter[0].id);
             console.log(this.userData);
             console.log(this.ruleForm);
             console.log(formData);

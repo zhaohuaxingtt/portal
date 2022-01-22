@@ -45,27 +45,33 @@
         <iFormItem prop="isFrozenRs" v-if="showIFormItemRS" 
         >
           <div class="switch-content">
-            <div class="freeze">提交LOI审批</div>
-            <div class="swicth">
-              <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
-                是
-              </div>
+            <div class="freeze" style="margin-right:23px;">提交LOI审批</div>
+            <!-- <div class="swicth">
+              <div class="text" v-if="fromData.isFrozenRs" ref="sliderText"> 是</div>
               <div class="text" v-else ref="sliderText">否</div>
               <div class="circle" @click="handleSwitch" ref="slider"></div>
-            </div>
+            </div> -->
+          <iSelect
+              v-model="fromData.isFrozenRs"
+              :placeholder="$t('请选择')"
+              class="operate-selectALL"
+            >
+              <el-option :value="true" label="是"></el-option>
+              <el-option :value="false" label="否"></el-option>
+            </iSelect>
           </div>
         </iFormItem>
         <!-- 任务 -->
         <iFormItem 
           label="任务"
-          prop="taskCsc"
+          prop="result"
           :hideRequiredAsterisk="true"
           class="task"
         >
           <iLabel :label="$t('任务')" slot="label" class="task-title"></iLabel>
           <iInput
             type="textarea"
-            v-model="ruleForm.taskCsc"
+            v-model="fromData.result"
             class="task-input"
             placeholder="请输入任务"
           ></iInput>
@@ -75,21 +81,29 @@
     <!-- 列表 -->
     <div v-if="showIFormItemList">
       <div class="commonTablediv">RFQ发送对象</div>
-          
           <commonTable
           class="commonTablediv"
             v-update
             :selection="true"
-            @handle-selection-change="handleSelectionChange"
+            :index="true"
+            @handleSelectionChange="handleSelectionChange"
             :customClass="true"
             :tableLoading="loading"
             :tableData="tableDataList"
             :tableTitle="tableColumns">
             <!-- 货币 -->
             <template slot="currency" slot-scope="scope">
-                <iInput
+                <iSelect
                   v-model="scope.row.currency"
-                />
+                  :placeholder="$t('请选择')"
+                >
+              <el-option
+                v-for="item in currencyS"
+                :key="item.destCurrency"
+                :label="item.destCurrency"
+                :value="item.destCurrency"
+              ></el-option>
+            </iSelect>
             </template>
             <!-- 目标价 -->
             <template slot="targetPrice" slot-scope="scope">
@@ -184,16 +198,16 @@
          <!--定点金额   price -->
          <el-col :span="12" >
             <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
-                <i-input
-                v-model="fromData.price"
-                  disabled
-                ></i-input>
-              </el-form-item>
+                <i-input v-model="fromData.price" disabled>
+                </i-input>
+                 <span class="iconWid" v-if="iconShowA">高</span>
+                 <span class="iconWid" v-if="iconShowB">低</span>
+            </el-form-item> 
          </el-col>
       </el-row>
           
       </el-form>
-    </div>
+    </div> 
    
     <div class="button-list">
       <iButton class="sure" @click="handleSure" :loading="loading" >提交</iButton >
@@ -202,7 +216,8 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId} from '@/api/meeting/gpMeeting'
+import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -214,6 +229,7 @@ import {
   iInput,
   iButton,
   iMessage,
+  icon
 } from 'rise'
 import { themenConclusionArrObj, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
 import { getMettingList } from '@/api/meeting/home'
@@ -230,7 +246,8 @@ export default {
     iInput,
     iButton,
     iTableML,
-    commonTable
+    commonTable,
+    icon
   },
   props: {
     autoOpenProtectConclusionObj: {
@@ -273,6 +290,9 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        currencyS:[],
+        iconShowA:false,
+        iconShowB:false,
         selectedRow:[],
         tableDataList:[],
         fromData:[],
@@ -319,6 +339,9 @@ export default {
       }
     } else {
       return {
+        currencyS:[],
+        iconShowA:false,
+        iconShowB:false,
         selectedRow:[],
         tableDataList:[],
         fromData:[],
@@ -369,8 +392,7 @@ export default {
     const curObj = this.autoOpenProtectConclusionObj
       ? this.autoOpenProtectConclusionObj
       : this.selectedTableData[0]
-    // if (this.meetingInfo.meetingTypeName === 'CSC') {
-    if (this.meetingInfo.isCSC) {
+    if ( curObj.type === 'MANUAL' ) {
       this.themenConclusionArrObj = [
         {
           conclusionCsc: "01",
@@ -381,8 +403,23 @@ export default {
           conclusionName: "通过",
         },
         {
+          conclusionCsc: "04",
+          conclusionName: "不通过",
+        },
+      ]
+    }else{
+      this.themenConclusionArrObj=[
+        {
+          conclusionCsc: "01",
+          conclusionName: "待定",
+        },
+        {
+          conclusionCsc: "02",
+          conclusionName: "通过",
+        },
+        {
           conclusionCsc: "03",
-          conclusionName: "预备会通过",
+          conclusionName: "预备会议通过",
         },
         {
           conclusionCsc: "04",
@@ -393,57 +430,9 @@ export default {
           conclusionName: "Last Call",
         },
         {
-          conclusionCsc: "05",
+          conclusionCsc: "06",
           conclusionName: "分段定点",
         },
-      ]
-    }
-    if (
-      // this.meetingInfo.meetingTypeName === 'Pre CSC' &&
-      this.meetingInfo.isPreCSC &&
-      curObj.type === 'MANUAL'
-    ) {
-      this.themenConclusionArrObj = [
-        {
-          conclusionCsc: '01',
-          conclusionName: '待定'
-        },
-        {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
-        },
-        {
-          conclusionCsc: '06',
-          conclusionName: '转CSC'
-        },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
-      ]
-    }
-    if (
-      // this.meetingInfo.meetingTypeName === 'CSC' &&
-      this.meetingInfo.isCSC &&
-      curObj.type === 'MANUAL'
-    ) {
-      this.themenConclusionArrObj = [
-        {
-          conclusionCsc: '01',
-          conclusionName: '待定'
-        },
-        {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
-        },
-        {
-          conclusionCsc: '06',
-          conclusionName: '转CSC'
-        },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
       ]
     }
     if (curObj.conclusionCsc === '05') {
@@ -459,9 +448,53 @@ export default {
         }
       )
     }
-    // this.$nextTick(() => {
-    //   this.$refs.tableRef.setCurrentRow(this.currentRow)
-    // })
+    
+    //判断MANUAL --临时议题    GP  --上会议题  结论不一样
+    console.log(curObj.type);
+
+    // if (curObj.type == "MANUAL") {
+    //   themenConclusionArrObjALL:[
+    //     {
+    //       conclusionCsc: "01",
+    //       conclusionName: "待定",
+    //     },
+    //     {
+    //       conclusionCsc: "02",
+    //       conclusionName: "通过",
+    //     },
+    //     {
+    //       conclusionCsc: "04",
+    //       conclusionName: "不通过",
+    //     },
+    //   ]
+    // }else{
+    //   themenConclusionArrObj:[
+    //     {
+    //       conclusionCsc: "01",
+    //       conclusionName: "待定",
+    //     },
+    //     {
+    //       conclusionCsc: "02",
+    //       conclusionName: "通过",
+    //     },
+    //     {
+    //       conclusionCsc: "03",
+    //       conclusionName: "预备会议通过",
+    //     },
+    //     {
+    //       conclusionCsc: "04",
+    //       conclusionName: "不通过",
+    //     },
+    //     {
+    //       conclusionCsc: "05",
+    //       conclusionName: "Last Call",
+    //     },
+    //     {
+    //       conclusionCsc: "06",
+    //       conclusionName: "分段定点",
+    //     },
+    //   ]
+    // }
   },
   watch: {
     'ruleForm.isFrozenRs': {
@@ -495,10 +528,25 @@ export default {
   created() {  
     this.getList()
     this.getDate()
+    this.getCurrency()
     // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
     // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
+    //货币下拉框
+    getCurrency(){
+      const params = {
+        id:this.selectedTableData[0].id//议题id
+      }
+      getCscCurrencyList(params).then((res) => {
+        if (res == '') {
+          this.currencyS.push({ destCurrency: 'RMB', destCurrency: 'RMB' })
+        }else{
+          this.currencyS=res
+        }
+        
+      })
+    },
     // 列表   findGpBidderInfoByThemenId
     getList(){
       const params = {
@@ -507,9 +555,9 @@ export default {
       }
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
-        this.tableDataList=res.data
+        this.tableDataList=res
+        this.handleIntercept()
       })
-
     },
     // form表单   findGpInfoByThemenId
     getDate(){
@@ -518,24 +566,37 @@ export default {
        themenId:this.selectedTableData[0].id//议题id
       }
       findGpInfoByThemenId(params).then((res) => {
-        console.log(res);
+        console.log(res)
         this.fromData=res
+        //判断是否显示图标
+        //判断图标
+        // 最低金额  lowerLimitMoney    最高金额  upperLimitMoney
+        console.log(res.upperLimitMoney,res.lowerLimitMoney);
+        if (res.price !== null) {
+          if (res.price > res.upperLimitMoney) {
+            this.iconShowA =true
+          }
+          if (res.price < res.lowerLimitMoney){
+            this.iconShowB =true
+          }
+        }
       })
-
     },
     handleSelectionChange(val) {
+      console.log(val);
       this.selectedRow=val
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
     // 提交 endCscThemen
     handleSure(){
+      console.log(this.selectedRow);
       const params = {
        conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
        meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.taskCsc,//任务
+       result:this.fromData.result,//任务
        themenId:this.selectedTableData[0].id,//议题id
-       isLoi: this.ruleForm.isFrozenRs ,   //是否发送loi审批
+       isLoi: this.fromData.isFrozenRs ,   //是否发送loi审批
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
@@ -586,17 +647,30 @@ export default {
         this.showIFormItemRS= false
         this.showIFormItemList= false
         this.showIFormItemelform= false
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }else if(e.conclusionCsc == '05' ){
         // 结论 任务 列表
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }else if(e.conclusionCsc == '04' || e.conclusionCsc == '02'){
         // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
       }
+      if(e.conclusionCsc == '03'){
+        this.showIFormItemRS= false
+        this.showIFormItemelform= true
+        this.fromData.result=''//任务
+        this.fromData.isFrozenRs=''  //是否发送loi审批
+      }
+
     },
     //获取日期改期的更新的表格数据
     async getUpdateDateTableList(str, str2) {
@@ -634,7 +708,19 @@ export default {
       this.$emit('flushTable')
     },
     handleSwitch() {
-      this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
+      this.fromData.isFrozenRs = !this.fromData.isFrozenRs
+    },
+    //获取会议字段截取  meetingTypeName
+    // gpMeetingService/findById
+    handleIntercept(){
+      const data = {
+        id:this.$route.query.id
+      }
+      findThemenById(data).then((res) => {
+          console.log(res.meetingTypeName);
+
+      })
+
     }
   }
 }
@@ -654,6 +740,11 @@ export default {
     color: #333333;
     font-size: 14px;
     font-weight: 400;
+     span {
+      /* display: block; */
+      width: 100%;
+      text-align: right!important;
+    }
   }
 }
 .button-list {
@@ -735,6 +826,10 @@ export default {
     /* transform: translate(-10px, -50%); */
   }
 }
+.operate-selectALL {
+    height: 35px;
+    width: 240px;
+  }
 .next-meeting {
   .operate-select {
     height: 35px;
@@ -779,5 +874,28 @@ export default {
   line-height: 16px;
   white-space: nowrap;
   color: #4d4f5c;
+}
+.iconWid{
+  position:absolute;
+  bottom: 10px;
+  right: 20px;
+  background-color: red;
+  color:#fff;
+  width: 18px;
+  line-height:18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  padding-left:1px;
+  display: inline-block;
+}
+::v-deep .el-form-item__error{
+  color: #EF3737;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding-top: 0.25rem;
+    position: absolute;
+    top: 100%;
+    left: 28px;
 }
 </style>

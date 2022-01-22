@@ -71,7 +71,7 @@ const subPosition = {
       // })
       // let materialIdsSelected = []
       data.forEach((item) => {
-        item.materialList =
+        /* item.materialList =
           typeof item.materialList === 'string'
             ? JSON.parse(item.materialList)
             : item.materialList || []
@@ -85,7 +85,7 @@ const subPosition = {
           li.carType = li.carTypeList.map((tl) => {
             return tl.valueId
           })
-        })
+        }) */
         item.isEdit = false
         item.userDTOListIds =
           item.userDTOList?.map((user) => {
@@ -150,13 +150,24 @@ const subPosition = {
       const query = this.state.subPosition.query
       const { deptId } = data
       const params = { ...query, deptId }
+
       commit('SET_GET_SUB_POSITION_LOADING', true)
       const res = await GetSubPositionList(params).finally(() =>
         commit('SET_GET_SUB_POSITION_LOADING', false)
       )
-      // const res = await GetSubList(params) //mock数据
+
       if (res?.code === '200' && res?.data) {
-        commit('SET_SUB_POSITIONLIST', res.data || [])
+        const subPositionList = res.data || []
+        subPositionList.forEach((e) => {
+          if (e && e.permissionList) {
+            e.permissionList.forEach((item) => {
+              if (item.valueList) {
+                item.valueIds = item.valueList.map((e) => e.valueId)
+              }
+            })
+          }
+        })
+        commit('SET_SUB_POSITIONLIST', subPositionList || [])
       }
     },
 

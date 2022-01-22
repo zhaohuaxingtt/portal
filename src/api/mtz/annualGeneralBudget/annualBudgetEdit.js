@@ -126,6 +126,14 @@ export function fetchRemoteUser(params) {
   })
 }
 
+// 编辑其他-科室
+export function getDeptSection(params) {
+  return request({
+    url: '/forecastOther/getDeptSection?userId='+params,
+    method: 'GET',
+  })
+}
+
 // 编辑其他-模糊查询品牌
 export function fetchRemoteBrand(params) {
   return request({

@@ -107,6 +107,7 @@ import {
   modifyAppFormInfo,
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
@@ -297,10 +298,21 @@ export default {
           store.commit("routerMtzData", data);
           sessionStorage.setItem("MtzLIst", JSON.stringify(data))
           console.log("saveEdit")
+
+          this.handleSync("");
           this.getType();
         })
       }).catch(res => {
-
+        
+      })
+    },
+    handleSync (params) {
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId, tag: params || "" }).then(res => {
+        if (res?.code === '200') {
+          // iMessage.success(res.desZh)
+        } else {
+          // iMessage.error(res.desZh)
+        }
       })
     },
     getType () {

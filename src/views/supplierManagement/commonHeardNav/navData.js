@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-06-22 11:05:40
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
  */
 /*
@@ -15,21 +15,24 @@ export const tabRouterList = [
     name: '供应商360',
     url: '/supplier/supplierList',
     activePath: '/supplier/supplierList',
-    key: 'GONGYINGSHANGLIST'
+    key: 'GONGYINGSHANGLIST',
+    permissionKey: 'SUPPLIER_WORKBENCH_360'
   },
   {
     value: 2,
     name: '供应商绩效',
     url: '/supplier/spiIndex',
     activePath: '/supplier/spiIndex',
-    key: 'GONGYINGSHYANGJIXIAO'
+    key: 'GONGYINGSHYANGJIXIAO',
+    permissionKey: 'SUPPLIER_MERITS'
   },
   {
     value: 3,
     name: 'KPI',
     url: '/supplier/kpiRouter',
     activePath: '/supplier/kpiRouter',
-    key: 'KPI'
+    key: 'KPI',
+    permissionKey: 'WORKBENCH_KPI'
   },
   //   {
   //     value: 4,
@@ -43,7 +46,8 @@ export const tabRouterList = [
     name: 'N级供应链',
     url: '/supplier/NTier',
     activePath: '/supplier/NTier',
-    key: 'NJIGONGYINGLIAN'
+    key: 'NJIGONGYINGLIAN',
+    permissionKey: 'WORKBENCH_N_LEVEL_SUPPLIER'
   }
   //   {
   //     value: 6,

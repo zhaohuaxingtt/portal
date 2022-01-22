@@ -35,7 +35,7 @@
         </div>
         <div
           class="middle middle-m"
-          style="font-size: 40px"
+          style="font-size: 24px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
@@ -132,7 +132,8 @@ export default {
         dptCode: ''
       },
       tabList: [],
-      listData: []
+      listData: [],
+      chart: null
     }
   },
   computed: {
@@ -153,10 +154,10 @@ export default {
       this.tabList = this.leadTabList
     } else {
       this.tabList = this.eklTabList
-      if (this.eklTabList.length > 0) {
-        this.query.type = this.eklTabList[0].type
-        this.activeName = this.eklTabList[0].name
-      }
+    }
+    if(this.tabList.length > 0){
+      this.query.type = this.tabList[0].type || ""
+      this.activeName = this.tabList[0].name || ""
     }
     this.getEkl(this.query)
     // log.js
@@ -259,7 +260,7 @@ export default {
                 position: 'center',
                 color: '#000',
                 formatter: this.tabsData.curSum,
-                fontSize: 30,
+                fontSize: 24,
                 fontWeight: 'bold'
               }
             },
@@ -288,12 +289,16 @@ export default {
           }
         ]
       }
+      console.log('set echarts', option)
       this.chart && this.chart.setOption(option)
     },
     handleCheckYear(year) {
       this.query.year = year
       this.getEkl(this.query)
     }
+  },
+  beforeDestroy() {
+    this.chart = null
   }
 }
 </script>

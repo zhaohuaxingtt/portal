@@ -1,13 +1,13 @@
 <!--
  * @Date: 2021-11-29 10:20:21
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 15:17:04
+ * @LastEditTime: 2022-01-19 10:28:08
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\index.vue
 -->
 <template>
   <div>
-    <baseInfo style="margin-top:20px"></baseInfo>
-        <userTable style="margin-top:20px"></userTable>
+    <!-- <baseInfo style="margin-top:20px"></baseInfo> -->
+        <userTable ></userTable>
   </div>
 </template>
 

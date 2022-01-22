@@ -41,14 +41,15 @@
           <iSelect class="selectCenter"
                    @change="changeStatus(scope.row)"
                    v-model="scope.row.status">
-            <el-option value="财务经营与分析"
-                       label="财务经营与分析"></el-option>
-            <el-option value="访谈与调查"
-                       label="访谈与调查"></el-option>
-            <el-option value="报告完成"
-                       label="报告完成"></el-option>
             <el-option value="信息收集"
                        label="信息收集"></el-option>
+            <el-option value="访谈与调查"
+                       label="访谈与调查"></el-option>
+            <el-option value="财务经营与分析"
+                       label="财务经营与分析"></el-option>
+            <el-option value="报告完成"
+                       label="报告完成"></el-option>
+
           </iSelect>
         </span>
         <span v-else-if="scope.row.status == '清单驳回' || scope.row.status == '报告驳回'">
@@ -91,6 +92,7 @@
         <icon v-else-if="scope.row.deepCommentResult == 'RED'"
               symbol
               name="iconhongdeng"></icon>
+        <span v-else-if="!scope.row.deepCommentResult"></span>
       </template>
       <!-- 备注 -->
       <template #remarks="scope">
@@ -323,7 +325,8 @@ export default {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
-        iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
+        // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
+        iMessage.error(this.language('WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA', '未生效的报告，不能点击报告分发'))
         return
       }
       let deepCommentResult = this.currentSelect[0].deepCommentResult
@@ -334,7 +337,6 @@ export default {
       let result2 = this.currentSelect.every(
         (item) => item.relevantDept == relevantDept
       )
-      console.log(result1, result2, deepCommentResult, relevantDept)
       if (result1 && result2) {
         this.$refs.report.reportIssueUser(this.currentSelect[0].id)
         this.report = true
@@ -372,8 +374,11 @@ export default {
           item.status == '报告驳回' ||
           item.status == '信息收集' ||
           item.status == '财务经营与分析' ||
+          item.status == '清单审批驳回' ||
           item.status == '访谈与调查' ||
-          item.status == '报告完成'
+          item.status == '报告审批驳回' ||
+          item.status == '报告审批中' ||
+          item.status == '清单审批中'
       )
       if (!result) {
         iMessage.error(this.$t('SPR_FRM_DEP_STOPMSG'))
@@ -387,8 +392,12 @@ export default {
             '报告驳回',
             '信息收集',
             '财务经营与分析',
+            '清单审批驳回',
             '访谈与调查',
-            '报告完成'
+            '报告完成',
+            '报告审批驳回',
+            '报告审批中',
+            '清单审批中'
           ]
           this.$refs.endRating.getTableList(this.getIds(), statusList)
           // termination({idList:this.getIds()}).then(res=>{
@@ -447,9 +456,15 @@ export default {
         if (data.isJoin) {
           this.joinGroupShow = false
         }
-        this.resultMessage(res, () => {
+        if (res?.code === '200') {
+          iMessage.success(this.language('YICONGDABAOJITUANZHONGYICHU', '已从打包集团中移除'))
           this.getTableList()
-        })
+        } else {
+          iMessage.error(res.desZh)
+        }
+        // this.resultMessage(res, () => {
+        //   this.getTableList()
+        // })
       })
     },
     // 提交清单审批
@@ -472,7 +487,8 @@ export default {
         query: {
           supplierToken: row.supplierToken,
           current: 18,
-          supplierType: 4
+          supplierType: 4,
+          supplierId: row.supplierId
         }
       })
     },
@@ -535,6 +551,15 @@ export default {
     // 提交深评报告审核
     postExamine () {
       if (this.isSelect()) return
+    //    let result = this.currentSelect.every(
+    //     (item) =>
+    //       item.status == '报告完成' ||
+    //       item.status == '报告审批驳回' 
+    //   )
+    //       if (!result) {
+    //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
+    //     return
+    //   }
       let data = {
         ids: this.getIds()
       }

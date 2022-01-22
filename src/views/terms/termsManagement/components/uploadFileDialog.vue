@@ -39,6 +39,7 @@
         >
           <span
             class="el-icon-upload2"
+            v-if="clauseState != '04'"
             style="font-size: 16px; color: #1663f6"
           ></span>
         </el-upload>
@@ -69,37 +70,41 @@
           <i
             @click="handleDeleteAccessory(item.attachmentId)"
             class="el-icon-close"
+            v-if="clauseState != '04'"
           ></i>
           <i class="el-icon-close-tip"></i>
         </li>
       </ul>
     </div>
     <div class="button-list">
-      <iButton @click="handleSubmit">{{ "保存" }}</iButton>
-      <iButton @click="clearDiolog" class="cancel">{{ "退出" }}</iButton>
+      <iButton :disabled="this.clauseState == '04'" @click="handleSubmit">{{
+        '保存'
+      }}</iButton>
+      <iButton @click="clearDiolog" class="cancel">{{ '退出' }}</iButton>
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iButton, iMessage } from "rise";
-import uploadIcon from "@/assets/images/upload-icon.svg";
+import { iDialog, iButton, iMessage } from 'rise'
+import uploadIcon from '@/assets/images/upload-icon.svg'
 // import { uploadFile, downloadFile } from "@/api/mock/mock";
-import { getUnStandard } from "@/api/terms/terms";
-import { uploadFile } from "@/api/terms/uploadFile.js";
-import { markExclude } from "@/api/terms/terms";
-import { download } from "@/utils/downloadUtil";
+import { getUnStandard } from '@/api/terms/terms'
+import { uploadFile } from '@/api/terms/uploadFile.js'
+import { markExclude } from '@/api/terms/terms'
+import { download } from '@/utils/downloadUtil'
 export default {
   components: {
     iDialog,
-    iButton,
+    iButton
   },
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number, default: -1 },
     supplierId: { type: Number, default: -1 },
-    userId: { type: String, default: "" },
-    signStatus: { type: String, default: "" },
+    userId: { type: String, default: '' },
+    signStatus: { type: String, default: '' },
+    clauseState: { type: String, default: '' }
     // attachmentId: { type: String, default: "" },
     // attachmentName: { type: String, default: "" },
   },
@@ -109,35 +114,35 @@ export default {
       uploadLoading: false,
       form: {
         isExclude: true,
-        attachments: [],
-      },
-    };
+        attachments: []
+      }
+    }
   },
   mounted() {
-    if (this.signStatus == "04") {
+    if (this.signStatus == '04') {
       let param = {
         termsId: this.id,
         supplierId: this.supplierId,
-        isExclude: true,
-      };
+        isExclude: true
+      }
       getUnStandard(param).then((res) => {
-        this.form.attachments = res.attachments;
-      });
+        this.form.attachments = res.attachments
+      })
     }
   },
   methods: {
     handleSubmit() {
       if (this.form.isExclude == true && this.form.attachments.length == 0) {
-        iMessage.error("请上传附件");
+        iMessage.error('请上传附件')
       } else {
         if (this.form.isExclude == false) {
           const submitFile = {
             ...this.form,
             termsId: this.id,
             supplierId: this.supplierId,
-            userId: this.userId,
-          };
-          this.$emit("closeDialog", submitFile);
+            userId: this.userId
+          }
+          this.$emit('closeDialog', submitFile)
           // this.$confirm("请确认是否取消例外?", "提示", {
           //   confirmButtonText: "确认",
           //   cancelButtonText: "返回",
@@ -164,17 +169,17 @@ export default {
             ...this.form,
             termsId: this.id,
             supplierId: this.supplierId,
-            userId: this.userId,
-          };
+            userId: this.userId
+          }
           markExclude(submitFile)
             .then((res) => {
               if (res.code == 200) {
-                iMessage.success(this.$t("操作成功！"));
-                this.$emit("closeDialog", false);
-                this.$emit("getTableList", { termsId: this.id });
+                iMessage.success(this.$t('操作成功！'))
+                this.$emit('closeDialog', false)
+                this.$emit('getTableList', { termsId: this.id })
               }
             })
-            .catch(() => {});
+            .catch(() => {})
         }
       }
     },
@@ -188,36 +193,36 @@ export default {
       // }
     },
     async httpUpload(content) {
-      this.uploadLoading = true;
-      this.submitLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      this.uploadLoading = true
+      this.submitLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       await uploadFile(formData)
         .then((res) => {
           let createDate = new Date(+new Date() + 8 * 3600 * 1000)
             .toJSON()
             .substr(0, 19)
-            .replace("T", " ");
+            .replace('T', ' ')
           this.form.attachments.push({
-            fileType: "02",
+            fileType: '02',
             attachmentId: res.id,
             attachmentName: res.name,
             attachmentUrl: res.path,
             attachmentSize: (content.file.size / 1024).toFixed(0),
-            uploadDate: createDate,
-          });
-          iMessage.success("上传成功");
+            uploadDate: createDate
+          })
+          iMessage.success('上传成功')
         })
         .catch(() => {
-          iMessage.error("上传失败");
-        });
-      this.uploadLoading = false;
-      this.submitLoading = false;
+          iMessage.error('上传失败')
+        })
+      this.uploadLoading = false
+      this.submitLoading = false
     },
     handleDeleteAccessory(id) {
       this.form.attachments = this.form.attachments.filter(
         (item) => item.attachmentId !== id
-      );
+      )
     },
     // beforeAvatarUpload(file) {
     //   const isSize = file.size / 1024 / 1024 < 50;
@@ -232,17 +237,17 @@ export default {
         filename: name,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     handleDelete() {},
     clearDiolog() {
-      this.$emit("closeDialog", false);
-    },
-  },
-};
+      this.$emit('closeDialog', false)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

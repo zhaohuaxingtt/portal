@@ -13,7 +13,9 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="请输入"
-              v-model="info.promptInfo"></iInput>
+              v-model="info.promptInfo"
+              maxlength="120"
+              show-word-limit></iInput>
     </iCard>
     <!-- 财报分析 -->
     <iCard title="财报分析"
@@ -34,6 +36,8 @@
           <iInput :disabled="isDisabled"
                   v-model="scope.row.comment"
                   type='textarea'
+                  maxlength="120"
+                  show-word-limit
                   :autosize='{minRows:1}'
                   @change="updateData(scope.row,'comment', $event)"></iInput>
         </template>
@@ -62,7 +66,8 @@ export default {
       info: {
         promptInfo: '',
         list: []
-      }
+      },
+      supplierId: ""
     }
   },
   props: {
@@ -72,6 +77,7 @@ export default {
     console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
+    this.supplierId = this.$route.query.supplierId;
     this.getOverView()
   },
   destroyed () {

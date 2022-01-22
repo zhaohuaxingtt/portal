@@ -15,7 +15,7 @@
     <div class="Main">
       <div class="Header">
         <div class="HeaderTitle">
-          <span> {{ pageTitle }} </span>
+          <span> {{ language(pageTitle) }} </span>
         </div>
         <div class="HeaderButtons">
           <iButton class="True" :loading="loading" @click="trueBtnClick">{{
@@ -820,15 +820,20 @@ export default {
       //获取组织维度
 
       let parentID = this.$route.params.upLevelID
+      console.log('parentID----------------:', parentID)
       // console.log('===😝😝😝😝😝', parentID)
       if (parentID != null && parentID != '0') {
         let param = { parentId: parentID }
         parentOrgDimensionList(param)
           .then((value) => {
             if (value.code == 200) {
-              Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
+              Vue.set(this.table, 'extraData', {
+                ...this.table.extraData,
+                dimensionLeftMenu: value.data
+              })
+              // Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
-              this.$forceUpdate()
+              // this.$forceUpdate()
             }
           })
           .catch(() => {})
@@ -836,9 +841,13 @@ export default {
         orgDimensionList(null, {})
           .then((value) => {
             if (value.code == 200) {
-              Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
+              Vue.set(this.table, 'extraData', {
+                ...this.table.extraData,
+                dimensionLeftMenu: value.data
+              })
+              // Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
-              this.$forceUpdate()
+              // this.$forceUpdate()
             }
           })
           .catch(() => {})
@@ -884,12 +893,12 @@ export default {
             if (obj.permissionDTOList.length > 0) {
               let newDimension = []
               for (let item of obj.permissionDTOList) {
-                let idList = item.valueList.map((value) => {
+                let valueIdList = item.valueList.map((value) => {
                   return value.valueId.toString()
                 })
                 let obj = {
                   leftSelect: item.id,
-                  rightSelect: idList,
+                  rightSelect: valueIdList,
                   url: null,
                   optionsSelect: null,
                   originValueList: item.valueList

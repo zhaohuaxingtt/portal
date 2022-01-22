@@ -30,7 +30,7 @@ export const CAR_COLUMNS = [
     emit: 'go-detail',
     i18n: '车型编号',
     minWidth: 100,
-    openNewPage: true,
+    // openNewPage: true,
     tooltip: true,
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.vwModelCode}</span>
