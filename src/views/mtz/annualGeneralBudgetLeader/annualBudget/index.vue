@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-01-22 17:08:32
+ * @LastEditTime: 2022-01-22 17:09:35
  * @LastEditors: Please set LastEditors
  * @Description: 年度预算总览-负责人
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\index.vue
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage, iLog, icon, iMessageBox } from 'rise'
+import { iCard, iButton, iPagination, iMessage, iUserLog, icon, iMessageBox } from 'rise'
 import budget from '@/views/mtz/annualGeneralBudget/annualBudget/components/budget'
 import { tableTitle } from './components/data'
 import { pageMixins } from '@/utils/pageMixins';
@@ -132,7 +132,7 @@ export default {
     addDialog,
     linie,
     changeLog,
-    iLog,
+    iUserLog,
     changeLevel,
     icon
   },
