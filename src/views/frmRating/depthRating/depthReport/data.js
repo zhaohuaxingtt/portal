@@ -1,3 +1,9 @@
+/*
+ * @Date: 2021-11-08 11:47:59
+ * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-21 18:13:39
+ * @FilePath: \front-portal-new\src\views\frmRating\depthRating\depthReport\data.js
+ */
 export const interViewTabList = [{
 		value: 1,
 		name: '综述',
@@ -16,7 +22,7 @@ export const interViewTabList = [{
 ];
 // 深入评级结果
 export const depthResult=[
-	{props: 'deepCommentRatingDate', name: '评级时间', key: ''},
+	{props: 'deepCommentRatingDate', name: '深评时间', key: ''},
 	{props: 'deepCommentRatingResults', name: '状态', key: ''}
 ]
 
