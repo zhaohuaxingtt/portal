@@ -46,6 +46,11 @@ export default {
       return []
     }
   },
+  watch: {
+    dimensionLeftMenu() {
+      this.setRightSelectOptions(false)
+    }
+  },
   data() {
     return {
       value: '',
@@ -53,17 +58,19 @@ export default {
     }
   },
   created() {
-    this.setRightSelectOptions()
+    this.setRightSelectOptions(false)
   },
   methods: {
     handleChange() {
       this.setRightSelectOptions(true)
     },
     setRightSelectOptions(isResetRightSelected) {
+      console.log('setRightSelectOptions', this.row.leftSelect)
       if (this.row.leftSelect) {
         const obj = this.dimensionLeftMenu.filter((value) => {
           return value.id == this.row.leftSelect
         })
+        console.log('dimensionLeftMenu', this.dimensionLeftMenu)
         if (obj.length > 0) {
           if (isResetRightSelected) {
             this.row.rightSelect = null
