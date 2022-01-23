@@ -8,6 +8,7 @@
 <!-- 1)	当结论=冻结/不通过时，任务可编辑，点击确认更新任务；
 2)	当结论=待定时，结论和任务均可编辑，点击确认后更新结论和任务，
 如果结论不为待定，回调GP接口，更行MBDL状态； -->
+2131
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -65,7 +66,7 @@
     </div>
 </template>
 <script>
-import { endMbdlThemen } from '@/api/meeting/gpMeeting'
+import { modifyConclusionById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -138,13 +139,13 @@ export default {
     // 提交
     handleSure(){
       const params = {
-       conclusion:this.ruleForm.result,//任务
-       meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.conclusion,//结论
+       conclusion:this.ruleForm.conclusion,//任务
+      //  meetingId:this.$route.query.id,//会议id
+       result:this.ruleForm.result说z,//结论
        themenId:this.editprotectConclusionDialogRow.id//议题id
       }
       console.log(params);
-      endMbdlThemen(params).then((res) => {
+      modifyConclusionById(params).then((res) => {
         if (res.code) {
           iMessage.success('修改议题成功！')
           this.$emit('flushTable')

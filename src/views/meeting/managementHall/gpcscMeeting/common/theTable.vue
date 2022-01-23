@@ -746,10 +746,10 @@ export default {
     // 提交接口   单选 sendBigMeetingThemen
     handleSaveOk(){
       if (this.selectedRow.length < 1) {
-        iMessage.success('请选择一条数据');
-      }else if(this.selectedRow.length > 1){
-        iMessage.success('请选择一条数据');
-      }else{
+        iMessage.success('请选择一条数据')
+      } else if (this.selectedRow.length > 1) {
+        iMessage.success('只能选择一条数据')
+      } else {
         const param = {
           meetingId: this.$route.query.id,
           relationMeetingId:this.selectedRow[0].id,//勾选数据
@@ -757,7 +757,11 @@ export default {
         }
         console.log(param);
         sendBigMeetingThemen(param).then((res) => {
-          iMessage.success('发送大会议程成功!');
+          debugger
+          this.$alert(res.message, this.$t('GP_PROMPT'), {
+            type: 'warning'
+          })
+          // iMessage.success('发送大会议程成功!');
           //关闭弹窗
           this.$emit('handleCloseSaveOk')
         })
