@@ -1228,20 +1228,20 @@ export default {
       console.log( this.selectedTableData);
       if (this.selectedTableData.length < 1 ) {
         iMessage.success('请选择一条数据')
-      }else if(this.selectedTableData.length < 1){
+      }else if(this.selectedTableData.length > 1){
         iMessage.success('只能选择一条数据')
+      }else if(this.selectedTableData[0].state == '03' && this.selectedTableData[0].conclusion == '03'){
+        // 判断议题结论为预备会通过和议题状态为已结束
+          // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
+          if (this.meetingInfo.isGpPreCSC == true) {
+            this.sendAgendaDialog=true
+            this.rowId=this.selectedTableData[0].id
+          }else{
+            iMessage.error('不是预备会，不能发送大会议程！')
+          }
       }else{
-        // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
-        if (this.meetingInfo.isGpPreCSC == true) {
-          this.sendAgendaDialog=true
-          this.rowId=this.selectedTableData[0].id
-        }else{
-          iMessage.error('不是预备会，不能发送大会议程！')
-        }
+        iMessage.success('请确认议题为结束状态且结论为预备会通过')
       }
-
-      
-
     },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
