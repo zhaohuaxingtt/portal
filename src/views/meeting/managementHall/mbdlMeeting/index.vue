@@ -2095,6 +2095,7 @@ export default {
     },
     //点击纪要  维护结论
     handleResult(row){
+      debugger
       console.log(row.result);
       this.editprotectConclusionDialog=true
       this.editprotectConclusionDialogRow=row
