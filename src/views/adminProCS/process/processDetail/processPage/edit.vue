@@ -1,12 +1,14 @@
 <template>
     <iDialog
-        title="编辑子页面"
+        :title="`${id ? '编辑' : '新增'}子页面`"
         :visible.sync="show" 
         width="800px" 
-        @close='close' 
+        @close='close'
+        @open="open"
         append-to-body
         class="process-dialog"
         top="30px"
+        v-loading="loading"
     >
         <div class="content">
             <el-form 
@@ -17,11 +19,10 @@
                 class="validate-required-form"
             >
                 <iFormItem :label="language('页面标题')" prop='name'>
-                    <iInput v-model="form.name" class="w-250" placeholder="请输入"></iInput>
+                    <iInput v-model="form.name" class="w-250" maxlength="50" placeholder="请输入"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('更新日期')" prop='updateDt'>
                     <iDatePicker
-                        value-format="yyyy-MM-dd"
                         type="date"
                         v-model="form.updateDt"
                         class="w-250"
@@ -63,6 +64,9 @@
 <script>
 import {iDialog,iButton,iFormItem,iInput,iDatePicker} from 'rise';
 import iEditor from '../../components/iEditor.vue';
+import {ProcessAddPage,ProcessEditPage,getProcessPage} from '@/api/adminProCS';
+import moment from 'moment';
+
 export default {
     components: {
         iDialog,
@@ -76,6 +80,9 @@ export default {
         show:{
             type:Boolean,
             default:false
+        },
+        id:{
+            default: ""
         }
     },
     data() {
@@ -87,26 +94,64 @@ export default {
                 pageRichContent:""
             },
             rules:{
-                name:[
-                    { required: true, message: '请输入页面标题!', trigger:'blur'},
-                    {max:50,message:'页面标题长度不能超过50个字符！'}
-                ],
+                name:{ required: true, message: '请输入页面标题!', trigger:'blur'},
                 updateDt: { required: true, message: '请选择更新日期!',trigger:'change' },
                 orderBy:{ required: true, message: '请输入排序!',trigger:'blur' }
             },
-            preview:false
+            preview:false,
+            pId: this.$route.query.id,
+            loading:false
         }
     },
     methods: {
         save(){
-            this.$refs.form.validate(v => {
+            this.$refs.form.validate(async v => {
                 if(v){
                     // api
+					this.form.updateDt = moment(this.form.updateDt).format("YYYY-MM-DD HH:mm:ss")
+                    let formdata = new FormData()
+                    for (const key in this.form) {
+                        formdata.append(key,this.form[key])
+                    }
+                    this.loading = true
+                    try {
+                        if(this.form.id){
+                            await ProcessEditPage(this.pId, formdata)
+                            this.$message.success("修改成功")
+                        }else{
+                            await ProcessAddPage(this.pId, formdata)
+                            this.$message.success("添加成功")
+                        }
+                        this.close()
+                        this.$emit("refresh")
+                    } finally {
+                        this.loading = false
+                    }
                 }
             })
         },
+
         close(){
+            this.form = {
+                name:"",
+                updateDt:"",
+                orderBy:"",
+                pageRichContent:""
+            }
+            this.$refs.form.resetFields()
             this.$emit("update:show",false)
+        },
+        async open(){
+            if(this.id){
+                this.loading = true
+                try {
+                    this.form = await getProcessPage(this.id)
+                    this.form.pageRichContent = this.form.richContent
+                    delete this.form.richContent
+                } finally {
+                    this.loading = false
+                }
+            }
         },
         openPreview(){
             if(!this.form.name || !this.form.pageRichContent) return this.$message.warning("请输入页面标题及页面内容")
