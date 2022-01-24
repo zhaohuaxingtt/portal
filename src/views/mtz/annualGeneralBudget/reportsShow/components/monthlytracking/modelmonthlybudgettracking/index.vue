@@ -1,6 +1,6 @@
 <!--车型预算月度跟踪--->
 <template>
-  <div
+  <!-- <div
     class="OuterFrame"
     v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING"
   >

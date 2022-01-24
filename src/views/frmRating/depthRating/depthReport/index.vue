@@ -17,17 +17,17 @@
                  right
                  @change="changeNav" />
         <!--保存-->
-        <iButton class="margin-left30"
+        <iButton v-if="!disabled" class="margin-left30"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
         <!--提交审核-->
-        <iButton @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
+        <iButton v-if="!disabled" @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
         <!--导出
 				<iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>-->
         <!--查看财报分析结果-->
         <iButton @click="jumpFinancialAnalysis()">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
       </div>
     </div>
-    <basic v-if="currentNav==1"
+    <basic :disabled="disabled" v-if="currentNav==1"
            ref="basic"></basic>
     <business v-else-if="currentNav==2"
               ref="business"></business>
@@ -58,7 +58,8 @@ export default {
       meeting: false,//会议纪要,
       id: '',
       name: '',
-      supplierId: ""
+      supplierId: "",
+      disabled:false,
     };
   },
   computed: {
@@ -89,6 +90,7 @@ export default {
       } else if (this.currentNav === 3) {
         page = 'finance'
       }
+      this.disabled=true
       this.$refs[page].postOverView()
     },
     submit () {
@@ -98,6 +100,7 @@ export default {
         if (result.code == 200) {
           this.$message.success(result.desZh)
           this.getOverView()
+             this.disabled=true
         } else {
           this.$message.error(result.desZh)
         }

@@ -171,9 +171,9 @@ export default {
           return v.id
         }
       }).id
-      console.log(userId)
       //供应商用户进入时的数据
       if (this.userType == 2 && this.isMainContact) {
+
         const params1 = {
           current: 1,
           size: 9999,
@@ -182,6 +182,7 @@ export default {
         const req1 = {
           current: 1,
           size: 9999,
+              ...this.form,
           supplierUserId: this.$store.state.permission.userInfo.id
         }
         authList(req1).then((res) => {

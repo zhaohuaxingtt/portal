@@ -4,7 +4,7 @@
  * @Description:SFRM综合评价
  -->
 <template>
-  <div>
+  <div  >
     <!-- SFRM综合评价 -->
     <iCard title="SFRM Overall evaluation"
            collapse
