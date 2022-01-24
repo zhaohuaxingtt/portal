@@ -28,14 +28,17 @@ export const COLUMNS = [
 export const MENUS = [
   {
     title: '供应商信息',
-    url: '/mainDataSupplier/list'
+    url: '/mainDataSupplier/list',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_LIST'
   },
   {
     title: '供应商用户信息',
-    url: '/mainDataSupplier/user'
+    url: '/mainDataSupplier/user',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_USER'
   },
   {
     title: 'N-Tier供应商信息',
-    url: '/mainDataSupplier/N-Tier'
+    url: '/mainDataSupplier/N-Tier',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER'
   }
 ]

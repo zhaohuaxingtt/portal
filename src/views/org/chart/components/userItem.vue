@@ -59,7 +59,7 @@
           <icon symbol name="iconweixin" class="icon" />
         </span>
         <span class="text">
-          {{ user.mobile }}
+          {{ user.wechat }}
         </span>
       </div>
       <div class="contact-item">
@@ -82,7 +82,7 @@ export default {
   props: {
     user: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }

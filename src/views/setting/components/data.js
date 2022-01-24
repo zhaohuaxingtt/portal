@@ -18,7 +18,7 @@ export const COLUMNS_MENU = [
   {
     width: '100px',
     customRender: (h, scope, column, extraData) => {
-      if (scope.row.level > 1) {
+      if (scope.row.level > 1 && scope.row.url) {
         const { row } = scope
         const { handleFavorite, favourites } = extraData
         const favouriteItem = favourites.find((e) => e.objId === row.id)

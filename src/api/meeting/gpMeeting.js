@@ -108,3 +108,12 @@ export function rescheduleThemen(data) {
     data
   })
 }
+//二次修改结论 通用  modifyConclusionById
+export function modifyConclusionById(data) {
+  return requst({
+    url: `/gpMeetingService/modifyConclusionById`,
+    method: 'POST',
+    data
+  })
+}
+

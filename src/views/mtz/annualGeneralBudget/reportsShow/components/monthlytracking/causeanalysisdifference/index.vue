@@ -1,6 +1,6 @@
 <!--差异原因分析--->
 <template>
-  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES'>
+  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES_PAGE|月度跟踪差异原因分析页面'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -82,15 +82,9 @@
         <span class="monthlyCompare">{{
           language('LK_YUEFENBIJIAO', '月份比较')
         }}</span>
-        <el-date-picker
-          class="monthlyPosition"
-          v-model="form['getMonth']"
-          type="monthrange"
-          range-separator="-"
-          start-placeholder="开始月份"
-          end-placeholder="结束月份"
-          value-format="yyyyMM"
-        >
+        <el-date-picker class="monthlyPosition" v-model="form['yearMonthOne']" type="month" value-format="yyyyMM" placeholder="开始月份" :picker-options="startpickerOptions">
+        </el-date-picker>
+        <el-date-picker class="monthlyPositionTwo" v-model="form['yearMonthTwo']" type="month" value-format="yyyyMM" placeholder="结束月份"  :picker-options="endpickerOptions">
         </el-date-picker>
       </el-form>
     </iSearch>
@@ -154,7 +148,25 @@ export default {
       dataTitle: '', //时间title
       num: '', //
       dataTitleTwo: '',
-      currentMonth: '' //当前月份
+      currentMonth: '' ,//当前月份
+      startpickerOptions: {
+          disabledDate: (time) => {
+            if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']){
+              return time.getMonth() == 11
+            }
+          },
+      },
+      endpickerOptions: {
+        disabledDate: (time) => {
+          const e = this.form.yearMonthOne
+          const endTime = (Number(e) + 1).toString()
+          const startDate = new Date(moment(endTime).format('yyyy-MM-[01] 00:00:00'))
+          const endDate = new Date(moment(endTime).format('yyyy-MM'))
+          if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] && this.form['yearMonthOne']){
+            return time > endDate || time < startDate
+           }
+        }
+      }
     }
   },
   created() {
@@ -178,10 +190,10 @@ export default {
       queryMaterialMedium()
         .then((res) => {
           const data = res.data
-          this.MaterialMediumList = data.map((item)=>{
+          this.MaterialMediumList = data.map((item) => {
             return {
-              label:`${item.materialCategoryCode}-${item.materialNameZh}`,
-              value:item.materialCategoryCode
+              label: `${item.materialCategoryCode}-${item.materialNameZh}`,
+              value: item.materialCategoryCode
             }
           })
           // this.MaterialMediumList = res.data
@@ -216,12 +228,13 @@ export default {
         .then((res) => {
           if (this.currentMonth == '1' || this.currentMonth == '2') {
             var arr = ['', '']
-            this.form['getMonth'] = [arr[0], arr[1]]
+            this.form['yearMonthOne']=arr[0]
+            this.form['yearMonthTwo']=arr[1]
             this.getdifferenceAnalysis()
           } else {
             this.getMonthList = res.data
-            var arr = [this.getMonthList[1].code, this.getMonthList[0].code]
-            this.form['getMonth'] = [arr[0], arr[1]]
+            this.form['yearMonthOne']=this.getMonthList[1].code
+            this.form['yearMonthTwo']=this.getMonthList[0].code
             this.getdifferenceAnalysis()
           }
         })
@@ -235,7 +248,6 @@ export default {
       this.form.pageSize = 10
       this.form.versionOneName = this.form['VersionMonthTwo']
       this.form.versionTwoName = this.form['VersionMonthTwo']
-      this.form.yearMonths = this.form['getMonth']
       differenceAnalysis(this.form)
         .then((res) => {
           this.differenceAnalysis = res.data
@@ -244,13 +256,16 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
           //给表格tatile赋值
-          if (this.form['getMonth'].some((i) => i == '')) {
+          if (this.form['yearMonthOne']=='' && this.form['yearMonthTwo']=='') {
             this.dataTitle = form['VersionMonthOne']
-            this.dataTitleTwo=form['VersionMonthTwo']
-          }
-          else{
-            let dataTransform=moment(this.form['getMonth'][0]).format('yyyy-MM')
-             let dataTransformTwo=moment(this.form['getMonth'][1]).format('yyyy-MM')
+            this.dataTitleTwo = form['VersionMonthTwo']
+          } else {
+            let dataTransform = moment(this.form['yearMonthOne']).format(
+              'yyyy-MM'
+            )
+            let dataTransformTwo = moment(this.form['yearMonthTwo']).format(
+              'yyyy-MM'
+            )
             this.dataTitle = `${form['VersionMonthOne']}-${dataTransform}`
             this.dataTitleTwo = `${form['VersionMonthTwo']}-${dataTransformTwo}`
           }
@@ -283,7 +298,6 @@ export default {
       this.form.pageSize = 10
       this.form.versionOneName = this.form['VersionMonthTwo']
       this.form.versionTwoName = this.form['VersionMonthTwo']
-      this.form.yearMonths = this.form['getMonth']
       differenceAnalysisExport(this.form)
         .then((res) => {
           console.log(res)
@@ -327,6 +341,12 @@ export default {
   width: 220px;
   position: absolute;
   left: 40px;
+  top: 138px;
+}
+.monthlyPositionTwo {
+  width: 220px;
+  position: absolute;
+  left: 310px;
   top: 138px;
 }
 .OuterIsearch {

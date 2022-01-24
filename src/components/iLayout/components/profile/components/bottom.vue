@@ -8,6 +8,7 @@
       label="Office:"
       text-key="officeLocal"
       :text="userInfo.officeLocal"
+      placeholder="请输入办公室地址"
       editable
       @update="handleUpdate"
     />
@@ -16,6 +17,7 @@
       label="Mobile Phone:"
       text-key="mobile"
       :text="userInfo.mobile"
+      placeholder="请输入手机号码"
       editable
     />
     <bottomItem
@@ -23,6 +25,7 @@
       text-key="wechat"
       label="Wechat:"
       :text="userInfo.wechat"
+      placeholder="请输入微信号"
       editable
     />
   </div>

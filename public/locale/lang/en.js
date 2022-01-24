@@ -1570,10 +1570,10 @@
     SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
     SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '供应商状态错误',
-    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
+    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',

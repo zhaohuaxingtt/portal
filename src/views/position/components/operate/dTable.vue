@@ -17,6 +17,7 @@
         >删除维度</iButton
       >
     </div>
+
     <iTableCustom
       :loading="tableLoading"
       :data="dimensions"
@@ -81,7 +82,8 @@ export default {
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
-              const options = _self.dimensionOptions
+              let options = _self.dimensionOptions
+
               return (
                 <iSelect
                   value={scope.row.id}
@@ -263,7 +265,12 @@ export default {
       return this.$store.state.position.pos.dimensionSelected
     }, */
     dimensionOptions() {
-      return this.$store.state.position.pos.dimensionOptions
+      const { dimensionOptions, positionDetail } =
+        this.$store.state.position.pos
+      if (dimensionOptions && dimensionOptions.length > 0) {
+        return dimensionOptions
+      }
+      return positionDetail.permissionList
     }
   },
   methods: {

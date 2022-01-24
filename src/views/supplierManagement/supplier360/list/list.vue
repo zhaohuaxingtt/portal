@@ -100,6 +100,36 @@
             </el-option>
           </iSelect>
         </el-form-item>
+        <el-form-item :label="language('JITUANGONGSI', '集团公司')">
+          <iSelect remote
+                   :remote-method="remoteGetGroup"
+                   multiple
+                   collapse-tags
+                   filterable
+                   :placeholder="language('请选择')"
+                   v-model="form.groupId">
+            <el-option v-for="item in groupList"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
+        <el-form-item :label="language('VWHAOZHUANGTAI', 'vw号状态')">
+          <iSelect remote
+                   :remote-method="remoteGetGroup"
+                   multiple
+                   collapse-tags
+                   filterable
+                   :placeholder="language('请选择')"
+                   v-model="form.vwStatus">
+            <el-option v-for="item in vwStatuslist"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
         <el-form-item :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')">
           <iSelect multiple
                    collapse-tags
@@ -118,7 +148,6 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
@@ -128,12 +157,13 @@
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
                     v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
-            $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
-          }}</i-button>
-          <i-button @click="handleRegister">{{
-            $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
-          }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
+          <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                    @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                    @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
+          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -296,6 +326,8 @@ export default {
     return {
       tagdropDownList: [],
       supplierId: '',
+      vwStatuslist: [],
+      groupList: [],
       gpRemoveParams: {
         key: 0,
         visible: false
@@ -387,6 +419,20 @@ export default {
     // })
   },
   methods: {
+    remoteGetGroup (query) {
+      if (!query.match(/^[ ]*$/)) {
+        const params = {
+          keyword: query,
+          //   supplierId: this.clickTableList.subSupplierId,
+          //   deptIds: this.form.deptIds
+        }
+        // purchaseListSearch(params).then((res) => {
+        //   if (res && res.code == 200) {
+        //     this.purchaseList = res.data
+        //   } else iMessage.error(res.desZh)
+        // })
+      }
+    },
     changTag () {
       this.form.tagNameList = []
       //获取标签列表
@@ -512,14 +558,30 @@ export default {
         }
       }
     },
+    toApplicationBDL () {
+      this.$router.push({
+        path: '/supplier/application-BDL',
+        query: { supplierToken: this.$route.query.supplierToken }
+      })
+    },
+    toApplicationMBDL () {
+      this.$router.push({
+        path: '/supplier/application-BDL',
+        query: { supplierToken: this.$route.query.supplierToken, mbdl: true }
+      })
+    },
     synchro () {
       if (this.selectTableData.length === 0) {
         return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
       }
       if (this.selectTableData.length > 1) {
-        return iMessage.error(this.language('ZHINENGXUANZEYITIAO', '只能选择一条'))
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
       }
-      synchronizationSap({ supplierId: this.selectTableData[0].subSupplierId }).then(res => {
+      synchronizationSap({
+        supplierId: this.selectTableData[0].subSupplierId
+      }).then((res) => {
         if (res?.code === '200') {
           iMessage.success(res.desZh)
         } else {
@@ -601,6 +663,8 @@ export default {
         vwCode: '',
         tagdropDownList: [],
         isActive: '',
+        groupId: '',
+        vwStatus: '',
         supplierType: this.userType,
         dept: ''
       }

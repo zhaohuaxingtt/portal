@@ -1,6 +1,6 @@
 <template>
-  <!-- <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_CAR_MODEL_PAGE|年度预算车型页面'> -->
-  <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_CAR_MODEL'>
+  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_CAR_MODEL_PAGE|年度预算车型页面'>
+  <!-- <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_CAR_MODEL'> -->
     <div class='left'>
         <div class='let-top'>
           <i-select class='my-sel' v-model='year' :placeholder='language("LK_NIANFENXUANZE","年份选择")'>
@@ -35,7 +35,7 @@
             </i-select>
           </el-form>
           <div class='left-btns'>
-            <i-button @click='getyearCardModel()'>{{ language('LK_CHAXUN', '查询') }}</i-button>
+            <i-button @click='getyearCardModel()'>{{ language('search', '搜索') }}</i-button>
             <i-button @click='leftRest()'>{{ language('LK_CHONGZHI', '重置') }}</i-button>
           </div>
         </div>
@@ -72,7 +72,7 @@
             </el-option>
           </i-select>
         <div >
-          <i-button @click='getCarModelDetail()'>{{ language('LK_CHAXUN', '查询') }}</i-button>
+          <i-button @click='getCarModelDetail()'>{{ language('search', '搜索') }}</i-button>
           <i-button @click='rightRest()'>{{ language('LK_CHONGZHI', '重置') }}</i-button>
         </div>
       </div>

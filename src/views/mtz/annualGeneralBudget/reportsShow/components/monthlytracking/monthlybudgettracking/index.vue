@@ -1,6 +1,6 @@
 <!--预算月度跟踪--->
 <template>
-  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING'>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING_PAGE|预算月度跟踪页面'>
     <i-card class='search'>
       <div class="search-content">
         <div class="form-condition">
@@ -53,9 +53,13 @@
         </div>
         <div class="btn-list">
           <span class="only-myself" >{{language('只看自己 ')}}
-            <el-switch v-model="searchForm.onlySeeMySelf" ></el-switch>
+            <el-switch 
+              v-model="searchForm.onlySeeMySelf" 
+              active-color="#1660F1"
+              inactive-color="#cccccc"  
+            ></el-switch>
           </span>
-          <i-button @click="sure">{{language('确认')}}</i-button>
+          <i-button @click="sure">{{language('搜索')}}</i-button>
           <i-button @click="reset">{{language('重置')}}</i-button>
         </div>
       </div>
