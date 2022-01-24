@@ -14,7 +14,7 @@
         </el-form-item>
         <!-- 合同类型 -->
         <el-form-item :label="language('LK_HETONGLEIXING', '合同类型')" prop='type'>
-          <i-select v-model.trim='queryForm.type' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.type' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in contractTypeSelectDatas' :value='item.code'
                        :label='item.name' :key='index'></el-option>
           </i-select>
@@ -58,14 +58,14 @@
 
         <!-- 印章类型 -->
         <el-form-item :label="language('LK_YINZHANGLEIXING', '印章类型')" prop='docTypeNo'>
-          <i-select v-model.trim='queryForm.docTypeNo' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.docTypeNo' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in sealtypes' :value='item.docTypeNo'
                        :label='item.signName' :key='index'></el-option>
           </i-select>
         </el-form-item>
         <!-- 签署状态 -->
         <el-form-item :label="language('LK_QIANSHUZHUANGTAI', '签署状态')" prop='signStatus'>
-          <i-select v-model.trim='queryForm.signStatus' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.signStatus' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in signStatusSelectDatas' :value='item.code'
                        :label='item.name' :key='index'></el-option>
           </i-select>
@@ -268,6 +268,8 @@ export default {
     },
     //签署
     sign() {
+      console.log(this.selSinaturedatas);
+
       if (this.selSinaturedatas.length <= 0) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOQIANSHUDEHETONG', '抱歉，您当前还未选择需要签署的合同'))
       }
@@ -275,6 +277,9 @@ export default {
       if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
         return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
       }
+      let companyNo = this.selSinaturedatas[0].companyNumber
+      let f = this.selSinaturedatas.find(e => e.companyNumber != companyNo)
+      if(f) return this.$message.error(this.language('请选择相同公司编码的数据进行批量签署'))
       let reqData = filterRes.map(item => ({
         companyNumber: item.companyNumber,
         docNo: item.docNo,
