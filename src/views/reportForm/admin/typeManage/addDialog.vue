@@ -138,7 +138,7 @@ import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
-import { organizationsListData, addReportType, modifyReportType } from '@/api/reportForm';
+import { addReportType, modifyReportType } from '@/api/reportForm';
 import { getUserSelectPageList } from '@/api/authorityMgmt/index'
 import { getDeptDropDownList } from '@/api/authorityMgmt'
 export default {
@@ -185,7 +185,7 @@ export default {
                 enName: { required:true, message:"请输入英文名",trigger:'blur' },
                 telefone: { required:true, message:"请输入Telefone",trigger:'blur' },
                 adminUsers: { required:true, message:"请选择adminUsers",trigger:'blur' },
-                organizations: { required:true, message:"请选择报表可见组织",trigger:'blur' }
+                canUsers: { required:true, message:"请选择报表可见人员",trigger:'blur' }
             },
             imgCutterRate: '16 : 9',
             imageUrl: '',

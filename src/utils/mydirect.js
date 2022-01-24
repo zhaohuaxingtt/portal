@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-01-12 19:24:32
+ * @LastEditTime: 2022-01-24 16:35:17
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
@@ -50,9 +50,9 @@ Vue.directive('permission', {
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         //-----------------------2022-1-24 修改权限配置内容start------------------------------
-        if(pagePermission !== "undefined"){
-          if (['vmsit', 'SIT','dev','UAT'].includes(process.env.NODE_ENV)) {
-          // if (['vmsit', 'SIT','UAT'].includes(process.env.NODE_ENV)) {
+        if (pagePermission !== 'undefined') {
+          if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
+            // if (['vmsit', 'SIT','UAT'].includes(process.env.NODE_ENV)) {
             if (!store.state.permission.whiteBtnList[pagePermission]) {
               el.parentNode.removeChild(el)
             }

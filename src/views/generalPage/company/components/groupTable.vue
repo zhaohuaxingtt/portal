@@ -5,8 +5,8 @@
         <i-button v-permission="SUPPLIER_COMPANY_GROUP_EXPORT" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_COMPANY_GROUP" -->
     <table-list
-        v-permission="SUPPLIER_COMPANY_GROUP"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"

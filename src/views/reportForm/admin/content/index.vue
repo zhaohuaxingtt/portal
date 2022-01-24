@@ -2,7 +2,7 @@
     <div>
         <iSearch @sure='search' @reset="reset" icon>
             <el-form>
-                <iFormItem :label='language("报告标题")'>
+                <iFormItem :label='language("报告内容")'>
                     <iInput v-model="searchForm.name" :placeholder='language("请输入")' filterable></iInput>
                 </iFormItem>
                 <iFormItem :label='language("状态")'>
@@ -143,6 +143,7 @@
             },
             reset(){
                 this.searchForm = {}
+                this.publicDate = []
                 this.searchFlag = false
 				this.page.currPage = 1
                 this.query()
@@ -179,7 +180,7 @@
 				this.$refs.editDialog.getTypeList()
             },
             async edit(row){
-                if(row.state) return this.$message.warning("请先下架，再进行修改操作")
+                if(row.published) return this.$message.warning("请先下架，再进行修改操作")
                 this.tableLoading = true
                 await reportContentDetailById(row.id).then(res => {
                     if (res) {
@@ -197,7 +198,7 @@
                 })
             },
             del(row){
-                if(row.state) return this.$message.warning("请先下架，再进行删除操作")
+                if(row.published) return this.$message.warning("请先下架，再进行删除操作")
                 this.$confirm('确定要删除此项？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',

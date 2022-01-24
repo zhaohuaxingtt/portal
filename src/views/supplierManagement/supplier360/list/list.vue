@@ -552,15 +552,31 @@ export default {
       }
     },
     toApplicationBDL () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
       this.$router.push({
         path: '/supplier/application-BDL',
-        query: { supplierToken: this.$route.query.supplierToken }
+        query: { supplierToken: this.selectTableData[0].supplierToken }
       })
     },
     toApplicationMBDL () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
       this.$router.push({
         path: '/supplier/application-BDL',
-        query: { supplierToken: this.$route.query.supplierToken, mbdl: true }
+        query: { supplierToken: this.selectTableData[0].supplierToken, mbdl: true }
       })
     },
     synchro () {
