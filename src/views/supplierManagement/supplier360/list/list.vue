@@ -154,7 +154,7 @@
           <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
                     @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
-          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL_OUT"
                     @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
           <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
