@@ -64,8 +64,8 @@
     </div>
     </div>
 </template>
-<script>
-import { modifyConclusionById } from '@/api/meeting/gpMeeting'
+<script> 
+import { modifyConclusionByMbdlId } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -144,7 +144,7 @@ export default {
        themenId:this.editprotectConclusionDialogRow.id//议题id
       }
       console.log(params);
-      modifyConclusionById(params).then((res) => {
+      modifyConclusionByMbdlId(params).then((res) => {
         if (res.code) {
           iMessage.success('修改议题成功！')
           this.$emit('flushTable')

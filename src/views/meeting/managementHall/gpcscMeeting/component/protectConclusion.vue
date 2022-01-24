@@ -1,7 +1,7 @@
 <!-- 结束结论 -->
 <template>
   <iDialog
-    title="维护结论"
+    title="结束议题"
     :visible.sync="open"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -10,7 +10,6 @@
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
-  第一次
     <iEditForm>
       <el-form
         :model="ruleForm"
