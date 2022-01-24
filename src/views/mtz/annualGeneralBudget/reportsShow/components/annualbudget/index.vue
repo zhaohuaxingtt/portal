@@ -17,15 +17,15 @@
           :name="item.code"
         ></el-tab-pane>
       </iTabsList>
-      <iButton v-if="showBtn" class="export" @click="exportReport"
+      <iButton v-if="showBtn" class="export" @click="exportReport" v-permission='MTZ_REPORT_ANNUAL_BUDGET_EXPORT'
         >导出</iButton
       >
       <!-- 品牌导出 -->
-      <iButton v-show="showPinpai" class="export" @click="exportReportPP">导出</iButton>
+      <iButton v-show="showPinpai" class="export" @click="exportReportPP" v-permission='MTZ_REPORT_ANNUAL_BUDGET_EXPORT'>导出</iButton>
 
       <div class="export" v-show="showCar" style="display:flex;">
         <show-me-components class='margin-right30' @showOnlyMyselfData='leftShowOnlyMyselfData' />
-        <iButton @click="exportReportCAR">导出</iButton>
+        <iButton @click="exportReportCAR" v-permission='MTZ_REPORT_ANNUAL_BUDGET_EXPORT'>导出</iButton>
       </div>
     </div>
     <router-view ref="child"></router-view>
