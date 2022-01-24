@@ -2114,7 +2114,7 @@ export default {
       }else{
         window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
       }
-    }
+    } 
   }
 }
 </script>

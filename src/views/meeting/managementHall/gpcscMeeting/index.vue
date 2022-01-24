@@ -2766,14 +2766,13 @@ export default {
         iMessage.error('改议题为临时议题')
       }else{
         let num = null
-        debugger
         if (row.documentType == '13') {
             num = 1
         }else{
             num = 3
         }
         window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
-      }
+      } 
     }
   }
 }
