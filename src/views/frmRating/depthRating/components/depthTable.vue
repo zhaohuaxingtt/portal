@@ -459,6 +459,13 @@ export default {
         iMessage.error(this.$t('SPR_FRM_DEP_COMMET'))
         return
       }
+        let result1 = this.currentSelect.every(
+        (item) => item.status == '历史' || item.status == '终止'|| item.status == '终止审批中'
+      )
+          if (result1) {
+        iMessage.warn(this.language('LISHIZHONGZHIZHONGZHISHENPIZHONGBUNENGJIARUJITUAN','历史、终止、终止审批中、不能加入集团'))
+        return
+      }
       this.$refs.joinGroup.getTableList()
       this.joinGroupShow = true
     },
