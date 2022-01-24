@@ -2108,9 +2108,9 @@ export default {
     handleMBDl(row){ 
       console.log(row);
       if (row.isBreak) {
-        iMessage.error('改议题为休息')
+        iMessage.error('该议题为休息')
       }else if(row.type == 'MANUAL'){
-        iMessage.error('改议题为临时议题')
+        iMessage.error('该议题为临时议题')
       }else{
         window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
       }

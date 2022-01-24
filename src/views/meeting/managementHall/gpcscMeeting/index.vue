@@ -2778,7 +2778,7 @@ export default {
         this.openDialog('editprotectConclusion')
         this.conclusionStatus=row.conclusion
       }else{
-        iMessage.success('改议题不支持修改结论')
+        iMessage.success('该议题不支持修改结论')
       }
     },
     //跳转到gp  CSC展示 id myCscDetails  手工议题 current=1  别的current =3
@@ -2786,9 +2786,9 @@ export default {
     handleCSC(row){
       console.log(row);
       if (row.isBreak) {
-        iMessage.error('改议题为休息')
+        iMessage.error('该议题为休息')
       }else if(row.type == 'MANUAL'){
-        iMessage.error('改议题为临时议题')
+        iMessage.error('该议题为临时议题')
       }else{
         let num = null 
         if (row.documentType == '13') {
