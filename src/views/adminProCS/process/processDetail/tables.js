@@ -1,3 +1,4 @@
+import moment from 'moment';
 const PROCESS_PAGE = [
     {
         type:'index',
@@ -5,14 +6,17 @@ const PROCESS_PAGE = [
         width: 100
     },
     {
-        prop:'firstLetter',
+        prop:'name',
         label:'页面标题',
         align: 'center'
     },
     {
-        prop:'firstLetter',
+        prop:'updateDt',
         label:'发布日期',
-        align: 'center'
+        align: 'center',
+        customRender:(h,{row}) => {
+            return moment(row.updateDt).format('YYYY-MM-DD')
+        }
     },
     {
         label:'操作',
