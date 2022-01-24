@@ -19,7 +19,8 @@ module.exports = {
       'html2canvas',
       'element-ui',
       'file-saver',
-      'xlsx'
+      'xlsx',
+      'rise'
     ]
   },
   output: {

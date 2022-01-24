@@ -21,10 +21,10 @@
     "build:report-dev": "vue-cli-service build --mode dev --report --report-json",
     "build:report-sit": "vue-cli-service build --mode sit --report --report-json",
     "build:report-uat": "vue-cli-service build --mode uat --report --report-json",
-    "build:report-vmsit": "vue-cli-service build --mode vmsit --report --report-json",
+    "build:report-vmsit": "vue-cli-service build --mode vmsit",
     "build:report-prod": "vue-cli-service build --mode prod --report --report-json",
     "pre-commit": "eslint --ext .js,.vue src",
-    "dll": "webpack --config ./webpack.dll.config.js"
+    "dll": "webpack --config ./webpack.dll.config.js --mode production"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -61,7 +61,7 @@
     "postcss-px2rem": "0.3.0",
     "powerbi-client": "^2.18.5",
     "px2rem-loader": "0.1.9",
-    "rise": "^3.3.4",
+    "rise": "^3.3.5",
     "sass": "^1.26.10",
     "sass-loader": "9.0.2",
     "uglifyjs-webpack-plugin": "^1.1.2",
