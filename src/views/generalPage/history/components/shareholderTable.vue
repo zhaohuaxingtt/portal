@@ -13,8 +13,8 @@
         </i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_ENTERPRISEHISTORY_CHANGEOFSHAREHOLDERTABLE" -->
     <table-list
-        v-permission="SUPPLIER_ENTERPRISEHISTORY_CHANGEOFSHAREHOLDERTABLE"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"

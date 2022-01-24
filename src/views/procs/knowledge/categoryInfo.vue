@@ -20,7 +20,7 @@
                             <div>{{l.summary}}</div>
                             <div>{{l.category.map(e => e.name).join(" ")}} <span class="cursor"><i class="el-icon-download"></i>{{l.downloadCount}}</span></div>
                             <div>{{l.openingDate}}</div>
-                            <button class="down">DOWNLOAD</button>
+                            <button class="down" @click="downLoad(l)">DOWNLOAD</button>
                         </div>
                     </div>
                     <div class="flex justify-between items-center title">
@@ -78,17 +78,20 @@
             },
             async queryDetail(){
                 let data = {
-                    page:1,
+                    page:0,
                     size:9,
                     knowledgeCategory: this.knowledgeCategory,
                     organizations: this.organizations,
-                    sort:"openingDate,DESC"
+                    // sort:"openingDate,DESC"
                 }
                 let formdata = new FormData()
                 for (const key in data) {
                     formdata.append(key, data[key])
                 }
                 let res = await queryKnowledgeTwoLevelCard(this.$route.query.id, formdata)
+                res?.content.map(item => {
+                    item.cover = item.cover.split("/uploader/")[1]
+                })
                 this.list = res.content || []
             },
             departChange(id,i){
@@ -106,6 +109,13 @@
             isNew(date){
                 let difference = new Date() -  new Date(date).getTime()
                 return (difference / 1000 / 60 / 60 / 24 / 30) < 1
+            },
+            downLoad(row) {
+                const a = document.createElement('a')
+                a.href = `${row.cover}&isDown=true`
+                a.download = row.title
+                a.click()
+                a.remove()
             }
         },
     }

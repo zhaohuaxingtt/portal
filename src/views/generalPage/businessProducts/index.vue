@@ -20,6 +20,7 @@
           </iButton>
         </div>
       </div>
+      <!-- v-permission="SUPPLIER_MAINPRODUCT_TABLE" -->
       <table-list
           :tableData="tableListData"
           :tableTitle="tableTitle"
@@ -27,7 +28,6 @@
           @handleSelectionChange="handleSelectionChange"
           :input-props="inputProps"
           :index="true"
-          v-permission="SUPPLIER_MAINPRODUCT_TABLE"
           ref="commonTable"
       >
         <template #deliveryStartDate="scope">

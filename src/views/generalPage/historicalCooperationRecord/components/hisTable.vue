@@ -13,13 +13,13 @@
         <i-button @click="exportsTable" v-permission="SUPPLIER_HISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+        <!-- v-permission="SUPPLIER_HISTORY_TABLE" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
         @handleSelectionChange="handleSelectionChange"
         :index="true"
-        v-permission="SUPPLIER_HISTORY_TABLE"
     />
   </i-card>
 </template>

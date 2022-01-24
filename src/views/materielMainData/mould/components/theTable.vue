@@ -1,16 +1,27 @@
 <template>
   <iCard class="margin-top20">
     <div class="flex-end-center margin-bottom20">
-      <iButton @click="add">
+      <iButton @click="add" xxx-permission="'BUTTON_MATERIEL_DATA_MOULD_ADD'">
         {{ language('新建') }}
       </iButton>
-      <iButton :disabled="selectedRows.length !== 1" @click="edit">
+      <iButton
+        :disabled="selectedRows.length !== 1"
+        @click="edit"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MOULD_MODIFY'"
+      >
         {{ language('编辑') }}
       </iButton>
-      <iButton :disabled="!selectedRows.length" @click="del">
+      <iButton
+        :disabled="!selectedRows.length"
+        @click="del"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MOULD_DELETE'"
+      >
         {{ language('删除') }}
       </iButton>
-      <button-download :download-method="exportExcel" />
+      <button-download
+        :download-method="exportExcel"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MOULD_EXPORT'"
+      />
     </div>
     <i-table-custom
       :loading="tableLoading"

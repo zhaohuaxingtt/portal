@@ -1,5 +1,5 @@
 <template>
-  <iPage >
+  <iPage>
     <!-- <carTypeLifeCycle /> -->
 
     <div class="main">
@@ -93,11 +93,14 @@
       <div class="content">
         <iCard>
           <div class="export">
-            <button-download :download-method="exportBtnClick" />
+            <button-download
+              :download-method="exportBtnClick"
+              xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCT_FAMILY_EXPORT'"
+            />
           </div>
           <iTableCustom
             ref="testTable"
-            :loading='loading'
+            :loading="loading"
             :columns="tableColumnSetting"
             :data="tableListData"
             @showDetail="showDetail"
@@ -176,7 +179,7 @@ export default {
         .catch((error) => {
           iMessage.error(error.desZh || '获取数据失败')
         })
-        .finally(()=>this.loading = false)
+        .finally(() => (this.loading = false))
     },
     searchBtnClick() {
       this.page.currPage = 1

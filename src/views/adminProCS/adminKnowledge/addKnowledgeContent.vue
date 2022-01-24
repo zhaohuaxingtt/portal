@@ -64,21 +64,22 @@
           ></el-option>
         </iSelect>
 			</iFormItem>
-			<!-- <iFormItem :label="language('所属科室')" prop='organizations'>
+			<iFormItem :label="language('所属科室')" prop='organizations'>
 				<iSelect
-          v-model="newContentForm.organizations"
-          filterable
-          placeholder="请选择所属科室"
+					v-model="newContentForm.organizations"
+					filterable
+					placeholder="请选择所属科室"
 					clearable
-        >
-          <el-option
-            v-for="item in organizationsList"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          ></el-option>
-        </iSelect>
-			</iFormItem> -->
+				>
+					<el-option
+						v-for="item in organizationsList"
+						:key="item.id"
+						:label="item.nameZh"
+						:value="item.id"
+					>
+					</el-option>
+				</iSelect>
+			</iFormItem>
 			<iFormItem :label="language('上传附件')">
 				<iUpload 
 					v-model="fileList"
@@ -124,6 +125,7 @@ import iUpload from '../components/iUpload.vue'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import { queryCurrType, getCurrCategory, createKnowledgeContent, modifyKnowledgeContent } from '@/api/adminProCS';
+import { getDeptDropDownList } from '@/api/authorityMgmt'
 export default {
 	name: 'addKnowledgeContent',
 	components: {
@@ -161,10 +163,7 @@ export default {
 			// 选择知识类型时 获取知识分类
 			knowledgeCategoryList: [],
 			// 调取接口获取科室数据
-			organizationsList: [
-				{ id: '0', label: '科室一' }, 
-				{ id: '1', label: '科室二' }
-			],
+			organizationsList: [],
 			imgCutterRate: '16 : 9',
 			imageUrl: '',
 			uploadFileStream: null,
@@ -279,7 +278,7 @@ export default {
 						this.newContentForm.file = this.uploadFileStream  // 老系统修改的时候没有传值
 						this.newContentForm.coverFileName = this.imgName || `${this.newContentForm.title}.png`
 						this.newContentForm.coverFile = this.coverFile
-						this.newContentForm.organizations = '2222'  // 测试数据
+						// this.newContentForm.organizations = '2222'  // 测试数据
 						let formData = new FormData()
 						Object.keys(this.newContentForm).forEach(key => {
 							formData.append(key,this.newContentForm[key])
@@ -310,6 +309,7 @@ export default {
 		async initModify(currVa) {
 			this.loading = true
 			await this.getCurrTypeList()
+			await this.organizationsInfo()
 			this.modifyContentId = currVa.id
 			let obj = {
 				speaker: currVa.speaker,
@@ -343,6 +343,12 @@ export default {
 		},
 		removeHandle(file, idx) {
 			this.fileList.splice(idx, 1)
+		},
+		async organizationsInfo() {
+			await getDeptDropDownList({}).then((res) => {
+			this.organizationMenu = res.data || []
+			this.organizationsList = this.organizationMenu.slice(0, 200)
+			})
 		}
 	}
 }
