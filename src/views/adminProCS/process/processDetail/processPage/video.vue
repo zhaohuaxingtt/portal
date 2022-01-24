@@ -57,7 +57,8 @@ export default {
     data() {
         return {
             videos:[],
-            uploadHandle:this.upload
+            uploadHandle:this.upload,
+            removeHandle:this.remove
         }
     },
     methods: {
@@ -79,7 +80,7 @@ export default {
                 }
             })
         },
-        removeHandle(file){
+        remove(file){
             return new Promise(async (res, rej) => {
                 try {
                     await deletePageFile(file.id)

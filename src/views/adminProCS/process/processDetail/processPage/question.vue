@@ -57,7 +57,9 @@ export default {
     },
     methods: {
         open(){
-            this.search()
+            this.$nextTick(() => {
+                this.search()
+            })
             // 选中已有的
             
         },
