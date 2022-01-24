@@ -428,7 +428,7 @@
               min-width="198"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.topic}}</span>
+                <span class="open-link-text look-themen-click" @click="handleCSC(scope.row)">{{scope.row.topic}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -2755,6 +2755,25 @@ export default {
       // this.editprotectConclusionDialog=true
       // this.editprotectConclusionDialogRow=row
       // console.log(this.editprotectConclusionDialogRow);
+    },
+    //跳转到gp  CSC展示 id myCscDetails  手工议题 current=1  别的current =3
+    // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
+    handleCSC(row){
+      console.log(row);
+      if (row.isBreak) {
+        iMessage.error('改议题为休息')
+      }else if(row.type == 'MANUAL'){
+        iMessage.error('改议题为临时议题')
+      }else{
+        let num = null
+        debugger
+        if (row.documentType == '13') {
+            num = 1
+        }else{
+            num = 3
+        }
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+      }
     }
   }
 }
