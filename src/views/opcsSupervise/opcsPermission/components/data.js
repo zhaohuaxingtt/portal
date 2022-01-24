@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 16:36:08
+ * @LastEditTime: 2022-01-24 18:00:17
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\components\data.js
  */
 export const tableTitle=[

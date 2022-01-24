@@ -8653,10 +8653,9 @@
     "hash-base" "^3.0.0"
     "inherits" "^2.0.1"
 
-"rise@^3.2.5":
-  "integrity" "sha512-p+Xl0RuWwevqE6JQkFLiJm1fv9kCx0jGiZTbgbQ47CZ9GIRaz5rm3visLrazWZ1Mh3YFBluirilVpkbX3vwq9g=="
-  "resolved" "http://nexus.devops.csvw.com/repository/npm-public/rise/-/rise-3.2.9.tgz"
-  "version" "3.2.9"
+"rise@^3.3.5":
+  "resolved" "file:../front-modules/dist"
+  "version" "3.3.6"
 
 "route-recognizer@^0.1.11":
   "integrity" "sha1-gQ2OVwKrtAVtbcuOhlxWhefBTrc="

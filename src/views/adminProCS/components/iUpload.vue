@@ -159,7 +159,13 @@
             async change(e){
                 let files = e.target.files
                 let fileList = []
-                let num = this.files.length
+                let num = 0
+                if(this.limit == 1){
+                    this.$emit("input",[]);
+                    num = 0
+                }else{
+                    num = this.files.length
+                }
                 for (let i = 0; i < files.length; i++) {
                     num += 1
                     const isLtSize = files[i].size / 1024 / 1024 < this.maxSize;
@@ -167,6 +173,7 @@
                         this.$message.error(`${files[i].name}上传文件大小不能超过 ${this.maxSize}MB!`);
                         continue
                     }
+                    
                     if(num > this.limit){
                         this.$message.warning(`限制上传${this.limit}个文件`)
                         break
