@@ -169,3 +169,6 @@
     overflow-x: hidden;
   }
 }
+::v-deep .el-loading-mask{
+	z-index: 2000;
+}

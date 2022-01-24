@@ -65,7 +65,7 @@
     </div>
 </template>
 <script>
-import { endMbdlThemen } from '@/api/meeting/gpMeeting'
+import { modifyConclusionById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -138,13 +138,13 @@ export default {
     // 提交
     handleSure(){
       const params = {
-       conclusion:this.ruleForm.result,//任务
-       meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.conclusion,//结论
+       conclusion:this.ruleForm.conclusion,//任务
+      //  meetingId:this.$route.query.id,//会议id
+       result:this.ruleForm.result说z,//结论
        themenId:this.editprotectConclusionDialogRow.id//议题id
       }
       console.log(params);
-      endMbdlThemen(params).then((res) => {
+      modifyConclusionById(params).then((res) => {
         if (res.code) {
           iMessage.success('修改议题成功！')
           this.$emit('flushTable')
