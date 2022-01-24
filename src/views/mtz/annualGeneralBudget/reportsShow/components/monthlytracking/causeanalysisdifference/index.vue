@@ -154,7 +154,7 @@ export default {
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
-      versionMonth: 'm', //比较版本
+      versionMonth: 'M', //比较版本
       getVersionMonth: [], //获取后端传回来的比较版本
       getMonthList: '', //获取默认月份
       mothlyValue: '',
