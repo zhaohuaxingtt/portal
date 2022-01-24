@@ -2,22 +2,28 @@
   <iPage class="addTechnology">
     <div class="page-header">
       <div>
-        <span class="font18 font-weight" v-if='!this.$route.query.stuffId' > {{language('新增工艺组')}} </span>
-        <span class="font18 font-weight" v-else > {{language(formData.stuffCode)}} {{language(formData.stuffName)}} </span>
-
+        <span class="font18 font-weight" v-if="!this.$route.query.stuffId">
+          {{ language('新增工艺组') }}
+        </span>
+        <span class="font18 font-weight" v-else>
+          {{ language(formData.stuffCode) }} {{ language(formData.stuffName) }}
+        </span>
       </div>
-      <div class="ibutton-end" v-if="!this.$route.query.readOnly">
-        <div v-if='viewSta'>
-          <iButton @click="edit" >{{language('编辑')}}</iButton>
+      <div
+        class="ibutton-end"
+        v-if="!this.$route.query.readOnly"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY'|'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'"
+      >
+        <div v-if="viewSta">
+          <iButton @click="edit">{{ language('编辑') }}</iButton>
         </div>
         <div v-else>
-          <iButton @click="save('formData')">{{language('保存')}}</iButton>
-          <iButton @click="closeWindow">{{language('取消')}}</iButton>
+          <iButton @click="save('formData')">{{ language('保存') }}</iButton>
+          <iButton @click="closeWindow">{{ language('取消') }}</iButton>
         </div>
-        
       </div>
     </div>
-    <iCard class="margin-top20"  >
+    <iCard class="margin-top20">
       <el-form
         :model="formData"
         label-position="left"
@@ -28,38 +34,29 @@
       >
         <el-row :gutter="20">
           <el-col :span="6">
-            <iFormItem
-              :label="language('工艺组编号')"
-              prop="stuffCode"
-            >
+            <iFormItem :label="language('工艺组编号')" prop="stuffCode">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.stuffCode"
-                :disabled='viewSta'
+                :disabled="viewSta"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem
-              :label="language('工艺组名称')"
-              prop="stuffName"
-            >
+            <iFormItem :label="language('工艺组名称')" prop="stuffName">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.stuffName"
-                :disabled='viewSta'
+                :disabled="viewSta"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem
-              :label="language('工艺组名称(德)')"
-              prop="stuffNameDe"
-            >
+            <iFormItem :label="language('工艺组名称(德)')" prop="stuffNameDe">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.stuffNameDe"
-                :disabled='viewSta'
+                :disabled="viewSta"
               ></iInput>
             </iFormItem>
           </el-col>
@@ -68,22 +65,47 @@
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.stuffMemo"
-                :disabled='viewSta'
+                :disabled="viewSta"
               ></iInput>
             </iFormItem>
           </el-col>
         </el-row>
       </el-form>
-      <div v-if="stuffId!=''">
+      <div v-if="stuffId != ''">
         <el-divider />
-        <div style="display:flex;justify-content: flex-end">
-        </div>
-        <div class="iButton-end margin-bottom20"  v-if="!this.$route.query.readOnly">
-          <iButton @click="tabelEdit"  v-show="tabelSta">{{language('编辑')}}</iButton>
-          <iButton @click="SaveNewSupplier" v-show='!tabelSta'>{{language('保存')}}</iButton>
-          <iButton @click="addNew">{{language('新增')}}</iButton>
-          <iButton @click="delrte" :disabled='selectTableData.length == 0'>{{language('删除')}}</iButton>
-          <iButton @click="downLoadSupplier">{{language('下载供应商模版')}}</iButton>
+        <div style="display: flex; justify-content: flex-end"></div>
+        <div
+          class="iButton-end margin-bottom20"
+          v-if="!this.$route.query.readOnly"
+        >
+          <iButton
+            @click="tabelEdit"
+            v-show="tabelSta"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_MODILY'"
+            >{{ language('编辑') }}</iButton
+          >
+          <iButton
+            @click="SaveNewSupplier"
+            v-show="!tabelSta"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_MODILY'"
+            >{{ language('保存') }}</iButton
+          >
+          <iButton
+            @click="addNew"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_ADD'"
+            >{{ language('新增') }}</iButton
+          >
+          <iButton
+            @click="delrte"
+            :disabled="selectTableData.length == 0"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_DELETE'"
+            >{{ language('删除') }}</iButton
+          >
+          <iButton
+            @click="downLoadSupplier"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_DOWNLOAD_SUPPLIER_TEMPLATE'"
+            >{{ language('下载供应商模版') }}</iButton
+          >
           <!-- <iButton @click="inportTechnology">导入</iButton> -->
           <el-upload
             action="1"
@@ -92,14 +114,22 @@
             :http-request="importData"
             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           >
-            <iButton class="importSupplier">{{language('导入')}}</iButton>
+            <iButton
+              class="importSupplier"
+              xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_IMPORT'"
+              >{{ language('导入') }}</iButton
+            >
           </el-upload>
-          <iButton @click="exportTechnology">{{language('导出')}}</iButton>
+          <iButton
+            @click="exportTechnology"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_EXPORT'"
+            >{{ language('导出') }}</iButton
+          >
         </div>
         <iTableCustom
           :data="tableData"
           :columns="tableColumns"
-          :extra-data="extraData"  
+          :extra-data="extraData"
           min-height="395px"
           @handle-selection-change="handleSelectionChange"
         >
@@ -125,7 +155,7 @@
           :filter="selectorQuery"
           :tableSetting="supplierChoose"
           :search-method="handleSupplierSearch"
-          v-model='suppliersName'
+          v-model="suppliersName"
           tag-label="nameZh"
           hiddenRight
           ref="selectSupplier"
@@ -151,8 +181,18 @@ import iTableCustom from '@/components/iTableCustom'
 import { SUPPLIER_TECHNOLOGY, SUPPLIER_CHOOSE } from './data'
 import iSelectorDialog from '@/components/iSelector/iSelectorDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
-import {technologySave, searchBdlTableList, searchTechnologyForm, seaveBdl, deleteBdl, downloadSupplierModel, importBdl, exportBdl, dataDic} from '@/api/materiel/partsMaterialGroup'
-import { getBasicList, } from "@/api/basic/basic";
+import {
+  technologySave,
+  searchBdlTableList,
+  searchTechnologyForm,
+  seaveBdl,
+  deleteBdl,
+  downloadSupplierModel,
+  importBdl,
+  exportBdl,
+  dataDic
+} from '@/api/materiel/partsMaterialGroup'
+import { getBasicList } from '@/api/basic/basic'
 export default {
   components: {
     iButton,
@@ -163,15 +203,14 @@ export default {
     iInput,
     iTableCustom,
     iPagination,
-    iSelectorDialog,
-    
+    iSelectorDialog
   },
   data() {
     return {
       //form控制按钮显示
-      viewSta:true,
+      viewSta: true,
       //tabel控制按钮显示
-      tabelSta:true,
+      tabelSta: true,
       // formDataLabel: {
       //   stuffCode: '工艺组编号',
       //   stuffName: '工艺组名称',
@@ -184,13 +223,13 @@ export default {
         stuffCode: '',
         stuffName: '',
         stuffNameDe: '',
-        stuffMemo: '',
+        stuffMemo: ''
       },
-      iniFormData:{
+      iniFormData: {
         stuffCode: '',
         stuffName: '',
         stuffNameDe: '',
-        stuffMemo: '',
+        stuffMemo: ''
       },
       modelOptions: [],
       rules: {
@@ -202,7 +241,7 @@ export default {
         ],
         stuffNameDe: [
           { required: true, message: '工艺组名称(德)', trigger: 'blur' }
-        ],
+        ]
       },
       tableColumns: SUPPLIER_TECHNOLOGY,
       tableData: [],
@@ -227,20 +266,20 @@ export default {
           value: 'supplierType',
           label: '供应商类型',
           type: 'select',
-          initVal:'PP',
+          initVal: 'PP',
           options: [
             // {
             //   label:'一般',
             //   value:'GP'
             // },
             {
-              label:'生产',
-              value:'PP'
+              label: '生产',
+              value: 'PP'
             },
             {
-              label:'共用',
-              value:'PD'
-            },
+              label: '共用',
+              value: 'PD'
+            }
           ]
         },
         {
@@ -249,94 +288,96 @@ export default {
           type: 'select',
           options: [
             {
-              label:'正式',
-              value:'1'
+              label: '正式',
+              value: '1'
             },
             {
-              label:'临时',
-              value:'0'
+              label: '临时',
+              value: '0'
             },
             {
-              label:'蓄水池',
-              value:'2'
+              label: '蓄水池',
+              value: '2'
             }
           ]
-        },
+        }
       ],
       supplierChoose: SUPPLIER_CHOOSE,
-      isShowBdlSupplier:false,
+      isShowBdlSupplier: false,
       selectTableData: [],
       suppliersName: [],
       extraData: {
-        cdlOption:'',
-        bdlOption:'',
-        tabelSta:false
+        cdlOption: '',
+        bdlOption: '',
+        tabelSta: false
       },
-      tablenewData:[],
-      stuffId:'',
+      tablenewData: [],
+      stuffId: '',
       originalData: [],
       categoryId: '',
-      tabelListLength:''
+      tabelListLength: ''
     }
   },
   mixins: [pageMixins],
   created() {
-    if(this.$route.query.stuffId) {
+    if (this.$route.query.stuffId) {
       this.stuffId = this.$route.query.stuffId
       this.viewSta = true
-    }else{
+    } else {
       this.viewSta = false
     }
     this.initTechnology()
     this.initBdlSelect()
     this.initCbdSelect()
   },
-  computed:{
+  computed: {
     isAdd() {
-      return this.tableData.filter((item)=>{
-        return !item.id
-      }).length !== 0
-    },
+      return (
+        this.tableData.filter((item) => {
+          return !item.id
+        }).length !== 0
+      )
+    }
   },
   methods: {
-    handleClose(){
-      if(this.isAdd) {
+    handleClose() {
+      if (this.isAdd) {
         this.tabelSta = false
       }
     },
-    tabelEdit(){
+    tabelEdit() {
       this.tabelSta = false
       this.extraData.tabelSta = true
     },
-    edit(){
+    edit() {
       this.viewSta = false
     },
     initBdlSupplier() {
-      let data= {
-        stuffId:this.stuffId,
+      let data = {
+        stuffId: this.stuffId,
         size: this.page.pageSize,
         current: this.page.currPage
       }
-      if( this.stuffId!=''){
-        searchBdlTableList(data).then(res => {
-          if(res.code == 200) {
-            if(res.data.length > 0){
+      if (this.stuffId != '') {
+        searchBdlTableList(data).then((res) => {
+          if (res.code == 200) {
+            if (res.data.length > 0) {
               this.tableData = res.data
               this.tabelListLength = this.tableData.length
-              for(let item of this.tableData){
-                for(let val of  this.extraData.bdlOption){
-                  if(item.bdlType == val.code){
+              for (let item of this.tableData) {
+                for (let val of this.extraData.bdlOption) {
+                  if (item.bdlType == val.code) {
                     item.bdlType = val.name
                   }
                 }
               }
-              this.tableData.forEach((item) =>{
+              this.tableData.forEach((item) => {
                 item.supplierId = item.supplierSubId
               })
               this.originalData = _.cloneDeep(res.data)
               this.page.totalCount = res.total
               this.isShowBdlSupplier = true
-            }else{
+            } else {
               this.tableData = []
             }
           }
@@ -346,8 +387,8 @@ export default {
     initBdlSelect() {
       let keys = 'BDL_TYPE'
       let parentId = -1
-      dataDic(keys,parentId).then(res => {
-        if(res.code == 200) {
+      dataDic(keys, parentId).then((res) => {
+        if (res.code == 200) {
           this.extraData.bdlOption = res.data.BDL_TYPE
           this.initBdlSupplier()
         }
@@ -356,136 +397,144 @@ export default {
     initCbdSelect() {
       let keys = 'cbd_level'
       let parentId = -1
-      dataDic(keys,parentId).then(res => {
-        if(res.code == 200) {
+      dataDic(keys, parentId).then((res) => {
+        if (res.code == 200) {
           this.extraData.cdlOption = res.data.cbd_level
         }
       })
     },
     initTechnology() {
-     let id = this.$route.query.stuffId
-      searchTechnologyForm(id).then(res => {
+      let id = this.$route.query.stuffId
+      searchTechnologyForm(id).then((res) => {
         this.formData.stuffCode = res.data.stuffCode
         this.formData.stuffName = res.data.stuffName
         this.formData.stuffNameDe = res.data.stuffNameDe
         this.formData.stuffMemo = res.data.stuffMemo
         this.formData.moldBudgetType = res.data.moldBudgetType
-        this.iniFormData.stuffCode = JSON.parse(JSON.stringify(res.data.stuffCode))
-        this.iniFormData.stuffName = JSON.parse(JSON.stringify(res.data.stuffName))
-        this.iniFormData.stuffNameDe = JSON.parse(JSON.stringify(res.data.stuffNameDe))
-        this.iniFormData.stuffMemo = JSON.parse(JSON.stringify(res.data.stuffMemo))
-        this.iniFormData.moldBudgetType = JSON.parse(JSON.stringify(res.data.moldBudgetType))
-
+        this.iniFormData.stuffCode = JSON.parse(
+          JSON.stringify(res.data.stuffCode)
+        )
+        this.iniFormData.stuffName = JSON.parse(
+          JSON.stringify(res.data.stuffName)
+        )
+        this.iniFormData.stuffNameDe = JSON.parse(
+          JSON.stringify(res.data.stuffNameDe)
+        )
+        this.iniFormData.stuffMemo = JSON.parse(
+          JSON.stringify(res.data.stuffMemo)
+        )
+        this.iniFormData.moldBudgetType = JSON.parse(
+          JSON.stringify(res.data.moldBudgetType)
+        )
       })
     },
- 
+
     addNew() {
       // if(!this.tabelSta){
-        // this.tabelSta = false
-        this.newAddDialogVisible = true
-        
-        // this.extraData.tabelSta = true
-        this.suppliersName = []
-      // }
+      // this.tabelSta = false
+      this.newAddDialogVisible = true
 
+      // this.extraData.tabelSta = true
+      this.suppliersName = []
+      // }
     },
     changeSupplierVisible() {
       this.newAddDialogVisible = false
     },
     async handleSupplierSearch(val) {
-      const pms ={
+      const pms = {
         ...val,
         // spiReportId:
-        pageNo:val.current,
+        pageNo: val.current
         // supplierType:'PP'
         // pageSize:val.size
       }
-      const res =  await getBasicList(pms)
+      const res = await getBasicList(pms)
       return res
     },
     save(formName) {
       this.categoryId = this.$route.query.categoryId
       this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let data={}
-            if(this.$route.query.stuffId){
-              data = {
-                categoryId:this.categoryId,
-                id:this.$route.query.stuffId,
-                ...this.formData
-              }
-            }else{
-              data = {
-                categoryId:this.categoryId,
-                ...this.formData
-              }
+        if (valid) {
+          let data = {}
+          if (this.$route.query.stuffId) {
+            data = {
+              categoryId: this.categoryId,
+              id: this.$route.query.stuffId,
+              ...this.formData
             }
-            technologySave(data).then(res => {
-              if(res.code == '200') {
-                this.isShowBdlSupplier = true
-                this.stuffId = res.data
-                // window.close()
-                if(window.opener){
-                    window.opener.location.reload()
-                }
-                iMessage.success('保存成功')
-                // this.$route.query.stuffId =res.data
-                this.$router.replace({query:{...this.$route.query,stuffId:this.stuffId}})
-                this.viewSta = true
-                this.initTechnology()
-              }
-              if(res.code == '1') {
-                iMessage.error(res.desZh)
-              }
-            })
           } else {
-            return false;
+            data = {
+              categoryId: this.categoryId,
+              ...this.formData
+            }
           }
-        })
+          technologySave(data).then((res) => {
+            if (res.code == '200') {
+              this.isShowBdlSupplier = true
+              this.stuffId = res.data
+              // window.close()
+              if (window.opener) {
+                window.opener.location.reload()
+              }
+              iMessage.success('保存成功')
+              // this.$route.query.stuffId =res.data
+              this.$router.replace({
+                query: { ...this.$route.query, stuffId: this.stuffId }
+              })
+              this.viewSta = true
+              this.initTechnology()
+            }
+            if (res.code == '1') {
+              iMessage.error(res.desZh)
+            }
+          })
+        } else {
+          return false
+        }
+      })
     },
     handleSelectionChange(val) {
       this.selectTableData = val
     },
     delrte() {
-      this.$confirm('是否删除已选中数据','提示',{
-        confirmButtonText:'确定',
-        cancelButtonText:'取消',
-        type:'warning'
-      }).then(()=>{
+      this.$confirm('是否删除已选中数据', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         let ids = []
         let deletenNoInterface = []
         let deleetnNeedInterface = []
-        this.selectTableData.forEach(val =>{
-          if(val.id) {
+        this.selectTableData.forEach((val) => {
+          if (val.id) {
             deleetnNeedInterface.push(val)
           } else {
             deletenNoInterface.push(val)
           }
         })
-        deleetnNeedInterface.forEach(val =>{
+        deleetnNeedInterface.forEach((val) => {
           ids.push(val.id)
         })
-        deletenNoInterface.forEach(val =>{
+        deletenNoInterface.forEach((val) => {
           this.tableData = this.tableData.filter((item) => {
-            if(item.uniqueId !== val.uniqueId ) {
-                return item
+            if (item.uniqueId !== val.uniqueId) {
+              return item
             }
           })
         })
-        if(ids.length !== 0) {
-          deleteBdl(ids).then(res => {
-            if( res.code == 200 ) {
+        if (ids.length !== 0) {
+          deleteBdl(ids).then((res) => {
+            if (res.code == 200) {
               iMessage.success('删除成功')
               this.initBdlSupplier()
-
-            } 
-            if( res.code == 1 ) {
+            }
+            if (res.code == 1) {
               iMessage.error(res.desZh)
             }
           })
         }
       })
-      
     },
     downLoadSupplier() {
       downloadSupplierModel()
@@ -494,97 +543,98 @@ export default {
       let formData = new FormData()
       formData.append('file', file.file)
       formData.append('stuffId', this.stuffId)
-      importBdl(formData).then(res =>{
-        if(res.code == 200) {
+      importBdl(formData).then((res) => {
+        if (res.code == 200) {
           iMessage.success('导入成功')
           this.initBdlSupplier()
-        } else if(res.code == 1){
+        } else if (res.code == 1) {
           iMessage.error(res.desZh)
         }
       })
     },
     exportTechnology() {
-      let data= this.formData
+      let data = this.formData
       let item
-      for(item in data) {
-        if(data[item] == null) {
+      for (item in data) {
+        if (data[item] == null) {
           data[item] = ''
         }
       }
       data.stuffId = this.$route.query.stuffId
-      exportBdl(data).then(res=>{
-        if(res.code == 1) {
+      exportBdl(data).then((res) => {
+        if (res.code == 1) {
           iMessage.error('导出失败')
         }
       })
     },
-    handleCallback(val) { 
-      let data =val
-      val.forEach((val,index) => {
+    handleCallback(val) {
+      let data = val
+      val.forEach((val, index) => {
         data[index].supplierName = val.nameZh
         data[index].supplierId = val.subSupplierId
         data[index].stuffId = this.stuffId
       })
 
-      data.forEach(val => {
-          delete val.id
+      data.forEach((val) => {
+        delete val.id
       })
       //拼接两个数组
       let newData = [...this.tableData]
       newData.unshift(...data)
       this.tableData = newData
-    
     },
     SaveNewSupplier() {
       let data = []
-      let dataOld = [ ...this.tableData]
+      let dataOld = [...this.tableData]
       //两个数组取出不同的地方
-      for(let i = 0 ; i < dataOld.length ; i++ ) {
-          if(dataOld[i].id === undefined) {
-            data.push(dataOld[i])
-          } else {
-            for( let j = 0 ; j < this.originalData.length; j++) {
-              if(this.originalData[j].id === dataOld[i].id) {
-                if(dataOld[i].cbdLevel != this.originalData[j].cbdLevel || dataOld[i].bdlType != this.originalData[j].bdlType ) {
-                    data.push(dataOld[i])
-                }
+      for (let i = 0; i < dataOld.length; i++) {
+        if (dataOld[i].id === undefined) {
+          data.push(dataOld[i])
+        } else {
+          for (let j = 0; j < this.originalData.length; j++) {
+            if (this.originalData[j].id === dataOld[i].id) {
+              if (
+                dataOld[i].cbdLevel != this.originalData[j].cbdLevel ||
+                dataOld[i].bdlType != this.originalData[j].bdlType
+              ) {
+                data.push(dataOld[i])
               }
             }
           }
+        }
       }
-      if(data != []) {
-          seaveBdl(data).then(res => {
-            if(res.code == 200){
-              this.initBdlSupplier()
-              this.tabelSta = true
-              this.extraData.tabelSta = false
-              iMessage.success('保存成功')
-            }
-            if(res.code == 1) {
-              iMessage.error(res.desZh)
-            }
-          })
+      if (data != []) {
+        seaveBdl(data).then((res) => {
+          if (res.code == 200) {
+            this.initBdlSupplier()
+            this.tabelSta = true
+            this.extraData.tabelSta = false
+            iMessage.success('保存成功')
+          }
+          if (res.code == 1) {
+            iMessage.error(res.desZh)
+          }
+        })
       }
     },
-    closeWindow(){
-      if(this.$route.query.stuffId){
-        if(JSON.stringify(this.formData) != JSON.stringify(this.iniFormData)){
-          this.$confirm('数据有改动，是否取消此次的改动','提示',{
-            confirmButtonText:'确定',
-            cancelButtonText:'取消',
-            type:'warning'
-          }).then(()=>{
+    closeWindow() {
+      if (this.$route.query.stuffId) {
+        if (JSON.stringify(this.formData) != JSON.stringify(this.iniFormData)) {
+          this.$confirm('数据有改动，是否取消此次的改动', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
             this.viewSta = true
             this.initTechnology()
           })
-        }else{
+        } else {
           this.viewSta = true
         }
-      }else{
+      } else {
         window.close()
       }
-    },
-
+    }
   }
 }
 </script>
@@ -593,11 +643,11 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.iButton-end{
+.iButton-end {
   display: flex;
   justify-content: flex-end;
 }
-.importSupplier{
-   margin: 0px 10px;
+.importSupplier {
+  margin: 0px 10px;
 }
 </style>

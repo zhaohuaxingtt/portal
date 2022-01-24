@@ -11,7 +11,7 @@
     <div
       class="flex-end-center margin-bottom20"
       v-show="data.length > 0"
-      xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+      xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_VERSION_MODIFY'"
     >
       <iButton v-if="!editable" @click="edit">
         {{ language('编辑') }}
