@@ -28,14 +28,10 @@
             <!-- <iButton @click="avtiveSta">{{btnList.avtiveSta}}</iButton> -->
             <iButton
               @click="temporaryStorage"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY'"
+              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_PARTS_MESSAGE_ADD'"
               >{{ language('保存') }}</iButton
             >
-            <iButton
-              @click="cancel"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY'"
-              >{{ language('取消') }}</iButton
-            >
+            <iButton @click="cancel">{{ language('取消') }}</iButton>
           </div>
         </div>
         <div class="elForm">

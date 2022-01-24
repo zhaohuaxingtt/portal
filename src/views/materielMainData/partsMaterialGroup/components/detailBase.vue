@@ -3,7 +3,7 @@
     <div
       class="button-top margin-bottom20"
       v-if="!readOnly"
-      xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_BASEINFO_MODIFY'"
+      xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'"
     >
       <div v-if="editSta">
         <iButton @click="edit">{{ language('编辑') }}</iButton>
@@ -245,7 +245,6 @@ import iTableCustom from '@/components/iTableCustom'
 import BasicIDialog from './basicIDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import {
-  sixPartNumList,
   savePartsMaterial,
   deleteSizeParts,
   partMaterialDetail,

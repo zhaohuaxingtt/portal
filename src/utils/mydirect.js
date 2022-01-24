@@ -33,6 +33,12 @@ Vue.directive('permission', {
     //去除控件传参中存在换行空格等情况
     const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
     //-----------------------2022-1-20 修改权限配置内容end------------------------------
+
+    //-----------------------2022-1-24 增加默认不限制的key-----------------------------------------------
+    if (value === 'TRUE') {
+      return true
+    }
+    //-----------------------2022-1-24 增加默认不限制的key end-----------------------------------------------
     if (isNeedJudgePermission()) {
       return true
     } else {

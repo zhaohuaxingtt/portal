@@ -26,7 +26,7 @@
       <iButton
         v-if="editTable"
         @click="saveCbd"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_ADD'|'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_MODIFY'"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_ADD|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_MODIFY'"
         >{{ language('保存') }}</iButton
       >
     </div>

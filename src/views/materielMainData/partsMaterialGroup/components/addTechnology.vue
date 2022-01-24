@@ -9,16 +9,20 @@
           {{ language(formData.stuffCode) }} {{ language(formData.stuffName) }}
         </span>
       </div>
-      <div
-        class="ibutton-end"
-        v-if="!this.$route.query.readOnly"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY'|'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'"
-      >
+      <div class="ibutton-end" v-if="!this.$route.query.readOnly">
         <div v-if="viewSta">
-          <iButton @click="edit">{{ language('编辑') }}</iButton>
+          <iButton
+            @click="edit"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY'"
+            >{{ language('编辑') }}</iButton
+          >
         </div>
         <div v-else>
-          <iButton @click="save('formData')">{{ language('保存') }}</iButton>
+          <iButton
+            @click="save('formData')"
+            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'"
+            >{{ language('保存') }}</iButton
+          >
           <iButton @click="closeWindow">{{ language('取消') }}</iButton>
         </div>
       </div>

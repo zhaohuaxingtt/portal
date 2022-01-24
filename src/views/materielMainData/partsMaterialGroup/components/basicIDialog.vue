@@ -75,13 +75,13 @@
       <iButton
         v-if="readOnly ? false : !isCheck"
         @click="submit"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY'"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'"
         >{{ language('保存') }}</iButton
       >
       <iButton
         v-if="readOnly ? false : !isCheck"
         @click="reset"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY'"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'"
         >{{ language('重置') }}</iButton
       >
       <iButton @click="clearDialog">{{ language('退出') }}</iButton>
