@@ -82,9 +82,23 @@
         <span class="monthlyCompare">{{
           language('LK_YUEFENBIJIAO', '月份比较')
         }}</span>
-        <el-date-picker class="monthlyPosition" v-model="form['yearMonthOne']" type="month" value-format="yyyyMM" placeholder="开始月份" :picker-options="startpickerOptions">
+        <el-date-picker
+          class="monthlyPosition"
+          v-model="form['yearMonthOne']"
+          type="month"
+          value-format="yyyyMM"
+          placeholder="开始月份"
+          :picker-options="startpickerOptions"
+        >
         </el-date-picker>
-        <el-date-picker class="monthlyPositionTwo" v-model="form['yearMonthTwo']" type="month" value-format="yyyyMM" placeholder="结束月份"  :picker-options="endpickerOptions">
+        <el-date-picker
+          class="monthlyPositionTwo"
+          v-model="form['yearMonthTwo']"
+          type="month"
+          value-format="yyyyMM"
+          placeholder="结束月份"
+          :picker-options="endpickerOptions"
+        >
         </el-date-picker>
       </el-form>
     </iSearch>
@@ -148,23 +162,40 @@ export default {
       dataTitle: '', //时间title
       num: '', //
       dataTitleTwo: '',
-      currentMonth: '' ,//当前月份
+      currentMonth: '', //当前月份
       startpickerOptions: {
-          disabledDate: (time) => {
-            if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']){
-              return time.getMonth() == 11
-            }
-          },
+        disabledDate: (time) => {
+          const e = this.form.yearMonthTwo
+          const endTime = (Number(e) - 1).toString()
+          const startDate = new Date(
+            moment(endTime).format('yyyy-MM-[01] 00:00:00')
+          )
+          const endDate = new Date(moment(endTime).format('yyyy-MM'))
+          if (
+            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['yearMonthTwo']
+          ) {
+            return time > endDate || time < startDate
+          }
+          if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']) {
+            return time.getMonth() == 11
+          }
+        }
       },
       endpickerOptions: {
         disabledDate: (time) => {
           const e = this.form.yearMonthOne
           const endTime = (Number(e) + 1).toString()
-          const startDate = new Date(moment(endTime).format('yyyy-MM-[01] 00:00:00'))
+          const startDate = new Date(
+            moment(endTime).format('yyyy-MM-[01] 00:00:00')
+          )
           const endDate = new Date(moment(endTime).format('yyyy-MM'))
-          if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] && this.form['yearMonthOne']){
+          if (
+            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['yearMonthOne']
+          ) {
             return time > endDate || time < startDate
-           }
+          }
         }
       }
     }
@@ -209,15 +240,15 @@ export default {
           this.getVersionMonth = res.data
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
-          this.form['yearMonthOne']=this.getVersionMonth[0].lastMonth
-            this.form['yearMonthTwo']=this.getVersionMonth[0].lastLastMonth
-            this.getdifferenceAnalysis()
+          this.form['yearMonthOne'] = this.getVersionMonth[0].lastMonth
+          this.form['yearMonthTwo'] = this.getVersionMonth[0].lastLastMonth
+          this.getdifferenceAnalysis()
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    
+
     //获取列表数据
     getdifferenceAnalysis() {
       this.form.pageNo = 1
@@ -232,7 +263,10 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.pages
           //给表格tatile赋值
-          if (this.form['yearMonthOne']=='' && this.form['yearMonthTwo']=='') {
+          if (
+            this.form['yearMonthOne'] == '' &&
+            this.form['yearMonthTwo'] == ''
+          ) {
             this.dataTitle = form['VersionMonthOne']
             this.dataTitleTwo = form['VersionMonthTwo']
           } else {

@@ -174,6 +174,18 @@ export default {
       currentMonth: '', //当前月份
       startpickerOptions: {
         disabledDate: (time) => {
+           const e = this.form.yearMonthTwo
+          const endTime = (Number(e) - 1).toString()
+          const startDate = new Date(
+            moment(endTime).format('yyyy-MM-[01] 00:00:00')
+          )
+          const endDate = new Date(moment(endTime).format('yyyy-MM'))
+          if (
+            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['yearMonthTwo']
+          ) {
+            return time > endDate || time < startDate
+          }
           if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']) {
             return time.getMonth() == 11
           }
