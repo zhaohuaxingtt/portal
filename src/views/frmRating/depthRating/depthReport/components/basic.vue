@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iDatePicker, iSelect, icon } from 'rise';
+import { iCard, iInput, iDatePicker, iSelect, icon ,iMessage} from 'rise';
 import tableList from '@/components/commonTable';
 import { depthResult } from '../data';
 import { getSummarize, postSummarize } from '@/api/frmRating/depthRating/depthReport.js'
@@ -196,6 +196,11 @@ export default {
       // 	return
       // }
       let params = _.cloneDeep(this.info)
+        if((this.info.deepCommentRatingResults==""||this.info.deepCommentRatingResults==null)&&(this.info.trackFrequencyAgain==""||this.info.trackFrequencyAgain==null)){
+          iMessage.warn('请填写状态与后续跟踪频率')
+               return false
+      } 
+
     //   switch (params.deepCommentRatingResults) {
     //     case '红':
     //       params.deepCommentRatingResults = 'RED'
