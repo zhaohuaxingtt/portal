@@ -145,10 +145,8 @@ module.exports = {
     host: '0.0.0.0',
     port: 8080,
     https: false,
-    hotOnly: true,
     hot: true,
     compress: true,
-    disableHostCheck: true,
     proxy: {
       [process.env.VUE_APP_PROJECT]: {
         target: `http://${BASE_IP}:8005/projectmgt`,

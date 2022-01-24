@@ -30,7 +30,7 @@ import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
 import RouterAssistant from './RouterAssistant'
-import RouterPopupWindowMa from './RouterPopupWindowMa'
+/* import RouterPopupWindowMa from './RouterPopupWindowMa' */
 
 import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
@@ -212,7 +212,6 @@ export default {
         ...RouterBiz,
         ...RouterAchievement,
         ...RouterAssistant,
-        ...RouterPopupWindowMa,
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
