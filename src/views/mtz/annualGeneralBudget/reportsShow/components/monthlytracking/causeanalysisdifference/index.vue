@@ -1,6 +1,6 @@
 <!--差异原因分析--->
 <template>
-  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES_PAGE|月度跟踪差异原因分析页面'>
+  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES_PAGE'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -209,39 +209,15 @@ export default {
           this.getVersionMonth = res.data
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
-          this.getCurrentMonth()
+          this.form['yearMonthOne']=this.getVersionMonth[0].lastMonth
+            this.form['yearMonthTwo']=this.getVersionMonth[0].lastLastMonth
+            this.getdifferenceAnalysis()
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    //获取当月月份
-    getCurrentMonth() {
-      var dd = new Date()
-      var m = dd.getMonth() + 1
-      this.currentMonth = m
-      this.getyearMonthDropDown()
-    },
-    //获取年月份
-    getyearMonthDropDown() {
-      yearMonthDropDown()
-        .then((res) => {
-          if (this.currentMonth == '1' || this.currentMonth == '2') {
-            var arr = ['', '']
-            this.form['yearMonthOne']=arr[0]
-            this.form['yearMonthTwo']=arr[1]
-            this.getdifferenceAnalysis()
-          } else {
-            this.getMonthList = res.data
-            this.form['yearMonthOne']=this.getMonthList[1].code
-            this.form['yearMonthTwo']=this.getMonthList[0].code
-            this.getdifferenceAnalysis()
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+    
     //获取列表数据
     getdifferenceAnalysis() {
       this.form.pageNo = 1

@@ -362,3 +362,21 @@ export function uploadPageFile(pageId,data) {
     })
 }
 
+/**
+ * 创建主流程图
+ */
+ export function createFlowchartInfo(data) {
+    return procsRequest({
+        url: `/flowchart_mgr/main/flowchart.json`,
+        method: 'POST',
+        data,
+    })
+ }
+
+// 获取主流程图信息
+export function getFlowchartInfo() {
+    return procsRequest({
+        url: `/flowchart_mgr/main/flowchart.json`,
+        method: 'get'
+    })
+}
