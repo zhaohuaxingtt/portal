@@ -244,7 +244,9 @@ export default {
                   categoryNameZh: userDTO.categoryNameZh,
                   orgFullCode: position.orgFullCode,
                   deptLogo: position.deptLogo,
-                  wechat: userDTO.wechat
+                  wechat: userDTO.wechat,
+                  profile: userDTO.profile,
+                  profileId: userDTO.profileId
                 }
                 if (
                   Object.keys(this.searchItem).length > 0 &&
