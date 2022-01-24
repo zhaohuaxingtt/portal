@@ -78,18 +78,25 @@
           </el-col>
           <!-- 地区 -->
           <el-col :span="4">
-            <el-form-item :label="$t('地区')">
-              <el-cascader
-                v-model="form.area"
-                :options="formGoup.areaList"
-                :props="{ multiple: true }"
-                :clearable="true"
-                popper-class="area-select"
-                :placeholder="'全部'"
-                collapse-tags
-                filterable
-              ></el-cascader>
-            </el-form-item>
+            <el-tooltip
+              class="item"
+              effect="light"
+              content="请输入国家，城市名称"
+              placement="top"
+            >
+              <el-form-item :label="$t('地区')">
+                <el-cascader
+                  v-model="form.area"
+                  :options="formGoup.areaList"
+                  :props="{ multiple: true }"
+                  :clearable="true"
+                  popper-class="area-select"
+                  :placeholder="'全部'"
+                  collapse-tags
+                  filterable
+                ></el-cascader>
+              </el-form-item>
+            </el-tooltip>
           </el-col>
 
           <div class="search">
