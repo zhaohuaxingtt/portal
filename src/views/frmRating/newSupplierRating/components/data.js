@@ -99,38 +99,38 @@ export const tableTitle = [
   }
 ]
 export const supplierMessageTitle = [
-  {
+  {//供应商名称
     key: 'nameZh',
     name: 'LK_GONGYINGSHANGMINGCHENG',
     icons: '',
     tip: '',
-    permission: 'LK_GONGYINGSHANGMINGCHENG'
+    permission: 'SUPPLIER_BASEINFO_SUPPLIERNAME'
   },
-  {
+  {//供应商名称（中）
     key: 'shortNameZh',
     name: 'SupplierAbbreviationZh',
-    permission: 'SupplierAbbreviationZh'
+    permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH'
   },
-  {
+  {//统一社会信用代码
     key: 'socialcreditNo',
     name: 'UnifySocialCreditCode',
     icons: '',
     tip: '',
     permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE'
   },
-  {
+  {//供应商英文名
     key: 'nameEn',
     name: 'SupplierEn',
     icons: '',
     tip: '',
     permission: 'SUPPLIER_BASEINFO_SUPPLIEREN'
   },
-  {
+  {//供应商简称（英）
     key: 'shortNameEn',
     name: 'SupplierAbbreviationEn',
     permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN'
   },
-  {
+  {//DUNS
     key: 'dunsCode',
     name: 'DUNS',
     permission: 'SUPPLIER_BASEINFO_DUNS'
