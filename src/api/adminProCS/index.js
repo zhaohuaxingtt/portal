@@ -362,3 +362,86 @@ export function uploadPageFile(pageId,data) {
     })
 }
 
+
+
+// 查询流程常见问题
+export function queryProcessFAQList(id, data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/pageList.json`,
+        method: 'get',
+        params: data,
+    })
+}
+// 流程页面绑定问题
+export function addPageIssue(id, data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/addPageIssue.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 新建流程问题
+export function ProcessAddFAQ(pid, data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${pid}/createIssue.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 修改流程问题
+export function ProcessEditFAQ(id, data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/updateIssue.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+// 删除流程问题
+export function deleteProcessFAQ(id) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/deleteIssue.json`,
+        method: 'delete'
+    })
+}
+
+
+
+// 查询流程附件/样张
+export function queryProcessFileList(processId,data) {
+    return procsRequest({
+        url: `/workflow_file_mgr/${processId}/fileList.json`,
+        method: 'get',
+        parmas:data
+    })
+}
+// 添加流程附件/样张
+export function addProcessFile(id,data) {
+    return procsRequest({
+        url: `/workflow_file_mgr/${id}/addFile.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 删除流程附件/样张
+export function deleteProcessFile(id) {
+    return procsRequest({
+        url: `/workflow_file_mgr/${id}/deleteFile.json`,
+        method: 'delete'
+    })
+}
+// 绑定流程附件/样张
+export function addPageSample(id,data) {
+    return procsRequest({
+        url: `/workflow_file_mgr/${id}}/addPageSample.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+
+
+
