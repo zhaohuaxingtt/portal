@@ -525,7 +525,8 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span>{{ resultObj[scope.row.conclusion] }}</span>
+                <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
+                <!-- <span>{{ resultObj[scope.row.conclusion] }}</span> -->
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->
@@ -1011,9 +1012,24 @@
       ></updateDateNEW>
     
     </iDialog>
+    <!-- 列表维护结论 -->
+    <editprotectConclusion
+      v-if="dialogStatusManageObj.editprotectConclusion"
+      :open="dialogStatusManageObj.editprotectConclusion"
+      @close="dialogStatusManageObj.editprotectConclusion = false"
+      @flushTable="flushTable"
+      @closeDialog="closeDialog"
+      :selectedTableData="selectedTableData"
+      :meetingInfo="meetingInfo"
+      :isOther="isOther"
+      :beforeResult="beforeResult"
+      :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
+      :conclusionStatus="conclusionStatus"
+    />
   </iPage>
 </template>
 <script>
+import editprotectConclusion from './component/editprotectConclusion.vue'
 import updateDateNEW from './component/updateDateNEW'
 import batchAdjustment from './component/batchAdjustment'
 import sendAgenda from './component/sendAgenda'
@@ -1065,6 +1081,7 @@ import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
 export default {
   mixins: [pageMixins],
   components: {
+    editprotectConclusion,
     updateDateNEW,
     batchAdjustment,//批量调整
     sendAgenda,//发送大会议程
@@ -1094,6 +1111,7 @@ export default {
   },
   data() {
     return {
+      editprotectConclusionDialog:false,
       updateDateNEWDialog:false,
       resultObj:{
         '01': '待定',
@@ -1129,6 +1147,7 @@ export default {
       editNewSummary: false,
       //弹窗状态管理对象
       dialogStatusManageObj: {
+        editprotectConclusion:false,
         openAddRestDialog: false,
         openAddTopicDialog: false,
         openProtectInfoDialog: false,
@@ -1176,6 +1195,7 @@ export default {
       beforeResult: '',
       sendAgendaDialog:false,//发送大会议程
       batchAdjustmentDialog:false,//批量调整
+      conclusionStatus:null
     }
   },
   watch: {
@@ -2033,8 +2053,9 @@ export default {
             iMessage.success('结束会议失败！')
           }
         })
-
+ 
       }else{
+        debugger
         this.openDialog('openProtectConclusion')
       }
       return
@@ -2751,10 +2772,14 @@ export default {
     },
     //点击纪要  维护结论
     handleResult(row){
-      console.log(row.result);   
-      // this.editprotectConclusionDialog=true
-      // this.editprotectConclusionDialogRow=row
-      // console.log(this.editprotectConclusionDialogRow);
+      console.log(row.conclusion);   
+      // 待定和Last Call可以改结论
+      if(row.conclusion == '01' ||  row.conclusion == '05'){
+        this.openDialog('editprotectConclusion')
+        this.conclusionStatus=row.conclusion
+      }else{
+        iMessage.success('改议题不支持修改结论')
+      }
     },
     //跳转到gp  CSC展示 id myCscDetails  手工议题 current=1  别的current =3
     // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)

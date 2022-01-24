@@ -1,4 +1,4 @@
-<!-- 结束结论 -->
+<!-- 结束结论   二次修改-->
 <template>
   <iDialog
     title="维护结论"
@@ -10,7 +10,7 @@
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
-  第一次
+  第二次
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -36,7 +36,7 @@
               <el-option
                 :value="item"
                 :label="item.conclusionName"
-                v-for="(item, index) of themenConclusionArrObj"
+                v-for="(item, index) of themenConclusionArrObjALL"
                 :key="index"
               ></el-option>
             </iSelect>
@@ -217,7 +217,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
+import { modifyConclusionByCscId ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
@@ -232,7 +232,8 @@ import {
   iMessage,
   icon
 } from 'rise'
-import { themenConclusionArrObj, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
+import { themenConclusionArrObj,themenConclusionArrObjALLLastCall,
+themenConclusionArrObjALL, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
 import { getMettingList } from '@/api/meeting/home'
 import { updateThemen } from '@/api/meeting/details'
 import dayjs from 'dayjs'
@@ -251,6 +252,9 @@ export default {
     icon
   },
   props: {
+    conclusionStatus:{
+      type:String | Number
+    },
     autoOpenProtectConclusionObj: {
       type: Object,
       default: () => {
@@ -315,6 +319,8 @@ export default {
             ? true
             : false,
         themenConclusionArrObj,
+        themenConclusionArrObjALL,
+        themenConclusionArrObjALLLastCall,
         tableListData: [],
         ruleForm: {
           conclusion: {
@@ -364,6 +370,8 @@ export default {
             ? true
             : false,
         themenConclusionArrObj,
+        themenConclusionArrObjALL,
+        themenConclusionArrObjALLLastCall,
         tableListData: [],
         ruleForm: {
           conclusion: {
@@ -390,6 +398,12 @@ export default {
     }
   },
   mounted() {
+    // 初始化下拉框数据
+    if(this.conclusionStatus=='05'){
+      this.themenConclusionArrObjALL=themenConclusionArrObjALLLastCall
+    }
+    console.log(this.meetingInfo,this.selectedTableData)
+    // return 
     const curObj = this.autoOpenProtectConclusionObj
       ? this.autoOpenProtectConclusionObj
       : this.selectedTableData[0]
@@ -452,50 +466,6 @@ export default {
     
     //判断MANUAL --临时议题    GP  --上会议题  结论不一样
     console.log(curObj.type);
-
-    // if (curObj.type == "MANUAL") {
-    //   themenConclusionArrObjALL:[
-    //     {
-    //       conclusionCsc: "01",
-    //       conclusionName: "待定",
-    //     },
-    //     {
-    //       conclusionCsc: "02",
-    //       conclusionName: "通过",
-    //     },
-    //     {
-    //       conclusionCsc: "04",
-    //       conclusionName: "不通过",
-    //     },
-    //   ]
-    // }else{
-    //   themenConclusionArrObj:[
-    //     {
-    //       conclusionCsc: "01",
-    //       conclusionName: "待定",
-    //     },
-    //     {
-    //       conclusionCsc: "02",
-    //       conclusionName: "通过",
-    //     },
-    //     {
-    //       conclusionCsc: "03",
-    //       conclusionName: "预备会议通过",
-    //     },
-    //     {
-    //       conclusionCsc: "04",
-    //       conclusionName: "不通过",
-    //     },
-    //     {
-    //       conclusionCsc: "05",
-    //       conclusionName: "Last Call",
-    //     },
-    //     {
-    //       conclusionCsc: "06",
-    //       conclusionName: "分段定点",
-    //     },
-    //   ]
-    // }
   },
   watch: {
     'ruleForm.isFrozenRs': {
@@ -589,7 +559,7 @@ export default {
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
-    // 提交 endCscThemen
+    // 提交 modifyConclusionByCscId
     handleSure(){
       console.log(this.selectedRow);
       const params = {
@@ -601,7 +571,7 @@ export default {
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
-      endCscThemen(params).then((res) => {
+      modifyConclusionByCscId(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
