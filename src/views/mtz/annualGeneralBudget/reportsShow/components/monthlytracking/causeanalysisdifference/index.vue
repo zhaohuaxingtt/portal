@@ -140,7 +140,7 @@ export default {
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
-      versionMonth: 'm', //比较版本
+      versionMonth: 'M', //比较版本
       getVersionMonth: [], //获取后端传回来的比较版本
       getMonthList: '', //获取默认月份
       mothlyValue: '',
@@ -209,39 +209,15 @@ export default {
           this.getVersionMonth = res.data
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
-          this.getCurrentMonth()
+          this.form['yearMonthOne']=this.getVersionMonth[0].lastMonth
+            this.form['yearMonthTwo']=this.getVersionMonth[0].lastLastMonth
+            this.getdifferenceAnalysis()
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    //获取当月月份
-    getCurrentMonth() {
-      var dd = new Date()
-      var m = dd.getMonth() + 1
-      this.currentMonth = m
-      this.getyearMonthDropDown()
-    },
-    //获取年月份
-    getyearMonthDropDown() {
-      yearMonthDropDown()
-        .then((res) => {
-          if (this.currentMonth == '1' || this.currentMonth == '2') {
-            var arr = ['', '']
-            this.form['yearMonthOne']=arr[0]
-            this.form['yearMonthTwo']=arr[1]
-            this.getdifferenceAnalysis()
-          } else {
-            this.getMonthList = res.data
-            this.form['yearMonthOne']=this.getMonthList[1].code
-            this.form['yearMonthTwo']=this.getMonthList[0].code
-            this.getdifferenceAnalysis()
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+    
     //获取列表数据
     getdifferenceAnalysis() {
       this.form.pageNo = 1

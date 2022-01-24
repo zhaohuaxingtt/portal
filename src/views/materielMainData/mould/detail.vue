@@ -1,7 +1,8 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{ language($route.query.id ? '编辑' : '新增') }}{{language('模具材料组')}}
+      {{ language($route.query.id ? '编辑' : '新增')
+      }}{{ language('模具材料组') }}
     </pageHeader>
     <theDetailBase />
     <div v-if="$route.query.id">
@@ -17,6 +18,7 @@
         :query-right-fun="queryRightFun"
         :save-right-fun="saveRightFun"
         :right-data-filter-keys="['categoryCode', 'categoryNameZh']"
+        edit-permission-key="BUTTON_MATERIEL_DATA_MOULD_PARTS_MODIFY"
         left-disabled-prop="isUse"
       />
     </div>

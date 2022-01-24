@@ -18,9 +18,9 @@
                  class="rightNav"
                  @change="changeNav" />
         <!--保存-->
-        <iButton class="margin-left30"
+        <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'" class="margin-left30"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
-        <iButton @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
+        <iButton v-if="$route.query.status=='报告完成'||$route.query.status=='报告审批驳回'"  @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
 				<iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
         <!--查看财报分析结果-->
         <iButton @click="jumpFinancialAnalysis()">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
@@ -59,18 +59,20 @@ export default {
       meeting: false,//会议纪要,
       id: '',
       name: '',
-      supplierId: ""
+      supplierId: "",
+     status:''
     };
   },
   computed: {
     query () {
-      return { id: this.id, name: this.name, supplierId: this.supplierId }
+         return { id: this.id, name: this.name, supplierId: this.supplierId,status:this.status }
     }
   },
   mounted () {
     this.id = this.$route.query.id;
     this.name = this.$route.query.name;
     this.supplierId = this.$route.query.supplierId;
+     this.status = this.$route.query.status;
   },
   methods: {
     changeNav (val) {
