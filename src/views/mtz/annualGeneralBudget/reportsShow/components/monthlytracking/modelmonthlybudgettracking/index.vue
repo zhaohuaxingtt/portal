@@ -1,15 +1,12 @@
 <!--车型预算月度跟踪--->
 <template>
-  <div
+  <!-- <div
     class="OuterFrame"
     v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING"
-  >
+  > -->
     <div
       class="OuterFrame"
-      v-permission="
-        MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE |
-          车型预算月度跟踪页面
-      "
+      v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE"
     >
       <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
         <el-form>
@@ -133,7 +130,7 @@
         />
       </iCard>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -164,7 +161,7 @@ export default {
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
-      versionMonth: 'm', //比较版本
+      versionMonth: 'M', //比较版本
       getVersionMonth: [], //获取后端传回来的比较版本
       versionMonthValue: '', //
       getMonthList: '', //获取默认月份
@@ -174,6 +171,18 @@ export default {
       currentMonth: '', //当前月份
       startpickerOptions: {
         disabledDate: (time) => {
+           const e = this.form.yearMonthTwo
+          const endTime = (Number(e) - 1).toString()
+          const startDate = new Date(
+            moment(endTime).format('yyyy-MM-[01] 00:00:00')
+          )
+          const endDate = new Date(moment(endTime).format('yyyy-MM'))
+          if (
+            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['yearMonthTwo']
+          ) {
+            return time > endDate || time < startDate
+          }
           if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']) {
             return time.getMonth() == 11
           }

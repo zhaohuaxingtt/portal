@@ -30,6 +30,7 @@
 <script>
 import { iInput, iButton } from 'rise'
 import iUpload from '../../components/iUpload'
+// import { createFlowchartInfo } from '@/api/adminProCS';
 export default {
     name: 'baseInfo',
     components: {
@@ -51,6 +52,7 @@ export default {
     methods: {
         save() {
             console.log(this.fileList, this.name, '222')
+
         }
     }
 }

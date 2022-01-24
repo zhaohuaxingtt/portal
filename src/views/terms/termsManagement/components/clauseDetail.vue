@@ -1077,7 +1077,7 @@ export default {
   }
   .title__version {
     margin: 0 1rem 0 3rem;
-    font-size: 8px;
+    font-size: 0.875rem;
     font-family: Arial;
     font-weight: 400;
     line-height: 0px;

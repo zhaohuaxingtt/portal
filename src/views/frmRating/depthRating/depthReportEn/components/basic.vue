@@ -4,7 +4,7 @@
  * @Description:SFRM综合评价
  -->
 <template>
-  <div>
+  <div  >
     <!-- SFRM综合评价 -->
     <iCard title="SFRM Overall evaluation"
            collapse
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iDatePicker, iSelect, icon } from 'rise';
+import { iCard, iInput, iDatePicker, iSelect, icon,iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { depthResult } from '../data';
 import { getSummarize, postSummarize } from '@/api/frmRating/depthRating/depthReport.js'
@@ -193,6 +193,10 @@ export default {
       // 	this.$message.error(this.$t('SPR_FRM_DEP_CHECK'))
       // 	return
       // }
+        if((this.info.deepCommentRatingResults==""||this.info.deepCommentRatingResults==null)&&(this.info.trackFrequencyAgain==""||this.info.trackFrequencyAgain==null)){
+          iMessage.warn('Please fill in the status and follow-up frequency')
+          return false
+      } 
       this.info.lang = 'en'
       postSummarize(this.info)
         .then((result) => {
