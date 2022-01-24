@@ -1025,6 +1025,7 @@
       :beforeResult="beforeResult"
       :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
       :conclusionStatus="conclusionStatus"
+      :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
     />
   </iPage>
 </template>
@@ -2777,6 +2778,7 @@ export default {
       if(row.conclusion == '01' ||  row.conclusion == '05'){
         this.openDialog('editprotectConclusion')
         this.conclusionStatus=row.conclusion
+        this.editprotectConclusionDialogRow=row
       }else{
         iMessage.success('该议题不支持修改结论')
       }

@@ -4,7 +4,10 @@
             :loading="tableLoading"
             :data="tableListData"
             :columns="tableSetting"
+            row-key="id"
             :extraData="extraData"
+            @handle-selection-change="handleSelectChange"
+            ref="table"
             />
 
         <iPagination
@@ -69,6 +72,9 @@ export default {
             } finally {
                 this.tableLoading = false
             }
+        },
+        handleSelectChange(v){
+            this.$emit("selectChange", v)
         }
     },
 }

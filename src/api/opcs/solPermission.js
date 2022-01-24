@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-06 09:54:08
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-17 18:15:51
+ * @LastEditTime: 2022-01-24 17:57:21
  * @FilePath: \front-portal-new\src\api\opcs\solPermission.js
  */
 import axios from '@/utils/axios'
@@ -22,6 +22,14 @@ export function queryList(parmars) {
 export function deleteList(parmars) {
     return requst({
         url: '/opcsSupplier/delete',
+        method: 'POST',
+        data: parmars
+    })
+}
+//应用管理--授权列表--激活
+export function active(parmars) {
+    return requst({
+        url: '/supplier/opcsUser/active',
         method: 'POST',
         data: parmars
     })
