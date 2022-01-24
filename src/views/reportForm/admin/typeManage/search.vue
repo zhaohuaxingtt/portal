@@ -166,7 +166,7 @@ export default {
 				if (res?.code === '200') {
 					this.tableData = res?.data || []
 					this.tableData.map(item => {
-						item.createdAt = moment(item.createdAt).format('YYYY-MM-DD')
+						item.createdAt = moment(item.createdAt).format('YYYY-MM-DD hh:mm:ss')
 					})
 					this.page.totalCount = res.total
 					this.tableLoading = false
