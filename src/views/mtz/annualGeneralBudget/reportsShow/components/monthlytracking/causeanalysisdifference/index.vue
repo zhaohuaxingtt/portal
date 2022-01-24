@@ -116,10 +116,13 @@
         :dataTitleTwo="dataTitleTwo"
       />
       <iPagination
-        @current-change="handleCurrentChange($event, clickQuery)"
-        @size-change="handleSizeChange($event, clickQuery)"
+        @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
+        @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
         background
-        :total="page.total"
+       :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :total="page.totalCount"
       />
     </iCard>
   </div>
@@ -133,7 +136,6 @@ import {
   queryMtzMaterial,
   queryMaterialMedium,
   getVersionData,
-  yearMonthDropDown,
   differenceAnalysis,
   differenceAnalysisExport
 } from '@/api/mtz/reportsShow'
@@ -240,8 +242,8 @@ export default {
           this.getVersionMonth = res.data
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
-          this.form['yearMonthOne'] = this.getVersionMonth[0].lastMonth
-          this.form['yearMonthTwo'] = this.getVersionMonth[0].lastLastMonth
+          this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
+          this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
           this.getdifferenceAnalysis()
         })
         .catch((err) => {
@@ -251,21 +253,18 @@ export default {
 
     //获取列表数据
     getdifferenceAnalysis() {
-      this.form.pageNo = 1
-      this.form.pageSize = 10
+      this.form.pageNo = this.page.currPage
+      this.form.pageSize = this.page.pageSize
       this.form.versionOneName = this.form['VersionMonthTwo']
       this.form.versionTwoName = this.form['VersionMonthTwo']
       differenceAnalysis(this.form)
         .then((res) => {
           this.differenceAnalysis = res.data
-          this.page.total = res.total
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.pages
+          this.page.totalCount = res.total
           //给表格tatile赋值
           if (
-            this.form['yearMonthOne'] == '' &&
-            this.form['yearMonthTwo'] == ''
+            this.form['yearMonthOne'] == null &&
+            this.form['yearMonthTwo'] == null
           ) {
             this.dataTitle = form['VersionMonthOne']
             this.dataTitleTwo = form['VersionMonthTwo']

@@ -1,5 +1,5 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard  style="height:14rem">
     <div class="title">
       <p>{{language('SONGYANG', '送样')}}</p>
       <span class="el-dropdown-link">

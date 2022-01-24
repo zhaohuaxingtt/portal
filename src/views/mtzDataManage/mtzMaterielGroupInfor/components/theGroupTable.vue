@@ -1,13 +1,17 @@
 <template>
   <iCard class="margin-top20">
     <div class="flex-end-center margin-bottom20">
-      <iButton @click="add">
+      <iButton
+        @click="add"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ADD'"
+      >
         {{ language('新建') }}
       </iButton>
       <iButton
         :loading="updateLoading"
         :disabled="activeSta"
         @click="changeStatus(1)"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ACTIVE'"
       >
         {{ language('生效') }}
       </iButton>
@@ -15,13 +19,21 @@
         :loading="updateLoading"
         :disabled="loseAcSta"
         @click="changeStatus(0)"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_DISACTIVE'"
       >
         {{ language('失效') }}
       </iButton>
-      <iButton :disabled="selectedRows.length !== 1" @click="viewRelation">
+      <iButton
+        :disabled="selectedRows.length !== 1"
+        @click="viewRelation"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_VIEW_RELATION'"
+      >
         {{ language('查看关联关系') }}
       </iButton>
-      <button-download :download-method="exportExcel" />
+      <button-download
+        :download-method="exportExcel"
+        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_EXPORT'"
+      />
     </div>
     <i-table-custom
       :loading="tableLoading"
@@ -82,12 +94,12 @@ export default {
       window.open(this.detailUrl)
     },
     changeStatus(val) {
-      const data = this.selectedRows.map(e => {
+      const data = this.selectedRows.map((e) => {
         return { [e.id]: val }
       })
       this.updateLoading = true
       batchUpdateStatus(data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '更新成功')
             this.query()
@@ -95,7 +107,7 @@ export default {
             iMessage.error(res.desZh || '更新失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '更新失败')
         })
         .finally(() => {
@@ -121,10 +133,10 @@ export default {
       let activeLength = ''
       let loseAcLength = ''
       if (val) {
-        activeLength = val.filter(item => {
+        activeLength = val.filter((item) => {
           return item.statusDesc == '有效'
         }).length
-        loseAcLength = val.filter(item => {
+        loseAcLength = val.filter((item) => {
           return item.statusDesc == '无效'
         }).length
       }

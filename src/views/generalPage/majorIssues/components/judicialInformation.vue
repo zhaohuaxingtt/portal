@@ -15,6 +15,7 @@
                   v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION" -->
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -24,7 +25,7 @@
                 @handleSelectionChange="handleSelectionChange"
                 @openPage="handleOpenPage"
                 :openPageGetRowData="true"
-                v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION">
+                >
       <template v-slot:currency="scope">
         <span>{{currency(scope.row.currency)}}</span>
       </template>

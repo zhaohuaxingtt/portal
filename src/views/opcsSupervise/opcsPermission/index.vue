@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-20 10:07:06
+ * @LastEditTime: 2022-01-24 17:57:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -35,7 +35,7 @@
         <div class="floatright" style="margin-bottom: 20px">
           <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
           <i-button  v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <i-button  v-if="stateAdmin" >{{ language('JIHUO','激活') }}</i-button>
+          <i-button  v-if="stateAdmin" @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
           <i-button  v-if="stateAdmin" @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button  v-if="stateAdmin||stateOpcs" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
@@ -138,7 +138,8 @@ import {
   queryList,
   exportFile,
   getListByParam,
-  opcsSupplier
+  opcsSupplier,
+  active
 } from '@/api/opcs/solPermission'
 export default {
   mixins: [pageMixins],
@@ -203,6 +204,22 @@ export default {
     this.getTableData()
   },
   methods: {
+         //激活
+    activeBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      active({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+            this.getTableData()
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
+    },
     //修改表格改动列
     handleSelectionChange(val) {
       this.selectTableData = val
