@@ -1,8 +1,6 @@
 <template>
   <div
-    v-permission.auto="
-      MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE | 年度预算科室页面
-    "
+    v-permission.auto=" MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE"
     class="outFrame"
   >
     <!-- <div
