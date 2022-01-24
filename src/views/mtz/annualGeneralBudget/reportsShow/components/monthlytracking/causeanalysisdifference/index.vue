@@ -67,7 +67,6 @@
         </el-form-item>
         <div
           class="showMe"
-          v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF"
         >
           <span>{{ language('只看自己 ') }}</span>
           <el-switch

@@ -6,9 +6,7 @@
   > -->
   <div
     class="OuterFrame"
-    v-permission="
-      MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE
-    "
+    v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE"
   >
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
@@ -76,7 +74,6 @@
         </el-form-item>
         <div
           class="showMe"
-          v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF"
         >
           <span>{{ language('只看自己 ') }}</span>
           <el-switch
