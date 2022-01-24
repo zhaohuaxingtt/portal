@@ -52,7 +52,7 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span class="only-myself" >{{language('只看自己 ')}}
+          <span class="only-myself" v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF">{{language('只看自己 ')}}
             <el-switch 
               v-model="searchForm.onlySeeMySelf" 
               active-color="#1660F1"
