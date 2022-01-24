@@ -21,6 +21,7 @@
         </i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"  -->
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -30,7 +31,7 @@
                 @handleFileDownload="handleFileDownload"
                 @handleExampleDownload="handleExampleDownload"
                 :index="true"
-                v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS" />
+                />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
                        :loading="attachmentLoading"
