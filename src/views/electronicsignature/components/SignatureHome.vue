@@ -276,9 +276,9 @@ export default {
       if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
         return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
       }
-      // let companyNo = this.selSinaturedatas[0].companyNumber
-      // let f = this.selSinaturedatas.find(e => e.companyNumber != companyNo)
-      // if(f) return this.$message.error(this.language('请选择相同公司编码的数据进行批量签署'))
+      let companyNo = this.selSinaturedatas[0].companyNumber
+      let f = this.selSinaturedatas.find(e => e.companyNumber != companyNo)
+      if(f) return this.$message.error(this.language('请选择相同公司编码的数据进行批量签署'))
       let reqData = filterRes.map(item => ({
         companyNumber: item.companyNumber,
         docNo: item.docNo,
