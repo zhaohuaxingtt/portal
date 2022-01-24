@@ -10,7 +10,7 @@ export const navList = [
     activePath: '/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget',
     key: '年度预算',
     permissionKey:'MTZ_REPORT_ANNUAL_BUDGET',
-    permissionName:'年度预算',
+    // permissionName:'年度预算',
 
   },
   {
@@ -20,7 +20,7 @@ export const navList = [
     activePath: '/mtz/annualGeneralBudget/reportsShow/monthlyTracking',
     key: '月度跟踪',
     permissionKey:'MTZ_REPORT_MONTHLY_TRACKING',
-    permissionName:'月度跟踪',
+    // permissionName:'月度跟踪',
   },
 ];
 

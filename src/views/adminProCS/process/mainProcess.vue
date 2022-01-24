@@ -5,13 +5,17 @@
                 <div v-for="(item, idx) in projectInfoData" :key="idx">
                     <div :class="idx === currIndex ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yoc+'px',left:item.xoc+'px', display: 'block', borderRadius: '50%'}"></div>
                 </div>
+                <!-- <img src="~@/assets/images/mainProcess.png" class="img-process" /> -->
                 <img src="~@/assets/images/mainProcess.png" class="img-process" />
             </div>
             <div class="rightContent">
                 <el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
                     <el-tab-pane label="基本信息" name="baseInfo">
                         <BaseInfo 
-                            :name="name"
+                            :name="baseInfoName"
+                            :currId="currId"
+                            @updateFlowchartFun="updateFlowchartFun"
+                            @createFlowchart="createFlowchart"
                         />
                     </el-tab-pane>
                     <el-tab-pane label="项目信息" name="projectInfo" class="tab-project">
@@ -33,6 +37,7 @@
 import { iPage } from 'rise'
 import BaseInfo from './components/baseInfo'
 import ProjectInfo from './components/projectInfo'
+import { getFlowchartInfo, createFlowchartInfo, updateFlowchart } from '@/api/adminProCS';
 export default {
     name: 'mainProcess',
     components: {
@@ -50,7 +55,7 @@ export default {
             currHeight: null,
             clickFlag: false,
             activeName: 'baseInfo',
-            name: '主流程图',
+            baseInfoName: null,
             projectInfoData: [
                 {
                     name: 'add',
@@ -60,10 +65,57 @@ export default {
             ],
             currIndex: 0,
             modifyFlag: false,
-            canDrawFlag: false
+            canDrawFlag: false,
+            filePath: null,  // 流程图路径
+            currId: null, // 主流程id
+            hotAreas: [],  // 热点区域列表
         }
     },
+    created() {
+        this.getMainChartInfo()
+    },
     methods: {
+        getMainChartInfo() {
+            getFlowchartInfo().then(res => {
+                if (res) {
+                    this.filePath = res.filePath || ''
+                    this.baseInfoName = res.name
+                    this.currId = res?.id
+                    let hotAreas = res.hotAreas || []
+                    hotAreas.unshift({
+                        name: 'add',
+                        height: '',
+                        width: ''
+                    })
+                    this.projectInfoData = hotAreas
+                }
+            }) 
+        },
+        async createFlowchart(name, file) {
+            console.log(name,file, '22222233' )
+            let params = {
+                name: name, 
+                file: file,
+                category: 'flowchart.main'
+            }
+            let formData = new FormData()
+            Object.keys(params).forEach(item => {
+                formData.append(item, params[item])
+            })
+            await createFlowchartInfo(formData).then(res => {
+                console.log(res)
+            })
+        },
+        async updateFlowchartFun(name, file) {
+            let params = {
+                name: name, 
+                file: file,
+                category: 'flowchart.main'
+            }
+            await updateFlowchart(this.currId, params).then(res => {
+                console.log(res)
+            })
+        },
         handleClick(tab, event) {
             console.log(tab, event, 'event')
             if (tab === 'projectInfo') {

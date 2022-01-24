@@ -20,6 +20,7 @@
                     value-format="yyyy-MM-dd"
                     type="date"
                     v-model="form.publishDate"
+                    :picker-options="pickerOptions"
                     style="width:100%"
                     />
             </iFormItem>
@@ -92,7 +93,12 @@
                 reportCategoryList: [],
                 loading: false,
                 uploadFileStream: null,
-                currId: null
+                currId: null,
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7
+                    }
+                }
             }
         },
         methods: {
@@ -111,6 +117,7 @@
                 })
             },
             handleTypeChange(va) {
+                this.form.reportCategoryId = ''
                 this.getCurrCategory(va)
             },
             async getCurrCategory(va) {

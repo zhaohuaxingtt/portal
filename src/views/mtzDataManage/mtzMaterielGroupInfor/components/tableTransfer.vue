@@ -12,13 +12,25 @@
           <iButton @click="search">{{ language('查询') }}</iButton>
         </div>
         <div>
-          <iButton v-show="!editable" @click="edit">
+          <iButton
+            v-show="!editable"
+            @click="edit"
+            xxx-permission="`${modifyPermissionKey}`"
+          >
             {{ language('编辑') }}
           </iButton>
-          <iButton v-show="editable" @click="saveRight">
+          <iButton
+            v-show="editable"
+            @click="saveRight"
+            xxx-permission="`${modifyPermissionKey}`"
+          >
             {{ language('保存') }}
           </iButton>
-          <iButton v-show="editable" @click="cancel">
+          <iButton
+            v-show="editable"
+            @click="cancel"
+            xxx-permission="`${modifyPermissionKey}`"
+          >
             {{ language('取消') }}
           </iButton>
         </div>
@@ -28,7 +40,7 @@
           <div class="t">
             <span>{{ subLeftTitle }}</span>
             <div class="mark">
-              {{language('表示已关联')}}
+              {{ language('表示已关联') }}
             </div>
           </div>
           <iTableCustom
@@ -128,30 +140,34 @@ export default {
     keyName: { type: String, default: 'id' },
     rightDataFilterKeys: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     otherRelationFun: { type: Function },
-    leftDisabledProp: { type: String }
+    leftDisabledProp: { type: String },
+    editPermissionKey: { type: String }
   },
   computed: {
     selectedLeftIds() {
-      return this.selectedLeftData.map(e => e[this.keyName])
+      return this.selectedLeftData.map((e) => e[this.keyName])
     },
     selectedRightIds() {
-      return this.selectedRightData.map(e => e[this.keyName])
+      return this.selectedRightData.map((e) => e[this.keyName])
     },
     rightIds() {
-      return this.rightData.map(e => e[this.keyName])
+      return this.rightData.map((e) => e[this.keyName])
     },
     leftDisabledIds() {
       if (this.leftDisabledProp) {
         return this.leftData
-          .filter(e => e[this.leftDisabledProp])
-          .map(e => e[this.keyName])
+          .filter((e) => e[this.leftDisabledProp])
+          .map((e) => e[this.keyName])
       }
       return []
+    },
+    modifyPermissionKey() {
+      return this.editPermissionKey || 'TRUE'
     }
   },
   data() {
@@ -189,7 +205,7 @@ export default {
       }
       const data = _.cloneDeep(this.selectedLeftData)
       this.rightData.unshift(...data)
-      this.leftData = this.leftData.map(e => {
+      this.leftData = this.leftData.map((e) => {
         if (this.rightIds.includes(e[this.keyName])) {
           e.disabled = true
         }
@@ -202,9 +218,9 @@ export default {
         return
       }
       this.rightData = this.rightData.filter(
-        e => !this.selectedRightIds.includes(e[this.keyName])
+        (e) => !this.selectedRightIds.includes(e[this.keyName])
       )
-      this.leftData = this.leftData.map(e => {
+      this.leftData = this.leftData.map((e) => {
         if (this.rightIds.includes(e[this.keyName])) {
           e.disabled = true
         }
@@ -238,7 +254,7 @@ export default {
         current: this.page.currPage,
         size: this.page.pageSize
       })
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             this.leftData = res.data || []
             this.page.totalCount = res.total
@@ -254,7 +270,7 @@ export default {
       const result = this.queryRightFun('')
       if (result) {
         result
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               this.rightData = res.data || []
               this.queryViewRightData()
@@ -270,7 +286,7 @@ export default {
     saveRight() {
       this.saveLoading = true
       this.saveRightFun(this.rightData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '保存成功')
             this.editable = false
@@ -278,7 +294,7 @@ export default {
             iMessage.error(res.desZh || '保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '保存失败')
         })
         .finally(() => {
@@ -314,7 +330,7 @@ export default {
       if (this.filterValue.length) {
         const filterValue = this.filterValue.toLowerCase()
         const keys = this.rightDataFilterKeys
-        lists = this.rightData.filter(e => {
+        lists = this.rightData.filter((e) => {
           let res = false
           for (let i = 0; i < keys.length; i++) {
             if (e[keys[i]]) {

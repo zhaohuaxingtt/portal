@@ -142,7 +142,6 @@
                 a.remove()
             },
             handLoad(row) {
-                console.log('22222222222')
                 const a = document.createElement('a')
                 a.href = `${row.cover}&isDown=true`
                 a.download = row.title

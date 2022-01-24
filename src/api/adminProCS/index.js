@@ -445,3 +445,33 @@ export function addPageSample(id,data) {
 
 
 
+/**
+ * 创建主流程图
+ */
+ export function createFlowchartInfo(data) {
+    return procsRequest({
+        url: `/flowchart_mgr/main/flowchart.json`,
+        method: 'POST',
+        data,
+        formData: true
+    })
+ }
+
+// 获取主流程图信息
+export function getFlowchartInfo() {
+    return procsRequest({
+        url: `/flowchart_mgr/main/flowchart.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 修改主流程图
+ */
+ export function updateFlowchart(id, data) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${id}.json`,
+        method: 'put',
+        data,
+    })
+ }

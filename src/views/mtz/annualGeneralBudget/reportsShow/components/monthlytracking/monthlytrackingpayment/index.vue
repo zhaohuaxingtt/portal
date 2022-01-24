@@ -1,6 +1,6 @@
 <!--支付金额月度跟踪--->
 <template>
-  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_PAYMENT_AMOUNT_TRACKING_PAGE|支付金额月度跟踪'>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_PAYMENT_AMOUNT_TRACKING_PAGE'>
     <i-card class="search">
       <div class="search-content">
         <div class="form-condition">
@@ -53,7 +53,7 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span  class="only-myself">{{ language('只看自己 ')}}
+          <span  class="only-myself" v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF">{{ language('只看自己 ')}}
             <el-switch 
               v-model="searchForm.onlySeeMySelf"
               active-color="#1660F1"

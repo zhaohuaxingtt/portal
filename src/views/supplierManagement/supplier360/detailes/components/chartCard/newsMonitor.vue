@@ -2,8 +2,8 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <el-dropdown v-permission="Card_C-Rating_More">
-
+      <el-dropdown >
+<!-- v-permission="Card_C-Rating_More" -->
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>

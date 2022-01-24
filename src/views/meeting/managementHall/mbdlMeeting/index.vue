@@ -292,7 +292,7 @@
           <!-- MBDL名称    gpName  改 topic-->
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text look-themen-click" >{{ scope.row.topic }}</span>
+              <span class="open-link-text look-themen-click" @click="handleMBDl(scope.row)">{{ scope.row.topic }}</span>
             </template>
           </el-table-column>
           <!-- 英文名称  mbdlNameEn -->
@@ -2102,7 +2102,19 @@ export default {
         console.log(this.editprotectConclusionDialogRow);
         
       }
-    }
+    },
+    //跳转到gp  mbdl详情 id mbdlDetails
+    // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
+    handleMBDl(row){ 
+      console.log(row);
+      if (row.isBreak) {
+        iMessage.error('该议题为休息')
+      }else if(row.type == 'MANUAL'){
+        iMessage.error('该议题为临时议题')
+      }else{
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
+      }
+    } 
   }
 }
 </script>

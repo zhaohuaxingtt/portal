@@ -22,6 +22,7 @@
         </i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE" -->
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -29,7 +30,7 @@
                 :input-props="inputProps"
                 :index="true"
                 ref="commonTable"
-                v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE">
+                >
       <template #country="scope">
         <iSelect v-model="scope.row.country"
                  @change="handleLocationChange($event,scope.row, 'country')"

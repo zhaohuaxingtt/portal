@@ -108,12 +108,29 @@ export function rescheduleThemen(data) {
     data
   })
 }
-//二次修改结论 通用  modifyConclusionById
-export function modifyConclusionById(data) {
+// //二次修改结论 通用  modifyConclusionById
+// export function modifyConclusionById(data) {
+//   return requst({
+//     url: `/gpMeetingService/modifyConclusionById`,
+//     method: 'POST',
+//     data
+//   })
+// }
+// Csc议题结束接口  二次修改
+// /gpMeetingService/modifyConclusionByCscId
+export function modifyConclusionByCscId(data) {
   return requst({
-    url: `/gpMeetingService/modifyConclusionById`,
+    url: `/gpMeetingService/modifyConclusionByCscId`,
     method: 'POST',
     data
   })
 }
-
+// MBDl 议题结束接口  二次修改
+// /gpMeetingService/modifyConclusionByMbdlId
+export function modifyConclusionByMbdlId(data) {
+  return requst({
+    url: `/gpMeetingService/modifyConclusionByMbdlId`,
+    method: 'POST',
+    data
+  })
+}
