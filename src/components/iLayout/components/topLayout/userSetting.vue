@@ -3,6 +3,7 @@
     placement="bottom"
     trigger="click"
     :popper-class="'setting-popover'"
+    v-model="visible"
     @show="handleShow"
     @hide="handleHide"
   >
@@ -134,7 +135,8 @@ export default {
           name: 'logout'
         }
       ],
-      menus_admin: []
+      menus_admin: [],
+      visible: false
     }
   },
   methods: {
@@ -163,6 +165,7 @@ export default {
         // iMessage.success('coming soon')
         this.$emit('click-menu', menu.name)
       }
+      this.visible = false
     },
     handleRedirect(menu) {
       if (!menu.url) {
@@ -182,6 +185,7 @@ export default {
           this.$router.push(menu.url)
         }
       }
+      this.visible = false
     },
     removeToken() {
       const keys = document.cookie.match(/[^ =;]+(?==)/g)

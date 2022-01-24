@@ -352,6 +352,15 @@ export function deletePageFile(id) {
         method: 'delete'
     })
 }
+// 上传操作手册文件
+export function uploadPageFile(pageId,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${pageId}/addPageFile.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
 
 /**
  * 创建主流程图

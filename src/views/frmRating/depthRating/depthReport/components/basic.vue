@@ -10,7 +10,7 @@
            collapse
            class="margin-top20"
            isRequired>
-      <iInput :disabled="isDisabled"
+      <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
               maxlength="120"
@@ -40,15 +40,17 @@
             <icon symbol
                   style="fontSize:12px"
                   :name="trans(info.deepCommentRatingResults)"></icon>
-            <el-dropdown-menu slot="dropdown"
+            <el-dropdown-menu  slot="dropdown"
                               v-if="!isDisabled">
-              <el-dropdown-item v-for="item in grade"
+              <el-dropdown-item     v-for="item in grade"
                                 :key="item.id"
-                                :value="item.code"
-                                :label="item.code"
-                                :command="item.code">
+                              :disabled="disabled"
+
+                                :value="item.name"
+                                :label="item.name"
+                                :command="item.name">
                 <icon symbol
-                      :name="trans(item.code)"></icon>
+                      :name="trans(item.name)"></icon>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -63,7 +65,7 @@
       <div class="margin-bottom20">
         <div class="flex-align-center">
           <span class="nowIndustry">后续跟踪频率</span>
-          <iSelect :disabled="isDisabled"
+          <iSelect :disabled="isDisabled||disabled"
                    v-model="info.trackFrequencyAgain">
             <el-option value="0"
                        key="0"
@@ -77,7 +79,7 @@
         </div>
       </div>
       <div class="title">补充建议</div>
-      <iInput :disabled="isDisabled"
+      <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
               maxlength="120"
@@ -89,7 +91,7 @@
     <iCard title="背景"
            collapse
            class="margin-top20">
-      <iInput :disabled="isDisabled"
+      <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
               placeholder="请输入"
@@ -130,7 +132,8 @@ export default {
     }
   },
   props: {
-    isDisabled: { type: Boolean, default: false }
+    isDisabled: { type: Boolean, default: false },
+        disabled: { type: Boolean, default: false }
   },
   mounted () {
     // console.log(this.userInfo)
@@ -149,11 +152,12 @@ export default {
     }),
     trans () {
       return (color) => {
-        if (color === 'GREEN') {
+          console.log(color)
+        if (color === '绿'||color === 'GREEN') {
           return 'iconlvdeng'
-        } else if (color === 'YELLOW') {
+        } else if (color === '黄'||color === 'YELLOW') {
           return 'iconhuangdeng'
-        } else if (color === 'RED') {
+        } else if (color === '红'||color === 'RED') {
           return 'iconhongdeng'
         } else {
           return ""
@@ -192,17 +196,17 @@ export default {
       // 	return
       // }
       let params = _.cloneDeep(this.info)
-      switch (params.deepCommentRatingResults) {
-        case '红':
-          params.deepCommentRatingResults = 'RED'
-          break;
-        case '黄':
-          params.deepCommentRatingResults = 'YELLOW'
-          break;
-        case '绿':
-          params.deepCommentRatingResults = 'GREEN'
-          break;
-      }
+    //   switch (params.deepCommentRatingResults) {
+    //     case '红':
+    //       params.deepCommentRatingResults = 'RED'
+    //       break;
+    //     case '黄':
+    //       params.deepCommentRatingResults = 'YELOW'
+    //       break;
+    //     case '绿':
+    //       params.deepCommentRatingResults = 'GREEN'
+    //       break;
+    //   }
       postSummarize(params)
         .then((result) => {
           if (result.code == 200) {

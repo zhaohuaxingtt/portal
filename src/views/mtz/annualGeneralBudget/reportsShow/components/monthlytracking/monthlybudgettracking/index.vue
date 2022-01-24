@@ -1,6 +1,6 @@
 <!--预算月度跟踪--->
 <template>
-  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING_PAGE|预算月度跟踪页面'>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING_PAGE'>
     <i-card class='search'>
       <div class="search-content">
         <div class="form-condition">
