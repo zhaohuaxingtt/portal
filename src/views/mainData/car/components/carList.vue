@@ -1,16 +1,23 @@
 <template>
   <iCard>
     <div class="flex-end-center margin-bottom20">
-      <iButton @click="add">
+      <iButton @click="add" xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_ADD'">
         {{ language('新建') }}
       </iButton>
-      <iButton @click="changeStatus" :disabled="selectedRows.length === 0">
+      <iButton
+        @click="changeStatus"
+        :disabled="selectedRows.length === 0"
+        xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CHANGE_STATUS'"
+      >
         {{ language('失效') }}
       </iButton>
       <!-- <iButton :loading="downloadTemplateLoading" @click="downloadTemplate">
         {{ language('下载车型产量计划模版') }}
       </iButton> -->
-      <button-download :download-method="downloadTemplate">
+      <button-download
+        :download-method="downloadTemplate"
+        xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_DOWNLOAD_PRODUCTION_PLAN_TEMPLATE'"
+      >
         {{ language('下载车型产量计划模版') }}
       </button-download>
       <el-upload
@@ -25,6 +32,7 @@
           :loading="uploadLoading"
           size="small"
           class="btn-upload"
+          xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_IMPORT'"
         >
           <span>
             {{ language('导入车型产量计划') }}
@@ -32,7 +40,10 @@
         </iButton>
       </el-upload>
 
-      <button-download :download-method="exportExcel" />
+      <button-download
+        :download-method="exportExcel"
+        xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_EXPORT'"
+      />
     </div>
 
     <i-table-custom
@@ -79,7 +90,7 @@ export default {
   props: {
     filterForm: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -114,14 +125,14 @@ export default {
         type: 'warning'
       }).then(() => {
         const reqData = []
-        this.selectedRows.forEach(e => {
+        this.selectedRows.forEach((e) => {
           reqData.push({
             cartypeId: e.id,
             valid: false
           })
         })
         batchUpdate(reqData)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               this.query()
               iMessage.success('设置成功')
@@ -140,14 +151,14 @@ export default {
       formData.append('file', content.file)
       formData.append('currentUserId', this.$store.state.permission.userInfo.id)
       uploadCarPlan(formData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '导入成功')
           } else {
             iMessage.error(res.desZh || '导入失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           iMessage.error(err.desZh || this.language('LK_SHANGCHUANSHIBAI'))
         })
