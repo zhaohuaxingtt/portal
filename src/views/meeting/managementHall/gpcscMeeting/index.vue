@@ -2765,7 +2765,7 @@ export default {
       }else if(row.type == 'MANUAL'){
         iMessage.error('改议题为临时议题')
       }else{
-        let num = null
+        let num = null 
         if (row.documentType == '13') {
             num = 1
         }else{
