@@ -1,11 +1,15 @@
 <template>
   <div class="detail-plan-list">
-    <div class="flex-end-center margin-bottom20" v-show="data.length > 0">
-      <iButton v-if="!editable" @click="edit">{{language('编辑')}}</iButton>
+    <div
+      class="flex-end-center margin-bottom20"
+      v-show="data.length > 0"
+      xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_CONFIG_VERSION_MODIFY'"
+    >
+      <iButton v-if="!editable" @click="edit">{{ language('编辑') }}</iButton>
       <iButton v-if="editable" :loading="saveLoading" @click="save">
-        {{language('保存')}}
+        {{ language('保存') }}
       </iButton>
-      <iButton v-if="editable" @click="cancel">{{language('取消')}}</iButton>
+      <iButton v-if="editable" @click="cancel">{{ language('取消') }}</iButton>
     </div>
 
     <i-table-custom
@@ -36,7 +40,7 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -89,7 +93,7 @@ export default {
     },
     isValidChange(row) {
       if (row.isValid) {
-        this.data.forEach(e => {
+        this.data.forEach((e) => {
           if (e.riseVersionCode !== row.riseVersionCode) {
             e.isValid = false
           }
@@ -100,7 +104,7 @@ export default {
       this.saveLoading = true
       const reqData = []
       if (this.data.length > 0) {
-        this.data.forEach(e => {
+        this.data.forEach((e) => {
           reqData.push({
             cartypeProId: this.$route.query.id,
             currentUserId: this.$store.state.permission.userInfo.id,
@@ -109,7 +113,7 @@ export default {
           })
         })
         updateCartypeProCfgVersionInfo(reqData)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               iMessage.success(res.desZh || '设置成功')
               this.toggleEdit(false)
@@ -118,7 +122,7 @@ export default {
               iMessage.error(res.desZh || '设置失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err)
             iMessage.error(err.desZh || '设置失败')
           })

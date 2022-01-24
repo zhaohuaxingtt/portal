@@ -1,7 +1,7 @@
 <template>
   <div
     class="page-content"
-    v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS_PAGE|年度预算材料中类页面'
+    v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS_PAGE'
   >
   <!-- <div
     class="page-content"

@@ -1,3 +1,9 @@
+/*
+ * @Date: 2021-11-08 13:43:39
+ * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-24 15:51:27
+ * @FilePath: \front-portal-new\src\api\supplierManagement\supplierTag\index.js
+ */
 //供应商标签 caopeng 2021.11.6
 import axios from '@/utils/axios'
 
@@ -69,6 +75,22 @@ export function supplierTagListSave(parmars) {
 export function supplierTagPage(parmars) {
     return requst({  
         url: 'tags/tags/supplierTagPage',
+        method: 'POST',
+        data: parmars
+    })
+}  
+//  集团下拉
+export function groupCompanyList(parmars) {
+    return requst({  
+        url: '/supplier360View/page/groupCompanyList',
+        method: 'POST',
+        data: parmars
+    })
+}   
+// 状态下拉
+export function vwStatusList(parmars) {
+    return requst({  
+        url: '/supplier360View/page/vwStatusList',
         method: 'POST',
         data: parmars
     })

@@ -8,7 +8,11 @@
 -->
 <template>
   <div class="detail-plan-list">
-    <div class="flex-end-center margin-bottom20" v-show="data.length > 0">
+    <div
+      class="flex-end-center margin-bottom20"
+      v-show="data.length > 0"
+      xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_VERSION_MODIFY'"
+    >
       <iButton v-if="!editable" @click="edit">
         {{ language('编辑') }}
       </iButton>
@@ -42,7 +46,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -94,7 +98,7 @@ export default {
     },
     isValidChange(row) {
       if (row.isValid) {
-        this.data.forEach(e => {
+        this.data.forEach((e) => {
           if (e.riseVersionCode !== row.riseVersionCode) {
             e.isValid = false
           }
@@ -104,7 +108,7 @@ export default {
     save() {
       this.saveLoading = true
       updateCartypeCfgValid(this.data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '设置成功')
             this.toggleEdit(false)
@@ -113,7 +117,7 @@ export default {
             iMessage.error(res.desZh || '设置失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           iMessage.error(err.desZh || '设置失败')
         })

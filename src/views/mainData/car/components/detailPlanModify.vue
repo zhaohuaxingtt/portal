@@ -3,7 +3,11 @@
     <pageHeader>
       <el-form inline>
         <iFormItem :label="language('版本号')" v-if="mode !== 'ADD'">
-          <iSelect v-model="version" @change="versionChange" :placeholder='language("请选择")'>
+          <iSelect
+            v-model="version"
+            @change="versionChange"
+            :placeholder="language('请选择')"
+          >
             <el-option
               v-for="item in versions"
               :value="item.code"
@@ -17,7 +21,7 @@
             v-model="productFactory"
             :disabled="mode !== 'ADD'"
             @change="productFactoryChange"
-            :placeholder='language("请选择")'
+            :placeholder="language('请选择')"
           >
             <el-option
               v-for="item in effectProductFactoryOptions"
@@ -28,10 +32,18 @@
           </iSelect>
         </iFormItem>
         <iFormItem :label="language('车型总产量')">
-          <iInput :value="total" readonly disabled :placeholder='language("请输入")'/>
+          <iInput
+            :value="total"
+            readonly
+            disabled
+            :placeholder="language('请输入')"
+          />
         </iFormItem>
       </el-form>
-      <div slot="actions">
+      <div
+        slot="actions"
+        xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_MODIFY'"
+      >
         <iButton v-show="!extraData.editable" @click="edit">
           {{ language('编辑') }}
         </iButton>

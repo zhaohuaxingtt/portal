@@ -1,5 +1,5 @@
 <template>
-  <i-card v-permission='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_BRAND_PAGE|年度预算品牌页面'>
+  <i-card v-permission='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_BRAND_PAGE'>
   <!-- <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_BRAND'> -->
     <div class="title-box">
       <div class="left-box">
