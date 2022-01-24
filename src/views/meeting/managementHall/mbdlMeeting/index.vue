@@ -2105,7 +2105,7 @@ export default {
     },
     //跳转到gp  mbdl详情 id mbdlDetails
     // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
-    handleMBDl(row){
+    handleMBDl(row){ 
       console.log(row);
       if (row.isBreak) {
         iMessage.error('改议题为休息')
