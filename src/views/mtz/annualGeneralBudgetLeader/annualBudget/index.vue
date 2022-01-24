@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-01-22 17:09:35
+ * @LastEditTime: 2022-01-24 18:02:36
  * @LastEditors: Please set LastEditors
  * @Description: 年度预算总览-负责人
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\index.vue
@@ -103,8 +103,7 @@
                  @handleSubmitChangeLevel="handleSubmitChangeLevel" />
     <!-- <changeLog :key="changLogParams.key" v-model="changLogParams.visible" @closeDiolog="closeDiolog"/> -->
     <iUserLog :show.sync="changLogParams.visible"
-              :bizId="changLogParams.bizId"
-              menuId="2" />
+              menuId="MTZ-013" />
   </div>
 </template>
 
