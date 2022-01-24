@@ -14,7 +14,7 @@
         </el-form-item>
         <!-- 合同类型 -->
         <el-form-item :label="language('LK_HETONGLEIXING', '合同类型')" prop='type'>
-          <i-select v-model.trim='queryForm.type' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.type' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in contractTypeSelectDatas' :value='item.code'
                        :label='item.name' :key='index'></el-option>
           </i-select>
@@ -58,14 +58,14 @@
 
         <!-- 印章类型 -->
         <el-form-item :label="language('LK_YINZHANGLEIXING', '印章类型')" prop='docTypeNo'>
-          <i-select v-model.trim='queryForm.docTypeNo' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.docTypeNo' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in sealtypes' :value='item.docTypeNo'
                        :label='item.signName' :key='index'></el-option>
           </i-select>
         </el-form-item>
         <!-- 签署状态 -->
         <el-form-item :label="language('LK_QIANSHUZHUANGTAI', '签署状态')" prop='signStatus'>
-          <i-select v-model.trim='queryForm.signStatus' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.signStatus' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in signStatusSelectDatas' :value='item.code'
                        :label='item.name' :key='index'></el-option>
           </i-select>
