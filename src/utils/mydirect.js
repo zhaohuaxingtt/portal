@@ -26,6 +26,7 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+    // console.log(el,binding, Nodes)
     //-----------------------2022-1-20 修改权限配置内容start------------------------------
     //如果是个变量则使用变量，否则当做字符串处理
     const value = binding.value ? binding.value : binding.expression.trim()
@@ -33,6 +34,12 @@ Vue.directive('permission', {
     //去除控件传参中存在换行空格等情况
     const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
     //-----------------------2022-1-20 修改权限配置内容end------------------------------
+
+    //-----------------------2022-1-24 增加默认不限制的key-----------------------------------------------
+    if (value === 'TRUE') {
+      return true
+    }
+    //-----------------------2022-1-24 增加默认不限制的key end-----------------------------------------------
     if (isNeedJudgePermission()) {
       return true
     } else {
@@ -43,7 +50,7 @@ Vue.directive('permission', {
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         //-----------------------2022-1-20 修改权限配置内容start------------------------------
-        if (['VMSIT', 'SIT'].includes(process.env.NODE_ENV)) {
+        if (['vmsit', 'SIT','dev','UAT'].includes(process.env.NODE_ENV)) {
           if (!store.state.permission.whiteBtnList[pagePermission]) {
             el.parentNode.removeChild(el)
           }

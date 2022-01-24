@@ -26,7 +26,6 @@
 			
 			<iFormItem :label="language('更新日期')" prop='updateDt'>
 				<iDatePicker
-					value-format="yyyy-MM-dd"
 					type="date"
 					v-model="form.updateDt"
 					class="w-300"
@@ -46,7 +45,7 @@
 			</iFormItem>
 		</el-form>
 		<div class="flex felx-row mt20 pb20 justify-end ">
-			<iButton @click="closeDialogBtn" v-if="type == 'add'">{{ language('取消') }}</iButton>
+			<iButton @click="reset" v-if="type == 'add'">{{ language('取消') }}</iButton>
 			<iButton @click="$router.back()" v-else>{{ language('返回') }}</iButton>
 			<iButton @click.native="save">{{ language('保存') }}</iButton>
 		</div>
@@ -56,7 +55,7 @@
 <script>
 import { iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
 import { getOrganizationList, getUsersList, addProcess,updateProcess, getProcess } from '@/api/adminProCS';
-
+import moment from 'moment';
 export default {
 	components: {
 		iFormItem,
@@ -127,26 +126,12 @@ export default {
 		this.usersList()
 	},
 	methods: {
-		closeDialogBtn () {
-			this.form = {
-				name: '',
-				firstLetter:"",
-				nameEn:"",
-				firstLetterEn:"",
-				version:"",
-				updateDt:"",
-				exports:"",
-				organizations:"" 
-			}
-			this.$refs.form.resetFields()
-			this.$emit('update:show', false)
-			this.$emit('refresh')
-		},
         async queryDetail(id){
             try {
                 this.loading = true
                 this.form = await getProcess(id)
-                this.form.exports = this.form.experts
+                this.form.exports = this.form.experts.map(e => e.id)
+                this.form.organizations = this.form.organizations.map(e => e.id)
                 delete this.form.experts
             } finally {
                 this.loading = false
@@ -158,6 +143,7 @@ export default {
 					// 保存
 					try {
 						this.loading = true
+						this.form.updateDt = moment(this.form.updateDt).format("YYYY-MM-DD HH:mm:ss")
 						let formData = new FormData()
 						Object.keys(this.form).forEach(key => {
 							formData.append(key, this.form[key])
@@ -166,8 +152,9 @@ export default {
                             await addProcess(formData).then(res => {
                                 if (res) {
                                     this.$message({type: 'success', message: '新增流程成功'})
-                                    this.$parent.refresh()
-                                    this.$parent.closeDialogBtn()
+                                    this.reset()
+                                    this.$emit("refresh")
+                                    this.$emit("close")
                                 }
                             })
                         }else{
@@ -202,11 +189,6 @@ export default {
 			}
 			this.$refs.form.resetFields()
         }
-	},
-	computed: {
-		dialogTitle() {
-			return this.operateType === 'add' ? '添加流程' : '修改流程'
-		}
 	}
 }
 </script>

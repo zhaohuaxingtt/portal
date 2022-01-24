@@ -428,7 +428,7 @@
               min-width="198"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.topic}}</span>
+                <span class="open-link-text look-themen-click" @click="handleCSC(scope.row)">{{scope.row.topic}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -1228,20 +1228,20 @@ export default {
       console.log( this.selectedTableData);
       if (this.selectedTableData.length < 1 ) {
         iMessage.success('请选择一条数据')
-      }else if(this.selectedTableData.length < 1){
+      }else if(this.selectedTableData.length > 1){
         iMessage.success('只能选择一条数据')
+      }else if(this.selectedTableData[0].state == '03' && this.selectedTableData[0].conclusion == '03'){
+        // 判断议题结论为预备会通过和议题状态为已结束
+          // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
+          if (this.meetingInfo.isGpPreCSC == true) {
+            this.sendAgendaDialog=true
+            this.rowId=this.selectedTableData[0].id
+          }else{
+            iMessage.error('不是预备会，不能发送大会议程！')
+          }
       }else{
-        // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
-        if (this.meetingInfo.isGpPreCSC == true) {
-          this.sendAgendaDialog=true
-          this.rowId=this.selectedTableData[0].id
-        }else{
-          iMessage.error('不是预备会，不能发送大会议程！')
-        }
+        iMessage.success('请确认议题为结束状态且结论为预备会通过')
       }
-
-      
-
     },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
@@ -2751,10 +2751,28 @@ export default {
     },
     //点击纪要  维护结论
     handleResult(row){
-      console.log(row.result);
+      console.log(row.result);   
       // this.editprotectConclusionDialog=true
       // this.editprotectConclusionDialogRow=row
       // console.log(this.editprotectConclusionDialogRow);
+    },
+    //跳转到gp  CSC展示 id myCscDetails  手工议题 current=1  别的current =3
+    // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
+    handleCSC(row){
+      console.log(row);
+      if (row.isBreak) {
+        iMessage.error('改议题为休息')
+      }else if(row.type == 'MANUAL'){
+        iMessage.error('改议题为临时议题')
+      }else{
+        let num = null
+        if (row.documentType == '13') {
+            num = 1
+        }else{
+            num = 3
+        }
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+      } 
     }
   }
 }

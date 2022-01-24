@@ -4,7 +4,7 @@
  * @Description:深评报告
  -->
 <template>
-  <iPage>
+  <iPage >
     <div class="navBox flex-between-center">
       <!-- <span class="title">{{$t("SPR_FRM_DEP_DEPREPORT")}}</span> -->
       <iNavMvp :list="depthReportRouter"
@@ -18,17 +18,15 @@
                  class="rightNav"
                  @change="changeNav" />
         <!--保存-->
-        <iButton class="margin-left30"
+        <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'" class="margin-left30"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
-        <!--提交审核-->
-        <!-- <iButton @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton> -->
-        <!--导出
-				<iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>-->
+        <iButton v-if="$route.query.status=='报告完成'||$route.query.status=='报告审批驳回'"  @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
+				<iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
         <!--查看财报分析结果-->
         <iButton @click="jumpFinancialAnalysis()">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
       </div>
     </div>
-    <basic v-if="currentNav==1"
+    <basic id="content" v-if="currentNav==1"
            ref="basic"></basic>
     <business v-else-if="currentNav==2"
               ref="business"></business>
@@ -38,13 +36,15 @@
 </template>
 
 <script>
-import { iPage, iNavMvp, iButton } from 'rise';
+import { iPage, iNavMvp, iButton ,iMessage} from 'rise';
 import { interViewTabList } from './data';
 import basic from './components/basic';
 import business from './components/business';
 import finance from './components/finance';
 import { postExamine } from '@/api/frmRating/depthRating/depthReport.js'
 import { depthReportRouter } from "../components/data"
+import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { uploadUdFile } from "@/api/file/upload";
 export default {
   components: {
     iPage,
@@ -59,18 +59,20 @@ export default {
       meeting: false,//会议纪要,
       id: '',
       name: '',
-      supplierId: ""
+      supplierId: "",
+     status:''
     };
   },
   computed: {
     query () {
-      return { id: this.id, name: this.name, supplierId: this.supplierId }
+         return { id: this.id, name: this.name, supplierId: this.supplierId,status:this.status }
     }
   },
   mounted () {
     this.id = this.$route.query.id;
     this.name = this.$route.query.name;
     this.supplierId = this.$route.query.supplierId;
+     this.status = this.$route.query.status;
   },
   methods: {
     changeNav (val) {
@@ -81,7 +83,31 @@ export default {
     },
     // 打开会议纪要弹窗
     openMeeting () {
-      this.meeting = true
+          this.$nextTick(() => {
+        setTimeout(() => {
+          downloadPDF({
+            idEle: "content",
+            pdfName: this.$route.query.name.replaceAll(/\./g, '_'),
+            exportPdf: true,
+            callback: async (pdf, pdfName) => {
+              try {
+                const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
+                const pdfFile = pdf.output("datauristring");
+                const blob = dataURLtoFile(pdfFile, filename);
+                uploadUdFile({
+                  applicationName: 'sourcing',
+                  businessId: Math.ceil(Math.random() * 100000),
+                  multifile: blob
+                }).then(() => {
+                  iMessage.success("生成成功");
+                });
+              } catch {
+                iMessage.err("生成失败");
+              }
+            },
+          });
+        }, 20)
+      })
     },
     save () {
       let page = 'basic'

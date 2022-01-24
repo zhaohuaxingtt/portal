@@ -3,19 +3,19 @@
         <div class="flex justify-between margin-bottom20">
             <div class="flex">
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyword" />
-                <iButton style="margin-left:10px">搜索</iButton>
+                <iButton style="margin-left:10px" @click="queryList('rest')">搜索</iButton>
             </div>
             <div>
-                <iButton @click="editDialog.show = true">添加页面</iButton>
+                <iButton @click="editDialog.id = ''; editDialog.show = true">添加页面</iButton>
                 <iButton>子流程图</iButton>
                 <iButton @click="processDialog.show = true">流程目录</iButton>
             </div>
         </div>
         <ITable ref="table" :tableSetting='tableSetting' :extraData="extraData" :query-method="query"></ITable>
         <!-- 新增和编辑 -->
-        <Edit :show.sync="editDialog.show"></Edit>
+        <Edit :show.sync="editDialog.show" :id="editDialog.id" @refresh="queryList"></Edit>
         <!-- 操作手册 -->
-        <Manual :show.sync="manualDialog.show"></Manual>
+        <Manual :show.sync="manualDialog.show" :info="manualDialog.info"></Manual>
         <!-- 操作视频 -->
         <Video :show.sync="videoDialog.show"></Video>
         <!-- 常见问题 -->
@@ -38,7 +38,8 @@ import Video from './video.vue';
 import Question from './question.vue';
 import Attachment from './attachment.vue';
 import ProcessDirectory from './processDirectory.vue';
-import {loadProcessPageList} from '@/api/adminProCS';
+import {loadProcessPageList,deleteProcessPage} from '@/api/adminProCS';
+
 export default {
     components:{
         ITable,
@@ -52,11 +53,6 @@ export default {
         Attachment,
         ProcessDirectory
     },
-    props:{
-        id:{
-            default:""
-        }
-    },
     data() {
         return {
             tableSetting:PROCESS_PAGE,
@@ -65,10 +61,12 @@ export default {
                 operate:this.operate,
             },
             editDialog:{
-                show: false
+                show: false,
+                id:""
             },
             manualDialog:{
-                show: false
+                show: false,
+                info:{}
             },
             videoDialog:{
                 show: false
@@ -79,13 +77,14 @@ export default {
             processDialog:{
                 show:false
             },
-            query: this.queryTable
+            query: this.queryTable,
+            id:this.$route.query.id
         }
     },
-    mounted () {
-        this.$refs.table.query()
-    },
     methods: {
+        queryList(t){
+            this.$refs.table.query(t)
+        },
         queryTable(page){
             return new Promise(async (reslove,reject) => {
                 let data = {
@@ -111,9 +110,11 @@ export default {
         operate(type,row){
             switch (type) {
                 case "edit":    //修改
+                    this.editDialog.id = row.id
                     this.editDialog.show = true
                     break;
                 case "manual":    //操作手册
+                    this.manualDialog.info = row
                     this.manualDialog.show = true
                     break;
                 case "video":    //操作视频
@@ -130,7 +131,8 @@ export default {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
-                    }).then(() => {
+                    }).then(async () => {
+                        await deleteProcessPage(row.id)
                         this.$message({
                             type: 'success',
                             message: '删除成功!'

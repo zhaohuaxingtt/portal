@@ -949,6 +949,11 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              this.ruleForm.supplierList.length == 0
+            ) {
+              this.$message.error('供应商列表不能为空！')
             }
             // else if (
             //   this.ruleForm.attachments.length == 0
@@ -1102,7 +1107,7 @@ export default {
   }
   .title__version {
     margin: 0 1rem 0 3rem;
-    font-size: 8px;
+    font-size: 0.875rem;
     font-family: Arial;
     font-weight: 400;
     line-height: 0px;

@@ -184,6 +184,7 @@ import {
   reportIssue,
   batch
 } from '@/api/frmRating/depthRating'
+import { getSummarize } from '@/api/frmRating/depthRating/depthReport.js'
 import { postExamine } from '@/api/frmRating/depthRating/depthReport'
 import { excelExport } from '@/utils/filedowLoad'
 import overTime from './overTime'
@@ -211,10 +212,10 @@ export default {
     },
     form: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
-  data () {
+  data() {
     return {
       tableListData: [],
       fromGroup: [], //下拉框数据
@@ -233,20 +234,20 @@ export default {
       endDisabled: false //是否是终止深评
     }
   },
-  created () {
+  created() {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange (currentSelect) {
+    handleSelectionChange(currentSelect) {
       this.currentSelect = currentSelect
     },
     // 搜索
-    search () {
+    search() {
       this.page.currPage = 1
       this.getTableList()
     },
     // 获取深评列表
-    getTableList () {
+    getTableList() {
       let data = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -262,7 +263,7 @@ export default {
       })
     },
     // 获取当前选中的ids
-    getIds () {
+    getIds() {
       let ids = []
       this.currentSelect.map((res) => {
         ids.push(res.id)
@@ -270,24 +271,44 @@ export default {
       return ids
     },
     // 改变状态值
-    changeStatus (row) {
+    changeStatus(row) {
       const data = {
         id: row.id,
         status: row.status
       }
-      depSupplier(data).then((res) => {
-        this.resultMessage(res, () => {
-          this.getTableList()
-        })
-      })
+      if (row.status == '报告完成') {
+        getSummarize(row.id, 'en')
+          .then((result) => {
+                if (result.data) {
+                    if((result.data.deepCommentRatingResults==""||result.data.deepCommentRatingResults==null)&&(result.data.trackFrequencyAgain==""||result.data.trackFrequencyAgain==null)){
+                        iMessage.warn('QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV','请填写状态与后续跟踪频率')
+                       this.getTableList()
+                    }else{
+                        depSupplier(data).then((res) => {
+                            this.resultMessage(res, () => {
+                            this.getTableList()
+                            })
+                        })
+                    }
+                }
+          })
+      }else{
+        depSupplier(data).then((res) => {
+                this.resultMessage(res, () => {
+                this.getTableList()
+                })
+            })
+      }
+  
+  
     },
     //新加集团
-    openAddGroup () {
+    openAddGroup() {
       if (this.isSelect()) return
       this.addGroup = true
     },
     // 新加集团确认
-    sure (remark) {
+    sure(remark) {
       let data = {
         idList: this.getIds(),
         financialSupplementName: remark
@@ -301,13 +322,13 @@ export default {
       })
     },
     // 查看备注
-    openRemark (row) {
+    openRemark(row) {
       this.currentId = row.id
       this.$refs.remark.changeBackmark(row.remarks)
       this.remark = true
     },
     // 修改备注
-    sureRemark (remark) {
+    sureRemark(remark) {
       let data = {
         id: this.currentId,
         remarks: remark
@@ -321,12 +342,17 @@ export default {
       })
     },
     // 报告分发
-    openReport () {
+    openReport() {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
         // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
-        iMessage.error(this.language('WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA', '未生效的报告，不能点击报告分发'))
+        iMessage.error(
+          this.language(
+            'WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA',
+            '未生效的报告，不能点击报告分发'
+          )
+        )
         return
       }
       let deepCommentResult = this.currentSelect[0].deepCommentResult
@@ -345,7 +371,7 @@ export default {
       }
     },
     // 报告分发确认
-    sureChangeItems (ids) {
+    sureChangeItems(ids) {
       let supplierIdList = []
       this.currentSelect.forEach((res) => {
         let obj = {}
@@ -366,7 +392,7 @@ export default {
       })
     },
     // 终止
-    openEnd () {
+    openEnd() {
       if (this.isSelect()) return
       // 判断是否满足终止条件
       let result = this.currentSelect.every(
@@ -376,7 +402,9 @@ export default {
           item.status == '财务经营与分析' ||
           item.status == '清单审批驳回' ||
           item.status == '访谈与调查' ||
-          item.status == '报告完成'
+          item.status == '报告审批驳回' ||
+          item.status == '报告审批中' ||
+          item.status == '清单审批中'
       )
       if (!result) {
         iMessage.error(this.$t('SPR_FRM_DEP_STOPMSG'))
@@ -392,7 +420,10 @@ export default {
             '财务经营与分析',
             '清单审批驳回',
             '访谈与调查',
-            '报告完成'
+            '报告完成',
+            '报告审批驳回',
+            '报告审批中',
+            '清单审批中'
           ]
           this.$refs.endRating.getTableList(this.getIds(), statusList)
           // termination({idList:this.getIds()}).then(res=>{
@@ -407,19 +438,19 @@ export default {
         })
     },
     // 判断是否选择了供应商
-    isSelect () {
+    isSelect() {
       if (this.currentSelect.length == 0) {
         iMessage.error('请选择需要操作的供应商数据')
         return true
       }
     },
     // 上传附件
-    openUpload (id) {
+    openUpload(id) {
       this.$refs.upload.getTableList(id)
       this.uploadShow = true
     },
     // 打开加入集团
-    openJoinGroup () {
+    openJoinGroup() {
       if (this.isSelect()) return
       let result = this.currentSelect.find(
         (item) => item.deepCommentSupplierName
@@ -432,9 +463,11 @@ export default {
       this.joinGroupShow = true
     },
     // 移除集团
-    moveGroup () {
+    moveGroup() {
       if (this.isSelect()) return
-      let result = this.currentSelect.every((item) => item.deepCommentSupplierName)
+      let result = this.currentSelect.every(
+        (item) => item.deepCommentSupplierName
+      )
       if (!result) {
         iMessage.error(this.$t('请选择未加入集团的供应商'))
         return
@@ -446,13 +479,15 @@ export default {
       this.addOrMoveGroup(data)
     },
     // 加入集团 移除集团
-    addOrMoveGroup (data) {
+    addOrMoveGroup(data) {
       addOrMoveGroup(data).then((res) => {
         if (data.isJoin) {
           this.joinGroupShow = false
         }
         if (res?.code === '200') {
-          iMessage.success(this.language('YICONGDABAOJITUANZHONGYICHU', '已从打包集团中移除'))
+          iMessage.success(
+            this.language('YICONGDABAOJITUANZHONGYICHU', '已从打包集团中移除')
+          )
           this.getTableList()
         } else {
           iMessage.error(res.desZh)
@@ -463,9 +498,11 @@ export default {
       })
     },
     // 提交清单审批
-    openEndRating () {
+    openEndRating() {
       if (this.isSelect()) return
-      let result = this.currentSelect.every((item) => item.status == '草稿' || item.status == '清单审批驳回')
+      let result = this.currentSelect.every(
+        (item) => item.status == '草稿' || item.status == '清单审批驳回'
+      )
       if (result) {
         this.endDisabled = false
         this.endRating = true
@@ -476,7 +513,7 @@ export default {
       }
     },
     // 跳转供应商财务数据
-    jumpViewSuppliers (row) {
+    jumpViewSuppliers(row) {
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
@@ -488,7 +525,7 @@ export default {
       })
     },
     // 跳转访谈清单
-    jumpInterView (id) {
+    jumpInterView(id) {
       // this.$router.push('/supplier/frmrating/depthRating/interView')
       let routeData = this.$router.resolve({
         name: 'supplierFrmDepthRatingInterView',
@@ -497,7 +534,7 @@ export default {
       window.open(routeData.href)
     },
     // 查看财报分析
-    jumpFinancialAnalysis (row) {
+    jumpFinancialAnalysis(row) {
       // this.$router.push('/supplier/frmrating/depthRating/financialAnalysis')
       let routeData = this.$router.resolve({
         name: 'depthRatingFinancialAnalysis',
@@ -509,29 +546,30 @@ export default {
       window.open(routeData.href)
     },
     //查看深评报告
-    jumpDepthReport (row) {
+    jumpDepthReport(row) {
       // this.$router.push('/supplier/frmrating/depthRating/depthReport')
       let routeData = this.$router.resolve({
         name: 'depthReport',
         query: {
           id: row.id,
-          name: row.name
+          name: row.name,
+          status: row.status,
         }
       })
       window.open(routeData.href)
     },
     // 导出
-    exportsTable () {
+    exportsTable() {
       // if (this.isSelect()) return
-      excelExport(this.tableListData, this.tableTitle, "深入评级供应商列表")
+      excelExport(this.tableListData, this.tableTitle, '深入评级供应商列表')
     },
     // 预计完成时间
-    openOverTime () {
+    openOverTime() {
       if (this.isSelect()) return
       this.overTimeShow = true
     },
     // 修改预计完成时间
-    sureChangeTime (date) {
+    sureChangeTime(date) {
       let data = {
         ids: this.getIds(),
         estimateCompleteMonth: date
@@ -544,8 +582,17 @@ export default {
       })
     },
     // 提交深评报告审核
-    postExamine () {
+    postExamine() {
       if (this.isSelect()) return
+      //    let result = this.currentSelect.every(
+      //     (item) =>
+      //       item.status == '报告完成' ||
+      //       item.status == '报告审批驳回'
+      //   )
+      //       if (!result) {
+      //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
+      //     return
+      //   }
       let data = {
         ids: this.getIds()
       }

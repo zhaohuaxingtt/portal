@@ -1,6 +1,6 @@
 <template>
-  <!-- <i-card v-permission='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_BRAND_PAGE|年度预算品牌页面'> -->
-  <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_BRAND'>
+  <i-card v-permission='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_BRAND_PAGE'>
+  <!-- <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_BRAND'> -->
     <div class="title-box">
       <div class="left-box">
         <span>{{this.queryForm.year}}年总金额:{{this.curYearPrice|format}}人民币</span>
@@ -69,11 +69,13 @@ export default {
         {
           prop: 'curPrice',
           label: `${this.queryForm?.year}MTZ预算(百万)`,
+          showToolTipDirect:true,
           headerAlign: 'center',
           align: 'center',
           tooltip: true,
           customRender:(h, scope)=>{
-            return <span>{scope.row.curPrice?.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')}</span>
+            let tooltipContent = scope.row.curPrice?.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
+            return <div title={tooltipContent}>{(Number(scope.row.curPrice)/1000000).toFixed(2)}</div>
           }
         },
         {
@@ -83,7 +85,8 @@ export default {
           align: 'center',
           tooltip: true,
           customRender:(h, scope,)=>{
-            return <span>{scope.row.lastPrice?.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')}</span>
+            const tooltipContent = scope.row.lastPrice?.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
+            return <span title={tooltipContent}>{(Number(scope.row.lastPrice)/1000000).toFixed(2)}</span>
           }
         }
       ]

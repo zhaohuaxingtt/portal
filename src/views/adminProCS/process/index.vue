@@ -158,8 +158,6 @@ export default {
             this.$router.push('/adminProCS/process/mainProcess')
         },
         addFun() {
-            this.$refs.addDialog.organizationList()
-            this.$refs.addDialog.usersList()
             this.dialog = true
         }
     },

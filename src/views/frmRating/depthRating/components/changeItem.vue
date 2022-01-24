@@ -1,10 +1,10 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-01-18 14:02:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-21 18:16:21
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\frmRating\depthRating\components\changeItem.vue
+ * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\changeItem.vue
 -->
 <!--
  * @author: shujie
@@ -38,6 +38,8 @@
     </custom-select>
     <span slot="footer"
           class="dialog-footer">
+                <iButton
+               @click="clearDiolog">{{language('QUXIAO','取消')}}</iButton>
       <!-- <iButton @click="$emit('input',false)">{{$t('SPR_FRM_DEP_ALLCANCEL')}}</iButton> -->
       <iButton :loading='repeatClick'
                @click="sureChangeItems">{{language('FASONG','发送')}}</iButton>

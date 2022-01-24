@@ -313,4 +313,70 @@ export function loadProcessPageList(id,data) {
         formData: true
     })
 }
+// 新增流程页面
+export function ProcessAddPage(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/createPage.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 编辑流程页面
+export function ProcessEditPage(id,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/updatePage.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 获取流程页面详情
+export function getProcessPage(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/pageDetail.json`,
+        method: 'get'
+    })
+}
+// 删除流程页面
+export function deleteProcessPage(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/deletePage.json`,
+        method: 'delete'
+    })
+}
+// 删除页面附件（手册/视频）
+export function deletePageFile(id) {
+    return procsRequest({
+        url: `/workflow_mgr/${id}/deletePageFile.json`,
+        method: 'delete'
+    })
+}
+// 上传操作手册文件
+export function uploadPageFile(pageId,data) {
+    return procsRequest({
+        url: `/workflow_mgr/${pageId}/addPageFile.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
 
+/**
+ * 创建主流程图
+ */
+ export function createFlowchartInfo(data) {
+    return procsRequest({
+        url: `/flowchart_mgr/main/flowchart.json`,
+        method: 'POST',
+        data,
+    })
+ }
+
+// 获取主流程图信息
+export function getFlowchartInfo() {
+    return procsRequest({
+        url: `/flowchart_mgr/main/flowchart.json`,
+        method: 'get'
+    })
+}
