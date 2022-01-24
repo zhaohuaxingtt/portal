@@ -23,7 +23,8 @@
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
+    <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST" -->
+    <table-list 
                 ref="commonTable"
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
