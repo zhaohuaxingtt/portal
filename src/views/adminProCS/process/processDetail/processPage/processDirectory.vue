@@ -9,7 +9,7 @@
         append-to-body
         class="process-dialog"
     >
-        <div class="content">
+        <div class="content" v-loading="loading">
             <iButton class="mb20" @click="editDialog = true">添加一级目录</iButton>
            <el-tree
             :data="data"
@@ -72,14 +72,13 @@
                         v-model="form.workFlowPage"
                         filterable
                         clearable
-                        
                         placeholder="请选择页面"
                         >
                         <el-option
-                            v-for="item in options"
-                            :key="item.code"
-                            :label="item.value"
-                            :value="item.code"
+                            v-for="item in processPageList"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
                         ></el-option>
                         </iSelect>
                 </iFormItem>
@@ -94,7 +93,7 @@
 
 <script>
 import {iDialog,iButton, iInput,iFormItem,iSelect} from 'rise';
-import {queryProcessCatalogue} from '@/api/adminProCS';
+import {queryProcessCatalogue,loadProcessPageList} from '@/api/adminProCS';
 export default {
     components: {
         iDialog,
@@ -162,8 +161,9 @@ export default {
                     {max:50,message:'目录英文名长度不能超过50个字符！',trigger:"blur"},
                 ]
             },
-            options:[],
-            id:this.$route.query.id
+            processPageList:[],
+            id:this.$route.query.id,
+            loading:false
         }
     },
     methods: {
@@ -171,7 +171,13 @@ export default {
             this.$emit("update:show",false)
         },
         async open(){
-            this.data = await queryProcessCatalogue(this.id)
+            try {
+                this.loading = true
+                this.data = await queryProcessCatalogue(this.id)
+                this.processPageList = await loadProcessPageList(this.id,{page:0,size:10000})
+            } finally {
+                this.loading = false
+            }
         },
         editClose(){
             this.editDialog = false

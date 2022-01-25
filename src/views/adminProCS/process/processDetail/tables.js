@@ -59,10 +59,6 @@ const DOC = [
 
 const QUESTION = [
     {
-		type: 'selection',
-		width: 50
-	},
-    {
         type:'index',
         label:'序号',
         width: 100
@@ -81,6 +77,19 @@ const QUESTION = [
         prop:'updatedAt',
         label:'最后更新',
         align: 'center'
+    },
+    {
+        label:'最后更新',
+        align: 'center',
+        customRender:(h,{row},col,{operate}) => {
+            return (
+                <span>
+                    <iButton type="text" on-click={() => operate('answer',row)}>问题回答</iButton>
+                    <iButton type="text" on-click={() => operate('edit',row)}>修改</iButton>
+                    <iButton type="text" on-click={() => operate('del',row)}>删除</iButton>
+                </span>
+            )
+        }
     }
 ]
 
