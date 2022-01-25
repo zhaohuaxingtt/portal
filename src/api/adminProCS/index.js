@@ -542,5 +542,40 @@ export function getFlowchartInfo() {
         url: `/flowchart_mgr/flowchart/${id}.json`,
         method: 'put',
         data,
+        formData: true
     })
  }
+
+ /**
+ * 添加流程图热点
+ */
+export function addFlowchartNode(flowId, data) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${flowId}/hot_area.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+
+/**
+ * 修改流程图热点
+ */
+ export function updateFlowchartNode(flowId, nodeId, data) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${flowId}/hot_area/${nodeId}.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
+/**
+ * 删除流程图热点
+ */
+export function delFlowchartNode(id) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${id}/delete_hot_area.json`,
+        method: 'delete'
+    })
+}

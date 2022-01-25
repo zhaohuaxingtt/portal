@@ -127,8 +127,6 @@ export default {
     },
     // 生成点
     handleMarker () {
-      console.log(this.svwList, "svwList")
-      console.log(this.markerList, "markerList")
       // svw
       this.svwList.map((item, index) => {
         if (item.procureFactory == '1000') {
@@ -232,7 +230,6 @@ export default {
     },
     // 生成贝塞尔曲线row:选择的数据
     handleRecursion (data, partNum, viewType) {
-
       data.forEach((item, index) => {
         this.marker.forEach((val, i) => {
           if (item.supplierId == val._opts.extData.supplierId && item.chainLevel === 1) {
@@ -301,6 +298,7 @@ export default {
           this.handleRecursion(item.child, partNum, viewType)
         }
       })
+      console.log(this.marker, "marker")
     },
     // 点击零件|供应商
     async handleCurrentChange (row, viewType) {
