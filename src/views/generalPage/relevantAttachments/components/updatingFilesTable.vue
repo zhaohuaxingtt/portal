@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-07 11:35:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-25 19:32:23
+ * @LastEditors: YoHo
  * @Description: 相关附件
 -->
 <template>
@@ -29,12 +29,16 @@
                 @handleUploadedCallback="handleUploadedCallback"
                 @handleFileDownload="handleFileDownload"
                 @handleExampleDownload="handleExampleDownload"
+                @viewPublish="viewPublish"
+                @publish="publish"
                 :index="true"
+                :disabled="disabled"
                 v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS" />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
                        :loading="attachmentLoading"
                        v-model="attachmentDialog" />
+    <clause-dialog v-model="show" :supplierId="supplierId" :isMaintain="isMaintain"></clause-dialog>
   </i-card>
 </template>
 
@@ -52,6 +56,8 @@ import {
 import attachmentDialog from './attachmentDialog'
 import { downloadUdFile } from '@/api/file'
 import { cloneDeep } from 'lodash'
+import clauseDialog from "@/views/generalPage/clausePage/clauseDialog.vue";
+import { purchaseTerms } from '@/api/frmRating/overView/overView.js'
 
 export default {
   mixins: [generalPageMixins],
@@ -59,7 +65,8 @@ export default {
     iCard,
     iButton,
     tableList,
-    attachmentDialog
+    attachmentDialog,
+    clauseDialog
   },
   data () {
     return {
@@ -71,13 +78,37 @@ export default {
       attachmentDetail: '',
       attachmentLoading: false,
       currentTemplateId: '',
-      attachmentInfo: {}
+      attachmentInfo: {},
+      isMaintain: true,
+      show:false,
+      disabled:false,
     }
+  },
+  computed:{
+    supplierId(){
+      return  this.$store.state.baseInfo.baseMsg.ppSupplierDTO.id
+    },
   },
   created () {
     this.getTableList()
+    this.purchaseTerms()
   },
-  methods: {
+  methods: {  
+    purchaseTerms(){
+      let params = {
+        supplierId: this.supplierId,
+        headerId: this.$store.state.permission.userInfo.id // 就是Linie id
+      }
+      purchaseTerms(params).then(res=>{
+        if (res?.code == '200') {
+          res.data.forEach(i=>{
+            if(['02','03','04','05'].includes(i.termsStatus)){ // 02:审批中,03:审批退回,04:审批通过,05:签署中
+              this.disabled = true
+            }
+          })
+        }
+      })
+    },
     async getTableList () {
       this.tableLoading = true
       try {
@@ -93,6 +124,20 @@ export default {
         this.tableLoading = false
       }
     },
+    publish(row){
+      if(!this.supplierId){
+        iMessage.error('供应商id获取失败')
+        return
+      }
+      let query = {
+        supplierId: this.supplierId
+      }
+      const router =  this.$router.resolve({path: '/clausepage/item', query})
+      window.open(router.href,'_blank')
+    },
+    viewPublish(row){
+      this.show = true
+    },
     async handleViewAttachment (row) {
       this.attachmentInfo = {}
       this.attachmentDetail = ''
@@ -103,7 +148,7 @@ export default {
         id: this.currentTemplateId
       }
       const res = await getAttachmentCommitment(req)
-      this.attachmentDetail = res.data.detail
+      this.attachmentDetail = res.data?.detail
       this.attachmentLoading = false
       this.attachmentInfo = res.data
     },

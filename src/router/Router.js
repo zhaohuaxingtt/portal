@@ -1,8 +1,8 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: caopeng
- * @LastEditTime: 2021-12-08 16:42:23
+ * @LastEditors: YoHo
+ * @LastEditTime: 2022-01-18 17:39:47
  * @Description:
  * @FilePath: \front-portal-new\src\router\Router.js
  */
@@ -152,6 +152,30 @@ export default {
       path: "/terms/management/clauseDetail/preText",
       name: "preText",
       component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+    },
+    {
+      path: "/clausepage",
+      name: "clause",
+      component: DefLayout,
+      children: [
+        {
+          path: "item",
+          name: "clausePage",
+          component: () => import(`@/views/generalPage/clausePage`),
+        }, {
+          path: "preview",
+          name: "procurementTable",
+          component: () => import(`@/views/generalPage/clausePage/previewPdf`),
+        },
+      ]
+    }, {
+      path: "/clausepage/table",
+      name: "procurementTable",
+      component: () => import(`@/views/generalPage/clausePage/procurementTable`),
+    }, {
+      path: '/supplier/contractArchiving',
+      name: 'contractArchiving',
+      component: () => import('@/views/generalPage/contractArchiving'),
     },
     {
       path: '/',
