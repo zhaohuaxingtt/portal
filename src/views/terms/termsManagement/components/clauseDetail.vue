@@ -1,6 +1,7 @@
 <template>
+<div v-loading="loading">
   <iPage>
-    <div class="title">
+    <div class="title" >
       <div>
         <span class="title__clause">{{ this.ruleForm.name }}</span>
         <span>
@@ -509,6 +510,7 @@
       :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
+</div>
 </template>
 
 <script>
@@ -563,7 +565,7 @@ export default {
     supplierChooseDialog
   },
   props: {
-    loading: { type: Boolean, default: false },
+    // loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
@@ -575,6 +577,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -961,6 +964,7 @@ export default {
     //   this.clauseTextContrastShow = true;
     // },
     query(e) {
+      this.loading = true
       // 根据ID查询条款信息
       findById(e).then((res) => {
         if ((res.state == '01' || res.state == '02') && res.isNewest == true) {
@@ -982,6 +986,7 @@ export default {
               this.termsTextName = res.name
             })
           }
+          this.loading = false
         }
       })
     },

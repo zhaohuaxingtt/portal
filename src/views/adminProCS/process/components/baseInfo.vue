@@ -1,3 +1,4 @@
+
 <template>
     <div class="info">
         <div class="box">
@@ -15,6 +16,9 @@
 			v-model="fileList"
 			maxSize= 10
 			:limit="1"
+            :uploadHandle="uploadHandle"
+			:removeHandle="removeHandle"
+			:isCustHttp="true"
 		>
 			<div class="margin-top10">
 				<iButton class="margin-top10">Choose file</iButton>
@@ -30,7 +34,6 @@
 <script>
 import { iInput, iButton } from 'rise'
 import iUpload from '../../components/iUpload'
-// import { createFlowchartInfo } from '@/api/adminProCS';
 export default {
     name: 'baseInfo',
     components: {
@@ -42,6 +45,10 @@ export default {
         name: {
             type: String,
             default: ''
+        },
+        currId: {
+            type: String,
+            default: ''
         }
     },
     data() {
@@ -51,9 +58,24 @@ export default {
     },
     methods: {
         save() {
-            console.log(this.fileList, this.name, '222')
-
-        }
+            if (this.currId) {
+                this.$emit('updateFlowchartFun', this.name, this.uploadFileStream)
+            } else {
+                console.log('11')
+                this.$emit('createFlowchart', this.name, this.uploadFileStream)
+            }
+        },
+        removeHandle(file, idx) {
+			this.fileList.splice(idx, 1)
+		},
+        uploadHandle(file){
+			this.uploadFileStream = file
+			return new Promise((resolve) => {
+				resolve({
+					name: file.name
+				})
+			})
+		}
     }
 }
 </script>

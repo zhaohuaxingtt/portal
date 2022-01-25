@@ -57,7 +57,7 @@
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.topic }}</span>
+              <span class="open-link-text look-themen-click" @click="handleMBDl(scope.row)">{{ scope.row.topic }}</span>
             </template> 
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
@@ -264,7 +264,18 @@ export default {
         return 'active-row'
       }
       return 'narmal-row'
-    }
+    },
+    handleMBDl(row){ 
+      console.log(row);
+      if (row.isBreak) {
+        iMessage.error('改议题为休息')
+      }else if(row.type == 'MANUAL'){
+        iMessage.error('改议题为临时议题')
+      }else{
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
+      }
+    } 
+
   },
   mounted() {
     this.getTypeList()

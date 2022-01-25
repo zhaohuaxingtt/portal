@@ -7,6 +7,7 @@ export const tabRouterList = [
     url: "/news/news",
     activePath: "/news/news",
     key: language('NEWS_XINWEN',"新闻"),
+    permissionKey:"CF_NEWS_NEWS"
   },
   {
     value: 2,
@@ -15,6 +16,7 @@ export const tabRouterList = [
     url: "/news/notice",
     activePath: "/news/notice",
     key: language('NEWS_GONGGAO',"公告"),
+    permissionKey:"CF_NEWS_GONGGAO"
   },
   {
     value: 3,
@@ -23,6 +25,7 @@ export const tabRouterList = [
     url:"/survey/answer",
     activePath: "/survey/answer",
     key: language('NEWS_DIAOCHAWENJUAN',"调查问卷"),
+    permissionKey:"CF_NEWS_DIAOCHAWENJUAN"
   },
 ];
 

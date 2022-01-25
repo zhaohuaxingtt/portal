@@ -65,7 +65,7 @@
       <div class="margin-bottom20">
         <div class="flex-align-center">
           <span class="nowIndustry">后续跟踪频率</span>
-          <iSelect :disabled="isDisabled||disabled"
+          <iSelect   @change="changePv" :disabled="isDisabled||disabled"
                    v-model="info.trackFrequencyAgain">
             <el-option value="0"
                        key="0"
@@ -136,6 +136,7 @@ export default {
         disabled: { type: Boolean, default: false }
   },
   mounted () {
+
     // console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
@@ -152,7 +153,6 @@ export default {
     }),
     trans () {
       return (color) => {
-          console.log(color)
         if (color === '绿'||color === 'GREEN') {
           return 'iconlvdeng'
         } else if (color === '黄'||color === 'YELLOW') {
@@ -169,10 +169,16 @@ export default {
     }
   },
   methods: {
+      changePv(v){
+   this.$store.commit('SET_trackFrequencyAgain',v)
+},
     getOverView () {
       getSummarize(this.id).then((result) => {
         if (result.data) {
           this.info = result.data
+                 this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
+        this.info.trackFrequencyAgain=this.$store.state.frmRating.trackFrequencyAgain
+        console.log(this.info)
         }
       }).catch(() => {
 
@@ -234,6 +240,7 @@ export default {
       });
     },
     changeGrade (value) {
+           this.$store.commit('SET_deepCommentRatingResults',value)
       this.info = {
         ...this.info,
         deepCommentRatingResults: value

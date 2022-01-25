@@ -13,8 +13,8 @@
         <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_SAVE" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_MATERIALGROUP_RECORD" -->
     <table-list
-        v-permission="SUPPLIER_MATERIALGROUP_RECORD"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"

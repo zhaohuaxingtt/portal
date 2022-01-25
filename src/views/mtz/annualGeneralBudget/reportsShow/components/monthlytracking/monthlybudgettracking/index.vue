@@ -52,7 +52,7 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span class="only-myself" v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF">{{language('只看自己 ')}}
+          <span class="only-myself" >{{language('只看自己 ')}}
             <el-switch 
               v-model="searchForm.onlySeeMySelf" 
               active-color="#1660F1"
@@ -147,17 +147,13 @@ export default {
     this.getMaterialMedium()
     this.sure()
   },
-  mounted(){
-    // this.iniChart()
-  },
   methods:{
     iniChart(){
-      // const date = new Date
-      // const month = this.currentYearMonth
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
-      const _this = this
+      // const _this = this
       chart.setOption({
+        color:['rgb(2,96,241)'],
         title: {
           text: '单位：⼈⺠币/百万',
           top: 0,
@@ -193,9 +189,10 @@ export default {
         },
         yAxis: [
           {
+            type:'value'
             //设置间距，需要计算
-            max: _this.maximumScale,
-            splitNumber: 10,
+            // max: _this.maximumScale,
+            // splitNumber: 10,
           }
         ],
         legend: {
@@ -233,33 +230,30 @@ export default {
             name:'实际应付',
             type: 'bar',
             barWidth:'40',
-            data:this.dataMonth,
-            itemStyle: {
-              normal: {
-                color: function(params){
-                  if(params.name < _this.searchForm.yearMonth){
-                    return 'rgb(2,96,241)'
-                  }else{
-                    return 'rgb(119,203,255)'
+            data:this.dataMonth.map(item => {
+              return {
+                value:item.value,
+                itemStyle:{
+                  normal:{
+                    borderRadius:item.value > 0 ? [4,4,0,0] : [0,0,4,4],
+                    color: item.type == 'monthForecastPrice' ? 'rgb(119,203,255)' : 'rgb(2,96,241)'
+                  },
+                },
+                label: {
+                  normal:{
+                    show: true,
+                    position:item.value > 0? 'top' : 'bottom',
+                    formatter:(params)=>{
+                      return Number(params.value).toFixed(2)
+                    },
+                    textStyle: {
+                      color: 'inherit',
+                    }
                   }
                 },
-                
-                borderRadius:[4,4,0,0],
-              },
-            },
-            label: {
-              normal:{
-                show: true,
-                position: 'top',
-                formatter:(params)=>{
-                  return Number(params.value).toFixed(2)
-                },
-                textStyle: {
-                  color: 'inherit',
-                }
               }
+            }),
             },
-          },
           {
             name:'月度预测',
             type:'line',
@@ -333,15 +327,15 @@ export default {
           data?.forEach((item)=>{
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
-            allPrice.push(Math.abs(Number(item.yearForecastPrice)))
-            this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
+            allPrice.push(Number(item.yearForecastPrice))
+            this.yearData.push(Number(item.yearForecastPrice)/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
-              this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
-              allPrice.push(Math.abs(Number(item.actualPrice)))
+              this.dataMonth.push({value: Number(item.actualPrice)/1000000, type:'actualPrice'})
+              allPrice.push(Number(item.actualPrice))
             }else{
-              this.dataMonth.push(Math.abs(Number(item.monthForecastPrice))/1000000)
-              allPrice.push(Math.abs(Number(item.monthForecastPrice)))
+              this.dataMonth.push({value:Number( item.monthForecastPrice)/1000000,type:'monthForecastPrice'})
+              allPrice.push(Number(item.monthForecastPrice))
             }
           })
           this.maximumScale = Number(Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10)*10)

@@ -136,7 +136,9 @@ export const generalPageMixins = {
                     if (ids.length !== 0) {
                         const req = {
                             [idName]: ids,
-                            step: 'register'
+                            step: 'register',
+                            supplierId: this.$route.query.supplierId||"",
+                            supplierToken: this.$route.query.supplierToken||"",
                         }
                         if (this.supplierType > 3) {
                             req.step = 'submit'

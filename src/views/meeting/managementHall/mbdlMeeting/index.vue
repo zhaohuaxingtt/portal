@@ -2103,16 +2103,16 @@ export default {
         
       }
     },
-    //跳转到gp  mbdl详情 id mbdlDetails
+    //跳转到gp  mbdl详情 id mbdlDetails  cscCode
     // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
-    handleMBDl(row){
+    handleMBDl(row){ 
       console.log(row);
       if (row.isBreak) {
-        iMessage.error('改议题为休息')
+        iMessage.error('该议题为休息')
       }else if(row.type == 'MANUAL'){
-        iMessage.error('改议题为临时议题')
+        iMessage.error('该议题为临时议题')
       }else{
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}&code=${row.cscCode}`)
       }
     } 
   }

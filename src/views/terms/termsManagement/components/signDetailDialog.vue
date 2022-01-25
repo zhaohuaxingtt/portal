@@ -81,7 +81,7 @@
             <el-tooltip
               class="item"
               effect="light"
-              content="请输入国家，城市名称"
+              content="请输入国家或城市名称"
               placement="top"
             >
               <el-form-item :label="$t('地区')">
@@ -642,6 +642,7 @@ export default {
       //     })
       //     .join(',')
       // }
+      this.tableLoading = true
       getSignatureResult(e)
         .then((res) => {
           // this.tableListData = res?.termsSupplierList;

@@ -9,10 +9,11 @@
 export const tabRouterList = [
   {
     value: 1,
-    name: '年度预算编辑',
+    name: 'MTZ年度预算',
     url: '/mtz/annualBudgetEdit',
     activePath: '/mtz/annualBudgetEdit',
-    key: '',
+    key: 'MTZNIANDUYUSUANBIANJI',
+    permissionKey:"PORTAL_MTZ_NIANDUYUSUAN_MTZNIANDUYUSUANBIANJI"
   },
 ];
 export const categoryManagementAssistantList = [
@@ -22,6 +23,7 @@ export const categoryManagementAssistantList = [
     url: '/mtz/annualBudgetEdit/buyerOverview',
     activePath: '/mtz/annualBudgetEdit/buyerOverview',
     key: 'CAIGOUYUANYUSUANZONGLAN',
+    permissionKey:"PORTAL_MTZ_NIANDUYUSUAN_CAIGOUYUANYUSUANZONGLAN"
   },
   {
     value: 2,
@@ -29,6 +31,7 @@ export const categoryManagementAssistantList = [
     url: '/mtz/annualBudgetEdit/officeOverview',
     activePath: '/mtz/annualBudgetEdit/officeOverview',
     key: 'KESHIYUSUANZONGLAN',
+    permissionKey:"PORTAL_MTZ_NIANDUYUSUAN_KESHIYUSUANZONGLAN"
   },
   {
     value: 3,
@@ -36,6 +39,7 @@ export const categoryManagementAssistantList = [
     url: '/mtz/annualBudgetEdit/brandOverview',
     activePath: '/mtz/annualBudgetEdit/brandOverview',
     key: 'PINPAIYUSUANZONGLAN',
+    permissionKey:"PORTAL_MTZ_NIANDUYUSUAN_PINPAIYUSUANZONGLAN"
   },
   {
     value: 4,
@@ -43,5 +47,6 @@ export const categoryManagementAssistantList = [
     url: '/mtz/annualBudgetEdit/otherOverview',
     activePath: '/mtz/annualBudgetEdit/otherOverview',
     key: 'BIANJIQITA',
+    permissionKey:"PORTAL_MTZ_NIANDUYUSUAN_BIANJIQITA"
   },
 ];

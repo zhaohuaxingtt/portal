@@ -1,26 +1,32 @@
 <template>
     <iPage>
-        <div class="content">
+        <div class="content" v-loading="loading">
             <div class="leftContent" @mousedown.capture="test1" @mouseup.capture="test2">
                 <div v-for="(item, idx) in projectInfoData" :key="idx">
-                    <div :class="idx === currIndex ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yoc+'px',left:item.xoc+'px', display: 'block', borderRadius: '50%'}"></div>
+                    <div :class="item.id === currProId ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}"></div>
                 </div>
-                <img src="~@/assets/images/mainProcess.png" class="img-process" />
+                <!-- <img src="~@/assets/images/mainProcess.png" class="img-process" /> -->
+                <img :src="filePath" class="img-process" />
             </div>
             <div class="rightContent">
-                <el-tabs v-model="activeName" class="tabs" @tab-click="handleClick">
+                <el-tabs v-model="activeName" class="tabs" @tab-click="handleClick($event)">
                     <el-tab-pane label="基本信息" name="baseInfo">
                         <BaseInfo 
                             :name="baseInfoName"
+                            :currId="currId"
+                            @updateFlowchartFun="updateFlowchartFun"
+                            @createFlowchart="createFlowchart"
                         />
                     </el-tab-pane>
                     <el-tab-pane label="项目信息" name="projectInfo" class="tab-project">
                         <ProjectInfo
                             ref="project"
                             :listData="projectInfoData"
+                            :processList="processList"
                             @handelStyle="handelStyle"
-                            @getProjectId="getProjectId"
+                            @getProjectIdx="getProjectIdx"
                             @addData="addData"
+                            @delData="delData"
                         />
                     </el-tab-pane>
                 </el-tabs>
@@ -33,7 +39,8 @@
 import { iPage } from 'rise'
 import BaseInfo from './components/baseInfo'
 import ProjectInfo from './components/projectInfo'
-import { getFlowchartInfo } from '@/api/adminProCS';
+import { getFlowchartInfo, createFlowchartInfo, updateFlowchart, queryProcessList, addFlowchartNode, delFlowchartNode, updateFlowchartNode } from '@/api/adminProCS';
+import { FACTORY_TABLE_COLUMNS } from '@/views/mainDataSupplier/list/components/data';
 export default {
     name: 'mainProcess',
     components: {
@@ -52,57 +59,114 @@ export default {
             clickFlag: false,
             activeName: 'baseInfo',
             baseInfoName: null,
-            projectInfoData: [
-                {
-                    name: 'add',
-                    height: '',
-                    width: ''
-                }
-            ],
+            projectInfoData: [],
             currIndex: 0,
             modifyFlag: false,
             canDrawFlag: false,
             filePath: null,  // 流程图路径
             currId: null, // 主流程id
+            currProId: null,
             hotAreas: [],  // 热点区域列表
+            processList: null,  // 项目链接
+            loading: false
         }
     },
     created() {
         this.getMainChartInfo()
     },
     methods: {
-        getMainChartInfo() {
-            getFlowchartInfo().then(res => {
-                if (res) {
-                    this.filePath = res.filePath || ''
-                    this.baseInfoName = res.name
-                    this.currId = res.id
-                    let hotAreas = res.hotAreas || []
-                    hotAreas.unshift({
-                        name: 'add',
-                        height: '',
-                        width: ''
-                    })
-                    this.projectInfoData = hotAreas
-                }
-            }) 
+        async getMainChartInfo() {
+            try {
+                this.loading = true
+                await getFlowchartInfo().then(res => {
+                    if (res) {
+                        this.dealData(res)
+                        this.loading = false
+                    }
+                }) 
+            } finally {
+                this.loading = false
+            }
         },
-        handleClick(tab, event) {
-            console.log(tab, event, 'event')
-            if (tab === 'projectInfo') {
+        async createFlowchart(name, file) {
+            let params = {
+                name: name, 
+                file: file,
+                category: 'flowchart.main'
+            }
+            let formData = new FormData()
+            Object.keys(params).forEach(item => {
+                formData.append(item, params[item])
+            })
+            try {
+                this.loading = true
+                await createFlowchartInfo(formData).then(res => {
+                    this.dealData(res)
+                    this.loading = false
+                })
+            } finally {
+                this.loading = false
+            }
+        },
+        async updateFlowchartFun(name, file) {
+            let params = {
+                name: name, 
+                file: file,
+                category: 'flowchart.main'
+            }
+            let formData = new FormData()
+            Object.keys(params).forEach(item => {
+                formData.append(item, params[item])
+            })
+            try {
+                this.loading = true
+                await updateFlowchart(this.currId, formData).then(res => {
+                    this.dealData(res)
+                    this.loading = false
+                })
+            } finally {
+                this.loading = false
+            }
+        },
+        dealData(res) {
+            this.filePath = res.filePath.split("/uploader/")[1]
+            this.baseInfoName = res.name
+            this.currId = res?.id || ''
+            let hotAreas = res.hotAreas || []
+            hotAreas.unshift({
+                name: 'add',
+                height: '',
+                width: ''
+            })
+            this.projectInfoData = hotAreas
+        },
+        handleClick(event) {
+            console.log(event, 'event')
+            if (event.index == '1') {
+                // 获取流程列表
+                this.getProcessList()
                 this.canDrawFlag = true
             } else {
                 this.canDrawFlag = false
             }
         },
+        async getProcessList() {
+            let params = {
+                page: 0,
+                size: 1000
+            }
+            let res = await queryProcessList(params)
+            this.processList = res.content || []
+        },
         test1(e) {
+            console.log(this.modifyFlag, '11111111111')
             if (!this.canDrawFlag) return
 			this.startX = e.layerX
 			this.startY = e.layerY
 			this.clickFlag = true
 		},
         test2(e) {
-            if (!this.canDrawFlag) return
+            // if (!this.canDrawFlag) return
 			this.endX = e.layerX
 			this.endY = e.layerY
 			this.clickFlag = false
@@ -116,11 +180,11 @@ export default {
                         console.log('modify')
                         divIndex = this.currIndex
                     } else{
-                        console.log('add')
-                        divIndex = this.projectInfoData.length - 1
+                        console.log('add', this.projectInfoData.length)
+                        divIndex = 0
                     }
                     console.log(divIndex, '22222')
-                    let testDiv = document.getElementById(`testDiv${this.modifyFlag ? this.currIndex : this.projectInfoData.length - 1}`)
+                    let testDiv = document.getElementById(`testDiv${divIndex}`)
                     console.log('test div', testDiv);
                     testDiv.style.display = 'block'
                     testDiv.style.top = `${this.startY}px`
@@ -130,8 +194,8 @@ export default {
                     testDiv.style.borderRadius = '50%'
                 // })
                 let obj = {
-                    yoc: this.startY,
-                    xoc: this.startX,
+                    yco: this.startY,
+                    xco: this.startX,
                     width: this.currWidth,
                     height: this.currHeight
                 }
@@ -155,6 +219,7 @@ export default {
 			}
 		},
         handelStyle(e, va) {
+            console.log(e, va, this.currIndex + 1, 1111)
             let testDiv = document.getElementById(`testDiv${this.currIndex}`)
             if (va === 'x') {
                 testDiv.style.left = `${e}px`
@@ -169,15 +234,73 @@ export default {
         getCircleId(idx) {
             this.currIndex = idx - 1
         },
-        getProjectId(index) {
+        getProjectIdx(index, row) {
+            console.log(row, index, '=====')
+            this.currProId = row.id
             if (index !== 0) {
                 this.modifyFlag = true
+            } else {
+                this.getMainChartInfo()
+                this.modifyFlag = false
             }
             this.currIndex = index - 1
         },
-        addData(list, flag) {
-            this.projectInfoData = list
-            this.modifyFlag = flag
+        async addData(row) {
+            if (row.id) {
+                // 修改
+                console.log(row, '111')
+                let obj = {
+                    name: row.name,
+                    flowId: row.flowId,
+                    xco: row.xco,
+                    width: row.width,
+                    yco: row.yco,
+                    height: row.height,
+                }
+                let formData = new FormData()
+                Object.keys(obj).forEach(item => {
+                    formData.append(item, obj[item])
+                })
+                let currProId = row.id || ''
+                try {
+                    this.loading = true
+                    await updateFlowchartNode(this.currId, currProId, formData).then(res =>{
+                        if (res) {
+                        this.$message({type: 'success', message: '修改项目信息成功'})
+                        this.getMainChartInfo()
+                        }
+                    })
+                } finally {
+                    this.loading = false
+                }
+                
+            } else {
+                // 新增
+                let formData = new FormData()
+                Object.keys(row).forEach(item => {
+                    formData.append(item, row[item])
+                })
+                try {
+                    this.loading = true
+                    await addFlowchartNode(this.currId, formData).then(res =>{
+                        if (res) {
+                        this.$message({type: 'success', message: '新增项目信息成功'})
+                        this.getMainChartInfo()
+                        }
+                    })
+                } finally {
+                    this.loading = false
+                }
+            }
+        },
+        async delData() {
+            // let currProId = this.projectInfoData[projectIndex]?.id || ''
+            await delFlowchartNode(this.currProId).then(res => {
+                if (res?.success) {
+                    this.$message({type: 'success', message: '删除当前项目信息成功'})
+                    this.getMainChartInfo()
+                }
+            })
         }
     }
 }

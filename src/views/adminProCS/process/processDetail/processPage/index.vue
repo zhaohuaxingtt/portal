@@ -15,13 +15,13 @@
         <!-- 新增和编辑 -->
         <Edit :show.sync="editDialog.show" :id="editDialog.id" @refresh="queryList"></Edit>
         <!-- 操作手册 -->
-        <Manual :show.sync="manualDialog.show" :info="manualDialog.info"></Manual>
+        <Manual :show.sync="manualDialog.show" :info="manualDialog.info" @refresh="queryList"></Manual>
         <!-- 操作视频 -->
-        <Video :show.sync="videoDialog.show"></Video>
+        <Video :show.sync="videoDialog.show" :info="videoDialog.info" @refresh="queryList"></Video>
         <!-- 常见问题 -->
-        <Question :show.sync="qsDialog.show"></Question>
+        <Question :show.sync="qsDialog.show" :info="qsDialog.info" @refresh="queryList"></Question>
         <!-- 附件 -->
-        <Attachment :show.sync="qsDialog.show"></Attachment>
+        <Attachment :show.sync="attchDialog.show" :info="qsDialog.info" @refresh="queryList"></Attachment>
 
         <!-- 流程目录 -->
         <ProcessDirectory :show.sync="processDialog.show"></ProcessDirectory>
@@ -69,10 +69,16 @@ export default {
                 info:{}
             },
             videoDialog:{
-                show: false
+                show: false,
+                info:{}
             },
             qsDialog:{
-                show: false
+                show: false,
+                info:{}
+            },
+            attchDialog:{
+                show: false,
+                info:{}
             },
             processDialog:{
                 show:false
@@ -118,13 +124,16 @@ export default {
                     this.manualDialog.show = true
                     break;
                 case "video":    //操作视频
+                    this.videoDialog.info = row
                     this.videoDialog.show = true
                     break;
                 case "qs":    //常见问题
+                    this.qsDialog.info = row
                     this.qsDialog.show = true
                     break;
                 case "attch":    //附件
-                    this.qsDialog.show = true
+                    this.attchDialog.info = row
+                    this.attchDialog.show = true
                     break;
                 case "del":    //删除
                     this.$confirm('确定删除此页面吗?', '提示', {

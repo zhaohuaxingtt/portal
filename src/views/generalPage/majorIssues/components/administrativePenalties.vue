@@ -14,6 +14,7 @@
         <i-button @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+        <!-- v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
@@ -24,7 +25,6 @@
         @handleSelectionChange="handleSelectionChange"
         @openPage="handleOpenPage"
         :openPageGetRowData="true"
-        v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES"
     />
     <!--内容框-->
     <content-dialog
