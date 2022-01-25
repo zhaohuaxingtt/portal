@@ -23,9 +23,9 @@
 			<iFormItem :label="language('标题首字母')" prop='firstLetter'>
 				<iInput v-model="newQuestionForm.firstLetter" placeholder="请输入标题首字母"></iInput>
 			</iFormItem>	
-			<iFormItem :label="language('更新日期')" prop='updatedAt'>
+			<iFormItem :label="language('更新日期')" prop='updateAt'>
 				<el-date-picker
-					v-model="newQuestionForm.updatedAt"
+					v-model="newQuestionForm.updateAt"
 					type="date"
 					placeholder="请选择更新日期">
 				>
@@ -42,7 +42,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import {ProcessAddFAQ,ProcessEditFAQ} from '@/api/adminProCS';
-
+import moment from 'moment';
 export default {
     name: 'addQuestion',
     components: {
@@ -67,12 +67,12 @@ export default {
             newQuestionForm: {
 				name: '',
 				firstLetter: '',
-				updatedAt: ''
+				updateAt: ''
             },
             newQuestionRules: {
 				name: { required:'true',message:"请输入问题描述",trigger:'blur' },
 				firstLetter: { required:'true',message:"请输入标题首字母",trigger:'blur' },
-				updatedAt: { required:'true',message:"请选择更新日期",trigger:'blur' },
+				updateAt: { required:'true',message:"请选择更新日期",trigger:'blur' },
 			},
             processId: this.$route.query.id,
             loading: false
@@ -86,7 +86,7 @@ export default {
             this.newQuestionForm = {
                 name: '',
 				firstLetter: '',
-				updatedAt: ''
+				updateAt: ''
             }
             this.$refs.form.resetFields()
             this.$emit('update:show', false)
@@ -96,7 +96,7 @@ export default {
                 if(v){
                     this.loading = true
                     let data = new FormData()
-                    this.newQuestionForm
+                    this.newQuestionForm.updateAt = moment(this.newQuestionForm.updateAt).format("YYYY-MM-DD HH:mm:ss")
                     for (const key in this.newQuestionForm) {
                         data.append(key, this.newQuestionForm[key])
                     }
@@ -106,6 +106,7 @@ export default {
                         }else{
                             await ProcessAddFAQ(this.processId, data)
                         }
+                        this.$emit("refresh")
                         this.$message.success("保存成功")
                         this.close()
                     } finally {
