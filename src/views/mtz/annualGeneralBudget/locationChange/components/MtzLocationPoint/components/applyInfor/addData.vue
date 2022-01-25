@@ -81,6 +81,7 @@
                    clearable
                    filterable
                    value-key="code"
+                   :disabled="companyType"
                    :placeholder="language('QINGXUANZE','请选择')">
                     <el-option v-for="item in dosageMeasureUnit"
                             :key="item.code"
@@ -377,6 +378,7 @@ export default {components: {
         })
     };
     return {
+        companyType:false,
         supplierList:[],//供应商编号
         contractForm: {
             assemblyPartnum:"",
@@ -468,6 +470,13 @@ export default {components: {
                     this.contractForm.sapCode = e.supplierId.toString();
                     this.contractForm.priceSource = e.source;
                     this.contractForm = Object.assign({...this.contractForm},e);
+                    if(e.priceMeasureUnit == "PC"){
+                        this.contractForm.dosageMeasureUnit = "PC";
+                        this.companyType = true;
+                    }else{
+                        this.contractForm.dosageMeasureUnit = "KG";
+                        this.companyType = false;
+                    }
                     throw new Error("EndIterative");
                 }
             });

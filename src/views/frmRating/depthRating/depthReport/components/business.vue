@@ -148,7 +148,7 @@
               maxlength="120"
               show-word-limit></iInput>
     </iCard>
-    <div class="remark">来源于公开信息，供应商提供信息和供应商访谈。</div>
+   <div class="remark"> 本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。  </div>
   </div>
 </template>
 
@@ -241,7 +241,6 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+     color: #e30b0d;
 }
 </style>

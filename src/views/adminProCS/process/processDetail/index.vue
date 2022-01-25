@@ -1,20 +1,20 @@
 <template>
     <div>
-        <el-tabs v-model="currType">
+        <el-tabs v-model="currType" @tab-click="change">
             <el-tab-pane label="流程页面" name="page">
-                <processPage :id="id"></processPage>
+                <processPage ref="page" :id="pId"></processPage>
             </el-tab-pane>
             <el-tab-pane label="ProD文档" name="doc">
-                <doc :id="id"></doc>
+                <doc ref="doc" :id="pId"></doc>
             </el-tab-pane>
             <el-tab-pane label="流程指导书" name="guide">
-                <guide :id="id"></guide>
+                <guide ref="guide" :id="id"></guide>
             </el-tab-pane>
             <el-tab-pane label="常见问题" name="qs">
-                <question :id="id"></question>
+                <question ref="qs" :id="id"></question>
             </el-tab-pane>
             <el-tab-pane label="流程附件" name="attachment">
-                <attachment :id="id"></attachment>
+                <attachment ref="attachment" :id="id"></attachment>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -42,6 +42,16 @@
         data() {
             return {
                 currType: "page"
+            }
+        },
+        mounted() {
+            this.$refs[this.currType].queryList()
+        },
+        methods: {
+            change(tab){
+                this.$nextTick(() => {
+                    this.$refs[tab.name].queryList()
+                })
             }
         },
     }

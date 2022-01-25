@@ -6,22 +6,22 @@
                 <iButton style="margin-left:10px" @click="queryList('rest')">搜索</iButton>
             </div>
             <div>
-                <iButton @click="editDialog.show = true">添加页面</iButton>
+                <iButton @click="editDialog.id = ''; editDialog.show = true">添加页面</iButton>
                 <iButton>子流程图</iButton>
                 <iButton @click="processDialog.show = true">流程目录</iButton>
             </div>
         </div>
         <ITable ref="table" :tableSetting='tableSetting' :extraData="extraData" :query-method="query"></ITable>
         <!-- 新增和编辑 -->
-        <Edit :show.sync="editDialog.show"></Edit>
+        <Edit :show.sync="editDialog.show" :id="editDialog.id" @refresh="queryList"></Edit>
         <!-- 操作手册 -->
-        <Manual :show.sync="manualDialog.show"></Manual>
+        <Manual :show.sync="manualDialog.show" :info="manualDialog.info" @refresh="queryList"></Manual>
         <!-- 操作视频 -->
-        <Video :show.sync="videoDialog.show"></Video>
+        <Video :show.sync="videoDialog.show" :info="videoDialog.info" @refresh="queryList"></Video>
         <!-- 常见问题 -->
-        <Question :show.sync="qsDialog.show"></Question>
+        <Question :show.sync="qsDialog.show" :info="qsDialog.info" @refresh="queryList"></Question>
         <!-- 附件 -->
-        <Attachment :show.sync="qsDialog.show"></Attachment>
+        <Attachment :show.sync="attchDialog.show" :info="qsDialog.info" @refresh="queryList"></Attachment>
 
         <!-- 流程目录 -->
         <ProcessDirectory :show.sync="processDialog.show"></ProcessDirectory>
@@ -38,7 +38,8 @@ import Video from './video.vue';
 import Question from './question.vue';
 import Attachment from './attachment.vue';
 import ProcessDirectory from './processDirectory.vue';
-import {loadProcessPageList} from '@/api/adminProCS';
+import {loadProcessPageList,deleteProcessPage} from '@/api/adminProCS';
+
 export default {
     components:{
         ITable,
@@ -52,11 +53,6 @@ export default {
         Attachment,
         ProcessDirectory
     },
-    props:{
-        id:{
-            default:""
-        }
-    },
     data() {
         return {
             tableSetting:PROCESS_PAGE,
@@ -65,25 +61,31 @@ export default {
                 operate:this.operate,
             },
             editDialog:{
-                show: false
+                show: false,
+                id:""
             },
             manualDialog:{
-                show: false
+                show: false,
+                info:{}
             },
             videoDialog:{
-                show: false
+                show: false,
+                info:{}
             },
             qsDialog:{
-                show: false
+                show: false,
+                info:{}
+            },
+            attchDialog:{
+                show: false,
+                info:{}
             },
             processDialog:{
                 show:false
             },
-            query: this.queryTable
+            query: this.queryTable,
+            id:this.$route.query.id
         }
-    },
-    mounted () {
-        this.queryList()
     },
     methods: {
         queryList(t){
@@ -114,26 +116,32 @@ export default {
         operate(type,row){
             switch (type) {
                 case "edit":    //修改
+                    this.editDialog.id = row.id
                     this.editDialog.show = true
                     break;
                 case "manual":    //操作手册
+                    this.manualDialog.info = row
                     this.manualDialog.show = true
                     break;
                 case "video":    //操作视频
+                    this.videoDialog.info = row
                     this.videoDialog.show = true
                     break;
                 case "qs":    //常见问题
+                    this.qsDialog.info = row
                     this.qsDialog.show = true
                     break;
                 case "attch":    //附件
-                    this.qsDialog.show = true
+                    this.attchDialog.info = row
+                    this.attchDialog.show = true
                     break;
                 case "del":    //删除
                     this.$confirm('确定删除此页面吗?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
-                    }).then(() => {
+                    }).then(async () => {
+                        await deleteProcessPage(row.id)
                         this.$message({
                             type: 'success',
                             message: '删除成功!'

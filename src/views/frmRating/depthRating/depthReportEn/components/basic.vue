@@ -4,7 +4,7 @@
  * @Description:SFRM综合评价
  -->
 <template>
-  <div>
+  <div  >
     <!-- SFRM综合评价 -->
     <iCard title="SFRM Overall evaluation"
            collapse
@@ -65,6 +65,7 @@
           <span class="nowIndustry">Frequency of Follow-up</span>
           <iSelect :disabled="isDisabled"
                    v-model="info.trackFrequencyAgain"
+                   @change="changePv"
                    placeholder="Please select">
             <el-option value="0"
                        key="0"
@@ -98,12 +99,12 @@
               maxlength="120"
               show-word-limit></iInput>
     </iCard>
-    <div class="remark">The report is only used for SAIC VOLKSWAGEN internal business decision reference. Any information relating to the report shall not.</div>
+    <div class="remark">This report is only for SAIC Volkswagen's internal business decision-making reference. Please keep all the information of the suppliers strictly confidential, and do not disclose any content of this report to any other third party. Please use the information with caution and reasonableness within the company. This report cannot be used as the basis for legal proceedings, and SAIC Volkswagen does not assume any responsibility.</div>
   </div>
 </template>
 
 <script>
-import { iCard, iInput, iDatePicker, iSelect, icon } from 'rise';
+import { iCard, iInput, iDatePicker, iSelect, icon,iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { depthResult } from '../data';
 import { getSummarize, postSummarize } from '@/api/frmRating/depthRating/depthReport.js'
@@ -134,6 +135,8 @@ export default {
     isDisabled: { type: Boolean, default: false }
   },
   mounted () {
+
+     console.log(this.$store.state.frmRating.trackFrequencyAgain)
     // console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
@@ -166,11 +169,15 @@ export default {
     }
   },
   methods: {
-
+changePv(v){
+   this.$store.commit('SET_trackFrequencyAgain',v)
+},
     getOverView () {
       getSummarize(this.id, 'en').then((result) => {
         if (result.data) {
           this.info = result.data
+                  this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
+     this.info.trackFrequencyAgain=this.$store.state.frmRating.trackFrequencyAgain
         }
       }).catch(() => {
 
@@ -193,6 +200,10 @@ export default {
       // 	this.$message.error(this.$t('SPR_FRM_DEP_CHECK'))
       // 	return
       // }
+        if((this.info.deepCommentRatingResults==""||this.info.deepCommentRatingResults==null)&&(this.info.trackFrequencyAgain==""||this.info.trackFrequencyAgain==null)){
+          iMessage.warn('Please fill in the status and follow-up frequency')
+          return false
+      } 
       this.info.lang = 'en'
       postSummarize(this.info)
         .then((result) => {
@@ -216,6 +227,7 @@ export default {
       });
     },
     changeGrade (value) {
+           this.$store.commit('SET_deepCommentRatingResults',value)
       this.info = {
         ...this.info,
         deepCommentRatingResults: value

@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -101,10 +101,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('JITUANGONGSI', '集团公司')">
-          <iSelect remote
-                   :remote-method="remoteGetGroup"
-                   multiple
-                   collapse-tags
+          <iSelect
                    filterable
                    :placeholder="language('请选择')"
                    v-model="form.groupId">
@@ -116,11 +113,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('VWHAOZHUANGTAI', 'vw号状态')">
-          <iSelect remote
-                   :remote-method="remoteGetGroup"
-                   multiple
-                   collapse-tags
-                   filterable
+          <iSelect
                    :placeholder="language('请选择')"
                    v-model="form.vwStatus">
             <el-option v-for="item in vwStatuslist"
@@ -161,7 +154,7 @@
           <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
                     @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
-          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
                     @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
           <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
@@ -287,7 +280,7 @@ import {
 } from 'rise'
 import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
-import { dropDownTagName } from '@/api/supplierManagement/supplierTag/index'
+import { dropDownTagName,groupCompanyList,vwStatusList } from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
@@ -559,15 +552,31 @@ export default {
       }
     },
     toApplicationBDL () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
       this.$router.push({
         path: '/supplier/application-BDL',
-        query: { supplierToken: this.$route.query.supplierToken }
+        query: { supplierToken: this.selectTableData[0].supplierToken }
       })
     },
     toApplicationMBDL () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
       this.$router.push({
         path: '/supplier/application-BDL',
-        query: { supplierToken: this.$route.query.supplierToken, mbdl: true }
+        query: { supplierToken: this.selectTableData[0].supplierToken, mbdl: true }
       })
     },
     synchro () {
@@ -594,7 +603,10 @@ export default {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
-
+        const res6 = await groupCompanyList({})
+        const res5 = await vwStatusList({})
+        this.vwStatuslist = res5.data
+        this.groupList = res6.data
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4

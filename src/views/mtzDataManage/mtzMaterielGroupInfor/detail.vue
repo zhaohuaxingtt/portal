@@ -1,7 +1,8 @@
 <template>
   <iPage>
     <pageHeader>
-      {{ language($route.query.id ? '编辑' : '新增') }}{{language('MTZ材料组信息')}}
+      {{ language($route.query.id ? '编辑' : '新增')
+      }}{{ language('MTZ材料组信息') }}
     </pageHeader>
 
     <theDetailBase class="margin-top20" />
@@ -20,6 +21,7 @@
       :save-right-fun="saveMaterielGroupRelationFun"
       :right-data-filter-keys="['categoryCode', 'categoryNameZh', 'deptCodes']"
       left-disabled-prop="isUse"
+      edit-permission-key="BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_PARTS_MODIFY"
     />
 
     <tableTransfer
@@ -36,6 +38,7 @@
       :save-right-fun="saveSixNumPartsRelationFun"
       :right-data-filter-keys="['categoryCode', 'categoryName']"
       left-disabled-prop="isUse"
+      edit-permission-key="BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_SIX_NUM_MODIFY"
     />
   </iPage>
 </template>
@@ -86,7 +89,7 @@ export default {
     // 保存零件材料组已关联列表
     saveMaterielGroupRelationFun(data) {
       const requestData = {
-        categoryCodes: data.map(e => e.categoryCode),
+        categoryCodes: data.map((e) => e.categoryCode),
         materialGroupCode: this.$route.query.code
       }
       return saveMaterialGroupRelation(requestData)
@@ -112,7 +115,7 @@ export default {
     saveSixNumPartsRelationFun(data) {
       const requestData = {
         materialGroupCode: this.$route.query.code,
-        sixPartCodes: data.map(e => e.sixPartCode)
+        sixPartCodes: data.map((e) => e.sixPartCode)
       }
       return saveSixNumPartsRelation(requestData)
     }

@@ -20,6 +20,7 @@
                     value-format="yyyy-MM-dd"
                     type="date"
                     v-model="form.publishDate"
+                    :picker-options="pickerOptions"
                     style="width:100%"
                     />
             </iFormItem>
@@ -48,7 +49,7 @@
 <script>
     import {iDialog,iButton,iInput, iSelect, iDatePicker, iFormItem} from 'rise';
     import iUpload from '@/views/adminProCS/components/iUpload.vue';
-    import { addReportContent, updateReportContent, queryTypeList, getCategoryById } from '@/api/reportForm';
+    import { addReportContent, updateReportContent, queryCurrTypeList, getCategoryById } from '@/api/reportForm';
     export default {
         components: {
             iDialog,
@@ -92,25 +93,26 @@
                 reportCategoryList: [],
                 loading: false,
                 uploadFileStream: null,
-                currId: null
+                currId: null,
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7
+                    }
+                }
             }
         },
         methods: {
             async getTypeList() {
-                console.log('1234')
-                let params = {
-                    page: 1,
-                    size: 99
-                }
                 this.loading = true
-                await queryTypeList(params).then(res => {
-                    if (res?.code) {
-                        this.reportSectionList = res?.data
+                await queryCurrTypeList().then(res => {
+                    if (res) {
+                        this.reportSectionList = res || []
                         this.loading = false
                     }
                 })
             },
             handleTypeChange(va) {
+                this.form.reportCategoryId = ''
                 this.getCurrCategory(va)
             },
             async getCurrCategory(va) {

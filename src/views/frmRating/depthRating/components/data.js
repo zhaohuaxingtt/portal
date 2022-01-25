@@ -1,10 +1,10 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2021-08-19 15:31:37
- * @LastEditors: 舒杰
+ * @LastEditTime: 2022-01-25 16:44:55
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\frmRating\depthRating\components\data.js
+ * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\data.js
  */
 
 
@@ -40,7 +40,7 @@ export const tableTitle = [
     key: 'SPR_FRM_DEP_DEPRESULT'
   },
   {
-    props: 'ratingTime',
+    props: 'approvalEndDate',
     name: '深评时间',
     key: 'SPR_FRM_DEP_DEPTIME',
     width: 120

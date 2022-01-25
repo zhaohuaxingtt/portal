@@ -2,7 +2,7 @@
     <div>
         <iSearch @sure='search' @reset="reset" icon>
             <el-form>
-                <iFormItem :label='language("报告标题")'>
+                <iFormItem :label='language("类型")'>
                     <iInput v-model="searchForm.name" :placeholder='language("请输入")' filterable></iInput>
                 </iFormItem>
                 <iFormItem :label='language("状态")'>
@@ -22,7 +22,9 @@
                         range-separator="至"
                         style="width:320px;"
                         start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                        end-placeholder="结束日期"
+                        value-format="yyyy-MM-dd"
+                    >
                         </el-date-picker>
                 </iFormItem>
             </el-form>
@@ -134,8 +136,8 @@
             },
             search(){
                 if (this.publicDate.length > 0) {
-                    this.searchForm.startTime = this.publicDate[0]
-                    this.searchForm.endTime = this.publicDate[1]
+                    this.searchForm.startTime = new Date(this.publicDate?.[0] || '')
+                    this.searchForm.endTime = new Date(this.publicDate?.[1] || '')
                 }
                 this.page.currPage = 1
                 this.searchFlag = true
@@ -143,6 +145,7 @@
             },
             reset(){
                 this.searchForm = {}
+                this.publicDate = []
                 this.searchFlag = false
 				this.page.currPage = 1
                 this.query()
@@ -179,7 +182,7 @@
 				this.$refs.editDialog.getTypeList()
             },
             async edit(row){
-                if(row.state) return this.$message.warning("请先下架，再进行修改操作")
+                if(row.published) return this.$message.warning("请先下架，再进行修改操作")
                 this.tableLoading = true
                 await reportContentDetailById(row.id).then(res => {
                     if (res) {
@@ -197,7 +200,7 @@
                 })
             },
             del(row){
-                if(row.state) return this.$message.warning("请先下架，再进行删除操作")
+                if(row.published) return this.$message.warning("请先下架，再进行删除操作")
                 this.$confirm('确定要删除此项？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',

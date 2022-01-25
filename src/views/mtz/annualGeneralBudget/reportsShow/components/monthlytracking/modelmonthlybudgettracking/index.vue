@@ -1,10 +1,13 @@
 <!--车型预算月度跟踪--->
 <template>
-  <div
+  <!-- <div
     class="OuterFrame"
     v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING"
+  > -->
+  <div
+    class="OuterFrame"
+    v-permission="MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE"
   >
-  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_MODEL_BUDGET_TRACKING_PAGE|车型预算月度跟踪页面'>
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -71,7 +74,6 @@
         </el-form-item>
         <div
           class="showMe"
-          v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF"
         >
           <span>{{ language('只看自己 ') }}</span>
           <el-switch
@@ -120,18 +122,22 @@
         :dataTitleTwo="dataTitleTwo"
       />
       <iPagination
-        @current-change="handleCurrentChange($event, clickQuery)"
-        @size-change="handleSizeChange($event, clickQuery)"
+        @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
+        @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
         background
-        :total="page.total"
+        :current-page="page.currPage"
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :total="page.totalCount"
       />
     </iCard>
   </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
-import { iSearch, iSelect, iCard, iButton } from 'rise'
+import { iSearch, iSelect, iCard, iButton, iPagination } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
 import { pageMixins } from '@/utils/pageMixins'
@@ -139,7 +145,6 @@ import {
   queryMtzMaterial,
   queryMaterialMedium,
   getVersionData,
-  yearMonthDropDown,
   differenceAnalysisCarModel,
   differenceAnalysisCarModelExport
 } from '@/api/mtz/reportsShow'
@@ -151,14 +156,15 @@ export default {
     iSelect,
     iCard,
     iButton,
-    detailsList
+    detailsList,
+    iPagination
   },
   data() {
     return {
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
-      versionMonth: 'm', //比较版本
+      versionMonth: 'M', //比较版本
       getVersionMonth: [], //获取后端传回来的比较版本
       versionMonthValue: '', //
       getMonthList: '', //获取默认月份
@@ -167,21 +173,38 @@ export default {
       dataTitleTwo: '',
       currentMonth: '', //当前月份
       startpickerOptions: {
-          disabledDate: (time) => {
-            if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']){
-              return time.getMonth() == 11
-            }
-          },
+        disabledDate: (time) => {
+          const e = this.form.yearMonthTwo
+          const endTime = (Number(e) - 1).toString()
+          const startDate = new Date(
+            moment(endTime).format('yyyy-MM-[01] 00:00:00')
+          )
+          const endDate = new Date(moment(endTime).format('yyyy-MM'))
+          if (
+            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['yearMonthTwo']
+          ) {
+            return time > endDate || time < startDate
+          }
+          if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']) {
+            return time.getMonth() == 11
+          }
+        }
       },
       endpickerOptions: {
         disabledDate: (time) => {
           const e = this.form.yearMonthOne
           const endTime = (Number(e) + 1).toString()
-          const startDate = new Date(moment(endTime).format('yyyy-MM-[01] 00:00:00'))
+          const startDate = new Date(
+            moment(endTime).format('yyyy-MM-[01] 00:00:00')
+          )
           const endDate = new Date(moment(endTime).format('yyyy-MM'))
-          if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] && this.form['yearMonthOne']){
+          if (
+            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['yearMonthOne']
+          ) {
             return time > endDate || time < startDate
-           }
+          }
         }
       }
     }
@@ -228,57 +251,33 @@ export default {
           this.form['VersionMonthOne'] = this.getVersionMonth[0].value
           this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
           this.versionMonthValue = this.getVersionMonth[0].value
-          this.getCurrentMonth()
+          this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
+          this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
+          this.getdifferenceAnalysisCarModel()
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    //获取当月月份
-    getCurrentMonth() {
-      var dd = new Date()
-      var m = dd.getMonth() + 1
-      this.currentMonth = m
-      this.getyearMonthDropDown()
-    },
-    //获取年月份
-    getyearMonthDropDown() {
-      yearMonthDropDown()
-        .then((res) => {
-          if (this.currentMonth == '1' || this.currentMonth == '2') {
-            var arr = ['', '']
-            this.form['yearMonthOne'] = arr[0]
-            this.form['yearMonthTwo'] = arr[1]
-            this.getdifferenceAnalysisCarModel()
-          } else {
-            this.getMonthList = res.data
-            this.form['yearMonthOne'] = this.getMonthList[1].code
-            this.form['yearMonthTwo'] = this.getMonthList[0].code
-            this.getdifferenceAnalysisCarModel()
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+
     //获取列表数据
     getdifferenceAnalysisCarModel() {
-      this.form.pageNo = 1
-      this.form.pageSize = 10
       this.form.versionOneName = this.form['VersionMonthOne']
       this.form.versionTwoName = this.form['VersionMonthTwo']
       this.form.versionOneId = 0
       this.form.versionTwoId = 0
+      this.form.pageNo = this.page.currPage
+      this.form.pageSize = this.page.pageSize
       differenceAnalysisCarModel(this.form)
         .then((res) => {
           this.differenceAnalysisCarModel = res.data
-          this.page.total = res.total
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.pages
+          // this.page.total = res.total
+          // this.page.currPage = res.pageNum
+          // this.page.pageSize = res.pageSize
+          this.page.totalCount = res.total
           if (
-            this.form['yearMonthOne'] == '' &&
-            this.form['yearMonthTwo'] == ''
+            this.form['yearMonthOne'] == null &&
+            this.form['yearMonthTwo'] == null
           ) {
             this.dataTitle = form['versionOneName']
             this.dataTitleTwo = form['versionTwoName']
@@ -307,6 +306,7 @@ export default {
       }
     },
     sure() {
+      this.page.currPage=1
       this.getdifferenceAnalysisCarModel()
     },
     //仅看自己

@@ -18,6 +18,7 @@
         <upload-button class="margin-left20" @uploadedCallback="handleUploadedCallback" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD"/>
       </div>
     </div>
+        <!-- v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
@@ -27,7 +28,6 @@
         openPageProps="fileName"
         @openPage="handleDownload"
         :index="true"
-        v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD"
     >
       <template #validityOfCertificate="scope">
         <iDatePicker

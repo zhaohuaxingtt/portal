@@ -1,5 +1,5 @@
 <template>
-  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_CAR_MODEL_PAGE|年度预算车型页面'>
+  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_CAR_MODEL_PAGE'>
   <!-- <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_CAR_MODEL'> -->
     <div class='left'>
         <div class='let-top'>

@@ -1,6 +1,9 @@
 <template>
   <div class="detail-plan-list">
-    <div class="flex-end-center margin-bottom20">
+    <div
+      class="flex-end-center margin-bottom20"
+      xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_VERSION_MODIFY'"
+    >
       <iButton v-if="!editable && addable" @click="$emit('add-version')">
         {{ $t('新增版本') }}
       </iButton>
@@ -35,7 +38,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -45,14 +48,14 @@ export default {
     },
     productFactoryOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
   },
   computed: {
     dataProductFactoryIds() {
-      return [...new Set(this.data.map(e => e.productFactory))]
+      return [...new Set(this.data.map((e) => e.productFactory))]
     },
     addable() {
       return (
@@ -102,7 +105,7 @@ export default {
     validChange(row) {
       if (row.isValid) {
         const { productFactory, riseVersionCode } = row
-        this.data.forEach(e => {
+        this.data.forEach((e) => {
           if (
             e.productFactory === productFactory &&
             e.riseVersionCode !== riseVersionCode
@@ -114,11 +117,11 @@ export default {
     },
     batchSave() {
       this.saveLoading = true
-      this.data.forEach(e => {
+      this.data.forEach((e) => {
         e.currentUserId = this.$store.state.permission.userInfo.id
       })
       updCartypeOutputPlanVersion(this.data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '设置成功')
             this.toggleEdit(false)
@@ -128,7 +131,7 @@ export default {
             iMessage.error(res.desZh || '设置失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           iMessage.error(err.desZh || '设置失败')
         })

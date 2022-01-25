@@ -23,8 +23,8 @@
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
-                ref="commonTable"
+    <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST" -->
+    <table-list ref="commonTable"
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -110,7 +110,7 @@ export default {
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.contactType) {
+          if (item.contactType === val.nameType) {
             cust[index] = { ...item, ...val }
           }
         })

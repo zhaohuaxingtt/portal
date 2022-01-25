@@ -16,6 +16,7 @@ export const tabRouterList1 = [
     url: '/mtz/dataBase',
     activePath: '/mtz/dataBase',
     key: 'SHUJUKU',
+    permissionKey:"PORTAL_MTZ_SHUJUKU"
   },
 ];
 

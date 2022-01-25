@@ -1,6 +1,6 @@
 <!--预算月度跟踪--->
 <template>
-  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING_PAGE|预算月度跟踪页面'>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING_PAGE'>
     <i-card class='search'>
       <div class="search-content">
         <div class="form-condition">
@@ -193,9 +193,10 @@ export default {
         },
         yAxis: [
           {
+            type:'value'
             //设置间距，需要计算
-            max: _this.maximumScale,
-            splitNumber: 10,
+            // max: _this.maximumScale,
+            // splitNumber: 10,
           }
         ],
         legend: {
@@ -333,15 +334,15 @@ export default {
           data?.forEach((item)=>{
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
-            allPrice.push(Math.abs(Number(item.yearForecastPrice)))
-            this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
+            allPrice.push(Number(item.yearForecastPrice))
+            this.yearData.push(Number(item.yearForecastPrice)/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
-              this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
-              allPrice.push(Math.abs(Number(item.actualPrice)))
+              this.dataMonth.push(Number(item.actualPrice)/1000000 )
+              allPrice.push(Number(item.actualPrice))
             }else{
-              this.dataMonth.push(Math.abs(Number(item.monthForecastPrice))/1000000)
-              allPrice.push(Math.abs(Number(item.monthForecastPrice)))
+              this.dataMonth.push(Number(item.monthForecastPrice)/1000000)
+              allPrice.push(Number(item.monthForecastPrice))
             }
           })
           this.maximumScale = Number(Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10)*10)

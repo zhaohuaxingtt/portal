@@ -79,10 +79,10 @@ export default {
     },
     methods: {
         closeDialogBtn () {
+            this.name = ''
             this.$emit('update:typeShow', false)
         },
         search() {
-            console.log(this.name, 'name')
             this.getTableList(this.currTypeId)
         },
         add() {
@@ -90,37 +90,43 @@ export default {
             if (!this.name) return this.$message({type: 'warning', message: '请先填写类型名称再添加!'})
             let formData = new FormData()
             formData.append('name', this.name)
-            this.tableLoading = true
-            createCurrCategory(this.currTypeId, formData).then(res => {
-                console.log(res, '123333')
-                if (res?.success) {
-                    this.name = ''
-                    this.tableLoading = false
-                    this.getTableList(this.currTypeId)
-                }
-            })
+            try {
+                this.tableLoading = true
+                createCurrCategory(this.currTypeId, formData).then(res => {
+                    if (res?.success) {
+                        this.name = ''
+                        this.tableLoading = false
+                        this.getTableList(this.currTypeId)
+                    }
+                })
+            } finally {
+                this.tableLoading = false
+            }
+            
         },
         del(row){
             console.log(row, '1234')
 			if (row.status) return this.$message({type: 'warning', message: '上架的类型不允许删除!!!'})
-            this.$confirm('确定删除此流程指导书吗?', '提示', {
+            this.$confirm('确定删除此类型吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(async () => {
-                this.tableLoading = true
-                deleteCurrCategory(row.id).then(res => {
-                    console.log(res)
-                    if (res?.success) {
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        this.getTableList(this.currTypeId)
-                        this.tableLoading = false
-                    }
-                })
-                
+                try {
+                    this.tableLoading = true
+                    deleteCurrCategory(row.id).then(res => {
+                        if (res?.success) {
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            this.getTableList(this.currTypeId)
+                            this.tableLoading = false
+                        }
+                    })
+                } finally {
+                    this.tableLoading = false
+                }
             })
         },
         async getTableList(id) {

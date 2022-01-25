@@ -24,6 +24,7 @@
         </i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PAY_TABLE" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
@@ -31,7 +32,6 @@
         @handleSelectionChange="handleSelectionChange"
         :input-props="inputProps"
         :index="true"
-        v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PAY_TABLE"
     />
   </i-card>
 </template>

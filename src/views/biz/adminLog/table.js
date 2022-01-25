@@ -86,7 +86,10 @@ export const TABLE_DETAIL = [
     fixed:"left",
     width: '50px',
     customRender: (h, {row}) => {
-      return <div style="padding:10px 20px">{row.result}</div>
+      return <div style="padding:10px 20px">
+         <div style="margin-bottom:10px">请求日志：{row.request}</div>
+         <div>响应日志：{row.result}</div>
+      </div>
     }
   },
   {

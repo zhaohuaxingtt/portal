@@ -6,14 +6,21 @@
  * @Descripttion: your project
 -->
 <template>
-  <el-row :gutter="20" type="flex" justify="space-between">
-    <el-col :span="16" v-permission="Card_Associated_Companies">
-      <iCard :title="$t('SUPPLIER_GLGS')" class="affiliatedCompany">
-        <div class="tree" ref="chart"></div>
+  <el-row :gutter="20"
+          type="flex"
+          justify="space-between">
+    <el-col :span="16"
+            v-permission="Card_Associated_Companies">
+      <iCard :title="$t('SUPPLIER_GLGS')"
+             class="affiliatedCompany">
+        <div class="tree"
+             ref="chart"></div>
       </iCard>
     </el-col>
-    <el-col :span="8" v-permission="Card_Related_Group">
-      <iCard :title="$t('SUPPLIER_JTGX')" class="groupRelations">
+    <el-col :span="8"
+            v-permission="Card_Related_Group">
+      <iCard :title="$t('SUPPLIER_JTGX')"
+             class="groupRelations">
         <iText class="margin-bottom20">
           <span class="text">{{$t('JITUANGONGSIQUANCHEN')}}</span>:{{groupTableListData.name}}
         </iText>
@@ -58,7 +65,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       tableListData: {},
       groupTableListData: {},
@@ -66,39 +73,39 @@ export default {
     }
   },
   watch: {
-    relatedCompanyVO(data) {
+    relatedCompanyVO (data) {
       this.tableListData = data
       if (this.$refs.chart && this.tableListData) {
         this.handleTree();
       }
     },
-    groupRelationsVO(data) {
-        if(data){
-            this.groupTableListData = data
-        }else{
-            this.groupTableListData={
-                name:"",
-                realityControlName:"",
-                productName:'',
-                oemCustomer:'',
-                oemName:'',
-                deliveryStartDate:''
-            }
+    groupRelationsVO (data) {
+      if (data) {
+        this.groupTableListData = data
+      } else {
+        this.groupTableListData = {
+          name: "",
+          realityControlName: "",
+          productName: '',
+          oemCustomer: '',
+          oemName: '',
+          deliveryStartDate: ''
         }
+      }
 
     }
   },
-  mounted() {
+  mounted () {
     this.handleTree()
   },
   methods: {
-    handleTree() {
+    handleTree () {
       const myChart = echarts().init(this.$refs.chart);
       myChart.setOption({
         tooltip: {
           trigger: 'item',
           triggerOn: 'mousemove',
-          formatter: function(pms) {
+          formatter: function (pms) {
             return pms.data.name
           }
         },

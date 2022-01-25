@@ -258,7 +258,7 @@ export default {
                 position: 'center',
                 color: '#000',
                 formatter: this.tabsData.curSum,
-                fontSize: 30,
+                fontSize: 24,
                 fontWeight: 'bold'
               }
             },
