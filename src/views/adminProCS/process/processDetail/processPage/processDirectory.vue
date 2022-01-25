@@ -5,6 +5,7 @@
         :visible.sync="show" 
         width="600px" 
         @close='close' 
+        @open="open"
         append-to-body
         class="process-dialog"
     >
@@ -93,6 +94,7 @@
 
 <script>
 import {iDialog,iButton, iInput,iFormItem,iSelect} from 'rise';
+import {queryProcessCatalogue} from '@/api/adminProCS';
 export default {
     components: {
         iDialog,
@@ -160,12 +162,16 @@ export default {
                     {max:50,message:'目录英文名长度不能超过50个字符！',trigger:"blur"},
                 ]
             },
-            options:[]
+            options:[],
+            id:this.$route.query.id
         }
     },
     methods: {
         close(){
             this.$emit("update:show",false)
+        },
+        async open(){
+            this.data = await queryProcessCatalogue(this.id)
         },
         editClose(){
             this.editDialog = false

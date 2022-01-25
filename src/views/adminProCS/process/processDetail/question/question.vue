@@ -24,8 +24,8 @@
         <iPagination
             v-if="showPage"
             v-update
-            @size-change="handleSizeChange($event, query)"
-            @current-change="handleCurrentChange($event, query)"
+            @size-change="handleSizeChange($event, queryList)"
+            @current-change="handleCurrentChange($event, queryList)"
             background
             :current-page="page.currPage"
             :page-sizes="page.pageSizes"
@@ -35,13 +35,12 @@
         />
         <addQuestion
             ref="questionDialog"
-            v-show="addQuestionDialog" 
             :show.sync="addQuestionDialog" 
             :type="type"
+            :detail="detail"
         />
 		<questionAnswer
 			ref="questionAnswerDialog"
-			v-show="questionAnswerShow" 
             :show.sync="questionAnswerShow" 
 		/>
     </iCard>
@@ -53,6 +52,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { QUESTION } from '../tables.js'
 import addQuestion from './addQuestion.vue'
 import questionAnswer from './questionAnswer'
+import {queryProcessFAQList,deleteProcessFAQ} from '@/api/adminProCS';
 export default {
     name: 'question',
     components: {
@@ -69,18 +69,34 @@ export default {
         return {
             tableLoading: false,
             tableSetting: QUESTION,
-            tableListData: [
-                { firstLetter: 'a', name: '测试问题藐视', updatedAt: '2020-11-20' },
-				{ firstLetter: 'b', name: '测试问题视', updatedAt: '2020-11-21' }
-            ],
+            tableListData: [],
             selectedItems: [],
             type: 'add',
             addQuestionDialog: false,
             keyWord: '',
-			questionAnswerShow: false
+			questionAnswerShow: false,
+            processId: this.$route.query.id,
+            detail:{}
         }
     },
+    created () {
+    },
     methods: {
+        async queryList(){            
+            let data = {
+                page: this.page.currPage - 1,
+                size: this.page.pageSize,
+                keyword: this.keyWord
+            }
+            this.tableLoading = true
+            try {
+                let res = await queryProcessFAQList(this.processId,data)
+                this.tableListData = res.content
+                this.page.totalCount = res.totalElements
+            } finally {
+                this.tableLoading = false
+            }
+        },
         handleSelectionChange(val) {
             this.selectedItems = val
         },
@@ -91,10 +107,11 @@ export default {
         modifyQuestionFun() {
             this.type = 'edit'
             this.addQuestionDialog = true
-            this.$refs.questionDialog.initModifyQuestion(this.selectedItems)
+            this.$refs.questionDialog.initForm(JSON.parse(JSON.stringify(this.selectedItems[0])))
         },
         search() {
-            console.log(this.keyWord, "keyWord")
+            this.page.currPage = 1
+            this.queryList()
         },
         delQuestionFun() {
             this.$confirm('是否删除已选中选项','提示',{
