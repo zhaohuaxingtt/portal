@@ -41,17 +41,18 @@
           <iSelect class="selectCenter"
                    @change="changeStatus(scope.row)"
                    v-model="scope.row.status">
-            <el-option value="财务经营与分析"
-                       label="财务经营与分析"></el-option>
-            <el-option value="访谈与调查"
-                       label="访谈与调查"></el-option>
-            <el-option value="报告完成"
-                       label="报告完成"></el-option>
             <el-option value="信息收集"
                        label="信息收集"></el-option>
+            <el-option value="访谈与调查"
+                       label="访谈与调查"></el-option>
+            <el-option value="财务经营与分析"
+                       label="财务经营与分析"></el-option>
+            <el-option value="报告完成"
+                       label="报告完成"></el-option>
+
           </iSelect>
         </span>
-        <span v-else-if="scope.row.status == '清单驳回' || scope.row.status == '报告驳回'">
+        <span v-else-if="scope.row.status == '清单审批驳回' || scope.row.status == '报告审批驳回'">
           <el-tooltip :content="scope.row.returnReason"
                       placement="top"
                       effect="light">
@@ -60,7 +61,18 @@
         </span>
         <span v-else>{{ scope.row.status }}</span>
       </template>
-      <!-- 附件 -->
+      <!-- 下次跟踪频率 -->
+        <template #trackingFrequency="scope">
+            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.trackingFrequency}}    </span>
+      </template>
+      <!-- //深评时间 -->
+        <template #approvalEndDate="scope">
+            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.approvalEndDate}}    </span>
+      </template>
+         <!-- //下次评级时间 -->
+        <template #nextRatingTime="scope">
+            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.nextRatingTime}}    </span>
+      </template>
       <template #upload="scope">
         <span class="openPage"
               @click="openUpload(scope.row.id)">{{$t('LK_SHANGCHUAN')}}</span>
@@ -82,15 +94,19 @@
       </template>
       <!-- 深评结果 -->
       <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
-              symbol
-              name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
-              symbol
-              name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
-              symbol
-              name="iconhongdeng"></icon>
+        <div v-if="scope.row.status == '生效'||scope.row.status == '历史'">
+            <icon v-if="scope.row.deepCommentResult == 'GREEN'"
+                symbol
+                name="iconlvdeng"></icon>
+            <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
+                symbol
+                name="iconhuangdeng"></icon>
+            <icon v-else-if="scope.row.deepCommentResult == 'RED'"
+                symbol
+                name="iconhongdeng"></icon>
+            <span v-else-if="!scope.row.deepCommentResult"></span>
+      </div>
+
       </template>
       <!-- 备注 -->
       <template #remarks="scope">
@@ -180,8 +196,10 @@ import {
   addOrMoveGroup,
   newGroup,
   reportIssue,
-  batch
+  batch,
+  depSupplierDown
 } from '@/api/frmRating/depthRating'
+import { getSummarize } from '@/api/frmRating/depthRating/depthReport.js'
 import { postExamine } from '@/api/frmRating/depthRating/depthReport'
 import { excelExport } from '@/utils/filedowLoad'
 import overTime from './overTime'
@@ -228,7 +246,15 @@ export default {
       joinGroupShow: false, //加入集团
       currentId: '', //当前选中的ID
       overTimeShow: false, //选择完成时间
-      endDisabled: false //是否是终止深评
+      endDisabled: false, //是否是终止深评
+      languageName: 'zh',
+    }
+  },
+  watch: {
+    '$i18n.locale': {
+      handler (newValue) {
+        this.languageName = newValue
+      }
     }
   },
   created () {
@@ -273,11 +299,36 @@ export default {
         id: row.id,
         status: row.status
       }
-      depSupplier(data).then((res) => {
-        this.resultMessage(res, () => {
-          this.getTableList()
+      if (row.status == '报告完成') {
+        getSummarize(row.id, 'en').then((result) => {
+          if (result.data) {
+            if (
+              (result.data.deepCommentRatingResults == '' ||
+                result.data.deepCommentRatingResults == null) &&
+              (result.data.trackFrequencyAgain == '' ||
+                result.data.trackFrequencyAgain == null)
+            ) {
+              iMessage.warn(
+                'QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV',
+                '请填写状态与后续跟踪频率'
+              )
+              this.getTableList()
+            } else {
+              depSupplier(data).then((res) => {
+                this.resultMessage(res, () => {
+                  this.getTableList()
+                })
+              })
+            }
+          }
         })
-      })
+      } else {
+        depSupplier(data).then((res) => {
+          this.resultMessage(res, () => {
+            this.getTableList()
+          })
+        })
+      }
     },
     //新加集团
     openAddGroup () {
@@ -323,7 +374,13 @@ export default {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
-        iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
+        // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
+        iMessage.error(
+          this.language(
+            'WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA',
+            '未生效的报告，不能点击报告分发'
+          )
+        )
         return
       }
       let deepCommentResult = this.currentSelect[0].deepCommentResult
@@ -334,7 +391,6 @@ export default {
       let result2 = this.currentSelect.every(
         (item) => item.relevantDept == relevantDept
       )
-      console.log(result1, result2, deepCommentResult, relevantDept)
       if (result1 && result2) {
         this.$refs.report.reportIssueUser(this.currentSelect[0].id)
         this.report = true
@@ -372,8 +428,11 @@ export default {
           item.status == '报告驳回' ||
           item.status == '信息收集' ||
           item.status == '财务经营与分析' ||
+          item.status == '清单审批驳回' ||
           item.status == '访谈与调查' ||
-          item.status == '报告完成'
+          item.status == '报告审批驳回' ||
+          item.status == '报告审批中' ||
+          item.status == '清单审批中'
       )
       if (!result) {
         iMessage.error(this.$t('SPR_FRM_DEP_STOPMSG'))
@@ -387,8 +446,12 @@ export default {
             '报告驳回',
             '信息收集',
             '财务经营与分析',
+            '清单审批驳回',
             '访谈与调查',
-            '报告完成'
+            '报告完成',
+            '报告审批驳回',
+            '报告审批中',
+            '清单审批中'
           ]
           this.$refs.endRating.getTableList(this.getIds(), statusList)
           // termination({idList:this.getIds()}).then(res=>{
@@ -424,13 +487,30 @@ export default {
         iMessage.error(this.$t('SPR_FRM_DEP_COMMET'))
         return
       }
+      let result1 = this.currentSelect.every(
+        (item) =>
+          item.status == '历史' ||
+          item.status == '终止' ||
+          item.status == '终止审批中'
+      )
+      if (result1) {
+        iMessage.warn(
+          this.language(
+            'LISHIZHONGZHIZHONGZHISHENPIZHONGBUNENGJIARUJITUAN',
+            '历史、终止、终止审批中不能加入集团'
+          )
+        )
+        return
+      }
       this.$refs.joinGroup.getTableList()
       this.joinGroupShow = true
     },
     // 移除集团
     moveGroup () {
       if (this.isSelect()) return
-      let result = this.currentSelect.every((item) => item.deepCommentSupplierName)
+      let result = this.currentSelect.every(
+        (item) => item.deepCommentSupplierName
+      )
       if (!result) {
         iMessage.error(this.$t('请选择未加入集团的供应商'))
         return
@@ -447,15 +527,25 @@ export default {
         if (data.isJoin) {
           this.joinGroupShow = false
         }
-        this.resultMessage(res, () => {
+        if (res?.code === '200') {
+          iMessage.success(
+            this.language('YICONGDABAOJITUANZHONGYICHU', '已从打包集团中移除')
+          )
           this.getTableList()
-        })
+        } else {
+          iMessage.error(res.desZh)
+        }
+        // this.resultMessage(res, () => {
+        //   this.getTableList()
+        // })
       })
     },
     // 提交清单审批
     openEndRating () {
       if (this.isSelect()) return
-      let result = this.currentSelect.every((item) => item.status == '草稿' || item.status == '清单审批驳回')
+      let result = this.currentSelect.every(
+        (item) => item.status == '草稿' || item.status == '清单审批驳回'
+      )
       if (result) {
         this.endDisabled = false
         this.endRating = true
@@ -472,7 +562,8 @@ export default {
         query: {
           supplierToken: row.supplierToken,
           current: 18,
-          supplierType: 4
+          supplierType: 4,
+          supplierId: row.supplierId
         }
       })
     },
@@ -504,7 +595,8 @@ export default {
         name: 'depthReport',
         query: {
           id: row.id,
-          name: row.name
+          name: row.name,
+          status: row.status
         }
       })
       window.open(routeData.href)
@@ -512,7 +604,12 @@ export default {
     // 导出
     exportsTable () {
       // if (this.isSelect()) return
-      excelExport(this.tableListData, this.tableTitle, "深入评级供应商列表")
+      depSupplierDown({
+        ...this.form,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        lang: this.languageName
+      })
     },
     // 预计完成时间
     openOverTime () {
@@ -535,6 +632,15 @@ export default {
     // 提交深评报告审核
     postExamine () {
       if (this.isSelect()) return
+      //    let result = this.currentSelect.every(
+      //     (item) =>
+      //       item.status == '报告完成' ||
+      //       item.status == '报告审批驳回'
+      //   )
+      //       if (!result) {
+      //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
+      //     return
+      //   }
       let data = {
         ids: this.getIds()
       }

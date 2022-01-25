@@ -2,21 +2,27 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
   <div>
     <el-row :gutter="20" type="flex" justify="space-between">
-      <el-col :span="8" v-permission="Card_SPI">
+      <!-- <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_SPI"> -->
+                <el-col :span="8">
+
         <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
       </el-col>
-      <el-col :span="8" v-permission="Card_Accessories_Supply_Rate">
+            <!-- <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_SUPPLY_RATE"> -->
+
+      <el-col :span="8" >
         <!-- 配附件供货率 -->
         <supplyRate :infodata="infodata"></supplyRate>
       </el-col>
-      <el-col :span="8" v-permission="Card_EKL_BP">
+      <el-col :span="8" >
+                <!-- <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_EKL"> -->
+
         <!-- ekl批量件 -->
         <eklSupplier :infodata="infodata"></eklSupplier>
       </el-col>
@@ -27,15 +33,16 @@
       type="flex"
       justify="space-between"
     >
-      <el-col :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_SAMPLEDELIVERY" :span="8">
+
         <!-- 送样 -->
         <sampleDelivery></sampleDelivery>
       </el-col>
-      <el-col :span="8" v-permission="Card_Nomination">
+           <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION" :span="8">
         <!-- 定点 -->
         <fixed></fixed>
       </el-col>
-      <el-col v-permission="Card_Sourcing" :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING" :span="8">
         <!-- 寻源 -->
         <sourcing></sourcing>
       </el-col>
@@ -46,15 +53,16 @@
       type="flex"
       justify="space-between"
     >
-      <el-col :span="8">
+      <el-col  v-permission="PORTAL_SUPPLIER_CARD_PRODUCTIVITY" :span="8">
         <!-- 产能预警 -->
         <productivity></productivity>
       </el-col>
-      <el-col :span="8" v-permission="Card_C-Rating">
+      <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_CRATING">
         <!-- 财务预警 -->
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
-      <el-col :span="8"  v-permission="Card_Public_opinion_monitoring">
+      <el-col :span="8"  v-permission="PORTAL_SUPPLIER_CARD__MONITORING">
+
         <!-- 舆情监测 -->
         <publicOpinion> </publicOpinion>
       </el-col>
@@ -65,7 +73,7 @@
       type="flex"
       justify="space-between"
     >
-      <el-col :span="24" v-permission="Card_Contract">
+      <el-col :span="24">
         <contract> </contract>
       </el-col>
     </el-row>

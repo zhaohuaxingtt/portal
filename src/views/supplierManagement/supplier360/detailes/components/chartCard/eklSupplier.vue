@@ -3,7 +3,7 @@
     <div class="title">
       <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
       <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
-      <span v-permission="Card_EKL_BP_More" class="el-dropdown-link">
+      <span v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE" class="el-dropdown-link">
         <i class="el-icon-more"></i>
       </span>
     </div>

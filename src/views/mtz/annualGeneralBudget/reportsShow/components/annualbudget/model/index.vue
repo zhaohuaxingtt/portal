@@ -1,5 +1,6 @@
 <template>
-  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_CAR_MODEL_PAGE|年度预算车型页面'>
+  <i-card v-permission.auto='MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_CAR_MODEL_PAGE'>
+  <!-- <i-card v-permission='MTZ_REPORT_ANNUAL_BUDGET_CAR_MODEL'> -->
     <div class='left'>
         <div class='let-top'>
           <i-select class='my-sel' v-model='year' :placeholder='language("LK_NIANFENXUANZE","年份选择")'>
@@ -11,7 +12,7 @@
               :value="item.code">
             </el-option>
           </i-select>
-          <show-me-components class='margin-right30' @showOnlyMyselfData='leftShowOnlyMyselfData' :is-only-myself='leftQueryForm.onlySeeMySelf' />
+          <show-me-components class='margin-right30' v-show="false" @showOnlyMyselfData='leftShowOnlyMyselfData' :is-only-myself='leftQueryForm.onlySeeMySelf' />
         </div>
         <div class='left-query'>
           <el-form>
@@ -34,20 +35,23 @@
             </i-select>
           </el-form>
           <div class='left-btns'>
-            <i-button @click='getyearCardModel()'>{{ language('LK_CHAXUN', '查询') }}</i-button>
+            <i-button @click='getyearCardModel()'>{{ language('search', '搜索') }}</i-button>
             <i-button @click='leftRest()'>{{ language('LK_CHONGZHI', '重置') }}</i-button>
           </div>
         </div>
       <p class='margin-top25'><span class='money-title'>车型总金额:</span><span class='money'>{{leftAllPrice|format}}人民币</span></p>
-      <i-table-custom class='margin-top20 margin-right20'  :columns="leftModelColumns"
-                      :data="leftTableList"
-                      @open-card-model='openCardModel'
+      <i-table-custom 
+        class='margin-top20 margin-right20'  
+        :columns="leftModelColumns"
+        :data="leftTableList"
+        @open-card-model='openCardModel'
+        @click-six-code='clickSixCode'
       ></i-table-custom>
     </div>
     <div class='right'>
       <div class='right-top'>
         <p>{{language('LK_CHEXINGYUSUANJINEMINGXI','车型预算金额明细')}}</p>
-        <show-me-components :is-only-myself='rightQueryForm.onlySeeMySelf' @showOnlyMyselfData='rightShowOnlyMysel' />
+        <show-me-components :is-only-myself='rightQueryForm.onlySeeMySelf' v-show="false" @showOnlyMyselfData='rightShowOnlyMysel' />
       </div>
       <div class='right-query'>
           <i-select class='my-sel' v-model='rightQueryForm.carModel' filterable clearable :placeholder='language("LK_CHEXING","车型")' @change='rightChangeCard'>
@@ -68,7 +72,7 @@
             </el-option>
           </i-select>
         <div >
-          <i-button @click='getCarModelDetail()'>{{ language('LK_CHAXUN', '查询') }}</i-button>
+          <i-button @click='getCarModelDetail()'>{{ language('search', '搜索') }}</i-button>
           <i-button @click='rightRest()'>{{ language('LK_CHONGZHI', '重置') }}</i-button>
         </div>
       </div>
@@ -83,7 +87,7 @@
 import { iCard, iSelect, iButton } from 'rise'
 import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/ShowMeComponents'
 import iTableCustom from '@/components/iTableCustom'
-import { cardList, carModelDetail, carSixCodeDropDown, yearCardModel, yearDropDown } from '@/api/mtz/reportsShow'
+import { cardList, carModelDetail, carSixCodeDropDown, yearCardModel, yearDropDown,yearCarModelExport } from '@/api/mtz/reportsShow'
 import { leftModelColumns, rightModelColums } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
 
 export default {
@@ -111,9 +115,10 @@ export default {
         carModel:'',
         carModelSixNum:'',
         onlySeeMySelf:false,
-        year:new Date().getFullYear()+''
+        year:''
       },
-      year:new Date().getFullYear()+'',
+      // year:new Date().getFullYear()+'',
+      year:'',
       //车型明细请求参数
       rightQueryForm:{
         carModel:'',
@@ -135,6 +140,28 @@ export default {
     }
   },
   methods:{
+    Upload(){
+      yearCarModelExport({
+        carModel:this.leftQueryForm.carModel,
+        carModelSixNum:this.leftQueryForm.carModelSixNum,
+        onlySeeMySelf:this.leftQueryForm.onlySeeMySelf,
+        year:this.year,
+      }).then(res=>{
+        let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+        let objectUrl = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = objectUrl;
+        let fname = this.year+"年MTZ车型预算.xlsx";
+        link.setAttribute("download", fname);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        this.$message({
+          type: "success",
+          message: "链接成功!"
+        });
+      })
+    },
     rightShowOnlyMysel(val){
       this.rightQueryForm.onlySeeMySelf=val
       if(this.rightQueryForm.carModel){
@@ -175,6 +202,8 @@ export default {
       yearDropDown().then(res=>{
        if(res.code==200){
          this.years=res.data
+         this.year = res.data[0].code
+         this.leftQueryForm.year = res.data[0].code
          this.years=this.years.reverse()
          this.years=this.years.filter(item=>item.code!=null)
        }
@@ -200,7 +229,7 @@ export default {
     //获取车型明细
     getCarModelDetail(){
       this.rightQueryForm.year=this.year
-      if(this.rightQueryForm.carModel){
+      // if(this.rightQueryForm.carModel){
         carModelDetail(this.rightQueryForm).then(res=>{
           if(res.code==200){
             this.rightAllPrice=res.data.allPrice
@@ -209,21 +238,22 @@ export default {
             }
           }
         })
-      }else{
-        this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
-      }
+      // }else{
+      //   this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
+      // }
     },
     //获取年度车型汇总
     getyearCardModel(){
       this.leftQueryForm.year=this.year
-      if(this.leftQueryForm.carModel){
+      // if(this.leftQueryForm.carModel){
         yearCardModel(this.leftQueryForm).then(res=>{
           this.leftAllPrice=res.data.allPrice
-          this.leftTableList=res.data.lists
+          this.leftTableList=res.data.lists ? res.data.lists : []
         })
-      }else{
-        this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
-      }
+      // }
+      // else{
+      //   this.$message.warning('LK_QINGXUANZECHEXING','请选择车型')
+      // }
 
     },
     //左侧置空
@@ -231,9 +261,10 @@ export default {
       this.leftQueryForm.carModel=''
       this.leftQueryForm.carModelSixNum=''
       this.leftQueryForm.onlySeeMySelf=false
-      this.leftQueryForm.year=new Date().getFullYear()+''
-      this.year=new Date().getFullYear()+''
+      this.leftQueryForm.year=this.years[this.years.length-1].code
+      this.year=this.years[this.years.length-1].code
       this.leftTableList=[]
+      this.leftCarSixCode = []
       this.getyearCardModel()
     },
    //右侧重置
@@ -241,17 +272,23 @@ export default {
       this.rightQueryForm.onlySeeMySelf=false
       this.rightQueryForm.carModelSixNum=''
       this.rightQueryForm.carModel=''
-      this.year=new Date().getFullYear()+''
+      // this.year=this.years[this.years.length-1].code
       this.rightTableList=[]
+      this.rightCarSixCode = []
       this.getCarModelDetail()
     },
     //点击列表车型
     openCardModel(row){
       this.rightQueryForm.carModel=row.carModel
+      this.rightQueryForm.carModelSixNum=''
+      this.getCarModelDetail()
+    },
+    //点击列表六位号
+    clickSixCode(row){
+      this.rightQueryForm.carModel=row.carModel
       this.rightQueryForm.carModelSixNum=row.carModel6Code
       this.getCarModelDetail()
-    }
-
+    },
   }
 }
 </script>

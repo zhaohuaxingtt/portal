@@ -3,7 +3,6 @@
       <page-header class="title">{{language('离线下载')}}</page-header>
       <Search ref="theSearch" @search='search'/>
       <TableList ref="theTableList" />
-
   </i-page>
 </template>
 

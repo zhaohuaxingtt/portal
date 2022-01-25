@@ -292,7 +292,7 @@
           <!-- MBDL名称    gpName  改 topic-->
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text look-themen-click" >{{ scope.row.topic }}</span>
+              <span class="open-link-text look-themen-click" @click="handleMBDl(scope.row)">{{ scope.row.topic }}</span>
             </template>
           </el-table-column>
           <!-- 英文名称  mbdlNameEn -->
@@ -307,15 +307,15 @@
               <span class="open-link-text">{{ scope.row.materialGroupName }}</span>
             </template>
           </el-table-column>
-          <!-- 有效期起   -->
+          <!-- 有效期起   validFrom-->
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.createDate }}</span>
+              <span class="open-link-text">{{ scope.row.validFrom }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.updateDate }}</span>
+              <span class="open-link-text">{{ scope.row.validTo }}</span>
             </template>
           </el-table-column>
           <!-- 主要申请部门  applyDept 改 supporterDept-->
@@ -330,10 +330,10 @@
               <span class="open-link-text">{{ scope.row.presenterDept }}</span>
              </template>
           </el-table-column>
-          <!-- 提交人   supporter-->
+          <!-- 提交人   supporter 改 presenter-->
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporter }}</span>
+              <span class="open-link-text">{{ scope.row.presenter }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
@@ -346,10 +346,10 @@
               <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
-          <!-- 会议结论/纪要  result-->
+          <!-- 会议结论/纪要  conclusion-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.result] }}</span>
+              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
              </template>
           </el-table-column>
          
@@ -379,7 +379,7 @@
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.gpName }}</span>
+              <span class="open-link-text">{{scope.row.topic}}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
@@ -394,12 +394,12 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.createDate }}</span>
+              <span class="open-link-text">{{ scope.row.validFrom }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.updateDate }}</span>
+              <span class="open-link-text">{{ scope.row.validTo }}</span>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
@@ -413,9 +413,9 @@
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
-             <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.source }}</span>
-             </template> -->
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.presenter }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
              <template slot-scope="scope">
@@ -424,13 +424,13 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.state }}</span>
+              <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
-          <!-- 会议结论/纪要   result-->
+          <!-- 会议结论/纪要   conclusion-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.result }}</span>
+              <span class="open-link-text">{{ scope.row.conclusion }}</span>
              </template>
           </el-table-column>
          
@@ -577,12 +577,13 @@
 
     <!-- 关闭触发审批流 -->
     <closeMeetiongDialog
-      v-if="dialogStatusManageObj.openCloseMeetiongDialog"
+      v-show="dialogStatusManageObj.openCloseMeetiongDialog"
       :openCloseMeeting="dialogStatusManageObj.openCloseMeetiongDialog"
       :row="meetingInfo"
       :id="$route.query.id"
       @handleOK="handleOKTopics"
       @handleClose="handleCloseCancelTopics"
+      ref="closeDialog"
     />
     <importErrorDialog
       v-if="openError"
@@ -643,10 +644,28 @@
         :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
       ></editprotectConclusion>
     </iDialog>
+    <!-- MBDL改期 -->
+    <iDialog
+      v-if="updateDateNEWDialog"
+      :title="language('改期会议列表', '改期会议列表')"
+      :visible.sync="updateDateNEWDialog"
+      width="90%"
+      :append-to-body="true"
+      >
+      <updateDateNEW
+        v-if="updateDateNEWDialog"
+        @close="updateDateNEWDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :updateDateNEWDialogRow='updateDateNEWDialogRow'
+        :rowId="rowId"
+      ></updateDateNEW>
     
+    </iDialog>
   </iPage>
 </template>
 <script>
+import updateDateNEW from './component/updateDateNEW.vue'
 import editprotectConclusion from './component/editprotectConclusion.vue'
 import newAddTopic from './component/newAddTopic.vue'
 import protectConclusion from './component/protectConclusion.vue'
@@ -695,6 +714,7 @@ import enclosure from '@/assets/images/enclosure.svg'
 export default {
   mixins: [pageMixins],
   components: {
+    updateDateNEW,//改期
     editprotectConclusion,//维护结论
     newAddTopic,//新增议题gp
     protectConclusion,//结束议题
@@ -723,6 +743,7 @@ export default {
   },
   data() {
     return {
+      updateDateNEWDialog:false,//改期
       editprotectConclusionDialog:false,//维护议题结论
       selectThemenId:'',//当前议题行id
       protectConclusionDialog:false,//结束议题
@@ -737,7 +758,7 @@ export default {
         '03': '预备会议通过',
         '04': '不通过',
         '05': 'Last Call',
-        '06': '分段待定'
+        '06': '分段定点'
       },
       curEndTime: '',
       openError: false,
@@ -1450,49 +1471,55 @@ export default {
       //   });
       // }
 
-      if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-          confirmButtonText: '前往',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          //在这里判断是不是已经生成会议纪要了
-          // this.openDialog("openCloseMeetiongDialog");
-          this.generateMeetingMinutes()
-        })
-      } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
-        }).then(() => {
-          //在这里判断是不是已经生成会议纪要了
-          this.openDialog('openCloseMeetiongDialog')
-        })
-      }
-      // alert("close");
-      // this.$confirm("是否生成会议纪要", "提示", {
-      //   confirmButtonText: "是",
-      //   cancelButtonText: "否",
-      //   type: "warning",
-      // })
-      //   .then(() => {
-      //     this.$confirm("请确认是否需要关闭会议?", "提示", {
-      //       confirmButtonText: "是",
-      //       cancelButtonText: "否",
-      //       type: "warning",
-      //     }).then(() => {
-      //       //在这里判断是不是已经生成会议纪要了
-      //       if (this.meetingInfo.attachments.length > 0) {
-      //         this.openDialog("openCloseMeetiongDialog");
-      //       } else {
-      //         iMessage.warn("尚未生成会议纪要,现在不能关闭会议!");
-      //       }
-      //     });
+      // if (this.meetingInfo.attachments.length <= 0) {
+      //   this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
+      //     confirmButtonText: '前往',
+      //     cancelButtonText: '取消',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     //在这里判断是不是已经生成会议纪要了
+      //     // this.openDialog("openCloseMeetiongDialog");
+      //     this.generateMeetingMinutes()
       //   })
-      //   .catch((err) => {
-      //     iMessage.error("尚未生成会议纪要,现在不能关闭会议!");
-      //   });
+      // } else {
+      //   this.$confirm('请确认是否需要关闭会议?', '提示', {
+      //     confirmButtonText: '是',
+      //     cancelButtonText: '否',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     //在这里判断是不是已经生成会议纪要了
+      //     this.openDialog('openCloseMeetiongDialog')
+      //   })
+      // }
+      this.$confirm("是否生成会议纪要", "提示", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "warning",
+      })
+        .then(() => {
+          this.$confirm("请确认是否需要关闭会议?", "提示", {
+            confirmButtonText: "是",
+            cancelButtonText: "否",
+            type: "warning",
+          }).then(() => {
+            //在这里判断是不是已经生成会议纪要了
+            if (this.meetingInfo.attachments.length > 0) {
+              console.log(this.meetingInfo.attachments);
+              // this.openDialog("openCloseMeetiongDialog");
+              // 关闭会议
+              // this.handleCloseCancelTopics()
+                this.$nextTick(()=>{
+                   this.$refs['closeDialog'].handleSubmit()
+                })
+                // console.log(this.$refs.closeDialog);
+            } else {
+              iMessage.warn("尚未生成会议纪要,现在不能关闭会议!");
+            }
+          });
+        })
+        .catch((err) => {
+          iMessage.error("尚未生成会议纪要,现在不能关闭会议!");
+        });
     },
     //查看议题里面是否有进行中的议题
     haveThemenIsStarting() {
@@ -1702,9 +1729,18 @@ export default {
         iMessage.warn('休息议题不能进行改期')
         return
       }
-      this.openDialog('openUpdateDateDialog')
+      
+      // this.openDialog('openUpdateDateDialog')
+      this.rowId=this.selectedTableData[0].id
+      this.updateDateNEWDialog=true
     },
     deleteTop() {
+      console.log(this.selectedTableData[0]);
+      // isBreak
+      if (this.selectedTableData[0].isBreak == false && this.selectedTableData[0].type == 'GP') {
+        iMessage.warn('改议题不能删除')
+        return
+      }
       if (
         this.selectedTableData[0] &&
         this.selectedTableData[0].state !== '01' &&
@@ -1894,12 +1930,12 @@ export default {
       //   }
       // })
       // /meeting/mbdlMeetingShow
+      
       let routeUrl = this.$router.resolve({
-        // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
         path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
-        }
+        } 
       })
       window.open(routeUrl.href, '_blank')
     },
@@ -2060,10 +2096,25 @@ export default {
     //点击纪要  维护结论
     handleResult(row){
       console.log(row.result);
-      this.editprotectConclusionDialog=true
-      this.editprotectConclusionDialogRow=row
-      console.log(this.editprotectConclusionDialogRow);
-    }
+      if (this.selectedTableData[0].conclusion == '01') {
+        this.editprotectConclusionDialog=true
+        this.editprotectConclusionDialogRow=row
+        console.log(this.editprotectConclusionDialogRow);
+        
+      }
+    },
+    //跳转到gp  mbdl详情 id mbdlDetails  cscCode
+    // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
+    handleMBDl(row){ 
+      console.log(row);
+      if (row.isBreak) {
+        iMessage.error('该议题为休息')
+      }else if(row.type == 'MANUAL'){
+        iMessage.error('该议题为临时议题')
+      }else{
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}&code=${row.cscCode}`)
+      }
+    } 
   }
 }
 </script>

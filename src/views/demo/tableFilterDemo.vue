@@ -35,21 +35,12 @@
         :layout="page.layout"
         :total="page.totalCount"
       />
-      <!-- <iTableHeaderSorter
-      :data="tableSetting"
-      :show.sync="show"
-      :value="'value'"
-      :label="'label'"
-      :visiableKey="'hidden'"
-      @callback="handleSaveCallback"
-    /> -->
     </iCard>
   </iPage>
 </template>
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
-// import { iTableCustom } from 'rise'
 import { iPage, iPagination, iCard } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { fetchRoles } from '@/api/role'
@@ -84,9 +75,7 @@ export default {
           prop: 'id',
           label: '角色ID',
           tooltip: false,
-          align: 'center',
-          sortable: true,
-          sortBy: 'id'
+          align: 'center'
         },
         {
           prop: 'code',
@@ -94,19 +83,11 @@ export default {
           align: 'center',
           tooltip: false,
           emit: 'go-detail',
-          sortMethod: function (a, b) {
-            const a_swname = a['code']?.toLowerCase()
-            const b_swname = b['code']?.toLowerCase()
-            if (a_swname < b_swname) return -1
-            if (a_swname > b_swname) return 1
-            return 0
-          },
           sortable: true
         },
         {
           prop: 'fullNameZh',
           label: '角色名称',
-          sortable: 'custom',
           align: 'center',
           tooltip: false
         },

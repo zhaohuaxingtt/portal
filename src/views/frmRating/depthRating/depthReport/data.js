@@ -1,22 +1,31 @@
+/*
+ * @Date: 2021-11-08 11:47:59
+ * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-21 18:13:39
+ * @FilePath: \front-portal-new\src\views\frmRating\depthRating\depthReport\data.js
+ */
 export const interViewTabList = [{
 		value: 1,
 		name: '综述',
 		key: 'SPR_FRM_DEP_ZS',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_SHENPING_SPR_FRM_DEP_ZS"
 	},
 	{
 		value: 2,
 		name: '企业概况',
 		key: 'SPR_FRM_DEP_QYGK',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_SHENPING_SPR_FRM_DEP_QYGK"
 	},
 	{
 		value: 3,
 		name: '财务分析',
 		key: 'SPR_FRM_DEP_CWFX',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_SHENPING_SPR_FRM_DEP_CWFX"
 	}
 ];
 // 深入评级结果
 export const depthResult=[
-	{props: 'deepCommentRatingDate', name: '评级时间', key: ''},
+	{props: 'deepCommentRatingDate', name: '深评时间', key: ''},
 	{props: 'deepCommentRatingResults', name: '状态', key: ''}
 ]
 

@@ -62,7 +62,8 @@
                     @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
-      <table-list v-permission="SUPPLIER_APPLYBDL_TABEL"
+      <!-- v-permission="SUPPLIER_APPLYBDL_TABEL" -->
+      <table-list 
                   :height="400"
                   :tableData="tableListData"
                   :tableTitle="tableTitle"
@@ -83,7 +84,8 @@ import tableList from '@/components/commonTable'
 import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
 import addBdlDialog from './addBdlDialog'
-import { getStuffMaterials, submitBdl, getUserList, getDeptList, getPreDeptList, getPreUserList } from "../../../../api/supplier360/material";
+import { getStuffMaterials, submitBdl, getUserList, getDeptList, getPreDeptList, getPreUserList, checkCategory } from "../../../../api/supplier360/material";
+// import { getPurchaseDeptList, getPurchaseUserList } from '@/api/supplier360/material'
 
 
 export default {
@@ -159,27 +161,41 @@ export default {
         })
       }
     },
-    async handleSubmit () {
-      const pms = {
-        "linieId": this.form.linieId,
-        supplierToken: this.$route.query.supplierToken,
-        taskId: this.$route.query.id,
-        "bdlSaveList": [],
-      }
-      this.selectTableData.forEach((item) => {
-        pms.bdlSaveList.push({
-          stuffId: item.id,
-          categoryId: item.categoryId,
-          categoryCode: item.categoryCode,
-          categoryNameZh: item.categoryNameZh,
-          bdlType: this.$route.query.mbdl ? 2 : 1
-        })
-      })
-      const res = await submitBdl(pms)
-      this.resultMessage(res, () => {
-        // this.getTableList()
-        this.tableListData = window._.difference(this.tableListData, this.selectTableData)
-        this.selectTableData = []
+    handleSubmit () {
+      checkCategory({
+        categoryIds: this.selectTableData.map(item => item.categoryId),
+        checkUserId: this.form.linieId
+      }).then(async res => {
+        if (res.code === '200') {
+          if (res.data) {
+            const pms = {
+              "linieId": this.form.linieId,
+              supplierToken: this.$route.query.supplierToken,
+              taskId: this.$route.query.id,
+              "bdlSaveList": [],
+            }
+            this.selectTableData.forEach((item) => {
+              pms.bdlSaveList.push({
+                stuffId: item.id,
+                stuffCode: item.stuffCode,
+                categoryId: item.categoryId,
+                categoryCode: item.categoryCode,
+                categoryNameZh: item.categoryNameZh,
+                bdlType: this.$route.query.mbdl ? 2 : 1
+              })
+            })
+            const res = await submitBdl(pms)
+            this.resultMessage(res, () => {
+              // this.getTableList()
+              this.tableListData = window._.difference(this.tableListData, this.selectTableData)
+              this.selectTableData = []
+            })
+          } else {
+            iMessage.error(this.language('NINXUANZEDECAIGOUYUANMEIYOUGAICAILIAOZUDECAOZUOQUANXIANQINGLIANXIXITONGGUANLIYUANTIANJIACAOZUOQUANXIAN', '您选择的采购员没有该材料组的操作权限，请联系系统管理员添加操作权限'))
+          }
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
     },
     async getDeptList () {
@@ -212,19 +228,34 @@ export default {
       this.selectTableData = e
     },
     handleSelection (e) {
-      var ids = []
-      e.forEach(item => {
-        this.tableListData.forEach(item => {
-          ids.push(item.id)
-        })
-        if (!ids.includes(item.id)) {
-          if (item.categoryCode == "9999") {
-            this.isAcc = true;
-            Vue.set(this.form, "deptId", "")
-            Vue.set(this.form, "linieId", "")
+      checkCategory({
+        categoryIds: e.map(item => item.categoryId),
+        checkUserId: this.$store.state.permission.userInfo.id
+      }).then(res => {
+        if (res.code === '200') {
+          if (res.data) {
+            var ids = []
+            e.forEach(item => {
+              this.tableListData.forEach(item => {
+                ids.push(item.id)
+              })
+              if (!ids.includes(item.id)) {
+                if (item.categoryCode == "9999") {
+                  this.isAcc = true;
+                  Vue.set(this.form, "deptId", "")
+                  Vue.set(this.form, "linieId", "")
+                }
+                this.tableListData.push(item)
+                this.addBdldialog = false
+                // this.selectTableData = this.tableListData
+              }
+            })
+          } else {
+            iMessage.error(this.language('QINGLIANXIXITONGGUANLIYUANTIANJIAGAICAILIAOZUDECAOZUOQUANXIAN', '请联系系统管理员添加该材料组的操作权限'))
+            return
           }
-          this.tableListData.push(item)
-          // this.selectTableData = this.tableListData
+        } else {
+          iMessage.error(res.desZh)
         }
       })
     },

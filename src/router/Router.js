@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: YoHo
- * @LastEditTime: 2022-01-18 17:39:47
+ * @LastEditTime: 2022-01-25 21:33:34
  * @Description:
  * @FilePath: \front-portal-new\src\router\Router.js
  */
@@ -30,7 +30,7 @@ import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
 import RouterAssistant from './RouterAssistant'
-import RouterPopupWindowMa from './RouterPopupWindowMa'
+/* import RouterPopupWindowMa from './RouterPopupWindowMa' */
 
 import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
@@ -44,12 +44,18 @@ import ApproveDetails from '@/views/generalPage/approveDetails/preview'
 import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
 
 import RouterOfflineDownload from './RouterOfflineDownload'
+import RouterAdminProCSMgm from './RouterAdminProCSMgm'
 
 // 嵌入表单的组件路由
 import RouterView from './RouterView'
 import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 import RouterTerms from './RouterTerms'
+
+import RouterReportForm from './RouterReportForm'
+// 后台管理  scoreConfig
+import backstagemanagement from './backstagemanagement'
+import RouterSetting from './RouterSetting'
 
 export default {
   routes: [
@@ -144,14 +150,16 @@ export default {
         )
     },
     {
-      path: "/terms/management/termsPreview",
-      name: "termsPreview",
-      component: () => import(`@/views/terms/termsManagement/components/preview.vue`),
+      path: '/terms/management/termsPreview',
+      name: 'termsPreview',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preview.vue`)
     },
     {
-      path: "/terms/management/clauseDetail/preText",
-      name: "preText",
-      component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+      path: '/terms/management/clauseDetail/preText',
+      name: 'preText',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preText.vue`)
     },
     {
       path: "/clausepage",
@@ -228,7 +236,6 @@ export default {
         ...RouterBiz,
         ...RouterAchievement,
         ...RouterAssistant,
-        ...RouterPopupWindowMa,
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
@@ -236,8 +243,12 @@ export default {
         ...RouterColorParts,
         ...RouterApplications,
         ...RouterOfflineDownload,
+        ...RouterAdminProCSMgm,
         ...RouterElectronicSignature,
-        ...RouterTerms
+        ...RouterTerms,
+        ...RouterReportForm,
+        ...backstagemanagement,
+        ...RouterSetting
       ]
     },
     ...RouterView,

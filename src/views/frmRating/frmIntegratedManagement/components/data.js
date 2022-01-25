@@ -67,7 +67,7 @@ export const tableTitle = [
     tooltip: true
   },
   {
-    props: 'deepCreateDate',
+    props: 'approvalEndDate',
     name: '深评时间',
     key: 'SPR_FRM_FRMGL_SPSJ',
     width: 110,

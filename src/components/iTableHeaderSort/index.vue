@@ -4,7 +4,6 @@
     :visible.sync="isShow"
     width="30%"
     class="table-header-modal"
-    :before-close="handleBeforeClose"
   >
     <div class="header-wrapper" ref="header-wrapper">
       <div
@@ -44,7 +43,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -70,17 +69,13 @@ export default {
     this.handleOpened()
   },
   methods: {
-    handleBeforeClose(done) {
-      this.handleReset()
-      done()
-    },
     handleSave() {
       const elements = document.querySelectorAll('.drop-item')
       const newData = []
       for (let i = 0; i < elements.length; i++) {
         const element = elements[i]
         console.log(element.getAttribute('data-id'))
-        const item = this.dataSource.find(e => {
+        const item = this.dataSource.find((e) => {
           const itemName = e.i18n ? this.language(e.i18n) : e.label
           return itemName === element.getAttribute('data-id')
         })
@@ -90,16 +85,17 @@ export default {
       this.$emit('callback', newData)
     },
     handleCancel() {
-      this.handleReset()
+      this.dataSource = this.deepClone(this.originalData)
       this.isShow = false
     },
     handleReset() {
       this.dataSource = this.deepClone(this.originalData)
-      // this.$emit('reset')
+      this.$emit('reset')
+      this.isShow = false
     },
     handleOpened() {
       const dataSource = this.deepClone(this.data)
-      dataSource.forEach(e => {
+      dataSource.forEach((e) => {
         if (!e.hasOwnProperty('isHidden')) {
           e.isHidden = false
         }
@@ -116,7 +112,7 @@ export default {
       })
     },
     deepClone(data) {
-      var t = this.getType(data),
+      let t = this.getType(data),
         o,
         i,
         ni

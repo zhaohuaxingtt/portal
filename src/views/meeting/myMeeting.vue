@@ -78,7 +78,8 @@ export default {
                 '&meetingInfoId=' +
                 localStorage.getItem('my_meeting__info_id')),
           activePath: '/meeting/live',
-          key: this.$t('MT_HUIYIZHIBO')
+          key: this.$t('MT_HUIYIZHIBO'),
+          permissionKey:"CF_MEETING_SCCGCSC_HUIYIZHIBO"
         },
         {
           value: 2,
@@ -94,7 +95,8 @@ export default {
                 '&meetingInfoId=' +
                 localStorage.getItem('my_meeting__info_id')),
           activePath: '/meeting/near-meeting',
-          key: this.$t('MT_JINQIHUIYI')
+          key: this.$t('MT_JINQIHUIYI'),
+          permissionKey:"CF_MEETING_SCCGCSC_JINQIHUIYI"
         }
       ],
       tabRouterList: [

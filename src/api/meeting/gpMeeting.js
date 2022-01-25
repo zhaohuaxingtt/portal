@@ -26,13 +26,13 @@ export function findByRelationMeeting(data) {
     })
 } 
 // Mbdl议题结束接口
-// /gpMeetingService/endThemen
-export function endThemen(data) {
+// /gpMeetingService/endMbdlThemen
+export function endMbdlThemen(data) {
   return requst({
-    url: `/gpMeetingService/endThemen`,
+    url: `/gpMeetingService/endMbdlThemen`,
     method: 'POST',
     data
-  })
+  }) 
 }
 // 发送大会议程接口
 // /gpMeetingService/sendBigMeetingThemen
@@ -80,5 +80,57 @@ export function exportMeetingMinutes(data) {
     method: 'POST',
     data,
     responseType: 'blob'
+  })
+}
+//货币下拉框
+// gpMeetingService/getCscCurrencyList
+export function getCscCurrencyList(data) {
+  return requst({
+    url: `/gpMeetingService/getCscCurrencyList`,
+    method: 'POST',
+    data,
+  })
+}
+// 改期页面信息
+// /gpMeetingService/findToReschedule
+export function findToReschedule(data) {
+  return requst({
+    url: `/gpMeetingService/findToReschedule`,
+    method: 'POST',
+    data,
+  })
+}
+// 会议议题改期
+export function rescheduleThemen(data) {
+  return requst({
+    url: `/meetingService/rescheduleThemen`,
+    method: 'POST',
+    data
+  })
+}
+// //二次修改结论 通用  modifyConclusionById
+// export function modifyConclusionById(data) {
+//   return requst({
+//     url: `/gpMeetingService/modifyConclusionById`,
+//     method: 'POST',
+//     data
+//   })
+// }
+// Csc议题结束接口  二次修改
+// /gpMeetingService/modifyConclusionByCscId
+export function modifyConclusionByCscId(data) {
+  return requst({
+    url: `/gpMeetingService/modifyConclusionByCscId`,
+    method: 'POST',
+    data
+  })
+}
+// MBDl 议题结束接口  二次修改
+// /gpMeetingService/modifyConclusionByMbdlId
+export function modifyConclusionByMbdlId(data) {
+  return requst({
+    url: `/gpMeetingService/modifyConclusionByMbdlId`,
+    method: 'POST',
+    data
   })
 }

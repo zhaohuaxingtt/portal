@@ -1,6 +1,7 @@
 <template>
+<div v-loading="loading">
   <iPage>
-    <div class="title">
+    <div class="title" >
       <div>
         <span class="title__clause">{{ this.ruleForm.name }}</span>
         <span>
@@ -23,6 +24,10 @@
         </span>
       </div>
       <div>
+        <!-- 保存 -->
+        <iButton @click="handleSave" v-if="ruleForm.state == '03'">{{
+          '保存'
+        }}</iButton>
         <!-- 生效 -->
         <iButton
           @click="handleEffect"
@@ -35,14 +40,17 @@
           v-if="ruleForm.isNewest != false && ruleForm.state == '03'"
           >{{ '失效' }}</iButton
         >
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
         <!-- 更新版本 -->
         <iButton
           @click="handleUpdate"
-          v-if="ruleForm.isNewest != false && ruleForm.state == '03'"
+          v-if="
+            ruleForm.isNewest != false &&
+            (ruleForm.state == '03' || ruleForm.state == '04')
+          "
           >{{ '更新版本' }}</iButton
         >
+        <!-- 返回 -->
+        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
       </div>
     </div>
     <iCard>
@@ -67,7 +75,10 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款名称" prop="name">
                 <iLabel :label="'条款名称'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.name" disabled></iInput>
+                <iInput
+                  v-model="ruleForm.name"
+                  :disabled="ruleForm.state != '03'"
+                ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -155,7 +166,15 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款负责人" prop="chargeName">
                 <iLabel :label="'条款负责人'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.chargeName" disabled></iInput>
+                <!-- <iInput v-model="ruleForm.chargeName" :disabled="ruleForm.state != '03'"></iInput> -->
+                <el-autocomplete
+                  style="width: 100%"
+                  :disabled="ruleForm.state != '03'"
+                  v-model="ruleForm.chargeName"
+                  :fetch-suggestions="querySearchAsync"
+                  :placeholder="$t('请输入')"
+                  @select="handleSelect"
+                ></el-autocomplete>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -190,18 +209,44 @@
                   style="display: inline-block"
                   v-model="ruleForm.supplierRange"
                   @input="handleGroupCheckList"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                 >
-                  <el-checkbox label="PP">生产供应商</el-checkbox>
-                  <el-checkbox label="GP">一般供应商</el-checkbox>
-                  <el-checkbox label="NT">N-Tier</el-checkbox>
-                  <el-checkbox label="CM">自定义</el-checkbox>
+                  <el-checkbox
+                    label="PP"
+                    :disabled="controlForm.supplierRange.includes('CM')"
+                    >生产供应商</el-checkbox
+                  >
+                  <el-checkbox
+                    label="GP"
+                    :disabled="controlForm.supplierRange.includes('CM')"
+                    >一般供应商</el-checkbox
+                  >
+                  <el-checkbox
+                    label="NT"
+                    :disabled="controlForm.supplierRange.includes('CM')"
+                    >N-Tier</el-checkbox
+                  >
+                  <el-checkbox
+                    label="CM"
+                    :disabled="
+                      controlForm.supplierRange.includes('PP') ||
+                      controlForm.supplierRange.includes('GP') ||
+                      controlForm.supplierRange.includes('NT')
+                    "
+                    >自定义</el-checkbox
+                  >
                 </el-checkbox-group>
                 <div class="searchInput">
                   <iInput
                     :placeholder="'选择器'"
                     @focus="handleOpenSupplierChooseDialog()"
-                    disabled
+                    :disabled="
+                      controlForm.supplierRange.includes('PP') ||
+                      controlForm.supplierRange.includes('GP') ||
+                      controlForm.supplierRange.includes('NT') ||
+                      !ruleForm.supplierRange.includes('CM') ||
+                      ruleForm.state != '03'
+                    "
                   >
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                   </iInput>
@@ -221,11 +266,18 @@
                 <el-checkbox-group
                   v-model="ruleForm.supplierIdentity"
                   @input="handleGroupCheckList"
-                  disabled
+                  :disabled="
+                    ruleForm.state != '03' ||
+                    controlForm.supplierRange.includes('CM')
+                  "
                 >
                   <el-checkbox label="0">临时</el-checkbox>
                   <el-checkbox label="1">正式</el-checkbox>
-                  <el-checkbox label="2">储蓄池</el-checkbox>
+                  <el-checkbox
+                    label="2"
+                    :disabled="!ruleForm.supplierRange.includes('NT')"
+                    >储蓄池</el-checkbox
+                  >
                 </el-checkbox-group>
               </iFormItem>
             </el-col>
@@ -247,7 +299,7 @@
                 <el-radio-group
                   v-model="ruleForm.supplierContacts"
                   @input="handleGroupCheckList"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                 >
                   <el-radio
                     v-for="item in supplierContactsList"
@@ -263,7 +315,7 @@
                 <iLabel :label="'备注'" slot="label"></iLabel>
                 <iInput
                   v-model="ruleForm.remark"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                   class="textarea"
                   type="textarea"
                   :rows="3"
@@ -455,8 +507,10 @@
       :openDialog="openSupplierChooseDialog"
       @closeDialog="closeSupplierChooseDialog"
       @selectedTableData="selectedTableData"
+      :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
+</div>
 </template>
 
 <script>
@@ -482,7 +536,13 @@ import {
 import uploadIcon from '@/assets/images/upload-icon.svg'
 import { uploadFile } from '@/api/terms/uploadFile.js'
 import iTableML from '@/components/iTableML'
-import { findById, deleteAttachment, saveAttachment } from '@/api/terms/terms'
+import {
+  findById,
+  deleteAttachment,
+  saveAttachment,
+  updateEffectiveTerms,
+  getPageListByParam
+} from '@/api/terms/terms'
 import { getDictByCode } from '@/api/dictionary/index'
 import { download, downloadZip } from '@/utils/downloadUtil'
 import supplierListDialog from './supplierListDialog.vue'
@@ -505,7 +565,7 @@ export default {
     supplierChooseDialog
   },
   props: {
-    loading: { type: Boolean, default: false },
+    // loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
@@ -517,6 +577,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -547,6 +608,11 @@ export default {
         termsTextUrl: '', // 条款正文url
         attachments: [], // 附件列表
         termsHistoryList: []
+      },
+      controlForm: {
+        supplierRange: [], // 供应商范围
+        supplierIdentity: [], // 供应商身份
+        supplierContacts: '' // 供应商用户范围
       },
       selectedFileData: [],
       pickerOptions: {
@@ -593,21 +659,21 @@ export default {
           }
         }
       }
-    },
-    'ruleForm.supplierIdentity': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierIdentity', val)
-      }
-    },
-    'ruleForm.supplierContacts': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierContacts', val)
-      }
     }
+    // 'ruleForm.supplierIdentity': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierIdentity', val)
+    //   }
+    // },
+    // 'ruleForm.supplierContacts': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierContacts', val)
+    //   }
+    // }
   },
   mounted() {
     if (this.$route.query.id) {
@@ -615,20 +681,6 @@ export default {
       let param = { id: this.$route.query.id }
       this.query(param)
     }
-    // this.signNodeList = [
-    //   {
-    //     name: "注册",
-    //     id: "01",
-    //   },
-    //   {
-    //     name: "询价",
-    //     id: "02",
-    //   },
-    //   {
-    //     name: "定点",
-    //     id: "03",
-    //   },
-    // ];
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo
@@ -869,8 +921,8 @@ export default {
       this.$router.push({
         path: '/terms/management/addClause',
         query: {
-          id: this.ruleForm.id,
-          updateTerms: true
+          id: this.ruleForm.id
+          // updateTerms: true
         }
       })
     },
@@ -912,6 +964,7 @@ export default {
     //   this.clauseTextContrastShow = true;
     // },
     query(e) {
+      this.loading = true
       // 根据ID查询条款信息
       findById(e).then((res) => {
         if ((res.state == '01' || res.state == '02') && res.isNewest == true) {
@@ -925,6 +978,7 @@ export default {
           res.supplierRange = res.supplierRange?.split(',')
           res.supplierIdentity = res.supplierIdentity?.split(',')
           this.ruleForm = res
+          this.controlForm = JSON.parse(JSON.stringify(this.ruleForm))
           this.editor.txt.html(this.ruleForm.termsText)
           this.editor.disable()
           if (this.ruleForm.editMode == '02') {
@@ -932,7 +986,80 @@ export default {
               this.termsTextName = res.name
             })
           }
+          this.loading = false
         }
+      })
+    },
+    handleSelect(item) {
+      this.ruleForm.chargeId = item.id
+      this.ruleForm.chargeName = item.nameZh
+    },
+    async querySearchAsync(queryString, cb) {
+      let res = await this.getUsersAll(queryString)
+      res = res || { data: [] }
+      let userArr = res.data || []
+      userArr = userArr.map((item) => {
+        return {
+          value: item.nameZh,
+          ...item
+        }
+      })
+      cb(userArr)
+    },
+    async getUsersAll(str) {
+      const data = {
+        nameZh: str
+      }
+      let res = await getPageListByParam(data)
+      return res
+    },
+    handleSave() {
+      console.log('this.ruleForm', this.ruleForm)
+      this.$confirm('是否保存该条款？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        this.$refs['ruleForm'].validate((validBase) => {
+          if (validBase) {
+            if (
+              this.ruleForm.supplierRange[0] != 'CM' &&
+              this.ruleForm.supplierIdentity.length == 0
+            ) {
+              this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              (this.ruleForm.supplierList?.length == 0 ||
+                this.ruleForm.supplierList == null)
+            ) {
+              this.$message.error('供应商列表不能为空！')
+            } else {
+              this.ruleForm.supplierRange = this.ruleForm.supplierRange
+                .map((i) => {
+                  return i
+                })
+                .join(',')
+              this.ruleForm.supplierIdentity = this.ruleForm.supplierIdentity
+                .map((i) => {
+                  return i
+                })
+                .join(',')
+              updateEffectiveTerms(this.ruleForm).then((data) => {
+                if (data) {
+                  iMessage.success(this.$t('保存成功！'))
+                  this.$router.push({
+                    path: '/terms/management'
+                  })
+                } else {
+                  this.ruleForm.supplierRange =
+                    this.ruleForm.supplierRange?.split(',')
+                  this.ruleForm.supplierIdentity =
+                    this.ruleForm.supplierIdentity?.split(',')
+                }
+              })
+            }
+          }
+        })
       })
     }
   }
@@ -955,7 +1082,7 @@ export default {
   }
   .title__version {
     margin: 0 1rem 0 3rem;
-    font-size: 8px;
+    font-size: 0.875rem;
     font-family: Arial;
     font-weight: 400;
     line-height: 0px;
@@ -1086,5 +1213,11 @@ export default {
 }
 ::v-deep .w-e-toolbar {
   z-index: 2 !important;
+}
+::v-deep .w-e-text ul li {
+  list-style: disc;
+}
+::v-deep .w-e-text ol li {
+  list-style: decimal;
 }
 </style>

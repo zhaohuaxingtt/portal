@@ -1,11 +1,16 @@
 <template>
   <div class="table-box">
-    <btnBox :operations="operations" />
+    <btnBox
+      :operations="operations"
+      @handle-setting="$refs.positoinTable.openSetting()"
+    />
     <iTableCustom
+      ref="positoinTable"
       :loading="tableLoading"
       :data="tableListData"
       :columns="tableSetting"
       :height="tableHeight"
+      permission-key="ADMIN_PRO_CS_POSITION_VIEW"
       @handle-selection-change="handleSelectionChange"
       @go-detail="handleGoDetail"
     >
@@ -72,9 +77,8 @@ export default {
         {
           prop: 'code',
           label: '岗位编码',
-          tooltip: false
-          // align: 'left',
-          // width:'200px'
+          tooltip: false,
+          sortable: true
         },
         {
           prop: 'fullNameZh',
@@ -82,27 +86,29 @@ export default {
           tooltip: true,
           // align: 'left',
           emit: 'go-detail',
-          openNewPage: true,
+          // openNewPage: true,
           customRender: (h, scope) => {
             return <span class="open-link-text">{scope.row.fullNameZh}</span>
-          }
+          },
+          sortable: true
         },
         {
           prop: 'isDeptLead',
           label: '组织领导',
           align: 'center',
-          width: 80,
+          width: 100,
           tooltip: false,
           customRender: (h, scope) => {
             const isLeader = scope.row.isDeptLead ? '是' : '否'
             return <span>{isLeader}</span>
-          }
+          },
+          sortable: true
         },
         {
           prop: 'memberCount',
           label: '用户数量',
           align: 'center',
-          width: 80,
+          width: 100,
           tooltip: false,
           customRender: (h, scope) => {
             return (
@@ -110,6 +116,12 @@ export default {
                 {scope.row.userDTOList ? scope.row.userDTOList.length : 0}
               </span>
             )
+          },
+          sortable: true,
+          sortMethod: (a, b) => {
+            const aLen = a?.userDTOList?.length || 0
+            const bLen = b?.userDTOList?.length || 0
+            return aLen - bLen
           }
         }
       ]

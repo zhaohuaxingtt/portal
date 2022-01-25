@@ -16,11 +16,22 @@
           <iInput :value="total" readonly disabled />
         </iFormItem>
       </el-form>
-      <div slot="actions">
-        <iButton v-show="!extraData.editable" @click="edit">{{language('编辑')}}</iButton>
-        <iButton v-show="extraData.editable" @click="addItem">{{language('新增年份')}}</iButton>
-        <iButton v-show="extraData.editable" @click="save">{{language('保存')}}</iButton>
-        <iButton v-show="extraData.editable" @click="cancel">{{language('取消')}}</iButton>
+      <div
+        slot="actions"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_DETAIL_MODIFY'"
+      >
+        <iButton v-show="!extraData.editable" @click="edit">{{
+          language('编辑')
+        }}</iButton>
+        <iButton v-show="extraData.editable" @click="addItem">{{
+          language('新增年份')
+        }}</iButton>
+        <iButton v-show="extraData.editable" @click="save">{{
+          language('保存')
+        }}</iButton>
+        <iButton v-show="extraData.editable" @click="cancel">{{
+          language('取消')
+        }}</iButton>
       </div>
     </pageHeader>
 

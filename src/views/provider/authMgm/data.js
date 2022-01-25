@@ -10,7 +10,7 @@ export const tableSetting = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
-    //   i18n:"",
+    minWidth: '120px',
     align: 'center',
     emit: 'goEdit',
     customRender: (h, scope) => {
@@ -24,86 +24,86 @@ export const tableSetting = [
       } else {
         return <span class="link-text">{scope.row.nameZh}</span>
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'userName',
     label: '用户登录名',
     width: '150px',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'opcsCompanyNameZh',
     label: '供应商中文名',
     align: 'center',
     width: '150',
-    tooltip: true
-  },
-  {
-    prop: 'opcsCompanyNameEn',
-    label: '供应商英文名',
-    align: 'center',
-    width: '150',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'isMainContact',
-    label: '主联系人',
+    label: '是否主联系人',
     align: 'center',
+    width: '120px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
       } else {
         return '否'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'temporaryNum',
     label: '临时号',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
+    i18n: '正式/SVW号',
+    width: '120px',
+    prop: 'svwCode',
+    sortable: true
+  },
+  {
+    i18n: 'SAP号',
+    prop: 'sapNum',
+    sortable: true
+  },
+
+  /* {
+    i18n: '职位',
     prop: 'position',
-    label: '职位',
-    align: 'center',
-    width: '100px'
+    minWidth: '120px'
   },
   {
+    i18n: '部门',
     prop: 'dept',
-    label: '部门',
-    align: 'center',
-    width: '200px'
+    minWidth: '120px'
   },
   {
+    i18n: '区号',
     prop: 'telephoneAreaCode',
-    label: '区号',
-    align: 'center'
-  },
+    minWidth: '120px'
+  }, */
   {
     prop: 'telephoneO',
     label: '联系电话',
     align: 'center',
     width: '100px',
-    tooltip: true
-    // customRender:(h,scope) =>{
-    //   let tele = []
-    //   if(scope.row.telephoneM){
-    //     tele.push(scope.row.telephoneM)
-    //   }
-    //   if(scope.row.telephoneO){
-    //     tele.push(scope.row.telephoneO)
-    //   }
-    //   let teleStr = tele.join("/")
-    //   return teleStr
-    // }
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'email',
     label: '邮箱',
     align: 'center',
-    width: '100px',
-    tooltip: true
+    minWidth: '180px',
+    tooltip: true,
+    sortable: true
   }
 ]
 

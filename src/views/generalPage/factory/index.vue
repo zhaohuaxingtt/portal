@@ -27,8 +27,8 @@
           </i-button>
         </div>
       </div>
-      <table-list v-permission="SUPPLIER_FACTORY_TABLE"
-                  :tableData="tableListData"
+      <!-- v-permission="SUPPLIER_FACTORY_TABLE" -->
+      <table-list :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   @handleSelectionChange="handleSelectionChange"

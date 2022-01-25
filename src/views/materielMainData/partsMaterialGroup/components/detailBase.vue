@@ -1,12 +1,18 @@
 <template>
   <iCard :title="language('基础信息')" header-control collapse>
-    <div class="button-top margin-bottom20" v-if="!readOnly">
+    <div
+      class="button-top margin-bottom20"
+      v-if="!readOnly"
+      v-permission="
+        'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'
+      "
+    >
       <div v-if="editSta">
-        <iButton @click="edit">{{language('编辑')}}</iButton>
+        <iButton @click="edit">{{ language('编辑') }}</iButton>
       </div>
       <div v-else>
-        <iButton @click="save">{{language('保存')}}</iButton>
-        <iButton @click="closeWindow">{{language('取消')}}</iButton>
+        <iButton @click="save">{{ language('保存') }}</iButton>
+        <iButton @click="closeWindow">{{ language('取消') }}</iButton>
       </div>
     </div>
     <div class="form-item">
@@ -30,10 +36,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem
-              :label="language('材料组名称')"
-              prop="categoryNameZh"
-            >
+            <iFormItem :label="language('材料组名称')" prop="categoryNameZh">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.categoryNameZh"
@@ -98,10 +101,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem
-              :label="language('主采购员')"
-              prop="masterLinieName"
-            >
+            <iFormItem :label="language('主采购员')" prop="masterLinieName">
               <iSelect
                 :placeholder="language('请选择')"
                 v-model="formData.masterLinieName"
@@ -149,10 +149,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem
-              :label="language('模具预算属性')"
-              prop="moldProperties"
-            >
+            <iFormItem :label="language('模具预算属性')" prop="moldProperties">
               <iSelect
                 :placeholder="language('请选择')"
                 v-model="formData.moldProperties"
@@ -177,18 +174,28 @@
         <div class="iButton-end margin-bottom20">
           <el-form label-position="left" label-width="115px">
             <iFormItem :label="language('已关联零件6位号')">
-              <iInput v-model="sixPartNum" :placeholder="language('请输入')"></iInput>
+              <iInput
+                v-model="sixPartNum"
+                :placeholder="language('请输入')"
+              ></iInput>
             </iFormItem>
           </el-form>
           <div style="display: flex; justify-content: flex-end">
-            <iButton @click="search">{{language('查询')}}</iButton>
-            <iButton @click="reset">{{language('重置')}}</iButton>
+            <iButton @click="search">{{ language('查询') }}</iButton>
+            <iButton @click="reset">{{ language('重置') }}</iButton>
             <div v-if="!readOnly" style="margin-left: 8px">
-              <iButton @click="newAdd">{{language('新增')}}</iButton>
+              <iButton
+                @click="newAdd"
+                v-permission="'ON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'"
+                >{{ language('新增') }}</iButton
+              >
               <iButton
                 @click="deleteSixParts"
                 :disabled="selectTableData.length == 0"
-                >{{language('删除')}}</iButton
+                v-permission="
+                  'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_DELETE'
+                "
+                >{{ language('删除') }}</iButton
               >
             </div>
           </div>
@@ -242,7 +249,6 @@ import iTableCustom from '@/components/iTableCustom'
 import BasicIDialog from './basicIDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import {
-  sixPartNumList,
   savePartsMaterial,
   deleteSizeParts,
   partMaterialDetail,
@@ -346,7 +352,7 @@ export default {
         {
           prop: 'sixPartCode',
           label: '零件6位号',
-          i18n: '',
+          i18n: '零件6位号',
           emit: 'go-detail',
           customRender: (h, scope) => {
             return <span class="open-link-text">{scope.row.sixPartCode}</span>
@@ -355,12 +361,12 @@ export default {
         {
           prop: 'partNameZh',
           label: '零件名称（中）',
-          i18n: ''
+          i18n: '零件名称（中）'
         },
         {
           prop: 'partNameDe',
           label: '零件名称（德）',
-          i18n: ''
+          i18n: '零件名称（德）'
         },
         // {
         //   prop:'partNameEn',
@@ -370,17 +376,17 @@ export default {
         {
           prop: 'linieNames',
           label: 'Linie',
-          i18n: ''
+          i18n: 'Linie'
         },
         {
           prop: 'deptCodes',
           label: 'Linie科室',
-          i18n: ''
+          i18n: 'Linie科室'
         },
         {
           prop: 'isFixAsset',
           label: '入账是否抽查',
-          i18n: ''
+          i18n: '入账是否抽查'
         }
       ],
       newAddDialogVisible: false,

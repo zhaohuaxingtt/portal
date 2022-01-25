@@ -31,6 +31,18 @@
               symbol
               name="iconhongdeng"></icon>
       </template>
+      <template #vwagAssessResult="scope">
+        <icon v-if="scope.row.vwagAssessResult == 'green'"
+              symbol
+              name="iconlvdeng"></icon>
+        <icon v-else-if="scope.row.vwagAssessResult == 'yellow'"
+              symbol
+              name="iconhuangdeng"></icon>
+        <icon v-else-if="scope.row.vwagAssessResult == 'red'"
+              symbol
+              name="iconhongdeng"></icon>
+        <span v-else>{{scope.row.vwagAssessResult}}</span>
+      </template>
     </tableList>
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
@@ -145,7 +157,12 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'));
       }
-      this.inDepthRatingDialog = true;
+      if (this.selectTableData[0].deepStatus === "生效" || this.selectTableData[0].deepStatus === "终止" || this.selectTableData[0].deepStatus === "历史" || !this.selectTableData[0].deepStatus) {
+        this.inDepthRatingDialog = true;
+      } else {
+        return iMessage.warn(this.language('CIGONGYINGSHANGYICUNZAIZHENGZAIJINGXINGDESHENRUPINGJI', '此供应商已存在正在进行的深入评级'));
+      }
+
     },
     openVwagRatingDialog () {
       if (this.selectTableData.length === 0) {

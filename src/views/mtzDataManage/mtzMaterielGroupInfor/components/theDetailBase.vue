@@ -1,9 +1,26 @@
 <template>
   <iCard :title="language('基础信息')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">{{language('编辑')}}</iButton>
-      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
-      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
+      <iButton
+        v-show="!editable"
+        @click="editable = true"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY'"
+        >{{ language('编辑') }}</iButton
+      >
+      <iButton
+        v-show="editable"
+        @click="save"
+        v-permission="
+          'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ADD'
+        "
+        >{{ language('保存') }}</iButton
+      >
+      <iButton
+        v-show="editable"
+        @click="cancel"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY'"
+        >{{ language('取消') }}</iButton
+      >
     </div>
     <el-form
       label-position="left"
@@ -15,7 +32,10 @@
     >
       <el-row :gutter="20">
         <el-col :span="8">
-          <iFormItem :label="language('MTZ材料组编号')" prop="materialGroupCode">
+          <iFormItem
+            :label="language('MTZ材料组编号')"
+            prop="materialGroupCode"
+          >
             <iInput
               v-model="form.materialGroupCode"
               :placeholder="language('请输入')"
@@ -162,8 +182,8 @@ export default {
     handleOrgChange(val, options) {
       // console.log('orgChange', val, options)
       // let  arrayDeptInfo =[]
-      const depts = options.filter(e => val.includes(e.id))
-      const arrayDeptInfo = depts.map(e => {
+      const depts = options.filter((e) => val.includes(e.id))
+      const arrayDeptInfo = depts.map((e) => {
         return {
           deptCode: e.deptNum,
           deptId: e.id,
@@ -191,12 +211,12 @@ export default {
     },
     query() {
       fetchBaseGroup({ id: this.$route.query.id })
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             const simpleDeptInfos = res.data.simpleDeptInfos || []
-            const depts = simpleDeptInfos.map(e => e.deptId)
+            const depts = simpleDeptInfos.map((e) => e.deptId)
 
-            this.defaultDeptOptions = simpleDeptInfos.map(e => {
+            this.defaultDeptOptions = simpleDeptInfos.map((e) => {
               return { id: e.deptId, deptNum: e.deptCode, nameZh: e.deptName }
             })
 
@@ -204,7 +224,7 @@ export default {
               res.data.mtzGroupMaterialRelationVos || []
 
             const rawMaterialCodes = mtzGroupMaterialRelationVos.map(
-              e => e.rawMaterialCode
+              (e) => e.rawMaterialCode
             )
             this.form = { ...res.data, depts, rawMaterialCodes }
             this.originalForm = _.cloneDeep(this.form)
@@ -212,17 +232,17 @@ export default {
             iMessage.error(res.desZh || '获取数据失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '获取数据失败')
         })
     },
     save() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          searchDepartmentList(this.form.depts).then((val)=>{
-            if(val.code == 200){
+          searchDepartmentList(this.form.depts).then((val) => {
+            if (val.code == 200) {
               const list = val.data
-              this.form.simpleDeptInfos = list.map(e => {
+              this.form.simpleDeptInfos = list.map((e) => {
                 return {
                   deptCode: e.deptNum,
                   deptId: e.id,
@@ -230,25 +250,25 @@ export default {
                 }
               })
               saveBaseGroup(this.form)
-              .then(res => {
-                if (res.result) {
-                  iMessage.success(res.desZh || '保存成功')
-                  this.editable = false
-                  const { id, materialGroupCode } = res.data
-                  if(!this.$route.query.id){
-                    this.$router.replace({
-                      query: { id, code: materialGroupCode }
-                    })
+                .then((res) => {
+                  if (res.result) {
+                    iMessage.success(res.desZh || '保存成功')
+                    this.editable = false
+                    const { id, materialGroupCode } = res.data
+                    if (!this.$route.query.id) {
+                      this.$router.replace({
+                        query: { id, code: materialGroupCode }
+                      })
+                    }
+                    this.query()
+                  } else {
+                    iMessage.error(res.desZh || '保存失败')
                   }
-                  this.query()
-                } else {
-                  iMessage.error(res.desZh || '保存失败')
-                }
-              })
-              .catch(err => {
-                iMessage.error(err.desZh || '保存失败')
-              })
-            }else{
+                })
+                .catch((err) => {
+                  iMessage.error(err.desZh || '保存失败')
+                })
+            } else {
               iMessage.error(val.desZh)
             }
           })

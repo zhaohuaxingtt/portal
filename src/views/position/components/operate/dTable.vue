@@ -17,6 +17,7 @@
         >删除维度</iButton
       >
     </div>
+
     <iTableCustom
       :loading="tableLoading"
       :data="dimensions"
@@ -81,49 +82,43 @@ export default {
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
-              return h('div', [
-                h(
-                  'i-select',
-                  {
-                    //i-select实现下拉框
-                    on: {
-                      input: (value) => {
-                        //随着下拉框的不同，文字框里的内容在边
-                        scope.row.dimension = value
-                        this.dimensionOption = _.filter(
-                          _self.dimensionOptions,
-                          (item) => {
-                            return item.id === scope.row.dimension
-                          }
-                        )[0]
-                        scope.row.contentOptions = this.dimensionOption
-                          ? this.dimensionOption.valueList
-                          : []
-                        scope.row.content = []
-                      }
-                    },
-                    props: {
-                      value: scope.row.dimension, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择',
-                      filterable: true
-                    }
-                  },
-                  [
-                    //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    _self.dimensionOptions.map((item) => {
-                      return h('el-option', {
-                        props: {
-                          value: item.id,
-                          label: item.description,
-                          disabled: !!_.find(_self.dimensions, (d) => {
-                            return d.dimension === item.id
-                          })
-                        }
-                      })
+              let options = _self.dimensionOptions
+
+              return (
+                <iSelect
+                  value={scope.row.id}
+                  onchange={(val) => {
+                    scope.row.id = val
+                    const dimensionOption = options.filter((e) => {
+                      return e.id === val
                     })
-                  ]
-                )
-              ])
+                    if (
+                      dimensionOption &&
+                      dimensionOption.length &&
+                      dimensionOption[0].valueList
+                    ) {
+                      scope.row.code = dimensionOption[0].code
+                      scope.row.description = dimensionOption[0].description
+                      scope.row.id = dimensionOption[0].id
+                      scope.row.name = dimensionOption[0].name
+                      scope.row.url = dimensionOption[0].url
+                    } else {
+                      scope.row.contentOptions = []
+                    }
+                    scope.row.valueIds = []
+                  }}
+                >
+                  {options.map((item) => {
+                    return (
+                      <el-option
+                        value={item.id}
+                        label={item.description}
+                        disabled={_self.dimensionIds.includes(item.id)}
+                      ></el-option>
+                    )
+                  })}
+                </iSelect>
+              )
             }
           },
           {
@@ -132,40 +127,39 @@ export default {
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
-              return h('div', [
-                h(
-                  'i-select',
-                  {
-                    //i-select实现下拉框
-                    on: {
-                      input: (value) => {
-                        //随着下拉框的不同，文字框里的内容在边
-                        console.log('..,,', value)
-                        scope.row.content = value
-                      }
-                    },
-                    props: {
-                      value: scope.row.content, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择',
-                      multiple: true,
-                      filterable: true
-                    }
-                  },
-                  [
-                    //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    scope.row.contentOptions
-                      ? scope.row.contentOptions.map((item) => {
-                          return h('el-option', {
-                            props: {
-                              value: item.valueId,
-                              label: item.value
-                            }
-                          })
-                        })
-                      : ''
-                  ]
-                )
-              ])
+              let options = []
+              const dimensionOptions = _self.dimensionOptions
+              const dimensionOption = dimensionOptions.filter((e) => {
+                return e.id === scope.row.id
+              })
+              if (
+                dimensionOption &&
+                dimensionOption.length &&
+                dimensionOption[0].valueList
+              ) {
+                options = dimensionOption[0].valueList
+                scope.row.valueList = dimensionOption[0].valueList
+              }
+
+              return (
+                <iSelect
+                  placeholder="请选择"
+                  multiple={true}
+                  filterable={true}
+                  value={scope.row.valueIds}
+                  onchange={(val) => (scope.row.valueIds = val)}
+                >
+                  {options.map((item) => {
+                    return (
+                      <el-option
+                        value={item.valueId}
+                        label={item.value}
+                        key={item.valueId}
+                      />
+                    )
+                  })}
+                </iSelect>
+              )
             }
           }
         ],
@@ -184,50 +178,43 @@ export default {
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
-              return h('div', [
-                h(
-                  'i-select',
-                  {
-                    //i-select实现下拉框
-                    on: {
-                      input: (value) => {
-                        //随着下拉框的不同，文字框里的内容在边
-                        console.log(value)
-                        scope.row.dimension = value
-                        this.dimensionOption = _.filter(
-                          _self.dimensionOptions,
-                          (item) => {
-                            return item.id === scope.row.dimension
-                          }
-                        )[0]
-                        scope.row.contentOptions = this.dimensionOption
-                          ? this.dimensionOption.valueList
-                          : []
-                        scope.row.content = []
-                      }
-                    },
-                    props: {
-                      value: scope.row.dimension, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择',
-                      filterable: true
-                    }
-                  },
-                  [
-                    //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    _self.dimensionOptions.map((item) => {
-                      return h('el-option', {
-                        props: {
-                          value: item.id,
-                          label: item.description,
-                          disabled: !!_.find(_self.dimensions, (d) => {
-                            return d.dimension === item.id
-                          })
-                        }
-                      })
+              const options = _self.dimensionOptions
+              return (
+                <iSelect
+                  value={scope.row.id}
+                  onchange={(val) => {
+                    scope.row.id = val
+                    const dimensionOption = options.filter((e) => {
+                      return e.id === val
                     })
-                  ]
-                )
-              ])
+                    if (
+                      dimensionOption &&
+                      dimensionOption.length &&
+                      dimensionOption[0].valueList
+                    ) {
+                      scope.row.code = dimensionOption[0].code
+                      scope.row.description = dimensionOption[0].description
+                      scope.row.id = dimensionOption[0].id
+                      scope.row.name = dimensionOption[0].name
+                      scope.row.url = dimensionOption[0].url
+                      scope.row.contentOptions = dimensionOption[0].valueList
+                    } else {
+                      scope.row.contentOptions = []
+                    }
+                    scope.row.valueIds = []
+                  }}
+                >
+                  {options.map((item) => {
+                    return (
+                      <el-option
+                        value={item.id}
+                        label={item.description}
+                        disabled={_self.dimensionIds.includes(item.id)}
+                      ></el-option>
+                    )
+                  })}
+                </iSelect>
+              )
             }
           },
           {
@@ -236,39 +223,27 @@ export default {
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
-              return h('div', [
-                h(
-                  'i-select',
-                  {
-                    //i-select实现下拉框
-                    on: {
-                      input: (value) => {
-                        //随着下拉框的不同，文字框里的内容在边
-                        scope.row.content = value
-                      }
-                    },
-                    props: {
-                      value: scope.row.content, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择',
-                      multiple: true,
-                      filterable: true
-                    }
-                  },
-                  [
-                    //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    scope.row.contentOptions
-                      ? scope.row.contentOptions.map((item) => {
-                          return h('el-option', {
-                            props: {
-                              value: item.valueId,
-                              label: item.value
-                            }
-                          })
-                        })
-                      : ''
-                  ]
-                )
-              ])
+              const options =
+                scope.row.contentOptions || scope.row.valueList || []
+              return (
+                <iSelect
+                  placeholder="请选择"
+                  multiple={true}
+                  filterable={true}
+                  value={scope.row.valueIds}
+                  onchange={(val) => (scope.row.valueIds = val)}
+                >
+                  {options.map((item) => {
+                    return (
+                      <el-option
+                        value={item.valueId}
+                        label={item.value}
+                        key={item.valueId}
+                      />
+                    )
+                  })}
+                </iSelect>
+              )
             }
           }
         ]
@@ -278,13 +253,24 @@ export default {
   },
   computed: {
     dimensions() {
+      return this.$store.state.position.pos.positionDetail.permissionList
+    },
+    dimensionIds() {
+      return this.dimensions.map((e) => e.id)
+    },
+    /* dimensions() {
       return this.$store.state.position.pos.dimensionList
     },
     dimensionChecked() {
       return this.$store.state.position.pos.dimensionSelected
-    },
+    }, */
     dimensionOptions() {
-      return this.$store.state.position.pos.dimensionOptions
+      const { dimensionOptions, positionDetail } =
+        this.$store.state.position.pos
+      if (dimensionOptions && dimensionOptions.length > 0) {
+        return dimensionOptions
+      }
+      return positionDetail.permissionList
     }
   },
   methods: {
@@ -292,13 +278,7 @@ export default {
       this.$store.commit('SET_DIMENSIONSELECTED', val)
     },
     handleAdd() {
-      let count = this.dimensions.length
-      const dimension = {
-        dimension: '',
-        content: '',
-        index: ++count
-      }
-      this.$store.commit('ADD_DIMENSION', dimension)
+      this.$store.commit('ADD_DIMENSION')
     },
     handleDel() {
       this.$store.commit('DEL_DIMENSION')

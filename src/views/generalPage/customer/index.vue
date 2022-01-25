@@ -19,6 +19,7 @@
           </iButton>
         </div>
       </div>
+      <!-- v-permission="SUPPLIER_NAMEOFCUSTOMERS_TABLE" -->
       <table-list
           :tableData="tableListData"
           :tableTitle="tableTitle"
@@ -26,7 +27,6 @@
           @handleSelectionChange="handleSelectionChange"
           :input-props="inputProps"
           :index="true"
-          v-permission="SUPPLIER_NAMEOFCUSTOMERS_TABLE"
           ref="commonTable"
       />
     </iCard>

@@ -7,7 +7,7 @@
     
       <draggable v-model="syllable">
         <div v-for="(item , idx) in syllable" :key="idx" class="divheight">
-          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.supporterDeptNosys}}
+          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.presenterDept}}
         </div>
       </draggable>
       <div class="btn">
@@ -21,7 +21,8 @@
 <script>
 import {icon, iButton, iMessage} from 'rise'
 import draggable from "vuedraggable";
-import { findThemenById ,resortThemen} from '@/api/meeting/details'
+import { resortThemen} from '@/api/meeting/details'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 export default {
   components: {
     iButton,

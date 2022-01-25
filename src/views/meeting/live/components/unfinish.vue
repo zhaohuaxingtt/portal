@@ -152,7 +152,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.meetingStatus] }}</span
+            >{{ $t(statusObj[scope.row.meetingStatus]) }}</span
           >
         </template>
       </el-table-column>

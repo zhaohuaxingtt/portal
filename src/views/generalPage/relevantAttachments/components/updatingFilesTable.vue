@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-25 19:32:23
+ * @LastEditTime: 2022-01-25 21:33:58
  * @LastEditors: YoHo
  * @Description: 相关附件
 -->
@@ -21,6 +21,7 @@
         </i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"  -->
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -32,8 +33,7 @@
                 @viewPublish="viewPublish"
                 @publish="publish"
                 :index="true"
-                :disabled="disabled"
-                v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS" />
+                />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
                        :loading="attachmentLoading"
@@ -251,7 +251,7 @@ export default {
         //   applicationName: 'rise',
         //   fileList: [row.templateDemoUrl]
         // }
-        await downloadUdFile(row.fileId)
+        await downloadUdFile(row.templateDemoUrl)
       } else {
         iMessage.warn('没有样例文件')
         return false

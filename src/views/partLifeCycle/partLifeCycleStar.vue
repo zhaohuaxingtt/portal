@@ -21,7 +21,12 @@
       <el-form>
         <el-row>
           <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-            <iInput v-model.trim="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
+            <!-- <iInput v-model.trim="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput> -->
+            <iMultiLineInput
+                  :placeholder="language('partsprocure.PARTSPROCURE','请输入零件号，多个逗号分隔')"
+                  :title="language('partsprocure.PARTSPROCUREPARTNUMBER','零件号')"
+                  v-model.trim="partsNum"
+            ></iMultiLineInput>
           </el-form-item>
           <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
             <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
@@ -342,7 +347,8 @@ import {
   iButton,
   icon,
   iCard,
-  iMessage
+  iMessage,
+  iMultiLineInput
 } from 'rise'
 import { tabtitle } from './components/data'
 import claimParts from './components/claimParts'
@@ -380,7 +386,8 @@ export default {
     icon,
     iCard,
     claimParts,
-    favorites
+    favorites,
+    iMultiLineInput
   },
   data() {
     return {
@@ -609,6 +616,8 @@ export default {
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
             if(this.currentDefaultPart) this.getRelationParts()
+          } else {
+            this.relationPartsList = []
           }
         } else {
           iMessage.error(result)
@@ -839,6 +848,8 @@ export default {
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
             if(this.currentDefaultPart) this.getRelationParts()
+          } else {
+            this.relationPartsList = []
           }
         } else {
           iMessage.error(result)

@@ -40,6 +40,7 @@
             <button-download :download-method="exportData">
               {{ language('导出') }}
             </button-download>
+            <button-table-setting @click="$refs.sysMgm.openSetting()" />
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -54,6 +55,7 @@
             :columns="tableColumnSetting"
             :data="tableData"
             :loading="loading"
+            permission-key="ADMIN/STAFF_MANAGEMENT/APPLICATIONS"
             @open-detail="enterDetail"
             @handle-selection-change="handleSelectionChange"
           />
@@ -96,6 +98,7 @@ import {
   exportApplications
 } from '@/api/applications'
 import deleteMixin from '@/mixins/deleteMixin'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   name: 'UserApplicationDetail',
   components: {
@@ -138,20 +141,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: '生产采购'
-        },
-        {
-          id: '2',
-          label: '一般采购'
-        }
-      ]
+      systemTagOptions: SYSTEM_TAGS
     }
   },
   methods: {
@@ -270,5 +260,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  align-items: center;
 }
 </style>

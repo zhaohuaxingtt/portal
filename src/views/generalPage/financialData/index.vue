@@ -14,6 +14,15 @@
             class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
+          <!-- v-if="isSupplierDetail" -->
+          <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
+          <!-- 调取外部评级 -->
+          <i-button @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <!-- <i-button v-if="
+              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
+            "
+                    @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
+          </i-button> -->
           <i-button v-if="isSupplierDetail"
                     @click="addTableItem">{{
             $t('LK_XINZENG')
@@ -54,14 +63,10 @@
             "
                     @click="handleExportEarnings">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
-          <i-button v-if="
-              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
-            "
-                    @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
-          </i-button>
         </div>
       </div>
-      <tableList v-permission="SUPPLIER_FINANCIALDATA_TABLE"
+      <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->
+      <tableList 
                  ref="commonTable"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
@@ -150,7 +155,7 @@
                      class="margin-top20" />
     <dataComparison :comparisonTableData="comparisonTableData"
                     v-model="dataComparisonDialog" />
-    <fetchExternalRatingsDialog v-model="ratingsDialog" />
+    <fetchExternalRatingsDialog v-model="ratingsDialog" @refreshTable="refreshTable" />
   </div>
 </template>
 
@@ -241,6 +246,13 @@ export default {
     this.getTableList()
   },
   methods: {
+    // pullLevel(){
+      
+    // },
+    refreshTable(){
+      this.getTableList();
+      this.$emit("submitCalculateRefresh","view")
+    },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
       this.currencyList = res.data[0].subDictResultVo

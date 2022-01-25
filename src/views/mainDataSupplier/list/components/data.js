@@ -52,7 +52,7 @@ export const SUPPLIER_TABLE_COLUMNS = [
     minWidth: '200',
     tooltip: true,
     emit: 'go-detail',
-    openNewPage: true,
+    // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.nameZh}</span>
     }

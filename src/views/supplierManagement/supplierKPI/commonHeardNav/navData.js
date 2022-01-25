@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-06-22 11:05:40
- * @LastEditors: caopeng
+ * @LastEditors: 水痕
  * @Descripttion: your project
  */
 /*
@@ -15,21 +15,24 @@ export const tabRouterList = [
     name: '供应商360',
     //url: '/supplier/index',
     //activePath: '',
-    key: '供应商360'
+    key: '供应商360',
+    permissionKey: 'SUPPLIER_WORKBENCH_360'
   },
   {
     value: 2,
     name: '供应商绩效',
     url: '/supplier/kpiIndex',
     activePath: '/supplier/kpiIndex',
-    key: '供应商绩效'
+    key: '供应商绩效',
+    permissionKey: 'SUPPLIER_MERITS'
   },
   {
     value: 3,
     name: 'KPI',
     url: '/supplier/kpiList',
     activePath: '/supplier/kpiList',
-    key: 'KPI'
+    key: 'KPI',
+    permissionKey: 'WORKBENCH_KPI',
   },
   // {
   //   value: 4,
@@ -43,7 +46,8 @@ export const tabRouterList = [
     name: 'N级供应链',
     url: '/supplier/NTier',
     activePath: '/supplier/NTier',
-    key: 'N级供应链'
+    key: 'N级供应链',
+    permissionKey: 'WORKBENCH_N_LEVEL_SUPPLIER',
   }
 ]
 
@@ -53,28 +57,32 @@ export const categoryManagementAssistantList = [
     name: '总览',
     url: '/supplier/kpiIndex',
     activePath: '/supplier/kpiIndex',
-    key: '总览'
+    key: 'ZONGLAN',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_ZONGLAN'
   },
   {
     value: 2,
     name: '供应商绩效',
     url: '/supplier/supplierPowerBi',
     activePath: '/supplier/supplierPowerBi',
-    key: '供应商绩效'
+    key: 'GONGYINGSHANGJIXIAO',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_GONGYINGSHANGJIXIAO'
   },
   {
     value: 3,
     name: '年度重点追踪',
     url: '/supplier/spiIndex/supplierPoint',
     activePath: '/supplier/spiIndex/supplierPoint',
-    key: '年度重点追踪'
+    key: 'NIANDUZHONGDIANZHUIZONG',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_NIANDUZHONGDIANZHUIZONG'
   },
   {
     value: 4,
     name: '半年报回顾',
     url: '/supplier/spiIndex/supplierList',
     activePath: '/supplier/spiIndex/supplierList',
-    key: '半年报回顾'
+    key: 'BANNIANBAOHUIGU',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU'
   }
 ]
 

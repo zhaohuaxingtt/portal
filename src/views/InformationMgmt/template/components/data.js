@@ -19,7 +19,7 @@ export const tableSetting = [
     prop: 'name',
     label: '模板名称',
     i18n: '模板名称',
-    openNewPage:true,
+    // openNewPage:true,
     minWidth:'150px',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.name}</span>

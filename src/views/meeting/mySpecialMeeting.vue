@@ -42,14 +42,16 @@ export default {
               ? this.$route.query.meetingInfoId
               : localStorage.getItem('my_meeting__info_id')),
           activePath: '/meeting/specialLive',
-          key: this.$t('MT_HUIYIZHIBO')
+          key: this.$t('MT_HUIYIZHIBO'),
+          permissionKey:"CF_MEETING_SCCGCSC_HUIYIZHIBO"
         },
         {
           value: 2,
           name: '近期会议',
           url: '/meeting/special-near-meeting',
           activePath: '/meeting/special-near-meeting',
-          key: this.$t('MT_JINQIHUIYI')
+          key: this.$t('MT_JINQIHUIYI'),
+          permissionKey:"CF_MEETING_SCCGCSC_JINQIHUIYI"
         }
       ]
     }

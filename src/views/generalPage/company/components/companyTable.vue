@@ -20,7 +20,8 @@
                   @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY"
+     <!-- v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY" -->
+    <table-list
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"

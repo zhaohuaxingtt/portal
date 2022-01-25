@@ -37,7 +37,7 @@ export const tabRouterList = [
     url: '/supplier/frmrating/preliminaryrating',
     activePath: '/supplier/frmrating/preliminaryrating',
     key: 'SUPPLIER_CHUBUPINGJI',
-    permissionKey:"PORTAL_SUPPLIER_NAV_CHUBUPINGJI"
+    permissionKey:"WORKBENCH_MTZ_SOURCING_CHUBUPINGJI"
   },
   {
     value: 5,
@@ -77,13 +77,15 @@ export const preliminaryRatingRouterList = [
     name: '定性打分',
     url: '/supplier/frmrating/preliminaryrating/qualitativeScoringPage',
     activePath: '/supplier/frmrating/preliminaryrating/qualitativeScoringPage',
-    key: 'SPR_FRM_FRMGL_DXDAF'
+    key: 'SPR_FRM_FRMGL_DXDAF',
+    permissionKey:"PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN"
   },
   {
     value: 2,
     name: '初步评级',
     url: '/supplier/frmrating/preliminaryrating/preliminaryrating',
     activePath: '/supplier/frmrating/preliminaryrating/preliminaryrating',
-    key: 'SUPPLIER_CHUBUPINGJI'
+    key: 'SUPPLIER_CHUBUPINGJI',
+    permissionKey:"PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CHUBUPINGJI"
   }
 ]

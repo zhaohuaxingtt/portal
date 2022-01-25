@@ -13,7 +13,9 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="请输入"
-              v-model="info.promptInfo"></iInput>
+              v-model="info.promptInfo"
+              maxlength="120"
+              show-word-limit></iInput>
     </iCard>
     <!-- 财报分析 -->
     <iCard title="财报分析"
@@ -34,14 +36,15 @@
           <iInput :disabled="isDisabled"
                   v-model="scope.row.comment"
                   type='textarea'
+                  maxlength="120"
+                  show-word-limit
                   :autosize='{minRows:1}'
                   @change="updateData(scope.row,'comment', $event)"></iInput>
         </template>
       </tableList>
     </iCard>
-    <div class="remark">财务分析基于供应商提供/资信报告财务数据和供应商访谈。</div>
+ <div class="remark">本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。  </div>
   </div>
-
 </template>
 
 <script>
@@ -62,7 +65,8 @@ export default {
       info: {
         promptInfo: '',
         list: []
-      }
+      },
+      supplierId: ""
     }
   },
   props: {
@@ -72,6 +76,7 @@ export default {
     console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
+    this.supplierId = this.$route.query.supplierId;
     this.getOverView()
   },
   destroyed () {
@@ -149,7 +154,6 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+     color: #e30b0d;
 }
 </style>

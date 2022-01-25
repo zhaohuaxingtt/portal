@@ -10,9 +10,11 @@
            collapse
            class="margin-top20"
            isRequired>
-      <iInput :disabled="isDisabled"
+      <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
+              maxlength="120"
+              show-word-limit
               v-model="info.sfrmOverallMerit"></iInput>
     </iCard>
     <!-- 深入评级结果 -->
@@ -20,14 +22,15 @@
            collapse
            class="margin-top20"
            isRequired>
-      <tableList :tableData="tableListData"
+      <tableList class="tableStyle"
+                 :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :selection="false"
                  :index="true"
                  :tableLoading="tableLoading">
         <template #deepCommentRatingDate>
           <iDatePicker disabled
-                       style="width:120px !important"
+                       style="width:220px !important"
                        v-model="info.deepCommentRatingDate"
                        value-format="yyyy-MM-dd"></iDatePicker>
         </template>
@@ -37,10 +40,12 @@
             <icon symbol
                   style="fontSize:12px"
                   :name="trans(info.deepCommentRatingResults)"></icon>
-            <el-dropdown-menu slot="dropdown"
+            <el-dropdown-menu  slot="dropdown"
                               v-if="!isDisabled">
-              <el-dropdown-item v-for="item in grade"
+              <el-dropdown-item     v-for="item in grade"
                                 :key="item.id"
+                              :disabled="disabled"
+
                                 :value="item.name"
                                 :label="item.name"
                                 :command="item.name">
@@ -60,7 +65,7 @@
       <div class="margin-bottom20">
         <div class="flex-align-center">
           <span class="nowIndustry">后续跟踪频率</span>
-          <iSelect :disabled="isDisabled"
+          <iSelect   @change="changePv" :disabled="isDisabled||disabled"
                    v-model="info.trackFrequencyAgain">
             <el-option value="0"
                        key="0"
@@ -74,9 +79,11 @@
         </div>
       </div>
       <div class="title">补充建议</div>
-      <iInput :disabled="isDisabled"
+      <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
+              maxlength="120"
+              show-word-limit
               placeholder="请输入"
               v-model="info.addAdvice"></iInput>
     </iCard>
@@ -84,10 +91,12 @@
     <iCard title="背景"
            collapse
            class="margin-top20">
-      <iInput :disabled="isDisabled"
+      <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
               placeholder="请输入"
+              maxlength="120"
+              show-word-limit
               v-model="info.supplementarySuggestions"></iInput>
     </iCard>
     <div class="remark">本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。</div>
@@ -95,7 +104,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iDatePicker, iSelect, icon } from 'rise';
+import { iCard, iInput, iDatePicker, iSelect, icon ,iMessage} from 'rise';
 import tableList from '@/components/commonTable';
 import { depthResult } from '../data';
 import { getSummarize, postSummarize } from '@/api/frmRating/depthRating/depthReport.js'
@@ -118,13 +127,16 @@ export default {
         addAdvice: ''
       },
       range: window._.range,
-      grade: []
+      grade: [],
+      supplierId: 0
     }
   },
   props: {
-    isDisabled: { type: Boolean, default: false }
+    isDisabled: { type: Boolean, default: false },
+        disabled: { type: Boolean, default: false }
   },
   mounted () {
+
     // console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
@@ -141,11 +153,11 @@ export default {
     }),
     trans () {
       return (color) => {
-        if (color === '绿') {
+        if (color === '绿'||color === 'GREEN') {
           return 'iconlvdeng'
-        } else if (color === '黄') {
+        } else if (color === '黄'||color === 'YELLOW') {
           return 'iconhuangdeng'
-        } else if (color === '红') {
+        } else if (color === '红'||color === 'RED') {
           return 'iconhongdeng'
         } else {
           return ""
@@ -157,10 +169,16 @@ export default {
     }
   },
   methods: {
+      changePv(v){
+   this.$store.commit('SET_trackFrequencyAgain',v)
+},
     getOverView () {
       getSummarize(this.id).then((result) => {
         if (result.data) {
           this.info = result.data
+                 this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
+        this.info.trackFrequencyAgain=this.$store.state.frmRating.trackFrequencyAgain
+        console.log(this.info)
         }
       }).catch(() => {
 
@@ -184,17 +202,22 @@ export default {
       // 	return
       // }
       let params = _.cloneDeep(this.info)
-      switch (params.deepCommentRatingResults) {
-        case '红':
-          params.deepCommentRatingResults = 'RED'
-          break;
-        case '黄':
-          params.deepCommentRatingResults = 'YELOW'
-          break;
-        case '绿':
-          params.deepCommentRatingResults = 'GREEN'
-          break;
-      }
+        if((this.info.deepCommentRatingResults==""||this.info.deepCommentRatingResults==null)&&(this.info.trackFrequencyAgain==""||this.info.trackFrequencyAgain==null)){
+          iMessage.warn('请填写状态与后续跟踪频率')
+               return false
+      } 
+
+    //   switch (params.deepCommentRatingResults) {
+    //     case '红':
+    //       params.deepCommentRatingResults = 'RED'
+    //       break;
+    //     case '黄':
+    //       params.deepCommentRatingResults = 'YELOW'
+    //       break;
+    //     case '绿':
+    //       params.deepCommentRatingResults = 'GREEN'
+    //       break;
+    //   }
       postSummarize(params)
         .then((result) => {
           if (result.code == 200) {
@@ -217,6 +240,7 @@ export default {
       });
     },
     changeGrade (value) {
+           this.$store.commit('SET_deepCommentRatingResults',value)
       this.info = {
         ...this.info,
         deepCommentRatingResults: value
@@ -257,8 +281,7 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #e30b0d;
 }
 .red {
   color: #e30b0d;

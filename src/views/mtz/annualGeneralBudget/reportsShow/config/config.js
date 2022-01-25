@@ -10,7 +10,7 @@ export const navList = [
     activePath: '/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget',
     key: '年度预算',
     permissionKey:'MTZ_REPORT_ANNUAL_BUDGET',
-    permissionName:'年度预算',
+    // permissionName:'年度预算',
 
   },
   {
@@ -20,12 +20,12 @@ export const navList = [
     activePath: '/mtz/annualGeneralBudget/reportsShow/monthlyTracking',
     key: '月度跟踪',
     permissionKey:'MTZ_REPORT_MONTHLY_TRACKING',
-    permissionName:'月度跟踪',
+    // permissionName:'月度跟踪',
   },
 ];
 
 
-export const subNavList = [
+export const subNavListOne = [
   {
     code: '1',
     name:'材料组',
@@ -49,6 +49,41 @@ export const subNavList = [
     path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/department',
     permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_DEPARTMENT',
     permissionName:'科室',
+  },
+  {
+    code: '4',
+    name:'品牌',
+    key:'LK_PINPAI',
+    path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/brand',
+    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_BRAND',
+    permissionName:'品牌',
+  },
+  {
+    code: '5',
+    name:'车型',
+    key:'LK_CHEXING',
+    path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/model',
+    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_CAR_MODEL',
+    permissionName:'车型',
+  },
+]
+
+export const subNavListtwo = [
+  {
+    code: '1',
+    name:'材料组',
+    key:'LK_CAILIAOZU',
+    path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/materialGroup',
+    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_MATERIAL_GROUP',
+    permissionName:'材料组',
+  },
+  {
+    code: '2',
+    name:'材料中类',
+    key:'LK_CAILIAOZHONGLEI',
+    path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/classMaterial',
+    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS',
+    permissionName:'材料中类',
   },
   {
     code: '4',
@@ -119,12 +154,16 @@ export const  leftModelColumns=[
     }
   },
   {
-    prop: "carModel",
+    prop: "carModel6Code",
     label: "车型六位号",
     i18n: "LK_CHEXINGLIUWEIHAO",
     headerAlign: "center",
     align: "center",
     tooltip: true,
+    emit:'click-six-code',
+    customRender:(h,scope)=>{
+      return <span class='link-text'>{scope.row.carModel6Code}</span>
+    }
   },
   {
     prop: "price",

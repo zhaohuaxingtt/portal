@@ -542,14 +542,14 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
+    <iPagination @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
                  :page-sizes="page.pageSizes"
                  :page-size="page.pageSize"
                  :current-page="page.currPage"
                  :total="page.totalCount"
                  :layout="page.layout">
-    </iPagination> -->
+    </iPagination>
 
     <iDialog :title="language('YINYONGRFQZHONGLINGJIAN', '引用RFQ中零件')"
              :visible.sync="rfqShowType"
@@ -1038,14 +1038,14 @@ export default {
     getTableList () {
         this.loading = true
         pagePartMasterData({
-            pageNo: 1,
-            pageSize: 99999,
+            pageNo: this.page.currPage,
+            pageSize: this.page.pageSize,
             mtzAppId:this.inforData.mtzAppId,
         }).then(res=>{
             this.tableData = res.data;
-            // this.page.currPage = res.pageNum
-            // this.page.pageSize = res.pageSize
-            // this.page.totalCount = res.total
+            this.page.currPage = res.pageNum
+            this.page.pageSize = res.pageSize
+            this.page.totalCount = res.total
             this.loading = false;
         })
     },

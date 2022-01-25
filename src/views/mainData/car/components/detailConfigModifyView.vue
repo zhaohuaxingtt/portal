@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" :loading="loading">
+  <el-table :data="data" v-loading="loading">
     <el-table-column
       type="index"
       header-align="center"

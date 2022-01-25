@@ -56,7 +56,7 @@ export default {
     data() {
         return {
             loading:false,
-            list:[{},{}],
+            list:[],
             tableColumns:TABLE_DETAIL
         }
     },
@@ -66,19 +66,20 @@ export default {
                 let data = {
                     current: this.page.currPage - 1,
                     size: this.page.pageSize,
-                    extendFields: {
-                        traceId: this.params.traceId
-                    }
+                    traceId: this.params.traceId
+                    // extendFields: {
+                    //     traceId: this.params.traceId
+                    // }
                 }
                 this.loading = true
                 let res = {}
-                if(this.params.category == 2){
+                // if(this.params.category == 2){
                     // 接口日志
                     res = await findInterLogs(data)
-                }else{
-                    // 操作、系统日志
-                    res = await findRecordLogs(data)
-                }
+                // }else{
+                //     // 操作、系统日志
+                //     res = await findRecordLogs(data)
+                // }
                 this.list = res.data?.content || []
                 this.page.totalCount = res.data.total
             } finally {

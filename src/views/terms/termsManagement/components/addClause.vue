@@ -1,4 +1,5 @@
 <template>
+<div v-loading="loading">
   <iPage>
     <div class="title">
       <div>
@@ -24,23 +25,23 @@
         <span v-else class="title__clause">{{ '新建条款' }}</span>
       </div>
       <div>
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
-        <!-- 发布 -->
-        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
-          '发布'
-        }}</iButton>
-        <!-- 删除 -->
-        <iButton
-          @click="handleDelete"
-          :disabled="submitLoading || this.ruleForm.id == null || this.updateTerms"
-          v-if="ruleForm.isNewest != false"
-          >{{ '删除' }}</iButton
-        >
         <!-- 保存 -->
         <iButton @click="handleSubmit(1)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
           '保存'
         }}</iButton>
+        <!-- 删除 -->
+        <iButton
+          @click="handleDelete"
+          :disabled="submitLoading"
+          v-if="ruleForm.isNewest == true&&(this.ruleForm.state == '01' || this.ruleForm.state == '02')"
+          >{{ '删除' }}</iButton
+        >
+        <!-- 发布 -->
+        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
+          '发布'
+        }}</iButton>
+        <!-- 返回 -->
+        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
       </div>
     </div>
     <iCard>
@@ -492,6 +493,7 @@
       :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
+</div>
 </template>
 
 <script>
@@ -552,7 +554,8 @@ export default {
   data() {
     return {
       // tableListDataSub: [],
-      updateTerms: false,
+      // updateTerms: false,
+      loading: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -629,20 +632,20 @@ export default {
         }
       }
     },
-    'ruleForm.supplierIdentity': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierIdentity', val)
-      }
-    },
-    'ruleForm.supplierContacts': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        console.log('supplierContacts', val)
-      }
-    }
+    // 'ruleForm.supplierIdentity': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierIdentity', val)
+    //   }
+    // },
+    // 'ruleForm.supplierContacts': {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(val) {
+    //     console.log('supplierContacts', val)
+    //   }
+    // }
   },
   mounted() {
     if (this.$route.query.id) {
@@ -650,9 +653,9 @@ export default {
       let param = { id: this.$route.query.id }
       this.query(param)
     }
-    if (this.$route.query.updateTerms) {
-      this.updateTerms = this.$route.query.updateTerms
-    }
+    // if (this.$route.query.updateTerms) {
+    //   this.updateTerms = this.$route.query.updateTerms
+    // }
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo
@@ -682,7 +685,7 @@ export default {
         // 'code'
       ]
       // 配置字体
-      this.editor.config.fontNames = [
+      this.editor.config.fontNames = [ 
         // 字符串形式
         '黑体',
         '仿宋',
@@ -745,11 +748,13 @@ export default {
       return res
     },
     query(e) {
+      this.loading = true
       // 根据ID查询条款信息
       findById(e).then((res) => {
         res.supplierRange = res.supplierRange?.split(',')
         res.supplierIdentity = res.supplierIdentity?.split(',')
         this.ruleForm = res
+        this.loading = false
         if (this.ruleForm.termsText != '') {
           this.editor.txt.html(this.ruleForm.termsText)
           if (this.ruleForm.isNewest != true) {
@@ -787,7 +792,7 @@ export default {
           this.ruleForm.termsTextId = res.id
           this.ruleForm.termsTextUrl = res.path
           iMessage.success('上传成功')
-          console.log('res')
+          // console.log('res')
           getFileByIds([res.id]).then((res) => {
             this.termsTextName = res.name
           })
@@ -949,6 +954,11 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              this.ruleForm.supplierList.length == 0
+            ) {
+              this.$message.error('供应商列表不能为空！')
             }
             // else if (
             //   this.ruleForm.attachments.length == 0
@@ -1102,7 +1112,7 @@ export default {
   }
   .title__version {
     margin: 0 1rem 0 3rem;
-    font-size: 8px;
+    font-size: 0.875rem;
     font-family: Arial;
     font-weight: 400;
     line-height: 0px;
@@ -1236,5 +1246,12 @@ export default {
 
 ::v-deep .el-autocomplete {
   width: 15rem;
+}
+
+::v-deep .w-e-text ul li {
+  list-style: disc;
+}
+::v-deep .w-e-text ol li {
+  list-style: decimal;
 }
 </style>

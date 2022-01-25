@@ -97,7 +97,64 @@ export const cfProCS = [
           title: 'ProCS Index',
           activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
-        component: () => import('@/views/procs')
+        redirect: '/cf-ProCS/knowledgeManage',
+        component: () => import('@/views/procs'),
+        children: [
+          {
+            path: '/cf-ProCS/glossaryManage',
+            name: 'CFProCsGlossary',
+            meta: {
+              title: '词条管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/glossary')
+          },
+          {
+            path: '/cf-ProCS/knowledgeManage',
+            name: 'CFProCsKnowledge',
+            meta: {
+              title: '知识管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/knowledge')
+          },
+          {
+            path: '/cf-ProCS/knowledgeManage/categoryInfo',
+            name: 'CFProCsKnowledgeCategoryInfo',
+            meta: {
+              title: '类型信息',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/knowledge/categoryInfo')
+          },
+          {
+            path: '/cf-ProCS/processManage',
+            name: 'CFProCsProcess',
+            meta: {
+              title: '流程管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/process')
+          },
+          {
+            path: '/cf-ProCS/processDetail',
+            name: 'CFProCsProcessDetail',
+            meta: {
+              title: '流程管理',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/process/processDetail')
+          },
+          {
+            path: '/cf-ProCS/collect',
+            name: 'CFProCsProcessCollect',
+            meta: {
+              title: '我的收藏',
+              activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+            },
+            component: () => import('@/views/procs/process/collect')
+          }
+        ]
       },
       {
         path: '/knowledge/index',

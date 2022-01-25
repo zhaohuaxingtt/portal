@@ -7,6 +7,7 @@ export const tableColumnSetting = [
     prop: 'nameZh',
     label: '联系人姓名',
     align: 'center',
+    width: '120px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return (
@@ -18,54 +19,57 @@ export const tableColumnSetting = [
       } else {
         return scope.row.nameZh
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'userName',
     label: '用户登录名',
     align: 'center',
-    tooltip: true
+    width: '120px',
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'opcsCompanyNameZh',
-    label: '供应商中文名',
+    label: '供应商名',
     align: 'center',
     tooltip: true,
-    width: '150'
-  },
-  {
-    prop: 'opcsCompanyNameEn',
-    label: '供应商英文名',
-    align: 'center',
     width: '150',
-    tooltip: true
+    sortable: true
   },
   {
     prop: 'isMainContact',
     label: '主联系人',
     align: 'center',
+    width: '110',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
       } else {
         return '否'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'temporaryNum',
     label: '临时号',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'svwCode',
     label: '正式/SVW号',
-    align: 'center'
+    align: 'center',
+    sortable: true,
+    width: '110'
   },
   {
     prop: 'sapNum',
     label: 'SAP号',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'status',
@@ -79,54 +83,54 @@ export const tableColumnSetting = [
         return '否'
       }
       return ''
-    }
-  },
-  {
-    prop: 'email',
-    label: '邮箱',
-    align: 'center',
-    tooltip: true
+    },
+    sortable: true
   },
   {
     prop: 'telephoneO',
     label: '联系电话',
     align: 'center',
-    tooltip: true
-    // customRender:(h,scope) =>{
-    //   let tele = []
-    //   if(scope.row.telephoneM){
-    //     tele.push(scope.row.telephoneM)
-    //   }
-    //   if(scope.row.telephoneO){
-    //     tele.push(scope.row.telephoneO)
-    //   }
-    //   let teleStr = tele.join("/")
-    //   return teleStr
-    // }
+    tooltip: true,
+    width: '120px',
+    sortable: true
+  },
+  {
+    prop: 'email',
+    label: '邮箱',
+    align: 'center',
+    tooltip: true,
+    minWidth: '180px',
+    sortable: true
   },
   {
     prop: 'isValid',
     label: '是否超期',
     align: 'center',
+    width: '120',
     customRender: (h, scope) => {
       if (scope.row.isValid) {
         return '否'
       } else {
         return '是'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'expireDate',
     label: '超期时间',
     align: 'center',
-    tooltip: true
+    width: '180px',
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'lastLoginDate',
     label: '最近登录时间',
     align: 'center',
-    tooltip: true
+    width: '180px',
+    tooltip: true,
+    sortable: true
   }
 ]
 

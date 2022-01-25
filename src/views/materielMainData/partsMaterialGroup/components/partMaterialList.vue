@@ -2,9 +2,24 @@
   <div class="partMaterialList">
     <iCard class="margin-top20">
       <div class="button-end">
-        <iButton @click="newMateriel">{{language('新建')}}</iButton>
-        <iButton @click="deleteMateriel" :disabled='selectTableData.length==0'>{{language('删除')}}</iButton>
-        <buttonDownload :download-method="exportMateriel">{{language('导出')}}</buttonDownload>
+        <iButton
+          @click="newMateriel"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'"
+          >{{ language('新建') }}</iButton
+        >
+        <iButton
+          @click="deleteMateriel"
+          :disabled="selectTableData.length == 0"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_DELETE'"
+        >
+          {{ language('删除') }}
+        </iButton>
+        <buttonDownload
+          :download-method="exportMateriel"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_EXPORT'"
+        >
+          {{ language('导出') }}
+        </buttonDownload>
       </div>
       <div class="tableList margin-top20">
         <iTableCustom
@@ -38,16 +53,20 @@ import iTableCustom from '@/components/iTableCustom'
 import { PART_MATERIAL_COLUMNS } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import { openUrl } from '@/utils'
-import {partMaterialTableList, deleteMaterial, exportMaterial} from '@/api/materiel/partsMaterialGroup'
+import {
+  partMaterialTableList,
+  deleteMaterial,
+  exportMaterial
+} from '@/api/materiel/partsMaterialGroup'
 import buttonDownload from '@/components/buttonDownload'
 export default {
-  name:"partMaterialList",
-  components:{iCard, iButton, iTableCustom, iPagination,buttonDownload},
+  name: 'partMaterialList',
+  components: { iCard, iButton, iTableCustom, iPagination, buttonDownload },
   mixins: [pageMixins],
   props: {
     materialForm: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -87,7 +106,7 @@ export default {
         size: this.page.pageSize
       }
       partMaterialTableList(data)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.loading = false
             this.tableData = [...res.data]
@@ -104,7 +123,7 @@ export default {
             this.loading = false
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err)
         })
         .finally(() => {
@@ -122,11 +141,11 @@ export default {
       })
         .then(() => {
           let ids = []
-          this.selectTableData.forEach(val => {
+          this.selectTableData.forEach((val) => {
             ids.push(val.id)
           })
 
-          deleteMaterial(ids).then(res => {
+          deleteMaterial(ids).then((res) => {
             if (res.code == 200) {
               this.query()
               iMessage.success('删除成功')

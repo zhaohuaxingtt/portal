@@ -1,34 +1,100 @@
 <template>
   <div class="detailsList">
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" :label="language('LK_YUEFEN','月份')" align="center">
+    <el-table :data="differenceAnalysis" style="width: 100%">
+      <el-table-column
+        prop="num"
+        :label="language('LK_YUEFEN', '月份/序号')"
+        align="center"
+      >
       </el-table-column>
-      <el-table-column prop="date" :label="language('LK_CAILIAOZHONGLEI','材料中类')" align="center">
+      <el-table-column
+        prop="materialMediumName"
+        :label="language('LK_CAILIAOZHONGLEI', '材料中类')"
+        align="center"
+      >
       </el-table-column>
-      <el-table-column prop="date" :label="language('LK_MTZCAILIAOZU','MTZ材料组')" align="center">
+      <el-table-column
+        prop="mtzMaterialName"
+        :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')"
+        align="center"
+      >
       </el-table-column>
-      <el-table-column label="2021年3月" align="center">
-        <el-table-column prop="province" :label="language('LK_SHICHANGJIA','市场价')" align="center">
+      <el-table-column :label="dataTitle" align="center">
+        <el-table-column
+          :label="language('LK_SHICHANGJIA', '市场价')"
+          align="center"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.compareDataList[0].marketPrice }}
+          </template>
         </el-table-column>
-        <el-table-column prop="zip" :label="language('LK_YONGLIANG','用量')" align="center">
+        <el-table-column
+          :label="language('LK_YONGLIANG', '用量')"
+          align="center"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.compareDataList[0].dosage }}
+          </template>
         </el-table-column>
-        <el-table-column prop="city" :label="language('LK_ZONGJI','总计')" align="center">
+        <el-table-column :label="language('LK_ZONGJI', '总计')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.compareDataList[0].total }}
+          </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column label="2021年4月" align="center">
-        <el-table-column prop="province" :label="language('LK_SHICHANGJIA','市场价')" align="center">
+      <el-table-column :label="dataTitleTwo" align="center">
+        <el-table-column
+          :label="language('LK_SHICHANGJIA', '市场价')"
+          align="center"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.compareDataList[0].marketPrice }}
+          </template>
         </el-table-column>
-        <el-table-column prop="zip" :label="language('LK_YONGLIANG','用量')" align="center">
+        <el-table-column
+          :label="language('LK_YONGLIANG', '用量')"
+          align="center"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.compareDataList[0].dosage }}
+          </template>
         </el-table-column>
-        <el-table-column prop="city" :label="language('LK_ZONGJI','总计')" align="center">
+        <el-table-column :label="language('LK_ZONGJI', '总计')" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.compareDataList[0].total }}
+          </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column :label="language('LK_CHAYI','差异')" align="center">
-        <el-table-column prop="province" :label="language('LK_SHICHANGJIACHAYI','市场价差异')" align="center">
+      <el-table-column :label="language('LK_CHAYI', '差异')" align="center">
+        <el-table-column
+          :label="language('LK_SHICHANGJIACHAYI', '市场价差异')"
+          align="center"
+        >
+          <template slot-scope="scope" >
+            <span class="greaterThanZero" v-if="scope.row.marketPriceDifference>0">{{ scope.row.marketPriceDifference }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `${scope.row.marketPriceDifference}` }}</span>
+            <span  v-else>{{ scope.row.marketPriceDifference }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="city" :label="language('LK_YONGLIANGCHAYI','用量差异')" align="center">
+        <el-table-column
+          :label="language('LK_YONGLIANGCHAYI', '用量差异')"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <span class="greaterThanZero" v-if="scope.row.dosageDifference>0">{{ scope.row.dosageDifference }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.dosageDifference<0">{{ `-${scope.row.dosageDifference}` }}</span>
+            <span  v-else>{{ scope.row.dosageDifference }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="zip" :label="language('LK_ZONGJIACHAYI','总价差异')" align="center">
+        <el-table-column
+          :label="language('LK_ZONGJIACHAYI', '总价差异')"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ scope.row.totalDifference }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `-${scope.row.totalDifference}` }}</span>
+            <span  v-else>{{ scope.row.totalDifference }}</span>
+          </template>
         </el-table-column>
       </el-table-column>
     </el-table>
@@ -37,20 +103,16 @@
 
 <script>
 export default {
+  props: {
+    differenceAnalysis: { type: Array },
+    dataTitle: { type: String },
+    dataTitleTwo: { type: String },
+    num: { type: Number }
+  },
   data() {
-    return {
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }
-      ]
-    }
-  }
+    return {}
+  },
+  created() {}
 }
 </script>
 <style lang="scss" scoped>
@@ -65,5 +127,13 @@ export default {
     border: none;
     border-radius: 10px 10px 0 0;
   }
+}
+
+.greaterThanZero {
+  color: blue;
+}
+
+.lessThanZero {
+  color: orange;
 }
 </style>

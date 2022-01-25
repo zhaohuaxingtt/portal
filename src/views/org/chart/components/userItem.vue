@@ -8,6 +8,7 @@
           name="iconmorentouxiang"
           class="default-avatar"
         />
+        <img :src="avatar" />
       </div>
       <div class="user-info">
         <div class="name">
@@ -43,9 +44,9 @@
         <span class="item-icon">
           <icon symbol name="icondianhua" class="icon" />
         </span>
-        <span class="text">
+        <span class="text" :title="phoneNumber">
           <!-- 52081 61926 -->
-          {{ user.phone }}
+          {{ phoneNumber }}
         </span>
       </div>
       <div class="contact-item">
@@ -59,7 +60,7 @@
           <icon symbol name="iconweixin" class="icon" />
         </span>
         <span class="text">
-          {{ user.mobile }}
+          {{ user.wechat }}
         </span>
       </div>
       <div class="contact-item">
@@ -82,7 +83,7 @@ export default {
   props: {
     user: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -93,6 +94,19 @@ export default {
         return this.user.deptLogo.path
       }
       return null
+    },
+    avatar() {
+      return this.user?.profile?.path || ''
+    },
+    phoneNumber() {
+      const res = []
+      if (this.user.phone) {
+        res.push(this.user.phone)
+      }
+      if (this.user.mobile) {
+        res.push(this.user.mobile)
+      }
+      return res.join(',')
     }
   },
   components: { Icon }
@@ -126,6 +140,9 @@ export default {
       overflow: hidden;
       .default-avatar {
         font-size: 45px;
+      }
+      img {
+        max-width: 100%;
       }
     }
     .logo {

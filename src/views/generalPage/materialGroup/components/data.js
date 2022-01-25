@@ -41,14 +41,14 @@ export const materialTableTitle = [
   },
   {
     props: 'linieGroup',
-    name: 'Linie组别',
-    key: 'SUPPLIER_LINIEJIBIE',
+    name: '采购员科室',
+    key: 'CAIGOUYUANKESHI',
     tooltip: true
   },
   {
     props: 'linieNames',
-    name: 'Linie人员',
-    key: 'SUPPLIER_LINIERENYUAN',
+    name: '采购员',
+    key: 'CAIGOUYUAN',
     tooltip: true
   },
   {

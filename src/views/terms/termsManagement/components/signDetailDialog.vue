@@ -16,17 +16,14 @@
           <!-- 供应商 -->
           <el-col :span="4">
             <el-form-item :label="$t('供应商名称')">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.shortNameZh"
-              ></iInput>
+              <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
           </el-col>
           <!-- 签署状态 -->
           <el-col :span="4">
             <el-form-item :label="'签署状态'">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.signStatus"
                 clearable
                 multiple
@@ -45,7 +42,7 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商身份')">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierIdentity"
                 clearable
                 multiple
@@ -64,7 +61,7 @@
           <el-col :span="4">
             <el-form-item :label="$t('供应商类型')">
               <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
+                :placeholder="'全部'"
                 v-model="form.supplierType"
                 clearable
                 multiple
@@ -81,17 +78,25 @@
           </el-col>
           <!-- 地区 -->
           <el-col :span="4">
-            <el-form-item :label="$t('地区')">
-              <el-cascader
-                v-model="form.area"
-                :options="formGoup.areaList"
-                :props="{ multiple: true }"
-                :clearable="true"
-                popper-class="area-select"
-                collapse-tags
-                filterable
-              ></el-cascader>
-            </el-form-item>
+            <el-tooltip
+              class="item"
+              effect="light"
+              content="请输入国家或城市名称"
+              placement="top"
+            >
+              <el-form-item :label="$t('地区')">
+                <el-cascader
+                  v-model="form.area"
+                  :options="formGoup.areaList"
+                  :props="{ multiple: true }"
+                  :clearable="true"
+                  popper-class="area-select"
+                  :placeholder="'全部'"
+                  collapse-tags
+                  filterable
+                ></el-cascader>
+              </el-form-item>
+            </el-tooltip>
           </el-col>
 
           <div class="search">
@@ -105,10 +110,7 @@
           <!-- 业务编号 -->
           <el-col :span="4">
             <el-form-item :label="$t('业务编号')">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.serviceCode"
-              ></iInput>
+              <iInput v-model="form.serviceCode"></iInput>
             </el-form-item>
           </el-col>
         </el-row>
@@ -117,12 +119,21 @@
       <el-divider></el-divider>
 
       <div class="export">
-        <iButton @click="handleExport">{{ '导出当前' }}</iButton>
+        <iButton
+          @click="handleException"
+          v-show="this.extendFields !== false"
+          :disabled="signTitle.state == '04'"
+          >{{ '标记例外' }}</iButton
+        >
+        <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
         <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
+      </div>
+      <div v-show="this.extendFields !== false" class="tips">
+        若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。
       </div>
 
       <iTableML
-        style="height: 34rem; overflow-y: scroll"
+        style="height: 30rem; overflow-y: scroll"
         tooltip-effect="light"
         :data="tableListData"
         :tableLoading="tableLoading"
@@ -183,7 +194,7 @@
                 : scope.row.supplierType == 'GP'
                 ? '一般供应商'
                 : scope.row.supplierType == 'NT'
-                ? 'Ntier'
+                ? 'N-Tier'
                 : scope.row.supplierType == 'CM'
                 ? '自定义'
                 : ''
@@ -197,12 +208,12 @@
         >
         <el-table-column align="center" label="签署状态"
           ><template slot-scope="scope">
-            <span v-if="scope.row.signStatus == '01'" style="color: #1663f6">
-              未签署
-            </span>
+            <span v-if="scope.row.signStatus == '01'"> 未签署 </span>
             <span v-if="scope.row.signStatus == '02'"> 已签署标准 </span>
-            <span v-if="scope.row.signStatus == '03'"> 已签署非标 </span>
-            <span v-if="scope.row.signStatus == '04'" style="color: #1663f6">
+            <span v-if="scope.row.signStatus == '03'" style="color: #f75526">
+              已签署非标
+            </span>
+            <span v-if="scope.row.signStatus == '04'" style="color: #f75526">
               例外
             </span>
             <span v-else></span> </template
@@ -277,6 +288,7 @@
         :supplierId="supplierId"
         :userId="userId"
         :signStatus="signStatus"
+        :clauseState="signTitle.state"
         @closeDialog="closeUploadFileDialog"
         @getTableList="getTableList"
       />
@@ -286,6 +298,13 @@
         :id="id"
         :supplierId="supplierId"
         @closeDialog="closeClauseDownloadDialog"
+        @getTableList="getTableList"
+      />
+      <exceptionTagDialog
+        v-if="openExceptionTagDialog"
+        :openDialog="openExceptionTagDialog"
+        :id="form.termsId"
+        @closeDialog="closeExceptionTagDialog"
         @getTableList="getTableList"
       />
     </div>
@@ -306,6 +325,7 @@ import {
   supplierTypeObj,
   signStatusObj
 } from './data'
+import exceptionTagDialog from './exceptionTagDialog.vue'
 import uploadFileDialog from './uploadFileDialog.vue'
 import clauseDownloadDialog from './clauseDownloadDialog.vue'
 import { excelExport } from '@/utils/filedowLoad'
@@ -324,7 +344,8 @@ export default {
     iTableML,
     iButton,
     uploadFileDialog,
-    clauseDownloadDialog
+    clauseDownloadDialog,
+    exceptionTagDialog
   },
   props: {
     openDialog: { type: Boolean, default: false },
@@ -342,6 +363,7 @@ export default {
       supplierTypeObj,
       signStatusObj,
       tableListData: [],
+      extendFields: false,
       // tableListDataSub: [],
       typeObject: {},
       approvalProcessName: '',
@@ -354,6 +376,7 @@ export default {
       },
       openUploadFileDialog: false,
       openClauseDownloadDialog: false,
+      openExceptionTagDialog: false,
       signStatus: '',
       supplierId: -1,
       userId: ''
@@ -429,6 +452,13 @@ export default {
           })
           .join(',')
       }
+      if (this.form.supplierType) {
+        this.form.supplierType = this.form.supplierType
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
       exportFile({
         url:
           process.env.VUE_APP_NEWS +
@@ -449,8 +479,10 @@ export default {
             this.form.signStatus = this.form?.signStatus?.split(',')
           }
           if (this.form?.supplierIdentity) {
-            this.form.supplierIdentity =
-              this.form?.supplierIdentity?.split(',')
+            this.form.supplierIdentity = this.form?.supplierIdentity?.split(',')
+          }
+          if (this.form?.supplierType) {
+            this.form.supplierType = this.form?.supplierType?.split(',')
           }
         }
       })
@@ -460,6 +492,12 @@ export default {
       this.userId = row.userId
       this.supplierId = row.supplierId
       this.openUploadFileDialog = true
+    },
+    handleException() {
+      this.openExceptionTagDialog = true
+    },
+    closeExceptionTagDialog(bol) {
+      this.openExceptionTagDialog = bol
     },
     closeUploadFileDialog(bol) {
       if (bol.isExclude == false) {
@@ -486,6 +524,9 @@ export default {
       } else this.openUploadFileDialog = false
     },
     getTableList(e) {
+      this.form.countryId = ''
+      this.form.provinceId = ''
+      this.form.cityId = ''
       this.form = e
       if (this.form.area && this.form.area.length != 0) {
         this.form.countryId = this.form.area
@@ -527,7 +568,7 @@ export default {
       this.$emit('flushTable')
     },
     handleSizeChange(e) {
-      this.page.currPage = 1;
+      this.page.currPage = 1
       this.page.pageSize = e
       let param = {
         ...this.form,
@@ -601,12 +642,14 @@ export default {
       //     })
       //     .join(',')
       // }
+      this.tableLoading = true
       getSignatureResult(e)
         .then((res) => {
           // this.tableListData = res?.termsSupplierList;
           // this.tableListDataSub = this.tableListData.slice(0, 10);
           // this.page.total = res?.termsSupplierList.length;
           this.tableListData = res.data
+          this.extendFields = res.extendFields.isRound
           this.page.total = res.total
           this.tableLoading = false
         })
@@ -650,6 +693,27 @@ export default {
   -webkit-transform: translateY(-90%);
   transform: translateY(-90%);
 }
+::v-deep .el-form-item {
+  margin-bottom: 1rem;
+  width: 220px;
+  float: left;
+  margin-right: 50px;
+  padding-left: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  .el-form-item__label {
+    font-size: 14px;
+    color: $color-black;
+    font-weight: 400;
+    line-height: 14px;
+    margin-bottom: 8px;
+  }
+
+  .el-form-item__content {
+    line-height: inherit;
+  }
+}
 .form__first {
   position: relative;
   .search {
@@ -658,11 +722,16 @@ export default {
     bottom: 1.5rem;
   }
 }
+.tips {
+  margin-bottom: 0.5rem;
+  font-family: Arial;
+  font-weight: 400;
+  color: #000000;
+}
 .export {
   display: flex;
-  justify-content: flex-end;
-  // float: right;
-  margin-bottom: 2rem;
+  justify-content: end;
+  margin-bottom: 1rem;
 }
 // .card {
 //   padding-bottom: 20px;

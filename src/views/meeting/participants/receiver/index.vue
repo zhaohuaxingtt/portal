@@ -28,12 +28,20 @@
       @flushTable="flushTable"
       @addReceiverData="addReceiverData"
       :selectedTableData="selectedTableData"
+      @addOrganizeData="addOrganizeData"
     />
     <chooseReceiverDialog
       :openReceiverDialog="openReceiverDialog"
       v-if="openReceiverDialog"
       @closeChooseDialog="closeChooseDialog"
-      @handleChooseReceiver="handleChooseReceiver"
+      @handleChoose="handleChoose"
+      :status="status"
+    />
+    <chooseOrganizeDialog
+      :openOrganizeDialog="openOrganizeDialog"
+      v-if="openOrganizeDialog"
+      @closeChooseDialog="closeChooseDialog"
+      @handleChoose="handleChoose"
       :status="status"
     />
     <editReceiverDialog
@@ -43,7 +51,8 @@
       :clickScope="clickScope"
       @flushTable="flushTable"
       @addReceiverData="addReceiverData"
-      :selectedTableData="selectedTableData"
+      :selectedTableData="editSelectTableData"
+      @addOrganizeData="addOrganizeData"
     />
   </div>
 </template>
@@ -54,7 +63,8 @@ import {
   actionButtons,
   addReceiverDialog,
   chooseReceiverDialog,
-  editReceiverDialog
+  editReceiverDialog,
+  chooseOrganizeDialog
 } from './components'
 import { getReceiver, deleteReceiver } from '@/api/meeting/type'
 import { pageMixins } from '@/utils/pageMixins'
@@ -68,16 +78,18 @@ export default {
     iTableCustom,
     addReceiverDialog,
     chooseReceiverDialog,
-    editReceiverDialog
+    editReceiverDialog,
+    chooseOrganizeDialog
   },
   data() {
     return {
+      openOrganizeDialog: false,
       tableLoading: false,
       tableColumns: [
         {
           type: 'index',
           label: '序号',
-          i18n: 'MT_XUHAO2',
+          i18n: 'MT_XUHAO3',
           width: 68,
           tooltip: false
         },
@@ -213,6 +225,7 @@ export default {
       clickScope: [],
       // getUsersList: [],
       selectedTableData: [],
+      editSelectTableData: [],
       status: 'add'
     }
   },
@@ -220,7 +233,14 @@ export default {
     this.query()
   },
   methods: {
-    handleChooseReceiver(selectedTableData, status) {
+    handleChoose(selectedTableData, status) {
+      // console.log('selectedTableData', selectedTableData)
+      if (status === 'edit') {
+        this.editSelectTableData = [
+          ...this.editSelectTableData,
+          ...selectedTableData
+        ]
+      }
       this.status = status
       this.selectedTableData = selectedTableData
       this.closeChooseDialog(false, status)
@@ -230,15 +250,21 @@ export default {
       this.openReceiverDialog = true
       this.openEditDialog = false
     },
+    addOrganizeData(status) {
+      console.log('status', status)
+      this.status = status
+      this.openOrganizeDialog = true
+      this.openEditDialog = false
+    },
     deleteReceiver(e) {
-      this.$confirm(this.$t('请确认是否要删除该群组?'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         deleteReceiver({ id: e.id }).then((res) => {
           if (res.code === 200) {
-            this.$message.success(this.$t('删除成功!'))
+            this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
             this.query()
           }
         })
@@ -286,9 +312,9 @@ export default {
       this.openDialog = bol
     },
     closeChooseDialog(bol, status) {
-      console.log(status)
       this.status = status
       this.openReceiverDialog = false
+      this.openOrganizeDialog = false
       if (status === 'edit') {
         this.openEditDialog = true
         return

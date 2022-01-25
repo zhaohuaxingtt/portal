@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierDirectoryTable.vue
 -->
@@ -23,8 +23,8 @@
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
-                ref="commonTable"
+    <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST" -->
+    <table-list ref="commonTable"
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -41,12 +41,13 @@
       ]"
                 :index="true">
       <template #contactType="scope">
+
         <!-- <div v-if="scope.row.contactType === '商务联系人'">
           {{ scope.row.contactType }} <span style="color: red">*</span>
         </div>
         <div v-else>{{ scope.row.contactType }}</div> -->
         <div>
-          {{ scope.row.contactType }} <span style="color: red">*</span>
+          {{ scope.row.nameType }}<span style="color: red">*</span>
         </div>
       </template>
     </table-list>
@@ -109,7 +110,7 @@ export default {
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.contactType) {
+          if (item.contactType === val.nameType) {
             cust[index] = { ...item, ...val }
           }
         })

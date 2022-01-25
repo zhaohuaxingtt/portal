@@ -152,8 +152,10 @@ export default {
       this.tabList = this.leadTabList
     } else {
       this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
-      this.query.dptCode = this.eklPfjTabList[0]?.type
-      this.activeName = this.eklPfjTabList[0]?.name
+    }
+    if(this.tabList.length > 0){
+      this.query.dptCode = this.tabList[0].type || ""
+      this.activeName = this.tabList[0].name || ""
     }
     this.getEklAffix(this.query)
     // log.js
@@ -256,7 +258,7 @@ export default {
                 position: 'center',
                 color: '#000',
                 formatter: this.tabsData.curSum,
-                fontSize: 30,
+                fontSize: 24,
                 fontWeight: 'bold'
               }
             },
@@ -290,6 +292,9 @@ export default {
     handleCheckYear() {
       this.getEklAffix(this.query)
     }
+  },
+  beforeDestroy() {
+    this.chart = null
   }
 }
 </script>

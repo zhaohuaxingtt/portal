@@ -1242,8 +1242,7 @@
     SUPPLIER_SHIFOUTONGYIJIANG: '是否同意将', //是否同意将
     SUPPLIER_GONGSIZHUANEWIZHENGSHIGONGYINGSHANG: '公司转为正式供应商', //公司转为正式供应商
     SUPPLIER_QINGTONGYI: '请同意', //请同意
-    SUPPLIER_GONGSITIJIAODEJIBENXINXIXIUGAISHENQING:
-      '公司提交的基本信息修改申请', //公司提交的基本信息修改申请
+    SUPPLIER_GONGSITIJIAODEJIBENXINXIXIUGAISHENQING: '公司提交的信息修改申请', //公司提交的基本信息修改申请
     SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI: '查看该供应商信息', //查看该供应商信息
     SUPPLIER_FUJIANSHANCHU: '附件删除', //附件删除
     SUPPLIER_GONGYINGSHANGLEIXINGTIPS:
@@ -1459,10 +1458,10 @@
     SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
     SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '请确认需要分发的深评报告状态',
-    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
+    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
+    '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
@@ -2605,6 +2604,18 @@
 
     MT_XUHAO3: '序号',
 
+    MT_ZUZHIJIGOUMINGCHENGZHONG: '组织机构名称(中)',
+
+    MT_ZUZHIJIGOUMINGCHENGYING: '组织机构名称(英)',
+
+    MT_ZUZHIJIGOUBIANMA: '组织机构编码',
+
+    MT_ZUZHIJIBIE: '组织级别',
+
+    MT_MINGCHENG: '名称',
+
+    MT_TIANJIAZUZHI: '添加组织',
+
     MT_CAOZUO2: '操作',
 
     MT_PILIANGPAIXU: '批量排序',
@@ -2725,8 +2736,16 @@
     MT_XINGQIWU: '星期五',
 
     MT_XINGQILIU: '星期六',
-    
+
     MT_XINGQIRI: '星期日',
+
+    MT_ZUZHI: '组织',
+
+    MT_YUANGONG: '员工',
+
+    MT_SOUSUOZUZHI: '搜索组织',
+
+    MT_XUANZEZUZHI: '选择组织',
 
     APPROVAL: {
       ADD: '新增',

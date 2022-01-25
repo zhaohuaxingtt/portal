@@ -326,7 +326,6 @@ export default {
       return '~' + str
     },
     lookOrEdit(row) {
-      console.log('row', row)
       if (row.source === '04') {
         // window.open(
         //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,

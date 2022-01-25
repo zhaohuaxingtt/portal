@@ -40,27 +40,15 @@
           v-if="['selection', 'index'].includes(item.type)"
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
-          :label="item.i18n ? language(item.i18n, item.label) : item.label"
+          :label="
+            item.i18n ? language(item.i18n, item.label) : language(item.label)
+          "
           :width="item.width || '50'"
           :min-width="item.minWidth"
           :align="item.align || 'center'"
           :selectable="handleSelectable"
           :fixed="item.fixed"
         />
-        <el-table-column
-          :key="index"
-          v-else-if="item.type === 'setting'"
-          :width="item.width || '30'"
-          :min-width="item.minWidth"
-          :align="item.align || 'center'"
-          :fixed="item.fixed"
-        >
-          <template slot="header">
-            <div class="table-setting" @click="openSetting">
-              <icon symbol name="iconzidingyi" />
-            </div>
-          </template>
-        </el-table-column>
         <el-table-column
           :key="index"
           v-else-if="['customSelection'].includes(item.type)"
@@ -116,13 +104,11 @@
           :show-overflow-tooltip="item.tooltip"
           :prop="item.prop"
           :label="item.i18n ? language(item.i18n, item.label) : item.label"
-          :sortable="item.sortable"
-          :sort-method="item.sortMethod"
-          :sort-by="item.sortBy"
-          :sort-orders="item.sortOrders"
           :width="item.width ? item.width.toString() : ''"
           :min-width="item.minWidth ? item.minWidth.toString() : ''"
           :fixed="item.fixed"
+          :sortable="item.sortable || false"
+          :sort-method="item.sortMethod"
         >
           <template slot-scope="scope">
             <template v-if="item.children">
@@ -142,10 +128,7 @@
                 "
                 :width="subItem.width ? subItem.width.toString() : ''"
                 :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
-                :sortable="subItem.sortable"
-                :sort-method="item.sortMethod"
-                :sort-by="item.sortBy"
-                :sort-orders="item.sortOrders"
+                :sortable="subItem.sortable || false"
               >
                 <i-table-column
                   v-if="subItem.customRender || subItem.type === 'expanded'"
@@ -185,7 +168,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <iTableHeaderSorter
+    <iTableHeaderSort
       v-if="settingVisible"
       :data="tableSettingColumns"
       :show.sync="settingVisible"
@@ -349,6 +332,10 @@ export default {
     border: {
       type: Boolean,
       default: true
+    },
+    // 默认展开的级别
+    defaultExpandLevel: {
+      type: Number
     }
   },
   computed: {
@@ -417,7 +404,11 @@ export default {
     this.getTableData()
   },
   mounted() {
-    if (this.tableVisibleColumns[0].type == 'customSelection') {
+    if (
+      this.tableVisibleColumns &&
+      this.tableVisibleColumns.length &&
+      this.tableVisibleColumns[0].type == 'customSelection'
+    ) {
       this.isCustomSelection = true
       const customSelectionLabel = this.tableVisibleColumns.map((item) => {
         return item.label
@@ -527,12 +518,24 @@ export default {
         if (hasChild && (!row[childrenKey] || row[childrenKey].length === 0)) {
           hasChild = false
         }
-        const visible = uniqueId.includes('-') ? this.defaultExpand : true
+        const level = uniqueId.split('-').length
+        // 展开
+        let expanded = this.defaultExpand
+        if (expanded && this.defaultExpandLevel) {
+          expanded = level < this.defaultExpandLevel
+        }
+
+        // 显示隐藏
+        let visible = uniqueId.includes('-') ? this.defaultExpand : true
+        if (visible && this.defaultExpandLevel) {
+          visible = level <= this.defaultExpandLevel
+        }
+
         const resItem = {
           uniqueId,
           isLeaf: !hasChild,
-          expanded: this.defaultExpand,
-          visible: visible,
+          expanded,
+          visible,
           parentUniqueId: parentKey,
           childNum: (hasChild && row[childrenKey].length) || 0
         }
