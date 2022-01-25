@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-25 09:27:48
+ * @LastEditTime: 2022-01-25 13:43:01
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -33,7 +33,7 @@
       <div>
      
         <div class="floatright" style="margin-bottom: 20px">
-          <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
+          <i-button @click="add()">{{ language('XINJIAN','新建') }}</i-button>
           <i-button  @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
           <i-button  @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
           <i-button  v-if="stateAdmin" @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
@@ -212,8 +212,7 @@ export default {
         return false
       }
       active({
-        opcsSupplierId: this.$route.query.opcsSupplierId,
-        idList: this.selectTableData.map((res) => res.id)
+        opcsSupplierIds: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
             this.getTableData()
