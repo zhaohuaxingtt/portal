@@ -134,7 +134,7 @@ export default {
                         if (item.ruleNodeList && item.ruleNodeList.length) {
                             item.ruleNodeList.forEach(rule => {
                                 Sitem.num = rule.num
-                                Sitem.deptName = rule.deptName || (rule.dept && rule.dept.deptName) || ''
+                                Sitem.deptName = rule.deptNum || (rule.dept && rule.dept.deptNum) || ''
                                 Sitem.userName = rule.userName || (rule.user && rule.user.userName) || ''
                             })
                         }
