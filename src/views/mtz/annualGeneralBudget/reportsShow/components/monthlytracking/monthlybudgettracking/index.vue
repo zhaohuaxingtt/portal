@@ -52,7 +52,7 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span class="only-myself" v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF">{{language('只看自己 ')}}
+          <span class="only-myself" >{{language('只看自己 ')}}
             <el-switch 
               v-model="searchForm.onlySeeMySelf" 
               active-color="#1660F1"
@@ -193,9 +193,10 @@ export default {
         },
         yAxis: [
           {
+            type:'value'
             //设置间距，需要计算
-            max: _this.maximumScale,
-            splitNumber: 10,
+            // max: _this.maximumScale,
+            // splitNumber: 10,
           }
         ],
         legend: {
@@ -333,15 +334,15 @@ export default {
           data?.forEach((item)=>{
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
-            allPrice.push(Math.abs(Number(item.yearForecastPrice)))
-            this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
+            allPrice.push(Number(item.yearForecastPrice))
+            this.yearData.push(Number(item.yearForecastPrice)/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
-              this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
-              allPrice.push(Math.abs(Number(item.actualPrice)))
+              this.dataMonth.push(Number(item.actualPrice)/1000000 )
+              allPrice.push(Number(item.actualPrice))
             }else{
-              this.dataMonth.push(Math.abs(Number(item.monthForecastPrice))/1000000)
-              allPrice.push(Math.abs(Number(item.monthForecastPrice)))
+              this.dataMonth.push(Number(item.monthForecastPrice)/1000000)
+              allPrice.push(Number(item.monthForecastPrice))
             }
           })
           this.maximumScale = Number(Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10)*10)

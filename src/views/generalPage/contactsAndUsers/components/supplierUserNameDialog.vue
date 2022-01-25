@@ -61,6 +61,7 @@
             }}</iButton>
           </div>
           <tableList
+          class="boxtable"
             style="margin-top: 30px"
             :tableData="tabledataAdd"
             @handleSelectionChange="handleSelectionChangeAdd"
@@ -83,6 +84,7 @@
             }}</iButton>
           </div>
           <tableList
+            class="boxtable"
             style="margin-top: 30px"
             :tableData="tabledataDel"
             @handleSelectionChange="handleSelectionChangeDel"
@@ -329,6 +331,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.boxtable{
+  ::v-deep.el-table{
+     height: 1000px;
+     overflow: auto;
+  }
+}
 .ptext {
   font-size: 18px;
   font-family: Arial;
