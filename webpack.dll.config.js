@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-
+console.log('START:', new Date())
 module.exports = {
   // 你想要打包的模块的数组
   entry: {
