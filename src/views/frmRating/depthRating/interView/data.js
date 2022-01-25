@@ -2,21 +2,25 @@ export const interViewTabList = [{
 		value: 1,
 		name: '基本情况',
 		key: 'SPR_FRM_DEP_JBQK',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_FANGTAN_SPR_FRM_DEP_JBQK"
 	},
 	{
 		value: 2,
 		name: '业务&上下游',
 		key: 'SPR_FRM_DEP_YWSXY',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_FANGTAN_SPR_FRM_DEP_YWSXY"
 	},
 	{
 		value: 3,
 		name: '财务',
 		key: 'SPR_FRM_DEP_FINANCE',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_FANGTAN_SPR_FRM_DEP_FINANCE"
 	},
 	{
 		value: 4,
 		name: '其他',
 		key: 'SPR_FRM_DEP_OTHER',
+		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_FANGTAN_SPR_FRM_DEP_OTHER"
 	},
 ];
 // 集团、股东、实际控制人（详见股权结构图）

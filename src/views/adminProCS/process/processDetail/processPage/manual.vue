@@ -17,7 +17,8 @@
                     :maxSize="10" 
                     :limit="1"
                     isCustHttp
-                    :uploadHandle="uploadHandle($event,'operatorImage')"
+                    :uploadHandle="uploadHandleImg"
+                    :removeHandle="removeHandleImg"
                     ></iUpload>
            </div>
            <div class="flex content-item">
@@ -28,7 +29,8 @@
                     :maxSize="10" 
                     :limit="1"
                     isCustHttp
-                    :uploadHandle="uploadHandle($event,'operatorFile')"
+                    :uploadHandle="uploadHandleFile"
+                    :removeHandle="removeHandleFile"
                     ></iUpload>
            </div>
         </div>
@@ -41,13 +43,15 @@
 <script>
 import {iDialog,iButton} from 'rise';
 import iUpload from '../../../components/iUpload.vue';
-import {uploadPageFile} from '@/api/adminProCS';
+import {uploadPageFile,deletePageFile} from '@/api/adminProCS';
+import mixin from './../../../mixins';
 export default {
     components: {
         iDialog,
         iButton,
         iUpload
     },
+    mixins:[mixin],
     props:{
         show:{
             type:Boolean,
@@ -63,35 +67,87 @@ export default {
             form:{
                 operatorImage:[],
                 operatorFile:[],
-            }
+            },
+            uploadHandleImg: this.uploadImg,
+            uploadHandleFile: this.uploadFile,
+            removeHandleImg: this.removeImg,
+            removeHandleFile: this.removeFile
         }
     },
     methods: {
-        uploadHandle(file,type){
+        uploadImg(file){
             return new Promise(async (res, rej) => {
                 try {
                     let data = new FormData()
-                    data.append(type,file)
+                    data.append("operatorImage",file)
                     let r = await uploadPageFile(this.info.id,data)
+                    let f = r.find(e => e.name == 'operatorImage')
                     res({
-                        name: r.originalFileName,
-                        url: r.url,
-                        id: r.id
+                        name: f.originalFileName,
+                        path: this.fileFmt(f.url),
+                        id: f.id
                     })
+                    this.$emit("refresh")
+                } catch(err) {
+                    rej(err)
+                }
+            })
+        },
+        uploadFile(file){
+            return new Promise(async (res, rej) => {
+                try {
+                    let data = new FormData()
+                    data.append("operatorFile",file)
+                    let r = await uploadPageFile(this.info.id,data)
+                    let f = r.find(e => e.name == 'operatorFile')
+                    res({
+                        name: f.originalFileName,
+                        path: this.fileFmt(f.url),
+                        id: f.id
+                    })
+                    this.$emit("refresh")
+                } catch(err) {
+                    rej(err)
+                }
+            })
+        },
+        removeImg(file){
+            return new Promise(async (res, rej) => {
+                try {
+                    await deletePageFile(file.id)
+                    this.$message.success("删除成功")
+                    this.form.operatorImage = []
+                    this.$emit("refresh")
+                    res()
+                } catch(err) {
+                    rej(err)
+                }
+            })
+        },
+        removeFile(file){
+            return new Promise(async (res, rej) => {
+                try {
+                    await deletePageFile(file.id)
+                    this.$message.success("删除成功")
+                    this.form.operatorFile = []
+                    this.$emit("refresh")
+                    res()
                 } catch(err) {
                     rej(err)
                 }
             })
         },
         open(){
-            let files = this.info.attachMents.map(e => {
-                return {
-                    fileName: e.originalFileName,
-                    fileUrl:e.url
-                }
-            })
-            this.form.operatorImage = files?.[0] || []
-            this.form.operatorFile = files?.[1] || []
+            if(this.info.attachMents){
+                this.info.attachMents.forEach(e => {
+                    let file = {
+                        fileName: e.originalFileName,
+                        fileUrl: this.fileFmt(e.url),
+                        id: e.id
+                    }
+                    this.form[e.name] = [file]
+                })
+            }
         },
         close(){
             this.$emit("update:show",false)

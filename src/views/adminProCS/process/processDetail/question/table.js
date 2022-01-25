@@ -1,9 +1,5 @@
 export const questionColumn = [
     {
-		type: 'selection',
-		width: 50
-	},
-    {
 		type:'index',
 		label:'序号',
 		width: 100
@@ -17,5 +13,6 @@ export const questionColumn = [
 		prop:'feedBackCount',
 		label:'反馈',
 		align: 'center'
-	},
+	}
+	
 ]

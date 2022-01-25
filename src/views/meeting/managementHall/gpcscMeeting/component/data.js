@@ -193,10 +193,62 @@ export const themenConclusionArrObj = [
     conclusionName: 'Last Call'
   },
   {
-    conclusionCsc: '06',
-    conclusionName: '分段定点'
-  }
-]
+    conclusionCsc: "06",
+    conclusionName: "分段定点",
+  },
+];
+export const themenConclusionArrObjALL = [
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
+  {
+    conclusionCsc: "02",
+    conclusionName: "通过",
+  },
+  // {
+  //   conclusionCsc: "03",
+  //   conclusionName: "预备会议通过",
+  // },
+  {
+    conclusionCsc: "04",
+    conclusionName: "不通过",
+  },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "Last Call",
+  // },
+  // {
+  //   conclusionCsc: "06",
+  //   conclusionName: "分段定点",
+  // },
+];
+export const themenConclusionArrObjALLLastCall = [
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
+  {
+    conclusionCsc: "02",
+    conclusionName: "通过",
+  },
+  // {
+  //   conclusionCsc: "03",
+  //   conclusionName: "预备会议通过",
+  // },
+  {
+    conclusionCsc: "04",
+    conclusionName: "不通过",
+  },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "Last Call",
+  // },
+  {
+    conclusionCsc: "06",
+    conclusionName: "分段定点",
+  },
+];
 export const numToLetter = {
   1: 'A',
   2: 'B',

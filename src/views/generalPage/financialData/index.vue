@@ -65,7 +65,8 @@
           </i-button>
         </div>
       </div>
-      <tableList v-permission="SUPPLIER_FINANCIALDATA_TABLE"
+      <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->
+      <tableList 
                  ref="commonTable"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"

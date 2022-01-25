@@ -79,10 +79,10 @@ export default {
     },
     methods: {
         closeDialogBtn () {
+            this.name = ''
             this.$emit('update:typeShow', false)
         },
         search() {
-            console.log(this.name, 'name')
             this.getTableList(this.currTypeId)
         },
         add() {

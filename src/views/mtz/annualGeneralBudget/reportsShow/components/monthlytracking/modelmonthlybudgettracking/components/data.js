@@ -6,4 +6,6 @@ export const form = {
     'yearMonthOne': '', //开始月份
     'yearMonthTwo': '', //结束月份
     'onlySeeMySelf': false, // 仅看自己
+    'pageSize': '10',
+    'currentPage': "1",
 }

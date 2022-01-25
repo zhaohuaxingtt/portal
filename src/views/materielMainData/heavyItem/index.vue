@@ -39,7 +39,10 @@
             </el-col>
             <el-col :span="8">
               <iFormItem :label="searchLabel.analyseType">
-                <iSelect v-model="searchContent.heavyItem" :placeholder="language('请选择')">
+                <iSelect
+                  v-model="searchContent.heavyItem"
+                  :placeholder="language('请选择')"
+                >
                   <el-option
                     v-for="item in analyseTypeOption"
                     :key="item.value"
@@ -98,39 +101,55 @@
       </iSearch>
     </div>
     <div class="heavyItemTabel">
-        <iCard :title="language('Heavy Item材料组')">
-            <div class="btnList" slot="header-control">
-                <div v-if="viewSta">
-                    <iButton @click="edit">{{language('编辑')}}</iButton>
-                    <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
-                </div>
-                <div v-else>
-                    <iButton @click="save">{{language('保存')}}</iButton>
-                    <iButton @click="cancel">{{language('取消')}}</iButton>
-                </div>
-            </div>
-            <div class="tabelList">
-                <iTableCustom
-                :loading='loading'
-                :columns='tabelSetting'
-                :data='tabelData'
-                :extra-data='heavyExtraData'
-                @to-detail='toDetail'
-                @handle-selection-change="handleSelectionChange"
-                ></iTableCustom>
-                <iPagination
-                v-update
-                @size-change="handleSizeChange($event, getPageList)"
-                @current-change="handleCurrentChange($event, getPageList)"
-                background
-                :current-page="page.currPage"
-                :page-sizes="page.pageSizes"
-                :page-size="page.pageSize"
-                :layout="page.layout"
-                :total="page.totalCount"
-                ></iPagination>
-            </div>
-        </iCard>
+      <iCard :title="language('Heavy Item材料组')">
+        <div class="btnList" slot="header-control">
+          <div v-if="viewSta">
+            <iButton
+              @click="edit"
+              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
+              >{{ language('编辑') }}</iButton
+            >
+            <buttonDownload
+              :download-method="exportExcel"
+              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_EXPORT'"
+              >{{ language('导出') }}</buttonDownload
+            >
+          </div>
+          <div v-else>
+            <iButton
+              @click="save"
+              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
+              >{{ language('保存') }}</iButton
+            >
+            <iButton
+              @click="cancel"
+              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
+              >{{ language('取消') }}</iButton
+            >
+          </div>
+        </div>
+        <div class="tabelList">
+          <iTableCustom
+            :loading="loading"
+            :columns="tabelSetting"
+            :data="tabelData"
+            :extra-data="heavyExtraData"
+            @to-detail="toDetail"
+            @handle-selection-change="handleSelectionChange"
+          ></iTableCustom>
+          <iPagination
+            v-update
+            @size-change="handleSizeChange($event, getPageList)"
+            @current-change="handleCurrentChange($event, getPageList)"
+            background
+            :current-page="page.currPage"
+            :page-sizes="page.pageSizes"
+            :page-size="page.pageSize"
+            :layout="page.layout"
+            :total="page.totalCount"
+          ></iPagination>
+        </div>
+      </iCard>
     </div>
   </div>
 </template>
@@ -153,202 +172,230 @@ import {
 } from '@/api/materiel/heavyItem'
 import { materielGroup } from '@/api/materiel/materielMainData'
 import iTableCustom from '@/components/iTableCustom'
-import {HEAVY_ITEM_COLUMNS} from './data.js'
+import { HEAVY_ITEM_COLUMNS } from './data.js'
 import buttonDownload from '@/components/buttonDownload'
 import { openUrl } from '@/utils'
 import language from '@/utils/language.js'
 export default {
-    name:'Heavy-Item',
-    components:{iButton,iSearch,iFormItem,iPagination,iSelect,iInput,iTableCustom,iCard,buttonDownload},
-    mixins:[pageMixins],
-    computed:{},
-    props:{},
-    data(){
-        return {
-            viewSta:true,
-            tabelSetting:HEAVY_ITEM_COLUMNS,
-            heavyExtraData:{
-                edit:true,
-                heavyItemList:[],
-                partAnalyseOption:[],
-                moldAnalyseOption:[]
-            },
-            tabelData:[],
-            loading:false,
-            searchContent:{
-                stuffCategoryId:'',
-                isHeavyItem:'',
-                heavyItem:'',
-                partsAanlystUserId:'',
-                modlAanlystUserId:'',
-                commidityDeptCode:''
-            },
-            searchLabel:{
-                materialGroup:language('材料组'),
-                isHeavyItem:language('是否Heavy Item'),
-                analyseType:language('分析类型'),
-                partsCostAnalyst:language('零件成本分析员'),
-                moldCostAnalyst:language('模具成本分析员'),
-                commoditySta:language('Commodity')
-            },
-            materialGroupOption:[],
-            heavyItemStaOption:[
-                {
-                    label:'是',
-                    value:1
-                },
-                {
-                    label:'否',
-                    value:0
-                }
-            ],
-            analyseTypeOption:[{label:'BUC',value:'BUC'},{label:'PRA',value:'PRA'},{label:'TIA',value:'TIA'}],
-            partsCostAnalystOption:[],
-            moldCostAnalystOption:[]
-        }
+  name: 'Heavy-Item',
+  components: {
+    iButton,
+    iSearch,
+    iFormItem,
+    iPagination,
+    iSelect,
+    iInput,
+    iTableCustom,
+    iCard,
+    buttonDownload
   },
-  methods:{
-    edit(){
-        this.viewSta = false
-        this.heavyExtraData.edit = false
+  mixins: [pageMixins],
+  computed: {},
+  props: {},
+  data() {
+    return {
+      viewSta: true,
+      tabelSetting: HEAVY_ITEM_COLUMNS,
+      heavyExtraData: {
+        edit: true,
+        heavyItemList: [],
+        partAnalyseOption: [],
+        moldAnalyseOption: []
+      },
+      tabelData: [],
+      loading: false,
+      searchContent: {
+        stuffCategoryId: '',
+        isHeavyItem: '',
+        heavyItem: '',
+        partsAanlystUserId: '',
+        modlAanlystUserId: '',
+        commidityDeptCode: ''
+      },
+      searchLabel: {
+        materialGroup: language('材料组'),
+        isHeavyItem: language('是否Heavy Item'),
+        analyseType: language('分析类型'),
+        partsCostAnalyst: language('零件成本分析员'),
+        moldCostAnalyst: language('模具成本分析员'),
+        commoditySta: language('Commodity')
+      },
+      materialGroupOption: [],
+      heavyItemStaOption: [
+        {
+          label: '是',
+          value: 1
+        },
+        {
+          label: '否',
+          value: 0
+        }
+      ],
+      analyseTypeOption: [
+        { label: 'BUC', value: 'BUC' },
+        { label: 'PRA', value: 'PRA' },
+        { label: 'TIA', value: 'TIA' }
+      ],
+      partsCostAnalystOption: [],
+      moldCostAnalystOption: []
+    }
+  },
+  methods: {
+    edit() {
+      this.viewSta = false
+      this.heavyExtraData.edit = false
     },
-    save(){
-        let judgeTIAChecked 
-        let judgeBOrP 
-        this.tabelData.forEach((item)=>{
-          if(item.heavyItemList.indexOf('TIA') > -1 && item.moldUserIds.length == 0){
-            judgeTIAChecked = true
-          } 
-          if((item.heavyItemList.indexOf('BUC') > -1 || item.heavyItemList.indexOf('PRA') > -1) && item.partsUserIds.length == 0){
-              judgeBOrP = true
+    save() {
+      let judgeTIAChecked
+      let judgeBOrP
+      this.tabelData.forEach((item) => {
+        if (
+          item.heavyItemList.indexOf('TIA') > -1 &&
+          item.moldUserIds.length == 0
+        ) {
+          judgeTIAChecked = true
+        }
+        if (
+          (item.heavyItemList.indexOf('BUC') > -1 ||
+            item.heavyItemList.indexOf('PRA') > -1) &&
+          item.partsUserIds.length == 0
+        ) {
+          judgeBOrP = true
+        }
+      })
+      console.log(judgeTIAChecked, 'judgeTIAChecked')
+      if (judgeTIAChecked) {
+        return this.$message.error('选择TIA后请选择模具成本分析员')
+      }
+      if (judgeBOrP) {
+        return this.$message.error('选择BUC或者PRA后请选择零件成本分析员')
+      }
+      this.viewSta = true
+      this.heavyExtraData.edit = true
+      const data = this.tabelData.map((val) => {
+        console.log(val, '=======')
+        if (
+          !val.heavyItemList.includes('BUC') &&
+          !val.heavyItemList.includes('PRA')
+        ) {
+          val.partsUserIds = []
+        }
+        if (!val.heavyItemList.includes('TIA')) {
+          val.moldUserIds = []
+        }
+        return {
+          categoryId: val.categoryId,
+          employName: val.employName,
+          groupName: val.groupName,
+          id: val.id,
+          moldBudgetType: val.moldBudgetType,
+          moldUserIds: val.moldUserIds,
+          partsUserIds: val.partsUserIds,
+          stuffCode: val.stuffCode,
+          stuffMemo: val.stuffMemo,
+          stuffName: val.stuffName,
+          stuffNameDe: val.stuffNameDe,
+          heavyItem: val.heavyItemList.join(',')
+        }
+      })
+      saveHeavyItemPage(data).then((val) => {
+        if (val.code == 200) {
+          this.$message.success('保存成功')
+          this.getPageList()
+        } else {
+          this.$message.error(val.desZh)
+        }
+      })
+    },
+    exportExcel() {
+      return exportHeavyItem(this.searchContent)
+    },
+    cancel() {
+      this.viewSta = true
+      this.heavyExtraData.edit = true
+      this.getPageList()
+    },
+    sure() {
+      this.page.totalCount = 0
+      this.page.currPage = 1
+      this.getPageList()
+    },
+    reset() {
+      this.page.totalCount = 0
+      this.page.currPage = 1
+      this.searchContent = {
+        materialGroup: '',
+        heavyItemSta: '',
+        analyseType: '',
+        partsCostAnalystL: '',
+        moldCostAnalystL: '',
+        commoditySta: ''
+      }
+      this.getPageList()
+    },
+    getPageList() {
+      this.loading = true
+      let data = {
+        ...this.searchContent,
+        current: this.page.currPage,
+        size: this.page.pageSize
+      }
+      getHeavyItemPage(data)
+        .then((val) => {
+          if (val.code == 200) {
+            const data = val.data
+            data.forEach((item) => {
+              if (!item.heavyItemList) {
+                item.heavyItemList = []
+              }
+              item.partsUserIds = []
+              item.moldUserIds = []
+              if (item.partsAnalyst) {
+                item.partsAnalyst.forEach((element) => {
+                  if (element) {
+                    item.partsUserIds.push(element.userId)
+                  }
+                })
+              }
+              if (item.moldAnalyst) {
+                item.moldAnalyst.forEach((element) => {
+                  if (element) {
+                    item.moldUserIds.push(element.userId)
+                  }
+                })
+              }
+            })
+            this.tabelData = data
+            this.page.totalCount = val.total
+          } else {
+            this.$message.error(val.desZh)
           }
         })
-        console.log(judgeTIAChecked,'judgeTIAChecked');
-        if(judgeTIAChecked){
-          return this.$message.error('选择TIA后请选择模具成本分析员')
-        }
-        if(judgeBOrP){
-          return this.$message.error('选择BUC或者PRA后请选择零件成本分析员')
-        }
-        this.viewSta = true
-        this.heavyExtraData.edit = true
-        const data = this.tabelData.map((val) => {
-            console.log(val,'=======');
-            if(!val.heavyItemList.includes('BUC') && !val.heavyItemList.includes('PRA')){
-              val.partsUserIds = []
-            }
-            if(!val.heavyItemList.includes('TIA')){
-              val.moldUserIds = []
-            }
-            return {
-                categoryId:val.categoryId,
-                employName:val.employName,
-                groupName:val.groupName,
-                id:val.id,
-                moldBudgetType:val.moldBudgetType,
-                moldUserIds:val.moldUserIds,
-                partsUserIds:val.partsUserIds,
-                stuffCode:val.stuffCode,
-                stuffMemo:val.stuffMemo,
-                stuffName:val.stuffName,
-                stuffNameDe:val.stuffNameDe,
-                heavyItem: val.heavyItemList.join(',')
-            }
-        })
-        saveHeavyItemPage(data).then((val)=>{
-            if(val.code == 200){
-                this.$message.success('保存成功')
-                this.getPageList()
-            }else{
-                this.$message.error(val.desZh)
-            }
+        .finally(() => {
+          this.loading = false
         })
     },
-    exportExcel(){
-        return exportHeavyItem(this.searchContent)
-    },
-    cancel(){
-        this.viewSta = true
-        this.heavyExtraData.edit = true
-        this.getPageList()
-    },
-    sure(){
-        this.page.totalCount = 0
-        this.page.currPage = 1
-        this.getPageList()
-    },
-    reset(){
-        this.page.totalCount = 0
-        this.page.currPage = 1
-        this.searchContent={
-            materialGroup:'',
-            heavyItemSta:'',
-            analyseType:'',
-            partsCostAnalystL:'',
-            moldCostAnalystL:'',
-            commoditySta:''
-        }
-        this.getPageList()
-    },
-    getPageList(){
-        this.loading = true
-        let data ={
-            ...this.searchContent,
-            current: this.page.currPage,
-            size: this.page.pageSize
-        }
-        getHeavyItemPage(data).then((val)=>{
-            if(val.code == 200){
-                const data = val.data
-                data.forEach((item) => {
-                    if(!item.heavyItemList){
-                        item.heavyItemList = []
-                    }
-                    item.partsUserIds = []
-                    item.moldUserIds = []
-                    if(item.partsAnalyst){
-                        item.partsAnalyst.forEach((element) => {
-                            if(element) {
-                                item.partsUserIds.push(element.userId)
-                            }
-                        })
-                    }
-                    if(item.moldAnalyst){
-                        item.moldAnalyst.forEach((element) => {
-                            if(element){
-                                item.moldUserIds.push(element.userId) 
-                            }
-                        })
-                    }
-                })
-                this.tabelData = data
-                this.page.totalCount = val.total
-            }else{
-                this.$message.error(val.desZh)
-            }
-        }).finally(()=>{
-            this.loading = false
-        })
-    },
-    toDetail(val){
-      openUrl(`/materielData/material-group/detail?id=${val.categoryId}&readOnly=1`)
+    toDetail(val) {
+      openUrl(
+        `/materielData/material-group/detail?id=${val.categoryId}&readOnly=1`
+      )
     }
   },
   created() {
-    materielGroup().then(val => {
+    materielGroup().then((val) => {
       if (val.code == 200) {
         this.materialGroupOption = val.data
       }
     })
     //获取零件成本分析员下拉
-    getAnalyseSelect({ type: 1 }).then(val => {
+    getAnalyseSelect({ type: 1 }).then((val) => {
       if (val.code == 200) {
         this.heavyExtraData.partAnalyseOption = val.data
         this.partsCostAnalystOption = val.data
       }
     })
     //模具成本分析员
-    getAnalyseSelect({ type: 2 }).then(val => {
+    getAnalyseSelect({ type: 2 }).then((val) => {
       if (val.code == 200) {
         this.heavyExtraData.moldAnalyseOption = val.data
         this.moldCostAnalystOption = val.data

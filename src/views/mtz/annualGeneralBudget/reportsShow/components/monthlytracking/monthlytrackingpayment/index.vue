@@ -53,7 +53,7 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span  class="only-myself" v-permission="BUYER_FIXEDASSETS_ASSETSLIST_BTN_JUST_LOOK_YOURSELF">{{ language('只看自己 ')}}
+          <span  class="only-myself">{{ language('只看自己 ')}}
             <el-switch 
               v-model="searchForm.onlySeeMySelf"
               active-color="#1660F1"
@@ -181,9 +181,10 @@ export default {
         },
         yAxis: [
           {
+            type:'value'
             //设置间距，需要计算
-            max: _this.maximumScale,
-            splitNumber: '10'
+            // max: _this.maximumScale,
+            // splitNumber: '10'
           }
         ],
         legend: [
@@ -302,8 +303,8 @@ export default {
               const year = item.yearMonth.slice(0,4)
               const month = item.yearMonth.slice(4)
               const yearMonth = year+'-'+month
-              sourceData.push([yearMonth,Math.abs(Number(item.actualPrice))/1000000,Math.abs(Number(item.payPrice))/1000000])
-              allPrice.push(Math.abs(Number(item.actualPrice))/1000000,Math.abs(Number(item.payPrice))/1000000)
+              sourceData.push([yearMonth,Number(item.actualPrice)/1000000,Number(item.payPrice)/1000000])
+              allPrice.push(Number(item.actualPrice)/1000000,Number(item.payPrice)/1000000)
               this.calculate.push({price:item.diffPrice,priceType:item.priceType})
             })
             this.maximumScale = Number(Math.ceil((Math.max(...allPrice)).toFixed()/10)*10)

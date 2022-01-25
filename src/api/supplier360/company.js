@@ -66,3 +66,46 @@ export function getCompany(parmars) {
     method: 'GET'
   })
 }
+
+
+//股东保存
+export function supplierInvestorInfos(parmars) {
+  return requst({
+    url: '/register/supplierInvestor/infos',
+    method: 'POST',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    }
+  })
+}
+
+//股东删除
+export function delSupplierInvestor(parmars) {
+  return requst({
+    url: `/supplierInvestor/infos`,
+    method: 'DELETE',
+    data: parmars
+  })
+}
+
+//集团保存
+export function supplierCorpInfos(parmars) {
+  return requst({
+    url: '/supplierCorp/infos',
+    method: 'POST',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    }
+  })
+}
+
+//删除供应商集团公司信息
+export function delSupplierCorp(parmars) {
+  return requst({
+    url: `/supplierCorp/infos`,
+    method: 'DELETE',
+    data: parmars
+  })
+}
