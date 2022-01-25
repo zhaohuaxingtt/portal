@@ -184,7 +184,7 @@ export default {
                 location: { required:true, message:"请输入location",trigger:'blur' },
                 enName: { required:true, message:"请输入英文名",trigger:'blur' },
                 telefone: { required:true, message:"请输入Telefone",trigger:'blur' },
-                adminUsers: { required:true, message:"请选择adminUsers",trigger:'blur' },
+                adminUsers: { required:true, message:"请选择管理员",trigger:'blur' },
                 canUsers: { required:true, message:"请选择报表可见人员",trigger:'blur' }
             },
             imgCutterRate: '16 : 9',

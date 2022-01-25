@@ -447,10 +447,10 @@ export function queryProcessFileList(processId,data) {
     return procsRequest({
         url: `/workflow_file_mgr/${processId}/fileList.json`,
         method: 'get',
-        parmas:data
+        params:data
     })
 }
-// 添加流程附件/样张
+// 添加流程附件/样张 / 指导书
 export function addProcessFile(id,data) {
     return procsRequest({
         url: `/workflow_file_mgr/${id}/addFile.json`,
@@ -459,20 +459,56 @@ export function addProcessFile(id,data) {
         formData: true
     })
 }
-// 删除流程附件/样张
+// 删除流程附件/样张 / 指导书
 export function deleteProcessFile(id) {
     return procsRequest({
         url: `/workflow_file_mgr/${id}/deleteFile.json`,
         method: 'delete'
     })
 }
-// 绑定流程附件/样张
+// 绑定流程附件/样张 
 export function addPageSample(id,data) {
     return procsRequest({
         url: `/workflow_file_mgr/${id}}/addPageSample.json`,
         method: 'post',
         data,
         formData: true
+    })
+}
+
+/***
+ * proD文档
+ */
+// 查询流程ProD
+export function queryProcessProDList(processId,data) {
+    return procsRequest({
+        url: `/workflow_doc_mgr/${processId}/docList.json`,
+        method: 'get',
+        params: data
+    })
+}
+// 查询可选prod list
+export function queryProDList(data) {
+    return procsRequest({
+        url: `/workflow_doc_mgr/getApiDocList.json`,
+        method: 'get',
+        params: data
+    })
+}
+// 添加流程ProD
+export function addProcessProd(processId,data) {
+    return procsRequest({
+        url: `/workflow_doc_mgr/${processId}/addDoc.json`,
+        method: 'post',
+        data,
+        formData:true
+    })
+}
+// 删除流程ProD
+export function deleteProcessProd(id) {
+    return procsRequest({
+        url: `/workflow_doc_mgr/${id}/deleteDoc.json`,
+        method: 'delete'
     })
 }
 
@@ -506,5 +542,40 @@ export function getFlowchartInfo() {
         url: `/flowchart_mgr/flowchart/${id}.json`,
         method: 'put',
         data,
+        formData: true
     })
  }
+
+ /**
+ * 添加流程图热点
+ */
+export function addFlowchartNode(flowId, data) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${flowId}/hot_area.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+
+/**
+ * 修改流程图热点
+ */
+ export function updateFlowchartNode(flowId, nodeId, data) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${flowId}/hot_area/${nodeId}.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+
+/**
+ * 删除流程图热点
+ */
+export function delFlowchartNode(id) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${id}/delete_hot_area.json`,
+        method: 'delete'
+    })
+}

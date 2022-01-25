@@ -40,11 +40,12 @@
 				<iFormItem :label="language('添加日期')">
 					<el-date-picker
 						v-model="addTime"
-						type="daterange"
+						type="datetimerange"
 						range-separator="至"
 						start-placeholder="开始日期"
 						end-placeholder="结束日期"
-						value-format="yyyy-MM-dd"
+						value-format="yyyy-MM-dd HH:mm:ss"
+						:default-time="['00:00:00', '23:59:59']"
 						style="width:320px"
 					>
 					</el-date-picker>
@@ -176,8 +177,9 @@ export default {
 		},
 		sure() {
 			if (this.addTime.length > 0) {
-				this.queryForm.startTime = new Date(this.addTime?.[0] || '')
-				this.queryForm.endTime = new Date(this.addTime?.[1] || '')
+				console.log(this.addTime?.[0], '2222')
+				this.queryForm.startTime = moment(this.addTime?.[0] || '').format()
+				this.queryForm.endTime = moment(this.addTime?.[1] || '').format()
 			}
 			this.page.currPage = 1
 			this.searchFlag = true
@@ -198,7 +200,7 @@ export default {
 			this.tableLoading = true
 			await publishedTypeById(row.id, formData).then(res => {
 				if (res?.success) {
-					this.$message({type: 'success', message: '已更改当前消息发送状态'})
+					this.$message({type: 'success', message: '已更改当前上下架状态'})
 					this.getTableList()
 				}
 			})

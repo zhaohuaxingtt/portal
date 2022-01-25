@@ -17,7 +17,7 @@
         </div>
         <div class="tagStyle" v-if="tagList.length>0">
 
-          <el-popover placement="top-end"
+          <el-popover placement="top-start"
                       width="200"
                       trigger="hover">
             <div><span v-for="(item,index) in tagList"
@@ -147,6 +147,15 @@ export default {
       const res = await getTags(pms)
       if (res.result) {
         this.tagList = res.data
+        this.tagList = [
+          {
+            tagName:"大手大脚阿斯加德sad是多少",
+            tagValue:"jdksajdjsa"
+          },{
+            tagName:"12121",
+            tagValue:"jdksajdjsa"
+          }
+        ]
       }
     },
     handleShareholder() {
@@ -244,9 +253,15 @@ export default {
   position: relative;
   .tagStyle {
     position: absolute;
-    top: 50px;
-    width: 120px;
-    left: 360px;
+    top: 30px;
+    width: 170px;
+    height:30px;
+    line-height: 30px;
+    // color:black;
+    padding:0 15px;
+    background:#f1f1f1;
+    border-radius: 15px;
+    right: 30px;
     overflow: hidden; /*超出隐藏*/
     white-space: nowrap; /* 强制不换行 */
     text-overflow: ellipsis; /*文字隐藏的格式 */
