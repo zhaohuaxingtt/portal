@@ -8,6 +8,7 @@
           @add="handleAdd"
           @edit="handleEdit"
           @delete="handleDelete"
+          @handle-setting="$refs.approvalTable.openSetting()"
         />
       </div>
     </pageHeader>
@@ -17,6 +18,7 @@
         :data="tableData"
         :columns="tableColumns"
         :extra-data="tableExtraData"
+        permission-key="CF_PRO_CS_POSITION_TRANSFER"
         @handle-selection-change="handleSelectionChange"
         @go-detail="handleTableClick"
         ref="approvalTable"
@@ -67,21 +69,25 @@ export default {
         {
           prop: 'businessId',
           label: '轮岗申请号',
-          width: 160
+          width: 160,
+          sortable: true
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          minWidth: 180
+          minWidth: 180,
+          sortable: true
         },
         {
           prop: 'sourceName',
           minWidth: 180,
-          label: '原岗位'
+          label: '原岗位',
+          sortable: true
         },
         {
           prop: 'fullNameZh',
-          label: '目标岗位'
+          label: '目标岗位',
+          sortable: true
         },
         {
           prop: 'startDate',
@@ -89,7 +95,8 @@ export default {
           width: 120,
           customRender: (h, scope) => {
             return scope.row.startDate && scope.row.startDate.substr(0, 10)
-          }
+          },
+          sortable: true
         },
         {
           prop: 'endDate',
@@ -97,7 +104,8 @@ export default {
           width: 120,
           customRender: (h, scope) => {
             return scope.row.endDate && scope.row.endDate.substr(0, 10)
-          }
+          },
+          sortable: true
         },
         {
           prop: 'durationDays',
@@ -105,12 +113,14 @@ export default {
           width: 120,
           customRender: (h, scope) => {
             return scope.row.durationDays + '天'
-          }
+          },
+          sortable: true
         },
         {
           prop: 'createDate',
           label: '创建时间',
-          width: 150
+          width: 150,
+          sortable: true
         },
         {
           prop: 'status',
@@ -119,7 +129,8 @@ export default {
           customRender: (h, scope) => {
             return this.agenStatus(scope.row.status)
             // return <span class="open-link-text">{scope.row.nameZh}</span>;
-          }
+          },
+          sortable: true
         }
       ],
       tableData: [],

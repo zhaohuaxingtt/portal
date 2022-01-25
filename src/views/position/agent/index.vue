@@ -8,6 +8,7 @@
           @add="handleAdd"
           @edit="handleEdit"
           @delete="handleDelete"
+          @handle-setting="$refs.agentTable.openSetting()"
         />
       </div>
     </pageHeader>
@@ -17,9 +18,10 @@
         :data="tableData"
         :columns="tableColumns"
         :extra-data="tableExtraData"
+        permission-key="CF_PRO_CS_POSITION_AGENT"
         @handle-selection-change="handleSelectionChange"
         @go-detail="handleTableClick"
-        ref="approvalTable"
+        ref="agentTable"
       />
       <iPagination
         v-update
