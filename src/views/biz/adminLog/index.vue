@@ -38,7 +38,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('触发类型')" slot="label"></iLabel>
-					<iSelect v-model="form.triggerType" class="w-220" filterable clearable>
+					<iSelect v-model="form.triggerType" :disabled="form.category != 2" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in triggerTypes"
 							:label="item.value"
@@ -63,7 +63,7 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('对接外部系统')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceSystemCode" @change="sysChange" class="w-220" filterable clearable>
+					<iSelect v-model="form.interfaceSystemCode" :disabled="form.category != 2" @change="sysChange" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in interfaceSystemList"
 							:label="item.value"
@@ -74,7 +74,7 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('接口名称')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceCode" class="w-220" filterable clearable>
+					<iSelect v-model="form.interfaceCode" :disabled="form.category != 2" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in apiList"
 							:label="item.value"
@@ -170,6 +170,15 @@ export default {
             this.search()
         })
     },
+	watch:{
+		"form.category"(n){
+			if(n != 2){
+				this.$set(this.form, "triggerType", "")
+				this.$set(this.form, "interfaceSystemCode", "")
+				this.$set(this.form, "interfaceCode", "")
+			}
+		}
+	},
 	methods: {
         async init(){
             // 日志类别

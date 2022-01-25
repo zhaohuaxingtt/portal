@@ -18,16 +18,19 @@
                   class="rightNav"
                  @change="changeNav" />
         <!--保存-->
-        <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'" class="margin-left30"
+        <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'"
+                 class="margin-left30"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
         <!--提交审核-->
-        <iButton v-if="$route.query.status=='报告完成'||$route.query.status=='报告审批驳回'"  @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
-			<iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
+        <iButton v-if="$route.query.status=='报告完成'||$route.query.status=='报告审批驳回'"
+                 @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
+        <iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
         <!--查看财报分析结果-->
         <iButton @click="jumpFinancialAnalysis()">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
       </div>
     </div>
-    <basic :disabled="disabled" v-if="currentNav==1"
+    <basic :disabled="disabled"
+           v-if="currentNav==1"
            ref="basic"></basic>
     <business v-else-if="currentNav==2"
               ref="business"></business>
@@ -59,21 +62,21 @@ export default {
       id: '',
       name: '',
       supplierId: "",
-      disabled:false,
-      status:'',
-      
+      disabled: false,
+      status: '',
+
     };
   },
   computed: {
     query () {
-      return { id: this.id, name: this.name, supplierId: this.supplierId,status:this.status }
+      return { id: this.id, name: this.name, supplierId: this.supplierId, status: this.status }
     }
   },
   mounted () {
     this.id = this.$route.query.id;
     this.name = this.$route.query.name;
     this.supplierId = this.$route.query.supplierId;
-     this.status = this.$route.query.status;
+    this.status = this.$route.query.status;
   },
   methods: {
     changeNav (val) {
@@ -93,7 +96,7 @@ export default {
       } else if (this.currentNav === 3) {
         page = 'finance'
       }
-      this.disabled=true
+      this.disabled = true
       this.$refs[page].postOverView()
     },
     submit () {
@@ -103,7 +106,7 @@ export default {
         if (result.code == 200) {
           this.$message.success(result.desZh)
           this.getOverView()
-             this.disabled=true
+          this.disabled = true
         } else {
           this.$message.error(result.desZh)
         }
