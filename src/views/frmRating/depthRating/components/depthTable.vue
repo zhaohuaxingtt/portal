@@ -52,7 +52,7 @@
 
           </iSelect>
         </span>
-        <span v-else-if="scope.row.status == '清单驳回' || scope.row.status == '报告驳回'">
+        <span v-else-if="scope.row.status == '清单审批驳回' || scope.row.status == '报告审批驳回'">
           <el-tooltip :content="scope.row.returnReason"
                       placement="top"
                       effect="light">
