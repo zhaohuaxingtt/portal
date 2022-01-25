@@ -182,7 +182,8 @@ import {
   addOrMoveGroup,
   newGroup,
   reportIssue,
-  batch
+  batch,
+  depSupplierDown
 } from '@/api/frmRating/depthRating'
 import { getSummarize } from '@/api/frmRating/depthRating/depthReport.js'
 import { postExamine } from '@/api/frmRating/depthRating/depthReport'
@@ -231,7 +232,15 @@ export default {
       joinGroupShow: false, //加入集团
       currentId: '', //当前选中的ID
       overTimeShow: false, //选择完成时间
-      endDisabled: false //是否是终止深评
+      endDisabled: false, //是否是终止深评
+      language:'zh',
+    }
+  },
+  watch: {
+    '$i18n.locale': {
+      handler(newValue) {
+          this.language=newValue
+      }
     }
   },
   created () {
@@ -277,21 +286,28 @@ export default {
         status: row.status
       }
       if (row.status == '报告完成') {
-        getSummarize(row.id, 'en')
-          .then((result) => {
-            if (result.data) {
-              if ((result.data.deepCommentRatingResults == "" || result.data.deepCommentRatingResults == null) && (result.data.trackFrequencyAgain == "" || result.data.trackFrequencyAgain == null)) {
-                iMessage.warn('QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV', '请填写状态与后续跟踪频率')
-                this.getTableList()
-              } else {
-                depSupplier(data).then((res) => {
-                  this.resultMessage(res, () => {
-                    this.getTableList()
-                  })
+        getSummarize(row.id, 'en').then((result) => {
+          if (result.data) {
+            if (
+              (result.data.deepCommentRatingResults == '' ||
+                result.data.deepCommentRatingResults == null) &&
+              (result.data.trackFrequencyAgain == '' ||
+                result.data.trackFrequencyAgain == null)
+            ) {
+              iMessage.warn(
+                'QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV',
+                '请填写状态与后续跟踪频率'
+              )
+              this.getTableList()
+            } else {
+              depSupplier(data).then((res) => {
+                this.resultMessage(res, () => {
+                  this.getTableList()
                 })
-              }
+              })
             }
-          })
+          }
+        })
       } else {
         depSupplier(data).then((res) => {
           this.resultMessage(res, () => {
@@ -299,8 +315,6 @@ export default {
           })
         })
       }
-
-
     },
     //新加集团
     openAddGroup () {
@@ -460,10 +474,18 @@ export default {
         return
       }
       let result1 = this.currentSelect.every(
-        (item) => item.status == '历史' || item.status == '终止' || item.status == '终止审批中' || item.status == '生效'
+        (item) =>
+          item.status == '历史' ||
+          item.status == '终止' ||
+          item.status == '终止审批中' 
       )
       if (result1) {
-        iMessage.warn(this.language('LISHIZHONGZHIZHONGZHISHENPIZHONGBUNENGJIARUJITUAN', '历史、终止、终止审批中、生效不能加入集团'))
+        iMessage.warn(
+          this.language(
+            'LISHIZHONGZHIZHONGZHISHENPIZHONGBUNENGJIARUJITUAN',
+            '历史、终止、终止审批中不能加入集团'
+          )
+        )
         return
       }
       this.$refs.joinGroup.getTableList()
@@ -560,7 +582,7 @@ export default {
         query: {
           id: row.id,
           name: row.name,
-          status: row.status,
+          status: row.status
         }
       })
       window.open(routeData.href)
@@ -568,7 +590,12 @@ export default {
     // 导出
     exportsTable () {
       // if (this.isSelect()) return
-      excelExport(this.tableListData, this.tableTitle, '深入评级供应商列表')
+      depSupplierDown({
+        ...this.form,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        lang: this.language
+      })
     },
     // 预计完成时间
     openOverTime () {

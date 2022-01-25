@@ -15,6 +15,7 @@
         <iNavMvp :list="interViewTabList"
                  :lev='2'
                  right
+                  class="rightNav"
                  @change="changeNav" />
         <!--保存-->
         <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'"

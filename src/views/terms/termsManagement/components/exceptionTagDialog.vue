@@ -43,7 +43,7 @@
           tooltip-effect="light"
           ref="multipleTable"
           :data="tableListData"
-          :loading="tableLoading"
+          :tableLoading="tableLoading"
           @selectionChange="handleSelectionChange"
           @handle-select="handleSelectTable"
           @handle-select-all="handleSelectAll"
@@ -171,7 +171,7 @@ export default {
       }
     },
     handleDelAll() {
-      this.tags = [];
+      this.tags = []
       this.toggleSelection()
     },
     getTableList() {
@@ -217,6 +217,9 @@ export default {
         this.toggleSelection(this.tags)
         this.tableLoading = false
       })
+      // .catch(() => {
+      //   this.tableLoading = false
+      // })
     },
     // 表格选中值集
     handleSelectionChange(val) {

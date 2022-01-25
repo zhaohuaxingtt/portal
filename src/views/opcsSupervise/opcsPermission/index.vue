@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-25 09:08:42
+ * @LastEditTime: 2022-01-25 17:02:32
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -31,13 +31,16 @@
     </iSearch>
     <iCard style="margin-top: 20px">
       <div>
-     
-        <div class="floatright" style="margin-bottom: 20px">
-          <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
-          <i-button  v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <i-button  v-if="stateAdmin" @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
-          <i-button  v-if="stateAdmin" @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
-          <i-button  v-if="stateAdmin||stateOpcs" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+
+        <div class="floatright"
+             style="margin-bottom: 20px">
+          <i-button @click="add()">{{ language('XINJIAN','新建') }}</i-button>
+          <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
+          <i-button @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
+          <i-button v-if="stateAdmin"
+                    @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
+          <i-button v-if="stateAdmin||stateOpcs"
+                    @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
       <table-list style="margin-top: 20px"
@@ -46,11 +49,12 @@
                   :tableLoading="tableLoading"
                   :openPageProps="'nameZh'"
                   @openPage="openPage"
-                  :selection='stateAdmin'
                   :openPageGetRowData="stateAdmin||stateOpcs"
                   @handleSelectionChange="handleSelectionChange"
                   :index="true">
       </table-list>
+      <!-- :selection='stateAdmin' -->
+
       <iPagination style="margin-top: 20px"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -174,16 +178,21 @@ export default {
         ],
         nameEn: [
           { required: true, message: '请输入应用英文名', trigger: 'blur' },
-          { min: 1, max: 7, message: '请输入1-7位英文字母或数字', trigger: 'blur' },
-             {
-            pattern: /^[A-Za-z0-9]+$/,
+          {
+            min: 1,
+            max: 7,
             message: '请输入1-7位英文字母或数字',
             trigger: 'blur'
           },
+          {
+            pattern: /^[A-Za-z0-9]+$/,
+            message: '请输入1-7位英文字母或数字',
+            trigger: 'blur'
+          }
         ],
         shortName: [
-          { required: true, message: '请输入应用简称', trigger: 'blur' },
-        //   { min: 1, max: 7, message: '请输入1-7位英文字母或数字', trigger: 'blur' }
+          { required: true, message: '请输入应用简称', trigger: 'blur' }
+          //   { min: 1, max: 7, message: '请输入1-7位英文字母或数字', trigger: 'blur' }
         ],
         contactUserId: [
           { required: true, message: '请选择应用负责人', trigger: 'change' }
@@ -191,31 +200,34 @@ export default {
       }
     }
   },
-      computed: {
-            stateAdmin() {
-                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'ADMIN')
-            },
-              stateOpcs() {
-                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'WLGYSGLY' )
-            },
-        },
+  computed: {
+    stateAdmin() {
+      return this.$store.state.permission.userInfo.roleList.some(
+        (item) => item.code == 'ADMIN'
+      )
+    },
+    stateOpcs() {
+      return this.$store.state.permission.userInfo.roleList.some(
+        (item) => item.code == 'WLGYSGLY'
+      )
+    }
+  },
   created() {
     this.getUser()
     this.getTableData()
   },
   methods: {
-         //激活
+    //激活
     activeBtn() {
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
       active({
-        opcsSupplierId: this.$route.query.opcsSupplierId,
-        idList: this.selectTableData.map((res) => res.id)
+        opcsSupplierIds: this.selectTableData.map((res) => res.id)
       }).then((res) => {
         if (res && res.code == 200) {
-            this.getTableData()
+          this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -311,11 +323,11 @@ export default {
     },
     openPage(row) {
       console.log(row)
-      let path=""
-      if(this.stateOpcs){
-            path='/provider/opcs/list/application/userManage'
-      }else{
-          path='/provider/opcs/list/application'
+      let path = ''
+      if (this.stateOpcs) {
+        path = '/provider/opcs/list/application/userManage'
+      } else {
+        path = '/provider/opcs/list/application'
       }
       let routeData = this.$router.resolve({
         path: path,
@@ -345,12 +357,20 @@ export default {
       if (v == 'close') {
         this.dialog = false
       }
-      this.formData = {
-        contactUserId: '',
-        shortName: '',
-        nameEn: '',
-        nameZh: ''
+      if (this.dialogTitle == this.language('XINJIAN', '新建')) {
+        this.formData = {
+          contactUserId: '',
+          shortName: '',
+          nameEn: '',
+          nameZh: ''
+        }
+      } else {
+        this.formData.contactUserId = ''
+        this.formData.shortName = ''
+        this.formData.nameEn = ''
+        this.formData.nameZh = ''
       }
+      console.log(this.formData)
     },
     sure() {
       this.page.currPage = 1

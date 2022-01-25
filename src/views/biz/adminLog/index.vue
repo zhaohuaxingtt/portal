@@ -62,7 +62,7 @@
 					/>
 				</div>
                 <div class="form-item">
-					<iLabel class="label" :label="language('对接外部系统')" slot="label"></iLabel>
+					<iLabel class="label" :label="language('外部所属系统')" slot="label"></iLabel>
 					<iSelect v-model="form.interfaceSystemCode" :disabled="form.category != 2" @change="sysChange" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in interfaceSystemList"
@@ -187,7 +187,7 @@ export default {
             // 操作类型
             let operRes = await listOperation()
             this.operationTypes = operRes.data || []
-            // 对接外部系统
+            // 外部所属系统
             let sysRes = await listInterfaceSystem()
             this.interfaceSystemList = sysRes.data || []
             // 触发类型
