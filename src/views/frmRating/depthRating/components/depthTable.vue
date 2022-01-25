@@ -233,13 +233,13 @@ export default {
       currentId: '', //当前选中的ID
       overTimeShow: false, //选择完成时间
       endDisabled: false, //是否是终止深评
-      language:'zh',
+      languageName: 'zh',
     }
   },
   watch: {
     '$i18n.locale': {
-      handler(newValue) {
-          this.language=newValue
+      handler (newValue) {
+        this.languageName = newValue
       }
     }
   },
@@ -477,7 +477,7 @@ export default {
         (item) =>
           item.status == '历史' ||
           item.status == '终止' ||
-          item.status == '终止审批中' 
+          item.status == '终止审批中'
       )
       if (result1) {
         iMessage.warn(
@@ -594,7 +594,7 @@ export default {
         ...this.form,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        lang: this.language
+        lang: this.languageName
       })
     },
     // 预计完成时间
