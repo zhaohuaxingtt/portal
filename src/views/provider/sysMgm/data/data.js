@@ -6,7 +6,8 @@ export const tableColumnSetting = [
     width: 50
   },
   {
-    label: '',
+    label: '#',
+    type: 'customIndex',
     align: 'center',
     width: 60,
     customRender: (h, scope) => {
@@ -32,12 +33,14 @@ export const tableColumnSetting = [
     emit: 'open-detail',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.appNameCn}</span>
-    }
+    },
+    sortable: true
   },
   {
     prop: 'appNameEn',
     label: '英文名称',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'systemType',
@@ -49,7 +52,8 @@ export const tableColumnSetting = [
         return '系统'
       }
       return 'Scenario'
-    }
+    },
+    sortable: true
   },
   {
     prop: 'supplierType',
@@ -68,7 +72,8 @@ export const tableColumnSetting = [
         })
       }
       return strArray.join(',')
-    }
+    },
+    sortable: true
   },
   // {
   //     prop:"",
@@ -88,6 +93,7 @@ export const tableColumnSetting = [
   {
     prop: 'description',
     label: '系统功能说明',
-    align: 'center'
+    align: 'center',
+    sortable: true
   }
 ]

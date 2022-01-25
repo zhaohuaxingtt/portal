@@ -7,6 +7,7 @@
     <iButton @click="$emit('delete')" :disabled="selectedRows.length === 0">
       {{ language('删除') }}
     </iButton>
+    <button-table-setting @click="$emit('handle-setting')" />
   </div>
 </template>
 

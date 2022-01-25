@@ -1,8 +1,11 @@
 <template>
   <el-card class="mt20">
-    <div class="flex flex-row justify-end mt20 mb20">
+    <div class="flex flex-row justify-end mt20 mb20 flex-end-center">
       <iButton @click="addHandler">{{ language('新建标签') }}</iButton>
-      <iButton @click="delHandler" :disabled='selectedItems.length == 0'>{{ language('删除') }}</iButton>
+      <iButton @click="delHandler" :disabled="selectedItems.length == 0">{{
+        language('删除')
+      }}</iButton>
+      <button-table-setting @click="$refs.testTable.openSetting()" />
     </div>
 
     <iTableCustom
@@ -10,9 +13,9 @@
       :loading="tableLoading"
       :data="tableListData"
       :columns="tableSetting"
+      :pemission-key="'ADMIN_PROCS_PROB_labelManagement_' + type"
       @handle-selection-change="handleSelectionChange"
     />
-
     <iPagination
       v-update
       @size-change="handleSizeChange($event, getTableList)"
@@ -24,94 +27,107 @@
       :layout="page.layout"
       :total="page.totalCount"
     />
-    <addLabelDialog :moduleList="moduleList" v-if="showDialog" :show.sync="showDialog" @refresh='getTableList' :type='type'/>
+    <addLabelDialog
+      :moduleList="moduleList"
+      v-if="showDialog"
+      :show.sync="showDialog"
+      @refresh="getTableList"
+      :type="type"
+    />
   </el-card>
 </template>
 
 <script>
-import {iButton,iPagination,iTableCustom} from 'rise';
-import {tableColumn} from './tableColumn';
+import { iButton, iPagination, iTableCustom } from 'rise'
+import { tableColumn } from './tableColumn'
 import { pageMixins } from '@/utils/pageMixins'
-import AddLabelDialog from './addLabelDialog';
-import { removeLabel, queryLabelByPage,queryProCsUserList } from '@/api/assistant'
+import AddLabelDialog from './addLabelDialog'
+import {
+  removeLabel,
+  queryLabelByPage,
+  queryProCsUserList
+} from '@/api/assistant'
 
 export default {
   components: {
     iButton,
     iPagination,
     iTableCustom,
-    AddLabelDialog,
+    AddLabelDialog
   },
   mixins: [pageMixins],
-  props:{
-    type:{
-      type:String,
-      default:""
+  props: {
+    type: {
+      type: String,
+      default: ''
     },
-    moduleList:{
+    moduleList: {
       type: Array,
       default: () => []
     }
   },
-  data () {
+  data() {
     return {
       tableLoading: false,
       exportLoading: false,
       tableListData: [],
-      tableSetting:[],
+      tableSetting: [],
       showDialog: false,
-      selectedItems:[],
-      searchContent:{},
-      userList:{}
+      selectedItems: [],
+      searchContent: {},
+      userList: {}
     }
   },
   async mounted() {
     this.getTableList()
     let { data } = await queryProCsUserList()
-    data.forEach(e => {
+    data.forEach((e) => {
       this.userList[e.id] = e
     })
   },
-  watch:{
-    moduleList(n){
+  watch: {
+    moduleList(n) {
       let m = {}
-      n.forEach(e => {
+      n.forEach((e) => {
         m[e.id] = e
       })
       this.tableSetting = tableColumn(m)
     }
   },
   methods: {
+    queryUsers() {},
     handleSelectionChange(val) {
       this.selectedItems = val
     },
     addHandler() {
-      this.showDialog = true;
+      this.showDialog = true
     },
     delHandler() {
-      this.$confirm('是否删除已选中选项','提示',{
-        confirmButtonText:'确认',
-        cancelButtonText:"取消",
-        type:'warning'
-      }).then(async ()=>{
-        let ids = this.selectedItems.map(e => e.id)
-        await removeLabel(ids)
-        this.getTableList()
-      }).catch(()=>{
-        this.$refs.testTable.clearSelection()
+      this.$confirm('是否删除已选中选项', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+        .then(async () => {
+          let ids = this.selectedItems.map((e) => e.id)
+          await removeLabel(ids)
+          this.getTableList()
+        })
+        .catch(() => {
+          this.$refs.testTable.clearSelection()
+        })
     },
-    async getTableList(){
+    async getTableList() {
       this.tableLoading = true
       try {
         let data = {
           ...this.searchContent,
-          pageNum:this.page.currPage,
+          pageNum: this.page.currPage,
           pageSize: this.page.pageSize,
           source: this.type
         }
         let res = await queryLabelByPage(data)
-        if(res.code == 200){
+        if (res.code == 200) {
           this.tableListData = res.data.records || []
           this.page.totalCount = res.data.total
         }
@@ -119,13 +135,13 @@ export default {
         this.tableLoading = false
       }
     },
-    search(val){
+    search(val) {
       this.page.currPage = 1
       this.page.totalCount = 0
       this.searchContent = val
       this.getTableList()
     }
-  },
+  }
 }
 </script>
 

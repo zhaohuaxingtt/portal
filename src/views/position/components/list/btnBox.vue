@@ -12,6 +12,7 @@
     >
       {{ item.label }}
     </iButton>
+    <button-table-setting @click="$emit('handle-setting')" />
   </div>
 </template>
 
