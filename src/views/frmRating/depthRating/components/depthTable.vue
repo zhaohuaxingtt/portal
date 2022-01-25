@@ -477,14 +477,13 @@ export default {
         (item) =>
           item.status == '历史' ||
           item.status == '终止' ||
-          item.status == '终止审批中' ||
-          item.status == '生效'
+          item.status == '终止审批中' 
       )
       if (result1) {
         iMessage.warn(
           this.language(
             'LISHIZHONGZHIZHONGZHISHENPIZHONGBUNENGJIARUJITUAN',
-            '历史、终止、终止审批中、生效不能加入集团'
+            '历史、终止、终止审批中不能加入集团'
           )
         )
         return
