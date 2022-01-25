@@ -166,12 +166,14 @@
               >{{ buttonTitles.deblock }}</iButton
             >
             <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
+            <button-table-setting @click="$refs.testTable.openSetting()" />
           </div>
           <iTableCustom
             ref="testTable"
             :loading="tableLoading"
             :data="tableListData"
             :columns="table.tableColumnSetting"
+            permission-key="ADMIN_PRO_CS_PROVIDER_USER"
             @handle-selection-change="handleSelectionChange"
           />
           <iPagination
@@ -430,6 +432,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  align-items: center;
   // iButton {
   //     margin-right: 5px;
   // }

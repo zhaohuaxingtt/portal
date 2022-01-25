@@ -104,10 +104,11 @@
                 >{{ language('删除') }}</iButton
               >
               <iButton @click="exportList">{{ language('导出') }}</iButton>
+              <button-table-setting @click="$refs.orgTable.openSetting()" />
             </div>
             <div class="OrganizationTable" v-loading="tableLoading">
               <iTableCustom
-                ref="testTable"
+                ref="orgTable"
                 :data="tableListData"
                 :columns="tableSetting"
                 :tree-expand="exData"
@@ -115,6 +116,7 @@
                 :custom-selection="true"
                 virtual-list
                 :custom-selection-option="{ checkStrictly: true }"
+                permissionKey="CF_PRO_CS_ORG"
                 @handle-selection-change="handleSelectionChange"
               />
             </div>
@@ -446,5 +448,6 @@ export default {
 .OperationButtonContainer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 </style>

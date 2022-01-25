@@ -132,7 +132,7 @@
               <iButton @click="exportBtnClick">{{
                 tableButtons.export
               }}</iButton>
-
+              <button-table-setting @click="$refs.authList.openSetting()" />
               <iDialog
                 :title="iDialogTitle.title"
                 :visible.sync="dialogVisible"
@@ -143,12 +143,13 @@
               </iDialog>
             </div>
             <iTableCustom
+              ref="authList"
               :loading="tableLoading"
               :data="tableData"
               :columns="tableSetting"
+              permission-key="ADMIN_PRO_CS_PROVIDER_AUTH"
               @goEdit="goEdit"
               @handle-selection-change="handleSelectionChange"
-              ref="authList"
             />
             <iPagination
               v-update
@@ -402,6 +403,7 @@ export default {
       margin-bottom: 20px;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
     }
   }
 }

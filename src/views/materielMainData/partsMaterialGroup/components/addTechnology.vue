@@ -13,14 +13,18 @@
         <div v-if="viewSta">
           <iButton
             @click="edit"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY'
+            "
             >{{ language('编辑') }}</iButton
           >
         </div>
         <div v-else>
           <iButton
             @click="save('formData')"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'
+            "
             >{{ language('保存') }}</iButton
           >
           <iButton @click="closeWindow">{{ language('取消') }}</iButton>
@@ -85,29 +89,39 @@
           <iButton
             @click="tabelEdit"
             v-show="tabelSta"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_MODILY'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_MODILY'
+            "
             >{{ language('编辑') }}</iButton
           >
           <iButton
             @click="SaveNewSupplier"
             v-show="!tabelSta"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_MODILY'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_MODILY'
+            "
             >{{ language('保存') }}</iButton
           >
           <iButton
             @click="addNew"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_ADD'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_ADD'
+            "
             >{{ language('新增') }}</iButton
           >
           <iButton
             @click="delrte"
             :disabled="selectTableData.length == 0"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_DELETE'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_DELETE'
+            "
             >{{ language('删除') }}</iButton
           >
           <iButton
             @click="downLoadSupplier"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_DOWNLOAD_SUPPLIER_TEMPLATE'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_DOWNLOAD_SUPPLIER_TEMPLATE'
+            "
             >{{ language('下载供应商模版') }}</iButton
           >
           <!-- <iButton @click="inportTechnology">导入</iButton> -->
@@ -120,13 +134,17 @@
           >
             <iButton
               class="importSupplier"
-              xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_IMPORT'"
+              v-permission="
+                'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_IMPORT'
+              "
               >{{ language('导入') }}</iButton
             >
           </el-upload>
           <iButton
             @click="exportTechnology"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_EXPORT'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_EXPORT'
+            "
             >{{ language('导出') }}</iButton
           >
         </div>
