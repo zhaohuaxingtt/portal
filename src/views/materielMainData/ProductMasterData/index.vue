@@ -37,19 +37,19 @@
         <div class="btnList">
           <iButton
             @click="create"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ADD'"
+            v-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ADD'"
             >{{ language('新建') }}</iButton
           >
           <!-- <iButton @click="edit" :disabled='this.selectedItem.length != 1'>{{btnTitle.edit}}</iButton> -->
           <iButton
             @click="loseAc"
             :disabled="this.selectedItem.length == 0"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_DELETE'"
+            v-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_DELETE'"
             >{{ language('删除') }}</iButton
           >
           <buttonDownload
             :download-method="exportExcel"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ECPORT'"
+            v-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ECPORT'"
             >{{ language('导出') }}</buttonDownload
           >
         </div>

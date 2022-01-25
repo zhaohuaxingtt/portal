@@ -4,28 +4,28 @@
       <iButton
         v-if="!editable"
         @click="$emit('add-version')"
-        xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_ADD'"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_ADD'"
       >
         {{ language('新增版本') }}
       </iButton>
       <iButton
         v-if="!editable"
         @click="edit"
-        xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_MODIFY'"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_MODIFY'"
       >
         {{ language('编辑') }}
       </iButton>
       <iButton
         v-if="editable"
         @click="batchSave"
-        xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_MODIFY'"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_MODIFY'"
       >
         {{ language('保存') }}
       </iButton>
       <iButton
         v-if="editable"
         @click="cancel"
-        xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_MODIFY'"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_VERSION_MODIFY'"
       >
         {{ language('取消') }}
       </iButton>

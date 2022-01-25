@@ -47,7 +47,7 @@
             v-show="isEditPage && !editable"
             :disabled="loading"
             @click="setYearVisible = true"
-            xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_SET_YEAR'"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_SET_YEAR'"
           >
             {{ language('应用年份') }}
           </iButton>
@@ -55,7 +55,7 @@
             v-show="!editable"
             :disabled="loading"
             @click="edit"
-            xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
           >
             {{ language('编辑') }}
           </iButton>
@@ -63,7 +63,7 @@
             v-show="editable"
             :disabled="loading"
             @click="save"
-            xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
           >
             {{ language('保存') }}
           </iButton>
@@ -71,7 +71,7 @@
             v-show="editable"
             :disabled="loading"
             @click="cancel"
-            xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
           >
             {{ language('取消') }}
           </iButton>

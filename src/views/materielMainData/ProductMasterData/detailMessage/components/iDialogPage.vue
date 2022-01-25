@@ -90,19 +90,23 @@
       <div v-show="readOnly">
         <iButton
           @click="edit"
-          xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_MODIFY'"
+          v-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_MODIFY'"
           >{{ language('编辑') }}</iButton
         >
       </div>
       <div v-show="!readOnly">
         <iButton
           @click="save('ruleForm')"
-          xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_ADD'"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_ADD'
+          "
           >{{ language('保存') }}</iButton
         >
         <iButton
           @click="reset"
-          xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_ADD'"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_ADD'
+          "
           >{{ language('重置') }}</iButton
         >
       </div>

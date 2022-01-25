@@ -95,7 +95,7 @@
           <div class="export">
             <button-download
               :download-method="exportBtnClick"
-              xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCT_FAMILY_EXPORT'"
+              v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCT_FAMILY_EXPORT'"
             />
           </div>
           <iTableCustom
