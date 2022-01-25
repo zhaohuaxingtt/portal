@@ -1,8 +1,8 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-01-21 18:16:21
- * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-25 21:03:08
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\changeItem.vue
 -->
@@ -38,8 +38,7 @@
     </custom-select>
     <span slot="footer"
           class="dialog-footer">
-                <iButton
-               @click="clearDiolog">{{language('QUXIAO','取消')}}</iButton>
+      <iButton @click="clearDiolog">{{language('QUXIAO','取消')}}</iButton>
       <!-- <iButton @click="$emit('input',false)">{{$t('SPR_FRM_DEP_ALLCANCEL')}}</iButton> -->
       <iButton :loading='repeatClick'
                @click="sureChangeItems">{{language('FASONG','发送')}}</iButton>
@@ -95,14 +94,26 @@ export default {
       this.$emit('sure', this.inquiryBuyer)
     },
     reportIssueUser (depSupplierId) {
-      reportIssueUser({ depSupplierId: depSupplierId }).then(res => {
+      console.log(depSupplierId)
+      reportIssueUser({ depSupplierId }).then(res => {
         if (res.data) {
           this.inquiryBuyerList = res.data.userList
           let defaultList = []
-          res.data.defaultList.map(item => {
-            defaultList.push(item.id)
-          })
-          if (res.data.defaultList) this.inquiryBuyer = defaultList
+          if (res.data.defaultList) {
+            res.data.defaultList.map(item => {
+              defaultList.push(item.id)
+            })
+            this.inquiryBuyer = defaultList
+            let flag = defaultList.every(item => {
+              return item === depSupplierId
+            })
+            this.$emit('flag', flag)
+          } else {
+            let flag = defaultList.every(item => {
+              return item === depSupplierId
+            })
+            this.$emit('flag', flag)
+          }
         }
       })
     }
