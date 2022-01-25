@@ -24,8 +24,7 @@
       </div>
     </div>
     <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST" -->
-    <table-list 
-                ref="commonTable"
+    <table-list ref="commonTable"
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -111,7 +110,7 @@ export default {
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.contactType) {
+          if (item.contactType === val.nameType) {
             cust[index] = { ...item, ...val }
           }
         })

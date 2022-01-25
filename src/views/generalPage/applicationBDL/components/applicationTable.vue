@@ -62,8 +62,7 @@
                     @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
-       <!-- v-permission="SUPPLIER_APPLYBDL_TABEL" -->
-      <table-list
+      <table-list v-permission="SUPPLIER_APPLYBDL_TABEL"
                   :height="400"
                   :tableData="tableListData"
                   :tableTitle="tableTitle"
