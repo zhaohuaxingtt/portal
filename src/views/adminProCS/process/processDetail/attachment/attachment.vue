@@ -16,8 +16,9 @@
 			:loading="tableLoading"
 			:data="tableListData"
 			:columns="tableSetting"
-			singleChoice=true
-			@handle-selection-change="handleSelectionChange"
+			:extraData="{
+                del:delAttach
+            }"
 		/>
 		<iPagination
 			v-update
@@ -35,6 +36,7 @@
             v-show="addAttachDialog" 
             :show.sync="addAttachDialog" 
             :type="type"
+			@refresh="queryList"
         />
 	</iCard>
 </template>
@@ -44,18 +46,18 @@ import { iCard, iInput, iButton, iPagination, iTableCustom } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { AttachColumn } from '../tables.js'
 import addAttach from './addAttach.vue'
+import {queryProcessFileList, deleteProcessFile} from '@/api/adminProCS';
 export default {
     data () {
 		return {
 			keyWord: '',
 			tableLoading: false,
-			tableListData: [
-				{name: '2222', version: '1.2.3', publishDate: '2020-12-21'}
-			],
+			tableListData: [],
 			tableSetting: AttachColumn,
 			selectedItems: [],
 			addAttachDialog: false,
 			type: 'add',
+            processId: this.$route.query.id
 		}
 	},
 	components: {
@@ -68,15 +70,26 @@ export default {
 	},
 	mixins: [pageMixins],
 	methods: {
-		getTableList() {
-			console.log(this.keyword, '124')
+		async queryList() {
+			let data = {
+                page: this.page.currPage - 1,
+                size: this.page.pageSize,
+                keyword: this.keyWord,
+				fileType: "PRO_SAMPLE"
+            }
+            this.tableLoading = true
+            try {
+                let res = await queryProcessFileList(this.processId,data)
+                this.tableListData = res.content
+                this.page.totalCount = res.totalElements
+            } finally {
+                this.tableLoading = false
+            }
 		},
 		search() {
-			this.getTableList()
+			this.page.currPage = 1
+			this.queryList()
 		},
-		handleSelectionChange(val) {
-            this.selectedItems = val
-        },
 		modifyAttach() {
 			console.log(this.keyword, 'modifyAttach')
 		},
@@ -86,19 +99,16 @@ export default {
 			this.type = 'add'
 			this.$refs.testTable.clearSelection()
 		},
-		delAttach() {
-			this.$confirm('是否删除已选中选项','提示',{
+		delAttach(row) {
+			this.$confirm('是否删除此附件','提示',{
 				confirmButtonText:'确认',
 				cancelButtonText:"取消",
 				type:'warning'
 			}).then(async ()=>{
-				this.tableListData.map((item, idx) => {
-				if (item.id === this.selectedItems[0]?.id) {
-					this.tableListData.splice(idx, 1)
-				}
-			})
-			}).catch(()=>{
-				this.$refs.testTable.clearSelection()
+				this.tableLoading = true
+				await deleteProcessFile(row.id)
+				this.$message.success("删除成功")
+				this.queryList()
 			})
 		}
 	}    

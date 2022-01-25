@@ -23,9 +23,10 @@
 			<iFormItem :label="language('标题首字母')" prop='firstLetter'>
 				<iInput v-model="newQuestionForm.firstLetter" placeholder="请输入标题首字母"></iInput>
 			</iFormItem>	
-			<iFormItem :label="language('更新日期')" prop='updateAt'>
+			<iFormItem :label="language('更新日期')" prop='updateDt'>
 				<el-date-picker
-					v-model="newQuestionForm.updateAt"
+                    style="width:100%"
+					v-model="newQuestionForm.updateDt"
 					type="date"
 					placeholder="请选择更新日期">
 				>
@@ -62,17 +63,31 @@ export default {
         },
     },
     data() {
+        let firstLetter_valid = (rule, value, callback) =>{
+			if(!value){
+				callback(new Error("请输入标题首字母"));
+				return;
+			}
+			if(value.length > 1) return callback(new Error("只能填写一个字母"));
+			var reg = /^[A-Z]+$/; //验证规则
+			if (reg.test(value)) {
+				callback();
+				return;
+			}else{
+				callback(new Error("请输入大写字母"));
+			}
+		}
         return {
             visible: false,
             newQuestionForm: {
 				name: '',
 				firstLetter: '',
-				updateAt: ''
+				updateDt: ''
             },
             newQuestionRules: {
 				name: { required:'true',message:"请输入问题描述",trigger:'blur' },
-				firstLetter: { required:'true',message:"请输入标题首字母",trigger:'blur' },
-				updateAt: { required:'true',message:"请选择更新日期",trigger:'blur' },
+				firstLetter: { required:'true',validator: firstLetter_valid,trigger:'blur' },
+				updateDt: { required:'true',message:"请选择更新日期",trigger:'blur' },
 			},
             processId: this.$route.query.id,
             loading: false
@@ -81,12 +96,13 @@ export default {
     methods: {
         initForm(form){
             this.newQuestionForm = form
+            this.$set(this.newQuestionForm, "updateDt", form.updatedAt)
         },
         closeDialogBtn() {
             this.newQuestionForm = {
                 name: '',
 				firstLetter: '',
-				updateAt: ''
+				updateDt: ''
             }
             this.$refs.form.resetFields()
             this.$emit('update:show', false)
@@ -96,13 +112,13 @@ export default {
                 if(v){
                     this.loading = true
                     let data = new FormData()
-                    this.newQuestionForm.updateAt = moment(this.newQuestionForm.updateAt).format("YYYY-MM-DD HH:mm:ss")
+                    this.newQuestionForm.updateDt = moment(this.newQuestionForm.updateDt).format("YYYY-MM-DD HH:mm:ss")
                     for (const key in this.newQuestionForm) {
                         data.append(key, this.newQuestionForm[key])
                     }
                     try {
                         if(this.newQuestionForm.id){
-                            await ProcessEditFAQ(this.processId,data)
+                            await ProcessEditFAQ(this.newQuestionForm.id,data)
                         }else{
                             await ProcessAddFAQ(this.processId, data)
                         }

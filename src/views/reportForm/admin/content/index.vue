@@ -2,7 +2,7 @@
     <div>
         <iSearch @sure='search' @reset="reset" icon>
             <el-form>
-                <iFormItem :label='language("报告内容")'>
+                <iFormItem :label='language("类型")'>
                     <iInput v-model="searchForm.name" :placeholder='language("请输入")' filterable></iInput>
                 </iFormItem>
                 <iFormItem :label='language("状态")'>
@@ -22,7 +22,9 @@
                         range-separator="至"
                         style="width:320px;"
                         start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                        end-placeholder="结束日期"
+                        value-format="yyyy-MM-dd"
+                    >
                         </el-date-picker>
                 </iFormItem>
             </el-form>
@@ -134,8 +136,8 @@
             },
             search(){
                 if (this.publicDate.length > 0) {
-                    this.searchForm.startTime = this.publicDate[0]
-                    this.searchForm.endTime = this.publicDate[1]
+                    this.searchForm.startTime = new Date(this.publicDate?.[0] || '')
+                    this.searchForm.endTime = new Date(this.publicDate?.[1] || '')
                 }
                 this.page.currPage = 1
                 this.searchFlag = true
