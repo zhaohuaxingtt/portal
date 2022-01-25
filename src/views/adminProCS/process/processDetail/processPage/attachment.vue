@@ -13,7 +13,7 @@
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyword" />
                 <iButton style="margin-left:10px" @click="search('rest')">搜索</iButton>
             </div>
-            <ITable :tableSetting='tableSetting' @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
+            <ITable ref="table" :tableSetting='tableSetting' @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
@@ -56,7 +56,9 @@ export default {
     },
     methods: {
         open(){
-            this.search()
+            this.$nextTick(() => {
+                this.search()
+            })
             // 选中已有的
             
         },

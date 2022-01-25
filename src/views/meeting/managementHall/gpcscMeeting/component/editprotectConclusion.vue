@@ -289,6 +289,9 @@ export default {
       default: () => {
         return ''
       }
+    },
+    editprotectConclusionDialogRow:{
+      type: Array,
     }
   },
   data() {
@@ -397,6 +400,15 @@ export default {
     }
   },
   mounted() {
+    // this.ruleForm.conclusion=this.editprotectConclusionDialogRow.conclusion  
+    // if (this.ruleForm.conclusion == '05') {
+    //   this.ruleForm.conclusion='Last Call'
+    // }
+    // if (this.ruleForm.conclusion == '01') {
+    //   this.ruleForm.conclusion='待定'
+    // }
+    // this.ruleForm.result=this.editprotectConclusionDialogRow.result
+    console.log(this.ruleForm.conclusion,this.ruleForm.result);
     // 初始化下拉框数据
     if(this.conclusionStatus=='05'){
       this.themenConclusionArrObjALL=themenConclusionArrObjALLLastCall

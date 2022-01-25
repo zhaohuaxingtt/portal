@@ -198,10 +198,10 @@ export const themenConclusionArrObj = [
   },
 ];
 export const themenConclusionArrObjALL = [
-  {
-    conclusionCsc: "01",
-    conclusionName: "待定",
-  },
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
   {
     conclusionCsc: "02",
     conclusionName: "通过",
@@ -240,10 +240,10 @@ export const themenConclusionArrObjALLLastCall = [
     conclusionCsc: "04",
     conclusionName: "不通过",
   },
-  {
-    conclusionCsc: "05",
-    conclusionName: "Last Call",
-  },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "Last Call",
+  // },
   {
     conclusionCsc: "06",
     conclusionName: "分段定点",
