@@ -42,7 +42,7 @@
       </el-form>
       <div
         slot="actions"
-        xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_MODIFY'"
+        v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_MODIFY'"
       >
         <iButton v-show="!extraData.editable" @click="edit">
           {{ language('编辑') }}

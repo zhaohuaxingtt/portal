@@ -106,24 +106,24 @@
           <div v-if="viewSta">
             <iButton
               @click="edit"
-              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
               >{{ language('编辑') }}</iButton
             >
             <buttonDownload
               :download-method="exportExcel"
-              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_EXPORT'"
+              v-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_EXPORT'"
               >{{ language('导出') }}</buttonDownload
             >
           </div>
           <div v-else>
             <iButton
               @click="save"
-              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
               >{{ language('保存') }}</iButton
             >
             <iButton
               @click="cancel"
-              xxx-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_HEAVY_ITEM_MODIFY'"
               >{{ language('取消') }}</iButton
             >
           </div>

@@ -4,19 +4,19 @@
       <div class="button-end">
         <iButton
           @click="newMateriel"
-          xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'"
           >{{ language('新建') }}</iButton
         >
         <iButton
           @click="deleteMateriel"
           :disabled="selectTableData.length == 0"
-          xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_DELETE'"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_DELETE'"
         >
           {{ language('删除') }}
         </iButton>
         <buttonDownload
           :download-method="exportMateriel"
-          xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_EXPORT'"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_EXPORT'"
         >
           {{ language('导出') }}
         </buttonDownload>

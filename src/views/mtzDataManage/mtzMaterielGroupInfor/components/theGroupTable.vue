@@ -3,7 +3,7 @@
     <div class="flex-end-center margin-bottom20">
       <iButton
         @click="add"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ADD'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ADD'"
       >
         {{ language('新建') }}
       </iButton>
@@ -11,7 +11,7 @@
         :loading="updateLoading"
         :disabled="activeSta"
         @click="changeStatus(1)"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ACTIVE'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ACTIVE'"
       >
         {{ language('生效') }}
       </iButton>
@@ -19,20 +19,20 @@
         :loading="updateLoading"
         :disabled="loseAcSta"
         @click="changeStatus(0)"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_DISACTIVE'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_DISACTIVE'"
       >
         {{ language('失效') }}
       </iButton>
       <iButton
         :disabled="selectedRows.length !== 1"
         @click="viewRelation"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_VIEW_RELATION'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_VIEW_RELATION'"
       >
         {{ language('查看关联关系') }}
       </iButton>
       <button-download
         :download-method="exportExcel"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_EXPORT'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_EXPORT'"
       />
     </div>
     <i-table-custom

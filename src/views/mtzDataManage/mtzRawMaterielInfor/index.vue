@@ -116,30 +116,30 @@
         <div class="btnList">
           <iButton
             @click="add"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'"
             >{{ language('新建') }}</iButton
           >
           <iButton
             @click="active"
             :disabled="disAtiveBtn"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_ACTIVE'"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_ACTIVE'"
             >{{ language('生效') }}</iButton
           >
           <iButton
             @click="loseActive"
             :disabled="disLOActiveBtn"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_DISACTIVE'"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_DISACTIVE'"
             >{{ language('失效') }}</iButton
           >
           <iButton
             @click="del"
             :disabled="this.selectedItem.length == 0"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_DELETE'"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_DELETE'"
             >{{ language('删除') }}</iButton
           >
           <button-download
             :download-method="exportExcel"
-            xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_EXPORT'"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_EXPORT'"
             >{{ language('导出') }}</button-download
           >
         </div>

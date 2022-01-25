@@ -15,21 +15,21 @@
           <iButton
             v-show="!editable"
             @click="edit"
-            xxx-permission="`${modifyPermissionKey}`"
+            v-permission="`${modifyPermissionKey}`"
           >
             {{ language('编辑') }}
           </iButton>
           <iButton
             v-show="editable"
             @click="saveRight"
-            xxx-permission="`${modifyPermissionKey}`"
+            v-permission="`${modifyPermissionKey}`"
           >
             {{ language('保存') }}
           </iButton>
           <iButton
             v-show="editable"
             @click="cancel"
-            xxx-permission="`${modifyPermissionKey}`"
+            v-permission="`${modifyPermissionKey}`"
           >
             {{ language('取消') }}
           </iButton>
