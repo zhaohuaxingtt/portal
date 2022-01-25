@@ -28,11 +28,26 @@ export default {
       return this.columns.filter((e) => !this.unCols.includes(e.prop))
     },
     tableSettingColumns() {
+      console.log('tableSettingColumns tableColumns:::', this.tableColumns)
+      console.log('tableSettingColumns columns:::', this.columns)
       // 表格自由列表设置列
+      const noSettingColumns = [
+        'selection',
+        'customSelection',
+        'index',
+        'fullIndex',
+        'customIndex'
+      ]
       if (this.tableColumns.length) {
-        return this.tableColumns.filter((e) => !this.unCols.includes(e.prop))
+        return this.tableColumns.filter(
+          (e) =>
+            !this.unCols.includes(e.prop) && !noSettingColumns.includes(e.type)
+        )
       }
-      return this.columns.filter((e) => !this.unCols.includes(e.prop))
+      return this.columns.filter(
+        (e) =>
+          !this.unCols.includes(e.prop) && !noSettingColumns.includes(e.type)
+      )
     },
     usercenterApiPrefix() {
       let env = window.sessionStorage.getItem('env') || this.env

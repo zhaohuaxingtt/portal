@@ -24,47 +24,54 @@ export const tableSetting = [
       } else {
         return <span class="link-text">{scope.row.nameZh}</span>
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'userName',
     label: '用户登录名',
     width: '150px',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'opcsCompanyNameZh',
     label: '供应商中文名',
     align: 'center',
     width: '150',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'isMainContact',
     label: '是否主联系人',
     align: 'center',
-    width: '100px',
+    width: '120px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
       } else {
         return '否'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'temporaryNum',
     label: '临时号',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     i18n: '正式/SVW号',
-    width: '100px',
-    prop: 'svwCode'
+    width: '120px',
+    prop: 'svwCode',
+    sortable: true
   },
   {
     i18n: 'SAP号',
-    prop: 'sapNum'
+    prop: 'sapNum',
+    sortable: true
   },
 
   /* {
@@ -87,14 +94,16 @@ export const tableSetting = [
     label: '联系电话',
     align: 'center',
     width: '100px',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'email',
     label: '邮箱',
     align: 'center',
     minWidth: '180px',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   }
 ]
 

@@ -456,6 +456,10 @@ export default {
               // this.$router.push('/authorityMgmt/index')
               if (res.code == 200) {
                 // this.go(-1)
+                this.$router.replace({
+                  path: '/authorityMgmt/detail',
+                  query: { id: res.data.id }
+                })
                 iMessage.success(res.desZh || '创建成功')
               } else {
                 iMessage.error(res.desZh || '创建失败')

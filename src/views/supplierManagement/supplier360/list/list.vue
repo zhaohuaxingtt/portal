@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: caopeng
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -141,6 +141,7 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
+          <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
@@ -622,7 +623,14 @@ export default {
       this.rowList = row
       this.issetTagList = true
     },
-    tagTab () {
+    // 跳转采购条款归档
+    togoFiling(){
+      let routeData = this.$router.resolve({
+        path: '/supplier/contractArchiving'
+      })
+      window.open(routeData.href)
+    },
+    tagTab() {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierTag'
       })
