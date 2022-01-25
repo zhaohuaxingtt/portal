@@ -104,7 +104,6 @@
                 >{{ language('删除') }}</iButton
               >
               <iButton @click="exportList">{{ language('导出') }}</iButton>
-              <button-table-setting />
             </div>
             <div class="OrganizationTable" v-loading="tableLoading">
               <iTableCustom
