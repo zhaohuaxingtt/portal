@@ -1,5 +1,5 @@
 <template>
-  <span class="button-table-setting">
+  <span class="button-table-setting" @click="handleClick">
     <icon name="iconSetting" symbol />
   </span>
 </template>
@@ -8,7 +8,12 @@
 import { Icon } from 'rise'
 export default {
   name: 'buttonTableSetting',
-  components: { Icon }
+  components: { Icon },
+  methods: {
+    handleClick() {
+      this.$emit('click')
+    }
+  }
 }
 </script>
 

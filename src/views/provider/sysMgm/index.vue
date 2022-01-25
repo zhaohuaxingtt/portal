@@ -87,15 +87,13 @@
       </div>
       <div class="tableList">
         <iCard>
-          <div class="tableButtons">
+          <div class="tableButtons flex-end-center">
             <iButton @click="create">{{ buttonTitles.create }}</iButton>
             <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
               buttonTitles.delete
             }}</iButton>
             <button-download :download-method="exportData" />
-            <!-- <iButton @click="exportData">
-              {{ buttonTitles.export }}
-            </iButton> -->
+            <button-table-setting @click="$refs.sysMgm.openSetting()" />
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -110,6 +108,7 @@
             :columns="tableColumnSetting"
             :data="tableData"
             :loading="loading"
+            permission-key="ADMIN_PRO_CS_PROVIDER_SYSTEM"
             @open-detail="enterDetail"
             @handle-selection-change="handleSelectionChange"
           />

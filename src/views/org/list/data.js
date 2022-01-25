@@ -7,23 +7,22 @@ export const tableSetting = [
     width: 50
   },
   {
-    prop: 'bussinessAreaName',
+    prop: 'nameZh',
     label: '组织机构名称（中）',
     i18n: '组织机构名称(中)',
     align: 'left',
     headerAlign: 'left',
     type: 'expanded',
     minWidth: '200',
-    customRender: (h, scope) => {
-      return scope.row.nameZh
-    }
+    sortable: true
   },
   {
     prop: 'nameEn',
     label: '组织机构名称（英）',
     i18n: '组织机构名称(英)',
     align: 'center',
-    headerAlign: 'center'
+    headerAlign: 'center',
+    sortable: true
     // customRender: (h, scope) => {
     //   return <span class="open-link-text">{scope.row.nameEn}</span>
     // }
@@ -33,7 +32,8 @@ export const tableSetting = [
     label: '组织机构编码',
     align: 'center',
     headerAlign: 'center',
-    i18n: '组织机构编码'
+    i18n: '组织机构编码',
+    sortable: true
   },
   {
     prop: 'level',
@@ -41,7 +41,8 @@ export const tableSetting = [
     align: 'center',
     headerAlign: 'center',
     width: '100px',
-    i18n: '组织级别'
+    i18n: '组织级别',
+    sortable: true
   },
   // {
   //   prop: 'shortCode',
@@ -83,14 +84,16 @@ export const tableSetting = [
       }
       leaderStr = userNames.join(',')
       return leaderStr
-    }
+    },
+    sortable: true
   },
   {
     prop: 'remark',
     label: '备注',
     align: 'center',
     headerAlign: 'center',
-    i18n: '备注'
+    i18n: '备注',
+    sortable: true
   }
 ]
 

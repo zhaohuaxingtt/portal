@@ -11,12 +11,14 @@ export const tableColumn = [
   {
     prop: 'parentName',
     label: '父级菜单',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'menuName',
     label: '负责模块',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'name',
@@ -27,7 +29,7 @@ export const tableColumn = [
         return (
           <iSelect
             multiple
-            value={ extraData.tableListData[scope.$index].adminUserId }
+            value={extraData.tableListData[scope.$index].adminUserId}
             onChange={(val) => {
               extraData.changeNameHandler(scope, val)
             }}
@@ -43,16 +45,22 @@ export const tableColumn = [
         )
       } else {
         let nameIds = scope.row.adminUserId
-        return nameIds.map(e => {
-          return extraData.nameListKV[+e] ? extraData.nameListKV[+e].nameZh : ""
-        }).join(",")
+        return nameIds
+          .map((e) => {
+            return extraData.nameListKV[+e]
+              ? extraData.nameListKV[+e].nameZh
+              : ''
+          })
+          .join(',')
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'updateDate',
     label: '添加日期',
     align: 'center',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   }
 ]
