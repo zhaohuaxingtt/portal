@@ -1,3 +1,9 @@
+/*
+ * @Date: 2021-11-08 11:47:59
+ * @LastEditors: caopeng
+ * @LastEditTime: 2022-01-25 18:12:27
+ * @FilePath: \front-portal-new\src\views\frmRating\depthRating\interView\data.js
+ */
 export const interViewTabList = [{
 		value: 1,
 		name: '基本情况',
@@ -62,7 +68,7 @@ export const mainProduct =[
 	
 // 主要客户
 export const mainCustomers =[
-	{props: 'cusomerName', name: '主要供应商', key: 'SPR_FRM_DEP_ZYGYS'},
+	{props: 'cusomerName', name: '主要客户', key: 'SUPPLIER_ZHUYAOKEHU'},
 	{props: 'mainProducts', name: '供货产品', key: 'SUPPLIER_GONGHUOCHANPIN'},
 	{props: 'cooperativeDate', name: '合作年限', key: 'HEZUONIANXIAN'},
 	{props: 'totalSalesPro', name: '最新年度供货占比', key: 'SPR_FRM_DEP_ZXNDGHZB'},
@@ -74,7 +80,7 @@ export const mainCustomers =[
 	
 // 主要供应商
 export const mainSupplier =[
-	{props: 'supplierName', name: '主要客户', key: 'SUPPLIER_ZHUYAOKEHU'},
+	{props: 'supplierName', name: '主要供应商', key: 'SPR_FRM_DEP_ZYGYS'},
 	{props: 'mainProducts', name: '供货产品', key: 'SUPPLIER_GONGHUOCHANPIN'},
 	{props: 'cooperativeDate', name: '合作年限', key: 'HEZUONIANXIAN'},
 	{props: 'totalSalesPro', name: '最新年度销售占比', key: 'SPR_FRM_DEP_ZXNDXSZB'},

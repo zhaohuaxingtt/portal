@@ -25,7 +25,6 @@
             @handle-selection-change="handleSelectionChange"
         />
         <iPagination
-            v-if="showPage"
             v-update
             @size-change="handleSizeChange($event, queryList)"
             @current-change="handleCurrentChange($event, queryList)"
@@ -105,6 +104,7 @@ export default {
         addQuestionFun() {
             this.type = 'add'
             this.addQuestionDialog = true
+            // 未做
         },
         search() {
             this.page.currPage = 1
@@ -128,6 +128,7 @@ export default {
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(async () => {
+                        this.tableLoading = true
                         await deleteProcessFAQ(row.id)
                         this.$message({
                             type: 'success',

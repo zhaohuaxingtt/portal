@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-25 17:02:32
+ * @LastEditTime: 2022-01-25 18:16:13
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -34,9 +34,9 @@
 
         <div class="floatright"
              style="margin-bottom: 20px">
-          <i-button @click="add()">{{ language('XINJIAN','新建') }}</i-button>
-          <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <i-button @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
+          <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
+          <i-button v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
+          <i-button v-if="stateAdmin" @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
           <i-button v-if="stateAdmin"
                     @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button v-if="stateAdmin||stateOpcs"

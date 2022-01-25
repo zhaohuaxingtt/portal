@@ -5,7 +5,7 @@
             <div class="report-box">
                 <div class="flex">
                     <span>搜索</span>
-                    <iInput v-model="keyword" @keydown.enter="handleIconClick" class="search">
+                    <iInput v-model="keyword" @keydown.enter.native="handleIconClick" class="search">
                         <i
                             class="el-icon-search el-input__icon"
                             slot="suffix"

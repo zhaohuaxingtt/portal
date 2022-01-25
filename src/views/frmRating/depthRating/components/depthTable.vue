@@ -52,7 +52,7 @@
 
           </iSelect>
         </span>
-        <span v-else-if="scope.row.status == '清单驳回' || scope.row.status == '报告驳回'">
+        <span v-else-if="scope.row.status == '清单审批驳回' || scope.row.status == '报告审批驳回'">
           <el-tooltip :content="scope.row.returnReason"
                       placement="top"
                       effect="light">
@@ -61,7 +61,18 @@
         </span>
         <span v-else>{{ scope.row.status }}</span>
       </template>
-      <!-- 附件 -->
+      <!-- 下次跟踪频率 -->
+        <template #trackingFrequency="scope">
+            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.trackingFrequency}}    </span>
+      </template>
+      <!-- //深评时间 -->
+        <template #approvalEndDate="scope">
+            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.approvalEndDate}}    </span>
+      </template>
+         <!-- //下次评级时间 -->
+        <template #nextRatingTime="scope">
+            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.nextRatingTime}}    </span>
+      </template>
       <template #upload="scope">
         <span class="openPage"
               @click="openUpload(scope.row.id)">{{$t('LK_SHANGCHUAN')}}</span>
@@ -83,16 +94,19 @@
       </template>
       <!-- 深评结果 -->
       <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
-              symbol
-              name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
-              symbol
-              name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
-              symbol
-              name="iconhongdeng"></icon>
-        <span v-else-if="!scope.row.deepCommentResult"></span>
+        <div v-if="scope.row.status == '生效'||scope.row.status == '历史'">
+            <icon v-if="scope.row.deepCommentResult == 'GREEN'"
+                symbol
+                name="iconlvdeng"></icon>
+            <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
+                symbol
+                name="iconhuangdeng"></icon>
+            <icon v-else-if="scope.row.deepCommentResult == 'RED'"
+                symbol
+                name="iconhongdeng"></icon>
+            <span v-else-if="!scope.row.deepCommentResult"></span>
+      </div>
+
       </template>
       <!-- 备注 -->
       <template #remarks="scope">

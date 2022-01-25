@@ -49,7 +49,7 @@
 <script>
     import {iDialog,iButton,iInput, iSelect, iDatePicker, iFormItem} from 'rise';
     import iUpload from '@/views/adminProCS/components/iUpload.vue';
-    import { addReportContent, updateReportContent, queryTypeList, getCategoryById } from '@/api/reportForm';
+    import { addReportContent, updateReportContent, queryCurrTypeList, getCategoryById } from '@/api/reportForm';
     export default {
         components: {
             iDialog,
@@ -103,15 +103,10 @@
         },
         methods: {
             async getTypeList() {
-                console.log('1234')
-                let params = {
-                    page: 1,
-                    size: 99
-                }
                 this.loading = true
-                await queryTypeList(params).then(res => {
-                    if (res?.code) {
-                        this.reportSectionList = res?.data
+                await queryCurrTypeList().then(res => {
+                    if (res) {
+                        this.reportSectionList = res || []
                         this.loading = false
                     }
                 })
