@@ -91,8 +91,14 @@ export default {
       this.query()
     },
     async queryCategorys() {
-      
-      const { data } = await selectionSearch({terminal:'1'})
+      const userId = JSON.parse(sessionStorage.getItem('userInfo')).id
+      const terminal = JSON.parse(sessionStorage.getItem('userInfo')).userType
+      const searchData = {
+        userId,
+        terminal
+      }
+
+      const { data } = await selectionSearch(searchData)
       this.categoryOptions = data.map((item) => {
         return { value: item.code, label: item.name ,id:item.code}
       })
@@ -124,7 +130,6 @@ export default {
       this.setSearchHistory(this.searchForm.words)
     },
     setSearchHistory(keyword) {
-      debugger
       let histories = []
       if (window.localStorage.getItem('search_history')) {
         histories = JSON.parse(window.localStorage.getItem('search_history'))

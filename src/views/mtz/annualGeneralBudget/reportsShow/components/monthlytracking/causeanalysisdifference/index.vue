@@ -6,7 +6,7 @@
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['MtzMaterial']"
+            v-model="form['MtzMaterialNumber']"
           >
             <el-option
               value=""
@@ -23,7 +23,7 @@
         <el-form-item :label="language('LK_CAILIAOZHONGLEI', '材料中类')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['MaterialMedium']"
+            v-model="form['MaterialMediumNum']"
           >
             <el-option
               value=""
@@ -111,14 +111,14 @@
       <detailsList
         :differenceAnalysis="differenceAnalysis"
         :dataTitle="dataTitle"
-        :num="num"
         :dataTitleTwo="dataTitleTwo"
       />
       <iPagination
-        @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
-        @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
+        @current-change="handleCurrentChange($event, getdifferenceAnalysis)"
+        @size-change="handleSizeChange($event, getdifferenceAnalysis)"
         background
-       :page-sizes="page.pageSizes"
+       :current-page="page.currPage"
+        :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
         :layout="page.layout"
         :total="page.totalCount"
@@ -161,7 +161,6 @@ export default {
       mothlyValue: '',
       differenceAnalysis: '', //列表数据
       dataTitle: '', //时间title
-      num: '', //
       dataTitleTwo: '',
       currentMonth: '', //当前月份
       startpickerOptions: {
