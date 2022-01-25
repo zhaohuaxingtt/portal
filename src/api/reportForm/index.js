@@ -120,6 +120,15 @@ export function queryTypeList(data) {
     })
 }
 
+// 新增内容时 查询类型接口
+export function queryCurrTypeList() {
+    return requst({
+        url: `/report_mgr/findSection.json`,
+        method: 'get'
+    })
+}
+
+
 // 类型是否置顶
 export function topType(id, data) {
     return requst({
