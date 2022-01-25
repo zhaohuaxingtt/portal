@@ -4,8 +4,9 @@
  * @Description: 深评首页列表
  */
 import axios from '@/utils/axios'
-
+import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const requstDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 
 // 深评列表
 export function depSupplierList(parmars) {
@@ -33,6 +34,14 @@ export function depSupplier(parmars) {
     data: parmars
   })
 }
+// 导出深评
+export function depSupplierDown(parmars) {
+    return requstDownload({
+      url: '/depSupplier/down',
+      method: 'POST',
+      data: parmars
+    })
+  }
 
 // 加入集团,移出集团
 export function addOrMoveGroup(parmars) {

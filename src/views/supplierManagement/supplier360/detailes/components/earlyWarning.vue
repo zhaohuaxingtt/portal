@@ -33,19 +33,16 @@
       type="flex"
       justify="space-between"
     >
-      <!-- <el-col v-permission="PORTAL_SUPPLIER_CARD_SAMPLEDELIVERY" :span="8"> -->
-                <el-col  :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_SAMPLEDELIVERY" :span="8">
 
         <!-- 送样 -->
         <sampleDelivery></sampleDelivery>
       </el-col>
-      <el-col  :span="8">
-           <!-- <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION" :span="8"> -->
+           <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION" :span="8">
         <!-- 定点 -->
         <fixed></fixed>
       </el-col>
-      <!-- <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING" :span="8"> -->
-            <el-col  :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING" :span="8">
         <!-- 寻源 -->
         <sourcing></sourcing>
       </el-col>
@@ -56,18 +53,15 @@
       type="flex"
       justify="space-between"
     >
-      <!-- <el-col  v-permission="PORTAL_SUPPLIER_CARD_PRODUCTIVITY" :span="8"> -->
-      <el-col   :span="8">
+      <el-col  v-permission="PORTAL_SUPPLIER_CARD_PRODUCTIVITY" :span="8">
         <!-- 产能预警 -->
         <productivity></productivity>
       </el-col>
-      <!-- <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_C-RATING"> -->
-         <el-col :span="8" >
+      <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_CRATING">
         <!-- 财务预警 -->
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
-      <!-- <el-col :span="8"  v-permission="PORTAL_SUPPLIER_CARD__MONITORING"> -->
-          <el-col :span="8" >
+      <el-col :span="8"  v-permission="PORTAL_SUPPLIER_CARD__MONITORING">
 
         <!-- 舆情监测 -->
         <publicOpinion> </publicOpinion>

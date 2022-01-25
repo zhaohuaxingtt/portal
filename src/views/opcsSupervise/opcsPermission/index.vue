@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-25 09:08:42
+ * @LastEditTime: 2022-01-25 09:27:48
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -34,8 +34,8 @@
      
         <div class="floatright" style="margin-bottom: 20px">
           <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
-          <i-button  v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <i-button  v-if="stateAdmin" @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
+          <i-button  @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
+          <i-button  @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
           <i-button  v-if="stateAdmin" @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button  v-if="stateAdmin||stateOpcs" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
@@ -46,11 +46,12 @@
                   :tableLoading="tableLoading"
                   :openPageProps="'nameZh'"
                   @openPage="openPage"
-                  :selection='stateAdmin'
                   :openPageGetRowData="stateAdmin||stateOpcs"
                   @handleSelectionChange="handleSelectionChange"
                   :index="true">
       </table-list>
+                  <!-- :selection='stateAdmin' -->
+
       <iPagination style="margin-top: 20px"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
