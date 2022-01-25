@@ -6,7 +6,7 @@
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['MtzMaterial']"
+            v-model="form['MtzMaterialNumber']"
           >
             <el-option
               value=""
@@ -23,7 +23,7 @@
         <el-form-item :label="language('LK_CAILIAOZHONGLEI', '材料中类')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['MaterialMedium']"
+            v-model="form['MaterialMediumNum']"
           >
             <el-option
               value=""
