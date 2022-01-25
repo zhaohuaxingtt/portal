@@ -304,6 +304,39 @@ export function deleteProcess(id) {
 }
 
 
+// 获取流程目录
+export function queryProcessCatalogue(processId) {
+    return procsRequest({
+        url: `/catalog_mgr/${processId}/getCatalog.json`,
+        method: 'get'
+    })
+}
+// 新建流程目录节点
+export function addProcessCatalogue(processId,data) {
+    return procsRequest({
+        url: `/catalog_mgr/${processId}/create.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 修改流程目录节点
+export function updateProcessCatalogue(id,data) {
+    return procsRequest({
+        url: `/catalog_mgr/${id}/update.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+// 删除流程目录节点
+export function deleteProcessCatalogueNode(id) {
+    return procsRequest({
+        url: `/catalog_mgr/${id}/deletCatalog.json`,
+        method: 'delete',
+    })
+}
+
 // 查询流程页面list
 export function loadProcessPageList(id,data) {
     return procsRequest({

@@ -19,7 +19,7 @@ export const shareholderTitle = [
     width: 150,
     key: 'GUDONGZHENGJIANHANGMA'
   },
-  { props: 'investor_type', name: '股东类型', key: 'GUDONGLEIXING' }
+  { props: 'investorType', name: '股东类型', key: 'GUDONGLEIXING' }
 ]
 export const groupTitle = [
   { props: 'name', name: '集团公司全称', key: 'JITUANGONGSIQUANCHEN' },

@@ -49,7 +49,9 @@
         },
         methods: {
             change(tab){
-                this.$refs[tab.name].queryList()
+                this.$nextTick(() => {
+                    this.$refs[tab.name].queryList()
+                })
             }
         },
     }
