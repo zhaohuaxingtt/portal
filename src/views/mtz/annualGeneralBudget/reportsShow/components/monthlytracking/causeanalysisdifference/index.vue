@@ -111,14 +111,14 @@
       <detailsList
         :differenceAnalysis="differenceAnalysis"
         :dataTitle="dataTitle"
-        :num="num"
         :dataTitleTwo="dataTitleTwo"
       />
       <iPagination
-        @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
-        @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
+        @current-change="handleCurrentChange($event, getdifferenceAnalysis)"
+        @size-change="handleSizeChange($event, getdifferenceAnalysis)"
         background
-       :page-sizes="page.pageSizes"
+       :current-page="page.currPage"
+        :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
         :layout="page.layout"
         :total="page.totalCount"
@@ -161,7 +161,6 @@ export default {
       mothlyValue: '',
       differenceAnalysis: '', //列表数据
       dataTitle: '', //时间title
-      num: '', //
       dataTitleTwo: '',
       currentMonth: '', //当前月份
       startpickerOptions: {

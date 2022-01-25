@@ -121,6 +121,8 @@ export default {
       calculate:[],
       //数据集 sourceData
       sourceData:[],
+      //x轴数据
+      xAxisData:[],
       searchForm:{
         department:'',//科室简称
         materialMediumNum:'',//mtz材料组中类编号
@@ -147,8 +149,9 @@ export default {
     iniReport() {
       const el = document.getElementById('report-charts')
       let chart = echarts().init(el)
-      let _this = this
+      // let _this = this
       chart.setOption({
+        color:['rgb(2,96,241)','rgb(119,203,255)'],
         title: {
           text: '单位：⼈⺠币/百万',
           top: 0,
@@ -173,8 +176,9 @@ export default {
           },
           axisLabel:{
             fontWeight:'bold',
-            margin:20
+            margin:20,
           },
+          data:this.xAxisData,
           nameTextStyle:{
             width:'80px'
           }
@@ -193,15 +197,15 @@ export default {
             icon: 'circle',
             itemHeight:'12',
             selectedMode:false,
+            data:['应付（补差凭证⾦额）','已支付','差值'],
             itemGap:20
           }
         ],
         tooltip: {
           show: true,
-          // triggerOn:'click',
           formatter:(params)=>{
             let price = 0
-            params.seriesName == '已支付' ? price = params.value[2] * 1000000 : price =  params.value[1] * 1000000
+            params.seriesName == '已支付' ? price = params.value * 1000000 : price =  params.value * 1000000
             const splitPrice = (price + '').split('.')
             let leftPrice = splitPrice[0]
             // let rightPrice = splitPrice.length > 1 ? '.'+ splitPrice[1]  : ''
@@ -218,56 +222,64 @@ export default {
             return leftPrice + rightPrice
           }
         },
-        //数据集
-        dataset: {
-          source:
-          this.sourceData
-        },
         series: [
           {
             type: 'bar',
+            name:'应付（补差凭证⾦额）',
             barWidth:'30',
-            itemStyle: {
-              normal: {
-                color: 'RGB(2,96,241)',
+            data:this.sourceData.map(item =>{
+              return {
+                value:item[0],
+                itemStyle: {
+                  normal: {
+                    color: 'rgb(2,96,241)',
+                    borderRadius:item[0] > 0 ? [4,4,0,0] : [0,0,4,4]
+                  },
+                },
                 label: {
                   show: true,
-                  position: 'top',
+                  position:item[0] > 0 ? 'top' : 'bottom',
                   formatter:(params)=>{
-                    return Number((params.value[1])).toFixed(2)
-                    // return Number(params.value[1].toString().match(/^\d+(?:\.\d{0,2})?/))
+                    return Number((params.value)).toFixed(2)
                   },
                   textStyle: {
-                    color: 'RGB(2,96,241)'
+                    color: 'rgb(2,96,241)'
                   }
                 },
-                borderRadius:[4,4,0,0],
               }
-            },
+            })
           },
           {
+            name:'已支付',
             type: 'bar',
             barWidth:'30',
-            itemStyle: {
-              normal: {
-                color: 'rgb(119,203,255)',
+            data:this.sourceData.map(item => {
+              return {
+                value:item[1],
+                itemStyle: {
+                  normal: {
+                    color: 'rgb(119,203,255)',
+                    borderRadius:item[1] > 0 ? [4,4,0,0] : [0,0,4,4],
+                  }
+                },
                 label: {
                   show: true,
-                  position: 'top',
+                  position:item[1] > 0 ? 'top' : 'bottom',
                   formatter:(params)=>{
-                    return Number(params.value[2]).toFixed(2)
-                    // return Number(params.value[2].toString().match(/^\d+(?:\.\d{0,2})?/))
+                    return Number(params.value).toFixed(2)
                   },
                   textStyle: {
                     color: 'rgb(119,203,255)'
                   }
                 },
-                borderRadius:[4,4,0,0],
               }
-            }
+            }),
+
           },
           {
+            name:'差值',
             type: 'line',
+            data:[],
             itemStyle: {
               normal: {
                 color: 'rgb(255,176,77)'
@@ -285,6 +297,7 @@ export default {
       this.ini = false
       this.loading = true
       this.showDifference = false
+      this.xAxisData = []
       // debugger
       searchReport(data).then(res => {
         if(res?.code == 200){
@@ -303,12 +316,13 @@ export default {
               const year = item.yearMonth.slice(0,4)
               const month = item.yearMonth.slice(4)
               const yearMonth = year+'-'+month
-              sourceData.push([yearMonth,Number(item.actualPrice)/1000000,Number(item.payPrice)/1000000])
+              this.xAxisData.push(yearMonth)
+              sourceData.push([Number(item.actualPrice)/1000000,Number(item.payPrice)/1000000])
               allPrice.push(Number(item.actualPrice)/1000000,Number(item.payPrice)/1000000)
               this.calculate.push({price:item.diffPrice,priceType:item.priceType})
             })
             this.maximumScale = Number(Math.ceil((Math.max(...allPrice)).toFixed()/10)*10)
-            this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
+            this.sourceData = [...sourceData]
             this.iniReport()
           }
         }else{
