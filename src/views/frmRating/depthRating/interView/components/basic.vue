@@ -151,10 +151,14 @@ export default {
       })
     },
     getData () {
+      this.tableLoading = true
       interviewMessage({ deepCommentSupplierId: this.id }).then(res => {
         if (res.data) {
           this.interViewData = res.data
-
+          if (!this.interViewData.investorVOList) {
+            this.interViewData.investorVOList = []
+          }
+          this.tableLoading = false
         }
       })
     },

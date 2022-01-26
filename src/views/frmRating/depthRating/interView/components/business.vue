@@ -23,6 +23,15 @@
                  ref="table1"
                  :input-props="inputProduct"
                  @handleSelectionChange="handleSelectionProduct">
+        <template slot-scope="scope"
+                  slot="proportion">
+          <div>
+            <el-input-number v-model="scope.row.proportion"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
       </tableList>
       <!-- 主要业务模式和加工深度务 -->
       <div class="title">{{$t('SPR_FRM_DEP_ZYYWMSHJGSD')}}</div>
@@ -61,6 +70,33 @@
                  ref="table2"
                  :input-props="inputCustomers"
                  @handleSelectionChange="handleSelectionCustomers">
+        <template slot-scope="scope"
+                  slot="totalSalesPro">
+          <div>
+            <el-input-number v-model="scope.row.totalSalesPro"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
+        <template slot-scope="scope"
+                  slot="amountOfSupply">
+          <div>
+            <el-input-number v-model="scope.row.amountOfSupply"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
+        <template slot-scope="scope"
+                  slot="cashNotesPro">
+          <div>
+            <el-input-number v-model="scope.row.cashNotesPro"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
       </tableList>
       <!-- 会议纪要 -->
       <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
@@ -125,6 +161,33 @@
                  ref="table3"
                  :input-props="inputSupplier"
                  @handleSelectionChange="handleSelectionSupplier">
+        <template slot-scope="scope"
+                  slot="totalSalesPro">
+          <div>
+            <el-input-number v-model="scope.row.totalSalesPro"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
+        <template slot-scope="scope"
+                  slot="amountOfSupply">
+          <div>
+            <el-input-number v-model="scope.row.amountOfSupply"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
+        <template slot-scope="scope"
+                  slot="cashNotesPro">
+          <div>
+            <el-input-number v-model="scope.row.cashNotesPro"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
       </tableList>
       <!-- 会议纪要 -->
       <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
@@ -190,26 +253,28 @@ export default {
   methods: {
     // 获取获取访谈清单
     setInputProps () {
-      this.inputProduct = []
+      this.inputProduct = ['businessProductName']
       this.inputCustomers = []
       this.inputSupplier = []
-      this.mainProduct.map(item => {
-        if (!this.selectProps.includes(item.props)) {
-          this.inputProduct.push(item.props)
-        }
-      })
+      // this.mainProduct.map(item => {
+      //   if (!this.selectProps.includes(item.props)) {
+      //     this.inputProduct.push(item.props)
+      //   }  
+      // })
       this.mainCustomers.map(item => {
-        if (!this.selectProps.includes(item.props)) {
+        if (item.props !== 'totalSalesPro' && item.props !== 'amountOfSupply' && item.props !== 'cashNotesPro') {
           this.inputCustomers.push(item.props)
         }
       })
       this.mainSupplier.map(item => {
-        if (!this.selectProps.includes(item.props)) {
+        if (item.props !== 'totalSalesPro' && item.props !== 'amountOfSupply' && item.props !== 'cashNotesPro') {
           this.inputSupplier.push(item.props)
         }
       })
+      console.log(this.inputCustomers, this.inputSupplier)
     },
     getData () {
+      this.tableLoading = true
       interviewUpDownMessage({ deepCommentSupplierId: this.id }).then(res => {
         if (res.data) {
           this.interViewData = res.data
@@ -222,7 +287,7 @@ export default {
           if (!this.interViewData.supplierList) {
             this.interViewData.supplierList = []
           }
-
+          this.tableLoading = false
         }
       })
     },

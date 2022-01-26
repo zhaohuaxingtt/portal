@@ -99,13 +99,50 @@ export function queryMyWorkFlow() {
         method: 'get'
     })
 }
+/**
+ * 查询流程详情
+ */
+export function getWorkFlow(id) {
+    return procsRequest({
+        url: `/workFlow/${id}/detail.json`,
+        method: 'get'
+    })
+}
+/**
+ * 查询流程详情 附件
+ */
+export function queryPageSample(id) {
+    return procsRequest({
+        url: `/workflow_file/${id}/pageList.json`,
+        method: 'post'
+    })
+}
+/**
+ * 流程目录
+ */
+export function getProcessCatalog(id) {
+    return procsRequest({
+        url: `/catalog/${id}/getCatalog.json`,
+        method: 'get'
+    })
+}
+/**
+ * 流程页面问题
+ */
+export function queryPageFAQ(id) {
+    return procsRequest({
+        url: `/workflow_issue/${id}/pageList.json`,
+        method: 'post'
+    })
+}
+
 
 /**
  * 主流程图
  */
 export function getMainFlowchart() {
     return procsRequest({
-        url: `flowchart/main/flowchart.json`,
+        url: `/flowchart/main/flowchart.json`,
         method: 'get'
     })
 }

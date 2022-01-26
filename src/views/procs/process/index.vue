@@ -18,8 +18,8 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <template v-if="activeName == 'all'">
                         <IndexList 
+                            v-show="activeName == 'all'"
                             :data="indexs.allData" 
                             padding 
                             style="color:#777" 
@@ -29,9 +29,8 @@
                             @row-click="clickProcess">
                             <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
                         </IndexList>
-                    </template>
-                    <template v-if="activeName == 'my'">
                         <IndexList 
+                            v-show="activeName == 'my'"
                             :data="indexs.myData" 
                             padding 
                             style="color:#777" 
@@ -42,26 +41,30 @@
                             @row-click="clickProcess">
                             <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
                         </IndexList>
-                    </template>
                 </div>
                 <!-- 流程图 -->
                 <div v-else class="mt20">
                     <iCard>
-                        <img class="draw-img" src="http://cnsvwshvm1416.csvw.com/upload/2021/12/16/FlowChart_150/%E4%B8%BB%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="">
+                        <div class="pic-div">
+                            <div v-for="(item,index) in projectInfoData" :key="index">
+                                <div class="drag-box" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}" @click="detailFun(item)"></div>
+                            </div>
+                            <img class="draw-img" :src="filePath" alt="">
+                        </div>
                     </iCard>
                 </div>
                 
             </div>
             <div class="side">
                <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
-               <UiCard title="最新词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
-                   <iButton slot="head-right">MORE</iButton>
+               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
+               <UiCard title="最热词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
+                   <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/glossaryManage'})">MORE</iButton>
                    <div slot="item-right" slot-scope="{data}">
                        <i class="el-icon-view"></i>
                        {{data.pageView}}
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
             </div>
         </div>
     </div>
@@ -103,6 +106,8 @@
                 hotTermsList: [],
                 attachList:[],
                 myFlowList: [],  // 我的流程
+                filePath: null,
+                projectInfoData: []
             }
         },
         created() {
@@ -173,13 +178,17 @@
             async getMainFlowInfo() {
                 await getMainFlowchart().then(res => {
                     console.log(res,'2222')
+                    if (res) {
+                        this.filePath = res.filePath?.split("/uploader/")[1]
+                        this.projectInfoData = res?.hotAreas || []
+                    }
                 })
+            },
+            detailFun(item) {
+                console.log(item, '2222')
             },
             tabChange(v){
                 this.activeName = v
-                if (v === 'my') {
-                    this.getMyFlowList()
-                }
             },
             typeChange(type){
                 this.activeView = type
@@ -190,8 +199,8 @@
                     this.getMainFlowInfo()
                 }
             },
-            clickProcess(v){
-                this.$router.push({name:'CFProCsProcessDetail'})
+            clickProcess(id){
+                this.$router.push({path:'/cf-ProCS/processDetail',query:{id}})
             },
             side(v,type){
                 console.log(v);
@@ -200,10 +209,10 @@
                         this.$router.push({name:'CFProCsProcessCollect'})
                         break;
                     case "glossary":
-                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        this.$router.push({path:"/cf-ProCS/glossaryManage",query:{id:v.id}})
                         break;
                     case "attachment":
-                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        window.open(v.attachMents[0].url)
                         break;
                 }
             }
@@ -257,6 +266,14 @@
 
     .draw-img{
         width: 100%;
+    }
+    .pic-div {
+        position: relative;
+    }
+    .drag-box {
+        position: absolute;
+        background-color: red;
+        cursor: pointer;
     }
    
 }

@@ -116,7 +116,7 @@
                 </div>
                 <div v-if="customFlag">
                     <iFormItem :label="language('选择人员')">
-                        <userSelector v-model="form.users" @change="userListChange" />
+                        <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
                         <supplierSelect v-model="form.suppliers" @change="supplierListChange" />

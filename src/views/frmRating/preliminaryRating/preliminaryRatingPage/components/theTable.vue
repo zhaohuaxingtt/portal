@@ -248,7 +248,9 @@ export default {
     },
     handleExport () {
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
+        return  iMessage.warn(
+            this.language('QINGXUANZHEXUYAOCAOZUODEGONYSHANGDESHUJU','请选择需要操作的供应商数据')
+        );
       }
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_CBPJ_CPMBDCTIPS'));
