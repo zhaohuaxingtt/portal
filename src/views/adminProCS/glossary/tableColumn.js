@@ -13,10 +13,21 @@ export const tableColumn = [
 		label:'首字母',
 		align: 'center'
 	},
+	// {
+	// 	prop:'title',
+	// 	label:'词条名称',
+	// 	align: 'center'
+	// },
 	{
 		prop:'title',
 		label:'词条名称',
-		align: 'center'
+		align: 'center',
+		customRender: (h, scope) => {
+			const title = scope.row.title
+			return (		
+				<div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title={title}>{ title }</div>
+			)
+		}
 	},
 	{
 		prop:'version',
