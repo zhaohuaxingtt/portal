@@ -47,7 +47,12 @@
                 <!-- 流程图 -->
                 <div v-else class="mt20">
                     <iCard>
-                        <img class="draw-img" src="http://cnsvwshvm1416.csvw.com/upload/2021/12/16/FlowChart_150/%E4%B8%BB%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="">
+                        <div class="pic-div">
+                            <div v-for="(item,index) in projectInfoData" :key="index">
+                                <div class="drag-box" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}" @click="detailFun(item)"></div>
+                            </div>
+                            <img class="draw-img" :src="filePath" alt="">
+                        </div>
                     </iCard>
                 </div>
                 
@@ -103,6 +108,8 @@
                 hotTermsList: [],
                 attachList:[],
                 myFlowList: [],  // 我的流程
+                filePath: null,
+                projectInfoData: []
             }
         },
         created() {
@@ -173,7 +180,14 @@
             async getMainFlowInfo() {
                 await getMainFlowchart().then(res => {
                     console.log(res,'2222')
+                    if (res) {
+                        this.filePath = res.filePath?.split("/uploader/")[1]
+                        this.projectInfoData = res?.hotAreas || []
+                    }
                 })
+            },
+            detailFun(item) {
+                console.log(item, '2222')
             },
             tabChange(v){
                 this.activeName = v
@@ -257,6 +271,14 @@
 
     .draw-img{
         width: 100%;
+    }
+    .pic-div {
+        position: relative;
+    }
+    .drag-box {
+        position: absolute;
+        background-color: red;
+        cursor: pointer;
     }
    
 }
