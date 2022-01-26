@@ -408,7 +408,7 @@ export function queryProcessFAQList(id, data) {
 // 流程页面绑定问题
 export function addPageIssue(id, data) {
     return procsRequest({
-        url: `/workflow_issue_mgr/${id}/addPageIssue.json`,
+        url: `/flowpage_issue_mgr/${id}/addPageIssue.json`,
         method: 'post',
         data,
         formData: true
@@ -436,6 +436,39 @@ export function ProcessEditFAQ(id, data) {
 export function deleteProcessFAQ(id) {
     return procsRequest({
         url: `/workflow_issue_mgr/${id}/deleteIssue.json`,
+        method: 'delete'
+    })
+}
+// 查询流程常见问题
+export function queryFAQAnswerList(faqId,data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${faqId}/issueAnswerList.json`,
+        method: 'get',
+        params: data
+    })
+}
+// 添加流程常见问题回答
+export function addFAQAnswer(id,data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/createIssueAnswer.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+// 修改流程常见问题回答
+export function editFAQAnswer(id,data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/updateIssueAnswer.json`,
+        method: 'put',
+        data,
+        formData: true
+    })
+}
+// 删除流程常见问题回答
+export function deleteIssueAnswer(id) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/deleteIssueAnswer.json`,
         method: 'delete'
     })
 }
@@ -469,7 +502,7 @@ export function deleteProcessFile(id) {
 // 绑定流程附件/样张 
 export function addPageSample(id,data) {
     return procsRequest({
-        url: `/workflow_file_mgr/${id}}/addPageSample.json`,
+        url: `/workflow_file_mgr/${id}/addPageSample.json`,
         method: 'post',
         data,
         formData: true

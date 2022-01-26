@@ -62,16 +62,16 @@
         <span v-else>{{ scope.row.status }}</span>
       </template>
       <!-- 下次跟踪频率 -->
-        <template #trackingFrequency="scope">
-            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.trackingFrequency}}    </span>
+      <template #trackingFrequency="scope">
+        <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.trackingFrequency}} </span>
       </template>
       <!-- //深评时间 -->
-        <template #approvalEndDate="scope">
-            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.approvalEndDate}}    </span>
+      <template #approvalEndDate="scope">
+        <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.approvalEndDate}} </span>
       </template>
-         <!-- //下次评级时间 -->
-        <template #nextRatingTime="scope">
-            <span v-if="scope.row.status == '生效'||scope.row.status == '历史'">  {{scope.row.nextRatingTime}}    </span>
+      <!-- //下次评级时间 -->
+      <template #nextRatingTime="scope">
+        <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.nextRatingTime}} </span>
       </template>
       <template #upload="scope">
         <span class="openPage"
@@ -95,17 +95,17 @@
       <!-- 深评结果 -->
       <template #deepCommentResult="scope">
         <div v-if="scope.row.status == '生效'||scope.row.status == '历史'">
-            <icon v-if="scope.row.deepCommentResult == 'GREEN'"
+          <icon v-if="scope.row.deepCommentResult == 'GREEN'"
                 symbol
                 name="iconlvdeng"></icon>
-            <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
+          <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
                 symbol
                 name="iconhuangdeng"></icon>
-            <icon v-else-if="scope.row.deepCommentResult == 'RED'"
+          <icon v-else-if="scope.row.deepCommentResult == 'RED'"
                 symbol
                 name="iconhongdeng"></icon>
-            <span v-else-if="!scope.row.deepCommentResult"></span>
-      </div>
+          <span v-else-if="!scope.row.deepCommentResult"></span>
+        </div>
 
       </template>
       <!-- 备注 -->
@@ -146,6 +146,7 @@
                 v-model="report"
                 :tip="$t('SPR_FRM_DEP_QXZFFDX')"
                 multiple
+                @flag="emitFlag"
                 :title="$t('SPR_FRM_DEP_REPORTDISN')"
                 @sure="sureChangeItems"></changeItem>
     <!-- 预计完成时间 -->
@@ -383,19 +384,26 @@ export default {
         )
         return
       }
-      let deepCommentResult = this.currentSelect[0].deepCommentResult
-      let relevantDept = this.currentSelect[0].relevantDept
-      let result1 = this.currentSelect.every(
-        (item) => item.deepCommentResult == deepCommentResult
-      )
-      let result2 = this.currentSelect.every(
-        (item) => item.relevantDept == relevantDept
-      )
-      if (result1 && result2) {
-        this.$refs.report.reportIssueUser(this.currentSelect[0].id)
+      // let deepCommentResult = this.currentSelect[0].deepCommentResult
+      // let relevantDept = this.currentSelect[0].relevantDept
+      // let result1 = this.currentSelect.every(
+      //   (item) => item.deepCommentResult == deepCommentResult
+      // )
+      // let result2 = this.currentSelect.every(
+      //   (item) => item.relevantDept == relevantDept
+      // )
+      // if (result1 && result2) {
+      this.$refs.report.reportIssueUser(this.currentSelect[0].id)
+      // } else {
+      //   iMessage.error(this.$t('SPR_FRM_FRMGL_BGFFMESSAGE'))
+      // }
+    },
+    emitFlag (val) {
+      if (val) {
         this.report = true
       } else {
         iMessage.error(this.$t('SPR_FRM_FRMGL_BGFFMESSAGE'))
+        // this.report = false
       }
     },
     // 报告分发确认

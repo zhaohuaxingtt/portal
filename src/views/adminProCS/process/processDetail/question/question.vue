@@ -44,6 +44,7 @@
 		<questionAnswer
 			ref="questionAnswerDialog"
             :show.sync="questionAnswerShow" 
+            :info="qsInfo"
 		/>
     </iCard>
 </template>
@@ -77,6 +78,7 @@ export default {
             addQuestionDialog: false,
             keyWord: '',
 			questionAnswerShow: false,
+            qsInfo:{},
             processId: this.$route.query.id
         }
     },
@@ -104,7 +106,6 @@ export default {
         addQuestionFun() {
             this.type = 'add'
             this.addQuestionDialog = true
-            // 未做
         },
         search() {
             this.page.currPage = 1
@@ -114,7 +115,8 @@ export default {
             switch (type) {
                 case "answer":
                     this.questionAnswerShow = true
-                    this.$refs.questionAnswerDialog.initDialog(JSON.parse(JSON.stringify(row)))
+                    this.qsInfo = JSON.parse(JSON.stringify(row))
+                    // this.$refs.questionAnswerDialog.initDialog(JSON.parse(JSON.stringify(row)))
                     break;
                 case "edit":
                     this.type = 'edit'
