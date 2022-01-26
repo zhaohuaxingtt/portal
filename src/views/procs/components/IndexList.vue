@@ -10,7 +10,7 @@
                 <div class="row row-line"  v-for="l in list" :key="l.id" @click="clickItem(l.id)">
                     <span class="row-index" v-if="indexIcon">{{activeIndex}}</span>
                     <div class="row-c" :class="{active:activeItem == l.id}">
-                        <span>{{l[nameKey]}} 
+                        <span style="font-weight:800">{{l[nameKey]}} 
                             <!-- <i>NEW</i> -->
                         </span>
                         <slot :data="l" name="row-right"></slot>

@@ -71,9 +71,10 @@
           align="center"
         >
           <template slot-scope="scope" >
-            <span class="greaterThanZero" v-if="scope.row.marketPriceDifference>0">{{ scope.row.marketPriceDifference }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `${scope.row.marketPriceDifference}` }}</span>
-            <span  v-else>{{ scope.row.marketPriceDifference }}</span>
+            <span class="greaterThanZero" v-if="scope.row.marketPriceDifference>0">{{ `${scope.row.marketPriceDifference}%` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `${scope.row.marketPriceDifference}%` }}</span>
+            <span  v-else-if="scope.row.marketPriceDifference==0">{{ `${scope.row.marketPriceDifference}%` }}</span>
+            <span  v-else-if="scope.row.marketPriceDifference=='null'">{{}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -81,9 +82,10 @@
           align="center"
         >
           <template slot-scope="scope">
-            <span class="greaterThanZero" v-if="scope.row.dosageDifference>0">{{ scope.row.dosageDifference }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.dosageDifference<0">{{ `${scope.row.dosageDifference}` }}</span>
-            <span  v-else>{{ scope.row.dosageDifference }}</span>
+            <span class="greaterThanZero" v-if="scope.row.dosageDifference>0">{{ `${scope.row.dosageDifference}%` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.dosageDifference<0">{{ `${scope.row.dosageDifference}%` }}</span>
+            <span  v-else-if="scope.row.dosageDifference==0">{{ `${scope.row.dosageDifference}%` }}</span>
+            <span  v-else-if="scope.row.dosageDifference=='null'">{{ }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -91,9 +93,10 @@
           align="center"
         >
           <template slot-scope="scope">
-            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ scope.row.totalDifference }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `${scope.row.totalDifference}` }}</span>
-            <span  v-else>{{ scope.row.totalDifference }}</span>
+            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ `${scope.row.totalDifference}%` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `${scope.row.totalDifference}%` }}</span>
+            <span  v-else-if="scope.row.totalDifference==0">{{ `${scope.row.totalDifference}%` }}</span>
+            <span  v-else-if="scope.row.totalDifference=='null'">{{ }}</span>
           </template>
         </el-table-column>
       </el-table-column>

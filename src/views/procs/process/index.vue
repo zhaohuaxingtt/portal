@@ -49,7 +49,7 @@
     import LayHeader from "./../components/LayHeader.vue";
     import IndexList from "./../components/IndexList.vue";
     import UiCard from "./../components/UiCard.vue";
-    import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample } from '@/api/procs';
+    import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample, queryMyWorkFlow, getMainFlowchart } from '@/api/procs';
     import {iCard, iButton} from 'rise';
     export default {
         components:{
@@ -81,8 +81,10 @@
                     {name:'收藏4',id:4},
                     {name:'收藏5',id:5},
                 ],
-                collectList: [],
-                hotTermsList: []
+                collectList: [],  // 我的收藏
+                hotTermsList: [],  // 最热词条
+                myFlowList: [],  // 我的流程
+                flowList: []   // 流程列表
             }
         },
         created() {
@@ -93,9 +95,9 @@
         },
         methods: {
             async getProcessList() {
-                console.log('23456')
                 await queryWorkFlow().then(res => {
                     console.log(res, '22222')
+                    this.flowList = res || []
                 })
             },
             async getMyCollectList() {
@@ -122,8 +124,22 @@
                     this.SampleList = res || []
                 })
             },
+            async getMyFlowList() {
+                await queryMyWorkFlow().then(res => {
+                    console.log(res, '12222')
+                    this.myFlowList = res || []
+                })
+            },
+            async getMainFlowInfo() {
+                await getMainFlowchart().then(res => {
+                    console.log(res,'2222')
+                })
+            },
             tabChange(v){
                 this.activeName = v
+                if (v === 'my') {
+                    this.getMyFlowList()
+                }
             },
             typeChange(type){
                 this.activeView = type
@@ -131,6 +147,7 @@
                     this.activeName = "all"
                 }else{
                     this.activeName = "draw"
+                    this.getMainFlowInfo()
                 }
             },
             clickProcess(v){

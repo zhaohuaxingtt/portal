@@ -301,7 +301,8 @@ export default {
         status: row.status
       }
       if (row.status == '报告完成') {
-        getSummarize(row.id, 'en').then((result) => {
+        console.log(this.languageName);
+        getSummarize(row.id, this.languageName ).then((result) => {
           if (result.data) {
             if (
               (result.data.deepCommentRatingResults == '' ||
@@ -310,8 +311,7 @@ export default {
                 result.data.trackFrequencyAgain == null)
             ) {
               iMessage.warn(
-                'QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV',
-                '请填写状态与后续跟踪频率'
+                  this.language('QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV','请填写状态与后续跟踪频率')
               )
               this.getTableList()
             } else {
