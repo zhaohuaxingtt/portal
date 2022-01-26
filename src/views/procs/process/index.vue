@@ -31,8 +31,8 @@
                 
             </div>
             <div class="side">
-               <UiCard title="我的收藏" :list="list1" @row-click="side($event, 'collect')"></UiCard>
-               <UiCard title="最新词条" :list="list1" :color="false" @row-click="side($event, 'glossary')">
+               <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
+               <UiCard title="最新词条" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right">MORE</iButton>
                    <div slot="item-right">
                        <i class="el-icon-view"></i>
@@ -49,6 +49,7 @@
     import LayHeader from "./../components/LayHeader.vue";
     import IndexList from "./../components/IndexList.vue";
     import UiCard from "./../components/UiCard.vue";
+    import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample } from '@/api/procs';
     import {iCard, iButton} from 'rise';
     export default {
         components:{
@@ -69,6 +70,7 @@
                         {name:'流程图',value:"draw",icon:"el-icon-bangzhu"}
                     ]
 
+
                 },
                 activeName:"all",
                 activeView:"list",
@@ -78,10 +80,48 @@
                     {name:'收藏3',id:3},
                     {name:'收藏4',id:4},
                     {name:'收藏5',id:5},
-                ]
+                ],
+                collectList: [],
+                hotTermsList: []
             }
         },
+        created() {
+            this.getProcessList()
+            this.getMyCollectList()
+            this.getHotTermsList()
+            this.getSampleList()
+        },
         methods: {
+            async getProcessList() {
+                console.log('23456')
+                await queryWorkFlow().then(res => {
+                    console.log(res, '22222')
+                })
+            },
+            async getMyCollectList() {
+                let params = {
+                    page: 0,
+                    size: 5
+                }
+                await queryMyCollect(params).then(res => {
+                    console.log(res, 'queryMyCollect')
+                    this.collectList = res || []
+                })
+            },
+            async getHotTermsList() {
+                let params = {
+                    page: 0,
+                    size: 5
+                }
+                await queryHotTerms(params).then(res => {
+                    this.hotTermsList = res?.content || []
+                })
+            },
+            async getSampleList() {
+                await querySample().then(res => {
+                    this.SampleList = res || []
+                })
+            },
             tabChange(v){
                 this.activeName = v
             },

@@ -3,9 +3,9 @@
         :title="dialogTitle"
         style="margin-top:10vh"
         :visible.sync="show" 
-        v-if="show" 
         width="60%" 
         @close='closeDialogBtn' 
+        @open="open"
         append-to-body
     >
         <el-form
@@ -13,7 +13,7 @@
             label-width="100px"
         >
             <iFormItem :label="language('问题描述')">
-                <div>{{ name }}</div>
+                <div>{{ info.name }}</div>
 			</iFormItem>
         </el-form>
         <div class="flex flex-row questionForm">
@@ -21,21 +21,20 @@
             <div class="form">
                 <div class="mb20">
                     <iButton @click="addQuestionAnswer">添加问题回答</iButton>
-                    <iButton @click="modifyQuestionAnswer" :disabled='selectedItems.length == 0'>修改</iButton>
-                    <iButton @click="delQuestionAnswer" :disabled='selectedItems.length == 0'>删除</iButton>
                 </div>
                 <iTableCustom
                     ref="testTable"
                     :loading="tableLoading"
                     :data="tableListData"
                     :columns="tableSetting"
-                    singleChoice=true
-                    @handle-selection-change="handleSelectionChange"
+                    :extraData="{
+                        operate:operate,
+                    }"
                 />
                 <iPagination
                     v-update
-                    @size-change="handleSizeChange($event, getTableList)"
-                    @current-change="handleCurrentChange($event, getTableList)"
+                    @size-change="handleSizeChange($event, query)"
+                    @current-change="handleCurrentChange($event, query)"
                     background
                     :current-page="page.currPage"
                     :page-sizes="page.pageSizes"
@@ -47,9 +46,11 @@
         </div>
         <addAnswer
             ref="answerDialog"
-            v-show="addAnswerDialog"
             :show.sync="addAnswerDialog"
             :type="type"
+            :detail="detail"
+            :qsId="this.info.id"
+            @refresh="query"
         />
     </iDialog>
 </template>
@@ -59,6 +60,8 @@ import { pageMixins } from '@/utils/pageMixins'
 import { questionColumn } from './table.js'
 import { iDialog, iFormItem, iButton, iPagination, iTableCustom } from 'rise'
 import addAnswer from './addAnswer'
+import {queryFAQAnswerList, deleteIssueAnswer} from '@/api/adminProCS';
+
 export default {
     name: 'questionAnswer',
     components: {
@@ -73,63 +76,79 @@ export default {
         show: {
             type: Boolean,
             default: false
+        },
+        info:{
+            type: Object,
+            default: () => {}
         }
     },
     mixins: [pageMixins],
     data() {
         return {
             dialogTitle: '常见问题回答',
-            visible: false,
-            name: '',
             tableLoading: false,
-            tableListData: [
-                { name: '测试问题回答', feedBackCount: '12', pageRichContent: '测试问题回答内容'}
-            ],
+            tableListData: [],
             tableSetting: questionColumn,
-            selectedItems: [],
             type: 'add',
-            addAnswerDialog: false
+            addAnswerDialog: false,
+            detail:{}
         }
     },
     methods: {
         closeDialogBtn() {
+            this.tableListData = []
             this.$emit('update:show', false)
         },
         close() {
             this.closeDialogBtn()
         },
-        initDialog(currVa) {
-            this.name = currVa.name
+        open(){
+            this.$nextTick(() => {  
+                this.query()
+            })
         },
-        handleSelectionChange(val) {
-            this.selectedItems = val
+        async query(){
+            try {
+                this.tableLoading = true
+                let data = {
+                    page: this.page.currPage - 1,
+                    size: this.page.pageSize
+                }
+                let res = await queryFAQAnswerList(this.info.id,data)
+                this.tableListData = res.content
+                this.page.totalCount = res.totalElements
+            
+            } finally {
+                this.tableLoading = false
+            }
         },
         addQuestionAnswer() {
-            console.log('asdff')
+            this.detail = {}
             this.addAnswerDialog = true
-            this.type = 'add'
-            this.$refs.testTable.clearSelection()
         },
-        modifyQuestionAnswer() {
-            this.addAnswerDialog = true
-            this.type = 'edit'
-            this.$refs.answerDialog.initInfo(this.selectedItems[0])
-            this.$refs.testTable.clearSelection()
-        },
-        delQuestionAnswer() {
-            this.$confirm('是否删除已选中选项','提示',{
-				confirmButtonText:'确认',
-				cancelButtonText:"取消",
-				type:'warning'
-			}).then(async ()=>{
-				this.tableListData.map((item, idx) => {
-				if (item.id === this.selectedItems[0]?.id) {
-					this.tableListData.splice(idx, 1)
-				}
-			})
-			}).catch(()=>{
-				this.$refs.testTable.clearSelection()
-			})
+         operate(type,row){
+            switch (type) {
+                case "edit":
+                    this.detail = JSON.parse(JSON.stringify(row))
+                    this.addAnswerDialog = true
+                    break;
+            
+                case "del":
+                    this.$confirm('确定删除此回答吗?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(async () => {
+                        this.tableLoading = true
+                        await deleteIssueAnswer(row.id)
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.query()
+                    })
+                    break;
+            }
         }
     }
 }

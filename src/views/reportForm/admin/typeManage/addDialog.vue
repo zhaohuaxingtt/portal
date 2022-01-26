@@ -297,6 +297,7 @@ export default {
             this.$emit("update:show",false)
         },
         save(){
+            if (this.customFlag && this.form.users.length === 0 && this.form.suppliers.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
             if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
             this.$refs.typeForm.validate(async v => {
                 if (v) {
