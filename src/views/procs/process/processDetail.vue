@@ -149,7 +149,7 @@
                 sampleList:[],
                 faqList:[
                     {name:'问题哦',answerList:[
-                        {name:"回复"}
+                        {name:"回复",updateTime:'2022-1-1'}
                     ]}
                 ]
             }

@@ -2,13 +2,15 @@
     <div class="qs">
         <div v-for="l in list" :key="l.id">
             <div class="title">{{l.name}}</div>
-            <div class="flex justify-between items-center">
-                <div>测试问题问答</div>
-                <iButton>MORE</iButton>
+            <div v-for="answer in l.answerList" :key="answer.id">
+                <div class="flex justify-between items-center">
+                    <div class="tlt1">{{answer.name}}</div>
+                    <iButton>MORE</iButton>
+                </div>
+                <div v-html="answer.richContent"></div>
+                <div class="time">最后编辑于 {{answer.updateTime}}</div>
             </div>
-            <div>1.回答1</div>
-            <div>sdasdasdaddas</div>
-            <template v-if="isQA">
+            <template v-if="l.answerList.length > 0">
                 <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
                 <div v-if="showInput" class="mt20">
                     <iInput v-model="val" placeholder="请输入问题"></iInput>
@@ -35,7 +37,7 @@
             iButton,
             iInput
         },
-        prop:{
+        props:{
             list:{
                 type: Array,
                 default: () => []
@@ -44,6 +46,9 @@
                 type:Boolean,
                 default: false
             }
+        },
+        created () {
+            console.log(this.list);  
         },
         data() {
             return {
@@ -69,6 +74,15 @@
         
         .opearte{
             color: #666;
+        }
+        .tlt1{
+            margin: 10px 0;
+            color: #666;
+        }
+        .time{
+            margin-top: 30px;
+            color: #999;
+            text-align: right;
         }
     }
 </style>
