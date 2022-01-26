@@ -83,7 +83,8 @@
                 ],
                 collectList: [],  // 我的收藏
                 hotTermsList: [],  // 最热词条
-                myFlowList: []  // 我的流程 
+                myFlowList: [],  // 我的流程
+                flowList: []   // 流程列表
             }
         },
         created() {
@@ -91,13 +92,12 @@
             this.getMyCollectList()
             this.getHotTermsList()
             this.getSampleList()
-            // this.getMyFlowList()
         },
         methods: {
             async getProcessList() {
-                console.log('23456')
                 await queryWorkFlow().then(res => {
                     console.log(res, '22222')
+                    this.flowList = res || []
                 })
             },
             async getMyCollectList() {
