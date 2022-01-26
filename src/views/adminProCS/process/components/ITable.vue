@@ -9,7 +9,6 @@
             @handle-selection-change="handleSelectChange"
             ref="table"
             />
-
         <iPagination
             v-if="showPage"
             v-update
@@ -52,11 +51,28 @@ export default {
             type: Function,
             default:()=>{}
         },
+        selected:{
+            type:Array,
+            default:() => []
+        }
     },
     data() {
         return {
             tableLoading:false,
-            tableListData:[{}]
+            tableListData:[]
+        }
+    },
+    watch:{
+        tableListData(n){
+            if(n.length > 0 && this.selected.length > 0){
+                this.$nextTick(() => {
+                    this.tableListData.forEach(e => {
+                        if(this.selected.includes(e.id)){
+                            this.$refs.table.toggleRowSelection(e,true)
+                        }
+                    })
+                })
+            }
         }
     },
     methods: {

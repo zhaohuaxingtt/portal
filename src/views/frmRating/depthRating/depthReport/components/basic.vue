@@ -176,8 +176,8 @@ export default {
       getSummarize(this.id).then((result) => {
         if (result.data) {
           this.info = result.data
-                 this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
-        this.info.trackFrequencyAgain=this.$store.state.frmRating.trackFrequencyAgain
+          //this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
+          //this.info.trackFrequencyAgain= this.$store.state.frmRating.trackFrequencyAgain
         console.log(this.info)
         }
       }).catch(() => {
