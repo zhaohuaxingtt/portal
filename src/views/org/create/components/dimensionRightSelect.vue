@@ -6,7 +6,7 @@
     filterable
     style="width: 100%"
   >
-    <!-- <el-option value="">
+    <el-option value="">
       <el-Button
         size="mini"
         plain
@@ -21,7 +21,7 @@
       >
         全不选
       </el-Button>
-    </el-option> -->
+    </el-option>
     <el-option
       v-for="item in options"
       :key="item.valueId"
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     checkAll(val, event) {
-      console.log(val, event)
+      console.log(val)
       if (val) {
         this.row.rightSelect = this.options.map((e) => e.valueId)
       } else {
