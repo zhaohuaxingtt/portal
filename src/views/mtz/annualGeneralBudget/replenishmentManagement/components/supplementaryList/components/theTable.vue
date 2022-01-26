@@ -13,11 +13,11 @@
          style="width:100%">
       <span>补差列表</span>
       <div class="opration">
-        <iButton @click="sendSupplier">{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton>
-        <iButton @click="handleClickEdit">{{ language('BIANJI', '编辑') }}</iButton>
-        <iButton @click="submit">{{ language('TIJIAO', '提交') }}</iButton>
-        <iButton @click="recall">{{ language('CHEHUI ', '撤回') }}</iButton>
-        <iButton @click="exportFile">{{ language('DAOCHU ', '导出') }}</iButton>
+        <iButton @click="sendSupplier" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG">{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton>
+        <iButton @click="handleClickEdit" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_EDIT">{{ language('BIANJI', '编辑') }}</iButton>
+        <iButton @click="submit" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_SUBMIT">{{ language('TIJIAO', '提交') }}</iButton>
+        <iButton @click="recall" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_CHEHUI">{{ language('CHEHUI ', '撤回') }}</iButton>
+        <iButton @click="exportFile" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{ language('DAOCHU ', '导出') }}</iButton>
       </div>
     </div>
     <el-table ref="moviesTable"
