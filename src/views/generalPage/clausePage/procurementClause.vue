@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-25 19:03:31
+ * @LastEditTime: 2022-01-26 16:35:20
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -260,6 +260,7 @@ export default {
       console.log(params);
       syncSupplierById(params).then(res=>{
         if(res?.code=='200'){
+          this.getProcurementInfo()
           iMessage.success(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
       })
