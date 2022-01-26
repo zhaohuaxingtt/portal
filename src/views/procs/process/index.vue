@@ -18,8 +18,8 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <template v-if="activeName == 'all'">
                         <IndexList 
+                            v-show="activeName == 'all'"
                             :data="indexs.allData" 
                             padding 
                             style="color:#777" 
@@ -29,9 +29,8 @@
                             @row-click="clickProcess">
                             <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
                         </IndexList>
-                    </template>
-                    <template v-if="activeName == 'my'">
                         <IndexList 
+                            v-show="activeName == 'my'"
                             :data="indexs.myData" 
                             padding 
                             style="color:#777" 
@@ -42,7 +41,6 @@
                             @row-click="clickProcess">
                             <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
                         </IndexList>
-                    </template>
                 </div>
                 <!-- 流程图 -->
                 <div v-else class="mt20">
@@ -54,14 +52,14 @@
             </div>
             <div class="side">
                <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
-               <UiCard title="最新词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
-                   <iButton slot="head-right">MORE</iButton>
+               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
+               <UiCard title="最热词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
+                   <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/glossaryManage'})">MORE</iButton>
                    <div slot="item-right" slot-scope="{data}">
                        <i class="el-icon-view"></i>
                        {{data.pageView}}
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
             </div>
         </div>
     </div>
@@ -177,9 +175,6 @@
             },
             tabChange(v){
                 this.activeName = v
-                if (v === 'my') {
-                    this.getMyFlowList()
-                }
             },
             typeChange(type){
                 this.activeView = type
@@ -190,8 +185,8 @@
                     this.getMainFlowInfo()
                 }
             },
-            clickProcess(v){
-                this.$router.push({name:'CFProCsProcessDetail'})
+            clickProcess(id){
+                this.$router.push({path:'/cf-ProCS/processDetail',query:{id}})
             },
             side(v,type){
                 console.log(v);
@@ -200,10 +195,10 @@
                         this.$router.push({name:'CFProCsProcessCollect'})
                         break;
                     case "glossary":
-                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        this.$router.push({path:"/cf-ProCS/glossaryManage",query:{id:v.id}})
                         break;
                     case "attachment":
-                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        window.open(v.attachMents[0].url)
                         break;
                 }
             }

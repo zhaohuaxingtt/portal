@@ -140,7 +140,7 @@ export const cfProCS = [
             path: '/cf-ProCS/processDetail',
             name: 'CFProCsProcessDetail',
             meta: {
-              title: '流程管理',
+              title: '流程详情',
               activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
             },
             component: () => import('@/views/procs/process/processDetail')

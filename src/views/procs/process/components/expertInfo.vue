@@ -9,27 +9,27 @@
     >
         <div class="info">
             <div class="info-top">
-                <el-avatar size="medium" class="avatar" icon="el-icon-user-solid"></el-avatar>
+                <el-avatar size="medium" :src="info.profilePicture" class="avatar" icon="el-icon-user-solid"></el-avatar>
                 <div class="info-name">
-                    <div class="zn-name">吴通弘 <span class="en-name">Mr.Zhongmao Shen</span></div>
-                    <div>CSS-1 经理 59934</div>
+                    <div class="zn-name">{{info.name}} <span class="en-name">{{info.gender == "MALE" ? "MR." : "MISS"}} {{info.nameEn}}</span></div>
+                    <div>{{info.organization ? info.organization.code : ""}} {{info.position ? info.position.name : ""}} {{info.uid}}</div>
                 </div>
             </div>
             <div class="info-item">
                 <i class="icon el-icon-map-location"></i>
-                <span class="cursor">IMB 312</span>
+                <span class="cursor">{{info.officeLoc}}</span>
             </div>
             <div class="info-item">
                 <i class="icon el-icon-phone-outline"></i>
-                <span class="cursor">86-21-69557042</span>
+                <span class="cursor">{{info.phoneNumber}}</span>
             </div>
             <div class="info-item">
                 <i class="icon el-icon-message"></i>
-                <span class="cursor">shenzhongmao@csvw.com</span>
+                <span class="cursor">{{info.email}}</span>
             </div>
             <div class="info-item">
                 <i class="icon el-icon-chat-dot-round"></i>
-                <span class="cursor">wechat</span>
+                <span class="cursor">{{info.wechatId}}</span>
             </div>
         </div>
     </iDialog>
@@ -45,6 +45,10 @@
             show:{
                 type:Boolean,
                 default:false
+            },
+            info:{
+                type: Object,
+                default: () => {}
             }
         },
         methods: {
