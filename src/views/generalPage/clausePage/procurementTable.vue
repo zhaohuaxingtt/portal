@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-11 16:40:20
- * @LastEditTime: 2022-01-25 19:53:35
+ * @LastEditTime: 2022-01-26 14:55:09
  * @LastEditors: YoHo
  * @Description: 审批界面内嵌使用
 -->
@@ -62,7 +62,7 @@ export default {
     // 文件预览
     gotoDetail(row) {
       let query = {
-        supplierId:row.id,
+        id:row.id,
       }
       const router =  this.$router.resolve({path: '/clausepage/preview', query})
       window.open(router.href,'_blank')
