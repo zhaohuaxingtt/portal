@@ -101,7 +101,16 @@ export default {
     },
     openPage(row) {
       console.log(row);
-      this.$router.push({ path: '/supplier/view-suppliers', query: { supplierToken: row.supplierToken, supplierType: 4 } })
+      this.$router.push(
+        { 
+          path: '/supplier/view-suppliers', 
+          query: { 
+            supplierToken: row.supplierToken, 
+            supplierType: 4 ,
+            supplierId:row.supplierId,
+          }
+        }
+      )
     },
     handleView(flag, row) {
       if (flag === 'creat') {
