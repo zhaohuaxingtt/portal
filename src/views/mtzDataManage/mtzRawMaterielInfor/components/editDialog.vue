@@ -170,19 +170,23 @@
       <div v-if="editBtnSta">
         <iButton
           @click="edit"
-          xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_MODIFY'"
+          v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_MODIFY'"
           >{{ language('编辑') }}</iButton
         >
       </div>
       <div v-else>
         <iButton
           @click="save"
-          xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_MODIFY|BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_MTZ_RAW_MODIFY|BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'
+          "
           >{{ language('保存') }}</iButton
         >
         <iButton
           @click="reset"
-          xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_MODIFY|BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_MTZ_RAW_MODIFY|BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'
+          "
           >{{ language('重置') }}</iButton
         >
         <iButton @click="closeDialog">{{ language('退出') }}</iButton>

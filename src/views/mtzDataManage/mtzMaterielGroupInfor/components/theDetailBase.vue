@@ -4,19 +4,21 @@
       <iButton
         v-show="!editable"
         @click="editable = true"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY'"
         >{{ language('编辑') }}</iButton
       >
       <iButton
         v-show="editable"
         @click="save"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ADD'"
+        v-permission="
+          'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_ADD'
+        "
         >{{ language('保存') }}</iButton
       >
       <iButton
         v-show="editable"
         @click="cancel"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY'"
+        v-permission="'BUTTON_MATERIEL_DATA_MTZ_GROUP_RAW_BASEINFO_MODIFY'"
         >{{ language('取消') }}</iButton
       >
     </div>

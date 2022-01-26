@@ -13,19 +13,23 @@
           <div v-if="editSta">
             <iButton
               @click="edit"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_MODIFY'"
               >{{ language('编辑') }}</iButton
             >
           </div>
           <div v-else>
             <iButton
               @click="save('ruleForm')"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ADD'"
+              v-permission="
+                'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ADD'
+              "
               >{{ language('保存') }}</iButton
             >
             <iButton
               @click="cancel"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ADD'"
+              v-permission="
+                'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_MODIFY|BUTTON_MATERIEL_DATA_PRODUCT_GROUP_ADD'
+              "
               >{{ language('取消') }}</iButton
             >
           </div>
@@ -135,13 +139,15 @@
           <div class="tabelBtn">
             <iButton
               @click="add"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_ADD'"
+              v-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_ADD'"
               >{{ language('新增') }}</iButton
             >
             <iButton
               @click="del"
               :disabled="selectedItem.length == 0"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_DELETE'"
+              v-permission="
+                'BUTTON_MATERIEL_DATA_PRODUCT_GROUP_SIX_NUMBER_DELETE'
+              "
               >{{ language('删除') }}</iButton
             >
           </div>

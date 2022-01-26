@@ -17,6 +17,7 @@
     <div class="btn-box margin-top25">
       <iButton @click="handleConfirm">{{ language('查询') }}</iButton>
       <iButton @click="handleReset">{{ language('重置') }}</iButton>
+      <slot />
     </div>
   </div>
 </template>

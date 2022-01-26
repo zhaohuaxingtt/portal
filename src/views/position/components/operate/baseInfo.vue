@@ -182,6 +182,13 @@
             />
           </iSelect>
         </iFormItem>
+        <iFormItem v-if="positionObj.isDeptLead">
+          <iLabel :label="language('是否外方领导')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.property" :disabled="type === 'detail'">
+            <el-option label="是" :value="2" />
+            <el-option label="否" :value="1" />
+          </iSelect>
+        </iFormItem>
       </iFormGroup>
 
       <dTable :type="type" />

@@ -3,7 +3,9 @@
     <div
       class="button-top margin-bottom20"
       v-if="!readOnly"
-      xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'"
+      v-permission="
+        'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_ADD'
+      "
     >
       <div v-if="editSta">
         <iButton @click="edit">{{ language('编辑') }}</iButton>
@@ -184,13 +186,15 @@
             <div v-if="!readOnly" style="margin-left: 8px">
               <iButton
                 @click="newAdd"
-                xxx-permission="'ON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'"
+                v-permission="'ON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'"
                 >{{ language('新增') }}</iButton
               >
               <iButton
                 @click="deleteSixParts"
                 :disabled="selectTableData.length == 0"
-                xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_DELETE'"
+                v-permission="
+                  'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_DELETE'
+                "
                 >{{ language('删除') }}</iButton
               >
             </div>

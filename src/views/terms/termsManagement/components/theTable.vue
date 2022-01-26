@@ -8,6 +8,8 @@
             <iButton @click="handleAdd">新建</iButton>
             <!-- <iButton @click="handleExport">导出当前</iButton> -->
             <iButton @click="handleExportAll">导出全部</iButton>
+
+            <button-table-setting @click="$refs.termsTable.openSetting()" />
             <!-- 失效 -->
             <!-- <iButton
               @click="handleFailure"
@@ -22,157 +24,19 @@
           </div>
         </div>
       </div>
-      <iTableML
-        tooltip-effect="light"
+
+      <iTableCustom
+        ref="termsTable"
+        :loading="tableLoading"
         :data="tableListData"
-        :tableLoading="tableLoading"
-        :border="true"
-        class="customer-table"
-        @selectionChange="handleSelectionChange"
-      >
-        <el-table-column
-          type="selection"
-          width="50"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="序号"
-          type="index"
-          width="80"
-          align="center"
-        ></el-table-column>
-        <el-table-column align="center" label="条款编码" min-width="100"
-          ><template slot-scope="scope">
-            <span>{{ scope.row["termsCode"] }}</span>
-          </template></el-table-column
-        >
-        <el-table-column
-          show-overflow-tooltip
-          align="center"
-          label="条款名称"
-          min-width="400"
-          ><template slot-scope="scope">
-            <span class="open-link-text" @click="handleGoDetail(scope.row)">{{
-              scope.row["name"]
-            }}</span>
-          </template></el-table-column
-        >
-        <el-table-column align="center" label="版本号" min-width="80">
-          <template slot-scope="scope">
-            <span>{{ scope.row["termsVersion"] }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="条款状态" min-width="100"
-          ><template slot-scope="scope">
-            {{
-              scope.row.state === "01"
-                ? "草稿"
-                : scope.row.state === "02"
-                ? "待生效"
-                : scope.row.state === "03"
-                ? "生效"
-                : scope.row.state === "04"
-                ? "失效"
-                : ""
-            }}
-          </template></el-table-column
-        >
-        <el-table-column align="center" min-width="140" label="条款生效时间"
-          ><template slot-scope="scope">
-            <span>{{ scope.row["inDate"] }}</span>
-          </template></el-table-column
-        >
-        <el-table-column align="center" min-width="120" label="发布日期"
-          ><template slot-scope="scope">
-            <span>{{ scope.row["publishDate"] }}</span>
-          </template></el-table-column
-        >
-        <el-table-column align="center" min-width="120" label="签署节点">
-          <template slot-scope="scope">
-            <span>{{ signNodeListObj[scope.row["signNode"]] }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" min-width="120" label="签署情况">
-          <template slot-scope="scope">
-            <span
-              class="open-link-text"
-              v-if="scope.row.state == '03' || scope.row.state == '04'"
-              @click="handleSignDetail(scope.row)"
-              >{{ scope.row["signResult"] }}</span
-            >
-            <span v-else>{{ scope.row["signResult"] }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="是否个人条款" min-width="120">
-          <template slot-scope="scope">
-            <span>{{
-              scope.row.isPersonalTerms == true
-                ? "是"
-                : scope.row.isPersonalTerms == false
-                ? "否"
-                : ""
-            }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          min-width="140"
-          label="供应商范围"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <span>{{
-              scope.row.supplierRange == "PP"
-                ? "生产供应商"
-                : scope.row.supplierRange == "GP"
-                ? "一般供应商"
-                : scope.row.supplierRange == "NT"
-                ? "Ntier"
-                : scope.row.supplierRange == "CM"
-                ? "自定义"
-                : ""
-            }}</span> -->
-            <span>{{ scope.row.supplierRange | supplierRangeFilter }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          min-width="140"
-          label="供应商身份"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <!-- <span>{{
-              scope.row.supplierIdentity == "0"
-                ? "临时"
-                : scope.row.supplierIdentity == "1"
-                ? "正式"
-                : scope.row.supplierIdentity == "2"
-                ? "储蓄池"
-                : ""
-            }}</span> -->
-            <span>{{
-              scope.row.supplierIdentity | supplierIdentityFilter
-            }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" min-width="120" label="供应商用户">
-          <template slot-scope="scope">
-            <span>{{
-              scope.row["supplierContacts"] == "01"
-                ? "全部"
-                : scope.row["supplierContacts"] == "02"
-                ? "主联系人"
-                : ""
-            }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" min-width="120" label="条款负责人">
-          <template slot-scope="scope">
-            <span>{{ scope.row["chargeName"] }}</span>
-          </template>
-        </el-table-column>
-      </iTableML>
+        :columns="tableColumns"
+        :tree-expand="exData"
+        permissionKey="ADMIN_TERMS"
+        :extraData="extraData"
+        @handle-selection-change="handleSelectionChange"
+        @go-detail="handleGoDetail"
+        @sign-detail="handleSignDetail"
+      />
       <iPagination
         v-update
         @current-change="handleCurrentChange($event)"
@@ -200,57 +64,54 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination } from "rise";
-// import iTableCustom from "@/components/iTableCustom";
-import iTableML from "@/components/iTableML";
-import { excelExport } from "@/utils/filedowLoad";
-// import { tableListColumns } from "./data";
-import { getDictByCode } from "@/api/dictionary/index";
-import signDetailDialog from "./signDetailDialog.vue";
+import iTableCustom from '@/components/iTableCustom'
+import { iCard, iButton, iPagination } from 'rise'
+import { excelExport } from '@/utils/filedowLoad'
+import { getDictByCode } from '@/api/dictionary/index'
+import signDetailDialog from './signDetailDialog.vue'
 import {
   tableTitle,
   isPersonalTermsObj,
   stateObj,
   supplierRangeObj,
   supplierContactsObj,
-  supplierIdentityObj,
-} from "./data";
-// import { invalidateTerms } from "@/api/terms/terms";
+  supplierIdentityObj
+} from './data'
 
 export default {
   components: {
     iCard,
     iButton,
-    // iTableCustom,
     iPagination,
-    iTableML,
     signDetailDialog,
+    iTableCustom
   },
   props: {
     tableListData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     page: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     tableLoading: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
+    const _self = this
     return {
       tableTitle,
       isPersonalTermsObj,
@@ -264,30 +125,180 @@ export default {
       signNodeListObj: {},
       openSignDetailDialog: false,
       id: -1,
-      state: "",
+      state: '',
       approvalProcess: [],
       signTitle: {},
-    };
+      extraData: { signNodeListObj: {} },
+      tableColumns: [
+        {
+          type: 'selection'
+        },
+        {
+          type: 'index',
+          label: '序号',
+          i18n: '序号'
+        },
+        {
+          i18n: '条款编码',
+          prop: 'termsCode',
+          sortable: true,
+          minWidth: 100
+        },
+        {
+          i18n: '条款名称',
+          prop: 'name',
+          emit: 'go-detail',
+          sortable: true,
+          minWidth: 400,
+          customRender: (h, scope) => {
+            return <span class="link-text">{scope.row.name}</span>
+          }
+        },
+        {
+          i18n: '版本号',
+          prop: 'termsVersion',
+          sortable: true,
+          minWidth: 80
+        },
+        {
+          i18n: '条款状态',
+          prop: 'state',
+          sortable: true,
+          minWidth: 100,
+          customRender: (h, scope) => {
+            const states = {
+              '01': '草稿',
+              '02': '待生效',
+              '03': '生效',
+              '04': '失效'
+            }
+            return states[scope.row.state]
+          }
+        },
+        {
+          i18n: '条款生效时间',
+          prop: 'inDate',
+          minWidth: 140,
+          sortable: true
+        },
+        {
+          i18n: '发布日期',
+          prop: 'publishDate',
+          minWidth: 140,
+          sortable: true
+        },
+        {
+          i18n: '签署节点',
+          prop: 'signNode',
+          sortable: true,
+          minWidth: 120,
+          customRender: (h, scope, column, extraData) => {
+            return extraData.signNodeListObj[scope.row.signNode]
+          }
+        },
+        {
+          i18n: '签署情况',
+          prop: 'signResult',
+          sortable: true,
+          emit: 'sign-detail',
+          minWidth: 120,
+          customRender: (h, scope) => {
+            const { signResult, state } = scope.row
+            if (['03', '04'].includes(state)) {
+              return <span class="link-text">{signResult}</span>
+            }
+            return signResult
+          }
+        },
+        {
+          i18n: '是否个人条款',
+          prop: 'isPersonalTerms',
+          sortable: true,
+          minWidth: 120,
+          customRender: (h, scope) => {
+            const { isPersonalTerms } = scope.row
+            return isPersonalTerms ? '是' : isPersonalTerms == false ? '否' : ''
+          }
+        },
+        {
+          i18n: '供应商范围',
+          prop: 'supplierRange',
+          sortable: true,
+          minWidth: 140,
+          tooltip: true,
+          customRender: (h, scope) => {
+            const map = {
+              PP: '生产供应商',
+              GP: '一般供应商',
+              NT: 'N-Tier',
+              CM: '自定义'
+            }
+
+            const res =
+              scope.row.supplierRange?.split(',').map((e) => map[e]) || []
+            return res.join(',')
+          }
+        },
+        {
+          i18n: '供应商身份',
+          prop: 'supplierIdentity',
+          sortable: true,
+          minWidth: 140,
+          customRender: (h, scope) => {
+            const map = {
+              0: '临时',
+              1: '正式',
+              2: '储蓄池'
+            }
+
+            const res =
+              scope.row.supplierIdentity?.split(',').map((e) => map[e]) || []
+            return res.join(',')
+          }
+        },
+        {
+          i18n: '供应商用户',
+          prop: 'supplierContacts',
+          sortable: true,
+          minWidth: 120,
+          customRender: (h, scope) => {
+            const map = {
+              '01': '全部',
+              '02': '主联系人'
+            }
+            return map[scope.row.supplierContacts]
+          }
+        },
+        {
+          i18n: '条款负责人',
+          prop: 'chargeName',
+          minWidth: 120,
+          sortable: true
+        }
+      ]
+    }
   },
   watch: {
     selectedTableData: {
       immediate: true,
       handler(val) {
         this.selectState = val.map((item) => {
-          return item.state;
-        });
-      },
-    },
+          return item.state
+        })
+      }
+    }
   },
   mounted() {
-    getDictByCode("SIGN_NODE").then((res) => {
+    getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
-        this.signNodeList = res.data[0].subDictResultVo;
+        this.signNodeList = res.data[0].subDictResultVo
+        const signNodeListObj = {}
         this.signNodeList.map((item) => {
-          this.signNodeListObj[item.name] = item.describe;
-        });
+          signNodeListObj[item.name] = item.describe
+        })
+        this.extraData.signNodeListObj = signNodeListObj
       }
-    });
+    })
     // this.signNodeListObj = {
     //   "01": "注册",
     //   "02": "询价",
@@ -296,103 +307,107 @@ export default {
   },
   filters: {
     supplierRangeFilter: function (value) {
-      let supplierRangeList = [];
-      value?.split(",").map((i) => {
-        i == "PP"
-          ? (supplierRangeList += "生产供应商，")
-          : i == "GP"
-          ? (supplierRangeList += "一般供应商，")
-          : i == "NT"
-          ? (supplierRangeList += "N-Tier，")
-          : i == "CM"
-          ? (supplierRangeList += "自定义，")
-          : (supplierRangeList += "");
-      });
-      supplierRangeList.length == 0 ? supplierRangeList = '' : supplierRangeList = supplierRangeList.slice(
-        0,
-        supplierRangeList.length - 1
-      );
-      return supplierRangeList;
+      let supplierRangeList = []
+      value?.split(',').map((i) => {
+        i == 'PP'
+          ? (supplierRangeList += '生产供应商，')
+          : i == 'GP'
+          ? (supplierRangeList += '一般供应商，')
+          : i == 'NT'
+          ? (supplierRangeList += 'N-Tier，')
+          : i == 'CM'
+          ? (supplierRangeList += '自定义，')
+          : (supplierRangeList += '')
+      })
+      supplierRangeList.length == 0
+        ? (supplierRangeList = '')
+        : (supplierRangeList = supplierRangeList.slice(
+            0,
+            supplierRangeList.length - 1
+          ))
+      return supplierRangeList
     },
     supplierIdentityFilter: function (value) {
-      let supplierIdentityList = [];
-      value?.split(",").map((i) => {
-        i == "0"
-          ? (supplierIdentityList += "临时，")
-          : i == "1"
-          ? (supplierIdentityList += "正式，")
-          : i == "2"
-          ? (supplierIdentityList += "储蓄池，")
-          : (supplierIdentityList += "");
-      });
-      supplierIdentityList.length == 0 ? supplierIdentityList = '' : supplierIdentityList = supplierIdentityList.slice(
-        0,
-        supplierIdentityList.length - 1
-      );
-      return supplierIdentityList;
-    },
+      let supplierIdentityList = []
+      value?.split(',').map((i) => {
+        i == '0'
+          ? (supplierIdentityList += '临时，')
+          : i == '1'
+          ? (supplierIdentityList += '正式，')
+          : i == '2'
+          ? (supplierIdentityList += '储蓄池，')
+          : (supplierIdentityList += '')
+      })
+      supplierIdentityList.length == 0
+        ? (supplierIdentityList = '')
+        : (supplierIdentityList = supplierIdentityList.slice(
+            0,
+            supplierIdentityList.length - 1
+          ))
+      return supplierIdentityList
+    }
   },
   methods: {
     // 导出当前
     handleExport() {
-      const tableArr = window._.cloneDeep(this.tableListData);
+      const tableArr = window._.cloneDeep(this.tableListData)
       tableArr.map((item) => {
-        item.signNode = this.signNodeListObj[item.signNode];
-        item.isPersonalTerms = this.isPersonalTermsObj[item.isPersonalTerms];
-        item.state = this.stateObj[item.state];
-        item.supplierContacts = this.supplierContactsObj[item.supplierContacts];
+        item.signNode = this.signNodeListObj[item.signNode]
+        item.isPersonalTerms = this.isPersonalTermsObj[item.isPersonalTerms]
+        item.state = this.stateObj[item.state]
+        item.supplierContacts = this.supplierContactsObj[item.supplierContacts]
         // item.supplierRange = this.supplierRangeObj[item.supplierRange];
         // item.supplierIdentity = this.supplierIdentityObj[item.supplierIdentity];
-        let supplierRangeList = [];
-        item.supplierRange?.split(",").map((i) => {
-          i == "PP"
-            ? (supplierRangeList += "生产供应商，")
-            : i == "GP"
-            ? (supplierRangeList += "一般供应商，")
-            : i == "NT"
-            ? (supplierRangeList += "N-Tier，")
-            : i == "CM"
-            ? (supplierRangeList += "自定义，")
-            : (supplierRangeList += "");
-        });
+        let supplierRangeList = []
+        item.supplierRange?.split(',').map((i) => {
+          i == 'PP'
+            ? (supplierRangeList += '生产供应商，')
+            : i == 'GP'
+            ? (supplierRangeList += '一般供应商，')
+            : i == 'NT'
+            ? (supplierRangeList += 'N-Tier，')
+            : i == 'CM'
+            ? (supplierRangeList += '自定义，')
+            : (supplierRangeList += '')
+        })
         supplierRangeList = supplierRangeList.slice(
           0,
           supplierRangeList.length - 1
-        );
-        item.supplierRange = supplierRangeList;
-        let supplierIdentityList = [];
-        item.supplierIdentity?.split(",").map((i) => {
-          i == "0"
-            ? (supplierIdentityList += "临时，")
-            : i == "1"
-            ? (supplierIdentityList += "正式，")
-            : i == "2"
-            ? (supplierIdentityList += "储蓄池，")
-            : (supplierIdentityList += "");
-        });
+        )
+        item.supplierRange = supplierRangeList
+        let supplierIdentityList = []
+        item.supplierIdentity?.split(',').map((i) => {
+          i == '0'
+            ? (supplierIdentityList += '临时，')
+            : i == '1'
+            ? (supplierIdentityList += '正式，')
+            : i == '2'
+            ? (supplierIdentityList += '储蓄池，')
+            : (supplierIdentityList += '')
+        })
         supplierIdentityList = supplierIdentityList.slice(
           0,
           supplierIdentityList.length - 1
-        );
-        item.supplierIdentity = supplierIdentityList;
-      });
+        )
+        item.supplierIdentity = supplierIdentityList
+      })
       // const titleArr = window._.cloneDeep(this.tableTitle)
       // const index = titleArr.findIndex(item => item.props == 'option')
       // titleArr.splice(index, index + 1)
-      excelExport(tableArr, this.tableTitle, "条款管理");
+      excelExport(tableArr, this.tableTitle, '条款管理')
     },
     // 导出全部
     handleExportAll() {
-      this.$emit("handleExportAll");
+      this.$emit('handleExportAll')
     },
     handleCurrentChange(e) {
-      this.$emit("handleChangePage", e);
+      this.$emit('handleChangePage', e)
     },
     handleSizeChange(e) {
-      this.$emit("handleSizeChange", e);
+      this.$emit('handleSizeChange', e)
     },
     flushTable() {
-      this.$emit("refTabList");
+      this.$emit('refTabList')
     },
     // 失效
     // handleFailure() {
@@ -419,8 +434,8 @@ export default {
       // });
       // window.open(routeUrl.href, "_blank");
       this.$router.push({
-        path: "/terms/management/addClause",
-      });
+        path: '/terms/management/addClause'
+      })
     },
     // handleEdit() {
     //   this.editOrAdd = "edit";
@@ -456,45 +471,47 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
-      this.selectedTableData = val;
+      this.selectedTableData = val
     },
     handleGoDetail(e) {
-      if (e.state == "01" || e.state == "02") {
+      if (e.state == '01' || e.state == '02') {
         this.$router.push({
-          path: "/terms/management/addClause",
+          path: '/terms/management/addClause',
           query: {
-            id: e.id,
-          },
-        });
+            id: e.id
+          }
+        })
       } else {
         this.$router.push({
-          path: "/terms/management/clauseDetail",
+          path: '/terms/management/clauseDetail',
           query: {
-            id: e.id,
-          },
-        });
+            id: e.id
+          }
+        })
       }
     },
     handleSignDetail(e) {
-      this.signTitle = {
-        name: e.name,
-        termsVersion: e.termsVersion,
-        state: e.state
-      };
-      this.id = e.id;
-      this.openSignDetailDialog = true;
+      if (['03', '04'].includes(e.state)) {
+        this.signTitle = {
+          name: e.name,
+          termsVersion: e.termsVersion,
+          state: e.state
+        }
+        this.id = e.id
+        this.openSignDetailDialog = true
+      }
     },
     // closeDetailDialog(bol) {
     //   this.openDetailDialog = bol;
     // },
     closeSignDetailDialog(bol) {
-      this.openSignDetailDialog = bol;
-    },
+      this.openSignDetailDialog = bol
+    }
     // closeAddClauseDialog(bol) {
     //   this.openAddClauseDialog = bol;
     // },
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -531,33 +548,4 @@ export default {
   border: 1px solid #ebeef5;
   border-left: none;
 }
-
-// ::v-deep .el-form-item {
-//   margin-top: 0;
-//   margin-bottom: 0;
-// }
-
-// .tab_top{
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-// ::v-deep .circle:before {
-//   content: "";
-//   display: inline-block;
-//   border-radius: 50%;
-//   width: 15px;
-//   height: 15px;
-//   background: red;
-//   position: relative;
-//   top: 2px;
-//   margin-right: 10px;
-// }
-
-// ::v-deep .has-gutter tr {
-//   background-color: #eaf1fd;
-// }
-// ::v-deep .el-table th {
-//   background-color: #eaf1fd;
-// }
 </style>

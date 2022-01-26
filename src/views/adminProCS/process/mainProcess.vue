@@ -129,7 +129,7 @@ export default {
             }
         },
         dealData(res) {
-            this.filePath = res.filePath.split("/uploader/")[1]
+            this.filePath = res.filePath?.split("/uploader/")[1] || ''
             this.baseInfoName = res.name
             this.currId = res?.id || ''
             let hotAreas = res.hotAreas || []

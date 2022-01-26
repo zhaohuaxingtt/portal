@@ -13,6 +13,18 @@ export const questionColumn = [
 		prop:'feedBackCount',
 		label:'反馈',
 		align: 'center'
+	},
+	{
+		label:'操作',
+		align: 'center',
+		customRender:(h,{row},col,{operate}) => {
+            return (
+                <span>
+                    <iButton type="text" on-click={() => operate('edit',row)}>修改</iButton>
+                    <iButton type="text" on-click={() => operate('del',row)}>删除</iButton>
+                </span>
+            )
+        }
 	}
 	
 ]

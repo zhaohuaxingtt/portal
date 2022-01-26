@@ -4,83 +4,172 @@
  * @Description:财务
  -->
 <template>
-	<div>
-		<!-- 盈利能力 -->
-		<iCard :title="$t('SPR_FRM_DEP_YLNL')" collapse class="margin-top20">
-			<iInput v-model='interViewData.profitability' type='textarea' :autosize='rowRange' :placeholder="$t('SPR_FRM_DEP_YLNLPLACE')"></iInput>
-		</iCard>
-		<!-- 营运能力 -->
-		<iCard :title="$t('SPR_FRM_DEP_YYNL')" collapse class="margin-top20">
-			<iInput v-model='interViewData.operatingCapacity' type='textarea' :autosize='rowRange' :placeholder="$t('SPR_FRM_DEP_YYNLPLACE')"></iInput>
-		</iCard>
-		<!-- 偿债能力 -->
-		<iCard :title="$t('SPR_FRM_DEP_CZNL')" collapse class="margin-top20">
-			<iInput v-model='interViewData.solvency' type='textarea' :autosize='rowRange' :placeholder="$t('SPR_FRM_DEP_CZNLPLACE')"></iInput>
-		</iCard>
-		<!-- 资金与融资渠道 -->
-		<iCard :title="$t('SPR_FRM_DEP_ZJYRZQD')" collapse class="margin-top20">
-			<tableList :tableData="interViewData.bankList" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange">
-			</tableList>
-			<div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
-			<iInput v-model="interViewData.capitalMinutesMeeting" type='textarea' :autosize='rowRange' :placeholder="$t('SPR_FRM_DEP_HYJYPLACE')"></iInput>
-		</iCard>
-		<!-- 财务补充 -->
-		<iCard :title="$t('SPR_FRM_DEP_CWBC')" collapse class="margin-top20">
-			<iInput v-model='interViewData.financialSupplement' type='textarea' :autosize='rowRange' :placeholder="$t('SPR_FRM_DEP_CWBCPLACE')"></iInput>
-		</iCard>
-	</div>
+  <div>
+    <!-- 盈利能力 -->
+    <iCard :title="$t('SPR_FRM_DEP_YLNL')"
+           collapse
+           class="margin-top20">
+      <iInput v-model='interViewData.profitability'
+              type='textarea'
+              :autosize='rowRange'
+              :placeholder="$t('SPR_FRM_DEP_YLNLPLACE')"></iInput>
+    </iCard>
+    <!-- 营运能力 -->
+    <iCard :title="$t('SPR_FRM_DEP_YYNL')"
+           collapse
+           class="margin-top20">
+      <iInput v-model='interViewData.operatingCapacity'
+              type='textarea'
+              :autosize='rowRange'
+              :placeholder="$t('SPR_FRM_DEP_YYNLPLACE')"></iInput>
+    </iCard>
+    <!-- 偿债能力 -->
+    <iCard :title="$t('SPR_FRM_DEP_CZNL')"
+           collapse
+           class="margin-top20">
+      <iInput v-model='interViewData.solvency'
+              type='textarea'
+              :autosize='rowRange'
+              :placeholder="$t('SPR_FRM_DEP_CZNLPLACE')"></iInput>
+    </iCard>
+    <!-- 资金与融资渠道 -->
+    <iCard :title="$t('SPR_FRM_DEP_ZJYRZQD')"
+           collapse
+           class="margin-top20">
+      <template slot="header">
+        <div class="flex-end-center"
+             style="width:100%">
+          <iButton @click="add">{{language('XINZENG','新增')}}</iButton>
+          <iButton @click="del">{{language('SHANCHU','删除')}}</iButton>
+        </div>
+      </template>
+      <tableList :tableData="interViewData.bankList"
+                 :tableTitle="tableTitle"
+                 :tableLoading="tableLoading"
+                 :index="true"
+                 :input-props="inputProps"
+                 @handleSelectionChange="handleSelectionChange">
+      </tableList>
+      <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
+      <iInput v-model="interViewData.capitalMinutesMeeting"
+              type='textarea'
+              :autosize='rowRange'
+              :placeholder="$t('SPR_FRM_DEP_HYJYPLACE')"></iInput>
+    </iCard>
+    <!-- 财务补充 -->
+    <iCard :title="$t('SPR_FRM_DEP_CWBC')"
+           collapse
+           class="margin-top20">
+      <iInput v-model='interViewData.financialSupplement'
+              type='textarea'
+              :autosize='rowRange'
+              :placeholder="$t('SPR_FRM_DEP_CWBCPLACE')"></iInput>
+    </iCard>
+  </div>
 </template>
 
 <script>
-	import {iCard,iInput} from 'rise';
-	import tableList from '@/components/commonTable';
-	import {CapitalFinancing} from '../data';
-	import {interviewFinanceMessage,interviewFinanceInfo} from '@/api/frmRating/depthRating/interView';
-	import resultMessageMixin from '@/mixins/resultMessageMixin';
-	export default{
-		mixins:[resultMessageMixin],
-		components:{iCard,iInput,tableList},
-		props:{
-			id:{type:String}
-		},
-		data() {
-			return {
-				rowRange: {minRows:3,maxRows:6},
-				tableTitle:CapitalFinancing,
-				tableLoading: false,
-				interViewData:{}
-			}
-		},
-		created() {
-			this.getData()
-		},
-		methods:{
-			// 获取获取访谈清单
-			getData(){
-				interviewFinanceMessage({deepCommentSupplierId:this.id}).then(res=>{
-					if (res.data) {
-						this.interViewData=res.data
-					}
-				})
-			},
-			// 保存
-			save(){
-				this.interViewData.deepCommentSupplierId=this.id
-				interviewFinanceInfo(this.interViewData).then(res=>{
-					this.resultMessage(res,()=>{
-						this.getData()
-					})
-				})
-			}
-		}
-	}
+import { iCard, iInput, iButton } from 'rise';
+import tableList from '@/components/commonTable';
+import { CapitalFinancing } from '../data';
+import { interviewFinanceMessage, interviewFinanceInfo } from '@/api/frmRating/depthRating/interView';
+import resultMessageMixin from '@/mixins/resultMessageMixin';
+export default {
+  mixins: [resultMessageMixin],
+  components: { iCard, iInput, tableList, iButton },
+  props: {
+    id: { type: String }
+  },
+  data () {
+    return {
+      rowRange: { minRows: 3, maxRows: 6 },
+      tableTitle: CapitalFinancing,
+      tableLoading: false,
+      interViewData: {},
+      inputProps: [],
+      selectProps: [],
+      selectList: []
+    }
+  },
+  created () {
+    this.getData()
+    this.setInputProps()
+  },
+  methods: {
+    // 获取获取访谈清单
+    setInputProps () {
+      this.inputProps = []
+      this.tableTitle.map(item => {
+        if (!this.selectProps.includes(item.props)) {
+          this.inputProps.push(item.props)
+        }
+      })
+    },
+    getData () {
+      interviewFinanceMessage({ deepCommentSupplierId: this.id }).then(res => {
+        if (res.data) {
+          this.interViewData = res.data
+          if (!this.interViewData.bankList) {
+            this.interViewData.bankList = []
+          }
+        }
+      })
+    },
+    // 保存
+    save () {
+      this.interViewData.deepCommentSupplierId = this.id
+      interviewFinanceInfo(this.interViewData).then(res => {
+        this.resultMessage(res, () => {
+          this.getData()
+        })
+      })
+    },
+    add () {
+      let obj = {}
+      let arr = this.tableTitle.map(item => item.props)
+      for (let key in arr) { //这里key索引
+        obj[arr[key]] = ""
+      }
+      let rand = Math.random()
+      obj.addId = Math.round(rand * 999)
+      this.interViewData.bankList.push(obj)
+    },
+    edit () {
+
+    },
+    del () {
+      for (let i = 0; i < this.selectList.length; i++) {
+        let val = this.selectList
+        val.forEach((val, index) => {
+          if (val.id) {
+            this.interViewData.bankList.forEach((v, i) => {
+              if (val.id === v.id) {
+                this.interViewData.bankList.splice(i, 1)
+              }
+            })
+          } else {
+            this.interViewData.bankList.forEach((v, i) => {
+              if (val.addId === v.addId) {
+                this.interViewData.bankList.splice(i, 1)
+              }
+            })
+          }
+        })
+      }
+    },
+    handleSelectionChange (val) {
+      this.selectList = val
+
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped="scoped">
-	.title {
-		font-weight: bold;
-		font-size: 18px;
-		color: $color-black;
-		margin: 20px 0;
-	}
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  color: $color-black;
+  margin: 20px 0;
+}
 </style>
