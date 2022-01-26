@@ -18,7 +18,7 @@
                     <div class="detail-item" v-for="(l,index) in dataList" :key="index">
                         <h3 class="title" v-text="l.categoryName"></h3>
                         <div class="file" v-for="(item) in l.list" :key="item.id">
-                            <span class="title-text" @click="openFun(item)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
+                            <span class="title-text" @click="openFun(item)">{{`${item.cover.substring(item.cover.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item)">
                                     分享
@@ -86,7 +86,7 @@
         methods: {
             query(){
                 if (this.keyword) {
-                    this.params.name = this.keyword
+                    this.params.title = this.keyword
                 }
                 try {
                     this.loading = true
@@ -129,8 +129,8 @@
                 })
             },
             share(item) {
-                let subject = `我与你分享了一条${item.categoryName} 《${item.title}`
-                let body = `我与你分享了一条内容${item.categoryName} 《${item.title}》 %0a%0d ${item.cover}`
+                let subject = `我与你分享了一条 ${this.title} 《${item.title}》`
+                let body = `我与你分享了一条 ${this.title} 《${item.title}》 %0a%0d ${item.cover}`
                 let href = `mailto:?subject=${subject}&body=${body}`
                 this.createAnchorLink(href)
             },
