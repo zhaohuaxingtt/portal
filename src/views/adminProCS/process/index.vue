@@ -8,8 +8,8 @@
                     <iButton @click="handleMainChart">主流程图</iButton>
                 </div>
                 <div>
-                    <iButton :disabled="disabled || selectList.length == 0" @click="edit">修改</iButton>
-                    <iButton :disabled="disabled || selectList.length == 0" @click="del">删除</iButton>
+                    <iButton :disabled="selectList.length == 0" @click="edit">修改</iButton>
+                    <iButton :disabled="selectList.length == 0" @click="del">删除</iButton>
                 </div>
             </div>
             <iTableCustom
@@ -71,23 +71,30 @@ export default {
             mainChartDialog: false
         }
     },
-    watch:{
-       selectList(n){
-           if(n[0] && n[0].published){
-               this.disabled = true
-           }else{
-               this.disabled = false
-           }
-       } 
-    },
+    // watch:{
+    //    selectList(n){
+    //        if(n[0] && n[0].published){
+    //            this.disabled = true
+    //        }else{
+    //            this.disabled = false
+    //        }
+    //    } 
+    // },
     created() {
         this.query()
     },
     methods: {
         async query(){
             try {
+                let params = {
+                    page: this.page.currPage - 1,
+                    size: this.page.pageSize
+                }
+                if (this.keyword) {
+                    params.keyword = this.keyword
+                }
                 this.tableLoading = true
-                let res = await queryProcessList({page:this.page.currPage - 1,size:this.page.pageSize,keyword:this.keyword})
+                let res = await queryProcessList(params)
                 this.tableListData = res?.content || []
                 this.page.totalCount = res?.totalPages || 0
             } finally {
@@ -109,12 +116,16 @@ export default {
         async del(){
             let id = this.selectList[0]?.id
             this.tableLoading = true
-            await deleteProcess(id).then(res => {
-                if (res?.success) {
-                    this.$message({type: 'success', message: "成功删除该条流程"})
-                    this.query()
-                }
-            })
+            try {
+                await deleteProcess(id).then(res => {
+                    if (res?.success) {
+                        this.$message({type: 'success', message: "成功删除该条流程"})
+                        this.query()
+                    }
+                })
+            } finally {
+                this.tableLoading = false
+            }
         },
         async updateState(v,index){
             let id = this.tableListData[index].id
@@ -126,6 +137,7 @@ export default {
                     if (res?.success) {
                         this.$message({type: 'success', message: "修改当前状态成功"})
                         // this.query()
+                        this.tableLoading = false
                         this.tableListData[index].published = v
                     }
                 })
@@ -144,6 +156,7 @@ export default {
                     if (res?.success) {
                         this.$message({type: 'success', message: "修改发送消息成功"})
                         // this.query()
+                        this.tableLoading = false
                         this.tableListData[index].send = v
                     }
                 })

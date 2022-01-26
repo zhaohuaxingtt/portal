@@ -8,8 +8,6 @@
             <iButton @click="handleAdd">新建</iButton>
             <!-- <iButton @click="handleExport">导出当前</iButton> -->
             <iButton @click="handleExportAll">导出全部</iButton>
-
-            <button-table-setting @click="$refs.termsTable.openSetting()" />
             <!-- 失效 -->
             <!-- <iButton
               @click="handleFailure"
@@ -24,19 +22,157 @@
           </div>
         </div>
       </div>
-
-      <iTableCustom
-        ref="termsTable"
-        :loading="tableLoading"
+      <iTableML
+        tooltip-effect="light"
         :data="tableListData"
-        :columns="tableColumns"
-        :tree-expand="exData"
-        permissionKey="ADMIN_TERMS"
-        :extraData="extraData"
-        @handle-selection-change="handleSelectionChange"
-        @go-detail="handleGoDetail"
-        @sign-detail="handleSignDetail"
-      />
+        :tableLoading="tableLoading"
+        :border="true"
+        class="customer-table"
+        @selectionChange="handleSelectionChange"
+      >
+        <el-table-column
+          type="selection"
+          width="50"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          label="序号"
+          type="index"
+          width="80"
+          align="center"
+        ></el-table-column>
+        <el-table-column align="center" label="条款编码" min-width="100"
+          ><template slot-scope="scope">
+            <span>{{ scope.row['termsCode'] }}</span>
+          </template></el-table-column
+        >
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          label="条款名称"
+          min-width="400"
+          ><template slot-scope="scope">
+            <span class="open-link-text" @click="handleGoDetail(scope.row)">{{
+              scope.row['name']
+            }}</span>
+          </template></el-table-column
+        >
+        <el-table-column align="center" label="版本号" min-width="80">
+          <template slot-scope="scope">
+            <span>{{ scope.row['termsVersion'] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="条款状态" min-width="100"
+          ><template slot-scope="scope">
+            {{
+              scope.row.state === '01'
+                ? '草稿'
+                : scope.row.state === '02'
+                ? '待生效'
+                : scope.row.state === '03'
+                ? '生效'
+                : scope.row.state === '04'
+                ? '失效'
+                : ''
+            }}
+          </template></el-table-column
+        >
+        <el-table-column align="center" min-width="140" label="条款生效时间"
+          ><template slot-scope="scope">
+            <span>{{ scope.row['inDate'] }}</span>
+          </template></el-table-column
+        >
+        <el-table-column align="center" min-width="120" label="发布日期"
+          ><template slot-scope="scope">
+            <span>{{ scope.row['publishDate'] }}</span>
+          </template></el-table-column
+        >
+        <el-table-column align="center" min-width="120" label="签署节点">
+          <template slot-scope="scope">
+            <span>{{ signNodeListObj[scope.row['signNode']] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" min-width="120" label="签署情况">
+          <template slot-scope="scope">
+            <span
+              class="open-link-text"
+              v-if="scope.row.state == '03' || scope.row.state == '04'"
+              @click="handleSignDetail(scope.row)"
+              >{{ scope.row['signResult'] }}</span
+            >
+            <span v-else>{{ scope.row['signResult'] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="是否个人条款" min-width="120">
+          <template slot-scope="scope">
+            <span>{{
+              scope.row.isPersonalTerms == true
+                ? '是'
+                : scope.row.isPersonalTerms == false
+                ? '否'
+                : ''
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          min-width="140"
+          label="供应商范围"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <span>{{
+              scope.row.supplierRange == "PP"
+                ? "生产供应商"
+                : scope.row.supplierRange == "GP"
+                ? "一般供应商"
+                : scope.row.supplierRange == "NT"
+                ? "Ntier"
+                : scope.row.supplierRange == "CM"
+                ? "自定义"
+                : ""
+            }}</span> -->
+            <span>{{ scope.row.supplierRange | supplierRangeFilter }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          min-width="140"
+          label="供应商身份"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <!-- <span>{{
+              scope.row.supplierIdentity == "0"
+                ? "临时"
+                : scope.row.supplierIdentity == "1"
+                ? "正式"
+                : scope.row.supplierIdentity == "2"
+                ? "储蓄池"
+                : ""
+            }}</span> -->
+            <span>{{
+              scope.row.supplierIdentity | supplierIdentityFilter
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" min-width="120" label="供应商用户">
+          <template slot-scope="scope">
+            <span>{{
+              scope.row['supplierContacts'] == '01'
+                ? '全部'
+                : scope.row['supplierContacts'] == '02'
+                ? '主联系人'
+                : ''
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" min-width="120" label="条款负责人">
+          <template slot-scope="scope">
+            <span>{{ scope.row['chargeName'] }}</span>
+          </template>
+        </el-table-column>
+      </iTableML>
       <iPagination
         v-update
         @current-change="handleCurrentChange($event)"
@@ -64,9 +200,11 @@
 </template>
 
 <script>
-import iTableCustom from '@/components/iTableCustom'
 import { iCard, iButton, iPagination } from 'rise'
+// import iTableCustom from "@/components/iTableCustom";
+import iTableML from '@/components/iTableML'
 import { excelExport } from '@/utils/filedowLoad'
+// import { tableListColumns } from "./data";
 import { getDictByCode } from '@/api/dictionary/index'
 import signDetailDialog from './signDetailDialog.vue'
 import {
@@ -77,14 +215,16 @@ import {
   supplierContactsObj,
   supplierIdentityObj
 } from './data'
+// import { invalidateTerms } from "@/api/terms/terms";
 
 export default {
   components: {
     iCard,
     iButton,
+    // iTableCustom,
     iPagination,
-    signDetailDialog,
-    iTableCustom
+    iTableML,
+    signDetailDialog
   },
   props: {
     tableListData: {
@@ -111,7 +251,6 @@ export default {
     }
   },
   data() {
-    const _self = this
     return {
       tableTitle,
       isPersonalTermsObj,
@@ -127,155 +266,7 @@ export default {
       id: -1,
       state: '',
       approvalProcess: [],
-      signTitle: {},
-      extraData: { signNodeListObj: {} },
-      tableColumns: [
-        {
-          type: 'selection'
-        },
-        {
-          type: 'index',
-          label: '序号',
-          i18n: '序号'
-        },
-        {
-          i18n: '条款编码',
-          prop: 'termsCode',
-          sortable: true,
-          minWidth: 100
-        },
-        {
-          i18n: '条款名称',
-          prop: 'name',
-          emit: 'go-detail',
-          sortable: true,
-          minWidth: 400,
-          customRender: (h, scope) => {
-            return <span class="link-text">{scope.row.name}</span>
-          }
-        },
-        {
-          i18n: '版本号',
-          prop: 'termsVersion',
-          sortable: true,
-          minWidth: 80
-        },
-        {
-          i18n: '条款状态',
-          prop: 'state',
-          sortable: true,
-          minWidth: 100,
-          customRender: (h, scope) => {
-            const states = {
-              '01': '草稿',
-              '02': '待生效',
-              '03': '生效',
-              '04': '失效'
-            }
-            return states[scope.row.state]
-          }
-        },
-        {
-          i18n: '条款生效时间',
-          prop: 'inDate',
-          minWidth: 140,
-          sortable: true
-        },
-        {
-          i18n: '发布日期',
-          prop: 'publishDate',
-          minWidth: 140,
-          sortable: true
-        },
-        {
-          i18n: '签署节点',
-          prop: 'signNode',
-          sortable: true,
-          minWidth: 120,
-          customRender: (h, scope, column, extraData) => {
-            return extraData.signNodeListObj[scope.row.signNode]
-          }
-        },
-        {
-          i18n: '签署情况',
-          prop: 'signResult',
-          sortable: true,
-          emit: 'sign-detail',
-          minWidth: 120,
-          customRender: (h, scope) => {
-            const { signResult, state } = scope.row
-            if (['03', '04'].includes(state)) {
-              return <span class="link-text">{signResult}</span>
-            }
-            return signResult
-          }
-        },
-        {
-          i18n: '是否个人条款',
-          prop: 'isPersonalTerms',
-          sortable: true,
-          minWidth: 120,
-          customRender: (h, scope) => {
-            const { isPersonalTerms } = scope.row
-            return isPersonalTerms ? '是' : isPersonalTerms == false ? '否' : ''
-          }
-        },
-        {
-          i18n: '供应商范围',
-          prop: 'supplierRange',
-          sortable: true,
-          minWidth: 140,
-          tooltip: true,
-          customRender: (h, scope) => {
-            const map = {
-              PP: '生产供应商',
-              GP: '一般供应商',
-              NT: 'N-Tier',
-              CM: '自定义'
-            }
-
-            const res =
-              scope.row.supplierRange?.split(',').map((e) => map[e]) || []
-            return res.join(',')
-          }
-        },
-        {
-          i18n: '供应商身份',
-          prop: 'supplierIdentity',
-          sortable: true,
-          minWidth: 140,
-          customRender: (h, scope) => {
-            const map = {
-              0: '临时',
-              1: '正式',
-              2: '储蓄池'
-            }
-
-            const res =
-              scope.row.supplierIdentity?.split(',').map((e) => map[e]) || []
-            return res.join(',')
-          }
-        },
-        {
-          i18n: '供应商用户',
-          prop: 'supplierContacts',
-          sortable: true,
-          minWidth: 120,
-          customRender: (h, scope) => {
-            const map = {
-              '01': '全部',
-              '02': '主联系人'
-            }
-            return map[scope.row.supplierContacts]
-          }
-        },
-        {
-          i18n: '条款负责人',
-          prop: 'chargeName',
-          minWidth: 120,
-          sortable: true
-        }
-      ]
+      signTitle: {}
     }
   },
   watch: {
@@ -292,11 +283,9 @@ export default {
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo
-        const signNodeListObj = {}
         this.signNodeList.map((item) => {
-          signNodeListObj[item.name] = item.describe
+          this.signNodeListObj[item.name] = item.describe
         })
-        this.extraData.signNodeListObj = signNodeListObj
       }
     })
     // this.signNodeListObj = {
@@ -491,15 +480,13 @@ export default {
       }
     },
     handleSignDetail(e) {
-      if (['03', '04'].includes(e.state)) {
-        this.signTitle = {
-          name: e.name,
-          termsVersion: e.termsVersion,
-          state: e.state
-        }
-        this.id = e.id
-        this.openSignDetailDialog = true
+      this.signTitle = {
+        name: e.name,
+        termsVersion: e.termsVersion,
+        state: e.state
       }
+      this.id = e.id
+      this.openSignDetailDialog = true
     },
     // closeDetailDialog(bol) {
     //   this.openDetailDialog = bol;
@@ -548,4 +535,33 @@ export default {
   border: 1px solid #ebeef5;
   border-left: none;
 }
+
+// ::v-deep .el-form-item {
+//   margin-top: 0;
+//   margin-bottom: 0;
+// }
+
+// .tab_top{
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+// ::v-deep .circle:before {
+//   content: "";
+//   display: inline-block;
+//   border-radius: 50%;
+//   width: 15px;
+//   height: 15px;
+//   background: red;
+//   position: relative;
+//   top: 2px;
+//   margin-right: 10px;
+// }
+
+// ::v-deep .has-gutter tr {
+//   background-color: #eaf1fd;
+// }
+// ::v-deep .el-table th {
+//   background-color: #eaf1fd;
+// }
 </style>
