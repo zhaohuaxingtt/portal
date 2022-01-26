@@ -11,10 +11,11 @@ export const ROLE_COLUMNS = [
   {
     prop: 'id',
     label: '角色ID',
-    i18n: '角色ID'
+    i18n: '角色ID',
+    sortable: true
   },
   {
-    prop: '',
+    prop: 'code',
     label: '角色代码',
     i18n: '角色代码',
     emit: 'go-detail',
@@ -22,22 +23,26 @@ export const ROLE_COLUMNS = [
     // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.code}</span>
-    }
+    },
+    sortable: true
   },
   {
     prop: 'fullNameZh',
     label: '角色名称',
-    i18n: '角色名称'
+    i18n: '角色名称',
+    sortable: true
   },
   {
     prop: 'description',
     label: '描述',
-    i18n: '描述'
+    i18n: '描述',
+    sortable: true
   },
   {
     prop: 'status',
     label: '角色状态',
     i18n: '角色状态',
+    sortable: true,
     customRender: (h, scope) => {
       return scope.row.status ? '有效' : '失效'
     }

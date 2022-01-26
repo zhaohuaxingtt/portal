@@ -55,19 +55,23 @@
         <iButton
           @click="editForm"
           :download-method="exportExcel"
-          xxx-permission="'BUTTON_MATERIEL_DATA_RAW_MODIFY'"
+          v-permission="'BUTTON_MATERIEL_DATA_RAW_MODIFY'"
           >{{ language('编辑') }}</iButton
         >
       </div>
       <div v-else>
         <iButton
           @click="save('rulesRef')"
-          xxx-permission="'BUTTON_MATERIEL_DATA_RAW_MODIFY|BUTTON_MATERIEL_DATA_RAW_ADD'"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_RAW_MODIFY|BUTTON_MATERIEL_DATA_RAW_ADD'
+          "
           >{{ language('保存') }}</iButton
         >
         <iButton
           @click="reset"
-          xxx-permission="'BUTTON_MATERIEL_DATA_RAW_MODIFY|BUTTON_MATERIEL_DATA_RAW_ADD'"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_RAW_MODIFY|BUTTON_MATERIEL_DATA_RAW_ADD'
+          "
           >{{ language('重置') }}</iButton
         >
         <iButton @click="closeDialog">{{ language('退出') }}</iButton>

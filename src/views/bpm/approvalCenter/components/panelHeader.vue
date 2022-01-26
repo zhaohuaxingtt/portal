@@ -17,8 +17,6 @@
             @click="$emit('toggle', 'approval')"
           />
         </iTabBadge>
-
-        <logIcon />
       </div>
     </pageHeader>
   </div>
@@ -26,8 +24,6 @@
 
 <script>
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
-import logIcon from '@/components/logIcon'
-import { Icon } from 'rise'
 import pageHeader from '@/components/pageHeader'
 export default {
   name: 'panelHeader',
@@ -45,7 +41,7 @@ export default {
       default: 0
     }
   },
-  components: { pageHeader, Icon, iTabBadge, iTabBadgeItem, logIcon }
+  components: { pageHeader, iTabBadge, iTabBadgeItem }
 }
 </script>
 

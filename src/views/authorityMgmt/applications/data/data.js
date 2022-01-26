@@ -15,21 +15,25 @@ export const tableColumnSetting = [
     emit: 'open-detail',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.appNameCn}</span>
-    }
+    },
+    sortable: true
   },
   {
     prop: 'appNameEn',
     i18n: '英文名称',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'url',
     i18n: '链接',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'description',
     i18n: '系统功能说明',
-    align: 'center'
+    align: 'center',
+    sortable: true
   }
 ]

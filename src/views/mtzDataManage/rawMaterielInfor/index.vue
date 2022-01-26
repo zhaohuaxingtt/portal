@@ -61,32 +61,30 @@
     <div class="tabelList">
       <iCard>
         <div class="btnList">
-          <iButton
-            @click="add"
-            xxx-permission="'BUTTON_MATERIEL_DATA_RAW_ADD'"
-            >{{ language('新建') }}</iButton
-          >
+          <iButton @click="add" v-permission="'BUTTON_MATERIEL_DATA_RAW_ADD'">{{
+            language('新建')
+          }}</iButton>
           <iButton
             @click="active"
             :disabled="activeBtnDis"
-            xxx-permission="'BUTTON_MATERIEL_DATA_RAW_ACTIVE'"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_ACTIVE'"
             >{{ language('生效') }}</iButton
           >
           <iButton
             @click="loseActive"
             :disabled="loseActiveBtnDis"
-            xxx-permission="'BUTTON_MATERIEL_DATA_RAW_DISACTIVE'"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_DISACTIVE'"
             >{{ language('失效') }}</iButton
           >
           <iButton
             @click="del"
             :disabled="this.selectedItem.length == 0"
-            xxx-permission="'BUTTON_MATERIEL_DATA_RAW_DELETE'"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_DELETE'"
             >{{ language('删除') }}</iButton
           >
           <buttonDownload
             :download-method="exportExcel"
-            xxx-permission="'BUTTON_MATERIEL_DATA_RAW_EXPORT'"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_EXPORT'"
             >{{ language('导出') }}</buttonDownload
           >
         </div>

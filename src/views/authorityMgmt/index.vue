@@ -101,14 +101,16 @@
                 $t('staffManagement.NEW')
               }}</iButton>
               <button-download :download-method="handleExport" />
+              <button-table-setting @click="$refs.userTable.openSetting()" />
             </div>
             <div class="OrganizationTable">
               <iTableCustom
-                ref="testTable"
+                ref="userTable"
                 :loading="tableLoading"
                 :data="tableListData"
                 :columns="tableSetting"
                 :tree-expand="exData"
+                permission-key="ADMIN/STAFF_MANAGEMENT/USER"
                 @go-detail="handleGoDetail"
                 @handle-selection-change="handleSelectChange"
               />
@@ -356,5 +358,6 @@ export default {
 .OperationButtonContainer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 </style>

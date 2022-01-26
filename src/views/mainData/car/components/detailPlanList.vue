@@ -2,7 +2,7 @@
   <div class="detail-plan-list">
     <div
       class="flex-end-center margin-bottom20"
-      xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_VERSION_MODIFY'"
+      v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_PRODUCTION_PLAN_VERSION_MODIFY'"
     >
       <iButton v-if="!editable && addable" @click="$emit('add-version')">
         {{ $t('新增版本') }}

@@ -7,7 +7,9 @@
   >
     <div
       class="flex-end-center margin-bottom20"
-      xxx-permission="'BUTTON_MAIN_DATA_CAR_MODEL_BASEINFO_MODIFY|BUTTON_MAIN_DATA_CAR_MODEL_ADD'"
+      v-permission="
+        'BUTTON_MAIN_DATA_CAR_MODEL_BASEINFO_MODIFY|BUTTON_MAIN_DATA_CAR_MODEL_ADD'
+      "
     >
       <iButton v-if="isEditPage && !editable" @click="edit">
         {{ language('编辑') }}
