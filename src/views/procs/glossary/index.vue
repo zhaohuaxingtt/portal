@@ -9,6 +9,7 @@
                     :loading.sync="indexs.loading"
                     :data="indexs.data" 
                     :indexIcon="false"
+                    :isClickFirst="id == ''"
                     @click-index="indexChange"
                     @row-click="indexRowChange"
                     >
@@ -69,11 +70,15 @@
                     data:{}
                 },
                 loading:false,
-                detail:{}
+                detail:{},
+                id: this.$route.query.id
            }
        },
        created(){
-           this.queryGlossary()
+            this.queryGlossary()
+            if(this.id){
+                this.indexRowChange(this.id)
+            }
        },
        computed:{
            imgList(){
@@ -81,7 +86,7 @@
            }
        },
        methods: {
-            async queryGlossary(){
+           async queryGlossary(){
                 try {
                     this.indexs.loading = true
                     let list = await glossaryList(this.keyword)
@@ -104,7 +109,6 @@
                 try {
                     this.loading = true
                     this.detail = await queryGlossaryDetail(id)
-
                 } finally {
                     this.loading = false
                 }

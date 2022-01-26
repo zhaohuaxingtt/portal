@@ -155,6 +155,7 @@ export default {
 								formData.append(key, this.form[key])
 							}
 						})
+						formData.append("type","WorkFlow")
                         if(this.type == "add"){
                             await addProcess(formData).then(res => {
                                 if (res) {
