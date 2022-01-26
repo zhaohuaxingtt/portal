@@ -105,7 +105,7 @@ export function queryMyWorkFlow() {
  */
 export function getMainFlowchart() {
     return procsRequest({
-        url: `flowchart/main/flowchart.json`,
+        url: `/flowchart/main/flowchart.json`,
         method: 'get'
     })
 }

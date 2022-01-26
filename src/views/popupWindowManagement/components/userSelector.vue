@@ -29,6 +29,10 @@ export default {
     value: {
       type: Array,
       require: true
+    },
+    onlyReportForm: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -104,6 +108,9 @@ export default {
   },
   methods: {
     handleSearch(param) {
+      if (this.onlyReportForm) {
+        param.accountType = 1
+      }
       return getUserSelectPageList(param)
     }
   }
