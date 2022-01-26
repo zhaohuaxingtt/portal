@@ -18,8 +18,16 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <IndexList padding style="color:#777" :showIndex="activeName == 'all'" @row-click="clickProcess">
-                        <div slot="row-right" slot-scope="{data}">{{data}}</div>
+                    <IndexList 
+                        :data="indexs.data" 
+                        padding 
+                        style="color:#777" 
+                        :showIndex="activeName == 'all'" 
+                        :isClickFirst="false"
+                        nameKey="name"
+                        :loading.sync="indexs.loading"
+                        @row-click="clickProcess">
+                        <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
                     </IndexList>
                 </div>
                 <!-- 流程图 -->
@@ -32,14 +40,14 @@
             </div>
             <div class="side">
                <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
-               <UiCard title="最新词条" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
+               <UiCard title="最新词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right">MORE</iButton>
-                   <div slot="item-right">
+                   <div slot="item-right" slot-scope="{data}">
                        <i class="el-icon-view"></i>
-                       123
+                       {{data.pageView}}
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="list1" @row-click="side($event, 'attchment')"></UiCard>
+               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
             </div>
         </div>
     </div>
@@ -69,20 +77,16 @@
                     draw:[
                         {name:'流程图',value:"draw",icon:"el-icon-bangzhu"}
                     ]
-
-
+                },
+                indexs: {
+                    list:[],
+                    loading: false
                 },
                 activeName:"all",
                 activeView:"list",
-                list1:[
-                    {name:'收藏1收藏1收藏1收藏1收藏1',id:1},
-                    {name:'收藏2',id:2},
-                    {name:'收藏3',id:3},
-                    {name:'收藏4',id:4},
-                    {name:'收藏5',id:5},
-                ],
                 collectList: [],
-                hotTermsList: []
+                hotTermsList: [],
+                attachList:[]
             }
         },
         created() {
@@ -92,12 +96,24 @@
             this.getSampleList()
         },
         methods: {
+            // 流程列表
             async getProcessList() {
-                console.log('23456')
-                await queryWorkFlow().then(res => {
-                    console.log(res, '22222')
-                })
+                try {
+                    this.indexs.loading = true
+                    let list = await queryWorkFlow()
+                    let obj = {}
+                    list.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.data = obj
+                } finally {
+                    this.indexs.loading = false
+                }
             },
+            // 我的收藏
             async getMyCollectList() {
                 let params = {
                     page: 0,
@@ -108,6 +124,7 @@
                     this.collectList = res || []
                 })
             },
+            // 最新词条
             async getHotTermsList() {
                 let params = {
                     page: 0,
@@ -117,9 +134,10 @@
                     this.hotTermsList = res?.content || []
                 })
             },
+            // 常用附件
             async getSampleList() {
                 await querySample().then(res => {
-                    this.SampleList = res || []
+                    this.attachList = res || []
                 })
             },
             tabChange(v){
@@ -142,8 +160,11 @@
                     case "collect":
                         this.$router.push({name:'CFProCsProcessCollect'})
                         break;
-                
-                    default:
+                    case "glossary":
+                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        break;
+                    case "attachment":
+                        // this.$router.push({name:'CFProCsProcessCollect'})
                         break;
                 }
             }

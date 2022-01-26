@@ -55,6 +55,10 @@
             nameKey:{
                 type:String,
                 default: 'title'
+            },
+            isClickFirst:{
+                type:Boolean,
+                default:true
             }
         },
         data() {
@@ -79,7 +83,9 @@
 
                     this.activeIndex = this.indexs[0]
                     this.list = this.indexs_data[this.activeIndex]
-                    this.clickItem(this.list[0].id)
+                    if(this.isClickFirst){
+                        this.clickItem(this.list[0].id)
+                    }
                 }
             },
            
@@ -93,8 +99,10 @@
                 this.activeIndex = l;
                 this.$emit("update:loading",true)
                 setTimeout(() => {
-                    this.list = this.indexs_data[l]
-                    this.clickItem(this.list[0].id)
+                    if(this.isClickFirst){
+                        this.list = this.indexs_data[l]
+                        this.clickItem(this.list[0].id)
+                    }
                     this.$emit("update:loading",false)
                 }, 200);
                 this.$emit("click-index",l)

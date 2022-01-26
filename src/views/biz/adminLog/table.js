@@ -52,7 +52,19 @@ export const TABLE = [
       prop: 'content',
       i18n: '操作内容',
       minWidth: 200,
-      tooltip: true
+      // tooltip: true,
+      customRender: (h, {row}) => {
+        return (
+          <el-popover
+            title=""
+            width="500"
+            trigger="hover"
+            content={row.content}>
+            
+            <div slot="reference" style="width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{row.content}</div>
+           </el-popover>
+        )
+      }
     },
     {
       prop: 'success',

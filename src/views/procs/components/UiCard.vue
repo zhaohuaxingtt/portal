@@ -9,9 +9,9 @@
                 <slot name="content"></slot>
             </template>
             <template v-else>
-                <p class="flex card-content-item ellipsis" :class="{color:color,active:active == l.id}" :title="l[key]" v-for="l in list" :key="l.id" @click="active = l.id;$emit('row-click', l)">
-                    <span class="flex-1 ellipsis mr20">{{l[key]}}</span>
-                    <slot name="item-right"></slot>
+                <p class="flex card-content-item ellipsis" :class="{color:color,active:active == l.id}" :title="l[nameKey]" v-for="l in list" :key="l.id" @click="active = l.id;$emit('row-click', l)">
+                    <span class="flex-1 ellipsis mr20">{{l[nameKey]}}</span>
+                    <slot name="item-right" :data="l"></slot>
                 </p>
                 <p class="no-data" v-if="list.length == 0">暂无数据</p>
             </template>
@@ -30,7 +30,7 @@
                 type: Array,
                 default: () => []
             },
-            key:{   //名称的字段key
+            nameKey:{   //名称的字段key
                 type: String,
                 default: "name"
             },
