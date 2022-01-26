@@ -6,6 +6,8 @@
 import axios from '@/utils/axios'
 import $qsAjax from '@/utils/ajax'
 
+var requstAon = axios(process.env.VUE_APP_AON + "/web/aon")
+
 let requst,qsAjax;
 
 if(process.env.NODE_ENV=='dev') {
@@ -513,6 +515,15 @@ export function getPowerBiVal(data) {
         data
     })
 }
+
+//aon报表接口-获取eklPbi对应的的信息
+export function getEklPbi(){
+    return requstAon({
+        url: `/batchOverview/getEklPbi`,
+        method: 'GET',
+    })
+}
+
 /*
 * 配附件
 * */

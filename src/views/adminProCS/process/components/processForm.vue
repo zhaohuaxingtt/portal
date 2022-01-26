@@ -94,8 +94,8 @@ export default {
 				firstLetterEn:"",
 				version:"",
 				updateDt:"",
-				exports:"",
-				organizations:""
+				exports: [],
+				organizations: []
 			},
 			rules: {
 				name: [
@@ -144,9 +144,16 @@ export default {
 					try {
 						this.loading = true
 						this.form.updateDt = moment(this.form.updateDt).format("YYYY-MM-DD HH:mm:ss")
+
 						let formData = new FormData()
 						Object.keys(this.form).forEach(key => {
-							formData.append(key, this.form[key])
+							if (key === 'organizations') {
+								this.form[key].forEach(e => {
+									formData.append(key, e)
+								})
+							}else {
+								formData.append(key, this.form[key])
+							}
 						})
 						formData.append("type","WorkFlow")
                         if(this.type == "add"){

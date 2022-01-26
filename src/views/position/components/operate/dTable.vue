@@ -30,6 +30,7 @@
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
+import iSelectAll from '@/components/iSelectAll'
 import { iButton } from 'rise'
 export default {
   components: { iTableCustom, iButton },
@@ -140,8 +141,17 @@ export default {
                 options = dimensionOption[0].valueList
                 scope.row.valueList = dimensionOption[0].valueList
               }
-
               return (
+                <iSelectAll
+                  value={scope.row.valueIds}
+                  onchange={(val) => (scope.row.valueIds = val)}
+                  options={options}
+                  valueKey="valueId"
+                  labelKey="value"
+                />
+              )
+
+              /* return (
                 <iSelect
                   placeholder="请选择"
                   multiple={true}
@@ -159,7 +169,7 @@ export default {
                     )
                   })}
                 </iSelect>
-              )
+              ) */
             }
           }
         ],

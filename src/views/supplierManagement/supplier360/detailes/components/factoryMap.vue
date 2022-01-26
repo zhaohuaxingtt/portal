@@ -147,15 +147,6 @@ export default {
       const res = await getTags(pms)
       if (res.result) {
         this.tagList = res.data
-        this.tagList = [
-          {
-            tagName:"大手大脚阿斯加德sad是多少",
-            tagValue:"jdksajdjsa"
-          },{
-            tagName:"12121",
-            tagValue:"jdksajdjsa"
-          }
-        ]
       }
     },
     handleShareholder() {
@@ -165,7 +156,8 @@ export default {
         query: {
           supplierToken: this.info.token || '',
           supplierType: '4',
-          subSupplierType: this.$route.query.supplierType
+          subSupplierType: this.$route.query.supplierType,
+          supplierId: this.$route.query.subSupplierId
         }
       })
     },
