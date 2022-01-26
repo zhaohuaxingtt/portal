@@ -3,7 +3,6 @@
         :title="dialogTitle"
         style="margin-top:10vh"
         :visible.sync="show" 
-        v-if="show" 
         width="500px" 
         @close='closeDialogBtn' 
         append-to-body
@@ -32,10 +31,10 @@
 				>
 				</el-date-picker>
 			</iFormItem>
-		<div class="flex justify-end btn">
-			<iButton @click="close">{{ language('取消') }}</iButton>
-			<iButton @click="save">{{ language('确定') }}</iButton>
-		</div>
+            <div class="flex justify-end btn">
+                <iButton @click="close">{{ language('取消') }}</iButton>
+                <iButton @click="save">{{ language('确定') }}</iButton>
+            </div>
         </el-form>
     </iDialog>
 </template>
