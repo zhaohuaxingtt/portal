@@ -18,9 +18,31 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <IndexList padding style="color:#777" :showIndex="activeName == 'all'" @row-click="clickProcess">
-                        <div slot="row-right" slot-scope="{data}">{{data}}</div>
-                    </IndexList>
+                    <template v-if="activeName == 'all'">
+                        <IndexList 
+                            :data="indexs.allData" 
+                            padding 
+                            style="color:#777" 
+                            :isClickFirst="false"
+                            nameKey="name"
+                            :loading.sync="indexs.loading"
+                            @row-click="clickProcess">
+                            <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
+                        </IndexList>
+                    </template>
+                    <template v-if="activeName == 'my'">
+                        <IndexList 
+                            :data="indexs.myData" 
+                            padding 
+                            style="color:#777" 
+                            :showIndex="false" 
+                            :isClickFirst="false"
+                            nameKey="name"
+                            :loading.sync="indexs.loading"
+                            @row-click="clickProcess">
+                            <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
+                        </IndexList>
+                    </template>
                 </div>
                 <!-- 流程图 -->
                 <div v-else class="mt20">
@@ -32,14 +54,14 @@
             </div>
             <div class="side">
                <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
-               <UiCard title="最新词条" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
+               <UiCard title="最新词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right">MORE</iButton>
-                   <div slot="item-right">
+                   <div slot="item-right" slot-scope="{data}">
                        <i class="el-icon-view"></i>
-                       123
+                       {{data.pageView}}
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="sampleList" @row-click="side($event, 'attchment')"></UiCard>
+               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
             </div>
         </div>
     </div>
@@ -69,23 +91,18 @@
                     draw:[
                         {name:'流程图',value:"draw",icon:"el-icon-bangzhu"}
                     ]
-
-
+                },
+                indexs: {
+                    allData:[],
+                    myData:{},
+                    loading: false
                 },
                 activeName:"all",
                 activeView:"list",
-                list1:[
-                    {name:'收藏1收藏1收藏1收藏1收藏1',id:1},
-                    {name:'收藏2',id:2},
-                    {name:'收藏3',id:3},
-                    {name:'收藏4',id:4},
-                    {name:'收藏5',id:5},
-                ],
-                collectList: [],  // 我的收藏
-                hotTermsList: [],  // 最热词条
+                collectList: [],
+                hotTermsList: [],
+                attachList:[],
                 myFlowList: [],  // 我的流程
-                sampleList: [],  // 常用附件
-                flowList: []   // 流程列表
             }
         },
         created() {
@@ -93,14 +110,27 @@
             this.getMyCollectList()
             this.getHotTermsList()
             this.getSampleList()
+            this.getMyFlowList()
         },
         methods: {
+            // 流程列表
             async getProcessList() {
-                await queryWorkFlow().then(res => {
-                    console.log(res, '22222')
-                    this.flowList = res || []
-                })
+                try {
+                    this.indexs.loading = true
+                    let list = await queryWorkFlow()
+                    let obj = {}
+                    list.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.allData = obj
+                } finally {
+                    this.indexs.loading = false
+                }
             },
+            // 我的收藏
             async getMyCollectList() {
                 let params = {
                     page: 0,
@@ -111,6 +141,7 @@
                     this.collectList = res || []
                 })
             },
+            // 最新词条
             async getHotTermsList() {
                 let params = {
                     page: 0,
@@ -120,15 +151,23 @@
                     this.hotTermsList = res?.content || []
                 })
             },
+            // 常用附件
             async getSampleList() {
                 await querySample().then(res => {
-                    this.sampleList = res || []
+                    this.attachList = res || []
                 })
             },
+            // 我的流程
             async getMyFlowList() {
                 await queryMyWorkFlow().then(res => {
-                    console.log(res, '12222')
-                    this.myFlowList = res || []
+                    let obj = {}
+                    res.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.myData = obj
                 })
             },
             async getMainFlowInfo() {
@@ -160,8 +199,11 @@
                     case "collect":
                         this.$router.push({name:'CFProCsProcessCollect'})
                         break;
-                
-                    default:
+                    case "glossary":
+                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        break;
+                    case "attachment":
+                        // this.$router.push({name:'CFProCsProcessCollect'})
                         break;
                 }
             }

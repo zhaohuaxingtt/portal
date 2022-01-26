@@ -16,6 +16,11 @@
             :name="language('我的审批')"
             @click="$emit('toggle', 'approval')"
           />
+          <iTabBadgeItem
+            v-permission="'ADMIN_APPROVAL_MANAGEMENT_AGENT'"
+            :name="language('审批代理')"
+            @click="handleGoApprovalAgent"
+          />
         </iTabBadge>
       </div>
     </pageHeader>
@@ -41,7 +46,17 @@ export default {
       default: 0
     }
   },
-  components: { pageHeader, iTabBadge, iTabBadgeItem }
+  components: { pageHeader, iTabBadge, iTabBadgeItem },
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
+  methods: {
+    handleGoApprovalAgent() {
+      this.$router.push({ path: '/approval/agent', query: { type: 'normal' } })
+    }
+  }
 }
 </script>
 

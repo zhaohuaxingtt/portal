@@ -253,8 +253,8 @@ export default {
     getdifferenceAnalysis() {
       this.form.pageNo = this.page.currPage
       this.form.pageSize = this.page.pageSize
-      this.form.versionOneName = this.form['VersionMonthTwo']
-      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.versionOneName = this.form['versionMonthTwo']
+      this.form.versionTwoName = this.form['versionMonthTwo']
       differenceAnalysis(this.form)
         .then((res) => {
           this.differenceAnalysis = res.data
@@ -303,8 +303,8 @@ export default {
     exportData() {
       this.form.pageNo = 1
       this.form.pageSize = 10
-      this.form.versionOneName = this.form['VersionMonthTwo']
-      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.versionOneName = this.form['versionMonthTwo']
+      this.form.versionTwoName = this.form['versionMonthTwo']
       differenceAnalysisExport(this.form)
         .then((res) => {
           console.log(res)
