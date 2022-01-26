@@ -93,13 +93,13 @@ export default {
                     formdata.append('issues',e.id)
                 })
                 await addPageIssue(this.info.id,formdata)
+                this.$emit("refresh")
                 this.close()
             } finally {
                 this.loading = false
             }
         },
         close(){
-            
             this.$emit("update:show",false)
         }
     },
