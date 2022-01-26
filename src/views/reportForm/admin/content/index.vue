@@ -155,7 +155,7 @@
 				formData.append('published', !row.published)
 				publishedContentById(row.id, formData).then(res => {
 					if (res?.success) {
-						this.$message({type: 'success', message: '已更改当前消息发送状态'})
+						this.$message({type: 'success', message: '已更改当前内容上下架状态'})
 						this.query()
 					}
 				})

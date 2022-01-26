@@ -161,19 +161,23 @@ export default {
 			if (this.searchFlag) {
 				Object.assign(params, this.queryForm)
 			}
-			this.tableLoading = true
-			await queryTypeList(params).then(res => {
-				console.log(res, '111')
-				if (res?.code === '200') {
-					this.tableData = res?.data || []
-					this.tableData.map(item => {
-						item.createdAt = moment(item.createdAt).format('YYYY-MM-DD hh:mm:ss')
-					})
-					this.page.totalCount = res.total
-					this.tableLoading = false
-					this.searchFlag = false
-				}
-			})
+			try {
+				this.tableLoading = true
+				await queryTypeList(params).then(res => {
+					console.log(res, '111')
+					if (res?.code === '200') {
+						this.tableData = res?.data || []
+						this.tableData.map(item => {
+							item.createdAt = moment(item.createdAt).format('YYYY-MM-DD hh:mm:ss')
+						})
+						this.page.totalCount = res.total
+						this.tableLoading = false
+						this.searchFlag = false
+					}
+				})
+			} finally {
+				this.tableLoading = false
+			}
 		},
 		sure() {
 			if (this.addTime.length > 0) {
