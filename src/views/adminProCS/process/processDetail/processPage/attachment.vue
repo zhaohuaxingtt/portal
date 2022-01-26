@@ -2,18 +2,19 @@
     <iDialog
         title="附件"
         :visible.sync="show" 
-        width="600px" 
+        width="700px" 
         @close='close' 
         @open="open"
         append-to-body
         class="process-dialog"
+        v-loading="loading"
     >
-        <div class="content">
+        <div class="content" >
             <div class="flex margin-bottom20">
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyword" />
                 <iButton style="margin-left:10px" @click="search('rest')">搜索</iButton>
             </div>
-            <ITable ref="table" :tableSetting='tableSetting' @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
+            <ITable ref="table" :tableSetting='tableSetting' :selected="info.sampleIds || []" @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
@@ -56,10 +57,8 @@ export default {
     },
     methods: {
         open(){
-            console.log(this.info);
             this.$nextTick(() => {
                 this.search()
-                // this.$refs.table.$refs.table.toggleRowSelection(this.info.sampleIds, true)
             })
         },
         search(t){
@@ -82,16 +81,19 @@ export default {
             })
         },
         selectChange(v){
-            console.log(v);
             this.selectList = v
         },
         async confirm(){
             try {
                 this.loading = true
                 let formdata = new FormData()
-                this.selectList.forEach(e => {
-                    formdata.append('samples',e.id)
-                })
+                 if(this.selectList.length == 0){
+                    formdata.append('samples',"")
+                }else{
+                    this.selectList.forEach(e => {
+                        formdata.append('samples',e.id)
+                    })
+                }
                 await addPageSample(this.info.id,formdata)
                 this.$emit("refresh")
                 this.close()

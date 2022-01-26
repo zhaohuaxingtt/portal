@@ -96,20 +96,19 @@
                     </iFormItem>
                 </div>
                 <div>
-                    <iFormItem :label="language('报表可见人员')" prop='canUsers'>
+                    <iFormItem :label="language('报表可见人员')" prop='userRange'>
                         <iSelect
-                            v-model="form.canUsers"
+                            v-model="form.userRange"
                             filterable
                             placeholder="请选择"
                             clearable
                             @change="handlePerson"
-                            multiple
                         >
                             <el-option
                                 v-for="item in usersList"
-                                :key="item.userId"
+                                :key="item.id"
                                 :label="item.nameZh"
-                                :value="item.userId"
+                                :value="item.id"
                             >
                             </el-option>
                         </iSelect>
@@ -139,8 +138,9 @@ import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import userSelector from '@/views/popupWindowManagement/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import { addReportType, modifyReportType } from '@/api/reportForm';
-import { getUserSelectPageList } from '@/api/authorityMgmt/index'
+import { getKnowledgeUser } from '@/api/adminProCS';
 import { getDeptDropDownList } from '@/api/authorityMgmt'
+import { userList } from './columnData'
 export default {
     name: 'addTypeDialog',
     components: {
@@ -173,7 +173,7 @@ export default {
                 enName: '',
                 telefone: '',
                 adminUsers: [],
-                canUsers: [],
+                userRange: '',
                 users: [],
                 suppliers: [],
                 organizations: []
@@ -185,7 +185,7 @@ export default {
                 enName: { required:true, message:"请输入英文名",trigger:'blur' },
                 telefone: { required:true, message:"请输入Telefone",trigger:'blur' },
                 adminUsers: { required:true, message:"请选择管理员",trigger:'blur' },
-                canUsers: { required:true, message:"请选择报表可见人员",trigger:'blur' }
+                userRange: { required:true, message:"请选择报表可见人员",trigger:'blur' }
             },
             imgCutterRate: '16 : 9',
             imageUrl: '',
@@ -193,21 +193,18 @@ export default {
             organizationList: [],
             customFlag: false,
             loading: false,
-            modifyId: null
+            modifyId: null,
+            usersList: userList
         }
     },
     methods: {
         async getUsersList() {
-            let params = {current:1, size:999, pageNo:1}
-            await getUserSelectPageList(params).then(res => {
+            let params = {
+				privilege: 'BBNRGLY'
+			}
+            await getKnowledgeUser(params).then(res => {
                 if (res?.code === '200') {
-                    this.adminList = res?.data || []
-                    let arr = JSON.parse(JSON.stringify(this.adminList))
-                    arr.unshift({
-                        nameZh: '自定义',
-                        userId: 7250
-                    })
-                    this.usersList = arr
+                    this.adminList = res || []
                 }
             })
         },
@@ -239,7 +236,7 @@ export default {
                 enName: '',
                 telefone: '',
                 adminUsers: [],
-                canUsers: [],
+                userRange: '',
                 users: [],
                 suppliers: [],
                 organizations: []
@@ -287,7 +284,8 @@ export default {
             })
         },
         handlePerson(va) {
-            if (va.includes(7250)) {
+            console.log(va, '111')
+            if (va === 15) {
                 this.customFlag = true
             } else {
                 this.customFlag = false
@@ -297,21 +295,22 @@ export default {
             this.$emit("update:show",false)
         },
         save(){
+            if (this.customFlag && this.form.users.length === 0 && this.form.suppliers.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
             if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
             this.$refs.typeForm.validate(async v => {
                 if (v) {
                     try {
                         if (this.operateType === 'add') {
                             this.form.cover = this.imageUrl
-                            if (this.customFlag) {
-                                this.form.canUsers.map(item => {
-                                    if (item !== 7250) {
-                                        this.form.users.push(item)
-                                    }
-                                })
-                            } else {
-                                this.form.users = [...this.form.canUsers]
-                            }
+                            // if (this.customFlag) {
+                            //     this.form.userRange.map(item => {
+                            //         if (item !== 7250) {
+                            //             this.form.users.push(item)
+                            //         }
+                            //     })
+                            // } else {
+                            //     this.form.users = [...this.form.userRange]
+                            // }
                             this.loading = true
                             await addReportType(this.form).then(res => {
                                 if (res?.success) {
@@ -325,16 +324,15 @@ export default {
                         } else {
                             this.form.cover = this.imageUrl
                             this.form.id = this.modifyId
-                            debugger
-                            if (this.customFlag) {
-                                this.form.canUsers.map(item => {
-                                    if (item !== 7250) {
-                                        this.form.users.push(item)
-                                    }
-                                })
-                            } else {
-                                this.form.users = [...this.form.canUsers]
-                            }
+                            // if (this.customFlag) {
+                            //     this.form.userRange.map(item => {
+                            //         if (item !== 7250) {
+                            //             this.form.users.push(item)
+                            //         }
+                            //     })
+                            // } else {
+                            //     this.form.users = [...this.form.userRange]
+                            // }
                             this.loading = true
                             await modifyReportType(this.form).then(res => {
                                 if (res?.success) {
@@ -370,19 +368,24 @@ export default {
                     this.form.adminUsers.push(item.id)
                 })
             }
-            if (this.form.users) {
-                let testUsersArr = JSON.parse(JSON.stringify(this.form.users))
-                this.form.canUsers = []
-                testUsersArr.map(item => {
-                    this.form.canUsers.push(item.id)
-                })
-            }
+            // if (this.form.users) {
+            //     let testUsersArr = JSON.parse(JSON.stringify(this.form.users))
+            //     this.form.userRange = []
+            //     testUsersArr.map(item => {
+            //         this.form.userRange.push(item.id)
+            //     })
+            // }
             // 返回的信息有供应商 说明是自定义
-            if (this.form.suppliers) {
-                this.form.canUsers.unshift({
-                    nameZh: '自定义',
-                    userId: 7250
-                })
+            // if (this.form.suppliers) {
+            //     this.form.userRange.unshift({
+            //         nameZh: '自定义',
+            //         userId: 7250
+            //     })
+            //     this.customFlag = true
+            // } else {
+            //     this.customFlag = false
+            // }
+            if (this.form.userRange === 15) {
                 this.customFlag = true
             } else {
                 this.customFlag = false

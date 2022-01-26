@@ -292,6 +292,9 @@ export default {
 .pagination-box {
   padding-bottom: 30px;
 }
+.el-tooltip__popper.is-dark{
+  z-index: 9999 !important;
+}
 
 .material-dialog {
   .card {

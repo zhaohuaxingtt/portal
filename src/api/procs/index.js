@@ -49,3 +49,63 @@ export function queryKnowledgeDepartment() {
         method: 'get'
     })
 }
+
+// 流程列表查询
+export function queryWorkFlow() {
+    return procsRequest({
+        url: `/workFlow/list.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 查询我收藏的问题
+ */
+export function queryMyCollect(data) {
+    return procsRequest({
+        url: `/workflow_issue/myCollect.json`,
+        method: 'get',
+        params: data
+    })
+}
+
+/**
+ * 最热词条
+ */
+export function queryHotTerms(data) {
+    return procsRequest({
+        url: `/terms/hotTerms.json`,
+        method: 'get',
+        params: data
+    })
+}
+
+/**
+ * 常用附件
+ */
+export function querySample() {
+    return procsRequest({
+        url: `workflow_file/commonSample.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 查询我的流程
+ */
+export function queryMyWorkFlow() {
+    return procsRequest({
+        url: `/workFlow/myFlow.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 主流程图
+ */
+export function getMainFlowchart() {
+    return procsRequest({
+        url: `flowchart/main/flowchart.json`,
+        method: 'get'
+    })
+}
