@@ -70,7 +70,7 @@ export function getSummarize(id, lang) {
     url:
       '/deepCommentReport/summarize?deepCommentSupplierId=' +
       id +
-      `&lang=${lang ? 'en' : 'zh'}`,
+      `&lang=`+lang,
     method: 'GET'
   })
 }
