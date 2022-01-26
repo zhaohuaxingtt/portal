@@ -1,6 +1,6 @@
 <template>
   <div class="organization margin-right20">
-    <searchBox :query="query" type="org" />
+    <searchBox :query="query" type="org"> </searchBox>
     <!-- <i-search @sure="sure" @reset="reset" class="margin-bottom20" :icon="true">
       <el-form row="1" :model="queryParams" ref="queryForm">
         <el-form-item :label="'组织机构编码'">

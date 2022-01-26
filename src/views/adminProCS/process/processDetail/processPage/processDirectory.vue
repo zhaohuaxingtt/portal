@@ -5,18 +5,19 @@
         :visible.sync="show" 
         width="600px" 
         @close='close' 
+        @open="open"
         append-to-body
         class="process-dialog"
     >
-        <div class="content">
-            <iButton class="mb20" @click="editDialog = true">添加一级目录</iButton>
+        <div class="content" v-loading="loading">
+            <iButton class="mb20" @click="addFirst">添加一级目录</iButton>
            <el-tree
-            :data="data"
+            :data="tree"
             node-key="id"
             class="p-tree"
             expand-on-click-node>
-            <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>{{ node.label }}</span>
+            <span class="custom-tree-node" slot-scope="{ data }">
+                <span>{{ data.name && data.name.ch }}</span>
                 <span>
                     <el-button
                         type="text"
@@ -27,14 +28,14 @@
                     <el-button
                         type="text"
                         size="mini"
-                        @click.stop="() => edit(node, data)">
+                        @click.stop="() => edit(data)">
                         编辑
                     </el-button>
                     <el-button
-                        v-if="!data.children"
+                        v-if="!data.children || data.children.length == 0"
                         type="text"
                         size="mini"
-                        @click.stop="() => remove(node, data)">
+                        @click.stop="() => remove(data)">
                         删除
                     </el-button>
                 </span>
@@ -58,41 +59,42 @@
                 :rules="rules" 
                 label-width="90px" 
                 ref="form"
+                v-loading="formLoading"
                 class="validate-required-form"
             >
                 <iFormItem :label="language('目录中文名')" prop='cnName'>
-                    <iInput v-model="form.cnName"  placeholder="请输入目录中文名"></iInput>
+                    <iInput v-model="form.cnName" maxlength="50" placeholder="请输入目录中文名"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('目录英文名')" prop='enName'>
-                    <iInput v-model="form.enName"  placeholder="请输入目录英文名"></iInput>
+                    <iInput v-model="form.enName" maxlength="50" placeholder="请输入目录英文名"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('流程页面')" prop='workFlowPage'>
                     <iSelect
                         v-model="form.workFlowPage"
                         filterable
                         clearable
-                        
                         placeholder="请选择页面"
                         >
                         <el-option
-                            v-for="item in options"
-                            :key="item.code"
-                            :label="item.value"
-                            :value="item.code"
+                            v-for="item in processPageList"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
                         ></el-option>
                         </iSelect>
                 </iFormItem>
+                <div class="flex felx-row mt20 pb20 justify-end ">
+                    <iButton @click="close">{{ language('取消') }}</iButton>
+                    <iButton @click="save">{{ language('确认') }}</iButton>
+                </div>
             </el-form>
-             <div class="flex felx-row mt20 pb20 justify-end ">
-                <iButton @click="close">{{ language('取消') }}</iButton>
-                <iButton @click="save">{{ language('确认') }}</iButton>
-            </div>
         </iDialog>
     </iDialog>
 </template>
 
 <script>
 import {iDialog,iButton, iInput,iFormItem,iSelect} from 'rise';
+import {queryProcessCatalogue,addProcessCatalogue, updateProcessCatalogue, deleteProcessCatalogueNode, loadProcessPageList} from '@/api/adminProCS';
 export default {
     components: {
         iDialog,
@@ -109,47 +111,15 @@ export default {
     },
     data() {
         return {
-            data:[{
-                id: 1,
-                label: '一级 1',
-                children: [{
-                id: 4,
-                label: '二级 1-1',
-                children: [{
-                    id: 9,
-                    label: '三级 1-1-1'
-                }, {
-                    id: 10,
-                    label: '三级 1-1-2'
-                }]
-                }]
-            }, {
-                id: 2,
-                label: '一级 2',
-                children: [{
-                id: 5,
-                label: '二级 2-1'
-                }, {
-                id: 6,
-                label: '二级 2-2'
-                }]
-            }, {
-                id: 3,
-                label: '一级 3',
-                children: [{
-                id: 7,
-                label: '二级 3-1'
-                }, {
-                id: 8,
-                label: '二级 3-2'
-                }]
-            }],
+            tree:[],
             editDialog:false,
             form:{
                 cnName:"",
                 enName:"",
                 workFlowPage:""
             },
+            formLoading:false,
+            parent:"",
             rules:{
                 cnName:[
                     { required: true, message: '请输入目录中文名!', trigger:"blur" },
@@ -160,26 +130,97 @@ export default {
                     {max:50,message:'目录英文名长度不能超过50个字符！',trigger:"blur"},
                 ]
             },
-            options:[]
+            processPageList:[],
+            id:this.$route.query.id,
+            loading:false
         }
     },
     methods: {
         close(){
             this.$emit("update:show",false)
         },
+        async open(){
+            try {
+                this.loading = true
+                this.query()
+                let pRes = await loadProcessPageList(this.id,{page:0,size:10000})
+                this.processPageList = pRes.content
+            } finally {
+                this.loading = false
+            }
+        },
+        async query(){
+            try {
+                this.loading = true
+                let res = await queryProcessCatalogue(this.id)
+                this.tree = res.children
+                this.parent = res.id
+            } finally {
+                this.loading = false
+            }
+        },
         editClose(){
+            this.form = {
+                cnName:"",
+                enName:"",
+                workFlowPage:""
+            }
+            this.$refs.form.resetFields()
             this.editDialog = false
         },
         save(){
-
+            this.$refs.form.validate(async v => {
+                if(v){
+                    this.formLoading = true
+                    let data = new FormData()
+                    for (const key in this.form) {
+                        data.append(key, this.form[key])
+                    }
+                    try {
+                        if(this.form.id){
+                            await updateProcessCatalogue(this.form.id, data)
+                        }else{
+                            await addProcessCatalogue(this.id, data)
+                        }
+                        this.$message.success("保存成功")
+                        this.editClose()
+                        this.query()
+                    } finally {
+                        this.formLoading = false
+                    }
+                }
+            })
         },
-        append(){
+        addFirst(){
+            this.form.parent = this.parent
             this.editDialog = true
         },
-        edit(){
+        append(data){
+            this.form.parent = data.id
             this.editDialog = true
         },
-        remove(){}
+        edit(data){
+            this.form = {
+                cnName: data.name.ch,
+                enName: data.name.en,
+                workFlowPage: data.pageId
+            }
+            this.editDialog = true
+        },
+        remove(data){
+             this.$confirm('确定删除此目录?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    await deleteProcessCatalogueNode(data.id)
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    this.query()
+                })
+        }
     },
 }
 </script>
@@ -194,6 +235,7 @@ export default {
         width: 100%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 }
 </style>

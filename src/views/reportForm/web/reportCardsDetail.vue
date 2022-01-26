@@ -5,7 +5,7 @@
             <div class="report-box">
                 <div class="flex">
                     <span>搜索</span>
-                    <iInput v-model="keyword" class="search" @keydown.enter="handleIconClick" clearable>
+                    <iInput v-model="keyword" class="search" @keydown.enter.native="handleIconClick" clearable>
                         <i
                             class="el-icon-search el-input__icon"
                             slot="suffix"
@@ -18,7 +18,7 @@
                     <div class="detail-item" v-for="(l,index) in dataList" :key="index">
                         <h3 class="title" v-text="l.categoryName"></h3>
                         <div class="file" v-for="(item) in l.list" :key="item.id">
-                            <span class="title-text" @click="openFun(item)">{{`${item.title}-${item.publishDate}`}}</span>
+                            <span class="title-text" @click="openFun(item)">{{`${item.cover.substring(item.cover.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item)">
                                     分享
@@ -86,7 +86,7 @@
         methods: {
             query(){
                 if (this.keyword) {
-                    this.params.name = this.keyword
+                    this.params.title = this.keyword
                 }
                 try {
                     this.loading = true
@@ -129,8 +129,8 @@
                 })
             },
             share(item) {
-                let subject = `我与你分享了一条${item.title}`
-                let body = `我与你分享了一条内容 ${item.title} %0a%0d ${item.cover}`
+                let subject = `我与你分享了一条 ${this.title} 《${item.title}》`
+                let body = `我与你分享了一条 ${this.title} 《${item.title}》 %0a%0d ${item.cover}`
                 let href = `mailto:?subject=${subject}&body=${body}`
                 this.createAnchorLink(href)
             },
@@ -142,9 +142,10 @@
                 a.remove()
             },
             handLoad(row) {
+                console.log(row, '12345')
                 const a = document.createElement('a')
-                a.href = `${row.cover}&isDown=true`
                 a.download = row.title
+                a.href = `${row.cover}&isDown=true`
                 a.click()
                 a.remove()
             },

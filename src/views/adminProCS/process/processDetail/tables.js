@@ -42,11 +42,11 @@ const DOC = [
         width: 100
     },
     {
-        prop:'title',
+        prop:'name',
         label:'文档名称'
     },
     {
-        prop:'publishTime',
+        prop:'publishDate',
         label:'发布日期'
     },
     {
@@ -58,10 +58,6 @@ const DOC = [
 ]
 
 const QUESTION = [
-    {
-		type: 'selection',
-		width: 50
-	},
     {
         type:'index',
         label:'序号',
@@ -81,14 +77,24 @@ const QUESTION = [
         prop:'updatedAt',
         label:'最后更新',
         align: 'center'
+    },
+    {
+        label:'操作',
+        align: 'center',
+        customRender:(h,{row},col,{operate}) => {
+            return (
+                <span>
+                    <iButton type="text" on-click={() => operate('answer',row)}>问题回答</iButton>
+                    <iButton type="text" on-click={() => operate('edit',row)}>修改</iButton>
+                    <iButton type="text" on-click={() => operate('del',row)}>删除</iButton>
+                </span>
+            )
+        }
     }
 ]
 
 const AttachColumn = [
-    {
-		type: 'selection',
-		width: 50
-	},
+    
     {
         type:'index',
         label:'序号',
@@ -108,6 +114,17 @@ const AttachColumn = [
         prop:'publishDate',
         label:'发布日期',
         align: 'center'
+    },
+    {
+        label:'操作',
+        align: 'center',
+        customRender:(h,{row},col,{del}) => {
+            return (
+                <span>
+                    <iButton type="text" on-click={() => del(row)}>删除</iButton>
+                </span>
+            )
+        }
     }
 ]
 

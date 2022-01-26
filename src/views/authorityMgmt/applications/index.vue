@@ -40,6 +40,7 @@
             <button-download :download-method="exportData">
               {{ language('导出') }}
             </button-download>
+            <button-table-setting @click="$refs.sysMgm.openSetting()" />
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -54,6 +55,7 @@
             :columns="tableColumnSetting"
             :data="tableData"
             :loading="loading"
+            permission-key="ADMIN/STAFF_MANAGEMENT/APPLICATIONS"
             @open-detail="enterDetail"
             @handle-selection-change="handleSelectionChange"
           />
@@ -258,5 +260,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
+  align-items: center;
 }
 </style>

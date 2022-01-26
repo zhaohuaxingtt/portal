@@ -13,13 +13,15 @@ export const tableSetting = [
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.userNum}</span>
     },
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'account',
     label: '登录账号',
     i18n: '登录账号',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'nameZh',
@@ -27,14 +29,16 @@ export const tableSetting = [
     width: '100px',
     align: 'center',
     i18n: '中文名',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'nameEn',
     label: '英文名',
     align: 'center',
     i18n: 'staffManagement.ENGLISHNAME',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'gender',
@@ -50,6 +54,15 @@ export const tableSetting = [
         return '女'
       }
       return scope.row.gender
+    },
+    sortable: true,
+    sortMethod: (a, b) => {
+      const aValue = ['male', '1'].includes(a.gender) ? '男' : '女'
+      const bValue = ['male', '1'].includes(b.gender) ? '男' : '女'
+      if (aValue === bValue) {
+        return 0
+      }
+      return aValue > bValue ? 1 : -1
     }
   },
   {
@@ -57,42 +70,48 @@ export const tableSetting = [
     label: '所属部门',
     align: 'center',
     i18n: 'staffManagement.DEPARTMENT',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'positionList',
     label: '岗位',
     align: 'center',
     i18n: 'staffManagement.JOBS',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'status',
     label: '员工状态',
     align: 'center',
     i18n: 'staffManagement.STATEEMPLOYEES',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'email',
     label: '邮箱',
     align: 'center',
     i18n: 'staffManagement.EMAIL',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'mobile',
     label: '手机',
     align: 'center',
     i18n: 'staffManagement.MOBILEPHONE',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'phone',
     label: '电话',
     align: 'center',
     i18n: 'staffManagement.PHONE',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'lastLoginDate',
@@ -100,7 +119,8 @@ export const tableSetting = [
     align: 'center',
     i18n: 'staffManagement.RECENTLYTHELOGIN',
     tooltip: true,
-    width: '150'
+    width: '150',
+    sortable: true
   }
 ]
 

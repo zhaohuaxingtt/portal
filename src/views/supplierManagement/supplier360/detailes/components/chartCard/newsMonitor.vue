@@ -3,12 +3,12 @@
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
       <el-dropdown >
-<!-- v-permission="Card_C-Rating_More" -->
+
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item v-permission="PORTAL_SUPPLIER_CARD_CRATING_MORE" @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>

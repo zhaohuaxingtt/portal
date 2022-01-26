@@ -1,48 +1,70 @@
 <template>
   <el-card class="mt20">
-    <div class="flex flex-row justify-end mt20 mb20">
+    <div class="flex flex-row justify-end mt20 mb20 flex-end-center">
       <iButton @click="exportExcelHandler">{{ language('导出') }}</iButton>
+      <button-table-setting @click="$refs.testTable.openSetting()" />
     </div>
-    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" @quesDetail="quesDetail" @mauDetail="mauDetail" />
-    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
+    <iTableCustom
+      ref="testTable"
+      :loading="tableLoading"
+      :data="tableListData"
+      :columns="tableSetting"
+      :permission-key="'ADMIN_PROCS_PROB_problemStatement_' + userType"
+      @quesDetail="quesDetail"
+      @mauDetail="mauDetail"
+    />
+    <iPagination
+      v-update
+      @size-change="handleSizeChange($event, getTableList)"
+      @current-change="handleCurrentChange($event, getTableList)"
+      background
+      :current-page="page.currPage"
+      :page-sizes="page.pageSizes"
+      :page-size="page.pageSize"
+      :layout="page.layout"
+      :total="page.totalCount"
+    />
   </el-card>
 </template>
 
 <script>
-import { iButton, iPagination, iTableCustom } from 'rise';
-import { tableColumn, manualTableColumn } from './tableColumn';
-import { pageMixins } from '@/utils/pageMixins';
+import { iButton, iPagination, iTableCustom } from 'rise'
+import { tableColumn, manualTableColumn } from './tableColumn'
+import { pageMixins } from '@/utils/pageMixins'
 import { openUrl } from '@/utils'
 
 export default {
   mixins: [pageMixins],
   props: {
-    tableListData:{
-      type:Array,
-      default:() => [],
+    tableListData: {
+      type: Array,
+      default: () => []
     },
     total: {
-      type:Number,
-      default:0,
+      type: Number,
+      default: 0
     },
     userType: {
       type: String,
-      default:() => '',
+      default: () => ''
     }
   },
-  data () {
+  data() {
     return {
       tableLoading: false,
       exportLoading: false,
-      tableSetting: this.userType === 'supplier' ? tableColumn(this): manualTableColumn(this)
+      tableSetting:
+        this.userType === 'supplier'
+          ? tableColumn(this)
+          : manualTableColumn(this)
     }
   },
   created() {
-    this.page.totalCount = this.total;
+    this.page.totalCount = this.total
   },
   methods: {
-    getTableList (pages) { 
-      this.$emit('changePage',pages);
+    getTableList(pages) {
+      this.$emit('changePage', pages)
     },
     handleSizeChange(val, callback) {
       console.log(val, callback)
@@ -50,8 +72,8 @@ export default {
         return console.warn(
           'function handleSizeChange parmars must be a function!'
         )
-      this.page.pageSize = val;
-      this.page.currPage = 1;
+      this.page.pageSize = val
+      this.page.currPage = 1
       callback(this.page)
     },
     handleCurrentChange(val, callback) {
@@ -64,16 +86,20 @@ export default {
     },
     // 导出
     exportExcelHandler() {
-      this.$emit('exportHandler');
+      this.$emit('exportHandler')
     },
     // 点击去问题详情
     quesDetail(val) {
-      console.log(val, "000")
-      openUrl(`/assistant/helpCenter?module=problem&currentMoudleId=${val.questionModuleId}&currMoudleName=${val.questionModuleName}&labelIdx=${val.questionLableId}&id=${val.id}`)
+      console.log(val, '000')
+      openUrl(
+        `/assistant/helpCenter?module=problem&currentMoudleId=${val.questionModuleId}&currMoudleName=${val.questionModuleName}&labelIdx=${val.questionLableId}&id=${val.id}`
+      )
     },
     mauDetail(val) {
-      console.log(val, "000")
-      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}&id=${val.id}`)
+      console.log(val, '000')
+      openUrl(
+        `/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}&id=${val.id}`
+      )
     }
   },
   components: {
@@ -87,7 +113,6 @@ export default {
 <style lang="scss" scoped>
 @import '../../../comon.scss';
 </style>
-
 
 <style lang="scss">
 .table-icon {
@@ -113,7 +138,7 @@ export default {
   }
 }
 .question-title {
-  color: #1660F1;
+  color: #1660f1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

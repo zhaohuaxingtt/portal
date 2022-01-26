@@ -58,10 +58,8 @@ export default {
     },
     methods: {
         save() {
-            console.log(this.fileList, this.name, '222')
             if (this.currId) {
-                console.log('33')
-                this.$emit('updateFlowchart', this.name, this.uploadFileStream)
+                this.$emit('updateFlowchartFun', this.name, this.uploadFileStream)
             } else {
                 console.log('11')
                 this.$emit('createFlowchart', this.name, this.uploadFileStream)
@@ -71,7 +69,6 @@ export default {
 			this.fileList.splice(idx, 1)
 		},
         uploadHandle(file){
-            console.log(file, '1111111')
 			this.uploadFileStream = file
 			return new Promise((resolve) => {
 				resolve({

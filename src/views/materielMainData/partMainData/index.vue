@@ -62,27 +62,27 @@
         <div class="btnList">
           <iButton
             @click="createNew"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_ADD'"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_ADD'"
           >
             {{ language('新建') }}
           </iButton>
           <iButton
             @click="activeSta"
             :disabled="unActiveBtn"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_SET_ACTIVE'"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_SET_ACTIVE'"
           >
             {{ language('激活') }}
           </iButton>
           <iButton
             @click="del"
             :disabled="unLoseActiveBtn"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_DELETE'"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_DELETE'"
           >
             {{ language('删除') }}
           </iButton>
           <buttonDownload
             :download-method="exportExcel"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_EXPORT'"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_EXPORT'"
           >
             {{ language('导出') }}
           </buttonDownload>

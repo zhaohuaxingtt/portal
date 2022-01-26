@@ -184,7 +184,7 @@ export default {
                 location: { required:true, message:"请输入location",trigger:'blur' },
                 enName: { required:true, message:"请输入英文名",trigger:'blur' },
                 telefone: { required:true, message:"请输入Telefone",trigger:'blur' },
-                adminUsers: { required:true, message:"请选择adminUsers",trigger:'blur' },
+                adminUsers: { required:true, message:"请选择管理员",trigger:'blur' },
                 canUsers: { required:true, message:"请选择报表可见人员",trigger:'blur' }
             },
             imgCutterRate: '16 : 9',
@@ -297,6 +297,7 @@ export default {
             this.$emit("update:show",false)
         },
         save(){
+            if (this.customFlag && this.form.users.length === 0 && this.form.suppliers.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
             if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
             this.$refs.typeForm.validate(async v => {
                 if (v) {

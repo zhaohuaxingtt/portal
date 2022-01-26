@@ -83,13 +83,6 @@ export default {
           align: 'center',
           tooltip: false,
           emit: 'go-detail',
-          sortMethod: function (a, b) {
-            const a_swname = a['code']?.toLowerCase()
-            const b_swname = b['code']?.toLowerCase()
-            if (a_swname < b_swname) return -1
-            if (a_swname > b_swname) return 1
-            return 0
-          },
           sortable: true
         },
         {

@@ -8,25 +8,27 @@
     <div class="iButton-end margin-bottom20" v-if="!readOnly">
       <iButton
         @click="addCbd"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_ADD'"
+        v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_ADD'"
         >{{ language('新增') }}</iButton
       >
       <iButton
         v-if="!editTable"
         @click="editCbd(true)"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_MODIFY'"
+        v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_MODIFY'"
         >{{ language('编辑') }}</iButton
       >
       <iButton
         @click="deleteCbd(false)"
         :disabled="selectTableData.length == 0"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_DELETE'"
+        v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_DELETE'"
         >{{ language('删除') }}</iButton
       >
       <iButton
         v-if="editTable"
         @click="saveCbd"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_ADD|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_MODIFY'"
+        v-permission="
+          'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_ADD|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_CBD_MODIFY'
+        "
         >{{ language('保存') }}</iButton
       >
     </div>

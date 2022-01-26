@@ -1,4 +1,5 @@
 <template>
+<div v-loading="loading">
   <iPage>
     <div class="title">
       <div>
@@ -492,6 +493,7 @@
       :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
+</div>
 </template>
 
 <script>
@@ -553,6 +555,7 @@ export default {
     return {
       // tableListDataSub: [],
       // updateTerms: false,
+      loading: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -745,11 +748,13 @@ export default {
       return res
     },
     query(e) {
+      this.loading = true
       // 根据ID查询条款信息
       findById(e).then((res) => {
         res.supplierRange = res.supplierRange?.split(',')
         res.supplierIdentity = res.supplierIdentity?.split(',')
         this.ruleForm = res
+        this.loading = false
         if (this.ruleForm.termsText != '') {
           this.editor.txt.html(this.ruleForm.termsText)
           if (this.ruleForm.isNewest != true) {

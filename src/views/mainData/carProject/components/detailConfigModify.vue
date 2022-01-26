@@ -24,7 +24,7 @@
       <div slot="actions" ref="detailPanel" id="detailPanel">
         <div
           class="flex-end-center margin-bottom20"
-          xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_CONFIG_MODIFY'"
+          v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_CONFIG_MODIFY'"
         >
           <iButton v-show="editable" :disabled="loading" @click="add">
             {{ language('新增配置') }}

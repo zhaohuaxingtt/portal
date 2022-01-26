@@ -148,7 +148,7 @@
               maxlength="120"
               show-word-limit></iInput>
     </iCard>
-    < class="remark">This report is only for SAIC Volkswagen's internal business decision-making reference. Please keep all the information of the suppliers strictly confidential, and do not disclose any content of this report to any other third party. Please use the information with caution and reasonableness within the company. This report cannot be used as the basis for legal proceedings, and SAIC Volkswagen does not assume any responsibility.</div>
+    <div class="remark">This report is only for SAIC Volkswagen's internal business decision-making reference. Please keep all the information of the suppliers strictly confidential, and do not disclose any content of this report to any other third party. Please use the information with caution and reasonableness within the company. This report cannot be used as the basis for legal proceedings, and SAIC Volkswagen does not assume any responsibility.</div>
   </div>
 </template>
 
