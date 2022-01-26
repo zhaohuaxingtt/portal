@@ -71,8 +71,8 @@ export default {
       try {
         this.tableLoading = true
         let params = {
-          pageNum:this.page.currPage - 1,
-          pageSize: this.page.pageSize,
+          page:this.page.currPage - 1,
+          size: this.page.pageSize,
           ...this.params
         }
         let res = await glossaryListByPage(params)

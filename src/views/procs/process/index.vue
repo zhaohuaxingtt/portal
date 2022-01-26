@@ -39,7 +39,7 @@
                        123
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="list1" @row-click="side($event, 'attchment')"></UiCard>
+               <UiCard title="常用附件" :list="sampleList" @row-click="side($event, 'attchment')"></UiCard>
             </div>
         </div>
     </div>
@@ -84,6 +84,7 @@
                 collectList: [],  // 我的收藏
                 hotTermsList: [],  // 最热词条
                 myFlowList: [],  // 我的流程
+                sampleList: [],  // 常用附件
                 flowList: []   // 流程列表
             }
         },
@@ -121,7 +122,7 @@
             },
             async getSampleList() {
                 await querySample().then(res => {
-                    this.SampleList = res || []
+                    this.sampleList = res || []
                 })
             },
             async getMyFlowList() {
