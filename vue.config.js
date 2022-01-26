@@ -100,7 +100,7 @@ module.exports = {
       'vue-router': 'VueRouter',
       axios: 'axios',
       moment: 'moment',
-      'element-ui': 'element-ui',
+      'element-ui': 'ELEMENT',
       'vue-i18n': 'VueI18n',
       i18n: 'i18n',
       Ellipsis: 'Ellipsis',
