@@ -147,15 +147,6 @@ export default {
       const res = await getTags(pms)
       if (res.result) {
         this.tagList = res.data
-        this.tagList = [
-          {
-            tagName:"大手大脚阿斯加德sad是多少",
-            tagValue:"jdksajdjsa"
-          },{
-            tagName:"12121",
-            tagValue:"jdksajdjsa"
-          }
-        ]
       }
     },
     handleShareholder() {

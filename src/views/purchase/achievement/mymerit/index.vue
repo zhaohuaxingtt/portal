@@ -31,7 +31,7 @@
 <script>
   import {iPage, iNavMvp, iButton} from 'rise';
   import {tabRouterList, btnsgroup1,} from '../data';
-  import {getPowerBiVal} from '@/api/achievement'
+  import {getPowerBiVal,getEklPbi} from '@/api/achievement'
   import * as pbi from 'powerbi-client';
   import zfbmsj from './components/zfbmsj.vue'
   import zfkssj from './components/zfkssj.vue'
@@ -208,6 +208,7 @@
         // getEklPbil().then(res=>{
             
         // })
+        // console.log(this.role)
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
@@ -246,10 +247,11 @@
         this.getReportData(data)
       },
       getReportData(data) {
-        getPowerBiVal(data).then(res => {
+        getEklPbi().then(res => {
+          // console.log(res)
           if (res.result) {
             this.url = res.data
-            this.renderBi()
+            this.renderBi(data)
           }
         })
       },
@@ -330,7 +332,7 @@
         this.indexBtn = index
       },
       // 初始化页面
-      renderBi() {
+      renderBi(data) {
         var permissions = pbi.models.Permissions.All
         var config = {
           type: 'report',
@@ -378,6 +380,12 @@
         var year = myDate.getFullYear();
         var month = myDate.getMonth() + 1
         var date = myDate.getDate()
+        var materialCode = "";
+        var materialName = "";
+        if(this.$route.query.materialCode){
+          materialCode = this.$route.query.materialCode;
+          materialName = this.$route.query.materialName;
+        }
         if (date < 10) {
           month = month - 1
         }
@@ -386,23 +394,35 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_version"
             },
             operator: "In",
-//                        values: [year + month],
+            values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_year"
             },
             operator: "In",
             values: [year],
             filterType: pbi.models.FilterType.BasicFilter
           };
+
+          var	material_group_parameter = {
+              $schema: "http://powerbi.com/product/schema#basic",
+              target: {
+                table: "app_proc_ekl_data_source",
+                column: "material_group_code_name"
+              },
+              operator: "In",
+              values: [materialName],
+              filterType: pbi.models.FilterType.BasicFilter
+          };
+
           const pages = await report.getPages();
           var page = pages.filter(function (page) {
             return page.isActive
@@ -419,6 +439,12 @@
               visual.setSlicerState({
                 filters: [year_parameter]
               });
+            }
+
+            if(visual.title == "material_group" && page.isActive==true){
+              visual.setSlicerState({
+                filters: [material_group_parameter]
+              });				    							    						    		
             }
           });
         });
