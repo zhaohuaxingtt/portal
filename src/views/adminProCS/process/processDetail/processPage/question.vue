@@ -2,7 +2,7 @@
     <iDialog
         title="常见问题"
         :visible.sync="show" 
-        width="600px" 
+        width="700px" 
         @close='close' 
         @open="open"
         append-to-body
@@ -14,7 +14,7 @@
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyword" />
                 <iButton style="margin-left:10px" @click="search('rest')">搜索</iButton>
             </div>
-            <ITable ref="table" :tableSetting='tableSetting' @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
+            <ITable ref="table" :tableSetting='tableSetting' :selected="info.issueIds || []" @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
@@ -89,9 +89,13 @@ export default {
             try {
                 this.loading = true
                 let formdata = new FormData()
-                this.selectList.forEach(e => {
-                    formdata.append('issues',e.id)
-                })
+                if(this.selectList.length == 0){
+                    formdata.append('issues',"")
+                }else{
+                    this.selectList.forEach(e => {
+                        formdata.append('issues',e.id)
+                    })
+                }
                 await addPageIssue(this.info.id,formdata)
                 this.$emit("refresh")
                 this.close()

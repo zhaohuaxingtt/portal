@@ -397,6 +397,13 @@ export function uploadPageFile(pageId,data) {
 
 
 
+// 查询我的流程
+export function queryWorkFlow() {
+    return procsRequest({
+        url: `/workFlow/myFlow.json`,
+        method: 'get'
+    })
+}
 // 查询流程常见问题
 export function queryProcessFAQList(id, data) {
     return procsRequest({

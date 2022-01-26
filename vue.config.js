@@ -1,7 +1,9 @@
 const path = require('path')
+const webpack = require('webpack')
 const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+
 /* const ChangeNginxConfig = require(resolve(
       './loadersPlugins/pluginTranslateNginxConfig'
     )) */
@@ -10,8 +12,8 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-// const BASE_IP = '10.122.17.38'
-const BASE_IP = '10.122.18.166'
+const BASE_IP = '10.122.17.38'
+// const BASE_IP = '10.122.18.166'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -40,45 +42,30 @@ module.exports = {
             minChunks: 3,
             priority: 5,
             reuseExistingChunk: true
-          },
-          quillEditor: {
-            name: 'chunk-quill-editor',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?quill(.*)/
-          },
-          organizationChart: {
-            name: 'chunk-organization-chart',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?vue-organization-chart(.*)/
-          },
-          sortablejs: {
-            name: 'chunk-sortablejs',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?sortablejs(.*)/
           }
         }
       }),
         config.optimization.runtimeChunk('single')
     }
-
-    // 标记打包版本号
-    config.plugin('define').tap((pluginConfig) => {
-      const [options] = pluginConfig
-      const env = options['process.env']
-      const IS_DEV = process.env.NODE_ENV !== 'production'
-      process.env.VUE_APP_VERSION = IS_DEV
-        ? `DEV_${new Date().toLocaleString()}`
-        : `PROD_${new Date().toLocaleString()}`
-      env.VUE_APP_VERSION = JSON.stringify(process.env.VUE_APP_VERSION)
-      return pluginConfig
-    })
   },
   configureWebpack: (config) => {
     config.plugins.forEach((val) => {
       if (val['__pluginConstructorName'] === 'HtmlWebpackPlugin') {
         val.options.CDN_HOST = process.env.CDN_HOST
+        // 标记打包版本号
+        const version =
+          process.env.NODE_ENV !== 'production'
+            ? `DEV_${new Date().toLocaleString()}`
+            : `PROD_${new Date().toLocaleString()}`
+        val.options.VUE_APP_VERSION = version
       }
     })
+    config.plugins.push(
+      new webpack.DllReferencePlugin({
+        context: __dirname,
+        manifest: require('./vendor-manifest.json')
+      })
+    )
     //为生产环境移除console debugger 代码压缩
     if (process.env.NODE_ENV !== 'dev') {
       config.plugins.push(
@@ -116,7 +103,8 @@ module.exports = {
       'element-ui': 'ELEMENT',
       'vue-i18n': 'VueI18n',
       i18n: 'i18n',
-      Ellipsis: 'Ellipsis'
+      Ellipsis: 'Ellipsis',
+      lodash: '_'
     }
     //开启gizp压缩
     config.devtool = 'source-map'

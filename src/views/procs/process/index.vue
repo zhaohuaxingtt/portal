@@ -18,9 +18,31 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <IndexList padding style="color:#777" :showIndex="activeName == 'all'" @row-click="clickProcess">
-                        <div slot="row-right" slot-scope="{data}">{{data}}</div>
-                    </IndexList>
+                    <template v-if="activeName == 'all'">
+                        <IndexList 
+                            :data="indexs.allData" 
+                            padding 
+                            style="color:#777" 
+                            :isClickFirst="false"
+                            nameKey="name"
+                            :loading.sync="indexs.loading"
+                            @row-click="clickProcess">
+                            <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
+                        </IndexList>
+                    </template>
+                    <template v-if="activeName == 'my'">
+                        <IndexList 
+                            :data="indexs.myData" 
+                            padding 
+                            style="color:#777" 
+                            :showIndex="false" 
+                            :isClickFirst="false"
+                            nameKey="name"
+                            :loading.sync="indexs.loading"
+                            @row-click="clickProcess">
+                            <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
+                        </IndexList>
+                    </template>
                 </div>
                 <!-- 流程图 -->
                 <div v-else class="mt20">
@@ -31,15 +53,15 @@
                 
             </div>
             <div class="side">
-               <UiCard title="我的收藏" :list="list1" @row-click="side($event, 'collect')"></UiCard>
-               <UiCard title="最新词条" :list="list1" :color="false" @row-click="side($event, 'glossary')">
+               <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
+               <UiCard title="最新词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right">MORE</iButton>
-                   <div slot="item-right">
+                   <div slot="item-right" slot-scope="{data}">
                        <i class="el-icon-view"></i>
-                       123
+                       {{data.pageView}}
                    </div>
                </UiCard>
-               <UiCard title="常用附件" :list="list1" @row-click="side($event, 'attchment')"></UiCard>
+               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
             </div>
         </div>
     </div>
@@ -49,6 +71,7 @@
     import LayHeader from "./../components/LayHeader.vue";
     import IndexList from "./../components/IndexList.vue";
     import UiCard from "./../components/UiCard.vue";
+    import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample, queryMyWorkFlow, getMainFlowchart } from '@/api/procs';
     import {iCard, iButton} from 'rise';
     export default {
         components:{
@@ -68,22 +91,95 @@
                     draw:[
                         {name:'流程图',value:"draw",icon:"el-icon-bangzhu"}
                     ]
-
+                },
+                indexs: {
+                    allData:[],
+                    myData:{},
+                    loading: false
                 },
                 activeName:"all",
                 activeView:"list",
-                list1:[
-                    {name:'收藏1收藏1收藏1收藏1收藏1',id:1},
-                    {name:'收藏2',id:2},
-                    {name:'收藏3',id:3},
-                    {name:'收藏4',id:4},
-                    {name:'收藏5',id:5},
-                ]
+                collectList: [],
+                hotTermsList: [],
+                attachList:[],
+                myFlowList: [],  // 我的流程
             }
         },
+        created() {
+            this.getProcessList()
+            this.getMyCollectList()
+            this.getHotTermsList()
+            this.getSampleList()
+            this.getMyFlowList()
+        },
         methods: {
+            // 流程列表
+            async getProcessList() {
+                try {
+                    this.indexs.loading = true
+                    let list = await queryWorkFlow()
+                    let obj = {}
+                    list.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.allData = obj
+                } finally {
+                    this.indexs.loading = false
+                }
+            },
+            // 我的收藏
+            async getMyCollectList() {
+                let params = {
+                    page: 0,
+                    size: 5
+                }
+                await queryMyCollect(params).then(res => {
+                    console.log(res, 'queryMyCollect')
+                    this.collectList = res || []
+                })
+            },
+            // 最新词条
+            async getHotTermsList() {
+                let params = {
+                    page: 0,
+                    size: 5
+                }
+                await queryHotTerms(params).then(res => {
+                    this.hotTermsList = res?.content || []
+                })
+            },
+            // 常用附件
+            async getSampleList() {
+                await querySample().then(res => {
+                    this.attachList = res || []
+                })
+            },
+            // 我的流程
+            async getMyFlowList() {
+                await queryMyWorkFlow().then(res => {
+                    let obj = {}
+                    res.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.myData = obj
+                })
+            },
+            async getMainFlowInfo() {
+                await getMainFlowchart().then(res => {
+                    console.log(res,'2222')
+                })
+            },
             tabChange(v){
                 this.activeName = v
+                if (v === 'my') {
+                    this.getMyFlowList()
+                }
             },
             typeChange(type){
                 this.activeView = type
@@ -91,6 +187,7 @@
                     this.activeName = "all"
                 }else{
                     this.activeName = "draw"
+                    this.getMainFlowInfo()
                 }
             },
             clickProcess(v){
@@ -102,8 +199,11 @@
                     case "collect":
                         this.$router.push({name:'CFProCsProcessCollect'})
                         break;
-                
-                    default:
+                    case "glossary":
+                        // this.$router.push({name:'CFProCsProcessCollect'})
+                        break;
+                    case "attachment":
+                        // this.$router.push({name:'CFProCsProcessCollect'})
                         break;
                 }
             }
