@@ -17,7 +17,7 @@
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
-            <iButton @click="close">{{ language('确认') }}</iButton>
+            <iButton @click="confirm">{{ language('确认') }}</iButton>
         </div>
     </iDialog>
 </template>
@@ -56,11 +56,11 @@ export default {
     },
     methods: {
         open(){
+            console.log(this.info);
             this.$nextTick(() => {
                 this.search()
+                // this.$refs.table.$refs.table.toggleRowSelection(this.info.sampleIds, true)
             })
-            // 选中已有的
-            
         },
         search(t){
             this.$refs.table.query(t)
@@ -70,7 +70,8 @@ export default {
                 let data = {
                     page: page.currPage - 1,
                     size: page.pageSize,
-                    keyword: this.keyword
+                    keyword: this.keyword,
+                    fileType:"PRO_SAMPLE"
                 }
                 try {
                     let res = await queryProcessFileList(this.processId,data)
@@ -92,6 +93,7 @@ export default {
                     formdata.append('samples',e.id)
                 })
                 await addPageSample(this.info.id,formdata)
+                this.$emit("refresh")
                 this.close()
             } finally {
                 this.loading = false

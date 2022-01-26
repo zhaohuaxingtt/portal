@@ -13,14 +13,18 @@
             style="margin-right: 20px"
             @click="toColorStandardParts"
             v-if="isEditColorPart && isDisabled"
-            xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_BATCH_MODIFY'"
+            v-permission="
+              'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_BATCH_MODIFY'
+            "
           >
             {{ language('批量修改') }}</iButton
           >
           <div class="browse" v-if="isDisabled > 0 ? true : false">
             <iButton
               @click="edit"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY'"
+              v-permission="
+                'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY'
+              "
               >{{ language('编辑') }}</iButton
             >
           </div>
@@ -28,7 +32,9 @@
             <!-- <iButton @click="avtiveSta">{{btnList.avtiveSta}}</iButton> -->
             <iButton
               @click="temporaryStorage"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_PARTS_MESSAGE_ADD'"
+              v-permission="
+                'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_PARTS_MESSAGE_ADD'
+              "
               >{{ language('保存') }}</iButton
             >
             <iButton @click="cancel">{{ language('取消') }}</iButton>
@@ -316,19 +322,19 @@
           <div v-if="editStatus">
             <iButton
               @click="measurementEdit"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
               >{{ language('编辑') }}</iButton
             >
           </div>
           <div v-else>
             <iButton
               @click="saveUnit"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
               >{{ language('保存') }}</iButton
             >
             <iButton
               @click="unitTabCancel"
-              xxx-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
+              v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_UNIT_MODIFY'"
               >{{ language('取消') }}</iButton
             >
           </div>

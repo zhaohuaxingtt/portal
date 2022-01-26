@@ -25,7 +25,6 @@
             @handle-selection-change="handleSelectionChange"
         />
         <iPagination
-            v-if="showPage"
             v-update
             @size-change="handleSizeChange($event, queryList)"
             @current-change="handleCurrentChange($event, queryList)"
@@ -45,6 +44,7 @@
 		<questionAnswer
 			ref="questionAnswerDialog"
             :show.sync="questionAnswerShow" 
+            :info="qsInfo"
 		/>
     </iCard>
 </template>
@@ -78,6 +78,7 @@ export default {
             addQuestionDialog: false,
             keyWord: '',
 			questionAnswerShow: false,
+            qsInfo:{},
             processId: this.$route.query.id
         }
     },
@@ -114,7 +115,8 @@ export default {
             switch (type) {
                 case "answer":
                     this.questionAnswerShow = true
-                    this.$refs.questionAnswerDialog.initDialog(JSON.parse(JSON.stringify(row)))
+                    this.qsInfo = JSON.parse(JSON.stringify(row))
+                    // this.$refs.questionAnswerDialog.initDialog(JSON.parse(JSON.stringify(row)))
                     break;
                 case "edit":
                     this.type = 'edit'
@@ -128,6 +130,7 @@ export default {
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(async () => {
+                        this.tableLoading = true
                         await deleteProcessFAQ(row.id)
                         this.$message({
                             type: 'success',

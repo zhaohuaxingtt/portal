@@ -126,8 +126,13 @@ export default {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
-          if (baseInfo.settlementBankVo) this.supplierComplete.settlementBankDTO = baseInfo
-            .settlementBankVo
+          if (baseInfo.settlementBankVo) {
+            if (!baseInfo.settlementBankVo.bankTaxCode || baseInfo.settlementBankVo.bankTaxCode == '') {
+              baseInfo.settlementBankVo.bankTaxCode = baseInfo.supplierInfoVo.socialcreditNo
+            }
+            this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
+
+          }
           if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
           // 如果是查看修改 需要从不同的表获取 基础信息
           // if (baseInfo.gpSupplierInfoVO) {

@@ -4,7 +4,7 @@
       <div v-if="editSta">
         <iButton
           @click="edit"
-          xxx-permission="'BUTTON_MATERIEL_DATA_EXCHANGE_MODIFY'"
+          v-permission="'BUTTON_MATERIEL_DATA_EXCHANGE_MODIFY'"
           >{{ language('编辑') }}</iButton
         >
       </div>

@@ -7,7 +7,7 @@
   >
     <div
       class="top-buttons margin-bottom20"
-      xxx-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_PEP_NODE_TIME_MODIFY'"
+      v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_PEP_NODE_TIME_MODIFY'"
     >
       <iButton v-if="isEditPage && !editable" @click="edit">
         {{ language('编辑') }}

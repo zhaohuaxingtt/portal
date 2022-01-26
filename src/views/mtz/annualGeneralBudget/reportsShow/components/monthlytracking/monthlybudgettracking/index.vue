@@ -147,17 +147,13 @@ export default {
     this.getMaterialMedium()
     this.sure()
   },
-  mounted(){
-    // this.iniChart()
-  },
   methods:{
     iniChart(){
-      // const date = new Date
-      // const month = this.currentYearMonth
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
-      const _this = this
+      // const _this = this
       chart.setOption({
+        color:['rgb(2,96,241)'],
         title: {
           text: '单位：⼈⺠币/百万',
           top: 0,
@@ -234,33 +230,30 @@ export default {
             name:'实际应付',
             type: 'bar',
             barWidth:'40',
-            data:this.dataMonth,
-            itemStyle: {
-              normal: {
-                color: function(params){
-                  if(params.name < _this.searchForm.yearMonth){
-                    return 'rgb(2,96,241)'
-                  }else{
-                    return 'rgb(119,203,255)'
+            data:this.dataMonth.map(item => {
+              return {
+                value:item.value,
+                itemStyle:{
+                  normal:{
+                    borderRadius:item.value > 0 ? [4,4,0,0] : [0,0,4,4],
+                    color: item.type == 'monthForecastPrice' ? 'rgb(119,203,255)' : 'rgb(2,96,241)'
+                  },
+                },
+                label: {
+                  normal:{
+                    show: true,
+                    position:item.value > 0? 'top' : 'bottom',
+                    formatter:(params)=>{
+                      return Number(params.value).toFixed(2)
+                    },
+                    textStyle: {
+                      color: 'inherit',
+                    }
                   }
                 },
-                
-                borderRadius:[4,4,0,0],
-              },
-            },
-            label: {
-              normal:{
-                show: true,
-                position: 'top',
-                formatter:(params)=>{
-                  return Number(params.value).toFixed(2)
-                },
-                textStyle: {
-                  color: 'inherit',
-                }
               }
+            }),
             },
-          },
           {
             name:'月度预测',
             type:'line',
@@ -338,10 +331,10 @@ export default {
             this.yearData.push(Number(item.yearForecastPrice)/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
-              this.dataMonth.push(Number(item.actualPrice)/1000000 )
+              this.dataMonth.push({value: Number(item.actualPrice)/1000000, type:'actualPrice'})
               allPrice.push(Number(item.actualPrice))
             }else{
-              this.dataMonth.push(Number(item.monthForecastPrice)/1000000)
+              this.dataMonth.push({value:Number( item.monthForecastPrice)/1000000,type:'monthForecastPrice'})
               allPrice.push(Number(item.monthForecastPrice))
             }
           })

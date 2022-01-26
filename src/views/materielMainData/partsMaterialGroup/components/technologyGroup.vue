@@ -8,13 +8,17 @@
     <div class="button-top margin-bottom20" v-if="!readOnly">
       <iButton
         @click="newTechnology"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'"
+        v-permission="
+          'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_ADD'
+        "
         >{{ language('新增') }}</iButton
       >
       <iButton
         @click="deleteTechnology"
         :disabled="selectTableData.length == 0"
-        xxx-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_DELETE'"
+        v-permission="
+          'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_DELETE'
+        "
         >{{ language('删除') }}</iButton
       >
     </div>

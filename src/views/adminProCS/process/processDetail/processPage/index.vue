@@ -21,7 +21,7 @@
         <!-- 常见问题 -->
         <Question :show.sync="qsDialog.show" :info="qsDialog.info" @refresh="queryList"></Question>
         <!-- 附件 -->
-        <Attachment :show.sync="attchDialog.show" :info="qsDialog.info" @refresh="queryList"></Attachment>
+        <Attachment :show.sync="attchDialog.show" :info="attchDialog.info" @refresh="queryList"></Attachment>
 
         <!-- 流程目录 -->
         <ProcessDirectory :show.sync="processDialog.show"></ProcessDirectory>

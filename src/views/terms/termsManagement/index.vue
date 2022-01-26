@@ -73,7 +73,7 @@ export default {
       this.query(param)
     },
     handleSizeChange(e) {
-      this.page.currPage = 1;
+      this.page.currPage = 1
       this.page.pageSize = e
       let param = {
         ...this.formData,

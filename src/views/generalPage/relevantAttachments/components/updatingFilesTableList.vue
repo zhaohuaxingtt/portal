@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-25 17:04:51
+ * @LastEditors: YoHo
  * @Description: 附件上传表格
 -->
 <template>
@@ -37,7 +37,11 @@
                        v-if="items.props === 'isCommitment'" :prop="items.props"
                        :label="items.key ? $t(items.key) : items.name" :fixed="items.fixed">
         <template slot-scope="scope">
-          <span v-if="scope.row.isCommitment" class="openLinkText cursor"
+          <template v-if="scope.row.templateId=='21'">
+            <iButton type="text" class="openLinkText text-500" :disabled="disabled" @click="publish(scope.row)">确认并发布</iButton>
+            <iButton type="text" class="openLinkText text-500" @click="viewPublish(scope.row)">查看已发布</iButton>
+          </template>
+          <span v-else-if="scope.row.isCommitment" class="openLinkText cursor"
                 @click="handleViewAttachment(scope.row)">{{ $t('LK_CHAKAN') }}</span>
           <uploadButton
               :showText="true"
@@ -135,7 +139,7 @@
   </el-table>
 </template>
 <script>
-import {iInput, icon, iDatePicker} from 'rise'
+import {iInput, icon, iDatePicker, iButton} from 'rise'
 import uploadButton from '../../../../../src/components/uploadButton'
 
 export default {
@@ -145,13 +149,15 @@ export default {
     tableLoading: {type: Boolean, default: false},
     selection: {type: Boolean, default: true},
     index: {type: Boolean, default: false},
-    height: {type: Number || String}
+    height: {type: Number || String},
+    disabled: {type: Boolean, default: false},
   },
   components: {
     iInput,
     icon,
     uploadButton,
-    iDatePicker
+    iDatePicker,
+    iButton
   },
   methods: {
     handleSelectionChange(val) {
@@ -174,6 +180,12 @@ export default {
     handleViewAttachment(row) {
       this.$emit('handleViewAttachment', row)
     },
+    viewPublish(row){
+      this.$emit('viewPublish', row)
+    },
+    publish(row){
+      this.$emit('publish', row)
+    },
     handleUploadedCallback(event, row) {
       this.$emit('handleUploadedCallback', event, row)
     },
@@ -191,7 +203,11 @@ export default {
 .openLinkText {
   color: $color-blue;
 }
-
+::v-deep .text-500{
+  span{
+    font-weight: 500 !important;
+  }
+}
 .el-select {
   margin: 2px 0;
 }

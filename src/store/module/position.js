@@ -119,7 +119,8 @@ const position = {
         permissionList: [],
         userList: [],
         purchaseGroup: '',
-        tempPurchaseGroup: ''
+        tempPurchaseGroup: '',
+        property: null
       },
       originPosDetail: {},
 
@@ -235,7 +236,8 @@ const position = {
         userList: [],
         purchaseGroup: '',
         tempPurchaseGroup: '',
-        setCode: ''
+        setCode: '',
+        property: null
       }
       state.pos.dimensionSelected = []
       state.pos.dimensionList = []
@@ -649,7 +651,8 @@ const position = {
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
-        setCode: setCode ? setCode.join(',') : ''
+        setCode: setCode ? setCode.join(',') : '',
+        property: this.state.position.pos.positionDetail.property
       }
       commit('SET_POSLOADING', true)
       const res = await SavePosition(params).finally(() =>
@@ -738,7 +741,8 @@ const position = {
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
-        setCode: setCode ? setCode.join(',') : ''
+        setCode: setCode ? setCode.join(',') : '',
+        property: this.state.position.pos.positionDetail.property
       }
       commit('SET_POSLOADING', true)
       const res = await UpdatePosition(params).finally(() =>
