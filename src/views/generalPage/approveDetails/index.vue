@@ -60,7 +60,7 @@
         <iFormItem prop="vmCode">
           <iLabel label="VW号"
                   slot="label"></iLabel>
-          <iText></iText>
+          <iText>{{ detail.svwCode }}</iText>
         </iFormItem>
       </iFormGroup>
     </iCard>
