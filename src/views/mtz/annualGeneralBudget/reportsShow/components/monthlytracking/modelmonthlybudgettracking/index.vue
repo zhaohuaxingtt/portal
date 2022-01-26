@@ -13,7 +13,7 @@
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['MtzMaterialNumber']"
+            v-model="form['mtzMaterialNumber']"
           >
             <el-option
               value=""
@@ -30,7 +30,7 @@
         <el-form-item :label="language('LK_CAILIAOZHONGLEI', '材料中类')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['MaterialMediumNum']"
+            v-model="form['materialMediumNum']"
           >
             <el-option
               value=""
@@ -47,7 +47,7 @@
         <el-form-item :label="language('LK_BIJIAOBANBEN', '比较版本')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['VersionMonthOne']"
+            v-model="form['versionMonthOne']"
           >
             <el-option
               v-for="(item, index) in getVersionMonth"
@@ -62,7 +62,7 @@
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
             class="compareTwo"
-            v-model="form['VersionMonthTwo']"
+            v-model="form['versionMonthTwo']"
           >
             <el-option
               v-for="(item, index) in getVersionMonth"
@@ -181,12 +181,12 @@ export default {
           )
           const endDate = new Date(moment(endTime).format('yyyy-MM'))
           if (
-            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['versionMonthOne'] == this.form['versionMonthTwo'] &&
             this.form['yearMonthTwo']
           ) {
             return time > endDate || time < startDate
           }
-          if (this.form['VersionMonthOne'] == this.form['VersionMonthTwo']) {
+          if (this.form['versionMonthOne'] == this.form['versionMonthTwo']) {
             return time.getMonth() == 11
           }
         }
@@ -200,7 +200,7 @@ export default {
           )
           const endDate = new Date(moment(endTime).format('yyyy-MM'))
           if (
-            this.form['VersionMonthOne'] == this.form['VersionMonthTwo'] &&
+            this.form['versionMonthOne'] == this.form['versionMonthTwo'] &&
             this.form['yearMonthOne']
           ) {
             return time > endDate || time < startDate
@@ -248,8 +248,8 @@ export default {
       getVersionData(this.versionMonth)
         .then((res) => {
           this.getVersionMonth = res.data
-          this.form['VersionMonthOne'] = this.getVersionMonth[0].value
-          this.form['VersionMonthTwo'] = this.getVersionMonth[0].value
+          this.form['versionMonthOne'] = this.getVersionMonth[0].value
+          this.form['versionMonthTwo'] = this.getVersionMonth[0].value
           this.versionMonthValue = this.getVersionMonth[0].value
           this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
           this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
@@ -262,8 +262,8 @@ export default {
 
     //获取列表数据
     getdifferenceAnalysisCarModel() {
-      this.form.versionOneName = this.form['VersionMonthOne']
-      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.versionOneName = this.form['versionMonthOne']
+      this.form.versionTwoName = this.form['versionMonthTwo']
       this.form.versionOneId = 0
       this.form.versionTwoId = 0
       this.form.pageNo = this.page.currPage
@@ -288,8 +288,8 @@ export default {
             let dataTransformTwo = moment(this.form['yearMonthTwo']).format(
               'yyyy-MM'
             )
-            this.dataTitle = `${form['VersionMonthOne']}-${dataTransform}`
-            this.dataTitleTwo = `${form['VersionMonthTwo']}-${dataTransformTwo}`
+            this.dataTitle = `${form['versionMonthOne']}-${dataTransform}`
+            this.dataTitleTwo = `${form['versionMonthTwo']}-${dataTransformTwo}`
           }
         })
         .catch((err) => {
@@ -318,8 +318,8 @@ export default {
     exportData() {
       this.form.pageNo = 1
       this.form.pageSize = 10
-      this.form.versionOneName = this.form['VersionMonthOne']
-      this.form.versionTwoName = this.form['VersionMonthTwo']
+      this.form.versionOneName = this.form['versionMonthOne']
+      this.form.versionTwoName = this.form['versionMonthTwo']
       this.form.versionOneId = 0
       this.form.versionTwoId = 0
       differenceAnalysisCarModelExport(this.form)

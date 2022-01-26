@@ -2,10 +2,10 @@
 	<iDialog :title="dialogTitle"  :visible.sync="show" v-if="show" width="500px" @close='closeDialogBtn' append-to-body class="glossaryForm">
 		<el-form v-loading="loading" ref="form" :model="newGlossaryForm" :rules="newGlossaryRules" label-width="100px" class="glossaryForm validate-required-form">
 			<iFormItem :label="language('标题')" prop='title'>
-				<iInput v-model="newGlossaryForm.title" placeholder="请输入"></iInput>
+				<iInput v-model="newGlossaryForm.title" placeholder="请输入" maxLength=50></iInput>
 			</iFormItem>
 			<iFormItem :label="language('标题首字母')" prop='firstLetter'>
-				<iInput v-model="newGlossaryForm.firstLetter" placeholder="请输入"></iInput>
+				<iInput v-model="newGlossaryForm.firstLetter" placeholder="请输入" maxLength=1></iInput>
 			</iFormItem>
 			<iFormItem :label="language('发布日期')" prop='publishDate'>
 				<el-date-picker
@@ -17,7 +17,7 @@
 				</el-date-picker>
 			</iFormItem>
 			<iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="newGlossaryForm.version" placeholder="请输入"></iInput>
+				<iInput v-model="newGlossaryForm.version" placeholder="请输入" maxLength=20></iInput>
 			</iFormItem>
 			<iFormItem :label="language('词条内容')" prop='termsContent'>
 				<iInput resize="none" :rows="3" type="textarea" v-model="newGlossaryForm.termsContent" placeholder="请输入" maxLength=100></iInput>

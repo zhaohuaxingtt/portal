@@ -18,17 +18,31 @@
                     </div>
                 </div>
                 <div v-if="activeView == 'list'" class="mt20" style="height:650px">
-                    <IndexList 
-                        :data="indexs.data" 
-                        padding 
-                        style="color:#777" 
-                        :showIndex="activeName == 'all'" 
-                        :isClickFirst="false"
-                        nameKey="name"
-                        :loading.sync="indexs.loading"
-                        @row-click="clickProcess">
-                        <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
-                    </IndexList>
+                    <template v-if="activeName == 'all'">
+                        <IndexList 
+                            :data="indexs.allData" 
+                            padding 
+                            style="color:#777" 
+                            :isClickFirst="false"
+                            nameKey="name"
+                            :loading.sync="indexs.loading"
+                            @row-click="clickProcess">
+                            <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
+                        </IndexList>
+                    </template>
+                    <template v-if="activeName == 'my'">
+                        <IndexList 
+                            :data="indexs.myData" 
+                            padding 
+                            style="color:#777" 
+                            :showIndex="false" 
+                            :isClickFirst="false"
+                            nameKey="name"
+                            :loading.sync="indexs.loading"
+                            @row-click="clickProcess">
+                            <div slot="row-right" slot-scope="{data}">{{data.version}}</div>
+                        </IndexList>
+                    </template>
                 </div>
                 <!-- 流程图 -->
                 <div v-else class="mt20">
@@ -57,7 +71,7 @@
     import LayHeader from "./../components/LayHeader.vue";
     import IndexList from "./../components/IndexList.vue";
     import UiCard from "./../components/UiCard.vue";
-    import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample } from '@/api/procs';
+    import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample, queryMyWorkFlow, getMainFlowchart } from '@/api/procs';
     import {iCard, iButton} from 'rise';
     export default {
         components:{
@@ -79,14 +93,16 @@
                     ]
                 },
                 indexs: {
-                    list:[],
+                    allData:[],
+                    myData:{},
                     loading: false
                 },
                 activeName:"all",
                 activeView:"list",
                 collectList: [],
                 hotTermsList: [],
-                attachList:[]
+                attachList:[],
+                myFlowList: [],  // 我的流程
             }
         },
         created() {
@@ -94,6 +110,7 @@
             this.getMyCollectList()
             this.getHotTermsList()
             this.getSampleList()
+            this.getMyFlowList()
         },
         methods: {
             // 流程列表
@@ -108,7 +125,7 @@
                         }
                         obj[e.firstLetter].push(e)
                     })
-                    this.indexs.data = obj
+                    this.indexs.allData = obj
                 } finally {
                     this.indexs.loading = false
                 }
@@ -140,8 +157,29 @@
                     this.attachList = res || []
                 })
             },
+            // 我的流程
+            async getMyFlowList() {
+                await queryMyWorkFlow().then(res => {
+                    let obj = {}
+                    res.forEach(e => {
+                        if(!obj[e.firstLetter]){
+                            obj[e.firstLetter] = []
+                        }
+                        obj[e.firstLetter].push(e)
+                    })
+                    this.indexs.myData = obj
+                })
+            },
+            async getMainFlowInfo() {
+                await getMainFlowchart().then(res => {
+                    console.log(res,'2222')
+                })
+            },
             tabChange(v){
                 this.activeName = v
+                if (v === 'my') {
+                    this.getMyFlowList()
+                }
             },
             typeChange(type){
                 this.activeView = type
@@ -149,6 +187,7 @@
                     this.activeName = "all"
                 }else{
                     this.activeName = "draw"
+                    this.getMainFlowInfo()
                 }
             },
             clickProcess(v){
