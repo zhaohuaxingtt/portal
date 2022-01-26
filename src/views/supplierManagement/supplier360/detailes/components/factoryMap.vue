@@ -156,7 +156,8 @@ export default {
         query: {
           supplierToken: this.info.token || '',
           supplierType: '4',
-          subSupplierType: this.$route.query.supplierType
+          subSupplierType: this.$route.query.supplierType,
+          supplierId: this.$route.query.subSupplierId
         }
       })
     },
