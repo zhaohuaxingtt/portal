@@ -161,7 +161,7 @@ export default {
       //所有的list信息
       alltableListData: [],
       pushData: [],
-      exData: { expandKey: 'bussinessAreaName', childrenKey: 'supDeptList' },
+      exData: { expandKey: 'nameZh', childrenKey: 'supDeptList' },
       options: [
         {
           value: '',
