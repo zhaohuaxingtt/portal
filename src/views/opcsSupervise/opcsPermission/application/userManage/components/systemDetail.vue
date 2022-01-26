@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 17:21:59
- * @LastEditors: caopeng
- * @LastEditTime: 2022-01-18 15:30:28
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-27 00:19:22
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systemDetail.vue
 -->
 <template>
@@ -85,7 +85,8 @@ import {
   operationAdd,
   operationQuery,
   relateQuery,
-  operationRemove
+  operationRemove,
+  relateQueryBinding
 } from '@/api/opcs/system'
 export default {
   components: {
@@ -99,11 +100,11 @@ export default {
     rowList: { type: Object }
   },
   watch: {
-    value() {
+    value () {
       this.getAddList()
     }
   },
-  data() {
+  data () {
     return {
       form: {},
       tableLoadingAdd: false,
@@ -115,13 +116,13 @@ export default {
       selectDelArr: []
     }
   },
-  created() {},
+  created () { },
   methods: {
-    sure() {
+    sure () {
       this.getAddList()
     },
     //获取列表接口
-    getAddList() {
+    getAddList () {
       this.tableLoadingAdd = true
       const params = {
         ...this.form,
@@ -138,7 +139,7 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    getDelList() {
+    getDelList () {
       this.tableLoadingDel = true
       const params = {
         ...this.form,
@@ -147,7 +148,7 @@ export default {
         pageSize: 99999,
         opcsUserId: this.rowList.id
       }
-      relateQuery(params).then((res) => {
+      relateQueryBinding(params).then((res) => {
         this.tableLoadingDel = false
         if (res && res.code == 200) {
           this.$nextTick(() => {
@@ -159,9 +160,9 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    clickadd() {
+    clickadd () {
       let parmars = {
-        appList: this.selectAddArr,
+        appsList: this.selectAddArr,
         opcsSupplierId: this.$route.query.opcsSupplierId,
         opcsUserId: this.$route.query.opcsUserId
       }
@@ -172,7 +173,7 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    del() {
+    del () {
       if (this.selectDelArr.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return
@@ -186,21 +187,21 @@ export default {
       operationRemove(req).then((res) => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
-           this.getAddList()
+          this.getAddList()
         } else iMessage.error(res.desZh)
       })
     },
 
-    handleSelectionChangeAdd(val) {
+    handleSelectionChangeAdd (val) {
       this.selectAddArr = val
     },
-    handleSelectionChangeDel(val) {
+    handleSelectionChangeDel (val) {
       this.selectDelArr = val
     },
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false)
     },
-    clickReset() {
+    clickReset () {
       this.form = {}
       this.getAddList()
     }
