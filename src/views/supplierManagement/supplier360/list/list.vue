@@ -663,7 +663,7 @@ export default {
         path: '/supplier/supplierList/details',
         query: {
           supplierType: this.form.supplierType || '',
-          subSupplierId: params.subSupplierId || ''
+          subSupplierId: params.subSupplierId || '',
         }
       })
       window.open(routeData.href)

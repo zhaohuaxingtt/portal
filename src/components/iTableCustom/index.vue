@@ -199,7 +199,6 @@
 <script>
 import { iButton, iSelect, iInput, iRadio, Icon } from 'rise'
 import iTableColumn from './iTableColumn'
-
 import {
   virtualListMixin,
   settingMixin,
@@ -209,7 +208,14 @@ import {
 export default {
   name: 'iTableCustom',
   // eslint-disable-next-line vue/no-unused-components
-  components: { iTableColumn, iButton, iSelect, iInput, iRadio, Icon },
+  components: {
+    iTableColumn,
+    iButton,
+    iSelect,
+    iInput,
+    iRadio,
+    Icon
+  },
   mixins: [virtualListMixin, settingMixin, tooltipMixin, customSelection],
   props: {
     permissionKey: {

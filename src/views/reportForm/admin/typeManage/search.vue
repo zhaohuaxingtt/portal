@@ -198,9 +198,8 @@ export default {
 		},
 		sure() {
 			if (this.addTime.length > 0) {
-				console.log(this.addTime?.[0], '2222')
-				this.queryForm.startTime = moment(this.addTime?.[0] || '').format()
-				this.queryForm.endTime = moment(this.addTime?.[1] || '').format()
+				this.queryForm.startTime = new Date(this.addTime?.[0] || '')
+				this.queryForm.endTime = new Date(this.addTime?.[1] || '')
 			}
 			this.page.currPage = 1
 			this.searchFlag = true

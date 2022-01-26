@@ -42,6 +42,7 @@
     />
 
     <theDetailSupplierUserModify
+      v-if="dialogVisible"
       :visible.sync="dialogVisible"
       :detail="detail"
       :ruleCode="ruleCode"

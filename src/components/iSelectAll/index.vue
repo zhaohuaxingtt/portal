@@ -1,0 +1,111 @@
+<template>
+  <div class="i-select-all-container">
+    <iSelect
+      :placeholder="language('请选择')"
+      multiple
+      v-model="selectValue"
+      filterable
+      style="width: 100%"
+      ref="refSelect"
+      :key="elementKey"
+      @change="handleChange"
+    >
+      <div class="option-all">
+        <el-Button
+          size="mini"
+          plain
+          @click.native="(event) => checkAll(true, event)"
+        >
+          全选
+        </el-Button>
+        <el-Button
+          size="mini"
+          plain
+          @click.native="(event) => checkAll(false, event)"
+        >
+          全不选
+        </el-Button>
+      </div>
+      <el-option
+        v-for="item in options"
+        :key="item[valueKey]"
+        :label="item[labelKey]"
+        :value="item[valueKey]"
+      >
+      </el-option>
+    </iSelect>
+  </div>
+</template>
+
+<script>
+import { iSelect } from 'rise'
+export default {
+  name: 'iSelectAll',
+  components: { iSelect },
+  props: {
+    value: {
+      default: function () {
+        return []
+      }
+    },
+    options: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    valueKey: {
+      type: String,
+      default: 'value'
+    },
+    labelKey: {
+      type: String,
+      default: 'label'
+    }
+  },
+  data() {
+    return { selectValue: [], elementKey: 'AA_' + new Date().getTime() }
+  },
+  created() {
+    this.selectValue = this.value
+  },
+  watch: {
+    value(val) {
+      this.selectValue = val
+    }
+  },
+  methods: {
+    checkAll(val, event) {
+      event.stopPropagation()
+      console.log(val)
+      if (val) {
+        this.selectValue = this.options.map((e) => e[this.valueKey])
+      } else {
+        this.selectValue = []
+        this.elementKey = 'AA_' + new Date().getTime()
+        // this.$refs.refSelect.deleteSelected(event)
+      }
+      this.$emit('input', this.selectValue)
+      this.$emit('change', this.selectValue)
+    },
+    handleChange(val) {
+      this.$emit('input', val)
+      this.$emit('change', val)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.i-select-all {
+  position: relative;
+}
+.i-select-all-body {
+  position: absolute;
+  width: 100%;
+}
+.option-all {
+  border-bottom: solid 1px #eee;
+  padding: 0px 10px 10px 10px;
+}
+</style>

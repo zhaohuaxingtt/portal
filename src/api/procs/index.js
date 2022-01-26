@@ -89,3 +89,23 @@ export function querySample() {
         method: 'get'
     })
 }
+
+/**
+ * 查询我的流程
+ */
+export function queryMyWorkFlow() {
+    return procsRequest({
+        url: `/workFlow/myFlow.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 主流程图
+ */
+export function getMainFlowchart() {
+    return procsRequest({
+        url: `/flowchart/main/flowchart.json`,
+        method: 'get'
+    })
+}

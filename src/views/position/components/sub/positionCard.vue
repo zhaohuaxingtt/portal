@@ -105,6 +105,7 @@ import {
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { UpdateSubPosition } from '@/api/position'
+import iSelectAll from '@/components/iSelectAll'
 export default {
   components: {
     iCard,
@@ -247,6 +248,15 @@ export default {
               scope.row.valueList = dimensionOption[0].valueList
             }
             return (
+              <iSelectAll
+                value={scope.row.valueIds}
+                onchange={(val) => (scope.row.valueIds = val)}
+                options={options}
+                valueKey="valueId"
+                labelKey="value"
+              />
+            )
+            /* return (
               <iSelect
                 placeholder="请选择"
                 multiple={true}
@@ -264,7 +274,7 @@ export default {
                   )
                 })}
               </iSelect>
-            )
+            ) */
           }
         }
       ],

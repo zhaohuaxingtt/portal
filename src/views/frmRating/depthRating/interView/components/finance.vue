@@ -49,6 +49,35 @@
                  :index="true"
                  :input-props="inputProps"
                  @handleSelectionChange="handleSelectionChange">
+        <template slot-scope="scope"
+                  slot="creditAmount">
+          <div>
+            <el-input-number v-model="scope.row.creditAmount"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
+        <template slot-scope="scope"
+                  slot="creditDateStart">
+          <div>
+            <el-date-picker v-model="scope.row.creditDateStart"
+                            align="right"
+                            type="date"
+                            style="width:100%"
+                            :placeholder="language('QINGXUANZE','请选择')">
+            </el-date-picker>
+          </div>
+        </template>
+        <template slot-scope="scope"
+                  slot="interestRate">
+          <div>
+            <el-input-number v-model="scope.row.interestRate"
+                             :controls="false"
+                             :precision="2"
+                             :step="0.1"></el-input-number>
+          </div>
+        </template>
       </tableList>
       <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
       <iInput v-model="interViewData.capitalMinutesMeeting"
@@ -100,18 +129,20 @@ export default {
     setInputProps () {
       this.inputProps = []
       this.tableTitle.map(item => {
-        if (!this.selectProps.includes(item.props)) {
+        if (item.props !== 'creditAmount' && item.props !== 'interestRate' && item.props !== 'creditDateStart') {
           this.inputProps.push(item.props)
         }
       })
     },
     getData () {
+      this.tableLoading = true
       interviewFinanceMessage({ deepCommentSupplierId: this.id }).then(res => {
         if (res.data) {
           this.interViewData = res.data
           if (!this.interViewData.bankList) {
             this.interViewData.bankList = []
           }
+          this.tableLoading = false
         }
       })
     },
@@ -171,5 +202,10 @@ export default {
   font-size: 18px;
   color: $color-black;
   margin: 20px 0;
+}
+</style>
+<style lang="scss">
+.el-table .el-table__row .el-input {
+  width: 100px !important;
 }
 </style>

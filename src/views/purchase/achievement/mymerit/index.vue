@@ -31,7 +31,7 @@
 <script>
   import {iPage, iNavMvp, iButton} from 'rise';
   import {tabRouterList, btnsgroup1,} from '../data';
-  import {getPowerBiVal} from '@/api/achievement'
+  import {getPowerBiVal,getEklPbi} from '@/api/achievement'
   import * as pbi from 'powerbi-client';
   import zfbmsj from './components/zfbmsj.vue'
   import zfkssj from './components/zfkssj.vue'
@@ -105,6 +105,7 @@
       },
       // 角色判断
       role() {
+        let role = '';
         const deptName = this.$store.state.permission.userInfo.deptDTO.deptNum
         if (this.roleList.length == 1) {
           const Linie = this.roleList.some(item => item.code == 'LINIE')
@@ -124,33 +125,33 @@
           }else if (Linie) {        // 采购员 采购员视觉
             this.username = '8'
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
-            return 'Linie'
+            role = 'Linie'
           } else if (zycgkzORkzzl) { // 采购科长||科长助理 科室视觉
             if (zycgkz) {
               this.username = '3'
               this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-              return 'KZ'
+              role = 'KZ'
 
             }
             if (kzzl) {
               this.username = '4'
               this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-              return deptName
+              role = deptName
             }
           } else if (zycgbzORbzzl) { // 采购部长||部长助理 部门视觉
             this.username = ''
             this.btnsgroup1 = ['CS', 'CS(Spare)']
-            return 'CS'
+            role = 'CS'
           } else if (zycggz) {       // 采购股长 股视觉
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-            return deptName
+            role = deptName
           } else if (CGBZ_WF) {
             this.btnsgroup1 = ['CS', 'CS(Spare)']
-            return 'CGBZ_WF'
+            role = 'CGBZ_WF'
           } else if (ZYCGKZ_WF) {
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-            return 'ZYCGKZ_WF'
+            role = 'ZYCGKZ_WF'
           }
         } else {
           const Linie = this.roleList.some(item => item.code == 'LINIE') // 采购员
@@ -166,41 +167,43 @@
           }else if (KZ && Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-            return 'KZ&&linie'
+            role = 'KZ&&linie'
           } else if (KZ && !Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-            return 'KZ'
+            role = 'KZ'
           } else if (KZZL && Linie) {
             this.username = '4'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
-            return `${deptName}&&Linie`
+            role = `${deptName}&&Linie`
           } else if (KZZL && !Linie) {
             this.username = '4'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-            return deptName
+            role = deptName
           } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
             this.btnsgroup1 = ['CS', 'CS(Spare)']
             if (BZZL && !Linie) {
-              return 'CS'
+              role = 'CS'
             } else {
-              return 'BZ'
+              role = 'BZ'
             }
 
           } else if (BZZL && Linie) {
             this.username = '2'
             this.btnsgroup1 = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
-            return 'CS&&Linie'
+            role = 'CS&&Linie'
           } else if (GZ && Linie) {
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
-            return `${deptName}&&Linie`
+            role = `${deptName}&&Linie`
           } else if (GZ && !Linie) {
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-            return deptName
+            role = deptName
           }
         }
+
+        return role;
       },
     },
 
@@ -208,6 +211,7 @@
         // getEklPbil().then(res=>{
             
         // })
+        // console.log(this.role)
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
@@ -240,16 +244,18 @@
           key: 'LK_WDYJ'
         }]
       }
+      console.log('this.currentView', this.currentView, this.role);
     },
     methods: {
       getData(data) {
         this.getReportData(data)
       },
       getReportData(data) {
-        getPowerBiVal(data).then(res => {
+        getEklPbi().then(res => {
+          // console.log(res)
           if (res.result) {
             this.url = res.data
-            this.renderBi()
+            this.renderBi(data)
           }
         })
       },
@@ -330,7 +336,7 @@
         this.indexBtn = index
       },
       // 初始化页面
-      renderBi() {
+      renderBi(data) {
         var permissions = pbi.models.Permissions.All
         var config = {
           type: 'report',
@@ -378,6 +384,12 @@
         var year = myDate.getFullYear();
         var month = myDate.getMonth() + 1
         var date = myDate.getDate()
+        var materialCode = "";
+        var materialName = "";
+        if(this.$route.query.materialCode){
+          materialCode = this.$route.query.materialCode;
+          materialName = this.$route.query.materialName;
+        }
         if (date < 10) {
           month = month - 1
         }
@@ -386,23 +398,35 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_version"
             },
             operator: "In",
-//                        values: [year + month],
+            values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_year"
             },
             operator: "In",
             values: [year],
             filterType: pbi.models.FilterType.BasicFilter
           };
+
+          var	material_group_parameter = {
+              $schema: "http://powerbi.com/product/schema#basic",
+              target: {
+                table: "app_proc_ekl_data_source",
+                column: "material_group_code_name"
+              },
+              operator: "In",
+              values: [materialName],
+              filterType: pbi.models.FilterType.BasicFilter
+          };
+
           const pages = await report.getPages();
           var page = pages.filter(function (page) {
             return page.isActive
@@ -419,6 +443,12 @@
               visual.setSlicerState({
                 filters: [year_parameter]
               });
+            }
+
+            if(visual.title == "material_group" && page.isActive==true){
+              visual.setSlicerState({
+                filters: [material_group_parameter]
+              });				    							    						    		
             }
           });
         });
