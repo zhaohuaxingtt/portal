@@ -110,12 +110,13 @@
 </template>
 
 <script>
-import { iCard, iInput, iPage, iFormGroup, iFormItem, iDatePicker, iSelect, iButton } from 'rise';
+import { iCard, iInput, iPage, iFormGroup, iFormItem, iDatePicker, iSelect, iButton, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { groupShareholder, organizationDetail } from '../data';
 import { interviewMessage, interviewInfo } from '@/api/frmRating/depthRating/interView';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import { selectDictByKeys } from '@/api/dictionary';
+
 export default {
   components: { iCard, iInput, iPage, tableList, iFormGroup, iFormItem, iDatePicker, iSelect, iButton },
   mixins: [resultMessageMixin],
@@ -193,11 +194,15 @@ export default {
       this.interViewData.investorVOList.push(obj)
       console.log(this.interViewData.investorVOList)
     },
-    edit () {
-
-    },
     del () {
-      for (let i = 0; i < this.selectList.length; i++) {
+      if (this.selectList.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
+        confirmButtonText: this.language('QUEDING', '确定'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        type: 'warning'
+      }).then(() => {
         let val = this.selectList
         val.forEach((val, index) => {
           if (val.id) {
@@ -214,7 +219,7 @@ export default {
             })
           }
         })
-      }
+      })
     },
     handleSelectionChange (val) {
       this.selectList = val
