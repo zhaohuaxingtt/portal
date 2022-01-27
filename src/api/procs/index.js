@@ -118,6 +118,16 @@ export function queryPageSample(id) {
     })
 }
 /**
+ * 流程页面详情
+ */
+export function getWorkFlowPage(id) {
+    return procsRequest({
+        url: `/workflow_page/${id}/pageDetail.json`,
+        method: 'get'
+    })
+}
+
+/**
  * 流程目录
  */
 export function getProcessCatalog(id) {
