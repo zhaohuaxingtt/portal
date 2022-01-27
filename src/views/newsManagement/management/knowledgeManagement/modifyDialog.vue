@@ -11,12 +11,13 @@
         <el-form
 			label-position="right"
 			label-width="100px"
-			class="typeForm"
+			class="typeForm validate-required-form"
+			:rules="newContentRules" 
 		>
           <iFormItem :label="language('知识分享类型：')">
 				<iInput v-model="name" disabled/>
           </iFormItem>
-          <iFormItem :label="language('管理者:')">
+          <iFormItem :label="language('管理者:')" prop='adminUsers'>
               <iSelect v-model="adminUsers" multiple :placeholder="language(请选择)">
 				<el-option
 					v-for="item in adminUsersList"
@@ -57,7 +58,10 @@ export default {
             dialogTitle: '修改知识分享类型',
             name: '',
             adminUsers: [],
-			currId: null   
+			currId: null,
+			newContentRules: {
+				adminUsers: { required:'true',message:"请选择知识分享类型",trigger:'select' },
+			}
 		}
     },
     methods: {
