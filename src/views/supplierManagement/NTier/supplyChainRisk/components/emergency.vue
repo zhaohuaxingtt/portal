@@ -216,10 +216,10 @@ export default {
     // 展示链路
     handleLine () {
       if (this.isLine) {
-        this.$parent.$children[1].handleCurrentChange(this.tableListData, 'supplier')
+        this.$parent.$refs.chartMap.handleCurrentChange(this.tableListData, 'supplier')
       } else {
-        this.$parent.$children[1].handleRemoveLine()
-        this.$parent.$children[1].handleCircle()
+        this.$parent.$refs.chartMap.handleRemoveLine()
+        this.$parent.$refs.chartMap.handleCircle()
       }
     },
     handleSelectionChange (val) {

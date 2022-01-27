@@ -1,14 +1,18 @@
 <template>
     <div class="qs">
-        <div v-for="l in list" :key="l.id">
+        <div v-for="(l,index) in qsList" :key="l.id">
             <div class="title">{{l.name}}</div>
-            <div class="flex justify-between items-center">
-                <div>测试问题问答</div>
-                <iButton>MORE</iButton>
+            <div v-for="(answer,index1) in l.answerList" :key="answer.id">
+                <div class="flex justify-between items-center">
+                    <div class="tlt1">{{answer.name}}</div>
+                    <el-button size="mini" @click="change(index,index1)">{{answer.more ? "收起" : "MORE"}}</el-button>
+                </div>
+                <div v-show="answer.more">
+                    <div v-html="answer.richContent"></div>
+                    <div class="time">最后编辑于 {{answer.updateTime}}</div>
+                </div>
             </div>
-            <div>1.回答1</div>
-            <div>sdasdasdaddas</div>
-            <template v-if="isQA">
+            <template v-if="l.answerList.length > 0">
                 <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
                 <div v-if="showInput" class="mt20">
                     <iInput v-model="val" placeholder="请输入问题"></iInput>
@@ -35,7 +39,7 @@
             iButton,
             iInput
         },
-        prop:{
+        props:{
             list:{
                 type: Array,
                 default: () => []
@@ -45,11 +49,35 @@
                 default: false
             }
         },
-        data() {
-            return {
-                showInput:false
+        watch:{
+            list:{
+                immediate:true,
+                handler(n){
+                    this.qsList = n.map(el => {
+                        if(el.answerList.length > 0){
+                            el.answerList.forEach(e => {
+                                e.more = false
+                            });
+                        }
+                        return el
+                    });
+                    
+                    console.log(this.qsList);
+                }
             }
         },
+        data() {
+            return {
+                showInput:false,
+                qsList:[]
+            }
+        },
+        methods: {
+            change(i1,i2){
+                this.$set(this.qsList[i1].answerList[i2],'more', !this.qsList[i1].answerList[i2].more)
+                this.$forceUpdate()
+            }
+        }
     }
 </script>
 
@@ -69,6 +97,15 @@
         
         .opearte{
             color: #666;
+        }
+        .tlt1{
+            margin: 10px 0;
+            color: #666;
+        }
+        .time{
+            margin-top: 30px;
+            color: #999;
+            text-align: right;
         }
     }
 </style>

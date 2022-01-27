@@ -25,9 +25,16 @@
             <div class="content">
                 <div class="flex margin-bottom20">
                     <iInput style="width:220px" :placeholder="language('请输入')" v-model="dialog.keyWord" />
-                    <iButton style="margin-left:10px" @click="queryPrdList('rest')">搜索</iButton>
+                    <iButton style="margin-left:10px" @click="queryProDList">搜索</iButton>
                 </div>
-                <ITable ref="tablePrd" :tableSetting='docSetting' :query-method="queryPrd" @selectChange="selectChange"></ITable>
+                <iTableCustom
+                    :loading="prod.loading"
+                    :data="prod.list"
+                    :columns="docSetting"
+                    ref="prodTable"
+                    singleChoice
+                    @handle-selection-change="handleSelectChange"
+                    />
             </div>
             <div class="flex felx-row mt20 pb20 justify-end ">
                 <iButton @click="close">{{ language('取消') }}</iButton>
@@ -38,7 +45,7 @@
 </template>
 
 <script>
-import {iInput, iCard, iButton,iDialog } from 'rise';
+import {iInput, iCard, iButton,iDialog,iTableCustom } from 'rise';
 import ITable from './../../components/ITable';
 import {DOC} from '../tables';
 import {queryProcessProDList, addProcessProd, deleteProcessProd,queryProDList} from '@/api/adminProCS';
@@ -49,14 +56,19 @@ export default {
         iCard,
         iButton,
         ITable,
-        iDialog
+        iDialog,
+        iTableCustom
     },
     data() {
         return {
             keyWord:"",
             tableSetting: DOC,
             docSetting:[
-                 {
+                {
+                    type: 'selection',
+                    width: 50
+                },
+                {
                     type:'index',
                     label:'序号',
                     width: 100
@@ -80,23 +92,37 @@ export default {
                 loading:false
             },
             query: this.queryTable,
-            queryPrd: this.queryProDList,
             id:this.$route.query.id,
-            selectList:[]
+            selectList:[],
+            prod:{
+                list:[],
+                loading:false
+            }
         }
     },
     methods: {
         async save(){
             if(this.selectList.length == 0) return this.$message.warning("请选择文档")
-            // 添加文档 not do
-            // await addProcessProd(this.id)
+            // 添加文档 
+            try {
+                this.prod.loading = true
+                let data = new FormData()
+                for (const key in this.selectList[0]) {
+                    data.append(key,this.selectList[0][key])
+                }
+                await addProcessProd(this.id,data)
+                this.$message.success("添加成功")
+                this.queryList()
+            } finally {
+                this.prod.loading = false
+            }
         },
-        selectChange(v){
+        handleSelectChange(v){
             this.selectList = v
         },
         open(){
             this.$nextTick(() => {
-                this.queryPrdList('rest')
+                this.queryProDList()
             })
         },
         // 查询外面列表
@@ -119,23 +145,13 @@ export default {
             })
         },
         // 查询添加文档里的列表
-        queryPrdList(t){
-            this.$refs.tablePrd.query(t)
-        },
-        async queryProDList(page){
-            return new Promise(async (reslove,reject) => {
-                try {
-                    let data = {
-                        page: page.currPage - 1,
-                        size: page.pageSize,
-                        keyword: this.dialog.keyWord
-                    }
-                    let res = await queryProDList(data)
-                    reslove(res)
-                } catch(err) {
-                    reject(err)
-                }
-            })
+        async queryProDList(){
+            try {
+                this.prod.loading = true
+                this.prod.list = await queryProDList({keyword:this.dialog.keyWord})
+            } finally {
+                this.prod.loading = false
+            }
         },
         del(row){
             this.$confirm('确定删除此文档吗?', '提示', {
@@ -148,11 +164,11 @@ export default {
                     type: 'success',
                     message: '删除成功!'
                 });
-                this.queryTable()
+                this.queryList()
             })
         },
         close(){
-            
+            this.$refs.prodTable.clearSelection()
             this.dialog.show = false
         }
     },
