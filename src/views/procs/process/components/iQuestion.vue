@@ -11,20 +11,21 @@
                     <div v-html="answer.richContent"></div>
                     <div class="time">最后编辑于 {{answer.updateTime}}</div>
                 </div>
-            </div>
-            <template v-if="l.answerList.length > 0">
-                <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
-                <div v-if="showInput" class="mt20">
-                    <iInput v-model="val" placeholder="请输入问题"></iInput>
-                    <div class="mt10 flex justify-end">
-                        <iButton>确定</iButton>
-                        <iButton @click="showInput = false">取消</iButton>
+                <template v-if="l.answerList.length > 0">
+                    <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
+                    <div v-if="showInput" class="mt20">
+                        <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
+                        <div class="mt10 flex justify-end">
+                            <iButton @click="sureFeedBack(answer)">确定</iButton>
+                            <iButton @click="showInput = false">取消</iButton>
+                        </div>
                     </div>
-                </div>
-            </template>
+                </template>
+            </div>
             <div class="flex mt20">
-                <div class="opearte mr20 cursor"><i class="el-icon-share"></i>分享</div>
-                <div class="opearte cursor"><i class="el-icon-star-off"></i>收藏</div>
+                <div class="opearte mr20 cursor" @click="share(l)"><i class="el-icon-share"></i>分享</div>
+                <div class="opearte cursor" @click="collect(l, index)" v-if="l.isCollect"><i style="color: red" class="el-icon-star-on"></i>已收藏</div>
+                <div class="opearte cursor" @click="collect(l, index)" v-else><i class="el-icon-star-off"></i>收藏</div>
             </div>
         </div>
 
@@ -33,6 +34,7 @@
 
 <script>
     import {iButton, iInput} from 'rise';
+    import { addAnswerFeedBack, collectFAQ, unCollectFAQ } from '@/api/procs';
 
     export default {
         components:{
@@ -69,14 +71,59 @@
         data() {
             return {
                 showInput:false,
-                qsList:[]
+                qsList:[],
+                feedBackAnswer: ''
             }
         },
         methods: {
             change(i1,i2){
                 this.$set(this.qsList[i1].answerList[i2],'more', !this.qsList[i1].answerList[i2].more)
                 this.$forceUpdate()
-            }
+            },
+            async sureFeedBack(answer) {
+                let formData = new FormData()
+                formData.append('feedBackContent', this.feedBackAnswer)
+                await addAnswerFeedBack(answer.id, formData).then(res => {
+                    if (res?.success) {
+                        this.$message({type: 'success', message: '问题反馈成功'})
+                    }
+                })
+            },
+            async collect(l) {
+                if (l.isCollect) {
+                    //  取消收藏
+                    await unCollectFAQ(l.id).then(res => {
+                        if (res?.success) {
+                            this.$message({type: 'success', message: '取消收藏该问题成功'})
+                        }
+                    })
+                } else {
+                    // 收藏
+                    await collectFAQ(l.id).then(res => {
+                        if (res?.success) {
+                            this.$message({type: 'success', message: '收藏该问题成功'})
+                        }
+                    })
+                }
+                this.qsList.map(item => {
+                    if (item.id === l.id) {
+                        item.isCollect = !l.isCollect
+                    }
+                })
+            },
+            share(item) {
+                let subject = `我与你分享了一条 Question and Answer 《${item.name}》`
+                let body = `${window.location.origin}/portal/#/cf-ProCS/collect?id=${item.id}`
+                let href = `mailto:?subject=${subject}&body=${body}`
+                this.createAnchorLink(href)
+            },
+            createAnchorLink(href) {
+                const a = document.createElement('a')
+                a.href = href
+                document.body.appendChild(a)
+                a.click()
+                a.remove()
+            },
         }
     }
 </script>
@@ -93,7 +140,7 @@
             color: #1660F1;
             font-size: 18px;
             font-weight: bold;
-        }
+        }window.location
         
         .opearte{
             color: #666;

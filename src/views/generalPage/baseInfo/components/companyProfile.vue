@@ -292,7 +292,7 @@
       </iFormItem>
       <!-- 九 -->
       <iFormItem>
-        <iLabel :label="language('SHIFOUGUOWAICHANGSHANG', '是否国外厂商')"
+        <iLabel :label="language('SHIFOUGUOWAICHANGSHANG', '是否大陆厂商')"
                 slot="label"></iLabel>
 
         <iSelect disabled
@@ -389,8 +389,9 @@ export default {
       stockCode, //股票代码
       province: [],
       isForeignCountryList: [
-        { name: this.language('SHI', '是'), code: 1 },
-        { name: this.language('FOU', '否'), code: 0 }
+        //因页面显示需要修改为【是否大陆厂商】，因此此处的label显示做了调换
+        { name: this.language('FOU', '否'), code: 1 },
+        { name: this.language('SHI', '是'), code: 0 }
       ],
       city: [],
       blackList: [

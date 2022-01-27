@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-06-18 10:40:28
- * @LastEditTime: 2022-01-13 16:18:47
+ * @LastEditTime: 2022-01-27 11:49:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\views\configscoredept\components\data.js
@@ -13,7 +13,7 @@ export const queryForm = {
 }
 
 export const tableTitle = [
-  { props: "rateTag", name: "评分类型", key: "CONFIGSCOREDEPT_PINGFENLEIXING", tooltip: true },
+  { props: "rateTagDesc", name: "评分类型", key: "CONFIGSCOREDEPT_PINGFENLEIXING", tooltip: true },
   { props: "rateDepartNum", name: "评分股", key: "CONFIGSCOREDEPT_PINGFENGU", tooltip: true },
   { props: "parentRateDepartNum", name: "所属部门/科室", key: "CONFIGSCOREDEPT_SUOSHUBUMENHUOZHEKESHI", tooltip: true },
   { props: "raterList", name: "评分人", key: "CONFIGSCOREDEPT_PINGFENREN", tooltip: true },

@@ -3,8 +3,8 @@
  * @createTime: 2021-5-24 16:11:06
  * @Description:企业概况
  -->
-<template>
-  <div>
+<template >
+  <div v-loading="loading">
     <!-- 基本信息 -->
     <iCard title="基本信息"
            collapse
@@ -169,7 +169,8 @@ export default {
       info: {
         supplier: {}
       },
-      supplierId: ""
+      supplierId: "",
+      loading: false
     }
   },
   props: {
@@ -193,26 +194,31 @@ export default {
   },
   methods: {
     getOverView () {
+      this.loading = true;
       getCompanyOverview(this.id).then((result) => {
+        this.loading = false;
         if (result && result.data !== null) {
           this.info = result.data
         }
 
       }).catch((err) => {
-
+        this.loading = false;
       });
     },
     postOverView () {
       console.log(this.info, "info")
+      this.loading = true;
       postCompanyOverview(this.info).then((result) => {
+        this.loading = false;
         if (result.code == 200) {
           this.$message.success(result.desZh)
           this.getOverView()
         } else {
           this.$message.error(result.desZh)
         }
-      }).catch((err) => {
 
+      }).catch((err) => {
+        this.loading = false;
       });
     }
   }

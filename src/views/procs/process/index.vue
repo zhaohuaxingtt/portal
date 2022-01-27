@@ -56,7 +56,9 @@
                 
             </div>
             <div class="side">
-               <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')"></UiCard>
+               <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')">
+                   <iButton v-if="collectList.length > 0" slot="head-right" @click="$router.push({path:'/cf-ProCS/collect'})">MORE</iButton>
+               </UiCard>
                <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
                <UiCard title="最热词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/glossaryManage'})">MORE</iButton>
@@ -206,7 +208,7 @@
                 console.log(v);
                 switch (type) {
                     case "collect":
-                        this.$router.push({name:'CFProCsProcessCollect'})
+                        this.$router.push({path:'/cf-ProCS/collect', query:{id: v.id}})
                         break;
                     case "glossary":
                         this.$router.push({path:"/cf-ProCS/glossaryManage",query:{id:v.id}})
