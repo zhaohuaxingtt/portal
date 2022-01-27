@@ -43,7 +43,7 @@
                  <UiCard title="常见问题" v-if="faqList.length > 0" class="process-img" :color="false">
                     <iButton slot="head-right">MORE</iButton>
                     <template slot="content">
-                        <iQuestion :list="faqList"></iQuestion>
+                        <iQuestion :list="faqList" @queryFAQ="queryFAQ"></iQuestion>
                     </template>
                 </UiCard>
             </div>
@@ -163,6 +163,9 @@
             },
             async getPageDetail(id){
                 this.pageDetail = await getWorkFlowPage(id)
+            },
+            async queryFAQ() {
+                this.queryPageFAQ(this.detail.pageIds[0])
             },
             side(){
                 
