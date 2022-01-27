@@ -1,14 +1,16 @@
 <template>
     <div class="qs">
-        <div v-for="l in list" :key="l.id">
+        <div v-for="(l,index) in qsList" :key="l.id">
             <div class="title">{{l.name}}</div>
-            <div v-for="answer in l.answerList" :key="answer.id">
+            <div v-for="(answer,index1) in l.answerList" :key="answer.id">
                 <div class="flex justify-between items-center">
                     <div class="tlt1">{{answer.name}}</div>
-                    <iButton>MORE</iButton>
+                    <el-button size="mini" @click="change(index,index1)">{{answer.more ? "收起" : "MORE"}}</el-button>
                 </div>
-                <div v-html="answer.richContent"></div>
-                <div class="time">最后编辑于 {{answer.updateTime}}</div>
+                <div v-show="answer.more">
+                    <div v-html="answer.richContent"></div>
+                    <div class="time">最后编辑于 {{answer.updateTime}}</div>
+                </div>
             </div>
             <template v-if="l.answerList.length > 0">
                 <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
@@ -47,14 +49,35 @@
                 default: false
             }
         },
-        created () {
-            console.log(this.list);  
+        watch:{
+            list:{
+                immediate:true,
+                handler(n){
+                    this.qsList = n.map(el => {
+                        if(el.answerList.length > 0){
+                            el.answerList.forEach(e => {
+                                e.more = false
+                            });
+                        }
+                        return el
+                    });
+                    
+                    console.log(this.qsList);
+                }
+            }
         },
         data() {
             return {
-                showInput:false
+                showInput:false,
+                qsList:[]
             }
         },
+        methods: {
+            change(i1,i2){
+                this.$set(this.qsList[i1].answerList[i2],'more', !this.qsList[i1].answerList[i2].more)
+                this.$forceUpdate()
+            }
+        }
     }
 </script>
 

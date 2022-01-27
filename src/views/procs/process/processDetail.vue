@@ -147,14 +147,15 @@
                 loading: false,
                 id: this.$route.query.id,
                 sampleList:[],
-                faqList:[
-                    {name:'问题哦',answerList:[
-                        {name:"回复",updateTime:'2022-1-1'}
-                    ]}
-                ]
+                faqList:[]
             }
         },
         created () {
+            this.faqList = [
+                    {name:'问题哦',answerList:[
+                        {name:"回复",updateTime:'2022-1-1',richContent:"dsafasfasfsafasfa"}
+                    ]}
+                ]
             this.queryDetail()
             this.queryPageSample()
             // this.queryPageFAQ()
