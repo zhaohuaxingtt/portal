@@ -7,7 +7,7 @@
             </div>
             <div>
                 <iButton @click="editDialog.id = ''; editDialog.show = true">添加页面</iButton>
-                <iButton>子流程图</iButton>
+                <iButton @click="toProcess">子流程图</iButton>
                 <iButton @click="processDialog.show = true">流程目录</iButton>
             </div>
         </div>
@@ -149,6 +149,9 @@ export default {
                     })
                     break;
             }
+        },
+        toProcess(){
+            this.$router.push({path:"/adminProCS/process/mainProcess", query:{flowChartId:this.$route.query.flowChartId, processId: this.id}})
         }
     }
 }

@@ -39,7 +39,7 @@
 import { iPage } from 'rise'
 import BaseInfo from './components/baseInfo'
 import ProjectInfo from './components/projectInfo'
-import { getFlowchartInfo, createFlowchartInfo, updateFlowchart, queryProcessList, addFlowchartNode, delFlowchartNode, updateFlowchartNode } from '@/api/adminProCS';
+import { getFlowchartInfo, loadProcessPageList, createFlowchartInfo, updateFlowchart, queryProcessList, addFlowchartNode, delFlowchartNode, updateFlowchartNode, getProcessFlowchart, createProcessFlowchart } from '@/api/adminProCS';
 import { FACTORY_TABLE_COLUMNS } from '@/views/mainDataSupplier/list/components/data';
 export default {
     name: 'mainProcess',
@@ -68,7 +68,9 @@ export default {
             currProId: null,
             hotAreas: [],  // 热点区域列表
             processList: null,  // 项目链接
-            loading: false
+            loading: false,
+            flowChartId: this.$route.query.flowChartId,
+            processId: this.$route.query.processId
         }
     },
     created() {
@@ -78,36 +80,49 @@ export default {
         async getMainChartInfo() {
             try {
                 this.loading = true
-                await getFlowchartInfo().then(res => {
-                    if (res) {
-                        this.dealData(res)
-                        this.loading = false
+                let res = ""
+                if(this.processId){
+                    if(this.flowChartId){
+                        res = await getProcessFlowchart(this.flowChartId)
                     }
-                }) 
+                }else{
+                    res = await getFlowchartInfo()
+                }
+                if (res) {
+                    this.dealData(res)
+                    this.loading = false
+                }
             } finally {
                 this.loading = false
             }
         },
+        // 创建基本信息
         async createFlowchart(name, file) {
             let params = {
                 name: name, 
                 file: file,
-                category: 'flowchart.main'
+                category: this.processId ? "flowchart.auxiliar" : 'flowchart.main'
             }
-            let formData = new FormData()
-            Object.keys(params).forEach(item => {
-                formData.append(item, params[item])
-            })
+            this.loading = true
             try {
-                this.loading = true
-                await createFlowchartInfo(formData).then(res => {
-                    this.dealData(res)
-                    this.loading = false
+                let formData = new FormData()
+                Object.keys(params).forEach(item => {
+                    formData.append(item, params[item])
                 })
+                if(this.processId){
+                    // 添加子流程图
+                    let res = await createProcessFlowchart(this.processId, formData)
+                    this.dealData(res)
+                }else{
+                    await createFlowchartInfo(formData).then(res => {
+                        this.dealData(res)
+                    })
+                }
             } finally {
                 this.loading = false
             }
         },
+        // 修改基本信息
         async updateFlowchartFun(name, file) {
             let params = {
                 name: name, 
@@ -129,6 +144,7 @@ export default {
             }
         },
         dealData(res) {
+            console.log(res);
             this.filePath = res.filePath?.split("/uploader/")[1] || ''
             this.baseInfoName = res.name
             this.currId = res?.id || ''
@@ -143,8 +159,12 @@ export default {
         handleClick(event) {
             console.log(event, 'event')
             if (event.index == '1') {
-                // 获取流程列表
-                this.getProcessList()
+                if(this.processId){
+                    this.loadProcessPageList()
+                }else{
+                    // 获取流程列表
+                    this.getProcessList()
+                }
                 this.canDrawFlag = true
             } else {
                 this.canDrawFlag = false
@@ -156,6 +176,14 @@ export default {
                 size: 1000
             }
             let res = await queryProcessList(params)
+            this.processList = res.content || []
+        },
+        async loadProcessPageList() {
+            let params = {
+                page: 0,
+                size: 1000
+            }
+            let res = await loadProcessPageList(this.processId, params)
             this.processList = res.content || []
         },
         test1(e) {
@@ -251,11 +279,15 @@ export default {
                 console.log(row, '111')
                 let obj = {
                     name: row.name,
-                    flowId: row.flowId,
                     xco: row.xco,
                     width: row.width,
                     yco: row.yco,
                     height: row.height,
+                }
+                if(this.processId){
+                    obj.pageId = row.flowId
+                }else{
+                    obj.flowId = row.flowId
                 }
                 let formData = new FormData()
                 Object.keys(obj).forEach(item => {
@@ -276,9 +308,13 @@ export default {
                 
             } else {
                 // 新增
+                let data = JSON.parse(JSON.stringify(row))
+                 if(this.processId){
+                    data.pageId = row.flowId
+                }
                 let formData = new FormData()
-                Object.keys(row).forEach(item => {
-                    formData.append(item, row[item])
+                Object.keys(data).forEach(item => {
+                    formData.append(item, data[item])
                 })
                 try {
                     this.loading = true
@@ -315,6 +351,7 @@ export default {
         .leftContent {
             width: 80%;
             height: 100%;
+            margin-right: 10px;
             border-right: 1px solid rgb(190, 184, 184);
             overflow: auto;
             position: relative;
@@ -342,6 +379,7 @@ export default {
         }
         .el-tabs__content {
             height: 100%;
+            overflow: auto;
         }   
         .el-tab-pane {
             height: 100%;

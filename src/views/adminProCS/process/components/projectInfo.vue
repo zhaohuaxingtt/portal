@@ -138,6 +138,7 @@ export default {
         .left {
             height: 100%;
             .item-box {
+                padding: 0 10px;
                 height: 60px;
                 width: 80px;
                 line-height: 60px;
