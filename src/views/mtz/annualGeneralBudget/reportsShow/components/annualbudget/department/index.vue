@@ -248,7 +248,7 @@ export default {
   .card-name {
     font-weight: bold;
     font-size: 16px;
-    /* display: none; */
+    display: none;
     position: absolute;
     top: -25px;
     left: 15px;
