@@ -2,14 +2,22 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-23 20:52:36
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
   <div class="content">
-    <theSearch :eventDetail="eventDetail" class="search" />
-    <chartMap :eventDetail="eventDetail" :tableListData="tableListData" />
-    <emergency :eventDetail="eventDetail" @handleLine="handleLine" :tableListData="tableListData" class="card-right" />
+    <theSearch :eventDetail="eventDetail"
+               class="search"
+               ref="search" />
+    <chartMap :eventDetail="eventDetail"
+              :tableListData="tableListData"
+              ref="chartMap" />
+    <emergency :eventDetail="eventDetail"
+               ref="emergency"
+               @handleLine="handleLine"
+               :tableListData="tableListData"
+               class="card-right" />
   </div>
 </template>
 
@@ -23,7 +31,7 @@ import { supplierListByEvent, queryEventDetail } from "@/api/supplierManagement/
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: { chartMap, theSearch, emergency },
-  data() {
+  data () {
     // 这里存放数据
     return {
       tableLoading: false,
@@ -37,7 +45,7 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    async getTableList(form) {
+    async getTableList (form) {
       try {
         const pms = {
           ...form,
@@ -49,9 +57,9 @@ export default {
         let datacopy = _.cloneDeep(res.data)
         datacopy.map((item, index) => {
           item.partNumList && item.partNumList.map((val, i) => {
-            return val.number = index+1 +(i+1)/10
+            return val.number = index + 1 + (i + 1) / 10
           })
-          return item.number = index+1
+          return item.number = index + 1
         })
         this.tableListData = datacopy
       } catch (error) {
@@ -60,18 +68,18 @@ export default {
       }
     },
     // 通过id查询事件详情
-    async queryEventDetail() {
+    async queryEventDetail () {
       const res = await queryEventDetail(this.$route.query.id)
       this.eventDetail = res.data
     },
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
     this.getTableList()
     this.queryEventDetail()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
 }
