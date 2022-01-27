@@ -203,15 +203,12 @@ export default {
 				privilege: 'BBNRGLY'
 			}
             await getKnowledgeUser(params).then(res => {
-                if (res?.code === '200') {
+                if (res) {
                     this.adminList = res || []
                 }
             })
         },
         async getOrganizationsList() {
-            // let params = {
-            //     keyword: ' '
-            // }
             await getDeptDropDownList({}).then(res => {
                 if (res?.code === '200') {
                     this.organizationList = res?.data || []

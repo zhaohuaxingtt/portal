@@ -3,27 +3,36 @@
        <LayHeader title="流程管理"></LayHeader>
 
         <div class="flex mt20">
-            <div class="card-l mr20">
-                <div class="item">1、34324234</div>
-                <div class="item">1、34324234</div>
-                <div class="item">1、34324234</div>
-            </div>
-            <iCard class="card-r flex-1">
-                <div class="tlt marb15">测试问题内容</div>
-                <div class="marb15">1、测试问题回答</div>
-                <div class="marb15">具体问题回答如下：</div>
-                <div class="r-content marb15">
-                    <p>1、xxxxxxxxxxxxxxxxxxxx</p>
-                    <p>1、xxxxxxxxxxxxxxxxxxxx</p>
-                    <p>1、xxxxxxxxxxxxxxxxxxxx</p>
+            <div class="card-l mr20" v-loading="listLoading">
+                <div v-for="(collect, index) in collectList" :key="index">
+                    <div class="item" :class="collect.id === initId ? 'active' : ''" @click="collectDetail(collect)">{{ collect.name }}</div>
                 </div>
-                <span class="operat marb15" style="display: inline-block;"><i class="el-icon-edit"></i> 提问</span>
-                <div class="flex justify-between items-center">
-                    <div>
-                        <span class="operat mr20"><i class="el-icon-share"></i> 分享</span>
-                        <span class="operat"><i class="el-icon-star-on"></i> 收藏</span>
+            </div>
+            <iCard class="card-r flex-1" v-loading="detailLoading">
+                <div class="tlt marb15">{{ collectName }}</div>
+                <div v-for="(answer, index) in answerList" :key="index">
+                    <div class="marb15">{{`${index + 1}、${answer.name}`}}</div>
+                    <div class="marb15" v-html="answer.richContent"></div>
+                    <!-- <span class="operat marb15" style="display: inline-block;"><i class="el-icon-edit"></i> 提问</span> -->
+                    <template class="marb15">
+                        <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
+                        <div v-if="showInput" class="mt20">
+                            <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
+                            <div class="mt10 flex justify-end">
+                                <iButton @click="sureFeedBack">确定</iButton>
+                                <iButton @click="showInput = false">取消</iButton>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                
+                <div class="flex justify-between items-center mt20">
+                    <div class="flex flex-row mt20">
+                        <div class="opearte mr20 cursor" @click="share"><i class="el-icon-share"></i>分享</div>
+                        <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red" class="el-icon-star-on"></i>已收藏</div>
+                        <div class="opearte cursor" @click="collect" v-else><i class="el-icon-star-off"></i>收藏</div>
                     </div>
-                    <iButton>返回</iButton>
+                    <iButton @click="goBack">返回</iButton>
                 </div>
             </iCard>
         </div>
@@ -32,13 +41,115 @@
 
 <script>
     import LayHeader from "./../components/LayHeader.vue";
-    import {iCard, iButton} from 'rise';
+    import {iCard, iButton, iInput} from 'rise';
+    import { queryMyCollect, getProcessFAQ, addAnswerFeedBack, unCollectFAQ, collectFAQ } from '@/api/procs';
     
     export default {
         components:{
             LayHeader,
             iCard,
-            iButton
+            iButton,
+            iInput
+        },
+        data() {
+            return {
+                collectList: [],
+                collectName: null,
+                isCollect: null,
+                collectId: null,
+                answerList: [],
+                initId: null,
+                showInput: false,
+                feedBackAnswer: '',
+                listLoading: false,
+                detailLoading: false
+            }
+        },
+        created() {
+            let query = this.$route.query || {}
+            if (query.id) {
+                this.initId = query.id
+            }
+            this.getCollectList()
+        },
+        methods: {
+            getCollectList() {
+                let params = {
+                    page: 0,
+                    size: 5
+                }
+                this.listLoading = true
+                queryMyCollect(params).then(res => {
+                    console.log(res, '2222')
+                    if (res) {
+                        this.collectList = res || []
+                        this.listLoading = false
+                        if (res.length > 0) {
+                            this.initId = this.initId ? this.initId : res[0].id
+                            this.getCollectInfo(this.initId)
+                        }
+                    }
+                    
+                })
+            },
+            async getCollectInfo(id) {
+                this.detailLoading = true
+                await getProcessFAQ(id).then(res => {
+                    console.log(res, '23457')
+                    this.collectName = res.name
+                    this.isCollect = res.isCollect
+                    this.collectId = res.id
+                    this.answerList = res.answerList || []
+                    this.detailLoading = false
+                })
+            },
+            collectDetail(collect) {
+                this.getCollectInfo(collect.id)
+            },
+            async sureFeedBack() {
+                let formData = new FormData()
+                formData.append('feedBackContent', this.feedBackAnswer)
+                await addAnswerFeedBack(this.collectId, formData).then(res => {
+                    if (res?.success) {
+                        this.$message({type: 'success', message: '问题反馈成功'})
+                    }
+                })
+            },
+            async collect() {
+                if (this.isCollect) {
+                    //  取消收藏
+                    await unCollectFAQ(this.collectId).then(res => {
+                        if (res?.success) {
+                            this.$message({type: 'success', message: '取消收藏该问题成功'})
+                            this.isCollect = !this.isCollect
+                        }
+                    })
+                } else {
+                    // 收藏
+                    await collectFAQ(this.collectId).then(res => {
+                        if (res?.success) {
+                            this.$message({type: 'success', message: '收藏该问题成功'})
+                            this.isCollect = !this.isCollect
+                        }
+                    })
+                }
+            },
+            share() {
+                let subject = `我与你分享了一条 Question and Answer 《${this.collectName}》`
+                let body = `${window.location.origin}/portal/#/cf-ProCS/collect?id=${this.collectId}`
+                let href = `mailto:?subject=${subject}&body=${body}`
+                this.createAnchorLink(href)
+            },
+            createAnchorLink(href) {
+                const a = document.createElement('a')
+                a.href = href
+                document.body.appendChild(a)
+                a.click()
+                a.remove()
+            },
+            goBack() {
+                this.$router.back()
+            }
         }
     }
 </script>
@@ -81,5 +192,11 @@
         font-size: 16px;
         cursor: pointer;
     }
+}
+.opearte{
+    color: #666;
+}
+.active {
+    color:#1660F1;
 }
 </style>

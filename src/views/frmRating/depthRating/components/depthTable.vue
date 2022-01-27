@@ -277,6 +277,7 @@ export default {
         pageSize: this.page.pageSize,
         ...this.form
       }
+      this.tableLoading = true
       depSupplierList(data).then((res) => {
         if (res.data) {
           this.page.currPage = res.pageNum

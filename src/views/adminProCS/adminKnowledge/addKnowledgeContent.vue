@@ -155,7 +155,7 @@ export default {
 				speaker: { required:'true',message:"请输入主讲人",trigger:'blur' },
 				beginDate: { required:'true',message:"请选择开课日期",trigger:'blur' },
 				knowledgeCategory: { required:'true',message:"请选择知识分类",trigger:'select' },
-				// organizations: { required:'true',message:"请选择所属科室",trigger:'select' }
+				organizations: { required:'true',message:"请选择所属科室",trigger:'select' }
 			},
 			acceptPicType: "image/*",
 			// 调取接口
@@ -277,8 +277,7 @@ export default {
 						this.newContentForm.openingDate = moment(this.newContentForm.beginDate).format('YYYY-MM-DD HH:mm:ss')
 						this.newContentForm.file = this.uploadFileStream  // 老系统修改的时候没有传值
 						this.newContentForm.coverFileName = this.imgName || `${this.newContentForm.title}.png`
-						this.newContentForm.coverFile = this.coverFile
-						// this.newContentForm.organizations = '2222'  // 测试数据
+						this.newContentForm.coverFile = this.coverFileName
 						let formData = new FormData()
 						Object.keys(this.newContentForm).forEach(key => {
 							formData.append(key,this.newContentForm[key])

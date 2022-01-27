@@ -25,13 +25,14 @@
             <div class="content">
                 <div class="flex margin-bottom20">
                     <iInput style="width:220px" :placeholder="language('请输入')" v-model="dialog.keyWord" />
-                    <iButton style="margin-left:10px" @click="queryPrdList('rest')">搜索</iButton>
+                    <iButton style="margin-left:10px" @click="queryProDList">搜索</iButton>
                 </div>
                 <iTableCustom
                     :loading="prod.loading"
                     :data="prod.list"
                     :columns="docSetting"
-                    row-key="id"
+                    ref="prodTable"
+                    singleChoice
                     @handle-selection-change="handleSelectChange"
                     />
             </div>
@@ -63,7 +64,11 @@ export default {
             keyWord:"",
             tableSetting: DOC,
             docSetting:[
-                 {
+                {
+                    type: 'selection',
+                    width: 50
+                },
+                {
                     type:'index',
                     label:'序号',
                     width: 100
@@ -98,10 +103,21 @@ export default {
     methods: {
         async save(){
             if(this.selectList.length == 0) return this.$message.warning("请选择文档")
-            // 添加文档 not do
-            // await addProcessProd(this.id)
+            // 添加文档 
+            try {
+                this.prod.loading = true
+                let data = new FormData()
+                for (const key in this.selectList[0]) {
+                    data.append(key,this.selectList[0][key])
+                }
+                await addProcessProd(this.id,data)
+                this.$message.success("添加成功")
+                this.queryList()
+            } finally {
+                this.prod.loading = false
+            }
         },
-        selectChange(v){
+        handleSelectChange(v){
             this.selectList = v
         },
         open(){
@@ -132,7 +148,7 @@ export default {
         async queryProDList(){
             try {
                 this.prod.loading = true
-                this.prod.list = await queryProDList()
+                this.prod.list = await queryProDList({keyword:this.dialog.keyWord})
             } finally {
                 this.prod.loading = false
             }
@@ -148,11 +164,11 @@ export default {
                     type: 'success',
                     message: '删除成功!'
                 });
-                this.queryTable()
+                this.queryList()
             })
         },
         close(){
-            
+            this.$refs.prodTable.clearSelection()
             this.dialog.show = false
         }
     },

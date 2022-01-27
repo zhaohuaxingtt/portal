@@ -93,9 +93,9 @@
           align="center"
         >
           <template slot-scope="scope">
-            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ `${scope.row.totalDifference}%` }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `${scope.row.totalDifference}%` }}</span>
-            <span  v-else-if="scope.row.totalDifference==0">{{ `${scope.row.totalDifference}%` }}</span>
+            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ `${scope.row.totalDifference}` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `${scope.row.totalDifference}` }}</span>
+            <span  v-else-if="scope.row.totalDifference==0">{{ `${scope.row.totalDifference}` }}</span>
             <span  v-else-if="scope.row.totalDifference=='null'">{{ }}</span>
           </template>
         </el-table-column>
