@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-27 17:46:40
+ * @LastEditTime: 2022-01-27 19:14:58
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -49,7 +49,7 @@
             <template v-for="item in attachmentTableTitle">
               <el-table-column v-if="item.prop=='attachmentName'" :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" >
                 <template slot-scope="scope">
-                  <span class="openLinkText underline" @click="filePreview(scope.row)">{{scope.row.attachmentName}}</span>
+                  <span class="openLinkText underline" @click="filePreview({src:scope.row.attachmentUrl, title: scope.row.attachmentName})">{{scope.row.attachmentName}}</span>
                 </template>
               </el-table-column>
               <el-table-column v-else :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" ></el-table-column>
@@ -84,9 +84,9 @@
             <el-table-column v-if="item.prop=='fileName'" :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" >
               <template slot-scope="scope">
                 <!-- 预览 -->
-              <!-- <span class="openLinkText underline" @click="filePreview(scope.row)">{{scope.row.fileName}}</span> -->
+              <span class="openLinkText underline" @click="filePreview({src:scope.row.fileUrl,title:scope.row.fileName})">{{scope.row.fileName}}</span>
               <!-- 下载 -->
-              <a class="openLinkText underline" :href="scope.row.fileUrl">{{scope.row.fileName}}</a>
+              <!-- <a class="openLinkText underline" :href="scope.row.fileUrl">{{scope.row.fileName}}</a> -->
             </template>
             </el-table-column>
             <el-table-column v-else :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" ></el-table-column>
@@ -358,12 +358,13 @@ export default {
         }
       })
     },
-    // 文件预览
-    filePreview(row) {
-      let query = {
-        id:row.id
-      }
-      const router =  this.$router.resolve({path: '/clausepage/preview', query})
+    // 附件预览
+    filePreview(query) {
+      // let query = {
+      //   src:row.attachmentUrl,
+      //   title: row.attachmentName
+      // }
+      const router =  this.$router.resolve({path: '/clausepage/attach', query})
       window.open(router.href,'_blank')
     }
   }

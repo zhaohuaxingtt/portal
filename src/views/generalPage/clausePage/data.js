@@ -1,14 +1,14 @@
 /*
  * @Author: YoHo
  * @Date: 2022-01-11 18:25:50
- * @LastEditTime: 2022-01-27 16:48:39
+ * @LastEditTime: 2022-01-27 19:16:24
  * @LastEditors: YoHo
  * @Description: 
  */
 
 export const procurementDialogTableTitle = [
   { prop: 'fileName', name: '文件名称', key: 'SUPPLIER_WENJIANMINGCHENG', minWidth: 120 },
-  { prop: 'attachmentSize', name: '大小(MB)', key: 'SUPPLIER_DAXIAOMB' },
+  { prop: 'fileSize', name: '大小(MB)', key: 'SUPPLIER_DAXIAOMB' },
   { prop: 'uploadUser', name: '上传人', key: 'SUPPLIER_SHANGCHUANREN' },
   { prop: 'uploadDate', name: '上传日期', key: 'SUPPLIER_SHANGCHUQNRQI' },
 ]

@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-27 17:27:07
+ * @LastEditTime: 2022-01-27 21:50:41
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -123,7 +123,7 @@
               <template slot-scope="scope">
                 <span
                   class="underline openLinkText cursor"
-                  @click="filePreview(scope.row)"
+                  @click="filePreview(scope.row.id)"
                   >{{ scope.row.termsName }}</span
                 >
               </template>
@@ -138,7 +138,7 @@
               <template slot-scope="scope">
                 <span
                   class="underline openLinkText cursor"
-                  @click="filePreview(scope.row)"
+                  @click="attachPreview(scope.row)"
                   >{{ scope.row.fileUrl ? scope.row.termsName : '' }}</span
                 >
               </template>
@@ -172,8 +172,9 @@
                   >确认已签署</iButton>
               </template>
               <template v-else>
+                <!-- 05: 签署中 -->
                 <iButton
-                  v-if="['06'].includes(scope.row.termsStatus)"
+                  v-if="['05'].includes(scope.row.termsStatus)"
                   @click="cancelApprove(scope.$index, scope.row)"
                   type="text"
                   >撤回签署</iButton>
@@ -554,6 +555,15 @@ export default {
         id: row.id,
       }
       const router = this.$router.resolve({ path: '/clausepage/preview', query })
+      window.open(router.href, '_blank')
+    },
+    // 已签署文件预览
+    attachPreview(row) {
+      let query = {
+        src: row.fileUrl,
+        title: row.termsName
+      }
+      const router = this.$router.resolve({ path: '/clausepage/attach', query })
       window.open(router.href, '_blank')
     },
     // 关闭弹窗

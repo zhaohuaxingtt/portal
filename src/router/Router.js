@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: YoHo
- * @LastEditTime: 2022-01-25 21:33:34
+ * @LastEditTime: 2022-01-27 18:48:49
  * @Description:
  * @FilePath: \front-portal-new\src\router\Router.js
  */
@@ -174,6 +174,10 @@ export default {
           path: "preview",
           name: "procurementTable",
           component: () => import(`@/views/generalPage/clausePage/previewPdf`),
+        }, {
+          path: "attach",
+          name: "procurementAttach",
+          component: () => import(`@/views/generalPage/clausePage/previewAttach`),
         },
       ]
     }, {
