@@ -190,25 +190,22 @@ export default {
           tooltip: false,
           align: 'center',
           customRender: (h, scope) => {
-            const options = _self.dimensionOptions
+            const options = _self.getDimensionOptions()
+            console.log('维度', options)
             return (
               <iSelect
                 value={scope.row.id}
                 onchange={(val) => {
                   scope.row.id = val
-                  const dimensionOption = options.filter((e) => {
+                  const dimensionOption = options.find((e) => {
                     return e.id === val
                   })
-                  if (
-                    dimensionOption &&
-                    dimensionOption.length &&
-                    dimensionOption[0].valueList
-                  ) {
-                    scope.row.code = dimensionOption[0].code
-                    scope.row.description = dimensionOption[0].description
-                    scope.row.id = dimensionOption[0].id
-                    scope.row.name = dimensionOption[0].name
-                    scope.row.url = dimensionOption[0].url
+                  if (dimensionOption && dimensionOption.valueList) {
+                    scope.row.code = dimensionOption.code
+                    scope.row.description = dimensionOption.description
+                    scope.row.id = dimensionOption.id
+                    scope.row.name = dimensionOption.name
+                    scope.row.url = dimensionOption.url
                   } else {
                     scope.row.contentOptions = []
                   }
@@ -235,17 +232,19 @@ export default {
           tooltip: false,
           customRender: (h, scope) => {
             let options = []
-            const dimensionOptions = _self.dimensionOptions
-            const dimensionOption = dimensionOptions.filter((e) => {
+            const dimensionOptions = _self.getDimensionOptions()
+            console.log('内容dimensionOptions', scope.row.id, dimensionOptions)
+            const dimensionOption = dimensionOptions.find((e) => {
               return e.id === scope.row.id
             })
-            if (
-              dimensionOption &&
-              dimensionOption.length &&
-              dimensionOption[0].valueList
-            ) {
-              options = dimensionOption[0].valueList
-              scope.row.valueList = dimensionOption[0].valueList
+
+            if (dimensionOption && dimensionOption.valueList) {
+              const valueList = scope.row.valueList || []
+              const dimensionOptionValueList = dimensionOption.valueList
+              console.log('valueList', valueList)
+              console.log('dimensionOptionValueList', dimensionOptionValueList)
+              options = [...valueList, ...dimensionOptionValueList]
+              // scope.row.valueList = dimensionOption.valueList
             }
             return (
               <iSelectAll
@@ -256,25 +255,6 @@ export default {
                 labelKey="value"
               />
             )
-            /* return (
-              <iSelect
-                placeholder="请选择"
-                multiple={true}
-                filterable={true}
-                value={scope.row.valueIds}
-                onchange={(val) => (scope.row.valueIds = val)}
-              >
-                {options.map((item) => {
-                  return (
-                    <el-option
-                      value={item.valueId}
-                      label={item.value}
-                      key={item.valueId}
-                    />
-                  )
-                })}
-              </iSelect>
-            ) */
           }
         }
       ],
@@ -383,6 +363,21 @@ export default {
     },
     handleSelectionChange(val) {
       this.selectedRows = val
+    },
+    getDimensionOptions() {
+      const options = _.cloneDeep(this.dimensionOptions)
+
+      const optionIds = options.map((e) => e.id)
+      this.permissionList.forEach((element) => {
+        if (!optionIds.includes(element.id)) {
+          options.push({
+            id: element.id,
+            description: element.description,
+            valueList: _.cloneDeep(element.valueList)
+          })
+        }
+      })
+      return options
     }
   }
 }

@@ -159,7 +159,9 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        target: `http://${BASE_IP}:8015/usercenter/`,
+        // target: `http://${BASE_IP}:8015/usercenter/`,
+        target:
+          'http://rise-nginx-internal.apps.vmocp-uat.csvw.com/usercenterApi',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
