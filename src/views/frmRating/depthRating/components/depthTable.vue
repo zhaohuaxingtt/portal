@@ -199,11 +199,11 @@ import {
   reportIssue,
   batch,
   depSupplierDown,
-  cehckSummarize
+
 } from '@/api/frmRating/depthRating'
 import { getSummarize } from '@/api/frmRating/depthRating/depthReport.js'
-import { postExamine } from '@/api/frmRating/depthRating/depthReport'
-import { excelExport } from '@/utils/filedowLoad'
+import { postExamine, cehckSummarize } from '@/api/frmRating/depthRating/depthReport'
+// import { excelExport } from '@/utils/filedowLoad'
 import overTime from './overTime'
 export default {
   componentName: 'depthTable',
@@ -643,7 +643,13 @@ export default {
       //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
       //     return
       //   }
-      // cehckSummarize({deepCommentSupplierId})    
+      cehckSummarize({ deepCommentSupplierIds: this.getIds() }).then(res => {
+        if (res?.code === '200') {
+
+        } else {
+
+        }
+      })
       let data = {
         ids: this.getIds()
       }
