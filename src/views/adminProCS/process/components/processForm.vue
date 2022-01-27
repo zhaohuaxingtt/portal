@@ -144,15 +144,13 @@ export default {
 					try {
 						this.loading = true
 						this.form.updateDt = moment(this.form.updateDt).format("YYYY-MM-DD HH:mm:ss")
-
+						// this.form.organizations = this.form.organizations.map(e => e + '')
 						let formData = new FormData()
 						Object.keys(this.form).forEach(key => {
-							if (key === 'exports') {
+							if (key === 'exports' || key === 'organizations') {
 								this.form[key].forEach(e => {
 									formData.append(key, e)
 								})
-							} else if (key === 'organizations') {
-								formData.append("organizations",this.form.organizations)
 							} else {
 								formData.append(key, this.form[key])
 							}
