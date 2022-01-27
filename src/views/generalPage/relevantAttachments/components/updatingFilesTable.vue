@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-25 21:33:58
+ * @LastEditTime: 2022-01-27 16:17:31
  * @LastEditors: YoHo
  * @Description: 相关附件
 -->
@@ -33,6 +33,7 @@
                 @viewPublish="viewPublish"
                 @publish="publish"
                 :index="true"
+                :disabled="disabled"
                 />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
@@ -94,20 +95,20 @@ export default {
     this.purchaseTerms()
   },
   methods: {  
-    purchaseTerms(){
+    async purchaseTerms(){
+      let disabled = false
       let params = {
         supplierId: this.supplierId,
         headerId: this.$store.state.permission.userInfo.id // 就是Linie id
       }
-      purchaseTerms(params).then(res=>{
+      await purchaseTerms(params).then(res=>{
         if (res?.code == '200') {
           res.data.forEach(i=>{
-            if(['02','03','04','05'].includes(i.termsStatus)){ // 02:审批中,03:审批退回,04:审批通过,05:签署中
-              this.disabled = true
-            }
+            disabled= ['02','03','04','05'].includes(i.termsStatus) // 02:审批中,03:审批退回,04:审批通过,05:签署中
           })
         }
       })
+      this.disabled = disabled
     },
     async getTableList () {
       this.tableLoading = true
@@ -124,11 +125,13 @@ export default {
         this.tableLoading = false
       }
     },
-    publish(row){
+    async publish(row){
       if(!this.supplierId){
         iMessage.error('供应商id获取失败')
         return
       }
+      await this.purchaseTerms()
+      if(this.disabled) return
       let query = {
         supplierId: this.supplierId
       }
@@ -136,6 +139,10 @@ export default {
       window.open(router.href,'_blank')
     },
     viewPublish(row){
+      if(!this.supplierId){
+        iMessage.error('供应商id获取失败')
+        return
+      }
       this.show = true
     },
     async handleViewAttachment (row) {
