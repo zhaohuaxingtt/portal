@@ -41,9 +41,9 @@
         </el-table-column>
         <el-table-column :label="language('LK_SHIJIZHIFUCHAYI','实际支付差异')" align="center">
         <template slot-scope="scope">
-            <span class="greaterThanZero" v-if="scope.row.actDiffPrice>0">{{ `${scope.row.actDiffPrice}%` }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.actDiffPrice<0">{{ `${scope.row.actDiffPrice}%` }}</span>
-            <span   v-else-if="scope.row.actDiffPrice==0">{{ `${scope.row.actDiffPrice}%` }}</span>
+            <span class="greaterThanZero" v-if="scope.row.actDiffPrice>0">{{ `${scope.row.actDiffPrice}` }}</span>
+            <span class="lessThanZero" v-else-if="scope.row.actDiffPrice<0">{{ `${scope.row.actDiffPrice}` }}</span>
+            <span   v-else-if="scope.row.actDiffPrice==0">{{ `${scope.row.actDiffPrice}` }}</span>
             <span   v-else-if="scope.row.actDiffPrice=='null'">{{}}</span>
           </template>
         </el-table-column>
