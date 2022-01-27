@@ -12,7 +12,7 @@
 					v-model="newGlossaryForm.publishDate"
 					type="date"
 					style="width:100%;"
-					value-format="yyyy-MM-dd HH:mm:ss"
+					value-format="yyyy-MM-dd"
 					:picker-options="pickerOptions"
 					placeholder="选择日期">
 				</el-date-picker>
@@ -168,7 +168,14 @@ export default {
 			let content = va?.[0]
 			this.modifyGlossaryId = content.id
 			// Object.assign(this.newGlossaryForm, content)
-			this.newGlossaryForm = JSON.parse(JSON.stringify(content))
+			this.newGlossaryForm = {
+				title: content.title,
+				firstLetter: content.firstLetter,
+				version: content.version,
+				publishDate: content.publishDate,
+				termsContent: content.termsContent
+			}
+			// this.newGlossaryForm = JSON.parse(JSON.stringify(content))
 			content.attachMents.map(item => {
 				this.fileList.push({
 					fileName: item.originalFileName,

@@ -1,7 +1,7 @@
 /*
  * @Author: YoHo
  * @Date: 2022-01-11 18:25:50
- * @LastEditTime: 2022-01-25 15:36:35
+ * @LastEditTime: 2022-01-27 16:48:39
  * @LastEditors: YoHo
  * @Description: 
  */
@@ -20,15 +20,15 @@ export const attachmentTableTitle = [
 ]
 
 export const ClauseDialogTableTitle = [
-  { prop: 'termsType', name: '条款类型', key: '' },
+  { prop: 'termsType', name: '条款类型', key: '', type:'select', select:'typeObj' },
   { prop: 'termsCode', name: '条款编码', key: '' },
   { prop: 'termsName', name: '条款名称', key: '' },
   { prop: 'version', name: '版本号', key: '' },
-  { prop: 'signWay', name: '签署方式', key: '', select:'signWayObj' },
-  { prop: 'termsStatus', name: '条款状态', key: '', select:'statusObj' },
-  { prop: 'syncTime', name: '同步时间', key: '', width: 100 },
+  { prop: 'signWay', name: '签署方式', key: '', type:'select', select:'signWayObj' },
+  { prop: 'termsStatus', name: '条款状态', key: '', type:'select', select:'statusObj' },
+  { prop: 'signTime', name: '签署时间', key: '', width: 100 },
   { prop: 'fileUrl', name: '已签署文件', key: '' },
-  { prop: 'chargeName', name: '条款负责人', key: '' },
+  { prop: 'linieName', name: '条款负责人', key: '' },
 ]
 // 审批中心表格
 export const procurementApproveTableTitle = [

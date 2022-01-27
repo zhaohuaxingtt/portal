@@ -59,7 +59,8 @@ export default {
         async getTableList() {
             let params = {
 				page: this.page.currPage - 1,
-				size: this.page.pageSize
+				size: this.page.pageSize,
+                published: true
 			}
             this.tableLoading = true
             await queryKnowledgeTypeList(params).then(res => {
