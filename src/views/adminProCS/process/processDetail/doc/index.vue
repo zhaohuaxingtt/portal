@@ -27,7 +27,13 @@
                     <iInput style="width:220px" :placeholder="language('请输入')" v-model="dialog.keyWord" />
                     <iButton style="margin-left:10px" @click="queryPrdList('rest')">搜索</iButton>
                 </div>
-                <ITable ref="tablePrd" :tableSetting='docSetting' :query-method="queryPrd" @selectChange="selectChange"></ITable>
+                <iTableCustom
+                    :loading="prod.loading"
+                    :data="prod.list"
+                    :columns="docSetting"
+                    row-key="id"
+                    @handle-selection-change="handleSelectChange"
+                    />
             </div>
             <div class="flex felx-row mt20 pb20 justify-end ">
                 <iButton @click="close">{{ language('取消') }}</iButton>
@@ -38,7 +44,7 @@
 </template>
 
 <script>
-import {iInput, iCard, iButton,iDialog } from 'rise';
+import {iInput, iCard, iButton,iDialog,iTableCustom } from 'rise';
 import ITable from './../../components/ITable';
 import {DOC} from '../tables';
 import {queryProcessProDList, addProcessProd, deleteProcessProd,queryProDList} from '@/api/adminProCS';
@@ -49,7 +55,8 @@ export default {
         iCard,
         iButton,
         ITable,
-        iDialog
+        iDialog,
+        iTableCustom
     },
     data() {
         return {
@@ -80,9 +87,12 @@ export default {
                 loading:false
             },
             query: this.queryTable,
-            queryPrd: this.queryProDList,
             id:this.$route.query.id,
-            selectList:[]
+            selectList:[],
+            prod:{
+                list:[],
+                loading:false
+            }
         }
     },
     methods: {
@@ -96,7 +106,7 @@ export default {
         },
         open(){
             this.$nextTick(() => {
-                this.queryPrdList('rest')
+                this.queryProDList()
             })
         },
         // 查询外面列表
@@ -119,23 +129,13 @@ export default {
             })
         },
         // 查询添加文档里的列表
-        queryPrdList(t){
-            this.$refs.tablePrd.query(t)
-        },
-        async queryProDList(page){
-            return new Promise(async (reslove,reject) => {
-                try {
-                    let data = {
-                        page: page.currPage - 1,
-                        size: page.pageSize,
-                        keyword: this.dialog.keyWord
-                    }
-                    let res = await queryProDList(data)
-                    reslove(res)
-                } catch(err) {
-                    reject(err)
-                }
-            })
+        async queryProDList(){
+            try {
+                this.prod.loading = true
+                this.prod.list = await queryProDList()
+            } finally {
+                this.prod.loading = false
+            }
         },
         del(row){
             this.$confirm('确定删除此文档吗?', '提示', {
