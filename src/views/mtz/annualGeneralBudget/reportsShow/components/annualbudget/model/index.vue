@@ -146,6 +146,8 @@ export default {
         carModelSixNum:this.leftQueryForm.carModelSixNum,
         onlySeeMySelf:this.leftQueryForm.onlySeeMySelf,
         year:this.year,
+        carModelDetail:this.rightQueryForm.carModel,
+        carModelSixNumDetail:this.rightQueryForm.carModelSixNum
       }).then(res=>{
         let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
         let objectUrl = URL.createObjectURL(blob);
