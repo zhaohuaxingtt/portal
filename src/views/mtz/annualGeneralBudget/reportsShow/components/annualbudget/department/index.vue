@@ -19,6 +19,9 @@
       <el-row :gutter="10">
         <el-col :span="12" class="total">
           <div class="flex-between-center-center card-header">
+            <div class="card-name" id="pdf-name">
+              {{ form['yearDropList'] }}-MTZ年度预算-科室
+            </div>
             <iSelect
               class="selectsize"
               v-model="form['yearDropList']"
@@ -31,9 +34,7 @@
                 :label="`${item.message} 年`"
               />
             </iSelect>
-            <div class="card-name" id="pdf-name">
-              {{ form['yearDropList'] }}-MTZ年度预算-科室
-            </div>
+
             <span>{{
               language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
             }}</span>
@@ -239,14 +240,18 @@ export default {
   height: 100%;
   .card-header {
     margin: 30px 20px 0px 20px;
+    position: relative;
   }
   .selectsize {
     width: 220px;
   }
   .card-name {
     font-weight: bold;
-    font-size: 20px;
-    display: none;
+    font-size: 16px;
+    /* display: none; */
+    position: absolute;
+    top: -25px;
+    left: 15px;
   }
   /* .selectsize {
     width: 220px;
