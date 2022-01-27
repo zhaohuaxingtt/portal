@@ -236,6 +236,15 @@ export default {
               const options =
                 scope.row.contentOptions || scope.row.valueList || []
               return (
+                <iSelectAll
+                  value={scope.row.valueIds}
+                  onchange={(val) => (scope.row.valueIds = val)}
+                  options={options}
+                  valueKey="valueId"
+                  labelKey="value"
+                />
+              )
+              /* return (
                 <iSelect
                   placeholder="请选择"
                   multiple={true}
@@ -253,7 +262,7 @@ export default {
                     )
                   })}
                 </iSelect>
-              )
+              ) */
             }
           }
         ]

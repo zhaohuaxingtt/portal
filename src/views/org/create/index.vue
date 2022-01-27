@@ -553,7 +553,8 @@ export default {
     trueBtnClick() {
       this.$refs.orgForm.validate((valid) => {
         if (valid) {
-          if (this.$route.params.id) {
+          console.log('id', typeof this.$route.params.id)
+          if (this.$route.params.id && this.$route.params.id !== '0') {
             //编辑组织
             this.editOrg()
           } else {
@@ -697,8 +698,8 @@ export default {
               params: {
                 id: data.id,
                 type: 'editOrg',
-                upLevelID: data.parentId,
-                upLevelName: data.parentName
+                upLevelID: data.parentId || '0',
+                upLevelName: data.parentName || '0'
               }
             })
           } else {

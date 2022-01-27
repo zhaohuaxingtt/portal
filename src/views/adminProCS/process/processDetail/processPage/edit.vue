@@ -33,7 +33,7 @@
                     <iInput v-model="form.orderBy" type="number" class="w-250" placeholder="请输入"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('页面内容')"  prop='pageRichContent'>
-                    <iEditor v-model="form.pageRichContent" class="flex-1"></iEditor>
+                    <iEditor v-model="form.pageRichContent" class="flex-1" :html="form.pageRichContent"></iEditor>
                 </iFormItem>
             </el-form>
         </div>

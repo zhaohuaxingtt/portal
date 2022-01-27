@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-26 16:35:20
+ * @LastEditTime: 2022-01-27 10:37:25
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -9,11 +9,9 @@
 <template>
   <div>
     <div class="pageTitle">
-      <span>
-        {{baseInfo.termsName}}
-      </span>
+      <span>采购条款</span>
       <div v-if="!isOrder && !readOnly" class="btn-box">
-        <uploadButton class="margin-right10" button-text="上传其他采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload"  :before-upload="beforeUpload" />
+        <uploadButton class="margin-right10" button-text="上传其他采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc,docx'" :before-upload="beforeUpload" />
         <iButton @click="updataApply" :disabled="signWay=='off_line'">发起审批</iButton>
       </div>
     </div>
@@ -37,7 +35,7 @@
         </div>
       </div>
       <div class="changeContent" v-loading="loading">
-        <pdf ref="pdf" :src="baseInfo.placeHolderTermsTextUrl"></pdf>
+        <pdf ref="pdf" :src="baseInfo.placeHolderTermsTextUrl || baseInfo.termsTextUrl"></pdf>
       </div>
       <div class="margin-top20" v-if="showTable">
         <div class="flex-content">
@@ -101,7 +99,7 @@
 
 <script>
 import {iCard, iDialog, iFormGroup, iFormItem, iLabel, iText, iInput, iSelect, iButton, iMessage} from 'rise'
-import uploadButton from './upload'
+import uploadButton from './upload.vue'
 import { attachmentTableTitle, procurementDialogTableTitle as TableTitle } from "./data";
 import deleteMixin from '@/mixins/deleteMixin'
 import { termsTypeById, signWaySelector, purchaseTermsById, termsUpload, syncSupplierById, approveTerms, attachList, uploadAttach, certificate, saveTerms, deleteAttach} from '@/api/frmRating/overView/overView.js'
@@ -281,7 +279,6 @@ export default {
       }
       this.loading = true
       purchaseTermsById(params).then(res=>{
-        console.log(res);
         this.baseInfo = res.data[0]
         this.$refs.pdf.loading()
         this.loading = false

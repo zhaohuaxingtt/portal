@@ -277,6 +277,7 @@ export default {
         pageSize: this.page.pageSize,
         ...this.form
       }
+      this.tableLoading = true
       depSupplierList(data).then((res) => {
         if (res.data) {
           this.page.currPage = res.pageNum
@@ -301,18 +302,10 @@ export default {
         status: row.status
       }
       if (row.status == '报告完成') {
-        console.log(this.languageName);
-        getSummarize(row.id, this.languageName ).then((result) => {
+        getSummarize(row.id, this.languageName).then((result) => {
           if (result.data) {
-            if (
-              (result.data.deepCommentRatingResults == '' ||
-                result.data.deepCommentRatingResults == null) &&
-              (result.data.trackFrequencyAgain == '' ||
-                result.data.trackFrequencyAgain == null)
-            ) {
-              iMessage.warn(
-                  this.language('QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINLV','请填写状态与后续跟踪频率')
-              )
+            if ((result.data.deepCommentRatingResults == '' || result.data.deepCommentRatingResults == null) && (result.data.trackFrequencyAgain == '' || result.data.trackFrequencyAgain == null)) {
+              iMessage.warn(this.language('QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINGLV1', '请填写状态与后续跟踪频率'))
               this.getTableList()
             } else {
               depSupplier(data).then((res) => {

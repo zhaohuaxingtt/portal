@@ -18,7 +18,7 @@
                     <div class="detail-item" v-for="(l,index) in dataList" :key="index">
                         <h3 class="title" v-text="l.categoryName"></h3>
                         <div class="file" v-for="(item) in l.list" :key="item.id">
-                            <span class="title-text" @click="openFun(item)">{{`${item.cover.substring(item.cover.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
+                            <span class="title-text" @click="openFun(item)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item)">
                                     分享
@@ -96,13 +96,15 @@
                         let res = await queryReportContentList(this.params)
                         if (res?.code === '200') {
                             let data = res?.data
-                            dataList.push({
-                                categoryName: data[0]?.categoryName,
-                                total: res.total,
-                                page: res.pageNum,
-                                list: data,
-                                categoryId: this.categoryIds[index]
-                            })
+                            if (data) {
+                                dataList.push({
+                                    categoryName: data[0]?.categoryName,
+                                    total: res.total,
+                                    page: res.pageNum,
+                                    list: data,
+                                    categoryId: this.categoryIds[index]
+                                })
+                            }
                         }
                     })
                     this.dataList = dataList
