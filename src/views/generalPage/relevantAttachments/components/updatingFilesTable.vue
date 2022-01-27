@@ -104,7 +104,7 @@ export default {
       await purchaseTerms(params).then(res=>{
         if (res?.code == '200') {
           res.data.forEach(i=>{
-            disabled= ['02','03','04','05'].includes(i.termsStatus) // 02:审批中,03:审批退回,04:审批通过,05:签署中
+            disabled= disabled || ['02','03','04','05'].includes(i.termsStatus) // 02:审批中,03:审批退回,04:审批通过,05:签署中
           })
         }
       })
