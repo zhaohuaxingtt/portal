@@ -162,7 +162,7 @@ import { iCard, iInput, iButton, iPagination, iSelect, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import { tableTitle, uploadInfoTableTitle } from './components/data'
 import tableList from '@/components/commonTable/index.vue'
-import { fetchOtherDataPage, fetchSaveOther, fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchDelOther, fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { fetchOtherDataPage, fetchSaveOther, fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchDelOther, fetchRemoteDept,getDeptSection } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
 import { debounce } from '@/views/mtz/debounce.js'
@@ -271,9 +271,12 @@ export default {
     },
     // 关闭新增弹窗
     handleCloseDialog() {
+      this.uploadDialogParams = {
+        visible: false
+      }
       this.dialogParams = {
         ...this.dialogParams,
-        visible: false
+        visible: false,
       }
     },
     // 删除
@@ -359,9 +362,25 @@ export default {
         if(item == row) {
           item.linieId = linieId
           item.linieName = linieName
-          item.sectionCode = departId
-          item.sectionName = departNameEn
         }
+
+        getDeptSection(linieId).then(res=>{
+          if(!res.result){
+            this.sectionList = [];
+            item.sectionCode = "";
+            item.sectionName = "";
+            return false
+          };
+          if(res.data.length>0){
+            this.sectionList = res.data;
+            item.sectionCode = res.data[0].departId;
+            item.sectionName = res.data[0].departNameEn
+          }else{
+            this.sectionList = [];
+            item.sectionCode = "";
+            item.sectionName = "";
+          }
+        })
       })
     },
     // 远程搜索材料中类数据

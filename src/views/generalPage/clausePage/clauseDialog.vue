@@ -1,14 +1,14 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-25 19:17:30
+ * @LastEditTime: 2022-01-27 17:27:07
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
 <template>
   <div>
     <i-dialog
-      :title="title"
+      title="查看已发布采购条款"
       :visible.sync="value"
       width="90%"
       @close="clearDiolog"
@@ -55,7 +55,6 @@
             <el-form-item
               class="last-item"
               label="签署起止时间"
-              v-if="isMaintain"
             >
               <iDatePicker
                 v-model="query.date"
@@ -65,34 +64,11 @@
                 type="daterange"
                 format="yyyy-MM-dd"
                 range-separator="-"
-                value-format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']"
                 class="picker"
                 clearable
               />
             </el-form-item>
-            <!-- <el-form-item label="签署起止时间" v-if="isMaintain" style="margin-right: 0px">
-              <iDatePicker
-                v-model="query.startDate"
-                :placeholder="language('请选择')"
-                type="date"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
-                class="picker"
-                :picker-options="startPickerOptions"
-              />
-            </el-form-item>
-            <span class="speator">-</span>
-            <el-form-item>
-              <iDatePicker
-                v-model="query.endDate"
-                :placeholder="language('请选择')"
-                type="date"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
-                class="picker"
-                :picker-options="endPickerOptions"
-              />
-            </el-form-item> -->
           </el-form>
         </iSearch>
       </div>
@@ -168,25 +144,14 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-else-if="item.prop == 'signWay'"
+              v-else-if="item.type == 'select'"
               :minWidth="item.minWidth || item.width"
               :label="item.name"
               :prop="item.prop"
               :key="item.prop"
             >
             <template slot-scope="scope">
-              <span>{{signWayObj[scope.row[item.prop]]}}</span>
-            </template>
-            </el-table-column>
-            <el-table-column
-              v-else-if="item.prop == 'termsStatus'"
-              :minWidth="item.minWidth || item.width"
-              :label="item.name"
-              :prop="item.prop"
-              :key="item.prop"
-            >
-            <template slot-scope="scope">
-              <span>{{statusObj[scope.row[item.prop]]}}</span>
+              <span>{{selectData[item.select][scope.row[item.prop]]}}</span>
             </template>
             </el-table-column>
             <el-table-column
@@ -197,7 +162,7 @@
               :key="item.prop"
             ></el-table-column>
           </template>
-          <el-table-column v-if="isMaintain" label="操作">
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <template v-if="scope.row.signWay == 'off_line'">
                 <iButton
@@ -246,7 +211,8 @@ import {
   cancelApprove,
   signWaySelector,
   termsState,
-  offLineUploadAttach
+  offLineUploadAttach,
+  termsTypeById
 } from '@/api/frmRating/overView/overView.js'
 import deleteMixin from '@/mixins/deleteMixin'
 
@@ -268,8 +234,6 @@ export default {
   },
   props: {
     value: { type: Boolean },
-    // isMaintain 采购条款维护: true, 采购条款查询: false
-    isMaintain: { type: String, default: true },
     status: { type: String, default: '1' },
     selection: { type: Boolean, default: true }, // 采购员 true, 供应商false
     index: { type: Boolean, default: true },
@@ -288,20 +252,27 @@ export default {
       },
       pickerOptions: {
         disabledDate: (time) => {
-          return time.getTime() > new Date()
+          let y = new Date().getFullYear()
+          let m = new Date().getMonth()
+          let d = new Date().getDate()
+          return time.getTime() > new Date(new Date(y+'/'+m+1+'/'+d).getTime() + 1000*60*60*24 - 1000)
         }
       },
       // 条款类型
       typeList: [],
       // 条款状态
       statusList: [],
-      statusObj:{},
-      signWayObj:{},
+      selectData:{
+        statusObj:{},
+        typeObj:{},
+        signWayObj:{},
+      },
       // 科室列表
       linieDeptNumList: [],
       // 负责人列表
       headerList: [],
       tableData: [],
+      tableDataAll:[],
       tableTitle,
       selectionArr: [],
       selectedTableData: [],
@@ -357,60 +328,63 @@ export default {
   watch: {
     value(nv) {
       if (nv) {
-        this.getTableList()
-      }
-    }
-  },
-  computed: {
-    title() {
-      if (this.isMaintain) {
-        return '查看已发布采购条款'
-      } else {
-        return '采购条款查询'
-      }
-    },
-    newOptions() {
-      return this.options.map((i) => {
-        if (Array.isArray(i.children) && i.children.length) {
-          i.children.forEach((j) => {
-            if (j.code) {
-              j.labelCode = '【' + j.label + '-' + j.code + '】'
-            } else {
-              j.labelCode = '【' + j.label + '】'
-            }
-          })
+        if(this.getAgain){  // 接口总是调用失败，再次获取数据
+          this.initSelectData()
         }
-        i.labelCode = '【' + i.label + '】'
-        return i
-      })
+        this.getTableList()
+        this.query =  {
+          termsCode: '',
+          termsType: [],
+          termsName: '',
+          termsStatus: [],
+          headerId: '',
+          date: []
+        }
+      }
     }
   },
-  created() {
+  created(){
     this.initSelectData()
   },
   methods: {
     initSelectData(){
       this.signWaySelector()
       this.termsState()
+      this.termsTypeById()
     },
     // 采购条款状态
     termsState(){
       termsState().then(res=>{
         if(res?.code=='200'){
           res.data.forEach(i=>{
-            this.statusObj[i.code] = i.value
+            this.selectData.statusObj[i.code] = i.value
           })
+        }else{
+          this.getAgain = true
+        }
+      })
+    },
+    // 条款类型
+    termsTypeById(){
+      termsTypeById().then(res=>{
+        if(res?.code=='200'){
+          res.data.forEach(i=>{
+            this.selectData.typeObj[i.code] = i.value
+          })
+        }else{
+          this.getAgain = true
         }
       })
     },
     // 获取签署方式下拉项
     signWaySelector(){
       signWaySelector().then(res=>{
-        console.log(res);
         if(res?.code=='200'){
           res.data.forEach(i=>{
-            this.signWayObj[i.code] = i.value
+            this.selectData.signWayObj[i.code] = i.value
           })
+        }else{
+          this.getAgain = true
         }
       })
     },
@@ -419,15 +393,15 @@ export default {
       let tableData = JSON.parse(JSON.stringify(this.tableDataAll))
       if (this.query.termsType.length) {
         tableData = tableData.filter((i) =>
-          this.query.termsType.includes(i.termsType)
+          this.query.termsType.includes(this.selectData.typeObj[i.termsType])
         )
       }
       if (this.query.termsStatus.length) {
         tableData = tableData.filter((i) =>
-          this.query.termsStatus.includes(this.statusObj[i.termsStatus])
+          this.query.termsStatus.includes(this.selectData.statusObj[i.termsStatus])
         )
       }
-      if (this.query.date.length) {
+      if (this.query.date&&this.query.date.length) {
         tableData = tableData.filter((i) =>
           new Date(i.signTime).getTime() >= new Date(this.query.date[0]).getTime() && new Date(i.signTime).getTime() <= new Date(this.query.date[1]).getTime()
         )
@@ -455,15 +429,20 @@ export default {
     },
     // 获取筛选项
     getSelectData() {
-      console.log(this.tableDataAll)
       let typeList = []
       let statusList = []
       this.tableDataAll.forEach((i) => {
-        typeList.includes(i.termsType) || typeList.push(i.termsType)
-        statusList.includes(this.statusObj[i.termsStatus]) || statusList.push(this.statusObj[i.termsStatus])
+        typeList.includes(this.selectData.typeObj[i.termsType]) || typeList.push(this.selectData.typeObj[i.termsType])
+        statusList.includes(this.selectData.statusObj[i.termsStatus]) || statusList.push(this.selectData.statusObj[i.termsStatus])
       })
       this.typeList = typeList
       this.statusList = statusList
+      this.getAgain = false
+      Object.keys(this.selectData).forEach(key=>{
+        if(!Object.keys(this.selectData[key]).length){
+          this.getAgain = true
+        }
+      })
     },
     // 归档条款上传前检测
     uploadCheck() {
@@ -476,7 +455,6 @@ export default {
         this.selectionArr[0].signWay != 'off_line' ||
         this.selectionArr[0].termsStatus != '06'
       ) {
-        console.log(this.selectionArr);
         msg = '请选择已完成线下签署的采购条款进行上传。'
       }
       if (msg) {
@@ -507,12 +485,7 @@ export default {
         iMessage.error('未选择需要删除的条款')
         return
       }
-      let list = this.selectionArr.filter(i=>i.termsType != '其它采购条款')
-      if (list.length) {
-        iMessage.error('不可删除标准采购条款和附件采购条款')
-        return
-      }
-      list = this.selectionArr.filter(i=>this.statusObj[i.termsStatus] != '草稿')
+      let list = this.selectionArr.filter(i=>this.selectData.statusObj[i.termsStatus] != '草稿')
       if (list.length) {
         iMessage.error('仅可删除状态为草稿的条款，若要删除请先撤回。')
         return
@@ -530,7 +503,6 @@ export default {
 
     // 确认签署，刷新表格数据
     confirmSign(row) {
-      console.log('确认签署')
       confirmSign(row.id).then((res) => {
         if (res?.code == '200') {
           this.getTableList()
@@ -559,9 +531,6 @@ export default {
     // 获取条款列表
     getTableList() {
       this.loading = true
-      if (!this.supplierId) {
-        iMessage.error('供应商id获取失败')
-      }
       let params = {
         supplierId: this.supplierId,
         headerId: this.$store.state.permission.userInfo.id // 就是Linie id
@@ -624,7 +593,7 @@ export default {
 }
 .picker.el-date-editor {
   width: 240px;
-  v-deep .el-range__close-icon{
+  ::v-deep .el-range__close-icon{
     display: inline-block;
   }
 }

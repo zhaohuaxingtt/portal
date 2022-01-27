@@ -194,12 +194,24 @@ export default {
         ...this.form,
         linieId,
         linieName,
-        sectionCode: departId,
-        sectionName: departNameEn
       };
 
       getDeptSection(linieId).then(res=>{
-        console.log(res);
+        if(!res.result){
+          this.sectionList = [];
+          this.form.sectionCode = "";
+          this.form.sectionName = "";
+          return false
+        };
+        if(res.data.length>0){
+          this.sectionList = res.data;
+          this.form.sectionCode = res.data[0].departId;
+          this.form.sectionName = res.data[0].departNameEn
+        }else{
+          this.sectionList = [];
+          this.form.sectionCode = "";
+          this.form.sectionName = "";
+        }
       })
 
     },
