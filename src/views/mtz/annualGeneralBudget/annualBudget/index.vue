@@ -26,14 +26,33 @@
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
               <span class="buttonBox"
                     v-if="userRoles.indexOf(buyUser) > -1">
-                <iButton @click="handleReview">{{language('REVIEWDAXIE', 'Review')}}</iButton>
-                <iButton @click="handleSure">{{language('QUEREN', '确认')}}</iButton>
-                <iButton @click="handleExport">{{language('DAOCHU', '导出')}}</iButton>
+                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
+                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
+                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
+                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
+                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
+                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
+                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
+                
+                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
+                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
+                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
+                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
               <span class="buttonBox"
                     v-if="userRoles.indexOf(deptBudgetUser) > -1">
-                <iButton @click="handlePurchaseBudget">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
-                <iButton @click="handleExport">{{language('DAOCHU', '导出')}}</iButton>
+                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
+                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
+                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
+                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
+                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
+                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
+                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
+                
+                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
+                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
+                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
+                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -80,13 +99,18 @@
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
               <span class="buttonBox">
-                <iButton @click="handleAdd">{{language('XINZENG', '新增')}}</iButton>
-                <iButton @click="handleDel">{{language('SHANCHU', '删除')}}</iButton>
-                <iButton @click="handleChangeLog">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie">{{language('TZLINIE', '通知Linie')}}</iButton>
-                <iButton @click="handleExportAudit">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
-                <iButton @click="handleChangeLevel">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
-                <iButton @click="handleIssue">{{language('FABU', '发布')}}</iButton>
+                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
+                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
+                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
+                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
+                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
+                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
+                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
+                
+                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
+                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
+                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
+                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
