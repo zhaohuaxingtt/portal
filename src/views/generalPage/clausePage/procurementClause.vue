@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-27 17:12:37
+ * @LastEditTime: 2022-01-27 17:46:40
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -34,7 +34,7 @@
           <iButton @click="sync">确认并同步供应商</iButton>
         </div>
       </div>
-      <div class="changeContent" v-loading="loading">
+      <div class="changeContent">
         <pdf ref="pdf" :src="baseInfo.placeHolderTermsTextUrl || baseInfo.termsTextUrl"></pdf>
       </div>
       <div class="margin-top20" v-if="showTable">
@@ -125,7 +125,6 @@ export default {
   },
   data() {
     return {
-      loading:false,
       show:false,
       baseInfo:{},
       tipInfo:{
@@ -265,12 +264,12 @@ export default {
         supplierId: this.supplierId,
         termsCode: this.termsCode,
       }
-      this.loading = true
       purchaseTermsById(params).then(res=>{
-        this.baseInfo = res.data[0]
+        if(res?.code=='200'){
+          this.baseInfo = res.data[0]
+          this.tableData = this.baseInfo.attachments || []
+        }
         this.$refs.pdf.loading()
-        this.loading = false
-        this.tableData = this.baseInfo.attachments || []
       })
     },
     // 提交申请
