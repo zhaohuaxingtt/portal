@@ -70,6 +70,17 @@ export function queryMyCollect(data) {
 }
 
 /**
+ * 查询我收藏的问题的详情
+ * 
+ */
+ export function getProcessFAQ(id) {
+    return procsRequest({
+        url: `workflow_issue/${id}/issueDetail.json`,
+        method: 'get'
+    })
+}
+
+/**
  * 最热词条
  */
 export function queryHotTerms(data) {
@@ -153,6 +164,38 @@ export function queryPageFAQ(id) {
 export function getMainFlowchart() {
     return procsRequest({
         url: `/flowchart/main/flowchart.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 添加 问题答案的反馈
+ */
+export function addAnswerFeedBack(id, data) {
+    return procsRequest({
+        url: `/workflow_issue/${id}/addAnswerFeedback.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+}
+
+/**
+ * 收藏问题
+ */
+export function collectFAQ(id) {
+    return procsRequest({
+        url: `/collect/${id}/collect.json`,
+        method: 'get'
+    })
+}
+
+/**
+ * 取消收藏问题
+ */
+ export function unCollectFAQ(id) {
+    return procsRequest({
+        url: `/collect/${id}/cancelCollect.json`,
         method: 'get'
     })
 }

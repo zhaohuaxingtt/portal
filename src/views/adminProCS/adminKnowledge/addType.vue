@@ -16,7 +16,7 @@
             class="typeForm validate-required-form"
         >
             <el-row>
-                <iFormItem :label="language('知识类型')" prop='name'>
+                <iFormItem :label="language('知识分类')" prop='name'>
                     <el-col span="14">
                         <iInput v-model="newTypeForm.name" placeholder="请输入知识类型名称" maxLength="10"></iInput>
                     </el-col>

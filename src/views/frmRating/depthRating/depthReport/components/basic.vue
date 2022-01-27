@@ -173,7 +173,7 @@ export default {
    this.$store.commit('SET_trackFrequencyAgain',v)
 },
     getOverView () {
-      getSummarize(this.id).then((result) => {
+      getSummarize(this.id, 'zh').then((result) => {
         if (result.data) {
           this.info = result.data
           //this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults

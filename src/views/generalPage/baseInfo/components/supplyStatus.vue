@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-04-27 21:49:43
- * @LastEditTime: 2022-01-13 14:08:09
+ * @LastEditTime: 2022-01-27 16:53:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\generalPage\baseInfo\components\supplyStatus.vue
@@ -51,7 +51,8 @@
       <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLYPROPERTIES">
         <iLabel :label="$t('GONGHUOLEIXING')"
                 slot="label"></iLabel>
-        <iText>{{dicName('TURE_FALSE',supplierData.ppSupplierDTO.supplyType)}}</iText>
+        <!-- <iText>{{dicName('TURE_FALSE',supplierData.ppSupplierDTO.supplyType)}}</iText> -->
+        <iText>{{supplierData.ppSupplierDTO.supplyType}}</iText>
       </iFormItem>
       <!-- 是否共用供应商 -->
       <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSHAREDSUPPLIER">
@@ -124,7 +125,6 @@ export default {
       let name = ""
       if (this.fromGroup[key]) {
         this.fromGroup[key].filter(item => {
-          console.log(item, value)
           if (item.code == value.toString()) {
             name = item.name
           }
@@ -134,6 +134,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.supplierData, "data")
     // console.log(this.supplierData[infoVo])
   }
 }

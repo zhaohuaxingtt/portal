@@ -198,7 +198,8 @@ import {
   newGroup,
   reportIssue,
   batch,
-  depSupplierDown
+  depSupplierDown,
+  cehckSummarize
 } from '@/api/frmRating/depthRating'
 import { getSummarize } from '@/api/frmRating/depthRating/depthReport.js'
 import { postExamine } from '@/api/frmRating/depthRating/depthReport'
@@ -277,6 +278,7 @@ export default {
         pageSize: this.page.pageSize,
         ...this.form
       }
+      this.tableLoading = true
       depSupplierList(data).then((res) => {
         if (res.data) {
           this.page.currPage = res.pageNum
@@ -641,6 +643,7 @@ export default {
       //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
       //     return
       //   }
+      // cehckSummarize({deepCommentSupplierId})    
       let data = {
         ids: this.getIds()
       }

@@ -275,7 +275,7 @@ export default {
           }))
           this.getChainPart(this.marker[index]._opts.extData, item)
         })
-
+        console.log(this.marker, "===========")
       })
     },
     // 弹框信息
@@ -471,7 +471,7 @@ export default {
         viewType: viewType
       }
       const res = await getRetrieveChain(pms)
-      if (res?.code === 200 && res.data.length !== 0) {
+      if (res?.code === '200' && res.data.length !== 0) {
         this.maxLon = parseFloat(res.data[0].address.lon)
         this.maxLat = parseFloat(res.data[0].address.lat)
         this.minLon = parseFloat(res.data[0].address.lon)
