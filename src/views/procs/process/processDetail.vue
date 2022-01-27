@@ -1,15 +1,14 @@
 <template>
-    <div>
+    <div v-loading="loading">
         <LayHeader title="流程管理"></LayHeader>
         <div class="flex justify-between items-center mt20">
-            <div class="title">标题 <i class="cursor el-icon-download"></i></div>
+            <div class="title">{{detail.name}} <i class="cursor el-icon-download"></i></div>
             <div class="expert">
                 <div class="flex">
                     <span>流程专家： </span>
-                    <span class="name" @click="showInfo = true">郭艺钧</span>
-                    <span class="name" @click="showInfo = true">郭艺钧1</span>
+                    <span class="name" v-for="item in detail.experts" :key="item.id" @click="openExpert(item)">{{item.name}}</span>
                 </div>
-                <div>版本：ProCS-CSF-001,1.01 最后更新 2018/07/25</div>
+                <div>版本：{{detail.version}} 最后更新 {{detail.updateDt}}</div>
             </div>
         </div>
         <div class="subtitle">
@@ -60,14 +59,14 @@
                  <UiCard title="常见问题" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
                     <iButton slot="head-right">MORE</iButton>
                    <template slot="content">
-                       <iQuestion></iQuestion>
+                       <iQuestion :list="faqList"></iQuestion>
                    </template>
                 </UiCard>
             </div>
             <div class="side">
-               <UiCard title="ProD文档" :list="list" :color="false" @row-click="side($event, 'prod')">
-                   <div slot="item-right">
-                       2022-1-1
+               <UiCard title="ProD文档" nameKey="title" :list="detail.proDocsList" :color="false" @row-click="side($event, 'prod')">
+                   <div slot="item-right" slot-scope="{data}">
+                       {{data.publishTime}}
                    </div>
                </UiCard>
                <UiCard title="流程图" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
@@ -94,7 +93,7 @@
             </div>
         </div>
         <!-- 专家信息 -->
-        <expertInfo :show.sync="showInfo"></expertInfo>
+        <expertInfo :show.sync="showInfo" :info="exInfo"></expertInfo>
 
         <iDialog
             :title="dialog.type == 'img' ? '流程图' : '视频'"
@@ -117,6 +116,7 @@
     import {iButton, iDialog} from 'rise';
     import expertInfo from './components/expertInfo';
     import iQuestion from './components/iQuestion.vue';
+    import {getWorkFlow,queryPageSample, queryPageFAQ} from '@/api/procs';
     export default {
         components:{
             LayHeader,
@@ -133,20 +133,59 @@
                     {name:'TFW生产运营绩效评价管理办法',id:1},
                     {name:'TFW生产运营绩效评价管理办法',id:1}
                 ],
+                detail:{},
                 showInput: false,
                 val: "",
                 showInfo: false,
+                exInfo:{},
                 currentPage: 1,
                 dialog:{
                     show:false,
                     type:'img',
                     url:""
-                }
+                },
+                loading: false,
+                id: this.$route.query.id,
+                sampleList:[],
+                faqList:[]
             }
         },
+        created () {
+            this.faqList = [
+                    {name:'问题哦',answerList:[
+                        {name:"回复",updateTime:'2022-1-1',richContent:"dsafasfasfsafasfa"}
+                    ]}
+                ]
+            this.queryDetail()
+            this.queryPageSample()
+            // this.queryPageFAQ()
+        },
         methods: {
+            // 详情
+            async queryDetail(){
+                this.loading = true
+                try {
+                   this.detail = await getWorkFlow(this.id)
+                } finally {
+                    this.loading = false
+                }
+            },
+            // 流程附件
+            async queryPageSample(){
+                this.sampleList = await queryPageSample(this.id)
+            },
+            // 流程问题
+            async queryPageFAQ(){
+                let res = await queryPageFAQ(this.id)
+                this.faqList = res.content
+            },
             side(){
                 
+            },
+            // 专家信息
+            openExpert(info){
+                this.exInfo = info
+                this.showInfo = true
             },
             handleSizeChange(v){
                 console.log(v);
