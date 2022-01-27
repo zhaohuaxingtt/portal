@@ -130,7 +130,7 @@ export default {
             try {
                 this.loading = true
                 this.form = await getProcess(id)
-                this.form.exports = this.form.experts.map(e => e.id)
+                this.form.exports = this.form.experts ? this.form.experts.map(e => e.id) : []
                 this.form.organizations = this.form.organizations.map(e => e.id)
                 delete this.form.experts
             } finally {
