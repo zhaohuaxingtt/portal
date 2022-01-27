@@ -57,6 +57,14 @@ export function getUserSelectPageList(data) {
     data
   })
 }
+
+export function getSpUserList(data) {
+  return requst({
+    url: '/web/sapUser/pageList',
+    method: 'post',
+    data
+  })
+}
 // 导出用户
 export function exportExcel(data) {
   return requestDownload({

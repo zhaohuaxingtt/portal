@@ -40,7 +40,7 @@
 			</iFormItem>
 			<iFormItem :label="language('关联机构')" prop='organizations'>
 				<iSelect v-model="form.organizations" class="w-300" filterable multiple placeholder="可进行搜索">
-					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id"></el-option>
+					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id + ''"></el-option>
 				</iSelect>
 			</iFormItem>
 		</el-form>
@@ -147,11 +147,13 @@ export default {
 
 						let formData = new FormData()
 						Object.keys(this.form).forEach(key => {
-							if (key === 'organizations') {
+							if (key === 'exports') {
 								this.form[key].forEach(e => {
 									formData.append(key, e)
 								})
-							}else {
+							} else if (key === 'organizations') {
+								formData.append("organizations",this.form.organizations)
+							} else {
 								formData.append(key, this.form[key])
 							}
 						})
