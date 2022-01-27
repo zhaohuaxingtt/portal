@@ -72,7 +72,7 @@ export default {
               activePath: '/approval/agent',
               key: '审批代理',
               type: 'normal',
-              permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT_normal'
+              permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT_NORMAL'
             },
             {
               value: 6,
@@ -82,7 +82,7 @@ export default {
               activePath: '/approval/agent',
               key: '会议审批代理',
               type: 'meeting',
-              permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT_meeting'
+              permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT_MEETING'
             }
           ]
         }
@@ -93,10 +93,11 @@ export default {
     subMenus() {
       const path = this.$route.path
       const items = this.menus.filter((e) => e.url === path)
+      let subMenus = []
       if (items && items.length && items[0].children) {
-        return items[0].children
+        subMenus = items[0].children
       }
-      return []
+      return subMenus.filter((e) => this.whiteBtnList[e.permissionKey])
     },
     queryType() {
       if (!this.$route.query || Object.keys(this.$route.query).length === 0) {
@@ -109,36 +110,39 @@ export default {
     }
   },
   created() {
-    this.checkHasEnterMenu()
+    const { fullPath } = this.$route
+    if (fullPath === '/approval/agent') {
+      if (this.whiteBtnList['ADMIN_APPROVAL_MANAGEMENT_AGENT_NORMAL']) {
+        this.$router.replace({
+          path: '/approval/agent',
+          query: { type: 'normal' }
+        })
+      } else {
+        this.$router.replace({
+          path: '/approval/agent',
+          query: { type: 'meeting' }
+        })
+      }
+    } else {
+      this.checkHasEnterMenu()
+    }
   },
   methods: {
     checkHasEnterMenu() {
-      const { path } = this.$route
-      const menuList = []
+      const { fullPath } = this.$route
+      let redirectUrl = ''
       for (let i = 0; i < this.menus.length; i++) {
         const menu = this.menus[i]
-        menuList.push({ ...menu })
-        if (menu.children) {
-          menuList.push(...menu.children)
+        if (menu.url === fullPath) {
+          console.log('permissionKey', menu.permissionKey)
+          const permissionKey = menu.permissionKey
+          if (!this.whiteBtnList[permissionKey]) {
+            redirectUrl = i === 0 ? this.menus[i + 1].url : this.menus[0].url
+          }
         }
       }
-      const menuItem = menuList.find((e) => e.url === path)
-      if (menuItem) {
-        const permissionKey = menuItem.permissionKey
-        // 入口url不在授权列表
-        if (!this.whiteBtnList[permissionKey]) {
-          let redirectUrl = ''
-          for (let i = 0; i < menuList.length; i++) {
-            const menu = menuList[i]
-            if (this.whiteBtnList[menu.permissionKey]) {
-              redirectUrl = menu.url
-              break
-            }
-          }
-          if (redirectUrl) {
-            this.$router.push({ path: redirectUrl })
-          }
-        }
+      if (redirectUrl) {
+        this.$router.push({ path: redirectUrl })
       }
     },
     changeSubMenu(item) {
