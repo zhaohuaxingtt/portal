@@ -42,11 +42,11 @@ const DOC = [
         width: 100
     },
     {
-        prop:'name',
+        prop:'title',
         label:'文档名称'
     },
     {
-        prop:'publishDate',
+        prop:'publishTime',
         label:'发布日期'
     },
     {

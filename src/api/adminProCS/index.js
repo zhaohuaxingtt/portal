@@ -397,13 +397,6 @@ export function uploadPageFile(pageId,data) {
 
 
 
-// 查询我的流程
-export function queryWorkFlow() {
-    return procsRequest({
-        url: `/workFlow/myFlow.json`,
-        method: 'get'
-    })
-}
 // 查询流程常见问题
 export function queryProcessFAQList(id, data) {
     return procsRequest({
@@ -532,7 +525,7 @@ export function queryProDList(data) {
     return procsRequest({
         url: `/workflow_doc_mgr/getApiDocList.json`,
         method: 'get',
-        params: data
+        params:data
     })
 }
 // 添加流程ProD

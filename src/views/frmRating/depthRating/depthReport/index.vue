@@ -96,7 +96,7 @@ export default {
       } else if (this.currentNav === 3) {
         page = 'finance'
       }
-      this.disabled = true
+      //this.disabled = true
       this.$refs[page].postOverView()
     },
     submit () {

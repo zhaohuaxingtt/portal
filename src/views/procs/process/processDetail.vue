@@ -1,73 +1,56 @@
 <template>
-    <div>
+    <div v-loading="loading">
         <LayHeader title="流程管理"></LayHeader>
         <div class="flex justify-between items-center mt20">
-            <div class="title">标题 <i class="cursor el-icon-download"></i></div>
+            <div class="title">{{detail.name}} <i class="cursor el-icon-download"></i></div>
             <div class="expert">
                 <div class="flex">
                     <span>流程专家： </span>
-                    <span class="name" @click="showInfo = true">郭艺钧</span>
-                    <span class="name" @click="showInfo = true">郭艺钧1</span>
+                    <span class="name" v-for="item in detail.experts" :key="item.id" @click="openExpert(item)">{{item.name}}</span>
                 </div>
-                <div>版本：ProCS-CSF-001,1.01 最后更新 2018/07/25</div>
+                <div>版本：{{detail.version}} 最后更新 {{detail.updateDt}}</div>
             </div>
         </div>
         <div class="subtitle">
-            <div class="tlt">标题1</div>
+            <div class="tlt">{{pageDetail.name}}</div>
             <!-- <div>分页</div> -->
              <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page.sync="currentPage"
-                :page-size="100"
+                :page-size="1"
                 layout="prev, pager, next, jumper"
-                :total="1000">
+                :total="detail.pageIds.length">
                 </el-pagination>
         </div>
         <div class="mt20 flex">
             <div class="flex-1 mr20">
                 <div class="card-l mb20">
-                    <div class="content">
-                        • CSF： 
-                        送样采购员（CSFF）：磁铁 项目启动会并编写启动会会议纪要，负责发放零件批量模具数模（TM）、图纸（TZ）及技术标准等用于试制的资料，负责协调各方确定送样具体时间节点及送样细节，负责跟踪送样情况； 
-                        项目采购员（CSFM）：负责在新项目推进过程中代表CS与公司其他部门进行沟通协调，负责从PF至SOP+3月跟踪整个项目的开展； 
-                        • CSE/I/M/P/X(Commodity)： 
-                        专业采购员(Linie)：负责预批量及批量订单的制作，负责协调解决零件的涉及商务问题和产能问题； 
-                        • EP/EN/ER： 
-                        FOP：负责确认并解释零件批量模具数模（TM）、图纸（TZ）及技术标准等用于样件试制的资料以及试制过程中的相关技术问题，负责审核材料代用单； 
-                        试验工程师：负责BMG零件的收样和认可，编制OTS认可报告及FE54：包括负责明确OTS样品送样要求，负责审核OTS自检试验清单/二次分供方清单，负责道路试验及台架试验，负责德国大众试验所需样品的送交；负责对工程鉴定样品（OTS样品）送样状态的完整性确认，负责OTS样品试验过程的状态跟踪及问题协调； 
-                        • MQ： 
-                        主管工程师：负责EM样品的收样和认可，编制EMPB：包括负责明确EM样品送样要求，负责EM送样评审，负责样品生产过程的质量评定及问题整改措施的制定。其中，MQS负责ZP7零件，MQM负责ZP5零件，MQE负责ZP2零件； 
-                        试验工程师：MQL负责确认EM自检试验清单，审核二次分供方清单，材料代用单，负责首批样品的材料检验；MQM负责首批样品的尺寸检验；MQS/MQM负责首批样品的性能试验； 
-                        • TL： 
-                        计划员：TLRR同事，负责制定VFF/PVS/OS预批量和SOP起步生产计划，发布VFF/PVS/OS预批量和SOP起步生产需求，拉动预批量零件到首批样件仓库； 
-                        • TM： 
-                        规划员：TMKS同事，负责ZP5零件模具方案审核和模具进度跟踪；
-                    </div>
+                    <div class="content" v-html="pageDetail.richContent"></div>
                     <div class="card-bottom flex justify-between items-center">
-                        <span>100</span>
+                        <span><i class="el-icon-view"></i> {{pageDetail.pageView}}</span>
                         <!-- <span>分页</span> -->
                          <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page.sync="currentPage"
-                            :page-size="100"
+                            :page-size="1"
                             layout="prev, pager, next, jumper"
-                            :total="1000">
+                            :total="detail.pageIds.length">
                             </el-pagination>
                     </div>
                 </div>
-                 <UiCard title="常见问题" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
+                 <UiCard title="常见问题" v-if="faqList.length > 0" class="process-img" :color="false">
                     <iButton slot="head-right">MORE</iButton>
-                   <template slot="content">
-                       <iQuestion></iQuestion>
-                   </template>
+                    <template slot="content">
+                        <iQuestion :list="faqList"></iQuestion>
+                    </template>
                 </UiCard>
             </div>
             <div class="side">
-               <UiCard title="ProD文档" :list="list" :color="false" @row-click="side($event, 'prod')">
-                   <div slot="item-right">
-                       2022-1-1
+               <UiCard title="ProD文档" class="process-img" nameKey="title" :list="detail.proDocsList" :color="false" @row-click="side($event, 'prod')">
+                   <div slot="item-right" slot-scope="{data}">
+                       {{data.publishTime}}
                    </div>
                </UiCard>
                <UiCard title="流程图" class="process-img" :color="false" :list="list" @row-click="side($event, 'img')">
@@ -94,7 +77,7 @@
             </div>
         </div>
         <!-- 专家信息 -->
-        <expertInfo :show.sync="showInfo"></expertInfo>
+        <expertInfo :show.sync="showInfo" :info="exInfo"></expertInfo>
 
         <iDialog
             :title="dialog.type == 'img' ? '流程图' : '视频'"
@@ -117,6 +100,7 @@
     import {iButton, iDialog} from 'rise';
     import expertInfo from './components/expertInfo';
     import iQuestion from './components/iQuestion.vue';
+    import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage} from '@/api/procs';
     export default {
         components:{
             LayHeader,
@@ -133,20 +117,60 @@
                     {name:'TFW生产运营绩效评价管理办法',id:1},
                     {name:'TFW生产运营绩效评价管理办法',id:1}
                 ],
+                detail:{},
                 showInput: false,
                 val: "",
                 showInfo: false,
+                exInfo:{},
                 currentPage: 1,
                 dialog:{
                     show:false,
                     type:'img',
                     url:""
-                }
+                },
+                loading: false,
+                id: this.$route.query.id,
+                sampleList:[],
+                faqList:[],
+
+                pageDetail:{}
             }
         },
+        created () {
+            this.queryDetail()
+        },
         methods: {
+            // 详情
+            async queryDetail(){
+                this.loading = true
+                try {
+                   this.detail = await getWorkFlow(this.id)
+                    this.queryPageSample()
+                    this.getPageDetail(this.detail.pageIds[0])
+                    this.queryPageFAQ(this.detail.pageIds[0])
+                } finally {
+                    this.loading = false
+                }
+            },
+            // 流程附件
+            async queryPageSample(){
+                this.sampleList = await queryPageSample(this.detail.pageIds[0])
+            },
+            // 流程问题
+            async queryPageFAQ(id){
+                let res = await queryPageFAQ(id)
+                this.faqList = res.content
+            },
+            async getPageDetail(id){
+                this.pageDetail = await getWorkFlowPage(id)
+            },
             side(){
                 
+            },
+            // 专家信息
+            openExpert(info){
+                this.exInfo = info
+                this.showInfo = true
             },
             handleSizeChange(v){
                 console.log(v);
