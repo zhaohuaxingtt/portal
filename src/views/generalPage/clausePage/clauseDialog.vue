@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-27 19:00:15
+ * @LastEditTime: 2022-01-27 21:50:41
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -172,8 +172,9 @@
                   >确认已签署</iButton>
               </template>
               <template v-else>
+                <!-- 05: 签署中 -->
                 <iButton
-                  v-if="['06'].includes(scope.row.termsStatus)"
+                  v-if="['05'].includes(scope.row.termsStatus)"
                   @click="cancelApprove(scope.$index, scope.row)"
                   type="text"
                   >撤回签署</iButton>
