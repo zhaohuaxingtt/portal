@@ -568,6 +568,26 @@ export function getFlowchartInfo() {
 }
 
 /**
+ * 查询子流程图
+ */
+ export function getProcessFlowchart(id) {
+    return procsRequest({
+        url: `/flowchart_mgr/flowchart/${id}.json`,
+        method: 'get'
+    })
+ }
+/**
+ * 创建子流程图
+ */
+ export function createProcessFlowchart(processId,data) {
+    return procsRequest({
+        url: `/flowchart_mgr/child/${processId}/flowchart.json`,
+        method: 'post',
+        data,
+        formData: true
+    })
+ }
+/**
  * 修改主流程图
  */
  export function updateFlowchart(id, data) {

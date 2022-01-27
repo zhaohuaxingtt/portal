@@ -8,8 +8,8 @@
                     <iButton @click="handleMainChart">主流程图</iButton>
                 </div>
                 <div>
-                    <iButton :disabled="selectList.length == 0" @click="edit">修改</iButton>
-                    <iButton :disabled="selectList.length == 0" @click="del">删除</iButton>
+                    <iButton :disabled="disabled" @click="edit">修改</iButton>
+                    <iButton :disabled="disabled" @click="del">删除</iButton>
                 </div>
             </div>
             <iTableCustom
@@ -71,15 +71,19 @@ export default {
             mainChartDialog: false
         }
     },
-    // watch:{
-    //    selectList(n){
-    //        if(n[0] && n[0].published){
-    //            this.disabled = true
-    //        }else{
-    //            this.disabled = false
-    //        }
-    //    } 
-    // },
+    watch:{
+       selectList(n){
+           if(n.length > 0){
+                if(n[0].published){
+                   this.disabled = true
+                }else{
+                    this.disabled = false
+                }
+            }else{
+                this.disabled = true
+            }
+       } 
+    },
     created() {
         this.query()
     },
@@ -111,7 +115,7 @@ export default {
         },
         edit(){
             let id = this.selectList[0]?.id
-            this.$router.push({path: '/adminProCS/process/edit', query: {id: id}})
+            this.$router.push({path: '/adminProCS/process/edit', query: {id: id,flowChartId:this.selectList[0].flowChartId}})
         },
         async del(){
             let id = this.selectList[0]?.id
