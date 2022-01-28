@@ -114,7 +114,7 @@
                         </iSelect>
                     </iFormItem>
                 </div>
-                <div v-if="customFlag">
+                <div v-show="customFlag">
                     <iFormItem :label="language('选择人员')">
                         <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" />
                     </iFormItem>
@@ -196,6 +196,10 @@ export default {
             modifyId: null,
             usersList: userList
         }
+    },
+    created() {
+        this.getUsersList()
+        this.getOrganizationsList()
     },
     methods: {
         async getUsersList() {
@@ -351,40 +355,9 @@ export default {
             })
         },
         initModify(row) {
-            console.log(row, '2222')
             Object.assign(this.form, row)
-            console.log(this.form, '3333')
             this.imageUrl = row.cover
             this.modifyId = row.id
-            // if (this.form.organizations) {
-            //     let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
-            //     testOrganizationsArr.map(item => {
-            //         this.form.organizations.push(item.id)
-            //     })
-            // }
-            // if (this.form.adminUsers) {
-            //     let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
-            //     testAdminUsersArr.map(item => {
-            //         this.form.adminUsers.push(item.id)
-            //     })
-            // }
-            // if (this.form.users) {
-            //     let testUsersArr = JSON.parse(JSON.stringify(this.form.users))
-            //     this.form.userRange = []
-            //     testUsersArr.map(item => {
-            //         this.form.userRange.push(item.id)
-            //     })
-            // }
-            // 返回的信息有供应商 说明是自定义
-            // if (this.form.suppliers) {
-            //     this.form.userRange.unshift({
-            //         nameZh: '自定义',
-            //         userId: 7250
-            //     })
-            //     this.customFlag = true
-            // } else {
-            //     this.customFlag = false
-            // }
             if (this.form.userRange === 15 || this.form.users.length > 0) {
                 this.customFlag = true
             } else {
