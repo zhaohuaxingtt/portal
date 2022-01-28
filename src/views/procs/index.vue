@@ -1,13 +1,13 @@
 <template>
 	<iPage>
-		<div class="flex">
+		<!-- <div class="flex">
 			<h1>ProCS</h1>
 			<iNavMvp 
 				:list="menus"
 				:lev="2"
 				lang
 				router-page />
-		</div>
+		</div> -->
 		<router-view></router-view>
 	</iPage>
 </template>

@@ -2,7 +2,7 @@
     <div>
         <el-tabs v-model="currType" @tab-click="change">
             <el-tab-pane label="流程页面" name="page">
-                <processPage ref="page" :id="pId"></processPage>
+                <processPage ref="page" :id="pId" :flowChartId="flowChartId"></processPage>
             </el-tab-pane>
             <el-tab-pane label="ProD文档" name="doc">
                 <doc ref="doc" :id="pId"></doc>
@@ -37,6 +37,9 @@
         props:{
             id:{
                 default:""
+            },
+            flowChartId:{
+                default:""
             }
         },
         data() {
@@ -45,7 +48,7 @@
             }
         },
         mounted() {
-            this.$refs[this.currType].queryList()
+            this.$refs[this.currType].queryList("")
         },
         methods: {
             change(tab){

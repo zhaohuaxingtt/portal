@@ -275,7 +275,6 @@ export default {
           }))
           this.getChainPart(this.marker[index]._opts.extData, item)
         })
-        console.log(this.marker, "===========")
       })
     },
     // 弹框信息

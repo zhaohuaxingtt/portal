@@ -31,6 +31,7 @@ export default {
       supplier: supplier,
       tableDataList: [],
       markerList: [],
+      markerChain: [],
       svwList: [],
       bezierCurve: [],
       lgIcon: new AMap.Icon({
@@ -209,6 +210,7 @@ export default {
             content: '',
             offset: new AMap.Pixel(0, -320),
           })
+          console.log(this.tips)
           const infowindowWrap = Vue.extend({
             template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
             name: "infowindowWrap",
@@ -222,6 +224,7 @@ export default {
               };
             },
           });
+          console.log(infowindowWrap)
           const component = new infowindowWrap().$mount();
           this.tips.setContent(component.$el)
           this.tips.open(this.map, [item.lon, item.lat])
@@ -230,8 +233,45 @@ export default {
     },
     // 生成贝塞尔曲线row:选择的数据
     handleRecursion (data, partNum, viewType) {
+      data.map((item, index) => {
+        this.markerChain[index] = new AMap.Marker({
+          position: new AMap.LngLat(item.address.lon, item.address.lat),
+          icon: this.lgIcon,
+          anchor: "center",//避免缩小是出现偏移
+          offset: new AMap.Pixel(0, 0),//避免缩小是出现偏移
+          extData: item,
+          topWhenClick: true,//鼠标点击时marker是否置顶
+          clickable: true
+        });
+        this.markerChain[index].setMap(this.map)
+        this.markerChain[index].on('click', (e) => {
+          if (e.target._opts.extData.viewType) {
+            this.markerChain.forEach((i, index) => {
+              this.markerChain[index].setIcon(new AMap.Icon({
+                image: i.getIcon()._opts.image,
+                size: new AMap.Size(20, 20),
+                imageSize: new AMap.Size(20, 20)
+              }))
+            })
+            this.circle.forEach((i, index) => {
+              this.circle[index].setIcon(new AMap.Icon({
+                image: i.getIcon()._opts.image,
+                size: new AMap.Size(20, 20),
+                imageSize: new AMap.Size(20, 20)
+              }))
+            })
+            e.target.setIcon(new AMap.Icon({
+              image: e.target.getIcon()._opts.image,
+              size: new AMap.Size(30, 30),
+              imageSize: new AMap.Size(30, 30)
+            }))
+            this.getChainPart(this.markerChain[index]._opts.extData, item.address)
+          }
+        })
+      })
+
       data.forEach((item, index) => {
-        this.marker.forEach((val, i) => {
+        this.markerChain.forEach((val, i) => {
           if (item.supplierId == val._opts.extData.supplierId && item.chainLevel === 1) {
             let extData = { ...val.getExtData(), viewType: viewType, partNum: partNum }
             val.setExtData(extData)
@@ -252,7 +292,6 @@ export default {
               clickable: true
             });
             this.circle[this.circle.length - 1].setMap(this.map)
-            console.log(this.circle)
             this.circle[this.circle.length - 1].on('click', (e) => {
               this.circle.forEach((i, index) => {
                 this.circle[index].setIcon(new AMap.Icon({
@@ -261,8 +300,8 @@ export default {
                   imageSize: new AMap.Size(20, 20)
                 }))
               })
-              this.marker.forEach((i, index) => {
-                this.marker[index].setIcon(new AMap.Icon({
+              this.markerChain.forEach((i, index) => {
+                this.markerChain[index].setIcon(new AMap.Icon({
                   image: i.getIcon()._opts.image,
                   size: new AMap.Size(20, 20),
                   imageSize: new AMap.Size(20, 20)
@@ -309,6 +348,9 @@ export default {
         this.map.remove(this.bezierCurve[index])
       })
       this.circle.forEach(item => {
+        this.map.remove(item)
+      })
+      this.markerChain.forEach(item => {
         this.map.remove(item)
       })
       this.marker.forEach(item => {

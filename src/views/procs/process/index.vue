@@ -44,7 +44,7 @@
                 </div>
                 <!-- 流程图 -->
                 <div v-else class="mt20">
-                    <iCard>
+                    <iCard style="overflow: auto;">
                         <ProcessDraw :data="drawInfo" @change="clickDraw"></ProcessDraw>
                     </iCard>
                 </div>
@@ -180,7 +180,7 @@
             },
             // 流程点点击
             clickDraw(item) {
-                console.log(item);
+                this.$router.push({path:'/cf-ProCS/processDetail',query:{id:item.contentId}})
             },
             tabChange(v){
                 this.activeName = v
