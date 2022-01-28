@@ -115,7 +115,7 @@ export default {
         },
         edit(){
             let id = this.selectList[0]?.id
-            this.$router.push({path: '/adminProCS/process/edit', query: {id: id,flowChartId:this.selectList[0].flowChartId}})
+            this.$router.push({path: '/adminProCS/process/edit', query: {id: id}})
         },
         async del(){
             let id = this.selectList[0]?.id

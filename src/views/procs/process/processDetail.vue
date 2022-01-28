@@ -59,25 +59,27 @@
                        {{data.publishTime}}
                    </div>
                </UiCard>
-               <UiCard title="流程图" class="process-img" :color="false" :list="list">
+               <UiCard title="流程图" class="process-img" :color="false">
                    <div slot="content" class="draw cursor" @click="view('img')">
                        <img style="width:100%" :src="detail.flowChart ? fileFmt(detail.flowChart.filePath) : ''" alt="">
                    </div>
                 </UiCard>
-               <UiCard title="系统操作" class="process-img" :color="false" :list="list">
-                   <div slot="head-right" class="video-btn cursor" @click="view('video')">
+               <UiCard title="系统操作" class="process-img" :color="false">
+                   <div slot="head-right" class="video-btn cursor" v-if="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorVideo']" @click="view('video')">
                        <i class="el-icon-video-play"></i>
                        视频
                    </div>
                    <template slot="content">
-                        <div class="draw cursor">
+                        <div class="draw cursor" v-if="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage']">
                             <img style="width:100%" :src="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage'] && fileFmt(pageDetail.attachMentsKV['operatorImage'].url)" alt="">
                         </div>
-                        <div class="file-tlt">流程附件</div>
-                        <div class="flex row cursor" v-for="l in sampleList" :key="l.id" @click="downAttach(l.attachMents[0] ? l.attachMents[0].url : '')">
-                            <span>{{l.name}}</span>
-                            <span>{{l.version}}   {{l.publishDate}}</span>
-                        </div>
+                        <template>
+                            <div class="file-tlt">流程附件</div>
+                            <div class="flex row cursor" v-for="l in sampleList" :key="l.id" @click="downAttach(l.attachMents[0] ? l.attachMents[0].url : '')">
+                                <span>{{l.name}}</span>
+                                <span>{{l.version}}   {{l.publishDate}}</span>
+                            </div>
+                        </template>
                    </template>
                 </UiCard>
             </div>
@@ -91,8 +93,9 @@
             width="70%" 
             @close='closeDialog' 
             append-to-body
+            class="qs-dialog"
         >
-            <div class="pb20">
+            <div class="pb20 content">
                 <ProcessDraw v-if="dialog.type == 'img'" :data="dialog.drawInfo" @change="clickDraw"></ProcessDraw>
                 <video style="width:100%" ref="video" controls v-else :src="dialog.url"></video>
             </div>
