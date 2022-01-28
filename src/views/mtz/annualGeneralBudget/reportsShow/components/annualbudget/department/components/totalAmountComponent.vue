@@ -1,12 +1,13 @@
 <template>
-  <div id="left-echart" class="left-echart"></div>
+  <div class="left-echart" :id="chartId"></div>
 </template>
 <script>
 import echarts from '@/utils/echarts'
 export default {
   props: {
     deptData: { type: Array },
-    showEchart: { type: Boolean, default: false }
+    showEchart: { type: Boolean, default: false },
+    chartId: String
   },
   created() {
     // this.showLeftEcharts()
@@ -24,9 +25,14 @@ export default {
   methods: {
     showLeftEcharts() {
       this.$nextTick(() => {
-        const chart = echarts().init(document.getElementById('left-echart'))
+        const element = document.getElementById(this.chartId)
+        const chart = echarts().init(
+          element || document.querySelector('.left-echart')
+        )
         let arr = []
-        this.deptData.lastDeptDataList.forEach((element) => {
+        const lastDeptDataList = this.deptData.lastDeptDataList || []
+        const curYearPrice = this.deptData.curYearPrice || 0
+        lastDeptDataList.forEach((element) => {
           arr.push({
             value: element.curPrice,
             name: element.dept
@@ -54,10 +60,17 @@ export default {
             tooltip: {
               show: true,
               formatter: (data) => {
-                const curPriceData = this.deptData.lastDeptDataList.find(
+                const curPriceData = lastDeptDataList.find(
                   (item) => item.dept == data.name
                 ).curPrice
-                return `${curPriceData} (${((curPriceData / this.deptData.curYearPrice).toFixed(2) * 100).toFixed(2)}%)`
+                return `${curPriceData} (${
+                  curYearPrice
+                    ? (
+                        (curPriceData / this.deptData.curYearPrice).toFixed(2) *
+                        100
+                      ).toFixed(2)
+                    : 0
+                }%)`
               }
             }
           },
@@ -70,9 +83,7 @@ export default {
             'rgb(216, 229, 253)'
           ],
           title: {
-            text: `总金额:${
-              Math.floor((this.deptData.curYearPrice / 1000000) * 100) / 100
-            }`,
+            text: `总金额:${Math.floor((curYearPrice / 1000000) * 100) / 100}`,
             x: 'center',
             y: '3%'
           },

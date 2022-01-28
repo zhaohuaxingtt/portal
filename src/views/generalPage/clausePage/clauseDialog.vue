@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-27 17:27:07
+ * @LastEditTime: 2022-01-27 22:10:45
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -14,7 +14,7 @@
       @close="clearDiolog"
     >
       <div class="search-box">
-        <iSearch v-if="showType" :icon="true" @sure="search" @reset="reset">
+        <iSearch :icon="true" @sure="search" @reset="reset">
           <el-form class="form-group">
             <el-form-item label="条款编码">
               <iInput v-model="query.termsCode" placeholder="请输入"></iInput>
@@ -101,13 +101,11 @@
           height="400px"
         >
           <el-table-column
-            v-if="selection"
             type="selection"
             width="50"
             align="center"
           ></el-table-column>
           <el-table-column
-            v-if="index"
             label="序号"
             type="index"
             width="80"
@@ -123,7 +121,7 @@
               <template slot-scope="scope">
                 <span
                   class="underline openLinkText cursor"
-                  @click="filePreview(scope.row)"
+                  @click="filePreview(scope.row.id)"
                   >{{ scope.row.termsName }}</span
                 >
               </template>
@@ -138,7 +136,7 @@
               <template slot-scope="scope">
                 <span
                   class="underline openLinkText cursor"
-                  @click="filePreview(scope.row)"
+                  @click="attachPreview(scope.row)"
                   >{{ scope.row.fileUrl ? scope.row.termsName : '' }}</span
                 >
               </template>
@@ -172,8 +170,9 @@
                   >确认已签署</iButton>
               </template>
               <template v-else>
+                <!-- 05: 签署中 -->
                 <iButton
-                  v-if="['06'].includes(scope.row.termsStatus)"
+                  v-if="['05'].includes(scope.row.termsStatus)"
                   @click="cancelApprove(scope.$index, scope.row)"
                   type="text"
                   >撤回签署</iButton>
@@ -234,10 +233,6 @@ export default {
   },
   props: {
     value: { type: Boolean },
-    status: { type: String, default: '1' },
-    selection: { type: Boolean, default: true }, // 采购员 true, 供应商false
-    index: { type: Boolean, default: true },
-    showType: { type: Boolean, default: true },
     supplierId: { type: String },
   },
   data() {
@@ -279,50 +274,6 @@ export default {
       updataValue: false,
       loading: false,
       disabled: false,
-      options: [
-        {
-          label: '科室1',
-          value: '1',
-          children: [
-            {
-              label: '张三',
-              code: '001',
-              value: '1'
-            },
-            {
-              label: '李四',
-              code: '002',
-              value: '2'
-            },
-            {
-              label: '王五',
-              code: '003',
-              value: '3'
-            }
-          ]
-        },
-        {
-          label: '科室2',
-          value: '2',
-          children: [
-            {
-              label: '周星驰',
-              code: '004',
-              value: '1'
-            },
-            {
-              label: '阿萨德',
-              code: '005',
-              value: '2'
-            },
-            {
-              label: '权威',
-              code: '006',
-              value: '3'
-            }
-          ]
-        }
-      ]
     }
   },
   watch: {
@@ -554,6 +505,15 @@ export default {
         id: row.id,
       }
       const router = this.$router.resolve({ path: '/clausepage/preview', query })
+      window.open(router.href, '_blank')
+    },
+    // 已签署文件预览
+    attachPreview(row) {
+      let query = {
+        src: row.fileUrl,
+        title: row.termsName
+      }
+      const router = this.$router.resolve({ path: '/clausepage/attach', query })
       window.open(router.href, '_blank')
     },
     // 关闭弹窗
