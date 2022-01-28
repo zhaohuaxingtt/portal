@@ -5,9 +5,7 @@
  * @FilePath: \front-portal-new\src\api\opcs\system.js
  */
 import axios from '@/utils/axios'
-import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
-const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 
 //联系人与用户管理--详情列表--操作新增
 export function operationAdd(parmars) {
@@ -17,14 +15,24 @@ export function operationAdd(parmars) {
     data: parmars
   })
 }
-//应用管理--授权列表--查询
-export function operationQuery(parmars) {
+//应用管理--授权列表--可添加应用权限查询
+export function unBindingOperationQuery(parmars) {
   return requst({
     url: '/opcsUser/unBindingOperationQuery',
     method: 'POST',
     data: parmars
   })
 }
+//应用管理--授权列表--已有应用权限
+export function operationQuery(parmars) {
+  return requst({
+    url: '/opcsUser/operationQuery',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+
 //应用管理--授权列表--移除
 export function operationRemove(parmars) {
   return requst({

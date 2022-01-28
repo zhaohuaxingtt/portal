@@ -212,16 +212,12 @@ export const tableTitleDetail = [{
         props: 'nameEn',
         name: '应⽤英⽂名',
         key: 'YINGYONGYINGWENMING',
-    }, {
-        props: 'shortName',
-        name: '应⽤简称',
-        key: 'YINGYONGJIANCHENG',
     },
     {
-        props: 'ldapSchema',
-        name: '安全中心LDAP属性',
-        key: 'ANQUANZHONGXINLDAPSHUXING',
-    },
+        props: 'memo',
+        name: '应用类型',
+        key: 'YINGYONLEIXING'
+    }
 ]
 export const tableTitleDetailAdd = [{
         props: 'nameZh',
