@@ -337,14 +337,14 @@ export default {
     async handleAssignQualitativeScoreSubmit (reqParams) {
       try {
         this.assignQualitativeScoreLoading = true
-        const initialIds = this.selectTableData.map((item) => {
-          return item.id
-        })
-        const req = {
+        // const initialIds = this.selectTableData.map((item) => {
+        //   return item.id
+        // })
+        /*const req = {
           initialIds,
           ...reqParams
-        }
-        const res = await assignQualitativeScore(req)
+        }*/
+        const res = await assignQualitativeScore(reqParams)
         this.resultMessage(res, () => {
           this.assignDialog = false
           this.getTableList()
