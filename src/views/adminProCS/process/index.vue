@@ -67,7 +67,7 @@ export default {
             tableSetting,
             selectList:[],
             dialog:false,
-            disabled:false,
+            disabled:true,
             mainChartDialog: false
         }
     },
