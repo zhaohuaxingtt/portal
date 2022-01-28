@@ -286,7 +286,11 @@ export default {
     //根据起始日期和结束日期来选择
     //param XXX-XXX-XXX
     getWeekList(fromD, endD) {
-      const endDate = endD ? endD : `${dayjs().year()}-12-31`
+      const endDate = endD
+        ? endD
+        : fromD
+        ? `${dayjs(fromD).year()}-12-31`
+        : `${dayjs().year()}-12-31`
       const fromDate = fromD ? fromD : this.getDateByYear(dayjs(endDate).year())
       let weekList = []
       const from = new Date(fromDate).getTime()

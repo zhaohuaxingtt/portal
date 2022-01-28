@@ -62,7 +62,7 @@
 					/>
 				</div>
                 <div class="form-item">
-					<iLabel class="label" :label="language('外部所属系统')" slot="label"></iLabel>
+					<iLabel class="label" :label="language('接口所属系统')" slot="label"></iLabel>
 					<iSelect v-model="form.interfaceSystemCode" :disabled="form.category != 2" @change="sysChange" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in interfaceSystemList"

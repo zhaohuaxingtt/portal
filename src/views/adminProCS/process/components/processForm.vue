@@ -146,6 +146,7 @@ export default {
                 this.form.exports = this.form.experts ? this.form.experts.map(e => e.id) : []
                 this.form.organizations = this.form.organizations.map(e => e.id)
                 delete this.form.experts
+				return this.form
             } finally {
                 this.loading = false
             }

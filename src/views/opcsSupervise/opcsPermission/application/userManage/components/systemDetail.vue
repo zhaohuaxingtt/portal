@@ -45,10 +45,14 @@
         <table-list style="margin-top: 20px"
                     :tableData="tableListDataAdd"
                     :tableTitle="tableTitle"
-                    :tableLoadingAdd="tableLoadingAdd"
+                    :tableLoading="tableLoadingAdd"
                     @handleSelectionChange="handleSelectionChangeAdd"
                     :index="true"
                     ref="commonTable">
+
+          <template #memo='scope'>
+            <span >{{scope.row.memo | filter_memo}}</span>
+          </template>
 
         </table-list>
       </div>
@@ -65,7 +69,7 @@
         <table-list style="margin-top: 20px"
                     :tableData="tableListDataDel"
                     :tableTitle="tableTitle"
-                    :tableLoadingAdd="tableLoadingDel"
+                    :tableLoading="tableLoadingDel"
                     @handleSelectionChange="handleSelectionChangeDel"
                     :index="true"
                     ref="commonTable">
@@ -80,13 +84,13 @@
 <script>
 import tableList from '@/components/commonTable'
 import { iDialog, iButton, iMessage, iInput } from 'rise'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 import { tableTitleDetail } from './data'
 import {
   operationAdd,
+  unBindingOperationQuery,
   operationQuery,
-  relateQuery,
-  operationRemove,
-  relateQueryBinding
+  operationRemove
 } from '@/api/opcs/system'
 export default {
   components: {
@@ -116,8 +120,24 @@ export default {
       selectDelArr: []
     }
   },
+  filters:{
+    filter_memo (memo) {
+      let sysTags = SYSTEM_TAGS
+      let array = memo ? memo.split(',') : []
+      let strArray = []
+      if (array.length > 0) {
+        sysTags.forEach((val) => {
+          if (array.indexOf(val.id) >= 0) {
+            strArray.push(val.label)
+          }
+        })
+      }
+      return strArray.join(',')
+    }
+  },
   created () { },
   methods: {
+
     sure () {
       this.getAddList()
     },
@@ -131,7 +151,7 @@ export default {
         pageSize: 99999,
         opcsUserId: this.rowList.id
       }
-      operationQuery(params).then((res) => {
+      unBindingOperationQuery(params).then((res) => {
         this.tableLoadingAdd = false
         if (res && res.code == 200) {
           this.getDelList()
@@ -148,7 +168,7 @@ export default {
         pageSize: 99999,
         opcsUserId: this.rowList.id
       }
-      relateQueryBinding(params).then((res) => {
+      operationQuery(params).then((res) => {
         this.tableLoadingDel = false
         if (res && res.code == 200) {
           this.$nextTick(() => {
