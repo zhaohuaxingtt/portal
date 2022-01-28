@@ -34,9 +34,7 @@ export function assignQualitativeScore(params) {
   return requst({
     url: `/qualitativeScore/assign`,
     method: 'PUT',
-    data: {
-      ...params
-    }
+    data: params
   })
 }
 
