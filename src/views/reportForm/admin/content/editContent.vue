@@ -31,7 +31,7 @@
             </iFormItem>
             <iFormItem :label="language('上传附件')" prop="file" :rules="{ required:true, message:'请选择', trigger:'change'}">
                 <iUpload
-                    v-model="form.file" 
+                    v-model="form.file"
                     btnTxt="选择文件"
                     maxSize= 10
                     :limit="1"

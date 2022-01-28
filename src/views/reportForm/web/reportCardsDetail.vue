@@ -95,8 +95,8 @@
                         this.params.categoryId = cate
                         let res = await queryReportContentList(this.params)
                         if (res?.code === '200') {
-                            let data = res?.data
-                            if (data) {
+                            let data = res?.data || []
+                            if (data.length > 0) {
                                 dataList.push({
                                     categoryName: data[0]?.categoryName,
                                     total: res.total,
