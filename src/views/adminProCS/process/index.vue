@@ -100,7 +100,7 @@ export default {
                 this.tableLoading = true
                 let res = await queryProcessList(params)
                 this.tableListData = res?.content || []
-                this.page.totalCount = res?.totalPages || 0
+                this.page.totalCount = res?.totalElements || 0
             } finally {
                 this.tableLoading = false
             }
@@ -172,7 +172,7 @@ export default {
             this.selectList = v
         },
         handleMainChart() {
-            this.$router.push('/adminProCS/process/mainProcess')
+            this.$router.push('/adminProCS/process/mainProcessFlow')
         },
         addFun() {
             this.dialog = true

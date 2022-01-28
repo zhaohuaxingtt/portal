@@ -8,6 +8,7 @@ import RouterAuthorityMgmt from './RouterAuthorityMgmt'
 // import RouterStaffMgmt from './RouterStaffMgmt'
 import RouterProviderMgm from './RouterProviderMgm'
 import RouterRole from './RouterRole'
+import RouterAdminProCSMgm, {AdminProCSDetail} from './RouterAdminProCSMgm'
 export default [
   {
     path: '/ProCS',
@@ -23,9 +24,11 @@ export default [
       ...RouterAuthorityMgmt,
       // ...RouterStaffMgmt,
       ...RouterProviderMgm,
-      ...RouterRole
+      ...RouterRole,
+      ...RouterAdminProCSMgm
     ]
-  }
+  },
+  ...AdminProCSDetail
 ]
 
 const CFApprovalAgent = [
