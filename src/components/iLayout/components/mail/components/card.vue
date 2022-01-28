@@ -150,8 +150,8 @@ export default {
       return text.replace(regex, '')
     }
   },
-  watch:{
-    'item.content'(){
+  watch: {
+    'item.content'() {
       this.getContentRows()
     }
   },
@@ -203,6 +203,7 @@ export default {
     handleRedirect() {
       if (!this.item.url) {
         console.log('url为空')
+        this.$emit('readCallback', { tab: this.tab })
       } else {
         this.$emit('hide-drawer')
         setTimeout(() => {
@@ -233,7 +234,6 @@ export default {
       } else {
         const result = await readMailById({ ids: this.item.id })
         if (result?.code === '200') {
-          this.$emit('readCallback', { tab: this.tab })
           this.handleRedirect()
         }
       }
