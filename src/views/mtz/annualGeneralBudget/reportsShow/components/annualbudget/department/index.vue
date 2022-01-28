@@ -15,13 +15,10 @@
       class="exportData"
       >{{ $t('LK_DAOCHU') }}</iButton
     >
-    <div ref="pdf" id="pdf">
+    <div>
       <el-row :gutter="10">
         <el-col :span="12" class="total">
           <div class="flex-between-center-center card-header">
-            <div class="card-name" id="pdf-name">
-              {{ form['yearDropList'] }}-MTZ年度预算-科室
-            </div>
             <iSelect
               class="selectsize"
               v-model="form['yearDropList']"
@@ -62,11 +59,61 @@
         </el-col>
       </el-row>
     </div>
+
+    <div ref="pdf" id="pdf">
+      <div class="pdf-name" id="pdf-name">
+        {{ form['yearDropList'] }}-MTZ年度预算-科室
+      </div>
+      <el-row :gutter="10">
+        <el-col :span="12" class="total">
+          <div class="flex-between-center-center card-header">
+            <iSelect
+              class="selectsize"
+              v-model="form['yearDropList']"
+              @change="selectYear"
+            >
+              <el-option
+                v-for="(item, index) in yearList"
+                :key="index"
+                :value="item.code"
+                :label="`${item.message} 年`"
+              />
+            </iSelect>
+
+            <span>{{
+              language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+            }}</span>
+          </div>
+          <totalAmountComponent
+            :key="keyString"
+            :deptData="deptData"
+            :showEchart="showEchart"
+            chartId="chartTotal2"
+          />
+        </el-col>
+        <el-col :span="12" class="totalTwo"
+          ><div class="dataList">
+            <span class="lastYearData">{{
+              language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
+            }}</span
+            ><span class="unit">{{
+              language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+            }}</span>
+          </div>
+          <dataComparisonLastYear
+            :key="keyString"
+            :deptData="deptData"
+            :showEchart="showEchart"
+            chartId="chartData2"
+          />
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
-import { iPage, iSelect, iButton } from 'rise'
+import { iSelect, iButton } from 'rise'
 import totalAmountComponent from './components/totalAmountComponent'
 import dataComparisonLastYear from './components/dataComparisonLastYear'
 import { yearBudgetDept, yearDropDown } from '@/api/mtz/reportsShow'
@@ -76,7 +123,6 @@ import JsPDF from 'jspdf'
 export default {
   name: 'index',
   components: {
-    iPage,
     iSelect,
     totalAmountComponent,
     dataComparisonLastYear,
@@ -139,8 +185,8 @@ export default {
     downloadPdf({ idEle: ele, pdfName: pdfName, callback: callback }) {
       this.downloadLoading = true
       const el = document.getElementById(ele) //通过getElementById获取要导出的内容
-      const pdfNameEle = el.querySelector('#pdf-name')
-      pdfNameEle.style.display = 'block'
+
+      el.style.opacity = 1
       let eleW = el.offsetWidth // 获得该容器的宽
       let eleH = el.offsetHeight // 获得该容器的高
 
@@ -172,7 +218,7 @@ export default {
       })
         .then((canvas) => {
           console.timeEnd('aaa')
-          pdfNameEle.style.display = 'none'
+          el.style.opacity = 0
           el.setAttribute('crossOrigin', 'anonymous')
           var contentWidth = canvas.width
           var contentHeight = canvas.height
@@ -214,7 +260,7 @@ export default {
           this.downloadLoading = false
         })
         .catch(() => {
-          pdfNameEle.style.display = 'none'
+          el.style.opacity = 0
           this.downloadLoading = false
         })
     }
@@ -245,14 +291,7 @@ export default {
   .selectsize {
     width: 220px;
   }
-  .card-name {
-    font-weight: bold;
-    font-size: 16px;
-    display: none;
-    position: absolute;
-    top: -25px;
-    left: 15px;
-  }
+
   /* .selectsize {
     width: 220px;
     margin-top: 30px;
@@ -292,6 +331,18 @@ export default {
     position: absolute;
     right: 30px;
     top: 30px;
+  }
+}
+#pdf {
+  margin-top: 50px;
+  padding-top: 300px;
+  position: relative;
+  opacity: 0;
+  .pdf-name {
+    /* display: none; */
+    position: absolute;
+    top: 0px;
+    left: 15px;
   }
 }
 </style>
