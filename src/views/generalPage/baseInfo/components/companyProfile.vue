@@ -98,7 +98,7 @@
                 required
                 slot="label"
                 v-permission="SUPPLIER_BASEINFO_COMPANY_INDUSTRYCODE"></iLabel>
-        <iText>{{ pad(supplierData.supplierDTO.industryCode ,4)}}</iText>
+        <iText>{{isIndustryCode}}</iText>
       </iFormItem>
       <iFormItem prop="supplierDTO.businessOfScope"
                  v-if="isPP"
@@ -372,14 +372,14 @@ export default {
   },
   watch: {
     supplierData () { },
-    country (val) {
-      if (val.length > 0) {
-        if (this.$route.path == '/supplier/register') {
-          console.log(val)
-          this.getisForeignCountry(val)
-        }
-      }
-    }
+    // country (val) {
+    //   if (val.length > 0) {
+    //     if (this.$route.path == '/supplier/register') {
+    //       console.log(val)
+    //       this.getisForeignCountry(val)
+    //     }
+    //   }
+    // }
   },
   data () {
     return {
@@ -406,6 +406,9 @@ export default {
     // 是否可编辑 股票代码 和 上市地点
     isListing () {
       return this.supplierData.supplierDTO.isListing == '1' ? true : false
+    },
+    isIndustryCode () {
+      return this.supplierData.supplierDTO.industryCode ? pad(this.supplierData.supplierDTO.industryCode, 4) : ''
     },
     isPP () {
       if (this.supplierData.supplierDTO.supplierType == 'GP') {
@@ -497,22 +500,22 @@ export default {
       //   isSigned({}).then((res) => {})
     },
     //是否国内外
-    getisForeignCountry (val) {
-      if (val.length > 0) {
-        isForeignCountry({
-          addressInfoId: val.find(
-            (item) =>
-              item.sapLocationCode == this.supplierData.supplierDTO.countryCode
-          ).id
-        }).then((res) => {
-          let code = 0
-          if (res.data) {
-            code = 1
-          } else code = 0
-          this.$set(this.supplierData.supplierDTO, 'isForeignManufacture', code)
-        })
-      }
-    },
+    // getisForeignCountry (val) {
+    //   if (val.length > 0) {
+    //     isForeignCountry({
+    //       addressInfoId: val.find(
+    //         (item) =>
+    //           item.sapLocationCode == this.supplierData.supplierDTO.countryCode
+    //       ).id
+    //     }).then((res) => {
+    //       let code = 0
+    //       if (res.data) {
+    //         code = 1
+    //       } else code = 0
+    //       this.$set(this.supplierData.supplierDTO, 'isForeignManufacture', code)
+    //     })
+    //   }
+    // },
 
     // 国家切换 获取省信息
     changeCountry () {
