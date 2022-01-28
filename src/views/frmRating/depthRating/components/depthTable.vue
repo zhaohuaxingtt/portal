@@ -530,9 +530,7 @@ export default {
           this.joinGroupShow = false
         }
         if (res?.code === '200') {
-          iMessage.success(
-            this.language('YICONGDABAOJITUANZHONGYICHU', '已从打包集团中移除')
-          )
+          iMessage.success(res.desZh)
           this.getTableList()
         } else {
           iMessage.error(res.desZh)
