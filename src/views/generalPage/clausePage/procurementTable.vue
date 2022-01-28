@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-11 16:40:20
- * @LastEditTime: 2022-01-26 14:55:09
+ * @LastEditTime: 2022-01-28 19:25:20
  * @LastEditors: YoHo
  * @Description: 审批界面内嵌使用
 -->
@@ -34,13 +34,14 @@
 
 <script>
 
-import { purchaseTermsOverView } from '@/api/frmRating/overView/overView.js'
+import { purchaseTermsOverView, termsTypeById } from '@/api/frmRating/overView/overView.js'
 import { procurementApproveTableTitle as TableTitle } from "./data";
 export default {
   data() {
     return {
       TableTitle,
-      tableData: []
+      tableData: [],
+      typeObj:{}
     }
   },
   computed:{
@@ -49,12 +50,25 @@ export default {
     }
   },
   created() {
-    this.purchaseTermsOverView()
+    this.termsTypeById()
+    
   },
   methods: {
+    // 获取条款类型下拉项
+    termsTypeById(){
+      termsTypeById().then(res=>{
+        if(res?.code=='200'){
+          res.data.forEach(i=>{
+            this.typeObj[i.code] = i.value
+          })
+          this.purchaseTermsOverView()
+        }
+      })
+    },
     purchaseTermsOverView(){
       purchaseTermsOverView(this.id).then(res=>{
         if(res?.code=='200'){
+          res.data.termsType = this.typeObj[res.data.termsType]
           this.tableData = [res.data]
         }
       })
