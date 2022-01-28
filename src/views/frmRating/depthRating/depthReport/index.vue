@@ -15,11 +15,12 @@
         <iNavMvp :list="interViewTabList"
                  :lev='2'
                  right
-                  class="rightNav"
+                 class="rightNav"
                  @change="changeNav" />
         <!--保存-->
         <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'"
                  class="margin-left30"
+                 v-show="!$route.query.sign"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
         <!--提交审核-->
         <iButton v-if="$route.query.status=='报告完成'||$route.query.status=='报告审批驳回'"

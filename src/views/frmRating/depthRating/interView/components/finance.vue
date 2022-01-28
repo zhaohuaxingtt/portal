@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iButton } from 'rise';
+import { iCard, iInput, iButton, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { CapitalFinancing } from '../data';
 import { interviewFinanceMessage, interviewFinanceInfo } from '@/api/frmRating/depthRating/interView';
@@ -169,7 +169,14 @@ export default {
 
     },
     del () {
-      for (let i = 0; i < this.selectList.length; i++) {
+      if (this.selectList.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
+        confirmButtonText: this.language('QUEDING', '确定'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        type: 'warning'
+      }).then(() => {
         let val = this.selectList
         val.forEach((val, index) => {
           if (val.id) {
@@ -186,7 +193,8 @@ export default {
             })
           }
         })
-      }
+
+      })
     },
     handleSelectionChange (val) {
       this.selectList = val

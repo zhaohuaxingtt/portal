@@ -76,6 +76,19 @@ export default {
 		}
 	},
 	data() {
+		let enName_valid = (rule, value, callback) => {
+            if(!value){
+				callback(new Error("请输入英文名"));
+				return;
+			}
+			var reg = /^[a-zA-Z]+$/; //验证规则
+			if (reg.test(value)) {
+				callback();
+				return;
+			}else{
+				callback(new Error("请输入英文名"));
+			}
+        }
 		return {
 			visible: false,
 			newTypeForm: {
@@ -84,7 +97,7 @@ export default {
 			},
 			newTypeRules: {
 				name: { required:'true',message:"请输入类型名称",trigger:'blur' },
-				enName: { required:'true',message:"请输入知识英文名称",trigger:'blur' }
+				enName: { required:'true',validator: enName_valid,trigger:'blur' }
 			},
 			imgCutterRate: '16 : 9',
 			fileList: [],

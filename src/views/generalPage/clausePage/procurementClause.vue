@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-27 10:37:25
+ * @LastEditTime: 2022-01-27 19:14:58
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -34,7 +34,7 @@
           <iButton @click="sync">确认并同步供应商</iButton>
         </div>
       </div>
-      <div class="changeContent" v-loading="loading">
+      <div class="changeContent">
         <pdf ref="pdf" :src="baseInfo.placeHolderTermsTextUrl || baseInfo.termsTextUrl"></pdf>
       </div>
       <div class="margin-top20" v-if="showTable">
@@ -49,7 +49,7 @@
             <template v-for="item in attachmentTableTitle">
               <el-table-column v-if="item.prop=='attachmentName'" :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" >
                 <template slot-scope="scope">
-                  <span class="openLinkText underline" @click="filePreview(scope.row)">{{scope.row.attachmentName}}</span>
+                  <span class="openLinkText underline" @click="filePreview({src:scope.row.attachmentUrl, title: scope.row.attachmentName})">{{scope.row.attachmentName}}</span>
                 </template>
               </el-table-column>
               <el-table-column v-else :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" ></el-table-column>
@@ -84,9 +84,9 @@
             <el-table-column v-if="item.prop=='fileName'" :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" >
               <template slot-scope="scope">
                 <!-- 预览 -->
-              <!-- <span class="openLinkText underline" @click="filePreview(scope.row)">{{scope.row.fileName}}</span> -->
+              <span class="openLinkText underline" @click="filePreview({src:scope.row.fileUrl,title:scope.row.fileName})">{{scope.row.fileName}}</span>
               <!-- 下载 -->
-              <a class="openLinkText underline" :href="scope.row.fileUrl">{{scope.row.fileName}}</a>
+              <!-- <a class="openLinkText underline" :href="scope.row.fileUrl">{{scope.row.fileName}}</a> -->
             </template>
             </el-table-column>
             <el-table-column v-else :minWidth="item.minWidth||item.width" :label="item.name" :prop="item.prop" :key="item.prop" ></el-table-column>
@@ -125,7 +125,6 @@ export default {
   },
   data() {
     return {
-      loading:false,
       show:false,
       baseInfo:{},
       tipInfo:{
@@ -171,12 +170,11 @@ export default {
     }
   },
   created(){
-    console.log(this.$store.state.permission.userInfo);
     this.getProcurementInfo()
     if(!this.readOnly){
       this.getSelectData()
       certificate({supplierIds:this.supplierId}).then(res=>{
-        console.log(res);
+        console.log('电子签章=>',res);
       })
     }
   },
@@ -191,7 +189,6 @@ export default {
     // 获取条款类型下拉项
     termsTypeById(){
       termsTypeById(this.supplierId).then(res=>{
-        console.log(res);
         if(res?.code=='200'){
           this.typeList = res.data
         }
@@ -200,7 +197,6 @@ export default {
     // 获取签署方式下拉项
     signWaySelector(){
       signWaySelector().then(res=>{
-        console.log(res);
         if(res?.code=='200'){
           this.signWayList = res.data
         }
@@ -212,7 +208,7 @@ export default {
         iMessage.error('请先同步供应商')
         return
       }
-      if(this.termsCode!='Terms_OTHERCG'){
+      if(this.termsCode!='Terms_OTHERCG' && !this.baseInfo.id || !this.baseInfo.termsId){
         let params = {
           userId:this.userId,
           supplierId: this.supplierId,
@@ -223,20 +219,12 @@ export default {
         }
         saveTerms(params).then(res=>{
           if(res?.code=='200'){
-            this.baseInfo = res.data
+            this.getProcurementInfo()
           }
         })
       }
       this.updataValue = true
       this.attachList()
-    },
-    // 签署
-    sign(){
-      console.log('签署');
-    },
-    // 归档
-    filing(){
-      console.log('归档');
     },
     // 同步供应商
     sync(){
@@ -255,7 +243,6 @@ export default {
         signWay: this.signWay,
         userId: this.userId
       }
-      console.log(params);
       syncSupplierById(params).then(res=>{
         if(res?.code=='200'){
           this.getProcurementInfo()
@@ -277,23 +264,12 @@ export default {
         supplierId: this.supplierId,
         termsCode: this.termsCode,
       }
-      this.loading = true
       purchaseTermsById(params).then(res=>{
-        this.baseInfo = res.data[0]
+        if(res?.code=='200'){
+          this.baseInfo = res.data[0]
+          this.tableData = this.baseInfo.attachments || []
+        }
         this.$refs.pdf.loading()
-        this.loading = false
-        this.tableData = this.baseInfo.attachments || []
-      })
-    },
-    // 删除相关附件
-    deleteAttach(){
-      let fileIdList = this.selectionArr.map(i=>i.id)
-      let params = {
-        fileIdList:fileIdList,
-        supplierId:this.supplierId
-      }
-      deleteAttach(params).then(res=>{
-        console.log(res);
       })
     },
     // 提交申请
@@ -314,7 +290,6 @@ export default {
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
       })
-      console.log(params);
     },
     // 上传其它采购条款
     termsUpload(content){
@@ -342,7 +317,6 @@ export default {
         termsId: this.baseInfo.id
       }
       attachList(params).then(res=>{
-        console.log(res);
         if(res?.code=='200'){
           tableListData = res.data
         }else{
@@ -359,7 +333,6 @@ export default {
       formData.append('userId', this.userId);
       formData.append('userName', this.userName);
       uploadAttach(formData).then(res=>{
-        console.log(res);
         if(res?.code=='200'){
           this.attachList()
         }
@@ -385,12 +358,13 @@ export default {
         }
       })
     },
-    // 文件预览
-    filePreview(row) {
-      let query = {
-        id:row.id
-      }
-      const router =  this.$router.resolve({path: '/clausepage/preview', query})
+    // 附件预览
+    filePreview(query) {
+      // let query = {
+      //   src:row.attachmentUrl,
+      //   title: row.attachmentName
+      // }
+      const router =  this.$router.resolve({path: '/clausepage/attach', query})
       window.open(router.href,'_blank')
     }
   }

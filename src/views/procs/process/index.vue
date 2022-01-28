@@ -45,12 +45,7 @@
                 <!-- 流程图 -->
                 <div v-else class="mt20">
                     <iCard>
-                        <div class="pic-div">
-                            <div v-for="(item,index) in projectInfoData" :key="index">
-                                <div class="drag-box" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}" @click="detailFun(item)"></div>
-                            </div>
-                            <img class="draw-img" :src="filePath" alt="">
-                        </div>
+                        <ProcessDraw :data="drawInfo" @change="clickDraw"></ProcessDraw>
                     </iCard>
                 </div>
                 
@@ -78,13 +73,15 @@
     import UiCard from "./../components/UiCard.vue";
     import { queryWorkFlow, queryMyCollect, queryHotTerms, querySample, queryMyWorkFlow, getMainFlowchart } from '@/api/procs';
     import {iCard, iButton} from 'rise';
+    import ProcessDraw from './../components/ProcessDraw';
     export default {
         components:{
             LayHeader,
             IndexList,
             iCard,
             UiCard,
-            iButton
+            iButton,
+            ProcessDraw
         },
         data() {
             return {
@@ -108,8 +105,7 @@
                 hotTermsList: [],
                 attachList:[],
                 myFlowList: [],  // 我的流程
-                filePath: null,
-                projectInfoData: []
+                drawInfo: {}
             }
         },
         created() {
@@ -179,15 +175,12 @@
             },
             async getMainFlowInfo() {
                 await getMainFlowchart().then(res => {
-                    console.log(res,'2222')
-                    if (res) {
-                        this.filePath = res.filePath?.split("/uploader/")[1]
-                        this.projectInfoData = res?.hotAreas || []
-                    }
+                    this.drawInfo = res
                 })
             },
-            detailFun(item) {
-                console.log(item, '2222')
+            // 流程点点击
+            clickDraw(item) {
+                console.log(item);
             },
             tabChange(v){
                 this.activeName = v
@@ -276,6 +269,9 @@
         position: absolute;
         background-color: red;
         cursor: pointer;
+        &:hover{
+            box-shadow: 0 0 10px rgba($color: red, $alpha: .5);
+        }
     }
    
 }

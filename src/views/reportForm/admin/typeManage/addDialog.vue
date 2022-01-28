@@ -70,9 +70,9 @@
                         >
                             <el-option
                                 v-for="item in adminList"
-                                :key="item.userId"
-                                :label="item.nameZh"
-                                :value="item.userId"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id"
                             >
                             </el-option>
                         </iSelect>

@@ -1,6 +1,6 @@
 <template>
     <div class="qs">
-        <div v-for="(l,index) in qsList" :key="l.id">
+        <div style="margin-bottom:20px" v-for="(l,index) in qsList" :key="l.id">
             <div class="title">{{l.name}}</div>
             <div v-for="(answer,index1) in l.answerList" :key="answer.id">
                 <div class="flex justify-between items-center">
@@ -24,7 +24,7 @@
             </div>
             <div class="flex mt20">
                 <div class="opearte mr20 cursor" @click="share(l)"><i class="el-icon-share"></i>分享</div>
-                <div class="opearte cursor" @click="collect(l, index)" v-if="l.isCollect"><i style="color: red" class="el-icon-star-on"></i>已收藏</div>
+                <div class="opearte cursor" @click="collect(l, index)" v-if="l.isCollect"><i style="color: red;font-size: 14px;" class="el-icon-star-on"></i>已收藏</div>
                 <div class="opearte cursor" @click="collect(l, index)" v-else><i class="el-icon-star-off"></i>收藏</div>
             </div>
         </div>

@@ -218,7 +218,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iButton } from 'rise';
+import { iCard, iInput, iButton, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { mainProduct, mainCustomers, mainSupplier } from '../data';
 import { interviewUpDownMessage, interviewUpDownInfo } from '@/api/frmRating/depthRating/interView';
@@ -311,7 +311,14 @@ export default {
       this.interViewData.prodPropList.push(obj)
     },
     delProdProp () {
-      for (let i = 0; i < this.selectionProduct.length; i++) {
+      if (this.selectionProduct.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
+        confirmButtonText: this.language('QUEDING', '确定'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        type: 'warning'
+      }).then(() => {
         let val = this.selectionProduct
         val.forEach((val, index) => {
           if (val.id) {
@@ -328,7 +335,7 @@ export default {
             })
           }
         })
-      }
+      })
     },
     addCustomer () {
       let obj = {}
@@ -341,7 +348,14 @@ export default {
       this.interViewData.customerList.push(obj)
     },
     delCustomer () {
-      for (let i = 0; i < this.selectionCustomers.length; i++) {
+      if (this.selectionCustomers.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
+        confirmButtonText: this.language('QUEDING', '确定'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        type: 'warning'
+      }).then(() => {
         let val = this.selectionCustomers
         val.forEach((val, index) => {
           if (val.id) {
@@ -358,7 +372,7 @@ export default {
             })
           }
         })
-      }
+      })
     },
     addSupplier () {
       let obj = {}
@@ -371,7 +385,14 @@ export default {
       this.interViewData.supplierList.push(obj)
     },
     delSupplier () {
-      for (let i = 0; i < this.selectionSupplier.length; i++) {
+      if (this.selectionSupplier.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
+        confirmButtonText: this.language('QUEDING', '确定'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        type: 'warning'
+      }).then(() => {
         let val = this.selectionSupplier
         val.forEach((val, index) => {
           if (val.id) {
@@ -388,7 +409,7 @@ export default {
             })
           }
         })
-      }
+      })
     },
     handleSelectionProduct (val) {
       this.selectionProduct = val

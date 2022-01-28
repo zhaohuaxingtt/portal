@@ -60,8 +60,8 @@
                    </div>
                </UiCard>
                <UiCard title="流程图" class="process-img" :color="false" :list="list">
-                   <div slot="content" class="draw cursor" @click="view('img',detail.flowChart.filePath)">
-                       <img style="width:100%" :src="detail.flowChart ? detail.flowChart.filePath : ''" alt="">
+                   <div slot="content" class="draw cursor" @click="view('img')">
+                       <img style="width:100%" :src="detail.flowChart ? fileFmt(detail.flowChart.filePath) : ''" alt="">
                    </div>
                 </UiCard>
                <UiCard title="系统操作" class="process-img" :color="false" :list="list">
@@ -93,7 +93,7 @@
             append-to-body
         >
             <div class="pb20">
-                <img style="width:100%" v-if="dialog.type == 'img'" :src="dialog.url" alt="">
+                <ProcessDraw v-if="dialog.type == 'img'" :data="dialog.drawInfo" @change="clickDraw"></ProcessDraw>
                 <video style="width:100%" ref="video" controls v-else :src="dialog.url"></video>
             </div>
         </iDialog>
@@ -108,6 +108,7 @@
     import iQuestion from './components/iQuestion.vue';
     import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage} from '@/api/procs';
     import mixin from './../mixins';
+    import ProcessDraw from './../components/ProcessDraw';
     export default {
         components:{
             LayHeader,
@@ -115,7 +116,8 @@
             iButton,
             expertInfo,
             iQuestion,
-            iDialog
+            iDialog,
+            ProcessDraw
         },
         mixins:[mixin],
         data() {
@@ -132,11 +134,13 @@
                 dialog:{
                     show:false,
                     type:'img',
-                    url:""
+                    url:"",
+                    drawInfo:{}
                 },
                 loading: false,
                 pageLoading: false,
                 id: this.$route.query.id,
+                pageId: this.$route.query.pageId,
                 sampleList:[],
                 faqList:[],
 
@@ -152,16 +156,27 @@
                 this.loading = true
                 try {
                    this.detail = await getWorkFlow(this.id)
-                    this.queryPageSample()
-                    this.getPageDetail(this.detail.pageIds[0])
-                    this.queryPageFAQ(this.detail.pageIds[0])
+                    let id = ""
+                    if(this.detail.pageIds.length > 0){
+                        if(this.pageId){
+                            let index = this.detail.pageIds.findIndex(e => e == this.pageId)
+                            id = this.detail.pageIds[index]
+                            this.currentPage = index + 1
+                        }else{
+                            id = this.detail.pageIds[0]
+                        }
+                        this.queryPageSample(id)
+                        this.getPageDetail(id)
+                        this.queryPageFAQ(id)
+                    }
+
                 } finally {
                     this.loading = false
                 }
             },
             // 流程附件
-            async queryPageSample(){
-                let res = await queryPageSample(this.detail.pageIds[0])
+            async queryPageSample(id){
+                let res = await queryPageSample(id)
                 this.sampleList = res.content
             },
             // 流程问题
@@ -187,7 +202,9 @@
             async queryFAQ() {
                 this.queryPageFAQ(this.detail.pageIds[0])
             },
-            side(){},
+            clickDraw(v){
+                this.$router.push({path:"/cf-ProCS/processDetail", query:{id:this.id,pageId:v.contentId}})
+            },
             openDoc(row){
                 window.open(row.docUrl)
             },
@@ -200,10 +217,10 @@
                 console.log(curPage);
                 this.getPageDetail(this.detail.pageIds[curPage - 1])
             },
-            view(t,url){
+            view(t){
                 this.dialog.type = t
                 if(t == "img"){
-                    this.dialog.url = url
+                    this.dialog.drawInfo = this.detail.flowChart
                 }else{
                     let url = this.pageDetail.attachMentsKV["operatorVideo"].url
                     this.dialog.url = this.fileFmt(url)

@@ -52,7 +52,8 @@ export default {
             tableSetting:ATTACH_SETTING,
             queryMethod: this.query,
             processId:this.$route.query.id,
-            selectList:[]
+            selectList:[],
+            loading:false
         }
     },
     methods: {

@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2021-09-14 16:11:06
+ * @LastEditTime: 2022-01-27 14:33:26
  * @LastEditors: Please set LastEditors
  * @Description: 公共utils部分
  * @FilePath: \front-portal\src\utils\index.js
@@ -332,4 +332,14 @@ export function unique(arr, id) {
     }
   }
   return arr
+}
+
+/* 左边自动补零 质朴长存法  by lifesinger */
+export function pad(num, n) {
+  var len = num.toString().length
+  while (len < n) {
+    num = '0' + num
+    len++
+  }
+  return num
 }

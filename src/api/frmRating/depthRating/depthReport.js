@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:18
- * @LastEditTime: 2022-01-19 17:38:05
+ * @LastEditTime: 2022-01-27 20:46:10
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\api\frmRating\depthRating\depthReport.js
@@ -70,7 +70,8 @@ export function getSummarize(id, lang) {
     url:
       '/deepCommentReport/summarize?deepCommentSupplierId=' +
       id +
-      `&lang=`+lang,
+      `&lang=` +
+      lang,
     method: 'GET'
   })
 }
@@ -79,6 +80,15 @@ export function getSummarize(id, lang) {
 export function postSummarize(parmars) {
   return requst({
     url: '/deepCommentReport/summarize',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+// 深评报告综述保存
+export function cehckSummarize(parmars) {
+  return requst({
+    url: '/deepCommentReport/cehckSummarize',
     method: 'POST',
     data: parmars
   })
