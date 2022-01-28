@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-17 09:49:53
- * @LastEditTime: 2022-01-25 19:15:35
+ * @LastEditTime: 2022-01-28 16:40:54
  * @LastEditors: YoHo
  * @Description: 附件预览
 -->
@@ -60,7 +60,10 @@ mounted(){
       purchaseTermsOverView(this.$route.query.id).then(res=>{
         if(res?.code=='200'){
           this.baseInfo = res.data
-          this.tableData = this.baseInfo.attachments || []
+          this.tableData = this.baseInfo.attachments.map(i=>{
+            i.attachmentSize = (i.attachmentSize || 0) / 1024
+            return i
+          })
         }
       })
       this.$refs.pdf.loading()
