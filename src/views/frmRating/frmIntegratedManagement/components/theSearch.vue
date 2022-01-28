@@ -55,7 +55,7 @@
             <el-option value="1"
                        label="正常"></el-option>
             <el-option value="0"
-                       label="冻结"></el-option>
+                       label="受控"></el-option>
           </iSelect>
         </el-form-item>
 
