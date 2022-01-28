@@ -1,9 +1,9 @@
 <template>
     <iPage>
         <div class="content" v-loading="loading">
-            <div class="leftContent" @mousedown.capture="test1" @mouseup.capture="test2">
+            <div class="leftContent" @mousedown.capture="mouseStart" @mouseup.capture="mouseEnd" ref="box">
                 <div v-for="(item, idx) in projectInfoData" :key="idx">
-                    <div :class="item.id === currProId ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}"></div>
+                    <div :ref="'point' + (idx+1)" :class="item.id === currProId ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}"></div>
                 </div>
                 <!-- <img src="~@/assets/images/mainProcess.png" class="img-process" /> -->
                 <img :src="filePath" class="img-process" />
@@ -186,18 +186,20 @@ export default {
             let res = await loadProcessPageList(this.processId, params)
             this.processList = res.content || []
         },
-        test1(e) {
+
+        mouseStart(e) {
             console.log(this.modifyFlag, '11111111111')
             if (!this.canDrawFlag) return
 			this.startX = e.layerX
 			this.startY = e.layerY
 			this.clickFlag = true
 		},
-        test2(e) {
+        mouseEnd(e) {
             // if (!this.canDrawFlag) return
 			this.endX = e.layerX
 			this.endY = e.layerY
 			this.clickFlag = false
+
 			if (this.startX && this.startY && this.endX && this.endY) {
 				this.currWidth = this.endX - this.startX
 				this.currHeight = this.endY - this.startY
@@ -214,16 +216,19 @@ export default {
                     console.log(divIndex, '22222')
                     let testDiv = document.getElementById(`testDiv${divIndex}`)
                     console.log('test div', testDiv);
+
+                    let X = this.$refs.box.scrollLeft
+                    let Y = this.$refs.box.scrollTop
                     testDiv.style.display = 'block'
-                    testDiv.style.top = `${this.startY}px`
-                    testDiv.style.left = `${this.startX}px`
+                    testDiv.style.top = `${this.startY + Y}px`
+                    testDiv.style.left = `${this.startX + X}px`
                     testDiv.style.width = `${this.currWidth}px`
                     testDiv.style.height = `${this.currHeight}px`
                     testDiv.style.borderRadius = '50%'
                 // })
                 let obj = {
-                    yco: this.startY,
-                    xco: this.startX,
+                    yco: this.startY + Y,
+                    xco: this.startX + X,
                     width: this.currWidth,
                     height: this.currHeight
                 }
@@ -272,6 +277,8 @@ export default {
                 this.modifyFlag = false
             }
             this.currIndex = index - 1
+            console.log( this.$refs["point"+index]);
+            this.$refs[`point${index+1}`][0].scrollIntoViewIfNeeded()
         },
         async addData(row) {
             if (row.id) {
@@ -284,7 +291,7 @@ export default {
                     yco: row.yco,
                     height: row.height,
                 }
-                if(this.processId){
+                if(this.processId){     //子流程图
                     obj.pageId = row.flowId
                 }else{
                     obj.flowId = row.flowId
@@ -309,7 +316,7 @@ export default {
             } else {
                 // 新增
                 let data = JSON.parse(JSON.stringify(row))
-                 if(this.processId){
+                 if(this.processId){     //子流程图
                     data.pageId = row.flowId
                 }
                 let formData = new FormData()
@@ -350,13 +357,12 @@ export default {
         height: 100%;
         .leftContent {
             width: 80%;
-            height: 100%;
+            height: 900px;
             margin-right: 10px;
             border-right: 1px solid rgb(190, 184, 184);
             overflow: auto;
             position: relative;
             .img-process {
-                width: 100%;
                 pointer-events: none;
             }
             .drag-box {
@@ -367,8 +373,8 @@ export default {
             }
         }
         .rightContent {
-            width: 20%;
-            height: 90%;
+            // width: 20%;
+            // height: 90%;
         }
     }
 
@@ -378,7 +384,7 @@ export default {
             height: 100%;
         }
         .el-tabs__content {
-            height: 100%;
+            // height: 100%;
             overflow: auto;
         }   
         .el-tab-pane {

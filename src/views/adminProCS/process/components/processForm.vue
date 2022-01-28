@@ -85,6 +85,19 @@ export default {
 				callback(new Error("请输入大写字母"));
 			}
 		}
+		let enName_valid = (rule, value, callback) => {
+            if(!value){
+				callback(new Error("请输入英文名"));
+				return;
+			}
+			var reg = /^[a-zA-Z]+$/; //验证规则
+			if (reg.test(value)) {
+				callback();
+				return;
+			}else{
+				callback(new Error("请输入英文名"));
+			}
+        }
 		return {
 			visible: false,
 			form: {
@@ -104,7 +117,7 @@ export default {
 				],
 				firstLetter: { required:true, validator: firstLetter_valid,trigger:'blur' },
 				nameEn: [
-					{ required:true,message:"请输入英文标题",trigger:'blur' },
+					{ required:true, enName_valid: enName_valid,trigger:'blur' },
                     {max:100,message:'英文标题长度不能超过100个字符！'},
 				],
 				firstLetterEn: {required:true, validator: firstLetter_valid,trigger:'blur' },
@@ -133,6 +146,7 @@ export default {
                 this.form.exports = this.form.experts ? this.form.experts.map(e => e.id) : []
                 this.form.organizations = this.form.organizations.map(e => e.id)
                 delete this.form.experts
+				return this.form
             } finally {
                 this.loading = false
             }
@@ -196,6 +210,7 @@ export default {
 				organizations:""
 			}
 			this.$refs.form.resetFields()
+			this.$emit("close")
         }
 	}
 }

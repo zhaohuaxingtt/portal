@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-27 22:10:45
+ * @LastEditTime: 2022-01-28 14:51:43
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -121,7 +121,7 @@
               <template slot-scope="scope">
                 <span
                   class="underline openLinkText cursor"
-                  @click="filePreview(scope.row.id)"
+                  @click="filePreview(scope.row)"
                   >{{ scope.row.termsName }}</span
                 >
               </template>

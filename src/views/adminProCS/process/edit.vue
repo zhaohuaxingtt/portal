@@ -2,7 +2,7 @@
     <iPage>
         <iButton class="btn mb20" @click="$router.back()">返回主流程列表</iButton>
 		<ProcessForm ref="form" type="edit"></ProcessForm>
-        <processDetail :id="currId"></processDetail>
+        <processDetail v-if="detail.id" :id="currId" :flowChartId="detail.flowChartId"></processDetail>
     </iPage>
 </template>
 
@@ -20,17 +20,13 @@ export default {
     },
     data() {
         return {
-            currId: null
+            currId: null,
+            detail: {}
         }
     },
-    mounted() {
+    async mounted() {
         this.currId = this.$route.query.id
-        this.$refs.form.queryDetail(this.$route.query.id)
-    },
-    methods: {
-        goBack() {
-            console.log('back')
-        }
+        this.detail = await this.$refs.form.queryDetail(this.$route.query.id)
     }
 }
 </script>

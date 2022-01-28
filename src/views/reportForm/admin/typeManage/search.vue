@@ -284,8 +284,8 @@ export default {
 			if (res) {
 			currDetail = res
 			this.tableLoading = false
-			this.$refs.typeDialog.getUsersList()
-			this.$refs.typeDialog.getOrganizationsList()
+			// this.$refs.typeDialog.getUsersList()
+			// this.$refs.typeDialog.getOrganizationsList()
 			this.dialogShow = true
 			this.operateType = 'edit'
 			this.$refs.typeDialog.initModify(currDetail)
@@ -305,8 +305,8 @@ export default {
 		console.log('添加类型')
 		this.dialogShow = true
 		this.operateType = 'add'
-		this.$refs.typeDialog.getUsersList()
-		this.$refs.typeDialog.getOrganizationsList()
+		// this.$refs.typeDialog.getUsersList()
+		// this.$refs.typeDialog.getOrganizationsList()
 		}
 	}
 }

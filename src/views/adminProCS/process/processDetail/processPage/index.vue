@@ -53,6 +53,11 @@ export default {
         Attachment,
         ProcessDirectory
     },
+    props:{
+        flowChartId:{
+            default:""
+        }
+    },
     data() {
         return {
             tableSetting:PROCESS_PAGE,
@@ -151,7 +156,7 @@ export default {
             }
         },
         toProcess(){
-            this.$router.push({path:"/adminProCS/process/mainProcess", query:{flowChartId:this.$route.query.flowChartId, processId: this.id}})
+            this.$router.push({path:"/adminProCS/process/mainProcess", query:{flowChartId:this.flowChartId, processId: this.id}})
         }
     }
 }
