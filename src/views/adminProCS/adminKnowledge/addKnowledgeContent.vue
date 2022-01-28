@@ -195,6 +195,7 @@ export default {
 	created() {
 		if (this.manageType === 'content') {
 			this.getCurrTypeList()
+			this.organizationsInfo()
 		}
 	},
 	methods: {
