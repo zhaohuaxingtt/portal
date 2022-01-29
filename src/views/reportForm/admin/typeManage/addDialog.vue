@@ -114,7 +114,7 @@
                         </iSelect>
                     </iFormItem>
                 </div>
-                <div v-if="customFlag">
+                <div v-show="customFlag">
                     <iFormItem :label="language('选择人员')">
                         <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" />
                     </iFormItem>
@@ -197,6 +197,10 @@ export default {
             usersList: userList
         }
     },
+    created() {
+        this.getUsersList()
+        this.getOrganizationsList()
+    },
     methods: {
         async getUsersList() {
             let params = {
@@ -204,7 +208,8 @@ export default {
 			}
             await getKnowledgeUser(params).then(res => {
                 if (res) {
-                    this.adminList = res || []
+                    // this.adminList = [{name: '测试', id: '1'}]
+                    this.adminList = res || [{name: '测试', id: '1'}]
                 }
             })
         },
@@ -217,7 +222,7 @@ export default {
         },
         userListChange(val){
             val.map(item => {
-                this.form.users.push(item.userId * 1)
+                this.form.users.push(item.id * 1)
             })
         },
         supplierListChange(val){
@@ -292,7 +297,7 @@ export default {
             this.$emit("update:show",false)
         },
         save(){
-            if (this.customFlag && this.form.users.length === 0 && this.form.suppliers.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
+            if (this.customFlag && this.form?.users?.length === 0 && this.form?.suppliers?.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
             if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
             this.$refs.typeForm.validate(async v => {
                 if (v) {
@@ -353,36 +358,7 @@ export default {
             Object.assign(this.form, row)
             this.imageUrl = row.cover
             this.modifyId = row.id
-            if (this.form.organizations) {
-                let testOrganizationsArr = JSON.parse(JSON.stringify(this.form.organizations))
-                testOrganizationsArr.map(item => {
-                    this.form.organizations.push(item.id)
-                })
-            }
-            if (this.form.adminUsers) {
-                let testAdminUsersArr = JSON.parse(JSON.stringify(this.form.adminUsers))
-                testAdminUsersArr.map(item => {
-                    this.form.adminUsers.push(item.id)
-                })
-            }
-            // if (this.form.users) {
-            //     let testUsersArr = JSON.parse(JSON.stringify(this.form.users))
-            //     this.form.userRange = []
-            //     testUsersArr.map(item => {
-            //         this.form.userRange.push(item.id)
-            //     })
-            // }
-            // 返回的信息有供应商 说明是自定义
-            // if (this.form.suppliers) {
-            //     this.form.userRange.unshift({
-            //         nameZh: '自定义',
-            //         userId: 7250
-            //     })
-            //     this.customFlag = true
-            // } else {
-            //     this.customFlag = false
-            // }
-            if (this.form.userRange === 15) {
+            if (this.form.userRange === 15 || this.form.users.length > 0) {
                 this.customFlag = true
             } else {
                 this.customFlag = false

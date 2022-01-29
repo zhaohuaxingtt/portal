@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-28 15:38:19
+ * @LastEditTime: 2022-01-29 11:56:56
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -11,7 +11,7 @@
     <div class="pageTitle">
       <span>采购条款</span>
       <div v-if="!isOrder && !readOnly" class="btn-box">
-        <uploadButton class="margin-right10" button-text="上传其他采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc,docx'" :before-upload="beforeUpload" />
+        <uploadButton class="margin-right10" button-text="上传其它采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" />
         <iButton @click="updataApply" :disabled="signWay=='off_line'">发起审批</iButton>
       </div>
     </div>
@@ -19,7 +19,7 @@
         <div>
           <div class="query-item">
             <iLabel label="条款类型" class="label" :required="true" icons="iconxinxitishi" tip="若需上传标准采购条款\附件采购条款请联系条款管理员。" slot="label"></iLabel>
-            <iSelect v-model="termsCode" @change="getProcurementInfo">
+            <iSelect v-model="termsType" @change="getProcurementInfo">
               <el-option :value="item.code" :label="item.value" v-for="item in typeList" :key="item.code"></el-option>
             </iSelect>
           </div>
@@ -131,7 +131,7 @@ export default {
         '0':'该供应商已完成电子签章认证，建议线上签署。',
         '1':'该供应商未完成电子签章认证，建议线下签署。',
       },
-      termsCode:'Terms_CG', // 默认标准采购条款
+      termsType:'Terms_CG', // 默认标准采购条款
       typeList:[],
       signStatus:false,    // 电子签章认证状态
       signWay:'on_line',  // 默认电子签章
@@ -204,16 +204,20 @@ export default {
     },
     // 发起审批
     updataApply(){
+      if(+(this.baseInfo.termsStatus)>1){
+        return iMessage.error('已提交审批，请勿重复操作')
+      }
       if(!this.baseInfo.syncSupplier){
         iMessage.error('请先同步供应商')
         return
       }
-      if(this.termsCode!='Terms_OTHERCG' && !this.baseInfo.id || !this.baseInfo.termsId){
+      console.log(this.termsType);
+      if(this.termsType!='Terms_OTHERCG' && !this.baseInfo.id || !this.baseInfo.id){
         let params = {
           userId:this.userId,
           supplierId: this.supplierId,
-          termsId:'',
-          termsCode: this.termsCode,
+          termsId:this.baseInfo.id,
+          termsCode: this.termsType,
           signWay:this.signWay,
           remark:'',
         }
@@ -229,6 +233,12 @@ export default {
     },
     // 同步供应商
     sync(){
+      if([2,3,4,5].includes(+this.baseInfo.termsStatus)){
+        return iMessage.error('已提交审批，请勿重复操作')
+      }
+      if(this.baseInfo.syncSupplier && this.baseInfo.signWay == this.signWay){
+        return iMessage.error('请不要重复同步')
+      }
       this.$confirm('请确认此条款内容无误，并与供应商达成一致。', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -240,14 +250,14 @@ export default {
     syncSupplier(){
       let params = {
         supplierId: this.supplierId,
-        termsCode: this.termsCode,
+        termsCode: this.termsType,
         signWay: this.signWay,
         userId: this.userId
       }
       syncSupplierById(params).then(res=>{
         if(res?.code=='200'){
           // this.getProcurementInfo()
-          this.baseInfo.syncSupplier = 1
+          this.baseInfo = res.data[0]
           iMessage.success(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
       })
@@ -264,12 +274,16 @@ export default {
     getProcurementInfo(){
       let params = {
         supplierId: this.supplierId,
-        termsCode: this.termsCode,
+        termsCode: this.termsType,
+        userId: this.userId
       }
       purchaseTermsById(params).then(res=>{
         if(res?.code=='200'){
           this.baseInfo = res.data[0]
-          this.tableData = this.baseInfo.attachments || []
+          this.tableData = (this.baseInfo.attachments || []).map(i=>{
+            i.attachmentSize = Number((i.attachmentSize || 0) / 1024).toFixed(2)
+            return i
+          })
         }
         this.$refs.pdf.loading()
       })
@@ -278,7 +292,7 @@ export default {
     submit(){
       let params = {
         supplierId:this.supplierId,
-        termsCode:this.termsCode,
+        termsCode:this.termsType,
         signWay:this.signWay,
         remark: this.remark,
         termsId: this.baseInfo.id,
@@ -287,6 +301,10 @@ export default {
       approveTerms(params).then(res=>{
         if(res?.code=='200'){
           this.updataValue = false
+          this.getProcurementInfo()
+          setTimeout(()=>{
+            window.close()
+          },2000)
           iMessage.success(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }else{
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
@@ -304,7 +322,7 @@ export default {
           iMessage.success(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
           // 上传之后直接查询其它条款
           this.termsTypeById()
-          this.termsCode = 'Terms_OTHERCG'
+          this.termsType = 'Terms_OTHERCG'
           this.getProcurementInfo()
         }else{
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
@@ -320,7 +338,10 @@ export default {
       }
       attachList(params).then(res=>{
         if(res?.code=='200'){
-          tableListData = res.data
+          tableListData = res.data.map(i=>{
+            i.fileSize = Number((i.fileSize || 0) / 1024 / 1024).toFixed(2)
+            return i
+          })
         }else{
           iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }

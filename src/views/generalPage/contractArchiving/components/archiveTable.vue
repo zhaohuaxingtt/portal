@@ -138,7 +138,7 @@ export default {
           width: 120,
           customRender: (h, scope) => {
             if (scope.row['updateDate'] != null) {
-              let date = window.moment(new Date(scope.row.updateDate)).format('yyyy-MM-DD HH:mm:SS')
+              let date = window.moment(new Date(scope.row.updateDate)).format('YYYY-MM-DD')
               return <span>{date}</span>
             }
             else{

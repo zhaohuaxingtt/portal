@@ -35,7 +35,7 @@
            </div>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
-            <iButton @click="close">{{ language('取消') }}</iButton>
+            <iButton @click="close">{{ language('关闭') }}</iButton>
         </div>
     </iDialog>
 </template>

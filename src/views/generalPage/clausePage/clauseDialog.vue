@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-28 14:51:43
+ * @LastEditTime: 2022-01-29 13:46:26
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -81,7 +81,9 @@
           :selectionArr="selectionArr"
           :uploadCheck="uploadCheck"
           :disabled="disabled"
+          :accept="'.pdf'"
           :upload="offLineUploadAttach"
+           :before-upload="beforeUpload"
         />
         <el-tooltip
           class="item"
@@ -127,7 +129,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-else-if="item.prop == 'fileUrl'"
+              v-else-if="item.prop == 'fileName'"
               :minWidth="item.minWidth || item.width"
               :label="item.name"
               :prop="item.prop"
@@ -137,7 +139,7 @@
                 <span
                   class="underline openLinkText cursor"
                   @click="attachPreview(scope.row)"
-                  >{{ scope.row.fileUrl ? scope.row.termsName : '' }}</span
+                  >{{ scope.row.fileName }}</span
                 >
               </template>
             </el-table-column>
@@ -416,6 +418,21 @@ export default {
         this.disabled = false
       })
     },
+    // 归档条款上传前文件类型检测
+    beforeUpload(file){
+      if(file.name){
+        let arr = file.name.split('.')
+        let type = arr[arr.length-1].toUpperCase()
+        console.log(type);
+        if(type=='PDF'){
+          return
+        }else{
+          iMessage.error('请归档PDF文件格式')
+          return false
+        }
+      }
+      return false
+    },
 
     // 归档线下签署条款
     offLineUploadAttach(content) {
@@ -427,6 +444,8 @@ export default {
       offLineUploadAttach(formData).then(res=>{
         if(res?.code=='200'){
           this.getTableList()
+        }else{
+          iMessage.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
       })
     },
@@ -491,7 +510,10 @@ export default {
         this.loading = false
         if (res?.code == '200') {
           this.tableDataAll = res.data
-          this.tableData = this.tableDataAll
+          this.tableData = this.tableDataAll.map(item=>{
+            item.signTime = window.moment(new Date(item.signTime)).format('YYYY-MM-DD')
+            return item
+          })
           this.getSelectData()
           this.search()
         } else {
@@ -511,7 +533,7 @@ export default {
     attachPreview(row) {
       let query = {
         src: row.fileUrl,
-        title: row.termsName
+        title: row.fileName
       }
       const router = this.$router.resolve({ path: '/clausepage/attach', query })
       window.open(router.href, '_blank')

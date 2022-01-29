@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import { iPage,iNavMvp } from 'rise'
+import { iPage } from 'rise'
 export default {
   name: 'ProCSS',
-  components: { iPage,iNavMvp },
+  components: { iPage },
   data() {
     return {
-      	menus: [
+		menus: [
 			{
 			value: 1,
 			name: '词条管理',

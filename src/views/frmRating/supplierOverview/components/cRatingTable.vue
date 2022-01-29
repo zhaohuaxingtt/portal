@@ -132,11 +132,10 @@
             <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                      v-model.trim="form.rfqStatus"
                      multiple>
-              <el-option v-for="item in supplierStatus"
-                         :key="item.code"
-                         :label="item.name"
-                         :value="item.code">
-              </el-option>
+              <el-option value="1"
+                         label="正常"></el-option>
+              <el-option value="0"
+                         label="受控"></el-option>
             </iSelect>
           </el-form-item>
           <el-form-item v-if="tabVal == 2"
@@ -343,7 +342,7 @@ export default {
       type: String
     }
   },
-  data() {
+  data () {
     return {
       tabVal: '1',
       visibleDetal: false,
@@ -381,7 +380,7 @@ export default {
     }
   },
   watch: {},
-  created() {
+  created () {
     this.tabVal = '1'
     if (this.sapCode && this.supplierId) {
       this.form.sapCode[0] = this.sapCode || ''
@@ -390,13 +389,13 @@ export default {
     this.getInit()
   },
   methods: {
-    handleDialog() {
+    handleDialog () {
       this.visible = true
       this.getInit()
     },
 
     // //选择相关科室
-    deptChange(v) {
+    deptChange (v) {
       if (v.length > 0) {
         let req = {
           type: 'user',
@@ -418,7 +417,7 @@ export default {
         })
       }
     },
-    getTaleList() {
+    getTaleList () {
       this.tableLoading = true
       if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
         this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
@@ -447,7 +446,7 @@ export default {
         })
       }
     },
-    async getInit() {
+    async getInit () {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
 
@@ -469,10 +468,10 @@ export default {
       this.supplierList = res3.data
       //   this.supplierStatus = res4
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectData = val
     },
-    handleSaveBtn() {
+    handleSaveBtn () {
       if (this.selectData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -480,7 +479,7 @@ export default {
       this.visibleDetal = true
     },
     //移除
-    handleSave() {
+    handleSave () {
       if (this.takeStepsContent == '') {
         iMessage.warn(this.language('QINGSHURUYICHUYUANYINS', '请输入移出原因'))
         return false
@@ -500,13 +499,13 @@ export default {
       })
     },
 
-    sure() {
+    sure () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTaleList()
     },
 
-    clickReset() {
+    clickReset () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.userList = []
@@ -527,7 +526,7 @@ export default {
       }
       this.getTaleList()
     },
-    changeTab() {
+    changeTab () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.userList = []
@@ -546,10 +545,10 @@ export default {
       }
       this.getTaleList()
     },
-    closeDiolog() {
+    closeDiolog () {
       this.$emit('closeDiolog')
     },
-    closeDiologDetail() {
+    closeDiologDetail () {
       this.takeStepsContent = ''
       this.visibleDetal = false
     }

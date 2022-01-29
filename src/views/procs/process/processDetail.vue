@@ -33,7 +33,7 @@
         <div class="mt20 flex">
             <div class="flex-1 mr20" v-loading="pageLoading">
                 <div class="card-l mb20">
-                    <div class="content" v-html="pageDetail.richContent"></div>
+                    <div class="content w-e-text" v-html="pageDetail.richContent"></div>
                     <div class="card-bottom flex justify-between items-center">
                         <span><i class="el-icon-view"></i> {{pageDetail.pageView}}</span>
                         <!-- <span>分页</span> -->

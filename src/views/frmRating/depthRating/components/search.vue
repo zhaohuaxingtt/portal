@@ -17,10 +17,14 @@
         <el-form-item :label="$t('SPR_FRM_DEP_STATE')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.status">
-            <el-option :value="item.name"
-                       :label="item.name"
+            <!-- <el-option :value="item.name"
+                       :label="item.name" 
                        v-for="item in fromGroup.DEEP_COMMENT_STATUS"
-                       :key="item.code"></el-option>
+                       :key="item.code"></el-option> -->
+            <el-option value="1"
+                       label="正常"></el-option>
+            <el-option value="0"
+                       label="受控"></el-option>
           </iSelect>
         </el-form-item>
         <!--集团打包-->

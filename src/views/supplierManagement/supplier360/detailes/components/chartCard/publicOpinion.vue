@@ -7,34 +7,35 @@
       </span>
     </div>
     <div class="center">
-       <img :src="img"
-           class="imgIcon" />
-      <div class="float">
-        <div v-for="v in data"
-             :key="v.address">
-          <div class="leftBox">
+      <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span>
+<!--       <img :src="img"-->
+<!--           class="imgIcon" />-->
+<!--      <div class="float">-->
+<!--        <div v-for="v in data"-->
+<!--             :key="v.address">-->
+<!--          <div class="leftBox">-->
 
-            <div class="tag colorBule">
-              {{language('MINGAN', '敏感')}}
-            </div >
-            <!-- <div class="tag colorBule">
-             {{language('FEIMINGAN', '非敏感')}}
-          </div> -->
-            <el-popover  width="200"
-                        trigger="hover"
-                        :content="v.address"
-                        placement="top-end">
-              <div slot="reference"
-                   class="address">{{v.address}}</div>
-            </el-popover>
-          </div>
+<!--            <div class="tag colorBule">-->
+<!--              {{language('MINGAN', '敏感')}}-->
+<!--            </div >-->
+<!--            &lt;!&ndash; <div class="tag colorBule">-->
+<!--             {{language('FEIMINGAN', '非敏感')}}-->
+<!--          </div> &ndash;&gt;-->
+<!--            <el-popover  width="200"-->
+<!--                        trigger="hover"-->
+<!--                        :content="v.address"-->
+<!--                        placement="top-end">-->
+<!--              <div slot="reference"-->
+<!--                   class="address">{{v.address}}</div>-->
+<!--            </el-popover>-->
+<!--          </div>-->
 
-          <span class="time">
-            2021-1-1
-          </span>
-        </div>
+<!--          <span class="time">-->
+<!--            2021-1-1-->
+<!--          </span>-->
+<!--        </div>-->
 
-      </div>
+<!--      </div>-->
       <!-- <div class="nomore">
         {{language('GAIGONGYINGSHANGZANWUYUQINGXINWEN', '该供应商暂无舆情新闻')}}
       </div> -->

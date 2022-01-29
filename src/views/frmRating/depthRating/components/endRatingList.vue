@@ -1,6 +1,6 @@
 <template>
   <!--提交清单审批-->
-    <iDialog :title="disabled?language('ZHONGZHIQINGDANSHENPI','终止清单审批'):language('TIJIAOQINGDANSHENPI','提交清单审批')"
+  <iDialog :title="disabled?language('ZHONGZHIQINGDANSHENPI','终止清单审批'):language('TIJIAOQINGDANSHENPI','提交清单审批')"
            :visible.sync="value"
            width="90%"
            @close="clearDiolog">
@@ -66,7 +66,8 @@
         <el-table-column :prop="isDeepComment"
                          :label="$t('SPR_FRM_DEP_ISDEPTH')">
           <template slot-scope="scope">
-            <iSelect :disabled="true" v-if="scope.row.children!==undefined"
+            <iSelect :disabled="true"
+                     v-if="scope.row.children!==undefined"
                      v-model="scope.row.isDeepComment">
               <el-option :value="item.code"
                          :label="item.name"
@@ -225,9 +226,8 @@ export default {
           }
         }
       })
-      console.log()
       if (flag) {
-        this.$message.error(this.$t('SPR_FRM_DEP_CHECK'))
+        this.$message.error(this.language('QINGTIANXIEBUPINGJIYUANYIN', '请填写不评级原因'))
         return
       }
       // 判断是提交还是终止
