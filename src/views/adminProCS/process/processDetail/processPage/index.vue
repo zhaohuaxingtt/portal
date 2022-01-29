@@ -151,12 +151,13 @@ export default {
                             type: 'success',
                             message: '删除成功!'
                         });
+                        this.queryList()
                     })
                     break;
             }
         },
         toProcess(){
-            this.$router.push({path:"/adminProCS/process/mainProcess", query:{flowChartId:this.flowChartId, processId: this.id}})
+            this.$router.push({path:"/adminProCS/process/mainProcessFlow", query:{flowChartId:this.flowChartId, processId: this.id}})
         }
     }
 }

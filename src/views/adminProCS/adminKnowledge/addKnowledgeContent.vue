@@ -70,6 +70,7 @@
 					filterable
 					placeholder="请选择所属科室"
 					clearable
+					multiple
 				>
 					<el-option
 						v-for="item in organizationsList"

@@ -137,7 +137,7 @@ export default {
 		async sendChang(row) {
 			this.tableLoading = true
 			let formData = new FormData()
-			formData.append('sendMessage', !row.sendMessage)
+			formData.append('isSen', !row.sendMessage)
 			await sendKnowledgeMessage(row.id, formData).then(res => {
 				if (res?.success) {
 					this.$message({type: 'success', message: '已更改当前消息发送状态'})
@@ -185,13 +185,13 @@ export default {
 		},
 		modifyHandler() {
 			if (this.selectedItems.length === 0) return this.$message('请选择...')
+			if (this.selectedItems[0]?.published) return this.$message({type: 'warning', message: '上架的类型不能修改'})
 			if (this.manageType === 'content') {
 				console.log('内容')
 				this.showContentDialog = true
 				this.operateType = 'edit'
 				this.$refs.addKnowledgeContent.initModify(this.selectedItems[0])
 			} else {
-				if (this.selectedItems[0]?.published) return this.$message({type: 'warning', message: '上架的类型不能修改'})
 				this.showTypeDialog = true
 				this.operateType = 'edit'
 				console.log('1111')
@@ -199,9 +199,8 @@ export default {
 			}
 		},
 		delHandler() {
-			if (this.manageType !== 'content') {
-				if (this.selectedItems[0]?.published) return this.$message({type: 'warning', message: '上架的类型不能修改'})
-			}
+			if (this.selectedItems.length === 0) return this.$message('请选择...')
+			if (this.selectedItems[0]?.published) return this.$message({type: 'warning', message: '上架的类型不能删除'})
 			this.$confirm('是否删除已选中选项','提示',{
         confirmButtonText:'确认',
         cancelButtonText:"取消",

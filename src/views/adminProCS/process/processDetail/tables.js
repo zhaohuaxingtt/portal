@@ -56,6 +56,27 @@ const DOC = [
         }
     },
 ]
+const GUIDE = [
+    {
+        type:'index',
+        label:'序号',
+        width: 100
+    },
+    {
+        prop:'name',
+        label:'文档名称'
+    },
+    {
+        prop:'publishDate',
+        label:'发布日期'
+    },
+    {
+        label:'操作',
+        customRender:(h,{row},col,{del}) => {
+            return <iButton type="text" on-click={() => del(row)}>删除</iButton>
+        }
+    },
+]
 
 const QUESTION = [
     {
@@ -132,5 +153,6 @@ export {
     PROCESS_PAGE,
     DOC,
     QUESTION,
-    AttachColumn
+    AttachColumn,
+    GUIDE
 }
