@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-28 14:51:43
+ * @LastEditTime: 2022-01-29 09:48:49
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -127,7 +127,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-else-if="item.prop == 'fileUrl'"
+              v-else-if="item.prop == 'filename'"
               :minWidth="item.minWidth || item.width"
               :label="item.name"
               :prop="item.prop"
@@ -137,7 +137,7 @@
                 <span
                   class="underline openLinkText cursor"
                   @click="attachPreview(scope.row)"
-                  >{{ scope.row.fileUrl ? scope.row.termsName : '' }}</span
+                  >{{ scope.row.filename }}</span
                 >
               </template>
             </el-table-column>

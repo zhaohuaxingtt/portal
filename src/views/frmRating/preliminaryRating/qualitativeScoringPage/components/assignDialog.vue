@@ -10,8 +10,8 @@
     <div class="content" v-loading="loading">
       <!-- 请选择科/股-->
       <div class="row1">{{ $t('SPR_FRM_CBPJ_QXZKG') }}</div>
-      <iSelect
-          v-model="form.shareValue"
+      <iSelect multiple
+               v-model="form.shareValue"
           style="width: 320px"
           class="margin-top10"
           :placeholder="$t('LK_QINGXUANZE')"
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       form: {
-        shareValue: '',
+        shareValue: [],
       },
       selectList: [],
     };
@@ -74,15 +74,23 @@ export default {
     },
     handleSubmit() {
       const shareValue = this.form.shareValue;
-      if (!shareValue) {
+      console.log(shareValue);
+      if (null != shareValue && shareValue.length ==0) {
         return iMessage.warn(this.$t('LK_QINGXUANZE'));
       }
-      const req = {
-        qualitativeScoreSectionName: shareValue.existShareName,
-        qualitativeScoreSectionId: shareValue.existShareId,
-        sectionChiefId: shareValue.existShareLeaderId,
-      };
-      this.$emit('handleSubmit', req);
+
+      let reqList = [];
+      shareValue.forEach((val) => {
+        let reqobj = {
+          qualitativeScoreSectionName: val.existShareName,
+          qualitativeScoreSectionId: val.existShareId,
+          sectionChiefId: val.existShareLeaderId,
+          initialIds: Array.of(this.initialId)
+        };
+        reqList.push(reqobj)
+      })
+
+      this.$emit('handleSubmit', reqList);
     },
     async getAssignSelectList() {
       const req = {
@@ -95,6 +103,7 @@ export default {
   watch: {
     value(val) {
       if (val) {
+        this.form.shareValue = [];
         this.getAssignSelectList();
       }
     },
