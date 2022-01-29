@@ -1,6 +1,10 @@
 <template>
   <div class="detailsList">
-    <el-table :data="differenceAnalysis" style="width: 100%">
+    <el-table
+      :data="differenceAnalysis"
+      v-loading="loading"
+      style="width: 100%"
+    >
       <el-table-column
         prop="num"
         :label="language('LK_YUEFEN', '月份/序号')"
@@ -25,7 +29,10 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.compareDataList[0].marketPrice }}
+            {{
+              scope.row.compareDataList &&
+              scope.row.compareDataList[0].marketPrice
+            }}
           </template>
         </el-table-column>
         <el-table-column
@@ -33,12 +40,16 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.compareDataList[0].dosage }}
+            {{
+              scope.row.compareDataList && scope.row.compareDataList[0].dosage
+            }}
           </template>
         </el-table-column>
         <el-table-column :label="language('LK_ZONGJI', '总计')" align="center">
           <template slot-scope="scope">
-            {{ scope.row.compareDataList[0].total }}
+            {{
+              scope.row.compareDataList && scope.row.compareDataList[0].total
+            }}
           </template>
         </el-table-column>
       </el-table-column>
@@ -48,7 +59,10 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.compareDataList[0].marketPrice }}
+            {{
+              scope.row.compareDataList &&
+              scope.row.compareDataList[1].marketPrice
+            }}
           </template>
         </el-table-column>
         <el-table-column
@@ -56,12 +70,16 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.compareDataList[0].dosage }}
+            {{
+              scope.row.compareDataList && scope.row.compareDataList[1].dosage
+            }}
           </template>
         </el-table-column>
         <el-table-column :label="language('LK_ZONGJI', '总计')" align="center">
           <template slot-scope="scope">
-            {{ scope.row.compareDataList[0].total }}
+            {{
+              scope.row.compareDataList && scope.row.compareDataList[1].total
+            }}
           </template>
         </el-table-column>
       </el-table-column>
@@ -70,11 +88,23 @@
           :label="language('LK_SHICHANGJIACHAYI', '市场价差异')"
           align="center"
         >
-          <template slot-scope="scope" >
-            <span class="greaterThanZero" v-if="scope.row.marketPriceDifference>0">{{ `${scope.row.marketPriceDifference}%` }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.marketPriceDifference<0">{{ `${scope.row.marketPriceDifference}%` }}</span>
-            <span  v-else-if="scope.row.marketPriceDifference==0">{{ `${scope.row.marketPriceDifference}%` }}</span>
-            <span  v-else-if="scope.row.marketPriceDifference=='null'">{{}}</span>
+          <template slot-scope="scope">
+            <span
+              class="greaterThanZero"
+              v-if="scope.row.marketPriceDifference > 0"
+              >{{ `${scope.row.marketPriceDifference}%` }}</span
+            >
+            <span
+              class="lessThanZero"
+              v-else-if="scope.row.marketPriceDifference < 0"
+              >{{ `${scope.row.marketPriceDifference}%` }}</span
+            >
+            <span v-else-if="scope.row.marketPriceDifference == 0">{{
+              `${scope.row.marketPriceDifference}%`
+            }}</span>
+            <span v-else-if="scope.row.marketPriceDifference == 'null'"
+              >{{}}</span
+            >
           </template>
         </el-table-column>
         <el-table-column
@@ -82,10 +112,20 @@
           align="center"
         >
           <template slot-scope="scope">
-            <span class="greaterThanZero" v-if="scope.row.dosageDifference>0">{{ `${scope.row.dosageDifference}%` }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.dosageDifference<0">{{ `${scope.row.dosageDifference}%` }}</span>
-            <span  v-else-if="scope.row.dosageDifference==0">{{ `${scope.row.dosageDifference}%` }}</span>
-            <span  v-else-if="scope.row.dosageDifference=='null'">{{ }}</span>
+            <span
+              class="greaterThanZero"
+              v-if="scope.row.dosageDifference > 0"
+              >{{ `${scope.row.dosageDifference}%` }}</span
+            >
+            <span
+              class="lessThanZero"
+              v-else-if="scope.row.dosageDifference < 0"
+              >{{ `${scope.row.dosageDifference}%` }}</span
+            >
+            <span v-else-if="scope.row.dosageDifference == 0">{{
+              `${scope.row.dosageDifference}%`
+            }}</span>
+            <span v-else-if="scope.row.dosageDifference == 'null'">{{}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -93,10 +133,20 @@
           align="center"
         >
           <template slot-scope="scope">
-            <span class="greaterThanZero" v-if="scope.row.totalDifference>0">{{ `${scope.row.totalDifference}` }}</span>
-            <span class="lessThanZero" v-else-if="scope.row.totalDifference<0">{{ `${scope.row.totalDifference}` }}</span>
-            <span  v-else-if="scope.row.totalDifference==0">{{ `${scope.row.totalDifference}` }}</span>
-            <span  v-else-if="scope.row.totalDifference=='null'">{{ }}</span>
+            <span
+              class="greaterThanZero"
+              v-if="scope.row.totalDifference > 0"
+              >{{ `${scope.row.totalDifference}` }}</span
+            >
+            <span
+              class="lessThanZero"
+              v-else-if="scope.row.totalDifference < 0"
+              >{{ `${scope.row.totalDifference}` }}</span
+            >
+            <span v-else-if="scope.row.totalDifference == 0">{{
+              `${scope.row.totalDifference}`
+            }}</span>
+            <span v-else-if="scope.row.totalDifference == 'null'">{{}}</span>
           </template>
         </el-table-column>
       </el-table-column>
@@ -110,7 +160,8 @@ export default {
     differenceAnalysis: { type: Array },
     dataTitle: { type: String },
     dataTitleTwo: { type: String },
-    num: { type: Number }
+    num: { type: Number },
+    loading: { type: Boolean, default: false }
   },
   data() {
     return {}
