@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-28 19:13:52
+ * @LastEditTime: 2022-01-29 11:56:56
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -11,7 +11,7 @@
     <div class="pageTitle">
       <span>采购条款</span>
       <div v-if="!isOrder && !readOnly" class="btn-box">
-        <uploadButton class="margin-right10" button-text="上传其他采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" :before-upload="beforeUpload" />
+        <uploadButton class="margin-right10" button-text="上传其它采购条款" :supplierId="supplierId" :userId="userId" :upload="termsUpload" :accept="'.doc, .docx'" />
         <iButton @click="updataApply" :disabled="signWay=='off_line'">发起审批</iButton>
       </div>
     </div>
@@ -275,6 +275,7 @@ export default {
       let params = {
         supplierId: this.supplierId,
         termsCode: this.termsType,
+        userId: this.userId
       }
       purchaseTermsById(params).then(res=>{
         if(res?.code=='200'){
