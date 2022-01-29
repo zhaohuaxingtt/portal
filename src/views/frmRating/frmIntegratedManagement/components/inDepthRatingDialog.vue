@@ -74,6 +74,12 @@ export default {
       if (!this.form.deepCommentReasons) {
         return iMessage.error(this.language('QINGXUANZESHENPINGYUANYIN', '请选择深评原因'))
       }
+      debugger
+      if(this.form.deepCommentReasons =='其他原因' && ( this.form.deepCommentOtherReasons == '' ||  this.form.deepCommentOtherReasons ==  null ||  this.form.deepCommentOtherReasons ==  undefined)){
+        return iMessage.error(this.language('QITAYUANYINGBUNENGWEIKONG', '其他原因不能为空'))
+      }
+
+
       this.$emit('handleSubmit', this.form);
     },
   },
