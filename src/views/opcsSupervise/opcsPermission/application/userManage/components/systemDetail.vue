@@ -184,7 +184,7 @@ export default {
       let parmars = {
         appsList: this.selectAddArr,
         opcsSupplierId: this.$route.query.opcsSupplierId,
-        opcsUserId: this.$route.query.opcsUserId
+        opcsUserId: this.rowList.id
       }
       operationAdd(parmars).then((res) => {
         if (res && res.code == 200) {
@@ -202,7 +202,7 @@ export default {
         appIds: this.selectDelArr.map((v) => {
           return v.id
         }),
-        opcsUserId: this.$route.query.opcsUserId
+        opcsUserId: this.rowList.id
       }
       operationRemove(req).then((res) => {
         if (res && res.code == 200) {
