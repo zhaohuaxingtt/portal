@@ -1,6 +1,11 @@
 <!--差异原因分析--->
 <template>
-  <div class="OuterFrame" v-permission='MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES_PAGE'>
+  <div
+    class="OuterFrame"
+    v-permission="
+      'MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES_PAGE'
+    "
+  >
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
@@ -65,9 +70,7 @@
             />
           </iSelect>
         </el-form-item>
-        <div
-          class="showMe"
-        >
+        <div class="showMe">
           <span>{{ language('只看自己 ') }}</span>
           <el-switch
             v-model="form['onlySeeMySelf']"
@@ -112,12 +115,13 @@
         :differenceAnalysis="differenceAnalysis"
         :dataTitle="dataTitle"
         :dataTitleTwo="dataTitleTwo"
+        :loading="loading"
       />
       <iPagination
         @current-change="handleCurrentChange($event, getdifferenceAnalysis)"
         @size-change="handleSizeChange($event, getdifferenceAnalysis)"
         background
-       :current-page="page.currPage"
+        :current-page="page.currPage"
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
         :layout="page.layout"
@@ -171,15 +175,20 @@ export default {
             moment(endTime).format('yyyy-MM-[01] 00:00:00')
           )
           const endDate = new Date(moment(endTime).format('yyyy-MM'))
+
           if (
-            this.form['versionMonthOne'] == this.form['versionMonthTwo'] &&
+            this.form['versionMonthOne'] === this.form['versionMonthTwo'] &&
             this.form['yearMonthTwo']
           ) {
+            // 版本号相同不能跨年
+            if (this.form['yearMonthTwo'].substring(4, 6) === '01') {
+              return true
+            }
             return time > endDate || time < startDate
           }
-          if (this.form['versionMonthOne'] == this.form['versionMonthTwo']) {
+          /* if (this.form['versionMonthOne'] == this.form['versionMonthTwo']) {
             return time.getMonth() == 11
-          }
+          } */
         }
       },
       endpickerOptions: {
@@ -190,14 +199,20 @@ export default {
             moment(endTime).format('yyyy-MM-[01] 00:00:00')
           )
           const endDate = new Date(moment(endTime).format('yyyy-MM'))
+
           if (
             this.form['versionMonthOne'] == this.form['versionMonthTwo'] &&
             this.form['yearMonthOne']
           ) {
+            // 版本号相同不能跨年
+            if (this.form['yearMonthOne'].substring(4, 6) === '12') {
+              return true
+            }
             return time > endDate || time < startDate
           }
         }
-      }
+      },
+      loading: false
     }
   },
   created() {
@@ -237,11 +252,46 @@ export default {
     getVersionDataList() {
       getVersionData(this.versionMonth)
         .then((res) => {
-          this.getVersionMonth = res.data
-          this.form['versionMonthOne'] = this.getVersionMonth[0].value
-          this.form['versionMonthTwo'] = this.getVersionMonth[0].value
-          this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
-          this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
+          this.getVersionMonth = res.data || []
+          if (this.getVersionMonth.length) {
+            this.form['versionMonthOne'] = this.getVersionMonth[0].value
+            this.form['versionMonthTwo'] = this.getVersionMonth[0].value
+
+            // CRW-2673 MTZ报表-月度跟踪-差异原因分析：默认应该展示当前最新版本的，上月以及上上月的市场价、用量对比数据
+            // 1、月份比较默认月份先从接口里找有没有对应上上月、上月数据；如果有则取，如果没有就为空。
+            // 2、关于跨年，月份比较不跨年。当遇到跨年情况，比如结束月份为1月则开始月份留空。开始月份为12月则结束月份留空。
+            // 获取上月，上上月月份
+            const date = new Date('2020-02-01 00:00:00')
+            let lastMonth = '' // 上月
+            let lastLastMonth = '' // 上上月
+            const curMonth = moment(date).format('MM')
+            switch (curMonth) {
+              case '01':
+                lastLastMonth = ''
+                lastMonth = ''
+                break
+              case '02':
+                lastLastMonth = ''
+                lastMonth = moment(date).subtract(1, 'month').format('yyyyMM')
+                break
+              default:
+                lastLastMonth = moment(date)
+                  .subtract(2, 'month')
+                  .format('yyyyMM')
+                lastMonth = moment(date).subtract(1, 'month').format('yyyyMM')
+                break
+            }
+
+            const findMonth = this.getVersionMonth.find(
+              (e) =>
+                e.lastMonth === lastMonth && e.lastLastMonth === lastLastMonth
+            )
+            if (findMonth) {
+              this.form['yearMonthOne'] = lastMonth
+              this.form['yearMonthTwo'] = lastLastMonth
+            }
+          }
+
           this.getdifferenceAnalysis()
         })
         .catch((err) => {
@@ -251,6 +301,7 @@ export default {
 
     //获取列表数据
     getdifferenceAnalysis() {
+      this.loading = true
       this.form.pageNo = this.page.currPage
       this.form.pageSize = this.page.pageSize
       this.form.versionOneName = this.form['versionMonthTwo']
@@ -267,19 +318,24 @@ export default {
             this.dataTitle = form['versionMonthOne']
             this.dataTitleTwo = form['versionMonthTwo']
           } else {
-            let dataTransform = moment(this.form['yearMonthOne']).format(
-              'yyyy-MM'
-            )
-            let dataTransformTwo = moment(this.form['yearMonthTwo']).format(
-              'yyyy-MM'
-            )
-            this.dataTitle = `${form['versionMonthOne']}-${dataTransform}`
-            this.dataTitleTwo = `${form['versionMonthTwo']}-${dataTransformTwo}`
+            let dataTransform = this.form['yearMonthOne']
+              ? moment(this.form['yearMonthOne']).format('yyyy-MM')
+              : ''
+            let dataTransformTwo = this.form['yearMonthTwo']
+              ? moment(this.form['yearMonthTwo']).format('yyyy-MM')
+              : ''
+            this.dataTitle = `${this.form['versionMonthOne']}${
+              dataTransform && '-'
+            }${dataTransform}`
+            this.dataTitleTwo = `${this.form['versionMonthTwo']}${
+              dataTransformTwo && '-'
+            }${dataTransformTwo}`
           }
         })
         .catch((err) => {
           console.log(err)
         })
+        .finally(() => (this.loading = false))
     },
 
     //重置查询条件
