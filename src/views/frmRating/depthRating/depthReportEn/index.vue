@@ -30,7 +30,7 @@
 
     <!-- 表格 -->
      <!-- v-show="false" -->
-    <el-row :gutter="50" v-show="false">
+    <el-row :gutter="50" v-show="echartsType">
       <el-col :span="14">
         <!-- 主营业务及客户情况 -->
         <iCard title="主营业务及客户情况"
@@ -54,7 +54,7 @@
     </el-row>
     <img
       class="car_img"
-      v-show="false"
+      v-show="echartsType"
       :src="imgUrl==1?require('@/assets/images/红@3x.png'):imgUrl==2?require('@/assets/images/黄@3x.png'):imgUrl==3?require('@/assets/images/绿灯.png'):''"
       :fit="fit"
     />
@@ -105,7 +105,8 @@ export default {
       info:{
         supplier: {}
       },
-      imgUrl:''
+      imgUrl:'',
+      echartsType:true
     };
   },
   computed: {
@@ -149,6 +150,7 @@ export default {
       getCompanyOverview(this.$route.query.id).then((result) => {
         if (result && result.data !== null) {
           this.info = result.data
+          this.echartsType = false;
         }
       }).catch((err) => {
 
@@ -182,7 +184,7 @@ export default {
         twoImage:echartsBase64[1].split(",")[1],
         threeImage:echartsBase64[2].split(",")[1],
         results:imgBase64[0].split(",")[1],
-        language:"en"
+        lang:"en"
       }).then(res=>{
         let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
         let objectUrl = URL.createObjectURL(blob);
