@@ -5,7 +5,9 @@
             <div class="title">{{detail.name}} 
                 <el-popover
                     placement="right"
-                    trigger="click">
+                    trigger="click"
+                    v-show="detail.workFlowFile.length > 0"
+                >
                     <div class="cursor" v-for="file in detail.workFlowFile" :key="file.id" style="margin:10px 0;" @click="downAttach(file.attachMents[0] ? file.attachMents[0].url : '')">{{file.name}}  {{file.publishDate}}</div>
                     <span slot="reference"><i class="cursor el-icon-download"></i></span>
                 </el-popover>    
@@ -160,6 +162,7 @@
                 try {
                    this.detail = await getWorkFlow(this.id)
                     let id = ""
+                    this.detail.pageIds = this.detail.pageIds ? JSON.parse(this.detail.pageIds) : []
                     if(this.detail.pageIds.length > 0){
                         if(this.pageId){
                             let index = this.detail.pageIds.findIndex(e => e == this.pageId)
@@ -236,7 +239,8 @@
             },
             downAttach(url){
                 if(!url) return
-                window.open(url)
+                let downLoadUrl = url.split('uploader/')[1]
+                window.open(downLoadUrl)
             }
         },
     }

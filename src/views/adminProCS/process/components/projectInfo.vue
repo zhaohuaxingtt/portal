@@ -2,7 +2,7 @@
     <div>
         <div class="info">
             <div class="left">
-                <div v-for="(item, index) in listData" :key="index">
+                <div v-for="(item, index) in list" :key="index">
                     <div class="item-box ellipsis" @click="handleInfo(item, index)" :class="idx === index ? 'active' : '' " :title="item.name">{{ item.name }}</div>
                 </div>
             </div>
@@ -34,16 +34,16 @@
                     </iFormItem>
                     <div class="style-info">{{ language('样式信息') }}</div>
                     <iFormItem :label="language('X轴')" prop='xco'>
-                        <iInput v-model="form.xco" placeholder="请输入" clearable @change="handleStyleChange($event, 'x')"></iInput>
+                        <iInput v-model="form.xco" placeholder="请输入" type="number" clearable @change="handleStyleChange($event, 'x')"></iInput>
                     </iFormItem>
                     <iFormItem :label="language('Y轴')" prop='yco'>
-                        <iInput v-model="form.yco" placeholder="请输入" clearable @change="handleStyleChange($event,'y')"></iInput>
+                        <iInput v-model="form.yco" placeholder="请输入" type="number" clearable @change="handleStyleChange($event,'y')"></iInput>
                     </iFormItem>
                     <iFormItem :label="language('width')" prop='width'>
-                        <iInput v-model="form.width" placeholder="请输入" clearable @change="handleStyleChange($event,'width')"></iInput>
+                        <iInput v-model="form.width" placeholder="请输入" type="number" clearable @change="handleStyleChange($event,'width')"></iInput>
                     </iFormItem>
                     <iFormItem :label="language('height')" prop='height'>
-                        <iInput v-model="form.height" placeholder="请输入" clearable @change="handleStyleChange($event,'height')"></iInput>
+                        <iInput v-model="form.height" placeholder="请输入" type="number" clearable @change="handleStyleChange($event,'height')"></iInput>
                     </iFormItem>
                 </el-form>
             </div>
@@ -73,6 +73,11 @@ export default {
         processList: {
             type: Array,
             default: () => []
+        }
+    },
+    computed:{
+        list(){
+            return this.listData
         }
     },
     data() {
@@ -119,6 +124,14 @@ export default {
         },
         save() {
             let testForm = JSON.parse(JSON.stringify(this.form))
+            this.form = {
+                name: '',
+                flowId: '',
+                xco: '',
+                yco: '',
+                height: '',
+                width: ''
+            },
             this.$emit('addData', testForm)
         },
         del() {

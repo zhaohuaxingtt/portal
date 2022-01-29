@@ -149,12 +149,16 @@ export default {
             this.baseInfoName = res.name
             this.currId = res?.id || ''
             let hotAreas = res.hotAreas || []
+            hotAreas.map(item => {
+                item.flowId = item.flowId + ''
+            })
             hotAreas.unshift({
                 name: 'add',
                 height: '',
                 width: ''
             })
             this.projectInfoData = hotAreas
+            this.$forceUpdate()
         },
         handleClick(event) {
             console.log(event, 'event')
@@ -327,8 +331,9 @@ export default {
                     this.loading = true
                     await addFlowchartNode(this.currId, formData).then(res =>{
                         if (res) {
-                        this.$message({type: 'success', message: '新增项目信息成功'})
-                        this.getMainChartInfo()
+                            this.$message({type: 'success', message: '新增项目信息成功'})
+                            // this.$refs.project.handleInfo({name:'add'},0)
+                            // this.getMainChartInfo()
                         }
                     })
                 } finally {
