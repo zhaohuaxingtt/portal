@@ -1135,7 +1135,7 @@ export default {
       })
       const fileIds = attachments ? attachments.attachmentId : ''
       const minuteSrc =
-        'http://10.122.17.38' +
+        process.env.VUE_APP_EMAIL_BASE_IP +
         process.env.VUE_APP_FILEAPI +
         '/fileud/getFileByFileId?isDown=true%26fileId=' +
         fileIds
