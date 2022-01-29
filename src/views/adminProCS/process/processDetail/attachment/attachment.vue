@@ -8,7 +8,7 @@
 				<iButton @click="search">{{ language('搜索') }}</iButton>
 				<iButton @click="addAttach">{{ language('新增流程附件') }}</iButton>
 				<!-- <iButton @click="modifyAttach" :disabled='selectedItems.length == 0'>{{ language('修改') }}</iButton> -->
-				<iButton @click="delAttach" :disabled='selectedItems.length == 0'>{{ language('删除') }}</iButton>
+				<!-- <iButton @click="delAttach" :disabled='selectedItems.length == 0'>{{ language('删除') }}</iButton> -->
             </div>
         </div>
 		<iTableCustom
