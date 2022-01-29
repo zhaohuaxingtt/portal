@@ -149,6 +149,9 @@ export default {
             this.baseInfoName = res.name
             this.currId = res?.id || ''
             let hotAreas = res.hotAreas || []
+            hotAreas.map(item => {
+                item.flowId = item.flowId + ''
+            })
             hotAreas.unshift({
                 name: 'add',
                 height: '',

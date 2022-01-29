@@ -86,7 +86,7 @@
         </iButton>
       </template>
     </table-list>
-    <iPagination style="margin-top: 20px"
+<!--    <iPagination style="margin-top: 20px"
                  v-update
                  @size-change="handleSizeChange($event, getTableData)"
                  @current-change="handleCurrentChange($event, getTableData)"
@@ -95,7 +95,7 @@
                  :page-size="page.pageSize"
                  :layout="page.layout"
                  :current-page="page.currPage"
-                 :total="page.totalCount" />
+                 :total="page.totalCount" />-->
     <systemDetail @closeDiolog="closeDiolog"
                   v-model="isdialog"
                   :rowList="rowList"></systemDetail>
@@ -120,6 +120,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import systemDetail from './systemDetail'
 import { tableTitle, tableTitleEdit } from './data'
 import store from '@/store'
+import { excelExport } from '@/utils/filedowLoad'
 import {
   iCard,
   iButton,
@@ -168,6 +169,23 @@ export default {
     this.getTableData()
   },
   methods: {
+    exportFile() {
+      //因为需要一个序号  所以这里处理页签和数据
+      let downTableList = this.tableTitleEdit;
+      let tableHead = {
+            props: 'idNo',
+            name: '序号',
+            key: 'xuhao'
+          }
+
+      downTableList.unshift(tableHead)
+
+      let downTableListData = this.tableListData;
+      downTableListData.forEach((item, index) => {
+        item.idNo = index
+      })
+      excelExport(downTableListData, downTableList, "联系人与用户列表")
+    },
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
@@ -193,14 +211,14 @@ export default {
       const params = {
         opcsSupplierId: this.$route.query.opcsSupplierId,
         pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
+        pageSize: 9999,
         ...this.form
       }
       queryDetailUser(params).then((res) => {
         this.tableLoading = false
         if (res && res.code == 200) {
           this.tableListData = res.data
-          this.page.totalCount = res.total
+          //this.page.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },

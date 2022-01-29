@@ -1,7 +1,7 @@
 /*
  * @Author: YoHo
  * @Date: 2022-01-11 18:25:50
- * @LastEditTime: 2022-01-29 09:48:55
+ * @LastEditTime: 2022-01-29 13:44:11
  * @LastEditors: YoHo
  * @Description: 
  */
@@ -27,7 +27,7 @@ export const ClauseDialogTableTitle = [
   { prop: 'signWay', name: '签署方式', key: '', type:'select', select:'signWayObj' },
   { prop: 'termsStatus', name: '条款状态', key: '', type:'select', select:'statusObj' },
   { prop: 'signTime', name: '签署时间', key: '', width: 100 },
-  { prop: 'filename', name: '已签署文件', key: '' },
+  { prop: 'fileName', name: '已签署文件', key: '' },
   { prop: 'linieName', name: '条款负责人', key: '' },
 ]
 // 审批中心表格

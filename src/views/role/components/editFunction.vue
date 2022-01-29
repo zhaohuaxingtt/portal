@@ -69,7 +69,6 @@ export default {
   },
   watch: {
     'detail.menuList'() {
-      console.log('watch menuList')
       this.setDefaultCheckedMenuList()
     }
   },
@@ -94,7 +93,6 @@ export default {
       this.resourceParent = row
     },
     setMenuList(val, properties) {
-      console.log('setMenuList', val)
       this.menuList = val
       if (properties) {
         const { rows, row, checked } = properties
@@ -140,7 +138,6 @@ export default {
             )
           }
         }
-        console.log('checked', checked)
         // 关联选中菜单
         if (checked) {
           const firstRow = row || (rows && rows[0])

@@ -3,7 +3,7 @@
  * @Author: zbin
  * @Date: 2021-05-27 15:58:15
  * @LastEditors: YoHo
- * @LastEditTime: 2022-01-25 20:20:55
+ * @LastEditTime: 2022-01-29 12:39:12
  * @Descripttion: 概览
  */
 import axios from '@/utils/axios'
@@ -47,9 +47,9 @@ export function purchaseTerms(data) {
 }
 
 // 采购条款维护-未发布
-export function purchaseTermsById({ supplierId, termsCode }) {
+export function purchaseTermsById({ supplierId, termsCode, userId }) {
   return requst({
-    url: `/attachment/purchase/terms/${supplierId}/${termsCode}`,
+    url: `/attachment/purchase/terms/${supplierId}/${termsCode}/${userId}`,
     method: 'POST',
   })
 }
