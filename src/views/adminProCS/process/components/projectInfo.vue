@@ -2,7 +2,7 @@
     <div>
         <div class="info">
             <div class="left">
-                <div v-for="(item, index) in listData" :key="index">
+                <div v-for="(item, index) in list" :key="index">
                     <div class="item-box ellipsis" @click="handleInfo(item, index)" :class="idx === index ? 'active' : '' " :title="item.name">{{ item.name }}</div>
                 </div>
             </div>
@@ -73,6 +73,11 @@ export default {
         processList: {
             type: Array,
             default: () => []
+        }
+    },
+    computed:{
+        list(){
+            return this.listData
         }
     },
     data() {

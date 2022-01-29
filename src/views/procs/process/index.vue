@@ -155,7 +155,7 @@
                 })
             },
             // 常用附件
-            async getSampleList() {
+            async getSampleList(e) {
                 await querySample().then(res => {
                     this.attachList = res || []
                 })
@@ -189,6 +189,7 @@
                 this.activeView = type
                 if(type == "list"){
                     this.activeName = "all"
+                    this.getProcessList()
                 }else{
                     this.activeName = "draw"
                     this.getMainFlowInfo()

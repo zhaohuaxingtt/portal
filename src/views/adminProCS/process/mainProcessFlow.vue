@@ -155,6 +155,7 @@ export default {
                 width: ''
             })
             this.projectInfoData = hotAreas
+            this.$forceUpdate()
         },
         handleClick(event) {
             console.log(event, 'event')
@@ -327,8 +328,9 @@ export default {
                     this.loading = true
                     await addFlowchartNode(this.currId, formData).then(res =>{
                         if (res) {
-                        this.$message({type: 'success', message: '新增项目信息成功'})
-                        this.getMainChartInfo()
+                            this.$message({type: 'success', message: '新增项目信息成功'})
+                            // this.$refs.project.handleInfo({name:'add'},0)
+                            // this.getMainChartInfo()
                         }
                     })
                 } finally {
