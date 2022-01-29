@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-17 17:52:58
- * @LastEditTime: 2022-01-25 21:28:06
+ * @LastEditTime: 2022-01-28 22:15:56
  * @LastEditors: YoHo
  * @Description: 
 -->
@@ -86,33 +86,35 @@ export default {
     }
   },
   created() {
-    this.clickQuery()
     this.initSelectData()
+    this.clickQuery()
   },
   methods: {
     initSelectData(){
       this.signWaySelector()
-      this.termsState()
+      // this.termsState()
       this.termsTypeById()
     },
     // 采购条款状态
-    termsState(){
-      termsState().then(res=>{
-        if(res?.code=='200'){
-          res.data.forEach(i=>{
-            this.statusObj[i.code] = i.value
-          })
-          this.selectData.termsStatus = res.data
-        }
-      })
-    },
+    // termsState(){
+    //   termsState().then(res=>{
+    //     if(res?.code=='200'){
+    //       res.data.forEach(i=>{
+    //         this.statusObj[i.code] = i.value
+    //       })
+    //       this.selectData.termsStatus = res.data
+    //     }
+    //   })
+    // },
     // 采购条款类型
     termsTypeById(){
       termsTypeById().then(res=>{
-        res.data.forEach(i=>{
-            this.typeObj[i.code] = i.value
-          })
-        this.selectData.termsCode = res.data
+        if(res?.code=='200'){
+          res.data.forEach(i=>{
+              this.typeObj[i.code] = i.value
+            })
+          this.selectData.termsType = res.data
+        }
       })
     },
     // 获取签署方式下拉项
@@ -144,6 +146,8 @@ export default {
     },
     clickQuery() {
       this.tableLoading = true
+      let tableListData = []
+      let total = 0
       let params = {
         ...this.form,
         pageSize:this.page.pageSize,
@@ -152,9 +156,12 @@ export default {
       }
       pagePurchaseTerms(params)
         .then((res) => {
-          console.log(res);
-          this.tableListData = res.data
-          this.page.total = res.total
+          if(res?.code=='200'){
+            tableListData = res.data
+            total = res.total
+          }
+          this.page.total = total
+          this.tableListData = tableListData
         })
         .catch((err) => {
           console.log(err)
