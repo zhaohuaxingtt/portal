@@ -5,7 +5,7 @@
     <iCard>
       <div class="content" v-loading="loading">
         <div class="action flex-end-center">
-          <iButton @click="setData">{{ language('重置') }}</iButton>
+          <iButton @click="reset">{{ language('重置') }}</iButton>
           <iButton @click="handleSave">{{ language('保存') }}</iButton>
         </div>
         <topContent :data="data" :activeIndex="activeIndex" />
@@ -127,6 +127,10 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    reset() {
+      this.activeIndex = 0
+      this.data = []
     }
   }
 }
