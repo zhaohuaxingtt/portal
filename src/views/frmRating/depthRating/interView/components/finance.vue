@@ -61,10 +61,16 @@
         <template slot-scope="scope"
                   slot="creditDateStart">
           <div>
-            <el-date-picker v-model="scope.row.creditDateStart"
+            <el-date-picker v-model="scope.row.creditDate"
                             align="right"
-                            type="date"
+                            type="daterange"
                             style="width:100%"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd"
+                            @change="(val) => handleChange(val, scope.row)"
                             :placeholder="language('QINGXUANZE','请选择')">
             </el-date-picker>
           </div>
@@ -139,6 +145,10 @@ export default {
       interviewFinanceMessage({ deepCommentSupplierId: this.id }).then(res => {
         if (res.data) {
           this.interViewData = res.data
+          this.interViewData.bankList.forEach(item => {
+            item.creditDate = item.creditDate.split(',')
+          })
+          console.log(this.interViewData.bankList)
           if (!this.interViewData.bankList) {
             this.interViewData.bankList = []
           }
@@ -149,6 +159,9 @@ export default {
     // 保存
     save () {
       this.interViewData.deepCommentSupplierId = this.id
+      this.interViewData.bankList.forEach(item => {
+        item.creditDate = item.creditDate.toString()
+      })
       interviewFinanceInfo(this.interViewData).then(res => {
         this.resultMessage(res, () => {
           this.getData()
@@ -198,7 +211,10 @@ export default {
     },
     handleSelectionChange (val) {
       this.selectList = val
-
+    },
+    handleChange (event, row) {
+      row.creditDateStart = row.creditDate[0]
+      row.creditDateEnd = row.creditDate[1]
     }
   }
 }

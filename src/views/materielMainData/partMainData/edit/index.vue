@@ -311,6 +311,11 @@
                   <iInput disabled v-model="itemContent.updateDate"></iInput>
                 </iFormItem>
               </el-col>
+              <el-col :span="6">
+                <iFormItem :label="language('采购员')">
+                  <iInput disabled v-model="purchaser"></iInput>
+                </iFormItem>
+              </el-col>
             </el-row>
           </el-form>
         </div>
@@ -460,7 +465,8 @@ import {
   upDateMateriel,
   getMaterielGroup,
   getUnitList,
-  saveUnitList
+  saveUnitList,
+  queryPurchasers
 } from '@/api/materiel/materielMainData.js'
 
 export default {
@@ -478,6 +484,16 @@ export default {
     iSelectorInput
   },
   methods: {
+    queryPurchasers() {
+      if (this.$route.query.id) {
+        queryPurchasers(this.$route.query.id).then((res) => {
+          console.log('res res res:', res)
+          if (res.code === '200') {
+            this.purchaser = res?.data?.linieUserInfo?.userName || ''
+          }
+        })
+      }
+    },
     handleClick() {
       this.dialogFopVisible = true
     },
@@ -975,6 +991,7 @@ export default {
     this.isDisabled = this.$route.query.id
     this.searchId = this.$route.query.id
     this.datePickerStatus = true
+    this.queryPurchasers()
     //材料组下拉
     materielGroup()
       .then((val) => {
@@ -1218,7 +1235,8 @@ export default {
         baseUnitId: '',
         vos: []
       },
-      datePickerStatus: false
+      datePickerStatus: false,
+      purchaser: '' // 采购员
     }
   }
 }

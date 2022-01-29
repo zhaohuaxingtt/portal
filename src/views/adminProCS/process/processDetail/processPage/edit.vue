@@ -86,6 +86,19 @@ export default {
         }
     },
     data() {
+        let orderBy_valid = (rule, value, callback) => {
+            if(!value){
+				callback(new Error("请输入排序"));
+				return;
+			}
+            var reg = /^[1-9]\d*$/; //验证规则
+			if (reg.test(value)) {
+				callback();
+				return;
+			}else{
+				callback(new Error("只能输入大于0的整数"));
+			}
+        }
         return {
             form:{
                 name:"",
@@ -96,7 +109,7 @@ export default {
             rules:{
                 name:{ required: true, message: '请输入页面标题!', trigger:'blur'},
                 updateDt: { required: true, message: '请选择更新日期!',trigger:'change' },
-                orderBy:{ required: true, message: '请输入排序!',trigger:'blur' }
+                orderBy:{ required: true,validator: orderBy_valid, trigger:'blur' }
             },
             preview:false,
             pId: this.$route.query.id,

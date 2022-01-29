@@ -29,7 +29,7 @@
       <el-option
         v-for="item in options"
         :key="item[valueKey]"
-        :label="item[labelKey]"
+        :label="`${item[labelKey]}`"
         :value="item[valueKey]"
       >
       </el-option>
