@@ -14,11 +14,20 @@ export default {
   props: {
     data: {
       type: Array
+    },
+    active: {
+      type: Number,
+      default: -1
     }
   },
   data() {
     return {
       activeIndex: -1
+    }
+  },
+  watch: {
+    active(val) {
+      this.activeIndex = val
     }
   },
   methods: {
