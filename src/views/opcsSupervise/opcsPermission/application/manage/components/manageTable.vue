@@ -132,7 +132,8 @@ export default {
         let req = {
           id: this.selectTableData.map((v) => {
             return v.id
-          })
+          }),
+          opcsSupplierId: this.$route.query.opcsSupplierId
         }
         deleteDetails(req).then((res) => {
           if (res && res.code == 200) {
