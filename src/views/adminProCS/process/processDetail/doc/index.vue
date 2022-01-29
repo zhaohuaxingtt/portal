@@ -110,9 +110,13 @@ export default {
                 for (const key in this.selectList[0]) {
                     data.append(key,this.selectList[0][key])
                 }
-                await addProcessProd(this.id,data)
-                this.$message.success("添加成功")
-                this.queryList()
+                let res = await addProcessProd(this.id,data)
+                if(res.error){
+                    this.$message.warning(res.message)
+                }else{
+                    this.$message.success("添加成功")
+                    this.queryList()
+                }
             } finally {
                 this.prod.loading = false
             }

@@ -66,6 +66,7 @@ export default {
         tableListData(n){
             if(n.length > 0 && this.selected.length > 0){
                 this.$nextTick(() => {
+                    console.log(this.selected);
                     this.tableListData.forEach(e => {
                         if(this.selected.includes(e.id)){
                             this.$refs.table.toggleRowSelection(e,true)
