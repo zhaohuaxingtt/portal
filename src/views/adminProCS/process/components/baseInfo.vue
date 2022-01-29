@@ -58,6 +58,7 @@ export default {
     },
     methods: {
         save() {
+            if (!this.name || !this.uploadFileStream) return this.$message({type: 'warning', message: '请输入主流程项目信息'})
             if (this.currId) {
                 this.$emit('updateFlowchartFun', this.name, this.uploadFileStream)
             } else {

@@ -38,7 +38,8 @@ import Editor from 'wangeditor'
         watch:{
             html(n){
                 if(n != this.editor.txt.html()){
-                    this.editor.txt.html(n || "<p><br></p>") 
+                    // this.editor.txt.html(n || "<p><br></p>") 
+                    this.editor.txt.html(n || "") 
                 }
             },
             disabled(n){
@@ -61,7 +62,8 @@ import Editor from 'wangeditor'
                     })
                 }
                 this.editor.config.onchange = (newHtml) => {
-                   this.$emit("input",newHtml || "<p><br></p>")
+                //    this.$emit("input",newHtml || "<p><br></p>")
+                   this.$emit("input",newHtml || "")
                 };
                 this.editor.config.uploadImgMaxLength = 10
 

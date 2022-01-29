@@ -155,7 +155,7 @@
                 })
             },
             // 常用附件
-            async getSampleList() {
+            async getSampleList(e) {
                 await querySample().then(res => {
                     this.attachList = res || []
                 })
@@ -189,6 +189,7 @@
                 this.activeView = type
                 if(type == "list"){
                     this.activeName = "all"
+                    this.getProcessList()
                 }else{
                     this.activeName = "draw"
                     this.getMainFlowInfo()
@@ -207,7 +208,7 @@
                         this.$router.push({path:"/cf-ProCS/glossaryManage",query:{id:v.id}})
                         break;
                     case "attachment":
-                        window.open(v.attachMents[0].url)
+                        window.open(v.attachMents[0].url?.split('uploader/')[1])
                         break;
                 }
             }
