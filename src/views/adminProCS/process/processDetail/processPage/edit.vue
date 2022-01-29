@@ -33,7 +33,7 @@
                     <iInput v-model="form.orderBy" type="number" class="w-250" placeholder="请输入"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('页面内容')"  prop='pageRichContent'>
-                    <iEditor v-model="form.pageRichContent" class="flex-1" :html="form.pageRichContent"></iEditor>
+                    <iEditor v-model="form.pageRichContent" id="pageEditor" class="flex-1" :html="form.pageRichContent"></iEditor>
                 </iFormItem>
             </el-form>
         </div>
@@ -129,7 +129,7 @@ export default {
                     this.loading = true
                     try {
                         if(this.form.id){
-                            let res = await ProcessEditPage(this.pId, formdata)
+                            let res = await ProcessEditPage(this.form.id, formdata)
                             if(res.error){
                                 this.$message.warning(res.message)
                             }else{

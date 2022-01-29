@@ -28,14 +28,18 @@ export default [
 		label:'状态',
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateState}) => {
-			return <el-switch value={ row.published } active-text="上架" inactive-text="下架" on-change={ e => updateState(e,$index,row)}></el-switch>
+			return <div on-click={e => e.stopPropagation()}>
+				<el-switch value={ row.published } active-text="上架" inactive-text="下架" on-change={ e => updateState(e,$index,row)}></el-switch>
+			</div>
 		}
 	},
 	{
 		label:'是否发送消息',
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateMsg}) => {
-			return <el-switch value={ row.send } active-text="是" disabled={row.published} inactive-text="否" on-change={ e => updateMsg(e,$index)}></el-switch>
+			return <div on-click={e => e.stopPropagation()}>
+				 <el-switch value={ row.send } active-text="是" disabled={row.published} inactive-text="否" on-change={ e => updateMsg(e,$index)}></el-switch>
+			</div>
 		}
 	},
 ]

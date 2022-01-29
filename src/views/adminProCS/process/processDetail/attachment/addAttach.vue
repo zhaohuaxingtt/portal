@@ -43,7 +43,7 @@
                     :removeHandle="removeHandle"
 				>
 					<div>
-						<iButton>添加图片</iButton>
+						<iButton>选择文件</iButton>
 						<div slot="tip" class="el-upload__tip">文件大小最大限制10MB!</div>
 					</div>
 				</iUpload>
