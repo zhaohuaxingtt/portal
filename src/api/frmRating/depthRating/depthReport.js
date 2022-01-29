@@ -93,3 +93,14 @@ export function cehckSummarize(parmars) {
     data: parmars
   })
 }
+
+
+// 深评报告导出
+export function exportDeep(parmars) {
+  return requst({
+    url: '/deepCommentReport/exportDeep',
+    method: 'POST',
+    responseType: 'blob',
+    data: parmars
+  })
+}

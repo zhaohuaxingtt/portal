@@ -359,7 +359,7 @@ export function ProcessAddPage(id,data) {
 export function ProcessEditPage(id,data) {
     return procsRequest({
         url: `/workflow_mgr/${id}/updatePage.json`,
-        method: 'put',
+        method: 'post',
         data,
         formData: true
     })
