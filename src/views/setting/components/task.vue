@@ -1,11 +1,15 @@
 <template>
   <div class="task">
-    <topHeader :data="categories" @toggle-active="toggleActive" />
+    <topHeader
+      :data="categories"
+      :active="activeIndex"
+      @toggle-active="toggleActive"
+    />
 
     <iCard>
       <div class="content" v-loading="loading">
         <div class="action flex-end-center">
-          <iButton @click="setData">{{ language('重置') }}</iButton>
+          <iButton @click="handleReset">{{ language('重置') }}</iButton>
           <iButton @click="handleSave">{{ language('保存') }}</iButton>
         </div>
         <topContent :data="data" :activeIndex="activeIndex" />
@@ -127,6 +131,16 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    handleReset() {
+      this.activeIndex = -1
+      this.data.forEach((item) => {
+        if (item.data) {
+          item.data.forEach((dataItem) => {
+            dataItem.checked = false
+          })
+        }
+      })
     }
   }
 }
