@@ -17,7 +17,7 @@
             <ITable ref="table" :tableSetting='tableSetting' :selected="info.issueIds || []" @selectChange="selectChange" :queryMethod="queryMethod"></ITable>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
-            <iButton @click="close">{{ language('取消') }}</iButton>
+            <iButton @click="close">{{ language('关闭') }}</iButton>
             <iButton @click="confirm">{{ language('确认') }}</iButton>
         </div>
     </iDialog>

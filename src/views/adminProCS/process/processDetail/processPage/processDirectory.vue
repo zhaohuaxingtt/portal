@@ -57,7 +57,7 @@
             <el-form 
                 :model="form" 
                 :rules="rules" 
-                label-width="90px" 
+                label-width="100px" 
                 ref="form"
                 v-loading="formLoading"
                 class="validate-required-form"
@@ -84,7 +84,7 @@
                         </iSelect>
                 </iFormItem>
                 <div class="flex felx-row mt20 pb20 justify-end ">
-                    <iButton @click="close">{{ language('取消') }}</iButton>
+                    <iButton @click="editClose">{{ language('取消') }}</iButton>
                     <iButton @click="save">{{ language('确认') }}</iButton>
                 </div>
             </el-form>
@@ -203,7 +203,8 @@ export default {
             this.form = {
                 cnName: data.name.ch,
                 enName: data.name.en,
-                workFlowPage: data.pageId
+                workFlowPage: data.pageId,
+                id:data.id
             }
             this.editDialog = true
         },

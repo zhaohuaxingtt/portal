@@ -18,7 +18,7 @@
 <script>
 import {iInput, iCard, iButton } from 'rise';
 import ITable from './../../components/ITable';
-import {DOC} from '../tables';
+import {GUIDE} from '../tables';
 import addGuide from './addGuide.vue';
 import {queryProcessFileList,deleteProcessFile} from '@/api/adminProCS';
 
@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             keyWord:"",
-            tableSetting: DOC,
+            tableSetting: GUIDE,
             docSetting:[
                  {
                     type:'index',

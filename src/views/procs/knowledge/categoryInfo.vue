@@ -35,7 +35,7 @@
                <UiCard title="科室" :color="false">
                    <template slot="content">
                         <div class="department" v-if="departList.length > 0">
-                            <div class="department-item" :class="{active:organizations.includes(l.id)}" v-for="(l,i) in departList" :key="l.id" @click="departChange(l.id,i)">{{l.name}}</div>
+                            <div class="department-item" :class="{active:organizations.includes(l.id)}" v-for="(l,i) in departList" :key="l.id" @click="departChange(l.id,i)">{{l.nameZh}}</div>
                         </div>
                         <p class="no-data" v-if="departList.length == 0">暂无数据</p>
                    </template>
@@ -48,7 +48,8 @@
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import UiCard from "./../components/UiCard.vue";
-    import {queryKnowledgeTwoLevelCard, listCategoryBySection, queryKnowledgeDepartment} from '@/api/procs';
+    import {queryKnowledgeTwoLevelCard, listCategoryBySection} from '@/api/procs';
+    import { getDeptDropDownList } from '@/api/authorityMgmt'
     export default {
         components:{
             LayHeader,
@@ -74,7 +75,12 @@
                 let cate = await listCategoryBySection(this.$route.query.id)
                 this.knowList.push(...cate)
                  // 科室
-                this.departList = await queryKnowledgeDepartment()
+                // this.departList = await getDeptDropDownList({})
+                // console.log(this.departList, '3333333')
+                await getDeptDropDownList({}).then(res => {
+                    let data = res.data || []
+                    this.departList = data.slice(0, 200)
+                })
             },
             async queryDetail(){
                 let data = {
