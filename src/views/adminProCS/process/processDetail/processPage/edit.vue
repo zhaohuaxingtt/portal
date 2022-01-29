@@ -53,7 +53,7 @@
             class="process-dialog"
             top="50px"
         >
-            <div class="content preview-c">
+            <div class="content preview-c w-e-text">
                 <h3 class="title" v-text="form.name"></h3>
                 <div class="inner" v-html="form.pageRichContent"></div>
             </div>    
@@ -116,14 +116,24 @@ export default {
                     this.loading = true
                     try {
                         if(this.form.id){
-                            await ProcessEditPage(this.pId, formdata)
-                            this.$message.success("修改成功")
+                            let res = await ProcessEditPage(this.pId, formdata)
+                            if(res.error){
+                                this.$message.warning(res.message)
+                            }else{
+                                this.$message.success("修改成功")
+                                this.close()
+                                this.$emit("refresh")
+                            }
                         }else{
-                            await ProcessAddPage(this.pId, formdata)
-                            this.$message.success("添加成功")
+                            let res = await ProcessAddPage(this.pId, formdata)
+                             if(res.error){
+                                this.$message.warning(res.message)
+                            }else{
+                                this.$message.success("添加成功")
+                                this.close()
+                                this.$emit("refresh")
+                            }
                         }
-                        this.close()
-                        this.$emit("refresh")
                     } finally {
                         this.loading = false
                     }
