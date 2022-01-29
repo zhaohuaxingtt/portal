@@ -91,3 +91,33 @@ export const debounce = (fn, delay) => {
     }, delay)
   }
 }
+
+export const domSave = (ele) => {
+  let docEle = ele + " canvas";
+  let canvasFixed = document.querySelectorAll(docEle);//获取图表元素
+  var canvasList = [];
+  canvasFixed.forEach(e=>{
+    const canvasWidth = e.width;
+    const canvasHeigth = e.heigth;
+    const canvas2D = e.getContext('2d');
+    canvas2D.drawImage(e,canvasWidth,canvasHeigth);
+    canvasList.push(e.toDataURL())
+  })
+  return canvasList;
+}
+
+export const imgSave = (ele) => {
+  let canvasFixed = document.querySelectorAll(ele);//获取图表元素
+  var canvasList = [];
+  canvasFixed.forEach(e=>{
+    var canvas = document.createElement("canvas");
+    canvas.width = e.width;
+    canvas.height = e.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(e, 0, 0, e.width, e.height);
+    var ext = e.src.substring(e.src.lastIndexOf(".") + 1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/" + ext);
+    canvasList.push(dataURL)
+  })
+  return canvasList;
+}
