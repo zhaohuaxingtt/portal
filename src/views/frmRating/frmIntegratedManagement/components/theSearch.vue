@@ -52,10 +52,10 @@
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.isActive">
             <!--            <el-option value="" :label="$t('all')"></el-option>-->
-            <el-option :value="item.name"
-                       :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
-                       v-for="item of allSelectObject.SUPPLIER_STATUS"
-                       :key="item.name"></el-option>
+            <el-option value="1"
+                       label="正常"></el-option>
+            <el-option value="0"
+                       label="受控"></el-option>
           </iSelect>
         </el-form-item>
 

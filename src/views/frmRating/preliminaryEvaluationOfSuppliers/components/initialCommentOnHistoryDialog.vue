@@ -74,6 +74,7 @@ export default {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
           supplierId: this.supplierId,
+          isHistory:1
         };
         const res = await getInitCommentList(req);
         this.tableListData = res.data;

@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-27 16:17:31
- * @LastEditors: YoHo
+ * @LastEditTime: 2022-01-28 18:40:40
+ * @LastEditors: Please set LastEditors
  * @Description: 相关附件
 -->
 <template>
@@ -23,6 +23,7 @@
     </div>
     <!-- v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"  -->
     <table-list :tableData="tableListData"
+                ref="table"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
@@ -33,13 +34,15 @@
                 @viewPublish="viewPublish"
                 @publish="publish"
                 :index="true"
-                :disabled="disabled"
-                />
+                :disabled="disabled" />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
                        :loading="attachmentLoading"
-                       v-model="attachmentDialog" />
-    <clause-dialog v-model="show" :supplierId="supplierId" :isMaintain="isMaintain"></clause-dialog>
+                       v-model="attachmentDialog"
+                       :disableButton="disableButton" />
+    <clause-dialog v-model="show"
+                   :supplierId="supplierId"
+                   :isMaintain="isMaintain"></clause-dialog>
   </i-card>
 </template>
 
@@ -77,34 +80,37 @@ export default {
       selectTableData: [],
       attachmentDialog: false,
       attachmentDetail: '',
+      disableButton: false,
       attachmentLoading: false,
       currentTemplateId: '',
       attachmentInfo: {},
       isMaintain: true,
-      show:false,
-      disabled:false,
+      show: false,
+      disabled: false,
     }
   },
-  computed:{
-    supplierId(){
-      return  this.$store.state.baseInfo.baseMsg.ppSupplierDTO.id
+  computed: {
+    supplierId () {
+      return this.$store.state.baseInfo.baseMsg.ppSupplierDTO.id
     },
   },
   created () {
     this.getTableList()
     this.purchaseTerms()
   },
-  methods: {  
-    async purchaseTerms(){
+  mounted () {
+  },
+  methods: {
+    async purchaseTerms () {
       let disabled = false
       let params = {
         supplierId: this.supplierId,
         headerId: this.$store.state.permission.userInfo.id // 就是Linie id
       }
-      await purchaseTerms(params).then(res=>{
+      await purchaseTerms(params).then(res => {
         if (res?.code == '200') {
-          res.data.forEach(i=>{
-            disabled= disabled || ['02','03','04','05'].includes(i.termsStatus) // 02:审批中,03:审批退回,04:审批通过,05:签署中
+          res.data.forEach(i => {
+            disabled = disabled || ['02', '03', '04', '05'].includes(i.termsStatus) // 02:审批中,03:审批退回,04:审批通过,05:签署中
           })
         }
       })
@@ -125,21 +131,21 @@ export default {
         this.tableLoading = false
       }
     },
-    async publish(row){
-      if(!this.supplierId){
+    async publish (row) {
+      if (!this.supplierId) {
         iMessage.error('供应商id获取失败')
         return
       }
       await this.purchaseTerms()
-      if(this.disabled) return
+      if (this.disabled) return
       let query = {
         supplierId: this.supplierId
       }
-      const router =  this.$router.resolve({path: '/clausepage/item', query})
-      window.open(router.href,'_blank')
+      const router = this.$router.resolve({ path: '/clausepage/item', query })
+      window.open(router.href, '_blank')
     },
-    viewPublish(row){
-      if(!this.supplierId){
+    viewPublish (row) {
+      if (!this.supplierId) {
         iMessage.error('供应商id获取失败')
         return
       }
@@ -156,16 +162,18 @@ export default {
       }
       const res = await getAttachmentCommitment(req)
       this.attachmentDetail = res.data?.detail
+      this.disableButton = (res.data?.termsId == null)
       this.attachmentLoading = false
       this.attachmentInfo = res.data
     },
-    async handleSignature () {
+    async handleSignature (detailContent) {
       this.attachmentLoading = true
       const req = {
         step: 'submit',
         id: this.currentTemplateId,
         termsId: this.attachmentInfo.termsId || '',
         termsVersion: this.attachmentInfo.termsVersion || '',
+        termsContent: detailContent
       }
       const res = await signatureAttachment(req)
       this.attachmentLoading = false
