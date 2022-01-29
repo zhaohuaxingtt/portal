@@ -40,7 +40,7 @@ import { iPage } from 'rise'
 import BaseInfo from './components/baseInfo'
 import ProjectInfo from './components/projectInfo'
 import { getFlowchartInfo, loadProcessPageList, createFlowchartInfo, updateFlowchart, queryProcessList, addFlowchartNode, delFlowchartNode, updateFlowchartNode, getProcessFlowchart, createProcessFlowchart } from '@/api/adminProCS';
-import { FACTORY_TABLE_COLUMNS } from '@/views/mainDataSupplier/list/components/data';
+
 export default {
     name: 'mainProcess',
     components: {
