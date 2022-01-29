@@ -256,12 +256,14 @@ export default {
           if (this.getVersionMonth.length) {
             this.form['versionMonthOne'] = this.getVersionMonth[0].value
             this.form['versionMonthTwo'] = this.getVersionMonth[0].value
-
+            this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
+            this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
+            // 恢复原逻辑
             // CRW-2673 MTZ报表-月度跟踪-差异原因分析：默认应该展示当前最新版本的，上月以及上上月的市场价、用量对比数据
             // 1、月份比较默认月份先从接口里找有没有对应上上月、上月数据；如果有则取，如果没有就为空。
             // 2、关于跨年，月份比较不跨年。当遇到跨年情况，比如结束月份为1月则开始月份留空。开始月份为12月则结束月份留空。
             // 获取上月，上上月月份
-            const date = new Date('2020-02-01 00:00:00')
+            /* const date = new Date('2020-02-01 00:00:00')
             let lastMonth = '' // 上月
             let lastLastMonth = '' // 上上月
             const curMonth = moment(date).format('MM')
@@ -289,7 +291,7 @@ export default {
             if (findMonth) {
               this.form['yearMonthOne'] = lastMonth
               this.form['yearMonthTwo'] = lastLastMonth
-            }
+            } */
           }
 
           this.getdifferenceAnalysis()
