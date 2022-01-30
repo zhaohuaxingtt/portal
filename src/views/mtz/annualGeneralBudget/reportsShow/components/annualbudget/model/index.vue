@@ -283,12 +283,14 @@ export default {
     openCardModel(row){
       this.rightQueryForm.carModel=row.carModel
       this.rightQueryForm.carModelSixNum=''
+      this.getRightCarSixCodeDropDown()
       this.getCarModelDetail()
     },
     //点击列表六位号
     clickSixCode(row){
       this.rightQueryForm.carModel=row.carModel
       this.rightQueryForm.carModelSixNum=row.carModel6Code
+      this.getRightCarSixCodeDropDown()
       this.getCarModelDetail()
     },
   }
