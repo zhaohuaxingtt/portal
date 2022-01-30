@@ -6,7 +6,7 @@
                 <el-popover
                     placement="right"
                     trigger="click"
-                    v-show="detail.workFlowFile.length > 0"
+                    v-show="detail.workFlowFile && detail.workFlowFile.length > 0"
                 >
                     <div class="cursor" v-for="file in detail.workFlowFile" :key="file.id" style="margin:10px 0;" @click="downAttach(file.attachMents[0] ? file.attachMents[0].url : '')">{{file.name}}  {{file.publishDate}}</div>
                     <span slot="reference"><i class="cursor el-icon-download"></i></span>
@@ -81,6 +81,7 @@
                                 <span>{{l.name}}</span>
                                 <span>{{l.version}}   {{l.publishDate}}</span>
                             </div>
+                            <div class="no-data" v-if="sampleList.length == 0">暂无数据</div>
                         </template>
                    </template>
                 </UiCard>
@@ -162,8 +163,8 @@
                 try {
                    this.detail = await getWorkFlow(this.id)
                     let id = ""
-                    this.detail.pageIds = this.detail.pageIds ? JSON.parse(this.detail.pageIds) : []
-                    if(this.detail.pageIds.length > 0){
+                    // this.detail.pageIds = this.detail.pageIds ? JSON.parse(this.detail.pageIds) : []
+                    if(this.detail.pageIds && this.detail.pageIds.length > 0){
                         if(this.pageId){
                             let index = this.detail.pageIds.findIndex(e => e == this.pageId)
                             id = this.detail.pageIds[index]

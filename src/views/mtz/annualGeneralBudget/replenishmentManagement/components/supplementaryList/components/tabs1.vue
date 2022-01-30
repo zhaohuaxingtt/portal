@@ -26,7 +26,7 @@
         <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
         <iButton @click="save">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
         <iButton @click="bingo"
-                 v-if="dataObject.status == '供应商确认中'">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
+                 v-if="dataObject.status == '供应商确认中'" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAIGONGYINGSHANGQUEREN">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
       </div>
     </div>
     <tableList class="margin-top20"
