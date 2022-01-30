@@ -58,10 +58,7 @@
       :class="['user', { active: active || usernameActive }]"
       slot="reference"
     >
-      <el-avatar
-        class="icon"
-        src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
-      ></el-avatar>
+      <el-avatar class="icon" :src="avatar"></el-avatar>
       <div class="info">
         <p class="name">{{ userInfo.nameZh || 'admin' }}</p>
         <p class="dept">{{ deptName }}</p>
@@ -112,6 +109,12 @@ export default {
         this.activeMenu &&
         this.activeMenu.length &&
         this.activeMenu[0] === 'RISE_ADMIN'
+      )
+    },
+    avatar() {
+      return (
+        this.userInfo?.profile?.path ||
+        'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg'
       )
     }
   },
