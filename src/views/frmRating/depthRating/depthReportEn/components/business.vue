@@ -148,7 +148,7 @@
               maxlength="120"
               show-word-limit></iInput>
     </iCard>
-    <div class="remark">This report is only for SAIC Volkswagen's internal business decision-making reference. Please keep all the information of the suppliers strictly confidential, and do not disclose any content of this report to any other third party. Please use the information with caution and reasonableness within the company. This report cannot be used as the basis for legal proceedings, and SAIC Volkswagen does not assume any responsibility.</div>
+    <div class="remark">Data source: public information and information provided by supplier & supplier interview.</div>
   </div>
 </template>
 
@@ -237,7 +237,7 @@ export default {
 .remark {
   margin-top: 15px;
   font-size: 16px;
-    color: #e30b0d;
+    color: #9b9b9b;
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
