@@ -243,7 +243,7 @@ export default {
       const currentFistYearDay = `${compuYear}-01-01`
       const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
       const totalDay = isLeap ? 366 : 365
-      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const weekNum2 = new Date(currentFistYearDay).getDay()===0?7:new Date(currentFistYearDay).getDay()
       const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
       const weekNum = Math.ceil((totalDay - shouldDel) / 7)
       return weekNum
@@ -253,7 +253,7 @@ export default {
     getCurWeekNum(e) {
       const year = dayjs(e).year()
       const currentFistYearDay = `${year}-01-01`
-      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const weekNum2 = new Date(currentFistYearDay).getDay()===0?7:new Date(currentFistYearDay).getDay()
       const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
       const curDayNum = dayjs(e).dayOfYear()
       let curWeekNum = Math.ceil((curDayNum - shouldDel) / 7)
