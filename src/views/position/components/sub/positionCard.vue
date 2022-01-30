@@ -240,10 +240,16 @@ export default {
 
             if (dimensionOption && dimensionOption.valueList) {
               const valueList = scope.row.valueList || []
-              const dimensionOptionValueList = dimensionOption.valueList
+              const dimensionOptionValueList = dimensionOption.valueList || []
               console.log('valueList', valueList)
               console.log('dimensionOptionValueList', dimensionOptionValueList)
-              options = [...valueList, ...dimensionOptionValueList]
+              options = valueList
+              dimensionOptionValueList.forEach((e) => {
+                if (!options.find((option) => option.valueId === e.valueId)) {
+                  options.push(e)
+                }
+              })
+              // options = [...valueList, ...dimensionOptionValueList]
               // scope.row.valueList = dimensionOption.valueList
             }
             return (
