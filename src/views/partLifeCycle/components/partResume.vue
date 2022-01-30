@@ -357,11 +357,11 @@
                             <span>MTZ {{ language('LK_GUIZEBIANHAO', '规则编号') }}{{ key + 1 }}：</span>
                             <span>{{ item.mtzRuleCode }}</span>
                         </div>
-                        <div class="divItem">
+                        <div class="divItem" v-if="item.mtzCategoryZh && item.mtzCategoryDe">
                             <span>MTZ {{ language('LK_CAILIAOZU', '材料组')}}：</span>
                             <span>{{ item.mtzCategoryZh + '-' + item.mtzCategoryDe }}</span>
                         </div>
-                        <div class="divItem">
+                        <div class="divItem" v-if="item.mtzMaterialCode && item.mtzMaterialName">
                             <span>{{ language('LK_YUANCAILIAO', '原材料')}}：</span>
                             <span>{{ item.mtzMaterialCode + '-' + item.mtzMaterialName }}</span>
                         </div>

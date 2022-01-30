@@ -79,10 +79,10 @@
                     let obj = n
                     obj["All"] = Array.from(Object.values(n)).flat()   
                     this.indexs_data = obj  
-                    console.log(Object.values(this.data));
 
                     this.activeIndex = this.indexs[0]
                     this.list = this.indexs_data[this.activeIndex]
+
                     if(this.isClickFirst){
                         this.clickItem(this.list[0].id)
                     }
@@ -99,8 +99,8 @@
                 this.activeIndex = l;
                 this.$emit("update:loading",true)
                 setTimeout(() => {
+                    this.list = this.indexs_data[l]
                     if(this.isClickFirst){
-                        this.list = this.indexs_data[l]
                         this.clickItem(this.list[0].id)
                     }
                     this.$emit("update:loading",false)

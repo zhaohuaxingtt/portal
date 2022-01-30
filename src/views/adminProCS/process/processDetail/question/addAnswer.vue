@@ -21,7 +21,7 @@
 				<iInput v-model="newAnswerForm.name" placeholder="请输入答案标题" maxLength="200"></iInput>
 			</iFormItem>
             <iFormItem :label="language('内容')" prop='pageRichContent'>
-				<iEditor v-model="newAnswerForm.pageRichContent" class="flex-1" :html="newAnswerForm.pageRichContent"></iEditor>
+				<iEditor v-model="newAnswerForm.pageRichContent" id="pageQsEditor" class="flex-1" :html="newAnswerForm.pageRichContent"></iEditor>
 			</iFormItem>
 
             <div class="flex justify-end btn">

@@ -42,6 +42,9 @@
                     :layout="page.layout"
                     :total="page.totalCount"
                 />
+                <div class="flex justify-end btn">
+                    <iButton @click="closeDialogBtn">{{ language('返回子流程列表') }}</iButton>
+                </div>
             </div>
         </div>
         <addAnswer
@@ -166,5 +169,8 @@ export default {
 }
 .form {
     width: 100%;
+}
+.btn {
+    padding-top: 20px;
 }
 </style>

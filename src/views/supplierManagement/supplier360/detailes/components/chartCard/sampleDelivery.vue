@@ -7,36 +7,37 @@
       </span>
     </div>
     <div class="box">
-       <img :src="img"
-           class="imgIcon" />
-      <div ref="chart"
-           class="chartStyle">
+      <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span>
+<!--       <img :src="img"-->
+<!--           class="imgIcon" />-->
+<!--      <div ref="chart"-->
+<!--           class="chartStyle">-->
 
-      </div>
-      <div class="chartText chartLeft">
-        <p>History</p>
-        <p>30%</p>
-        <div>
-          <span>On-Time</span>
-          <span>70%</span>
-        </div>
-        <div>
-          <span>Delay</span>
-          <span>30%</span>
-        </div>
-      </div>
-      <div class="chartText chartRight">
-        <p>On-going</p>
-        <p>30%</p>
-        <div>
-          <span>On-Time</span>
-          <span>70%</span>
-        </div>
-        <div>
-          <span>Delay</span>
-          <span>30%</span>
-        </div>
-      </div>
+<!--      </div>-->
+<!--      <div class="chartText chartLeft">-->
+<!--        <p>History</p>-->
+<!--        <p>30%</p>-->
+<!--        <div>-->
+<!--          <span>On-Time</span>-->
+<!--          <span>70%</span>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <span>Delay</span>-->
+<!--          <span>30%</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="chartText chartRight">-->
+<!--        <p>On-going</p>-->
+<!--        <p>30%</p>-->
+<!--        <div>-->
+<!--          <span>On-Time</span>-->
+<!--          <span>70%</span>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <span>Delay</span>-->
+<!--          <span>30%</span>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </iCard>
 </template>

@@ -6,7 +6,7 @@
     </div>
     <div class="actions">
       <iButton @click="search">搜索</iButton>
-      <iButton @click="search">重置</iButton>
+      <iButton @click="reset">重置</iButton>
     </div>
   </div>
 </template>
