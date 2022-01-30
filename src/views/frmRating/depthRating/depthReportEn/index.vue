@@ -106,13 +106,22 @@ export default {
         supplier: {}
       },
       imgUrl:'',
-      echartsType:true
+      echartsType:true,
+      loading:null
     };
   },
   computed: {
     query () {
          return { id: this.id, name: this.name, supplierId: this.supplierId,status:this.status }
     }
+  },
+  created(){
+    this.loading = this.$loading({
+      lock: true,
+      text: 'Loading',
+      spinner: 'el-icon-loading',
+      background: 'rgba(255,255,255,0.7)'
+    });
   },
   mounted () {
     this.id = this.$route.query.id;
@@ -151,6 +160,7 @@ export default {
         if (result && result.data !== null) {
           this.info = result.data
           this.echartsType = false;
+          this.loading.close()
         }
       }).catch((err) => {
 
@@ -172,11 +182,11 @@ export default {
       var echartsBase64 = domSave("#myChart")
       var imgBase64 = imgSave(".car_img")
 
-      const loading = this.$loading({
+      var loading = this.$loading({
         lock: true,
         text: 'Loading',
         spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+        background: 'rgba(255,255,255,0.7)'
       });
       exportDeep({
         deepCommentSupplierId:this.$route.query.id,

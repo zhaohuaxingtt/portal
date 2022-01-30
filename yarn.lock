@@ -8514,6 +8514,15 @@
   "resolved" "http://nexus.devops.csvw.com/repository/npm-public/relateurl/-/relateurl-0.2.7.tgz"
   "version" "0.2.7"
 
+"relation-graph@^1.1.0":
+  "integrity" "sha512-bPBjFOStki5kJqVDkcoTVg1pEg8tztsHk2XLjyc7i16RQFoZcAU0SJRwlAtG9ClLVNWlBYACxOS1lap9Ri3i6A=="
+  "resolved" "http://nexus.devops.csvw.com/repository/npm-public/relation-graph/-/relation-graph-1.1.0.tgz"
+  "version" "1.1.0"
+  dependencies:
+    "html2canvas" "^1.0.0-rc.5"
+    "screenfull" "^4.2.0"
+    "vue" "^2.5.9"
+
 "remove-trailing-separator@^1.0.1":
   "integrity" "sha1-wkvOKig62tW8P1jg1IJJuSN52O8="
   "resolved" "http://nexus.devops.csvw.com/repository/npm-public/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz"
@@ -8890,6 +8899,11 @@
     "ajv" "^8.8.0"
     "ajv-formats" "^2.1.1"
     "ajv-keywords" "^5.0.0"
+
+"screenfull@^4.2.0":
+  "integrity" "sha512-PLSp6f5XdhvjCCCO8OjavRfzkSGL3Qmdm7P82bxyU8HDDDBhDV3UckRaYcRa/NDNTYt8YBpzjoLWHUAejmOjLg=="
+  "resolved" "http://nexus.devops.csvw.com/repository/npm-public/screenfull/-/screenfull-4.2.1.tgz"
+  "version" "4.2.1"
 
 "select-hose@^2.0.0":
   "integrity" "sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo="
@@ -10344,7 +10358,7 @@
   "resolved" "http://nexus.devops.csvw.com/repository/npm-public/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^2.5.17", "vue@^2.5.18", "vue@^2.5.2", "vue@>= 2.0.0", "vue@2.6.11":
+"vue@^2 || ^3.0.0-0", "vue@^2.5.17", "vue@^2.5.18", "vue@^2.5.2", "vue@^2.5.9", "vue@>= 2.0.0", "vue@2.6.11":
   "integrity" "sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ=="
   "resolved" "http://nexus.devops.csvw.com/repository/npm-public/vue/-/vue-2.6.11.tgz"
   "version" "2.6.11"
