@@ -1143,7 +1143,7 @@ export default {
       //   fileIds
       // let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/>`
       //let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
-      let body = `%0D%0ADear%20all%2C%0D%0A%0D%0A%0D%0APlease%20find%20minutes%20of%20${subject}%20in%20RiSE%20below.%0D%0A${minuteSrc}%0D%0A%0D%0ABest%20Regards!%20%2F%20Mit%20freundlichen%20Gr%C3%BC%C3%9Fen!%0D%0A%0D%0A%0D%0ACSC%20Meeting`
+      let body = `Dear%20all%2C%0D%0A%0D%0APlease%20find%20minutes%20of%20${subject}%20in%20RiSE%20below.%0D%0A${minuteSrc}%0D%0A%0D%0ABest%20Regards!%20%2F%20Mit%20freundlichen%20Gr%C3%BC%C3%9Fen!%0D%0A%0D%0ACSC%20Meeting`
       let href = `mailto:${send}?subject=${subject}&body=${body}`
       this.createAnchorLink(href)
     },
