@@ -6,12 +6,12 @@
                 :rules="baseInfoRules"
                 :model="supplierData"
                 ref="baseInfoRules">
-      <iFormItem prop="supplierDTO.legalPerson"
-                 v-permission="SUPPLIER_BASEINFO_COMPANY_LEGALPERSON">
+      <iFormItem prop="supplierDTO.legalPerson">
         <iLabel :label="$t('LegalPerson')"
                 required
                 slot="label"></iLabel>
         <iInput v-model="supplierData.supplierDTO.legalPerson"
+                v-permission.edit="SUPPLIER_BASEINFO_COMPANY_LEGALPERSON"
                 :placeholder="$t('LK_QINGSHURU') + $t('LegalPerson')"></iInput>
       </iFormItem>
       <iFormItem prop="supplierDTO.companySize"
