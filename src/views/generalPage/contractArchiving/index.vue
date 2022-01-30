@@ -1,13 +1,13 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-17 17:52:58
- * @LastEditTime: 2022-01-28 22:15:56
+ * @LastEditTime: 2022-01-30 14:27:46
  * @LastEditors: YoHo
  * @Description: 
 -->
 <!--条款归档页面-->
 <template>
-  <iPage class="partsprocureHome" v-permission="CONTRACT_MANAGE_ARCHIVING_HOME_PAGE">
+  <iPage class="partsprocureHome">
     <div class="header margin-bottom20">
       <h2>档案管理</h2>
     </div>
@@ -141,8 +141,7 @@ export default {
           this.form[i] = ''
         }
       }
-      this.page.currPage = 1
-      this.getTableListFn()
+      this.clickQuery()
     },
     clickQuery() {
       this.tableLoading = true

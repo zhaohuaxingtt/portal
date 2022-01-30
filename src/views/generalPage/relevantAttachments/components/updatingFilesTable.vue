@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-28 18:40:40
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-30 18:23:20
+ * @LastEditors: YoHo
  * @Description: 相关附件
 -->
 <template>
@@ -110,7 +110,7 @@ export default {
       await purchaseTerms(params).then(res => {
         if (res?.code == '200') {
           res.data.forEach(i => {
-            disabled = disabled || ['02', '03', '04', '05'].includes(i.termsStatus) // 02:审批中,03:审批退回,04:审批通过,05:签署中
+            disabled = disabled || ['02', '04', '05'].includes(i.termsStatus) // 02:审批中,04:审批通过,05:签署中
           })
         }
       })

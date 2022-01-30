@@ -268,7 +268,7 @@ changePv(v){
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #e30b0d;
+  color: #9b9b9b;
 }
 .red {
   color: #e30b0d;

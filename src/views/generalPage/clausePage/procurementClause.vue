@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-29 11:56:56
+ * @LastEditTime: 2022-01-30 11:19:50
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -229,6 +229,7 @@ export default {
         })
       }
       this.updataValue = true
+      this.remark = ''
       this.attachList()
     },
     // 同步供应商
