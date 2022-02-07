@@ -85,6 +85,8 @@
                 formData.append('feedBackContent', this.feedBackAnswer)
                 await addAnswerFeedBack(answer.id, formData).then(res => {
                     if (res?.success) {
+                        this.feedBackAnswer = ""
+                        this.showInput = false
                         this.$message({type: 'success', message: '问题反馈成功'})
                     }
                 })
