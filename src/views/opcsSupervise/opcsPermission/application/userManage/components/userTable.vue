@@ -284,7 +284,7 @@ export default {
     },
     //下载模板
     download() {
-      downloadUser({ pageNo: this.page.currPage, pageSize: this.page.pageSize })
+      downloadUser({ pageNo: 1, pageSize: 9999 })
     },
 
     //新增
