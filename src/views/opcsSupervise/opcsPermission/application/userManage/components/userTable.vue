@@ -12,6 +12,7 @@
         language('LIANXIRENYUYONGHU', '联系人与用户')
       }}</span>
       <div class="floatright">
+        <i-button @click="openLog">{{ language('rizhi', '日志') }}</i-button>
         <i-button v-if="edit"
                   @click="add">{{ language('XINZENG', '新增') }}
         </i-button>
@@ -110,7 +111,7 @@
 
       </table-list>
     </iDialog>
-
+    <iUserLog :show.sync="importLogDialog" :bizId="this.$route.query.opcsSupplierId" menuId="WS1OHTER-018" is-page  />
   </iCard>
 </template>
 
@@ -121,11 +122,11 @@ import systemDetail from './systemDetail'
 import { tableTitle, tableTitleEdit } from './data'
 import store from '@/store'
 import { excelExport } from '@/utils/filedowLoad'
+import iUserLog from '@/components/iUserLog'
 import {
   iCard,
   iButton,
   iMessage,
-  iPagination,
   iMessageBox,
   iDialog
 } from 'rise'
@@ -145,13 +146,14 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination,
     systemDetail,
-    iDialog
+    iDialog,
+    iUserLog
   },
   data() {
     return {
       importDialog: false,
+      importLogDialog: false,
       isdialog: false,
       rowList: {},
       inputProps: [],
@@ -169,6 +171,9 @@ export default {
     this.getTableData()
   },
   methods: {
+    openLog() {
+      this.importLogDialog = true;
+    },
     exportFile() {
       //因为需要一个序号  所以这里处理页签和数据
       let downTableList = this.tableTitleEdit;

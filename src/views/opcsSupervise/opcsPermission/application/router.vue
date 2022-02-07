@@ -40,7 +40,6 @@
         <router-view />
       </div>
     </div>
-
   </div>
 </template>
 
@@ -54,13 +53,14 @@ import { cloneDeep } from 'lodash'
 
 export default {
      components: {
-    iButton,
+      iButton,
   },
   // import引入的组件需要注入到对象中才能使用
   //   components: { iNavMvp },
   data() {
     // 这里存放数据
     return {
+
       applicationRouterList: cloneDeep(applicationRouterList),
       isCollapse: false //水平折叠收起菜单
     }
