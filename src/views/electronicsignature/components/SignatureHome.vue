@@ -206,6 +206,7 @@ export default {
         this.tabloading = false
         if (code == 200) {
           this.sinaturedatas = data.records
+          
         } else {
           this.$message.error(res.desZh)
         }
@@ -290,6 +291,7 @@ export default {
         if (res.code == 200) {
           this.loadContractList()
           this.$message.success(res.desZh)
+          window.open(res.data)
         } else {
           this.$message.error(res.desZh)
 
