@@ -49,7 +49,7 @@
                     </div>
                 </div>
                  <UiCard title="常见问题" v-if="faqList.length > 0" class="process-img" :color="false">
-                    <iButton slot="head-right">MORE</iButton>
+                    <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/collect',query:{processId: id}})">MORE</iButton>
                     <template slot="content">
                         <iQuestion :list="faqList" @queryFAQ="queryFAQ"></iQuestion>
                     </template>
@@ -61,7 +61,7 @@
                        {{data.publishTime}}
                    </div>
                </UiCard>
-               <UiCard title="流程图" class="process-img" :color="false">
+               <UiCard title="流程图" v-if="detail.flowChart" class="process-img" :color="false">
                    <div slot="content" class="draw cursor" @click="view('img')">
                        <img style="width:100%" :src="detail.flowChart ? fileFmt(detail.flowChart.filePath) : ''" alt="">
                    </div>
@@ -72,7 +72,7 @@
                        视频
                    </div>
                    <template slot="content">
-                        <div class="draw cursor" v-if="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage']">
+                        <div class="draw cursor" v-if="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage']" @click="downAttach(pageDetail.attachMentsKV['operatorFile'] ? pageDetail.attachMentsKV['operatorFile'].url : '')">
                             <img style="width:100%" :src="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage'] && fileFmt(pageDetail.attachMentsKV['operatorImage'].url)" alt="">
                         </div>
                         <template>
@@ -297,7 +297,7 @@ $line-color: #BBC4D6;
     }
 
     .row{
-        padding: 20px;
+        padding:15px 20px;
         justify-content: space-between;
         align-items: center;
     }
