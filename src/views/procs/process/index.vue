@@ -2,7 +2,7 @@
     <div>
        <LayHeader title="流程管理"></LayHeader>
         <div class="process mt20">
-            <div class="flex-1 mr20">
+            <div class="flex-1 mr20" style="overflow: hidden;">
                 <div class="flex justify-between items-center">
                     <div class="flex flex-1">
                         <span class="process-tab" v-for="tab in tabs[activeView]" :key="tab.value" :class="{active:activeName == tab.value}" @click="tabChange(tab.value)"><i :class="[tab.icon]"></i> {{tab.name}}</span>

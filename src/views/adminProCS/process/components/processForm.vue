@@ -144,8 +144,8 @@ export default {
                 this.loading = true
                 this.form = await getProcess(id)
 				console.log(this.form, '233333')
-                this.form.exports = this.form.experts ? this.form.experts.map(e => e.id) : []
-                this.form.organizations = this.form.organizations.map(e => e.id)
+				this.$set(this.form, "exports", this.form.experts ? this.form.experts.map(e => e.id) : [])
+				this.$set(this.form, "organizations", this.form.organizations ? this.form.organizations.map(e => e.id) : [])
                 delete this.form.experts
 				return this.form
             } finally {

@@ -75,7 +75,17 @@ export function queryMyCollect(data) {
  */
  export function getProcessFAQ(id) {
     return procsRequest({
-        url: `workflow_issue/${id}/issueDetail.json`,
+        url: `/workflow_issue/${id}/issueDetail.json`,
+        method: 'get'
+    })
+}
+/**
+ * 查询流程所有问题列表
+ * 
+ */
+ export function queryProcessAllQA(id) {
+    return procsRequest({
+        url: `/workflow_issue/${id}/issueList`,
         method: 'get'
     })
 }
@@ -96,7 +106,7 @@ export function queryHotTerms(data) {
  */
 export function querySample() {
     return procsRequest({
-        url: `workflow_file/commonSample.json`,
+        url: `/workflow_file/commonSample.json`,
         method: 'get'
     })
 }
