@@ -118,18 +118,24 @@ export default {
             this.$router.push({path: '/adminProCS/process/edit', query: {id: id}})
         },
         async del(){
-            let id = this.selectList[0]?.id
-            this.tableLoading = true
-            try {
-                await deleteProcess(id).then(res => {
-                    if (res?.success) {
-                        this.$message({type: 'success', message: "成功删除该条流程"})
-                        this.query()
-                    }
-                })
-            } finally {
-                this.tableLoading = false
-            }
+            this.$confirm('确定删除此流程吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                let id = this.selectList[0]?.id
+                this.tableLoading = true
+                try {
+                    await deleteProcess(id).then(res => {
+                        if (res?.success) {
+                            this.$message({type: 'success', message: "成功删除该条流程"})
+                            this.query()
+                        }
+                    })
+                } finally {
+                    this.tableLoading = false
+                }
+            })
         },
         async updateState(v,index){
             let id = this.tableListData[index].id
