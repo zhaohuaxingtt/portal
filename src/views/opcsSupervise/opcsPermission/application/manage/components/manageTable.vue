@@ -13,6 +13,7 @@
         language('YINGYONGGUANLI', '应用管理')
       }}</span>
       <div class="floatright">
+        <i-button @click="openLog">{{ language('rizhi', '日志') }}</i-button>
         <i-button @click="add">{{ language('XINZENG', '新增') }}
         </i-button>
         <i-button @click="remove">{{ language('SHANCHU', '删除') }}
@@ -42,6 +43,7 @@
     <systeamDetailAdd @closeDiolog='closeDiolog'
                       @save="save"
                       v-model="dialog"></systeamDetailAdd>
+    <iUserLog :show.sync="importLogDialog" :bizId="this.$route.query.opcsSupplierId" menuId="WS1OHTER-017" is-page  />
   </iCard>
 </template>
 
@@ -57,18 +59,21 @@ import {
   deleteDetails
 } from '@/api/opcs/solPermission'
 import { iCard, iButton, iMessage, iMessageBox } from 'rise'
+import iUserLog from '@/components/iUserLog'
 export default {
   mixins: [pageMixins],
   components: {
     iCard,
     iButton,
     systeamDetailAdd,
-    tableList
+    tableList,
+    iUserLog
     // iPagination
   },
   data() {
     return {
       dialog: false,
+      importLogDialog: false,
       tableLoading: false,
       selectTableData: [],
       tableTitle: tableTitle,
@@ -79,6 +84,9 @@ export default {
     this.getTableData()
   },
   methods: {
+    openLog() {
+      this.importLogDialog = true;
+    },
     add() {
       this.dialog = true
     },

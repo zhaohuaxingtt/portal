@@ -204,7 +204,7 @@ export default {
 		}
 		if(this.disabledBiz){
 			this.query.bizId = this.bizId
-			this.query.module = this.menuId
+			this.query.menuId = this.menuId
 		}
 		this.date = null
 		if (this.isPage) {
@@ -231,7 +231,7 @@ export default {
 			this.disabledBiz = false
 		}
 		this.query.bizId = this.bizId
-		this.query.module = this.menuId
+		this.query.menuId = this.menuId
 		this.getOptions()
 		this.getList()
     },
