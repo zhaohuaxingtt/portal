@@ -42,7 +42,7 @@
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import {iCard, iButton, iInput} from 'rise';
-    import { queryMyCollect, getProcessFAQ, addAnswerFeedBack, unCollectFAQ, collectFAQ } from '@/api/procs';
+    import { queryMyCollect, getProcessFAQ, addAnswerFeedBack, unCollectFAQ, collectFAQ, queryProcessAllQA } from '@/api/procs';
     
     export default {
         components:{
@@ -62,7 +62,8 @@
                 showInput: false,
                 feedBackAnswer: '',
                 listLoading: false,
-                detailLoading: false
+                detailLoading: false,
+                processId: this.$route.query.processId
             }
         },
         created() {
@@ -70,27 +71,33 @@
             if (query.id) {
                 this.initId = query.id
             }
+            
             this.getCollectList()
         },
         methods: {
-            getCollectList() {
+            async getCollectList() {
                 let params = {
                     page: 0,
                     size: 5
                 }
-                this.listLoading = true
-                queryMyCollect(params).then(res => {
-                    console.log(res, '2222')
+                try {
+                    this.listLoading = true
+                    let res = []
+                    if(this.processId){
+                        res = await queryProcessAllQA(this.processId)
+                    }else{
+                        res = await queryMyCollect(params)
+                    }
                     if (res) {
                         this.collectList = res || []
-                        this.listLoading = false
                         if (res.length > 0) {
                             this.initId = this.initId ? this.initId : res[0].id
                             this.getCollectInfo(this.initId)
                         }
-                    }
-                    
-                })
+                    }    
+                } finally {
+                    this.listLoading = false
+                }
             },
             async getCollectInfo(id) {
                 this.detailLoading = true
