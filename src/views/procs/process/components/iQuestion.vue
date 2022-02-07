@@ -12,12 +12,12 @@
                     <div class="time">最后编辑于 {{answer.updateTime}}</div>
                 </div>
                 <template v-if="l.answerList.length > 0">
-                    <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
-                    <div v-if="showInput" class="mt20">
+                    <div v-show="!l.showInput" class="opearte mt20 cursor" @click="changeInput(index,true)"><i class="el-icon-edit"></i> 提问</div>
+                    <div v-if="l.showInput" class="mt20">
                         <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
                         <div class="mt10 flex justify-end">
-                            <iButton @click="sureFeedBack(answer)">确定</iButton>
-                            <iButton @click="showInput = false">取消</iButton>
+                            <iButton @click="sureFeedBack(answer,index)">确定</iButton>
+                            <iButton @click="changeInput(index,false)">取消</iButton>
                         </div>
                     </div>
                 </template>
@@ -59,6 +59,7 @@
                         if(el.answerList.length > 0){
                             el.answerList.forEach(e => {
                                 e.more = false
+                                e.showInput = false
                             });
                         }
                         return el
@@ -80,11 +81,16 @@
                 this.$set(this.qsList[i1].answerList[i2],'more', !this.qsList[i1].answerList[i2].more)
                 this.$forceUpdate()
             },
-            async sureFeedBack(answer) {
+            changeInput(index, v){
+                this.$set(this.qsList[index], "showInput", v)
+            },
+            async sureFeedBack(answer, index) {
                 let formData = new FormData()
                 formData.append('feedBackContent', this.feedBackAnswer)
                 await addAnswerFeedBack(answer.id, formData).then(res => {
                     if (res?.success) {
+                        this.feedBackAnswer = ""
+                        this.changeInput(index,false)
                         this.$message({type: 'success', message: '问题反馈成功'})
                     }
                 })

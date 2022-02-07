@@ -2,7 +2,7 @@
     <div>
        <LayHeader title="流程管理"></LayHeader>
         <div class="process mt20">
-            <div class="flex-1 mr20">
+            <div class="flex-1 mr20" style="overflow: hidden;">
                 <div class="flex justify-between items-center">
                     <div class="flex flex-1">
                         <span class="process-tab" v-for="tab in tabs[activeView]" :key="tab.value" :class="{active:activeName == tab.value}" @click="tabChange(tab.value)"><i :class="[tab.icon]"></i> {{tab.name}}</span>
@@ -51,7 +51,7 @@
                 
             </div>
             <div class="side">
-               <UiCard title="我的收藏" :list="collectList" @row-click="side($event, 'collect')">
+               <UiCard title="我的收藏" v-if="collectList.length > 0" :list="collectList" @row-click="side($event, 'collect')">
                    <iButton v-if="collectList.length > 0" slot="head-right" @click="$router.push({path:'/cf-ProCS/collect'})">MORE</iButton>
                </UiCard>
                <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>

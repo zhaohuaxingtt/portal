@@ -472,6 +472,14 @@ export function deleteIssueAnswer(id) {
         method: 'delete'
     })
 }
+// 查询问题回答反馈列表
+export function answerFeedBackList(id,data) {
+    return procsRequest({
+        url: `/workflow_issue_mgr/${id}/answerFeedBackList.json`,
+        method: 'get',
+        params:data
+    })
+}
 
 
 
