@@ -50,6 +50,7 @@ export default {
     }
   },
   mounted() {
+    this.$route.query.editable == 1 ? this.editable = true : this.editable = false
     this.type = this.$route.params.type
     this.detailId = this.$route.query.id
     this.deptId = this.$route.query.deptId
@@ -73,7 +74,7 @@ export default {
     if (from.name !== 'positionTag' && to.params.type !== 'add') {
       next((vm) => {
         vm.$store.dispatch('GetPositionDetail', vm.detailId)
-        to.query.editable == 1 ? vm.editable = true : vm.editable = false
+        // to.query.editable == 1 ? vm.editable = true : vm.editable = false
       })
     }
     next()
@@ -100,7 +101,8 @@ export default {
         path: '/position/operate/edit',
         query: {
           id: this.detailId,
-          deptId: this.deptId
+          deptId: this.deptId,
+          editable:this.editable ? 1 : 2
         }
       })
     },
