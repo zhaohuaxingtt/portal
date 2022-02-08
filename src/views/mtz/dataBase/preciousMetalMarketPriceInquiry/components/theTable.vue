@@ -7,23 +7,26 @@
           <template v-if="!tableEditStatus">
             <uploadButton ref="uploadButtonAttachment"
                           :buttonText="language('SHANGCHUANFUJIAN', '上传附件')"
+                          v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_SHANGCHUANFJ"
                           :uploadByBusiness="true"
                           :hideButton="true"
                           @uploadedCallback="handleUpload($event, 'attachment')" />
-            <iButton @click="clickUpload(ATTACHMENT)">{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
-            <iButton @click="handleDelete">{{ language('SHANCHUFUJIAN', '删除附件') }}</iButton>
+            <iButton @click="clickUpload(ATTACHMENT)" v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_SHANGCHUANFJ">{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
+            <iButton @click="handleDelete" v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_SHANCHUFJ">{{ language('SHANCHUFUJIAN', '删除附件') }}</iButton>
             <iButton @click="handleDownloadTemplate"
+                      v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_XIAZAIMUBAN"
                      :loading="downloadTemplateButtonLoading">
               {{ language('XIAZAIMUBAN', '下载模板')}}
             </iButton>
             <uploadButton ref="uploadButtonOrder"
+                          v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_SHANGCHUANDJD"
                           :buttonText="language('SHANGCHUANDIANJIADAN', '上传点价单')"
                           :uploadByBusiness="true"
                           @uploadedCallback="handleUpload($event, 'order')"
                           class="margin-left10 margin-right10" />
-            <iButton @click="handleEdit">{{ language('BIANJI', '编辑') }}</iButton>
+            <iButton @click="handleEdit" v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_BIANJI">{{ language('BIANJI', '编辑') }}</iButton>
             <iButton @click="handleExport"
-                     :loading="exportButtonLoading">{{ language('DAOCHU', '导出') }}</iButton>
+                     :loading="exportButtonLoading" v-permission="PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN_DAOCHU">{{ language('DAOCHU', '导出') }}</iButton>
           </template>
           <template v-else>
             <iButton @click="handleCancel">{{ language('QUXIAO', '取消') }}</iButton>

@@ -176,8 +176,8 @@
                        :active-value="true"
                        :inactive-value="false" />
           </div>
-          <iButton @click="handleExportCurrent">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
-          <iButton @click="handleRedeploy">{{language('ZHUANGPAI', '转派')}}</iButton>
+          <iButton @click="handleExportCurrent" v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
+          <iButton @click="handleRedeploy" v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_ZHUANPAI">{{language('ZHUANGPAI', '转派')}}</iButton>
         </div>
         <tableList class="margin-top20"
                    :tableData="tableListData"

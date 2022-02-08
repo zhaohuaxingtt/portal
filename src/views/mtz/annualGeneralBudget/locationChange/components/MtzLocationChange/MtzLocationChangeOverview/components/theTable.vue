@@ -15,9 +15,9 @@
           {{language('LIEBIAOXIANGQING','列表详情')}}
         </span>
         <div>
-          <iButton @click="addMTZ">{{language('XINJIANMTZBIANGENGSHENQING','新建MTZ变更申请')}}</iButton>
-          <iButton @click="recall">{{language('CHEHUI','撤回')}}</iButton>
-          <iButton @click="del">{{language('SHANCHU','删除')}}</iButton>
+          <iButton @click="addMTZ" v-permission="PORTAL_MTZ_CHANGE_ADD">{{language('XINJIANMTZBIANGENGSHENQING','新建MTZ变更申请')}}</iButton>
+          <iButton @click="recall" v-permission="PORTAL_MTZ_CHANGE_CHEHUI">{{language('CHEHUI','撤回')}}</iButton>
+          <iButton @click="del" v-permission="PORTAL_MTZ_CHANGE_DEL">{{language('SHANCHU','删除')}}</iButton>
         </div>
 
       </template>
