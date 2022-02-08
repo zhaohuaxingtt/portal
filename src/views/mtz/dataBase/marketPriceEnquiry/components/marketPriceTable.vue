@@ -58,19 +58,22 @@
                 <div class="tt">{{language('SHICHANGJIAXIANGQING','市场价详情')}}</div>
                 <div>
                   <template v-if="!isEdit">
-                    <iButton @click="handlePartNumberDetail">{{language('XIAZAIMOBAN','下载模板')}}</iButton>
+                    <iButton @click="handlePartNumberDetail"
+                              v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN_XZMB">{{language('XIAZAIMOBAN','下载模板')}}</iButton>
                     <uploadButton
                       style="marginLeft: 10px;"
                       ref="uploadButton"
+                      v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN_SCSCJ"
                       :buttonText="language('上传市场价', '上传市场价')"
                       :uploadByBusiness="true"
                       :hideButton="true"
                       :accept="'.xlsx'"
                       @uploadedCallback="handleUpload($event)"
                     />
-                    <iButton @click="handleUploadMtzPrice">{{language('SHANGCHUANGSHICHANGJIA','上传市场价')}}</iButton> 
-                    <iButton @click="handleEdit">{{language('BIANJI','编辑')}}</iButton> 
-                    <iButton @click="handleExport">{{language('DAOCHU','导出')}}</iButton> 
+                    <iButton @click="handleUploadMtzPrice"
+                              v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN_SCSCJ">{{language('SHANGCHUANGSHICHANGJIA','上传市场价')}}</iButton> 
+                    <iButton @click="handleEdit" v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN_BIANJI">{{language('BIANJI','编辑')}}</iButton> 
+                    <iButton @click="handleExport" v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN_DAOCHU">{{language('DAOCHU','导出')}}</iButton> 
                   </template>
                     <template v-if="isEdit">
                       <iButton @click="handleEditSave">{{language('BAOCUN','保存')}}</iButton> 

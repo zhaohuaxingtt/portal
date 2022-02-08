@@ -22,9 +22,9 @@
       <div>
         <!-- <iButton @click="bingo" v-permission="PORTAL_MTZ_FAQIBUCHA" v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton> -->
         <!-- <iButton @click="refuse" v-if="dataObject.status == '供应商确认中'">{{language('JUJUE', '拒绝')}}</iButton> -->
-        <iButton @click="uploadPZ">{{language('DAOCHU', '导出')}}</iButton>
-        <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
-        <iButton @click="save">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
+        <iButton @click="uploadPZ" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+        <iButton @click="upload" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+        <iButton @click="save" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHUBEIZHU">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
         <iButton @click="bingo"
                  v-if="dataObject.status == '供应商确认中'" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAIGONGYINGSHANGQUEREN">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
       </div>

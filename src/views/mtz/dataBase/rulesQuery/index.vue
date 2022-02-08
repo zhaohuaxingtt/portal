@@ -126,9 +126,9 @@
                   </el-tooltip>
                 </div>
                 <div>
-                    <iButton @click="takeEffect(1)">{{language('SHENGXIAO','生效')}}</iButton> 
-                    <iButton @click="takeEffect(0)">{{language('SHIXIAO','失效')}}</iButton> 
-                    <iButton @click="handleExportAll">{{language('DAOCHU','导出')}}</iButton> 
+                    <iButton @click="takeEffect(1)" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHENGXIAO">{{language('SHENGXIAO','生效')}}</iButton> 
+                    <iButton @click="takeEffect(0)" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHIXIAO">{{language('SHIXIAO','失效')}}</iButton> 
+                    <iButton @click="handleExportAll" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_DAOCHU">{{language('DAOCHU','导出')}}</iButton> 
                 </div>
               </div>
               <div>
