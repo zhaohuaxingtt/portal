@@ -27,7 +27,7 @@
                 </div>
                 
                 <div class="flex justify-between items-center mt20">
-                    <div class="flex flex-row mt20">
+                    <div class="flex flex-row mt20" v-if="answerList.length > 0">
                         <div class="opearte mr20 cursor" @click="share"><i class="el-icon-share"></i>分享</div>
                         <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red" class="el-icon-star-on"></i>已收藏</div>
                         <div class="opearte cursor" @click="collect" v-else><i class="el-icon-star-off"></i>收藏</div>

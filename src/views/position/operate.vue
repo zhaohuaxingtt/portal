@@ -141,7 +141,8 @@ export default {
           this.detailId = res.data.id
           const query = {
             id: res.data.id,
-            deptId: this.deptId
+            deptId: this.deptId,
+            editable:this.editable ? 1 : 2
           }
           this.$router.replace({
             path: '/position/operate/detail',
