@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="position-operate-page" v-loading="loading">
-      <pageHeader class="margin-bottom20">
+      <pageHeader class="margin-bottom20" v-if="editable">
         {{ $route.query.id ? '编辑' : '新增' }}岗位
 
         <div slot="actions">
@@ -39,7 +39,8 @@ export default {
       type: '',
       detailId: '',
       deptId: '',
-      saveLoading: false
+      saveLoading: false,
+      editable:false
     }
   },
   watch: {
@@ -49,6 +50,7 @@ export default {
     }
   },
   mounted() {
+    this.$route.query.editable == 1 ? this.editable = true : this.editable = false
     this.type = this.$route.params.type
     this.detailId = this.$route.query.id
     this.deptId = this.$route.query.deptId
@@ -68,9 +70,11 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
+    console.log(from,'=======',to)
     if (from.name !== 'positionTag' && to.params.type !== 'add') {
       next((vm) => {
         vm.$store.dispatch('GetPositionDetail', vm.detailId)
+        // to.query.editable == 1 ? vm.editable = true : vm.editable = false
       })
     }
     next()
@@ -97,7 +101,8 @@ export default {
         path: '/position/operate/edit',
         query: {
           id: this.detailId,
-          deptId: this.deptId
+          deptId: this.deptId,
+          editable:this.editable ? 1 : 2
         }
       })
     },
@@ -136,7 +141,8 @@ export default {
           this.detailId = res.data.id
           const query = {
             id: res.data.id,
-            deptId: this.deptId
+            deptId: this.deptId,
+            editable:this.editable ? 1 : 2
           }
           this.$router.replace({
             path: '/position/operate/detail',

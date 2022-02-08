@@ -1,17 +1,19 @@
 <template>
   <div class="btn-box flex-end-center margin-bottom30">
-    <iButton
-      :disabled="
-        (item.value === 'add' && (selectedList.length || !orgSelected.id)) ||
-        (item.value === 'del' && !selectedList.length) ||
-        (item.value === 'edit' && selectedList.length !== 1)
-      "
-      @click="handleOperate(item.value)"
-      v-for="item in operations"
-      :key="item.value"
-    >
-      {{ item.label }}
-    </iButton>
+    <div v-if="showBtns">
+      <iButton
+        :disabled="
+          (item.value === 'add' && (selectedList.length || !orgSelected.id)) ||
+          (item.value === 'del' && !selectedList.length) ||
+          (item.value === 'edit' && selectedList.length !== 1)
+        "
+        @click="handleOperate(item.value)"
+        v-for="item in operations"
+        :key="item.value"
+      >
+        {{ item.label }}
+      </iButton>
+    </div>
     <button-table-setting @click="$emit('handle-setting')" />
   </div>
 </template>
@@ -25,6 +27,10 @@ export default {
   props: {
     operations: {
       type: Array
+    },
+    showBtns:{
+      type:Boolean,
+      default:true,
     }
   },
   computed: {
