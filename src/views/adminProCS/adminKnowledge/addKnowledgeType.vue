@@ -168,6 +168,8 @@ export default {
 							// this.newTypeForm.coverFile = this.coverFile ? this.coverFile : this.newTypeForm.coverFile
 							this.newTypeForm.coverFile = this.imageUrl || ""
 							this.newTypeForm.coverFileName = this.imgName ? this.imgName : this.newTypeForm.coverFileName
+							console.log(this.newTypeForm);
+
 							let formData = new FormData()
 							Object.keys(this.newTypeForm).forEach(key => {
 								formData.append(key,this.newTypeForm[key])
@@ -180,8 +182,11 @@ export default {
 								}
 							})
 						} else {
-							this.newTypeForm.coverFile = this.coverFile
+							// this.newTypeForm.coverFile = this.coverFile
+							this.newTypeForm.coverFile = this.imageUrl || ""
 							this.newTypeForm.coverFileName = this.imgName
+							console.log(this.newTypeForm);
+
 							let formData = new FormData()
 							Object.keys(this.newTypeForm).forEach(key => {
 								formData.append(key,this.newTypeForm[key])
