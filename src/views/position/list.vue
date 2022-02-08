@@ -31,7 +31,7 @@
     </div> -->
     <div class="position-page list flex">
       <organizationList />
-      <positionList />
+      <positionList :showBtns='showBtns'/>
     </div>
   </iPage>
 </template>
@@ -47,6 +47,12 @@ export default {
     }
   },
   mounted() {},
+  beforeRouteEnter(to,from,next){
+    next((vm)=>{
+      to.fullPath.includes('cf-position') ? vm.showBtns = false : vm.showBtns = true
+      console.log(vm.showBtns,'-----')
+    })
+  },
   beforeRouteLeave(to, from, next) {
     // console.log('to', to)
     // console.log('from', from)
@@ -54,8 +60,9 @@ export default {
     next()
   },
   data() {
-    const _self = this
+    // const _self = this
     return {
+      showBtns:false,
       menus2: [
         { name: '组织管理', url: '/org/list' },
         { name: '岗位管理', url: '' }
