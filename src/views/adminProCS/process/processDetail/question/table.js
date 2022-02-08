@@ -12,7 +12,14 @@ export const questionColumn = [
     {
 		prop:'feedBackCount',
 		label:'反馈',
-		align: 'center'
+		align: 'center',
+		customRender:(h,{row},col,{operate}) => {
+            return (
+                <span>
+					<el-link underline={false} on-click={() => operate("feedback",row)}>{row.feedBackCount}</el-link>
+                </span>
+            )
+        }
 	},
 	{
 		label:'操作',

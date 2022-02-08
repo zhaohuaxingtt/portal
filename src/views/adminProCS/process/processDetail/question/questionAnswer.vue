@@ -55,6 +55,7 @@
             :qsId="this.info.id"
             @refresh="query"
         />
+        <feedback :show.sync="feedback.show" :id="feedback.id"></feedback>
     </iDialog>
 </template>
 
@@ -63,6 +64,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { questionColumn } from './table.js'
 import { iDialog, iFormItem, iButton, iPagination, iTableCustom } from 'rise'
 import addAnswer from './addAnswer'
+import feedback from './feedback.vue'
 import {queryFAQAnswerList, deleteIssueAnswer} from '@/api/adminProCS';
 
 export default {
@@ -73,7 +75,8 @@ export default {
         iButton,
         iPagination,
         iTableCustom,
-        addAnswer
+        addAnswer,
+        feedback
     },
     props: {
         show: {
@@ -94,7 +97,11 @@ export default {
             tableSetting: questionColumn,
             type: 'add',
             addAnswerDialog: false,
-            detail:{}
+            detail:{},
+            feedback:{
+                show:false,
+                id:""
+            }
         }
     },
     methods: {
@@ -150,6 +157,10 @@ export default {
                         });
                         this.query()
                     })
+                    break;
+                case "feedback":
+                    this.feedback.id = row.id
+                    this.feedback.show = true
                     break;
             }
         }

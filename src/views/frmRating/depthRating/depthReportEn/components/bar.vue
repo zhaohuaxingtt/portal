@@ -190,7 +190,7 @@ export default {
                       position: 'top',
                       color:'#333',
                       formatter: (params) =>{
-                        return this.sum(tempArr[params.name])
+                        return this.sum([parseFloat(tempArr[params.name][0]),parseFloat(tempArr[params.name][1])]).toFixed(2)
                       }
                     },
                     labelLine: {

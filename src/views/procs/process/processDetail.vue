@@ -223,6 +223,7 @@
             handlePageChange(curPage){
                 console.log(curPage);
                 this.getPageDetail(this.detail.pageIds[curPage - 1])
+                this.queryPageSample(this.detail.pageIds[curPage - 1])
             },
             view(t){
                 this.dialog.type = t

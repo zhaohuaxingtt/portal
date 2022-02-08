@@ -204,6 +204,48 @@ export const tableTitleEdit = [{
     },
 ]
 
+export const tableTitleImportErr = [{
+        props: 'supplierNum',
+        name: '供应商编号',
+        key: 'GOMGYINGSHANGBIANHAO',
+        width: 240
+    },
+    {
+        props: 'supplierName',
+        name: '供应商名称',
+        key: 'GONGYINGSHANGMINGCHENG',
+    },
+    {
+        props: 'supplierAddress',
+        name: '供应商地址',
+        key: 'GONGYINGSHANGDIZHI',
+    },
+    {
+        props: 'contactName',
+        name: '联系人姓名',
+        key: 'LIANXIRENXINGMING',
+    },
+    {
+        props: 'contactTel',
+        name: '联系人电话',
+        key: 'LIANXIRENDIANHUA',
+    },
+    {
+        props: 'contactMobile',
+        name: '联系人手机',
+        key: 'LIANXIRENSHOUJI',
+    },
+    {
+        props: 'contactEmail',
+        name: '联系人邮箱',
+        key: 'LIANXIRENYOUXIANG',
+    },
+    {
+        props: 'remark',
+        name: '失败原因',
+        key: 'SHIBEIYUANYING',
+    },
+]
 export const tableTitleDetail = [{
         props: 'nameZh',
         name: '应⽤中⽂名',
