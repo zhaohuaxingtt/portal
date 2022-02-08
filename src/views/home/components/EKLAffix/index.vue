@@ -38,7 +38,6 @@
         </div>
         <div
           class="middle middle-m"
-          style="font-size: 40px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
@@ -46,7 +45,7 @@
               ? parseFloat(tabsData.totalTarget).toFixed(2)
               : '0.00'
           }}
-          <span class="mid-num">%</span>
+          <span class="mid-num" style="color: #1763f7;">%</span>
         </div>
         <div class="right">
           <div class="right-lab">目标值/承诺值</div>
@@ -385,6 +384,7 @@ export default {
     }
     > .middle-m {
       margin-top: -36px;
+      font-size: 24px;
     }
   }
 
