@@ -19,7 +19,7 @@
                         <div v-if="answer.showInput" class="mt20">
                             <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
                             <div class="mt10 flex justify-end">
-                                <iButton @click="sureFeedBack">确定</iButton>
+                                <iButton @click="sureFeedBack(answer,index1)">确定</iButton>
                                 <iButton @click="changeInput(index1,false)">取消</iButton>
                             </div>
                         </div>
@@ -27,7 +27,7 @@
                 </div>
                 
                 <div class="flex justify-between items-center mt20">
-                    <div class="flex flex-row mt20" v-if="answerList.length > 0">
+                    <div class="flex flex-row mt20">
                         <div class="opearte mr20 cursor" @click="share"><i class="el-icon-share"></i>分享</div>
                         <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red;font-size: 14px;" class="el-icon-star-on"></i>已收藏</div>
                         <div class="opearte cursor" @click="collect" v-else><i class="el-icon-star-off"></i>收藏</div>
@@ -123,11 +123,12 @@
             collectDetail(collect) {
                 this.getCollectInfo(collect.id)
             },
-            async sureFeedBack() {
+            async sureFeedBack(answer,i) {
                 let formData = new FormData()
                 formData.append('feedBackContent', this.feedBackAnswer)
-                await addAnswerFeedBack(this.collectId, formData).then(res => {
+                await addAnswerFeedBack(answer.id, formData).then(res => {
                     if (res?.success) {
+                        this.changeInput(i,false)
                         this.$message({type: 'success', message: '问题反馈成功'})
                     }
                 })

@@ -77,7 +77,14 @@ export default {
     },
     computed:{
         list(){
-            return this.listData
+            if(this.$route.query.processId){
+                return this.listData.map(e => {
+                    e.flowId = e.pageId
+                    return e
+                })
+            }else{
+                return this.listData
+            }
         }
     },
     data() {
@@ -168,7 +175,7 @@ export default {
         .right {
             padding-left: 10px;
             border-left: 1px solid rgb(190, 184, 184);
-            height: 100%;
+            // height: 100%;
         }
     }
     .active {
