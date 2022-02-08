@@ -165,7 +165,8 @@ export default {
 				if (v) {
 					try {
 						if (this.modifyFlag) {
-							this.newTypeForm.coverFile = this.coverFile ? this.coverFile : this.newTypeForm.coverFile
+							// this.newTypeForm.coverFile = this.coverFile ? this.coverFile : this.newTypeForm.coverFile
+							this.newTypeForm.coverFile = this.imageUrl || ""
 							this.newTypeForm.coverFileName = this.imgName ? this.imgName : this.newTypeForm.coverFileName
 							let formData = new FormData()
 							Object.keys(this.newTypeForm).forEach(key => {
