@@ -15,9 +15,10 @@
       <div>
         <iButton @click="del"
                  v-if="!isView"
-                 :disabled="disabled">{{language('SHANCHU','删除')}}</iButton>
+                 :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_DEL">{{language('SHANCHU','删除')}}</iButton>
         <uploadButton ref="uploadButtonAttachment"
                       :buttonText="language('SHANGCHUAN', '上传')"
+                      v-permission="PORTAL_MTZ_CHANGE_INFOR_SHANGCHUAN"
                       :uploadByBusiness="true"
                       v-if="!isView"
                       :disabled="disabled"
