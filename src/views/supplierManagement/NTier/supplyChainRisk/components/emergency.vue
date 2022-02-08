@@ -34,17 +34,17 @@
         </span>
         <el-divider></el-divider>
         <div class="margin-bottom20 flex-end">
-          <iButton v-if="eventDetail.createType===language('SHOUDONGCHUANGJIAN','手动创建')"
-                   @click="handleEdit">{{ language('BIANJI','编辑') }}</iButton>
-          <!-- 导出全部-->
-          <iButton @click="exportCurrentPage">{{ language('DAOCHUQUANBU','导出全部') }}</iButton>
+          <iButton :loading="sendFeedbackLoading"
+                   @click="handleSendFeedback(selectTableData)">{{ language('FASONGFANKUIBIAO','发送反馈表')}}</iButton>
+          <iButton :loading="exportFeedbackLoading"
+                   @click="handleExportFeedback(selectTableData)">{{ language('DAOCHUFANKUIBIAO','导出反馈表')}}</iButton>
           <!-- 导出报警信-->
           <iButton :loading="exportAlarmLetterLoading"
                    @click="exportAlarmLetter(selectTableData)">{{ language('DAOCHUBAOJINGXING','导出报警信')}}</iButton>
-          <iButton :loading="exportFeedbackLoading"
-                   @click="handleExportFeedback(selectTableData)">{{ language('DAOCHUFANKUIBIAO','导出反馈表')}}</iButton>
-          <iButton :loading="sendFeedbackLoading"
-                   @click="handleSendFeedback(selectTableData)">{{ language('FASONGFANKUIBIAO','发送反馈表')}}</iButton>
+          <!-- 导出全部-->
+          <iButton @click="exportCurrentPage">{{ language('DAOCHUQUANBU','导出全部') }}</iButton>
+          <iButton v-if="eventDetail.createType===language('SHOUDONGCHUANGJIAN','手动创建')"
+                   @click="handleEdit">{{ language('BIANJI','编辑') }}</iButton>
         </div>
       </div>
       <el-table height="360"
@@ -70,12 +70,12 @@
                          :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')"
                          width="135">
         </el-table-column>
-        <el-table-column align="center"
+        <!-- <el-table-column align="center"
                          show-overflow-tooltip
                          v-if="eventDetail.createType===language('ZIDONGCHUANGJIAN','自动创建')"
                          prop="impactLevel"
                          :label="language('SOUYINGXIANGCHENGDU','受影响程度')">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column align="center"
                          prop="feedbackStatus"
                          :label="language('FANKUIZHUANGTAI1','反馈状态')">

@@ -2,22 +2,22 @@
     <div class="qs">
         <div style="margin-bottom:20px" v-for="(l,index) in qsList" :key="l.id">
             <div class="title">{{l.name}}</div>
-            <div v-for="(answer,index1) in l.answerList" :key="answer.id">
+            <div class="mt20" v-for="(answer,index1) in l.answerList" :key="answer.id">
                 <div class="flex justify-between items-center">
                     <div class="tlt1">{{answer.name}}</div>
                     <el-button size="mini" @click="change(index,index1)">{{answer.more ? "收起" : "MORE"}}</el-button>
                 </div>
                 <div v-show="answer.more">
-                    <div v-html="answer.richContent"></div>
+                    <div class="w-e-text" v-html="answer.richContent"></div>
                     <div class="time">最后编辑于 {{answer.updateTime}}</div>
                 </div>
                 <template v-if="l.answerList.length > 0">
-                    <div v-show="!l.showInput" class="opearte mt20 cursor" @click="changeInput(index,true)"><i class="el-icon-edit"></i> 提问</div>
-                    <div v-if="l.showInput" class="mt20">
+                    <div v-show="!answer.showInput" class="opearte mt20 cursor" @click="changeInput(index,index1,true)"><i class="el-icon-edit"></i> 提问</div>
+                    <div v-show="answer.showInput" class="mt20">
                         <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
                         <div class="mt10 flex justify-end">
-                            <iButton @click="sureFeedBack(answer,index)">确定</iButton>
-                            <iButton @click="changeInput(index,false)">取消</iButton>
+                            <iButton @click="sureFeedBack(answer,index,index1)">确定</iButton>
+                            <iButton @click="changeInput(index,index1,false)">取消</iButton>
                         </div>
                     </div>
                 </template>
@@ -81,16 +81,20 @@
                 this.$set(this.qsList[i1].answerList[i2],'more', !this.qsList[i1].answerList[i2].more)
                 this.$forceUpdate()
             },
-            changeInput(index, v){
-                this.$set(this.qsList[index], "showInput", v)
+            changeInput(i1,i2, v){
+                this.qsList[i1].answerList.forEach(e => {
+                    e.showInput = false
+                })
+                this.$set(this.qsList[i1].answerList[i2], "showInput", v)
+                this.$forceUpdate()
             },
-            async sureFeedBack(answer, index) {
+            async sureFeedBack(answer, i1,i2) {
                 let formData = new FormData()
                 formData.append('feedBackContent', this.feedBackAnswer)
                 await addAnswerFeedBack(answer.id, formData).then(res => {
                     if (res?.success) {
                         this.feedBackAnswer = ""
-                        this.changeInput(index,false)
+                        this.changeInput(i1,i2,false)
                         this.$message({type: 'success', message: '问题反馈成功'})
                     }
                 })
