@@ -77,7 +77,14 @@ export default {
     },
     computed:{
         list(){
-            return this.listData
+            if(this.$route.query.processId){
+                return this.listData.map(e => {
+                    e.flowId = e.pageId
+                    return e
+                })
+            }else{
+                return this.listData
+            }
         }
     },
     data() {
