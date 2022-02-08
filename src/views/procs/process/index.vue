@@ -54,7 +54,7 @@
                <UiCard title="我的收藏" v-if="collectList.length > 0" :list="collectList" @row-click="side($event, 'collect')">
                    <iButton v-if="collectList.length > 0" slot="head-right" @click="$router.push({path:'/cf-ProCS/collect'})">MORE</iButton>
                </UiCard>
-               <UiCard title="常用附件" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
+               <UiCard title="常用附件" style="max-height: 200px;" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
                <UiCard title="最热词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/glossaryManage'})">MORE</iButton>
                    <div slot="item-right" slot-scope="{data}">

@@ -85,7 +85,7 @@ export function queryMyCollect(data) {
  */
  export function queryProcessAllQA(id) {
     return procsRequest({
-        url: `/workflow_issue/${id}/issueList`,
+        url: `/workflow_issue/${id}/issueList.json`,
         method: 'get'
     })
 }
