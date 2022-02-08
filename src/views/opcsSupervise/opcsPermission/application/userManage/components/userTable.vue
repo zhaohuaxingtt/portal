@@ -12,6 +12,7 @@
         language('LIANXIRENYUYONGHU', '联系人与用户')
       }}</span>
       <div class="floatright">
+        <i-button @click="openLog">{{ language('rizhi', '日志') }}</i-button>
         <i-button v-if="edit"
                   @click="add">{{ language('XINZENG', '新增') }}
         </i-button>
@@ -84,6 +85,7 @@
         <iButton @click="openDialog(scope.row)"
                  type="text">{{ language('CAOZUO', '操作') }}
         </iButton>
+
       </template>
     </table-list>
 <!--    <iPagination style="margin-top: 20px"
@@ -102,15 +104,15 @@
     <iDialog :visible.sync="importDialog"
              width="90%"
              top="2%"
-             :title="language('DAORU', '导入')">
+             :title="language('DAORUSHIBEISHUJU', '导入失败数据')">
       <table-list style="padding-bottom:20px"
                   :tableData="tableListDetail"
-                  :tableTitle="tableTitleEdit"
+                  :tableTitle="tableTitleImportErr"
                   :tableLoading="tableLoading">
 
       </table-list>
     </iDialog>
-
+    <iUserLog :show.sync="importLogDialog" :bizId="this.$route.query.opcsSupplierId" menuId="WS1OHTER-018" is-page  />
   </iCard>
 </template>
 
@@ -118,14 +120,14 @@
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import systemDetail from './systemDetail'
-import { tableTitle, tableTitleEdit } from './data'
+import { tableTitle, tableTitleEdit,tableTitleImportErr } from './data'
 import store from '@/store'
 import { excelExport } from '@/utils/filedowLoad'
+import iUserLog from '@/components/iUserLog'
 import {
   iCard,
   iButton,
   iMessage,
-  iPagination,
   iMessageBox,
   iDialog
 } from 'rise'
@@ -145,13 +147,14 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination,
     systemDetail,
-    iDialog
+    iDialog,
+    iUserLog
   },
   data() {
     return {
       importDialog: false,
+      importLogDialog: false,
       isdialog: false,
       rowList: {},
       inputProps: [],
@@ -160,6 +163,7 @@ export default {
       selectTableData: [],
       tableTitle: tableTitle,
       tableTitleEdit: tableTitleEdit,
+      tableTitleImportErr:tableTitleImportErr,
       tableListData: [],
       importLoading: false,
       tableListDetail: []
@@ -169,6 +173,9 @@ export default {
     this.getTableData()
   },
   methods: {
+    openLog() {
+      this.importLogDialog = true;
+    },
     exportFile() {
       //因为需要一个序号  所以这里处理页签和数据
       let downTableList = this.tableTitleEdit;
@@ -254,6 +261,9 @@ export default {
           if (res.data.length > 0) {
             this.importDialog = true
             this.tableListDetail = res.data
+          }else{
+            this.getTableData()
+            this.$message.success(this.language('DAORUCHENGGONG', '导入成功'))
           }
         }else{
             this.$message.error(res.desZh)
@@ -279,7 +289,7 @@ export default {
     },
     //下载模板
     download() {
-      downloadUser({ pageNo: this.page.currPage, pageSize: this.page.pageSize })
+      downloadUser({ pageNo: 1, pageSize: 9999, opcsSupplierId: this.$route.query.opcsSupplierId })
     },
 
     //新增
@@ -302,7 +312,7 @@ export default {
         return false
       }
       iMessageBox(
-        this.language('QUERENSHANCHU', '确认删除？'),
+        this.language('QUERENSHANCHU', '确认删除?'),
         this.language('SHANCHU', '删除'),
         {
           confirmButtonText: this.language('SHI', '是'),

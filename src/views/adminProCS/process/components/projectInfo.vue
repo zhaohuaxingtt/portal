@@ -77,7 +77,14 @@ export default {
     },
     computed:{
         list(){
-            return this.listData
+            if(this.$route.query.processId){
+                return this.listData.map(e => {
+                    e.flowId = e.pageId
+                    return e
+                })
+            }else{
+                return this.listData
+            }
         }
     },
     data() {
@@ -123,16 +130,20 @@ export default {
             this.$emit('handelStyle', event, va)
         },
         save() {
-            let testForm = JSON.parse(JSON.stringify(this.form))
-            this.form = {
-                name: '',
-                flowId: '',
-                xco: '',
-                yco: '',
-                height: '',
-                width: ''
-            },
-            this.$emit('addData', testForm)
+            this.$refs.projectForm.validate(v => {
+                if(v){
+                    let testForm = JSON.parse(JSON.stringify(this.form))
+                    this.form = {
+                        name: '',
+                        flowId: '',
+                        xco: '',
+                        yco: '',
+                        height: '',
+                        width: ''
+                    },
+                    this.$emit('addData', testForm)
+                }
+            })
         },
         del() {
             this.$emit('delData', this.idx)

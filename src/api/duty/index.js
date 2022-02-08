@@ -8,6 +8,14 @@ export function getDutyStatistics(data) {
     data
   })
 }
+//任务中心全量
+export  function getFullDutyStatistics(data){
+  return requst({
+    url: `/fullTaskCenterCount`,
+    method: 'POST',
+    data
+  })
+}
 // 任务管理列表
 export function findUndoTask(data) {
   return requst({

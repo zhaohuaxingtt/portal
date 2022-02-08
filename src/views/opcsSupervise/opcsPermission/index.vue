@@ -269,7 +269,7 @@ export default {
       }
       this.dialog = true
       this.dialogTitle = this.language('BIANJI', '编辑')
-      this.formData = this.selectTableData[0]
+      this.formData = Object.assign({},this.selectTableData[0]);
       console.log(this.formData)
     },
     async getUser() {
