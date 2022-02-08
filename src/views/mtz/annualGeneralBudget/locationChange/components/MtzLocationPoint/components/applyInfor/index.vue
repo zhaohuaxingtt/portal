@@ -22,6 +22,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
                    v-show="disabled && appIdType && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
@@ -29,6 +30,7 @@
           <iButton @click="save"
                    v-show="!disabled">{{ language('BAOCUN', '保存') }}</iButton>
           <iButton @click="relation"
+                    v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ"
                    v-if="applyNumber===''&&showType&&disabled">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
           <iButton @click="cancelRelation"
                    v-if="applyNumber!==''&&showType&&disabled">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>

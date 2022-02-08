@@ -332,8 +332,7 @@ export default {
                     await addFlowchartNode(this.currId, formData).then(res =>{
                         if (res) {
                             this.$message({type: 'success', message: '新增项目信息成功'})
-                            // this.$refs.project.handleInfo({name:'add'},0)
-                            // this.getMainChartInfo()
+                            this.getMainChartInfo()
                         }
                     })
                 } finally {

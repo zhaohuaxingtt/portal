@@ -4,10 +4,13 @@
       <div class="margin-bottom20">
         <span class="font18 font-weight">{{language('BUCHAXIANGQING', '补差详情')}}</span>
         <div class="floatright">
-          <iButton @click="handleDownloadTemplate" :loading="downloadTemplateButtonLoading">
+          <iButton @click="handleDownloadTemplate" :loading="downloadTemplateButtonLoading"
+                    v-permission="MTZ_REPORT_BUCHAGUANLI_VWPTSHANGZAISHULIANG_XIAZAIMUBAN"
+          >
             {{ language('XIAZAIMOBAN', '下载模板')}}
           </iButton>
           <uploadButton
+              v-permission="MTZ_REPORT_BUCHAGUANLI_VWPTSHANGZAISHULIANG_SHANGCHUAN"
               ref="uploadButtonAttachment"
               :buttonText="language('SHANGCHUAN', '上传')"
               :uploadByBusiness="true"
