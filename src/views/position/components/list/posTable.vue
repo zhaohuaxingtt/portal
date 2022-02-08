@@ -51,18 +51,11 @@ export default {
       default:true
     }
   },
-  // watch:{
-  //   showBtns(newValue){
-  //     if(newValue){
-  //        this.tableSetting.unshift(
-  //         {
-  //           type: 'selection',
-  //           width: 80
-  //         }
-  //       )
-  //     }
-  //   }
-  // },
+  created(){
+    if(this.$route.fullPath.includes('cf-position')){
+      this.tableSetting.shift()
+    }
+  },
   mounted() {
     const data = { type: this.type, params: this.query }
     this.$store.commit('SET_LIST_QUERY', data)
