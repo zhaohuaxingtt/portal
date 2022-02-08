@@ -18,6 +18,7 @@
             :data="uploadData"
             :before-upload="beforeUpload"
             :on-exceed="handleExceed"
+            v-permission="PORTAL_MTZ_POINT_INFOR_DATA_SHANGCHUAN"
             v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
             >
             <el-tooltip
@@ -29,20 +30,27 @@
             </el-tooltip>
         </el-upload>
         <iButton @click="download"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_DATA_XIAZAIMUBAN"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XIAZAIMUBAN', '下载模板') }}</iButton>
         <iButton @click="cancel"
                  v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="rfqClick"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_DATA_YINYONGRFQ"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
         <iButton @click="locationClick"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_DATA_YYDDSQDLJ"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
         <iButton @click="historyClick"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_DATA_ZJLSMTZLJZSJ"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
         <iButton @click="add"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="delecte"
+                  v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
                  v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>

@@ -16,8 +16,8 @@
     <div class="BtnTitle">
       <span>明细列表</span>
       <div>
-        <iButton @click="uploadPZ">{{language('DAOCHU', '导出')}}</iButton>
-        <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+        <iButton @click="uploadPZ" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+        <iButton @click="upload" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
       </div>
     </div>
     <tableList class="margin-top20"

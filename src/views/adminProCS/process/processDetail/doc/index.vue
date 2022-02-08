@@ -115,6 +115,7 @@ export default {
                     this.$message.warning(res.message)
                 }else{
                     this.$message.success("添加成功")
+                    this.dialog.show = false
                     this.queryList()
                 }
             } finally {
