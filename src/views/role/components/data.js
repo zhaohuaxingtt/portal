@@ -1,6 +1,6 @@
 export const ROLE_COLUMNS = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {
