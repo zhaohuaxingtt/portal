@@ -52,7 +52,7 @@ export default {
           break
         case 'add':
           this.$store.commit('RESET_POSITION_DETAIL')
-          openUrl(`/position/operate/add?deptId=${this.orgSelected.id}`)
+          openUrl(`/position/operate/add?deptId=${this.orgSelected.id}&editable=1`)
           // this.$router.push({
           //   path: '/position/operate/add',
           //   query: {
