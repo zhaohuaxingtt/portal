@@ -520,6 +520,12 @@ export default {
           }
           if (res.data.flowType === 'FILING') {
             this.disabled = true
+
+            this.tableData = [];
+            this.page.currPage = 1
+            this.page.pageSize = 10
+            this.page.totalCount = 0
+            
             return
           }
           this.riseId = res.data.riseId
