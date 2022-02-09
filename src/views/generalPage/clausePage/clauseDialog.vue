@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-01-29 13:46:26
+ * @LastEditTime: 2022-02-08 17:59:25
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -252,7 +252,7 @@ export default {
           let y = new Date().getFullYear()
           let m = new Date().getMonth()
           let d = new Date().getDate()
-          return time.getTime() > new Date(new Date(y+'/'+m+1+'/'+d).getTime() + 1000*60*60*24 - 1000)
+          return time.getTime() >= new Date(y+'/'+(+m+1)+'/'+d).getTime() + 1000*60*60*24
         }
       },
       // 条款类型
@@ -366,6 +366,7 @@ export default {
         i.termsName.includes(this.query.termsName)
       )
       this.tableData = tableData
+      console.log(this.tableData);
     },
     // 重置
     reset() {
@@ -511,7 +512,7 @@ export default {
         if (res?.code == '200') {
           this.tableDataAll = res.data
           this.tableData = this.tableDataAll.map(item=>{
-            item.signTime = window.moment(new Date(item.signTime)).format('YYYY-MM-DD')
+            item.signTime = item.signTime&&window.moment(new Date(item.signTime)).format('YYYY-MM-DD')
             return item
           })
           this.getSelectData()

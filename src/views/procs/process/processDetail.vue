@@ -6,7 +6,7 @@
                 <el-popover
                     placement="right"
                     trigger="click"
-                    v-show="detail.workFlowFile.length > 0"
+                    v-show="detail.workFlowFile && detail.workFlowFile.length > 0"
                 >
                     <div class="cursor" v-for="file in detail.workFlowFile" :key="file.id" style="margin:10px 0;" @click="downAttach(file.attachMents[0] ? file.attachMents[0].url : '')">{{file.name}}  {{file.publishDate}}</div>
                     <span slot="reference"><i class="cursor el-icon-download"></i></span>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                  <UiCard title="常见问题" v-if="faqList.length > 0" class="process-img" :color="false">
-                    <iButton slot="head-right">MORE</iButton>
+                    <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/collect',query:{processId: id}})">MORE</iButton>
                     <template slot="content">
                         <iQuestion :list="faqList" @queryFAQ="queryFAQ"></iQuestion>
                     </template>
@@ -61,7 +61,7 @@
                        {{data.publishTime}}
                    </div>
                </UiCard>
-               <UiCard title="流程图" class="process-img" :color="false">
+               <UiCard title="流程图" v-if="detail.flowChart" class="process-img" :color="false">
                    <div slot="content" class="draw cursor" @click="view('img')">
                        <img style="width:100%" :src="detail.flowChart ? fileFmt(detail.flowChart.filePath) : ''" alt="">
                    </div>
@@ -72,7 +72,7 @@
                        视频
                    </div>
                    <template slot="content">
-                        <div class="draw cursor" v-if="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage']">
+                        <div class="draw cursor" v-if="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage']" @click="downAttach(pageDetail.attachMentsKV['operatorFile'] ? pageDetail.attachMentsKV['operatorFile'].url : '')">
                             <img style="width:100%" :src="pageDetail.attachMentsKV && pageDetail.attachMentsKV['operatorImage'] && fileFmt(pageDetail.attachMentsKV['operatorImage'].url)" alt="">
                         </div>
                         <template>
@@ -81,6 +81,7 @@
                                 <span>{{l.name}}</span>
                                 <span>{{l.version}}   {{l.publishDate}}</span>
                             </div>
+                            <div class="no-data" v-if="sampleList.length == 0">暂无数据</div>
                         </template>
                    </template>
                 </UiCard>
@@ -162,8 +163,8 @@
                 try {
                    this.detail = await getWorkFlow(this.id)
                     let id = ""
-                    this.detail.pageIds = this.detail.pageIds ? JSON.parse(this.detail.pageIds) : []
-                    if(this.detail.pageIds.length > 0){
+                    // this.detail.pageIds = this.detail.pageIds ? JSON.parse(this.detail.pageIds) : []
+                    if(this.detail.pageIds && this.detail.pageIds.length > 0){
                         if(this.pageId){
                             let index = this.detail.pageIds.findIndex(e => e == this.pageId)
                             id = this.detail.pageIds[index]
@@ -222,6 +223,7 @@
             handlePageChange(curPage){
                 console.log(curPage);
                 this.getPageDetail(this.detail.pageIds[curPage - 1])
+                this.queryPageSample(this.detail.pageIds[curPage - 1])
             },
             view(t){
                 this.dialog.type = t
@@ -296,7 +298,7 @@ $line-color: #BBC4D6;
     }
 
     .row{
-        padding: 20px;
+        padding:15px 20px;
         justify-content: space-between;
         align-items: center;
     }

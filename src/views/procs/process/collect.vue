@@ -10,17 +10,17 @@
             </div>
             <iCard class="card-r flex-1" v-loading="detailLoading">
                 <div class="tlt marb15">{{ collectName }}</div>
-                <div v-for="(answer, index) in answerList" :key="index">
-                    <div class="marb15">{{`${index + 1}、${answer.name}`}}</div>
-                    <div class="marb15" v-html="answer.richContent"></div>
+                <div class="marb15" v-for="(answer, index1) in answerList" :key="answer.id">
+                    <div class="marb15">{{`${index1 + 1}、${answer.name}`}}</div>
+                    <div class="marb15 w-e-text" v-html="answer.richContent"></div>
                     <!-- <span class="operat marb15" style="display: inline-block;"><i class="el-icon-edit"></i> 提问</span> -->
                     <template class="marb15">
-                        <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
-                        <div v-if="showInput" class="mt20">
+                        <div v-show="!answer.showInput" class="opearte mt20 cursor" @click="changeInput(index1,true)"><i class="el-icon-edit"></i> 提问</div>
+                        <div v-if="answer.showInput" class="mt20">
                             <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
                             <div class="mt10 flex justify-end">
-                                <iButton @click="sureFeedBack">确定</iButton>
-                                <iButton @click="showInput = false">取消</iButton>
+                                <iButton @click="sureFeedBack(answer,index1)">确定</iButton>
+                                <iButton @click="changeInput(index1,false)">取消</iButton>
                             </div>
                         </div>
                     </template>
@@ -29,7 +29,7 @@
                 <div class="flex justify-between items-center mt20">
                     <div class="flex flex-row mt20">
                         <div class="opearte mr20 cursor" @click="share"><i class="el-icon-share"></i>分享</div>
-                        <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red" class="el-icon-star-on"></i>已收藏</div>
+                        <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red;font-size: 14px;" class="el-icon-star-on"></i>已收藏</div>
                         <div class="opearte cursor" @click="collect" v-else><i class="el-icon-star-off"></i>收藏</div>
                     </div>
                     <iButton @click="goBack">返回</iButton>
@@ -42,7 +42,7 @@
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import {iCard, iButton, iInput} from 'rise';
-    import { queryMyCollect, getProcessFAQ, addAnswerFeedBack, unCollectFAQ, collectFAQ } from '@/api/procs';
+    import { queryMyCollect, getProcessFAQ, addAnswerFeedBack, unCollectFAQ, collectFAQ, queryProcessAllQA } from '@/api/procs';
     
     export default {
         components:{
@@ -62,7 +62,8 @@
                 showInput: false,
                 feedBackAnswer: '',
                 listLoading: false,
-                detailLoading: false
+                detailLoading: false,
+                processId: this.$route.query.processId
             }
         },
         created() {
@@ -70,27 +71,40 @@
             if (query.id) {
                 this.initId = query.id
             }
+            
             this.getCollectList()
         },
         methods: {
-            getCollectList() {
+            async getCollectList() {
                 let params = {
                     page: 0,
                     size: 5
                 }
-                this.listLoading = true
-                queryMyCollect(params).then(res => {
-                    console.log(res, '2222')
+                try {
+                    this.listLoading = true
+                    let res = []
+                    if(this.processId){
+                        res = await queryProcessAllQA(this.processId)
+                    }else{
+                        res = await queryMyCollect(params)
+                    }
                     if (res) {
                         this.collectList = res || []
-                        this.listLoading = false
                         if (res.length > 0) {
                             this.initId = this.initId ? this.initId : res[0].id
                             this.getCollectInfo(this.initId)
                         }
-                    }
-                    
+                    }    
+                } finally {
+                    this.listLoading = false
+                }
+            },
+            changeInput(i1, v){
+                this.answerList.forEach(e => {
+                    e.showInput = false
                 })
+                this.$set(this.answerList[i1], "showInput", v)
+                this.$forceUpdate()
             },
             async getCollectInfo(id) {
                 this.detailLoading = true
@@ -100,17 +114,21 @@
                     this.isCollect = res.isCollect
                     this.collectId = res.id
                     this.answerList = res.answerList || []
+                    this.answerList.forEach(el => {
+                        el.showInput = false
+                    });
                     this.detailLoading = false
                 })
             },
             collectDetail(collect) {
                 this.getCollectInfo(collect.id)
             },
-            async sureFeedBack() {
+            async sureFeedBack(answer,i) {
                 let formData = new FormData()
                 formData.append('feedBackContent', this.feedBackAnswer)
-                await addAnswerFeedBack(this.collectId, formData).then(res => {
+                await addAnswerFeedBack(answer.id, formData).then(res => {
                     if (res?.success) {
+                        this.changeInput(i,false)
                         this.$message({type: 'success', message: '问题反馈成功'})
                     }
                 })

@@ -105,7 +105,6 @@
       },
       // 角色判断
       role() {
-        let role = '';
         const deptName = this.$store.state.permission.userInfo.deptDTO.deptNum
         if (this.roleList.length == 1) {
           const Linie = this.roleList.some(item => item.code == 'LINIE')
@@ -125,33 +124,33 @@
           }else if (Linie) {        // 采购员 采购员视觉
             this.username = '8'
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
-            role = 'Linie'
+            return 'Linie'
           } else if (zycgkzORkzzl) { // 采购科长||科长助理 科室视觉
             if (zycgkz) {
               this.username = '3'
               this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-              role = 'KZ'
+              return 'KZ'
 
             }
             if (kzzl) {
               this.username = '4'
               this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-              role = deptName
+              return deptName
             }
           } else if (zycgbzORbzzl) { // 采购部长||部长助理 部门视觉
             this.username = ''
             this.btnsgroup1 = ['CS', 'CS(Spare)']
-            role = 'CS'
+            return 'CS'
           } else if (zycggz) {       // 采购股长 股视觉
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-            role = deptName
+            return deptName
           } else if (CGBZ_WF) {
             this.btnsgroup1 = ['CS', 'CS(Spare)']
-            role = 'CGBZ_WF'
+            return 'CGBZ_WF'
           } else if (ZYCGKZ_WF) {
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-            role = 'ZYCGKZ_WF'
+            return 'ZYCGKZ_WF'
           }
         } else {
           const Linie = this.roleList.some(item => item.code == 'LINIE') // 采购员
@@ -167,43 +166,41 @@
           }else if (KZ && Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-            role = 'KZ&&linie'
+            return 'KZ&&linie'
           } else if (KZ && !Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
-            role = 'KZ'
+            return 'KZ'
           } else if (KZZL && Linie) {
             this.username = '4'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
-            role = `${deptName}&&Linie`
+            return `${deptName}&&Linie`
           } else if (KZZL && !Linie) {
             this.username = '4'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-            role = deptName
+            return deptName
           } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
             this.btnsgroup1 = ['CS', 'CS(Spare)']
             if (BZZL && !Linie) {
-              role = 'CS'
+              return 'CS'
             } else {
-              role = 'BZ'
+              return 'BZ'
             }
 
           } else if (BZZL && Linie) {
             this.username = '2'
             this.btnsgroup1 = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
-            role = 'CS&&Linie'
+            return 'CS&&Linie'
           } else if (GZ && Linie) {
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
-            role = `${deptName}&&Linie`
+            return `${deptName}&&Linie`
           } else if (GZ && !Linie) {
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
-            role = deptName
+            return deptName
           }
         }
-
-        return role;
       },
     },
 
@@ -211,7 +208,7 @@
         // getEklPbil().then(res=>{
             
         // })
-        // console.log(this.role)
+        console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
@@ -336,7 +333,7 @@
         this.indexBtn = index
       },
       // 初始化页面
-      renderBi(data) {
+      renderBi() {
         var permissions = pbi.models.Permissions.All
         var config = {
           type: 'report',
@@ -398,17 +395,17 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_ekl_data_source",
+              table: "app_proc_LK_data_source",
               column: "data_version"
             },
             operator: "In",
-            values: [year+""+month],
+            // values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_ekl_data_source",
+              table: "app_proc_LK_data_source",
               column: "data_year"
             },
             operator: "In",
@@ -419,7 +416,7 @@
           var	material_group_parameter = {
               $schema: "http://powerbi.com/product/schema#basic",
               target: {
-                table: "app_proc_ekl_data_source",
+                table: "app_proc_LK_data_source",
                 column: "material_group_code_name"
               },
               operator: "In",

@@ -1,20 +1,20 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-17 17:52:58
- * @LastEditTime: 2022-01-28 22:15:56
+ * @LastEditTime: 2022-02-08 16:47:50
  * @LastEditors: YoHo
  * @Description: 
 -->
 <!--条款归档页面-->
 <template>
-  <iPage class="partsprocureHome" v-permission="CONTRACT_MANAGE_ARCHIVING_HOME_PAGE">
+  <iPage class="partsprocureHome">
     <div class="header margin-bottom20">
       <h2>档案管理</h2>
     </div>
     <!------------------------------------------------------------------------>
     <!--                  search 搜索模块                                   --->
     <!------------------------------------------------------------------------>
-    <iSearch class="margin-bottom20" v-on:keyup.13.native="sure" @sure="sure" @reset="reset" v-permission="CONTRACT_MANAGE_ARCHIVING_HOME_SEARCH">
+    <iSearch class="margin-bottom20" v-on:keyup.13.native="sure" @sure="sure" @reset="reset">
       <el-form>
         <el-form-item v-for="item in search" :key="item.prop" :label="item.label">
           <iSelect v-if="item.type=='select'" :placeholder="$t('LK_QINGXUANZE')"  v-model="form[item.prop]"
@@ -37,7 +37,7 @@
       <!--                  table模块，向外入参表格数据，表头                    --->
       <!------------------------------------------------------------------------>
 
-      <archiveTable class="content" v-permission="CONTRACT_MANAGE_ARCHIVING_HOME_DATA_SHOW_AREA" :tableData="tableListData" :signWayObj="signWayObj" :typeObj="typeObj" :getcontractType="typeList" @open-page="openPage" @ContractUpload="ContractUpload" ref="name"> </archiveTable>
+      <archiveTable class="content" :tableData="tableListData" :signWayObj="signWayObj" :typeObj="typeObj" :getcontractType="typeList" @open-page="openPage" @ContractUpload="ContractUpload" ref="name"> </archiveTable>
       <iPagination background @size-change="handleSizeChange($event, clickQuery)" @current-change="handleCurrentChange($event, clickQuery)" :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.total" />
     </iCard>
   </iPage>
@@ -141,8 +141,7 @@ export default {
           this.form[i] = ''
         }
       }
-      this.page.currPage = 1
-      this.getTableListFn()
+      this.clickQuery()
     },
     clickQuery() {
       this.tableLoading = true

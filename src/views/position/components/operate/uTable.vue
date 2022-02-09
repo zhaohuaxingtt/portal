@@ -1,10 +1,18 @@
 <template>
   <div class="u-table">
     <iTableCustom
+      v-if="this.$route.query.editable == 1"
       :loading="tableLoading"
       :data="userList"
       :columns="tableSetting"
       @go-detail="handleGoDetail"
+    >
+    </iTableCustom>
+    <iTableCustom
+      v-if="this.$route.query.editable == 2"
+      :loading="tableLoading"
+      :data="userList"
+      :columns="tableSettingNotEmit"
     >
     </iTableCustom>
   </div>
@@ -21,6 +29,46 @@ export default {
   },
   data() {
     return {
+      tableSettingNotEmit:[
+        {
+          type: 'index',
+          label: '序号',
+          width: 80
+        },
+        {
+          prop: 'userNum',
+          label: '员工号',
+          tooltip: false,
+          align: 'center',
+        },
+        {
+          prop: 'nameZh',
+          label: '姓名',
+          align: 'center',
+          tooltip: false
+        },
+        {
+          prop: 'department',
+          label: '所属部门',
+          align: 'center',
+          tooltip: false
+          // customRender: (h, scope) => {
+          //     return <span class='open-link-text'>{scope.row.deptDTO.nameZh}</span>
+          // },
+        },
+        {
+          prop: 'mobile',
+          label: '手机',
+          align: 'center',
+          tooltip: false
+        },
+        {
+          prop: 'phone',
+          label: '电话',
+          align: 'center',
+          tooltip: false
+        }
+      ],
       tableSetting: [
         {
           type: 'index',

@@ -22,7 +22,7 @@
 import topHeader from './topHeader'
 import topContent from './topContent'
 import { iCard, iMessage, iButton } from 'rise'
-import { getDutyStatistics } from '@/api/duty'
+import { getFullDutyStatistics } from '@/api/duty'
 import { updateModules } from '@/api/home'
 export default {
   name: 'task',
@@ -54,12 +54,12 @@ export default {
   },
   methods: {
     query() {
-      const params = `userId=${this.userInfo.id}&userTye=2`
+      const params = `userId=${this.userInfo.id}&userTye=2&fullDose=true`
       this.loading = true
       this.categories = []
       this.data = []
 
-      getDutyStatistics(params)
+      getFullDutyStatistics(params)
         .then((res) => {
           this.staticsticData = res || []
           this.setData()
