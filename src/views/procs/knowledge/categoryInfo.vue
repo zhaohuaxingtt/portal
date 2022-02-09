@@ -35,7 +35,7 @@
                <UiCard title="科室" :color="false">
                    <template slot="content">
                         <div class="department" v-if="departList.length > 0">
-                            <div class="department-item" :class="{active:organizations.includes(l.id)}" v-for="(l,i) in departList" :key="l.id" @click="departChange(l.id,i)">{{l.nameZh}}</div>
+                            <div class="department-item" :class="{active:organizations.includes(l.id)}" v-for="l in departList" :key="l.id" @click="departChange(l.id)">{{l.nameZh}}</div>
                         </div>
                         <p class="no-data" v-if="departList.length == 0">暂无数据</p>
                    </template>
@@ -100,9 +100,10 @@
                 })
                 this.list = res.content || []
             },
-            departChange(id,i){
+            departChange(id){
                 if(this.organizations.includes(id)){
-                    this.organizations.splice(i,1)
+                    let index = this.organizations.indexOf(id)
+                    this.organizations.splice(index,1)
                 }else{
                     this.organizations.push(id)
                 }

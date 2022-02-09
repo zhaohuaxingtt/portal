@@ -66,6 +66,7 @@ export const contentColumn = () => {
 			prop:'published',
 			label:'状态',
 			align: 'center',
+			width: 200,
 			emit:'stateChang',
 				customRender: (h, scope) => {
 					const state = scope.row.published
@@ -80,6 +81,7 @@ export const contentColumn = () => {
 			label:'消息发送',
 			align: 'center',
 			emit:'sendChang',
+			width: 220,
 			customRender: (h, scope) => {
 				const send = scope.row.sendMessage
 				return (		
