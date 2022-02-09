@@ -40,17 +40,18 @@ export default {
       detailId: '',
       deptId: '',
       saveLoading: false,
-      editable:false
+      editable: false
     }
   },
   watch: {
     $route(newValue) {
       this.type = newValue.params.type
-      console.log(newValue)
     }
   },
   mounted() {
-    this.$route.query.editable == 1 ? this.editable = true : this.editable = false
+    this.$route.query.editable == 1
+      ? (this.editable = true)
+      : (this.editable = false)
     this.type = this.$route.params.type
     this.detailId = this.$route.query.id
     this.deptId = this.$route.query.deptId
@@ -70,7 +71,7 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    console.log(from,'=======',to)
+    console.log(from, '=======', to)
     if (from.name !== 'positionTag' && to.params.type !== 'add') {
       next((vm) => {
         vm.$store.dispatch('GetPositionDetail', vm.detailId)
@@ -102,7 +103,7 @@ export default {
         query: {
           id: this.detailId,
           deptId: this.deptId,
-          editable:this.editable ? 1 : 2
+          editable: this.editable ? 1 : 2
         }
       })
     },
@@ -142,7 +143,7 @@ export default {
           const query = {
             id: res.data.id,
             deptId: this.deptId,
-            editable:this.editable ? 1 : 2
+            editable: this.editable ? 1 : 2
           }
           this.$router.replace({
             path: '/position/operate/detail',

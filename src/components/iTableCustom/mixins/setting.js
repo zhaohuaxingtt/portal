@@ -21,15 +21,30 @@ export default {
     tableVisibleColumns() {
       // 表格的列
       if (this.tableColumns.length) {
-        return this.tableColumns.filter(
+        const filterColumns = this.tableColumns.filter(
           (e) => !e.isHidden && !this.unCols.includes(e.prop)
         )
+        const columns = []
+        const noSettingColumns = [
+          'selection',
+          'customSelection',
+          'index',
+          'fullIndex',
+          'customIndex'
+        ]
+        this.columns.forEach((e) => {
+          if (
+            noSettingColumns.includes(e.type) &&
+            !filterColumns.find((fe) => fe.type === e.type)
+          ) {
+            columns.push(e)
+          }
+        })
+        return columns.concat(filterColumns)
       }
       return this.columns.filter((e) => !this.unCols.includes(e.prop))
     },
     tableSettingColumns() {
-      console.log('tableSettingColumns tableColumns:::', this.tableColumns)
-      console.log('tableSettingColumns columns:::', this.columns)
       // 表格自由列表设置列
       const noSettingColumns = [
         'selection',
