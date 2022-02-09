@@ -1,12 +1,14 @@
 <template>
     <iPage>
         <div class="content" v-loading="loading">
-            <div class="leftContent" @mousedown.capture="mouseStart" @mouseup.capture="mouseEnd" ref="box">
+            <div class="leftContent" ref="box">
                 <div v-for="(item, idx) in projectInfoData" :key="idx">
                     <div :ref="'point' + (idx+1)" :class="item.id === currProId ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}"></div>
                 </div>
                 <!-- <img src="~@/assets/images/mainProcess.png" class="img-process" /> -->
-                <img :src="filePath" class="img-process" />
+                <div @mousedown.capture="mouseStart" @mouseup.capture="mouseEnd" >
+                    <img :src="filePath" class="img-process" />
+                </div>
             </div>
             <div class="rightContent">
                 <el-tabs v-model="activeName" class="tabs" @tab-click="handleClick($event)">
