@@ -34,13 +34,13 @@
       <div class="opration">
         <template v-if="ttNominateAppId == '' && appStatus == '通过'">
           <iButton @click="submitPass" v-show="locationNow==3&&meetingNumber == 0"
-            v-permission.edit="PORTAL_MTZ_POINT_INFOR_TIJIAO"
+            v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
           >{{ language('TIJIAO', '提交') }}</iButton>
         </template>
         <template v-else>
           <iButton @click="submit"
                     v-show="locationNow==3&&meetingNumber == 0"
-                    v-permission.edit="PORTAL_MTZ_POINT_INFOR_TIJIAO"
+                    v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
                   :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>

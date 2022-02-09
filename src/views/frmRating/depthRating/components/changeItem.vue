@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-01-25 21:03:08
+ * @LastEditTime: 2022-02-09 17:23:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\changeItem.vue
@@ -104,15 +104,15 @@ export default {
               defaultList.push(item.id)
             })
             this.inquiryBuyer = defaultList
-            let flag = defaultList.every(item => {
-              return item === depSupplierId
-            })
-            this.$emit('flag', flag)
+            // let flag = defaultList.every(item => {
+            //   return item === depSupplierId
+            // })
+            this.$emit('flag', true)
           } else {
-            let flag = defaultList.every(item => {
-              return item === depSupplierId
-            })
-            this.$emit('flag', flag)
+            // let flag = defaultList.every(item => {
+            //   return item === depSupplierId
+            // })
+            // this.$emit('flag', flag)
           }
         }
       })
