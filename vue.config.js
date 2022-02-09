@@ -244,8 +244,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        target: `http://${BASE_IP}:8046/mtz`,
-        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/mtzApi`,
+        // target: `http://${BASE_IP}:8046/mtz`,
+        target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/mtzApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
