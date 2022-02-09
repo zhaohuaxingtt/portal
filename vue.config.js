@@ -317,8 +317,8 @@ module.exports = {
       },
       // adminProcs
       [process.env.VUE_APP_ADMIN_PROCS]: {
-        // target: `http://10.160.140.188:8016/riseprocs`,
-        target: `http://${BASE_IP}:8016/riseprocs`,
+        target: `http://10.160.136.172:8016/riseprocs`,
+        // target: `http://${BASE_IP}:8016/riseprocs`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''

@@ -2,11 +2,11 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: 舆情监测
 -->
 <template>
-  <iCard :title="$t('SPR_FRM_XGYSPJ_YQQK')" >
+  <iCard :title="$t('SPR_FRM_XGYSPJ_YQQK')">
 
     <!-- <div class="center1 height">
       <img :src="soon" width="70%" height="70%" alt="">
@@ -15,7 +15,8 @@
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
     <div ref="chart"
-         class="chartStyle" @click='openPBI()'> </div>
+         class="chartStyle"
+         @click='openPBI()'> </div>
   </iCard>
 </template>
 
@@ -26,13 +27,13 @@ import { iCard } from 'rise'
 
 export default {
   components: { iCard },
-  data() {
+  data () {
     return {
       chart: 'monitorChart'
       //   soon: soon
     }
   },
-  mounted() {
+  mounted () {
     const myChart = echarts().init(this.$refs.chart)
     var option = {
       title: {
@@ -50,18 +51,16 @@ export default {
         }
       },
       legend: {
-          icon:'circle',
-
-          right:0,
-          top:14,
-          textStyle:{
-                fontSize: 10,
-                     color: '#909091',
-          },
-          itemWidth:8, 
-                itemHeight:8, 
+        icon: 'circle',
+        right: 0,
+        top: 14,
+        textStyle: {
+          fontSize: 10,
+          color: '#909091',
+        },
+        itemWidth: 8,
+        itemHeight: 8,
       },
-
       tooltip: {
         trigger: 'axis'
       },
@@ -73,7 +72,16 @@ export default {
       },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu'],
+        // data: ['Mon', 'Tue', 'Wed', 'Thu'],
+        data: [{
+          value: '2021年\n第N-4周',
+        }, {
+          value: '2022年\n第N-3周',
+        }, {
+          value: '2023年\n第N-2周',
+        }, {
+          value: '2024年\n第N-1周',
+        }],
         axisLabel: {
           show: true,
           textStyle: {
@@ -102,8 +110,8 @@ export default {
       },
       series: [
         {
-          name: 'Tue',
-          data: [64, 47, 54, 57],
+          name: '敏感',
+          data: [67, 69, 52, 68],
           type: 'bar',
           barGap: '-100%',
           barWidth: 30,
@@ -121,8 +129,8 @@ export default {
           }
         },
         {
-          name: 'Mon',
-          data: [14, 23, 11, 6],
+          name: '非敏感',
+          data: [43, 25, 35, 35],
           type: 'bar',
           barWidth: 30,
           label: {
@@ -142,8 +150,8 @@ export default {
     }
     myChart.setOption(option)
   },
-  methods:{
-    openPBI(){
+  methods: {
+    openPBI () {
       console.log('.......打开报表')
     }
   }
