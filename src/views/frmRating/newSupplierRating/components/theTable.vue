@@ -15,27 +15,23 @@
         }}</iButton>
       </div>
     </div>
-    <tableList
-      :openPageProps="'nameZh'"
-      @openPage="openPage"
-      :openPageGetRowData="true"
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      :index="true"
-      @handleSelectionChange="handleSelectionChange"
-    />
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-    />
+    <tableList :openPageProps="'nameZh'"
+               @openPage="openPage"
+               :openPageGetRowData="true"
+               :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               @handleSelectionChange="handleSelectionChange" />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
   </iCard>
 </template>
 
@@ -56,7 +52,7 @@ export default {
     tableList,
     iPagination
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       selectTableData: [],
@@ -64,16 +60,17 @@ export default {
       tableLoading: false
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    async getTableList(reqParams) {
+    async getTableList (reqParams) {
       this.tableLoading = true
       try {
         const req = {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
+          ratingStatusList: this.$route.query.ratingStatusList ? JSON.parse(this.$route.query.ratingStatusList) : [],
           ...reqParams
         }
         const res = await getNewSupplierRating(req)
@@ -89,14 +86,14 @@ export default {
         this.tableLoading = false
       }
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
     // 下载
-    async handleExampleDownload(row) {
+    async handleExampleDownload (row) {
       await downloadUdFile(row.snapshotPath)
     },
-    handleTask() {
+    handleTask () {
       if (this.selectTableData.length === 1) {
         if (
           this.selectTableData[0].ratingStatus === '草稿' ||
@@ -115,7 +112,7 @@ export default {
         iMessage.warn(this.$t('SPR_FRM_XGYSPJ_QXZYTSJTJ'))
       }
     },
-    openPage(row) {
+    openPage (row) {
       if (row.ratingStatus === '草稿' || row.ratingStatus === '驳回') {
         this.$router.push({
           path: '/supplier/frmrating/newsupplierrating/rating1',
