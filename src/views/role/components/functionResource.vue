@@ -17,7 +17,6 @@
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
-import { fetchResource } from '@/api/role'
 import { COLUMNS_FUNCTION_RESOURCE } from './data'
 export default {
   name: 'functionResource',
@@ -29,13 +28,19 @@ export default {
     },
     defaultSelectedRows: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     parentId: {
       type: Number,
       default: 0
+    },
+    fullResources: {
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
   computed: {
@@ -59,6 +64,9 @@ export default {
       } else {
         this.getViewTableData()
       }
+    },
+    fullResources() {
+      this.getEditTableData()
     }
   },
   data() {
@@ -67,8 +75,7 @@ export default {
       tableLoading: false,
       tableColumns: [],
       tableExpanded: { expandKey: 'name', childrenKey: 'menuList' },
-      selectedRows: [],
-      fullResources: []
+      selectedRows: []
     }
   },
   created() {
@@ -84,27 +91,27 @@ export default {
       if (!this.editable) {
         this.getViewTableData()
       } else {
-        this.query()
+        this.getEditTableData()
       }
     },
     getViewTableData() {
       this.tableData = this.defaultSelectedRows.filter(
-        e => e.parentId === this.parentId
+        (e) => e.parentId === this.parentId
       )
     },
     getEditTableData() {
       this.tableData = this.fullResources.filter(
-        e => e.parentId === this.parentId
+        (e) => e.parentId === this.parentId
       )
     },
     async query() {
-      console.log('query function')
+      /* console.log('query Resources')
       this.tableLoading = true
       const { data } = await fetchResource({ type: 2 }).finally(
         () => (this.tableLoading = false)
       )
-      this.fullResources = data
-      this.getEditTableData()
+      this.fullResources = data 
+      this.getEditTableData()*/
     },
     //表格选中值集
     handleSelectionChange(val, proptities) {
