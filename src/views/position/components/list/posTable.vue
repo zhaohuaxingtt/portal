@@ -83,7 +83,7 @@ export default {
       // tableLoading: false,
       tableSetting: [
         {
-          type: 'customSelection',
+          type: 'selection',
           width: 80
         },
         {
