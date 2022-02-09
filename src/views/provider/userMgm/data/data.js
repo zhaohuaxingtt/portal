@@ -1,6 +1,6 @@
 export const tableColumnSetting = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {
