@@ -312,7 +312,7 @@ export default {
         return false
       }
       iMessageBox(
-        this.language('QUERENSHANCHU', '确认删除?'),
+        this.language('SHIFOUQUERENSHANCHU', '是否确认删除?'),
         this.language('SHANCHU', '删除'),
         {
           confirmButtonText: this.language('SHI', '是'),
