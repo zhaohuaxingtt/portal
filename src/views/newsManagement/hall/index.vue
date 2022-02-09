@@ -51,7 +51,7 @@ export default {
       this.noticeAmount = res?.amount || 0
     })
     total().then((res) => {
-      this.survey = res || 0
+      this.survey = Number(res) || 0
     })
   },
   methods: {
