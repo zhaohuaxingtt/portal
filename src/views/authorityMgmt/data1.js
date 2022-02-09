@@ -1,7 +1,7 @@
 // 员工列表Table配置
 export const tableSetting = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {
