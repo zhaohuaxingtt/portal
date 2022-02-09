@@ -51,19 +51,24 @@
         <div>
           <uploadButton style="marginLeft: 10px;"
                         ref="uploadButton"
+                        v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_SHANGCHUAN"
                         :buttonText="language('SHANGCHUAN', '上传')"
                         :uploadByBusiness="true"
                         :hideButton="true"
                         :accept="'.xlsx'"
                         @uploadedCallback="handleUpload($event)" />
           <iButton v-if="!editMode"
+                    v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_SGTBSJ"
                    @click="handleManualSync">{{language('SHOUGONGTONGBUSHUJU','手工同步数据')}}</iButton>
           <iButton v-if="!editMode"
-                   @click="handleClickUpload">{{language('SHANGCHUAN','上传')}}</iButton>
+                   @click="handleClickUpload"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_SHANGCHUAN">{{language('SHANGCHUAN','上传')}}</iButton>
           <iButton v-if="!editMode"
-                   @click="handleEdit">{{language('BIANJI','编辑')}}</iButton>
+                   @click="handleEdit"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_BIANJI">{{language('BIANJI','编辑')}}</iButton>
           <iButton v-if="!editMode"
-                   @click="handleExport">{{language('DAOCHU','导出')}}</iButton>
+                   @click="handleExport"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_DAOCHU">{{language('DAOCHU','导出')}}</iButton>
           <iButton v-if="editMode"
                    @click="handleSave">{{language('BAOCUN','保存')}}</iButton>
           <iButton v-if="editMode"

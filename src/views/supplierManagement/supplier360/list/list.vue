@@ -141,7 +141,8 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
+          <!-- <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
+          <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
