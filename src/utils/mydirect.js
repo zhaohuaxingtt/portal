@@ -13,9 +13,11 @@ import { isNeedJudgePermission } from './index'
 import { numberProcessor } from '@/utils'
 // 按钮权限
 // eslint-disable-next-line no-undef
+
+var insertedOldNodesList1 = [];//二级菜单old
+var insertedOldNodesList2 = [];//三级菜单
 Vue.directive('permission', {
   bind: function (el, binding, vnode) {
-    // console.log(binding)
     // 处理可见不可编辑的输入框，select textarea ....
     if (isNeedJudgePermission()) {
       return true
@@ -27,6 +29,10 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+    if(insertedOldNodesList1.length == 0){//处理二级菜单三级菜单权限问题
+      insertedOldNodesList1 = document.querySelectorAll(".lev1>div");
+      insertedOldNodesList2 = document.querySelectorAll(".lev2>div");
+    }
     //如果是个变量则使用变量，否则当做字符串处理
     var proValue = "";
     if(binding.value == 0){
@@ -47,8 +53,8 @@ Vue.directive('permission', {
     } else {
       let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
 
-      // if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
-      if (['vmsit', 'SIT', 'UAT'].includes(process.env.NODE_ENV)) {
+      if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
+      // if (['vmsit', 'SIT', 'UAT'].includes(process.env.NODE_ENV)) {
         if (
           !store.state.permission.whiteBtnList[binding.expression] &&
           !menuBtn
@@ -69,6 +75,59 @@ Vue.directive('permission', {
         }else{
           
         }
+      }
+    }
+  },
+  componentUpdated:function(){
+    var directConstant = store.state.location.directConstant;
+    if(directConstant !== 0) return false;
+    store.commit("setNumberAdd","");
+    var insertedOldNodesListNew = [];//二级菜单new
+    if(insertedOldNodesListNew.length == 0){
+      insertedOldNodesListNew = document.querySelectorAll(".lev1>div");
+      var path = store.state.location.nowSetToPath;
+      var number = 0;
+      insertedOldNodesList1.forEach(e=>{
+        if(e.innerText.trim() === path.meta.title.trim()){
+          number++;
+        }
+      })
+      if(number !== 0){//存在于二级菜单上
+        if(insertedOldNodesListNew.length > 0){
+          var num = 0;
+          insertedOldNodesListNew.forEach(e=>{
+            if(e.innerText.trim() === path.meta.title.trim()){
+              console.log(e.innerText.trim())
+              num++;
+            }
+          })
+          if(num == 0){
+            insertedOldNodesListNew[0].click();
+          }
+        };
+      }
+      var menu3 = document.querySelectorAll(".lev2>div");//继续判断三级菜单
+      console.log(menu3)
+      var str = 0;
+      insertedOldNodesList2.forEach(e=>{
+        if(e.innerText.trim() === path.meta.title.trim()){
+          console.log(e.innerText.trim())
+          str++;
+        }
+      })
+      if(str !== 0){
+        if(menu3.length > 0){
+          var j = 0;
+          menu3.forEach(e=>{
+            if(e.innerText.trim() === path.meta.title.trim()){
+              console.log(e.innerText.trim())
+              j++;
+            }
+          })
+          if(j == 0){
+            menu3[0].click();
+          }
+        };
       }
     }
   }
