@@ -103,7 +103,6 @@ export default {
       this.tableData = this.fullResources.filter(
         (e) => e.parentId === this.parentId
       )
-      console.log('getEditTableData', this.tableData)
     },
     async query() {
       /* console.log('query Resources')

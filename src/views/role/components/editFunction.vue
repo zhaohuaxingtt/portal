@@ -104,8 +104,8 @@ export default {
     setMenuList(val, properties) {
       this.menuList = val
       if (properties) {
-        const { rows, row, checked } = properties
-        const isMultipleCheck = !!rows
+        /* const { rows, row, checked } = properties
+        const isMultipleCheck = !!rows */
         // 如果是取消选择，联动取消资源
         /* if (!checked) {
           const selectRows = isMultipleCheck ? rows : [row]
@@ -120,7 +120,6 @@ export default {
         /// -----------------------------------------------------------
         // const selectRows = isMultipleCheck ? rows : [row]
         const ids = this.menuList.map((e) => e.id)
-        console.log('selectRows', this.menuList)
         this.detail.resourceList = this.fullResources.filter((e) =>
           ids.includes(e.parentId)
         )
