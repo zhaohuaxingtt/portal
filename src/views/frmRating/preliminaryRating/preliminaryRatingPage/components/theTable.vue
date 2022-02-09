@@ -192,7 +192,7 @@ export default {
         });
         const req = {
           ids,
-          preliminaryStatus: '无法评级',
+          preliminaryStatus: '4',
           ...params,
         };
         const res = await updatePreliminaryStatus(req);
@@ -248,8 +248,8 @@ export default {
     },
     handleExport () {
       if (this.selectTableData.length === 0) {
-        return  iMessage.warn(
-            this.language('QINGXUANZHEXUYAOCAOZUODEGONYSHANGDESHUJU','请选择需要操作的供应商数据')
+        return iMessage.warn(
+          this.language('QINGXUANZHEXUYAOCAOZUODEGONYSHANGDESHUJU', '请选择需要操作的供应商数据')
         );
       }
       if (this.selectTableData.length > 1) {

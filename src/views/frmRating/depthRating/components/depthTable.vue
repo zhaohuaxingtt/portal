@@ -395,9 +395,6 @@ export default {
     emitFlag (val) {
       if (val) {
         this.report = true
-      } else {
-        iMessage.error(this.$t('SPR_FRM_FRMGL_BGFFMESSAGE'))
-        // this.report = false
       }
     },
     // 报告分发确认
