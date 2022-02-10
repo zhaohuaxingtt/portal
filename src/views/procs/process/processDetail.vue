@@ -1,5 +1,21 @@
 <template>
-    <div v-loading="loading">
+    <div class="main" v-loading="loading">
+
+        <div class="list">
+            <el-popover
+            placement="right"
+            trigger="click">
+                <el-tree class="tree" :data="directory" :expand-on-click-node="false" default-expand-all @node-click="dirClick">
+                    <span class="custom-tree-node" slot-scope="{ data }">
+                        <span>{{ data.name.ch }}</span>
+                    </span>
+                </el-tree>
+                <el-button size="mini" style="height: 32px;" slot="reference" icon="el-icon-s-fold"></el-button>
+            </el-popover>
+
+            <el-button style="margin-top:8px; height: 32px;" size="mini" icon="el-icon-printer"></el-button>
+        </div>
+
         <LayHeader title="流程管理"></LayHeader>
         <div class="flex justify-between items-center mt20">
             <div class="title">{{detail.name}} 
@@ -112,7 +128,7 @@
     import {iButton, iDialog} from 'rise';
     import expertInfo from './components/expertInfo';
     import iQuestion from './components/iQuestion.vue';
-    import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage} from '@/api/procs';
+    import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage, getProcessCatalog} from '@/api/procs';
     import mixin from './../mixins';
     import ProcessDraw from './../components/ProcessDraw';
     export default {
@@ -150,11 +166,13 @@
                 sampleList:[],
                 faqList:[],
 
-                pageDetail:{}
+                pageDetail:{},
+                directory:[]
             }
         },
         created () {
             this.queryDetail()
+            this.getProcessCatalog()
         },
         methods: {
             // 详情
@@ -172,14 +190,22 @@
                         }else{
                             id = this.detail.pageIds[0]
                         }
-                        this.queryPageSample(id)
-                        this.getPageDetail(id)
-                        this.queryPageFAQ(id)
+                        this.init(id)
                     }
 
                 } finally {
                     this.loading = false
                 }
+            },
+            init(id){
+                this.queryPageSample(id)
+                this.getPageDetail(id)
+                this.queryPageFAQ(id)
+            },
+            // 查询目录
+            async getProcessCatalog(){
+                let res = await getProcessCatalog(this.id)
+                this.directory = res?.children || []
             },
             // 流程附件
             async queryPageSample(id){
@@ -221,10 +247,7 @@
                 this.showInfo = true
             },
             handlePageChange(curPage){
-                console.log(curPage);
-                this.getPageDetail(this.detail.pageIds[curPage - 1])
-                this.queryPageSample(this.detail.pageIds[curPage - 1])
-                this.queryPageFAQ(this.detail.pageIds[curPage - 1])
+                this.init(this.detail.pageIds[curPage - 1])
             },
             view(t){
                 this.dialog.type = t
@@ -244,8 +267,12 @@
                 if(!url) return
                 let downLoadUrl = url.split('uploader/')[1]
                 window.open(downLoadUrl)
+            },
+            dirClick(v){
+                this.init(v.pageId)
+                this.currentPage = this.detail.pageIds.indexOf(v.pageId) + 1
             }
-        },
+        }
     }
 </script>
 
@@ -253,6 +280,17 @@
 @import "./../comon";
 
 $line-color: #BBC4D6;
+.main {
+    position: relative;
+}
+.list{
+    position: fixed;
+    left: 105px;
+    top: 47%;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+}
 .title{
     font-size: 24px;
     font-weight: bold;
@@ -325,6 +363,11 @@ $line-color: #BBC4D6;
 
 }
 
+.tree {
+    ::v-deep .el-tree-node__content{
+        margin: 5px 0;
+    }
+}
 .side{
     width: 450px;
 }
