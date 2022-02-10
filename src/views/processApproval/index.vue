@@ -124,7 +124,7 @@ export default {
         })
       }
     } else {
-      // this.checkHasEnterMenu()
+      this.checkHasEnterMenu()
     }
   },
   methods: {
