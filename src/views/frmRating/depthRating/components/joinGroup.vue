@@ -40,8 +40,17 @@
                 symbol
                 name="iconhongdeng"></icon>
         </template>
+        <!-- 下次跟踪频率 -->
+        <template #trackingFrequency="scope">
+          <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.trackingFrequency}} </span>
+        </template>
+        <!-- //深评时间 -->
         <template #approvalEndDate="scope">
           <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.approvalEndDate}} </span>
+        </template>
+        <!-- //下次评级时间 -->
+        <template #nextRatingTime="scope">
+          <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.nextRatingTime}} </span>
         </template>
       </tableList>
       <iPagination v-update
