@@ -85,7 +85,7 @@
       </el-table-column>
       <el-table-column :label="language('LK_CHAYI', '差异')" align="center">
         <el-table-column
-          :label="language('LK_SHICHANGJIACHAYI', '市场价差异')"
+          :label="language('LK_SHICHANGJIACHAYI', '市场价差异 %')"
           align="center"
         >
           <template slot-scope="scope">
@@ -108,7 +108,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          :label="language('LK_YONGLIANGCHAYI', '用量差异')"
+          :label="language('LK_YONGLIANGCHAYI', '用量差异 %')"
           align="center"
         >
           <template slot-scope="scope">
