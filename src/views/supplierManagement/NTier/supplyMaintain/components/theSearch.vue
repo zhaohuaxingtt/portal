@@ -11,7 +11,8 @@
            :resetKey="PARTSPROCURE_RESET"
            :searchKey="PARTSPROCURE_CONFIRM"
            class="margin-bottom20 box"
-           style="margin-top: 20px">
+           style="margin-top: 20px"
+           v-loading="loading">
     <el-form inline>
       <el-form-item :label="language('DIQU', '地区')">
         <el-cascader @change="queryByParamsWithAuth"
@@ -76,7 +77,8 @@ export default {
         areaList: [],
         supplierNameList: [],
         partNumList: []
-      }
+      },
+      loading: false
     }
   },
   // 监听属性 类似于data概念
@@ -95,11 +97,14 @@ export default {
     },
     async queryPart () {
       const res = await queryPart({})
-      this.formGroup.partNumList = res.data
-      if (localStorage.getItem('partNum')) {
-        this.form.partNum = localStorage.getItem('partNum')
-      } else {
-        this.form.partNum = this.formGroup.partNumList[0].partNum
+      if (res?.code === "200") {
+        this.loading = false
+        this.formGroup.partNumList = res.data
+        if (localStorage.getItem('partNum')) {
+          this.form.partNum = localStorage.getItem('partNum')
+        } else {
+          this.form.partNum = this.formGroup.partNumList[0].partNum
+        }
       }
     },
     async getTableList () {
@@ -132,6 +137,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   async created () {
+    this.loading = true
     await this.queryPart()
     this.getTableList()
     this.getSelect()

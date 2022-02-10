@@ -2,34 +2,48 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
   <iCard :title="title">
     <div class="height">
-      <div v-if="title==='新供应商评级' || title=='New Supplier Rating'" ref="chart" class="piebox">
+      <div v-if="title==='新供应商评级' || title=='New Supplier Rating'"
+           ref="chart"
+           class="piebox">
       </div>
-      <div v-else class="flex-align-center" style="justify-content: center;height: 100%;"><img style="width: 60%;" src="./soon.png"></div>
-      <div v-if="title==='新供应商评级'|| title=='New Supplier Rating'" class="newSupplierText">
+      <div v-else
+           class="flex-align-center"
+           style="justify-content: center;height: 100%;"><img style="width: 60%;"
+             src="./soon.png"></div>
+      <div v-if="title==='新供应商评级'|| title=='New Supplier Rating'"
+           class="newSupplierText">
         <iText class="textheight">
           <div class="flex">
-            <icon class="icon" symbol name="icongongyingshangshenqingzhong"></icon>
-            <div class="flex-between-center-center" v-if="newSupplierAssessVOList.length">
+            <icon class="icon"
+                  symbol
+                  name="icongongyingshangshenqingzhong"></icon>
+            <div class="flex-between-center-center"
+                 v-if="newSupplierAssessVOList.length">
               <span class="underway">{{newSupplierAssessVOList[0].value}}</span>
               <span class="text">{{$t('SPR_FRM_XGYSPJ_JSQZ')}}</span>
             </div>
-            <span @click="handleView" class="view cursor">{{$t('LK_CHAKAN')}}</span>
+            <span @click="handleView('pending')"
+                  class="view cursor">{{$t('LK_CHAKAN')}}</span>
           </div>
         </iText>
         <iText class="textheight">
           <div class="flex">
-            <icon class="icon" symbol name="icongongyingshangshenhewancheng"></icon>
-            <div class="flex-between-center-center" v-if="newSupplierAssessVOList.length">
+            <icon class="icon"
+                  symbol
+                  name="icongongyingshangshenhewancheng"></icon>
+            <div class="flex-between-center-center"
+                 v-if="newSupplierAssessVOList.length">
               <span class="accomplish">{{newSupplierAssessVOList[1].value}}</span>
               <span class="text">{{$t('SPR_FRM_XGYSPJ_JSHWC')}}</span>
             </div>
-            <span @click="handleView" class="view cursor">{{$t('LK_CHAKAN')}}</span>
+            <span @click="handleView('finish')"
+                  class="view cursor">{{$t('LK_CHAKAN')}}</span>
           </div>
         </iText>
       </div>
@@ -64,28 +78,40 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
     }
   },
   watch: {
-    newSupplierAssessVOList(data) {
+    newSupplierAssessVOList (data) {
       if (this.$refs.chart && this.data.length > 0) {
         this.handlePie();
       }
     },
-    '$i18n.locale'(newValue) {
+    '$i18n.locale' (newValue) {
       this.handlePie();
     }
   },
-  mounted() {
+  mounted () {
     this.handlePie()
   },
   methods: {
-    handleView() {
-      this.$router.push({ path: '/supplier/frmrating/newsupplierrating' })
+    handleView (status) {
+      if (status === 'pending') {
+        this.$router.push({
+          path: '/supplier/frmrating/newsupplierrating', query: {
+            ratingStatusList: JSON.stringify(['pending', 'draft'])
+          }
+        })
+      } else {
+        this.$router.push({
+          path: '/supplier/frmrating/newsupplierrating', query: {
+            ratingStatusList: JSON.stringify(['finish'])
+          }
+        })
+      }
     },
-    handlePie() {
+    handlePie () {
       var max
       max = Math.max.apply(Math, this.newSupplierAssessVOList.map(item => { return item.value }))
       const myChart = echarts().init(this.$refs.chart);
@@ -115,7 +141,7 @@ export default {
             label: {
               show: true,
               position: 'center',
-              formatter: function() {
+              formatter: function () {
                 return '{a|' + max + '}';
               },
               rich: {
@@ -123,7 +149,7 @@ export default {
                   fontSize: 28,
                   color: '#ACB8CF',
                   align: 'center',
-                  verticalAlign:"top",
+                  verticalAlign: "top",
                   lineHeight: 20
                 }
               },
