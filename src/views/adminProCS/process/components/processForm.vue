@@ -33,15 +33,15 @@
 					/>
 			</iFormItem>
 			<iFormItem :label="language('流程专家')" prop='exports'>
-				<iSelect v-model="form.exports" class="w-300" filterable multiple placeholder="可进行搜索">
+				<el-select v-model="form.exports" class="w-300" filterable remote reserve-keyword :remote-method="queryUser" :loading="exports_loading" multiple placeholder="可进行搜索">
 					<el-option v-for="user in userList" :key="user.id" :label="user.name" :value="user.id"></el-option>
-				</iSelect>
+				</el-select>
 				
 			</iFormItem>
 			<iFormItem :label="language('关联机构')" prop='organizations'>
-				<iSelect v-model="form.organizations" class="w-300" filterable multiple placeholder="可进行搜索">
+				<el-select v-model="form.organizations" class="w-300" remote reserve-keyword :remote-method="queryOrg" :loading="org_loading" filterable multiple placeholder="可进行搜索">
 					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id"></el-option>
-				</iSelect>
+				</el-select>
 			</iFormItem>
 		</el-form>
 		<div class="flex felx-row mt20 pb20 justify-end ">
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { iFormItem, iInput,iDatePicker, iButton, iSelect } from 'rise';
+import { iFormItem, iInput,iDatePicker, iButton } from 'rise';
 import { getOrganizationList, getUsersList, addProcess,updateProcess, getProcess } from '@/api/adminProCS';
 import moment from 'moment';
 export default {
@@ -61,7 +61,6 @@ export default {
 		iFormItem,
 		iInput,
 		iDatePicker,
-		iSelect,
 		iButton
 	},
 	props: {
@@ -130,14 +129,19 @@ export default {
 				organizations: { required:true,message:"请至少输入2个字符进行搜索",trigger:'blur' },
 			},
 			orgList:[],
+			allOrgList:[],
 			userList:[],
-			loading:false
+			loading:false,
+			exports_loading:false,
+			org_loading:false,
+			onceGetUser:true
 		}
 	},
 	created() {
 		this.organizationList()
-		this.usersList()
+		this.queryUsersList()
 	},
+	
 	methods: {
         async queryDetail(id){
             try {
@@ -146,12 +150,21 @@ export default {
 				console.log(this.form, '233333')
 				this.$set(this.form, "exports", this.form.experts ? this.form.experts.map(e => e.id) : [])
 				this.$set(this.form, "organizations", this.form.organizations ? this.form.organizations.map(e => e.id) : [])
-                delete this.form.experts
 				return this.form
             } finally {
                 this.loading = false
             }
         },
+		queryUser(v){
+			this.queryUsersList(v)
+		},
+		queryOrg(v){
+			if(this.type != "add"){
+				this.org_loading = true
+				this.orgList = this.allOrgList.filter(e => e.name.includes(v))
+				this.org_loading = false
+			}
+		},
 		save(){
 			this.$refs.form.validate(async v => {
 				if(v){
@@ -191,13 +204,32 @@ export default {
 			})
 		},
 		async organizationList() {
-			this.orgList = await getOrganizationList()
-		},
-		async usersList() {
-			let params = {
-				keyword: ''
+			this.allOrgList = await getOrganizationList()
+			if(this.type == 'add'){
+				this.orgList = this.allOrgList.splice(0,20)
+			}else{
+				this.orgList = this.allOrgList
 			}
-			this.userList = await getUsersList(params)
+		},
+		async queryUsersList(keyword) {
+			let params = {
+				keyword: keyword || ""
+			}
+			try {
+				this.exports_loading = true
+				let res = await getUsersList(params)
+				console.log("usersList");
+				if(this.type != "add" && this.onceGetUser){
+					let uIds = res.map(e => e.id)
+					let many = this.form.experts ? this.form.experts.filter(e => !uIds.includes(e.id)) : []
+					this.userList = [...res, ...many]
+					this.onceGetUser = false
+				}else{
+					this.userList = res
+				}
+			} finally {
+				this.exports_loading = false
+			}
 		},
         reset(){
             this.form = {
