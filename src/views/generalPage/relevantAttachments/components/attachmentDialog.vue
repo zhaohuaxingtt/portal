@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 15:26:24
- * @LastEditTime: 2022-02-09 19:51:42
+ * @LastEditTime: 2022-02-10 14:27:09
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\generalPage\relevantAttachments\components\attachmentDialog.vue
@@ -13,7 +13,8 @@
             @close="clearDiolog">
     <div class="changeContent"
          v-loading="loading">
-      <div v-html="detail" class="termsContent"
+      <div v-html="detail"
+           class="termsContent"
            refs="termsContent"></div>
     </div>
     <template v-if="showFooter">
@@ -51,12 +52,12 @@ export default {
       var allInputs = document.querySelector(".termsContent").querySelectorAll("input");
       allInputs.forEach(inputEl => {
         if (inputEl.checked) {
-          inputEl.setAttribute("checked",true);
+          inputEl.setAttribute("checked", true);
         }
       })
       // console.log(document.querySelector(".termsContent").innerHTML.replace(/="true"/g, ""))
 
-      this.$emit("handleSignature",  document.querySelector(".termsContent").innerHTML.replace(/="true"/g, "").replace(/\\/g, "").replace(/\s/g, "").replace(/\r/g, ""));
+      this.$emit("handleSignature", document.querySelector(".termsContent").innerHTML.replace(/\\/g, " ").replace(/\s/g, " ").replace(/\r/g, " "));
     }
   },
   mounted () {
