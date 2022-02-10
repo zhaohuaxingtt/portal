@@ -617,7 +617,10 @@ export default {
     handleSync (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '', tag: params || "" }).then(res => {
         if (res?.code === '200') {
-          this.getTableList()
+          this.tableLoading = true
+          setTimeout(() => {
+            this.getTableList()
+          }, 500);
           // iMessage.success(res.desZh)
         } else {
           // iMessage.error(res.desZh)
