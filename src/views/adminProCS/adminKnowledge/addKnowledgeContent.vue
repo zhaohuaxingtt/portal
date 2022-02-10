@@ -329,6 +329,7 @@ export default {
 			this.loading = false
 			this.newContentForm.knowledgeSection = currVa.section?.id
 			this.newContentForm.beginDate = currVa.openingDate
+			this.newContentForm.organizations = currVa.organizations.map(e => +e.id)
 			currVa.category.map(item => {
 				this.newContentForm.knowledgeCategory.push(item.id)
 			})
