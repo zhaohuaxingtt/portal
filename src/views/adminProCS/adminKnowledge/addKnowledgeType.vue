@@ -23,7 +23,9 @@
 			<iFormItem :label="language('英文名')" prop='enName'>
 				<iInput v-model="newTypeForm.enName" placeholder="请输入知识英文名称"></iInput>
 			</iFormItem>
-			<iFormItem :label="language('封面图片')">
+			<iFormItem :label="language('封面图片')" prop="coverFile">
+				<el-radio-group v-model="newTypeForm.coverFile"></el-radio-group>
+				
 				<div class="photo-content">
 					<div class="photo-text">请上传封面图片</div>
 					<ImgCutter
@@ -93,11 +95,13 @@ export default {
 			visible: false,
 			newTypeForm: {
 				name: '',
-				enName: ''
+				enName: '',
+				coverFile:""
 			},
 			newTypeRules: {
 				name: { required:'true',message:"请输入类型名称",trigger:'blur' },
-				enName: { required:'true',validator: enName_valid,trigger:'blur' }
+				enName: { required:'true',validator: enName_valid,trigger:'blur' },
+				coverFile: { required:'true',message: "请上传文件",trigger:'change' }
 			},
 			imgCutterRate: '16 : 9',
 			fileList: [],
@@ -148,6 +152,7 @@ export default {
 					console.log(result, "12222")
 					let data = result.data
           this.imageUrl = data.path
+					this.newTypeForm.coverFile = data.path
 					this.imgName = `${data?.name.split('.')[0]}.${data?.extensionName}`
           this.$emit('imgUrl',this.imageUrl)
         }else{
@@ -166,7 +171,7 @@ export default {
 					try {
 						if (this.modifyFlag) {
 							// this.newTypeForm.coverFile = this.coverFile ? this.coverFile : this.newTypeForm.coverFile
-							this.newTypeForm.coverFile = this.imageUrl || ""
+							// this.newTypeForm.coverFile = this.imageUrl || ""
 							this.newTypeForm.coverFileName = this.imgName ? this.imgName : this.newTypeForm.coverFileName
 
 							let formData = new FormData()
@@ -182,7 +187,8 @@ export default {
 							})
 						} else {
 							// this.newTypeForm.coverFile = this.coverFile
-							this.newTypeForm.coverFile = this.imageUrl || ""
+							// this.newTypeForm.coverFile = this.imageUrl || ""
+							
 							this.newTypeForm.coverFileName = this.imgName
 							let formData = new FormData()
 							Object.keys(this.newTypeForm).forEach(key => {
