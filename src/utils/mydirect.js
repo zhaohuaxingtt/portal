@@ -14,8 +14,6 @@ import { numberProcessor } from '@/utils'
 // 按钮权限
 // eslint-disable-next-line no-undef
 
-var insertedOldNodesList1 = [] //二级菜单old
-var insertedOldNodesList2 = [] //三级菜单
 Vue.directive('permission', {
   bind: function (el, binding, vnode) {
     // 处理可见不可编辑的输入框，select textarea ....
@@ -29,10 +27,15 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
-    if (insertedOldNodesList1.length == 0) {
+    if (store.state.location.menuList1.length == 0) {
       //处理二级菜单三级菜单权限问题
-      insertedOldNodesList1 = document.querySelectorAll('.lev1>div')
-      insertedOldNodesList2 = document.querySelectorAll('.lev2>div')
+      store.commit('menuList1Fun', document.querySelectorAll('.lev1>div'))
+      // console.log(store.state.location.menuList1)
+    }
+    if (store.state.location.menuList2.length == 0) {
+      //处理二级菜单三级菜单权限问题
+      store.commit('menuList2Fun', document.querySelectorAll('.lev2>div'))
+      // console.log(store.state.location.menuList2)
     }
     //如果是个变量则使用变量，否则当做字符串处理
     var proValue = ''
@@ -81,15 +84,27 @@ Vue.directive('permission', {
     }
   },
   componentUpdated: function () {
-    var directConstant = store.state.location.directConstant
-    if (directConstant !== 0) return false
-    store.commit('setNumberAdd', '')
+    // return false;
+
+    if(store.state.location.menuList1.length == 0 && store.state.location.menuList2.length == 0){
+      
+    }else{
+      var directConstant = store.state.location.directConstant
+      if (directConstant !== 0) return false
+    }
+    
+    console.log(store.state.location.menuList1)
+    console.log(store.state.location.menuList2)
+
+
+
+    // store.commit('setNumberAdd', '')
     var insertedOldNodesListNew = [] //二级菜单new
     if (insertedOldNodesListNew.length == 0) {
       insertedOldNodesListNew = document.querySelectorAll('.lev1>div')
       var path = store.state.location.nowSetToPath
       var number = 0
-      insertedOldNodesList1.forEach((e) => {
+      store.state.location.menuList1.forEach((e) => {
         if (e.innerText.trim() === path.meta.title.trim()) {
           number++
         }
@@ -112,7 +127,7 @@ Vue.directive('permission', {
       var menu3 = document.querySelectorAll('.lev2>div') //继续判断三级菜单
       console.log(menu3)
       var str = 0
-      insertedOldNodesList2.forEach((e) => {
+      store.state.location.menuList2.forEach((e) => {
         if (e.innerText.trim() === path.meta.title.trim()) {
           console.log(e.innerText.trim())
           str++
