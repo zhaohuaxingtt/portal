@@ -227,7 +227,8 @@ export default {
         }
       })
       if (flag) {
-        this.$message.error(this.language('QINGTIANXIEBUPINGJIYUANYIN', '请填写不评级原因'))
+        // this.$message.error(this.language('QINGTIANXIEBUPINGJIYUANYIN', '请填写不评级原因'))
+        this.$message.error(this.$t('SPR_FRM_DEP_BUPINGJIYUANYIN'))
         return
       }
       // 判断是提交还是终止
