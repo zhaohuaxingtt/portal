@@ -1,5 +1,5 @@
 <template>
-  <iCard>
+  <iCard v-loading="loadingFlag">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 移除集团 -->
@@ -250,6 +250,7 @@ export default {
       overTimeShow: false, //选择完成时间
       endDisabled: false, //是否是终止深评
       languageName: 'zh',
+      loadingFlag: false
     }
   },
   watch: {
@@ -367,6 +368,7 @@ export default {
     // 报告分发
     openReport () {
       if (this.isSelect()) return
+      this.loadingFlag = true
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
         // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
@@ -394,6 +396,7 @@ export default {
     },
     emitFlag (val) {
       if (val) {
+        this.loadingFlag = false
         this.report = true
       }
     },
