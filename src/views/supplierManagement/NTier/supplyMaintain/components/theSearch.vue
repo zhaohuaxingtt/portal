@@ -38,7 +38,6 @@
         <iSelect filterable
                  :placeholder="language('请选择')"
                  v-model="form.partNum"
-                 v-lazyLoading
                  @change="hanldeChange">
           <el-option v-for="(item, index) in formGroup.partNumList"
                      :key="index"

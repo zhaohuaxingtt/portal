@@ -20,7 +20,8 @@
            :title="$t('SUPPLIER_GONGYINGSHANGXINXI')"
            v-loading="loading">
       <template slot="header-control">
-        <!--        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>-->
+
+        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>
       </template>
       <iFormGroup row="3"
                   ref="baseRulesForm">
@@ -101,7 +102,6 @@
     </iCard>
     <!--修改详情-->
     <iCard class="margin-top20">
-
       <table-list :tableData="fileTableListData"
                   :openPageGetRowData="true"
                   :openPageProps="'templateName'"

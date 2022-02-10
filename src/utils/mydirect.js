@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-02-09 21:56:47
+ * @LastEditTime: 2022-02-09 21:58:55
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
@@ -153,10 +153,11 @@ Vue.directive('lazyLoading', {
       const { elementClass: _elementClass, lazyFun: _lazyFun } = value //   elementClass 元素的class,   lazyFun 调用的函数
       elementClass = _elementClass
       lazyFun = _lazyFun
+      console.log(elementClass, lazyFun)
     } else if (typeof value == 'function') {
       lazyFun = value
     } else {
-      console.err('传参错误')
+      console.log('传参错误')
       return
     }
     // 获取element-ui定义好的scroll盒子
