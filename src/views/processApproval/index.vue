@@ -137,7 +137,7 @@ export default {
           console.log('permissionKey', menu.permissionKey)
           const permissionKey = menu.permissionKey
           if (!this.whiteBtnList[permissionKey]) {
-            redirectUrl = i === 0 ? this.menus[i + 1].url : this.menus[0].url
+            redirectUrl =  this.menus[i + 1].url 
           }
         }
       }
