@@ -248,6 +248,7 @@ export default {
       buyUser: 'LINIE',
       deptBudgetUser: 'MTZKSYSFZR',
       deptBudgetLeader: 'MTZNDYSFZR',
+      deptBudgetLeader1:"MTZYSGLY",
       dialogParams: {
         key: 0,
         visible: false,
@@ -320,7 +321,7 @@ export default {
     },
     // 当前登录用户是为年度预算负责人
     isLeader () {
-      return this.userRoles.indexOf(this.deptBudgetLeader) > -1
+      return this.userRoles.indexOf(this.deptBudgetLeader) > -1 || this.userRoles.indexOf(this.deptBudgetLeader1) > -1
     },
     // 初始化检索条件
     initSearch () {
