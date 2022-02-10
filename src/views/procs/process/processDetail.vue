@@ -10,10 +10,10 @@
                         <span>{{ data.name.ch }}</span>
                     </span>
                 </el-tree>
-                <el-button size="mini" style="height: 32px;" slot="reference" icon="el-icon-s-fold"></el-button>
+                <el-button size="mini" title="流程目录" style="height: 32px;" slot="reference" icon="el-icon-s-fold"></el-button>
             </el-popover>
 
-            <el-button style="margin-top:8px; height: 32px;" size="mini" icon="el-icon-printer"></el-button>
+            <el-button style="margin-top:8px; height: 32px;" title="打印" size="mini" icon="el-icon-printer" @click="print.show = true"></el-button>
         </div>
 
         <LayHeader title="流程管理"></LayHeader>
@@ -119,6 +119,24 @@
                 <video style="width:100%" ref="video" controls v-else :src="dialog.url"></video>
             </div>
         </iDialog>
+        <!-- 打印 -->
+        <iDialog
+            title="打印预览"
+            :visible.sync="print.show" 
+            width="70%" 
+            @close='closeDialog' 
+            append-to-body
+        >
+            <div class="pb20 print" id="process-print">
+                <h3 class="title1">{{detail.name}}</h3>
+                <div class="title2">{{pageDetail.name}}</div>
+                <div class="content w-e-text" v-html="pageDetail.richContent"></div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <iButton @click="print.show = false">取消</iButton>
+                <iButton @click="printHandle">打印</iButton>
+            </span>
+        </iDialog>
     </div>
 </template>
 
@@ -131,6 +149,9 @@
     import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage, getProcessCatalog} from '@/api/procs';
     import mixin from './../mixins';
     import ProcessDraw from './../components/ProcessDraw';
+
+    import print from 'print-js'
+    import 'print-js/dist/print.css';
     export default {
         components:{
             LayHeader,
@@ -158,6 +179,9 @@
                     type:'img',
                     url:"",
                     drawInfo:{}
+                },
+                print:{
+                    show: false
                 },
                 loading: false,
                 pageLoading: false,
@@ -271,6 +295,13 @@
             dirClick(v){
                 this.init(v.pageId)
                 this.currentPage = this.detail.pageIds.indexOf(v.pageId) + 1
+            },
+            printHandle(){
+                print({
+                    printable: 'process-print',
+                    type: 'html',
+                    targetStyles: ['*'], // 打印内容使用所有HTML样式，没有设置这个属性/值，设置分页打印没有效果
+                })
             }
         }
     }
@@ -340,6 +371,22 @@ $line-color: #BBC4D6;
         padding:15px 20px;
         justify-content: space-between;
         align-items: center;
+    }
+}
+.print{
+    .title1{
+        font-size: 30px;
+    }
+    .title2{
+        padding: 10px 0;
+        font-size: 20px;
+         border-top: 1px solid $line-color;
+        border-bottom: 1px solid $line-color;
+        font-weight: bold;
+        color: #1660F1;
+    }
+    .content{
+        padding: 10px;
     }
 }
 .video-btn{

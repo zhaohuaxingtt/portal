@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-02-09 21:58:55
+ * @LastEditTime: 2022-02-10 14:44:34
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
