@@ -10,7 +10,7 @@
   <iPage>
     <div v-loading="loading">
       <viewHeader
-        :title="language('分配角色权限')"
+        :title="language(title)"
         editable
         :active="activeTab"
         @toggle-tab="toggleTab"
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       activeTab: 'function',
+      title:'',
       roleData: {
         id: '',
         code: '',
@@ -78,6 +79,7 @@ export default {
             //头部信息
             const { data } = val
             this.roleData = data
+            this.title = val.data.shortNameZh
           }
         })
         .catch(() => {
