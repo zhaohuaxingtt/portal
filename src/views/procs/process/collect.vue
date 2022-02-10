@@ -10,26 +10,26 @@
             </div>
             <iCard class="card-r flex-1" v-loading="detailLoading">
                 <div class="tlt marb15">{{ collectName }}</div>
-                <div v-for="(answer, index) in answerList" :key="index">
-                    <div class="marb15">{{`${index + 1}、${answer.name}`}}</div>
-                    <div class="marb15" v-html="answer.richContent"></div>
+                <div class="marb15" v-for="(answer, index1) in answerList" :key="answer.id">
+                    <div class="marb15">{{`${index1 + 1}、${answer.name}`}}</div>
+                    <div class="marb15 w-e-text" v-html="answer.richContent"></div>
                     <!-- <span class="operat marb15" style="display: inline-block;"><i class="el-icon-edit"></i> 提问</span> -->
                     <template class="marb15">
-                        <div v-show="!showInput" class="opearte mt20 cursor" @click="showInput = true"><i class="el-icon-edit"></i> 提问</div>
-                        <div v-if="showInput" class="mt20">
+                        <div v-show="!answer.showInput" class="opearte mt20 cursor" @click="changeInput(index1,true)"><i class="el-icon-edit"></i> 提问</div>
+                        <div v-if="answer.showInput" class="mt20">
                             <iInput v-model="feedBackAnswer" placeholder="请输入问题"></iInput>
                             <div class="mt10 flex justify-end">
-                                <iButton @click="sureFeedBack">确定</iButton>
-                                <iButton @click="showInput = false">取消</iButton>
+                                <iButton @click="sureFeedBack(answer,index1)">确定</iButton>
+                                <iButton @click="changeInput(index1,false)">取消</iButton>
                             </div>
                         </div>
                     </template>
                 </div>
                 
                 <div class="flex justify-between items-center mt20">
-                    <div class="flex flex-row mt20">
+                    <div class="flex flex-row mt20" v-if="answerList.length > 0">
                         <div class="opearte mr20 cursor" @click="share"><i class="el-icon-share"></i>分享</div>
-                        <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red" class="el-icon-star-on"></i>已收藏</div>
+                        <div class="opearte cursor" @click="collect" v-if="isCollect"><i style="color: red;font-size: 14px;" class="el-icon-star-on"></i>已收藏</div>
                         <div class="opearte cursor" @click="collect" v-else><i class="el-icon-star-off"></i>收藏</div>
                     </div>
                     <iButton @click="goBack">返回</iButton>
@@ -99,6 +99,13 @@
                     this.listLoading = false
                 }
             },
+            changeInput(i1, v){
+                this.answerList.forEach(e => {
+                    e.showInput = false
+                })
+                this.$set(this.answerList[i1], "showInput", v)
+                this.$forceUpdate()
+            },
             async getCollectInfo(id) {
                 this.detailLoading = true
                 await getProcessFAQ(id).then(res => {
@@ -107,17 +114,21 @@
                     this.isCollect = res.isCollect
                     this.collectId = res.id
                     this.answerList = res.answerList || []
+                    this.answerList.forEach(el => {
+                        el.showInput = false
+                    });
                     this.detailLoading = false
                 })
             },
             collectDetail(collect) {
                 this.getCollectInfo(collect.id)
             },
-            async sureFeedBack() {
+            async sureFeedBack(answer,i) {
                 let formData = new FormData()
                 formData.append('feedBackContent', this.feedBackAnswer)
-                await addAnswerFeedBack(this.collectId, formData).then(res => {
+                await addAnswerFeedBack(answer.id, formData).then(res => {
                     if (res?.success) {
+                        this.changeInput(i,false)
                         this.$message({type: 'success', message: '问题反馈成功'})
                     }
                 })

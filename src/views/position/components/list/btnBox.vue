@@ -1,17 +1,19 @@
 <template>
   <div class="btn-box flex-end-center margin-bottom30">
-    <iButton
-      :disabled="
-        (item.value === 'add' && (selectedList.length || !orgSelected.id)) ||
-        (item.value === 'del' && !selectedList.length) ||
-        (item.value === 'edit' && selectedList.length !== 1)
-      "
-      @click="handleOperate(item.value)"
-      v-for="item in operations"
-      :key="item.value"
-    >
-      {{ item.label }}
-    </iButton>
+    <div v-if="showBtns">
+      <iButton
+        :disabled="
+          (item.value === 'add' && (selectedList.length || !orgSelected.id)) ||
+          (item.value === 'del' && !selectedList.length) ||
+          (item.value === 'edit' && selectedList.length !== 1)
+        "
+        @click="handleOperate(item.value)"
+        v-for="item in operations"
+        :key="item.value"
+      >
+        {{ item.label }}
+      </iButton>
+    </div>
     <button-table-setting @click="$emit('handle-setting')" />
   </div>
 </template>
@@ -25,6 +27,10 @@ export default {
   props: {
     operations: {
       type: Array
+    },
+    showBtns:{
+      type:Boolean,
+      default:true,
     }
   },
   computed: {
@@ -46,7 +52,7 @@ export default {
           break
         case 'add':
           this.$store.commit('RESET_POSITION_DETAIL')
-          openUrl(`/position/operate/add?deptId=${this.orgSelected.id}`)
+          openUrl(`/position/operate/add?deptId=${this.orgSelected.id}&editable=1`)
           // this.$router.push({
           //   path: '/position/operate/add',
           //   query: {
@@ -58,7 +64,7 @@ export default {
         case 'edit':
           this.$store.commit('RESET_POSITION_DETAIL')
           openUrl(
-            `/position/operate/edit?deptId=${this.$store.state.position.pos.listSelected[0].deptId}&id=${this.$store.state.position.pos.listSelected[0].id}`
+            `/position/operate/edit?deptId=${this.$store.state.position.pos.listSelected[0].deptId}&id=${this.$store.state.position.pos.listSelected[0].id}&editable=1`
           )
           /* this.$router.push({
             path: '/position/operate/edit',

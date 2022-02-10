@@ -120,7 +120,9 @@ const position = {
         userList: [],
         purchaseGroup: '',
         tempPurchaseGroup: '',
-        property: null
+        property: null,
+        otherPurchaseGroup: [],
+        otherTempPurchaseGroup: []
       },
       originPosDetail: {},
 
@@ -237,7 +239,9 @@ const position = {
         purchaseGroup: '',
         tempPurchaseGroup: '',
         setCode: '',
-        property: null
+        property: null,
+        otherPurchaseGroup: [],
+        otherTempPurchaseGroup: []
       }
       state.pos.dimensionSelected = []
       state.pos.dimensionList = []
@@ -652,7 +656,11 @@ const position = {
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
         setCode: setCode ? setCode.join(',') : '',
-        property: this.state.position.pos.positionDetail.property
+        property: this.state.position.pos.positionDetail.property,
+        otherPurchaseGroup:
+          this.state.position.pos.positionDetail.otherPurchaseGroup || [],
+        otherTempPurchaseGroup:
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup || []
       }
       commit('SET_POSLOADING', true)
       const res = await SavePosition(params).finally(() =>
@@ -742,7 +750,11 @@ const position = {
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
         setCode: setCode ? setCode.join(',') : '',
-        property: this.state.position.pos.positionDetail.property
+        property: this.state.position.pos.positionDetail.property,
+        otherPurchaseGroup:
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
+        otherTempPurchaseGroup:
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
       }
       commit('SET_POSLOADING', true)
       const res = await UpdatePosition(params).finally(() =>

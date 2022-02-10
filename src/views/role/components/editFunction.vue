@@ -22,6 +22,7 @@
           :full-menu="fullMenu"
           :default-selected-rows="defaultSelectedResource"
           :parent-id="resourceParent.id"
+          :full-resources="fullResources"
           ref="functionResource"
           @set-resource-list="setResourceList"
         />
@@ -34,7 +35,7 @@
 import { iCard, iButton, iMessage } from 'rise'
 import functionMenu from './functionMenu'
 import functionResource from './functionResource'
-import { configRoleFunction } from '@/api/role'
+import { configRoleFunction, fetchResource } from '@/api/role'
 import { treeToArray } from '@/utils'
 export default {
   name: 'viewFunction',
@@ -77,13 +78,21 @@ export default {
       resourceParent: {},
       loading: false,
       menuList: null,
-      resourceList: null
+      resourceList: null,
+      fullResources: []
     }
   },
   created() {
     this.setDefaultCheckedMenuList()
+    this.queryFullResources()
   },
   methods: {
+    async queryFullResources() {
+      const { data } = await fetchResource({ type: 2 }).finally(
+        () => (this.tableLoading = false)
+      )
+      this.fullResources = data
+    },
     setDefaultCheckedMenuList() {
       if (this.detail.menuList) {
         this.menuList = treeToArray(this.detail.menuList, 'menuList')
@@ -95,17 +104,25 @@ export default {
     setMenuList(val, properties) {
       this.menuList = val
       if (properties) {
-        const { rows, row, checked } = properties
-        const isMultipleCheck = !!rows
+        /* const { rows, row, checked } = properties
+        const isMultipleCheck = !!rows */
         // 如果是取消选择，联动取消资源
-        if (!checked) {
+        /* if (!checked) {
           const selectRows = isMultipleCheck ? rows : [row]
           const ids = selectRows.map((e) => e.id)
           this.detail.resourceList = this.detail.resourceList.filter(
             (e) => ids.indexOf(e.parentId) === -1
           )
           this.$refs.functionResource.handleToggleSelectedAll(false)
-        }
+        } */
+        /// ----------------20220209 CRW-3717--------------------------
+        /// ----------------选择菜单把资源一起选择了---------------------
+        /// -----------------------------------------------------------
+        // const selectRows = isMultipleCheck ? rows : [row]
+        const ids = this.menuList.map((e) => e.id)
+        this.detail.resourceList = this.fullResources.filter((e) =>
+          ids.includes(e.parentId)
+        )
       }
     },
     setResourceList(val, proptities) {

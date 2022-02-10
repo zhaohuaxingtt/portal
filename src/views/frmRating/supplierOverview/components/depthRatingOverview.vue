@@ -2,8 +2,8 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: caopeng
- * @LastEditTime: 2021-12-30 10:10:40
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-09 15:18:27
  * @Descripttion: 深入评级
 -->
 <template>
@@ -13,17 +13,17 @@
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-hong"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info.red}}</span>
+              name="iconbaojiapingfengenzong-jiedian-hong"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info['RED']}}</span>
       </div>
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-huang"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info.yellow}}</span>
+              name="iconbaojiapingfengenzong-jiedian-huang"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info['YELLOW']}}</span>
       </div>
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-lv"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info.green}}</span>
+              name="iconbaojiapingfengenzong-jiedian-lv"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info['GREEN']}}</span>
       </div>
     </div>
   </iCard>
@@ -34,20 +34,20 @@ import { iCard, icon } from 'rise'
 import { deepCard } from '@/api/frmRating/supplierOverview/index'
 export default {
   components: { iCard, icon },
-  data() {
+  data () {
     return {
       info: {}
     }
   },
   methods: {
-          handleAnalysis() {
-      this.$emit('show',true)
+    handleAnalysis () {
+      this.$emit('show', true)
     }
-   
+
   },
-  mounted() {
+  mounted () {
     deepCard().then((res) => {
-      this.info = res.data.deepMap  
+      this.info = res.data.deepMap
       console.log(this.info)
     })
   }

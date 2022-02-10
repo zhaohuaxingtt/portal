@@ -20,6 +20,7 @@
             <span>申请单类型：</span>
             <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== ''"
                     :value="formInfor.flowType"
+                    v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
                     :placeholder="language('QINGXUANZE','请选择')"
                     @change="chioce($event)">
               <el-option :value="item.code"
@@ -32,11 +33,14 @@
       </div>
       <div class="opration">
         <template v-if="ttNominateAppId == '' && appStatus == '通过'">
-          <iButton @click="submitPass" v-show="locationNow==3&&meetingNumber == 0" >{{ language('TIJIAO', '提交') }}</iButton>
+          <iButton @click="submitPass" v-show="locationNow==3&&meetingNumber == 0"
+            v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
+          >{{ language('TIJIAO', '提交') }}</iButton>
         </template>
         <template v-else>
           <iButton @click="submit"
                     v-show="locationNow==3&&meetingNumber == 0"
+                    v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
                   :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>

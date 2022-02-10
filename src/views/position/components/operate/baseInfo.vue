@@ -136,11 +136,12 @@
 
       <iFormGroup row="3" :model="positionObj" ref="baseForm3">
         <iFormItem>
-          <iLabel :label="language('正式价采购组')" slot="label"></iLabel>
+          <iLabel :label="language('默认正式采购组')" slot="label"></iLabel>
           <iSelect
             v-model="positionObj.purchaseGroup"
             filterable
             :disabled="type === 'detail'"
+            @change="handlePruchaseGroupChange"
           >
             <el-option
               v-for="item in purchasegroupOptions"
@@ -151,7 +152,7 @@
           </iSelect>
         </iFormItem>
         <iFormItem>
-          <iLabel :label="language('暂作价采购组')" slot="label"></iLabel>
+          <iLabel :label="language('默认暂作采购组')" slot="label"></iLabel>
           <iSelect
             v-model="positionObj.tempPurchaseGroup"
             filterable
@@ -187,6 +188,38 @@
           <iSelect v-model="positionObj.property" :disabled="type === 'detail'">
             <el-option label="是" :value="2" />
             <el-option label="否" :value="1" />
+          </iSelect>
+        </iFormItem>
+        <iFormItem>
+          <iLabel :label="language('其他正式组')" slot="label"></iLabel>
+          <iSelect
+            v-model="positionObj.otherPurchaseGroup"
+            filterable
+            multiple
+            :disabled="type === 'detail'"
+          >
+            <el-option
+              v-for="item in otherTempPurchasegroupOptions"
+              :key="item.id"
+              :label="item.purchaseGroupCode"
+              :value="item.purchaseGroupCode"
+            />
+          </iSelect>
+        </iFormItem>
+        <iFormItem>
+          <iLabel :label="language('其他暂作采购组')" slot="label"></iLabel>
+          <iSelect
+            v-model="positionObj.otherTempPurchaseGroup"
+            filterable
+            :disabled="type === 'detail'"
+            multiple
+          >
+            <el-option
+              v-for="item in tempPurchasegroupOptions"
+              :key="item.id"
+              :label="item.purchaseGroupCode"
+              :value="item.purchaseGroupCode"
+            />
           </iSelect>
         </iFormItem>
       </iFormGroup>
@@ -259,6 +292,11 @@ export default {
   computed: {
     positionObj() {
       return this.$store.state.position.pos.positionDetail
+    },
+    otherTempPurchasegroupOptions() {
+      return this.purchasegroupOptions.filter(
+        (e) => e.purchaseGroupCode !== this.positionObj.purchaseGroup
+      )
     }
   },
   methods: {
@@ -280,6 +318,10 @@ export default {
     async queryProGroupOptions() {
       const res = await getProGroupOptions()
       this.setCodeOptions = res.data
+    },
+    handlePruchaseGroupChange(val) {
+      this.positionObj.otherTempPurchaseGroup =
+        this.positionObj.otherTempPurchaseGroup.filter((e) => e !== val)
     }
   }
 }

@@ -217,7 +217,7 @@ export default {
 					id:""
                 }	
 				let end = moment().format('YYYY-MM-DD')
-				let start = moment(new Date(end).getTime() - (90 * 24 * 3600 * 1000)).format("YYYY-MM-DD")
+				let start = moment(new Date(end).getTime() - (30 * 24 * 3600 * 1000)).format("YYYY-MM-DD") 		//30天
 				this.date = [start, end]
 				this.form.startDate = start
 				this.form.endDate = end

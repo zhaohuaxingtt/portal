@@ -14,7 +14,7 @@
       </el-row>
     </el-form>
     <div class="export">
-      <iButton @click="exoprtTemplate">导出</iButton>
+      <iButton @click="exoprtTemplate" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XIANGQING_DAOCHU">导出</iButton>
     </div>
     <div class="oneTwoTable">
       <iTableCustom @go-detail="handleSource"

@@ -27,20 +27,21 @@
                 <uploadButton ref="uploadButtonAttachment"
                               :buttonText="language('SHANGCHUANYUANCAILIAOYONGLIANGBIANGENG','上传原材料用量变更')"
                               :uploadByBusiness="true"
+                              v-permission="PORTAL_MTZ_CHANGE_INFOR_SCYCLYLBG"
                               @uploadedCallback="uploadBasePriceChange($event)"
                               class="margin-right20"
                               :disabled="disabled" />
                 <iButton @click="downFile"
-                         :disabled="disabled"> {{language('XIAZAIMUBAN','下载模板')}}</iButton>
+                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_XIAZAIMUBAN"> {{language('XIAZAIMUBAN','下载模板')}}</iButton>
                 <iButton @click="del"
-                         :disabled="disabled"> {{language('SHANCHU','删除')}}</iButton>
+                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_SHANCHU"> {{language('SHANCHU','删除')}}</iButton>
                 <iButton @click="add"
-                         :disabled="disabled"> {{language('XINZENG','新增')}}</iButton>
+                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_ADD"> {{language('XINZENG','新增')}}</iButton>
                 <iButton @click="handleChangeDate"
                          class="margin-right20"
-                         :disabled="disabled"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
+                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_BAINGENGYOUXIAOQI"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
                 <iButton @click="edit"
-                         :disabled="disabled"> {{language('BIANGENGYONGLIANG','变更用量')}}</iButton>
+                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_BIANGENGYONGLIANG"> {{language('BIANGENGYONGLIANG','变更用量')}}</iButton>
               </div>
               <div v-show="editFlag">
                 <iButton @click="cancel"

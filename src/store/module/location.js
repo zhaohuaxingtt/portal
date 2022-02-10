@@ -13,6 +13,8 @@ const location = {
     submitDataList: 0,
     submitInfor:{},
     disabled: localStorage.getItem('disabled') || false,
+    nowSetToPath:{},
+    directConstant:0,
   },
   actions: {
     setMtzChangeBtn({ commit }, data) {
@@ -35,7 +37,14 @@ const location = {
     SET_MTZ_CHANGE_DISABLED(state, data) {
       state.disabled = data
       localStorage.setItem('disabled', data)
-    }
+    },
+    setToPath(state, data) {
+      state.nowSetToPath = data;
+      state.directConstant = 0;
+    },
+    setNumberAdd(state, data) {
+      state.directConstant++;
+    },
   }
 }
 export default location

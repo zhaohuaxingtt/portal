@@ -16,17 +16,20 @@
                  @click="handleSyncClick('')"
                  v-show="!flag"
                  :disabled="disabled"
+                 v-permission="PORTAL_MTZ_POINT_SHENPIREN_TONGBU"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
-        <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
+        <iButton @click="approveStream" v-permission="PORTAL_MTZ_POINT_SHENPIREN_SHENPIREN">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton @click="addStream"
                  v-show="!flag"
+                 v-permission="PORTAL_MTZ_POINT_SHENPIREN_ADD"
                  :disabled="disabled">{{language('XINZENG', '新增') }}</iButton>
         <iButton v-show="!flag"
                  :disabled="disabled"
+                 v-permission="PORTAL_MTZ_POINT_SHENPIREN_EDIT"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
       </div>
       <div v-if="editFlag">
-        <iButton @click="del">{{language('SHANCHU', '删除') }}</iButton>
+        <iButton @click="del" v-permission="PORTAL_MTZ_POINT_SHENPIREN_DEL">{{language('SHANCHU', '删除') }}</iButton>
         <iButton @click="cancel">{{language('QUXIAO', '取消') }}</iButton>
         <iButton @click="save"
                  :loading="loading">{{language('BAOCUN', '保存') }}</iButton>
@@ -517,7 +520,13 @@ export default {
           }
           if (res.data.flowType === 'FILING') {
             this.disabled = true
+            this.tableData = [];
+            this.page.currPage = 1
+            this.page.pageSize = 10
+            this.page.totalCount = 0
             return
+          }else{
+            this.disabled = false
           }
           this.riseId = res.data.riseId
           if (res.data.ttNominateAppId) {

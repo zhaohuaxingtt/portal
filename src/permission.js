@@ -12,7 +12,13 @@ import { getToken, removeToken } from '@/utils'
 import { MessageBox } from 'element-ui'
 // eslint-disable-next-line no-unused-vars
 const whiteList = ['/login', '/ui', '/superLogin']
+
+
+
+
 router.beforeEach((to, from, next) => {
+  store.commit("setToPath", to);
+
   const token = getToken()
   // eslint-disable-next-line no-debugger
   if (token) {
