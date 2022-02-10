@@ -546,10 +546,10 @@
         if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${businessTitle}` // 寻源 ok
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${loiId}` // LOI
         if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
-        if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // Aeko
+        if(type==5) path = `/portal/#/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor?currentStep=1&mtzAppId=${businessTitle}` // Aeko
         if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${letterId}` // 配件定点
         if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz定点
-        if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // 定点信编号ok
+        if(typeName == 'aekoCode' && aekoCode) path = `/portal/#/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor?currentStep=1&mtzAppId=${businessTitle}` // 定点信编号ok
         if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${letterId}` // 定点信编号
         if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz rs编号
         if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${rfqId}` // 成本分析
