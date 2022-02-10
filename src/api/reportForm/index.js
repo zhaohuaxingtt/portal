@@ -18,6 +18,13 @@ export function queryReportContentList(data) {
         data
     })
 }
+// 改变最新状态
+export function updateIsNew(id) {
+    return requst({
+        url: `/report_content/${id}/isNew.json`,
+        method: 'put'
+    })
+}
 
 // 报表内容上下架
 export function publishedContentById(id,data) {
