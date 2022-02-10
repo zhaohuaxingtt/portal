@@ -752,9 +752,9 @@ const position = {
         setCode: setCode ? setCode.join(',') : '',
         property: this.state.position.pos.positionDetail.property,
         otherPurchaseGroup:
-          this.state.position.pos.positionDetail.otherPurchaseGroup.join(',') || [],
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
         otherTempPurchaseGroup:
-          this.state.position.pos.positionDetail.otherTempPurchaseGroup.join(',') || []
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
       }
       commit('SET_POSLOADING', true)
       const res = await UpdatePosition(params).finally(() =>
