@@ -31,6 +31,7 @@
     "dayjs": "^1.10.7",
     "element-ui": "^2.15.6",
     "file-saver": "^2.0.5",
+    "print-js": "^1.6.0",
     "qrcodejs2": "0.0.2",
     "relation-graph": "^1.1.0",
     "sortablejs": "^1.14.0",

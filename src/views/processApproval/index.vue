@@ -1,17 +1,17 @@
 <template>
   <div style="height: 100%; padding-bottom: 40px">
     <div class="ProApproval-menu">
-      <iNavMvp :list="menus" :lev="1" router-page />
+      <iNavMvp :list="menus"
+               :lev="1"
+               router-page />
 
       <iTabBadge>
-        <iTabBadgeItem
-          v-for="item in subMenus"
-          :name="item.name"
-          :key="item.value"
-          :active="item.type === queryType"
-          :activeBorder="false"
-          @click="changeSubMenu(item)"
-        />
+        <iTabBadgeItem v-for="item in subMenus"
+                       :name="item.name"
+                       :key="item.value"
+                       :active="item.type === queryType"
+                       :activeBorder="false"
+                       @click="changeSubMenu(item)" />
       </iTabBadge>
     </div>
 
@@ -25,7 +25,7 @@ import { iNavMvp } from 'rise'
 export default {
   name: 'processApproval',
   components: { iNavMvp, iTabBadge, iTabBadgeItem },
-  data() {
+  data () {
     return {
       menus: [
         {
@@ -90,7 +90,7 @@ export default {
     }
   },
   computed: {
-    subMenus() {
+    subMenus () {
       const path = this.$route.path
       const items = this.menus.filter((e) => e.url === path)
       let subMenus = []
@@ -99,17 +99,17 @@ export default {
       }
       return subMenus.filter((e) => this.whiteBtnList[e.permissionKey])
     },
-    queryType() {
+    queryType () {
       if (!this.$route.query || Object.keys(this.$route.query).length === 0) {
         return 'normal'
       }
       return this.$route.query.type || ''
     },
-    whiteBtnList() {
+    whiteBtnList () {
       return this.$store.state.permission.whiteBtnList
     }
   },
-  created() {
+  created () {
     const { fullPath } = this.$route
     if (fullPath === '/approval/agent') {
       if (this.whiteBtnList['ADMIN_APPROVAL_MANAGEMENT_AGENT_NORMAL']) {
@@ -124,11 +124,11 @@ export default {
         })
       }
     } else {
-      this.checkHasEnterMenu()
+      // this.checkHasEnterMenu()
     }
   },
   methods: {
-    checkHasEnterMenu() {
+    checkHasEnterMenu () {
       const { fullPath } = this.$route
       let redirectUrl = ''
       for (let i = 0; i < this.menus.length; i++) {
@@ -137,7 +137,7 @@ export default {
           console.log('permissionKey', menu.permissionKey)
           const permissionKey = menu.permissionKey
           if (!this.whiteBtnList[permissionKey]) {
-            redirectUrl = i === 0 ? this.menus[i + 1].url : this.menus[0].url
+            redirectUrl =  this.menus[i + 1].url 
           }
         }
       }
@@ -145,7 +145,7 @@ export default {
         this.$router.push({ path: redirectUrl })
       }
     },
-    changeSubMenu(item) {
+    changeSubMenu (item) {
       this.activeSubMenuName = item.name
       this.$router.replace({ path: item.url })
     }

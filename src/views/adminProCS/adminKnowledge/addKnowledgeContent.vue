@@ -96,7 +96,9 @@
 					</div>
 				</iUpload>
 			</iFormItem>
-			<iFormItem :label="language('上传知识封面')">
+			<iFormItem :label="language('上传知识封面')" prop="coverFile">
+				<el-radio-group v-model="newContentForm.coverFile"></el-radio-group>
+
 				<ImgCutter
 					class="avatar-uploader"
 					fileType=".jpg, .jpeg, .png"
@@ -147,7 +149,8 @@ export default {
 				speaker: '',
 				beginDate: '',
 				knowledgeCategory: [],
-				organizations: []
+				organizations: [],
+				coverFile:""
 			},
 			newContentRules: {
 				knowledgeSection: { required:'true',message:"请选择知识分享类型",trigger:'select' },
@@ -155,8 +158,9 @@ export default {
 				summary: { required:'true',message:"请输入知识概要",trigger:'blur' },
 				speaker: { required:'true',message:"请输入主讲人",trigger:'blur' },
 				beginDate: { required:'true',message:"请选择开课日期",trigger:'blur' },
-				knowledgeCategory: { required:'true',message:"请选择知识分类",trigger:'select' },
-				organizations: { required:'true',message:"请选择所属科室",trigger:'select' }
+				knowledgeCategory: { required:'true',message:"请选择知识分类",trigger:'change' },
+				organizations: { required:'true',message:"请选择所属科室",trigger:'change' },
+				coverFile: { required:'true',message: "请上传文件",trigger:'change' }
 			},
 			acceptPicType: "image/*",
 			// 调取接口
@@ -252,6 +256,7 @@ export default {
 					console.log(result, "12222")
 					let data = result.data
           this.imageUrl = data.path
+		  this.newContentForm.coverFile = data.path
 					this.imgName = `${data?.name.split('.')[0]}.${data?.extensionName}`
           this.$emit('imgUrl',this.imageUrl)
         }else{
@@ -280,7 +285,7 @@ export default {
 						this.newContentForm.file = this.uploadFileStream  // 老系统修改的时候没有传值
 						this.newContentForm.coverFileName = this.imgName || `${this.newContentForm.title}.png`
 						// this.newContentForm.coverFile = this.coverFileName
-						this.newContentForm.coverFile = this.imageUrl || ""
+						// this.newContentForm.coverFile = this.imageUrl || ""
 						let formData = new FormData()
 						Object.keys(this.newContentForm).forEach(key => {
 							formData.append(key,this.newContentForm[key])
@@ -309,6 +314,7 @@ export default {
 			})
 		},
 		async initModify(currVa) {
+			console.log(currVa);
 			this.loading = true
 			await this.getCurrTypeList()
 			await this.organizationsInfo()
@@ -323,15 +329,19 @@ export default {
 			this.loading = false
 			this.newContentForm.knowledgeSection = currVa.section?.id
 			this.newContentForm.beginDate = currVa.openingDate
+			this.newContentForm.organizations = currVa.organizations.map(e => +e.id)
 			currVa.category.map(item => {
 				this.newContentForm.knowledgeCategory.push(item.id)
 			})
-			this.fileList.push({
-				fileName: currVa.attachMents[0].originalFileName,
-				fileUrl: currVa.attachMents[0].url.split('uploader/')[1]
-			})
+			if(currVa.attachMents.length > 0){
+				this.fileList.push({
+					fileName: currVa.attachMents[0].originalFileName,
+					fileUrl: currVa.attachMents[0].url.split('uploader/')[1]
+				})
+				}
 			this.imageUrl = currVa?.cover.split('uploader/')[1]
 			this.coverFile = this.imageUrl
+			this.newContentForm.coverFile = this.imageUrl
 			// this.imgName = `${currVa.title}.png`
 		},
 		uploadHandle(file){
