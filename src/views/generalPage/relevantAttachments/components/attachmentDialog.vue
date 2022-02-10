@@ -13,7 +13,7 @@
             @close="clearDiolog">
     <div class="changeContent"
          v-loading="loading">
-      <div v-html="detail"
+      <div v-html="detail" class="termsContent"
            refs="termsContent"></div>
     </div>
     <template v-if="showFooter">
@@ -48,8 +48,15 @@ export default {
       this.$emit("input", false);
     },
     handleSignature () {
+      var allInputs = document.querySelector(".termsContent").querySelectorAll("input");
+      allInputs.forEach(inputEl => {
+        if (inputEl.checked) {
+          inputEl.setAttribute("checked",true);
+        }
+      })
+      // console.log(document.querySelector(".termsContent").innerHTML.replace(/="true"/g, ""))
 
-      this.$emit("handleSignature", this.$refs.termsContent.$el.innerHTML);
+      this.$emit("handleSignature",  document.querySelector(".termsContent").innerHTML.replace(/="true"/g, "").replace(/\\/g, "").replace(/\s/g, "").replace(/\r/g, ""));
     }
   },
   mounted () {
