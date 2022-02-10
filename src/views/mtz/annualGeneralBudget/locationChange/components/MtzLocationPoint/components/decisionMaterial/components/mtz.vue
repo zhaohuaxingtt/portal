@@ -338,6 +338,8 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
+      // transverseDownloadPDF
+      // downloadPDF
       transverseDownloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
