@@ -153,6 +153,7 @@ const typeColumn = [
           </div>
         </span>
       )
+      }
     },
     sortable: true,
     sortMethod: (a, b) => {
@@ -246,9 +247,6 @@ const addTypeColumn = [
   }
 ]
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 7c17c140e37bd48462e831e3a53b32f50c4d70a7
 export { typeColumn, addTypeColumn, userList }
