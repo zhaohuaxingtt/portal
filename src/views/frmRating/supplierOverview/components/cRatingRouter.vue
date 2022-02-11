@@ -5,19 +5,19 @@
  * @FilePath: \front-portal-new\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
 -->
 <template>
-  <div >
-      <div class="boxTitle">
-          <p>
-              {{language(
+  <div>
+    <div class="boxTitle">
+      <p>
+        {{language(
               'GONGYINGSHANGXUNJIADINGDIANQINGKUANG',
               '供应商询价定点情况'
             )}}
-          </p>
-          <iButton slot="header-control"
-          v-if="$route.query.isSupplier!=1"
+      </p>
+      <iButton slot="header-control"
+               v-if="$route.query.isSupplier!=1"
                @click="$emit('back')">{{$t('LK_FANHUI')}}</iButton>
-      </div>
-    
+    </div>
+
     <el-tabs class="tabsHeader"
              type="card"
              style="margin-left: 20px"
@@ -41,7 +41,8 @@
       </el-tab-pane>
     </el-tabs>
     <iSearch @sure="sure"
-                @reset="clickReset" class="header">
+             @reset="clickReset"
+             class="header">
       <el-form inline
                label-position="top">
         <el-form-item :label="language('SAPHAO', 'SAP号')">
@@ -205,7 +206,8 @@
         </el-form-item>
       </el-form>
     </iSearch>
-    <iCard class="tableBox" style="margin-top:20px">
+    <iCard class="tableBox"
+           style="margin-top:20px">
       <div class="sectionTitle">
         <span class="ptext">
           {{ language('XIANGQINGLIEBIAO', '详情列表') }}
@@ -272,8 +274,7 @@
           </span>
         </template>
       </table-list>
-      <iPagination v-if="tabVal == 2"
-                   v-update
+      <iPagination v-update
                    @size-change="handleSizeChange($event, getTaleList)"
                    @current-change="handleCurrentChange($event, getTaleList)"
                    background
@@ -355,7 +356,7 @@ export default {
       type: String
     }
   },
-  data() {
+  data () {
     return {
       tabVal: '1',
       visibleDetal: false,
@@ -377,7 +378,7 @@ export default {
       sapList: [],
       takeStepsContent: '',
       deptList: [],
-      removeCratingLsit:[],
+      removeCratingLsit: [],
       userList: [],
       supplierList: [],
       selectData: [],
@@ -394,22 +395,22 @@ export default {
     }
   },
   watch: {},
-  created() {
+  created () {
     this.tabVal = '1'
     if (this.sapCode && this.supplierId) {
       this.form.sapCode[0] = this.sapCode || ''
       this.form.supplierName[0] = this.supplierId || ''
     }
- 
+
     this.getInit()
   },
   methods: {
-    handleDialog() {
+    handleDialog () {
       this.visible = true
       this.getInit()
     },
     // //选择相关科室
-    deptChange(v) {
+    deptChange (v) {
       if (v.length > 0) {
         let req = {
           type: 'user',
@@ -431,22 +432,22 @@ export default {
         })
       }
     },
-    getTaleList() {
+    getTaleList () {
       this.tableLoading = true
       if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
         this.form.supplierIds = this.form.sapCode.concat(this.form.supplierName)
       }
       const req = {
         ...this.form,
-          pageNo: this.page.currPage,
-          pageSize: this.page.pageSize
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize
       }
 
       req.sapCode = undefined
       req.supplierName = undefined
       if (this.tabVal == '1') {
         currentList(req).then((res) => {
-              this.page.totalCount = res.data.total
+          this.page.totalCount = res.data.total
           this.tableLoading = false
           this.tableListData = res.data.records
         })
@@ -463,12 +464,12 @@ export default {
         })
       }
     },
-    async getInit() {
+    async getInit () {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
 
       this.getTaleList()
-           const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
+      const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
       this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
       const resDept = await sapDropDown({ type: 'dept' })
@@ -487,10 +488,10 @@ export default {
       this.supplierList = res3.data
       //   this.supplierStatus = res4
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectData = val
     },
-    handleSaveBtn() {
+    handleSaveBtn () {
       if (this.selectData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -498,7 +499,7 @@ export default {
       this.visibleDetal = true
     },
     //移除
-    handleSave() {
+    handleSave () {
       if (this.takeStepsContent == '') {
         iMessage.warn(this.language('QINGSHURUYICHUYUANYINS', '请输入移出原因'))
         return false
@@ -518,13 +519,13 @@ export default {
       })
     },
 
-    sure() {
+    sure () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTaleList()
     },
 
-    clickReset() {
+    clickReset () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.userList = []
@@ -545,7 +546,7 @@ export default {
       }
       this.getTaleList()
     },
-    changeTab() {
+    changeTab () {
       this.userList = []
       this.form = {
         ...this.form,
@@ -563,7 +564,7 @@ export default {
       this.getTaleList()
     },
 
-    closeDiologDetail() {
+    closeDiologDetail () {
       this.takeStepsContent = ''
       this.visibleDetal = false
     }
@@ -577,8 +578,8 @@ export default {
   margin-bottom: 20px;
   align-items: center;
   justify-content: space-between;
-  p{
-          font-size: 20px;
+  p {
+    font-size: 20px;
     font-family: Arial;
     font-weight: bold;
     color: #131523;
