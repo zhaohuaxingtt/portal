@@ -16,7 +16,10 @@ const userList = [
   { nameZh: '全体N_Tier供应商主联系人用户', id: 14 },
   { nameZh: '自定义', id: 15 },
 ]
-
+let userListKV = {}
+userList.forEach(e => {
+  userListKV[e.id] = e
+})
 const typeColumn = [
   // {
   //     type: 'selection',
@@ -130,23 +133,27 @@ const typeColumn = [
               .map((item) => item.nameZh)
               .join(',')
           : ''
-        let text =
-        users?.length > 0
-          ? users.length > 4
-            ? `${new_users}等${users.length}人`
-            : `${new_users}`
-          : ''
-          showText = text
-      }
-      
+      let text = ""
+          if(scope.row.userRange == 15){
+            text =  users?.length > 0
+            ? users.length > 4
+              ? `${new_users}等${users.length}人`
+              : `${new_users}`
+            : ''
+          }else{
+            text = userListKV[scope.row.userRange].nameZh
+          }
       return (
-        <div
-          style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-          title={showText}
-        >
-          {showText}
-        </div>
+        <span>
+          <div
+            style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+            title={text}
+          >
+            {text}
+          </div>
+        </span>
       )
+      }
     },
     sortable: true,
     sortMethod: (a, b) => {
@@ -239,5 +246,7 @@ const addTypeColumn = [
     }
   }
 ]
+
+
 
 export { typeColumn, addTypeColumn, userList }

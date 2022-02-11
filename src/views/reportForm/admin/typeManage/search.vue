@@ -109,7 +109,7 @@ import {
   iButton
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
-import { typeColumn } from './columnData'
+import { typeColumn} from './columnData'
 import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
 import {
