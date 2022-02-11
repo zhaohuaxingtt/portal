@@ -110,7 +110,7 @@ export default {
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.nameType) {
+          if (item.contactType === val.contactType) {
             cust[index] = { ...item, ...val }
           }
         })

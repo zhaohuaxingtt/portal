@@ -7,7 +7,7 @@
 
 export const supplierDirectoryTableTitle = [
   {
-    props: 'nameType',
+    props: 'contactType',
     name: '联系人类型',
     key: 'SUPPLIER_LIANXIRENLEIXING'
   },
