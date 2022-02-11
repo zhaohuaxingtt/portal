@@ -2,7 +2,6 @@
     <iDialog
         :title="dialogTitle"
         :visible.sync="show" 
-		v-if="show"
 		width="70%" 
 		@close='closeDialogBtn' 
 		append-to-body

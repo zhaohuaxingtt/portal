@@ -3,7 +3,6 @@
         :title="dialogTitle"
         style="margin-top:10vh"
         :visible.sync="typeShow" 
-		v-if="typeShow"
 		width="60%" 
 		@close='closeDialogBtn' 
 		append-to-body
