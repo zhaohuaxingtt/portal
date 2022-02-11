@@ -120,8 +120,13 @@ const typeColumn = [
     align: 'center',
     width: 150,
     customRender: (h, scope) => {
+      const userRange = scope.row.userRange || 0
       const users = scope.row.users || []
-      let new_users =
+      let showText = null
+      if (users.length === 0) {
+        showText = userList[userRange].nameZh
+      } else {
+        let new_users =
         users?.length > 0
           ? users
               .slice(0, 4)
@@ -241,6 +246,9 @@ const addTypeColumn = [
   }
 ]
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7c17c140e37bd48462e831e3a53b32f50c4d70a7
 export { typeColumn, addTypeColumn, userList }
