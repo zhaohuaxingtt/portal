@@ -35,7 +35,7 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
-        <iButton @click="handleExportAll">下载</iButton>
+        <iButton @click="handleExportAll" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX_XIAZAI">下载</iButton>
       </div>
       <div>
         <!-- <iTableCustom

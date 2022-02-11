@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <viewHeader :title="language('角色名称')" @toggle-tab="toggleTab" />
+    <viewHeader :title="language(title)" @toggle-tab="toggleTab" />
     <viewBase v-show="activeTab === 'base'" :form="roleData" />
     <viewFunction v-show="activeTab === 'function'" :detail="roleData" />
     <viewData
@@ -39,6 +39,7 @@ export default {
     return {
       activeTab: 'base',
       roleID: this.$route.params.id,
+      title:'',
       roleData: {
         id: '',
         code: '',
@@ -66,6 +67,7 @@ export default {
             //头部信息
             const { data } = val
             this.roleData = data
+            this.title = val.data.shortNameZh
           }
         })
         .catch(() => {})

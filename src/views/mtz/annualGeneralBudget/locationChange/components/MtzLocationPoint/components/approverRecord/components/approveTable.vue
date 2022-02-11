@@ -520,7 +520,13 @@ export default {
           }
           if (res.data.flowType === 'FILING') {
             this.disabled = true
+            this.tableData = [];
+            this.page.currPage = 1
+            this.page.pageSize = 10
+            this.page.totalCount = 0
             return
+          }else{
+            this.disabled = false
           }
           this.riseId = res.data.riseId
           if (res.data.ttNominateAppId) {
@@ -611,7 +617,10 @@ export default {
     handleSync (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '', tag: params || "" }).then(res => {
         if (res?.code === '200') {
-          this.getTableList()
+          this.tableLoading = true
+          setTimeout(() => {
+            this.getTableList()
+          }, 500);
           // iMessage.success(res.desZh)
         } else {
           // iMessage.error(res.desZh)

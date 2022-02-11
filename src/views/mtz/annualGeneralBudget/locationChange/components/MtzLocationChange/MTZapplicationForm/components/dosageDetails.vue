@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-13 15:24:22
+ * @LastEditTime: 2022-02-10 17:40:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -32,16 +32,21 @@
                               class="margin-right20"
                               :disabled="disabled" />
                 <iButton @click="downFile"
-                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_XIAZAIMUBAN"> {{language('XIAZAIMUBAN','下载模板')}}</iButton>
+                         :disabled="disabled"
+                         v-permission="PORTAL_MTZ_CHANGE_INFOR_XIAZAIMUBAN"> {{language('XIAZAIMUBAN','下载模板')}}</iButton>
                 <iButton @click="del"
-                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_SHANCHU"> {{language('SHANCHU','删除')}}</iButton>
+                         :disabled="disabled"
+                         v-permission="PORTAL_MTZ_CHANGE_INFOR_SHANCHU"> {{language('SHANCHU','删除')}}</iButton>
                 <iButton @click="add"
-                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_ADD"> {{language('XINZENG','新增')}}</iButton>
+                         :disabled="disabled"
+                         v-permission="PORTAL_MTZ_CHANGE_INFOR_ADD"> {{language('XINZENG','新增')}}</iButton>
                 <iButton @click="handleChangeDate"
                          class="margin-right20"
-                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_BAINGENGYOUXIAOQI"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
+                         :disabled="disabled"
+                         v-permission="PORTAL_MTZ_CHANGE_INFOR_BAINGENGYOUXIAOQI"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
                 <iButton @click="edit"
-                         :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_BIANGENGYONGLIANG"> {{language('BIANGENGYONGLIANG','变更用量')}}</iButton>
+                         :disabled="disabled"
+                         v-permission="PORTAL_MTZ_CHANGE_INFOR_BIANGENGYONGLIANG"> {{language('BIANGENGYONGLIANG','变更用量')}}</iButton>
               </div>
               <div v-show="editFlag">
                 <iButton @click="cancel"
@@ -493,7 +498,7 @@ export default {
       })
       let date = this.dateList[this.dateList.length - 2].value[1]
       this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-MM-DD')
-      this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(this.dateList[this.dateList.length - 1].value[0], 365)
+      this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(this.dateList[this.dateList.length - 1].value[0], 364)
       // this.dataList[this.dataList.length - 1].value = new Date(date.replace(/-/g, '/')).getTime() + 86400000
       this.dateList.forEach((item, index) => {
         item.pickerOptions = {
@@ -510,7 +515,8 @@ export default {
           },
           shortcuts: [{
             text: '直到2999年',
-            onClick (picker) {
+            onClick: (picker) => {
+              console.log(this.dateList, "dataList")
               const end = new Date("2999-12-31")
               const start = new Date(new Date(this.dateList[index - 1].value[1].replace(/-/g, '/')).getTime() + 86400000)
               picker.$emit('pick', [start, end])

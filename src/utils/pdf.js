@@ -142,7 +142,7 @@ export function transverseDownloadPDF({//html横向导出pdf
   var titleHeight = 0;
   if(titleArr){
     var title = document.querySelector((titleArr).toString())//获取页面dom节点
-    var titleHeight = title.offsetHeight + 1;//页眉高度 ===>70px
+    titleHeight = title.offsetHeight + 1;//页眉高度 ===>70px
   }
   let el = document.getElementById(ele) //通过getElementById获取要导出的内容
   let eleW = el.offsetWidth // 获得该容器的宽
@@ -196,19 +196,12 @@ export function transverseDownloadPDF({//html横向导出pdf
         }
         context.clearRect(0,0,contentWidth/2,pageHeight/2);//清空画布
 
-        // var imgData = context.getImageData(0,0,contentWidth/2,pageHeight/2);//canvas设置背景色
-        // imgData.data[0] = 255;
-        // imgData.data[1] = 255;
-        // imgData.data[2] = 255;
-        // imgData.data[3] = 255;
-        // context.putImageData(imgData,0, 0);
-
         //需要注意的是，这里的canvas图片的像素宽高是context画布的两倍
         context.drawImage(canvas,0,0,contentWidth,titleHeight*2,0,0,contentWidth/2,titleHeight);
         context.drawImage(canvas,0,titleHeight*2+(num-1)*(pageHeight-titleHeight*2),contentWidth,syheight,0,titleHeight,contentWidth/2,syheight/2);
         let imageData = canvasFragment.toDataURL('image/png', 1.0)//封装png图片
         pdf.addImage(imageData,"png",0, 0, imgWidth, imgHeight);//添加png图片，空白处自动转换成白色背景图（jpeg为黑色）
-        leftHeight -= (pageHeight)
+        leftHeight -= (pageHeight-(num-1)*(titleHeight*2))
         position -= 595.28
         //避免添加空白页
         if (leftHeight > 0) {

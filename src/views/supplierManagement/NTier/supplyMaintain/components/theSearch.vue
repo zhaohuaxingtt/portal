@@ -11,7 +11,8 @@
            :resetKey="PARTSPROCURE_RESET"
            :searchKey="PARTSPROCURE_CONFIRM"
            class="margin-bottom20 box"
-           style="margin-top: 20px">
+           style="margin-top: 20px"
+           v-loading="loading">
     <el-form inline>
       <el-form-item :label="language('DIQU', '地区')">
         <el-cascader @change="queryByParamsWithAuth"
@@ -35,6 +36,7 @@
       </el-form-item>
       <el-form-item :label="language('ZONGCHENLINGJIAN', '总成零件')">
         <iSelect filterable
+                 v-el-select-loadmore="loadmore"
                  :placeholder="language('请选择')"
                  v-model="form.partNum"
                  @change="hanldeChange">
@@ -56,7 +58,8 @@ import { iSelect, iSearch, iMessage } from 'rise'
 import { getCity } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import {
   queryByParamsDropDownWithAuth,
-  queryPart
+  queryPart,
+  queryPagePart
 } from '@/api/supplierManagement/supplyMaintain/index.js'
 export default {
   // import引入的组件需要注入到对象中才能使用
@@ -76,6 +79,11 @@ export default {
         areaList: [],
         supplierNameList: [],
         partNumList: []
+      },
+      loading: false,
+      pageForm: {
+        pageNo: 1,
+        pageSize: 100
       }
     }
   },
@@ -83,6 +91,27 @@ export default {
   computed: {},
   // 监控data中的数据变化
   watch: {},
+  directives: {
+    'el-select-loadmore': {
+      bind (el, binding) {
+        // 获取element-ui定义好的scroll盒子
+        const SELECTWRAP_DOM = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap');
+        SELECTWRAP_DOM.addEventListener('scroll', function () {
+          /**
+          * scrollHeight 获取元素内容高度(只读)
+          * scrollTop 获取或者设置元素的偏移值,常用于, 计算滚动条的位置, 当一个元素的容器没有产生垂直方向的滚动条, 那它的scrollTop的值默认为0.
+          * clientHeight 读取元素的可见高度(只读)
+          * 如果元素滚动到底, 下面等式返回true, 没有则返回false:
+          * ele.scrollHeight - ele.scrollTop === ele.clientHeight;
+          */
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) {
+            binding.value();
+          }
+        });
+      }
+    }
+  },
   // 方法集合
   methods: {
     async getSelect () {
@@ -93,13 +122,17 @@ export default {
       const res = await queryByParamsDropDownWithAuth({ areaArray: val })
       this.formGroup.supplierNameList = res.data
     },
-    async queryPart () {
-      const res = await queryPart({})
-      this.formGroup.partNumList = res.data
-      if (localStorage.getItem('partNum')) {
-        this.form.partNum = localStorage.getItem('partNum')
-      } else {
-        this.form.partNum = this.formGroup.partNumList[0].partNum
+    async queryPart (page) {
+      const res = await queryPagePart(page)
+      if (res?.code === "200") {
+        this.loading = false
+        const _res = res.data.list
+        this.formGroup.partNumList = [...this.formGroup.partNumList, ..._res]
+        if (localStorage.getItem('partNum')) {
+          this.form.partNum = localStorage.getItem('partNum')
+        } else {
+          this.form.partNum = this.formGroup.partNumList[0].partNum
+        }
       }
     },
     async getTableList () {
@@ -128,11 +161,16 @@ export default {
     },
     hanldeChange (val) {
       localStorage.setItem('partNum', val)
+    },
+    loadmore () {
+      this.pageForm.pageNo++;
+      this.queryPart(this.pageForm)
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   async created () {
-    await this.queryPart()
+    this.loading = true
+    await this.queryPart(this.pageForm)
     this.getTableList()
     this.getSelect()
     this.queryByParamsDropDownWithAuth([])

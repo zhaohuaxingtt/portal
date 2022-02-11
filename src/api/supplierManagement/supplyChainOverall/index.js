@@ -227,9 +227,9 @@ export const getCity = async () => {
       delete item.children
     }
   })
-  areaList.reverse()
+  areaList
   areaList.map((item) => {
-    return item.children && item.children.reverse()
+    return item.children && item.children
   })
   return areaList
 }
