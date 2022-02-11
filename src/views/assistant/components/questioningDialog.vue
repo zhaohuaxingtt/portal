@@ -29,6 +29,7 @@
 					:rows="6"
 					v-model="askContent"
 					resize="none"
+					placeholder="将零件号、RFQ、单据号和操作步骤描述出来，如有截图请上传附件，谢谢!"
 				></iInput>
 			</div>
 			<iEditor 
