@@ -10,7 +10,7 @@
                     :lg="8"
                     :xl="8"
                     class="card-item"
-                    v-for="l in list"
+                    v-for="(l,i) in list"
                     :key="l.id"
                     >
                     <div class="top">
@@ -20,7 +20,7 @@
                             <div>{{l.summary}}</div>
                             <div>{{l.category.map(e => e.name).join(" ")}} <span class="cursor"><i class="el-icon-download"></i>{{l.downloadCount}}</span></div>
                             <div>{{l.openingDate}}</div>
-                            <button class="down" @click="downLoad(l)">DOWNLOAD</button>
+                            <button class="down" @click="downLoad(l,i)">DOWNLOAD</button>
                         </div>
                     </div>
                     <div class="flex justify-between items-center title">
@@ -48,13 +48,15 @@
 <script>
     import LayHeader from "./../components/LayHeader.vue";
     import UiCard from "./../components/UiCard.vue";
-    import {queryKnowledgeTwoLevelCard, listCategoryBySection} from '@/api/procs';
+    import {queryKnowledgeTwoLevelCard, listCategoryBySection, downloadKnowledge, operationlogs} from '@/api/procs';
     import { getDeptDropDownList } from '@/api/authorityMgmt'
+    import mixin from './../mixins';
     export default {
         components:{
             LayHeader,
             UiCard
         },
+        mixins:[mixin],
         data() {
             return {
                 list:{},
@@ -117,12 +119,24 @@
                 let difference = new Date() -  new Date(date).getTime()
                 return (difference / 1000 / 60 / 60 / 24 / 30) < 1
             },
-            downLoad(row) {
+            async downLoad(row,index) {
+                let res = await downloadKnowledge(row.id)
+                let data = new FormData()
+                data.append("operation","操作日志")
+                data.append("detail",`${this.getSuffix(res[0].originalFileName)} attachment download ${this.fileFmt(res[0].url)}`)
+                operationlogs(data)
+                this.list[index].downloadCount += 1
                 const a = document.createElement('a')
-                a.href = `${row.cover}&isDown=true`
-                a.download = row.title
+                a.href = this.fileFmt(res[0].url) + "&isDown=true"
+                a.download = res[0].originalFileName
                 a.click()
                 a.remove()
+            },
+            getSuffix(filename) {
+                const index1 = filename.lastIndexOf(".");
+                const index2 = filename.length;
+                const postf  = filename.substring(index1 + 1, index2);
+                return postf.toUpperCase()
             }
         },
     }

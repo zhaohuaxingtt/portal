@@ -82,12 +82,19 @@
 
                     this.activeIndex = this.indexs[0]
                     this.list = this.indexs_data[this.activeIndex]
+                    console.log(this.isClickFirst);
 
                     if(this.isClickFirst){
                         this.clickItem(this.list[0].id)
                     }
                 }
             },
+            isClickFirst:{
+                immediate:true,
+                handler(n){
+                    // console.log(n);
+                }
+            }
            
         },
         methods: {

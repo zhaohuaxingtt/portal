@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-30 11:19:50
+ * @LastEditTime: 2022-02-11 10:46:22
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -174,7 +174,10 @@ export default {
     if(!this.readOnly){
       this.getSelectData()
       certificate({supplierIds:this.supplierId}).then(res=>{
-        console.log('电子签章=>',res);
+        if(res?.code=='200'){
+          let item = res.data[0]
+          this.signStatus = item.identifyStatus
+        }
       })
     }
   },

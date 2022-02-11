@@ -2,7 +2,6 @@
     <iDialog
         :title="dialogTitle"
         :visible.sync="show" 
-		v-if="show"
 		width="70%" 
 		@close='closeDialogBtn' 
 		append-to-body
@@ -358,6 +357,7 @@ export default {
             Object.assign(this.form, row)
             this.imageUrl = row.cover
             this.modifyId = row.id
+            this.form.adminUsers = row.adminUsers.map(e => String(e))
             if (this.form.userRange === 15 || this.form.users.length > 0) {
                 this.customFlag = true
             } else {

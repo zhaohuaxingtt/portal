@@ -11,12 +11,14 @@
     <!-- <div class="center1 height">
       <img :src="soon" width="70%" height="70%" alt="">
     </div> -->
-    <!-- <div class="flex-align-center" style="justify-content: center;height: 100%;">
-		<img style="width: 60%;" src="./soon.png" >
-	</div> -->
-    <div ref="chart"
+    <div class="flex-align-center"
+         style="justify-content: center;height: 100%;">
+      <img style="width: 60%;"
+           src="./soon.png">
+    </div>
+    <!-- <div ref="chart"
          class="chartStyle"
-         @click='openPBI()'> </div>
+         @click='openPBI()'> </div> -->
   </iCard>
 </template>
 
