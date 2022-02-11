@@ -84,12 +84,10 @@
     </iCard>
     <AddTypeDialog
       ref="categoryDialog"
-      v-show="showTypeDialog"
       :typeShow.sync="showTypeDialog"
     />
     <AddDialog
       ref="typeDialog"
-      v-show="dialogShow"
       :show.sync="dialogShow"
       :operateType="operateType"
       @refresh="getTableList"
