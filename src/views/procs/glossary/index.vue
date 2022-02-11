@@ -106,6 +106,8 @@
                 console.log(index);
             },
             async indexRowChange(id){
+                let newUrl = this.$route.path + "?id=" + id
+                window.history.replaceState('', '', newUrl)
                 try {
                     this.loading = true
                     this.detail = await queryGlossaryDetail(id)
@@ -169,6 +171,10 @@
             border-bottom:none;
             padding: 25px 20px;
             word-break: break-word;
+
+            img{
+                width: 30%;
+            }
         }        
 
         .link-list{
