@@ -1,7 +1,7 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-02-09 19:04:03
+ * @LastEditTime: 2022-02-11 14:48:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\data.js
@@ -121,7 +121,7 @@ export const joinGroupTitle = [
     name: '深评结果',
     key: 'SPR_FRM_DEP_DEPRESULT'
   },
-  { props: 'ratingTime', name: '深评时间', key: 'SPR_FRM_DEP_DEPTIME' },
+  { props: 'approvalEndDate', name: '深评时间', key: 'SPR_FRM_DEP_DEPTIME' },
   { props: 'trackingFrequency', name: '跟踪频率', key: 'SPR_FRM_DEP_TRACKFRE' },
   {
     props: 'nextRatingTime',

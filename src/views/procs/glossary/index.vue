@@ -9,7 +9,7 @@
                     :loading.sync="indexs.loading"
                     :data="indexs.data" 
                     :indexIcon="false"
-                    :isClickFirst="id == ''"
+                    :isClickFirst="!id"
                     @click-index="indexChange"
                     @row-click="indexRowChange"
                     >
@@ -30,7 +30,7 @@
                     </div>
                     <div v-if="detail.workFlows">
                         <p class="link-row">关联流程</p>
-                        <div class="link-row flex justify-between" v-for="(w,index) in detail.workFlows" :key="w.id">
+                        <div class="link-row flex justify-between cursor" v-for="(w,index) in detail.workFlows" :key="w.id" @click="toProcess(w)">
                             <span class="flex-2 ellipsis mr20">{{`${index + 1}、${w.name}`}}</span>
                             <div class="flex-1 flex justify-between"> 
                                 <span class="mr20 ellipsis flex-1">{{w.version}} {{timeFmt(w.updatedAt)}}</span>
@@ -120,6 +120,9 @@
                 let difference = new Date() - new Date(time).getTime();
                 let difference1 = Math.floor(difference / 1000 / 60 / 60 / 24);
                 return difference1 < 14 ? `最后更新 ${difference1}前` : `最后更新 ${moment(new Date(time)).format("YYYY-MM-DD")}`
+            },
+            toProcess(w){
+                this.$router.push({path:'/cf-ProCS/processDetail',query:{id:w.id, pageId: w.firstPageId}})
             }
        }
     }

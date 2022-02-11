@@ -84,12 +84,10 @@
     </iCard>
     <AddTypeDialog
       ref="categoryDialog"
-      v-show="showTypeDialog"
       :typeShow.sync="showTypeDialog"
     />
     <AddDialog
       ref="typeDialog"
-      v-show="dialogShow"
       :show.sync="dialogShow"
       :operateType="operateType"
       @refresh="getTableList"
@@ -109,7 +107,7 @@ import {
   iButton
 } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
-import { typeColumn } from './columnData'
+import { typeColumn} from './columnData'
 import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
 import {
