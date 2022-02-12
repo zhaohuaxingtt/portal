@@ -13,8 +13,7 @@
         <iFormItem :label="item.name"
                    v-for="(item,index) in baseInfoTitle"
                    :key="index">
-          <iInput :disabled="isDisabled"
-                  :value="info.supplier[item.props]"></iInput>
+          <iInput v-model="info.supplier[item.props]"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -206,7 +205,10 @@ export default {
       });
     },
     postOverView () {
-      console.log(this.info, "info")
+      this.baseInfoTitle.forEach(item=>{
+        this.info[item.props]=this.info.supplier[item.props]
+      })
+      delete this.info.supplier
       this.loading = true;
       postCompanyOverview(this.info).then((result) => {
         this.loading = false;
@@ -217,7 +219,7 @@ export default {
           this.$message.error(result.desZh)
         }
 
-      }).catch((err) => {
+      }).catch(() => {
         this.loading = false;
       });
     }

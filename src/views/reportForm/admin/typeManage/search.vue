@@ -88,8 +88,11 @@
     />
     <AddDialog
       ref="typeDialog"
+			v-if="dialogShow"
       :show.sync="dialogShow"
       :operateType="operateType"
+			:modifyId="modifyId"
+			:currDetailInfo="currDetailInfo"
       @refresh="getTableList"
     />
   </div>
@@ -114,8 +117,7 @@ import {
   deleteType,
   queryTypeList,
   topType,
-  publishedTypeById,
-  reportTypeDetailById
+  publishedTypeById
 } from '@/api/reportForm'
 import moment from 'moment'
 export default {
@@ -141,7 +143,6 @@ export default {
 				startTime: '',
 				endTime: ''
 			},
-			aaa: false,
 			addTime: [],
 			statusList: [
 				{ label: '上架', value: true, id: '0' },
@@ -161,7 +162,9 @@ export default {
 			commonText: '上架的类型不允许',
 			dialogShow: false,
 			operateType: 'add',
-			searchFlag: false
+			searchFlag: false,
+			modifyId: null,
+			currDetailInfo: null
 		}
 	},
 	mounted() {
@@ -276,19 +279,10 @@ export default {
 			type: 'warning',
 			message: `${this.commonText}修改!!!`
 			})
-		let currDetail = null
-		this.tableLoading = true
-		await reportTypeDetailById(row.id).then((res) => {
-			if (res) {
-			currDetail = res
-			this.tableLoading = false
-			// this.$refs.typeDialog.getUsersList()
-			// this.$refs.typeDialog.getOrganizationsList()
-			this.dialogShow = true
-			this.operateType = 'edit'
-			this.$refs.typeDialog.initModify(currDetail)
-			}
-		})
+		this.currDetailInfo = row
+		this.modifyId = row.id
+		this.dialogShow = true
+		this.operateType = 'edit'
 		},
 		addReportType(row) {
 		if (row.published)

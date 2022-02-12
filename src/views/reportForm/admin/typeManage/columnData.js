@@ -120,12 +120,12 @@ const typeColumn = [
     align: 'center',
     width: 150,
     customRender: (h, scope) => {
-      const userRange = scope.row.userRange || 0
+      // const userRange = scope.row.userRange || 0
       const users = scope.row.users || []
-      let showText = null
-      if (users.length === 0) {
-        showText = userList[userRange].nameZh
-      } else {
+      // let showText = null
+      // if (users.length === 0) {
+      //   showText = userList[userRange].nameZh
+      // } else {
         let new_users =
         users?.length > 0
           ? users
@@ -153,7 +153,7 @@ const typeColumn = [
           </div>
         </span>
       )
-      }
+      // }
     },
     sortable: true,
     sortMethod: (a, b) => {
