@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getPageListByParams } from '@/api/authorityMgmt/index'
+import { getPageListByParams, getSpUserList } from '@/api/authorityMgmt/index'
 import iSelectorDialog from '../iSelector/iSelectorDialog'
 import iSelectorInput from '../iSelector/iSelectorInput'
 export default {
@@ -27,6 +27,10 @@ export default {
     value: {
       type: Array,
       require: true
+    },
+    onlyReportForm: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -102,8 +106,13 @@ export default {
   },
   methods: {
     handleSearch(param) {
-      //区域控制员
-      return getPageListByParams(param)
+      if (this.onlyReportForm) {
+        param.accountType = 1
+        return getSpUserList(param)
+      } else {
+        //区域控制员
+        return getPageListByParams(param)
+      }
     }
   }
 }
