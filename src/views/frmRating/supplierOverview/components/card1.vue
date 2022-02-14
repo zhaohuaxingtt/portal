@@ -25,7 +25,7 @@
                   name="icongongyingshangshenqingzhong"></icon>
             <div class="flex-between-center-center"
                  v-if="newSupplierAssessVOList.length">
-              <span class="underway">{{newSupplierAssessVOList[0].value}}</span>
+              <span class="underway">{{newSupplierAssessVOList[1].value}}</span>
               <span class="text">{{$t('SPR_FRM_XGYSPJ_JSQZ')}}</span>
             </div>
             <span @click="handleView('pending')"
@@ -39,7 +39,7 @@
                   name="icongongyingshangshenhewancheng"></icon>
             <div class="flex-between-center-center"
                  v-if="newSupplierAssessVOList.length">
-              <span class="accomplish">{{newSupplierAssessVOList[1].value}}</span>
+              <span class="accomplish">{{newSupplierAssessVOList[0].value}}</span>
               <span class="text">{{$t('SPR_FRM_XGYSPJ_JSHWC')}}</span>
             </div>
             <span @click="handleView('finish')"
