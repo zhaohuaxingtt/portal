@@ -38,7 +38,9 @@
     :options="options"
     valueKey="valueId"
     labelKey="value"
-  />
+    :label-method="(item) => `${item.value}【${item.valueId}】`"
+  >
+  </iSelectAll>
 </template>
 
 <script>
