@@ -658,9 +658,9 @@ const position = {
         setCode: setCode ? setCode.join(',') : '',
         property: this.state.position.pos.positionDetail.property,
         otherPurchaseGroup:
-          this.state.position.pos.positionDetail.otherPurchaseGroup || [],
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
         otherTempPurchaseGroup:
-          this.state.position.pos.positionDetail.otherTempPurchaseGroup || []
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
       }
       commit('SET_POSLOADING', true)
       const res = await SavePosition(params).finally(() =>
@@ -713,6 +713,8 @@ const position = {
       }).finally(() => commit('SET_POSLOADING', false))
       if (res?.code === '200' && res?.data) {
         res.data.permissionList = res.data.permissionList || []
+        res.data.otherPurchaseGroup = res.data.otherPurchaseGroup.length == 0 ? [] : res.data.otherPurchaseGroup.split(',') 
+        res.data.otherTempPurchaseGroup = res.data.otherTempPurchaseGroup.length == 0 ? [] : res.data.otherTempPurchaseGroup.split(',')
         commit('SET_POSITION_DETAIL', res.data)
         commit('INIT_DIMENSION_LIST', res.data.permissionList)
         commit('INIT_ROLE_SELECTED', res.data.roleDTOList)
