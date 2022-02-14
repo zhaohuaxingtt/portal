@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-01-25 21:03:08
+ * @LastEditTime: 2022-02-09 17:23:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\changeItem.vue
@@ -18,15 +18,15 @@
            @close='clearDiolog'
            top="40vh">
     <p class="tip margin-bottom10">{{tip}}</p>
-    <!-- <iSelect v-model='inquiryBuyer'
+     <iSelect v-model='inquiryBuyer'
              :multiple='multiple'
              :filterable='true'>
       <el-option v-for="(items,index) in inquiryBuyerList"
                  :key='index'
                  :value='items.id'
                  :label="items.nameZh" />
-    </iSelect> -->
-    <custom-select v-model="inquiryBuyer"
+    </iSelect>
+<!--    <custom-select v-model="inquiryBuyer"
                    :user-options="inquiryBuyerList"
                    multiple
                    style="width:100%"
@@ -35,7 +35,7 @@
                    display-member="nameZh"
                    value-member="id"
                    value-key="id">
-    </custom-select>
+    </custom-select>-->
     <span slot="footer"
           class="dialog-footer">
       <iButton @click="clearDiolog">{{language('QUXIAO','取消')}}</iButton>
@@ -87,9 +87,10 @@ export default {
   methods: {
     clearDiolog () {
       this.inquiryBuyer = []
-      this.$emit('input', false)
+      this.$emit('flag', false)
     },
     sureChangeItems () {
+
       if (!this.inquiryBuyer) return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN'))
       this.$emit('sure', this.inquiryBuyer)
     },
@@ -104,17 +105,19 @@ export default {
               defaultList.push(item.id)
             })
             this.inquiryBuyer = defaultList
-            let flag = defaultList.every(item => {
-              return item === depSupplierId
-            })
-            this.$emit('flag', flag)
+            // let flag = defaultList.every(item => {
+            //   return item === depSupplierId
+            // })
+
           } else {
-            let flag = defaultList.every(item => {
-              return item === depSupplierId
-            })
-            this.$emit('flag', flag)
+            // let flag = defaultList.every(item => {
+            //   return item === depSupplierId
+            // })
+            // this.$emit('flag', flag)
           }
         }
+      }).finally(() => {
+        this.$emit('flag', true)
       })
     }
   }

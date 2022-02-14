@@ -13,8 +13,14 @@
         <iFormItem :label="item.name"
                    v-for="(item,index) in baseInfoTitle"
                    :key="index">
-          <iInput :disabled="isDisabled"
-                  :value="info.supplier[item.props]"></iInput>
+          <el-date-picker v-model="info.supplier['registeredDate']"
+                          v-if="item.props==='registeredDate'"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择日期">
+          </el-date-picker>
+          <iInput v-else
+                  v-model="info.supplier[item.props]"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -176,7 +182,6 @@ export default {
     isDisabled: { type: Boolean, default: false }
   },
   mounted () {
-    console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
     this.getOverView()
@@ -202,6 +207,10 @@ export default {
       });
     },
     postOverView () {
+      this.baseInfoTitle.forEach(item => {
+        this.info[item.props] = this.info.supplier[item.props]
+      })
+      delete this.info.supplier
       this.info.lang = 'en'
       postCompanyOverview(this.info).then((result) => {
         if (result.code == 200) {
@@ -237,7 +246,7 @@ export default {
 .remark {
   margin-top: 15px;
   font-size: 16px;
-    color: #9b9b9b;
+  color: #9b9b9b;
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;

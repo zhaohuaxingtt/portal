@@ -1,12 +1,11 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-01-25 16:44:55
- * @LastEditors: caopeng
+ * @LastEditTime: 2022-02-11 14:48:55
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\data.js
  */
-
 
 export const tableTitle = [
   {
@@ -111,24 +110,43 @@ export const tableTitle = [
 export const joinGroupTitle = [
   { props: 'sap', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   { props: 'name', name: '供应商名称', key: 'SPR_FRM_DEP_SUPNAME' },
-  { props: 'deepCommentSupplierName', name: '集团打包', key: 'SPR_FRM_DEP_GROUPPACK' },
+  {
+    props: 'deepCommentSupplierName',
+    name: '集团打包',
+    key: 'SPR_FRM_DEP_GROUPPACK'
+  },
   { props: 'status', name: '状态', key: 'SPR_FRM_DEP_STATE' },
-  { props: 'deepCommentResult', name: '深评结果', key: 'SPR_FRM_DEP_DEPRESULT' },
-  { props: 'ratingTime', name: '评级时间', key: 'SPR_FRM_XGYSPJ_PJSJ' },
+  {
+    props: 'deepCommentResult',
+    name: '深评结果',
+    key: 'SPR_FRM_DEP_DEPRESULT'
+  },
+  { props: 'approvalEndDate', name: '深评时间', key: 'SPR_FRM_DEP_DEPTIME' },
   { props: 'trackingFrequency', name: '跟踪频率', key: 'SPR_FRM_DEP_TRACKFRE' },
-  { props: 'nextRatingTime', name: '下次评级时间', key: 'SPR_FRM_DEP_NEXTRATIME' },
+  {
+    props: 'nextRatingTime',
+    name: '下次评级时间',
+    key: 'SPR_FRM_DEP_NEXTRATIME'
+  },
   { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_DEP_REKADEP' }
 ]
 
-
 export const endRatingTitle = [
-  { props: 'nameZh', name: '供应商名称/集团', key: 'SPR_FRM_DEP_SUPNAME'},
+  { props: 'nameZh', name: '供应商名称/集团', key: 'SPR_FRM_DEP_SUPNAME' },
   { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   { props: 'previousTto', name: '上年TO', key: 'SPR_FRM_FRMGL_SNTO' },
   { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS' },
   { props: 'existShareName', name: '相关股', key: 'SPR_FRM_FRMGL_XGG' },
-  { props: 'deepCommentReasons', name: '深评原因', key: 'SPR_FRM_DEP_DEPREASON' },
-  { props: 'deepCommentOtherReasons', name: '详细原因', key: 'SPR_FRM_DEP_XXYY' },
+  {
+    props: 'deepCommentReasons',
+    name: '深评原因',
+    key: 'SPR_FRM_DEP_DEPREASON'
+  },
+  {
+    props: 'deepCommentOtherReasons',
+    name: '详细原因',
+    key: 'SPR_FRM_DEP_XXYY'
+  },
   { props: 'isDeepComment', name: '是否深评', key: 'SPR_FRM_DEP_ISDEPTH' },
   { props: 'noDeepCommentReason', name: '不评级原因', key: 'SPR_FRM_DEP_BPJYY' }
 ]

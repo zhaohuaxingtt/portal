@@ -23,7 +23,7 @@
         </el-table-column>
       </el-table-column>
       <el-table-column :label="language('LK_CHAYI','差异')" align="center">
-        <el-table-column :label="language('LK_NIANDUYUSUANCHAYI','年度预算差异')" align="center">
+        <el-table-column :label="language('LK_NIANDUYUSUANCHAYI','年度预算差异 %')" align="center">
           <template slot-scope="scope">
             <span class="greaterThanZero" v-if="scope.row.yearForecastDiffPrice>0">{{ `${scope.row.yearForecastDiffPrice}%` }}</span>
             <span class="lessThanZero" v-else-if="scope.row.yearForecastDiffPrice<0">{{ `${scope.row.yearForecastDiffPrice}%` }}</span>
@@ -31,7 +31,7 @@
             <span  v-else-if="scope.row.yearForecastDiffPrice=='null'">{{}}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="language('LK_YUEDUYUSUANCHAYI','月度预算差异')" align="center">
+        <el-table-column :label="language('LK_YUEDUYUSUANCHAYI','月度预算差异 %')" align="center">
           <template slot-scope="scope">
             <span class="greaterThanZero" v-if="scope.row.monthForecastDiffPrice>0">{{ `${scope.row.monthForecastDiffPrice}%` }}</span>
             <span class="lessThanZero" v-else-if="scope.row.monthForecastDiffPrice<0">{{ `${scope.row.monthForecastDiffPrice}%` }}</span>

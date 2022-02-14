@@ -8,12 +8,12 @@
           <el-col :span="6">
             <iFormItem label="申请人">
               <div class="selected-tags-panel">
-                <div class="tags" style="text-align: center">
+                <!-- <div class="tags" style="text-align: center">
                   <span>
                     {{ $store.state.permission.userInfo.nameZh }}
                   </span>
-                </div>
-                <iInput v-model="form.applyName" disabled>
+                </div> -->
+                <iInput v-model="form.applyUserName" disabled>
                   <!-- <template slot="suffix">
                     <span @click="handleOpenChoosePositionDialog">
                       <icon symbol name="icontianjia" />
@@ -26,7 +26,7 @@
           <el-col :span="6">
             <iFormItem label="原有岗位" prop="sourceId">
               <i-select
-                v-model="form.sourceId"
+                v-model="form.sourceName"
                 @change="selectPosition"
                 disabled
               >

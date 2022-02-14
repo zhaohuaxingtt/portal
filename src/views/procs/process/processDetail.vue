@@ -1,5 +1,21 @@
 <template>
-    <div v-loading="loading">
+    <div class="main" v-loading="loading">
+
+        <div class="list">
+            <el-popover
+            placement="right"
+            trigger="click">
+                <el-tree class="tree" :data="directory" :expand-on-click-node="false" default-expand-all @node-click="dirClick">
+                    <span class="custom-tree-node" slot-scope="{ data }">
+                        <span>{{ data.name.ch }}</span>
+                    </span>
+                </el-tree>
+                <el-button size="mini" title="流程目录" style="height: 32px;" slot="reference" icon="el-icon-s-fold"></el-button>
+            </el-popover>
+
+            <el-button style="margin-top:8px; height: 32px;" title="打印" size="mini" icon="el-icon-printer" @click="print.show = true"></el-button>
+        </div>
+
         <LayHeader title="流程管理"></LayHeader>
         <div class="flex justify-between items-center mt20">
             <div class="title">{{detail.name}} 
@@ -103,6 +119,24 @@
                 <video style="width:100%" ref="video" controls v-else :src="dialog.url"></video>
             </div>
         </iDialog>
+        <!-- 打印 -->
+        <iDialog
+            title="打印预览"
+            :visible.sync="print.show" 
+            width="70%" 
+            @close='closeDialog' 
+            append-to-body
+        >
+            <div class="pb20 print" id="process-print">
+                <h3 class="title1">{{detail.name}}</h3>
+                <div class="title2">{{pageDetail.name}}</div>
+                <div class="content w-e-text" v-html="pageDetail.richContent"></div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <iButton @click="print.show = false">取消</iButton>
+                <iButton @click="printHandle">打印</iButton>
+            </span>
+        </iDialog>
     </div>
 </template>
 
@@ -112,9 +146,12 @@
     import {iButton, iDialog} from 'rise';
     import expertInfo from './components/expertInfo';
     import iQuestion from './components/iQuestion.vue';
-    import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage} from '@/api/procs';
+    import {getWorkFlow,queryPageSample, queryPageFAQ, getWorkFlowPage, getProcessCatalog} from '@/api/procs';
     import mixin from './../mixins';
     import ProcessDraw from './../components/ProcessDraw';
+
+    import print from 'print-js'
+    import 'print-js/dist/print.css';
     export default {
         components:{
             LayHeader,
@@ -143,6 +180,9 @@
                     url:"",
                     drawInfo:{}
                 },
+                print:{
+                    show: false
+                },
                 loading: false,
                 pageLoading: false,
                 id: this.$route.query.id,
@@ -150,11 +190,13 @@
                 sampleList:[],
                 faqList:[],
 
-                pageDetail:{}
+                pageDetail:{},
+                directory:[]
             }
         },
         created () {
             this.queryDetail()
+            this.getProcessCatalog()
         },
         methods: {
             // 详情
@@ -172,14 +214,22 @@
                         }else{
                             id = this.detail.pageIds[0]
                         }
-                        this.queryPageSample(id)
-                        this.getPageDetail(id)
-                        this.queryPageFAQ(id)
+                        this.init(id)
                     }
 
                 } finally {
                     this.loading = false
                 }
+            },
+            init(id){
+                this.queryPageSample(id)
+                this.getPageDetail(id)
+                this.queryPageFAQ(id)
+            },
+            // 查询目录
+            async getProcessCatalog(){
+                let res = await getProcessCatalog(this.id)
+                this.directory = res?.children || []
             },
             // 流程附件
             async queryPageSample(id){
@@ -221,9 +271,7 @@
                 this.showInfo = true
             },
             handlePageChange(curPage){
-                console.log(curPage);
-                this.getPageDetail(this.detail.pageIds[curPage - 1])
-                this.queryPageSample(this.detail.pageIds[curPage - 1])
+                this.init(this.detail.pageIds[curPage - 1])
             },
             view(t){
                 this.dialog.type = t
@@ -243,8 +291,19 @@
                 if(!url) return
                 let downLoadUrl = url.split('uploader/')[1]
                 window.open(downLoadUrl)
+            },
+            dirClick(v){
+                this.init(v.pageId)
+                this.currentPage = this.detail.pageIds.indexOf(v.pageId) + 1
+            },
+            printHandle(){
+                print({
+                    printable: 'process-print',
+                    type: 'html',
+                    targetStyles: ['*'], // 打印内容使用所有HTML样式，没有设置这个属性/值，设置分页打印没有效果
+                })
             }
-        },
+        }
     }
 </script>
 
@@ -252,6 +311,17 @@
 @import "./../comon";
 
 $line-color: #BBC4D6;
+.main {
+    position: relative;
+}
+.list{
+    position: fixed;
+    left: 105px;
+    top: 47%;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+}
 .title{
     font-size: 24px;
     font-weight: bold;
@@ -303,6 +373,22 @@ $line-color: #BBC4D6;
         align-items: center;
     }
 }
+.print{
+    .title1{
+        font-size: 30px;
+    }
+    .title2{
+        padding: 10px 0;
+        font-size: 20px;
+         border-top: 1px solid $line-color;
+        border-bottom: 1px solid $line-color;
+        font-weight: bold;
+        color: #1660F1;
+    }
+    .content{
+        padding: 10px;
+    }
+}
 .video-btn{
     color: #1660F1;
     i{
@@ -324,6 +410,11 @@ $line-color: #BBC4D6;
 
 }
 
+.tree {
+    ::v-deep .el-tree-node__content{
+        margin: 5px 0;
+    }
+}
 .side{
     width: 450px;
 }

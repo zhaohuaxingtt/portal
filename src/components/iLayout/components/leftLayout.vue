@@ -224,7 +224,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1001;
+  z-index: 9999999;
   padding-top: 11px;
   padding-bottom: 30px;
 

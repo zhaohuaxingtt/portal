@@ -9,7 +9,7 @@
                     :loading.sync="indexs.loading"
                     :data="indexs.data" 
                     :indexIcon="false"
-                    :isClickFirst="id == ''"
+                    :isClickFirst="!id"
                     @click-index="indexChange"
                     @row-click="indexRowChange"
                     >
@@ -28,9 +28,9 @@
                         <img style="margin:10px" v-for="atc in detail.attachMents" class="cursor" :key="atc.id" :src="fileFmt(atc.url)" alt="" @click="view(atc.url)">
                         <div v-html="detail.termsContent"></div>
                     </div>
-                    <div v-if="detail.workFlows">
+                    <div v-if="showProcessFlag">
                         <p class="link-row">关联流程</p>
-                        <div class="link-row flex justify-between" v-for="(w,index) in detail.workFlows" :key="w.id">
+                        <div class="link-row flex justify-between cursor" v-for="(w,index) in detail.workFlows" :key="w.id" @click="toProcess(w)">
                             <span class="flex-2 ellipsis mr20">{{`${index + 1}、${w.name}`}}</span>
                             <div class="flex-1 flex justify-between"> 
                                 <span class="mr20 ellipsis flex-1">{{w.version}} {{timeFmt(w.updatedAt)}}</span>
@@ -71,6 +71,7 @@
                 },
                 loading:false,
                 detail:{},
+                showProcessFlag: false,
                 id: this.$route.query.id
            }
        },
@@ -106,9 +107,17 @@
                 console.log(index);
             },
             async indexRowChange(id){
+                console.log(this.$route, '2222222')
+                let newUrl ="/portal/#" + this.$route.path + "?id=" + id
+                window.history.replaceState('', '', newUrl)
                 try {
                     this.loading = true
                     this.detail = await queryGlossaryDetail(id)
+                    if (this.detail.workFlow && this.detail.workFlow.length > 0) {
+                        this.showProcessFlag = true
+                    } else {
+                        this.showProcessFlag = false
+                    }
                 } finally {
                     this.loading = false
                 }
@@ -119,7 +128,10 @@
             timeFmt(time){
                 let difference = new Date() - new Date(time).getTime();
                 let difference1 = Math.floor(difference / 1000 / 60 / 60 / 24);
-                return difference1 < 14 ? `最后更新 ${difference1}前` : `最后更新 ${moment(new Date(time)).format("YYYY-MM-DD")}`
+                return difference1 < 14 ? `最后更新 ${difference1}日前` : `最后更新 ${moment(new Date(time)).format("YYYY-MM-DD")}`
+            },
+            toProcess(w){
+                this.$router.push({path:'/cf-ProCS/processDetail',query:{id:w.id, pageId: w.firstPageId}})
             }
        }
     }
@@ -166,6 +178,10 @@
             border-bottom:none;
             padding: 25px 20px;
             word-break: break-word;
+
+            img{
+                width: 30%;
+            }
         }        
 
         .link-list{

@@ -35,14 +35,13 @@
         </div>
         <div
           class="middle middle-m"
-          style="font-size: 24px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
             parseFloat(tabsData.totalTarget)
               ? parseFloat(tabsData.totalTarget).toFixed(2)
               : '0.00'
-          }}<span style="color: #1763f7; font-size: 24px">%</span>
+          }} <span style="color: #1763f7;">%</span>
         </div>
         <div class="right">
           <div style="font-family: Arial; font-weight: bold; color: #343434">
@@ -389,6 +388,7 @@ export default {
     }
     > .middle-m {
       margin-top: -36px;
+      font-size: 24px;
     }
   }
 

@@ -3,7 +3,7 @@
     <el-button @click="open">open</el-button>
     <iLog :show.sync="showDialog" :bizId="bizId" is-page />
     <el-button @click="showDialog1 = true">open user log</el-button>
-    <iUserLog :show.sync="showDialog1" bizId="1" menuId="2" is-page :days="10" />
+    <iUserLog :show.sync="showDialog1" bizId="1" menuId="2" is-page />
   </iPage>
 </template>
 

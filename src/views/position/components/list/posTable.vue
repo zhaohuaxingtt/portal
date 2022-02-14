@@ -2,6 +2,7 @@
   <div class="table-box">
     <btnBox
       :operations="operations"
+      :showBtns='showBtns'
       @handle-setting="$refs.positoinTable.openSetting()"
     />
     <iTableCustom
@@ -43,6 +44,17 @@ export default {
     iTableCustom,
     iPagination,
     btnBox
+  },
+  props:{
+    showBtns:{
+      type:Boolean,
+      default:true
+    }
+  },
+  created(){
+    if(this.$route.fullPath.includes('cf-position')){
+      this.tableSetting.shift()
+    }
   },
   mounted() {
     const data = { type: this.type, params: this.query }
@@ -171,7 +183,7 @@ export default {
     },
     handleGoDetail(val) {
       const deptId = this.orgSelected.id || val.deptId
-      openUrl(`/position/operate/detail?id=${val.id}&deptId=${deptId}`)
+      openUrl(`/position/operate/detail?id=${val.id}&deptId=${deptId}&editable=${this.showBtns ? 1 : 2}`)
       // this.$router.push({
       //   path: '/position/operate/detail',
       //   query: {

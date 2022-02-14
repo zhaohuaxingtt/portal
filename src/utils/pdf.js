@@ -142,7 +142,7 @@ export function transverseDownloadPDF({//html横向导出pdf
   var titleHeight = 0;
   if(titleArr){
     var title = document.querySelector((titleArr).toString())//获取页面dom节点
-    var titleHeight = title.offsetHeight + 1;//页眉高度 ===>70px
+    titleHeight = title.offsetHeight + 1;//页眉高度 ===>70px
   }
   let el = document.getElementById(ele) //通过getElementById获取要导出的内容
   let eleW = el.offsetWidth // 获得该容器的宽
@@ -165,6 +165,7 @@ export function transverseDownloadPDF({//html横向导出pdf
     scale: 2, //设置缩放
     useCORS: true, //允许canvas画布内 可以跨域请求外部链接图片, 允许跨域请求。,
     bgcolor: '#ffffff', //应该这样写
+    backgroundColor:'#ffffff',//这样背景还是黑的
     logging: false, //打印日志用的 可以不加默认为false
   }).then((canvas) => {
     var contentWidth = canvas.width//
@@ -180,13 +181,19 @@ export function transverseDownloadPDF({//html横向导出pdf
     var imgWidth = 841.89
     var imgHeight = (841.89 / contentWidth) * contentHeight
     let pageData = canvas.toDataURL('image/jpeg', 1.0)
+    // var pdf = new JsPDF('l', 'pt', 'a4',false)//l横向打印，p纵向打印 true=>开启压缩
     var pdf = new JsPDF('l', 'pt', 'a4',true)//l横向打印，p纵向打印 true=>开启压缩
+
+    // console.log(titleHeight*2)
+    // console.log(leftHeight)
+    // console.log(pageHeight)
 
     if (leftHeight < pageHeight) {//
       pdf.addImage(pageData,"JPEG",0, position, imgWidth, imgHeight);
     } else {
       // 分页
       var num = 1;
+      
       while (leftHeight > 0) {
         var syheight = 0
         if(leftHeight>=pageHeight-titleHeight*2){
@@ -196,20 +203,22 @@ export function transverseDownloadPDF({//html横向导出pdf
         }
         context.clearRect(0,0,contentWidth/2,pageHeight/2);//清空画布
 
-        // var imgData = context.getImageData(0,0,contentWidth/2,pageHeight/2);//canvas设置背景色
-        // imgData.data[0] = 255;
-        // imgData.data[1] = 255;
-        // imgData.data[2] = 255;
-        // imgData.data[3] = 255;
-        // context.putImageData(imgData,0, 0);
-
         //需要注意的是，这里的canvas图片的像素宽高是context画布的两倍
         context.drawImage(canvas,0,0,contentWidth,titleHeight*2,0,0,contentWidth/2,titleHeight);
         context.drawImage(canvas,0,titleHeight*2+(num-1)*(pageHeight-titleHeight*2),contentWidth,syheight,0,titleHeight,contentWidth/2,syheight/2);
-        let imageData = canvasFragment.toDataURL('image/png', 1.0)//封装png图片
-        pdf.addImage(imageData,"png",0, 0, imgWidth, imgHeight);//添加png图片，空白处自动转换成白色背景图（jpeg为黑色）
-        leftHeight -= (pageHeight)
-        position -= 595.28
+        let imageData = canvasFragment.toDataURL('image/jpeg', 1.0)//封装png图片
+        pdf.addImage(imageData,"JPEG",0, 0, imgWidth, imgHeight);//添加png图片，空白处自动转换成白色背景图（jpeg为黑色）
+
+        if(num>1){
+          leftHeight -= (pageHeight-titleHeight*2)
+        }else{
+          leftHeight -= pageHeight
+        }
+        // leftHeight -= (pageHeight-(num-1)*(titleHeight*2))
+        // position -= 595.28
+        console.log("------------第" + num + "页------------")
+        console.log(leftHeight)
+        console.log(pageHeight)
         //避免添加空白页
         if (leftHeight > 0) {
           pdf.addPage()

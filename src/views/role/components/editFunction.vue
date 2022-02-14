@@ -22,6 +22,7 @@
           :full-menu="fullMenu"
           :default-selected-rows="defaultSelectedResource"
           :parent-id="resourceParent.id"
+          :full-resources="fullResources"
           ref="functionResource"
           @set-resource-list="setResourceList"
         />
@@ -34,7 +35,7 @@
 import { iCard, iButton, iMessage } from 'rise'
 import functionMenu from './functionMenu'
 import functionResource from './functionResource'
-import { configRoleFunction } from '@/api/role'
+import { configRoleFunction, fetchResource } from '@/api/role'
 import { treeToArray } from '@/utils'
 export default {
   name: 'viewFunction',
@@ -77,13 +78,21 @@ export default {
       resourceParent: {},
       loading: false,
       menuList: null,
-      resourceList: null
+      resourceList: null,
+      fullResources: []
     }
   },
   created() {
     this.setDefaultCheckedMenuList()
+    this.queryFullResources()
   },
   methods: {
+    async queryFullResources() {
+      const { data } = await fetchResource({ type: 2 }).finally(
+        () => (this.tableLoading = false)
+      )
+      this.fullResources = data
+    },
     setDefaultCheckedMenuList() {
       if (this.detail.menuList) {
         this.menuList = treeToArray(this.detail.menuList, 'menuList')
@@ -106,6 +115,14 @@ export default {
           )
           this.$refs.functionResource.handleToggleSelectedAll(false)
         }
+        /// ----------------20220209 CRW-3717--------------------------
+        /// ----------------选择菜单把资源一起选择了---------------------
+        /// -----------------------------------------------------------
+        // const selectRows = isMultipleCheck ? rows : [row]
+        /* const ids = this.menuList.map((e) => e.id)
+        this.detail.resourceList = this.fullResources.filter((e) =>
+          ids.includes(e.parentId)
+        ) */
       }
     },
     setResourceList(val, proptities) {

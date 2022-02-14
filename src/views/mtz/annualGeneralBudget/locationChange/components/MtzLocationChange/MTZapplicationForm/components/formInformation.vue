@@ -16,7 +16,7 @@
       <div>
         <iButton v-if="!isView"
                  @click="save(2)"
-                 :disabled="disabled">{{language('TIJIAO','提交')}}</iButton>
+                 :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_TIJIAO">{{language('TIJIAO','提交')}}</iButton>
       </div>
     </div>
     <iCard>
@@ -24,7 +24,7 @@
         <span style="font-weight:bold">{{language('SHENGQINGDANXINXI','申请单信息')}}</span>
         <iButton v-if="!isView"
                  @click="save(1)"
-                 :disabled="disabled">{{language('BAOCUN','保存')}}</iButton>
+                 :disabled="disabled" v-permission="PORTAL_MTZ_CHANGE_INFOR_BAOCUN">{{language('BAOCUN','保存')}}</iButton>
       </template>
       <div class="informationForm">
         <el-form :inline="true"

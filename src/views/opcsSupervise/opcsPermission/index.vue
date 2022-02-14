@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item :label="language('YINGYONGFUZEREN', '应用负责人')">
           <iSelect filterable
-                   v-model="form.userName">
+                   v-model="form.contactUserId">
             <el-option :value="item.id"
                        :label="item.nameZh"
                        v-for="(item, index) in userList"

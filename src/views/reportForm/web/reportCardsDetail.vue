@@ -17,13 +17,14 @@
                 <div class="detail">
                     <div class="detail-item" v-for="(l,index) in dataList" :key="index">
                         <h3 class="title" v-text="l.categoryName"></h3>
-                        <div class="file" v-for="(item) in l.list" :key="item.id">
-                            <span class="title-text" @click="openFun(item)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
+                        <div class="file" v-for="(item,index1) in l.list" :key="item.id">
+                            <div class="bell" v-if="item.isNew"></div>
+                            <span class="title-text" @click="openFun(item, index, index1)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
                             <div>
-                                <iButton size="mini" @click="share(item)">
+                                <iButton size="mini" @click="share(item,index,index1)">
                                     分享
                                 </iButton>
-                                <iButton size="mini" @click="handLoad(item)">下载</iButton>
+                                <iButton size="mini" @click="handLoad(item,index,index1)">下载</iButton>
                             </div>
                         </div>
                         <iPagination
@@ -48,7 +49,7 @@
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
     import Dialog from './../components/dialog.vue';
-    import {queryReportContentList} from '@/api/reportForm';
+    import {queryReportContentList, updateIsNew} from '@/api/reportForm';
     export default {
         components:{
             pageHeader,
@@ -130,11 +131,12 @@
                     }
                 })
             },
-            share(item) {
+            share(item,i1,i2) {
                 let subject = `我与你分享了一条 ${this.title} 《${item.title}》`
                 let body = `我与你分享了一条 ${this.title} 《${item.title}》 %0a%0d ${item.cover}`
                 let href = `mailto:?subject=${subject}&body=${body}`
                 this.createAnchorLink(href)
+                this.updateIsNew(item.id, i1, i2)
             },
             createAnchorLink(href) {
                 const a = document.createElement('a')
@@ -143,20 +145,26 @@
                 a.click()
                 a.remove()
             },
-            handLoad(row) {
-                console.log(row, '12345')
+            handLoad(row,i1,i2) {
                 const a = document.createElement('a')
                 a.download = row.title
                 a.href = `${row.cover}&isDown=true`
                 a.click()
                 a.remove()
+                this.updateIsNew(row.id,i1,i2)
             },
             handleIconClick() {
                 this.params.current = 1
                 this.query()
             },
-            openFun(item) {
+            openFun(item, i1, i2) {
                 window.open(item.cover)
+                this.updateIsNew(item.id, i1, i2)
+            },
+            // 取消最新 new
+            async updateIsNew(id,i1,i2){
+                await updateIsNew(id)
+                this.$set(this.dataList[i1].list[i2], "isNew", false)
             }
         },
     }

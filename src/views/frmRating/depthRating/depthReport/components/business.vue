@@ -13,8 +13,14 @@
         <iFormItem :label="item.name"
                    v-for="(item,index) in baseInfoTitle"
                    :key="index">
-          <iInput :disabled="isDisabled"
-                  :value="info.supplier[item.props]"></iInput>
+          <el-date-picker v-model="info.supplier['registeredDate']"
+                          v-if="item.props==='registeredDate'"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择日期">
+          </el-date-picker>
+          <iInput v-else
+                  v-model="info.supplier[item.props]"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -148,7 +154,7 @@
               maxlength="120"
               show-word-limit></iInput>
     </iCard>
-   <div class="remark"> 来源于公开信息，供应商提供信息和供应商访谈。  </div>
+    <div class="remark"> 来源于公开信息，供应商提供信息和供应商访谈。 </div>
   </div>
 </template>
 
@@ -206,7 +212,10 @@ export default {
       });
     },
     postOverView () {
-      console.log(this.info, "info")
+      this.baseInfoTitle.forEach(item => {
+        this.info[item.props] = this.info.supplier[item.props]
+      })
+      delete this.info.supplier
       this.loading = true;
       postCompanyOverview(this.info).then((result) => {
         this.loading = false;
@@ -217,7 +226,7 @@ export default {
           this.$message.error(result.desZh)
         }
 
-      }).catch((err) => {
+      }).catch(() => {
         this.loading = false;
       });
     }
@@ -247,6 +256,6 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-     color: #9b9b9b;
+  color: #9b9b9b;
 }
 </style>

@@ -6,28 +6,28 @@
       <iButton @click="delHandler" :disabled='selectedItems.length == 0'>{{ language('删除') }}</iButton>
 			<iButton v-show="manageType!=='content'" @click="addTypeFun" :disabled='selectedItems.length == 0'>{{ language('添加知识分类') }}</iButton>
     </div>
-		<iTableCustom
-      ref="testTable"
-      :loading="tableLoading"
-      :data="tableListData"
-      :columns="tableSetting"
-			@publishChang='publishChang'
-			@stateChang="stateChang"
-			@sendChang="sendChang"
-			singleChoice=true
-      @handle-selection-change="handleSelectionChange"
+	<iTableCustom
+		ref="testTable"
+		:loading="tableLoading"
+		:data="tableListData"
+		:columns="tableSetting"
+		@publishChang='publishChang'
+		@stateChang="stateChang"
+		@sendChang="sendChang"
+		singleChoice=true
+		@handle-selection-change="handleSelectionChange"
     />
 
-		<iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :current-page="page.currPage"
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :total="page.totalCount"
+	<iPagination
+		v-update
+		@size-change="handleSizeChange($event, getTableList)"
+		@current-change="handleCurrentChange($event, getTableList)"
+		background
+		:current-page="page.currPage"
+		:page-sizes="page.pageSizes"
+		:page-size="page.pageSize"
+		:layout="page.layout"
+		:total="page.totalCount"
     />
 
 		<AddKnowledgeType
