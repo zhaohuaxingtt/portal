@@ -724,6 +724,8 @@ const position = {
       }).finally(() => commit('SET_POSLOADING', false))
       if (res?.code === '200' && res?.data) {
         res.data.permissionList = res.data.permissionList || []
+        res.data.otherPurchaseGroup = res.data.otherPurchaseGroup.length == 0 ? [] : res.data.otherPurchaseGroup.split(',') 
+        res.data.otherTempPurchaseGroup = res.data.otherTempPurchaseGroup.length == 0 ? [] : res.data.otherTempPurchaseGroup.split(',')
         commit('SET_POSITION_DETAIL', res.data)
         commit('INIT_DIMENSION_LIST', res.data.permissionList)
         commit('INIT_ROLE_SELECTED', res.data.roleDTOList)

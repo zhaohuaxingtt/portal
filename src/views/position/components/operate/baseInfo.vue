@@ -200,7 +200,7 @@
           >
             <el-option
               v-for="item in otherTempPurchasegroupOptions"
-              :key="item.id"
+              :key="item.purchaseGroupCode"
               :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
@@ -216,7 +216,7 @@
           >
             <el-option
               v-for="item in tempPurchasegroupOptions"
-              :key="item.id"
+              :key="item.purchaseGroupCode"
               :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
@@ -297,7 +297,17 @@ export default {
       return this.purchasegroupOptions.filter(
         (e) => e.purchaseGroupCode !== this.positionObj.purchaseGroup
       )
-    }
+    },
+    // otherTempPurchaseGroup(){
+    //   const otherTempPurchaseGroup = this.$store.state.position.pos.positionDetail.otherTempPurchaseGroup
+    //   console.log(otherTempPurchaseGroup,'====');
+    //   return otherTempPurchaseGroup?.split(',')
+    // },
+    // otherPurchaseGroup(){
+    //   const otherPurchaseGroup = this.$store.state.position.pos.positionDetail.otherPurchaseGroup
+    //   console.log( this.$store.state.position.pos.positionDetail.otherPurchaseGroup,'-------');
+    //   return otherPurchaseGroup?.split(',')
+    // }
   },
   methods: {
     handleDirect() {
