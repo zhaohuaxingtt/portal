@@ -5,7 +5,7 @@
     </el-badge>
     <iMail
       :visible="drawerVisible"
-      @triggerCallback="handleTriggerCallback"
+      @trigger-callback="handleTriggerCallback"
       @hide-drawer="handleHideDrawer"
     />
   </div>
@@ -32,13 +32,13 @@ export default {
   },
   methods: {
     handleTriggerCallback() {
-      console.log('handleTriggerCallback')
       this.getUnreadTotal()
     },
     async getUnreadTotal() {
+      console.log('getUnreadTotal')
       const result = await getUnreadTotal()
       if (result?.code === '200' && result?.data) {
-        this.messageCount = result.data
+        this.messageCount = result.data || 0
       }
     },
     // 显示消息列表
