@@ -186,7 +186,9 @@
             <div v-if="!readOnly" style="margin-left: 8px">
               <iButton
                 @click="newAdd"
-                v-permission="'ON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'"
+                v-permission="
+                  'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'
+                "
                 >{{ language('新增') }}</iButton
               >
               <iButton
