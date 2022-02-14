@@ -18,15 +18,15 @@
            @close='clearDiolog'
            top="40vh">
     <p class="tip margin-bottom10">{{tip}}</p>
-    <!-- <iSelect v-model='inquiryBuyer'
+     <iSelect v-model='inquiryBuyer'
              :multiple='multiple'
              :filterable='true'>
       <el-option v-for="(items,index) in inquiryBuyerList"
                  :key='index'
                  :value='items.id'
                  :label="items.nameZh" />
-    </iSelect> -->
-    <custom-select v-model="inquiryBuyer"
+    </iSelect>
+<!--    <custom-select v-model="inquiryBuyer"
                    :user-options="inquiryBuyerList"
                    multiple
                    style="width:100%"
@@ -35,7 +35,7 @@
                    display-member="nameZh"
                    value-member="id"
                    value-key="id">
-    </custom-select>
+    </custom-select>-->
     <span slot="footer"
           class="dialog-footer">
       <iButton @click="clearDiolog">{{language('QUXIAO','取消')}}</iButton>
@@ -87,9 +87,10 @@ export default {
   methods: {
     clearDiolog () {
       this.inquiryBuyer = []
-      this.$emit('input', false)
+      this.$emit('flag', false)
     },
     sureChangeItems () {
+
       if (!this.inquiryBuyer) return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN'))
       this.$emit('sure', this.inquiryBuyer)
     },
@@ -107,7 +108,7 @@ export default {
             // let flag = defaultList.every(item => {
             //   return item === depSupplierId
             // })
-            this.$emit('flag', true)
+
           } else {
             // let flag = defaultList.every(item => {
             //   return item === depSupplierId
@@ -115,6 +116,8 @@ export default {
             // this.$emit('flag', flag)
           }
         }
+      }).finally(() => {
+        this.$emit('flag', true)
       })
     }
   }
