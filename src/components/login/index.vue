@@ -103,7 +103,6 @@ export default {
     if (this.$route.path.indexOf('superLogin') > -1) {
       //nothing to do
     } else {
-      console.log('getToken', getToken)
       const token = getToken()
       let redirectUrl = ''
       if (token) {
