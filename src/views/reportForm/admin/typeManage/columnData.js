@@ -1,3 +1,25 @@
+const userList = [
+  { nameZh: '全体用户', id: 0 },
+  { nameZh: '全体采购员工用户', id: 1 }, 
+  { nameZh: '全体内部员工用户', id: 2 }, 
+  { nameZh: '全体供应商用户', id: 3 }, 
+  { nameZh: '全体供应商主联系人用户', id: 4 },
+  { nameZh: '全体生产采购供应商用户', id: 5 },
+  { nameZh: '全体生产采购供应商主联系人用户', id: 6 }, 
+  { nameZh: '全体生产采购正式供应商用户', id: 7 }, 
+  { nameZh: '全体生产采购正式供应商主联系人用户', id: 8 }, 
+  { nameZh: '全体一般采购供应商用户', id: 9 }, 
+  { nameZh: '全体一般采购供应商主联系人用户', id: 10 },
+  { nameZh: '全体一般采购正式供应商用户', id: 11 }, 
+  { nameZh: '全体一般采购正式供应商主联系人用户', id: 12 }, 
+  { nameZh: '全体N_Tier供应商用户', id: 13 }, 
+  { nameZh: '全体N_Tier供应商主联系人用户', id: 14 },
+  { nameZh: '自定义', id: 15 },
+]
+let userListKV = {}
+userList.forEach(e => {
+  userListKV[e.id] = e
+})
 const typeColumn = [
   // {
   //     type: 'selection',
@@ -98,28 +120,40 @@ const typeColumn = [
     align: 'center',
     width: 150,
     customRender: (h, scope) => {
+      // const userRange = scope.row.userRange || 0
       const users = scope.row.users || []
-      let new_users =
+      // let showText = null
+      // if (users.length === 0) {
+      //   showText = userList[userRange].nameZh
+      // } else {
+        let new_users =
         users?.length > 0
           ? users
               .slice(0, 4)
               .map((item) => item.nameZh)
               .join(',')
           : ''
-      let text =
-        users?.length > 0
-          ? users.length > 4
-            ? `${new_users}等${users.length}人`
-            : `${new_users}`
-          : ''
+      let text = ""
+          if(scope.row.userRange == 15){
+            text =  users?.length > 0
+            ? users.length > 4
+              ? `${new_users}等${users.length}人`
+              : `${new_users}`
+            : ''
+          }else{
+            text = userListKV[scope.row.userRange].nameZh
+          }
       return (
-        <div
-          style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-          title={text}
-        >
-          {text}
-        </div>
+        <span>
+          <div
+            style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+            title={text}
+          >
+            {text}
+          </div>
+        </span>
       )
+      // }
     },
     sortable: true,
     sortMethod: (a, b) => {
@@ -213,23 +247,6 @@ const addTypeColumn = [
   }
 ]
 
-const userList = [
-  { nameZh: '全体用户', id: 0 },
-  { nameZh: '全体采购员工用户', id: 1 }, 
-  { nameZh: '全体内部员工用户', id: 2 }, 
-  { nameZh: '全体供应商用户', id: 3 }, 
-  { nameZh: '全体供应商主联系人用户', id: 4 },
-  { nameZh: '全体生产采购供应商用户', id: 5 },
-  { nameZh: '全体生产采购供应商主联系人用户', id: 6 }, 
-  { nameZh: '全体生产采购正式供应商用户', id: 7 }, 
-  { nameZh: '全体生产采购正式供应商主联系人用户', id: 8 }, 
-  { nameZh: '全体一般采购供应商用户', id: 9 }, 
-  { nameZh: '全体一般采购供应商主联系人用户', id: 10 },
-  { nameZh: '全体一般采购正式供应商用户', id: 11 }, 
-  { nameZh: '全体一般采购正式供应商主联系人用户', id: 12 }, 
-  { nameZh: '全体N_Tier供应商用户', id: 13 }, 
-  { nameZh: '全体N_Tier供应商主联系人用户', id: 14 },
-  { nameZh: '自定义', id: 15 },
-]
+
 
 export { typeColumn, addTypeColumn, userList }

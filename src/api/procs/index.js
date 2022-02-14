@@ -49,6 +49,22 @@ export function queryKnowledgeDepartment() {
         method: 'get'
     })
 }
+//   web知识管理 - 知识分享下载
+export function downloadKnowledge(id) {
+    return procsRequest({
+        url: `/knowledge/${id}/attachmentDownload.json`,
+        method: 'get'
+    })
+}
+//   web知识管理 - 分享操作日志
+export function operationlogs(data) {
+    return procsRequest({
+        url: `/master/operation_logs.json`,
+        method: 'post',
+        data,
+        formData:true
+    })
+}
 
 // 流程列表查询
 export function queryWorkFlow() {

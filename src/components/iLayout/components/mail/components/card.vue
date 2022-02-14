@@ -203,8 +203,9 @@ export default {
     handleRedirect() {
       if (!this.item.url) {
         console.log('url为空')
-        this.$emit('readCallback', { tab: this.tab })
+        this.$emit('read-callback', { tab: this.tab })
       } else {
+        this.$emit('read-callback', { tab: this.tab })
         this.$emit('hide-drawer')
         setTimeout(() => {
           if (
@@ -225,7 +226,7 @@ export default {
     async handleDel() {
       const result = await removeMailById({ ids: this.item.id })
       if (result?.code === '200') {
-        this.$emit('delCallback', { tab: this.tab })
+        this.$emit('del-callback', { tab: this.tab })
       }
     },
     async handleRead() {

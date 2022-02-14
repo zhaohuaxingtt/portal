@@ -6,8 +6,10 @@
 <template>
   <div>
     <div class="margin-bottom20 clearFloat">
-      <span v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'" class="font18 font-weight">{{$t('SUPPLIER_XINGONGYINGSHANGPINGJI')}}</span>
-      <div v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'" class="floatright">
+      <span v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'"
+            class="font18 font-weight">{{$t('SUPPLIER_XINGONGYINGSHANGPINGJI')}}</span>
+      <div v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'"
+           class="floatright">
         <i-button @click="$emit('handleSumbit','无法评级')">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</i-button>
         <i-button @click="$emit('handleSumbit','提交计算')">{{ $t('SPR_FRM_XGYSPJ_TJJS') }}</i-button>
         <i-button @click="$emit('handleSumbit','提交审批')">{{ $t('SPR_FRM_XGYSPJ_TJSP') }}</i-button>
@@ -15,33 +17,55 @@
         <i-button @click="handleBackProcurement">{{ $t('SPR_FRM_XGYSPJ_TJQQCG') }}</i-button>
       </div>
     </div>
-    <iCard class="margin-bottom20" tabCard collapse :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
+    <iCard class="margin-bottom20"
+           tabCard
+           collapse
+           :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
+      <template slot="header-control">
+
+        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>
+      </template>
       <iFormGroup row="3">
-        <iFormItem v-for="(item,index) in supplierMessageTitle" :key="index">
-          <iLabel :label="$t(item.name) " :required="item.required" :icons="item.icons" :tip="$t(item.tip)" slot="label" :v-permission="item.permission"></iLabel>
-          <div :v-permission="item.permission" class="duns flex-align-center" v-if="item.name==='DUNS'">
+        <iFormItem v-for="(item,index) in supplierMessageTitle"
+                   :key="index">
+          <iLabel :label="$t(item.name) "
+                  :required="item.required"
+                  :icons="item.icons"
+                  :tip="$t(item.tip)"
+                  slot="label"
+                  :v-permission="item.permission"></iLabel>
+          <div :v-permission="item.permission"
+               class="duns flex-align-center"
+               v-if="item.name==='DUNS'">
             <iText>{{baseMsg['one']}}</iText>
             <span></span>
             <iText>{{baseMsg['tow']}}</iText>
             <span></span>
             <iText>{{baseMsg['three']}}</iText>
           </div>
-          <div :v-permission="item.permission" v-else>
+          <div :v-permission="item.permission"
+               v-else>
             <iText>{{ baseMsg[item.key] }}</iText>
           </div>
         </iFormItem>
       </iFormGroup>
     </iCard>
-    <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'" :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJG')">
+    <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
+           :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJG')">
       <iFormGroup row="3">
         <iFormItem>
-          <iLabel :label="$t('SPR_FRM_XGYSPJ_SFTGPG') " slot="label"></iLabel>
+          <iLabel :label="$t('SPR_FRM_XGYSPJ_SFTGPG') "
+                  slot="label"></iLabel>
           <iText>{{info.ratingResult}}</iText>
         </iFormItem>
       </iFormGroup>
     </iCard>
-    <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'" class="margin-top20" :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJGBZ')">
-      <iInput v-model="info.remark" type="textarea" rows="4"></iInput>
+    <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
+           class="margin-top20"
+           :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJGBZ')">
+      <iInput v-model="info.remark"
+              type="textarea"
+              rows="4"></iInput>
     </iCard>
   </div>
 </template>
@@ -57,26 +81,27 @@ export default {
   components: {
     iCard, iButton, iFormGroup, iFormItem, iLabel, iText, iInput
   },
-  data() {
+  data () {
     return {
       supplierMessageTitle,
       info: {
         ratingResult: this.$route.query.ratingResult || '',
-        remark:''
+        remark: ''
       },
-      baseMsg: {}
+      baseMsg: {},
+      supplierToken: ""
     }
   },
   computed: {
-    baseMsg() {
+    baseMsg () {
       return this.$store.state.baseInfo.baseMsg
     }
   },
-  created() {
+  created () {
     this.getInfo()
   },
   methods: {
-    async getInfo() {
+    async getInfo () {
       const pms = {
         ratingId: this.$route.query.ratingId || this.$route.query.id,
         ratingSupplierId: this.$route.query.supplierId,
@@ -87,6 +112,7 @@ export default {
         this.info = res1.data
       }
       this.baseMsg = res.data
+      this.supplierToken = res.data.supplierToken
       if (!res.data || !res.data.dunsCode) {
         return false
       }
@@ -95,10 +121,17 @@ export default {
       this.baseMsg['tow'] = res.data.dunsCode.slice(2, 5)
       this.baseMsg['three'] = res.data.dunsCode.slice(5, 9)
     },
-    onJump360() {
-
+    onJump360 () {
+      this.$router.push({
+        path: '/supplier/view-suppliers',
+        query: {
+          current: 1,
+          supplierType: 4,
+          supplierToken: this.supplierToken
+        }
+      })
     },
-    async handleBackProcurement() {
+    async handleBackProcurement () {
       const pms = {
         ratingSupplierId: this.$route.query.supplierId || ''
       }

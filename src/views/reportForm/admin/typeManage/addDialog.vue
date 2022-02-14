@@ -2,7 +2,6 @@
     <iDialog
         :title="dialogTitle"
         :visible.sync="show" 
-		v-if="show"
 		width="70%" 
 		@close='closeDialogBtn' 
 		append-to-body
@@ -135,7 +134,7 @@
 import { iDialog, iFormItem, iInput, iSelect, iButton } from 'rise'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
-import userSelector from '@/views/popupWindowManagement/components/userSelector'
+import userSelector from '@/components/userSelector'
 import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import { addReportType, modifyReportType } from '@/api/reportForm';
 import { getKnowledgeUser } from '@/api/adminProCS';
@@ -161,12 +160,20 @@ export default {
         show: {
             type: Boolean,
             default: false
+        },
+        modifyId: {
+            type: String,
+            default: ''
+        },
+        currDetailInfo: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
         return {
             visible: false,
-            form : {
+            form: {
                 name: '',
                 organization: '',
                 location: '',
@@ -193,22 +200,31 @@ export default {
             organizationList: [],
             customFlag: false,
             loading: false,
-            modifyId: null,
             usersList: userList
         }
     },
-    created() {
+    async created() {
+        if (this.modifyId && this.operateType === 'edit') {
+            // await this.getCurrDetail(this.modifyId)
+            this.initModify(this.currDetailInfo)
+        }
         this.getUsersList()
         this.getOrganizationsList()
     },
     methods: {
+        // async getCurrDetail(id) {
+        //     await reportTypeDetailById(id).then(res => {
+        //         if (res) {
+        //             this.initModify(res)
+        //         }
+        //     })
+        // },
         async getUsersList() {
             let params = {
 				privilege: 'BBNRGLY'
 			}
             await getKnowledgeUser(params).then(res => {
                 if (res) {
-                    // this.adminList = [{name: '测试', id: '1'}]
                     this.adminList = res || [{name: '测试', id: '1'}]
                 }
             })
@@ -221,14 +237,10 @@ export default {
             }) 
         },
         userListChange(val){
-            val.map(item => {
-                this.form.users.push(item.id * 1)
-            })
+            this.form.users = val
         },
         supplierListChange(val){
-            val.map(item => {
-                this.form.suppliers.push(item.id * 1)
-            })
+            this.form.suppliers = val
         },
         clear() {
             this.form = {
@@ -249,7 +261,6 @@ export default {
             this.imageUrl = ''
             this.customFlag = false
             this.modifyId = null
-            // Object.keys(this.form).forEach(key => this.form[key] = '')
             this.clear()
         },
         close() {
@@ -286,7 +297,6 @@ export default {
             })
         },
         handlePerson(va) {
-            console.log(va, '111')
             if (va === 15) {
                 this.customFlag = true
             } else {
@@ -302,17 +312,12 @@ export default {
             this.$refs.typeForm.validate(async v => {
                 if (v) {
                     try {
+                        if (this.customFlag) {
+                            this.form.users = this.form.users && this.form.users.map(e => e.id)
+                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
+                        }
                         if (this.operateType === 'add') {
                             this.form.cover = this.imageUrl
-                            // if (this.customFlag) {
-                            //     this.form.userRange.map(item => {
-                            //         if (item !== 7250) {
-                            //             this.form.users.push(item)
-                            //         }
-                            //     })
-                            // } else {
-                            //     this.form.users = [...this.form.userRange]
-                            // }
                             this.loading = true
                             await addReportType(this.form).then(res => {
                                 if (res?.success) {
@@ -326,15 +331,6 @@ export default {
                         } else {
                             this.form.cover = this.imageUrl
                             this.form.id = this.modifyId
-                            // if (this.customFlag) {
-                            //     this.form.userRange.map(item => {
-                            //         if (item !== 7250) {
-                            //             this.form.users.push(item)
-                            //         }
-                            //     })
-                            // } else {
-                            //     this.form.users = [...this.form.userRange]
-                            // }
                             this.loading = true
                             await modifyReportType(this.form).then(res => {
                                 if (res?.success) {
@@ -355,10 +351,10 @@ export default {
             })
         },
         initModify(row) {
-            Object.assign(this.form, row)
+            this.form = JSON.parse(JSON.stringify(row))
             this.imageUrl = row.cover
-            this.modifyId = row.id
-            if (this.form.userRange === 15 || this.form.users.length > 0) {
+            this.form.adminUsers = row.adminUsers.map(e => String(e.id))
+            if (this.form.userRange === 15) {
                 this.customFlag = true
             } else {
                 this.customFlag = false

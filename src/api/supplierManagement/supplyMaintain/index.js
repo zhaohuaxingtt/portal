@@ -34,6 +34,14 @@ export function queryPart(parmars) {
     data: parmars
   })
 }
+// 查询--总成零件
+export function queryPagePart(parmars) {
+  return requst({
+    url: '/ntierSupply/queryPagePart',
+    method: 'POST',
+    data: parmars
+  })
+}
 // 查询--n-tier供应商信息综合查询
 export function querycardChainId(parmars) {
   return requst({

@@ -216,6 +216,13 @@ const position = {
           }
         })
       }
+      if (dataVal.otherPurchaseGroup) {
+        dataVal.otherPurchaseGroup = dataVal.otherPurchaseGroup.split(',')
+      }
+      if (dataVal.otherTempPurchaseGroup) {
+        dataVal.otherTempPurchaseGroup =
+          dataVal.otherTempPurchaseGroup.split(',')
+      }
       state.pos.positionDetail = _.cloneDeep(dataVal)
       state.pos.originPosDetail = _.cloneDeep(dataVal)
 
@@ -658,9 +665,13 @@ const position = {
         setCode: setCode ? setCode.join(',') : '',
         property: this.state.position.pos.positionDetail.property,
         otherPurchaseGroup:
-          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(
+            ','
+          ) || '',
         otherTempPurchaseGroup:
-          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(
+            ','
+          ) || ''
       }
       commit('SET_POSLOADING', true)
       const res = await SavePosition(params).finally(() =>
@@ -754,9 +765,13 @@ const position = {
         setCode: setCode ? setCode.join(',') : '',
         property: this.state.position.pos.positionDetail.property,
         otherPurchaseGroup:
-          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(
+            ','
+          ) || '',
         otherTempPurchaseGroup:
-          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(
+            ','
+          ) || ''
       }
       commit('SET_POSLOADING', true)
       const res = await UpdatePosition(params).finally(() =>
