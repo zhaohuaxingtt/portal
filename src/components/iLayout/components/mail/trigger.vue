@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     handleTriggerCallback() {
+      console.log('handleTriggerCallback')
       this.getUnreadTotal()
     },
     async getUnreadTotal() {
