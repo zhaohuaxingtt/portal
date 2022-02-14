@@ -19,9 +19,9 @@
             ref="list"
             :is="item.content"
             :tab="item.nameInt"
-            @listCallback="handleListCallback"
-            @unReadCallback="handleUnreadCallback"
-            @triggerCallback="handleTriggerCallback"
+            @list-callback="handleListCallback"
+            @un-read-callback="handleUnreadCallback"
+            @trigger-callback="handleTriggerCallback"
             @hide-drawer="() => $emit('hide-drawer')"
           ></component>
         </el-tab-pane>
@@ -61,7 +61,7 @@ export default {
       const tab = messages.msgTxt.type
       const type = messages.msgTxt.subType
       console.log('接收到message', messages)
-      this.$emit('triggerCallback')
+      this.$emit('trigger-callback')
       if (tab === '4') {
         this.$refs.list[1].getUnreadCount()
         /* this.$refs.list[1].query.type === '' ||
@@ -142,7 +142,7 @@ export default {
       }
     },
     handleTriggerCallback() {
-      this.$emit('triggerCallback')
+      this.$emit('trigger-callback')
     },
     handleClick(tab) {
       const li = parseInt(tab.name)

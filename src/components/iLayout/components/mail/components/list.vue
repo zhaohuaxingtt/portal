@@ -24,8 +24,8 @@
         v-for="(item, index) in list"
         :key="index"
         :item="item"
-        @readCallback="handleReadCallback"
-        @delCallback="handleDelCallback"
+        @read-callback="handleReadCallback"
+        @del-callback="handleDelCallback"
         @hide-drawer="() => $emit('hide-drawer')"
       ></mail-card>
       <p v-if="loading">加载中...</p>
@@ -100,7 +100,7 @@ export default {
         this.loading = true
         this.getList()
         this.getUnreadCount()
-        this.$emit('triggerCallback')
+        this.$emit('trigger-callback')
       }
     },
     handleDelCallback(val) {
@@ -110,7 +110,7 @@ export default {
         this.loading = true
         this.getList()
         this.getUnreadCount()
-        this.$emit('triggerCallback')
+        this.$emit('trigger-callback')
       }
     },
     async handleReadAll() {
@@ -120,7 +120,7 @@ export default {
         this.loading = true
         this.getList()
         this.getUnreadCount()
-        this.$emit('triggerCallback')
+        this.$emit('trigger-callback')
       }
     },
     handleDelAll() {
@@ -136,7 +136,7 @@ export default {
               this.loading = true
               this.getList()
               this.getUnreadCount()
-              this.$emit('triggerCallback')
+              this.$emit('trigger-callback')
             }
             done()
           } else {
@@ -181,7 +181,7 @@ export default {
     async getUnreadCount() {
       const result = await getUnreadCount({ tab: this.tab })
       if (result?.code === '200' && result?.data) {
-        this.$emit('unReadCallback', {
+        this.$emit('un-read-callback', {
           unread: result?.data?.notReadNum,
           name: this.tab
         })

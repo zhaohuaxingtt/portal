@@ -123,7 +123,7 @@ export default {
     },
     onJump360 () {
       this.$router.push({
-        path: '/supplier/view-suppliers',
+        path: '/view-suppliers',
         query: {
           current: 1,
           supplierType: 4,
