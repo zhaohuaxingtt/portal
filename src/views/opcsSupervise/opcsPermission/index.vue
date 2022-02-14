@@ -203,7 +203,7 @@ export default {
   computed: {
     stateAdmin() {
       return this.$store.state.permission.userInfo.roleList.some(
-        (item) => item.code == 'ADMIN'
+        (item) => item.code == 'ADMIN'||item.code == 'XTGLY'
       )
     },
     stateOpcs() {
