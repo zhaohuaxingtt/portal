@@ -19,7 +19,7 @@
                         <h3 class="title" v-text="l.categoryName"></h3>
                         <div class="file" v-for="(item,index1) in l.list" :key="item.id">
                             <div class="bell" v-if="item.isNew"></div>
-                            <span class="title-text" @click="openFun(item)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
+                            <span class="title-text" @click="openFun(item, index, index1)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item,index,index1)">
                                     分享
@@ -146,7 +146,6 @@
                 a.remove()
             },
             handLoad(row,i1,i2) {
-                console.log(row, '12345')
                 const a = document.createElement('a')
                 a.download = row.title
                 a.href = `${row.cover}&isDown=true`
@@ -158,8 +157,9 @@
                 this.params.current = 1
                 this.query()
             },
-            openFun(item) {
+            openFun(item, i1, i2) {
                 window.open(item.cover)
+                this.updateIsNew(item.id, i1, i2)
             },
             // 取消最新 new
             async updateIsNew(id,i1,i2){
