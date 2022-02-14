@@ -368,7 +368,6 @@ export default {
     // 报告分发
     openReport () {
       if (this.isSelect()) return
-      this.loadingFlag = true
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
         // iMessage.error(this.$t('SPR_FRM_DEP_CHECKDCSTATUS'))
@@ -380,6 +379,7 @@ export default {
         )
         return
       }
+      this.loadingFlag = true
       // let deepCommentResult = this.currentSelect[0].deepCommentResult
       // let relevantDept = this.currentSelect[0].relevantDept
       // let result1 = this.currentSelect.every(
@@ -398,6 +398,8 @@ export default {
       if (val) {
         this.loadingFlag = false
         this.report = true
+      }else{
+        this.report = false
       }
     },
     // 报告分发确认
