@@ -148,6 +148,7 @@ export default {
                   options={options}
                   valueKey="valueId"
                   labelKey="value"
+                  labelMethod={(item) => `${item.value}【${item.valueId}】`}
                 />
               )
 
@@ -242,6 +243,7 @@ export default {
                   options={options}
                   valueKey="valueId"
                   labelKey="value"
+                  labelMethod={(item) => `${item.value}【${item.valueId}】`}
                 />
               )
               /* return (

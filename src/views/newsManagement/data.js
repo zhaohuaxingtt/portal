@@ -16,7 +16,7 @@ export const newsButtonList = [
     url: '/news/content',
     activePath: '/news/content',
     key: language('NEWS_XWNRGL', '新闻内容管理'),
-    permissionKey: 'ADMIN_NEWS_MANAGEMENT_CONTEN'
+    permissionKey: 'ADMIN_NEWS_MANAGEMENT_CONTENT'
   },
   {
     value: 2,
