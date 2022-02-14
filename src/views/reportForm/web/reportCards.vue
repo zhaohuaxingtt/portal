@@ -48,7 +48,6 @@
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton } from 'rise'
     import { getSectionList } from '@/api/reportForm';
-import { fetchCarTypeLevelSelect } from '@/api/mainData/carProject';
     export default {
         components:{
             pageHeader,
@@ -65,7 +64,7 @@ import { fetchCarTypeLevelSelect } from '@/api/mainData/carProject';
                 },
                 keyword: '',
                 cardsList: [],
-                loading:fetchCarTypeLevelSelect
+                loading: false
             }
         },
         mounted() {
