@@ -259,7 +259,8 @@ export default {
                     if(!form[item.props]) return  iMessage.warn(this.language('LK_AEKO_QINGTIANXIEWANZHENGHOUTIJIAO','请填写完整后提交'));
                     const options = this.$refs['iDicoptions_'+item.props][0].options;
                     data[item.props] = form[item.props];
-                    const descOption = options.filter((o)=>form[item.props] == (o.value || o.name || o.nameEn));
+                    const descOption = options.filter((o)=>form[item.props] == (o.code || o.name || o.nameEn));
+                    console.log(options,descOption,'descOptiondescOption');
                     if(descOption.length == 1){
                          data[item.props+'Desc'] = descOption[0]['describe'];
                     }
