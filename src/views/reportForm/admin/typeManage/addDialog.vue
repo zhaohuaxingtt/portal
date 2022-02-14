@@ -354,6 +354,9 @@ export default {
             this.form = JSON.parse(JSON.stringify(row))
             this.imageUrl = row.cover
             this.form.adminUsers = row.adminUsers.map(e => String(e.id))
+            if (row.organizations.length > 0) {
+                this.form.organizations = row.organizations.map(e => String(e.id))
+            }
             if (this.form.userRange === 15) {
                 this.customFlag = true
             } else {
