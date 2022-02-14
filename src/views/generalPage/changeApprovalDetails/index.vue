@@ -20,7 +20,6 @@
            :title="$t('SUPPLIER_GONGYINGSHANGXINXI')"
            v-loading="loading">
       <template slot="header-control">
-
         <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>
       </template>
       <iFormGroup row="3"
