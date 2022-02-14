@@ -93,8 +93,8 @@ Vue.directive('permission', {
       if (directConstant !== 0) return false
     }
     
-    console.log(store.state.location.menuList1)
-    console.log(store.state.location.menuList2)
+    // console.log(store.state.location.menuList1)
+    // console.log(store.state.location.menuList2)
 
 
 
@@ -115,7 +115,7 @@ Vue.directive('permission', {
           var num = 0
           insertedOldNodesListNew.forEach((e) => {
             if (e.innerText.trim() === path.meta.title.trim()) {
-              console.log(e.innerText.trim())
+              // console.log(e.innerText.trim())
               num++
             }
           })
@@ -125,11 +125,11 @@ Vue.directive('permission', {
         }
       }
       var menu3 = document.querySelectorAll('.lev2>div') //继续判断三级菜单
-      console.log(menu3)
+      // console.log(menu3)
       var str = 0
       store.state.location.menuList2.forEach((e) => {
         if (e.innerText.trim() === path.meta.title.trim()) {
-          console.log(e.innerText.trim())
+          // console.log(e.innerText.trim())
           str++
         }
       })
@@ -138,7 +138,7 @@ Vue.directive('permission', {
           var j = 0
           menu3.forEach((e) => {
             if (e.innerText.trim() === path.meta.title.trim()) {
-              console.log(e.innerText.trim())
+              // console.log(e.innerText.trim())
               j++
             }
           })
