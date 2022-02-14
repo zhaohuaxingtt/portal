@@ -31,20 +31,22 @@
       </div>
     </div>
 
-
     <!-- 表格 -->
-     <!-- v-show="false" -->
-    <el-row :gutter="50" v-show="echartsType">
+    <!-- v-show="false" -->
+    <el-row :gutter="50"
+            v-show="echartsType">
       <el-col :span="14">
         <!-- 主营业务及客户情况 -->
         <iCard title="主营业务及客户情况"
                class="margin-top20">
           <el-row :gutter="10">
             <el-col :span="12">
-              <ring id="myChart" :chartData="info.mainCustomerList" />
+              <ring id="myChart"
+                    :chartData="info.mainCustomerList" />
             </el-col>
             <el-col :span="12">
-              <ring id="myChart" :chartData="info.mainProductList" />
+              <ring id="myChart"
+                    :chartData="info.mainProductList" />
             </el-col>
           </el-row>
         </iCard>
@@ -52,17 +54,15 @@
       <el-col :span="10">
         <iCard title="TO情况"
                class="margin-top20">
-          <bar id="myChart" :chartData="info.toList" />
+          <bar id="myChart"
+               :chartData="info.toList" />
         </iCard>
       </el-col>
     </el-row>
-    <img
-      class="car_img"
-       v-show="echartsType"
-      :src="imgUrl==1?require('@/assets/images/红@3x.png'):imgUrl==2?require('@/assets/images/黄@3x.png'):imgUrl==3?require('@/assets/images/绿灯.png'):''"
-      :fit="fit"
-    />
-
+    <img class="car_img"
+         v-show="echartsType"
+         :src="imgUrl==1?require('@/assets/images/红@3x.png'):imgUrl==2?require('@/assets/images/黄@3x.png'):imgUrl==3?require('@/assets/images/绿灯.png'):''"
+         :fit="fit" />
 
     <basic :disabled="disabled"
            v-if="currentNav==1"
@@ -75,15 +75,15 @@
 </template>
 
 <script>
-import { iPage, iNavMvp, iButton,iCard,iMessage } from 'rise';
+import { iPage, iNavMvp, iButton, iCard, iMessage } from 'rise';
 import { interViewTabList } from './data';
 import basic from './components/basic';
 import business from './components/business';
 import finance from './components/finance';
-import { postExamine,getCompanyOverview,getSummarize,exportDeep } from '@/api/frmRating/depthRating/depthReport.js'
+import { postExamine, getCompanyOverview, getSummarize, exportDeep } from '@/api/frmRating/depthRating/depthReport.js'
 import { depthReportRouter } from "../components/data"
 
-import { domSave,imgSave } from "@/utils/utils"
+import { domSave, imgSave } from "@/utils/utils"
 import ring from './components/ring'
 import bar from './components/bar'
 export default {
@@ -108,12 +108,12 @@ export default {
       status: '',
 
 
-      info:{
+      info: {
         supplier: {}
       },
-      imgUrl:'',
-      echartsType:true,
-      loading:null
+      imgUrl: '',
+      echartsType: true,
+      loading: null
     };
   },
   computed: {
@@ -121,7 +121,7 @@ export default {
       return { id: this.id, name: this.name, supplierId: this.supplierId, status: this.status }
     }
   },
-  created(){
+  created () {
     this.loading = this.$loading({
       lock: true,
       text: 'Loading',
@@ -143,7 +143,7 @@ export default {
       getSummarize(this.$route.query.id, 'zh').then((result) => {
         if (result.data) {
           let color = result.data.deepCommentRatingResults;
-          switch(color){
+          switch (color) {
             case "RED":
               this.imgUrl = 1
               break;
@@ -153,7 +153,7 @@ export default {
             case "GREEN":
               this.imgUrl = 3
               break;
-            case "GREEN":
+            case "":
               this.imgUrl = ""
               break;
           }
@@ -195,12 +195,12 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       });
       exportDeep({
-        deepCommentSupplierId:this.$route.query.id,
-        oneImage:echartsBase64[0].split(",")[1],
-        twoImage:echartsBase64[1].split(",")[1],
-        threeImage:echartsBase64[2].split(",")[1],
-        results:imgBase64[0].split(",")[1]
-      }).then(res=>{
+        deepCommentSupplierId: this.$route.query.id,
+        oneImage: echartsBase64[0].split(",")[1],
+        twoImage: echartsBase64[1].split(",")[1],
+        threeImage: echartsBase64[2].split(",")[1],
+        results: imgBase64[0].split(",")[1]
+      }).then(res => {
         let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
@@ -212,7 +212,7 @@ export default {
         link.parentNode.removeChild(link);
         iMessage.success("导出成功！")
         loading.close();
-      }).catch(red=>{
+      }).catch(red => {
         loading.close();
       })
     },
@@ -264,8 +264,8 @@ export default {
   font-size: 20px;
   color: $color-black;
 }
-.car_img{
+.car_img {
   width: 12px;
-  height:12px;
+  height: 12px;
 }
 </style>

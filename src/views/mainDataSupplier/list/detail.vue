@@ -37,6 +37,7 @@
     />
     <theDetailSupplierUser
       :supplierId="supplierId"
+      :supplier-type="supplierType"
       class="margin-bottom20"
       id="targetUser"
       :ruleCode="baseInfo.ruleCode"

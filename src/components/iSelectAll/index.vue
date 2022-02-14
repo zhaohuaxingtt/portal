@@ -29,8 +29,8 @@
       <el-option
         v-for="item in options"
         :key="item[valueKey]"
-        :label="`${item[labelKey]}`"
         :value="item[valueKey]"
+        :label="getLabel(item)"
       >
       </el-option>
     </iSelect>
@@ -61,6 +61,9 @@ export default {
     labelKey: {
       type: String,
       default: 'label'
+    },
+    labelMethod: {
+      type: Function
     }
   },
   data() {
@@ -75,6 +78,12 @@ export default {
     }
   },
   methods: {
+    getLabel(item) {
+      if (this.labelMethod) {
+        return this.labelMethod(item)
+      }
+      return item[this.labelKey]
+    },
     checkAll(val, event) {
       event.stopPropagation()
       console.log(val)

@@ -69,7 +69,6 @@ export default {
       // 当前route的兄弟菜单
       const pathMenus =
         this.getSiblingMenus(this.fullMenus, path, menuType, activePath) || []
-      console.log('没有这个菜单呀', this.$route)
       const isDetailPage =
         Object.keys(query).length !== 0 ||
         path.includes('add') ||
