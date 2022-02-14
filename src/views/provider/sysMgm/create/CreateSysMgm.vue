@@ -78,7 +78,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8" v-if="formData.systemType === '2'">
+            <el-col :span="8">
               <iFormItem
                 :label="$t('URL')"
                 :prop="formData.systemType === '2' ? 'url' : ''"
