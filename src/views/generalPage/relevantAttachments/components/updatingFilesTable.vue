@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-30 18:23:20
- * @LastEditors: YoHo
+ * @LastEditTime: 2022-02-14 16:50:23
+ * @LastEditors: Please set LastEditors
  * @Description: 相关附件
 -->
 <template>
@@ -37,6 +37,7 @@
                 :disabled="disabled" />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
+                       :id=currentTemplateId
                        :loading="attachmentLoading"
                        v-model="attachmentDialog"
                        :disableButton="disableButton" />
