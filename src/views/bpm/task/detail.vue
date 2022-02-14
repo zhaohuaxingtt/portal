@@ -195,7 +195,7 @@ export default {
       agreeType: 1, // 审批结果 1同意；2拒绝；3补充材料
       taskDetail: {},
       flowFormUrl: '',
-      processUrlPortal:process.env.VUE_APP_POINT_PORTAL,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       attachColumns: [
         {
           type: 'selection',
@@ -253,6 +253,7 @@ export default {
   },
   methods: {
     replaceUrl() {
+      console.log('replaceUrl')
       const { instanceId, taskId } = this.$route.params
       this.$router.replace({
         name: 'bpmTaskFinishDetail',
@@ -293,7 +294,6 @@ export default {
               this.form.histories = histories
 
               this.flowFormUrl = data.formUrl
- 
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }
@@ -358,9 +358,11 @@ export default {
       }
     },
     approvelSuccess() {
-      // this.getDetail()
+      if (window.opener) {
+        window.opener.location.reload()
+      }
       this.dialogApprovalVisible = false
-      this.$router.go(-1)
+      this.replaceUrl()
     },
     //导出
     exportTemplate() {

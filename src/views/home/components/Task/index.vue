@@ -96,10 +96,10 @@ export default {
       ) {
         const { todayLink, overdueLink } = this.urls[item.taskType]
         // window.open(overdueLink || todayLink, '_blank')
-        window.open( todayLink || overdueLink, '_blank')
+        window.open(todayLink || overdueLink, '_blank')
       } else {
         // window.open(item.overdueLink || item.todayLink, '_blank')
-        window.open(item.todayLink|| item.overdueLink , '_blank')
+        window.open(item.todayLink || item.overdueLink, '_blank')
       }
     },
     async queryAllData() {
@@ -108,7 +108,7 @@ export default {
 
       if (result) {
         result.forEach((task) => {
-          task.taskCenterDtoList.forEach((e) => {
+          task?.taskCenterDtoList?.forEach((e) => {
             this.valueNumbers[e.taskType] = e
             this.urls[e.taskType] = {
               todayLink: e.todayLink,
