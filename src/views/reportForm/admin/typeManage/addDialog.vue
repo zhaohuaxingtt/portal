@@ -312,10 +312,12 @@ export default {
             this.$refs.typeForm.validate(async v => {
                 if (v) {
                     try {
-                        if (this.customFlag) {
-                            this.form.users = this.form.users && this.form.users.map(e => e.id)
-                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
-                        }
+                        // if (this.customFlag) {
+                        //     this.form.users = this.form.users && this.form.users.map(e => e.id)
+                        //     this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
+                        // }
+                        this.form.users = this.form.users && this.form.users.map(e => e.id)
+                        this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
                         if (this.operateType === 'add') {
                             this.form.cover = this.imageUrl
                             this.loading = true
