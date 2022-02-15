@@ -51,9 +51,9 @@
                          value-key="modelNameZh">
                 </custom-select>
             </iFormItem>
-            <iFormItem prop="supplierId">
+            <iFormItem prop="sapCode">
                 <iLabel :label="language('GONGYINGSHANGBIANHAO','供应商编号')" slot="label" :required="true"></iLabel>
-                <i-select v-model="contractForm.supplierId"
+                <i-select v-model="contractForm.sapCode"
                          clearable
                          filterable
                          :placeholder="language('QINGSHURU', '请输入')"
@@ -471,7 +471,7 @@ export default {components: {
             effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }],
             carline: [{ required: true, message: '请选择', trigger: 'blur' }],
-            supplierId: [{ required: true, message: '请选择', trigger: 'blur' }],
+            sapCode: [{ required: true, message: '请选择', trigger: 'blur' }],
             supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
@@ -660,7 +660,7 @@ export default {components: {
         this.supplierType1 = true;
         if(value == ""){
             this.contractForm.supplierName = "";
-            this.contractForm.supplierId = "";
+            this.contractForm.sapCode = "";
             setTimeout(() => {
                 this.supplierType1 = false;
             }, 100);
@@ -671,7 +671,7 @@ export default {components: {
                     console.log(e.message,5555555555)
                     console.log(value,5555555555)
                     this.contractForm.supplierName = e.message;
-                    this.contractForm.supplierId = value;
+                    this.contractForm.sapCode = value;
                     setTimeout(() => {
                         this.supplierType1 = false;
                     }, 100);
@@ -687,7 +687,7 @@ export default {components: {
         this.supplierType2 = true;
         if(value == ""){
             this.contractForm.supplierName = "";
-            this.contractForm.supplierId = "";
+            this.contractForm.sapCode = "";
             setTimeout(() => {
                 this.supplierType2 = false;
             }, 100);
@@ -698,7 +698,7 @@ export default {components: {
                     // console.log(e.code,2222222)
                     // console.log(value,2222222)
                     this.contractForm.supplierName = value;
-                    this.contractForm.supplierId = e.code;
+                    this.contractForm.sapCode = e.code;
                     setTimeout(() => {
                         this.supplierType2 = false;
                     }, 100);

@@ -90,6 +90,10 @@ export default {
   },
   methods: {
     handleRouterClick() {
+      window.sessionStorage.setItem(
+        'seconedPerminssionKey',
+        this.item.permissionKey
+      )
       this.$emit('hide-side-menu')
     }
   }

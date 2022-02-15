@@ -109,7 +109,7 @@ export const continueBox = [
   { width: 150, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
   {
     width: 150,
-    props: 'supplierId',
+    props: 'sapCode',
     name: '供应商编号',
     key: 'GONGYINGSHANGBIANHAO'
   },

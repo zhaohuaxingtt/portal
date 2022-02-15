@@ -207,7 +207,6 @@ export default {
       var context = canvas.getContext('2d')
       context.scale(2, 2)
       context.translate(-eleOffsetLeft - abs, -eleOffsetTop)
-      console.time('aaa')
       html2canvas(el, {
         dpi: 96, //分辨率
         scale: 2, //设置缩放
@@ -217,13 +216,10 @@ export default {
         logging: false //打印日志用的 可以不加默认为false
       })
         .then((canvas) => {
-          console.timeEnd('aaa')
           el.style.opacity = 0
           el.setAttribute('crossOrigin', 'anonymous')
           var contentWidth = canvas.width
           var contentHeight = canvas.height
-          console.log('contentWidth', contentWidth)
-          console.log('contentHeight', contentHeight)
           //一页pdf显示html页面生成的canvas高度;
           var pageHeight = (contentWidth / 592.28) * 641.89
           //未生成pdf的html页面高度
