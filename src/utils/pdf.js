@@ -168,6 +168,7 @@ export function transverseDownloadPDF({//html横向导出pdf
     backgroundColor:'#ffffff',//这样背景还是黑的
     logging: false, //打印日志用的 可以不加默认为false
   }).then((canvas) => {
+    // console.log(canvas)
     var contentWidth = canvas.width//
     var contentHeight = canvas.height//
     // console.log(contentHeight)
