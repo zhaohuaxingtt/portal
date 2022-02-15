@@ -85,10 +85,14 @@ export default {
           item.publishDate = item.publishDate.split(/\s+/)[0]
         })
       }
-      if (Object.keys(this.firstNews).length == 0 && res.data.length > 0) {
+      if (
+        Object.keys(this.firstNews).length == 0 &&
+        res.data &&
+        res.data.length > 0
+      ) {
         this.firstNews = res.data[0]
       }
-      if (res.data.length > 0 && res) {
+      if (res && res.data && res.data.length > 0) {
         this.page = res.pages
         this.newsList = [...this.newsList, ...res.data]
         this.middleListL = this.newsList.slice(1)
