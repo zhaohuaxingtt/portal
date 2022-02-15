@@ -312,6 +312,8 @@ export default {
     },
     // 生成贝塞尔曲线
     handleRecursion (data, viewType) {
+      console.log(data)
+      console.log(this.marker)
       data.forEach((item, index) => {
         this.marker.forEach((val, i) => {
           if (item.address.lon && item.address.lat) {
