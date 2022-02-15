@@ -2216,6 +2216,8 @@
     LK_SHANGYINIANSHUJUDUIBI:'上一年数据对比',//上一年数据对比
     LK_ZONGJINE:'总金额:',//总金额
     LK_MTZCAILIAOZU: 'MTZ材料组',//MTZ材料组
+    LK_MTZKESHIYUSUANFUZEREN: 'MTZ科室预算负责人', //MTZ科室预算负责人
+    LK_MTZYUSUANGUANLIYUAN: 'MTZ预算管理员', //MTZ预算管理员
     LK_CAILIAOZHONGLEI:'材料中类',//材料中类
     LK_BIJIAOBANBEN:'比较版本',//比较版本
     LK_YUEFENBIJIAO:'月份比较',//月份比较
