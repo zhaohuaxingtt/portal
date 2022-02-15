@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-25 18:16:13
+ * @LastEditTime: 2022-02-15 09:17:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -203,7 +203,7 @@ export default {
   computed: {
     stateAdmin() {
       return this.$store.state.permission.userInfo.roleList.some(
-        (item) => item.code == 'ADMIN'||item.code == 'XTGLY'
+        (item) => item.code == 'ADMIN'||item.code == 'XTGLY'||item.code == 'CSXTGLY'
       )
     },
     stateOpcs() {
