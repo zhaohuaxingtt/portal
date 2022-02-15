@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-30 18:23:20
+ * @LastEditTime: 2022-02-15 11:16:39
  * @LastEditors: YoHo
  * @Description: 相关附件
 -->
@@ -37,6 +37,7 @@
                 :disabled="disabled" />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
+                       :id=currentTemplateId
                        :loading="attachmentLoading"
                        v-model="attachmentDialog"
                        :disableButton="disableButton" />
@@ -93,6 +94,9 @@ export default {
     supplierId () {
       return this.$store.state.baseInfo.baseMsg.ppSupplierDTO.id
     },
+    supplierIdMain () {
+      return this.$store.state.baseInfo.baseMsg.supplierDTO.id
+    },
   },
   created () {
     this.getTableList()
@@ -132,14 +136,15 @@ export default {
       }
     },
     async publish (row) {
-      if (!this.supplierId) {
+      if (!this.supplierId&&this.supplierIdMain) {
         iMessage.error('供应商id获取失败')
         return
       }
       await this.purchaseTerms()
       if (this.disabled) return
       let query = {
-        supplierId: this.supplierId
+        supplierId: this.supplierId,
+        supplierIdMain: this.supplierIdMain
       }
       const router = this.$router.resolve({ path: '/clausepage/item', query })
       window.open(router.href, '_blank')

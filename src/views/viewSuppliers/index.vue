@@ -1,10 +1,17 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-02-07 10:34:39
+ * @LastEditTime: 2022-02-14 17:18:52
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\views\viewSuppliers\index.vue
+-->
 <template>
   <div class="viewSuppliers">
-    <supplierViewTab
-      class="margin-bottom20"
-      @handleClick="handleTabClick"
-      :current="current"
-    />
+    <supplierViewTab class="margin-bottom20"
+                     v-if="flag"
+                     @handleClick="handleTabClick"
+                     :current="current" />
     <log-button class="logButton" />
     <supplier360-page v-if="current === 1" />
   </div>
@@ -21,16 +28,24 @@ export default {
     supplier360Page,
     logButton
   },
-  data() {
+  data () {
     return {
       tab: 'supplier360',
-      current: 1
+      current: 1,
+      flag: true
     }
   },
   methods: {
-    handleTabClick(index) {
+    handleTabClick (index) {
       this.current = index
     }
+  },
+  mounted () {
+    console.log(this.$route)
+    if (this.$route.path === '/view-suppliers') {
+      this.flag = false
+    }
+
   }
 }
 </script>

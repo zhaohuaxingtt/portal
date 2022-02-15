@@ -177,6 +177,7 @@ module.exports = {
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
         target: `http://${BASE_IP}:8010/supplierservice`,
+        // target: 'http://rise-nginx-internal.apps.vmocp-uat.csvw.com/supplierApi',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''
