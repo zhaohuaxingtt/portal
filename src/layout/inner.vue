@@ -69,6 +69,8 @@ export default {
       // 当前route的兄弟菜单
       const pathMenus =
         this.getSiblingMenus(this.fullMenus, path, menuType, activePath) || []
+
+      console.log('pathMenus', pathMenus)
       const isDetailPage =
         Object.keys(query).length !== 0 ||
         path.includes('add') ||
@@ -193,12 +195,14 @@ export default {
     // url 没有对应菜单的时候，出来方式
     fixedNoHasAuthMenu() {
       const { matched, path } = this.$route
+      console.log('fixedNoHasAuthMenu', matched, path)
       let parentPath = ''
       for (let i = 0; i < matched.length; i++) {
         const element = matched[i]
         if (element.redirect === path) {
-          console.log('-----', element.redirect, path)
+          console.log('-----', element.redirect, element.path)
           parentPath = element.path
+          break
         } else {
           parentPath = path //d
         }
