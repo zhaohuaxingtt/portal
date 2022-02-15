@@ -86,17 +86,17 @@ Vue.directive('permission', {
   componentUpdated: function () {
     // return false;
 
-    if(store.state.location.menuList1.length == 0 && store.state.location.menuList2.length == 0){
-      
-    }else{
+    if (
+      store.state.location.menuList1.length == 0 &&
+      store.state.location.menuList2.length == 0
+    ) {
+    } else {
       var directConstant = store.state.location.directConstant
       if (directConstant !== 0) return false
     }
-    
+
     // console.log(store.state.location.menuList1)
     // console.log(store.state.location.menuList2)
-
-
 
     // store.commit('setNumberAdd', '')
     var insertedOldNodesListNew = [] //二级菜单new
@@ -105,7 +105,7 @@ Vue.directive('permission', {
       var path = store.state.location.nowSetToPath
       var number = 0
       store.state.location.menuList1.forEach((e) => {
-        if (e.innerText.trim() === path.meta.title.trim()) {
+        if (e?.innerText?.trim() === path?.meta?.title?.trim()) {
           number++
         }
       })
@@ -114,7 +114,7 @@ Vue.directive('permission', {
         if (insertedOldNodesListNew.length > 0) {
           var num = 0
           insertedOldNodesListNew.forEach((e) => {
-            if (e.innerText.trim() === path.meta.title.trim()) {
+            if (e?.innerText?.trim() === path?.meta?.title?.trim()) {
               // console.log(e.innerText.trim())
               num++
             }
