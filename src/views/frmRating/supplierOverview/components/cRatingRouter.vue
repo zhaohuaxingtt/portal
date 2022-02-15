@@ -137,7 +137,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item v-if="tabVal == 2"
-                      :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
+                      :label="$t('LK_LINGJIANZHUANGTAI')">
           <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                    v-model.trim="form.rfqStatus"
                    multiple>

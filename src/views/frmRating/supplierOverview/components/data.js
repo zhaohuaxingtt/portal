@@ -112,8 +112,8 @@ export const tableTitleMonitorRecord = [
   },
   {
     props: 'rfqStatus',
-    name: '供应商状态',
-    key: 'GONGYINGSHANGZHUANGTAI',
+    name: '零件状态',
+    key: 'LINGJIANZHUANGTAI',
     tooltip: true,
     width: 150
   },
