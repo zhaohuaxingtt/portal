@@ -49,7 +49,20 @@
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
     import Dialog from './../components/dialog.vue';
-    import {queryReportContentList, updateIsNew} from '@/api/reportForm';
+    import {queryReportContentList, updateIsNew, downLoadFileName } from '@/api/reportForm';
+    const fileType = {
+        'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'xls': 'application/vnd.ms-excel',
+        'doc': 'application/msword',
+        'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'pdf': 'application/pdf',
+        'ppt': 'application/vnd.ms-powerpoint',
+        'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'png': 'image/png',
+        'gif': 'image/gif',
+        'jpeg': 'image/jpeg',
+        'jpg': 'image/jpeg',
+    }
     export default {
         components:{
             pageHeader,
@@ -145,12 +158,31 @@
                 a.click()
                 a.remove()
             },
-            handLoad(row,i1,i2) {
-                const a = document.createElement('a')
-                a.download = row.title
-                a.href = `${row.cover}&isDown=true`
-                a.click()
-                a.remove()
+            async handLoad(row,i1,i2) {
+                // const a = document.createElement('a')
+                // a.download = row.title
+                // a.href = `${row.cover}&isDown=true`
+                // a.click()
+                // a.remove()
+                let id = row.cover.split("=")[1] + ''
+                let type = row.source.substring(row.source.lastIndexOf('.')+1).toLowerCase() || 'png'
+                let params = {
+                    fileIds: [id],
+                    fileName: row.title
+                }
+                let formData = new FormData()
+                Object.keys(params).forEach(item => {
+                    formData.append(item, params[item])
+                })
+                await downLoadFileName(formData).then(res => {
+                    if (res) {
+                        const a = document.createElement('a')
+                        a.download = row.title
+                        a.href = window.URL.createObjectURL(new Blob([res], { type: fileType[type]}))
+                        a.click()
+                        a.remove()
+                    }
+                })
                 this.updateIsNew(row.id,i1,i2)
             },
             handleIconClick() {

@@ -2,6 +2,7 @@ import axios from '@/utils/axios'
 
 // 供应商管理网络请求模块
 const requst = axios(process.env.VUE_APP_ADMIN_PROCS)
+const requstUpload = axios(process.env.VUE_APP_FILEAPI+ '/fileud')
 
 export function listReports(id) {
     return requst({
@@ -227,5 +228,15 @@ export function organizationsListData(data) {
         url: `/master/organizations.json`,
         method: 'get',
         params: data
+    })
+}
+
+// 下载文件自定名
+export function downLoadFileName(data) {
+    return requstUpload({
+        url: `/udDownWithName`,
+        method: 'post',
+        data,
+        formData: true
     })
 }
