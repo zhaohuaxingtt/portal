@@ -133,7 +133,13 @@ export const SUPPLIER_TECHNOLOGY = [
           </BDLSelect>
         )
       }else if(scope.row.createBy){
-        return scope.row.bdlType
+        let name = ''
+         extraData.bdlOption.map(e=>{
+          if(e.code == scope.row.bdlType){
+            name = e.name
+          }
+        })
+        return name
       }else{
         return (
           <BDLSelect row={scope.row} bdlOption={extraData.bdlOption}>

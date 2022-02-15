@@ -5,15 +5,21 @@
             <div class="flex-1 mr20" style="overflow: hidden;">
                 <div class="flex justify-between items-center">
                     <div class="flex flex-1">
-                        <span class="process-tab" v-for="tab in tabs[activeView]" :key="tab.value" :class="{active:activeName == tab.value}" @click="tabChange(tab.value)"><i :class="[tab.icon]"></i> {{tab.name}}</span>
+                        <span class="process-tab" v-for="tab in tabs[activeView]" :key="tab.value" :class="{active:activeName == tab.value}" @click="tabChange(tab.value)">
+                            <!-- <i :class="[tab.icon]"></i>  -->
+                            <img :src="activeView==='list' ? activeName==='all' ? tab.activeSvg : tab.defaultSvg : activeName==='my' ? tab.defaultSvg : tab.activeSvg" />
+                            {{tab.name}}
+                        </span>
                     </div>
 
                     <div class="flex head-r">
                         <span class="icon" :class="{active: activeView == 'list'}" @click="typeChange('list')">
-                            <i class="el-icon-s-operation"></i>
+                            <!-- <i class="el-icon-s-operation"></i> -->
+                            <img :src="activeView == 'list' ? require('@/assets/images/allProcesses-selected.svg') : require('@/assets/images/allProcesses.svg')" />
                         </span>
                         <span class="icon" :class="{active: activeView == 'draw'}" @click="typeChange('draw')">
-                            <i class="el-icon-picture"></i>
+                            <!-- <i class="el-icon-picture"></i> -->
+                            <img :src="activeView == 'draw' ? require('@/assets/images/flowchartActive.svg') : require('@/assets/images/flowChart.svg')" />
                         </span>
                     </div>
                 </div>
@@ -87,8 +93,8 @@
             return {
                 tabs:{
                     list:[
-                        {name:'全部流程',value:"all",icon:"el-icon-bangzhu"},
-                        {name:'我的流程',value:"my",icon:"el-icon-picture"}
+                        {name:'全部流程',value:"all",icon:"el-icon-bangzhu", activeSvg: require('@/assets/images/allProcess-active.svg'), defaultSvg: require('@/assets/images/allProcess.svg')},
+                        {name:'我的流程',value:"my",icon:"el-icon-picture", activeSvg: require('@/assets/images/myFlow.svg'), defaultSvg: require('@/assets/images/myFlowActive.svg')}
                     ],
                     draw:[
                         {name:'流程图',value:"draw",icon:"el-icon-bangzhu"}
@@ -220,6 +226,8 @@
 @import "./../comon";
 
 .process-tab{
+    display: flex;
+    align-items: center;
     padding: 10px 20px;
     font-size: 18px;
     color:#777777;
@@ -246,10 +254,10 @@
             cursor: pointer;
             color: #777;
             border-radius: 4px;
-            transition: all .2s ease;
+            // transition: all .2s ease;
             &.active{
-                background-color: #1660F1;
-                color: #fff;
+                // background-color: #1660F1;
+                // color: #fff;
             }
         }
     }
@@ -273,6 +281,10 @@
         &:hover{
             box-shadow: 0 0 10px rgba($color: red, $alpha: .5);
         }
+    }
+    .proAll {
+        height: 26px;
+        width: 32px;
     }
    
 }

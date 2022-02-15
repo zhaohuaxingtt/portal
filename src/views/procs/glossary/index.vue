@@ -113,7 +113,7 @@
                 try {
                     this.loading = true
                     this.detail = await queryGlossaryDetail(id)
-                    if (this.detail.workFlow && this.detail.workFlow.length > 0) {
+                    if (this.detail.workFlows && this.detail.workFlows.length > 0) {
                         this.showProcessFlag = true
                     } else {
                         this.showProcessFlag = false

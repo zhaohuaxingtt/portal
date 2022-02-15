@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-02-11 10:46:22
+ * @LastEditTime: 2022-02-15 11:15:43
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -162,6 +162,9 @@ export default {
       // return 123
       return this.$route.query.supplierId || '-1'
     },
+    supplierIdMain(){
+      return this.$route.query.supplierIdMain || ''
+    },
     userId(){
       return this.$store.state.permission.userInfo.id
     },
@@ -173,12 +176,14 @@ export default {
     this.getProcurementInfo()
     if(!this.readOnly){
       this.getSelectData()
-      certificate({supplierIds:this.supplierId}).then(res=>{
-        if(res?.code=='200'){
-          let item = res.data[0]
-          this.signStatus = item.identifyStatus
-        }
-      })
+      if(this.supplierIdMain){
+        certificate({supplierIds:this.supplierIdMain}).then(res=>{
+          if(res?.code=='200'){
+            let item = res.data[0]
+            this.signStatus = item.identifyStatus
+          }
+        })
+      }
     }
   },
   methods: {

@@ -21,7 +21,7 @@
     <div class="ekl-content">
       <div class="target flex-between-center-center">
         <div class="left">
-          <div class="left-lab panel-title margin-bottom12">业绩目标</div>
+          <div class="panel-title margin-bottom12"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">业绩目标</a></div>
           <el-select
             class="left-select"
             v-model="query.type"
@@ -139,7 +139,10 @@ export default {
       code: (code) => code.permission.code,
       eklPfjTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
-    })
+    }),
+    turnUrl() {
+      return window.location.origin
+    }
   },
   watch: {
     eklAffixTabItem() {
@@ -299,6 +302,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.a-title {
+  color: #1763F7;
+  cursor: pointer;
+  text-decoration: underline;
+}
 .panel-title {
   font-family: Arial;
   font-weight: bold;
