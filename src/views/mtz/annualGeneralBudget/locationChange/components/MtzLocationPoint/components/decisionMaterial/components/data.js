@@ -71,7 +71,8 @@ export const ruleTableTitle1_1 = [//决策资料规则清单暂用
     minWidth:102
   },
   {
-    props: 'materialGroup',
+    // props: 'materialGroup',
+    props: 'materialGroupName',
     name: 'MTZ-材料组',
     key: 'MTZGANGCAILIAOZU',
     overlap:true,

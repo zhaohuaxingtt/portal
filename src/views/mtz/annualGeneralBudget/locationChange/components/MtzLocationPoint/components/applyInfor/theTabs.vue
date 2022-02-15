@@ -113,7 +113,7 @@
                            :value="item.materialGroupCode">
                 </el-option>
               </el-select>
-              <span v-else>{{scope.row.materialGroup}}</span>
+              <span v-else>{{scope.row.materialGroupName}}</span>
             </el-form-item>
           </template>
         </el-table-column>
