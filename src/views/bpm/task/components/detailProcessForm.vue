@@ -102,14 +102,14 @@ export default {
   },
   computed: {
     url() {
-      return "http://localhost:8080/portal/#/approval/frmRatingApproval/depthReportApproval?id=277&name=苏州和泰模塑有限公司"
-      // if (!this.flowFormUrl) {
-      //   return ''
-      // }
-      // if (this.flowFormUrl && this.flowFormUrl.indexOf('http') > -1) {
-      //   return this.flowFormUrl
-      // }
-      // return 'http://' + this.flowFormUrl
+      // return "http://localhost:8080/portal/#/approval/frmRatingApproval/depthReportApproval?id=277&name=苏州和泰模塑有限公司"
+      if (!this.flowFormUrl) {
+        return ''
+      }
+      if (this.flowFormUrl && this.flowFormUrl.indexOf('http') > -1) {
+        return this.flowFormUrl
+      }
+      return 'http://' + this.flowFormUrl
     }
   },
   data() {
