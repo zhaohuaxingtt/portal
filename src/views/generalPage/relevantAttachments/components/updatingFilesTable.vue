@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-02-15 11:13:59
+ * @LastEditTime: 2022-02-15 11:16:39
  * @LastEditors: YoHo
  * @Description: 相关附件
 -->
@@ -99,7 +99,6 @@ export default {
     },
   },
   created () {
-    console.log(this.$store.state.baseInfo);
     this.getTableList()
     this.purchaseTerms()
   },
