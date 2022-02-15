@@ -9,7 +9,7 @@
       :supplier-type="supplierType"
       :supplierId="supplierId"
       :dicts="dicts"
-      @the-detail-base-query='query'
+      @the-detail-base-query="query"
     />
     <theDetailSupplierState
       class="margin-bottom20"
@@ -18,7 +18,7 @@
       :supplier-type="supplierType"
       :supplierId="supplierId"
       :dicts="dicts"
-      @detail-supplier-state='query'
+      @detail-supplier-state="query"
     />
     <theDetailFactory
       class="margin-bottom20"
@@ -102,7 +102,7 @@ export default {
   methods: {
     query() {
       const { id } = this.$route.query
-      console.log(id,'--------');
+      console.log(id, '--------')
       if (id) {
         this.loading = true
         fetchSupplier({ id })
@@ -134,8 +134,8 @@ export default {
               this.supplierPlantVo = supplierPlantVo || []
 
               this.bankForm = settlementBankVo || { ...BANK_FORM }
-              this.supplierId = supplierVo.id
               this.mainSupplierId = supplierVo.id
+              /* this.supplierId = supplierVo.id
               this.baseInfo = {
                 ...supplierVo,
                 isListing: supplierVo.isListing && supplierVo.isListing + '',
@@ -147,7 +147,7 @@ export default {
                 supplierProductVos: supplierProductVos || [], // 关联公司
                 supplierCorpVo: supplierCorpVo || [] // 关联集团
               }
-              this.supplierType = 'PD' // 公用
+              this.supplierType = 'PD' // 公用 */
               this.contacts = supplierContactVos || []
 
               if (supplierVo.supplierType === 'GP' && gpSupplierVo) {
@@ -181,6 +181,23 @@ export default {
                   supplierCorpVo: supplierCorpVo || [] // 关联集团
                 }
                 this.supplierType = 'PP' // 生产
+              }
+              // CRW-4378[供应商主数据管理]供应商信息详情页，用户列表为空
+              if (supplierVo.supplierType === 'PD') {
+                const vo = ppSupplierVo || gpSupplierVo
+                this.supplierId = vo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...vo,
+                  isListing: vo.isListing && vo.isListing + '',
+                  isForeignManufacture:
+                    vo.isForeignManufacture && vo.isForeignManufacture + '',
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                }
+                this.supplierType = 'PD'
               }
             } else {
               iMessage.error(res.desZh || '获取数据失败')

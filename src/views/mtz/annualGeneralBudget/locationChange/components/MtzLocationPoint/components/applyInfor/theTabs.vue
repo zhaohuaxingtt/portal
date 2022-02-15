@@ -113,7 +113,7 @@
                            :value="item.materialGroupCode">
                 </el-option>
               </el-select>
-              <span v-else>{{scope.row.materialGroup}}</span>
+              <span v-else>{{scope.row.materialGroupName}}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -144,14 +144,14 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="supplierId"
+        <el-table-column prop="sapCode"
                          align="center"
                          width="150"
                          :label="language('GONGYINGSHANGBIANHAO','供应商编号')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'supplierId'"
-                          :rules="formRules.supplierId ? formRules.supplierId : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+                          :rules="formRules.sapCode ? formRules.sapCode : ''">
               <!-- <el-select v-model="scope.row.supplierId"
                             clearable
                             filterable
@@ -166,7 +166,7 @@
                                 :value="item.code">
                             </el-option>
                         </el-select> -->
-              <spa>{{scope.row.supplierId}}</spa>
+              <spa>{{scope.row.sapCode}}</spa>
             </el-form-item>
           </template>
         </el-table-column>
@@ -1167,6 +1167,7 @@ export default {
       })
     },
     handleSelectionChange (val) {
+      console.log(val)
       this.selectList = val;
     },
     // supplierBH (arr, value) {

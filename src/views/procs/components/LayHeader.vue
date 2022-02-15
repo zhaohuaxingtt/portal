@@ -3,7 +3,7 @@
         <pageHeader class="title">
 			{{language(title)}}
 		</pageHeader>
-		<el-image class="banner" src="http://cnsvwshvm1416.csvw.com/upload/2018/07/02/NewsMeta_1352250_Cover.jpg" lazy fit="fill"></el-image>
+		<img class="banner" src="@/assets/images/procs-banner.png" lazy fit="fill" />
     </div>
 </template>
 
