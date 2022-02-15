@@ -69,14 +69,14 @@ export default {
     checkHasEnterMenu() {
       const { path } = this.$route
       const menuList = [
+        ...this.menus,
         ...mainDataMenus,
         ...materielDataMenus,
         ...supplierDataMenus
       ]
 
-      console.log('menuList', menuList)
       const menuItem = menuList.find((e) => e.url === path)
-      console.log('menuItem', menuItem)
+
       if (menuItem) {
         const permissionKey = menuItem.permissionKey
         console.log(
