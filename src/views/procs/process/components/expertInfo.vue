@@ -33,7 +33,7 @@
                     <i class="icon el-icon-chat-dot-round"></i>
                     <span class="cursor">{{info.wechatId}}</span>
                 </div>
-                <div class="orgAvatar" v-if="info.organization.orgLogo">
+                <div class="orgAvatar" v-if="orgLogoFlag">
                     <img v-if="info.profilePicture" :src="orgLogoUrl" class="avatar" />
                 </div>
             </div>
@@ -63,6 +63,9 @@
             },
             orgLogoUrl() {
                 return `${window.location.origin}/fileApi/fileud/getFileByFileId?fileId=${this.info?.organization?.orgLogo}`
+            },
+            orgLogoFlag() {
+                return this.info?.organization?.orgLogo ? true : false
             }
         },
         methods: {
