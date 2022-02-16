@@ -1,11 +1,15 @@
 <template>
   <iCard :title="language('供应商状态')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">{{language('编辑')}}</iButton>
+      <iButton v-show="!editable" @click="editable = true">{{
+        language('编辑')
+      }}</iButton>
       <iButton v-show="editable" :loading="saveLoading" @click="handleSave">
-        {{language('保存')}}
+        {{ language('保存') }}
       </iButton>
-      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
+      <iButton v-show="editable" @click="cancel">{{
+        language('取消')
+      }}</iButton>
     </div>
     <el-form
       label-position="left"
@@ -22,7 +26,7 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh">
-            <el-input :value="detail.formalStatus" disabled />
+            <el-input :value="identification" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
@@ -129,6 +133,15 @@ export default {
       return this.dicts.TURE_FALSE.map((e) => {
         return { ...e, code: +e.code }
       })
+    },
+    identification() {
+      if (this.detail.formalStatus == '0') {
+        return '临时'
+      }
+      if (this.detail.formalStatus == '1') {
+        return '正式'
+      }
+      return '储蓄池'
     }
   },
   data() {

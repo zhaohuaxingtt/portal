@@ -192,7 +192,14 @@
         </iFormItem>
         <iFormItem>
           <iLabel :label="language('其他正式组')" slot="label"></iLabel>
-          <iSelect
+          <iSelectAll
+            v-model="positionObj.otherPurchaseGroup"
+            :options="otherTempPurchasegroupOptions"
+            valueKey="purchaseGroupCode"
+            labelKey="purchaseGroupCode"
+            :disabled="type === 'detail'"
+          />
+          <!-- <iSelect
             v-model="positionObj.otherPurchaseGroup"
             filterable
             multiple
@@ -204,11 +211,18 @@
               :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
-          </iSelect>
+          </iSelect> -->
         </iFormItem>
         <iFormItem>
           <iLabel :label="language('其他暂作采购组')" slot="label"></iLabel>
-          <iSelect
+          <iSelectAll
+            v-model="positionObj.otherTempPurchaseGroup"
+            :options="tempPurchasegroupOptions"
+            valueKey="purchaseGroupCode"
+            labelKey="purchaseGroupCode"
+            :disabled="type === 'detail'"
+          />
+          <!-- <iSelect
             v-model="positionObj.otherTempPurchaseGroup"
             filterable
             :disabled="type === 'detail'"
@@ -220,7 +234,7 @@
               :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
-          </iSelect>
+          </iSelect> -->
         </iFormItem>
       </iFormGroup>
 
@@ -242,6 +256,7 @@ import {
 import dTable from './dTable.vue'
 import { queryPurchasegroup } from '@/api/position'
 import { getProGroupOptions } from '@/api/materiel/materielMainData'
+import iSelectAll from '@/components/iSelectAll'
 export default {
   components: {
     iCard,
@@ -251,7 +266,8 @@ export default {
     iText,
     iInput,
     iSelect,
-    dTable
+    dTable,
+    iSelectAll
   },
   props: {
     type: {
@@ -297,7 +313,7 @@ export default {
       return this.purchasegroupOptions.filter(
         (e) => e.purchaseGroupCode !== this.positionObj.purchaseGroup
       )
-    },
+    }
     // otherTempPurchaseGroup(){
     //   const otherTempPurchaseGroup = this.$store.state.position.pos.positionDetail.otherTempPurchaseGroup
     //   console.log(otherTempPurchaseGroup,'====');

@@ -134,3 +134,12 @@ export function modifyConclusionByMbdlId(data) {
     data
   })
 }
+// 导出会议agenda
+// /gpMeetingService/exportMeetingAgenda
+export function exportMeetingAgenda(data) {
+  return requst({
+    url: `/gpMeetingService/exportMeetingAgenda`,
+    method: 'POST',
+    data
+  })
+}

@@ -5,7 +5,7 @@
 -->
 <template>
   <iDialog
-    :title="language('QUALITYSCORERULES_TIANJIAGUIZE','添加规则')"
+    :title="openType=='add' ? language('QUALITYSCORERULES_TIANJIAGUIZE','添加规则') : language('QUALITYSCORERULES_BIANJIGUIZE','编辑规则')"
     :visible.sync="dialogVisible"
     @close="clearDialog"
     width="50%"
@@ -66,7 +66,7 @@ import {
     iSelect,
     iMessage,
 } from 'rise';
-import { getListSysRateDepart,setMqRules } from "@/api/scoreConfig/qualityscorerules"
+import { getListSysRateDepart,setMqRules,putMqRulesByIdList } from "@/api/scoreConfig/qualityscorerules"
 export default {
     name:'addRulesDialog',
     components:{
@@ -82,15 +82,21 @@ export default {
         requestData:{
             type:Array,
             default:()=>[],
+        },
+        openType:{ // 弹窗打开方式:新增/编辑
+            type:String,
+            default:'add',
+        },
+        multipleSelection:{
+            type:Array,
+            default:()=>[],
         }
     },
     
   watch: {
     dialogVisible(val) {
       if(val) {
-        this.form = {num:'',index:'4',compare:'=',rateDepartNum:''},
-        this.userList = [];
-        this.getDepartList();
+          this.init();
       }
     }
   },
@@ -109,26 +115,46 @@ export default {
         }
     },
     methods:{
+        init(){
+            if(this.openType == 'edit'){ // 编辑
+                const item = this.multipleSelection[0] || {};
+                this.getDepartList(item.deptName,true);
+                this.form = {
+                    index:'4',
+                    compare:'=',
+                    num:(item.num+'') || '',
+                    rateDepartNum:item.deptName || '',
+                    rateUser:(item.userId+'') || '',
+                    ruleId:item.ruleId || null,
+                }
+            }else{ // 新增
+            this.getDepartList();
+                this.form = {num:'',index:'4',compare:'=',rateDepartNum:''},
+                this.userList = [];
+            }
+            
+        },
         clearDialog(){
             this.$emit('changeVisible','addRulesDialogVisible',false);
         },
         // 获取预设评分人下拉数据
-        async getDepartList(){
+        async getDepartList(value,isEditInit=false){
             await getListSysRateDepart({rateTag:'MQ'}).then((res)=>{
                 if(res.code == '200'){
                     this.departList = res.data || [];
+                    if(value) this.changeRateDepartNum(value,isEditInit);
                 }else{
                     this.$message.error(this.$i18n.locale === "zh" ? res.desZh : res.desEn)
                 }
             })
         },
         
-        changeRateDepartNum(value){
+        changeRateDepartNum(value,isEditInit=false){
             const { departList = [] } = this;
             const departItem= departList.filter((item)=>item.rateDepartNum == value);
             if(Array.isArray(departItem) && departItem.length){
                 this.userList = departItem[0].raterList || [];
-                this.$set(this.form,'rateUser','');
+                if(!isEditInit) this.$set(this.form,'rateUser','');
             }
         },
 
@@ -157,23 +183,30 @@ export default {
                     }]
                 }
                 this.btnLoading = true;
-                console.log([
-                    ...this.requestData,
-                    data,
-                ])
-                await setMqRules(
-                    // [...this.requestData,data,]
-                    data
-                    ).then((res)=>{
-                    this.btnLoading = false;
-                    if(res.code == '200'){
-                        iMessage.success(this.language('LK_CAOZUOCHENGGONG','操作成功'));
-                        this.$emit('getList');
-                        this.clearDialog();
-                    }else{
-                        this.$message.error(this.$i18n.locale === "zh" ? res.desZh : res.desEn)
-                    }
-                }).catch(()=>{ this.btnLoading = false });
+                if(this.openType == 'edit'){
+                    await putMqRulesByIdList({...data,ruleId:this.form.ruleId}).then((res)=>{
+                        this.btnLoading = false;
+                        if(res.code == '200'){
+                            iMessage.success(this.language('LK_CAOZUOCHENGGONG','操作成功'));
+                            this.$emit('getList');
+                            this.clearDialog();
+                        }else{
+                            this.$message.error(this.$i18n.locale === "zh" ? res.desZh : res.desEn)
+                        }
+                    }).catch(()=>{ this.btnLoading = false });
+                }else{
+                    await setMqRules(data).then((res)=>{
+                        this.btnLoading = false;
+                        if(res.code == '200'){
+                            iMessage.success(this.language('LK_CAOZUOCHENGGONG','操作成功'));
+                            this.$emit('getList');
+                            this.clearDialog();
+                        }else{
+                            this.$message.error(this.$i18n.locale === "zh" ? res.desZh : res.desEn)
+                        }
+                    }).catch(()=>{ this.btnLoading = false });
+                }
+                
             }
         },
     }
