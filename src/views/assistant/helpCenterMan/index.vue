@@ -3,7 +3,7 @@
     <!-- <div class="flex justify-between"> -->
     <!-- <div class="content-title">用户助手管理</div> -->
     <pageHeader class="title">
-      <!-- {{language('用户助手管理')}} -->
+      <!-- {{ language('用户助手管理') }} -->
       <iNavMvp :list="menusLevel3" :lev="1" lang router-page />
 
       <div class="types" slot="actions">
