@@ -27,6 +27,8 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+
+    // console.log(binding)
     if (store.state.location.menuList1.length == 0) {
       //处理二级菜单三级菜单权限问题
       store.commit('menuList1Fun', document.querySelectorAll('.lev1>div'))
@@ -67,7 +69,6 @@ Vue.directive('permission', {
           if (pagePermission !== 'undefined') {
             if (!store.state.permission.whiteBtnList[pagePermission]) {
               //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
-
               if (
                 binding.rawName.split('.')[1] &&
                 binding.rawName.split('.')[1] == 'edit'

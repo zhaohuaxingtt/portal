@@ -12,12 +12,15 @@
             @handleSubmitSearch="handleSubmitSearch"
             @handleSearchReset="handleSearchReset">
       <template v-slot:mainContent>
-         <!-- v-if="isLinieOrDeptUser()" -->
-
-         <!-- linie -->
-        <div class="buyerBox"
-          v-permission="PORTAL_MTZ_NIANDUYUSUAN_LINIE"
-            >
+        <div class="mtz_ndys_nav">
+          <div class="mtz_ndys_nav_all">
+            <div :class="tabsValue===1?'active':''" @click="tableChange(1)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_LINIE">linie</div>
+            <div :class="tabsValue===2?'active':''" @click="tableChange(2)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZKSYSFZR">MTZ科室预算负责人</div>
+            <div :class="tabsValue===3?'active':''" @click="tableChange(3)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZYSGLY">MTZ预算管理员</div>
+          </div>
+        </div>
+        <!-- linie -->
+        <div v-show="tabsValue == 1">
           <iCard class="margin-top20">
             <div slot="header"
                  class="headBox">
@@ -28,40 +31,13 @@
                 <i class="el-icon-warning-outline rotate"></i>
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
-
-              <!-- v-if="userRoles.indexOf(buyUser) > -1" -->
               <span class="buttonBox"
                     >
-                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
-                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
-                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
-                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
-                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
-                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
-                
                 <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
                 <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
-                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
                 <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
-              <!-- <span class="buttonBox"
-                    v-if="userRoles.indexOf(deptBudgetUser) > -1">
-                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
-                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
-                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
-                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
-                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
-                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
-                
-                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
-                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
-                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
-                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
-              </span> -->
             </div>
-            <!-- :tableTitle="userRoles.indexOf(buyUser) > -1 ? tableTitleBuyer : tableTitleDepter" -->
             <tableList class="margin-top20"
                        :tableData="tableListData1"
                        :tableTitle="tableTitleBuyer"
@@ -93,11 +69,9 @@
                          :total="page.totalCount" />
           </iCard>
         </div>
-
-        <!-- mtz科室预算负责人 -->
-        <div class="buyerBox"
-          v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZKSYSFZR"
-            >
+        
+        <!-- MTZ科室预算负责人 -->
+        <div v-show="tabsValue == 2">
           <iCard class="margin-top20">
             <div slot="header"
                  class="headBox">
@@ -108,25 +82,12 @@
                 <i class="el-icon-warning-outline rotate"></i>
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
-
-              <!-- v-if="userRoles.indexOf(buyUser) > -1" -->
               <span class="buttonBox"
                     >
-                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
-                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
-                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
-                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
-                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
-                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
-                
-                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
-                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
                 <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
                 <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
-            <!-- :tableTitle="userRoles.indexOf(buyUser) > -1 ? tableTitleBuyer : tableTitleDepter" -->
             <tableList class="margin-top20"
                        :tableData="tableListData1"
                        :tableLoading="loading"
@@ -158,12 +119,9 @@
                          :total="page.totalCount" />
           </iCard>
         </div>
-
-        <!-- mtz预算管理员 -->
-        <!-- v-if="isLeader()" -->
-        <div class="leaderBox"
-          v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZYSGLY"
-             >
+        
+        <!-- MTZ预算管理员 -->
+        <div v-show="tabsValue == 3">
           <iCard class="margin-top20">
             <div slot="header"
                  class="headBox">
@@ -182,11 +140,6 @@
                 <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
                 <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
                 <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
-                
-                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
-                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
-                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
-                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -232,17 +185,17 @@
               </template>
             </tableList>
             <iPagination v-update
-                         @size-change="handleSizeChange($event, () => {
-                this.page.currPage = 1
-                this.getTableData()
-              })"
+                        @size-change="handleSizeChange($event, () => {
+                          this.page2.currPage = 1
+                          this.getTableData()
+                        })"
                          @current-change="handleCurrentChange($event, getTableData)"
                          background
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :current-page='page.currPage'
-                         :total="page.totalCount" />
+                         :page-sizes="page2.pageSizes"
+                         :page-size="page2.pageSize"
+                         :layout="page2.layout"
+                         :current-page='page2.currPage'
+                         :total="page2.totalCount" />
           </iCard>
         </div>
       </template>
@@ -278,7 +231,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage, icon, iMessageBox, iUserLog } from 'rise'
+import { iCard, iButton, iPagination, iMessage, icon, iMessageBox, iUserLog,iTabsList } from 'rise'
 import budget from '@/views/mtz/annualGeneralBudget/annualBudget/components/budget'
 import detail from '@/views/mtz/annualGeneralBudget/annualBudget/components/detail'
 import purchaseBudget from './components/purchaseBudget'
@@ -307,10 +260,19 @@ export default {
     changeLog,
     iUserLog,
     changeLevel,
+    iTabsList,
     icon
   },
   data () {
     return {
+      page2:{
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
+      tabsValue:1,
       annualBudgetEdit: '/mtz/annualBudgetEdit',
       searchForm: {},
       tableTitleBuyer,
@@ -363,12 +325,15 @@ export default {
     this.loginUserInfo.positionList.map(item => {
       item.roleDTOList.map(roleItem => this.userRoles.push(roleItem.code))
     })
-    // this.test()
   },
   mounted () {
     this.$nextTick(_ => {
       this.initSearch()
       this.getTableData()
+
+      var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+      console.log(navList)
+      navList[0].click();
     })
   },
   computed: {
@@ -393,14 +358,10 @@ export default {
     }
   },
   methods: {
-    // 当前登录用户是否包含采购员 or 科室调解人
-    isLinieOrDeptUser () {
-      return this.userRoles.indexOf(this.buyUser) > -1 || this.userRoles.indexOf(this.deptBudgetUser) > -1
-    },
-    // 当前登录用户是为年度预算负责人
-    isLeader () {
-      // return this.userRoles.indexOf(this.deptBudgetLeader) > -1 || this.userRoles.indexOf(this.deptBudgetLeader1) > -1
-      return this.userRoles.indexOf(this.deptBudgetLeader) > -1
+    tableChange(val){
+      if (val !== this.tabsValue) {
+        this.tabsValue = val;
+      }
     },
     // 初始化检索条件
     initSearch () {
@@ -415,30 +376,29 @@ export default {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
           ...this.searchForm
-          // demandVersion: this.searchForm.demandVersion || null,
-          // forecastTime: this.searchForm.forecastTime || null,
-          // status: this.searchForm.status || null,
         }
-        // if (this.isLinieOrDeptUser()) {
-          fetchTableDataOfBuyer(params).then(res => {
-            this.loading = false
-            if (res && res.code == 200) {
-              this.page.totalCount = res.total
-              this.tableListData1 = res.data
-              resolve(res.data)
-            } else iMessage.error(res.desZh)
-          })
-        // }
-        // if (this.isLeader()) {
-          fetchTableDataOfLeader(params).then(res => {
-            this.loading = false
-            if (res && res.code == 200) {
-              this.tableListData2 = res.data
-              this.page.totalCount = res.total
-              resolve(res.data)
-            } else iMessage.error(res.desZh)
-          })
-        // }
+
+        fetchTableDataOfBuyer(params).then(res => {
+          this.loading = false
+          if (res && res.code == 200) {
+            this.page.totalCount = res.total
+            this.page.currPage = res.pageNum
+            this.page.pageSize = res.pageSize
+            this.tableListData1 = res.data
+            resolve(res.data)
+          } else iMessage.error(res.desZh)
+        })
+        
+        fetchTableDataOfLeader(params).then(res => {
+          this.loading = false
+          if (res && res.code == 200) {
+            this.tableListData2 = res.data
+            this.page2.totalCount = res.total
+            this.page2.currPage = res.pageNum
+            this.page2.pageSize = res.pageSize
+            resolve(res.data)
+          } else iMessage.error(res.desZh)
+        })
       })
     },
     // 选中数据发生改变
@@ -760,6 +720,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mtz_ndys_nav{
+  margin-top:20px;
+  display: flex;
+  margin-bottom:20px;
+  font-size:1rem;
+  font-weight: bold;
+  color:#727272;
+  // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+  border: none;
+  text-align: center;
+  min-width: 9.375rem;
+  .mtz_ndys_nav_all{
+    
+  }
+  .mtz_ndys_nav_all>div{
+    cursor: pointer;
+    min-width:140px;
+    float:left;
+    height: 2.5rem;
+    box-sizing: border-box;
+    line-height: 2.5rem;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .mtz_ndys_nav_all>div:nth-child(1){
+    border-top-left-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-right: solid 1px #ececec;
+  }
+  .mtz_ndys_nav_all>div:nth-child(3){
+    border-left: solid 1px #ececec;
+    border-top-right-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+  }
+
+  .active{
+    background-color: #ffffff;
+    background: #ffffff;
+    color:#1660f1;
+  }
+}
+
+
 .leaderBox {
   ::v-deep .el-table__body tr.current-row > td {
     background: #77cbff;
