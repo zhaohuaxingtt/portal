@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="26" viewBox="0 0 32 26">
+  <g id="流程图-选中_flowchart_-selected" data-name="流程图-选中 flowchart -selected" transform="translate(-1388 -506)">
+    <rect id="流程图-选中_flowchart-selected" data-name="流程图-选中 flowchart-selected" width="32" height="26" rx="2" transform="translate(1388 506)" fill="#1660f1"/>
+    <g id="组_14035" data-name="组 14035" transform="translate(537 52)">
+      <g id="组_14034" data-name="组 14034" transform="translate(859 458)">
+        <rect id="矩形_8178" data-name="矩形 8178" width="0.937" height="0.937" transform="translate(9.179 9.944)" fill="#fff"/>
+        <rect id="矩形_8179" data-name="矩形 8179" width="0.937" height="0.937" transform="translate(9.179 7.649)" fill="#fff"/>
+        <rect id="矩形_8180" data-name="矩形 8180" width="3.241" height="0.937" transform="translate(10.701 12.238)" fill="#fff"/>
+        <path id="路径_19390" data-name="路径 19390" d="M246.527,184.473h15.946a.472.472,0,1,0,0-.937h-7.124V182.5a.5.5,0,0,0-.5-.5h-.707a.5.5,0,0,0-.5.5v1.039h-7.124a.472.472,0,1,0,0,.937Z" transform="translate(-246 -182)" fill="#fff"/>
+        <rect id="矩形_8181" data-name="矩形 8181" width="0.937" height="0.937" transform="translate(9.179 12.238)" fill="#fff"/>
+        <path id="路径_19391" data-name="路径 19391" d="M262.473,372.909H246.527a.472.472,0,1,0,0,.937h15.946a.472.472,0,1,0,0-.937Z" transform="translate(-246 -356.846)" fill="#fff"/>
+        <path id="路径_19392" data-name="路径 19392" d="M256.975,218.364a1.841,1.841,0,0,0-1.884,1.84v8.779a1.841,1.841,0,0,0,1.884,1.84h11.7a1.841,1.841,0,0,0,1.884-1.84V220.2a1.841,1.841,0,0,0-1.884-1.84Zm-.951,1.749a.8.8,0,0,1,.834-.812h11.93a.8.8,0,0,1,.834.812v8.961a.8.8,0,0,1-.834.811h-11.93a.8.8,0,0,1-.834-.812Z" transform="translate(-254.323 -215.359)" fill="#fff"/>
+        <rect id="矩形_8182" data-name="矩形 8182" width="3.241" height="0.937" transform="translate(10.701 9.944)" fill="#fff"/>
+        <path id="路径_19393" data-name="路径 19393" d="M284.753,286.778a2.392,2.392,0,0,0,2.389-2.389V284.3h-2.3V282h-.084a2.389,2.389,0,0,0,0,4.778Z" transform="translate(-279.308 -273.597)" fill="#fff"/>
+        <rect id="矩形_8183" data-name="矩形 8183" width="3.241" height="0.937" transform="translate(10.701 7.649)" fill="#fff"/>
+        <rect id="矩形_8184" data-name="矩形 8184" width="10.855" height="0.937" transform="translate(3.072 5.354)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

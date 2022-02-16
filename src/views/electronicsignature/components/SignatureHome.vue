@@ -132,7 +132,7 @@ export default {
         docNo: '',//业务合同编号
         docTitle: '',//合同标题
         purchaseUserName: '',//采购员名
-        signStatus: '',//签署状态，0：未签署；1：乙方认证；2：乙方签署；3：甲方签署 4:签署完成 5:撤销中 6：已撤销
+        signStatus: '',//签署状态， -1：待乙方认证；0：未签署；1：乙方认证；2：乙方签署；3：甲方签署 4:签署完成 5:撤销中 6：已撤销
         type: '',//合同类型，0:模具合同；1：采购条款；2：预警信
         docTypeNo: '',//文件类型编码//印章类型
         supplierName: '',
@@ -178,7 +178,10 @@ export default {
           this.signStatusSelectDatas = mySignStatusSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
           })
-          this.extraData.signStatusSelectDatas = this.signStatusSelectDatas
+          let tempSignStatusSelectDatas = JSON.parse(JSON.stringify(this.signStatusSelectDatas))
+          tempSignStatusSelectDatas.unshift({code: -1, name: '待乙方认证'})
+          // let tempSignStatusSelectDatas = this.signStatusSelectDatas.unshift({code: -1, name: '待乙方认证'}) // 签署状态下拉框未加'待乙方认证'， 如后端在接口加上 这行代码可去掉
+          this.extraData.signStatusSelectDatas = tempSignStatusSelectDatas
           let myContractTypeSelectData = res.data.contractTypeSelectData
           this.contractTypeSelectDatas = myContractTypeSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }

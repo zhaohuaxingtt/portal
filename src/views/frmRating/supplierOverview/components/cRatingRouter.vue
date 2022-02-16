@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-23 15:29:59
- * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 13:39:42
+ * @LastEditors: YoHo
+ * @LastEditTime: 2022-02-15 15:28:39
  * @FilePath: \front-portal-new\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
 -->
 <template>
@@ -137,7 +137,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item v-if="tabVal == 2"
-                      :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
+                      :label="$t('LK_LINGJIANZHUANGTAI')">
           <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                    v-model.trim="form.rfqStatus"
                    multiple>
@@ -229,9 +229,9 @@
                 scope.row.ratingSource != '100' &&
                   scope.row.ratingSource != null
               ">{{
-                cratingLsit.find(res => {
+                cratingLsit.length ? cratingLsit.find(res => {
                   return res.code == scope.row.ratingSource
-                }).name
+                }).name : scope.row.ratingSource
             }}</span>
           <span v-if="scope.row.ratingSource == '100'">深入评级-
             <icon class="early"
@@ -263,9 +263,9 @@
                 scope.row.ratingSource != '100' &&
                   scope.row.ratingSource != null
               ">{{
-                cratingLsit.find(res => {
+                cratingLsit.length ? cratingLsit.find(res => {
                   return res.code == scope.row.ratingSource
-                }).name
+                }).name : scope.row.ratingSource
             }}</span>
           <span v-if="scope.row.ratingSource == '100'">深入评级-
             <icon class="early"
