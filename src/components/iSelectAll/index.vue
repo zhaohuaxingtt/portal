@@ -7,7 +7,9 @@
       filterable
       style="width: 100%"
       ref="refSelect"
+      :filter-method="handleFilter"
       :key="elementKey"
+      :disabled="disabled"
       @change="handleChange"
     >
       <div class="option-all">
@@ -27,7 +29,7 @@
         </el-Button>
       </div>
       <el-option
-        v-for="item in options"
+        v-for="item in selectOptions"
         :key="item[valueKey]"
         :value="item[valueKey]"
         :label="getLabel(item)"
@@ -64,10 +66,30 @@ export default {
     },
     labelMethod: {
       type: Function
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
-    return { selectValue: [], elementKey: 'AA_' + new Date().getTime() }
+    return {
+      selectValue: [],
+      elementKey: 'AA_' + new Date().getTime(),
+      filterStr: ''
+    }
+  },
+  computed: {
+    selectOptions() {
+      const options = this.options || []
+      const str = this.filterStr?.toLowerCase()
+      if (!str) {
+        return options
+      }
+      return options.filter((item) => {
+        return this.getLabel(item)?.toLowerCase().includes(str)
+      })
+    }
   },
   created() {
     this.selectValue = this.value
@@ -88,7 +110,7 @@ export default {
       event.stopPropagation()
       console.log(val)
       if (val) {
-        this.selectValue = this.options.map((e) => e[this.valueKey])
+        this.selectValue = this.selectOptions.map((e) => e[this.valueKey])
       } else {
         this.selectValue = []
         this.elementKey = 'AA_' + new Date().getTime()
@@ -100,6 +122,14 @@ export default {
     handleChange(val) {
       this.$emit('input', val)
       this.$emit('change', val)
+    },
+    handleFilter(val) {
+      this.filterStr = val
+      /* console.log(val)
+      if (!val) {
+        return this.options
+      }
+      return this.options.splice(0, 2) */
     }
   }
 }

@@ -191,8 +191,8 @@ export default {
     this.activeMoudle = this.$route.query.module || 'manual'
     this.getProbleList()
     this.queryFaqListByPage()
-    this.getMenusLevel3()
-    this.checkHasEnterMenu()
+    //this.getMenusLevel3()
+    //this.checkHasEnterMenu()
   },
   computed: {
     manualList() {

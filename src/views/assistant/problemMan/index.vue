@@ -2,9 +2,9 @@
   <iPage>
     <!-- <div class="flex justify-between"> -->
     <pageHeader class="title">
-      <!-- {{ language('问题管理') }} -->
+      {{ language('问题管理') }}
 
-      <iNavMvp :list="menusLevel3" :lev="1" lang router-page />
+      <!-- <iNavMvp :list="menusLevel3" :lev="1" lang router-page /> -->
 
       <div class="types" slot="actions">
         <iTabBadge>
@@ -200,8 +200,8 @@ export default {
   },
   created() {
     this.helpMoudle = this.$route.query.module || 'problemHandler'
-    this.getMenusLevel3()
-    this.checkHasEnterMenu()
+    // this.getMenusLevel3()
+    // this.checkHasEnterMenu()
   },
   mounted() {
     console.log(store.state, 'store.state')
