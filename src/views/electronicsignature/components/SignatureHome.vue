@@ -178,7 +178,10 @@ export default {
           this.signStatusSelectDatas = mySignStatusSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
           })
-          this.extraData.signStatusSelectDatas = this.signStatusSelectDatas
+          let tempSignStatusSelectDatas = JSON.parse(JSON.stringify(this.signStatusSelectDatas))
+          tempSignStatusSelectDatas.unshift({code: -1, name: '待乙方认证'})
+          // let tempSignStatusSelectDatas = this.signStatusSelectDatas.unshift({code: -1, name: '待乙方认证'}) // 签署状态下拉框未加'待乙方认证'， 如后端在接口加上 这行代码可去掉
+          this.extraData.signStatusSelectDatas = tempSignStatusSelectDatas
           let myContractTypeSelectData = res.data.contractTypeSelectData
           this.contractTypeSelectDatas = myContractTypeSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
