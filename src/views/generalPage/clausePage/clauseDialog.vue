@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-02-08 17:59:25
+ * @LastEditTime: 2022-02-16 17:44:20
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -542,6 +542,7 @@ export default {
     // 关闭弹窗
     clearDiolog() {
       this.$emit('input', false)
+          this.$emit('purchaseTerms',false)
     },
   }
 }
