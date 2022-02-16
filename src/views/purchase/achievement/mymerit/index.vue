@@ -248,7 +248,7 @@
         this.getReportData(data)
       },
       getReportData(data) {
-        getEklPbi().then(res => {
+        getPowerBiVal().then(res => {
           // console.log(res)
           if (res.result) {
             this.url = res.data
