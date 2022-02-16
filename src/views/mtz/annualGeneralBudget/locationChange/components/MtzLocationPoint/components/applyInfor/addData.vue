@@ -467,7 +467,8 @@ export default {components: {
             this.ruleNo.forEach(e => {
                 if(e.id == val){
                     e.id = "";
-                    this.contractForm.sapCode = e.supplierId.toString();
+                    this.contractForm.supplierId = e.supplierId.toString();
+                    this.contractForm.sapCode = e.sapCode.toString();
                     this.contractForm.priceSource = e.source;
                     this.contractForm = Object.assign({...this.contractForm},e);
                     if(e.priceMeasureUnit == "PC"){
