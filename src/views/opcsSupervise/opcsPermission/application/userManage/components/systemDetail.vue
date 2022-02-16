@@ -73,7 +73,9 @@
                     @handleSelectionChange="handleSelectionChangeDel"
                     :index="true"
                     ref="commonTable">
-
+          <template #memo='scope'>
+            <span >{{scope.row.memo | filter_memo}}</span>
+          </template>
         </table-list>
       </div>
     </div>

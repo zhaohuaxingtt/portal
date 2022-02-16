@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -10,14 +10,17 @@
           type="flex"
           justify="space-between">
     <el-col :span="16"
-            v-permission="Card_Associated_Companies">
+            v-permission="PORTAL_SUPPLIER_CARD_COMPANIES">
       <iCard :title="$t('SUPPLIER_GLGS')"
-             class="affiliatedCompany" v-loading="onGraphLoading">
+             class="affiliatedCompany"
+             v-loading="onGraphLoading">
         <!-- <div class="tree"
              ref="chart"></div> -->
-          <div :style="{'height': this.outerHeight + 'px', 'overflow': 'auto','width': this.outerWidth + 'px'}" ref="relationGraphOuter">
-            <SeeksRelationGraph ref="seeksRelationGraph" :options="graphOptions"/>
-          </div>
+        <div :style="{'height': this.outerHeight + 'px', 'overflow': 'auto','width': this.outerWidth + 'px'}"
+             ref="relationGraphOuter">
+          <SeeksRelationGraph ref="seeksRelationGraph"
+                              :options="graphOptions" />
+        </div>
       </iCard>
     </el-col>
     <el-col :span="8"
@@ -143,7 +146,7 @@ export default {
     })
   },
   methods: {
-    dataTransformation(data) {
+    dataTransformation (data) {
       this.relationGraphData = {};
       this.relationGraphData.rootId = data.id;
       this.relationGraphData.nodes = [{
@@ -161,7 +164,7 @@ export default {
       }.bind(this), 1000)
       return data;
     },
-    iterateRelation(data, parentId) {
+    iterateRelation (data, parentId) {
       if (data.children && data.children.length > 0) {
         data.children.forEach((child) => {
           this.relationGraphData.nodes.push({
