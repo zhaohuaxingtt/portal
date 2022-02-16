@@ -133,7 +133,6 @@ export  const sinatureColumns=[
     tooltip: true,
     customRender:(h, scope, column, extraData)=>{
       let signStatusSelectDatas=extraData.signStatusSelectDatas
-      signStatusSelectDatas.unshift({code: -1, name: '待乙方认证'})  // 签署状态下拉框未加'待乙方认证'， 如后端在接口加上 这行代码可去掉
       if(signStatusSelectDatas!=null&&signStatusSelectDatas.length>0){
         let item=signStatusSelectDatas.find(item=>item.code==scope.row.signStatus)
         return <span>{item?.name}</span>
