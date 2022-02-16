@@ -121,7 +121,7 @@ export default {
     },
     methods:{
         handleSearch(param){
-           return  getBasicList(param)
+            return  getBasicList(param)
         }
     }
 }

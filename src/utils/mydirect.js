@@ -27,7 +27,6 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
-
     // console.log(binding)
     if (store.state.location.menuList1.length == 0) {
       //处理二级菜单三级菜单权限问题

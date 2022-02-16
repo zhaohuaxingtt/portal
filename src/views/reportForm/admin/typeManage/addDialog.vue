@@ -118,7 +118,7 @@
                         <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
-                        <supplierSelect v-model="form.suppliers" @change="supplierListChange" />
+                        <supplierSelect v-model="form.suppliers" @change="supplierListChange"/>
                     </iFormItem>
                 </div>
             </div>
@@ -306,6 +306,15 @@ export default {
         handleClose(){
             this.$emit("update:show",false)
         },
+        dealAccount(list, type) {
+            let userAccountIdFlag = false
+            list && list.map(item => {
+                if (type === 'users' ? !item.accountId : !item.id) {
+                    userAccountIdFlag = true
+                }
+            })
+            return userAccountIdFlag
+        },
         save(){
             if (this.customFlag && this.form?.users?.length === 0 && this.form?.suppliers?.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
             if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
@@ -316,8 +325,15 @@ export default {
                         //     this.form.users = this.form.users && this.form.users.map(e => e.id)
                         //     this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
                         // }
-                        this.form.users = this.form.users && this.form.users.map(e => e.id)
-                        this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
+                        if (this.customFlag) {
+                            if (this.dealAccount(this.form.users, 'users')) return this.$message({type: 'warning', message: '选择的账户没有账户id'})
+                            if (this.dealAccount(this.form.suppliers, 'suppliers')) return this.$message({type: 'warning', message: '选择的供应商没有账户id'})
+                            this.form.users = this.form.users && this.form.users.map(e => e.accountId ? e.accountId : '')
+                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id ? e.id : '')
+                        } else {
+                            this.form.users = []
+                            this.form.suppliers = []
+                        }
                         if (this.operateType === 'add') {
                             this.form.cover = this.imageUrl
                             this.loading = true

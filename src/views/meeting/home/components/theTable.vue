@@ -746,6 +746,8 @@ import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
 import dayjs from 'dayjs'
 import { findThemenById } from '@/api/meeting/details'
+import { exportMeetingAgenda } from '@/api/meeting/gpMeeting'
+import { exportExcel } from '@/utils/gpfiledowLoad'
 
 export default {
   components: {
@@ -1336,7 +1338,7 @@ export default {
           this.id = e
         },
         newA: (e) => {
-          this.isGenerating = true
+          // this.isGenerating = true
           // 生成Agenda
           // generateAgenda({ id: e }).then((res) => {
           //   iMessage.success("生成Agenda成功");
@@ -1348,8 +1350,27 @@ export default {
           // this.timeout = setTimeout(() => {
 
           // }, 500)
-          generateAgenda({ id: e })
-            .then((res) => {
+
+          // generateAgenda({ id: e }).then((res) => {
+          //     if (res.code === 200) {
+          //       iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
+          //     }
+          //     this.isGenerating = false
+          //     this.refreshTable()
+          //   })
+          //   .catch(() => {
+          //     this.isGenerating = false
+          //   })
+          //gp会议  生成Agenda
+          if (this.selectedRow[0].isGpCSC==true || this.selectedRow[0].isMBDL==true) {
+            console.log('gp生成Agenda');
+            exportMeetingAgenda({ id: e }).then((res) => {
+              exportExcel(res)
+            })
+          }else{
+            // console.log('原来生成Agenda');
+            this.isGenerating = true
+            generateAgenda({ id: e }).then((res) => {
               if (res.code === 200) {
                 iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
               }
@@ -1359,6 +1380,12 @@ export default {
             .catch(() => {
               this.isGenerating = false
             })
+          }
+
+
+
+
+
         },
         importFile: (e) => {
           // 导入议题

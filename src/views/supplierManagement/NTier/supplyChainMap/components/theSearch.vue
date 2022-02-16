@@ -143,8 +143,9 @@ export default {
   // 监控data中的数据变化
   watch: {
     categoryCode: {
-      handler (val) {
+      async handler (val) {
         if (val) {
+          await this.getSelectList()
           this.disabled = true
           let arr = val.split(",")
           this.formGoup.categoryList.forEach(item => {
@@ -337,7 +338,6 @@ export default {
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
 
-    this.getSelectList()
     this.getMapList()
     this.getCityInfo()
   },

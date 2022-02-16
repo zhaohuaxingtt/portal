@@ -1,7 +1,7 @@
 /*
  * @Author: YoHo
  * @Date: 2022-01-11 18:25:50
- * @LastEditTime: 2022-01-29 13:44:11
+ * @LastEditTime: 2022-02-16 15:09:22
  * @LastEditors: YoHo
  * @Description: 
  */
@@ -36,5 +36,5 @@ export const procurementApproveTableTitle = [
   { prop: 'termsCode', name: '条款编码' },
   { prop: 'termsName', name: '标准名称' },
   { prop: 'version', name: '版本号' },
-  { prop: 'chargeName', name: '条款负责人' }
+  { prop: 'linieName', name: '条款负责人' }
 ]
