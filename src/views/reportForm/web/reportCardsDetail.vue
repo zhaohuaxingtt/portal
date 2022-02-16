@@ -49,7 +49,7 @@
     import pageHeader from '@/components/pageHeader'
     import { iPage, iInput, iCard, iButton, iPagination } from 'rise'
     import Dialog from './../components/dialog.vue';
-    import {queryReportContentList, updateIsNew, downLoadFileName } from '@/api/reportForm';
+    import {queryReportContentList, updateIsNew, downLoadFileName, reportTypeDetailById } from '@/api/reportForm';
     const fileType = {
         'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'xls': 'application/vnd.ms-excel',
@@ -95,9 +95,14 @@
             if (this.categoryIds) {
                 this.query()
             }
-            
+            this.queryDetail(queryObj.sectionId)
         },
         methods: {
+            queryDetail(id) {
+                if (!id) return
+                let res = reportTypeDetailById(id)
+                console.log(res)
+            },
             query(){
                 if (this.keyword) {
                     this.params.title = this.keyword

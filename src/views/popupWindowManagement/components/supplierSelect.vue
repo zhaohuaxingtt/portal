@@ -19,7 +19,7 @@
 <script>
 import iSelectorDialog from '@/components/iSelector/iSelectorDialog'
 import iSelectorInput from '@/components/iSelector/iSelectorInput'
-import { getBasicList } from "@/api/basic/basic";
+import { getBasicList, getSuppliers } from "@/api/basic/basic";
 import {SUPPLIER_TABLE_COLUMNS} from './data.js'
 export default {
     name:'supplierSelect',
@@ -28,6 +28,10 @@ export default {
         value: {
             type: Array,
             require: true
+        },
+        onlyReportForm: {
+            type: Boolean,
+            default: false
         }
     },
     data(){
@@ -121,7 +125,15 @@ export default {
     },
     methods:{
         handleSearch(param){
-           return  getBasicList(param)
+            if (this.onlyReportForm) {
+                param.isExpired = true
+                param.isMainContact = true
+                param.isValid = true
+                return getSuppliers(param)
+            } else {
+                return  getBasicList(param)
+            }
+            
         }
     }
 }
