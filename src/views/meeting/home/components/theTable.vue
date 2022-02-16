@@ -1367,9 +1367,6 @@ export default {
             exportMeetingAgenda({ id: e }).then((res) => {
               exportExcel(res)
             })
-            .catch(() => {
-              this.isGenerating = false
-            })
           }else{
             // console.log('原来生成Agenda');
             this.isGenerating = true
