@@ -49,6 +49,7 @@
               :max="9999999999"
               placeholder="请输入排序"
               :disabled="disabled"
+              v-int
             />
           </iFormItem>
           <iFormItem prop="describe">
@@ -114,7 +115,7 @@ export default {
     },
     data: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -157,12 +158,12 @@ export default {
 
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
-      userInfo: state => state.permission.userInfo
+      userInfo: (state) => state.permission.userInfo
     })
   },
   methods: {
     handleSave() {
-      this.$refs['contractForm'].validate(async valid => {
+      this.$refs['contractForm'].validate(async (valid) => {
         if (valid) {
           this.contractForm.parentId = this.parent.id || -1
           this.contractForm.level = this.parent.level

@@ -22,6 +22,13 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       }
       config.headers['language'] = window.localStorage.getItem('lang') || 'zh'
 
+      const seconedPerminssionKey = window.sessionStorage.getItem(
+        'seconedPerminssionKey'
+      )
+      if (seconedPerminssionKey) {
+        config.headers['resCode'] = seconedPerminssionKey
+      }
+
       // 查询参数自动清除null，'' 值
       if (config.clearEmptyParams && config.params) {
         const newParams = {}
@@ -44,11 +51,12 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       if (config.formData) {
         // 定义请求得数据结构是formData
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      } {
+      }
+      {
         // 定义请求得数据结构是json
         config.headers['json-wrapper'] = '1'
       }
-      
+
       return config
     },
     function (error) {
