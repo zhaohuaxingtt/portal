@@ -47,7 +47,9 @@ Vue.directive('permission', {
     } else {
       proValue = binding.value
     }
+    // console.log(proValue)
     const splitValue = proValue.split('|')
+    // console.log(splitValue)
     //去除控件传参中存在换行空格等情况
     const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
     if (proValue === 'TRUE') {
@@ -57,7 +59,6 @@ Vue.directive('permission', {
       return true
     } else {
       let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
-
       if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
         // if (['vmsit', 'SIT', 'UAT'].includes(process.env.NODE_ENV)) {
         if (
@@ -66,6 +67,8 @@ Vue.directive('permission', {
         ) {
           // 处理控件中，不可见的组件 列入：Ibutton.
           if (pagePermission !== 'undefined') {
+            // console.log(pagePermission)
+            // console.log(!store.state.permission.whiteBtnList[pagePermission])
             if (!store.state.permission.whiteBtnList[pagePermission]) {
               //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
               if (
