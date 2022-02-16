@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-02-15 11:16:39
+ * @LastEditTime: 2022-02-16 17:47:37
  * @LastEditors: YoHo
  * @Description: 相关附件
 -->
@@ -43,6 +43,7 @@
                        :disableButton="disableButton" />
     <clause-dialog v-model="show"
                    :supplierId="supplierId"
+                   @purchaseTerms="purchaseTerms"
                    :isMaintain="isMaintain"></clause-dialog>
   </i-card>
 </template>

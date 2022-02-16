@@ -118,7 +118,7 @@
                         <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
-                        <supplierSelect v-model="form.suppliers" @change="supplierListChange" :onlyReportForm="true" />
+                        <supplierSelect v-model="form.suppliers" @change="supplierListChange"/>
                     </iFormItem>
                 </div>
             </div>
@@ -306,10 +306,10 @@ export default {
         handleClose(){
             this.$emit("update:show",false)
         },
-        dealAccount(list) {
+        dealAccount(list, type) {
             let userAccountIdFlag = false
             list && list.map(item => {
-                if (!item.accountId) {
+                if (type === 'users' ? !item.accountId : !item.id) {
                     userAccountIdFlag = true
                 }
             })
@@ -326,10 +326,10 @@ export default {
                         //     this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id)
                         // }
                         if (this.customFlag) {
-                            if (this.dealAccount(this.form.users)) return this.$message({type: 'warning', message: '选择的账户没有账户id'})
-                            if (this.dealAccount(this.form.suppliers)) return this.$message({type: 'warning', message: '选择的供应商没有账户id'})
+                            if (this.dealAccount(this.form.users, 'users')) return this.$message({type: 'warning', message: '选择的账户没有账户id'})
+                            if (this.dealAccount(this.form.suppliers, 'suppliers')) return this.$message({type: 'warning', message: '选择的供应商没有账户id'})
                             this.form.users = this.form.users && this.form.users.map(e => e.accountId ? e.accountId : '')
-                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.accountId ? e.accountId : '')
+                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id ? e.id : '')
                         } else {
                             this.form.users = []
                             this.form.suppliers = []
