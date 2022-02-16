@@ -112,9 +112,9 @@ export default {
         size: this.page.pageSize
       }
       this.tableLoading = true
-      const res = await fetchSuppliers(requestData).finally(
-        () => (this.tableLoading = false)
-      )
+      const res = await fetchSuppliers(requestData)
+        .catch((err) => iMessage.error(err.desZh || '获取失败'))
+        .finally(() => (this.tableLoading = false))
       this.tableData = res.data || []
       this.page.totalCount = res.total
     }
