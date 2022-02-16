@@ -140,6 +140,7 @@ export function exportMeetingAgenda(data) {
   return requst({
     url: `/gpMeetingService/exportMeetingAgenda`,
     method: 'POST',
+    responseType: 'blob',
     data
   })
 }
