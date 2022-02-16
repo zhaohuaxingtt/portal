@@ -1338,7 +1338,7 @@ export default {
           this.id = e
         },
         newA: (e) => {
-          this.isGenerating = true
+          // this.isGenerating = true
           // 生成Agenda
           // generateAgenda({ id: e }).then((res) => {
           //   iMessage.success("生成Agenda成功");
@@ -1365,11 +1365,6 @@ export default {
           if (this.selectedRow[0].isGpCSC==true || this.selectedRow[0].isMBDL==true) {
             console.log('gp生成Agenda');
             exportMeetingAgenda({ id: e }).then((res) => {
-              // if (res.code === 200) {
-              //   iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
-              // }
-              // this.isGenerating = false
-              // this.refreshTable()
               exportExcel(res)
             })
             .catch(() => {
@@ -1377,6 +1372,7 @@ export default {
             })
           }else{
             // console.log('原来生成Agenda');
+            this.isGenerating = true
             generateAgenda({ id: e }).then((res) => {
               if (res.code === 200) {
                 iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
