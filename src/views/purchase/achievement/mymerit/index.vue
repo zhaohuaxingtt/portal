@@ -240,6 +240,9 @@
           permissionKey: 'ACHIEVEMENT',
           key: 'LK_WDYJ'
         }]
+      } else if(this.role == 'CS&&Linie') {
+        //  CRW-4185
+        this.currentView = 'zfbmsj'
       }
       console.log('this.currentView', this.currentView, this.role);
     },
@@ -248,7 +251,7 @@
         this.getReportData(data)
       },
       getReportData(data) {
-        getEklPbi().then(res => {
+        getPowerBiVal(data).then(res => {
           // console.log(res)
           if (res.result) {
             this.url = res.data

@@ -171,6 +171,7 @@ export default {
       this.visible = false
     },
     handleRedirect(menu) {
+      window.sessionStorage.setItem('seconedPerminssionKey', menu.permissionKey)
       if (!menu.url) {
         iMessage.success('coming soon')
       } else if (menu?.url.indexOf('http') !== -1) {
