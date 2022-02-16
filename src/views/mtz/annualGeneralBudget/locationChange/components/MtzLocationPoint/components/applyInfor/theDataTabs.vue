@@ -125,15 +125,15 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="supplierId"
+        <el-table-column prop="sapCode"
                          align="center"
                          :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')"
                          show-overflow-tooltip
                          width="150">
           <!-- supplierName供应商名称 -->
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'supplierId'"
-                          :rules="formRules.supplierId ? formRules.supplierId : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+                          :rules="formRules.sapCode ? formRules.sapCode : ''">
               <!-- <el-select v-model="scope.row.supplierId"
                                 clearable
                                 filterable
@@ -148,7 +148,7 @@
                                 :value="item.code">
                             </el-option>
                         </el-select> -->
-                        <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+                        <span>{{scope.row.sapCode}}/{{scope.row.supplierName}}</span>
                     </el-form-item>
                 </template>
             </el-table-column>
@@ -677,7 +677,7 @@ export default {
             {required: true, message: '请选择', trigger: 'blur'},
             { validator:validatePass, trigger: 'blur' }
           ],//规则编号
-          supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
+          sapCode:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
           priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
           dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
           dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位

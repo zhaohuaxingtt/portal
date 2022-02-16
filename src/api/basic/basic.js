@@ -6,11 +6,22 @@
 import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const useCenter = axios(process.env.VUE_APP_USER_CENTER + '/web')
 
 //供应商列表
 export function getBasicList(parmars) {
   return requst({
     url: '/supplier360View/page/querySupplierInfo',
+    method: 'POST',
+    data: {
+      ...parmars
+    }
+  })
+}
+// 报表 供应商列表
+export function getSuppliers(parmars) {
+  return useCenter({
+    url: '/supplierUser/pageList',
     method: 'POST',
     data: {
       ...parmars

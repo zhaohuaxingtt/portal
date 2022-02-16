@@ -9,10 +9,11 @@
     >
         <div class="info">
             <div class="info-top">
-                <el-avatar size="medium" :src="info.profilePicture" class="avatar" icon="el-icon-user-solid"></el-avatar>
+                <img v-if="info.profilePicture" :src="avatarUrl" class="avatar" />
+                <el-avatar v-else size="medium" :src="info.profilePicture" class="avatar" icon="el-icon-user-solid"></el-avatar>
                 <div class="info-name">
                     <div class="zn-name">{{info.name}} <span class="en-name">{{info.gender == "MALE" ? "MR." : "MISS"}} {{info.nameEn}}</span></div>
-                    <div>{{info.organization ? info.organization.code : ""}} {{info.position ? info.position.name : ""}} {{info.uid}}</div>
+                    <div>{{info.organization ? info.organization.code : ""}} {{info.organization ? info.organization.name : ""}} {{info.uid}}</div>
                 </div>
             </div>
             <div class="info-item">
@@ -21,22 +22,27 @@
             </div>
             <div class="info-item">
                 <i class="icon el-icon-phone-outline"></i>
-                <span class="cursor">{{info.phoneNumber}}</span>
+                <span class="cursor">{{info.phoneNumber || info.mobilePhone}}</span>
             </div>
             <div class="info-item">
                 <i class="icon el-icon-message"></i>
                 <span class="cursor">{{info.email}}</span>
             </div>
-            <div class="info-item">
-                <i class="icon el-icon-chat-dot-round"></i>
-                <span class="cursor">{{info.wechatId}}</span>
+            <div class="info-item flex-end">
+                <div>
+                    <i class="icon el-icon-chat-dot-round"></i>
+                    <span class="cursor">{{info.wechatId}}</span>
+                </div>
+                <div class="orgAvatar" v-if="info.organization.orgLogo">
+                    <img v-if="info.profilePicture" :src="orgLogoUrl" class="avatar" />
+                </div>
             </div>
         </div>
     </iDialog>
 </template>
 
 <script>
-    import {iDialog} from 'rise';
+    import { iDialog } from 'rise';
     export default {
         components:{
             iDialog
@@ -49,6 +55,14 @@
             info:{
                 type: Object,
                 default: () => {}
+            }
+        },
+        computed: {
+            avatarUrl() {
+                return `${window.location.origin}/fileApi/fileud/getFileByFileId?fileId=${this.info.profilePicture}`
+            },
+            orgLogoUrl() {
+                return `${window.location.origin}/fileApi/fileud/getFileByFileId?fileId=${this.info?.organization?.orgLogo}`
             }
         },
         methods: {
@@ -69,6 +83,7 @@
     .info-top{
         display: flex;
         align-items: center;
+        padding: 15px 10px;
         .avatar{
             margin-right: 10px;
             width:50px;
@@ -90,12 +105,24 @@
     }
 
     .info-item{
+        display: flex;
+        align-items: center;
         padding: 15px 10px;
         .icon{
             margin-right: 20px;
             font-size: 20px;
             color: #1660F1;
         }
+        .avatar{
+            margin-right: 10px;
+            width:50px;
+            height:50px;
+            line-height: 50px;
+        }
     }
+}
+.flex-end {
+    display: flex;
+    justify-content: space-between
 }
 </style>
