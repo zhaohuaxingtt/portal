@@ -92,7 +92,7 @@
             },
             handleClick(item) {
                 if (!item.categoryIds) return this.$message({type: 'warning', message: '该报表暂时还没有内容'})
-                this.$router.push( {path:'/reportForm/web/reportCardsDetail', query:{ categoryIds:item.categoryIds || [], name: item.name } } )
+                this.$router.push( {path:'/reportForm/web/reportCardsDetail', query:{ categoryIds:item.categoryIds || [], name: item.name, sectionId: item.id } } )
             }
         },
     }
