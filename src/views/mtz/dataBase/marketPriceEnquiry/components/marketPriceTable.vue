@@ -282,7 +282,46 @@ export default {
             this.getMtzPage()
             iMessage.success(res.desZh)
           }
-        } else iMessage.error(res.desZh)
+        } else if (res.code === '10003') {
+          this.$confirm(res.desZh, this.language('TISHI', "提示"), {
+            distinguishCancelAndClose: true,
+            confirmButtonText: this.language('QUEDING', "确定"),
+            cancelButtonText: this.language('QUXIAO', "取消"),
+            type: "warning",
+          }).then(() => {
+            formdata.set('isCover', true)
+            uploadMtzPrice(formdata).then(res => {
+              if (res.data && res.data.length > 0) {
+                this.uploadDialogParams = {
+                  ...this.uploadDialogParams,
+                  key: Math.random(),
+                  visible: true,
+                  data: res.data
+                }
+              } else {
+                this.getMtzPage()
+                iMessage.success(res.desZh)
+              }
+            })
+          }).catch(action => {
+            if (action === 'cancel') {
+              formdata.set('isCover', false)
+              uploadMtzPrice(formdata).then(res => {
+                if (res.data && res.data.length > 0) {
+                  this.uploadDialogParams = {
+                    ...this.uploadDialogParams,
+                    key: Math.random(),
+                    visible: true,
+                    data: res.data
+                  }
+                } else {
+                  this.getMtzPage()
+                  iMessage.success(res.desZh)
+                }
+              })
+            }
+          })
+        }
       })
     },
     // 关闭弹窗
