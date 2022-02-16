@@ -1338,7 +1338,7 @@ export default {
           this.id = e
         },
         newA: (e) => {
-          // this.isGenerating = true
+          this.isGenerating = true
           // 生成Agenda
           // generateAgenda({ id: e }).then((res) => {
           //   iMessage.success("生成Agenda成功");
