@@ -153,6 +153,8 @@ export default {
             this.deptData = res.data
             this.showEchart = true
             this.keyString += 1
+          }else{
+            this.$message.error(res.desZh)
           }
         })
         .catch((err) => {
