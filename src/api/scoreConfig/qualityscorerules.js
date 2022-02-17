@@ -41,3 +41,12 @@ export function deleteMqRulesByIdList(data) {
         data,
     })
 }
+
+// 编辑质量评分预设规则  
+export function putMqRulesByIdList(data) {
+    return requst({
+        url: "/rfq-rate-departs/putMqRule",
+        method: "PUT",
+        data,
+    })
+}

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iSelect v-model="row.cbdLevel">
+    <iSelect v-model="row.cbdLevel" clearable>
        <el-option
         v-for="item in cdlOption"
         :key="item.code"

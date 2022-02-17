@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-23 15:29:59
- * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 13:39:42
+ * @LastEditors: YoHo
+ * @LastEditTime: 2022-02-15 15:28:39
  * @FilePath: \front-portal-new\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
 -->
 <template>
@@ -79,9 +79,9 @@
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                    v-model.trim="form.deptIds">
             <el-option v-for="item in deptList"
-                       :key="item.kvalue"
-                       :label="item.vvalue"
-                       :value="item.kvalue">
+                       :key="item.name"
+                       :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
+                       :value="item.name">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -137,7 +137,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item v-if="tabVal == 2"
-                      :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
+                      :label="$t('LK_LINGJIANZHUANGTAI')">
           <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                    v-model.trim="form.rfqStatus"
                    multiple>
@@ -229,9 +229,9 @@
                 scope.row.ratingSource != '100' &&
                   scope.row.ratingSource != null
               ">{{
-                cratingLsit.find(res => {
+                cratingLsit.length ? cratingLsit.find(res => {
                   return res.code == scope.row.ratingSource
-                }).name
+                }).name : scope.row.ratingSource
             }}</span>
           <span v-if="scope.row.ratingSource == '100'">深入评级-
             <icon class="early"
@@ -263,9 +263,9 @@
                 scope.row.ratingSource != '100' &&
                   scope.row.ratingSource != null
               ">{{
-                cratingLsit.find(res => {
+                cratingLsit.length ? cratingLsit.find(res => {
                   return res.code == scope.row.ratingSource
-                }).name
+                }).name : scope.row.ratingSource
             }}</span>
           <span v-if="scope.row.ratingSource == '100'">深入评级-
             <icon class="early"
@@ -325,6 +325,7 @@ import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
 import { userDropDown } from '@/api/frmRating/supplierOverview/index'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { pageMixins } from '@/utils/pageMixins'
+import { selectDictByKeys } from '@/api/dictionary';
 import {
   currentList,
   sapDropDown,
@@ -472,14 +473,30 @@ export default {
       const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
       this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
-      const resDept = await sapDropDown({ type: 'dept' })
+      // const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
-      this.deptList = resDept.data
+
+
+      const data = [
+        'SUPPLIER_STATUS',
+        'QUALITATIVE_GRADE_STATUS',
+        'LEGALSTATUS',
+        'RELEVANT_DEPT',
+        'ADJUSTED_RATING_LEVEL',
+        'TEST_RESULT',
+        'DEEP_COMMENT_STATUS',
+      ];
+      let req = 'keys=';
+      req = req + data.join('&keys=');
+      const red = await selectDictByKeys(req);
+      this.deptList = red.data.RELEVANT_DEPT;
+      
+      // this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data

@@ -40,7 +40,8 @@
     </iSearch>
     <iCard class="margin-top20">
         <template v-slot:header-control>
-            <iButton v-permission.auto="QUALITYSCORERULES_BUTTON_ADD|添加" @click="changeVisible('addRulesDialogVisible',true)">{{language("TIANJIA", "添加")}}</iButton>
+            <iButton v-permission.auto="QUALITYSCORERULES_BUTTON_ADD|添加" @click="edit">{{ language("BIANJI", "编辑") }}</iButton>
+            <iButton v-permission.auto="QUALITYSCORERULES_BUTTON_ADD|添加" @click="add">{{language("TIANJIA", "添加")}}</iButton>
             <iButton v-permission.auto="QUALITYSCORERULES_BUTTON_DELETE|删除" @click="deletRule" :loading="btnLoading.deletRule">{{ language('SHANCHU', '删除') }}</iButton>
         </template>
         <div class="body" v-permission.auto="QUALITYSCORERULES_TABLE|质量评分预设规则表单">
@@ -60,7 +61,7 @@
     </iCard>
 
     <!-- 新增弹窗 -->
-    <addRulesDialog :dialogVisible="addRulesDialogVisible" @changeVisible="changeVisible" @getList="getList" :requestData="requestData"/>
+    <addRulesDialog :dialogVisible="addRulesDialogVisible" :openType="dialogopenType" @changeVisible="changeVisible" @getList="getList" :requestData="requestData" :multipleSelection="selectItems"/>
   </iPage>
 </template>
 
@@ -107,7 +108,8 @@ export default {
             selectItems:[],
             btnLoading:{
                 deletRule:false,
-            }
+            },
+            dialogopenType:'add',
         }
     },
     created(){
@@ -136,6 +138,7 @@ export default {
                                 Sitem.num = rule.num
                                 Sitem.deptName = rule.deptNum || (rule.dept && rule.dept.deptNum) || ''
                                 Sitem.userName = rule.userName || (rule.user && rule.user.userName) || ''
+                                Sitem.userId = rule.userId || (rule.user && rule.user.userId) || ''
                             })
                         }
                         tableListData.push(Sitem)
@@ -186,6 +189,20 @@ export default {
             this.btnLoading.deletRule = false;
           })
           }
+        },
+        // 添加规则
+        add(){
+            this.dialogopenType = 'add';
+            this.changeVisible('addRulesDialogVisible',true);
+        },
+        // 编辑
+        edit(){
+            if(this.selectItems.length == 1){
+                this.dialogopenType = 'edit';
+                this.changeVisible('addRulesDialogVisible',true);
+            }else{
+                this.$message.warning(this.language('CONFIGSCOREDEPT_QINGJINGOUXUANYITIAOSHUJUHOUBIANJI','请仅勾选一条数据后编辑'));
+            }
         },
     }
 }

@@ -32,7 +32,7 @@
       <el-row :gutter="30">
         <el-col :span="6">
           <iFormItem :label="language('TIPS中车型ID')">
-            <iInput v-model="baseForm.id" disabled />
+            <iInput :value="tipsId" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
@@ -213,7 +213,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="language('是否TIPS同步')">
+          <iFormItem :label="language('是否允许从TIPS同步')">
             <iSelect
               v-model="baseForm.isModify"
               :disabled="!editable"
@@ -324,6 +324,12 @@ export default {
     },
     isEditPage() {
       return this.baseForm.id
+    },
+    tipsId() {
+      if (this.baseForm?.resource === 2) {
+        return this.baseForm.originId
+      }
+      return ''
     }
   },
   watch: {

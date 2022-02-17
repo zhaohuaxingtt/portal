@@ -238,8 +238,9 @@ export default {
     },
     add() {
       this.dialog = true
-      this.cleardialog()
       this.dialogTitle = this.language('XINJIAN', '新建')
+      this.cleardialog()
+
     },
     addBtn() {
       this.$refs.dialogRules.validate((valid) => {

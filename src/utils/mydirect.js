@@ -27,6 +27,7 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+    // console.log(binding)
     if (store.state.location.menuList1.length == 0) {
       //处理二级菜单三级菜单权限问题
       store.commit('menuList1Fun', document.querySelectorAll('.lev1>div'))
@@ -46,7 +47,9 @@ Vue.directive('permission', {
     } else {
       proValue = binding.value
     }
+    // console.log(proValue)
     const splitValue = proValue.split('|')
+    // console.log(splitValue)
     //去除控件传参中存在换行空格等情况
     const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
     if (proValue === 'TRUE') {
@@ -56,7 +59,6 @@ Vue.directive('permission', {
       return true
     } else {
       let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
-
       if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
         // if (['vmsit', 'SIT', 'UAT'].includes(process.env.NODE_ENV)) {
         if (
@@ -65,9 +67,10 @@ Vue.directive('permission', {
         ) {
           // 处理控件中，不可见的组件 列入：Ibutton.
           if (pagePermission !== 'undefined') {
+            // console.log(pagePermission)
+            // console.log(!store.state.permission.whiteBtnList[pagePermission])
             if (!store.state.permission.whiteBtnList[pagePermission]) {
               //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
-
               if (
                 binding.rawName.split('.')[1] &&
                 binding.rawName.split('.')[1] == 'edit'
@@ -86,17 +89,17 @@ Vue.directive('permission', {
   componentUpdated: function () {
     // return false;
 
-    if(store.state.location.menuList1.length == 0 && store.state.location.menuList2.length == 0){
-      
-    }else{
+    if (
+      store.state.location.menuList1.length == 0 &&
+      store.state.location.menuList2.length == 0
+    ) {
+    } else {
       var directConstant = store.state.location.directConstant
       if (directConstant !== 0) return false
     }
-    
+
     // console.log(store.state.location.menuList1)
     // console.log(store.state.location.menuList2)
-
-
 
     // store.commit('setNumberAdd', '')
     var insertedOldNodesListNew = [] //二级菜单new
@@ -105,7 +108,7 @@ Vue.directive('permission', {
       var path = store.state.location.nowSetToPath
       var number = 0
       store.state.location.menuList1.forEach((e) => {
-        if (e.innerText.trim() === path.meta.title.trim()) {
+        if (e?.innerText?.trim() === path?.meta?.title?.trim()) {
           number++
         }
       })
@@ -114,7 +117,7 @@ Vue.directive('permission', {
         if (insertedOldNodesListNew.length > 0) {
           var num = 0
           insertedOldNodesListNew.forEach((e) => {
-            if (e.innerText.trim() === path.meta.title.trim()) {
+            if (e?.innerText?.trim() === path?.meta?.title?.trim()) {
               // console.log(e.innerText.trim())
               num++
             }

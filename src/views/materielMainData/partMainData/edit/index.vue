@@ -64,7 +64,7 @@
                 v-else
                 class="numbers"
               >
-                <iFormItem v-model="itemContent.number"
+                <iFormItem v-model="itemContent.number" label-width="80px"
                   ><div class="l" slot="label">
                     {{ language('零件号') }}<span style="color: red">*</span>
                   </div></iFormItem
@@ -83,9 +83,9 @@
                     <iInput
                       v-model="itemContent.partNum1"
                       :disabled="editNumber"
-                      style="width: 30px"
+                      style="width: 35px"
                       @input="topartNum2"
-                      class="partNum1"
+                      class="partNum1 partNum"
                       maxlength="3"
                     >
                     </iInput>
@@ -97,9 +97,10 @@
                       @change="searchMaterielGroup"
                       id="partNum2"
                       :disabled="editNumber"
-                      style="width: 30px"
+                      style="width: 35px"
                       :focus="onPartNum2"
                       maxlength="3"
+                      class="partNum"
                       @input="topartNum3"
                     >
                     </iInput>
@@ -111,8 +112,9 @@
                       @change="searchMaterielGroup"
                       id="partNum3"
                       :disabled="editNumber"
-                      style="width: 30px"
+                      style="width: 35px"
                       maxlength="3"
+                      class="partNum"
                       @input="topartNum4"
                     ></iInput>
                   </iFormItem>
@@ -120,9 +122,10 @@
                     <iInput
                       v-model="itemContent.partNum4"
                       :disabled="editNumber"
-                      style="width: 30px"
+                      style="width: 35px"
                       id="partNum4"
                       maxlength="2"
+                      class="partNum"
                       @input="topartNum5"
                     >
                     </iInput>
@@ -131,9 +134,10 @@
                     <iInput
                       v-model="itemContent.partNum5"
                       :disabled="editNumber"
-                      style="width: 30px"
+                      style="width: 35px"
                       id="partNum5"
                       maxlength="3"
+                      class="partNum"
                     ></iInput>
                   </iFormItem>
                 </div>
@@ -170,7 +174,7 @@
             </el-row>
             <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="language('零件状态')">
+                <iFormItem :label="language('零件状态')" label-width="80px">
                   <iInput
                     disabled
                     v-model="itemContent.partStatusDesc"
@@ -226,7 +230,7 @@
             </el-row>
             <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="language('FOP')">
+                <iFormItem :label="language('FOP')" label-width="80px">
                   <!-- <iInput :placeholder='language("请输入")' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput> -->
                   <iSelectorInput
                     v-model="fop"
@@ -280,7 +284,11 @@
             </el-row>
             <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="language('专业组')" prop="fgId">
+                <iFormItem
+                  :label="language('专业组')"
+                  prop="fgId"
+                  label-width="80px"
+                >
                   <iSelect
                     :placeholder="language('请输入/请选择')"
                     v-model="itemContent.fgId"
@@ -1289,6 +1297,14 @@ export default {
 .unit {
   ::v-deep .el-form-item {
     margin-bottom: 0px;
+  }
+}
+.partNum {
+  ::v-deep .el-input__inner {
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+    font-size: 12px;
   }
 }
 </style>

@@ -117,10 +117,11 @@
             "
             >{{ language('删除') }}</iButton
           >
+
           <iButton
             @click="downLoadSupplier"
             v-permission="
-              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_DOWNLOAD_SUPPLIER_TEMPLATE'
+              'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_SUPPLIER_DOWNLOAD_TEMPLATE'
             "
             >{{ language('下载供应商模版') }}</iButton
           >
@@ -389,7 +390,7 @@ export default {
               for (let item of this.tableData) {
                 for (let val of this.extraData.bdlOption) {
                   if (item.bdlType == val.code) {
-                    item.bdlType = val.name
+                    item.bdlType = val.code
                   }
                 }
               }
@@ -608,6 +609,7 @@ export default {
     SaveNewSupplier() {
       let data = []
       let dataOld = [...this.tableData]
+      console.log(dataOld, '====')
       //两个数组取出不同的地方
       for (let i = 0; i < dataOld.length; i++) {
         if (dataOld[i].id === undefined) {
