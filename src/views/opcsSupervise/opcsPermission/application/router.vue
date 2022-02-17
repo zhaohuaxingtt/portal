@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2022-02-15 09:17:52
+ * @LastEditTime: 2022-02-17 10:08:16
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -68,7 +68,7 @@ export default {
   // 监听属性 类似于data概念
      computed: {
               stateAdmin() {
-                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'ADMIN'||item.code == 'XTGLY'||item.code == 'CSXTGLY')
+                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'ADMIN'||item.code == 'XTGLY'||item.code == 'CSXTGLY'||item.code == 'CIXTGLY')
             },
         },
   // 监控data中的数据变化
