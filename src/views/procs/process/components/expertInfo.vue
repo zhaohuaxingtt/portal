@@ -34,7 +34,7 @@
                     <span class="cursor">{{info.wechatId}}</span>
                 </div>
                 <div class="orgAvatar" v-if="orgLogoFlag">
-                    <img v-if="info.profilePicture" :src="orgLogoUrl" class="avatar" />
+                    <img :src="orgLogoUrl" class="avatar" />
                 </div>
             </div>
         </div>
