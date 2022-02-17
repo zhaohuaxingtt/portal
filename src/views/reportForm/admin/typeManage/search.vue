@@ -273,16 +273,19 @@ export default {
 			})
 		},
 		async modify(row) {
-		console.log('modify', row)
-		if (row.published)
-			return this.$message({
-			type: 'warning',
-			message: `${this.commonText}修改!!!`
+			console.log('modify', row)
+			if (row.published)
+				return this.$message({
+				type: 'warning',
+				message: `${this.commonText}修改!!!`
 			})
-		this.currDetailInfo = row
-		this.modifyId = row.id
-		this.dialogShow = true
-		this.operateType = 'edit'
+			row.organizations.map(item => {
+				item.nameZh = item.name
+			})
+			this.currDetailInfo = row
+			this.modifyId = row.id
+			this.dialogShow = true
+			this.operateType = 'edit'
 		},
 		addReportType(row) {
 		if (row.published)
