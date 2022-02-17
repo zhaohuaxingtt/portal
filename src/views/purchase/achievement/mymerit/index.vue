@@ -163,10 +163,6 @@
           if(PFJYJGLY) {
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
-          } else if (Linie) {
-            this.username = '8'
-            this.btnsgroup1 = ['Linie', 'Linie(Spare)']
-            return 'Linie'
           } else if (KZ && Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
@@ -203,6 +199,10 @@
             this.username = '7'
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
+          } else if (Linie) {
+            this.username = '8'
+            this.btnsgroup1 = ['Linie', 'Linie(Spare)']
+            return 'Linie'
           }
         }
       },
@@ -212,7 +212,7 @@
         // getEklPbil().then(res=>{
             
         // })
-        console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
+        // console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长

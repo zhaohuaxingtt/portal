@@ -1,6 +1,10 @@
 <template>
   <div class="news-container" @scroll="scrollHandler($event)">
-    <div class="news-img-card" @click="goNewsDetail(firstNews)">
+    <div
+      v-if="middleListL && middleListL.length"
+      class="news-img-card"
+      @click="goNewsDetail(firstNews)"
+    >
       <div class="news-banner">
         <img :src="firstNews.picUrl" alt="加载失败" />
       </div>

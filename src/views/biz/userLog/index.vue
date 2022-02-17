@@ -5,7 +5,7 @@
 			<el-form :model="form" ref="form" class="search-form" :inline="true" size="normal">	
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作类型')" slot="label"></iLabel>
-					<iSelect v-model="form.type" class="w-220" filterable clearable>
+					<iSelect v-model="form.type" class="w-220" filterable clearable @change="handleOperationTypes">
 						<el-option
 							v-for="item in operationTypes"
 							:label="item.label"
@@ -45,6 +45,10 @@
 					<iLabel class="label" :label="language('日志编号')" slot="label"></iLabel>
 					<iInput v-model="form.id" class="w-220" :placeholder="language('请输入')" />
 				</div>
+				<div class="form-item">
+					<iLabel class="label" :label="language('关键查看记录')" slot="label"></iLabel>
+					<el-checkbox v-model="form.isSee" :disabled="recordFlag">{{language('显示关键查看记录')}}</el-checkbox>
+				</div>
 			</el-form>
 		</iSearch>
 		<iCard class="mar-t20">
@@ -83,7 +87,8 @@ export default {
 			date:"",
 			extraData:{
                 msgDetail:this.msgDetail
-            }
+            },
+			recordFlag: false
 		}
 	},
 	created(){
@@ -108,7 +113,8 @@ export default {
 					content_like:"",
 					createDate_gt:"",
 					createDate_le:"",
-					id:""
+					id:"",
+					isSee: ""
 				}	
 				this.date = ""
 				resolve()
@@ -127,7 +133,15 @@ export default {
 		dateChange(date){
             this.form.createDate_gt = date ? date[0] : ""
             this.form.createDate_le = date ? date[1] : ""
-        }
+        },
+		handleOperationTypes(v) {
+			if (v === '查看') {
+				this.form.isSee = false
+				this.recordFlag = true
+			} else {
+				this.recordFlag = false
+			}
+		}
 	}
 }
 </script>

@@ -234,12 +234,12 @@
         </iSelect>
       </iFormItem>
       <!-- 七 -->
-      <iFormItem prop="supplierDTO.companyAddress"
+      <iFormItem prop="supplierDTO.address"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYADDRESS">
         <iLabel :label="$t('companyAddress')"
                 required
                 slot="label"></iLabel>
-        <iInput v-model="supplierData.supplierDTO.companyAddress"
+        <iInput v-model="supplierData.supplierDTO.address"
                 :placeholder="$t('LK_QINGSHURU') + $t('companyAddress')"></iInput>
       </iFormItem>
       <iFormItem prop="supplierDTO.post"

@@ -84,9 +84,9 @@ export default {
   },
   created() {
     // if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
-    //   this.subNavList=subNavListtwo
+      this.subNavList=subNavListtwo
     // }else{
-      this.subNavList=subNavListOne
+    //   this.subNavList=subNavListOne
     // }
 
 
@@ -110,9 +110,17 @@ export default {
   },
   mounted() {
     this.show()
-    
     var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
-    navList[0].click();
+    var number = 0;
+    navList.forEach(e=>{
+      if(e.innerText == store.state.location.nowSetToPath.meta.title){
+        number++;
+        e.click();
+      }
+    })
+    if(number == 0){
+      navList[0].click();
+    }
   },
   methods: {
     show() {

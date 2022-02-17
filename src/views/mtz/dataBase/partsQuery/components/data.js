@@ -45,7 +45,7 @@ export const tableSetting = [
     width: 150,
     emit: 'go-partNumber',
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.assemblyPartnum}</span>
+      return <pre class="open-link-text">{scope.row.assemblyPartnum}</pre>
     }
   },
   {
@@ -374,7 +374,10 @@ export const partNumber = [
     label: '',
     i18n: '一次件零件号',
     align: 'center',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <pre>{scope.row.assemblyPartnum}</pre>
+    }
   },
   {
     prop: 'assemblySupplierSap',
