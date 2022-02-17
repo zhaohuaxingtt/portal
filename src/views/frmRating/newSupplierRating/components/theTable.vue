@@ -15,14 +15,15 @@
         }}</iButton>
       </div>
     </div>
-    <tableList :openPageProps="'nameZh'"
-               @openPage="openPage"
-               :openPageGetRowData="true"
-               :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="true"
-               @handleSelectionChange="handleSelectionChange" />
+    <iTableCustom
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+      @go-detail="openPage"
+    >
+    </iTableCustom>
+    
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -38,6 +39,7 @@
 <script>
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import { tableTitle } from './data'
 import { getNewSupplierRating } from '@/api/frmRating/newSupplierRating/newSupplierRating'
 import { pageMixins } from '@/utils/pageMixins'
@@ -50,7 +52,8 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination
+    iPagination,
+    iTableCustom
   },
   data () {
     return {

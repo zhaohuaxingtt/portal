@@ -18,27 +18,15 @@
         <iButton @click="handlePreliminaryRating">{{ $t('SUPPLIER_CHUBUPINGJI') }}</iButton>
       </div>
     </div>
-    <tableList :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="true"
-               @handleSelectionChange="handleSelectionChange"
-               openPageProps="nameZh"
-               @openPage="handleOpenPage"
-               :openPageGetRowData="true">
-      <template #effectFlag='scope'>
-        {{ scope.row.effectFlag === 1 ? $t('SUPPLIER_YOUXIAO') : $t('SUPPLIER_WUXIAO') }}
-      </template>
-      <template #isActive='scope'>
-        {{ SUPPLIER_STATUS[scope.row.isActive] }}
-      </template>
-      <!-- <template #preliminaryStatus='scope'>
-        {{ INITIAL_STATUS[scope.row.preliminaryStatus] }}
-      </template> -->
-      <template #isAddition='scope'>
-        {{ handleIsAdditionWord(scope.row.isAddition) }}
-      </template>
-    </tableList>
+
+    <iTableCustom
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+      @go-detail="handleOpenPage"
+    >
+    </iTableCustom>
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -61,6 +49,7 @@
 <script>
 import { iCard, iButton, iPagination, iMessageBox, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
+import iTableCustom from '@/components/iTableCustom';
 import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import { tableTitle } from './data';
@@ -84,6 +73,7 @@ export default {
     iCard,
     iButton,
     tableList,
+    iTableCustom,
     iPagination,
     notRatedDialog,
     financialReportComparisonDialog,
