@@ -94,7 +94,7 @@ export default {
           minWidth: 140,
           customRender: (h, scope) => {
             let { svwTempCodePp, supplierName } = scope.row
-            return <span>{svwTempCodePp+'-'+supplierName}</span>
+            return <span>{(svwTempCodePp?svwTempCodePp+'-':'')+supplierName}</span>
           },
         },
         {
