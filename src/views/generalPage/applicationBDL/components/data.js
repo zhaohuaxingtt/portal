@@ -7,76 +7,85 @@
 
 export const applicationBDLTableTitle = [
   {
-    props: 'categoryCode',
-    name: '材料组编号',
-    key: 'SUPPLIER_CAILIAOZUBIANHAO',
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    width: 60,
+    label: '序号'
+  },
+  {
+    prop: 'categoryCode',
+    label: '材料组编号',
+    li8n: 'SUPPLIER_CAILIAOZUBIANHAO',
     tooltip: true
   },
   {
-    props: 'categoryNameZh',
-    name: '材料组名称',
-    key: 'SUPPLIER_CAILIAOZUMINGCHENG',
+    prop: 'categoryNameZh',
+    label: '材料组名称',
+    li8n: 'SUPPLIER_CAILIAOZUMINGCHENG',
     tooltip: true
   },
-  { props: 'bdl', name: '是否BDL', key: 'SHIFOUBDL', tooltip: true },
+  { prop: 'bdl', label: '是否BDL', li8n: 'SHIFOUBDL', tooltip: true },
   {
-    props: 'stuffCode',
-    name: '材料组工艺编号',
-    key: 'SUPPLIER_CAILIAOZUGONGYIBIAOHAO',
+    prop: 'stuffCode',
+    label: '材料组工艺编号',
+    li8n: 'SUPPLIER_CAILIAOZUGONGYIBIAOHAO',
     width: 150,
     tooltip: true
   },
   {
-    props: 'stuffName',
-    name: '材料组工艺中文名称',
-    key: 'SUPPLIER_CAILIAOZUGONGYIZHONGWENGMINGCHENG',
+    prop: 'stuffName',
+    label: '材料组工艺中文名称',
+    li8n: 'SUPPLIER_CAILIAOZUGONGYIZHONGWENGMINGCHENG',
     width: 160,
     tooltip: true
   },
   {
-    props: 'stuffNameDe',
-    name: '材料组工艺德文名称',
-    key: 'SUPPLIER_CAILIAOZUGONGYIDEWENMINGCHENG',
+    prop: 'stuffNameDe',
+    label: '材料组工艺德文名称',
+    li8n: 'SUPPLIER_CAILIAOZUGONGYIDEWENMINGCHENG',
     width: 160,
     tooltip: true
   },
   {
-    props: 'linieGroup',
-    name: 'Linie组别',
-    key: 'SUPPLIER_LINIEJIBIE',
+    prop: 'linieGroup',
+    label: 'Linie组别',
+    li8n: 'SUPPLIER_LINIEJIBIE',
     tooltip: true
   },
   {
-    props: 'userNames',
-    name: 'Linie人员',
-    key: 'SUPPLIER_LINIERENYUAN',
+    prop: 'userNames',
+    label: 'Linie人员',
+    li8n: 'SUPPLIER_LINIERENYUAN',
     tooltip: true
   },
   {
-    props: 'bdlType',
-    name: '是否属于MBDL',
-    key: 'SUPPLIER_SHIFOUSHUYUmbDL',
+    prop: 'bdlType',
+    label: '是否属于MBDL',
+    li8n: 'SUPPLIER_SHIFOUSHUYUmbDL',
     width: 130,
     tooltip: true
   },
   {
-    props: 'controlledState',
-    name: '受控状态',
-    key: 'SUPPLIER_SHOUKONGZHUANGTAI',
+    prop: 'controlledState',
+    label: '受控状态',
+    li8n: 'SUPPLIER_SHOUKONGZHUANGTAI',
     width: 130,
     tooltip: true
   },
   {
-    props: 'controlledBegindate',
-    name: '受控起始时间',
-    key: 'SUPPLIER_SHOUKONGQISHISHIJIAN',
+    prop: 'controlledBegindate',
+    label: '受控起始时间',
+    li8n: 'SUPPLIER_SHOUKONGQISHISHIJIAN',
     width: 130,
     tooltip: true
   },
   {
-    props: 'controlledEnddate',
-    name: '受控截止时间',
-    key: 'SUPPLIER_JIEZHISHIJIAN',
+    prop: 'controlledEnddate',
+    label: '受控截止时间',
+    li8n: 'SUPPLIER_JIEZHISHIJIAN',
     width: 130,
     tooltip: true
   }
