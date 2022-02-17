@@ -373,7 +373,7 @@ export default {
             this.imageUrl = row.cover
             this.form.adminUsers = row.adminUsers.map(e => String(e?.id))
             if (row.organizations.length > 0) {
-                this.form.organizations = row.organizations.map(e => String(e?.id))
+                this.form.organizations = row.organizations.map(e => (e.id) * 1)
             }
             if (this.form.userRange === 15) {
                 this.customFlag = true

@@ -41,6 +41,7 @@ Vue.directive('permission', {
     //如果是个变量则使用变量，否则当做字符串处理
     var proValue = ''
     if (binding.value == 0) {
+      console.log(binding)
       proValue = binding.expression.trim()
     } else if (binding.value == undefined) {
       proValue = binding.expression
@@ -108,7 +109,7 @@ Vue.directive('permission', {
       var path = store.state.location.nowSetToPath
       var number = 0
       store.state.location.menuList1.forEach((e) => {
-        if (e?.innerText?.trim() === path?.meta?.title?.trim()) {
+        if (e.innerText.trim() === path.meta.title.trim()) {
           number++
         }
       })
@@ -117,7 +118,7 @@ Vue.directive('permission', {
         if (insertedOldNodesListNew.length > 0) {
           var num = 0
           insertedOldNodesListNew.forEach((e) => {
-            if (e?.innerText?.trim() === path?.meta?.title?.trim()) {
+            if (e.innerText.trim() === path.meta.title.trim()) {
               // console.log(e.innerText.trim())
               num++
             }
