@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-02-16 17:44:20
+ * @LastEditTime: 2022-02-16 17:54:55
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -487,6 +487,7 @@ export default {
       cancelApprove(row.id).then(res=>{
         if(res?.code=='200'){
           // this.tableData.splice(index, 1)
+          this.$emit('purchaseTerms')
           this.getTableList()
           iMessage.success(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }else{
@@ -542,7 +543,6 @@ export default {
     // 关闭弹窗
     clearDiolog() {
       this.$emit('input', false)
-          this.$emit('purchaseTerms',false)
     },
   }
 }

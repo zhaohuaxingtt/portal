@@ -17,6 +17,7 @@ const location = {
     directConstant:0,
     menuList1:[],
     menuList2:[],
+    mtzAnnualBudgetNumber:1,
   },
   actions: {
     setMtzChangeBtn({ commit }, data) {
@@ -55,6 +56,10 @@ const location = {
     menuList2Fun(state,data){
       state.menuList2 = data;
     },
+
+    mtzAnnualBudgetNav(state,data){
+      state.mtzAnnualBudgetNumber = data;
+    }
   }
 }
 export default location

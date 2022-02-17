@@ -8,7 +8,7 @@
 <template>
   <div>
     <div class="headerNav-sub">
-      <iTabsList type="card" v-model="tab" @tab-click="handleTabClick">
+      <!-- <iTabsList type="card" v-model="tab" @tab-click="handleTabClick">
         <el-tab-pane
           lazy
           v-for="(item, index) in subNavList"
@@ -16,7 +16,14 @@
           :label="language(item.key, item.name)"
           :name="item.code"
         ></el-tab-pane>
-      </iTabsList>
+      </iTabsList> -->
+
+      <div class="mtz_ndys_nav">
+        <div class="mtz_ndys_nav_all">
+          <div v-for="(item,index) in subNavList" :key="index" :class="mtzAnnualBudgetNumber===Number(item.code)?'active':''" @click="handleTabClick(item)" v-permission="item.permissionKey">{{language(item.key, item.name)}}</div>
+        </div>
+      </div>
+      
       <iButton v-if="showBtn" class="export" @click="exportReport" v-permission='MTZ_REPORT_ANNUAL_BUDGET_EXPORT'
         >导出</iButton
       >
@@ -36,6 +43,8 @@
 import { iTabsList, iButton } from 'rise'
 import { subNavListOne,subNavListtwo } from '@/views/mtz/annualGeneralBudget/reportsShow/config/config'
 import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/ShowMeComponents'
+
+import store from "@/store";
 export default {
   name: 'index',
   components: {
@@ -50,15 +59,37 @@ export default {
       showBtn: false,
       showPinpai:false,
       showCar:false,
+      // tabsValue:1
     }
   },
+  computed:{
+    mtzAnnualBudgetNumber(){
+      // console.log(this.$store.state.location.mtzAnnualBudgetNumber)
+      return this.$store.state.location.mtzAnnualBudgetNumber;
+    }
+  },
+  beforeRouteEnter:(to,from,next)=>{
+    if(to.name == "materialGroup"){
+      store.commit("mtzAnnualBudgetNav", 1);
+    }else if(to.name == "classMaterial"){
+      store.commit("mtzAnnualBudgetNav", 2);
+    }else if(to.name == "department"){
+      store.commit("mtzAnnualBudgetNav", 3);
+    }else if(to.name == "brand"){
+      store.commit("mtzAnnualBudgetNav", 4);
+    }else if(to.name == "model"){
+      store.commit("mtzAnnualBudgetNav", 5);
+    }
+    next()
+  },
   created() {
-    if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
-      this.subNavList=subNavListtwo
-    }
-    else{
+    // if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
+    //   this.subNavList=subNavListtwo
+    // }else{
       this.subNavList=subNavListOne
-    }
+    // }
+
+
     if (this.$route.name == 'materialGroup') {
       this.tab = '1'
     }
@@ -79,6 +110,9 @@ export default {
   },
   mounted() {
     this.show()
+    
+    var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+    navList[0].click();
   },
   methods: {
     show() {
@@ -86,8 +120,11 @@ export default {
         typeof this.$refs.child?.exportReport == 'function' || false
     },
     handleTabClick(tab) {
-      console.log(this.$refs.child)
-      let item = this.subNavList.find((item) => item.code == tab.name)
+      if (Number(tab.code) !== this.tabsValue) {
+        this.tabsValue = Number(tab.code);
+        store.commit("mtzAnnualBudgetNav", Number(tab.code));
+      }
+      let item = this.subNavList.find((item) => item.code == tab.code)
       if (item != null && item.path != this.$route.path) {
         this.$router.replace({
           path: item.path
@@ -114,6 +151,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mtz_ndys_nav{
+  margin-top:20px;
+  display: flex;
+  margin-bottom:20px;
+  font-size:1rem;
+  font-weight: bold;
+  color:#727272;
+  // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+  border: none;
+  text-align: center;
+  min-width: 9.375rem;
+  .mtz_ndys_nav_all{
+    
+  }
+  .mtz_ndys_nav_all>div{
+    cursor: pointer;
+    min-width:140px;
+    float:left;
+    height: 2.5rem;
+    box-sizing: border-box;
+    line-height: 2.5rem;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .mtz_ndys_nav_all>div:nth-child(1){
+    border-top-left-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-right: solid 1px #ececec;
+  }
+  .mtz_ndys_nav_all>div:nth-child(3){
+    border-left: solid 1px #ececec;
+    border-top-right-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+  }
+
+  .active{
+    background-color: #ffffff;
+    background: #ffffff;
+    color:#1660f1;
+  }
+}
+
+
 .headerNav-sub {
   position: relative;
   .export {
