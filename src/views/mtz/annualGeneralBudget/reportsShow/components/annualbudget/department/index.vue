@@ -85,7 +85,6 @@
             }}</span>
           </div>
           <totalAmountComponent
-            v-if="this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'"
             :key="keyString"
             :deptData="deptData"
             :showEchart="showEchart"
@@ -155,6 +154,9 @@ export default {
             this.showEchart = true
             this.keyString += 1
           }else{
+            this.deptData = {lastYearPrice:'0.00',curYear:'',lastYear:''}
+            this.showEchart = true
+            this.keyString += 1
             this.$message.error(res.desZh)
           }
         })
