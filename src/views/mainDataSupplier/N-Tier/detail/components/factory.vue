@@ -333,8 +333,14 @@ export default {
           cancelButtonText: this.$t('LK_QUXIAO')
         }
       ).then(() => {
-        this.tableListData = this.tableListData.filter(
+        /* this.tableListData = this.tableListData.filter(
           (e) => this.selectTableData.indexOf(e) === -1
+        ) */
+        this.$emit(
+          'del',
+          this.tableListData.filter(
+            (e) => this.selectTableData.indexOf(e) === -1
+          )
         )
       })
     },

@@ -1,11 +1,17 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{ language($route.query.id ? '编辑' : '新增') }}{{language('车型项目主数据')}}
+      {{ language($route.query.id ? '编辑' : '新增')
+      }}{{ language('车型项目主数据') }}
     </pageHeader>
-    <baseInfo @save-success="saveSuccess" @PEPData="PEPData" />
+    <baseInfo ref="base" @save-success="saveSuccess" @PEPData="PEPData" />
     <detailPlan v-if="carProjectID" />
-    <detailPEP v-if="carProjectID" :pepData="pepData" />
+    <detailPEP
+      ref="pep"
+      v-if="carProjectID"
+      :pepData="pepData"
+      @save-success="handlePEPSaveSuccess"
+    />
     <detailConfig v-if="carProjectID" />
   </iPage>
 </template>
@@ -23,6 +29,10 @@ export default {
       //保存成功之后的ID
       console.log(data)
       this.carProjectID = data
+      this.$refs.pep.queryPepDateNode()
+    },
+    handlePEPSaveSuccess() {
+      this.$refs.base.queryCarProjectBaseInfo(this.$route.query.id)
     },
     queryBaseInfo() {
       //
