@@ -114,7 +114,7 @@ export default {
     //退出
     handleOut(){
       this.$emit('close')
-    }
+    } 
   }
  
 }
