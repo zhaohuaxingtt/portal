@@ -1,25 +1,48 @@
 export const tableTitleGp = [
-    { props: 'type', name: '受控业务类型', key: 'SHOUKONGYEWULEIXING', tooltip: true },
-    { props: 'measures', name: '受控措施', key: 'SHOUKONGCUOSHI', tooltip: true },
-    { props: 'createByName', name: '操作人', key: 'CAOZUOREN', tooltip: true },
-    { props: 'createDate', name: '操作时间', key: 'CAOZUOSHIJIAN', tooltip: true },
-    { props: 'startTime', name: '受控起始时间', key: 'SHOUKONGQISHISHIJIAN', tooltip: true },
-    { props: 'endTime', name: '受控截止时间', key: 'SHOUKOINGJIEZHISHIJIAN', tooltip: true },
+    {
+      type: 'selection',
+      width: 50
+    },
+    {
+      type: 'index',
+      width: 60,
+      label: '序号'
+    },
+    { prop: 'type', label: '受控业务类型', li8n: 'SHOUKONGYEWULEIXING', tooltip: true },
+    { prop: 'measures', label: '受控措施', li8n: 'SHOUKONGCUOSHI', tooltip: true },
+    { prop: 'createByName', label: '操作人', li8n: 'CAOZUOREN', tooltip: true },
+    { prop: 'createDate', label: '操作时间', li8n: 'CAOZUOSHIJIAN', tooltip: true },
+    { prop: 'startTime', label: '受控起始时间', li8n: 'SHOUKONGQISHISHIJIAN', tooltip: true },
+    { prop: 'endTime', label: '受控截止时间', li8n: 'SHOUKOINGJIEZHISHIJIAN', tooltip: true },
   ]
   export const tableTitlePp = [
-    { props: 'categoryCode', name: '材料组编号',width:150, key: 'CAILIAOZUBIANHAO', tooltip: true },
-    { props: 'categoryName', name: '材料组名称',width:150, key: 'CAILIAOZUMINGCHENG', tooltip: true },
-    { props: 'stuffCode', name: '⼯艺组编号', width:150,key: 'GONGYIZUBIANHAO', tooltip: true },
-    { props: 'stuffNameEnDe', name: '⼯艺组名称（中-德）', width:180,key: 'GONGYIZUMINGCHENGZHONGDE', tooltip: true },
-    { props: 'linieDeptName', name: 'LINIE科室',width:150, key: 'LINIEKESHI', tooltip: true },
-    { props: 'liniePurchaserName', name: 'LINIE采购员',width:150, key: 'LINIECAIGOUYUAN', tooltip: true },
-    { props: 'purchaserName', name: '前期采购员', width:150,key: 'QIANQICAIGOUYUAN', tooltip: true },
-    { props: 'measures', name: '受控措施', width:150,key: 'SHOUKONGCUOSHI', tooltip: true },
-    { props: 'startTime', name: '受控起始时间',width:160, key: 'SHOUKONGQISHISHIJIAN', tooltip: true },
-    { props: 'endTime', name: '受控截⽌时间', width:160,key: 'SHOUKOINGJIEZHISHIJIAN', tooltip: true },
-    { props: 'createByName', name: '操作⼈', width:100,key: 'CAOZUOREN', tooltip: true },
-    { props: 'createDate', name: '操作时间', width:120,key: 'CAOZUOSHIJIAN', tooltip: true },
-    { props: 'mbdl', name: '是否属于MBDL', width:160,key: 'SHIFOUSHUYUMBDL', tooltip: true },
+    {
+      type: 'selection',
+      width: 50
+    },
+    {
+      type: 'index',
+      width: 60,
+      label: '序号'
+    },
+    { prop: 'categoryCode', label: '材料组编号',width:150, li8n: 'CAILIAOZUBIANHAO', tooltip: true },
+    { prop: 'categoryName', label: '材料组名称',width:150, li8n: 'CAILIAOZUMINGCHENG', tooltip: true },
+    { prop: 'stuffCode', label: '⼯艺组编号', width:150,li8n: 'GONGYIZUBIANHAO', tooltip: true },
+    { prop: 'stuffNameEnDe', label: '⼯艺组名称（中-德）', width:180,li8n: 'GONGYIZUMINGCHENGZHONGDE', tooltip: true,
+      customRender: (h, scope) => {
+        var str = scope.row.stuffName + "-" + scope.row.stuffNameDe
+        return str
+      }
+    },
+    { prop: 'linieDeptName', label: 'LINIE科室',width:150, li8n: 'LINIEKESHI', tooltip: true },
+    { prop: 'liniePurchaserName', label: 'LINIE采购员',width:150, li8n: 'LINIECAIGOUYUAN', tooltip: true },
+    { prop: 'purchaserName', label: '前期采购员', width:150,li8n: 'QIANQICAIGOUYUAN', tooltip: true },
+    { prop: 'measures', label: '受控措施', width:150,li8n: 'SHOUKONGCUOSHI', tooltip: true },
+    { prop: 'startTime', label: '受控起始时间',width:160, li8n: 'SHOUKONGQISHISHIJIAN', tooltip: true },
+    { prop: 'endTime', label: '受控截⽌时间', width:160,li8n: 'SHOUKOINGJIEZHISHIJIAN', tooltip: true },
+    { prop: 'createByName', label: '操作⼈', width:100,li8n: 'CAOZUOREN', tooltip: true },
+    { prop: 'createDate', label: '操作时间', width:200,li8n: 'CAOZUOSHIJIAN', tooltip: true },
+    { prop: 'mbdl', label: '是否属于MBDL', width:160,li8n: 'SHIFOUSHUYUMBDL', tooltip: true },
   ]
   export const tableTitleGpBlackList=[
     { props: 'type', name: '受控业务类型', key: 'SHOUKONGYEWULEIXING', tooltip: true },
