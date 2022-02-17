@@ -7,7 +7,7 @@
     
       <draggable v-model="syllable">
         <div v-for="(item , idx) in syllable" :key="idx" class="divheight">
-          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.presenterDept}}
+          <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item}}
         </div>
       </draggable>
       <div class="btn">
@@ -32,7 +32,8 @@ export default {
   },
   data(){
     return {
-      syllable:[]
+      syllable:[],
+      oldArr:[]
     }
   },
   created() {  
@@ -47,24 +48,57 @@ export default {
       }
       findThemenById(data) .then((res) => {
          console.log(res.themens);
-         this.syllable=res.themens
+         this.oldArr=res.themens
+        //  res.themens.presenterDept
+        // 去重  留下不同的股别
+        var arr = []
+        var data = [...res.themens]
+        for(let val of data){
+            arr.push(val.presenterDept)
+        }
+        this.syllable = new Set(arr)
+        return 
+        var newArr = [];
+        var newArr2 = [];
+        for(var i =0;i<arr.length-1;i++){
+            if(newArr.indexOf(arr[i]) == -1){
+                newArr.push(arr[i]);
+                newArr2.push(data[i]);
+            }
+        }
+        data= newArr2;
+        console.log(data);
+        this.syllable=data
+        //  this.syllable=res.themens
          console.log(this.syllable);
         }) .catch((err) => {
           console.log(err)
         })
+      
     },
      // 保存
      //meetingService/resortThemen
     handleSave(){
+        // 保存接口数据操作  处理没有操作的数据  找相同的股别push在新数组 不用的push在后面
+        let finnallyData = []
+        this.syllable.forEach(x=>{
+          this.oldArr.forEach(y=>{ 
+            x==y.presenterDept?finnallyData.push(y):''
+          })
+        })
+        console.log(finnallyData)
+
+      // 处理传给后端的值
       let resortThemens =[]
-      this.syllable.forEach((x,index)=>{
+      finnallyData.forEach((x,index)=>{
         resortThemens.push({itemNo:index+1,themenId:x.id})
       })
-      const data = {
+      const datas = {
         meetingId:this.$route.query.id,
         resortThemens:resortThemens
       }
-      resortThemen(data).then((res) => {
+      console.log(datas,'传给后端参数');
+      resortThemen(datas).then((res) => {
          if (res) {
              iMessage.success('保存成功')
             this.$emit('flushTable') 
@@ -72,6 +106,7 @@ export default {
           } 
       })
     },
+
     //重置
     handleReset(){
       this.queryMeetingInfoById()
