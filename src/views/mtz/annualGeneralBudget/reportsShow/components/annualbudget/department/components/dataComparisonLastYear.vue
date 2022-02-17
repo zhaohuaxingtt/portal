@@ -58,7 +58,7 @@ export default {
         let option = {
           title: {
             text: `总金额:${
-              Math.floor((this.deptData.lastYearPrice / 1000000) * 100) / 100
+             Math.floor((Number(this.deptData.lastYearPrice) / 1000000) * 100) / 100
             }`,
             x: 'center',
             y: '1%'
