@@ -81,7 +81,7 @@
             <el-option v-for="item in deptList"
                        :key="item.name"
                        :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
-                       :value="item.name">
+                       :value="item.id">
             </el-option>
           </iSelect>
         </el-form-item>
