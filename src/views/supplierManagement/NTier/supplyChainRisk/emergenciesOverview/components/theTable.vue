@@ -33,6 +33,16 @@
         <span v-else>{{scope.row.source}}</span>
       </template>
     </tableList>
+<!-- 
+    <iTableCustom>
+
+
+    </iTableCustom> -->
+
+
+
+
+
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -49,6 +59,7 @@
 <script>
 import { iCard, iButton, iPagination, icon } from 'rise';
 import tableList from '@/components/commonTable';
+import iTableCustom from '@/components/iTableCustom';
 import { emergenciesTableTitle } from './data';
 import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
@@ -63,7 +74,8 @@ export default {
     tableList,
     iPagination,
     icon,
-    createEmergenciesDialog
+    createEmergenciesDialog,
+    iTableCustom
   },
   data () {
     return {
