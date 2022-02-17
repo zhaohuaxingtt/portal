@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-02-16 17:54:55
+ * @LastEditTime: 2022-02-17 15:12:38
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -139,7 +139,7 @@
                 <span
                   class="underline openLinkText cursor"
                   @click="attachPreview(scope.row)"
-                  >{{ scope.row.fileName }}</span
+                  >{{ scope.row.fileName?scope.row.fileName+'-'+new Date(scope.row.signTime).getTime():'' }}</span
                 >
               </template>
             </el-table-column>
