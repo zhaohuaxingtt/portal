@@ -3,108 +3,148 @@
  * @Date: 2021-05-19 20:08:08
  * @Description: FRM综合管理
  */
+import { SUPPLIER_STATUS } from '../../../../constants/frmRating/preliminaryRating';
 
 export const tableTitle = [
-  { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO', tooltip: true },
   {
-    props: 'nameZh',
-    name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    width: 60,
+    label: '序号'
+  },
+  { prop: 'sapCode', lable: 'SAP号', i18n: 'SUPPLIER_SAPHAO', tooltip: true,width: 120, },
+  {
+    prop: 'nameZh',
+    lable: '供应商名称',
+    i18n: 'LK_GONGYINGSHANGMINGCHENG',
     width: 200,
     tooltip: true
   },
   {
-    props: 'isActive',
-    name: '供应商状态',
-    key: 'GONGHUO',
+    prop: 'isActive',
+    lable: '供应商状态',
+    i18n: 'GONGHUO',
+    width: 120,
+    tooltip: true,
+    customRender: (h, scope) => {
+      return SUPPLIER_STATUS[scope.row.isActive]
+    }
+  },
+  {
+    prop: 'takeChargeSection',
+    lable: '相关科室',
+    i18n: 'SPR_FRM_FRMGL_XGKS',
     width: 120,
     tooltip: true
   },
   {
-    props: 'takeChargeSection',
-    name: '相关科室',
-    key: 'SPR_FRM_FRMGL_XGKS',
-    width: 200,
+    prop: 'externalAccessScore',
+    lable: '外评',
+    i18n: 'SPR_FRM_FRMGL_WP',
     tooltip: true
   },
   {
-    props: 'externalAccessScore',
-    name: '外评',
-    key: 'SPR_FRM_FRMGL_WP',
-    tooltip: true
-  },
-  {
-    props: 'externalAccessDate',
-    name: '外评时间',
-    key: 'SPR_FRM_FRMGL_WPSJ',
+    prop: 'externalAccessDate',
+    lable: '外评时间',
+    i18n: 'SPR_FRM_FRMGL_WPSJ',
     tooltip: true,
     width: 110
   },
   {
-    props: 'afterGrade',
-    name: '调整后评级',
-    key: 'SPR_FRM_FRMGL_TZHPJ',
+    prop: 'afterGrade',
+    lable: '调整后评级',
+    i18n: 'SPR_FRM_FRMGL_TZHPJ',
     width: 120,
     tooltip: true
   },
   {
-    props: 'grade',
-    name: '初步评级',
-    key: 'SUPPLIER_CHUBUPINGJI',
+    prop: 'grade',
+    lable: '初步评级',
+    width: 120,
+    i18n: 'SUPPLIER_CHUBUPINGJI',
     tooltip: true
   },
   {
-    props: 'initialCreateDate',
-    name: '初评时间',
-    key: 'SPR_FRM_FRMGL_CPSJ',
+    prop: 'initialCreateDate',
+    lable: '初评时间',
+    i18n: 'SPR_FRM_FRMGL_CPSJ',
     width: 110,
     tooltip: true
   },
   {
-    props: 'deepCommentResult',
-    name: '深评结果',
-    key: 'SHENPINGJIEGUO',
-    tooltip: true
+    prop: 'deepCommentResult',
+    width: 120,
+    lable: '深评结果',
+    i18n: 'SHENPINGJIEGUO',
+    tooltip: true,
+    customRender: (h, scope) => {
+      var str;
+      if(scope.row.deepCommentResult == 'GREEN'){
+        str = <icon symbol name="iconlvdeng"></icon>
+      }else if(scope.row.deepCommentResult == 'YELLOW'){
+        str = <icon symbol name="iconhuangdeng"></icon>
+      }else if(scope.row.deepCommentResult == 'RED'){
+        str = <icon symbol name="iconhongdeng"></icon>
+      }
+      return str;
+    }
   },
   {
-    props: 'approvalEndDate',
-    name: '深评时间',
-    key: 'SPR_FRM_FRMGL_SPSJ',
+    prop: 'approvalEndDate',
+    width: 120,
+    lable: '深评时间',
+    i18n: 'SPR_FRM_FRMGL_SPSJ',
     width: 110,
     tooltip: true
   },
   {
-    props: 'qualitativeScoreStatus',
-    name: '定性打分状态',
-    key: 'SPR_FRM_FRMGL_DXDFZT',
+    prop: 'qualitativeScoreStatus',
+    lable: '定性打分状态',
+    i18n: 'SPR_FRM_FRMGL_DXDFZT',
     width: 130,
     tooltip: true
   },
   {
-    props: 'qualitativeScoreDate',
-    name: '定性打分时间',
-    key: 'SPR_FRM_FRMGL_DXDFSJ',
-    width: 110,
+    prop: 'qualitativeScoreDate',
+    lable: '定性打分时间',
+    i18n: 'SPR_FRM_FRMGL_DXDFSJ',
+    width: 130,
     tooltip: true
   },
   {
-    props: 'deepStatus',
-    name: '深评状态',
-    key: 'SPR_FRM_FRMGL_SPZT',
+    prop: 'deepStatus',
+    lable: '深评状态',
+    i18n: 'SPR_FRM_FRMGL_SPZT',
     width: 160,
     tooltip: true
   },
   {
-    props: 'vwagAssessResult',
-    name: 'VWAG评级',
-    key: 'SPR_FRM_FRMGL_VWAGPJ',
+    prop: 'vwagAssessResult',
+    lable: 'VWAG评级',
+    i18n: 'SPR_FRM_FRMGL_VWAGPJ',
     width: 160,
-    tooltip: true
+    tooltip: true,
+    customRender: (h, scope) => {
+      var str;
+      if(scope.row.vwagAssessResult == 'green'){
+        str = <icon symbol name="iconlvdeng"></icon>
+      }else if(scope.row.vwagAssessResult == 'yellow'){
+        str = <icon symbol name="iconhuangdeng"></icon>
+      }else if(scope.row.vwagAssessResult == 'red'){
+        str = <icon symbol name="iconhongdeng"></icon>
+      }else{
+        str = <span>{scope.row.vwagAssessResult}</span>
+      }
+      return str;
+    }
   },
   {
-    props: 'vwagCreateDate',
-    name: 'VWAG时间',
-    key: 'SPR_FRM_FRMGL_VWAGSJ',
+    prop: 'vwagCreateDate',
+    lable: 'VWAG时间',
+    i18n: 'SPR_FRM_FRMGL_VWAGSJ',
     width: 160,
     tooltip: true
   }
