@@ -85,6 +85,7 @@
             }}</span>
           </div>
           <totalAmountComponent
+            v-if="this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'"
             :key="keyString"
             :deptData="deptData"
             :showEchart="showEchart"
