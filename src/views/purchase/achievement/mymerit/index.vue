@@ -163,7 +163,11 @@
           if(PFJYJGLY) {
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
-          }else if (KZ && Linie) {
+          } else if (Linie) {
+            this.username = '8'
+            this.btnsgroup1 = ['Linie', 'Linie(Spare)']
+            return 'Linie'
+          } else if (KZ && Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
             return 'KZ&&linie'
