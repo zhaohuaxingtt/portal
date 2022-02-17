@@ -83,11 +83,11 @@ export default {
     next()
   },
   created() {
-    if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
+    // if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
       this.subNavList=subNavListtwo
-    }else{
-      this.subNavList=subNavListOne
-    }
+    // }else{
+    //   this.subNavList=subNavListOne
+    // }
 
 
     if (this.$route.name == 'materialGroup') {
