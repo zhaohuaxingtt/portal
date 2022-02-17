@@ -208,7 +208,7 @@
         // getEklPbil().then(res=>{
             
         // })
-        console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
+        // console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
