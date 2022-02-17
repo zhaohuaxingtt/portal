@@ -36,7 +36,7 @@
       <div v-for="(item, index) in activeData" :key="index">
         <div class="category-name">
           {{
-            item.taskCenterDtoList.length
+            item && item.taskCenterDtoList && item.taskCenterDtoList.length
               ? item.taskCenterDtoList[0]['taskName']
               : ''
           }}
@@ -86,10 +86,10 @@ export default {
     }
   },
   computed: {
-    userID: function() {
+    userID: function () {
       return this.$store.state.permission.userInfo.id
     },
-    userType: function() {
+    userType: function () {
       return this.$store.state.permission.userInfo.userType
       //2是供应商 1是员工
     },
@@ -133,18 +133,20 @@ export default {
       console.log('data', data)
       this.data = data
       const titles = []
-      data.forEach(item => {
-        item.taskCenterDtoList.forEach(e => {
-          if (!titles.includes(e.taskName)) {
-            titles.push({ typeValue: e.taskName })
-          }
-        })
+      data.forEach((item) => {
+        if (item) {
+          item?.taskCenterDtoList?.forEach((e) => {
+            if (!titles.includes(e.taskName)) {
+              titles.push({ typeValue: e.taskName })
+            }
+          })
+        }
       })
       this.titles = titles
     },
     search() {
       let index = this.titles.findIndex(
-        item => item.typeValue === this.formData.category
+        (item) => item.typeValue === this.formData.category
       )
       if (index !== -1) {
         this.activeIndex = index

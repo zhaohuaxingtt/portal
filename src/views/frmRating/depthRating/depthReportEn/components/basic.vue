@@ -4,7 +4,7 @@
  * @Description:SFRM综合评价
  -->
 <template>
-  <div  >
+  <div>
     <!-- SFRM综合评价 -->
     <iCard title="SFRM Overall evaluation"
            collapse
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iDatePicker, iSelect, icon,iMessage } from 'rise';
+import { iCard, iInput, iDatePicker, iSelect, icon, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { depthResult } from '../data';
 import { getSummarize, postSummarize } from '@/api/frmRating/depthRating/depthReport.js'
@@ -136,7 +136,7 @@ export default {
   },
   mounted () {
 
-     console.log(this.$store.state.frmRating.trackFrequencyAgain)
+    console.log(this.$store.state.frmRating.trackFrequencyAgain)
     // console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
@@ -153,11 +153,11 @@ export default {
     }),
     trans () {
       return (color) => {
-        if (color === '绿') {
+        if (color === '绿' || color === 'GREEN') {
           return 'iconlvdeng'
-        } else if (color === '黄') {
+        } else if (color === '黄' || color === 'YELLOW') {
           return 'iconhuangdeng'
-        } else if (color === '红') {
+        } else if (color === '红' || color === 'RED') {
           return 'iconhongdeng'
         } else {
           return ""
@@ -169,15 +169,16 @@ export default {
     }
   },
   methods: {
-changePv(v){
-   this.$store.commit('SET_trackFrequencyAgain',v)
-},
+    changePv (v) {
+      this.$store.commit('SET_trackFrequencyAgain', v)
+    },
     getOverView () {
       getSummarize(this.id, 'en').then((result) => {
         if (result.data) {
           this.info = result.data
-                  this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
-     this.info.trackFrequencyAgain=this.$store.state.frmRating.trackFrequencyAgain
+          console.log(this.info)
+          // this.info.deepCommentRatingResults = this.$store.state.frmRating.deepCommentRatingResults
+          // this.info.trackFrequencyAgain = this.$store.state.frmRating.trackFrequencyAgain
         }
       }).catch(() => {
 
@@ -200,10 +201,10 @@ changePv(v){
       // 	this.$message.error(this.$t('SPR_FRM_DEP_CHECK'))
       // 	return
       // }
-        if((this.info.deepCommentRatingResults==""||this.info.deepCommentRatingResults==null)&&(this.info.trackFrequencyAgain==""||this.info.trackFrequencyAgain==null)){
-          iMessage.warn('Please fill in the status and follow-up frequency')
-          return false
-      } 
+      if ((this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null) && (this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null)) {
+        iMessage.warn('Please fill in the status and follow-up frequency')
+        return false
+      }
       this.info.lang = 'en'
       postSummarize(this.info)
         .then((result) => {
@@ -227,7 +228,7 @@ changePv(v){
       });
     },
     changeGrade (value) {
-           this.$store.commit('SET_deepCommentRatingResults',value)
+      this.$store.commit('SET_deepCommentRatingResults', value)
       this.info = {
         ...this.info,
         deepCommentRatingResults: value

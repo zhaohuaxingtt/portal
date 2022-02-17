@@ -1,5 +1,14 @@
 export default [
   {
+    path: '/assistant/man',
+    name: 'problemMan',
+    meta: {
+      title: 'problemMan',
+      activePath: '/assistant/problemMan'
+    },
+    component: () => import('@/views/assistant/assistantManLayout')
+  },
+  {
     path: '/assistant/problemMan',
     name: 'problemMan',
     meta: {
