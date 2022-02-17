@@ -1081,7 +1081,7 @@ import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
 
 export default {
   mixins: [pageMixins],
-  components: {
+  components: { 
     editprotectConclusion,
     updateDateNEW,
     batchAdjustment,//批量调整
