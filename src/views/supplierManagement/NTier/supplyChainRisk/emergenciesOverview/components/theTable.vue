@@ -14,34 +14,14 @@
       <!-- 创建突发事件-->
       <iButton @click="handleCreate">{{ language('CJTFSJ','创建突发事件') }}</iButton>
     </div>
-    <tableList :selection="false"
-               :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="false"
-               @handleSelectionChange="handleSelectionChange">
-      <template #influenceNum="scope">
-        <span @click="handleEvent(scope.row)"
-              class="cursor openLinkText">{{scope.row.influenceNum}}</span>
-      </template>
-      <template #source="scope">
-        <a v-if="scope.row.sourceLink"
-           class="cursor openLinkText"
-           :href="scope.row.sourceLink">
-          {{scope.row.source}}
-        </a>
-        <span v-else>{{scope.row.source}}</span>
-      </template>
-    </tableList>
-<!-- 
-    <iTableCustom>
-
-
-    </iTableCustom> -->
-
-
-
-
+    <iTableCustom
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+      @go-detail="handleEvent"
+    >
+    </iTableCustom>
 
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
