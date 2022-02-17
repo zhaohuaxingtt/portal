@@ -97,7 +97,8 @@ export default {
                             createDate_gt:this.params.startDate,
                             createDate_le: this.params.endDate,
                             success: this.params.success,
-                            id_like: this.params.id
+                            id_like: this.params.id,
+                            isSee: this.params.isSee ? 1 : 0
                         }
                     }
                     res = await findRecordLogs(data)
