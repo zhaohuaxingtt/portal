@@ -10,7 +10,7 @@
         <div class="info">
             <div class="info-top">
                 <img v-if="info.profilePicture" :src="avatarUrl" class="avatar" />
-                <el-avatar v-else size="medium" :src="info.profilePicture" class="avatar" icon="el-icon-user-solid"></el-avatar>
+                <el-avatar v-else size="medium" class="avatar" icon="el-icon-user-solid"></el-avatar>
                 <div class="info-name">
                     <div class="zn-name">{{info.name}} <span class="en-name">{{info.gender == "MALE" ? "MR." : "MISS"}} {{info.nameEn}}</span></div>
                     <div>{{info.organization ? info.organization.code : ""}} {{info.organization ? info.organization.name : ""}} {{info.uid}}</div>
@@ -34,7 +34,7 @@
                     <span class="cursor">{{info.wechatId}}</span>
                 </div>
                 <div class="orgAvatar" v-if="orgLogoFlag">
-                    <img v-if="info.profilePicture" :src="orgLogoUrl" class="avatar" />
+                    <img :src="orgLogoUrl" class="avatar" />
                 </div>
             </div>
         </div>

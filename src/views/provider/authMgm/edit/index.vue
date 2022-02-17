@@ -215,7 +215,8 @@ export default {
         param = {
           ...this.formData,
           size: this.page.pageSize,
-          current: this.page.currPage
+          current: this.page.currPage,
+          supplierUserId: this.$route.params.id
         }
       }
       // console.log('====== ', this.params)
