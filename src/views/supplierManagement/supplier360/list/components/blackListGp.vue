@@ -88,7 +88,7 @@
         {{ language('XIANGQINGLIEBIAO', '详情列表') }}
       </p>
       <div class="tableBox">
-        <table-list
+        <!-- <table-list
           v-if="tabVal == 1"
           style="margin-top: 20px"
           :tableData="tableListData"
@@ -97,8 +97,25 @@
           :index="true"
           :selection="false"
         >
-        </table-list>
-        <table-list
+        </table-list> -->
+
+        <iTableCustom
+          v-if="tabVal == 1"
+          :data="tableListData"
+          :columns="tableTitleGpBlackList"
+          :loading="tableLoading"
+        >
+        </iTableCustom>
+
+        <iTableCustom
+          v-if="tabVal == 2"
+          :data="tableListDataRecord"
+          :columns="tableTitleGpBlackListRecord"
+          :loading="tableLoadingRecord"
+        >
+        </iTableCustom>
+
+        <!-- <table-list
           v-if="tabVal == 2"
           style="margin-top: 20px"
           :tableData="tableListDataRecord"
@@ -107,7 +124,7 @@
           :index="true"
           :selection="false"
         >
-        </table-list>
+        </table-list> -->
       </div>
       <iPagination
         style="margin-top: 20px"
@@ -135,13 +152,14 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitleGpBlackList, tableTitleGpBlackListRecord } from './data'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import {
   iButton,
   iDatePicker,
   iSelect,
   iMessage,
   iPagination,
-  iDialog
+  iDialog,
 } from 'rise'
 export default {
   mixins: [pageMixins],
@@ -158,7 +176,8 @@ export default {
     iDatePicker,
     iSelect,
     iPagination,
-    iDialog
+    iDialog,
+    iTableCustom
   },
   data() {
     return {
