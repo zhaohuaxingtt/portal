@@ -275,7 +275,10 @@ export default {
       let status
       for (let item of this.selectedTableData) {
         // console.log('item',item);
-        if (!item.isLeaf || item.positionList.length > 0) {
+        if (
+          !item.isLeaf ||
+          (item.positionList && item.positionList.length > 0)
+        ) {
           this.$alert('您选择的组织中有下属组织或者下属岗位，不能删除该组织', {
             confirmButtonText: '确定'
           })
