@@ -46,7 +46,7 @@
             end-placeholder="结束日期"
             value-format="yyyy-MM-dd HH:mm:ss"
             :default-time="['00:00:00', '23:59:59']"
-            style="width: 320px"
+            style="width: 330px"
           >
           </el-date-picker>
         </iFormItem>
@@ -54,7 +54,7 @@
     </iSearch>
     <iCard class="margin-top20">
       <div class="btn">
-        <iButton @click="addTypeFun">新增</iButton>
+        <iButton @click="addTypeFun">{{language('新增')}}</iButton>
         <button-table-setting @click="$refs.testTable.openSetting()" />
       </div>
       <iTableCustom
