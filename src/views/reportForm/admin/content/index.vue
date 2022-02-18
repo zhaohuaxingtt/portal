@@ -34,7 +34,7 @@
             v-model="publicDate"
             type="datetimerange"
             range-separator="至"
-            style="width: 320px"
+            style="width: 330px"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -47,7 +47,7 @@
 
     <iCard class="margin-top20">
       <div class="btn">
-        <iButton @click="add">新增</iButton>
+        <iButton @click="add">{{language('新增')}}</iButton>
         <button-table-setting @click="$refs.reportContentTable.openSetting()" />
       </div>
       <iTableCustom

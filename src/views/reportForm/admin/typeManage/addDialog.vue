@@ -17,29 +17,30 @@
         >
             <div class="base-info">
                 <div style="width: 70%">
-                    <div>
-                        <iFormItem :label="language('报告类型')" prop='name'>
-                            <iInput v-model="form.name" placeholder="请输入" clearable maxLength="50"></iInput>
+                    <div style="width: 100%">
+                        <iFormItem :label="language('报告类型')" prop='name' style="width: 50%">
+                            <iInput v-model="form.name" placeholder="请输入" style="width: 280px" clearable maxLength="50"></iInput>
                         </iFormItem>
                         <iFormItem :label="language('部门信息')" prop='organization'>
-                            <iInput v-model="form.organization" placeholder="请输入" clearable maxLength="100"></iInput>
+                            <iInput v-model="form.organization" placeholder="请输入" style="width: 280px" clearable maxLength="100"></iInput>
                         </iFormItem>
                     </div>
-                    <div>
-                        <iFormItem :label="language('location')" prop='location'>
-                            <iInput v-model="form.location" placeholder="请输入" clearable maxLength="100"></iInput>
+                    <div style="width: 100%">
+                        <iFormItem :label="language('location')" prop='location' style="width: 50%">
+                            <iInput v-model="form.location" placeholder="请输入" clearable maxLength="100" style="width: 280px"></iInput>
                         </iFormItem>
                         <iFormItem :label="language('英文名')" prop='enName'>
-                            <iInput v-model="form.enName" placeholder="请输入" clearable maxLength="50"></iInput>
+                            <iInput v-model="form.enName" placeholder="请输入" clearable maxLength="50" style="width: 280px"></iInput>
                         </iFormItem>
                     </div>
-                    <div>
+                    <div style="width: 100%">
                         <iFormItem :label="language('Telefone')" prop='telefone'>
-                            <iInput v-model="form.telefone" placeholder="请输入" clearable maxLength="30"></iInput>
+                            <iInput v-model="form.telefone" placeholder="请输入" clearable maxLength="30" style="width: 280px"></iInput>
                         </iFormItem>
                     </div>
                 </div>
-                <div style="width: 30%">
+                <!-- <div class="s-line"></div> -->
+                <div style="width: 26%">
                     <div>
                         <div>封面图片</div>
                         <ImgCutter
@@ -54,9 +55,11 @@
                                 </i>
                             </div>
                         </ImgCutter>
+                        <p class="right-content-bottom">{{language('建议使用16:9比例图片，不超过10M')}}</p>
                     </div>
                 </div>
             </div>
+            <div class="h-line"></div>
             <div>
                 <div>
                     <iFormItem :label="language('管理员')" prop='adminUsers'>
@@ -66,6 +69,7 @@
                             placeholder="请选择"
                             clearable
                             multiple
+                            style="width: 280px"
                         >
                             <el-option
                                 v-for="item in adminList"
@@ -76,13 +80,14 @@
                             </el-option>
                         </iSelect>
                     </iFormItem>
-                    <iFormItem :label="language('报表可见组织')" prop='organizations'>
+                    <iFormItem :label="language('报表可见组织')" prop='organizations' style="marginLeft: 70px">
                         <iSelect
                             v-model="form.organizations"
                             filterable
                             placeholder="请选择"
                             clearable
                             multiple
+                            style="width: 280px"
                         >
                             <el-option
                                 v-for="item in organizationList"
@@ -102,6 +107,7 @@
                             placeholder="请选择"
                             clearable
                             @change="handlePerson"
+                            style="width: 280px"
                         >
                             <el-option
                                 v-for="item in usersList"
@@ -115,10 +121,10 @@
                 </div>
                 <div v-show="customFlag">
                     <iFormItem :label="language('选择人员')">
-                        <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" />
+                        <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" style="width: 280px" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
-                        <supplierSelect v-model="form.suppliers" @change="supplierListChange"/>
+                        <supplierSelect v-model="form.suppliers" @change="supplierListChange" style="width: 280px"/>
                     </iFormItem>
                 </div>
             </div>
@@ -230,6 +236,7 @@ export default {
             })
         },
         async getOrganizationsList() {
+            this.orgLoading = true
             await getDeptDropDownList({}).then(res => {
                 if (res?.code === '200') {
                     this.organizationList = res?.data || []
@@ -393,7 +400,7 @@ export default {
 <style lang="scss" scoped>
 .base-info {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .avatar-uploader{
   z-index: 9999;
@@ -437,4 +444,21 @@ export default {
 	color: #F8F8FA;
 	background-color: red;
 }
+.h-line {
+    width: 100%;
+    height: 1px;
+    background: #707070;
+    opacity: 0.15;
+    margin-bottom: 10px;
+}
+.s-line {
+    width: 1px;
+    height: 180px;
+    background: #EAEAEA;
+    opacity: 1;
+}
+.right-content-bottom{
+    margin-top: 20px;
+    color: #999999;
+  }
 </style>

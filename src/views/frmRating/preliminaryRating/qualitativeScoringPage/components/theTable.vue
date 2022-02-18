@@ -24,10 +24,12 @@
         <iButton @click="handleTransfer"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_ZHUANPAI">{{ $t('LK_ZHUANPAI') }}</iButton>
         <!--查看-->
         <iButton @click="handleView"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_CHAKAN">{{ $t('LK_CHAKAN') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
 
     <iTableCustom
+      ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
       :loading="tableLoading"
@@ -99,6 +101,7 @@
 import { iCard, iButton, iPagination, iMessageBox, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
 import iTableCustom from '@/components/iTableCustom'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { tableTitle } from './data'
@@ -125,7 +128,8 @@ export default {
     assignDialog,
     returnDialog,
     transferDialog,
-    scoringDialog
+    scoringDialog,
+    buttonTableSetting
   },
   created () {
     this.checkRolePermission()

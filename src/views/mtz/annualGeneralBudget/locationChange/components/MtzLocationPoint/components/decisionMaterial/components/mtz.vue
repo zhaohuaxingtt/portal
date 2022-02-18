@@ -9,8 +9,8 @@
 <template>
   <div style="padding-bottom:30px;">
     <div class="download_btn">
-      <iButton v-if="!RsObject"
-               @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
+      <!-- <iButton v-if="!RsObject"
+               @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton> -->
     </div>
     <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv"
