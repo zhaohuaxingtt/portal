@@ -12,9 +12,13 @@
         {{language('TUFASHIJIANZONGLAN1','突发事件总览')}}
       </div>
       <!-- 创建突发事件-->
-      <iButton @click="handleCreate">{{ language('CJTFSJ','创建突发事件') }}</iButton>
+      <div>
+        <iButton @click="handleCreate">{{ language('CJTFSJ','创建突发事件') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
+      </div>
     </div>
     <iTableCustom
+      ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
       :loading="tableLoading"
@@ -39,6 +43,7 @@
 <script>
 import { iCard, iButton, iPagination, icon } from 'rise';
 import tableList from '@/components/commonTable';
+import buttonTableSetting from '@/components/buttonTableSetting';
 import iTableCustom from '@/components/iTableCustom';
 import { emergenciesTableTitle } from './data';
 import { pageMixins } from '@/utils/pageMixins';
@@ -55,7 +60,8 @@ export default {
     iPagination,
     icon,
     createEmergenciesDialog,
-    iTableCustom
+    iTableCustom,
+    buttonTableSetting
   },
   data () {
     return {

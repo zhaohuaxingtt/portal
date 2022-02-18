@@ -10,10 +10,12 @@
         <!--        <iButton>{{ $t('SPR_FRM_FRMGL_DCTJBB') }}</iButton>-->
         <!--深入评级-->
         <iButton @click="openInDepthRatingDialog">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
 
     <iTableCustom
+      ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
       :loading="tableLoading"
@@ -48,6 +50,7 @@
 import { iCard, iButton, iPagination, iMessage, icon } from 'rise';
 import tableList from '@/components/commonTable';
 import iTableCustom from '@/components/iTableCustom';
+import buttonTableSetting from '@/components/buttonTableSetting';
 import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import { tableTitle } from './data';
@@ -73,6 +76,7 @@ export default {
     inDepthRatingDialog,
     vwagRatingDialog,
     exportFinancialReportDialog,
+    buttonTableSetting,
     icon
   },
   data () {
