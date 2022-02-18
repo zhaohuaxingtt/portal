@@ -11,7 +11,7 @@
 <template>
   <div style="padding-bottom:30px;">
     <span class="download_btn" v-if="!editMode">
-      <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
+      <!-- <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton> -->
     </span>
     <div id="content">
       <div class="content_dialog" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
