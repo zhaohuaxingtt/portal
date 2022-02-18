@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-02-19 18:01:14
+ * @LastEditTime: 2022-02-18 14:35:31
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \rise\src\views\home\index.vue
@@ -9,17 +9,18 @@
 <template>
   <iPage>
     <div class="index-wrapper">
-      <el-row :gutter="20" class="index-container" id="myModules">
-        <el-col
-          :xs="24"
-          :sm="12"
-          :md="8"
-          :lg="6"
-          :xl="6"
-          :key="card.id"
-          v-for="card in cards"
-        >
-        <module-card :card="card" @del="handleDelete" />
+      <el-row :gutter="20"
+              class="index-container"
+              id="myModules">
+        <el-col :xs="24"
+                :sm="12"
+                :md="8"
+                :lg="6"
+                :xl="6"
+                :key="card.id"
+                v-for="card in cards">
+          <module-card :card="card"
+                       @del="handleDelete" />
         </el-col>
       </el-row>
     </div>
@@ -32,9 +33,9 @@ import Sortable from 'sortablejs'
 import { updateBatchModules } from '@/api/home'
 export default {
   components: { moduleCard, iPage },
-  data() {
+  data () {
     return {
-      
+
     }
   },
   computed: {
@@ -42,13 +43,14 @@ export default {
     ...Vuex.mapState({
       cardList: state => state.permission.cardList
     }),
-    cards() {
+    cards () {
       let cards = this.cardList.filter(li => !li.value)
       return cards
-        // return this.cardList.filter(li => li.name ==`EKL`)
+      // return this.cardList.filter(li => li.name ==`EKL`)
     }
   },
-  mounted() {
+  mounted () {
+    console.log(this.$store.state.permission, "1111")
     this.$nextTick(() => {
       new Sortable(document.getElementById('myModules'), {
         group: { name: 'myModules' }, // set both lists to same group
@@ -60,10 +62,10 @@ export default {
     })
   },
   methods: {
-    handleDragEnd(event) {
+    handleDragEnd (event) {
       console.log('handleDragEnd', event)
     },
-    async handleDragUpdate(event) {
+    async handleDragUpdate (event) {
       const cards = _.cloneDeep(this.cards)
       const item = _.cloneDeep(cards[event.oldIndex])
       const endItem = _.cloneDeep(cards[event.newIndex])
@@ -80,7 +82,7 @@ export default {
         this.$store.dispatch('getModules')
       }
     },
-    async handleDelete(card) {
+    async handleDelete (card) {
       const cards = _.cloneDeep(this.cardList)
       const newCards = cards.map(e => {
         if (e.id === card.id) {
