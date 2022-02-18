@@ -261,14 +261,17 @@
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
-              <p
-                v-if="scope.row.state == '02'"
-                @click="actionObj('importFile')(scope.row.id)"
-              >
-                <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
-                <span> {{ $t('MT_DAORUYITI') }}</span>
-                <span class="line">|</span>
-              </p>
+              <!-- 导出议题  gp会议不需要导出议题按钮  如有影响到通用会议 请联系gp -->
+              <template  v-if="scope.row.isGpCSC == true || scope.row.isMBDL == true ? showP=false : showP=true ">
+                  <p
+                  v-if="scope.row.state == '02'"
+                    @click="actionObj('importFile')(scope.row.id)"
+                  >
+                    <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
+                    <span> {{ $t('MT_DAORUYITI') }}</span>
+                    <span class="line">|</span>
+                  </p>
+              </template>
               <p
                 v-if="scope.row.state == '04'"
                 @click="actionObj('endVedio')(scope.row)"
@@ -808,6 +811,7 @@ export default {
   },
   data() {
     return {
+      showP:false,
       currentCloseRow: {},
       openFreezeDialog: false,
       warnTableData: [],

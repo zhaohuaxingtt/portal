@@ -48,6 +48,13 @@
       </div>
     </iCard>
     <iCard @sure="sure" style="margin-top:20px">
+      <div class="margin-bottom20 clearFloat">
+        <div class="floatright">
+          <!-- 新供应商评级-->
+          <span></span>
+          <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
+        </div>
+      </div>
       <!-- <tableList
         :tableData="tabledata"
         :tableTitle="listCloum"
@@ -72,6 +79,7 @@
       </tableList> -->
 
       <iTableCustom
+        ref="tableListRef"
         :data="tabledata"
         :columns="listCloum"
         :loading="tableLoading"
@@ -126,6 +134,7 @@
 
 <script>
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import iTableCustom from '@/components/iTableCustom'
 import supplierTakeDilog from './components/supplierTakeDilog'
 import supplierKeyDilog from './components/supplierKeyDilog'
@@ -148,7 +157,8 @@ export default {
     iPagination,
     supplierTakeDilog,
     supplierKeyDilog,
-    iDialog
+    iDialog,
+    buttonTableSetting
   },
   data() {
     return {

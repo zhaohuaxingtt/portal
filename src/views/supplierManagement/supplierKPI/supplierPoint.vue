@@ -112,9 +112,12 @@
           </span>
         </div>
 
-        <iButton @click="handleExportCurrent">{{
-          language('DAOCHUQUANBU', '导出全部')
-        }}</iButton>
+        <div>
+          <iButton @click="handleExportCurrent">{{
+            language('DAOCHUQUANBU', '导出全部')
+          }}</iButton>
+          <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
+        </div>
       </div>
       <!-- <tableList
         style="margin-top: 30px"
@@ -132,6 +135,7 @@
       </tableList> -->
 
       <iTableCustom
+        ref="tableListRef"
         style="margin-top: 30px"
         :data="tabledata"
         :columns="PointCloum"
@@ -171,6 +175,7 @@
 
 <script>
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import iTableCustom from '@/components/iTableCustom'
 import supplierTakeDilog from './components/supplierTakeDilog'
 import { pageMixins } from '@/utils/pageMixins'
@@ -201,7 +206,8 @@ export default {
     iCard,
     supplierTakeDilog,
     iSelect,
-    iPagination
+    iPagination,
+    buttonTableSetting
   },
   data() {
     return {
