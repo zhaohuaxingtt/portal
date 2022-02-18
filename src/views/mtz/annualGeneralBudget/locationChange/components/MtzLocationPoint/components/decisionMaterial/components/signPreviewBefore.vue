@@ -10,7 +10,7 @@
 <div class="tabsBoxWrap">
   <div id="tabsBoxWrap">
     <span class="download_btn" v-if="approve">
-      <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
+      <!-- <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton> -->
     </span>
     <div ref="qrCodeDiv" class="sign_swap" @click="rulesClick">
       <iCard class="upload_hr">

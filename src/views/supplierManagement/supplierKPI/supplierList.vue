@@ -48,7 +48,7 @@
       </div>
     </iCard>
     <iCard @sure="sure" style="margin-top:20px">
-      <tableList
+      <!-- <tableList
         :tableData="tabledata"
         :tableTitle="listCloum"
         :tableLoading="tableLoading"
@@ -69,11 +69,22 @@
             {{ language('CHAKAN', '查看') }}</i-button
           >
         </template>
-      </tableList>
+      </tableList> -->
+
+      <iTableCustom
+        :data="tabledata"
+        :columns="listCloum"
+        :loading="tableLoading"
+        @go-takeRecord="handleKeyNotes"
+        @go-halfYear="handleTakeNotes"
+      >
+      </iTableCustom>
+
+
       <iPagination
         style="margin-top:20px"
         v-update
-        @size-change="handleSizeChange($event, sure)"
+        @size-change="handleSizeChange($event, getTableData)"
         @current-change="handleCurrentChange($event, getTableData)"
         background
         :page-sizes="page.pageSizes"
@@ -115,6 +126,7 @@
 
 <script>
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import supplierTakeDilog from './components/supplierTakeDilog'
 import supplierKeyDilog from './components/supplierKeyDilog'
 import {
@@ -129,6 +141,7 @@ export default {
   mixins: [pageMixins],
   components: {
     tableList,
+    iTableCustom,
     iButton,
     iCard,
     iInput,
@@ -168,10 +181,11 @@ export default {
     },
     //打开重点追踪详情
     handleKeyNotes(row) {
-      console.log(this.isShowKey)
-      this.nameZh = row.nameZh
-      this.supplierId = row.supplierId
-      this.isShowKey = true
+      if(row.isKeyTrack){
+        this.nameZh = row.nameZh
+        this.supplierId = row.supplierId
+        this.isShowKey = true
+      }
     },
     //获取列表数据
     getTableData() {

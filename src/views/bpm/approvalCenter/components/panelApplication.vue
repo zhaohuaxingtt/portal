@@ -82,7 +82,7 @@ export default {
       const { data } = await queryApplyOverview({
         userID: this.$store.state.permission.userInfo.id
       }).finally(() => (this.loading = false))
-      this.data = data
+      this.data = data || []
       let totalNum = 0
       data.forEach((e) => {
         e.wfCategoryList.forEach((wf) => {
