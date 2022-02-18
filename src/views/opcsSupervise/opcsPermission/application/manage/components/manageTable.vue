@@ -7,7 +7,7 @@
 <template>
   <iCard tabCard
          class="box"
-         collapse>
+         collapse  v-loading="loadingFlag">
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{
         language('YINGYONGGUANLI', '应用管理')
@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+      loadingFlag:false,
       dialog: false,
       importLogDialog: false,
       tableLoading: false,
@@ -95,13 +96,16 @@ export default {
         opcsAppsList: row,
         opcsSupplierKeyId: this.$route.query.opcsSupplierId
       }
+      this.loadingFlag = true
       addDetails(req).then((res) => {
         if (res && res.code == 200) {
           this.getTableData()
           this.edit = false
           iMessage.success(res.desZh)
+        }else{
+          iMessage.error(res.desZh)
         }
-      })
+      }).finally(() => (this.loadingFlag = false))
     },
 
     //获取列表接口
