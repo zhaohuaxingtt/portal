@@ -1,10 +1,10 @@
 <template>
     <iPage>
-        <pageHeader class="title">报表</pageHeader>
+        <pageHeader class="title">{{language('报表')}}</pageHeader>
         <iCard class="report">
             <div class="report-box">
                 <div class="flex">
-                    <span>搜索</span>
+                    <span>{{language('搜索')}}</span>
                     <iInput v-model="keyword" @keydown.enter.native="handleIconClick" class="search">
                         <i
                             class="el-icon-search el-input__icon"
@@ -12,7 +12,7 @@
                             @click="handleIconClick">
                         </i>
                     </iInput>
-                    <iButton >返回</iButton>
+                    <iButton>{{language('返回')}}</iButton>
                 </div>
                 <el-row :gutter="20" class="cards" v-loading="loading">
                     <el-col
