@@ -26,7 +26,17 @@
         <iButton @click="handleView"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_CHAKAN">{{ $t('LK_CHAKAN') }}</iButton>
       </div>
     </div>
-    <tableList :tableData="tableListData"
+
+    <iTableCustom
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+      @go-detail="handleOpenPage"
+    >
+    </iTableCustom>
+
+    <!-- <tableList :tableData="tableListData"
                :tableTitle="tableTitle"
                :tableLoading="tableLoading"
                :index="true"
@@ -34,7 +44,7 @@
                openPageProps="view"
                @openPage="handleOpenPage"
                :openPageGetRowData="true"
-               :customOpenPageWord="$t('LK_CHAKAN')" />
+               :customOpenPageWord="$t('LK_CHAKAN')" /> -->
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -88,6 +98,7 @@
 <script>
 import { iCard, iButton, iPagination, iMessageBox, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { tableTitle } from './data'
@@ -109,6 +120,7 @@ export default {
     iCard,
     iButton,
     tableList,
+    iTableCustom,
     iPagination,
     assignDialog,
     returnDialog,

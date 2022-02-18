@@ -12,38 +12,14 @@
         <iButton @click="openInDepthRatingDialog">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
       </div>
     </div>
-    <tableList :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="true"
-               @handleSelectionChange="handleSelectionChange">
-      <template #isActive='scope'>
-        {{ SUPPLIER_STATUS[scope.row.isActive] }}
-      </template>
-      <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
-              symbol
-              name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
-              symbol
-              name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
-              symbol
-              name="iconhongdeng"></icon>
-      </template>
-      <template #vwagAssessResult="scope">
-        <icon v-if="scope.row.vwagAssessResult == 'green'"
-              symbol
-              name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.vwagAssessResult == 'yellow'"
-              symbol
-              name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.vwagAssessResult == 'red'"
-              symbol
-              name="iconhongdeng"></icon>
-        <span v-else>{{scope.row.vwagAssessResult}}</span>
-      </template>
-    </tableList>
+
+    <iTableCustom
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+    >
+    </iTableCustom>
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -71,6 +47,7 @@
 <script>
 import { iCard, iButton, iPagination, iMessage, icon } from 'rise';
 import tableList from '@/components/commonTable';
+import iTableCustom from '@/components/iTableCustom';
 import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import { tableTitle } from './data';
@@ -91,6 +68,7 @@ export default {
     iCard,
     iButton,
     tableList,
+    iTableCustom,
     iPagination,
     inDepthRatingDialog,
     vwagRatingDialog,

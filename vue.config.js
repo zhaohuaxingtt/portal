@@ -209,7 +209,7 @@ module.exports = {
       }, // 主数据
       [process.env.VUE_APP_BASE_INFO]: {
         target: `http://${BASE_IP}:8011/baseinfo`,
-        //target: `http://10.160.136.248:8011/baseinfo`,
+        // target: 'http://rise-nginx-internal.apps.vmocp-uat.csvw.com/baseApi',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_INFO]: ''
@@ -238,6 +238,7 @@ module.exports = {
       },
       [process.env.VUE_APP_NTIER]: {
         target: `http://${BASE_IP}:8045/ntier`,
+        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/ntierApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NTIER]: ''

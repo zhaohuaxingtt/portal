@@ -7,7 +7,7 @@
 <template>
   <iPage class="ntier-header">
     <pageHeader class="margin-bottom20 ntier-detail-header">
-      {{language('N-Tier供应商信息')}}
+      {{ language('N-Tier供应商信息') }}
       <div slot="actions">
         <iButton v-show="!editable && supplierData.id" @click="editable = true">
           {{ language('编辑') }}
@@ -48,6 +48,7 @@
         ref="factory"
         class="margin-bottom20"
         @add="handleAddFactory"
+        @del="handleDelFactory"
       />
       <supplierDirectoryTable
         :tableListData="contactUser"
@@ -110,7 +111,7 @@ export default {
   },
   methods: {
     //取消
-    cancel(){
+    cancel() {
       this.editable = false
       this.supplierDetail()
     },
@@ -272,40 +273,22 @@ export default {
         contactUser: this.contactUser[0],
         plantList
       }
-      /* this.supplierData.contactUser = this.contactUser[0]
-      this.supplierData.plantList = reqTableList.map((e) => {
-        const item = {
-          address: e.address,
-          areaCovered: e.areaCovered,
-          city: e.city,
-          cityCode: e.cityCode,
-          country: e.country,
-          countryCode: e.countryCode,
-          factoryName: e.factoryName,
-          postCode: e.postCode,
-          province: e.province,
-          provinceCode: e.provinceCode
-        }
-        if (e.id) {
-          item.id = e.id
-        }
-        if (e.addressId) {
-          item.addressId = e.addressId
-        }
-        return item
-      }) */
-      console.log('this.supplierData---this.supplierData:', this.supplierData)
 
-      updateBatch([requestData]).then((res) => {
-        if (res && res.code == 200) {
-          this.isloading = false
-          this.editable = false
-          iMessage.success(res.desZh || this.language('更新成功'))
-        } else {
-          this.isloading = false
-          iMessage.error(res.desZh || this.language('更新失败'))
-        }
-      })
+      console.log('this.supplierData---this.supplierData:', requestData)
+
+      updateBatch([requestData])
+        .then((res) => {
+          if (res && res.code == 200) {
+            this.editable = false
+            iMessage.success(res.desZh || this.language('更新成功'))
+          } else {
+            iMessage.error(res.desZh || this.language('更新失败'))
+          }
+        })
+        .catch((err) => {
+          iMessage.error(err.desZh || this.language('更新失败'))
+        })
+        .finally(() => (this.isloading = false))
     },
     // 基础信息校验
     isBaseInfoRules() {
@@ -362,22 +345,6 @@ export default {
       })
     },
     handleAddFactory() {
-      console.log('add factory')
-      /* Vue.set(this.supplierData, 'platList', [
-        ...this.supplierData.plantList,
-        {
-          address: '',
-          areaCovered: 0,
-          city: '',
-          cityCode: '',
-          country: '',
-          countryCode: '',
-          factoryName: '',
-          postCode: '',
-          province: '',
-          provinceCode: ''
-        }
-      ]) */
       this.supplierDirectoryTable.push({
         address: '',
         areaCovered: '',
@@ -392,6 +359,9 @@ export default {
         cityOptions: [],
         provinceOptions: []
       })
+    },
+    handleDelFactory(val) {
+      this.supplierDirectoryTable = val
     }
   }
 }

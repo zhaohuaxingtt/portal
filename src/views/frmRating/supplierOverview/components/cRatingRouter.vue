@@ -81,7 +81,7 @@
             <el-option v-for="item in deptList"
                        :key="item.name"
                        :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
-                       :value="item.name">
+                       :value="item.id">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -98,17 +98,6 @@
             </el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item v-if="tabVal == 2"
-                      :label="language('SHIFOUCRATING', '是否C-Rating')">
-          <iSelect :placeholder="language('QINGXUANZE', '请选择')"
-                   v-model.trim="form.iscRating">
-            <el-option v-for="item in iscRatingList"
-                       :key="item.code"
-                       :label="item.name"
-                       :value="item.code">
-            </el-option>
-          </iSelect>
-        </el-form-item>
         <el-form-item :label="language('JIARUCRATINGYUANYIN', '加入C-Rating原因')">
           <iSelect collapse-tags
                    filterable
@@ -116,6 +105,17 @@
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                    v-model.trim="form.ratingSource">
             <el-option v-for="item in cratingLsit"
+                       :key="item.code"
+                       :label="item.name"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
+        <el-form-item v-if="tabVal == 2"
+                      :label="language('SHIFOUCRATING', '是否C-Rating')">
+          <iSelect :placeholder="language('QINGXUANZE', '请选择')"
+                   v-model.trim="form.iscRating">
+            <el-option v-for="item in iscRatingList"
                        :key="item.code"
                        :label="item.name"
                        :value="item.code">
@@ -406,6 +406,9 @@ export default {
     this.getInit()
   },
   methods: {
+    gysmcChange(val,num){
+      this.form[num] = val;
+    },
     handleDialog () {
       this.visible = true
       this.getInit()
@@ -437,6 +440,8 @@ export default {
       this.tableLoading = true
       if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
         this.form.supplierIds = this.form.sapCode.concat(this.form.supplierName)
+      }else{
+        this.form.supplierIds = []
       }
       const req = {
         ...this.form,
@@ -564,6 +569,8 @@ export default {
       this.getTaleList()
     },
     changeTab () {
+      console.log(this.form.ratingSource)
+      console.log(this.cratingLsit)
       this.userList = []
       this.form = {
         ...this.form,

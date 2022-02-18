@@ -96,17 +96,26 @@ export default [
   {
     path: '/supplier/frmrating/preliminaryrating',
     redirect: '/supplier/frmrating/preliminaryrating/qualitativeScoringPage',
-    component: QualitativeScoringPage
+    component: QualitativeScoringPage,
+    meta: {
+      title: '定性打分',
+    },
   },
   {
     path: '/supplier/frmrating/preliminaryrating/preliminaryrating',
     name: 'Preliminaryrating',
-    component: Preliminaryrating
+    component: Preliminaryrating,
+    meta: {
+      title: '初步评级',
+    },
   },
   {
     path: '/supplier/frmrating/preliminaryrating/qualitativeScoringPage',
     name: 'QualitativeScoringPage',
-    component: QualitativeScoringPage
+    component: QualitativeScoringPage,
+    meta: {
+      title: '定性打分',
+    },
   },
   {
     path: '/supplier/frmrating/supplieroverview',
