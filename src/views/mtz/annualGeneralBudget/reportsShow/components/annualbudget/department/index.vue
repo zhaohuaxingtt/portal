@@ -132,7 +132,7 @@ export default {
     return {
       form: form,
       yearList: [], //年份数据
-      deptData: '', //金额数据
+      deptData: {lastYearPrice:'0.00',curYear:'',lastYear:''}, //金额数据
       keyString: 0,
       showEchart: false,
       pdf: null,
@@ -163,6 +163,7 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+        
     },
     //获取年数据
     getYearDropDown() {
