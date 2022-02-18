@@ -85,7 +85,6 @@
             }}</span>
           </div>
           <totalAmountComponent
-            v-if="this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'"
             :key="keyString"
             :deptData="deptData"
             :showEchart="showEchart"
@@ -133,7 +132,7 @@ export default {
     return {
       form: form,
       yearList: [], //年份数据
-      deptData: '', //金额数据
+      deptData: {lastYearPrice:'0.00',curYear:'',lastYear:''}, //金额数据
       keyString: 0,
       showEchart: false,
       pdf: null,
@@ -155,12 +154,16 @@ export default {
             this.showEchart = true
             this.keyString += 1
           }else{
+            this.deptData = {lastYearPrice:'0.00',curYear:'',lastYear:''}
+            this.showEchart = true
+            this.keyString += 1
             this.$message.error(res.desZh)
           }
         })
         .catch((err) => {
           console.log(err)
         })
+        
     },
     //获取年数据
     getYearDropDown() {

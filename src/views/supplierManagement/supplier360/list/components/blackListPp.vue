@@ -190,7 +190,7 @@
         {{ language('XIANGQINGLIEBIAO', '详情列表') }}
       </p>
       <div class="tableBox">
-        <table-list
+        <!-- <table-list
           v-if="tabVal == 1"
           style="margin-top: 20px"
           :tableData="tableListData"
@@ -202,8 +202,17 @@
           <template #stuffNameEnDe="scope">
             <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
           </template>
-        </table-list>
-        <table-list
+        </table-list> -->
+
+        <iTableCustom
+          v-if="tabVal == 1"
+          :data="tableListData"
+          :columns="tableTitlePpBlackList"
+          :loading="tableLoading"
+        >
+        </iTableCustom>
+
+        <!-- <table-list
           v-if="tabVal == 2"
           style="margin-top: 20px"
           :tableData="tableListDataRecord"
@@ -215,7 +224,16 @@
           <template #stuffNameEnDe="scope">
             <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
           </template>
-        </table-list>
+        </table-list> -->
+
+        <iTableCustom
+          v-if="tabVal == 2"
+          :data="tableListDataRecord"
+          :columns="tableTitlePpBlackListRecord"
+          :loading="tableLoadingRecord"
+        >
+        </iTableCustom>
+
         <iPagination
           style="margin-top: 20px"
           v-update
@@ -259,6 +277,7 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitlePpBlackList, tableTitlePpBlackListRecord } from './data'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import {
   iButton,
   iDatePicker,
@@ -282,7 +301,8 @@ export default {
     iDatePicker,
     iSelect,
     iPagination,
-    iDialog
+    iDialog,
+    iTableCustom
   },
   data() {
     return {
