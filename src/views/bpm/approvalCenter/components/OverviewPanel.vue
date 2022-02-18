@@ -68,6 +68,7 @@ export default {
       queryAekoTodoCount({}).then((res) => {
         if (res.result) {
           this.aekoTodoCount = res.total || 0
+          this.$emit('set-aeko-num', this.aekoTodoCount)
         }
       })
     }

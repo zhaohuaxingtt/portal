@@ -6,12 +6,12 @@
         <div style="width: 100%;">
             <div class="nav main">
                 <el-tabs class="pro-tabs" v-model="currentName">
-                    <el-tab-pane label="类型管理" name="typeManager">
+                    <el-tab-pane :label="language('类型管理')" name="typeManager">
                         <TypeManage
                             v-if="currentName==='typeManager'"
                         />
                     </el-tab-pane>
-                    <el-tab-pane label="内容管理" name="contentManager">
+                    <el-tab-pane :label="language('内容管理')" name="contentManager">
                         <ContentManger v-if="currentName==='contentManager'"></ContentManger>
                     </el-tab-pane>
                 </el-tabs>
