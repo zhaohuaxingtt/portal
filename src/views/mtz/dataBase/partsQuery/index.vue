@@ -146,6 +146,7 @@
                    v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHIXIAO">{{language('SHIXIAO', '失效')}}</iButton>
           <iButton @click="handleExportAll"
                    v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
+          <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
         </div>
       </div>
       <div>
@@ -157,7 +158,6 @@
                       @go-partNumber="handlePartNumberDetail"
                       @go-source='handleSource'
                       @handle-selection-change="handleSelectChange">
-
         </iTableCustom>
         <!-- 分页标签 -->
         <iPagination v-update
@@ -223,6 +223,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, exportTitle, formJSON } from './components/data'
 import Detail from './components/detail'
+import buttonTableSetting from '@/components/buttonTableSetting'
 // import Source from './components/source'
 import RelationalValidity from './components/relationalValidity'
 import {
@@ -255,7 +256,8 @@ export default {
     Detail,
     // Source,
     RelationalValidity,
-    uploadButton
+    uploadButton,
+    buttonTableSetting
   },
   mixins: [pageMixins],
   data () {

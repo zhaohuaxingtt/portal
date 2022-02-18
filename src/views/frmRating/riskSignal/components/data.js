@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: 水痕
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -146,7 +146,7 @@ export const riskTableTitle = [
   {
     props: 'nameZh',
     name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    key: 'LK_GONGYINGSHANGMINGCHENG1',
     tooltip: true
   },
   { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO', tooltip: true },

@@ -398,7 +398,7 @@
     LK_GONGYINGSHANGCHANPINGAIYAO: '供应商产品概要', //供应商产品概要!
     LK_GONGYINGSHANGGONGSIJIESHAO: '供应商公司介绍', //供应商公司介绍!
     LK_GONGYINGSHANGMING: '供应商名', //供应商名
-    LK_GONGYINGSHANGMINGCHENG: '供应商名称', //供应商名称
+    LK_GONGYINGSHANGMINGCHENG1: '供应商名称', //供应商名称
     LK_GYSMCJT: '供应商名称/集团', //供应商名称/集团
     LK_GONGYINGSHANGPINGFEN: '供应商评分', //供应商评分
     LK_GONGYINGSHANGPINGFENFUJIAN: '供应商评分附件', //供应商评分附件
@@ -847,7 +847,7 @@
     GONGHUOZHUANGTAI: '供货状态', //供货状态
     YINHANGZHANGHAO: '银行账号', //银行账号
     SHIFOUZAIGONG: '是否在供', //是否在供
-    GONGHUO: '供应商状态', //供应商状态
+    GONGHUO1: '供应商状态', //供应商状态
     GYSSF: '供应商身份', //供应商身份
     SHIFOUYELEIGONGCHANG: '是否业内工厂', //是否业内工厂
     SHIFOUANQUANJIAN: '是否安全件', //是否安全件
@@ -1258,7 +1258,7 @@
     SUPPLIER_GAILAN: '概览', //概览
     SUPPLIER_FRMZONGHEGUANLI: 'FRM综合管理', //FRM综合管理
     SUPPLIER_XINGONGYINGSHANGPINGJI: '新供应商评级', //新供应商评级
-    SUPPLIER_CHUBUPINGJI: '初步评级', //初步评级
+    SUPPLIER_CHUBUPINGJI1: '初步评级', //初步评级
     SUPPLIER_SHENRUPINGJI: '深入评级', //深入评级
     SUPPLIER_FENGXIANXINHAO: '风险信号', //风险信号
     SUPPLIER_YUQINGJIANCE: '舆情监测', //舆情监测
@@ -1267,7 +1267,7 @@
     SUPPLIER_VWHZT: 'VW号状态', //VW号状态
     SUPPLIER_DDXXX: '定点信协议', //定点信协议
     SPR_FRM_FRMGL_GYSZYMCSC: '供应商中文名（CSC）', //供应商中文名（CSC）
-    SPR_FRM_FRMGL_XGKS: '相关科室', //相关科室
+    SPR_FRM_FRMGL_XGKS1: '相关科室', //相关科室
     SPR_FRM_FRMGL_CPSJ: '初评时间', //初评时间
     SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
     SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
@@ -1454,15 +1454,16 @@
     SPR_FRM_DEP_COMREMARK:
       '本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。', // 本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。
     SPR_FRM_DEP_CHECK: '必填项不存在', // 必填项不存在
-    SPR_FRM_DEP_BUPINGJIYUANYIN:'请填写不评级原因',
+    SPR_FRM_DEP_BUPINGJIYUANYIN: '请填写不评级原因',
     SPR_FRM_DEP_SELECTGROUP: '选择集团', // 选择集团
     SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
     SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '请确认需要分发的深评报告状态',
-    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
+    SPR_FRM_DEP_CHECKSPSTATUS:
+      '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-    '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
