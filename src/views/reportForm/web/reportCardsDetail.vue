@@ -4,7 +4,7 @@
         <iCard class="report" v-loading="loading">
             <div class="report-box">
                 <div class="flex">
-                    <span>搜索</span>
+                    <span>{{language('搜索')}}</span>
                     <iInput v-model="keyword" class="search" @keydown.enter.native="handleIconClick" clearable>
                         <i
                             class="el-icon-search el-input__icon"
@@ -12,7 +12,7 @@
                             @click="handleIconClick">
                         </i>
                     </iInput>
-                    <iButton @click="$router.back()">返回</iButton>
+                    <iButton @click="$router.back()">{{language('返回')}}</iButton>
                 </div>
                 <div class="detail">
                     <div class="detail-item" v-for="(l,index) in dataList" :key="index">
@@ -22,9 +22,9 @@
                             <span class="title-text" @click="openFun(item, index, index1)">{{`${item.source.substring(item.source.lastIndexOf('.')+1).toUpperCase() || 'PNG'} ${item.title}-${item.publishDate}`}}</span>
                             <div>
                                 <iButton size="mini" @click="share(item,index,index1)">
-                                    分享
+                                    {{language('分享')}}
                                 </iButton>
-                                <iButton size="mini" @click="handLoad(item,index,index1)">下载</iButton>
+                                <iButton size="mini" @click="handLoad(item,index,index1)">{{language('下载')}}</iButton>
                             </div>
                         </div>
                         <iPagination
