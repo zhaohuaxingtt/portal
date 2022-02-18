@@ -60,6 +60,7 @@
                     @click="submit">{{$t('LK_TIJIAO')}}</i-button>
           <i-button v-permission="SUPPLIER_APPLYBDL_EXPORT"
                     @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
         </div>
       </div>
       <!-- v-permission="SUPPLIER_APPLYBDL_TABEL" -->
@@ -72,6 +73,7 @@
                   @handleSelectionChange="handleSelectionChange" /> -->
 
       <iTableCustom
+        ref="tableListRef"
         :data="tableListData"
         :columns="tableTitle"
         :loading="tableLoading"
@@ -91,6 +93,7 @@ import { iCard, iButton, iMessage, iSelect, } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import iTableCustom from '@/components/iTableCustom'
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
 import addBdlDialog from './addBdlDialog'
@@ -106,7 +109,8 @@ export default {
     tableList,
     addBdlDialog,
     iSelect,
-    iTableCustom
+    iTableCustom,
+    buttonTableSetting
   },
   data () {
     return {

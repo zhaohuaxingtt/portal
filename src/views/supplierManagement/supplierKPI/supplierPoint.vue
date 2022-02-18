@@ -116,7 +116,7 @@
           language('DAOCHUQUANBU', '导出全部')
         }}</iButton>
       </div>
-      <tableList
+      <!-- <tableList
         style="margin-top: 30px"
         :tableData="tabledata"
         :tableTitle="PointCloum"
@@ -129,11 +129,21 @@
             language('CHAKAN', '查看')
           }}</i-button>
         </template>
-      </tableList>
+      </tableList> -->
+
+      <iTableCustom
+        style="margin-top: 30px"
+        :data="tabledata"
+        :columns="PointCloum"
+        :loading="tableLoading"
+        @go-detail="handleTakeNotes"
+      >
+      </iTableCustom>
+
       <iPagination
         style="margin-top: 20px"
         v-update
-        @size-change="handleSizeChange($event, sure)"
+        @size-change="handleSizeChange($event, getTableData)"
         @current-change="handleCurrentChange($event, getTableData)"
         background
         :page-sizes="page.pageSizes"
@@ -161,6 +171,7 @@
 
 <script>
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import supplierTakeDilog from './components/supplierTakeDilog'
 import { pageMixins } from '@/utils/pageMixins'
 import {
@@ -183,7 +194,7 @@ export default {
   mixins: [pageMixins],
   components: {
     tableList,
-
+    iTableCustom,
     iDialog,
     iButton,
     iSearch,
