@@ -18,7 +18,7 @@
           reportId: process.env.NODE_ENV !== 'UAT' ? '02151d5a-899c-4880-93af-20a6efe8765b' : 'f3fe9132-dda7-4a9e-81ff-eac032974cfe',
           datasets: [],
           username: this.username,
-          roles: [],
+          roles: ['dept_permission'],
         },
       };
     },

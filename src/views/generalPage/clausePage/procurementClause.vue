@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-02-18 10:36:09
+ * @LastEditTime: 2022-02-18 16:39:12
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -176,10 +176,10 @@ export default {
     this.getProcurementInfo()
     if(!this.readOnly){
       this.getSelectData()
-      if(this.supplierId){
-        certificate({supplierIds:this.supplierId}).then(res=>{
+      if(this.supplierIdMain){
+        certificate({supplierIds:this.supplierIdMain}).then(res=>{
           if(res?.code=='200'){
-            let item = res.data[0]
+            let item = res.data[0] || {identifyStatus:false}
             this.signStatus = item.identifyStatus
           }
         })
