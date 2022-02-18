@@ -127,7 +127,7 @@
           <i-button @click="handleRemove">{{
             language('YICHU', '移除')
           }}</i-button>
-          <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
+          <!-- <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting> -->
         </div>
       </div>
       <!-- <table-list

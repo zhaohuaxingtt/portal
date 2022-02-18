@@ -17,6 +17,7 @@
       </div>
     </div>
     <iTableCustom
+      ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
       :loading="tableLoading"
