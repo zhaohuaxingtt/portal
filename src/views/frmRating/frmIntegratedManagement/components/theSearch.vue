@@ -32,7 +32,7 @@
           </iSelect>
         </el-form-item>
         <!--相关科室-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_XGKS')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_XGKS1')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.takeChargeSection">
             <el-option value=""
@@ -48,7 +48,7 @@
       <!--第二行-->
       <el-row class="margin-bottom20">
         <!--供应商状态-->
-        <el-form-item :label="$t('GONGHUO')">
+        <el-form-item :label="$t('GONGHUO1')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.isActive">
             <!--            <el-option value="" :label="$t('all')"></el-option>-->

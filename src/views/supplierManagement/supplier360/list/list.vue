@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: YoHo
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -26,7 +26,7 @@
             </el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG')">
+        <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.supplierName"></iInput>
         </el-form-item>
@@ -101,8 +101,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('JITUANGONGSI', '集团公司')">
-          <iSelect
-                   filterable
+          <iSelect filterable
                    :placeholder="language('请选择')"
                    v-model="form.groupId">
             <el-option v-for="item in groupList"
@@ -113,8 +112,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('VWHAOZHUANGTAI', 'vw号状态')">
-          <iSelect
-                   :placeholder="language('请选择')"
+          <iSelect :placeholder="language('请选择')"
                    v-model="form.vwStatus">
             <el-option v-for="item in vwStatuslist"
                        :key="item.code"
@@ -282,7 +280,7 @@ import {
 } from 'rise'
 import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
-import { dropDownTagName,groupCompanyList,vwStatusList } from '@/api/supplierManagement/supplierTag/index'
+import { dropDownTagName, groupCompanyList, vwStatusList } from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
@@ -605,10 +603,10 @@ export default {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
-        const res6 = await groupCompanyList({})
-        const res5 = await vwStatusList({})
-        this.vwStatuslist = res5.data
-        this.groupList = res6.data
+      const res6 = await groupCompanyList({})
+      const res5 = await vwStatusList({})
+      this.vwStatuslist = res5.data
+      this.groupList = res6.data
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4
@@ -625,13 +623,13 @@ export default {
       this.issetTagList = true
     },
     // 跳转采购条款归档
-    togoFiling(){
+    togoFiling () {
       let routeData = this.$router.resolve({
         path: '/supplier/contractArchiving'
       })
       window.open(routeData.href)
     },
-    tagTab() {
+    tagTab () {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierTag'
       })
