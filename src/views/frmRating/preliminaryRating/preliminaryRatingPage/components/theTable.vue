@@ -16,10 +16,12 @@
         <iButton @click="handleExport">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
         <!--初步评级-->
         <iButton @click="handlePreliminaryRating">{{ $t('SUPPLIER_CHUBUPINGJI') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
 
     <iTableCustom
+      ref="tableListRef"
       :data="tableListData"
       :columns="tableTitle"
       :loading="tableLoading"
@@ -50,6 +52,7 @@
 import { iCard, iButton, iPagination, iMessageBox, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import iTableCustom from '@/components/iTableCustom';
+import buttonTableSetting from '@/components/buttonTableSetting';
 import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import { tableTitle } from './data';
@@ -77,6 +80,7 @@ export default {
     iPagination,
     notRatedDialog,
     financialReportComparisonDialog,
+    buttonTableSetting,
   },
   data () {
     return {
