@@ -35,26 +35,26 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
-        <iButton @click="handleExportAll" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX_XIAZAI">下载</iButton>
+        <iButton @click="handleExportAll"
+                 v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX_XIAZAI">下载</iButton>
+        <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
       </div>
       <div>
-        <!-- <iTableCustom
-            ref="testTable"
-            class="customClass"
-            :loading="tableLoading"
-            :data="tableListData"
-            :columns="partsRelationshipTableSetting"
-            @go-detail="handleSapPartNumber"
-            @handle-selection-change="handleSelectChange"
-          /> -->
-        <tableList ref="commonTable"
-                   :tableData="tableListData"
-                   :tableTitle="partsRelationshipTableSetting"
+        <iTableCustom ref="testTable"
+                      class="customClass"
+                      :loading="tableLoading"
+                      :data="tableListData"
+                      :columns="partsRelationshipTableSetting"
+                      @go-detail="handleOpenPage"
+                      @handle-selection-change="handleSelectChange" />
+        <!-- <tableList ref="commonTable"
+                   :data="tableListData"
+                   :columns="partsRelationshipTableSetting"
                    :index="true"
                    openPageProps="partNum"
                    :openPageGetRowData="true"
                    @handleSelectionChange="handleSelectionChange"
-                   @openPage="handleOpenPage" />
+                   @openPage="handleOpenPage" /> -->
         <!-- 分页标签 -->
         <iPagination v-update
                      @size-change="handleSizeChange($event, sure)"
@@ -97,7 +97,8 @@ import { tableSetting, exportTitle, partsRelationship, partsRelationshipTableSet
 import Detail from './partsRelationshipDetail'
 import { infoPage, infoExport } from '@/api/mtz/database/partsQuery'
 import { downloadUdFile } from '@/api/file'
-import tableList from '@/components/commonTable';
+// import tableList from '@/components/commonTable';
+import buttonTableSetting from '@/components/buttonTableSetting'
 export default {
   components: {
     iSearch,
@@ -112,7 +113,8 @@ export default {
     iDialog,
     iDatePicker,
     Detail,
-    tableList
+    // tableList,
+    buttonTableSetting
   },
   mixins: [pageMixins],
   data () {

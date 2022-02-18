@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2022-02-07 10:34:27
- * @LastEditTime: 2022-02-15 14:53:22
- * @LastEditors: your name
+ * @LastEditTime: 2022-02-18 19:58:23
+ * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\bpm\frmRatingApproval\depthRatingApproval\data.js
  */
@@ -18,6 +18,6 @@ export const depthRatingApprovalTitle = [
   // {props: 'noDeepCommentReason', name: '不评级原因', key: 'SPR_FRM_DEP_BPJYY'},
   { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   { props: 'previousTto', name: '上年TO', key: 'SPR_FRM_FRMGL_SNTO' },
-  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS' },
+  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS1' },
   { props: 'existShareName', name: '相关股', key: 'SPR_FRM_FRMGL_XGG' }
 ]

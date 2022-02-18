@@ -2,34 +2,47 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-06-16 14:10:10
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
   <!--风险供应商-->
-  <iDialog :visible.sync="value" width="1140px" height="1000px" @close="clearDiolog">
-    <div slot="title" class="adjust">
+  <iDialog :visible.sync="value"
+           width="1140px"
+           height="1000px"
+           @close="clearDiolog">
+    <div slot="title"
+         class="adjust">
       <span class="title">{{$t('SPR_FRM_FXXH_FXGYS')}}</span>
-      <el-popover trigger="hover" placement="top-start">
+      <el-popover trigger="hover"
+                  placement="top-start">
         <div class="tip-title">{{$t('SPR_FRM_FXXH_RWSSJGQGBTCBYQGYSZC')}}</div>
-        <icon slot="reference" symbol name="iconxinxitishi" class="font-size16 marin-left5" />
+        <icon slot="reference"
+              symbol
+              name="iconxinxitishi"
+              class="font-size16 marin-left5" />
       </el-popover>
     </div>
     <el-form>
-      <el-row type="flex" align='bottom' justify="start">
+      <el-row type="flex"
+              align='bottom'
+              justify="start">
         <el-col :span="5">
-          <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG')">
-            <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierName"></iInput>
+          <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
+            <iInput :placeholder="$t('LK_QINGSHURU')"
+                    v-model="form.supplierName"></iInput>
           </el-form-item>
         </el-col>
         <el-col :span="5">
           <el-form-item :label="$t('SUPPLIER_SAPHAO')">
-            <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.sapCode"></iInput>
+            <iInput :placeholder="$t('LK_QINGSHURU')"
+                    v-model="form.sapCode"></iInput>
           </el-form-item>
         </el-col>
         <el-col :span="5">
           <el-form-item :label="$t('SUPPLIER_TONGYISHEHUIXINGYONGDAIMA')">
-            <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.socialcreditNo"></iInput>
+            <iInput :placeholder="$t('LK_QINGSHURU')"
+                    v-model="form.socialcreditNo"></iInput>
           </el-form-item>
         </el-col>
         <el-col :span="9">
@@ -48,10 +61,24 @@
         <iButton @click="handleAdd">{{ $t('SPR_FRM_FXXH_QRTJ') }}</iButton>
       </div>
     </div>
-    <tableList :openPageGetRowData="true" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange">
+    <tableList :openPageGetRowData="true"
+               :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               @handleSelectionChange="handleSelectionChange">
     </tableList>
-    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page='page.currPage' :total="page.totalCount" />
-    <div slot="footer" class="dialog-footer"></div>
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
+    <div slot="footer"
+         class="dialog-footer"></div>
   </iDialog>
 </template>
 
@@ -80,13 +107,13 @@ export default {
   },
   watch: {
     tsPpSupplierName: {
-      handler(data) {
+      handler (data) {
         this.form.supplierName = data
       },
       deep: true
     }
   },
-  data() {
+  data () {
     return {
       form: {
         supplierName: '',
@@ -99,11 +126,11 @@ export default {
       tableLoading: false,
     };
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    handleSearchReset() {
+    handleSearchReset () {
       this.form = {
         supplierName: '',
         sapCode: '',
@@ -111,10 +138,10 @@ export default {
       }
       this.getTableList();
     },
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false);
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       try {
         const req = {
@@ -139,10 +166,10 @@ export default {
         this.tableLoading = false;
       }
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    handleAdd() {
+    handleAdd () {
       if (this.selectTableData.length === 1) {
         this.$emit('selectTableData', this.selectTableData)
         this.clearDiolog()
