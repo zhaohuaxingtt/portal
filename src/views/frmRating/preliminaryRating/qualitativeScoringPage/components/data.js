@@ -4,8 +4,6 @@
  * @Description: 初步评级
  */
 
-
-
 export const tableTitle = [
   {
     type: 'selection',
@@ -20,7 +18,7 @@ export const tableTitle = [
   {
     prop: 'nameZh',
     label: '供应商名称',
-    li8n: 'LK_GONGYINGSHANGMINGCHENG',
+    li8n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 200,
     tooltip: true
   },
@@ -50,14 +48,21 @@ export const tableTitle = [
     li8n: 'SPR_FRM_CBPJ_ZXCZ',
     tooltip: true
   },
-  { prop: 'view', label: '操作记录', li8n: 'SPR_FRM_CBPJ_CZJL', tooltip: true,
+  {
+    prop: 'view',
+    label: '操作记录',
+    li8n: 'SPR_FRM_CBPJ_CZJL',
+    tooltip: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
-      return <span class="cursor" style="color:#1763F7">查看</span>
+      return (
+        <span class="cursor" style="color:#1763F7">
+          查看
+        </span>
+      )
     }
-  
   },
-  { prop: 'nr', label: 'Nr.',li8n: 'Nr.', width: 50, tooltip: true },
+  { prop: 'nr', label: 'Nr.', li8n: 'Nr.', width: 50, tooltip: true },
   {
     prop: 'returnReason',
     label: '退回理由',
@@ -70,7 +75,7 @@ export const scroingTitle = [
   {
     props: 'nameZh',
     name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    key: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 120,
     tooltip: true
   },

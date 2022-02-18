@@ -1,7 +1,7 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-05-27 13:57:04
- * @LastEditTime: 2022-02-11 14:48:55
+ * @LastEditTime: 2022-02-18 19:58:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\components\data.js
@@ -135,7 +135,7 @@ export const endRatingTitle = [
   { props: 'nameZh', name: '供应商名称/集团', key: 'SPR_FRM_DEP_SUPNAME' },
   { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   { props: 'previousTto', name: '上年TO', key: 'SPR_FRM_FRMGL_SNTO' },
-  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS' },
+  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS1' },
   { props: 'existShareName', name: '相关股', key: 'SPR_FRM_FRMGL_XGG' },
   {
     props: 'deepCommentReasons',
@@ -153,7 +153,7 @@ export const endRatingTitle = [
 export const endRatingTitle1 = [
   { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   { props: 'previousTto', name: '上年TO', key: 'SPR_FRM_FRMGL_SNTO' },
-  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS' },
+  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS1' },
   { props: 'existShareName', name: '相关股', key: 'SPR_FRM_FRMGL_XGG' }
 ]
 

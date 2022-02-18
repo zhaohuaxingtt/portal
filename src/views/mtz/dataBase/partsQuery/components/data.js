@@ -762,23 +762,44 @@ export const partsRelationship = [
 
 // 查看一二次零件表头
 export const partsRelationshipTableSetting = [
-  { props: 'partNum', name: 'SAP零件号', key: 'SAPLINGJIANHAO', tooltip: true },
+  { type: 'selection', width: 50 },
+  { type: 'index', label: '#', i18n: '#', width: 50 },
   {
-    props: 'partNameZh',
-    name: '零件名（中）',
-    key: 'LINGJIANMINGZHONG',
+    prop: 'partNum',
+    label: 'SAP零件号',
+    i18n: 'SAPLINGJIANHAO',
+    tooltip: true,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return <pre class="open-link-text">{scope.row.partNum}</pre>
+    }
+  },
+  {
+    prop: 'partNameZh',
+    label: '零件名（中）',
+    i18n: 'LINGJIANMINGZHONG',
     tooltip: true
   },
   {
-    props: 'partNameDe',
-    name: '零件名（德）',
+    prop: 'partNameDe',
+    label: '零件名（德）',
     tooltip: true,
-    key: 'LINGJIANMINGDE'
+    i18n: 'LINGJIANMINGDE'
   },
-  { props: 'carType', name: '车型', tooltip: true, key: 'CHEXING' },
-  { props: 'importDate', name: '导入时间', tooltip: true, key: 'DAORUSHIJIAN' },
-  { props: 'startDate', name: '开始时间', tooltip: true, key: 'KAISHISHIJIAN' },
-  { props: 'version', name: '版本', tooltip: true, key: 'BANBEN' }
+  { prop: 'carType', label: '车型', tooltip: true, i18n: 'CHEXING' },
+  {
+    prop: 'importDate',
+    label: '导入时间',
+    tooltip: true,
+    i18n: 'DAORUSHIJIAN'
+  },
+  {
+    prop: 'startDate',
+    label: '开始时间',
+    tooltip: true,
+    i18n: 'KAISHISHIJIAN'
+  },
+  { prop: 'version', label: '版本', tooltip: true, i18n: 'BANBEN' }
 ]
 
 //  查看一二次零件详情
