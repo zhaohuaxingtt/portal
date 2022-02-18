@@ -27,24 +27,26 @@ const typeColumn = [
   // },
   {
     type: 'index',
-    label: '序号',
-    width: 100
+    i18n: '序号',
+    width: 100,
+
   },
   {
     prop: 'name',
-    label: '类型',
+    i18n: '类型',
     align: 'center',
     sortable: true
   },
   {
     prop: 'createdAt',
-    label: '添加日期',
+    i18n: '添加日期',
     align: 'center',
-    sortable: true
+    sortable: true,
+    width: 160,
   },
   {
     prop: 'adminUsers',
-    label: '管理人',
+    i18n: '管理人',
     align: 'center',
     width: 150,
     customRender: (h, scope) => {
@@ -80,9 +82,9 @@ const typeColumn = [
   },
   {
     prop: 'organizations',
-    label: '报表可见组织',
+    i18n: '报表可见组织',
     align: 'center',
-    width: 150,
+    width: 200,
     customRender: (h, scope) => {
       const organizations = scope.row.organizations || []
       let new_organizations =
@@ -116,9 +118,9 @@ const typeColumn = [
   },
   {
     prop: 'users',
-    label: '报表可见人员',
+    i18n: '报表可见人员',
     align: 'center',
-    width: 150,
+    width: 200,
     customRender: (h, scope) => {
       // const userRange = scope.row.userRange || 0
       const users = scope.row.users || []
@@ -164,9 +166,10 @@ const typeColumn = [
   },
   {
     prop: 'isTop',
-    label: '是否置顶',
+    i18n: '是否置顶',
     align: 'center',
     emit: 'topChang',
+    width: 100,
     customRender: (h, scope) => {
       return (
         <el-switch
@@ -180,9 +183,10 @@ const typeColumn = [
   },
   {
     prop: 'published',
-    label: '状态',
+    i18n: '状态',
     align: 'center',
     emit: 'statusChang',
+    width: 140,
     customRender: (h, scope) => {
       return (
         <el-switch
@@ -195,7 +199,7 @@ const typeColumn = [
     sortable: true
   },
   {
-    label: '操作',
+    i18n: '操作',
     align: 'center',
     width: 200,
     customRender: (h, { row }, col, { operate }) => {
@@ -223,16 +227,16 @@ const addTypeColumn = [
   },
   {
     type: 'index',
-    label: '序号',
+    i18n: '序号',
     width: 100
   },
   {
     prop: 'name',
-    label: '类型',
+    i18n: '类型',
     align: 'center'
   },
   {
-    label: '操作',
+    i18n: '操作',
     align: 'center',
     width: 200,
     customRender: (h, { row }, col, { del }) => {
