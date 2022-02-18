@@ -13,6 +13,7 @@
         <iButton @click="handleTask">{{
           $t('SUPPLIER_XINGONGYINGSHANGPINGJI')
         }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
     <iTableCustom
@@ -40,6 +41,7 @@
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
 import iTableCustom from '@/components/iTableCustom'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableTitle } from './data'
 import { getNewSupplierRating } from '@/api/frmRating/newSupplierRating/newSupplierRating'
 import { pageMixins } from '@/utils/pageMixins'
@@ -53,6 +55,7 @@ export default {
     iButton,
     tableList,
     iPagination,
+    buttonTableSetting,
     iTableCustom
   },
   data () {

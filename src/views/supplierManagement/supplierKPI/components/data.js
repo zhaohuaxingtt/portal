@@ -159,115 +159,147 @@ export const TakeNoteTableTitleNull = [{
 
 
 ]
-export const TakeNoteTableTitleDialog = [{
-        props: 'categoryName',
-        name: '指标',
+export const TakeNoteTableTitleDialog = [
+    {
+        type: 'index',
+        width: 60,
+        label: '序号'
+      },
+    {
+        prop: 'categoryName',
+        label: '指标',
         width: 160,
-        key: 'CATEGORYNAME',
+        li8n: 'CATEGORYNAME',
         tooltip: true
     },
     {
-        props: 'performance',
-        name: '完成情况',
+        prop: 'performance',
+        label: '完成情况',
         width: 100,
-        key: 'PERFORMANCE',
+        li8n: 'PERFORMANCE',
         tooltip: true
     },
     {
-        props: 'explanation',
-        name: '解释',
-        key: 'EXPLANATCION',
+        prop: 'explanation',
+        label: '解释',
+        li8n: 'EXPLANATCION',
         tooltip: true
     },
     {
-        props: 'target',
-        name: '目标',
-        key: 'TARGET',
+        prop: 'target',
+        label: '目标',
+        li8n: 'TARGET',
         tooltip: true
     },
     {
-        props: 'actionPlan',
-        name: '行动计划',
-        key: 'ACTIONPLAN',
+        prop: 'actionPlan',
+        label: '行动计划',
+        li8n: 'ACTIONPLAN',
         tooltip: true
     }
 ]
 
-export const listCloum = [{
-        props: 'nameZh',
-        name: '供应商名称',
-        key: 'GONGYINGSHANGMINGCHENG',
-
+export const listCloum = [
+    {
+        type: 'index',
+        width: 60,
+        label: '序号'
     },
     {
-        props: 'sapCode',
-        name: 'SAP号',
-        key: 'SAPCODE'
+        prop: 'nameZh',
+        label: '供应商名称',
+        li8n: 'GONGYINGSHANGMINGCHENG',
+            
     },
     {
-        props: 'halfYear',
-        name: '半年报记录',
-        key: 'BANNIANBAOJILU'
+        prop: 'sapCode',
+        label: 'SAP号',
+        li8n: 'SAPCODE'
     },
     {
-        props: 'takeRecord',
-        name: '重点追踪记录',
-        key: 'ZHONGDIANZHUIZONGJILU',
+        prop: 'halfYear',
+        label: '半年报记录',
+        li8n: 'BANNIANBAOJILU',
+        emit: 'go-halfYear',
+        customRender: (h, scope) => {
+            return <span class="cursor" style="color:#1763F7">查看</span>
+        }
+    },
+    {
+        prop: 'takeRecord',
+        label: '重点追踪记录',
+        li8n: 'ZHONGDIANZHUIZONGJILU',
         icon: 'iconxinxitishi',
         iconTextKey: '',
-        iconText: '当下⽅列表中“查看”为空，表示该供应商从未加⼊过重点追踪对象。'
+        iconText: '当下⽅列表中“查看”为空，表示该供应商从未加⼊过重点追踪对象。',
+        emit: 'go-takeRecord',
+        customRender: (h, scope) => {
+            if(scope.row.isKeyTrack){
+                return <span class="cursor" style="color:#1763F7">查看</span>
+            }else{
+                return <span>该供应商从未加⼊过重点追踪对象。</span>
+            }
+        }
     },
 
 ]
 
 export const PointCloum = [
-
     {
-        props: 'nameZh',
-        name: '供应商名称',
-        key: 'GONGYINGSHANGMINGCHENG',
+        type: 'index',
+        width: 60,
+        label: '序号'
+    },
+    {
+        prop: 'nameZh',
+        label: '供应商名称',
+        li8n: 'GONGYINGSHANGMINGCHENG',
         align: 'center',
         tooltip: true
     },
     {
-        props: 'sapCode',
-        name: 'SAP号',
-        key: 'SAPCODE',
+        prop: 'sapCode',
+        label: 'SAP号',
+        li8n: 'SAPCODE',
         align: 'center',
         tooltip: true
     },
     {
-        props: 'halfYear',
-        name: '半年报记录',
-        key: 'BANNIANBAOJILU',
+        prop: 'halfYear',
+        label: '半年报记录',
+        li8n: 'BANNIANBAOJILU',
+        align: 'center',
+        tooltip: true,
+        emit: 'go-detail',
+        customRender: (h, scope) => {
+            return <span class="cursor" style="color:#1763F7">查看</span>
+        }
+    },
+    {
+        prop: 'isTakeSteps',
+        label: '是否采取措施',
+        li8n: 'SHIFOUCAIQUCUOSHI',
         align: 'center',
         tooltip: true
     },
     {
-        props: 'isTakeSteps',
-        name: '是否采取措施',
-        key: 'SHIFOUCAIQUCUOSHI',
+        prop: 'takeStepsContent',
+        label: '采取措施详情',
+        li8n: 'CAIQUCUOSHIXIANGQING',
         align: 'center',
         tooltip: true
     },
     {
-        props: 'takeStepsContent',
-        name: '采取措施详情',
-        key: 'CAIQUCUOSHIXIANGQING',
+        prop: 'followUserName',
+        label: '跟进⼈',
+        li8n: 'GENJINREN',
         align: 'center',
         tooltip: true
     },
     {
-        props: 'followUserName',
-        name: '跟进⼈',
-        key: 'GENJINREN',
-        align: 'center',
-        tooltip: true
-    },
-    {
-        props: 'updateDate',
-        name: '更新时间',
-        key: '更新时间',
+        prop: 'updateDate',
+        label: '更新时间',
+        li8n: '更新时间',
         align: 'center',
         tooltip: true
     },

@@ -83,7 +83,7 @@
         <iPagination
           style="margin-top: 20px"
           v-update
-          @size-change="handleSizeChange($event, sure)"
+          @size-change="handleSizeChange($event, fetchReportDetail)"
           @current-change="handleCurrentChange($event, fetchReportDetail)"
           background
           :page-sizes="page.pageSizes"
