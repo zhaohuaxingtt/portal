@@ -88,8 +88,8 @@
       <div class="header">
         <p class="tableTitle">{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
         <div>
-          <buttonTableSetting @click="$refs.tableListRef1.openSetting()" v-if="tabVal == 1"></buttonTableSetting>
-          <buttonTableSetting @click="$refs.tableListRef2.openSetting()" v-else></buttonTableSetting>
+          <!-- <buttonTableSetting @click="$refs.tableListRef1.openSetting()" v-if="tabVal == 1"></buttonTableSetting> -->
+          <!-- <buttonTableSetting @click="$refs.tableListRef2.openSetting()" v-else></buttonTableSetting> -->
         </div>
       </div>
       <div class="tableBox">
