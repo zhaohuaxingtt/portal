@@ -63,13 +63,22 @@
         </div>
       </div>
       <!-- v-permission="SUPPLIER_APPLYBDL_TABEL" -->
-      <table-list 
+      <!-- <table-list 
                   :height="400"
                   :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   :index="true"
-                  @handleSelectionChange="handleSelectionChange" />
+                  @handleSelectionChange="handleSelectionChange" /> -->
+
+      <iTableCustom
+        :data="tableListData"
+        :columns="tableTitle"
+        :loading="tableLoading"
+        @handle-selection-change="handleSelectionChange"
+      >
+      </iTableCustom>
+      
       <add-bdl-dialog :title="$t('LK_TIANJIA')"
                       @handleSelection='handleSelection'
                       v-model="addBdldialog" />
@@ -80,6 +89,7 @@
 <script>
 import { iCard, iButton, iMessage, iSelect, } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
+import iTableCustom from '@/components/iTableCustom'
 import tableList from '@/components/commonTable'
 import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
@@ -95,7 +105,8 @@ export default {
     iButton,
     tableList,
     addBdlDialog,
-    iSelect
+    iSelect,
+    iTableCustom
   },
   data () {
     return {

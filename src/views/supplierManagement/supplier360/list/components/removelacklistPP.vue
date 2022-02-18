@@ -126,7 +126,7 @@
           language('YICHU', '移除')
         }}</i-button>
       </div>
-      <table-list
+      <!-- <table-list
         style="margin-top: 20px"
         :tableData="tableListData"
         :tableTitle="tableTitlePp"
@@ -137,7 +137,16 @@
         <template #stuffNameEnDe="scope">
           <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
         </template></table-list
+      > -->
+
+      <iTableCustom
+        :data="tableListData"
+        :columns="tableTitlePp"
+        :loading="tableLoading"
+        @handle-selection-change="handleSelectionChange"
       >
+      </iTableCustom>
+
       <iPagination
         v-update
         @size-change="handleSizeChange($event, getList)"
@@ -163,6 +172,7 @@ import {
   stuffListSearch
 } from '@/api/supplier360/blackList'
 import { tableTitlePp } from './data'
+import iTableCustom from '@/components/iTableCustom'
 import tableList from '@/components/commonTable'
 import {
   iButton,
@@ -184,6 +194,7 @@ export default {
   },
   components: {
     iButton,
+    iTableCustom,
     tableList,
     iSelect,
     iDatePicker,
