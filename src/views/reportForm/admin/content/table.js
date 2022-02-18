@@ -2,29 +2,29 @@ export default [
   {
     type: 'index',
     width: 50,
-    label: '序号'
+    i18n: '序号'
   },
   {
     prop: 'sectionName',
-    label: '类型',
+    i18n: '类型',
     align: 'center',
     sortable: true
   },
   {
     prop: 'title',
-    label: '报告标题',
+    i18n: '报告标题',
     align: 'center',
     sortable: true
   },
   {
     prop: 'publishDate',
-    label: '发布日期',
+    i18n: '发布日期',
     align: 'center',
     sortable: true
   },
   {
     prop: 'published',
-    label: '状态',
+    i18n: '状态',
     align: 'center',
     emit: 'stateChange',
     customRender: (h, scope) => {
@@ -39,7 +39,7 @@ export default [
     sortable: true
   },
   {
-    label: '通知',
+    i18n: '通知',
     align: 'center',
     emit: 'msgChange',
     prop: 'isSendMessage',
@@ -55,7 +55,7 @@ export default [
     sortable: true
   },
   {
-    label: '操作',
+    i18n: '操作',
     align: 'center',
     customRender: (h, { row }, column, extraData) => {
       return (

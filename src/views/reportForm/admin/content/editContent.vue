@@ -20,7 +20,6 @@
                     value-format="yyyy-MM-dd"
                     type="date"
                     v-model="form.publishDate"
-                    :picker-options="pickerOptions"
                     style="width:100%"
                     />
             </iFormItem>
@@ -94,11 +93,11 @@
                 loading: false,
                 uploadFileStream: null,
                 currId: null,
-                pickerOptions: {
-                    disabledDate(time) {
-                        return time.getTime() < Date.now() - 8.64e7
-                    }
-                }
+                // pickerOptions: {
+                //     disabledDate(time) {
+                //         return time.getTime() < Date.now() - 8.64e7
+                //     }
+                // }
             }
         },
         methods: {
