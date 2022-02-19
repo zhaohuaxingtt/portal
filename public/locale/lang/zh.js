@@ -1272,7 +1272,7 @@
     SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
     SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
     SPR_FRM_FRMGL_WPSJQZ: '外评时间起止', //外评时间起止
-    SPR_FRM_FRMGL_WP: '外评', //外评
+    SPR_FRM_FRMGL_WP1: '外评', //外评
     SPR_FRM_FRMGL_SPZT: '深评状态', //深评状态
     SPR_FRM_FRMGL_DXDFSJ: '定性打分时间', //定性打分时间
     SPR_FRM_FRMGL_DXDFSJQZ: '定性打分时间起止', //定性打分时间起止
