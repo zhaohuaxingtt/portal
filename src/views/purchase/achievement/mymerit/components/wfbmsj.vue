@@ -15,7 +15,7 @@
                     clientSecret: '6cpyeTY~dAmL-Uub2X8Om30Mm2EUk-d.TS',
                     workspaceId: process.env.NODE_ENV !== 'UAT' ? 'c272ae69-a6b4-4407-bd0e-f67953de36ce' : '876776a9-f959-442e-a011-b4bade0dd862',
                     reportId: process.env.NODE_ENV !== 'UAT' ? '27c468ba-77ba-481d-ac69-3488a58f0ee2' : '9f8cfa43-184d-46d5-a204-37ec659d13f6',
-                    datasets: [],
+                    datasets: process.env.NODE_ENV !== 'UAT' ? [] : ['2eddaa0a-da1e-4fd2-ad1e-0c8e28aa3623'],
                     username: '',
                     roles: ['cs_permission', 'dept_permission'],
                 },

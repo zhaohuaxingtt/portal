@@ -46,7 +46,7 @@ export const tableTitle = [
   {
     prop: 'externalAccessAcore',
     label: '外评',
-    li8n: 'SPR_FRM_FRMGL_WP',
+    li8n: 'SPR_FRM_FRMGL_WP1',
     width: 120,
     tooltip: true
   },
