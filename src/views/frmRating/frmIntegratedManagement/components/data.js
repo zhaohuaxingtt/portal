@@ -49,7 +49,7 @@ export const tableTitle = [
   {
     prop: 'externalAccessScore',
     lable: '外评',
-    i18n: 'SPR_FRM_FRMGL_WP',
+    i18n: 'SPR_FRM_FRMGL_WP1',
     tooltip: true
   },
   {

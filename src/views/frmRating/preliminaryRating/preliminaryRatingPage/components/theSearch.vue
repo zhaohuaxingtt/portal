@@ -38,7 +38,7 @@
           </iSelect>
         </el-form-item>
         <!--外评-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_WP')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_WP1')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">
@@ -69,7 +69,7 @@
       <!--第二行-->
       <el-row class="margin-bottom20">
         <!--初步评级-->
-        <el-form-item :label="$t('SUPPLIER_CHUBUPINGJI')">
+        <el-form-item :label="$t('SUPPLIER_CHUBUPINGJI1')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">

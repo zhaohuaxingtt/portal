@@ -15,19 +15,17 @@
         <!--导出初评模板-->
         <iButton @click="handleExport">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
         <!--初步评级-->
-        <iButton @click="handlePreliminaryRating">{{ $t('SUPPLIER_CHUBUPINGJI') }}</iButton>
+        <iButton @click="handlePreliminaryRating">{{ $t('SUPPLIER_CHUBUPINGJI1') }}</iButton>
         <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
 
-    <iTableCustom
-      ref="tableListRef"
-      :data="tableListData"
-      :columns="tableTitle"
-      :loading="tableLoading"
-      @handle-selection-change="handleSelectionChange"
-      @go-detail="handleOpenPage"
-    >
+    <iTableCustom ref="tableListRef"
+                  :data="tableListData"
+                  :columns="tableTitle"
+                  :loading="tableLoading"
+                  @handle-selection-change="handleSelectionChange"
+                  @go-detail="handleOpenPage">
     </iTableCustom>
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
@@ -258,7 +256,7 @@ export default {
       }
       iMessageBox(
         this.$t('SPR_FRM_CBPJ_JXCPLC'),
-        this.$t('SUPPLIER_CHUBUPINGJI'),
+        this.$t('SUPPLIER_CHUBUPINGJI1'),
         { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') },
       ).then(async () => {
         const ids = this.selectTableData.map(item => {

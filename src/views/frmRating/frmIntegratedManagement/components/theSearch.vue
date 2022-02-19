@@ -118,7 +118,7 @@
       <!--第三行-->
       <el-row>
         <!--外评-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_WP')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_WP1')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">
