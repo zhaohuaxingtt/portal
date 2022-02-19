@@ -2,19 +2,21 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: 初步评级
 -->
 <template>
-  <iCard :title="$t('SUPPLIER_CHUBUPINGJI')">
-    <div @click="handleTo" class="height">
+  <iCard :title="$t('SUPPLIER_CHUBUPINGJI1')">
+    <div @click="handleTo"
+         class="height">
       <!-- <div class="center1 height">
       <img :src="soon" width="70%" height="70%" alt="">
     </div> -->
       <!-- <div class="flex-align-center" style="justify-content: center;height: 100%;">
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
-      <div ref="chart" class="chartStyle"></div>
+      <div ref="chart"
+           class="chartStyle"></div>
     </div>
   </iCard>
 </template>
@@ -26,35 +28,35 @@ import { iCard } from 'rise'
 import { initRatingCard } from '@/api/frmRating/supplierOverview/index'
 export default {
   components: { iCard },
-  data() {
+  data () {
     return {
       chart: 'monitorChart',
       info: {}
       //   soon: soon
     }
   },
- watch: {
-    '$i18n.locale'() {
+  watch: {
+    '$i18n.locale' () {
       this.getChart();
     }
   },
-  mounted() {
-  this.getData()
+  mounted () {
+    this.getData()
   },
   methods: {
-      getData(){
-         initRatingCard().then(res => {
-      this.info = res.data
-      this.getChart()
-    })   
-      },
-    handleTo() {
+    getData () {
+      initRatingCard().then(res => {
+        this.info = res.data
+        this.getChart()
+      })
+    },
+    handleTo () {
       this.$router.push({
         path: '/supplier/frmrating/preliminaryrating/preliminaryrating'
       })
     },
 
-    getChart() {
+    getChart () {
       let data1 = []
       let data2 = []
       let totalCount = 0
@@ -75,7 +77,7 @@ export default {
             '/' +
             this.info.percent +
             '%）',
-          subtext:  this.language('SHULIANGJIA', '数量/家'),
+          subtext: this.language('SHULIANGJIA', '数量/家'),
           textStyle: {
             color: '#E30B0D',
             fontSize: 10
@@ -92,23 +94,23 @@ export default {
             // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(data) {
-              console.log(data)
+          formatter: function (data) {
+            console.log(data)
             const type = data[0].axisValue
-            return `${type}-${ this.language('RATINGSHULIANG', 'Rating数量')}：${data[0].value}<br/>${type}-${ this.language('RATINGBILI', 'Rating比例')}：${(
+            return `${type}-${this.language('RATINGSHULIANG', 'Rating数量')}：${data[0].value}<br/>${type}-${this.language('RATINGBILI', 'Rating比例')}：${(
               data[0].value / totalCount
             ).toFixed(2) * 100}%`
           }
-        //    formatter: function(data) {
-        //     let total = 0
-        //     for (let i in data) {
-        //       total += data[i].data.value
-        //     }
-        //     const type = data[0].axisValue
-        //     return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${(
-        //       total / totalCount
-        //     ).toFixed(2) * 100}%`
-        //   }
+          //    formatter: function(data) {
+          //     let total = 0
+          //     for (let i in data) {
+          //       total += data[i].data.value
+          //     }
+          //     const type = data[0].axisValue
+          //     return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${(
+          //       total / totalCount
+          //     ).toFixed(2) * 100}%`
+          //   }
         },
         grid: {
           top: '18%',
@@ -153,7 +155,7 @@ export default {
             },
             itemStyle: {
               normal: {
-                color: function(params) {
+                color: function (params) {
                   let colorList = [
                     '#A2C0FC',
                     '#A2C0FC',
