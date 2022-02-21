@@ -166,7 +166,7 @@
       <tableList class="margin-top20"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
-                 :tableLoading="loading"
+                 :tableLoading="tableLoading"
                  :index="true"
                  @handleSelectionChange="handleSelectionChange">
         <template slot="id"
@@ -286,10 +286,12 @@ export default {
 
       tableListData: [],
       tableTitle: tableTitle,
-      loading: false,
+      tableLoading: false,
       selection: [],
       getMtzGenericAppId:[],//申请单号
       getCurrentUser:[],//采购员
+
+      stopLoading:null,
     }
   },
 
@@ -331,14 +333,14 @@ export default {
       this.getTableList();
     },
     getTableList () {
-      this.loading = true;
+      this.tableLoading = true;
       pageMtzNomi({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.searchForm
       }).then(res => {
         if (res.code == 200 && res.data) {
-          this.loading = false;
+          this.tableLoading = false;
           this.tableListData = res.data;
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
@@ -346,6 +348,9 @@ export default {
         } else {
           iMessage.error(res.desZh)
         }
+        this.stopLoading.close();
+      }).catch(red=>{
+        this.stopLoading.close();
       })
     },
     // handleChange (val) {
@@ -467,13 +472,25 @@ export default {
       }
     },
     MtzFreezeRequest () {
+      this.stopLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+
       mtzFreeze({
         ids: this.selection.map(item => item.id)
       }).then(res => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableList()
-        } else iMessage.error(res.desZh)
+        } else{
+          iMessage.error(res.desZh)
+          this.stopLoading.close()
+        }
+      }).catch(red=>{
+        this.stopLoading.close()
       })
     },
 
@@ -500,19 +517,32 @@ export default {
           if(e.message != "EndIterative") throw e;
       }
       if(num==0){
+        this.stopLoading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+
         mtzUnfreeze({
           ids: this.selection.map(item => item.id)
         }).then(res => {
           if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableList()
-          } else iMessage.error(res.desZh)
+          } else{
+            iMessage.error(res.desZh)
+            this.stopLoading.close();
+          }
+        }).catch(red=>{
+          this.stopLoading.close();
         })
       }
     },
 
     // 定点
     handleClickMtzNomi () {
+      // this.
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
@@ -550,13 +580,25 @@ export default {
       // }
     },
     getNomi () {
+      this.stopLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+
       mtzNomi({
         ids: this.selection.map(item => item.id)
       }).then(res => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableList()
-        } else iMessage.error(res.desZh)
+        } else{
+          iMessage.error(res.desZh)
+          this.stopLoading.close();
+        }
+      }).catch(red=>{
+        this.stopLoading.close();
       })
     },
 
@@ -587,6 +629,13 @@ export default {
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res=>{
+          this.stopLoading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
+
           cancelMtzNomi({
             ids: this.selection.map(item => item.id)
           }).then(res => {
@@ -621,6 +670,14 @@ export default {
           if(e.message != "EndIterative") throw e;
       }
       if(num==0){
+        
+        this.stopLoading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+
         mtzMeetingOutFlow({
           ids: this.selection.map(item => item.id)
         }).then(res => {

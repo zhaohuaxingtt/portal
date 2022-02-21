@@ -318,6 +318,7 @@ export default {
       this.$set(this.formData, 'effectFlag', '1')
     },
     handlePartNumberDetail (e) {
+      console.log(e)
       // 一二次零件号
       this.isShow = true
       this.clickData = e
