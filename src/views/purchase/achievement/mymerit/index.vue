@@ -268,6 +268,7 @@
           if (this.role == 'CGBZ_WF') {
             this.currentView = 'wfbmsj'
           } else {
+            this.username = '';
             this.currentView = 'zfbmsj'
           }
           console.error(item, '===>', this.username, '===>', this.currentView);
