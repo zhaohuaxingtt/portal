@@ -332,9 +332,11 @@ export default {
       this.getTableData()
       setTimeout(() => {
         var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
-        console.log(navList)
-        navList[0].click();
-      }, 100);
+        // console.log(navList)
+        if(navList.length !== 0){
+          navList[0].click();
+        }
+      // }, 100);
     })
   },
   computed: {
