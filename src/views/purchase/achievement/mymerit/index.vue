@@ -337,7 +337,8 @@
             this.currentView = 'pfjzfkssj'
           }
         }
-        this.indexBtn = index
+        this.indexBtn = index;
+        console.error(item, '===>', this.username, '===>', this.currentView);
       },
       // 初始化页面
       renderBi() {
