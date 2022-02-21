@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-06-08 16:51:54
- * @LastEditTime: 2022-02-19 17:59:19
+ * @LastEditTime: 2022-02-21 11:31:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\bpm\frmRatingApproval\depthRatingApproval\index.vue
@@ -82,7 +82,7 @@
             <iSelect :disabled="true"
                      v-if="scope.row.children!==undefined"
                      v-model="scope.row.isDeepComment">
-              <el-option :value="item.code"
+              <el-option :value="item.name"
                          :label="item.name"
                          v-for="item in fromGroup.TURE_FALSE"
                          :key="item.code"></el-option>
@@ -95,6 +95,7 @@
             <iInput v-if="scope.row.children!==undefined && scope.row.isDeepComment=='0'"
                     v-model="scope.row.noDeepCommentReason"
                     @change="check(scope.row)"></iInput>
+            <span v-else>{{scope.row.noDeepCommentReason}}</span>
           </template>
         </el-table-column>
       </el-table>
