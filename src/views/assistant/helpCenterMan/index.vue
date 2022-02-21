@@ -212,13 +212,14 @@ export default {
   },
   methods: {
     // 用户手册-问题模块
-    async getProbleList() {
+    async getProbleList() { 
       this.manualInfo.loading = true
       try {
         await queryModuleBySource(this.activeUser).then((res) => {
           if (res.code === '200') {
-            this.manualInfo.list = res.data
-            this.manualInfo.id = res.data[0]?.id
+            console.log(res, '2222')
+            this.manualInfo.list = res.data || []
+            this.manualInfo.id = res.data?.[0]?.id || ''
             if (this.manualInfo.id) {
               this.manualInfo.activeInfo = res.data[0]
               this.queryManualDetail()
