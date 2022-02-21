@@ -64,7 +64,6 @@ export default {
             }
             try {
                 let params = JSON.parse(JSON.stringify(this.params))
-                console.log(params, '222333')
                 params.startDate = params.startDate ? `${params.startDate.split(" ")[0]} 00:00:00` : ""
                 params.endDate = params.endDate ? `${params.endDate.split(" ")[0]} 23:59:59` : ""
                 // let data = {
@@ -72,7 +71,6 @@ export default {
                 //     size: this.page.pageSize,
                 //     ...params
                 // }
-                console.log(params, "22222")
                 // 0220 新增 是否成功 改为成功失败 应后端 success传参改变 true => false; false => 就不要success这个字段
                 if (this.fromAdminLog) {
                     if (params.success) {
