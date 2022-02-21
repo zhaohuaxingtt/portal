@@ -181,6 +181,7 @@ export default {
 	},
 	computed: {
 		getTableColumn() {
+			// 日志类别 选择接口日志类型及其他类型的区别
 			if (this.form.category !== '2') {
 				return this.tableColumns.filter(e => e.prop !== 'interfaceName')
 			} else {
