@@ -80,17 +80,22 @@
                             </el-option>
                         </iSelect>
                     </iFormItem>
-                    <iFormItem :label="language('报表可见组织')" prop='organizations' style="marginLeft: 70px">
+                    <iFormItem :label="language('报表可见组织')" prop='organizations' style="marginLeft: 85px">
                         <iSelect
+                            ref="selectDom"
                             v-model="form.organizations"
                             filterable
                             placeholder="请选择"
                             clearable
                             multiple
                             style="width: 280px"
+                            v-loading="orgLoading"
+                            remote
+                            reserve-keyword
+                            :remote-method="remoteMethod"
                         >
                             <el-option
-                                v-for="item in organizationList"
+                                v-for="item in filterList"
                                 :key="item.id"
                                 :label="item.nameZh"
                                 :value="item.id"
@@ -206,7 +211,9 @@ export default {
             organizationList: [],
             customFlag: false,
             loading: false,
-            usersList: userList
+            usersList: userList,
+            orgLoading: false,
+            filterWord: null
         }
     },
     async created() {
@@ -225,6 +232,9 @@ export default {
         //         }
         //     })
         // },
+        remoteMethod(v) {
+            this.filterWord = v
+        },
         async getUsersList() {
             let params = {
 				privilege: 'BBNRGLY'
@@ -240,6 +250,7 @@ export default {
             await getDeptDropDownList({}).then(res => {
                 if (res?.code === '200') {
                     this.organizationList = res?.data || []
+                    this.orgLoading = false
                 }
             }) 
         },
@@ -392,6 +403,25 @@ export default {
     computed: {
         dialogTitle() {
             return this.operateType === 'add' ? '新增类型管理' : '修改类型管理'
+        },
+        selectedOptions() {
+            return this.organizationList.filter(e=>this.form.organizations.includes(e.id))
+        },
+        filterList() {
+            if (!this.filterWord) {
+                let arr = this.organizationList.slice(0, 1) || []
+                let tempArr = this.organizationList.slice(1, 99) || []
+                let finArr = [...arr, ...tempArr]
+                return this.selectedOptions.length > 0 ? Array.from(new Set([...this.selectedOptions, ...finArr])) : finArr
+            } else {
+                let tempArr = []
+                this.organizationList.map(item => {
+                    if (item.nameZh.indexOf(this.filterWord) !== -1) {
+                        tempArr.push(item)
+                    }
+                })
+                return this.selectedOptions.length > 0 ? Array.from(new Set([...this.selectedOptions, ...tempArr])) : tempArr
+            }
         }
     }
 }

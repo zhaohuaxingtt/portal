@@ -2,8 +2,8 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
- * @LastEditTime: 2021-07-14 20:02:27
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-18 19:53:17
  * @Descripttion: your project
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -20,12 +20,16 @@ export const tableTitle = [
   {
     prop: 'nameZh',
     label: '供应商名称',
-    li8n: 'LK_GONGYINGSHANGMINGCHENG',
+    li8n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 200,
     tooltip: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
-      return <span class="cursor" style="color:#1763F7">{scope.row.nameZh}</span>
+      return (
+        <span class="cursor" style="color:#1763F7">
+          {scope.row.nameZh}
+        </span>
+      )
     }
   },
   {
@@ -62,7 +66,13 @@ export const tableTitle = [
     li8n: 'SPR_FRM_XGYSPJ_CGKS',
     tooltip: true
   },
-    { prop: 'buyer', label: '采购员', li8n: 'SPR_FRM_XGYSPJ_CGY', tooltip: true,width: 120, },
+  {
+    prop: 'buyer',
+    label: '采购员',
+    li8n: 'SPR_FRM_XGYSPJ_CGY',
+    tooltip: true,
+    width: 120
+  },
   {
     prop: 'categoryId',
     label: '材料组编号',
@@ -97,13 +107,19 @@ export const tableTitle = [
     width: 150,
     tooltip: true
   },
-    { prop: 'ratingStatus', label: '状态', li8n: 'LK_ZHUANGTAI', tooltip: true,width:120, },
+  {
+    prop: 'ratingStatus',
+    label: '状态',
+    li8n: 'LK_ZHUANGTAI',
+    tooltip: true,
+    width: 120
+  },
   {
     prop: 'remark',
     label: '不通过原因',
     li8n: 'SPR_FRM_XGYSPJ_BTGYY',
     tooltip: true,
-    width:120,
+    width: 120
   },
   {
     prop: 'dataChannel',
@@ -114,38 +130,44 @@ export const tableTitle = [
   }
 ]
 export const supplierMessageTitle = [
-  {//供应商名称
+  {
+    //供应商名称
     key: 'nameZh',
-    name: 'LK_GONGYINGSHANGMINGCHENG',
+    name: 'LK_GONGYINGSHANGMINGCHENG1',
     icons: '',
     tip: '',
     permission: 'SUPPLIER_BASEINFO_SUPPLIERNAME'
   },
-  {//供应商名称（中）
+  {
+    //供应商名称（中）
     key: 'shortNameZh',
     name: 'SupplierAbbreviationZh',
     permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH'
   },
-  {//统一社会信用代码
+  {
+    //统一社会信用代码
     key: 'socialcreditNo',
     name: 'UnifySocialCreditCode',
     icons: '',
     tip: '',
     permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE'
   },
-  {//供应商英文名
+  {
+    //供应商英文名
     key: 'nameEn',
     name: 'SupplierEn',
     icons: '',
     tip: '',
     permission: 'SUPPLIER_BASEINFO_SUPPLIEREN'
   },
-  {//供应商简称（英）
+  {
+    //供应商简称（英）
     key: 'shortNameEn',
     name: 'SupplierAbbreviationEn',
     permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN'
   },
-  {//DUNS
+  {
+    //DUNS
     key: 'dunsCode',
     name: 'DUNS',
     permission: 'SUPPLIER_BASEINFO_DUNS'

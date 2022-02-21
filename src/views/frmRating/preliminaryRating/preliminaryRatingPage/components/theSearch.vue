@@ -11,12 +11,12 @@
                   v-model="form.sapCode"></iInput>
         </el-form-item>
         <!--供应商名称-->
-        <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG')">
+        <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
           <iInput :placeholder="$t('LK_QINGSHURU')"
                   v-model="form.keyWords"></iInput>
         </el-form-item>
         <!--供应商状态-->
-        <el-form-item :label="$t('GONGHUO')">
+        <el-form-item :label="$t('GONGHUO1')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.supplierStatus">
             <!--            <el-option value="" :label="$t('all')"></el-option>-->
@@ -27,7 +27,7 @@
           </iSelect>
         </el-form-item>
         <!--相关科室-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_XGKS')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_XGKS1')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.responsibleDepartment">
             <!--            <el-option value="" :label="$t('all')"></el-option>-->
@@ -38,7 +38,7 @@
           </iSelect>
         </el-form-item>
         <!--外评-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_WP')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_WP1')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">
@@ -69,7 +69,7 @@
       <!--第二行-->
       <el-row class="margin-bottom20">
         <!--初步评级-->
-        <el-form-item :label="$t('SUPPLIER_CHUBUPINGJI')">
+        <el-form-item :label="$t('SUPPLIER_CHUBUPINGJI1')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">

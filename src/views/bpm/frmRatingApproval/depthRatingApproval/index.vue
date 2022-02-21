@@ -1,7 +1,7 @@
 <!--
  * @Author: 舒杰
  * @Date: 2021-06-08 16:51:54
- * @LastEditTime: 2022-02-15 15:09:22
+ * @LastEditTime: 2022-02-19 17:59:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\bpm\frmRatingApproval\depthRatingApproval\index.vue
@@ -58,7 +58,7 @@
                          :label="$t('SPR_FRM_DEP_DEPREASON')">
           <template slot-scope="scope">
             <iSelect v-model="scope.row.deepCommentReasons"
-                     :disabled="disabled">
+                     :disabled="true">
               <el-option :value="item.name"
                          :label="item.name"
                          v-for="item in fromGroup.DEEP_COMMENT_REASON"
@@ -70,7 +70,7 @@
                          :label="$t('SPR_FRM_DEP_XXYY')">
           <template slot-scope="scope">
             <iInput v-if="scope.row.deepCommentReasons=='其他原因'"
-                    :disabled="disabled"
+                    :disabled="true"
                     v-model="scope.row.deepCommentOtherReasons"
                     @change="check2(scope.row)"
                     maxlength="6"></iInput>

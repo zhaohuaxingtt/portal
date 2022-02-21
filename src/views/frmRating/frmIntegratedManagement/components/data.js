@@ -3,7 +3,7 @@
  * @Date: 2021-05-19 20:08:08
  * @Description: FRM综合管理
  */
-import { SUPPLIER_STATUS } from '../../../../constants/frmRating/preliminaryRating';
+import { SUPPLIER_STATUS } from '../../../../constants/frmRating/preliminaryRating'
 
 export const tableTitle = [
   {
@@ -15,18 +15,24 @@ export const tableTitle = [
     width: 60,
     label: '序号'
   },
-  { prop: 'sapCode', lable: 'SAP号', i18n: 'SUPPLIER_SAPHAO', tooltip: true,width: 120, },
+  {
+    prop: 'sapCode',
+    lable: 'SAP号',
+    i18n: 'SUPPLIER_SAPHAO',
+    tooltip: true,
+    width: 120
+  },
   {
     prop: 'nameZh',
     lable: '供应商名称',
-    i18n: 'LK_GONGYINGSHANGMINGCHENG',
+    i18n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 200,
     tooltip: true
   },
   {
     prop: 'isActive',
     lable: '供应商状态',
-    i18n: 'GONGHUO',
+    i18n: 'GONGHUO1',
     width: 120,
     tooltip: true,
     customRender: (h, scope) => {
@@ -36,14 +42,14 @@ export const tableTitle = [
   {
     prop: 'takeChargeSection',
     lable: '相关科室',
-    i18n: 'SPR_FRM_FRMGL_XGKS',
+    i18n: 'SPR_FRM_FRMGL_XGKS1',
     width: 120,
     tooltip: true
   },
   {
     prop: 'externalAccessScore',
     lable: '外评',
-    i18n: 'SPR_FRM_FRMGL_WP',
+    i18n: 'SPR_FRM_FRMGL_WP1',
     tooltip: true
   },
   {
@@ -64,7 +70,7 @@ export const tableTitle = [
     prop: 'grade',
     lable: '初步评级',
     width: 120,
-    i18n: 'SUPPLIER_CHUBUPINGJI',
+    i18n: 'SUPPLIER_CHUBUPINGJI1',
     tooltip: true
   },
   {
@@ -81,15 +87,15 @@ export const tableTitle = [
     i18n: 'SHENPINGJIEGUO',
     tooltip: true,
     customRender: (h, scope) => {
-      var str;
-      if(scope.row.deepCommentResult == 'GREEN'){
+      var str
+      if (scope.row.deepCommentResult == 'GREEN') {
         str = <icon symbol name="iconlvdeng"></icon>
-      }else if(scope.row.deepCommentResult == 'YELLOW'){
+      } else if (scope.row.deepCommentResult == 'YELLOW') {
         str = <icon symbol name="iconhuangdeng"></icon>
-      }else if(scope.row.deepCommentResult == 'RED'){
+      } else if (scope.row.deepCommentResult == 'RED') {
         str = <icon symbol name="iconhongdeng"></icon>
       }
-      return str;
+      return str
     }
   },
   {
@@ -128,17 +134,17 @@ export const tableTitle = [
     width: 160,
     tooltip: true,
     customRender: (h, scope) => {
-      var str;
-      if(scope.row.vwagAssessResult == 'green'){
+      var str
+      if (scope.row.vwagAssessResult == 'green') {
         str = <icon symbol name="iconlvdeng"></icon>
-      }else if(scope.row.vwagAssessResult == 'yellow'){
+      } else if (scope.row.vwagAssessResult == 'yellow') {
         str = <icon symbol name="iconhuangdeng"></icon>
-      }else if(scope.row.vwagAssessResult == 'red'){
+      } else if (scope.row.vwagAssessResult == 'red') {
         str = <icon symbol name="iconhongdeng"></icon>
-      }else{
+      } else {
         str = <span>{scope.row.vwagAssessResult}</span>
       }
-      return str;
+      return str
     }
   },
   {
@@ -155,11 +161,11 @@ export const confirmedPreliminaryReviewListTableTitle = [
   {
     props: 'nameZh',
     name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    key: 'LK_GONGYINGSHANGMINGCHENG1',
     tooltip: true
   },
   { props: 'tto', name: '上年TO', key: 'SPR_FRM_FRMGL_SNTO' },
-  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS' },
+  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS1' },
   { props: 'relevantStock', name: '相关股', key: 'SPR_FRM_FRMGL_XGG' },
   {
     props: 'socialcreditNo',

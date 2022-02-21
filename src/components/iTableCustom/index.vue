@@ -1,165 +1,142 @@
 <template>
-  <div
-    class="i-table-custom"
-    :class="{
+  <div class="i-table-custom"
+       :class="{
       'single-choise': singleChoice,
       'disable-children-selection': disableChildrenSelection,
       'i-table-custom-expand': treeExpand
     }"
-    :style="{ minHeight: minHeight }"
-  >
-    <el-table
-      v-loading="loading"
-      ref="theCustomTable"
-      tooltip-effect="light"
-      fit
-      :height="height"
-      :max-height="maxHeight"
-      :data="virtualList ? virtualTableData : realTableData"
-      :row-key="rowKey || 'uniqueId'"
-      :highlight-current-row="highlightCurrentRow"
-      :empty-text="language('ZANWUSHUJU', '暂无数据')"
-      :row-class-name="getRowClassNameDefault"
-      :row-style="getRowStyle"
-      :cell-class-name="getCellClassName"
-      :span-method="getSpanMethod"
-      :stripe="stripe"
-      :header-cell-class-name="handleHeaderCellClassName"
-      @selection-change="handleSelectionChange"
-      @select="handleSelect"
-      @select-all="handleAllSelect"
-      @current-change="handleCurrentChange"
-      @cell-click="handleCellClick"
-      @sort-change="handleSortChange"
-      :border="border"
-      @row-click="rowClick"
-    >
+       :style="{ minHeight: minHeight }">
+    <el-table v-loading="loading"
+              ref="theCustomTable"
+              tooltip-effect="light"
+              fit
+              :height="height"
+              :max-height="maxHeight"
+              :data="virtualList ? virtualTableData : realTableData"
+              :row-key="rowKey || 'uniqueId'"
+              :highlight-current-row="highlightCurrentRow"
+              :empty-text="language('ZANWUSHUJU', '暂无数据')"
+              :row-class-name="getRowClassNameDefault"
+              :row-style="getRowStyle"
+              :cell-class-name="getCellClassName"
+              :span-method="getSpanMethod"
+              :stripe="stripe"
+              :header-cell-class-name="handleHeaderCellClassName"
+              @selection-change="handleSelectionChange"
+              @select="handleSelect"
+              @select-all="handleAllSelect"
+              @current-change="handleCurrentChange"
+              @cell-click="handleCellClick"
+              @sort-change="handleSortChange"
+              :border="border"
+              @row-click="rowClick">
       <template v-for="(item, index) in tableVisibleColumns">
-        <el-table-column
-          :key="index"
-          v-if="['selection', 'index'].includes(item.type)"
-          :reserve-selection="item.reserveSelection || false"
-          :type="item.type"
-          :label="
+        <el-table-column :key="index"
+                         v-if="['selection', 'index'].includes(item.type)"
+                         :reserve-selection="item.reserveSelection || false"
+                         :type="item.type"
+                         :label="
             item.i18n ? language(item.i18n, item.label) : language(item.label)
           "
-          :width="item.width || '50'"
-          :min-width="item.minWidth"
-          :align="item.align || 'center'"
-          :selectable="handleSelectable"
-          :fixed="item.fixed"
-        />
-        <el-table-column
-          :key="index"
-          v-else-if="['customSelection'].includes(item.type)"
-          reserve-selection
-          :type="item.type"
-          :label="item.i18n ? language(item.i18n, item.label) : item.label"
-          :width="item.width || '50'"
-          :min-width="item.minWidth || '50'"
-          :align="item.align || 'center'"
-          :selectable="handleSelectable"
-          :fixed="item.fixed"
-        >
-          <template slot="header" slot-scope="scope">
-            <el-checkbox
-              v-model="checkedAll"
-              :indeterminate="indeterminateAll"
-              @change="handleCheckedAll"
-              :a="scope"
-            />
+                         :width="item.width || '50'"
+                         :min-width="item.minWidth"
+                         :align="item.align || 'center'"
+                         :selectable="handleSelectable"
+                         :fixed="item.fixed" />
+        <el-table-column :key="index"
+                         v-else-if="['customSelection'].includes(item.type)"
+                         reserve-selection
+                         :type="item.type"
+                         :label="item.i18n ? language(item.i18n, item.label) : item.label"
+                         :width="item.width || '50'"
+                         :min-width="item.minWidth || '50'"
+                         :align="item.align || 'center'"
+                         :selectable="handleSelectable"
+                         :fixed="item.fixed">
+          <template slot="header"
+                    slot-scope="scope">
+            <el-checkbox v-model="checkedAll"
+                         :indeterminate="indeterminateAll"
+                         @change="handleCheckedAll"
+                         :a="scope" />
           </template>
           <template slot-scope="scope">
-            <el-checkbox
-              v-model="scope.row.checked"
-              :indeterminate="scope.row.isIndeterminate"
-              :disabled="scope.row.disabledChecked"
-              @change="(val) => handleCheckedRow(val, scope.row)"
-              class="custom-checkbox"
-            >
+            <el-checkbox v-model="scope.row.checked"
+                         :indeterminate="scope.row.isIndeterminate"
+                         :disabled="scope.row.disabledChecked"
+                         @change="(val) => handleCheckedRow(val, scope.row)"
+                         class="custom-checkbox">
             </el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column
-          :key="index"
-          v-else-if="['fullIndex'].includes(item.type)"
-          :type="item.type"
-          :label="item.i18n ? language(item.i18n, item.label) : item.label"
-          :width="item.width || '50'"
-          :align="item.align || 'center'"
-          :selectable="handleSelectable"
-          :fixed="item.fixed"
-        >
+        <el-table-column :key="index"
+                         v-else-if="['fullIndex'].includes(item.type)"
+                         :type="item.type"
+                         :label="item.i18n ? language(item.i18n, item.label) : item.label"
+                         :width="item.width || '50'"
+                         :align="item.align || 'center'"
+                         :selectable="handleSelectable"
+                         :fixed="item.fixed">
           <template slot-scope="scope">
             {{ getFullIndex(scope.row) }}
           </template>
         </el-table-column>
-        <el-table-column
-          v-else
-          :render-header="item.headerRender"
-          :key="index"
-          :type="item.type"
-          :align="item.align || 'center'"
-          :header-align="item.headerAlign"
-          :show-overflow-tooltip="item.tooltip"
-          :prop="item.prop"
-          :label="item.i18n ? language(item.i18n, item.label) : item.label"
-          :width="item.width ? item.width.toString() : ''"
-          :min-width="item.minWidth ? item.minWidth.toString() : ''"
-          :fixed="item.fixed"
-          :sortable="item.sortable || false"
-          :sort-method="item.sortMethod"
-        >
+        <el-table-column v-else
+                         :render-header="item.headerRender"
+                         :key="index"
+                         :type="item.type"
+                         :align="item.align || 'center'"
+                         :header-align="item.headerAlign"
+                         :show-overflow-tooltip="item.tooltip"
+                         :prop="item.prop"
+                         :label="item.i18n ? language(item.i18n, item.label) : item.label"
+                         :width="item.width ? item.width.toString() : ''"
+                         :min-width="item.minWidth ? item.minWidth.toString() : ''"
+                         :fixed="item.fixed"
+                         :sortable="item.sortable || false"
+                         :sort-method="item.sortMethod">
           <template slot-scope="scope">
             <template v-if="item.children">
-              <el-table-column
-                v-for="(subItem, subIndex) of item.children"
-                :render-header="subItem.headerRender"
-                :key="subIndex"
-                :type="subItem.type"
-                :align="subItem.align || 'center'"
-                :header-align="subItem.headerAlign"
-                :show-overflow-tooltip="subItem.tooltip"
-                :prop="subItem.prop"
-                :label="
+              <el-table-column v-for="(subItem, subIndex) of item.children"
+                               :render-header="subItem.headerRender"
+                               :key="subIndex"
+                               :type="subItem.type"
+                               :align="subItem.align || 'center'"
+                               :header-align="subItem.headerAlign"
+                               :show-overflow-tooltip="subItem.tooltip"
+                               :prop="subItem.prop"
+                               :label="
                   subItem.i18n
                     ? language(subItem.i18n, subItem.label)
                     : subItem.label
                 "
-                :width="subItem.width ? subItem.width.toString() : ''"
-                :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
-                :sortable="subItem.sortable || false"
-              >
-                <i-table-column
-                  v-if="subItem.customRender || subItem.type === 'expanded'"
-                  :scope="scope"
-                  :column="subItem"
-                  :custom-render="subItem.customRender"
-                  :extra-data="extraData"
-                  :prop="subItem.prop"
-                  :child-num-visible="childNumVisible"
-                />
+                               :width="subItem.width ? subItem.width.toString() : ''"
+                               :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
+                               :sortable="subItem.sortable || false">
+                <i-table-column v-if="subItem.customRender || subItem.type === 'expanded'"
+                                :scope="scope"
+                                :column="subItem"
+                                :custom-render="subItem.customRender"
+                                :extra-data="extraData"
+                                :prop="subItem.prop"
+                                :child-num-visible="childNumVisible" />
                 <span v-else>
                   {{ scope.row[subItem.prop] }}
                 </span>
               </el-table-column>
             </template>
-            <div
-              v-else
-              :class="{ 'custom-cell-tooltip': item.tooltip }"
-              @mouseenter="customMouseenter"
-              @mouseleave="customMouseleave"
-              @click="handleEmit(item, scope.row)"
-            >
-              <i-table-column
-                v-if="item.customRender || item.type === 'expanded'"
-                :scope="scope"
-                :column="item"
-                :custom-render="item.customRender"
-                :extra-data="extraData"
-                :prop="item.prop"
-                :child-num-visible="childNumVisible"
-              />
+            <div v-else
+                 :class="{ 'custom-cell-tooltip': item.tooltip }"
+                 @mouseenter="customMouseenter"
+                 @mouseleave="customMouseleave"
+                 @click="handleEmit(item, scope.row)">
+              <i-table-column v-if="item.customRender || item.type === 'expanded'"
+                              :scope="scope"
+                              :column="item"
+                              :custom-render="item.customRender"
+                              :extra-data="extraData"
+                              :prop="item.prop"
+                              :child-num-visible="childNumVisible" />
               <span v-else>
                 {{ scope.row[item.prop] }}
               </span>
@@ -168,28 +145,22 @@
         </el-table-column>
       </template>
     </el-table>
-    <iTableHeaderSort
-      v-if="settingVisible"
-      :data="tableSettingColumns"
-      :show.sync="settingVisible"
-      :value="'value'"
-      :label="'label'"
-      :visiableKey="'hidden'"
-      @callback="handleSaveSetting"
-      @reset="handleResetSetting"
-    />
-    <el-tooltip
-      open-delay="3000"
-      effect="light"
-      placement="top"
-      ref="customTableTooltip"
-      popper-class="custom-table-popper"
-    >
-      <div
-        slot="content"
-        class="custom-table-popper-content"
-        :style="{ width: tooltipWidth }"
-      >
+    <iTableHeaderSort v-if="settingVisible"
+                      :data="tableSettingColumns"
+                      :show.sync="settingVisible"
+                      :value="'value'"
+                      :label="'label'"
+                      :visiableKey="'hidden'"
+                      @callback="handleSaveSetting"
+                      @reset="handleResetSetting" />
+    <el-tooltip open-delay="3000"
+                effect="light"
+                placement="top"
+                ref="customTableTooltip"
+                popper-class="custom-table-popper">
+      <div slot="content"
+           class="custom-table-popper-content"
+           :style="{ width: tooltipWidth }">
         {{ tooltipContent }}
       </div>
     </el-tooltip>
@@ -346,14 +317,14 @@ export default {
   },
   computed: {
     // 根据visible筛选是否要显示的数据
-    realTableData() {
+    realTableData () {
       if (this.tableData) {
         return this.tableData.filter((e) => e.visible)
       }
       return []
     },
     // 是否默认全选
-    isDefaultCheckedAll() {
+    isDefaultCheckedAll () {
       if (!this.customSelection) {
         return false
       }
@@ -381,7 +352,7 @@ export default {
       return mergeKeys.length === defaultCheckedKeys.length
     }
   },
-  data() {
+  data () {
     return {
       tableData: [],
       selectedRows: [],
@@ -397,19 +368,19 @@ export default {
     }
   },
   watch: {
-    data() {
+    data () {
       this.getTableData()
     },
-    defaultSelectedRows() {
+    defaultSelectedRows () {
       this.setDefaultCheckedKeys()
       this.getTableData()
     }
   },
-  created() {
+  created () {
     this.setDefaultCheckedKeys()
     this.getTableData()
   },
-  mounted() {
+  mounted () {
     if (
       this.tableVisibleColumns &&
       this.tableVisibleColumns.length &&
@@ -429,7 +400,7 @@ export default {
     }
   },
   methods: {
-    handleHeaderCellClassName({ columnIndex }) {
+    handleHeaderCellClassName ({ columnIndex }) {
       if (this.columns && this.columns.length > columnIndex) {
         const column = this.columns[columnIndex]
         if (column.required) {
@@ -438,35 +409,35 @@ export default {
       }
     },
     // 设置默认选择项
-    setDefaultCheckedKeys() {
+    setDefaultCheckedKeys () {
       if (this.defaultSelectedRows) {
         this.defaultCheckedKeys = this.getDefaultSelectedKeys(
           this.defaultSelectedRows || []
         )
       }
     },
-    rowClick(row, column, event) {
+    rowClick (row, column, event) {
       this.$emit('row-click', row, column, event)
     },
-    handleSortChange(val) {
+    handleSortChange (val) {
       this.$emit('handle-sort-change', val)
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.$emit('handle-current-change', val)
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       // 20211130 原生的selection
       if (!this.customSelection) {
         this.selectedRows = val
         this.$emit('handle-selection-change', val)
       }
     },
-    handleEmit(item, row) {
+    handleEmit (item, row) {
       if (item.emit) {
         this.$emit(item.emit, row)
       }
     },
-    getTableData() {
+    getTableData () {
       this.virtualListConfig.total = this.data.length
       this.virtualListConfig.pages = Math.ceil(this.data.length / 20)
       if (this.treeExpand) {
@@ -513,7 +484,7 @@ export default {
         /***************** end ****************************************/
       }
     },
-    getTreeTableData(data, parentKey, res) {
+    getTreeTableData (data, parentKey, res) {
       parentKey = parentKey || ''
       res = res || []
       const { childrenKey } = this.treeExpand
@@ -591,7 +562,7 @@ export default {
 
       return res
     },
-    handleCellClick(row, column) {
+    handleCellClick (row, column) {
       // console.log(row,column,'=====');
       if (!this.emitLabel.includes(column.label)) {
         if (this.isCustomSelection) {
@@ -624,7 +595,7 @@ export default {
         }
       }
     },
-    expandAll() {
+    expandAll () {
       // 全部展开
       if (this.treeExpand) {
         this.tableData.forEach((element) => {
@@ -633,7 +604,7 @@ export default {
         })
       }
     },
-    collapseAll() {
+    collapseAll () {
       // 全部收起
       if (this.treeExpand) {
         this.tableData.forEach((element) => {
@@ -644,7 +615,7 @@ export default {
         })
       }
     },
-    toggleRowSelection(row, selected) {
+    toggleRowSelection (row, selected) {
       // row.flag = selected
       let toggleRow = row
       if (this.rowKey) {
@@ -669,7 +640,7 @@ export default {
         this.$refs.theCustomTable.toggleRowSelection(toggleRow, selected)
       }
     },
-    toggleRowAndChildrenSelection(row, selected) {
+    toggleRowAndChildrenSelection (row, selected) {
       let toggleRow = row
       if (this.rowKey) {
         const filterRow = this.realTableData.filter(
@@ -690,13 +661,13 @@ export default {
         })
       }
     },
-    toggleAllSelection() {
+    toggleAllSelection () {
       this.$refs.theCustomTable.toggleAllSelection()
     },
-    clearSelection() {
+    clearSelection () {
       this.$refs.theCustomTable.clearSelection()
     },
-    handleSelectable(row) {
+    handleSelectable (row) {
       if (
         this.disableChildrenSelection &&
         row.uniqueId &&
@@ -718,13 +689,13 @@ export default {
 
       return true
     },
-    handleSelect(selection, row) {
+    handleSelect (selection, row) {
       this.$emit('select', selection, row)
     },
-    handleAllSelect(selection) {
+    handleAllSelect (selection) {
       this.$emit('select-all', selection)
     },
-    getRowClassNameDefault({ row, rowIndex }) {
+    getRowClassNameDefault ({ row, rowIndex }) {
       let rowClass = `row-${row.uniqueId}`
       if (this.rowClassName) {
         rowClass = this.rowClassName({ row, rowIndex })
@@ -756,13 +727,13 @@ export default {
 
       return `${rowClass} row-child`
     },
-    getRowStyle({ row }) {
+    getRowStyle ({ row }) {
       if (!row.visible) {
         return { display: 'none' }
       }
       return ''
     },
-    getCellClassName({ column, columnIndex }) {
+    getCellClassName ({ column, columnIndex }) {
       if (column.showOverflowTooltip) {
         if (this.isColSpan && columnIndex === 0) {
           return 'bgColor cell-ellipsis'
@@ -776,22 +747,22 @@ export default {
         return 'cell-ellipsis'
       }
     },
-    getFullIndex(row) {
+    getFullIndex (row) {
       const uniqueIdArr = row.uniqueId.split('-')
       const newIndex = uniqueIdArr.map((e) => parseInt(e) + 1)
       return newIndex.join('.')
     },
-    getChildRows(row) {
+    getChildRows (row) {
       return this.tableData.filter(
         (e) => e.uniqueId.indexOf(row.uniqueId + '-') === 0
       )
     },
-    getSpanMethod(val) {
+    getSpanMethod (val) {
       if (this.spanMethod) {
         return this.spanMethod(val)
       }
     },
-    getDefaultSelectedKeys(data, res) {
+    getDefaultSelectedKeys (data, res) {
       const { childrenKey } = this.treeExpand
       res = res || []
       for (let i = 0; i < data.length; i++) {

@@ -416,7 +416,7 @@
     LK_GONGYINGSHANGCHANPINGAIYAO: 'Supplier Product Profile', //供应商产品概要!
     LK_GONGYINGSHANGGONGSIJIESHAO: 'Supplier Company Introduction', //供应商公司介绍!
     LK_GONGYINGSHANGMING: 'Supplier', //供应商名
-    LK_GONGYINGSHANGMINGCHENG: 'Supplier', //供应商名称
+    LK_GONGYINGSHANGMINGCHENG1: 'Supplier', //供应商名称
     LK_GONGYINGSHANGPINGFEN: 'Supplier Rating', //供应商评分
     LK_GONGYINGSHANGPINGFENFUJIAN: 'Supplier Rating Attachment', //供应商评分附件
     LK_GONGYINGSHANGSHENGCHANCHANGDI: 'Supplier Manufacturing Spot', //供应商生产场地
@@ -1007,7 +1007,7 @@
     GONGHUOZHUANGTAI: 'Supplier Status',
     YINHANGZHANGHAO: 'Accounts',
     SHIFOUZAIGONG: 'Is Supply',
-    GONGHUO: 'Supplier Status',
+    GONGHUO1: 'Supplier Status',
     SHIFOUYELEIGONGCHANG: 'Is Factory',
     SHIFOUANQUANJIAN: 'Is Safety Part',
     GONGHUOLINGJIANLEIXING: 'Supply Type',
@@ -1370,7 +1370,7 @@
     SUPPLIER_GAILAN: 'Overview', //概览
     SUPPLIER_FRMZONGHEGUANLI: 'FRM Comprehensive Management', //FRM综合管理
     SUPPLIER_XINGONGYINGSHANGPINGJI: 'New Supplier Rating', //新供应商评级
-    SUPPLIER_CHUBUPINGJI: 'Initial Rating', //初步评级
+    SUPPLIER_CHUBUPINGJI1: 'Initial Rating', //初步评级
     SUPPLIER_SHENRUPINGJI: 'In-depth Analysis', //深入评级
     SUPPLIER_FENGXIANXINHAO: 'Risk Signal', //风险信号
     SUPPLIER_YUQINGJIANCE: 'Media Monitoring', //舆情监测
@@ -1386,12 +1386,12 @@
     SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN: 'Remove Blacklist', //移除黑名单
     // ------------sprint10  FRM 评级开始 --------------------------------------
     SPR_FRM_FRMGL_GYSZYMCSC: '供应商中文名（CSC）', //供应商中文名（CSC）
-    SPR_FRM_FRMGL_XGKS: '相关科室', //相关科室
+    SPR_FRM_FRMGL_XGKS1: '相关科室', //相关科室
     SPR_FRM_FRMGL_CPSJ: '初评时间', //初评时间
     SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
     SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
     SPR_FRM_FRMGL_WPSJQZ: '外评时间起止', //外评时间起止
-    SPR_FRM_FRMGL_WP: '外评', //外评
+    SPR_FRM_FRMGL_WP1: '外评', //外评
     SPR_FRM_FRMGL_SPZT: '深评状态', //深评状态
     SPR_FRM_FRMGL_DXDFSJ: '定性打分时间', //定性打分时间
     SPR_FRM_FRMGL_DXDFSJQZ: '定性打分时间起止', //定性打分时间起止
@@ -1566,12 +1566,13 @@
     SPR_FRM_DEP_COMREMARK:
       '本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。', // 本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。
     SPR_FRM_DEP_CHECK: '必填项不存在', // 必填项不存在
-    SPR_FRM_DEP_BUPINGJIYUANYIN:'请填写不评级原因',//请填写不评级原因
+    SPR_FRM_DEP_BUPINGJIYUANYIN: '请填写不评级原因', //请填写不评级原因
     SPR_FRM_DEP_SELECTGROUP: '选择集团', // 选择集团
     SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
     SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '供应商状态错误',
-    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
+    SPR_FRM_DEP_CHECKSPSTATUS:
+      '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
       '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
@@ -2071,9 +2072,9 @@
     MT_QINGSHURU: 'Please input',
     MT_QINGXUANZE: 'Please select',
     MT_TO: 'To',
-    MT_BITIAN:"required",
-    MT_XUHAO:"No.",
-    
+    MT_BITIAN: 'required',
+    MT_XUHAO: 'No.',
+
     POSITION: {
       POSITION_NAME: 'Position name',
       POSITION_CODE: 'Post code',
@@ -2209,34 +2210,33 @@
     TERMS_QIANSHUZHUANGTAI: 'Signing status', //签署状态
     TERMS_TIAOKUANYOUXIAOQI: 'Term of validity', //条款有效期
     TERMS_CHAKANDINGZHITIAOKUAN: 'View customized terms', //查看定制条款
-    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list' ,//标准条款列表
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list', //标准条款列表
 
     // -------------------------------条款 end---------------------------------------------
-    LK_DANWEIBAIWANRENMINGBI:'单位:百万人名币',//单位:百万人名币
-    LK_SHANGYINIANSHUJUDUIBI:'上一年数据对比',//上一年数据对比
-    LK_ZONGJINE:'总金额:',//总金额
-    LK_MTZCAILIAOZU: 'MTZ材料组',//MTZ材料组
+    LK_DANWEIBAIWANRENMINGBI: '单位:百万人名币', //单位:百万人名币
+    LK_SHANGYINIANSHUJUDUIBI: '上一年数据对比', //上一年数据对比
+    LK_ZONGJINE: '总金额:', //总金额
+    LK_MTZCAILIAOZU: 'MTZ材料组', //MTZ材料组
     LK_MTZKESHIYUSUANFUZEREN: 'MTZ科室预算负责人', //MTZ科室预算负责人
     LK_MTZYUSUANGUANLIYUAN: 'MTZ预算管理员', //MTZ预算管理员
-    LK_CAILIAOZHONGLEI:'材料中类',//材料中类
-    LK_BIJIAOBANBEN:'比较版本',//比较版本
-    LK_YUEFENBIJIAO:'月份比较',//月份比较
-    LK_XIANGQINGLIEBIAO:'详情列表',//详情列表
-    LK_YUEFEN:'月份',//月份
-    LK_SHICHANGJIA:'市场价',//市场价
-    LK_ZONGJI:'总计',//总计
-    LK_CHAYI:'差异',//差异
-    LK_SHICHANGJIACHAYI:'市场价差异',//市场价差异
-    LK_YONGLIANGCHAYI:'用量差异',//用量差异
-    LK_ZONGJIACHAYI:'总价差异',//总价差异
-    LK_CHEXINGLIUWEIHAO:'车型六位号',//车型六位号
-    LK_NIANDUYUSUAN:'年度预算',//年度预算
-    LK_YUEDUYUCE:'月度预测',//月度预测
-    LK_SHIJIZHIFU:'实际支付',//实际支付
-    LK_NIANDUYUSUANCHAYI:'年度预算差异',//年度预算差异
-    LK_YUEDUYUSUANCHAYI:'月度预算差异',//月度预算差异
-    LK_SHIJIZHIFUCHAYI:'实际支付差异',//实际支付差异
-    
+    LK_CAILIAOZHONGLEI: '材料中类', //材料中类
+    LK_BIJIAOBANBEN: '比较版本', //比较版本
+    LK_YUEFENBIJIAO: '月份比较', //月份比较
+    LK_XIANGQINGLIEBIAO: '详情列表', //详情列表
+    LK_YUEFEN: '月份', //月份
+    LK_SHICHANGJIA: '市场价', //市场价
+    LK_ZONGJI: '总计', //总计
+    LK_CHAYI: '差异', //差异
+    LK_SHICHANGJIACHAYI: '市场价差异', //市场价差异
+    LK_YONGLIANGCHAYI: '用量差异', //用量差异
+    LK_ZONGJIACHAYI: '总价差异', //总价差异
+    LK_CHEXINGLIUWEIHAO: '车型六位号', //车型六位号
+    LK_NIANDUYUSUAN: '年度预算', //年度预算
+    LK_YUEDUYUCE: '月度预测', //月度预测
+    LK_SHIJIZHIFU: '实际支付', //实际支付
+    LK_NIANDUYUSUANCHAYI: '年度预算差异', //年度预算差异
+    LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
+    LK_SHIJIZHIFUCHAYI: '实际支付差异' //实际支付差异
   }
   i18n.setLocaleMessage('en', oldLanguage)
   // var xmlHttp = ''

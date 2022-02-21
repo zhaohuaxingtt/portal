@@ -110,7 +110,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" label="" slot="label"></iLabel>
-                    <el-checkbox v-model="form.success" style="margin-top:6px" label="" :indeterminate="false" @change="statusChange">是否成功</el-checkbox>
+                    <el-checkbox v-model="form.success" style="margin-top:6px" label="" :indeterminate="false" @change="statusChange">是否失败</el-checkbox>
 				</div>
 			</el-form>
 		</iSearch>
@@ -118,7 +118,7 @@
 			<div class="log-btns">
                 <button-download :download-method="exportExcel" />
 			</div>
-			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
+			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form" :fromAdminLog="true"></CommonTable>
 		</iCard>
 
 		<detail ref="detail" :show.sync="show" :params="params"></detail>
