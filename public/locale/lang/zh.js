@@ -3056,7 +3056,12 @@
   xmlHttp.onreadystatechange = function () {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
-      i18n.mergeLocaleMessage('zh', data.data.zh)
+      const fixedData = {
+        SUPPLIER_CHUBUPINGJI1: '初步评级',
+        SHENPINGJIEGUO: '深评结果'
+      }
+      const i18nData = { ...data, ...fixedData }
+      i18n.mergeLocaleMessage('zh', i18nData)
       i18n.mergeLocaleMessage('en', data.data.cn)
     }
   }
