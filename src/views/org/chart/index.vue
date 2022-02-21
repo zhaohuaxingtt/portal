@@ -362,7 +362,10 @@ export default {
       const orgId = uniqueIdArr[uniqueIdArr.length - 1]
 
       const currentBottomEdge = $('#org_node_id_' + orgId).find('.bottomEdge')
-      if (currentBottomEdge) {
+      if (
+        currentBottomEdge &&
+        currentBottomEdge.hasClass('.el-icon-arrow-up')
+      ) {
         currentBottomEdge.trigger('click')
       }
       for (let i = 0; i < uniqueIdArr.length; i++) {
