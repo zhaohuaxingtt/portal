@@ -14,7 +14,8 @@
       </el-row>
     </el-form>
     <div class="export">
-      <iButton @click="exoprtTemplate" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XIANGQING_DAOCHU">导出</iButton>
+      <iButton @click="exoprtTemplate"
+               v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XIANGQING_DAOCHU">导出</iButton>
     </div>
     <div class="oneTwoTable">
       <iTableCustom @go-detail="handleSource"
@@ -105,8 +106,8 @@ export default {
       historyPage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        assemblyPartnum: this.clickData.assemblyPartnum,
-        assemblySupplierSap: this.clickData.assemblySupplierSap,
+        assemblyPartnum: this.clickData.isOneTwoRel ? this.clickData.piecePartnum : this.clickData.assemblyPartnum,
+        assemblySupplierSap: this.clickData.isOneTwoRel ? this.clickData.pieceSupplierSap : this.clickData.assemblySupplierSap,
         materialCode: this.clickData.materialCode,
         ruleNo: this.clickData.ruleNo
       }).then(res => {

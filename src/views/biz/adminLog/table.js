@@ -28,6 +28,10 @@ export const TABLE = [
       i18n: '外部系统'
     },
     {
+      prop: 'interfaceName',
+      i18n: '接口名称'
+    },
+    {
       prop: 'createDate',
       i18n: '日志时间',
       width: "150px"
