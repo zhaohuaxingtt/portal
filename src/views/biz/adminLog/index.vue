@@ -118,7 +118,7 @@
 			<div class="log-btns">
                 <button-download :download-method="exportExcel" />
 			</div>
-			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form" :fromAdminLog="true"></CommonTable>
+			<CommonTable ref="table" :extraData="extraData" :tableColumns="getTableColumn" :params="form" :fromAdminLog="true"></CommonTable>
 		</iCard>
 
 		<detail ref="detail" :show.sync="show" :params="params"></detail>
@@ -129,7 +129,7 @@
 import pageHeader from '@/components/pageHeader'
 import { iPage,iSearch, iInput, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
-import {TABLE} from './table';
+import { TABLE } from './table';
 import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu,listInterface} from '@/api/biz/log';
 import detail from './detail.vue';
 import moment from 'moment';
@@ -176,6 +176,15 @@ export default {
 				this.$set(this.form, "triggerType", "")
 				this.$set(this.form, "interfaceSystemCode", "")
 				this.$set(this.form, "interfaceCode", "")
+			}
+		}
+	},
+	computed: {
+		getTableColumn() {
+			if (this.form.category !== '2') {
+				return this.tableColumns.filter(e => e.prop !== 'interfaceName')
+			} else {
+				return this.tableColumns
 			}
 		}
 	},
