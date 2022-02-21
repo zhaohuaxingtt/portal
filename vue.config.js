@@ -168,8 +168,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        // target: `http://${BASE_IP}:8012/approval`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
+        target: `http://${BASE_IP}:8012/approval`,
+        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -336,8 +336,8 @@ module.exports = {
       //   }
       // },
       [process.env.VUE_APP_AEKO]: {
-        // target: `http://${BASE_IP}:8023/procurementrequirement`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/partProcureApi`,
+        target: `http://${BASE_IP}:8023/procurementrequirement`,
+        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/partProcureApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_AEKO]: ''
