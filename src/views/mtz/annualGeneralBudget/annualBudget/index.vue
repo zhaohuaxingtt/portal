@@ -330,12 +330,12 @@ export default {
     this.$nextTick(_ => {
       this.initSearch()
       this.getTableData()
-      setTimeout(() => {
-        var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
-        // console.log(navList)
-        if(navList.length !== 0){
-          navList[0].click();
-        }
+      // setTimeout(() => {
+      var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+      // console.log(navList)
+      if(navList.length !== 0){
+        navList[0].click();
+      }
       // }, 100);
     })
   },
