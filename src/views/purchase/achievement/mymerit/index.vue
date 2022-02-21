@@ -270,16 +270,21 @@
           } else {
             this.currentView = 'zfbmsj'
           }
+          console.error(item, '===>', this.username, '===>', this.currentView);
         } else if (item == 'CS(Spare)') {
           if (this.role == 'CGBZ_WF') {
-            this.currentView = 'pfjwfbmsj'
+            this.currentView = 'pfjwfbmsj';
           } else if (this.role == 'BZ') { // 部长
-            this.username = '1'
-            this.currentView = 'pfjzfbmsj'
+            this.username = '1';
+            this.currentView = 'pfjzfbmsj';
           } else if (this.role == 'CS') { //部长助理
-            this.username = '2'
-            this.currentView = 'pfjzfbmsj'
+            this.username = '2';
+            this.currentView = 'pfjzfbmsj';
+          } else {
+            this.username = '2';
+            this.currentView = 'pfjzfbmsj';
           }
+          console.error(item, '===>', this.username, '===>', this.currentView);
         } else if (item == 'CSM') { // 科室
           if (this.role == 'ZYCGKZ_WF') {
             this.currentView = 'wfkssj'
@@ -338,7 +343,6 @@
           }
         }
         this.indexBtn = index;
-        console.error(item, '===>', this.username, '===>', this.currentView);
       },
       // 初始化页面
       renderBi() {
