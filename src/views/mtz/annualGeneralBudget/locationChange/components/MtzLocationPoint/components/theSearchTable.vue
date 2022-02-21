@@ -348,9 +348,13 @@ export default {
         } else {
           iMessage.error(res.desZh)
         }
-        this.stopLoading.close();
+        if(this.stopLoading !== null){
+          this.stopLoading.close();
+        }
       }).catch(red=>{
-        this.stopLoading.close();
+        if(this.stopLoading !== null){
+          this.stopLoading.close();
+        }
       })
     },
     // handleChange (val) {
