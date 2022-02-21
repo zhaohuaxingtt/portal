@@ -73,8 +73,8 @@ module.exports = {
                     uglifyOptions: {
                         compress: {
                             drop_debugger: true,
-                            drop_console: true,
-                            pure_funcs: ['console.log']
+                            // drop_console: true,
+                            // pure_funcs: ['console.log']
                         }
                     },
                     sourceMap: false,
