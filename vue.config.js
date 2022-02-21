@@ -92,40 +92,41 @@ module.exports = {
           cache: true,
           deleteOriginalAssets: false
         })
-        config.plugins.push(
-                new webpack.DllReferencePlugin({
-                    context: __dirname,
-                    manifest: require('./vendor-manifest.json')
-                })
-            )
-            //为生产环境移除console debugger 代码压缩
-        if (process.env.NODE_ENV !== 'dev') {
-            config.plugins.push(
-                new UglifyJsPlugin({
-                    uglifyOptions: {
-                        compress: {
-                            drop_debugger: true,
-                            // drop_console: true,
-                            // pure_funcs: ['console.log']
-                        }
-                    },
-                    sourceMap: false,
-                    parallel: true
-                })
-                //环境代码
-                /* process.env.NODE_ENV === 'dev' ? '' : new ChangeNginxConfig() */
-            )
-            config.plugins.push(
-                new CompressionPlugin({
-                    algorithm: 'gzip',
-                    test: /\.(js|css)$/,
-                    threshold: 5120,
-                    minRatio: 0.8,
-                    cache: true,
-                    deleteOriginalAssets: false
-                })
-            )
-        },
+      )
+    }
+    config['externals'] = {
+      vue: 'Vue',
+      vuex: 'Vuex',
+      'vue-router': 'VueRouter',
+      axios: 'axios',
+      moment: 'moment',
+      'element-ui': 'ELEMENT',
+      'vue-i18n': 'VueI18n',
+      i18n: 'i18n',
+      Ellipsis: 'Ellipsis',
+      lodash: '_'
+    }
+    //开启gizp压缩
+    config.devtool = 'source-map'
+  },
+  //引入全局css变量
+  css: {
+    //是否开起css分离
+    extract: false,
+    sourceMap: false, // process.env.NODE_ENV !== 'production',
+    requireModuleExtension: true,
+    loaderOptions: {
+      sass: {
+        implementation: require('sass'),
+        additionalData: `@import "@/assets/style/global/variables.scss";`
+      },
+      postcss: {
+        plugins: {
+          postcss
+        }
+      }
+    }
+  },
   //本地server配置
   devServer: {
     open: true,
@@ -158,8 +159,9 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        target: `http://${BASE_IP}:8015/usercenter/`,
-        // target: 'http://rise-nginx-internal.apps.vmocp-uat.csvw.com/usercenterApi',
+        // target: `http://${BASE_IP}:8015/usercenter/`,
+        target:
+          'http://rise-nginx-internal.apps.vmocp-uat.csvw.com/usercenterApi',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
