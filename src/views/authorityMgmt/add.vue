@@ -455,7 +455,7 @@ export default {
             .then((res) => {
               // this.$router.push('/authorityMgmt/index')
               if (res.code == 200) {
-                this.go(-1)
+                this.$router.go(-1)
                 /* this.$router.replace({
                   path: '/authorityMgmt/detail',
                   query: { id: res.data.id }

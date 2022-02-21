@@ -17,7 +17,7 @@
       <i-input type="text" v-model="keyword" :placeholder="'Search modules'" />
     </div>
     <el-row
-      :gutter="20"
+      :gutter="24"
       :class="{
         'card-container': true,
         border: start,
@@ -220,7 +220,8 @@ export default {
   }
   .card-container {
     padding: 15px 0;
-    margin: 10px 0 0 0; /* 
+    margin: 10px 0 0 0;
+    margin-right: 0 !important; /* 
     min-height: 300px;
     height: 600px; */
     flex: 2;
