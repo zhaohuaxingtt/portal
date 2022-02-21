@@ -330,10 +330,11 @@ export default {
     this.$nextTick(_ => {
       this.initSearch()
       this.getTableData()
-
-      var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
-      console.log(navList)
-      navList[0].click();
+      setTimeout(() => {
+        var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+        console.log(navList)
+        navList[0].click();
+      }, 100);
     })
   },
   computed: {
