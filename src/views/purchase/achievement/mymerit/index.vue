@@ -70,7 +70,7 @@
         btnsgroup1: [],
         indexBtn: 0,
         currentView: '',
-        username: '8',
+        username: this.$store.state.permission.userInfo.id,
         url: {
           accessToken: "", //验证token
           embedUrl: "", //报告信息内嵌地址
@@ -122,27 +122,27 @@
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
           }else if (Linie) {        // 采购员 采购员视觉
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
           } else if (zycgkzORkzzl) { // 采购科长||科长助理 科室视觉
             if (zycgkz) {
-              this.username = this.$store.state.permission.userInfo.id;
+              // this.username = this.$store.state.permission.userInfo.id;
               this.btnsgroup1 = ['CSM', 'CSM(Spare)']
               return 'KZ'
 
             }
             if (kzzl) {
-              this.username = this.$store.state.permission.userInfo.id;
+              // this.username = this.$store.state.permission.userInfo.id;
               this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
               return deptName
             }
           } else if (zycgbzORbzzl) { // 采购部长||部长助理 部门视觉
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CS', 'CS(Spare)']
             return 'CS'
           } else if (zycggz) {       // 采购股长 股视觉
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
           } else if (CGBZ_WF) {
@@ -164,19 +164,19 @@
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
           } else if (KZ && Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
             return 'KZ&&linie'
           } else if (KZ && !Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
             return 'KZ'
           } else if (KZZL && Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
             return `${deptName}&&Linie`
           } else if (KZZL && !Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
           } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
@@ -188,19 +188,19 @@
             }
 
           } else if (BZZL && Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
             return 'CS&&Linie'
           } else if (GZ && Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
             return `${deptName}&&Linie`
           } else if (GZ && !Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
           } else if (Linie) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
           }
@@ -276,13 +276,13 @@
           if (this.role == 'CGBZ_WF') {
             this.currentView = 'pfjwfbmsj';
           } else if (this.role == 'BZ') { // 部长
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'pfjzfbmsj';
           } else if (this.role == 'CS') { //部长助理
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'pfjzfbmsj';
           } else {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'pfjzfbmsj';
           }
           console.error(item, '===>', this.username, '===>', this.currentView);
@@ -290,56 +290,56 @@
           if (this.role == 'ZYCGKZ_WF') {
             this.currentView = 'wfkssj'
           } else if (this.role == 'KZ') {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'zfkssj'
           } else if (this.role == `${this.dept}&&Linie` || this.role == 'CSM') {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'zfkssj'
           }
         } else if (item == 'CSM(Spare)') {
           if (this.role == 'ZYCGKZ_WF') {
             this.currentView = 'pfjwfkssj'
           } else {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             if (this.role == `${this.dept}&&Linie` || this.role == 'CSM') {
-              this.username = this.$store.state.permission.userInfo.id;
+              // this.username = this.$store.state.permission.userInfo.id;
             }
             this.currentView = 'pfjzfkssj'
           }
         } else if (item == 'CSEN(Spare)') { // 股长
-          this.username = this.$store.state.permission.userInfo.id;
+          // this.username = this.$store.state.permission.userInfo.id;
           if (this.role == 'CSEN&&Linie') {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           }
           this.currentView = 'pfjzfgsj'
         } else if (item == 'CSEN') { // 股长
-          this.username = this.$store.state.permission.userInfo.id;
+          // this.username = this.$store.state.permission.userInfo.id;
           this.currentView = 'zfgsj'
         } else if (item == 'Linie') { // 采购员视觉
           if (this.role == 'Linie') { // 采购员
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == 'CSEN&&Linie' || this.role == 'CSEN') { // 股长&&采购员 || 股长
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == 'CS&&Linie') { // 部长助理&&采购员
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == `${this.dept}&&Linie`) { // 科长助理&&采购员
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           }
           this.currentView = 'zfcgysj'
         } else if (item == 'Linie(Spare)') { // 采购员附件视觉
-          this.username = this.$store.state.permission.userInfo.id;
+          // this.username = this.$store.state.permission.userInfo.id;
           if (this.role == 'CSEN&&Linie') { // 股长&&采购员
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == 'Linie') { // 采购员
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
           }
           this.currentView = 'pfjzfcgysj'
         } else if (item == `${this.dept}(Spare)` || item == this.dept) {
           if(item == this.dept) {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'zfkssj'
           } else {
-            this.username = this.$store.state.permission.userInfo.id;
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'pfjzfkssj'
           }
         }
