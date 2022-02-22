@@ -42,16 +42,48 @@ export default {
     }
   },
   // 监听属性 类似于data概念
-  computed: {},
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
   // 监控data中的数据变化
   watch: {},
   // 方法集合
   methods: {
-
+    checkHasEnterMenu() {
+      const { path } = this.$route
+      const menuList = [
+        ...this.tabRouterList2,
+      ]
+      const menuItem = menuList.find((e) => e.url === path)
+      if (menuItem) {
+        const permissionKey = menuItem.permissionKey
+        console.log(
+          'this.whiteBtnList[permissionKey]',
+          this.whiteBtnList[permissionKey]
+        )
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              redirectUrl = menu.url
+              break
+            }
+          }
+          console.log('redirectUrl', redirectUrl)
+          if (redirectUrl) {
+            this.$router.push({ path: redirectUrl })
+          }
+        }
+      }
+    },
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created() {
-
+    this.checkHasEnterMenu();
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
