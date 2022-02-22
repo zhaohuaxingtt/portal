@@ -285,7 +285,8 @@
             </Fold>
           </div>
           <!-- 默认采购列表 -->
-          <div>
+          <purchaseGroup />
+          <!-- <div>
             <iCard :title="language('采购组列表')" collapse>
               <div class="OrganizationTable">
                 <iTableCustom
@@ -295,7 +296,7 @@
                 />
               </div>
             </iCard>
-          </div>
+          </div> -->
           <!-- 上下级列表 -->
           <div class="OrganizationListContainer">
             <iCard>
@@ -349,6 +350,7 @@ import { positionList, getPosition, purchasegroup } from '@/api/authorityMgmt'
 import { orgSelect } from '@/components/remoteSelect'
 import { debounce } from 'vue-debounce'
 import uploadSign from './components/uploadSignCutter'
+import purchaseGroup from './components/purchaseGroup'
 export default {
   components: {
     iInput,
@@ -361,7 +363,8 @@ export default {
     Fold,
     iFormItem,
     orgSearch: orgSelect,
-    uploadSign
+    uploadSign,
+    purchaseGroup
   },
   computed: {
     isPositionLead() {
