@@ -576,7 +576,7 @@ export default {
 
         if (
           item.answer &&
-          (item.type === 6 || item.type === 2 || item.type === 1)
+          (item.type === 6 || item.type === 2 || item.type === 1 || item.type === 4)
         ) {
           const ids = []
             .concat(item.answer)
