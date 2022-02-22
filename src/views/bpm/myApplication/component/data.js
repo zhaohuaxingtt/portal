@@ -4,7 +4,7 @@ export const searchForm = {
   itemName: '', //审批名称
   applyUserName: '', //申请人
   applyUserOrg: '', // 申请部门
-  procProgress: '0', //审批进度
+  procProgress: [], //审批进度
   categoryList: [],
   businessId: '',
   endTime: '',
