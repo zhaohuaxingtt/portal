@@ -6197,6 +6197,7 @@
         GONGHUO1: '供应商状态'
       }
       const i18nZhData = { ...data.data.zh, ...fixedData }
+      console.log('i18nZhData', i18nZhData)
       i18n.mergeLocaleMessage('zh', i18nZhData)
       i18n.mergeLocaleMessage('en', data.data.cn)
     }

@@ -285,7 +285,7 @@
             </Fold>
           </div>
           <!-- 默认采购列表 -->
-          <purchaseGroup />
+          <purchaseGroup :positionIds="positionIds" />
           <!-- <div>
             <iCard :title="language('采购组列表')" collapse>
               <div class="OrganizationTable">
@@ -372,6 +372,13 @@ export default {
         return this.formData.positionList[0].isDeptLead
       }
       return false
+    },
+    positionIds() {
+      const positionList = this.formData?.positionList || []
+      if (positionList) {
+        return positionList.map((e) => e.id)
+      }
+      return []
     }
   },
   data() {

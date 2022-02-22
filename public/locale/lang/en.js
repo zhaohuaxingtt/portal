@@ -601,7 +601,7 @@
     异常码: 'Error Code',
     对接系统: 'Docking system',
     供应商管理: 'Supplier Mgmt.',
-    'staffManagement.EMPLOYEENUMBER': 'staffManagement.EMPLOYEENUMBER',
+    'staffManagement.EMPLOYEENUMBER': 'Staff No.',
     登录账号: 'Login Account',
     中文名: 'Name (CN)',
     'staffManagement.ENGLISHNAME': 'staffManagement.ENGLISHNAME',
