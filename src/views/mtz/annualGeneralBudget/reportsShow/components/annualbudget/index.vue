@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       tab: '1',
-      subNavList:[],
+      subNavList:subNavListOne,
       showBtn: false,
       showPinpai:false,
       showCar:false,
@@ -64,8 +64,10 @@ export default {
   },
   computed:{
     mtzAnnualBudgetNumber(){
-      // console.log(this.$store.state.location.mtzAnnualBudgetNumber)
       return this.$store.state.location.mtzAnnualBudgetNumber;
+    },
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
     }
   },
   beforeRouteEnter:(to,from,next)=>{
@@ -86,7 +88,7 @@ export default {
     // if(this.$store.state.permission.userInfo.deptDTO.level=='K2' || this.$store.state.permission.userInfo.deptDTO.level=='K3'){
       // this.subNavList=subNavListtwo
     // }else{
-      this.subNavList=subNavListOne
+      // this.subNavList=subNavListOne
     // }
 
 
@@ -107,22 +109,43 @@ export default {
       this.tab = '5'
       this.showCar = true;
     }
+
+    this.checkHasEnterMenu();
   },
   mounted() {
     this.show()
-    var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
-    var number = 0;
-    navList.forEach(e=>{
-      if(e.innerText == store.state.location.nowSetToPath.meta.title){
-        number++;
-        e.click();
-      }
-    })
-    if(number == 0){
-      navList[0].click();
-    }
   },
   methods: {
+    checkHasEnterMenu() {
+      const { path } = this.$route
+      const menuList = [
+        ...this.subNavList,
+      ]
+      const menuItem = menuList.find((e) => e.path === path)
+      if (menuItem) {
+        const permissionKey = menuItem.permissionKey
+        console.log(
+          'this.whiteBtnList[permissionKey]',
+          this.whiteBtnList[permissionKey]
+        )
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              redirectUrl = menu.path
+              store.commit("mtzAnnualBudgetNav", Number(menu.code));
+              break
+            }
+          }
+          console.log('redirectUrl', redirectUrl)
+          if (redirectUrl) {
+            this.$router.push({ path: redirectUrl })
+          }
+        }
+      }
+    },
     show() {
       this.showBtn =
         typeof this.$refs.child?.exportReport == 'function' || false
