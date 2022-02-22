@@ -327,7 +327,7 @@ export default {
         dealAccount(list, type) {
             let userAccountIdFlag = false
             list && list.map(item => {
-                if (type === 'users' ? !item.accountId : !item.id) {
+                if (type === 'users' ? !item.accountId : !item.subSupplierId) {
                     userAccountIdFlag = true
                 }
             })
@@ -347,7 +347,7 @@ export default {
                             if (this.dealAccount(this.form.users, 'users')) return this.$message({type: 'warning', message: '选择的账户没有账户id'})
                             if (this.dealAccount(this.form.suppliers, 'suppliers')) return this.$message({type: 'warning', message: '选择的供应商没有账户id'})
                             this.form.users = this.form.users && this.form.users.map(e => e.accountId ? e.accountId : '')
-                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.id ? e.id : '')
+                            this.form.suppliers = this.form.suppliers && this.form.suppliers.map(e => e.subSupplierId ? e.subSupplierId : '')
                         } else {
                             this.form.users = []
                             this.form.suppliers = []
