@@ -22,6 +22,10 @@
 <script>
 import { iNavMvp } from 'rise'
 import { tabRouterList } from './navData'
+// import { subNavListOne,monthlyTrackingNavList } from '../reportsShow/config/config'
+// import { navList } from '../replenishmentManagement/components/data'
+
+
 import logButton from '@/components/logButton'
 import iUserLog from '@/components/iUserLog'
 
@@ -32,15 +36,57 @@ export default {
     iUserLog
   },
   created(){
-    
+    this.checkHasEnterMenu();
   },
   data() {
     return {
       tabRouterList,
+      // subNavListOne,
+      // monthlyTrackingNavList,
+      // navList,
       showDialog:false,
     }
   },
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
   methods:{
+    checkHasEnterMenu() {
+      const { path } = this.$route
+      const menuList = [
+        ...this.tabRouterList,
+        // ...this.subNavListOne,
+        // ...this.monthlyTrackingNavList,
+        // ...this.navList
+      ]
+
+      const menuItem = menuList.find((e) => e.url === path)
+
+      if (menuItem) {
+        const permissionKey = menuItem.permissionKey
+        console.log(
+          'this.whiteBtnList[permissionKey]',
+          this.whiteBtnList[permissionKey]
+        )
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              redirectUrl = menu.url
+              break
+            }
+          }
+          console.log('redirectUrl', redirectUrl)
+          if (redirectUrl) {
+            this.$router.push({ path: redirectUrl })
+          }
+        }
+      }
+    },
     toLog () {
       this.showDialog = true
     }
