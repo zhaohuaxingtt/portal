@@ -23,7 +23,7 @@
             };
         },
         mounted() {
-            this.$emit('getData', this.formData)
+            this.$emit('getData', this.formData);
         },
 
     };

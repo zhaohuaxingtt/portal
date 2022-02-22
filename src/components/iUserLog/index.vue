@@ -101,6 +101,7 @@
 
 <script>
 import { iDialog, iSearch, iInput, iSelect, iPagination, iDatePicker } from 'rise'
+import moment from 'moment';
 
 export default {
   components: { iDialog, iSearch, iInput, iSelect, iPagination, iDatePicker },
@@ -153,9 +154,12 @@ export default {
 			layout: 'sizes, prev, pager, next, jumper'
 		},
 		loading: false,
-		date:null,
+		date:"",
 		disabledBiz:false
     }
+  },
+  created() {
+    this.restForm()
   },
   computed: {
     isShow: {
@@ -182,6 +186,16 @@ export default {
     }
   },
   methods: {
+    restForm() {
+      return new Promise((resolve) => {
+        let end = moment().format('YYYY-MM-DD')
+				let start = moment(new Date(end).getTime() - (30 * 24 * 3600 * 1000)).format("YYYY-MM-DD") 		//30天
+				this.date = [start, end]
+        this.query.createDate_gt = start
+        this.query.createDate_le = end
+        resolve()
+      })
+    },
     dateChange(date){
       this.query.createDate_gt = date ? date[0] : ""
       this.query.createDate_le = date ? date[1] : ""
@@ -192,37 +206,39 @@ export default {
       }
       this.getList()
     },
-    reset() {
-		this.query = {
-			type: '',
-			creator: '',
-			bizId:"",
-			content_like:"",
-			createDate_gt:"",
-			createDate_le:"",
-			id:""
-		}
-		if(this.disabledBiz){
-			this.query.bizId = this.bizId
-			this.query.menuId = this.menuId
-		}
-		this.date = null
-		if (this.isPage) {
-			this.page.currPage = 1
-		}
-		this.getList()
+    async reset() {
+      await this.restForm()
+      this.query = {
+        type: '',
+        creator: '',
+        bizId:"",
+        content_like:"",
+        createDate_gt:"",
+        createDate_le:"",
+        id:""
+      }
+      if(this.disabledBiz){
+        this.query.bizId = this.bizId
+        this.query.menuId = this.menuId
+      }
+      // this.date = null
+      if (this.isPage) {
+        this.page.currPage = 1
+      }
+      this.getList()
     },
-    handleClose() {
-		this.query = {
-			type: '',
-			creator: '',
-			bizId:"",
-			content_like:"",
-			createDate_gt:"",
-			createDate_le:"",
-			id:""
-		}
-		this.date = null
+    async handleClose() {
+      await this.restForm()
+      this.query = {
+        type: '',
+        creator: '',
+        bizId:"",
+        content_like:"",
+        createDate_gt:"",
+        createDate_le:"",
+        id:""
+      }
+		// this.date = null
     },
     handleOpen() {
 		if(this.bizId){
