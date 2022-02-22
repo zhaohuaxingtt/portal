@@ -522,6 +522,7 @@ export default {
         this.noticeStatus = res.status;
         this.ruleForm = res;
         this.ruleForm.publishRange = Number(res.publishRange);
+        this.ruleForm.type = String(res.type);
         this.ruleForm.attachments=res.attachments || [];
         this.editor.txt.html(this.ruleForm.content);
         if (this.noticeStatus == 1 || this.noticeStatus == 2) {
