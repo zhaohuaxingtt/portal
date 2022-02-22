@@ -16,7 +16,7 @@
                     workspaceId: process.env.NODE_ENV !== 'UAT' ? 'c272ae69-a6b4-4407-bd0e-f67953de36ce' : '876776a9-f959-442e-a011-b4bade0dd862',
                     reportId: process.env.NODE_ENV !== 'UAT' ? 'c940921c-a477-4f64-af67-72eaaad30226' : 'ed65e96c-5c93-46c8-99d3-63c2c7ac0b08',
                     datasets: process.env.NODE_ENV !== 'UAT' ? ['41ef7d80-2706-4ba8-b4d6-4a18e6d40477'] : ['40d5c619-a61c-4b19-8575-d4da919bce0b'],
-                    username: '3',
+                    username: this.$store.state.permission.userInfo.id,
                     roles: [],
                 },
             }
