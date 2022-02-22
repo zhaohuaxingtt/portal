@@ -20,12 +20,16 @@ export default {
       type: Object,
       require: true
     },
-    searchItem: {
-      type: Object
+    defaultLevel: {
+      type: String,
+      default: '3'
     }
   },
   watch: {
     orgData() {
+      this.generateChart()
+    },
+    defaultLevel() {
       this.generateChart()
     }
   },
@@ -52,9 +56,11 @@ export default {
 
       // 暴力 默认显示3层
       this.$nextTick(() => {
+        const defaultLevel = this.defaultLevel
         $('.org-node-item').each(function () {
-          if ($(this).attr('level') && $(this).attr('level') === '3') {
-            $(this).siblings('.bottomEdge').trigger('click')
+          const level = $(this).attr('level')
+          if (level && level == defaultLevel) {
+            $(this).siblings('.bottomEdge').click()
           }
         })
       })
