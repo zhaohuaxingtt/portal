@@ -60,7 +60,8 @@
                          v-model="form.area"
                          :placeholder="language('QINGXUANZHE','请选择')"
                          :options="formGroup.areaList"
-                         :clearable="true"></el-cascader>
+                         :clearable="true"
+                         filterable></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="12">

@@ -16,22 +16,22 @@
           workspaceId: process.env.NODE_ENV !== 'UAT' ? 'c272ae69-a6b4-4407-bd0e-f67953de36ce' : '876776a9-f959-442e-a011-b4bade0dd862',
           reportId: process.env.NODE_ENV !== 'UAT' ? '7e28d312-12ae-42b1-89b9-86933a2dfe81' : '06bfe2a1-4814-4dd6-a9ec-1687aa896d06',
           datasets: process.env.NODE_ENV !== 'UAT' ? ['4d117119-0f4a-4c4c-86cc-3a7d5955171c'] : ['b331bdd5-e6c6-4a4c-922a-0099058cf3f3'],
-          username: '',
+          username: this.$store.state.permission.userInfo.id,
           roles: ['cs_permission', 'buy_permission', 'dept_permission', 'gu_permission'],
         },
       };
     },
     mounted() {
-      let roleList = this.$store.state.permission.userInfo.roleList
-      if (roleList.some(item => item.code == 'CGBZ')) {
-        this.formData.username = '1'
-      }
-      if (roleList.some(item => item.code == 'BZZL' || item.code == 'PFJYJGLY')) {
-        this.formData.username = '2'
-      }
-      if (roleList.some(item => item.code == 'PFJYJGLY')) {
-        this.formData.username = '0'
-      }
+      // let roleList = this.$store.state.permission.userInfo.roleList
+      // if (roleList.some(item => item.code == 'CGBZ')) {
+      //   this.formData.username = this.$store.state.permission.userInfo.id;
+      // }
+      // if (roleList.some(item => item.code == 'BZZL' || item.code == 'PFJYJGLY')) {
+      //   this.formData.username = this.$store.state.permission.userInfo.id;
+      // }
+      // if (roleList.some(item => item.code == 'PFJYJGLY')) {
+      //   this.formData.username = this.$store.state.permission.userInfo.id;
+      // }
       this.$emit('getData', this.formData)
     },
   };
