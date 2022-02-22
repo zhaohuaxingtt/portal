@@ -22,16 +22,16 @@
       };
     },
     mounted() {
-      let roleList = this.$store.state.permission.userInfo.roleList
-      if (roleList.some(item => item.code == 'CGBZ')) {
-        this.formData.username = this.$store.state.permission.userInfo.id;
-      }
-      if (roleList.some(item => item.code == 'BZZL' || item.code == 'PFJYJGLY')) {
-        this.formData.username = this.$store.state.permission.userInfo.id;
-      }
-      if (roleList.some(item => item.code == 'PFJYJGLY')) {
-        this.formData.username = this.$store.state.permission.userInfo.id;
-      }
+      // let roleList = this.$store.state.permission.userInfo.roleList
+      // if (roleList.some(item => item.code == 'CGBZ')) {
+      //   this.formData.username = this.$store.state.permission.userInfo.id;
+      // }
+      // if (roleList.some(item => item.code == 'BZZL' || item.code == 'PFJYJGLY')) {
+      //   this.formData.username = this.$store.state.permission.userInfo.id;
+      // }
+      // if (roleList.some(item => item.code == 'PFJYJGLY')) {
+      //   this.formData.username = this.$store.state.permission.userInfo.id;
+      // }
       this.$emit('getData', this.formData)
     },
   };
