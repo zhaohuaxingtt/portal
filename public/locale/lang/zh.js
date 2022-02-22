@@ -3060,7 +3060,7 @@
         SUPPLIER_CHUBUPINGJI1: '初步评级',
         SHENPINGJIEGUO: '深评结果'
       }
-      const i18nData = { ...data, ...fixedData }
+      const i18nData = { ...data.data.zh, ...fixedData }
       i18n.mergeLocaleMessage('zh', i18nData)
       i18n.mergeLocaleMessage('en', data.data.cn)
     }
