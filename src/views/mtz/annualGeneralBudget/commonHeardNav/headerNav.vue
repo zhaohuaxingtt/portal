@@ -11,7 +11,10 @@
     <div class="navBox">
       <iNavMvp :list="tabRouterList" class="margin-bottom20 lines" routerPage :lev="1" v-if="$route.meta.showFooter"/>
       <router-view />
-      <logButton class="logButton" v-if="$route.meta.showFooter"/>
+      <logButton class="logButton" @toLogPage="toLog" v-if="$route.meta.showFooter"/>
+      <iUserLog :show.sync="showDialog"
+            menuId="MTZ-013"
+            is-page />
     </div>
   </div>
 </template>
@@ -20,18 +23,26 @@
 import { iNavMvp } from 'rise'
 import { tabRouterList } from './navData'
 import logButton from '@/components/logButton'
+import iUserLog from '@/components/iUserLog'
 
 export default {
   components: {
     iNavMvp,
-    logButton
+    logButton,
+    iUserLog
   },
   created(){
     
   },
   data() {
     return {
-      tabRouterList
+      tabRouterList,
+      showDialog:false,
+    }
+  },
+  methods:{
+    toLog () {
+      this.showDialog = true
     }
   }
 }
