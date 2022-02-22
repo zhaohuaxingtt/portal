@@ -286,10 +286,7 @@
           </div>
           <!-- 默认采购列表 -->
           <div>
-            <iCard
-              :title="$t('staffManagement.DEFAULTPURCHASEGROUPLIST')"
-              collapse
-            >
+            <iCard :title="language('采购组列表')" collapse>
               <div class="OrganizationTable">
                 <iTableCustom
                   :loading="tableLoadingGroup"
