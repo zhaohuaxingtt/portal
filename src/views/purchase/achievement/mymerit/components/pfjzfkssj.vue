@@ -25,7 +25,7 @@
     mounted() {
       let roleList = this.$store.state.permission.userInfo.roleList
       if (roleList.some(item => item.code == 'PFJYJGLY')) {
-        this.formData.username = '0'
+        this.formData.username = this.$store.state.permission.userInfo.id;
       }
       this.$emit('getData', this.formData)
     },
