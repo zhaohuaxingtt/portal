@@ -34,6 +34,7 @@
             <span v-if="item.approvers.length === 1">
               {{ item.approvers[0].deptFullCode }}
               {{ item.approvers[0].nameZh }}
+              <!-- {{ item.status }} -->
             </span>
             <div
               v-if="item.approvers.length === 1 && item.approvers[0].agentUsers"

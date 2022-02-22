@@ -214,8 +214,6 @@ export default {
 
 <style lang="scss" scoped>
 .process-node-vertical {
-  max-width: 800px;
-  max-height: 400px;
   overflow: auto;
 
   min-width: 200px;
