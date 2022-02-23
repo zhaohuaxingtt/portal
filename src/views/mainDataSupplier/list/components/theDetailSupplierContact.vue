@@ -60,7 +60,7 @@ export default {
   watch: {
     contacts() {
       // if(this.dicts){
-        this.init()
+      this.init()
       // }
     }
   },
@@ -84,11 +84,11 @@ export default {
   methods: {
     // 这里主要是为了补全5种类型联系人
     init() {
-      if(this.contacts){
-        this.contacts.forEach(item => {
+      if (this.contacts) {
+        this.contacts.forEach((item) => {
           // console.log(this.dicts.SUPPLIER_CODE_TYPE,'=======')
-          this.dicts.SUPPLIER_CODE_TYPE.forEach(e => {
-            if(e.code == item.contactType){
+          this.dicts.SUPPLIER_CODE_TYPE.forEach((e) => {
+            if (e.code == item.contactType) {
               item.contactType = e.name
             }
           })
@@ -119,18 +119,19 @@ export default {
       this.selectedRows = val
     },
     saveValidate() {
-      const reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+      const reg =
+        /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       for (let i = 0; i < this.tableData.length; i++) {
         const element = this.tableData[i]
         if (element.contactType === '商务联系人' && !element.nameZh) {
           iMessage.error(`【${element.contactType}】 联系人，联系电话必填`)
           return false
         }
-        if (element.nameZh && !element.phoneH) {
+        if (element.nameZh && !element.telephone) {
           iMessage.error(`【${element.contactType}】 联系人，联系电话必填`)
           return false
         }
-        if(element.email && !reg.test(element.email)){
+        if (element.email && !reg.test(element.email)) {
           iMessage.error(`【${element.contactType}】 联系人,邮箱格式不正确`)
           return false
         }
@@ -141,22 +142,23 @@ export default {
       if (this.saveValidate()) {
         const data = this.tableData.map((e) => {
           let type = ''
-          this.dicts.SUPPLIER_CODE_TYPE.forEach(item => {
-            if(e.contactType == item.name){
-              type  = item.code
+          this.dicts.SUPPLIER_CODE_TYPE.forEach((item) => {
+            if (e.contactType == item.name) {
+              type = item.code
             }
           })
           const singleData = {
-            contactType:type,
-            dept:e.dept,
-            designation:e.designation,
-            email:e.email,
-            id:e.id,
-            telephoneAreaCode:e.telephoneAreaCode,
-            nameZh:e.nameZh,
-            phoneH:e.phoneH,
-            remark:e.remark
-          } 
+            contactType: type,
+            dept: e.dept,
+            designation: e.designation,
+            email: e.email,
+            id: e.id,
+            telephoneAreaCode: e.telephoneAreaCode,
+            nameZh: e.nameZh,
+            phoneH: e.phoneH,
+            remark: e.remark,
+            telephone: e.telephone
+          }
           return singleData
 
           // return {
@@ -176,9 +178,9 @@ export default {
             if (res && res.result) {
               iMessage.success(res.dscZh || '保存成功')
               let data = res.data
-              data.forEach(e => {
-                this.dicts.SUPPLIER_CODE_TYPE.forEach(item => {
-                  if(e.contactType == item.code){
+              data.forEach((e) => {
+                this.dicts.SUPPLIER_CODE_TYPE.forEach((item) => {
+                  if (e.contactType == item.code) {
                     e.contactType = item.name
                   }
                 })
@@ -232,6 +234,7 @@ export default {
           e.nameZh = ''
           e.phoneH = ''
           e.remark = ''
+          e.telephone = ''
         })
       })
     }

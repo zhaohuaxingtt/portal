@@ -91,6 +91,7 @@ export default {
       }
       if (
         Object.keys(this.firstNews).length == 0 &&
+        res &&
         res.data &&
         res.data.length > 0
       ) {
