@@ -4,6 +4,7 @@
       <div class="node" v-for="(item, index) in data" :key="index">
         <div
           class="node-content"
+          :class="size"
           :style="{ height: approveContentHeight + 'px' }"
         >
           <div class="title">
@@ -124,6 +125,10 @@ export default {
       default: function () {
         return []
       }
+    },
+    size: {
+      type: String,
+      default: 'large'
     }
   },
   computed: {
@@ -192,7 +197,12 @@ export default {
       .node-content {
         box-sizing: content-box;
         text-align: center;
-        min-width: 240px;
+        &.small {
+          min-width: 160px;
+        }
+        &.large {
+          min-width: 240px;
+        }
         .approval-user {
           height: 50px;
           &.single {

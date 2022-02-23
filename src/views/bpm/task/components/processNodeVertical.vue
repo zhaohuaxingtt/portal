@@ -6,6 +6,8 @@
       :isEnd="isEnd"
       :instanceId="instanceId"
       :key="instanceId"
+      size="small"
+      :line-spacing="30"
     />
   </div>
 </template>
