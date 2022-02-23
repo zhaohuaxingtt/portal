@@ -4,10 +4,19 @@
     <div class="title">
       <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
       <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
-      <span v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE"
+      <!-- <span v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE"
             class="el-dropdown-link">
         <i class="el-icon-more"></i>
-      </span>
+      </span> -->
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE"
+                            @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <p class="tagMoney">{{ language('JINEWANAYUAN', '金额(万元)') }}</p>
     <div class="box">
@@ -129,6 +138,10 @@ export default {
     changeTab () {
       this.isTitle = !this.isTitle
       this.getChart()
+    },
+    openDilog () {
+      let router = this.$router.resolve({ path: '/achievement/baseData/mymerit' })
+      window.open(router.href, '_blank')
     },
     getChart () {
       arr = []
