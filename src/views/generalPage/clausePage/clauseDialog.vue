@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-02-17 15:12:38
+ * @LastEditTime: 2022-02-23 16:38:18
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -139,7 +139,7 @@
                 <span
                   class="underline openLinkText cursor"
                   @click="attachPreview(scope.row)"
-                  >{{ scope.row.fileName?scope.row.fileName+'-'+new Date(scope.row.signTime).getTime():'' }}</span
+                  >{{ getSignFileName(scope.row) }}</span
                 >
               </template>
             </el-table-column>
@@ -300,6 +300,13 @@ export default {
     this.initSelectData()
   },
   methods: {
+    getSignFileName(row){
+      if(row.signWay=='on_line'){
+        return row.termsName?row.termsName+'-'+new Date(row.signTime).getTime():''
+      }else{
+        return row.fileName?row.fileName+'-'+new Date(row.signTime).getTime():''
+      }
+    },
     initSelectData(){
       this.signWaySelector()
       this.termsState()
@@ -535,7 +542,7 @@ export default {
     attachPreview(row) {
       let query = {
         src: row.fileUrl,
-        title: row.fileName
+        title: row.signWay=='on_line' ? row.termsName : row.fileName
       }
       const router = this.$router.resolve({ path: '/clausepage/attach', query })
       window.open(router.href, '_blank')
