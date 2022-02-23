@@ -6,7 +6,6 @@
        v-for="item in years"
        :key="item.code"
        :label="`${item.message}年`"
-       :disabled="item.code>new Date().getFullYear()"
        :value="item.code">
      </el-option>
    </i-select>
