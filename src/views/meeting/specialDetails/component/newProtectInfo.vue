@@ -102,7 +102,7 @@ export default {
         {
           prop: 'fileId',
           label: '序号',
-          i18n: 'MT_XUHAO2',
+          i18n: 'MT_XUHAO3',
           // width: 68,
           tooltip: false
         },
