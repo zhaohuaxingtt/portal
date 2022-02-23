@@ -87,10 +87,7 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="language('供应商状态')">
-            <iInput
-              :value="detail.isActive === '1' ? '正常' : '受控'"
-              disabled
-            />
+            <iInput :value="supplierState" disabled />
           </iFormItem>
         </el-col>
         <!-- 4 -->
@@ -368,6 +365,15 @@ export default {
       )
       if (enterpriseProperties.length) {
         return enterpriseProperties[0].subSelectVos
+      }
+      return ''
+    },
+    supplierState() {
+      if (this.supplierType === 'PP') {
+        return this.detail.isPpBlackList === 1 ? '受控' : '正常'
+      }
+      if (this.supplierType === 'GP') {
+        return this.detail.isGpBlackList === 1 ? '受控' : '正常'
       }
       return ''
     }
