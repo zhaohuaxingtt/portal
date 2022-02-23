@@ -4776,11 +4776,6 @@
   "resolved" "http://nexus.devops.csvw.com/repository/npm-public/file-saver/-/file-saver-2.0.5.tgz"
   "version" "2.0.5"
 
-"file-uri-to-path@1.0.0":
-  "integrity" "sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw=="
-  "resolved" "http://nexus.devops.csvw.com/repository/npm-public/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
-  "version" "1.0.0"
-
 "filesize@^3.6.1":
   "integrity" "sha512-7KjR1vv6qnicaPMi1iiTcI85CyYwRO/PSFCu6SvqL8jN2Wjt/NIYQTFtFs7fSDCYOstUkEWIQGFUg5YZQfjlcg=="
   "resolved" "http://nexus.devops.csvw.com/repository/npm-public/filesize/-/filesize-3.6.1.tgz"
@@ -8773,10 +8768,10 @@
     "hash-base" "^3.0.0"
     "inherits" "^2.0.1"
 
-"rise@^3.4.4":
-  "integrity" "sha512-xXU+fyXIy55Yy5Mmh1a9SIYwm3/uY2xw1FEywvpySjgWs9PlW06B3D0DM1fdz+NCAD810plt0nocmYxHXfYKZA=="
-  "resolved" "http://nexus.devops.csvw.com/repository/npm-public/rise/-/rise-3.4.4.tgz"
-  "version" "3.4.4"
+"rise@^3.5.8":
+  "integrity" "sha512-Sq6nGUYrkvLhSfpSYXjBm6f5g46b1jjrDrJeWIP8V7cg/J7pfAJG7TMNUepwWMGhqo/e1FLnE0yjFMx05HTJfw=="
+  "resolved" "http://nexus.devops.csvw.com/repository/npm-public/rise/-/rise-3.5.8.tgz"
+  "version" "3.5.8"
 
 "route-recognizer@^0.1.11":
   "integrity" "sha1-gQ2OVwKrtAVtbcuOhlxWhefBTrc="
