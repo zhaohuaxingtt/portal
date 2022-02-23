@@ -1,9 +1,9 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('CHANNENGYUJING', '产能预警')}}</p>
       <el-dropdown>
-          
+
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -16,13 +16,13 @@
       <img :src="img"
            class="imgIcon" />
       <div class="float">
-          <icon class="alert"
-                symbol
-                name="iconcaiwuyujing-hongdeng"></icon>
-          <!-- <icon class="alert"
+        <icon class="alert"
+              symbol
+              name="iconcaiwuyujing-hongdeng"></icon>
+        <!-- <icon class="alert"
                       symbol
                       name="iconlvdeng"></icon> -->
-          <p class="fontsize">You have capacity alert,You have capacity alert</p>
+        <p class="fontsize">You have capacity alert,You have capacity alert</p>
       </div>
 
     </div>
@@ -101,35 +101,35 @@ export default {
     iSelect,
     tableList
   },
-  data() {
+  data () {
     return {
       visible: false,
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
-      img:img,
+      img: img,
       tableTitleMonitorRecord: tableTitleMonitorRecord
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
   methods: {
-    sure() {},
-    clickReset() {},
-    changeTab() {}
+    sure () { },
+    clickReset () { },
+    changeTab () { }
   },
-  mounted() {}
+  mounted () { }
 }
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .title {
   display: flex;
@@ -156,7 +156,7 @@ export default {
     margin-left: 30px;
     text-align: left;
   }
-  
+
   .fontsize {
     color: #798489;
     margin-top: 10px;
