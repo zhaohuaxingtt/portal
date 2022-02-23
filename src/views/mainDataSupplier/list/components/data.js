@@ -302,13 +302,17 @@ export const FACTORY_TABLE_COLUMNS = [
       if (!scope.row.addressInfoVo) {
         return ''
       }
-      return (
-        <span>
-          {scope?.row?.addressInfoVo?.country}-
-          {scope?.row?.addressInfoVo?.province}-
-          {scope?.row?.addressInfoVo?.city}
-        </span>
-      )
+      const res = []
+      if (scope?.row?.addressInfoVo?.country) {
+        res.push(scope?.row?.addressInfoVo?.country)
+      }
+      if (scope?.row?.addressInfoVo?.province) {
+        res.push(scope?.row?.addressInfoVo?.province)
+      }
+      if (scope?.row?.addressInfoVo?.city) {
+        res.push(scope?.row?.addressInfoVo?.city)
+      }
+      return res.join('-')
     }
   },
   {
