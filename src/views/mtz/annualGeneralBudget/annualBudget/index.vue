@@ -44,7 +44,7 @@
                        :tableLoading="loading"
                        :index="true"
                        openPageProps="forecastTime"
-                       @openPage="handleClickYear"
+                       @openPage="handleClickYear($event,'0')"
                        :openPageGetRowData="true"
                        @handleSelectionChange="handleSelectionChange">
               <template #endForecastAmount="scope">
@@ -94,7 +94,7 @@
                        :tableTitle="tableTitleDepter"
                        :index="true"
                        openPageProps="forecastTime"
-                       @openPage="handleClickYear"
+                       @openPage="handleClickYear($event,'1')"
                        :openPageGetRowData="true"
                        @handleSelectionChange="handleSelectionChange">
               <template #endForecastAmount="scope">
@@ -201,6 +201,7 @@
       </template>
     </budget>
     <detail v-if="dialogParams.visible"
+            :num="dialogParams.num"
             :key="dialogParams.key"
             :forecastId="dialogParams.data"
             v-model="dialogParams.visible"
@@ -292,7 +293,8 @@ export default {
       dialogParams: {
         key: 0,
         visible: false,
-        data: null
+        data: null,
+        num:null,
       },
       purchaseBudgetParams: {
         key: 0,
@@ -485,11 +487,12 @@ export default {
       })
     },
     // 点击预算年份
-    handleClickYear (val) {
+    handleClickYear (val,num) {
       this.purchaseBudgetParams.visible = false
       this.$nextTick(_ => {
         this.dialogParams = {
           ...this.dialogParams,
+          num:num,
           key: Math.random(),
           visible: true,
           data: val.id

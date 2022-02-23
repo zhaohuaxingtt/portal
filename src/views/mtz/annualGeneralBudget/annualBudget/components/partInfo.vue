@@ -125,6 +125,10 @@ export default {
     forecastId: {
       type: String,
       default: null
+    },
+    num:{
+      type: String,
+      default: null
     }
   },
   data () {
@@ -189,6 +193,7 @@ export default {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
           forecastId: this.forecastId,
+          tag:this.num,
           ...this.searchForm
         }
         fetchPartData(params).then(res => {
