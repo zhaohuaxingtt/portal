@@ -152,10 +152,23 @@ export default {
   },
   mounted() {
     this.options = [this.query.year, this.query.year + 1]
+    // if (this.leadTabList.length > 0) {
+    //   // 由于在store全部加了(Spare) 需在ekl去掉(Spare) 只在配附件ekl种展示
+    //   // this.tabList = this.leadTabList
+    //   this.leadTabList.map(item => {
+    //     item.name = item.name.replace('(Spare)', '') || ''
+    //   })
+    //   this.tabList = this.leadTabList
+    // } else {
+    //   this.tabList = this.unique(this.eklTabList || [], 'name')
+    //   // this.tabList = this.eklTabList
+    // }
+    this.tabList = this.unique(this.eklTabList || [], 'name')
     if (this.leadTabList.length > 0) {
-      this.tabList = this.leadTabList
-    } else {
-      this.tabList = this.eklTabList
+      this.leadTabList.map(item => {
+        item.name = item.name.replace('(Spare)', '') || ''
+      })
+      this.tabList = [...this.tabList, ...this.leadTabList]
     }
     if(this.tabList.length > 0){
       this.query.type = this.tabList[0].type || ""
@@ -166,6 +179,11 @@ export default {
     this.tabChange()
   },
   methods: {
+    // 数组去重
+    unique(arr, attrName) {
+      const res = new Map();
+      return arr.filter((a) => !res.has(a[attrName]) && res.set(a[attrName], 1));
+    }, 
     tabChange() {
       if (this.eklTabItem) {
         this.handleClick(this.eklTabItem)

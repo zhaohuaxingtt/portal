@@ -1,7 +1,6 @@
 <template>
   <div class="area-cascader">
     <el-cascader
-      :key="elementKey"
       id="areaCascader"
       v-model="areaCodes"
       :props="areaProps"
@@ -117,28 +116,33 @@ export default {
         this.$emit('update:countryCode', val[0])
         this.$emit('update:provinceCode', '')
         this.$emit('update:cityCode', '')
-        setTimeout(() => {
-          if (this.$refs.areaCascader) {
-            const text = this.$refs.areaCascader.inputValue
-            if (text) {
-              this.$emit('change', val, text.split('-'))
-            }
-          }
-        }, 500)
+        this.handleChangeName(val)
       } else if (val && val.length === 3) {
         // 中国
         this.$emit('update:countryCode', val[0])
         this.$emit('update:provinceCode', val[1])
         this.$emit('update:cityCode', val[2])
-        setTimeout(() => {
-          if (this.$refs.areaCascader) {
-            const text = this.$refs.areaCascader.inputValue
-            if (text) {
-              this.$emit('change', val, text.split('-'))
+        this.handleChangeName(val)
+      }
+    },
+    handleChangeName(val) {
+      setTimeout(() => {
+        if (this.$refs.areaCascader) {
+          const text = this.$refs.areaCascader.inputValue
+          const textArr = text.split('-')
+
+          if (text) {
+            if (textArr.length === 1) {
+              textArr.push(...['', ''])
+            }
+            this.$emit('change', val, textArr)
+          } else {
+            if (val && val[0] !== null) {
+              this.handleChangeName(val)
             }
           }
-        }, 500)
-      }
+        }
+      }, 500)
     }
   }
 }

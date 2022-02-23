@@ -215,9 +215,9 @@ export default {
             location.href = this.item.url
           } else {
             if (this.item.url.indexOf('#') === -1) {
-              this.$router.replace(this.item.url)
+              this.$router.replace(`/portal${this.item.url}`)
             } else {
-              location.href = this.item.url
+              location.href = `/portal${this.item.url}`
             }
           }
         }, 200)
