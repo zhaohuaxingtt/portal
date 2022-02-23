@@ -83,7 +83,7 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: 'MT_XUHAO2',
+          i18n: 'MT_XUHAO3',
           width: 69,
           tooltip: false
         },
