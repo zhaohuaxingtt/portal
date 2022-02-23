@@ -165,10 +165,14 @@ export default {
     // }
     this.tabList = this.unique(this.eklTabList || [], 'name')
     if (this.leadTabList.length > 0) {
-      this.leadTabList.map(item => {
-        item.name = item.name.replace('(Spare)', '') || ''
-      })
-      this.tabList = [...this.tabList, ...this.leadTabList]
+      // this.leadTabList.map(item => {
+      //   item.name = item.name.replace('(Spare)', '') || ''
+      // })
+      let leadTabList = JSON.parse(JSON.stringify(this.leadTabList))
+        leadTabList.map(item => {
+          item.name = item.name.replace('(Spare)', '') || ''
+        })
+      this.tabList = [...this.tabList, ...leadTabList]
     }
     if(this.tabList.length > 0){
       this.query.type = this.tabList[0].type || ""
@@ -190,8 +194,11 @@ export default {
       }
     },
     handleClick({ name }) {
+      console.log(name, '2222')
       this.activeName = name
-      this.eklTabList.forEach((item) => {
+      console.log(this.tabList, '3333')
+      this.tabList.forEach((item) => {
+        console.log(item, '333')
         if (item.name == name) {
           this.query.type = item.type
           this.activeName = item.name
@@ -200,6 +207,7 @@ export default {
       })
     },
     async getEkl(data) {
+      console.log(data, '1234')
       const res = await getEkl(data)
       if (res && res.code == '200') {
         this.tabsData = res.data
