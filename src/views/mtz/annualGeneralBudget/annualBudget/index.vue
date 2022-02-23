@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-01-24 18:02:57
+ * @LastEditTime: 2022-02-23 14:39:41
  * @LastEditors: Please set LastEditors
  * @Description: 年度预算总览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\index.vue
@@ -14,9 +14,15 @@
       <template v-slot:mainContent>
         <div class="mtz_ndys_nav">
           <div class="mtz_ndys_nav_all">
-            <div :class="tabsValue===1?'active':''" @click="tableChange(1)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_LINIE">linie</div>
-            <div :class="tabsValue===2?'active':''" @click="tableChange(2)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZKSYSFZR">MTZ科室预算负责人</div>
-            <div :class="tabsValue===3?'active':''" @click="tableChange(3)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZYSGLY">MTZ预算管理员</div>
+            <div :class="tabsValue===1?'active':''"
+                 @click="tableChange(1)"
+                 v-permission="PORTAL_MTZ_NIANDUYUSUAN_LINIE">linie</div>
+            <div :class="tabsValue===2?'active':''"
+                 @click="tableChange(2)"
+                 v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZKSYSFZR">MTZ科室预算负责人</div>
+            <div :class="tabsValue===3?'active':''"
+                 @click="tableChange(3)"
+                 v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZYSGLY">MTZ预算管理员</div>
           </div>
         </div>
         <!-- linie -->
@@ -31,11 +37,13 @@
                 <i class="el-icon-warning-outline rotate"></i>
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
-              <span class="buttonBox"
-                    >
-                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
-                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
-                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+              <span class="buttonBox">
+                <iButton @click="handleReview"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
+                <iButton @click="handleSure"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
+                <iButton @click="handleExport"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -69,7 +77,7 @@
                          :total="page.totalCount" />
           </iCard>
         </div>
-        
+
         <!-- MTZ科室预算负责人 -->
         <div v-show="tabsValue == 2">
           <iCard class="margin-top20">
@@ -82,10 +90,11 @@
                 <i class="el-icon-warning-outline rotate"></i>
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
-              <span class="buttonBox"
-                    >
-                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
-                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+              <span class="buttonBox">
+                <iButton @click="handlePurchaseBudget"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
+                <iButton @click="handleExport"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -119,7 +128,7 @@
                          :total="page.totalCount" />
           </iCard>
         </div>
-        
+
         <!-- MTZ预算管理员 -->
         <div v-show="tabsValue == 3">
           <iCard class="margin-top20">
@@ -133,13 +142,20 @@
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
               <span class="buttonBox">
-                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
-                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
-                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
-                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
-                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
-                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
+                <iButton @click="handleAdd"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
+                <iButton @click="handleDel"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
+                <iButton @click="handleChangeLog"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
+                <iButton @click="handleLinie"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
+                <iButton @click="handleExportAudit"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
+                <iButton @click="handleChangeLevel"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
+                <iButton @click="handleIssue"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -185,7 +201,7 @@
               </template>
             </tableList>
             <iPagination v-update
-                        @size-change="handleSizeChange($event, () => {
+                         @size-change="handleSizeChange($event, () => {
                           this.page2.currPage = 1
                           this.getTableData()
                         })"
@@ -232,7 +248,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage, icon, iMessageBox, iUserLog,iTabsList } from 'rise'
+import { iCard, iButton, iPagination, iMessage, icon, iMessageBox, iUserLog, iTabsList } from 'rise'
 import budget from '@/views/mtz/annualGeneralBudget/annualBudget/components/budget'
 import detail from '@/views/mtz/annualGeneralBudget/annualBudget/components/detail'
 import purchaseBudget from './components/purchaseBudget'
@@ -266,21 +282,21 @@ export default {
   },
   data () {
     return {
-      page2:{
+      page2: {
         totalCount: 0, //总条数
         pageSize: 10, //每页多少条
         pageSizes: [10, 20, 50, 100], //每页条数切换
         currPage: 1, //当前页
         layout: 'sizes, prev, pager, next, jumper'
       },
-      tabsValue:1,
+      tabsValue: 1,
       annualBudgetEdit: '/mtz/annualBudgetEdit',
       searchForm: {},
       tableTitleBuyer,
       tableTitleDepter,
       tableTitleLeader,
-      tableListData1:[],
-      tableListData2:[],
+      tableListData1: [],
+      tableListData2: [],
       selection: [],
       loading: false,
       loginUserInfo: null,
@@ -335,7 +351,7 @@ export default {
       // setTimeout(() => {
       var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
       // console.log(navList)
-      if(navList.length !== 0){
+      if (navList.length !== 0) {
         navList[0].click();
       }
       // }, 100);
@@ -363,7 +379,7 @@ export default {
     }
   },
   methods: {
-    tableChange(val){
+    tableChange (val) {
       if (val !== this.tabsValue) {
         this.tabsValue = val;
       }
@@ -393,7 +409,7 @@ export default {
             resolve(res.data)
           } else iMessage.error(res.desZh)
         })
-        
+
         fetchTableDataOfLeader(params).then(res => {
           this.loading = false
           if (res && res.code == 200) {
@@ -613,8 +629,11 @@ export default {
     },
     // 导出财务审批
     handleExportAudit () {
-      if (!this.selection) {
+      if (this.selection.length === 0) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
+      }
+      if (this.selection.length > 1) {
+        return iMessage.warn(this.language('ZHINENGXUANZEYITIAOSHUJU', '只能选择一条数据'))
       }
       fetchExportFinance({ forecastId: this.selection.id }).then(res => {
         if (res && res.code == 200) {
@@ -726,49 +745,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mtz_ndys_nav{
-  margin-top:20px;
+.mtz_ndys_nav {
+  margin-top: 20px;
   display: flex;
-  margin-bottom:20px;
-  font-size:1rem;
+  margin-bottom: 20px;
+  font-size: 1rem;
   font-weight: bold;
-  color:#727272;
+  color: #727272;
   // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
   border: none;
   text-align: center;
   min-width: 9.375rem;
-  .mtz_ndys_nav_all{
-    
+  .mtz_ndys_nav_all {
   }
-  .mtz_ndys_nav_all>div{
+  .mtz_ndys_nav_all > div {
     cursor: pointer;
-    min-width:140px;
-    float:left;
+    min-width: 140px;
+    float: left;
     height: 2.5rem;
     box-sizing: border-box;
     line-height: 2.5rem;
     box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
-    padding-left:20px;
-    padding-right:20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
-  .mtz_ndys_nav_all>div:nth-child(1){
+  .mtz_ndys_nav_all > div:nth-child(1) {
     border-top-left-radius: 0.625rem;
     border-bottom-left-radius: 0.625rem;
     border-right: solid 1px #ececec;
   }
-  .mtz_ndys_nav_all>div:nth-child(3){
+  .mtz_ndys_nav_all > div:nth-child(3) {
     border-left: solid 1px #ececec;
     border-top-right-radius: 0.625rem;
     border-bottom-right-radius: 0.625rem;
   }
 
-  .active{
+  .active {
     background-color: #ffffff;
     background: #ffffff;
-    color:#1660f1;
+    color: #1660f1;
   }
 }
-
 
 .leaderBox {
   ::v-deep .el-table__body tr.current-row > td {
