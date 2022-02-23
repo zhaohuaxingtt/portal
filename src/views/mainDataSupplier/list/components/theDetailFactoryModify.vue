@@ -187,13 +187,10 @@ export default {
         .finally(() => (this.loading = false))
     },
     areaChange(val, valStrs) {
-      if (valStrs.length > 0) {
-        this.detail.addressInfoVo.country = valStrs[0]
-      }
-      if (valStrs.length > 1) {
-        this.detail.addressInfoVo.province = valStrs[1]
-      }
+      console.log('areaChange', valStrs)
       if (valStrs.length > 2) {
+        this.detail.addressInfoVo.country = valStrs[0]
+        this.detail.addressInfoVo.province = valStrs[1]
         this.detail.addressInfoVo.city = valStrs[2]
       }
     }
