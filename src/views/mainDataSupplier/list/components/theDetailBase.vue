@@ -138,12 +138,14 @@
               v-model="detail.isForeignManufacture"
               :disabled="!editable"
             >
-              <el-option
+              <el-option :value="0" label="否" />
+              <el-option :value="1" label="是" />
+              <!-- <el-option
                 v-for="item in dicts.TURE_FALSE"
                 :key="item.code"
                 :value="item.code"
                 :label="item.name"
-              />
+              /> -->
             </iSelect>
           </iFormItem>
         </el-col>
