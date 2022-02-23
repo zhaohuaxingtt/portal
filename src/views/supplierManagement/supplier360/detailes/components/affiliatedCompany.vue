@@ -24,7 +24,7 @@
       </iCard>
     </el-col>
     <el-col :span="8"
-            v-permission="Card_Related_Group">
+            v-permission="PORTAL_SUPPLIER_Card_RELATED_GROUP">
       <iCard :title="$t('SUPPLIER_JTGX')"
              class="groupRelations">
         <iText class="margin-bottom20">
