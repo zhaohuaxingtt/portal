@@ -143,7 +143,7 @@
             <div class="msg-box" >
               <div class="flex flex-row mt20 ml20">
                 <div class="name">{{questionDetail.createByUerName}}</div>
-                <div class=" content-text">
+                <div class="content-text">
                   <p class="html" v-html="questionDetail.questionTitle"></p>
                   <p class="time">{{questionDetail.createDate}}</p>
                 </div>
