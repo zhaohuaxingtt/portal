@@ -279,7 +279,7 @@ const actions = {
             ) {
               commit('SET_ROLE_EklTabList_LEAD', [
                 {
-                  name: `EKL-${res.data.deptDTO.fullCode}`,
+                  name: `EKL-${res.data.deptDTO.fullCode}(Spare)`,
                   id: 1,
                   type: 4
                 }

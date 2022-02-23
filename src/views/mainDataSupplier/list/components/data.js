@@ -628,14 +628,14 @@ export const SUPPLIER_CONTACT_COLUMNS = [
     }
   },
   {
-    prop: 'phoneH',
+    prop: 'telephone',
     i18n: '联系电话',
     required: true,
     customRender: (h, scope) => {
       return (
         <iInput
-          value={scope.row.phoneH}
-          onInput={(val) => (scope.row.phoneH = val)}
+          value={scope.row.telephone}
+          onInput={(val) => (scope.row.telephone = val)}
         />
       )
     }
