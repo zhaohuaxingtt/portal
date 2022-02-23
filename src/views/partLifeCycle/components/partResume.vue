@@ -487,10 +487,10 @@
             this.bookmarkNodes.sort(sort)
             if (this.bookmarkNodes && this.bookmarkNodes[0]) {
               if (this.bookmarkNodes[0].children && this.bookmarkNodes[0].children[0]) {
-                this.getRecordDetail(this.bookmarkNodes[0].children[0], 0)
+                this.getRecordDetail(this.mainSpindleNodes[0], 0)
                 this.bookmarkNodes[0].index = 0
               } else {
-                this.getRecordDetail(this.bookmarkNodes[0], 0)
+                this.getRecordDetail(this.mainSpindleNodes[0], 0)
                 this.checkedIndex1 = 0
               }
             }
