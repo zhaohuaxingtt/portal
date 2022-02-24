@@ -48,5 +48,12 @@ export default {
   管理端: 'Admin Platform',
   个人设置: 'User Setting',
   个人信息: 'Profile',
-  成本管理: 'cost Mgt'
+  成本管理: 'cost Mgt',
+  修改密码: 'Modify Password',
+  采样: 'Sampling',
+  采购业绩: 'Purchasing performance',
+  品类与谈判: 'Category and Negotiation',
+  报表展示: 'Report display',
+  任务中心: 'Task Center',
+  '新闻&公告模块管理': 'News & Announcements Module Mgt'
 }
