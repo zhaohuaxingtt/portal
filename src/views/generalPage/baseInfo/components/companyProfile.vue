@@ -323,7 +323,7 @@
                 slot="label"></iLabel>
         <iText> {{isPP?supplierData.ppSupplierDTO.isSignedClause?this.language('SHI','是'):this.language('FOU','否'):supplierData.gpSupplierInfoVO.isSignedClause?this.language('SHI','是'):this.language('FOU','否') }}</iText>
       </iFormItem>
-      <iFormItem v-if="supplierData.ppSupplierDTO.isSignedClause||supplierData.gpSupplierInfoVO.isSignedClause">
+      <iFormItem v-if="(supplierData.ppSupplierDTO&&supplierData.ppSupplierDTO.isSignedClause)||(supplierData.gpSupplierInfoVO&&supplierData.gpSupplierInfoVO.isSignedClause)">
         <iLabel :label="language('CAIGOUTIAOKUANQIANSHURIQI', '采购条款签署日期')"
                 slot="label"></iLabel>
         <iText> {{supplierData.ppSupplierDTO.signTime}}</iText>

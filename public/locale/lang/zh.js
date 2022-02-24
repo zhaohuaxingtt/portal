@@ -807,7 +807,7 @@
     GONGSIGAIKANG: '公司概况', //公司概况
     Home: '首页', //首页
     BasicInformation: '基本信息', //基本信息,
-    CAIGOUTIAOKUANQIANSHURIQI:'采购条款签署日期',
+    CAIGOUTIAOKUANQIANSHURIQI: '采购条款签署日期',
     SupplierZh: '供应商中文名', //供应商中文名
     SupplierEn: '供应商英文名', //供应商中文名
     SupplierAbbreviationZh: '供应商简称（中）', //供应商简称（中）
@@ -3080,7 +3080,8 @@
         YSGYSSM: '影响供应商数目',
         SJLY: '数据来源',
         CJFS: '创建方式',
-        QITAYUANYINGBUNENGWEIKONG: '其它原因不能为空'
+        QITAYUANYINGBUNENGWEIKONG: '其它原因不能为空',
+        GONGHUOZHUANGTAI: '供货状态'
       }
       const i18nZhData = { ...data.data.zh, ...fixedData }
       i18n.mergeLocaleMessage('zh', i18nZhData)
