@@ -95,6 +95,7 @@ const mutations = {
     data.forEach((item, index) => {
       if (
         item.code === 'BZZL' ||
+        item.code === 'CIXTGLY' ||
         item.code === 'CGBZ_WF' ||
         (item.code === 'CGBZ' && cs < 1)
       ) {
