@@ -390,7 +390,7 @@ export default {
       userId: '',
       KZSorXJ: '',
       KZSorXJCode: -1,
-      buttonShow: true
+      buttonShow: false
       // attachmentId: "",
       // attachmentName: "",
     }
