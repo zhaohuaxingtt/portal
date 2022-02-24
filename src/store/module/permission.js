@@ -89,6 +89,8 @@ const mutations = {
     state.code = data.map((item) => item.code)
   },
   SET_ROLE_EklTabList(state, data) {
+    state.eklTabList = []
+    state.eklPfjTabList = []
     let cs = 0
     data.forEach((item, index) => {
       if (
