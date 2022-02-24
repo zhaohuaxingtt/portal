@@ -126,6 +126,11 @@
           >{{ '标记例外' }}</iButton
         >
         <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
+        <iButton
+          @click="handleExportKZSorXJ"
+          v-show="termsCode == KZSorXJCode && buttonShow == true"
+          >{{ KZSorXJ }}</iButton
+        >
         <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
       </div>
       <div v-show="this.extendFields !== false" class="tips">
@@ -332,6 +337,8 @@ import { excelExport } from '@/utils/filedowLoad'
 import { exportFile } from '@/utils/exportFileUtil'
 import { signTableTitle } from './data'
 import store from '@/store'
+import { getDictByCode } from '@/api/dictionary'
+import { downloadAll } from '@/utils/downloadAll'
 // import { createAnchorLink } from "@/utils/downloadUtil";
 
 export default {
@@ -350,6 +357,7 @@ export default {
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number, default: -1 },
+    termsCode: { type: Number, default: -1 },
     approvalProcess: { type: Array },
     signTitle: { type: Object }
   },
@@ -379,7 +387,10 @@ export default {
       openExceptionTagDialog: false,
       signStatus: '',
       supplierId: -1,
-      userId: ''
+      userId: '',
+      KZSorXJ: '',
+      KZSorXJCode: -1,
+      buttonShow: true
       // attachmentId: "",
       // attachmentName: "",
     }
@@ -390,11 +401,29 @@ export default {
   mounted() {
     let param = { termsId: this.id }
     this.getTableList(param)
+    this.getTermsCode()
   },
   methods: {
     async getCityInfo() {
       const res = await getCity()
       this.formGoup.areaList = res
+    },
+    getTermsCode() {
+      getDictByCode('SIGN_NO_TYPE').then((res) => {
+        if (res?.data[0]?.subDictResultVo?.length > 0) {
+          res.data[0].subDictResultVo.forEach((item) => {
+            if (item.code == 'Terms_KZS') {
+              this.KZSorXJ = '可再生能源签署情况导出'
+              this.KZSorXJCode = item.name
+              return
+            } else if (item.code == 'Terms_XJ') {
+              this.KZSorXJ = '询价签署情况导出'
+              this.KZSorXJCode = item.name
+              return
+            }
+          })
+        }
+      })
     },
     handleExport() {
       const tableArr = window._.cloneDeep(this.tableListData)
@@ -484,6 +513,42 @@ export default {
           if (this.form?.supplierType) {
             this.form.supplierType = this.form?.supplierType?.split(',')
           }
+        }
+      })
+    },
+    handleExportKZSorXJ() {
+      const date = new Date()
+      const y = date.getFullYear()
+      const M = date.getMonth() + 1
+      const d = date.getDate()
+      downloadAll({
+        url:
+          process.env.VUE_APP_NEWS +
+          `/termsQueryService/exportTermsLog?userId=` +
+          store.state.permission.userInfo.id,
+        filename:
+          (this.KZSorXJ == '可再生能源签署情况导出'
+            ? '可再生能源使用承诺书签署情况'
+            : '询价承诺书签署情况') +
+          `_` +
+          `${y}.${M}.${d}` +
+          `.xlsx`,
+        data: {
+          termsId: this.id,
+          status:
+            this.KZSorXJ == '可再生能源签署情况导出'
+              ? 0
+              : this.KZSorXJ == '询价签署情况导出'
+              ? 1
+              : ''
+        },
+        type: 'application/vnd.ms-excel',
+        callback: () => {
+          // if (e) {
+          //   iMessage.success(this.$t('MT_DAOCHUCHENGGONG'))
+          // } else {
+          //   iMessage.error(this.$t('MT_DAOCHUSHIBAI'))
+          // }
         }
       })
     },
