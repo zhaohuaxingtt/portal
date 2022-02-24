@@ -406,10 +406,6 @@ export default {
       this.page2.currPage = e;
       this.getMTZYS();
     },
-
-
-
-
     
     tableChange (val) {
       if (val !== this.tabsValue) {

@@ -170,7 +170,23 @@ export default {
       yearDropDown(false)
         .then((res) => {
           this.yearList = res.data
-          this.form['yearDropList'] = this.yearList[0].message
+          var year = new Date().getFullYear();
+          var yearList = [];
+          res.data.forEach((e,index) => {
+            yearList.push({
+              num: Math.abs(e.code - year),
+              index: index
+            })
+          });
+          var minNumber =  Math.min.apply(Math, yearList.map(function(o) {return o.num}))
+          var message = 0;
+          for(var i=0;i<yearList.length;i++){
+            if(yearList[i].num == minNumber){
+              message = yearList[i].index;
+              break;
+            }
+          }
+          this.form['yearDropList'] = this.yearList[message].message
         })
         .catch((err) => {
           console.log(err)
