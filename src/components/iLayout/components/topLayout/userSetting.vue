@@ -49,7 +49,7 @@
             }"
             :url="menu.url"
           >
-            <span>{{ menu.title }}</span>
+            <span>{{ language(menu.title) }}</span>
           </div>
         </div>
       </div>
