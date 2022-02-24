@@ -89,6 +89,8 @@ const mutations = {
     state.code = data.map((item) => item.code)
   },
   SET_ROLE_EklTabList(state, data) {
+    state.eklTabList = []
+    state.eklPfjTabList = []
     let cs = 0
     data.forEach((item, index) => {
       if (
@@ -279,7 +281,7 @@ const actions = {
             ) {
               commit('SET_ROLE_EklTabList_LEAD', [
                 {
-                  name: `EKL-${res.data.deptDTO.fullCode}`,
+                  name: `EKL-${res.data.deptDTO.fullCode}(Spare)`,
                   id: 1,
                   type: 4
                 }
