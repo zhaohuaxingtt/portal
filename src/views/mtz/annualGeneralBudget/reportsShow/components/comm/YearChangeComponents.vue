@@ -38,9 +38,27 @@ export default {
       yearDropDown().then(res=>{
         if(res.code==200){
           this.years=res.data
-          this.changeYear(res.data[0].code)
+
+          var year = new Date().getFullYear();
+          var yearList = [];
+          this.years.forEach((e,index) => {
+            yearList.push({
+              num: Math.abs(e.code - year),
+              index: index
+            })
+          });
+          var minNumber =  Math.min.apply(Math, yearList.map(function(o) {return o.num}))
+          var message = 0;
+          for(var i=0;i<yearList.length;i++){
+            if(yearList[i].num == minNumber){
+              message = yearList[i].index;
+              break;
+            }
+          }
+          this.changeYear(this.years[message].code)
           this.years=this.years.reverse()
           this.years=this.years.filter(item=>item.code!=null)
+
         }
       })
     },
