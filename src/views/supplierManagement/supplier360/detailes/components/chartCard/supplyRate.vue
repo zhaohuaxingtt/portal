@@ -72,7 +72,7 @@ export default {
         data3.push(e.month)
       })
       data3 = data3.map(res => {
-        return res = parseInt(res) + this.language('m', '月')
+        return res = parseInt(res) + this.language('SPR_FRM_DEP_MONTH', '月')
       })
       let max = Math.max(...data1)
       const myChart = echarts().init(this.$refs.chart)
