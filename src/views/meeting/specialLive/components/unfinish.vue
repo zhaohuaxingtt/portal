@@ -294,21 +294,20 @@ export default {
           return !item.isBreak
         })
         this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
-        console.log('this.tableData', this.tableData)
         this.total = this.dataAll.length
         this.page.pageNum = 1
       },
       immediate: true,
       deep: true
-    },
-    meetingInfo: {
-      handler() {
-        this.dataAll = [...this.unFinishedData]
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
-        this.total = this.dataAll.length
-      },
-      immediate: true
     }
+    // meetingInfo: {
+    //   handler() {
+    //     this.dataAll = [...this.unFinishedData]
+    //     this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+    //     this.total = this.dataAll.length
+    //   },
+    //   immediate: true
+    // }
   },
   methods: {
     // 02 开放  03 锁定
