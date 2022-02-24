@@ -806,7 +806,8 @@
       '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码
     GONGSIGAIKANG: '公司概况', //公司概况
     Home: '首页', //首页
-    BasicInformation: '基本信息', //基本信息
+    BasicInformation: '基本信息', //基本信息,
+    CAIGOUTIAOKUANQIANSHURIQI:'采购条款签署日期',
     SupplierZh: '供应商中文名', //供应商中文名
     SupplierEn: '供应商英文名', //供应商中文名
     SupplierAbbreviationZh: '供应商简称（中）', //供应商简称（中）
