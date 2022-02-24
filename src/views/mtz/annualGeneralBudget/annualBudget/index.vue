@@ -64,11 +64,8 @@
               </template>
             </tableList>
             <iPagination v-update
-                         @size-change="handleSizeChange($event, () => {
-                this.page.currPage = 1
-                this.getTableData()
-              })"
-                         @current-change="handleCurrentChange($event, getTableData)"
+                         @size-change="handleSizeChange1($event)"
+                         @current-change="handleCurrentChange1($event)"
                          background
                          :page-sizes="page.pageSizes"
                          :page-size="page.pageSize"
@@ -98,7 +95,7 @@
               </span>
             </div>
             <tableList class="margin-top20"
-                       :tableData="tableListData1"
+                       :tableData="tableListData1_1"
                        :tableLoading="loading"
                        :tableTitle="tableTitleDepter"
                        :index="true"
@@ -115,17 +112,14 @@
               </template>
             </tableList>
             <iPagination v-update
-                         @size-change="handleSizeChange($event, () => {
-                this.page.currPage = 1
-                this.getTableData()
-              })"
-                         @current-change="handleCurrentChange($event, getTableData)"
+                         @size-change="handleSizeChange2($event)"
+                         @current-change="handleCurrentChange2($event)"
                          background
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :current-page='page.currPage'
-                         :total="page.totalCount" />
+                         :page-sizes="page1.pageSizes"
+                         :page-size="page1.pageSize"
+                         :layout="page1.layout"
+                         :current-page='page1.currPage'
+                         :total="page1.totalCount" />
           </iCard>
         </div>
 
@@ -201,11 +195,8 @@
               </template>
             </tableList>
             <iPagination v-update
-                         @size-change="handleSizeChange($event, () => {
-                          this.page2.currPage = 1
-                          this.getTableData()
-                        })"
-                         @current-change="handleCurrentChange($event, getTableData)"
+                         @size-change="handleSizeChange3($event)"
+                         @current-change="handleCurrentChange3($event)"
                          background
                          :page-sizes="page2.pageSizes"
                          :page-size="page2.pageSize"
@@ -259,7 +250,7 @@ import changeLevel from './components/changeLevel'
 import { tableTitleBuyer, tableTitleDepter, tableTitleLeader } from './components/data'
 import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
-import { fetchTableDataOfBuyer, fetchReviewOrSubmit, fetchExport, fetchTableDataOfLeader, fetchAddBudgetLeader, fetchExportFinance, fetchEditDemand, fetchRecount, fetchPublish, fetchCheckAdd, fetchDel, fetchCheckPublish } from '@/api/mtz/annualGeneralBudget/annualBudget.js'
+import { fetchTableDataOfBuyer, fetchReviewOrSubmit, fetchExport, fetchTableDataOfLeader, fetchAddBudgetLeader, fetchExportFinance, fetchEditDemand, fetchRecount, fetchPublish, fetchCheckAdd, fetchDel, fetchCheckPublish,pageOfCoordinator } from '@/api/mtz/annualGeneralBudget/annualBudget.js'
 import { fetchNoticeLinie } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
 export default {
@@ -282,6 +273,13 @@ export default {
   },
   data () {
     return {
+      page1: {
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
       page2: {
         totalCount: 0, //总条数
         pageSize: 10, //每页多少条
@@ -296,6 +294,7 @@ export default {
       tableTitleDepter,
       tableTitleLeader,
       tableListData1: [],
+      tableListData1_1:[],
       tableListData2: [],
       selection: [],
       loading: false,
@@ -379,6 +378,39 @@ export default {
     }
   },
   methods: {
+    handleSizeChange1(e){
+      this.page.currPage = 1;
+      this.page.pageSize = e;
+      this.getLinie();
+    },
+    handleSizeChange2(e){
+      this.page1.currPage = 1;
+      this.page1.pageSize = e;
+      this.getMtzKS();
+    },
+    handleSizeChange3(e){
+      this.page2.currPage = 1;
+      this.page2.pageSize = e;
+      this.getMTZYS();
+    },
+
+    handleCurrentChange1(e){
+      this.page.currPage = e;
+      this.getLinie();
+    },
+    handleCurrentChange2(e){
+      this.page1.currPage = e;
+      this.getMtzKS();
+    },
+    handleCurrentChange3(e){
+      this.page2.currPage = e;
+      this.getMTZYS();
+    },
+
+
+
+
+    
     tableChange (val) {
       if (val !== this.tabsValue) {
         this.tabsValue = val;
@@ -388,39 +420,65 @@ export default {
     initSearch () {
       this.searchForm = this.$refs.childBudget.searchForm
     },
+    getLinie(){
+      this.loading = true
+      const params = {
+        userId: 1,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.searchForm
+      }
+      fetchTableDataOfBuyer(params).then(res => {
+        this.loading = false
+        if (res && res.code == 200) {
+          this.page.totalCount = res.total
+          this.page.currPage = res.pageNum
+          this.page.pageSize = res.pageSize
+          this.tableListData1 = res.data
+        } else iMessage.error(res.desZh)
+      })
+    },
+    getMtzKS(){
+      this.loading = true
+      const params = {
+        userId: 1,
+        pageNo: this.page1.currPage,
+        pageSize: this.page1.pageSize,
+        ...this.searchForm
+      }
+      pageOfCoordinator(params).then(res => {
+        this.loading = false
+        if (res && res.code == 200) {
+          this.page1.totalCount = res.total
+          this.page1.currPage = res.pageNum
+          this.page1.pageSize = res.pageSize
+          this.tableListData1_1 = res.data
+        } else iMessage.error(res.desZh)
+      })
+    },
+    getMTZYS(){
+      this.loading = true
+      const params = {
+        userId: 1,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.searchForm
+      }
+      fetchTableDataOfLeader(params).then(res => {
+        this.loading = false
+        if (res && res.code == 200) {
+          this.tableListData2 = res.data
+          this.page2.totalCount = res.total
+          this.page2.currPage = res.pageNum
+          this.page2.pageSize = res.pageSize
+        } else iMessage.error(res.desZh)
+      })
+    },
     // 获取数据  
     getTableData () {
-      return new Promise(resolve => {
-        this.loading = true
-        const params = {
-          userId: 1,
-          pageNo: this.page.currPage,
-          pageSize: this.page.pageSize,
-          ...this.searchForm
-        }
-
-        fetchTableDataOfBuyer(params).then(res => {
-          this.loading = false
-          if (res && res.code == 200) {
-            this.page.totalCount = res.total
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.tableListData1 = res.data
-            resolve(res.data)
-          } else iMessage.error(res.desZh)
-        })
-
-        fetchTableDataOfLeader(params).then(res => {
-          this.loading = false
-          if (res && res.code == 200) {
-            this.tableListData2 = res.data
-            this.page2.totalCount = res.total
-            this.page2.currPage = res.pageNum
-            this.page2.pageSize = res.pageSize
-            resolve(res.data)
-          } else iMessage.error(res.desZh)
-        })
-      })
+        this.getLinie();
+        this.getMtzKS();
+        this.getMTZYS();
     },
     // 选中数据发生改变
     handleSelectionChange (val) {
