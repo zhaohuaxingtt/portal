@@ -432,17 +432,17 @@ export default {
         this.total = this.dataAll.length
         this.page.pageNum = 1
       },
-      immediate: true,
-      deep: true
-    },
-    meetingInfo: {
-      handler() {
-        this.dataAll = [...this.unFinishedData]
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
-        this.total = this.dataAll.length
-      },
       immediate: true
-    }
+    },
+    // meetingInfo: {
+    //   handler() {
+    //     console.log('11111111111111111111111')
+    //     this.dataAll = [...this.unFinishedData]
+    //     this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+    //     this.total = this.dataAll.length
+    //   },
+    //   immediate: true,
+    // }
   },
   mounted() {
     this.meetingTypeId = this.$route.query.id
@@ -497,7 +497,9 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? this.$t('MT_QINGQUERENSHIFOUFASONGYITICHEHUISHENQINGZHIHUIYIGUANLIYUAN')
+        ? this.$t(
+            'MT_QINGQUERENSHIFOUFASONGYITICHEHUISHENQINGZHIHUIYIGUANLIYUAN'
+          )
         : this.$t('MT_SHIFOUCHEHUIGAIYITI')
       if (
         this.selectedData[0].meetingStatus === '02' ||
@@ -529,7 +531,9 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success(this.$t('MT_YIFASONGCHEHUISHENQINGGEIGUANLIYUAN'))
+                iMessage.success(
+                  this.$t('MT_YIFASONGCHEHUISHENQINGGEIGUANLIYUAN')
+                )
               } else {
                 iMessage.success(message)
               }
@@ -564,7 +568,9 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn(this.$t('MT_ZHIYOUKAIFANGHESUODINGZHUANGTAICAIKEYICHEHUI'))
+        iMessage.warn(
+          this.$t('MT_ZHIYOUKAIFANGHESUODINGZHUANGTAICAIKEYICHEHUI')
+        )
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",
@@ -657,6 +663,7 @@ export default {
     },
     //选择页数
     handleCurrentChange(curPage) {
+      console.log('curPage', curPage)
       this.page.pageNum = curPage
       this.currentChangePage(this.dataAll, this.page.pageNum)
     },

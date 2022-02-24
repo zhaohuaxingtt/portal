@@ -21,6 +21,14 @@ export function fetchTableDataOfBuyer(params) {
     data: params
   })
 }
+// 年度预算分页数据-MTZ科室预算负责人
+export function pageOfCoordinator(params) {
+  return request({
+    url: '/mtzForecast/pageOfCoordinator',
+    method: 'POST',
+    data: params
+  })
+}
 // 用量版本
 export function fetchDemand(params) {
   return request({
