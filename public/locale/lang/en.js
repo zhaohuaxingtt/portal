@@ -968,6 +968,7 @@
     GONGSIGAIKANG: 'Company Profile', //公司概况
     Home: 'Home',
     BasicInformation: 'Basic Information',
+    CAIGOUTIAOKUANQIANSHURIQI: 'Signing date of purchase terms',
     SupplierZh: 'Supplier Zh',
     SupplierEn: 'Supplier En',
     SupplierAbbreviationZh: 'Supplier Abbreviation Zh',
