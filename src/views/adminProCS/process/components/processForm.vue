@@ -159,11 +159,14 @@ export default {
 			this.queryUsersList(v)
 		},
 		queryOrg(v){
-			if(this.type != "add"){
-				this.org_loading = true
-				this.orgList = this.allOrgList.filter(e => e.name.includes(v))
-				this.org_loading = false
-			}
+			// if(this.type != "add"){
+			// 	this.org_loading = true
+			// 	this.orgList = this.allOrgList.filter(e => e.name.includes(v))
+			// 	this.org_loading = false
+			// }
+			this.org_loading = true
+			this.orgList = this.allOrgList.filter(e => e.name.includes(v))
+			this.org_loading = false
 		},
 		save(){
 			this.$refs.form.validate(async v => {
