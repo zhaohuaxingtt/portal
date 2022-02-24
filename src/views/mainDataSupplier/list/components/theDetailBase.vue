@@ -138,8 +138,8 @@
               v-model="detail.isForeignManufacture"
               :disabled="!editable"
             >
-              <el-option :value="0" label="否" />
-              <el-option :value="1" label="是" />
+              <el-option value='0' label="否" />
+              <el-option value='1' label="是" />
               <!-- <el-option
                 v-for="item in dicts.TURE_FALSE"
                 :key="item.code"
@@ -223,7 +223,7 @@
             </iSelect> -->
             <iInput
               disabled
-              :value="detail.purchaseTerm || language('WEIQIANSHU')"
+              :value="detail.purchaseTerm || language('未签署')"
             ></iInput>
           </iFormItem>
         </el-col>
@@ -351,7 +351,11 @@ export default {
       supplierTypes: SUPPLIER_TYPES,
       supplierStatus: SUPPLIER_STATUS,
       rules: {},
-      loading: false
+      loading: false,
+      isForeignManufactureOp:{
+        is:1,
+        no:2
+      }
     }
   },
   computed: {
@@ -428,6 +432,7 @@ export default {
     },
     save() {
       const params = { id: this.$route.query.id }
+      console.log(this.detail.isForeignManufacture,'this.detail.isForeignManufacture');
       const data = {
         addressInfoUpdateVo: this.detail.addressInfoVo,
         addressId: this.detail.addressInfoVo.addressId,
