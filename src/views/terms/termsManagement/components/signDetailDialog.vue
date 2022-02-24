@@ -524,7 +524,7 @@ export default {
       downloadAll({
         url:
           process.env.VUE_APP_NEWS +
-          `termsQueryService/exportTermsLog?userId=` +
+          `/termsQueryService/exportTermsLog?userId=` +
           store.state.permission.userInfo.id,
         filename:
           (this.KZSorXJ == '可再生能源签署情况导出'
