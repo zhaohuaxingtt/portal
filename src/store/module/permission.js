@@ -145,9 +145,19 @@ const mutations = {
           id: data.length,
           type: 1
         })
+      } else if (item.code == 'ZYCGKSXTDY') {
+        (data.parentDeptList || []).map(item => {
+          if (item.grade === 3) {
+            state.eklTabList.push({
+              name: `EKL-${item.fullCode}`,
+              id: index,
+              type: 2
+            })
+          }
+        }) 
       } else if (
         item.code == 'ZYCGKSXTY' ||
-        item.code == 'ZYCGKSXTDY' ||
+        // item.code == 'ZYCGKSXTDY' ||
         item.code == 'WS2ZYCGKZ'
       ) {
         state.eklTabList.push({
