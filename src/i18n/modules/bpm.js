@@ -12,5 +12,7 @@ export default {
   补充材料: 'Supplementary materials',
   流程模板管理: 'Process template management',
   流程监控: 'Process monitoring',
-  流程报表: 'Process report'
+  流程报表: 'Process report',
+  审批代理: 'Approval Agent',
+  会议审批代理: 'Meeting Approval Agent'
 }
