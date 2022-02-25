@@ -278,9 +278,12 @@ export default {
         return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOQIANSHUDEHETONG', '抱歉，您当前还未选择需要签署的合同'))
       }
       let filterRes = this.selSinaturedatas.filter(item => item.signStatus == 3)
-      if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
-        return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
-      }
+      // 判断是否只有待甲方签署
+      let filterNo = this.selSinaturedatas.filter(item => item.signStatus != 3)
+      if (filterNo.length > 0) return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
+      // if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
+      //   return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
+      // }
       let companyNo = this.selSinaturedatas[0].companyNumber
       let f = this.selSinaturedatas.find(e => e.companyNumber != companyNo)
       if(f) return this.$message.error(this.language('请选择相同公司编码的数据进行批量签署'))
