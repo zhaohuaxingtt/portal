@@ -55,5 +55,7 @@ export default {
   品类与谈判: 'Category and Negotiation',
   报表展示: 'Report display',
   任务中心: 'Task Center',
-  '新闻&公告模块管理': 'News & Announcements Module Mgt'
+  '新闻&公告模块管理': 'News & Announcements Module Mgt',
+  设置: 'Setting',
+  退出登录: 'Logout'
 }
