@@ -379,6 +379,7 @@ export default {
   },
   methods: {
     handleSizeChange1(e){
+      console.log(e);
       this.page.currPage = 1;
       this.page.pageSize = e;
       this.getLinie();
@@ -456,8 +457,8 @@ export default {
       this.loading = true
       const params = {
         userId: 1,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
+        pageNo: this.page2.currPage,
+        pageSize: this.page2.pageSize,
         ...this.searchForm
       }
       fetchTableDataOfLeader(params).then(res => {
