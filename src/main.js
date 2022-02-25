@@ -16,6 +16,7 @@ import './utils/mydirect'
 import './permission'
 import './utils/language'
 import './globalComponnets'
+import './i18n'
 import custom from '@/utils/filters.js'
 Object.keys(custom.filters).forEach((key) => {
   Vue.filter(key, custom.filters[key])
@@ -31,17 +32,6 @@ Vue.config.productionTip = false
 
 window.sessionStorage.setItem('env', process.env.NODE_ENV)
 
-import('./i18n').then((res) => {
-  const zh = {}
-  for (const key in res.default) {
-    if (Object.hasOwnProperty.call(res.default, key)) {
-      zh[key] = key
-    }
-  }
-  const en = res.default
-  i18n.mergeLocaleMessage('zh', zh)
-  i18n.mergeLocaleMessage('en', en)
-})
 new Vue({
   router,
   store,
