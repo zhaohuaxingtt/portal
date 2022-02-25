@@ -47,7 +47,7 @@
           </el-row>
         </el-form>
       </div>
-      <div class="btn-box margin-top60">
+      <div class="btn-box margin-top140">
         <iButton @click="handleConfirm">{{ language('查询') }}</iButton>
         <iButton @click="handleReset">{{ language('重置') }}</iButton>
       </div>
@@ -174,5 +174,8 @@ export default {
 .labelfont {
   font-size: 14px;
   margin-bottom: 6px;
+}
+.margin-top140 {
+  margin-top: 146px;
 }
 </style>

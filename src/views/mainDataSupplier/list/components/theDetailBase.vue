@@ -223,7 +223,7 @@
             </iSelect> -->
             <iInput
               disabled
-              :value="detail.purchaseTerm || language('未签署')"
+              :value="detail.signTime || language('未签署')"
             ></iInput>
           </iFormItem>
         </el-col>
