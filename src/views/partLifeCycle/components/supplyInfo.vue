@@ -230,7 +230,7 @@ export default {
                     barBorderRadius: [5,5,5,5],
                     color: '#1660F1',
                     label: {
-                      show: true, //自动显示数据
+                      show: false, //自动显示数据
                       position: 'right', //在上方显示
                       offset: [-70,0],
                       textStyle: { //数值样式
@@ -253,7 +253,7 @@ export default {
                     barBorderRadius: [5,5,5,5],
                     color: '#73A1FA',
                     label: {
-                      show: true, //自动显示数据
+                      show: false, //自动显示数据
                       position: 'right', //在上方显示
                       offset: [-70,0],
                       textStyle: { //数值样式
