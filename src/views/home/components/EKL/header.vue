@@ -105,4 +105,10 @@ export default {
     background-color: transparent;
   }
 }
+::v-deep .el-tabs__nav-prev {
+  display: none;
+}
+::v-deep .el-tabs__nav-next {
+  display: none;
+}
 </style>
