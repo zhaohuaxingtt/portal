@@ -226,8 +226,10 @@ export default {
         return '审批中'
       } else if (val == '3') {
         return '同意'
-      } else {
+      } else if (val == '4') {
         return '拒绝'
+      }else if (val == '5'){
+        return '撤回'
       }
     }
   },

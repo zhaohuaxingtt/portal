@@ -148,7 +148,7 @@
 
 <script>
 import { iDialog, iButton, iSelect, iInput, iMessage } from 'rise'
-import { fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchRemoteDept, getDeptSection } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchRemoteDept, getDeptSection,queryDeptSectionNew } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { debounce } from '@/views/mtz/debounce.js'
 import { getDeptData } from '@/api/kpiChart/index'
 export default {
@@ -286,7 +286,7 @@ export default {
     // 远程搜索科室数据
     remoteGetSection (query) {
       this.sectionLoading = true
-      debounce(fetchRemoteDept({ keyWord: query }).then(res => {
+      debounce(queryDeptSectionNew({ keyWord: query }).then(res => {
         this.sectionLoading = false
         if (res && res.code == 200) {
           this.sectionList = res.data
@@ -301,6 +301,10 @@ export default {
         sectionCode: target.departId,
         sectionName: target.departNameEn
       }
+
+      // if(){
+
+      // }
     },
     // 远程搜索品牌数据
     remoteGetBrand (query) {
