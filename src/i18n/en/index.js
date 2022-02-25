@@ -1,4 +1,4 @@
-import menus from './menus'
+import online from './online'
 export default {
-  ...menus
+  ...online
 }
