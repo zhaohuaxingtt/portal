@@ -254,6 +254,19 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
+
+      var num = 0;
+      for(var i=0;i<this.selectTableData.length;i++){
+        if(this.selectTableData[i].preliminaryStatus !== "中断"){
+          num++;
+          break;
+        }
+      }
+      if(num !== 0){
+        iMessage.warn(this.$t('LK_ZYCBPJZTWZDDSHCNDJCAN'));
+        return false;
+      }
+
       iMessageBox(
         this.$t('SPR_FRM_CBPJ_JXCPLC'),
         this.$t('SUPPLIER_CHUBUPINGJI1'),

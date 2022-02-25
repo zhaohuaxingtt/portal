@@ -248,6 +248,7 @@
     LK_BAOJIAJIEZHIRIQI: 'Quotation deadline', //报价截止日期
     LK_RFQQUOTATIONDEADLINE: 'Deadline', //报价截至日期
     LK_NINDANGQIANHAIWEIXUANZE: 'Sorry, you have not selected yet!', //抱歉！您当前还未选择！
+    LK_ZYCBPJZTWZDDSHCNDJCAN: '只有初评状态为中断的时候，才能点击此按钮',
     LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN:
       'Sorry, Forward Buyer not selected!', //抱歉！您当前还未选择询价采购员！
     LK_BEIZHUBUNENGWEIKONG: 'Sorry, notes cannot be empty!', //抱歉，备注不能为空！
