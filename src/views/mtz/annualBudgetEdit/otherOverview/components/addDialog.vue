@@ -246,6 +246,7 @@ export default {
         })
       }else{
         this.sectionList = [];
+        
         this.form.sectionCode = "";
         this.form.sectionName = "";
       }
