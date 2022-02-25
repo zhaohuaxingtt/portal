@@ -38,8 +38,9 @@ import('./i18n').then((res) => {
       zh[key] = key
     }
   }
+  const en = res.default
   i18n.mergeLocaleMessage('zh', zh)
-  i18n.mergeLocaleMessage('en', res.default)
+  i18n.mergeLocaleMessage('en', en)
 })
 new Vue({
   router,
