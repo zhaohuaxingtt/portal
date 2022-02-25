@@ -9,9 +9,9 @@
   <div>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <i-button @click="saveInfos()">
+        <!-- <i-button @click="saveInfos()">
           {{ $t("LK_BAOCUN") }}
-        </i-button>
+        </i-button> -->
       </div>
     </div>
     <tableList v-if="showTable"

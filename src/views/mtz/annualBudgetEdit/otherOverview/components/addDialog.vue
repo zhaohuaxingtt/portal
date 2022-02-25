@@ -86,13 +86,14 @@
           <el-col :span="8">
             <el-form-item :label="language('KESHI', '科室')"
                           prop="sectionName">
-              <iSelect v-if="form.linieId && form.linieName"
+              <!-- <iSelect v-if="form.linieId && form.linieName"
                        :value="form.sectionName"
                        @change="changeDept($event, form)">
                 <el-option :value="form.sectionCode"
                            :label="form.sectionName"></el-option>
-              </iSelect>
-              <iSelect v-else
+              </iSelect> -->
+               <!-- v-else -->
+              <iSelect
                        :value="form.sectionName"
                        filterable
                        remote
@@ -243,6 +244,11 @@ export default {
             this.form.sectionName = "";
           }
         })
+      }else{
+        this.sectionList = [];
+        
+        this.form.sectionCode = "";
+        this.form.sectionName = "";
       }
     },
     // 远程搜索材料中类数据
@@ -285,8 +291,14 @@ export default {
     },
     // 远程搜索科室数据
     remoteGetSection (query) {
+      if(this.form.linieName && this.form.sectionCode && this.form.sectionName){
+        return false;
+      }
       this.sectionLoading = true
-      debounce(queryDeptSectionNew({ keyWord: query }).then(res => {
+      debounce(queryDeptSectionNew({
+        keyWord: query,
+        keyWords:query,
+      }).then(res => {
         this.sectionLoading = false
         if (res && res.code == 200) {
           this.sectionList = res.data
