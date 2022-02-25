@@ -178,3 +178,12 @@ export function fetchRemoteDept(params) {
     data: params
   })
 }
+
+// 编辑其他-模糊查询科室new
+export function queryDeptSectionNew(params) {
+  return request({
+    url: '/forecastOther/queryDeptSectionNew',
+    method: 'POST',
+    data: params
+  })
+}

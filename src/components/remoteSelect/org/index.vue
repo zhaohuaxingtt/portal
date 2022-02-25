@@ -8,7 +8,7 @@
       filterable
       remote
       reserve-keyword
-      placeholder="输入关键词搜索"
+      :placeholder="language('输入关键词搜索')"
       :remote-method="queryOptions"
       :loading="loading"
       :disabled="disabled"
@@ -40,7 +40,7 @@ export default {
     },
     defaultOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },

@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-02-23 17:41:12
+ * @LastEditTime: 2022-02-25 11:56:58
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -139,8 +139,19 @@
                 <span
                   class="underline openLinkText cursor"
                   @click="attachPreview(scope.row)"
-                  >{{ scope.row.signTime ? getSignFileName(scope.row) : '' }}</span
+                  >{{ scope.row.fileUrl ? getSignFileName(scope.row) : '' }}</span
                 >
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-else-if="item.prop == 'signTime'"
+              :minWidth="item.minWidth || item.width"
+              :label="item.name"
+              :prop="item.prop"
+              :key="item.prop"
+            >
+              <template slot-scope="scope">
+                <span>{{ scope.row.fileUrl ? scope.row.signTime : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column
