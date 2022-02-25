@@ -1,12 +1,12 @@
 <template>
   <iPage id="routerPage">
-    <div class="header--img">
+    <!-- <div class="header--img">
       <div class="header--img--box">
         <div class="qrcode" ref="qrCodeUrl"></div>
         <div>扫描二维码</div>
         <div>手机填写问卷</div>
       </div>
-    </div>
+    </div> -->
     <div class="header--item">
       <p class="name">{{ previewData.name }}</p>
       <p class="surveyDescription">{{ previewData.surveyDescription }}</p>
@@ -17,7 +17,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? "" : "   (可选填)" }}
+          {{ item.requiredQuestion ? '' : '   (可选填)' }}
         </div>
         <el-radio-group
           class="option"
@@ -27,7 +27,7 @@
           @change="hanldeRadioChange(item)"
         >
           <el-radio :label="i.id + '-' + i.name" class="radioItem">{{
-            String.fromCharCode("A".charCodeAt(0) + index) + ". " + i.name
+            String.fromCharCode('A'.charCodeAt(0) + index) + '. ' + i.name
           }}</el-radio>
         </el-radio-group>
       </div>
@@ -36,7 +36,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">*</span>
           {{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? "" : "   (可选填)" }}
+          {{ item.requiredQuestion ? '' : '   (可选填)' }}
           <span
             v-if="item.multipleRule"
             style="margin-left: 10px; color: #999999"
@@ -56,7 +56,7 @@
           @change="handleChange"
         >
           <el-checkbox :label="i.id + '-' + i.name" class="radioItem">{{
-            String.fromCharCode("A".charCodeAt(0) + checkIndex) + ". " + i.name
+            String.fromCharCode('A'.charCodeAt(0) + checkIndex) + '. ' + i.name
           }}</el-checkbox>
         </el-checkbox-group>
       </div>
@@ -65,7 +65,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? "" : "   (可选填)" }}
+          {{ item.requiredQuestion ? '' : '   (可选填)' }}
         </div>
         <iInput
           type="textarea"
@@ -82,7 +82,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? "" : "   (可选填)" }}
+          {{ item.requiredQuestion ? '' : '   (可选填)' }}
         </div>
         <!-- 垂直排布 -->
         <div v-if="item.pictureRule == 1" class="onepic">
@@ -135,7 +135,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? "" : "   (可选填)" }}
+          {{ item.requiredQuestion ? '' : '   (可选填)' }}
         </div>
         <div>
           <el-upload
@@ -194,7 +194,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span>
           {{ item.code }}.{{ item.name }}
-          {{ item.requiredQuestion ? "" : "   (可选填)" }}
+          {{ item.requiredQuestion ? '' : '   (可选填)' }}
         </div>
         <iSelect
           v-model="item.answer"
@@ -235,7 +235,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? "" : "   (可选填)" }}
+              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
             </div>
             <el-radio-group
               class="option"
@@ -245,8 +245,8 @@
               @change="hanldeRadioChange(sonItem)"
             >
               <el-radio :label="i.id + '-' + i.name" class="radioItem">{{
-                String.fromCharCode("A".charCodeAt(0) + radioIndex) +
-                ". " +
+                String.fromCharCode('A'.charCodeAt(0) + radioIndex) +
+                '. ' +
                 i.name
               }}</el-radio>
             </el-radio-group>
@@ -260,7 +260,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span>
               {{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? "" : "   (可选填)" }}
+              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
               <span
                 v-if="sonItem.multipleRule"
                 style="margin-left: 10px; color: #999999"
@@ -282,8 +282,8 @@
               @change="handleChange"
             >
               <el-checkbox :label="i.id + '-' + i.name" class="radioItem">{{
-                String.fromCharCode("A".charCodeAt(0) + checkIndex) +
-                ". " +
+                String.fromCharCode('A'.charCodeAt(0) + checkIndex) +
+                '. ' +
                 i.name
               }}</el-checkbox>
             </el-checkbox-group>
@@ -297,7 +297,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? "" : "   (可选填)" }}
+              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
             </div>
             <iInput
               v-model="sonItem.answer"
@@ -318,7 +318,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? "" : "   (可选填)" }}
+              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
             </div>
             <div v-if="sonItem.pictureRule == 1" class="onepic">
               <el-radio-group
@@ -372,7 +372,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? "" : "   (可选填)" }}
+              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
             </div>
             <div>
               <el-upload
@@ -444,7 +444,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? "" : "   (可选填)" }}
+              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
             </div>
             <iSelect
               v-model="sonItem.answer"
@@ -488,11 +488,11 @@
   </iPage>
 </template>
 <script>
-import { iButton, iInput, iSelect } from "rise";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import { uploadFile } from "@/api/survey/uploadFile.js";
-import QRCode from "qrcodejs2";
-import store from "@/store";
+import { iButton, iInput, iSelect } from 'rise'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { uploadFile } from '@/api/survey/uploadFile.js'
+import QRCode from 'qrcodejs2'
+import store from '@/store'
 
 export default {
   components: { iInput, iSelect, iButton },
@@ -502,30 +502,30 @@ export default {
       checkList: [],
       checkListObj: {},
       sonCheckList: [],
-      radio: "",
+      radio: '',
       previewData: {},
       fileList: [],
       listIndex: null,
       sonListIndex: null,
       uploadLoading: false,
-      userId: "",
-      upLoadFileName: "",
+      userId: '',
+      upLoadFileName: '',
       checkList1: [],
-      checkList2: [],
-    };
+      checkList2: []
+    }
   },
   props: {
     value: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   watch: {
     value: {
       immediate: true,
       handler(val) {
-        console.log(val);
-        this.previewData = val;
+        console.log(val)
+        this.previewData = val
         // console.log(this.previewData);
         // if (this.previewData.questions) {
         //   this.checkList1 = this.previewData.questions.filter((item) => {
@@ -547,51 +547,54 @@ export default {
         //   }
         // })
         // }
-      },
+      }
     },
     ruleForm(val) {
-      this.$emit("input", val);
-    },
+      this.$emit('input', val)
+    }
   },
   created() {
-    document.title = "问卷调查";
+    document.title = '问卷调查'
   },
   mounted() {
-    this.userId = store.state.permission.userInfo.id;
-    let id = this.$route.params.id;
-    this.createQrCode(`survey/mobile/${id}?userId=${this.userId}`);
+    this.userId = store.state.permission.userInfo.id
+    let id = this.$route.params.id
+    this.createQrCode(`survey/mobile/${id}?userId=${this.userId}`)
   },
   computed: {
     questions() {
-      console.log("-=-=-=-=");
-      let actionCode = 0;
-      let sonActionCode = 0;
+      console.log('-=-=-=-=')
+      let actionCode = 0
+      let sonActionCode = 0
       return this.previewData?.questions?.filter((item) => {
-        item._ = item.sonQuestions?.map((it) => it.answer); // 维持sonQuestions的深度引用。
-        if (actionCode == -1 || item.code < actionCode) return false;
+        item._ = item.sonQuestions?.map((it) => it.answer) // 维持sonQuestions的深度引用。
+        if (actionCode == -1 || item.code < actionCode) return false
         if (item.type != 9) {
-          if (!item.answer || item.answer == "") return true;
+          if (!item.answer || item.answer == '') return true
         }
-        if (item.type === 5) return true;
+        if (item.type === 5) return true
 
         if (
           item.answer &&
-          (item.type === 6 || item.type === 2 || item.type === 1 || item.type === 4)
+          (item.type === 6 ||
+            item.type === 2 ||
+            item.type === 1 ||
+            item.type === 4)
         ) {
           const ids = []
             .concat(item.answer)
-            .map((answer) => answer?.split("-")?.[0]);
+            .map((answer) => answer?.split('-')?.[0])
           const answerItems = item.options?.filter((item) =>
             ids.includes(item.id)
-          );
-          actionCode = item.code;
+          )
+          actionCode = item.code
           answerItems.forEach((answer) => {
-            console.log("answer.action", answer.action);
-            if (-1 == answer.action) actionCode = -1;
+            console.log('answer.action', answer.action)
+            if (-1 == answer.action) actionCode = -1
             else if (actionCode != -1) {
-              actionCode = Math.max(actionCode, answer.action || 0);
+              actionCode = Math.max(actionCode, answer.action || 0)
             }
-          });
+          })
         }
 
         // item.sonQuestions = item.sonQuestions?.filter((it) => {
@@ -614,20 +617,20 @@ export default {
 
         //   return true;
         // });
-        return true;
-      });
+        return true
+      })
     },
     sonQuestions() {
-      console.log("-=-=-=-=");
-      let actionCode = 0;
-      let sonActionCode = 0;
+      console.log('-=-=-=-=')
+      let actionCode = 0
+      let sonActionCode = 0
       return this.questions?.map((item, index) => {
         return {
           ...item,
           sonQuestions: item.sonQuestions?.filter((it, index) => {
-            if (sonActionCode == -1 || it.code < sonActionCode) return false;
-            if (!it.answer || it.answer == "") return true;
-            if (it.type === 5) return true;
+            if (sonActionCode == -1 || it.code < sonActionCode) return false
+            if (!it.answer || it.answer == '') return true
+            if (it.type === 5) return true
 
             if (
               it.answer &&
@@ -635,22 +638,22 @@ export default {
             ) {
               const ids = []
                 .concat(it.answer)
-                .map((answer) => answer?.split("-")?.[0]);
+                .map((answer) => answer?.split('-')?.[0])
               const answerItems = it.options?.filter((it) =>
                 ids.includes(it.id)
-              );
-              sonActionCode = it.code;
+              )
+              sonActionCode = it.code
               answerItems.forEach((answer) => {
-                if (-1 == answer.action) sonActionCode = -1;
+                if (-1 == answer.action) sonActionCode = -1
                 else if (sonActionCode != -1)
-                  sonActionCode = Math.max(sonActionCode, answer.action || 0);
-              });
+                  sonActionCode = Math.max(sonActionCode, answer.action || 0)
+              })
             }
-            return true;
-          }),
-        };
-      });
-    },
+            return true
+          })
+        }
+      })
+    }
   },
   methods: {
     createQrCode(url) {
@@ -658,41 +661,41 @@ export default {
         text: `${window.location.origin + window.location.pathname}#/${url}`,
         width: 100,
         height: 100,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H,
-      });
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      })
     },
     // 上传附件
     async httpUpload(content, item) {
       // this.uploadLoading = true;
-      item.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      item.uploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       await uploadFile(formData)
         .then((res) => {
-          let list = [];
-          let previewList = this.questions;
-          console.log("res", res);
+          let list = []
+          let previewList = this.questions
+          console.log('res', res)
           if (res.id) {
-            this.$message.success("上传成功");
+            this.$message.success('上传成功')
           }
           list.push({
             attachmentId: res.id,
             attachmentName: res.name,
             attachmentUrl: res.path,
-            upLoadFileName: res.name,
-          });
+            upLoadFileName: res.name
+          })
           if (previewList[this.listIndex].type == 9) {
             previewList[this.listIndex].sonQuestions[this.sonListIndex].answer =
-              list;
+              list
             // if(previewList[this.listIndex].sonQuestions[this.sonListIndex].answer == null) {
             //   previewList[this.listIndex].sonQuestions[this.sonListIndex].answer = list;
             // }else {
             //   previewList[this.listIndex].sonQuestions[this.sonListIndex].answer = [...previewList[this.listIndex].sonQuestions[this.sonListIndex].answer, ...list]
             // }
           } else {
-            previewList[this.listIndex].answer = list;
+            previewList[this.listIndex].answer = list
             // if(previewList[this.listIndex].answer == null) {
             //   previewList[this.listIndex].answer = list;
             // }else {
@@ -700,35 +703,35 @@ export default {
             // }
           }
           // this.uploadLoading = false;
-          item.uploadLoading = false;
+          item.uploadLoading = false
         })
-        .catch((err) => {});
+        .catch((err) => {})
     },
     handleDeleteAccessory(val, index, sonIndex) {
-      console.log(val, index, sonIndex, this.questions);
-      let list = this.questions;
+      console.log(val, index, sonIndex, this.questions)
+      let list = this.questions
       if (list[index].type == 9) {
         // list[index].sonQuestions[sonIndex].answer = list[index].sonQuestions[
         //   sonIndex
         // ].answer.filter((item) => {
         //   return !item.attachmentId.includes(val);
         // });
-        list[index].sonQuestions[sonIndex].answer = null;
+        list[index].sonQuestions[sonIndex].answer = null
       } else {
         // list[index].answer = list[index].answer.filter((item) => {
         //   return !item.attachmentId.includes(val);
         // });
-        list[index].answer = null;
+        list[index].answer = null
       }
     },
     handleClick(index) {
-      console.log("上传附件", index);
-      this.listIndex = index;
+      console.log('上传附件', index)
+      this.listIndex = index
     },
     handleSonClick(index, sonIndex) {
-      console.log("上传附件2", index, sonIndex);
-      this.listIndex = index;
-      this.sonListIndex = sonIndex;
+      console.log('上传附件2', index, sonIndex)
+      this.listIndex = index
+      this.sonListIndex = sonIndex
     },
     beforeAvatarUpload(file, uploadRule) {
       // const fileExtension = file.name.substring(file.name.lastIndexOf(".") + 1);
@@ -751,13 +754,13 @@ export default {
       // } else {
       //   isFile = true;
       // }
-      const fileExtension = file.name.substring(file.name.lastIndexOf("."));
-      let isRule = uploadRule?.split(",");
-      let isFileType;
+      const fileExtension = file.name.substring(file.name.lastIndexOf('.'))
+      let isRule = uploadRule?.split(',')
+      let isFileType
       if (uploadRule) {
-        isFileType = !isRule.includes(fileExtension);
+        isFileType = !isRule.includes(fileExtension)
         if (isFileType) {
-          this.$message.error(`上传的文件类型为 ${uploadRule}`);
+          this.$message.error(`上传的文件类型为 ${uploadRule}`)
         }
       }
       // const isLt15M = file.size / 1024 / 1024 < 15;
@@ -766,13 +769,13 @@ export default {
       //     this.$message.error(`上传文件大小不能超过${15}MB!`);
       // }
       // return !isFileType && isLt15M;
-      return !isFileType;
+      return !isFileType
     },
     // 单选题
     hanldeRadioChange(item) {},
     // 多选题
     handleChange(value) {
-      console.log(value);
+      console.log(value)
       // console.log("checkbox", index, item, sonIndex);
       // console.log("checkList", this.checkList);
       // console.log("checkList", this.sonCheckList);
@@ -787,9 +790,9 @@ export default {
     // 图片选择
     handleImgChange(item) {},
     // 下拉选择
-    handleSelectChange(item) {},
-  },
-};
+    handleSelectChange(item) {}
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -1085,7 +1088,7 @@ export default {
   margin: 0.125rem !important;
   border: 0.125rem solid #fff;
   box-sizing: content-box;
-  content: "";
+  content: '';
   border-left: 0;
   border-top: 0;
 }
@@ -1107,7 +1110,7 @@ export default {
   border: 2px solid #fff;
   // 不覆盖下面的 会 导致对号变形
   box-sizing: content-box;
-  content: "";
+  content: '';
   border-left: 0;
   border-top: 0;
 }
