@@ -135,7 +135,9 @@ export default {
         onlySeeMySelf:false,//是否只查看自己
         yearMonth:''//年月
       },
-      currentYearMonth:''//当前年月
+      currentYearMonth:'',//当前年月
+
+      // yearValueMax:0,
     }
   },
   created(){
@@ -165,6 +167,7 @@ export default {
           }
         },
         grid:{
+          top:"20%",
           left:'3%',
           right:'2%'
         },
@@ -189,10 +192,10 @@ export default {
         },
         yAxis: [
           {
-            type:'value'
+            type:'value',
             //设置间距，需要计算
-            // max: _this.maximumScale,
-            // splitNumber: 10,
+            // max: this.yearValueMax*1.2,
+            // splitNumber: 5,
           }
         ],
         legend: {
@@ -268,6 +271,7 @@ export default {
             name:'年度预测',
             type: 'line',
             data:this.yearData,
+            // data:[10,150,850,1000,2000,5000,7000,7500,9000,9001,10000,11800],
             symbol:'circle',
             symbolSize:6,
             itemStyle: {
@@ -325,6 +329,7 @@ export default {
           this.dataMonth = []
           const allPrice = []
           data?.forEach((item)=>{
+            // this.contrastData.push({price:5000,priceType:item.priceType})
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
             allPrice.push(Number(item.yearForecastPrice))
@@ -338,6 +343,10 @@ export default {
               allPrice.push(Number(item.monthForecastPrice))
             }
           })
+
+          // var str = [10,150,850,1000,2000,5000,7000,7500,9000,9001,10000,11800];
+          // this.yearValueMax = Number(Math.max(...str));
+          // console.log(this.yearValueMax);
           this.maximumScale = Number(Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10)*10)
           //  +  Number(Math.ceil((Math.max(...allPrice)/1000000)))
           // console.log(this.maximumScale,Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10), Number(Math.ceil((Math.max(...allPrice)/1000000))),'=======');
