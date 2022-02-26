@@ -134,7 +134,6 @@ export default {
           this.totalCount += data[i].num
         }
 
-        console.log('total count', this.totalCount)
         this.data = JSON.parse(JSON.stringify(data))
         this.newArr = []
         this.newBrr = []
@@ -298,7 +297,6 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter: function ({ data }) {
-            console.log('tooltip data', data)
             /* const name = data.data.name
             const values = name.split('@@')
             return `${values[0]}:<br/>
@@ -475,7 +473,6 @@ export default {
       }, 0)
       const cRating =
         parseFloat((cTotal / (cTotal + bTotal + aTotal)).toFixed(4)) * 100
-      console.log('cTotal', cTotal)
 
       // let total = this.data.reduce((prev, val) => prev + val, 0)
       // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
@@ -589,7 +586,6 @@ export default {
           }
         ]
       }
-      console.log('bar options:option', this.newArr)
       this.$nextTick(() => {
         this.barChart && this.barChart.setOption(option)
       })
