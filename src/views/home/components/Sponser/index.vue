@@ -134,6 +134,7 @@ export default {
           this.totalCount += data[i].num
         }
 
+        console.log('total count', this.totalCount)
         this.data = JSON.parse(JSON.stringify(data))
         this.newArr = []
         this.newBrr = []
@@ -156,7 +157,6 @@ export default {
         this.initPie()
         this.initBar()
       }
-
     },
     handleChange(val) {
       this.query.departmentIds = val
@@ -221,25 +221,49 @@ export default {
       let totalSum = 0
       data.forEach((item) => (totalSum += item.num))
       data.forEach((item) => {
-        if (item.name.length == 3) {
+        const { num = 0, name } = item
+        const rate =
+          String(item.num / totalSum) == 'NaN'
+            ? '0.00'
+            : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+        item.name = `${name}@@${num}@@${rate}`
+
+        /* if (item.name.length == 3) {
+          const {num=0,name} = item
+          const rate = String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+          item.name = `${name}@@${num}@@${rate}`
           item.name =
             item.name +
-            '    ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            '@@' +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '   '
         } else if (item.name.length == 2) {
           item.name =
             item.name +
             '      ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '   '
         } else {
           item.name =
             item.name +
             '        ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '    '
-        }
+        } */
       })
 
       for (let i = 0; i < data.length; i++) {
@@ -251,30 +275,43 @@ export default {
         total += data[i].value
       }
       this.total = total
-      let A = data.filter(e => e.grade.includes("A"))
-      let B = data.filter(e => e.grade.includes("B"))
-      let C = data.filter(e => e.grade.includes("C"))
-      this.legendData = [...this.arrSort(A),...this.arrSort(B),...this.arrSort(C)]
-      this.setPieChart(data,total)
-
+      let A = data.filter((e) => e.grade.includes('A'))
+      let B = data.filter((e) => e.grade.includes('B'))
+      let C = data.filter((e) => e.grade.includes('C'))
+      this.legendData = [
+        ...this.arrSort(A),
+        ...this.arrSort(B),
+        ...this.arrSort(C)
+      ]
+      this.setPieChart(data, total)
     },
-    arrSort(arr){
+    arrSort(arr) {
       // 倒序
-      return arr.sort((a,b) => b.grade.length - a.grade.length)
+      return arr.sort((a, b) => b.grade.length - a.grade.length)
     },
     // init pieecharts
-    setPieChart(data,total){
-      if(!this.pieChart){
+    setPieChart(data, total) {
+      if (!this.pieChart) {
         this.pieChart = echarts().init(this.$refs.pie)
       }
       let option = {
         tooltip: {
           trigger: 'item',
-          formatter: function (data) {
-            let name = data.data.name.split(/\s+/)[0]
+          formatter: function ({ data }) {
+            console.log('tooltip data', data)
+            /* const name = data.data.name
+            const values = name.split('@@')
+            return `${values[0]}:<br/>
+            ${values[1]}家<br/>
+            ${values[2]}%` */
+            let name = data.name.split('@@')[0]
             return `${name}:<br/>
-            ${total}家<br/>
-            ${String((data.data.num / total)) === 'NaN' ? '0.00' : ((data.data.num / total).toFixed(2) * 100).toFixed(2)}%
+            ${data.value}家<br/>
+            ${
+              String(data.num / total) === 'NaN'
+                ? '0.00'
+                : ((data.num / total).toFixed(2) * 100).toFixed(2)
+            }%
             `
           }
         },
@@ -286,18 +323,31 @@ export default {
             itemHeight: 8,
             type: 'plain',
             data: this.legendData,
+            formatter: function (name) {
+              return name.split('@@')[0]
+            },
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split( /\s+/)[0]
-                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
+                console.log('data', data)
+                const name = data.name
+                const values = name.split('@@')
+                return `${values[0]}:<br/>
+            ${values[1]}家<br/>
+            ${values[2]}%`
+                /* let name = data.name.split(/\s+/)[0]
+                let num = (parseInt(data.name.split(/\s+/)[1]) / 100) * total
                 return `${name}:<br/>
-                ${total}家<br/>
-                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
-                `
+                ${num}家<br/>
+                ${
+                  String(num / total) === 'NaN'
+                    ? '0.00'
+                    : ((num / total).toFixed(2) * 100).toFixed(2)
+                }% 
+                `*/
               }
             }
-          } 
+          }
         ],
         series: [
           {
@@ -369,16 +419,21 @@ export default {
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split( /\s+/)[0]
-                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
+                let name = data.name.split(/\s+/)[0]
+                let num =
+                  (parseInt(data.name.split(/\s+/)[1]) / 100) * _that.total
                 return `${name}:<br/>
                 ${_that.total}家<br/>
-                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                ${
+                  String(num / _that.total) === 'NaN'
+                    ? '0.00'
+                    : ((num / _that.total).toFixed(2) * 100).toFixed(2)
+                }%
                 `
               }
             }
           }
-        ], 
+        ],
         series: [
           {
             type: 'pie',
@@ -403,9 +458,26 @@ export default {
     // init bar echarts
     initBar() {
       const totalCount = _.cloneDeep(this.totalCount)
-      if(!this.barChart){
+      if (!this.barChart) {
         this.barChart = echarts().init(this.$refs.bar)
       }
+
+      const cTotal = this.newCrr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const bTotal = this.newBrr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const aTotal = this.newArr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const cRating =
+        parseFloat((cTotal / (cTotal + bTotal + aTotal)).toFixed(4)) * 100
+      console.log('cTotal', cTotal)
+
       // let total = this.data.reduce((prev, val) => prev + val, 0)
       // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
       const option = {
@@ -422,7 +494,9 @@ export default {
             }
             const type = data[0].data.type
             return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${
-              String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
+              String(total / totalCount) === 'NaN'
+                ? '0.00'
+                : ((total / totalCount).toFixed(2) * 100).toFixed(2)
             }%`
           }
         },
@@ -453,24 +527,11 @@ export default {
             type: 'text',
             right: 38,
             bottom: 188,
-            // children: [
-            //   {
-            //     type: 'text',
-            //     left: 'center',
-            //     top: 'center',
-            //     z: 100,
-            //     style: {
-            //       fill: '#7E84A3',
-            //       text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-            //       font: '7px sans-serif'
-            //     }
-            //   }
-            // ]
             style: {
-                  fill: '#7E84A3',
-                  text: 'C-Rating数量:36家\n'+'\nC-Rating比例:60%',
-                  font: '7px sans-serif'
-                }
+              fill: '#7E84A3',
+              text: `C-Rating数量:${cTotal}家\n' + '\nC-Rating比例:${cRating}%`,
+              font: '7px sans-serif'
+            }
           }
         ],
         series: [
@@ -529,10 +590,12 @@ export default {
           }
         ]
       }
+      console.log('bar options:option', this.newArr)
       this.$nextTick(() => {
-        this.barChart &&  this.barChart.setOption(option)
+        this.barChart && this.barChart.setOption(option)
       })
-    }
+    },
+    mergeBarOptions() {}
   }
 }
 </script>
