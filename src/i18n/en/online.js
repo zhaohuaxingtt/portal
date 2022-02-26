@@ -77,6 +77,7 @@ export default {
   PIZHUN: 'Aprove',
   NEWS_SHOUJI: 'Mobile',
   SUOSHUBUMEN: 'Dept.',
+  SHIFOUQUSHICHANGJIAJUNZHI: 'Whether to take the average market price',
   SUOSHUHANGYEWEIZHI: 'Industry Position',
   'APPROVAL.DEADLINE_TIME': 'Ending time',
   KAISHIGONGHUSHIJIAN: 'Time of Availability',

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-14 16:26:18
+ * @LastEditTime: 2022-02-26 19:26:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -651,6 +651,7 @@ export default {
       this.query()
     },
     calcuLate () {
+      if (!this.searchForm.isEffAvg) return iMessage.error(this.language('SHIFOUQUSHICHANGJIAJUNZHI', '是否取市场价均值'))
       let params = {
         balanceEndDate: this.searchForm.compTimeEnd,
         balanceStartDate: this.searchForm.compTimeStart,
