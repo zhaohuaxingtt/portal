@@ -9,7 +9,7 @@ export const tableColumnSetting = [
     align: 'center',
     emit: 'showDetail',
     tooltip: true,
-    minWidth: 100,
+    width: 50,
     // openNewPage: true,
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row.productCode}</span>
@@ -23,13 +23,13 @@ export const tableColumnSetting = [
   {
     prop: 'productNameEn',
     i18n: '产品家族名称(英)',
-    width: 120,
+    minWidth: 120,
     align: 'center'
   },
   {
     prop: 'productNameDe',
     i18n: '产品家族名称(德)',
-    width: 120,
+    minWidth: 120,
     align: 'center'
   },
   {
@@ -40,13 +40,15 @@ export const tableColumnSetting = [
   {
     prop: 'modelYear',
     i18n: '当前车型年',
-    align: 'center'
+    align: 'center',
+    width: 100
   },
   {
     prop: 'modelYearChangeDate',
     i18n: '车型年切换日期',
     align: 'center',
     tooltip: true,
+    width: 120,
     customRender: (h, scope) => {
       let dateTime = scope.row.modelYearChangeDate
       let date = ''
@@ -60,6 +62,7 @@ export const tableColumnSetting = [
     prop: 'productValidity',
     i18n: '是否有效',
     align: 'center',
+    width: 90,
     customRender: (h, scope) => {
       if (scope.row.productValidity) {
         return '是'

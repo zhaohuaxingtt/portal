@@ -4,7 +4,7 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="searchLabel.materialGroup">
                 <iSelect
                   v-model="searchContent.stuffCategoryId"
@@ -21,7 +21,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="searchLabel.isHeavyItem">
                 <iSelect
                   v-model="searchContent.isHeavyItem"
@@ -37,7 +37,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="searchLabel.analyseType">
                 <iSelect
                   v-model="searchContent.heavyItem"
@@ -53,9 +53,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-          </el-row>
-          <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="searchLabel.partsCostAnalyst">
                 <iSelect
                   v-model="searchContent.partsAanlystUserId"
@@ -71,7 +69,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="searchLabel.moldCostAnalyst">
                 <iSelect
                   v-model="searchContent.modlAanlystUserId"
@@ -87,7 +85,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="searchLabel.commoditySta">
                 <iInput
                   v-model="searchContent.commidityDeptCode"
