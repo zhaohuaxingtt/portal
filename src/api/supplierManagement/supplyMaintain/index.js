@@ -123,11 +123,19 @@ export function invitation(parmars) {
   })
 }
 
-// --供应商注册邀请
-export function chain(parmars) {
-  console.log(`bkm/chain/` + parmars.supplierId + '/' + parmars.tlk)
-  return request({
-    url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
-    method: 'GET'
+// // --供应商注册邀请
+// export function chain(parmars) {
+//   console.log(`bkm/chain/` + parmars.supplierId + '/' + parmars.tlk)
+//   return request({
+//     url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
+//     method: 'GET'
+//   })
+// }
+
+export function chain(params) {
+  return requst({
+    url: `bkm/chain`,
+    method: 'POST',
+    data: params
   })
 }
