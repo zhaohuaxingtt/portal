@@ -33,7 +33,7 @@
           >{{ $t('LK_BAOCUN') }}</i-button
         > -->
         <i-button
-          v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+          v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
           @click="toApplicationMBDL"
           >{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button
         >
@@ -48,7 +48,7 @@
           >{{ $t('SUPPLIER_QUXIAOSHOUKONG') }}</i-button
         >
         <i-button
-          v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION"
+          v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION_MBDL"
           @click="handleMbdlCance"
           >{{ language('YICHUMDBL', '移除MBDL') }}</i-button
         >
