@@ -12,7 +12,7 @@
         <el-option
           v-for="item in options"
           :key="item.existShareId"
-          :label="item.existShareName"
+          :label="item.existShareNum"
           :value="item.existShareId"
         >
         </el-option>
@@ -94,6 +94,12 @@ export default {
     async getKpiCates() {
       const result = await getKpiCates()
       if (result.code === '200' && result.data) {
+        const data = result?.data || []
+        data.unshift({
+          existShareId: 'ALL',
+          supplierId: null,
+          existShareNum: '全部'
+        })
         this.options = result.data
       }
     },
@@ -158,7 +164,15 @@ export default {
       }
     },
     handleChange(val) {
-      this.query.departmentIds = val
+      const last = !val.length ? '' : val[val.length - 1]
+      if (last === 'ALL') {
+        this.checkList = ['ALL']
+        this.query.departmentIds = []
+      } else {
+        this.checkList = val.filter((e) => e !== 'ALL')
+        this.query.departmentIds = this.checkList
+      }
+
       this.getSponserList()
     },
     handleArr(arr, str) {
