@@ -27,17 +27,6 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
-    // console.log(binding)
-    if (store.state.location.menuList1.length == 0) {
-      //处理二级菜单三级菜单权限问题
-      store.commit('menuList1Fun', document.querySelectorAll('.lev1>div'))
-      // console.log(store.state.location.menuList1)
-    }
-    if (store.state.location.menuList2.length == 0) {
-      //处理二级菜单三级菜单权限问题
-      store.commit('menuList2Fun', document.querySelectorAll('.lev2>div'))
-      // console.log(store.state.location.menuList2)
-    }
     //如果是个变量则使用变量，否则当做字符串处理
     var proValue = ''
     if (binding.value == 0) {
@@ -87,72 +76,6 @@ Vue.directive('permission', {
       }
     }
   },
-  componentUpdated: function () {
-    // return false;
-
-    if (
-      store.state.location.menuList1.length == 0 &&
-      store.state.location.menuList2.length == 0
-    ) {
-    } else {
-      var directConstant = store.state.location.directConstant
-      if (directConstant !== 0) return false
-    }
-
-    // console.log(store.state.location.menuList1)
-    // console.log(store.state.location.menuList2)
-
-    // store.commit('setNumberAdd', '')
-    var insertedOldNodesListNew = [] //二级菜单new
-    if (insertedOldNodesListNew.length == 0) {
-      insertedOldNodesListNew = document.querySelectorAll('.lev1>div')
-      var path = store.state.location.nowSetToPath
-      var number = 0
-      store.state.location.menuList1.forEach((e) => {
-        if (e.innerText.trim() === path.meta.title.trim()) {
-          number++
-        }
-      })
-      if (number !== 0) {
-        //存在于二级菜单上
-        if (insertedOldNodesListNew.length > 0) {
-          var num = 0
-          insertedOldNodesListNew.forEach((e) => {
-            if (e.innerText.trim() === path.meta.title.trim()) {
-              // console.log(e.innerText.trim())
-              num++
-            }
-          })
-          if (num == 0) {
-            insertedOldNodesListNew[0].click()
-          }
-        }
-      }
-      var menu3 = document.querySelectorAll('.lev2>div') //继续判断三级菜单
-      // console.log(menu3)
-      var str = 0
-      store.state.location.menuList2.forEach((e) => {
-        if (e.innerText.trim() === path.meta.title.trim()) {
-          // console.log(e.innerText.trim())
-          str++
-        }
-      })
-      if (str !== 0) {
-        if (menu3.length > 0) {
-          var j = 0
-          menu3.forEach((e) => {
-            if (e.innerText.trim() === path.meta.title.trim()) {
-              // console.log(e.innerText.trim())
-              j++
-            }
-          })
-          if (j == 0) {
-            menu3[0].click()
-          }
-        }
-      }
-    }
-  }
 })
 //切换I8n动态更新element值
 // eslint-disable-next-line no-undef

@@ -1,8 +1,8 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('XUNYUAN', '寻源')}}</p>
-      <el-dropdown  v-permission="Card_Sourcing_More">
+      <el-dropdown v-permission="Card_Sourcing_More">
 
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -13,14 +13,14 @@
       </el-dropdown>
     </div>
     <div class="center">
- <img :src="img"
+      <img :src="img"
            class="imgIcon" />
       <div class="float">
 
         <table cellpadding='10'>
           <tr class=" cardtableTitle">
             <th>Group</th>
-                   <th>{{language('RFQSHU', 'RFQ数')}}</th>
+            <th>{{language('RFQSHU', 'RFQ数')}}</th>
             <th>{{language('DINGDIANSHU', '定点数')}}</th>
             <th>{{language('ONGOINGXUNJIASHU', 'Ongoing询价数')}}</th>
           </tr>
@@ -115,34 +115,34 @@ export default {
   props: {},
   components: {
     iCard,
- 
+
     iDialog,
     iSearch,
     iSelect,
     tableList
   },
-  data() {
+  data () {
     return {
       visible: false,
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
       tableTitleMonitorRecord: tableTitleMonitorRecord,
-      img:img
+      img: img
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
   methods: {
-    sure() {},
-    clickReset() {},
-    changeTab() {}
+    sure () { },
+    clickReset () { },
+    changeTab () { }
   },
-  mounted() {}
+  mounted () { }
 }
 </script>
 
@@ -163,9 +163,9 @@ export default {
     color: #4d4d4d;
   }
 }
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .center {
   height: 160px;
@@ -176,16 +176,16 @@ export default {
     width: 80%;
     text-align: left;
     table {
-        border-collapse:collapse;
-         border-spacing:10px 10px;
+      border-collapse: collapse;
+      border-spacing: 10px 10px;
       > tr {
         text-align: center;
       }
       .bgtr {
-          margin: 10px 0;
+        margin: 10px 0;
 
         td {
-        //   background: rgba(206, 212, 214, .1);
+          //   background: rgba(206, 212, 214, .1);
           padding: 8px 30px;
         }
         //   padding: 10px 40px;

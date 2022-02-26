@@ -103,25 +103,25 @@
           </template>
         </div>
         <template v-if="cardSelectItem.questionStatus">
-          <div class="search-box flex-between-center-center mt20 mb20 border" style="align-items: normal;">
+          <div class="search-box flex-between-center-center mt20 mb20 border">
             <div class="input-box flex-align-center margin-right30">
               <el-form :model="editForm" inline :rules="editFormRules" ref="editForm">
                 <el-row :gutter="20">
-                  <el-col :span="8">
+                  <el-col :span="7">
                     <iFormItem :label="language('模块')" prop="questionModuleId">
                       <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
                         <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
                       </iSelect>
                     </iFormItem>
                   </el-col>
-                  <el-col :span="8">
+                  <el-col :span="7">
                     <iFormItem :label="language('标签')" prop="questionLableId">
                       <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule">
                         <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                       </iSelect>
                     </iFormItem>
                   </el-col>
-                  <el-col :span="8">
+                  <el-col :span="7">
                     <iFormItem :label="language('来源')">
                       <iSelect v-model="editForm.source" :disabled="isDisabledQuestion">
                         <el-option v-for="(v,k) in userTypes" :key="k" :label="v" :value="k"></el-option>
@@ -143,7 +143,7 @@
             <div class="msg-box" >
               <div class="flex flex-row mt20 ml20">
                 <div class="name">{{questionDetail.createByUerName}}</div>
-                <div class=" r-c-box-text">
+                <div class="content-text">
                   <p class="html" v-html="questionDetail.questionTitle"></p>
                   <p class="time">{{questionDetail.createDate}}</p>
                 </div>
@@ -157,7 +157,7 @@
                     </div>
                     <div v-else class="flex flex-row">
                       <div class="name">{{item.replyUserName}}</div>
-                      <div class=" r-c-box-text">
+                      <div class="content-text">
                         <p class="html" v-html="item.content"></p>
                         <p class="time">{{item.createDate}}</p>
                       </div>
@@ -728,7 +728,7 @@ export default {
       .content-text {
         background: #f8f8fa;
         margin-left: 20px;
-        width: 700px;
+        // width: 700px;
         padding: 10px 30px 10px;
         box-sizing: border-box;
         .html {

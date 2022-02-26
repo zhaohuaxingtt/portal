@@ -20,11 +20,11 @@ export const tableTitle = [
   { width: 150, props: 'applicationStatusDesc', name: '状态', key: 'ZHUANGTAI' },
   {
     width: 150,
-    props: 'partProjType',
+    props: 'partProjTypeDesc',
     name: '项目类型',
     key: 'XIANGMULEIXING'
   },
-  { width: 150, props: 'meetingPresentId', name: '会议', key: 'HUIYI' },
+  { width: 150, props: 'meetingName', name: '会议', key: 'HUIYI' },
   {
     width: 150,
     props: 'nominateUserName',
@@ -32,7 +32,7 @@ export const tableTitle = [
     key: 'XUNJIACAIGOUYUAN'
   },
   { width: 150, props: 'linieName', name: 'LINIE', key: 'LINIE' },
-  { width: 150, props: 'rsStatus', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
+  { width: 150, props: 'rsStatusDesc', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
   {
     width: 200,
     props: 'rsFreezeDate',

@@ -882,7 +882,8 @@ export default {
       immediate: true
     },
     'ruleForm.presenter': {
-      handler: function (newV) {
+      handler: function (newVV) {
+        let newV = typeof newVV === 'string' ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -903,13 +904,18 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
     },
     'ruleForm.supporter': {
-      handler: function (newV) {
+      handler: function (newVV) {
+        let newV = typeof newVV === 'string' ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -930,7 +936,11 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true

@@ -150,10 +150,15 @@ export default {
     }
   },
   mounted() {
+    // if (this.leadTabList.length > 0) {
+    //   this.tabList = this.leadTabList
+    // } else {
+    //   // this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
+    //   this.tabList = this.unique(JSON.parse(JSON.stringify(this.eklPfjTabList)) || [], 'name')
+    // }
+    this.tabList = this.unique(JSON.parse(JSON.stringify(this.eklPfjTabList)) || [], 'name')
     if (this.leadTabList.length > 0) {
-      this.tabList = this.leadTabList
-    } else {
-      this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
+      this.tabList = [...this.tabList, ...this.leadTabList]
     }
     if(this.tabList.length > 0){
       this.query.dptCode = this.tabList[0].type || ""
@@ -164,6 +169,11 @@ export default {
     this.tabChange()
   },
   methods: {
+    // 数组去重
+    unique(arr, attrName) {
+      const res = new Map();
+      return arr.filter((a) => !res.has(a[attrName]) && res.set(a[attrName], 1));
+    }, 
     tabChange() {
       if (this.eklAffixTabItem) {
         this.handleClick(this.eklAffixTabItem)

@@ -20,7 +20,7 @@
         </div>
         <div class="contentBox padding-top30">
           <materialGroup :forecastId="forecastId" v-if="activeName == 1"/>
-          <partInfo :forecastId="forecastId" v-if="activeName == 2"/>
+          <partInfo :forecastId="forecastId" v-if="activeName == 2" :num="num" />
         </div>
       </div>
     </iDialog>
@@ -42,6 +42,10 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    num:{
+      type:String,
+      default: null
     },
     forecastId: {
       type: String,

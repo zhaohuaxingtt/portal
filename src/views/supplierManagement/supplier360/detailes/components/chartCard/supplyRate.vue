@@ -1,19 +1,21 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
     </div>
 
     <div class="box">
-      <img :src="img" class="imgIcon" />
+      <img :src="img"
+           class="imgIcon" />
 
-      <div ref="chart" class="chartStyle"></div>
+      <div ref="chart"
+           class="chartStyle"></div>
     </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard,  } from 'rise'
+import { iCard, } from 'rise'
 import { getSapSupplierRate } from '@/api/supplierManagement/supplierCard/index'
 import img from '@/assets/images/supplyRate.svg'
 export default {
@@ -28,39 +30,39 @@ export default {
   components: {
     iCard,
   },
-  data() {
+  data () {
     return {
-         img:img,
+      img: img,
       chart: 'oneChart',
       option: {},
       info: {}
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {
-    infodata(data) {
-         this.getData(data.sapCode)
+    infodata (data) {
+      this.getData(data.sapCode)
     },
-     '$i18n.locale'() {
+    '$i18n.locale' () {
       this.getChart();
     }
   },
 
-  mounted() {
+  mounted () {
 
   },
   methods: {
-    getData() {
+    getData () {
       getSapSupplierRate(this.infodata.sapCode).then((res) => {
         this.info = res.data
         this.getChart()
       })
     },
-    getChart() {
+    getChart () {
       let data1 = []
       let data2 = []
       let data3 = []
@@ -69,15 +71,15 @@ export default {
         data2.push(e.supplyRate)
         data3.push(e.month)
       })
-      data3=data3.map(res=>{
-         return res=parseInt(res)+this.language('m','月')
+      data3 = data3.map(res => {
+        return res = parseInt(res) + this.language('SPR_FRM_DEP_MONTH', '月')
       })
       let max = Math.max(...data1)
       const myChart = echarts().init(this.$refs.chart)
       this.option = {
         title: {
           top: 0,
-          text:this.language('GONGHUOLV','供货率（%）') ,
+          text: this.language('GONGHUOLV', '供货率（%）'),
           textStyle: {
             color: '#909091',
             fontSize: 10
@@ -96,15 +98,15 @@ export default {
 
         tooltip: {
           trigger: 'axis',
-          formatter:function(data){
+          formatter: function (data) {
 
-              let str=''
-              let val=''
-              data.forEach(res=>{
-                      val= (Number(res.data)*100).toFixed(2) +"%"
-                  str+=res.marker+res.seriesName+':'+val +'<br>'
-              })
-              return str
+            let str = ''
+            let val = ''
+            data.forEach(res => {
+              val = (Number(res.data) * 100).toFixed(2) + "%"
+              str += res.marker + res.seriesName + ':' + val + '<br>'
+            })
+            return str
 
           }
         },
@@ -118,7 +120,7 @@ export default {
           type: 'category',
           data: data3,
           axisLabel: {
-              interval:0,
+            interval: 0,
             show: true,
             textStyle: {
               color: '#7E84A3',
@@ -150,7 +152,7 @@ export default {
         series: [
           {
             showSymbol: false,
-            name:this.language('GONGYINGSHANG','供应商'),
+            name: this.language('GONGYINGSHANG', '供应商'),
             data: data2,
             type: 'line',
             smooth: true,
@@ -165,7 +167,7 @@ export default {
           },
           {
             showSymbol: false,
-            name: this.language('PINGJUNCANKAO','平均参考'),
+            name: this.language('PINGJUNCANKAO', '平均参考'),
             data: data1,
             type: 'line',
             smooth: true,

@@ -59,7 +59,7 @@
                 v-for="(approver, i) in item.approvers"
                 :key="i"
                 :class="{
-                  active: ['同意', '拒绝', '有异议', '无异议'].includes(
+                  active: ['同意', '拒绝', '有异议', '无异议', '拒绝'].includes(
                     approver.taskStatus
                   )
                 }"

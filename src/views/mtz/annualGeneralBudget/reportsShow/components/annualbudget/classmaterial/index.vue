@@ -133,7 +133,7 @@ export default {
 
         this.report = report
       } catch (e) {
-        console.log(e)
+        // console.log(e)
       }
     }
   }

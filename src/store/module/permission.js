@@ -89,10 +89,13 @@ const mutations = {
     state.code = data.map((item) => item.code)
   },
   SET_ROLE_EklTabList(state, data) {
+    state.eklTabList = []
+    state.eklPfjTabList = []
     let cs = 0
     data.forEach((item, index) => {
       if (
         item.code === 'BZZL' ||
+        item.code === 'CIXTGLY' ||
         item.code === 'CGBZ_WF' ||
         (item.code === 'CGBZ' && cs < 1)
       ) {
@@ -143,9 +146,19 @@ const mutations = {
           id: data.length,
           type: 1
         })
+      } else if (item.code == 'ZYCGKSXTDY') {
+        (data.parentDeptList || []).map(item => {
+          if (item.grade === 3) {
+            state.eklTabList.push({
+              name: `EKL-${item.fullCode}`,
+              id: index,
+              type: 2
+            })
+          }
+        }) 
       } else if (
         item.code == 'ZYCGKSXTY' ||
-        item.code == 'ZYCGKSXTDY' ||
+        // item.code == 'ZYCGKSXTDY' ||
         item.code == 'WS2ZYCGKZ'
       ) {
         state.eklTabList.push({
@@ -279,7 +292,7 @@ const actions = {
             ) {
               commit('SET_ROLE_EklTabList_LEAD', [
                 {
-                  name: `EKL-${res.data.deptDTO.fullCode}`,
+                  name: `EKL-${res.data.deptDTO.fullCode}(Spare)`,
                   id: 1,
                   type: 4
                 }

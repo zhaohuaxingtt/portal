@@ -235,6 +235,7 @@
     LK_BAOJIAJIEZHIRIQI: '截止日期', //报价截止日期
     LK_RFQQUOTATIONDEADLINE: '截止日期', //报价截至日期
     LK_NINDANGQIANHAIWEIXUANZE: '抱歉！您当前还未选择！', //抱歉！您当前还未选择！
+    LK_ZYCBPJZTWZDDSHCNDJCAN: '只有初评状态为中断的时候，才能点击此按钮',
     LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN:
       '抱歉！您当前还未选择询价采购员！', //抱歉！您当前还未选择询价采购员！
     LK_BEIZHUBUNENGWEIKONG: '抱歉，备注不能为空！', //抱歉，备注不能为空！
@@ -806,7 +807,8 @@
       '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码
     GONGSIGAIKANG: '公司概况', //公司概况
     Home: '首页', //首页
-    BasicInformation: '基本信息', //基本信息
+    BasicInformation: '基本信息', //基本信息,
+    CAIGOUTIAOKUANQIANSHURIQI: '采购条款签署日期',
     SupplierZh: '供应商中文名', //供应商中文名
     SupplierEn: '供应商英文名', //供应商中文名
     SupplierAbbreviationZh: '供应商简称（中）', //供应商简称（中）
@@ -3046,31 +3048,53 @@
     LK_SHIJIZHIFUCHAYI: '实际支付差异' //实际支付差异
   }
   i18n.setLocaleMessage('zh', oldLanguage)
-  var xmlHttp = ''
-  if (window.XMLHttpRequest) {
-    xmlHttp = new XMLHttpRequest()
-  } else {
-    // eslint-disable-next-line no-undef
-    xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
-  }
-  xmlHttp.onreadystatechange = function () {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-      const data = JSON.parse(xmlHttp.responseText)
-      const fixedData = {
-        SUPPLIER_CHUBUPINGJI1: '初步评级',
-        SHENPINGJIEGUO: '深评结果'
-      }
-      const i18nData = { ...data, ...fixedData }
-      i18n.mergeLocaleMessage('zh', i18nData)
-      i18n.mergeLocaleMessage('en', data.data.cn)
-    }
-  }
-  xmlHttp.open(
-    'GET',
-    'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
-    false
-  )
-  xmlHttp.setRequestHeader('Content-type', 'application/json')
-  xmlHttp.setRequestHeader('Accept', '*/*')
-  xmlHttp.send()
+  // var xmlHttp = ''
+  // if (window.XMLHttpRequest) {
+  //   xmlHttp = new XMLHttpRequest()
+  // } else {
+  //   // eslint-disable-next-line no-undef
+  //   xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
+  // }
+  // xmlHttp.onreadystatechange = function () {
+  //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+  //     const data = JSON.parse(xmlHttp.responseText)
+  //     const fixedData = {
+  //       SUPPLIER_CHUBUPINGJI1: '初步评级',
+  //       SHENPINGJIEGUO: '深评结果',
+  //       SPR_FRM_FRMGL_WPSJ: '外评时间',
+  //       SPR_FRM_FRMGL_XGKS1: '相关科室',
+  //       SPR_FRM_FRMGL_DXDFZT: '定性打分状态',
+  //       SPR_FRM_FRMGL_WP1: '外评',
+  //       SPR_FRM_FRMGL_SPZT: '深评状态',
+  //       LK_GONGYINGSHANGMINGCHENG1: '供应商名称',
+  //       SPR_FRM_FRMGL_TZHPJ: '调整后评级',
+  //       SPR_FRM_FRMGL_CPSJ: '初评时间',
+  //       SPR_FRM_FRMGL_SPSJ: '深评时间',
+  //       SPR_FRM_FRMGL_DXDFSJ: '定性打分时间',
+  //       SPR_FRM_FRMGL_VWAGPJ: 'VWAG评级',
+  //       SPR_FRM_FRMGL_VWAGSJ: 'VWAG时间',
+  //       SUPPLIER_SAPHAO: 'SAP号',
+  //       GONGHUO1: '供应商状态',
+  //       SHIJIANLEIXING: '事件类型',
+  //       QUYU: '区域',
+  //       FASHENGSHIJIAN: '发生时间',
+  //       YSGYSSM: '影响供应商数目',
+  //       SJLY: '数据来源',
+  //       CJFS: '创建方式',
+  //       QITAYUANYINGBUNENGWEIKONG: '其它原因不能为空',
+  //       GONGHUOZHUANGTAI: '供货状态'
+  //     }
+  //     const i18nZhData = { ...data.data.zh, ...fixedData }
+  //     i18n.mergeLocaleMessage('zh', i18nZhData)
+  //     i18n.mergeLocaleMessage('en', data.data.cn)
+  //   }
+  // }
+  // xmlHttp.open(
+  //   'GET',
+  //   'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
+  //   false
+  // )
+  // xmlHttp.setRequestHeader('Content-type', 'application/json')
+  // xmlHttp.setRequestHeader('Accept', '*/*')
+  // xmlHttp.send()
 })

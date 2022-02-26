@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-01-24 18:02:57
+ * @LastEditTime: 2022-02-23 14:39:41
  * @LastEditors: Please set LastEditors
  * @Description: 年度预算总览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\index.vue
@@ -14,9 +14,15 @@
       <template v-slot:mainContent>
         <div class="mtz_ndys_nav">
           <div class="mtz_ndys_nav_all">
-            <div :class="tabsValue===1?'active':''" @click="tableChange(1)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_LINIE">linie</div>
-            <div :class="tabsValue===2?'active':''" @click="tableChange(2)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZKSYSFZR">MTZ科室预算负责人</div>
-            <div :class="tabsValue===3?'active':''" @click="tableChange(3)" v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZYSGLY">MTZ预算管理员</div>
+            <div :class="tabsValue===1?'active':''"
+                 @click="tableChange(1)"
+                 v-permission="PORTAL_MTZ_NIANDUYUSUAN_LINIE">linie</div>
+            <div :class="tabsValue===2?'active':''"
+                 @click="tableChange(2)"
+                 v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZKSYSFZR">MTZ科室预算负责人</div>
+            <div :class="tabsValue===3?'active':''"
+                 @click="tableChange(3)"
+                 v-permission="PORTAL_MTZ_NIANDUYUSUAN_MTZYSGLY">MTZ预算管理员</div>
           </div>
         </div>
         <!-- linie -->
@@ -31,11 +37,13 @@
                 <i class="el-icon-warning-outline rotate"></i>
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
-              <span class="buttonBox"
-                    >
-                <iButton @click="handleReview" v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
-                <iButton @click="handleSure" v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
-                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+              <span class="buttonBox">
+                <iButton @click="handleReview"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_REVIEW">{{language('REVIEWDAXIE', 'Review')}}</iButton>
+                <iButton @click="handleSure"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_QUEREN">{{language('QUEREN', '确认')}}</iButton>
+                <iButton @click="handleExport"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -44,7 +52,7 @@
                        :tableLoading="loading"
                        :index="true"
                        openPageProps="forecastTime"
-                       @openPage="handleClickYear"
+                       @openPage="handleClickYear($event,'0')"
                        :openPageGetRowData="true"
                        @handleSelectionChange="handleSelectionChange">
               <template #endForecastAmount="scope">
@@ -56,11 +64,8 @@
               </template>
             </tableList>
             <iPagination v-update
-                         @size-change="handleSizeChange($event, () => {
-                this.page.currPage = 1
-                this.getTableData()
-              })"
-                         @current-change="handleCurrentChange($event, getTableData)"
+                         @size-change="handleSizeChange1($event)"
+                         @current-change="handleCurrentChange1($event)"
                          background
                          :page-sizes="page.pageSizes"
                          :page-size="page.pageSize"
@@ -69,7 +74,7 @@
                          :total="page.totalCount" />
           </iCard>
         </div>
-        
+
         <!-- MTZ科室预算负责人 -->
         <div v-show="tabsValue == 2">
           <iCard class="margin-top20">
@@ -82,19 +87,20 @@
                 <i class="el-icon-warning-outline rotate"></i>
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
-              <span class="buttonBox"
-                    >
-                <iButton @click="handlePurchaseBudget" v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
-                <iButton @click="handleExport" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+              <span class="buttonBox">
+                <iButton @click="handlePurchaseBudget"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_YUSUANZONGLAN">{{language('YUSUANZONGLAN', '预算总览')}}</iButton>
+                <iButton @click="handleExport"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
-                       :tableData="tableListData1"
+                       :tableData="tableListData1_1"
                        :tableLoading="loading"
                        :tableTitle="tableTitleDepter"
                        :index="true"
                        openPageProps="forecastTime"
-                       @openPage="handleClickYear"
+                       @openPage="handleClickYear($event,'1')"
                        :openPageGetRowData="true"
                        @handleSelectionChange="handleSelectionChange">
               <template #endForecastAmount="scope">
@@ -106,20 +112,17 @@
               </template>
             </tableList>
             <iPagination v-update
-                         @size-change="handleSizeChange($event, () => {
-                this.page.currPage = 1
-                this.getTableData()
-              })"
-                         @current-change="handleCurrentChange($event, getTableData)"
+                         @size-change="handleSizeChange2($event)"
+                         @current-change="handleCurrentChange2($event)"
                          background
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :current-page='page.currPage'
-                         :total="page.totalCount" />
+                         :page-sizes="page1.pageSizes"
+                         :page-size="page1.pageSize"
+                         :layout="page1.layout"
+                         :current-page='page1.currPage'
+                         :total="page1.totalCount" />
           </iCard>
         </div>
-        
+
         <!-- MTZ预算管理员 -->
         <div v-show="tabsValue == 3">
           <iCard class="margin-top20">
@@ -133,13 +136,20 @@
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
               <span class="buttonBox">
-                <iButton @click="handleAdd" v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
-                <iButton @click="handleDel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
-                <iButton @click="handleChangeLog" v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie" v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
-                <iButton @click="handleExportAudit" v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
-                <iButton @click="handleChangeLevel" v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
-                <iButton @click="handleIssue" v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
+                <iButton @click="handleAdd"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_ADD">{{language('XINZENG', '新增')}}</iButton>
+                <iButton @click="handleDel"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DEL">{{language('SHANCHU', '删除')}}</iButton>
+                <iButton @click="handleChangeLog"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_CHANGELOG">{{language('CHANGELOG', 'Change Log')}}</iButton>
+                <iButton @click="handleLinie"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_TONGZHILINIE">{{language('TZLINIE', '通知Linie')}}</iButton>
+                <iButton @click="handleExportAudit"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_DAOCHUYUSUANMINGXI">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
+                <iButton @click="handleChangeLevel"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_GENGGAIYONGLIANGBANBEN">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
+                <iButton @click="handleIssue"
+                         v-permission="PORTAL_MTZ_NIANDUYUSUAN_FABU">{{language('FABU', '发布')}}</iButton>
               </span>
             </div>
             <tableList class="margin-top20"
@@ -185,11 +195,8 @@
               </template>
             </tableList>
             <iPagination v-update
-                        @size-change="handleSizeChange($event, () => {
-                          this.page2.currPage = 1
-                          this.getTableData()
-                        })"
-                         @current-change="handleCurrentChange($event, getTableData)"
+                         @size-change="handleSizeChange3($event)"
+                         @current-change="handleCurrentChange3($event)"
                          background
                          :page-sizes="page2.pageSizes"
                          :page-size="page2.pageSize"
@@ -201,6 +208,7 @@
       </template>
     </budget>
     <detail v-if="dialogParams.visible"
+            :num="dialogParams.num"
             :key="dialogParams.key"
             :forecastId="dialogParams.data"
             v-model="dialogParams.visible"
@@ -231,7 +239,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage, icon, iMessageBox, iUserLog,iTabsList } from 'rise'
+import { iCard, iButton, iPagination, iMessage, icon, iMessageBox, iUserLog, iTabsList } from 'rise'
 import budget from '@/views/mtz/annualGeneralBudget/annualBudget/components/budget'
 import detail from '@/views/mtz/annualGeneralBudget/annualBudget/components/detail'
 import purchaseBudget from './components/purchaseBudget'
@@ -242,7 +250,7 @@ import changeLevel from './components/changeLevel'
 import { tableTitleBuyer, tableTitleDepter, tableTitleLeader } from './components/data'
 import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
-import { fetchTableDataOfBuyer, fetchReviewOrSubmit, fetchExport, fetchTableDataOfLeader, fetchAddBudgetLeader, fetchExportFinance, fetchEditDemand, fetchRecount, fetchPublish, fetchCheckAdd, fetchDel, fetchCheckPublish } from '@/api/mtz/annualGeneralBudget/annualBudget.js'
+import { fetchTableDataOfBuyer, fetchReviewOrSubmit, fetchExport, fetchTableDataOfLeader, fetchAddBudgetLeader, fetchExportFinance, fetchEditDemand, fetchRecount, fetchPublish, fetchCheckAdd, fetchDel, fetchCheckPublish,pageOfCoordinator } from '@/api/mtz/annualGeneralBudget/annualBudget.js'
 import { fetchNoticeLinie } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
 export default {
@@ -265,21 +273,29 @@ export default {
   },
   data () {
     return {
-      page2:{
+      page1: {
         totalCount: 0, //总条数
         pageSize: 10, //每页多少条
         pageSizes: [10, 20, 50, 100], //每页条数切换
         currPage: 1, //当前页
         layout: 'sizes, prev, pager, next, jumper'
       },
-      tabsValue:1,
+      page2: {
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
+      tabsValue: 1,
       annualBudgetEdit: '/mtz/annualBudgetEdit',
       searchForm: {},
       tableTitleBuyer,
       tableTitleDepter,
       tableTitleLeader,
-      tableListData1:[],
-      tableListData2:[],
+      tableListData1: [],
+      tableListData1_1:[],
+      tableListData2: [],
       selection: [],
       loading: false,
       loginUserInfo: null,
@@ -292,7 +308,8 @@ export default {
       dialogParams: {
         key: 0,
         visible: false,
-        data: null
+        data: null,
+        num:null,
       },
       purchaseBudgetParams: {
         key: 0,
@@ -333,7 +350,7 @@ export default {
       // setTimeout(() => {
       var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
       // console.log(navList)
-      if(navList.length !== 0){
+      if (navList.length !== 0) {
         navList[0].click();
       }
       // }, 100);
@@ -361,7 +378,37 @@ export default {
     }
   },
   methods: {
-    tableChange(val){
+    handleSizeChange1(e){
+      console.log(e);
+      this.page.currPage = 1;
+      this.page.pageSize = e;
+      this.getLinie();
+    },
+    handleSizeChange2(e){
+      this.page1.currPage = 1;
+      this.page1.pageSize = e;
+      this.getMtzKS();
+    },
+    handleSizeChange3(e){
+      this.page2.currPage = 1;
+      this.page2.pageSize = e;
+      this.getMTZYS();
+    },
+
+    handleCurrentChange1(e){
+      this.page.currPage = e;
+      this.getLinie();
+    },
+    handleCurrentChange2(e){
+      this.page1.currPage = e;
+      this.getMtzKS();
+    },
+    handleCurrentChange3(e){
+      this.page2.currPage = e;
+      this.getMTZYS();
+    },
+    
+    tableChange (val) {
       if (val !== this.tabsValue) {
         this.tabsValue = val;
       }
@@ -370,39 +417,65 @@ export default {
     initSearch () {
       this.searchForm = this.$refs.childBudget.searchForm
     },
+    getLinie(){
+      this.loading = true
+      const params = {
+        userId: 1,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.searchForm
+      }
+      fetchTableDataOfBuyer(params).then(res => {
+        this.loading = false
+        if (res && res.code == 200) {
+          this.page.totalCount = res.total
+          this.page.currPage = res.pageNum
+          this.page.pageSize = res.pageSize
+          this.tableListData1 = res.data
+        } else iMessage.error(res.desZh)
+      })
+    },
+    getMtzKS(){
+      this.loading = true
+      const params = {
+        userId: 1,
+        pageNo: this.page1.currPage,
+        pageSize: this.page1.pageSize,
+        ...this.searchForm
+      }
+      pageOfCoordinator(params).then(res => {
+        this.loading = false
+        if (res && res.code == 200) {
+          this.page1.totalCount = res.total
+          this.page1.currPage = res.pageNum
+          this.page1.pageSize = res.pageSize
+          this.tableListData1_1 = res.data
+        } else iMessage.error(res.desZh)
+      })
+    },
+    getMTZYS(){
+      this.loading = true
+      const params = {
+        userId: 1,
+        pageNo: this.page2.currPage,
+        pageSize: this.page2.pageSize,
+        ...this.searchForm
+      }
+      fetchTableDataOfLeader(params).then(res => {
+        this.loading = false
+        if (res && res.code == 200) {
+          this.tableListData2 = res.data
+          this.page2.totalCount = res.total
+          this.page2.currPage = res.pageNum
+          this.page2.pageSize = res.pageSize
+        } else iMessage.error(res.desZh)
+      })
+    },
     // 获取数据  
     getTableData () {
-      return new Promise(resolve => {
-        this.loading = true
-        const params = {
-          userId: 1,
-          pageNo: this.page.currPage,
-          pageSize: this.page.pageSize,
-          ...this.searchForm
-        }
-
-        fetchTableDataOfBuyer(params).then(res => {
-          this.loading = false
-          if (res && res.code == 200) {
-            this.page.totalCount = res.total
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.tableListData1 = res.data
-            resolve(res.data)
-          } else iMessage.error(res.desZh)
-        })
-        
-        fetchTableDataOfLeader(params).then(res => {
-          this.loading = false
-          if (res && res.code == 200) {
-            this.tableListData2 = res.data
-            this.page2.totalCount = res.total
-            this.page2.currPage = res.pageNum
-            this.page2.pageSize = res.pageSize
-            resolve(res.data)
-          } else iMessage.error(res.desZh)
-        })
-      })
+        this.getLinie();
+        this.getMtzKS();
+        this.getMTZYS();
     },
     // 选中数据发生改变
     handleSelectionChange (val) {
@@ -485,11 +558,12 @@ export default {
       })
     },
     // 点击预算年份
-    handleClickYear (val) {
+    handleClickYear (val,num) {
       this.purchaseBudgetParams.visible = false
       this.$nextTick(_ => {
         this.dialogParams = {
           ...this.dialogParams,
+          num:num,
           key: Math.random(),
           visible: true,
           data: val.id
@@ -610,8 +684,11 @@ export default {
     },
     // 导出财务审批
     handleExportAudit () {
-      if (!this.selection) {
+      if (this.selection.length === 0) {
         return iMessage.warn(this.language('QINGXUANZHONGYAOCAOZUODESHUJU', '请选中要操作的数据'))
+      }
+      if (this.selection.length > 1) {
+        return iMessage.warn(this.language('ZHINENGXUANZEYITIAOSHUJU', '只能选择一条数据'))
       }
       fetchExportFinance({ forecastId: this.selection.id }).then(res => {
         if (res && res.code == 200) {
@@ -723,49 +800,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mtz_ndys_nav{
-  margin-top:20px;
+.mtz_ndys_nav {
+  margin-top: 20px;
   display: flex;
-  margin-bottom:20px;
-  font-size:1rem;
+  margin-bottom: 20px;
+  font-size: 1rem;
   font-weight: bold;
-  color:#727272;
+  color: #727272;
   // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
   border: none;
   text-align: center;
   min-width: 9.375rem;
-  .mtz_ndys_nav_all{
-    
+  .mtz_ndys_nav_all {
   }
-  .mtz_ndys_nav_all>div{
+  .mtz_ndys_nav_all > div {
     cursor: pointer;
-    min-width:140px;
-    float:left;
+    min-width: 140px;
+    float: left;
     height: 2.5rem;
     box-sizing: border-box;
     line-height: 2.5rem;
     box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
-    padding-left:20px;
-    padding-right:20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
-  .mtz_ndys_nav_all>div:nth-child(1){
+  .mtz_ndys_nav_all > div:nth-child(1) {
     border-top-left-radius: 0.625rem;
     border-bottom-left-radius: 0.625rem;
     border-right: solid 1px #ececec;
   }
-  .mtz_ndys_nav_all>div:nth-child(3){
+  .mtz_ndys_nav_all > div:nth-child(3) {
     border-left: solid 1px #ececec;
     border-top-right-radius: 0.625rem;
     border-bottom-right-radius: 0.625rem;
   }
 
-  .active{
+  .active {
     background-color: #ffffff;
     background: #ffffff;
-    color:#1660f1;
+    color: #1660f1;
   }
 }
-
 
 .leaderBox {
   ::v-deep .el-table__body tr.current-row > td {

@@ -169,7 +169,7 @@
             return 'KZ&&linie'
           } else if (KZ && !Linie) {
             // this.username = this.$store.state.permission.userInfo.id;
-            this.btnsgroup1 = ['CSM', 'CSM(Spare)']
+            this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return 'KZ'
           } else if (KZZL && Linie) {
             // this.username = this.$store.state.permission.userInfo.id;

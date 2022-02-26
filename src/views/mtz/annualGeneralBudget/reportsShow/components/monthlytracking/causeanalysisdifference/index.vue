@@ -326,8 +326,8 @@ export default {
     //导出
     exportData() {
       this.form.pageNo = 1
-      this.form.pageSize = 10
-      this.form.versionOneName = this.form['versionMonthTwo']
+      this.form.pageSize = 999999
+      this.form.versionOneName = this.form['versionMonthOne']
       this.form.versionTwoName = this.form['versionMonthTwo']
       differenceAnalysisExport(this.form)
         .then((res) => {

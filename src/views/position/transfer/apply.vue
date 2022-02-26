@@ -237,7 +237,7 @@ export default {
       .then((value) => {
         if (value.code == 200) {
           this.form = value.data
-          this.canEdit = value.data.status == 1 //不可编辑
+          this.canEdit = [1, 5].includes(value.data.status) //不可编辑
         }
       })
       .catch((err) => {
