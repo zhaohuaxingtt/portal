@@ -89,14 +89,14 @@ export default {
           label: '单据类型',
           i18n: '单据类型',
           tooltip: true,
-          minWidth: 130
+          Width: 130
         },
         {
           prop: 'processDefinitionName',
           label: '任务名称',
           i18n: '任务名称',
           tooltip: true,
-          minWidth: 180
+          Width: 180
         },
         {
           prop: 'itemEvent',
@@ -130,7 +130,7 @@ export default {
           label: '申请人',
           i18n: '申请人',
           tooltip: true,
-          width: 150,
+          width: 100,
           customRender: (h, scope) => {
             const res = []
             /* if (scope.row.deptFullCode) {
@@ -148,7 +148,7 @@ export default {
           label: '申请部门',
           i18n: '申请部门',
           tooltip: true,
-          width: 150
+          width: 100
         },
         {
           prop: 'applyDate',

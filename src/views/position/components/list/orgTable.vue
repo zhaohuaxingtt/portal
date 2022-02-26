@@ -52,7 +52,7 @@ export default {
           // width: 200,
           key: '',
           tooltip: false,
-          align: 'left',
+          align: 'center',
           emit: 'go-detail',
           type: 'expanded',
           customRender: (h, scope) => {
@@ -63,7 +63,7 @@ export default {
           prop: 'fullCode',
           label: '组织机构编号',
           key: '',
-          width: 150,
+          width: 100,
           tooltip: false,
           align: 'left'
         },

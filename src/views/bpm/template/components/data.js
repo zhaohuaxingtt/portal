@@ -9,6 +9,7 @@ export const tableColumns = [
     prop: 'serialNo',
     label: '流程序号',
     i18n: 'APPROVAL.FLOW_NO',
+    width:'120px',
     tooltip: false,
     customRender: (h, scope) => {
       const res = []
@@ -36,19 +37,31 @@ export const tableColumns = [
     prop: 'createUser',
     label: '创建者',
     i18n: 'APPROVAL.CREATE_BY',
+    width:'100px',
     tooltip: false
   },
   {
     prop: 'createDate',
     label: '创建时间',
     i18n: 'APPROVAL.CREATE_TIME',
+    width:'200px',
     tooltip: false
   },
   {
     prop: 'status',
     label: '流程状态',
     i18n: 'APPROVAL.FLOW_STATUS',
-    tooltip: false
+    width:80,
+    tooltip: false,
+    customRender:(h,scope)=>{
+      if(scope.row.status == 0){
+        return <span>有效</span>
+      }else if(scope.row.status == 1){
+        return <span>无效</span>
+      }else{
+        return <span>草稿</span>
+      }
+    }
   },
   {
     prop: 'description',

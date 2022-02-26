@@ -68,12 +68,12 @@ export default {
         {
           prop: 'businessId',
           label: '代理申请号',
-          width: 160
+          width: 140
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          width: 180
+          width: 140
         },
         {
           prop: 'fullNameZh',

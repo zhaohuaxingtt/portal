@@ -90,7 +90,8 @@ export default {
           prop: 'code',
           label: '岗位编码',
           tooltip: false,
-          sortable: true
+          sortable: true,
+          width:'100px'
         },
         {
           prop: 'fullNameZh',

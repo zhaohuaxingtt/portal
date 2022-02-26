@@ -160,7 +160,8 @@ export default {
           prop: 'description',
           label: '维度',
           tooltip: false,
-          align: 'center'
+          align: 'center',
+          width:'400px',
         },
         {
           prop: 'content',
@@ -188,6 +189,7 @@ export default {
           prop: 'dimension',
           label: '维度',
           tooltip: false,
+          width:'400px',
           align: 'center',
           customRender: (h, scope) => {
             const options = _self.getDimensionOptions()

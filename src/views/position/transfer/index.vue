@@ -69,13 +69,13 @@ export default {
         {
           prop: 'businessId',
           label: '轮岗申请号',
-          width: 160,
+          width: 140,
           sortable: true
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          minWidth: 180,
+          minWidth: 140,
           sortable: true
         },
         {
@@ -87,6 +87,7 @@ export default {
         {
           prop: 'fullNameZh',
           label: '目标岗位',
+          minWidth: 180,
           sortable: true
         },
         {
