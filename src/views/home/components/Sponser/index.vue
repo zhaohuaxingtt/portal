@@ -156,7 +156,6 @@ export default {
         this.initPie()
         this.initBar()
       }
-
     },
     handleChange(val) {
       this.query.departmentIds = val
@@ -225,19 +224,31 @@ export default {
           item.name =
             item.name +
             '    ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '   '
         } else if (item.name.length == 2) {
           item.name =
             item.name +
             '      ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '   '
         } else {
           item.name =
             item.name +
             '        ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '    '
         }
       })
@@ -251,20 +262,23 @@ export default {
         total += data[i].value
       }
       this.total = total
-      let A = data.filter(e => e.grade.includes("A"))
-      let B = data.filter(e => e.grade.includes("B"))
-      let C = data.filter(e => e.grade.includes("C"))
-      this.legendData = [...this.arrSort(A),...this.arrSort(B),...this.arrSort(C)]
-      this.setPieChart(data,total)
-
+      let A = data.filter((e) => e.grade.includes('A'))
+      let B = data.filter((e) => e.grade.includes('B'))
+      let C = data.filter((e) => e.grade.includes('C'))
+      this.legendData = [
+        ...this.arrSort(A),
+        ...this.arrSort(B),
+        ...this.arrSort(C)
+      ]
+      this.setPieChart(data, total)
     },
-    arrSort(arr){
+    arrSort(arr) {
       // 倒序
-      return arr.sort((a,b) => b.grade.length - a.grade.length)
+      return arr.sort((a, b) => b.grade.length - a.grade.length)
     },
     // init pieecharts
-    setPieChart(data,total){
-      if(!this.pieChart){
+    setPieChart(data, total) {
+      if (!this.pieChart) {
         this.pieChart = echarts().init(this.$refs.pie)
       }
       let option = {
@@ -273,8 +287,12 @@ export default {
           formatter: function (data) {
             let name = data.data.name.split(/\s+/)[0]
             return `${name}:<br/>
-            ${total}家<br/>
-            ${String((data.data.num / total)) === 'NaN' ? '0.00' : ((data.data.num / total).toFixed(2) * 100).toFixed(2)}%
+            ${data.data.value}家<br/>
+            ${
+              String(data.data.num / total) === 'NaN'
+                ? '0.00'
+                : ((data.data.num / total).toFixed(2) * 100).toFixed(2)
+            }%
             `
           }
         },
@@ -289,15 +307,19 @@ export default {
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split( /\s+/)[0]
-                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
+                let name = data.name.split(/\s+/)[0]
+                let num = (parseInt(data.name.split(/\s+/)[1]) / 100) * total
                 return `${name}:<br/>
                 ${total}家<br/>
-                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
+                ${
+                  String(num / total) === 'NaN'
+                    ? '0.00'
+                    : ((num / total).toFixed(2) * 100).toFixed(2)
+                }%
                 `
               }
             }
-          } 
+          }
         ],
         series: [
           {
@@ -369,16 +391,21 @@ export default {
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split( /\s+/)[0]
-                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
+                let name = data.name.split(/\s+/)[0]
+                let num =
+                  (parseInt(data.name.split(/\s+/)[1]) / 100) * _that.total
                 return `${name}:<br/>
                 ${_that.total}家<br/>
-                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                ${
+                  String(num / _that.total) === 'NaN'
+                    ? '0.00'
+                    : ((num / _that.total).toFixed(2) * 100).toFixed(2)
+                }%
                 `
               }
             }
           }
-        ], 
+        ],
         series: [
           {
             type: 'pie',
@@ -403,7 +430,7 @@ export default {
     // init bar echarts
     initBar() {
       const totalCount = _.cloneDeep(this.totalCount)
-      if(!this.barChart){
+      if (!this.barChart) {
         this.barChart = echarts().init(this.$refs.bar)
       }
       // let total = this.data.reduce((prev, val) => prev + val, 0)
@@ -422,7 +449,9 @@ export default {
             }
             const type = data[0].data.type
             return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${
-              String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
+              String(total / totalCount) === 'NaN'
+                ? '0.00'
+                : ((total / totalCount).toFixed(2) * 100).toFixed(2)
             }%`
           }
         },
@@ -467,10 +496,10 @@ export default {
             //   }
             // ]
             style: {
-                  fill: '#7E84A3',
-                  text: 'C-Rating数量:36家\n'+'\nC-Rating比例:60%',
-                  font: '7px sans-serif'
-                }
+              fill: '#7E84A3',
+              text: 'C-Rating数量:36家\n' + '\nC-Rating比例:60%',
+              font: '7px sans-serif'
+            }
           }
         ],
         series: [
@@ -530,7 +559,7 @@ export default {
         ]
       }
       this.$nextTick(() => {
-        this.barChart &&  this.barChart.setOption(option)
+        this.barChart && this.barChart.setOption(option)
       })
     }
   }
