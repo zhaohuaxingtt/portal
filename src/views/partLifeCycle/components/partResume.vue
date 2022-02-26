@@ -187,7 +187,7 @@
                         <span class="link"  @click="toUrl(infoData,'mtzRsNum')">{{ infoData.mtzRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>MTZ {{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
+                        <span>{{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'rsNlNum')">{{ infoData.rsNlNum }}</span>
                     </div>
 
