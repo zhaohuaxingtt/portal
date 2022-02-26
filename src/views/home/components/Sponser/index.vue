@@ -329,7 +329,6 @@ export default {
             tooltip: {
               show: true,
               formatter: function (data) {
-                console.log('data', data)
                 const name = data.name
                 const values = name.split('@@')
                 return `${values[0]}:<br/>
