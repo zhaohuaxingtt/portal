@@ -66,8 +66,7 @@
         </div>
       </div>
       <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->
-      <tableList 
-                 ref="commonTable"
+      <tableList ref="commonTable"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :tableLoading="tableLoading"
@@ -83,13 +82,15 @@
           </span>
         </template>
         <template v-slot:currency="scope">
-          <iSelect v-model="scope.row['currency']">
+          <iSelect v-model="scope.row['currency']"
+                   v-if="scope.row.dataChannelName!=='资信报告'">
             <el-option v-for="item in currencyList"
                        :key="item.id"
                        :label="item.name"
                        :value="item.code">
             </el-option>
           </iSelect>
+          <span v-else>{{scope.row['currency']}}</span>
         </template>
         <template #operation="scope">
           <uploadButton :showText="true"
@@ -132,22 +133,60 @@
         <template #year="scope">
           <iDatePicker v-model="scope.row.year"
                        value-format="yyyy"
+                       v-if="scope.row.dataChannelName!=='资信报告'"
                        type="year"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
+          <span v-else>{{scope.row.year}} </span>
         </template>
         <template #startAccountCycle="scope">
           <iDatePicker style="width: 100%"
                        v-model="scope.row.startAccountCycle"
                        value-format="yyyy-MM-dd"
+                       v-if="scope.row.dataChannelName!=='资信报告'"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
+          <span v-else>{{scope.row.startAccountCycle}} </span>
         </template>
         <template #endAccountCycle="scope">
           <iDatePicker style="width: 100%"
                        v-model="scope.row.endAccountCycle"
                        value-format="yyyy-MM-dd"
+                       v-if="scope.row.dataChannelName!=='资信报告'"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
+          <span v-else>{{scope.row.endAccountCycle}} </span>
+        </template>
+        <template #auditUnit="scope">
+          <iInput v-model="scope.row.auditUnit"
+                  v-if="scope.row.dataChannelName!=='资信报告'"></iInput>
+          <span v-else>{{scope.row.auditUnit}} </span>
+        </template>
+        <template #isAudit="scope">
+          <iSelect v-model="scope.row['isAudit']"
+                   v-if="scope.row.dataChannelName!=='资信报告'">
+            <el-option v-for="item in selectPropsOptionsObject.isAudit"
+                       :key="item.id"
+                       :label="item.name"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+          <span v-else>{{scope.row.isAudit?$t('SUPPLIER_SHI'):$t('SUPPLIER_FOU')}} </span>
+        </template>
+        <template #currencyUnit="scope">
+          <iInput v-model="scope.row.currencyUnit"
+                  v-if="scope.row.dataChannelName!=='资信报告'"></iInput>
+          <span v-else>{{scope.row.currencyUnit}} </span>
+        </template>
+        <template #isMergeReport="scope">
+          <iSelect v-model="scope.row['isMergeReport']"
+                   v-if="scope.row.dataChannelName!=='资信报告'">
+            <el-option v-for="item in selectPropsOptionsObject.isMergeReport"
+                       :key="item.id"
+                       :label="item.name"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+          <span v-else>{{scope.row.isMergeReport?$t('SUPPLIER_SHI'):$t('SUPPLIER_FOU')}} </span>
         </template>
       </tableList>
     </i-card>
@@ -155,7 +194,8 @@
                      class="margin-top20" />
     <dataComparison :comparisonTableData="comparisonTableData"
                     v-model="dataComparisonDialog" />
-    <fetchExternalRatingsDialog v-model="ratingsDialog" @refreshTable="refreshTable" />
+    <fetchExternalRatingsDialog v-model="ratingsDialog"
+                                @refreshTable="refreshTable" />
   </div>
 </template>
 
@@ -163,7 +203,7 @@
 import tableList from '@/components/commonTable'
 import financialSearch from './components/financialSearch'
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
-import { iCard, iButton, iMessage, iDatePicker, iSelect } from 'rise'
+import { iCard, iButton, iMessage, iDatePicker, iSelect, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
@@ -197,7 +237,8 @@ export default {
     uploadButton,
     iDatePicker,
     fetchExternalRatingsDialog,
-    iSelect
+    iSelect,
+    iInput
   },
   data () {
     return {
@@ -237,21 +278,21 @@ export default {
     }
   },
   created () {
-    if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
-      this.inputProps = ['auditUnit', 'currencyUnit']
-      this.selectProps = ['isAudit', 'isMergeReport']
-    }
+    // if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
+    //   this.inputProps = ['auditUnit', 'currencyUnit']
+    //   this.selectProps = ['isAudit', 'isMergeReport']
+    // }
     this.getDictByCode()
     this.supplierDetail()
     this.getTableList()
   },
   methods: {
     // pullLevel(){
-      
+
     // },
-    refreshTable(){
+    refreshTable () {
       this.getTableList();
-      this.$emit("submitCalculateRefresh","view")
+      this.$emit("submitCalculateRefresh", "view")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
