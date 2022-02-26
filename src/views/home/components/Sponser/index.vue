@@ -134,6 +134,7 @@ export default {
           this.totalCount += data[i].num
         }
 
+        console.log('total count', this.totalCount)
         this.data = JSON.parse(JSON.stringify(data))
         this.newArr = []
         this.newBrr = []
@@ -220,10 +221,22 @@ export default {
       let totalSum = 0
       data.forEach((item) => (totalSum += item.num))
       data.forEach((item) => {
-        if (item.name.length == 3) {
+        const { num = 0, name } = item
+        const rate =
+          String(item.num / totalSum) == 'NaN'
+            ? '0.00'
+            : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+        item.name = `${name}@@${num}@@${rate}`
+
+        /* if (item.name.length == 3) {
+          const {num=0,name} = item
+          const rate = String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+          item.name = `${name}@@${num}@@${rate}`
           item.name =
             item.name +
-            '    ' +
+            '@@' +
             `${
               String(item.num / totalSum) == 'NaN'
                 ? '0.00'
@@ -250,7 +263,7 @@ export default {
                 : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
             }%` +
             '    '
-        }
+        } */
       })
 
       for (let i = 0; i < data.length; i++) {
@@ -284,14 +297,20 @@ export default {
       let option = {
         tooltip: {
           trigger: 'item',
-          formatter: function (data) {
-            let name = data.data.name.split(/\s+/)[0]
+          formatter: function ({ data }) {
+            console.log('tooltip data', data)
+            /* const name = data.data.name
+            const values = name.split('@@')
+            return `${values[0]}:<br/>
+            ${values[1]}家<br/>
+            ${values[2]}%` */
+            let name = data.name.split('@@')[0]
             return `${name}:<br/>
-            ${data.data.value}家<br/>
+            ${data.value}家<br/>
             ${
-              String(data.data.num / total) === 'NaN'
+              String(data.num / total) === 'NaN'
                 ? '0.00'
-                : ((data.data.num / total).toFixed(2) * 100).toFixed(2)
+                : ((data.num / total).toFixed(2) * 100).toFixed(2)
             }%
             `
           }
@@ -304,19 +323,28 @@ export default {
             itemHeight: 8,
             type: 'plain',
             data: this.legendData,
+            formatter: function (name) {
+              return name.split('@@')[0]
+            },
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split(/\s+/)[0]
+                console.log('data', data)
+                const name = data.name
+                const values = name.split('@@')
+                return `${values[0]}:<br/>
+            ${values[1]}家<br/>
+            ${values[2]}%`
+                /* let name = data.name.split(/\s+/)[0]
                 let num = (parseInt(data.name.split(/\s+/)[1]) / 100) * total
                 return `${name}:<br/>
-                ${total}家<br/>
+                ${num}家<br/>
                 ${
                   String(num / total) === 'NaN'
                     ? '0.00'
                     : ((num / total).toFixed(2) * 100).toFixed(2)
-                }%
-                `
+                }% 
+                `*/
               }
             }
           }
@@ -433,6 +461,23 @@ export default {
       if (!this.barChart) {
         this.barChart = echarts().init(this.$refs.bar)
       }
+
+      const cTotal = this.newCrr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const bTotal = this.newBrr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const aTotal = this.newArr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const cRating =
+        parseFloat((cTotal / (cTotal + bTotal + aTotal)).toFixed(4)) * 100
+      console.log('cTotal', cTotal)
+
       // let total = this.data.reduce((prev, val) => prev + val, 0)
       // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
       const option = {
@@ -482,22 +527,9 @@ export default {
             type: 'text',
             right: 38,
             bottom: 188,
-            // children: [
-            //   {
-            //     type: 'text',
-            //     left: 'center',
-            //     top: 'center',
-            //     z: 100,
-            //     style: {
-            //       fill: '#7E84A3',
-            //       text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-            //       font: '7px sans-serif'
-            //     }
-            //   }
-            // ]
             style: {
               fill: '#7E84A3',
-              text: 'C-Rating数量:36家\n' + '\nC-Rating比例:60%',
+              text: `C-Rating数量:${cTotal}家\n' + '\nC-Rating比例:${cRating}%`,
               font: '7px sans-serif'
             }
           }
@@ -558,10 +590,12 @@ export default {
           }
         ]
       }
+      console.log('bar options:option', this.newArr)
       this.$nextTick(() => {
         this.barChart && this.barChart.setOption(option)
       })
-    }
+    },
+    mergeBarOptions() {}
   }
 }
 </script>
