@@ -83,14 +83,13 @@
         </template>
         <template v-slot:currency="scope">
           <iSelect v-model="scope.row['currency']"
-                   v-if="scope.row.dataChannelName!=='资信报告'">
+                   :disabled="scope.row.dataChannelName!=='资信报告'">
             <el-option v-for="item in currencyList"
                        :key="item.id"
                        :label="item.name"
                        :value="item.code">
             </el-option>
           </iSelect>
-          <span v-else>{{scope.row['currency']}}</span>
         </template>
         <template #operation="scope">
           <uploadButton :showText="true"
@@ -133,60 +132,53 @@
         <template #year="scope">
           <iDatePicker v-model="scope.row.year"
                        value-format="yyyy"
-                       v-if="scope.row.dataChannelName!=='资信报告'"
+                       :disabled="scope.row.dataChannelName!=='资信报告'"
                        type="year"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
-          <span v-else>{{scope.row.year}} </span>
         </template>
         <template #startAccountCycle="scope">
           <iDatePicker style="width: 100%"
                        v-model="scope.row.startAccountCycle"
                        value-format="yyyy-MM-dd"
-                       v-if="scope.row.dataChannelName!=='资信报告'"
+                       :disabled="scope.row.dataChannelName!=='资信报告'"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
-          <span v-else>{{scope.row.startAccountCycle}} </span>
         </template>
         <template #endAccountCycle="scope">
           <iDatePicker style="width: 100%"
                        v-model="scope.row.endAccountCycle"
                        value-format="yyyy-MM-dd"
-                       v-if="scope.row.dataChannelName!=='资信报告'"
+                       :disabled="scope.row.dataChannelName!=='资信报告'"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
-          <span v-else>{{scope.row.endAccountCycle}} </span>
         </template>
         <template #auditUnit="scope">
           <iInput v-model="scope.row.auditUnit"
-                  v-if="scope.row.dataChannelName!=='资信报告'"></iInput>
-          <span v-else>{{scope.row.auditUnit}} </span>
+                  :disabled="scope.row.dataChannelName!=='资信报告'"></iInput>
         </template>
         <template #isAudit="scope">
           <iSelect v-model="scope.row['isAudit']"
-                   v-if="scope.row.dataChannelName!=='资信报告'">
+                   :disabled="scope.row.dataChannelName!=='资信报告'">
             <el-option v-for="item in selectPropsOptionsObject.isAudit"
                        :key="item.id"
                        :label="item.name"
                        :value="item.code">
             </el-option>
           </iSelect>
-          <span v-else>{{scope.row.isAudit?$t('SUPPLIER_SHI'):$t('SUPPLIER_FOU')}} </span>
         </template>
         <template #currencyUnit="scope">
           <iInput v-model="scope.row.currencyUnit"
-                  v-if="scope.row.dataChannelName!=='资信报告'"></iInput>
-          <span v-else>{{scope.row.currencyUnit}} </span>
+                  :disabled="scope.row.dataChannelName!=='资信报告'"></iInput>
         </template>
         <template #isMergeReport="scope">
           <iSelect v-model="scope.row['isMergeReport']"
-                   v-if="scope.row.dataChannelName!=='资信报告'">
+                   :disabled="scope.row.dataChannelName!=='资信报告'">
             <el-option v-for="item in selectPropsOptionsObject.isMergeReport"
                        :key="item.id"
                        :label="item.name"
                        :value="item.code">
             </el-option>
           </iSelect>
-          <span v-else>{{scope.row.isMergeReport?$t('SUPPLIER_SHI'):$t('SUPPLIER_FOU')}} </span>
         </template>
       </tableList>
     </i-card>
