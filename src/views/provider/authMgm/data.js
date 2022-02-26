@@ -10,7 +10,7 @@ export const tableSetting = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
-    minWidth: '120px',
+    width: '150px',
     align: 'center',
     emit: 'goEdit',
     customRender: (h, scope) => {
@@ -60,11 +60,12 @@ export const tableSetting = [
     prop: 'temporaryNum',
     label: '临时号',
     align: 'center',
-    sortable: true
+    sortable: true,
+    width:80
   },
   {
     i18n: '正式/SVW号',
-    width: '120px',
+    width: '110px',
     prop: 'svwCode',
     sortable: true
   },
@@ -101,7 +102,7 @@ export const tableSetting = [
     prop: 'email',
     label: '邮箱',
     align: 'center',
-    minWidth: '180px',
+    width: '180px',
     tooltip: true,
     sortable: true
   }

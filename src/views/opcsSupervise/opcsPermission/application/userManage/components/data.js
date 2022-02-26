@@ -110,11 +110,13 @@ export const tableTitle = [{
         props: 'isActive',
         name: '是否活动',
         key: 'SHIFOUHUODONG',
+        width:80,
     },
     {
         props: 'markExpiration',
         name: '是否超期',
         key: 'SHIFOUCHAOQI',
+        width:80
     },
     {
         props: 'expirationTime',

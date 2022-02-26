@@ -27,6 +27,12 @@ export const USER_TABLE_COLUMNS = [
     }
   },
   {
+    label: '用户登录名',
+    prop: 'userName',
+    tooltip: true,
+    minWidth: '120px'
+  },
+  {
     label: '供应商中文名',
     prop: 'opcsCompanyNameZh',
     tooltip: true,
@@ -60,12 +66,6 @@ export const USER_TABLE_COLUMNS = [
     prop: 'email',
     minWidth: '180px',
     tooltip: true
-  },
-  {
-    label: '用户登录名',
-    prop: 'userName',
-    tooltip: true,
-    minWidth: '120px'
   },
   {
     label: '是否有效',
