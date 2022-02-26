@@ -8,7 +8,7 @@ export const tableColumnSetting = [
     i18n: 'PID',
     align: 'center',
     emit: 'showDetail',
-    tooltip:true,
+    tooltip: true,
     minWidth: 100,
     // openNewPage: true,
     customRender: (h, scope) => {
@@ -23,13 +23,13 @@ export const tableColumnSetting = [
   {
     prop: 'productNameEn',
     i18n: '产品家族名称(英)',
-    width: 110,
+    width: 120,
     align: 'center'
   },
   {
     prop: 'productNameDe',
     i18n: '产品家族名称(德)',
-    width: 110,
+    width: 120,
     align: 'center'
   },
   {

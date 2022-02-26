@@ -2,19 +2,23 @@
   <iSearch @sure="sure" @reset="reset">
     <el-form ref="searchForm" class="search-form">
       <el-row>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('车型编号')">
             <carSelect v-model="formData.vwModelCode" valueKey="vwModelCode" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('车型名称')">
             <carSelect v-model="formData.modelNameZh" valueKey="modelNameZh" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('所属品牌')">
-            <iSelect v-model="formData.brandCode" filterable :placeholder='language("请选择")'>
+            <iSelect
+              v-model="formData.brandCode"
+              filterable
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in brandSelectOptions"
                 :key="item.code"
@@ -24,9 +28,13 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('平台属性')">
-            <iSelect v-model="formData.carPlatformCode" filterable :placeholder='language("请选择")'>
+            <iSelect
+              v-model="formData.carPlatformCode"
+              filterable
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in platformCodeOptions"
                 :key="item.code"
@@ -36,14 +44,21 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('车型项目')">
-            <iInput v-model="formData.carTypeProjectCode" :placeholder='language("请输入")'/>
+            <iInput
+              v-model="formData.carTypeProjectCode"
+              :placeholder="language('请输入')"
+            />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('投产工厂')">
-            <iSelect v-model="formData.productFactory" filterable :placeholder='language("请选择")'>
+            <iSelect
+              v-model="formData.productFactory"
+              filterable
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in productFactoryOptions"
                 :key="item.id"
@@ -53,9 +68,13 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('是否有效')">
-            <iSelect v-model="formData.isValid" filterable :placeholder='language("请选择")'>
+            <iSelect
+              v-model="formData.isValid"
+              filterable
+              :placeholder="language('请选择')"
+            >
               <el-option value="" :label="language('全部')" />
               <el-option :value="true" :label="language('是')" />
               <el-option :value="false" :label="language('否')" />

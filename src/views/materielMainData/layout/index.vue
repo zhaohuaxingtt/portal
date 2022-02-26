@@ -91,10 +91,10 @@ export default {
   align-items: stretch;
   min-height: calc(100vh - 170px);
   .main-data-side-menu {
-    width: 390px;
+    width: 300px;
   }
   .main-data-content {
-    width: calc(100% - 410px);
+    width: calc(100% - 320px);
   }
   .main-data-routerpage {
     padding: 0px;

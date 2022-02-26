@@ -1,7 +1,7 @@
 export const COLUMNS = [
   {
     type: 'fullIndex',
-    width: 70
+    width: 40
   },
   {
     prop: 'title',
@@ -9,7 +9,6 @@ export const COLUMNS = [
     i18n: '',
     align: 'left',
     headerAlign: 'left',
-    minWidth: 160,
     emit: 'click-menu',
     customRender: (h, scope) => {
       return <span class="cursor-pointer">{scope.row.title}</span>
