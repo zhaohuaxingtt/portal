@@ -62,7 +62,7 @@ export const applicationBDLTableTitle = [
     tooltip: true
   },
   {
-    prop: 'bdlType',
+    prop: 'mbdl',
     label: '是否属于MBDL',
     li8n: 'SUPPLIER_SHIFOUSHUYUmbDL',
     width: 130,

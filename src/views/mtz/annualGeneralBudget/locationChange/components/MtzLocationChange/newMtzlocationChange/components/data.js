@@ -51,7 +51,8 @@ export const TABLE_COLUMNS = [
     tooltip: true
   },
   {
-    prop: 'buyerDeptNum',
+    // prop: 'buyerDeptNum',
+    prop: 'buyerDeptName',
     label: '科室',
     minWidth: 120,
     tooltip: true
