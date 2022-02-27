@@ -44,8 +44,10 @@ export default {
     }
   },
   watch: {
-    countryCode() {
-      this.setAreaCodes()
+    countryCode(val) {
+      if (val) {
+        this.setAreaCodes()
+      }
     },
     provinceCode() {
       if (this.countryCode === 'CN') {

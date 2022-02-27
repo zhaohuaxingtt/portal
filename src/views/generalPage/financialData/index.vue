@@ -82,8 +82,7 @@
           </span>
         </template>
         <template v-slot:currency="scope">
-          <iSelect v-model="scope.row['currency']"
-                   :disabled="scope.row.dataChannelName!=='资信报告'">
+          <iSelect v-model="scope.row['currency']">
             <el-option v-for="item in currencyList"
                        :key="item.id"
                        :label="item.name"
@@ -132,7 +131,6 @@
         <template #year="scope">
           <iDatePicker v-model="scope.row.year"
                        value-format="yyyy"
-                       :disabled="scope.row.dataChannelName!=='资信报告'"
                        type="year"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
@@ -140,7 +138,6 @@
           <iDatePicker style="width: 100%"
                        v-model="scope.row.startAccountCycle"
                        value-format="yyyy-MM-dd"
-                       :disabled="scope.row.dataChannelName!=='资信报告'"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
@@ -148,37 +145,8 @@
           <iDatePicker style="width: 100%"
                        v-model="scope.row.endAccountCycle"
                        value-format="yyyy-MM-dd"
-                       :disabled="scope.row.dataChannelName!=='资信报告'"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
-        </template>
-        <template #auditUnit="scope">
-          <iInput v-model="scope.row.auditUnit"
-                  :disabled="scope.row.dataChannelName!=='资信报告'"></iInput>
-        </template>
-        <template #isAudit="scope">
-          <iSelect v-model="scope.row['isAudit']"
-                   :disabled="scope.row.dataChannelName!=='资信报告'">
-            <el-option v-for="item in selectPropsOptionsObject.isAudit"
-                       :key="item.id"
-                       :label="item.name"
-                       :value="item.code">
-            </el-option>
-          </iSelect>
-        </template>
-        <template #currencyUnit="scope">
-          <iInput v-model="scope.row.currencyUnit"
-                  :disabled="scope.row.dataChannelName!=='资信报告'"></iInput>
-        </template>
-        <template #isMergeReport="scope">
-          <iSelect v-model="scope.row['isMergeReport']"
-                   :disabled="scope.row.dataChannelName!=='资信报告'">
-            <el-option v-for="item in selectPropsOptionsObject.isMergeReport"
-                       :key="item.id"
-                       :label="item.name"
-                       :value="item.code">
-            </el-option>
-          </iSelect>
         </template>
       </tableList>
     </i-card>
@@ -270,10 +238,10 @@ export default {
     }
   },
   created () {
-    // if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
-    //   this.inputProps = ['auditUnit', 'currencyUnit']
-    //   this.selectProps = ['isAudit', 'isMergeReport']
-    // }
+    if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
+      this.inputProps = ['auditUnit', 'currencyUnit']
+      this.selectProps = ['isAudit', 'isMergeReport']
+    }
     this.getDictByCode()
     this.supplierDetail()
     this.getTableList()
