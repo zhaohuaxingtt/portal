@@ -159,7 +159,9 @@ export default {
                 height: '',
                 width: ''
             })
-            this.projectInfoData = hotAreas
+            this.$nextTick(() => {
+                this.projectInfoData = hotAreas
+            })
             this.$forceUpdate()
         },
         handleClick(event) {
