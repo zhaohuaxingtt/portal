@@ -7,7 +7,6 @@
       separator="-"
       filterable
       ref="areaCascader"
-      :disabled="disabled"
       @change="handleChange"
     />
   </div>
@@ -44,8 +43,10 @@ export default {
     }
   },
   watch: {
-    countryCode() {
-      this.setAreaCodes()
+    countryCode(val) {
+      if (val) {
+        this.setAreaCodes()
+      }
     },
     provinceCode() {
       if (this.countryCode === 'CN') {
