@@ -152,8 +152,12 @@ export default {
 
               if (supplierVo.supplierType === 'GP' && gpSupplierVo) {
                 let isForeignManufacture
-                if(supplierVo.isForeignManufacture==1 || supplierVo.isForeignManufacture==0){
-                  isForeignManufacture = supplierVo.isForeignManufacture.toString()
+                if (
+                  supplierVo.isForeignManufacture == 1 ||
+                  supplierVo.isForeignManufacture == 0
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
                 }
                 this.supplierId = gpSupplierVo.id
                 this.baseInfo = {
@@ -166,16 +170,21 @@ export default {
                   // :
                   //   supplierVo.isForeignManufacture &&
                   //   supplierVo.isForeignManufacture + ''
-                    // ,
+                  // ,
                   addressInfoVo: addressInfoVo || defaultAddressInfo,
-                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'GP' // 一般
               }
               if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
                 let isForeignManufacture
-                if(supplierVo.isForeignManufacture == 0 || supplierVo.isForeignManufacture == 1){
-                    isForeignManufacture = supplierVo.isForeignManufacture.toString()
+                if (
+                  supplierVo.isForeignManufacture == 0 ||
+                  supplierVo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
                 }
                 this.supplierId = ppSupplierVo.id
                 this.baseInfo = {
@@ -189,7 +198,8 @@ export default {
                   //   supplierVo.isForeignManufacture &&
                   //   supplierVo.isForeignManufacture + '',
                   addressInfoVo: addressInfoVo || defaultAddressInfo,
-                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'PP' // 生产
               }
@@ -197,10 +207,12 @@ export default {
               if (supplierVo.supplierType === 'PD') {
                 const vo = ppSupplierVo || gpSupplierVo
                 let isForeignManufacture
-                if(vo.isForeignManufacture == 0 || vo.isForeignManufacture == 1){
+                if (
+                  vo.isForeignManufacture == 0 ||
+                  vo.isForeignManufacture == 1
+                ) {
                   isForeignManufacture = vo.isForeignManufacture.toString()
                 }
-                console.log(vo.isForeignManufacture,'vo.isForeignManufacture3');
                 this.supplierId = vo.id
                 this.baseInfo = {
                   ...supplierVo,
@@ -212,7 +224,8 @@ export default {
                   addressInfoVo: addressInfoVo || defaultAddressInfo,
                   assCompanyVos: assCompanyVos || [], // 关联产品
                   supplierProductVos: supplierProductVos || [], // 关联公司
-                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'PD'
               }
