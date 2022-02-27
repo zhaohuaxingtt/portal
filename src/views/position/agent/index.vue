@@ -206,15 +206,14 @@ export default {
       })
     },
     agenStatus(val) {
-      if (val === 1) {
-        return '草稿'
-      } else if (val === 2) {
-        return '审批中'
-      } else if (val === 3) {
-        return '同意'
-      } else {
-        return '拒绝'
+      const statusMap = {
+        1: '草稿',
+        2: '审批中',
+        3: '同意',
+        4: '拒绝',
+        5: '撤回'
       }
+      return statusMap[val.toString()]
     }
   },
   destroyed() {
