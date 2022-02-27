@@ -146,6 +146,14 @@ export default {
             })
         },
         del() {
+            this.form = {
+                name: '',
+                flowId: '',
+                xco: '',
+                yco: '',
+                height: '',
+                width: ''
+            },
             this.$emit('delData', this.idx)
         }
     }
