@@ -1,9 +1,13 @@
 <template>
   <iCard :title="language('银行信息')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">{{language('编辑')}}</iButton>
-      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
-      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
+      <iButton v-show="!editable" @click="editable = true">{{
+        language('编辑')
+      }}</iButton>
+      <iButton v-show="editable" @click="save">{{ language('保存') }}</iButton>
+      <iButton v-show="editable" @click="cancel">{{
+        language('取消')
+      }}</iButton>
     </div>
     <el-form
       label-position="left"
@@ -53,9 +57,10 @@
         <el-col :span="6">
           <iFormItem :label="language('银行所在地')" prop="rawMaterialCodes">
             <areaSelect
+              v-if="form && Object.keys(form).length"
               :countryCode.sync="form.countryCode"
-              :cityCode.sync="form.cityCode"
               :provinceCode.sync="form.provinceCode"
+              :cityCode.sync="form.cityCode"
               :disabled="!editable"
               @change="areaChange"
             />
@@ -78,7 +83,6 @@
 
 <script>
 import { iCard, iInput, iFormItem, iButton, iMessage } from 'rise'
-import { BANK_FORM } from './data'
 import { areaSelect } from '@/components/remoteSelect'
 import { updateSupplierBank } from '@/api/mainDataSupplier/list/bank'
 export default {
@@ -104,9 +108,9 @@ export default {
   },
   data() {
     return {
-      form: { ...BANK_FORM },
+      form: {},
       editable: false,
-      originalForm: { ...BANK_FORM },
+      originalForm: {},
       rules: {}
     }
   },
