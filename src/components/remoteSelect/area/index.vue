@@ -7,6 +7,7 @@
       separator="-"
       filterable
       ref="areaCascader"
+      :disabled="disabled"
       @change="handleChange"
     />
   </div>
