@@ -344,18 +344,8 @@ export default {
                 const name = data.name
                 const values = name.split('@@')
                 return `${values[0]}:<br/>
-            ${values[1]}家<br/>
-            ${values[2]}%`
-                /* let name = data.name.split(/\s+/)[0]
-                let num = (parseInt(data.name.split(/\s+/)[1]) / 100) * total
-                return `${name}:<br/>
-                ${num}家<br/>
-                ${
-                  String(num / total) === 'NaN'
-                    ? '0.00'
-                    : ((num / total).toFixed(2) * 100).toFixed(2)
-                }% 
-                `*/
+                        ${values[1]}家<br/>
+                        ${values[2]}%`
               }
             }
           }
@@ -427,20 +417,17 @@ export default {
             //   fontSize: 10
             // },
             data: newLegends,
+            formatter: function (name) {
+              return name.split('@@')[0]
+            },
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split(/\s+/)[0]
-                let num =
-                  (parseInt(data.name.split(/\s+/)[1]) / 100) * _that.total
-                return `${name}:<br/>
-                ${_that.total}家<br/>
-                ${
-                  String(num / _that.total) === 'NaN'
-                    ? '0.00'
-                    : ((num / _that.total).toFixed(2) * 100).toFixed(2)
-                }%
-                `
+                const name = data.name
+                const values = name.split('@@')
+                return `${values[0]}:<br/>
+                        ${values[1]}家<br/>
+                        ${values[2]}%`
               }
             }
           }
