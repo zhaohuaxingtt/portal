@@ -19,6 +19,7 @@
                     datasets: process.env.NODE_ENV !== 'UAT' ? ['61525451-7923-46ca-bee0-6c3dfb969b6f'] : ['4b849a8e-6f67-4fab-a6ab-7f41919780b9'],
                     username: this.username,
                     roles: ['dept_permission'],
+                    supplier_code_name: this.supplier_code_name
                 },
             }
         },

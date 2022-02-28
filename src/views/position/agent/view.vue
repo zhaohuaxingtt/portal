@@ -160,9 +160,9 @@ export default {
   computed: {
     duration() {
       if (this.form.startDate && this.form.endDate) {
-        const start = moment(this.form.startDate)
-        const end = moment(this.form.endDate)
-        return moment.duration(end.diff(start)).days()
+        const startDate = moment(this.form.startDate).format('YYYY-MM-DD')
+        const endDate = moment(this.form.endDate).format('YYYY-MM-DD')
+        return moment(endDate).diff(startDate, 'day')
       }
       return 0
     }
