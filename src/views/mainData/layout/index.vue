@@ -73,11 +73,12 @@ export default {
   data() {
     return {
       columns: COLUMNS,
-      MENUS:{},
+      MENUS:[],
       tableExpanded: { expandKey: 'title', childrenKey: 'children' },
     }
   },
   created(){
+    this.lang = this.$store.state.permission.language
     this.changMenus()
   },
   methods: {

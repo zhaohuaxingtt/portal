@@ -65,7 +65,7 @@ export default {
     模具成本分析员:'Mold Cost Analyst',
     'Heavy Item 材料组':'Heavy Item Material Group',
     工艺组:'Process Group',
-    '材料组名称(中)':'Material Group Name(CN)'
+    '材料组名称(中)':'Material Group Name(CN)',
 
 
 }
