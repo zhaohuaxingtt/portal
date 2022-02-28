@@ -213,9 +213,10 @@
       handleJumpData(data) {
         let path = '';
         const {id, isOrder, type} = data;
+        console.log('xxx->', type)
         if (type) {
           if (type == 55) {
-            path = `ws2/createbatchframework?frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
+            path = `ws2/framedetail?frameItemTye=${type}&scheduleAgreementId=${id}&status=formal`
           }//  批量件
           else if (type == 411) {
             path = `ws2/order/Outsourcing/details/OutsourcingOrderDetails/1/${id}`;

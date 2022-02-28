@@ -1,7 +1,7 @@
 <template>
 	<iPage>
 		<pageHeader class="margin-bottom20">系统管理员日志</pageHeader>
-		<iSearch @sure="search" @reset="reset">
+		<iSearch @sure="search(true)" @reset="reset">
 			<el-form :model="form" ref="form" class="search-form" :inline="true" size="normal">	
 				<div class="form-item">
 					<iLabel class="label" :label="language('模块菜单')" slot="label"></iLabel>
@@ -167,7 +167,7 @@ export default {
         this.restForm()
         this.init()
         this.$nextTick(() => {
-            this.search()
+            this.search(true)
         })
     },
 	watch:{
@@ -261,7 +261,7 @@ export default {
             this.form.endDate = date ? date[1] : ""
         },
         statusChange(){
-            this.search()
+            this.search(true)
         },
 		async sysChange(v){
 			// 获取接口名称

@@ -94,7 +94,8 @@
             detail(n){
                 this.form = JSON.parse(JSON.stringify(n))
                 this.tempContent = n.answerContent ? JSON.parse(JSON.stringify(n.answerContent)) : ""
-                this.moduleChange(this.form.questionModuleId)
+                // this.moduleChange(this.form.questionModuleId)
+                this.currentChange(this.form.questionModuleId)
             }
         },
         data() {
@@ -114,8 +115,8 @@
                 tempContent:""
             }
         },
-        created(){
-            this.getModuleList()
+        async created(){
+            await this.getModuleList()
         },
         methods: {
             async getModuleList(){
@@ -123,8 +124,18 @@
                 this.moduleList = data
                 return data
             },
-            moduleChange(v){
+            currentChange(v) {
                 if(v){
+                    getCurrLabelList(v).then(res => {
+                        this.labelList = res.data
+                        this.$forceUpdate()
+                    })
+                }
+            },
+            moduleChange(v){
+                console.log(v, '123')
+                if(v){
+                    this.form.questionLableId = ''
                     getCurrLabelList(v).then(res => {
                         this.labelList = res.data
                         this.$forceUpdate()
@@ -167,6 +178,8 @@
             cancel(){
                 this.type = 'detail'
                 this.form.answerContent = this.tempContent
+                this.form = JSON.parse(JSON.stringify(this.detail))
+                this.currentChange(this.form.questionModuleId)
             }
         }
     }
