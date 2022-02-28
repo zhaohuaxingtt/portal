@@ -2,7 +2,7 @@
   <iPage>
     <pageHeader class="margin-bottom20">
       {{ language($route.query.id ? '编辑' : '新增')
-      }}{{ language('模具材料组') }}
+      }} {{ language('模具材料组') }}
     </pageHeader>
     <theDetailBase />
     <div v-if="$route.query.id">
