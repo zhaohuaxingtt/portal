@@ -324,18 +324,22 @@ export default {
         e.textStyle = {
           rich: {
             a: {
-              fontSize: 10
+              fontSize: 10,
+              fontWeight: 'normal'
             },
             b: {
               fontSize: 10,
-              color: '#fff'
+              color: '#fff',
+              fontWeight: 'normal'
             },
             c: {
               fontSize: 10,
-              color: '#fff'
+              color: '#fff',
+              fontWeight: 'normal'
             },
             d: {
-              fontSize: 10
+              fontSize: 10,
+              fontWeight: 'normal'
             }
           }
         }
