@@ -141,6 +141,7 @@ export default {
                         height: '',
                         width: ''
                     },
+                    this.idx = 0
                     this.$emit('addData', testForm)
                 }
             })
@@ -154,7 +155,8 @@ export default {
                 height: '',
                 width: ''
             },
-            this.$emit('delData', this.idx)
+            this.idx = 0
+            this.$emit('delData')
         }
     }
 }

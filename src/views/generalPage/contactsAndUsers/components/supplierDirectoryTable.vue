@@ -108,9 +108,11 @@ export default {
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
       let cust = [...this.tableListData]
+      // console.log(this.tableListData)
+      // console.log(res.data)
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.contactType) {
+          if (item.contactType === val.contactType || item.contactType === val.nameType) {
             cust[index] = { ...item, ...val }
           }
         })

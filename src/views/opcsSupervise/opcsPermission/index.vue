@@ -38,7 +38,7 @@
           <i-button v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
           <i-button v-if="stateAdmin" @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
           <i-button v-if="stateAdmin"
-                    @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button>
+                    @click="handleDelect()" :disabled="onSupplierDeleteAction" :loading="onSupplierDeleteAction">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button v-if="stateAdmin||stateOpcs"
                     @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
@@ -111,7 +111,7 @@
         </iFormItem>
       </iFormGroup>
       <div class="btnBox">
-        <i-button @click="addBtn()">{{ language('QUEREN','确认') }}</i-button>
+        <i-button @click="addBtn()" :disabled="onSupplierSaveAction" :loading="onSupplierSaveAction">{{ language('QUEREN','确认') }}</i-button>
         <i-button @click="cleardialog()">{{ language('CHONGZHI','重置') }}</i-button>
       </div>
     </iDialog>
@@ -163,6 +163,8 @@ export default {
   },
   data() {
     return {
+      onSupplierSaveAction: false,
+      onSupplierDeleteAction: false,
       dialogTitle: '',
       formData: {},
       tableTitle: tableTitle,
@@ -243,6 +245,7 @@ export default {
 
     },
     addBtn() {
+      this.onSupplierSaveAction = true;
       this.$refs.dialogRules.validate((valid) => {
         if (valid) {
           opcsSupplier(this.formData).then((res) => {
@@ -255,6 +258,9 @@ export default {
         } else {
           return false
         }
+        this.onSupplierSaveAction = false;
+      },function() {
+        this.onSupplierSaveAction = false;
       })
     },
     edit() {
@@ -271,7 +277,6 @@ export default {
       this.dialog = true
       this.dialogTitle = this.language('BIANJI', '编辑')
       this.formData = Object.assign({},this.selectTableData[0]);
-      console.log(this.formData)
     },
     async getUser() {
       const res = await getListByParam({ roleCode: 'WLGYSGLY' })
@@ -314,11 +319,15 @@ export default {
             return x.id
           })
         }
+        this.onSupplierDeleteAction = true;
         deleteList(req).then((res) => {
           if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableData()
           } else iMessage.error(res.desZh)
+          this.onSupplierDeleteAction = false;
+        },function() {
+          this.onSupplierDeleteAction = false;
         })
       })
     },
