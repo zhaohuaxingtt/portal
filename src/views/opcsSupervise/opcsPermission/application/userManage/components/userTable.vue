@@ -17,22 +17,22 @@
                   @click="add">{{ language('XINZENG', '新增') }}
         </i-button>
         <i-button v-if="edit"
-                  @click="remove">{{ language('SHANCHU', '删除') }}
+                  @click="remove">{{ language('SHANCHU', '删除')}}
         </i-button>
         <i-button v-if="edit"
                   @click="cancelBtn">{{ language('QUXIAO', '取消') }}
         </i-button>
         <i-button v-if="edit"
-                  @click="save">{{ language('BAOCUN', '保存') }}
+                  @click="save" :disabled="onUserSaveAction" :loading="onUserSaveAction">{{ language('BAOCUN', '保存') }}
         </i-button>
         <i-button v-if="!edit"
                   @click="editBtn">{{ language('BIANJI', '编辑') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="freezeBtn">{{ language('DONGJIE', '冻结') }}
+                  @click="freezeBtn" :disabled="onUserFreezeAction" :loading="onUserFreezeAction">{{ language('DONGJIE', '冻结') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="thawBtn">{{ language('JIEDONG', '解冻') }}
+                  @click="thawBtn" :disabled="onUserThawAction" :loading="onUserThawAction">{{ language('JIEDONG', '解冻') }}
         </i-button>
         <!-- <i-button v-if="!edit"
                   @click="upload">{{ language('SHANGCHUAN', '上传') }}
@@ -44,7 +44,7 @@
                   @click="renewalBtn">{{ language('XUQI', '续期') }}
         </i-button> -->
         <i-button v-if="!edit"
-                 @click="exportFile">{{ language('DAOCHU', '导出') }}
+                 @click="exportFile" :disabled="onExportAction" :loading="onExportAction">{{ language('DAOCHU', '导出') }}
         </i-button>
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
@@ -153,6 +153,10 @@ export default {
   },
   data() {
     return {
+      onUserSaveAction: false,
+      onUserFreezeAction: false,
+      onUserThawAction: false,
+      onExportAction: false,
       importDialog: false,
       importLogDialog: false,
       isdialog: false,
@@ -185,6 +189,7 @@ export default {
             key: 'xuhao'
           }
 
+      this.onExportAction = true;
       downTableList.unshift(tableHead)
 
       let downTableListData = this.tableListData;
@@ -192,6 +197,7 @@ export default {
         item.idNo = index
       })
       excelExport(downTableListData, downTableList, "联系人与用户列表")
+      this.onExportAction = false;
     },
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
@@ -200,7 +206,7 @@ export default {
             saveUserList: this.tableListData,
             opcsSupplierId: this.$route.query.opcsSupplierId,
           }
-          console.log(parmars)
+          this.onUserSaveAction = true;
           saveUser(parmars).then((res) => {
             if (res && res.code == 200) {
               this.inputProps = []
@@ -208,6 +214,9 @@ export default {
               this.getTableData()
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
+            this.onUserSaveAction = false;
+          },function() {
+            this.onUserSaveAction = false;
           })
         }
       })
@@ -338,6 +347,7 @@ export default {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
+      this.onUserThawAction = true;
       thawUser({
         opcsSupplierId: this.$route.query.opcsSupplierId,
         idList: this.selectTableData.map((res) => res.id)
@@ -346,6 +356,9 @@ export default {
             this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
+        this.onUserThawAction = false;
+      },function() {
+        this.onUserThawAction = false;
       })
     },
     //激活
@@ -370,6 +383,7 @@ export default {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
+      this.onUserFreezeAction = true;
       freezeUser({
         opcsSupplierId: this.$route.query.opcsSupplierId,
         idList: this.selectTableData.map((res) => res.id)
@@ -378,6 +392,9 @@ export default {
             this.getTableData()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
+        this.onUserFreezeAction = false;
+      },function() {
+        this.onUserFreezeAction = false;
       })
     },
     //续期

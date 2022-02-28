@@ -187,7 +187,7 @@
                         <span class="link"  @click="toUrl(infoData,'mtzRsNum')">{{ infoData.mtzRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>MTZ {{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
+                        <span>{{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'rsNlNum')">{{ infoData.rsNlNum }}</span>
                     </div>
 
@@ -547,7 +547,7 @@
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${loiId}` // LOI
         if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
         if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // Aeko
-        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${letterId}` // 配件定点
+        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=1000060` // 配件定点
         if(type==7) path = `/portal/#/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor?currentStep=1&mtzAppId=${businessTitle}` // mtz定点
         if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // 定点信编号ok
         if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${letterId}` // 定点信编号

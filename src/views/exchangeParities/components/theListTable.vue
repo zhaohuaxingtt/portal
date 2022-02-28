@@ -17,20 +17,22 @@
       </div>
     </div>
     <div class="listTabel">
-      <iTabelCustom
+      <!-- <iTabelCustom
+        key="readonlyTable"
         :loading="loading"
         :data="tabelListData"
         :columns="viewColumns"
-        v-show="editSta"
-      />
+        v-if="editSta"
+      /> -->
       <iTabelCustom
         ref="paritiesList"
         :loading="loading"
         :data="tabelListData"
         :columns="editColumns"
         :extra-data="extraData"
+        row-key="id"
+        custom-selection
         @handle-selection-change="handleSelectionChange"
-        v-show="!editSta"
       />
       <iPagination
         v-update
@@ -103,7 +105,8 @@ export default {
         type: 1,
         effectiveStartTime: '',
         effectiveEndTime: '',
-        isEffect: ''
+        isEffect: '',
+        checked: false
       })
     },
     del() {
@@ -210,17 +213,19 @@ export default {
       getPageList(data)
         .then((val) => {
           if (val.code == 200) {
-            const data = val.data
-            this.tabelListData = data || []
-            this.tabelListData.forEach((item) => {
+            const data = val.data || []
+            data.forEach((item) => {
               if (item.type == 1) {
                 item.isEdit = true
+                item.checked = false
                 item.disabledChecked = false
               } else {
                 item.isEdit = false
+                item.checked = false
                 item.disabledChecked = true
               }
             })
+            this.tabelListData = data
             this.iniListTableLength = data.length || 0
             this.page.totalCount = val.total
           } else {
