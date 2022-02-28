@@ -235,10 +235,7 @@ export default {
       data.forEach((item) => (totalSum += item.num))
       data.forEach((item) => {
         const { num = 0, name } = item
-        const rate =
-          String(item.num / totalSum) == 'NaN'
-            ? '0.00'
-            : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+        const rate = !totalSum ? 0 : ((item.num / totalSum) * 100).toFixed(2)
         item.name = `${name}@@${num}@@${rate}`
 
         /* if (item.name.length == 3) {
@@ -296,9 +293,53 @@ export default {
         ...this.arrSort(B),
         ...this.arrSort(C)
       ]
+      console.log('legendData', this.legendData)
       this.setPieChart(data, total)
     },
     arrSort(arr) {
+      arr.forEach((e) => {
+        /* e.formatter = function (name) {
+          const values = name.split('@@')
+          let nameStr = ''
+          for (let i = values[0].length; i < 3; i++) {
+            nameStr += 'A'
+          }
+          nameStr += 'AAA'
+          let rateStr = ''
+          for (let i = values[2].length; i < 5; i++) {
+            rateStr += '5'
+          }
+          return (
+            '{a|' +
+            values[0] +
+            '}{b|' +
+            nameStr +
+            '}{c|' +
+            rateStr +
+            '}{d|' +
+            values[2] +
+            '%}'
+          )
+        } */
+        e.textStyle = {
+          rich: {
+            a: {
+              fontSize: 10
+            },
+            b: {
+              fontSize: 10,
+              color: '#fff'
+            },
+            c: {
+              fontSize: 10,
+              color: '#fff'
+            },
+            d: {
+              fontSize: 10
+            }
+          }
+        }
+      })
       // 倒序
       return arr.sort((a, b) => b.grade.length - a.grade.length)
     },
@@ -329,15 +370,55 @@ export default {
         },
         legend: [
           {
-            left: '60%',
+            right: '0%',
             orient: 'vertical',
             icon: 'circle',
             itemHeight: 8,
             type: 'plain',
             data: this.legendData,
             formatter: function (name) {
-              return name.split('@@')[0]
+              const values = name.split('@@')
+              let nameStr = ''
+              for (let i = values[0].length; i < 3; i++) {
+                nameStr += 'A'
+              }
+              nameStr += 'AAA'
+              let rateStr = ''
+              for (let i = values[2].length; i < 5; i++) {
+                rateStr += '5'
+              }
+              console.log('nameStr', nameStr.length, nameStr)
+              console.log('rateStr', rateStr.length, rateStr)
+              return (
+                '{a|' +
+                values[0] +
+                '}{b|' +
+                nameStr +
+                '}{c|' +
+                rateStr +
+                '}{d|' +
+                values[2] +
+                '%}'
+              )
             },
+            /* textStyle: {
+              rich: {
+                a: {
+                  fontSize: 10
+                },
+                b: {
+                  fontSize: 10,
+                  color: '#fff'
+                },
+                c: {
+                  fontSize: 10,
+                  color: '#fff'
+                },
+                d: {
+                  fontSize: 10
+                }
+              }
+            }, */
             tooltip: {
               show: true,
               formatter: function (data) {
@@ -374,10 +455,36 @@ export default {
       this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
           if (e.name === param.name) {
+            console.log('mouseOver', e)
+            for (const key in e.textStyle) {
+              if (Object.hasOwnProperty.call(e.textStyle, key)) {
+                const element = e.textStyle[key]
+                for (const k in element) {
+                  if (Object.hasOwnProperty.call(element, k)) {
+                    const sub = element[k]
+                    sub['fontWeight'] = 'bold'
+                  }
+                }
+              }
+            }
+          } else {
+            for (const key in e.textStyle) {
+              if (Object.hasOwnProperty.call(e.textStyle, key)) {
+                const element = e.textStyle[key]
+                for (const k in element) {
+                  if (Object.hasOwnProperty.call(element, k)) {
+                    const sub = element[k]
+                    sub['fontWeight'] = 'normal'
+                  }
+                }
+              }
+            }
+          }
+          /* if (e.name === param.name) {
             e.textStyle.fontWeight = 'bold'
           } else {
             e.textStyle.fontWeight = 'normal'
-          }
+          } */
           return e
         })
         this.mergeOptions(newLegends)
@@ -386,7 +493,18 @@ export default {
       // 监听饼状图鼠标移出事件
       this.pieChart.on('mouseout', () => {
         const newLegends = this.legendData.map((e) => {
-          e.textStyle.fontWeight = 'normal'
+          // e.textStyle.fontWeight = 'normal'
+          for (const key in e.textStyle) {
+            if (Object.hasOwnProperty.call(e.textStyle, key)) {
+              const element = e.textStyle[key]
+              for (const k in element) {
+                if (Object.hasOwnProperty.call(element, k)) {
+                  const sub = element[k]
+                  sub['fontWeight'] = 'normal'
+                }
+              }
+            }
+          }
           return e
         })
         this.mergeOptions(newLegends)
@@ -418,7 +536,29 @@ export default {
             // },
             data: newLegends,
             formatter: function (name) {
-              return name.split('@@')[0]
+              const values = name.split('@@')
+              let nameStr = ''
+              for (let i = values[0].length; i < 3; i++) {
+                nameStr += 'A'
+              }
+              nameStr += 'AAA'
+              let rateStr = ''
+              for (let i = values[2].length; i < 5; i++) {
+                rateStr += '5'
+              }
+              console.log('nameStr', nameStr.length, nameStr)
+              console.log('rateStr', rateStr.length, rateStr)
+              return (
+                '{a|' +
+                values[0] +
+                '}{b|' +
+                nameStr +
+                '}{c|' +
+                rateStr +
+                '}{d|' +
+                values[2] +
+                '%}'
+              )
             },
             tooltip: {
               show: true,
@@ -455,7 +595,7 @@ export default {
     },
     // init bar echarts
     initBar() {
-      const totalCount = _.cloneDeep(this.totalCount)
+      const totalCount = this.totalCount || 0
       if (!this.barChart) {
         this.barChart = echarts().init(this.$refs.bar)
       }
@@ -489,12 +629,11 @@ export default {
             for (let i in data) {
               total += data[i].data.value
             }
+            const percent = !totalCount
+              ? 0
+              : ((total / totalCount) * 100).toFixed(2)
             const type = data[0].data.type
-            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${
-              String(total / totalCount) === 'NaN'
-                ? '0.00'
-                : ((total / totalCount).toFixed(2) * 100).toFixed(2)
-            }%`
+            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${percent}%`
           }
         },
         xAxis: {
@@ -526,7 +665,9 @@ export default {
             bottom: 188,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n' + '\nC-Rating比例:${cRating}%`,
+              text: `C-Rating数量:${cTotal}家\n' + '\nC-Rating比例:${cRating.toFixed(
+                2
+              )}%`,
               font: '7px sans-serif'
             }
           }
