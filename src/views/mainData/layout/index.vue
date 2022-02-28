@@ -83,11 +83,7 @@ export default {
   },
   methods: {
     changMenus(){
-      if(this.lang == 'zh'){
-        this.MENUS = MENUSZh
-      }else{
-        this.MENUS = MENUSEn
-      }
+      this.MENUS = this.lang == 'zh' ? MENUSZh : MENUSEn
     },
     handleClickMenu(row) {
       const { fullPath } = this.$route

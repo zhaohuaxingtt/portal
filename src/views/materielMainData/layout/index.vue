@@ -85,12 +85,7 @@ export default {
   },
   methods: {
     changeMenus(){
-      if(this.lang == 'zh'){
-        this.MENUS = MENUSZh
-      }else{
-        this.MENUS = MENUSEn
-      }
-      console.log(this.MENUS,'this.MENUS');
+      this.MENUS = this.lang == 'zh' ? MENUSZh : MENUSEn
     },
     handleClickMenu(row) {
       console.log('handleClickMenu', row)

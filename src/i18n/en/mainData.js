@@ -66,6 +66,19 @@ export default {
     'Heavy Item 材料组':'Heavy Item Material Group',
     工艺组:'Process Group',
     '材料组名称(中)':'Material Group Name(CN)',
+    //供应商主数据
+    关联公司:'Affiliated Companies',
+    关联集团:'Affiliated Group',
+    联系人姓名:'Contact Name',
+    供应商中文名称:'Chinese Name Of Supplier',
+    职务:'Post',
+    部门:'Department',
+    'N-Tier供应商信息':'N-Tier Supplier Information',
+    //主数据菜单
+    物料主数据:'Material Master Data',
+    汇率管理:'Exchange Rate Management',
+    供应商主数据:'Supplier Master Data',
+    '车型/车型项目主数据':'Model/Model Project Master Data'
 
 
 }
