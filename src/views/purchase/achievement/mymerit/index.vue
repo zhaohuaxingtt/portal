@@ -20,7 +20,7 @@
         <div style="height: 100%">
             <keep-live
                     :include="['zfgsj', 'zfkssj','zfcgysj','zfbmsj','wfbmsj','wfkssj','pfjwfbmsj','pfjwfkssj','pfjzfbmsj','pfjzfcgysj','pfjzfgsj','pfjzfkssj']">
-                <component :is="currentView" @getData="getData" :username="username"/>
+                <component :is="currentView" @getData="getData" :username="username" :supplier_code_name="supplier_code_name"/>
             </keep-live>
         </div>
 
@@ -92,7 +92,8 @@
         values: [],
         show: false,
         state: false, // 控制科室采购员
-        roleList: this.$store.state.permission.userInfo.roleList
+        roleList: this.$store.state.permission.userInfo.roleList,
+        supplier_code_name: this.$route.query.supplier_code_name,
       };
     },
     computed: {
