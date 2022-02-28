@@ -274,7 +274,7 @@ export default {
     sign() {
       console.log(this.selSinaturedatas);
       if (this.selSinaturedatas.length > 1) {
-        return this.$message.warning(this.language('', '抱歉，采购条款暂不支持批量签署'))
+        return this.$message.warning(this.language('LK_BAOQIANCAIGOUTIAOKUANZANBUZHICHIPILIANGQIANSHU', '抱歉，采购条款暂不支持批量签署'))
       }
       if (this.selSinaturedatas.length <= 0) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOQIANSHUDEHETONG', '抱歉，您当前还未选择需要签署的合同'))
