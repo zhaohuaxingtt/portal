@@ -18,8 +18,7 @@
           <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT">
             {{ $t('LK_DAOCHU') }}
           </iButton>
-           <!-- v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE" -->
-          <iButton @click="handleNextStep" >
+          <iButton @click="handleNextStep" v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE">
             {{ $t('LK_BAOCUN') }}
           </iButton>
         </div>
