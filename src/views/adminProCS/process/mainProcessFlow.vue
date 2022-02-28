@@ -149,6 +149,10 @@ export default {
             console.log(res);
             this.filePath = res.filePath?.split("/uploader/")[1] || ''
             this.baseInfoName = res.name
+            // 第一次新增子流程时 流程列表还没flowChartId 需要从新建里的详情获取
+            if (!this.flowChartId) {
+                this.flowChartId = res.id || ''
+            }
             this.currId = res?.id || ''
             let hotAreas = res.hotAreas || []
             hotAreas.map(item => {
