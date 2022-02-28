@@ -94,10 +94,13 @@ export default {
       //2是供应商 1是员工
     },
     activeData() {
+      const notNullData = this.data.filter(
+        (e) => e && e.taskCenterDtoList && e.taskCenterDtoList.length
+      )
       if (this.activeIndex === -1) {
-        return this.data
+        return notNullData
       }
-      return [this.data[this.activeIndex]]
+      return [notNullData[this.activeIndex]]
     }
   },
   created() {
