@@ -139,6 +139,7 @@
   */
 
     LK_CAIGOUFENEFENPEIDABUDAO: '采购份额分配达不到100%', // 采购份额分配达不到100%
+    SHOUYINGXIANGLINGJIANXIANGQING: '受影响零件详情',
     LK_CAIGOUGONGCHNEGMINGCHENG: '采购工厂名称', // 采购工厂名称
     LK_CAOZUOCHENGGONG: '操作成功', // 操作成功
     LK_CHANLIANGZHANBI: '产量占比（%）', // 产量占比（%）
