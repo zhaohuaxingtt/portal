@@ -19,6 +19,7 @@
                :selection="false"
                :tableData="tableListData"
                :tableTitle="tableTitle"
+               v-loading="loading"
                :tableLoading="tableLoading"
                @handleSelectionChange="handleSelectionChange"
                :index="true">
@@ -92,7 +93,8 @@ export default {
       tableLoading: false,
       tableListData: [],
       selectTableData: [],
-      id: ""
+      id: "",
+      loading: false
     };
   },
   created () {
@@ -111,6 +113,7 @@ export default {
       });
     },
     async saveInfos () {
+      this.tableLoading = true
       const pms = {
         displayType: this.tabValue,
         financeId: this.comparisonTableData[0].id,

@@ -201,3 +201,10 @@ export function getLoosePartsPbi(parmars) {
     data: parmars
   })
 }
+// PowerBi
+export function getSupplierPartInfo(parmars) {
+  return requst({
+    url: `/eventInformation/getSupplierPartInfo/${parmars.eventId}/${parmars.id}`,
+    method: 'POST'
+  })
+}
