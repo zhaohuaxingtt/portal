@@ -25,7 +25,7 @@ export const COLUMNS = [
   }
 ]
 
-export const MENUS = [
+export const MENUSZh = [
   {
     title: '产品家族',
     url: '/main-data/product-family',
@@ -42,3 +42,23 @@ export const MENUS = [
     permissionKey: 'ADMIN_MAIN_DATA_CARMODEL'
   }
 ]
+
+export const MENUSEn = [
+  {
+    title: 'Product Family',
+    url: '/main-data/product-family',
+    permissionKey: 'ADMIN_MAIN_DATA_PRODUCT_FAMILY'
+  },
+  {
+    title: 'Model Project Management',
+    url: '/main-data/car-project',
+    permissionKey: 'ADMIN_MAIN_DATA_CARPROJECT'
+  },
+  {
+    title: 'Vehicle Master Data Management',
+    url: '/main-data/car',
+    permissionKey: 'ADMIN_MAIN_DATA_CARMODEL'
+  }
+]
+
+

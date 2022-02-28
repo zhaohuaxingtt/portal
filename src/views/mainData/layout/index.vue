@@ -32,7 +32,7 @@
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
-import { COLUMNS, MENUS } from './data'
+import { COLUMNS, MENUSZh ,MENUSEn } from './data'
 import { iCard, iPage } from 'rise'
 export default {
   name: 'sideMenu',
@@ -52,9 +52,12 @@ export default {
     whiteBtnList() {
       return this.$store.state.permission.whiteBtnList
     },
+    lang(){
+      return this.$store.state.permission.language
+    },
     menus() {
       const res = []
-      MENUS.forEach((element) => {
+      this.MENUS.forEach((element) => {
         if (this.whiteBtnList[element.permissionKey]) {
           res.push(element)
         }
@@ -62,13 +65,29 @@ export default {
       return res
     }
   },
+  watch:{
+   lang(){
+      this.changMenus()
+    }
+  },
   data() {
     return {
       columns: COLUMNS,
-      tableExpanded: { expandKey: 'title', childrenKey: 'children' }
+      MENUS:{},
+      tableExpanded: { expandKey: 'title', childrenKey: 'children' },
     }
   },
+  created(){
+    this.changMenus()
+  },
   methods: {
+    changMenus(){
+      if(this.lang == 'zh'){
+        this.MENUS = MENUSZh
+      }else{
+        this.MENUS = MENUSEn
+      }
+    },
     handleClickMenu(row) {
       const { fullPath } = this.$route
       if (row.isLeaf && fullPath !== row.url) {

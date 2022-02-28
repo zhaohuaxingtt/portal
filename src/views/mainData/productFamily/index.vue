@@ -123,7 +123,7 @@
       v-if="isVisible"
       :visible="isVisible"
       @close="closeDetail"
-      :title="pageTitle"
+      :title="language(pageTitle)"
       width="88%"
     >
       <carTypeDetail :PID="PID" />
