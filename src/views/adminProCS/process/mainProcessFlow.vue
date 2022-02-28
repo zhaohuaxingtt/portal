@@ -3,7 +3,7 @@
         <div class="content" v-loading="loading">
             <div class="leftContent" ref="box">
                 <div v-for="(item, idx) in projectInfoData" :key="idx">
-                    <div :ref="'point' + (idx+1)" :class="item.id === currProId ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}"></div>
+                    <div v-show="item.xco" :ref="'point' + (idx+1)" :class="item.id === currProId ? 'shadow' : ''" class="drag-box" :id="`testDiv${idx}`" :style="{width:item.width+'px',height:item.height+'px',top:item.yco+'px',left:item.xco+'px', display: 'block', borderRadius: '50%'}"></div>
                 </div>
                 <!-- <img src="~@/assets/images/mainProcess.png" class="img-process" /> -->
                 <div @mousedown.capture="mouseStart" @mouseup.capture="mouseEnd" >
@@ -72,7 +72,8 @@ export default {
             processList: null,  // 项目链接
             loading: false,
             flowChartId: this.$route.query.flowChartId,
-            processId: this.$route.query.processId
+            processId: this.$route.query.processId,
+            delFlag: false
         }
     },
     created() {
@@ -159,13 +160,13 @@ export default {
                 height: '',
                 width: ''
             })
+            this.projectInfoData.splice(0,0)
             this.$nextTick(() => {
                 this.projectInfoData = hotAreas
             })
             this.$forceUpdate()
         },
         handleClick(event) {
-            console.log(event, 'event')
             if (event.index == '1') {
                 if(this.processId){
                     this.loadProcessPageList()
@@ -196,7 +197,6 @@ export default {
         },
 
         mouseStart(e) {
-            console.log(this.modifyFlag, '11111111111')
             if (!this.canDrawFlag) return
 			this.startX = e.layerX
 			this.startY = e.layerY
@@ -221,10 +221,7 @@ export default {
                         console.log('add', this.projectInfoData.length)
                         divIndex = 0
                     }
-                    console.log(divIndex, '22222')
                     let testDiv = document.getElementById(`testDiv${divIndex}`)
-                    console.log('test div', testDiv);
-
                     let X = this.$refs.box.scrollLeft
                     let Y = this.$refs.box.scrollTop
                     testDiv.style.display = 'block'
@@ -241,7 +238,6 @@ export default {
                     height: this.currHeight
                 }
                 if (this.modifyFlag) {
-                    console.log(this.currIndex, '12222')
                     obj.name = this.projectInfoData[this.currIndex + 1].name
                     obj.contentId = this.projectInfoData[this.currIndex + 1].contentId
                     let testArrData = JSON.parse(JSON.stringify(this.projectInfoData))
@@ -260,7 +256,6 @@ export default {
 			}
 		},
         handelStyle(e, va) {
-            console.log(e, va, this.currIndex + 1, 1111)
             let testDiv = document.getElementById(`testDiv${this.currIndex}`)
             if (va === 'x') {
                 testDiv.style.left = `${e}px`
@@ -276,7 +271,6 @@ export default {
             this.currIndex = idx - 1
         },
         getProjectIdx(index, row) {
-            console.log(row, index, '=====')
             this.currProId = row.id
             if (index !== 0) {
                 this.modifyFlag = true
@@ -285,13 +279,11 @@ export default {
                 this.modifyFlag = false
             }
             this.currIndex = index - 1
-            console.log( this.$refs["point"+index]);
             this.$refs[`point${index+1}`][0].scrollIntoViewIfNeeded()
         },
         async addData(row) {
             if (row.id) {
                 // 修改
-                console.log(row, '111')
                 let obj = {
                     name: row.name,
                     xco: row.xco,
@@ -345,9 +337,14 @@ export default {
             }
         },
         async delData() {
-            // let currProId = this.projectInfoData[projectIndex]?.id || ''
+            let divZeroElement = document.getElementById('testDiv0')
+            if (divZeroElement) {
+                divZeroElement.style.display = 'none'
+            }
             await delFlowchartNode(this.currProId).then(res => {
                 if (res?.success) {
+                    this.delFlag = true
+                    this.modifyFlag = false
                     this.$message({type: 'success', message: '删除当前项目信息成功'})
                     this.getMainChartInfo()
                 }
