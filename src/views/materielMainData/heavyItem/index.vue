@@ -5,7 +5,7 @@
         <el-form>
           <el-row gutter="24">
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-              <iFormItem :label="searchLabel.materialGroup">
+              <iFormItem :label="language(searchLabel.materialGroup)">
                 <iSelect
                   v-model="searchContent.stuffCategoryId"
                   :placeholder="language('请选择')"
@@ -22,7 +22,7 @@
               </iFormItem>
             </el-col>
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-              <iFormItem :label="searchLabel.isHeavyItem">
+              <iFormItem :label="language(searchLabel.isHeavyItem)">
                 <iSelect
                   v-model="searchContent.isHeavyItem"
                   :placeholder="language('请选择')"
@@ -38,7 +38,7 @@
               </iFormItem>
             </el-col>
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-              <iFormItem :label="searchLabel.analyseType">
+              <iFormItem :label="language(searchLabel.analyseType)">
                 <iSelect
                   v-model="searchContent.heavyItem"
                   :placeholder="language('请选择')"
@@ -54,7 +54,7 @@
               </iFormItem>
             </el-col>
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-              <iFormItem :label="searchLabel.partsCostAnalyst">
+              <iFormItem :label="language(searchLabel.partsCostAnalyst)">
                 <iSelect
                   v-model="searchContent.partsAanlystUserId"
                   :placeholder="language('请选择')"
@@ -70,7 +70,7 @@
               </iFormItem>
             </el-col>
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-              <iFormItem :label="searchLabel.moldCostAnalyst">
+              <iFormItem :label="language(searchLabel.moldCostAnalyst)">
                 <iSelect
                   v-model="searchContent.modlAanlystUserId"
                   :placeholder="language('请选择')"
@@ -86,7 +86,7 @@
               </iFormItem>
             </el-col>
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-              <iFormItem :label="searchLabel.commoditySta">
+              <iFormItem :label="language(searchLabel.commoditySta)">
                 <iInput
                   v-model="searchContent.commidityDeptCode"
                   :placeholder="language('请选择')"
@@ -99,7 +99,7 @@
       </iSearch>
     </div>
     <div class="heavyItemTabel">
-      <iCard :title="language('Heavy Item材料组')">
+      <iCard :title="language('Heavy Item 材料组')">
         <div class="btnList" slot="header-control">
           <div v-if="viewSta">
             <iButton

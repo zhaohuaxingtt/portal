@@ -4,7 +4,7 @@
       <el-form class="search-form">
         <el-row :gutter="20">
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <iFormItem :label="searchLabel.contactName">
+            <iFormItem :label="language(searchLabel.contactName)">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="searchContent.nameZh"
@@ -12,7 +12,7 @@
             </iFormItem>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <iFormItem :label="searchLabel.supplierNameZh">
+            <iFormItem :label="language(searchLabel.supplierNameZh)">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="searchContent.opcsCompanyNameZh"
@@ -20,7 +20,7 @@
             </iFormItem>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <iFormItem :label="searchLabel.staff">
+            <iFormItem :label="language(searchLabel.staff)">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="searchContent.position"
@@ -52,7 +52,7 @@
             </iFormItem>
           </el-col>
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <iFormItem :label="searchLabel.department">
+            <iFormItem :label="language(searchLabel.department)">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="searchContent.department"

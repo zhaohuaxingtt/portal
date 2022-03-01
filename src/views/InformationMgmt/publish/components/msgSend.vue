@@ -1,7 +1,7 @@
 <template>
   <iDialog
     :visible.sync="dialogVisible"
-    title="发布"
+    :title="language('发布')"
     width="35%"
     modal-append-to-body
     append-to-body
@@ -15,7 +15,7 @@
       ref="ruleForm"
       v-loading="loading"
     >
-      <iFormItem :label="$t('用户范围')">
+      <iFormItem :label="language('用户范围')">
         <iSelect v-model="form.scope">
           <el-option
             v-for="item in publishScopeOptions"
@@ -26,7 +26,7 @@
         </iSelect>
       </iFormItem>
       <iFormItem
-        :label="$t('选择用户')"
+        :label="language('选择用户')"
         prop="userList"
         v-if="form.scope === 999"
       >
