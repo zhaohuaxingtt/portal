@@ -101,7 +101,7 @@ export default {
                             category: params.category,
                             triggerType: params.triggerType,
                             interfaceSystemCode: params.interfaceSystemCode,
-                            bizId_like: params.bizId,
+                            bizId_llike: params.bizId,
                             content_like: params.content,
                             userPosition_like: params.userPosition,
                             interfaceCode: params.interfaceCode,

@@ -7,7 +7,7 @@
             <el-col :span="8">
               <iFormItem :label="language('问题模块')">
                 <iSelect v-model="searchForm.moduleId" filterable clearable placeholder="请选择">
-                  <el-option v-for="item in moduleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
+                  <el-option v-for="item in moduleList" :key="item.id" :label="`${item.parentName?item.parentName + '-':''}${item.menuName?item.menuName:''}`" :value="item.id"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>

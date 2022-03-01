@@ -138,7 +138,7 @@
             <!--                                                                   --->
             <!------------------------------------------------------------------------>
             */
-
+    SHOUYINGXIANGLINGJIANXIANGQING: 'Details of affected parts',
     LK_CAIGOUFENEFENPEIDABUDAO:
       'Procurement share allocation cannot reach 100%', // 采购份额分配达不到100%
     LK_CAIGOUGONGCHNEGMINGCHENG: 'Name of Purchasing Factory', // 采购工厂名称
