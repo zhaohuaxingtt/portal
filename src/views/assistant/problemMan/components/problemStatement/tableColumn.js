@@ -50,6 +50,7 @@ export const tableColumn = (c) => {
       prop: 'questionTitle',
       label: '提问问题',
       align: 'center',
+      width:250,
       emit: 'mauDetail',
       tooltip: true,
       customRender: (h, scope) => {

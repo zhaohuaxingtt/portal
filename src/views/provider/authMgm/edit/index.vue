@@ -12,7 +12,7 @@
           :model="form"
           class="elForm"
           label-position="left"
-          label-width="100px"
+          label-width="120px"
         >
           <el-row :gutter="20">
             <el-col :span="6">

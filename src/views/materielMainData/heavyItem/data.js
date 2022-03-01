@@ -20,7 +20,7 @@ export const HEAVY_ITEM_COLUMNS=[
     {
         label:'材料组名称(中)',
         prop:'stuffCategoryName',
-        width:'120px',
+        width:'150px',
         // openNewPage:true,
         tooltip:true,
         emit:'to-detail',

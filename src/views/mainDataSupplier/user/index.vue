@@ -2,8 +2,8 @@
   <div class="main">
     <iSearch @reset="handleReset" @sure="handleSearch">
       <el-form class="search-form">
-        <el-row :gutter="24">
-          <el-col :span="8">
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="searchLabel.contactName">
               <iInput
                 :placeholder="language('请输入')"
@@ -11,7 +11,7 @@
               ></iInput>
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="searchLabel.supplierNameZh">
               <iInput
                 :placeholder="language('请输入')"
@@ -19,7 +19,7 @@
               ></iInput>
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="searchLabel.staff">
               <iInput
                 :placeholder="language('请输入')"
@@ -27,7 +27,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('临时号')">
               <iInput
                 :placeholder="language('请输入')"
@@ -35,7 +35,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('正式/SVW号')">
               <iInput
                 :placeholder="language('请输入')"
@@ -43,7 +43,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('SAP号')">
               <iInput
                 :placeholder="language('请输入')"
@@ -51,7 +51,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="searchLabel.department">
               <iInput
                 :placeholder="language('请输入')"
@@ -59,7 +59,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('登录名')">
               <iInput
                 :placeholder="language('请输入')"
@@ -67,7 +67,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('邮箱')">
               <iInput
                 :placeholder="language('请输入')"
@@ -75,7 +75,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('电话')">
               <iInput
                 :placeholder="language('请输入')"
@@ -83,7 +83,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('起始时间')">
               <iDatePicker
                 :placeholder="language('请选择')"
@@ -93,7 +93,7 @@
               />
             </iFormItem>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
             <iFormItem :label="language('截止时间')">
               <iDatePicker
                 :placeholder="language('请选择')"
@@ -114,13 +114,13 @@
             @click="handleDelete"
             :disabled="this.selectedItems.length == 0"
           >
-            {{language('删除')}}
+            {{ language('删除') }}
           </iButton>
           <iButton
             @click="handleEdit"
             :disabled="this.selectedItems.length !== 1"
           >
-            {{language('编辑')}}
+            {{ language('编辑') }}
           </iButton>
           <button-download :download-method="handleExportExcel" />
         </div>

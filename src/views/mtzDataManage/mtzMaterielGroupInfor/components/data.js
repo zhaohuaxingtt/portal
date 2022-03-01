@@ -47,7 +47,7 @@ export const GROUP_TABLE_COLUMNS = [
     prop: 'materialGroupCode',
     label: 'MTZ材料组编号',
     i18n: 'MTZ材料组编号',
-    width: '120',
+    width: '150',
     // openNewPage:true,
     tooltip: true,
     emit: 'go-detail',
