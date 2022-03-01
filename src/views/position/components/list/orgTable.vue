@@ -52,7 +52,7 @@ export default {
           // width: 200,
           key: '',
           tooltip: false,
-          align: 'left',
+          align: 'center',
           emit: 'go-detail',
           type: 'expanded',
           customRender: (h, scope) => {
@@ -63,14 +63,14 @@ export default {
           prop: 'fullCode',
           label: '组织机构编号',
           key: '',
-          width: 150,
+          width: 120,
           tooltip: false,
           align: 'left'
         },
         {
           prop: 'posCount',
           label: '岗位数量',
-          width: 80,
+          width: 100,
           align: 'center',
           key: '',
           tooltip: false,
@@ -86,7 +86,7 @@ export default {
           prop: 'userCount',
           label: '用户数量',
           align: 'center',
-          width: 80,
+          width: 100,
           key: '',
           tooltip: false
         }

@@ -90,7 +90,8 @@ export default {
           prop: 'code',
           label: '岗位编码',
           tooltip: false,
-          sortable: true
+          sortable: true,
+          width:'120px'
         },
         {
           prop: 'fullNameZh',
@@ -108,7 +109,7 @@ export default {
           prop: 'isDeptLead',
           label: '组织领导',
           align: 'center',
-          width: 100,
+          width: 120,
           tooltip: false,
           customRender: (h, scope) => {
             const isLeader = scope.row.isDeptLead ? '是' : '否'
@@ -120,7 +121,7 @@ export default {
           prop: 'memberCount',
           label: '用户数量',
           align: 'center',
-          width: 100,
+          width: 120,
           tooltip: false,
           customRender: (h, scope) => {
             return (
