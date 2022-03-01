@@ -158,13 +158,13 @@
                     </div>
                 </div>
                 <div class="line1">
-                    <div class="title">{{ language('LK_LINGJIANCHANG', '零件长') }}：</div>
+                    <div class="title">{{ $t('LK_LINGJIANCHICUN') }}：</div>
                     <div class="content-box">
-                        {{pageData && pageData.length ? pageData.length + 'mm' : ''}}
+                        {{pageData && pageData.length ? pageData.wide : ''}}
                     </div>
                 </div>
             </div>
-            <div class="line1">
+            <!-- <div class="line1">
                 <div class="line1">
                     <div class="title">{{ language('LK_LINGJIANKUAN', '零件宽') }}：</div>
                     <div class="content-box">
@@ -177,7 +177,7 @@
                         {{pageData && pageData.high ? pageData.high + 'mm' : ''}}
                     </div>
                 </div>
-            </div>
+            </div> -->
         </template>
 
 
