@@ -19,11 +19,15 @@ export const AEKO_CATEGORY_LIST = ['aeko_mp', 'aeko_aea', 'aeko_content']
 export const BPM_SINGL_CATEGORY_LIST = [
   'meeting_rs_recheck',
   'meeting_recheck_m_sign',
-  'officialPricing'
+  'officialPricing',
+  'mtz_node_approval'
 ]
 // 'officialPricing'
 // 审批有异议、无异议判断
-export const BPM_CATEGORY_RENAME_YIYI_LIST = ['meeting_rs_recheck']
+export const BPM_CATEGORY_RENAME_YIYI_LIST = [
+  'meeting_rs_recheck',
+  'mtz_node_approval'
+]
 
 // 审批单据类型
 /**
