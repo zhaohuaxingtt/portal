@@ -8,8 +8,9 @@
 <template>
   <iDialog :modal="false"
            :title="language('TUFASHIJIAN','突发事件')"
-           :show-close="false"
+           :close-on-click-modal='false'
            :visible.sync="value"
+           :show-close="false"
            width="80%"
            height="1000px">
     <div slot="title"
@@ -44,7 +45,6 @@
     <el-table height="400"
               tooltip-effect='light'
               row-key="number"
-              :tree-props="{children:'partNumList'}"
               v-loading="tableLoading"
               :ref="'multipleTable'"
               :data="tableListData"
@@ -85,7 +85,12 @@
       <el-table-column align="left"
                        show-overflow-tooltip
                        prop="partNumSize"
-                       :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')">
+                       :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')"
+                       width="135">
+        <template slot-scope="scope">
+          <span class="link-text"
+                @click="goDetail(scope.row)">{{scope.row.partNumSize}}</span>
+        </template>
       </el-table-column>
       <!-- <el-table-column align="center"
                        v-if="eventDetail.createType===language('ZIDONGCHUANGJIAN','自动创建')"
@@ -154,6 +159,40 @@
         </template>
       </el-table-column>
     </el-table>
+    <iDialog :append-to-body="true"
+             :visible.sync="visible"
+             v-if="visible"
+             width="40%"
+             height="600px">
+      <div slot="title"
+           class="flex">
+        <span class="el-dialog__title">
+          {{supplierList.supplierName +language('SHOUYINGXIANGLINGJIANXIANGQING','受影响零件详情')}}
+        </span>
+        <span style='font-size:16px;margin-left:20px;vertical-align: bottom;'>{{supplierList.sapCode?supplierList.sapCode:supplierList.svwCode}}</span>
+      </div>
+      <p>{{supplierList.factoryName?supplierList.factoryName:''+'    '+supplierList.address}}</p>
+      <el-divider></el-divider>
+      <div class="margin-bottom20 flex-end">
+        <el-table tooltip-effect='light'
+                  row-key="number"
+                  v-loading="tableLoading1"
+                  :data="supplierList.partNumList">
+          <el-table-column align="center"
+                           show-overflow-tooltip
+                           type="index"
+                           label="#"
+                           width="55"> </el-table-column>
+          <el-table-column align="center"
+                           show-overflow-tooltip
+                           prop="partNumSize"
+                           :label="language('LINGJIANHAO','零件号')" />
+        </el-table>
+      </div>
+      <div slot="footer"
+           class="dialog-footer">
+      </div>
+    </iDialog>
     <div slot="footer"
          class="dialog-footer">
     </div>
@@ -163,16 +202,22 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { iDialog, iButton, icon } from "rise";
+import { iDialog, iButton, icon, iMessage } from "rise";
 import tableList from '@/components/commonTable';
 import alarm from "@/assets/images/alarm.png";
+import { getSupplierPartInfo } from "@/api/supplierManagement/supplyChainRisk/index.js";
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: { iDialog, iButton, tableList, icon },
   props: {
     value: { type: Boolean },
     tableListData: { type: Array, default: [] },
-    eventDetail: { type: Object, default: {} }
+    eventDetail: { type: Object, default: {} },
+    supplierList: { type: Object }
+  },
+  model: {
+    prop: 'value',
+    event: 'input'
   },
   data () {
     // 这里存放数据
@@ -184,6 +229,7 @@ export default {
       // tableListData: [],
       selectTableData: [],
       tableLoading: false,
+      visible: false
     }
   },
   // 监听属性 类似于data概念
@@ -211,6 +257,17 @@ export default {
     },
     clearDiolog () {
       this.$emit('input', false);
+    },
+    goDetail (val) {
+      this.visible = true
+      getSupplierPartInfo(val).then(res => {
+        if (res?.code === '200') {
+          this.supplierList = res.data
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+
     },
     // 导出当页
     exportCurrentPage () {
@@ -286,5 +343,13 @@ export default {
 .flex-end {
   display: flex;
   justify-content: flex-end;
+}
+.link-text,
+.open-link-text {
+  color: $color-blue;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>

@@ -397,6 +397,7 @@
         var date = myDate.getDate()
         var materialCode = "";
         var materialName = "";
+        const supplier_code_name = this.supplier_code_name;
         if(this.$route.query.materialCode){
           materialCode = this.$route.query.materialCode;
           materialName = this.$route.query.materialName;
@@ -438,6 +439,18 @@
               filterType: pbi.models.FilterType.BasicFilter
           };
 
+          var	supplier_code_name_parameter = {
+								$schema: "http://powerbi.com/product/schema#basic",
+								target: {
+									table: "app_proc_ekl_data_source",
+									column: "supplier_code_name"
+								},
+								operator: "In",
+								values: [supplier_code_name],
+                filterType: pbi.models.FilterType.BasicFilter
+						};
+
+
           const pages = await report.getPages();
           var page = pages.filter(function (page) {
             return page.isActive
@@ -459,6 +472,13 @@
             if(visual.title == "material_group" && page.isActive==true){
               visual.setSlicerState({
                 filters: [material_group_parameter]
+              });				    							    						    		
+            }
+
+            //  供应商
+            if(visual.title == "supplier_code_name" && page.isActive==true){
+              visual.setSlicerState({
+                filters: [supplier_code_name_parameter]
               });				    							    						    		
             }
           });

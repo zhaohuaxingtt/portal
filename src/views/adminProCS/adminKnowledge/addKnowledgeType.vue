@@ -83,7 +83,7 @@ export default {
 				callback(new Error("请输入英文名"));
 				return;
 			}
-			var reg = /^[a-zA-Z]+$/; //验证规则
+			var reg = /^[ a-zA-Z]+$/; //验证规则
 			if (reg.test(value)) {
 				callback();
 				return;
