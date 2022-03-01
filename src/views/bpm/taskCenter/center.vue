@@ -41,7 +41,8 @@
               : ''
           }}
         </div>
-        <div class="category-content">
+
+        <div class="category-content" v-if="item && item.taskCenterDtoList">
           <overview
             v-for="(subItem, i) in item.taskCenterDtoList"
             :key="i"
@@ -133,7 +134,7 @@ export default {
       const data = await getDutyStatistics(params).finally(
         () => (this.loading = false)
       )
-      console.log('data', data)
+
       this.data = data
       const titles = []
       data.forEach((item) => {
