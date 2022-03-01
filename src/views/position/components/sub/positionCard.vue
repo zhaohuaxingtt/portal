@@ -7,7 +7,7 @@
     >
       <div class="flex-align-center">
         <div class="margin-right5 position-name">
-          岗位：{{ itemSelected.code }} {{ itemSelected.fullNameZh }}
+          {{language('岗位')}}：{{ itemSelected.code }} {{ itemSelected.fullNameZh }}
         </div>
         <div>
           <i
@@ -20,7 +20,7 @@
     <div class="card-content" v-loading="loading">
       <iFormGroup row="2" ref="positionForm" :model="itemSelected">
         <iFormItem>
-          <iLabel label="主负责人" slot="label"></iLabel>
+          <iLabel :label="language('主负责人')" slot="label"></iLabel>
           <iInput :value="mainUser" disabled />
           <!-- <i-select multiple v-model="itemSelected.userDTOListIds" disabled>
             <el-option
@@ -33,7 +33,7 @@
           </i-select> -->
         </iFormItem>
         <iFormItem>
-          <iLabel label="基础角色" slot="label"></iLabel>
+          <iLabel :label="language('基础角色')" slot="label"></iLabel>
           <i-select multiple v-model="itemSelected.roleDTOListIds" disabled>
             <el-option
               :value="option.id"
@@ -44,7 +44,7 @@
           </i-select>
         </iFormItem>
         <iFormItem>
-          <iLabel label="其他负责人" slot="label"></iLabel>
+          <iLabel :label="language('其他负责人')" slot="label"></iLabel>
           <iInput :value="otherUser" disabled />
           <!-- <i-select v-model="itemSelected.chiefUserId" disabled>
             <el-option
@@ -59,23 +59,23 @@
 
       <div class="flex-end-center margin-bottom20">
         <iButton v-show="!extraData.dimenssionEditable" @click="handleEdit"
-          >编辑</iButton
+          >{{language('编辑')}}</iButton
         >
         <iButton v-show="extraData.dimenssionEditable" @click="handleAdd">
-          增加维度
+          {{language('增加维度')}}
         </iButton>
         <iButton
           v-show="extraData.dimenssionEditable"
           @click="handleDel"
           :disabled="selectedRows.length === 0"
         >
-          删除维度
+          {{language('删除维度')}}
         </iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleSave">
-          保存
+          {{language('保存')}}
         </iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleCancel">
-          取消
+          {{language('取消')}}
         </iButton>
       </div>
       <iTableCustom
@@ -159,6 +159,7 @@ export default {
         {
           prop: 'description',
           label: '维度',
+          i18n:'维度',
           tooltip: false,
           align: 'center',
           width:'400px',
@@ -166,6 +167,7 @@ export default {
         {
           prop: 'content',
           label: '内容',
+          i18n: '内容',
           align: 'center',
           tooltip: false,
           customRender: (h, scope) => {
@@ -188,6 +190,7 @@ export default {
         {
           prop: 'dimension',
           label: '维度',
+          i18n: '维度',
           tooltip: false,
           width:'400px',
           align: 'center',
@@ -230,6 +233,7 @@ export default {
         {
           prop: 'content',
           label: '内容',
+          i18n: '内容',
           align: 'center',
           tooltip: false,
           customRender: (h, scope) => {

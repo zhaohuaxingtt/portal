@@ -89,6 +89,7 @@ export default {
         {
           prop: 'code',
           label: '岗位编码',
+          i18n:'岗位编码',
           tooltip: false,
           sortable: true,
           width:'120px'
@@ -96,6 +97,7 @@ export default {
         {
           prop: 'fullNameZh',
           label: '岗位全称',
+          i18n:'岗位全称',
           tooltip: true,
           // align: 'left',
           emit: 'go-detail',
@@ -109,6 +111,7 @@ export default {
           prop: 'isDeptLead',
           label: '组织领导',
           align: 'center',
+          i18n:'组织领导',
           width: 120,
           tooltip: false,
           customRender: (h, scope) => {
@@ -120,6 +123,7 @@ export default {
         {
           prop: 'memberCount',
           label: '用户数量',
+          i18n:'用户数量',
           align: 'center',
           width: 120,
           tooltip: false,

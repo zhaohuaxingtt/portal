@@ -3,7 +3,7 @@
     <iPage class="main">
       <div class="title">{{ formData.nameZh }}</div>
       <iCard
-        :title="searchOptionTitles.basicMessage"
+        :title="language(searchOptionTitles.basicMessage)"
         collapse="true"
         class="basicMessage"
       >
@@ -16,20 +16,20 @@
         >
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.contactName">
+              <el-form-item class="elFormItems" :label="language(formLable.contactName)">
                 <iInput v-model="formData.nameZh" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item
                 class="elFormItems"
-                :label="formLable.userLoginName"
+                :label="language(formLable.userLoginName)"
               >
                 <iInput v-model="formData.userName" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.supChina">
+              <el-form-item class="elFormItems" :label="language(formLable.supChina)">
                 <iInput v-model="formData.opcsCompanyNameZh" disabled></iInput>
               </el-form-item>
             </el-col>
@@ -49,22 +49,22 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.position">
+              <el-form-item class="elFormItems" :label="language(formLable.position)">
                 <iInput v-model="formData.position" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.department">
+              <el-form-item class="elFormItems" :label="language(formLable.department)">
                 <iInput v-model="formData.dept" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.areaCode">
+              <el-form-item class="elFormItems" :label="language(formLable.areaCode)">
                 <iInput v-model="formData.telephoneAreaCode" disabled></iInput>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.contactPhone">
+              <el-form-item class="elFormItems" :label="language(formLable.contactPhone)">
                 <iInput v-model="formData.telephoneO" disabled></iInput>
               </el-form-item>
             </el-col>
@@ -77,7 +77,7 @@
               </el-form-item>
             </el-col> -->
             <el-col :span="6">
-              <el-form-item class="elFormItems" :label="formLable.email">
+              <el-form-item class="elFormItems" :label="language(formLable.email)">
                 <iInput v-model="formData.email" disabled></iInput>
               </el-form-item>
             </el-col>
@@ -92,16 +92,16 @@
         </el-form>
       </iCard>
       <iCard
-        :title="searchOptionTitles.tableTile"
+        :title="language(searchOptionTitles.tableTile)"
         collapse="true"
         class="tableList"
       >
         <div class="tableButton">
           <iButton v-if="isEditAuth" @click="authEditStatus">
-            {{ iButtons.edit }}
+            {{ language(iButtons.edit) }}
           </iButton>
           <iButton v-else @click="cancelAuthBtnClick">
-            {{ iButtons.cancelAuth }}
+            {{ language(iButtons.cancelAuth) }}
           </iButton>
         </div>
         <div class="table margin-top20">

@@ -2,7 +2,7 @@
   <iDialog
     :visible="isVisible"
     @close="backEdit"
-    :title="operationType === 'cancelAuth' ? '取消授权' : '授权'"
+    :title="language(operationType === 'cancelAuth' ? '取消授权' : '授权')"
     width="88%"
     destroy-on-close="true"
   >

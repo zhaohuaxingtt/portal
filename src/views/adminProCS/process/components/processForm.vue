@@ -3,7 +3,7 @@
 		<el-form 
 			:model="form" 
 			:rules="rules" 
-			label-width="90px" 
+			label-width="120px" 
 			ref="form"
             :inline="type == 'edit'"
 			class="validate-required-form process-form"

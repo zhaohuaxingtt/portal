@@ -2,22 +2,22 @@
   <iPage>
     <div class="position-operate-page" v-loading="loading">
       <pageHeader class="margin-bottom20" v-if="editable">
-        {{ $route.query.id ? '编辑' : '新增' }}岗位
+        {{language( $route.query.id ? '编辑' : '新增') }} {{language('岗位')}}
 
         <div slot="actions">
-          <iButton @click="handleDirect" v-if="type === 'detail'">编辑</iButton>
+          <iButton @click="handleDirect" v-if="type === 'detail'">{{language('编辑')}}</iButton>
           <iButton
             @click="handleConfirm"
             v-if="type !== 'detail'"
             class="margin-right20"
             :loading="saveLoading"
-            >确认</iButton
+            >{{language('确认')}}</iButton
           >
           <iButton
             @click="handleReset"
             :loading="saveLoading"
             v-if="type !== 'detail'"
-            >重置</iButton
+            >{{language('重置')}}</iButton
           >
         </div>
       </pageHeader>

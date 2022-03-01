@@ -31,6 +31,7 @@ export const USER_TABLE_COLUMNS = [
   {
     label: '用户登录名',
     prop: 'userName',
+    i18n:'用户登录名',
     tooltip: true,
     minWidth: '120px'
   },
