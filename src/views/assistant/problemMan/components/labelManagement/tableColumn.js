@@ -21,7 +21,7 @@ export const tableColumn = (list) => {
       i18n: '问题模块',
       align: 'center',
       customRender: (h, scope) => {
-        return list[scope.row.moduleId] ? list[scope.row.moduleId].menuName : ''
+        return list[scope.row.moduleId] ? `${list[scope.row.moduleId].parentName ? list[scope.row.moduleId].parentName+'-': ''}${list[scope.row.moduleId].menuName}` : ''
       },
       sortable: true
     },
