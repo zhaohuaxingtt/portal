@@ -397,7 +397,7 @@
         var date = myDate.getDate()
         var materialCode = "";
         var materialName = "";
-        const supplier_code_name = this.supplier_code_name;
+        var supplier_code_name = '10138-宁波华翔电子股份有限公司';
         if(this.$route.query.materialCode){
           materialCode = this.$route.query.materialCode;
           materialName = this.$route.query.materialName;
@@ -414,7 +414,7 @@
               column: "data_version"
             },
             operator: "In",
-            // values: [year+""+month],
+            values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
