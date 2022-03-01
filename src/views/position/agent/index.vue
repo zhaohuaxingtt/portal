@@ -73,7 +73,7 @@ export default {
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          width: 140
+          width: 150
         },
         {
           prop: 'fullNameZh',
@@ -111,7 +111,7 @@ export default {
         {
           prop: 'createDate',
           label: '创建时间',
-          width: 150
+          width: 180
         },
         {
           prop: 'status',

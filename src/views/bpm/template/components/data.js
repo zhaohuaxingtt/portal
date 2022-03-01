@@ -51,7 +51,7 @@ export const tableColumns = [
     prop: 'status',
     label: '流程状态',
     i18n: 'APPROVAL.FLOW_STATUS',
-    width:80,
+    width:100,
     tooltip: false,
     customRender:(h,scope)=>{
       if(scope.row.status == 0){
