@@ -58,6 +58,15 @@ export function getRawMaterialNos(parmars) {
   })
 }
 
+export function getDeptAndBuyerByMtzNomi(parmars) {
+  //原材料编号-名称下拉选择
+  return requst({
+    url: '/commonDropDown/getDeptAndBuyerByMtzNomi',
+    method: 'POST',
+    data: parmars
+  })
+}
+
 export function getDifferenceInfor(parmars) {
   //根据ID获取补差明细基本信息
   return requst({
