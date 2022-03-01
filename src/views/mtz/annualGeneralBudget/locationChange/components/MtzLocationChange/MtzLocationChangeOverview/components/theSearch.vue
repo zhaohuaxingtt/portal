@@ -37,19 +37,6 @@
                          value-key="code">
           </custom-select>
         </el-form-item>
-        <el-form-item label="采购员"
-                      class="searchFormItem">
-          <custom-select v-model="searchForm.buyerNameList"
-                         :user-options="locationApplyFilterLinie"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </el-form-item>
         <el-form-item label="科室"
                       class="searchFormItem">
           <custom-select v-model="searchForm.buyerDeptId"
@@ -57,10 +44,25 @@
                          :user-options="deptList"
                          multiple
                          clearable
+                         @change="changeKS"
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="departNameEn"
-                         value-member="departId"
-                         value-key="departId">
+                         display-member="depName"
+                         value-member="depId"
+                         value-key="depId">
+          </custom-select>
+        </el-form-item>
+        <el-form-item label="采购员"
+                      class="searchFormItem">
+          <custom-select v-model="searchForm.buyerNameList"
+                         :user-options="locationApplyFilterLinie"
+                         style="width:100%"
+                         @change="changeCGY"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                         display-member="buyerName"
+                         value-member="buyerId"
+                         value-key="buyerId">
           </custom-select>
         </el-form-item>
         <el-form-item label="审批完成时间"
@@ -103,6 +105,7 @@
 <script>
 import { iCard, iButton, iMessage, iSearch, iDatePicker, iInput } from 'rise'
 import { getLocationApplyStatus, getLocationApplyFilter, getLocationApplyFilterLinie } from '@/api/mtz/annualGeneralBudget/mtzChange'
+import { getDeptAndBuyerByMtzNomi } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import inputCustom from '@/components/inputCustom'
@@ -128,13 +131,42 @@ export default {
       RawMaterialNos: [],
       locationApplyFilters: [],
       locationApplyFilterLinie: [],
-      resolutionPassTime: []
+      resolutionPassTime: [],
+      depBuyerAll:[],
+      getCurrentCopy:[],
     }
   },
   created () {
     this.init()
   },
   methods: {
+    changeKS(e){
+      if(e.length<1){
+        this.locationApplyFilterLinie = this.getCurrentCopy;
+        return false;
+      }
+      var getCurrentUser = [];
+      this.depBuyerAll.forEach((item,index)=>{
+        if(e.indexOf(item.depId) !== -1){
+          getCurrentUser.push({
+            buyerId:item.buyerId,
+            buyerName:item.buyerName,
+          })
+        }
+      })
+      var getCurrentNew = getCurrentUser.filter((e,index)=>{
+        let ids = [];
+        getCurrentUser.forEach((item,i) => {
+          ids.push(item.buyerId)
+        });
+        let str = ids.indexOf(e.buyerId) === index
+        return str;
+      })
+      this.locationApplyFilterLinie = getCurrentNew;
+    },
+    changeCGY(e){
+      console.log(e)
+    },
     init () {
       this.getRawMaterialNos()
       this.getDeptData()
@@ -160,12 +192,59 @@ export default {
     // 获取部门数据
     // 获取部门数据
     getDeptData () {
-      fetchRemoteDept({}).then(res => {
-        if (res && res.code == 200) {
-          this.deptList = res.data
-        } else iMessage.error(res.desZh)
+      // fetchRemoteDept({}).then(res => {
+      //   if (res && res.code == 200) {
+      //     this.deptList = res.data
+      //   } else iMessage.error(res.desZh)
+      // })
+
+      getDeptAndBuyerByMtzNomi({
+        appType:"MTZ"
+      }).then(res=>{
+        this.depBuyerAll = res.data;
+        // this.linieDeptId = res.data;//科室
+        var linieDeptId = [];
+        var getCurrentUser = [];
+
+        res.data.forEach(e=>{
+          linieDeptId.push({
+            depId:e.depId,
+            depName:e.depName,
+          })
+          getCurrentUser.push({
+            buyerId:e.buyerId,
+            buyerName:e.buyerName,
+          })
+        })
+
+        var linieDeptNew = linieDeptId.filter((e,index)=>{
+          let ids = [];
+          linieDeptId.forEach((item,i) => {
+            ids.push(item.depId)
+          });
+          let str = ids.indexOf(e.depId) === index
+          return str;
+        })
+
+        this.deptList = linieDeptNew;
+
+        var getCurrentNew = getCurrentUser.filter((e,index)=>{
+          let ids = [];
+          getCurrentUser.forEach((item,i) => {
+            ids.push(item.buyerId)
+          });
+          let str = ids.indexOf(e.buyerId) === index
+          return str;
+        })
+
+        this.locationApplyFilterLinie = getCurrentNew;
+        this.getCurrentCopy = getCurrentNew;
+        // this.getCurrentUser = res.data;//采购员
       })
     },
+
+    
+
     //原材料编号
     getRawMaterialNos (key) {
       getRawMaterialNos({
@@ -192,15 +271,15 @@ export default {
     },
     //采购员
     getLocationApplyFilterLinie (key) {
-      getLocationApplyFilterLinie({
-        keyWords: key || ""
-      }).then(res => {
-        if (res.code === '200') {
-          this.locationApplyFilterLinie = res.data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
+      // getLocationApplyFilterLinie({
+      //   keyWords: key || ""
+      // }).then(res => {
+      //   if (res.code === '200') {
+      //     this.locationApplyFilterLinie = res.data
+      //   } else {
+      //     iMessage.error(res.desZh)
+      //   }
+      // })
     },
 
     handleSearchReset () {
