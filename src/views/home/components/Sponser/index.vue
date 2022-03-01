@@ -321,6 +321,9 @@ export default {
             '%}'
           )
         } */
+        e.ellipsis = {
+          fontWeight: 'bold'
+        }
         e.textStyle = {
           rich: {
             a: {
@@ -339,7 +342,8 @@ export default {
             },
             d: {
               fontSize: 10,
-              fontWeight: 'normal'
+              fontWeight: 'normal',
+              align: 'right'
             }
           }
         }
