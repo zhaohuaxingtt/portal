@@ -397,6 +397,7 @@
         var date = myDate.getDate()
         var materialCode = "";
         var materialName = "";
+        const supplier_code_name = this.supplier_code_name;
         if(this.$route.query.materialCode){
           materialCode = this.$route.query.materialCode;
           materialName = this.$route.query.materialName;
@@ -445,7 +446,7 @@
 									column: "supplier_code_name"
 								},
 								operator: "In",
-								values: [this.supplier_code_name],
+								values: [supplier_code_name],
                 filterType: pbi.models.FilterType.BasicFilter
 						};
 
