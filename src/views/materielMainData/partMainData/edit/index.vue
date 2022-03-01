@@ -166,7 +166,7 @@
                 <iFormItem
                   :label="language('零件名称(德)')"
                   prop="partNameDe"
-                  label-width="130px"
+                  label-width="140px"
                 >
                   <iInput
                     :placeholder="language('请输入')"
@@ -211,7 +211,7 @@
                 <iFormItem
                   :label="language('ZP')"
                   prop="zp"
-                  label-width="130px"
+                  label-width="140px"
                 >
                   <iSelect
                     :placeholder="language('请输入/请选择')"
@@ -263,7 +263,7 @@
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="language('零件材料组')" label-width="130px">
+                <iFormItem :label="language('零件材料组')" label-width="140px">
                   <iInput
                     :disabled="chooseMaterielGroup"
                     v-model="itemContent.categoryDesc"
@@ -330,7 +330,7 @@
               <el-col :span="6">
                 <iFormItem
                   :label="language('最近一次修改时间')"
-                  label-width="130px"
+                  label-width="140px"
                 >
                   <iInput disabled v-model="itemContent.updateDate"></iInput>
                 </iFormItem>

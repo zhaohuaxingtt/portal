@@ -18,7 +18,7 @@ export const tableColumnSetting = [
   {
     prop: 'productNameZh',
     i18n: '产品家族名称',
-    align: 'center'
+    align: 'center',
   },
   {
     prop: 'productNameEn',
@@ -48,7 +48,7 @@ export const tableColumnSetting = [
     i18n: '车型年切换日期',
     align: 'center',
     tooltip: true,
-    width: 120,
+    width: 150,
     customRender: (h, scope) => {
       let dateTime = scope.row.modelYearChangeDate
       let date = ''

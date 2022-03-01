@@ -4,7 +4,8 @@ export const USER_TABLE_COLUMNS = [
   },
   {
     type: 'index',
-    label: '序号'
+    label: '序号',
+    width:60
   },
   {
     label: '联系人姓名',
@@ -53,7 +54,8 @@ export const USER_TABLE_COLUMNS = [
   {
     label: '电话区号',
     prop: 'telephoneAreaCode',
-    tooltip: true
+    tooltip: true,
+    width:90
   },
   {
     label: '联系电话',
@@ -70,6 +72,7 @@ export const USER_TABLE_COLUMNS = [
   {
     label: '是否有效',
     prop: '',
+    width:90,
     customRender: (h, scope) => {
       // 1正常2冻结
       if (scope.row.status == '1') {
@@ -83,6 +86,7 @@ export const USER_TABLE_COLUMNS = [
   {
     label: '是否超期',
     prop: '',
+    width:90,
     tooltip: true,
     customRender: (h, scope) => {
       if (scope.row.isExpired) {
@@ -95,17 +99,17 @@ export const USER_TABLE_COLUMNS = [
   {
     label: '超期时间 ',
     prop: 'expireDate',
-    minWidth: '180px'
+    minWidth: '170px'
   },
   {
     label: '最后登录时间',
     prop: 'lastLoginDate',
-    minWidth: '180px'
+    minWidth: '170px'
   },
   {
     label:'是否删除',
     prop:'isDelete',
-    width:100,
+    width:90,
     customRender:(h,scope)=>{
       if(scope.row.isDelete){
         return '是'

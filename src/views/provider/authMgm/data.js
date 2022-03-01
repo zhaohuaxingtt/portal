@@ -25,7 +25,7 @@ export const tableSetting = [
         return <span class="link-text">{scope.row.nameZh}</span>
       }
     },
-    sortable: true
+    // sortable: true
   },
   {
     prop: 'userName',
@@ -46,7 +46,7 @@ export const tableSetting = [
     prop: 'isMainContact',
     label: '是否主联系人',
     align: 'center',
-    width: '120px',
+    width: '150px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
@@ -61,11 +61,11 @@ export const tableSetting = [
     label: '临时号',
     align: 'center',
     sortable: true,
-    width:80
+    width:90
   },
   {
     i18n: '正式/SVW号',
-    width: '110px',
+    width: '130px',
     prop: 'svwCode',
     sortable: true
   },
@@ -96,7 +96,7 @@ export const tableSetting = [
     align: 'center',
     width: '100px',
     tooltip: true,
-    sortable: true
+    // sortable: true
   },
   {
     prop: 'email',
@@ -104,7 +104,7 @@ export const tableSetting = [
     align: 'center',
     width: '180px',
     tooltip: true,
-    sortable: true
+    // sortable: true
   }
 ]
 

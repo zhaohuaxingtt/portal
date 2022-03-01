@@ -105,6 +105,7 @@ export const tableTitle = [{
         props: 'userName',
         name: '用户登录名',
         key: 'YONGHUDENGLUMING',
+        width:100
     },
     {
         props: 'isActive',
