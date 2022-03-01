@@ -8,8 +8,9 @@
 <template>
   <iDialog :modal="false"
            :title="language('TUFASHIJIAN','突发事件')"
-           :show-close="false"
+           :close-on-click-modal='false'
            :visible.sync="value"
+           :show-close="false"
            width="80%"
            height="1000px">
     <div slot="title"
@@ -158,10 +159,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <iDialog :modal="false"
+    <iDialog :append-to-body="true"
              :visible.sync="visible"
              v-if="visible"
-             width="80%"
+             width="40%"
              height="600px">
       <div slot="title"
            class="flex">
@@ -213,6 +214,10 @@ export default {
     tableListData: { type: Array, default: [] },
     eventDetail: { type: Object, default: {} },
     supplierList: { type: Object }
+  },
+  model: {
+    prop: 'value',
+    event: 'input'
   },
   data () {
     // 这里存放数据
