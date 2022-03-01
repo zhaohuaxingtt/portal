@@ -137,17 +137,18 @@
         </el-table-column>
       </el-table>
     </iCard>
-    <iDialog :modal="false"
-             :visible.sync="supplierVisible"
+    <iDialog :visible.sync="supplierVisible"
+             append-to-body
              v-if="supplierVisible"
-             width="80%"
+             width="40%"
              height="600px">
       <div slot="title"
-           class="flex">
+           class="flex"
+           style="align-items:flex-end">
         <span class="el-dialog__title">
           {{supplierList.supplierName +language('SHOUYINGXIANGLINGJIANXIANGQING','受影响零件详情')}}
         </span>
-        <span style='font-size:16px;margin-left:20px;vertical-align: bottom;'>{{supplierList.sapCode?supplierList.sapCode:supplierList.svwCode}}</span>
+        <span style='font-size:16px;margin-left:20px'>{{supplierList.sapCode?supplierList.sapCode:supplierList.svwCode}}</span>
 
       </div>
       <p>{{supplierList.factoryName?supplierList.factoryName:''+'    '+supplierList.address}}</p>

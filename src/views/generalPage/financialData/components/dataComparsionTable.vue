@@ -6,7 +6,7 @@
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
 <template>
-  <div>
+  <div v-loading="loadPage">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <i-button @click="saveInfos()"
@@ -94,7 +94,8 @@ export default {
       tableListData: [],
       selectTableData: [],
       id: "",
-      loading: false
+      loading: false,
+      loadPage: false
     };
   },
   created () {
@@ -113,6 +114,7 @@ export default {
       });
     },
     async saveInfos () {
+      this.loadPage = true
       this.tableLoading = true
       const pms = {
         displayType: this.tabValue,
@@ -161,6 +163,7 @@ export default {
           pms.financeIds.push(item.id);
         });
         const res = await financeFieldDisplayList(pms);
+
         res.data && res.data.list.map(item => {
           if (item.fieldName === 'isAudit') {
             item.info.forEach((i, index) => {
@@ -198,6 +201,7 @@ export default {
           });
 
         this.$nextTick(async () => {
+          this.loadPage = false
           this.id = res.data && res.data.id;
           this.tableListData = res.data && res.data.list;
           this.page.currPage = res.data.current;
