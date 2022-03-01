@@ -248,6 +248,7 @@
     LK_BAOJIAJIEZHIRIQI: 'Quotation deadline', //报价截止日期
     LK_RFQQUOTATIONDEADLINE: 'Deadline', //报价截至日期
     LK_NINDANGQIANHAIWEIXUANZE: 'Sorry, you have not selected yet!', //抱歉！您当前还未选择！
+    LK_ZYCBPJZTWZDDSHCNDJCAN: '只有初评状态为中断的时候，才能点击此按钮',
     LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN:
       'Sorry, Forward Buyer not selected!', //抱歉！您当前还未选择询价采购员！
     LK_BEIZHUBUNENGWEIKONG: 'Sorry, notes cannot be empty!', //抱歉，备注不能为空！
@@ -968,6 +969,7 @@
     GONGSIGAIKANG: 'Company Profile', //公司概况
     Home: 'Home',
     BasicInformation: 'Basic Information',
+    CAIGOUTIAOKUANQIANSHURIQI: 'Signing date of purchase terms',
     SupplierZh: 'Supplier Zh',
     SupplierEn: 'Supplier En',
     SupplierAbbreviationZh: 'Supplier Abbreviation Zh',
@@ -1391,7 +1393,7 @@
     SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
     SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
     SPR_FRM_FRMGL_WPSJQZ: '外评时间起止', //外评时间起止
-    SPR_FRM_FRMGL_WP1: '外评', //外评
+    SPR_FRM_FRMGL_WP: '外评', //外评
     SPR_FRM_FRMGL_SPZT: '深评状态', //深评状态
     SPR_FRM_FRMGL_DXDFSJ: '定性打分时间', //定性打分时间
     SPR_FRM_FRMGL_DXDFSJQZ: '定性打分时间起止', //定性打分时间起止

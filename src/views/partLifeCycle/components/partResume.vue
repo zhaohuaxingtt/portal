@@ -187,7 +187,7 @@
                         <span class="link"  @click="toUrl(infoData,'mtzRsNum')">{{ infoData.mtzRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>MTZ {{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
+                        <span>{{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'rsNlNum')">{{ infoData.rsNlNum }}</span>
                     </div>
 
@@ -487,10 +487,10 @@
             this.bookmarkNodes.sort(sort)
             if (this.bookmarkNodes && this.bookmarkNodes[0]) {
               if (this.bookmarkNodes[0].children && this.bookmarkNodes[0].children[0]) {
-                this.getRecordDetail(this.bookmarkNodes[0].children[0], 0)
+                this.getRecordDetail(res.data.mainSpindleNodes[0], 0)
                 this.bookmarkNodes[0].index = 0
               } else {
-                this.getRecordDetail(this.bookmarkNodes[0], 0)
+                this.getRecordDetail(res.data.mainSpindleNodes[0], 0)
                 this.checkedIndex1 = 0
               }
             }

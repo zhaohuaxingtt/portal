@@ -160,7 +160,7 @@ export default {
     handleShow(va) {
       this.contentShowFlag = !va
     },
-    handleSelect (list) {
+    handleSelect(list) {
       // let activeMenu = this.$route.meta?.activeMenu || []
       // this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
       localStorage.setItem('currMenu', JSON.stringify(this.activeMenu || []))

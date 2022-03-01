@@ -370,7 +370,7 @@ export default {
     // 取消关注
     handleUnfollow(e) {
       if (e.state === '03') {
-        iMessage.warn('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU'))
         return
       }
       if (!this.following) {
@@ -387,7 +387,7 @@ export default {
         unfollow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('MT_QUXIAOGUANZHUCHENGGONG')
+              iMessage.success(this.$t('MT_QUXIAOGUANZHUCHENGGONG'))
             }
             this.query().then(() => {
               this.following = false
@@ -403,7 +403,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU'))
         return
       }
       this.following = true
@@ -420,7 +420,7 @@ export default {
         follow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('MT_GUANZHUCHENGGONG')
+              iMessage.success(this.$t('MT_GUANZHUCHENGGONG'))
             }
             this.query().then(() => {
               this.following = false

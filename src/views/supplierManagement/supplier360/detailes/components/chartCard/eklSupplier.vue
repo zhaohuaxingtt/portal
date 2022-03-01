@@ -1,28 +1,45 @@
 <template>
-  <iCard class="section" style="height:14rem">
+  <iCard class="section"
+         style="height:16rem">
     <div class="title">
       <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
       <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
-      <span v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE" class="el-dropdown-link">
+      <!-- <span v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE"
+            class="el-dropdown-link">
         <i class="el-icon-more"></i>
-      </span>
+      </span> -->
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item v-permission="PORTAL_SUPPLIER_CARD_EKL_MORE"
+                            @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <p class="tagMoney">{{ language('JINEWANAYUAN', '金额(万元)') }}</p>
-    <div  class="box">
-      <span v-if="!isTitle" class="text" @click="changeTab">{{
+    <div class="box">
+      <span v-if="!isTitle"
+            class="text"
+            @click="changeTab">{{
         language('EKLPILIANGJIAN', 'EKL-批量件')
       }}</span>
-      <span v-if="isTitle" class="text" @click="changeTab">{{
+      <span v-if="isTitle"
+            class="text"
+            @click="changeTab">{{
         language('EKLPEIFUJIAN', 'EKL-配附件')
       }}</span>
-      <img :src="img" class="imgIcon" />
-      <div ref="chart" class="chartStyle"></div>
+      <img :src="img"
+           class="imgIcon" />
+      <div ref="chart"
+           class="chartStyle"></div>
     </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard,  } from 'rise'
+import { iCard, } from 'rise'
 import { getSupplierCard } from '@/api/supplierManagement/supplierCard/index'
 import img from '@/assets/images/eklSupplier.svg'
 export default {
@@ -37,7 +54,7 @@ export default {
   components: {
     iCard,
   },
-  data() {
+  data () {
     return {
       chart: 'oneChart',
       isTitle: true,
@@ -45,22 +62,22 @@ export default {
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {
-    infodata(data) {
+    infodata (data) {
       console.log(data)
       this.getData(data.sapCode)
     },
-      '$i18n.locale'() {
+    '$i18n.locale' () {
       this.getChart();
     }
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    getData() {
+    getData () {
       let req = {
         supplierSapCode: this.infodata.sapCode
       }
@@ -118,11 +135,20 @@ export default {
         this.getChart()
       })
     },
-    changeTab() {
+    changeTab () {
       this.isTitle = !this.isTitle
       this.getChart()
     },
-    getChart() {
+    openDilog () {
+      let router = this.$router.resolve({
+        path: '/achievement/baseData/mymerit',
+        query: {
+          supplier_code_name: `${this.infodata.sapCode}-${this.infodata.nameZh}`
+        }
+      })
+      window.open(router.href, '_blank')
+    },
+    getChart () {
       arr = []
       var data1 = []
       var data2 = []
@@ -167,7 +193,7 @@ export default {
         tooltip: {
           trigger: 'axis',
           //   formatter:'{a}{b}{c}',
-          formatter: function(params) {
+          formatter: function (params) {
             let str = ''
             params.forEach((item, idx) => {
               item.data = Math.abs(item.data)
@@ -243,8 +269,8 @@ export default {
           //   }
         ],
         series: [
-               {
-            name: this.language('ZHANGJIA','涨价'),
+          {
+            name: this.language('ZHANGJIA', '涨价'),
             data: data2,
             type: 'bar',
             barWidth: 30,
@@ -256,14 +282,14 @@ export default {
               }
             },
             label: {
-              formatter: function(params) {
+              formatter: function (params) {
                 console.log(params)
                 return params.data + '%'
               }
             }
           },
           {
-            name: this.language('JIANGJIA','降价'),
+            name: this.language('JIANGJIA', '降价'),
             data: data1,
             type: 'bar',
             barGap: '-100%',
@@ -281,9 +307,9 @@ export default {
               }
             }
           },
-       
+
           {
-            name: this.language('JIEJIANGBI','节降比'),
+            name: this.language('JIEJIANGBI', '节降比'),
             data: data3,
             type: 'line',
             label: {
@@ -291,7 +317,7 @@ export default {
               position: 'top',
               fontSize: 10,
               color: '#727272',
-              formatter: function(params) {
+              formatter: function (params) {
                 let num = params.data
                 // console.log(num-data1[0])
                 // data1.forEach((res) => {
@@ -315,11 +341,11 @@ export default {
       }
       myChart.setOption(option)
     },
-    sumItem: function(arr1, arr2) {
+    sumItem: function (arr1, arr2) {
       if (arr2.length == 0) {
         return arr1
       } else {
-        arr1.map(function(value, index) {
+        arr1.map(function (value, index) {
           arr2[index] += value + 1
         })
       }
@@ -330,15 +356,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.section{
-    position: relative;
+.section {
+  position: relative;
 }
-.tagMoney{
-    position: absolute;
-    top: 35px;
-    left: 160px;
-    color: #5f6f8f;
-    font-size: 14px;
+.tagMoney {
+  position: absolute;
+  top: 35px;
+  left: 160px;
+  color: #5f6f8f;
+  font-size: 14px;
 }
 .imgIcon {
   width: 60px;

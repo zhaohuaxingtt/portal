@@ -247,9 +247,10 @@ export default {
       })
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
-        obj.chooseEquipment.value = parseInt(
-          obj.chooseEquipment.value / 1000000
-        ).toLocaleString()
+        
+        // console.log(obj.chooseEquipment.value)
+        // obj.chooseEquipment.value = parseInt(obj.chooseEquipment.value / 1000000).toLocaleString()
+        obj.chooseEquipment.value = (obj.chooseEquipment.value / 1000000).toFixed(2)
 
         if (params.percent === 0) obj.chooseEquipment.data = '0.00'
         else obj.chooseEquipment.data = params.percent

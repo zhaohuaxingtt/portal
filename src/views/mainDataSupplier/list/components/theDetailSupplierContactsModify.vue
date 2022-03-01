@@ -134,7 +134,8 @@ export default {
         nameZh: this.detail.nameZh,
         phoneH: this.detail.phoneH,
         remark: this.detail.remark,
-        contactType: this.detail.contactType
+        contactType: this.detail.contactType,
+        telephone: this.detail.telephone
       }
       if (
         Object.prototype.toString.call(this.detail.contactType) ===

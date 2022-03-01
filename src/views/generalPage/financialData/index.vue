@@ -66,8 +66,7 @@
         </div>
       </div>
       <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->
-      <tableList 
-                 ref="commonTable"
+      <tableList ref="commonTable"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :tableLoading="tableLoading"
@@ -155,7 +154,8 @@
                      class="margin-top20" />
     <dataComparison :comparisonTableData="comparisonTableData"
                     v-model="dataComparisonDialog" />
-    <fetchExternalRatingsDialog v-model="ratingsDialog" @refreshTable="refreshTable" />
+    <fetchExternalRatingsDialog v-model="ratingsDialog"
+                                @refreshTable="refreshTable" />
   </div>
 </template>
 
@@ -163,7 +163,7 @@
 import tableList from '@/components/commonTable'
 import financialSearch from './components/financialSearch'
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
-import { iCard, iButton, iMessage, iDatePicker, iSelect } from 'rise'
+import { iCard, iButton, iMessage, iDatePicker, iSelect, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
@@ -197,7 +197,8 @@ export default {
     uploadButton,
     iDatePicker,
     fetchExternalRatingsDialog,
-    iSelect
+    iSelect,
+    iInput
   },
   data () {
     return {
@@ -247,11 +248,11 @@ export default {
   },
   methods: {
     // pullLevel(){
-      
+
     // },
-    refreshTable(){
+    refreshTable () {
       this.getTableList();
-      this.$emit("submitCalculateRefresh","view")
+      this.$emit("submitCalculateRefresh", "view")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')

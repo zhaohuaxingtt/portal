@@ -1,13 +1,17 @@
 <template>
   <div class="flex-between-center-center ekl-header">
-    <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
-      <el-tab-pane
-        v-for="item in tabList"
-        :key="item.id"
-        :label="item.name"
-        :name="item.name"
-      />
-    </el-tabs>
+    <div class="tab-tabs">
+      <div style="width: 100%">
+        <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
+          <el-tab-pane
+            v-for="item in tabList"
+            :key="item.id"
+            :label="item.name"
+            :name="item.name"
+          />
+        </el-tabs>
+      </div>
+    </div>
     <div class="unit">单位：百万元</div>
   </div>
 </template>
@@ -23,9 +27,20 @@ export default {
     }),
     tabList() {
       if (this.leadTabList.length) {
-        return this.leadTabList
+        let leadTabList = JSON.parse(JSON.stringify(this.leadTabList))
+        leadTabList.map((item) => {
+          item.name = item.name.replace('(Spare)', '') || ''
+        })
+        return this.unique(
+          JSON.parse(JSON.stringify([...this.eklTabList, ...leadTabList])) ||
+            [],
+          'name'
+        )
       }
-      return this.eklTabList
+      return this.unique(
+        JSON.parse(JSON.stringify(this.eklTabList)) || [],
+        'name'
+      )
     }
   },
   data() {
@@ -42,6 +57,11 @@ export default {
     }
   },
   methods: {
+    // 数组去重
+    unique(arr, attrName) {
+      const res = new Map()
+      return arr.filter((a) => !res.has(a[attrName]) && res.set(a[attrName], 1))
+    },
     setActiveName() {
       if (this.eklTabList && this.eklTabList.length > 0) {
         this.activeName = this.eklTabList[0].name
@@ -58,6 +78,13 @@ export default {
 .ekl-header {
   flex-grow: 1;
   margin-right: 20px;
+  align-items: center;
+  max-width: calc(100% - 60px);
+  .tab-tabs {
+    max-width: 60%;
+    /* overflow-x: auto;
+    overflow-y: hidden; */
+  }
 }
 ::v-deep .ekl-tabs {
   .el-tabs__item {
@@ -74,12 +101,14 @@ export default {
     height: 3px;
     bottom: -4px;
   }
-  .el-tabs__nav-scroll,
-  .el-tabs__nav-wrap {
-    overflow: visible;
-  }
   .el-tabs__nav-wrap::after {
     background-color: transparent;
   }
+}
+::v-deep .el-tabs__nav-prev {
+  display: none;
+}
+::v-deep .el-tabs__nav-next {
+  display: none;
 }
 </style>

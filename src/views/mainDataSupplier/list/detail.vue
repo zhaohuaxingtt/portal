@@ -151,6 +151,14 @@ export default {
               this.contacts = supplierContactVos || []
 
               if (supplierVo.supplierType === 'GP' && gpSupplierVo) {
+                let isForeignManufacture
+                if (
+                  supplierVo.isForeignManufacture == 1 ||
+                  supplierVo.isForeignManufacture == 0
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
+                }
                 this.supplierId = gpSupplierVo.id
                 this.baseInfo = {
                   ...supplierVo,
@@ -158,15 +166,26 @@ export default {
                   assCompanyVos: assCompanyVos || [], // 关联产品
                   supplierProductVos: supplierProductVos || [], // 关联公司
                   isListing: supplierVo.isListing + '',
-                  isForeignManufacture:
-                    supplierVo.isForeignManufacture &&
-                    supplierVo.isForeignManufacture + '',
+                  isForeignManufacture,
+                  // :
+                  //   supplierVo.isForeignManufacture &&
+                  //   supplierVo.isForeignManufacture + ''
+                  // ,
                   addressInfoVo: addressInfoVo || defaultAddressInfo,
-                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'GP' // 一般
               }
               if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
+                let isForeignManufacture
+                if (
+                  supplierVo.isForeignManufacture == 0 ||
+                  supplierVo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
+                }
                 this.supplierId = ppSupplierVo.id
                 this.baseInfo = {
                   ...supplierVo,
@@ -174,28 +193,39 @@ export default {
                   assCompanyVos: assCompanyVos || [], // 关联产品
                   supplierProductVos: supplierProductVos || [], // 关联公司
                   isListing: supplierVo.isListing + '',
-                  isForeignManufacture:
-                    supplierVo.isForeignManufacture &&
-                    supplierVo.isForeignManufacture + '',
+                  isForeignManufacture,
+                  // isForeignManufacture:
+                  //   supplierVo.isForeignManufacture &&
+                  //   supplierVo.isForeignManufacture + '',
                   addressInfoVo: addressInfoVo || defaultAddressInfo,
-                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'PP' // 生产
               }
               // CRW-4378[供应商主数据管理]供应商信息详情页，用户列表为空
               if (supplierVo.supplierType === 'PD') {
                 const vo = ppSupplierVo || gpSupplierVo
+                let isForeignManufacture
+                if (
+                  vo.isForeignManufacture == 0 ||
+                  vo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture = vo.isForeignManufacture.toString()
+                }
                 this.supplierId = vo.id
                 this.baseInfo = {
                   ...supplierVo,
                   ...vo,
                   isListing: vo.isListing && vo.isListing + '',
-                  isForeignManufacture:
-                    vo.isForeignManufacture && vo.isForeignManufacture + '',
+                  isForeignManufacture,
+                  // isForeignManufacture:
+                  //   vo.isForeignManufacture && vo.isForeignManufacture + '',
                   addressInfoVo: addressInfoVo || defaultAddressInfo,
                   assCompanyVos: assCompanyVos || [], // 关联产品
                   supplierProductVos: supplierProductVos || [], // 关联公司
-                  supplierCorpVo: supplierCorpVo || [] // 关联集团
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'PD'
               }

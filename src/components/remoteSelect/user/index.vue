@@ -8,7 +8,7 @@
       filterable
       remote
       reserve-keyword
-      :placeholder="placeholder"
+      :placeholder="language(placeholder)"
       :remote-method="queryAgentUser"
       :loading="loading"
       :disabled="disabled"

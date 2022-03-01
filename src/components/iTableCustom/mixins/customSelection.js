@@ -5,8 +5,10 @@ export default {
     ------------------------------------------------------------------------------------------*/
     handleCheckedAll(val) {
       this.tableData.forEach((e) => {
-        e.checked = val
-        e.isIndeterminate = false
+        if (!e.disabledChecked) {
+          e.checked = val
+          e.isIndeterminate = false
+        }
       })
       this.indeterminateAll = false
 

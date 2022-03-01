@@ -159,7 +159,7 @@
           <iButton @click="handleClickOutFlow" v-permission="PORTAL_MTZ_POINT_HUIWAILIUZHUAN">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
           <iButton @click="addMtz" v-permission="PORTAL_MTZ_POINT_XINJIANMTZDINGDIANSHENQING">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
           <iButton @click="handleClickMtzRecall" v-permission="PORTAL_MTZ_POINT_CHEHUI">{{ language('CHEHUI', '撤回') }}</iButton>
-          <iButton @click="handleClickMtzRecallPointAdmin" v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="handleClickMtzRecallPointAdmin" v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN">{{ $t('LK_TUIHUI') }}</iButton>
           <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </div>
