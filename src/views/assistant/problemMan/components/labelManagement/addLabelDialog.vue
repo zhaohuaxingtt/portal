@@ -1,11 +1,11 @@
 <template>
-  <iDialog title="新增标签" style="margin-top:20vh" :visible.sync="show" v-if="show" width="30%" @close='closeDiologBtn' append-to-body>
+  <iDialog :title="language('新增标签')" style="margin-top:20vh" :visible.sync="show" v-if="show" width="30%" @close='closeDiologBtn' append-to-body>
     <el-form label-position="left" :model="newLabelForm" :rules="newLabeRules" ref="newLabelForm" label-width="100px" class="validate-required-form">
       <iFormItem :label="language('标签内容')" prop='lableName'>
-        <iInput v-model="newLabelForm.lableName" placeholder="请输入"></iInput>
+        <iInput v-model="newLabelForm.lableName" :placeholder="language('请输入')"></iInput>
       </iFormItem>
       <iFormItem :label="language('问题模块')" prop='moduleId'>
-        <iSelect v-model="newLabelForm.moduleId" filterable placeholder="请选择">
+        <iSelect v-model="newLabelForm.moduleId" filterable :placeholder="language('请选择')">
           <el-option v-for="item in moduleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
         </iSelect>
       </iFormItem>

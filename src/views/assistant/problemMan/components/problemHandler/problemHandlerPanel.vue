@@ -47,7 +47,7 @@
           </ul>
         </el-col>
         <el-col span="8" push="4">
-          <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
+          <el-switch v-model="selfOnly" :active-text="language('仅看自己')" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
         <div class="card-list" 
@@ -59,22 +59,22 @@
             <div class="flex flex-row justify-between">
               <div class="title ellipsis">{{ item.questionTitle }}</div>
               <div class="status">
-                <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
-                <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
-                <template v-else-if="item.questionStatus === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+                <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">{{language('未处理')}}</span></template>
+                <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">{{language('已处理')}}</span></template>
+                <template v-else-if="item.questionStatus === 'finished'"><span style="color:#05BB8B; font-weight: bold;">{{language('已完成')}}</span></template>
               </div>
             </div>
             <div class="flex flex-row justify-between mt20 mb20 gray-color">
-              <div>提问人:{{ item.createByUerName }}</div>
-              <div>管理员:{{ item.handlerUserName }}</div>
+              <div>{{language('提问人')}}:{{ item.createByUerName }}</div>
+              <div>{{language('管理员')}}:{{ item.handlerUserName }}</div>
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
               <div class="label">{{ item.currModuleName }}</div>
               <div>{{ item.updateDate }}</div>
             </div>
           </el-card>
-          <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
-          <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">没有更多了</p>
+          <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">{{language('暂无数据')}}</p>
+          <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">{{language('没有更多了')}}</p>
         </div>
       </div>
     <div class="right-content ml20">
@@ -177,11 +177,11 @@
               </el-form>
             </div>
             <div class="mt20 mb20 flex">
-              <div>附件：</div>
+              <div>{{language('附件')}}：</div>
               <iUpload :disabled="loadText" ref="attachment" v-model="uploadFileList"  >
                 <iButton>{{ language('添加附件') }}</iButton>
               </iUpload>
-              <div v-if="loadText && uploadFileList.length == 0">无</div>
+              <div v-if="loadText && uploadFileList.length == 0">{{language('无')}}</div>
             </div>
           </div>
         </template>

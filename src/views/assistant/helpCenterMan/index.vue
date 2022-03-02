@@ -21,8 +21,8 @@
     </pageHeader>
     <!-- </div> -->
     <el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
-      <el-tab-pane label="内部用户" name="inner"> </el-tab-pane>
-      <el-tab-pane label="供应商用户" name="supplier"> </el-tab-pane>
+      <el-tab-pane :label="language('内部用户')" name="inner"> </el-tab-pane>
+      <el-tab-pane :label="language('供应商用户')" name="supplier"> </el-tab-pane>
     </el-tabs>
     <!-- 用户手册 -->
     <div
@@ -31,7 +31,7 @@
       v-permission="'ADMIN_PROCS_USER_ASSIS_manual'"
     >
       <CommonProblem
-        title="问题模块"
+        :title="language('问题模块')"
         :moudleList="manualList"
         :currentMoudleId="manualInfo.id"
         :loading="manualInfo.loading"
@@ -40,7 +40,7 @@
         <iInput
           slot="top"
           v-model="manualInfo.keyword"
-          placeholder="搜索.."
+          :placeholder="language('搜索...')"
         ></iInput>
       </CommonProblem>
       <div class="content-right" v-loading="contentLoading">
@@ -62,7 +62,7 @@
     >
       <CommonProblem
         ref="CommonProblem2"
-        title="常见问题"
+        :title="language('常见问题')"
         :moudleList="qsInfo.list"
         :currentMoudleId="qsInfo.id"
         :loading="qsInfo.loading"
@@ -79,7 +79,7 @@
             v-model="qsInfo.params.keyWord"
             @keydown.native.enter="refreshQs"
             @blur="refreshQs"
-            placeholder="搜索.."
+            :placeholder="language('搜索...')"
           ></iInput>
           <iSelect
             class="content-select"
