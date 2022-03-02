@@ -1,6 +1,6 @@
 <template>
    <iDialog
-      :title="form.id ? '修改内容' : '添加内容'"
+      :title="form.id ? language('修改内容') : language('添加内容')"
       :visible.sync="show"
       width="500px"
       @close="handleClose"
