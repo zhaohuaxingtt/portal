@@ -86,7 +86,9 @@ export default {
       let routeData = this.$router.resolve({
         path: '/supplier/frmrating/supplieroverview',
         query: {
-          isSupplier: 1
+          isSupplier: 1,
+          nameZh:this.infodata.nameZh,
+          sapCode:this.infodata.sapCode,
         }
       })
       window.open(routeData.href)
