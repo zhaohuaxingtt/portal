@@ -18,8 +18,8 @@
         </el-option>
       </el-select>
     </div>
-    <div class="pie-container" ref="pie" style="height: 190px"></div>
-    <div class="bar-container" ref="bar" style="height: 230px"></div>
+    <div class="pie-container" ref="pie"></div>
+    <div class="bar-container" ref="bar"></div>
   </div>
 </template>
 <script>
@@ -107,9 +107,25 @@ export default {
       this.totalCount = 0
       const result = await getSponserData(this.query)
 
-      if (result.code === '200' && result.data) {
-        let data = result.data.slice(0, 9)
-        const dataGrade = data.map((item) => {
+      if (result?.code === '200' && result?.data) {
+        const responseData = result?.data?.slice(0, 9) || []
+        const data = []
+        this.gradeList.forEach((grade) => {
+          const gradeItem = responseData.find((item) => {
+            return item.grade === grade
+          })
+          if (gradeItem) {
+            data.push(gradeItem)
+          } else {
+            data.push({
+              grade: grade,
+              num: 0,
+              ratio: 0
+            })
+          }
+        })
+        // let data = result.data.slice(0, 9)
+        /* const dataGrade = data.map((item) => {
           return item.grade
         })
         const diffArr = []
@@ -125,22 +141,23 @@ export default {
             num: 0,
             ratio: 0
           })
-        }
+        } */
 
         for (let i = 0; i < data.length; i++) {
-          data[i].value = data[i].num
-          data[i].name = data[i].grade
-          if (i < 3) {
-            data[i].type = 'A'
-          } else if (i < 6 && i > 2) {
-            data[i].type = 'B'
+          const item = data[i]
+          item.value = item.num
+          item.name = item.grade
+          if (item.grade.includes('A')) {
+            item.type = 'A'
+          } else if (item.grade.includes('B')) {
+            item.type = 'B'
           } else {
-            data[i].type = 'C'
+            item.type = 'C'
           }
-          this.totalCount += data[i].num
+          this.totalCount += item.num
         }
-
-        this.data = JSON.parse(JSON.stringify(data))
+        console.log('format data:', _.cloneDeep(data))
+        this.data = _.cloneDeep(data)
         this.newArr = []
         this.newBrr = []
         this.newCrr = []
@@ -157,6 +174,7 @@ export default {
         this.newArr = this.handleArr(this.newArr, 'A')
         this.newBrr = this.handleArr(this.newBrr, 'B')
         this.newCrr = this.handleArr(this.newCrr, 'C')
+        this.total = 0
         this.newCrr.forEach((item) => (this.total += item.value))
 
         this.initPie()
@@ -176,58 +194,20 @@ export default {
       this.getSponserList()
     },
     handleArr(arr, str) {
-      arr.sort((a, b) => b.num - a.num)
-      if (str == 'C') {
-        arr.forEach((item, index) => {
-          if (index == 0) {
-            item.grade = str + str + str
-            item.name = str + str + str
-
-            item.itemStyle = {
-              color: 'rgba(98, 157, 290, 1)'
-            }
-          } else if (index == 1) {
-            item.grade = str + str
-            item.name = str + str
-            item.itemStyle = {
-              color: 'rgba(98, 157, 290, 1)'
-            }
-          } else {
-            item.grade = str
-            item.name = str
-            item.itemStyle = {
-              color: 'rgba(98, 157, 290, 1)'
-            }
-          }
-        })
-      } else if (str == 'B') {
-        arr.forEach((item, index) => {
-          if (index == 0) {
-            item.grade = str
-            item.name = str
-          } else if (index == 1) {
-            item.grade = str + str
-            item.name = str + str
-          } else {
-            item.grade = str + str + str
-            item.name = str + str + str
-          }
-        })
-      } else {
-        arr.forEach((item, index) => {
-          if (index == 0) {
-            item.grade = str
-            item.name = str
-          } else if (index == 1) {
-            item.grade = str + str
-            item.name = str + str
-          } else {
-            item.grade = str + str + str
-            item.name = str + str + str
-          }
-        })
+      arr.sort((a, b) => a.grade.length - b.grade.length)
+      const colorMap = {
+        A: '#77CBFF',
+        B: '#77CBFF',
+        C: '#629DD1'
       }
-      return arr
+      return arr.map((e) => {
+        return {
+          itemStyle: {
+            color: colorMap[str]
+          },
+          ...e
+        }
+      })
     },
     initPie() {
       let data = _.cloneDeep(this.data)
@@ -293,7 +273,6 @@ export default {
         ...this.arrSort(B),
         ...this.arrSort(C)
       ]
-      console.log('legendData', this.legendData)
       this.setPieChart(data, total)
     },
     arrSort(arr) {
@@ -321,6 +300,9 @@ export default {
             '%}'
           )
         } */
+        e.ellipsis = {
+          fontWeight: 'bold'
+        }
         e.textStyle = {
           rich: {
             a: {
@@ -339,7 +321,8 @@ export default {
             },
             d: {
               fontSize: 10,
-              fontWeight: 'normal'
+              fontWeight: 'normal',
+              align: 'right'
             }
           }
         }
@@ -391,8 +374,6 @@ export default {
               for (let i = values[2].length; i < 5; i++) {
                 rateStr += '5'
               }
-              console.log('nameStr', nameStr.length, nameStr)
-              console.log('rateStr', rateStr.length, rateStr)
               return (
                 '{a|' +
                 values[0] +
@@ -450,7 +431,14 @@ export default {
             },
             data: data
           }
-        ]
+        ],
+        grid: {
+          containLabel: true,
+          left: 0,
+          top: 10,
+          right: 0,
+          bottom: 0
+        }
       }
       this.$nextTick(() => {
         this.pieChart && this.pieChart.setOption(option)
@@ -459,7 +447,6 @@ export default {
       this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
           if (e.name === param.name) {
-            console.log('mouseOver', e)
             for (const key in e.textStyle) {
               if (Object.hasOwnProperty.call(e.textStyle, key)) {
                 const element = e.textStyle[key]
@@ -550,8 +537,6 @@ export default {
               for (let i = values[2].length; i < 5; i++) {
                 rateStr += '5'
               }
-              console.log('nameStr', nameStr.length, nameStr)
-              console.log('rateStr', rateStr.length, rateStr)
               return (
                 '{a|' +
                 values[0] +
@@ -591,7 +576,14 @@ export default {
             },
             data: _that.legendData
           }
-        ]
+        ],
+        grid: {
+          containLabel: true,
+          left: 0,
+          top: 10,
+          right: 0,
+          bottom: 0
+        }
       }
       this.$nextTick(() => {
         option && this.pieChart.setOption(option)
@@ -665,21 +657,21 @@ export default {
         graphic: [
           {
             type: 'text',
-            right: 38,
-            bottom: 188,
+            right: 0,
+            top: 10,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n' + '\nC-Rating比例:${cRating.toFixed(
+              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${cRating.toFixed(
                 2
               )}%`,
-              font: '7px sans-serif'
+              font: '9px sans-serif'
             }
           }
         ],
         series: [
           {
             type: 'bar',
-            data: [this.newArr[2], this.newBrr[2], this.newCrr[0]],
+            data: [this.newArr[2], this.newBrr[2], this.newCrr[2]],
             label: {
               show: true,
               position: 'bottom',
@@ -727,10 +719,17 @@ export default {
               },
               fontSize: 9
             },
-            data: [this.newArr[0], this.newBrr[0], this.newCrr[2]],
+            data: [this.newArr[0], this.newBrr[0], this.newCrr[0]],
             color: 'rgba(119, 203, 255, 1)'
           }
-        ]
+        ],
+        grid: {
+          containLabel: true,
+          left: 0,
+          top: 50,
+          right: 0,
+          bottom: 0
+        }
       }
       this.$nextTick(() => {
         this.barChart && this.barChart.setOption(option)
@@ -744,18 +743,21 @@ export default {
 <style lang="scss">
 .sponser-container {
   position: relative;
+  height: 100%;
   .checkbox-container {
     .el-select {
       width: 100%;
     }
   }
   .pie-container {
-    margin-top: 15px;
+    /* margin-top: 15px; */
     z-index: 2;
+    height: calc(50% - 30px);
+    margin-top: 15px;
   }
   .bar-container {
     z-index: 1;
-    margin-top: -20px;
+    height: calc(50% - 30px);
   }
   .Rating {
     position: absolute;
