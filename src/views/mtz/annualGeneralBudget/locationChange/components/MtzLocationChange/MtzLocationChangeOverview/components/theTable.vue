@@ -40,7 +40,9 @@
           <template slot-scope="scope">
             <div>
               <iButton type=text
+                v-if="scope.row.viewDetailsFlag"
                        @click="detail(scope.row)">{{scope.row.mtzAppId}}</iButton>
+              <p v-else>{{scope.row.mtzAppId}}</p>
             </div>
           </template>
         </el-table-column>
