@@ -164,11 +164,6 @@
                 a.remove()
             },
             async handLoad(row,i1,i2) {
-                // const a = document.createElement('a')
-                // a.download = row.title
-                // a.href = `${row.cover}&isDown=true`
-                // a.click()
-                // a.remove()
                 let id = row.cover.split("=")[1] + ''
                 let type = row.source.substring(row.source.lastIndexOf('.')+1).toLowerCase() || 'png'
                 let params = {
@@ -194,8 +189,32 @@
                 this.params.current = 1
                 this.query()
             },
-            openFun(item, i1, i2) {
-                window.open(item.cover)
+            async openFun(item, i1, i2) {
+                let id = item.cover.split("=")[1] + ''
+                let type = item.source.substring(item.source.lastIndexOf('.')+1).toLowerCase().toString() || 'png'
+                const TYPEARR = ['png', 'pdf', 'jpg', 'jpeg']
+                if (TYPEARR.includes(type)) {
+                    window.open(item.cover)
+                } else {
+                    let params = {
+                        fileIds: [id],
+                        fileName: item.title
+                    }
+                    let formData = new FormData()
+                    Object.keys(params).forEach(item => {
+                        formData.append(item, params[item])
+                    })
+                    await downLoadFileName(formData).then(res => {
+                        if (res) {
+                            const a = document.createElement('a')
+                            a.download = item.title
+                            a.href = window.URL.createObjectURL(new Blob([res], { type: fileType[type]}))
+                            a.click()
+                            a.remove()
+                        }
+                    })
+                }
+                // window.open(item.cover)
                 this.updateIsNew(item.id, i1, i2)
             },
             // 取消最新 new
