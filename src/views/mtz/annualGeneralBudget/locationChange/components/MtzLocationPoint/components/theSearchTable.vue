@@ -315,10 +315,12 @@ export default {
       var getCurrentUser = [];
       this.depBuyerAll.forEach((item,index)=>{
         if(e.indexOf(item.depId) !== -1){
-          getCurrentUser.push({
-            buyerId:item.buyerId,
-            buyerName:item.buyerName,
-          })
+          if(item.buyerId){
+            getCurrentUser.push({
+              buyerId:item.buyerId,
+              buyerName:item.buyerName,
+            })
+          }
         }
       })
       var getCurrentNew = getCurrentUser.filter((e,index)=>{
@@ -363,14 +365,18 @@ export default {
         var getCurrentUser = [];
 
         res.data.forEach(e=>{
-          linieDeptId.push({
-            depId:e.depId,
-            depName:e.depName,
-          })
-          getCurrentUser.push({
-            buyerId:e.buyerId,
-            buyerName:e.buyerName,
-          })
+          if(e.depId){
+            linieDeptId.push({
+              depId:e.depId,
+              depName:e.depName,
+            })
+          }
+          if(e.buyerId){
+            getCurrentUser.push({
+              buyerId:e.buyerId,
+              buyerName:e.buyerName,
+            })
+          }
         })
 
         var linieDeptNew = linieDeptId.filter((e,index)=>{
