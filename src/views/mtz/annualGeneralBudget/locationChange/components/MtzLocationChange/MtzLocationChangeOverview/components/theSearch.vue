@@ -199,7 +199,7 @@ export default {
       // })
 
       getDeptAndBuyerByMtzNomi({
-        appType:"MTZ"
+        appType:"MTZ_CHANGE"
       }).then(res=>{
         this.depBuyerAll = res.data;
         // this.linieDeptId = res.data;//科室
