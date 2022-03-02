@@ -25,7 +25,7 @@
         >
         <el-table-column
           show-overflow-tooltip
-          width="156px"
+          width="250px"
           align="center"
           label="问卷名称"
           ><template slot-scope="scope">
@@ -82,12 +82,12 @@
             >
           </template></el-table-column
         >
-        <el-table-column align="center" width="170px" label="创建时间">
+        <el-table-column align="center" width="150px" label="创建时间">
           <template slot-scope="scope">
             <span>{{ scope.row["createDate"].substring(0, 16) }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="170px" label="截止时间">
+        <el-table-column align="center" width="150px" label="截止时间">
           <template slot-scope="scope">
             <span>{{
               scope.row["endTime"] && scope.row["endTime"].substring(0, 16)

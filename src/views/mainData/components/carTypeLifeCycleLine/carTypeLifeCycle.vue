@@ -7,9 +7,9 @@
             <img src="~@/assets/images/caricon.png" />
           </div>
           <div class="label">
-            <div>{{pepData.cartypeProjectZh}}</div>
-            <div>{{pepData.factoryNameStr}}</div>
-            <div>SOP：{{sopDateStr}}</div>
+            <div>{{language(pepData.cartypeProjectZh)}}</div>
+            <div>{{language(pepData.factoryNameStr)}}</div>
+            <div>SOP：{{language(sopDateStr)}}</div>
           </div>
         </div>
         <carTypeLifeCycleItem

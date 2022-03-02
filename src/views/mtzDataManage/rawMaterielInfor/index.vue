@@ -4,7 +4,7 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料编号大类')">
                 <iInput
                   v-model="searchContent.generalCategoryCode"
@@ -12,7 +12,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料名称(中文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameZh"
@@ -20,7 +20,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料名称(英文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameEn"
@@ -28,9 +28,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-          </el-row>
-          <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('大类元素简称')">
                 <iInput
                   v-model="searchContent.generalShortName"
@@ -38,7 +36,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('状态')">
                 <iSelect
                   v-model="searchContent.status"

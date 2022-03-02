@@ -200,7 +200,7 @@ export default {
               if (idx == 2) {
                 item.data = item.data - params[0].data
               }
-              str += `${item.marker}\n${item.seriesName}: ${item.data}`
+              str += `${item.marker}\n${item.seriesName}: ${parseInt(item.data).toFixed(2)}`
               switch (idx) {
                 case 0:
                   str += ''

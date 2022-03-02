@@ -1,7 +1,7 @@
 <template>
   <iDialog
     :visible.sync="show"
-    :title="papgeTitle"
+    :title="language(papgeTitle)"
     @close="closeDialog"
     width="600px"
     height='400px'

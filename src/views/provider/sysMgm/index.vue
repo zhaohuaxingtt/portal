@@ -9,17 +9,17 @@
           <el-form>
             <el-row :gutter="20">
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.name">
+                <el-form-item :label="language(searchOptionTitles.name)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.appNameCn"
                   ></iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.nameEN">
+                <el-form-item :label="language(searchOptionTitles.nameEN)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.appNameEn"
                   ></iInput>
                 </el-form-item>
@@ -46,7 +46,7 @@
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sysType">
+                <el-form-item :label="language(searchOptionTitles.sysType)">
                   <iSelect v-model="formData.systemType">
                     <el-option
                       v-for="item in systemOptions"
@@ -59,7 +59,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sysTag">
+                <el-form-item :label="language(searchOptionTitles.sysTag)">
                   <iSelect v-model="formData.supplierType" multiple>
                     <el-option
                       v-for="item in systemTagOptions"
@@ -74,10 +74,10 @@
               <el-col :span="24">
                 <div class="searchButtons">
                   <iButton @click="search">{{
-                    searchOptionTitles.buttons.search
+                    language(searchOptionTitles.buttons.search)
                   }}</iButton>
                   <iButton @click="reset">{{
-                    searchOptionTitles.buttons.reset
+                    language(searchOptionTitles.buttons.reset)
                   }}</iButton>
                 </div>
               </el-col>
@@ -88,9 +88,9 @@
       <div class="tableList">
         <iCard>
           <div class="tableButtons flex-end-center">
-            <iButton @click="create">{{ buttonTitles.create }}</iButton>
+            <iButton @click="create">{{ language(buttonTitles.create) }}</iButton>
             <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
-              buttonTitles.delete
+              language(buttonTitles.delete)
             }}</iButton>
             <button-download :download-method="exportData" />
             <button-table-setting @click="$refs.sysMgm.openSetting()" />

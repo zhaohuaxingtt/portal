@@ -6,6 +6,7 @@ export const tableColumnSetting = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
+    i18n: '联系人姓名',
     align: 'center',
     width: '120px',
     customRender: (h, scope) => {
@@ -25,6 +26,7 @@ export const tableColumnSetting = [
   {
     prop: 'userName',
     label: '用户登录名',
+    i18n: '用户登录名',
     align: 'center',
     width: '120px',
     tooltip: true,
@@ -33,6 +35,7 @@ export const tableColumnSetting = [
   {
     prop: 'opcsCompanyNameZh',
     label: '供应商名',
+    i18n: '供应商名',
     align: 'center',
     tooltip: true,
     width: '150',
@@ -41,6 +44,7 @@ export const tableColumnSetting = [
   {
     prop: 'isMainContact',
     label: '主联系人',
+    i18n: '主联系人',
     align: 'center',
     width: '110',
     customRender: (h, scope) => {
@@ -55,12 +59,14 @@ export const tableColumnSetting = [
   {
     prop: 'temporaryNum',
     label: '临时号',
+    i18n: '临时号',
     align: 'center',
     sortable: true
   },
   {
     prop: 'svwCode',
     label: '正式/SVW号',
+    i18n: '正式/SVW号',
     align: 'center',
     sortable: true,
     width: '110'
@@ -68,12 +74,14 @@ export const tableColumnSetting = [
   {
     prop: 'sapNum',
     label: 'SAP号',
+    i18n: 'SAP号',
     align: 'center',
     sortable: true
   },
   {
     prop: 'status',
     label: '是否有效',
+    i18n: '是否有效',
     align: 'center',
     customRender: (h, scope) => {
       // 1正常2冻结
@@ -89,6 +97,7 @@ export const tableColumnSetting = [
   {
     prop: 'telephoneO',
     label: '联系电话',
+    i18n: '联系电话',
     align: 'center',
     tooltip: true,
     width: '120px',
@@ -97,6 +106,7 @@ export const tableColumnSetting = [
   {
     prop: 'email',
     label: '邮箱',
+    i18n: '邮箱',
     align: 'center',
     tooltip: true,
     minWidth: '180px',
@@ -105,6 +115,7 @@ export const tableColumnSetting = [
   {
     prop: 'isValid',
     label: '是否超期',
+    i18n: '是否超期',
     align: 'center',
     width: '120',
     customRender: (h, scope) => {
@@ -119,6 +130,7 @@ export const tableColumnSetting = [
   {
     prop: 'expireDate',
     label: '超期时间',
+    i18n: '超期时间',
     align: 'center',
     width: '180px',
     tooltip: true,
@@ -127,6 +139,7 @@ export const tableColumnSetting = [
   {
     prop: 'lastLoginDate',
     label: '最近登录时间',
+    i18n: '最近登录时间',
     align: 'center',
     width: '180px',
     tooltip: true,

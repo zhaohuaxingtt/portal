@@ -4,14 +4,10 @@ export const TABLE_COLUMNS = [
     width: 50
   },
   {
-    type: 'index',
-    width: 50
-  },
-  {
     prop: 'agentId',
     label: '代理号',
     i18n: '代理号',
-    width: '200',
+    width: '150',
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.businessId}</span>
     },
@@ -49,7 +45,8 @@ export const TABLE_COLUMNS = [
   },
   {
     prop: 'categoryDesc',
-    i18n: '代理内容'
+    i18n: '代理内容',
+    minWidth:'250',
   },
   {
     prop: 'startTime',
