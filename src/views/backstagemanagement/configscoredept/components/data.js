@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-06-18 10:40:28
- * @LastEditTime: 2022-02-25 11:18:44
+ * @LastEditTime: 2022-03-02 10:39:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\views\configscoredept\components\data.js
@@ -26,7 +26,7 @@ export const tableTitle = [
 
 export const addDialogFrom=[
   {props:'rateTag',label:'评分类型',labelKey:'CONFIGSCOREDEPT_PINGFENLEIXING',type:'dicoption',optionKey:'score_dept',required:true},
-  {props:'rateDepartNum',label:'评分股',labelKey:'CONFIGSCOREDEPT_PINGFENGU',type:'select',selectOption:'rateDepartNumList',required:true,isShow:true},
+  {props:'rateDepartNum',label:'评分股',labelKey:'CONFIGSCOREDEPT_PINGFENGU',type:'select',selectOption:'rateDepartNumList',required:true,isShow:true.valueOf,filterable:true,},
   {props:'parentRateDepartNum',label:'所属部门/科室',labelKey:'CONFIGSCOREDEPT_SUOSHUBUMENHUOZHEKESHI',isBoolean:true,isShow:true},
   {props:'raterList',label:'评分人',labelKey:'CONFIGSCOREDEPT_PINGFENREN',type:'select',selectOption:'raterList',required:true,clearable:true,multiple:true,filterable:true,},
   {props:'isCheck',label:'是否需要审批',labelKey:'CONFIGSCOREDEPT_SHIFOUXUYAOSHENPI',required:true,type:'switch',isShow:true},
