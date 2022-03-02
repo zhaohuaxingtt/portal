@@ -172,7 +172,7 @@ export default {
   'GUIJINSHU.MEI': '每',
   JILIANGDANWEI: '计量单位',
   HUOBI: '货币',
-  HUILV: '绿',
+  HUILV: '汇率',
   PICISHULIANG: '批次数量',
   PILIANGJIANXIAOHAO: '批量件消耗',
   PEIJIANXIAOHAO: '配件消耗',
@@ -4113,7 +4113,8 @@ export default {
   rizhi: '日志',
   LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU:
     '请选择合同状态为待甲方签署的记录',
-  LK_BAOQIANCAIGOUTIAOKUANZANBUZHICHIPILIANGQIANSHU: '抱歉，采购条款暂不支持批量签署',
+  LK_BAOQIANCAIGOUTIAOKUANZANBUZHICHIPILIANGQIANSHU:
+    '抱歉，采购条款暂不支持批量签署',
   'QUERENSHANCHU?': '确认删除',
   QUERENSHANCHU: '确认删除?',
   DAORUCHENGGONG: '导入成功',
