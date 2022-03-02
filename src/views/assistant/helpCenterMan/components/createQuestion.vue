@@ -1,7 +1,7 @@
 <template>
      <iDialog
       :visible.sync="show"
-      title="新建问题"
+      :title="language('新建问题')"
       @close="closeDialog"
       width="800px"
       class="qs-dialog"
@@ -10,38 +10,38 @@
         <div class="content">
             <iFormGroup :model="form" ref="form" :inline="false" :rules="formRules">
                 <div class="flex">
-                    <el-form-item class="flex" label="问题模块" prop="questionModuleId">
+                    <el-form-item class="flex" :label="language('问题模块')" prop="questionModuleId">
                         <iSelect class="input" v-model="form.questionModuleId" filterable @change="change">
                             <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
                         </iSelect>
                     </el-form-item>
-                    <el-form-item class="flex" label="问题标签" prop="questionLableId" style="margin-left:30px">
+                    <el-form-item class="flex" :label="language('问题标签')" prop="questionLableId" style="margin-left:30px">
                         <iSelect class="input" v-model="form.questionLableId" filterable>
                             <el-option v-for="l in labelList" :key="l.id" :value='l.id' :label='l.lableName'></el-option>
                         </iSelect>
                     </el-form-item>
                 </div>
-                <el-form-item label="常见问题" prop="questionTitle">
-                    <i-input class="textarea" rows="5" type="textarea" v-model="form.questionTitle" placeholder="请输入" />
+                <el-form-item :label="language('常见问题')" prop="questionTitle">
+                    <i-input class="textarea" rows="5" type="textarea" v-model="form.questionTitle" :placeholder="language('请输入')" />
                 </el-form-item>
-                <el-form-item label="管理员回复" prop="answerContent">
+                <el-form-item :label="language('管理员回复')" prop="answerContent">
                     <iEditor class="editor" :height="300" style="margin-top:40px" id="qs-add" :zIndex="500" v-model="form.answerContent" :html="form.answerContent"></iEditor>
                 </el-form-item>
 
             </iFormGroup>
 
             <div class="flex" style="align-items: flex-start;">
-                <div class="label">附件：</div>
+                <div class="label">{{language('附件')}}：</div>
                 <iUpload ref="upload" v-model="form.annexList" @onSuccess="uploadSucc" >
                     <div class="upload-btn flex">
                         <i class="el-icon-link"></i>
-                        <span>点击上传</span>
+                        <span>{{language('点击上传')}}</span>
                     </div>
                 </iUpload>
             </div>
         </div>
         <div slot="footer">
-            <iButton @click="save">确 认</iButton>
+            <iButton @click="save">{{language('确认')}}</iButton>
         </div>
     </iDialog>
 </template>

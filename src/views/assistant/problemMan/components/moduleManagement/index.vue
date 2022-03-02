@@ -5,10 +5,10 @@
         <!-- <el-tab-pane label="供应商用户" name="supplierUser">
           <ModuleManagementPanel type="supplier" v-if="currentName==='supplierUser'"/>
         </el-tab-pane> -->
-        <el-tab-pane label="内部用户" name="internalUser">
+        <el-tab-pane :label="language('内部用户')" name="internalUser">
           <ModuleManagementPanel type="inner" v-if="currentName==='internalUser'"/>
         </el-tab-pane>
-        <el-tab-pane label="供应商用户" name="supplierUser">
+        <el-tab-pane :label="language('供应商用户')" name="supplierUser">
           <ModuleManagementPanel type="supplier" v-if="currentName==='supplierUser'"/>
         </el-tab-pane>
       </el-tabs>

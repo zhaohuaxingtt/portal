@@ -9,7 +9,7 @@
 export const COLUMNS = [
   {
     type: 'fullIndex',
-    width: 70
+    width: 40
   },
   {
     prop: 'title',
@@ -17,7 +17,6 @@ export const COLUMNS = [
     i18n: '资源名称',
     align: 'left',
     headerAlign: 'left',
-    minWidth: 160,
     emit: 'click-menu',
     customRender: (h, scope) => {
       return <span class="cursor-pointer">{scope.row.title}</span>
@@ -25,7 +24,7 @@ export const COLUMNS = [
   }
 ]
 
-export const MENUS = [
+export const MENUSZh = [
   {
     title: '供应商信息',
     url: '/mainDataSupplier/list',
@@ -38,6 +37,24 @@ export const MENUS = [
   },
   {
     title: 'N-Tier供应商信息',
+    url: '/mainDataSupplier/N-Tier',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER'
+  }
+]
+
+export const MENUSEn = [
+  {
+    title: 'Supplier Info',
+    url: '/mainDataSupplier/list',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_LIST'
+  },
+  {
+    title: 'Supplier User Info',
+    url: '/mainDataSupplier/user',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_USER'
+  },
+  {
+    title: 'N-Tier Supplier Info',
     url: '/mainDataSupplier/N-Tier',
     permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER'
   }

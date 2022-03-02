@@ -68,12 +68,12 @@ export default {
         {
           prop: 'businessId',
           label: '代理申请号',
-          width: 160
+          width: 140
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          width: 180
+          width: 150
         },
         {
           prop: 'fullNameZh',
@@ -111,7 +111,7 @@ export default {
         {
           prop: 'createDate',
           label: '创建时间',
-          width: 150
+          width: 180
         },
         {
           prop: 'status',

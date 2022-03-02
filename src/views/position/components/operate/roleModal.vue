@@ -1,11 +1,11 @@
 <template>
   <div class="role-modal">
-    <i-dialog title="角色选择" :visible.sync="isShow" width="80%">
+    <i-dialog :title="language('角色选择')" :visible.sync="isShow" width="80%">
       <div class="flex">
         <i-select
           v-model="roleCheckedIds"
           multiple
-          placeholder="请选择"
+          :placeholder='language("请选择")'
           class="margin-right15"
         >
           <el-option
@@ -16,12 +16,12 @@
           >
             <div class="flex-center-center">
               <div style="width: 25%">{{ item.code }}</div>
-              <div style="width: 50%">{{ item.fullNameZh }}</div>
-              <div style="width: 25%">{{ item.shortNameZh }}</div>
+              <div style="width: 50%">{{ language(item.fullNameZh) }}</div>
+              <div style="width: 25%">{{ language(item.shortNameZh) }}</div>
             </div>
           </el-option>
         </i-select>
-        <iButton @click="handleDialogConfirm">确认</iButton>
+        <iButton @click="handleDialogConfirm">{{language('确认')}}</iButton>
       </div>
       <!-- <searchBox :query="query" /> -->
       <!-- <div class="flex-center-center">

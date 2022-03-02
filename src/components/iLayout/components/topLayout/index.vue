@@ -94,6 +94,7 @@ export default {
   },
   created() {
     this.lang = localStorage.getItem('lang')
+    this.$store.commit('SET_LANGUAGE', this.lang)
   },
 
   beforeDestroy() {

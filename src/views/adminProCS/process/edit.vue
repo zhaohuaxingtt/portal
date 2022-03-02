@@ -1,6 +1,6 @@
 <template>
     <iPage>
-        <iButton class="btn mb20" @click="$router.back()">返回主流程列表</iButton>
+        <iButton class="btn mb20" @click="$router.back()">{{language('返回主流程列表')}}</iButton>
 		<ProcessForm ref="form" type="edit"></ProcessForm>
         <processDetail v-if="detail.id" :id="currId" :flowChartId="detail.flowChartId"></processDetail>
     </iPage>

@@ -13,14 +13,16 @@ export const HEAVY_ITEM_COLUMNS=[
     },
     {
         label:'材料组编号',
+        i18n:'材料组编号',
         prop:'categoryCode',
         tooltip:true,
         minWidth:100
     },
     {
         label:'材料组名称(中)',
+        i18n:'材料组名称(中)',
         prop:'stuffCategoryName',
-        width:'120px',
+        width:'150px',
         // openNewPage:true,
         tooltip:true,
         emit:'to-detail',
@@ -30,24 +32,28 @@ export const HEAVY_ITEM_COLUMNS=[
     },
     {
         label:'工艺组',
+        i18n:'工艺组',
         prop:'stuffName',
         tooltip:true,
         minWidth:100
     },
     {
         label:'工艺组编号',
+        i18n:'工艺组编号',
         prop:'stuffCode',
         tooltip:true,
         minWidth:100
     },
     {
         label:'Commodity',
+        i18n:'Commodity',
         prop:'commodityDeptCode',
         tooltip:true,
         minWidth:100
     },
     {
         label:'是否Heavy Item',
+        i18n:'是否Heavy Item',
         prop:'isHeavyItem',
         tooltip:true,
         minWidth:120,
@@ -86,6 +92,7 @@ export const HEAVY_ITEM_COLUMNS=[
     },
     {
         label:'零件成本分析员',
+        i18n:'零件成本分析员',
         prop:'partsAnalyst',
         tooltip:true,
         minWidth:180,
@@ -111,6 +118,7 @@ export const HEAVY_ITEM_COLUMNS=[
     },
     {
         label:'模具成本分析员',
+        i18n:'模具成本分析员',
         prop:'moldAnalyst',
         tooltip:true,
         minWidth:180,

@@ -1,6 +1,6 @@
 <template>
   <div class="user-info margin-bottom20">
-    <iCard tabCard collapse title="岗位用户">
+    <iCard tabCard collapse :title="language('岗位用户')">
       <uTable :type="type" />
     </iCard>
   </div>
