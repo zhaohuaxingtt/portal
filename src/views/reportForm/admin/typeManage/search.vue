@@ -3,13 +3,13 @@
     <iSearch @sure="sure" @reset="reset" icon>
       <el-form>
         <iFormItem :label="language('类型名称')">
-          <iInput v-model="queryForm.name" clearable placeholder="请输入" />
+          <iInput v-model="queryForm.name" clearable :placeholder="language('请输入')" />
         </iFormItem>
         <iFormItem :label="language('状态')">
           <iSelect
             v-model="queryForm.published"
             filterable
-            placeholder="请选择"
+            :placeholder="language('请选择')"
             clearable
           >
             <el-option
@@ -25,7 +25,7 @@
           <iSelect
             v-model="queryForm.isTop"
             filterable
-            placeholder="请选择"
+            :placeholder="language('请选择')"
             clearable
           >
             <el-option
@@ -41,9 +41,9 @@
           <el-date-picker
             v-model="addTime"
             type="datetimerange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            :range-separator="language('至')"
+            :start-placeholder="language('开始日期')"
+            :end-placeholder="language('结束日期')"
             value-format="yyyy-MM-dd HH:mm:ss"
             :default-time="['00:00:00', '23:59:59']"
           >

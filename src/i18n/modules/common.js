@@ -14,7 +14,7 @@ export default {
   取消: 'Cancel',
   有效: 'Valid',
   无效: 'Invalid',
-  序号: 'Serial Number',
+  序号: 'Serial No.',
   版本号: 'Version number',
   创建人: 'Creator',
   创建日期: 'Creation Date',

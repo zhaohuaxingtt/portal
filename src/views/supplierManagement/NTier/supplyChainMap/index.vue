@@ -8,16 +8,18 @@
 <template>
   <div id="allContainer"
        class="content">
-    <theSearch ref="theSearch"
-               @getMapList="getMapList"
-               class="search"
-               :category-code="categoryCode"
-               @handleSave="handleSave" />
-    <theCard :area="area"
-             :object="object"
-             class="card-right" />
-    <chartMap ref="chartMap"
+    <div id="allContainer">
+      <theSearch ref="theSearch"
+              @getMapList="getMapList"
+              class="search"
+              :category-code="categoryCode"
+              @handleSave="handleSave" />
+      <theCard :area="area"
+            :object="object"
+            class="card-right" />
+      <chartMap ref="chartMap"
               :object="object" />
+    </div>
   </div>
 </template>
 

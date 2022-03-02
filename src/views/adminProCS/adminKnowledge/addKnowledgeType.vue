@@ -1,6 +1,6 @@
 <template>
 	<iDialog
-		:title="dialogTitle"
+		:title="language(dialogTitle)"
 		style="margin-top:10vh"
 		:visible.sync="typeShow" 
 		v-if="typeShow"
@@ -18,16 +18,16 @@
 			class="typeForm validate-required-form"
 		>
 			<iFormItem :label="language('知识类型')" prop='name'>
-				<iInput v-model="newTypeForm.name" placeholder="请输入类型名称"></iInput>
+				<iInput v-model="newTypeForm.name" :placeholder="language('请输入类型名称')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('英文名')" prop='enName'>
-				<iInput v-model="newTypeForm.enName" placeholder="请输入知识英文名称"></iInput>
+				<iInput v-model="newTypeForm.enName" :placeholder="language('请输入知识英文名称')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('封面图片')" prop="coverFile">
 				<el-radio-group v-model="newTypeForm.coverFile"></el-radio-group>
 				
 				<div class="photo-content">
-					<div class="photo-text">请上传封面图片</div>
+					<div class="photo-text">{{language('请上传封面图片')}}</div>
 					<ImgCutter
 						class="avatar-uploader"
 						fileType=".jpg, .jpeg, .png"

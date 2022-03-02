@@ -4,7 +4,7 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('零件号')">
                 <iInput
                   style="white-space: pre !important"
@@ -13,7 +13,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('零件名称')">
                 <iInput
                   :placeholder="language('请输入')"
@@ -22,7 +22,7 @@
                 </iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('零件来源')">
                 <iSelect
                   :placeholder="language('请输入/请选择')"
@@ -39,21 +39,23 @@
                 </iSelect>
               </iFormItem>
             </el-col>
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+              <iFormItem :label="language('零件状态')">
+                <iSelect
+                  v-model="searchContent.partStatus"
+                  :placeholder="language('请选择')"
+                >
+                  <el-option
+                    v-for="item in partStatusOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
           </el-row>
-          <iFormItem :label="language('零件状态')">
-            <iSelect
-              v-model="searchContent.partStatus"
-              :placeholder="language('请选择')"
-            >
-              <el-option
-                v-for="item in partStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
         </el-form>
       </iSearch>
     </div>
