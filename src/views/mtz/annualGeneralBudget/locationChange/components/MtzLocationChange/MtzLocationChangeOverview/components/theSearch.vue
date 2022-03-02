@@ -148,10 +148,12 @@ export default {
       var getCurrentUser = [];
       this.depBuyerAll.forEach((item,index)=>{
         if(e.indexOf(item.depId) !== -1){
-          getCurrentUser.push({
-            buyerId:item.buyerId,
-            buyerName:item.buyerName,
-          })
+          if(item.buyerId !== null){
+            getCurrentUser.push({
+              buyerId:item.buyerId,
+              buyerName:item.buyerName,
+            })
+          }
         }
       })
       var getCurrentNew = getCurrentUser.filter((e,index)=>{
@@ -207,20 +209,24 @@ export default {
         var getCurrentUser = [];
 
         res.data.forEach(e=>{
-          linieDeptId.push({
-            depId:e.depId,
-            depName:e.depName,
-          })
-          getCurrentUser.push({
-            buyerId:e.buyerId,
-            buyerName:e.buyerName,
-          })
+          if(e.depId !== null){
+            linieDeptId.push({
+              depId:e.depId,
+              depName:e.depName,
+            })
+          }
+          if(e.buyerId !== null){
+            getCurrentUser.push({
+              buyerId:e.buyerId,
+              buyerName:e.buyerName,
+            })
+          }
         })
 
         var linieDeptNew = linieDeptId.filter((e,index)=>{
           let ids = [];
           linieDeptId.forEach((item,i) => {
-            ids.push(item.depId)
+              ids.push(item.depId)
           });
           let str = ids.indexOf(e.depId) === index
           return str;
@@ -231,7 +237,7 @@ export default {
         var getCurrentNew = getCurrentUser.filter((e,index)=>{
           let ids = [];
           getCurrentUser.forEach((item,i) => {
-            ids.push(item.buyerId)
+              ids.push(item.buyerId)
           });
           let str = ids.indexOf(e.buyerId) === index
           return str;
