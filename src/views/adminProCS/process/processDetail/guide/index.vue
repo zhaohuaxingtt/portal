@@ -3,10 +3,10 @@
         <div class="flex justify-between margin-bottom20">
             <div class="flex">
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyWord" />
-                <iButton style="margin-left:10px" @click="queryList('rest')">搜索</iButton>
+                <iButton style="margin-left:10px" @click="queryList('rest')">{{language('搜索')}}</iButton>
             </div>
             <div>
-                <iButton @click="dialog.show = true">添加流程指导书</iButton>
+                <iButton @click="dialog.show = true">{{language('添加流程指导书')}}</iButton>
             </div>
         </div>
         <ITable ref="table" :tableSetting='tableSetting' :extraData="extraData" :query-method="query"></ITable>

@@ -1,13 +1,13 @@
 <template>
   <div class="base-info margin-bottom20">
-    <iCard tabCard collapse title="基本信息">
+    <iCard tabCard collapse :title="language('基本信息')">
       <iFormGroup
         :row="type === 'add' ? 3 : 4"
         :model="positionObj"
         ref="baseForm1"
       >
         <iFormItem prop="code" v-if="type === 'detail' || type === 'edit'">
-          <iLabel :label="'岗位编码'" :required="true" slot="label"></iLabel>
+          <iLabel :label="language('岗位编码')" :required="true" slot="label"></iLabel>
           <iText>{{ positionObj.code }}</iText>
         </iFormItem>
         <iFormItem
@@ -21,7 +21,7 @@
           ]"
         >
           <iLabel
-            :label="'岗位名称（中）'"
+            :label="language('岗位名称（中）')"
             :required="true"
             slot="label"
           ></iLabel>
@@ -30,7 +30,7 @@
             v-else
             v-model="positionObj.fullNameZh"
             type="text"
-            placeholder="请输入岗位名称（中）"
+            :placeholder="language('请输入岗位名称（中）')"
           />
         </iFormItem>
         <iFormItem
@@ -44,7 +44,7 @@
           ]"
         >
           <iLabel
-            :label="'岗位名称（英）'"
+            :label="language('岗位名称（英）')"
             :required="true"
             slot="label"
           ></iLabel>
@@ -53,7 +53,7 @@
             v-else
             v-model="positionObj.fullNameEn"
             type="text"
-            placeholder="请输入岗位名称（英）"
+            :placeholder="language('请输入岗位名称（英）')"
           />
         </iFormItem>
         <iFormItem
@@ -67,14 +67,14 @@
           ]"
         >
           <iLabel
-            :label="'是否组织领导'"
+            :label="language('是否组织领导')"
             :required="true"
             slot="label"
           ></iLabel>
           <iText v-if="type === 'detail'">{{
             positionObj.isDeptLead | leaderFilter
           }}</iText>
-          <iSelect v-else placeholder="请选择" v-model="positionObj.isDeptLead">
+          <iSelect v-else :placeholder="language('请选择')" v-model="positionObj.isDeptLead">
             <el-option
               :value="item.value"
               :label="item.label"
@@ -97,17 +97,17 @@
             }
           ]"
         >
-          <iLabel :label="'岗位描述'" :required="true" slot="label"></iLabel>
+          <iLabel :label="language('岗位描述')" :required="true" slot="label"></iLabel>
           <iText v-if="type === 'detail'">{{ positionObj.description }}</iText>
           <i-input
             v-else
             v-model="positionObj.description"
             type="text"
-            placeholder="请输入岗位描述"
+            :placeholder="language('请输入岗位描述')"
           />
         </iFormItem>
         <iFormItem prop="tagList">
-          <iLabel :label="'岗位标签'" slot="label"></iLabel>
+          <iLabel :label="language('岗位标签')" slot="label"></iLabel>
           <div>
             <!-- <div style="position:relative"> -->
             <!-- <iInput type="text" v-model="positionObj.tagList.length" style="opacity:0;z-index:1; width:80%"></iInput> -->

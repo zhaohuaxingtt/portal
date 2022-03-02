@@ -6,7 +6,7 @@
             @click="isShowFold=!isShowFold"></div>
         </div>
         <div class="btnList">
-            <iButton v-for="(item,index) in btnList" :key="index" @click="handleClick(item.type)">{{item.name}}</iButton>
+            <iButton v-for="(item,index) in btnList" :key="index" @click="handleClick(item.type)">{{language(item.name)}}</iButton>
         </div>
         <slot></slot>
     </div>
