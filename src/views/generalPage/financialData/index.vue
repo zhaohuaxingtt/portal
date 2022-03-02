@@ -93,10 +93,12 @@
         <template #operation="scope">
           <uploadButton :showText="true"
                         @uploadedCallback="handleUploadedCallback($event, scope.row)"
-                        button-text="LK_SHANGCHUAN" />
+                        button-text="LK_SHANGCHUAN"
+                        v-if="scope.row.dataChannelName==='供应商数据'" />
           <el-popover placement="bottom"
                       width="400"
-                      trigger="click">
+                      trigger="click"
+                      v-if="scope.row.dataChannelName==='供应商数据'">
             <table-list :selection="false"
                         :index="true"
                         :tableData="scope.row.attachList"
@@ -127,6 +129,11 @@
               {{ $t('LK_XIAZAI') }}
             </span>
           </el-popover>
+          <span class="openLinkText cursor"
+                @click="hanldeDownload(scope.row)"
+                v-else-if="scope.row.dataChannelName==='资信报告'">
+            {{ $t('LK_XIAZAI') }}
+          </span>
         </template>
         <template #year="scope">
           <iDatePicker v-model="scope.row.year"
@@ -324,6 +331,9 @@ export default {
       //   fileList: [row.id]
       // }
       await downloadUdFile(row.filePath)
+    },
+    async hanldeDownload (val) {
+      await downloadUdFile(val.reportUrlPdf)
     },
     // 上传接口
     async handleUploadedCallback (evnet, row) {
