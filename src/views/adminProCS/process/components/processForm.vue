@@ -9,19 +9,19 @@
 			class="validate-required-form process-form"
 		>
 			<iFormItem :label="language('流程标题')" prop='name'>
-				<iInput v-model="form.name" class="w-300" placeholder="请输入流程标题"></iInput>
+				<iInput v-model="form.name" class="w-300" :placeholder="language('请输入流程标题')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('首字母')" prop='firstLetter'>
-				<iInput v-model="form.firstLetter" class="w-300" placeholder="请输入标题首字母"></iInput>
+				<iInput v-model="form.firstLetter" class="w-300" :placeholder="language('请输入标题首字母')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('英文标题')" prop='nameEn'>
-				<iInput v-model="form.nameEn" class="w-300" placeholder="请输入英文标题"></iInput>
+				<iInput v-model="form.nameEn" class="w-300" :placeholder="language('请输入英文标题')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('英文首字母')" prop='firstLetterEn'>
-				<iInput v-model="form.firstLetterEn" class="w-300" placeholder="请输入英文标题首字母"></iInput>
+				<iInput v-model="form.firstLetterEn" class="w-300" :placeholder="language('请输入英文标题首字母')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="form.version" class="w-300" placeholder="请输入版本号"></iInput>
+				<iInput v-model="form.version" class="w-300" :placeholder="language('请输入版本号')"></iInput>
 			</iFormItem>
 			
 			<iFormItem :label="language('更新日期')" prop='updateDt'>
@@ -33,13 +33,13 @@
 					/>
 			</iFormItem>
 			<iFormItem :label="language('流程专家')" prop='exports'>
-				<el-select v-model="form.exports" class="w-300" filterable remote reserve-keyword :remote-method="queryUser" :loading="exports_loading" multiple placeholder="可进行搜索">
+				<el-select v-model="form.exports" class="w-300" filterable remote reserve-keyword :remote-method="queryUser" :loading="exports_loading" multiple :placeholder="language('可进行搜索')">
 					<el-option v-for="user in userList" :key="user.id" :label="user.name" :value="user.id"></el-option>
 				</el-select>
 				
 			</iFormItem>
 			<iFormItem :label="language('关联机构')" prop='organizations'>
-				<el-select v-model="form.organizations" class="w-300" remote reserve-keyword :remote-method="queryOrg" :loading="org_loading" filterable multiple placeholder="可进行搜索">
+				<el-select v-model="form.organizations" class="w-300" remote reserve-keyword :remote-method="queryOrg" :loading="org_loading" filterable multiple :placeholder="language('可进行搜索')">
 					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id"></el-option>
 				</el-select>
 			</iFormItem>

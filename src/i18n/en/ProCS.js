@@ -90,5 +90,17 @@ export default {
     添加日期:'Add Date',
     添加:'Add',
     请输入知识类型名称:'Please input the knowledge type name',
-    分类名称:'Classification Name'
+    分类名称:'Classification Name',
+    请输入流程标题:'Please input a process title',
+    请输入标题首字母:'Please input the first letter of the title',
+    请输入英文标题:'Please input English title',
+    请输入英文标题首字母:'Please input the first letter of the title',
+    请输入版本号:'Please input the version number',
+    可进行搜索:'Searchable',
+    工程名称:'Project Name',
+    流程图:'Flow Chart',
+    '文件大小最大限制10MB!':'The maximum file size is 10MB!',
+    项目信息:'Project Information',
+    返回主流程列表:'Back to Main Processes List',
+    
 }
