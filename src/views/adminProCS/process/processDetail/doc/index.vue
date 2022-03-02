@@ -3,16 +3,16 @@
         <div class="flex justify-between margin-bottom20">
             <div class="flex">
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyWord" />
-                <iButton style="margin-left:10px" @click="queryList('rest')">搜索</iButton>
+                <iButton style="margin-left:10px" @click="queryList('rest')">{{language('搜索')}}</iButton>
             </div>
             <div>
-                <iButton @click="dialog.show = true">添加ProD文档</iButton>
+                <iButton @click="dialog.show = true">{{language('添加ProD文档')}}</iButton>
             </div>
         </div>
         <ITable ref="table" :tableSetting='tableSetting' :query="query" :extraData="extraData" :query-method="query"></ITable>
         
         <iDialog
-            title="新增ProD文档"
+            :title="language('新增ProD文档')"
             :visible.sync="dialog.show" 
             width="800px" 
             @close='close' 
@@ -25,7 +25,7 @@
             <div class="content">
                 <div class="flex margin-bottom20">
                     <iInput style="width:220px" :placeholder="language('请输入')" v-model="dialog.keyWord" />
-                    <iButton style="margin-left:10px" @click="queryProDList">搜索</iButton>
+                    <iButton style="margin-left:10px" @click="queryProDList">{{language('搜索')}}</iButton>
                 </div>
                 <iTableCustom
                     :loading="prod.loading"
@@ -75,11 +75,13 @@ export default {
                 },
                 {
                     prop:'title',
-                    label:'文档名称'
+                    label:'文档名称',
+                    i18n:'文档名称'
                 },
                 {
                     prop:'publishTime',
-                    label:'发布日期'
+                    label:'发布日期',
+                    i18n:'发布日期'
                 }
             ],
             extraData:{
