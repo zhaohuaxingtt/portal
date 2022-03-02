@@ -537,7 +537,11 @@ export default function getPermissionKey() {
   const hashUrl = href.replace(origin, '')
   const url = href.replace(window.location.pathname, '')
   if (hashUrl || url) {
-    return permissionKeyMap[hashUrl] || permissionKeyMap[url] || ''
+    return (
+      permissionKeyMap[hashUrl.toLocaleLowerCase()] ||
+      permissionKeyMap[url.toLocaleLowerCase()] ||
+      ''
+    )
   }
   return ''
 }
