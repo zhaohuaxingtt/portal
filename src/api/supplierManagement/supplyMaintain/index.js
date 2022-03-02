@@ -98,6 +98,14 @@ export function queryPartNumber(parmars) {
     data: parmars
   })
 }
+// 查询--零件号(分页)
+export function pageQueryByParams(parmars) {
+  return requst({
+    url: `/ntierChainPart/pageQueryByParams`,
+    method: 'POST',
+    data: parmars
+  })
+}
 // 查询--供应链路线拖动
 export function change(parmars) {
   return requst({
