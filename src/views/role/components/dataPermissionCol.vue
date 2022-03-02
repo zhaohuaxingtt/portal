@@ -11,7 +11,7 @@
     ref="searchForm"
     class="search-form"
     label-position="left"
-    label-width="150px"
+    label-width="180px"
     label-suffix=":"
     size="mini"
   >
