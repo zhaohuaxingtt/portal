@@ -532,16 +532,71 @@ const permissionKeyMap = {
   '/portal/#/assistant/man': 'ADMIN_USER_ASSIS'
 }
 
+let Base64 = {
+  _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
+  encode: function (e) {
+    let t = ''
+    let n, r, i, s, o, u, a
+    let f = 0
+    e = Base64._utf8_encode(e)
+    while (f < e.length) {
+      n = e.charCodeAt(f++)
+      r = e.charCodeAt(f++)
+      i = e.charCodeAt(f++)
+      s = n >> 2
+      o = ((n & 3) << 4) | (r >> 4)
+      u = ((r & 15) << 2) | (i >> 6)
+      a = i & 63
+      if (isNaN(r)) {
+        u = a = 64
+      } else if (isNaN(i)) {
+        a = 64
+      }
+      t =
+        t +
+        this._keyStr.charAt(s) +
+        this._keyStr.charAt(o) +
+        this._keyStr.charAt(u) +
+        this._keyStr.charAt(a)
+    }
+    return t
+  },
+  _utf8_encode: function (e) {
+    e = e.replace(/rn/g, 'n')
+    let t = ''
+    for (let n = 0; n < e.length; n++) {
+      let r = e.charCodeAt(n)
+      if (r < 128) {
+        t += String.fromCharCode(r)
+      } else if (r > 127 && r < 2048) {
+        t += String.fromCharCode((r >> 6) | 192)
+        t += String.fromCharCode((r & 63) | 128)
+      } else {
+        t += String.fromCharCode((r >> 12) | 224)
+        t += String.fromCharCode(((r >> 6) & 63) | 128)
+        t += String.fromCharCode((r & 63) | 128)
+      }
+    }
+    return t
+  },
+  resEncode: function (str) {
+    let n = new Date().getTime() + ''
+    let n1 = n.substr(0, 3)
+    let n2 = n.substr(3) + 'a'
+
+    return Base64.encode(n2 + str + n1)
+  }
+}
 export default function getPermissionKey() {
   const { href, origin } = window.location
   const hashUrl = href.replace(origin, '')
   const url = href.replace(window.location.pathname, '')
   if (hashUrl || url) {
-    return (
+    const key =
       permissionKeyMap[hashUrl.toLocaleLowerCase()] ||
       permissionKeyMap[url.toLocaleLowerCase()] ||
       ''
-    )
+    return Base64.resEncode(key)
   }
   return ''
 }
