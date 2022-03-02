@@ -93,7 +93,7 @@
         show: false,
         state: false, // 控制科室采购员
         roleList: this.$store.state.permission.userInfo.roleList,
-        supplier_code_name: this.$route.query.supplier_code_name,
+        supplier_code_name: '',
       };
     },
     computed: {
@@ -397,7 +397,7 @@
         var date = myDate.getDate()
         var materialCode = "";
         var materialName = "";
-        const supplier_code_name = this.supplier_code_name;
+        this.supplier_code_name = this.$route.query.supplier_code_name;
         if(this.$route.query.materialCode){
           materialCode = this.$route.query.materialCode;
           materialName = this.$route.query.materialName;
@@ -414,7 +414,7 @@
               column: "data_version"
             },
             operator: "In",
-            // values: [year+""+month],
+            values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
@@ -446,7 +446,7 @@
 									column: "supplier_code_name"
 								},
 								operator: "In",
-								values: [supplier_code_name],
+								values: [this.supplier_code_name],
                 filterType: pbi.models.FilterType.BasicFilter
 						};
 
