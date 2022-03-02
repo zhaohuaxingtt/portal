@@ -1,5 +1,5 @@
 <template>
-	<iDialog :title="dialogTitle"  :visible.sync="show" v-if="show" width="500px" @close='close' append-to-body class="glossaryForm" :close-on-click-modal ="false">
+	<iDialog :title="language(dialogTitle)"  :visible.sync="show" v-if="show" width="500px" @close='close' append-to-body class="glossaryForm" :close-on-click-modal ="false">
 		<el-form v-loading="loading" ref="form" :model="newGlossaryForm" :rules="newGlossaryRules" label-width="100px" class="glossaryForm validate-required-form">
 			<iFormItem :label="language('标题')" prop='title'>
 				<iInput v-model="newGlossaryForm.title" placeholder="请输入" maxLength=50></iInput>
@@ -31,7 +31,7 @@
 					:accept="acceptPicType"
 					:maxSize="maxSize"
 					btnTxt="添加图片"
-					tipTxt="可添加多张图片，单张图片不能超过10M"
+					:tipTxt="language('可添加多张图片，单张图片不能超过10M')"
 					:isCustHttp="true"
 					:uploadHandle="uploadHandle"
 					:removeHandle="removeHandle"

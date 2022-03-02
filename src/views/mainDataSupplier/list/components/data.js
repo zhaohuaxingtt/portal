@@ -44,7 +44,7 @@ export const SUPPLIER_TABLE_COLUMNS = [
   {
     label: '序号',
     type: 'index',
-    width: '50px'
+    width: '60px'
   },
   {
     prop: 'nameZh',

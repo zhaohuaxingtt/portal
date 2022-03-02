@@ -3,50 +3,50 @@
         <div class="qs-btns">
             <template v-if="type == 'detail'">
                 <template v-if="detail.id">
-                    <iButton @click="del">删除</iButton>
-                    <iButton @click="edit">编辑</iButton>
+                    <iButton @click="del">{{language('删除')}}</iButton>
+                    <iButton @click="edit">{{language('编辑')}}</iButton>
                 </template>
-                <iButton @click="dialog = true">新建问题</iButton>
+                <iButton @click="dialog = true">{{language('新建问题')}}</iButton>
             </template>
             <template v-else>
-                <iButton @click="cancel">取消</iButton>
-                <iButton @click="save">确定</iButton>
+                <iButton @click="cancel">{{language('取消')}}</iButton>
+                <iButton @click="save">{{language('确定')}}</iButton>
             </template>
         </div>
 
         <div class="flex qs-p">
             <div class="flex flex-column qs-params">
-                <iLabel class="label" label="常见问题" slot="label"></iLabel>
-                <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
+                <iLabel class="label" :label="language('常见问题')" slot="label"></iLabel>
+                <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" :placeholder="language('请输入')" />
             </div>
             <div class="flex flex-column qs-params">
-                <iLabel class="label" label="问题模块" slot="label"></iLabel>
+                <iLabel class="label" :label="language('问题模块')" slot="label"></iLabel>
                 <iSelect class="input" :disabled="type == 'detail'" v-model="form.questionModuleId" @change="moduleChange">
                     <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
                 </iSelect>
             </div>
             <div class="flex flex-column qs-params">
-                <iLabel class="label" label="标签" slot="label"></iLabel>
+                <iLabel class="label" :label="language('标签')" slot="label"></iLabel>
                 <iSelect class="input" :disabled="type == 'detail'" v-model="form.questionLableId">
                     <el-option v-for="l in labelList" :key="l.id" :value='l.id' :label='l.lableName'></el-option>
                 </iSelect>
             </div>
             <div class="flex flex-column qs-params">
-                <iLabel class="label" label="创建人" slot="label"></iLabel>
-                <i-input class="input" type="text" disabled v-model="form.createByName" placeholder="请输入" />
+                <iLabel class="label" :label="language('创建人')" slot="label"></iLabel>
+                <i-input class="input" type="text" disabled v-model="form.createByName" :placeholder="language('请输入')" />
             </div>
         </div>
         <div v-if="type == 'detail'" class="flex-1 qs-editor overflow-auto" v-html="form.answerContent"></div>
         <iEditor v-else class="flex-1 qs-editor overflow-hidden" v-model="form.answerContent" :html="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
-            <div class="label">附件：</div>
+            <div class="label">{{language('附件')}}：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
                 <div class="upload-btn flex" v-if="type != 'detail'">
                     <i class="el-icon-link"></i>
-                    <span>点击上传</span>
+                    <span>{{language('点击上传')}}</span>
                 </div>
             </iUpload>
-            <span v-if="type == 'detail' && form.annexList && form.annexList.length == 0" >无</span>
+            <span v-if="type == 'detail' && form.annexList && form.annexList.length == 0" >{{language('无')}}</span>
         </div>
         
         <CreateQuestion 

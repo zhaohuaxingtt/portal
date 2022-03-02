@@ -13,7 +13,8 @@
       </el-dropdown>
     </div>
     <div class="center">
-      <img :src="img"
+      <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span>
+      <!-- <img :src="img"
            class="imgIcon" />
       <div class="float">
 
@@ -43,7 +44,7 @@
             <td>100</td>
           </tr>
         </table>
-      </div>
+      </div> -->
 
     </div>
     <iDialog @close="closeDiolog()"

@@ -9,45 +9,45 @@
               <el-row :gutter="20">
                 <el-col span="4">
                   <el-form-item class="elFormOItem">
-                    <span>{{ searchOptionTitles.contactName }}</span>
+                    <span>{{ language(searchOptionTitles.contactName) }}</span>
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.nameZh"
                     ></iInput>
                   </el-form-item>
                 </el-col>
                 <el-col span="4">
                   <el-form-item class="elFormOItem">
-                    <span>{{ searchOptionTitles.supChina }}</span>
+                    <span>{{ language(searchOptionTitles.supChina) }}</span>
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.companyName"
                     ></iInput>
                   </el-form-item>
                 </el-col>
                 <el-col span="4">
                   <el-form-item class="elFormOItem">
-                    <span>{{ searchOptionTitles.position }}</span>
+                    <span>{{ language(searchOptionTitles.position) }}</span>
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.position"
                     ></iInput>
                   </el-form-item>
                 </el-col>
                 <el-col span="4">
                   <el-form-item class="elFormOItem">
-                    <span>{{ searchOptionTitles.department }}</span>
+                    <span>{{ language(searchOptionTitles.department) }}</span>
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.department"
                     ></iInput>
                   </el-form-item>
                 </el-col>
                 <el-col span="4">
                   <el-form-item class="elFormOItem">
-                    <span>{{ searchOptionTitles.Landline }}</span>
+                    <span>{{ language(searchOptionTitles.Landline) }}</span>
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.telephoneO"
                     ></iInput>
                   </el-form-item>
@@ -55,10 +55,10 @@
                 <el-col span="4">
                   <div class="searchButtons">
                     <iButton @click="search">{{
-                      searchOptionTitles.buttons.search
+                      language(searchOptionTitles.buttons.search)
                     }}</iButton>
                     <iButton @click="reset">{{
-                      searchOptionTitles.buttons.reset
+                      language(searchOptionTitles.buttons.reset)
                     }}</iButton>
                   </div>
                 </el-col>
@@ -75,7 +75,7 @@
                 </el-col> -->
                 <el-col span="4">
                   <el-form-item class="elFormOItem">
-                    <span>{{ searchOptionTitles.isPrimaryContact }}</span>
+                    <span>{{ language(searchOptionTitles.isPrimaryContact) }}</span>
                     <iSelect v-model="searchCondition.isMainContact">
                       <el-option
                         v-for="item in options"
@@ -90,7 +90,7 @@
                 <el-col :span="4">
                   <el-form-item :label="language('SAP号')">
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.sapNum"
                     >
                     </iInput>
@@ -99,7 +99,7 @@
                 <el-col :span="4">
                   <el-form-item :label="language('正式/SVW号')">
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.svwCode"
                     >
                     </iInput>
@@ -108,7 +108,7 @@
                 <el-col :span="4">
                   <el-form-item :label="language('临时号')">
                     <iInput
-                      :placeholder="searchOptionTitles.input"
+                      :placeholder="language(searchOptionTitles.input)"
                       v-model="searchCondition.temporaryNum"
                     >
                     </iInput>
@@ -124,17 +124,17 @@
           <div class="tableContent">
             <div class="tableButton">
               <iButton @click="authorization" :disabled="isClick">
-                {{ tableButtons.auth }}</iButton
+                {{ language(tableButtons.auth) }}</iButton
               >
               <iButton @click="cancelAuth" :disabled="isClick">
-                {{ tableButtons.unauth }}
+                {{ language(tableButtons.unauth) }}
               </iButton>
               <iButton @click="exportBtnClick">{{
-                tableButtons.export
+                language(tableButtons.export)
               }}</iButton>
               <button-table-setting @click="$refs.authList.openSetting()" />
               <iDialog
-                :title="iDialogTitle.title"
+                :title="language(iDialogTitle.title)"
                 :visible.sync="dialogVisible"
                 width="350px"
                 :close-on-click-modal="false"

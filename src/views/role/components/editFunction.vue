@@ -1,7 +1,7 @@
 <template>
   <div class="view-data" v-loading="loading">
     <div class="menu">
-      <iCard title="页面菜单">
+      <iCard :title="language('页面菜单')">
         <functionMenu
           editable
           :default-selected-rows="defaultSelectedMenus"
@@ -57,9 +57,9 @@ export default {
   computed: {
     resourceTitle() {
       if (this.resourceParent.name) {
-        return `【${this.resourceParent.name}】页面控件`
+        return `【${this.resourceParent.name}】${this.language('页面控件')}`
       }
-      return '页面控件'
+      return this.language('页面控件')
     },
     defaultSelectedMenus() {
       return _.cloneDeep(this.detail.menuList)

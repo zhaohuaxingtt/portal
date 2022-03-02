@@ -12,7 +12,7 @@
             </div>
             <div class="rightContent">
                 <el-tabs v-model="activeName" class="tabs" @tab-click="handleClick($event)">
-                    <el-tab-pane label="基本信息" name="baseInfo">
+                    <el-tab-pane ::label="language('基本信息')" name="baseInfo">
                         <BaseInfo 
                             :name="baseInfoName"
                             :currId="currId"
@@ -20,7 +20,7 @@
                             @createFlowchart="createFlowchart"
                         />
                     </el-tab-pane>
-                    <el-tab-pane label="项目信息" name="projectInfo" class="tab-project">
+                    <el-tab-pane :label="language('项目信息')" name="projectInfo" class="tab-project">
                         <ProjectInfo
                             ref="project"
                             :listData="projectInfoData"

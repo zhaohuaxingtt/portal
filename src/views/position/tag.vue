@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="position-tag-page">
-      <div class="title margin-bottom25">岗位标签</div>
+      <div class="title margin-bottom25">{{language('岗位标签')}}</div>
       <iCard tabCard>
         <div class="flex-between-center">
           <div>
@@ -16,12 +16,12 @@
               >{{ item.name }}</el-tag
             >
             <el-tag type="info" @click="handleAddTag"
-              ><i class="el-icon-plus"></i>自定义标签</el-tag
+              ><i class="el-icon-plus"></i>{{language('自定义标签')}}</el-tag
             >
           </div>
           <div class="btn-wrapper">
-            <iButton @click="handleConfirm">确定</iButton>
-            <iButton @click="handleBack">返回</iButton>
+            <iButton @click="handleConfirm">{{language('确定')}}</iButton>
+            <iButton @click="handleBack">{{language('返回')}}</iButton>
           </div>
         </div>
       </iCard>

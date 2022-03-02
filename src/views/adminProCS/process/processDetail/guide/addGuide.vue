@@ -1,6 +1,6 @@
 <template>
     <iDialog
-        title="添加流程指导书"
+        :title="language('添加流程指导书')"
         :visible.sync="show" 
         width="600px" 
         @close='close' 
@@ -16,7 +16,7 @@
             class="validate-required-form"
         >
             <iFormItem :label="language('附件标题')" prop='name'>
-                <iInput v-model="form.name" class="w-250" maxlength="50" placeholder="请输入"></iInput>
+                <iInput v-model="form.name" class="w-250" maxlength="50" :placeholder="language('请输入')"></iInput>
             </iFormItem>
             <iFormItem :label="language('发布日期')" prop='publishDate'>
                 <iDatePicker
@@ -31,10 +31,10 @@
                 <el-checkbox-group v-model="form.fileList"></el-checkbox-group>
                 <i-upload 
                     v-model="form.fileList"
-                    btnTxt="选择文件" 
+                    :btnTxt="language('选择文件')" 
                     :maxSize="10" 
                     :limit="1"
-                    tipTxt="文件大小最大限制10MB!"
+                    :tipTxt="language('文件大小最大限制10MB!')"
                     isCustHttp
                     :uploadHandle="uploadHandle"
                     :removeHandle="removeHandle"

@@ -8,7 +8,7 @@
         <iSearch @sure="searchBtnClick" @reset="resetBtnClick">
           <el-form>
             <el-row :gutter="20">
-              <el-col :span="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
                 <el-form-item :label="language(formTitle.pName)">
                   <iInput
                     :placeholder="language(formTitle.inputPlaceholder)"
@@ -16,7 +16,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
                 <el-form-item :label="language(formTitle.tName)">
                   <iSelect
                     :placeholder="language('请选择')"
@@ -36,7 +36,7 @@
                   </iSelect>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
                 <el-form-item :label="language(formTitle.pType)">
                   <iSelect
                     :placeholder="language(formTitle.iSelectPlaceholder)"
@@ -52,9 +52,7 @@
                   </iSelect>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
                 <el-form-item :label="language(formTitle.PID)">
                   <iInput
                     :placeholder="language(formTitle.inputPlaceholder)"
@@ -62,7 +60,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
                 <el-form-item :label="language(formTitle.cCarTypeYear)">
                   <iInput
                     :placeholder="language(formTitle.inputPlaceholder)"
@@ -70,7 +68,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
                 <el-form-item :label="language(formTitle.isValid)">
                   <iSelect
                     :placeholder="language(formTitle.iSelectPlaceholder)"
@@ -123,7 +121,7 @@
       v-if="isVisible"
       :visible="isVisible"
       @close="closeDetail"
-      :title="pageTitle"
+      :title="language(pageTitle)"
       width="88%"
     >
       <carTypeDetail :PID="PID" />
