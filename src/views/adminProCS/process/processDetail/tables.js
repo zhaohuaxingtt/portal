@@ -56,6 +56,7 @@ const DOC = [
     },
     {
         label:'操作',
+        i18n:'操作',
         customRender:(h,{row},col,{del}) => {
             return <iButton type="text" on-click={() => del(row)}>删除</iButton>
         }
@@ -79,6 +80,7 @@ const GUIDE = [
     },
     {
         label:'操作',
+        i18n:'操作',
         customRender:(h,{row},col,{del}) => {
             return <iButton type="text" on-click={() => del(row)}>删除</iButton>
         }

@@ -5,8 +5,8 @@
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyWord" />
             </div>
             <div>
-                <iButton @click="search">搜索</iButton>
-                <iButton @click="addQuestionFun">添加常见问题</iButton>
+                <iButton @click="search">{{language('搜索')}}</iButton>
+                <iButton @click="addQuestionFun">{{language('添加常见问题')}}</iButton>
                 <!-- <iButton @click="modifyQuestionFun" :disabled='selectedItems.length == 0'>修改</iButton>
                 <iButton @click="delQuestionFun" :disabled='selectedItems.length == 0'>删除</iButton>
                 <iButton @click="handleQuestionAnswer" :disabled='selectedItems.length == 0'>问题回答</iButton> -->
