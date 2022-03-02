@@ -1,6 +1,6 @@
 <template>
     <iDialog
-        :title="dialogTitle"
+        :title="language(dialogTitle)"
         :visible.sync="show" 
 		width="70%" 
 		@close='closeDialogBtn' 
@@ -19,30 +19,30 @@
                 <div style="width: 70%">
                     <div style="width: 100%">
                         <iFormItem :label="language('报告类型')" prop='name' style="width: 50%">
-                            <iInput v-model="form.name" placeholder="请输入" style="width: 280px" clearable maxLength="50"></iInput>
+                            <iInput v-model="form.name" :placeholder="language('请输入')" style="width: 280px" clearable maxLength="50"></iInput>
                         </iFormItem>
                         <iFormItem :label="language('部门信息')" prop='organization'>
-                            <iInput v-model="form.organization" placeholder="请输入" style="width: 280px" clearable maxLength="100"></iInput>
+                            <iInput v-model="form.organization" :placeholder="language('请输入')" style="width: 280px" clearable maxLength="100"></iInput>
                         </iFormItem>
                     </div>
                     <div style="width: 100%">
                         <iFormItem :label="language('location')" prop='location' style="width: 50%">
-                            <iInput v-model="form.location" placeholder="请输入" clearable maxLength="100" style="width: 280px"></iInput>
+                            <iInput v-model="form.location" :placeholder="language('请输入')" clearable maxLength="100" style="width: 280px"></iInput>
                         </iFormItem>
                         <iFormItem :label="language('英文名')" prop='enName'>
-                            <iInput v-model="form.enName" placeholder="请输入" clearable maxLength="50" style="width: 280px"></iInput>
+                            <iInput v-model="form.enName" :placeholder="language('请输入')" clearable maxLength="50" style="width: 280px"></iInput>
                         </iFormItem>
                     </div>
                     <div style="width: 100%">
                         <iFormItem :label="language('Telefone')" prop='telefone'>
-                            <iInput v-model="form.telefone" placeholder="请输入" clearable maxLength="30" style="width: 280px"></iInput>
+                            <iInput v-model="form.telefone" :placeholder="language('请输入')" clearable maxLength="30" style="width: 280px"></iInput>
                         </iFormItem>
                     </div>
                 </div>
                 <!-- <div class="s-line"></div> -->
                 <div style="width: 26%">
                     <div>
-                        <div style="margin-top:6px">封面图片</div>
+                        <div style="margin-top:6px">{{language('封面图片')}}</div>
                         <ImgCutter
                             class="avatar-uploader"
                             fileType=".jpg, .jpeg, .png"
@@ -66,7 +66,7 @@
                         <iSelect
                             v-model="form.adminUsers"
                             filterable
-                            placeholder="请选择"
+                            :placeholder="language('请选择')"
                             clearable
                             multiple
                             style="width: 280px"
@@ -85,7 +85,7 @@
                             ref="selectDom"
                             v-model="form.organizations"
                             filterable
-                            placeholder="请选择"
+                            :placeholder="language('请选择')"
                             clearable
                             multiple
                             style="width: 280px"
@@ -109,7 +109,7 @@
                         <iSelect
                             v-model="form.userRange"
                             filterable
-                            placeholder="请选择"
+                            :placeholder="language('请选择')"
                             clearable
                             @change="handlePerson"
                             style="width: 280px"
@@ -135,8 +135,8 @@
             </div>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <iButton @click="save">保存</iButton>
-            <iButton @click="closeDialogBtn">取消</iButton>
+            <iButton @click="save">{{language('保存')}}</iButton>
+            <iButton @click="closeDialogBtn">{{language('取消')}}</iButton>
         </span>
     </iDialog>
 </template>

@@ -4,7 +4,7 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-grow gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('产品组编号')">
                 <iInput
                   :placeholder="language('请输入')"
@@ -12,7 +12,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('产品组名称(中)')">
                 <iInput
                   :placeholder="language('请输入')"
@@ -20,7 +20,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('产品组名称(德)')">
                 <iInput
                   :placeholder="language('请输入')"

@@ -131,7 +131,7 @@
           </el-popover>
           <span class="openLinkText cursor"
                 @click="hanldeDownload(scope.row)"
-                v-else-if="scope.row.dataChannelName==='资信报告'">
+                v-else-if="scope.row.dataChannelName==='资信报告'&&scope.row.reportUrlPdf">
             {{ $t('LK_XIAZAI') }}
           </span>
         </template>
@@ -333,6 +333,7 @@ export default {
       await downloadUdFile(row.filePath)
     },
     async hanldeDownload (val) {
+      // if(!val.reportUrlPdf) 
       await downloadUdFile(val.reportUrlPdf)
     },
     // 上传接口

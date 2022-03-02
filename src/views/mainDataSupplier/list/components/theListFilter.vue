@@ -2,22 +2,22 @@
   <iSearch @sure="sure" @reset="reset">
     <el-form class="search-form">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('供应商中文名称')">
             <iInput v-model="form.nameZh" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('供应商英文名称')">
             <iInput v-model="form.nameEn" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('DUNS')">
             <iInput v-model="form.dunsCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('供应商类型')">
             <iSelect
               v-model="form.supplierType"
@@ -32,7 +32,7 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('临时号')">
             <iInput
               v-model="form.svwTempCode"
@@ -40,22 +40,22 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('SVW号')">
             <iInput v-model="form.svwCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('SAP号')">
             <iInput v-model="form.sapCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('VW号')">
             <iInput v-model="form.vmCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('统一社会信用代码')">
             <iInput
               v-model="form.socialcreditNo"

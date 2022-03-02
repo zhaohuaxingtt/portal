@@ -14,6 +14,7 @@ export const contentColumn = () => {
 		{
 			prop:'category',
 			label:'分类',
+			i18n:'分类',
 			width: 200,
 			align: 'center',
 			customRender: (h, scope) => {
@@ -27,21 +28,25 @@ export const contentColumn = () => {
 		{
 			prop:'title',
 			label:'标题',
+			i18n:'标题',
 			align: 'center'
 		},
 		{
 			prop:'speaker',
 			label:'主讲人',
+			i18n:'主讲人',
 			align: 'center'
 		},
 		{
 			prop:'openingDate',
 			label:'开课日期',
+			i18n:'开课日期',
 			align: 'center'
 		},
 		{
 			prop:'section',
 			label:'课程',
+			i18n:'课程',
 			align: 'center',
 			customRender: (h, scope) => {
 				const section = scope.row.section
@@ -53,6 +58,7 @@ export const contentColumn = () => {
 		{
 			prop:'organizations',
 			label:'部门',
+			i18n:'部门',
 			align: 'center',
 			customRender: (h, scope) => {
 				const organizations = scope.row.organizations
@@ -65,6 +71,7 @@ export const contentColumn = () => {
 		{
 			prop:'published',
 			label:'状态',
+			i18n:'状态',
 			align: 'center',
 			width: 200,
 			emit:'stateChang',
@@ -79,6 +86,7 @@ export const contentColumn = () => {
 		{
 			prop:'sendMessage',
 			label:'消息发送',
+			i18n:'消息发送',
 			align: 'center',
 			emit:'sendChang',
 			width: 220,
@@ -108,15 +116,18 @@ export const typeColumn = () => {
 		{
 			prop:'name',
 			label:'类型',
+			i18n:'类型',
 			align: 'center'
 		},
 		{
 			prop:'createdAt',
 			label:'添加日期',
+			i18n:'添加日期',
 			align: 'center'
 		},
 		{
 			label:'状态',
+			i18n:'状态',
 			align: 'center',
 			emit:'publishChang',
 			customRender: (h, scope) => {
@@ -139,10 +150,12 @@ export const column = [
 	{
 		prop:'name',
 		label:'分类名称',
+		i18n:'分类名称',
 		align: 'center'
 	},
 	{
         label:'操作',
+		i18n:'操作',
         customRender:(h,{row},col,{del}) => {
             return <iButton type="text" on-click={() => del(row)}>删除</iButton>
         }

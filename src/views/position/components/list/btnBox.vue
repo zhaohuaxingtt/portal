@@ -11,7 +11,7 @@
         v-for="item in operations"
         :key="item.value"
       >
-        {{ item.label }}
+        {{ language(item.label) }}
       </iButton>
     </div>
     <button-table-setting @click="$emit('handle-setting')" />

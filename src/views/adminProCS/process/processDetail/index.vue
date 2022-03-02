@@ -1,19 +1,19 @@
 <template>
     <div>
         <el-tabs v-model="currType" @tab-click="change">
-            <el-tab-pane label="流程页面" name="page">
+            <el-tab-pane :label="language('流程页面')" name="page">
                 <processPage ref="page" :id="pId" :flowChartId="flowChartId"></processPage>
             </el-tab-pane>
-            <el-tab-pane label="ProD文档" name="doc">
+            <el-tab-pane :label="language('ProD文档')" name="doc">
                 <doc ref="doc" :id="pId"></doc>
             </el-tab-pane>
-            <el-tab-pane label="流程指导书" name="guide">
+            <el-tab-pane :label="language('流程指导书')" name="guide">
                 <guide ref="guide" :id="id"></guide>
             </el-tab-pane>
-            <el-tab-pane label="常见问题" name="qs">
+            <el-tab-pane :label="language('常见问题')" name="qs">
                 <question ref="qs" :id="id"></question>
             </el-tab-pane>
-            <el-tab-pane label="流程附件" name="attachment">
+            <el-tab-pane :label="language('流程附件')" name="attachment">
                 <attachment ref="attachment" :id="id"></attachment>
             </el-tab-pane>
         </el-tabs>

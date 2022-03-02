@@ -6,19 +6,19 @@
           <el-row :gutter="20">
             <el-col :span="8">
               <iFormItem :label="language('问题模块')">
-                <iSelect v-model="searchForm.moduleId" filterable clearable placeholder="请选择">
+                <iSelect v-model="searchForm.moduleId" filterable clearable :placeholder="language('请选择')">
                   <el-option v-for="item in moduleList" :key="item.id" :label="`${item.parentName?item.parentName + '-':''}${item.menuName?item.menuName:''}`" :value="item.id"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
             <el-col :span="8">
               <iFormItem :label="language('标签')">
-                <iInput v-model="searchForm.lableName" clearable placeholder="请输入" />
+                <iInput v-model="searchForm.lableName" clearable :placeholder="language('请输入')" />
               </iFormItem>
             </el-col>
             <el-col :span="8">
               <iFormItem :label="language('创建人')">
-                <iInput v-model="searchForm.createByName" clearable placeholder="请输入" />
+                <iInput v-model="searchForm.createByName" clearable :placeholder="language('请输入')" />
               </iFormItem>
             </el-col>
           </el-row>

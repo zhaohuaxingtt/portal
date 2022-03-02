@@ -2,7 +2,7 @@
   <div>
     <iPage>
       <pageHeader>
-        <span>员工 {{ this.formData.nameZh }}</span>
+        <span>{{language('员工')}} {{ this.formData.nameZh }}</span>
       </pageHeader>
       <div class="Main">
         <!-- 搜索条件 -->

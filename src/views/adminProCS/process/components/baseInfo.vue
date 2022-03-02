@@ -3,14 +3,14 @@
     <div class="info">
         <div class="box">
             <span class="common">*</span>
-            <div class="name-text">工程名称</div>
+            <div class="name-text">{{language('工程名称')}}</div>
         </div>
         <div class="margin-top10">
             <iInput v-model="name" clearable />
         </div>
         <div class="box margin-top20">
             <span class="common">*</span>
-            <div class="name-text">流程图</div>
+            <div class="name-text">{{language('流程图')}}</div>
         </div>
         <iUpload 
 			v-model="fileList"
@@ -22,11 +22,11 @@
 		>
 			<div class="margin-top10">
 				<iButton class="margin-top10">Choose file</iButton>
-				<div class="margin-top10">文件大小最大限制10MB!</div>
+				<div class="margin-top10">{{language('文件大小最大限制10MB!')}}</div>
 			</div>
 		</iUpload>
         <div class="margin-top40 btn">
-            <iButton @click="save">保存</iButton>
+            <iButton @click="save">{{language('保存')}}</iButton>
         </div>
     </div>
 </template>
