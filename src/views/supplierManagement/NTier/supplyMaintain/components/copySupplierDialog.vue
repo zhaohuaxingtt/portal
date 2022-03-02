@@ -53,13 +53,29 @@
         </el-col>
         <el-col :span="4">
           <el-form-item :label="language('LINGJIANHAO/MINGCHEN','零件号/名称')">
-            <el-cascader filterable
+            <!-- <el-cascader filterable
+                         ref="cascader"
                          :props="{multiple: true}"
                          :placeholder="language('QINGSHURU_XUANZE','请输入/选择')"
                          v-model="form.partNums"
+                         v-el-select-loadmore="loadmore"
                          :options="formGroup.partNumberList"
                          clearable
-                         collapse-tags></el-cascader>
+                         collapse-tags></el-cascader> -->
+            <iSelect filterable
+                     v-el-select-loadmore="loadmore"
+                     multiple
+                     collapse-tags
+                     clearable
+                     :placeholder="language('QINGSHURU_XUANZE','请输入/选择')"
+                     v-model="form.partNum"
+                     @change="hanldeChange">
+              <el-option v-for="(item, index) in formGroup.partNumberList"
+                         :key="index"
+                         :value="item.partNum"
+                         :label="item.partName + '/' + item.partNum">
+              </el-option>
+            </iSelect>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -192,7 +208,7 @@ import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
 import { generalPageMixins } from "@/views/generalPage/commonFunMixins";
 import { pageMixins } from "@/utils/pageMixins";
-import { queryUpDown, queryPartNumber, copyNode, queryByParamsDropDownWithAuth } from "@/api/supplierManagement/supplyMaintain/index.js";
+import { queryUpDown, pageQueryByParams, copyNode, queryByParamsDropDownWithAuth } from "@/api/supplierManagement/supplyMaintain/index.js";
 import resultMessageMixin from "@/mixins/resultMessageMixin.js";
 
 export default {
@@ -205,6 +221,32 @@ export default {
     areaList: { type: Array },
     partList: { type: Array },
     copyOption: { type: String, default: '' },
+  },
+  model: {
+    prop: 'value',
+    event: "input"
+  },
+  directives: {
+    'el-select-loadmore': {
+      bind (el, binding) {
+        // 获取element-ui定义好的scroll盒子
+        const SELECTWRAP_DOM = el.querySelector('.el-select-dropdown .el-select-dropdown__wrap');
+        SELECTWRAP_DOM.addEventListener('scroll', function () {
+          console.log('1111')
+          /**
+          * scrollHeight 获取元素内容高度(只读)
+          * scrollTop 获取或者设置元素的偏移值,常用于, 计算滚动条的位置, 当一个元素的容器没有产生垂直方向的滚动条, 那它的scrollTop的值默认为0.
+          * clientHeight 读取元素的可见高度(只读)
+          * 如果元素滚动到底, 下面等式返回true, 没有则返回false:
+          * ele.scrollHeight - ele.scrollTop === ele.clientHeight;
+          */
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) {
+            binding.value();
+          }
+        });
+      }
+    }
   },
   data () {
     // 这里存放数据
@@ -223,7 +265,12 @@ export default {
       formGroup: {
         partNumberList: [],
         supplierNameList: []
-      }
+      },
+      pageForm: {
+        pageNo: 1,
+        pageSize: 100
+      },
+      totalPage: 0
     }
   },
   // 监听属性 类似于data概念
@@ -232,12 +279,14 @@ export default {
   watch: {
     value: {
       handler (val) {
+        console.log(val, "val")
         if (val) {
           this.dictByCode()
-          this.queryPartNumber()
+          this.queryPartNumber(this.pageForm)
           // this.handleInitTable()
         }
-      }
+      },
+      immediate: true
     },
     'form.areaArray': {
       handler (val) {
@@ -258,6 +307,11 @@ export default {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.queryUpDown()
+    },
+    loadmore () {
+      this.pageForm.pageNo++;
+      if (this.pageForm.pageNo > this.page) return
+      this.queryPartNumber(this.pageForm)
     },
     handleSelectionChange (val) {
       this.selectTableData = val
@@ -292,13 +346,14 @@ export default {
       this.clearDiolog()
       this.$parent.$parent.showCopyDialog = true
     },
-    async queryPartNumber () {
-      const res = await queryPartNumber({})
-      res.data.map(item => {
+    async queryPartNumber (pageForm) {
+      const res = await pageQueryByParams(pageForm)
+      res.data.list.map(item => {
         item.label = item.partNum + '/' + item.partName
         return item.value = item.partNum
       })
-      this.formGroup.partNumberList = res.data
+      this.totalPage = Math.ceil(res.total / res.size)
+      this.formGroup.partNumberList = [...this.formGroup.partNumberList, ...res.data.list]
     },
     async queryUpDown () {
       const pms = {
@@ -362,7 +417,6 @@ export default {
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
-
   },
 }
 </script>

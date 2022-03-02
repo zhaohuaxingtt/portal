@@ -182,6 +182,7 @@
                         :partList="formGroup.partList"
                         :areaList="formGroup.areaList"
                         v-model="copySupplierDialog"
+                        v-if="copySupplierDialog"
                         @copyData="copyData"
                         :node="node" />
   </iCard>

@@ -281,7 +281,7 @@ export default {
   }
 }
 </style>
-<style lang="scss">
+<style scope lang="scss">
 .module-card {
   margin-bottom: 20px;
   .el-dropdown {
@@ -294,17 +294,20 @@ export default {
   .el-card__body {
     height: 570px;
   }
-}
-.card-dropdown {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 1px solid #4b5c7d !important;
-  .el-dropdown-menu__item {
-    padding-top: 5px;
-    padding-bottom: 5px;
+  .card-dropdown {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #4b5c7d !important;
+    .el-dropdown-menu__item {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .popper__arrow::after {
+      border-bottom-color: #4b5c7d !important;
+    }
   }
-  .popper__arrow::after {
-    border-bottom-color: #4b5c7d !important;
+  .module-content {
+    height: 100%;
   }
 }
 </style>
