@@ -42,7 +42,7 @@
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
               }" @click="changeCategoryItem(item)">
-              {{ item.label }}
+              {{ language(item.label) }}
             </li>
           </ul>
         </el-col>
