@@ -213,6 +213,7 @@
           {{ language('XIANGQINGLIEBIAO', '详情列表') }}
         </span>
         <iButton v-if="tabVal == 1"
+                v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_YICHUCRATING"
                  @click="handleSaveBtn">{{
             language('YICHUCRATING', '移出C-Rating')
         }}</iButton>

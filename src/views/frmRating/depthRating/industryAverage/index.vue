@@ -17,9 +17,9 @@
 				</div>
 				<div class="flex-align-center">
 					<!-- 新建行业 -->
-					<iButton @click='openNewIndustry'>{{$t('SPR_FRM_DEP_XJHY')}}</iButton>
-					<iButton @click="saveData">{{$t('LK_BAOCUN')}}</iButton>
-					<iButton @click='del'>{{$t('delete')}}</iButton>
+					<iButton @click='openNewIndustry' v-permission="PORTAL_SUPPLIER_NAV_GAILAN_WEIHU_XINJIANHANGYE">{{$t('SPR_FRM_DEP_XJHY')}}</iButton>
+					<iButton @click="saveData" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_WEIHU_BAOCUN">{{$t('LK_BAOCUN')}}</iButton>
+					<iButton @click='del' v-permission="PORTAL_SUPPLIER_NAV_GAILAN_WEIHU_SHANCHU">{{$t('delete')}}</iButton>
 				</div>
 			</div>
 			<el-table :data="fieldList" :selection='false' :tableTitle="newTableTitle" :tableLoading="tableLoading" >

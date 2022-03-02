@@ -49,31 +49,31 @@ Vue.directive('permission', {
       return true
     } else {
       let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
-      if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
-        // if (['vmsit', 'SIT', 'UAT'].includes(process.env.NODE_ENV)) {
-        if (
-          !store.state.permission.whiteBtnList[binding.expression] &&
-          !menuBtn
-        ) {
-          // 处理控件中，不可见的组件 列入：Ibutton.
-          if (pagePermission !== 'undefined') {
-            // console.log(pagePermission)
-            // console.log(!store.state.permission.whiteBtnList[pagePermission])
-            if (!store.state.permission.whiteBtnList[pagePermission]) {
-              //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
-              if (
-                binding.rawName.split('.')[1] &&
-                binding.rawName.split('.')[1] == 'edit'
-              ) {
-                el.classList.add('is-disabled')
-              } else {
-                el.parentNode.removeChild(el)
-              }
-            }
-          }
-        } else {
-        }
-      }
+      // if (['vmsit', 'SIT', 'dev', 'UAT'].includes(process.env.NODE_ENV)) {
+      //   // if (['vmsit', 'SIT', 'UAT'].includes(process.env.NODE_ENV)) {
+      //   if (
+      //     !store.state.permission.whiteBtnList[binding.expression] &&
+      //     !menuBtn
+      //   ) {
+      //     // 处理控件中，不可见的组件 列入：Ibutton.
+      //     if (pagePermission !== 'undefined') {
+      //       // console.log(pagePermission)
+      //       // console.log(!store.state.permission.whiteBtnList[pagePermission])
+      //       if (!store.state.permission.whiteBtnList[pagePermission]) {
+      //         //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
+      //         if (
+      //           binding.rawName.split('.')[1] &&
+      //           binding.rawName.split('.')[1] == 'edit'
+      //         ) {
+      //           el.classList.add('is-disabled')
+      //         } else {
+      //           el.parentNode.removeChild(el)
+      //         }
+      //       }
+      //     }
+      //   } else {
+      //   }
+      // }
     }
   },
 })
