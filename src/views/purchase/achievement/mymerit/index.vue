@@ -398,7 +398,6 @@
         var materialCode = "";
         var materialName = "";
         var supplier_code_name = this.$route.query.supplier_code_name || '';
-        console.log(supplier_code_name);
         if(this.$route.query.materialCode){
           materialCode = this.$route.query.materialCode;
           materialName = this.$route.query.materialName;
@@ -443,14 +442,14 @@
           var	supplier_code_name_parameter = {
 								$schema: "http://powerbi.com/product/schema#basic",
 								target: {
-									table: "app_proc_LK_data_source",
+									table: "app_proc_ekl_data_source",
 									column: "supplier_code_name"
 								},
 								operator: "In",
 								values: [supplier_code_name],
                 filterType: pbi.models.FilterType.BasicFilter
 						};
-
+          console.log(supplier_code_name_parameter);
 
           const pages = await report.getPages();
           var page = pages.filter(function (page) {
@@ -475,9 +474,9 @@
                 filters: [material_group_parameter]
               });				    							    						    		
             }
-
+            
             //  供应商
-            if(visual.title == "supplier_code_name" && page.isActive==true){
+            if(visual.title == "supplier_code_name" && page.isActive){
               visual.setSlicerState({
                 filters: [supplier_code_name_parameter]
               });				    							    						    		
