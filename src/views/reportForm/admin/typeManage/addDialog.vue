@@ -11,7 +11,7 @@
             :rules="rules"
             ref="typeForm"
             :inline="true" 
-            label-width="100px"
+            label-width="150px"
             v-loading="loading"
             class="validate-required-form"
         >
@@ -42,7 +42,7 @@
                 <!-- <div class="s-line"></div> -->
                 <div style="width: 26%">
                     <div>
-                        <div>{{language('封面图片')}}</div>
+                        <div style="margin-top:6px">{{language('封面图片')}}</div>
                         <ImgCutter
                             class="avatar-uploader"
                             fileType=".jpg, .jpeg, .png"
@@ -60,9 +60,9 @@
                 </div>
             </div>
             <div class="h-line"></div>
-            <div>
-                <div>
-                    <iFormItem :label="language('管理员')" prop='adminUsers'>
+            <div style="margin-left:14px;width: 100%">
+                <div style="width: 70%">
+                    <iFormItem :label="language('管理员')" prop='adminUsers' style="width: 50%">
                         <iSelect
                             v-model="form.adminUsers"
                             filterable
@@ -80,7 +80,7 @@
                             </el-option>
                         </iSelect>
                     </iFormItem>
-                    <iFormItem :label="language('报表可见组织')" prop='organizations' style="marginLeft: 85px">
+                    <iFormItem :label="language('报表可见组织')" prop='organizations'>
                         <iSelect
                             ref="selectDom"
                             v-model="form.organizations"
@@ -124,8 +124,8 @@
                         </iSelect>
                     </iFormItem>
                 </div>
-                <div v-show="customFlag">
-                    <iFormItem :label="language('选择人员')">
+                <div v-show="customFlag" style="width: 70%">
+                    <iFormItem :label="language('选择人员')" style="width: 50%">
                         <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" style="width: 280px" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
@@ -135,8 +135,8 @@
             </div>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <iButton @click="save">保存</iButton>
-            <iButton @click="closeDialogBtn">取消</iButton>
+            <iButton @click="save">{{language('保存')}}</iButton>
+            <iButton @click="closeDialogBtn">{{language('取消')}}</iButton>
         </span>
     </iDialog>
 </template>
@@ -236,13 +236,29 @@ export default {
             this.filterWord = v
         },
         async getUsersList() {
-            let params = {
-				privilege: 'BBNRGLY'
-			}
-            await getKnowledgeUser(params).then(res => {
-                if (res) {
-                    this.adminList = res || [{name: '测试', id: '1'}]
-                }
+            // let params = {
+			// 	privilege: 'BBNRGLY'
+			// }
+            // await getKnowledgeUser(params).then(res => {
+            //     if (res) {
+            //         this.adminList = res || [{name: '测试', id: '1'}]
+            //     }
+            // })
+            let CSParams = {
+                privilege: 'CSXTGLY'
+            }
+            let CIParams = {
+                privilege: 'CIXTGLY'
+            }
+            const fn1 = new Promise((resolve) => {
+                resolve(getKnowledgeUser(CSParams))
+            })
+            const fn2 = new Promise((resolve) => {
+                resolve(getKnowledgeUser(CIParams))
+            })
+            Promise.all([fn1, fn2]).then((result) => {
+                this.adminList = [...result[0], ...result[1]] || []
+                console.log(this.adminList, '33333')
             })
         },
         async getOrganizationsList() {

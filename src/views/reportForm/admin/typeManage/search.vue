@@ -46,7 +46,6 @@
             :end-placeholder="language('结束日期')"
             value-format="yyyy-MM-dd HH:mm:ss"
             :default-time="['00:00:00', '23:59:59']"
-            style="width: 330px"
           >
           </el-date-picker>
         </iFormItem>
