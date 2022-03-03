@@ -3,19 +3,19 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--无法评级-->
-        <iButton @click="handleNotRated">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</iButton>
+        <iButton @click="handleNotRated" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_WUFAPINGJI">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</iButton>
         <!--财报比较-->
-        <iButton @click="handleFinancialReportComparison">{{ $t('SPR_FRM_CBPJ_CBBJ') }}</iButton>
+        <iButton @click="handleFinancialReportComparison" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_CAIWUBIJIAO">{{ $t('SPR_FRM_CBPJ_CBBJ') }}</iButton>
         <!--有效-->
         <iButton @click="handleValidOrInvalid(1)"
-                 :loading="validButtonLoading">{{ $t('SUPPLIER_YOUXIAO') }}</iButton>
+                 :loading="validButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_YOUXIAO">{{ $t('SUPPLIER_YOUXIAO') }}</iButton>
         <!--无效-->
         <iButton @click="handleValidOrInvalid(0)"
-                 :loading="invalidButtonLoading">{{ $t('SUPPLIER_WUXIAO') }}</iButton>
+                 :loading="invalidButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_WUXIAO">{{ $t('SUPPLIER_WUXIAO') }}</iButton>
         <!--导出初评模板-->
-        <iButton @click="handleExport">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
+        <iButton @click="handleExport" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_DAOCHUCHUPINGMUBAN">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
         <!--初步评级-->
-        <iButton @click="handlePreliminaryRating">{{ $t('SUPPLIER_CHUBUPINGJI1') }}</iButton>
+        <iButton @click="handlePreliminaryRating" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_CHUBUPINGJI">{{ $t('SUPPLIER_CHUBUPINGJI1') }}</iButton>
         <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>

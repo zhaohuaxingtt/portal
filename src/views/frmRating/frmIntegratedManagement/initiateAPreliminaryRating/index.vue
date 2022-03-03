@@ -14,13 +14,13 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!-- 手动添加-->
-          <iButton @click="addManully">{{ $t('SPR_FRM_FRMGL_SDTJ') }}</iButton>
+          <iButton @click="addManully" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONGTIANJIA">{{ $t('SPR_FRM_FRMGL_SDTJ') }}</iButton>
           <!--自动添加-->
-          <iButton @click="automaticallyAdded">{{
+          <iButton v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_ZIDONGTIANJIA" @click="automaticallyAdded">{{
             $t('SPR_FRM_FRMGL_ZDTJ')
           }}</iButton>
           <!--提交-->
-          <iButton @click="handleSubmit" :loading="submitLoading">{{
+          <iButton v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_TIJIAO" @click="handleSubmit" :loading="submitLoading">{{
             $t('LK_TIJIAO')
           }}</iButton>
         </div>

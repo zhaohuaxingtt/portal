@@ -17,7 +17,7 @@
       />
       <div class="btnRow">
         <!-- 维护行业均值-->
-        <iButton @click="onJumpIndustryAverage">{{
+        <iButton @click="onJumpIndustryAverage" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_WEIHUHANGYEJUNZHI">{{
           $t('SPR_FRM_DEP_WHHYJZ')
         }}</iButton>
       </div>
