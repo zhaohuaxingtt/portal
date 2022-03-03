@@ -22,5 +22,22 @@ export const TAB = [
       permissionKey: "QUALITYSCORERULES_TAB",
       permissionName: "质量评分预设规则"
     },
-    
+    {
+      value: 3,
+      name: '定点申请预设逻辑',
+      url: "/backstagemanagement/defaultLogic",
+      activePath: "/defaultLogic",
+      key: "DINGDIANSHENQINGYUSHELUOJI",
+      permissionKey: "DEFAULTLOGIC_TAB",
+      permissionName: "定点申请预设逻辑"
+    },
+    {
+      value: 4,
+      name: '零件采购类型规则维护',
+      url: "/backstagemanagement/partsItemConfig",
+      activePath: "/partsItemConfig",
+      key: "LINGJIANCAIGOULEIXINGGUIZEWEIHU",
+      permissionKey: "PARTSITEMCONFIG_TAB",
+      permissionName: "零件采购类型规则维护"
+    },
   ]

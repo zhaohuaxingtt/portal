@@ -19,13 +19,7 @@
         @click-menu="clickMenu"
       />
       <div class="language" @click="handleChangeLang">
-        <icon
-          symbol
-          v-if="lang === 'zh'"
-          class="icon"
-          name="iconzhongyingwenzhuanhuanzhong"
-        />
-        <icon symbol v-else class="icon" name="iconzhongyingwenzhuanhuanying" />
+        <icon symbol class="icon" :name="langIcon" />
       </div>
       <iMailTrigger ref="iMail" />
     </div>
@@ -90,13 +84,19 @@ export default {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
       userInfo: (state) => state.permission.userInfo
-    })
+    }),
+    langIcon() {
+      const locale = this.$i18n.locale || 'zh'
+      if (locale === 'zh') {
+        return 'iconzhongyingwenzhuanhuanzhong'
+      }
+      return 'iconzhongyingwenzhuanhuanying'
+    }
   },
   created() {
-    this.lang = localStorage.getItem('lang')
+    this.lang = localStorage.getItem('lang') || 'zh'
     this.$store.commit('SET_LANGUAGE', this.lang)
   },
-
   beforeDestroy() {
     this.socketVm && this.socketVm.close()
   },
@@ -105,7 +105,7 @@ export default {
       if (val == 'logout') {
         this.$refs.iMail.handleHideDrawer()
         this.$emit('click-menu', val)
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           removeToken()
           window.sessionStorage.clear()
           window.localStorage.clear()
