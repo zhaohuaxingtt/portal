@@ -86,6 +86,11 @@ export default {
       barChart: null
     }
   },
+  created(){
+    const year = new Date().getFullYear() - 1
+    this.query.beginTime = `${year}-01-01`
+    this.query.endTime = `${year}-12-31`
+  },
   mounted() {
     this.getKpiCates()
     this.getSponserList()
