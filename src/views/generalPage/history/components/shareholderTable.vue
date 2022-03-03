@@ -20,6 +20,7 @@
         :tableLoading="tableLoading"
         @handleSelectionChange="handleSelectionChange"
         :index="true"
+        border
     />
   </i-card>
 </template>

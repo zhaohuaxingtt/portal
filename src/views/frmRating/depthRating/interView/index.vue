@@ -17,6 +17,7 @@
         <el-upload class="upload"
                    :show-file-list="false"
                    name="multipartFile"
+                   v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_DAORU"
                    with-credentials
                    :on-success="handleAvatarSuccess"
                    :http-request="myUpload"
@@ -25,14 +26,16 @@
         </el-upload>
         <!--保存-->
         <iButton class="margin-left10"
+                  v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_BAOCUN"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
         <!-- 下载模板 -->
         <iButton class="margin-left10"
+                v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_XIAZAIMOBAN"
                  @click="getInterviewGlobal">{{ $t('SPR_FRM_FRMGL_XZFTQDMB') }}</iButton>
         <!--查看财务分析结果-->
-        <iButton @click='jumpFinancialAnalysis'>{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
+        <iButton @click='jumpFinancialAnalysis' v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_CKCWFXJG">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
         <!--生成会议纪要-->
-        <iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_SCHYJY') }}</iButton>
+        <iButton @click='openMeeting' v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_SCHYJY">{{ $t('SPR_FRM_DEP_SCHYJY') }}</iButton>
       </div>
     </div>
     <basic v-if="currentNav==1"

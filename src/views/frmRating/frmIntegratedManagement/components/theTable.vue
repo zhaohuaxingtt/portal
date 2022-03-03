@@ -3,13 +3,13 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--VWAG评级-->
-        <iButton @click="openVwagRatingDialog">{{ $t('SPR_FRM_FRMGL_VWAGPJ') }}</iButton>
+        <iButton @click="openVwagRatingDialog" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_VWAGPINGJI">{{ $t('SPR_FRM_FRMGL_VWAGPJ') }}</iButton>
         <!--导出财报-->
-        <iButton @click="openExportFinancialReportDialog">{{ $t('SPR_FRM_FRMGL_DCCB') }}</iButton>
+        <iButton @click="openExportFinancialReportDialog" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAOCHUCAIBAO">{{ $t('SPR_FRM_FRMGL_DCCB') }}</iButton>
         <!--导出统计报表-->
         <!--        <iButton>{{ $t('SPR_FRM_FRMGL_DCTJBB') }}</iButton>-->
         <!--深入评级-->
-        <iButton @click="openInDepthRatingDialog">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
+        <iButton @click="openInDepthRatingDialog" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_SHENRUPINGJIBTN">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
         <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>

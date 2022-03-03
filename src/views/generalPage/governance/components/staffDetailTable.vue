@@ -1,3 +1,10 @@
+<!--
+ * @Author: YoHo
+ * @Date: 2022-02-16 17:36:57
+ * @LastEditTime: 2022-03-03 17:03:03
+ * @LastEditors: YoHo
+ * @Description: 
+-->
 <template>
   <iCard>
     <div class="margin-bottom20 clearFloat">
@@ -12,6 +19,7 @@
         :tableLoading="tableLoading"
         @handleSelectionChange="handleSelectionChange"
         :index="true"
+        border
     />
   </iCard>
 </template>

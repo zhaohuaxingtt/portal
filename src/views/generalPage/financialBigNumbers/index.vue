@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: 财务大数
 -->
 <template>
@@ -34,7 +34,8 @@
                   @handleSelectionChange="handleSelectionChange"
                   :row-class-name="handleTableRow"
                   :input-props="['year','receivables','inventory','advancePayment','otherReceivables','rollingAssetsTotal','totalCurrentLab','totalLab','paidInCapital','totalOwnersEquity','assetsTotal','taking','cost','totalProfit','retainedProfits','debtRatio']"
-                  :index="true">
+                  :index="true"
+                  border>
         <template v-slot:currency="scope">
           <iSelect v-model="scope.row['currency']">
             <el-option v-for="item in currencyList"

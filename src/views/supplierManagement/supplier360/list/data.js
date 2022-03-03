@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-18 09:48:38
- * @LastEditors: caopeng
+ * @LastEditors: YoHo
  * @Descripttion: your project
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -13,6 +13,7 @@ export const tableTitle = [
     name: '供应商中文名',
     width: 200,
     key: 'GONGYINGSHANGZHONGWENMING',
+    fixed: true,
     tooltip: true
   },
   {
@@ -28,13 +29,6 @@ export const tableTitle = [
     name: '统一社会信用代码',
     width: 200,
     key: 'UnifySocialCreditCode',
-    tooltip: true
-  },
-  {
-    props: 'supplierTagNameList',
-    name: '供应商标签',
-    width: 200,
-    key: 'GONGYINGSHANGBIAOQIAN',
     tooltip: true
   },
   { props: 'dunsCode', name: 'DUNS', width: 150, tooltip: true },
@@ -80,6 +74,13 @@ export const tableTitle = [
     name: '供应商类型',
     width: 120,
     key: 'SUPPLIER_SUPPLIERTYPE'
+  },
+  {
+    props: 'supplierTagNameList',
+    name: '供应商标签',
+    width: 200,
+    key: 'GONGYINGSHANGBIAOQIAN',
+    tooltip: true
   },
   { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO1' },
   //   { props: 'dept', name: '科室', width: 120, key: 'SUPPLIER_KESHI', tooltip: true },

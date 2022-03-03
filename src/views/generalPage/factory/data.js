@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:24
- * @LastEditTime: 2021-12-23 19:11:12
- * @LastEditors: your name
+ * @LastEditTime: 2022-03-03 17:46:29
+ * @LastEditors: YoHo
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\generalPage\factory\data.js
  */
@@ -19,6 +19,7 @@ export const tableTitle = [
     key: 'GONGCHANGMINGCHEN',
     maxlength: 256,
     required: true,
+    width: 200,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
   {
@@ -27,6 +28,7 @@ export const tableTitle = [
     key: 'GONGCHANGJIANCHEN',
     maxlength: 50,
     required: true,
+    width: 150,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
   {
@@ -55,6 +57,7 @@ export const tableTitle = [
     name: '地址',
     key: 'DIZHI',
     maxlength: 300,
+    width: 300,
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },

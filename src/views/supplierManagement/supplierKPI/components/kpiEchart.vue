@@ -7,6 +7,8 @@
 
 <script>
 import echarts from '@/utils/echarts'
+import { deepClone } from "./util"
+
 export default {
     props:{
         options:{
@@ -15,6 +17,10 @@ export default {
         supplierNameArray:{
             type:Array,
             default:()=>[]
+        },
+        name:{
+            type:String,
+            default:()=>''
         }
     },
     data(){
@@ -113,7 +119,7 @@ export default {
                     }
                 ]
             },
-            seriesObj:{}
+            seriesObj:null
         }
     },
     mounted(){
@@ -152,8 +158,14 @@ export default {
         initCharts() {
             const myChart = echarts().init(this.$refs.chart);
             // 绘制图表
-            const option = this.option
-            myChart.setOption(option);
+            var optionList = deepClone(this.option);
+            optionList.tooltip.axisPointer.label.margin = 20;
+            optionList.tooltip.axisPointer.label.fontSize = 15;
+            optionList.grid.bottom = 28;
+            if(this.name){
+                console.log(optionList);
+            }
+            myChart.setOption(optionList);
         }
 
 
