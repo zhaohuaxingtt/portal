@@ -1367,10 +1367,14 @@ export default {
           //   })
           //gp会议  生成Agenda
           if (this.selectedRow[0].isGpCSC==true || this.selectedRow[0].isMBDL==true) {
-            console.log('gp生成Agenda');
-            exportMeetingAgenda({ id: e }).then((res) => {
-              exportExcel(res)
-            })
+            if(this.selectedRow[0].isMBDL==true){
+              return
+            }else{
+              console.log('gp生成Agenda');
+              exportMeetingAgenda({ id: e }).then((res) => {
+                exportExcel(res)
+              })
+            }
           }else{
             // console.log('原来生成Agenda');
             this.isGenerating = true
