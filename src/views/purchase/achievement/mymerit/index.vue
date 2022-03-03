@@ -443,10 +443,10 @@
 								$schema: "http://powerbi.com/product/schema#basic",
 								target: {
 									table: "app_proc_ekl_data_source",
-									column: "supplier_code_name"
+									column: "supplier_code"
 								},
 								operator: "In",
-								values: [year],
+								values: [supplier_code_name],
                 filterType: pbi.models.FilterType.BasicFilter
 						};
           console.log(supplier_code_name_parameter);
@@ -476,7 +476,7 @@
             }
             
             //  供应商
-            if(visual.title == "supplier_code_name" && page.isActive == true){
+            if(visual.title == "supplier_code" && page.isActive == true){
               visual.setSlicerState({
                 filters: [supplier_code_name_parameter]
               });				    							    						    		
