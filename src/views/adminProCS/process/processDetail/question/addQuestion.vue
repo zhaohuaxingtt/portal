@@ -1,6 +1,6 @@
 <template>
     <iDialog
-        :title="dialogTitle"
+        :title="language(dialogTitle)"
         style="margin-top:10vh"
         :visible.sync="show" 
         width="500px" 
@@ -17,17 +17,17 @@
             class="questionForm validate-required-form"
         >
 			<iFormItem :label="language('问题描述')" prop='name'>
-				<iInput v-model="newQuestionForm.name" placeholder="请输入问题描述"></iInput>
+				<iInput v-model="newQuestionForm.name" :placeholder="language('请输入问题描述')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('标题首字母')" prop='firstLetter'>
-				<iInput v-model="newQuestionForm.firstLetter" placeholder="请输入标题首字母"></iInput>
+				<iInput v-model="newQuestionForm.firstLetter" :placeholder="language('请输入标题首字母')"></iInput>
 			</iFormItem>	
 			<iFormItem :label="language('更新日期')" prop='updateDt'>
 				<el-date-picker
                     style="width:100%"
 					v-model="newQuestionForm.updateDt"
 					type="date"
-					placeholder="请选择更新日期">
+					:placeholder="language('请选择更新日期')">
 				>
 				</el-date-picker>
 			</iFormItem>

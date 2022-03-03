@@ -1,0 +1,23 @@
+export default {
+    类型名称:'Type Name',
+    是否置顶:'Top Or Not',
+    管理人: 'Administrator',
+    报表可见组织: 'Report Visible Org.',
+    报表可见人员: 'Report Visible Person',
+    报表: 'Report Form',
+    报告类型: 'Report Type',
+    部门信息: 'Dep Info',
+    封面图片: 'Cover Photo',
+    新增类型管理: 'New Type Management',
+    选择人员: 'Select Personnel',
+    报表类型维护: 'Report Type Maintenance',
+    通知: 'Notice',
+    报告标题: 'Report Title',
+    修改内容: 'Modify Content',
+    添加内容: 'Add Content',
+    修改类型管理: 'Modify Type Management',
+    Report类型: 'Report Type',
+    Report标题: 'Report Title',
+    报表分类: 'Report classify',
+    至: 'To'
+}

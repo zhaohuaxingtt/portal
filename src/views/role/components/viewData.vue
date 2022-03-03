@@ -1,11 +1,11 @@
 <template>
   <iCard>
     <div>
-      <div class="panel-header margin-bottom20">行权限</div>
+      <div class="panel-header margin-bottom20">{{ language('行权限') }}</div>
       <dataPermissionRow :form="detail" />
     </div>
     <div class="panel-divider"></div>
-    <div class="panel-header margin-bottom20">列权限</div>
+    <div class="panel-header margin-bottom20">{{ language('列权限') }}</div>
     <div class="view-data">
       <div class="menu">
         <dataPermissionMenu

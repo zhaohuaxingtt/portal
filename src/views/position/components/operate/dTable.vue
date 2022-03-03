@@ -5,7 +5,7 @@
         @click="handleAdd"
         v-if="type !== 'detail'"
         :disabled="dimensionChecked && dimensionChecked.length"
-        >增加维度</iButton
+        >{{language('增加维度')}}</iButton
       >
       <iButton
         @click="handleDel"
@@ -14,7 +14,7 @@
         "
         v-if="type !== 'detail'"
         class="margin-right20"
-        >删除维度</iButton
+        >{{language('删除维度')}}</iButton
       >
     </div>
 
@@ -52,12 +52,14 @@ export default {
           {
             prop: 'description',
             label: '维度',
+            i18n:'维度',
             tooltip: false,
             align: 'center'
           },
           {
             prop: 'content',
             label: '内容',
+            i18n:'内容',
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
@@ -80,6 +82,7 @@ export default {
           {
             prop: 'dimension',
             label: '维度',
+            i18n:'维度',
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
@@ -126,6 +129,7 @@ export default {
             prop: 'content',
             label: '内容',
             align: 'center',
+            i18n:'内容',
             tooltip: false,
             customRender: (h, scope) => {
               let options = []
@@ -186,6 +190,7 @@ export default {
           {
             prop: 'dimension',
             label: '维度',
+            i18n:'维度',
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
@@ -231,6 +236,7 @@ export default {
           {
             prop: 'content',
             label: '内容',
+            i18n:'内容',
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {

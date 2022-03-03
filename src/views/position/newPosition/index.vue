@@ -2,20 +2,20 @@
   <iPage>
     <div class="main">
       <div class="title">
-        <div class="titleName">新建岗位</div>
+        <div class="titleName">{{language('新建岗位')}}</div>
         <div class="titleButton">
-          <iButton>确定</iButton>
-          <iButton>重置</iButton>
+          <iButton>{{language('确定')}}</iButton>
+          <iButton>{{language('重置')}}</iButton>
         </div>
       </div>
       <div class="contents">
-        <iCard class="basicMe" title="基本信息" collapse="true">
+        <iCard class="basicMe" :title="language('基本信息')" collapse="true">
           <div class="basicMeList">
             <div class="MessageAlo" v-for="item in basicMe" :key="item.id">
               <span class="basicNa" style="line-height: 25px;">{{
-                item.name
+                language(item.name)
               }}</span>
-              <span class="basicCon" style="height:35px;">{{ item.text }}</span>
+              <span class="basicCon" style="height:35px;">{{ language(item.text) }}</span>
             </div>
           </div>
           <div class="desAndTag">
@@ -25,7 +25,7 @@
               :key="item.id"
             >
               <span class="basicNa" style="line-height: 35px;">{{
-                item.name
+                language(item.name)
               }}</span>
               <span
                 :class="'text' + (index + 1)"
@@ -46,22 +46,22 @@
                 :class="'text' + (index + 1)"
                 style="line-height: 35px; height:35px;"
                 v-else
-                >{{ item.text }}</span
+                >{{ language(item.text) }}</span
               >
             </div>
           </div>
           <div class="button">
-            <iButton style="margin-top : 4vh">增加维度</iButton>
+            <iButton style="margin-top : 4vh">{{language('增加维度')}}</iButton>
           </div>
           <!-- table内容 -->
           <div class="tableMessage" style="margin-top : 2vh">
             <iTableCustom :data="tableData" :columns="tableMe"> </iTableCustom>
           </div>
         </iCard>
-        <iCard class="roleMe" title="角色信息" collapse="true">
+        <iCard class="roleMe" :title="language('角色信息')" collapse="true">
           <div class="titleButton">
-            <iButton>确定</iButton>
-            <iButton>重置</iButton>
+            <iButton>{{language('确定')}}</iButton>
+            <iButton>{{language('重置')}}</iButton>
           </div>
           <div class="roleTable">
             <iTableCustom :data="roleData" :columns="tableSetting">

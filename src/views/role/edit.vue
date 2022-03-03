@@ -10,7 +10,7 @@
   <iPage>
     <div v-loading="loading">
       <viewHeader
-        :title="language(title)"
+        :title="roleTitle"
         editable
         :active="activeTab"
         @toggle-tab="toggleTab"
@@ -43,10 +43,19 @@ export default {
     editFunction,
     editData
   },
+  computed: {
+    roleTitle() {
+      const { shortNameZh, shortNameEn } = this.roleData
+      if (this.$i18n.locale === 'zh') {
+        return shortNameZh || shortNameEn
+      }
+      return shortNameEn || shortNameZh
+    }
+  },
   data() {
     return {
       activeTab: 'function',
-      title:'',
+      title: '',
       roleData: {
         id: '',
         code: '',

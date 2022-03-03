@@ -1,7 +1,7 @@
 export const tableColumn = (c) => {
   return [
     {
-      label: '序号',
+      label: '#',
       width: 80,
       type: 'customIndex',
       customRender: (h, scope) => {
@@ -49,7 +49,9 @@ export const tableColumn = (c) => {
     {
       prop: 'questionTitle',
       label: '提问问题',
+      i18n: '提问问题',
       align: 'center',
+      width:250,
       emit: 'mauDetail',
       tooltip: true,
       customRender: (h, scope) => {
@@ -65,6 +67,7 @@ export const tableColumn = (c) => {
     {
       prop: 'createDate',
       label: '提问时间',
+      i18n: '提问时间',
       width: '200px',
       align: 'center',
       tooltip: true,
@@ -73,6 +76,7 @@ export const tableColumn = (c) => {
     {
       prop: 'finishDate',
       label: '完结时间',
+      i18n: '完结时间',
       width: '180px',
       align: 'center',
       tooltip: true,
@@ -81,6 +85,7 @@ export const tableColumn = (c) => {
     {
       prop: 'createByUerName',
       label: '提问者',
+      i18n: '提问者',
       align: 'center',
       tooltip: true,
       sortable: true
@@ -88,6 +93,7 @@ export const tableColumn = (c) => {
     {
       prop: 'source',
       label: '用户类型',
+      i18n: '用户类型',
       align: 'center',
       customRender: (h, scope) => {
         const source = scope.row.source
@@ -98,6 +104,7 @@ export const tableColumn = (c) => {
     {
       // prop: 'handlerUserName',
       label: '管理员',
+      i18n: '管理员',
       align: 'center',
       customRender: (h, scope) => {
         const handlerUserName = scope.row.handlerUserName
@@ -112,6 +119,7 @@ export const tableColumn = (c) => {
     {
       prop: 'questionModuleName',
       label: '问题模块',
+      i18n: '问题模块',
       align: 'center',
       tooltip: true,
       sortable: true
@@ -119,6 +127,7 @@ export const tableColumn = (c) => {
     {
       prop: 'questionLableName',
       label: '标签',
+      i18n: '标签',
       align: 'center',
       sortable: true
     }
@@ -138,7 +147,7 @@ export const tableColumn = (c) => {
 export const manualTableColumn = (c) => {
   return [
     {
-      label: '序号',
+      label: '#',
       width: 80,
       type: 'customIndex',
       customRender: (h, scope) => {
@@ -186,6 +195,7 @@ export const manualTableColumn = (c) => {
     {
       prop: 'questionTitle',
       label: '提问问题',
+      i18n: '提问问题',
       emit: 'quesDetail',
       align: 'center',
       customRender: (h, scope) => {
@@ -201,6 +211,7 @@ export const manualTableColumn = (c) => {
     {
       prop: 'source',
       label: '用户类型',
+      i18n: '用户类型',
       align: 'center',
       customRender: (h, scope) => {
         const source = scope.row.source
@@ -211,6 +222,7 @@ export const manualTableColumn = (c) => {
     {
       prop: 'createDate',
       label: '创建时间',
+      i18n: '创建时间',
       width: '200px',
       align: 'center',
       tooltip: true,
@@ -219,6 +231,7 @@ export const manualTableColumn = (c) => {
     {
       prop: 'handlerUserName',
       label: '创建人',
+      i18n: '创建人',
       width: '200px',
       align: 'center',
       tooltip: true,
@@ -252,6 +265,7 @@ export const manualTableColumn = (c) => {
     {
       prop: 'questionModuleName',
       label: '问题模块',
+      i18n: '问题模块',
       align: 'center',
       tooltip: true,
       sortable: true
@@ -259,18 +273,21 @@ export const manualTableColumn = (c) => {
     {
       prop: 'questionLableName',
       label: '标签',
+      i18n: '标签',
       align: 'center',
       sortable: true
     },
     {
       prop: 'favourCount',
       label: '点赞量',
+      i18n: '点赞量',
       align: 'center',
       sortable: true
     },
     {
       prop: 'viewCount',
       label: '浏览量',
+      i18n: '浏览量',
       align: 'center',
       sortable: true
     }
