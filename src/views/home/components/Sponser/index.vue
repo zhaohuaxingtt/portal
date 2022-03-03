@@ -666,7 +666,7 @@ export default {
             top: 10,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${cRating.toFixed(
+              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${isNaN(cRating) ? 0 :cRating.toFixed(
                 2
               )}%`,
               font: '9px sans-serif'
