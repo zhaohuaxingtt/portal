@@ -3046,7 +3046,8 @@
     LK_SHIJIZHIFU: '实际支付', //实际支付
     LK_NIANDUYUSUANCHAYI: '年度预算差异', //年度预算差异
     LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
-    LK_SHIJIZHIFUCHAYI: '实际支付差异' //实际支付差异
+    LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
+    LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择' //删除资信报告提示语
   }
   i18n.setLocaleMessage('zh', oldLanguage)
   // var xmlHttp = ''

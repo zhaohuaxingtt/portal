@@ -38,6 +38,7 @@
                     v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="deleteItem('ids', deleteFinance)">
             {{ $t('LK_SHANCHU') }}
+
           </i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
                     @click="openDataComparison"
