@@ -4,7 +4,7 @@ export default function getResCode(requestUrl) {
   const url = getUrl(requestUrl)
   let userName = store?.state?.permission?.userInfo?.userName || ''
   if (!userName) {
-    const userInfo = window.sessionStorage.getItem('config.url') || {}
+    const userInfo = window.sessionStorage.getItem('userInfo') || {}
     userName = userInfo?.userName || ''
   }
   const route = router?.app?.$route
