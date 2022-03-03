@@ -19,35 +19,17 @@
           </iFormItem>
         </el-form>
       </iSearch>
-      <!-- <div v-for="(item, index) in activeData" :key="index">
+      <div v-for="(value, name) in activeData" :key="name">
         <div class="category-name">
-          {{ item.typeValue }}
-        </div>
-        <div class="category-content">
-          <overview
-            v-for="(subItem, i) in item.wfCategoryList"
-            :key="i"
-            :data="subItem"
-            :category-name="item.typeValue"
-            @open="openListPage(data)"
-          />
-        </div>
-      </div> -->
-      <div v-for="(item, index) in activeData" :key="index">
-        <div class="category-name">
-          {{
-            item && item.taskCenterDtoList && item.taskCenterDtoList.length
-              ? item.taskCenterDtoList[0]['taskName']
-              : ''
-          }}
+          {{ name }}
         </div>
 
-        <div class="category-content" v-if="item && item.taskCenterDtoList">
+        <div class="category-content" v-if="value">
           <overview
-            v-for="(subItem, i) in item.taskCenterDtoList"
+            v-for="(subItem, i) in value"
             :key="i"
             :data="subItem"
-            :category-name="subItem['taskName']"
+            :category-name="name"
             @open="openListPage(subItem.todayLink)"
           />
         </div>
@@ -61,9 +43,8 @@ import pageHeader from '@/components/pageHeader'
 import overview from './components/overview'
 import { iPage, iSearch, iFormItem, iInput } from 'rise'
 import panelCategory from '@/components/common/panelCategory'
-import { getDutyStatistics } from '@/api/duty'
+import { fetchTaskCenter } from '@/api/duty'
 import { openUrl } from '@/utils/index'
-// import func from 'vue-editor-bridge'
 export default {
   components: {
     pageHeader,
@@ -87,7 +68,7 @@ export default {
     }
   },
   computed: {
-    userID: function () {
+    userId: function () {
       return this.$store.state.permission.userInfo.id
     },
     userType: function () {
@@ -95,13 +76,13 @@ export default {
       //2是供应商 1是员工
     },
     activeData() {
-      const notNullData = this.data.filter(
-        (e) => e && e.taskCenterDtoList && e.taskCenterDtoList.length
-      )
       if (this.activeIndex === -1) {
-        return notNullData
+        return this.data
       }
-      return [notNullData[this.activeIndex]]
+      const activeKey = this.titles[this.activeIndex].typeValue
+      const res = {}
+      res[activeKey] = this.data[activeKey]
+      return res
     }
   },
   created() {
@@ -114,50 +95,50 @@ export default {
       this.activeIndex = index
     },
     openListPage(link) {
-      // this.$router.push({
-      //   name: 'TaskList',
-      //   params: { category: data.category }
-      // })
       openUrl(link)
     },
     async getOverview() {
       this.loading = true
-      // let params = Object.assign(
-      //   {
-      //     userID: this.userID
-      //   },
-      //   // this.formData
-      // )
-      // userType:1 供应商 :2 员工
-      this.userType == 1 ? (this.userTypeRe = 2) : (this.userTypeRe = 1)
-      let params = `userId=${this.userID}&userTye=${this.userTypeRe}`
-      const data = await getDutyStatistics(params).finally(
-        () => (this.loading = false)
-      )
+      const res = await fetchTaskCenter({
+        userId: this.userId,
+        userTye: this.userType == 1 ? 2 : 1
+      }).finally(() => (this.loading = false))
+      const data = res || {}
+      const titles = Object.keys(data)
 
       this.data = data
-      const titles = []
-      data.forEach((item) => {
-        if (item) {
-          item?.taskCenterDtoList?.forEach((e) => {
-            if (!titles.includes(e.taskName)) {
-              titles.push({ typeValue: e.taskName })
-            }
-          })
-        }
+      this.titles = titles.map((e) => {
+        return { typeValue: e }
       })
-      this.titles = titles
     },
     search() {
+      // 搜snaro
       let index = this.titles.findIndex(
         (item) => item.typeValue === this.formData.category
       )
       if (index !== -1) {
         this.activeIndex = index
+      } else {
+        // 搜taskName
+        let categoryName = ''
+        for (const key in this.data) {
+          if (Object.hasOwnProperty.call(this.data, key)) {
+            const element = this.data[key]
+            if (element.some((e) => e.taskName === this.formData.category)) {
+              categoryName = key
+            }
+          }
+        }
+        const i = this.titles.findIndex(
+          (item) => item.typeValue === categoryName
+        )
+
+        if (i !== -1) {
+          this.activeIndex = i
+        }
       }
     },
     inputChange(val) {
-      console.log('inputChange', val)
       if (val.length === 0) {
         this.activeIndex = -1
       }
