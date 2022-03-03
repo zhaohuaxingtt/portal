@@ -23,7 +23,7 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       }
       config.headers['language'] = window.localStorage.getItem('lang') || 'zh'
 
-      config.headers['resCode'] = getResCode()
+      config.headers['resCode'] = getResCode(config.url)
 
       // 查询参数自动清除null，'' 值
       if (config.clearEmptyParams && config.params) {
