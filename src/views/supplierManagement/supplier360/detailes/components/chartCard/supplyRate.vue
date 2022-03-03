@@ -74,7 +74,8 @@ export default {
       data3 = data3.map(res => {
         return res = parseInt(res) + this.language('SPR_FRM_DEP_MONTH', '月')
       })
-      let max = Math.max(...data2)
+      let max = Math.max(...data2) === 0 ? Math.max(...data1) : Math.max(...data2)
+
       const myChart = echarts().init(this.$refs.chart)
       this.option = {
         title: {

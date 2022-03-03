@@ -18,7 +18,8 @@ export const tableTitle = [
         required: true,
         key: 'ZHUYAOCHANPIN',
         rule: [{required: true, message: '请输入', trigger: 'blur'}],
-        maxlength: 150
+        maxlength: 150,
+        width: 200
     },
     {
         props: 'annualOutput',

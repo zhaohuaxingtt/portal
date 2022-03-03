@@ -238,7 +238,7 @@
     </iCard>
     <iCard style="margin-top: 20px">
       <!-- <h2>默认采购组列表</h2> -->
-      <h2>{{ $t('staffManagement.DEFAULTPURCHASEGROUPLIST') }}</h2>
+      <h2>{{ language('采购组列表') }}</h2>
       <div class="OrganizationTable">
         <iTableCustom
           :loading="tableLoading"

@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="foot">
-                <div class="kpichart"><div class="tittle">总分</div><kpiEchart :supplierNameArray="supplierNameArray" :options="totalScore"></kpiEchart></div>
+                <div class="kpichart"><div class="tittle">总分</div><kpiEchart :supplierNameArray="supplierNameArray" :options="totalScore" name='总分'></kpiEchart></div>
                 <div class="kpichart"><div class="tittle">服务质量</div><kpiEchart :supplierNameArray="supplierNameArray" :options="quality"></kpiEchart></div>
                 <div class="kpichart"><div class="tittle">成本竞争力</div><kpiEchart :supplierNameArray="supplierNameArray" :options="cost"></kpiEchart></div>
                 <div class="kpichart"><div class="tittle">交付</div><kpiEchart :supplierNameArray="supplierNameArray" :options="delivery"></kpiEchart></div>
@@ -319,7 +319,7 @@ export default {
             if(x.totalList.length>0){
                 this.totalScore.series[0].data.forEach(x=>{x.sArray=[]})
                  x.totalList.forEach(score => {
-                     if(score.totalScore>9){
+                    //  if(score.totalScore>9){
                          this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].symbol='emptyCircle'
                          this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].c=Math.floor((score.totalScore)/10)*10+5
                          this.tabledata.forEach(s=>{
@@ -327,10 +327,10 @@ export default {
                                 this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].sArray.push({name:s.nameZh,realScore:score.totalScore})
                             }
                         })
-                        this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].value=this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].sArray.length
-                     }else{
-                         this.totalScore.series[0].data[0].symbol='emptyCircle'
-                     }
+                        // this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].value=this.totalScore.series[0].data[Math.floor((score.totalScore)/10)*2+1].sArray.length
+                    //  }else{
+                    //      this.totalScore.series[0].data[0].symbol='emptyCircle'
+                    //  }
                      
                  });   
                  

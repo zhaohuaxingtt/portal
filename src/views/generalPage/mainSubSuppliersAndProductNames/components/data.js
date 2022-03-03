@@ -1,8 +1,8 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-13 17:50:00
- * @LastEditTime: 2021-12-23 19:23:48
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 17:51:32
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  */
 
@@ -10,7 +10,7 @@ export const subSupplierTableTitle = [
   {
     props: 'name',
     name: '主要分供方名称',
-    width: 180,
+    width: 200,
     key: 'SUPPLIER_ZHUYAOFENGONGFANGMINGCHENG',
     maxlength: 200,
     required: true,
@@ -184,7 +184,7 @@ export const paymentTableTitle = [
     name: '付款记录-时间',
     key: 'SUPPLIER_FUJIANJILUSHIJIAN'
   },
-  { props: 'payHabit', name: '附件习惯', key: 'SUPPLIER_FUJIANXIGUAN' },
+  { props: 'payHabit', name: '付款习惯', key: 'SUPPLIER_FUKUANXIGUAN' },
   { props: 'payWay', name: '付款方式', key: 'SUPPLIER_FUKUANFANGSHI' },
   { props: 'productName', name: '商品/服务', key: 'SUPPLIER_SHANGPINFUWU' },
   { props: 'payRemark', name: '备注', key: 'SUPPLIER_BEIZHU' }
