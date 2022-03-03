@@ -468,7 +468,8 @@ export default {
       const pms = {
         ...val,
         // spiReportId:
-        pageNo: val.current
+        pageNo: val.current,
+        relatedToMe :false,
         // supplierType:'PP'
         // pageSize:val.size
       }
