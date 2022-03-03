@@ -14,7 +14,6 @@ export default function getResCode() {
       ? activeMenu[1]
       : ''
   if (userName && url) {
-    console.log(toBase64([userName, url, the2PerminssionKey].join('@@@')))
     return toBase64([userName, url, the2PerminssionKey].join('@@@'))
   }
   return ''
