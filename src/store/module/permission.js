@@ -69,8 +69,10 @@ const state = {
 }
 const mutations = {
   SET_LANGUAGE(state, data) {
-    localStorage.setItem('lang', data)
-    state.language = data
+    if (data) {
+      localStorage.setItem('lang', data)
+      state.language = data
+    }
   },
   SET_MENU_LIST(state, data) {
     state.menuList = data
@@ -147,7 +149,7 @@ const mutations = {
           type: 1
         })
       } else if (item.code == 'ZYCGKSXTDY') {
-        (data.parentDeptList || []).map(item => {
+        ;(data.parentDeptList || []).map((item) => {
           if (item.grade === 3) {
             state.eklTabList.push({
               name: `EKL-${item.fullCode}`,
@@ -155,7 +157,7 @@ const mutations = {
               type: 2
             })
           }
-        }) 
+        })
       } else if (
         item.code == 'ZYCGKSXTY' ||
         // item.code == 'ZYCGKSXTDY' ||
