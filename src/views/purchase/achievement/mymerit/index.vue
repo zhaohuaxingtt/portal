@@ -410,7 +410,7 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_version"
             },
             operator: "In",
@@ -420,18 +420,18 @@
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_year"
             },
             operator: "In",
             values: [supplier_code_name],
             filterType: pbi.models.FilterType.BasicFilter
           };
-
+          console.log('year_parameteryear_parameter', year_parameter);
           var	material_group_parameter = {
               $schema: "http://powerbi.com/product/schema#basic",
               target: {
-                table: "app_proc_LK_data_source",
+                table: "app_proc_ekl_data_source",
                 column: "material_group_code_name"
               },
               operator: "In",
