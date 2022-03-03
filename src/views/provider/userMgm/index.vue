@@ -9,36 +9,36 @@
           <el-form>
             <el-row class="rowOne" :gutter="formAppearance.gutter">
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.contactName">
+                <el-form-item :label="language(searchOptionTitles.contactName)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.nameZh"
                   >
                   </iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.providerName">
+                <el-form-item :label="language(searchOptionTitles.providerName)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.companyName"
                   >
                   </iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.loginName">
+                <el-form-item :label="language(searchOptionTitles.loginName)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.userName"
                   >
                   </iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.isMainContact">
+                <el-form-item :label="language(searchOptionTitles.isMainContact)">
                   <iSelect
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.isMainContact"
                   >
                     <el-option
@@ -60,37 +60,37 @@
             </el-row>
             <el-row class="rowTwo" :gutter="formAppearance.gutter">
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.mail">
+                <el-form-item :label="language(searchOptionTitles.mail)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.email"
                   >
                   </iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.telPhone">
+                <el-form-item :label="language(searchOptionTitles.telPhone)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.telephoneO"
                   >
                   </iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.rencentDate">
+                <el-form-item :label="language(searchOptionTitles.rencentDate)">
                   <iDatePicker
                     type="date"
-                    :placeholder="searchOptionTitles.iselect"
+                    :placeholder="language(searchOptionTitles.iselect)"
                     :picker-options="endDateOptions"
                     v-model="formData.lastLoginDate"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.status">
+                <el-form-item :label="language(searchOptionTitles.status)">
                   <i-select
-                    :placeholder="searchOptionTitles.iselect"
+                    :placeholder="language(searchOptionTitles.iselect)"
                     v-model="formData.status"
                   >
                     <el-option
@@ -106,9 +106,9 @@
             </el-row>
             <el-row :gutter="formAppearance.gutter">
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.isExpire">
+                <el-form-item :label="language(searchOptionTitles.isExpire)">
                   <i-select
-                    :placeholder="searchOptionTitles.iselect"
+                    :placeholder="language(searchOptionTitles.iselect)"
                     v-model="formData.isValid"
                   >
                     <el-option
@@ -122,9 +122,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sapNO">
+                <el-form-item :label="language(searchOptionTitles.sapNO)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.sapNum"
                   >
                   </iInput>
@@ -133,16 +133,16 @@
               <el-col :span="6">
                 <el-form-item :label="language('正式/SVW号')">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.svwCode"
                   >
                   </iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.temNumber">
+                <el-form-item :label="language(searchOptionTitles.temNumber)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.temporaryNum"
                   >
                   </iInput>
@@ -158,14 +158,14 @@
             <iButton
               :disabled="selectedData.length == 0"
               @click="lockAccount"
-              >{{ buttonTitles.block }}</iButton
+              >{{ language(buttonTitles.block) }}</iButton
             >
             <iButton
               :disabled="selectedData.length == 0"
               @click="delockAccount"
-              >{{ buttonTitles.deblock }}</iButton
+              >{{ language(buttonTitles.deblock) }}</iButton
             >
-            <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
+            <iButton @click="exportData">{{ language(buttonTitles.export) }}</iButton>
             <button-table-setting @click="$refs.testTable.openSetting()" />
           </div>
           <iTableCustom

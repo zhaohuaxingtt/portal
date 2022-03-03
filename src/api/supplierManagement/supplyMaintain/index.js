@@ -98,6 +98,14 @@ export function queryPartNumber(parmars) {
     data: parmars
   })
 }
+// 查询--零件号(分页)
+export function pageQueryByParams(parmars) {
+  return requst({
+    url: `/ntierChainPart/pageQueryByParams`,
+    method: 'POST',
+    data: parmars
+  })
+}
 // 查询--供应链路线拖动
 export function change(parmars) {
   return requst({
@@ -123,11 +131,19 @@ export function invitation(parmars) {
   })
 }
 
-// --供应商注册邀请
-export function chain(parmars) {
-  console.log(`bkm/chain/` + parmars.supplierId + '/' + parmars.tlk)
-  return request({
-    url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
-    method: 'GET'
+// // --供应商注册邀请
+// export function chain(parmars) {
+//   console.log(`bkm/chain/` + parmars.supplierId + '/' + parmars.tlk)
+//   return request({
+//     url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
+//     method: 'GET'
+//   })
+// }
+
+export function chain(params) {
+  return requst({
+    url: `bkm/chain`,
+    method: 'POST',
+    data: params
   })
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="role-selector">
     <i-dialog
-      :title="title"
+      :title="language(title)"
       :visible.sync="isShow"
       width="80%"
       @open="handleOpen"
@@ -19,7 +19,7 @@
       >
         <el-form ref="searchForm">
           <iFormItem
-            :label="item.label"
+            :label="language(item.label)"
             v-for="(item, index) in filter"
             :key="index"
           >

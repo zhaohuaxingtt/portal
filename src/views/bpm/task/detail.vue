@@ -277,6 +277,7 @@ export default {
             if (res.result) {
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
+
               const histories = []
 
               if (data && data.historicVOList) {

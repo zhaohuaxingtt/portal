@@ -167,28 +167,29 @@ export default {
         });
         this.marker[index].setMap(this.map)
         this.marker[index].on('click', (e) => {
-          if (e.target._opts.extData.viewType) {
-            this.marker.forEach((i, index) => {
-              this.marker[index].setIcon(new AMap.Icon({
-                image: i.getIcon()._opts.image,
-                size: new AMap.Size(20, 20),
-                imageSize: new AMap.Size(20, 20)
-              }))
-            })
-            this.circle.forEach((i, index) => {
-              this.circle[index].setIcon(new AMap.Icon({
-                image: i.getIcon()._opts.image,
-                size: new AMap.Size(20, 20),
-                imageSize: new AMap.Size(20, 20)
-              }))
-            })
-            e.target.setIcon(new AMap.Icon({
-              image: e.target.getIcon()._opts.image,
-              size: new AMap.Size(30, 30),
-              imageSize: new AMap.Size(30, 30)
+          this.marker.forEach((i, index) => {
+            this.marker[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
             }))
-            this.getChainPart(this.marker[index]._opts.extData, item)
-          }
+          })
+          this.circle.forEach((i, index) => {
+            this.circle[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
+            }))
+          })
+          e.target.setIcon(new AMap.Icon({
+            image: e.target.getIcon()._opts.image,
+            size: new AMap.Size(30, 30),
+            imageSize: new AMap.Size(30, 30)
+          }))
+          this.getChainPart(this.marker[index]._opts.extData, item)
+          // if (e.target._opts.extData.viewType) {
+
+          // }
         })
       })
     },
@@ -200,36 +201,37 @@ export default {
         type: data.flag === 'svw' ? 2 : 1,
         factoryId: data.factoryId
       }
-      if (data.viewType) {
-        const res = await getChainPart(pms)
-        let rate = await listFrameInfo(pms)
-        if (res.data || rate.data) {
-          this.tips = new AMap.InfoWindow({
-            autoMove: false,
-            retainWhenClose: true,
-            content: '',
-            offset: new AMap.Pixel(0, -320),
-          })
-          console.log(this.tips)
-          const infowindowWrap = Vue.extend({
-            template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
-            name: "infowindowWrap",
-            components: {
-              tipTable: tipTable
-            },
-            data () {
-              return {
-                tableDataList: res.data,
-                rate: rate.data
-              };
-            },
-          });
-          console.log(infowindowWrap)
-          const component = new infowindowWrap().$mount();
-          this.tips.setContent(component.$el)
-          this.tips.open(this.map, [item.lon, item.lat])
-        }
+      const res = await getChainPart(pms)
+      let rate = await listFrameInfo(pms)
+      if (res.data || rate.data) {
+        this.tips = new AMap.InfoWindow({
+          autoMove: false,
+          retainWhenClose: true,
+          content: '',
+          offset: new AMap.Pixel(0, -320),
+        })
+        console.log(this.tips)
+        const infowindowWrap = Vue.extend({
+          template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
+          name: "infowindowWrap",
+          components: {
+            tipTable: tipTable
+          },
+          data () {
+            return {
+              tableDataList: res.data,
+              rate: rate.data
+            };
+          },
+        });
+        console.log(infowindowWrap)
+        const component = new infowindowWrap().$mount();
+        this.tips.setContent(component.$el)
+        this.tips.open(this.map, [item.lon, item.lat])
       }
+      // if (data.viewType) {
+
+      // }
     },
     // 生成贝塞尔曲线row:选择的数据
     handleRecursion (data, partNum, viewType) {
@@ -245,28 +247,29 @@ export default {
         });
         this.markerChain[index].setMap(this.map)
         this.markerChain[index].on('click', (e) => {
-          if (e.target._opts.extData.viewType) {
-            this.markerChain.forEach((i, index) => {
-              this.markerChain[index].setIcon(new AMap.Icon({
-                image: i.getIcon()._opts.image,
-                size: new AMap.Size(20, 20),
-                imageSize: new AMap.Size(20, 20)
-              }))
-            })
-            this.circle.forEach((i, index) => {
-              this.circle[index].setIcon(new AMap.Icon({
-                image: i.getIcon()._opts.image,
-                size: new AMap.Size(20, 20),
-                imageSize: new AMap.Size(20, 20)
-              }))
-            })
-            e.target.setIcon(new AMap.Icon({
-              image: e.target.getIcon()._opts.image,
-              size: new AMap.Size(30, 30),
-              imageSize: new AMap.Size(30, 30)
+          this.markerChain.forEach((i, index) => {
+            this.markerChain[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
             }))
-            this.getChainPart(this.markerChain[index]._opts.extData, item.address)
-          }
+          })
+          this.circle.forEach((i, index) => {
+            this.circle[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
+            }))
+          })
+          e.target.setIcon(new AMap.Icon({
+            image: e.target.getIcon()._opts.image,
+            size: new AMap.Size(30, 30),
+            imageSize: new AMap.Size(30, 30)
+          }))
+          this.getChainPart(this.markerChain[index]._opts.extData, item.address)
+          // if (e.target._opts.extData.viewType) {
+
+          // }
         })
       })
 

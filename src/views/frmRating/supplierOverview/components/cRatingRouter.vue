@@ -392,12 +392,16 @@ export default {
         { code: '', name: this.language('QUANBU', '全部') },
         { code: 0, name: this.language('WEIBAOJIA', '未报价') },
         { code: 1, name: this.language('XUNJIAZHONG', '询价中') }
-      ]
+      ],
+      queryList:{},
     }
   },
   watch: {},
   created () {
-    this.tabVal = '1'
+    if(this.$route.query && this.$route.query.sapCode){
+      this.queryList = this.$route.query;
+    }
+    this.tabVal = '1';
     if (this.sapCode && this.supplierId) {
       this.form.sapCode[0] = this.sapCode || ''
       this.form.supplierName[0] = this.supplierId || ''
@@ -474,7 +478,7 @@ export default {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
 
-      this.getTaleList()
+      
       const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
       this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
@@ -507,7 +511,22 @@ export default {
       this.projectList = resProject.data
       this.motorList = resMotor.data
       this.sapList = res2.data
+      for(var i=0;i<this.sapList.length;i++){
+        if(this.sapList[i].vvalue == this.queryList.sapCode){
+          this.form.sapCode = [this.sapList[i].kvalue]
+          break;
+        }
+      }
+
       this.supplierList = res3.data
+      for(var i=0;i<this.supplierList.length;i++){
+        if(this.supplierList[i].vvalue == this.queryList.nameZh){
+          this.form.supplierName = [this.supplierList[i].kvalue]
+          break;
+        }
+      }
+
+      this.getTaleList()
       //   this.supplierStatus = res4
     },
     handleSelectionChange (val) {
@@ -643,11 +662,11 @@ export default {
     margin: 0 20px;
   }
   ::v-deep.el-select {
-    width: 220px;
+    width: 250px;
   }
   ::v-deep.el-select__tags-text {
     display: inline-block;
-    max-width: 150px;
+    max-width: 100px;
     overflow: hidden;
     vertical-align: middle;
     text-overflow: ellipsis;
@@ -703,4 +722,5 @@ v::v-deep .el-tabs__nav-wrap::after {
 v::v-deep .el-tabs__nav-wrap:hover {
   font-weight: bold;
 }
+
 </style>

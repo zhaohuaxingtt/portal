@@ -158,13 +158,13 @@
                     </div>
                 </div>
                 <div class="line1">
-                    <div class="title">{{ language('LK_LINGJIANCHANG', '零件长') }}：</div>
+                    <div class="title">{{ $t('LK_LINGJIANCHICUN') }}：</div>
                     <div class="content-box">
-                        {{pageData && pageData.length ? pageData.length + 'mm' : ''}}
+                        {{pageData && pageData.length ? pageData.wide : ''}}
                     </div>
                 </div>
             </div>
-            <div class="line1">
+            <!-- <div class="line1">
                 <div class="line1">
                     <div class="title">{{ language('LK_LINGJIANKUAN', '零件宽') }}：</div>
                     <div class="content-box">
@@ -177,7 +177,7 @@
                         {{pageData && pageData.high ? pageData.high + 'mm' : ''}}
                     </div>
                 </div>
-            </div>
+            </div> -->
         </template>
 
 
@@ -213,9 +213,10 @@
       handleJumpData(data) {
         let path = '';
         const {id, isOrder, type} = data;
+        console.log('xxx->', type)
         if (type) {
           if (type == 55) {
-            path = `ws2/createbatchframework?frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
+            path = `ws2/framedetail?frameItemTye=${type}&scheduleAgreementId=${id}&status=formal`
           }//  批量件
           else if (type == 411) {
             path = `ws2/order/Outsourcing/details/OutsourcingOrderDetails/1/${id}`;

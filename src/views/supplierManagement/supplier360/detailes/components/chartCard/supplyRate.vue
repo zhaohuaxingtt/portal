@@ -72,14 +72,14 @@ export default {
         data3.push(e.month)
       })
       data3 = data3.map(res => {
-        return res = parseInt(res) + this.language('m', '月')
+        return res = parseInt(res) + this.language('SPR_FRM_DEP_MONTH', '月')
       })
-      let max = Math.max(...data1)
+      let max = Math.max(...data2)
       const myChart = echarts().init(this.$refs.chart)
       this.option = {
         title: {
           top: 0,
-          text: this.language('GONGHUOLV', '供货率（%）'),
+          text: this.language('PEIFUJIANGONGHUOLV', '配附件供货率'),
           textStyle: {
             color: '#909091',
             fontSize: 10

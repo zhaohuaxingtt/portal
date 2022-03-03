@@ -22,8 +22,8 @@ export default {
     ...mapState({
       eklTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList,
-      roleList: (state) => state.permission.userInfo.roleList,
-      deptName: (state) => state.permission.userInfo.deptDTO.deptNum
+      // roleList: (state) => state.permission.userInfo.roleList,
+      // deptName: (state) => state.permission.userInfo.deptDTO.deptNum
     }),
     tabList() {
       if (this.leadTabList.length) {
@@ -31,124 +31,124 @@ export default {
       }
       return this.unique(JSON.parse(JSON.stringify(this.eklTabList)) || [], 'name')
     },
-    tabs() {
-      console.log('roleList', this.roleList)
-      let tabs = null
-      if (this.roleList.length == 1) {
-        const Linie = this.roleList.some((item) => item.code == 'LINIE')
-        const zycgkzORkzzl = this.roleList.some(
-          (item) =>
-            item.code == 'ZYCGKZ' ||
-            item.code == 'WS2ZYCGKZ' ||
-            item.code == 'ZYCGKSXTY'
-        )
-        const zycgkz = this.roleList.some(
-          (item) => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ'
-        )
-        const kzzl = this.roleList.some(
-          (item) => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
-        )
-        const zycgbzORbzzl = this.roleList.some(
-          (item) => item.code == 'BZZL' || item.code == 'CGBZ'
-        )
-        const zycgbz = this.roleList.some((item) => item.code == 'CGBZ')
-        const bzzl = this.roleList.some((item) => item.code == 'BZZL')
-        const zycggz = this.roleList.some(
-          (item) => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ'
-        )
-        const CGBZ_WF = this.roleList.some((item) => item.code == 'CGBZ_WF')
-        const ZYCGKZ_WF = this.roleList.some((item) => item.code == 'ZYCGKZ_WF')
-        const PFJYJGLY = this.roleList.some((item) => item.code == 'PFJYJGLY')
-        if (PFJYJGLY) {
-          //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
-          //            this.btnsgroup1 = ['CS(Spare)']
-        } else if (Linie) {
-          // 采购员 采购员视觉
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = ['Linie', 'Linie(Spare)']
-        } else if (zycgkzORkzzl) {
-          // 采购科长||科长助理 科室视觉
-          if (zycgkz) {
-            // this.username = this.$store.state.permission.userInfo.id;
-            tabs = ['CSM', 'CSM(Spare)']
-          }
-          if (kzzl) {
-            // this.username = this.$store.state.permission.userInfo.id;
-            tabs = [this.deptName, `${this.deptName}(Spare)`]
-          }
-        } else if (zycgbzORbzzl) {
-          // 采购部长||部长助理 部门视觉
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = ['CS', 'CS(Spare)']
-        } else if (zycggz) {
-          // 采购股长 股视觉
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = [this.deptName, `${this.deptName}(Spare)`]
-        } else if (CGBZ_WF) {
-          tabs = ['CS', 'CS(Spare)']
-        } else if (ZYCGKZ_WF) {
-          tabs = ['CSM', 'CSM(Spare)']
-        }
-      } else {
-        const Linie = this.roleList.some((item) => item.code == 'LINIE') // 采购员
-        const KZ = this.roleList.some(
-          (item) => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ'
-        ) // 科长
-        const KZZL = this.roleList.some(
-          (item) => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
-        ) // 科长助理
-        const BZ = this.roleList.some((item) => item.code == 'CGBZ') // 部长
-        const BZZL = this.roleList.some((item) => item.code == 'BZZL') // 部长助理
-        const GZ = this.roleList.some(
-          (item) => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ'
-        ) // 股长
-        const PFJYJGLY = this.roleList.some((item) => item.code == 'PFJYJGLY')
-        if (PFJYJGLY) {
-          //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
-          //            this.btnsgroup1 = ['CS(Spare)']
-        } else if (KZ && Linie) {
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = ['CSM', 'CSM(Spare)']
-        } else if (KZ && !Linie) {
-          console.log('执行到这里')
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = [this.deptName, `${this.deptName}(Spare)`]
-        } else if (KZZL && Linie) {
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = [
-            this.deptName,
-            `${this.deptName}(Spare)`,
-            'Linie',
-            'Linie(Spare)'
-          ]
-        } else if (KZZL && !Linie) {
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = [this.deptName, `${this.deptName}(Spare)`]
-        } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
-          tabs = ['CS', 'CS(Spare)']
-        } else if (BZZL && Linie) {
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
-        } else if (GZ && Linie) {
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = [
-            this.deptName,
-            `${this.deptName}(Spare)`,
-            'Linie',
-            'Linie(Spare)'
-          ]
-        } else if (GZ && !Linie) {
-          // this.username = this.$store.state.permission.userInfo.id;
-          tabs = [this.deptName, `${this.deptName}(Spare)`]
-        } else if (Linie) {
-          tabs = ['Linie', 'Linie(Spare)']
-        }
-      }
-      if (tabs) {
-        return tabs
-      }
-      return this.tabList
-    }
+    // tabs() {
+    //   console.log('roleList', this.roleList)
+    //   let tabs = null
+    //   if (this.roleList.length == 1) {
+    //     const Linie = this.roleList.some((item) => item.code == 'LINIE')
+    //     const zycgkzORkzzl = this.roleList.some(
+    //       (item) =>
+    //         item.code == 'ZYCGKZ' ||
+    //         item.code == 'WS2ZYCGKZ' ||
+    //         item.code == 'ZYCGKSXTY'
+    //     )
+    //     const zycgkz = this.roleList.some(
+    //       (item) => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ'
+    //     )
+    //     const kzzl = this.roleList.some(
+    //       (item) => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
+    //     )
+    //     const zycgbzORbzzl = this.roleList.some(
+    //       (item) => item.code == 'BZZL' || item.code == 'CGBZ'
+    //     )
+    //     const zycgbz = this.roleList.some((item) => item.code == 'CGBZ')
+    //     const bzzl = this.roleList.some((item) => item.code == 'BZZL')
+    //     const zycggz = this.roleList.some(
+    //       (item) => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ'
+    //     )
+    //     const CGBZ_WF = this.roleList.some((item) => item.code == 'CGBZ_WF')
+    //     const ZYCGKZ_WF = this.roleList.some((item) => item.code == 'ZYCGKZ_WF')
+    //     const PFJYJGLY = this.roleList.some((item) => item.code == 'PFJYJGLY')
+    //     if (PFJYJGLY) {
+    //       //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+    //       //            this.btnsgroup1 = ['CS(Spare)']
+    //     } else if (Linie) {
+    //       // 采购员 采购员视觉
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = ['Linie', 'Linie(Spare)']
+    //     } else if (zycgkzORkzzl) {
+    //       // 采购科长||科长助理 科室视觉
+    //       if (zycgkz) {
+    //         // this.username = this.$store.state.permission.userInfo.id;
+    //         tabs = ['CSM', 'CSM(Spare)']
+    //       }
+    //       if (kzzl) {
+    //         // this.username = this.$store.state.permission.userInfo.id;
+    //         tabs = [this.deptName, `${this.deptName}(Spare)`]
+    //       }
+    //     } else if (zycgbzORbzzl) {
+    //       // 采购部长||部长助理 部门视觉
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = ['CS', 'CS(Spare)']
+    //     } else if (zycggz) {
+    //       // 采购股长 股视觉
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = [this.deptName, `${this.deptName}(Spare)`]
+    //     } else if (CGBZ_WF) {
+    //       tabs = ['CS', 'CS(Spare)']
+    //     } else if (ZYCGKZ_WF) {
+    //       tabs = ['CSM', 'CSM(Spare)']
+    //     }
+    //   } else {
+    //     const Linie = this.roleList.some((item) => item.code == 'LINIE') // 采购员
+    //     const KZ = this.roleList.some(
+    //       (item) => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ'
+    //     ) // 科长
+    //     const KZZL = this.roleList.some(
+    //       (item) => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
+    //     ) // 科长助理
+    //     const BZ = this.roleList.some((item) => item.code == 'CGBZ') // 部长
+    //     const BZZL = this.roleList.some((item) => item.code == 'BZZL') // 部长助理
+    //     const GZ = this.roleList.some(
+    //       (item) => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ'
+    //     ) // 股长
+    //     const PFJYJGLY = this.roleList.some((item) => item.code == 'PFJYJGLY')
+    //     if (PFJYJGLY) {
+    //       //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+    //       //            this.btnsgroup1 = ['CS(Spare)']
+    //     } else if (KZ && Linie) {
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = ['CSM', 'CSM(Spare)']
+    //     } else if (KZ && !Linie) {
+    //       console.log('执行到这里')
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = [this.deptName, `${this.deptName}(Spare)`]
+    //     } else if (KZZL && Linie) {
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = [
+    //         this.deptName,
+    //         `${this.deptName}(Spare)`,
+    //         'Linie',
+    //         'Linie(Spare)'
+    //       ]
+    //     } else if (KZZL && !Linie) {
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = [this.deptName, `${this.deptName}(Spare)`]
+    //     } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
+    //       tabs = ['CS', 'CS(Spare)']
+    //     } else if (BZZL && Linie) {
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
+    //     } else if (GZ && Linie) {
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = [
+    //         this.deptName,
+    //         `${this.deptName}(Spare)`,
+    //         'Linie',
+    //         'Linie(Spare)'
+    //       ]
+    //     } else if (GZ && !Linie) {
+    //       // this.username = this.$store.state.permission.userInfo.id;
+    //       tabs = [this.deptName, `${this.deptName}(Spare)`]
+    //     } else if (Linie) {
+    //       tabs = ['Linie', 'Linie(Spare)']
+    //     }
+    //   }
+    //   if (tabs) {
+    //     return tabs
+    //   }
+    //   return this.tabList
+    // }
   },
   data() {
     return {
@@ -188,7 +188,7 @@ export default {
   align-items: center;
   max-width: calc(100% - 60px);
   .tab-tabs {
-    max-width: 60%;
+    max-width: 70%;
     overflow-x: auto;
     overflow-y: hidden;
   }
@@ -215,5 +215,11 @@ export default {
   .el-tabs__nav-wrap::after {
     background-color: transparent;
   }
+}
+::v-deep .el-tabs__nav-prev {
+  display: none;
+}
+::v-deep .el-tabs__nav-next {
+  display: none;
 }
 </style>

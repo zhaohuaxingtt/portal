@@ -2,7 +2,7 @@
   <iSearch @sure="sure" @reset="reset">
     <el-form class="search-form">
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('MTZ材料组编号')">
             <iInput
               v-model="form.materialGroupCode"
@@ -10,7 +10,7 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('大类编号/名称')">
             <iInput
               v-model="form.generalCategoryCode"
@@ -18,12 +18,15 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('科室')">
-            <iInput v-model="form.dept" :placeholder="language('请输入科室编号')" />
+            <iInput
+              v-model="form.dept"
+              :placeholder="language('请输入科室编号')"
+            />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('MTZ材料组名称(中)')">
             <iInput
               v-model="form.materialGroupNameZh"
@@ -31,7 +34,7 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('材料中类')">
             <iInput
               v-model="form.rawMaterialCode"
@@ -39,7 +42,7 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('状态')">
             <iSelect v-model="form.status" :placeholder="language('请选择')">
               <el-option
@@ -51,7 +54,7 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('MTZ材料组名称(英)')">
             <iInput
               v-model="form.materialGroupNameEn"
@@ -59,7 +62,7 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('中类描述')">
             <iInput
               v-model="form.rawMaterialName"
@@ -87,7 +90,7 @@ export default {
   methods: {
     reset() {
       this.form = { ...FILTER_FORM }
-      this.$emit('search',this.form)
+      this.$emit('search', this.form)
     },
     sure() {
       this.$emit('search', this.form)

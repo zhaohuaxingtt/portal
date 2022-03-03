@@ -107,6 +107,7 @@ export  const sinatureColumns=[
   {
     prop: 'isSend',
     label: "推送状态",
+    i18n: "推送状态",
     headerAlign: "center",
     align: "center",
     tooltip: true,

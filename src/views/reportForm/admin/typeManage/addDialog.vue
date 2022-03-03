@@ -1,6 +1,6 @@
 <template>
     <iDialog
-        :title="dialogTitle"
+        :title="language(dialogTitle)"
         :visible.sync="show" 
 		width="70%" 
 		@close='closeDialogBtn' 
@@ -11,7 +11,7 @@
             :rules="rules"
             ref="typeForm"
             :inline="true" 
-            label-width="100px"
+            label-width="150px"
             v-loading="loading"
             class="validate-required-form"
         >
@@ -19,30 +19,30 @@
                 <div style="width: 70%">
                     <div style="width: 100%">
                         <iFormItem :label="language('报告类型')" prop='name' style="width: 50%">
-                            <iInput v-model="form.name" placeholder="请输入" style="width: 280px" clearable maxLength="50"></iInput>
+                            <iInput v-model="form.name" :placeholder="language('请输入')" style="width: 280px" clearable maxLength="50"></iInput>
                         </iFormItem>
                         <iFormItem :label="language('部门信息')" prop='organization'>
-                            <iInput v-model="form.organization" placeholder="请输入" style="width: 280px" clearable maxLength="100"></iInput>
+                            <iInput v-model="form.organization" :placeholder="language('请输入')" style="width: 280px" clearable maxLength="100"></iInput>
                         </iFormItem>
                     </div>
                     <div style="width: 100%">
                         <iFormItem :label="language('location')" prop='location' style="width: 50%">
-                            <iInput v-model="form.location" placeholder="请输入" clearable maxLength="100" style="width: 280px"></iInput>
+                            <iInput v-model="form.location" :placeholder="language('请输入')" clearable maxLength="100" style="width: 280px"></iInput>
                         </iFormItem>
                         <iFormItem :label="language('英文名')" prop='enName'>
-                            <iInput v-model="form.enName" placeholder="请输入" clearable maxLength="50" style="width: 280px"></iInput>
+                            <iInput v-model="form.enName" :placeholder="language('请输入')" clearable maxLength="50" style="width: 280px"></iInput>
                         </iFormItem>
                     </div>
                     <div style="width: 100%">
                         <iFormItem :label="language('Telefone')" prop='telefone'>
-                            <iInput v-model="form.telefone" placeholder="请输入" clearable maxLength="30" style="width: 280px"></iInput>
+                            <iInput v-model="form.telefone" :placeholder="language('请输入')" clearable maxLength="30" style="width: 280px"></iInput>
                         </iFormItem>
                     </div>
                 </div>
                 <!-- <div class="s-line"></div> -->
                 <div style="width: 26%">
                     <div>
-                        <div>封面图片</div>
+                        <div style="margin-top:6px">{{language('封面图片')}}</div>
                         <ImgCutter
                             class="avatar-uploader"
                             fileType=".jpg, .jpeg, .png"
@@ -60,13 +60,13 @@
                 </div>
             </div>
             <div class="h-line"></div>
-            <div>
-                <div>
-                    <iFormItem :label="language('管理员')" prop='adminUsers'>
+            <div style="margin-left:14px;width: 100%">
+                <div style="width: 70%">
+                    <iFormItem :label="language('管理员')" prop='adminUsers' style="width: 50%">
                         <iSelect
                             v-model="form.adminUsers"
                             filterable
-                            placeholder="请选择"
+                            :placeholder="language('请选择')"
                             clearable
                             multiple
                             style="width: 280px"
@@ -80,12 +80,12 @@
                             </el-option>
                         </iSelect>
                     </iFormItem>
-                    <iFormItem :label="language('报表可见组织')" prop='organizations' style="marginLeft: 85px">
+                    <iFormItem :label="language('报表可见组织')" prop='organizations'>
                         <iSelect
                             ref="selectDom"
                             v-model="form.organizations"
                             filterable
-                            placeholder="请选择"
+                            :placeholder="language('请选择')"
                             clearable
                             multiple
                             style="width: 280px"
@@ -109,7 +109,7 @@
                         <iSelect
                             v-model="form.userRange"
                             filterable
-                            placeholder="请选择"
+                            :placeholder="language('请选择')"
                             clearable
                             @change="handlePerson"
                             style="width: 280px"
@@ -124,8 +124,8 @@
                         </iSelect>
                     </iFormItem>
                 </div>
-                <div v-show="customFlag">
-                    <iFormItem :label="language('选择人员')">
+                <div v-show="customFlag" style="width: 70%">
+                    <iFormItem :label="language('选择人员')" style="width: 50%">
                         <userSelector v-model="form.users" @change="userListChange" :onlyReportForm="true" style="width: 280px" />
                     </iFormItem>
                     <iFormItem :label="language('选择供应商')">
@@ -135,8 +135,8 @@
             </div>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <iButton @click="save">保存</iButton>
-            <iButton @click="closeDialogBtn">取消</iButton>
+            <iButton @click="save">{{language('保存')}}</iButton>
+            <iButton @click="closeDialogBtn">{{language('取消')}}</iButton>
         </span>
     </iDialog>
 </template>
@@ -236,13 +236,29 @@ export default {
             this.filterWord = v
         },
         async getUsersList() {
-            let params = {
-				privilege: 'BBNRGLY'
-			}
-            await getKnowledgeUser(params).then(res => {
-                if (res) {
-                    this.adminList = res || [{name: '测试', id: '1'}]
-                }
+            // let params = {
+			// 	privilege: 'BBNRGLY'
+			// }
+            // await getKnowledgeUser(params).then(res => {
+            //     if (res) {
+            //         this.adminList = res || [{name: '测试', id: '1'}]
+            //     }
+            // })
+            let CSParams = {
+                privilege: 'CSXTGLY'
+            }
+            let CIParams = {
+                privilege: 'CIXTGLY'
+            }
+            const fn1 = new Promise((resolve) => {
+                resolve(getKnowledgeUser(CSParams))
+            })
+            const fn2 = new Promise((resolve) => {
+                resolve(getKnowledgeUser(CIParams))
+            })
+            Promise.all([fn1, fn2]).then((result) => {
+                this.adminList = [...result[0], ...result[1]] || []
+                console.log(this.adminList, '33333')
             })
         },
         async getOrganizationsList() {

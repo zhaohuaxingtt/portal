@@ -140,7 +140,12 @@ export default {
       this.getChart()
     },
     openDilog () {
-      let router = this.$router.resolve({ path: '/achievement/baseData/mymerit' })
+      let router = this.$router.resolve({
+        path: '/achievement/baseData/mymerit',
+        query: {
+          supplier_code_name: `${this.infodata.sapCode}-${this.infodata.nameZh}`
+        }
+      })
       window.open(router.href, '_blank')
     },
     getChart () {
@@ -195,7 +200,7 @@ export default {
               if (idx == 2) {
                 item.data = item.data - params[0].data
               }
-              str += `${item.marker}\n${item.seriesName}: ${item.data}`
+              str += `${item.marker}\n${item.seriesName}: ${parseInt(item.data).toFixed(2)}`
               switch (idx) {
                 case 0:
                   str += ''

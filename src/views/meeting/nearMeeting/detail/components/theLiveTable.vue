@@ -229,8 +229,8 @@
       :current-page="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="MT_SHANGYIYE"
-      next-text="MT_XIAYIYE"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
   </div>
@@ -332,7 +332,7 @@ export default {
         // }).then(() => {
         unfollow(param).then((res) => {
           if (res.code === 200) {
-            iMessage.success('MT_QUXIAOGUANZHUCHENGGONG')
+            iMessage.success(this.$t('MT_QUXIAOGUANZHUCHENGGONG'))
           }
           this.$emit('query', this)
         })
@@ -345,7 +345,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU'))
         return
       }
       this.following = true

@@ -60,26 +60,28 @@
                         :placeholder="language('QINGSHURU','请输入')">
           </input-custom>
         </el-form-item>
+        <el-form-item :label="language('KESHI','科室')">
+          <custom-select v-model="searchForm.linieDeptId"
+                         :user-options="linieDeptId"
+                         @change="changeKS"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="depName"
+                         value-member="depId"
+                         value-key="depId">
+          </custom-select>
+        </el-form-item>
         <el-form-item :label="language('CAIGOUYUAN','采购员')">
           <custom-select v-model="searchForm.buyer"
                          :user-options="getCurrentUser"
                          multiple
+                         @change="changeCGY"
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </el-form-item>
-        <el-form-item :label="language('KESHI','科室')">
-          <custom-select v-model="searchForm.linieDeptId"
-                         :user-options="linieDeptId"
-                         multiple
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
+                         display-member="buyerName"
+                         value-member="buyerId"
+                         value-key="buyerId">
           </custom-select>
         </el-form-item>
         <el-form-item :label="language('GUANLIANDANHAO','关联单号')">
@@ -159,7 +161,7 @@
           <iButton @click="handleClickOutFlow" v-permission="PORTAL_MTZ_POINT_HUIWAILIUZHUAN">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
           <iButton @click="addMtz" v-permission="PORTAL_MTZ_POINT_XINJIANMTZDINGDIANSHENQING">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
           <iButton @click="handleClickMtzRecall" v-permission="PORTAL_MTZ_POINT_CHEHUI">{{ language('CHEHUI', '撤回') }}</iButton>
-          <iButton @click="handleClickMtzRecallPointAdmin" v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="handleClickMtzRecallPointAdmin" v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN">{{ $t('LK_TUIHUI') }}</iButton>
           <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </div>
@@ -214,7 +216,7 @@ import tableList from '@/components/commonTable/index.vue';
 import { tableTitle } from "./data";
 import MtzClose from "./MtzClose";
 import inputCustom from '@/components/inputCustom'
-import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+import { getRawMaterialNos,getDeptAndBuyerByMtzNomi } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { pageMixins } from "@/utils/pageMixins"
 // import store from "@/store";
 import {
@@ -292,6 +294,8 @@ export default {
       getCurrentUser:[],//采购员
 
       stopLoading:null,
+      depBuyerAll:[],
+      getCurrentCopy:[],
     }
   },
 
@@ -303,6 +307,35 @@ export default {
     // handleChange_ceshi(val){
     //   console.log(val);
     // },
+    changeKS(e){
+      if(e.length<1){
+        this.getCurrentUser = this.getCurrentCopy;
+        return false;
+      }
+      var getCurrentUser = [];
+      this.depBuyerAll.forEach((item,index)=>{
+        if(e.indexOf(item.depId) !== -1){
+          if(item.buyerId){
+            getCurrentUser.push({
+              buyerId:item.buyerId,
+              buyerName:item.buyerName,
+            })
+          }
+        }
+      })
+      var getCurrentNew = getCurrentUser.filter((e,index)=>{
+        let ids = [];
+        getCurrentUser.forEach((item,i) => {
+          ids.push(item.buyerId)
+        });
+        let str = ids.indexOf(e.buyerId) === index
+        return str;
+      })
+      this.getCurrentUser = getCurrentNew;
+    },
+    changeCGY(e){
+      console.log(e)
+    },
     init () {
       getNominateAppIdList({}).then(res=>{
         this.ttNominateAppId = res.data;
@@ -319,16 +352,64 @@ export default {
       getRawMaterialNos({}).then(res => {
         this.materialCode = res.data;
       })
-      getDeptLimitLevel({}).then(res=>{
-        this.linieDeptId = res.data;
+      // getDeptLimitLevel({}).then(res=>{
+      //   this.linieDeptId = res.data;
+      // })
+
+      getDeptAndBuyerByMtzNomi({
+        appType:"MTZ"
+      }).then(res=>{
+        this.depBuyerAll = res.data;
+        // this.linieDeptId = res.data;//科室
+        var linieDeptId = [];
+        var getCurrentUser = [];
+
+        res.data.forEach(e=>{
+          if(e.depId){
+            linieDeptId.push({
+              depId:e.depId,
+              depName:e.depName,
+            })
+          }
+          if(e.buyerId){
+            getCurrentUser.push({
+              buyerId:e.buyerId,
+              buyerName:e.buyerName,
+            })
+          }
+        })
+
+        var linieDeptNew = linieDeptId.filter((e,index)=>{
+          let ids = [];
+          linieDeptId.forEach((item,i) => {
+            ids.push(item.depId)
+          });
+          let str = ids.indexOf(e.depId) === index
+          return str;
+        })
+
+        this.linieDeptId = linieDeptNew;
+
+        var getCurrentNew = getCurrentUser.filter((e,index)=>{
+          let ids = [];
+          getCurrentUser.forEach((item,i) => {
+            ids.push(item.buyerId)
+          });
+          let str = ids.indexOf(e.buyerId) === index
+          return str;
+        })
+
+        this.getCurrentUser = getCurrentNew;
+        this.getCurrentCopy = getCurrentNew;
+        // this.getCurrentUser = res.data;//采购员
       })
 
       getMtzGenericAppId({}).then(res=>{
         this.getMtzGenericAppId = res.data;
       })
-      getCurrentUser({}).then(res=>{
-        this.getCurrentUser = res.data;
-      })
+      // getCurrentUser({}).then(res=>{
+      //   this.getCurrentUser = res.data;
+      // })
 
       this.getTableList();
     },

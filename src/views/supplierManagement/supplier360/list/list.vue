@@ -663,6 +663,7 @@ export default {
         query: {
           supplierType: this.form.supplierType || '',
           subSupplierId: params.subSupplierId || '',
+          isShowAll: params.isShowAll || '',
         }
       })
       window.open(routeData.href)

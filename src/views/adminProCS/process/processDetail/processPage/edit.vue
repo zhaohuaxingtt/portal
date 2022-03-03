@@ -1,6 +1,6 @@
 <template>
     <iDialog
-        :title="`${id ? '编辑' : '新增'}子页面`"
+        :title="language(`${id ? '编辑' : '新增'}子页面`)"
         :visible.sync="show" 
         width="800px" 
         @close='close'
@@ -19,7 +19,7 @@
                 class="validate-required-form"
             >
                 <iFormItem :label="language('页面标题')" prop='name'>
-                    <iInput v-model="form.name" class="w-250" maxlength="50" placeholder="请输入"></iInput>
+                    <iInput v-model="form.name" class="w-250" maxlength="50" :placeholder="language('请输入')"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('更新日期')" prop='updateDt'>
                     <iDatePicker
@@ -30,7 +30,7 @@
                         />
                 </iFormItem>
                 <iFormItem :label="language('排序')" prop='orderBy'>
-                    <iInput v-model="form.orderBy" type="number" class="w-250" placeholder="请输入"></iInput>
+                    <iInput v-model="form.orderBy" type="number" class="w-250" :placeholder="language('请输入')"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('页面内容')"  prop='pageRichContent'>
                     <iEditor v-model="form.pageRichContent" id="pageEditor" class="flex-1" :html="form.pageRichContent"></iEditor>
@@ -45,7 +45,7 @@
 
 
         <iDialog
-            title="编辑子页面"
+            :title="language('编辑子页面')"
             :visible.sync="preview" 
             width="800px" 
             @close='preview = false' 

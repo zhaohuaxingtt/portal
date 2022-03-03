@@ -41,7 +41,8 @@
               : ''
           }}
         </div>
-        <div class="category-content">
+
+        <div class="category-content" v-if="item && item.taskCenterDtoList">
           <overview
             v-for="(subItem, i) in item.taskCenterDtoList"
             :key="i"
@@ -94,10 +95,13 @@ export default {
       //2是供应商 1是员工
     },
     activeData() {
+      const notNullData = this.data.filter(
+        (e) => e && e.taskCenterDtoList && e.taskCenterDtoList.length
+      )
       if (this.activeIndex === -1) {
-        return this.data
+        return notNullData
       }
-      return [this.data[this.activeIndex]]
+      return [notNullData[this.activeIndex]]
     }
   },
   created() {
@@ -130,7 +134,7 @@ export default {
       const data = await getDutyStatistics(params).finally(
         () => (this.loading = false)
       )
-      console.log('data', data)
+
       this.data = data
       const titles = []
       data.forEach((item) => {

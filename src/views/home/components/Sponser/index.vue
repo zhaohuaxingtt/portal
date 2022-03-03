@@ -12,14 +12,14 @@
         <el-option
           v-for="item in options"
           :key="item.existShareId"
-          :label="item.existShareName"
+          :label="item.existShareNum"
           :value="item.existShareId"
         >
         </el-option>
       </el-select>
     </div>
-    <div class="pie-container" ref="pie" style="height: 190px"></div>
-    <div class="bar-container" ref="bar" style="height: 230px"></div>
+    <div class="pie-container" ref="pie"></div>
+    <div class="bar-container" ref="bar"></div>
   </div>
 </template>
 <script>
@@ -94,6 +94,12 @@ export default {
     async getKpiCates() {
       const result = await getKpiCates()
       if (result.code === '200' && result.data) {
+        const data = result?.data || []
+        data.unshift({
+          existShareId: 'ALL',
+          supplierId: null,
+          existShareNum: '全部'
+        })
         this.options = result.data
       }
     },
@@ -101,9 +107,25 @@ export default {
       this.totalCount = 0
       const result = await getSponserData(this.query)
 
-      if (result.code === '200' && result.data) {
-        let data = result.data.slice(0, 9)
-        const dataGrade = data.map((item) => {
+      if (result?.code === '200' && result?.data) {
+        const responseData = result?.data?.slice(0, 9) || []
+        const data = []
+        this.gradeList.forEach((grade) => {
+          const gradeItem = responseData.find((item) => {
+            return item.grade === grade
+          })
+          if (gradeItem) {
+            data.push(gradeItem)
+          } else {
+            data.push({
+              grade: grade,
+              num: 0,
+              ratio: 0
+            })
+          }
+        })
+        // let data = result.data.slice(0, 9)
+        /* const dataGrade = data.map((item) => {
           return item.grade
         })
         const diffArr = []
@@ -119,22 +141,23 @@ export default {
             num: 0,
             ratio: 0
           })
-        }
+        } */
 
         for (let i = 0; i < data.length; i++) {
-          data[i].value = data[i].num
-          data[i].name = data[i].grade
-          if (i < 3) {
-            data[i].type = 'A'
-          } else if (i < 6 && i > 2) {
-            data[i].type = 'B'
+          const item = data[i]
+          item.value = item.num
+          item.name = item.grade
+          if (item.grade.includes('A')) {
+            item.type = 'A'
+          } else if (item.grade.includes('B')) {
+            item.type = 'B'
           } else {
-            data[i].type = 'C'
+            item.type = 'C'
           }
-          this.totalCount += data[i].num
+          this.totalCount += item.num
         }
-
-        this.data = JSON.parse(JSON.stringify(data))
+        console.log('format data:', _.cloneDeep(data))
+        this.data = _.cloneDeep(data)
         this.newArr = []
         this.newBrr = []
         this.newCrr = []
@@ -151,95 +174,86 @@ export default {
         this.newArr = this.handleArr(this.newArr, 'A')
         this.newBrr = this.handleArr(this.newBrr, 'B')
         this.newCrr = this.handleArr(this.newCrr, 'C')
+        this.total = 0
         this.newCrr.forEach((item) => (this.total += item.value))
 
         this.initPie()
         this.initBar()
       }
-
     },
     handleChange(val) {
-      this.query.departmentIds = val
+      const last = !val.length ? '' : val[val.length - 1]
+      if (last === 'ALL') {
+        this.checkList = ['ALL']
+        this.query.departmentIds = []
+      } else {
+        this.checkList = val.filter((e) => e !== 'ALL')
+        this.query.departmentIds = this.checkList
+      }
+
       this.getSponserList()
     },
     handleArr(arr, str) {
-      arr.sort((a, b) => b.num - a.num)
-      if (str == 'C') {
-        arr.forEach((item, index) => {
-          if (index == 0) {
-            item.grade = str + str + str
-            item.name = str + str + str
-
-            item.itemStyle = {
-              color: 'rgba(98, 157, 290, 1)'
-            }
-          } else if (index == 1) {
-            item.grade = str + str
-            item.name = str + str
-            item.itemStyle = {
-              color: 'rgba(98, 157, 290, 1)'
-            }
-          } else {
-            item.grade = str
-            item.name = str
-            item.itemStyle = {
-              color: 'rgba(98, 157, 290, 1)'
-            }
-          }
-        })
-      } else if (str == 'B') {
-        arr.forEach((item, index) => {
-          if (index == 0) {
-            item.grade = str
-            item.name = str
-          } else if (index == 1) {
-            item.grade = str + str
-            item.name = str + str
-          } else {
-            item.grade = str + str + str
-            item.name = str + str + str
-          }
-        })
-      } else {
-        arr.forEach((item, index) => {
-          if (index == 0) {
-            item.grade = str
-            item.name = str
-          } else if (index == 1) {
-            item.grade = str + str
-            item.name = str + str
-          } else {
-            item.grade = str + str + str
-            item.name = str + str + str
-          }
-        })
+      arr.sort((a, b) => a.grade.length - b.grade.length)
+      const colorMap = {
+        A: '#77CBFF',
+        B: '#77CBFF',
+        C: '#629DD1'
       }
-      return arr
+      return arr.map((e) => {
+        return {
+          itemStyle: {
+            color: colorMap[str]
+          },
+          ...e
+        }
+      })
     },
     initPie() {
       let data = _.cloneDeep(this.data)
       let totalSum = 0
       data.forEach((item) => (totalSum += item.num))
       data.forEach((item) => {
-        if (item.name.length == 3) {
+        const { num = 0, name } = item
+        const rate = !totalSum ? 0 : ((item.num / totalSum) * 100).toFixed(2)
+        item.name = `${name}@@${num}@@${rate}`
+
+        /* if (item.name.length == 3) {
+          const {num=0,name} = item
+          const rate = String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+          item.name = `${name}@@${num}@@${rate}`
           item.name =
             item.name +
-            '    ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            '@@' +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '   '
         } else if (item.name.length == 2) {
           item.name =
             item.name +
             '      ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '   '
         } else {
           item.name =
             item.name +
             '        ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
+            `${
+              String(item.num / totalSum) == 'NaN'
+                ? '0.00'
+                : ((item.num / totalSum).toFixed(2) * 100).toFixed(2)
+            }%` +
             '    '
-        }
+        } */
       })
 
       for (let i = 0; i < data.length; i++) {
@@ -251,53 +265,156 @@ export default {
         total += data[i].value
       }
       this.total = total
-      let A = data.filter(e => e.grade.includes("A"))
-      let B = data.filter(e => e.grade.includes("B"))
-      let C = data.filter(e => e.grade.includes("C"))
-      this.legendData = [...this.arrSort(A),...this.arrSort(B),...this.arrSort(C)]
-      this.setPieChart(data,total)
-
+      let A = data.filter((e) => e.grade.includes('A'))
+      let B = data.filter((e) => e.grade.includes('B'))
+      let C = data.filter((e) => e.grade.includes('C'))
+      this.legendData = [
+        ...this.arrSort(A),
+        ...this.arrSort(B),
+        ...this.arrSort(C)
+      ]
+      this.setPieChart(data, total)
     },
-    arrSort(arr){
+    arrSort(arr) {
+      arr.forEach((e) => {
+        /* e.formatter = function (name) {
+          const values = name.split('@@')
+          let nameStr = ''
+          for (let i = values[0].length; i < 3; i++) {
+            nameStr += 'A'
+          }
+          nameStr += 'AAA'
+          let rateStr = ''
+          for (let i = values[2].length; i < 5; i++) {
+            rateStr += '5'
+          }
+          return (
+            '{a|' +
+            values[0] +
+            '}{b|' +
+            nameStr +
+            '}{c|' +
+            rateStr +
+            '}{d|' +
+            values[2] +
+            '%}'
+          )
+        } */
+        e.ellipsis = {
+          fontWeight: 'bold'
+        }
+        e.textStyle = {
+          rich: {
+            a: {
+              fontSize: 10,
+              fontWeight: 'normal'
+            },
+            b: {
+              fontSize: 10,
+              color: '#fff',
+              fontWeight: 'normal'
+            },
+            c: {
+              fontSize: 10,
+              color: '#fff',
+              fontWeight: 'normal'
+            },
+            d: {
+              fontSize: 10,
+              fontWeight: 'normal',
+              align: 'right'
+            }
+          }
+        }
+      })
       // 倒序
-      return arr.sort((a,b) => b.grade.length - a.grade.length)
+      return arr.sort((a, b) => b.grade.length - a.grade.length)
     },
     // init pieecharts
-    setPieChart(data,total){
-      if(!this.pieChart){
+    setPieChart(data, total) {
+      if (!this.pieChart) {
         this.pieChart = echarts().init(this.$refs.pie)
       }
       let option = {
         tooltip: {
           trigger: 'item',
-          formatter: function (data) {
-            let name = data.data.name.split(/\s+/)[0]
+          formatter: function ({ data }) {
+            /* const name = data.data.name
+            const values = name.split('@@')
+            return `${values[0]}:<br/>
+            ${values[1]}家<br/>
+            ${values[2]}%` */
+            let name = data.name.split('@@')[0]
             return `${name}:<br/>
-            ${total}家<br/>
-            ${String((data.data.num / total)) === 'NaN' ? '0.00' : ((data.data.num / total).toFixed(2) * 100).toFixed(2)}%
+            ${data.value}家<br/>
+            ${
+              String(data.num / total) === 'NaN'
+                ? '0.00'
+                : ((data.num / total).toFixed(2) * 100).toFixed(2)
+            }%
             `
           }
         },
         legend: [
           {
-            left: '60%',
+            right: '0%',
             orient: 'vertical',
             icon: 'circle',
             itemHeight: 8,
             type: 'plain',
             data: this.legendData,
+            formatter: function (name) {
+              const values = name.split('@@')
+              let nameStr = ''
+              for (let i = values[0].length; i < 3; i++) {
+                nameStr += 'A'
+              }
+              nameStr += 'AAA'
+              let rateStr = ''
+              for (let i = values[2].length; i < 5; i++) {
+                rateStr += '5'
+              }
+              return (
+                '{a|' +
+                values[0] +
+                '}{b|' +
+                nameStr +
+                '}{c|' +
+                rateStr +
+                '}{d|' +
+                values[2] +
+                '%}'
+              )
+            },
+            /* textStyle: {
+              rich: {
+                a: {
+                  fontSize: 10
+                },
+                b: {
+                  fontSize: 10,
+                  color: '#fff'
+                },
+                c: {
+                  fontSize: 10,
+                  color: '#fff'
+                },
+                d: {
+                  fontSize: 10
+                }
+              }
+            }, */
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split( /\s+/)[0]
-                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
-                return `${name}:<br/>
-                ${total}家<br/>
-                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
-                `
+                const name = data.name
+                const values = name.split('@@')
+                return `${values[0]}:<br/>
+                        ${values[1]}家<br/>
+                        ${values[2]}%`
               }
             }
-          } 
+          }
         ],
         series: [
           {
@@ -314,7 +431,14 @@ export default {
             },
             data: data
           }
-        ]
+        ],
+        grid: {
+          containLabel: true,
+          left: 0,
+          top: 10,
+          right: 0,
+          bottom: 0
+        }
       }
       this.$nextTick(() => {
         this.pieChart && this.pieChart.setOption(option)
@@ -323,10 +447,35 @@ export default {
       this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
           if (e.name === param.name) {
+            for (const key in e.textStyle) {
+              if (Object.hasOwnProperty.call(e.textStyle, key)) {
+                const element = e.textStyle[key]
+                for (const k in element) {
+                  if (Object.hasOwnProperty.call(element, k)) {
+                    const sub = element[k]
+                    sub['fontWeight'] = 'bold'
+                  }
+                }
+              }
+            }
+          } else {
+            for (const key in e.textStyle) {
+              if (Object.hasOwnProperty.call(e.textStyle, key)) {
+                const element = e.textStyle[key]
+                for (const k in element) {
+                  if (Object.hasOwnProperty.call(element, k)) {
+                    const sub = element[k]
+                    sub['fontWeight'] = 'normal'
+                  }
+                }
+              }
+            }
+          }
+          /* if (e.name === param.name) {
             e.textStyle.fontWeight = 'bold'
           } else {
             e.textStyle.fontWeight = 'normal'
-          }
+          } */
           return e
         })
         this.mergeOptions(newLegends)
@@ -335,7 +484,18 @@ export default {
       // 监听饼状图鼠标移出事件
       this.pieChart.on('mouseout', () => {
         const newLegends = this.legendData.map((e) => {
-          e.textStyle.fontWeight = 'normal'
+          // e.textStyle.fontWeight = 'normal'
+          for (const key in e.textStyle) {
+            if (Object.hasOwnProperty.call(e.textStyle, key)) {
+              const element = e.textStyle[key]
+              for (const k in element) {
+                if (Object.hasOwnProperty.call(element, k)) {
+                  const sub = element[k]
+                  sub['fontWeight'] = 'normal'
+                }
+              }
+            }
+          }
           return e
         })
         this.mergeOptions(newLegends)
@@ -366,19 +526,41 @@ export default {
             //   fontSize: 10
             // },
             data: newLegends,
+            formatter: function (name) {
+              const values = name.split('@@')
+              let nameStr = ''
+              for (let i = values[0].length; i < 3; i++) {
+                nameStr += 'A'
+              }
+              nameStr += 'AAA'
+              let rateStr = ''
+              for (let i = values[2].length; i < 5; i++) {
+                rateStr += '5'
+              }
+              return (
+                '{a|' +
+                values[0] +
+                '}{b|' +
+                nameStr +
+                '}{c|' +
+                rateStr +
+                '}{d|' +
+                values[2] +
+                '%}'
+              )
+            },
             tooltip: {
               show: true,
               formatter: function (data) {
-                let name = data.name.split( /\s+/)[0]
-                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
-                return `${name}:<br/>
-                ${_that.total}家<br/>
-                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
-                `
+                const name = data.name
+                const values = name.split('@@')
+                return `${values[0]}:<br/>
+                        ${values[1]}家<br/>
+                        ${values[2]}%`
               }
             }
           }
-        ], 
+        ],
         series: [
           {
             type: 'pie',
@@ -394,7 +576,14 @@ export default {
             },
             data: _that.legendData
           }
-        ]
+        ],
+        grid: {
+          containLabel: true,
+          left: 0,
+          top: 10,
+          right: 0,
+          bottom: 0
+        }
       }
       this.$nextTick(() => {
         option && this.pieChart.setOption(option)
@@ -402,10 +591,26 @@ export default {
     },
     // init bar echarts
     initBar() {
-      const totalCount = _.cloneDeep(this.totalCount)
-      if(!this.barChart){
+      const totalCount = this.totalCount || 0
+      if (!this.barChart) {
         this.barChart = echarts().init(this.$refs.bar)
       }
+
+      const cTotal = this.newCrr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const bTotal = this.newBrr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const aTotal = this.newArr.reduce((total, cur) => {
+        total += cur.num || 0
+        return total
+      }, 0)
+      const cRating =
+        parseFloat((cTotal / (cTotal + bTotal + aTotal)).toFixed(4)) * 100
+
       // let total = this.data.reduce((prev, val) => prev + val, 0)
       // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
       const option = {
@@ -420,10 +625,11 @@ export default {
             for (let i in data) {
               total += data[i].data.value
             }
+            const percent = !totalCount
+              ? 0
+              : ((total / totalCount) * 100).toFixed(2)
             const type = data[0].data.type
-            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${
-              String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
-            }%`
+            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${percent}%`
           }
         },
         xAxis: {
@@ -451,32 +657,21 @@ export default {
         graphic: [
           {
             type: 'text',
-            right: 38,
-            bottom: 188,
-            // children: [
-            //   {
-            //     type: 'text',
-            //     left: 'center',
-            //     top: 'center',
-            //     z: 100,
-            //     style: {
-            //       fill: '#7E84A3',
-            //       text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-            //       font: '7px sans-serif'
-            //     }
-            //   }
-            // ]
+            right: 0,
+            top: 10,
             style: {
-                  fill: '#7E84A3',
-                  text: 'C-Rating数量:36家\n'+'\nC-Rating比例:60%',
-                  font: '7px sans-serif'
-                }
+              fill: '#7E84A3',
+              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${cRating.toFixed(
+                2
+              )}%`,
+              font: '9px sans-serif'
+            }
           }
         ],
         series: [
           {
             type: 'bar',
-            data: [this.newArr[2], this.newBrr[2], this.newCrr[0]],
+            data: [this.newArr[2], this.newBrr[2], this.newCrr[2]],
             label: {
               show: true,
               position: 'bottom',
@@ -524,15 +719,23 @@ export default {
               },
               fontSize: 9
             },
-            data: [this.newArr[0], this.newBrr[0], this.newCrr[2]],
+            data: [this.newArr[0], this.newBrr[0], this.newCrr[0]],
             color: 'rgba(119, 203, 255, 1)'
           }
-        ]
+        ],
+        grid: {
+          containLabel: true,
+          left: 0,
+          top: 50,
+          right: 0,
+          bottom: 0
+        }
       }
       this.$nextTick(() => {
-        this.barChart &&  this.barChart.setOption(option)
+        this.barChart && this.barChart.setOption(option)
       })
-    }
+    },
+    mergeBarOptions() {}
   }
 }
 </script>
@@ -540,18 +743,21 @@ export default {
 <style lang="scss">
 .sponser-container {
   position: relative;
+  height: 100%;
   .checkbox-container {
     .el-select {
       width: 100%;
     }
   }
   .pie-container {
-    margin-top: 15px;
+    /* margin-top: 15px; */
     z-index: 2;
+    height: calc(50% - 30px);
+    margin-top: 15px;
   }
   .bar-container {
     z-index: 1;
-    margin-top: -20px;
+    height: calc(50% - 30px);
   }
   .Rating {
     position: absolute;
