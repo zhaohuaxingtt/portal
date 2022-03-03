@@ -3,23 +3,23 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 移除集团 -->
-        <iButton @click="moveGroup">{{$t('SPR_FRM_DEP_REMOVEGROUP')}}</iButton>
+        <iButton @click="moveGroup" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_YICHUJITUAN">{{$t('SPR_FRM_DEP_REMOVEGROUP')}}</iButton>
         <!-- 加入集团 -->
-        <iButton @click="openJoinGroup">{{$t('SPR_FRM_DEP_ADDGROUP')}}</iButton>
+        <iButton @click="openJoinGroup" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_JIARUJITUAN">{{$t('SPR_FRM_DEP_ADDGROUP')}}</iButton>
         <!-- 新建集团 -->
-        <iButton @click="openAddGroup">{{$t('SPR_FRM_DEP_NEWGROUP')}}</iButton>
+        <iButton @click="openAddGroup" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_XINJIANJITUAN">{{$t('SPR_FRM_DEP_NEWGROUP')}}</iButton>
         <!-- 预计完成时间 -->
-        <iButton @click="openOverTime">{{ $t('SPR_FRM_DEP_YJWCSJ') }}</iButton>
+        <iButton @click="openOverTime" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_YUJIWANCHENGSHIJIAN">{{ $t('SPR_FRM_DEP_YJWCSJ') }}</iButton>
         <!-- 提交深评报告审核 -->
-        <iButton @click="postExamine">{{ $t('SPR_FRM_DEP_SUBDERFR') }}</iButton>
+        <iButton @click="postExamine" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_TJSPBGSH">{{ $t('SPR_FRM_DEP_SUBDERFR') }}</iButton>
         <!-- 提交清单审批 -->
-        <iButton @click="openEndRating">{{ $t('SPR_FRM_DEP_SUBLFA') }}</iButton>
+        <iButton @click="openEndRating" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_TIJIAOQINGDANSHENPI">{{ $t('SPR_FRM_DEP_SUBLFA') }}</iButton>
         <!-- 报告分发 -->
-        <iButton @click="openReport">{{$t('SPR_FRM_DEP_REPORTDISN')}}</iButton>
+        <iButton @click="openReport" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_BAOGAOFENFA">{{$t('SPR_FRM_DEP_REPORTDISN')}}</iButton>
         <!-- 终止 -->
-        <iButton @click="openEnd">{{ $t('SPR_FRM_DEP_END') }}</iButton>
+        <iButton @click="openEnd" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_ZHONGZHI">{{ $t('SPR_FRM_DEP_END') }}</iButton>
         <!-- 导出 -->
-        <iButton @click="exportsTable">{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
+        <iButton @click="exportsTable" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_DAOCHU">{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
       </div>
     </div>
     <tableList :tableData="tableListData"
