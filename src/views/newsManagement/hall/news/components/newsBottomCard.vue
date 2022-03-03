@@ -233,8 +233,10 @@ export default {
         background-color: rgba(22, 96, 241, 0.1);
       }
       .cardBody {
-        width: calc(1350px / 3);
-        height: 450px;
+        // width: calc(1350px / 3);
+        // height: 450px;
+        width: 27.5rem;
+        height: 27.5rem;
         padding: 0 !important;
         border-radius: 0.375rem;
         .form-bottom-row1 {
