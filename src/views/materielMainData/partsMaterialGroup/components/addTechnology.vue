@@ -379,7 +379,8 @@ export default {
       let data = {
         stuffId: this.stuffId,
         size: this.page.pageSize,
-        current: this.page.currPage
+        current: this.page.currPage,
+        isEffect:true
       }
       if (this.stuffId != '') {
         searchBdlTableList(data).then((res) => {
