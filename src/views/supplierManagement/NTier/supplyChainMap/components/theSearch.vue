@@ -11,8 +11,8 @@
          class="flex-between-center-center">
       <div class="text margin-bottom20">{{ language('GYLGL','N级供应链管理')}}</div>
       <div>
+        <!-- v-if="$route.path!=='/NTierMap'" -->
         <iButton :loading="saveButtonLoading"
-                 v-if="$route.path!=='/NTierMap'"
                  @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
         <iButton @click="handleBack">{{language('FANHUI','返回')}}</iButton>
       </div>
@@ -77,7 +77,7 @@
                      collapse-tags
                      filterable></el-cascader>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="5" style="text-align:right">
         <iButton @click="getMapList">{{language('QUEDING','确定')}}</iButton>
         <iButton @click="handleSearchReset">{{language('CHONGZHI','重置')}}</iButton>
       </el-col>

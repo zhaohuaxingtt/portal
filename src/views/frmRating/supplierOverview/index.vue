@@ -17,6 +17,7 @@
       <el-row :gutter="16"
               type="flex"
               justify="space-between">
+        <!-- 新供应商评级 -->
         <el-col :span="6">
           <card1 v-if="flag"
                  :title="$t('SUPPLIER_XINGONGYINGSHANGPINGJI')"
@@ -24,6 +25,7 @@
                  :chartsId="'newSupplierPie'"
                  @getTableList="getTableList" />
         </el-col>
+        <!-- 供应商融资管理 -->
         <el-col :span="6">
           <card1 v-if="flag"
                  :title="$t('SPR_FRM_XGYSPJ_GYSRZGL')"
@@ -31,9 +33,11 @@
                  :chartsId="'supplierFinancingPie'"
                  @getTableList="getTableList" />
         </el-col>
+        <!-- 初步评级 -->
         <el-col :span="6">
           <preliminaryRatingsCard />
         </el-col>
+        <!-- 深入评级 -->
         <el-col :span="6">
           <depth-rating-overview @show="showDepthCard" />
         </el-col>
@@ -42,12 +46,15 @@
               class="margin-top20"
               type="flex"
               justify="space-between">
+        <!-- 财报分析 -->
         <el-col :span="6">
           <resultsAnalysis />
         </el-col>
+        <!-- 风险信号 -->
         <el-col :span="6">
           <riskSignal @show="showRiskSignalCard" />
         </el-col>
+        <!-- 供应商询价定点情况 -->
         <el-col :span="6">
           <vertexSituation @show="showCrating" />
         </el-col>

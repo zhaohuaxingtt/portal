@@ -5,7 +5,7 @@
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<iFormItem>
-							<iInput v-model="value" @input="input" clearable placeholder="请输入" />
+							<iInput v-model="value" @input="input" clearable :placeholder="language('请输入')" />
 						</iFormItem>
 					</el-col>
 					<el-col :span="16" :push="12">

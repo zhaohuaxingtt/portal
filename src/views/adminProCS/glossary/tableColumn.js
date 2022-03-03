@@ -11,6 +11,7 @@ export const tableColumn = [
 	{
 		prop:'firstLetter',
 		label:'首字母',
+		i18n:'首字母',
 		align: 'center'
 	},
 	// {
@@ -21,6 +22,7 @@ export const tableColumn = [
 	{
 		prop:'title',
 		label:'词条名称',
+		i18n:'词条名称',
 		align: 'center',
 		customRender: (h, scope) => {
 			const title = scope.row.title
@@ -32,11 +34,13 @@ export const tableColumn = [
 	{
 		prop:'version',
 		label:'版本号',
+		i18n:'版本号',
 		align: 'center'
 	},
 	{
 		prop:'publishDate',
 		label:'发布日期',
+		i18n:'发布日期',
 		align: 'center'
 	}
 

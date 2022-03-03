@@ -1,6 +1,6 @@
 <template>
     <iDialog
-        :title="dialogTitle" 
+        :title="language(dialogTitle)" 
         style="margin-top:10vh" 
         :visible.sync="show" 
         v-if="show" 
@@ -19,16 +19,16 @@
             class="attachForm validate-required-form"
         >
             <iFormItem :label="language('流程附件标题')" prop='name'>
-				<iInput v-model="newAttachForm.name" placeholder="请输入流程附件标题" maxLength="50"></iInput>
+				<iInput v-model="newAttachForm.name" :placeholder="language('请输入流程附件标题')" maxLength="50"></iInput>
 			</iFormItem>
             <iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="newAttachForm.version" placeholder="请输入版本号" maxLength="20"></iInput>
+				<iInput v-model="newAttachForm.version" :placeholder="language('请输入版本号')" maxLength="20"></iInput>
 			</iFormItem>
             <iFormItem :label="language('发布日期')" prop='publishDate'>
                 <el-date-picker
                     v-model="newAttachForm.publishDate"
                     type="date"
-                    placeholder="请选择发布日期">
+                    :placeholder="language('请选择发布日期')">
                 </el-date-picker>
             </iFormItem>
             <iFormItem :label="language('添加附件')" prop='fileList'>
@@ -43,8 +43,8 @@
                     :removeHandle="removeHandle"
 				>
 					<div>
-						<iButton>选择文件</iButton>
-						<div slot="tip" class="el-upload__tip">文件大小最大限制10MB!</div>
+						<iButton>{{language('选择文件')}}</iButton>
+						<div slot="tip" class="el-upload__tip">{{language('文件大小最大限制10MB!')}}</div>
 					</div>
 				</iUpload>
 			</iFormItem>

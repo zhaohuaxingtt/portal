@@ -33,9 +33,9 @@
           <el-date-picker
             v-model="publicDate"
             type="datetimerange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            :range-separator="language('至')"
+            :start-placeholder="language('开始日期')"
+            :end-placeholder="language('结束日期')"
             value-format="yyyy-MM-dd HH:mm:ss"
             :default-time="['00:00:00', '23:59:59']"
           >

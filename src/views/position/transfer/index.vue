@@ -69,13 +69,13 @@ export default {
         {
           prop: 'businessId',
           label: '轮岗申请号',
-          width: 160,
+          width: 140,
           sortable: true
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          minWidth: 180,
+          minWidth: 120,
           sortable: true
         },
         {
@@ -87,12 +87,13 @@ export default {
         {
           prop: 'fullNameZh',
           label: '目标岗位',
+          minWidth: 180,
           sortable: true
         },
         {
           prop: 'startDate',
           label: '交接开始日期',
-          width: 120,
+          width: 140,
           customRender: (h, scope) => {
             return scope.row.startDate && scope.row.startDate.substr(0, 10)
           },
@@ -101,7 +102,7 @@ export default {
         {
           prop: 'endDate',
           label: '交接结束日期',
-          width: 120,
+          width: 140,
           customRender: (h, scope) => {
             return scope.row.endDate && scope.row.endDate.substr(0, 10)
           },
@@ -119,7 +120,7 @@ export default {
         {
           prop: 'createDate',
           label: '创建时间',
-          width: 150,
+          width: 180,
           sortable: true
         },
         {

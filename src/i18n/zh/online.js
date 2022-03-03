@@ -1353,7 +1353,7 @@ export default {
   EKLPEIFUJIAN: 'EKL-配附件',
   CHANNENGYUJING: '产能预警',
   XUNYUAN: '寻源',
-  PEIFUJIANGONGHUOLV: '供货率（%）',
+  PEIFUJIANGONGHUOLV: '配附件供货率（%）',
   SONGYANG: '送样',
   拒绝: '拒绝',
   GONGYINGSHANGBIAOQIAN: '供应商标签',
@@ -4113,7 +4113,8 @@ export default {
   rizhi: '日志',
   LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU:
     '请选择合同状态为待甲方签署的记录',
-  LK_BAOQIANCAIGOUTIAOKUANZANBUZHICHIPILIANGQIANSHU: '抱歉，采购条款暂不支持批量签署',
+  LK_BAOQIANCAIGOUTIAOKUANZANBUZHICHIPILIANGQIANSHU:
+    '抱歉，采购条款暂不支持批量签署',
   'QUERENSHANCHU?': '确认删除',
   QUERENSHANCHU: '确认删除?',
   DAORUCHENGGONG: '导入成功',

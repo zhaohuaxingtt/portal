@@ -15,7 +15,7 @@
             </el-col>
             <el-col :span="6">
               <iFormItem :label="language('问题模块')">
-                <iSelect v-model="searchForm.questionModuleId" filterable placeholder="问题模块" :disabled="!searchForm.source"  clearable="true" @change="questionModuleHandle" @clear="clearable('questionModuleId')">
+                <iSelect v-model="searchForm.questionModuleId" filterable :placeholder="language('问题模块')" :disabled="!searchForm.source"  clearable="true" @change="questionModuleHandle" @clear="clearable('questionModuleId')">
                   <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
                 </iSelect>
               </iFormItem>
@@ -29,18 +29,18 @@
             </el-col>
             <el-col :span="6">
               <iFormItem :label="userType === 'supplier' ? language('管理员') : language('创建人')">
-                <iInput v-model="searchForm.createBy" placeholder="请输入" />
+                <iInput v-model="searchForm.createBy" :placeholder="language('请输入')" />
               </iFormItem>
             </el-col>
             <el-col :span="12" v-if="userType === 'supplier'">
               <iFormItem :label="language('完结时间')">
-                <el-date-picker style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss" v-model="finishDate" clearable @change="changeDatePickerFinish" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                <el-date-picker style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss" v-model="finishDate" clearable @change="changeDatePickerFinish" type="daterange" :range-separator="language('至')" :start-placeholder="language('开始日期')" :end-placeholder="language('结束日期')">
                 </el-date-picker>
               </iFormItem>
             </el-col>
             <el-col :span="12" >
               <iFormItem :label="userType === 'supplier' ? language('提问时间') : language('创建时间')">
-                <el-date-picker style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss" clearable v-model="createDate" @change="changeDatePickerCreate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                <el-date-picker style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss" clearable v-model="createDate" @change="changeDatePickerCreate" type="daterange" :range-separator="language('至')" :start-placeholder="language('开始日期')" :end-placeholder="language('结束日期')">
                 </el-date-picker>
               </iFormItem>
             </el-col>
