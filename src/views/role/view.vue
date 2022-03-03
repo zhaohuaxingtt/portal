@@ -39,11 +39,8 @@ export default {
   },
   computed: {
     roleTitle() {
-      const { shortNameZh, shortNameEn } = this.roleData
-      if (this.$i18n.locale === 'zh') {
-        return shortNameZh || shortNameEn
-      }
-      return shortNameEn || shortNameZh
+      const { fullNameZh } = this.roleData
+      return fullNameZh
     }
   },
   data() {

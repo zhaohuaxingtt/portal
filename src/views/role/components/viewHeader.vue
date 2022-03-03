@@ -1,5 +1,5 @@
 <template>
-  <pageHeader  class="margin-bottom20">
+  <pageHeader class="margin-bottom20">
     {{ title }}
     <div class="flex-end-center" slot="actions">
       <iTabBadge>
@@ -11,7 +11,6 @@
           @click="toggleTab(item.value)"
         />
       </iTabBadge>
-      <!-- <logIcon /> -->
     </div>
   </pageHeader>
 </template>
@@ -19,14 +18,12 @@
 <script>
 import pageHeader from '@/components/pageHeader'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
-import logIcon from '@/components/logIcon'
 export default {
   name: 'roleViewHeader',
   components: {
     pageHeader,
     iTabBadge,
-    iTabBadgeItem,
-    logIcon
+    iTabBadgeItem
   },
   props: {
     editable: {
@@ -45,7 +42,7 @@ export default {
   computed: {
     tabList() {
       if (this.editable) {
-        return this.tabs.filter(e => e.editable)
+        return this.tabs.filter((e) => e.editable)
       }
       return this.tabs
     }
@@ -104,7 +101,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.margin-bottom20{
+.margin-bottom20 {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
