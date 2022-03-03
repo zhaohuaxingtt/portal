@@ -161,10 +161,10 @@ export default {
         background-color: rgba(22, 96, 241, 0.1);
       }
       .cardBody {
-        /* width: 450px; */
-        /* width: calc(1350px / 3); */
-        width: 27.5rem;
-        height: 27.5rem;
+        // height: 450px;
+        // width: calc(1350px / 3);
+        width: 27.4rem;
+        height: 27.4rem;
         padding: 0 !important;
         border-radius: 0.375rem;
         .form-bottom-row1 {
