@@ -18,7 +18,7 @@
               type="flex"
               justify="space-between">
         <!-- 新供应商评级 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_XGYSPJ">
           <card1 v-if="flag"
                  :title="$t('SUPPLIER_XINGONGYINGSHANGPINGJI')"
                  :newSupplierAssessVOList="newSupplierAssessVOList"
@@ -26,7 +26,7 @@
                  @getTableList="getTableList" />
         </el-col>
         <!-- 供应商融资管理 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSRZGL">
           <card1 v-if="flag"
                  :title="$t('SPR_FRM_XGYSPJ_GYSRZGL')"
                  :newSupplierAssessVOList="financeAnalyseVOList"
@@ -34,11 +34,11 @@
                  @getTableList="getTableList" />
         </el-col>
         <!-- 初步评级 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_CHUBUPINGJI">
           <preliminaryRatingsCard />
         </el-col>
         <!-- 深入评级 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_SHENRUPINGJI">
           <depth-rating-overview @show="showDepthCard" />
         </el-col>
       </el-row>
@@ -47,19 +47,19 @@
               type="flex"
               justify="space-between">
         <!-- 财报分析 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_CAIWUFENXI">
           <resultsAnalysis />
         </el-col>
         <!-- 风险信号 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_FENGXIANXINHAO">
           <riskSignal @show="showRiskSignalCard" />
         </el-col>
         <!-- 供应商询价定点情况 -->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK">
           <vertexSituation @show="showCrating" />
         </el-col>
         <!--舆情检测卡片-->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_YQJCKP">
           <monitor />
         </el-col>
       </el-row>

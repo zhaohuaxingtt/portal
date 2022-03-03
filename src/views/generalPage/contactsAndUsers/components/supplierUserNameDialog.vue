@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-18 09:48:38
- * @LastEditors: caopeng
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
@@ -68,6 +68,7 @@
             :tableTitle="CloumAdd"
             :tableLoading="tableLoadingAdd"
             :index="true"
+            border
           >
             <template #systemType="scope">
               {{ scope.row.systemType == 1 ? '系统' : 'SCENARIO' }}

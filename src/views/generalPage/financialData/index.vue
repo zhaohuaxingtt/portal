@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: 财务数据页面
 -->
 <template>
@@ -17,13 +17,14 @@
           <!-- v-if="isSupplierDetail" -->
           <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
           <!-- 调取外部评级 -->
-          <i-button @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <i-button @click="handleRatings" v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
           <!-- <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
                     @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
           </i-button> -->
           <i-button v-if="isSupplierDetail"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD"
                     @click="addTableItem">{{
             $t('LK_XINZENG')
           }}</i-button>
@@ -33,6 +34,7 @@
             {{ $t('LK_XINZENG') }}
           </i-button>
           <i-button v-if="isSupplierDetail"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
                     @click="deleteItem('ids', deleteFinance)">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
                     v-else-if="$route.path === '/supplier/view-suppliers'"
@@ -46,7 +48,7 @@
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
                     v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="openDataComparison">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
-          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
                     @click="exportsTable"
                     v-if="showExportsButton && isSupplierDetail">{{ $t('LK_DAOCHU') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
@@ -62,7 +64,9 @@
           <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
-                    @click="handleExportEarnings">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+                    @click="handleExportEarnings"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO"
+                    >{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
         </div>
       </div>
@@ -74,6 +78,7 @@
                  @handleSelectionChange="handleSelectionChange"
                  :input-props="inputProps"
                  :index="true"
+                 border
                  :select-props="selectProps"
                  :select-props-options-object="selectPropsOptionsObject">
         <template #dataChannelName="scope">

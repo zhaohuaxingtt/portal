@@ -12,8 +12,8 @@
       <template slot="header">
         <div class="flex-end-center"
              style="width:100%">
-          <iButton @click="addProdProp">{{language('XINZENG','新增')}}</iButton>
-          <iButton @click="delProdProp">{{language('SHANCHU','删除')}}</iButton>
+          <iButton @click="addProdProp" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_ADD">{{language('XINZENG','新增')}}</iButton>
+          <iButton @click="delProdProp" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_DEL">{{language('SHANCHU','删除')}}</iButton>
         </div>
       </template>
       <tableList :tableData="interViewData.prodPropList"

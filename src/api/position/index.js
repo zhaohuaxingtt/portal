@@ -29,7 +29,7 @@ export function getPositionListByParams(data) {
   return request({
     url: '/web/position/pageList',
     method: 'post',
-    data: data
+    data
   })
 }
 

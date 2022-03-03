@@ -11,9 +11,9 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!--退回-->
-          <iButton @click="handleBack" :loading="backButtonLoading">{{ $t('LK_TUIHUI') }}</iButton>
+          <iButton @click="handleBack" :loading="backButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TUIHUI">{{ $t('LK_TUIHUI') }}</iButton>
           <!--提交-->
-          <iButton @click="handleSubmit" :loading="submitButtonLoading">{{ $t('LK_TIJIAO') }}</iButton>
+          <iButton @click="handleSubmit" :loading="submitButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TIJIAO">{{ $t('LK_TIJIAO') }}</iButton>
         </div>
       </div>
       <tableList

@@ -13,7 +13,7 @@
     </div>
                 <!-- v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE" -->
     <table-list :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading"
-                @handleSelectionChange="handleSelectionChange" :index="true"
+                @handleSelectionChange="handleSelectionChange" :index="true" border
     >
       <template #open="scope">
         <span @click="open(scope.row)" class="open">{{ $t('LK_CHAKAN') }}</span>
