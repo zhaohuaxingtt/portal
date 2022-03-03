@@ -2,7 +2,6 @@ import router from '@/router'
 import store from '@/store'
 export default function getResCode() {
   const url = getUrl()
-
   let userName = store?.state?.permission?.userInfo?.userName || ''
   if (!userName) {
     const userInfo = window.sessionStorage.getItem('config.url') || {}
@@ -45,7 +44,7 @@ function getActiveMenu(route) {
 }
 
 function getUrl() {
-  return window.location.href
+  return router?.app?.$route?.path || ''
 }
 
 function toBase64(str) {
