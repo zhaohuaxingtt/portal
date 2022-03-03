@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: 财务数据页面
 -->
 <template>
@@ -74,6 +74,7 @@
                  @handleSelectionChange="handleSelectionChange"
                  :input-props="inputProps"
                  :index="true"
+                 border
                  :select-props="selectProps"
                  :select-props-options-object="selectPropsOptionsObject">
         <template #dataChannelName="scope">

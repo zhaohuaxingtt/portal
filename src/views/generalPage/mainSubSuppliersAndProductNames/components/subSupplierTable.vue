@@ -30,6 +30,7 @@
                 :input-props="inputProps"
                 :index="true"
                 ref="commonTable"
+                border
                 >
       <template #country="scope">
         <iSelect v-model="scope.row.country"

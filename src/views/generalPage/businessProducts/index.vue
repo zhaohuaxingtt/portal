@@ -32,6 +32,7 @@
           :input-props="inputProps"
           :index="true"
           ref="commonTable"
+          border
       >
         <template #deliveryStartDate="scope">
           <iDatePicker

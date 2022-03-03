@@ -34,6 +34,7 @@
                   @handleSelectionChange="handleSelectionChange"
                   :input-props="inputProps"
                   :index="true"
+                  border
                   ref="commonTable">
         <template #country="scope">
           <iSelect v-model="scope.row.country"

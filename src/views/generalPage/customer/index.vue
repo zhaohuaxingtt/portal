@@ -28,6 +28,7 @@
           :input-props="inputProps"
           :index="true"
           ref="commonTable"
+          border
       />
     </iCard>
     <remark-content
