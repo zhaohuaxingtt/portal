@@ -16,9 +16,9 @@
         <i-button @click="openLog">{{ language('rizhi', '日志') }}</i-button>
         <i-button @click="add">{{ language('XINZENG', '新增') }}
         </i-button>
-        <i-button @click="remove">{{ language('SHANCHU', '删除') }}
+        <i-button @click="remove" :disabled="onAppSaveAction" :loading="onAppSaveAction">{{ language('SHANCHU', '删除') }}
         </i-button>
-        <i-button @click="exportFile">{{ language('DAOCHU', '导出') }}
+        <i-button @click="exportFile" :disabled="onExportAction" :loading="onExportAction">{{ language('DAOCHU', '导出') }}
         </i-button>
 
       </div>
@@ -72,6 +72,8 @@ export default {
   },
   data() {
     return {
+      onAppSaveAction: false,
+      onExportAction: false,
       loadingFlag:false,
       dialog: false,
       importLogDialog: false,
@@ -141,6 +143,7 @@ export default {
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
+        this.onAppSaveAction = true;
         let req = {
           id: this.selectTableData.map((v) => {
             return v.id
@@ -151,16 +154,23 @@ export default {
           if (res && res.code == 200) {
             this.getTableData()
             iMessage.success(res.desZh)
+          } else {
+            iMessage.error(res.desZh)
           }
+          this.onAppSaveAction = false;
+        }, function() {
+          this.onAppSaveAction = false;
         })
       })
     },
     exportFile() {
+      this.onExportAction = true;
       excelExport(
         this.tableListData,
         this.tableTitle,
         this.language('YINGYONGLIEBIAO', '应用列表')
       )
+      this.onExportAction = false;
     },
     closeDiolog() {
       this.dialog = false

@@ -141,12 +141,22 @@ export default {
                         height: '',
                         width: ''
                     },
+                    this.idx = 0
                     this.$emit('addData', testForm)
                 }
             })
         },
         del() {
-            this.$emit('delData', this.idx)
+            this.form = {
+                name: '',
+                flowId: '',
+                xco: '',
+                yco: '',
+                height: '',
+                width: ''
+            },
+            this.idx = 0
+            this.$emit('delData')
         }
     }
 }

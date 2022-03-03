@@ -1,7 +1,7 @@
 <template>
   <div class="view-function">
     <div class="menu">
-      <iCard title="页面菜单">
+      <iCard :title="resourceTitle">
         <functionMenu
           :default-selected-rows="detail.menuList"
           @set-resource-parent="setResourceParent"
@@ -29,7 +29,7 @@ export default {
   props: {
     detail: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -37,9 +37,9 @@ export default {
   computed: {
     resourceTitle() {
       if (this.resourceParent.name) {
-        return `【${this.resourceParent.name}】页面控件`
+        return `【${this.resourceParent.name}】${this.language('页面控件')}`
       }
-      return '页面控件'
+      return this.language('页面控件')
     }
   },
   data() {

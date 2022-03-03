@@ -38,18 +38,21 @@ export default {
         {
           prop: 'userNum',
           label: '员工号',
+          i18n:'员工号',
           tooltip: false,
           align: 'center',
         },
         {
           prop: 'nameZh',
           label: '姓名',
+          i18n:'姓名',
           align: 'center',
           tooltip: false
         },
         {
           prop: 'department',
           label: '所属部门',
+          i18n:'所属部门',
           align: 'center',
           tooltip: false
           // customRender: (h, scope) => {
@@ -59,12 +62,14 @@ export default {
         {
           prop: 'mobile',
           label: '手机',
+          i18n:'手机',
           align: 'center',
           tooltip: false
         },
         {
           prop: 'phone',
           label: '电话',
+          i18n:'电话',
           align: 'center',
           tooltip: false
         }
@@ -78,6 +83,7 @@ export default {
         {
           prop: 'userNum',
           label: '员工号',
+          i18n: '员工号',
           tooltip: false,
           align: 'center',
           emit: 'go-detail',
@@ -88,12 +94,14 @@ export default {
         {
           prop: 'nameZh',
           label: '姓名',
+          i18n: '姓名',
           align: 'center',
           tooltip: false
         },
         {
           prop: 'department',
           label: '所属部门',
+          i18n: '所属部门',
           align: 'center',
           tooltip: false
           // customRender: (h, scope) => {
@@ -103,12 +111,14 @@ export default {
         {
           prop: 'mobile',
           label: '手机',
+          i18n: '手机',
           align: 'center',
           tooltip: false
         },
         {
           prop: 'phone',
           label: '电话',
+          i18n: '电话',
           align: 'center',
           tooltip: false
         }

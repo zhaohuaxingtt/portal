@@ -7,21 +7,31 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
-    10: '10',
-    111: '111',
-    222: '222',
-    1111: '1111',
     delete: '删除',
     deleteSure: '您确定要执行删除操作吗？',
     all: '全部',
     search: '搜索',
     setting: '设置',
-    pagination: { prev: '上一页', next: '下一页', goto: '前往' },
-    topLayout: {
-      setting: { personal: '个人设置', admin: '管理端' },
-      message: { notice: '通知', message: '消息' }
+    pagination: {
+      prev: '上一页',
+      next: '下一页',
+      goto: '前往'
     },
-    partsign: { enquiry: '询价资料', volume: '每车用量', log: '操作日志' },
+    topLayout: {
+      setting: {
+        personal: '个人设置',
+        admin: '管理端'
+      },
+      message: {
+        notice: '通知',
+        message: '消息'
+      }
+    },
+    partsign: {
+      enquiry: '询价资料',
+      volume: '每车用量',
+      log: '操作日志'
+    },
     staffManagement: {
       OTHERJOBS: '其它岗位',
       DELETE: '删除',
@@ -87,594 +97,604 @@
       CF: 'CF'
     },
     partsignLanguage: {
-      XunYuanZhiXing: '寻源执行',
-      JinDuJianKong: '进度监控',
-      LingJianQianShou: '新件信息单',
-      CaiGouXiangMuJianLi: '零件采购项目',
-      RfqguanLi: 'RFQ',
-      DingDianGuanLi: '定点管理',
-      RiZhi: '日志',
-      LingJianHao: '零件号',
-      LingJianMingChengZH: '零件名称（中）',
-      SheJiKeShi: '设计科室',
-      GongChengShi: '工程师',
-      CheXingXiangMu: '车型项目',
-      XinXiDanFenLei: '信息单分类',
-      XinXiDanZhuangTai: '信息单状态',
-      XinXiDanLiuShuiHao: '信息单流水号',
-      XunJiaZiLiaoZhuangTai: '询价资料状态',
-      MeiCheYongLiangZhuangTai: '每车用量状态',
-      QingShuRu: '请输入',
-      QingXuanZe: '请选择',
-      QueRen: '确认',
-      ZhongZhi: '重置',
-      XinJianXinXiDanQianShou: '新件信息单签收',
-      ZhuanPai: '转派',
-      QianShou: '签收',
-      TuiHui: '退回',
-      LingJianMingZH: '零件名（中）',
-      LingJianMingDE: '零件名（德）',
-      XinXiDanLeiXing: '信息单类型',
+      XunYuanZhiXing: '寻源执行', //寻源执行
+      JinDuJianKong: '进度监控', //进度监控
+      LingJianQianShou: '新件信息单', //零件签收
+      CaiGouXiangMuJianLi: '零件采购项目', //采购项目建立
+      RfqguanLi: 'RFQ', //RFQ管理
+      DingDianGuanLi: '定点管理', //定点管理
+      RiZhi: '日志', //日志
+      LingJianHao: '零件号', //零件号
+      LingJianMingChengZH: '零件名称（中）', //零件名称（中）
+      SheJiKeShi: '设计科室', //设计科室
+      GongChengShi: '工程师', //工程师
+      CheXingXiangMu: '车型项目', //车型项目
+      XinXiDanFenLei: '信息单分类', //信息单分类
+      XinXiDanZhuangTai: '信息单状态', //信息单状态
+      XinXiDanLiuShuiHao: '信息单流水号', //信息单流水号
+      XunJiaZiLiaoZhuangTai: '询价资料状态', //询价资料状态
+      MeiCheYongLiangZhuangTai: '每车用量状态', //每车用量状态
+      QingShuRu: '请输入', //请输入
+      QingXuanZe: '请选择', //请选择
+      QueRen: '确认', //确认
+      ZhongZhi: '重置', //重置
+      XinJianXinXiDanQianShou: '新件信息单签收', //新件信息单签收
+      ZhuanPai: '转派', //转派
+      QianShou: '签收', //签收
+      TuiHui: '退回', //退回
+      LingJianMingZH: '零件名（中）', //零件名（中）
+      LingJianMingDE: '零件名（德）', //零件名（德）
+      XinXiDanLeiXing: '信息单类型', //信息单类型
       XianShiDiTiaoDaoTiaoJiLuGongTiaoJiLu:
-        '显示第    条到    条记录，共    条记录',
-      ShangYiYe: '上一页',
-      XiaYiYe: '下一页',
-      QianWangYe: '前往    页'
+        '显示第    条到    条记录，共    条记录', //显示第    条到    条记录，共    条记录
+      ShangYiYe: '上一页', //上一页
+      XiaYiYe: '下一页', //下一页
+      QianWangYe: '前往    页' //前往    页
     },
-    LK_CAIGOUFENEFENPEIDABUDAO: '采购份额分配达不到100%',
-    LK_CAIGOUGONGCHNEGMINGCHENG: '采购工厂名称',
-    LK_CAOZUOCHENGGONG: '操作成功',
-    LK_CHANLIANGZHANBI: '产量占比（%）',
-    LK_CAIGOUFENEFENPEIWEIDADAO: '当前分配未达到100%，请重新分配！',
+
+    /*
+  <!------------------------------------------------------------------------>
+  <!--                                                                   --->
+  <!------------------------------------------------------------------------>
+  */
+
+    LK_CAIGOUFENEFENPEIDABUDAO: '采购份额分配达不到100%', // 采购份额分配达不到100%
+    SHOUYINGXIANGLINGJIANXIANGQING: '受影响零件详情',
+    LK_CAIGOUGONGCHNEGMINGCHENG: '采购工厂名称', // 采购工厂名称
+    LK_CAOZUOCHENGGONG: '操作成功', // 操作成功
+    LK_CHANLIANGZHANBI: '产量占比（%）', // 产量占比（%）
+    LK_CAIGOUFENEFENPEIWEIDADAO: '当前分配未达到100%，请重新分配！', // 当前分配未达到100%，请重新分配！
     LK_CAIGOUFENEFENPEIWEIDADAODANGQIAN:
-      '当前分配未达到100%当前分配的工厂中存在为0的情况，请重新分配！',
-    LK_CAIGOUFENEFENPEICHAOGUO: '当前分配已超过100%，请重新分配！',
-    LK_DENGLU: '登录',
-    LK_GONG: '共',
-    LK_MEIYOUKEYIXIAZHAIDEXINXI: '没有可以下载的信息',
-    LK_MIMA: '密码',
-    LK_HAIWEIXUANZHEGONGCHANG: '您还未选择工厂！',
+      '当前分配未达到100%当前分配的工厂中存在为0的情况，请重新分配！', // 当前分配未达到100%，请重新分配！
+    LK_CAIGOUFENEFENPEICHAOGUO: '当前分配已超过100%，请重新分配！', // 当前分配已超过100%，请重新分配！
+    LK_DENGLU: '登录', // 登录
+    LK_GONG: '共', // 共
+    LK_MEIYOUKEYIXIAZHAIDEXINXI: '没有可以下载的信息', // 没有可以下载的信息
+    LK_MIMA: '密码', // 密码
+    LK_HAIWEIXUANZHEGONGCHANG: '您还未选择工厂！', // 您还未选择工厂！
     LK_NHWXZBDL: '您还未选择BDL',
-    LK_QINGCHU: '清除',
-    LK_QINGTIANXIELIYOUSHURUKUANGBITIAN: '请填写理由，该输入框为必填',
-    LK_QINGXUANZHEMEICHEYONGLIANGZHUANGTAI: '请选择每车用量状态',
-    LK_QINGXUANZHEXIANCAILIAOZU: '请选择先材料组',
-    LK_QINGXUANZHEXINXIDANZHUANGTAI: '请选择信息单状态',
-    LK_QINGXUANZHEXUYAODAOCHUDEMEINIANYONGCHELIANG: '请选择需要导出的每车用量',
-    LK_QINGXUANZHEXUYAODAOCHURIZHI: '请选择需要导出的日志',
-    LK_QINGXUANZHEXUYAOSHANCHUYOUJIAN: '请选择需要删除的附件',
-    LK_QINGXUANZHEXUYAOXIAZHAIDEFUJIAN: '请选择需要下载的附件',
-    LK_QINGXUANZHEXUYAOXIAZHAIWENJIAN: '请选择需要下载文件',
+    LK_QINGCHU: '清除', // 清除
+    LK_QINGTIANXIELIYOUSHURUKUANGBITIAN: '请填写理由，该输入框为必填', // 请填写理由，该输入框为必填
+    LK_QINGXUANZHEMEICHEYONGLIANGZHUANGTAI: '请选择每车用量状态', // 请选择每车用量状态
+    LK_QINGXUANZHEXIANCAILIAOZU: '请选择先材料组', // 请选择先材料组
+    LK_QINGXUANZHEXINXIDANZHUANGTAI: '请选择信息单状态', // 请选择信息单状态
+    LK_QINGXUANZHEXUYAODAOCHUDEMEINIANYONGCHELIANG: '请选择需要导出的每车用量', // 请选择需要导出的每车用量
+    LK_QINGXUANZHEXUYAODAOCHURIZHI: '请选择需要导出的日志', // 请选择需要导出的日志
+    LK_QINGXUANZHEXUYAOSHANCHUYOUJIAN: '请选择需要删除的附件', // 请选择需要删除的附件
+    LK_QINGXUANZHEXUYAOXIAZHAIDEFUJIAN: '请选择需要下载的附件', // 请选择需要下载的附件
+    LK_QINGXUANZHEXUYAOXIAZHAIWENJIAN: '请选择需要下载文件', // 请选择需要下载文件
     LK_QINGXUANZHEXUYAOXIUGAIDELINGJIANCAIGOUXIANGMU:
-      '请选择需要修改的零件采购项目',
-    LK_QINGXUANZHEXUNJIACAIGOUYUAN: '请选择询价采购员',
-    LK_QINGXUANZHEXUNJIAZILIAOZHUANGTAI: '请选择询价资料状态',
-    LK_QINGXUANZHEYITIAOJIHUAGENGXIN: '请选择一条计划更新至询价产量',
-    LK_QINGXUANZHEYITIAOXUYAOQUEREDEBANBEN: '请选择一条需要确认的版本',
-    LK_QUESHICAILIAOZUBIANHAOETC: '缺失材料组编号，请先设置零件对应的材料组',
-    LK_QUESHIYOUXIAODEGONGYIZUID: '缺失有效的工艺组id',
-    LK_QUESHIYOUXIAODELINGJIANBIANHAO: '缺失有效的零件编号',
-    LK_SHANCHUCHENGGONG: '删除成功',
-    LK_SHANGCHUAN: '上传',
-    LK_SHANGCHUANCHENGGONG: '上传成功',
-    LK_SHANGCHUANSHIBAI: '上传失败',
-    LK_TIAODI: '条到第',
-    LK_TIAOJILU: '条记录',
-    LK_XIANSHI: '显示第',
-    LK_XINJIANXINXIDANTUIHUI: '新件信息单退回',
-    LK_YIQIANSHOU: '已签收',
-    LK_XINJIANXINXIDANZHUANPAI: '新件信息单转派',
-    LK_XIUGAICHENGGONG: '修改成功',
-    LK_YITUIHUI: '已退回',
-    LK_YONGHUMING: '用户名',
-    LK_ZHUANPAICHENGGONG: '转派成功',
-    LK_AEKOHAO: 'Aeko号',
-    LK_BDLLIEBIAO: 'BDL列表',
-    LK_BMG: 'BMG',
-    LK_BOMDANXINXI: 'BOM单信息',
-    LK_CBDSHEZHI: 'CBD设置',
-    LK_CBDXUANZE: 'CBD选择',
-    LK_CFFUZEREN: 'CF负责人',
-    LK_CFKONGZHIYUAN: 'CF控制员',
-    LK_CS_1BEIZHU: 'CS*1备注',
-    LK_CS_1SHANGHUIBEIZHU: 'CS*1上会备注',
-    LK_CSFPFUZEREN: 'CSF（P）负责人',
-    LK_FS_GSHAO: 'FS/GS号',
-    LK_FS_GS_SP: 'FS/GS/SP号',
-    LK_INBOUNDWULIUFANGSHI: 'INBOUND物流方式',
-    LK_LINIE: 'LINIE',
-    LK_LINIEBEIZHU: 'Linie备注',
-    LK_LINIEBUMEN: 'LINIE部门',
-    LK_LINIESHANGHUIBEIZHU: 'Linie上会备注',
-    LK_MBDL: 'MBDL',
-    LK_MQPINGFENZHUANGTAI: 'MQ评分',
-    LK_MTZLINGJIAN: 'MTZ零件',
-    LK_RFQBIANHAO: 'RFQ编号',
-    LK_RFQGUANLI: 'RFQ',
-    LK_RFQLEIXING: 'RFQ类型',
-    LK_RFQLIST: 'RFQ列表',
+      '请选择需要修改的零件采购项目', // 请选择需要修改的零件采购项目
+    LK_QINGXUANZHEXUNJIACAIGOUYUAN: '请选择询价采购员', // 请选择询价采购员
+    LK_QINGXUANZHEXUNJIAZILIAOZHUANGTAI: '请选择询价资料状态', // 请选择询价资料状态
+    LK_QINGXUANZHEYITIAOJIHUAGENGXIN: '请选择一条计划更新至询价产量', // 请选择一条计划更新至询价产量
+    LK_QINGXUANZHEYITIAOXUYAOQUEREDEBANBEN: '请选择一条需要确认的版本', // 请选择一条需要确认的版本
+    LK_QUESHICAILIAOZUBIANHAOETC: '缺失材料组编号，请先设置零件对应的材料组', // 缺失材料组编号，请先设置零件对应的材料组
+    LK_QUESHIYOUXIAODEGONGYIZUID: '缺失有效的工艺组id', // 缺失有效的工艺组id
+    LK_QUESHIYOUXIAODELINGJIANBIANHAO: '缺失有效的零件编号', // 缺失有效的零件编号
+    LK_SHANCHUCHENGGONG: '删除成功', // 删除成功
+    LK_SHANGCHUAN: '上传', // 上传
+    LK_SHANGCHUANCHENGGONG: '上传成功', // 上传成功
+    LK_SHANGCHUANSHIBAI: '上传失败', // 上传失败
+    LK_TIAODI: '条到第', // 条到第
+    LK_TIAOJILU: '条记录', // 条记录
+    LK_XIANSHI: '显示第', // 显示第
+    LK_XINJIANXINXIDANTUIHUI: '新件信息单退回', // 新件信息单退回
+    LK_YIQIANSHOU: '已签收', // 新件信息单退回
+    LK_XINJIANXINXIDANZHUANPAI: '新件信息单转派', // 新件信息单转派
+    LK_XIUGAICHENGGONG: '修改成功', // 修改成功
+    LK_YITUIHUI: '已退回', // 以退回
+    LK_YONGHUMING: '用户名', // 用户名
+    LK_ZHUANPAICHENGGONG: '转派成功', // 转派成功
+    LK_AEKOHAO: 'Aeko号', //Aeko号
+    LK_BDLLIEBIAO: 'BDL列表', //BDL列表
+    LK_BMG: 'BMG', //BMG
+    LK_BOMDANXINXI: 'BOM单信息', //BOM单信息
+    LK_CBDSHEZHI: 'CBD设置', //CBD设置
+    LK_CBDXUANZE: 'CBD选择', //CBD选择
+    LK_CFFUZEREN: 'CF负责人', //CF负责人
+    LK_CFKONGZHIYUAN: 'CF控制员', //CF控制员
+    LK_CS_1BEIZHU: 'CS*1备注', //CS*1备注
+    LK_CS_1SHANGHUIBEIZHU: 'CS*1上会备注', //CS*1上会备注
+    LK_CSFPFUZEREN: 'CSF（P）负责人', //CSF（P）负责人
+    LK_FS_GSHAO: 'FS/GS号', //FS/GS号
+    LK_FS_GS_SP: 'FS/GS/SP号', //FS号
+    LK_INBOUNDWULIUFANGSHI: 'INBOUND物流方式', //INBOUND物流方式
+    LK_LINIE: 'LINIE', //LINIE
+    LK_LINIEBEIZHU: 'Linie备注', //Linie备注
+    LK_LINIEBUMEN: 'LINIE部门', //LINIE部门
+    LK_LINIESHANGHUIBEIZHU: 'Linie上会备注', //Linie上会备注
+    LK_MBDL: 'MBDL', //MBDL
+    LK_MQPINGFENZHUANGTAI: 'MQ评分', //MQ评分状态
+    LK_MTZLINGJIAN: 'MTZ零件', //MTZ零件
+    LK_RFQBIANHAO: 'RFQ编号', //RFQ编号
+    LK_RFQGUANLI: 'RFQ', //RFQ管理
+    LK_RFQLEIXING: 'RFQ类型', //RFQ类型
+    LK_RFQLIST: 'RFQ列表', //RFQ列表
     LK_RFQLINGJIANHUOZHERFQGONGYINGSHANGWEIKONG:
-      'RFQ零件或者RFQ供应商为空，不能创建RFQ轮次',
-    LK_RFQMINGCHENG: 'RFQ名称',
-    LK_RFQMINGCHNEGBUNENGWEIKONG: 'RFQ名称不能为空',
-    LK_RFQZHUANGTAI: 'RFQ状态',
-    LK_RFQZONGHEGUANLI: 'RFQ综合管理',
-    LK_RWJIA: 'RW价',
-    LK_SAICVOLKSWAGENKONGXIANGCAOZUO_XIAOSHI: 'SAIC VOLKSWAGEN空箱操作_小时',
-    LK_SAICVOLKSWAGENKUCUN_XIAOSHI: 'SAIC VOLKSWAGEN库存_小时',
-    LK_SOPRIQI: 'SOP日期',
-    LK_SUM: 'SUM',
-    LK_SVWYAOQIUEMZHOU: 'SVW要求EM（周）',
-    LK_SVWSHIMO: 'SVW要求首次试模',
-    LK_SVWYAOQIUOTSZHOU: 'SVW要求OTS（周）',
-    LK_SVWYAOQIUSHOUCISHIMO: 'SVW要求首次试模',
-    LK_SWHAO: 'SVW号',
-    LK_TPPINGFENZHUANGTAI: 'EP评分',
-    LK_BANBENHAO: '版本号',
-    LK_BANBENZHUANGTAI: '版本状态',
-    LK_BAOZHUANGFUZEREN: '包装负责人',
-    LK_BAOCUN: '保存',
-    LK_BAOCUNBINGCHUANGJIAN: '保存并创建',
-    LK_BAOJIAJIEZHIRIQI: '截止日期',
-    LK_RFQQUOTATIONDEADLINE: '截止日期',
-    LK_NINDANGQIANHAIWEIXUANZE: '抱歉！您当前还未选择！',
+      'RFQ零件或者RFQ供应商为空，不能创建RFQ轮次', //RFQ零件或者RFQ供应商为空，不能创建RFQ轮次
+    LK_RFQMINGCHENG: 'RFQ名称', //RFQ名称
+    LK_RFQMINGCHNEGBUNENGWEIKONG: 'RFQ名称不能为空', //RFQ名称不能为空
+    LK_RFQZHUANGTAI: 'RFQ状态', //RFQ状态
+    LK_RFQZONGHEGUANLI: 'RFQ综合管理', //RFQ综合管理
+    LK_RWJIA: 'RW价', //RW价
+    LK_SAICVOLKSWAGENKONGXIANGCAOZUO_XIAOSHI: 'SAIC VOLKSWAGEN空箱操作_小时', //SAIC VOLKSWAGEN空箱操作_小时
+    LK_SAICVOLKSWAGENKUCUN_XIAOSHI: 'SAIC VOLKSWAGEN库存_小时', //SAIC VOLKSWAGEN库存_小时
+    LK_SOPRIQI: 'SOP日期', //SOP日期
+    LK_SUM: 'SUM', //SUM
+    LK_SVWYAOQIUEMZHOU: 'SVW要求EM（周）', //SVW要求EM（周）
+    LK_SVWSHIMO: 'SVW要求首次试模', //SVW要求EM（周）
+    LK_SVWYAOQIUOTSZHOU: 'SVW要求OTS（周）', //SVW要求OTS（周）
+    LK_SVWYAOQIUSHOUCISHIMO: 'SVW要求首次试模', //SVW要求首次试模
+    LK_SWHAO: 'SVW号', //sw号
+    LK_TPPINGFENZHUANGTAI: 'EP评分', //TP评分状态
+    LK_BANBENHAO: '版本号', //版本号
+    LK_BANBENZHUANGTAI: '版本状态', //版本状态
+    LK_BAOZHUANGFUZEREN: '包装负责人', //包装负责人
+    LK_BAOCUN: '保存', //保存
+    LK_BAOCUNBINGCHUANGJIAN: '保存并创建', //保存并创建
+    LK_BAOJIAJIEZHIRIQI: '截止日期', //报价截止日期
+    LK_RFQQUOTATIONDEADLINE: '截止日期', //报价截至日期
+    LK_NINDANGQIANHAIWEIXUANZE: '抱歉！您当前还未选择！', //抱歉！您当前还未选择！
+    LK_ZYCBPJZTWZDDSHCNDJCAN: '只有初评状态为中断的时候，才能点击此按钮',
     LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN:
-      '抱歉！您当前还未选择询价采购员！',
-    LK_BEIZHUBUNENGWEIKONG: '抱歉，备注不能为空！',
-    LK_CICHUBIXUXUANZEYITIAOGONGYIZUSHUJU: '抱歉，此处必须选择一条工艺组数据',
+      '抱歉！您当前还未选择询价采购员！', //抱歉！您当前还未选择询价采购员！
+    LK_BEIZHUBUNENGWEIKONG: '抱歉，备注不能为空！', //抱歉，备注不能为空！
+    LK_CICHUBIXUXUANZEYITIAOGONGYIZUSHUJU: '抱歉，此处必须选择一条工艺组数据', //抱歉，此处必须选择一条工艺组数据
     LK_DANGQIANCAIGOUXIANGMUZHONGCUNZAIHAIWEISHENGCHENGFSNRDESHUJUWUFAWEININQIDONGXUNJIA:
-      '抱歉，当前采购项目中存在还未生 成FSNR的数据，无法为您启动询价！',
+      '抱歉，当前采购项目中存在还未生成FSNR的数据，无法为您启动询价！', //抱歉，当前采购项目中存在还未生成FSNR的数据，无法为您启动询价！
     LK_DANGQIANCAIGOUXIANGMUZHONGCUNZAIHAIWEISHENGCHENGFSNRDESHUJUWUFAWEININTIANJIA:
-      '抱歉，当前采购项目中存在还未生成FSNR的数据，无法为您添加！',
-    LK_LIYOUBUNENGWEIKONG: '抱歉，理由不能为空！',
+      '抱歉，当前采购项目中存在还未生成FSNR的数据，无法为您添加！', //抱歉，当前采购项目中存在还未生成FSNR的数据，无法为您添加！
+    LK_LIYOUBUNENGWEIKONG: '抱歉，理由不能为空！', //抱歉，理由不能为空！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOQIANSHOUDEXINXIDAN:
-      '抱歉，您当前还未选择您需要签收的信息单！',
+      '抱歉，您当前还未选择您需要签收的信息单！', //抱歉，您当前还未选择您需要签收的信息单！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOQUXIAODELINGJIANCAIGOUXIANGMU:
-      '抱歉，您当前还未选择您需要取消的零件采购项目！',
+      '抱歉，您当前还未选择您需要取消的零件采购项目！', //抱歉，您当前还未选择您需要取消的零件采购项目！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOSHENGCHENGFSHAODELINGJIANCAIGOUXIANGMU:
-      '抱歉，您当前还未选择您需要生成FS号的零件采 购项目！',
+      '抱歉，您当前还未选择您需要生成FS号的零件采购项目！', //抱歉，您当前还未选择您需要生成FS号的零件采购项目！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOSHENGPILIANGWEIHUDEXIANGMU:
-      '抱歉，您当前还未选择您需要生批量维护的项目！',
+      '抱歉，您当前还未选择您需要生批量维护的项目！', //抱歉，您当前还未选择您需要生批量维护的项目！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOTUIHUIDEXINXIDAN:
-      '抱歉，您当前还未选择您需要退回的信息单！',
+      '抱歉，您当前还未选择您需要退回的信息单！', //抱歉，您当前还未选择您需要退回的信息单！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOZHUANPAIDELINGJIANCAIGOUXIANGMU:
-      '抱歉，您当前还未选择您需要转派的零件采购项目！',
+      '抱歉，您当前还未选择您需要转派的零件采购项目！', //抱歉，您当前还未选择您需要转派的零件采购项目！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOZHUANPAIDEPINGFENRENWU:
-      '抱歉，您当前还未选择您需要转派的评分任务！',
+      '抱歉，您当前还未选择您需要转派的评分任务！', //抱歉，您当前还未选择您需要转派的评分任务！
     LK_NINDANGQIANHAIWEIXUANZENINXUYAOZHUANPAIDEXINXIDAN:
-      '抱歉，您当前还未选择您需要转派的信息单！',
-    LK_NINDANGQIANHAIWEIXUANZERENWU: '抱歉，您当前还未选择任务！',
+      '抱歉，您当前还未选择您需要转派的信息单！', //抱歉，您当前还未选择您需要转派的信息单！
+    LK_NINDANGQIANHAIWEIXUANZERENWU: '抱歉，您当前还未选择任务！', //抱歉，您当前还未选择任务！
     LK_NINDANGQIANHAIWEIXUANZEXUYAOQIDONGXUNJIADECAIGOUXIANGMU:
-      '抱歉，您当前还未选择需要启动询价的采购项目！',
+      '抱歉，您当前还未选择需要启动询价的采购项目！', //抱歉，您当前还未选择需要启动询价的采购项目！
     LK_NOTCHOUSEDELETEPROJECT: '抱歉！您还未选择您需要删除的采购项目。',
     LK_NINDANGQIANHAIWEIXUANZEXUYAOSHENQINGMUBIAOJIADECAIGOUXIANGMU:
-      '抱歉，您当前还未选择需要申请目标价的采购项目！',
+      '抱歉，您当前还未选择需要申请目标价的采购项目！', //抱歉，您当前还未选择需要申请目标价的采购项目！
     LK_NINDANGQIANHAIWEIXUANZEXUYAOTIANJIADECAIGOUXIANGMU:
-      '抱歉，您当前还未选择需要添加的采购项目！',
+      '抱歉，您当前还未选择需要添加的采购项目！', //抱歉，您当前还未选择需要添加的采购项目！
     LK_NINXUANZHONGDEDANJUZHONGCUNZAIYIQIANSHOUDEXINXIDANBUNENGPILIANGQIANSHOU:
-      '抱歉，您选中的单据中存在已签收的信息单， 不能批量签收！',
-    LK_YONGHUMINGHUOMIMABUNENGWEIKONG: '抱歉，用户名或密码不能为空！',
-    LK_BEIZHU: '备注',
-    LK_BEIZHUXINXI: '备注信息',
-    LK_BEIDAITILINGJIAN: '被代替零件',
-    LK_BEITIDAILINGJIAN: '被替代零件 ',
-    LK_BENLUNBAOJIAJIEZHISHIJIAN: '本轮报价截止时间',
-    LK_BENLUNBAOJIAQIZHISHIJIAN: '本轮报价起止时间',
-    LK_BENLUNZHUANGTAI: '本轮状态',
-    LK_BIANHAO: '编号',
-    LK_BIANJI: '编辑',
-    LK_BIANSUXIANGLEIXING: '变速箱类型',
-    LK_BIANSUXIANGPEIZHI: '变速箱配置',
-    LK_BUNENGSHANCHUZHISHAOBAOLIUYITIAO: '不能删除，至少保留一条!',
-    LK_BUMENBIANHAO: '部门编号',
-    LK_BUMENPINGFENLEIXING: '部门评分类型',
-    LK_CAILIAO: '材料',
-    LK_CAILIAOGONGYIZUMINGCHENGDE: '材料工艺组名称（德）',
-    LK_CAILIAOGONGYIZUMINGCHENGZHONG: '材料工艺组名称（中）',
-    LK_CAILIAOZU: '材料组',
-    LK_CAILIAOZULINEBUMEN: '材料组LINE部门',
-    LK_CAILIAOZUBIANHAO: '材料组编号',
-    LK_CAILIAOZUGONGYIBIANHAO: '材料组工艺编号',
-    LK_CAILIAOZUGONGYISHEZHI: '材料组工艺设置',
-    LK_CAILIAOZUMINGCHENGDE: '材料组名称（德）',
-    LK_CAILIAOZUMINGCHENGZHONG: '材料组名称（中）',
-    LK_CAILIAOZUXINXI: '材料组信息',
-    LK_CF: '财务控制员',
-    LK_CAIWUMUBIAOJIA: '财务目标价',
-    LK_CAIGOUGONGCHANG: '采购工厂',
-    LK_CAIGOUTIAOKUAN: '采购条款',
-    LK_CAIGOUXIANGMUJIANLI: '零件采购项目',
-    LK_CAIGOUXIANGMUXINXI: '采购项目信息',
-    LK_CAIGOUYUAN: '前期采购员',
-    LK_CAIGOUYUANGONGHAO: '采购员工号',
-    LK_CANKAOBAOZHUANG: '参考包装',
-    LK_CANKAOBAOZHUANGDANJIAYUAN: '参考包装单价（元）',
-    LK_CANKAOBAOZHUANGGAOMM: '参考包装高（mm）',
-    LK_CANKAOBAOZHUANGKUANMM: '参考包装宽（mm）',
-    LK_CANKAOBAOZHUANGQIJULEIXING: '参考包装器具类型',
-    LK_CANKAOBAOZHUANGZHANGMM: '参考包装长(mm)',
-    LK_CANKAOCHANLIANGJISHIJIANJIHUA: '参考产量及时间计划',
-    LK_CANKAOCHEXING: '参考车型',
-    LK_CANKAOLINGJIANHAO: '参考零件号',
-    LK_CANKAOLINGJIANMING: '参考零件名 ',
-    LK_CAOZUO: '操作',
-    LK_CAOZUOREN: '操作人',
-    LK_UpdateDate: '操作时间',
-    LK_CHAKAN: '查看',
-    LK_CHAKANQUANBUBANBEN: '查看全部版本',
-    LK_INQUIRE: '查询',
-    LK_CHAZHAOGONGYIZUGONGYINGSHANG: '查找工艺组供应商',
-    LK_CHAIFENCAIGOUGONGCHANG: '拆分采购工厂',
-    LK_CHANLIANGPC: '产量（PC）',
-    LK_CHANGJIANGMINGCHNEG: '场景名称/任务名称',
-    LK_CHANGJINGMINGCHENGRENWUMINGCHENG: '场景名称/任务名称 ',
-    LK_CHEXING: '车型',
-    LK_CHEXINGDALEI: '车型大类',
-    LK_CHEXINGDENGJI: '车型等级',
-    LK_CHEXINGSHENGCHANNIANXIAN: '车型生产年限',
-    LK_CHEXINGXIANGMU: '车型项目',
-    LK_CHEXINGXIANGMU0S: '车型项目0S',
-    LK_CHEXINGXIANGMUPVS: '车型项目PVS',
-    LK_CHEXINGXIANGMUSOP: '车型项目SOP',
-    LK_CHEXINGXIANGMUMINGCHENG: '车型项目名称',
-    LK_CHEHUI: '撤回',
-    LK_CHENGBEN: '成本',
-    LK_CHICUN: '尺寸',
-    LK_CHUANGJIANDINGDIANSHENQING: '创建定点申请',
-    LK_CHUANGJIANRENGONGHAO: '创建人工号',
-    LK_CHUANGJIANRENXINGMING: '创建人姓名',
-    LK_CHUANGJIANRIQI: '创建日期',
-    LK_CHUANGJIANSHIJIAN: '创建时间',
-    LK_CONGLINGJIANPAISHENG: '从零件派生',
-    LK_DAXIAOMB: '大小（MB）',
-    LK_DAIBANSHIXIANG: '待办事项',
-    LK_DAIQUERENBANBEN: '待确认版本',
-    LK_DANWEI: '价格单位',
-    LK_DANGQIANBANBEN: '当前版本',
-    LK_DANGQIANLUNCI: '当前轮次',
-    LK_DAOCHU: '导出',
-    LK_DAORUSHIJIAN: '导入时间',
-    LK_DENGJIPEIZHI: '等级配置',
-    LK_DIANJISHANGCHUAN: '点击上传 ',
-    LK_DIANCHIRONGLIANG: '电池容量',
-    LK_DIANCHIYONGLIANG: '电池用量',
-    LK_DINGDIANGUANLI: '定点管理',
-    LK_DUQUYOUXIAODOM: '读取有效BOM',
-    LK_DUQUYOUXIAOBOM: '读取有效BOM ',
-    LK_FACHUXUNJIA: '发出询价',
-    LK_FADONGJILEIXING: '发动机类型',
-    LK_FADONGJIPEIZHI: '发动机配置',
-    LK_FASHENGSHIJIAN: '发生时间',
-    LK_FASONGXUNJIA: '发送询价',
-    LK_FASONGZHIWODEYOUXIANG: '发送至我的邮箱',
-    LK_FANXIANGQIANBAOZHUANGMAOZHONGKG: '翻箱前包装毛重（KG）',
-    LK_FANXIANGQIANJICHUNIANWEIXIULÜ: '翻箱前基础年维修率 ',
-    LK_FANXIANGQIANQIJUFANCHENGSHEDIEBI: '翻箱前器具返程折叠比 ',
-    LK_FANXIANGQIANQIJUGAOMM: '翻箱前器具高（mm）',
-    LK_FANXIANGQIANQIJUHAO: '翻箱前器具号 ',
-    LK_FANXIANGQIANQIJUKUANMM: '翻箱前器具宽（mm）',
-    LK_FANXIANGQIANQIJULEIXING: '翻箱前器具类型 ',
-    LK_FANXIANGQIANQIJUSHOUMING: '翻箱前器具寿命 ',
-    LK_FANXIANGQIANQIJUSHU: '翻箱前器具数 ',
-    LK_FANXIANGQIANQIJUZHANGMM: '翻箱前器具长（mm）',
-    LK_FANXIANGQIANQIJUZONGHEDANJIARMB: '翻箱前器具综合单价（RMB）',
-    LK_FANXIANGQIANQIJUZUJINRMBDAY: '翻箱前器具租金（RMB/DAY）',
-    LK_FANHUI: '返回',
-    LK_FUZEREN: '负责人',
-    LK_FUZERENDIANHUA: '负责人电话',
-    LK_FUZERENYOUXIANG: '负责人邮箱',
-    LK_FUJIANLIEBIAO: '附件列表',
-    LK_GENGXINYUANYIN: '更新原因',
-    LK_GENGXINZHIXUNJIACHANLIANG: '更新至询价产量',
-    LK_GONGCHENGSHI: '工程师',
-    LK_GONGYI: '工艺',
-    LK_GONGYIHAO: '工艺号',
+      '抱歉，您选中的单据中存在已签收的信息单，不能批量签收！', //抱歉，您选中的单据中存在已签收的信息单，不能批量签收！
+    LK_YONGHUMINGHUOMIMABUNENGWEIKONG: '抱歉，用户名或密码不能为空！', //抱歉，用户名或密码不能为空！
+    LK_BEIZHU: '备注', //备注
+    LK_BEIZHUXINXI: '备注信息', //备注信息
+    LK_BEIDAITILINGJIAN: '被代替零件', //被代替零件
+    LK_BEITIDAILINGJIAN: '被替代零件 ', //被替代零件
+    LK_BENLUNBAOJIAJIEZHISHIJIAN: '本轮报价截止时间', //本轮报价截止时间
+    LK_BENLUNBAOJIAQIZHISHIJIAN: '本轮报价起止时间', //本轮报价起止时间
+    LK_BENLUNZHUANGTAI: '本轮状态', //本轮状态
+    LK_BIANHAO: '编号', //编号
+    LK_BIANJI: '编辑', //编辑
+    LK_BIANSUXIANGLEIXING: '变速箱类型', //变速箱类型
+    LK_BIANSUXIANGPEIZHI: '变速箱配置', //变速箱配置
+    LK_BUNENGSHANCHUZHISHAOBAOLIUYITIAO: '不能删除，至少保留一条!', //不能删除，至少保留一条!
+    LK_BUMENBIANHAO: '部门编号', //部门编号
+    LK_BUMENPINGFENLEIXING: '部门评分类型', //部门评分类型
+    LK_CAILIAO: '材料', //材料
+    LK_CAILIAOGONGYIZUMINGCHENGDE: '材料工艺组名称（德）', //材料工艺组名称（德）
+    LK_CAILIAOGONGYIZUMINGCHENGZHONG: '材料工艺组名称（中）', //材料工艺组名称（中）
+    LK_CAILIAOZU: '材料组', //材料组
+    LK_CAILIAOZULINEBUMEN: '材料组LINE部门', //材料组LINE部门
+    LK_CAILIAOZUBIANHAO: '材料组编号', //材料组编号
+    LK_CAILIAOZUGONGYIBIANHAO: '材料组工艺编号', //材料组工艺编号
+    LK_CAILIAOZUGONGYISHEZHI: '材料组工艺设置', //材料组工艺设置
+    LK_CAILIAOZUMINGCHENGDE: '材料组名称（德）', //材料组名称（德）
+    LK_CAILIAOZUMINGCHENGZHONG: '材料组名称（中）', //材料组名称（中）
+    LK_CAILIAOZUXINXI: '材料组信息', //材料组信息
+    LK_CF: '财务控制员', //财务控制员
+    LK_CAIWUMUBIAOJIA: '财务目标价', //财务目标价
+    LK_CAIGOUGONGCHANG: '采购工厂', //采购工厂
+    LK_CAIGOUTIAOKUAN: '采购条款', //采购条款
+    LK_CAIGOUXIANGMUJIANLI: '零件采购项目', //采购项目建立
+    LK_CAIGOUXIANGMUXINXI: '采购项目信息', //采购项目信息
+    LK_CAIGOUYUAN: '前期采购员', //采购员
+    LK_CAIGOUYUANGONGHAO: '采购员工号', //采购员工号
+    LK_CANKAOBAOZHUANG: '参考包装', //参考包装
+    LK_CANKAOBAOZHUANGDANJIAYUAN: '参考包装单价（元）', //参考包装单价（元）
+    LK_CANKAOBAOZHUANGGAOMM: '参考包装高（mm）', //参考包装高（mm）
+    LK_CANKAOBAOZHUANGKUANMM: '参考包装宽（mm）', //参考包装宽（mm）
+    LK_CANKAOBAOZHUANGQIJULEIXING: '参考包装器具类型', //参考包装器具类型
+    LK_CANKAOBAOZHUANGZHANGMM: '参考包装长(mm)', //参考包装长(mm)
+    LK_CANKAOCHANLIANGJISHIJIANJIHUA: '参考产量及时间计划', //参考产量及时间计划
+    LK_CANKAOCHEXING: '参考车型', //参考车型
+    LK_CANKAOLINGJIANHAO: '参考零件号', //参考零件号
+    LK_CANKAOLINGJIANMING: '参考零件名 ', //参考零件名
+    LK_CAOZUO: '操作', //操作
+    LK_CAOZUOREN: '操作人', //操作人
+    LK_UpdateDate: '操作时间', //操作时间
+    LK_CHAKAN: '查看', //查看!
+    LK_CHAKANQUANBUBANBEN: '查看全部版本', //查看全部版本
+    LK_INQUIRE: '查询', //查询
+    LK_CHAZHAOGONGYIZUGONGYINGSHANG: '查找工艺组供应商', //查找工艺组供应商
+    LK_CHAIFENCAIGOUGONGCHANG: '拆分采购工厂', //拆分采购工厂
+    LK_CHANLIANGPC: '产量（PC）', //产量（PC）
+    LK_CHANGJIANGMINGCHNEG: '场景名称/任务名称', //场景名称/任务名称
+    LK_CHANGJINGMINGCHENGRENWUMINGCHENG: '场景名称/任务名称 ', //场景名称/任务名称
+    LK_CHEXING: '车型', //车型
+    LK_CHEXINGDALEI: '车型大类', //车型大类
+    LK_CHEXINGDENGJI: '车型等级', //车型等级
+    LK_CHEXINGSHENGCHANNIANXIAN: '车型生产年限', //车型生产年限
+    LK_CHEXINGXIANGMU: '车型项目', //车型项目
+    LK_CHEXINGXIANGMU0S: '车型项目0S', //车型项目0S
+    LK_CHEXINGXIANGMUPVS: '车型项目PVS', //车型项目PVS
+    LK_CHEXINGXIANGMUSOP: '车型项目SOP', //车型项目SOP
+    LK_CHEXINGXIANGMUMINGCHENG: '车型项目名称', //车型项目名称
+    LK_CHEHUI: '撤回', //撤回
+    LK_CHENGBEN: '成本', //成本
+    LK_CHICUN: '尺寸', //尺寸
+    LK_CHUANGJIANDINGDIANSHENQING: '创建定点申请', //创建定点申请
+    LK_CHUANGJIANRENGONGHAO: '创建人工号', //创建人工号
+    LK_CHUANGJIANRENXINGMING: '创建人姓名', //创建人姓名
+    LK_CHUANGJIANRIQI: '创建日期', //创建日期
+    LK_CHUANGJIANSHIJIAN: '创建时间', //创建时间
+    LK_CONGLINGJIANPAISHENG: '从零件派生', //从零件派生
+    LK_DAXIAOMB: '大小（MB）', //大小（MB）
+    LK_DAIBANSHIXIANG: '待办事项', //待办事项
+    LK_DAIQUERENBANBEN: '待确认版本', //待确认版本
+    LK_DANWEI: '价格单位', //单位
+    LK_DANGQIANBANBEN: '当前版本', //当前版本
+    LK_DANGQIANLUNCI: '当前轮次', //当前轮次
+    LK_DAOCHU: '导出', //导出
+    LK_DAORUSHIJIAN: '导入时间', //导入时间
+    LK_DENGJIPEIZHI: '等级配置', //等级配置
+    LK_DIANJISHANGCHUAN: '点击上传 ', //点击上传
+    LK_DIANCHIRONGLIANG: '电池容量', //电池容量
+    LK_DIANCHIYONGLIANG: '电池用量', //电池用量
+    LK_DINGDIANGUANLI: '定点管理', //定点管理
+    LK_DUQUYOUXIAODOM: '读取有效BOM', //读取有效BOM
+    LK_DUQUYOUXIAOBOM: '读取有效BOM ', //读取有效BOM
+    LK_FACHUXUNJIA: '发出询价', //发出询价
+    LK_FADONGJILEIXING: '发动机类型', //发动机类型
+    LK_FADONGJIPEIZHI: '发动机配置', //发动机配置
+    LK_FASHENGSHIJIAN: '发生时间', //发生时间
+    LK_FASONGXUNJIA: '发送询价', //发送询价
+    LK_FASONGZHIWODEYOUXIANG: '发送至我的邮箱', //发送至我的邮箱
+    LK_FANXIANGQIANBAOZHUANGMAOZHONGKG: '翻箱前包装毛重（KG）', //翻箱前包装毛重（KG）
+    LK_FANXIANGQIANJICHUNIANWEIXIULÜ: '翻箱前基础年维修率 ', //翻箱前基础年维修率
+    LK_FANXIANGQIANQIJUFANCHENGSHEDIEBI: '翻箱前器具返程折叠比 ', //翻箱前器具返程折叠比
+    LK_FANXIANGQIANQIJUGAOMM: '翻箱前器具高（mm）', //翻箱前器具高（mm）
+    LK_FANXIANGQIANQIJUHAO: '翻箱前器具号 ', //翻箱前器具号
+    LK_FANXIANGQIANQIJUKUANMM: '翻箱前器具宽（mm）', //翻箱前器具宽（mm）
+    LK_FANXIANGQIANQIJULEIXING: '翻箱前器具类型 ', //翻箱前器具类型
+    LK_FANXIANGQIANQIJUSHOUMING: '翻箱前器具寿命 ', //翻箱前器具寿命
+    LK_FANXIANGQIANQIJUSHU: '翻箱前器具数 ', //翻箱前器具数
+    LK_FANXIANGQIANQIJUZHANGMM: '翻箱前器具长（mm）', //翻箱前器具长（mm）
+    LK_FANXIANGQIANQIJUZONGHEDANJIARMB: '翻箱前器具综合单价（RMB）', //翻箱前器具综合单价（RMB）
+    LK_FANXIANGQIANQIJUZUJINRMBDAY: '翻箱前器具租金（RMB/DAY）', //翻箱前器具租金（RMB/DAY）
+    LK_FANHUI: '返回', //返回
+    LK_FUZEREN: '负责人', //负责人
+    LK_FUZERENDIANHUA: '负责人电话', //负责人电话
+    LK_FUZERENYOUXIANG: '负责人邮箱', //负责人邮箱
+    LK_FUJIANLIEBIAO: '附件列表', //附件列表
+    LK_GENGXINYUANYIN: '更新原因', //更新原因
+    LK_GENGXINZHIXUNJIACHANLIANG: '更新至询价产量', //更新至询价产量
+    LK_GONGCHENGSHI: '工程师', //工程师
+    LK_GONGYI: '工艺', //工艺
+    LK_GONGYIHAO: '工艺号', //工艺号
     LK_SHENGMINGJISHUBANBEN:
-      '公共UI组件展示界面，基于element的二次封装，当前element版本',
+      '公共UI组件展示界面，基于element的二次封装，当前element版本', //公共UI组件展示界面，基于element的二次封装，当前element版本
     LK_GONGGONGUIZUJIANZHANSHIJIEMIANJIYUELEMENTDEERCIFENGZHUANGDANGQIANELEMENTBANBEN:
-      '公共UI组件展示界面，基于element的 二次封装，当前element版本 ',
-    LK_GONGHUOFANGSHI: '供货方式',
-    LK_GONGYINGSHANG360SHITU: '供应商360°视图',
-    LK_GONGYINGSHANGSAPHAO: '供应商SAP号',
-    LK_GONGYINGSHANGTIMELINE: '供应商timeline',
-    LK_GONGYINGSHANGCAILIAOZHUNBEI: '供应商材料准备',
-    LK_GONGYINGSHANGCHANPINGAIYAO: '供应商产品概要',
-    LK_GONGYINGSHANGGONGSIJIESHAO: '供应商公司介绍',
-    LK_GONGYINGSHANGMING: '供应商名',
-    LK_GONGYINGSHANGMINGCHENG1: '供应商名称',
-    LK_GYSMCJT: '供应商名称/集团',
-    LK_GONGYINGSHANGPINGFEN: '供应商评分',
-    LK_GONGYINGSHANGPINGFENFUJIAN: '供应商评分附件',
-    LK_GONGYINGSHANGSHENGCHANCHANGDI: '供应商工厂地址',
-    LK_GUANBIRFQ: '关闭RFQ',
-    LK_HUIYIDIDIAN: '会议地点',
-    LK_HUIYIJIBENXINXI: '会议基本信息',
-    LK_HUIYIQITAXINXI: '会议其它信息',
-    LK_HUIYISHIJIAN: '会议时间',
-    LK_HUOBI: '货币',
-    LK_JICHUXINXI: '基础信息',
-    LK_JIHUORFQ: '激活RFQ',
-    LK_JISHUJIAOLIUHUI: '技术交底会',
-    LK_EP: '技术评分人',
-    LK_JIAGEMINGXI: '价格明细',
-    LK_JIAOFU: '交付',
-    LK_JIESHUBENLUNXUNJIA: '结束本轮询价',
-    LK_JIESHUXIANGMU: '结束项目',
-    LK_JINRIDAIBAN: '今日待办 ',
-    LK_JINDUJIANKONG: '进度监控',
-    LK_JUJUE: '拒绝',
-    LK_KAISHINIANFEN: '开始年份',
-    LK_LISHISHIYONGGAILÜ: '历史适用概率',
-    LK_LIRUMENJING: '例如：⻔禁申请步骤，其他备注信息等',
-    LK_LINGJIANCAIGOUXIANGMU: '零件采购项目',
-    LK_LINGJIANCAIGOUXIANGMUGUANLI: '零件采购项目管理',
-    LK_LINGJIANCAIGOUXIANGMULEIXING: '零件采购项目类型',
-    LK_LINGJIANCAIGOUXIANGMUZHUANPAI: '零件采购项目转派',
-    LK_LINGJIANCHANLIANG: '零件产量',
-    LK_LINGJIANCHANLIANGJIHUA: '零件产量计划',
-    LK_LINGJIANCHANLIANGJILU: '零件产量记录',
-    LK_LINGJIANHAO: '零件号',
-    LK_LINGJIANHAO_FSNR_RFQBIANHAO_CAIGOUYUAN: '零件号/FSNR/RFQ编号/采购员',
-    LK_LINGJIANHAODIERBUFEN: '零件号第二部分',
-    LK_LINGJIANHAODISANBUFEN: '零件号第三部分',
-    LK_LINGJIANHAODISIBUFEN: '零件号第四部分',
-    LK_LINGJIANHAODIWUBUFEN: '零件号第五部分',
-    LK_LINGJIANHAODIYIBUFEN: '零件号第一部分',
-    LK_LINGJIANJIAGONGCHENGDUDE: '零件加工程度(德)',
-    LK_LINGJIANJIAGONGCHENGDUYING: '零件加工程度(英)',
-    LK_LINGJIANJIAGONGCHENGDUZHONG: '零件加工程度(中)',
-    LK_LINGJIANJIAGONGCHENGDUDAIMA: '零件加工程度代码',
-    LK_LINGJIANLEIXING: '零件类型',
-    LK_LINGJIANLEIXINGDAIMA: '零件类型代码',
-    LK_LINGJIANMAOYISHUXINGDAIMA: '零件贸易属性代码',
-    LK_LINGJIANMAOYISHUXINGMIAOSHUDE: '零件贸易属性描述(德)',
-    LK_LINGJIANMAOYISHUXINGMIAOSHUYING: '零件贸易属性描述(英)',
-    LK_LINGJIANMAOYISHUXINGMIAOSHUZHONG: '零件贸易属性描述(中)',
-    LK_LINGJIANMEICHEYONGLIANG: '零件每车用量',
-    LK_LINGJIANMINGDE: '零件名（德）',
-    LK_LINGJIANMINGYING: '零件名（英）',
-    LK_LINGJIANMINGZHONG: '零件名（中）',
-    LK_LINGJIANMINGCHENG: '零件名称',
-    LK_LINGJIANMINGCHENGDE: '零件名称（德）',
-    LK_LINGJIANMINGCHENGZHONG: '零件名称（中）',
-    LK_LINGJIANPINGTAIXINGZHIDAIMA: '零件平台性质代码',
-    LK_LINGJIANPINGTAIXINGZHIMIAOSHUDE: '零件平台性质描述(德)',
-    LK_LINGJIANPINGTAIXINGZHIMIAOSHUYING: '零件平台性质描述(英)',
-    LK_LINGJIANPINGTAIXINGZHIMIAOSHUZHONG: '零件平台性质描述(中)',
-    LK_LINGJIANPINGFEN: '零件评分',
-    LK_LINGJIANQIANSHOU: '新件信息单',
-    LK_LINGJIANQINGDAN: '零件清单',
-    LK_LINGJIANSUOSHUCAILIAOZULINIEBUMEN: '零件所属材料组LINIE部门 ',
-    LK_LINGJIANSUOSHUCAILIAOZUDEWENMINGCHENG: '零件所属材料组德文名称 ',
-    LK_LINGJIANSUOSHUCAILIAOZUZHONGWENMINGCHENG: '零件所属材料组中文名称 ',
-    LK_LINGJIANSUOSHUGONGYIBIANHAO: '零件所属工艺编号',
-    LK_LINGJIANXIANGMULEIXING: '零件项目类型',
-    LK_LINGJIANYANYONGXINGZHIDAIMA: '零件沿用性质代码',
-    LK_LINGJIANYANYONGXINGZHIMIAOSHUDE: '零件沿用性质描述(德)',
-    LK_LINGJIANYANYONGXINGZHIMIAOSHUYING: '零件沿用性质描述(英)',
-    LK_LINGJIANYANYONGXINGZHIMIAOSHUZHONG: '零件沿用性质描述(中)',
-    LK_LINGJIANZHUANGTAI: '零件状态',
-    LK_LUNCILEIXING: '轮次类型',
-    LK_MAOZHONGKG: '毛重（KG）',
-    LK_MEICHEYONGLIANG: '每车用量',
-    LK_MEICHEYONGLIANGZHUANGTAI: '每车用量状态',
-    LK_MOJUYUSUANSHENQING: '模具预算申请',
-    LK_MUBIAOJIA: '目标价',
-    LK_MUBIAOJIAZHUANGTAI: 'F-Target',
-    LK_NIANFEN: '年份',
+      '公共UI组件展示界面，基于element的二次封装，当前element版本 ', //公共UI组件展示界面，基于element的二次封装，当前element版本
+    LK_GONGHUOFANGSHI: '供货方式', //供货方式
+    LK_GONGYINGSHANG360SHITU: '供应商360°视图', //供应商360°视图
+    LK_GONGYINGSHANGSAPHAO: '供应商SAP号', //供应商SAP号
+    LK_GONGYINGSHANGTIMELINE: '供应商timeline', //供应商timeline!
+    LK_GONGYINGSHANGCAILIAOZHUNBEI: '供应商材料准备', //供应商材料准备
+    LK_GONGYINGSHANGCHANPINGAIYAO: '供应商产品概要', //供应商产品概要!
+    LK_GONGYINGSHANGGONGSIJIESHAO: '供应商公司介绍', //供应商公司介绍!
+    LK_GONGYINGSHANGMING: '供应商名', //供应商名
+    LK_GONGYINGSHANGMINGCHENG1: '供应商名称', //供应商名称
+    LK_GYSMCJT: '供应商名称/集团', //供应商名称/集团
+    LK_GONGYINGSHANGPINGFEN: '供应商评分', //供应商评分
+    LK_GONGYINGSHANGPINGFENFUJIAN: '供应商评分附件', //供应商评分附件
+    LK_GONGYINGSHANGSHENGCHANCHANGDI: '供应商工厂地址', //供应商工厂地址
+    LK_GUANBIRFQ: '关闭RFQ', //关闭RFQ
+    LK_HUIYIDIDIAN: '会议地点', //会议地点
+    LK_HUIYIJIBENXINXI: '会议基本信息', //会议基本信息
+    LK_HUIYIQITAXINXI: '会议其它信息', //会议其它信息
+    LK_HUIYISHIJIAN: '会议时间', //会议时间
+    LK_HUOBI: '货币', //货币
+    LK_JICHUXINXI: '基础信息', //基础信息
+    LK_JIHUORFQ: '激活RFQ', //激活RFQ
+    LK_JISHUJIAOLIUHUI: '技术交底会', //技术交底会
+    LK_EP: '技术评分人', //技术评分人
+    LK_JIAGEMINGXI: '价格明细', //价格明细
+    LK_JIAOFU: '交付', //交付
+    LK_JIESHUBENLUNXUNJIA: '结束本轮询价', //结束本轮询价
+    LK_JIESHUXIANGMU: '结束项目', //结束项目
+    LK_JINRIDAIBAN: '今日待办 ', //今日待办
+    LK_JINDUJIANKONG: '进度监控', //进度监控
+    LK_JUJUE: '拒绝', //拒绝
+    LK_KAISHINIANFEN: '开始年份', //开始年份
+    LK_LISHISHIYONGGAILÜ: '历史适用概率', //历史适用概率
+    LK_LIRUMENJING: '例如：⻔禁申请步骤，其他备注信息等', //例如：⻔禁申请步骤，其他备注信息等
+    LK_LINGJIANCAIGOUXIANGMU: '零件采购项目', //零件采购项目
+    LK_LINGJIANCAIGOUXIANGMUGUANLI: '零件采购项目管理', //零件采购项目管理
+    LK_LINGJIANCAIGOUXIANGMULEIXING: '零件采购项目类型', //零件采购项目类型
+    LK_LINGJIANCAIGOUXIANGMUZHUANPAI: '零件采购项目转派', //零件采购项目转派
+    LK_LINGJIANCHANLIANG: '零件产量', //零件产量
+    LK_LINGJIANCHANLIANGJIHUA: '零件产量计划', //零件产量计划
+    LK_LINGJIANCHANLIANGJILU: '零件产量记录', //零件产量记录
+    LK_LINGJIANHAO: '零件号', //零件号
+    LK_LINGJIANHAO_FSNR_RFQBIANHAO_CAIGOUYUAN: '零件号/FSNR/RFQ编号/采购员', //零件号/FSNR/RFQ编号/采购员
+    LK_LINGJIANHAODIERBUFEN: '零件号第二部分', //零件号第二部分
+    LK_LINGJIANHAODISANBUFEN: '零件号第三部分', //零件号第三部分
+    LK_LINGJIANHAODISIBUFEN: '零件号第四部分', //零件号第四部分
+    LK_LINGJIANHAODIWUBUFEN: '零件号第五部分', //零件号第五部分
+    LK_LINGJIANHAODIYIBUFEN: '零件号第一部分', //零件号第一部分
+    LK_LINGJIANJIAGONGCHENGDUDE: '零件加工程度(德)', //零件加工程度(德)
+    LK_LINGJIANJIAGONGCHENGDUYING: '零件加工程度(英)', //零件加工程度(英)
+    LK_LINGJIANJIAGONGCHENGDUZHONG: '零件加工程度(中)', //零件加工程度(中)
+    LK_LINGJIANJIAGONGCHENGDUDAIMA: '零件加工程度代码', //零件加工程度代码
+    LK_LINGJIANLEIXING: '零件类型', //零件类型
+    LK_LINGJIANLEIXINGDAIMA: '零件类型代码', //零件类型代码
+    LK_LINGJIANMAOYISHUXINGDAIMA: '零件贸易属性代码', //零件贸易属性代码
+    LK_LINGJIANMAOYISHUXINGMIAOSHUDE: '零件贸易属性描述(德)', //零件贸易属性描述(德)
+    LK_LINGJIANMAOYISHUXINGMIAOSHUYING: '零件贸易属性描述(英)', //零件贸易属性描述(英)
+    LK_LINGJIANMAOYISHUXINGMIAOSHUZHONG: '零件贸易属性描述(中)', //零件贸易属性描述(中)
+    LK_LINGJIANMEICHEYONGLIANG: '零件每车用量', //零件每车用量
+    LK_LINGJIANMINGDE: '零件名（德）', //零件名（德）
+    LK_LINGJIANMINGYING: '零件名（英）', //零件名（英）
+    LK_LINGJIANMINGZHONG: '零件名（中）', //零件名（中）
+    LK_LINGJIANMINGCHENG: '零件名称', //零件名称
+    LK_LINGJIANMINGCHENGDE: '零件名称（德）', //零件名称（德）
+    LK_LINGJIANMINGCHENGZHONG: '零件名称（中）', //零件名称（中）
+    LK_LINGJIANPINGTAIXINGZHIDAIMA: '零件平台性质代码', //零件平台性质代码
+    LK_LINGJIANPINGTAIXINGZHIMIAOSHUDE: '零件平台性质描述(德)', //零件平台性质描述(德)
+    LK_LINGJIANPINGTAIXINGZHIMIAOSHUYING: '零件平台性质描述(英)', //零件平台性质描述(英)
+    LK_LINGJIANPINGTAIXINGZHIMIAOSHUZHONG: '零件平台性质描述(中)', //零件平台性质描述(中)
+    LK_LINGJIANPINGFEN: '零件评分', //零件评分
+    LK_LINGJIANQIANSHOU: '新件信息单', //零件签收
+    LK_LINGJIANQINGDAN: '零件清单', //零件清单
+    LK_LINGJIANSUOSHUCAILIAOZULINIEBUMEN: '零件所属材料组LINIE部门 ', //零件所属材料组LINIE部门
+    LK_LINGJIANSUOSHUCAILIAOZUDEWENMINGCHENG: '零件所属材料组德文名称 ', //零件所属材料组德文名称
+    LK_LINGJIANSUOSHUCAILIAOZUZHONGWENMINGCHENG: '零件所属材料组中文名称 ', //零件所属材料组中文名称
+    LK_LINGJIANSUOSHUGONGYIBIANHAO: '零件所属工艺编号', //零件所属工艺编号
+    LK_LINGJIANXIANGMULEIXING: '零件项目类型', //零件项目类型
+    LK_LINGJIANYANYONGXINGZHIDAIMA: '零件沿用性质代码', //零件沿用性质代码
+    LK_LINGJIANYANYONGXINGZHIMIAOSHUDE: '零件沿用性质描述(德)', //零件沿用性质描述(德)
+    LK_LINGJIANYANYONGXINGZHIMIAOSHUYING: '零件沿用性质描述(英)', //零件沿用性质描述(英)
+    LK_LINGJIANYANYONGXINGZHIMIAOSHUZHONG: '零件沿用性质描述(中)', //零件沿用性质描述(中)
+    LK_LINGJIANZHUANGTAI: '零件状态', //零件状态
+    LK_LUNCILEIXING: '轮次类型', //轮次类型
+    LK_MAOZHONGKG: '毛重（KG）', //毛重（KG）
+    LK_MEICHEYONGLIANG: '每车用量', //每车用量
+    LK_MEICHEYONGLIANGZHUANGTAI: '每车用量状态', //每车用量状态
+    LK_MOJUYUSUANSHENQING: '模具预算申请', //模具预算申请
+    LK_MUBIAOJIA: '目标价', //目标价
+    LK_MUBIAOJIAZHUANGTAI: 'F-Target', //目标价状态
+    LK_NIANFEN: '年份', //年份
     LK_NINSHIFOUQUERENDUIXINJIANXINXIDANJINHANGQIANSHOU:
-      '您是否确认对新件信息单进行签收？',
-    LK_PEIZHIBILI: '配置比例',
-    LK_PEIZHIBIANMA: '配置编码',
-    LK_PILIANGWEIHU: '批量维护',
-    LK_PILIANGWEIHULINGJIANCAIGOUXIANGMU: '批量维护零件采购项目',
-    LK_PINGFEN: '评分',
-    LK_PINGFENREN: '评分人',
-    LK_PUTONGLUNCI: '普通轮次',
-    LK_QIWANGMUBIAOJIA: '期望目标价',
-    LK_QITAPEIZHI: '其他配置',
-    LK_QITAXINXI: '其他信息',
-    LK_QIDONGXIANGMU: '启动项目',
-    LK_QIDONGXUNJIA: '启动询价',
-    LK_QIANSHOU: '签收',
-    LK_QIANSHOUQUEREN: '签收确认',
-    LK_QIANSHOURIQI: '签收日期',
-    LK_QIANDUANBAOZHUANGMINGCHENG: '前段包装名称 ',
-    LK_QINGSHURU: '请输入',
-    LK_QINGSHURUBEIZHU: '请输入备注',
-    LK_RFQPLEASEENTERQUERY: '请输入查询',
-    LK_QINGSHURUCHANXUANGONGYINGSHANGMINGCHENG: '请输入查询供应商名称',
+      '您是否确认对新件信息单进行签收？', //您是否确认对新件信息单进行签收？
+    LK_PEIZHIBILI: '配置比例', //配置比例
+    LK_PEIZHIBIANMA: '配置编码', //配置编码
+    LK_PILIANGWEIHU: '批量维护', //批量维护
+    LK_PILIANGWEIHULINGJIANCAIGOUXIANGMU: '批量维护零件采购项目', //批量维护零件采购项目
+    LK_PINGFEN: '评分', //评分
+    LK_PINGFENREN: '评分人', //评分人
+    LK_PUTONGLUNCI: '普通轮次', //普通轮次
+    LK_QIWANGMUBIAOJIA: '期望目标价', //期望目标价
+    LK_QITAPEIZHI: '其他配置', //其他配置
+    LK_QITAXINXI: '其他信息', //其他信息
+    LK_QIDONGXIANGMU: '启动项目', //启动项目
+    LK_QIDONGXUNJIA: '启动询价', //启动询价
+    LK_QIANSHOU: '签收', //签收
+    LK_QIANSHOUQUEREN: '签收确认', //签收确认
+    LK_QIANSHOURIQI: '签收日期', //签收日期
+    LK_QIANDUANBAOZHUANGMINGCHENG: '前段包装名称 ', //前段包装名称
+    LK_QINGSHURU: '请输入', //请输入
+    LK_QINGSHURUBEIZHU: '请输入备注', //请输入备注
+    LK_RFQPLEASEENTERQUERY: '请输入查询', //请输入查询
+    LK_QINGSHURUCHANXUANGONGYINGSHANGMINGCHENG: '请输入查询供应商名称', //请输入查询供应商名称
     LK_QINGSHURUCHAXUNGONGYINGSHANGMINGCHENGCHANGSHANG:
-      '请输入查询供应商名称,厂商...',
-    LK_QINGSHURULINGJIANHAO: '请输入零件号',
-    LK_QINGSHURULINGJIANMING: '请输入零件名（中）',
-    LK_QINGTIANJIAGONGYINGSHANG: '请添加供应商!',
-    LK_QINGTIANXIEGONGCHENGSHI: '请填写工程师',
-    LK_QINGTIANXIESHEJIKESHI: '请填写设计科室',
-    LK_QINGTIANXIEXINXIDANLIUSHUIHAO: '请填写信息单流水号',
-    LK_QINGXUANZE: '请选择',
-    LK_QINGXUANZHECHEXINGXIANGMU: '请选择车型项目',
-    LK_QINGXUANZHEXINXIFENLEI: '请选择信息分类',
-    LK_QINGXUANZHEXUYAODAOCHUBANBEN: '请选择需要导出的版本',
-    LK_QINGXUANZHEXUYAODAOCHUSHUJU: '请选择需要导出的数据',
-    LK_QINGXUANZHEYIGEXUYAOXIAZAIBANBEN: '请选择一个需要下载的版本',
-    LK_QUXIAO: '取 消',
-    LK_QUXIAOLINGJIANCAIGOUXIANGMU: '取消零件采购项目',
-    LK_QUXIAOYUANYIN: '取消原因',
-    LK_QUANBUBANBEN: '全部版本',
-    LK_QUEDING: '确定',
-    LK_QUEREN: '确认',
-    LK_RENKEZHOUQIZHOU: '认可周期（周）',
-    LK_RENWUZHONGXIN: '任务中心 ',
-    LK_RIZHI: '日志',
-    LK_RIHZICHAKAN: '日志查看',
-    LK_RIZHICHAKAN: '日志查看 ',
-    LK_RUCHANGBAOZHUANGMINGCHENG: '入场包装名称',
-    LK_RUKUBAOZHUANGMAOZHONG: '入库包装毛重（KG）',
-    LK_RUKUBAOZHUANGMAOZHONGKG: '入库包装毛重（KG）',
-    LK_RUKUJICHUNIANWEIXIUFEILV: '入库基础年维修费率',
-    LK_RUKUJICHUNIANWEIXIUFEILÜ: '入库基础年维修费率',
-    LK_RUKUQIJUFANCHENGSHEDIEBI: '入库器具返程折叠比 ',
-    LK_RUKUQIJUKUAN: '入库器具宽（mm） ',
-    LK_RUKUQIJUKUANMM: '入库器具宽（mm） ',
-    LK_RUKUQIJULEIXING: '入库器具类型',
-    LK_RUKUQIJUSHOUMING: '入库器具寿命',
-    LK_RUKUQIJUXINGHAO: '入库器具型号',
-    LK_RUKUQIJUCHANG: '入库器具长（mm）',
-    LK_RUKUQIJUZHANGMM: '入库器具长（mm）',
-    LK_RUKUQIJUZHUANGXIANGSHU: '入库器具装箱数',
-    LK_RUKUQIJUZHONGHEDANJIA: '入库器具综合单价',
-    LK_RUKUQIJUZHONGHEDANJIARMB: '入库器具综合单价（RMB）',
-    LK_RUKUQIJUZUJINRMBDAY: '入库器具租金（RMB/DAY）',
-    LK_RUKUQIJUZONGHEDANJIA: '入库器具综合单价 ',
-    LK_SEBIAOHAO: '色标号',
-    LK_SHANCHU: '删除',
-    LK_SHANCHUGONGYINGSHANG: '删除供应商',
-    LK_SHANGCHUANFUJIAN: '上传附件',
-    LK_SHANGCHUANREN: '上传人',
-    LK_SHANGCHUANRIQI: '上传日期',
-    LK_SHANGQIDAZHONGYUANQU: '上汽⼤众园区303室',
-    LK_SHANGYIYE: '上一页',
-    LK_SHEJIGONGCHENGSHIGONGHAO: '设计工程师工号 ',
-    LK_SHEJIGONGCHENGSHIHAO: '设计工程师号',
-    LK_SHEJIGONGCHENGSHIXINGMING: '设计工程师姓名',
-    LK_SHEJIKESHI: '设计科室',
-    LK_SHEZHIGONGYIZU: '设置工艺组',
-    LK_SHENQING: '申请',
-    LK_SHENQINGRWJIA: '申请RW价',
-    LK_SHENQINGBEIZHU: '申请备注',
-    LK_SHENQINGCAIWUMUBIAOJIA: '申请财务目标价',
-    LK_SHENQINGLEIBIE: '申请类别',
-    LK_SHENQINGLEIXING: '申请类型',
-    LK_SHENQINGMUBIAOJIA: '申请目标价',
-    LK_SHENQINGRIQI: '申请日期',
-    LK_SHENQINGYUANYIN: '申请原因',
-    LK_SHENQINGZHUANGTAI: '申请状态',
-    LK_SHENDUGUOCHANHUABEIZHU: '深度国产化备注',
-    LK_SHENDUGUOCHANHUADAIMA: '深度国产化代码',
-    LK_SHENPIYIJIAN: '审批意见',
-    LK_SHENPIZHUANGTAI: '审批状态',
-    LK_SHENGCHENGFS_GSNR: '生成FS/GS/SP NO.',
-    LK_SHENGCHENGFSHAO: '生成FS号',
-    LK_SHIJIANJIHUA: '时间计划',
-    LK_SHIFOUERCIJIAN: '是否二次件',
-    LK_SHIFOUJIARUYIYOURFQ: '是否加入已有RFQ',
-    LK_CONFIRM_SIGN_RECORD_TIPS: '是否确认对新件信息单进行签收？',
-    LK_SHIFOUQUERENSHANCHU: '是否确认删除?',
-    LK_SHIFOUSHENDUGUOCHANHUA: '是否深度国产化',
-    LK_SHIFOUYANZHENGCBD: '是否验证CBD',
-    LK_SHIFOUZUHEXINJIANRFQ: '是否组合新建RFQ',
-    LK_ENTER_SEARCH_SUPPLIER_NAME_FACOTRY: '输入查询供应商名称、厂商类型...',
-    LK_SUOXUANBANBENWUFUJIAN: '所选版本无附件',
-    LK_TANPANZHUSHOU: '谈判助手',
-    LK_TESHULINGJIANLEIXING: '特殊零件类型',
-    LK_TESHUYAOQIU: '特殊要求',
-    LK_TIJIAO: '提交',
-    LK_TIANJIA: '添加',
-    LK_TIANJIAGONGYINGSHANG: '添加供应商',
-    LK_TIANJIAZIDINGYIPINGFENXIANG: '添加自定义评分项',
-    LK_TONGZHIQUANBUGONGYINGSHANG: '通知全部供应商',
-    LK_TONGZHIYIBAOJIAGONGYINGSHANG: '通知已报价供应商',
-    LK_TOUZIYUSUAN: '投资预算',
-    LK_TUZHI: '图纸',
-    LK_TUZHIHETPXIANGQINGYE: '图纸和TP详情页 ',
-    LK_TUZHIHETPDANXIANGQING: '图纸和信息单详情',
-    LK_TUZHIRIQI: '图纸日期',
-    LK_TUISONGSHIJIAN: '推送时间',
-    LK_TUICHUDENGLU: '退出登录',
+      '请输入查询供应商名称,厂商...', //请输入查询供应商名称,厂商...
+    LK_QINGSHURULINGJIANHAO: '请输入零件号', //请输入零件号
+    LK_QINGSHURULINGJIANMING: '请输入零件名（中）', //请输入零件名（中）
+    LK_QINGTIANJIAGONGYINGSHANG: '请添加供应商!', //请添加供应商!
+    LK_QINGTIANXIEGONGCHENGSHI: '请填写工程师', //请填写工程师
+    LK_QINGTIANXIESHEJIKESHI: '请填写设计科室', //请填写设计科室
+    LK_QINGTIANXIEXINXIDANLIUSHUIHAO: '请填写信息单流水号', //请填写信息单流水号
+    LK_QINGXUANZE: '请选择', //请选择
+    LK_QINGXUANZHECHEXINGXIANGMU: '请选择车型项目', //请选择车型项目
+    LK_QINGXUANZHEXINXIFENLEI: '请选择信息分类', //请选择信息分类
+    LK_QINGXUANZHEXUYAODAOCHUBANBEN: '请选择需要导出的版本', //请选择需要导出的版本
+    LK_QINGXUANZHEXUYAODAOCHUSHUJU: '请选择需要导出的数据', //请选择需要导出的数据
+    LK_QINGXUANZHEYIGEXUYAOXIAZAIBANBEN: '请选择一个需要下载的版本', //请选择一个需要下载的版本
+    LK_QUXIAO: '取 消', //取消
+    LK_QUXIAOLINGJIANCAIGOUXIANGMU: '取消零件采购项目', //取消零件采购项目
+    LK_QUXIAOYUANYIN: '取消原因', //取消原因
+    LK_QUANBUBANBEN: '全部版本', //全部版本
+    LK_QUEDING: '确定', //确定
+    LK_QUEREN: '确认', //确认
+    LK_RENKEZHOUQIZHOU: '认可周期（周）', //认可周期（周）
+    LK_RENWUZHONGXIN: '任务中心 ', //任务中心
+    LK_RIZHI: '日志', //日志
+    LK_RIHZICHAKAN: '日志查看', //日志查看
+    LK_RIZHICHAKAN: '日志查看 ', //日志查看
+    LK_RUCHANGBAOZHUANGMINGCHENG: '入场包装名称', //入场包装名称
+    LK_RUKUBAOZHUANGMAOZHONG: '入库包装毛重（KG）', //入库包装毛重（KG）
+    LK_RUKUBAOZHUANGMAOZHONGKG: '入库包装毛重（KG）', //入库包装毛重（KG）
+    LK_RUKUJICHUNIANWEIXIUFEILV: '入库基础年维修费率', //入库基础年维修费率
+    LK_RUKUJICHUNIANWEIXIUFEILÜ: '入库基础年维修费率', //入库基础年维修费率
+    LK_RUKUQIJUFANCHENGSHEDIEBI: '入库器具返程折叠比 ', //入库器具返程折叠比
+    LK_RUKUQIJUKUAN: '入库器具宽（mm） ', //入库器具宽（mm）
+    LK_RUKUQIJUKUANMM: '入库器具宽（mm） ', //入库器具宽（mm）
+    LK_RUKUQIJULEIXING: '入库器具类型', //入库器具类型
+    LK_RUKUQIJUSHOUMING: '入库器具寿命', //入库器具寿命
+    LK_RUKUQIJUXINGHAO: '入库器具型号', //入库器具型号
+    LK_RUKUQIJUCHANG: '入库器具长（mm）', //入库器具长（mm）
+    LK_RUKUQIJUZHANGMM: '入库器具长（mm）', //入库器具长（mm）
+    LK_RUKUQIJUZHUANGXIANGSHU: '入库器具装箱数', //入库器具装箱数
+    LK_RUKUQIJUZHONGHEDANJIA: '入库器具综合单价', //入库器具综合单价
+    LK_RUKUQIJUZHONGHEDANJIARMB: '入库器具综合单价（RMB）', //入库器具综合单价
+    LK_RUKUQIJUZUJINRMBDAY: '入库器具租金（RMB/DAY）', //入库器具综合单价
+    LK_RUKUQIJUZONGHEDANJIA: '入库器具综合单价 ', //入库器具综合单价
+    LK_SEBIAOHAO: '色标号', //色标号
+    LK_SHANCHU: '删除', //删除
+    LK_SHANCHUGONGYINGSHANG: '删除供应商', //删除供应商
+    LK_SHANGCHUANFUJIAN: '上传附件', //上传附件
+    LK_SHANGCHUANREN: '上传人', //上传人
+    LK_SHANGCHUANRIQI: '上传日期', //上传日期
+    LK_SHANGQIDAZHONGYUANQU: '上汽⼤众园区303室', //上汽⼤众园区303室!
+    LK_SHANGYIYE: '上一页', //上一页
+    LK_SHEJIGONGCHENGSHIGONGHAO: '设计工程师工号 ', //设计工程师工号
+    LK_SHEJIGONGCHENGSHIHAO: '设计工程师号', //设计工程师号
+    LK_SHEJIGONGCHENGSHIXINGMING: '设计工程师姓名', //设计工程师姓名
+    LK_SHEJIKESHI: '设计科室', //设计科室
+    LK_SHEZHIGONGYIZU: '设置工艺组', //设置工艺组
+    LK_SHENQING: '申请', //申请
+    LK_SHENQINGRWJIA: '申请RW价', //申请RW价
+    LK_SHENQINGBEIZHU: '申请备注', //申请备注
+    LK_SHENQINGCAIWUMUBIAOJIA: '申请财务目标价', //申请财务目标价
+    LK_SHENQINGLEIBIE: '申请类别', //申请类别
+    LK_SHENQINGLEIXING: '申请类型', //申请类型
+    LK_SHENQINGMUBIAOJIA: '申请目标价', //申请目标价
+    LK_SHENQINGRIQI: '申请日期', //申请日期
+    LK_SHENQINGYUANYIN: '申请原因', //申请原因
+    LK_SHENQINGZHUANGTAI: '申请状态', //申请状态
+    LK_SHENDUGUOCHANHUABEIZHU: '深度国产化备注', //深度国产化备注
+    LK_SHENDUGUOCHANHUADAIMA: '深度国产化代码', //深度国产化代码
+    LK_SHENPIYIJIAN: '审批意见', //审批意见
+    LK_SHENPIZHUANGTAI: '审批状态', //审批状态
+    LK_SHENGCHENGFS_GSNR: '生成FS/GS/SP NO.', //生成FS/GSNR
+    LK_SHENGCHENGFSHAO: '生成FS号', //生成FS号
+    LK_SHIJIANJIHUA: '时间计划', //时间计划
+    LK_SHIFOUERCIJIAN: '是否二次件', //是否二次件
+    LK_SHIFOUJIARUYIYOURFQ: '是否加入已有RFQ', //是否加入已有RFQ
+    LK_CONFIRM_SIGN_RECORD_TIPS: '是否确认对新件信息单进行签收？', //是否确认对新件信息单进行签收？
+    LK_SHIFOUQUERENSHANCHU: '是否确认删除?', //是否确认删除?
+    LK_SHIFOUSHENDUGUOCHANHUA: '是否深度国产化', //是否深度国产化
+    LK_SHIFOUYANZHENGCBD: '是否验证CBD', //是否验证CBD
+    LK_SHIFOUZUHEXINJIANRFQ: '是否组合新建RFQ', //是否组合新建RFQ
+    LK_ENTER_SEARCH_SUPPLIER_NAME_FACOTRY: '输入查询供应商名称、厂商类型...', //输入查询供应商名称、厂商类型...
+    LK_SUOXUANBANBENWUFUJIAN: '所选版本无附件', //所选版本无附件
+    LK_TANPANZHUSHOU: '谈判助手', //谈判助手
+    LK_TESHULINGJIANLEIXING: '特殊零件类型', //特殊零件类型
+    LK_TESHUYAOQIU: '特殊要求', //特殊要求
+    LK_TIJIAO: '提交', //提交
+    LK_TIANJIA: '添加', //添加
+    LK_TIANJIAGONGYINGSHANG: '添加供应商', //添加供应商
+    LK_TIANJIAZIDINGYIPINGFENXIANG: '添加自定义评分项', //添加自定义评分项
+    LK_TONGZHIQUANBUGONGYINGSHANG: '通知全部供应商', //通知全部供应商
+    LK_TONGZHIYIBAOJIAGONGYINGSHANG: '通知已报价供应商', //通知已报价供应商
+    LK_TOUZIYUSUAN: '投资预算', //投资预算
+    LK_TUZHI: '图纸', //图纸
+    LK_TUZHIHETPXIANGQINGYE: '图纸和TP详情页 ', //图纸和TP详情页
+    LK_TUZHIHETPDANXIANGQING: '图纸和信息单详情', //图纸和信息单详情
+    LK_TUZHIRIQI: '图纸日期', //图纸日期
+    LK_TUISONGSHIJIAN: '推送时间', //推送时间
+    LK_TUICHUDENGLU: '退出登录', //退出登录!
     LK_PROFILE: '个人信息',
-    LK_TUIHUI: '退回',
-    LK_TUIHUIYUANYIN: '退回原因',
-    LK_WAIBUKAIFAFEIYUAN: '外部开发费（元）',
-    LK_WEIHU: '维护',
-    LK_WEIHUREN: '维护人',
-    LK_WENXINTISHI: '温馨提示',
-    LK_WENJIANDAXIAOMB: '文件大小（MB）',
-    LK_WENJIANMING: '文件名',
-    LK_WENJIANMINGCHENG: '文件名称',
-    LK_WULIUBIAOZHUN: '物流标准',
-    LK_PL: '物流审核人',
-    LK_WULIUYAOQIU: '物流要求',
-    LK_XIAYIYE: '下一页',
-    LK_XIAZAI: '下载',
-    LK_XIANGGUANCHEXING: '相关车型',
-    LK_XIANGNEIZHOUZHUANCAILIAOZONGHEJIAGE: '箱内周转材料综合价格 ',
-    LK_XIANGNEIZHOUZHUANCAILIAOZONGHESHOUMING: '箱内周转材料综合寿命 ',
-    LK_XIANGQINGXINXI: '详情信息',
-    LK_XIANGMUCHEXING: '项目车型 ',
-    LK_XINJIANXINXIDANQIANSHOU: '新件信息单签收',
-    LK_XINJIANXINXILIUSHUIDANHAO: '新件信息流水单号 ',
-    LK_XINJIANRFQ: '新建RFQ',
-    LK_XINJIANRFQLUNCI: '新建RFQ轮次',
-    LK_XINJIANXINXIDANBEIZHU: '新建信息单备注',
-    LK_XINJIANXINXIDANLIUSHUIHAO: '新件信息单流水号',
-    LK_XINSHENQINGCAIWUMUBIAOJIA: '新申请财务目标价',
-    LK_XINXIDANFENLEI: '信息单分类',
-    LK_XINXIDANLEIXING: '信息单类型',
-    LK_XINXIDANLIUSHUIHAO: '信息单流水号',
-    LK_XINXIDANSHENGCHENGSHIJIAN: '信息单生成时间',
-    LK_XINXIDANXIANGQING: '信息单详情',
-    LK_XINXIDANZHUANGTAI: '信息单状态',
-    LK_XINXILIUSHUIDANHAO: '信息流水单号',
-    LK_XUANZHUANGJIAN: '选装件',
-    LK_XUNYUANZHIHANG: '寻源',
-    LK_XUNJIACAIGOUYUAN: '询价采购员',
-    LK_XUNJIACAIGOUYUANBEIZHU: '询价采购员备注',
-    LK_XUNJIACHANLIANGJIHUA: '询价产量计划',
-    LK_XUNJIAFUJIAN: '询价附件',
-    LK_XUNJIATUZHI: '询价图纸 ',
-    LK_XUNJIAZILIAO: '询价资料',
-    LK_XUNJIAZILIAOZHUANGTAI: '询价资料状态',
-    LK_YANYONGCHEXINGDALEIDAIMA: '沿用车型大类代码',
-    LK_YAOQIUCSCHUIYIRIQI: '要求CSC会议日期',
-    LK_YIBAOCUN: '已保存',
-    LK_YIBAOJIAGONGYINGSHANG: '已报价供应商',
-    LK_YITIANJIADAOSHANGXIAN: '已添加到上限',
-    LK_YIXUNJIACAIGOUYUANSHANGHUIBEIZHU: '询价采购员上会备注',
-    LK_YIXUNJIAGONGYINGSHANG: '已询价供应商',
-    LK_YONGLIANG: '用量',
-    LK_YUQIDAIBAN: '逾期待办 ',
-    LK_YUANPEICHANG: '原配厂',
-    LK_ZAISHENQINGCAIWUMUBIAOJIA: '再申请财务目标价',
-    LK_ZAICISHENGQINGCAIWUMUBIAOJIA: '再申请财务目标价',
-    LK_ZAIXINSHENQINGCAIWUMUBIAOJIA: '再新申请财务目标价 ',
-    LK_ZAIXIANJINGJIA: '在线竞价',
-    LK_ZANWUSHUJU: '暂无数据',
-    LK_ZENGJIADERENKEFEIYUAN: '增加的认可费（元）',
-    LK_ZHIFUTIAOKUAN: '支付条款',
-    LK_ZHINENGSHANGCHUANWENJIAN: '只能上传.xlsx文件',
-    LK_ZHILIANG: '质量',
-    LK_MQ: '质量评分人',
-    LK_ZHONGLIANG: '重量',
-    LK_ZHONGXINSHENQING: '重新申请',
-    LK_ZHONGZHI: '重置',
-    LK_ZHUANPAI: '转派',
-    LK_ZHUANPAIPINGFENRENWU: '转派评分任务',
-    LK_ZHUANTANPAN: '转谈判',
-    LK_ZHUANXUNJIA: '转询价',
-    LK_ZHUANGXIANGSHU: '装箱数',
-    LK_ZHUANGTAI: '状态',
-    LK_ZUIXINRWJIA: '最新RW价',
-    LK_ZUIXINFANHUIRIQI: '最新返回日期',
-    LK_ZUIXINSHENQINGRIQI: '最新申请日期',
-    LK_ZUIXINSHENQINGZHUANGTAI: '最新申请状态',
-    LK_SHEZHIPINGFENBUMEN: '设置评分部门',
-    LK_TUISONGPINGFENRENWU: '推送评分任务',
-    LK_GONGYISHEZHI: '工艺设置',
-    LK_CAILIAOZUSHAIXUAN: '材料组筛选',
-    LK_GONGYIZUXUANDING: '工艺组选定',
-    LK_GONGYIZU: '工艺组',
+    LK_TUIHUI: '退回', //退回
+    LK_TUIHUIYUANYIN: '退回原因', //退回原因
+    LK_WAIBUKAIFAFEIYUAN: '外部开发费（元）', //外部开发费（元）
+    LK_WEIHU: '维护', //维护
+    LK_WEIHUREN: '维护人', //维护人
+    LK_WENXINTISHI: '温馨提示', //温馨提示
+    LK_WENJIANDAXIAOMB: '文件大小（MB）', //文件大小（MB）
+    LK_WENJIANMING: '文件名', //文件名
+    LK_WENJIANMINGCHENG: '文件名称', //文件名称
+    LK_WULIUBIAOZHUN: '物流标准', //物流标准
+    LK_PL: '物流审核人', //物流审核人
+    LK_WULIUYAOQIU: '物流要求', //物流要求
+    LK_XIAYIYE: '下一页', //下一页
+    LK_XIAZAI: '下载', //下载
+    LK_XIANGGUANCHEXING: '相关车型', //相关车型
+    LK_XIANGNEIZHOUZHUANCAILIAOZONGHEJIAGE: '箱内周转材料综合价格 ', //箱内周转材料综合价格
+    LK_XIANGNEIZHOUZHUANCAILIAOZONGHESHOUMING: '箱内周转材料综合寿命 ', //箱内周转材料综合寿命
+    LK_XIANGQINGXINXI: '详情信息', //详情信息
+    LK_XIANGMUCHEXING: '项目车型 ', //项目车型
+    LK_XINJIANXINXIDANQIANSHOU: '新件信息单签收', //新件信息单签收
+    LK_XINJIANXINXILIUSHUIDANHAO: '新件信息流水单号 ', //新件信息流水单号
+    LK_XINJIANRFQ: '新建RFQ', //新建RFQ
+    LK_XINJIANRFQLUNCI: '新建RFQ轮次', //新建RFQ轮次
+    LK_XINJIANXINXIDANBEIZHU: '新建信息单备注', //新建信息单备注
+    LK_XINJIANXINXIDANLIUSHUIHAO: '新件信息单流水号', //新建信息单流水号
+    LK_XINSHENQINGCAIWUMUBIAOJIA: '新申请财务目标价', //新申请财务目标价
+    LK_XINXIDANFENLEI: '信息单分类', //信息单分类
+    LK_XINXIDANLEIXING: '信息单类型', //信息单类型
+    LK_XINXIDANLIUSHUIHAO: '信息单流水号', //信息单流水号
+    LK_XINXIDANSHENGCHENGSHIJIAN: '信息单生成时间', //信息单生成时间
+    LK_XINXIDANXIANGQING: '信息单详情', //信息单详情
+    LK_XINXIDANZHUANGTAI: '信息单状态', //信息单状态
+    LK_XINXILIUSHUIDANHAO: '信息流水单号', //信息流水单号
+    LK_XUANZHUANGJIAN: '选装件', //选装件
+    LK_XUNYUANZHIHANG: '寻源', //寻源执行
+    LK_XUNJIACAIGOUYUAN: '询价采购员', //询价采购员
+    LK_XUNJIACAIGOUYUANBEIZHU: '询价采购员备注', //询价采购员备注
+    LK_XUNJIACHANLIANGJIHUA: '询价产量计划', //询价产量计划
+    LK_XUNJIAFUJIAN: '询价附件', //询价附件
+    LK_XUNJIATUZHI: '询价图纸 ', //询价图纸
+    LK_XUNJIAZILIAO: '询价资料', //询价资料
+    LK_XUNJIAZILIAOZHUANGTAI: '询价资料状态', //询价资料状态
+    LK_YANYONGCHEXINGDALEIDAIMA: '沿用车型大类代码', //沿用车型大类代码
+    LK_YAOQIUCSCHUIYIRIQI: '要求CSC会议日期', //要求CSC会议日期
+    LK_YIBAOCUN: '已保存', //已保存!
+    LK_YIBAOJIAGONGYINGSHANG: '已报价供应商', //已报价供应商
+    LK_YITIANJIADAOSHANGXIAN: '已添加到上限', //已添加到上限!
+    LK_YIXUNJIACAIGOUYUANSHANGHUIBEIZHU: '询价采购员上会备注', //已询价采购员上会备注
+    LK_YIXUNJIAGONGYINGSHANG: '已询价供应商', //已询价供应商
+    LK_YONGLIANG: '用量', //用量
+    LK_YUQIDAIBAN: '逾期待办 ', //逾期待办
+    LK_YUANPEICHANG: '原配厂', //原配厂
+    LK_ZAISHENQINGCAIWUMUBIAOJIA: '再申请财务目标价', //再申请财务目标价
+    LK_ZAICISHENGQINGCAIWUMUBIAOJIA: '再申请财务目标价', //再新申请财务目标价
+    LK_ZAIXINSHENQINGCAIWUMUBIAOJIA: '再新申请财务目标价 ', //再新申请财务目标价
+    LK_ZAIXIANJINGJIA: '在线竞价', //在线竞价
+    LK_ZANWUSHUJU: '暂无数据', //暂无数据
+    LK_ZENGJIADERENKEFEIYUAN: '增加的认可费（元）', //增加的认可费（元）
+    LK_ZHIFUTIAOKUAN: '支付条款', //支付条款
+    LK_ZHINENGSHANGCHUANWENJIAN: '只能上传.xlsx文件', //只能上传.xlsx文件
+    LK_ZHILIANG: '质量', //质量
+    LK_MQ: '质量评分人', //质量评分人
+    LK_ZHONGLIANG: '重量', //重量
+    LK_ZHONGXINSHENQING: '重新申请', //重新申请
+    LK_ZHONGZHI: '重置', //重置
+    LK_ZHUANPAI: '转派', //转派
+    LK_ZHUANPAIPINGFENRENWU: '转派评分任务', //转派评分任务
+    LK_ZHUANTANPAN: '转谈判', //转谈判
+    LK_ZHUANXUNJIA: '转询价', //转询价
+    LK_ZHUANGXIANGSHU: '装箱数', //装箱数
+    LK_ZHUANGTAI: '状态', //状态
+    LK_ZUIXINRWJIA: '最新RW价', //最新RW价
+    LK_ZUIXINFANHUIRIQI: '最新返回日期', //最新返回日期
+    LK_ZUIXINSHENQINGRIQI: '最新申请日期', //最新申请日期
+    LK_ZUIXINSHENQINGZHUANGTAI: '最新申请状态', //最新申请状态
+    LK_SHEZHIPINGFENBUMEN: '设置评分部门', //设置评分部门
+    LK_TUISONGPINGFENRENWU: '推送评分任务', //推送评分任务
+    LK_GONGYISHEZHI: '工艺设置', //工艺设置
+    LK_CAILIAOZUSHAIXUAN: '材料组筛选', //材料组筛选
+    LK_GONGYIZUXUANDING: '工艺组选定', //工艺组选定
+    LK_GONGYIZU: '工艺组', //工艺组
     LK_CHAIFENFACTORY: '选中的工厂中,存在未分配的份额，请填写后重试！',
     LK_FACTORYNOTSAME:
       '您所选的采购工厂与主数据中该车型项目对应的采购工厂不一致，请确认是否修改',
     LK_AREYOUSPLITE: '该车型项目主数据中对应多个采购工厂，是否拆分？',
-    LK_XIETIAOREN: '协调人',
-    LK_XINZENG: '新增',
-    LK_HUIFU: '恢复',
-    LK_QINGXUANZEXUYAOSHANCHUDEPINGFENBUMEN: '请选择需要删除的评分部门',
-    LK_QINGXUANZEXUYAOHUIFUDEPINGFENBUMEN: '请选择需要恢复的评分部门',
-    LK_QINGXUANZEWANSHUJUZAIZUOBAOCUN: '请选择完数据再做保存',
-    LK_WEIBUXITONGWENJIANWUFASHANCHU: '为外部系统文件，无法删除',
+    LK_XIETIAOREN: '协调人', //协调人
+    LK_XINZENG: '新增', //新增
+    LK_HUIFU: '恢复', //恢复
+    LK_QINGXUANZEXUYAOSHANCHUDEPINGFENBUMEN: '请选择需要删除的评分部门', //请选择需要删除的评分部门
+    LK_QINGXUANZEXUYAOHUIFUDEPINGFENBUMEN: '请选择需要恢复的评分部门', //请选择需要恢复的评分部门
+    LK_QINGXUANZEWANSHUJUZAIZUOBAOCUN: '请选择完数据再做保存', //请选择完数据再做保存
+    LK_WEIBUXITONGWENJIANWUFASHANCHU: '为外部系统文件，无法删除', // xxx 为外部系统文件, 无法删除
+
     LOG: {
       APPLICATION_NO: '申请单号',
       APPLICATION_NAME: '申请单名',
@@ -777,269 +797,302 @@
         TABLE_ORG_OWNER: '负责人'
       }
     },
-    GONGHUOSHUXING: '供货属性',
-    ZHUCEDIZHIYOUBIAN: '注册地址邮编',
-    KAIHUYINHANG: '开户银行',
-    YINGHANSUOZAISHENGFEN: '银行所在省份',
+    // ---------------WS3 供应商 start---------------------
+    GONGHUOSHUXING: '供货属性', //供货属性
+    ZHUCEDIZHIYOUBIAN: '注册地址邮编', //注册地址邮编
+    KAIHUYINHANG: '开户银行', //开户银行
+    YINGHANSUOZAISHENGFEN: '银行所在省份', //银行所在省份
     QDLYBJHJRXKZCXY_YINGHANGMINCHEN:
-      '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr ），查询开户银行具体的银行名称',
+      '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr ），查询开户银行具体的银行名称', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr ），查询开户银行具体的银行名称
     QDLYBJHJRXKZCXY_YINGHANGDAIMA:
-      '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码',
-    GONGSIGAIKANG: '公司概况',
-    Home: '首页',
-    BasicInformation: '基本信息',
-    SupplierZh: '供应商中文名',
-    SupplierEn: '供应商英文名',
-    SupplierAbbreviationZh: '供应商简称（中）',
-    SupplierAbbreviationEn: '供应商简称（英）',
-    UnifySocialCreditCode: '统一社会信用代码',
-    LegalPerson: '法定代表人',
-    EnterpriseType: '企业类型',
-    Industry: '所属行业',
-    IsListing: '是否上市',
-    country: '国家',
-    companyAddress: '注册地址',
-    financialStatus: '财务状况',
-    companySize: '企业规模',
-    epNatureCategory: '企业性质（大类）',
-    industryCode: '行业代码',
-    listingAddress: '上市地点',
-    registeredDate: '注册日期',
-    province: '省市',
-    ZHUCEDIZHIBIANMA: '注册地址编码',
-    CAIWUQUSHI: '财务趋势',
-    QIYEXINGZHI: '企业性质（小类）',
-    YEWUFANWEI: '业务范围',
-    GUPIAODAIMA: '股票代码',
-    CHENGSHI: '城市',
-    GONGSHIWANGZHI: '公司网址',
-    FUKUANGJILV: '付款记录',
-    JINGYINGZHUANGTAI: '经营状态',
-    JINGYINGFANWEI: '经营范围',
-    JINGYINGQIXIAN: '经营期限',
-    JINGYINGCHANSUOSUOYOUXINGSHI: '经营场所所有形式',
-    JINGYINGCHANGSUOWEIZHI: '经营场所位置',
-    YINHANGSUOZAIGUOJIA: '银行所在国家',
-    YINHANGMINCHENG: '银行名称',
-    SHUIWUDAIMA: '税务代码',
-    YINGHANGSUOZAICHENGSHI: '银行所在省市',
-    YINHANGDAIMA: '银行代码',
-    YINHANGSUOZAICHENGSHI: '银行所在城市/区',
-    GONGHUOZHUANGTAI: '供货状态',
-    YINHANGZHANGHAO: '银行账号',
-    SHIFOUZAIGONG: '是否在供',
-    GONGHUO1: '供应商状态',
-    GYSSF: '供应商身份',
-    SHIFOUYELEIGONGCHANG: '是否业内工厂',
-    SHIFOUANQUANJIAN: '是否安全件',
-    GONGHUOLINGJIANLEIXING: '供货零件类型',
-    SHIFOULISHUHUOYU: '是否隶属华域',
-    SHIFOUGONGONGGONGYINGSHANG: '是否共用供应商',
-    GONGHUOLEIXING: '供货类型',
-    LEIBUPINGJIA: '内部评价',
-    FUZEKESHI: '负责科室',
-    XIANGGUANZHUANYEKESHI: '相关专业科室',
-    JISHUBUMENPINGJIA: '技术部门评价',
-    WULIUBUMENPINGJIA: '物流部门评价',
-    ZHILIANGBUMENPINGJIA: '质量部门评价',
-    FANHUIGONGYINSHANG360: '返回供应商360',
-    BANGENGSHIJIAN: '变更时间',
-    BANGENLEIRONG: '变更内容',
-    BANGENGQIAN: '变更前',
-    BIANGENGHOU: '变更后',
-    BIANGENGCHAKAN: '变更查看',
-    GUDONGBANGENGQIAN: '股东变更前',
-    GUDONGBIANGENGHOU: '股东变更后',
-    QIYEYANGEMIAOSHU: '企业沿革描述',
-    XINGONGYINGSHANGPINGJIJIEGUO: '新供应商评级结果',
-    XINGONGYINGSHANGPINGJISHIJIAN: '新供应商评级时间',
-    WAIBUPINGJI: '外部评级',
-    SHIFOULISHUSHANGTANAGONGTONGTI: '是否隶属桑塔纳共同体',
-    WAIBUPINGJIESHIJIAN: '外部评级时间',
-    CHUBUTIAOZHENGHOUDEFEN: '初评调整后得分',
-    CHUPINGTIAOZHENGHOUJIEGUO: '初评调整后结果',
-    CHUPINGSHIJIAN: '初评时间',
-    SHENGRUPINGJIJIEGUO: '深入评级结果',
-    SHENGRUPINGJISHIJIAN: '深入评级时间',
-    VWAGPINGJIJIEGUO: 'VWAG评级结果',
-    VWAGPINGJISHIJIAN: 'VWAG评级时间',
-    GONGCHANGBIANHAO: '工厂编号',
-    GONGCHANGMINGCHEN: '工厂名称',
-    GONGCHANGJIANCHEN: '工厂简称',
-    SHENGFEN: '省份',
-    DIZHI: '地址',
-    YOUBIAN: '邮编',
-    YINGHANGMINCHENG: '银行名称',
-    SHOUQUANJINE: '授信金额（元）',
-    YISHIYONGJINGE: '已使用金额（元）',
-    SHOUXINRIQIZHI: '授信日期止',
-    DIYAZHIYADANBAO: '抵押/质押/担保',
-    LILV: '利率（%）',
-    HUANKUANGJIHUA: '还款计划',
-    SHOUXINYINHANGXINXIBUCONGSHUOMING: '授信银行信息补充说明：',
-    GUDONGMINCHEN: '股东名称',
-    GUOJIA_DIQU: '国家/地区',
-    CHUZIE: '出资额',
-    BIZHONG: '币种',
-    ZHIGUBILI: '持股比例（%）',
-    ZHUYINYEWU: '主营业务',
-    HANGYEGUISHU: '行业归属',
-    FUZEREN: '负责人',
-    GUDONGGONGSIDEZHICHIQINGKANG: '股东公司的支持情况',
-    GUDONGZHENGJIANHANGMA: '股东证照/证件号码',
-    GUDONGLEIXING: '股东类型 ',
-    JITUANGONGSIQUANCHEN: '集团公司全称',
-    YINWENMINCHEN: '英文全称',
-    JITUANGONGSIJIANCHEN: '集团公司简称',
-    GUOJIA: '国家',
-    ZONGBU: '总部',
+      '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码
+    GONGSIGAIKANG: '公司概况', //公司概况
+    Home: '首页', //首页
+    BasicInformation: '基本信息', //基本信息,
+    CAIGOUTIAOKUANQIANSHURIQI: '采购条款签署日期',
+    SupplierZh: '供应商中文名', //供应商中文名
+    SupplierEn: '供应商英文名', //供应商中文名
+    SupplierAbbreviationZh: '供应商简称（中）', //供应商简称（中）
+    SupplierAbbreviationEn: '供应商简称（英）', //供应商简称（英）
+    UnifySocialCreditCode: '统一社会信用代码', //统一社会信用代码
+    LegalPerson: '法定代表人', //法定代表人
+    EnterpriseType: '企业类型', //企业类型
+    Industry: '所属行业', //所属行业
+    IsListing: '是否上市', //是否上市
+    country: '国家', //国家
+    companyAddress: '注册地址', //注册地址
+    financialStatus: '财务状况', //财务状况
+    companySize: '企业规模', //企业规模
+    epNatureCategory: '企业性质（大类）', //企业性质（大类）
+    industryCode: '行业代码', //行业代码
+    listingAddress: '上市地点', //上市地点
+    registeredDate: '注册日期', //注册日期
+    province: '省市', //省市
+    ZHUCEDIZHIBIANMA: '注册地址编码', //注册地址编码
+    CAIWUQUSHI: '财务趋势', //财务趋势
+    QIYEXINGZHI: '企业性质（小类）', //企业性质（小类）
+    YEWUFANWEI: '业务范围', //业务范围
+    GUPIAODAIMA: '股票代码', //股票代码
+    CHENGSHI: '城市', //城市
+    GONGSHIWANGZHI: '公司网址', //公司网址
+    FUKUANGJILV: '付款记录', //付款记录
+    JINGYINGZHUANGTAI: '经营状态', //经营状态
+    JINGYINGFANWEI: '经营范围', //经营范围
+    JINGYINGQIXIAN: '经营期限', //经营期限
+    JINGYINGCHANSUOSUOYOUXINGSHI: '经营场所所有形式', //经营场所所有形式
+    JINGYINGCHANGSUOWEIZHI: '经营场所位置', //经营场所位置
+    YINHANGSUOZAIGUOJIA: '银行所在国家', //银行所在国家
+    YINHANGMINCHENG: '银行名称', //银行名称
+    SHUIWUDAIMA: '税务代码', //税务代码
+    YINGHANGSUOZAICHENGSHI: '银行所在省市', //银行所在省市
+    YINHANGDAIMA: '银行代码', //银行代码
+    YINHANGSUOZAICHENGSHI: '银行所在城市/区', //银行所在城市
+    GONGHUOZHUANGTAI: '供货状态', //供货状态
+    YINHANGZHANGHAO: '银行账号', //银行账号
+    SHIFOUZAIGONG: '是否在供', //是否在供
+    GONGHUO1: '供应商状态', //供应商状态
+    GYSSF: '供应商身份', //供应商身份
+    SHIFOUYELEIGONGCHANG: '是否业内工厂', //是否业内工厂
+    SHIFOUANQUANJIAN: '是否安全件', //是否安全件
+    GONGHUOLINGJIANLEIXING: '供货零件类型', //供货零件类型
+    SHIFOULISHUHUOYU: '是否隶属华域', //是否隶属华域
+    SHIFOUGONGONGGONGYINGSHANG: '是否共用供应商', //是否共用供应商
+    GONGHUOLEIXING: '供货类型', //供货类型
+    LEIBUPINGJIA: '内部评价', //内部评价
+    FUZEKESHI: '负责科室', //负责科室
+    XIANGGUANZHUANYEKESHI: '相关专业科室', //相关专业科室
+    JISHUBUMENPINGJIA: '技术部门评价', //技术部门评价
+    WULIUBUMENPINGJIA: '物流部门评价', //物流部门评价
+    ZHILIANGBUMENPINGJIA: '质量部门评价', //质量部门评价
+    // 历史沿革
+    FANHUIGONGYINSHANG360: '返回供应商360', //返回供应商360
+    BANGENGSHIJIAN: '变更时间', //变更时间
+    BANGENLEIRONG: '变更内容', //变更内容
+    BANGENGQIAN: '变更前', //变更前
+    BIANGENGHOU: '变更后', //变更后
+    BIANGENGCHAKAN: '变更查看', //变更查看
+    GUDONGBANGENGQIAN: '股东变更前', //股东变更前
+    GUDONGBIANGENGHOU: '股东变更后', //股东变更后
+    QIYEYANGEMIAOSHU: '企业沿革描述', //企业沿革描述
+    // FRM
+    XINGONGYINGSHANGPINGJIJIEGUO: '新供应商评级结果', //新供应商评级结果
+    XINGONGYINGSHANGPINGJISHIJIAN: '新供应商评级时间', //新供应商评级时间
+    WAIBUPINGJI: '外部评级', //外部评级
+    SHIFOULISHUSHANGTANAGONGTONGTI: '是否隶属桑塔纳共同体', //是否隶属桑塔纳共同体
+    WAIBUPINGJIESHIJIAN: '外部评级时间', //外部评级时间
+    CHUBUTIAOZHENGHOUDEFEN: '初评调整后得分', //初评调整后得分
+    CHUPINGTIAOZHENGHOUJIEGUO: '初评调整后结果', //初评调整后结果
+    CHUPINGSHIJIAN: '初评时间', //初评时间
+    SHENGRUPINGJIJIEGUO: '深入评级结果', //深入评级结果
+    SHENGRUPINGJISHIJIAN: '深入评级时间', //深入评级时间
+    VWAGPINGJIJIEGUO: 'VWAG评级结果', //VWAG评级结果
+    VWAGPINGJISHIJIAN: 'VWAG评级时间', //VWAG评级时间
+    // 工厂信息
+    GONGCHANGBIANHAO: '工厂编号', //工厂编号
+    GONGCHANGMINGCHEN: '工厂名称', //工厂名称
+    GONGCHANGJIANCHEN: '工厂简称', //工厂简称
+    SHENGFEN: '省份', //省份
+    DIZHI: '地址', //地址
+    YOUBIAN: '邮编', //邮编
+    // 授信银行信息
+    YINGHANGMINCHENG: '银行名称', //银行名称
+    SHOUQUANJINE: '授信金额（元）', //授信金额
+    YISHIYONGJINGE: '已使用金额（元）', //已使用金额
+    SHOUXINRIQIZHI: '授信日期止', //授信日期止
+    DIYAZHIYADANBAO: '抵押/质押/担保', //抵押/质押/担保
+    LILV: '利率（%）', //利率（%）
+    HUANKUANGJIHUA: '还款计划', //还款计划
+    SHOUXINYINHANGXINXIBUCONGSHUOMING: '授信银行信息补充说明：', //授信银行信息补充说明：
+    // 股东、集团与关联公司
+    GUDONGMINCHEN: '股东名称', //股东名称
+    GUOJIA_DIQU: '国家/地区', //国家/地区
+    CHUZIE: '出资额', //出资额
+    BIZHONG: '币种', //币种
+    ZHIGUBILI: '持股比例（%）', //持股比例（%）
+    ZHUYINYEWU: '主营业务', // 主营业务
+    HANGYEGUISHU: '行业归属', // 行业归属
+    FUZEREN: '负责人', //负责人
+    GUDONGGONGSIDEZHICHIQINGKANG: '股东公司的支持情况', // 股东公司的支持情况
+    GUDONGZHENGJIANHANGMA: '股东证照/证件号码', // 股东证照/证件号码
+    GUDONGLEIXING: '股东类型 ', //  股东类型
+    JITUANGONGSIQUANCHEN: '集团公司全称', //集团公司全称
+    YINWENMINCHEN: '英文全称', //英文全称
+    JITUANGONGSIJIANCHEN: '集团公司简称', //集团公司简称
+    GUOJIA: '国家', //国家
+    ZONGBU: '总部', // 总部
     GUDONG_JITUANYUGUANLIANGONGSIBUCHONGSHUOMING:
-      '股东、集团与关联公司补充说明：',
-    YUANGONGSHU: '员工数',
-    GUANLIRENYUAN: '管理人员数',
-    YANFARENYUANSHU: '研发人员数',
-    SHENGCHANRENYUANSHU: '生产人员数',
-    LINSHIGONGRENSHU: '临时工人数',
-    YANFARENYUAN: '研发人员',
-    SHIFOUSHEZHIGONGHUI: '是否设置工会',
-    ZHUYAOGUANLIRENYUAN: '主要管理人员姓名',
-    XINGBIE: '性别',
-    NIANLING: '年龄',
-    XUELI: '学历',
-    ZHIWU: '职务',
-    ZHIZE: '职责',
-    SHIFOUCEO: '是否CEO',
-    GUANLIJINGYAN: '管理经验',
-    HANGYEJINGYAN: '行业经验',
-    BEIZHU: '备注',
-    ZHUYAOCHANPIN: '主要产品',
-    NIANCHANLIANG: '年产量',
-    ZHUYAOPEITAOZHUJICHANG_KEHU: '主要配套主机厂/客户',
-    KAISHIGONGHUSHIJIAN: '开始供货时间',
-    GONGHUONIANFEN: '供货年份',
-    NIANGONGHUOLIANG: '年供货量',
-    GUOLEISHITANGZHANYOULV: '国内市场占有率（%）',
-    SUOSHUHANGYEWEIZHI: '所处行业位置',
-    KEGONGsvwBILI: '可供SVW比例',
-    KEHUMINGCHEN: '客户名称',
-    ZHUGONGCHANPIN: '主供产品',
-    HEZUONIANXIAN: '合作年限',
-    GONGHUONIANXIAN: '供货年限',
-    GONGHUOLIANG: '供货量',
-    GONGHUOJINE: '供货金额',
-    ZHANZONGXIAOSHOUBILI: '占总销售比例（%）',
-    ZHANGQI: '账期',
-    XIANJINGPIAOJUJINGLI: '现金票据比例',
-    SUPPLIER_ZHUYAOFENGONGFANGMINGCHENG: '主要分供方名称及产品',
-    SUPPLIER_SHEHUITONGYIXINYONGDAIMA: '统一社会信用代码',
-    SUPPLIER_CHANPIN: '产品',
-    SUPPLIER_GUOJIA: '国家',
-    SUPPLIER_SHENGFEN: '省份',
-    SUPPLIER_CHENGSHI: '城市/区',
-    SUPPLIER_LIANXIRENMINGCHENG: '联系人姓名',
-    SUPPLIER_ZHIWU: '职务',
-    SUPPLIER_LIANXIDIANHUA: '联系电话',
-    SUPPLIER_SHOUJIHAOMA: '手机号码',
-    SUPPLIER_CHUANZHEN: '传真',
-    SUPPLIER_DIANZIYOUJIAN: '电子邮件',
-    SUPPLIER_HEZUONIANXIAN: '合作年限',
-    SUPPLIER_CAIGOUNIANFNE: '采购年份',
-    SUPPLIER_CAIGOULIANG: '采购量',
-    SUPPLIER_CAIGOUJINE: '采购金额',
-    SUPPLIER_ZHANCAIGOUZONGBILI: '占总采购额比例（%）',
-    SUPPLIER_ZHANGQI: '账期',
-    SUPPLIER_XIANJINPIAOJUBILI: '现金票据比例',
-    SUPPLIER_FUJIANJILUSHIJIAN: '附件记录-时间',
-    SUPPLIER_FUJIANXIGUAN: '付款习惯',
-    SUPPLIER_FUKUANFANGSHI: '付款方式',
-    SUPPLIER_SHANGPINFUWU: '商品/服务',
-    SUPPLIER_BEIZHU: '备注',
-    SUPPLIER_GUONEICAIGOUNEIRONG: '国内采购内容',
-    SUPPLIER_CAIGOUXINXIBEIZHU: '采购信息备注',
-    SUPPLIER_LINIANHEZUOJILU: '历年合作记录',
-    SUPPLIER_HEZUOQISHINIANFEN: '合作起始年份',
-    SUPPLIER_GONGHUOCHANPIN: '供货产品',
-    SUPPLIER_T0: 'TO年份',
-    SUPPLIER_CSE: 'CSE',
-    SUPPLIER_CSE2: 'CSE二次件TO',
-    SUPPLIER_CSI: 'CSI',
-    SUPPLIER_CSI2: 'CSI二次件确认值',
-    SUPPLIER_CSM: 'CSM',
-    SUPPLIER_CSM2: 'CSM二次件确认值',
-    SUPPLIER_CSP: 'CSP',
-    SUPPLIER_CSP2: 'CSP二次件确认值',
-    SUPPLIER_CSX: 'CSX',
-    SUPPLIER_CSX2: 'CSX二次件确认值',
-    SUPPLIER_CSS: 'CSS',
-    SUPPLIER_CSS2: 'CSS二次件确认值',
-    SUPPLIER_YICJIANT0: '一次件TO',
-    SUPPLIER_PEIFUJIANTO: '配附件TO',
-    SUPPLIER_ERCIJIANTO: '二次件TO',
-    SUPPLIER_ZONGTO: '总TO',
-    SUPPLIER_BUBTO: 'BU-B TO',
-    SUPPLIER_ZHONGDASHIXIANGSIFAXINXI: '重大事项-司法信息',
-    SUPPLIER_RQI: '日期',
-    SUPPLIER_XIAOXILAIYUAN: '消息来源',
-    SUPPLIER_FAYUAN: '法院',
-    SUPPLIER_JINE: '金额',
-    SUPPLIER_BIZHONG: '币种',
-    SUPPLIER_FALVJIUFENNEIRONG: '法律纠纷内容',
-    SUPPLIER_NEIRONG: '内容',
-    SUPPLIER_ZHONGDASHIXIANGXINGZHENCHUFA: '重大事项-行政处罚',
-    SUPPLIER_XINXILEIXING: '信息类型',
-    SUPPLIER_LAIYUAN: '来源',
-    SUPPLIER_XINGZHENCHUFANEIRONG: '行政处罚内容',
-    SUPPLIER_GONGYINGSHANGTONGXUNLU: '供应商通讯录',
-    SUPPLIER_LIANXIRENLEIXING: '联系人类型',
-    SUPPLIER_LIANXIRENXINGMING: '联系人姓名',
-    SUPPLIER_ZHIWEI: '职位',
-    SUPPLIER_BUMEN: '部门',
-    SUPPLIER_QUHAO: '区号',
-    SUPPLIER_WEIXINHAO: '微信号',
+      '股东、集团与关联公司补充说明：', // 股东、集团与关联公司补充说明：
+    // 人员及公司治理情况
+    YUANGONGSHU: '员工数', // 员工数
+    GUANLIRENYUAN: '管理人员数', //管理人员数
+    YANFARENYUANSHU: '研发人员数', //研发人员数
+    SHENGCHANRENYUANSHU: '生产人员数', //生产人员数
+    LINSHIGONGRENSHU: '临时工人数', // 临时工人数
+    YANFARENYUAN: '研发人员', //  研发人员
+    SHIFOUSHEZHIGONGHUI: '是否设置工会', // 是否设置工会
+    ZHUYAOGUANLIRENYUAN: '主要管理人员姓名', //主要管理人员姓名
+    XINGBIE: '性别', // 性别
+    NIANLING: '年龄', //  年龄
+    XUELI: '学历', // 学历
+    ZHIWU: '职务', //职务
+    ZHIZE: '职责', //职责
+    SHIFOUCEO: '是否CEO', //是否CEO
+    GUANLIJINGYAN: '管理经验', //管理经验
+    HANGYEJINGYAN: '行业经验', //行业经验
+    BEIZHU: '备注', //备注
+
+    //主要业务及产品
+    ZHUYAOCHANPIN: '主要产品', //主要产品
+    NIANCHANLIANG: '年产量', //年产量
+    ZHUYAOPEITAOZHUJICHANG_KEHU: '主要配套主机厂/客户', //主要配套主机厂/客户
+    KAISHIGONGHUSHIJIAN: '开始供货时间', //开始供货时间
+    GONGHUONIANFEN: '供货年份', //供货年份
+    NIANGONGHUOLIANG: '年供货量', //年供货量
+    GUOLEISHITANGZHANYOULV: '国内市场占有率（%）', //国内市场占有率（%）
+    SUOSHUHANGYEWEIZHI: '所处行业位置', //所处行业位置
+    KEGONGsvwBILI: '可供SVW比例', //可供SVW比例
+    //主要客户
+    KEHUMINGCHEN: '客户名称', //客户名称
+    ZHUGONGCHANPIN: '主供产品', //主供产品
+    HEZUONIANXIAN: '合作年限', //合作年限
+    GONGHUONIANXIAN: '供货年限', //供货年限
+    GONGHUOLIANG: '供货量', //供货量
+    GONGHUOJINE: '供货金额', //供货金额
+    ZHANZONGXIAOSHOUBILI: '占总销售比例（%）', //占总销售比例（%）
+    ZHANGQI: '账期', //账期
+    XIANJINGPIAOJUJINGLI: '现金票据比例', //现金票据比例
+
+    //ws3
+    // 主要分供方名称及产品
+    SUPPLIER_ZHUYAOFENGONGFANGMINGCHENG: '主要分供方名称及产品', //主要分供方名称及产品
+    SUPPLIER_SHEHUITONGYIXINYONGDAIMA: '统一社会信用代码', //统一社会信用代码
+    SUPPLIER_CHANPIN: '产品', //产品
+    SUPPLIER_GUOJIA: '国家', //国家
+    SUPPLIER_SHENGFEN: '省份', //省份
+    SUPPLIER_CHENGSHI: '城市/区', //城市
+    SUPPLIER_LIANXIRENMINGCHENG: '联系人姓名', //联系人姓名
+    SUPPLIER_ZHIWU: '职务', //职务
+    SUPPLIER_LIANXIDIANHUA: '联系电话', //联系电话
+    SUPPLIER_SHOUJIHAOMA: '手机号码', //手机号码
+    SUPPLIER_CHUANZHEN: '传真', //传真
+    SUPPLIER_DIANZIYOUJIAN: '电子邮件', //电子邮件
+    SUPPLIER_HEZUONIANXIAN: '合作年限', //合作年限
+    SUPPLIER_CAIGOUNIANFNE: '采购年份', //采购年份
+    SUPPLIER_CAIGOULIANG: '采购量', //采购量
+    SUPPLIER_CAIGOUJINE: '采购金额', //采购金额
+    SUPPLIER_ZHANCAIGOUZONGBILI: '占总采购额比例（%）', //占总采购额比例（%）
+    SUPPLIER_ZHANGQI: '账期', //账期
+    SUPPLIER_XIANJINPIAOJUBILI: '现金票据比例', //现金票据比例
+
+    SUPPLIER_FUJIANJILUSHIJIAN: '附件记录-时间', //附件记录-时间
+    SUPPLIER_FUJIANXIGUAN: '付款习惯', //付款习惯
+    SUPPLIER_FUKUANFANGSHI: '付款方式', //付款方式
+    SUPPLIER_SHANGPINFUWU: '商品/服务', //商品/服务
+    SUPPLIER_BEIZHU: '备注', //备注
+
+    SUPPLIER_GUONEICAIGOUNEIRONG: '国内采购内容', //国内采购内容
+    SUPPLIER_CAIGOUXINXIBEIZHU: '采购信息备注', //采购信息备注
+
+    // 历年合作记录
+    SUPPLIER_LINIANHEZUOJILU: '历年合作记录', //历年合作记录
+    SUPPLIER_HEZUOQISHINIANFEN: '合作起始年份', //合作起始年份
+    SUPPLIER_GONGHUOCHANPIN: '供货产品', //供货产品
+
+    SUPPLIER_T0: 'TO年份', //TO年份
+    SUPPLIER_CSE: 'CSE', //CSE
+    SUPPLIER_CSE2: 'CSE二次件TO', //CSE二次件TO
+    SUPPLIER_CSI: 'CSI', //CSI
+    SUPPLIER_CSI2: 'CSI二次件确认值', //CSI二次件确认值
+    SUPPLIER_CSM: 'CSM', //CSM
+    SUPPLIER_CSM2: 'CSM二次件确认值', //CSM二次件确认值
+    SUPPLIER_CSP: 'CSP', //CSP
+    SUPPLIER_CSP2: 'CSP二次件确认值', //CSP二次件确认值
+    SUPPLIER_CSX: 'CSX', //CSX
+    SUPPLIER_CSX2: 'CSX二次件确认值', //CSX二次件确认值
+    SUPPLIER_CSS: 'CSS', //CSS
+    SUPPLIER_CSS2: 'CSS二次件确认值', //CSS二次件确认值
+    SUPPLIER_YICJIANT0: '一次件TO', //一次件TO
+    SUPPLIER_PEIFUJIANTO: '配附件TO', //配附件TO
+    SUPPLIER_ERCIJIANTO: '二次件TO', //二次件TO
+    SUPPLIER_ZONGTO: '总TO', //总TO
+    SUPPLIER_BUBTO: 'BU-B TO', //BU-B TO
+
+    //重大事项
+    SUPPLIER_ZHONGDASHIXIANGSIFAXINXI: '重大事项-司法信息', //重大事项-司法信息
+    SUPPLIER_RQI: '日期', //日期
+    SUPPLIER_XIAOXILAIYUAN: '消息来源', //消息来源
+    SUPPLIER_FAYUAN: '法院', //法院
+    SUPPLIER_JINE: '金额', //金额
+    SUPPLIER_BIZHONG: '币种', //币种
+    SUPPLIER_FALVJIUFENNEIRONG: '法律纠纷内容', //法律纠纷内容
+    SUPPLIER_NEIRONG: '内容', //内容
+
+    SUPPLIER_ZHONGDASHIXIANGXINGZHENCHUFA: '重大事项-行政处罚', //重大事项-行政处罚
+    SUPPLIER_XINXILEIXING: '信息类型', //信息类型
+    SUPPLIER_LAIYUAN: '来源', //来源
+    SUPPLIER_XINGZHENCHUFANEIRONG: '行政处罚内容', //行政处罚内容
+
+    //联系人与用户
+    SUPPLIER_GONGYINGSHANGTONGXUNLU: '供应商通讯录', //供应商通讯录
+    SUPPLIER_LIANXIRENLEIXING: '联系人类型', //联系人类型
+    SUPPLIER_LIANXIRENXINGMING: '联系人姓名', //联系人姓名
+    SUPPLIER_ZHIWEI: '职位', //职位
+    SUPPLIER_BUMEN: '部门', //部门
+    SUPPLIER_QUHAO: '区号', //区号
+    SUPPLIER_WEIXINHAO: '微信号', //微信号
     SUPPLIER_SWLXRLXRXMLXRDHBT:
-      '商务联系人,联系人姓名，联系电话,电子邮件必填！',
-    SUPPLIER_GONGYINGSHANGXINGMING: '供应商用户账号',
-    SUPPLIER_YONGHUDENGLUMING: '用户登录名',
-    SUPPLIER_SHIFOUHUODONG: '是否有效',
-    SUPPLIER_SHEWEIZHUYONGHU: '设为主用户',
+      '商务联系人,联系人姓名，联系电话,电子邮件必填！', //商务联系人,联系人姓名，联系电话必填！
+
+    SUPPLIER_GONGYINGSHANGXINGMING: '供应商用户账号', //供应商用户账号
+    SUPPLIER_YONGHUDENGLUMING: '用户登录名', //用户登录名
+    SUPPLIER_SHIFOUHUODONG: '是否有效', //是否有效
+    SUPPLIER_SHEWEIZHUYONGHU: '设为主用户', //设为主用户
     SUPPLIER_JIEDONG: '解冻',
     SUPPLIER_DONGJIE: '冻结',
     SUPPLIER_SHI: '是',
     SUPPLIER_FOU: '否',
-    SUPPLIER_ISWEIZHUYONGHU: '是否为主用户',
-    SUPPLIER_FUJIANSHANGCHUAN: '附件上传',
-    SUPPLIER_FUJIANMINGCHENG: '附件名称',
-    SUPPLIER_CAOZUO: '操作',
-    SUPPLIER_SHANGCHUANQUERENRQI: '上传/确认日期',
-    SUPPLIER_BEIZHUSHUOMING: '备注说明',
-    SUPPLIER_YANGLIWENJIAN: '样例文件',
-    SUPPLIER_BUNENGTIGONGYUANYIN: '不能提供原因',
-    SUPPLIER_ZUIWANTIGONGSHIJIAN: '最晚提供时间',
-    SUPPLIER_ZHENGJIANYOUXIAOQI: '证件有效期',
-    SUPPLIER_QIANSHU: '签署',
+    SUPPLIER_ISWEIZHUYONGHU: '是否为主用户', //是否为主用户
+
+    //相关附件
+    SUPPLIER_FUJIANSHANGCHUAN: '附件上传', //附件上传
+    SUPPLIER_FUJIANMINGCHENG: '附件名称', //附件名称
+    SUPPLIER_CAOZUO: '操作', //操作
+    SUPPLIER_SHANGCHUANQUERENRQI: '上传/确认日期', //上传/确认日期
+    SUPPLIER_BEIZHUSHUOMING: '备注说明', //备注说明
+    SUPPLIER_YANGLIWENJIAN: '样例文件', //样例文件
+    SUPPLIER_BUNENGTIGONGYUANYIN: '不能提供原因', //不能提供原因
+    SUPPLIER_ZUIWANTIGONGSHIJIAN: '最晚提供时间', //最晚提供时间
+    SUPPLIER_ZHENGJIANYOUXIAOQI: '证件有效期', //证件有效期
+    SUPPLIER_QIANSHU: '签署', //签署
     SUPPLIER_EXAMPLEDSEC:
-      '请下载查看样例文件和操作指南，并根据要求上传正确的附件',
-    SUPPLIER_ZIYOUSHANGCHUAN: '自由上传',
-    SUPPLIER_WENJIANMINGCHENG: '文件名称',
-    SUPPLIER_DAXIAOMB: '大小',
-    SUPPLIER_SHANGCHUQNRQI: '上传日期',
-    SUPPLIER_SHANGCHUANREN: '上传人',
-    SUPPLIER_KESHI: '科室',
-    SUPPLIER_ZTSJYTJBYCFTJ: '这条数据已提交,不要重复提交',
-    SUPPLIER_SPZ: '审批中',
-    SUPPLIER_SPTG: '审批通过',
-    SUPPLIER_CAILIAOZUGONGYIBIANHAO: '材料组工艺编号',
-    SUPPLIER_CAILIAOZUGONGYINGZHONGWENMINGCHENG: '材料组工艺中文名称',
-    SUPPLIER_CAILIAOZUDEWENMINGCHENG: '材料组工艺德文名称',
-    SUPPLIER_LINIEJIBIE: 'Linie组别',
-    SUPPLIER_SHIFOUSHUYUBDL: '是否属于MBDL',
-    SUPPLIER_SHOUKONGKAISHISHIJIAN: '受控起始时间',
-    SUPPLIER_SHOUKONGJIEZHISHIJIAN: '受控截止时间',
-    SUPPLIER_SHOUKONGYUANYIN: '受控原因',
-    SUPPLIER_SHENQINGBDL: '申请BDL',
-    SUPPLIER_QUXIAOSHOUKONG: '取消受控',
-    SUPPLIER_QUXIAOCAILIAOZUGUANLIAN: '取消材料组关联',
-    SUPPLIER_DAOCHUQUANBU: '导出全部',
+      '请下载查看样例文件和操作指南，并根据要求上传正确的附件', //请下载查看样例文件和操作指南，并根据要求上传正确的附件
+
+    SUPPLIER_ZIYOUSHANGCHUAN: '自由上传', //自由上传
+    SUPPLIER_WENJIANMINGCHENG: '文件名称', //文件名称
+    SUPPLIER_DAXIAOMB: '大小', //大小（MB）
+    SUPPLIER_SHANGCHUQNRQI: '上传日期', //上传日期
+    SUPPLIER_SHANGCHUANREN: '上传人', //上传人
+
+    //材料组
+    SUPPLIER_KESHI: '科室', //科室
+    SUPPLIER_ZTSJYTJBYCFTJ: '这条数据已提交,不要重复提交', //这条数据已提交,不要重复提交
+    SUPPLIER_SPZ: '审批中', //审批中
+    SUPPLIER_SPTG: '审批通过', //审批通过
+
+    SUPPLIER_CAILIAOZUGONGYIBIANHAO: '材料组工艺编号', //材料组工艺编号
+    SUPPLIER_CAILIAOZUGONGYINGZHONGWENMINGCHENG: '材料组工艺中文名称', //材料组工艺中文名称
+    SUPPLIER_CAILIAOZUDEWENMINGCHENG: '材料组工艺德文名称', //材料组工艺德文名称
+    SUPPLIER_LINIEJIBIE: 'Linie组别', //Linie组别
+    SUPPLIER_SHIFOUSHUYUBDL: '是否属于MBDL', //是否属于MBDL
+    SUPPLIER_SHOUKONGKAISHISHIJIAN: '受控起始时间', //受控起始时间
+    SUPPLIER_SHOUKONGJIEZHISHIJIAN: '受控截止时间', //受控截止时间
+    SUPPLIER_SHOUKONGYUANYIN: '受控原因', //受控原因
+
+    SUPPLIER_SHENQINGBDL: '申请BDL', //申请BDL
+    SUPPLIER_QUXIAOSHOUKONG: '取消受控', //取消受控
+    SUPPLIER_QUXIAOCAILIAOZUGUANLIAN: '取消材料组关联', //取消材料组关联
+    SUPPLIER_DAOCHUQUANBU: '导出全部', //导出全部
+    // BDL审批
     SUPPLIER_FUJIANCAILIAOZUBUXUYAOXUANZE_LINIE_KESHIHE_LINIE:
       '附件材料组不需要选择Linie科室和Linie',
     SUPPLIER_VW_LINIE_KESHI: 'LINIE科室',
@@ -1055,345 +1108,359 @@
     SUPPLIER_JIEZHISHIJIAN: '控截止时间',
     SUPPLIER_LINIERENYUAN: 'Linie人员',
     SUPPLIER_ZHISHAOXUANZHEYITIAOJILU: '至少选择一条记录',
-    SUPPLIER_BIANGENGZIDUAN: '变更字段',
-    SUPPLIER_BIANGENGNEIRONG: '变更内容',
-    SUPPLIER_YUANNEIRONG: '原内容',
-    SUPPLIER_XINEIRONG: '新内容',
-    SUPPLIER_XIUGAIREN: '修改人',
-    SUPPLIER_XIUGAIRQI: '修改日期',
-    SUPPLIER_NIANFEN: '年份',
-    SUPPLIER_YINGSHOUZHANGKUAN: '应收账款',
-    SUPPLIER_CUNHUO: '存货',
-    SUPPLIER_YFZK: '预付账款',
-    SUPPLIER_YFZKBZ: '或“预付款项+待摊费用”。',
-    SUPPLIER_QTYSK: '其他应收款',
-    SUPPLIER_QTYSKBZ: '或“其他应收款+应收补贴款”。',
-    SUPPLIER_LDZC: '流动资产',
-    SUPPLIER_LDZL: '流动负债',
-    SUPPLIER_FZHJ: '负债合计',
-    SUPPLIER_SFZB: '实收资本',
-    SUPPLIER_XGSJ: '修改时间',
-    SUPPLIER_SHOUZHEQUANYIHEJI: '所有者权益合计',
-    SUPPLIER_ZICHANZONGJI: '资产总计',
-    SUPPLIER_YINGYESHOURU: '营业收入',
-    SUPPLIER_YINGYECHENGBEN: '营业成本',
-    SUPPLIER_LIRUIZONGE: '利润总额',
-    SUPPLIER_JINLIRUN: '净利润',
-    SUPPLIER_FUZAILV: '负债率（%）',
-    SUPPLIER_SHUJUQUDAO: '数据渠道',
-    SUPPLIER_KUAIJIZHOUQIQ: '会计周期起',
-    SUPPLIER_KUAIJIZHOUQIZ: '会计周期止',
-    SUPPLIER_SHIFOUSHENJI: '是否审计',
-    SUPPLIER_SHENJIDANWEI: '审计单位',
-    SUPPLIER_DANWEI: '单位',
-    SUPPLIER_SHIFOUHEBINGBAOBIAO: '是否为合并报表',
-    SUPPLIER_SHANGCHUANSHIJIAN: '上传时间',
-    SUPPLIER_SHUJUDUIBI: '数据对比',
-    SUPPLIER_ZICHANFUZAIBIAO: '资产负载表',
-    SUPPLIER_LIRUNBIAO: '利润表',
-    SUPPLIER_XIANZAIJIULIANGBIAO: '现金流量表',
-    SUPPLIER_QITACAIWUSHUJU: '其他财务数据',
-    SUPPLIER_ZHIDUAN: '字段',
-    SUPPLIER_ZANCUN: '暂存',
-    SUPPLIER_TIJIAO: '提交',
-    SUPPLIER_TIJIAOZZSQ: '提交转正申请',
-    SUPPLIER_RONGZISHENQING: '融资申请',
-    SUPPLIER_GENGGAIXINXI: '更改信息',
-    SUPPLIER_SHANGYIBU: '上一步',
-    SUPPLIER_XIAYIBU: '下一步',
-    SUPPLIER_BENCITIANXIEJIANYANMA: '本次填写检验码',
-    SUPPLIER_ZHUCEXINXITIANXIE: '注册信息填写',
-    SUPPLIER_XUANZERQI: '选择日期',
-    SUPPLIER_KAISHIRQI: '开始日期',
-    SUPPLIER_JIESHURQI: '结束日期',
-    SUPPLIER_ZHI: '至',
-    SUPPLIER_CWYJ: '财务预警',
-    SUPPLIER_GLGS: '关联公司',
-    SUPPLIER_JTGX: '集团关系',
-    SUPPLIER_ZYPTKH: '主要配套客户',
-    SUPPLIER_ZYPTZJC: '主要配套主机厂',
-    SUPPLIER_SJKZRXM: '实际控制人姓名',
-    SPR_FRM_XGYSPJ_GDXINGXI: '更多信息',
-    SUPPLIER_YEWUFAZHANJIHUA: '业务发展计划',
-    SUPPLIER_XIAOSHOUXINXIBEIZHU: '销售信息备注',
-    SUPPLIER_GOYINGSHANG360: '供应商360',
-    SUPPLIER_GONGYINGSHANGJIXIAO: '供应商绩效',
-    SUPPLIER_JIBENXINXI: '基本信息',
-    SUPPLIER_LISHIYANGE: '历史沿革',
-    SUPPLIER_FRMPINGJI: 'FRM评级',
-    SUPPLIER_GONGCHANGXINXI: '工厂信息',
-    SUPPLIER_SHOUXINYINHANGXINXIN: '授信银行信息',
-    SUPPLIER_GUDONGJITUANYUGUANLIANGONGSI: '股东、集团与关联公司',
-    SUPPLIER_RENYUANJIGONGSIZHILIQINGKUANG: '人员及公司治理情况',
-    SUPPLIER_ZHUYAOYEWUJICHANPIN: '主要业务及产品',
-    SUPPLIER_ZHUYAOKEHU: '主要客户',
-    SUPPLIER_ZHUYAOFANGGONGFANGMINGCHENGJICHANPIN: '主要分供方名称及产品',
-    SUPPLIER_LISHIHEZUOJILU: '历年合作记录',
-    SUPPLIER_ZHONGDASHIXIANG: '重大事项',
-    SUPPLIER_LIANXIRENYUYONGHU: '联系人与用户',
-    SUPPLIER_XIANGGUANFUJIAN: '相关附件',
-    SUPPLIER_CAILIAOZU: '材料组',
-    SUPPLIER_XITONGXIUGAILISHI: '系统修改历史',
-    SUPPLIER_CAIWUDASHU: '财务大数',
-    SUPPLIER_CAIWUSHUJU: '财务数据',
-    SUPPLIER_GONGHUOGONGSI: '供货公司',
-    SUPPLIER_GONGYINGSHANGXINXI: '供应商信息',
-    SUPPLIER_GONGYINGSHANGZHONGWENMING: '供应商中文名',
-    SUPPLIER_GONGYINGSHANGYINGWENMING: '供应商英文名',
-    SUPPLIER_SAPHAO: 'SAP号',
-    SUPPLIER_VWHAO: 'VW号',
-    SUPPLIER_GONGYINGSHANGJIANCHENZH: '供应商简称（中）',
-    SUPPLIER_GONGYINGSHANGJIANCHENGEN: '供应商简称（英）',
-    SUPPLIER_LINGSHIHAO: '临时号',
-    SUPPLIER_TONGYISHEHUIXINGYONGDAIMA: '统一社会信用代码',
-    SUPPLIER_SVWHAO: 'SVW号',
-    SUPPLIER_ZHUCEXINGXITIANXIE: '注册信息填写',
+    //系统修改历史
+    SUPPLIER_BIANGENGZIDUAN: '变更字段', //变更字段
+    SUPPLIER_BIANGENGNEIRONG: '变更内容', //变更内容
+
+    SUPPLIER_YUANNEIRONG: '原内容', //原内容
+    SUPPLIER_XINEIRONG: '新内容', //新内容
+    SUPPLIER_XIUGAIREN: '修改人', //修改人
+    SUPPLIER_XIUGAIRQI: '修改日期', //修改日期
+
+    //财务大数
+    SUPPLIER_NIANFEN: '年份', //年份
+    SUPPLIER_YINGSHOUZHANGKUAN: '应收账款', //应收账款
+    SUPPLIER_CUNHUO: '存货', //存货
+    SUPPLIER_YFZK: '预付账款', //预付账款
+    SUPPLIER_YFZKBZ: '或“预付款项+待摊费用”。', //或“预付款项+待摊费用”。
+    SUPPLIER_QTYSK: '其他应收款', //其他应收款
+    SUPPLIER_QTYSKBZ: '或“其他应收款+应收补贴款”。', //或“其他应收款+应收补贴款”
+    SUPPLIER_LDZC: '流动资产', //旧准则需减去“预计负债”。
+    SUPPLIER_LDZL: '流动负债', //流动负债
+    SUPPLIER_FZHJ: '负债合计', //负债合计
+    SUPPLIER_SFZB: '实收资本', //实收资本
+    SUPPLIER_XGSJ: '修改时间', //修改时间
+    SUPPLIER_SHOUZHEQUANYIHEJI: '所有者权益合计', //所有者权益合计
+    SUPPLIER_ZICHANZONGJI: '资产总计', //资产总计
+    SUPPLIER_YINGYESHOURU: '营业收入', //营业收入
+    SUPPLIER_YINGYECHENGBEN: '营业成本', //营业成本
+    SUPPLIER_LIRUIZONGE: '利润总额', //利润总额
+    SUPPLIER_JINLIRUN: '净利润', //净利润
+    SUPPLIER_FUZAILV: '负债率（%）', //负债率
+
+    //财务数据
+    SUPPLIER_SHUJUQUDAO: '数据渠道', //数据渠道
+    SUPPLIER_KUAIJIZHOUQIQ: '会计周期起', //会计周期起
+    SUPPLIER_KUAIJIZHOUQIZ: '会计周期止', //会计周期止
+    SUPPLIER_SHIFOUSHENJI: '是否审计', //是否审计
+    SUPPLIER_SHENJIDANWEI: '审计单位', //审计单位
+    SUPPLIER_DANWEI: '单位', //单位
+    SUPPLIER_SHIFOUHEBINGBAOBIAO: '是否为合并报表', //是否为合并报表
+    SUPPLIER_SHANGCHUANSHIJIAN: '上传时间', //上传时间
+    SUPPLIER_SHUJUDUIBI: '数据对比', //数据对比
+    SUPPLIER_ZICHANFUZAIBIAO: '资产负载表', //资产负载表
+    SUPPLIER_LIRUNBIAO: '利润表', //利润表
+    SUPPLIER_XIANZAIJIULIANGBIAO: '现金流量表', //现金流量表
+    SUPPLIER_QITACAIWUSHUJU: '其他财务数据', //其他财务数据
+    SUPPLIER_ZHIDUAN: '字段', //字段
+
+    //操作按钮
+    SUPPLIER_ZANCUN: '暂存', //暂存
+    SUPPLIER_TIJIAO: '提交', //提交
+    SUPPLIER_TIJIAOZZSQ: '提交转正申请', //提交转正申请
+    SUPPLIER_RONGZISHENQING: '融资申请', //融资申请
+    SUPPLIER_GENGGAIXINXI: '更改信息', //更改信息
+    SUPPLIER_SHANGYIBU: '上一步', //上一步
+    SUPPLIER_XIAYIBU: '下一步', //下一步
+    SUPPLIER_BENCITIANXIEJIANYANMA: '本次填写检验码', //本次填写检验码
+    SUPPLIER_ZHUCEXINXITIANXIE: '注册信息填写', //注册信息填写
+    SUPPLIER_XUANZERQI: '选择日期', //选择日期
+    SUPPLIER_KAISHIRQI: '开始日期', //开始日期
+    SUPPLIER_JIESHURQI: '结束日期', //结束日期
+    SUPPLIER_ZHI: '至', //至
+
+    SUPPLIER_CWYJ: '财务预警', //财务预警
+    SUPPLIER_GLGS: '关联公司', //关联公司
+    SUPPLIER_JTGX: '集团关系', //集团关系
+    SUPPLIER_ZYPTKH: '主要配套客户', //主要配套客户
+    SUPPLIER_ZYPTZJC: '主要配套主机厂', //主要配套主机厂
+    SUPPLIER_SJKZRXM: '实际控制人姓名', //实际控制人姓名
+    SPR_FRM_XGYSPJ_GDXINGXI: '更多信息', //更多信息
+    SUPPLIER_YEWUFAZHANJIHUA: '业务发展计划', //业务发展计划
+    SUPPLIER_XIAOSHOUXINXIBEIZHU: '销售信息备注', //销售信息备注
+    SUPPLIER_GOYINGSHANG360: '供应商360', //供应商360
+    SUPPLIER_GONGYINGSHANGJIXIAO: '供应商绩效', //供应商绩效
+    SUPPLIER_JIBENXINXI: '基本信息', //基本信息
+    SUPPLIER_LISHIYANGE: '历史沿革', //历史沿革
+    SUPPLIER_FRMPINGJI: 'FRM评级', //FRM评级
+    SUPPLIER_GONGCHANGXINXI: '工厂信息', //工厂信息
+    SUPPLIER_SHOUXINYINHANGXINXIN: '授信银行信息', //授信银行信息
+    SUPPLIER_GUDONGJITUANYUGUANLIANGONGSI: '股东、集团与关联公司', //股东、集团与关联公司
+    SUPPLIER_RENYUANJIGONGSIZHILIQINGKUANG: '人员及公司治理情况', //人员及公司治理情况
+    SUPPLIER_ZHUYAOYEWUJICHANPIN: '主要业务及产品', //主要业务及产品
+    SUPPLIER_ZHUYAOKEHU: '主要客户', //主要客户
+    SUPPLIER_ZHUYAOFANGGONGFANGMINGCHENGJICHANPIN: '主要分供方名称及产品', //主要分供方名称及产品
+    SUPPLIER_LISHIHEZUOJILU: '历年合作记录', //历年合作记录
+    SUPPLIER_ZHONGDASHIXIANG: '重大事项', //重大事项
+    SUPPLIER_LIANXIRENYUYONGHU: '联系人与用户', //联系人与用户
+    SUPPLIER_XIANGGUANFUJIAN: '相关附件', //相关附件
+    SUPPLIER_CAILIAOZU: '材料组', //材料组
+    SUPPLIER_XITONGXIUGAILISHI: '系统修改历史', //系统修改历史
+    SUPPLIER_CAIWUDASHU: '财务大数', //财务大数
+    SUPPLIER_CAIWUSHUJU: '财务数据', //财务数据
+    SUPPLIER_GONGHUOGONGSI: '供货公司', //供货公司
+    // 详情信息
+    SUPPLIER_GONGYINGSHANGXINXI: '供应商信息', //供应商信息
+    SUPPLIER_GONGYINGSHANGZHONGWENMING: '供应商中文名', //供应商中文名
+    SUPPLIER_GONGYINGSHANGYINGWENMING: '供应商英文名', //供应商英文名
+    SUPPLIER_SAPHAO: 'SAP号', //SAP号
+    SUPPLIER_VWHAO: 'VW号', //VW号
+    SUPPLIER_GONGYINGSHANGJIANCHENZH: '供应商简称（中）', //供应商简称（中）
+    SUPPLIER_GONGYINGSHANGJIANCHENGEN: '供应商简称（英）', //供应商简称（英）
+    SUPPLIER_LINGSHIHAO: '临时号', //临时号
+    SUPPLIER_TONGYISHEHUIXINGYONGDAIMA: '统一社会信用代码', //统一社会信用代码
+    SUPPLIER_SVWHAO: 'SVW号', //SVW号
+    SUPPLIER_ZHUCEXINGXITIANXIE: '注册信息填写', //注册信息填写
     SUPPLIER_VWCODETIP:
-      '申请VW号前，需拥有邓白氏编号，</br>并在德国大众供应商平台完成注册（vwgroupsupply.com）',
-    SUPPLIER_PIZHUN: '批准',
-    SUPPLIER_GUANLIANGONGSIMINGCHENG: '关联公司名称',
-    SUPPLIER_GUANXIMIAOSHU: '关系描述',
-    SUPPLIER_QIYEXINGZHI: '企业性质',
-    SUPPLIER_SUOZAIGUOJIADIQU: '所在国家/地区',
-    SUPPLIER_ZHUCEZIBENWAN: '注册资本',
-    SUPPLIER_KONGGUBILI: '控股比例（%）',
-    SUPPLIER_SHOUXINRQIQI: '授信日期起',
-    SUPPLIER_WAIBUPINGJIA: '外部评价',
-    SUPPLIER_LISHIYANGEXIANGQING: '历史沿革详情',
-    SUPPLIER_QIYEYANGEMIAOSHU: '企业沿革描述',
+      '申请VW号前，需拥有邓白氏编号，</br>并在德国大众供应商平台完成注册（vwgroupsupply.com）', //vw号
+    //new
+    SUPPLIER_PIZHUN: '批准', //批准
+    SUPPLIER_GUANLIANGONGSIMINGCHENG: '关联公司名称', //关联公司名称
+    SUPPLIER_GUANXIMIAOSHU: '关系描述', //关系描述
+    SUPPLIER_QIYEXINGZHI: '企业性质', //企业性质
+    SUPPLIER_SUOZAIGUOJIADIQU: '所在国家/地区', //所在国家/地区
+    SUPPLIER_ZHUCEZIBENWAN: '注册资本', //注册资本（万）
+    SUPPLIER_KONGGUBILI: '控股比例（%）', //控股比例（%）
+    SUPPLIER_SHOUXINRQIQI: '授信日期起', //授信日期起
+    SUPPLIER_WAIBUPINGJIA: '外部评价', //外部评价
+    SUPPLIER_LISHIYANGEXIANGQING: '历史沿革详情', //历史沿革详情
+    SUPPLIER_QIYEYANGEMIAOSHU: '企业沿革描述', //企业沿革描述
     SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS:
-      '中文简称规则：地区+名称+业务</br> 例：（上海友好塑料股份有限公司—上海友好塑料 ）',
+      '中文简称规则：地区+名称+业务</br> 例：（上海友好塑料股份有限公司—上海友好塑料）', //中文简称规则：地区+名称+业务 例：（上海友好塑料股份有限公司—上海友好塑料）
     SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS:
-      '英文简称规则：地区的首字母缩写+名称+业务 </br>例：（Shanghai Friendly Plastic Co., Ltd.—Sh Friendly Plastic）',
+      '英文简称规则：地区的首字母缩写+名称+业务 </br>例：（Shanghai Friendly Plastic Co., Ltd.—Sh Friendly Plastic）', //英文简称规则：地区的首字母缩写+名称+业务 例：（Shanghai Friendly Plastic Co., Ltd.—SH Friendly Plastic）
     SUPPLIER_DUNSTIPS:
-      '邓白氏号申请事宜请联系</br>上海华夏邓白氏商业信息咨询有限公司或其他地区邓白氏公司机构。具体信息可 登录http://www.dnbchina.com/contact/index.html进行咨询',
-    SUPPLIER_ZHUYAOFENGONGFANGMING: '主要分供方名称',
-    SUPPLIER_FUKUANQINGKUANG: '付款状况',
-    SUPPLIER_XUANZENIANFEN: '选择年份',
-    SUPPLIER_SHIFOUDINGDIAN: '是否定点',
-    SUPPLIER_SHIFOUSHENGXIAO: '是否生效',
-    SUPPLIER_WUXIAO: '无效',
-    SUPPLIER_YOUXIAO: '有效',
-    SUPPLIER_PURCHASEREMAIL: '采购员邮箱',
-    SUPPLIER_PURCHASERNAME: '采购员姓名',
-    SUPPLIER_SUPPLIERTYPE: '供应商类型',
-    SUPPLIER_ZHUANZHENGSUOXUFUJIAN: '转正所需附件',
-    SUPPLIER_SHIFOUTONGYIJIANG: '是否同意将',
-    SUPPLIER_GONGSIZHUANEWIZHENGSHIGONGYINGSHANG: '公司转为正式供应商',
-    SUPPLIER_QINGTONGYI: '请同意',
-    SUPPLIER_GONGSITIJIAODEJIBENXINXIXIUGAISHENQING: '公司提交的信息修改申请',
-    SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI: '查看该供应商信息',
-    SUPPLIER_FUJIANSHANCHU: '附件删除',
+      '邓白氏号申请事宜请联系</br>上海华夏邓白氏商业信息咨询有限公司或其他地区邓白氏公司机构。具体信息可登录http://www.dnbchina.com/contact/index.html进行咨询', //邓白氏号申请事宜请联系上海华夏 邓白氏商业信息咨询有限公司或其 他地区邓白氏公司机构。 具体信息可登录 http://www.dnbchina.com/conta ct/index.html进行咨询
+    SUPPLIER_ZHUYAOFENGONGFANGMING: '主要分供方名称', //主要分供方名称
+    SUPPLIER_FUKUANQINGKUANG: '付款状况', //付款状况
+    SUPPLIER_XUANZENIANFEN: '选择年份', //选择年份
+    SUPPLIER_SHIFOUDINGDIAN: '是否定点', //是否定点
+    SUPPLIER_SHIFOUSHENGXIAO: '是否生效', //是否生效
+    SUPPLIER_WUXIAO: '无效', //无效
+    SUPPLIER_YOUXIAO: '有效', //有效、
+    SUPPLIER_PURCHASEREMAIL: '采购员邮箱', //采购员邮箱
+    SUPPLIER_PURCHASERNAME: '采购员姓名', //采购员姓名
+    SUPPLIER_SUPPLIERTYPE: '供应商类型', //供应商类型
+    SUPPLIER_ZHUANZHENGSUOXUFUJIAN: '转正所需附件', //转正所需附件
+    SUPPLIER_SHIFOUTONGYIJIANG: '是否同意将', //是否同意将
+    SUPPLIER_GONGSIZHUANEWIZHENGSHIGONGYINGSHANG: '公司转为正式供应商', //公司转为正式供应商
+    SUPPLIER_QINGTONGYI: '请同意', //请同意
+    SUPPLIER_GONGSITIJIAODEJIBENXINXIXIUGAISHENQING: '公司提交的信息修改申请', //公司提交的基本信息修改申请
+    SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI: '查看该供应商信息', //查看该供应商信息
+    SUPPLIER_FUJIANSHANCHU: '附件删除', //附件删除
     SUPPLIER_GONGYINGSHANGLEIXINGTIPS:
-      '您可以向大众集团采购部门提供的产品是否属于汽车 零部件？</br>若是：则选择生产采购；若否：则选择一般 采购。</br>生产采购：直接用于汽车生产的外购零部件和生产材 料、生产辅料的采购。</br>一般采购：除直接构成汽车的零部件及材料以外的物资以及服务的采购。</br>诸如：生产设备、测试设备和仪器、土建工程、公用动力和通用设备及其</br>安装工程、计算机软硬件、生产用辅料和刀具、办公用品、开发服务、物流</br>服务、市场营销服务、公共服务等的采购以上定义仅供参 考，请和采购员确</br>认之后进行选择。',
-    SUPPLIER_CAILIAOZU_GONGYIZUBIANHAO: '材料组/工艺组编号',
-    SUPPLIER_CAILIAOZU_ISXIANGGUNA: '是否与我相关',
-    SUPPLIER_CAILIAOZU_DUNSHAO: 'DUNS号',
-    SUPPLIER_CAILIAOZU_XIANGGUANKESHI: '相关科室',
-    SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN: '加入黑名单',
-    SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN: '发起初评清单',
-    SUPPLIER_CAILIAOZU_YAOQINGZHUCE: '邀请注册',
-    SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN: '移除黑名单',
-    SUPPLIER_GAILAN: '概览',
-    SUPPLIER_FRMZONGHEGUANLI: 'FRM综合管理',
-    SUPPLIER_XINGONGYINGSHANGPINGJI: '新供应商评级',
-    SUPPLIER_CHUBUPINGJI1: '初步评级',
-    SUPPLIER_SHENRUPINGJI: '深入评级',
-    SUPPLIER_FENGXIANXINHAO: '风险信号',
-    SUPPLIER_YUQINGJIANCE: '舆情监测',
-    SUPPLIER_GONGYINGSHANGRONGZISHENQING: '供应商融资申请',
-    SUPPLIER_VWHSQSJ: 'VW号申请时间',
-    SUPPLIER_VWHZT: 'VW号状态',
-    SUPPLIER_DDXXX: '定点信协议',
-    SPR_FRM_FRMGL_GYSZYMCSC: '供应商中文名（CSC）',
-    SPR_FRM_FRMGL_XGKS1: '相关科室',
-    SPR_FRM_FRMGL_CPSJ: '初评时间',
-    SPR_FRM_FRMGL_CPSJQZ: '初评时间起止',
-    SPR_FRM_FRMGL_WPSJ: '外评时间',
-    SPR_FRM_FRMGL_WPSJQZ: '外评时间起止',
-    SPR_FRM_FRMGL_WP1: '外评',
-    SPR_FRM_FRMGL_SPZT: '深评状态',
-    SPR_FRM_FRMGL_DXDFSJ: '定性打分时间',
-    SPR_FRM_FRMGL_DXDFSJQZ: '定性打分时间起止',
-    SPR_FRM_FRMGL_DXDFZT: '定性打分状态',
-    SPR_FRM_FRMGL_TZHPJ: '调整后评级',
-    SPR_FRM_FRMGL_SPSJ: '深评时间',
-    SPR_FRM_FRMGL_SPSJQZ: '深评时间起止',
-    SPR_FRM_FRMGL_DLDF: '定量得分',
-    SPR_FRM_FRMGL_DXDF: '定性得分',
-    SPR_FRM_FRMGL_DCCB: '导出财报',
-    SPR_FRM_FRMGL_DCTJBB: '导出统计报表',
-    SPR_FRM_FRMGL_VWAGPJ: 'VWAG评级',
-    SPR_FRM_FRMGL_FQCPQD: '发起初评清单',
-    SPR_FRM_FRMGL_DQRCPQD: '待确认初评清单',
-    SPR_FRM_FRMGL_CQCPMX: '查看初评模型',
-    SPR_FRM_DEP_WHHYJZ: '维护行业均值',
-    SPR_FRM_DEP_REMOVEGROUP: '移除集团',
-    SPR_FRM_DEP_ADDGROUP: '加入集团',
-    SPR_FRM_DEP_NEWGROUP: '新建集团',
-    SPR_FRM_DEP_SUBDERFR: '提交深评报告审核',
-    SPR_FRM_DEP_SUBLFA: '提交清单审批',
-    SPR_FRM_DEP_REPORTDISN: '报告分发',
-    SPR_FRM_DEP_END: '终止',
-    SPR_FRM_DEP_EXPORT: '导出',
-    SPR_FRM_DEP_SUPNAME: '供应商名称',
-    SPR_FRM_DEP_GROUPPACK: '集团名称',
-    SPR_FRM_DEP_STATE: '状态',
-    SPR_FRM_DEP_SPEEDPROGRESS: '进度',
-    SPR_FRM_DEP_ENCLOSUER: '附件',
-    SPR_FRM_DEP_INTERVIEWCON: '访谈内容',
-    SPR_FRM_DEP_DEPREPORT: '深评报告',
-    SPR_FRM_DEP_FRMJP: 'FRM简评',
-    SPR_FRM_DEP_FINANA: '财报分析',
-    SPR_FRM_DEP_DEPRESULT: '深评结果',
-    SPR_FRM_DEP_DEPTIME: '深评时间',
-    SPR_FRM_DEP_PREASRESULT: '初评结果',
-    SPR_FRM_DEP_OUTRATING: '外评',
-    SPR_FRM_DEP_TRACKFRE: '跟踪频率',
-    SPR_FRM_DEP_NEXTRATIME: '下次评级时间',
-    SPR_FRM_DEP_REKADEP: '相关科室',
-    SPR_FRM_DEP_REMARKS: '备注',
-    SPR_FRM_DEP_DISOBJ: '已分发对象',
-    SPR_FRM_DEP_RATSTARTIME: '评级开始月份',
-    SPR_FRM_DEP_RATENDTIME: '评级结束月份',
-    SPR_FRM_DEP_ESTIMATE: '预计完成月份',
-    SPR_FRM_DEP_PICOIDA: '深入分析负责人',
-    SPR_FRM_DEP_DEPREASON: '深评原因',
-    SPR_FRM_DEP_INPUTGROUPNAME: '请输入集团名称',
-    SPR_FRM_DEP_INPUTVALICODE: '请输入校验码',
-    SPR_FRM_DEP_GROUPNOTNAME: '集团名不能为空',
-    SPR_FRM_DEP_SUBMITQDSP: '提交清单审批',
-    SPR_FRM_DEP_SPSPQD: '深评审批清单',
-    SPR_FRM_DEP_JBQK: '基本情况',
-    SPR_FRM_DEP_YWSXY: '业务&上下游',
-    SPR_FRM_DEP_FINANCE: '财务',
-    SPR_FRM_DEP_OTHER: '其他',
-    SPR_FRM_DEP_CKCWFXJG: '查看财报分析结果',
-    SPR_FRM_DEP_SCHYJY: '生成会议纪要',
-    SPR_FRM_DEP_XJHY: '新建行业',
-    SPR_FRM_DEP_TJSH: '提交审核',
-    SPR_FRM_DEP_ZS: '综述',
-    SPR_FRM_DEP_QYGK: '企业概况',
-    SPR_FRM_DEP_CWFX: '财务分析',
-    SPR_FRM_DEP_IMPORT: '导入',
-    SPR_FRM_DEP_YJWCSJ: '预计完成时间',
-    SPR_FRM_DEP_QXZYJWCSJ: '请选择预计完成时间',
-    SPR_FRM_DEP_QXZFFDX: '请选择分发对象',
-    SPR_FRM_DEP_XXYY: '详细原因',
-    SPR_FRM_DEP_ISDEPTH: '是否深评',
-    SPR_FRM_DEP_BPJYY: '不评级原因',
-    SPR_FRM_DEP_CXWHDX: '维护呈现对象',
-    SPR_FRM_DEP_DQHY: '当前行业',
-    SPR_FRM_DEP_HYMC: '行业名称',
-    SPR_FRM_DEP_HYJZ: '行业均值',
-    SPR_FRM_DEP_SVWGYSJZ: 'SVW供应商均值',
-    SPR_FRM_DEP_FTQD: '访谈清单',
-    SPR_FRM_DEP_JRHYJZ: '加入行业均值',
-    SPR_FRM_DEP_CGJE: '持股金额',
-    SPR_FRM_DEP_YWHCP: '业务或产品',
-    SPR_FRM_DEP_ZB: '占比',
-    SPR_FRM_DEP_ZYGYS: '主要供应商',
-    SPR_FRM_DEP_ZXNDGHZB: '最新年度供货占比',
-    SPR_FRM_DEP_ZXNDGHJE: '最新年度供货金额',
-    SPR_FRM_DEP_ZXNDXSZB: '最新年度销售占比',
-    SPR_FRM_DEP_ZXNDXSJE: '最新年度销售金额',
-    SPR_FRM_DEP_DBDYZY: '担保/抵押/质押',
-    SPR_FRM_DEP_SXQZRQ: '授信起止日期',
-    SPR_FRM_DEP_HYJY: '会议纪要',
-    SPR_FRM_DEP_QSRGYSTGXX: '请输入供应商提供信息...',
-    SPR_FRM_DEP_JTGDSJKZR: '集团、股东、实际控制人（详见股权结构图）',
-    SPR_FRM_DEP_GLGSQK: '关联公司情况（详见股权结构图）',
-    SPR_FRM_DEP_GLGSJS: '关联公司介绍',
-    SPR_FRM_DEP_INPUT: '请输入…',
-    SPR_FRM_DEP_YSY: '已使用',
-    SPR_FRM_DEP_GLGSYWWLQK: '关联公司业务往来情况',
-    SPR_FRM_DEP_ZZJGRYQK: '组织机构、人员情况',
-    SPR_FRM_DEP_GLTDQTRYQK: '管理团队其他人员情况',
-    SPR_FRM_DEP_JBQKBC: '基本情况 - 补充',
-    SPR_FRM_DEP_ZYCPJZBCPGY: '主要产品及占比、产品工艺',
-    SPR_FRM_DEP_ZYYWMSHJGSD: '主要业务模式和加工深度',
-    SPR_FRM_DEP_SBTZYCLJCKYW: '设备投资、原材料、进出口业务',
-    SPR_FRM_DEP_HZSJ: '合作时间',
-    SPR_FRM_DEP_GQXZJWLDXMQK: '过去，现在及未来的项目情况',
-    SPR_FRM_DEP_SVWYWQK: 'SVW业务情况',
-    SPR_FRM_DEP_YWFZJTZ: '业务发展及投资',
-    SPR_FRM_DEP_YYNL: '营运能力',
-    SPR_FRM_DEP_CNQK: '产能情况',
-    SPR_FRM_DEP_YWSXYBC: '业务&上下游-补充',
-    SPR_FRM_DEP_YLNL: '盈利能力',
-    SPR_FRM_DEP_CZNL: '偿债能力',
-    SPR_FRM_DEP_ZJYRZQD: '资金与融资渠道',
-    SPR_FRM_DEP_CWBC: '财务 - 补充',
+      '您可以向大众集团采购部门提供的产品是否属于汽车 零部件？</br>若是：则选择生产采购；若否：则选择一般 采购。</br>生产采购：直接用于汽车生产的外购零部件和生产材 料、生产辅料的采购。</br>一般采购：除直接构成汽车的零部件及材料以外的物资以及服务的采购。</br>诸如：生产设备、测试设备和仪器、土建工程、公用动力和通用设备及其</br>安装工程、计算机软硬件、生产用辅料和刀具、办公用品、开发服务、物流</br>服务、市场营销服务、公共服务等的采购以上定义仅供参考，请和采购员确</br>认之后进行选择。', //供应商类型tips
+    SUPPLIER_CAILIAOZU_GONGYIZUBIANHAO: '材料组/工艺组编号', //材料组/工艺组编号
+    SUPPLIER_CAILIAOZU_ISXIANGGUNA: '是否与我相关', //是否与我相关
+    SUPPLIER_CAILIAOZU_DUNSHAO: 'DUNS号', //DUNS号
+    SUPPLIER_CAILIAOZU_XIANGGUANKESHI: '相关科室', //相关科室
+    SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN: '加入黑名单', //加入黑名单
+    SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN: '发起初评清单', //发起初评清单
+    SUPPLIER_CAILIAOZU_YAOQINGZHUCE: '邀请注册', //邀请注册
+    SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN: '移除黑名单', //移除黑名单
+    SUPPLIER_GAILAN: '概览', //概览
+    SUPPLIER_FRMZONGHEGUANLI: 'FRM综合管理', //FRM综合管理
+    SUPPLIER_XINGONGYINGSHANGPINGJI: '新供应商评级', //新供应商评级
+    SUPPLIER_CHUBUPINGJI1: '初步评级', //初步评级
+    SUPPLIER_SHENRUPINGJI: '深入评级', //深入评级
+    SUPPLIER_FENGXIANXINHAO: '风险信号', //风险信号
+    SUPPLIER_YUQINGJIANCE: '舆情监测', //舆情监测
+    SUPPLIER_GONGYINGSHANGRONGZISHENQING: '供应商融资申请', //供应商融资申请
+    SUPPLIER_VWHSQSJ: 'VW号申请时间', //VW号申请时间
+    SUPPLIER_VWHZT: 'VW号状态', //VW号状态
+    SUPPLIER_DDXXX: '定点信协议', //定点信协议
+    SPR_FRM_FRMGL_GYSZYMCSC: '供应商中文名（CSC）', //供应商中文名（CSC）
+    SPR_FRM_FRMGL_XGKS1: '相关科室', //相关科室
+    SPR_FRM_FRMGL_CPSJ: '初评时间', //初评时间
+    SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
+    SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
+    SPR_FRM_FRMGL_WPSJQZ: '外评时间起止', //外评时间起止
+    SPR_FRM_FRMGL_WP1: '外评', //外评
+    SPR_FRM_FRMGL_SPZT: '深评状态', //深评状态
+    SPR_FRM_FRMGL_DXDFSJ: '定性打分时间', //定性打分时间
+    SPR_FRM_FRMGL_DXDFSJQZ: '定性打分时间起止', //定性打分时间起止
+    SPR_FRM_FRMGL_DXDFZT: '定性打分状态', //定性打分状态
+    SPR_FRM_FRMGL_TZHPJ: '调整后评级', //调整后评级
+    SPR_FRM_FRMGL_SPSJ: '深评时间', //深评时间
+    SPR_FRM_FRMGL_SPSJQZ: '深评时间起止', //深评时间起止
+    SPR_FRM_FRMGL_DLDF: '定量得分', //定量得分
+    SPR_FRM_FRMGL_DXDF: '定性得分', //定性得分
+    SPR_FRM_FRMGL_DCCB: '导出财报', //导出财报
+    SPR_FRM_FRMGL_DCTJBB: '导出统计报表', //导出统计报表
+    SPR_FRM_FRMGL_VWAGPJ: 'VWAG评级', //VWAG评级
+    SPR_FRM_FRMGL_FQCPQD: '发起初评清单', //发起初评清单
+    SPR_FRM_FRMGL_DQRCPQD: '待确认初评清单', //待确认初评清单
+    SPR_FRM_FRMGL_CQCPMX: '查看初评模型', //查看初评模型
+    // -------------------------------FRM深评翻译 舒杰 start---------------------------------------------
+    SPR_FRM_DEP_WHHYJZ: '维护行业均值', //维护行业均值
+    SPR_FRM_DEP_REMOVEGROUP: '移除集团', //移除集团
+    SPR_FRM_DEP_ADDGROUP: '加入集团', //加入集团
+    SPR_FRM_DEP_NEWGROUP: '新建集团', //新建集团
+    SPR_FRM_DEP_SUBDERFR: '提交深评报告审核', //提交深评报告审核
+    SPR_FRM_DEP_SUBLFA: '提交清单审批', //提交清单审批
+    SPR_FRM_DEP_REPORTDISN: '报告分发', //报告分发
+    SPR_FRM_DEP_END: '终止', //终止
+    SPR_FRM_DEP_EXPORT: '导出', //导出
+    SPR_FRM_DEP_SUPNAME: '供应商名称', //供应商名称
+    SPR_FRM_DEP_GROUPPACK: '集团名称', //集团名称
+    SPR_FRM_DEP_STATE: '状态', //状态
+    SPR_FRM_DEP_SPEEDPROGRESS: '进度', //进度
+    SPR_FRM_DEP_ENCLOSUER: '附件', //附件
+    SPR_FRM_DEP_INTERVIEWCON: '访谈内容', //访谈内容
+    SPR_FRM_DEP_DEPREPORT: '深评报告', //深评报告
+    SPR_FRM_DEP_FRMJP: 'FRM简评', //FRM简评
+    SPR_FRM_DEP_FINANA: '财报分析', //财报分析
+    SPR_FRM_DEP_DEPRESULT: '深评结果', //深评结果
+    SPR_FRM_DEP_DEPTIME: '深评时间', //深评时间
+    SPR_FRM_DEP_PREASRESULT: '初评结果', //初评结果
+    SPR_FRM_DEP_OUTRATING: '外评', //外评
+    SPR_FRM_DEP_TRACKFRE: '跟踪频率', //跟踪频率
+    // 注意更改
+    SPR_FRM_DEP_NEXTRATIME: '下次评级时间', //下次评级时间
+    SPR_FRM_DEP_REKADEP: '相关科室', //相关科室
+    SPR_FRM_DEP_REMARKS: '备注', //备注
+    SPR_FRM_DEP_DISOBJ: '已分发对象', //已分发对象
+    SPR_FRM_DEP_RATSTARTIME: '评级开始月份', //评级开始月份
+    SPR_FRM_DEP_RATENDTIME: '评级结束月份', //评级结束月份
+    SPR_FRM_DEP_ESTIMATE: '预计完成月份', //预计完成月份
+    SPR_FRM_DEP_PICOIDA: '深入分析负责人', //深入分析负责人
+    SPR_FRM_DEP_DEPREASON: '深评原因', //深评原因
+    SPR_FRM_DEP_INPUTGROUPNAME: '请输入集团名称', //请输入集团名称
+    SPR_FRM_DEP_INPUTVALICODE: '请输入校验码', //请输入校验码
+    SPR_FRM_DEP_GROUPNOTNAME: '集团名不能为空', //集团名不能为空
+    SPR_FRM_DEP_SUBMITQDSP: '提交清单审批', //提交清单审批
+    SPR_FRM_DEP_SPSPQD: '深评审批清单', //深评审批清单
+    SPR_FRM_DEP_JBQK: '基本情况', //基本情况
+    SPR_FRM_DEP_YWSXY: '业务&上下游', //业务&上下游
+    SPR_FRM_DEP_FINANCE: '财务', //财务
+    SPR_FRM_DEP_OTHER: '其他', //其他
+    SPR_FRM_DEP_CKCWFXJG: '查看财报分析结果', //查看财报分析结果
+    SPR_FRM_DEP_SCHYJY: '生成会议纪要', //生成会议纪要
+    SPR_FRM_DEP_XJHY: '新建行业', //新建行业
+    SPR_FRM_DEP_TJSH: '提交审核', //提交审核
+    SPR_FRM_DEP_ZS: '综述', //综述
+    SPR_FRM_DEP_QYGK: '企业概况', //企业概况
+    SPR_FRM_DEP_CWFX: '财务分析', //财务分析
+    SPR_FRM_DEP_IMPORT: '导入', //财务分析
+    SPR_FRM_DEP_YJWCSJ: '预计完成时间', //预计完成时间
+    SPR_FRM_DEP_QXZYJWCSJ: '请选择预计完成时间', //请选择预计完成时间
+    SPR_FRM_DEP_QXZFFDX: '请选择分发对象', //请选择分发对象
+    SPR_FRM_DEP_XXYY: '详细原因', //详细原因
+    SPR_FRM_DEP_ISDEPTH: '是否深评', //是否深评
+    SPR_FRM_DEP_BPJYY: '不评级原因', //不评级原因
+    SPR_FRM_DEP_CXWHDX: '维护呈现对象', //维护呈现对象
+    SPR_FRM_DEP_DQHY: '当前行业', //当前行业
+    SPR_FRM_DEP_HYMC: '行业名称', //行业名称
+    SPR_FRM_DEP_HYJZ: '行业均值', //行业均值
+    SPR_FRM_DEP_SVWGYSJZ: 'SVW供应商均值', //SVW供应商均值
+    SPR_FRM_DEP_FTQD: '访谈清单', //访谈清单
+    SPR_FRM_DEP_JRHYJZ: '加入行业均值', //加入行业均值
+    SPR_FRM_DEP_CGJE: '持股金额', //持股金额
+    SPR_FRM_DEP_YWHCP: '业务或产品', //业务或产品
+    SPR_FRM_DEP_ZB: '占比', //占比
+    SPR_FRM_DEP_ZYGYS: '主要供应商', //主要供应商
+    SPR_FRM_DEP_ZXNDGHZB: '最新年度供货占比', //最新年度供货占比
+    SPR_FRM_DEP_ZXNDGHJE: '最新年度供货金额', //最新年度供货金额
+    SPR_FRM_DEP_ZXNDXSZB: '最新年度销售占比', //最新年度销售占比
+    SPR_FRM_DEP_ZXNDXSJE: '最新年度销售金额', //最新年度销售金额
+    SPR_FRM_DEP_DBDYZY: '担保/抵押/质押', //担保/抵押/质押
+    SPR_FRM_DEP_SXQZRQ: '授信起止日期', //授信起止日期
+    SPR_FRM_DEP_HYJY: '会议纪要', //会议纪要
+    SPR_FRM_DEP_QSRGYSTGXX: '请输入供应商提供信息...', //请输入供应商提供信息...
+    SPR_FRM_DEP_JTGDSJKZR: '集团、股东、实际控制人（详见股权结构图）', //集团、股东、实际控制人（详见股权结构图）
+    SPR_FRM_DEP_GLGSQK: '关联公司情况（详见股权结构图）', //关联公司情况（详见股权结构图）
+    SPR_FRM_DEP_GLGSJS: '关联公司介绍', //关联公司介绍
+    SPR_FRM_DEP_INPUT: '请输入…', //请输入…
+    SPR_FRM_DEP_YSY: '已使用', //已使用
+    SPR_FRM_DEP_GLGSYWWLQK: '关联公司业务往来情况', //关联公司业务往来情况
+    SPR_FRM_DEP_ZZJGRYQK: '组织机构、人员情况', //组织机构、人员情况
+    SPR_FRM_DEP_GLTDQTRYQK: '管理团队其他人员情况', //管理团队其他人员情况
+    SPR_FRM_DEP_JBQKBC: '基本情况 - 补充', //基本情况 - 补充
+    SPR_FRM_DEP_ZYCPJZBCPGY: '主要产品及占比、产品工艺', //主要产品及占比、产品工艺
+    SPR_FRM_DEP_ZYYWMSHJGSD: '主要业务模式和加工深度', //主要业务模式和加工深度
+    SPR_FRM_DEP_SBTZYCLJCKYW: '设备投资、原材料、进出口业务', //设备投资、原材料、进出口业务
+    SPR_FRM_DEP_HZSJ: '合作时间', //合作时间
+    SPR_FRM_DEP_GQXZJWLDXMQK: '过去，现在及未来的项目情况', //过去，现在及未来的项目情况
+    SPR_FRM_DEP_SVWYWQK: 'SVW业务情况', //SVW业务情况
+    SPR_FRM_DEP_YWFZJTZ: '业务发展及投资', //业务发展及投资
+    SPR_FRM_DEP_YYNL: '营运能力', //营运能力
+    SPR_FRM_DEP_CNQK: '产能情况', //产能情况
+    SPR_FRM_DEP_YWSXYBC: '业务&上下游-补充', //业务&上下游-补充
+    SPR_FRM_DEP_YLNL: '盈利能力', //盈利能力
+    SPR_FRM_DEP_CZNL: '偿债能力', //偿债能力
+    SPR_FRM_DEP_ZJYRZQD: '资金与融资渠道', //资金与融资渠道
+    SPR_FRM_DEP_CWBC: '财务 - 补充', //财务 - 补充
     SPR_FRM_DEP_YLNLPLACE:
-      '销售毛利率、销售净利率、管理费用率、销售费用率、财务费用率、研发费用核算…',
-    SPR_FRM_DEP_YYNLPLACE: '存货周转率、固定资产周转率…',
-    SPR_FRM_DEP_CZNLPLACE: '资不抵债、增资/减资…',
+      '销售毛利率、销售净利率、管理费用率、销售费用率、财务费用率、研发费用核算…', //销售毛利率、销售净利率、管理费用率、销售费用率、财务费用率、研发费用核算…
+    SPR_FRM_DEP_YYNLPLACE: '存货周转率、固定资产周转率…', //存货周转率、固定资产周转率…
+    SPR_FRM_DEP_CZNLPLACE: '资不抵债、增资/减资…', //资不抵债、增资/减资…
     SPR_FRM_DEP_HYJYPLACE:
-      '集团支持（关联数据：其他应付款）、资金池、长期/短期、融资租赁（设备、金额、期限、利率、保证金 ）、票据贴现、每月营运资金…',
+      '集团支持（关联数据：其他应付款）、资金池、长期/短期、融资租赁（设备、金额、期限、利率、保证金）、票据贴现、每月营运资金…', //'集团支持（关联数据：其他应付款）、资金池、长期/短期、融资租赁（设备、金额、期限、利率、保证金）、票据贴现、每月营运资金…'
     SPR_FRM_DEP_CWBCPLACE:
-      '资产减值损失、营业外收入/支出、政府补助、税收优惠、多套报表、其他异常变动…',
-    SPR_FRM_DEP_CLBJJBQKLSYG: '成立背景、基本情况、历史沿革',
-    SPR_FRM_DEP_TFSJDYX: '突发事件的影响（如：疫情、事故、自然灾害等）',
-    SPR_FRM_DEP_SSQK: '涉诉情况',
-    SPR_FRM_DEP_QTBC: '其他 - 补充',
+      '资产减值损失、营业外收入/支出、政府补助、税收优惠、多套报表、其他异常变动…', //资产减值损失、营业外收入/支出、政府补助、税收优惠、多套报表、其他异常变动…
+    SPR_FRM_DEP_CLBJJBQKLSYG: '成立背景、基本情况、历史沿革', //成立背景、基本情况、历史沿革
+    SPR_FRM_DEP_TFSJDYX: '突发事件的影响（如：疫情、事故、自然灾害等）', //突发事件的影响（如：疫情、事故、自然灾害等）
+    SPR_FRM_DEP_SSQK: '涉诉情况', //涉诉情况
+    SPR_FRM_DEP_QTBC: '其他 - 补充', //其他 - 补充
     SPR_FRM_DEP_TFSJDYXPLACE:
-      '生产情况及较上年的变化、人员及工资支付、对财务的影响、对短期资金的影响、政府补助、融资…',
+      '生产情况及较上年的变化、人员及工资支付、对财务的影响、对短期资金的影响、政府补助、融资…', //生产情况及较上年的变化、人员及工资支付、对财务的影响、对短期资金的影响、政府补助、融资…
     SPR_FRM_DEP_SSQKPLACE:
-      '原告/被告、案由、金额、对生产经营、财务、短期资金的影响…',
-    SPR_FRM_DEP_QTBCPLACE: '其他 - 补充',
-    SPR_FRM_DEP_CXRY: '出席人员',
-    SPR_FRM_DEP_HYRQ: '会议日期',
-    SPR_FRM_DEP_CC: '抄送',
-    SPR_FRM_DEP_ZXR: '撰写人',
-    SPR_FRM_DEP_BM: '部门',
-    SPR_FRM_DEP_ZT: '主题',
-    SPR_FRM_DEP_SCBXZ: '生成并下载',
-    SPR_FRM_DEP_CXRYPLACE: '例：xxx,xxx,xxx…',
-    SPR_FRM_DEP_ZRS: '总人数',
-    SPR_FRM_DEP_GLRY: '管理人员',
-    SPR_FRM_DEP_SCRY: '生产人员',
-    SPR_FRM_DEP_CSRQ: '出生日期',
-    SPR_FRM_DEP_CYNX: '从业年限',
-    SPR_FRM_DEP_SJKZR: '实际控制人',
-    SPR_FRM_DEP_ZJL: '总经理',
-    SPR_FRM_DEP_SFRM: 'SFRM综合评价',
-    SPR_FRM_DEP_SFRMPLACE: '财务状况、趋势。综合信用风险。',
-    SPR_FRM_DEP_FOLLOW: '后续跟踪建议',
-    SPR_FRM_DEP_NEXT: '再次跟踪频率',
-    SPR_FRM_DEP_COMMENT: '1-36个月/无需后续跟踪',
-    SPR_FRM_DEP_NOFOLLOW: '无需后续跟踪',
-    SPR_FRM_DEP_MONTH: '月',
-    SPR_FRM_DEP_EXTINFO: '补充建议',
-    SPR_FRM_DEP_BACKGROUND: '背景',
-    SPR_FRM_DEP_GROUP: '集团及关联公司',
-    SPR_FRM_DEP_CHANGE: '重要变更',
-    SPR_FRM_DEP_FINANCIAL: '融资信息',
-    SPR_FRM_DEP_BUSSINESS: '业务情况',
-    SPR_FRM_DEP_MOVE: '搬迁情况',
-    SPR_FRM_DEP_SENSITIVE: '敏感信息',
-    SPR_FRM_DEP_PROFILE: '公司简介',
-    SPR_FRM_DEP_OTHEREXTINFO: '其他补充信息',
-    SPR_FRM_DEP_BIZANDCUS: '主营业务及客户情况',
-    SPR_FRM_DEP_TO: 'TO情况',
-    SPR_FRM_DEP_NOTIFYINFO: '提示信息',
-    SPR_FRM_DEP_CREATEDATE: '成立时间',
-    SPR_FRM_DEP_HC: '员工人数',
-    SPR_FRM_DEP_METRIC: '指标（大类）',
-    SPR_FRM_DEP_SIMPLECOM: '简评',
-    SPR_FRM_DEP_OBJPLACE: '请选择呈现对象',
-    SPR_FRM_DEP_AVGPLACE: '请选择行业均值',
-    SPR_FRM_DEP_PAYTURNOVER: '应付账款周转率',
-    SPR_FRM_DEP_AVGERROR: '请选择行业类型',
-    SPR_FRM_DEP_BIZREMARK: '来源于公开信息，供应商提供信息和供应商访谈。',
+      '原告/被告、案由、金额、对生产经营、财务、短期资金的影响…', //原告/被告、案由、金额、对生产经营、财务、短期资金的影响…
+    SPR_FRM_DEP_QTBCPLACE: '其他 - 补充', //其他 - 补充
+    SPR_FRM_DEP_CXRY: '出席人员', //出席人员
+    SPR_FRM_DEP_HYRQ: '会议日期', //会议日期
+    SPR_FRM_DEP_CC: '抄送', //抄送
+    SPR_FRM_DEP_ZXR: '撰写人', //撰写人
+    SPR_FRM_DEP_BM: '部门', //部门
+    SPR_FRM_DEP_ZT: '主题', //主题
+    // 这里的冲突
+    SPR_FRM_DEP_SCBXZ: '生成并下载', //生成并下载
+    SPR_FRM_DEP_CXRYPLACE: '例：xxx,xxx,xxx…', //例：xxx,xxx,xxx…
+    SPR_FRM_DEP_ZRS: '总人数', //总人数
+    SPR_FRM_DEP_GLRY: '管理人员', //管理人员
+    SPR_FRM_DEP_SCRY: '生产人员', //生产人员
+    SPR_FRM_DEP_CSRQ: '出生日期', //出生日期
+    SPR_FRM_DEP_CYNX: '从业年限', //从业年限
+    SPR_FRM_DEP_SJKZR: '实际控制人', //实际控制人
+    SPR_FRM_DEP_ZJL: '总经理', //总经理
+    SPR_FRM_DEP_SFRM: 'SFRM综合评价', // SFRM综合评价
+    SPR_FRM_DEP_SFRMPLACE: '财务状况、趋势。综合信用风险。', // 财务状况、趋势。综合信用风险。
+    SPR_FRM_DEP_FOLLOW: '后续跟踪建议', // 后续跟踪建议
+    SPR_FRM_DEP_NEXT: '再次跟踪频率', // 再次跟踪频率
+    SPR_FRM_DEP_COMMENT: '1-36个月/无需后续跟踪', // 1-36个月/无需后续跟踪
+    SPR_FRM_DEP_NOFOLLOW: '无需后续跟踪', // 无需后续跟踪
+    SPR_FRM_DEP_MONTH: '月', // 月
+    SPR_FRM_DEP_EXTINFO: '补充建议', // 补充建议
+    SPR_FRM_DEP_BACKGROUND: '背景', // 背景
+    SPR_FRM_DEP_GROUP: '集团及关联公司', // 集团及关联公司
+    SPR_FRM_DEP_CHANGE: '重要变更', // 重要变更
+    SPR_FRM_DEP_FINANCIAL: '融资信息', // 融资信息
+    SPR_FRM_DEP_BUSSINESS: '业务情况', // 业务情况
+    SPR_FRM_DEP_MOVE: '搬迁情况', // 搬迁情况
+    SPR_FRM_DEP_SENSITIVE: '敏感信息', // 敏感信息
+    SPR_FRM_DEP_PROFILE: '公司简介', // 公司简介
+    SPR_FRM_DEP_OTHEREXTINFO: '其他补充信息', // 其他补充信息
+    SPR_FRM_DEP_BIZANDCUS: '主营业务及客户情况', // 主营业务及客户情况
+    SPR_FRM_DEP_TO: 'TO情况', // TO情况
+    SPR_FRM_DEP_NOTIFYINFO: '提示信息', // 提示信息
+    SPR_FRM_DEP_CREATEDATE: '成立时间', // 成立时间
+    SPR_FRM_DEP_HC: '员工人数', // 员工人数
+    SPR_FRM_DEP_METRIC: '指标（大类）', // 指标（大类）
+    SPR_FRM_DEP_SIMPLECOM: '简评', // 简评
+    SPR_FRM_DEP_OBJPLACE: '请选择呈现对象', // 请选择呈现对象
+    SPR_FRM_DEP_AVGPLACE: '请选择行业均值', // 请选择行业均值
+    SPR_FRM_DEP_PAYTURNOVER: '应付账款周转率', // 应付账款周转率
+    SPR_FRM_DEP_AVGERROR: '请选择行业类型', // 请选择行业类型
+    SPR_FRM_DEP_BIZREMARK: '来源于公开信息，供应商提供信息和供应商访谈。', // 来源于公开信息，供应商提供信息和供应商访谈。
     SPR_FRM_DEP_FANREMARK:
-      '财务分析基于供应商提供/资信报告财务数据和供应商访谈。',
+      '财务分析基于供应商提供/资信报告财务数据和供应商访谈。', // 财务分析基于供应商提供/资信报告财务数据和供应商访谈。
     SPR_FRM_DEP_COMREMARK:
-      '本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。',
-    SPR_FRM_DEP_CHECK: '必填项不存在',
+      '本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。', // 本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。
+    SPR_FRM_DEP_CHECK: '必填项不存在', // 必填项不存在
     SPR_FRM_DEP_BUPINGJIYUANYIN: '请填写不评级原因',
-    SPR_FRM_DEP_SELECTGROUP: '选择集团',
-    SPR_FRM_DEP_ALLOK: '全部选取',
-    SPR_FRM_DEP_ALLCANCEL: '全部移除',
+    SPR_FRM_DEP_SELECTGROUP: '选择集团', // 选择集团
+    SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
+    SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '请确认需要分发的深评报告状态',
     SPR_FRM_DEP_CHECKSPSTATUS:
       '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
@@ -1404,247 +1471,250 @@
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
     SPR_FRM_DEP_HYMCYCZ: '行业名称已存在，请重新输入',
-    SPR_FRM_FRMGL_INVALID: '状态为有效，不能操作',
-    SPR_FRM_FRMGL_VALID: '状态为无效，不能操作',
-    SPR_FRM_FRMGL_XZFTQDMB: '下载模板',
-    SPR_FRM_FRMGL_BGFFMESSAGE: '同一批次报告分发需保持深评结果和相关科室一致',
-    SPR_FRM_XGYSPJ_ZCZBY: '请输入注册资本（元）',
-    SPR_FRM_XGYSPJ_CGKS: '采购科室',
-    SPR_FRM_XGYSPJ_XGYSPG: '新供应商评估',
-    SPR_FRM_XGYSPJ_GYSRZGL: '供应商融资管理',
-    SPR_FRM_XGYSPJ_J: '家',
-    SUPPLIER_CNYJ: '产能预警',
-    SPR_FRM_XGYSPJ_SHWC: '审核完成',
-    SPR_FRM_XGYSPJ_JSQZ: '家申请中',
-    SPR_FRM_XGYSPJ_SQZ: '申请中',
-    SPR_FRM_XGYSPJ_JSHWC: '家审核完成',
-    SPR_FRM_XGYSPJ_FXXH: '风险信号',
-    SPR_FRM_XGYSPJ_GYSXJDDQK: '供应商询价定点情况',
-    SPR_FRM_XGYSPJ_YQQK: '舆情监测',
-    SPR_FRM_XGYSPJ_PJJG: '评级结果',
-    SPR_FRM_XGYSPJ_GYSYWMC: '供应商英文名称',
-    SPR_FRM_XGYSPJ_SQSJ: '申请时间',
-    SPR_FRM_XGYSPJ_CGY: '采购员',
-    SPR_FRM_XGYSPJ_PJSJ: '评级时间',
-    SPR_FRM_XGYSPJ_PJFZR: '评级负责人',
-    SPR_FRM_XGYSPJ_BTGYY: '不通过原因',
-    SPR_FRM_XGYSPJ_SJLY: '数据来源',
-    SPR_FRM_XGYSPJ_CKGYSXX: '查看供应商信息',
-    SPR_FRM_XGYSPJ_GYSJYJRDCLZ: '供应商将要加入的材料组',
-    SPR_FRM_XGYSPJ_SFTY: '是否同意',
-    SPR_FRM_XGYSPJ_GSDZRSQ: '公司的准入申请',
-    SPR_FRM_XGYSPJ_RWRQ: '任务日期',
-    SPR_FRM_XGYSPJ_GYSCWPJJG: '供应商财务评级结果',
-    SPR_FRM_XGYSPJ_WFPJ: '无法评级',
-    SPR_FRM_XGYSPJ_TJJS: '提交计算',
-    SPR_FRM_XGYSPJ_TJSP: '提交审批',
-    SPR_FRM_XGYSPJ_TJQQCG: '退回前期采购',
-    SPR_FRM_XGYSPJ_DQWBPJ: '调取外部评级',
-    SPR_FRM_XGYSPJ_GYSZRPGMO_JBXX: '供应商准入评估模型-基本信息',
-    SPR_FRM_XGYSPJ_SSLB: '数据类别',
-    SPR_FRM_XGYSPJ_SJZ: '数据值',
-    SPR_FRM_XGYSPJ_JSZ: '计算值',
-    SPR_FRM_XGYSPJ_SM: '说明',
-    SPR_FRM_XGYSPJ_QXZSJLY: '请选择数据来源',
-    SPR_FRM_XGYSPJ_DCCB: '导出财报',
-    SPR_FRM_XGYSPJ_GDXX: '股东信息',
-    SPR_FRM_XGYSPJ_GDMC: '股东名称',
-    SPR_FRM_XGYSPJ_GJDQ: '国家/地区',
-    SPR_FRM_XGYSPJ_CZE: '出资额',
-    SPR_FRM_XGYSPJ_QXZYTSJTJ: '请选择一条数据',
-    SPR_FRM_XGYSPJ_BZ: '币种',
-    SPR_FRM_XGYSPJ_ZYYW: '主营业务',
-    SPR_FRM_XGYSPJ_ZYYWHYGS: '主要业务行业归属',
-    SPR_FRM_XGYSPJ_GDDGSDZCQK: '股东对公司的支持情况',
-    SPR_FRM_XGYSPJ_GDZZZJHM: '股东证照/证件号码',
-    SPR_FRM_XGYSPJ_DGLX: '股东类型',
-    SPR_FRM_XGYSPJ_CGBL: '持股比例（%）',
-    SPR_FRM_XGYSPJ_GYSZRPGMO_CWXX: '供应商准入评估模型-财务状况',
-    SPR_FRM_XGYSPJ_TBQ: '填补前（元）',
-    SPR_FRM_XGYSPJ_GYSZRPGMX_DFZB: '供应商准入评估模型-得分指标',
-    SPR_FRM_XGYSPJ_ZB: '指标',
-    SPR_FRM_XGYSPJ_DF: '得分',
-    SPR_FRM_XGYSPJ_QZ: '权重',
-    SPR_FRM_XGYSPJ_DFQZ: '得分*权重',
-    SPR_FRM_XGYSPJ_FXGZTS: '风险关注点提示',
-    SPR_FRM_XGYSPJ_GYSZRPGMX_FXYJ: '供应商准入评估模型-风险预警',
-    SPR_FRM_XGYSPJ_GYSZRPGMX_BZ: '供应商准入评估模型-备注',
-    SPR_FRM_XGYSPJ_YJZB: '预警指标',
-    SPR_FRM_XGYSPJ_ZBGS: '指标公式',
-    SPR_FRM_XGYSPJ_JG: '结果',
-    SPR_FRM_XGYSPJ_YJFW: '预警范围',
-    SPR_FRM_XGYSPJ_SFYJ: '是否预警',
-    SPR_FRM_XGYSPJ_YJTS: '预警提示',
-    SPR_FRM_XGYSPJ_YJWZSM: '预警：文字说明',
-    SPR_FRM_XGYSPJ_TZQFS: '调整前分数',
-    SPR_FRM_XGYSPJ_TZQJB: '调整前级别',
-    SPR_FRM_XGYSPJ_TSJJF: '特殊加减分',
-    SPR_FRM_XGYSPJ_TZHJB: '调整后级别',
-    SPR_FRM_XGYSPJ_CWSJBZ: '财务数据备注：',
-    SPR_FRM_XGYSPJ_QSRDWRMBDZCZBJES: '请输入单位为人民币的注册资本金数额',
-    SPR_FRM_XGYSPJ_TZHFS: '调整后分数',
-    SPR_FRM_XGYSPJ_SFTGPG: '是否通过评估',
-    SPR_FRM_XGYSPJ_SHHZQCYXGS: '上海汇众汽车有限公司',
-    SPR_FRM_XGYSPJ_GCDT: '工厂地图',
-    SPR_FRM_XGYSPJ_GYSCWPJJGBZ: '供应商财务评级结果-备注',
-    SPR_FRM_XGYSPJ_GYSZRPGMXBZ: '供应商准入评估模型 - 备注',
+    SPR_FRM_FRMGL_INVALID: '状态为有效，不能操作', //初步评级有效提示信息
+    SPR_FRM_FRMGL_VALID: '状态为无效，不能操作', //初步评级无效提示信息
+    SPR_FRM_FRMGL_XZFTQDMB: '下载模板', //下载模板
+    SPR_FRM_FRMGL_BGFFMESSAGE: '同一批次报告分发需保持深评结果和相关科室一致', //同一批次报告分发需保持深评结果和相关科室一致
+    // -------------------------------FRM深评翻译 舒杰 end---------------------------------------------
+    SPR_FRM_XGYSPJ_ZCZBY: '请输入注册资本（元）', //请输入注册资本（元）
+    SPR_FRM_XGYSPJ_CGKS: '采购科室', //采购科室
+    SPR_FRM_XGYSPJ_XGYSPG: '新供应商评估', //新供应商评估
+    SPR_FRM_XGYSPJ_GYSRZGL: '供应商融资管理', //供应商融资管理
+    SPR_FRM_XGYSPJ_J: '家', //家
+    SUPPLIER_CNYJ: '产能预警', //产能预警
+    SPR_FRM_XGYSPJ_SHWC: '审核完成', //审核完成
+    SPR_FRM_XGYSPJ_JSQZ: '家申请中', //家申请中
+    SPR_FRM_XGYSPJ_SQZ: '申请中', //申请中
+    SPR_FRM_XGYSPJ_JSHWC: '家审核完成', //家审核完成
+    SPR_FRM_XGYSPJ_FXXH: '风险信号', //风险信号
+    SPR_FRM_XGYSPJ_GYSXJDDQK: '供应商询价定点情况', //供应商询价定点情况
+    SPR_FRM_XGYSPJ_YQQK: '舆情监测', //舆情监测
+    SPR_FRM_XGYSPJ_PJJG: '评级结果', //评级结果
+    SPR_FRM_XGYSPJ_GYSYWMC: '供应商英文名称', //供应商英文名称
+    SPR_FRM_XGYSPJ_SQSJ: '申请时间', //申请时间
+    SPR_FRM_XGYSPJ_CGY: '采购员', //采购员
+    SPR_FRM_XGYSPJ_PJSJ: '评级时间', //评级时间
+    SPR_FRM_XGYSPJ_PJFZR: '评级负责人', //评级负责人
+    SPR_FRM_XGYSPJ_BTGYY: '不通过原因', //不通过原因
+    SPR_FRM_XGYSPJ_SJLY: '数据来源', //数据来源
+    SPR_FRM_XGYSPJ_CKGYSXX: '查看供应商信息', //查看供应商信息
+    SPR_FRM_XGYSPJ_GYSJYJRDCLZ: '供应商将要加入的材料组', //供应商将要加入的材料组
+    SPR_FRM_XGYSPJ_SFTY: '是否同意', //是否同意
+    SPR_FRM_XGYSPJ_GSDZRSQ: '公司的准入申请', //公司的准入申请
+    SPR_FRM_XGYSPJ_RWRQ: '任务日期', //任务日期
+    SPR_FRM_XGYSPJ_GYSCWPJJG: '供应商财务评级结果', //供应商财务评级结果
+    SPR_FRM_XGYSPJ_WFPJ: '无法评级', //无法评级
+    SPR_FRM_XGYSPJ_TJJS: '提交计算', //提交计算
+    SPR_FRM_XGYSPJ_TJSP: '提交审批', //提交审批
+    SPR_FRM_XGYSPJ_TJQQCG: '退回前期采购', //退回前期采购
+    SPR_FRM_XGYSPJ_DQWBPJ: '调取外部评级', //调取外部评级
+    SPR_FRM_XGYSPJ_GYSZRPGMO_JBXX: '供应商准入评估模型-基本信息', //供应商准入评估模型-基本信息
+    SPR_FRM_XGYSPJ_SSLB: '数据类别', //数据类别
+    SPR_FRM_XGYSPJ_SJZ: '数据值', //数据值
+    SPR_FRM_XGYSPJ_JSZ: '计算值', //计算值
+    SPR_FRM_XGYSPJ_SM: '说明', //说明
+    SPR_FRM_XGYSPJ_QXZSJLY: '请选择数据来源', //请选择数据来源
+    SPR_FRM_XGYSPJ_DCCB: '导出财报', //导出财报
+    SPR_FRM_XGYSPJ_GDXX: '股东信息', //股东信息
+    SPR_FRM_XGYSPJ_GDMC: '股东名称', //股东名称
+    SPR_FRM_XGYSPJ_GJDQ: '国家/地区', //国家/地区
+    SPR_FRM_XGYSPJ_CZE: '出资额', //出资额
+    SPR_FRM_XGYSPJ_QXZYTSJTJ: '请选择一条数据', //请选择一条数据
+    SPR_FRM_XGYSPJ_BZ: '币种', //币种
+    SPR_FRM_XGYSPJ_ZYYW: '主营业务', //主要业务
+    SPR_FRM_XGYSPJ_ZYYWHYGS: '主要业务行业归属', //主要业务行业归属
+    SPR_FRM_XGYSPJ_GDDGSDZCQK: '股东对公司的支持情况', //股东对公司的支持情况
+    SPR_FRM_XGYSPJ_GDZZZJHM: '股东证照/证件号码', //股东证照/证件号码
+    SPR_FRM_XGYSPJ_DGLX: '股东类型', //股东类型
+    SPR_FRM_XGYSPJ_CGBL: '持股比例（%）', //持股比例（%）
+    SPR_FRM_XGYSPJ_GYSZRPGMO_CWXX: '供应商准入评估模型-财务状况', //供应商准入评估模型-财务状况
+    SPR_FRM_XGYSPJ_TBQ: '填补前（元）', //填补前（元）
+    SPR_FRM_XGYSPJ_GYSZRPGMX_DFZB: '供应商准入评估模型-得分指标', //供应商准入评估模型-得分指标
+    SPR_FRM_XGYSPJ_ZB: '指标', //指标
+    SPR_FRM_XGYSPJ_DF: '得分', //得分
+    SPR_FRM_XGYSPJ_QZ: '权重', //权重
+    SPR_FRM_XGYSPJ_DFQZ: '得分*权重', //得分*权重
+    SPR_FRM_XGYSPJ_FXGZTS: '风险关注点提示', //风险关注点提示
+    SPR_FRM_XGYSPJ_GYSZRPGMX_FXYJ: '供应商准入评估模型-风险预警', //供应商准入评估模型-风险预警
+    SPR_FRM_XGYSPJ_GYSZRPGMX_BZ: '供应商准入评估模型-备注', //供应商准入评估模型-备注
+    SPR_FRM_XGYSPJ_YJZB: '预警指标', //预警指标
+    SPR_FRM_XGYSPJ_ZBGS: '指标公式', //指标公式
+    SPR_FRM_XGYSPJ_JG: '结果', //结果
+    SPR_FRM_XGYSPJ_YJFW: '预警范围', //预警范围
+    SPR_FRM_XGYSPJ_SFYJ: '是否预警', //是否预警
+    SPR_FRM_XGYSPJ_YJTS: '预警提示', //预警提示
+    SPR_FRM_XGYSPJ_YJWZSM: '预警：文字说明', //预警：文字说明
+    SPR_FRM_XGYSPJ_TZQFS: '调整前分数', //调整前分数
+    SPR_FRM_XGYSPJ_TZQJB: '调整前级别', //调整前级别
+    SPR_FRM_XGYSPJ_TSJJF: '特殊加减分', //特殊加减分
+    SPR_FRM_XGYSPJ_TZHJB: '调整后级别', //调整后级别
+    SPR_FRM_XGYSPJ_CWSJBZ: '财务数据备注：', //财务数据备注：
+    SPR_FRM_XGYSPJ_QSRDWRMBDZCZBJES: '请输入单位为人民币的注册资本金数额', //请输入单位为人民币的注册资本金数额
+    SPR_FRM_XGYSPJ_TZHFS: '调整后分数', //调整后分数
+    SPR_FRM_XGYSPJ_SFTGPG: '是否通过评估', //是否通过评估
+    SPR_FRM_XGYSPJ_SHHZQCYXGS: '上海汇众汽车有限公司', //上海汇众汽车有限公司
+    SPR_FRM_XGYSPJ_GCDT: '工厂地图', //工厂地图
+    SPR_FRM_XGYSPJ_GYSCWPJJGBZ: '供应商财务评级结果-备注', //供应商财务评级结果-备注
+    SPR_FRM_XGYSPJ_GYSZRPGMXBZ: '供应商准入评估模型 - 备注', //供应商准入评估模型 - 备注
     SPR_FRM_XGYSPJ_QZGYSZRPGMXBZZTXWFPJYY:
-      '请在供应商准入评估模型-备注中填写无法评级原因',
-    SPR_FRM_XGYSPJ_SMSHBJXJFCL: '什么时候不进行减分处理：',
-    SPR_FRM_XGYSPJ_BJXJFCLDQK: '不进⾏减分处理的情况:',
-    SPR_FRM_XGYSPJ_FXXHJFYZ: '风险信号减分原则：',
-    SPR_FRM_XGYSPJ_SMSHCHJFCL: '什么时候Close或不进行减分处理：',
+      '请在供应商准入评估模型-备注中填写无法评级原因', //请在供应商准入评估模型-备注中填写无法评级原因
+    SPR_FRM_XGYSPJ_SMSHBJXJFCL: '什么时候不进行减分处理：', //什么时候不进行减分处理：
+    SPR_FRM_XGYSPJ_BJXJFCLDQK: '不进⾏减分处理的情况:', //不进⾏减分处理的情况:
+    SPR_FRM_XGYSPJ_FXXHJFYZ: '风险信号减分原则：', //风险信号减分原则：
+    SPR_FRM_XGYSPJ_SMSHCHJFCL: '什么时候Close或不进行减分处理：', //什么时候Close或不进行减分处理：
     SPR_FRM_XGYSPJ_BGZRZHSGFSDNCNBKFZLWT:
-      '罢工/自然灾害/事故：发生当年-10，次年不扣分；<br/>质量问题：一般-5；严重-10；<br/>召回：可能发生/小规模-5；大规模（全球或多地区）-10；<br/>多套报表、其他人反馈有财务问题/资金紧张：-5；<br/>行政处罚（包括环保处罚）：一般-5，重大-10；发生当年扣分，次年不扣分；<br/>因资金、不能持续经营等问题供货延迟或停供：-10；原因尚未 确定的供货延迟或停供（主要指配件）：-5；<br/>内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；<br/>失信被执行人：-10；未移除扣分，移除后首次扣分，移除后非首次不扣分；<br/>经营异常：视严重程度-5/-3/-2；疏忽遗忘申报年报-3；原因未知-5；未移除扣分，移除后首次扣分，移除后非首次不扣分',
+      '罢工/自然灾害/事故：发生当年-10，次年不扣分；<br/>质量问题：一般-5；严重-10；<br/>召回：可能发生/小规模-5；大规模（全球或多地区）-10；<br/>多套报表、其他人反馈有财务问题/资金紧张：-5；<br/>行政处罚（包括环保处罚）：一般-5，重大-10；发生当年扣分，次年不扣分；<br/>因资金、不能持续经营等问题供货延迟或停供：-10；原因尚未确定的供货延迟或停供（主要指配件）：-5；<br/>内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；<br/>失信被执行人：-10；未移除扣分，移除后首次扣分，移除后非首次不扣分；<br/>经营异常：视严重程度-5/-3/-2；疏忽遗忘申报年报-3；原因未知-5；未移除扣分，移除后首次扣分，移除后非首次不扣分', //-罢工/自然灾害/事故：发生当年-10，次年不扣分；<br/>质量问题：一般-5；严重-10；<br/>召回：可能发生/小规模-5；大规模（全球或多地区）-10；<br/>多套报表、其他人反馈有财务问题/资金紧张：-5；<br/>行政处罚（包括环保处罚）：一般-5，重大-10；发生当年扣分，次年不扣分；<br/>因资金、不能持续经营等问题供货延迟或停供：-10；原因尚未确定的供货延迟或停供（主要指配件）：-5；<br/>内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；<br/>失信被执行人：-10；未移除扣分，移除后首次扣分，移除后非首次不扣分；<br/>经营异常：视严重程度-5/-3/-2；疏忽遗忘申报年报-3；原因未知-5；未移除扣分，移除后首次扣分，移除后非首次不扣分
     SPR_FRM_XGYSPJ_FCPGYSTCSVWYQHWJRSVW:
-      '非初评供应商：退出SVW/已切换/未进入SVW；非定点2级、3级供应商等；集团但非SVW供应 商；<br/>原风险信号已解决，无后续影响；<br/>核实后，不影响经营、财务，如修改采购条款、与CSC名称不符；<br/>核实后，风险信号情况与事实不符或夸大；<br/>财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中指标类似的信号（如连年亏损） ，不额外扣分',
+      '非初评供应商：退出SVW/已切换/未进入SVW；非定点2级、3级供应商等；集团但非SVW供应商；<br/>原风险信号已解决，无后续影响；<br/>核实后，不影响经营、财务，如修改采购条款、与CSC名称不符；<br/>核实后，风险信号情况与事实不符或夸大；<br/>财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中指标类似的信号（如连年亏损），不额外扣分', //非初评供应商：退出SVW/已切换/未进入SVW；非定点2级、3级供应商等；集团但非SVW供应商；<br/>原风险信号已解决，无后续影响；<br/>核实后，不影响经营、财务，如修改采购条款、与CSC名称不符；<br/>核实后，风险信号情况与事实不符或夸大；<br/>财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中指标类似的信号（如连年亏损），不额外扣分
     SPR_FRM_XGYSPJ_BGZRZHSG:
-      '罢工/自然灾害/事故：发生当年-10，次年不扣分；<br/> 质量问题：一般-5；严重-10；<br/> 召回：可能发生/小规模-5；大规模（全球或多地区）-10；<br/> 多套报表、其他人反馈有财务问题/资金紧张：-5；<br/> 行政处罚（包括环保 处罚）：一般-5，重大-10；<br/> 因资金、不能持续经营等问题供货延迟或停供：-10；<br/> 原因尚未确定的供货延迟或停供：-5；<br/> 内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；',
+      '罢工/自然灾害/事故：发生当年-10，次年不扣分；<br/> 质量问题：一般-5；严重-10；<br/> 召回：可能发生/小规模-5；大规模（全球或多地区）-10；<br/> 多套报表、其他人反馈有财务问题/资金紧张：-5；<br/> 行政处罚（包括环保处罚）：一般-5，重大-10；<br/> 因资金、不能持续经营等问题供货延迟或停供：-10；<br/> 原因尚未确定的供货延迟或停供：-5；<br/> 内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；', //罢工/自然灾害/事故：发生当年-10，次年不扣分； 质量问题：一般-5；严重-10； 召回：可能发生/小规模-5；大规模（全球或多地区）-10； 多套报表、其他人反馈有财务问题/资金紧张：-5； 行政处罚（包括环保处罚）：一般-5，重大-10； 因资金、不能持续经营等问题供货延迟或停供：-10； 原因尚未确定的供货延迟或停供：-5； 内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；
     SPR_FRM_XGYSPJ_YFXXHYJJ:
-      '原风险信号已解决，无后续影响；<br/> 不影响经营、财务，如动产抵押；<br/> 核实后，风险信号情况与事实不符或夸大，如多套报表存在特殊原因；<br/> 财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中 指标类似 的信号（如连年亏损），不额外扣分；',
-    SPR_FRM_FRMGL_FQCBPJ: '发起初步评级',
-    SPR_FRM_FRMGL_XGG: '相关股',
-    SPR_FRM_FRMGL_SNTO: '上年TO',
-    SPR_FRM_FRMGL_SYMX: '适用模型',
-    SPR_FRM_FRMGL_SDTJ: '手动添加',
-    SPR_FRM_FRMGL_ZDTJ: '自动添加',
-    SPR_FRM_FRMGL_DRGYS: '导入供应商',
-    SPR_FRM_FRMGL_TJZCP: '添加至初评',
-    SPR_FRM_FRMGL_SDTJCBPJ: '手动添加初步评级',
-    SPR_FRM_FRMGL_CPJG: '初评结果',
-    SPR_FRM_FRMGL_SPJG: '深评结果',
-    SPR_FRM_FRMGL_ZDTJ_TIP1: '请设置查看“待确认初评清单”时间',
-    SPR_FRM_FRMGL_ZDTJ_TIP2: '提示：请于选定日期后前往“待确认初评清单”查看',
-    SPR_FRM_FRMGL_CKMX: '查看模型',
-    SPR_FRM_FRMGL_MXlX: '模型类型',
-    SPR_FRM_FRMGL_MXMC: '模型名称',
-    SPR_FRM_FRMGL_XZSPYY: '选择深评原因',
-    SPR_FRM_FRMGL_QSRXXYY: '请输入详细原因…',
-    SPR_FRM_FRMGL_QXZPJJG: '请选择评级结果…',
-    SPR_FRM_FRMGL_DXDAF: '定性打分',
-    SPR_FRM_FRMGL_VWAGSJ: 'VWAG时间',
-    SPR_FRM_FRMGL_FCSJQ: '发出时间起止',
-    SPR_FRM_FRMGL_SFXSLSDF: '是否显示历史打分',
-    SPR_FRM_FRMGL_DCGYSMB: '导出供应商模板',
-    SPR_FRM_CBPJ_BB: '版本',
-    SPR_FRM_CBPJ_PFFCSJ: '评分发出时间',
-    SPR_FRM_CBPJ_PFFHSJ: '评分返回时间',
-    SPR_FRM_CBPJ_ZXCZ: '最新操作',
-    SPR_FRM_CBPJ_CZJL: '操作记录',
-    SPR_FRM_CBPJ_THLY: '退回理由',
-    SPR_FRM_CBPJ_FP: '分派',
-    SPR_FRM_CBPJ_CXDF: '重新打分',
-    SPR_FRM_CBPJ_QXZKG: '请选择科/股',
-    SPR_FRM_CBPJ_QXZTHYY: '请选择退回原因',
-    SPR_FRM_CBPJ_QXZZPDX: '请选择转派对象',
-    SPR_FRM_CBPJ_QDQXM: '确定取消吗',
-    SPR_FRM_CBPJ_YY: '沿用',
-    SPR_FRM_CBPJ_ZCDHYDYX: '政策对行业的影响',
-    SPR_FRM_CBPJ_HYGQZK: '行业供求状况',
-    SPR_FRM_CBPJ_GLGFCD: '管理规范程度',
-    SPR_FRM_CBPJ_XMGLNL: '项目管理能力',
-    SPR_FRM_CBPJ_HYDB: '行业口碑',
-    SPR_FRM_CBPJ_ZYKHSL: '主要客户实力',
-    SPR_FRM_CBPJ_YZYKHHZWDX: '与主要客户合作稳定性',
-    SPR_FRM_CBPJ_ZYGYSSL: '主要供应商实力',
-    SPR_FRM_CBPJ_YZYGYSHZWDX: '与主要供应商合作稳定性',
-    SPR_FRM_CBPJ_HTLXQK: '合同履行情况',
-    SPR_FRM_CBPJ_ZJGXSJ: '最近更新时间',
-    SPR_FRM_CBPJ_ZJGXR: '最近更新人',
-    SPR_FRM_CBPJ_SFXSLSPJ: '是否显示历史评级',
-    SPR_FRM_CBPJ_JJF: '有无加减分',
-    SPR_FRM_CBPJ_SFLJLJ: '是否连降两级',
-    SPR_FRM_CBPJ_CBBJ: '财报比较',
-    SPR_FRM_CBPJ_DCCPMB: '导出初评模板',
-    SPR_FRM_CBPJ_CPZT: '初评状态',
-    SPR_FRM_CBPJ_TZQDF: '调整前得分',
-    SPR_FRM_CBPJ_TZF: '调整分',
-    SPR_FRM_CBPJ_TZHDF: '调整后得分',
-    SPR_FRM_CBPJ_SFYX: '是否有效',
-    SPR_FRM_CBPJ_YWJJF: '有无加减分',
-    SPR_FRM_CBPJ_JXCPLC: '继续初评流程？',
-    SPR_FRM_CBPJ_QSRWFPJYY: '请输入无法评级原因',
-    SPR_FRM_CBPJ_SJZB: '三级指标',
-    SPR_FRM_CBPJ_RJZB: '二级指标',
-    SPR_FRM_CBPJ_YJZB: '一级指标',
-    SPR_FRM_CBPJ_PJBJ: '评级比较',
-    SPR_FRM_CBPJ_GYSCPQK: '供应商初评情况',
-    SPR_FRM_CBPJ_LSCP: '历史初评',
-    SPR_FRM_ZNXZYTSJ: '只能选择一条数据',
-    SPR_FRM_CBPJ_QSL: '缺失率%',
-    SPR_FRM_CBPJ_TZQPJ: '调整前评级',
-    SPR_FRM_CBPJ_TZHPJ: '调整后评级',
-    SPR_FRM_CBPJ_DFQX: '得分详细',
-    SPR_FRM_CBPJ_ZBMC: '指标名称',
-    SPR_FRM_CBPJ_ZBSZ: '指标数值',
-    SPR_FRM_CBPJ_ZBFZ: '指标分值',
-    SPR_FRM_CBPJ_DFLY: '得分来源',
-    SPR_FRM_CBPJ_TBSZ: '填补数值',
-    SPR_FRM_CBPJ_SFJSF: '是否谨慎分',
-    SPR_FRM_CBPJ_PJMX: '评级明细',
-    SPR_FRM_CBPJ_PJRY: '评级人员',
-    SPR_FRM_CBPJ_CPMBDCTIPS: '初评模板仅支持单条数据导出，请确认后重新导出。',
-    SPR_FRM_CBPJ_WPJYYYTIPS: '抱歉，无法评级原因不能为空！',
-    SPR_FRM_CBPJ_CBBJTIPS: '最多可选择3条数据，请重新选择！',
-    SPR_FRM_CBPJ_Y: '有',
-    SPR_FRM_CBPJ_W: '无',
-    SPR_FRM_CBPJ_CZKS: '操作科室',
-    SPR_FRM_FRMGL_QXZQZSJ: '请选择起止时间',
-    SPR_FRM_FRMGL_BJQZYGSJ: '必须选择一个时间',
-    SPR_FRM_FRMGL_QXZSYMX: '请选择适用模型',
-    SPR_FRM_CBPJ_QWCDF: '请完成打分',
-    SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF: '只能状态为草稿才能进行定性打分。',
-    SPR_FRM_CBPJ_SXZTYWQCXQZ: '所选状态为无法评级，请重新选择。',
-    SPR_FRM_CBPJ_GZPANDUAN: '退回状态，股长不能做其他操作，请重新选择！',
+      '原风险信号已解决，无后续影响；<br/> 不影响经营、财务，如动产抵押；<br/> 核实后，风险信号情况与事实不符或夸大，如多套报表存在特殊原因；<br/> 财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中 指标类似的信号（如连年亏损），不额外扣分；', //原风险信号已解决，无后续影响； 不影响经营、财务，如动产抵押； 核实后，风险信号情况与事实不符或夸大，如多套报表存在特殊原因； 财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中 指标类似的信号（如连年亏损），不额外扣分；
+    SPR_FRM_FRMGL_FQCBPJ: '发起初步评级', //发起初步评级
+    SPR_FRM_FRMGL_XGG: '相关股', //相关股
+    SPR_FRM_FRMGL_SNTO: '上年TO', //上年TO
+    SPR_FRM_FRMGL_SYMX: '适用模型', //适用模型
+    SPR_FRM_FRMGL_SDTJ: '手动添加', //手动添加
+    SPR_FRM_FRMGL_ZDTJ: '自动添加', //自动添加
+    SPR_FRM_FRMGL_DRGYS: '导入供应商', //导入供应商
+    SPR_FRM_FRMGL_TJZCP: '添加至初评', //添加至初评
+    SPR_FRM_FRMGL_SDTJCBPJ: '手动添加初步评级', //手动添加初步评级
+    SPR_FRM_FRMGL_CPJG: '初评结果', //初评结果
+    SPR_FRM_FRMGL_SPJG: '深评结果', //深评结果
+    SPR_FRM_FRMGL_ZDTJ_TIP1: '请设置查看“待确认初评清单”时间', //请设置查看“待确认初评清单”时间
+    SPR_FRM_FRMGL_ZDTJ_TIP2: '提示：请于选定日期后前往“待确认初评清单”查看', //提示：请于选定日期后前往“待确认初评清单”查看
+    SPR_FRM_FRMGL_CKMX: '查看模型', //查看模型
+    SPR_FRM_FRMGL_MXlX: '模型类型', //模型类型
+    SPR_FRM_FRMGL_MXMC: '模型名称', //模型名称
+    SPR_FRM_FRMGL_XZSPYY: '选择深评原因', //选择深评原因
+    SPR_FRM_FRMGL_QSRXXYY: '请输入详细原因…', //请输入详细原因…
+    SPR_FRM_FRMGL_QXZPJJG: '请选择评级结果…', //请选择评级结果…
+    SPR_FRM_FRMGL_DXDAF: '定性打分', //定性打分
+    SPR_FRM_FRMGL_VWAGSJ: 'VWAG时间', //VWAG时间
+    SPR_FRM_FRMGL_FCSJQ: '发出时间起止', //发出时间起止
+    SPR_FRM_FRMGL_SFXSLSDF: '是否显示历史打分', //是否显示历史打分
+    SPR_FRM_FRMGL_DCGYSMB: '导出供应商模板', //导出供应商模板
+    SPR_FRM_CBPJ_BB: '版本', //版本
+    SPR_FRM_CBPJ_PFFCSJ: '评分发出时间', //评分发出时间
+    SPR_FRM_CBPJ_PFFHSJ: '评分返回时间', //评分返回时间
+    SPR_FRM_CBPJ_ZXCZ: '最新操作', //最新操作
+    SPR_FRM_CBPJ_CZJL: '操作记录', //操作记录
+    SPR_FRM_CBPJ_THLY: '退回理由', //退回理由
+    SPR_FRM_CBPJ_FP: '分派', //分派
+    SPR_FRM_CBPJ_CXDF: '重新打分', //重新打分
+    SPR_FRM_CBPJ_QXZKG: '请选择科/股', //请选择科/股
+    SPR_FRM_CBPJ_QXZTHYY: '请选择退回原因', //请选择退回原因
+    SPR_FRM_CBPJ_QXZZPDX: '请选择转派对象', //请选择转派对象
+    SPR_FRM_CBPJ_QDQXM: '确定取消吗', //确定取消吗
+    SPR_FRM_CBPJ_YY: '沿用', //沿用
+    SPR_FRM_CBPJ_ZCDHYDYX: '政策对行业的影响', //政策对行业的影响
+    SPR_FRM_CBPJ_HYGQZK: '行业供求状况', //行业供求状况
+    SPR_FRM_CBPJ_GLGFCD: '管理规范程度', //管理规范程度
+    SPR_FRM_CBPJ_XMGLNL: '项目管理能力', //项目管理能力
+    SPR_FRM_CBPJ_HYDB: '行业口碑', //行业口碑
+    SPR_FRM_CBPJ_ZYKHSL: '主要客户实力', //主要客户实力
+    SPR_FRM_CBPJ_YZYKHHZWDX: '与主要客户合作稳定性', //与主要客户合作稳定性
+    SPR_FRM_CBPJ_ZYGYSSL: '主要供应商实力', //主要供应商实力
+    SPR_FRM_CBPJ_YZYGYSHZWDX: '与主要供应商合作稳定性', //与主要供应商合作稳定性
+    SPR_FRM_CBPJ_HTLXQK: '合同履行情况', //合同履行情况
+    SPR_FRM_CBPJ_ZJGXSJ: '最近更新时间', //最近更新时间
+    SPR_FRM_CBPJ_ZJGXR: '最近更新人', //最近更新人
+    SPR_FRM_CBPJ_SFXSLSPJ: '是否显示历史评级', //是否显示历史评级
+    SPR_FRM_CBPJ_JJF: '有无加减分', //有无加减分
+    SPR_FRM_CBPJ_SFLJLJ: '是否连降两级', //是否连降两级
+    SPR_FRM_CBPJ_CBBJ: '财报比较', //财报比较
+    SPR_FRM_CBPJ_DCCPMB: '导出初评模板', //导出初评模板
+    SPR_FRM_CBPJ_CPZT: '初评状态', //初评状态
+    SPR_FRM_CBPJ_TZQDF: '调整前得分', //调整前得分
+    SPR_FRM_CBPJ_TZF: '调整分', //调整分
+    SPR_FRM_CBPJ_TZHDF: '调整后得分', //调整后得分
+    SPR_FRM_CBPJ_SFYX: '是否有效', //是否有效
+    SPR_FRM_CBPJ_YWJJF: '有无加减分', //有无加减分
+    SPR_FRM_CBPJ_JXCPLC: '继续初评流程？', //继续初评流程？
+    SPR_FRM_CBPJ_QSRWFPJYY: '请输入无法评级原因', //请输入无法评级原因
+    SPR_FRM_CBPJ_SJZB: '三级指标', //三级指标
+    SPR_FRM_CBPJ_RJZB: '二级指标', //二级指标
+    SPR_FRM_CBPJ_YJZB: '一级指标', //一级指标
+    SPR_FRM_CBPJ_PJBJ: '评级比较', //评级比较
+    SPR_FRM_CBPJ_GYSCPQK: '供应商初评情况', //供应商初评情况
+    SPR_FRM_CBPJ_LSCP: '历史初评', //历史初评
+    SPR_FRM_ZNXZYTSJ: '只能选择一条数据', //只能选择一条数据
+    SPR_FRM_CBPJ_QSL: '缺失率%', //缺失率%
+    SPR_FRM_CBPJ_TZQPJ: '调整前评级', //调整前评级
+    SPR_FRM_CBPJ_TZHPJ: '调整后评级', //调整后评级
+    SPR_FRM_CBPJ_DFQX: '得分详细', //得分详细
+    SPR_FRM_CBPJ_ZBMC: '指标名称', //指标名称
+    SPR_FRM_CBPJ_ZBSZ: '指标数值', //指标数值
+    SPR_FRM_CBPJ_ZBFZ: '指标分值', //指标分值
+    SPR_FRM_CBPJ_DFLY: '得分来源', //得分来源
+    SPR_FRM_CBPJ_TBSZ: '填补数值', //填补数值
+    SPR_FRM_CBPJ_SFJSF: '是否谨慎分', //是否谨慎分
+    SPR_FRM_CBPJ_PJMX: '评级明细', //评级明细
+    SPR_FRM_CBPJ_PJRY: '评级人员', //评级人员
+    SPR_FRM_CBPJ_CPMBDCTIPS: '初评模板仅支持单条数据导出，请确认后重新导出。', //初评模板仅支持单条数据导出，请确认后重新导出。
+    SPR_FRM_CBPJ_WPJYYYTIPS: '抱歉，无法评级原因不能为空！', //抱歉，无法评级原因不能为空！
+    SPR_FRM_CBPJ_CBBJTIPS: '最多可选择3条数据，请重新选择！', //最多可选择5条数据，请重新选择！
+    SPR_FRM_CBPJ_Y: '有', //有
+    SPR_FRM_CBPJ_W: '无', //无
+    SPR_FRM_CBPJ_CZKS: '操作科室', //操作科室
+    SPR_FRM_FRMGL_QXZQZSJ: '请选择起止时间', //请选择起止时间
+    SPR_FRM_FRMGL_BJQZYGSJ: '必须选择一个时间', //必须选择一个时间
+    SPR_FRM_FRMGL_QXZSYMX: '请选择适用模型', //请选择适用模型
+    SPR_FRM_CBPJ_QWCDF: '请完成打分', //请完成打分
+    SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF: '只能状态为草稿才能进行定性打分。', //只能状态为草稿才能进行定性打分
+    SPR_FRM_CBPJ_SXZTYWQCXQZ: '所选状态为无法评级，请重新选择。', //所选状态有误，请重新选择。
+    SPR_FRM_CBPJ_GZPANDUAN: '退回状态，股长不能做其他操作，请重新选择！', //退回状态，股长不能做其他操作，请重新选择！
     SPR_FRM_CBPJ_FRMPANDUAN:
-      '退回状态，FRM管理员不能做定性打分，退回，转派操作，请重新选择！',
-    SPR_FRM_FXXH_FXGYS: '风险供应商',
-    SPR_FRM_FXXH_XHLY: '信号来源',
-    SPR_FRM_FXXH_FKBM: '反馈部门',
-    SPR_FRM_FXXH_TJSJ: '提交时间',
-    SPR_FRM_FXXH_GHGX: '供货关系',
-    SPR_FRM_FXXH_CZFS: '处置方式',
-    SPR_FRM_FXXH_SFWY: '是否违约',
-    SPR_FRM_FXXH_FXXHDL: '风险信号-大类',
-    SPR_FRM_FXXH_YXQSJ: '有效期时间',
-    SPR_FRM_FXXH_FXXHXL: '风险信号-小类',
-    SPR_FRM_FXXH_CZSJ: '处置时间',
-    SPR_FRM_FXXH_JZ: '进展',
-    SPR_FRM_FXXH_TJR: '提交人',
-    SPR_FRM_FXXH_TJRKS: '提交人科室',
-    SPR_FRM_FXXH_FZ: '复制',
-    SPR_FRM_FXXH_XJ: '新建',
-    SPR_FRM_FXXH_SDFQFXXH: '手动发起风险信号',
-    SPR_FRM_FXXH_FXGYSSSKS: '风险供应商所属科室',
-    SPR_FRM_FXXH_TZF: '调整分',
-    SPR_FRM_FXXH_YXQ: '有效期',
-    SPR_FRM_FXXH_XHSM: '信号说明',
-    SPR_FRM_FXXH_XTFQXH: '系统发起风险信号',
-    SPR_FRM_FXXH_QSRZS: '请输入（整数）',
-    SPR_FRM_FXXH_QSS: '请搜索',
-    SPR_FRM_FXXH_QRTJ: '确认添加',
-    SPR_FRM_FXXH_FXXHCJRQ: '风险信号创建日期',
+      '退回状态，FRM管理员不能做定性打分，退回，转派操作，请重新选择！', //退回状态，FRM管理员不能做定性打分，退回，转派操作，请重新选择！！
+    // 风险信号
+    SPR_FRM_FXXH_FXGYS: '风险供应商', //风险供应商
+    SPR_FRM_FXXH_XHLY: '信号来源', //信号来源
+    SPR_FRM_FXXH_FKBM: '反馈部门', //反馈部门
+    SPR_FRM_FXXH_TJSJ: '提交时间', //提交时间
+    SPR_FRM_FXXH_GHGX: '供货关系', //供货关系
+    SPR_FRM_FXXH_CZFS: '处置方式', //处置方式
+    SPR_FRM_FXXH_SFWY: '是否违约', //是否违约
+    SPR_FRM_FXXH_FXXHDL: '风险信号-大类', //风险信号-大类
+    SPR_FRM_FXXH_YXQSJ: '有效期时间', //有效期时间
+    SPR_FRM_FXXH_FXXHXL: '风险信号-小类', //风险信号-小类
+    SPR_FRM_FXXH_CZSJ: '处置时间', //处置时间
+    SPR_FRM_FXXH_JZ: '进展', //进展
+    SPR_FRM_FXXH_TJR: '提交人', //提交人
+    SPR_FRM_FXXH_TJRKS: '提交人科室', //提交人科室
+    SPR_FRM_FXXH_FZ: '复制', //复制
+    SPR_FRM_FXXH_XJ: '新建', //新建
+    SPR_FRM_FXXH_SDFQFXXH: '手动发起风险信号', //手动发起风险信号
+    SPR_FRM_FXXH_FXGYSSSKS: '风险供应商所属科室', //风险供应商所属科室
+    SPR_FRM_FXXH_TZF: '调整分', //调整分
+    SPR_FRM_FXXH_YXQ: '有效期', //有效期
+    SPR_FRM_FXXH_XHSM: '信号说明', //信号说明
+    SPR_FRM_FXXH_XTFQXH: '系统发起风险信号', //系统发起风险信号
+    SPR_FRM_FXXH_QSRZS: '请输入（整数）', //请输入（整数）
+    SPR_FRM_FXXH_QSS: '请搜索', //请搜索
+    SPR_FRM_FXXH_QRTJ: '确认添加', //确认添加
+    SPR_FRM_FXXH_FXXHCJRQ: '风险信号创建日期', //风险信号创建日期
     SPR_FRM_FXXH_RWSSJGQGBTCBYQGYSZC:
-      '若无搜索结果，请关闭弹窗并邀请供应商注册。',
-    SPR_FRM_FXXH_NSFQRTJSP: '您是否确认提交审批?',
+      '若无搜索结果，请关闭弹窗并邀请供应商注册。', //若无搜索结果，请关闭弹窗并邀请供应商注册。
+    SPR_FRM_FXXH_NSFQRTJSP: '您是否确认提交审批?', //您是否确认提交审批
     SPR_FRM_FXXH_WZDGYSXX_QSRZQDTYSHXYDMHCS:
-      '未找到供应商信息，请输入正确的"统一社会信用代码"后再尝试。',
-    SPR_FRM_FXXH_SDCJ: '手动创建',
-    SPR_FRM_FXXH_SDFZ: '手动复制',
-    LK_ZHANGQITIAN: '账期（天）',
-    SPR_FRM_FXXH_QQEFXXHDCZFSHJXTJ: '请确认风险信号的处置方式后进行提交',
+      '未找到供应商信息，请输入正确的"统一社会信用代码"后再尝试。', //未找到供应商信息，请输入正确的"统一社会信用代码"后再尝试。
+    SPR_FRM_FXXH_SDCJ: '手动创建', //手动创建
+    SPR_FRM_FXXH_SDFZ: '手动复制', //手动复制
+    LK_ZHANGQITIAN: '账期（天）', //账期（天）
+    SPR_FRM_FXXH_QQEFXXHDCZFSHJXTJ: '请确认风险信号的处置方式后进行提交', //请确认风险信号的处置方式后进行提交
     SPR_FRM_FXXH_TZFHYXQBNWK:
-      '请补充调整分和有效期后再进行提交，提交后所有信息将不可更改',
-    SPR_FRM_FXXH_YTJDFXXHSJBKSC: '已提交的风险信号数据不可删除',
-    SPR_FRM_FXXH_SFQRTJ: '提交后所有信息将不可更改，请确认是否提交',
+      '请补充调整分和有效期后再进行提交，提交后所有信息将不可更改', //请补充调整分和有效期后再进行提交，提交后所有信息将不可更改
+    SPR_FRM_FXXH_YTJDFXXHSJBKSC: '已提交的风险信号数据不可删除', //已提交的风险信号数据不可删除
+    SPR_FRM_FXXH_SFQRTJ: '提交后所有信息将不可更改，请确认是否提交', //提交后所有信息将不可更改，请确认是否提交
     SPR_FRM_FXXH_FZFXXHJZCDXQCXGXNSXFZDFXXH:
-      '复制风险信号仅支持单选，请重新勾选您所需复制的风险信号',
-    SPR_FRM_FXXH_QQRSFTJ: '请确认是否提交',
+      '复制风险信号仅支持单选，请重新勾选您所需复制的风险信号', //复制风险信号仅支持单选，请重新勾选您所需复制的风险信号
+    SPR_FRM_FXXH_QQRSFTJ: '请确认是否提交', //请确认是否提交
     SPR_FRM_FXXH_QXZCZFSHZJXTJ:
-      '请选择处置方式后再进行提交，提交后所有信息将不可更改',
-    SPR_FRM_FXXH_ZTWYCZDFXXHCNDJFZ: '状态为已处置的风险信号，才能点击复制',
-    SPR_FRM_FXXH_YSFXGYS: '原始风险供应商',
+      '请选择处置方式后再进行提交，提交后所有信息将不可更改', //请选择处置方式后再进行提交，提交后所有信息将不可更改
+    SPR_FRM_FXXH_ZTWYCZDFXXHCNDJFZ: '状态为已处置的风险信号，才能点击复制', //状态为已处置的风险信号，才能点击复制
+    SPR_FRM_FXXH_YSFXGYS: '原始风险供应商', //原始风险供应商
     SPR_FRM_CBPJ_WFPJYY: '无法评级原因',
+    // ---------------WS3 供应商 end-----------------------
     MAIL: {
       NOTIFICATION: '通知',
       MESSAGE: '消息',
@@ -1677,18 +1747,21 @@
       HOME_MODULE_NEWS: 'News',
       HOME_MODULE_PROVIDER_RATE: '配附件供货率'
     },
+    //谈判助手
     TPZS: {
-      ZUIXINDINGDIANDANJIA: '最新定点单价',
-      MUBIAODANJIA: '目标单价',
-      CHANLIANGLIANG: '产量(件)',
-      DANJIA: '单价',
-      YUANJIAN: '(元/件)',
-      BANJIAJIAN: '(半价/件)',
+      ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
+      MUBIAODANJIA: '目标单价', //目标单价
+      CHANLIANGLIANG: '产量(件)', //产量（件）
+      DANJIA: '单价', //单价
+      YUANJIAN: '(元/件)', //（元/件）
+      BANJIAJIAN: '(半价/件)', //（半价/件）
       CHANLIANG: '产量'
     },
+    // 以下ekl中文
     LK_WDYJ: '我的业绩',
     LK_YJJC: '业绩基础',
     LK_MIAOSHU: '描述',
+    // LK_ZHUANGTAI: '状态',
     LK_FAQIREN: '发起人',
     LK_DANJULEIX: '单据类型',
     LK_YEWULEIXING: '业务类型',
@@ -1715,6 +1788,7 @@
     LK_FQQR: '发起确认',
     LK_RWJZRQ: '任务截止日期',
     LK_GONGYINGSHANG: '供应商',
+    // LK_CAIGOUGONGCHANG: '采购工厂',
     LK_QUERENZHUANGT: '确认状态',
     LK_FDJDCB: '发动机-电池包',
     LK_BIANSUXIANG: '变速箱',
@@ -1722,6 +1796,7 @@
     LK_CHEXINGDAIMA: '车型代码',
     LK_CHANGPINJIAZU: '产品家族',
     LK_CPJZ: '产品家族',
+    // LK_LINGJIANHAO: '零件号',
     LK_PLBJ: '批量编辑',
     LK_QRSL: '确认数量',
     LK_QRJG: '确认价格',
@@ -1739,12 +1814,15 @@
     LK_CKJG: '参考价格',
     LK_CKJGLY: '参考价格来源',
     LK_CAIGOUY: '采购员',
-    LK_CAIGOUJINE: '采购金额',
+    LK_CAIGOUJINE: '采购金额', //采购金额
     LK_CGCKJ: '采购参考价',
     LK_JIJIA: '基价',
     LK_GZJD: '跟踪进度',
     LK_LAIYUAN: '来源',
     LK_CAOZ: '操作',
+    // LK_BANBENHAO: '版本号',
+    // LK_QUEREN: '确认',
+    // LK_SHANGCHUANREN: '上传人',
     JANUARY: '1月',
     FEBRUARY: '2月',
     MARCH: '3月',
@@ -1769,6 +1847,7 @@
     LK_FQSJ: '发起时间',
     LK_WCSJ: '完成时间',
     LK_DQESL: '待确认数量',
+    // LK_JIAGEBIANHUA: '价格变化',
     LK_YJJETZ: '业绩金额调整',
     LK_SJJSJZSJ: '数据计算截止时间',
     LK_GZLJZS: '跟踪零件总数（项）',
@@ -1786,11 +1865,19 @@
     LK_PFJ_CGJG: '上年采购价格',
     LK_PFJ_XSLYC: '当年销售量预测',
     LK_PFJ_DNCGJE: '当年采购金额',
+    // LK_CAILIAOZU: '材料组',
+    // LK_DANWEI: '单位',
+    // LK_LINGJIANLEIXING: '零件类型', //零件类型
+    // LK_CHEXINGDENGJI: '车型等级', //车型等级
+    // 以上ekl中文
+    // 零件生命周期
+
     LK_LINGJIANGAO: '零件高',
     LK_LINGJIANKUAN: '零件宽',
     LK_LINGJIANCHANG: '零件长',
     LK_LINGJIANZHONGLIANG: '零件重量',
     LK_CENGYONGCHEXING: '曾用车型',
+    // LK_CHEXING:	'车型',
     LK_MOJUHETONGHAO: '模具合同号',
     LK_SAP_HETONGHAO: 'SAP合同号',
     LK_RISE_HETONGHAO: 'RISE合同号',
@@ -1801,6 +1888,7 @@
     LK_ZHIBAO: '质保',
     LK_PEIJIANQIANQI: '配件前期',
     LK_QIANQICAIGOU: '前期采购',
+    // LK_JICHUXINXI	:'基础信息',
     LK_FANHUISHUJULEIXINGZHICUOWU: '返回数据类型值错误',
     LK_YANBIANJINCHENG: '演变进程',
     LK_JIAGEBIANHUA: '价格变化',
@@ -1808,12 +1896,15 @@
     LK_SHISIJIAGE: '实施价格',
     LK_TOUZI: '投资',
     LK_KAIFA: '开发',
+    // LK_QINGSHURULINGJIANHAO	:'请输入零件号',
     LK_MEIYOULINGJIANHAO: '没有零件号',
     LK_TSSHIFOUQUERENSHANCHU: '是否确认删除, 提示',
     LK_LINGJIANLVLI: '零件履历',
     LK_SHOUCIXUNJIASHIJIAN: '首次询价时间',
     LK_XUNJIALEIXING: '询价类型',
+    // LK_LINGJIANCAIGOUXIANGMULEIXING	:'零件采购项目类型',
     LK_GONGCHANG: '工厂',
+    // LK_CHEXINGXIANGMU	:'车型项目',
     LK_SHIJIAN: '时间',
     LK_YIXIANGSHUBIANHAO: '意向书编号',
     LK_DINDDIANSHIJIAN: '定点时间',
@@ -1846,6 +1937,7 @@
     LK_YANGJIANJIAGE: '样件价格',
     LK_GUIZEBIANHAO: '规则编号',
     LK_YUANCAILIAO: '原材料',
+    // LK_YONGLIANG	:'用量',
     LK_BUCAIZHOUQI: '补差周期',
     LK_SHICHANGJIALAIYUAN: '市场价来源',
     LK_GONGYINGXINXI: '供应信息',
@@ -1855,410 +1947,811 @@
     LK_FSHAO: 'FS号',
     LK_LJQSMZQ: '零件全生命周期',
     LK_FADONGJIDIANCIBAO: '发动机电池包',
+    //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',
+
     MT_HUIYIDIDIAN: '会议地点',
+
     MT_HUIYILEIXING: '会议类型',
+
     MT_HUIYIZHUANGTAI: '会议状态',
+
     MT_HUIYITONGPING: '会议同屏',
+
     MT_HUIYIZHANSHI: '会议展示',
+
     MT_XINZENGYITI: '新增议题',
+
     MT_CHAKANYITI: '查看议题',
+
     MT_XIUGAIYITI: '修改议题',
+
     MT_XINZENGXIUXI: '新增休息',
+
     MT_CHAKANXIUXI: '查看休息',
+
     MT_BIANJIXIUXI: '编辑休息',
+
     MT_YITILEIXING: '议题类型',
+
     MT_HUIYIGAIQI: '会议改期',
+
     MT_GAIQI: '改期',
+
     MT_YITIMINGCHENG: '议题名称',
+
     MT_HUIYIXIUXI: '会议休息',
+
     MT_YONGSHI: '用时',
+
     MT_FENZHONG: '分钟',
+
     MT_YITIZILIAO: '议题资料',
+
     MT_XUANZEHUIYI: '选择会议',
+
     MT_CHAKANHUIYIJIYAO: '查看会议纪要',
+
     MT_ZHUANGTAI: '状态',
+
     MT_HUIYIRIQI: '会议日期',
+
     MT_ZHOUCI_: '周次',
+
     MT_ZHOUCI: '周/次',
+
     MT_SHANGCHUAN: '上传',
+
     MT_QUXIAO: '取消',
+
     MT_QUEREN: '确认',
+
     MT_CHONGZHI: '重置',
+
     MT_XUHAO: '序号',
+
     MT_CAOZUO: '操作',
+
     MT_CHEHUI: '撤回',
+
     MT_SHANCHU: '删除',
+
     MT_BIANJI: '编辑',
+
     MT_DAOCHU: '导出',
+
     MT_CHUANGJIAN: '创建',
+
     MT_PILIANGCHUANGJIAN: '批量创建',
+
     MT_CAOGAO: '草稿',
+
     MT_KAIFANG: '开放',
+
     MT_KAISHI: '开始',
+
     MT_SUODING: '锁定',
+
     MT_JIESUO: '解锁',
+
     MT_XIUGAI: '修改',
+
     MT_LEIXING: '类型',
+
     MT_FABUZHE: '发布者',
+
     MT_FABURIQI: '发布日期',
+
     MT_DAORUYITI: '导入议题',
+
     MT_XIAZAIMUBAN: '下载模板',
-    MT_YITIMUBAN: '议题模版',
-    MT_XIAZAIMUBANCHENGGONG: '下载模版成功',
-    MT_XIAZAIMUBANSHIBAI: '下载模版失败',
+
+    MT_YITIMUBAN: '议题模板',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模板成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模板失败',
+
     MT_GUANBI: '关闭',
+
     MT_JIESHU: '结束',
+
     MT_TONGPING: '同屏',
+
     MT_ZHANSHI: '展示',
+
     MT_YITITIAOZHENG: '议题调整',
+
     MT_JIESHUYITI: '结束议题',
+
     MT_SHENGCHENGHUIYIJIYAO: '生成会议纪要',
+
     MT_SHANGCHUANHUIYIJIYAO: '上传会议纪要',
+
     MT_HUIYISHIJIAN: '会议时间',
+
     MT_FUJIAN: '附件',
+
     MT_QINGSHURU: '请输入',
+
     MT_QINGXUANZE: '请选择',
+
     MT_TO: '至',
+
     MT_PILIANGHUIYICHUANGJIAN: '批量会议创建',
+
     MT_QINGXUANZEHUIYILEIXNG: '请选择会议类型',
+
     MT_HUIYIJIANGE: '会议间隔',
+
     MT_QINGXUANZEHUIYIJIANGE: '请选择会议间隔',
+
     MT_QINGXUANZEKAISHISHIJIAN: '请选择开始时间',
+
     MT_QINGXUANZEJIESHURIQI: '请选择结束日期',
+
     MT_QINGXUANZEKAISHIRIQI: '请选择开始日期',
+
     MT_HUIYIZHOUQI: '会议周期',
+
     MT_QINGXUANZEHUIYIZHOUQI: '请选择会议周期',
+
     MT_QINGSHURUHUIYIDIZHI: '请输入会议地址',
+
     MT_KAISHISHIJIAN: '开始时间',
+
     MT_QINGXUANZEHUIYIKAISHIJIAN: '请选择会议开始时间',
+
     MT_QINGXUANZEHUIYIKAISHIRIQI: '请选择会议开始日期',
+
     MT_HUIYIDIZHI: '会议地址',
+
     MT_SHOUJIANREN: '收件人',
+
     MT_QINGXUANZESHOUJIANREN: '请选择收件人',
+
     MT_XUANZESHOUJIANREN: '选择收件人',
+
     MT_SOUSUOSHOUJIANREN: '搜索收件人',
+
     MT_YUHUIREN: '与会人',
+
     MT_QINGXUANZEYUHUIREN: '请选择与会人',
+
     MT_QINGSHURUYUHUIREN: '请输入与会人',
+
     MT_HUIYICHUANGJIAN: '会议创建',
+
     MT_GUANBIHUIYI: '关闭会议',
+
     MT_SHIFOUCHUFASHENPI: '是否触发审批',
+
     MT_SHENPILIUCHENG: '审批流程',
+
     MT_SHANGCHUANFUJIAN: '上传附件',
+
     MT_QINGXUANZEWENJIAN: '请选择文件',
+
     MT_XUANZEWENJIAN: '选择文件',
+
     MT_WENJIANDAXIAOXIANZHI: '文件大小限制',
+
     MT_WENJIANDAXIAOZUIDAXIANZHI: '文件大小最大限制',
+
     MT_DAORUYICHANG: '导入异常',
+
     MT_QINGXIUGAIHOUCHONGXINZHIXINGDAORUCAOZUO: '请修改后重新执行导入操作！',
+
     MT_HUIYIXIUGAI: '会议修改',
+
     MT_HUIYIJIYAO: '会议纪要',
+
     MT_BUMEN: '部门',
+
     MT_SHENGCHENG: '生成',
+
     MT_SHANGYIYE: '上一页',
+
     MT_XIAYIYE: '下一页',
+
     MT_QINGSHANGCHUANFUJIAN: '请上传附件',
+
     MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN:
       '文件大小最大限制10MB | 只支持pdf文件',
+
     MT_ZILIAOXIAZAI: '资料下载',
+
     MT_ZANWUXIAZAIZILIAO: '暂无下载资料',
+
     MT_XIAZAI: '下载',
+
     MT_XAIZAIMINGCHENG: '下载名称',
+
     MT_SHANGCHUANFUJIANREN: '上传附件人',
+
     MT_SHANGCHUANFUJIANSHIJIAN: '上传附件时间',
+
     MT_HUIYIZHIBOMEIWUMIAOSHUAXIN: '会议直播进程将每5秒自动刷新，请耐心等待。',
+
     MT_ZANWUZHIBOHUIYI: '暂无直播会议',
+
     MT_WODEYITI: '我的议题',
+
     MT_CHAIFEN: '拆分',
+
     MT_WEIWANCHENG: '未完成',
+
     MT_YIWANCHENG: '已完成',
+
     MT_XINZENGSHOUGONGYITI: '新增手工议题',
+
     MT_CHAKANSHOUGONGYITI: '查看手工议题',
+
     MT_XIUGAISHOUGONGYITI: '修改手工议题',
+
     MT_SHOUGONGYITI: '手工议题',
+
     MT_NINSHANGWUHUIYICHAKANQUANXIAN: '您尚无该类型会议的查看权限',
+
     MT_ZANWUHUIYI: '暂无会议',
+
     MT_XINZENG: '新增',
+
     MT_BAOCUN: '保存',
+
     MT_BANGONGSHI: '办公室',
+
     MT_DIANHUA: '电话',
+
     MT_YOUJIAN: '邮件',
+
     MT_TIANJIAZILIAO: '添加资料',
+
     MT_TIANJIAZILIAOLEIXING: '添加资料类型',
+
     MT_XIUGAIZILIAO: '修改资料',
+
     MT_XIUGAIZILIAOLEIXING: '修改资料类型',
+
     MT_ZILIAOLEIXING: '资料类型',
+
     MT_ZILIAOLEIXINGMINGCHENG: '资料类型名称',
+
     MT_LEIXINGMINGCHENG: '类型名称',
+
     MT_ZILIAOBIAOTI: '资料标题',
+
     MT_TIANJIAFUJIAN: '添加附件',
+
     MT_SUOSHUHUIYI: '所属会议',
+
     MT_XIUGAIHUIYILEIXINGXINXI: '修改会议类型信息',
+
     MT_ZANWUSHUJU: '暂无数据',
+
     MT_HUIYIJIANJIE: '会议简介',
+
     MT_XIUGAIFENGMIANTU: '修改封面图',
+
     MT_HUIYILIANXIREN: '会议联系人',
+
     MT_HUIYILEIXINGGUANLI: '会议类型管理',
+
     MT_HUIYIZILIAOGUANLI: '会议资料管理',
+
     MT_HUIYIZILIAO: '会议资料',
+
     MT_WEIJINXING: '未进行',
+
     MT_JINXINGZHONG: '进行中',
+
     MT_YIJIESHU: '已结束',
+
     MT_LIANXIRENXINXI: '联系人信息',
+
     MT_GANGWEI: '岗位',
+
     MT_YOUXIANG: '邮箱',
+
     MT_FANHUI: '返回',
+
     MT_SOUSUO: '搜索',
+
     MT_CHUANGJIANYUHUIRENFENZU: '创建与会人分组',
+
     MT_XIUGAIYUHUIRENFENZU: '修改与会人分组',
+
     MT_ZUMING: '组名',
+
     MT_CHUANGJIANSHOUJIANREN: '创建收件人',
+
     MT_TIANJIASHOUJIANREN: '添加收件人',
+
     MT_XIUGAISHOUJIANREN: '修改收件人',
+
     MT_SHICHANG: '时长',
+
     MT_YANJIANGREN: '演讲人',
+
     MT_YANJIANGRENBUMEN: '演讲人部门',
+
     MT_SHIJIAN: '时间',
+
     MT_YITIXINXI: '议题信息',
+
     MT_CHAKANJIELUN: '查看结论',
+
     MT_JIELUN: '结论',
+
     MT_HUIYI: '会议',
+
     MT_SHIFOUDONGJIE: '是否冻结',
+
     MT_SHI: '是',
+
     MT_FOU: '否',
+
     MT_RENWU: '任务',
+
     MT_WEIHUZILIAO: '维护资料',
+
     MT_ZANWU: '暂无',
+
     MT_DAIDING: '待定',
+
     MT_DINGDIAN: '定点',
+
     MT_FALOI: '发LOI',
+
     MT_ZHUANTER: '转TER/TOP-TER',
+
     MT_XIACIPRE: '下次Pre CSC',
+
     MT_ZHUANCSC: '转CSC',
+
     MT_WEIHUJIELUN: '维护结论',
+
     MT_XIACIHUIYI: '下次会议',
+
     MT_DONGJIERSDAN: '冻结RS单',
+
     MT_QINGSHURURENWU: '请输入任务',
+
     MT_QUEDING: '确定',
+
     MT_LIEYINCANGHUOXIANSHI: '列隐藏/显示',
+
     MT_ZILIAOMINGCHENG: '资料名称',
+
     MT_ZILIAOSHANGCHUANREN: '资料上传人',
+
     MT_CHEHUIYITI: '撤回议题',
+
     MT_TIANJIAYITI: '添加议题',
+
     MT_JULIHUIYIHAIYOU: '距离会议还有',
+
     MT_TIAN: '天',
+
     MT_HUIYIXINXIMIAOSHU: '会议信息描述',
+
     MT_HUIYIMINGCHENGHOUZHUI: '会议名称后缀',
+
     MT_SUOSHUFENLEI: '所属分类',
+
     MT_HUIYIGUANLIYUAN: '会议管理员',
+
     MT_YITISHICHANG: '议题时长',
+
     MT_CHUANGJIANHUIYILEIXING: '创建会议类型',
+
     MT_BIANJIHUIYILEIXING: '编辑会议类型',
+
     MT_SHANGCHUANFENGMIANTUPIAN: '上传封面图片',
+
     MT_JIANYISHIYONGBILI: '建议使用16:9比例，图片最大15M',
+
     MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI: '生成会议名称后缀',
+
     MT_HUIYISHUXING: '会议属性',
+
     MT_HUIYIJIELUNPEIZHI: '会议结论配置',
+
     MT_HUIYISHANGXIAXIANJINE: '会议上下限金额',
+
     MT_XIAXIAN: '下限',
+
     MT_SHANGXIAN: '上限',
+
     MT_GUANLIANGUANXI: '关联关系',
+
     MT_MORENYITISHICHANG: '默认议题时长',
+
     MT_BIXUAN: '必选',
+
     MT_SHIFOUCHUFASHENPILIU: '是否触发审批流',
+
     MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO: '上传文件大小不能超过',
+
     MT_SHANGCHUANTOUXIANGTUPIANDAXIAOBUNENGCHAOGUO: '上传头像图片大小不能超过',
+
     MT_SHANGCHUANSHIBAI: '上传失败',
+
     MT_BITIAN: '必填',
+
     MT_TIAOZHENGWANCHENG: '调整完成',
+
     MT_QUXIAOTIAOZHENG: '取消调整',
+
     MT_WODE: '我的',
+
     MT_QUANBU: '全部',
+
     MT_CANYURENYUANXINGMING: '参与人员姓名',
+
     MT_XINGMING: '姓名',
+
     MT_DIANZIYOUXIANG: '电子邮箱',
+
     MT_GONGHAO: '工号',
+
     MT_SUOSHUBUMEN: '所属部门',
+
     MT_YICHU: '移除',
+
     MT_WENJIANMINGCHENG: '文件名称',
+
     MT_BAOCUNCHENGGONG: '保存成功',
+
     MT_BAOCUNSHIBAI: '保存失败',
+
     MT_GENGXINSHIBAI: '更新失败',
+
     MT_GENGXINCHENGGONG: '更新成功',
+
     MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG:
       '系统用户和非系统用户不能同时为空',
+
     MT_ZUIDABUNENGCHAOGUO255ZIFU: '最大不能超过255字符',
+
     MT_ZUIDACHANGDU255ZIFU: '最大长度255字符',
+
     MT_ZUIDACHANGDU64ZIFU: '最大长度64字符',
+
     MT_ZUIDACHANGDU1024ZIFU: '最大长度1024字符',
+
     MT_ZUIDACHANGDU2048ZIFU: '最大长度2048字符',
+
     MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU:
       '最大长度3位，单位（分钟），必须正整数',
+
     MT_BIXUZHENGZHENGSHU: '必须正整数',
+
     MT_ZUIDACHANGDU3WEI: '最大长度3位',
+
     MT_XIAZAISHIBAI: '下载失败',
+
     MT_SHANGCHUANCHENGGONG: '上传成功',
+
     MT_XIUGAICHENGGONG: '修改成功',
+
     MT_QINGXUANZESHANGCHUANFUJIAN: '请选择上传附件',
+
     MT_GUANBICHENGGONG: '关闭成功',
+
     MT_SHANGCHUANWENJIANLEIXINGCUOWU: '上传文件类型错误',
+
     MT_DAORUCHENGGONG: '导入成功',
+
     MT_DAORUSHIBAI: '导入失败',
+
     MT_SHANCHUCHENGGONG: '删除成功',
+
     MT_SHANCHUSHIBAI: '删除失败',
+
     MT_QINGSHURUYITIJIELUN: '请输入议题结论',
+
+    MT_ZUIDACHANGDU2048ZIFU: '最大长度2048字符',
+
     MT_GAIQICHENGGONG: '改期成功',
+
     MT_SHIFOUTONGYICHEHUIGAIYITI: '是否同意撤回该议题？',
+
     MT_TISHI: '提示',
+
     MT_TONGYI: '同意',
+
     MT_JUJUE: '拒绝',
+
     MT_SHENPITONGGUO: '审批通过',
+
     MT_TONGGUO: '通过',
+
     MT_BUTONGGUO: '不通过',
+
     MT_YUBEIHUITONGGUO: '预备会通过',
+
     MT_JUJUECHENGGONG: '拒绝成功!',
+
     MT_DAORUYITICHENGGONG: '导入议题成功',
+
     MT_YIJIESHUHUOJINXINGZHONGDEYITIBUKEYIBEITIAOZHENG:
       '已结束或进行中的议题不可以被调整！',
+
     MT_BUKEYIBAYITITUOZHUAIDAOYIJIESHUHUOZHEJINXINGZHONGDEYITIZHIQIAN:
       '不可以把议题拖拽到已结束或者进行中的议题之前!',
+
     MT_SHANGWEISHENGCHENGHUIYIJIYAO_QIANWANGSHENGCHENGHUIYIJIYAO:
       '尚未生成会议纪要，前往生成会议纪要？',
+
     MT_QIANWANG: '前往',
+
     MT_QINGQUERENSHIFOUXUYAOGUANBIHUIYI: '请确认是否需要关闭会议？',
+
     MT_YIYOUJINXINGZHONGDEYITI: '已有进行中的议题!',
+
     MT_QINGANYITISHUNXUKAISHIYITI: '请按议题顺序开始议题！',
+
     MT_GAIYITILIEBIAOYIQUANBUJIESHU: '该议题列表已全部结束！',
+
     MT_KAISHIYITICHENGGONG: '开始议题成功! ',
+
     MT_KAISHIYITISGIBAI: '开始议题失败！',
+
     MT_GAIYITIWEIJINXINGZHONG_BUNENGJIESHUCAOZUO:
       '该议题未进行中，不能结束操作！',
+
     MT_JIESHUYITICHENGGONG: '结束议题成功! ',
+
     MT_CHAIFENCHENGGONG: '拆分成功',
+
     MT_CHAIFENSHIBAI: '拆分失败',
+
     MT_SHIFOUCHEHUIGAIHUIYI: '是否撤回该会议?',
+
     MT_CHEHUICHENGGONG: '撤回成功',
+
     MT_XIUXIYITIBUNENGJINXINGHAIQI: '休息议题不能进行改期',
+
     MT_ZHINENGSHANCHUWEIJINXINGDEYITI: '只能删除未进行的议题',
+
     MT_BUNENGSHANCHUCHEHUIZHONGDEYITI: '不能删除撤回中的议题',
+
     MT_QUERENSHANCHUGAIYITIMA: '确认删除该议题吗?',
+
     MT_JINXINGZHONGDEYITIBUNENGJINXINGHUIYIZILIAOWEIHU:
       '进行中的议题不能进行会议资料维护',
+
     MT_YIWANCHENGDEYITIBUNENGJINXINGHUIYIZILIAOWEIHU:
       '已完成的议题不能进行会议资料维护',
+
     MT_XIUXIYITIBUKEWEIHUZILIAO: '休息议题不可维护资料',
+
     MT_YIJIESHUDEDYITIBUNENGJINXINGXIUGAIYITI: '已结束的议题不能进行修改议题',
+
     MT_KAIFANGHUIYICHENGGONG: '开放会议成功！',
+
     MT_JIESHUHUIYICHENGGONG: '结束会议成功! ',
+
     MT_QINGQUERENSHIFOUXUYAOSUODINGHUIYI: '请确认是否需要锁定会议？',
+
     MT_SUODINGHUIYICHENGGONG: '锁定会议成功！',
+
     MT_SUODINGHUIYISHIBAI: '锁定会议失败！',
+
     MT_JIESUOHUIYICHENGGONG: '解锁会议成功！',
+
     MT_JIESUOHUIYISHIBAI: '解锁会议失败！',
+
     MT_QINGDAORUYITIHOUBAOCUN: '请导入议题后再保存',
+
     MT_ZHINENGSHANCHUCAOGAOZHUANGTAIDEHUIYI: '只能删除草稿状态的会议!',
+
     MT_SHIFOUSHANCHUGAIHUIYI: '是否删除该会议 ？',
+
     MT_SHIFOUKAIFANGGAIHUIYI: '是否开放该会议 ?',
+
     MT_HUIYIYICHENGGONGKAIFANG: '会议已成功开放!',
+
     MT_KAISHIHUIYICHENGGONG: '开始会议成功！',
+
     MT_SHENGCHENGAGENDACHENGGONG: '生成Agenda成功',
+
     MT_DIANHUAGESHIBUZHENGQUE: '电话格式不正确',
+
     MT_YOUXIANGGESHIBUZHENGQUE: '邮箱格式不正确',
+
     MT_NIQUEDINGYAOSHANCHUMA: '你确定要删除吗？',
+
     MT_HUOQUSHIBAI: '获取失败！',
+
     MT_CHUANGJIANCHENGGONG: '创建成功！',
+
     MT_JINGETIANJIAYIGEWENJIAN: '仅可添加一个文件！',
+
     MT_XIAJIACHENGGONG: '下架成功！',
+
     MT_SHANGJIACHENGGONG: '上架成功！',
+
     MT_SHIFOUSHANCHUGAIHUIYIZILIAO: '是否删除该会议资料？',
+
     MT_QINGQUERENSHIFOUFASONGYITICHEHUISHENQINGZHIHUIYIGUANLIYUAN:
       '请确认是否发送议题撤回申请至会议管理员?',
+
     MT_SHIFOUCHEHUIGAIYITI: '是否确认撤回该议题？',
+
     MT_YIFASONGCHEHUISHENQINGGEIGUANLIYUAN: '已发送会议撤回申请给管理员。',
+
     MT_ZHIYOUKAIFANGHESUODINGZHUANGTAICAIKEYICHEHUI:
       '只有开放和锁定状态才可以撤回!',
+
     MT_QUXIAOCHENGGONG: '取消成功',
+
     MT_GUANZHUCHENGGONG: '关注成功',
+
     MT_SHIFOUQUXIAOBIANJI: '是否取消编辑?',
+
     MT_SHIFOUBAOCUNYITI: '是否保存议题？',
+
     MT_MEIYOUYAOXIAZAIDEFUJIAN: '没有要下载的附件!',
+
     MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU: '已经结束的议题不可以添加关注!',
+
     MT_QUXIAOGUANZHUCHENGGONG: '取消关注成功!',
+
     MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU: '已经结束的议题不可以取消关注!',
+
     MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU: '请确认是否要删除该群组？',
+
     MT_ZHUANGTAI2: '状态',
+
     MT_XUHAO2: '序号',
+
     MT_XUHAO3: '序号',
+
     MT_ZUZHIJIGOUMINGCHENGZHONG: '组织机构名称(中)',
+
     MT_ZUZHIJIGOUMINGCHENGYING: '组织机构名称(英)',
+
     MT_ZUZHIJIGOUBIANMA: '组织机构编码',
+
     MT_ZUZHIJIBIE: '组织级别',
+
     MT_MINGCHENG: '名称',
+
     MT_TIANJIAZUZHI: '添加组织',
+
     MT_CAOZUO2: '操作',
+
     MT_PILIANGPAIXU: '批量排序',
+
     MT_TONGYONGHUIYI: '通用会议',
+
     MT_SHENGCHANCAIGOUSCC: '生产采购CSC',
+
     MT_YIBANCAIGOUCSG: '一般采购CSG',
+
     MT_FENDUANDINGDIAN: '分段定点',
+
     MT_XIAXIANJINEBUNENGDAYUSHANGXIANJINE: '下限金额不能大于上限金额！',
+
     MT_QINGSHANGCHUANTUPIANWENJIAN: '请上传图片文件',
+
     MT_SHIFOUSHANCHUGAIHUIYILEIXING: '是否删除该会议类型？',
+
     MT_QINGXUANZEXUYAOSHANCHUDEHUIYILEIXING: '请选择需要删除的会议类型!',
+
     MT_DAOCHUCHENGGONG: '导出成功',
+
     MT_DAOCHUSHIBAI: '导出失败',
+
     MT_HUIYILEIXINGLIEBIAO: '会议类型列表',
+
     MT_SHENQINGCHEHUI: '申请撤回',
+
     MT_DINGDIANRSDANWEIDONGJIE: '定点RS单未冻结',
+
+    MT_YITIMUBAN: '议题模版',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模版成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模版失败',
+
     MT_QUERENCHAIFENGAIYITIME: '确认拆分该议题么?',
+
     MT_PAIXUWANCHENG: '排序完成',
+
     MT_SHANGXIATUOZHUAIKETIAOZHENGSHUNXU: '上下拖拽即可调整顺序',
+
     MT_TUICHU: '退出',
+
     MT_QINGXUANZEYIGEXIACIHUIYI: '请选择一个下次会议',
+
     MT_XIACIHUIYIZHINENGXUANZEYIGE: '下次会议只能选择一个！',
+
     MT_WEIHUCHENGGONG: '维护成功!',
+
     MT_YOUDINGDIANYITIWEIDONGJIERSDAN_QINGQUERENSHIFOUGUANBIHUIYI:
       '有定点议题未冻结RS单，请确认是否关闭会议?',
+
     ME_YI: '一（周会）',
+
     MT_ER: '二（双周会）',
+
     MT_SAN: '三',
+
     MT_SI: '四（月会）',
+
     MT_WU: '五',
+
     MT_LIU: '六',
+
     MT_QI: '七',
+
     MT_BA: '八',
+
     MT_JIU: '九',
+
     MT_SHIS: '十',
+
     MT_SHIYI: '十一',
+
     MT_SHIER: '十二（季度会）',
+
     MT_QINGSHURUHUIYIMINGCHENG: '请输入会议名称！',
+
     MT_ZUIDACHANGDU100ZIFU: '最大长度100字符',
+
     MT_QINGXUANZEZILIAOLEIXING: '请选择资料类型！',
+
     MT_QINGSHURUZILIAOBIAOTI: '请输入资料标题！',
+
     MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO: '请确认是否要删除该资料?',
+
     MT_JINZHICHITUPIANGESHI: '仅支持图片格式!',
+
     MT_SHANGCHUANTUPIANDAXIAOBUNENGCHAOGUO15MB: '上传图片大小不能超过15MB!',
+
     MT_QINGSHURUZILIAOLEIXINGMINGCHENG: '请输入资料类型名称！',
+
     MT_QINGXUANZESUOSHUHUIYI: '请选择所属会议！',
+
     MT_HUIYIZHIBO: '会议直播',
+
     MT_JINQIHUIYI: '近期会议',
+
     MT_GUANLIDATING: '管理大厅',
+
     MT_HUIYILIEBIAO: '会议列表',
+
     MT_YUHUIRENLIEBIAO: '与会人列表',
+
     MT_HUIYIXINXI: '会议信息',
+
     MT_WUCHAKANQUANXIAN: '无查看权限',
+
     MT_XINGQIYI: '星期一',
+
     MT_XINGQIER: '星期二',
+
     MT_XINGQISAN: '星期三',
+
     MT_XINGQISI: '星期四',
+
     MT_XINGQIWU: '星期五',
+
     MT_XINGQILIU: '星期六',
+
     MT_XINGQIRI: '星期日',
+
     MT_ZUZHI: '组织',
+
     MT_YUANGONG: '员工',
+
     MT_SOUSUOZUZHI: '搜索组织',
+
     MT_XUANZEZUZHI: '选择组织',
+
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',
@@ -2397,3817 +2890,213 @@
       QUERY: '查询',
       RESET: '重置'
     },
-    rfq: { RFQINQUIRE: '搜索', RFQRESET: '重置' },
-    TERMS_TIAOKUANGUANLI: '条款管理',
-    TERMS_BIAOZHUNTIAOKUAN: '标准条款',
-    TERMS_DINGZHITIAOKUAN: '定制条款',
-    TERMS_TIAOKUANCHAXUN: '条款查询',
-    TERMS_TIAOKUANMINGCHENG: '条款名称',
-    TERMS_TIAOKUANFUZEREN: '条款负责人',
-    TERMS_TIAOKUANZHUANGTAI: '条款状态',
-    TERMS_QIANSHUJIEDIAN: '签署节点',
-    TERMS_GONGYINGSHANGFANWEI: '供应商范围',
-    TERMS_BIAOZHUNTIAOKUANLIEBIAO: '标准条款列表',
-    TERMS_XUHAO: '序号',
-    TERMS_TIAOKUANBIANMA: '条款编码',
-    TERMS_FABUSHIJIAN: '发布时间',
-    TERMS_TIAKUANYOUXIAOQI: '条款有效期',
-    TERMS_QIANSHUQINGKAUNG: '签署情况',
-    TERMS_SHIFOUCHONGFU: '是否重复',
-    TERMS_SHIFOUXUYAOQIANZHANG: '是否需要签章',
-    TERMS_SHIFOUGERENTIAOKUAN: '是否个人条款',
-    TERMS_XINJIAN: '新建',
-    TERMS_SHIXIAO: '失效',
-    TERMS_SOUSUO: '搜索',
-    TERMS_CHONGZHI: '重置',
-    TERMS_TUICHU: '退出',
-    TERMS_FABU: '发布',
-    TERMS_QUEDING: '确定',
-    TERMS_CAOZUO: '操作',
-    TERMS_SHANCHU: '删除',
-    TERMS_XIAZAI: '下载',
-    TERMS_BIANJI: '编辑',
-    TERMS_WEIFABU: '未发布',
-    TERMS_YIFABU: '已发布',
-    TERMS_YIGUOQU: '已过期',
-    TERMS_YISHIXIAO: '已失效',
-    TERMS_XINJIANTIAOKUAN: '新建条款',
-    TERMS_BIANJITIAOKUAN: '编辑条款',
-    TERMS_GONGYINGSHANGLIWAI: '供应商(例外)',
-    TERMS_TIAOKUANZHENGWEN: '条款正文',
-    TERMS_SHANGCHUANFUJIAN: '上传附件',
-    TERMS_WENJIANMINGCHENG: '文件名称',
-    TERMS_QINGXUANZEWENJIAN: '请选择文件',
-    TERMS_WENJIANDAXIAOZUIDAXIANZHI: '文件大小最大限制50MB',
-    TERMS_SHANGCHUANCHENGGONG: '上传成功',
-    TERMS_SHANGCHUANSHIBAI: '上传失败',
-    TERMS_BAOZUNCHENGGONG: '保存成功',
-    TERMS_BAOCUNSHIBAI: '保存失败',
-    TERMS_GENGXINCHENGGONG: '更新成功',
-    TERMS_GENGXINSHIBAI: '更新失败',
-    TERMS_YIXUANZEGONGYINGSHANGLIWAI: '已选择供应商(例外)',
-    TERMS_YIXUANZEGONGYINGSHANGFANWEI: '已选择供应商范围',
-    TERMS_SFQXBJ: '是否取消编辑？',
-    TERMS_SFBCTKMBSJ: '是否保存该条款模板数据？',
-    TERMS_SHI: '是',
-    TERMS_FOU: '否',
-    TERMS_TISHI: '提示',
-    TERMS_CHAKANTIAOKUAN: '查看条款',
-    TERMS_ZHANSHIBANBEN: '展示版本',
-    TERMS_DUIBIBANBEN: '对比版本',
-    TERMS_QIANSHUQINGKUANG: '签署情况',
-    TERMS_GONGYINGSHANGZHONGWENMING: '供应商中文名',
-    TERMS_DIQU: '地区',
-    TERMS_CAILIAOZU: '材料组',
-    TERMS_GONGHUOJIBIE: '供货级别',
-    TERMS_SHIFOUQIANSHU: '是否签署',
-    TERMS_LIANXIRENXINGMING: '联系人姓名',
-    TERMS_YONGHUDENGRUMING: '用户登入名',
-    TERMS_YOUXIANG: '邮箱',
-    TERMS_SHOUJI: '手机',
-    TERMS_DIANHUA: '电话',
-    TERMS_QIANSHUZHAUNGTAI: '签署状态',
-    TERMS_QIANSHUSHIJIAN: '签署时间',
-    TERMS_WEIQINSHU: '未签署',
-    TERMS_YIQIANSHU: '已签署',
-    TERMS_LIWAI: '例外',
-    TERMS_BIAOJILIWAI: '标记例外',
-    TERMS_SPAHAO: 'SPA号',
-    TERMS_QXZDZTKSJ: '请选择定制条款数据',
-    TERMS_SFJDZTKSWSX: '是否将定制条款设为失效？',
-    TERMS_TIAKUANSHENGXIAOSHIJIAN: '条款生效时间',
-    TERMS_GONGYINGSHANGMINGCHENG: '供应商名称',
-    TERMS_GONGYINGSHANGXIUGAITIAOKUANSHENHE: '供应商修改条款审核',
-    TERMS_ZHENGSHIDINGZHITIAOKUAN: '正式定制条款',
-    TERMS_DIJIAORIQI: '递交日期',
-    TERMS_LISHIXIUDING: '历史修订',
-    TERMS_TISHIBIAOQIAN: '提示标签',
-    TERMS_TISHIJIEDIAN: '提示节点',
-    TERMS_GONGYINGSHANGXIUGAITIAOKUAN: '供应商修改条款',
-    TERMS_SHANGQIXIUGAITIAOKUAN: '上汽修改条款',
-    TERMS_HONGSE: '红色',
-    TERMS_WEIGONGYINGSHANGXIUGAITIAOKUAN: '为供应商修改条款',
-    TERMS_LVSE: '绿色',
-    TERMS_WEISVWXIUGAITIAOKUAN: '为SVW修改条款',
-    TERMS_BITIAN: '必填',
-    TERMS_ZUIDACHANGDU: '最大长度',
-    TERMS_ZIFU: '字符',
-    TERMS_BIXUAN: '必选',
-    TERMS_ZHUCE: '注册',
-    TERMS_BIAOJI: '编辑',
-    TERMS_DENGLU: '登录',
-    TERMS_QIANYUE: '签约',
-    TERMS_BANBEN1: '版本1',
-    TERMS_XIAYIYE: '下一页',
-    TERMS_SHANGYIYE: '上一页',
-    TERMS_QINGSHURU: '请输入',
-    TERMS_WEIQIANSHU: '未签署',
-    TERMS_QINGXUANZE: '请选择',
-    TERMS_FANKUIRIQI: '反馈日期',
-    TERMS_BUSHURIQI: '部署日期',
-    TERMS_QIANSHURIQI: '签署日期',
-    TERMS_BUSHUJIEDIAN: '部署节点',
-    TERMS_WSVMXGTK: '为SVW修改条款',
-    TERMS_WGYSXGTK: '为供应商修改条款',
-    TERMS_SFBCGTKMBSJ: '是否保存该条款模板数据',
-    TERMS_SFQXBJTKMBSJ: '是否取消编辑条款模板数据',
-    TERMS_BUSHUZHUANGTAI: '部署状态',
-    TERMS_SHENQINGXIUGAI: '申请修改',
-    TERMS_XIUGAITIAOKUAN: '修改条款',
-    TERMS_TIAOKUANCHAXUAN: '条款查询',
-    TERMS_TISHIBIAOQIAN1: '提示标签1',
-    TERMS_TIAOKUANGBIANMA: '条款编码',
-    TERMS_BAOCUNCHENGGONG: '保存成功',
-    TERMS_QIANSHUZHUANGTAI: '签署状态',
-    TERMS_TIAOKUANYOUXIAOQI: '条款有效期',
-    TERMS_CHAKANDINGZHITIAOKUAN: '查看定制条款',
-    TERMS_BIAOZHUANTIAOKUANLIEBIAO: '标准条款列表',
-    LK_DANWEIBAIWANRENMINGBI: '单位:百万人名币',
-    LK_SHANGYINIANSHUJUDUIBI: '上一年数据对比',
-    LK_ZONGJINE: '总金额:',
-    LK_MTZCAILIAOZU: 'MTZ材料组',
-    LK_MTZKESHIYUSUANFUZEREN: 'MTZ科室预算负责人',
-    LK_MTZYUSUANGUANLIYUAN: 'MTZ预算管理员',
-    LK_CAILIAOZHONGLEI: '材料中类',
-    LK_BIJIAOBANBEN: '比较版本',
-    LK_YUEFENBIJIAO: '月份比较',
-    LK_XIANGQINGLIEBIAO: '详情列表',
-    LK_YUEFEN: '月份',
-    LK_SHICHANGJIA: '市场价',
-    LK_ZONGJI: '总计',
-    LK_CHAYI: '差异',
-    LK_SHICHANGJIACHAYI: '市场价差异',
-    LK_YONGLIANGCHAYI: '用量差异',
-    LK_ZONGJIACHAYI: '总价差异',
-    LK_CHEXINGLIUWEIHAO: '车型六位号',
-    LK_NIANDUYUSUAN: '年度预算',
-    LK_YUEDUYUCE: '月度预测',
-    LK_SHIJIZHIFU: '实际支付',
-    LK_NIANDUYUSUANCHAYI: '年度预算差异',
-    LK_YUEDUYUSUANCHAYI: '月度预算差异',
-    LK_SHIJIZHIFUCHAYI: '实际支付差异',
-    YINGYONGMORENPEIZHI: '',
-    CHEXING: '车型',
-    NIANFEN: '年份',
-    QUZHICHULI: '取值处理',
-    JISUANFANGSHI: '是',
-    LINGJIANSUANFAPEIZHI: '零件算法配置',
-    CAILIAOZU: '材料组',
-    PAICHENGZHUSHOU: '排程助手',
-    GYLGL: 'N级供应链管理',
-    BAOCUN: '保存',
-    FANHUI: '返回',
-    DIQU: '地区',
-    GONGYINGSHANG: '供应商',
-    LINGJIAN: '零件',
-    QUEDING: '确定',
-    CHONGZHI: '重置',
-    SUOSHUBUMEN: '所属部门',
-    'QINGXUANZ[object KeyboardEvent]': '[object KeyboardEvent]',
-    GONGYINGSHANGMINGCHENG: '供应商名称',
-    QINGSHURU: '请输入',
-    QUEREN: '确认',
-    CAILIAOZUBIANHAO: '材料组编号',
-    CAILIAOZUMINGCHENG: '材料组名称',
-    SAPHAO: 'SAP号',
-    GONGYINGSHANGMINGCHEN: '供应商名称',
-    GONGYINGSHANGDIZHI: '地址',
-    LK_GONGYINGSHANGMINGCHENG: '供应商名称',
-    GONGHUO: '供应商状态',
-    QUYU: '区域',
-    CHUANGJIANTUFASHIJIAN: '创建突发事件',
-    ZIDINGQUYU: '自定区域',
-    TUFASHIJIAN: '突发事件',
-    GYSMC: '供应商名称',
-    LJSL: '零件数量',
-    FKZ: '反馈状态',
-    YJZ: '预警值',
-    SHIJIANMINGCHENG: '事件名称',
-    SHIJIANQI: '时间起',
-    SHIJIANZHI: '减值',
-    CHUANGJIANFANGSHI: '创建方式',
-    TUFASHIJIANZONGLAN: '总览',
-    CJTFSJ: '创建突发事件',
-    SJMC: '事件名称',
-    FASHENGSHIJIAN: 'FASHENGSHIJIAN',
-    YSGYSSM: 'YSGYSSM',
-    SJLY: 'SJLY',
-    CJFS: 'CJFS',
-    SJMCFSSJNYRDZ: '事件名称-发生时间（年月日），地址',
-    GYSBH: '供应商编号',
-    GYSGX: '供应商关系',
-    GCDZ: '工厂地址',
-    LINGJIANSHULIANG: '零件数量',
-    SYXCD: '受影响程度',
-    FANKUIZHUANGTAI: '状态',
-    BAOJINGXING: '报警信',
-    BIANJI: '编辑',
-    DAOCHUDANGYE: '导出当页',
-    DAOCHUBAOJINGXING: '导出报警信',
-    DAOCHUFANKUIBIAO: '导出反馈表',
-    FASONGFANKUIBIAO: '发送反馈表',
-    ZHANKAI: '展开',
-    SHOUQI: '收起',
-    GONGYINGSHANGBIANHAO: '供应商编号',
-    GONGCHANGDIZHI: '工厂地址',
-    TNLINGJIAN: 'Tier-N零件',
-    TNLINGJIANLEIXING: '零件类型',
-    T1LINGJIAN: 'Tier-1零件',
-    T1GONGYINGSHANG: 'Tier-1供应商',
-    QSRSJMCLTFDZ: '请输入事件名称，例：台风、地震',
-    ZHONGXINGWEIZHI: '中心位置',
-    QINGXUANZHE: '请选择',
-    BOJIBANJING: '波及半径（KM）',
-    XIAOXILAIYUAN: '来源',
-    FENGXIANYUJINGPEIZHI: '风险预警配置',
-    LK_BAOCUNBINGYINGYONG: '保存并应用',
-    FENGXIANDENGJI: '风险等级',
-    LK_YANSE: '颜色',
-    YANWYSHIJIANZHOU: '延误时间(周)',
-    LK_ZHENGCHANG: '正常',
-    LK_FENGXIAN: '风险',
-    LK_YANWU: '保存',
-    UNCHANGEDCONFIGWARNING: '配置没有发生变化，不需要保存',
-    PEIZHIBUHEFAXIUGCHONGSHI: '配置不合法，请修改后重试',
-    RISKCONFIGNOTICE:
-      '延误时间区间说明："("代表区间不包含该数字（排除），"["代表区间包含该数字（包含）',
-    YONGLIANGBANBEN: '用量版本',
-    QUANBU: '全部',
-    YUSUANNIANFEN: '预算年份',
-    REVIEW: 'review',
-    DAOCHU: '导出',
-    SFDCGHLJHXQ: '是否导出供货零件号详情',
-    SHURUCHAXUNGONGYINGSHANGMINGCHENG: '输入查询供应商名称',
-    BANNIANBAOTISHI: '提示',
-    MTZCAILIAOZU: 'MTZ-材料组',
-    LINGJIANHAO: '零件号',
-    QR: '确认',
-    CZ: '重置',
-    CHUSHIYUSUANZONGJINE: '金额',
-    XISHU: '系数',
-    DANGQIANYUSUANZONGJINE: '当前预算总金额：',
-    JINEDANWEI: '单位',
-    JINETISHI: '将鼠标移到金额上时会展示具体数字',
-    XINZENG: '新增',
-    CHANGELOG: 'Change Log',
-    TONGZHILINIE: 'Linie',
-    DAOCHUCAIWUSHENPI: '导出财务审批',
-    GENGGAIYONGLIANGBANBEN: '更改用量版本',
-    FABU: '发布',
-    YUSUANZONGLAN: '预算总览',
-    SHIJINAMINGCHENG: '事件名称',
-    SHIJIANFANWEI: '事件范围',
-    FASHENGDIDIAN: '发生地点',
-    LINGJIANMINGCHENGBIANHAO: '零件名称编号',
-    CAIGOUYUAN: '采购员',
-    KESHI: '科室',
-    ZHUANGTAI: '状态',
-    'CQSP.GONGYINGSHANGBIANHAO': '供应商编号',
-    'CQSP.GONGCHANGBIANHAO': '工厂编号',
-    CANGKUBIANHAO: '仓库编号',
-    BAOFEIDANHAO: '报废单号',
-    'CQSP.RUKUSHIJIAN': '入库时间',
-    'CQSP.DAORUSHIJIAN': 'DAORUSHIJIAN',
-    DAOCHUDANGQIAN: '导出当前',
-    'CQSP.GONGYINGSHANGMINGCHENG': '供应商名称',
-    'CQSP.LINGJIANHAO': '零件号',
-    'CQSP.YINGWENDEWEN': '零件名-英文/德文',
-    'CQSP.CANGKUBIANHAO': '仓库编号',
-    'CQSP.SHULIANG': '数量',
-    'CQSP.DANWEI': '单位',
-    'CQSP.BAOFEIBIANHAO': '报废单号',
-    YUANYIN: '原因',
-    PICIHAO: '批次号',
-    GUIJINSHUBIANHAO: '贵金属编号',
-    GUIYINGSHANGMINGCHENG: '供应商名称',
-    LINGJIANDANWEI: '零件单位',
-    SHICHANGJIA: '市场价',
-    'GUIJINSHU.MEI': '每',
-    JILIANGDANWEI: '计量单位',
-    HUOBI: '货币',
-    HUILV: '汇率',
-    PICISHULIANG: '批次数量',
-    PILIANGJIANXIAOHAO: '批量件消耗',
-    PEIJIANXIAOHAO: '配件消耗',
-    SHENGYUSHULIANG: '剩余数量',
-    CHUANGJIANSHIJIAN: '创建时间',
-    FUJIAN: '附件',
-    市场价详情: '市场价详情',
-    JISUANNIANDUYUSUANCHUSHIBANBEN: '计算年度预算初始版本',
-    TONGZHILINIEQUEREN: '通知Linie确认',
-    QUERENSHIJIAN: '确认时间',
-    QINGXUANZEBANBEN: '请选择版本',
-    'TPZS.CHANLIANG': '产量',
-    'TPZS.DANJIA': '单价',
-    TLINGJIAN: 'Tier-1零件',
-    TGONGYINGSHANG: 'Tier-1供应商',
-    ZHIBIAOXIAJIANGTISHI: '该指标连续三个半年呈下降趋势',
-    上传附件: '上传附件',
-    上传点价单: '上传点价单',
-    删除附件: '删除附件',
-    下载模板: '下载模板',
-    编辑: '编辑',
-    导出: '导出',
-    MTZ补差总览: 'MTZ补差总览',
-    补差单列表: '补差单列表',
-    VWPT上载数量: 'VWPT上载数量',
-    GUIZHEBIANHAO: '规则编号',
-    YUANCAILIAO: '原材料',
-    YUANCAILIAOPAIHAO: '原材料牌号',
-    GONGYINGSHANGSAPHAO: '供应商SAP号',
-    SHICHANGJIALAIYUAN: '市场价来源',
-    BUCHAZHOUQI: '补差周期',
-    GUIZHEXIANGQING: '规则详情',
-    SHENGXIAO: '生效',
-    SHIXIAO: '失效',
-    补差详情: '补差详情',
-    上传: '上传',
-    采购凭证: '采购凭证',
-    二次零件号: '二次零件号',
-    价格: '价格',
-    总成供应商SAP号: '总成供应商SAP号',
-    二次件供应商名称: '二次件供应商名称',
-    二次件收货日期: '二次件收货日期',
-    二次件收货数量: '上传日期',
-    YUSUANJINEBAIWAN: '预算金额（百万）',
-    BANBENHAO: '版本号',
-    YAOQIUQUERENRIQI: '要求确认日期',
-    QUERENZHUANGTAI: '确认状态',
-    SHIJIQUERENRIQI: '实际确认日期',
-    MTZNIANDUYUSUANBANBENHAOYONGLIANGBANBEN: 'MTZ年度预算 - 版本号 - 用量版本',
-    QINGXUANZEYIHOUNIANFEN: '请选择当前年份之后的年份数据',
-    YUANCAILIAOZHONGLEI: '材料中类',
-    CHUSHIYUSUANJINE: '预算金额',
-    DANGQIANYUSUANJINE: '当前预算金额（百万）',
-    YUANCAILIAODALEI: '原材料大类',
-    DALEIYUANSUJIANCHENG: '大类元素简称',
-    ZHONGLEIBIANHAO: '材料中类',
-    ZHONGLEIMINGCHENG: '中类名称',
-    YUANCAILIAOBIANHAO: '原材料编号',
-    YUANCAILIAOPAIHAOMINGCHENG: '原材料牌号名称',
-    SHICHANGJIAWEIHUFANGSHI: '市场价维护方式',
-    WAIBUSHICHANGJIALAIYUAN: '外部市场价来源',
-    SHOUGONGTONGBUSHUJU: '手工同步数据',
-    SHANGCHUAN: '上传',
-    SHICHANGJIALAIYUANXIANGQING: '市场价来源详情',
-    SHIJIANQIZHI: '时间起止',
-    XIANSHIGONGYINGLIANLU: '显示供应链路',
-    CHUANGJIANTUFASHIJIAN1: '创建突发事件',
-    CAIGOUYUANYUSUANZONGLAN: '采购员预算总览',
-    DAIQUEREN: '待确认',
-    YIQUEREN: '已确认',
-    FANKUIZHANGTAI: '反馈状态',
-    YUJINGXING: '预警信',
-    MTZNIANDUYUSUANBIANJI: 'MTZ年度预算',
-    GONGHUOGUANXI: '供货关系',
-    SOUYINGXIANGCHENGDU: '受影响程度',
-    HUANG: '黄',
-    KESHIYUSUANZONGLAN: '科室预算总览',
-    PINPAIYUSUANZONGLAN: '品牌预算总览',
-    BIANJIQITA: '其他',
-    FASHENGSHIJIANKUOHAO: '发生时间(',
-    GONGYINGSHANGMINGCHENGQUANCHENG: '供应商名称（全称）',
-    CHUSHIYUSUANZONGJINEMAOHAO: '初始预算总金额：',
-    DANGQIANYUSUANZONGJINEMAOHAO: '当前预算总金额：',
-    XISHUMAOHAO: '系数：',
-    CAOZUO: '操作',
-    CAILIAOZHONGLEI: '材料中类',
-    YUEDUQI: '月度起',
-    YUEDUZHI: '月度止',
-    SHICHANGJIALEIBIE: '市场价类别',
-    KESHICAIGOUYUANMINGCHENG: '李四 CSI',
-    KESHICAIGOUYUANMINGCHENG张三CSM: '张三 CSM',
-    KESHICAIGOUYUANMINGCHENG李四CSI: '李四 CSI',
-    KESHICAIGOUYUANMINGCHENG王五CSX: '王五 CSX',
-    MTZYUANCAILIAO: 'MTZ原材料',
-    PAIHAOMINGCHENG: '牌号名称',
-    ZHONGLEIMIAOSHU: '中类描述',
-    XIAZAIMOBAN: '下载模板',
-    SHANGCHUANGSHICHANGJIA: '上传市场价',
-    QUXIAO: '取消',
-    SHICHANGJIAXIANGQING: '市场价详情',
-    JIAGELEIXING: '价格类型',
-    SHENGXIAOQUJIAN: '生效区间',
-    TIAOZHENGHOUYUSUANJINE: '调整后预算金额（百万）',
-    FANKUIZHUANGTAI1: '反馈状态',
-    TIAOZHENGHOUYUSUANJINEMAOHAO: '调整后预算金额：',
-    PINPAI: '品牌',
-    HONG: '红',
-    LV: '绿',
-    HUI: '灰',
-    LINGJIANMINGCHENG: '零件名称',
-    YUCEYONGLIANG: '用量',
-    GAOLIANGCAILIAO: '高亮材料',
-    ZONGYUSUANJINEMAOHAO: '总预算金额：',
-    YUSUANJINE: '预算金额',
-    'KESHICAIGOUYUANMINGCHENGCSG-王小二采购科': 'CSG-王小二 采购科',
-    'KESHICAIGOUYUANMINGCHENGCSG-张三采购科': 'CSG-张三 采购科',
-    'KESHICAIGOUYUANMINGCHENGCSG-张三1采购科': 'CSG-张三1 采购科',
-    'KESHICAIGOUYUANMINGCHENGCSG-李四采购科': 'CSG-李四 采购科',
-    取消: '取消',
-    保存: '保存',
-    MTZYUANCAILIAOPAIHAO: 'MTZ原材料牌号',
-    YUEFENQIJIAN: '月份期间',
-    LAIYUAN: '来源',
-    MEI: '每',
-    MTZ年度预算: 'MTZ年度预算',
-    MTZNIANDUYUSUANBIANJIundefinedundefined: 'undefined',
-    MTZNIANDUYUSUANBIANJIundefinedundefinedundefinedundefinedundefinedundefined:
-      'MTZ年度预算',
-    'MTZNIANDUYUSUANBIANJIundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefined2222BKM-002':
-      'MTZ年度预算 - 2222 - BKM-002',
-    GONGYINGSHANGFANKUIBIAO: '供应商反馈表',
-    TIJIAO: '提交',
-    BAOJINGXINGTANXIE: '报警信填写',
-    YINGXIANGSHIJIANQIZHI: '影响时间起止',
-    YINGXIANGXIANGQING: '影响详情',
-    QINGSHURUXIANGQING: '请输入影响详情…',
-    QINGSHURUYINGXIANGXIANGQING: '请输入影响详情…',
-    KAISHISHIJIAN: 'KAISHISHIJIAN',
-    JIESHUSHIJIAN: '结束时间',
-    YINGXIANGKAISHISHIJIAN: '影响开始时间',
-    YINGXIANGJIESHUSHIJIAN: '影响结束时间',
-    KESHICAIGOUYUANMINGCHENG斯柯达智慧采购科: '斯柯达智慧 采购科',
-    ZHIKANZIJI: '只看自己',
-    XIAOXIYUAN: '消息源(Link)',
-    QUERENTIJIAO: '确认提交',
-    CHAXUNGONGYINGSHANGMINGCHENGSAPHAO: '查询供应商名称，SAP号',
-    ZIDONGCHUANGJIAN: '自动创建',
-    SHOUDONGCHUANGJIAN: '手动创建',
-    QINGXUANZHONGYAOCAOZUODESHUJU: '请选中要操作的数据',
-    SJLX: '事件类型',
-    SHIJIANLEIXING: 'SHIJIANLEIXING',
-    SHIJIANXIANGQING: '事件详情',
-    'LINGJIANMING(ZHONG)': '零件名（中）',
-    'LINGJIANMING(DE)': '零件名（德）',
-    DAORUSHIJIAN: '导入时间',
-    KONG: '空',
-    BAOQIANQINGXUANZHEYITIAOSHUJU: '抱歉,请选择一条数据',
-    PINGPAI: '品牌',
-    'MTZNIANDUYUSUANBIANJI2007A(25/2020)': 'MTZ年度预算 - 20 - 07A(25/2020)',
-    'MTZNIANDUYUSUANBIANJI20V07(25/2020)': 'MTZ年度预算 - 20 - V07(25/2020)',
-    QINGXUANZHONGYITIAOSHUJU: '请选中一条数据',
-    DAOCHUQUANBU: '导出全部',
-    'MTZNIANDUYUSUANBIANJInullV07(25/2020)': 'MTZ年度预算 - V07(25/2020)',
-    SHUJUKU: '数据库',
-    MTZ零件查询: '查询',
-    MTZ规则查询: 'MTZ规则查询',
-    MTZ市场价来源: 'MTZ市场价来源',
-    MTZ市场价查询: 'MTZ市场价查询',
-    贵金属市场价查询: '贵金属市场价查询',
-    MINGXILIEBIAO: '明细列表',
-    BEZUGLEIXING: 'Bezug类型',
-    YONGLIANG: '用量',
-    LINGJIANMINGZHONG: 'LINGJIANMINGZHONG',
-    LINGJIANMINGDE: 'LINGJIANMINGDE',
-    GAOLIANGCAILIAOMAOHAO: '高亮材料：',
-    SPR_FRM_FRMGL_XGKS: 'SPR_FRM_FRMGL_XGKS',
-    SPR_FRM_FRMGL_WP: 'SPR_FRM_FRMGL_WP',
-    SUPPLIER_CHUBUPINGJI: 'CHUBUPINGJI',
-    QINGXUANZEDANGEPICIJINXINGFUJIANSHANGCHUAN: '附件上传',
-    QINGXUANZEXUYAOSHANCHUFUJIANDEPICI: '请选择需要删除附件的批次',
-    CUOWUXINXI: '错误信息',
-    CAIGOURIQI: '采购日期',
-    LINGJIANSHU: '零件数',
-    GOUMAIJIA: '购买价',
-    DINGJIADANWEI: '定价单位',
-    DINGJIAJILIANGDANWEI: '定价计量单位',
-    SHIFOUSHANCHUSUOXUANPICIDEFUJIAN: '是否删除所选批次的附件？',
-    SHI: '是',
-    FOU: '否',
-    WEIZHAODAODAISHANCHUFUJIAN: '删除附件',
-    LK_QINGXUANZHE: '请选择',
-    QINGXUANZEYITIAOSHUJUXIAZAI: '请选择一条数据进行下载',
-    MTZHUILV: '汇率',
-    SHANGCHUANYIERCIJIANGUANXI: '上传一/二次件零件关系',
-    BANBEN: '版本',
-    LINGJIANSHULIANGLINGJIANHAO: '零件数量（零件号）',
-    CAOZUOSHIBAI: '操作失败',
-    CAOZUOCHENGGONG: '操作成功',
-    YUANCAILIAOMINGCHENG: '原材料名称',
-    SHENFEN_DIQU: '省份-地区',
-    ZONGCHENLINGJIAN: '总成零件',
-    上传市场价: '上传市场价',
-    YICIXINGGONGYINGSHANGBIANHAOMINGCHENG: '供应商编号/名称',
-    CX: '查询',
-    BIANJIGONGYINGSHANGXINGXI: '供应商信息',
-    GONGYINGSHANGXINGXI: '供应商信息',
-    ERCIXINGGONGYINGSHANGBIANHAOMINGCHENG: '二次件供应商编号-名称',
-    BUCHASHIJIANDUAN: '补差时间段',
-    BUCHAXIANGQING: '补差详情',
-    GONGYINGSHANGZh: '供应商中文名',
-    GONGYINGSHANGEn: '供应商英文名',
-    TONGYISHEHUIXINGYONGDAIMA: '统一社会信用代码',
-    DUNS: 'DUNS',
-    '': 'undefined',
-    FAQIBUCHA: '发起补差',
-    GUOJIA_SHENGFEN_CHENSHI: '国家-省份-城市',
-    XIANGXIDIZHI: '详细地址',
-    YOUBIANHAO: '邮编号',
-    GONGSIXINGZHI: '公司性质',
-    GONGSIGUIMO: '公司规模',
-    ZHUCEZIJING: '注册资金',
-    ZIZHIYURENZHENG: '资质与认证',
-    YICIXINGGONGYINGSHANG: '一次件供应商',
-    BIANHAOMINGCHENG: '编号-名称',
-    BUCHAJINE: '补差金额',
-    SHOUHUO: '（收货数量计算结果）',
-    SHOUHUOSHULIANGJISUANJIEGUO: '（收货数量计算结果）',
-    JIESUANSHULIANGJISUANJIEGUO: '（结算数量计算结果）',
-    DAIBUCHAJINE: '（待补差金额）',
-    DAIFAQIPINZHENG: '待发起凭证',
-    SHIJIBUCHAJINE: '实际补差金额',
-    DAIQUERENJINE: '待确认金额',
-    DNEGDAIGONGYINGSHANGQUERENJINE: '（供应商确认金额）',
-    YIQUERENJINE: '已确认金额 ',
-    GONGYINGSHANGQUERENJINE: '（供应商确认金额）',
-    YIPIZHENGJINE: '已批准金额 ',
-    BUCHAPINZHENGSHENPIT: '（补差凭证审批通过金额）',
-    BUCHAPINZHENGSHENPITONGGUOJINE: '（补差凭证审批通过金额）',
-    YIZHIFUJINE: '已支付金额',
-    BUCHA: '（补差凭证已支付金额）',
-    BUCHAPINZHENGYIZHIFUJINE: '补差凭证已支付金额',
-    GSZCHTYSHXYDMSZDSYZGGYSDBTX:
-      '工商注册号/统一社会信用代码是针对所有中国供应商的必填项（15或18位）可以在全国组织机构统 一社会信用代码公示查询平台',
-    ZHONGCHAXUN: '查询',
-    YIFAQIP: '已发起凭证',
-    YIFAQIPINZHENG: '已发起凭证',
-    YICIXING: '一次件供应商',
-    Y: '一次件供应商',
-    YICIJIANGONGYINGSHANG: '一次件供应商',
-    DAIFAQIPIN: '待发起凭证',
-    DA: '（待补差金额）',
-    DENGDAIGONGYINGSHANGQUERENJINE: '（等待供应商确认金额）',
-    BUCHAPINZHENG: '（补差凭证审批通过金额）',
-    BUCHAPINZHENGPIZ: '（补差凭证审批通过金额）',
-    BUCHAPINZHENGSHENPI: '（补差凭证审批通过金额）',
-    BUCHAPINZHENGSHENPITONGUOJINE: '（补差凭证审批通过金额）',
-    XIANSHIYINCANGCAILIAO: '显示/隐藏材料：',
-    GSZCHZDHWGTSXYZXMDQYTRDBSDUNSMDBSDUNSMKYZ:
-      '工商注册号/针对海外供应商，需要在下面的区域填入邓白氏DUNS码。邓白氏DUNS码 可以在',
-    WANGYEZHONGCHAXUN: '网页中查询',
-    LINGJIANLEIXING: '零件类型',
-    SHANGCHU: '删除',
-    LINGJIANMINGCHEN: '零件名称',
-    YICIJIAN: '一次件供应商编号-名称',
-    YICIJIANGONGYINGSHANGBIANHAO: '一次件供应商编号-名称',
-    YICIJIANGONGYINGSHANGBIANHAOMINGCHENG: '一次件供应商编号-名称',
-    SHENGCHANGONGCHANGXINGXI: '生产工厂信息',
-    GONGCHANGZHANDIMIANJI: '工厂占地面积（平方米）',
-    QUERENXIUGAI: '确认修改',
-    CHUANGJIANXINGONGYINGSHANG: '创建新供应商',
-    QUERENTIANJIA: '确认添加',
-    FUZHIGONGYINGLIANLU: '复制供应链路',
-    FUZHISUOXUANGONGYINGSHANGJIQISHANGYOUSUOCENGJIGONGYINGLIANGUANXI:
-      '复制所选供应商及其上游所有层级供应链关系',
-    JINGFUZHISUOXUANGONGYINGSHANG: '仅复制所选供应商',
-    FZGYLLQXZSGLDXYGYS: '复制供应链路 - 请选择所关联的下游供应商',
-    CHUANGJIANBUCHADAN: '创建补差单',
-    YECJGXYXXQR: '一二次件关系有效性确认',
-    SAPLINGJIANHAO: 'SAPLINGJIANHAO',
-    'LINGJIANHAO/MINGCHEN': '零件号/名称',
-    CHAXUN: '查询',
-    XIANGQINGLIEBIAO: '详情列表',
-    QUERENFUZHI: '确认复制',
-    'LINGJIANHAO-MINGCHEN': '零件号-名称',
-    JISUAN: '计算',
-    QINGSHURUXUANZE: '请输入/选择',
-    CHEHUI: '撤回',
-    CHONGXIAO: '冲销',
-    BQWFCXDJGSRCWHBCZQQRHCXSR:
-      '抱歉，无法查询到结果（输入错误或不存在），请确认后重新输入',
-    categoryName: '指标',
-    performance: '完成情况',
-    explanation: '解释',
-    target: '目标',
-    行动计划: '行动计划',
-    actionPlan: '行动计划',
-    CATEGORYNAME: '指标',
-    PERFORMANCE: '完成情况',
-    EXPLANATCION: '解释',
-    TARGET: '目标',
-    ACTIONPLAN: '行动计划',
-    '加⼊重点追踪时间': '加⼊重点追踪时间',
-    移除重点追踪时间: '移除重点追踪时间',
-    是否采取措施: '是否采取措施',
-    措施详情: '措施详情',
-    '加⼊原因': '加⼊原因',
-    '跟进⼈': '跟进⼈',
-    更新时间: '更新时间',
-    SHIFOUCAIQUCUOSHI: '是否采取措施',
-    GENJINREN: '跟进⼈',
-    JIARUYUANYIN: '加⼊原因',
-    COMPLETION: '完成情况',
-    'QUEDINGQINGKONGNEIRONG?': '确定清空该⻚全部输⼊内容？',
-    重置: '重置',
-    SHIFOUCAIQUCUOSHU: '是否采取措施',
-    SPACODE: 'SPA号',
-    BANNIANBAOJILU: '半年报记录',
-    ZHONGDIANZHUIZONGJILU: '重点追踪记录',
-    SPA号: 'SPA号',
-    半年报记录: '半年报记录',
-    采取措施详情: '采取措施详情',
-    CHAKAN: '查看',
-    WEITONGZHI: '未通知',
-    QTXYLBBJYSNF: '请填写用量版本及预算年份',
-    MTZNIANDUYUSUANBIANJInullnull: 'null',
-    QINGXUANZEQUERENSHIJIAN: '请选择确认时间',
-    SHENGCHANGYS: '生产供应商',
-    YIBANGONGYS: '一般供应商',
-    GONGYINGSHANGMINGCHENGORSAP: '供应商名称/SAP号',
-    ZHUANPAI: '转派',
-    QUERENCHUANGJIAN: '确认创建',
-    KESHICAIGOUYUANMINGCHENGnullnull: 'null null',
-    'KESHICAIGOUYUANMINGCHENG物流员-2超级管理员部门': '物流员-2 超级管理员部门',
-    TIAOZHENGHOUYUSUANZONGJINEMAOHAO: '调整后预算总金额：',
-    QINGSHURULIANGWEISHUZI: '请输入2位数字',
-    QINGSHURUSANWEISHUZI: '请输入3位数字',
-    QINGSHURUSIWEISHUZI: '请输入4位数字',
-    ZHONGDIANZHUIZONGGONGYINGSHANGMINGDAN: '重点追踪供应商名单',
-    LNGJIANHAO: '零件号',
-    LK_FOU: '否',
-    TIANJIASHANGYOUGONGYINGSHANG: '添加上游供应商',
-    GUOJIA_SHENGFEN_DIQU: '国家-省份-地区',
-    GONGYINGSHANGMINGCHEN_SAPHAO: '供应商名称/SAP号',
-    SHENGXIAOMSG: '生效的状态不能点击【生效】按钮，请重新选择”',
-    QZSXZYTSJ: '请至少选中一条数据',
-    SHIXIAOMSG: '失效的状态不能点击【失效】按钮，请重新选择”',
-    KESHICAIGOUYUANMINGCHENG上汽大众超级管理员部门: '上汽大众 超级管理员部门',
-    QINGSHURU_XUANZE: '请输入/选择',
-    LINGJIANHAO_MINGCHEN: '零件号-名称',
-    'GAIGONGYSBLRZDZDDX,SFCQCS':
-      '该供应商被列⼊重点追踪对象，是否对其采取措施：',
-    CAIQUCUOSHI: '采取措施',
-    ZANBUCAIQUCUOSHI: '暂不采取措施',
-    ZHANPAI: '转派',
-    SHIFOUYOUXIAO: '有效',
-    CHULIXIANGQING: '处理详情',
-    SHIFOUSHENGXIAO: '是否生效',
-    CREATEDATA: '加⼊重点追踪时间',
-    REMOVEDATA: '移除重点追踪时间',
-    ISTAKESTEPS: '是否采取措施',
-    TAKESTEPSCONTENT: '措施详情',
-    FOLLOWUSERNAME: '跟进⼈',
-    UPDATEDATE: '更新时间',
-    CHONGZHICENGJI: '重置层级',
-    FUZHI: '复制',
-    YICIJIANLINGJIANHAO: '一次件零件号',
-    ERCIJIANLINGJIANHAO: '二次件零件号',
-    ECJGYSBHMC: '供应商编号/名称',
-    ZHUANGPAI: '转派',
-    YICIJIANLINGJIANHAOMINGCHENG: '一次件结算数量',
-    ERCIJIANLINGLINGJIANHAO: '二次件结算数量',
-    ERCIJIANLINGLINGJIANHAOMINGCHENG: '二次件零件号名称',
-    YIERCIJIANYONGLIANG: '一二次件用量',
-    YCJLJH: '一次件零件号',
-    YCJLJHMC: '一次件零件名称',
-    YCJJSSL: '一次件结算数量',
-    ECJLJH: '二次件零件号',
-    ECJLJMC: '二次件零件名称',
-    YECJYL: '一二次件用量',
-    ECJJSSL: '二次件结算数量',
-    BCJESH: '补差金额（收货）',
-    BCJEJS: '补差金额（结算）',
-    DFQPZ: '待发起凭证',
-    YFQPZ: '已发起凭证',
-    SJBCJE: '实际补差金额',
-    DQRJE: '待确认金额',
-    YQRJE: '已确认金额',
-    YPZJE: '已批准金额',
-    YZFJE: '已支付金额',
-    GZBH: '规则编号',
-    YCLPH: '原材料牌号',
-    YCL: '原材料',
-    JIJIA: '基价',
-    YONGLIANGJILIANGDANWEI: '用量计量单位',
-    SCJLY: '市场价来源',
-    BCXS: '补差系数',
-    BCZQ: '补差周期',
-    YUZHI: '阈值',
-    YZBCLJ: '阈值补差逻辑',
-    YXQQ: '有效期起',
-    YXQZ: '有效期止',
-    GENGXINSHIJIAN: '更新时间',
-    RENWUMINGCHENG: '任务名称',
-    RENWUZHUANGTAI: '任务状态',
-    RENWUQIZHISHIJIAN: '任务起止时间',
-    'APPROVAL.TASK_NAME': '任务名称',
-    'APPROVAL.TASK_DESC': '任务描述',
-    'APPROVAL.THE_START_TIME': '发起时间',
-    'APPROVAL.DEADLINE_TIME': '截止时间',
-    'APPROVAL.TASK_STATUS': '任务状态',
-    LKCHANGZHOUQICHANPINZUPAICHENGSUANFAPEIZHI: '长周期产品组排程算法配置',
-    QINGXUANZECAIGOUYUAN: '请选择...',
-    RENWULIEBIAO: '人物列表',
-    SHENGCHANGONGCHAN: '生产工厂',
-    SHIFOUXUYAOTIANXIEBAOJINGXING: '是否需要填写报警信',
-    RENWUGUANLI: '任务管理',
-    WEISHOUDAOFANKUI: '未收到反馈',
-    YOUYONGYINGFENXIAN: '有供应风险',
-    WUGONGYINGFENGXIAN: '无供应风险',
-    WEIFASONGFANKUIBIAO: '未发送反馈表',
-    XIAZAIMUBAN: '下载模板',
-    TISHI: '提示',
-    WBZAQXRGYHLZHZGZGWDDXYDGYSGLYLJSCYHZHRY:
-      '为保证安全性，如用户离职或者工作岗位调动，相应的供应商管理员应立即删除此用户帐户。如因未及时删除帐户而造成的相应损失，必须由对应供应商承担。',
-    QUERENG: '确认',
-    CONTENT: '任务描述',
-    GERENYINGSIZHENCE: '个人隐私政策',
-    HUANYINGSHIYONGSHANGQIDAZONGCAIGOUXITONG_QINGZIXIYUEDUBINGQUEREN:
-      '欢迎使用上汽大众采购系统，请仔细阅读并确认',
-    GERENYINGSIZHENGCE: '个人隐私政策',
-    TONGYI: '同意',
-    CAIGOUPINGZHENG: '采购凭证',
-    请输入: 'QINGSHURU',
-    ZCGYSSAPH: '总成供应商SAP号',
-    ERCIJIANSHOUHUORIQI: '二次件收货日期',
-    CAIGOUKUANGJIA: '采购框架',
-    YICIXINGLINGJIANHAO: '一次件零件号',
-    ERCIJIANGONGYINGSHANG: '二次件供应商',
-    SHIFOUGUIJINSHUYUANCAILIAO: '是否贵金属原材料',
-    CONGCHENGONGYINGSHANG: '总成供应商',
-    CHAKAN11: '查看11',
-    ZHONGDIANJILUCHAKAN: '供应商名称',
-    YICHUSHIJIANTOOLTIP: 'undefined',
-    JIARUYUANYINTOOLTIP: 'undefined',
-    SHANGCHUANYUJINGXIN: '上传预警信',
-    BUCHADIANHUIZONG: '补差单汇总',
-    BUCHADANMINGXI: '补差单明细',
-    BUCHADANMINGXIGUIJINSHU: '补差单明细（贵金属）',
-    补差单汇总: '补差单汇总',
-    补差单明细: '补差单明细',
-    '补差单明细（贵金属）': '补差单明细（贵金属）',
-    GONGYINGSHANGQUEREN: '代供应商确认',
-    BAOCUNBEIZHU: '保存备注',
-    PINGZHENGDAOCHU: '凭证导出',
-    SHANGCHUANRIQI: '上传日期',
-    BIANJIBUCHADAN: '编辑补差单',
-    ERCILINGJIANHAO: '二次零件号',
-    JIAGE: '价格',
-    ERCIJIANGONGYINGSHANGMINGCHENG: '二次件供应商名称',
-    ERCIJIANSHOUHUOSHULIANG: '二次件收货数量',
-    QINGXUANZESHIFOUCAIQUCUOSHI: '请选择是否采取措施',
-    GONGYINGSHANGMINGCHENGOR: '受控起止时间',
-    YICHU: '移除',
-    JIARUYUANYINA: '加入原因',
-    QINGSHURUXIANGQINGNEIRONG: '详情内容',
-    'SHIFOUQUERENTIJIAO?': '是否确认提交',
-    TIJIAOCHENGGONG: '提交成功',
-    TIJIAOCHENGGONGLE: '提交成功',
-    REVIEWDAXIE: 'Review',
-    QINGZHISHAOXUANZHONGYITIAOSHUJU: '请至少选中一条数据',
-    SHANCHUGONGYINGLIANLU: '删除供应链路',
-    SHANCHUDANGQIANJISHANGYOUJIEDIAN:
-      '删除所选供应商及其上游所有层级供应链关系',
-    SHANCHUDANGQIANJIEDIAN: '仅删除所选供应商，保留其上游供应链关系',
-    QUEDINGSHANCHU: '删除',
-    QUEDINGFUZHI: '确定复制',
-    SHANCHU: '删除',
-    GONGHUOJINEYUAN: '供货金额(元)',
-    FASONGGONGYINGSHANG: '发送供应商',
-    'CHEHUI ': '撤回',
-    CHUSHIYUSUANJINEBAIWAN: '初始预算金额（百万）',
-    CAILIAOZHONGLEIBIANHAO: '材料中类编号',
-    XIANGMUHAO: '项目号',
-    BUCHAQIJIAN: '补差期间',
-    YUANCAILIAOJIJIA: '原材料基价',
-    DANWEI: '单位',
-    JIJIAHUILV: '基价汇率',
-    YUANCAILIAOYONGLIANG: '原材料用量',
-    YUZHIBUCHALUOJI: '阈值补差逻辑',
-    BUCHAXISHU: '补差系数',
-    YUANCAILIAOSHICHANGJIA: '原材料市场价',
-    SHICHANGJIAHUILV: '市场价汇率',
-    BUCHAE: '补差额',
-    ERCIJIANGONGYINGSHANGBIANHAO: '二次件供应商编号',
-    YIERCIJIANBILI: '一二次件比例',
-    SHIFOUQUSHICHANGJIAJUNZHI: '是否取市场价均值',
-    SHICHANGJIAPIANYIQUJIAN: '市场价偏移区间',
-    JIJIADANWEI: '基价单位',
-    GOUMAIJIAHUILV: '购买价汇率',
-    GOUMAISHULIANG: '购买数量',
-    XIAOHAOSHULIANG: '消耗数量',
-    YUSHU: '余数',
-    XIANGMU: '项目',
-    LINGJIANJIAGE: '零件价格（RMB）',
-    LINGJIANSHIJIA: '零件实价（RMB）',
-    JIAGEDANWEI: '价格单位',
-    QINGXUANZEXUYAOJIARUYICHUHEIMINGDANDEGONGYINGSHANG:
-      '请选择需要加入/移除黑名单的供应商',
-    SHOUKONGCUOSHI: '受控措施',
-    SHOUKONGYEWULEIXING: '受控业务类型',
-    SHOUKONGQIZHISHIJIAN: '受控起止时间',
-    QINGSHURUCHULIXIANGQING: '请输入处理详情…',
-    QINGXUANZESHURU: '请选择/输入',
-    GONGYIZU: '工艺组',
-    QIANQICAIGOUYUAN: '前期采购员',
-    SUPPLIER_SFHMD: '是否黑名单',
-    NINGFUZEDEZHONGDIANGONGYINGSHANGWUZHUIZONGMINGDAN:
-      '您负责的重点供应商无一被列入重点追踪名单',
-    SANJIANGUOJIHUAFENXI: '散件国际化分析',
-    SANJIANGONGYINGSHANGGONGYINGJIZHONGDU: '散件供应商供应集中度',
-    CHONGZHISUOYOU: '重置所有',
-    CHAKANXIANGQING: '查看详情',
-    YES: '是',
-    NO: '否',
-    JIZHONGCAIGOU: '集中采购',
-    FENSANCAIGOU: '分散采购',
-    DONGCHANG: '东昌',
-    BAOFEICHUZHI: '报废处置',
-    BUKEXUNJIABUKEDINGDIAN: '可询价不可定点',
-    KEXUNJIABUKEDINGDIAN: '可询价不可定点',
-    JUJUE: '拒绝',
-    BUCHADANHAO: '补差单号',
-    SAPBUCHADANHAO: 'SAP补差单号',
-    SHENQINGREN: '申请人',
-    SHIJIBUCHAJINEPINGZHENGJINE: '实际补差金额（凭证金额）',
-    DANJUZHUANGTAI: '单据状态',
-    FUJIANQINGDAN: '附件清单',
-    JUPEILIYOU: '拒赔理由',
-    BIANMA: '编码',
-    MINGCHENG: '名称',
-    SHENGXIAOQIJIAN: '生效期间',
-    LEIBIE: '类别',
-    NDYSJSWWCWFFB: '年度预算计算未完成，无法发布',
-    QINGSHURUBITIANXIANG: '请输入必填项',
-    'SHIFOUQINGKONGNEIRONG?': '是否清空该⻚全部输⼊内容？',
-    'SHIFOUQUERENYICHUHEIMINGDAN?': '是否确认移除黑名单',
-    QINGXUANZEXUYAOYICHUDEGONGYINGSHANG: '请选择需要移除的供应商！',
-    'SHIFOUQUERENJIARUHEIMINGDAN?': '是否确认加入黑名单？',
-    FH: '返回',
-    CAOZUOREN: '操作⼈',
-    CAOZUOSHIJIAN: '操作时间',
-    SHOUKOINGJIEZHISHIJIAN: '受控截止时间',
-    GONGYINGSHANGHEIMINGDANZHUANGTAI: '供应商黑名单状态',
-    GONGYINGSHANGHEIMINGDANJILU: '供应商黑名单记录',
-    SHOUKONGZHUANGTAI: '受控状态',
-    ZHENGCHANG: '正常',
-    HUISE: '灰',
-    GONGYINGSHANGYITIJIAOBAOJINGXING: '供应商已提交报警信',
-    SHOUKONGCAOZUO: '受控操作',
-    JIARUHEIMINGDANYUANYIN: '加⼊⿊名单原因',
-    PIZHUN: '批准',
-    BUCHONGCAILIAO: '补充材料',
-    GONGYIZUBIANHAO: '⼯艺组编号',
-    GONGYIZUMINGCHENGZHONGDE: '⼯艺组名称（中-德）',
-    NDYSZZBFBCG: '年度预算最终版发布成功！',
-    LINIEKESHI: 'LINIE科室',
-    LINIECAIGOUYUAN: 'LINIE采购员',
-    SHIFOUSHUYUMBDL: '是否属于MBDL',
-    DANWEIBAIWANRMB: '单位：百万（RMB）',
-    SAPCODE: 'SAP号',
-    CAIQUCUOSHIXIANGQING: '采取措施详情',
-    ZUIZHONGYUSUANZONGJINEMAOHAO: '最终预算总金额（百万元）：',
-    ZUIZHONGYUSUANJINE: '最终预算金额（百万）',
-    CSYSZJEBWMH: '初始预算总金额（百万元）：',
-    ZZYSZJEBWMH: '最终预算总金额（百万元）：',
-    LK_CAIGOUZU: '采购组',
-    LK_EOPZHUANGTAI: 'EOP状态',
-    LK_DINGDIANZHUANGTAI: '定点状态',
-    LK_DINGDIANRIQIQI: '定点日期起',
-    LK_DINGDIANRIQIZHI: '定点日期止',
-    LK_SAPHETONGHAO: 'SAP合同号',
-    LK_RISEHETONGHAO: 'RiSE合同号',
-    LK_PINGPAI: '品牌',
-    LK_DANGNIANZAIGONG: '当年在供',
-    LK_WODESHOUCANG: '我的收藏',
-    LK_RENLINGLINGJIAN: '认领零件',
-    SHURUCHAXUNGONGYINGSHANGMINGCHENGHUOSAPHAO: '输⼊查询供应商名称或SAP号',
-    QINGCHU: '清除',
-    GONGYINGSHANGGONGHUOJINGQUEYUJINGXINXIBIAO: '供应商供货紧缺预警信息表',
-    ZANCUN: '暂存',
-    XIAZAIYUJINGXIN: '下载预警信',
-    YUJINGFABUDUIXIANG: '预警发布对象',
-    TIANJIACAIGOUYUAN: '添加采购员',
-    QITASOUJIANREN: '其他收件人：',
-    QINGSHURUSHANGQIDAZONGNEIBUYOUXIANGCOM: '请输入上汽大众内部邮箱@csvw.com',
-    ZONGJINGLI_QIANMING: '总经理（签名）：',
-    GONGYINGSHANGGAIZHANG: '供应商盖章：',
-    BAOJINGRIQI: '报警日期：',
-    XUANZHEFABUDUIXIANG: '选择发布对象:',
-    GONGYINGSHANGJIBENXINGXI: '供应商基本信息',
-    TIANBIAORIQI: '填表日期：',
-    JINGQUEXINGXI: '紧缺信息',
-    YINGDUICUOSHI: '应对措施',
-    BENCIJINGQUEJIANCHULIFUZHERENHELIANXIFANGSHI:
-      '本次紧缺件处理负责人和联系方式',
-    YCZXTYLBBYSSJSFCXJS: '已存在相同用量版本预算数据，是否重新计算？',
-    ZNSCCGJSSBZTDYSBB: '只能删除草稿、计算失败状态的预算版本',
-    QRSCGBBNDYS: '确认删除该版本年度预算？',
-    TZHYSZJEBWMH: '调整后预算总金额（百万元）：',
-    QXZCGZTSJJXTZCZ: '请选择草稿状态数据进行通知操作',
-    GONGYINGSHANGGONGHUOJINGQUEBAOJINGXINXIBIAO: '供应商供货紧缺报警信息表',
-    SHANGCHUANBAOJINGXIN: '上传报警信',
-    XIAZAIBAOJINGXIN: '下载报警信',
-    BAOJINGFABUDUIXIANG: '报警发布对象',
-    GONGYINGSHANGDAIMA: '供应商代码',
-    TIANBIAOREN: '填表人',
-    DIANHUA: '电话',
-    DIANZIYOUXIANG: '电子邮箱',
-    SHIFOUZAISHANGQIDAZONGZOUBIANJIANLIZHONGZHUANKU:
-      '是否在上汽大众周边建立中转库',
-    GONGYINGSHANGSHENGCHANDIZHI: '供应商生产地址',
-    SUOZAIDIQU: '所在地区',
-    QINGXUANZHEJINGQUEJIBIEDUANDIANSHIJIANJUJIN:
-      '请选择：紧缺级别（断点时间距今）',
-    XIAOYUYIZHOU: '≦1周',
-    YIZHIERZHOU: '1~2周',
-    ERZHISIZHOU: '2~4周',
-    DAYUSIZHOU: '>4周',
-    QINGXUANZHEJINGQUEYUANYING: '请选择：紧缺原因',
-    SHANJIANYUANCAILIAO: '散件原材料',
-    CHANNENG: '产能',
-    ZHILIANG: '质量',
-    SHEBEIGUZHANG: '设备故障',
-    SHANGWUJIUFEN: '商务纠纷',
-    YUNSHUSOUZHU: '运输受阻',
-    QITA: '其他',
-    QITAYUANYING: '其他原因',
-    QINGSHURUNEIRONG: '请输入内容',
-    JINGQUELINGJIAN: '紧缺零件',
-    DUANDIANRIQI: '断点日期',
-    CHIXUTIANSHU: '持续天数',
-    QUEKOUSHULIANG: '缺口数量',
-    SHEJISVWCAIGOUGONGCHANG: '涉及SVW采购工厂',
-    SHEJICHEXING: '涉及车型',
-    ZONGCHENGJIANDAZONGLINGJIANHAO: '总成件大众零件号',
-    SHANJIANGONGYINGSHANGMINGCHEN: '散件供应商名称',
-    SHANJIANGONGYINGSHANGTONGYISHEHUIXINGYONGDAIMA:
-      '散件供应商统一社会信用代码',
-    SHANJIANGONGYINGSHANGSHENGCHANDI: '散件供应商生产地',
-    SHANJIANGONGYINGSHANGXIANGXIDIZHI: '散件供应商详细地址',
-    YITAOJIJIAN: '一套几件',
-    SHANJIANJINGQUEYUANYING: '散件紧缺原因',
-    CUOSHIMIANSHU: '措施描述',
-    WANCHENGSHIJIAN: '完成时间',
-    FUZHEREN: '负责人',
-    FUZHERENXINGMING: '负责人姓名',
-    LIANXIDIANHUA: '联系电话',
-    DIANZHIYOUXIANG: '电子邮箱',
-    FUJIANMINGCHEN: '附件名称',
-    DAXIAO_B: '大小 (B)',
-    SHANGCHUANREN: '上传人',
-    SHANGCHUANSHIJIAN: '上传时间',
-    QINGXUANZEYITIAOSHUJU: '请选择一条数据',
-    NJIGONGLINGLIANGUNALI: 'N级供应链管理',
-    DANWEIBAIWANRENMINBI: '（单位：百万人民币）',
-    YFBGZSYSBBSFZCFB: '已发布过正式预算版本，是否再次发布？',
-    PINLEIGUANLIZHUSHOU: '品类管理助手',
-    NJIGONGYINGLIANGUANLI: 'N级供应链管理',
-    LK_TUICHU: '退出',
-    LK_QUERENRENLING: '确认认领',
-    LK_ZHUANYECAIGOUYUAN: '专业采购员',
-    LK_GANGWEI: '岗位',
-    BUKEDINGDIANBUKEXUNJIA: '不可定点不可询价',
-    SHIFOUTIJIAOBAOJINGXING: '是否提交报警信?',
-    QINGTIJIAOBAOJINGXING: '请提交报警信',
-    ZANCUNCHENGGONG: '暂存成功',
-    QINGXUANZHEYITIAOYITIAOSHUJU: '请选择一条数据',
-    CHUANGJIANGONGYINGSHANG: '创建新供应商',
-    BIANJIGONGYINGSHANGXINXI: '供应商信息',
-    GONGYINGSHANGXINXI: '供应商信息',
-    QINGXUANZEXUYAOJIARUHEIMINGDANDEGONGYINGSHANG:
-      '请选择需要加入黑名单的供应商',
-    QINGXUANZEXUYAOYICHUHEIMINGDANDEGONGYINGSHANG:
-      '请选择需要移除黑名单的供应商',
-    ZHENDUIHAIWAIYONGYINGSHANGXUYAOZAIXIAMIANDEQUYUTIANRUDENGBAISHIDUNSMADENGBAISHIDUNSMAKEYIZAI:
-      '针对海外供应商。需要在 下面的区域填入邓白氏DUNS码。邓白氏DUNS码可以在',
-    MTZ定点: 'MTZ定点',
-    MTZ变更: 'MTZ变更',
-    DAOCHUYUSUANMINGXI: '导出预算明细',
-    LIANXIYOUXIANG: '联系邮箱',
-    YIFAQIPINGZHENGZHONGSHIJIXIANGGONGYINGSHANGBUCHADEJINE:
-      '已发起凭证中实际向供应商补差的金额；',
-    SHIJIBUCHAJINEDAIQUERENJINEYIQUERENJINEYIPIZHUNJINEYIZHIFUJINE:
-      '实际补差金额=待确认金额+已确认金额+ 已批准金额+已支付金额',
-    GONGCHANGMINGCHENG: '工厂名称',
-    BUCHASHIJIANDUANNEIGENGJUGUIZELINGJIANSHOUHUOSHULIANGJISUANDEBUCHAJIEGUO:
-      '补差时间段内根据规则&零件收货数量计算的补差结果',
-    BUCHAJINEJIESUANZHONGYIFAQIDEPINZHENGJINEZONGHE:
-      '补差金额（结算）中已发起的凭证金额总和',
-    CAIGONGYUANFAQIBUCHAPINZHENGZHONGGONGYINGSHANGSHANGWEIQUERENDEJINE:
-      '采购员发起补差凭证中供应商尚未确认的金额',
-    CAOGAOGONGYINGSHANGQUERENZHONGJINE: '（草稿+供应商确认中金额）',
-    GONGYINGSHANGYIQUERENDEBUCHAPINZHENG: '供应商已确认的补差凭证',
-    JINEZONGHESHENPIZHONGJINE: '金额总和（审批中金额）',
-    BUCHAPINZHENGSHENPITONGUOJINESHENPITONGGUOJINE:
-      '补差凭证审批通过金额（审批通过金额）',
-    BUCHASHIJIANDUANNEISHOUHUOSHULIANGDUIYINGDEJIESUANSHULIANGBUCHAJISUANJIEGUO:
-      '补差时间段内收货数量对应的结算数量补差计算结果',
-    BUCHAJINEJIESUANZHONGSHANGWEIFAQIPINZHENGDEJINE:
-      '补差金额（结算）中尚未发起凭证的金额',
-    RXTZQLXNDYSFZR: '如需调整，请联系年度预算负责人',
-    YCYL: '预测用量',
-    QINGXUANZEXUYAOYICHUDESHOUKONGYEWULEIXING: '请选择需要移除的受控业务类型！',
-    'QINGXUANZEXUYAOYICHUDESHOUKONGYEWULEIXING!':
-      '请选择需要移除的受控业务类型！',
-    MTZDINGDIAN: 'MTZ定点',
-    MTZBIANGENG: 'MTZ变更',
-    BJGYS: '编辑供应商信息',
-    SAPORGONGYINGSHANGMINGCHENG: 'SAP号/供应商名称',
-    SHOUKONGQISHISHIJIAN: '受控起始时间',
-    DONGJIE: '冻结',
-    JIEDONG: '解冻',
-    DINGDIAN: '定点',
-    QUXIAODINGDIAN: '取消定点',
-    HUIWAILIUZHUAN: '会外流转',
-    XINJIANMTZDINGDIANSHENQING: '新建MTZ定点申请',
-    GUANLIANSHENQINGDANHAO: '申请单号',
-    SHENQINGDANMINGCHENG: '申请单名称',
-    LIUCHENGLEIXING: '流程类型',
-    SHENQINGZHUANGTAI: '申请状态',
-    HUIYI: '会议',
-    DONGJIESHIJIAN: '冻结时间',
-    DINGDIANSHIJIAN: '定点时间',
-    RSDANZHUANGTAI: 'RS单状态',
-    RSDONGJIESHIJIAN: 'RS冻结时间',
-    LIEBIAOXIANGQING: '列表详情',
-    XINJIANMTZBIANGENGSHENQING: '新建MTZ变更申请',
-    YCJLJMC: '一次件零件名称',
-    'PR(P)': 'PR(P)',
-    YUCEJIAF: '预测价(F)',
-    SHICHANGJIAF: '市场价(E)',
-    WAIBULAIYUANDUIYINGPAIHAO: '外部来源对应牌号',
-    QUJIAGUIZE: '取价规则',
-    NINGFUZEDEGONGYINGSHANGWUYIBEILIERUZHONGDAINZHUIZONGMINGDAN:
-      '您负责的供应商无一被列入重点追踪名单',
-    LK_SHOUCANGJIA: '收藏夹',
-    LK_XINJIANBIAOQIAN: '新建标签',
-    LK_BIAOQIANMINGCHENG: '标签名称',
-    QINGXUANZHESHANGYOUGONGYINGSHANG: '请选择上游供应商',
-    ZHINENGXUANZHEYITIAOSHANGYOUGONGYINGSHANG: '只能选择一条上游供应商',
-    LK_JIARUBIAOQIAN: '加入标签',
-    LK_YIYOUBIAOQIAN: '已有标签',
-    SHENQINGDANHAO: '申请单号',
-    DAOCHURS: '导出RS',
-    QINGTIANXIEBITIANXIANG: '请填写必填项',
-    GLLJDDSQ: '关联零件定点申请',
-    QINGXUANZESHIJIAN: '请选择时间',
-    MTZSHENQINGDANMING: '申请单名',
-    SHOUGONGSHANGCHUAN: '手工上传',
-    XITONGZIDONG: '系统自动',
-    QXZWBSCJLY: '请选择外部市场价来源',
-    SHENQINGDAN: 'MTZ变更单',
-    SHENGQINGDANXINXI: '申请单信息',
-    SHENPIFUJIAN: '审批附件',
-    WEIHULINGJIANYUANCAILIAOYONGLIANG: '维护零件原材料用量',
-    SHENPIJILU: '审批记录',
-    GUIZEBIANHAO: '规则编号',
-    JIJIAJILIANGDANWEI: '基价计量单位',
-    BOJIJIA: '铂基价',
-    xxxxxxxx: 'xxxxxxxx',
-    BOYONGLIANG: '铂用量',
-    BAJIJIA: '钯基价',
-    BAYONGLIANG: '钯用量',
-    LAOJIJIA: '铑基价',
-    LAOYONGLIANG: '铑用量',
-    YOUXIAOQIQI: '有效期起',
-    YOUXIAOQIZHI: '有效期止',
-    WHMTZYCLGZ: '维护MTZ原材料规则',
-    YANYONG: '沿用',
-    MTZXINZENG: 'MTZ新增',
-    YONGLIANGXIANGQING: '用量详情',
-    SHENPIXIANGQING: '审批详情',
-    JIESHI: '解释',
-    QINGXUANZHEYITIAOSHUJU: '请选择一条数据',
-    ZHINENGXUANZHEYITIAOSHUJU: '只能选择一条数据',
-    QUANXUAN: '全选',
-    SHOUKONGQISHIZHIJIAN: '受控起止时间',
-    MTZSHENGQINGDAN: 'MTZ申请单',
-    MTZSHENGQINGDANXIANGQING: 'MTZ申请单详情',
-    SHENGPIRENSHENGPIJILU: '审批人&审批记录',
-    JUECEZILIAO: '决策资料',
-    SHENQINGDANXINXI: '申请单信息',
-    MTZ: 'MTZ',
-    FUJIANSHANGCHUAN: '附件上传',
-    LINGJIANDINGDIANSHENQING: '零件定点申请',
-    RFQBIANHAO: 'RFQ编号',
-    'FSNR/GSNR': 'FSNR/GSNR',
-    XUNJIACAIGOUYUAN: '询价采购员',
-    LINIE: 'LINIE',
-    CHEXINGXIANGMU: '车型项目',
-    BAOJIAYIZHIXINGJIAOYAN: '报价一致性校验',
-    SHIFOUDANYIGONGYINGSHANG: '是否单一供应商',
-    XIANSHIZIJI: '显示自己',
-    DDSQZHGL: '定点申请综合管理',
-    QUERENGUANLIAN: '确认关联',
-    SHENQINGDANMING: '申请单名',
-    PROJECT: 'PROJECT',
-    LEIXING: '类型',
-    XIANGMULEIXING: '项目类型',
-    RSDONGJIERIQI: 'RS冻结日期',
-    BJYZXJYZT: '报价一致性检验状态',
-    SELDJQRZT: 'SEL单据确认状态',
-    DINGDIANRIQI: '定点日期',
-    XUANZEHUIYI: '选择会议',
-    SHEGQINGBIAODAN: '申请表单',
-    SHENQINGDANLEIXING: '申请单类型',
-    HUIYIMINGCHENG: '会议名称',
-    SHENQINGBIAODAN: '申请表单',
-    LINIEXIAOXIE: 'LINIEXIAOXIE',
-    GUIZEQINGDAN: '规则清单',
-    LINGJIANQINGDAN: '零件清单',
-    SHANGHUIBEIZHU: '上会备注',
-    LINEIESHANGHUIBEIZHU: 'LINIE上会备注',
-    SHENQINGRIQI: '申请日期',
-    LJQD: '零件清单',
-    QUXIAOGUANLIAN: '取消关联',
-    XUANZE: '选择',
-    HUIYILEIXING: '会议类型',
-    KAISHIRIQI: '开始日期',
-    HUIYIDIDIAN: '会议地点',
-    CHEHUIYUANYIN: '撤回原因',
-    MTZGANGCAILIAOZU: 'MTZ-材料组',
-    GYSBHMC: '供应商编号/名称',
-    LINGJIANSHULIANGDANWEI: '零件数量单位',
-    SHUJUYANYONG: '数据沿用',
-    GUIZEXIANGQING: '规则详情',
-    undefined: 'undefined',
-    WHMTZLLZSJ: '维护MTZ零件主数据',
-    YYRFQZLJ: '引用RFQ中零件',
-    YYDDSQDLJ: '引用定点申请单零件',
-    ZJLSMTZLJZSJ: '增加历史MTZ零件主数据',
-    YINYONGRFQZHONGSHIJIAN: '引用RFQ中事件',
-    CSQDYYGLLDDDSQDJCLJKCKXQHQXGL:
-      '此申请单已有关联零点定点申请，点击超链接可查看详情，或取消关联',
-    RFQHAO: 'RFQ号',
-    RFQMINGCHENG: 'RFQ名称',
-    YINYONG: '引用',
-    FUJIANXIANGQING: '附件详情',
-    WENJIANMING: '文件名',
-    'GAIGONGYINGSHANGBUZAIHEIMINGDANZHONG,WUXUYICHU':
-      '该供应商不在黑名单中，无需移除！',
-    新建: '新建',
-    失效: '失效',
-    下载车型产量计划模版: '下载车型产量计划模版',
-    导入车型产量计划: '导入车型产量计划',
-    WUXIAO: '无效',
-    GONGYINGSHANGBIANHAOMINGCHENG: '供应商编号/名称',
-    YONGLIANGJILIANGDANEWI: '用量计量单位',
-    SANJIANGONGYINGSHANGXINXIHOUXUZAICISHUAXINJIKE:
-      '散件供应商信息请于N级供应链维护页面维护,后续在此刷新即可',
-    SANJIANGONGYINGSHANGGONGCHANGMINGCHENG: '散件供应商工厂名称',
-    SHANJIANGONGYINGSHANGGONGCHANGDIZHI: '散件供应商工厂地址',
-    QINGSHURUBIANHAOHUOMINGCHENG: '请输入编号或名称',
-    操作成功: 'undefined',
-    ECJGYS: '二次件供应商',
-    CHEHUIHOUJIANGCONGBUCHASHENQINGZHONGQUXIAORENKEZAIBUCHAZONGLANZHONGCAOZUO:
-      '撤回后将从补差申请中取消，仍可在补差总览中操作',
-    CHONGXIAOHOUJIANGCONGBUCHASHENQINGZHONGQUXIAOBUNENGZHIJIEZAIBUCHAZONGLANZHONGCAOZUOXUSHOUGONGCHUANGJIANBUCHAXINXI:
-      '冲销后将从补差申请中取消，不能直接在补差总览中操作，需手工创建补差信息',
-    SHOUKONG: '受控',
-    QXZCGZSZTSJJXTZCZ: '请选择草稿/正式状态数据进行通知操作',
-    JIARU: '加入',
-    QINGXUANZEXUYAO加入HEIMINGDANDEGONGYINGSHANG:
-      '请选择需要加入黑名单的供应商',
-    LK_BUKEXUNJIABUKEDINGDIAN: '不可询价不可定点',
-    LK_KEXUNJIABUKEDINGDIAN: '可询价不可定点',
-    '加入HEIMINGDANJINKEDANXUAN,QINGCHOMGXINXUANZE':
-      '加入黑名单仅可单选，请重新选择',
-    QINGXUANZEBUCHASHIJIANDUAN: '请选择不差时间段',
-    QINGSHURUYICILINGJIANHAO: '请选择材料中类',
-    QDYQXGL: '确定要取消关联？',
-    LINGJIANMING: '零件名',
-    SHENPIRENLIEBIAO: '审批人列表',
-    SHENPILIU: '审批流',
-    TONGBU: '同步',
-    YINGYONGDINGDIANSHENQINGDANLINGJIAN: '引用定点申请单零件',
-    FSNRGSNR: 'FSNR/GSNR',
-    CAIGOUGONGCHANG: '采购工厂',
-    GONGYINGBIANHAO: '供应编号',
-    'BILI(%)': '比例（%）',
-    XINZENGMTZLINGJIANZHUSHUJU: '新增MTZ零件主数据',
-    SHIFOUQUXIAOBIANJI: '是否取消编辑？',
-    QINGXUANZEXUYAO移除HEIMINGDANDEGONGYINGSHANG:
-      '请选择需要移除黑名单的供应商',
-    '移除HEIMINGDANJINKEDANXUAN,QINGCHOMGXINXUANZE':
-      '移除黑名单仅可单选，请重新选择',
-    'GAIGONGYINGSHANGSUOYOUYEWULEIXINGJUNYISHOUKONG,WUXUCHONGFUTIANJIA':
-      '该供应商所有业务类型均已受控，无需重复添加！”',
-    GAIGONGYINGSHANGSUOYOUCAILIAOZUGONGYIZUYIZAIHEIMINGDANZHONG:
-      '该供应商所有材料组，工艺组已在黑名单中，无需重复添加',
-    LK_XIANGGUANLINGJIAN: '相关零件',
-    PINGZHENGID: '凭证Id',
-    GONGYINGSHANGJIXIAO: '供应商绩效',
-    MINGGAN: '敏感',
-    MINGAN: '敏感',
-    无异议: '无异议',
-    有异议: '有异议',
-    GONGYINGSHANGDEFEN: '供应商得分',
-    DAOCHUHUIWAILIUZHUANDAN: '导出会外流转单',
-    LKJISUANFANGSHI: '计算方式',
-    LIUZHUANBEIZHU: '流转备注',
-    LINEIELIUZHUANBEIZHU: 'LINIE流转备注',
-    KEZAISHENGNENGYUANQIANSHU: '可再生能源签署',
-    WURANWEIGUI: '污染违规',
-    CAIWUYUJING: '财务预警',
-    CRATINGLAIYUAN: 'C-Rating来源',
-    GENXINSHIJIAN: '更新时间',
-    SHISHICRATINGGONGYINGSHANGQINGDAN: '实时C-Rating供应商清单',
-    CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG: 'C-Rating供应商询价定点情况',
-    YUQINGJIANCE: '舆情监测',
-    XIANGGUANKESHI: 'XIANGGUANKESHI',
-    XIANGGUANCAIGOUYUAN: '负责采购员',
-    CAIGOUYUANYOUXIANG: '采购员邮箱',
-    LINGJIANXINXI: '零件信息',
-    LINGJIANCAIGOUXIANGMUHAO: '零件采购项目号',
-    LINGJIANZHUANGTAI: '零件状态',
-    XIANGMUBIANHAO: '项目编号',
-    BAOJIACHEXING: '报价车型',
-    XINZENGMTZYUANCAILIAOGUIZE: '新增MTZ原材料规则',
-    批准: '批准',
-    补充材料: '补充材料',
-    BIAOQIANMINGCHENG: '标签名称',
-    BIAOQIANLEIXING: '标签类型',
-    XITONGPANDUANBIAOZHUN: '系统判断标准',
-    XIANSHIYINCANG: '显示/隐藏',
-    'SHIFOUQUERENSHANCHU?': '是否确认删除?',
-    BIAOQIANSHEZHI: '标签设置',
-    GONGYINGSHANGBIAOQIANKU: '供应商标签库',
-    CAOZUOLEIXING: '操作类型',
-    LK_MUJUTOUZIQINGDANZHUANGTAI: '模具投资清单状态',
-    BM单流水号: 'BM单流水号',
-    BM单类型: 'BM单类型',
-    车型项目: '车型项目',
-    模具投资金额: '模具投资金额',
-    代表零件号: '代表零件号',
-    任务接收日期: '任务接收日期',
-    任务处理日期: '任务处理日期',
-    Linie: 'Linie',
-    模具投资清单状态: '模具投资清单状态',
-    LK_ZHUANPAIZIJI: '转派自己',
-    LK_XINDEAEKOHAO: 'AEKO号',
-    LK_BMDANHAO: 'BM单号',
-    LK_SAPDINGDANHAO: 'SAP订单号',
-    LK_RUZHANGDANHAO: '入账单号',
-    'TPZS.GONGYINGSHANG': '供应商',
-    LK_FAQIBIANGENG: '发起变更',
-    变更单号: '变更单号',
-    BM单号: 'BM单号',
-    变更后金额: '变更后金额',
-    变更单状态: '变更单状态',
-    入账单号: '入账单号',
-    入账单类型: '入账单类型',
-    入账单状态: '入账单状态',
-    科室: '科室',
-    采购员: '采购员',
-    '公司代码?': '公司代码?',
-    申请日期: '申请日期',
-    备注: '备注',
-    SUOPEIJIANQIANSHOU: '索赔件签收',
-    SUOPEIJIANCHULI: '索赔件处理',
-    SUOPEIJIANQUEREN: '索赔件确认',
-    XUTUIHUOKAIPIAOQINGDAN: '需退货/开票清单',
-    ZONGHECHAXUN: '综合查询',
-    QSBDCSPQD: '签收并导出索赔清单',
-    QINGDANMINGXI: '清单明细',
-    GONCHANGBIANHAO: '工厂编号',
-    SHULIANG: '数量',
-    DANJIA: '单价',
-    'QUERENSHANCHUGAIBIAOQIANDESUOYOUGONGYINGSHANGPEIZHI?':
-      '确认删除该标签的所有供应商配置？?',
-    SHIROUQUERENTIJIAO: '是否确认提交？',
-    XITONGPANDING: '系统判定',
-    SHOUGONG: '手工',
-    LK_CANZHAOMEIRONGBIAOTAI: '参照内容表态',
-    QINGXUANZESHUJU: '请选择数据',
-    DAOCHUPDF: '导出PDF',
-    EKLPILIANGJIAN: 'EKL-批量件',
-    EKLPEIFUJIAN: 'EKL-配附件',
-    CHANNENGYUJING: '产能预警',
-    XUNYUAN: '寻源',
-    PEIFUJIANGONGHUOLV: '供货率（%）',
-    SONGYANG: '送样',
-    拒绝: '拒绝',
-    GONGYINGSHANGBIAOQIAN: '供应商标签',
-    正式价采购组: '正式价采购组',
-    暂作价采购组: '暂作价采购组',
-    SET组: 'SET组',
-    SHENGCAHNGONGYINGSHANG: '生产供应商',
-    YIBANGONGYINGSHANG: '一般供应商',
-    CRatingZHENGZAIBAOJIAGONGYINGSHANG: 'C-Rating中正在报价供应商',
-    CRatingWEIZAIBAOJIAGONGYINGSHANG: 'C-Rating未在报价中供应商',
-    'partsprocure.PLEENTER': '请输入',
-    LK_RFQBIANHAOMINGC: 'RFQ名称/项目名称',
-    'LK_FS/GS/SPNO': 'FS/GS/SP No.',
-    'partsignLanguage.LingJianHao': '零件号',
-    'partsignLanguage.LingJianMingChengZH': '零件名中',
-    LK_BJZT: '报价状态',
-    LK_BJZTRQ: '报价截止日期',
-    LK_JJQZSHIJIAN: '竞价起止时间',
-    'partsprocure.PARTSPROCUREINQUIRYBUYER': '询价采购员',
-    'partsprocure.PARTSPROCURELINIE': 'LINIE',
-    'partsprocure.PARTSPROCUREMODELPROJECT': '车型项目',
-    LK_LCZT: '轮次状态',
-    LK_BJLX: '报价类型',
-    LK_XMZTAI: '项目状态',
-    LK_BAOJIALEIX: '报价类型',
-    LK_ROUNDTYPE: '轮次状态',
-    LK_BAOJIAZHUANGTAI: '报价状态',
-    LK_BAOJIAJINDU: '报价进度',
-    LK_YIJIESURFQ: '已结束RFQ',
-    LK_DINGDIANXINDANHAO: '定点申请单号',
-    LK_YUDINGDIANTONGZHIZHUANGTAI: '预定点通知书状态',
-    LK_YUDINGDIANTONGZHISHU: '预定点通知书 ',
-    FUZECAIGOUYUAN: '负责采购员',
-    JIARUCRATINGYUANYIN: '加入C-Rating原因',
-    LK_JINXZRFQ: '进行中RFQ',
-    LK_XIANGMUZHUANGTAI: '项目状态',
-    LK_QISHISHIJIAN: '起始时间',
-    LK_JIES: '接受',
-    QINGTIANXIEJUJUELIYOU: '请填写拒绝理由',
-    QU_XIAO: '取 消',
-    QUE_DING: '确 定',
-    JUJUELIYOUBUNENGWEIKONG: '拒绝理由不能为空',
-    YICHUCRATING: '移出C-Rating',
-    'DAOCHU ': '导出',
-    LK_BENLUNDATAEND: '本轮报价截止日',
-    XIANSHIYINCNAG: '显示/隐藏',
-    success: '操作成功',
-    LK_YJSRFQ: '已结束RFQ',
-    LK_DDX: '定点信',
-    LK_xxxiangx: '详细信息',
-    LK_LINGJBJ: '零件报价',
-    LK_MOUJBJ: '模具报价',
-    LK_RFQBIANHAO1: 'RFQ编号',
-    LK_MUJUFEIYONG: '模具费用',
-    LK_YUAN: '元',
-    LK_GUANLIANLINGJIAN: '关联零件',
-    LK_XIAZAIMUJUCBD: '下载模具CBD',
-    LK_SHANGCHUANBAOJIA: '上传报价',
-    LK_TIANJIAHANG: '添加行',
-    LK_SHANCHUHANG: '删除行',
-    LK_CHANLIANGHZ: '产量汇总',
-    LK_SHENGMINGZHOUQIZHOU: '生命周期（周）',
-    LK_PINGJUNNIANCHANLIANG: '年产量',
-    LK_ZUIDANIANCHANLIANG: '最大年产量',
-    LK_WENJIANDAXIAO: '大小',
-    LK_JIAGEZHUANGTAI: '价格状态',
-    LK_BAOJIADAN: '报价单',
-    LK_LINGJIANBAOJIAZHUANGTAI: '零件报价状态',
-    LK_WULIUBAOJIAZHUANGTAI: '物流报价状态',
-    LK_GONGYINGSHANGSHENGCHANGONGCHANG: '供应商生产工厂',
-    LK_JINGRUBJ: '进入报价',
-    LK_LUNCI: '轮次',
-    LK_ECHARTSTITLE: '报价趋势分析',
-    LK_DANWEIYUAN: '单位',
-    LK_BAOJIAQS: '报价趋势',
-    Lk_LINGJIAN: '零件',
-    'partsprocure.CHOOSE': '请选择',
-    'rfq.RFQINQUIRE': '确认',
-    'rfq.RFQRESET': 'SET',
-    Lk_LINGJIANHAO: '零件号',
-    SHIFOUZIDONGJISUAN: '是否自动计算',
-    LK_BAOZHUANGFEI: '包装费',
-    LK_CAOZUOFEI: '操作费',
-    LK_BNKSHENMHEZHUANGTAI: 'BNK审核状态',
-    LK_SONGYANGJINDU: '送样进度',
-    LK_YISHANGSONGYANGZHOUQIYIDINGDINASHIJIANWEIQISHIRI:
-      '备注：以上送样周期，均以定点时间为起始日',
-    QIBUSHENGCHANSHIJIANXUANZE: '起步生产时间选择',
-    QINGXUANZEQIBUSHENGCHANSHIJIAN: '请选择起步生产时间',
-    ZHUANGKUANGLIANGHAO: '状况良好',
-    LK_QIEHUANLINGJIAN: '切换零件',
-    LK_RFQGONGYINGSHANG: 'RFQ供应商',
-    LK_BAOJIALUNCI: '报价轮次',
-    LK_BAOJIAJIEZHISHIJIAN: '报价截至时间',
-    LK_LINGJIANDANWEI: '零件单位',
-    LK_CANKAOHUILV: '参考汇率',
-    LK_BAOJIARIQI: '报价日期',
-    LK_LIANXIREN: '联系人',
-    LK_JUJUELIYOU: '拒绝理由',
-    LK_XUNJIABEIZHU: '询价备注',
-    LK_XINXIYUYAOQIU: '信息与要求',
-    LK_BAOJIACHENGBENHUIZONG: '报价成本汇总',
-    LK_GONGYINGSHANGSHENGCHANDIJISHENGCHANNENGLI: '供应商生产地及生产能力',
-    LK_MUJUHEKAIFAFEIYONG: '模具和开发费用',
-    LK_BAOZHUANGYUNSHU: '包装运输',
-    LK_JIANGJIAJIHUA: '降价计划',
-    LK_GONGZHUANGYANGJIAN: '工装样件',
-    LK_BAOJIABEIZHUYUFUJIAN: '报价备注与附件',
-    LK_LINGJIANJIBENXINXI: '零件基本信息',
-    LK_CAIGOUXIANGMULEIXING: '采购项目类型',
-    LK_SHIFOUXINJIAN: '新建',
-    LK_SHIFOUYANYONGJIAN: '是否沿用件',
-    LK_SHIFOUGENGGAIJIAN: '是否更改件',
-    LK_CHANLIANGJIHUA: '产量计划',
-    LK_CHANLIANGJIHUATIPS: '供应商保证满足上汽大众需求产量上下浮动15%的产能',
-    LK_SOPSHIJIAN: 'SOP时间',
-    LK_SHANGQIDAZHONGLIANXIREN: '上汽大众联系人',
-    LK_BUMEN: '部门',
-    LK_JUESE: '角色',
-    LK_XINGMING: '姓名',
-    LK_DIANHUA: '电话',
-    LK_YOUXINAG: '邮箱',
-    LK_XIANGMUJINDU: '项目进度',
-    LK_SHENGMINGZHOUQI: '生命周期',
-    LK_VFF: 'VFF',
-    LK_PVS: 'PVS',
-    LK_OS: 'OS',
-    LK_SOP: 'SOP',
-    LK_BNKLINGJIANCAIGOUXIANGMUFUJIAN: 'BNK零件采购项目附件',
-    LK_DAXIAO: '⼤⼩',
-    LK_WULIUXIANGGUANBNKFUJIAN: '物流相关BNK附件',
-    LK_YUANCLSJ: '原材料/散件',
-    LK_ZHIZHAOCB: '制造成本',
-    LK_BAOFEICHENGBEN: '报废成本',
-    LK_GUANLIFEI: '管理费',
-    LK_QITAFEIYONG: '其他费⽤',
-    LK_LIRUN: '利润',
-    LK_STARTTIME: '起步生产日期',
-    LK_CBDLINEKEY: 'CBD层级',
-    LK_XIAZAICBD: '下载CBD',
-    LK_ZHIZAOGONGXU: '制造工序',
-    LK_DUIYINGYUANCAILIAOSANJIAN: '对应原材料/散件（Ref.-ID）',
-    LK_SHEBEIMINGCHENGXINGHAO: '设备名称/型号（Ref.-Name）',
-    LK_SHANGQIDAZHONGZHUANYONGSHEBEIFEI: '上汽大众专用设备费（RMB）',
-    LK_SHENGCHANJIEPAISEC: '生产节拍（Sec.）',
-    LK_JIANSHUSHENGCHANJIEPAI: '件数/生产节拍（1..n）',
-    LK_RENGONGCHENGBEN: '人工成本',
-    LK_ZHIJIERENGONGFEILV: '直接人工费率（RMB/Hour）',
-    LK_ZHIJIERENGONGSHULIANG: '直接人工数量（0..n）',
-    LK_SHEBEIFEI: '设备费',
-    LK_SHEBEIFEILV: '设备费率（RMB/Hour）',
-    LK_JIANJIEZHIZAOCHENGBEN: '间接制造成本',
-    LK_RENGONGCHENGBENRMB: '人工成本（RMB/Pc.）',
-    LK_SHEBEICHENGBENRMB: '设备成本（RMB/Pc.）',
-    LK_BAOFEILV: '报废率（%）',
-    LK_JINERMB: '金额（RMB/Pc.）',
-    LK_BILI: '比例（%）',
-    LK_JINGEE: '金额',
-    LK_FTSULIANG: '分摊数量（1..n）',
-    LK_FENTANJINE: '分摊金额（RMB/Pc.）',
-    LK_MUKUAIJINERMBBLOCK: '模块金额（RMB/block）',
-    LK_GONGYINGSHANGSHENGCHANDI: '供应商生产地',
-    LK_XUANZESHENGCHANGONGCHANG: '选择生产工厂',
-    LK_CAPACITYTIPS_1:
-      '提前准备周期：以周为单位，是从当前加工工厂的能力水平出发，要提高到周最大产能所需要的时间(包括物料 准备、人员准备等)。如果能力随时可以立即达到最大能力则此处填0；',
-    LK_CAPACITYTIPS_2:
-      '每周工作天数：是指周正常产能条件下，每周的工作日，一般为5天；',
-    LK_CAPACITYTIPS_3:
-      '每周班数：是指周正常产能条件下，基于每周工作天数的每天班数；',
-    LK_CAPACITYTIPS_4:
-      '周正常产能：正常工作班数和正常工作天数条件下，每周生产的零件数量，单位为件，请不要填写日能力或者年能力。要求周正常产能50周应不小于询价峰值年产量；',
-    LK_CAPACITYTIPS_5:
-      '周最大产能：通过增加班数或者每周工作日天数等措施，每周最大生产的零件数量，单位为件，请不要填写日能力或者年能力，周最大产能要求至少达到周正常产能+15%；',
-    LK_CAPACITYTIPS_6:
-      '年最大工作天数：是指最大产能条件下，每年的最大工作天数，单位为天；',
-    LK_CAPACITYTIPS_7:
-      '起始周：从何年何周起具备所填写的产能，可根据情况填写多条产能数据，但各条产能数据的时间需要连续，输入时间的时间格式必须为“yyyyww”六位，比如“201101”；',
-    LK_CAPACITYTIPS_8:
-      '截止周：到何年何周为止具备所填写的产能。最后一条产能数据的截至周必须为空。输入的时间格式必须为“yyyyww”六位，比如“201101”；',
-    LK_SHENGCHANNENGLI: '生产能力',
-    LK_SHENGCHANNENGLITIPS:
-      '上汽大众产能信息: 供应商针对此次询价车型承诺给上汽大众的产能',
-    LK_TIQIANZHUNBEIQIZHOU: '提前准备期(周)',
-    LK_MEIZHOUGONGZUOTIANSHU: '每周工作天数',
-    LK_MEITIANBANSHU: '每天班数',
-    LK_ZHOUZHENGCHANGCHANNENG: '周正常产能',
-    LK_ZHOUZUIDACHANNENG: '周最大产能',
-    LK_NIANZUIDAGONGZUOTIANSHU: '年最大工作天数',
-    LK_QISHIZHOU: '起始周',
-    LK_JIEZHIZHOU: '截止周',
-    LK_ZONGTOUZICHENGBEN: '总投资成本',
-    LK_FENTANTOUZICHENGBEN: '分摊投资成本',
-    LK_FENTANSHULIANG: '分摊数量',
-    LK_DANJIANTOUZICHENGBEN: '单件投资成本',
-    LK_RFQMUJUFEIYONGZONGJI: 'RFQ模具费用总计',
-    LK_CHAKANGUANLIANLINGJIAN: '查看关联零件',
-    LK_KAIFAFEIYONG: '开发费用',
-    LK_RFQKAIFAFEIYONGZONGJI: 'RFQ开发费用总计',
-    LK_JUTIJINDU: '具体进度',
-    LK_SAICVOLKSWGENZHOU: 'SAIC VOLKSWGEN要求(周)',
-    LK_GONGYINGSHANGZHOUQIZHOU: '供应商周期(周)',
-    LK_YANGJIAN: '样件',
-    LK_XUYAORIQIZHOU: '需要日期(周)',
-    LK_XUYAOSHULIANGJIAN: '需要数量(件)',
-    LK_GONGZHUANGYANGJIANDANJIANFEIYONGRMB: '工装样件单件费用(RMB)',
-    LK_FUJIAGONGZHUANGYANGJIANMUJUJIAGERMB: '附加工装样件模具价格(RMB)',
-    LK_FUJIAGONGZHUANGYANGJIANMUJUSHOUMINGGESHU: '附加工装样件模具寿命(个数)',
-    LK_BAOJIABEIZHU: '报价备注',
-    LK_BAOJIAFUJIAN: '报价附件',
-    LK_SHANGCHUANSHIXUANZHUANZHIZHENGCHANGFANGXIANG:
-      '上传时文件请旋转至正常方向后上传',
-    BAOJIAFENXI: '报价分析',
-    ZANWUSHUJU: '暂无数据',
-    JINE: '金额',
-    HAIYUN: '海运',
-    KONGYUN: '空运',
-    CANKAOBAOZHUANG: '参考包装',
-    CAOKAOLEIXING: '参考类型',
-    CANKAOBAOZHUANGCHANG_MM: '参考包装长(mm)',
-    CANKAOBAOZHUANGKUAN_MM: '参考包装宽(mm)',
-    CANKAOBAOZHUANGGAO_MM: '参考包装高(mm)',
-    LS_PC: 'LS(PC)',
-    STACK: 'Stack',
-    BAOZHUANGYAOQIU: '包装要求',
-    LK_GONGZHUANGYANGJIANDANJIANFEIYONG: '工装样件单件费用',
-    LK_FUJIAGONGZHUANGYANGJIANMUJUJIAGE: '附加工装样件模具价格',
-    LK_COPE_BAOJIA: '复制报价至',
-    LK_SHOUDONGSHURU: '手动输入',
-    LK_UPLOADBJ: '上传CBD',
-    DELETE: '删除',
-    LK_TIAOZHUANZHIRFQMUJUBAOJIA: '跳转至RFQ模具报价',
-    LK_SHEBEIMINGCHENGXINGHAOOTHER: '设备名称/型号',
-    LK_SHEBEITOUZIANZHUANGRMB: '设备投资+安装（RMB）',
-    LK_SHIFOUSHANGQIDAZHONGZHUANYONGSHEBEIFEI: '是否上汽大众专用设备费',
-    LK_MEIJIANSHNEGCHANSHIJIAN: '每件生产时间（sec.）',
-    LK_MEIMUSHENGCHANLINGJIANSHU: '每模生产零件数',
-    LK_ZHIJIEZHIZAOCHENGBENRMBPC: '直接制造成本（RMB/PC.）',
-    LK_FEISUN: '废损',
-    LK_SHENGCHANQIEHUANCHENGBEN: '生产切换成本（RMB/PC.）',
-    LK_ZONGZHIZAOCHENGBENRMBPC: '总制造成本（RMB/PC.）',
-    LK_YUANCRMBPC: '原材料/散件成本',
-    MUQIANSHIFOUCRATING: ' 目前是否C-Rating',
-    JIARUCRATINGSHIJIAN: '加入C-Rating时间',
-    YICHUCRATINGYUANYIN: '移出C-Rating原因',
-    YICHUCRATINGSHIJIAN: '移出C-Rating时间',
-    GONGYINGSHANGZHUANGTAI: '供应商状态',
-    CHEXIANGXIANGMU: '车型项目',
-    LK_MUJUID: '模具ID',
-    LK_GUDINGZICHANMINGCHENG: '固定资产名称',
-    LK_GONGYILEIXING: '工艺类型',
-    LK_GONGMUJUZHONGLEI: '工模具种类',
-    LK_ZICHANFENLEIBIANHAO: '资产分类编号',
-    LK_LINGJIANZONGCHENGMINGCHENG: '零件总成名称',
-    LK_LINGJIANZONGCHENGLINGJIANHAO: '零件总成零件号',
-    LK_GONGZHUANGSHOUMING: '工装寿命',
-    LK_FSNO: 'FS No.',
-    LK_LINGBUJIANMINGCHENG: '零部件名称',
-    LK_LINGBUJIANLINGJIANHAO: '零部件零件号',
-    LK_SHULIANG: '数量',
-    LK_ZICHANDANJIA: '资产单价',
-    LK_ZICHANZONGE: '资产总额',
-    LK_SHIFOUFENTAN: '是否分摊',
-    LK_GUDINGZICHANMINGCHENGTIPS:
-      "<p style='text-align: center'>由“零件总成名称”、“零部件名称”、<br/>“工模具种类”组成</p>",
-    LK_GONGYILEIXINGTIPS: '如注塑，冲压，电镀等',
-    LK_GONGMUJUZHONGLEITIPS: '如：热流道注塑模',
-    LK_ZICHANFENLEIBIANHAOTIPS:
-      '13：模具<br/>14：夹具<br/>15：检具<br/>16：其他工装',
-    LK_LINGJIANZONGCHENGMINGCHENGTIPS:
-      "<p style='text-align: center'>一次件总成零件名称</p>",
-    LK_LINGJIANZONGCHENGLINGJIANHAOTIPS:
-      "<p style='text-align: center'>一次件总成零件号</p>",
-    LK_LINGBUJIANMINGCHENGTIPS: "<p style='text-align: center'>散件名称</p>",
-    LK_LINGBUJIANLINGJIANHAOTIPS:
-      "<p style='text-align: center'>散件零件号<br/>(若无，则用总成号)</p>",
-    LK_SHULIANGTIPS: "<p style='text-align: center'>必须为整数</p>",
-    LK_ZICHANDANJIATIPS2:
-      "<p style='text-align: center'>不含税价格，<br/>并且保留两位小数</p>",
-    LK_GONGCHANGBIANHAO: '工厂编号',
-    LK_GONGCHANGMINGCHENG: '工厂名称',
-    LK_GONGCHANGJIANCHENG: '工厂简称',
-    LK_GONGJIA: '国家',
-    LK_SHENGFEN: '省份',
-    LK_CHENGSHI: '城市',
-    LK_DIZHI: '地址',
-    LK_YOUBIAN: '邮编',
-    LK_SHIFOUDINGDIAN: '是否定点',
-    LK_SHIFOUSHENGXIAO: '是否生效',
-    LK_KAIFAFEIXIANGMU: '开发费项目',
-    LK_DANJIA: '单价',
-    LK_SANJIANMINGCHENGTIPS: "<p style='text-align: center'>零部件名称</p>",
-    LK_SANJIANLINGJIANHAOTIPS:
-      "<p style='text-align: center'>散件零件号<br/>(若无，则用总成号)</p>",
-    LK_FENTANKAIFAFEIYONG: '分摊开发费用',
-    LK_DANJIANKAIFACHENGBEN: '单件开发成本',
-    LK_SANJIANMINGCHENG: '散件名称',
-    LK_SANJIANLINGJIANHAO: '散件零件号',
-    弹窗管理: '弹窗管理',
-    预览: '预览',
-    弹窗标题: '弹窗标题',
-    标题链接: '链接',
-    发布范围: '发布范围',
-    历史查看有效期: '历史查看有效期',
-    请选择: '请选择',
-    发布时间: '发布时间',
-    弹窗说明: '弹窗说明',
-    弹窗图片: '弹窗图片',
-    '建议使用16:9比例图片，不超过10M': '建议使用16:9比例图片，不超过10M',
-    弹框标题: '弹框标题',
-    弹框说明: '弹框说明',
-    发送日期: '发送日期',
-    确定: '确定',
-    查看: '查看',
-    删除: '删除',
-    YICHUYUANYIN: '移出原因',
-    LK_DINGDIANXINGGUANLI: '定点信管理',
-    LK_TONGGUO: '通过',
-    LK_FSNRGSNR: 'FS/GS/SP No.',
-    LK_DINGDIANXINZHUANGTAI: '定点信状态',
-    HETONGDINGDAN: '合同订单',
-    SHIFOUCRATING: '是否C-Rating',
-    审批代理: '审批代理',
-    会议审批代理: '会议审批代理',
-    JUJUEYUANYIN: '拒绝原因',
-    SHANGCHUANFUJIAN: '上传附件',
-    WENJIANMINGCHENG: '文件名称',
-    DAXIAO: '大小（MB）',
-    新增: '新增',
-    LK_LEIXING: '类型',
-    LK_YUANCLSJMS: '原材料/散件描述',
-    LK_YUANCHANDI: '原产国',
-    LK_SHIFOUSVWZHIDINGJIAGE: '是否SVW指定价格散件',
-    LK_SHULIANGDANWEI: '数量单位（UoM）',
-    LK_DANJIARMB: '单价（RMB/UoM）',
-    LK_ZHIJIEYUANCAILIAOSANJIANCHENGBEN: '直接原材料/散件成本（RMB/Pc.）',
-    LK_WULAOGLF: '物料管理费',
-    LK_YINYONGPILIANGJIAGE: '引用批量价格',
-    LK_JINGXZDESHOUGONGCES: '手工/测试竞价',
-    LK_XIANGMUBIANHAO: '项目编号',
-    LK_XIANGMUMINGCHENG: '项目名称',
-    LK_XIANGMULEIX: '项目类型',
-    LK_GONGYINGSHANGBAOJIAZHUANGTAI: '供应商报价状态',
-    LK_JINGJIAQIZHISJIANJ: '竞价起止时间',
-    ZANWUNEIRONG: '暂无内容',
-    JUJUELIYOU: '拒绝理由',
-    XUNJIACHENGNUOSHU: '询价承诺书',
-    WOYIYUEDUBINGJIESHOUYISHANGTIAOKUAN: '我已阅读并接受以上条款',
-    JIESHOU: '接受',
-    KEZAISHENGNENGYUANSHIYONGCHENGNUOSHU: '碳减排承诺书',
-    LC_KAIBIAOGAOZHISHU: '开标告知书',
-    确认: '确认',
-    SHIFOUBAOCUN: '是否保存？',
-    ZHUANPAIZIJI: '转派自己',
-    WEIBAOJIA: '未报价',
-    XUNJIAZHONG: '询价中',
-    LSMTZLJZSJ: '历史MTZ零件主数据',
-    YAUNCAILIAOPAIHAO: '原材料牌号',
-    TIANJIA: '添加',
-    YCJGYSSAPH: '一次件供应商SAP号',
-    YICIJIANLINGJIANMING: '一次件零件名',
-    ERCIJIANLINGJIANMING: '二次件零件名',
-    ECJGYSSAPH: '二次件供应商SAP号',
-    ECJYYCJBL: '二次件与一次件比例',
-    '请选择发布时间，若未选择发布时间则立即发送': '发送',
-    选择用户: '选择用户',
-    选择供应商: '选择供应商',
-    QINGSHURUJUJUEYUANYIN: '请输入拒绝原因！',
-    SHIFOUDAOCHU: '是否导出？',
-    QUERENBAOCUN: '确认保存？',
-    BAOCUNCHENGGONG: '保存成功！',
-    SHIFOUSHANCHU: '是否删除？',
-    WHMTZYCLGZBNWK: '维护MTZ原材料规则不能为空',
-    NEWS_XINWENGUANLI: '新闻管理',
-    NEWS_XWNRGL: '新闻内容管理',
-    NEWS_XWBQGL: '新闻标签管理',
-    NEWS_ZTXWGL: '专题新闻管理',
-    NEWS_KVTGL: 'KV图管理',
-    NEWS_TOUTIAOXINWEN: '头条新闻',
-    NEWS_GONGYINGJIANXUN: '供应简讯',
-    NEWS_GONGYINGSHANGXINWEN: '供应商新闻',
-    NEWS_YINGXIANGZHUANQU: '影像专区',
-    NEWS_TUWENXINWEN: '图文新闻',
-    NEWS_TUJIXINWEN: '图集新闻',
-    NEWS_SHIPINXINWEN: '视频新闻',
-    NEWS_XIAJIA: '下架',
-    NEWS_SHANGJIA: '上架',
-    NEWS_XINWEN: '新闻',
-    NEWS_GONGGAO: '公告',
-    NEWS_DIAOCHAWENJUAN: '调查问卷',
-    LK_SOUSUOJIEGUO: '搜索结果',
-    LK_LINGJIANQUANSHENGMINGZHOUQI: '零件全生命周期',
-    LK_QINGGOUXUANHOUZAIQUERENRENLING: '请勾选后再确认认领',
-    LK_TOUCHANZHOUQI: '投产周期',
-    CAIGOUYUANGONGHAO: '采购员工号',
-    CAIGOUYUANKESHI: '采购员科室',
-    NEWS_ZUIRE: '最热',
-    NEWS_ZUIXIN: '最新',
-    NEWS_ZHUANTI: '专题',
-    NEWS_RENYUEDU: '人阅读',
-    NEWS_NKNTYXH: '你可能同样喜欢',
-    NEWS_YNFXYTXW: '与您分享一条新闻',
-    NEWS_ZANWUSHUJU: '暂无数据',
-    NEWS_XIANGGUANFUJIN: '相关附件',
-    JIESHIYUANYIN: '解释原因',
-    MORE: 'MORE',
-    NEWS_FUJIAN: '附件',
-    NEWS_CAOGAO: '草稿',
-    NEWS_YIFABU: '已发布',
-    NEWS_CAIGOUGONGGAO: '采购公告',
-    NEWS_WULIUGONGGAO: '物流公告',
-    NEWS_ZHIBAOGONGGAO: '质保公告',
-    NEWS_SOUSUOBIAOTI: '搜索标题',
-    NEWS_FANHUI: '返回',
-    NEWS_GONGGAOBIAOTI: '公告标题',
-    NEWS_GONGGAONEIRONG: '公告内容',
-    NEWS_FABUREN: '发布人',
-    NEWS_FABUSHIJIAN: '发布时间',
-    NEWS_SHANGYIYE: '上一页',
-    NEWS_XIAYIYE: '下一页',
-    NEWS_XINWENBIAOTI: '新闻标题',
-    NEWS_XINWENFENLEI: '新闻分类',
-    NEWS_XINWENLEIXING: '新闻类型',
-    NEWS_ZHUANGTAI: '状态',
-    NEWS_SHIFOUZHIDING: '是否置顶',
-    NEWS_FABUQIZHIRIQI: '发布起止日期',
-    NEWS_XINJIANXINWEN: '新建新闻',
-    NEWS_LAIYUAN: '来源',
-    NEWS_FABURIQI: '发布日期',
-    NEWS_SUOSHUZHUANTI: '所属专题',
-    NEWS_BITIAN: '必填',
-    NEWS_ZUIDASHURUCHANGDU80: '最大输入长度80',
-    NEWS_ZUIDASHURUCHANGDU100: '最大输入长度100',
-    NEWS_JICHUXINXI: '基础信息',
-    NEWS_XINWENLAIYUAN: '新闻来源',
-    NEWS_XINWENBIAOQIAN: '新闻标签',
-    NEWS_FABUFANWEI: '发布范围',
-    NEWS_XINWENGAIYAO: '新闻概要',
-    NEWS_TOUTIAOLIANJIE: '头条链接',
-    NEWS_GONGYINGSHANGMINGCHENG: '供应商简称',
-    NEWS_GUONEIGUOWAI: '国内/国外',
-    NEWS_SCXWFM: '上传新闻封面',
-    NEWS_JYSYBLTP: '建议使用16:9比例图文件，不超过10MB',
-    NEWS_ZDYYHZXZ: '自定义-用户组选择',
-    NEWS_SOSUOYONGHUZU: '搜索用户组...',
-    NEWS_QUXIAO: '取 消',
-    NEWS_QUEDING: '确定',
-    NEWS_BAOCUN: '保存',
-    NEWS_YULAN: '预览',
-    NEWS_ZHENGWEN: '正文',
-    NEWS_NEIRONGFENLEI: '内容分类',
-    NEWS_PLSCTJ: '批量上传图集',
-    NEWS_TIANJIAFUJIAN: '添加附件',
-    NEWS_ZNSCBCG20MDWJ: '只能上传不超过20M的文件',
-    NEWS_SHANGCHUANCHENGGONG: '上传成功',
-    NEWS_TTLJHZWNRBNTSWK: '头条链接和正文内容不能同时为空！',
-    NEWS_SFQDFBCXW: '是否确定发布此新闻 ？',
-    NEWS_TISHI: '提示',
-    NEWS_XINZENGCHENGGONG: '新增成功',
-    NEWS_MORE: 'MORE',
-    SHIFOUGUOWAICHANGSHANG: '是否大陆厂商',
-    SHIFOUHEIMINGDAN: '是否黑名单',
-    NEWS_BIAOQIANNEIRONG: '标签内容',
-    NEWS_SUOSHUFENLEI: '所属分类',
-    NEWS_TIANJIAREN: '添加人',
-    NEWS_TIANJIARIQI: '添加日期',
-    NEWS_XINJIANBIAOQIAN: '新建标签',
-    NEWS_TUICHU: '退出',
-    NEWS_ZHUANTIMINGCHENG: '专题名称',
-    NEWS_ZHUANTIFENLEI: '专题分类',
-    NEWS_ZHUANTIGAIYAO: '专题概要',
-    NEWS_ZTWZSL: '专题文章数量',
-    NEWS_XINJIANKVTU: '新建KV图',
-    NEWS_TUPIANYULAN: '图片预览',
-    NEWS_SHANGCHUANRIQI: '上传日期',
-    NEWS_BOFANGSHUNXU: '播放顺序',
-    ZYCGZTCKYSC: '只有草稿状态才可以删除',
-    LZBALXZYTJZTCKYCH: '流转/备案类型只有提交状态才可以撤回',
-    MTZGZBNWK: 'MTZ规则不能为空',
-    SHLXZYHHTGZTCKYDJ: '上会类型只有复核通过状态才可以冻结',
-    ZYZTWDJDCKYJD: '只有状态为冻结的才可以解冻',
-    SHLXBNJXDD: '上会类型不能进行定点',
-    ZYDDZTCKYQXDD: '只有定点状态才可以取消定点',
-    ZYLZLXQZTWDJCKYHWLZ: '只有流转类型且状态为冻结才可以会外流转',
-    GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY:
-      '关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！',
-    用户手册: '用户手册',
-    常见问题: '常见问题',
-    我的提问: '我的提问',
-    项次: '项次',
-    资产编号: '资产编号',
-    资产名称: '资产名称',
-    总成零件号: '总成零件号',
-    零件总成名称: '零件总成名称',
-    共享零件号: '共享零件号',
-    零部件名称: '零部件名称',
-    工模具种类: '工模具种类',
-    资产分类: '资产分类',
-    照片: '照片',
-    NEWS_MOKUAIGUANLI: '模块管理',
-    NEWS_YONGHUZUSHEZHI: '用户组设置',
-    NEWS_TTXWGLY: '头条新闻管理员',
-    NEWS_GYJXGLY: '供应简讯管理员',
-    NEWS_GYSXWGLY: '供应商新闻管理员',
-    NEWS_YXZQGLY: '影像专区管理员',
-    NEWS_CGGGGLY: '采购公告管理员',
-    NEWS_WLGGGLY: '物流公告管理员',
-    NEWS_ZBGGGLY: '质保公告管理员',
-    NEWS_CGWJGLY: '采购问卷管理员',
-    NEWS_WLWJGLY: '物流问卷管理员',
-    NEWS_ZBWJGLY: '质保问卷管理员',
-    NEWS_BIANJI: '编辑',
-    NEWS_YONGHUZUMING: '用户组名',
-    NEWS_CAOZUO: '操作',
-    NEWS_XINZENG: '新增',
-    NEWS_SFQDBCGNR: '是否确定保存该内容 ？',
-    NEWS_BAOCUNCHENGGONG: '保存成功！',
-    NEWS_XJZTXW: '新建专题新闻',
-    NEWS_SHANGCHUANSHIBAI: '上传失败',
-    NQDYJXXYBMQQDSJYJWQBC: '请确定数据已经完全保存？',
-    SHENGCHANGONGYINGSHANGSHULIANGGE: '生产供应商数量（个）',
-    YIABNGONGYINGSHANGSHULIANGGE: '一般供应商数量（个）',
-    返回: '返回',
-    发布: '发布',
-    GONGYINGSHANGBIAOQIANGUANLI: '供应商标签管理',
-    QINGWANCHENGXUANZE: '请完成选择',
-    XITONG: '系统',
-    YINGYONGZHONGWENMING: '应⽤中⽂名',
-    YINGYONGLEIXING: '应用类型',
-    KETIANJIAYINGYONGQUANXIAN: '可添加应用权限',
-    YIYOUYINGYONGQUANXIAN: '已有应用权限',
-    CAOGAOZHUANGTAICAINENGSHANCHU: '草稿状态才能删除',
-    查询: '查询',
-    我要提问: '我要提问',
-    SHOUKONGKAISHISHIJIANBUNENGWEIKONG: '受控开始时间不能为空',
-    SHOUKONGJIESHUSHIJIANBUNENGWEIKONG: '受控结束时间不能为空',
-    SHOUKONGKAISHISHIJIAN: '受控开始时间',
-    SHOUKONGJIESHUSHIJIAN: '受控结束时间',
-    SHOUKONGYEWULEIXINGBUNENGWEIKONG: '受控业务类型不能为空',
-    SHOUKONGJIESHUJIAN: '受控结束时间',
-    BIANGENGDAN: 'MTZ变更单',
-    YINGYONGYINGWENMING: '应⽤英文名',
-    问题管理: '问题管理',
-    问答处理: '问答处理',
-    问题报表: '问题报表',
-    模块管理: '模块管理',
-    标签管理: '标签管理',
-    主数据管理: '主数据管理',
-    SHANGCHUANYUANCAILIAOYONGLIANGBIANGENG: '上传原材料用量变更',
-    ZHIJIN: '至今',
-    专业组: '专业组',
-    JIARUHEIMINGDANSHENGCHANCAIGOU: '加入黑名单 - 生产采购',
-    JIARUHEIMINGDANYIBANCAIGOU: '加入黑名单 - ⼀般采购',
-    GUANLIANDANHAO: '关联单号',
-    是否贵金属: '是否贵金属',
-    弹窗布局: '弹窗布局',
-    文字居左: '文字居左',
-    文字居中: '居中',
-    文字居右: '文字居右',
-    '居左（白）': '居左（白）',
-    居中: '居中',
-    '居左（黑）': '居左（黑）',
-    退出: '退出',
-    发送: '发送',
-    消息: '消息',
-    答复: '答复',
-    指派: '指派',
-    归档: '归档',
-    发送并关闭问题: '关闭问题',
-    新增标签: '新增标签',
-    提问: '提问',
-    热门问题: '热门问题',
-    '搜索...': '搜索...',
-    '请选择...': '请选择...',
-    关闭问题: '关闭问题',
-    转派: '转派',
-    TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO:
-      '提交供货公司信息更改后，数据将立即同步SAP，不得撤销。',
-    关键词管理: '关键词管理',
-    问题模块: '模块',
-    标签: '标签',
-    创建人: '创建人',
-    新建标签: '新建标签',
-    关键词: '关键词',
-    NEWS_GONGGAOGUANLI: '公告管理',
-    NEWS_GONGGAOLEIXING: '公告类型',
-    NEWS_FABU: '发布',
-    NEWS_XINJIANGONGGAO: '新建公告',
-    NEWS_GONGGAOZHUANGTAI: '公告状态',
-    NEWS_DIANJILIANG: '点击量',
-    MTZYCLGZZBHXDGZBHSQLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ:
-      'MTZ原材料规则中包含新的规则编号，申请单类型不能为流转/ 备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？',
-    ZUIDUOSHURUXIAOSHUDIANHOUSIWEI: '最多输入小数点后4位',
-    erroMessage: '暂无审批人信息！',
-    XUANZELINGJIANHAO: '选择零件号',
-    LINGJIANZHONGXINLIEBIAO: '零件中心列表',
-    QXZYTLJHSJ: '请选择一条零件号数据！',
-    QINGBUQUANBITIANXIANG: '请补全必填项',
-    'System exception': '系统异常',
-    QQDSJYJWQBC: '请确定数据已经完全保存？',
-    SHENGCHANGONGYINGSHANG: '生产供应商',
-    LK_YUANCAILIAOPAIHAO: '原材料牌号',
-    LK_MAOZHONG: '毛重',
-    LK_JINGZHONG: '净重',
-    LK_HUISHOUDANJIARMBUOM: '单价',
-    LK_ZHIJIEYUANCAILIAOSANJIANCHENGBENRMBPC: '直接原材料/散件成本（RMB/PC.）',
-    LK_QIANQIWULIUFEIYONGRMBPC: '前期物流费用（RMB/PC.）',
-    LK_JIANJIEYUANCAILIAOSANJIANCHENGBEN: '间接原材料/散件成本',
-    LK_YUANCRMBPCUP: '原材料/散件成本（RMB/PC.）',
-    标签内容: '标签内容',
-    LINIEBEIAN: 'Linie备注',
-    QINGSHURUBEIAN: '请输入备注',
-    SHLXQZTWTJHWTGCKYCH: '上会类型且状态为提交（会议未锁定）或未通过才可以撤回',
-    LZLXQZTWLZWCCKYDD: '流转类型且状态为流转完成才可以定点',
-    LZBALXZYTJZTCKYDJ: '流转/备案类型只有提交状态才可以冻结',
-    SHIFOUQUERENQUXIAODINGDIAN: '是否确认取消定点？',
-    NEWS_ZUMING: '组名',
-    NEWS_FENLEI: '分类',
-    NEWS_YONGHULEIXING: '用户类型',
-    NEWS_YONGHU: '用户',
-    NEWS_TIANJIA: '添加',
-    NEWS_CHAKANGONGGAO: '查看公告',
-    LK_BENLUKAIBIAOJIEGUO: '开标结果',
-    LK_QINGXUANZEXUYAOBIANJIDELINGJIAN: '您还未选择需要编辑的数据',
-    GONGYINGSHANGXUNJIADINGDIANQINGKUANG: '供应商询价定点情况',
-    '色标件-批量修改': '批量修改',
-    基本信息: '基本信息',
-    零件号: '零件号',
-    '零件名称(中)': '零件名称(中)',
-    '零件名称(德)': '零件名称(德)',
-    BMG: 'BMG',
-    ZP: 'ZP',
-    FOP: 'FOP',
-    技术部门: '技术部门',
-    'Common Sourcing': 'Common Sourcing',
-    SET: 'SET',
-    计量单位: '计量单位',
-    基本计量单位: '基本计量单位',
-    常用计量单位与基本计量单位转换关系: '计量单位转换关系',
-    色标零件清单: '色标零件清单',
-    编号: '编号',
-    色标件清单: '色标件清单',
-    SKDBAOJIA: 'SKD报价',
-    SKDQIBUSHENGCHANRIQI: 'SKD起步生产日期',
-    JINGWAICHUCHANGJIAFIX: '境外出厂价',
-    JINGWAIBAOZHUANGFEIYUNSHUFEIBAOXIANFEI: '境外包装费、运输费、保险费',
-    GUANSHUI: '关税',
-    JINGNEIYUNFEIRMB: '境内运费（RMB）',
-    GUANLIFEI: '管理费',
-    LIRUN: '利润',
-    QITAFEIYONG: '其他费用',
-    CHUCHANGJIA: '出厂价',
-    BAOZHUANGFEI: '包装费',
-    YUNSHUFEI: '运输费',
-    CAOZUOFEI: '操作费',
-    XIAOSHOUJIA: '销售价',
-    LCBAOJIA: 'LC报价',
-    LCQIBUSHENGCHANRIQI: 'LC起步生产日期',
-    SKDBUFENYIJINGWAICHUCHANGJIAWEIZHUN: 'SKD部分以境外出厂价为准',
-    LCBUFENYIAJIAWEIZHUN: 'LC部分以A价为准',
-    BITIAN: '必填',
-    FUZHIBAOJIAZHI: '复制报价至',
-    QINGXUANZELINGJIAN: '请选择零件',
-    BUNENGWEIKONG: '不能为空',
-    JINGWAIBAOZHUANGFEIYUNSHUFEIBAOXIANFEIGUANSHUI:
-      '境外包装费、运输费、保险费、关税',
-    NINQUEDINGYAOJIANGBAOJIADANFUZHIDAOXUANZHONGDELINGJIANZHONGMA:
-      '您确定要将报价单复制到选中的零件中吗？',
-    JIANGJIAJIHUABIXUXUANZEQIBUSHENGCHANRIQI: '降级计划必须选择LC起步生产日期',
-    JIANGJIAJISUANYIJINGWAICHUCHANGJIAWEIZHUN: '降价计算以境外出厂价为准',
-    LCQIBUSHENGCHANRIQIBUNENGXIAOYUSKDQIBUSHENGCHANRIQI:
-      'LC起步生产日期不能小于SKD起步生产日期',
-    SKDAFTERLCNOTMONTH: 'LC起步生产日期必须是SKD起步生产日期所在月份之后的日期',
-    AJIABUCUNZAIHUOWEILING: 'A价不存在或为0',
-    LCQIBUSHENGCHANRIQIWEIKONG: 'LC起步生产日期为空',
-    AJIABUCUNZAIERROR: 'A价不存在，无法根据A价计算降价后的价格',
-    BJIABUCUNZAIERROR: 'B价不存在，无法根据B价计算降价后的价格',
-    BJIABUCUNZAIHUOWEILING: 'B价不存在或为0',
-    BUCUNZAIHUOWEIO: '不存在或为0',
-    流程名称: '流程名称',
-    输入姓名和工号搜索: '搜索',
-    TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG:
-      '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。',
-    QIYEZIZHIYURENZHENG: '企业资质与认证',
-    SHENGCAHNGONGCHANGXINXI: '生产工厂信息',
-    工厂占地面积: '占地面积',
-    LIANXIREN: '联系人',
-    YONGHUDENGLUMING: '用户登陆名',
-    SHIFOUCHAOQI: '是否超期',
-    CHAOQISHIJIAN: '超期时间',
-    DENGLUCSCXITONGSHIJIAN: '登录CSC系统时间',
-    YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ:
-      '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！',
-    WHMTZYCLGZCZXGZSQDLXWFXZLZBA:
-      '维护MTZ原材料规则存在新规则，申请单类型无法选择流转/备案',
-    WHMTZYCLGZCZXGZGLSQDWFXZLZBALX:
-      '维护MTZ原材料规则存在新规则，关联申请单无法选择流转/备案类型',
-    SHIFOUWEIXINGUIZE: '是否为新规则',
-    CCZJSCNYWHDSYLJZSJSFJX: '此操作将删除您已维护的所有零件主数据，是否继续？',
-    'M01006002-Pt': 'M01006002-Pt',
-    'M01006001-Pd': 'M01006001-Pd',
-    'M01006003-Rh': 'M01006003-Rh',
-    JINEWANAYUAN: '金额(万元)',
-    XZMTZYCLGZSSQDLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ:
-      '新增MTZ原材料规则时，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？',
-    批量修改: '批量修改',
-    YINYONGRFQZHONGLINGJIAN: '引用RFQ中零件',
-    '有效时间段内有重复信息，请确认后重新提交！':
-      '有效时间段内有重复信息，请确认后重新提交！',
-    QINGBUQUANYANZHENGBITIANXIANG: '请补全验证必填项',
-    GZRFSBHSFTBXGGG: '规则若发生变化，是否同步相关更改？',
-    应用中心: '应用中心',
-    null: 'null',
-    模具投资: '模具投资',
-    模拟: '模拟',
-    TIPS中车型ID: 'TIPS中车型ID',
-    车型编号: '车型编号',
-    车型名称: '车型名称',
-    车型类型: '车型类型',
-    中文描述: '中文描述',
-    平台属性: '平台属性',
-    所属品牌: '所属品牌',
-    投产工厂: '投产工厂',
-    Sourcing类别: 'Sourcing类别',
-    车型级别: '车型级别',
-    是否有效: '是否有效',
-    有效: '有效',
-    无效: '无效',
-    是否TIPS同步: '是否TIPS同步',
-    是: '是',
-    否: '否',
-    零件价格与订单: '零件价格与订单',
-    '模具采购（供应商）': '模具采购（供应商）',
-    供应商管理: '供应商管理',
-    模具采购: '模具采购',
-    供应商报价: '供应商报价',
-    '竞价-项目列表（测试）': '竞价-项目列表（测试）',
-    AEKO技术变更: 'AEKO技术变更',
-    项目管理: '项目管理',
-    综合查询: '综合查询',
-    询源到定点: '询源到定点',
-    寻源概览: '概览',
-    定点管理: '定点管理',
-    寻源定点: '寻源定点',
-    GLSQDHWFCMTZJMFQTJCHHWLZDJQXDDDCZ:
-      '关联申请单后，无法从MTZ界面发起提交、撤回、会外流转、冻结、取消定点等操作',
-    分配角色权限: '分配角色权限',
-    QINGSHURUYICHUYUANYINS: '请输入移出原因',
-    CHANGLOG: 'Change Log',
-    CZXTZJBNJXXZCZ: '存在相同主键时，所有时间段均不能重叠',
-    QXZYTSJJXGL: '请选择一条数据进行关联！',
-    CCZJSCNYWHDSYLJZSJBGJDDSQDZDYMTZSXDLJDYDGYSJCGYSSYXGGZTJZMTZYCLGZLB:
-      '此操作将删除您已维护的所有零件主数据，并根据定点申请单中带有MTZ属性的零件对应的供应商将此供应商所有相关规则添加至MTZ原材料规则列表，是否继续？',
-    KAIFAZHONG: '开发中',
-    BUCHAXISHUBUNENGWEIFUSHU: '补差系数不能为负数',
-    SHENGCHENGSHIBAI: '生成失败',
-    BALXQZTWDJCKYDD: '备案类型且状态为冻结才可以定点',
-    QINGXUANESHUJU: '请选择数据',
-    NEWS_GUOWAI: '国外',
-    NEWS_GUONEI: '国内',
-    NEWS_QINGXUANZEXINWENFENLEI: '请选择新闻分类!',
-    NEWS_SCTPZNSJPGHZPNGGS: '上传图片只能是 JPG 或者 PNG 格式!',
-    NEWS_SCTPDXBNCG10MB: '上传图片大小不能超过 10MB!',
-    NEWS_QDQHHBXWDZWNRJQBQK: '确定切换后，本新闻的正文内容将全部清空。',
-    NEWS_SHIFOUQUEDINGQIEHUAN: '是否确定切换？',
-    NEWS_TUJI: '图集：',
-    NEWS_QDQHNRFLHXWNRJQBQK: '确定切换内容分类后，新闻内容将全部清空。',
-    NEWS_SFQDQH: '是否确定切换',
-    NEWS_QSCZQDSPGS: '上传失败，请上传正确的视频格式',
-    NEWS_SCSPDXBNCG100M: '上传失败，上传视频大小不能超过 100MB!',
-    NEWS_SCWJDXBNCG20MB: '上传文件大小不能超过 20MB!',
-    NEWS_XWFMWSC: '新闻封面未上传！',
-    NEWS_ZWNRBNWK: '正文内容不能为空！',
-    NEWS_TJZSSCYZ: '图集至少上传一张！',
-    NEWS_SHBNWK: '视频不能为空！',
-    NEWS_GENGXINCHENGGONG: '更新成功',
-    NEWS_QDFHHBXWXGNRBHBC: '确定返回后，本新闻修改内容不会保存。',
-    NEWS_SFQDFH: '是否确定返回？',
-    产品信息: '产品信息',
-    NEWS_GXWFLWQXCZ: '该新闻分类无权限操作！',
-    NEWS_SFQRSJCXW: '是否确认上架此新闻 ？',
-    NEWS_SHANGJIACHENGGONG: '上架成功！',
-    NEWS_XIAJIACHENGGONG: '下架成功！',
-    NEWS_SJDXWBKSC: '上架的新闻不可删除！',
-    NEWS_SFQDSCXW: '是否确定删除 新闻 ？',
-    NEWS_SHANCHUCHENGGONG: '删除成功',
-    NEWS_DIANZANCHENGGONG: '点赞成功',
-    NEWS_QUXIAODIANZAN: '取消点赞',
-    NEWS_PLSCKVT: '批量上传KV图',
-    NEWS_JYSY1390280BLTPBCG10M: '建议使用1390*280PX比例图文件，不超过10MB',
-    NEWS_QSCTP: '请上传图片！',
-    NEWS_QRFHHSCTPBHBC: '确认返回后，上传图片不会保存！',
-    NEWS_SFQRFH: '是否确认返回？',
-    NEWS_KVTZTWSJSBKSC: 'KV图状态为上架时，不可删除！',
-    NEWS_SFSCKVT: '是否删除该KV图？',
-    NEWS_SHANCHUSHIBAI: '删除失败',
-    NEWS_TIAOZHENGCHENGGONG: '调整成功！',
-    NEWS_WQXSCGBQZNSCZJDXWBQ: '无权限删除该标签，只能删除自己的新闻标签',
-    NEWS_SFQDSCBQNR: '是否确定删除 标签内容 ？',
-    NEWS_XWBQCJCG: '新闻标签创建成功！',
-    NEWS_XWBQCJSB: '新闻标签创建失败！',
-    NEWS_BAOCUNSHIBAI: '保存失败',
-    SFQDSCNR: '是否确定删除 内容 ？',
-    NEWS_DAOCHUCHENGGONG: '导出成功',
-    NEWS_DAOCHUSHIBAI: '导出失败',
-    NEWS_XUHAO: '序号',
-    NEWS_GYSZWM: '供应商中文名',
-    NEWS_GYSYWM: '供应商英文名',
-    SVWHAO: 'SVW号',
-    NEWS_LINSHIHAO: '临时号',
-    NEWS_GONGYINGSHANGLEIXING: '供应商类型',
-    NEWS_SHENGCHANGONGYINGSHANG: '生产供应商',
-    NEWS_YIBANGONGYINGSHANG: '一般供应商',
-    NEWS_NTIERGYINGSHANG: 'N-Tier供应商',
-    NEWS_GONGYINGSHANGHFANWEI: '供应商范围',
-    NEWS_BIANHAO: '编号',
-    NEWS_YUANGONGHAO: '员工号',
-    NEWS_XINGMING: '姓名',
-    NEWS_SUOSHUBUMEN: '所属部门',
-    NEWS_YOUXIANG: '邮箱',
-    NEWS_SHOUJI: '手机',
-    NEWS_DIANHUA: '电话',
-    NEWS_YUANGONGXUANZE: '员工选择',
-    NEWS_GONGHAO: '工号',
-    NEWS_QUEREN: '确认',
-    NEWS_GONGYINGSHANGXUANZE: '供应商选择',
-    NEWS_GONGYINGSHANGZHONGWENMING: '供应商中文名',
-    供应商范围: '供应商范围',
-    NEWS_DIANZIYOUXIANG: '电子邮箱',
-    NEWS_GONGYINGSHANGYONGHU: '供应商用户',
-    NEWS_YUANGONGYONGHU: '员工用户',
-    NEWS_CAIGOUWENJUAN: '采购问卷',
-    NEWS_WULIUWENJUAN: '物流问卷',
-    NEWS_ZHIBAOWENJUAN: '质保问卷',
-    NEWS_YONGHUZUXINZENG: '用户组新增',
-    NEWS_QDQHHBLBNRJQBQK: '确定切换后，本列表内容将全部清空',
-    NEWS_QINGGOUXUANXINXI: '请勾选信息',
-    NEWS_SFQDSCNR: '是否确定删除 内容 ？',
-    NEWS_BXTJYTXX: '必须添加一条信息',
-    NEWS_QDQXHXGNRBHBC: '确定取消后，修改内容不会保存。',
-    NEWS_SFQDQX: '是否确定取消？',
-    NEWS_QDFHHXGNRBHBC: '确定返回后，修改内容不会保存。',
-    NEWS_QINGXUANZEYONGHULEIXING: '请选择用户类型',
-    NEWS_QXZGGLX: '请选择公告类型!',
-    NEWS_ZWBNWK: '正文不能为空！',
-    NEWS_FABUCHENGGONG: '发布成功',
-    NEWS_QRFHHBGGNRBHBC: '确认返回后，本公告内容不会保存！',
-    NEWS_QQRSFSCXZGG: '请确认是否删除选中公告？',
-    NEWS_XINWENXUANZE: '新闻选择',
-    NEWS_SOSUOXINWENBIAOTI: '搜索新闻标题',
-    NEWS_ZHUANTILAIYUAN: '专题来源',
-    NEWS_ZHUANTIBIAOQIAN: '专题标签',
-    NEWS_SJDZTBKSC: '上架的专题不可删除！',
-    NEWS_SFQDSCZTXW: '是否确定删除 专题新闻 ？',
-    LK_SHI: '是',
-    QINGTIANXIEDAZONGNEIBUYOUXIANG: '请填写大众内部邮箱',
-    KAISHISOUSUOBA: '开始搜索吧...',
-    YIXUANZHE: '已选择',
-    QINGXUANZELINGJIANLEIXING: '请选择零件类型',
-    FEIMINGAN: '非敏感',
-    GAIGONGYINGSHANGZANWUYUQINGXINWEN: '该供应商暂无舆情新闻',
-    QINGSHURUBIAOQIANMINGCHENG: '请输入标签名称',
-    GUANBI: '关闭',
-    LK_SHENPIXIANGQING: '审批详情',
-    LK_YULAN: '预览',
-    LK_SHENPIJINDU: '审批进度',
-    LK_SHENPILISHI: '审批历史',
-    LK_ZHAOPIANCHAKAN: '照片查看',
-    LK_BAOFEISHENQINGDANHAO: '报废申请单号',
-    LK_XINJIANSHENQINGHAO: '新建报废申请号',
-    QSRBZ: '请输入备注',
-    GCBHHCKBHBYZ: '工厂编号或仓库编号不一致',
-    TIJIAOSUOPEI: '提交索赔',
-    QXZCZ: '请选择操作',
-    CHULITISHI: '处理提示',
-    SHANGCHUANJUPEIZILIAO: '上传拒赔资料',
-    WXZRHWJCXWBTX: '未选择任何文件（此项为必填项）',
-    XUANZHEWENJIAN: '选择文件',
-    QINGSHURUJUPEILIYOU: '请输入拒赔理由',
-    QINGSHANGCHUANJUPEIZILIAO: '请上传拒赔资料',
-    CHAKANMINGXI: '查看明细',
-    YUANYING: '原因',
-    ZANWUFUJIAN: '暂无附件',
-    XIAZAIFUJIAN: '下载附件',
-    LK_MUJUTOUZIQINGDANBIANGENGXIANGQING: '模具投资清单变更详情',
-    LK_BMDANLIUSHUIHAO: 'BM单流水号',
-    LK_WBSBIANHAO: 'WBS编号',
-    LK_SHIFOUHIL: '是否HIL',
-    LK_TOUZIZONGJINE: '投资总金额',
-    LK_BIANGENGHOUJINE: '变更后金额',
-    LK_DINGDANHAO: '订单号',
-    LK_TOUZIQINGDANLAIYUAN: '投资清单来源',
-    LK_LAIYUANBIANHAO: '来源编号',
-    LK_BIANGENLEIXING: '变更类型',
-    LK_BIANGENGDANZHUANGTAI: '变更单状态',
-    LK_RUZHANGRIQI: '入账日期',
-    LK_CHAKANBIANGENGDAN: '查看变更单',
-    LK_TUICHUBIANJI: '退出编辑',
-    LK_YULANBIANGENGDAN: '预览变更单',
-    LK_CHONGZHI: '重置',
-    LK_BAAPPLYTISP1: '请先勾选',
-    LK_QINGTIANXIEBITIANXIANG: '请填写必填项',
-    LK_QINGTIANXIWBIANGENGYUANYIN: '请填写变更原因',
-    LK_CHUYUBIANGENGLIUCHENGZHONG: '处于变更流程中，不可重复发起变更',
-    LK_QINGSHURUTUIHUIYUANYIN: '请输入退回原因',
-    LK_CHEXINXIANGMU: '车型项目',
-    LK_QINGSHURUGONGYINGSHANG: '请输入(11025-上海汇众)',
-    LK_LINLE: 'Linle',
-    LK_DUIBUQIMEIYOUQUANXIAN: '对不起，您所在得岗位没有该材料组权限',
-    LK_BIANGENDANJIALIEBIAO: '变更单列表',
-    LK_QINGXUANZEXUYAOSHANCHUDEHANG: '请选择需要上传的行数据',
-    下载: '下载',
-    示例模块名称: '示例模块名称',
-    AEKOHAO: 'AEKO号',
-    JICHUXINXI: '基础信息',
-    YUANLINGJIANHAO: '原零件号',
-    GONGYINGSHANGJIANCHENG: '供应商简称',
-    BAOJIAZHUANGTAI: '报价状态',
-    DAIBAOJIA: '代报价',
-    AJIABIANDONGHANFENTAN: 'A价变动(含分摊)',
-    MUJUTOUZIBIANDONG: '模具投资变动',
-    KAIFAFEI: '开发费',
-    ZHONGZHIFEI: '终止费',
-    YANGJIANFEI: '样件费',
-    YUANAJIA: '原A价',
-    XINAJIA: '新A价',
-    YUANBNKJIA: '原BNK价',
-    XINBNKJIA: '新BNK价',
-    BIANDONGZHI: '变动值',
-    CBDXUTIAOZHENGBUFEN: 'CBD需调整部分',
-    ALL: '全部',
-    YUANLINGJIAN: '原零件',
-    XIAOJI: '小计',
-    XINLINGJIAN: '新零件',
-    HUIZONGBIAO: '汇总表',
-    WUBIANDONGZHI: '无变动值',
-    YOUXIAO: '有效',
-    YUANCAILIAOSANJIANCHENGBENBIANDONG: '原材料/散件成本变动',
-    ZHIZAOCHENGBENBIANDONG: '制造成本变动',
-    BAOFEICHENGBENBIANDONG: '报废成本变动',
-    GUANLIFEIBIANDONG: '管理费变动',
-    LIRUNBIANDONG: '利润变动',
-    AJIABIANDONG: 'A价变动',
-    NEIRONG: '内容',
-    XINLINGJIANHAO: '新零件号',
-    QIANDINGCAIGOUTIAOKUAN: '签订采购条款',
-    EKL_YJGL_MS: '描述',
-    EKL_YJGL_ZT: '状态',
-    EKL_YJGL_FQR: '发起人',
-    EKL_YJGL_DJLX: '单据类型',
-    EKL_YJGL_YWLX: '业务类型',
-    EKL_LAIYUAN: '来源',
-    EKL_YJGL_GXRQQ: '更新时间起',
-    EKL_YJGL_GXRQZ: '更新时间止',
-    NTIERZHUCEYAOQING: 'N-Tier注册邀请',
-    GONGYINGSHANGZHONGWENMING: '供应商中文名',
-    LIANXIRENXINGMING: '联系人姓名',
-    contactEmail: '联系人邮箱',
-    GZFSBHXGLJJTBGGSFJX: '规则发生变化，相关零件将同步更改，是否继续？',
-    EKL_CAOZUO: '操作',
-    YINGYONGMINGCHENG: '应⽤名称',
-    YINGYONGFUZEREN: '应⽤负责⼈',
-    YINGYONGJIANCHENG: '应⽤简称',
-    角色名称: '角色名称',
-    权限: '权限',
-    指定部门: '指定部门',
-    按以下属性筛选: '按以下属性筛选',
-    添加附件: '添加附件',
-    Idapschema: 'LDAP属性',
-    TONGBULDAP: '同步LDAP',
-    JIHUO: '激活',
-    XUQI: '续期',
-    GOMGYINGSHANGBIANHAO: '供应商编号',
-    LIANXIRENDIANHUA: '联系人电话',
-    LIANXIRENSHOUJI: '联系人手机',
-    LIANXIRENYOUXIANG: '联系人邮箱',
-    YONGHUMING: '用户名',
-    SHIFOUJIHUO: '是否激活',
-    SHIFOUGUOQI: '是否过期',
-    GUOQISHIJIAN: '过期时间',
-    'Apps Ass': 'Apps Ass',
-    QINGXUANZESKDQIBUSHENGCHANRIQI: '请选择SKD起步生产日期',
-    LK_TIPS_SHIFOUSHANCHUBEIXUANZHONGDEHANGXIANGMU: '是否删除被选中的行项目？',
-    'nominationLanguage.Yes': '是',
-    'nominationLanguage.No': '否',
-    LK_QINGXUANZHELIANXIREN: '请选择联系人',
-    LK_JIAGEYULANCHAKAN: '价格预览查看',
-    摸具采购: '摸具采购',
-    LK_YQ_GONGYINGSANGMINGCHEN: '供应商名称',
-    LK_YQ_TONGYISHEHUIXINYONGDAIMA: '统一社会信用代码',
-    LK_YQ_XIANGGUANKESHI: '相关科室',
-    LK_YQ_SHIFOUMINGAN: '是否敏感',
-    LK_YQ_NEIRONGFENLEI: '内容分类',
-    LK_YQ_FABURIQIQI: '发布日期起',
-    LK_YQ_QINGXUANZE: '请选择',
-    LK_YQ_FABURIQIZHI: '发布日期止',
-    LK_YQ_QINGXUNAZE: '请选择',
-    YUANCHENGYUNFANGSHI: '原承运方式',
-    ZIYUN: '自运',
-    CHENGYUN: '承运',
-    TIANJIAHANG: '添加行',
-    SHANCHUHANG: '删除行',
-    XINCHENGYUNFANGSHI: '新承运方式',
-    XIAZAI: '下载',
-    MUJUCBD: '模具CBD',
-    BIANJILAN: '编辑栏',
-    YUAN: '元',
-    AEKOQUOTATIONMODULETIP_1:
-      '当模具行项目不分摊进单价，”修模”或”减值”必须先引用原零件模具CBD; 当模具行项目将分摊进单价，”修模”或”减值”无需引用原零件模具CBD。',
-    GUANLIANLINGJIAN: '关联零件',
-    MUJUID: '模具ID',
-    SHIFOUFENTAN: '是否分摊',
-    BIANGENGLEIXING: '变更类型',
-    GUDINGZICHANMINGCHENG: '固定资产名称',
-    GONGYILEIXING: '工艺类型',
-    GONGMUJUZHONGLEI: '工模具种类',
-    ZICHANFENLEIBIANHAO: '资产分类编号',
-    FSHAO: 'FS号',
-    SANJIANMINGCHENG: '散件名称',
-    SANJIANLINGJIANHAO: '散件零件号',
-    ZICHANBIANDONGDANJIA: '资产变动单价',
-    YUANLINGJIANZICHANZONGE: '原零件资产总额',
-    XINLINGJIANZICHANZONGE: '新零件资产总额',
-    SHENPILEIXING: '审批类型',
-    LK_AEKOMIAOSHU: '描述',
-    LK_AEKO_GENGGAILINGJIANMINGCHENG: '更改零件名称',
-    SHEJICHEXINGCHEXINGXIANGMU: '涉及车型/车型项目',
-    LK_AEKO_ZHUYAOGONGYINGSHANG: '主要供应商',
-    LK_AEKO_ZENGJIACAILIAOCHENGBEN: '内容',
-    LK_AEKO_ZENGJIATOUZIFEIYONG: '增加投资费用',
-    LK_AEKO_QITAFEIYONG: '其他费用',
-    LK_AEKO_SHENPIFUJIAN: '审批附件',
-    LK_AEKO_AEKOJIEZHIRIQI: 'AEKO截止日期',
-    CHUANGJIANRIQI: '创建时间',
-    ZONGTOUZIBIANDONGCHENGBEN: '总投资变动成本',
-    FENTANTOUZIBIANDONGCHENGBEN: '分摊投资变动成本',
-    DANJIANTOUZICHENGBENBIANDONG: '单件投资变动成本',
-    YUANLINGJIANMUJUCBD: '原零件模具CBD',
-    LK_YQ_GONGYINGSHANGMINGCHEN: '供应商名称',
-    LK_YQ_GONGYINGSHANGJIANCHEN: '供应商简称',
-    LK_YQ_TONGYISHEHUIXINRENBIANMA: '统一社会信任编码',
-    LK_YQ_TONGYISHEHUIXINRENDAIMA: '统一社会信任编码',
-    LK_YQ_BIAOTI: '标题',
-    LK_YQ_FABURIQI: '发布日期',
-    LK_YQ_LIANJIE: '链接',
-    LK_AEKOSHENPI: 'AEKO审批',
-    LK_YQ_XIANGQINGLIEBIAO: '详情列表',
-    ZICHANDANJIA: '资产单价',
-    ZICHANZONGE: '资产总额',
-    BMDANLIUSHUIHAO: 'BM单流水号',
-    LK_YQ_DAORU: '导⼊',
-    LK_YQ_DAOCHUQUANBU: '导出全部',
-    LK_YQ_SHANCHU: '删除',
-    LK_YQ_FABUYUQINGZHOUBAO: '发布舆情周报',
-    LK_YQ_FENXIYUQINGJIEGUO: '分析舆情结果',
-    LK_YQ_WEIHUGONGYINGSHANGMINGDAN: '维护供应商名单',
-    LK_AEKO_KAIFAFEIHEJI: '开发费合计',
-    LK_DAMAGES_ZHONGZHIFEI: '终⽌费',
-    LK_DAMAGES_SAMPLEFEE_YANGJIANFEI: '样件费',
-    WENJIANDAXIAOBUCHAOGUO20MB: '文件大小不超过20MB',
-    SHENGQINGKESHI: '申请科室',
-    LK_YQ_GONGYINGSANGZHONGWENJIANCHEN: '供应商中文名简称',
-    LK_YQ_GONGYINGSANGYINGWENJIANCHEN: '供应商英文名简称',
-    LK_YQ_JITUANJIANCHEN: '集团简称',
-    LK_YQ_TIANJIAFANGSHI: '添加方式',
-    LK_YQ_WEIHUYUQINGJIANCESHANG: '维护舆情检测商',
-    LK_YQ_XINZENG: '新增',
-    LK_YQ_BAOCUN: '保存',
-    LK_YQ_QUXIAO: '取消',
-    LK_YQ_GONGYINGSHANGQUANCHEN: '供应商中文全称',
-    LK_YQ_GONGYINGSHANGYINGWENQUANCHEN: '供应商英文全称',
-    LK_YQ_GONGYINGSHANGYINGWENJIANCHEN: '供应商英文简称',
-    LK_YQ_JITUANMINGCHEN: '集团名称',
-    LK_YQ_JITUANYINGWENMINGCHENG: '集团英文名称',
-    LK_YQ_GUDONGMINGCHENG: '股东名称',
-    LK_YQ_CAOZUOFANGSHI: '操作方式',
-    WHMTZYCLGZCZXGZSQDLXWFXZLZ:
-      '维护MTZ原材料规则存在新规则，申请单类型无法选择流转',
-    成本中心: '成本中心',
-    SQDLXWBASSPFJBNWK: '申请单类型为备案时，审批附件不能为空',
-    XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ:
-      '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请 单类型，并取消已关联的零件定点申请单，是否确认添加？',
-    采样: '采样',
-    品类管理助手: '品类管理助手',
-    离线下载: '离线下载',
-    任务编号: '任务编号',
-    任务名称: '任务名称',
-    执行时间: '执行时间',
-    YANZHENGTONGGUO: '验证通过！',
-    SQDLXWBASTJSSPFJBNWK: '申请单类型为备案时，提交时审批附件不能为空',
-    SHANGHAIZHONGHUIQICHEYOUXIANGONGSI: '上海汇众汽车有限公司',
-    SHENQINGMBDL: '申请MBDL',
-    YIICHUBDL: '移除BDL',
-    YICHUMDBL: '移除MBDL',
-    SHIFOUBDL: '是否BDL',
-    TONGYISHEHUIXINYONGDAIMA: '统一社会信用代码',
-    FABURIQI: '发布日期',
-    NEIRONGFENLEI: '内容分类',
-    SHIFOUMINGAN: '是否敏感',
-    NEIRONGBIAOTI: '内容标题',
-    XIANGQINGNEIRONG: 'XIANGQINGNEIRONG',
-    LZBALXZYTJHDJZTCKYCH: '流转/备案类型只有提交或冻结状态才可以撤回',
-    SHLXQZTWTJHWTGHFHZCKYCH:
-      '上会类型且状态为提交（会议未锁定）、未通过或复核中才可以撤回',
-    GLSQDH: '关联申请单号',
-    ZANWUSHENPIJIEGUO: '暂无审批结果',
-    LK_ZUIHOUYITIAOCHANNENGSHUJUDEJIEZHIZHOUBIXUWEIKONG:
-      '最后一条产能数据的截至周必须为空',
-    LK_TIQIANZHUNBEIQIZHOUBUNENGWEIKONG: '提前准备期(周)不能为空',
-    LK_MEIZHOUGONGZUOTIANSHUBUNENGWEIKONG: '每周工作天数不能为空',
-    LK_MEITIANBANSHUBUNENGWEIKONG: '每天班数不能为空',
-    LK_ZHOUZHENGCHANGCHANNENGBUNENGWEIKONG: '周正常产能不能为空',
-    LK_ZHOUZUIDACHANNENGBUNENGWEIKONG: '周最大产能不能为空',
-    LK_NIANZUIDAGONGZUOTIANSHUBUNENGWEIKONG: '年最大工作天数不能为空',
-    LK_QISHIZHOUBUNENGWEIKONG: '起始周不能为空',
-    YYDDSQDLJXXGLLJDDSQ: '引用定点申请单零件需先关联零件定点申请！',
-    LINGJIANHAOBUCUNZAI: '零件号不存在！',
-    中文名称: '中文名称',
-    英文名称: '英文名称',
-    新建系统: '新建系统',
-    YUANCAILIAOSANJIANCHENGBEN: '原材料/散件成本',
-    TIANJIAYUANLINGJIANCBD: '添加原零件CBD',
-    TIANJIAXINLINGJIANCBD: '添加新零件CBD',
-    YUANCAILIAOSANJIANMIAOSHU: '原材料/散件描述',
-    YUANCHANGUO: '原产国',
-    SHULIANGDANWEI: '数量单位',
-    DANJIARMBUOM: '单价',
-    ZHIJIEYUANCAILIAOSANJIANCHENGBEN: '直接原材料/散件成本',
-    WULIAOGUANLIFEI: '物料管理费',
-    LK_HANDLEADDNEWDATA_TIPS_CHECK: '请先勾选一条原零件CBD行项目',
-    LK_HANDLEADDNEWDATA_TIPS: '请先添加一行原零件CBD行项目',
-    WUFASHANCHUYUANYOUYUANLINGJIANHANGXIANGMU: '无法删除原有原零件行项目！',
-    HASCHANGEDELETE: '已维护的有值，请确认是否删除？',
-    XUANZEDESHUJUZHONGCUNZAIWEITIANXIEWANZHENGDEYUANLINGJIANSHUJU:
-      '选择的数据中存在未填写完整的原零件数据',
-    HASNEWDATADELETE:
-      '该原零件行项目对应的所有新零件行项目也将一并删除，请确认是否删除？',
-    ZHIZAOCHENGBEN: '制造成本',
-    ZHIZAOGONGXU: '制造工序',
-    DUIYINGYUANCAILIAOSANJIAN: '对应原材料/散件',
-    SHEBEIMINGCHENGXINGHAO: '设备名称/型号',
-    SHANGQIDAZHONGZHUANYONGSHEBEIFEI: '上汽大众专用设备费',
-    SHENGCHANJIEPAI: '生产节拍',
-    JIANSHUSHENGCHANJIEPAI: '件数/生产节拍',
-    RENGONGCHENGBEN: '人工成本',
-    ZHIJIERENGONGFEILV: '直接人工费率',
-    ZHIJIERENGONGSHULIANG: '直接人工数量',
-    SHEBEIFEI: '设备费',
-    JIANJIEZHIZAOCHENGBEN: '间接制造成本',
-    SHEBEICHENGBEN: '设备成本',
-    BAOFEICHENGBEN: '报废成本',
-    YUANBAOFEILV: '原报废率',
-    XIANBAOFEILV: '现报废率',
-    BIANDONGJINE: '变动金额',
-    ZHENGTIBAOFEICHENGBENBIANDONG: '整体报废成本变动',
-    YUANBILI: '原比例',
-    XIANBILI: '现比例',
-    FENTANSHULIANG: '分摊数量',
-    FENTANJINE: '分摊金额',
-    SHEBEIFEILV: '设备费率',
-    YUANCAILIAOYUSANJIANBUHANSVWZHIDINGSANJIANGUANLIFEI:
-      '原材料与散件(不含SVW指定散件)管理费',
-    ZHIZAOGUANLIFEI: '制造管理费',
-    FENTANKAIFAFEI: '分摊开发费',
-    LIRUNBUHANSVWZHIDINGSANJIAN: '利润(不含SVW指定散件)',
-    NEIRONGSHENPIZHUANGTAI: '内容审批状态',
-    SOURCEPARTCBDQUOTE:
-      '如需修模或减值，请引用如下CBD行项目，并且保留两位小数。',
-    '原材料/散件': '原材料/散件',
-    是否: '是否',
-    指定价格散件: '指定价格散件',
-    ZICHANBIANDONGZONGE: '资产变动总额',
-    BMDANHAO: 'BM单号',
-    GUDINGZICHANMINGCHENGTIPS:
-      '由“零件总成名称”、“散件名称”、 “工模具种类”组成',
-    GONGYILEIXINGTIPS: '如注塑，冲压，电镀等',
-    GONGMUJUZHONGLEITIPS: '如：热流道注塑模',
-    ZICHANFENLEIBIANHAOTIPS:
-      '13：模具<br/>14：夹具<br/>15：检具<br/>16：其他工装',
-    SANJIANMINGCHENGTIPS: "<p style='text-align: center'>零部件名称</p>",
-    SANJIANLINGJIANHAOTIPS:
-      "<p style='text-align: center'>散件零件号<br/>(若无，则用总成号)</p>",
-    SHULIANGTIPS: "<p style='text-align: center'>必须为整数</p>",
-    ZICHANBIANDONGDANJIATIPS:
-      "<p style='text-align: center'>不含税价格，<br/>并且保留两位小数</p>",
-    系统URL: '系统URL',
-    LK_QINGXUANZEYIGEGONGYINGSHANGGONGCHANG: '请选择一个供应商工厂',
-    状态: '状态',
-    操作人: '操作人',
-    LK_RFQBIANHAOSSRESET: 'RFQ编号/项目编号',
-    LK_CHEXINGDALEISSSREST: '车型',
-    模具采购订单: '采购订单',
-    FRM评级: 'FRM评级',
-    LK_YQ_QINGXUNAZENEIRONGFENLEI: '请选择内容分类',
-    XIUGAISHIJIAN: '修改时间',
-    审批备注与附件: '审批备注与附件',
-    审批备注: '审批备注',
-    附件: '附件',
-    GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON:
-      '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
-    模板编号: '模板编码',
-    模板名称: '模板名称',
-    模板内容: '模板内容',
-    模板标题: '模板标题',
-    模板类型: '模板类型',
-    创建时间: '创建时间',
-    发布次数: '发布次数',
-    最后发布时间: '最后发布时间',
-    LK_YQ_SHANGHAIZHONGHUIQICHEYOUXIANGONGSI: '上海汇众汽车有限公司',
-    LK_YQ_GONGYINGSHANGMINGCHENG: '供应商名称',
-    LK_YQ_GONGYINGSHANGJIANCHENG: '供应商简称',
-    LK_YQ_WANGZHILIANJIE: '网址链接',
-    LK_YQ_NEIRONGBIAOTI: '内容标题',
-    LK_YQ_XIANGQINGNEIRONG: '详情内容',
-    'ROLE.RESOURCE_NAME': 'ROLE.RESOURCE_NAME',
-    SHANGCHUANFUJIJAN: '上传附件',
-    QINGQIUCUOWU: '请求错误！',
-    SHIFOUDAOCHUMUBAN: '是否导出模板？',
-    NEWS_YUANWENLIANJIE: '原文链接',
-    EKL_CAILIAOZU: '材料组',
-    QINGXUANZEGONGYINSHANGMINGCHENGHUOZHEZONGCHENGLINGJIAN:
-      '请选择供应商名称或者总成零件',
-    BIANGENGYOUXIAOQI: '变更有效期',
-    SCFJYZBTG: '上传附件验证不通过',
-    CUOWUTISHI: '错误提示',
-    'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CNNAME':
-      'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CNNAME',
-    'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_ENNAME':
-      'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_ENNAME',
-    'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CODE':
-      'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CODE',
-    'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_LEVEL':
-      'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_LEVEL',
-    'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_OWNER':
-      'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_OWNER',
-    'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_DESC':
-      'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_DESC',
-    'staffManagement.EMPLOYEENUMBER': '员工号',
-    登录账号: '登录账号',
-    中文名: '中文名',
-    'staffManagement.ENGLISHNAME': '英文名',
-    'staffManagement.SEX': '性别',
-    'staffManagement.DEPARTMENT': '所属部门',
-    'staffManagement.JOBS': '岗位',
-    'staffManagement.STATEEMPLOYEES': '员工状态',
-    'staffManagement.EMAIL': '邮箱',
-    'staffManagement.MOBILEPHONE': '手机',
-    'staffManagement.PHONE': '电话',
-    'staffManagement.RECENTLYTHELOGIN': '最近登录',
-    'ROLE.ROLE_ID': 'ROLE.ROLE_ID',
-    'ROLE.ROLE_CODE': 'ROLE.ROLE_CODE',
-    'ROLE.ROLE.NAME': 'ROLE.NAME',
-    'ROLE.DESCRIPTION': 'ROLE.DESCRIPTION',
-    'ROLE.ROLE_STATUS': 'ROLE.ROLE_STATUS',
-    'ROLE.NAME': 'ROLE.NAME',
-    'ROLE.MENU_CODE': 'ROLE.MENU_CODE',
-    'ROLE.RESOURCE_CODE': 'ROLE.RESOURCE_CODE',
-    'ROLE.RESOURCE_NAME_EN': 'ROLE.RESOURCE_NAME_EN',
-    'ROLE.TYPE': 'ROLE.TYPE',
-    'ROLE.REMARK': 'ROLE.REMARK',
-    GUIJINSHUYONGLIANGJIJIADANWEI: '贵金属用量&基价单位',
-    'ROLE.ROLE_NAME': 'ROLE.ROLE_NAME',
-    'staffManagement.CHINESENAME': '姓名',
-    'staffManagement.NATIONALITY': '国籍',
-    '同一零件号、供应商、原材料牌号有效时间段内数据重复':
-      '同一零件号、供应商、原材料牌号有效时间段内数据重复',
-    '#': '#',
-    一次件零件号: '一次件零件号',
-    一次件供应商SAP号: '一次件供应商SAP号',
-    一次件供应商: '一次件供应商',
-    一次件零件名: '一次件零件名',
-    二次件零件号: '二次件零件号',
-    二次件零件名: '二次件零件名',
-    二次件供应商SAP号: '二次件供应商SAP号',
-    二次件供应商: '二次件供应商',
-    二次件与一次件比例: '二次件与一次件比例',
-    规则编号: '规则编号',
-    原材料牌号: '原材料牌号',
-    原材料名称: '原材料名称',
-    基价: '基价',
-    基价计量单位: '基价计量单位',
-    每: '每',
-    零件数量单位: '零件数量单位',
-    用量: '用量',
-    用量计量单位: '用量计量单位',
-    市场价来源: '市场价来源',
-    阈值补差逻辑: '阈值补差逻辑',
-    货币: '货币',
-    汇率: '汇率',
-    补差系数: '补差系数',
-    阈值: '阈值',
-    补差周期: '补差周期',
-    有效期起: '有效期起',
-    有效期止: '有效期止',
-    是否生效: '是否生效',
-    来源: '来源',
-    铂基价: '铂基价',
-    铂用量: '铂用量',
-    钯基价: '钯基价',
-    钯用量: '钯用量',
-    铑基价: '铑基价',
-    铑用量: '铑用量',
-    QINGWEIHUHAOBIANTIANXIANGHOUZAIBAOCUN: '请维护好必填项后，再保存。',
-    QINGXIANSHANCHUHUIZONGBIAOHANGXIANGMU: '请先删除汇总表行项目。',
-    QINGTIANXIEWANZHENGYUANCAILIAOSANJIANCHENGBEN: '请填写完整原材料/散件成本',
-    QINGTIANXIEWANZHENGZHIZAOCHENGBEN: '请填写完整制造成本',
-    CANCELCBDADJUSTTIPS: '存在已维护的CBD调整部分被取消的情况，是否继续保存？',
-    AEKOCBDTOTALADJUSTTIPS:
-      '变动值大于变动值-汇总表/变动值-CBD的值，请修改后，再次保存。',
-    QINGQUERENSHIFOUSHANCHU: '请确认是否删除？',
-    LK_AEKO_TAB_DAMAGES_TIPS: '请填写后提交',
-    LK_AEKO_QINGWEIHUZHENGHANGSHUJUHOUZAIBAOCUN: '请维护整行数据后，再保存',
-    LK_KAIFAFEIYONGCUNZAIFENTANSHUJUQINGTIANXIEDAYU:
-      '开发费用存在分摊数据，请填写一个大于0的分摊数量',
-    QINGQUERENSHIFOUSHANCHUSUOXUANZHONGDEMUJUHANGXIANGMU:
-      '请确认是否删除所选中的模具行项目？',
-    SHIFOUSHANCHUXUANZHONGNEIRONG: '是否删除选中内容？',
-    LK_AEKO_WEIGUANLIANLINGJIANWUFABAOCUN: '未关联零件，无法保存',
-    '正式/SVW号': '正式/SVW号',
-    'APPROVAL.TIME': '时间',
-    'APPROVAL.NODE_NAME': '节点名称',
-    'APPROVAL.OPRATION_USER': '操作人',
-    'APPROVAL.OPRATION': '操作',
-    'APPROVAL.OPRATION_TIME': '操作时长',
-    'APPROVAL.ATTACH': '附件',
-    'APPROVAL.COMMENT_CONTENT': '回复内容',
-    'QINGXUANZEXUYAOYICHUDECAILIAOZUYUGONGYIZU!':
-      '请选择需要移除的材料组与工艺组！',
-    QINGXUANZEXUYAOYICHUDECAILIAOZUYUGONGYIZU:
-      '请选择需要移除的材料组与工艺组！',
-    SAP号: 'SAP号',
-    临时号: '临时号',
-    XIUMU: '修模',
-    JIANZHI: '减值',
-    AEKO_TIPS_QINGTIANXIEHAOFENTANSHULIANGHOUZAIBAOCUN:
-      '请填写好分摊数量后，再保存。',
-    审批流: '审批流',
-    单据编号: '单据编号',
-    单据类型: '单据类型',
-    审批事项: '审批事项',
-    任务开始时间: '任务开始时间?',
-    申请人: '申请人',
-    申请部门: '申请部门',
-    申请时间: '申请时间',
-    SHENPITONGGUO: '审批通过',
-    供应商编号: '供应商编号',
-    供应商名称: '供应商名称',
-    MTZ定点采购员: 'MTZ定点采购员',
-    MTZ定点采购员科室: 'MTZ定点采购员科室',
-    源货币编码: '源货币编码',
-    目标货币编码: '目标货币编码',
-    汇率类型: '汇率类型',
-    序号: '序号',
-    生效开始时间: '生效开始时间',
-    生效结束时间: '生效结束时间',
-    请输入汇率: '请输入汇率',
-    LK_BAOFEISHENQINGDANBIANHAO: '报废申请单号',
-    LK_ASMSBAOFEIDANHAO: 'ASMS报废单号',
-    LK_ZICHANBIANHAO: '资产编号',
-    LK_ZICHANMINGCHENG: '资产名称',
-    LK_SHENQINGDANZHUANGTAI: '申请单状态',
-    LK_CHEXINYANYONGCHEXIN: '车型/沿用车型',
-    LK_CHAIGOUYUAN: '采购员',
-    LK_MOJUID: '模具ID',
-    LK_JINKANZIJI: '仅看自己',
-    LK_XINJIAN: '新建',
-    LK_QINGQUERENJIANGBAOFEISHENQINGDANTIJIAODAOCAIGOUYUAN:
-      '请确认将报废申请单提交到采购员？',
-    LK_ASMSBAOFEIHAO: 'ASMS报废单号',
-    LK_SHENQINGDANMINGCHENG: '申请单名称',
-    LK_YUANGUIHUASHI: '源规划科室',
-    LK_BAOFEIYUANYIN: '报废原因',
-    LK_SHENQINGSHIJIAN: '申请时间',
-    LK_QITABAOFEIYUANYIN: '其他报废原因',
-    LK_BEIYONGMOBAOGAO: '备⽤模报告',
-    LK_ZANWUFUJIANQINGSHANGCHUAN: '暂无附件，请上传',
-    LK_ZICHANMINGCHENGYING: '资产名称(英)',
-    LK_SUOZAIDIYING: '所在地(英)',
-    LK_ZHIZAOCHANGJIAYING: '制造厂家(英)',
-    LK_SHANGCHUANSHIJIAN: '上传时间',
-    YICHUHEIMINGDANSHENQINGSHENGCHANCAIGOU: '移除黑名单申请 - 生产采购',
-    LK_BEIYONGBAOGAO: '备⽤模报告',
-    LK_ZONGCHENGLINGJIANHAO: '总成零件号',
-    LK_LINGJIANZONGCHENGMINGCHEN: '零件总成名称',
-    LK_SHEBEIGUANLIYUAN: '设备管理员',
-    LK_CHUNFANGDIDIAN: '存放地点',
-    LK_ZICHANFENLEI: '资产分类',
-    LK_GONGMOJUZHONGLEI: '工模具种类',
-    LK_MOJUZHUANGTAI: '模具状态',
-    LK_YIJIGONGYINGSHANG: '一级供应商',
-    LK_ERJIGONGYINGSHANG: '二级供应商',
-    LK_SANJIGONGYINGSHANG: '三级供应商',
-    LK_JINKOUGUOCHAN: '进⼝/国产',
-    LK_ZONGDAOXUSHU: '总道序数',
-    LK_GONGMOJUZUIDANIANSHENGCHANLI: '⼯模具最⼤年产能⼒(/300天)',
-    LK_TOURUSHIYONGRIQI: '投入使用日期',
-    LK_GONGZHUANGBIANHAO: '工装编号',
-    LK_GONGXU: '工序',
-    LK_CHANPINCAILIAOLIYONGLV: '产品材料利⽤率(%)',
-    LK_XINGQIANGSHU: '型腔数',
-    LK_ZHIZAOSHANG: '制造商',
-    LK_MOJUZHONGLIANGKG: '模具重量(kg)',
-    LK_MOJUSHANGMM: '模具⻓(mm)',
-    LK_MOJUKUANMM: '模具宽(mm)',
-    LK_MOJUGAOMM: '模具高(mm)',
-    MOJUEOPSHIJIAN: '模具EOP时间',
-    LK_MOJUEOSHIJIAN: '模具EOS时间',
-    LK_ZUIZHONGCUNFANGDIDIAN: '最终存放地点',
-    LK_BEIHZU: '备注',
-    LK_MOJUZHAOPIAN: '模具照⽚',
-    LK_CAIWUXINXI: '财务信息',
-    JIARUHEIMINGDANSHENQINGSHENGCHANCAIGOU: '加入黑名单申请 - 生产采购',
-    '贵金属用量&基价单位': '贵金属用量&基价单位',
-    'M01006002-Pd': 'M01006002-Pd',
-    'M01006002-Rh': 'M01006002-Rh',
-    消息管理: '消息管理',
-    LK_QINGXUANZEZHISHAOYITIAOSHUJU: '请选择至少一条数据',
-    LK_SUBMITSURE: '您确定要执行提交操作吗？',
-    LK_QINGSHURUJUJUEYUANYIN: '请输⼊拒绝原因',
-    LK_QINGSHURUGUANBIYUANYIN: '请输入关闭原因',
-    LK_YIJUJUE: '已拒绝',
-    LK_YIBAOJIA: '已报价',
-    LK_WEIBAOJIA: '未报价',
-    LK_HEJI: '合计',
-    百晓生: '百晓生',
-    花木兰: '花木兰',
-    王昭君: '王昭君',
-    nameZh: '应⽤中⽂名',
-    nameEn: '应⽤英⽂名',
-    shortName: '应⽤简称',
-    createDate: '创建时间',
-    updateDate: '更新时间',
-    contactUserName: '应⽤负责⼈',
-    SQDLXWBASTJSJCZLZDJCFJBNWK:
-      '申请单类型为备案时，提交时决策资料中的附件不能为空！',
-    描述: '描述',
-    发起人: '发起人',
-    业务类型: '业务类型',
-    版本号: '版本号',
-    更新时间起: '更新时间起',
-    更新时间止: '更新时间止',
-    创建日期: '创建日期',
-    更新日期: '更新日期',
-    操作: '操作',
-    寻源与定点: '寻源与定点',
-    NTIERYAOQINGZHUCE: 'N-tier邀请注册',
-    LK_RUZHANGDANLEIXING: '入账单类型',
-    LK_RUZHANGDANZHUANGTAI: '入账单状态',
-    LK_GONGSIDAIMA: '公司代码',
-    YYCLPHGYSJJYXSJDZCWYGZ: '由原材料牌号＋供应商＋基价+有效时间段组成唯一规则',
-    XUHAO: '序号',
-    LDAPTONGBU: '同步LDAP',
-    EXCELHANGSHU: 'Excel行数',
-    AppsAss: '应用关联',
-    EKL_MIAOSHU: '描述',
-    EKL_CZ: '操作',
-    应用管理: '应用管理',
-    联系人与用户管理: '联系人与用户管理',
-    QUERENSHANCHUGAIYINGYONG: '确认删除该应用？',
-    'This is ${name} test.': 'This is ${name} test.',
-    'This is {name} test.': 'This is {name} test.',
-    EKL_NDYJJC: '年度业绩基础',
-    EKL_ZCSJJCB: '总成散件基础表',
-    EKL_QT: '其它',
-    审批中心: '审批中心',
-    WEIQIANSHU: '未签署',
-    资料类型: '资料类型',
-    所属会议: '所属会议',
-    资料名称: '资料名称',
-    类型: '类型',
-    发布者: '发布者',
-    发布日期: '发布日期',
-    SHANCHUFUJIAN: '删除附件',
-    SHANGCHUANDIANJIADAN: '上传点价单',
-    会议类型: '会议类型',
-    组名: '组名',
-    与会人: '与会人',
-    参与人员姓名: '参与人员姓名',
-    组织管理: '组织管理',
-    岗位管理: '岗位管理',
-    员工用户管理: '员工用户管理',
-    角色管理: '角色管理',
-    供应商权限管理: '供应商权限管理',
-    供应商系统管理: '系统管理',
-    供应商用户管理: '供应商用户管理',
-    LK_SHIYONGRENGONGHAO: '使用人工号',
-    LK_ZICHANMINGCHEN: '资产名称',
-    LK_ZONGCHNEGLINGJIANHAO: '总成零件号',
-    LK_LINGJIANMINGCHEN: '零件名称',
-    LK_ZHICHANDANJIA: '资产单价',
-    ZONGCHNEGLINGJIANHAO: '总成零件号',
-    LK_EOPFANHUIZHUANGTAI: 'EOP反馈状态',
-    错误管理: '错误管理',
-    提示管理: '提示管理',
-    '站内信/邮件模板管理': '站内信/邮件模板管理',
-    消息历史: '消息历史',
-    模板管理: '模板管理',
-    ZANWUSHENPIRENXINXI: '暂无审批人信息！',
-    用户助手: '用户助手',
-    公用组件管理: '公用组件管理',
-    报表中心: '报表中心',
-    用户助手管理: '用户助手管理',
-    显示: '显示',
-    条到第: '条到第',
-    条记录: '条记录',
-    共: '共',
-    消息编号: '消息编号',
-    消息名称: '消息名称',
-    消息内容: '消息内容',
-    消息标题: '消息标题',
-    消息类型: '消息类型',
-    发布人: '发布人',
-    发布对象: '发布对象',
-    报表展示: '报表展示',
-    LK_DANJULEIXING: 'DANJULEIXING',
-    供应商中文名称: '供应商中文名称',
-    供应商英文名称: '供应商英文名称',
-    供应商类型: '供应商类型',
-    SVW号: 'SVW号',
-    VW号: 'VW号',
-    统一社会信用代码: '统一社会信用代码',
-    是否MBDL: '是否MBDL',
-    供应商身份: '供应商身份',
-    国家: '国家',
-    全部: '全部',
-    LINIEKESHICSS3: 'LINIE科室',
-    'APPROVAL.FLOW_NO': '流程序号',
-    'APPROVAL.FLOW_NAME': '流程标题',
-    'APPROVAL.CREATE_BY': '创建者',
-    'APPROVAL.CREATE_TIME': '创建时间',
-    'APPROVAL.FLOW_STATUS': '流程状态',
-    'APPROVAL.FLOW_DESCRIPTION': '流程说明',
-    新建流程: '新建流程',
-    流程序号: '流程序号',
-    流程标题: '流程标题',
-    创建者: '创建者',
-    流程状态: '流程状态',
-    申请单号: '申请单号',
-    当前状态: '当前状态',
-    申请号: '申请号',
-    原因: '原因',
-    授权人: '授权人',
-    代理人: '代理人',
-    'APPROVAL.AGENT_NO': 'APPROVAL.AGENT_NO',
-    'APPROVAL.AUTH_USER_NAME': 'APPROVAL.AUTH_USER_NAME',
-    'APPROVAL.AGENT_USER_NAME': 'APPROVAL.AGENT_USER_NAME',
-    'APPROVAL.AGENT_START_TIME': 'APPROVAL.AGENT_START_TIME',
-    'APPROVAL.AGENT_END_TIME': 'APPROVAL.AGENT_END_TIME',
-    'APPROVAL.IS_EFFECTIVE': 'APPROVAL.IS_EFFECTIVE',
-    'APPROVAL.AGENT_CANCEL_TIME': 'APPROVAL.AGENT_CANCEL_TIME',
-    代理内容: '代理内容',
-    代理时间: '代理时间',
-    角色代码: '角色代码',
-    角色状态: '角色状态',
-    LK_PEIJIANBJIA: '配件B价',
-    LK_YUANLINJIANHAO: '原零件号',
-    分配权限: '分配权限',
-    保存成功: '保存成功',
-    姓名: '姓名',
-    电子邮箱: '电子邮箱',
-    工号: '工号',
-    所属部门: '所属部门',
-    我的申请: '我的申请',
-    我的审批: '我的审批',
-    审批历史: '审批历史',
-    任务起止日期: '任务起止日期',
-    待审批: '待审批',
-    已审批: '已审批',
-    'staffManagement.THESERIALNUMBER': '序号',
-    'staffManagement.PURCHASINGGROUP': '采购组',
-    'staffManagement.TEMPORARYPRICECONTRACTFORPRODUCTION': '生产暂作价合同',
-    'staffManagement.DESCRIBE': '描述',
-    'staffManagement.NOTE': '备注',
-    岗位查看: '岗位查看',
-    下属岗位编辑: '下属岗位编辑',
-    用户ID: '用户ID',
-    用户名: '用户名',
-    用户类型: '用户类型',
-    操作类型: '操作类型',
-    操作内容: '操作内容',
-    操作时间: '操作时间',
-    今日无会议安排: '今日无会议安排',
-    组织机构编码: '组织机构编码',
-    负责人: '负责人',
-    组织机构名: '组织机构名',
-    是否显示: '是否显示',
-    是否为Commodity: '是否为Commodity',
-    是否同步svcd: '是否同步svcd',
-    新建组织机构: '新建组织机构',
-    '组织机构名称(中)': '组织机构名称(中)',
-    '组织机构名称(英)': '组织机构名称(英)',
-    组织级别: '组织级别',
-    Organization: 'Organization',
-    Position: 'Position',
-    ProCS: 'ProCS',
-    Knowledge: 'Knowledge',
-    轮岗申请: '轮岗申请',
-    岗位代理: '岗位代理',
-    配置比例: '配置比例',
-    审批失败: '审批失败',
-    生产工厂: '生产工厂',
-    车型总产量: '车型总产量',
-    是否最新: '是否最新',
-    新增配置: '新增配置',
-    应用年份: '应用年份',
-    配置ID: '配置ID',
-    发动机类型: '发动机类型',
-    变速箱型号: '变速箱型号',
-    电池容量: '电池容量',
-    其它配置: '其它配置',
-    车型等级: '车型等级',
-    GYSBHJC: '供应商编号/简称',
-    流程说明: '流程说明',
-    零件名称: '零件名称',
-    零件来源: '零件来源',
-    '请输入/请选择': '请输入/请选择',
-    零件状态: '零件状态',
-    激活: '激活',
-    供应商状态: '供应商状态',
-    工厂信息: '工厂信息',
-    银行信息: '银行信息',
-    供应商用户: '供应商用户',
-    供应商通讯录: '供应商通讯录',
-    供应商信息: '供应商信息',
-    供应商中文名: '供应商中文名',
-    '供应商简称(中)': '供应商简称(中)',
-    供应商英文名: '供应商英文名',
-    '供应商简称(英)': '供应商简称(英)',
-    采购员邮箱: '采购员邮箱',
-    采购员名称: '采购员名称',
-    采购员科室: '采购员科室',
-    采购员工号: '采购员工号',
-    注册日期: '注册日期',
-    注册资本: '注册资本',
-    公司网址: '公司网址',
-    是否国外厂商: '是否国外厂商',
-    '国家-省份-城市': '国家-省份-城市',
-    地址: '地址',
-    是否上市: '是否上市',
-    上市地点: '上市地点',
-    股票代码: '股票代码',
-    法定代表人: '法定代表人',
-    企业类型: '企业类型',
-    '企业性质(大类)': '企业性质(大类)',
-    '企业性质(小类)': '企业性质(小类)',
-    主要产品: '主要产品',
-    年产量: '年产量',
-    '主要配套主机厂/客户': '主要配套主机厂/客户',
-    开始供货时间: '开始供货时间',
-    供货年份: '供货年份',
-    年供货量: '年供货量',
-    '国内市场占有率（%）': '国内市场占有率（%）',
-    所处行业位置: '所处行业位置',
-    可供SVW比例: '可供SVW比例',
-    关联公司名称: '关联公司名称',
-    关系描述: '关系描述',
-    企业性质: '企业性质',
-    '所在国家/地区': '所在国家/地区',
-    单位: '单位',
-    '控股比例（%）': '控股比例（%）',
-    集团公司名称: '集团公司名称',
-    集团公司英文名称: '集团公司英文名称',
-    集团公司简称: '集团公司简称',
-    总部: '总部',
-    是否在供: '是否在供',
-    是否业内工厂: '是否业内工厂',
-    '是否隶属华域 ': '是否隶属华域 ',
-    供货类型: '供货类型',
-    是否共用供应商: '是否共用供应商',
-    供货零件类型: '供货零件类型',
-    相关专业科室: '相关专业科室',
-    是否签署定点协议: '是否签署定点协议',
-    工厂编号: '工厂编号',
-    工厂名称: '工厂名称',
-    工厂简称: '工厂简称',
-    工厂所在地: '工厂所在地',
-    邮编: '邮编',
-    是否定点: '是否定点',
-    供应商工厂DUNS: '供应商工厂DUNS',
-    银行名称: '银行名称',
-    银行代码: '银行代码',
-    银行账号: '银行账号',
-    税务代码: '税务代码',
-    银行所在地: '银行所在地',
-    解冻: '解冻',
-    冻结: '冻结',
-    设为主用户: '设为主用户',
-    联系人姓名: '联系人姓名',
-    职位: '职位',
-    部门: '部门',
-    电话区号: '电话区号',
-    联系电话: '联系电话',
-    电子邮件: '电子邮件',
-    用户登录名: '用户登录名',
-    是否超期: '是否超期',
-    超期时间: '超期时间',
-    最后登录时间: '最后登录时间',
-    是否为主用户: '是否为主用户',
-    区号: '区号',
-    联系人类型: '联系人类型',
-    LIANXIRENDEXINGMINGDIANHUADIANZIYOUJIANBITIAN:
-      '联系人的姓名，电话，电子邮件必填！',
-    任务中心: '任务中心',
-    审批成功: '审批成功',
-    撤回: '撤回',
-    'APPROVAL.APPROVAL_ITEMS': '审批事项',
-    'APPROVAL.APPROVAL_PROGRESS': '审批进度',
-    最新定点单价: '最新定点单价',
-    目标单价: '目标单价',
-    '产量(件)': '产量(件)',
-    '(元/件)': '(元/件)',
-    产量: '产量',
-    单价: '单价',
-    管理员: '管理员',
-    时间: '时间',
-    审批流程: '审批流程',
-    申请备注: '申请备注',
-    产品组编号: '产品组编号',
-    '产品组名称(中)': '产品组名称(中)',
-    '产品组名称(德)': '产品组名称(德)',
-    奥古斯丁: '奥古斯丁',
-    柏拉图: '柏拉图',
-    鬼谷子: '鬼谷子',
-    苏格拉底: '苏格拉底',
-    LK_YWLX: '业务类型',
-    任务管理: '任务管理',
-    任务状态: '任务状态',
-    任务起止时间: '任务起止时间',
-    谈判: '谈判',
-    '零公里索赔-采购': '零公里索赔-采购',
-    '零公里索赔-物流': '零公里索赔-物流',
-    财务风险管理: '财务风险管理',
-    审批人: '审批人',
-    处理时间: '处理时间',
-    审批意见: '审批意见',
-    ' ': ' ',
-    基础信息: '基础信息',
-    材料组编号: '材料组编号',
-    材料组名称: '材料组名称',
-    '材料组名称(德)': '材料组名称(德)',
-    材料组说明: '材料组说明',
-    入账是否抽查: '入账是否抽查',
-    Linie科室: 'Linie科室',
-    主采购员: '主采购员',
-    配件采购科室: '配件采购科室',
-    配件采购员: '配件采购员',
-    模具预算属性: '模具预算属性',
-    已关联零件6位号: '零件6位号',
-    工艺组编号: '工艺组编号',
-    工艺组名称: '工艺组名称',
-    '工艺组名称(德)': '工艺组名称(德)',
-    工艺组说明: '工艺组说明',
-    CBD预设: 'CBD预设',
-    安全电器件: '安全电器件',
-    零件六位号: '零件六位号',
-    生效: '生效',
-    会议类型管理: '类型管理',
-    会议管理大厅: '会议管理大厅',
-    新闻管理: '新闻管理',
-    公告管理: '公告管理',
-    调查问卷: '调查问卷',
-    日志管理: '日志管理',
-    审批进度: '审批进度',
-    查看关联关系: '查看关联关系',
-    MTZ材料组编号: 'MTZ材料组编号',
-    'MTZ材料组名称(中)': 'MTZ材料组名称(中)',
-    'MTZ材料组名称(英)': 'MTZ材料组名称(英)',
-    '大类编号/名称': '大类编号/名称',
-    材料中类: '材料中类',
-    中类描述: '中类描述',
-    原材料大类: '原材料大类',
-    大类元素简称: '大类元素简称',
-    中类计量单位: '中类计量单位',
-    原材料计量单位: '原材料计量单位',
-    请输入科室编号: '请输入科室编号',
-    供应商等级: '供应商等级',
-    零件中文名称: '零件中文名称',
-    零件德文名称: '零件德文名称',
-    最后一次修改时间: '最后一次修改时间',
-    原材料编号大类: '原材料编号大类',
-    '原材料名称(中文)': '原材料名称(中文)',
-    '原材料名称(英文)': '原材料名称(英文)',
-    'ORGANIZATION_MANAGERMENT.ORG_CREATE.TABLE_INDEX': '序号',
-    'ORGANIZATION_MANAGERMENT.ORG_CREATE.TABLE_DIMENSION': '维度',
-    'ORGANIZATION_MANAGERMENT.ORG_CREATE.TABLE_DESC': '内容',
-    合同管理: '合同管理',
-    目标价及评分管理: '目标价及评分管理',
-    DAORU: '导入',
-    竞价管理: '竞价管理',
-    会议中心: '会议中心',
-    审批流管理: '审批流管理',
-    需求产能管理: '需求产能管理',
-    总成散件管理: '总成散件管理',
-    采购业绩: '采购业绩',
-    MTZ管理: 'MTZ管理',
-    计算车型: '计算车型',
-    年份: '年份',
-    新增年份: '新增年份',
-    弹窗编码: '弹窗编码',
-    发送时间: '发送时间',
-    新增零件: '新增零件',
-    图纸日期: '图纸日期',
-    零件材料组: '零件材料组',
-    'common sourcing': 'common sourcing',
-    SET号: 'SET号',
-    最近一次修改时间: '最近一次修改时间',
-    常用计量单位: '常用计量单位',
-    计量单位转换关系: '计量单位转换关系',
-    'PPK853666 前雾灯盖板': 'PPK853666 前雾灯盖板',
-    资源名称: '资源名称',
-    角色ID: '角色ID',
-    暂无数据: '暂无数据',
-    '抱歉，用户名或密码不能为空！': '抱歉，用户名或密码不能为空！',
-    模具材料组编号: '模具材料组编号',
-    '模具材料组名称（中）': '模具材料组名称（中）',
-    '模具材料组名称（德）': '模具材料组名称（德）',
-    '新闻&公告模块管理': '新闻&公告模块管理',
-    '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权？':
-      '该操作将一并取消对应子联系人的权限，是否确认取消主 联系人授权？',
-    提示: '提示',
-    菜单编码: '菜单编码',
-    资源编码: '资源编码',
-    '资源名称(英)': '资源名称(英)',
-    名称: '名称',
-    登录失败: '登录失败',
-    结束时间: '结束时间',
-    MTZSHENQINGDANHAO: 'MTZ申请单号',
-    请选择岗位: '请选择岗位',
-    MTZSQDH: 'MTZ申请单号',
-    详细地址: '详细地址',
-    邮编号码: '邮编号码',
-    公司性质: '公司性质',
-    公司规模: '公司规模',
-    注册资金: '注册资金',
-    资格与认证: '资格与认证',
-    联系邮箱: '联系邮箱',
-    'N-Tier供应商用户': 'N-Tier供应商用户',
-    职务: '职务',
-    '工厂占地面积<sup>2</sup>': '工厂占地面积<sup>2</sup>',
-    零件6位号: '零件6位号',
-    '零件名称（中）': '零件名称（中）',
-    '零件名称（德）': '零件名称（德）',
-    PID: 'PID',
-    车型配置: '车型配置',
-    输入关键词以搜索: '输入关键词以搜索',
-    SHENQINGDANHAOMINGCHENG: '申请单号-名称',
-    '6VD963553   SITZBELEGERKENNUNG': '6VD963553   SITZBELEGERKENNUNG',
-    物流供应商管理: '物流供应商管理',
-    登录名: '登录名',
-    邮箱: '邮箱',
-    电话: '电话',
-    起始时间: '起始时间',
-    截止时间: '截止时间',
-    任务统计: '任务统计',
-    寻源概览询价: '寻源概览询价',
-    张一一: '张一一',
-    '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应 商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复':
-      '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复',
-    '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应 商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复':
-      '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复',
-    '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应 商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复':
-      '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复',
-    文件名称: '文件名称',
-    '此操作将永久删除, 是否继续?': '此操作将永久删除, 是否继续?',
-    QIANSHOUDANHAO: '签收单号',
-    QIANSHOUSHIJIAN: '签收时间',
-    CHULISUOPEI: '处理索赔',
-    登录: '登录',
-    QINGTIANXIEGONGCHANGXINXI: '请填写工厂信息',
-    修改时间: '修改时间',
-    完结时间: '完结时间',
-    '3ED971121F  充电器': '3ED971121F  充电器',
-    带: '带',
-    只: '只',
-    LK_BIANGENGDANHAO: '变更单号',
-    LK_BMDANLEIXING: 'BM单类型',
-    LK_MUJUTOUZIJINE: '模具投资金额',
-    LK_DAIBIAOLINGJIANHAO: '代表零件号',
-    LK_RENWUJIESHOURIQI: '任务接收日期',
-    LK_RENWUCHULIRIQI: '任务处理日期',
-    LK_MOJUTOUZIQINGDANZHUANGTAI: '模具投资清单状态',
-    参数管理: '参数管理',
-    条款管理: '条款管理',
-    电子签章: '电子签章',
-    '零件号:56D963553不存在零件主数据中;':
-      '零件号:56D963553不存在零件主数据中;',
-    EPL车型名称: 'EPL车型名称',
-    BKM车型编号: 'BKM车型编号',
-    车型主数据: '车型主数据',
-    QINGTIANXIEGONGYINGSHANGYONGHU: '请填写供应商用户',
-    代理号: '代理号',
-    代理开始时间: '代理开始时间',
-    代理结束时间: '代理结束时间',
-    取消代理时间: '取消代理时间',
-    LK_QUERENZHUANGTAI: '确认状态',
-    LK_BSX: '变速箱',
-    LK_PEIZ: '配置',
-    LK_CXDM: '车型代码',
-    LK_CGY: '采购员',
-    LK_KSLJLY: 'KLS来源价格',
-    BIANGENGYONGLIANG: '变更用量',
-    '5NG971369A  充电器': '5NG971369A  充电器',
-    MTZLINGJIANCHAXUN: 'MTZ零件查询',
-    MTZGUIZECHAXUN: 'MTZ规则查询',
-    MTZSHICHANGJIALAIYUAN: 'MTZ市场价来源',
-    MTZSHICHANGJIACHAXUN: 'MTZ市场价查询',
-    GUIJINSHUSHICHANGJIACHAXUN: '贵金属市场价查询',
-    全部模块: '全部模块',
-    下载中心: '下载中心',
-    '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复':
-      '同一零件号、 供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复',
-    品类与谈判: '品类与谈判',
-    '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应 商、原材料牌号有效时间段内数据重复':
-      '同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复同一零件号、供应商、原材料牌号有效时间段内数据重复',
-    YULAN: '预览',
-    '3CD317801A 冷却油管': '3CD317801A 冷却油管',
-    '3CD317801A  冷却油管': '3CD317801A  冷却油管',
-    '供应商测试1018-4': '供应商测试1018-4',
-    提问时间: '提问时间',
-    QINGXUANZE: '请选择',
-    重试: '重试',
-    导出审批流程: '导出审批流程',
-    门户用户组: '门户用户组',
-    LDAP属性: 'LDAP属性',
-    功能类型: '功能类型',
-    系统类型: '系统类型',
-    系统标签: '系统标签',
-    系统功能说明: '系统功能说明',
-    '新建/编辑页面': '新建/编辑页面',
-    Infomess应用: 'Infomess应用',
-    'App Code': 'App Code',
-    系统: '系统',
-    生产采购: '生产采购',
-    一般采购: '一般采购',
-    物流应用: '物流应用',
-    重新分配任务审批人成功: '重新分配任务审批人成功',
-    供应商用户授权管理: '供应商用户授权管理',
-    '供应商中/英文名': '供应商中/英文名',
-    手机: '手机',
-    是否是主联系人: '是否是主联系人',
-    授权: '授权',
-    取消授权: '取消授权',
-    重置密码: '重置密码',
-    '5GD971120GS LTGS.TUERVERKABELG': '5GD971120GS LTGS.TUERVERKABELG',
-    已授权系统列表: '已授权系统列表',
-    座机: '座机',
-    是否取消主联系人授权: '是否取消主联系人授权',
-    父级菜单: '父级菜单',
-    '555556364 cf零件aaa-8': '555556364 cf零件aaa-8',
-    '供应商系统/SCENARIO管理': '供应商系统/SCENARIO管理',
-    '10D867011  BOI 车门内饰板(幽黑色/旋灰色)':
-      '10D867011  BOI 车门内饰板(幽黑色/旋灰色)',
-    '删除应用/Scenario时, 所绑定的用户授权将一并删除。':
-      '删除应用/Scenario时, 所绑定的用户授权将一并删除。',
-    BNCFGLTYGDDID: '不能重复关联同一个定点id:',
-    请选择需要批量维护的色标零件: '请选择需要批量维护的色标零件',
-    色标零件号: '色标零件号',
-    色标零件编号: '色标零件编号',
-    '色标零件名称(中)': '色标零件名称(中)',
-    '色标零件名称(德)': '色标零件名称(德)',
-    WHMTZYCLGZCZXGZGLSQDWFXZLZLX:
-      '维护MTZ原材料规则存在新规则，关联申请单无法选择流转类型',
-    '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权':
-      '该操作将一并取消对应子联系人的权限，是否确认取消主联 系人授权',
-    DQMTZSQDZGZBHBCZ: '当前MTZ申请单中规则编号不存在！',
-    GZBHBXCZYSMYCLGZBGZ: '规则编号必须存在于上面原材料规则表格中',
-    LK_CHANGPINJIAZHU: '产品家族',
-    LK_YEJIJINETIAOZHENG: '业绩金额调整',
-    用户登录失效: '用户登录失效',
-    CSCBIANHAO: 'CSC编号',
-    CSCCHUANGJIANRIQI: 'CSC创建日期',
-    会议名称: '会议名称',
-    会议日期: '会议日期',
-    周次: '周次',
-    MTZ补差单确认: 'MTZ补差单确认',
-    省份: '省份',
-    城市: '城市',
-    QINGXUANZEGUOJIASHENGFENCHENGSHI: '请选择国家-省份-城市',
-    QINGXUANZEGUANLIANDEXIAYOUGONGYINGSHANGTANKUANG:
-      '请选择所关联的下游供应商弹框',
-    '请选择发布时间  若未选择发布时间则立即发送':
-      '请选择发布时间  若未选择发布时间则立即发送',
-    员工号: '员工号',
-    新增材料组: '新增材料组',
-    最近登录: '最近登录',
-    是否过期: '是否过期',
-    冻结账号: '冻结账号',
-    解冻账号: '解冻账号',
-    '2GG807301F TUERGRIFF,AUSSEN': '2GG807301F TUERGRIFF,AUSSEN',
-    '3KD000389 cf测试零件': '3KD000389 cf测试零件',
-    '18D711355 手制动支架': '18D711355 手制动支架',
-    补充材料节点: '补充材料节点',
-    请输入补充材料留言内容: '请输入补充材料留言内容',
-    占地面积: '占地面积',
-    撤回理由: '撤回理由',
-    撤回成功: '撤回成功',
-    登录RiSE系统时间: '登录RiSE系统时间',
-    LK_LAIYUANJIAGE: 'KLS来源价格',
-    LK_LINGJIAGENZONGLEIXING: '零件跟踪类型',
-    GP_NO: 'GP_NO',
-    'RFQ_GL.BJ': 'RFQ_GL.BJ',
-    CSC编号: 'CSC编号',
-    XIANGMUMIAOSHU: 'XIANGMUMIAOSHU',
-    CSCZHUANGTAI: 'CSCZHUANGTAI',
-    RS状态: 'RS状态',
-    'RFQ_GL.RFQ_NUMBER': 'RFQ_GL.RFQ_NUMBER',
-    DANJULEIXING: 'DANJULEIXING',
-    CAIGOUSHNEGQINGDANHAO: 'CAIGOUSHNEGQINGDANHAO',
-    TUIJIANGONGYINGSHANG: 'TUIJIANGONGYINGSHANG',
-    SHENJILEIXING: 'SHENJILEIXING',
-    YINGYONGGUANLIAN: '应用关联',
-    '5TD971120DG LTGS.TUERVERKABELG': '5TD971120DG LTGS.TUERVERKABELG',
-    GUANLIANYINGYONG: '关联应用',
-    ANQUANZHONGXINLDAPSHUXING: '安全中心LDAP属性',
-    WU: '保存',
-    零件对外销售: '零件对外销售',
-    时间筛选: '时间筛选',
-    开始日期: '开始日期',
-    结束日期: '结束日期',
-    业务编号: '业务编号',
-    日志编号: '日志编号',
-    请求时间: '请求时间',
-    响应时间: '响应时间',
-    异常信息: '异常信息',
-    用户: '用户',
-    岗位: '岗位',
-    是否成功: '是否成功',
-    搜索: '搜索',
-    新增词条: '新增词条',
-    分类: '分类',
-    模块菜单: '模块菜单',
-    触发类型: '触发类型',
-    外部系统: '外部系统',
-    日志时间: '日志时间',
-    用户名称: '用户名称',
-    用户岗位: '用户岗位',
-    LK_SHENGCHANCAIGOU: '生产采购',
-    LK_YIBANCAIGOU: '一般采购',
-    LK_HETONGLEIXING: '合同类型',
-    LK_HETONGMIAOHSHU: '合同描述',
-    LK_DANHANGSHURU: '单行输入',
-    LK_YINZHANGLEIXING: '印章类型',
-    LK_QIANSHUZHUANGTAI: '签署状态',
-    LK_QIANSHU: '签署',
-    LK_CHEXIAO: '撤销',
-    修改: '修改',
-    标题: '标题',
-    标题首字母: '标题首字母',
-    词条内容: '词条内容',
-    日志类别: '日志类别',
-    对接外部系统: '对接外部系统',
-    接口名称: '接口名称',
-    接口流水号: '接口流水号',
-    EKL模拟: 'EKL模拟',
-    添加内容: '添加内容',
-    添加知识类型: '添加知识类型',
-    员工管理: '员工管理',
-    系统管理: '系统管理',
-    QINGXUANZEXIAYOUGONGYINGSHANG: '请选择下游供应商',
-    '成型件< DIN A4 000-099 Z': '成型件< DIN A4 000-099 Z',
-    报文详情: '报文详情',
-    知识类型: '知识类型',
-    英文名: '英文名',
-    '中类描述(中)': '中类描述(中)',
-    '中类描述(英)': '中类描述(英)',
-    是否为贵金属: '是否为贵金属',
-    MTZ材料组信息: 'MTZ材料组信息',
-    中类名称: '中类名称',
-    SHENQINGDANMINGBUNENGWEIKONG: '申请单名不能为空',
-    FUZEKEGU: '负责科股',
-    'ZVS857520   LAVIDA蓝镜总成': 'ZVS857520   LAVIDA蓝镜总成',
-    '6Q1857502CF   带侧面转向灯的外后镜总成（手动）':
-      '6Q1857502CF   带侧面转向灯的外后镜总成（手动）',
-    平方毫米: '平方毫米',
-    公斤: '公斤',
-    盒: '盒',
-    有色金属: '有色金属',
-    'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_INDEX':
-      'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_INDEX',
-    'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_CODE':
-      'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_CODE',
-    'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_NAME':
-      'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_NAME',
-    'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_SHORT_CODE':
-      'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_SHORT_CODE',
-    'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_SHORT_NAME':
-      'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_SHORT_NAME',
-    'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_OWNER':
-      'ORGANIZATION_MANAGERMENT.ORG_CHOOSE_DOWNLEVEL.TABLE_ORG_OWNER',
-    '5TD971120DB7 充电器': '5TD971120DB7 充电器',
-    '请输入零件号,多个逗号分隔': '请输入零件号,多个逗号分隔',
-    首字母: '首字母',
-    英文标题: '英文标题',
-    英文首字母: '英文首字母',
-    流程专家: '流程专家',
-    关联机构: '关联机构',
-    '5TD971120DB4 充电器': '5TD971120DB4 充电器',
-    封面图片: '封面图片',
-    ZYTHHCGZTCNFP: '只有退回和草稿状态才能分派',
-    ZYTHHCGZTCNZP: '只有退回和草稿状态才能转派',
-    页面标题: '页面标题',
-    排序: '排序',
-    页面内容: '页面内容',
-    ' 编辑': ' 编辑',
-    '330959796 中央集控控制器': '330959796 中央集控控制器',
-    '330959796   中央集控控制器': '330959796   中央集控控制器',
-    知识分享类型: '知识分享类型',
-    知识标题: '知识标题',
-    知识概要: '知识概要',
-    主讲人: '主讲人',
-    开课日期: '开课日期',
-    知识分类: '知识分类',
-    所属科室: '所属科室',
-    上传知识封面: '上传知识封面',
-    目录中文名: '目录中文名',
-    目录英文名: '目录英文名',
-    流程页面: '流程页面',
-    附件标题: '附件标题',
-    '5GD971120GB 门线束总成': '5GD971120GB 门线束总成',
-    类别: '类别',
-    异常码: '异常码',
-    对接系统: '对接系统',
-    年度预算: '年度预算',
-    月度跟踪: '月度跟踪',
-    'Heavy Item材料组': 'Heavy Item材料组',
-    LK_PINPAI: '品牌',
-    LK_YUSUANYUEDUGENZONG: '预算月度跟踪',
-    LK_CHAYIYUANYINFENXI: '差异原因分析',
-    LK_ZHIFUJINEYUEDUGENZONG: '支付金额月度跟踪',
-    LK_CHEXINGYUSUANYUEDUGENXONG: '车型预算月度跟踪',
-    组织机构名称: '组织机构名称',
-    'APPROVAL.NO': 'APPROVAL.NO',
-    组织机构简码: '组织机构简码',
-    组织机构简称: '组织机构简称',
-    LK_QIEHUANNIANFEN: '切换年份',
-    新增流程附件: '新增流程附件',
-    流程附件标题: '流程附件标题',
-    MTZ材料组: 'MTZ材料组',
-    版本月份: '版本月份',
-    '只看自己 ': '只看自己 ',
-    LK_CHAXUN: '查询',
-    LK_YUSUANJINEYUANCHE: '预算金额（元/车）',
-    LK_CHEXINGYUSUANJINEMINGXI: '车型预算金额明细',
-    LK_CAILIAOZHU: '材料组',
-    模块: '模块',
-    批量排序: '批量排序',
-    年份月份: '年份月份',
-    发送大会议程: '发送大会议程',
-    BAOJIALEIBIE: 'BAOJIALEIBIE',
-    'RFQ_GL.NUMBER': 'RFQ_GL.NUMBER',
-    'RFQ_GL.NAME': 'RFQ_GL.NAME',
-    DANGQIANLUNCI: 'DANGQIANLUNCI',
-    GONGYINGSHANGBAOJIAZHUNAGTAI: 'GONGYINGSHANGBAOJIAZHUNAGTAI',
-    '竞价开始/结束时间': '竞价开始/结束时间',
-    BAOJIASHOUDAORIQ: 'BAOJIASHOUDAORIQ',
-    BAOJIAJIEZHIRIQI: 'BAOJIAJIEZHIRIQI',
-    报价单: '报价单',
-    股别: '股别',
-    项目: '项目',
-    上会次数: '上会次数',
-    '定点金额(不含可抵扣税)': '定点金额(不含可抵扣税)',
-    WENJIANXIXINBUCUNZAI: '文件信息不存在',
-    QIANQICAIGOUKESHI: '前期采购科室',
-    QIANQICAIGOUREN: '前期采购人',
-    LINICAIGOUYUAN: 'LINIE采购员',
-    TZLINIE: '通知Linie',
-    SHENPINGJIEGUO: 'SHENPINGJIEGUO',
-    菜单1: '合同管理',
-    菜单2: '概览',
-    item1: 'item1',
-    item4: 'item2',
-    item5: 'item3',
-    item2: 'item2',
-    item3: 'item1',
-    概览: '概览',
-    采购申请: '采购申请',
-    采购订单: '采购订单',
-    定价管理: '定价管理',
-    价格追溯: '价格追溯',
-    合同查询: '合同查询',
-    合同签署: '合同签署',
-    合同归档: '合同归档',
-    GONGYINGSHANGLIST: '供应商360',
-    GONGYINGSHYANGJIXIAO: '供应商绩效',
-    KPI: 'KPI',
-    N级供应链: 'N级供应链',
-    NJIGONGYINGLIAN: 'N级供应链',
-    NJIGONGYINGLIANDITU: 'N级供应链地图',
-    NJIGONGYINGLIANFENGXIAN: 'N级供应链风险',
-    NJIGONGYINGLIANFENXI: 'N级供应链分析',
-    NJIGONGYINGLIANWEIHU: 'N级供应链维护',
-    ZONGLAN: '总览',
-    NIANDUZHONGDIANZHUIZONG: '年度重点追踪',
-    'BANNIANBAOHUIGU ': '半年报回顾',
-    XIANGQING: '详情',
-    CCCJIYIXIAGONGYINGSHANGSHULIANGBILI: 'CCC及以下供应商数量/比例',
-    SHULIANGJIA: '数量/家',
-    GONGYINGSHANGSHULIANGGE: '供应商数量（个）',
-    YOUFENGXIANGONGYINGSHANG: '有风险供应商',
-    GONGYINGSHANGSHULIANGJIA: '供应商数量（家）',
-    month: '月',
-    GONGHUOLV: '供货率（%）',
-    PINGJUNCANKAO: '平均参考',
-    ZHANGJIA: '涨价',
-    JIANGJIA: '降价',
-    JIEJIANGBI: '节降比',
-    RFQSHU: 'RFQ数',
-    DINGDIANSHU: '定点数',
-    ONGOINGXUNJIASHU: 'Ongoing询价数',
-    DENGLURISEXITONGSHIJIAN: '登录rise系统时间',
-    添加知识分类: '添加知识分类',
-    添加: '添加',
-    结束议题: '结束议题',
-    链接: '链接',
-    LK_QUANBU: '全部',
-    LK_ALL: '全部',
-    上传图片: '上传图片',
-    LK_NIANFENXUANZE: '年份选择',
-    LK_CHEXINGSIXHAO: '车型6位号',
-    LK_CHEXINGZONGJINE: '车型总金额',
-    普通审批代理: '普通审批代理',
-    SHOUKONGCAILIAOZU: '受控材料组',
-    SHOUKONGGONGYIZU: '受控工艺组',
-    报表类型维护: '报表类型维护',
-    类型名称: '类型名称',
-    是否置顶: '是否置顶',
-    添加日期: '添加日期',
-    消息发送: '消息发送',
-    报表类型: '报表类型',
-    报表标题: '报表标题',
-    报表分类: '报表分类',
-    关联公司: '关联公司',
-    关联集团: '关联集团',
-    工程名称: '工程名称',
-    YINGYONGGUANLI: '应用管理',
-    LIANXIRENYUYONGHUGUANLI: '联系人与用户管理',
-    LINSHI: '临时',
-    ZHENGSHI: '正式',
-    DIAOQUWAIBUPINGJI: '调取外部评级',
-    PINGJIJIEGUO: '评级结果',
-    项目名称: '项目名称',
-    项目链接: '项目链接',
-    样式信息: '样式信息',
-    X轴: 'X轴',
-    Y轴: 'Y轴',
-    width: 'width',
-    height: 'height',
-    QINGLIANXIXITONGGUANLIYUANTIANJIAGAICAILIAOZUDECAOZUOQUANXIAN:
-      '请联系系统管理员添加该材料组的操作权限',
-    新闻标签管理: '新闻标签管理',
-    专题新闻管理: '专题新闻管理',
-    KV图管理: 'KV图管理',
-    BIANJITUFASHIJIAN: '编辑突发事件',
-    新闻内容管理: '新闻内容管理',
-    NINXUANZEDECAIGOUYUANMEIYOUGAICAILIAOZUDECAOZUOQUANXIANQINGLIANXIXITONGGUANLIYUANTIANJIACAOZUOQUANXIAN:
-      '您选择的采购 员没有该材料组的操作权限，请联系系统管理员添加操作权限',
-    RUOXIANGXUANZESHANGSHUFANWEIYIWAIDECAIGOUYUANQINGLIANXIXITONGGUANLIYUANWEIQITIANJIADANGQIANCAILIAOZUCAOZUOQUANXIAN:
-      ' 若想选择上述范围以外的采购员，请联系系统管理员为其添加当前材料组操作权限。',
-    Report类型: 'Report类型',
-    Report标题: 'Report标题',
-    车型项目中文名称: '车型项目中文名称',
-    车型: '车型',
-    发布状态: '发布状态',
-    下载产量计划模板: '下载产量计划模板',
-    导入产量计划: '导入产量计划',
-    产品家族名称: '产品家族名称',
-    产品类型: '产品类型',
-    当前车型年: '当前车型年',
-    'BAOQIAN,QINGNINGWANCHENGSUOYOUXUANZE': '抱歉！请您完成所有选择！',
-    '产品家族名称(英)': '产品家族名称(英)',
-    '产品家族名称(德)': '产品家族名称(德)',
-    车型年切换日期: '车型年切换日期',
-    车型项目类型: '车型项目类型',
-    项目采购员: '项目采购员',
-    SOP时间: 'SOP时间',
-    工厂: '工厂',
-    车型项目主数据: '车型项目主数据',
-    车型项目产量计划: '车型项目产量计划',
-    新增版本: '新增版本',
-    车型项目配置: '车型项目配置',
-    '3CN809933 加油口盖套管': '3CN809933 加油口盖套管',
-    报告类型: '报告类型',
-    部门信息: '部门信息',
-    location: 'location',
-    Telefone: 'Telefone',
-    报表可见组织: '报表可见组织',
-    报表可见人员: '报表可见人员',
-    词条管理: '词条管理',
-    CHUXUCHI: '储蓄池',
-    选择人员: '选择人员',
-    '知识分享类型：': '知识分享类型：',
-    '管理者:': '管理者:',
-    WEISHENGXIAODEBAOGAOBUNENGDAINJIBAOGAOFENFA:
-      '未生效的报告，不能点击报告分发',
-    CHUPINGZHUANGTAI: '初评状态',
-    流程管理: '流程管理',
-    'N-Tier供应商信息': 'N-Tier供应商信息',
-    知识管理: '知识管理',
-    车型项目编号: '车型项目编号',
-    燃料类型: '燃料类型',
-    '车型项目名称(中)': '车型项目名称(中)',
-    '车型项目名称(英)': '车型项目名称(英)',
-    EOP时间: 'EOP时间',
-    区域控制员: '区域控制员',
-    产品经理: '产品经理',
-    SAP车型项目号: 'SAP车型项目号',
-    开始时间: '开始时间',
-    关闭时间: '关闭时间',
-    TIPS版本号: 'TIPS版本号',
-    总产量: '总产量',
-    车型项目PEP节点时间: '车型项目PEP节点时间',
-    'PD TBT': 'PD TBT',
-    请选择时间: '请选择时间',
-    'PF TBT': 'PF TBT',
-    'KF TBT': 'KF TBT',
-    'PLF TBT': 'PLF TBT',
-    'BF TBT': 'BF TBT',
-    'LF TBT': 'LF TBT',
-    'VFF TBT': 'VFF TBT',
-    'PVS TBT': 'PVS TBT',
-    '0S TBT': '0S TBT',
-    'SOP TBT': 'SOP TBT',
-    ME: 'ME',
-    车型项目名称: '车型项目名称',
-    Trendline: 'Trendline',
-    'Comfortline +': 'Comfortline +',
-    'good design': 'good design',
-    知识类型信息: '知识类型信息',
-    菜单名称: '菜单名称',
-    已收藏: '已收藏',
-    ZUIDUOZHINENGXUANZEYITIAOJILU: '最多只能选择一条记录',
-    'partsprocure.PARTSPROCURE': '请输入零件号，多个逗号分隔',
-    'partsprocure.PARTSPROCUREPARTNUMBER': '零件号',
-    QINGWANCHENGSUOYOUXUANZE: '请完成所有选择！',
-    编辑组织机构: '编辑组织机构',
-    CONFIGSCOREDEPT_PINGFENLEIXING: '评分类型',
-    CONFIGSCOREDEPT_PINGFENGU: '评分股',
-    CONFIGSCOREDEPT_PINGFENREN: '评分人',
-    CONFIGSCOREDEPT_SUOSHUBUMENHUOZHEKESHI: '所属部门/科室',
-    CONFIGSCOREDEPT_SHIFOUXUYAOSHENPI: '是否需要审批',
-    CONFIGSCOREDEPT_XIETIAOREN: '协调人',
-    CONFIGSCOREDEPT_SHANGHUIFUHESHENPIREN: '上会复核审批人',
-    CONFIGSCOREDEPT_HUIWAILIUZHUANDINGDIANSHENPIREN: '会外流转定点审批人',
-    CONFIGSCOREDEPT_XIUGAISHIJIAN: '修改时间',
-    PINGFENBUMENSHEZHI: '评分部门设置',
-    ZHILIANGPINGFENYUSHEGUIZE: '质量评分预设规则',
-    QUALITYSCORERULES_PINGFENGU: '评分股',
-    UALITYSCORERULES_PINGFENREN: '评分人',
-    LK_LINGJIANHAODISIWEI: '零件号第4位',
-    LK_SOCRE_YUSHEPINGFENGU: '预设评分股',
-    LK_SOCRE_YUSHEPINGFENREN: '预设评分人',
-    QUALITYSCORERULES_TIANJIAGUIZE: '添加规则',
-    LK_RUGUOMANZUYIXIATIAOJIAN: '如果满足以下条件',
-    LK_ZEYUSHEPINGFENWEI: '则预设评分人为',
-    LK_AEKO_QINGTIANXIEWANZHENGHOUTIJIAO: '请填写完整后提交',
-    submitSure: '您确定要执行提交操作吗？',
-    'createparts.QingXuanZeZhiShaoYiTiaoShuJu': '请选择至少一条数据',
-    'SHANCHUGAIYINGYOINGSHI,SUOYOUBANGDINGYONGHUSHOUQUANJIANGYIQISHANCHU':
-      '删除该应用时，所有绑定用户的授权将一并删除，是否继续？',
-    报告标题: '报告标题',
-    LK_HETONGHAO: '合同号',
-    LK_HETONGCOVERHAO: '合同Cover号',
-    LK_HETONGMIAOSHU: '合同描述',
-    LK_GONGYINSHNAG: '供应商',
-    LK_GENGXINRIQI: '更新日期',
-    CAIGOUTIAOKUANGUIDANG: '采购条款归档',
-    LK_HETONGZHUANGTAI: '合同状态',
-    LK_GUIDANGRIQI: '归档日期',
-    FASONG: '发送',
-    SHANCHUBIAOJI: '是否删除',
-    AppCode: 'AppCode',
-    XINJIAN: '新建',
-    YINGYONGLIEBIAO: '应用列表',
-    TUFASHIJIANZONGLAN1: '突发事件总览',
-    LIANXIRENYUYONGHU: '联系人与用户',
-    改期: '改期',
-    QSR: '请输入',
-    QXZ: '请选择',
-    HUIYIRIQI: '会议日期',
-    ZHI: '至',
-    ZHOUCI: '周次',
-    HUIYIZHUANGTAI: '会议状态',
-    HUIYISHIJIAN: '会议时间',
-    至: '至',
-    会议状态: '会议状态',
-    会议时间: '会议时间',
-    改期会议列表: '改期会议列表',
-    CIGONGYINGSHANGYICUNZAIZHENGZAIJINGXINGDESHENRUPINGJI:
-      '此供应商已存在正在进行的深入评级',
-    QINGXUANZESHENPINGYUANYIN: '请选择深评原因',
-    DANGANGUANLI: '档案管理',
-    PILIANGDAORU: '批量导入',
-    TONGBUSAP: '同步SAP',
-    SANJIANGONGYINGJIZHONGDUFENXI: '散件供应集中度分析',
-    '新闻/公告/调查问卷': '新闻/公告/调查问卷',
-    SHIGOUHUODONG: '是否活动',
-    SHIFOUHUODONG: '是否活动',
-    epNatureSubcategory: '企业性质（小类）',
-    QIYEXINGZHIDALEI: '企业性质（大类）',
-    QIYEXINGZHIXIAOLEI: '企业性质（小类）',
-    'VW CSF': 'VW CSF',
-    'VW LINIE': 'VW LINIE',
-    BANNIANBAOHUIGU: '半年报回顾',
-    TIJIAOQINGDANSHENPI: '提交清单审批',
-    ZHONGZHIQINGDANSHENPI: '终止清单审批',
-    JITUANGONGSI: '集团公司',
-    VWHAOZHUANGTAI: 'vw号状态',
-    SHENQINGBDL: '申请BDL',
-    YICONGDABAOJITUANZHONGYICHU: '已从打包集团中移除',
-    'ZVY831004  BLA 右侧包围总成 （底漆）':
-      'ZVY831004  BLA 右侧包围总成 （底漆）',
-    问题描述: '问题描述',
-    用户角色: '用户角色',
-    外部所属系统: '外部所属系统',
-    是否外方领导: '是否外方领导',
-    CONFIGSCOREDEPT_QINGJINGOUXUANYITIAOSHUJUHOUBIANJI:
-      '请仅勾选一条数据后编辑',
-    条款编码: '条款编码',
-    条款名称: '条款名称',
-    条款状态: '条款状态',
-    条款生效时间: '条款生效时间',
-    签署节点: '签署节点',
-    签署情况: '签署情况',
-    是否个人条款: '是否个人条款',
-    条款负责人: '条款负责人',
-    QINGXUANZHEXUYAOCAOZUODEGONYSHANGDESHUJU: '请选择需要操作的供应商数据',
-    答案标题: '答案标题',
-    内容: '内容',
-    QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINGLV1: '请填写状态与后续跟踪频率',
-    '-MTZ年度预算-科室': '-MTZ年度预算-科室',
-    '2021-MTZ年度预算-科室': '2021-MTZ年度预算-科室',
-    '56D971392H  线束，座椅 777': '56D971392H  线束，座椅 777',
-    ProCs: 'ProCs',
-    YINGYONLEIXING: '应用类型',
-    已使用: '已使用',
-    '5JD963553AK2 充电器': '5JD963553AK2 充电器',
-    '3T1863011D 织物踏脚垫采购总成': '3T1863011D 织物踏脚垫采购总成',
-    '3ED971121B 充电器': '3ED971121B 充电器',
-    '3BD920806G 组合仪表': '3BD920806G 组合仪表',
-    关闭: '关闭',
-    '5096Q5947YU LTGS.TUER,HINTEN': '5096Q5947YU LTGS.TUER,HINTEN',
-    JINGQINGQIDAI: '敬请期待',
-    GONGYINGSHANGZHANWUYEWUSHUJU: '供应商暂无该业务数据',
-    返回子流程列表: '返回子流程列表',
-    rizhi: '日志',
-    LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU:
-      '请选择合同状态为待甲方签署的记录',
-    'QUERENSHANCHU?': '确认删除',
-    QUERENSHANCHU: '确认删除?',
-    DAORUCHENGGONG: '导入成功',
-    DAORUSHIBEISHUJU: '导入失败数据',
-    SHIBEIYUANYING: '失败原因',
-    版本: '版本',
-    SHIFOUQUERENSHANCHU: '是否确认删除?',
-    默认正式采购组: '默认正式采购组',
-    默认暂作采购组: '默认暂作采购组',
-    其他正式组: '其他正式组',
-    其他暂作采购组: '其他暂作采购组',
-    超级管理员: '超级管理员',
-    前期采购员: '前期采购员',
-    前期采购股长: '前期采购股长',
-    前期采购科长: '前期采购科长',
-    CF测试角色001: 'CF测试角色001',
-    前期采购员A: '前期采购员A',
-    LISHIZHONGZHIZHONGZHISHENPIZHONGBUNENGJIARUJITUAN:
-      '历史、终止、终止审批中不能加入集团',
-    工艺组信息: '工艺组信息',
-    预设项类别: '预设项类别',
-    MTZ管理员: 'MTZ管理员',
-    MTZ预算管理员: 'MTZ预算管理员',
-    linie: 'LINIE',
-    保存失败: '保存失败',
-    QUALITYSCORERULES_BIANJIGUIZE: '编辑规则',
-    管理后台: '管理后台',
-    报表管理: '报表管理',
-    供应商评分: '供应商评分',
-    关键查看记录: '关键查看记录',
-    显示关键查看记录: '显示关键查看记录',
-    分享: '分享',
-    报表: '报表',
-    类型管理: '类型管理',
-    内容管理: '内容管理',
-    管理人: '管理人',
-    通知: '通知',
-    SPR_FRM_FRMGL_DXDFZT1: 'SPR_FRM_FRMGL_DXDFZT1',
-    SUPPLIER_CHUBUPINGJI2: 'SUPPLIER_CHUBUPINGJI2',
-    LK_GONGYINGSHANGMINGCHENG2: 'LK_GONGYINGSHANGMINGCHENG2',
-    CHUBUPINGJI: 'CHUBUPINGJI',
-    DINGXINGDAFEN: 'DINGXINGDAFEN',
-    接口对应系统: '接口对应系统'
+    rfq: {
+      RFQINQUIRE: '搜索',
+      RFQRESET: '重置'
+    },
+    // -------------------------------条款 start---------------------------------------------
+    TERMS_TIAOKUANGUANLI: '条款管理', //条款管理
+    TERMS_BIAOZHUNTIAOKUAN: '标准条款', //标准条款
+    TERMS_DINGZHITIAOKUAN: '定制条款', //定制条款
+    TERMS_TIAOKUANCHAXUN: '条款查询', //条款查询
+    TERMS_TIAOKUANMINGCHENG: '条款名称', //条款名称
+    TERMS_TIAOKUANFUZEREN: '条款负责人', //条款负责人
+    TERMS_TIAOKUANZHUANGTAI: '条款状态', //条款状态
+    TERMS_QIANSHUJIEDIAN: '签署节点', //签署节点
+    TERMS_GONGYINGSHANGFANWEI: '供应商范围', //供应商范围
+    TERMS_BIAOZHUNTIAOKUANLIEBIAO: '标准条款列表', //标准条款列表
+    TERMS_XUHAO: '序号', //序号
+    TERMS_TIAOKUANBIANMA: '条款编码', //条款编码
+    TERMS_FABUSHIJIAN: '发布时间', //发布时间
+    TERMS_TIAKUANYOUXIAOQI: '条款有效期', //条款有效期
+    TERMS_QIANSHUQINGKAUNG: '签署情况', //签署情况
+    TERMS_SHIFOUCHONGFU: '是否重复', //是否重复
+    TERMS_SHIFOUXUYAOQIANZHANG: '是否需要签章', //是否需要签章
+    TERMS_SHIFOUGERENTIAOKUAN: '是否个人条款', //是否个人条款
+    TERMS_XINJIAN: '新建', //新建
+    TERMS_SHIXIAO: '失效', //失效
+    TERMS_SOUSUO: '搜索', //搜索
+    TERMS_CHONGZHI: '重置', //重置
+    TERMS_TUICHU: '退出', //退出
+    TERMS_FABU: '发布', //发布
+    TERMS_QUEDING: '确定', //确定
+    TERMS_CAOZUO: '操作', //操作
+    TERMS_SHANCHU: '删除', //删除
+    TERMS_XIAZAI: '下载', //下载
+    TERMS_BIANJI: '编辑', //编辑
+    TERMS_WEIFABU: '未发布', //未发布
+    TERMS_YIFABU: '已发布', //已发布
+    TERMS_YIGUOQU: '已过期', //已过期
+    TERMS_YISHIXIAO: '已失效', //已失效
+    TERMS_XINJIANTIAOKUAN: '新建条款', //新建条款
+    TERMS_BIANJITIAOKUAN: '编辑条款', //编辑条款
+    TERMS_GONGYINGSHANGLIWAI: '供应商(例外)', //供应商(例外)
+    TERMS_TIAOKUANZHENGWEN: '条款正文', //条款正文
+    TERMS_SHANGCHUANFUJIAN: '上传附件', //上传附件
+    TERMS_WENJIANMINGCHENG: '文件名称', //文件名称
+    TERMS_QINGXUANZEWENJIAN: '请选择文件', //请选择文件
+    TERMS_WENJIANDAXIAOZUIDAXIANZHI: '文件大小最大限制50MB', //文件大小最大限制50MB
+    TERMS_SHANGCHUANCHENGGONG: '上传成功', //上传成功
+    TERMS_SHANGCHUANSHIBAI: '上传失败', //上传失败
+    TERMS_BAOZUNCHENGGONG: '保存成功', //保存成功
+    TERMS_BAOCUNSHIBAI: '保存失败', //保存失败
+    TERMS_GENGXINCHENGGONG: '更新成功', //更新成功
+    TERMS_GENGXINSHIBAI: '更新失败', //更新失败
+    TERMS_YIXUANZEGONGYINGSHANGLIWAI: '已选择供应商(例外)', //已选择供应商(例外)
+    TERMS_YIXUANZEGONGYINGSHANGFANWEI: '已选择供应商范围', //已选择供应商范围
+    TERMS_SFQXBJ: '是否取消编辑？', //是否取消编辑？
+    TERMS_SFBCTKMBSJ: '是否保存该条款模板数据？', //是否保存该条款模板数据？
+    TERMS_SHI: '是', //是
+    TERMS_FOU: '否', //否
+    TERMS_TISHI: '提示', //提示
+    TERMS_CHAKANTIAOKUAN: '查看条款', //查看条款
+    TERMS_ZHANSHIBANBEN: '展示版本', //展示版本
+    TERMS_DUIBIBANBEN: '对比版本', //对比版本
+    TERMS_QIANSHUQINGKUANG: '签署情况', //签署情况
+    TERMS_GONGYINGSHANGZHONGWENMING: '供应商中文名', //供应商中文名
+    TERMS_DIQU: '地区', //地区
+    TERMS_CAILIAOZU: '材料组', //材料组
+    TERMS_GONGHUOJIBIE: '供货级别', //供货级别
+    TERMS_SHIFOUQIANSHU: '是否签署', //是否签署
+    TERMS_LIANXIRENXINGMING: '联系人姓名', //联系人姓名
+    TERMS_YONGHUDENGRUMING: '用户登入名', //用户登入名
+    TERMS_YOUXIANG: '邮箱', //邮箱
+    TERMS_SHOUJI: '手机', //手机
+    TERMS_DIANHUA: '电话', //电话
+    TERMS_QIANSHUZHAUNGTAI: '签署状态', //签署状态
+    TERMS_QIANSHUSHIJIAN: '签署时间', //签署时间
+    TERMS_WEIQINSHU: '未签署', //未签署
+    TERMS_YIQIANSHU: '已签署', //已签署
+    TERMS_LIWAI: '例外', //例外
+    TERMS_BIAOJILIWAI: '标记例外', //标记例外
+    TERMS_SPAHAO: 'SPA号', //SPA号
+    TERMS_QXZDZTKSJ: '请选择定制条款数据', //请选择定制条款数据
+    TERMS_SFJDZTKSWSX: '是否将定制条款设为失效？', //是否将定制条款设为失效？
+    TERMS_TIAKUANSHENGXIAOSHIJIAN: '条款生效时间', //条款生效时间
+    TERMS_GONGYINGSHANGMINGCHENG: '供应商名称', //供应商名称
+    TERMS_GONGYINGSHANGXIUGAITIAOKUANSHENHE: '供应商修改条款审核', //供应商修改条款审核
+    TERMS_ZHENGSHIDINGZHITIAOKUAN: '正式定制条款', //正式定制条款
+    TERMS_DIJIAORIQI: '递交日期', //递交日期
+    TERMS_LISHIXIUDING: '历史修订', //历史修订
+    TERMS_TISHIBIAOQIAN: '提示标签', //提示标签
+    TERMS_TISHIJIEDIAN: '提示节点', //提示节点
+    TERMS_GONGYINGSHANGXIUGAITIAOKUAN: '供应商修改条款', //供应商修改条款
+    TERMS_SHANGQIXIUGAITIAOKUAN: '上汽修改条款', //上汽修改条款
+    TERMS_HONGSE: '红色', //红色
+    TERMS_WEIGONGYINGSHANGXIUGAITIAOKUAN: '为供应商修改条款', //为供应商修改条款
+    TERMS_LVSE: '绿色', //绿色
+    TERMS_WEISVWXIUGAITIAOKUAN: '为SVW修改条款', //为SVW修改条款
+    TERMS_BITIAN: '必填', //必填
+    TERMS_ZUIDACHANGDU: '最大长度', //最大长度
+    TERMS_ZIFU: '字符', //字符
+    TERMS_BIXUAN: '必选', //必选
+
+    // -----------------------条款 start ------------------
+    TERMS_ZHUCE: '注册', //注册
+    TERMS_BIAOJI: '编辑', //编辑
+    TERMS_DENGLU: '登录', //登录
+    TERMS_QIANYUE: '签约', //签约
+    TERMS_BANBEN1: '版本1', //版本1
+    TERMS_XIAYIYE: '下一页', //下一页
+    TERMS_SHANGYIYE: '上一页', //上一页
+    TERMS_QINGSHURU: '请输入', //请输入
+    TERMS_WEIQIANSHU: '未签署', //未签署
+    TERMS_QINGXUANZE: '请选择', //请选择
+    TERMS_FANKUIRIQI: '反馈日期', //反馈日期
+    TERMS_BUSHURIQI: '部署日期', //部署日期
+    TERMS_QIANSHURIQI: '签署日期', //签署日期
+    TERMS_BUSHUJIEDIAN: '部署节点', //部署节点
+    TERMS_WSVMXGTK: '为SVW修改条款', //为SVW修改条款
+    TERMS_WGYSXGTK: '为供应商修改条款', //为供应商修改条款
+    TERMS_SFBCGTKMBSJ: '是否保存该条款模板数据', //是否保存该条款模板数据
+    TERMS_SFQXBJTKMBSJ: '是否取消编辑条款模板数据', //是否取消编辑条款模板数据
+    TERMS_BUSHUZHUANGTAI: '部署状态', //部署状态
+    TERMS_SHENQINGXIUGAI: '申请修改', //申请修改
+    TERMS_XIUGAITIAOKUAN: '修改条款', //修改条款
+    TERMS_TIAOKUANCHAXUAN: '条款查询', //条款查询
+    TERMS_TISHIBIAOQIAN1: '提示标签1', //提示标签1
+    TERMS_TIAOKUANGBIANMA: '条款编码', //条款编码
+    TERMS_BAOCUNCHENGGONG: '保存成功', //保存成功
+    TERMS_QIANSHUZHUANGTAI: '签署状态', //签署状态
+    TERMS_TIAOKUANYOUXIAOQI: '条款有效期', //条款有效期
+    TERMS_CHAKANDINGZHITIAOKUAN: '查看定制条款', //查看定制条款
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: '标准条款列表', //标准条款列表
+
+    // -------------------------------条款 end---------------------------------------------
+    LK_DANWEIBAIWANRENMINGBI: '单位:百万人名币', //单位:百万人名币
+    LK_SHANGYINIANSHUJUDUIBI: '上一年数据对比', //上一年数据对比
+    LK_ZONGJINE: '总金额:', //总金额
+    LK_MTZCAILIAOZU: 'MTZ材料组', //MTZ材料组
+    LK_MTZKESHIYUSUANFUZEREN: 'MTZ科室预算负责人', //MTZ科室预算负责人
+    LK_MTZYUSUANGUANLIYUAN: 'MTZ预算管理员', //MTZ预算管理员
+    LK_CAILIAOZHONGLEI: '材料中类', //材料中类
+    LK_BIJIAOBANBEN: '比较版本', //比较版本
+    LK_YUEFENBIJIAO: '月份比较', //月份比较
+    LK_XIANGQINGLIEBIAO: '详情列表', //详情列表
+    LK_YUEFEN: '月份', //月份
+    LK_SHICHANGJIA: '市场价', //市场价
+    LK_ZONGJI: '总计', //总计
+    LK_CHAYI: '差异', //差异
+    LK_SHICHANGJIACHAYI: '市场价差异', //市场价差异
+    LK_YONGLIANGCHAYI: '用量差异', //用量差异
+    LK_ZONGJIACHAYI: '总价差异', //总价差异
+    LK_CHEXINGLIUWEIHAO: '车型六位号', //车型六位号
+    LK_NIANDUYUSUAN: '年度预算', //年度预算
+    LK_YUEDUYUCE: '月度预测', //月度预测
+    LK_SHIJIZHIFU: '实际支付', //实际支付
+    LK_NIANDUYUSUANCHAYI: '年度预算差异', //年度预算差异
+    LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
+    LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
+    LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择' //删除资信报告提示语
   }
   i18n.setLocaleMessage('zh', oldLanguage)
-  var xmlHttp = ''
-  if (window.XMLHttpRequest) {
-    xmlHttp = new XMLHttpRequest()
-  } else {
-    // eslint-disable-next-line no-undef
-    xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
-  }
-  xmlHttp.onreadystatechange = function () {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-      const data = JSON.parse(xmlHttp.responseText)
-      const fixedData = {
-        SUPPLIER_CHUBUPINGJI1: '初步评级',
-        SHENPINGJIEGUO: '深评结果',
-        SPR_FRM_FRMGL_WPSJ: '外评时间',
-        SPR_FRM_FRMGL_XGKS1: '相关科室',
-        SPR_FRM_FRMGL_DXDFZT: '定性打分状态',
-        SPR_FRM_FRMGL_WP1: '外评',
-        SPR_FRM_FRMGL_SPZT: '深评状态',
-        LK_GONGYINGSHANGMINGCHENG1: '供应商名称',
-        SPR_FRM_FRMGL_TZHPJ: '调整后评级',
-        SPR_FRM_FRMGL_CPSJ: '初评时间',
-        SPR_FRM_FRMGL_SPSJ: '深评时间',
-        SPR_FRM_FRMGL_DXDFSJ: '定性打分时间',
-        SPR_FRM_FRMGL_VWAGPJ: 'VWAG评级',
-        SPR_FRM_FRMGL_VWAGSJ: 'VWAG时间',
-        SUPPLIER_SAPHAO: 'SAP号',
-        GONGHUO1: '供应商状态'
-      }
-      const i18nZhData = { ...data.data.zh, ...fixedData }
-      console.log('i18nZhData', i18nZhData)
-      i18n.mergeLocaleMessage('zh', i18nZhData)
-      i18n.mergeLocaleMessage('en', data.data.cn)
-    }
-  }
-  xmlHttp.open(
-    'GET',
-    'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
-    false
-  )
-  xmlHttp.setRequestHeader('Content-type', 'application/json')
-  xmlHttp.setRequestHeader('Accept', '*/*')
-  xmlHttp.send()
+  // var xmlHttp = ''
+  // if (window.XMLHttpRequest) {
+  //   xmlHttp = new XMLHttpRequest()
+  // } else {
+  //   // eslint-disable-next-line no-undef
+  //   xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
+  // }
+  // xmlHttp.onreadystatechange = function () {
+  //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+  //     const data = JSON.parse(xmlHttp.responseText)
+  //     const fixedData = {
+  //       SUPPLIER_CHUBUPINGJI1: '初步评级',
+  //       SHENPINGJIEGUO: '深评结果',
+  //       SPR_FRM_FRMGL_WPSJ: '外评时间',
+  //       SPR_FRM_FRMGL_XGKS1: '相关科室',
+  //       SPR_FRM_FRMGL_DXDFZT: '定性打分状态',
+  //       SPR_FRM_FRMGL_WP1: '外评',
+  //       SPR_FRM_FRMGL_SPZT: '深评状态',
+  //       LK_GONGYINGSHANGMINGCHENG1: '供应商名称',
+  //       SPR_FRM_FRMGL_TZHPJ: '调整后评级',
+  //       SPR_FRM_FRMGL_CPSJ: '初评时间',
+  //       SPR_FRM_FRMGL_SPSJ: '深评时间',
+  //       SPR_FRM_FRMGL_DXDFSJ: '定性打分时间',
+  //       SPR_FRM_FRMGL_VWAGPJ: 'VWAG评级',
+  //       SPR_FRM_FRMGL_VWAGSJ: 'VWAG时间',
+  //       SUPPLIER_SAPHAO: 'SAP号',
+  //       GONGHUO1: '供应商状态',
+  //       SHIJIANLEIXING: '事件类型',
+  //       QUYU: '区域',
+  //       FASHENGSHIJIAN: '发生时间',
+  //       YSGYSSM: '影响供应商数目',
+  //       SJLY: '数据来源',
+  //       CJFS: '创建方式',
+  //       QITAYUANYINGBUNENGWEIKONG: '其它原因不能为空',
+  //       GONGHUOZHUANGTAI: '供货状态'
+  //     }
+  //     const i18nZhData = { ...data.data.zh, ...fixedData }
+  //     i18n.mergeLocaleMessage('zh', i18nZhData)
+  //     i18n.mergeLocaleMessage('en', data.data.cn)
+  //   }
+  // }
+  // xmlHttp.open(
+  //   'GET',
+  //   'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
+  //   false
+  // )
+  // xmlHttp.setRequestHeader('Content-type', 'application/json')
+  // xmlHttp.setRequestHeader('Accept', '*/*')
+  // xmlHttp.send()
 })

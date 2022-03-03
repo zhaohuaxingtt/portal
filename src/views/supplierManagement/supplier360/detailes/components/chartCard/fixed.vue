@@ -1,13 +1,16 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
-      <span class="el-dropdown-link" v-permission="Card_Nomination_More">
+    </div>
+    <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div>
+    <!-- <span class="el-dropdown-link"
+            v-permission="Card_Nomination_More">
         <i class="el-icon-more"></i>
       </span>
     </div>
     <div class="box">
-  <img :src="img"
+      <img :src="img"
            class="imgIcon" />
       <div class="boxTitle">
         <p>90</p>
@@ -17,7 +20,7 @@
       </div>
       <div ref="chart"
            class="chartStyle"> </div>
-    </div>
+    </div> -->
   </iCard>
 </template>
 <script>
@@ -30,20 +33,20 @@ export default {
     iCard,
 
   },
-  data() {
+  data () {
     return {
       chart: 'oneChart',
-      img:img
+      img: img
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
   methods: {},
-  mounted() {
+  mounted () {
     const myChart = echarts().init(this.$refs.chart)
     var option = {
       grid: {
@@ -85,9 +88,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .title {
   display: flex;
@@ -148,5 +151,10 @@ export default {
 }
 .box:nth-child(1) div {
   margin: 6px;
+}
+.center {
+  height: 160px;
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -51,7 +51,11 @@
           >
             <el-row gutter="24" class="materiel">
               <el-col :span="6" v-if="isDisabled > 0 ? true : false">
-                <iFormItem :label="language(itemLabel.number)" prop="partNum">
+                <iFormItem
+                  :label="language(itemLabel.number)"
+                  prop="partNum"
+                  label-width="80px"
+                >
                   <iInput
                     v-model="itemContent.partNum"
                     :disabled="isDisabled > 0 ? true : false"
@@ -64,11 +68,11 @@
                 v-else
                 class="numbers"
               >
-                <iFormItem v-model="itemContent.number" label-width="80px"
-                  ><div class="l" slot="label">
+                <iFormItem v-model="itemContent.number" label-width="80px">
+                  <div class="l" slot="label">
                     {{ language('零件号') }}<span style="color: red">*</span>
-                  </div></iFormItem
-                >
+                  </div>
+                </iFormItem>
                 <div
                   style="
                     display: flex;
@@ -141,13 +145,14 @@
                     ></iInput>
                   </iFormItem>
                 </div>
+                <div class="repeateMa" v-if="repeateMa">
+                  {{ language('零件号重复') }}
+                </div>
+                <div class="repeateMa" v-if="matirielFill">
+                  {{ language('请输入零件号') }}
+                </div>
               </el-col>
-              <div class="repeateMa" v-if="repeateMa">
-                {{ language('零件号重复') }}
-              </div>
-              <div class="repeateMa" v-if="matirielFill">
-                {{ language('请输入零件号') }}
-              </div>
+
               <el-col :span="6">
                 <iFormItem :label="language('零件名称(中)')" prop="partNameZh">
                   <iInput
@@ -158,7 +163,11 @@
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="language('零件名称(德)')" prop="partNameDe">
+                <iFormItem
+                  :label="language('零件名称(德)')"
+                  prop="partNameDe"
+                  label-width="140px"
+                >
                   <iInput
                     :placeholder="language('请输入')"
                     v-model="itemContent.partNameDe"
@@ -199,7 +208,11 @@
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="language('ZP')" prop="zp">
+                <iFormItem
+                  :label="language('ZP')"
+                  prop="zp"
+                  label-width="140px"
+                >
                   <iSelect
                     :placeholder="language('请输入/请选择')"
                     v-model="itemContent.zp"
@@ -250,7 +263,7 @@
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="language('零件材料组')">
+                <iFormItem :label="language('零件材料组')" label-width="140px">
                   <iInput
                     :disabled="chooseMaterielGroup"
                     v-model="itemContent.categoryDesc"
@@ -315,7 +328,10 @@
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="language('最近一次修改时间')">
+                <iFormItem
+                  :label="language('最近一次修改时间')"
+                  label-width="140px"
+                >
                   <iInput disabled v-model="itemContent.updateDate"></iInput>
                 </iFormItem>
               </el-col>
@@ -1285,7 +1301,7 @@ export default {
     position: absolute;
     color: red;
     font-size: 12px;
-    left: 186px;
+    left: 126px;
     top: 46px;
     zoom: 0.9;
   }

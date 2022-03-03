@@ -54,7 +54,7 @@
         </div>
       </iCard>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="16" v-if="isShowAll">
       <iCard class="countryMap"
              :title="$t('SPR_FRM_XGYSPJ_GCDT')">
         <el-row type="flex"
@@ -95,6 +95,12 @@ export default {
     tableList
   },
   props: {
+    isShowAll:{
+      type: Boolean,
+      default: () => {
+        return false
+      }
+    },
     factoryAddressVOList: {
       type: Array,
       default: () => {
@@ -119,6 +125,9 @@ export default {
     }
   },
   watch: {
+    // isShowAll(data){
+
+    // },
     factoryAddressVOList(data) {
       data.map((item) => (item.name = item.city))
       this.tableListData = data

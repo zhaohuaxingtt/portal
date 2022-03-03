@@ -1,6 +1,6 @@
 <template>
 	<iDialog
-		title="添加流程"
+		:title="language('添加流程')"
 		:visible.sync="show" 
 		width="500px" 
 		@close='closeDialogBtn' 

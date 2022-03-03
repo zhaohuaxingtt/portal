@@ -3,25 +3,21 @@
  * @Author: zbin
  * @Date: 2021-05-18 09:48:38
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-05-27 11:43:05
+ * @LastEditTime: 2022-02-28 20:41:44
  * @Descripttion: your project
 -->
 <template>
-  <i-dialog
-    :title="title"
-    :visible.sync="value"
-    width="90%"
-    @close="clearDiolog"
-  >
+  <i-dialog :title="title"
+            :visible.sync="value"
+            width="90%"
+            @close="clearDiolog">
     <div class="changeContent">
       <data-comparsion-tab @handleClick="handleTabClick" />
-      <data-comparsion-table
-        :tabValue="tabValue"
-        :comparisonTableData="comparisonTableData"
-        ref="dataComparsionTable"
-        :tableListData="tableListData"
-        class="margin-top20"
-      />
+      <data-comparsion-table :tabValue="tabValue"
+                             :comparisonTableData="comparisonTableData"
+                             ref="dataComparsionTable"
+                             :tableListData="tableListData"
+                             class="margin-top20" />
     </div>
   </i-dialog>
 </template>
@@ -48,30 +44,30 @@ export default {
     }
   },
   watch: {
-    value(n) {
+    value (n) {
       this.$nextTick(() => {
         n && this.getTableList();
       });
     }
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tabValue: "balance"
     };
   },
-  created() {},
+  created () { },
   methods: {
-    getTableList() {
+    getTableList () {
       console.log(this.comparisonTableData)
 
       this.$refs.dataComparsionTable.getTableList();
     },
-    clearDiolog() {
+    clearDiolog () {
       this.comparisonTableData = [];
       this.$emit("input", false);
     },
-    handleTabClick(value) {
+    handleTabClick (value) {
       this.tabValue = value;
     }
   }

@@ -1,12 +1,12 @@
 <template>
    <iDialog
-      :title="form.id ? '修改内容' : '添加内容'"
+      :title="form.id ? language('修改内容') : language('添加内容')"
       :visible.sync="show"
       width="500px"
       @close="handleClose"
       @open="open"
     >
-        <el-form :model="form" ref="form" label-width="90px" :inline="false" size="normal" class="validate-required-form" v-loading="loading">
+        <el-form :model="form" ref="form" label-width="120px" :inline="false" size="normal" class="validate-required-form" v-loading="loading">
             <iFormItem :label="language('Report类型')" prop="reportSectionId" :rules="{ required:true, message:'请选择', trigger:'change'}">
                 <iSelect v-model="form.reportSectionId" filterable clearable @change="handleTypeChange">
                     <el-option v-for="item in reportSectionList" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -115,6 +115,7 @@
                 this.getCurrCategory(va)
             },
             async getCurrCategory(va) {
+                if (!va) return this.reportCategoryList = []
                 await getCategoryById(va).then(res => {
                     if (res) {
                         this.reportCategoryList = res || []
@@ -163,15 +164,16 @@
                     reportSectionId: '',
                     title:"",
                     publishDate:"",
-                    reportCategoryId:""
+                    reportCategoryId:"" 
                 }
                 this.uploadFileStream = null
                 this.currId = null
+                this.reportCategoryList = []
                 this.$emit("update:show",false)
             },
             close() {
                 this.handleClose()
-                this.$emit('refresh')
+                this.$emit('refresh')   
             }
         },
     }

@@ -42,12 +42,12 @@
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
               }" @click="changeCategoryItem(item)">
-              {{ item.label }}
+              {{ language(item.label) }}
             </li>
           </ul>
         </el-col>
         <el-col span="8" push="4">
-          <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
+          <el-switch v-model="selfOnly" :active-text="language('仅看自己')" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
         <div class="card-list" 
@@ -59,22 +59,22 @@
             <div class="flex flex-row justify-between">
               <div class="title ellipsis">{{ item.questionTitle }}</div>
               <div class="status">
-                <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
-                <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
-                <template v-else-if="item.questionStatus === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+                <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">{{language('未处理')}}</span></template>
+                <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">{{language('已处理')}}</span></template>
+                <template v-else-if="item.questionStatus === 'finished'"><span style="color:#05BB8B; font-weight: bold;">{{language('已完成')}}</span></template>
               </div>
             </div>
             <div class="flex flex-row justify-between mt20 mb20 gray-color">
-              <div>提问人:{{ item.createByUerName }}</div>
-              <div>管理员:{{ item.handlerUserName }}</div>
+              <div>{{language('提问人')}}:{{ item.createByUerName }}</div>
+              <div>{{language('管理员')}}:{{ item.handlerUserName }}</div>
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
               <div class="label">{{ item.currModuleName }}</div>
               <div>{{ item.updateDate }}</div>
             </div>
           </el-card>
-          <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
-          <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">没有更多了</p>
+          <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">{{language('暂无数据')}}</p>
+          <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">{{language('没有更多了')}}</p>
         </div>
       </div>
     <div class="right-content ml20">
@@ -143,21 +143,21 @@
             <div class="msg-box" >
               <div class="flex flex-row mt20 ml20">
                 <div class="name">{{questionDetail.createByUerName}}</div>
-                <div class=" r-c-box-text">
+                <div class="content-text">
                   <p class="html" v-html="questionDetail.questionTitle"></p>
                   <p class="time">{{questionDetail.createDate}}</p>
                 </div>
               </div>
               <div v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
                 <template v-for="item of questionDetail.replyQuestionList">
-                  <div class=" r-c-box flex flex-column ml20" :key="item.id">
-                    <div v-if="item.replyType === 'transfer'" class="transfer- r-c-box flex flex-row items-center justify-center">
-                      <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                  <div class=" r-c-box flex flex-column ml20 mb20" :key="item.id">
+                    <div v-if="item.replyType === 'transfer'" style="display: flex; flex-direction: row;" class="transfer- r-c-box flex flex-row items-center justify-center">
+                      <div><img src="@/assets/images/icon/horn.png" alt="" class="horn-png"></div>
                       <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
                     </div>
                     <div v-else class="flex flex-row">
                       <div class="name">{{item.replyUserName}}</div>
-                      <div class=" r-c-box-text">
+                      <div class="content-text">
                         <p class="html" v-html="item.content"></p>
                         <p class="time">{{item.createDate}}</p>
                       </div>
@@ -177,11 +177,11 @@
               </el-form>
             </div>
             <div class="mt20 mb20 flex">
-              <div>附件：</div>
+              <div>{{language('附件')}}：</div>
               <iUpload :disabled="loadText" ref="attachment" v-model="uploadFileList"  >
                 <iButton>{{ language('添加附件') }}</iButton>
               </iUpload>
-              <div v-if="loadText && uploadFileList.length == 0">无</div>
+              <div v-if="loadText && uploadFileList.length == 0">{{language('无')}}</div>
             </div>
           </div>
         </template>
@@ -728,7 +728,7 @@ export default {
       .content-text {
         background: #f8f8fa;
         margin-left: 20px;
-        width: 700px;
+        // width: 700px;
         padding: 10px 30px 10px;
         box-sizing: border-box;
         .html {

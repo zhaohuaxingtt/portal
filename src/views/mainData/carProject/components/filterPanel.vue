@@ -2,7 +2,7 @@
   <iSearch @sure="sure" @reset="reset">
     <el-form ref="searchForm">
       <el-row :gutter="24">
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language(formTitles.carTypeProName)">
             <iSelect
               :placeholder="language(formTitles.inputPlaceholder)"
@@ -21,7 +21,7 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language(formTitles.carTypeProType)">
             <!-- <iInput v-model="formData.carTypeProType" /> -->
             <iSelect
@@ -40,9 +40,13 @@
               </el-option>
             </iSelect> </iFormItem
         ></el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language(formTitles.publishStatus)">
-            <iSelect v-model="formData.publishStatus" filterable :placeholder='language("请选择")'>
+            <iSelect
+              v-model="formData.publishStatus"
+              filterable
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in releaseStatusOptions"
                 :key="item.code"
@@ -53,9 +57,13 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="8">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language(formTitles.isValid)">
-            <iSelect v-model="formData.isValid" filterable :placeholder='language("请选择")'>
+            <iSelect
+              v-model="formData.isValid"
+              filterable
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in validSelecOptions"
                 :key="item.value"

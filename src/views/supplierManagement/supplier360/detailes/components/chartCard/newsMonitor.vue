@@ -1,14 +1,15 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <el-dropdown >
+      <el-dropdown>
 
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-permission="PORTAL_SUPPLIER_CARD_CRATING_MORE" @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item v-permission="PORTAL_SUPPLIER_CARD_CRATING_MORE"
+                            @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -57,41 +58,43 @@ export default {
     iCard,
     icon,
   },
-  data() {
+  data () {
     return {
       visible: false,
       info: {}
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
 
-  created() {
+  created () {
     this.$nextTick(() => {
       this.getData()
     })
   },
   methods: {
-    getData() {
+    getData () {
       supplierRatingCard(this.$route.query.subSupplierId).then((res) => {
         this.info = res.data
       })
     },
-    openDilog() {
-         let routeData = this.$router.resolve({
+    openDilog () {
+      let routeData = this.$router.resolve({
         path: '/supplier/frmrating/supplieroverview',
         query: {
-            isSupplier:1
+          isSupplier: 1,
+          nameZh:this.infodata.nameZh,
+          sapCode:this.infodata.sapCode,
         }
       })
       window.open(routeData.href)
     },
-    closeDiolog(){
-        this.visible=false
+    closeDiolog () {
+      this.visible = false
     }
   }
 }

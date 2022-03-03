@@ -44,7 +44,7 @@ export const SUPPLIER_TABLE_COLUMNS = [
   {
     label: '序号',
     type: 'index',
-    width: '50px'
+    width: '60px'
   },
   {
     prop: 'nameZh',
@@ -302,13 +302,17 @@ export const FACTORY_TABLE_COLUMNS = [
       if (!scope.row.addressInfoVo) {
         return ''
       }
-      return (
-        <span>
-          {scope?.row?.addressInfoVo?.country}-
-          {scope?.row?.addressInfoVo?.province}-
-          {scope?.row?.addressInfoVo?.city}
-        </span>
-      )
+      const res = []
+      if (scope?.row?.addressInfoVo?.country) {
+        res.push(scope?.row?.addressInfoVo?.country)
+      }
+      if (scope?.row?.addressInfoVo?.province) {
+        res.push(scope?.row?.addressInfoVo?.province)
+      }
+      if (scope?.row?.addressInfoVo?.city) {
+        res.push(scope?.row?.addressInfoVo?.city)
+      }
+      return res.join('-')
     }
   },
   {
@@ -628,14 +632,14 @@ export const SUPPLIER_CONTACT_COLUMNS = [
     }
   },
   {
-    prop: 'phoneH',
+    prop: 'telephone',
     i18n: '联系电话',
     required: true,
     customRender: (h, scope) => {
       return (
         <iInput
-          value={scope.row.phoneH}
-          onInput={(val) => (scope.row.phoneH = val)}
+          value={scope.row.telephone}
+          onInput={(val) => (scope.row.telephone = val)}
         />
       )
     }

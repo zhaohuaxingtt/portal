@@ -7,7 +7,7 @@
       <el-form-item prop="mail">
         <div class="input">
           <iInput
-            :placeholder="internationalTitles.mailPlaceholder"
+            :placeholder="language(internationalTitles.mailPlaceholder)"
             class="mailInput"
             v-model="form.mail"
           ></iInput>
@@ -16,10 +16,10 @@
       </el-form-item>
       <div class="buttons">
         <iButton @click="trueBtnClick">{{
-          internationalTitles.trueBtn
+          language(internationalTitles.trueBtn)
         }}</iButton>
         <iButton @click="exitBtnClick">{{
-          internationalTitles.exitBtn
+          language(internationalTitles.exitBtn)
         }}</iButton>
       </div>
     </el-form>
