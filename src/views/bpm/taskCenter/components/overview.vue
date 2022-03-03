@@ -1,7 +1,7 @@
 <template>
   <div class="approval-overview-panel" @click="$emit('open', data)">
     <div class="header">
-      <div class="name">{{data.taskTypeName }}</div>
+      <div class="name">{{ data.taskName }}</div>
       <div class="cat-name" v-if="categoryName">
         <span class="text">{{ categoryName }}</span>
         <div class="bg"></div>
