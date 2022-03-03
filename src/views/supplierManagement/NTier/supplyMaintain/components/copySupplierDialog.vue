@@ -18,6 +18,7 @@
             <el-cascader v-model="form.areaArray"
                          :placeholder="language('GUOJIA_SHENGFEN_DIQU','国家-省份-地区')"
                          :options="areaList"
+                         @visible-change="visibleChange"
                          :props="{multiple:true}"
                          :clearable="true"
                          collapse-tags></el-cascader>
@@ -270,7 +271,8 @@ export default {
         pageNo: 1,
         pageSize: 100
       },
-      totalPage: 0
+      totalPage: 0,
+      areaList1: []
     }
   },
   // 监听属性 类似于data概念
@@ -279,7 +281,6 @@ export default {
   watch: {
     value: {
       handler (val) {
-        console.log(val, "val")
         if (val) {
           this.dictByCode()
           this.queryPartNumber(this.pageForm)
@@ -307,6 +308,11 @@ export default {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.queryUpDown()
+    },
+    visibleChange (val) {
+      if (val) {
+        this.areaList1 = _.cloneDeep(this.areaList)
+      }
     },
     loadmore () {
       this.pageForm.pageNo++;
