@@ -446,7 +446,7 @@
 									column: "supplier_code_name"
 								},
 								operator: "In",
-								values: [supplier_code_name],
+								values: [year],
                 filterType: pbi.models.FilterType.BasicFilter
 						};
           console.log(supplier_code_name_parameter);
@@ -476,7 +476,7 @@
             }
             
             //  供应商
-            if(visual.title == "supplier_code_name" && page.isActive){
+            if(visual.title == "supplier_code_name" && page.isActive == true){
               visual.setSlicerState({
                 filters: [supplier_code_name_parameter]
               });				    							    						    		
