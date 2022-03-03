@@ -231,8 +231,8 @@ module.exports = {
         }
       }, //RISEDASHBOARD
       [process.env.VUE_APP_RISEDASHBOARD]: {
-        target: `http://${BASE_IP}:8037/risedashboard`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/risedashboard/`,
+        // target: `http://${BASE_IP}:8037/risedashboard`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/risedashboard/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_RISEDASHBOARD]: ''
