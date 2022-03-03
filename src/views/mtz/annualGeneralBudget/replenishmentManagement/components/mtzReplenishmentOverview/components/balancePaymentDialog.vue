@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-02-27 19:05:59
+ * @LastEditTime: 2022-03-03 17:08:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -748,5 +748,8 @@ export default {
 }
 ::v-deep .el-select {
   width: 100%;
+}
+::v-deep .el-form--label-top .el-form-item__label {
+  padding: 0;
 }
 </style>

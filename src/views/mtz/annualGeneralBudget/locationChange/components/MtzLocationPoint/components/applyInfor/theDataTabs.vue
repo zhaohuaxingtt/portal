@@ -73,7 +73,7 @@
         <el-table-column prop="assemblyPartnum"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
+                         width="130"
                          :label="language('LINGJIANHAO','零件号')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'assemblyPartnum'"
@@ -86,7 +86,6 @@
         <el-table-column prop="partName"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
                          :label="language('LINGJIANMINGCHENG','零件名称')">
           <template slot-scope="scope">
             <span>{{scope.row.partName}}</span>
@@ -96,7 +95,7 @@
                          align="center"
                          :label="language('GUIZEBIANHAO','规则编号')"
                          show-overflow-tooltip
-                         width="150">
+                         width="130">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
                           :rules="formRules.ruleNo ? formRules.ruleNo : ''">
@@ -151,7 +150,7 @@
         </el-table-column>
         <el-table-column prop="partUnit"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -215,7 +214,7 @@
         </el-table-column>
         <el-table-column prop="startDate"
                          align="center"
-                         width="200"
+                         width="150"
                          :label="language('YOUXIAOQIQI','有效期起')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -231,7 +230,7 @@
         </el-table-column>
         <el-table-column prop="endDate"
                          align="center"
-                         width="200"
+                         width="150"
                          :label="language('YOUXIAOQIZHI','有效期止')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -261,7 +260,7 @@
         </el-table-column>
         <el-table-column prop="materialCode"
                          align="center"
-                         width="150"
+                         width="140"
                          :label="language('YUANCAILIAOPAIHAO','原材料牌号')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -292,7 +291,7 @@
         </el-table-column>
         <el-table-column prop="price"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('JIJIA','基价')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -302,7 +301,7 @@
         </el-table-column>
         <el-table-column prop="priceMeasureUnit"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -312,7 +311,7 @@
         </el-table-column>
         <el-table-column prop="tcCurrence"
                          align="center"
-                         width="150"
+                         width="80"
                          :label="language('HUOBI','货币')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -322,7 +321,7 @@
         </el-table-column>
         <el-table-column prop="tcExchangeRate"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('HUILV','汇率')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -332,7 +331,7 @@
         </el-table-column>
         <el-table-column prop="priceSource"
                          align="center"
-                         width="150"
+                         width="200"
                          :label="language('SHICHANGJIALAIYUAN','市场价来源')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -342,7 +341,7 @@
         </el-table-column>
         <el-table-column prop="compensationRatio"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('BUCHAXISHU','补差系数')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -352,7 +351,7 @@
         </el-table-column>
         <el-table-column prop="compensationPeriod"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('BUCHAZHOUQI','补差周期')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -362,7 +361,7 @@
         </el-table-column>
         <el-table-column prop="threshold"
                          align="center"
-                         width="150"
+                         width="100"
                          :label="language('YUZHI','阈值')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -372,7 +371,7 @@
         </el-table-column>
         <el-table-column prop="thresholdCompensationLogic"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -395,7 +394,7 @@
 
         <el-table-column prop="platinumPrice"
                          align="center"
-                         width="150"
+                         width="120"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -417,7 +416,7 @@
         </el-table-column>
         <el-table-column prop="platinumDosage"
                          align="center"
-                         width="150"
+                         width="130"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -439,7 +438,7 @@
         </el-table-column>
         <el-table-column prop="palladiumPrice"
                          align="center"
-                         width="150"
+                         width="120"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -461,7 +460,7 @@
         </el-table-column>
         <el-table-column prop="palladiumDosage"
                          align="center"
-                         width="150"
+                         width="130"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -483,7 +482,7 @@
         </el-table-column>
         <el-table-column prop="rhodiumPrice"
                          align="center"
-                         width="150"
+                         width="120"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -505,7 +504,7 @@
         </el-table-column>
         <el-table-column prop="rhodiumDosage"
                          align="center"
-                         width="150"
+                         width="130"
                          show-overflow-tooltip>
           <template slot="header">
             <div>

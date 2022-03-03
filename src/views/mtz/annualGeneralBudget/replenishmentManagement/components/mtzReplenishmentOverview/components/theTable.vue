@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-04 09:42:59
+ * @LastEditTime: 2022-03-03 16:44:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -22,11 +22,13 @@
                 v-loading="loading"
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection"
-                         width="60">
+                         fixed
+                         width="50">
         </el-table-column>
         <el-table-column label="#"
+                         fixed
                          type="index"
-                         width="60">
+                         width="50">
         </el-table-column>
         <el-table-column prop="fsupplierName"
                          align="center"
@@ -82,7 +84,7 @@
         <el-table-column prop="waitLaunchedDocMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="180"
+                         width="150"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -137,7 +139,7 @@
         <el-table-column prop="waitVerifyMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="180"
+                         width="140"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -158,7 +160,7 @@
         <el-table-column prop="hasVerifyMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="180"
+                         width="140"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -179,7 +181,7 @@
         <el-table-column prop="hasRatifyMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="180"
+                         width="140"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -197,7 +199,7 @@
         <el-table-column prop="hasPayMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="180"
+                         width="140"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -326,7 +328,7 @@ export default {
           data: {
             firstSupplierId: val.firstSupplierId,
             name: val.firstSupplierName,
-            time:this.$parent.$refs.searchBox.value1
+            time: this.$parent.$refs.searchBox.value1
           }
         }
       })
@@ -395,5 +397,16 @@ export default {
   font-size: 14px;
   cursor: pointer;
   width: 90%;
+}
+::v-deep .el-table__fixed-header-wrapper,
+.el-table__fixed-body-wrapper {
+  background-color: #fff;
+  z-index: 1000;
+}
+</style>
+<style lang="scss">
+.el-table__fixed,
+.el-table__fixed-right {
+  background: #fff;
 }
 </style>

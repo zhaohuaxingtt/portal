@@ -151,14 +151,14 @@ export const tableTitleInfor = [
 ]
 
 export const tableTitleContinueBox = [
-  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
+  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
   { props: 'fsGsSpNo', name: 'FSNR/GSNR', key: 'FSNRGSNR' },
   { props: 'rfqCode', name: 'RFQ编号', key: 'RFQBIANHAO' },
   { props: 'procureFactoryName', name: '采购工厂', key: 'CAIGOUGONGCHANG' },
-  { props: 'partNameCn', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
-  { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' },
+  { props: 'partNameCn', name: '零件名（中）', key: 'LK_LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'sapNum', name: '供应编号', key: 'GONGYINGBIANHAO' },
+  { props: 'sapNum', name: '供应商编号', key: 'GONGYINGBIANHAO' },
   { props: 'productionProportion', name: '比例（%）', key: 'BILI(%)' }
 ]
 
@@ -286,15 +286,15 @@ export const continueBox = [
 ]
 
 export const tableLeftTitle = [
-  { props: 'id', name: 'RFQ号', key: 'RFQHAO' },
+  { props: 'id', name: 'RFQ号', key: 'RFQHAO', width: 120 },
   { props: 'rfqName', name: 'RFQ名称', key: 'RFQMINGCHENG' },
-  { props: 'rfqType', name: '类型', key: 'LEIXING' }
+  { props: 'rfqType', name: '类型', key: 'LEIXING', width: 150 }
 ]
 
 export const tableRightTitle = [
-  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
+  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
   { props: 'partNameZh', name: '零件名称', key: 'LINGJIANMINGCHENG' },
-  { props: 'partType', name: '类型', key: 'LEIXING' }
+  { props: 'partType', name: '类型', key: 'LEIXING', width: 100 }
 ]
 
 export const tableTitleHistory = [
@@ -322,7 +322,7 @@ export const tableTitleHistory = [
     name: '一次件零件名',
     key: 'YICIJIANLINGJIANMING'
   },
-  { width: 150, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
+  { width: 130, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
   { width: 150, props: 'buyerDeptName', name: '科室', key: 'KESHI' },
   {
     width: 150,
@@ -367,9 +367,9 @@ export const tableTitleHistory = [
     name: '原材料名称',
     key: 'YUANCAILIAOMINGCHENG'
   },
-  { width: 150, props: 'price', name: '基价', key: 'JIJIA' },
+  { width: 130, props: 'price', name: '基价', key: 'JIJIA' },
   {
-    width: 150,
+    width: 130,
     props: 'priceCountUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI'
@@ -384,7 +384,7 @@ export const tableTitleHistory = [
     key: 'YONGLIANGJILIANGDANEWI'
   },
   {
-    width: 150,
+    width: 160,
     props: 'marketSource',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN'
@@ -395,25 +395,25 @@ export const tableTitleHistory = [
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI'
   },
-  { width: 150, props: 'tcCurrence', name: '货币', key: 'HUOBI' },
+  { width: 120, props: 'tcCurrence', name: '货币', key: 'HUOBI' },
   {
-    width: 150,
+    width: 130,
     props: 'compensationRatio',
     name: '补差系数',
     key: 'BUCHAXISHU'
   },
-  { width: 150, props: 'threshold', name: '阈值', key: 'YUZHI' },
+  { width: 130, props: 'threshold', name: '阈值', key: 'YUZHI' },
   {
-    width: 150,
+    width: 130,
     props: 'compensationPeriod',
     name: '补差周期',
     key: 'BUCHAZHOUQI'
   },
-  { width: 150, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
-  { width: 150, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
-  { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
-  { width: 150, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
-  { width: 150, props: 'sourceCode', name: '来源', key: 'LAIYUAN' }
+  { width: 130, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
+  { width: 130, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
+  { width: 120, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
+  { width: 130, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
+  { width: 120, props: 'sourceCode', name: '来源', key: 'LAIYUAN' }
 ]
 
 export const formRulesGZ = {
