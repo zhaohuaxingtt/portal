@@ -1,6 +1,6 @@
 <template>
 	<iDialog
-		:title="dialogTitle"
+		:title="language(dialogTitle)"
 		:visible.sync="contentShow" 
 		v-if="contentShow"
 		width="60%" 
@@ -20,7 +20,7 @@
 				<iSelect
           v-model="newContentForm.knowledgeSection"
           filterable
-          placeholder="请选择knowledge类型"
+          :placeholder="language('请选择knowledge类型')"
 					clearable
 					@change="handleSection"
         >
@@ -33,26 +33,26 @@
         </iSelect>
 			</iFormItem>
 			<iFormItem :label="language('知识标题')" prop='title'>
-				<iInput v-model="newContentForm.title" placeholder="请输入知识标题" maxLength=50></iInput>
+				<iInput v-model="newContentForm.title" :placeholder="language('请输入知识标题')" maxLength=50></iInput>
 			</iFormItem>
 			<iFormItem :label="language('知识概要')" prop='summary'>
 				<iInput resize="none" :rows="2" type="textarea" v-model="newContentForm.summary" placeholder="" maxLength=100></iInput>
 			</iFormItem>
 			<iFormItem :label="language('主讲人')" prop='speaker'>
-				<iInput v-model="newContentForm.speaker" placeholder="请输入主讲人"></iInput>
+				<iInput v-model="newContentForm.speaker" :placeholder="language('请输入主讲人')"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('开课日期')" prop='beginDate'>
 				<el-date-picker
 					v-model="newContentForm.beginDate"
 					type="date"
-					placeholder="请选择开课日期">
+					:placeholder="language('请选择开课日期')">
 				</el-date-picker>
 			</iFormItem>
 			<iFormItem :label="language('知识分类')" prop='knowledgeCategory'>
 				<iSelect
           v-model="newContentForm.knowledgeCategory"
           filterable
-          placeholder="请选择知识分类"
+          :placeholder="language('请选择知识分类')"
 					clearable
 					multiple
         >
@@ -68,7 +68,7 @@
 				<iSelect
 					v-model="newContentForm.organizations"
 					filterable
-					placeholder="请选择所属科室"
+					:placeholder="language('请选择所属科室')"
 					clearable
 					multiple
 				>
@@ -91,7 +91,7 @@
 					:isCustHttp="true"
 				>
 					<div>
-						<iButton>添加附件</iButton>
+						<iButton>{{language('添加附件')}}</iButton>
 						<!-- <span style="marginLeft:20px" @click.stop=";">支持图片格式'jpg'，'png'，'gif'，图片不能超过10M</span> -->
 					</div>
 				</iUpload>

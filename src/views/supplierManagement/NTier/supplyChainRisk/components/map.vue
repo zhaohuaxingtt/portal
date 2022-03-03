@@ -144,7 +144,6 @@ export default {
         // mapStyle: 'amap://styles/macaron'
       });
       this.map.on('mousewheel', () => {
-        console.log(this.map.getZoom());
       })
       this.markerList.length && this.handleMarker()
       Object.keys(this.eventDetail).length && this.handleCircle()

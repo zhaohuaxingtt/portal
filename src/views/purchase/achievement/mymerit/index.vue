@@ -20,7 +20,7 @@
         <div style="height: 100%">
             <keep-live
                     :include="['zfgsj', 'zfkssj','zfcgysj','zfbmsj','wfbmsj','wfkssj','pfjwfbmsj','pfjwfkssj','pfjzfbmsj','pfjzfcgysj','pfjzfgsj','pfjzfkssj']">
-                <component :is="currentView" @getData="getData" :username="username"/>
+                <component :is="currentView" @getData="getData" :username="username" :supplier_code_name="supplier_code_name"/>
             </keep-live>
         </div>
 
@@ -92,7 +92,8 @@
         values: [],
         show: false,
         state: false, // 控制科室采购员
-        roleList: this.$store.state.permission.userInfo.roleList
+        roleList: this.$store.state.permission.userInfo.roleList,
+        // supplier_code_name: '10012-上海汽车地毯总厂有限公司',
       };
     },
     computed: {
@@ -169,7 +170,7 @@
             return 'KZ&&linie'
           } else if (KZ && !Linie) {
             // this.username = this.$store.state.permission.userInfo.id;
-            this.btnsgroup1 = ['CSM', 'CSM(Spare)']
+            this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return 'KZ'
           } else if (KZZL && Linie) {
             // this.username = this.$store.state.permission.userInfo.id;
@@ -396,6 +397,7 @@
         var date = myDate.getDate()
         var materialCode = "";
         var materialName = "";
+        var supplier_code_name = this.$route.query.supplier_code_name || '';
         if(this.$route.query.materialCode){
           materialCode = this.$route.query.materialCode;
           materialName = this.$route.query.materialName;
@@ -412,7 +414,7 @@
               column: "data_version"
             },
             operator: "In",
-            // values: [year+""+month],
+            values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
@@ -437,6 +439,18 @@
               filterType: pbi.models.FilterType.BasicFilter
           };
 
+          var	supplier_code_name_parameter = {
+								$schema: "http://powerbi.com/product/schema#basic",
+								target: {
+									table: "app_proc_ekl_data_source",
+									column: "supplier_code_name"
+								},
+								operator: "In",
+								values: [supplier_code_name],
+                filterType: pbi.models.FilterType.BasicFilter
+						};
+          console.log(supplier_code_name_parameter);
+
           const pages = await report.getPages();
           var page = pages.filter(function (page) {
             return page.isActive
@@ -458,6 +472,13 @@
             if(visual.title == "material_group" && page.isActive==true){
               visual.setSlicerState({
                 filters: [material_group_parameter]
+              });				    							    						    		
+            }
+            
+            //  供应商
+            if(visual.title == "supplier_code_name" && page.isActive){
+              visual.setSlicerState({
+                filters: [supplier_code_name_parameter]
               });				    							    						    		
             }
           });

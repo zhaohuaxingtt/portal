@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 20:16:30
- * @LastEditTime: 2021-10-29 14:26:46
+ * @LastEditTime: 2022-03-01 22:11:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\newMtzlocationChange\components\data.js
@@ -51,6 +51,7 @@ export const TABLE_COLUMNS = [
     tooltip: true
   },
   {
+    // prop: 'buyerDeptNum',
     prop: 'buyerDeptNum',
     label: '科室',
     minWidth: 120,

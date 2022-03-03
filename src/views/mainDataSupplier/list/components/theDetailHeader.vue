@@ -29,32 +29,32 @@ export default {
       tabActive: 'base',
       tabs: [
         {
-          label: this.language('基本信息'),
+          label: '基本信息',
           value: 'base',
           target: 'targetBase'
         },
         {
-          label: this.language('供应商状态'),
+          label: '供应商状态',
           value: 'state',
           target: 'targetState'
         },
         {
-          label: this.language('工厂信息'),
+          label: '工厂信息',
           value: 'factory',
           target: 'targetFactory'
         },
         {
-          label: this.language('银行信息'),
+          label: '银行信息',
           value: 'bank',
           target: 'targetBank'
         },
         {
-          label: this.language('供应商用户'),
+          label: '供应商用户',
           value: 'user',
           target: 'targetUser'
         },
         {
-          label: this.language('供应商通讯录'),
+          label: '供应商通讯录',
           value: 'contact',
           target: 'targetContact'
         }

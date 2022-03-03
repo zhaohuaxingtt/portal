@@ -1,6 +1,6 @@
 <template>
     <iDialog
-		:title="dialogTitle"
+		:title="language(dialogTitle)"
 		style="margin-top:10vh"
 		:visible.sync="typeShow" 
 		v-if="typeShow"
@@ -18,7 +18,7 @@
             <el-row>
                 <iFormItem :label="language('知识分类')" prop='name'>
                     <el-col span="14">
-                        <iInput v-model="newTypeForm.name" placeholder="请输入知识类型名称" maxLength="10"></iInput>
+                        <iInput v-model="newTypeForm.name" :placeholder="language('请输入知识类型名称')" maxLength="10"></iInput>
                     </el-col>
                      <el-col span="4" class="ml20">
                         <iButton @click="add">{{ language('添加') }}</iButton>

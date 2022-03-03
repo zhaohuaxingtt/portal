@@ -6,12 +6,13 @@ export const tableColumn = (list) => {
     },
     {
       type: 'index',
-      label: '序号',
+      label: '#',
       width: 100
     },
     {
       prop: 'lableName',
       label: '标签内容',
+      i18n: '标签内容',
       align: 'center',
       sortable: true
     },
@@ -21,13 +22,14 @@ export const tableColumn = (list) => {
       i18n: '问题模块',
       align: 'center',
       customRender: (h, scope) => {
-        return list[scope.row.moduleId] ? list[scope.row.moduleId].menuName : ''
+        return list[scope.row.moduleId] ? `${list[scope.row.moduleId].parentName ? list[scope.row.moduleId].parentName+'-': ''}${list[scope.row.moduleId].menuName}` : ''
       },
       sortable: true
     },
     {
       prop: 'createByName',
       label: '添加人',
+      i18n: '添加人',
       align: 'center',
       tooltip: true,
       sortable: true
@@ -35,6 +37,7 @@ export const tableColumn = (list) => {
     {
       prop: 'createDate',
       label: '添加日期',
+      i18n: '添加日期',
       align: 'center',
       tooltip: true,
       sortable: true

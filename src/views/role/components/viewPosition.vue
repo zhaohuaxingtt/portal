@@ -32,15 +32,18 @@ export default {
       columns: [
         {
           type: 'index',
-          label: '编号'
+          label: '编号',
+          i18n: '编号'
         },
         {
           prop: 'code',
-          label: '岗位编码'
+          label: '岗位编码',
+          i18n: '岗位编码'
         },
         {
           prop: 'fullNameZh',
-          label: '岗位全称'
+          label: '岗位全称',
+          i18n: '岗位全称'
         }
       ],
       data: []
@@ -68,7 +71,7 @@ export default {
         size: this.page.pageSize
       }
       positionListOfRole(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             //
             this.page.totalCount = val.total

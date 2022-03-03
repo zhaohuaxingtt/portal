@@ -219,6 +219,6 @@ export default {
   overflow: auto;
 
   min-width: 200px;
-  min-height: 100px;
+  min-height: 200px;
 }
 </style>

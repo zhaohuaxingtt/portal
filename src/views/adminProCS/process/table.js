@@ -12,20 +12,24 @@ export default [
 	{
 		prop:'name',
 		label:'标题',
+		i18n:'标题',
 		align: 'center'
 	},
 	{
 		prop:'updateDt',
 		label:'更新日期',
+		i18n:'更新日期',
 		align: 'center'
 	},
 	{
 		prop:'version',
 		label:'版本号',
+		i18n:'版本号',
 		align: 'center'
 	},
 	{
 		label:'状态',
+		i18n:'状态',
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateState}) => {
 			return <div on-click={e => e.stopPropagation()}>
@@ -35,6 +39,7 @@ export default [
 	},
 	{
 		label:'是否发送消息',
+		i18n:'是否发送消息',
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateMsg}) => {
 			return <div on-click={e => e.stopPropagation()}>

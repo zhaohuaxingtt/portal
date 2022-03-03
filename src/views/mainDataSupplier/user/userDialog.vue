@@ -1,6 +1,6 @@
 <template>
   <iDialog :visible.sync="dialogVisible"
-           title="供应商用户"
+           :title="language('供应商用户')"
            width="50%"
            @closed="close">
     <el-form label-position="left"

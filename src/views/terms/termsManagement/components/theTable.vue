@@ -55,6 +55,7 @@
       v-if="openSignDetailDialog"
       :openDialog="openSignDetailDialog"
       :id="id"
+      :termsCode="termsCode"
       @flushTable="flushTable"
       @closeDialog="closeSignDetailDialog"
       :approvalProcess="approvalProcess"
@@ -125,6 +126,7 @@ export default {
       signNodeListObj: {},
       openSignDetailDialog: false,
       id: -1,
+      termsCode: -1,
       state: '',
       approvalProcess: [],
       signTitle: {},
@@ -498,6 +500,7 @@ export default {
           state: e.state
         }
         this.id = e.id
+        this.termsCode = e.termsCode
         this.openSignDetailDialog = true
       }
     },

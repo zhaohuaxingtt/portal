@@ -66,8 +66,7 @@
         </div>
       </div>
       <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->
-      <tableList 
-                 ref="commonTable"
+      <tableList ref="commonTable"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :tableLoading="tableLoading"
@@ -94,10 +93,12 @@
         <template #operation="scope">
           <uploadButton :showText="true"
                         @uploadedCallback="handleUploadedCallback($event, scope.row)"
-                        button-text="LK_SHANGCHUAN" />
+                        button-text="LK_SHANGCHUAN"
+                        v-if="scope.row.dataChannelName==='供应商数据'" />
           <el-popover placement="bottom"
                       width="400"
-                      trigger="click">
+                      trigger="click"
+                      v-if="scope.row.dataChannelName==='供应商数据'">
             <table-list :selection="false"
                         :index="true"
                         :tableData="scope.row.attachList"
@@ -128,6 +129,11 @@
               {{ $t('LK_XIAZAI') }}
             </span>
           </el-popover>
+          <span class="openLinkText cursor"
+                @click="hanldeDownload(scope.row)"
+                v-else-if="scope.row.dataChannelName==='资信报告'&&scope.row.reportUrlPdf">
+            {{ $t('LK_XIAZAI') }}
+          </span>
         </template>
         <template #year="scope">
           <iDatePicker v-model="scope.row.year"
@@ -155,7 +161,8 @@
                      class="margin-top20" />
     <dataComparison :comparisonTableData="comparisonTableData"
                     v-model="dataComparisonDialog" />
-    <fetchExternalRatingsDialog v-model="ratingsDialog" @refreshTable="refreshTable" />
+    <fetchExternalRatingsDialog v-model="ratingsDialog"
+                                @refreshTable="refreshTable" />
   </div>
 </template>
 
@@ -163,7 +170,7 @@
 import tableList from '@/components/commonTable'
 import financialSearch from './components/financialSearch'
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
-import { iCard, iButton, iMessage, iDatePicker, iSelect } from 'rise'
+import { iCard, iButton, iMessage, iDatePicker, iSelect, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
@@ -197,7 +204,8 @@ export default {
     uploadButton,
     iDatePicker,
     fetchExternalRatingsDialog,
-    iSelect
+    iSelect,
+    iInput
   },
   data () {
     return {
@@ -247,11 +255,11 @@ export default {
   },
   methods: {
     // pullLevel(){
-      
+
     // },
-    refreshTable(){
+    refreshTable () {
       this.getTableList();
-      this.$emit("submitCalculateRefresh","view")
+      this.$emit("submitCalculateRefresh", "view")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
@@ -323,6 +331,10 @@ export default {
       //   fileList: [row.id]
       // }
       await downloadUdFile(row.filePath)
+    },
+    async hanldeDownload (val) {
+      // if(!val.reportUrlPdf) 
+      await downloadUdFile(val.reportUrlPdf)
     },
     // 上传接口
     async handleUploadedCallback (evnet, row) {

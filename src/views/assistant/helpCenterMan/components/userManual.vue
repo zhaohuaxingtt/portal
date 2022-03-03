@@ -2,16 +2,16 @@
     <div class="manual" ref="content" v-loading="loading">
         <div class="manual-btns">
             <template v-if="type == 'detail'">
-                <iButton v-if="qs.id" @click="del">删除</iButton>
-                <iButton v-if="qs.id" @click="edit">编辑</iButton>
+                <iButton v-if="qs.id" @click="del">{{language('删除')}}</iButton>
+                <iButton v-if="qs.id" @click="edit">{{language('编辑')}}</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
-                    <iButton @click="cancel">取消</iButton>
-                    <iButton @click="preview = true">预览</iButton>
-                    <iButton @click="save">保存</iButton>
+                    <iButton @click="cancel">{{language('取消')}}</iButton>
+                    <iButton @click="preview = true">{{language('预览')}}</iButton>
+                    <iButton @click="save">{{language('保存')}}</iButton>
                 </template>
-                <iButton v-else @click="preview = false">返回</iButton>
+                <iButton v-else @click="preview = false">{{language('返回')}}</iButton>
             </template>
         </div>
         <template v-if="type == 'detail'">

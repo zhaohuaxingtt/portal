@@ -7,9 +7,9 @@
 -->
 <template>
   <div>
-    <factoryMap :factoryAddressVOList='factoryAddressVOList' :supplier360ViewVO='supplier360ViewVO' class="margin-bottom20" />
-    <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO' :supplier360ViewVO='supplier360ViewVO' class="margin-bottom25" />
-    <affiliatedCompany :groupRelationsVO='groupRelationsVO'  :relatedCompanyVO='relatedCompanyVO' />
+    <factoryMap :factoryAddressVOList='factoryAddressVOList' :supplier360ViewVO='supplier360ViewVO' :isShowAll="isShowAll" class="margin-bottom20" />
+    <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO' :supplier360ViewVO='supplier360ViewVO' v-if="isShowAll" class="margin-bottom25" />
+    <affiliatedCompany :groupRelationsVO='groupRelationsVO'  :relatedCompanyVO='relatedCompanyVO' v-if="isShowAll" />
   </div>
 </template>
 
@@ -30,9 +30,11 @@ export default {
       supplier360ViewVO: {},
       financialEarlyWarningVO: [],
       relatedCompanyVO: [],
+      isShowAll:false,
     }
   },
   created() {
+    this.isShowAll = Boolean(this.$route.query.isShowAll);
     this.handleInit()
   },
   methods: {

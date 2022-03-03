@@ -113,7 +113,9 @@ export default {
     getTime () {
       var date = new Date();
       var year = date.getFullYear();
-      return [year + "-01-01 00:00:00", getNowFormatDate() + " 00:00:00"];
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      return [year + "-01-01 00:00:00", year + "-" + month + "-" + day + " 00:00:00"];
     },
     init () {
       getMtzSupplierList({}).then(res => {
