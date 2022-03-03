@@ -81,7 +81,7 @@ export const tableSetting = [
     width: 150
   },
   {
-    prop: 'buyerDeptName',
+    prop: 'buyerDeptNum',
     label: '科室',
     align: 'center',
     i18n: '科室',
