@@ -1,7 +1,7 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-14 17:50:00
- * @LastEditors: zbin
+ * @LastEditors: YoHo
  * @Description: 财务数据
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -15,12 +15,12 @@ export const tableTitle = [
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
-  { props: 'dataChannelName', name: '数据渠道', key: 'SUPPLIER_SHUJUQUDAO' },
+  { props: 'dataChannelName', name: '数据渠道', key: 'SUPPLIER_SHUJUQUDAO', width: 120, },
   {
     props: 'startAccountCycle',
     name: '会计周期起',
     key: 'SUPPLIER_KUAIJIZHOUQIQ',
-    width: 150,
+    width: 160,
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
@@ -28,7 +28,7 @@ export const tableTitle = [
     props: 'endAccountCycle',
     name: '会计周期止',
     key: 'SUPPLIER_KUAIJIZHOUQIZ',
-    width: 150,
+    width: 160,
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
@@ -36,7 +36,7 @@ export const tableTitle = [
     props: 'isAudit',
     name: '是否审计',
     key: 'SUPPLIER_SHIFOUSHENJI',
-    width: 150,
+    width: 100,
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
@@ -80,7 +80,7 @@ export const tableTitle = [
     required: true,
     rule: [{ required: true, message: '请选择', trigger: 'blur' }]
   },
-  { props: 'dataTime', name: '上传时间', key: 'SUPPLIER_SHANGCHUANSHIJIAN' },
+  { props: 'dataTime', name: '上传时间', key: 'SUPPLIER_SHANGCHUANSHIJIAN', width: 180 },
   { props: 'operation', name: '操作', key: 'LK_CAOZUO' }
 ]
 export const supplierDataTableTitle = [

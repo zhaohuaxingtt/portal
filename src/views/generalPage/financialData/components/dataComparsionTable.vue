@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -22,6 +22,7 @@
                v-loading="loading"
                :tableLoading="tableLoading"
                @handleSelectionChange="handleSelectionChange"
+               border
                :index="true">
       <template #value0="scope">
         <iDatePicker style="width:100%"

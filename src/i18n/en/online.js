@@ -3901,5 +3901,6 @@ export default {
   SHANGCHUANFUJIJAN: 'Upload Attachments',
   LK_ZHINENGSHANGCHUANWENJIAN: 'You can only upload files',
   QINGQIUCUOWU: 'Request failed!',
-  EKL_CAILIAOZU: 'Material Group No.'
+  EKL_CAILIAOZU: 'Material Group No.',
+  SUPPLIER_FUKUANXIGUAN: 'Pay Habit'
 }

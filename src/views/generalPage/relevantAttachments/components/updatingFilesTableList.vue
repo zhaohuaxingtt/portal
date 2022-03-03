@@ -1,16 +1,17 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-02-14 19:44:06
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 18:29:59
+ * @LastEditors: YoHo
  * @Description: 附件上传表格
 -->
 <template>
-  <el-table :height="height"
+  <el-table class="table" :height="height"
             tooltip-effect='light'
             :data='tableData'
             :empty-text="$t('LK_ZANWUSHUJU')"
             v-loading='tableLoading'
+            border
             @selection-change="handleSelectionChange">
     <el-table-column v-if="selection"
                      type='selection'
@@ -263,11 +264,14 @@ export default {
   margin: 2px 0;
 }
 
-::v-deep .el-table__row .el-input {
-  height: 35px !important;
-
-  .el-input__inner {
+.table{
+  
+  ::v-deep .el-table__row .el-input {
     height: 35px !important;
+    width: 100% !important;
+    .el-input__inner {
+      height: 35px !important;
+    }
   }
 }
 
