@@ -1506,6 +1506,8 @@ export default {
   LK_HUISHOUDANJIARMBUOM: 'Unit Price',
   AEKOHAO: 'AEKO No.',
   JICHUXINXI: 'Basic Info.',
+  ZHANGJIAJIEJIANGBI: 'Price increase and price reduction ratio',
+  JIANGJIAJIEJIANGBI: 'Price reduction and reduction ratio',
   YUANLINGJIANHAO: 'Prev. Part No.',
   GONGYINGSHANGJIANCHENG: 'Supplier Abbr.',
   BAOJIAZHUANGTAI: 'Quote Status',
@@ -3899,5 +3901,6 @@ export default {
   SHANGCHUANFUJIJAN: 'Upload Attachments',
   LK_ZHINENGSHANGCHUANWENJIAN: 'You can only upload files',
   QINGQIUCUOWU: 'Request failed!',
-  EKL_CAILIAOZU: 'Material Group No.'
+  EKL_CAILIAOZU: 'Material Group No.',
+  SUPPLIER_FUKUANXIGUAN: 'Pay Habit'
 }

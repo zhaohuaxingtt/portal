@@ -1,8 +1,8 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-14 17:50:00
- * @LastEditTime: 2021-04-14 17:50:00
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 18:40:16
+ * @LastEditors: YoHo
  * @Description: 财务大数
  */
 
@@ -54,7 +54,7 @@ export const tableTitle = [
     name: '其他应收款',
     icon: 'iconxinxitishi',
     iconText: '或“其他应收款+应收补贴款”。',
-    width: 120,
+    width: 130,
     key: 'SUPPLIER_QTYSK',
     iconTextKey: 'SUPPLIER_QTYSKBZ',
     required: true,
@@ -65,7 +65,7 @@ export const tableTitle = [
     name: '流动资产',
     icon: 'iconxinxitishi',
     iconText: '旧准则需减去“预计负债”。',
-    width: 100,
+    width: 120,
     key: 'SUPPLIER_LDZC',
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]

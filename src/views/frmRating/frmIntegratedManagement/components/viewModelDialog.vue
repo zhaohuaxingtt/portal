@@ -10,14 +10,15 @@
         <div class="floatright">
           <!--保存-->
           <iButton @click="saveInitialCommentModel(true, true)"
-                   :loading="saveButtonLoading">{{
+                   :loading="saveButtonLoading"
+                   v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_MODEL_SAVE">{{
               $t('LK_BAOCUN')
             }}
           </iButton>
           <!--新增-->
-          <iButton @click="addTableItem">{{ $t('LK_XINZENG') }}</iButton>
+          <iButton @click="addTableItem" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_MODEL_ADD">{{ $t('LK_XINZENG') }}</iButton>
           <!--删除-->
-          <iButton @click="handleDeleteButtonClick">{{
+          <iButton @click="handleDeleteButtonClick" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_MODEL_DEL">{{
             $t('delete')
           }}</iButton>
           <!-- <el-popconfirm
