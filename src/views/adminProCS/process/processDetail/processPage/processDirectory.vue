@@ -1,7 +1,7 @@
 <template>
 <!-- 流程目录 -->
     <iDialog
-        title="主流程目录"
+        :title="language('主流程目录')"
         :visible.sync="show" 
         width="600px" 
         @close='close' 
@@ -10,7 +10,7 @@
         class="process-dialog"
     >
         <div class="content" v-loading="loading">
-            <iButton class="mb20" @click="addFirst">添加一级目录</iButton>
+            <iButton class="mb20" @click="addFirst">{{language('添加一级目录')}}</iButton>
            <el-tree
             :data="tree"
             node-key="id"
@@ -23,20 +23,20 @@
                         type="text"
                         size="mini"
                         @click.stop="() => append(data)">
-                        添加
+                        {{language('添加')}}
                     </el-button>
                     <el-button
                         type="text"
                         size="mini"
                         @click.stop="() => edit(data)">
-                        编辑
+                        {{language('编辑')}}
                     </el-button>
                     <el-button
                         v-if="!data.children || data.children.length == 0"
                         type="text"
                         size="mini"
                         @click.stop="() => remove(data)">
-                        删除
+                        {{language('删除')}}
                     </el-button>
                 </span>
             </span>
@@ -47,7 +47,7 @@
         </div>
 
         <iDialog
-            title="添加目录"
+            :title="language('添加目录')"
             :visible.sync="editDialog" 
             width="500px" 
             @close='editClose' 
@@ -63,17 +63,17 @@
                 class="validate-required-form"
             >
                 <iFormItem :label="language('目录中文名')" prop='cnName'>
-                    <iInput v-model="form.cnName" maxlength="50" placeholder="请输入目录中文名"></iInput>
+                    <iInput v-model="form.cnName" maxlength="50" :placeholder="language('请输入目录中文名')"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('目录英文名')" prop='enName'>
-                    <iInput v-model="form.enName" maxlength="50" placeholder="请输入目录英文名"></iInput>
+                    <iInput v-model="form.enName" maxlength="50" :placeholder="language('请输入目录英文名')"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('流程页面')" prop='workFlowPage'>
                     <iSelect
                         v-model="form.workFlowPage"
                         filterable
                         clearable
-                        placeholder="请选择页面"
+                        :placeholder="language('请选择页面')"
                         >
                         <el-option
                             v-for="item in processPageList"

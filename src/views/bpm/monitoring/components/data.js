@@ -45,6 +45,7 @@ export const TABLE_COLUMS = [
   {
     prop: 'processDefinitionName',
     i18n: '流程名称',
+    width:'340px',
     emit: 'go-template',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row?.processDefinitionName}</span>
@@ -57,6 +58,7 @@ export const TABLE_COLUMS = [
   {
     prop: '',
     i18n: '申请人',
+    width:100,
     customRender: (h, scope) => {
       return scope.row?.startUser?.nameZh
     }
@@ -67,7 +69,7 @@ export const TABLE_COLUMS = [
   },
   {
     prop: 'procStatusMsg',
-    i18n: '当前状态'
+    i18n: '当前状态',
   },
   {
     prop: 'reason',

@@ -8,11 +8,13 @@ const PROCESS_PAGE = [
     {
         prop:'name',
         label:'页面标题',
+        i18n:'页面标题',
         align: 'center'
     },
     {
         prop:'updateDt',
         label:'发布日期',
+        i18n:'发布日期',
         align: 'center',
         customRender:(h,{row}) => {
             return moment(row.updateDt).format('YYYY-MM-DD')
@@ -20,6 +22,7 @@ const PROCESS_PAGE = [
     },
     {
         label:'操作',
+        i18n:'操作',
         align: 'center',
         customRender:(h,{row},col,{operate}) => {
             return (
@@ -43,14 +46,17 @@ const DOC = [
     },
     {
         prop:'title',
-        label:'文档名称'
+        label:'文档名称',
+        i18n:'文档名称'
     },
     {
         prop:'publishTime',
-        label:'发布日期'
+        label:'发布日期',
+        i18n:'发布日期'
     },
     {
         label:'操作',
+        i18n:'操作',
         customRender:(h,{row},col,{del}) => {
             return <iButton type="text" on-click={() => del(row)}>删除</iButton>
         }
@@ -64,14 +70,17 @@ const GUIDE = [
     },
     {
         prop:'name',
-        label:'文档名称'
+        label:'文档名称',
+        i18n:'文档名称'
     },
     {
         prop:'publishDate',
-        label:'发布日期'
+        label:'发布日期',
+        i18n:'发布日期'
     },
     {
         label:'操作',
+        i18n:'操作',
         customRender:(h,{row},col,{del}) => {
             return <iButton type="text" on-click={() => del(row)}>删除</iButton>
         }
@@ -87,20 +96,24 @@ const QUESTION = [
     {
         prop:'firstLetter',
         label:'首字母',
+        i18n:'首字母',
         align: 'center'
     },
     {
         prop:'name',
         label:'问题描述',
+        i18n:'问题描述',
         align: 'center'
     },
     {
         prop:'updatedAt',
         label:'最后更新',
+        i18n:'最后更新',
         align: 'center'
     },
     {
         label:'操作',
+        i18n:'操作',
         align: 'center',
         customRender:(h,{row},col,{operate}) => {
             return (
@@ -124,20 +137,24 @@ const AttachColumn = [
     {
         prop:'name',
         label:'文档名称',
+        i18n:'文档名称',
         align: 'center'
     },
     {
         prop:'version',
         label:'版本号',
+        i18n:'版本号',
         align: 'center'
     },
     {
         prop:'publishDate',
         label:'发布日期',
+        i18n:'发布日期',
         align: 'center'
     },
     {
         label:'操作',
+        i18n:'操作',
         align: 'center',
         customRender:(h,{row},col,{del}) => {
             return (

@@ -1,8 +1,8 @@
 <template>
-  <iDialog title="转派" style="margin-top:20vh" :visible.sync="show" v-if="show" width="30%" @close='closeDiologBtn' append-to-body>
+  <iDialog :title="language('转派')" style="margin-top:20vh" :visible.sync="show" v-if="show" width="30%" @close='closeDiologBtn' append-to-body>
     <div class="flex flex-row justify-between">
-      <div style="width:80px;">管理员</div>
-      <iSelect v-model="userId" filterable placeholder="请输入">
+      <div style="width:80px;">{{language('管理员')}}</div>
+      <iSelect v-model="userId" filterable :placeholder="language('请输入')">
         <el-option v-for="item in userList" :key="item.id" :label="language(item.nameZh)" :value="item.id"></el-option>
       </iSelect>
     </div>

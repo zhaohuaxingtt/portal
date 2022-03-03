@@ -1,11 +1,11 @@
 <template>
   <div class="material-dialog">
-    <iDialog :title="'未分配完材料组'" :visible.sync="isShow" width="70%">
+    <iDialog :title="language('未分配完材料组')" :visible.sync="isShow" width="70%">
       <el-table :data="materialUndistributed" style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="车型/品牌">
+              <el-form-item :label="language('车型/品牌')">
                 <span
                   :class="
                     index === props.row.carType.length - 1
@@ -21,7 +21,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="材料组名称" prop="value"></el-table-column>
+        <el-table-column :label="language('材料组名称')" prop="value"></el-table-column>
       </el-table>
       <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="isShow = false">取消</el-button>

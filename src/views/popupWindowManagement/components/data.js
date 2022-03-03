@@ -11,7 +11,7 @@ export const TABLE_COLUMNS = [
     {
       i18n:'弹窗编码',
         prop:'id',
-        width:400
+        width:150
     },
     {
       i18n:'弹窗标题',
@@ -27,6 +27,7 @@ export const TABLE_COLUMNS = [
     },
     {
         i18n:'发送时间',
+        width:200,
         // prop:'publishTime',//publishPreTime
         customRender:(h,scope)=>{
           if(scope.row.publishTime){

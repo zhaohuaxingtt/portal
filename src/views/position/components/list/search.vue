@@ -7,7 +7,7 @@
         :class="!index && 'margin-right68'"
       >
         <iLabel
-          :label="query[index].label"
+          :label="language(query[index].label)"
           slot="label"
           class="labelfont"
         ></iLabel>
