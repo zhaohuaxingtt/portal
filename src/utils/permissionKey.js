@@ -596,7 +596,9 @@ export default function getPermissionKey() {
       permissionKeyMap[hashUrl.toLocaleLowerCase()] ||
       permissionKeyMap[url.toLocaleLowerCase()] ||
       ''
-    return Base64.resEncode(key)
+    if (key) {
+      return Base64.resEncode(key)
+    }
   }
   return ''
 }
