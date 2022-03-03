@@ -39,7 +39,7 @@ export const MOULD_TABLE_COLUMNS = [
     prop: 'code',
     label: '模具材料组编号',
     i18n: '模具材料组编号',
-    width:'120px',
+    width:'150px',
     // openNewPage: true,
     emit: 'go-detail',
     customRender: (h, scope) => {

@@ -6,12 +6,13 @@ export const tableColumn = (list) => {
     },
     {
       type: 'index',
-      label: '序号',
+      label: '#',
       width: 100
     },
     {
       prop: 'lableName',
       label: '标签内容',
+      i18n: '标签内容',
       align: 'center',
       sortable: true
     },
@@ -28,6 +29,7 @@ export const tableColumn = (list) => {
     {
       prop: 'createByName',
       label: '添加人',
+      i18n: '添加人',
       align: 'center',
       tooltip: true,
       sortable: true
@@ -35,6 +37,7 @@ export const tableColumn = (list) => {
     {
       prop: 'createDate',
       label: '添加日期',
+      i18n: '添加日期',
       align: 'center',
       tooltip: true,
       sortable: true

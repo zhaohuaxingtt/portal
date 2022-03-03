@@ -4,12 +4,12 @@
         <iCard class="margin-top20">
             <div class="margin-bottom20 flex justify-between">
                 <div>
-                    <iButton @click="addFun">添加流程</iButton>
-                    <iButton @click="handleMainChart">主流程图</iButton>
+                    <iButton @click="addFun">{{language('添加流程')}}</iButton>
+                    <iButton @click="handleMainChart">{{language('主流程图')}}</iButton>
                 </div>
                 <div>
-                    <iButton :disabled="disabled" @click="edit">修改</iButton>
-                    <iButton :disabled="disabled" @click="del">删除</iButton>
+                    <iButton :disabled="disabled" @click="edit">{{language('修改')}}</iButton>
+                    <iButton :disabled="disabled" @click="del">{{language('删除')}}</iButton>
                 </div>
             </div>
             <iTableCustom

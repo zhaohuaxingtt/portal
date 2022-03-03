@@ -2,7 +2,9 @@
   <iCard style="height:16rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
-      <span class="el-dropdown-link"
+    </div>
+    <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div>
+    <!-- <span class="el-dropdown-link"
             v-permission="Card_Nomination_More">
         <i class="el-icon-more"></i>
       </span>
@@ -18,7 +20,7 @@
       </div>
       <div ref="chart"
            class="chartStyle"> </div>
-    </div>
+    </div> -->
   </iCard>
 </template>
 <script>
@@ -149,5 +151,10 @@ export default {
 }
 .box:nth-child(1) div {
   margin: 6px;
+}
+.center {
+  height: 160px;
+  display: flex;
+  align-items: center;
 }
 </style>

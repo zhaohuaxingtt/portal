@@ -1,10 +1,10 @@
 <template>
   <iPage>
     <div class="title">
-      <pageHeader v-if="this.$route.query.id"
-        >{{ this.formContent.code }}
-        {{ language(formContent.pgNameZh) }}</pageHeader
-      >
+      <pageHeader v-if="this.$route.query.id">
+        {{ this.formContent.code }}
+        {{ language(formContent.pgNameZh) }}
+      </pageHeader>
       <pageHeader v-else>{{ language(pageTitle) }}</pageHeader>
     </div>
     <div class="content">
@@ -102,7 +102,7 @@
                   :label="labelTitle.BFtryoutDate"
                   prop="bfFirstTryoutWeek"
                 >
-                  <span slot="label" v-html="labelTitle.BFtryoutDate"></span>
+                  <span slot="label" v-html="language(labelTitle.BFtryoutDate)"></span>
                   <iInput
                     :placeholder="language('请输入')"
                     :disabled="readOnly"
@@ -112,7 +112,7 @@
               </el-col>
               <el-col :span="6">
                 <iFormItem :label="labelTitle.tryoutOTS" prop="firstTryOtsWeek">
-                  <span slot="label" v-html="labelTitle.tryoutOTS"></span>
+                  <span slot="label" v-html="language(labelTitle.tryoutOTS)"></span>
                   <iInput
                     :placeholder="language('请输入')"
                     :disabled="readOnly"
@@ -122,7 +122,7 @@
               </el-col>
               <el-col :span="6">
                 <iFormItem :label="labelTitle.tryoutEM" prop="firstTryEmWeek">
-                  <span slot="label" v-html="labelTitle.tryoutEM"></span>
+                  <span slot="label" v-html="language(labelTitle.tryoutEM)"></span>
                   <iInput
                     :placeholder="language('请输入')"
                     :disabled="readOnly"

@@ -13,18 +13,18 @@
         <iButton
           @click="searchDetail"
           :disabled="this.selectedItems.length != 1"
-          >查看</iButton
+          >{{language('查看')}}</iButton
         >
         <iButton @click="newAdd" :disabled="this.selectedItems.length != 1"
-          >新增</iButton
+          >{{language('新增')}}</iButton
         >
         <iButton @click="edit" :disabled="this.selectedItems.length != 1"
-          >编辑</iButton
+          >{{language('编辑')}}</iButton
         >
         <iButton @click="del" :disabled="this.selectedItems.length != 1"
-          >删除</iButton
+          >{{language('删除')}}</iButton
         >
-        <iButton @click="handleAddRoot">新建根节点</iButton>
+        <iButton @click="handleAddRoot">{{language('新建根节点')}}</iButton>
       </div>
       <div class="tableList">
         <iTableCustom

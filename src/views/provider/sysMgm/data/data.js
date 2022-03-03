@@ -29,6 +29,7 @@ export const tableColumnSetting = [
   {
     prop: 'appNameCn',
     label: '中文名称',
+    i18n: '中文名称',
     align: 'center',
     emit: 'open-detail',
     customRender: (h, scope) => {
@@ -39,12 +40,14 @@ export const tableColumnSetting = [
   {
     prop: 'appNameEn',
     label: '英文名称',
+    i18n: '英文名称',
     align: 'center',
     sortable: true
   },
   {
     prop: 'systemType',
     label: '系统类型',
+    i18n: '系统类型',
     align: 'center',
     customRender: (h, scope) => {
       let type = scope.row.systemType
@@ -58,6 +61,7 @@ export const tableColumnSetting = [
   {
     prop: 'supplierType',
     label: '系统标签',
+    i18n: '系统标签',
     align: 'center',
     customRender: (h, scope) => {
       let type = scope.row.supplierType
@@ -93,6 +97,7 @@ export const tableColumnSetting = [
   {
     prop: 'description',
     label: '系统功能说明',
+    i18n: '系统功能说明',
     align: 'center',
     sortable: true
   }
