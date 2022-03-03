@@ -45,7 +45,6 @@ import { iPage, iSearch, iFormItem, iInput } from 'rise'
 import panelCategory from '@/components/common/panelCategory'
 import { fetchTaskCenter } from '@/api/duty'
 import { openUrl } from '@/utils/index'
-// import func from 'vue-editor-bridge'
 export default {
   components: {
     pageHeader,
@@ -104,7 +103,6 @@ export default {
         userId: this.userId,
         userTye: this.userType == 1 ? 2 : 1
       }).finally(() => (this.loading = false))
-      console.log('data', data)
       const data = res || {}
       const titles = Object.keys(data)
 
