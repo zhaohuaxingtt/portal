@@ -9,7 +9,7 @@
  */
 import { iMessage } from 'rise'
 import { getToken, removeToken, setToken, setRefreshToken } from '@/utils'
-import getPermissionKey from '@/utils/permissionKey'
+import getResCode from './resCode'
 import store from '@/store'
 const fileType = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -35,7 +35,7 @@ export default function httpRequest(baseUrl = '', timeOut = 15000) {
       ) {
         config.headers['token'] = getToken() || ''
       }
-      config.headers['resCode'] = getPermissionKey()
+      config.headers['resCode'] = getResCode()
       // IE上的同一个url请求会走cache
       if (config.method === 'post' || config.method === 'POST') {
         config.url =
