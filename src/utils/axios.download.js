@@ -10,6 +10,7 @@
 import { iMessage } from 'rise'
 import { getToken, removeToken, setToken, setRefreshToken } from '@/utils'
 import store from '@/store'
+import getResCode from './resCode'
 const fileType = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   xls: 'application/x-xls',
@@ -34,12 +35,7 @@ export default function httpRequest(baseUrl = '', timeOut = 15000) {
       ) {
         config.headers['token'] = getToken() || ''
       }
-      const seconedPerminssionKey = window.sessionStorage.getItem(
-        'seconedPerminssionKey'
-      )
-      if (seconedPerminssionKey) {
-        config.headers['resCode'] = seconedPerminssionKey
-      }
+      config.headers['resCode'] = getResCode(config.url)
       // IE上的同一个url请求会走cache
       if (config.method === 'post' || config.method === 'POST') {
         config.url =
