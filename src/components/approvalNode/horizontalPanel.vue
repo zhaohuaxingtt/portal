@@ -1,6 +1,11 @@
 <template>
   <div class="horizontal-panel" :id="panelId">
-    <horizontal :data="nodeData" id="hrizontalNode" class="hrizontalNode" />
+    <horizontal
+      :data="nodeData"
+      id="hrizontalNode"
+      class="hrizontalNode"
+      :size="size"
+    />
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -37,6 +42,14 @@ export default {
     instanceId: {
       type: String,
       default: ''
+    },
+    lineSpacing: {
+      type: Number,
+      default: 100
+    },
+    size: {
+      type: String,
+      default: 'large'
     }
   },
   computed: {
@@ -139,22 +152,26 @@ export default {
               `${item.left + spacingLeft},${item.top + topIndent}`
             )
             groupPositions.push(
-              `${item.left + spacingLeft + 100},${item.top + topIndent}`
+              `${item.left + spacingLeft + this.lineSpacing},${
+                item.top + topIndent
+              }`
             )
 
             // 中 -- 中上
             groupPositions.push(
-              `${item.left + spacingLeft + 100},${item.top + topIndent}`
+              `${item.left + spacingLeft + this.lineSpacing},${
+                item.top + topIndent
+              }`
             )
             groupPositions.push(
-              `${item.left + spacingLeft + 100},${
+              `${item.left + spacingLeft + this.lineSpacing},${
                 childNodes[0].top + topIndent
               }`
             )
 
             // 中上 -- 右上
             groupPositions.push(
-              `${item.left + spacingLeft + 100},${
+              `${item.left + spacingLeft + this.lineSpacing},${
                 childNodes[0].top + topIndent
               }`
             )
@@ -172,17 +189,19 @@ export default {
             const groupPositionDown = []
             // 中 -- 中下
             groupPositionDown.push(
-              `${item.left + spacingLeft + 100},${item.top + topIndent}`
+              `${item.left + spacingLeft + this.lineSpacing},${
+                item.top + topIndent
+              }`
             )
             groupPositionDown.push(
-              `${item.left + spacingLeft + 100},${
+              `${item.left + spacingLeft + this.lineSpacing},${
                 childNodes[1].top + topIndent
               }`
             )
 
             // 中下 -- 右下
             groupPositionDown.push(
-              `${item.left + spacingLeft + 100},${
+              `${item.left + spacingLeft + this.lineSpacing},${
                 childNodes[1].top + topIndent
               }`
             )

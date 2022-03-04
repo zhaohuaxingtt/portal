@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditors: 水痕
+ * @LastEditors: YoHo
  * @Description: 材料表格
 -->
 <template>
@@ -74,6 +74,7 @@
       :index="true"
       :inputProps="['remark']"
       @handleSelectionChange="handleSelectionChange"
+      border
     >
       <template #isEffect="scope">
         <span>{{

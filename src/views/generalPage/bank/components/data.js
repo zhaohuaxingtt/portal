@@ -1,5 +1,12 @@
+/*
+ * @Author: YoHo
+ * @Date: 2021-12-24 15:14:50
+ * @LastEditTime: 2022-03-03 17:47:13
+ * @LastEditors: YoHo
+ * @Description: 
+ */
 export const tableTitle = [
-    {props: 'bankName', name: '银行名称', key: 'YINHANGMINCHENG', maxlength: 200},
+    {props: 'bankName', name: '银行名称', key: 'YINHANGMINCHENG', maxlength: 200, width: 200},
     {
         props: 'creditAmount', name: '授信金额（元）', key: 'SHOUQUANJINE', maxlength: 100,
         required: true,

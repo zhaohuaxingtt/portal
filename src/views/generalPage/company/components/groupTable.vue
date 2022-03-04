@@ -1,3 +1,10 @@
+<!--
+ * @Author: YoHo
+ * @Date: 2022-02-16 17:36:57
+ * @LastEditTime: 2022-03-03 17:02:24
+ * @LastEditors: YoHo
+ * @Description: 
+-->
 <!-- 集团 -->
 <template>
   <iCard>
@@ -20,6 +27,7 @@
         @handleSelectionChange="handleSelectionChange"
         :input-props="inputProps"
         :index="true"
+        border
     />
   </iCard>
 </template>

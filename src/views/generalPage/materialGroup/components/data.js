@@ -1,7 +1,7 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-15 17:50:00
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: 材料组
  */
 
@@ -10,20 +10,22 @@ export const materialTableTitle = [
     props: 'categoryCode',
     name: '材料组编号',
     key: 'SUPPLIER_CAILIAOZUBIANHAO',
-    tooltip: true
+    tooltip: true,
+    width: 100
   },
   {
     props: 'categoryNameZh',
     name: '材料组名称',
     key: 'SUPPLIER_CAILIAOZUMINGCHENG',
-    tooltip: true
+    tooltip: true,
+    width: 160
   },
   {
     props: 'stuffCode',
     name: '材料组工艺编号',
     key: 'SUPPLIER_CAILIAOZUGONGYIBIAOHAO',
     tooltip: true,
-    width: 140
+    width: 130
   },
   {
     props: 'stuffName',
@@ -43,13 +45,15 @@ export const materialTableTitle = [
     props: 'linieGroup',
     name: '采购员科室',
     key: 'CAIGOUYUANKESHI',
-    tooltip: true
+    tooltip: true,
+    width: 160
   },
   {
     props: 'linieNames',
     name: '采购员',
     key: 'CAIGOUYUAN',
-    tooltip: true
+    tooltip: true,
+    width: 160
   },
   {
     props: 'bdlType',
@@ -83,7 +87,7 @@ export const materialTableTitle = [
     props: 'remark',
     name: '受控原因',
     key: 'SUPPLIER_SHOUKONGYUANYIN',
-    width: 120,
+    width: 300,
     tooltip: true
   }
 ]
