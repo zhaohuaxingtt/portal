@@ -9,9 +9,9 @@
 
 <script>
 import { iNavMvp } from 'rise'
-import { MENUS as mainDataMenus } from '@/views/mainData/layout/data'
-import { MENUS as materielDataMenus } from '@/views/materielMainData/layout/data'
-import { MENUS as supplierDataMenus } from '@/views/mainDataSupplier/layout/data'
+import { MENUSZh as mainDataMenus } from '@/views/mainData/layout/data'
+import { MENUSZh as materielDataMenus } from '@/views/materielMainData/layout/data'
+import { MENUSZh as supplierDataMenus } from '@/views/mainDataSupplier/layout/data'
 export default {
   name: 'masterDataManage',
   components: { iNavMvp },
@@ -79,10 +79,6 @@ export default {
 
       if (menuItem) {
         const permissionKey = menuItem.permissionKey
-        console.log(
-          'this.whiteBtnList[permissionKey]',
-          this.whiteBtnList[permissionKey]
-        )
         // 入口url不在授权列表
         if (!this.whiteBtnList[permissionKey]) {
           let redirectUrl = ''
@@ -93,7 +89,6 @@ export default {
               break
             }
           }
-          console.log('redirectUrl', redirectUrl)
           if (redirectUrl) {
             this.$router.push({ path: redirectUrl })
           }
