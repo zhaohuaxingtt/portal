@@ -50,6 +50,7 @@ function getActiveMenu(route) {
 }
 
 function getUrl(requestUrl) {
+  // if(requestUrl.toLowerCase().includes(''))
   const urlArr = requestUrl.split('?')
   return urlArr.length ? urlArr[0] : ''
 }
