@@ -62,9 +62,15 @@
                     v-if="$route.path === '/supplier/view-suppliers'"
                     @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}
           </i-button>
-          <i-button v-if="
-              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
-            "
+
+
+
+          <i-button v-if="$route.path == '/supplier/frmrating/newsupplierrating/rating1'"
+                    @click="handleExportEarnings"
+                    v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_DCCB"
+                    >{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+          </i-button>
+          <i-button v-if="$route.path !== '/supplier/frmrating/newsupplierrating/rating1'"
                     @click="handleExportEarnings"
                     v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>

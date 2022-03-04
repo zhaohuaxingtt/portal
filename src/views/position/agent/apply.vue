@@ -291,49 +291,53 @@ export default {
       })
     },
     addPositionAgent() {
-      this.form.durationDays = this.duration
-      // this.form.startDate = this.form.startDate + " 23:59:59";
-      let startSuffix = ' 00:00:00'
-      let suffix = ' 23:59:59'
-      if (
-        this.form.startDate &&
-        this.form.startDate.indexOf(startSuffix) == -1
-      ) {
-        this.form.startDate = this.form.startDate + startSuffix
-      }
-      if (this.form.endDate && this.form.endDate.indexOf(suffix) == -1) {
-        this.form.endDate = this.form.endDate + suffix
-      }
-      let param = {
-        ...this.form,
-        type: 3,
-        sourceId: this.$store.state.permission.userInfo.positionDTO.id
-      }
-      this.loading = true
-      applyPositionAgent(param)
-        .then((value) => {
-          // console.log("====oooo", value);
-          if (value.code == 200) {
-            //创建成功
-            iMessage.success(value.desZh || '提交成功')
-            if (window.opener) {
-              setTimeout(() => {
-                window.close()
-              }, 2000)
-              window.opener.postMessage('refresh')
-            } else {
-              this.$router.go(-1)
-            }
-          } else {
-            iMessage.error(value.desZh || '提交失败')
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.form.durationDays = this.duration
+          // this.form.startDate = this.form.startDate + " 23:59:59";
+          let startSuffix = ' 00:00:00'
+          let suffix = ' 23:59:59'
+          if (
+            this.form.startDate &&
+            this.form.startDate.indexOf(startSuffix) == -1
+          ) {
+            this.form.startDate = this.form.startDate + startSuffix
           }
-        })
-        .catch((err) => {
-          iMessage.error(err.desZh || '')
-        })
-        .finally(() => {
-          this.loading = false
-        })
+          if (this.form.endDate && this.form.endDate.indexOf(suffix) == -1) {
+            this.form.endDate = this.form.endDate + suffix
+          }
+          let param = {
+            ...this.form,
+            type: 3,
+            sourceId: this.$store.state.permission.userInfo.positionDTO.id
+          }
+          this.loading = true
+          applyPositionAgent(param)
+            .then((value) => {
+              // console.log("====oooo", value);
+              if (value.code == 200) {
+                //创建成功
+                iMessage.success(value.desZh || '提交成功')
+                if (window.opener) {
+                  setTimeout(() => {
+                    window.close()
+                  }, 2000)
+                  window.opener.postMessage('refresh')
+                } else {
+                  this.$router.go(-1)
+                }
+              } else {
+                iMessage.error(value.desZh || '提交失败')
+              }
+            })
+            .catch((err) => {
+              iMessage.error(err.desZh || '')
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        }
+      })
     },
     deletePosition(value) {
       if (!this.canEdit) {
