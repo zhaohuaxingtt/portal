@@ -9,6 +9,7 @@ const requesClearMeeting = axios(process.env.VUE_APP_MEETING)
 const requestEKL = axios(process.env.VUE_APP_EKL)
 const requestRate = axios(process.env.VUE_APP_CHANGEPRICE)
 const requestNews = axios(process.env.VUE_APP_NEWS)
+const requestMtz = axios(process.env.VUE_APP_MTZ)
 export function getApprovalList(params) {
   return requestApproval({
     url: '/web/workflow/statisticsDashboardWf',
@@ -59,10 +60,18 @@ export function getSponserData(params) {
   })
 }
 
+// export function getKpiCates(params) {
+//   return requestSup({
+//     url: '/kpi/totalScore/template/dept',
+//     method: 'GET',
+//     param: params
+//   })
+// }
+
 export function getKpiCates(params) {
-  return requestSup({
-    url: '/kpi/totalScore/template/dept',
-    method: 'GET',
+  return requestMtz({
+    url: '/web/mtz/forecastOther/queryDeptSection',
+    method: 'POST',
     param: params
   })
 }
