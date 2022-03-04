@@ -276,7 +276,7 @@ export default {
             name: this.language('ZHANGJIA', '涨价'),
             data: data2,
             type: 'bar',
-            barWidth: 30,
+            barWidth: 40,
             itemStyle: {
               normal: {
                 fontSize: 12,
@@ -290,7 +290,7 @@ export default {
               color: '#fff',
               formatter: function (params) {
                 console.log(params)
-                return parseInt(params.data) + '%'
+                return parseFloat(params.data).toFixed(2)
               }
             }
           },
@@ -299,11 +299,15 @@ export default {
             data: data1,
             type: 'bar',
             barGap: '-100%',
-            barWidth: 30,
+            barWidth: 40,
             label: {
               show: true,
               position: 'inside',
-              color: '#fff'
+              color: '#fff',
+              formatter: function (params) {
+                console.log(params)
+                return parseFloat(params.data).toFixed(2)
+              }
             },
             itemStyle: {
               normal: {
