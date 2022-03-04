@@ -112,7 +112,8 @@
           const zycgkzORkzzl = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ' || item.code == 'ZYCGKSXTY')
           const zycgkz = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ')
           const kzzl = this.roleList.some(item => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY')
-          const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+          // const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+          const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'CSXTGLY')
           const zycgbz = this.roleList.some(item => item.code == 'CGBZ')
           const bzzl = this.roleList.some(item => item.code == 'BZZL')
           const zycggz = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ')
@@ -161,6 +162,7 @@
           const BZZL = this.roleList.some(item => item.code == 'BZZL')    // 部长助理
           const GZ = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ') // 股长
           const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
+          const CSXTGLY = this.roleList.some(item => item.code == 'CSXTGLY') // cs系统管理员
           if(PFJYJGLY) {
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
@@ -204,6 +206,9 @@
             // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
+          } else if (CSXTGLY) {
+            this.btnsgroup1 = ['CS', 'CS(Spare)']
+            return 'CS'
           }
         }
       },
