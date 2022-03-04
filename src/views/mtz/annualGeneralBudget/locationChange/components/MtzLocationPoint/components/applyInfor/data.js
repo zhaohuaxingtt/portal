@@ -1,10 +1,22 @@
 export const tabsInforList = [
-  { name: '申请单号',key:'SHENQINGDANHAO',prop: 'mtzAppId' },
-  { name: '申请单名',key:'SHENQINGDANMING', prop: 'appName',type:"tooltip",tooltipStyle:"top" },
-  { name: 'Linie',key:'LINIE', prop: 'linieName' },
+  { name: '申请单号', key: 'SHENQINGDANHAO', prop: 'mtzAppId' },
+  {
+    name: '申请单名',
+    key: 'SHENQINGDANMING',
+    prop: 'appName',
+    type: 'tooltip',
+    tooltipStyle: 'top'
+  },
+  { name: 'Linie', key: 'LINIE', prop: 'linieName' },
   // { name: '申请单类型',key:'SHENQINGDANLEIXING', prop: 'flowType', type: 'select' },
-  { name: '申请状态',key:'SHENQINGZHUANGTAI', prop: 'appStatus' },
-  { name: '会议名称',key:'HUIYIMINGCHENG', prop: 'meetingName',type:"tooltip",tooltipStyle:"bottom"}
+  { name: '申请状态', key: 'SHENQINGZHUANGTAI', prop: 'appStatus' },
+  {
+    name: '会议名称',
+    key: 'HUIYIMINGCHENG',
+    prop: 'meetingName',
+    type: 'tooltip',
+    tooltipStyle: 'bottom'
+  }
 ]
 
 export const tableTitle = [
@@ -16,8 +28,18 @@ export const tableTitle = [
     key: 'SHENQINGDANMING'
   },
   { width: 150, props: 'carType', name: 'PROJECT', key: 'PROJECT' },
-  { width: 150, props: 'nominateProcessTypeDesc', name: '类型', key: 'LEIXING' },
-  { width: 150, props: 'applicationStatusDesc', name: '状态', key: 'ZHUANGTAI' },
+  {
+    width: 150,
+    props: 'nominateProcessTypeDesc',
+    name: '类型',
+    key: 'LEIXING'
+  },
+  {
+    width: 150,
+    props: 'applicationStatusDesc',
+    name: '状态',
+    key: 'ZHUANGTAI'
+  },
   {
     width: 150,
     props: 'partProjTypeDesc',
@@ -32,7 +54,12 @@ export const tableTitle = [
     key: 'XUNJIACAIGOUYUAN'
   },
   { width: 150, props: 'linieName', name: 'LINIE', key: 'LINIE' },
-  { width: 150, props: 'rsStatusDesc', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
+  {
+    width: 150,
+    props: 'rsStatusDesc',
+    name: 'RS单状态',
+    key: 'RSDANZHUANGTAI'
+  },
   {
     width: 200,
     props: 'rsFreezeDate',
@@ -45,7 +72,12 @@ export const tableTitle = [
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
   },
-  { width: 150, props: 'selStatusDesc', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
+  {
+    width: 150,
+    props: 'selStatusDesc',
+    name: 'SEL单据确认状态',
+    key: 'SELDJQRZT'
+  },
   { width: 200, props: 'nominateDate', name: '定点日期', key: 'DINGDIANRIQI' },
   { width: 150, props: 'ap8pAmt', name: '操作', key: 'CAOZUO' }
 ]
@@ -59,8 +91,18 @@ export const tableTitleInfor = [
     key: 'SHENQINGDANMING'
   },
   { width: 150, props: 'carType', name: 'PROJECT', key: 'PROJECT' },
-  { width: 150, props: 'nominateProcessTypeDesc', name: '类型', key: 'LEIXING' },
-  { width: 150, props: 'applicationStatusDesc', name: '状态', key: 'ZHUANGTAI' },
+  {
+    width: 150,
+    props: 'nominateProcessTypeDesc',
+    name: '类型',
+    key: 'LEIXING'
+  },
+  {
+    width: 150,
+    props: 'applicationStatusDesc',
+    name: '状态',
+    key: 'ZHUANGTAI'
+  },
   {
     width: 150,
     props: 'partProjType',
@@ -75,7 +117,12 @@ export const tableTitleInfor = [
     key: 'XUNJIACAIGOUYUAN'
   },
   { width: 150, props: 'linieName', name: 'LINIE', key: 'LINIE' },
-  { width: 150, props: 'rsStatusDesc', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
+  {
+    width: 150,
+    props: 'rsStatusDesc',
+    name: 'RS单状态',
+    key: 'RSDANZHUANGTAI'
+  },
   {
     width: 200,
     props: 'rsFreezeDate',
@@ -88,7 +135,12 @@ export const tableTitleInfor = [
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
   },
-  { width: 150, props: 'selStatusDesc', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
+  {
+    width: 150,
+    props: 'selStatusDesc',
+    name: 'SEL单据确认状态',
+    key: 'SELDJQRZT'
+  },
   { width: 200, props: 'nominateDate', name: '定点日期', key: 'DINGDIANRIQI' },
   { width: 150, props: 'ap8pAmt', name: '操作', key: 'CAOZUO' }
 ]
@@ -98,8 +150,8 @@ export const tableTitleContinueBox = [
   { props: 'fsGsSpNo', name: 'FSNR/GSNR', key: 'FSNRGSNR' },
   { props: 'rfqCode', name: 'RFQ编号', key: 'RFQBIANHAO' },
   { props: 'procureFactoryName', name: '采购工厂', key: 'CAIGOUGONGCHANG' },
-  { props: 'partNameCn', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
-  { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' },
+  { props: 'partNameCn', name: '零件名（中）', key: 'LK_LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
   { props: 'sapNum', name: '供应编号', key: 'GONGYINGBIANHAO' },
   { props: 'productionProportion', name: '比例（%）', key: 'BILI(%)' }
@@ -166,14 +218,66 @@ export const continueBox = [
   { width: 170, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
   { width: 150, props: 'sourceCode', name: '来源', key: 'LAIYUAN' },
   { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
-  { width: 150, props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA',icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
-  { width: 150, props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
-  { width: 150, props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA' ,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd"},
-  { width: 150, props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd"},
-  { width: 150, props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"},
-  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"},
-  { width: 200, props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI' },
-
+  {
+    width: 150,
+    props: 'platinumPrice',
+    name: '铂基价',
+    key: 'BOJIJIA',
+    icon: 'iconxinxitishi',
+    iconTextKey: 'M01006002-Pt',
+    iconText: 'M01006002-Pt'
+  },
+  {
+    width: 150,
+    props: 'platinumDosage',
+    name: '铂用量',
+    key: 'BOYONGLIANG',
+    icon: 'iconxinxitishi',
+    iconTextKey: 'M01006002-Pt',
+    iconText: 'M01006002-Pt'
+  },
+  {
+    width: 150,
+    props: 'palladiumPrice',
+    name: '钯基价',
+    key: 'BAJIJIA',
+    icon: 'iconxinxitishi',
+    iconTextKey: 'M01006001-Pd',
+    iconText: 'M01006001-Pd'
+  },
+  {
+    width: 150,
+    props: 'palladiumDosage',
+    name: '钯用量',
+    key: 'BAYONGLIANG',
+    icon: 'iconxinxitishi',
+    iconTextKey: 'M01006001-Pd',
+    iconText: 'M01006001-Pd'
+  },
+  {
+    width: 150,
+    props: 'rhodiumPrice',
+    name: '铑基价',
+    key: 'LAOJIJIA',
+    icon: 'iconxinxitishi',
+    iconTextKey: 'M01006003-Rh',
+    iconText: 'M01006003-Rh'
+  },
+  {
+    width: 150,
+    props: 'rhodiumDosage',
+    name: '铑用量',
+    key: 'LAOYONGLIANG',
+    icon: 'iconxinxitishi',
+    iconTextKey: 'M01006003-Rh',
+    iconText: 'M01006003-Rh'
+  },
+  {
+    width: 200,
+    props: 'preciousMetalDosageUnit',
+    name: '贵金属用量&基价单位',
+    key: 'GUIJINSHUYONGLIANGJIJIADANWEI'
+  }
 ]
 
 export const tableLeftTitle = [
@@ -308,10 +412,9 @@ export const tableTitleHistory = [
 ]
 
 export const formRulesGZ = {
-  effectFlag:[{required: true, message: '请选择', trigger: 'blur'}],
-  materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
-  carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型
-
+  effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
+  materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }], //MTZ-材料组
+  carline: [{ required: true, message: '请选择', trigger: 'blur' }], //车型
 
   // supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
   // supplierName:[{required: true, message: '请选择', trigger: 'blur'}],//供应商名
@@ -320,40 +423,45 @@ export const formRulesGZ = {
   // price:[{required: true, message: '请输入', trigger: 'blur'}],//基价
   // priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],//基价计量单位
 
-
-
-  tcCurrence:[{required: true, message: '请输入', trigger: 'blur'}],//货币
-  tcExchangeRate:[{required: true, message: '请输入', trigger: 'blur'}],//汇率
-  source:[{required: true, message: '请输入', trigger: 'blur'}],//市场价来源
-  compensationRatio:[//补差系数
-    {required: true, message: '请输入', trigger: 'blur'},
-    {validator: function(rule, value, callback){
-      if (value < 0) {
-        callback(new Error('不能为负数'));
-      }else{
-          callback();
-      }
-    },trigger: 'blur'}
-  ],
-  compensationPeriod:[{required: true, message: '请选择', trigger: 'blur'}],//补差周期
-  threshold:[//阈值
-    {required: true, message: '请输入', trigger: 'blur'},
-    {validator: function(rule, value, callback){
-      if(value.toString().split(".")[1] !== undefined){
-        if (value.toString().split(".")[1].length>4) {
-            console.log(11111111)
-            callback(new Error('最多输入小数点后4位'));
-        }else{
-            callback();
+  tcCurrence: [{ required: true, message: '请输入', trigger: 'blur' }], //货币
+  tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }], //汇率
+  source: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
+  compensationRatio: [
+    //补差系数
+    { required: true, message: '请输入', trigger: 'blur' },
+    {
+      validator: function (rule, value, callback) {
+        if (value < 0) {
+          callback(new Error('不能为负数'))
+        } else {
+          callback()
         }
-      }else{
-          callback();
-      }
-    }}
+      },
+      trigger: 'blur'
+    }
   ],
-  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'blur'}],//阈值补差逻辑
-
-
+  compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }], //补差周期
+  threshold: [
+    //阈值
+    { required: true, message: '请输入', trigger: 'blur' },
+    {
+      validator: function (rule, value, callback) {
+        if (value.toString().split('.')[1] !== undefined) {
+          if (value.toString().split('.')[1].length > 4) {
+            console.log(11111111)
+            callback(new Error('最多输入小数点后4位'))
+          } else {
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
+    }
+  ],
+  thresholdCompensationLogic: [
+    { required: true, message: '请选择', trigger: 'blur' }
+  ] //阈值补差逻辑
 
   // startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
   // endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
@@ -361,6 +469,6 @@ export const formRulesGZ = {
 
 export const partNumberTitle = [
   { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
-  { props: 'partNameZh', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
-  { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' },
+  { props: 'partNameZh', name: '零件名（中）', key: 'LK_LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' }
 ]
