@@ -64,10 +64,12 @@
           <template v-if="scope.row.templateId=='21'">
             <iButton type="text"
                      class="openLinkText text-500"
+                     v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_QUERENBINGFABU"
                      :disabled="disabled"
                      @click="publish(scope.row)">确认并发布</iButton>
             <iButton type="text"
                      class="openLinkText text-500"
+                     v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_CHAKANYIFABU"
                      @click="viewPublish(scope.row)">查看已发布</iButton>
           </template>
           <span v-else-if="scope.row.isCommitment"
