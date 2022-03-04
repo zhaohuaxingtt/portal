@@ -50,7 +50,14 @@ function getActiveMenu(route) {
 }
 
 function getUrl(requestUrl) {
-  // if(requestUrl.toLowerCase().includes(''))
+  const apiPrefix = [process.env.VUE_APP_EKL]
+  for (let i = 0; i < apiPrefix.length; i++) {
+    const element = apiPrefix[i]
+    if (requestUrl.includes(element)) {
+      requestUrl = requestUrl.replace(element, '')
+    }
+  }
+  console.warn('requestUrl', requestUrl)
   const urlArr = requestUrl.split('?')
   return urlArr.length ? urlArr[0] : ''
 }
