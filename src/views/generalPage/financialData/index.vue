@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditors: YoHo
+ * @LastEditors: Please set LastEditors
  * @Description: 财务数据页面
 -->
 <template>
@@ -17,7 +17,8 @@
           <!-- v-if="isSupplierDetail" -->
           <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
           <!-- 调取外部评级 -->
-          <i-button @click="handleRatings" v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <i-button @click="handleRatings"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
           <!-- <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
@@ -65,8 +66,7 @@
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
                     @click="handleExportEarnings"
-                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO"
-                    >{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
         </div>
       </div>
@@ -265,7 +265,7 @@ export default {
     // },
     refreshTable () {
       this.getTableList();
-      this.$emit("submitCalculateRefresh", "view")
+      this.$emit("submitCalculateRefresh", "calculate")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')

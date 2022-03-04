@@ -70,7 +70,7 @@ export default {
     };
   },
   created () {
-    this.submitCalculate('view')
+    this.submitCalculate('view', false)
   },
   methods: {
     async handleSumbit (e) {
@@ -79,12 +79,12 @@ export default {
         case '提交计算':
           var flag = await this.handleSave()
           if (flag !== false) {
-            var regMoney = await this.$refs.basicInformationTable.backRemark()
-            this.submitCalculate('calculate', regMoney)
+            // var regMoney = await this.$refs.basicInformationTable.backRemark()
+            this.submitCalculate('calculate', false)
           }
           break;
         case '无法评级':
-          var flag = await this.handleSave()
+          flag = await this.handleSave()
           flag && this.$refs.remarks.unableRatings()
           break;
         case '提交审批':
@@ -92,7 +92,7 @@ export default {
             this.$t('SPR_FRM_FXXH_NSFQRTJSP'), // 暂时处理
             this.$t('LK_WENXINTISHI'),
             { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
-          ).then(async (res) => {
+          ).then(async () => {
             var flag = await this.handleSave()
             if (flag !== false) {
               this.$refs.remarks.submitApprove()
@@ -100,9 +100,9 @@ export default {
           })
           break;
         case '保存':
-          var flag = await this.handleSave('save')
+          flag = await this.handleSave('save')
           if (flag !== false) {
-            await this.submitCalculate('view')
+            await this.submitCalculate('view', false)
           }
           break;
         default:
@@ -121,15 +121,15 @@ export default {
       return true
     },
     submitCalculateRefresh (viewType) {
-      this.submitCalculate(viewType);
+      this.submitCalculate(viewType, true);
     },
-    async submitCalculate (viewType) {
+    async submitCalculate (viewType, isExternalRating = false) {
       this.loading = true
       const pms = {
         viewType: viewType,
         ratingSupplierId: this.$route.query.supplierId,
         ratingId: this.$route.query.id,
-        isExternalRating: true
+        isExternalRating: isExternalRating || false
       }
       const res = await getCalculate(pms)
       viewType !== 'view' && this.resultMessage(res)
