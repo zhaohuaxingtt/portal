@@ -8,7 +8,7 @@
  */
 import { iMessage } from 'rise'
 import { getToken } from '@/utils'
-import getPermissionKey from '@/utils/permissionKey'
+import getResCode from './resCode'
 const loadingMask = document.querySelector('.loading-mask')
 export default function httpRequest(baseUrl = '', timeOut = 600000) {
   // eslint-disable-next-line no-undef
@@ -23,7 +23,7 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       }
       config.headers['language'] = window.localStorage.getItem('lang') || 'zh'
 
-      config.headers['resCode'] = getPermissionKey()
+      config.headers['resCode'] = getResCode(config.url)
 
       // 查询参数自动清除null，'' 值
       if (config.clearEmptyParams && config.params) {
