@@ -57,7 +57,6 @@ function getUrl(requestUrl) {
       requestUrl = requestUrl.replace(element, '')
     }
   }
-  console.warn('requestUrl', requestUrl)
   const urlArr = requestUrl.split('?')
   return urlArr.length ? urlArr[0] : ''
 }
