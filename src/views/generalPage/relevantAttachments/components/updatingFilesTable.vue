@@ -13,7 +13,7 @@
       }}</span>
       <div class="floatright">
         <i-button @click="saveInfos('')"
-                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">
+                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT_BAOCUN">
           {{ $t('LK_BAOCUN') }}
         </i-button>
         <i-button @click="exportsTable"
