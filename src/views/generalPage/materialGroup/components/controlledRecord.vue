@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -20,6 +20,7 @@
         :tableLoading="tableLoading"
         :index="true"
         @handleSelectionChange="handleSelectionChange"
+        border
     />
   </i-card>
 </template>

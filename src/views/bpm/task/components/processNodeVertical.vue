@@ -6,6 +6,8 @@
       :isEnd="isEnd"
       :instanceId="instanceId"
       :key="instanceId"
+      size="small"
+      :line-spacing="30"
     />
   </div>
 </template>
@@ -42,9 +44,7 @@ export default {
         审批中: 'iconshenpiliu-shenpizhong',
         待审批: 'iconshenpiliu-daishenpi',
         未审批: 'iconshenpiliu-daishenpi',
-        已审批: 'iconshenpiliu-yishenpi',
-        拒绝: 'iconshenpiliu-yishenpi',
-        同意: 'iconshenpiliu-yishenpi'
+        已审批: 'iconshenpiliu-yishenpi'
       },
       stateCode: '',
       panorama: [],
@@ -216,11 +216,9 @@ export default {
 
 <style lang="scss" scoped>
 .process-node-vertical {
-  max-width: 800px;
-  max-height: 400px;
   overflow: auto;
 
   min-width: 200px;
-  min-height: 100px;
+  min-height: 200px;
 }
 </style>

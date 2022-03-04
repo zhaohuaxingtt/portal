@@ -14,6 +14,7 @@
     <el-table :data="tableListData.procureFactoryList"
               v-loading="tableLoading"
               @selection-change="handleSelectionChange"
+              border
               ref="mulitipleTable">
 
       <el-table-column type="selection"

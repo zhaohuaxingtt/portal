@@ -9,6 +9,7 @@
  */
 import { iMessage } from 'rise'
 import { getToken, removeToken, setToken, setRefreshToken } from '@/utils'
+import getPermissionKey from '@/utils/permissionKey'
 import store from '@/store'
 import getResCode from './resCode'
 const fileType = {

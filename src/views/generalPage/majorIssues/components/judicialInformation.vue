@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-08 12:54:57
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 17:05:27
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -25,6 +25,7 @@
                 @handleSelectionChange="handleSelectionChange"
                 @openPage="handleOpenPage"
                 :openPageGetRowData="true"
+                border
                 >
       <template v-slot:currency="scope">
         <span>{{currency(scope.row.currency)}}</span>
