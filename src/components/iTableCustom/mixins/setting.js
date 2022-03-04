@@ -1,5 +1,6 @@
 import { iMessage } from 'rise'
 import iTableHeaderSort from '@/components/iTableHeaderSort'
+import getResCode from '@/utils/resCode'
 export default {
   components: { iTableHeaderSort },
   computed: {
@@ -105,6 +106,10 @@ export default {
         const accountId = userData?.accountId
         const http = new XMLHttpRequest()
         const url = `${this.usercenterApiPrefix}/web/configUserListMemory`
+        http.setRequestHeader(
+          'resCode',
+          getResCode('/web/configUserListMemory')
+        )
         http.open('POST', url, true)
         http.setRequestHeader('content-type', 'application/json')
         http.setRequestHeader('token', this.getCookie('token'))
@@ -143,6 +148,7 @@ export default {
       http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.setRequestHeader('token', this.getCookie('token'))
+      http.setRequestHeader('resCode', getResCode('/web/getUserListMemory'))
       http.onreadystatechange = () => {
         if (http.readyState === 4 && http.status == 200) {
           const response = JSON.parse(http.responseText).data
