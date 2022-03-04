@@ -443,7 +443,7 @@
 								$schema: "http://powerbi.com/product/schema#basic",
 								target: {
 									table: "app_proc_ekl_data_source",
-									column: "supplier_code"
+									column: "supplier_code_name"
 								},
 								operator: "In",
 								values: [supplier_code_name],
@@ -476,7 +476,7 @@
             }
             
             //  供应商
-            if(visual.title == "supplier_code" && page.isActive == true){
+            if(page.isActive == true){
               visual.setSlicerState({
                 filters: [supplier_code_name_parameter]
               });				    							    						    		
