@@ -146,8 +146,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_IP}:8043/riseekl`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseekl/`,
+        // target: `http://${BASE_IP}:8043/riseekl`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseekl/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
@@ -183,7 +183,7 @@ module.exports = {
         //   供应商
         target: `http://${BASE_IP}:8010/supplierservice`,
         // target:
-          // 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
+        // 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''
