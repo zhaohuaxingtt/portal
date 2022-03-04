@@ -1,8 +1,10 @@
 <template>
-  <div class="log-box" @click="toLogPage">
-    <icon symbol name="iconrizhiwuzi" class="log-icon"/>
-    <span class="log-word">{{ $t('LK_RIZHI') }}</span>
-    <icon symbol name="icondatabaseweixuanzhong" class="log-icon margin-left10"></icon>
+  <div class="log-box">
+    <div @click="toLogPage" class="log-box">
+      <icon symbol name="iconrizhiwuzi" class="log-icon"/>
+      <span class="log-word">{{ $t('LK_RIZHI') }}</span>
+    </div>
+    <icon @click="toSql" v-show="sqlShow" symbol name="icondatabaseweixuanzhong" class="log-icon margin-left10"></icon>
   </div>
 </template>
 
@@ -13,9 +15,18 @@ export default {
   components: {
     icon
   },
+  props:{
+    sqlShow:{
+      type:Boolean,
+      default:()=>false
+    }
+  },
   methods: {
     toLogPage() {
       this.$emit('toLogPage')
+    },
+    toSql(){
+      this.$emit('toSql')
     }
   }
 }
