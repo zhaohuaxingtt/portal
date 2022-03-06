@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     async getKpiCates() {
-      const result = await getKpiCates()
+      const result = await getKpiCates({})
       if (result.code === '200' && result.data) {
         const data = result?.data || []
         data.unshift({
