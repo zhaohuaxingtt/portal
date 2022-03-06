@@ -4,7 +4,9 @@
       <icon symbol name="iconrizhiwuzi" class="log-icon"/>
       <span class="log-word">{{ $t('LK_RIZHI') }}</span>
     </div>
-    <icon @click="toSql" v-show="sqlShow" symbol name="icondatabaseweixuanzhong" class="log-icon margin-left10"></icon>
+    <div @click="toSql" v-show="sqlShow">
+      <icon symbol name="icondatabaseweixuanzhong" class="log-icon margin-left10"></icon>
+    </div>
   </div>
 </template>
 
