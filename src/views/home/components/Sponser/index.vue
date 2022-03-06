@@ -11,9 +11,9 @@
       >
         <el-option
           v-for="item in options"
-          :key="item.existShareId"
-          :label="item.existShareNum"
-          :value="item.existShareId"
+          :key="item.departId"
+          :label="item.departNameZh"
+          :value="item.departId"
         >
         </el-option>
       </el-select>
@@ -97,13 +97,13 @@ export default {
   },
   methods: {
     async getKpiCates() {
-      const result = await getKpiCates()
+      const result = await getKpiCates({})
       if (result.code === '200' && result.data) {
         const data = result?.data || []
         data.unshift({
           existShareId: 'ALL',
           supplierId: null,
-          existShareNum: '全部'
+          departNameZh: '全部'
         })
         this.options = result.data
       }

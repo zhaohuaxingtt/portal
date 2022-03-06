@@ -72,7 +72,7 @@ export function getKpiCates(params) {
   return requestMtz({
     url: '/web/mtz/forecastOther/queryDeptSection',
     method: 'POST',
-    param: params
+    data: params
   })
 }
 
