@@ -146,8 +146,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_IP}:8043/riseekl`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseekl/`,
+        // target: `http://${BASE_IP}:8043/riseekl`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseekl/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
