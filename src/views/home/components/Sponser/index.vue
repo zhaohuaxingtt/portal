@@ -12,7 +12,7 @@
         <el-option
           v-for="item in options"
           :key="item.departId"
-          :label="item.departNameZh"
+          :label="item.departNameEn"
           :value="item.departId"
         >
         </el-option>
@@ -101,7 +101,7 @@ export default {
       if (result.code === '200' && result.data) {
         const data = result?.data || []
         data.unshift({
-          existShareId: 'ALL',
+          departNameEn: 'ALL',
           supplierId: null,
           departNameZh: '全部'
         })
