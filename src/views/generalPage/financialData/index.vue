@@ -17,7 +17,8 @@
           <!-- v-if="isSupplierDetail" -->
           <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
           <!-- 调取外部评级 -->
-          <i-button @click="handleRatings" v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <i-button @click="handleRatings"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
           <!-- <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
@@ -40,6 +41,7 @@
                     v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="deleteItem('ids', deleteFinance)">
             {{ $t('LK_SHANCHU') }}
+
           </i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
                     @click="openDataComparison"
@@ -60,12 +62,17 @@
                     v-if="$route.path === '/supplier/view-suppliers'"
                     @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}
           </i-button>
-          <i-button v-if="
-              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
-            "
+
+
+
+          <i-button v-if="$route.path == '/supplier/frmrating/newsupplierrating/rating1'"
                     @click="handleExportEarnings"
-                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO"
+                    v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_DCCB"
                     >{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+          </i-button>
+          <i-button v-if="$route.path !== '/supplier/frmrating/newsupplierrating/rating1'"
+                    @click="handleExportEarnings"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
         </div>
       </div>
@@ -77,6 +84,7 @@
                  @handleSelectionChange="handleSelectionChange"
                  :input-props="inputProps"
                  :index="true"
+                 border
                  :select-props="selectProps"
                  :select-props-options-object="selectPropsOptionsObject">
         <template #dataChannelName="scope">
@@ -263,7 +271,7 @@ export default {
     // },
     refreshTable () {
       this.getTableList();
-      this.$emit("submitCalculateRefresh", "view")
+      this.$emit("submitCalculateRefresh", "calculate")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')

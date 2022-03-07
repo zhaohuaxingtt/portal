@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-11-22 21:35:15
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 18:52:33
+ * @LastEditors: YoHo
  * @Description: 通用表格
 -->
 <template>
@@ -11,6 +11,7 @@
     status-icon
     :rules="rules"
     ref="commonTableForm"
+    class="commonTable"
     :class="{ formStyle: ruleLength === 0 }"
   >
     <el-table
@@ -26,6 +27,7 @@
       @selection-change="handleSelectionChange"
       @row-click="handleClickRow"
       :row-class-name="handleTableRow"
+      v-bind="$attrs"
     >
       <el-table-column
         v-if="selection"
@@ -39,6 +41,7 @@
         type="index"
         width="50"
         align="center"
+        :fixed="fixed"
         label="#"
       ></el-table-column>
       <template v-for="(items, index) in tableTitle">
@@ -111,11 +114,13 @@
                 v-model="scope.row[items.props]"
                 v-if="inputType"
                 :type="inputType"
+                 :placeholder="language('QINGSHURU', '请输入')"
                 :maxlength="items.maxlength ? items.maxlength : 300"
               />
               <i-input
                 v-model="scope.row[items.props]"
                 v-else
+                 :placeholder="language('QINGSHURU', '请输入')"
                 :maxlength="items.maxlength ? items.maxlength : 300"
               />
             </el-form-item>
@@ -374,12 +379,21 @@ export default {
 .el-select {
   margin: 2px 0;
 }
-
-::v-deep .el-table__row .el-input {
-  height: 35px !important;
-
-  .el-input__inner {
-    height: 35px !important;
+.commonTable {
+  
+  ::v-deep .el-table__row {
+    .el-form-item {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .el-input {
+      height: 35px !important;
+      width: 100% !important;
+  
+      .el-input__inner {
+        height: 35px !important;
+      }
+    }
   }
 }
 

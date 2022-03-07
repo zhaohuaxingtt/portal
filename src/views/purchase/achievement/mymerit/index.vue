@@ -112,7 +112,8 @@
           const zycgkzORkzzl = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ' || item.code == 'ZYCGKSXTY')
           const zycgkz = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ')
           const kzzl = this.roleList.some(item => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY')
-          const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+          // const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+          const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'CSXTGLY')
           const zycgbz = this.roleList.some(item => item.code == 'CGBZ')
           const bzzl = this.roleList.some(item => item.code == 'BZZL')
           const zycggz = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ')
@@ -161,6 +162,7 @@
           const BZZL = this.roleList.some(item => item.code == 'BZZL')    // 部长助理
           const GZ = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ') // 股长
           const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
+          const CSXTGLY = this.roleList.some(item => item.code == 'CSXTGLY') // cs系统管理员
           if(PFJYJGLY) {
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
@@ -204,6 +206,9 @@
             // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
+          } else if (CSXTGLY) {
+            this.btnsgroup1 = ['CS', 'CS(Spare)']
+            return 'CS'
           }
         }
       },
@@ -410,7 +415,7 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_version"
             },
             operator: "In",
@@ -420,18 +425,18 @@
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_year"
             },
             operator: "In",
             values: [year],
             filterType: pbi.models.FilterType.BasicFilter
           };
-
+          console.log('year_parameteryear_parameter', year_parameter);
           var	material_group_parameter = {
               $schema: "http://powerbi.com/product/schema#basic",
               target: {
-                table: "app_proc_LK_data_source",
+                table: "app_proc_ekl_data_source",
                 column: "material_group_code_name"
               },
               operator: "In",
@@ -476,7 +481,7 @@
             }
             
             //  供应商
-            if(visual.title == "supplier_code_name" && page.isActive){
+            if(page.isActive == true){
               visual.setSlicerState({
                 filters: [supplier_code_name_parameter]
               });				    							    						    		

@@ -86,6 +86,11 @@ export default {
       barChart: null
     }
   },
+  created(){
+    const year = new Date().getFullYear() - 1
+    this.query.beginTime = `${year}-01-01`
+    this.query.endTime = `${year}-12-31`
+  },
   mounted() {
     this.getKpiCates()
     this.getSponserList()
@@ -661,7 +666,7 @@ export default {
             top: 10,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${cRating.toFixed(
+              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${isNaN(cRating) ? 0 :cRating.toFixed(
                 2
               )}%`,
               font: '9px sans-serif'

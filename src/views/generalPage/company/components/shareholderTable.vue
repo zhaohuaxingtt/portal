@@ -20,6 +20,7 @@
         @handleSelectionChange="handleSelectionChange"
         :input-props="inputProps"
         :index="true"
+        border
     />
   </iCard>
 </template>

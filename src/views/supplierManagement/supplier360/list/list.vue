@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -167,7 +167,9 @@
                   @handleSelectionChange="handleSelectionChange"
                   :openPageProps="'nameZh'"
                   @openPage="openPage"
+                  border
                   :openPageGetRowData="true"
+                  :fixed="true"
                   :index="true">
         <template #supplierTagNameList="scope">
           <i-button type="text"
