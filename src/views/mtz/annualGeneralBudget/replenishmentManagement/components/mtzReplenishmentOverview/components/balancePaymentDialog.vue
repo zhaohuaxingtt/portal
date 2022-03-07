@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-02-27 19:05:59
+ * @LastEditTime: 2022-03-07 19:20:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -142,6 +142,7 @@
               <iDatePicker v-model="value1"
                            :disabled="editDisabled"
                            @change="handleChangeDate"
+                           @focus="handleFocus"
                            :picker-options="pickerOptions"
                            type="monthrange"
                            style="width:100%"
@@ -292,6 +293,7 @@ export default {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
+          console.log(this.minDate)
         },
         disabledDate: time => {
           var newTime = new Date(val.getTime() + this.differenceTime);
@@ -478,6 +480,9 @@ export default {
     handleChangeDate (val) {
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
+    },
+    handleFocus () {
+      this.pickerOptions.disabledDate = () => false
     },
     query () {
       if (this.flag) {
