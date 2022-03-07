@@ -126,7 +126,7 @@ export const DETAIL_PARTS_GROUP_COLUMNS = [
   {
     i18n: '序号',
     type: 'index',
-    width: '50px',
+    width: '55',
     fixed: true
   },
   {
@@ -181,12 +181,13 @@ export const DETAIL_PARTS_SIX_NO_COLUMNS = [
   {
     i18n: '序号',
     type: 'index',
-    width: '50px',
+    width: '55',
     fixed: true
   },
   {
     prop: 'sixPartCode',
     i18n: '零件6位号',
+    minWidth: '100',
     fixed: true
   },
   {
