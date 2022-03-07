@@ -5,8 +5,8 @@
       <iInput v-model="menuName" />
     </div>
     <div class="actions">
-      <iButton @click="search">搜索</iButton>
-      <iButton @click="reset">重置</iButton>
+      <iButton @click="search">{{language('搜索')}}</iButton>
+      <iButton @click="reset">{{language('重置')}}</iButton>
     </div>
   </div>
 </template>
