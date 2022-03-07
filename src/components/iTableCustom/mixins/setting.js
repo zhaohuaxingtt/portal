@@ -106,11 +106,12 @@ export default {
         const accountId = userData?.accountId
         const http = new XMLHttpRequest()
         const url = `${this.usercenterApiPrefix}/web/configUserListMemory`
+
+        http.open('POST', url, true)
         http.setRequestHeader(
           'resCode',
           getResCode('/web/configUserListMemory')
         )
-        http.open('POST', url, true)
         http.setRequestHeader('content-type', 'application/json')
         http.setRequestHeader('token', this.getCookie('token'))
         http.onreadystatechange = (res) => {
