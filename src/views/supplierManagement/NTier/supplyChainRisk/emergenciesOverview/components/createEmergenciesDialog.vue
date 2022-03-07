@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-26 16:52:42
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
@@ -24,7 +24,7 @@
                         :label="language('SHIJIANLEIXING','事件类型')">
             <iSelect :placeholder="language('QINGXUANZHE','请选择')"
                      v-model="form.eventName">
-              <el-option v-for="(item,index) in formGroup.eventType"
+              <el-option v-for="(item,index) in eventType"
                          :key="index"
                          :label="item.name"
                          :value="item.name"></el-option>
@@ -104,7 +104,11 @@ export default {
   props: {
     value: { type: Boolean },
     eventDetail: { type: Object, default: {} },
-    edit: { type: Boolean }
+    edit: { type: Boolean },
+    eventType: {
+      type: Object,
+      default:()=>({})
+    }
   },
   data () {
     // 这里存放数据
@@ -125,7 +129,6 @@ export default {
       },
       formGroup: {
         areaList: [],
-        eventType: []
       },
       form: {
         area: [],
@@ -153,10 +156,6 @@ export default {
   },
   // 方法集合
   methods: {
-    async dictByCode () {
-      const res = await dictByCode('risk_event_type')
-      this.formGroup.eventType = res
-    },
     async getCityInfo () {
       const res = await getCity()
       this.formGroup.areaList = res
