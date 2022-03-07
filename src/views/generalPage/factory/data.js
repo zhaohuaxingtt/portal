@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:24
- * @LastEditTime: 2022-03-03 17:46:29
+ * @LastEditTime: 2022-03-07 11:55:20
  * @LastEditors: YoHo
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\generalPage\factory\data.js
@@ -36,18 +36,21 @@ export const tableTitle = [
     name: '国家',
     key: 'GUOJIA',
     required: true,
+    width: 150,
     rule: [{ required: true, message: '请选择', trigger: 'change' }]
   },
   {
     props: 'province',
     name: '省份',
-    key: 'SHENGFEN'
+    key: 'SHENGFEN',
+    width: 150,
     // required: true,
     // rule: [{required: true, message: '请选择', trigger: 'change'}]
   },
   {
     props: 'city',
     name: '城市',
+    width: 150,
     key: 'SUPPLIER_CHENGSHI'
     // required: true,
     // rule: [{required: true, message: '请选择', trigger: 'change'}]
