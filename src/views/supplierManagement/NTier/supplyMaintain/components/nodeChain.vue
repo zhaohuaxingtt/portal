@@ -49,13 +49,13 @@
         @click="optimizeLevel"
         title="重置层级"
       ></div>
-      <div
+      <!-- <div
         v-if="toolbar.indexOf('save') >= 0"
         :class="['node-button', emitDataClass]"
         @click="emitDatas"
         v-permission="SUPPLIER_WORKBENCH_N_WEIHU_TIJIAOSHUJU"
         title="提交数据"
-      ></div>
+      ></div> -->
       <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes('reast')" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI">{{
         language('CHONGZHICENGJI', '重置层级')
       }}</iButton>
