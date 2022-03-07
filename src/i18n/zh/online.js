@@ -172,7 +172,7 @@ export default {
   'GUIJINSHU.MEI': '每',
   JILIANGDANWEI: '计量单位',
   HUOBI: '货币',
-  HUILV: '绿',
+  HUILV: '汇率',
   PICISHULIANG: '批次数量',
   PILIANGJIANXIAOHAO: '批量件消耗',
   PEIJIANXIAOHAO: '配件消耗',
