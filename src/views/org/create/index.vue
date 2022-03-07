@@ -176,12 +176,18 @@
                     >
                       <div class="chooseOrgTag chooseOrgTagLayout" style="">
                         <span
-                          v-if="formCommitData.tagList.length == 0"
+                          v-if="
+                            formCommitData.tagList &&
+                            formCommitData.tagList.length == 0
+                          "
                           style="position: absolute; left: 12px"
                         >
                           {{ language('请选择') }}
                         </span>
-                        <div class="chooseOrgTagList">
+                        <div
+                          class="chooseOrgTagList"
+                          v-if="formCommitData.tagList"
+                        >
                           <el-tag
                             size="medium"
                             closable
@@ -193,6 +199,7 @@
                             {{ item.name }}
                           </el-tag>
                         </div>
+                        <div class="chooseOrgTagList" v-else></div>
                         <span
                           @click.stop="enterOrgTagPage"
                           style="
@@ -425,21 +432,31 @@
                         </div>
                         <div class="chooseOrgTag chooseDownLevelOrgTag">
                           <span
-                            v-if="formCommitData.supDeptList.length == 0"
+                            v-if="
+                              formCommitData.supDeptList &&
+                              formCommitData.supDeptList.length == 0
+                            "
                             style="position: absolute; left: 12px"
                             >{{ language('请选择') }}</span
                           >
-
-                          <el-tag
-                            size="medium"
-                            closable
-                            v-for="item in formCommitData.supDeptList"
-                            :key="item.nameZh"
-                            @close="deleteDownLevelOrgTag(item)"
-                            style="margin-right: 5px"
+                          <span
+                            v-if="
+                              formCommitData.supDeptList &&
+                              formCommitData.supDeptList.length == 0
+                            "
                           >
-                            {{ item.nameZh }}
-                          </el-tag>
+                            <el-tag
+                              size="medium"
+                              closable
+                              v-for="item in formCommitData.supDeptList"
+                              :key="item.nameZh"
+                              @close="deleteDownLevelOrgTag(item)"
+                              style="margin-right: 5px"
+                            >
+                              {{ item.nameZh }}
+                            </el-tag>
+                          </span>
+
                           <span
                             @click.stop="alertDownLevelOrg"
                             style="
