@@ -12,7 +12,7 @@
         <!-- <div class="title">
           {{language('CHUANGJIANTUFASHIJIAN1','创建突发事件')}}
         </div> -->
-        <div class="flex-between-center-center">
+        <div class="flex-between-center-center" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_SHOW">
           <span class="title">
             {{language('XIANSHIGONGYINGLIANLU','显示供应链路')}}
           </span>
@@ -24,8 +24,8 @@
         </div>
         <div>
           <iButton v-if="status"
-                   @click="handleUnfold">{{language('ZHANKAI','展开')}}</iButton>
-          <iButton @click="handleEmergency">{{language('TUFASHIJIAN','突发事件')}}</iButton>
+                   @click="handleUnfold" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_ZHANKAI">{{language('ZHANKAI','展开')}}</iButton>
+          <iButton @click="handleEmergency" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_TUFASHIJIAN">{{language('TUFASHIJIAN','突发事件')}}</iButton>
         </div>
       </div>
       <div v-if="status">
@@ -35,15 +35,15 @@
         <el-divider></el-divider>
         <div class="margin-bottom20 flex-end">
           <iButton :loading="sendFeedbackLoading"
-                   @click="handleSendFeedback(selectTableData)">{{ language('FASONGFANKUIBIAO','发送反馈表')}}</iButton>
+                   @click="handleSendFeedback(selectTableData)" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_FSFKB">{{ language('FASONGFANKUIBIAO','发送反馈表')}}</iButton>
           <iButton :loading="exportFeedbackLoading"
-                   @click="handleExportFeedback(selectTableData)">{{ language('DAOCHUFANKUIBIAO','导出反馈表')}}</iButton>
+                   @click="handleExportFeedback(selectTableData)" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_DCFKB">{{ language('DAOCHUFANKUIBIAO','导出反馈表')}}</iButton>
           <!-- 导出报警信-->
           <iButton :loading="exportAlarmLetterLoading"
-                   @click="exportAlarmLetter(selectTableData)">{{ language('DAOCHUBAOJINGXING','导出报警信')}}</iButton>
+                   @click="exportAlarmLetter(selectTableData)" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_DCBJQ">{{ language('DAOCHUBAOJINGXING','导出报警信')}}</iButton>
           <!-- 导出全部-->
-          <iButton @click="exportCurrentPage">{{ language('DAOCHUQUANBU','导出全部') }}</iButton>
-          <iButton v-if="eventDetail.createType===language('SHOUDONGCHUANGJIAN','手动创建')"
+          <iButton @click="exportCurrentPage" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_DAOCHUQUANBU">{{ language('DAOCHUQUANBU','导出全部') }}</iButton>
+          <iButton v-if="eventDetail.createType===language('SHOUDONGCHUANGJIAN','手动创建')" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_INF_BIANJI"
                    @click="handleEdit">{{ language('BIANJI','编辑') }}</iButton>
         </div>
       </div>

@@ -13,7 +13,7 @@
       </div>
       <!-- 创建突发事件-->
       <div>
-        <iButton @click="handleCreate">{{ language('CJTFSJ','创建突发事件') }}</iButton>
+        <iButton @click="handleCreate" v-permission="SUPPLIER_WORKBENCH_N_FENGXIAN_CJTFSJ">{{ language('CJTFSJ','创建突发事件') }}</iButton>
         <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
@@ -24,6 +24,7 @@
       :loading="tableLoading"
       @handle-selection-change="handleSelectionChange"
       @go-detail="handleEvent"
+      @go-weather="goWeather"
     >
     </iTableCustom>
 
@@ -76,6 +77,9 @@ export default {
     this.handleInit()
   },
   methods: {
+    goWeather(){
+      
+    },
     // 进入分线地图
     handleEvent (row) {
       this.$router.push({ path: '/supplier/NTier/supplyChainRisk/map', query: { id: row.id } })

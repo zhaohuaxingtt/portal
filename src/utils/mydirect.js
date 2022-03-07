@@ -28,9 +28,10 @@ Vue.directive('permission', {
   },
   inserted: function (el, binding, Nodes) {
     //如果是个变量则使用变量，否则当做字符串处理
+
     var proValue = ''
     if (binding.value == 0) {
-      console.log(binding)
+      // console.log(binding)
       proValue = binding.expression.trim()
     } else if (binding.value == undefined) {
       proValue = binding.expression
@@ -61,14 +62,14 @@ Vue.directive('permission', {
             // console.log(!store.state.permission.whiteBtnList[pagePermission])
             if (!store.state.permission.whiteBtnList[pagePermission]) {
               //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
-              if (
-                binding.rawName.split('.')[1] &&
-                binding.rawName.split('.')[1] == 'edit'
-              ) {
-                el.classList.add('is-disabled')
-              } else {
-                el.parentNode.removeChild(el)
-              }
+              // if (
+              //   binding.rawName.split('.')[1] &&
+              //   binding.rawName.split('.')[1] == 'edit'
+              // ) {
+              //   el.classList.add('is-disabled');
+              // } else {
+              //   el.parentNode.removeChild(el)
+              // }
             }
           }
         } else {

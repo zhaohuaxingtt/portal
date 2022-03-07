@@ -21,7 +21,7 @@ export const emergenciesTableTitle = [
       return <span class="cursor" style="color:#1763F7">{scope.row.influenceNum}</span>
     }
   },
-  { prop: 'source', lable: '数据来源', i18n: 'SJLY',emit: 'go-detail',
+  { prop: 'source', lable: '数据来源', i18n: 'SJLY',emit: 'go-weather',
     customRender: (h, scope) => {
       var str;
       if(scope.row.sourceLink){

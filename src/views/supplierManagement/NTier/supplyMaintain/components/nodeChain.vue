@@ -39,11 +39,12 @@
         <slot name="toolbar" :initWidth="initWidth"></slot>
       </div>
       <!-- 工具栏插槽 -->
-      <iButton @click="isDilog = true">{{
+      <iButton @click="isDilog = true" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_NZHUCEYAOQING">{{
         language('NTIERZHUCEYAOQING', 'N-Tier注册邀请')
       }}</iButton>
       <div
         v-if="toolbar.indexOf('reassign-lvl') >= 0"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI"
         :class="['node-button', optimizeLevelClass]"
         @click="optimizeLevel"
         title="重置层级"
@@ -52,12 +53,13 @@
         v-if="toolbar.indexOf('save') >= 0"
         :class="['node-button', emitDataClass]"
         @click="emitDatas"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_TIJIAOSHUJU"
         title="提交数据"
       ></div>
-      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes('reast')">{{
+      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes('reast')" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI">{{
         language('CHONGZHICENGJI', '重置层级')
       }}</iButton>
-      <iButton v-if="toolbar.indexOf('copy') >= 0" @click="copyNode">{{
+      <iButton v-if="toolbar.indexOf('copy') >= 0" @click="copyNode" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_FZGYLL">{{
         language('FUZHIGONGYINGLIANLU', '复制供应链路')
       }}</iButton>
     </div>
