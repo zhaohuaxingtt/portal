@@ -169,7 +169,7 @@ export default {
           data2.push(e.increaseAmount)
         }
         data3.push(e.reductionRtio)
-        data4.push(e.increaseRtio)
+        data4.push(e.increaseRtio * -1)
         data5.push(e.year)
       })
       console.log(data3, "data3")
@@ -258,18 +258,19 @@ export default {
                 fontSize: '10px'
               }
             }
+          },
+          {
+            show: false,
+            name: this.language('ZHANGJIAJIEJIANGBI', '涨价节降比'),
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
+              }
+            }
           }
-          //   {
-          //     show: false,
-          //     type: 'value',
-          //     axisLabel: {
-          //       show: true,
-          //       textStyle: {
-          //         color: '#7E84A3',
-          //         fontSize: '10px'
-          //       }
-          //     }
-          //   }
         ],
         series: [
           {
@@ -277,6 +278,7 @@ export default {
             data: data2,
             type: 'bar',
             barWidth: 40,
+            yAxisIndex: 0,  // 配置多个y轴
             itemStyle: {
               normal: {
                 fontSize: 12,
@@ -299,6 +301,7 @@ export default {
             data: data1,
             type: 'bar',
             barGap: '-100%',
+            yAxisIndex: 0,  // 配置多个y轴
             barWidth: 40,
             label: {
               show: true,
@@ -321,6 +324,7 @@ export default {
             name: this.language('ZHANGJIAJIEJIANGBI', '涨价节降比'),
             data: data4,
             type: 'line',
+            yAxisIndex: 1,  // 配置多个y轴
             label: {
               show: false,
               position: 'top',
@@ -350,6 +354,7 @@ export default {
             name: this.language('JIANGJIAJIEJIANGBI', '降价节降比'),
             data: data3,
             type: 'line',
+            yAxisIndex: 1,  // 配置多个y轴
             label: {
               show: false,
               position: 'top',
@@ -438,7 +443,7 @@ export default {
   display: flex;
   height: 160px;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
   .chartStyle {
     width: 80%;
     height: 100%;
