@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
@@ -11,8 +11,15 @@
             :icon="true">
     <el-form>
       <el-form-item :label="language('SHIJIANLEIXING','事件类型')">
-        <iInput :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.eventName"></iInput>
+        <iSelect :placeholder="$t('LK_QINGSHURU')"
+                 v-model="form.eventName">
+          <el-option v-for="(item,index) in eventType"
+                         :key="index"
+                         :label="item.name"
+                         :value="item.name"></el-option>
+        </iSelect>
+        <!-- <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.eventName"></iInput> -->
       </el-form-item>
       <el-form-item :label="language('QUYU','区域')">
         <el-cascader v-model="form.area"
@@ -57,6 +64,12 @@ export default {
     iInput,
     iDatePicker,
     iSelect
+  },
+  props:{
+    eventType: {
+      type: Object,
+      default:()=>({})
+    }
   },
   data () {
     return {
