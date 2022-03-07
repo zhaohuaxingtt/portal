@@ -23,13 +23,21 @@ export function getDeptData(data) {
   })
 }
 // 新科室字典项
-export function queryDeptSection(data) {
-    return request({
-      url: '/forecastOther/queryDeptSection',
-      method: 'POST',
-      data: data
-    })
-  }
+export function queryDeptSectionForRule(data) {
+  return request({
+    url: '/forecastOther/queryDeptSectionForRule',
+    method: 'POST',
+    data: data
+  })
+}
+// 新科室字典项
+export function queryDeptSectionForPart(data) {
+  return request({
+    url: 'forecastOther/queryDeptSectionForPart',
+    method: 'POST',
+    data: data
+  })
+}
 
 // 零件导入模板下载
 export function partTemplateUrl(data) {
