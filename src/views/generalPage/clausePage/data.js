@@ -1,7 +1,7 @@
 /*
  * @Author: YoHo
  * @Date: 2022-01-11 18:25:50
- * @LastEditTime: 2022-02-16 15:09:22
+ * @LastEditTime: 2022-03-07 15:18:25
  * @LastEditors: YoHo
  * @Description: 
  */
@@ -32,6 +32,7 @@ export const ClauseDialogTableTitle = [
 ]
 // 审批中心表格
 export const procurementApproveTableTitle = [
+  { prop: 'supplierName', name: '供应商' },
   { prop: 'termsType', name: '条款类型' },
   { prop: 'termsCode', name: '条款编码' },
   { prop: 'termsName', name: '标准名称' },
