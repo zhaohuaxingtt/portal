@@ -46,7 +46,7 @@
                       :data="tableListData"
                       :columns="partsRelationshipTableSetting"
                       @go-detail="handleOpenPage"
-                      @handle-selection-change="handleSelectChange" />
+                      @handle-selection-change="handleSelectionChange" />
         <!-- <tableList ref="commonTable"
                    :data="tableListData"
                    :columns="partsRelationshipTableSetting"
@@ -176,7 +176,8 @@ export default {
       this.selection = val
     },
     handleExportAll () {
-      // infoExport(this.formData)
+      console.log(this.selection)
+
       if (this.selection && this.selection.length != 1) {
         iMessage.warn(this.language('QINGXUANZEYITIAOSHUJUXIAZAI', '请选择一条数据进行下载'))
         return

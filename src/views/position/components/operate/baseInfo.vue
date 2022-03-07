@@ -7,7 +7,11 @@
         ref="baseForm1"
       >
         <iFormItem prop="code" v-if="type === 'detail' || type === 'edit'">
-          <iLabel :label="language('岗位编码')" :required="true" slot="label"></iLabel>
+          <iLabel
+            :label="language('岗位编码')"
+            :required="true"
+            slot="label"
+          ></iLabel>
           <iText>{{ positionObj.code }}</iText>
         </iFormItem>
         <iFormItem
@@ -74,7 +78,11 @@
           <iText v-if="type === 'detail'">{{
             positionObj.isDeptLead | leaderFilter
           }}</iText>
-          <iSelect v-else :placeholder="language('请选择')" v-model="positionObj.isDeptLead">
+          <iSelect
+            v-else
+            :placeholder="language('请选择')"
+            v-model="positionObj.isDeptLead"
+          >
             <el-option
               :value="item.value"
               :label="item.label"
@@ -97,7 +105,11 @@
             }
           ]"
         >
-          <iLabel :label="language('岗位描述')" :required="true" slot="label"></iLabel>
+          <iLabel
+            :label="language('岗位描述')"
+            :required="true"
+            slot="label"
+          ></iLabel>
           <iText v-if="type === 'detail'">{{ positionObj.description }}</iText>
           <i-input
             v-else
@@ -141,6 +153,7 @@
             v-model="positionObj.purchaseGroup"
             filterable
             :disabled="type === 'detail'"
+            clearable
             @change="handlePruchaseGroupChange"
           >
             <el-option
@@ -156,6 +169,7 @@
           <iSelect
             v-model="positionObj.tempPurchaseGroup"
             filterable
+            clearable
             :disabled="type === 'detail'"
           >
             <el-option

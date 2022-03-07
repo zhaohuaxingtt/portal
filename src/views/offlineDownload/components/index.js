@@ -15,8 +15,8 @@ export const TABLE_COLUMNS = [
     sortable: true
   },
   {
-    i18n: '创建时间',
-    prop: 'createDate',
+    i18n: '任务名称',
+    prop: 'name',
     sortable: true
   },
   {
