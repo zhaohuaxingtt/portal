@@ -173,7 +173,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, ruleQueryFormData } from './components/data'
 import Detail from './components/detail'
-import { rulePage, getDeptData, getMtzMarketSourceList, exportRuleData, ruleEntityEdit, queryDeptSection } from '@/api/mtz/database/partsQuery'
+import { rulePage, getDeptData, getMtzMarketSourceList, exportRuleData, ruleEntityEdit, queryDeptSectionForRule } from '@/api/mtz/database/partsQuery'
 import { selectDictByKeys } from '@/api/dictionary'
 import buttonTableSetting from '@/components/buttonTableSetting'
 export default {
@@ -211,7 +211,7 @@ export default {
   mounted () {
     this.$set(this.formData, 'effectFlag', '1')
     this.getList()
-    queryDeptSection({}).then(res => { this.departmentDrop = res.data })//初始化科室
+    queryDeptSectionForRule({}).then(res => { this.departmentDrop = res.data })//初始化科室
     getMtzMarketSourceList().then(res => { this.getMtzMarketSourceListDrop = res.data })
     // selectDictByKeys('keys=MTZ_MAKE_CYCLE').then(res=>{this.sendersCycle=res.data.MTZ_MAKE_CYCLE})//补差周期
     this.sendersCycle = [
