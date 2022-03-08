@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2021-11-05 14:37:56
+ * @LastEditTime: 2022-03-08 10:26:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\theSearch.vue
@@ -288,7 +288,7 @@ export default {
       // this.$refs.searchForm.resetFields()
       this.searchForm = {
         idList: [],
-        sapPayBalanceNos: [],
+        sapPayBalanceNo: [],
         mgroups: [],
         materialNos: [],
         createBys: [],
