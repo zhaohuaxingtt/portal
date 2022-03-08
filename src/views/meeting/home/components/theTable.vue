@@ -999,7 +999,7 @@ export default {
     // 确认提交审批流
     handleCloseOK(info, list, row) {
       if (info === 'close') {
-        iMessage.success('MT_GUANBICHENGGONG')
+        iMessage.success(this.$t('MT_GUANBICHENGGONG'))
         if (list) {
           this.handleSendEmail(list, row)
         }
