@@ -5,6 +5,8 @@ import ProCS from './ProCS'
 import assistant from './assistant'
 import ReportForm from './reportForm'
 import partLifeCycle from './partLifeCycle'
+import others from './others'
+import meetingType from './meetingType'
 export default {
   ...online,
   ...mainData,
@@ -13,5 +15,7 @@ export default {
   ...assistant,
   ...ReportForm,
   ...online,
-  ...partLifeCycle
+  ...partLifeCycle,
+  ...others,
+  ...meetingType
 }

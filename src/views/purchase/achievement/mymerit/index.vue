@@ -451,9 +451,12 @@
 									column: "supplier_code_name"
 								},
 								operator: "In",
-								values: [supplier_code_name],
+								// values: [supplier_code_name],
                 filterType: pbi.models.FilterType.BasicFilter
 						};
+          if (supplier_code_name) {
+            supplier_code_name_parameter.values = [supplier_code_name]
+          }
           console.log(supplier_code_name_parameter);
 
           const pages = await report.getPages();
