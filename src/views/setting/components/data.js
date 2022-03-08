@@ -3,7 +3,8 @@ export const COLUMNS_MENU = [
     type: 'fullIndex',
     width: '120',
     align: 'left',
-    label: '序号'
+    label: '序号',
+    i18n:'序号'
   },
   {
     prop: 'name',

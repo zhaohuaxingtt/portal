@@ -2,7 +2,7 @@
   <iCard>
     <div v-loading="loading">
       <favouriteRiseSearch @search="search" />
-      <h4 class="t">菜单列表</h4>
+      <h4 class="t">{{language('菜单列表')}}</h4>
 
       <div class="content">
         <div class="content-panel menu">

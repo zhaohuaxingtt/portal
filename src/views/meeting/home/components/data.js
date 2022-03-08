@@ -13,7 +13,7 @@ export const tableListColumns = [
   {
     type: 'index',
     width: 50,
-    label: '序号'
+    label: '#'
   },
   {
     prop: 'positionCode',

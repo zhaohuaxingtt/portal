@@ -15,13 +15,13 @@
           v-model="form.name"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="$t('会议信息描述')">
+      <iFormItem :label="language('会议信息描述')">
         <iInput
           :placeholder="language('请输入', '请输入')"
           v-model="form.meetingInfoDesc"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="$t('是否触发审批流')">
+      <iFormItem :label="language('是否触发审批流')">
         <iSelect
           :placeholder="language('请选择', 'MT_QINGXUANZE')"
           v-model="form.isTriggerApproval"
