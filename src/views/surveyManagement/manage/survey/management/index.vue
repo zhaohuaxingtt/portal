@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="home">
-      <div class="header">问卷管理</div>
+      <div class="header">{{language('问卷管理')}}</div>
       <theSearch @getTableList="getTableList" @setTypeObj="setTypeObj" />
       <theTable
         ref="theTable"
