@@ -39,25 +39,27 @@
         <slot name="toolbar" :initWidth="initWidth"></slot>
       </div>
       <!-- 工具栏插槽 -->
-      <iButton @click="isDilog = true">{{
+      <iButton @click="isDilog = true" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_NZHUCEYAOQING">{{
         language('NTIERZHUCEYAOQING', 'N-Tier注册邀请')
       }}</iButton>
       <div
         v-if="toolbar.indexOf('reassign-lvl') >= 0"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI"
         :class="['node-button', optimizeLevelClass]"
         @click="optimizeLevel"
         title="重置层级"
       ></div>
-      <div
+      <!-- <div
         v-if="toolbar.indexOf('save') >= 0"
         :class="['node-button', emitDataClass]"
         @click="emitDatas"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_TIJIAOSHUJU"
         title="提交数据"
-      ></div>
-      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes('reast')">{{
+      ></div> -->
+      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes('reast')" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI">{{
         language('CHONGZHICENGJI', '重置层级')
       }}</iButton>
-      <iButton v-if="toolbar.indexOf('copy') >= 0" @click="copyNode">{{
+      <iButton v-if="toolbar.indexOf('copy') >= 0" @click="copyNode" v-permission="SUPPLIER_WORKBENCH_N_WEIHU_FZGYLL">{{
         language('FUZHIGONGYINGLIANLU', '复制供应链路')
       }}</iButton>
     </div>
@@ -102,13 +104,13 @@
               >
                 <slot name="head" :node="node"></slot>
                 <!-- 节点抬头插槽 -->
-                <template v-if="node.chainLevel > 1">
+                <template v-if="node.chainLevel > 1 && whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIAN']">
                   <div
                     :class="['node-button', removeNodeClass, 'show-mini']"
                     @click="removeNode(node)"
                   ></div>
                 </template>
-                <template v-if="node.chainLevel > -1">
+                <template v-if="node.chainLevel > -1 && whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIA']">
                   <div
                     :class="['node-button', addChildNodeClass, 'show-mini']"
                     @click="addChildNode(node)"
@@ -1092,7 +1094,21 @@ export default {
       })
     }
   },
+  created(){
+  },
+  mounted(){
+    console.log()
+    var editBtn = document.querySelectorAll(".cursor>svg");
+    if(!this.whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_EDIT']){
+      editBtn.forEach(e=>{
+        e.parentNode.removeChild(e);
+      })
+    }
+  },
   computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    },
     compLeft: function () {
       var left = parseInt(this.maxLeft) + this.nodeWidth + this.nextElOffset * 2
       return left > this.screenWidth ? left : this.screenWidth
