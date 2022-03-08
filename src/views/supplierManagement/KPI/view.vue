@@ -23,8 +23,8 @@
                  accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                  @change="upfileChange($event)"
                  style="display:none;" />
-          <iButton @click="handleupLoad">上传</iButton>
-          <iButton @click="handleDownload">下载</iButton>
+          <iButton @click="handleupLoad" v-permission="KPI_INFOR_CHAKAN_SHANGCHUAN">上传</iButton>
+          <iButton @click="handleDownload" v-permission="KPI_INFOR_CHAKAN_XIAZAI">下载</iButton>
         </div>
       </div>
       <!-- 自定义列表 -->

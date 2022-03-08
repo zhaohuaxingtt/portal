@@ -68,7 +68,7 @@
       <div class="tableBox">
         <div class="table-title">
           <p>{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
-          <iButton @click="handleExportCurrent">{{
+          <iButton @click="handleExportCurrent" v-permission="SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU_DAOCHUQUANBU">{{
             language('DAOCHUQUANBU', '导出全部')
           }}</iButton>
         </div>

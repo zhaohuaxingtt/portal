@@ -4,17 +4,19 @@
       <div class="floatright">
         <!-- 导出供应商模板-->
         <iButton @click="exportSupplierTemplate"
+                  v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DCGYSMB"
                  :loading="exportButtonLoading">{{ $t('SPR_FRM_FRMGL_DCGYSMB') }}</iButton>
         <!-- 导入供应商-->
         <importButton buttonText="SPR_FRM_FRMGL_DRGYS"
+                      v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DRGYS"
                       @uploadedCallback="importConfirmedListExcel"
                       class="margin-right10 margin-left10" />
         <!--添加至初评-->
-        <iButton @click="addToPreliminaryReview">{{
+        <iButton @click="addToPreliminaryReview" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_TJZCP">{{
           $t('SPR_FRM_FRMGL_TJZCP')
         }}</iButton>
         <!--删除-->
-        <iButton @click="handleDelete">{{
+        <iButton @click="handleDelete" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DEL">{{
           $t('delete')
         }}</iButton>
         <!-- <el-popconfirm
