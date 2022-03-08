@@ -111,7 +111,7 @@ export default {
             this.loading = false
             this.tableData = [...res.data]
             res.data.forEach((val, index) => {
-              if (val.userInfos !== null) {
+              if (val.userInfos !== null && val.userInfos.length) {
                 this.tableData[index].Linie = val.userInfos[0].userName
               }
             })
