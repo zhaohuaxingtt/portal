@@ -4,5 +4,5 @@ export default {
     '菜单列表':'Menu List',
     已收藏:'Collected',
     其他系统:'Other Systems',
-    系统名称:'System Name'
+    系统名称:'System Name',
 }
