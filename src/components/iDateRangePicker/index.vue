@@ -13,7 +13,7 @@
       <el-col
         :span="2"
         class="middle"
-      >至</el-col>
+      >{{language('至')}}</el-col>
       <el-col :span="11" style="padding-right: 0;">
         <iDatePicker
           value-format="yyyy-MM-dd"
