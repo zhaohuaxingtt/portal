@@ -5,7 +5,7 @@
 -->
 <template>
   <iCard :title="$t('SPR_FRM_XGYSPJ_GYSZRPGMXBZ')" tabCard>
-    <iInput v-permission.edit="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_REMARK" v-model="remark" type="textarea" rows="4"></iInput>
+    <iInput v-model="remark" type="textarea" rows="4"></iInput>
   </iCard>
 </template>
 
