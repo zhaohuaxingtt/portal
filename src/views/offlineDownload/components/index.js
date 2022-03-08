@@ -6,7 +6,7 @@ export const TABLE_COLUMNS = [
     type: 'selection'
   },
   {
-    i18n: '序号',
+    i18n: '#',
     type: 'index'
   },
   {

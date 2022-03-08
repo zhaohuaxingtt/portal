@@ -129,6 +129,8 @@ export default {
       this.currentDataPermissionKey = row.permissionKey
       if (row.properties) {
         this.dataPermissionColData = JSON.parse(row.properties)
+      } else {
+        this.dataPermissionColData = []
       }
       if (!this.dataPermissionForm.hasOwnProperty(row.permissionKey)) {
         Vue.set(this.dataPermissionForm, row.permissionKey, { unCols: [] })

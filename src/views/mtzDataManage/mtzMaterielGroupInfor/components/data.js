@@ -60,21 +60,21 @@ export const GROUP_TABLE_COLUMNS = [
     label: 'MTZ材料组名称(中)',
     i18n: 'MTZ材料组名称(中)',
     minWidth: '150px',
-    tooltip: true,
+    tooltip: true
   },
   {
     prop: 'materialGroupNameEn',
     label: 'MTZ材料组名称(英)',
     i18n: 'MTZ材料组名称(英)',
     minWidth: '150',
-    tooltip: true,
+    tooltip: true
   },
   {
     prop: 'generalCategoryCode',
     label: '大类编号/名称',
     i18n: '大类编号/名称',
     minWidth: '150',
-    tooltip: true,
+    tooltip: true
   },
   {
     prop: 'rawMaterialCode',
@@ -108,7 +108,7 @@ export const GROUP_TABLE_COLUMNS = [
     label: '备注',
     i18n: '备注',
     minWidth: '150',
-    tooltip: true,
+    tooltip: true
   },
   {
     prop: 'statusDesc',
@@ -126,7 +126,7 @@ export const DETAIL_PARTS_GROUP_COLUMNS = [
   {
     i18n: '序号',
     type: 'index',
-    width: '50px',
+    width: '55',
     fixed: true
   },
   {
@@ -181,12 +181,13 @@ export const DETAIL_PARTS_SIX_NO_COLUMNS = [
   {
     i18n: '序号',
     type: 'index',
-    width: '50px',
+    width: '55',
     fixed: true
   },
   {
     prop: 'sixPartCode',
     i18n: '零件6位号',
+    minWidth: '100',
     fixed: true
   },
   {

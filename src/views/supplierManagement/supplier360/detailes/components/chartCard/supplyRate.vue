@@ -146,7 +146,7 @@ export default {
               fontSize: '10px'
             }
           },
-          max: max,
+          // max: max,
           min: 0,
           splitNumber: 2
         },

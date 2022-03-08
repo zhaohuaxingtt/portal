@@ -290,6 +290,7 @@ export default {
                 font-size: 20px;
                 font-weight: bold;
                 width: 106%;
+                color: #FFFFFF;
             }
             // .content,
             // .btn{
