@@ -1,15 +1,27 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-11 16:40:20
- * @LastEditTime: 2022-01-28 19:25:20
+ * @LastEditTime: 2022-03-07 15:18:27
  * @LastEditors: YoHo
  * @Description: 审批界面内嵌使用
 -->
 <template>
   <el-table :data="tableData">
     <template v-for="item in TableTitle">
+      
       <el-table-column
-        v-if="item.prop == 'termsName'"
+        v-if="item.prop == 'supplierName'"
+        :minWidth="item.minWidth || item.width"
+        :label="item.name"
+        :prop="item.prop"
+        :key="item.prop"
+      >
+        <template slot-scope="scope">
+          <span>{{ (scope.row.svwTempCodePp?scope.row.svwTempCodePp+'-':'') + (scope.row.supplierName?scope.row.supplierName:'') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-else-if="item.prop == 'termsName'"
         :minWidth="item.minWidth || item.width"
         :label="item.name"
         :prop="item.prop"

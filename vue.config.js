@@ -162,9 +162,9 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        target: `http://${BASE_IP}:8015/usercenter/`,
-        // target:
-        //   'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
+        // target: `http://${BASE_IP}:8015/usercenter/`,
+        target:
+          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
@@ -247,16 +247,16 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_NTIER]: {
-        target: `http://${BASE_IP}:8045/ntier`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/ntier/`,
+        // target: `http://${BASE_IP}:8045/ntier`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/ntier/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NTIER]: ''
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        target: `http://${BASE_IP}:8046/mtz`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
+        // target: `http://${BASE_IP}:8046/mtz`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''

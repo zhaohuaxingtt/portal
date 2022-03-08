@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2021-11-06 17:25:57
+ * @LastEditTime: 2022-03-08 10:09:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\detailDialog.vue
@@ -176,8 +176,10 @@
                        :active-value="true"
                        :inactive-value="false" />
           </div>
-          <iButton @click="handleExportCurrent" v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
-          <iButton @click="handleRedeploy" v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_ZHUANPAI">{{language('ZHUANGPAI', '转派')}}</iButton>
+          <iButton @click="handleExportCurrent"
+                   v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
+          <iButton @click="handleRedeploy"
+                   v-permission="MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN_ZHUANPAI">{{language('ZHUANGPAI', '转派')}}</iButton>
         </div>
         <tableList class="margin-top20"
                    :tableData="tableListData"
@@ -201,12 +203,12 @@
 </template>
 
 <script>
-import { iMessage, iDialog, iSelect, iButton, iDatePicker, iPagination,iMessageBox } from 'rise'
+import { iMessage, iDialog, iSelect, iButton, iDatePicker, iPagination, iMessageBox } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
 import { tableTitle } from './data'
 import { excelExport } from './util'
-import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchSecondSupplier, fetchRawMaterialCode, fetchCurrentUser,pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
+import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchSecondSupplier, fetchRawMaterialCode, fetchCurrentUser, pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
@@ -271,9 +273,9 @@ export default {
       for (let key in this.searchForm) {
         this.searchForm[key] = []
       }
-      if(val == "clear"){
+      if (val == "clear") {
         this.$set(this.searchForm, 'compDate', [])
-      }else{
+      } else if (this.params.time && this.params.time.length !== 0) {
         this.params.time[0] = this.params.time[0].split(" ")[0]
         this.params.time[1] = this.params.time[1].split(" ")[0]
         this.$set(this.searchForm, 'compDate', this.params.time)
@@ -406,8 +408,8 @@ export default {
         fsupplier: this.params.firstSupplierId || null,
         compStartDate: this.searchForm.compDate ? this.searchForm.compDate[0] : null,
         compEndDate: this.searchForm.compDate ? this.searchForm.compDate[1] : null,
-      }).then(res=>{
-        let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
+      }).then(res => {
+        let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
         let objectUrl = URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = objectUrl;

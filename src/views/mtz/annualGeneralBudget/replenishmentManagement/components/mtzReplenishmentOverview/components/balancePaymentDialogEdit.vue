@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-05 10:57:36
+ * @LastEditTime: 2022-03-08 14:47:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -254,7 +254,7 @@ export default {
   },
   data () {
     return {
-      dataAll:[],
+      dataAll: [],
       searchForm: {
         mtzDocId: "",
         compTimeStart: "",
@@ -310,7 +310,7 @@ export default {
 
       });
     },
-    getDataFunc(val){
+    getDataFunc (val) {
       const data = val[0]
       this.mtzId = data.id
       this.searchForm.mtzDocId = data.bizNo
@@ -323,8 +323,8 @@ export default {
         this.searchForm.ekGroupList = res.data.purchaseGroup;//采购组
         this.searchForm.fpartNo = res.data.fPart;//一次件零件号
         this.searchForm.spartNo = res.data.sPart;//二次件零件号
-        this.searchForm.isEffAvg = res.data.isEffAvg;//是否取市场均值
-        this.searchForm.value1 = [res.data.offsetFrom.substring(0, 4) + "-" + res.data.offsetFrom.substring(4, 6), res.data.offsetTo.substring(0, 4) + "-" + res.data.offsetTo.substring(4, 6)]//市场价偏移区间
+        this.searchForm.isEffAvg = res.data.isEffAvg || "";//是否取市场均值
+        if (res.data.offsetFrom && res.data.offsetTo) this.searchForm.value1 = [res.data.offsetFrom.substring(0, 4) + "-" + res.data.offsetFrom.substring(4, 6), res.data.offsetTo.substring(0, 4) + "-" + res.data.offsetTo.substring(4, 6)]//市场价偏移区间
         this.value = [res.data.monthFrom.substring(0, 4) + "-" + res.data.monthFrom.substring(4, 6) + "-00", res.data.monthTo.substring(0, 4) + "-" + res.data.monthTo.substring(4, 6) + "-00"]//
         this.waitCompDocMoney = res.data.invoiceAmt;
         this.trueCompMoney = res.data.approvedAmt;

@@ -39,7 +39,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO3')"
+        label="#"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -381,7 +381,7 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> {{ $t('生成Agenda') }}</span>
+                <span> {{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -392,7 +392,7 @@
                 "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> {{ $t('生成Agenda') }}</span>
+                <span> {{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -490,13 +490,13 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>{{ $t('生成Agenda') }}</span>
+                <span>{{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
               <p v-if="scope.row.state == '02' && isGenerating">
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>{{ $t('生成Agenda') }}</span>
+                <span>{{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -999,7 +999,7 @@ export default {
     // 确认提交审批流
     handleCloseOK(info, list, row) {
       if (info === 'close') {
-        iMessage.success('MT_GUANBICHENGGONG')
+        iMessage.success(this.$t('MT_GUANBICHENGGONG'))
         if (list) {
           this.handleSendEmail(list, row)
         }

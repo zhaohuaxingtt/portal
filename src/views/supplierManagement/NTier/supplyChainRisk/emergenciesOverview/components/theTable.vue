@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
@@ -37,7 +37,7 @@
                  :layout="page.layout"
                  :current-page='page.currPage'
                  :total="page.totalCount" />
-    <createEmergenciesDialog v-model="createEmergenciesDialog" />
+    <createEmergenciesDialog v-model="createEmergenciesDialog" v-bind="$attrs" />
   </iCard>
 </template>
 
