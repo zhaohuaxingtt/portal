@@ -113,7 +113,7 @@
         </div>
 
         <div>
-          <iButton @click="handleExportCurrent">{{
+          <iButton @click="handleExportCurrent" v-permission="SUPPLIER_WORKBENCH_JIXIAO_NDZDZZ_DAOCHUQUANBU">{{
             language('DAOCHUQUANBU', '导出全部')
           }}</iButton>
           <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
