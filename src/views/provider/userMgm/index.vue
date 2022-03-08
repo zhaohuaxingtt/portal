@@ -18,7 +18,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="language(searchOptionTitles.providerName)">
+                <el-form-item
+                  :label="language(searchOptionTitles.providerName)"
+                >
                   <iInput
                     :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.companyName"
@@ -36,7 +38,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="language(searchOptionTitles.isMainContact)">
+                <el-form-item
+                  :label="language(searchOptionTitles.isMainContact)"
+                >
                   <iSelect
                     :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.isMainContact"
@@ -165,14 +169,16 @@
               @click="delockAccount"
               >{{ language(buttonTitles.deblock) }}</iButton
             >
-            <iButton @click="exportData">{{ language(buttonTitles.export) }}</iButton>
+            <iButton @click="exportData">{{
+              language(buttonTitles.export)
+            }}</iButton>
             <button-table-setting @click="$refs.testTable.openSetting()" />
           </div>
           <iTableCustom
             ref="testTable"
             :loading="tableLoading"
             :data="tableListData"
-            :columns="table.tableColumnSetting"
+            :columns="tableColumnSetting"
             permission-key="ADMIN_PRO_CS_PROVIDER_USER"
             @handle-selection-change="handleSelectionChange"
           />
@@ -325,9 +331,7 @@ export default {
       tableLoading: false,
       tableListData: [],
       selectedData: [],
-      table: {
-        tableColumnSetting: tableColumnSetting
-      },
+      tableColumnSetting,
       formAppearance: {
         gutter: 24
       },
