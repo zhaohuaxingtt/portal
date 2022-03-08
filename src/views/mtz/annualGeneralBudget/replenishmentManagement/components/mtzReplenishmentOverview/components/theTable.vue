@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-04 09:42:59
+ * @LastEditTime: 2022-03-08 10:20:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -326,7 +326,7 @@ export default {
           data: {
             firstSupplierId: val.firstSupplierId,
             name: val.firstSupplierName,
-            time:this.$parent.$refs.searchBox.value1
+            time: this.$parent.$refs.searchBox.value1
           }
         }
       })
