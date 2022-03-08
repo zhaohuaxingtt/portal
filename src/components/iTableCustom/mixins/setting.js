@@ -22,9 +22,19 @@ export default {
     tableVisibleColumns() {
       // 表格的列
       if (this.tableColumns.length) {
-        const filterColumns = this.tableColumns.filter(
-          (e) => !e.isHidden && !this.unCols.includes(e.prop)
-        )
+        const filterColumns = []
+        // const filterColumns = this.tableColumns.filter(
+        //   (e) => !e.isHidden && !this.unCols.includes(e.prop)
+        // )
+        this.tableColumns.forEach((e) => {
+          if (!e.isHidden && !this.unCols.includes(e.prop)) {
+            const column = this.columns.find((c) => c.prop === e.prop)
+            if (column) {
+              filterColumns.push(column)
+            }
+          }
+        })
+        console.log('filterColumns', filterColumns)
         const columns = []
         const noSettingColumns = [
           'selection',
@@ -154,8 +164,14 @@ export default {
         if (http.readyState === 4 && http.status == 200) {
           const response = JSON.parse(http.responseText).data
           if (response && response.length > 0) {
-            this.tableColumns = JSON.parse(response[0].listConfig)
-            this.settingId = response[0].id
+            const listConfig = JSON.parse(response[0].listConfig)
+            // const tableColumns = []
+            if (listConfig.length) {
+              this.tableColumns = listConfig
+              this.settingId = response[0].id
+            } else {
+              this.tableColumns = this.columns
+            }
           } else {
             this.tableColumns = this.columns
           }
