@@ -263,8 +263,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MATERIEL]: {
-        target: `http://${BASE_IP}:8018/parts`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/parts/`,
+        // target: `http://${BASE_IP}:8018/parts`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/parts/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MATERIEL]: ''
