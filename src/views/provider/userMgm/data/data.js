@@ -1,6 +1,6 @@
 export const tableColumnSetting = [
   {
-    type: 'customSelection',
+    type: 'selection',
     width: 50
   },
   {
@@ -61,7 +61,8 @@ export const tableColumnSetting = [
     label: '临时号',
     i18n: '临时号',
     align: 'center',
-    sortable: true
+    sortable: true,
+    width: '100'
   },
   {
     prop: 'svwCode',
@@ -69,20 +70,22 @@ export const tableColumnSetting = [
     i18n: '正式/SVW号',
     align: 'center',
     sortable: true,
-    width: '110'
+    width: '130'
   },
   {
     prop: 'sapNum',
     label: 'SAP号',
     i18n: 'SAP号',
     align: 'center',
-    sortable: true
+    sortable: true,
+    width: '100'
   },
   {
     prop: 'status',
     label: '是否有效',
     i18n: '是否有效',
     align: 'center',
+    width: '110',
     customRender: (h, scope) => {
       // 1正常2冻结
       if (scope.row.status == '1') {

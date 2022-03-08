@@ -2,10 +2,10 @@
   <iCard>
     <div v-loading="loading">
       <div class="action flex-end-center">
-        <iButton @click="handleReset">重置</iButton>
-        <iButton @click="handleSave">保存</iButton>
+        <iButton @click="handleReset">{{language('重置')}}</iButton>
+        <iButton @click="handleSave">{{language('保存')}}</iButton>
       </div>
-      <h4 class="t">系统名称</h4>
+      <h4 class="t">{{language('系统名称')}}</h4>
       <div class="applications">
         <el-row>
           <el-col :span="6" v-for="item in applicaions" :key="item.id">

@@ -12,7 +12,7 @@
       <bottom ref="bottom" :loading.sync="loading" />
     </div>
     <div slot="footer">
-      <iButton @click="isShow = false">确定</iButton>
+      <iButton @click="isShow = false">{{language('确定')}}</iButton>
     </div>
   </iDialog>
 </template>
