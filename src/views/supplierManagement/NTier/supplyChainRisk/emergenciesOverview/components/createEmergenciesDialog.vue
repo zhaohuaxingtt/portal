@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-26 16:52:42
- * @LastEditors: YoHo
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -107,7 +107,7 @@ export default {
     edit: { type: Boolean },
     eventType: {
       type: Object,
-      default:()=>({})
+      default: () => ({})
     }
   },
   data () {
@@ -159,6 +159,7 @@ export default {
     async getCityInfo () {
       const res = await getCity()
       this.formGroup.areaList = res
+      console.log(this.form)
     },
     // 保存
     handleAdd () {
@@ -184,7 +185,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-    this.dictByCode()
+    dictByCode()
     this.getCityInfo()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
