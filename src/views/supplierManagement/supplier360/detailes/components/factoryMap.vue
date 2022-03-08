@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -12,10 +12,13 @@
     <el-col :span="8">
       <iCard class="Ltd">
         <div>
-          <div class="titleZh margin-right10">{{info.nameZh}}</div>
-          <span class="titleEn">{{info.nameEn}}</span>
+          <span class="titleEn"
+                v-if="info.isForeignManufacture&&info.isForeignManufacture==1">{{info.nameEn}}</span>
+          <div class="titleZh margin-right10"
+               v-else>{{info.nameZh}}</div>
         </div>
-        <div class="tagStyle" v-if="tagList.length>0">
+        <div class="tagStyle"
+             v-if="tagList.length>0">
 
           <el-popover placement="top-start"
                       width="200"
@@ -54,7 +57,8 @@
         </div>
       </iCard>
     </el-col>
-    <el-col :span="16" v-if="isShowAll">
+    <el-col :span="16"
+            v-if="isShowAll">
       <iCard class="countryMap"
              :title="$t('SPR_FRM_XGYSPJ_GCDT')">
         <el-row type="flex"
@@ -95,7 +99,7 @@ export default {
     tableList
   },
   props: {
-    isShowAll:{
+    isShowAll: {
       type: Boolean,
       default: () => {
         return false
@@ -114,7 +118,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       nameZh: '',
       nameEn: '',
@@ -128,26 +132,27 @@ export default {
     // isShowAll(data){
 
     // },
-    factoryAddressVOList(data) {
+    factoryAddressVOList (data) {
       data.map((item) => (item.name = item.city))
       this.tableListData = data
       if (this.$refs.chart && this.tableListData.length > 0) {
         this.handleMap()
       }
     },
-    supplier360ViewVO(data) {
+    supplier360ViewVO (data) {
+      console.log(data)
       this.info = data
       //    this.nameZh=data.nameZh
       //    this.nameEn=data.nameEn
       this.getTags()
     }
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     this.handleMap()
   },
   methods: {
-    async getTags() {
+    async getTags () {
       const pms = {
         pageNo: 1,
         pageSize: 10,
@@ -158,7 +163,7 @@ export default {
         this.tagList = res.data
       }
     },
-    handleShareholder() {
+    handleShareholder () {
       console.log(this.info)
       this.$router.push({
         path: '/supplier/view-suppliers',
@@ -170,7 +175,7 @@ export default {
         }
       })
     },
-    handleMap() {
+    handleMap () {
       console.log('creat map')
       // 初始化地图
       var map = new AMap.Map('container', {
@@ -256,11 +261,11 @@ export default {
     position: absolute;
     top: 30px;
     width: 170px;
-    height:30px;
+    height: 30px;
     line-height: 30px;
     // color:black;
-    padding:0 15px;
-    background:#f1f1f1;
+    padding: 0 15px;
+    background: #f1f1f1;
     border-radius: 15px;
     right: 30px;
     overflow: hidden; /*超出隐藏*/
