@@ -15,8 +15,8 @@
                 </el-form-item>
                </el-form>
                <div>
-                   <iButton @click="newData">新增</iButton>
-                   <iButton @click="handleChange">确认</iButton>
+                   <iButton @click="newData" v-permission="KPI_INFOR_WEIHU_ADD">新增</iButton>
+                   <iButton @click="handleChange" v-permission="KPI_INFOR_WEIHU_QUEREN">确认</iButton>
                </div>
                </div>
            </iCard>

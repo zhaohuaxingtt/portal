@@ -12,7 +12,7 @@
       <div class="text margin-bottom20">{{ language('GYLGL','N级供应链管理')}}</div>
       <div>
         <!-- v-if="$route.path!=='/NTierMap'" -->
-        <iButton :loading="saveButtonLoading"
+        <iButton :loading="saveButtonLoading" v-permission="CATEGORY_ASSISTANT_WBGYSCFX_GONGYINGLIANGAILAN_SAVE"
                  @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
         <iButton @click="handleBack">{{language('FANHUI','返回')}}</iButton>
       </div>
