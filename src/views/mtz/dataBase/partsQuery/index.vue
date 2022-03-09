@@ -356,6 +356,10 @@ export default {
       this.$router.push('/partsRelationship')
     },
     handleSource (val) {
+      if(val.sourceCode == "初始化"){
+        return false;
+      }
+
       let path = ""
       let query = {}
       if (val.source === '0') {
