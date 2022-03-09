@@ -46,17 +46,8 @@ export default [
                   showFooter: true
                 },
                 component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/index.vue' ),
-                redirect: 'mtzAnnualBudget/materialGroup',
+                redirect: 'mtzAnnualBudget/classMaterial',
                 children: [
-                  {
-                    path: 'materialGroup',
-                    name: 'materialGroup',
-                    meta: {
-                      title: '材料组',
-                      showFooter: true
-                    },
-                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/materialgroup/index' ),
-                  },
                   {
                     path: 'classMaterial',
                     name: 'classMaterial',
@@ -65,6 +56,15 @@ export default [
                       showFooter: true
                     },
                     component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/classmaterial/index' ),
+                  },
+                  {
+                    path: 'materialGroup',
+                    name: 'materialGroup',
+                    meta: {
+                      title: '材料组',
+                      showFooter: true
+                    },
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/materialgroup/index' ),
                   },
                   {
                     path: 'department',
