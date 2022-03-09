@@ -114,11 +114,12 @@ export default {
   methods: {
     // 获取基本信息
     supplierDetail () {
+      this.$parent.$parent.onLoading = true
       supplierDetail(this.supplierType).then(res => {
         if (res.data) {
           //初始数据很多为null 需要重置为“” 不然会触发表单验证
           let baseInfo = this.reView(res.data)
-          console.log(baseInfo)
+          this.$parent.$parent.onLoading = false
           baseInfo.supplierInfoVo.isListing = baseInfo.supplierInfoVo.isListing.toString()
           if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo
             .gpSupplierInfoVO

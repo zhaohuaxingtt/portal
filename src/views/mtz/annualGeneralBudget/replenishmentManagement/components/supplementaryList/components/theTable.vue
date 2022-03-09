@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2021-11-12 10:03:07
+ * @LastEditTime: 2022-03-09 11:21:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\theTable1.vue
@@ -13,11 +13,16 @@
          style="width:100%">
       <span>补差列表</span>
       <div class="opration">
-        <iButton @click="sendSupplier" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG">{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton>
-        <iButton @click="handleClickEdit" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_EDIT">{{ language('BIANJI', '编辑') }}</iButton>
-        <iButton @click="submit" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_SUBMIT">{{ language('TIJIAO', '提交') }}</iButton>
-        <iButton @click="recall" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_CHEHUI">{{ language('CHEHUI ', '撤回') }}</iButton>
-        <iButton @click="exportFile" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{ language('DAOCHU ', '导出') }}</iButton>
+        <iButton @click="sendSupplier"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_FAQIGONGINGSHANG">{{ language('FASONGGONGYINGSHANG', '发送供应商') }}</iButton>
+        <iButton @click="handleClickEdit"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_EDIT">{{ language('BIANJI', '编辑') }}</iButton>
+        <iButton @click="submit"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_SUBMIT">{{ language('TIJIAO', '提交') }}</iButton>
+        <iButton @click="recall"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_CHEHUI">{{ language('CHEHUI ', '撤回') }}</iButton>
+        <iButton @click="exportFile"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{ language('DAOCHU ', '导出') }}</iButton>
       </div>
     </div>
     <el-table ref="moviesTable"
@@ -27,10 +32,12 @@
               style="width: 100%"
               @selection-change="handleSelectionChange">
       <el-table-column type="selection"
-                       width="60"> </el-table-column>
+                       width="50"
+                       fixed> </el-table-column>
       <el-table-column type="index"
                        label="#"
-                       width="60"> </el-table-column>
+                       width="50"
+                       fixed> </el-table-column>
       <el-table-column prop="bizNo"
                        :label="language('BUCHADANHAO','补差单号') "
                        width="180"
@@ -44,14 +51,15 @@
         </template>
       </el-table-column>
       <el-table-column prop="id"
+                       align="center"
                        show-overflow-tooltip
                        :label="language('PINGZHENGID','凭证Id') "
-                       min-width="180">
+                       min-width="140">
       </el-table-column>
       <el-table-column prop="mgroup"
                        :label="language('CAILIAOZHONGLEI','材料中类')"
                        min-width="180"
-                       header-align="center"
+                       align="center"
                        show-overflow-tooltip> </el-table-column>
       <el-table-column prop="department"
                        :label="language('KESHI','科室')"
@@ -61,7 +69,7 @@
                        show-overflow-tooltip> </el-table-column>
       <el-table-column prop="applicantBy"
                        :label="language('SHENQINGREN','申请人')"
-                       width="120"
+                       width="140"
                        align="center"
                        header-align="center"
                        show-overflow-tooltip> </el-table-column>
@@ -70,13 +78,17 @@
                        align="center"
                        header-align="center"
                        :label="language('GONGYINGSHANG','供应商')"
-                       width="240"> </el-table-column>
+                       width="180">
+        <template slot-scope="scope">
+          <p>{{scope.row.supplier.split('-')[0]}}</p>
+          <p>{{scope.row.supplier.split('-')[1]}}</p>
+        </template>
+      </el-table-column>
       <el-table-column prop="approvedAmt"
                        show-overflow-tooltip
-                       align="right"
-                       header-align="center"
+                       align="center"
                        :label="language('SHIJIBUCHAJINEPINGZHENGJINE','实际补差金额（凭证金额）')"
-                       width="180">
+                       width="200">
         <template slot-scope="scope">
           <span>{{scope.row.approvedAmt|format}}</span>
         </template>
@@ -404,5 +416,11 @@ export default {
   color: rgb(55, 72, 231);
   margin-bottom: 10px;
   text-decoration: underline;
+}
+</style>
+<style lang="scss">
+.el-table__fixed-header-wrapper,
+.el-table__fixed-body-wrapper {
+  background-color: #fff;
 }
 </style>
