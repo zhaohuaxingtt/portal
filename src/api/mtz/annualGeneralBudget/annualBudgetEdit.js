@@ -1,7 +1,7 @@
 /*
  * @Author: youyuan
  * @Date: 2021-09-09 14:02:54
- * @LastEditTime: 2021-10-25 17:13:46
+ * @LastEditTime: 2022-03-09 16:26:33
  * @LastEditors: Please set LastEditors
  * @Description: 年度预算编辑
  * @FilePath: \重庆软维科技\front-portal\src\api\mtz\annualGeneralBudget\annualBudgetEdit.js
@@ -129,8 +129,8 @@ export function fetchRemoteUser(params) {
 // 编辑其他-科室
 export function getDeptSection(params) {
   return request({
-    url: '/forecastOther/getDeptSection?userId='+params,
-    method: 'GET',
+    url: '/forecastOther/getDeptSection?userId=' + params,
+    method: 'GET'
   })
 }
 
@@ -173,7 +173,15 @@ export function fetchDelOther(params) {
 // 编辑其他-模糊查询科室
 export function fetchRemoteDept(params) {
   return request({
-    url: '/forecastOther/queryDeptSection',
+    url: '/forecastOther/queryDeptSectionForComp',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function queryDeptSectionForCompItem(params) {
+  return request({
+    url: '/forecastOther/queryDeptSectionForCompItem',
     method: 'POST',
     data: params
   })

@@ -23,6 +23,7 @@ export const measurementTable = [
     },
     {
         prop:'numeratorValue',
+        required: true,
         tooltip:true,
         i18n:'计量单位转换关系',
         label:'计量单位转换关系',
@@ -79,6 +80,7 @@ export const measureEdit = [
     {
         prop:'numeratorValue',
         label:'计量单位转换关系',
+        required: true,
         tooltip:true,
         i18n:'计量单位转换关系',
         customRender:(h, scope, column, extraData) => {

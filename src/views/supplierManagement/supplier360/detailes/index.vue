@@ -2,14 +2,22 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <div>
-    <factoryMap :factoryAddressVOList='factoryAddressVOList' :supplier360ViewVO='supplier360ViewVO' :isShowAll="isShowAll" class="margin-bottom20" />
-    <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO' :supplier360ViewVO='supplier360ViewVO' v-if="isShowAll" class="margin-bottom25" />
-    <affiliatedCompany :groupRelationsVO='groupRelationsVO'  :relatedCompanyVO='relatedCompanyVO' v-if="isShowAll" />
+  <div v-loading="onLoading">
+    <factoryMap :factoryAddressVOList='factoryAddressVOList'
+                :supplier360ViewVO='supplier360ViewVO'
+                :isShowAll="isShowAll"
+                class="margin-bottom20" />
+    <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO'
+                  :supplier360ViewVO='supplier360ViewVO'
+                  v-if="isShowAll"
+                  class="margin-bottom25" />
+    <affiliatedCompany :groupRelationsVO='groupRelationsVO'
+                       :relatedCompanyVO='relatedCompanyVO'
+                       v-if="isShowAll" />
   </div>
 </template>
 
@@ -23,22 +31,23 @@ export default {
   components: {
     factoryMap, earlyWarning, affiliatedCompany
   },
-  data() {
+  data () {
     return {
       tabRouterList,
       factoryAddressVOList: [],
       supplier360ViewVO: {},
       financialEarlyWarningVO: [],
       relatedCompanyVO: [],
-      isShowAll:false,
+      isShowAll: false,
+      onLoading: false
     }
   },
-  created() {
+  created () {
     this.isShowAll = Boolean(this.$route.query.isShowAll);
     this.handleInit()
   },
   methods: {
-    async handleInit() {
+    async handleInit () {
       const pms = {
         subSupplierId: this.$route.query.subSupplierId,
         supplierType: this.$route.query.supplierType

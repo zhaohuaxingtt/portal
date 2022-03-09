@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-07 19:20:05
+ * @LastEditTime: 2022-03-09 14:59:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -407,8 +407,10 @@ export default {
   },
   created () {
     this.searchForm.value = this.dateSearch
-    this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
-    this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    if (this.searchForm.value !== "") {
+      this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
+      this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    }
     this.init()
   },
   methods: {
@@ -485,6 +487,7 @@ export default {
       this.pickerOptions.disabledDate = () => false
     },
     query () {
+      console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
         this.actAmtList = []
@@ -753,5 +756,8 @@ export default {
 }
 ::v-deep .el-select {
   width: 100%;
+}
+::v-deep .el-form--label-top .el-form-item__label {
+  padding: 0;
 }
 </style>
