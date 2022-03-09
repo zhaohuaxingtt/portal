@@ -372,6 +372,8 @@ export default {
       this.muiltSelectList.forEach((val) => {
         this.tableData.forEach((v, i) => {
           if (val.id === v.id) {
+            this.waitCompDocMoney = Number(this.waitCompDocMoney) - Number(v.actAmt);
+            this.trueCompMoney = Number(this.trueCompMoney) - Number(v.appAmt);
             this.tableData.splice(i, 1)
             this.selectDataList.push(val)
           }
@@ -397,6 +399,7 @@ export default {
       chargeAgainstMTZComp(params).then(res => {
         if (res.code === '200') {
           iMessage.success(res.desZh)
+          this.getDataFunc(this.dataAll);
           this.query()
         } else {
           iMessage.error(res.desZh)
