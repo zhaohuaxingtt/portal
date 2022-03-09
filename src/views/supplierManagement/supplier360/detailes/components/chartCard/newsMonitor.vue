@@ -27,6 +27,8 @@
                 class="alert"
                 symbol
                 name="iconlvdeng"></icon>
+          <p v-if="!info.isAlert"
+             class="fontsize">{{this.language('GONGYINGSHANGCAIWUZHUANGKUANGLIANGHAO',"供应商财务状况良好")}}</p>
           <p class="fontsize">{{info.tips}}</p>
         </div>
         <div class="bjText">
@@ -87,8 +89,8 @@ export default {
         path: '/supplier/frmrating/supplieroverview',
         query: {
           isSupplier: 1,
-          nameZh:this.infodata.nameZh,
-          sapCode:this.infodata.sapCode,
+          nameZh: this.infodata.nameZh,
+          sapCode: this.infodata.sapCode,
         }
       })
       window.open(routeData.href)
