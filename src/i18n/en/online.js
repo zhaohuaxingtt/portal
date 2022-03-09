@@ -492,6 +492,7 @@ export default {
   SAPORGONGYINGSHANGMINGCHENG: 'SAP No./Supplier Name',
   NINGFUZEDEGONGYINGSHANGWUYIBEILIERUZHONGDAINZHUIZONGMINGDAN:
     'None of the key suppliers you are responsible for has been listed in the key tracking list',
+  GAIGONGYINGSHANGCHANNENGZHUANGKUANGLIANGHAO:"The supplier's capacity is in good condition",
   YIBANGONGYINGSHANG: 'General Supplier',
   SHENGCHANGONGYINGSHANG: 'Proc. Supplier',
   SHURUCHAXUNGONGYINGSHANGMINGCHENG: 'Please enter supplier name',
