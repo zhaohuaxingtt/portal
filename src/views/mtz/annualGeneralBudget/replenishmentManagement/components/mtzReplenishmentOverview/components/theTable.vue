@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-03 16:44:50
+ * @LastEditTime: 2022-03-09 10:59:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -84,7 +84,7 @@
         <el-table-column prop="waitLaunchedDocMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
+                         width="180"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -102,7 +102,7 @@
         <el-table-column prop="hasLaunchedDocMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="140"
+                         width="180"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -119,7 +119,7 @@
         <el-table-column prop="trueCompMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="140"
+                         width="180"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>
@@ -139,7 +139,7 @@
         <el-table-column prop="waitVerifyMoney"
                          align="center"
                          show-overflow-tooltip
-                         width="140"
+                         width="180"
                          :formatter="formatterNumber">
           <template slot="header">
             <div>

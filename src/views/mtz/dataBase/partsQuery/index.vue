@@ -1,18 +1,17 @@
 <template>
   <div class='mtz-select'>
-    <i-search :icon="true"
-              @sure="sure"
+    <i-search @sure="sure"
               @reset="reset">
-      <el-form label-position="top">
-        <el-form-item v-for="(x,index) in formJSON"
-                      :key="index"
-                      :label="x.name"
-                      class="SearchOption">
-          <i-input v-model="formData[x.props]"
-                   :placeholder="language('QINGSHURU', '请输入')"></i-input>
-        </el-form-item>
-        <el-form-item label="科室"
-                      class="SearchOption">
+      <iFormGroup label-position="top">
+        <iFormItem v-for="(x,index) in formJSON"
+                   :key="index"
+                   :label="x.name"
+                   class="SearchOption">
+          <iInput v-model="formData[x.props]"
+                  :placeholder="language('QINGSHURU', '请输入')"></iInput>
+        </iFormItem>
+        <iFormItem label="科室"
+                   class="SearchOption">
           <!-- <i-select
                   v-model="formData.buyerDeptId	"
                   multiple
@@ -29,15 +28,16 @@
           <custom-select v-model="formData.buyerDeptId"
                          :user-options="departmentDrop"
                          multiple
+                         style="width:100%"
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="departNameEn"
                          value-member="departId"
                          value-key="departId" />
-        </el-form-item>
-        <el-form-item label="市场价来源"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="市场价来源"
+                   class="SearchOption">
           <!-- <i-select
                   v-model="formData.marketSource"
                   multiple
@@ -54,29 +54,30 @@
           <custom-select v-model="formData.marketSource"
                          :user-options="getMtzMarketSourceListDrop"
                          multiple
+                         style="width:100%"
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-        <el-form-item label="有效期起"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="有效期起"
+                   class="SearchOption">
           <iDatePicker v-model="formData.startDate"
                        valueFormat="yyyy-MM-dd"
                        type="date"
                        :placeholder="language('QINGXUANZE', '请选择')" />
-        </el-form-item>
-        <el-form-item label="有效期止"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="有效期止"
+                   class="SearchOption">
           <iDatePicker v-model="formData.endDate"
                        valueFormat="yyyy-MM-dd"
                        type="date"
                        :placeholder="language('QINGXUANZE', '请选择')" />
-        </el-form-item>
-        <el-form-item label="补差周期"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="补差周期"
+                   class="SearchOption">
           <!-- <i-select
                   multiple
                   collapse-tags
@@ -95,14 +96,15 @@
                          :user-options="sendersCycle"
                          filterable
                          multiple
+                         style="width:100%"
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="name"
                          value-member="value"
                          value-key="value" />
-        </el-form-item>
-        <el-form-item :label="language('SHIFOUSHENGXIAO','是否生效')"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem :label="language('SHIFOUSHENGXIAO','是否生效')"
+                   class="SearchOption">
           <!-- <i-select v-model="formData.effectFlag"
                     :placeholder="language('QINGXUANZE', '请选择')">
             <el-option :label="language('QUANBU', '全部')"
@@ -113,13 +115,14 @@
                        value="0"></el-option>
           </i-select> -->
           <custom-select v-model="formData.effectFlag"
+                         style="width:100%"
                          :user-options="effectFlagDropDown"
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-      </el-form>
+        </iFormItem>
+      </iFormGroup>
     </i-search>
 
     <iCard class="OrganizationTable">
@@ -215,6 +218,7 @@ import {
   iButton,
   iPagination,
   iFormItem,
+  iFormGroup,
   iDialog,
   iDatePicker,
   iMessage
@@ -250,14 +254,15 @@ export default {
     iButton,
     iTableCustom,
     iPagination,
-    // iFormItem,
+    iFormItem,
     iDialog,
     iDatePicker,
     Detail,
     // Source,
     RelationalValidity,
     uploadButton,
-    buttonTableSetting
+    buttonTableSetting,
+    iFormGroup
   },
   mixins: [pageMixins],
   data () {
@@ -459,9 +464,9 @@ export default {
     color: #000;
   }
 }
-.SearchOption {
-  margin-bottom: 20px !important;
-}
+// .SearchOption {
+//   margin-bottom: 20px !important;
+// }
 .open-link-text {
   text-decoration: underline;
 }
@@ -485,5 +490,8 @@ export default {
     margin-top: 2px;
     margin-left: 10px;
   }
+}
+::v-deep .el-form-item {
+  flex-direction: column;
 }
 </style>
