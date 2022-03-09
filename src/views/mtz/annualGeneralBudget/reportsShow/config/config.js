@@ -28,19 +28,18 @@ export const navList = [
 export const subNavListOne = [
   {
     code: '1',
-    name:'材料组',
-    key:'LK_CAILIAOZU',
-    path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/materialGroup',
-    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_MATERIAL_GROUP',
-    permissionName:'材料组',
-  },
-  {
-    code: '2',
     name:'材料中类',
     key:'LK_CAILIAOZHONGLEI',
     path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/classMaterial',
     permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_MEDIUM_CLASS_OF_MATERIALS',
     permissionName:'材料中类',
+  },{
+    code: '2',
+    name:'材料组',
+    key:'LK_CAILIAOZU',
+    path:'/mtz/annualGeneralBudget/reportsShow/mtzAnnualBudget/materialGroup',
+    permissionKey:'MTZ_REPORT_ANNUAL_BUDGET_MATERIAL_GROUP',
+    permissionName:'材料组',
   },
   {
     code: '3',

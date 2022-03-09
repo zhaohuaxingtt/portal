@@ -52,8 +52,8 @@ export default {
       tableColumns: [
         {
           type: 'index',
-          label: '序号',
-          i18n: 'MT_XUHAO3',
+          label: '#',
+          i18n: '#',
           width: 68,
           tooltip: false
         },

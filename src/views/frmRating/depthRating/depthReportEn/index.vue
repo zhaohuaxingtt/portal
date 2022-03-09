@@ -20,12 +20,13 @@
         <!--保存-->
         <iButton :disabled="$route.query.status=='报告审批中'||$route.query.status=='生效'||$route.query.status=='终止'||$route.query.status=='终止审批中'||$route.query.status=='历史'"
                  class="margin-left30"
+                 v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_SPBG_BAOCUN"
                  @click="save">{{ $t('LK_BAOCUN') }}</iButton>
         <iButton v-if="$route.query.status=='报告完成'||$route.query.status=='报告审批驳回'"
-                 @click="submit">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
-        <iButton @click='openMeeting'>{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
+                 @click="submit" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_SPBG_TIJIAOSHENHE">{{ $t('SPR_FRM_DEP_TJSH') }}</iButton>
+        <iButton @click='openMeeting' v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_SPBG_DAOCHU">{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
         <!--查看财报分析结果-->
-        <iButton @click="jumpFinancialAnalysis()">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
+        <iButton @click="jumpFinancialAnalysis()" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_SPBG_CKCWFXJG">{{ $t('SPR_FRM_DEP_CKCWFXJG') }}</iButton>
       </div>
     </div>
 

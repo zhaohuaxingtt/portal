@@ -4,11 +4,11 @@
       <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1"/>
       <div class="btnRow">
         <!--发起初评清单-->
-        <iButton @click="initiateAPreliminaryReviewList">{{ $t('SPR_FRM_FRMGL_FQCPQD') }}</iButton>
+        <iButton @click="initiateAPreliminaryReviewList" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCPQD">{{ $t('SPR_FRM_FRMGL_FQCPQD') }}</iButton>
         <!--待确认初评清单-->
-        <iButton @click="openToBeConfirmedList">{{ $t('SPR_FRM_FRMGL_DQRCPQD') }}</iButton>
+        <iButton @click="openToBeConfirmedList" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DQRCPQD">{{ $t('SPR_FRM_FRMGL_DQRCPQD') }}</iButton>
         <!--查看模型-->
-        <iButton @click="openViewModel">{{ $t('SPR_FRM_FRMGL_CKMX') }}</iButton>
+        <iButton @click="openViewModel" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_CHAKANMOXING">{{ $t('SPR_FRM_FRMGL_CKMX') }}</iButton>
       </div>
     </div>
     <theSearch @getTableList="getTableList" class="margin-bottom20" name="theSearch"/>

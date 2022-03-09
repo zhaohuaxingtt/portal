@@ -154,6 +154,7 @@ export default {
       var data2 = []
       var data3 = []
       var data4 = []
+      var data5 = []
       let arr = []
       if (this.isTitle) {
         arr = this.info.batchParts
@@ -167,13 +168,11 @@ export default {
         } else {
           data2.push(e.increaseAmount)
         }
-        if (e.reductionRtio != 0) {
-          data3.push(e.reductionRtio * 100 + e.reductionAmount)
-        } else {
-          data3.push(e.reductionRtio)
-        }
-        data4.push(e.year)
+        data3.push(e.reductionRtio)
+        data4.push(e.increaseRtio * -1)
+        data5.push(e.year)
       })
+      console.log(data3, "data3")
       // data3=this.sumItem(data3,data1)
       // console.log(data1)
       const myChart = echarts().init(this.$refs.chart)
@@ -194,13 +193,14 @@ export default {
           trigger: 'axis',
           //   formatter:'{a}{b}{c}',
           formatter: function (params) {
+            console.log(params)
             let str = ''
             params.forEach((item, idx) => {
               item.data = Math.abs(item.data)
-              if (idx == 2) {
-                item.data = item.data - params[0].data
-              }
-              str += `${item.marker}\n${item.seriesName}: ${parseInt(item.data).toFixed(2)}`
+              // if (idx == 2) {
+              //   item.data = item.data - params[0].data
+              // }
+              str += `${item.marker}\n${item.seriesName}: ${parseFloat(item.data).toFixed(2)}`
               switch (idx) {
                 case 0:
                   str += ''
@@ -209,6 +209,9 @@ export default {
                   str += ''
                   break
                 case 2:
+                  str += ''
+                  break
+                case 3:
                   str += '%'
                   break
                 default:
@@ -227,7 +230,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: data4,
+          data: data5,
           axisLabel: {
             show: true,
             textStyle: {
@@ -255,25 +258,27 @@ export default {
                 fontSize: '10px'
               }
             }
+          },
+          {
+            show: false,
+            name: this.language('ZHANGJIAJIEJIANGBI', '涨价节降比'),
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
+              }
+            }
           }
-          //   {
-          //     show: false,
-          //     type: 'value',
-          //     axisLabel: {
-          //       show: true,
-          //       textStyle: {
-          //         color: '#7E84A3',
-          //         fontSize: '10px'
-          //       }
-          //     }
-          //   }
         ],
         series: [
           {
             name: this.language('ZHANGJIA', '涨价'),
             data: data2,
             type: 'bar',
-            barWidth: 30,
+            barWidth: 40,
+            yAxisIndex: 0,  // 配置多个y轴
             itemStyle: {
               normal: {
                 fontSize: 12,
@@ -282,9 +287,12 @@ export default {
               }
             },
             label: {
+              show: true,
+              position: 'inside',
+              color: '#fff',
               formatter: function (params) {
                 console.log(params)
-                return params.data + '%'
+                return parseFloat(params.data).toFixed(2)
               }
             }
           },
@@ -293,11 +301,16 @@ export default {
             data: data1,
             type: 'bar',
             barGap: '-100%',
-            barWidth: 30,
+            yAxisIndex: 0,  // 配置多个y轴
+            barWidth: 40,
             label: {
               show: true,
               position: 'inside',
-              color: '#fff'
+              color: '#fff',
+              formatter: function (params) {
+                console.log(params)
+                return parseFloat(params.data).toFixed(2)
+              }
             },
             itemStyle: {
               normal: {
@@ -307,11 +320,41 @@ export default {
               }
             }
           },
-
           {
-            name: this.language('JIEJIANGBI', '节降比'),
+            name: this.language('ZHANGJIAJIEJIANGBI', '涨价节降比'),
+            data: data4,
+            type: 'line',
+            yAxisIndex: 1,  // 配置多个y轴
+            label: {
+              show: false,
+              position: 'top',
+              fontSize: 10,
+              color: '#727272',
+              formatter: function (params) {
+                let num = params.data
+                // console.log(num-data1[0])
+                // data1.forEach((res) => {
+                //   console.log(res)
+                //   num = num - res
+                // })
+
+                return num + '%'
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#FFB04D', //改变折线点的颜色
+                lineStyle: {
+                  color: '#FFB04D' //改变折线颜色
+                }
+              }
+            }
+          },
+          {
+            name: this.language('JIANGJIAJIEJIANGBI', '降价节降比'),
             data: data3,
             type: 'line',
+            yAxisIndex: 1,  // 配置多个y轴
             label: {
               show: false,
               position: 'top',
@@ -400,7 +443,7 @@ export default {
   display: flex;
   height: 160px;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
   .chartStyle {
     width: 80%;
     height: 100%;

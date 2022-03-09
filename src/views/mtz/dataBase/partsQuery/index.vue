@@ -239,7 +239,8 @@ import {
   mtzBasePriceEdit,
   // historyPage,
   uploadPartExcel,
-  queryDeptSection
+  queryDeptSection,
+  queryDeptSectionForPart
 } from '@/api/mtz/database/partsQuery'
 // import {selectDictByKeys} from '@/api/dictionary'
 import { downloadUdFile } from '@/api/file';
@@ -287,7 +288,7 @@ export default {
   },
   mounted () {
     this.initSearchData()
-    queryDeptSection({}).then(res => { this.departmentDrop = res.data })//初始化科室
+    queryDeptSectionForPart({}).then(res => { this.departmentDrop = res.data })//初始化科室
     // selectDictByKeys('keys=MTZ_MAKE_CYCLE').then(res=>{this.sendersCycle=res.data.MTZ_MAKE_CYCLE})//补差周期
     this.sendersCycle = [
       { value: 'A', name: '年度' },
@@ -360,6 +361,10 @@ export default {
       this.$router.push('/partsRelationship')
     },
     handleSource (val) {
+      if(val.sourceCode == "初始化"){
+        return false;
+      }
+
       let path = ""
       let query = {}
       if (val.source === '0') {

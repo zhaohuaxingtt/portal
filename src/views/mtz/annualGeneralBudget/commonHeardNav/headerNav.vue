@@ -11,7 +11,7 @@
     <div class="navBox">
       <iNavMvp :list="tabRouterList" class="margin-bottom20 lines" routerPage :lev="1" v-if="$route.meta.showFooter"/>
       <router-view />
-      <logButton class="logButton" @toLogPage="toLog" v-if="$route.meta.showFooter"/>
+      <logButton class="logButton" @toLogPage="toLog" @toSql="toloSql" :sqlShow="true" v-if="$route.meta.showFooter"/>
       <iUserLog :show.sync="showDialog"
             menuId="MTZ-013"
             is-page />
@@ -53,6 +53,14 @@ export default {
     }
   },
   methods:{
+    toloSql(){
+      let routeData = this.$router.resolve({
+        path: `/mtz/dataBase/partsQuery`,
+        query: {
+        }
+      })
+      window.open(routeData.href)
+    },
     checkHasEnterMenu() {
       const { path } = this.$route
       const menuList = [

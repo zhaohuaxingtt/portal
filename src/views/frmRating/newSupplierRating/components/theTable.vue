@@ -10,7 +10,7 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 新供应商评级-->
-        <iButton @click="handleTask">{{
+        <iButton @click="handleTask" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_XGYSPJ">{{
           $t('SUPPLIER_XINGONGYINGSHANGPINGJI')
         }}</iButton>
         <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>

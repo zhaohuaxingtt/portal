@@ -12,9 +12,9 @@
         <!-- 复制-->
         <iButton v-permission="SUPPLIER_FRMRATING_RISKSIGNAL_FUZHI" @click="handleView('copy')">{{ $t('SPR_FRM_FXXH_FZ') }}</iButton>
         <!-- 新建-->
-        <iButton @click="handleView('creat')">{{ $t('SPR_FRM_FXXH_XJ') }}</iButton>
+        <iButton @click="handleView('creat')" v-permission="SUPPLIER_FRMRATING_RISKSIGNAL_XINJAIN">{{ $t('SPR_FRM_FXXH_XJ') }}</iButton>
         <!-- 删除-->
-        <iButton @click="handleDelete">{{ $t('LK_SHANCHU') }}</iButton>
+        <iButton @click="handleDelete" v-permission="SUPPLIER_FRMRATING_RISKSIGNAL_SHANCHU">{{ $t('LK_SHANCHU') }}</iButton>
       </div>
     </div>
     <tableList :openPageProps="'tsPpSupplierName'" @openPage="openPage" :openPageGetRowData="true" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange">

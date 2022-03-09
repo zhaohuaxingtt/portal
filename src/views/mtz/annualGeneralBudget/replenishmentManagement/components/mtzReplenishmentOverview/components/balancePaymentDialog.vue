@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-03 17:08:24
+ * @LastEditTime: 2022-03-09 14:59:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -142,6 +142,7 @@
               <iDatePicker v-model="value1"
                            :disabled="editDisabled"
                            @change="handleChangeDate"
+                           @focus="handleFocus"
                            :picker-options="pickerOptions"
                            type="monthrange"
                            style="width:100%"
@@ -292,6 +293,7 @@ export default {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
+          console.log(this.minDate)
         },
         disabledDate: time => {
           var newTime = new Date(val.getTime() + this.differenceTime);
@@ -405,8 +407,10 @@ export default {
   },
   created () {
     this.searchForm.value = this.dateSearch
-    this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
-    this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    if (this.searchForm.value !== "") {
+      this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
+      this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    }
     this.init()
   },
   methods: {
@@ -479,12 +483,16 @@ export default {
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
+    handleFocus () {
+      this.pickerOptions.disabledDate = () => false
+    },
     query () {
+      console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
         this.actAmtList = []
         if (this.searchFlag) {
-          delete this.searchForm.isEffAvg
+          // delete this.searchForm.isEffAvg
           delete this.searchForm.effPriceFrom
           delete this.searchForm.effPriceTo
         }

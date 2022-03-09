@@ -13,8 +13,8 @@ export const chooseReceiverTableColumns = [
   },
   {
     type: "index",
-    label: "序号",
-    i18n: "MT_XUHAO3",
+    label: "#",
+    i18n: "#",
     width: 68,
     tooltip: false,
   },
@@ -110,15 +110,15 @@ export const chooseOrganizeTableColumns = [
   },
   {
     type: "index",
-    label: "序号",
-    i18n: "MT_XUHAO3",
+    label: "#",
+    i18n: "#",
     width: 60,
     tooltip: false,
   },
   {
     // prop: "nameZh",
     label: "组织机构名称(中)",
-    i18n: "MT_ZUZHIJIGOUMINGCHENGZHONG",
+    i18n: "组织机构名称(中)",
     align: "left",
     // width: 200,
     tooltip: true,
@@ -140,7 +140,7 @@ export const chooseOrganizeTableColumns = [
     // prop: "email",
     // width: 200,
     label: "组织机构名称(英)",
-    i18n: "MT_ZUZHIJIGOUMINGCHENGYING",
+    i18n: "组织机构名称(英)",
     align: "left",
     tooltip: true,
     customRender: (h, scope) => {
@@ -160,7 +160,7 @@ export const chooseOrganizeTableColumns = [
   {
     // prop: "userNum",
     label: "组织机构编码",
-    i18n: "MT_ZUZHIJIGOUBIANMA",
+    i18n: "组织机构编码",
     // width: 90,
     align: "left",
     tooltip: true,
@@ -181,7 +181,7 @@ export const chooseOrganizeTableColumns = [
   {
     // prop: "deptNumList",
     label: "组织级别",
-    i18n: "MT_ZUZHIJIBIE",
+    i18n: "组织级别",
     align: "left",
     width: 90,
     tooltip: true,

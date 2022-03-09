@@ -13,7 +13,7 @@
         @click="active = 'other'"
         :class="{ active: active === 'other' }"
       >
-        其他系统
+        {{language('其他系统')}}
       </div>
     </div>
     <transition name="el-fade-in-linear">

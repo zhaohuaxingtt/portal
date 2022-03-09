@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-02-18 16:39:12
+ * @LastEditTime: 2022-03-08 13:11:56
  * @LastEditors: YoHo
  * @Description: 采购条款预览
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -25,7 +25,7 @@
           </div>
           <div class="query-item">
             <iLabel label="签署方式" class="label" :required="true" :icons="signStatus?'iconxinxitishi':'icontishi-cheng'" :tip="signStatus? tipInfo[0] : tipInfo[1]" slot="label"></iLabel>
-            <iSelect v-model="signWay">
+            <iSelect v-model="signWay" :disabled="termsType=='Terms_FJCG'">
               <el-option :value="item.code" :label="item.value" v-for="item in signWayList" :key="item.code"></el-option>
             </iSelect>
           </div>
@@ -281,6 +281,10 @@ export default {
     },
     // 获取条款相关信息
     getProcurementInfo(){
+      if(this.termsType=='Terms_FJCG'){
+        // 附件采购条款
+        this.signWay = 'off_line'
+      }
       let params = {
         supplierId: this.supplierId,
         termsCode: this.termsType,

@@ -474,6 +474,6 @@ export const formRulesGZ = {
 
 export const partNumberTitle = [
   { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
-  { props: 'partNameZh', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
-  { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' }
+  { props: 'partNameZh', name: '零件名（中）', key: 'LK_LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名（德）', key: 'LK_LINGJIANMINGDE' }
 ]

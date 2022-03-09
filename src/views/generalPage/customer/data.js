@@ -1,6 +1,13 @@
+/*
+ * @Author: YoHo
+ * @Date: 2021-12-24 15:14:50
+ * @LastEditTime: 2022-03-03 17:49:14
+ * @LastEditors: YoHo
+ * @Description: 
+ */
 export const tableTitle = [
   {
-    props: 'cusomerName', name: '客户名称', key: 'KEHUMINGCHEN', maxlength: 200,
+    props: 'cusomerName', name: '客户名称', key: 'KEHUMINGCHEN', maxlength: 200, width: 200,
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }],
   },

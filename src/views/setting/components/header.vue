@@ -1,6 +1,6 @@
 <template>
   <pageHeader>
-    设置
+    {{language('设置')}}
     <div class="flex-end-center" slot="actions">
       <iTabBadge>
         <iTabBadgeItem

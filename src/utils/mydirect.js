@@ -28,9 +28,10 @@ Vue.directive('permission', {
   },
   inserted: function (el, binding, Nodes) {
     //如果是个变量则使用变量，否则当做字符串处理
+
     var proValue = ''
     if (binding.value == 0) {
-      console.log(binding)
+      // console.log(binding)
       proValue = binding.expression.trim()
     } else if (binding.value == undefined) {
       proValue = binding.expression
@@ -65,7 +66,7 @@ Vue.directive('permission', {
                 binding.rawName.split('.')[1] &&
                 binding.rawName.split('.')[1] == 'edit'
               ) {
-                el.classList.add('is-disabled')
+                el.classList.add('is-disabled');
               } else {
                 // el.parentNode.removeChild(el)
               }

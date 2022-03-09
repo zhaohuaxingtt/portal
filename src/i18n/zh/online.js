@@ -314,7 +314,7 @@ export default {
   YINGXIANGXIANGQING: '影响详情',
   QINGSHURUXIANGQING: '请输入影响详情…',
   QINGSHURUYINGXIANGXIANGQING: '请输入影响详情…',
-  KAISHISHIJIAN: 'KAISHISHIJIAN',
+  KAISHISHIJIAN: '开始时间',
   JIESHUSHIJIAN: '结束时间',
   YINGXIANGKAISHISHIJIAN: '影响开始时间',
   YINGXIANGJIESHUSHIJIAN: '影响结束时间',
@@ -530,7 +530,7 @@ export default {
   FZGYLLQXZSGLDXYGYS: '复制供应链路 - 请选择所关联的下游供应商',
   CHUANGJIANBUCHADAN: '创建补差单',
   YECJGXYXXQR: '一二次件关系有效性确认',
-  SAPLINGJIANHAO: 'SAPLINGJIANHAO',
+  SAPLINGJIANHAO: 'SAP零件号',
   'LINGJIANHAO/MINGCHEN': '零件号/名称',
   CHAXUN: '查询',
   XIANGQINGLIEBIAO: '详情列表',
@@ -3840,7 +3840,8 @@ export default {
   PINGJUNCANKAO: '平均参考',
   ZHANGJIA: '涨价',
   JIANGJIA: '降价',
-  JIEJIANGBI: '节降比',
+  ZHANGJIAJIEJIANGBI: '涨价节降比',
+  JIANGJIAJIEJIANGBI: '降价节降比',
   RFQSHU: 'RFQ数',
   DINGDIANSHU: '定点数',
   ONGOINGXUNJIASHU: 'Ongoing询价数',
@@ -4204,5 +4205,6 @@ export default {
   LINGJIANCAIGOUXIANGMULEIXINGPEIZHI: '零件采购项目类型配置',
   LINGJIANXIANGMUCAIGOULEIXING: '零件项目采购类型',
   LINGJIANLEIX: '零件类型',
-  WUNEIRONG: '无内容'
+  WUNEIRONG: '无内容',
+  SUPPLIER_FUKUANXIGUAN: '付款方式'
 }

@@ -11,9 +11,9 @@
       >
         <el-option
           v-for="item in options"
-          :key="item.existShareId"
-          :label="item.existShareNum"
-          :value="item.existShareId"
+          :key="item.departId"
+          :label="item.departNameEn"
+          :value="item.departId"
         >
         </el-option>
       </el-select>
@@ -86,19 +86,24 @@ export default {
       barChart: null
     }
   },
+  created(){
+    const year = new Date().getFullYear() - 1
+    this.query.beginTime = `${year}-01-01`
+    this.query.endTime = `${year}-12-31`
+  },
   mounted() {
     this.getKpiCates()
     this.getSponserList()
   },
   methods: {
     async getKpiCates() {
-      const result = await getKpiCates()
+      const result = await getKpiCates({})
       if (result.code === '200' && result.data) {
         const data = result?.data || []
         data.unshift({
-          existShareId: 'ALL',
+          departNameEn: 'ALL',
           supplierId: null,
-          existShareNum: '全部'
+          departNameZh: '全部'
         })
         this.options = result.data
       }
@@ -661,7 +666,7 @@ export default {
             top: 10,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${cRating.toFixed(
+              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${isNaN(cRating) ? 0 :cRating.toFixed(
                 2
               )}%`,
               font: '9px sans-serif'
