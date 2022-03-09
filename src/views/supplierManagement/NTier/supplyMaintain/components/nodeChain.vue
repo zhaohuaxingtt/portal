@@ -32,30 +32,23 @@
               :initWidth="initWidth"></slot>
       </div>
       <!-- 工具栏插槽 -->
-      <iButton @click="isDilog = true"
-               v-permission="SUPPLIER_WORKBENCH_N_WEIHU_NZHUCEYAOQING">{{
+      <iButton @click="isDilog = true">{{
         language('NTIERZHUCEYAOQING', 'N-Tier注册邀请')
       }}</iButton>
       <div v-if="toolbar.indexOf('reassign-lvl') >= 0"
-           v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI"
            :class="['node-button', optimizeLevelClass]"
            @click="optimizeLevel"
            title="重置层级"></div>
-      <!-- <div
-        v-if="toolbar.indexOf('save') >= 0"
-        :class="['node-button', emitDataClass]"
-        @click="emitDatas"
-        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_TIJIAOSHUJU"
-        title="提交数据"
-      ></div> -->
+      <div v-if="toolbar.indexOf('save') >= 0"
+           :class="['node-button', emitDataClass]"
+           @click="emitDatas"
+           title="提交数据"></div>
       <iButton v-if="toolbar.indexOf('opt-node') >= 0"
-               @click="optimizeNodes('reast')"
-               v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI">{{
+               @click="optimizeNodes('reast')">{{
         language('CHONGZHICENGJI', '重置层级')
       }}</iButton>
       <iButton v-if="toolbar.indexOf('copy') >= 0"
-               @click="copyNode"
-               v-permission="SUPPLIER_WORKBENCH_N_WEIHU_FZGYLL">{{
+               @click="copyNode">{{
         language('FUZHIGONGYINGLIANLU', '复制供应链路')
       }}</iButton>
     </div>
@@ -91,11 +84,11 @@
                 <slot name="head"
                       :node="node"></slot>
                 <!-- 节点抬头插槽 -->
-                <template v-if="node.chainLevel > 1 && whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIAN']">
+                <template v-if="node.chainLevel > 1">
                   <div :class="['node-button', removeNodeClass, 'show-mini']"
                        @click="removeNode(node)"></div>
                 </template>
-                <template v-if="node.chainLevel > -1 && whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIA']">
+                <template v-if="node.chainLevel > -1">
                   <div :class="['node-button', addChildNodeClass, 'show-mini']"
                        @click="addChildNode(node)"></div>
                 </template>
@@ -935,6 +928,7 @@ export default {
 
     //上下同时修改，上面用于watch监听，下面用于点击重置
     optimizeNodes: function (v) {
+      console.log(v)
       var self = this
       if (v) {
         this.$parent.$parent.$parent.$children[0].getTableList()
@@ -1058,21 +1052,7 @@ export default {
       })
     }
   },
-  created () {
-  },
-  mounted () {
-    console.log()
-    var editBtn = document.querySelectorAll(".cursor>svg");
-    if (!this.whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_EDIT']) {
-      editBtn.forEach(e => {
-        e.parentNode.removeChild(e);
-      })
-    }
-  },
   computed: {
-    whiteBtnList () {
-      return this.$store.state.permission.whiteBtnList
-    },
     compLeft: function () {
       var left = parseInt(this.maxLeft) + this.nodeWidth + this.nextElOffset * 2
       return left > this.screenWidth ? left : this.screenWidth

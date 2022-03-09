@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-03-09 14:51:25
+ * @LastEditTime: 2022-03-09 15:32:49
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
@@ -66,9 +66,9 @@ Vue.directive('permission', {
                 binding.rawName.split('.')[1] &&
                 binding.rawName.split('.')[1] == 'edit'
               ) {
-                el.classList.add('is-disabled');
+                el.classList.add('is-disabled')
               } else {
-                // el.parentNode.removeChild(el)
+                el.parentNode.removeChild(el)
               }
             }
           }
