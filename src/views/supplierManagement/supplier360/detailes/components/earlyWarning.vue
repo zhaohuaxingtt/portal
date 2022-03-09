@@ -8,75 +8,81 @@
 <template>
   <div>
     <el-row :gutter="20">
-      <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_SPI">
-      <!-- <el-col :span="8"> -->
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_SPI"
+              class="margin-bottom20">
+        <!-- <el-col :span="8"> -->
 
         <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
       </el-col>
-      <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_SUPPLY_RATE">
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_SUPPLY_RATE"
+              class="margin-bottom20">
 
-      <!-- <el-col :span="8"> -->
+        <!-- <el-col :span="8"> -->
         <!-- 配附件供货率 -->
         <supplyRate :infodata="infodata"></supplyRate>
       </el-col>
       <!-- <el-col :span="8"> -->
-        <el-col :span="8" v-permission="PORTAL_SUPPLIER_CARD_EKL">
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_EKL"
+              class="margin-bottom20">
 
         <!-- ekl批量件 -->
         <eklSupplier :infodata="infodata"></eklSupplier>
       </el-col>
       <el-col v-permission="PORTAL_SUPPLIER_CARD_SAMPLEDELIVERY"
               :span="8"
-              class="margin-top20">
+              class="margin-bottom20">
         <!-- 送样 -->
         <sampleDelivery></sampleDelivery>
       </el-col>
       <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION"
               :span="8"
-              class="margin-top20">
+              class="margin-bottom20">
         <!-- 定点 -->
         <fixed></fixed>
       </el-col>
       <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING"
               :span="8"
-              class="margin-top20">
+              class="margin-bottom20">
         <!-- 寻源 -->
         <sourcing></sourcing>
       </el-col>
       <el-col v-permission="PORTAL_SUPPLIER_CARD_PRODUCTIVITY"
               :span="8"
-              class="margin-top20">
+              class="margin-bottom20">
         <!-- 产能预警 -->
         <productivity></productivity>
       </el-col>
       <el-col :span="8"
               v-permission="PORTAL_SUPPLIER_CARD_CRATING"
-              class="margin-top20">
+              class="margin-bottom20">
         <!-- 财务预警 -->
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
       <el-col :span="8"
               v-permission="PORTAL_SUPPLIER_CARD__MONITORING"
-              class="margin-top20">
+              class="margin-bottom20">
 
         <!-- 舆情监测 -->
         <publicOpinion> </publicOpinion>
       </el-col>
     </el-row>
-    <!-- <el-row class="margin-top20"
+    <!-- <el-row class="margin-bottom20"
             :gutter="20"
             type="flex"
             justify="space-between">
 
     </el-row>
-    <el-row class="margin-top20"
+    <el-row class="margin-bottom20"
             :gutter="20"
             type="flex"
             justify="space-between">
 
     </el-row> -->
-    <el-row class="margin-top20"
+    <el-row class="margin-bottom20"
             :gutter="20"
             type="flex"
             justify="space-between">
