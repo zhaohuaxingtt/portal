@@ -9,16 +9,14 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="8"
-              v-permission="PORTAL_SUPPLIER_CARD_SPI"
-              class="margin-bottom20">
+              v-permission="PORTAL_SUPPLIER_CARD_SPI">
         <!-- <el-col :span="8"> -->
 
         <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
       </el-col>
       <el-col :span="8"
-              v-permission="PORTAL_SUPPLIER_CARD_SUPPLY_RATE"
-              class="margin-bottom20">
+              v-permission="PORTAL_SUPPLIER_CARD_SUPPLY_RATE">
 
         <!-- <el-col :span="8"> -->
         <!-- 配附件供货率 -->
@@ -26,8 +24,7 @@
       </el-col>
       <!-- <el-col :span="8"> -->
       <el-col :span="8"
-              v-permission="PORTAL_SUPPLIER_CARD_EKL"
-              class="margin-bottom20">
+              v-permission="PORTAL_SUPPLIER_CARD_EKL">
 
         <!-- ekl批量件 -->
         <eklSupplier :infodata="infodata"></eklSupplier>

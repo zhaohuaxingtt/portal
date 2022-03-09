@@ -19,6 +19,7 @@ export default {
   LINGJIAN: '零件',
   QUEDING: '确定',
   CHONGZHI: '重置',
+  GONGYINGSHANGCAIWUZHUANGKUANGLIANGHAO: '供应商财务状况良好',
   SUOSHUBUMEN: '所属部门',
   'QINGXUANZ[object KeyboardEvent]': '[object KeyboardEvent]',
   GONGYINGSHANGMINGCHENG: '供应商名称',
