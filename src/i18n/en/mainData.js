@@ -38,6 +38,7 @@ export default {
     车型项目配置:'Model Item Configuration',
     'VW316/1 CS新车型':'VW316/1 CS New Model',
     //物料主数据
+    请输入计量单位转换关系数值:'Please enter the value of the unit conversion relationship',
     工艺组信息:'Process Group Information',
     预设项类别:'Default Category',
     下载供应商模版:'Download Supplier Template',

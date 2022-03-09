@@ -8,6 +8,8 @@
         <span>{{item.name}}</span>
         <div class="inforText"
              v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
+        <div class="inforText"
+             v-else-if="item.prop==='totalAmt'||item.prop==='actuallyTotalAmt'">{{toThousands(inforData[item.prop])}}</div>
         <!-- <div class="inforText" v-if="item.prop == 'monthFromTo'">{{inforData["monthFrom"]}}~{{inforData["monthTo"]}}</div> -->
         <div class="inforText"
              v-else>{{inforData[item.prop]}}</div>
@@ -16,8 +18,10 @@
     <div class="BtnTitle">
       <span>明细列表</span>
       <div>
-        <iButton @click="uploadPZ" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
-        <iButton @click="upload" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+        <iButton @click="uploadPZ"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+        <iButton @click="upload"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
       </div>
     </div>
     <tableList class="margin-top20"
@@ -49,6 +53,7 @@
 
 <script>
 import { iButton, iPagination, iMessageBox, iMessage } from 'rise'
+import { toThousands } from '@/utils'
 import { tableTitle2, tabs2InforList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import {
@@ -59,7 +64,7 @@ import {
   compdocMetalDetailSum
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getNowFormatDate } from "./util.js";
-import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "tabs2",
@@ -84,6 +89,7 @@ export default {
       tableListData: [],
       inforData: {},
       BoxLoading: true,
+      toThousands
     }
   },
   watch: {
@@ -132,7 +138,7 @@ export default {
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");
           link.href = objectUrl;
-          
+
           let fname = "补差单明细-" + this.dataObject.bizNo + ".xlsx";
           // let fname = "MTZ补差单明细" + getNowFormatDate() + ".xlsx";
           link.setAttribute("download", fname);
@@ -180,7 +186,7 @@ export default {
       }).then(res => {
         if (res.data.length < 1) {
           this.$emit("componentHidden", false)
-        }else{
+        } else {
           this.$emit("componentHidden", true)
         }
         this.tableListData = res.data;
