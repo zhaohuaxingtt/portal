@@ -35,5 +35,6 @@ export default {
     请输入系统URL:'Please enter system URL',
     '长度在 100 个字符内':'Within 100 characters in length',
     请选择系统标签:'Please select system tag',
-    '请输入App Code':'Please enter APP Code'
+    '请输入App Code':'Please enter APP Code',
+    'Top 5 iAgree':'同意的前五名'
 }

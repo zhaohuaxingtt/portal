@@ -33,5 +33,6 @@ export default {
     请输入系统URL:'请输入系统URL',
     '长度在 100 个字符内':'长度在 100 个字符内',
     请选择系统标签:'请选择系统标签',
-    '请输入App Code':'请输入App Code'
+    '请输入App Code':'请输入App Code',
+    'Top 5 iAgree':''
 }

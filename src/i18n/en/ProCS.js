@@ -139,5 +139,22 @@ export default {
     请输入英文名:'Please input English name',
     请输入排序:'Please input sort',
     请输入描述:'please input describe',
-    推送状态:'Push Status'
+    推送状态:'Push Status',
+    上架:'Shelving',
+    下架:'Off the shelf',
+    请选择更新时间:'Please select update time',
+    '请输入用户名、邮箱进行搜索':'Please input user name、email to search',
+    请至少输入2个字符进行搜索:'Enter at least 2 characters to search',
+    '流程标题长度不能超过50个字符！':'Process headings cannot exceed 50 characters in length!',
+    '英文标题长度不能超过100个字符！':'English title length cannot exceed 100 characters!',
+    '版本号长度不能超过20个字符！':'The version number cannot exceed 20 characters!',
+    只能填写一个字母:'Only one letter is allowed',
+    请输入大写字母:'Please enter capital letters',
+    请选择知识分享类型:'Please select knowledge sharing type',
+    请输入知识概要:'Please enter a knowledge summary',
+    请上传文件:'Please upload file',
+    请选择发布时间:'Please select publish time',
+    选择日期:'Select date',
+    请输入标题:'Please input title',
+    请输入词条内容:'Please input phrase content'
 }
