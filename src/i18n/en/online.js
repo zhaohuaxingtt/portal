@@ -500,6 +500,8 @@ export default {
   措施详情: 'Measure Detail',
   '加⼊原因': 'Add Reason',
   JIARUYUANYIN: 'Add Reason',
+  GONGYINGSHANGCAIWUZHUANGKUANGLIANGHAO:
+    'The supplier is in good financial condition',
   SPACODE: 'SAP No.',
   ZHONGDIANZHUIZONGJILU: 'Key Tracking Record',
   CREATEDATA: 'Key Tracking Join Time',
