@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-06 11:54:03
- * @LastEditTime: 2022-01-21 15:36:37
+ * @LastEditTime: 2022-03-09 19:12:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainRisk\components\supplierBasicInfo.vue\
@@ -504,6 +504,7 @@ export default {
       chainPartList: {},
       chainSupplierList: [],
       factorySupplierList: [],
+      multipleSelection: []
     }
   },
   props: {
@@ -540,17 +541,19 @@ export default {
     warningLetterPartRelList: {
       handler (val) {
         this.tableList = _.cloneDeep(val)
-      },
-      deep: true
-    },
-    tableList: {
-      handler (val) {
-        val.forEach((item) => {
+        this.tableList.forEach((item) => {
           item.involveCarType.toString()
+          item.id = Math.floor(Math.random() * 100)
         })
       },
       deep: true
     },
+    // tableList: {
+    //   handler (val) {
+
+    //   },
+    //   deep: true
+    // },
     shortageLevel (val) {
       this.select = val
     },
@@ -665,12 +668,8 @@ export default {
       this.tableList.push(obj)
     },
     del () {
-      this.multipleSelection.forEach((item) => {
-        this.tableList.forEach((i, ind) => {
-          if (item.id === i.id) {
-            this.tableList.splice(ind, 1)
-          }
-        })
+      this.tableData.forEach((item, index) => {
+        if (this.multipleSelection.findIndex((i) => i.id === item.id) > -1) this.tableData.splice(index, 1)
       })
     },
     handleAddress (val) {
