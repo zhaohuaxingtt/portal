@@ -10,5 +10,16 @@ export default {
     问卷数据:'Questionnaire Data',
     复制:'Copy',
     上一页:'Previous Page',
-    下一页:'Next Page'
+    下一页:'Next Page',
+    新建问卷:'New Questionnaire',
+    基本设置:'Basic Settings',
+    题目设置:'Topic setting',
+    完成编辑:'Finish Edit',
+    问卷截止时间:'Questionnaire End Time',
+    问卷说明:'Questionnaire Description',
+    结束语:'Conclusion',
+    投放范围:'Drop Range',
+    上传封面:'Upload Cover',
+    '建议使用宽16:9的图片｜单张图片最大不超过15M容量':'Recommend the use of wide 16:9 photos | single image maximum capacity of no more than 15 M',
+    系统管理员日志:'System Administrator Logs'
 }
