@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-18 18:55:28
+ * @LastEditTime: 2022-03-02 19:09:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -10,17 +10,17 @@
   <div>
     <iSearch @reset="handleSearchReset"
              @sure="handleSubmitSearch">
-      <el-form :inline="true"
-               :model="searchForm">
-        <el-form-item label="零件号"
-                      class="searchFormItem">
+      <iFormGroup :inline="true"
+                  :model="searchForm">
+        <iFormItem label="零件号"
+                   class="searchFormItem">
           <inputCustom v-model="searchForm.partnumList"
                        :editPlaceholder="language('QINGSHURU','请输入')"
                        :placeholder="language('QINGSHURU','请输入')"
                        style="width:100%"></inputCustom>
-        </el-form-item>
-        <el-form-item label="零件名"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="零件名"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.partNameList"
                          :user-options="mtzPartNameList"
                          style="width:100%"
@@ -31,9 +31,9 @@
                          value-member="code"
                          value-key="code">
           </custom-select>
-        </el-form-item>
-        <el-form-item label="供应商SAP号"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="供应商SAP号"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.supplierSapList"
                          :user-options="mtzSupplierSapList"
                          style="width:100%"
@@ -44,9 +44,9 @@
                          value-member="code"
                          value-key="code">
           </custom-select>
-        </el-form-item>
-        <el-form-item label="供应商名称"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="供应商名称"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.supplierNameList"
                          :user-options="mtzSupplierNameList"
                          style="width:100%"
@@ -57,9 +57,9 @@
                          value-member="code"
                          value-key="code">
           </custom-select>
-        </el-form-item>
-        <el-form-item label="原材料牌号"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="原材料牌号"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.materialCodeList"
                          :user-options="rawMaterialNos"
                          style="width:100%"
@@ -71,9 +71,9 @@
                          value-member="code"
                          value-key="code">
           </custom-select>
-        </el-form-item>
-        <el-form-item label="规则编号"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="规则编号"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.ruleNoList"
                          :user-options="mtzRuleList"
                          style="width:100%"
@@ -85,9 +85,9 @@
                          value-member="code"
                          value-key="code">
           </custom-select>
-        </el-form-item>
-        <el-form-item label="科室"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="科室"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.buyerDeptId"
                          :user-options="deptList"
                          style="width:100%"
@@ -99,9 +99,9 @@
                          value-member="departId"
                          value-key="departId">
           </custom-select>
-        </el-form-item>
-        <el-form-item label="采购员"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="采购员"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.buyerNameList"
                          :user-options="mtzUserList"
                          style="width:100%"
@@ -112,9 +112,9 @@
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-        <el-form-item label="市场价来源"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="市场价来源"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.marketSource"
                          :user-options="mtzSourceList"
                          style="width:100%"
@@ -125,9 +125,9 @@
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-        <el-form-item label="有效期起"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="有效期起"
+                   class="searchFormItem">
           <iDatePicker v-model="searchForm.startDate"
                        :disabled="editDisabled"
                        @change="handleChangeDate"
@@ -136,9 +136,9 @@
                        style="width:100%"
                        format="yyyy-MM-dd"
                        value-format="yyyy-MM-dd" />
-        </el-form-item>
-        <el-form-item label="有效期止"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="有效期止"
+                   class="searchFormItem">
           <iDatePicker v-model="searchForm.endDate"
                        :disabled="editDisabled"
                        @change="handleChangeDate"
@@ -148,9 +148,9 @@
                        style="width:100%"
                        format="yyyy-MM-dd"
                        value-format="yyyy-MM-dd" />
-        </el-form-item>
-        <el-form-item label="补差周期"
-                      class="searchFormItem">
+        </iFormItem>
+        <iFormItem label="补差周期"
+                   class="searchFormItem">
           <custom-select v-model="searchForm.compensationPeriod"
                          :user-options="mtzPeriodList"
                          style="width:100%"
@@ -161,14 +161,14 @@
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-      </el-form>
+        </iFormItem>
+      </iFormGroup>
     </iSearch>
   </div>
 </template>
 
 <script>
-import { iCard, iButton, iMessage, iSearch, iDatePicker, iInput } from 'rise'
+import { iCard, iButton, iMessage, iSearch, iDatePicker, iInput, iFormGroup, iFormItem } from 'rise'
 import inputCustom from '@/components/inputCustom'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { mtzBasePricePageFilterPartName, mtzBasePricePageFilterPeriod, mtzBasePricePageFilterRule, mtzBasePricePageFilterSource, mtzBasePricePageFilterSupplierName, mtzBasePricePageFilterSupplierSap, mtzBasePricePageFilterUser } from '@/api/mtz/annualGeneralBudget/mtzChange'
@@ -182,7 +182,9 @@ export default {
     iSearch,
     iDatePicker,
     iInput,
-    inputCustom
+    inputCustom,
+    iFormGroup,
+    iFormItem
   },
   data () {
     return {
@@ -345,5 +347,8 @@ export default {
 ::v-deep .el-form-item__content {
   width: 100%;
   line-height: 2.5rem !important;
+}
+::v-deep .el-form-item {
+  flex-direction: column;
 }
 </style>
