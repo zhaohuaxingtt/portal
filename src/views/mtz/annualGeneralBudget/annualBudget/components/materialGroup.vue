@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-30 15:28:16
- * @LastEditTime: 2021-11-01 18:33:00
+ * @LastEditTime: 2022-03-08 14:35:45
  * @LastEditors: Please set LastEditors
  * @Description: 材料组
  * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\materialGroup.vue
@@ -9,8 +9,12 @@
 <template>
   <div>
     <div class="searchBox">
-      <el-form :inline="true" :model="searchForm" label-position="top" class="demo-form-inline">
-        <el-form-item style="marginRight:68px;width: 200px;" :label="language('MTZCAILIAOZU', 'MTZ材料组')">
+      <el-form :inline="true"
+               :model="searchForm"
+               label-position="top"
+               class="demo-form-inline">
+        <el-form-item style="marginRight:68px;width: 200px;"
+                      :label="language('MTZCAILIAOZU', 'MTZ材料组')">
           <!-- <iInput v-model="searchForm['mtzMaterialName']" :placeholder="language('QINGSHURU','请输入')"></iInput> -->
           <!-- <iSelect 
           v-model="searchForm['mtzMaterialList']" 
@@ -20,22 +24,24 @@
           :placeholder="language('QINGXUANZE', '请选择')">
             <el-option v-for="(item, index) in  rawMaterialCodeList" :key="index" :value="item.materialGroupCode" :label="item.materialGroupNameZh"></el-option>
           </iSelect> -->
-          
-          <custom-select 
-          filterable
-          multiple
-          collapse-tags
-          v-model="searchForm['mtzMaterialList']"
-          :user-options="rawMaterialCodeList"
-          :placeholder="language('QINGXUANZE', '请选择')"
-          display-member="materialGroupNameZh"
-          value-member="materialGroupCode"
-          value-key="materialGroupCode" />
+
+          <custom-select filterable
+                         multiple
+                         collapse-tags
+                         v-model="searchForm['mtzMaterialList']"
+                         :user-options="rawMaterialCodeList"
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="materialGroupNameZh"
+                         value-member="materialGroupCode"
+                         value-key="materialGroupCode" />
         </el-form-item>
-        <el-form-item style="marginRight:68px" :label="language('LINGJIANHAO', '零件号')">
-          <iInput v-model="searchForm['partNumber']" :placeholder="language('QINGSHURU','请输入')"></iInput>
+        <el-form-item style="marginRight:68px"
+                      :label="language('LINGJIANHAO', '零件号')">
+          <iInput v-model="searchForm['partNumber']"
+                  :placeholder="language('QINGSHURU','请输入')"></iInput>
         </el-form-item>
-        <el-form-item style="marginRight:68px;width: 200px;" :label="language('CAIGOUYUAN', '采购员')">
+        <el-form-item style="marginRight:68px;width: 200px;"
+                      :label="language('CAIGOUYUAN', '采购员')">
           <!-- <iSelect 
           v-model="searchForm['buyerIds']" 
           filterable
@@ -44,16 +50,15 @@
           :placeholder="language('QINGXUANZE', '请选择')">
             <el-option v-for="(item, index) in  userData" :key="index" :value="item.id" :label="item.nameZh"></el-option>
           </iSelect> -->
-          <custom-select 
-          filterable
-          multiple
-          collapse-tags
-          v-model="searchForm['buyerIds']"
-          :user-options="userData"
-          :placeholder="language('QINGXUANZE', '请选择')"
-          display-member="nameZh"
-          value-member="id"
-          value-key="id" />
+          <custom-select filterable
+                         multiple
+                         collapse-tags
+                         v-model="searchForm['buyerIds']"
+                         :user-options="userData"
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="nameZh"
+                         value-member="id"
+                         value-key="id" />
         </el-form-item>
         <el-form-item class="searchButton">
           <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
@@ -70,34 +75,36 @@
             <iButton @click="handleExportAll">{{language('DAOCHUQUANBU', '导出全部')}}</iButton>
           </span>
         </div>
-        <tableList
-        class="margin-top20"
-        :tableData="tableListData"
-        :tableTitle="materialGroupTableTitle"
-        :tableLoading="loading"
-        :index="true"
-        :selection="false">
-        <template #initPrTotal="scope">
-          <el-tooltip :content="moneyInfo(scope.row['initPrTotal'])" placement="top" effect="light">
-            <p>{{money(scope.row['initPrTotal'])}}</p>
-          </el-tooltip>
-        </template>
-        <template #prTotal="scope">
-          <el-tooltip :content="moneyInfo(scope.row['prTotal'])" placement="top" effect="light">
-            <p>{{money(scope.row['prTotal'])}}</p>
-          </el-tooltip>
-        </template>
-      </tableList>
-      <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableData)"
-        @current-change="handleCurrentChange($event, getTableData)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page='page.currPage'
-        :total="page.totalCount"/>
+        <tableList class="margin-top20"
+                   :tableData="tableListData"
+                   :tableTitle="materialGroupTableTitle"
+                   :tableLoading="loading"
+                   :index="true"
+                   :selection="false">
+          <template #initPrTotal="scope">
+            <el-tooltip :content="moneyInfo(scope.row['initPrTotal'])"
+                        placement="top"
+                        effect="light">
+              <p>{{money(scope.row['initPrTotal'])}}</p>
+            </el-tooltip>
+          </template>
+          <template #prTotal="scope">
+            <el-tooltip :content="moneyInfo(scope.row['prTotal'])"
+                        placement="top"
+                        effect="light">
+              <p>{{money(scope.row['prTotal'])}}</p>
+            </el-tooltip>
+          </template>
+        </tableList>
+        <iPagination v-update
+                     @size-change="handleSizeChange($event, getTableData)"
+                     @current-change="handleCurrentChange($event, getTableData)"
+                     background
+                     :page-sizes="page.pageSizes"
+                     :page-size="page.pageSize"
+                     :layout="page.layout"
+                     :current-page='page.currPage'
+                     :total="page.totalCount" />
       </div>
     </div>
   </div>
@@ -138,43 +145,43 @@ export default {
     }
   },
   computed: {
-    money() {
-      return function(val) {
+    money () {
+      return function (val) {
         let res = ''
-        if(val) {
+        if (val) {
           // res = Number(val/1000000).toFixed(2)
           res = getMoney(val)
         }
         return res
       }
     },
-    moneyInfo() {
-      return function(val) {
+    moneyInfo () {
+      return function (val) {
         let res = ''
-        if(val) {
+        if (val) {
           res = getMoneyInfo(val)
         }
         return res
       }
     },
-    ratio() {
-      return function(initPrice, totalPrice) {
+    ratio () {
+      return function (initPrice, totalPrice) {
         let res = ''
-        if(initPrice && Number(initPrice)) {
+        if (initPrice && Number(initPrice)) {
           res = getRatio(initPrice, totalPrice)
         }
         return res
       }
     }
   },
-  created() {
+  created () {
     this.getTableData()
     this.getMtzMaterial()
     this.getUserInfos()
   },
   methods: {
     // 获取数据
-    getTableData() {
+    getTableData () {
       return new Promise(resolve => {
         const params = {
           pageNo: this.page.currPage,
@@ -183,7 +190,7 @@ export default {
           ...this.searchForm
         }
         fetchMaterialData(params).then(res => {
-          if(res && res.code == 200) {
+          if (res && res.code == 200) {
             this.params = {
               ...res.data
             }
@@ -195,23 +202,23 @@ export default {
       })
     },
     // 获取材料数据
-    getMtzMaterial() {
+    getMtzMaterial () {
       fetchRemoteMtzMaterial().then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.rawMaterialCodeList = res.data
         } else iMessage.error(res.desZh)
       })
     },
     // 获取采购员数据
-    getUserInfos() {
+    getUserInfos () {
       fetchUserInfos({}).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.userData = res.data
         } else iMessage.error(res.desZh)
       })
     },
     // 点击确定查询
-    handleSubmitSearch(val) {
+    handleSubmitSearch (val) {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTableData().then(res => {
@@ -221,21 +228,26 @@ export default {
       })
     },
     // 点击重置查询
-    handleSearchReset() {
+    handleSearchReset () {
       this.page.currPage = 1
       this.page.pageSize = 10
-      for(const key in this.searchForm) {
-        this.searchForm[key] = null
+      this.searchForm = {
+        mtzMaterialList: [],
+        partNumber: "",
+        buyerIds: []
       }
+      // for(const key in this.searchForm) {
+      //   this.searchForm[key] = null
+      // }
       this.getTableData()
     },
     // 导出全部
-    handleExportAll() {
+    handleExportAll () {
       fetchMaterialExport({
         forecastId: this.forecastId,
         ...this.searchForm
       }).then(res => {
-        if(res && res.code != 200) {
+        if (res && res.code != 200) {
           iMessage.error(res.desZh)
         }
       })
@@ -272,5 +284,4 @@ export default {
     }
   }
 }
- 
 </style>

@@ -163,7 +163,11 @@ export const tableSetting = [
     width: 150,
     emit: 'go-detail',
     customRender: (h, scope) => {
-      return <span class="link-text">{scope.row?.sourceCode}</span>
+      if(scope.row.sourceCode == "初始化"){
+        return <span>{scope.row?.sourceCode}</span>
+      }else{
+        return <span class="link-text">{scope.row?.sourceCode}</span>
+      }
     }
   },
   {

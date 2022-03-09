@@ -489,7 +489,7 @@ export default {
         this.tableLoading = true
         this.actAmtList = []
         if (this.searchFlag) {
-          delete this.searchForm.isEffAvg
+          // delete this.searchForm.isEffAvg
           delete this.searchForm.effPriceFrom
           delete this.searchForm.effPriceTo
         }

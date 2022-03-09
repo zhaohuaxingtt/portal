@@ -160,9 +160,7 @@
                 :prop="item.prop"
                 :child-num-visible="childNumVisible"
               />
-              <span v-else>
-                {{ scope.row[item.prop] }}
-              </span>
+              <span v-else> {{ scope.row[item.prop] }} </span>
             </div>
           </template>
         </el-table-column>

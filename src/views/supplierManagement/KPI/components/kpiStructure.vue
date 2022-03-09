@@ -11,9 +11,9 @@
                 </el-form-item>
                </el-form>
                <div>
-                   <iButton @click="deleteTemplate">删除</iButton>
+                   <iButton @click="deleteTemplate" v-permission="KPI_INFOR_WEIHU_SHANCHU">删除</iButton>
                    <!-- <iButton @click="downloadTeplate">下载</iButton> -->
-                   <iButton @click="save">保存</iButton>
+                   <iButton @click="save" v-permission="KPI_INFOR_WEIHU_SAVE">保存</iButton>
                </div>
             </div>
           <div class="scoll-y">
