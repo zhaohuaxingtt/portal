@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-02-10 14:44:34
+ * @LastEditTime: 2022-03-09 15:32:49
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
@@ -66,7 +66,7 @@ Vue.directive('permission', {
                 binding.rawName.split('.')[1] &&
                 binding.rawName.split('.')[1] == 'edit'
               ) {
-                el.classList.add('is-disabled');
+                el.classList.add('is-disabled')
               } else {
                 el.parentNode.removeChild(el)
               }
@@ -76,7 +76,7 @@ Vue.directive('permission', {
         }
       }
     }
-  },
+  }
 })
 //切换I8n动态更新element值
 // eslint-disable-next-line no-undef
