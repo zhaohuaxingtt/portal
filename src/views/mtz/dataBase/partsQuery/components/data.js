@@ -299,7 +299,11 @@ export const tableSetting = [
     emit: 'go-source',
     tooltip: true,
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.sourceCode}</span>
+      if(scope.row.sourceCode == "初始化"){
+        return <span>{scope.row.sourceCode}</span>
+      }else{
+        return <span class="open-link-text">{scope.row.sourceCode}</span>
+      }
     }
   },
   {
@@ -580,7 +584,11 @@ export const partNumber = [
     i18n: '来源',
     emit: 'go-detail',
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.sourceCode}</span>
+      if(scope.row.sourceCode == "初始化"){
+        return <span>{scope.row.sourceCode}</span>
+      }else{
+        return <span class="open-link-text">{scope.row.sourceCode}</span>
+      }
     }
   },
   { prop: 'versionNum', label: '版本', align: 'center', i18n: '版本' },

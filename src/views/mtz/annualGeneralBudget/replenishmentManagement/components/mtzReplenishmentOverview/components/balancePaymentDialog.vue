@@ -407,8 +407,10 @@ export default {
   },
   created () {
     this.searchForm.value = this.dateSearch
-    this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
-    this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    if(this.searchForm.value !== ""){
+      this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
+      this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    }
     this.init()
   },
   methods: {
@@ -485,6 +487,7 @@ export default {
       this.pickerOptions.disabledDate = () => false
     },
     query () {
+      console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
         this.actAmtList = []
