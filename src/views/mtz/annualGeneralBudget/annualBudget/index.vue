@@ -30,7 +30,8 @@
           <iCard class="margin-top20">
             <div slot="header"
                  class="headBox">
-              <p class="headTitle">{{language('XIANGQINGLIEBIAO', '详情列表')}} {{deptEnTitle}}</p>
+              <p class="headTitle">{{language('XIANGQINGLIEBIAO', '详情列表')}}</p>
+              <!-- {{deptEnTitle}} -->
               <el-tooltip :content="language('JINETISHI', '将鼠标移到金额上时会展示具体数字')"
                           placement="top"
                           effect="light">
@@ -80,7 +81,8 @@
           <iCard class="margin-top20">
             <div slot="header"
                  class="headBox">
-              <p class="headTitle">{{language('XIANGQINGLIEBIAO', '详情列表')}} {{deptEnTitle}}</p>
+              <p class="headTitle">{{language('XIANGQINGLIEBIAO', '详情列表')}}</p>
+              <!-- {{deptEnTitle}} -->
               <el-tooltip :content="language('JINETISHI', '将鼠标移到金额上时会展示具体数字')"
                           placement="top"
                           effect="light">
