@@ -974,27 +974,35 @@ export default {
       params.baseUnitId = this.materielUnit //选择零件号id
       params.partInfoId = this.searchId //保存后返回的id
       params.vos = []
-      this.measureEditdata.map((item) => {
+      let isFill = this.measureEditdata.filter(item=>{
+        return !item.numeratorValue
+      })
+      if(isFill.length > 0){
+        this.$message.error(this.language('请输入计量单位转换关系数值'))
+      }else{
+        this.measureEditdata.map((item) => {
         params.vos.push({
           denominatorUnitId: item.denominatorUnitId,
           numeratorValue: item.numeratorValue
+          })
         })
-      })
-      saveUnitList(params)
-        .then((val) => {
-          if (val.code == 200) {
-            this.getUnitTableList()
-            this.$message.success('保存成功')
-          } else if (val.code == 1) {
-            this.$message.error(val.desZh)
-          }
-        })
-        .catch((err) => {
-          iMessage.error(err)
-        })
-        .finally(() => {
-          this.editStatus = true
-        })
+        saveUnitList(params)
+          .then((val) => {
+            if (val.code == 200) {
+              this.getUnitTableList()
+              this.$message.success('保存成功')
+            } else if (val.code == 1) {
+              this.$message.error(val.desZh)
+            }
+          })
+          .catch((err) => {
+            iMessage.error(err)
+          })
+          .finally(() => {
+            this.editStatus = true
+          })
+      }
+
     },
     async getProGroupOptions() {
       await getProGroupOptions()
