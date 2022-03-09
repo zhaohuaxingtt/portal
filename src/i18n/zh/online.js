@@ -22,6 +22,7 @@ export default {
   GONGYINGSHANGCAIWUZHUANGKUANGLIANGHAO: '供应商财务状况良好',
   SUOSHUBUMEN: '所属部门',
   'QINGXUANZ[object KeyboardEvent]': '[object KeyboardEvent]',
+  GAIGONGYINGSHANGCHANNENGZHUANGKUANGLIANGHAO: '该供应商产能状况良好',
   GONGYINGSHANGMINGCHENG: '供应商名称',
   QINGSHURU: '请输入',
   QUEREN: '确认',

@@ -3,7 +3,6 @@
     <div class="title">
       <p>{{language('CHANNENGYUJING', '产能预警')}}</p>
       <el-dropdown>
-
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -17,12 +16,17 @@
            class="imgIcon" />
       <div class="float">
         <icon class="alert"
+              v-if="redBkaNum"
               symbol
               name="iconcaiwuyujing-hongdeng"></icon>
-        <!-- <icon class="alert"
-                      symbol
-                      name="iconlvdeng"></icon> -->
-        <p class="fontsize">You have capacity alert,You have capacity alert</p>
+        <icon class="alert"
+              symbol
+              v-else
+              name="iconlvdeng"></icon>
+        <p class="fontsize"
+           v-if="redBkaNum">You have capacity alert,You have capacity alert</p>
+        <p class="fontsize"
+           v-else>{{this.language('GAIGONGYINGSHANGCHANNENGZHUANGKUANGLIANGHAO','该供应商产能状况良好')}}</p>
       </div>
 
     </div>
@@ -90,6 +94,7 @@
 import { iCard, icon, iDialog, iSearch, iSelect } from 'rise'
 import img from '@/assets/images/productivity.svg'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
+import { queryByParam } from "@/api/basic/basic";
 import tableList from '@/components/commonTable'
 export default {
   props: {},
@@ -108,7 +113,8 @@ export default {
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
       img: img,
-      tableTitleMonitorRecord: tableTitleMonitorRecord
+      tableTitleMonitorRecord: tableTitleMonitorRecord,
+      redBkaNum: 0
     }
   },
   computed: {
@@ -120,9 +126,18 @@ export default {
   methods: {
     sure () { },
     clickReset () { },
-    changeTab () { }
+    changeTab () { },
+    getRedBkaNum () {
+      queryByParam(this.$route.query.subSupplierId).then(res => {
+        if (res?.code === "200") {
+          this.redBkaNum = res.data
+        }
+      })
+    }
   },
-  mounted () { }
+  mounted () {
+    this.getRedBkaNum()
+  }
 }
 </script>
 
