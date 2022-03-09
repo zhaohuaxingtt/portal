@@ -259,18 +259,18 @@ export default {
               }
             }
           },
-          {
-            show: false,
-            name: this.language('ZHANGJIAJIEJIANGBI', '涨价节降比'),
-            type: 'value',
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#7E84A3',
-                fontSize: '10px'
-              }
-            }
-          }
+          // {
+          //   show: false,
+          //   name: this.language('ZHANGJIAJIEJIANGBI', '涨价节降比'),
+          //   type: 'value',
+          //   axisLabel: {
+          //     show: true,
+          //     textStyle: {
+          //       color: '#7E84A3',
+          //       fontSize: '10px'
+          //     }
+          //   }
+          // }
         ],
         series: [
           {
