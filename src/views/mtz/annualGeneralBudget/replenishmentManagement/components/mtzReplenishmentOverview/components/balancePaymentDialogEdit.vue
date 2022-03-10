@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-10 21:29:07
+ * @LastEditTime: 2022-03-10 21:30:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -315,6 +315,8 @@ export default {
       this.mtzId = data.id
       this.searchForm.mtzDocId = data.bizNo
       getDataList(data.id).then(res => {
+
+
         this.searchForm.firstSupplierName = res.data.supplierSapNo + "-" + res.data.supplierName;//一次件供应商
         this.searchForm.secondSupplierList = res.data.sSupplier;//二次件供应商
         this.searchForm.materialKindList = res.data.mgroup;//材料中类
