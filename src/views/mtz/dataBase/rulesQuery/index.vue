@@ -271,7 +271,6 @@ export default {
         buyerDeptId: [],
         marketSource: [],
         compensationPeriod: [],
-        effectFlag: [],
       }
       this.getList()
     },
