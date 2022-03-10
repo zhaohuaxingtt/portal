@@ -3,19 +3,25 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--无法评级-->
-        <iButton @click="handleNotRated" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_WUFAPINGJI">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</iButton>
+        <iButton @click="handleNotRated"
+                 v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_WUFAPINGJI">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</iButton>
         <!--财报比较-->
-        <iButton @click="handleFinancialReportComparison" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_CAIWUBIJIAO">{{ $t('SPR_FRM_CBPJ_CBBJ') }}</iButton>
+        <iButton @click="handleFinancialReportComparison"
+                 v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_CAIWUBIJIAO">{{ $t('SPR_FRM_CBPJ_CBBJ') }}</iButton>
         <!--有效-->
         <iButton @click="handleValidOrInvalid(1)"
-                 :loading="validButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_YOUXIAO">{{ $t('SUPPLIER_YOUXIAO') }}</iButton>
+                 :loading="validButtonLoading"
+                 v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_YOUXIAO">{{ $t('SUPPLIER_YOUXIAO') }}</iButton>
         <!--无效-->
         <iButton @click="handleValidOrInvalid(0)"
-                 :loading="invalidButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_WUXIAO">{{ $t('SUPPLIER_WUXIAO') }}</iButton>
+                 :loading="invalidButtonLoading"
+                 v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_WUXIAO">{{ $t('SUPPLIER_WUXIAO') }}</iButton>
         <!--导出初评模板-->
-        <iButton @click="handleExport" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_DAOCHUCHUPINGMUBAN">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
+        <iButton @click="handleExport"
+                 v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_DAOCHUCHUPINGMUBAN">{{ $t('SPR_FRM_CBPJ_DCCPMB') }}</iButton>
         <!--初步评级-->
-        <iButton @click="handlePreliminaryRating" v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_CHUBUPINGJI">{{ $t('SUPPLIER_CHUBUPINGJI1') }}</iButton>
+        <iButton @click="handlePreliminaryRating"
+                 v-permission="PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CP_CHUBUPINGJI">{{ $t('SUPPLIER_CHUBUPINGJI1') }}</iButton>
         <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
@@ -247,6 +253,7 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_CBPJ_CPMBDCTIPS'));
       }
+      if (!this.selectTableData[0].userModelId) iMessage.error('DANGQIANMEIYOUCHUPINMOBAN', '当前没有初评模板')
       downloadUdFile(this.selectTableData[0].userModelId)
       // excelExport(this.selectTableData, this.tableTitle);
     },
@@ -256,13 +263,13 @@ export default {
       }
 
       var num = 0;
-      for(var i=0;i<this.selectTableData.length;i++){
-        if(this.selectTableData[i].preliminaryStatus !== "中断"){
+      for (var i = 0; i < this.selectTableData.length; i++) {
+        if (this.selectTableData[i].preliminaryStatus !== "中断") {
           num++;
           break;
         }
       }
-      if(num !== 0){
+      if (num !== 0) {
         iMessage.warn(this.$t('LK_ZYCBPJZTWZDDSHCNDJCAN'));
         return false;
       }
