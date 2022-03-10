@@ -61,8 +61,7 @@ export default {
       taskType: 0,
       tableListData: [],
       tableExtraData: {
-        taskType: 0,
-        queryTable: this.getTableList
+        taskType: 0
       },
       tableTitle: [
         {
@@ -168,7 +167,7 @@ export default {
     }
   },
   created() {
-    this.getTableList()
+    // this.getTableList()
   },
   methods: {
     //打开详情页

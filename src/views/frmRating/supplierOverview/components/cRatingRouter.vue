@@ -483,7 +483,7 @@ export default {
       const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
       this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
-      // const resDept = await sapDropDown({ type: 'dept' })
+      const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
@@ -492,21 +492,21 @@ export default {
       const resMotor = await sapDropDown({ type: 'motor' })
 
 
-      const data = [
-        'SUPPLIER_STATUS',
-        'QUALITATIVE_GRADE_STATUS',
-        'LEGALSTATUS',
-        'RELEVANT_DEPT',
-        'ADJUSTED_RATING_LEVEL',
-        'TEST_RESULT',
-        'DEEP_COMMENT_STATUS',
-      ];
-      let req = 'keys=';
-      req = req + data.join('&keys=');
-      const red = await selectDictByKeys(req);
-      this.deptList = red.data.RELEVANT_DEPT;
+      // const data = [
+      //   'SUPPLIER_STATUS',
+      //   'QUALITATIVE_GRADE_STATUS',
+      //   'LEGALSTATUS',
+      //   'RELEVANT_DEPT',
+      //   'ADJUSTED_RATING_LEVEL',
+      //   'TEST_RESULT',
+      //   'DEEP_COMMENT_STATUS',
+      // ];
+      // let req = 'keys=';
+      // req = req + data.join('&keys=');
+      // const red = await selectDictByKeys(req);
+      //this.deptList = red.data.RELEVANT_DEPT;
       
-      // this.deptList = resDept.data
+      this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
