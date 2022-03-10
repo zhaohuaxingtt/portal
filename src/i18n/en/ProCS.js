@@ -156,5 +156,8 @@ export default {
     请选择发布时间:'Please select publish time',
     选择日期:'Select date',
     请输入标题:'Please input title',
-    请输入词条内容:'Please input phrase content'
+    请输入词条内容:'Please input phrase content',
+    仅看自己:'Only Myself',
+    请输入标签内容:'Enter the label content',
+    请选择内容模块:'Please select the content module'
 }
