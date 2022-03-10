@@ -26,6 +26,8 @@ export default {
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     }),
     tabList() {
+      console.log('leadTabList', this.leadTabList)
+      console.log('eklTabList', this.eklTabList)
       if (this.leadTabList.length) {
         let leadTabList = JSON.parse(JSON.stringify(this.leadTabList))
         leadTabList.map((item) => {
