@@ -414,7 +414,7 @@ export default {
       })
     },
     ratioDate(row) {
-      var strtime = row.markExpiration.replace('/-/g', '/') //时间转换
+      var strtime = row.expirationTime.replace('/-/g', '/') //时间转换
       //时间
       var date1 = new Date(strtime)
       //现在时间

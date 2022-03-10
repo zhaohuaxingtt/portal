@@ -89,7 +89,8 @@
           $t('LK_DAOCHU')
         }}</iButton>
       </div>
-      <detailsList :differenceAnalysisCarModel="differenceAnalysisCarModel"
+      <detailsList :loading="loading"
+                  :differenceAnalysisCarModel="differenceAnalysisCarModel"
                    :dataTitle="dataTitle"
                    :dataTitleTwo="dataTitleTwo" />
       <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
@@ -130,6 +131,7 @@ export default {
   },
   data () {
     return {
+      loading:false,
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
@@ -231,6 +233,7 @@ export default {
 
     //获取列表数据
     getdifferenceAnalysisCarModel () {
+      this.loading = true;
       this.form.versionOneName = this.form['versionMonthOne']
       this.form.versionTwoName = this.form['versionMonthTwo']
       this.form.versionOneId = 0
@@ -239,6 +242,7 @@ export default {
       this.form.pageSize = this.page.pageSize
       differenceAnalysisCarModel(this.form)
         .then((res) => {
+          this.loading = false;
           this.differenceAnalysisCarModel = res.data
           // this.page.total = res.total
           // this.page.currPage = res.pageNum
@@ -263,6 +267,7 @@ export default {
         })
         .catch((err) => {
           console.log(err)
+          this.loading = false;
         })
     },
     //重置查询条件
