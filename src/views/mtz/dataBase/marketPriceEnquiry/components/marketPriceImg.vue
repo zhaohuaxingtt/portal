@@ -72,10 +72,10 @@
     <iCard class="margin-top20 echartCard">
       <div class="cateGoryBox">
         <p style="fontSize: 16px;">{{language('XIANSHIYINCANGCAILIAO', '显示/隐藏材料：')}}</p>
-        <!-- <iSelect class="cateGorySelect" v-model="selectionCategoryData" multiple collapse-tags @change="handleChangeShowOrHide">
+        <iSelect class="cateGorySelect" v-model="selectionCategoryData" multiple collapse-tags @change="handleChangeShowOrHide">
           <el-option v-for="(item, index) in allCategoryDorpDownList" :key="index" :value="item.materialNo" :label="item.name"></el-option>
-        </iSelect> -->
-        <custom-select class="cateGorySelect"
+        </iSelect>
+        <!-- <custom-select class="cateGorySelect"
                        multiple
                        collapse-tags
                        v-model="selectionCategoryData"
@@ -84,7 +84,7 @@
                        display-member="name"
                        value-member="materialNo"
                        value-key="materialNo"
-                       @change="handleChangeShowOrHide" />
+                       @change="handleChangeShowOrHide" /> -->
       </div>
       <chart v-if="chartData.length > 0 && timeData.length > 0"
              :chartData="chartData"
