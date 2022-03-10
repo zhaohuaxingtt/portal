@@ -13,7 +13,6 @@
       <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
-              maxlength="120"
               show-word-limit
               v-model="info.sfrmOverallMerit"></iInput>
     </iCard>
@@ -40,12 +39,11 @@
             <icon symbol
                   style="fontSize:12px"
                   :name="trans(info.deepCommentRatingResults)"></icon>
-            <el-dropdown-menu  slot="dropdown"
+            <el-dropdown-menu slot="dropdown"
                               v-if="!isDisabled">
-              <el-dropdown-item     v-for="item in grade"
+              <el-dropdown-item v-for="item in grade"
                                 :key="item.id"
-                              :disabled="disabled"
-
+                                :disabled="disabled"
                                 :value="item.name"
                                 :label="item.name"
                                 :command="item.name">
@@ -65,7 +63,8 @@
       <div class="margin-bottom20">
         <div class="flex-align-center">
           <span class="nowIndustry">后续跟踪频率</span>
-          <iSelect   @change="changePv" :disabled="isDisabled||disabled"
+          <iSelect @change="changePv"
+                   :disabled="isDisabled||disabled"
                    v-model="info.trackFrequencyAgain">
             <el-option value="0"
                        key="0"
@@ -104,7 +103,7 @@
 </template>
 
 <script>
-import { iCard, iInput, iDatePicker, iSelect, icon ,iMessage} from 'rise';
+import { iCard, iInput, iDatePicker, iSelect, icon, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
 import { depthResult } from '../data';
 import { getSummarize, postSummarize } from '@/api/frmRating/depthRating/depthReport.js'
@@ -133,7 +132,7 @@ export default {
   },
   props: {
     isDisabled: { type: Boolean, default: false },
-        disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false }
   },
   mounted () {
 
@@ -153,11 +152,11 @@ export default {
     }),
     trans () {
       return (color) => {
-        if (color === '绿'||color === 'GREEN') {
+        if (color === '绿' || color === 'GREEN') {
           return 'iconlvdeng'
-        } else if (color === '黄'||color === 'YELLOW') {
+        } else if (color === '黄' || color === 'YELLOW') {
           return 'iconhuangdeng'
-        } else if (color === '红'||color === 'RED') {
+        } else if (color === '红' || color === 'RED') {
           return 'iconhongdeng'
         } else {
           return ""
@@ -169,16 +168,16 @@ export default {
     }
   },
   methods: {
-      changePv(v){
-   this.$store.commit('SET_trackFrequencyAgain',v)
-},
+    changePv (v) {
+      this.$store.commit('SET_trackFrequencyAgain', v)
+    },
     getOverView () {
       getSummarize(this.id, 'zh').then((result) => {
         if (result.data) {
           this.info = result.data
           //this.info.deepCommentRatingResults=this.$store.state.frmRating.deepCommentRatingResults
           //this.info.trackFrequencyAgain= this.$store.state.frmRating.trackFrequencyAgain
-        console.log(this.info)
+          console.log(this.info)
         }
       }).catch(() => {
 
@@ -202,22 +201,22 @@ export default {
       // 	return
       // }
       let params = _.cloneDeep(this.info)
-        if((this.info.deepCommentRatingResults==""||this.info.deepCommentRatingResults==null)&&(this.info.trackFrequencyAgain==""||this.info.trackFrequencyAgain==null)){
-          iMessage.warn('请填写状态与后续跟踪频率')
-               return false
-      } 
+      if ((this.info.deepCommentRatingResults == "" || this.info.deepCommentRatingResults == null) && (this.info.trackFrequencyAgain == "" || this.info.trackFrequencyAgain == null)) {
+        iMessage.warn('请填写状态与后续跟踪频率')
+        return false
+      }
 
-    //   switch (params.deepCommentRatingResults) {
-    //     case '红':
-    //       params.deepCommentRatingResults = 'RED'
-    //       break;
-    //     case '黄':
-    //       params.deepCommentRatingResults = 'YELOW'
-    //       break;
-    //     case '绿':
-    //       params.deepCommentRatingResults = 'GREEN'
-    //       break;
-    //   }
+      //   switch (params.deepCommentRatingResults) {
+      //     case '红':
+      //       params.deepCommentRatingResults = 'RED'
+      //       break;
+      //     case '黄':
+      //       params.deepCommentRatingResults = 'YELOW'
+      //       break;
+      //     case '绿':
+      //       params.deepCommentRatingResults = 'GREEN'
+      //       break;
+      //   }
       postSummarize(params)
         .then((result) => {
           if (result.code == 200) {
@@ -240,7 +239,7 @@ export default {
       });
     },
     changeGrade (value) {
-           this.$store.commit('SET_deepCommentRatingResults',value)
+      this.$store.commit('SET_deepCommentRatingResults', value)
       this.info = {
         ...this.info,
         deepCommentRatingResults: value
