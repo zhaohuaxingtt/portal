@@ -81,7 +81,6 @@
       <iInput :disabled="isDisabled||disabled"
               type='textarea'
               :autosize='rowRange'
-              maxlength="120"
               show-word-limit
               placeholder="请输入"
               v-model="info.addAdvice"></iInput>
@@ -94,7 +93,6 @@
               type='textarea'
               :autosize='rowRange'
               placeholder="请输入"
-              maxlength="120"
               show-word-limit
               v-model="info.supplementarySuggestions"></iInput>
     </iCard>
