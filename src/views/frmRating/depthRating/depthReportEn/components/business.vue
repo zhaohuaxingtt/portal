@@ -33,7 +33,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.groupCompany"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 重要变更 -->
@@ -45,7 +44,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.importantChange"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 融资信息 -->
@@ -57,7 +55,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.financingInformation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 业务情况 -->
@@ -69,7 +66,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.businessSituation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 搬迁情况 -->
@@ -81,7 +77,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.relocation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 敏感信息 -->
@@ -93,7 +88,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.sensitiveInformation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 公司简介 -->
@@ -105,7 +99,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.companyProfile"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 其他补充信息 -->
@@ -117,7 +110,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.otherSupplementaryInfo"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <el-row :gutter="50">
@@ -151,7 +143,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.remark"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <div class="remark">Data source: public information and information provided by supplier & supplier interview.</div>

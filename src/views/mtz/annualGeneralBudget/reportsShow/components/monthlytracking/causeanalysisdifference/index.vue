@@ -36,7 +36,7 @@
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
-                       :label="item.value" />
+                       :label="item.valueFull" />
           </iSelect>
         </el-form-item>
         <div class="backgroundBox"></div>
@@ -47,7 +47,7 @@
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
-                       :label="item.value" />
+                       :label="item.valueFull" />
           </iSelect>
         </el-form-item>
         <div class="showMe">
@@ -225,8 +225,8 @@ export default {
         .then((res) => {
           this.getVersionMonth = res.data || []
           if (this.getVersionMonth.length) {
-            this.form['versionMonthOne'] = this.versionMonth === "M" ? this.getVersionMonth[0].valueFull : this.getVersionMonth[0].value
-            this.form['versionMonthTwo'] = this.versionMonth === "M" ? this.getVersionMonth[0].valueFull : this.getVersionMonth[0].value
+            this.form['versionMonthOne'] = this.getVersionMonth[0].value
+            this.form['versionMonthTwo'] = this.getVersionMonth[0].value
             this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
             this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
           }
