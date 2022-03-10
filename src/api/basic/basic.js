@@ -65,3 +65,13 @@ export function synchronizationSap(parmars) {
     }
   })
 }
+//标签
+export function queryByParam(parmars) {
+  return requst({
+    url: '/supplierInfo/bkm/queryByParam/' + parmars,
+    method: 'GET'
+    // data: {
+    //   ...parmars
+    // }
+  })
+}

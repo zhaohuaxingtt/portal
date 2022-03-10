@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2022-03-08 10:09:31
+ * @LastEditTime: 2022-03-09 16:27:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\detailDialog.vue
@@ -209,7 +209,7 @@ import tableList from '@/components/commonTable/index.vue'
 import { tableTitle } from './data'
 import { excelExport } from './util'
 import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchSecondSupplier, fetchRawMaterialCode, fetchCurrentUser, pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
-import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { queryDeptSectionForCompItem } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { getNowFormatDate } from "./util";
@@ -337,7 +337,7 @@ export default {
     },
     // 获取部门数据
     getDeptList () {
-      fetchRemoteDept({}).then(res => {
+      queryDeptSectionForCompItem({}).then(res => {
         if (res && res.code == 200) {
           this.departmentDropDownData = res.data
         } else iMessage.error(res.desZh)
