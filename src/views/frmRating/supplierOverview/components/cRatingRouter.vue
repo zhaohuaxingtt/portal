@@ -483,7 +483,7 @@ export default {
       const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
       this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
-      // const resDept = await sapDropDown({ type: 'dept' })
+      const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
@@ -504,9 +504,9 @@ export default {
       let req = 'keys=';
       req = req + data.join('&keys=');
       const red = await selectDictByKeys(req);
-      this.deptList = red.data.RELEVANT_DEPT;
+      //this.deptList = red.data.RELEVANT_DEPT;
       
-      // this.deptList = resDept.data
+      this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
