@@ -78,8 +78,8 @@
         <span v-if="!ratioDate(scope.row)">否</span>
       </template>
       <template #isActive='scope'>
-        <span v-if="scope.row.isActive=='Y'||scope.row.isActive==1||scope.row.isActive==true">是</span>
-        <span v-if="scope.row.isActive=='N'||scope.row.isActive==0||scope.row.isActive==false">否</span>
+        <span v-if="(scope.row.isActive=='Y'||scope.row.isActive==1||scope.row.isActive==true) && !ratioDate(scope.row)">是</span>
+        <span v-else>否</span>
       </template>
       <template #system='scope'>
         <iButton @click="openDialog(scope.row)"
