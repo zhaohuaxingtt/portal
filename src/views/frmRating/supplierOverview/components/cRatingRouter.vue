@@ -492,18 +492,18 @@ export default {
       const resMotor = await sapDropDown({ type: 'motor' })
 
 
-      const data = [
-        'SUPPLIER_STATUS',
-        'QUALITATIVE_GRADE_STATUS',
-        'LEGALSTATUS',
-        'RELEVANT_DEPT',
-        'ADJUSTED_RATING_LEVEL',
-        'TEST_RESULT',
-        'DEEP_COMMENT_STATUS',
-      ];
-      let req = 'keys=';
-      req = req + data.join('&keys=');
-      const red = await selectDictByKeys(req);
+      // const data = [
+      //   'SUPPLIER_STATUS',
+      //   'QUALITATIVE_GRADE_STATUS',
+      //   'LEGALSTATUS',
+      //   'RELEVANT_DEPT',
+      //   'ADJUSTED_RATING_LEVEL',
+      //   'TEST_RESULT',
+      //   'DEEP_COMMENT_STATUS',
+      // ];
+      // let req = 'keys=';
+      // req = req + data.join('&keys=');
+      // const red = await selectDictByKeys(req);
       //this.deptList = red.data.RELEVANT_DEPT;
       
       this.deptList = resDept.data
