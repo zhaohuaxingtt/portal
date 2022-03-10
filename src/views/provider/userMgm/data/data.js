@@ -116,16 +116,16 @@ export const tableColumnSetting = [
     sortable: true
   },
   {
-    prop: 'isValid',
+    prop: 'isExpired',
     label: '是否超期',
     i18n: '是否超期',
     align: 'center',
     width: '120',
     customRender: (h, scope) => {
-      if (scope.row.isValid) {
-        return '否'
-      } else {
+      if (scope.row.isExpired) {
         return '是'
+      } else {
+        return '否'
       }
     },
     sortable: true
