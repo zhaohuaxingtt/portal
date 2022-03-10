@@ -80,8 +80,8 @@
                        :label="language('GONGYINGSHANG','供应商')"
                        width="180">
         <template slot-scope="scope">
-          <p>{{scope.row.supplier.split('-')[0]}}</p>
-          <p>{{scope.row.supplier.split('-')[1]}}</p>
+          <p>{{scope.row.supplier?scope.row.supplier.split('-')[0]:''}}</p>
+          <p>{{scope.row.supplier?scope.row.supplier.split('-')[1]:''}}</p>
         </template>
       </el-table-column>
       <el-table-column prop="approvedAmt"
