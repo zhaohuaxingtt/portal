@@ -17,5 +17,8 @@ export default {
     未处理:'Untreated',
     已处理:'Treated ',
     已完成:'Completed',
-    全部:'All'
+    全部:'All',
+    '确定要删除该问题吗?':'Are you sure you want to delete the problem? ',
+    '确定要删除吗?':'Are you sure you want to delete?',
+    请输入内容:'Please enter the content'
 }
