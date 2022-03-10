@@ -22,7 +22,7 @@ export default {
   name: 'eklHeader',
   computed: {
     ...mapState({
-      eklTabList: (eklTabList) => eklTabList.permission.eklTabList,
+      eklTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     }),
     tabList() {
