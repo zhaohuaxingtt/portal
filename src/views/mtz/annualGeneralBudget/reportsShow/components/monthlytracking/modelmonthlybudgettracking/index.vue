@@ -34,7 +34,8 @@
         </el-form-item>
         <el-form-item :label="language('LK_BIJIAOBANBEN', '比较版本')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
-                   v-model="form['versionMonthOne']">
+                   v-model="form['versionMonthOne']"
+                   @change="changeVersion">
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
@@ -45,7 +46,8 @@
         <el-form-item label="  ">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    class="compareTwo"
-                   v-model="form['versionMonthTwo']">
+                   v-model="form['versionMonthTwo']"
+                   @change="changeVersion1">
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
@@ -89,7 +91,8 @@
           $t('LK_DAOCHU')
         }}</iButton>
       </div>
-      <detailsList :differenceAnalysisCarModel="differenceAnalysisCarModel"
+      <detailsList :loading="loading"
+                   :differenceAnalysisCarModel="differenceAnalysisCarModel"
                    :dataTitle="dataTitle"
                    :dataTitleTwo="dataTitleTwo" />
       <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
@@ -130,6 +133,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
@@ -141,6 +145,8 @@ export default {
       dataTitle: '',
       dataTitleTwo: '',
       currentMonth: '', //当前月份
+      versionMonthOneName: "",
+      versionMonthTwoName: "",
       startpickerOptions: {
         disabledDate: (time) => {
           const e = this.form.yearMonthTwo
@@ -219,7 +225,9 @@ export default {
           this.getVersionMonth = res.data
           this.form['versionMonthOne'] = this.getVersionMonth[0].value
           this.form['versionMonthTwo'] = this.getVersionMonth[0].value
-          this.versionMonthValue = this.getVersionMonth[0].value
+          // this.versionMonthValue = this.getVersionMonth[0].value
+          this.versionMonthOneName = this.getVersionMonth[0].valueFull
+          this.versionMonthTwoName = this.getVersionMonth[0].valueFull
           this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
           this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
           this.getdifferenceAnalysisCarModel()
@@ -248,8 +256,8 @@ export default {
             this.form['yearMonthOne'] == null &&
             this.form['yearMonthTwo'] == null
           ) {
-            this.dataTitle = form['versionOneName']
-            this.dataTitleTwo = form['versionTwoName']
+            this.dataTitle = this.versionMonthOneName
+            this.dataTitleTwo = this.versionMonthTwoName
           } else {
             let dataTransform = moment(this.form['yearMonthOne']).format(
               'yyyy-MM'
@@ -257,13 +265,21 @@ export default {
             let dataTransformTwo = moment(this.form['yearMonthTwo']).format(
               'yyyy-MM'
             )
-            this.dataTitle = `${form['versionMonthOne']}-${dataTransform}`
-            this.dataTitleTwo = `${form['versionMonthTwo']}-${dataTransformTwo}`
+            this.dataTitle = `${this.versionMonthOneName}-${dataTransform}`
+            this.dataTitleTwo = `${this.versionMonthTwoName}-${dataTransformTwo}`
           }
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    changeVersion (val) {
+      console.log(this.getVersionMonth.filter((item) => item.value === val))
+      this.versionMonthOneName = this.getVersionMonth.filter((item) => item.value === val)[0].valueFull
+    },
+    changeVersion1 (val) {
+      console.log(val)
+      this.versionMonthTwoName = this.getVersionMonth.filter((item) => item.value === val)[0].valueFull
     },
     //重置查询条件
     reset () {
