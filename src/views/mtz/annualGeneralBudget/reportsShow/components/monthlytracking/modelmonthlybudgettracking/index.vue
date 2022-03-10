@@ -92,17 +92,19 @@
         }}</iButton>
       </div>
       <detailsList :loading="loading"
-                   :differenceAnalysisCarModel="differenceAnalysisCarModel"
-                   :dataTitle="dataTitle"
-                   :dataTitleTwo="dataTitleTwo" />
-      <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
-                   @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
-                   background
-                   :current-page="page.currPage"
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :layout="page.layout"
-                   :total="page.totalCount" />
+                   <<<<<<<
+                   HEAD
+                   :differenceAnalysisCarModel="differenceAnalysisCarModel"=======:differenceAnalysisCarModel="differenceAnalysisCarModel">>>>>>> 76ac55e5fdc7aba17890ddee8dfe2b575cdc9bf2
+        :dataTitle="dataTitle"
+        :dataTitleTwo="dataTitleTwo" />
+        <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
+                     @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
+                     background
+                     :current-page="page.currPage"
+                     :page-sizes="page.pageSizes"
+                     :page-size="page.pageSize"
+                     :layout="page.layout"
+                     :total="page.totalCount" />
     </iCard>
   </div>
   <!-- </div> -->
@@ -239,6 +241,7 @@ export default {
 
     //获取列表数据
     getdifferenceAnalysisCarModel () {
+      this.loading = true;
       this.form.versionOneName = this.form['versionMonthOne']
       this.form.versionTwoName = this.form['versionMonthTwo']
       this.form.versionOneId = 0
@@ -247,6 +250,7 @@ export default {
       this.form.pageSize = this.page.pageSize
       differenceAnalysisCarModel(this.form)
         .then((res) => {
+          this.loading = false;
           this.differenceAnalysisCarModel = res.data
           // this.page.total = res.total
           // this.page.currPage = res.pageNum
@@ -271,6 +275,7 @@ export default {
         })
         .catch((err) => {
           console.log(err)
+          this.loading = false;
         })
     },
     changeVersion (val) {

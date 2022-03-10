@@ -92,7 +92,7 @@ export const queryFormData = [
     dropDownTitle: 'dropDownMaterialElementShortData'
   },
   {
-    props: 'materialNameZh',
+    props: 'materialCategoryCode',
     name: '材料中类',
     key: 'ZHONGLEIBIANHAO',
     dropDownTitle: 'dropDownMaterialNameZhData'
