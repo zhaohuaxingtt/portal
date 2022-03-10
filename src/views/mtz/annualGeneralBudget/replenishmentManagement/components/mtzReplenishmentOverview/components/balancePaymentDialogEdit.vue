@@ -372,8 +372,8 @@ export default {
       this.muiltSelectList.forEach((val) => {
         this.tableData.forEach((v, i) => {
           if (val.id === v.id) {
-            this.waitCompDocMoney = Number(this.waitCompDocMoney) - Number(v.actAmt);
-            this.trueCompMoney = Number(this.trueCompMoney) - Number(v.appAmt);
+            this.waitCompDocMoney = (Number(this.waitCompDocMoney) - Number(v.actAmt)).toFixed(2);
+            this.trueCompMoney = (Number(this.trueCompMoney) - Number(v.appAmt)).toFixed(2)
             this.tableData.splice(i, 1)
             this.selectDataList.push(val)
           }
