@@ -208,7 +208,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://${BASE_IP}:8044/risemessage`,
+        // target: `http://${BASE_IP}:8044/risemessage`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/risemessageApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''

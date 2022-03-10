@@ -492,6 +492,7 @@ export default {
   SAPORGONGYINGSHANGMINGCHENG: 'SAP No./Supplier Name',
   NINGFUZEDEGONGYINGSHANGWUYIBEILIERUZHONGDAINZHUIZONGMINGDAN:
     'None of the key suppliers you are responsible for has been listed in the key tracking list',
+  GAIGONGYINGSHANGCHANNENGZHUANGKUANGLIANGHAO:"The supplier's capacity is in good condition",
   YIBANGONGYINGSHANG: 'General Supplier',
   SHENGCHANGONGYINGSHANG: 'Proc. Supplier',
   SHURUCHAXUNGONGYINGSHANGMINGCHENG: 'Please enter supplier name',
@@ -500,6 +501,8 @@ export default {
   措施详情: 'Measure Detail',
   '加⼊原因': 'Add Reason',
   JIARUYUANYIN: 'Add Reason',
+  GONGYINGSHANGCAIWUZHUANGKUANGLIANGHAO:
+    'The supplier is in good financial condition',
   SPACODE: 'SAP No.',
   ZHONGDIANZHUIZONGJILU: 'Key Tracking Record',
   CREATEDATA: 'Key Tracking Join Time',

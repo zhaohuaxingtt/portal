@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-07 15:05:40
- * @LastEditTime: 2021-12-28 14:30:52
+ * @LastEditTime: 2022-03-09 14:31:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\sourceMarketPrice\components\data.js
@@ -45,18 +45,18 @@ export const tableSetting = [
     width: 150
   },
   { props: 'countUnit', name: '计量单位', key: 'JILIANGDANWEI', width: 150 },
-  { props: 'prPriceSourceTypeValue', name: '', key: 'PR(P)', width: 120 },
+  { props: 'prPriceSourceTypeValue', name: '', key: 'PR(P)', width: 100 },
   {
     props: 'forecastPriceSourceTypeValue',
     name: '预测价(F)',
     key: 'YUCEJIAF',
-    width: 120
+    width: 100
   },
   {
     props: 'marketPriceSourceTypeValue',
     name: '市场价(E)',
     key: 'SHICHANGJIAF',
-    width: 150
+    width: 100
   },
   {
     props: 'externalMarketPriceSource',
@@ -68,7 +68,7 @@ export const tableSetting = [
     props: 'externalMaterialCode',
     name: '外部来源对应牌号',
     key: 'WAIBULAIYUANDUIYINGPAIHAO',
-    width: 180
+    width: 160
   },
   {
     props: 'priceRuleValue',

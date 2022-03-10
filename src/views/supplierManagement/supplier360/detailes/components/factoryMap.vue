@@ -153,6 +153,7 @@ export default {
   },
   methods: {
     async getTags () {
+      this.$parent.$parent.$parent.pageLoading = true
       const pms = {
         pageNo: 1,
         pageSize: 10,
@@ -160,6 +161,7 @@ export default {
       }
       const res = await getTags(pms)
       if (res.result) {
+        this.$parent.$parent.$parent.pageLoading = false
         this.tagList = res.data
       }
     },
