@@ -662,7 +662,7 @@ export default {
           { required: true, message: '请选择', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],//规则编号
-        sapCode: [{ required: true, message: '请选择', trigger: 'blur' }],//供应商编号
+        // sapCode: [{ required: true, message: '请选择', trigger: 'blur' }],//供应商编号
         priceUnit: [{ required: true, message: '请选择', trigger: 'blur' }],//每
         dosage: [{ required: true, message: '请选择', trigger: 'blur' }],//用量
         dosageMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],//用量计量单位
