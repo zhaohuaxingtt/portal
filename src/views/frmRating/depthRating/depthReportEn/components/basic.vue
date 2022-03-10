@@ -15,7 +15,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.sfrmOverallMerit"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 深入评级结果 -->
