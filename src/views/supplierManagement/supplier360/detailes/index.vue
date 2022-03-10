@@ -48,16 +48,21 @@ export default {
   },
   methods: {
     async handleInit () {
+      this.onLoading = true
       const pms = {
         subSupplierId: this.$route.query.subSupplierId,
         supplierType: this.$route.query.supplierType
       }
       const res = await getProfile(pms)
-      this.factoryAddressVOList = res.data.factoryAddressVOList
-      this.supplier360ViewVO = res.data.supplier360ViewVO
-      this.financialEarlyWarningVO = res.data.financialEarlyWarningVO
-      this.relatedCompanyVO = res.data.relatedCompanyVO
-      this.groupRelationsVO = res.data.groupRelationsVO
+      if (res?.code === '200') {
+        this.onLoading = false
+        this.factoryAddressVOList = res.data.factoryAddressVOList
+        this.supplier360ViewVO = res.data.supplier360ViewVO
+        this.financialEarlyWarningVO = res.data.financialEarlyWarningVO
+        this.relatedCompanyVO = res.data.relatedCompanyVO
+        this.groupRelationsVO = res.data.groupRelationsVO
+      }
+
     }
   }
 }
