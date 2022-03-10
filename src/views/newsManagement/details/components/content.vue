@@ -423,10 +423,8 @@ export default {
 }
 
 .form-tem-contentImg {
-  width: 84rem;
-  overflow-x: scroll;
-  // mark
   .form-item-imgContent {
+    overflow-x: scroll;
     /* padding: 2rem 0; */
     /* margin-top: 20px; */
     text-align: justify;

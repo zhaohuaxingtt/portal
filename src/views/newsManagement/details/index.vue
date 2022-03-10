@@ -203,7 +203,7 @@ export default {
   .news-hall-left {
     flex: 1;
     .carousel ::v-deep {
-      /* max-width: 1382px; */
+      max-width: 1382px;
       .el-carousel {
         min-width: 1382px;
         height: 278px;
