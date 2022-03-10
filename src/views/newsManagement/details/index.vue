@@ -202,8 +202,9 @@ export default {
   justify-content: space-between;
   .news-hall-left {
     flex: 1;
+    width: calc(100vw - 520px);
     .carousel ::v-deep {
-      max-width: 1382px;
+      // max-width: 1382px;
       .el-carousel {
         min-width: 1382px;
         height: 278px;
