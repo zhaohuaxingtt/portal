@@ -38,7 +38,7 @@
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
-                       :label="item.value" />
+                       :label="item.valueFull" />
           </iSelect>
         </el-form-item>
         <div class="backgroundBox"></div>
@@ -49,7 +49,7 @@
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
-                       :label="item.value" />
+                       :label="item.valueFull" />
           </iSelect>
         </el-form-item>
         <div class="showMe">
