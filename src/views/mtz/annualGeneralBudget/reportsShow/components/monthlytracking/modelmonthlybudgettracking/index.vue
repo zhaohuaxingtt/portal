@@ -217,8 +217,8 @@ export default {
       getVersionData(this.versionMonth)
         .then((res) => {
           this.getVersionMonth = res.data
-          this.form['versionMonthOne'] = this.versionMonth === "M" ? this.getVersionMonth[0].valueFull : this.getVersionMonth[0].value
-          this.form['versionMonthTwo'] = this.versionMonth === "M" ? this.getVersionMonth[0].valueFull : this.getVersionMonth[0].value
+          this.form['versionMonthOne'] = this.getVersionMonth[0].value
+          this.form['versionMonthTwo'] = this.getVersionMonth[0].value
           this.versionMonthValue = this.getVersionMonth[0].value
           this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
           this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
