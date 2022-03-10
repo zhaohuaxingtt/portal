@@ -71,6 +71,9 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         // 自动提示错误或成功
         const responseDataMessage = response.data.desZh || response.data.desEn
         switch (responseData.code) {
+          case '1':
+            iMessage.error(responseDataMessage || '请求失败')
+            return Promise.reject(responseData)
           case '400':
             iMessage.error(responseDataMessage || '请求失败')
             return Promise.reject(responseData)
