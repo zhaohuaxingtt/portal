@@ -13,7 +13,7 @@
                     <span class="flex-1 ellipsis mr20">{{l[nameKey]}}</span>
                     <slot name="item-right" :data="l"></slot>
                 </p>
-                <p class="no-data" v-if="list.length == 0">暂无数据</p>
+                <p class="no-data" v-if="list.length == 0">{{language('暂无数据')}}</p>
             </template>
         </div>
     </div>

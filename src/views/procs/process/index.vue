@@ -8,7 +8,7 @@
                         <span class="process-tab" v-for="tab in tabs[activeView]" :key="tab.value" :class="{active:activeName == tab.value}" @click="tabChange(tab.value)">
                             <!-- <i :class="[tab.icon]"></i>  -->
                             <img :src="activeView==='list' ? activeName==='all' ? tab.activeSvg : tab.defaultSvg : activeName==='my' ? tab.defaultSvg : tab.activeSvg" />
-                            {{tab.name}}
+                            {{language(tab.name)}}
                         </span>
                     </div>
 
@@ -57,17 +57,17 @@
                 
             </div>
             <div class="side">
-               <UiCard title="我的收藏" v-if="collectList.length > 0" :list="collectList" @row-click="side($event, 'collect')">
+               <UiCard :title="language('我的收藏')" v-if="collectList.length > 0" :list="collectList" @row-click="side($event, 'collect')">
                    <iButton v-if="collectList.length > 0" slot="head-right" @click="$router.push({path:'/cf-ProCS/collect'})">MORE</iButton>
                </UiCard>
-               <UiCard title="最热词条" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
+               <UiCard :title="language('最热词条')" nameKey="title" :list="hotTermsList" :color="false" @row-click="side($event, 'glossary')">
                    <iButton slot="head-right" @click="$router.push({path:'/cf-ProCS/glossaryManage'})">MORE</iButton>
                    <div slot="item-right" slot-scope="{data}">
                        <i class="el-icon-view"></i>
                        {{data.pageView}}
                    </div>
                </UiCard>
-               <UiCard title="常用附件" style="max-height: 200px;" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
+               <UiCard :title="language('常用附件')" style="max-height: 200px;" :list="attachList" @row-click="side($event, 'attachment')"></UiCard>
             </div>
         </div>
     </div>
