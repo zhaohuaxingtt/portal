@@ -245,6 +245,7 @@ export default {
       }
     },
     handleExport () {
+      console.log(this.selectTableData[0].userModelId)
       if (this.selectTableData.length === 0) {
         return iMessage.warn(
           this.language('QINGXUANZHEXUYAOCAOZUODEGONYSHANGDESHUJU', '请选择需要操作的供应商数据')
@@ -253,7 +254,10 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_CBPJ_CPMBDCTIPS'));
       }
-      if (!this.selectTableData[0].userModelId) iMessage.error('DANGQIANMEIYOUCHUPINMOBAN', '当前没有初评模板')
+      if (!this.selectTableData[0].userModelId) {
+        iMessage.error(this.language('DANGQIANMEIYOUCHUPINMOBAN', '当前没有初评模板'))
+        return
+      }
       downloadUdFile(this.selectTableData[0].userModelId)
       // excelExport(this.selectTableData, this.tableTitle);
     },
