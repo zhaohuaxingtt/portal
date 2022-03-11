@@ -90,7 +90,7 @@
         }}</iButton>
       </div>
       <detailsList :loading="loading"
-                  :differenceAnalysisCarModel="differenceAnalysisCarModel"
+                   :differenceAnalysisCarModel="differenceAnalysisCarModel"
                    :dataTitle="dataTitle"
                    :dataTitleTwo="dataTitleTwo" />
       <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
@@ -131,7 +131,7 @@ export default {
   },
   data () {
     return {
-      loading:false,
+      loading: false,
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
       MaterialMediumList: [], //材料中类数据
