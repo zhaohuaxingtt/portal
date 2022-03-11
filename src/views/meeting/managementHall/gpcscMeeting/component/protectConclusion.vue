@@ -6,7 +6,7 @@
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
-  >
+  > 
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -33,9 +33,9 @@
               :disabled="isOther"
             >
               <el-option
-                :value="item"
-                :label="item.conclusionName"
-                v-for="(item, index) of themenConclusionArrObj"
+                :value="item.value"
+                :label="item.name"
+                v-for="(item, index) of conclusionCscAll"
                 :key="index"
               ></el-option>
             </iSelect>
@@ -216,7 +216,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
+import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList ,findThemenConclusion} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
@@ -290,6 +290,7 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        conclusionCscAllS:[],
         currencyS:[],
         iconShowA:false,
         iconShowB:false,
@@ -313,7 +314,8 @@ export default {
           this.autoOpenProtectConclusionObj.conclusionCsc === '06'
             ? true
             : false,
-        themenConclusionArrObj,
+        // conclusionCscAll:[...themenConclusionArrObj],
+        conclusionCscAll:[],
         tableListData: [],
         ruleForm: {
           conclusion: {
@@ -339,6 +341,7 @@ export default {
       }
     } else {
       return {
+        conclusionCscAllS:[],
         currencyS:[],
         iconShowA:false,
         iconShowB:false,
@@ -362,7 +365,8 @@ export default {
           this.selectedTableData[0].conclusionCsc === '06'
             ? true
             : false,
-        themenConclusionArrObj,
+        // conclusionCscAll:[...themenConclusionArrObj],
+        conclusionCscAll:[],
         tableListData: [],
         ruleForm: {
           conclusion: {
@@ -529,6 +533,7 @@ export default {
     this.getList()
     this.getDate()
     this.getCurrency()
+    this.getConclusion()
     // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
     // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
@@ -592,7 +597,7 @@ export default {
     handleSure(){
       console.log(this.selectedRow);
       const params = {
-       conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
+       conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
        result:this.fromData.result,//任务
        themenId:this.selectedTableData[0].id,//议题id
@@ -718,7 +723,23 @@ export default {
       }
       findThemenById(data).then((res) => {
           console.log(res.meetingTypeName);
+      })
 
+    },
+    // 结论下拉框字段 findThemenConclusion
+    getConclusion(){
+      const data = {
+        id:this.meetingInfo.meetingTypeId
+      }
+      findThemenConclusion(data).then((res) => {
+        this.conclusionCscAll=[]
+          res.forEach(x => {
+           themenConclusionArrObj.forEach(y=>{
+              if (x==y.conclusionCsc) {
+                this.conclusionCscAll.push({value:x,name:y.conclusionName})
+              }
+            })
+          });
       })
 
     }
