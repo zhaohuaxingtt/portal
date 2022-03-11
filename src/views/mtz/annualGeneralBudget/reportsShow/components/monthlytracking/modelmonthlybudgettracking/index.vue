@@ -92,19 +92,17 @@
         }}</iButton>
       </div>
       <detailsList :loading="loading"
-                   <<<<<<<
-                   HEAD
-                   :differenceAnalysisCarModel="differenceAnalysisCarModel"=======:differenceAnalysisCarModel="differenceAnalysisCarModel">>>>>>> 76ac55e5fdc7aba17890ddee8dfe2b575cdc9bf2
-        :dataTitle="dataTitle"
-        :dataTitleTwo="dataTitleTwo" />
-        <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
-                     @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
-                     background
-                     :current-page="page.currPage"
-                     :page-sizes="page.pageSizes"
-                     :page-size="page.pageSize"
-                     :layout="page.layout"
-                     :total="page.totalCount" />
+                   :differenceAnalysisCarModel="differenceAnalysisCarModel"
+                   :dataTitle="dataTitle"
+                   :dataTitleTwo="dataTitleTwo" />
+      <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysisCarModel)"
+                   @size-change="handleSizeChange($event, getdifferenceAnalysisCarModel)"
+                   background
+                   :current-page="page.currPage"
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :total="page.totalCount" />
     </iCard>
   </div>
   <!-- </div> -->

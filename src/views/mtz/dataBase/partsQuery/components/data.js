@@ -592,7 +592,9 @@ export const partNumber = [
     }
   },
   { prop: 'versionNum', label: '版本', align: 'center', i18n: '版本' },
-  { prop: 'attr', label: '备注', align: 'center', i18n: '备注' },
+  { prop: 'attr', label: '备注', align: 'center', i18n: '备注',tooltip: true,width:200,
+    headerRender: (h, { column }) => renderIcon(h, column, 1)
+  },
   {
     prop: 'platinumPrice',
     label: '铂基价',

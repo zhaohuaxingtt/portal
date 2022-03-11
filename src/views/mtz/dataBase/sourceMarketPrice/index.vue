@@ -254,6 +254,7 @@ export default {
     // 获取筛选项数据
     getDropDownData () {
       this.dropDownData.dropDownMarketPriceSourceTypeData = [
+        { message: '空值', code: 0 },
         { message: '手工上传', code: 1 },
         { message: '系统自动', code: 2 }
       ]
