@@ -95,6 +95,7 @@ export default {
   watch: {
     "searchFormList": {
       handler (x, y) {
+        this.mtzDocId = this.$route.query.mtzDocId
         this.BoxLoading = true;
         this.serchList = x;
         this.page.currPage = 1;
