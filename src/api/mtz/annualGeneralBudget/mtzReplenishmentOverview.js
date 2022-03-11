@@ -65,6 +65,16 @@ export function chargeAgainstMTZComp(params) {
     data: params
   })
 }
+
+//MTZ发起补差冲销
+export function mtzEditRecall(params) {
+  return request({
+    url: '/mtzBalanceDetails/mtzEditRecall',
+    method: 'POST',
+    data: params
+  })
+}
+
 //MTZ发起补差 - 提交
 export function submitMTZComp(params) {
   return request({
