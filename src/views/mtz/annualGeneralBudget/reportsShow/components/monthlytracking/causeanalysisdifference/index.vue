@@ -32,7 +32,8 @@
         </el-form-item>
         <el-form-item :label="language('LK_BIJIAOBANBEN', '比较版本')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
-                   v-model="form['versionMonthOne']">
+                   v-model="form['versionMonthOne']"
+                   @change="changeVersion">
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
@@ -43,7 +44,8 @@
         <el-form-item label="  ">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    class="compareTwo"
-                   v-model="form['versionMonthTwo']">
+                   v-model="form['versionMonthTwo']"
+                   @change="changeVersion1">
             <el-option v-for="(item, index) in getVersionMonth"
                        :key="index"
                        :value="item.value"
@@ -138,6 +140,8 @@ export default {
       dataTitle: '', //时间title
       dataTitleTwo: '',
       currentMonth: '', //当前月份
+      versionMonthOneName: "",
+      versionMonthTwoName: "",
       startpickerOptions: {
         disabledDate: (time) => {
           const e = this.form.yearMonthTwo
@@ -227,6 +231,8 @@ export default {
           if (this.getVersionMonth.length) {
             this.form['versionMonthOne'] = this.getVersionMonth[0].value
             this.form['versionMonthTwo'] = this.getVersionMonth[0].value
+            this.versionMonthOneName = this.getVersionMonth[0].valueFull
+            this.versionMonthTwoName = this.getVersionMonth[0].valueFull
             this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
             this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
           }
@@ -254,8 +260,8 @@ export default {
             this.form['yearMonthOne'] == null &&
             this.form['yearMonthTwo'] == null
           ) {
-            this.dataTitle = form['versionMonthOne']
-            this.dataTitleTwo = form['versionMonthTwo']
+            this.dataTitle = this.versionMonthOneName
+            this.dataTitleTwo = this.versionMonthTwoName
           } else {
             let dataTransform = this.form['yearMonthOne']
               ? moment(this.form['yearMonthOne']).format('yyyy-MM')
@@ -263,9 +269,9 @@ export default {
             let dataTransformTwo = this.form['yearMonthTwo']
               ? moment(this.form['yearMonthTwo']).format('yyyy-MM')
               : ''
-            this.dataTitle = `${this.form['versionMonthOne']}${dataTransform && '-'
+            this.dataTitle = `${this.versionMonthOneName}${dataTransform && '-'
               }${dataTransform}`
-            this.dataTitleTwo = `${this.form['versionMonthTwo']}${dataTransformTwo && '-'
+            this.dataTitleTwo = `${this.versionMonthTwoName}${dataTransformTwo && '-'
               }${dataTransformTwo}`
           }
         })
@@ -286,6 +292,14 @@ export default {
     },
     sure () {
       this.getdifferenceAnalysis()
+    },
+    changeVersion (val) {
+      console.log(this.getVersionMonth.filter((item) => item.value === val))
+      this.versionMonthOneName = this.getVersionMonth.filter((item) => item.value === val)[0].valueFull
+    },
+    changeVersion1 (val) {
+      console.log(val)
+      this.versionMonthTwoName = this.getVersionMonth.filter((item) => item.value === val)[0].valueFull
     },
     //仅看自己
     showOnlyMyselfData (val) {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2022-03-09 14:59:52
+ * @LastEditTime: 2022-03-10 16:43:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\theSearch.vue
@@ -124,6 +124,7 @@
           <iDatePicker v-model="value"
                        @change="handleChange"
                        type="daterange"
+                       format="yyyyMM"
                        range-separator="至"
                        start-placeholder="开始日期"
                        end-placeholder="结束日期">
