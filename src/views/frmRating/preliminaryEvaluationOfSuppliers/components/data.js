@@ -40,7 +40,7 @@ export const detailedScoreTableTitle = [
 //历史初评
 export const initialCommentOnHistoryTableTitle = [
   { props: 'createDate', name: '评级时间', key: 'SPR_FRM_XGYSPJ_PJSJ' },
-  { props: 'grade', name: '评级结果', key: 'SPR_FRM_XGYSPJ_PJJG' },
+  { props: 'afterGrade', name: '评级结果', key: 'SPR_FRM_XGYSPJ_PJJG' },
   { props: 'view', name: '评级明细', key: 'SPR_FRM_CBPJ_PJMX' },
   { props: 'effectFlag', name: '是否有效', key: 'SPR_FRM_CBPJ_SFYX' },
   { props: 'createBy', name: '评级人员', key: 'SPR_FRM_CBPJ_PJRY' }

@@ -1,111 +1,94 @@
 <template>
-  <div
-    v-permission.auto="MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE"
-    class="outFrame"
-  >
+  <div v-permission.auto="MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE"
+       class="outFrame">
     <!-- <div
     v-permission.auto="
       MTZ_REPORT_ANNUAL_BUDGET_DEPARTMENT
     "
     class="outFrame"
   > -->
-    <iButton
-      @click="handleDownPdf"
-      :loading="downloadLoading"
-      class="exportData"
-      >{{ $t('LK_DAOCHU') }}</iButton
-    >
+    <iButton @click="handleDownPdf"
+             :loading="downloadLoading"
+             class="exportData">{{ $t('LK_DAOCHU') }}</iButton>
     <div>
       <el-row :gutter="10">
-        <el-col :span="12" class="total">
+        <el-col :span="12"
+                class="total">
           <div class="flex-between-center-center card-header">
-            <iSelect
-              class="selectsize"
-              v-model="form['yearDropList']"
-              @change="selectYear"
-            >
-              <el-option
-                v-for="(item, index) in yearList"
-                :key="index"
-                :value="item.code"
-                :label="`${item.message} 年`"
-              />
+            <iSelect class="selectsize"
+                     v-model="form['year']"
+                     @change="selectYear">
+              <el-option v-for="(item, index) in yearList"
+                         :key="index"
+                         :value="item.code"
+                         :label="`${item.message} 年`" />
             </iSelect>
 
             <span>{{
               language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
             }}</span>
           </div>
-          <totalAmountComponent
-            :key="keyString"
-            :deptData="deptData"
-            :showEchart="showEchart"
-          />
+          <totalAmountComponent :key="keyString"
+                                :deptData="deptData"
+                                :showEchart="showEchart" />
         </el-col>
-        <el-col :span="12" class="totalTwo"
-          ><div class="dataList">
+        <el-col :span="12"
+                class="totalTwo">
+          <div class="dataList">
             <span class="lastYearData">{{
               language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
-            }}</span
-            ><span class="unit">{{
+            }}</span><span class="unit">{{
               language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
             }}</span>
           </div>
-          <dataComparisonLastYear
-            :key="keyString"
-            :deptData="deptData"
-            :showEchart="showEchart"
-          />
+          <dataComparisonLastYear :key="keyString"
+                                  :deptData="deptData"
+                                  :showEchart="showEchart" />
         </el-col>
       </el-row>
     </div>
 
-    <div ref="pdf" id="pdf">
-      <div class="pdf-name" id="pdf-name">
-        {{ form['yearDropList'] }}-MTZ年度预算-科室
+    <div ref="pdf"
+         id="pdf">
+      <div class="pdf-name"
+           id="pdf-name">
+        {{ form['year'] }}-MTZ年度预算-科室
       </div>
       <el-row :gutter="10">
-        <el-col :span="12" class="total">
+        <el-col :span="12"
+                class="total">
           <div class="flex-between-center-center card-header">
-            <iSelect
-              class="selectsize"
-              v-model="form['yearDropList']"
-              @change="selectYear"
-            >
-              <el-option
-                v-for="(item, index) in yearList"
-                :key="index"
-                :value="item.code"
-                :label="`${item.message} 年`"
-              />
+            <iSelect class="selectsize"
+                     v-model="form['year']"
+                     @change="selectYear">
+              <el-option v-for="(item, index) in yearList"
+                         :key="index"
+                         :value="item.code"
+                         :label="`${item.message} 年`" />
             </iSelect>
 
             <span>{{
               language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
             }}</span>
           </div>
-          <totalAmountComponent
-            :key="keyString"
-            :deptData="deptData"
-            :showEchart="showEchart"
-            chartId="chartTotal2"
-          />
+          <totalAmountComponent :key="keyString"
+                                :deptData="deptData"
+                                :showEchart="showEchart"
+                                chartId="chartTotal2" />
         </el-col>
-        <el-col :span="12" class="totalTwo"
-          ><div class="dataList">
+        <el-col :span="12"
+                class="totalTwo">
+          <div class="dataList">
             <span class="lastYearData">{{
               language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
-            }}</span
-            ><span class="unit">{{
+            }}</span><span class="unit">{{
               language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
             }}</span>
           </div>
-          <dataComparisonLastYear
-            :key="keyString"
-            :deptData="deptData"
-            :showEchart="showEchart"
-            chartId="chartData2"
-          />
+          <dataComparisonLastYear :key="keyString"
+                                  :deptData="deptData"
+                                  :showEchart="showEchart"
+                                  chartId="chartData2" />
         </el-col>
       </el-row>
     </div>
@@ -128,24 +111,26 @@ export default {
     dataComparisonLastYear,
     iButton
   },
-  data() {
+  data () {
     return {
       form: form,
       yearList: [], //年份数据
-      deptData: {lastYearPrice:'0.00',curYear:'',lastYear:''}, //金额数据
+      deptData: { lastYearPrice: '0.00', curYear: '', lastYear: '' }, //金额数据
       keyString: 0,
       showEchart: false,
       pdf: null,
       downloadLoading: false
     }
   },
-  created() {
+  async created () {
+    await this.getYearDropDown()
     this.queryYearBudgetDept()
-    this.getYearDropDown()
+
   },
   methods: {
     //数据查询
-    queryYearBudgetDept() {
+    queryYearBudgetDept () {
+      console.log(this.form, "==============")
       this.form.onlySeeMySelf = false
       yearBudgetDept(this.form)
         .then((res) => {
@@ -153,8 +138,8 @@ export default {
             this.deptData = res.data
             this.showEchart = true
             this.keyString += 1
-          }else{
-            this.deptData = {lastYearPrice:'0.00',curYear:'',lastYear:''}
+          } else {
+            this.deptData = { lastYearPrice: '0.00', curYear: '', lastYear: '' }
             this.showEchart = true
             this.keyString += 1
             this.$message.error(res.desZh)
@@ -163,48 +148,48 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-        
+
     },
     //获取年数据
-    getYearDropDown() {
-      yearDropDown(false)
+    async getYearDropDown () {
+      await yearDropDown(false)
         .then((res) => {
           this.yearList = res.data
           var year = new Date().getFullYear();
           var yearList = [];
-          res.data.forEach((e,index) => {
+          res.data.forEach((e, index) => {
             yearList.push({
               num: Math.abs(e.code - year),
               index: index
             })
           });
-          var minNumber =  Math.min.apply(Math, yearList.map(function(o) {return o.num}))
+          var minNumber = Math.min.apply(Math, yearList.map(function (o) { return o.num }))
           var message = 0;
-          for(var i=0;i<yearList.length;i++){
-            if(yearList[i].num == minNumber){
+          for (var i = 0; i < yearList.length; i++) {
+            if (yearList[i].num == minNumber) {
               message = yearList[i].index;
               break;
             }
           }
-          this.form['yearDropList'] = this.yearList[message].message
+          this.form['year'] = this.yearList[message].message
         })
         .catch((err) => {
           console.log(err)
         })
     },
     //选择年
-    selectYear(val) {
+    selectYear (val) {
       this.form.year = val
       this.queryYearBudgetDept()
     },
     //导出
-    handleDownPdf() {
+    handleDownPdf () {
       this.downloadPdf({
         idEle: 'pdf',
-        pdfName: `${this.form.yearDropList}-MTZ年度预算-科室`
+        pdfName: `${this.form.year}-MTZ年度预算-科室`
       })
     },
-    downloadPdf({ idEle: ele, pdfName: pdfName, callback: callback }) {
+    downloadPdf ({ idEle: ele, pdfName: pdfName, callback: callback }) {
       this.downloadLoading = true
       const el = document.getElementById(ele) //通过getElementById获取要导出的内容
 
@@ -283,7 +268,7 @@ export default {
         })
     }
   },
-  mounted() {
+  mounted () {
     this.pdf = this.$refs.pdf
   }
 }
