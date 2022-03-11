@@ -97,9 +97,9 @@
                 }
             },
             async del(){
-                this.$confirm('确定要删除吗?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.language('确定要删除该问题吗?'), this.language('提示'), {
+                    confirmButtonText: this.language('确定'),
+                    cancelButtonText: this.language('取消'),
                     type: 'warning'
                 }).then(async () => {
                     await delManual(this.detail.id)
