@@ -213,7 +213,7 @@ import { iCard, iButton, iMessage, iDialog, iSelectCustom } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from "@/utils/pageMixins"
 import { TABLE_COLUMS } from './data'
-import { balanceCalcuLate, chargeAgainstMTZComp, fetchQueryComp, fetchSaveComp, getDataList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import { balanceCalcuLate, chargeAgainstMTZComp, fetchQueryComp, fetchSaveComp, getDataList, mtzEditRecall } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 
 export default {
   name: "Search",
@@ -371,24 +371,40 @@ export default {
       if (this.muiltSelectList.length < 1) {
         return iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
       }
-      this.actAmtList = []
-      this.muiltSelectList.forEach((val) => {
-        this.tableData.forEach((v, i) => {
-          if (val.id === v.id) {
-            this.waitCompDocMoney = (Number(this.waitCompDocMoney) - Number(v.actAmt)).toFixed(2);
-            this.trueCompMoney = (Number(this.trueCompMoney) - Number(v.appAmt)).toFixed(2)
-            this.tableData.splice(i, 1)
-            this.selectDataList.push(val)
-          }
-        })
+      // this.actAmtList = []
+      // this.muiltSelectList.forEach((val) => {
+      //   this.tableData.forEach((v, i) => {
+      //     if (val.id === v.id) {
+      //       this.waitCompDocMoney = (Number(this.waitCompDocMoney) - Number(v.actAmt)).toFixed(2);
+      //       this.trueCompMoney = (Number(this.trueCompMoney) - Number(v.appAmt)).toFixed(2)
+      //       this.tableData.splice(i, 1)
+      //       this.selectDataList.push(val)
+      //     }
+      //   })
+      // })
+      // this.tableData.forEach(item => {
+      //   this.actAmtList.push(item.actAmt)
+      // })
+      // // this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
+      // // this.waitCompDocMoney = this.trueCompMoney
+      // this.$refs.multipleTable.clearSelection();
+      // iMessage.success("撤回成功！")
+
+      let params = []
+      this.muiltSelectList.forEach(item => {
+        params.push(item.id)
       })
-      this.tableData.forEach(item => {
-        this.actAmtList.push(item.actAmt)
+      mtzEditRecall(params).then(res => {
+        if (res.code === '200') {
+          iMessage.success(res.desZh)
+          this.getDataFunc(this.dataAll);
+          this.query()
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
-      // this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
-      // this.waitCompDocMoney = this.trueCompMoney
-      this.$refs.multipleTable.clearSelection();
-      iMessage.success("撤回成功！")
+
+
     },
     offset () {
       if (this.muiltSelectList.length === 0) {

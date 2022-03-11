@@ -233,7 +233,7 @@ import RelationalValidity from './components/relationalValidity'
 import {
   // getDeptData,
   mtzBasePricePage,
-  partTemplateUrl,
+  feignDownload,
   exportBaseData,
   getMtzMarketSourceList,
   mtzBasePriceEdit,
@@ -361,7 +361,7 @@ export default {
       this.$router.push('/partsRelationship')
     },
     handleSource (val) {
-      if(val.sourceCode == "初始化"){
+      if (val.sourceCode == "初始化") {
         return false;
       }
 
@@ -416,7 +416,7 @@ export default {
       this.mtzBasePricePage()
     },
     handleExportCurrent () {
-      partTemplateUrl().then(res => {
+      feignDownload('1491338755962384386').then(res => {
         if (res.data) {
           downloadUdFile(res.data)
         }
