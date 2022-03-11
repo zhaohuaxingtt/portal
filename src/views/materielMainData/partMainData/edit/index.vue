@@ -974,27 +974,35 @@ export default {
       params.baseUnitId = this.materielUnit //选择零件号id
       params.partInfoId = this.searchId //保存后返回的id
       params.vos = []
-      this.measureEditdata.map((item) => {
+      let isFill = this.measureEditdata.filter(item=>{
+        return !item.numeratorValue
+      })
+      if(isFill.length > 0){
+        this.$message.error(this.language('请输入计量单位转换关系数值'))
+      }else{
+        this.measureEditdata.map((item) => {
         params.vos.push({
           denominatorUnitId: item.denominatorUnitId,
           numeratorValue: item.numeratorValue
+          })
         })
-      })
-      saveUnitList(params)
-        .then((val) => {
-          if (val.code == 200) {
-            this.getUnitTableList()
-            this.$message.success('保存成功')
-          } else if (val.code == 1) {
-            this.$message.error(val.desZh)
-          }
-        })
-        .catch((err) => {
-          iMessage.error(err)
-        })
-        .finally(() => {
-          this.editStatus = true
-        })
+        saveUnitList(params)
+          .then((val) => {
+            if (val.code == 200) {
+              this.getUnitTableList()
+              this.$message.success('保存成功')
+            } else if (val.code == 1) {
+              this.$message.error(val.desZh)
+            }
+          })
+          .catch((err) => {
+            iMessage.error(err)
+          })
+          .finally(() => {
+            this.editStatus = true
+          })
+      }
+
     },
     async getProGroupOptions() {
       await getProGroupOptions()
@@ -1146,17 +1154,17 @@ export default {
       ],
       rules: {
         partNameZh: [
-          { required: true, message: '请输入零件中文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入零件中文名称'), trigger: 'blur' }
         ],
         partNameDe: [
-          { required: true, message: '请输入零件德文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入零件德文名称'), trigger: 'blur' }
         ],
-        bmgDesc: [{ required: true, message: '请输入BMG', trigger: 'blur' }],
-        zp: [{ required: true, message: '请输入ZP', trigger: 'blur' }],
+        bmgDesc: [{ required: true, message: this.language('请输入BMG'), trigger: 'blur' }],
+        zp: [{ required: true, message: this.language('请输入ZP'), trigger: 'blur' }],
         // drawingDate:[
         //     { required: true, message: '请选择时间', trigger: 'blur' },
         // ],
-        fgId: [{ required: true, message: '请选择专业组', trigger: 'blur' }],
+        fgId: [{ required: true, message: this.language('请选择专业组'), trigger: 'blur' }],
         partNum1: [{ required: true, message: ' ', trigger: 'blur' }],
         partNum2: [{ required: true, message: ' ', trigger: 'blur' }],
         partNum3: [{ required: true, message: ' ', trigger: 'blur' }],

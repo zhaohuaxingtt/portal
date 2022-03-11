@@ -79,7 +79,7 @@
         },
         methods: {
             async save(){
-                if(!this.content) return this.$message.warning("请输入内容")
+                if(!this.content) return this.$message.warning(this.language("请输入内容"))
                 try {
                     this.loading = true
                     await insertNewManual({
@@ -89,7 +89,7 @@
                         source:this.userType,
                         attachmentList: this.files
                     })
-                    this.$message.success("保存成功")
+                    this.$message.success(this.language("保存成功"))
                     this.type = "detail"
                     this.$emit("refresh")
                 } finally {

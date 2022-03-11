@@ -2,16 +2,16 @@
   <div class='mtz-select'>
     <i-search @sure="sure"
               @reset="reset">
-      <el-form label-position="top">
-        <el-form-item v-for="(x,index) in ruleQueryFormData"
-                      :key="index"
-                      :label="language(x.key,x.name)"
-                      class="SearchOption">
-          <i-input v-model="formData[x.props]"
-                   :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"></i-input>
-        </el-form-item>
-        <el-form-item :label="language('KESHI','科室')"
-                      class="SearchOption">
+      <iFormGroup label-position="top">
+        <iFormItem v-for="(x,index) in ruleQueryFormData"
+                   :key="index"
+                   :label="language(x.key,x.name)"
+                   class="SearchOption">
+          <iInput v-model="formData[x.props]"
+                  :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"></iInput>
+        </iFormItem>
+        <iFormItem :label="language('KESHI','科室')"
+                   class="SearchOption">
           <!-- <i-select
                     multiple
                     filterable
@@ -27,15 +27,16 @@
           <custom-select v-model="formData.buyerDeptId"
                          :user-options="departmentDrop"
                          multiple
+                         style="width:100%"
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="departNameEn"
                          value-member="departId"
                          value-key="departId" />
-        </el-form-item>
-        <el-form-item :label="language('SHICHANGJIALAIYUAN','市场价来源')"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem :label="language('SHICHANGJIALAIYUAN','市场价来源')"
+                   class="SearchOption">
           <!-- <i-select
                   multiple
                   filterable
@@ -53,15 +54,16 @@
           <custom-select v-model="formData.marketSource"
                          :user-options="getMtzMarketSourceListDrop"
                          multiple
+                         style="width:100%"
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-        <el-form-item :label="language('BUCHAZHOUQI','补差周期')"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem :label="language('BUCHAZHOUQI','补差周期')"
+                   class="SearchOption">
           <!-- <i-select
                   multiple
                   filterable
@@ -80,14 +82,15 @@
                          :user-options="sendersCycle"
                          filterable
                          multiple
+                         style="width:100%"
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="name"
                          value-member="id"
                          value-key="id" />
-        </el-form-item>
-        <el-form-item :label="language('SHIFOUSHENGXIAO','是否生效')"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem :label="language('SHIFOUSHENGXIAO','是否生效')"
+                   class="SearchOption">
           <!-- <i-select
                   v-model="formData.effectFlag"
                   :placeholder="language('QINGXUANZE', '请选择')"
@@ -98,12 +101,13 @@
                   </i-select> -->
           <custom-select v-model="formData.effectFlag"
                          :user-options="effectFlagDropDown"
+                         style="width:100%"
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-      </el-form>
+        </iFormItem>
+      </iFormGroup>
     </i-search>
 
     <iCard class="OrganizationTable">
@@ -164,6 +168,7 @@ import {
   iButton,
   iPagination,
   iFormItem,
+  iFormGroup,
   iDialog,
   iDatePicker,
   iMessage,
@@ -188,6 +193,7 @@ export default {
     iTableCustom,
     iPagination,
     iFormItem,
+    iFormGroup,
     iDialog,
     iDatePicker,
     Detail,
@@ -265,7 +271,6 @@ export default {
         buyerDeptId: [],
         marketSource: [],
         compensationPeriod: [],
-        effectFlag: [],
       }
       this.getList()
     },
@@ -324,9 +329,9 @@ export default {
     font-weight: bold;
   }
 }
-.SearchOption {
-  margin-bottom: 20px !important;
-}
+// .SearchOption {
+//   margin-bottom: 20px !important;
+// }
 .open-link-text {
   text-decoration: underline;
 }
@@ -337,5 +342,8 @@ export default {
   .open-link-text {
     text-decoration: underline;
   }
+}
+::v-deep .el-form-item {
+  flex-direction: column;
 }
 </style>

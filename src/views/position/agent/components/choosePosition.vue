@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="目标岗位"
+    :title="language('目标岗位')"
     :visible.sync="dialogFormVisible"
     width="80%"
     @close="onClose"

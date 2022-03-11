@@ -1,7 +1,7 @@
 <template>
   <iPage class="template">
     <pageHeader>
-      <span>已审批列表</span>
+      <span>{{language('已审批列表')}}</span>
       <div slot="actions">
         <actionHeader :todo-total="todoTotal" :task-type="1" />
       </div>
@@ -61,8 +61,7 @@ export default {
       taskType: 0,
       tableListData: [],
       tableExtraData: {
-        taskType: 0,
-        queryTable: this.getTableList
+        taskType: 0
       },
       tableTitle: [
         {
@@ -168,7 +167,7 @@ export default {
     }
   },
   created() {
-    this.getTableList()
+    // this.getTableList()
   },
   methods: {
     //打开详情页

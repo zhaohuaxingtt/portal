@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-08 14:47:25
+ * @LastEditTime: 2022-03-10 21:30:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -38,8 +38,8 @@
                               @change="handleChange"
                               type="daterange"
                               style="width:100%"
-                              format="yyyy-MM-dd"
-                              value-format="yyyy-MM-dd"
+                              format="yyyyMM"
+                              value-format="yyyyMM"
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期">
@@ -315,6 +315,8 @@ export default {
       this.mtzId = data.id
       this.searchForm.mtzDocId = data.bizNo
       getDataList(data.id).then(res => {
+
+
         this.searchForm.firstSupplierName = res.data.supplierSapNo + "-" + res.data.supplierName;//一次件供应商
         this.searchForm.secondSupplierList = res.data.sSupplier;//二次件供应商
         this.searchForm.materialKindList = res.data.mgroup;//材料中类
@@ -325,7 +327,8 @@ export default {
         this.searchForm.spartNo = res.data.sPart;//二次件零件号
         this.searchForm.isEffAvg = res.data.isEffAvg || "";//是否取市场均值
         if (res.data.offsetFrom && res.data.offsetTo) this.searchForm.value1 = [res.data.offsetFrom.substring(0, 4) + "-" + res.data.offsetFrom.substring(4, 6), res.data.offsetTo.substring(0, 4) + "-" + res.data.offsetTo.substring(4, 6)]//市场价偏移区间
-        this.value = [res.data.monthFrom.substring(0, 4) + "-" + res.data.monthFrom.substring(4, 6) + "-00", res.data.monthTo.substring(0, 4) + "-" + res.data.monthTo.substring(4, 6) + "-00"]//
+        // this.value = [res.data.monthFrom.substring(0, 4) + "-" + res.data.monthFrom.substring(4, 6) + "-00", res.data.monthTo.substring(0, 4) + "-" + res.data.monthTo.substring(4, 6) + "-00"]
+        this.value = [res.data.monthFrom, res.data.monthTo]
         this.waitCompDocMoney = res.data.invoiceAmt;
         this.trueCompMoney = res.data.approvedAmt;
       })
@@ -372,6 +375,8 @@ export default {
       this.muiltSelectList.forEach((val) => {
         this.tableData.forEach((v, i) => {
           if (val.id === v.id) {
+            this.waitCompDocMoney = (Number(this.waitCompDocMoney) - Number(v.actAmt)).toFixed(2);
+            this.trueCompMoney = (Number(this.trueCompMoney) - Number(v.appAmt)).toFixed(2)
             this.tableData.splice(i, 1)
             this.selectDataList.push(val)
           }
@@ -397,6 +402,7 @@ export default {
       chargeAgainstMTZComp(params).then(res => {
         if (res.code === '200') {
           iMessage.success(res.desZh)
+          this.getDataFunc(this.dataAll);
           this.query()
         } else {
           iMessage.error(res.desZh)

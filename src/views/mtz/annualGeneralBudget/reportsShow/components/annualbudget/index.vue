@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2021-12-24 15:14:51
- * @LastEditTime: 2021-12-27 17:24:32
+ * @LastEditTime: 2022-03-09 18:26:55
  * @LastEditors: YoHo
  * @Description: 
 -->
@@ -71,9 +71,9 @@ export default {
     }
   },
   beforeRouteEnter:(to,from,next)=>{
-    if(to.name == "materialGroup"){
+    if(to.name == "classMaterial"){
       store.commit("mtzAnnualBudgetNav", 1);
-    }else if(to.name == "classMaterial"){
+    }else if(to.name == "materialGroup"){
       store.commit("mtzAnnualBudgetNav", 2);
     }else if(to.name == "department"){
       store.commit("mtzAnnualBudgetNav", 3);
@@ -92,10 +92,10 @@ export default {
     // }
 
 
-    if (this.$route.name == 'materialGroup') {
+    if (this.$route.name == 'classMaterial') {
       this.tab = '1'
     }
-    if (this.$route.name == 'classMaterial') {
+    if (this.$route.name == 'materialGroup') {
       this.tab = '2'
     }
     if (this.$route.name == 'department') {

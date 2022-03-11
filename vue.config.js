@@ -12,9 +12,9 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-// const BASE_IP = 'http://rise-nginx-internal.apps.vmocp-uat.csvw.com'
+const BASE_IP = 'rise-nginx-internal.apps.vmocp-uat.csvw.com'
 // const BASE_IP = '10.122.18.166'
-const BASE_IP = '10.122.17.38'
+// const BASE_IP = '10.122.17.38'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -171,8 +171,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        target: `http://${BASE_IP}:8012/approval`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/approval/`,
+        // target: `http://${BASE_IP}:8012/approval`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -208,7 +208,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://${BASE_IP}:8044/risemessage`,
+        // target: `http://${BASE_IP}:8044/risemessage`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/risemessageApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''

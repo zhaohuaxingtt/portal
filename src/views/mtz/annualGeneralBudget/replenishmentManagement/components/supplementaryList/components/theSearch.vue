@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2022-03-08 10:26:45
+ * @LastEditTime: 2022-03-10 16:43:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\theSearch.vue
@@ -124,6 +124,7 @@
           <iDatePicker v-model="value"
                        @change="handleChange"
                        type="daterange"
+                       format="yyyyMM"
                        range-separator="至"
                        start-placeholder="开始日期"
                        end-placeholder="结束日期">
@@ -311,6 +312,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-form-item {
+  margin-right: 20px;
+}
 // ::v-deep .el-date-editor .el-range-separator {
 //   width: 8%;
 //   line-height: 26px;
@@ -324,5 +328,10 @@ export default {
 // .el-date-editor--timerange.el-input__inner {
 //   width: 260px;
 // }
+</style>
+<style lang="scss">
+.el-form-item {
+  margin-right: 20px !important;
+}
 </style>
   

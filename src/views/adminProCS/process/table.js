@@ -1,3 +1,4 @@
+import language from "@/utils/language"
 
 export default [
     {
@@ -33,7 +34,7 @@ export default [
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateState}) => {
 			return <div on-click={e => e.stopPropagation()}>
-				<el-switch value={ row.published } active-text="上架" inactive-text="下架" on-change={ e => updateState(e,$index,row)}></el-switch>
+				<el-switch value={ row.published } active-text={language('上架')} inactive-text={language('下架')} on-change={ e => updateState(e,$index,row)}></el-switch>
 			</div>
 		}
 	},
@@ -43,7 +44,7 @@ export default [
 		align: 'center',
 		customRender: (h, {row,$index}, col,{updateMsg}) => {
 			return <div on-click={e => e.stopPropagation()}>
-				 <el-switch value={ row.send } active-text="是" disabled={row.published} inactive-text="否" on-change={ e => updateMsg(e,$index)}></el-switch>
+				 <el-switch value={ row.send } active-text={language("是")} disabled={row.published} inactive-text={language("否")} on-change={ e => updateMsg(e,$index)}></el-switch>
 			</div>
 		}
 	},

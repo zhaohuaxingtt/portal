@@ -1,132 +1,105 @@
 <!--差异原因分析--->
 <template>
-  <div
-    class="OuterFrame"
-    v-permission="
+  <div class="OuterFrame"
+       v-permission="
       'MTZ_REPORT_MONTHLY_TRACKING_ANALYSIS_CAUSES_DIFFERENCES_PAGE'
-    "
-  >
-    <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
+    ">
+    <iSearch class="OuterIsearch"
+             @sure="sure"
+             @reset="reset">
       <el-form>
         <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
-          <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['mtzMaterialNumber']"
-          >
-            <el-option
-              value=""
-              :label="$t('all') | capitalizeFilter"
-            ></el-option>
-            <el-option
-              v-for="(item, index) in MtzMaterialList"
-              :key="index"
-              :value="item.materialGroupCode"
-              :label="item.materialGroupNameZh"
-            />
+          <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                   v-model="form['mtzMaterialNumber']">
+            <el-option value=""
+                       :label="$t('all') | capitalizeFilter"></el-option>
+            <el-option v-for="(item, index) in MtzMaterialList"
+                       :key="index"
+                       :value="item.materialGroupCode"
+                       :label="item.materialGroupNameZh" />
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_CAILIAOZHONGLEI', '材料中类')">
-          <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['materialMediumNum']"
-          >
-            <el-option
-              value=""
-              :label="$t('all') | capitalizeFilter"
-            ></el-option>
-            <el-option
-              v-for="(item, index) in MaterialMediumList"
-              :key="index"
-              :value="item.value"
-              :label="item.label"
-            />
+          <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                   v-model="form['materialMediumNum']">
+            <el-option value=""
+                       :label="$t('all') | capitalizeFilter"></el-option>
+            <el-option v-for="(item, index) in MaterialMediumList"
+                       :key="index"
+                       :value="item.value"
+                       :label="item.label" />
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_BIJIAOBANBEN', '比较版本')">
-          <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form['versionMonthOne']"
-          >
-            <el-option
-              v-for="(item, index) in getVersionMonth"
-              :key="index"
-              :value="item.value"
-              :label="item.value"
-            />
+          <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                   v-model="form['versionMonthOne']"
+                   @change="changeVersion">
+            <el-option v-for="(item, index) in getVersionMonth"
+                       :key="index"
+                       :value="item.value"
+                       :label="item.valueFull" />
           </iSelect>
         </el-form-item>
         <div class="backgroundBox"></div>
         <el-form-item label="  ">
-          <iSelect
-            :placeholder="$t('LK_QINGXUANZE')"
-            class="compareTwo"
-            v-model="form['versionMonthTwo']"
-          >
-            <el-option
-              v-for="(item, index) in getVersionMonth"
-              :key="index"
-              :value="item.value"
-              :label="item.value"
-            />
+          <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                   class="compareTwo"
+                   v-model="form['versionMonthTwo']"
+                   @change="changeVersion1">
+            <el-option v-for="(item, index) in getVersionMonth"
+                       :key="index"
+                       :value="item.value"
+                       :label="item.valueFull" />
           </iSelect>
         </el-form-item>
         <div class="showMe">
           <span>{{ language('只看自己 ') }}</span>
-          <el-switch
-            v-model="form['onlySeeMySelf']"
-            @change="showOnlyMyselfData($event)"
-            active-color="#1660F1"
-            inactive-color="#cccccc"
-          >
+          <el-switch v-model="form['onlySeeMySelf']"
+                     @change="showOnlyMyselfData($event)"
+                     active-color="#1660F1"
+                     inactive-color="#cccccc">
           </el-switch>
         </div>
 
         <span class="monthlyCompare">{{
           language('LK_YUEFENBIJIAO', '月份比较')
         }}</span>
-        <el-date-picker
-          class="monthlyPosition"
-          v-model="form['yearMonthOne']"
-          type="month"
-          value-format="yyyyMM"
-          placeholder="开始月份"
-          :picker-options="startpickerOptions"
-        >
+        <el-date-picker class="monthlyPosition"
+                        v-model="form['yearMonthOne']"
+                        type="month"
+                        value-format="yyyyMM"
+                        placeholder="开始月份"
+                        :picker-options="startpickerOptions">
         </el-date-picker>
-        <el-date-picker
-          class="monthlyPositionTwo"
-          v-model="form['yearMonthTwo']"
-          type="month"
-          value-format="yyyyMM"
-          placeholder="结束月份"
-          :picker-options="endpickerOptions"
-        >
+        <el-date-picker class="monthlyPositionTwo"
+                        v-model="form['yearMonthTwo']"
+                        type="month"
+                        value-format="yyyyMM"
+                        placeholder="结束月份"
+                        :picker-options="endpickerOptions">
         </el-date-picker>
       </el-form>
     </iSearch>
     <iCard>
       <div class="listDetails">
         <span>{{ language('LK_XIANGQINGLIEBIAO', '详情列表') }}</span>
-        <iButton @click="exportData" class="exportPosition">{{
+        <iButton @click="exportData"
+                 class="exportPosition">{{
           $t('LK_DAOCHU')
         }}</iButton>
       </div>
-      <detailsList
-        :differenceAnalysis="differenceAnalysis"
-        :dataTitle="dataTitle"
-        :dataTitleTwo="dataTitleTwo"
-        :loading="loading"
-      />
-      <iPagination
-        @current-change="handleCurrentChange($event, getdifferenceAnalysis)"
-        @size-change="handleSizeChange($event, getdifferenceAnalysis)"
-        background
-        :current-page="page.currPage"
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :total="page.totalCount"
-      />
+      <detailsList :differenceAnalysis="differenceAnalysis"
+                   :dataTitle="dataTitle"
+                   :dataTitleTwo="dataTitleTwo"
+                   :loading="loading" />
+      <iPagination @current-change="handleCurrentChange($event, getdifferenceAnalysis)"
+                   @size-change="handleSizeChange($event, getdifferenceAnalysis)"
+                   background
+                   :current-page="page.currPage"
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :total="page.totalCount" />
     </iCard>
   </div>
 </template>
@@ -154,7 +127,7 @@ export default {
     detailsList,
     iPagination
   },
-  data() {
+  data () {
     return {
       form: form,
       MtzMaterialList: [], //MTZ材料组数据
@@ -167,6 +140,8 @@ export default {
       dataTitle: '', //时间title
       dataTitleTwo: '',
       currentMonth: '', //当前月份
+      versionMonthOneName: "",
+      versionMonthTwoName: "",
       startpickerOptions: {
         disabledDate: (time) => {
           const e = this.form.yearMonthTwo
@@ -215,14 +190,14 @@ export default {
       loading: false
     }
   },
-  created() {
+  created () {
     this.MtzMaterial()
     this.MaterialMedium()
     this.getVersionDataList()
   },
   methods: {
     //MTZ材料组
-    MtzMaterial() {
+    MtzMaterial () {
       queryMtzMaterial()
         .then((res) => {
           this.MtzMaterialList = res.data
@@ -232,7 +207,7 @@ export default {
         })
     },
     //材料中类
-    MaterialMedium() {
+    MaterialMedium () {
       queryMaterialMedium()
         .then((res) => {
           const data = res.data
@@ -249,13 +224,15 @@ export default {
         })
     },
     //比较版本
-    getVersionDataList() {
+    getVersionDataList () {
       getVersionData(this.versionMonth)
         .then((res) => {
           this.getVersionMonth = res.data || []
           if (this.getVersionMonth.length) {
             this.form['versionMonthOne'] = this.getVersionMonth[0].value
             this.form['versionMonthTwo'] = this.getVersionMonth[0].value
+            this.versionMonthOneName = this.getVersionMonth[0].valueFull
+            this.versionMonthTwoName = this.getVersionMonth[0].valueFull
             this.form['yearMonthOne'] = this.getVersionMonth[0].lastLastMonth
             this.form['yearMonthTwo'] = this.getVersionMonth[0].lastMonth
           }
@@ -268,7 +245,7 @@ export default {
     },
 
     //获取列表数据
-    getdifferenceAnalysis() {
+    getdifferenceAnalysis () {
       this.loading = true
       this.form.pageNo = this.page.currPage
       this.form.pageSize = this.page.pageSize
@@ -283,8 +260,8 @@ export default {
             this.form['yearMonthOne'] == null &&
             this.form['yearMonthTwo'] == null
           ) {
-            this.dataTitle = form['versionMonthOne']
-            this.dataTitleTwo = form['versionMonthTwo']
+            this.dataTitle = this.versionMonthOneName
+            this.dataTitleTwo = this.versionMonthTwoName
           } else {
             let dataTransform = this.form['yearMonthOne']
               ? moment(this.form['yearMonthOne']).format('yyyy-MM')
@@ -292,12 +269,10 @@ export default {
             let dataTransformTwo = this.form['yearMonthTwo']
               ? moment(this.form['yearMonthTwo']).format('yyyy-MM')
               : ''
-            this.dataTitle = `${this.form['versionMonthOne']}${
-              dataTransform && '-'
-            }${dataTransform}`
-            this.dataTitleTwo = `${this.form['versionMonthTwo']}${
-              dataTransformTwo && '-'
-            }${dataTransformTwo}`
+            this.dataTitle = `${this.versionMonthOneName}${dataTransform && '-'
+              }${dataTransform}`
+            this.dataTitleTwo = `${this.versionMonthTwoName}${dataTransformTwo && '-'
+              }${dataTransformTwo}`
           }
         })
         .catch((err) => {
@@ -307,7 +282,7 @@ export default {
     },
 
     //重置查询条件
-    reset() {
+    reset () {
       for (let i in this.form) {
         if (i !== 'onlySeeMySelf') {
           this.form[i] = ''
@@ -315,16 +290,24 @@ export default {
         this.getVersionDataList()
       }
     },
-    sure() {
+    sure () {
       this.getdifferenceAnalysis()
     },
+    changeVersion (val) {
+      console.log(this.getVersionMonth.filter((item) => item.value === val))
+      this.versionMonthOneName = this.getVersionMonth.filter((item) => item.value === val)[0].valueFull
+    },
+    changeVersion1 (val) {
+      console.log(val)
+      this.versionMonthTwoName = this.getVersionMonth.filter((item) => item.value === val)[0].valueFull
+    },
     //仅看自己
-    showOnlyMyselfData(val) {
+    showOnlyMyselfData (val) {
       this.form.onlySeeMySelf = val
       this.getdifferenceAnalysis()
     },
     //导出
-    exportData() {
+    exportData () {
       this.form.pageNo = 1
       this.form.pageSize = 999999
       this.form.versionOneName = this.form['versionMonthOne']

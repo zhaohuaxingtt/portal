@@ -1,20 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2021-10-27 21:42:09
- * @LastEditTime: 2021-12-02 17:18:16
+ * @LastEditTime: 2022-03-03 14:53:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\data.js
  */
 export const TABLE_COLUMNS = [
   {
+    type: 'selection',
+    width: '60px'
+  },
+  {
     type: 'index',
     width: '60px',
     label: '#'
-  },
-  {
-    type: 'selection',
-    width: '60px'
   },
   {
     prop: 'assemblyPartnum',
@@ -164,13 +164,13 @@ export const TABLE_COLUMNS = [
 
 export const TABLE_COLUMNS1 = [
   {
+    type: 'selection',
+    width: '60px'
+  },
+  {
     type: 'index',
     width: '60px',
     label: '#'
-  },
-  {
-    type: 'selection',
-    width: '60px'
   },
   {
     prop: 'approvalUser',

@@ -140,11 +140,15 @@ export default {
       }
     },
     supplier360ViewVO (data) {
-      console.log(data)
-      this.info = data
+      if (data) {
+        this.$parent.$parent.$parent.pageLoading = true
+        this.$parent.onLoading = true
+        this.info = data
+        this.getTags()
+      }
       //    this.nameZh=data.nameZh
       //    this.nameEn=data.nameEn
-      this.getTags()
+
     }
   },
   created () { },
@@ -160,11 +164,12 @@ export default {
       }
       const res = await getTags(pms)
       if (res.result) {
+        this.$parent.$parent.$parent.pageLoading = false
+        this.$parent.onLoading = false
         this.tagList = res.data
       }
     },
     handleShareholder () {
-      console.log(this.info)
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {

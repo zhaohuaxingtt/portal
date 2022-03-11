@@ -492,14 +492,20 @@ export default {
   SAPORGONGYINGSHANGMINGCHENG: 'SAP No./Supplier Name',
   NINGFUZEDEGONGYINGSHANGWUYIBEILIERUZHONGDAINZHUIZONGMINGDAN:
     'None of the key suppliers you are responsible for has been listed in the key tracking list',
+  GAIGONGYINGSHANGCHANNENGZHUANGKUANGLIANGHAO:
+    "The supplier's capacity is in good condition",
   YIBANGONGYINGSHANG: 'General Supplier',
   SHENGCHANGONGYINGSHANG: 'Proc. Supplier',
+  DANGQIANMEIYOUCHUPINMOBAN:
+    'There is currently no preliminary evaluation template',
   SHURUCHAXUNGONGYINGSHANGMINGCHENG: 'Please enter supplier name',
   '加⼊重点追踪时间': 'Add Focus-tracking Time',
   移除重点追踪时间: 'Remove Focus-tracking Time',
   措施详情: 'Measure Detail',
   '加⼊原因': 'Add Reason',
   JIARUYUANYIN: 'Add Reason',
+  GONGYINGSHANGCAIWUZHUANGKUANGLIANGHAO:
+    'The supplier is in good financial condition',
   SPACODE: 'SAP No.',
   ZHONGDIANZHUIZONGJILU: 'Key Tracking Record',
   CREATEDATA: 'Key Tracking Join Time',

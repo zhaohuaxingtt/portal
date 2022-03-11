@@ -809,56 +809,56 @@ export default {
       },
       rules: {
         cartypeProjectCode: [
-          { required: true, message: '请输入车型项目编号', trigger: 'blur' }
+          { required: true, message: this.language('请输入车型项目编号'), trigger: 'blur' }
         ],
         cartypeProjectZh: [
-          { required: true, message: '请输入车型项目中文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入车型项目中文名称'), trigger: 'blur' }
         ],
         cartypeProjectEn: [
-          { required: true, message: '请输入车型项目英文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入车型项目英文名称'), trigger: 'blur' }
         ],
         cartypeProType: [
-          { required: true, message: '请选择车型项目类型', trigger: 'blur' }
+          { required: true, message: this.language('请选择车型项目类型'), trigger: 'blur' }
         ],
         carProTypeCode: [
-          { required: true, message: '请选择燃料类型', trigger: 'blur' }
+          { required: true, message: this.language('请选择燃料类型'), trigger: 'blur' }
         ],
         factoryNameStr: [
-          { required: true, message: '请选择生产工厂', trigger: 'blur' }
+          { required: true, message: this.language('请选择生产工厂'), trigger: 'blur' }
         ],
         cartypeId: [
-          { required: true, message: '请输入车型项目编', trigger: 'blur' }
+          { required: true, message: this.language('请输入车型项目编'), trigger: 'blur' }
         ],
-        werk: [{ required: true, message: '请选择生产工厂', trigger: 'blur' }],
+        werk: [{ required: true, message: this.language('请选择生产工厂'), trigger: 'blur' }],
         sopDate: [
-          { required: true, message: '请选择SOP时间', trigger: 'blur' }
+          { required: true, message: this.language('请选择SOP时间'), trigger: 'blur' }
         ],
         /* eopDate: [
           { required: true, message: '请选择EOP时间', trigger: 'blur' }
         ], */
         projectPurchaser: [
-          { required: true, message: '请选择项目采购员', trigger: 'change' }
+          { required: true, message: this.language('请选择项目采购员'), trigger: 'change' }
         ],
         areaController: [
-          { required: true, message: '请选择区域控制员', trigger: 'change' }
+          { required: true, message: this.language('请选择区域控制员'), trigger: 'change' }
         ],
         projectManager: [
-          { required: true, message: '请选择产品经理', trigger: 'change' }
+          { required: true, message: this.language('请选择产品经理'), trigger: 'change' }
         ],
         cartypeNameZh: [
-          { required: true, message: '请选择车型', trigger: 'blur' }
+          { required: true, message: this.language('请选择车型'), trigger: 'blur' }
         ],
         beginTime: [
-          { required: true, message: '请选择开始时间', trigger: 'blur' }
+          { required: true, message: this.language('请选择开始时间'), trigger: 'blur' }
         ],
         /* closeTime: [
           { required: true, message: '请选择关闭时间', trigger: 'blur' }
         ], */
         publishStatus: [
-          { required: true, message: '请选择发布状态', trigger: 'blur' }
+          { required: true, message: this.language('请选择发布状态'), trigger: 'blur' }
         ],
         isValid: [
-          { required: true, message: '请选择是否有效', trigger: 'blur' }
+          { required: true, message: this.language('请选择是否有效'), trigger: 'blur' }
         ]
       },
       saveLoading: false

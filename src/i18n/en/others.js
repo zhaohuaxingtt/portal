@@ -35,5 +35,8 @@ export default {
     请输入系统URL:'Please enter system URL',
     '长度在 100 个字符内':'Within 100 characters in length',
     请选择系统标签:'Please select system tag',
-    '请输入App Code':'Please enter APP Code'
+    '请输入App Code':'Please enter APP Code',
+    'Top 5 iAgree':'同意的前五名',
+    编辑流程:'Edit Process',
+    '此操作将永久删除该模板, 是否继续?':'This operation will permanently delete this template. Do you want to continue? '
 }
