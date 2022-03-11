@@ -989,15 +989,22 @@ export default {
         : []
       this.queryEdit(userIdsArr).then((currentSearchUserData) => {
         this.initSelectArr = [...currentSearchUserData]
+        console.log(this.selectedTableData[0].category);
         if (this.selectedTableData[0].category === '03') {
+          console.log(this.approvalProcess,this.selectedTableData[0]);
           this.ruleForm = {
             ...this.selectedTableData[0],
             userIds: currentSearchUserData,
+            //判断是否为空
             approvalProcessName: this.approvalProcess.find((item) => {
               return (
                 item.modelId === this.selectedTableData[0].approvalProcessId
               )
-            }).modelName
+            }) ? this.approvalProcess.find((item) => {
+              return (
+                item.modelId === this.selectedTableData[0].approvalProcessId
+              )
+            }).modelName:''
           }
         } else {
           this.ruleForm = {
