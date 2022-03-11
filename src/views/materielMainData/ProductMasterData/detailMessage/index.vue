@@ -274,13 +274,13 @@ export default {
       placeholderText: '请输入',
       rules: {
         code: [
-          { required: true, message: '请输入产品组编号', trigger: 'blur' }
+          { required: true, message: this.language('请输入产品组编号'), trigger: 'blur' }
         ],
         pgNameZh: [
-          { required: true, message: '请输入产品组中文名称', trigger: 'blur' }
+          { required: true, message:this.language( '请输入产品组中文名称'), trigger: 'blur' }
         ],
         pgNameDe: [
-          { required: true, message: '请输入产品组德文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入产品组德文名称'), trigger: 'blur' }
         ]
         // releaseNomiWeek:[{validator:validatePass,trigger:'blur'}],
         // nomiToBffWeek:[{validator:validatePass,trigger:'blur'}],

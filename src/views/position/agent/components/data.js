@@ -1,3 +1,5 @@
+import language from "@/utils/language"
+
 export const choosePositionForm = {
   code: '',  //岗位编码
   fullNameZh: '', //岗位名称
@@ -34,7 +36,7 @@ export const choosePositionColumns = [
     label: '选择',
     emit: 'select',
     customRender: (h, scope) => {
-      return <iButton>选择</iButton>
+      return <iButton>{language('选择')}</iButton>
     },
   },
 ]

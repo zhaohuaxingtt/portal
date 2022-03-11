@@ -5,7 +5,7 @@
         <div>
           <div class="form-topic-title">
             <img :src="surveyTopic" />
-            <h2 style="margin-left: 1rem">题型</h2>
+            <h2 style="margin-left: 1rem">{{language('题型')}}</h2>
           </div>
           <div class="list-group">
             <div

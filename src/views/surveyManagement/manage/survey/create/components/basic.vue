@@ -20,7 +20,7 @@
                 ></iLabel>
                 <iSelect
                   v-model="basicRuleForm.surveyModel"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                   style="width: 15rem"
                 >
                   <el-option
@@ -43,7 +43,7 @@
                 ></iLabel>
                 <iSelect
                   v-model="basicRuleForm.type"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                   style="width: 15rem"
                 >
                   <el-option
@@ -59,7 +59,7 @@
             <div class="form-item-row1-col3">
               <iFormItem label="问卷截止时间" prop="endTime">
                 <iLabel
-                  :label="$t('问卷截止时间')"
+                  :label="language('问卷截止时间')"
                   slot="label"
                   required
                   style="width: 9.75rem"
@@ -77,7 +77,7 @@
                   type="datetime"
                   value-format="yyyy-MM-dd HH:mm:ss"
                   format="yyyy-MM-dd HH:mm"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                   default-time="23:59:59"
                   style="width: 322px"
                   @change="handle"
@@ -110,7 +110,7 @@
           <div class="form-item-row1-col3">
             <iFormItem label="问卷说明" prop="surveyDescription">
               <iLabel
-                :label="$t('问卷说明')"
+                :label="language('问卷说明')"
                 slot="label"
                 style="width: 7.75rem"
               ></iLabel>
@@ -129,7 +129,7 @@
           <div class="form-item-row1-col3">
             <iFormItem label="结束语" prop="closing">
               <iLabel
-                :label="$t('结束语')"
+                :label="language('结束语')"
                 slot="label"
                 style="width: 7.75rem"
               ></iLabel>
@@ -149,7 +149,7 @@
             <div class="form-item-row1-col3">
               <iFormItem label="投放范围" prop="putoutRange">
                 <iLabel
-                  :label="$t('投放范围')"
+                  :label="language('投放范围')"
                   slot="label"
                   style="width: 7.75rem"
                   required
@@ -190,7 +190,7 @@
         <el-row class="inputSixty">
           <iFormItem label="上传封面" prop="surveyCover">
             <iLabel
-              :label="$t('上传封面')"
+              :label="language('上传封面')"
               slot="label"
               required
               style="width: 7.75rem"
@@ -232,10 +232,10 @@
                     class="upload-button"
                     :uploadLoading="uploadLoading"
                   >
-                    上传图片
+                    {{language('上传图片')}}
                   </iButton>
                   <div slot="tip" class="el-upload__tip">
-                    建议使用宽16:9的图片｜单张图片最大不超过15M容量
+                    {{language('建议使用宽16:9的图片｜单张图片最大不超过15M容量')}}
                   </div>
                 </el-upload>
                 <div

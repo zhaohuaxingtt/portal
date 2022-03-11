@@ -3432,7 +3432,7 @@ export default {
   'staffManagement.MOBILEPHONE': 'staffManagement.MOBILEPHONE',
   'staffManagement.PHONE': 'staffManagement.PHONE',
   组织管理: 'Group Mgmt.',
-  岗位管理: 'Role Mgmt.',
+  岗位管理: 'Position Mgmt.',
   员工用户管理: 'Emlp. User Mgmt.',
   角色管理: 'Role Mgmt.',
   会议管理大厅: 'Meeting Mgmt. Hall',
