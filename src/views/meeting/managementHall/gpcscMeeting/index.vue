@@ -1116,11 +1116,11 @@ export default {
       updateDateNEWDialog:false,
       resultObj:{
         '01': '待定',
-        '02': '通过',
-        '03': '预备会议通过',
-        '04': '不通过',
-        '05': 'Last Call',
-        '06': '分段定点'
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
       },
       openError: false,
       errorList: [],
@@ -2056,7 +2056,6 @@ export default {
         })
  
       }else{
-        debugger
         this.openDialog('openProtectConclusion')
       }
       return

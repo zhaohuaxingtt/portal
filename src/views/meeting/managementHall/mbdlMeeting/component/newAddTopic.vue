@@ -17,7 +17,6 @@
     :close-on-click-modal="false"
     @close="close"
   >
-  12312
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
