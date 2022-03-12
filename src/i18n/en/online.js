@@ -496,8 +496,7 @@ export default {
     "The supplier's capacity is in good condition",
   YIBANGONGYINGSHANG: 'General Supplier',
   SHENGCHANGONGYINGSHANG: 'Proc. Supplier',
-  DANGQIANMEIYOUCHUPINMOBAN:
-    'There is currently no preliminary evaluation template',
+ 
   SHURUCHAXUNGONGYINGSHANGMINGCHENG: 'Please enter supplier name',
   '加⼊重点追踪时间': 'Add Focus-tracking Time',
   移除重点追踪时间: 'Remove Focus-tracking Time',
