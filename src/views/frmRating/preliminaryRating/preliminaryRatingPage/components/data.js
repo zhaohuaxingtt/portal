@@ -44,7 +44,7 @@ export const tableTitle = [
     }
   },
   {
-    prop: 'externalAccessAcore',
+    prop: 'externalEvaluationLevel',
     label: '外评',
     li8n: 'SPR_FRM_FRMGL_WP1',
     width: 120,
