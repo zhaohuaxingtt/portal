@@ -25,7 +25,7 @@
           <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_EXPORT"
                     @click="exportsTable"
                     v-else-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
-          <i-button @click="saveTable">{{language('BAOCUN','保存')}}</i-button>
+          <i-button @click="saveTable" v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_SAVE">{{language('BAOCUN','保存')}}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
