@@ -216,7 +216,6 @@
 
     mounted() {
         // getEklPbil().then(res=>{
-            
         // })
         // console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
       if(this.pfjgly) {
