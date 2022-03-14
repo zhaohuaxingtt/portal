@@ -5,7 +5,7 @@
         class="text"
         :class="{ textActive: current === index + 1 }"
         @click="changeCurrent(index + 1)"
-        :v-permission="item.permission"
+        v-permission="item.permission"
       >
         {{ item.key ? $t(item.key) : item.title }}
         <span v-if="item.required" :class="{ required: current === index + 1 }"
@@ -15,7 +15,7 @@
       <div
         class="divider"
         v-if="index !== list.length - 1"
-        :v-permission="item.permission"
+        v-permission="item.permission"
       ></div>
     </div>
   </div>
