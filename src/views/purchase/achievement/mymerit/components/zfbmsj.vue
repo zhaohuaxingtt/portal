@@ -3,7 +3,8 @@
 </template>
 
 <script>
-  import {getPowerBiVal} from '@/api/achievement'
+  import {getPowerBiVal} from '@/api/achievement';
+  import { EKL_BAOBIAO_PARAMS } from '@/constants';
   import * as pbi from 'powerbi-client';
 
   export default {
@@ -14,9 +15,9 @@
           cleintId: '66e3fa4b-152e-4bfb-8a9d-18b820459df1',
           tenantId: '8716a3b9-b827-484b-92ad-ed90aaf4d707',
           clientSecret: '6cpyeTY~dAmL-Uub2X8Om30Mm2EUk-d.TS',
-          workspaceId: process.env.NODE_ENV !== 'UAT' ? 'c272ae69-a6b4-4407-bd0e-f67953de36ce' : '876776a9-f959-442e-a011-b4bade0dd862',
-          reportId: process.env.NODE_ENV !== 'UAT' ? '9b62a0e4-8ef9-425f-a862-e0c9325a63ba' : 'bcf59da6-3518-4db7-bffc-cf5d434d34ae',
-          datasets: process.env.NODE_ENV !== 'UAT' ? ['c00c0ef7-778c-41ee-8960-90e504abd70b']:['c00c0ef7-778c-41ee-8960-90e504abd70b'],
+          workspaceId: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].zfbmsj.workspaceId,
+          reportId: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].zfbmsj.reportId,
+          datasets: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].zfbmsj.datasets,
           username: '',
           roles: [],
         },
