@@ -22,7 +22,6 @@
       }
     },
     mounted() {
-      console.log(process.env, this.workspaceId)
       this.$emit('getData', this.formData)
     },
 
