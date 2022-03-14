@@ -3,8 +3,8 @@
     <iCard class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="top">
-          <div class="survey">问卷明细</div>
-          <iButton @click="handleAdd">{{ "新建" }}</iButton>
+          <div class="survey">{{language('问卷明细')}}</div>
+          <iButton @click="handleAdd">{{ language("新建") }}</iButton>
         </div>
       </div>
       <iTableML
@@ -13,12 +13,12 @@
         :tableLoading="tableLoading"
       >
         <el-table-column
-          label="序号"
+          :label="language('#')"
           type="index"
           width="80"
           align="center"
         ></el-table-column>
-        <el-table-column align="center" width="80px" label="问卷编码"
+        <el-table-column align="center" width="80px" :label="language('问卷编码')"
           ><template slot-scope="scope">
             <span>{{ scope.row["surveyCode"] }}</span>
           </template></el-table-column
@@ -27,7 +27,7 @@
           show-overflow-tooltip
           width="250px"
           align="center"
-          label="问卷名称"
+          :label="language('问卷名称')"
           ><template slot-scope="scope">
             <span
               :class="'open-link-text cursor'"
@@ -36,27 +36,27 @@
             >
           </template></el-table-column
         >
-        <el-table-column align="center" label="问卷模块">
+        <el-table-column align="center" :label="language('问卷模块')">
           <template slot-scope="scope">
             <span>{{ surveyModelObj[scope.row["surveyModel"]] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="问卷类型"
+        <el-table-column align="center" :label="language('问卷类型')"
           ><template slot-scope="scope">
             <span>{{ surveyTypeObj[scope.row["type"]] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="问卷发起人"
+        <el-table-column align="center" :label="language('问卷发起人')"
           ><template slot-scope="scope">
             <span>{{ scope.row["initiator"] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="问卷状态"
+        <el-table-column align="center" :label="language('问卷状态')"
           ><template slot-scope="scope">
             <span>{{ surveyStatusObj[scope.row["state"]] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="问卷数据"
+        <el-table-column align="center" :label="language('问卷数据')"
           ><template slot-scope="scope">
             <span
               v-if="
@@ -82,19 +82,19 @@
             >
           </template></el-table-column
         >
-        <el-table-column align="center" width="150px" label="创建时间">
+        <el-table-column align="center" width="150px" :label="language('创建时间')">
           <template slot-scope="scope">
             <span>{{ scope.row["createDate"].substring(0, 16) }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="150px" label="截止时间">
+        <el-table-column align="center" width="150px" :label="language('截止时间')">
           <template slot-scope="scope">
             <span>{{
               scope.row["endTime"] && scope.row["endTime"].substring(0, 16)
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="170px"
+        <el-table-column align="center" :label="language('操作')" width="170px"
           ><template slot-scope="scope">
             <div class="operation-box" v-if="scope.row['state'] !== 5">
               <p
@@ -105,7 +105,7 @@
                 @click="handleDelete(scope.row.id)"
                 :class="'open-link-text cursor'"
               >
-                <span>删除</span>
+                <span>{{language('删除')}}</span>
               </p>
 
               <p
@@ -130,7 +130,7 @@
                 @click="handlePublish(scope.row.id)"
                 :class="'open-link-text cursor'"
               >
-                <span>发布</span>
+                <span>{{language('发布')}}</span>
               </p>
 
               <p
@@ -152,7 +152,7 @@
                 @click="handleCopy(scope.row.id, scope.$index)"
                 :class="'open-link-text cursor'"
               >
-                <span>复制</span>
+                <span>{{language('复制')}}</span>
               </p>
             </div>
           </template></el-table-column
@@ -165,8 +165,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="language('上一页')"
+        :next-text="language('下一页')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"

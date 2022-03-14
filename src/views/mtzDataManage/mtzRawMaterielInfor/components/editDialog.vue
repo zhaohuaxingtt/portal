@@ -119,7 +119,7 @@
         <iInput
           v-model="formContent.mtzRawMaterialName"
           :disabled="editBtnSta"
-          placeholder="请输入"
+          :placeholder="language('请输入')"
         >
         </iInput>
       </iFormItem>
@@ -269,31 +269,31 @@ export default {
       RawCodeSe: true,
       rules: {
         generalCategoryCode: [
-          { required: true, message: '请选择原材料大类', trigger: 'blur' }
+          { required: true, message: this.language('请选择原材料大类'), trigger: 'blur' }
         ],
         rawMaterialDesc: [
-          { required: true, message: '请输入/选择中类描述(中)', change: 'blur' }
+          { required: true, message: this.language('请输入/选择中类描述(中)'), change: 'blur' }
         ],
         rawMaterialCode: [
-          { required: true, message: '请输入材料中类', trigger: 'blur' }
+          { required: true, message: this.language('请输入材料中类'), trigger: 'blur' }
         ],
         rawMaterialNameEn: [
-          { required: true, message: '请输入中类描述(英)', trigger: 'blur' }
+          { required: true, message: this.language('请输入中类描述(英)'), trigger: 'blur' }
         ],
         rawMaterialCountUnit: [
-          { required: true, message: '请选择中类计量单位', trigger: 'blur' }
+          { required: true, message: this.language('请选择中类计量单位'), trigger: 'blur' }
         ],
         mtzRawMaterialName: [
-          { required: true, message: '请输入原材料名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入原材料名称'), trigger: 'blur' }
         ],
         mtzRawMaterialCode: [
-          { required: true, message: '请输入原材料牌号', trigger: 'blur' }
+          { required: true, message: this.language('请输入原材料牌号'), trigger: 'blur' }
         ],
         mtzRawMaterialCountUnit: [
-          { required: true, message: '请输入原材料计量单位', trigger: 'blur' }
+          { required: true, message: this.language('请输入原材料计量单位'), trigger: 'blur' }
         ],
         isPreciousMetal: [
-          { required: true, message: '请选择是否为贵金属', trigger: 'blur' }
+          { required: true, message: this.language('请选择是否为贵金属'), trigger: 'blur' }
         ]
       },
       metalsOption: [

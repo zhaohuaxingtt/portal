@@ -1,8 +1,8 @@
 <template>
 	<el-switch
 		v-model="currVal"
-		:active-text="activeText" 
-		:inactive-text="inactiveText"
+		:active-text="language(activeText)" 
+		:inactive-text="language(inactiveText)"
 		@change="handlePublishChange"
 	></el-switch>
 </template>

@@ -80,7 +80,7 @@ export default {
 	data() {
 		let enName_valid = (rule, value, callback) => {
             if(!value){
-				callback(new Error("请输入英文名"));
+				callback(new Error(this.language("请输入英文名")));
 				return;
 			}
 			var reg = /^[ a-zA-Z]+$/; //验证规则
@@ -88,7 +88,7 @@ export default {
 				callback();
 				return;
 			}else{
-				callback(new Error("请输入英文名"));
+				callback(new Error(this.language("请输入英文名")));
 			}
         }
 		return {
@@ -99,9 +99,9 @@ export default {
 				coverFile:""
 			},
 			newTypeRules: {
-				name: { required:'true',message:"请输入类型名称",trigger:'blur' },
+				name: { required:'true',message:this.language("请输入类型名称"),trigger:'blur' },
 				enName: { required:'true',validator: enName_valid,trigger:'blur' },
-				coverFile: { required:'true',message: "请上传文件",trigger:'change' }
+				coverFile: { required:'true',message: this.language("请上传文件"),trigger:'change' }
 			},
 			imgCutterRate: '16 : 9',
 			fileList: [],
