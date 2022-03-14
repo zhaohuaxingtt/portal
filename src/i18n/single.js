@@ -1,12 +1,11 @@
 const path = require('path')
 const files = require.context('./modules', false, /.js$/)
-console.log('files', files)
+
 const modules = {}
 files.keys().forEach((key) => {
   const name = path.basename(key, '.js')
   modules[name] = files(key).default || files(key)
 })
-console.log(modules)
 function checkRepeat() {
   const modulesKeys = Object.keys(modules)
   for (let i = 0; i < modulesKeys.length; i++) {
@@ -49,8 +48,6 @@ function getI18n() {
       zh[key] = key
     }
   }
-  console.log('en', res)
-  console.log('zh', zh)
   const en = res
   return { zh, en }
 }

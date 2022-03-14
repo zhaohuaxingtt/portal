@@ -53,6 +53,7 @@
       <processNodeVertical
         v-if="currentInstanceId"
         :instanceId="currentInstanceId"
+        use-from="popover"
       />
     </el-popover>
   </iPage>
