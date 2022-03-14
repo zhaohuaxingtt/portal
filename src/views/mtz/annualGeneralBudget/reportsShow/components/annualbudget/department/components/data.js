@@ -1,3 +1,3 @@
 export const form = {
-    'yearDropList': '', //年份选择
+  year: '' //年份选择
 }

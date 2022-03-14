@@ -147,6 +147,7 @@
     LK_CAIGOUFENEFENPEIWEIDADAODANGQIAN:
       '当前分配未达到100%当前分配的工厂中存在为0的情况，请重新分配！', // 当前分配未达到100%，请重新分配！
     LK_CAIGOUFENEFENPEICHAOGUO: '当前分配已超过100%，请重新分配！', // 当前分配已超过100%，请重新分配！
+    DANGQIANMEIYOUCHUPINMOBAN: '当前没有初评模板',
     LK_DENGLU: '登录', // 登录
     LK_GONG: '共', // 共
     LK_MEIYOUKEYIXIAZHAIDEXINXI: '没有可以下载的信息', // 没有可以下载的信息
