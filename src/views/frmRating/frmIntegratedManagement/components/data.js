@@ -26,14 +26,14 @@ export const tableTitle = [
     prop: 'nameZh',
     lable: '供应商名称',
     i18n: 'LK_GONGYINGSHANGMINGCHENG1',
-    width: 200,
+    width: 300,
     tooltip: true
   },
   {
     prop: 'isActive',
     lable: '供应商状态',
     i18n: 'GONGHUO1',
-    width: 120,
+    width: 80,
     tooltip: true,
     customRender: (h, scope) => {
       return SUPPLIER_STATUS[scope.row.isActive]
