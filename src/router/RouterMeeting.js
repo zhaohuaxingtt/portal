@@ -9,7 +9,8 @@
 //     301: "meeting_admin",
 //     302: "attendee",
 //   };
-const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+// const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+import store from '@/store'
 export default [
   {
     path: '/meeting',
@@ -29,6 +30,10 @@ export default [
           // const roleList = store.state.permission.userInfo.roleList;
           // console.log(roleList);
           // const userId = store.state.permission.userInfo.id;
+          let userInfo = store.state.permission.userInfo
+          if (!userInfo || !Object.keys(userInfo)) {
+            userInfo = JSON.parse(sessionStorage.getItem('userInfo') || '{}')
+          }
           const roleList = userInfo.roleList || []
           const userId = userInfo.id
           localStorage.setItem('isAdmin', false)
@@ -139,6 +144,10 @@ export default [
       // const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
       // const roleList = store.state.permission.userInfo.roleList;
       // const userId = store.state.permission.userInfo.id;
+      let userInfo = store.state.permission.userInfo
+      if (!userInfo || !Object.keys(userInfo)) {
+        userInfo = JSON.parse(sessionStorage.getItem('userInfo') || '{}')
+      }
       const roleList = userInfo.roleList || []
       const userId = userInfo.id
       localStorage.setItem('isAdmin', false)
@@ -365,7 +374,8 @@ export default [
     meta: {
       title: '会议展示'
     },
-    component: () => import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
+    component: () =>
+      import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
   },
   //GPCSC展示
   {
@@ -374,8 +384,7 @@ export default [
     meta: {
       title: '会议展示'
     },
-    component: () => import(`@/views/meeting/managementHall/GPCSCMeetingShow/index.vue`)
-  },
-  
-  
-] 
+    component: () =>
+      import(`@/views/meeting/managementHall/GPCSCMeetingShow/index.vue`)
+  }
+]
