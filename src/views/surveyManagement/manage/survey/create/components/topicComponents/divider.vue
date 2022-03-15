@@ -20,7 +20,7 @@
       <!-- 文字+按钮 -->
       <div class="form-top">
         <div>
-          <h2>分割线</h2>
+          <h2>{{$t('QN_FENGEXIAN')}}</h2>
         </div>
         <div>
           <!-- <iButton @click="complete()">完成编辑</iButton> -->
@@ -50,13 +50,13 @@
         > -->
         <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
         <iButton v-show="mouseOver == true" @click="handlDelete()"
-          >删除</iButton
+          >{{$t('QN_SHANCHU')}}</iButton
         >
         <iButton
           v-show="mouseOver == true"
           @click="handleTop()"
           :disabled="overEditor ? sort == 1 : true"
-          >上移</iButton
+          >{{$t('QN_SHANGYI')}}</iButton
         >
         <iButton
           v-show="mouseOver == true"
@@ -68,7 +68,7 @@
                 : sort == topicLength
               : true
           "
-          >下移</iButton
+          >{{$t('QN_XIAYI')}}</iButton
         >
       </div>
       <el-row class="form-row">

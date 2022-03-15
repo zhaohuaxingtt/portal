@@ -5,7 +5,7 @@
         <div>
           <div class="form-topic-title">
             <img :src="surveyTopic" />
-            <h2 style="margin-left: 1rem">{{language('题型')}}</h2>
+            <h2 style="margin-left: 1rem">{{ language('QN_TIXING') }}</h2>
           </div>
           <div class="list-group">
             <div
@@ -20,7 +20,7 @@
                 :src="element.icon"
                 style="width: 10px; margin-right: 1rem"
               />
-              <span class="item-text">{{ element.name }}</span>
+              <span class="item-text">{{ $t(element.i18n) }}</span>
             </div>
           </div>
         </div>
@@ -83,29 +83,29 @@
 </template>
 
 <script>
-import radioTitle from "./topicComponents/radioTitle.vue";
-import borderTitle from "./topicComponents/borderTitle.vue";
-import selectTitle from "./topicComponents/selectTitle.vue";
-import pullTitle from "./topicComponents/pullTitle.vue";
-import blankTitle from "./topicComponents/blankTitle.vue";
-import imgTitle from "./topicComponents/imgTitle.vue";
-import fileTitle from "./topicComponents/fileTitle.vue";
-import paragraphTitle from "./topicComponents/paragraphTitle.vue";
-import remarkTitle from "./topicComponents/remarkTitle.vue";
-import dividerTitle from "./topicComponents/divider.vue";
+import radioTitle from './topicComponents/radioTitle.vue'
+import borderTitle from './topicComponents/borderTitle.vue'
+import selectTitle from './topicComponents/selectTitle.vue'
+import pullTitle from './topicComponents/pullTitle.vue'
+import blankTitle from './topicComponents/blankTitle.vue'
+import imgTitle from './topicComponents/imgTitle.vue'
+import fileTitle from './topicComponents/fileTitle.vue'
+import paragraphTitle from './topicComponents/paragraphTitle.vue'
+import remarkTitle from './topicComponents/remarkTitle.vue'
+import dividerTitle from './topicComponents/divider.vue'
 // 图片
-import surveyRadio from "@/assets/images/survey/survey-radio.svg";
-import surveySelect from "@/assets/images/survey/survey-select.svg";
-import surveyPull from "@/assets/images/survey/survey-pull.svg";
-import surveyBlank from "@/assets/images/survey/survey-blank.svg";
-import surveyImg from "@/assets/images/survey/survey-img.svg";
-import surveyUpload from "@/assets/images/survey/survey-upload.svg";
-import surveyTopic from "@/assets/images/survey/survey-topic.svg";
-import surveyParagraph from "@/assets/images/survey/survey-paragraph.svg";
-import surveyRemark from "@/assets/images/survey/survey-remark.svg";
-import surveyDivider from "@/assets/images/survey/survey-divider.svg";
-import { iMessage } from "rise";
-import draggable from "vuedraggable";
+import surveyRadio from '@/assets/images/survey/survey-radio.svg'
+import surveySelect from '@/assets/images/survey/survey-select.svg'
+import surveyPull from '@/assets/images/survey/survey-pull.svg'
+import surveyBlank from '@/assets/images/survey/survey-blank.svg'
+import surveyImg from '@/assets/images/survey/survey-img.svg'
+import surveyUpload from '@/assets/images/survey/survey-upload.svg'
+import surveyTopic from '@/assets/images/survey/survey-topic.svg'
+import surveyParagraph from '@/assets/images/survey/survey-paragraph.svg'
+import surveyRemark from '@/assets/images/survey/survey-remark.svg'
+import surveyDivider from '@/assets/images/survey/survey-divider.svg'
+import { iMessage } from 'rise'
+import draggable from 'vuedraggable'
 
 export default {
   components: {
@@ -119,102 +119,111 @@ export default {
     fileTitle,
     paragraphTitle,
     remarkTitle,
-    dividerTitle,
+    dividerTitle
   },
   props: {
     questions: {
       type: Object,
       default() {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
       typeObjArr: [
-        "radio",
-        "select",
-        "blank",
-        "img",
-        "file",
-        "pull",
-        "remark",
-        "divider",
-        "paragraph",
+        'radio',
+        'select',
+        'blank',
+        'img',
+        'file',
+        'pull',
+        'remark',
+        'divider',
+        'paragraph'
       ],
       list: [
         {
-          name: "单选题",
+          name: '单选题',
+          i18n: 'QN_DANXUANTI',
           // type: "radio",
           type: 1,
           id: 1,
-          content: "内容内容内容",
-          icon: surveyRadio,
+          content: '内容内容内容',
+          icon: surveyRadio
         },
         {
-          name: "多选题",
+          name: '多选题',
+          i18n: 'QN_DUOXUANTI',
           id: 2,
           // type: "select",
           type: 2,
-          content: "内容内容内容",
-          icon: surveySelect,
+          content: '内容内容内容',
+          icon: surveySelect
         },
         {
-          name: "下拉题",
+          name: '下拉题',
+          i18n: 'QN_XIALATI',
           id: 3,
           // type: "pull",
           type: 6,
-          content: "内容内容内容",
-          icon: surveyPull,
+          content: '内容内容内容',
+          icon: surveyPull
         },
         {
-          name: "填空题",
+          name: '填空题',
+          i18n: 'QN_TIANKONGTI',
           id: 4,
           // type: "blank",
           type: 3,
-          content: "内容内容内容",
-          icon: surveyBlank,
+          content: '内容内容内容',
+          icon: surveyBlank
         },
         {
-          name: "图片选择",
+          name: '图片选择',
+          i18n: 'QN_TUPIANXUANZE',
           id: 5,
           // type: "img",
           type: 4,
-          content: "内容内容内容",
-          icon: surveyImg,
+          content: '内容内容内容',
+          icon: surveyImg
         },
         {
-          name: "文件上传",
+          name: '文件上传',
+          i18n: 'QN_WENJIANSHANGCHUAN',
           id: 6,
           type: 5,
           // type: "file",
-          content: "内容内容内容",
-          icon: surveyUpload,
+          content: '内容内容内容',
+          icon: surveyUpload
         },
         {
-          name: "段落",
+          name: '段落',
+          i18n: 'QN_DUANLUO',
           id: 7,
           // type: "paragraph",
           type: 9,
-          content: "内容内容内容",
-          icon: surveyParagraph,
+          content: '内容内容内容',
+          icon: surveyParagraph
         },
         {
-          name: "备注说明",
+          name: '备注说明',
+          i18n: 'QN_BEIZHUSHUOMING',
           id: 8,
           // type: "remark",
           type: 7,
-          content: "内容内容内容",
-          icon: surveyRemark,
+          content: '内容内容内容',
+          icon: surveyRemark
         },
         {
-          name: "分割线",
+          name: '分割线',
+          i18n: 'QN_FENGEXIAN',
           id: 9,
           // type: "divider",
           type: 8,
-          content: "内容内容内容",
-          icon: surveyDivider,
-        },
+          content: '内容内容内容',
+          icon: surveyDivider
+        }
       ],
       contentlist: [],
       contentCopy: {},
@@ -226,47 +235,47 @@ export default {
       overEditor: false,
       actionBar: false,
       racialTopicLength: 0,
-      isCopy: false,
+      isCopy: false
       // racialTopicLengthM: "",
-    };
+    }
   },
   mounted() {
-    this.overEditor = true;
-    this.contentlist = [...this.questions];
+    this.overEditor = true
+    this.contentlist = [...this.questions]
     this.contentlist = this.contentlist.map((item, index) => {
       return {
         ...item,
         number: index + 1,
-        type: item.type,
-      };
-    });
-    this.contentlist = this.handleCheckCode(this.contentlist);
+        type: item.type
+      }
+    })
+    this.contentlist = this.handleCheckCode(this.contentlist)
   },
   watch: {
     contentlist: {
       handler(list) {
-        let bol = false;
+        let bol = false
         this.overEditor = list.every((item) => {
           if (item.options) {
             item.options.forEach((item) => {
               if (item.action) {
-                bol = true;
+                bol = true
               }
-            });
+            })
           }
           if (item.actionItem && item.actionItem.value) {
-            bol = true;
+            bol = true
           }
           // if (item.actionItem) {
           //   bol = true;
           // }
-          return !item.editor;
-        });
-        this.actionBar = bol;
-        this.isCopy = false;
+          return !item.editor
+        })
+        this.actionBar = bol
+        this.isCopy = false
       },
-      immediate: true,
-    },
+      immediate: true
+    }
     // questions: {
     //   handler(quest) {
     //     if (this.operate) {
@@ -282,148 +291,148 @@ export default {
   methods: {
     //设置code的函数
     handleCheckCode(arr) {
-      let curCode = 0;
+      let curCode = 0
       arr = arr.map((item) => {
         if (
           Number(item.type) !== 7 &&
           Number(item.type) !== 8 &&
           Number(item.type) !== 9
         ) {
-          curCode++;
+          curCode++
           return {
             ...item,
-            code: curCode,
-          };
+            code: curCode
+          }
         }
         if (Number(item.type) === 9) {
-          curCode++;
-          let innerCurCode = 0;
+          curCode++
+          let innerCurCode = 0
           item.sonQuestions = item.sonQuestions
             ? item.sonQuestions.map((it) => {
                 if (Number(it.type) !== 7 && Number(it.type) !== 8) {
-                  innerCurCode++;
+                  innerCurCode++
                   return {
                     ...it,
-                    code: innerCurCode,
-                  };
+                    code: innerCurCode
+                  }
                 }
-                return it;
+                return it
               })
-            : [];
+            : []
           return {
             ...item,
-            code: curCode,
-          };
+            code: curCode
+          }
         }
-        return item;
-      });
-      this.racialTopicLength = curCode;
-      return arr;
+        return item
+      })
+      this.racialTopicLength = curCode
+      return arr
     },
     handleStart(data) {
-      const obj = this.contentlist[data.oldIndex];
+      const obj = this.contentlist[data.oldIndex]
       if (this.actionBar && Number(obj.type) !== 8 && Number(obj.type) !== 7) {
-        this.$confirm("拖拽将清空跳题设置，确认是否拖拽？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
-          this.actionBar = false;
-        });
+        this.$confirm(
+          this.$t('QN_TUOZHUAIJIANGQINGKONGTIAOTISHEZHISHIFOUTUOZHUAI'),
+          this.$t('QN_TISHI'),
+          {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
+          this.actionBar = false
+        })
       }
     },
     handleEnterEditor(data) {
-      let index = data.number - 1;
-      this.contentlist.splice(index, 1, { ...data });
+      let index = data.number - 1
+      this.contentlist.splice(index, 1, { ...data })
     },
     moveInArray(arr, from, to) {
       // 确保是有效数组
-      if (Object.prototype.toString.call(arr) !== "[object Array]") {
-        throw new Error("Please provide a valid array");
+      if (Object.prototype.toString.call(arr) !== '[object Array]') {
+        throw new Error('Please provide a valid array')
       }
       // 删除当前的位置
-      var item = arr.splice(from, 1);
+      var item = arr.splice(from, 1)
       // 确保还剩有元素移动
       if (!item.length) {
-        throw new Error("There is no item in the array at index " + from);
+        throw new Error('There is no item in the array at index ' + from)
       }
       // 移动元素到指定位置
-      arr.splice(to, 0, item[0]);
-      return arr;
+      arr.splice(to, 0, item[0])
+      return arr
     },
     // handleContentDrag(data) {
     //   console.log("data", data);
     // },
     handleContentDrag(data) {
-      let arr = this.moveInArray(
-        this.contentlist,
-        data.oldIndex,
-        data.newIndex
-      );
+      let arr = this.moveInArray(this.contentlist, data.oldIndex, data.newIndex)
       this.contentlist = arr.map((item, index) => {
         return {
           ...item,
-          number: index + 1,
-        };
-      });
+          number: index + 1
+        }
+      })
       if (
         Number(data.moved.element.type) !== 8 &&
         Number(data.moved.element.type) !== 7
       ) {
-        this.contentlist = this.clearJump(this.contentlist);
+        this.contentlist = this.clearJump(this.contentlist)
       }
-      this.contentlist = this.handleCheckCode(this.contentlist);
-      this.$emit("handleSortDrag", [...this.contentlist]);
+      this.contentlist = this.handleCheckCode(this.contentlist)
+      this.$emit('handleSortDrag', [...this.contentlist])
     },
     cancelComplete(data) {
-      let index = data.number - 1;
-      this.contentlist.splice(index, 1);
+      let index = data.number - 1
+      this.contentlist.splice(index, 1)
       this.contentlist = this.contentlist.map((item, index) => {
         return {
           ...item,
-          number: index + 1,
-        };
-      });
+          number: index + 1
+        }
+      })
     },
     // 保存数据
     handleSaveData(data) {
       let index = this.contentlist.findIndex((item) => {
-        return item.number === data.number;
-      });
+        return item.number === data.number
+      })
       if (index >= 0) {
-        this.contentlist.splice(index, 1, data);
+        this.contentlist.splice(index, 1, data)
       }
-      this.operate = true;
-      this.contentlist = this.handleCheckCode(this.contentlist);
-      this.$emit("handleSaveData", [...this.contentlist]);
+      this.operate = true
+      this.contentlist = this.handleCheckCode(this.contentlist)
+      this.$emit('handleSaveData', [...this.contentlist])
     },
     handleSort() {
       this.contentlist = this.contentlist.map((item, index) => {
         // item.number = this.contentlist.indexOf(item) + 1;
         return {
           ...item,
-          number: index + 1,
-        };
-      });
-      this.contentlist = this.handleCheckCode(this.contentlist);
+          number: index + 1
+        }
+      })
+      this.contentlist = this.handleCheckCode(this.contentlist)
     },
     // 删除
     handleDelete(data) {
       this.contentlist = this.contentlist
         .filter((item) => {
-          return item.number !== data.number;
+          return item.number !== data.number
         })
         .map((item, index) => {
           return {
             ...item,
-            number: index + 1,
-          };
-        });
+            number: index + 1
+          }
+        })
       // if (Number(data.type) !== 8 && Number(data.type) !== 7) {
       //   this.contentlist = this.clearJump(this.contentlist);
       // }
-      this.contentlist = this.handleCheckCode(this.contentlist);
-      this.$emit("handleDeleteData", data, [...this.contentlist]);
+      this.contentlist = this.handleCheckCode(this.contentlist)
+      this.$emit('handleDeleteData', data, [...this.contentlist])
     },
     clearJump(list) {
       return list.map((item) => {
@@ -432,13 +441,13 @@ export default {
             item.options = item.options.map((it) => {
               return {
                 ...it,
-                action: "",
-              };
-            });
+                action: ''
+              }
+            })
             return {
               ...item,
-              actionItem: "",
-            };
+              actionItem: ''
+            }
           }
         }
         if (Number(item.type) === 9) {
@@ -447,150 +456,150 @@ export default {
               el.options = el.options.map((e) => {
                 return {
                   ...e,
-                  action: "",
-                };
-              });
+                  action: ''
+                }
+              })
               return {
                 ...el,
-                actionItem: "",
-              };
+                actionItem: ''
+              }
             }
             return {
               ...el,
-              actionItem: "",
-            };
-          });
+              actionItem: ''
+            }
+          })
           return {
             ...item,
-            actionItem: "",
-          };
+            actionItem: ''
+          }
         }
         return {
           ...item,
-          actionItem: "",
-        };
-      });
+          actionItem: ''
+        }
+      })
     },
     // 复制
     handleCopy(data, bol) {
-      this.contentCopy = { ...data };
+      this.contentCopy = { ...data }
       if (this.actionBar || bol) {
         if (Number(data.type) === 8 || Number(data.type) === 7) {
-          this.contentCopy.id = "";
+          this.contentCopy.id = ''
           // this.contentCopy.actionItem = "";
-          let index = data.number - 1;
-          this.contentlist.splice(index, 0, this.contentCopy);
+          let index = data.number - 1
+          this.contentlist.splice(index, 0, this.contentCopy)
           this.contentlist = this.contentlist.map((item, index) => {
             return {
               ...item,
-              number: index + 1,
+              number: index + 1
               // actionItem: "",
-            };
-          });
+            }
+          })
           if (Number(data.type) !== 8 && Number(data.type) !== 7) {
-            this.contentlist = this.clearJump(this.contentlist);
+            this.contentlist = this.clearJump(this.contentlist)
           }
-          this.isCopy = true;
-          this.actionBar = false;
-          this.contentlist = this.handleCheckCode(this.contentlist);
-          this.$emit("handleCopy", [...this.contentlist]);
+          this.isCopy = true
+          this.actionBar = false
+          this.contentlist = this.handleCheckCode(this.contentlist)
+          this.$emit('handleCopy', [...this.contentlist])
         } else {
-          this.$confirm("复制将清空跳转,是否复制", "提示", {
-            confirmButtonText: "是",
-            cancelButtonText: "否",
-            type: "warning",
+          this.$confirm(this.$t('QN_FUZHIJIANGQINGKONGTIAOZHUANSHIFOUFUZHU'), this.$t('QN_TISHI'), {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
           }).then(() => {
-            this.contentCopy.id = "";
+            this.contentCopy.id = ''
             // this.contentCopy.actionItem = "";
-            let index = data.number - 1;
-            this.contentlist.splice(index, 0, this.contentCopy);
+            let index = data.number - 1
+            this.contentlist.splice(index, 0, this.contentCopy)
             this.contentlist = this.contentlist.map((item, index) => {
               return {
                 ...item,
-                number: index + 1,
+                number: index + 1
                 // actionItem: "",
-              };
-            });
+              }
+            })
             if (Number(data.type) !== 8 && Number(data.type) !== 7) {
-              this.contentlist = this.clearJump(this.contentlist);
+              this.contentlist = this.clearJump(this.contentlist)
             }
-            this.isCopy = true;
-            this.actionBar = false;
-            this.contentlist = this.handleCheckCode(this.contentlist);
-            this.$emit("handleCopy", [...this.contentlist]);
-          });
+            this.isCopy = true
+            this.actionBar = false
+            this.contentlist = this.handleCheckCode(this.contentlist)
+            this.$emit('handleCopy', [...this.contentlist])
+          })
         }
       } else {
-        this.contentCopy.id = "";
-        let index = data.number - 1;
-        this.contentlist.splice(index, 0, this.contentCopy);
+        this.contentCopy.id = ''
+        let index = data.number - 1
+        this.contentlist.splice(index, 0, this.contentCopy)
         this.contentlist = this.contentlist.map((item, index) => {
           return {
             ...item,
-            number: index + 1,
-          };
-        });
-        this.contentlist = this.handleCheckCode(this.contentlist);
-        this.$emit("handleCopy", [...this.contentlist]);
+            number: index + 1
+          }
+        })
+        this.contentlist = this.handleCheckCode(this.contentlist)
+        this.$emit('handleCopy', [...this.contentlist])
       }
     },
     changeCopyTopic() {
-      this.copyTopic = false;
+      this.copyTopic = false
     },
     // 添加topic
     handleAddType(type) {
       //bol 为false 代表 编辑完成  ture 为编辑未完成
-      let bol = false;
+      let bol = false
       if (this.$refs.childF) {
         this.$refs.childF.forEach((item) => {
           if (!bol) {
             if (item.ruleForm.type === 9) {
-              bol = item.handleCompleteAdd("", "para");
-              bol = item.complete();
+              bol = item.handleCompleteAdd('', 'para')
+              bol = item.complete()
             } else {
-              bol = item.complete();
+              bol = item.complete()
             }
           } else {
             if (item.ruleForm.type === 9) {
-              item.handleCompleteAdd();
-              item.complete();
+              item.handleCompleteAdd()
+              item.complete()
             } else {
-              item.complete();
+              item.complete()
             }
           }
-        });
+        })
         if (bol) {
-          iMessage.warn(this.$t("请完成编辑后再添加!"));
-          return;
+          iMessage.warn(this.$t('QN_QINGWANCHENGBIANJIHOUZAITIANJIA'))
+          return
         } else {
           this.contentlist.push({
             // id: this.contentlist.length + 1,
             type: type,
             number: this.contentlist.length + 1,
-            editor: true,
-          });
+            editor: true
+          })
         }
       } else {
         this.contentlist.push({
           // id: this.contentlist.length + 1,
           type: type,
           number: this.contentlist.length + 1,
-          editor: true,
-        });
+          editor: true
+        })
       }
-      this.contentlist = this.handleCheckCode(this.contentlist);
+      this.contentlist = this.handleCheckCode(this.contentlist)
     },
 
     // 上移
     handleTop(data) {
-      this.actionBar = false;
+      this.actionBar = false
       // data.id = data.number;
-      let index = data.number - 1;
-      this.contentlist[index] = { ...data };
-      this.contentlist = this.swapArray(this.contentlist, index - 1, index);
-      this.contentlist = this.handleCheckCode(this.contentlist);
+      let index = data.number - 1
+      this.contentlist[index] = { ...data }
+      this.contentlist = this.swapArray(this.contentlist, index - 1, index)
+      this.contentlist = this.handleCheckCode(this.contentlist)
       if (Number(data.type) !== 8 && Number(data.type) !== 7) {
-        this.contentlist = this.clearJump(this.contentlist);
+        this.contentlist = this.clearJump(this.contentlist)
       }
       // this.contentlist = this.contentlist.map((item) => {
       //   if (item.options) {
@@ -615,18 +624,18 @@ export default {
       //     item.clearSetJump();
       //   }
       // });
-      this.$emit("handleSortTop", data, [...this.contentlist]);
+      this.$emit('handleSortTop', data, [...this.contentlist])
     },
     // 下移
     handleBottom(data) {
-      this.actionBar = false;
+      this.actionBar = false
       // data.id = data.number;
-      let index = data.number - 1;
-      this.contentlist[index] = { ...data };
-      this.contentlist = this.swapArray(this.contentlist, index, index + 1);
-      this.contentlist = this.handleCheckCode(this.contentlist);
+      let index = data.number - 1
+      this.contentlist[index] = { ...data }
+      this.contentlist = this.swapArray(this.contentlist, index, index + 1)
+      this.contentlist = this.handleCheckCode(this.contentlist)
       if (Number(data.type) !== 8 && Number(data.type) !== 7) {
-        this.contentlist = this.clearJump(this.contentlist);
+        this.contentlist = this.clearJump(this.contentlist)
       }
       // this.contentlist = this.contentlist.map((item) => {
       //   if (item.options) {
@@ -651,57 +660,57 @@ export default {
       //     item.clearSetJump();
       //   }
       // });
-      this.$emit("handleSortBottom", data, [...this.contentlist]);
+      this.$emit('handleSortBottom', data, [...this.contentlist])
     },
     // 数组元素互换位置
     swapArray(arr, index1, index2) {
-      let item1 = { ...arr[index1] };
-      let item2 = { ...arr[index2] };
+      let item1 = { ...arr[index1] }
+      let item2 = { ...arr[index2] }
       arr = arr.map((item, index) => {
         if (index === index1) {
-          item = item2;
+          item = item2
         }
         if (index === index2) {
-          item = item1;
+          item = item1
         }
         return {
           ...item,
           // id: index + 1,
-          number: index + 1,
-        };
-      });
-      return arr;
+          number: index + 1
+        }
+      })
+      return arr
       // arr[index1] = arr.splice(index2, 1, arr[index1])[0];
       // console.log("arr2", arr);
       // return arr;
     },
 
     handleOnDragStart(e, item) {
-      e.dataTransfer.setData("type", item.type);
+      e.dataTransfer.setData('type', item.type)
     },
     handleBorderDrop(e) {
-      let type = e.dataTransfer.getData("type");
+      let type = e.dataTransfer.getData('type')
       if (type) {
-        this.handleAddType(type);
+        this.handleAddType(type)
       }
     },
     handleChoose(e) {
       if (e.type) {
-        this.handleAddType(e.type);
+        this.handleAddType(e.type)
       }
-    },
+    }
   },
   computed: {
     dragOptions() {
       return {
         animation: 400,
-        group: "description",
+        group: 'description',
         disabled: false,
-        ghostClass: "ghost",
-      };
-    },
-  },
-};
+        ghostClass: 'ghost'
+      }
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

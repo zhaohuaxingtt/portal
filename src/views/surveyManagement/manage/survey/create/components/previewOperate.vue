@@ -180,9 +180,9 @@
           {{ sort }}.{{ ruleForm.number }} {{ ruleForm.name }}
           <span class="text" style="margin-left: 10px; color: #999999">
             <span v-if="ruleForm.multipleRule.least"
-              >{{language('最少选择')}}{{ ruleForm.multipleRule.least }}{{language('项')}}；</span
+              >{{language('QN_ZUISHAOXUANZE')}}{{ ruleForm.multipleRule.least }}{{language('QN_XIANG')}}；</span
             ><span v-if="ruleForm.multipleRule.most"
-              >{{language('最多选择')}}{{ ruleForm.multipleRule.most }}{{language('项')}}；</span
+              >{{language('QN_ZUIDUOXUANZE')}}{{ ruleForm.multipleRule.most }}{{language('QN_XIANG')}}；</span
             >
           </span>
         </div>
@@ -270,10 +270,10 @@ export default {
             attachmentName: res.name,
             attachmentUrl: res.path,
           });
-          iMessage.success(this.$t("上传成功"));
+          iMessage.success(this.$t("QN_SHANGCHUANCHENGGONG"));
         })
-        .catch((err) => {
-          iMessage.error(this.$t("上传失败"));
+        .catch(() => {
+          iMessage.error(this.$t("QN_SHANGCHUANSHIBAI"));
         });
       this.uploadLoading = false;
     },

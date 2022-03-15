@@ -39,7 +39,7 @@ export default {
     };
   },
   created(){
-    document.title='问卷管理';
+    document.title=this.$t('QN_WENJUANGUANLI');
   },
   mounted() {
     this.getTableList();
@@ -90,7 +90,7 @@ export default {
           this.page.total = res.total;
           this.tableLoading = false;
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false;
         });
     },

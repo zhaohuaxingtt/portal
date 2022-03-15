@@ -43,7 +43,7 @@
                         item.code +
                         (item.second ? ' ' : '. ') +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion == true"
                       slot="label"
@@ -61,13 +61,14 @@
                         class="upload-button"
                         :loading="uploadLoading"
                       >
-                        上传附件<span class="upload-text"
+                        {{ $t('QN_SHANGCHUANFUJIAN')
+                        }}<span class="upload-text"
                           ><img :src="uploadIcon"
                         /></span>
                       </iButton>
                       <div class="upload-limit">
                         <!-- 文件大小最大限制15MB，最多上传9个文件 -->
-                        文件大小无限制，最多上传1个文件
+                        {{ $t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN') }}
                       </div>
                     </el-upload>
                     <ul
@@ -127,7 +128,7 @@
                         item.code +
                         (item.second ? ' ' : '. ') +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion == true"
                       slot="label"
@@ -136,7 +137,7 @@
                       class="textarea"
                       type="textarea"
                       :autosize="{ minRows: 6, maxRows: 8 }"
-                      placeholder="请输入您的回答。"
+                      :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
                     ></iInput>
                   </iFormItem>
                 </li>
@@ -160,7 +161,7 @@
                         item.code +
                         (item.second ? ' ' : '. ') +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion == true"
                       slot="label"
@@ -224,7 +225,7 @@
                         item.code +
                         (item.second ? ' ' : '. ') +
                         item.name +
-                        (item.requiredQuestion ? ' ' : '   (可选填)')
+                        (item.requiredQuestion ? ' ' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion == true"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -244,8 +245,8 @@
                               : 'margin-left: 10px'
                           "
                           >{{
-                            String.fromCharCode("A".charCodeAt(0) + index) +
-                            ". " +
+                            String.fromCharCode('A'.charCodeAt(0) + index) +
+                            '. ' +
                             it.name
                           }}</el-radio
                         >
@@ -273,7 +274,7 @@
                         item.code +
                         (item.second ? ' ' : '. ') +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion == true"
                       slot="label"
@@ -282,7 +283,7 @@
                     <!-- <div class="pull-question">
                       {{ item.name }}
                     </div> -->
-                    <iSelect placeholder="请选择" class="i-select nopassSelect">
+                    <iSelect :placeholder="$t('QN_QINGXUANZE')" class="i-select nopassSelect">
                       <el-option
                         v-for="it in item.options"
                         :key="it.number"
@@ -320,7 +321,7 @@
                         item.code +
                         (item.second ? ' ' : '. ') +
                         item.name +
-                        (item.requiredQuestion ? ' ' : '   (可选填)')
+                        (item.requiredQuestion ? ' ' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion == true"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -332,20 +333,20 @@
                       style="color: #999999"
                     >
                       <span v-if="item.multipleRule.least"
-                        >最少选择{{ item.multipleRule.least }}项；</span
+                        >{{$t('QN_ZUISHAOXUANZE')}}{{ item.multipleRule.least }}{{$t('QN_XIANG')}}</span
                       ><span v-if="item.multipleRule.most"
-                        >最多选择{{ item.multipleRule.most }}项；</span
+                        >{{$t('QN_ZUIDUOXUANZE')}}{{ item.multipleRule.most }}{{$t('QN_XIANG')}}</span
                       >
                     </div>
                     <div v-else class="text" style="color: #999999">
                       <span v-if="JSON.parse(item.multipleRule).least"
-                        >最少选择{{
+                        >{{$t('QN_ZUISHAOXUANZE')}}{{
                           JSON.parse(item.multipleRule).least
-                        }}项；</span
+                        }}{{$t('QN_XIANG')}}</span
                       ><span v-if="JSON.parse(item.multipleRule).most"
-                        >最多选择{{
+                        >{{$t('QN_ZUIDUOXUANZE')}}{{
                           JSON.parse(item.multipleRule).most
-                        }}项；</span
+                        }}{{$t('QN_XIANG')}}</span
                       >
                     </div>
                   </iFormItem>
@@ -371,8 +372,8 @@
                         :label="i.id + '-' + i.name"
                         class="radioItem"
                         >{{
-                          String.fromCharCode("A".charCodeAt(0) + checkIndex) +
-                          ". " +
+                          String.fromCharCode('A'.charCodeAt(0) + checkIndex) +
+                          '. ' +
                           i.name
                         }}</el-checkbox
                       >
@@ -406,19 +407,19 @@ import {
   iLabel,
   iInput,
   iSelect,
-  iPage,
-} from "rise";
-import { uploadFile } from "@/api/survey/uploadFile.js";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import { findById } from "@/api/survey/survey.js";
+  iPage
+} from 'rise'
+import { uploadFile } from '@/api/survey/uploadFile.js'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { findById } from '@/api/survey/survey.js'
 export default {
   props: {
     previewData: {
       type: Object,
       default() {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   components: {
     iButton,
@@ -427,13 +428,13 @@ export default {
     iInput,
     iSelect,
     // iCard,
-    iPage,
+    iPage
   },
   data() {
     return {
       checkList: [],
-      value: "",
-      radio: "",
+      value: '',
+      radio: '',
       uploadLoading: false,
       attachments: [], // 完成编辑页，附件
       uploadIcon,
@@ -441,15 +442,15 @@ export default {
         options: [
           {
             number: 1,
-            name: 2,
-          },
-        ],
+            name: 2
+          }
+        ]
       },
-      showQuestions: [],
-    };
+      showQuestions: []
+    }
   },
   mounted() {
-    let arr = [];
+    let arr = []
     this.previewData.questions.forEach((item) => {
       if (item.sonQuestions && item.sonQuestions.length > 0) {
         item.sonQuestions.forEach((it, index) => {
@@ -460,24 +461,24 @@ export default {
               second: true,
               nameP: item.name,
               codeP: item.code,
-              requireP: item.requiredQuestion,
-            });
+              requireP: item.requiredQuestion
+            })
           } else {
-            arr.push({ ...it, second: true });
+            arr.push({ ...it, second: true })
           }
-        });
+        })
       } else {
-        arr.push(item);
+        arr.push(item)
       }
-    });
-    this.showQuestions = arr;
+    })
+    this.showQuestions = arr
     this.$nextTick(() => {
-      document.querySelectorAll(".flex-align-center").forEach((item) => {
-        let dom = item.querySelector("span").cloneNode(true);
-        item.querySelector("span").remove();
-        item.appendChild(dom);
-      });
-    });
+      document.querySelectorAll('.flex-align-center').forEach((item) => {
+        let dom = item.querySelector('span').cloneNode(true)
+        item.querySelector('span').remove()
+        item.appendChild(dom)
+      })
+    })
   },
   // beforeDestroy() {
   //   this.previewData.questions.forEach((item) => {
@@ -489,32 +490,32 @@ export default {
   methods: {
     query(e) {
       findById(e).then((res) => {
-        this.previewData = res;
-      });
+        this.previewData = res
+      })
     },
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      this.uploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       await uploadFile(formData)
         .then((res) => {
           this.attachments.push({
             attachmentId: res.id,
             attachmentName: res.name,
-            attachmentUrl: res.path,
-          });
-          iMessage.success(this.$t("上传成功"));
+            attachmentUrl: res.path
+          })
+          iMessage.success(this.$t('QN_SHANGCHUANCHENGGONG'))
         })
-        .catch((err) => {
-          iMessage.error(this.$t("上传失败"));
-        });
-      this.uploadLoading = false;
-    },
-  },
-};
+        .catch(() => {
+          iMessage.error(this.$t('QN_SHANGCHUANSHIBAI'))
+        })
+      this.uploadLoading = false
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
-.nopassSelect{
+.nopassSelect {
   margin-left: 17px;
 }
 .para-title {
