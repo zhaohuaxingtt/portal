@@ -183,7 +183,7 @@ module.exports = {
         //   供应商
         // target: `http://${BASE_IP}:8010/supplierservice`,
         target:
-          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierApi/',
+          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''

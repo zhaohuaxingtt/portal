@@ -33,7 +33,7 @@ export const tableTitle = [
     prop: 'isActive',
     lable: '供应商状态',
     i18n: 'GONGHUO1',
-    width: 80,
+    width: 100,
     tooltip: true,
     customRender: (h, scope) => {
       return SUPPLIER_STATUS[scope.row.isActive]
@@ -157,12 +157,13 @@ export const tableTitle = [
 ]
 
 export const confirmedPreliminaryReviewListTableTitle = [
-  { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
+  { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO', width: 70 },
   {
     props: 'nameZh',
     name: '供应商名称',
     key: 'LK_GONGYINGSHANGMINGCHENG1',
-    tooltip: true
+    tooltip: true,
+    width: 300
   },
   { props: 'tto', name: '上年TO', key: 'SPR_FRM_FRMGL_SNTO' },
   { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_FRMGL_XGKS1' },
