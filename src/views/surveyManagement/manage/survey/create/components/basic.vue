@@ -13,14 +13,14 @@
             <div class="form-item-row1-col3">
               <iFormItem label="问卷模块" prop="surveyModel">
                 <iLabel
-                  :label="$t('问卷模块')"
+                  :label="$t('QN_WENJUANMOKUAI')"
                   slot="label"
                   required
                   style="width: 7.75rem"
                 ></iLabel>
                 <iSelect
                   v-model="basicRuleForm.surveyModel"
-                  :placeholder="language('请选择')"
+                  :placeholder="language('QN_QINGXUANZE')"
                   style="width: 15rem"
                 >
                   <el-option
@@ -36,14 +36,14 @@
             <div class="form-item-row1-col3">
               <iFormItem label="问卷类型" prop="type">
                 <iLabel
-                  :label="$t('问卷类型')"
+                  :label="$t('QN_WENJUANLEIXING')"
                   slot="label"
                   required
                   style="width: 7.75rem"
                 ></iLabel>
                 <iSelect
                   v-model="basicRuleForm.type"
-                  :placeholder="language('请选择')"
+                  :placeholder="language('QN_QINGXUANZE')"
                   style="width: 15rem"
                 >
                   <el-option
@@ -77,7 +77,7 @@
                   type="datetime"
                   value-format="yyyy-MM-dd HH:mm:ss"
                   format="yyyy-MM-dd HH:mm"
-                  :placeholder="language('请选择')"
+                  :placeholder="language('QN_QINGXUANZE')"
                   default-time="23:59:59"
                   style="width: 322px"
                   @change="handle"
@@ -92,7 +92,7 @@
             <div class="form-item-row1-col3">
               <iFormItem label="问卷名称" prop="name">
                 <iLabel
-                  :label="$t('问卷名称')"
+                  :label="$t('QN_WENJUANMINGCHENG')"
                   slot="label"
                   required
                   style="width: 7.75rem"
@@ -232,10 +232,14 @@
                     class="upload-button"
                     :uploadLoading="uploadLoading"
                   >
-                    {{language('上传图片')}}
+                    {{ language('QN_SHANGCHUANTUPIAN') }}
                   </iButton>
                   <div slot="tip" class="el-upload__tip">
-                    {{language('建议使用宽16:9的图片｜单张图片最大不超过15M容量')}}
+                    {{
+                      language(
+                        '建议使用宽16:9的图片｜单张图片最大不超过15M容量'
+                      )
+                    }}
                   </div>
                 </el-upload>
                 <div
@@ -268,7 +272,7 @@
       </div>
     </el-form>
     <iDialog
-      :title="'自定义-用户组选择'"
+      :title="$t('QN_ZIDINGYIYONGHUZUXUANZE')"
       :visible.sync="customDialogVisible"
       width="20%"
       :before-close="handleClose"
@@ -276,7 +280,7 @@
     >
       <div class="custom--dialog">
         <iInput
-          :placeholder="'搜索用户组...'"
+          :placeholder="$t('QN_SOUSUOYONGHUZU')"
           v-model="searchGroupInputVal"
           @keyup.enter.native="handleKeyupEnter"
         >
@@ -302,8 +306,8 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <iButton @click="handleClose">{{ "取 消" }}</iButton>
-        <iButton @click="handleConfirm">{{ "确 定" }}</iButton>
+        <iButton @click="handleClose">{{ $t('QN_QUXIAO') }}</iButton>
+        <iButton @click="handleConfirm">{{ $t('QN_QUEDING') }}</iButton>
       </span>
     </iDialog>
   </div>
@@ -316,15 +320,15 @@ import {
   iButton,
   iSelect,
   iMessage,
-  iDialog,
-} from "rise";
-import { surveyType } from "./data";
-import { uploadFile } from "@/api/survey/uploadFile.js";
+  iDialog
+} from 'rise'
+import { surveyType } from './data'
+import { uploadFile } from '@/api/survey/uploadFile.js'
 import {
   findPutoutRange,
   findAdminPermission,
-  findGroupList,
-} from "@/api/survey/survey";
+  findGroupList
+} from '@/api/survey/survey'
 export default {
   // name: "Basis",
   components: {
@@ -333,89 +337,117 @@ export default {
     iFormItem,
     iSelect,
     iButton,
-    iDialog,
+    iDialog
   },
   watch: {
-    "basicRuleForm.groupIds": function () {
-      if (this.basicRuleForm.groupIds != "") {
-        this.groupCheckList = this.basicRuleForm.groupIds.split(",");
+    'basicRuleForm.groupIds': function () {
+      if (this.basicRuleForm.groupIds != '') {
+        this.groupCheckList = this.basicRuleForm.groupIds.split(',')
         this.groupCheckList = this.groupCheckList.map((item) => {
-          return Number(item);
-        });
+          return Number(item)
+        })
       }
-    },
+    }
   },
   mounted() {
     this.queryUser().then(() => {
-      const id = this.$route.query.id;
+      const id = this.$route.query.id
       if (id) {
-        this.query({ id: this.$route.query.id });
+        this.query({ id: this.$route.query.id })
       }
-    });
+    })
     findAdminPermission().then((res) => {
       this.surveyTypeList = res?.filter((item) => {
-        return item.code > 6 && item.code < 10;
-      });
-    });
+        return item.code > 6 && item.code < 10
+      })
+    })
   },
   props: {
     basicRuleForm: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     putoutRangeCopy: {
       type: String,
       default: () => {
-        return "";
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     const validLength = function (rule, value, callback) {
       function getStrLength(str) {
-        return str.replace(/[^x00-xff]/g, "xx").length;
+        return str.replace(/[^x00-xff]/g, 'xx').length
       }
       if (!value) {
-        callback();
+        callback()
       } else if (getStrLength(value) <= this.maxLength) {
-        callback();
+        callback()
       } else {
-        return callback(new Error(`最大长度中文 ${this.maxLength / 2} 字符，英文 ${this.maxLength} 字符`));
+        return callback(
+          new Error(
+            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${
+              this.maxLength / 2
+            } ${this.$t('QN_ZIFU')}，${this.$t('QN_YINGWEN')} ${
+              this.maxLength
+            } ${this.$t('QN_ZIFU')}`
+          )
+        )
       }
-    };
+    }
 
     const length20 = {
-      maxLength: 40,
-    };
+      maxLength: 40
+    }
     const length30 = {
-      maxLength: 60,
-    };
+      maxLength: 60
+    }
     const length200 = {
-      maxLength: 400,
-    };
+      maxLength: 400
+    }
 
     return {
-      copyFile: "",
+      copyFile: '',
       customDialogVisible: false,
       // curPutOutUserArr: "",
-      searchGroupInputVal: "",
+      searchGroupInputVal: '',
       basicRules: {
         surveyModel: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         type: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         endTime: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         putoutRange: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          }
         ],
         name: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           // {
           //   min: 1,
           //   max: 20,
@@ -424,8 +456,8 @@ export default {
           // },
           {
             validator: validLength.bind(length20),
-            trigger: ["blur", "change"],
-          },
+            trigger: ['blur', 'change']
+          }
         ],
         surveyDescription: [
           // {
@@ -436,8 +468,8 @@ export default {
           // },
           {
             validator: validLength.bind(length200),
-            trigger: ["blur", "change"],
-          },
+            trigger: ['blur', 'change']
+          }
         ],
         closing: [
           // {
@@ -448,17 +480,21 @@ export default {
           // },
           {
             validator: validLength.bind(length30),
-            trigger: ["blur", "change"],
-          },
+            trigger: ['blur', 'change']
+          }
         ],
         surveyCover: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
-        ],
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          }
+        ]
       },
       pickerOptions: {
         disabledDate(time) {
-          return time.getTime() < Date.now() - 8.64e7; // 选当前时间之后的时间
-        },
+          return time.getTime() < Date.now() - 8.64e7 // 选当前时间之后的时间
+        }
       },
       surveyType,
       surveyTypeList: [],
@@ -466,8 +502,8 @@ export default {
       groupList: [],
       groupCheckList: [],
       // 弹框选中的自定义项
-      userGroup: [],
-    };
+      userGroup: []
+    }
   },
   // watch: {
   // curPutOutUserArr: {
@@ -495,94 +531,94 @@ export default {
     // },
 
     handleGroupCheckList(val) {
-      this.groupCheckList = val;
+      this.groupCheckList = val
     },
 
     // 获取自定义接口的内容
     getGroupList(e) {
       findGroupList(e).then((res) => {
-        this.groupList = res;
-      });
+        this.groupList = res
+      })
     },
 
     // 点击input框
     handleClickUserGroup() {
-      this.getGroupList({ category: this.basicRuleForm.surveyModel });
-      this.customDialogVisible = true;
+      this.getGroupList({ category: this.basicRuleForm.surveyModel })
+      this.customDialogVisible = true
       // this.groupCheckList = this.basicRuleForm.groupNames;
     },
 
     // 选中的投放范围code
     handleChangePublishRange(val) {
-      this.basicRuleForm.putoutRange = val;
+      this.basicRuleForm.putoutRange = val
       if (val == 16) {
-        if (this.basicRuleForm.surveyModel == "") {
-          this.basicRuleForm.putoutRange = null;
-          iMessage.error(this.$t("请选择问卷模块！"));
-          return;
+        if (this.basicRuleForm.surveyModel == '') {
+          this.basicRuleForm.putoutRange = null
+          iMessage.error(this.$t('QN_QINGXUANZEWENJUANMOKUAI'))
+          return
         } else {
-          this.getGroupList({ category: this.basicRuleForm.surveyModel });
-          this.customDialogVisible = true;
+          this.getGroupList({ category: this.basicRuleForm.surveyModel })
+          this.customDialogVisible = true
         }
         // this.groupCheckList =
         //   this.ruleForm.userGroup?.map((item) => item.id) || [];
       } else {
-        this.basicRuleForm.groupIds = "";
-        this.basicRuleForm.groupNames = "";
+        this.basicRuleForm.groupIds = ''
+        this.basicRuleForm.groupNames = ''
       }
     },
 
     // 弹框-确认
     handleConfirm() {
-      this.basicRuleForm.groupIds = "";
-      this.basicRuleForm.groupNames = "";
+      this.basicRuleForm.groupIds = ''
+      this.basicRuleForm.groupNames = ''
       this.userGroup =
         this.groupList.length > 0
           ? this.groupList.filter((item) => {
-              return this.groupCheckList.includes(item.id);
+              return this.groupCheckList.includes(item.id)
             })
-          : null;
+          : null
       this.userGroup.map((i) => {
-        if (this.basicRuleForm.groupIds == "") {
-          this.basicRuleForm.groupIds = i.id;
-          this.basicRuleForm.groupNames = i.groupName;
+        if (this.basicRuleForm.groupIds == '') {
+          this.basicRuleForm.groupIds = i.id
+          this.basicRuleForm.groupNames = i.groupName
         } else {
-          this.basicRuleForm.groupIds += "," + i.id;
-          this.basicRuleForm.groupNames += "," + i.groupName;
+          this.basicRuleForm.groupIds += ',' + i.id
+          this.basicRuleForm.groupNames += ',' + i.groupName
         }
-      });
-      this.customDialogVisible = false;
-      this.searchGroupInputVal = "";
+      })
+      this.customDialogVisible = false
+      this.searchGroupInputVal = ''
       if (this.userGroup === null || this.userGroup.length === 0) {
-        this.basicRuleForm.putoutRange = null;
+        this.basicRuleForm.putoutRange = null
       }
     },
 
     // 弹框-关闭
     handleClose() {
-      this.customDialogVisible = false;
+      this.customDialogVisible = false
       if (this.userGroup === null || this.userGroup?.length === 0) {
-        this.basicRuleForm.putoutRange = null;
+        this.basicRuleForm.putoutRange = null
       }
-      this.searchGroupInputVal = "";
+      this.searchGroupInputVal = ''
     },
     // 弹框-用户组选择
     handleKeyupEnter() {
       this.getGroupList({
         category: this.basicRuleForm.surveyModel,
-        groupName: this.searchGroupInputVal,
-      });
+        groupName: this.searchGroupInputVal
+      })
     },
 
     handle: function () {
-      let startAt = (new Date(this.basicRuleForm.endTime) * 1000) / 1000;
+      let startAt = (new Date(this.basicRuleForm.endTime) * 1000) / 1000
       if (startAt < Date.now()) {
-        iMessage.warn(this.$t("截至时间不能小于当前时间！"));
+        iMessage.warn(this.$t('QN_JIEZHISHIJIANBUNENGXIAOYUDANGQIANSHIJIAN'))
       }
     },
     keydown(e) {
-      if (e.keyCode == 32 && this.basicRuleForm.name == "") {
-        e.returnValue = false;
+      if (e.keyCode == 32 && this.basicRuleForm.name == '') {
+        e.returnValue = false
       }
     },
     // query(e) {
@@ -604,46 +640,46 @@ export default {
     //   return str;
     // },
     async queryUser() {
-      const res = await findPutoutRange();
-      this.putOutRange = res;
+      const res = await findPutoutRange()
+      this.putOutRange = res
     },
     beforeAvatarUpload(file) {
-      const fileName = file.name.substring(file.name.length - 50);
-      this.copyFile = new File([file], fileName);
-      if (!file.type.includes("image/")) {
-        this.$message.error("请上传图片文件");
-        return false;
+      const fileName = file.name.substring(file.name.length - 50)
+      this.copyFile = new File([file], fileName)
+      if (!file.type.includes('image/')) {
+        this.$message.error(this.$t('QN_QINGSHANGCHUANTUPIANWENJIAN'))
+        return false
       }
-      const isLt15M = file.size / 1024 / 1024 < 15;
+      const isLt15M = file.size / 1024 / 1024 < 15
       if (!isLt15M) {
-        this.$message.error("上传头像图片大小不能超过 15MB!");
+        this.$message.error(this.$t('QN_SHANGCHUANWENJIANBUNENGCHAOGUO15M'))
       }
-      return isLt15M;
+      return isLt15M
     },
     handleLoad() {
-      this.$refs["img"].classList.remove("error");
+      this.$refs['img'].classList.remove('error')
     },
     handleError() {
-      this.$refs["img"].classList.add("error");
+      this.$refs['img'].classList.add('error')
     },
     async httpUpload() {
-      let formData = new FormData();
-      formData.append("file", this.copyFile);
+      let formData = new FormData()
+      formData.append('file', this.copyFile)
       await uploadFile(formData)
         .then((res) => {
-          this.basicRuleForm.surveyCover = res.path;
-          this.basicRuleForm.coverName = res.name;
-          iMessage.success(this.$t("上传成功"));
+          this.basicRuleForm.surveyCover = res.path
+          this.basicRuleForm.coverName = res.name
+          iMessage.success(this.$t('QN_SHANGCHUANCHENGGONG'))
         })
         .catch(() => {
-          iMessage.error(this.$t("上传失败"));
-        });
+          iMessage.error(this.$t('QN_SHANGCHUANSHIBAI'))
+        })
     },
     handleDeleteAccessory() {
-      this.basicRuleForm.surveyCover = "";
-    },
-  },
-};
+      this.basicRuleForm.surveyCover = ''
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .custom--dialog {
@@ -692,14 +728,14 @@ export default {
 .inputSixty {
   width: 55.25rem;
   ::v-deep .el-select .el-input .el-select__caret::before {
-    content: "\e723";
+    content: '\e723';
   }
   .upload-content {
     display: flex;
     .image-box {
       width: 20rem;
       height: 180px;
-      background-image: url("../../../../../../assets/images/survey/survey-back.svg");
+      background-image: url('../../../../../../assets/images/survey/survey-back.svg');
       background-repeat: no-repeat;
       background-color: #f9f9f9;
       background-position: center;

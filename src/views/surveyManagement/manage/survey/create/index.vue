@@ -301,7 +301,7 @@ export default {
     translateQuestion(arr, model) {
       if (model === 'save') {
         arr = this.deleMuptil(arr)
-        return arr.map((item, index) => {
+        return arr.map((item) => {
           if (Number(item.type) !== 9) {
             if (item.multipleRule) {
               return {
@@ -351,7 +351,7 @@ export default {
             return {
               ...item,
               // code: item.number,
-              sonQuestions: arr.map((it, ind) => {
+              sonQuestions: arr.map((it) => {
                 if (it.multipleRule) {
                   return {
                     ...it,
@@ -398,7 +398,7 @@ export default {
         })
       }
       if (model === 'get') {
-        return arr.map((item, index) => {
+        return arr.map((item) => {
           if (Number(item.type) !== 9) {
             if (item.multipleRule) {
               return {
@@ -415,7 +415,7 @@ export default {
             return {
               ...item,
               editor: false,
-              sonQuestions: item.sonQuestions.map((it, ind) => {
+              sonQuestions: item.sonQuestions.map((it) => {
                 if (it.multipleRule) {
                   return {
                     ...it,
@@ -502,7 +502,7 @@ export default {
                 })
               })
             } else {
-              saveSurvey(this.basicRuleForm).then((data) => {
+              saveSurvey(this.basicRuleForm).then(() => {
                 this.$router.push({
                   path: '/survey/management'
                 })
@@ -521,7 +521,7 @@ export default {
             })
           })
         } else {
-          saveSurvey(this.basicRuleForm).then((data) => {
+          saveSurvey(this.basicRuleForm).then(() => {
             this.$router.push({
               path: '/survey/management'
             })

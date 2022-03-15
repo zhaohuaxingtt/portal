@@ -22,18 +22,18 @@
       <!-- 文字+按钮 -->
       <div class="form-top">
         <div>
-          <h2>备注说明</h2>
+          <h2>{{ $t('QN_BEIZHUSHUOMING') }}</h2>
         </div>
         <div>
-          <iButton @click="complete()">完成编辑</iButton>
-          <iButton @click="cancelComplete()">删除该题</iButton>
+          <iButton @click="complete()">{{ $t('QN_WANCHENGBIANJI') }}</iButton>
+          <iButton @click="cancelComplete()">{{ $t('QN_SHANCHUGAITI') }}</iButton>
         </div>
       </div>
       <el-row class="form-row">
         <div class="form-item-row1-col3">
           <iFormItem label="备注内容" prop="name">
             <iLabel
-              :label="$t('备注内容')"
+              :label="$t('QN_BEIZHUNEIRONG')"
               slot="label"
               required
               style="width: 10rem"
@@ -41,7 +41,7 @@
             <iInput
               type="textarea"
               :rows="4"
-              placeholder="请输入内容"
+              :placeholder="$t('QN_QINGSHURUNEIRONG')"
               v-model="ruleForm.name"
               @keydown.native="keydownName($event)"
             />
@@ -63,18 +63,18 @@
       @mouseout="leave()"
     >
       <div class="operation-btn">
-        <iButton v-show="mouseOver == true" @click="enterEditor()"
-          >编辑</iButton
-        >
+        <iButton v-show="mouseOver == true" @click="enterEditor()">{{
+          $t('QN_BIANJI')
+        }}</iButton>
         <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
-        <iButton v-show="mouseOver == true" @click="handlDelete()"
-          >删除</iButton
-        >
+        <iButton v-show="mouseOver == true" @click="handlDelete()">{{
+          $t('QN_SHANCHU')
+        }}</iButton>
         <iButton
           v-show="mouseOver == true"
           @click="handleTop()"
           :disabled="overEditor ? (isParap ? sortP == 1 : sort == 1) : true"
-          >上移</iButton
+          >{{ $t('QN_SHANGYI') }}</iButton
         >
         <iButton
           v-show="mouseOver == true"
@@ -86,7 +86,7 @@
                 : sort == topicLength
               : true
           "
-          >下移</iButton
+          >{{ $t('QN_XIAYI') }}</iButton
         >
       </div>
       <div class="title">{{ ruleForm.name }}</div>
@@ -95,47 +95,53 @@
 </template>
 
 <script>
-import { iLabel, iInput, iFormItem, iButton } from "rise";
-import surveyMobile from "@/assets/images/survey/survey-mobile.svg";
+import { iLabel, iInput, iFormItem, iButton } from 'rise'
+import surveyMobile from '@/assets/images/survey/survey-mobile.svg'
 
 export default {
   props: [
-    "sort",
-    "copyTopic",
-    "type",
-    "number",
-    "topicLength",
-    "contentCopy",
-    "topicLengthP",
-    "numberP",
-    "info",
-    "infoP",
-    "isParap",
-    "overEditor",
+    'sort',
+    'copyTopic',
+    'type',
+    'number',
+    'topicLength',
+    'contentCopy',
+    'topicLengthP',
+    'numberP',
+    'info',
+    'infoP',
+    'isParap',
+    'overEditor'
   ],
   components: {
     iLabel,
     iInput,
     iFormItem,
-    iButton,
+    iButton
   },
   data() {
     const validLength = function (rule, value, callback) {
       function getStrLength(str) {
-        return str.replace(/[^x00-xff]/g, "xx").length;
+        return str.replace(/[^x00-xff]/g, 'xx').length
       }
       if (!value) {
-        callback();
+        callback()
       } else if (getStrLength(value) <= this.maxLength) {
-        callback();
+        callback()
       } else {
-        return callback(new Error(`最大长度中文 ${this.maxLength / 2} 字符，英文 ${this.maxLength} 字符`));
+        return callback(
+          new Error(
+            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${this.maxLength / 2} ${this.$t(
+              'QN_ZIFU'
+            )}，${this.$t('QN_YINGWEN')} ${this.maxLength} ${this.$t('QN_ZIFU')}`
+          )
+        )
       }
-    };
+    }
 
     const length200 = {
-      maxLength: 400,
-    };
+      maxLength: 400
+    }
     return {
       editor: this.isParap ? this.infoP.editor : this.info.editor,
       mouseOver: false,
@@ -143,14 +149,14 @@ export default {
       ruleForm: {
         editor: true,
         // topicType: this.type,
-        name: "", // 问题名称
+        name: '', // 问题名称
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
-        type: 7, // 问题类型
+        type: 7 // 问题类型
       },
       rules: {
         name: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          { required: true, message: this.$t('QN_BITIAN'), trigger: ['blur', 'change'] },
           // {
           //   min: 1,
           //   max: 400,
@@ -159,113 +165,113 @@ export default {
           // },
           {
             validator: validLength.bind(length200),
-            trigger: ["blur", "change"],
-          },
-        ],
-      },
-    };
+            trigger: ['blur', 'change']
+          }
+        ]
+      }
+    }
   },
   watch: {
-    "info.number": {
+    'info.number': {
       immediate: true,
       deep: true,
       handler(val) {
         if (val) {
           if (!this.isParap) {
-            this.ruleForm = { ...this.ruleForm, ...this.info };
+            this.ruleForm = { ...this.ruleForm, ...this.info }
           }
         }
-      },
+      }
     },
-    "infoP.number": {
+    'infoP.number': {
       immediate: true,
       deep: true,
       handler(val) {
         if (val) {
           if (this.isParap) {
-            this.ruleForm = { ...this.ruleForm, ...this.infoP };
+            this.ruleForm = { ...this.ruleForm, ...this.infoP }
           }
         }
-      },
-    },
+      }
+    }
   },
   mounted() {
-    let obj = this.isParap ? { ...this.infoP } : { ...this.info };
-    this.ruleForm = { ...this.ruleForm, ...obj };
+    let obj = this.isParap ? { ...this.infoP } : { ...this.info }
+    this.ruleForm = { ...this.ruleForm, ...obj }
     if (this.copyTopic == true) {
-      this.ruleForm = this.contentCopy;
+      this.ruleForm = this.contentCopy
     }
   },
   methods: {
     // 删除该题
     cancelComplete() {
       if (this.isParap) {
-        this.$emit("cancelCompleteP", this.ruleForm);
+        this.$emit('cancelCompleteP', this.ruleForm)
       } else {
-        this.$emit("cancelComplete", this.ruleForm);
+        this.$emit('cancelComplete', this.ruleForm)
       }
     },
     keydownName(e) {
-      if (e.keyCode == 32 && this.ruleForm.name == "") {
-        e.returnValue = false;
+      if (e.keyCode == 32 && this.ruleForm.name == '') {
+        e.returnValue = false
       }
     },
     // 完成编辑
     complete() {
-      this.$refs["ruleForm"].validate((valid) => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          this.editor = false;
-          this.ruleForm.editor = this.editor;
+          this.editor = false
+          this.ruleForm.editor = this.editor
           // this.$emit("handleSaveData", this.ruleForm);
           if (this.isParap) {
-            this.$emit("handleSaveDataP", this.ruleForm);
+            this.$emit('handleSaveDataP', this.ruleForm)
           } else {
-            this.$emit("handleSaveData", this.ruleForm);
+            this.$emit('handleSaveData', this.ruleForm)
           }
         }
-      });
-      return this.editor;
+      })
+      return this.editor
     },
     // 展示一列按钮
     enter() {
-      this.mouseOver = true;
+      this.mouseOver = true
     },
     // 鼠标离开
     leave() {
-      this.mouseOver = false;
+      this.mouseOver = false
     },
     // 编辑
     enterEditor() {
-      this.overEditor = false;
-      this.editor = true;
-      this.ruleForm.editor = true;
-      this.$emit("handleEnterEditor", this.ruleForm);
+      this.overEditor = false
+      this.editor = true
+      this.ruleForm.editor = true
+      this.$emit('handleEnterEditor', this.ruleForm)
     },
 
     // 复制
     handleCopy() {
-      this.$emit("handleCopy", this.ruleForm);
+      this.$emit('handleCopy', this.ruleForm)
     },
     // 删除
     handlDelete() {
       if (this.isParap) {
-        this.$emit("handleDeleteP", this.ruleForm);
+        this.$emit('handleDeleteP', this.ruleForm)
       } else {
-        this.$emit("handleDelete", this.ruleForm);
+        this.$emit('handleDelete', this.ruleForm)
       }
     },
     // 上移
     handleTop() {
       // this.ruleForm.editor = this.editor;
-      this.$emit("handleTop", this.ruleForm);
+      this.$emit('handleTop', this.ruleForm)
     },
     // 下移
     handleBottom() {
       // this.ruleForm.editor = this.editor;
-      this.$emit("handleBottom", this.ruleForm);
-    },
-  },
-};
+      this.$emit('handleBottom', this.ruleForm)
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .form-box {

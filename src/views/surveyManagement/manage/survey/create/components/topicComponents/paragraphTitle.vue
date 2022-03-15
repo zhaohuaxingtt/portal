@@ -22,18 +22,18 @@
       <!-- 文字+按钮 -->
       <div class="form-top">
         <div>
-          <h2>段落</h2>
+          <h2>{{ $t('QN_DUANLUO') }}</h2>
         </div>
         <div>
-          <iButton @click="complete()">完成编辑</iButton>
-          <iButton @click="cancelComplete()">删除该题</iButton>
+          <iButton @click="complete()">{{ $t('QN_WANCHENGBIANJI') }}</iButton>
+          <iButton @click="cancelComplete()">{{ $t('QN_SHANCHUGAITI') }}</iButton>
         </div>
       </div>
       <el-row class="form-row">
         <div class="form-item-row1-col3">
           <iFormItem label="题目编号" prop="index">
             <iLabel
-              :label="$t('题目编号')"
+              :label="$t('QN_TIMUBIANHAO')"
               slot="label"
               style="width: 10rem"
             ></iLabel>
@@ -50,13 +50,13 @@
         <div class="form-item-row1-col3">
           <iFormItem label="段落标题" prop="name">
             <iLabel
-              :label="$t('段落标题')"
+              :label="$t('QN_DUANLUOBIAOTI')"
               slot="label"
               style="width: 10rem"
               required
             ></iLabel>
             <iInput
-              placeholder="请输入题目内容"
+              :placeholder="$t('QN_QINGSHURUTIMUNEIRONG')"
               v-model="ruleForm.name"
               @keydown.native="keydownName($event)"
             />
@@ -136,14 +136,20 @@
       @mouseout="leave()"
     >
       <div class="operation-btn">
-        <iButton v-show="mouseOver" @click="enterEditor()">编辑</iButton>
-        <iButton v-show="mouseOver" @click="handleCopy()">复制</iButton>
-        <iButton v-show="mouseOver" @click="handlDelete()">删除</iButton>
+        <iButton v-show="mouseOver" @click="enterEditor()">{{
+          $t('QN_BIANJI')
+        }}</iButton>
+        <iButton v-show="mouseOver" @click="handleCopy()">{{
+          $t('QN_FUZHI')
+        }}</iButton>
+        <iButton v-show="mouseOver" @click="handlDelete()">{{
+          $t('QN_SHANCHU')
+        }}</iButton>
         <iButton
           v-show="mouseOver"
           @click="handleTop()"
           :disabled="overEditor ? sort == 1 : true"
-          >上移</iButton
+          >{{ $t('QN_SHANGYI') }}</iButton
         >
         <iButton
           v-show="mouseOver"
@@ -155,11 +161,11 @@
                 : sort == topicLength
               : true
           "
-          >下移</iButton
+          >{{ $t('QN_XIAYI') }}</iButton
         >
       </div>
       <div>
-        <div class="title">{{ info.code + ". " }} {{ ruleForm.name }}</div>
+        <div class="title">{{ info.code + '. ' }} {{ ruleForm.name }}</div>
       </div>
       <div>
         <previewOperate
@@ -181,31 +187,31 @@
 </template>
 
 <script>
-import { iLabel, iInput, iFormItem, iButton } from "rise";
-import surveyMobile from "@/assets/images/survey/survey-mobile.svg";
-import radioTitle from "./radioTitle.vue";
-import borderTitle from "./borderTitle.vue";
-import selectTitle from "./selectTitle.vue";
-import pullTitle from "./pullTitle.vue";
-import blankTitle from "./blankTitle.vue";
-import imgTitle from "./imgTitle.vue";
-import fileTitle from "./fileTitle.vue";
-import remarkTitle from "./remarkTitle.vue";
-import dividerTitle from "./divider.vue";
-import previewOperate from "../previewOperate.vue";
-import draggable from "vuedraggable";
-import { iMessage } from "rise";
+import { iLabel, iInput, iFormItem, iButton } from 'rise'
+import surveyMobile from '@/assets/images/survey/survey-mobile.svg'
+import radioTitle from './radioTitle.vue'
+import borderTitle from './borderTitle.vue'
+import selectTitle from './selectTitle.vue'
+import pullTitle from './pullTitle.vue'
+import blankTitle from './blankTitle.vue'
+import imgTitle from './imgTitle.vue'
+import fileTitle from './fileTitle.vue'
+import remarkTitle from './remarkTitle.vue'
+import dividerTitle from './divider.vue'
+import previewOperate from '../previewOperate.vue'
+import draggable from 'vuedraggable'
+import { iMessage } from 'rise'
 export default {
   props: [
-    "id",
-    "type",
-    "number",
-    "topicLength",
-    "contentCopy",
-    "sort",
-    "info",
-    "overEditor",
-    "racialTopicLength",
+    'id',
+    'type',
+    'number',
+    'topicLength',
+    'contentCopy',
+    'sort',
+    'info',
+    'overEditor',
+    'racialTopicLength'
     // "contentlistP",
   ],
   components: {
@@ -225,43 +231,49 @@ export default {
     // remarkTitle,
     // dividerTitle,
     remarkTitle,
-    dividerTitle,
+    dividerTitle
   },
   data() {
     const validLength = function (rule, value, callback) {
       function getStrLength(str) {
-        return str.replace(/[^x00-xff]/g, "xx").length;
+        return str.replace(/[^x00-xff]/g, 'xx').length
       }
       if (!value) {
-        callback();
+        callback()
       } else if (getStrLength(value) <= this.maxLength) {
-        callback();
+        callback()
       } else {
-        return callback(new Error(`最大长度中文 ${this.maxLength / 2} 字符，英文 ${this.maxLength} 字符`));
+        return callback(
+          new Error(
+            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${this.maxLength / 2} ${this.$t(
+              'QN_ZIFU'
+            )}，${this.$t('QN_YINGWEN')} ${this.maxLength} ${this.$t('QN_ZIFU')}`
+          )
+        )
       }
-    };
+    }
 
     const length100 = {
-      maxLength: 200,
-    };
+      maxLength: 200
+    }
     return {
       typeObjArr: [
-        "radio",
-        "select",
-        "blank",
-        "img",
-        "file",
-        "pull",
-        "remark",
-        "divider",
+        'radio',
+        'select',
+        'blank',
+        'img',
+        'file',
+        'pull',
+        'remark',
+        'divider'
       ],
       dragOptions() {
         return {
           animation: 400,
-          group: "description",
+          group: 'description',
           disabled: false,
-          ghostClass: "ghost",
-        };
+          ghostClass: 'ghost'
+        }
       },
       //  contentCopy: {},
       racialTopicLengthP: 0,
@@ -276,17 +288,21 @@ export default {
         editor: true,
         // topicType: this.type,
         // id: this.id,
-        id: "",
-        name: "", // 问题名称
+        id: '',
+        name: '', // 问题名称
         // code: this.number, // 问题编号
         number: this.number, // 问题序号
         type: 9, // 问题类型
         requiredQuestion: true, // 是否必答
-        sonQuestions: [],
+        sonQuestions: []
       },
       rules: {
         name: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           // {
           //   min: 1,
           //   max: 100,
@@ -295,136 +311,140 @@ export default {
           // },
           {
             validator: validLength.bind(length100),
-            trigger: ["blur", "change"],
-          },
-        ],
-      },
-    };
+            trigger: ['blur', 'change']
+          }
+        ]
+      }
+    }
   },
   watch: {
     contentlistInner: {
       handler(list) {
         if (!this.operate) {
-          return;
+          return
         }
-        let bol = false;
+        let bol = false
         this.overEditorP = list.every((item) => {
           if (item.options) {
             item.options.forEach((item) => {
               if (item.action) {
-                bol = true;
+                bol = true
               }
-            });
+            })
           }
           // if (item.actionItem) {
           //   bol = true;
           // }
           if (item.actionItem && item.actionItem.value) {
-            bol = true;
+            bol = true
           }
-          return !item.editor;
-        });
-        this.actionBarP = bol;
+          return !item.editor
+        })
+        this.actionBarP = bol
       },
-      immediate: true,
+      immediate: true
     },
-    "info.number": {
+    'info.number': {
       immediate: true,
       deep: true,
       handler(val) {
         if (val) {
-          this.ruleForm = { ...this.ruleForm, ...this.info };
+          this.ruleForm = { ...this.ruleForm, ...this.info }
         }
-      },
-    },
+      }
+    }
   },
   mounted() {
     // this.overEditorP = true;
-    this.ruleForm = { ...this.ruleForm, ...this.info };
-    console.log("this.ruleForm", this.ruleForm);
-    this.contentlistInner = [...this.ruleForm.sonQuestions];
+    this.ruleForm = { ...this.ruleForm, ...this.info }
+    console.log('this.ruleForm', this.ruleForm)
+    this.contentlistInner = [...this.ruleForm.sonQuestions]
     this.contentlistInner = this.contentlistInner.map((item, index) => {
       return {
         ...item,
         number: index + 1,
-        type: item.type,
-      };
-    });
-    this.contentlistInner = this.handleCheckCode(this.contentlistInner);
-    console.log("this.contentlistInner", this.contentlistInner);
+        type: item.type
+      }
+    })
+    this.contentlistInner = this.handleCheckCode(this.contentlistInner)
+    console.log('this.contentlistInner', this.contentlistInner)
   },
   methods: {
     //设置code的函数
     handleCheckCode(arr) {
-      let curCode = 0;
+      let curCode = 0
       arr = arr.map((item) => {
         if (Number(item.type) !== 7 && Number(item.type) !== 8) {
-          curCode++;
+          curCode++
           return {
             ...item,
-            code: curCode,
-          };
+            code: curCode
+          }
         }
         return {
           ...item,
-          code: "",
-        };
-      });
-      this.racialTopicLengthP = curCode;
-      return arr;
+          code: ''
+        }
+      })
+      this.racialTopicLengthP = curCode
+      return arr
     },
     // 删除该题
     cancelComplete() {
-      this.$emit("cancelComplete", this.ruleForm);
+      this.$emit('cancelComplete', this.ruleForm)
     },
     cancelCompleteP(data) {
-      let index = data.number - 1;
-      this.contentlistInner.splice(index, 1);
+      let index = data.number - 1
+      this.contentlistInner.splice(index, 1)
       this.contentlistInner = this.contentlistInner.map((item, index) => {
         return {
           ...item,
-          number: index + 1,
-        };
-      });
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+          number: index + 1
+        }
+      })
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
     },
     handleStart(data) {
-      const obj = this.contentlistInner[data.oldIndex];
+      const obj = this.contentlistInner[data.oldIndex]
       if (this.actionBarP && Number(obj.type) !== 8 && Number(obj.type) !== 7) {
-        this.$confirm("拖拽将清空跳题设置，确认是否拖拽？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
-          this.actionBarP = false;
-        });
+        this.$confirm(
+          this.$t('QN_TUOZHUAIJIANGQINGKONGTIAOTISHEZHISHIFOUTUOZHUAI'),
+          this.$t('QN_TISHI'),
+          {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
+          this.actionBarP = false
+        })
       }
     },
     handleEnterEditor(data) {
-      this.overEditorP = false;
-      let index = data.number - 1;
-      this.contentlistInner.splice(index, 1, { ...data });
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+      this.overEditorP = false
+      let index = data.number - 1
+      this.contentlistInner.splice(index, 1, { ...data })
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
     },
     keydownName(e) {
-      if (e.keyCode == 32 && this.ruleForm.name == "") {
-        e.returnValue = false;
+      if (e.keyCode == 32 && this.ruleForm.name == '') {
+        e.returnValue = false
       }
     },
     moveInArray(arr, from, to) {
       // 确保是有效数组
-      if (Object.prototype.toString.call(arr) !== "[object Array]") {
-        throw new Error("Please provide a valid array");
+      if (Object.prototype.toString.call(arr) !== '[object Array]') {
+        throw new Error('Please provide a valid array')
       }
       // 删除当前的位置
-      var item = arr.splice(from, 1);
+      var item = arr.splice(from, 1)
       // 确保还剩有元素移动
       if (!item.length) {
-        throw new Error("There is no item in the array at index " + from);
+        throw new Error('There is no item in the array at index ' + from)
       }
       // 移动元素到指定位置
-      arr.splice(to, 0, item[0]);
-      return arr;
+      arr.splice(to, 0, item[0])
+      return arr
     },
     // handleContentDrag(data) {
     //   console.log("data", data);
@@ -434,13 +454,13 @@ export default {
         this.contentlistInner,
         data.oldIndex,
         data.newIndex
-      );
+      )
       this.contentlistInner = arr.map((item, index) => {
         return {
           ...item,
-          number: index + 1,
-        };
-      });
+          number: index + 1
+        }
+      })
       if (
         Number(data.moved.element.type) !== 8 &&
         Number(data.moved.element.type) !== 7
@@ -450,59 +470,59 @@ export default {
             item.options = item.options.map((it) => {
               return {
                 ...it,
-                action: "",
-              };
-            });
+                action: ''
+              }
+            })
             return {
               ...item,
-              actionItem: "",
-            };
+              actionItem: ''
+            }
           }
           return {
             ...item,
-            actionItem: "",
-          };
-        });
+            actionItem: ''
+          }
+        })
       }
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
     },
     handleBorderDrop(e) {
-      let type = e.dataTransfer.getData("type");
+      let type = e.dataTransfer.getData('type')
       if (type) {
-        this.handleAddType(type);
+        this.handleAddType(type)
       }
     },
     handleCompleteAdd(str, str2) {
-      let bol = false;
+      let bol = false
       if (this.$refs.childFIn) {
         this.$refs.childFIn.forEach((item) => {
           if (!bol) {
-            bol = item.complete();
+            bol = item.complete()
           } else {
-            item.complete();
+            item.complete()
           }
-        });
+        })
         // if (bol) {
         //   iMessage.warn(this.$t("请完成编辑后再添加！"));
         //   return;
         // }
       }
       if (!bol) {
-        if ("haha" !== str) {
-          this.complete();
+        if ('haha' !== str) {
+          this.complete()
         }
-        if (str2 === "para") {
-          return this.complete();
+        if (str2 === 'para') {
+          return this.complete()
         }
       }
 
-      return bol;
+      return bol
     },
     handleAddType(type) {
-      let bol = this.handleCompleteAdd("haha");
+      let bol = this.handleCompleteAdd('haha')
       if (bol) {
-        iMessage.warn("请完成编辑后再添加!");
-        return;
+        iMessage.warn(this.$t('QN_QINGWANCHENGBIANJIHOUZAITIANJIA'))
+        return
       }
       if (
         this.contentlistInner.sonQuestions &&
@@ -512,145 +532,145 @@ export default {
           // id: this.contentlist.length + 1,
           type: type,
           number: this.contentlistInner.length + 1,
-          editor: true,
-        });
+          editor: true
+        })
       } else {
         this.contentlistInner.push({
           // id: this.contentlist.length + 1,
           type: type,
           number: this.contentlistInner.length + 1,
           editor: true,
-          name: "",
-        });
+          name: ''
+        })
       }
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
     },
     // 保存数据
     handleSaveDataComp(data) {
       let index = this.contentlistInner.findIndex((item) => {
-        return item.number === data.number;
-      });
+        return item.number === data.number
+      })
       if (index >= 0) {
-        this.contentlistInner.splice(index, 1, data);
+        this.contentlistInner.splice(index, 1, data)
       }
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
-      this.operate = true;
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
+      this.operate = true
       // this.ruleForm.sonQuestions = [...this.contentlist];
       // this.$emit("handleSaveData", data);
     },
     // 删除
     handleDeleteComp(data) {
       this.contentlistInner = this.contentlistInner.filter((item) => {
-        return item.number !== data.number;
-      });
+        return item.number !== data.number
+      })
       this.contentlistInner = this.contentlistInner.map((item, index) => {
         // item.number = this.contentlist.indexOf(item) + 1;
         return {
           ...item,
-          number: index + 1,
-        };
-      });
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+          number: index + 1
+        }
+      })
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
     },
 
     // 数组元素互换位置
     swapArrayComp(arr, index1, index2) {
-      arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+      arr[index1] = arr.splice(index2, 1, arr[index1])[0]
       arr.map((item, index) => {
-        return (item.number = index + 1);
-      });
-      return arr;
+        return (item.number = index + 1)
+      })
+      return arr
     },
     // 复制
     handleCopyComp(data) {
-      this.contentCopy = { ...data };
+      this.contentCopy = { ...data }
       if (this.actionBarP) {
         if (Number(data.type) === 8 || Number(data.type) === 7) {
-          this.contentCopy.id = "";
-          let index = data.number - 1;
+          this.contentCopy.id = ''
+          let index = data.number - 1
           // this.contentCopy.actionItem = "";
-          this.contentlistInner.splice(index, 0, this.contentCopy);
+          this.contentlistInner.splice(index, 0, this.contentCopy)
           this.contentlistInner = this.contentlistInner.map((item, index) => {
             return {
               ...item,
-              number: index + 1,
+              number: index + 1
               // actionItem: "",
-            };
-          });
+            }
+          })
           if (Number(data.type) !== 8 && Number(data.type) !== 7) {
             this.contentlistInner = this.contentlistInner.map((item) => {
               if (item.options) {
                 item.options = item.options.map((it) => {
                   return {
                     ...it,
-                    action: "",
-                  };
-                });
+                    action: ''
+                  }
+                })
                 return {
                   ...item,
-                  actionItem: "",
-                };
+                  actionItem: ''
+                }
               }
               return {
                 ...item,
-                actionItem: "",
-              };
-            });
+                actionItem: ''
+              }
+            })
           }
-          this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+          this.contentlistInner = this.handleCheckCode(this.contentlistInner)
         } else {
-          this.$confirm("复制将清空跳转,是否复制", "提示", {
-            confirmButtonText: "是",
-            cancelButtonText: "否",
-            type: "warning",
+          this.$confirm(this.$t('QN_FUZHIJIANGQINGKONGTIAOZHUANSHIFOUFUZHU'), this.$t('QN_TISHI'), {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
           }).then(() => {
-            this.contentCopy.id = "";
-            let index = data.number - 1;
+            this.contentCopy.id = ''
+            let index = data.number - 1
             // this.contentCopy.actionItem = "";
-            this.contentlistInner.splice(index, 0, this.contentCopy);
+            this.contentlistInner.splice(index, 0, this.contentCopy)
             this.contentlistInner = this.contentlistInner.map((item, index) => {
               return {
                 ...item,
-                number: index + 1,
+                number: index + 1
                 // actionItem: "",
-              };
-            });
+              }
+            })
             if (Number(data.type) !== 8 && Number(data.type) !== 7) {
               this.contentlistInner = this.contentlistInner.map((item) => {
                 if (item.options) {
                   item.options = item.options.map((it) => {
                     return {
                       ...it,
-                      action: "",
-                    };
-                  });
+                      action: ''
+                    }
+                  })
                   return {
                     ...item,
-                    actionItem: "",
-                  };
+                    actionItem: ''
+                  }
                 }
                 return {
                   ...item,
-                  actionItem: "",
-                };
-              });
+                  actionItem: ''
+                }
+              })
             }
-            this.contentlistInner = this.handleCheckCode(this.contentlistInner);
-          });
+            this.contentlistInner = this.handleCheckCode(this.contentlistInner)
+          })
         }
       } else {
-        this.contentCopy.id = "";
-        let index = data.number - 1;
-        this.contentCopy.actionItem = "";
-        this.contentlistInner.splice(index, 0, this.contentCopy);
+        this.contentCopy.id = ''
+        let index = data.number - 1
+        this.contentCopy.actionItem = ''
+        this.contentlistInner.splice(index, 0, this.contentCopy)
         this.contentlistInner = this.contentlistInner.map((item, index) => {
           return {
             ...item,
             number: index + 1,
-            actionItem: "",
-          };
-        });
-        this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+            actionItem: ''
+          }
+        })
+        this.contentlistInner = this.handleCheckCode(this.contentlistInner)
       }
     },
     clearSetJump() {
@@ -659,36 +679,36 @@ export default {
           item.options = item.options.map((it) => {
             return {
               ...it,
-              action: "",
-            };
-          });
+              action: ''
+            }
+          })
           return {
             ...item,
-            actionItem: "",
-          };
+            actionItem: ''
+          }
         }
         return {
           ...item,
-          actionItem: "",
-        };
-      });
-      this.actionBarP = false;
-      this.ruleForm.sonQuestions = [...this.contentlistInner];
+          actionItem: ''
+        }
+      })
+      this.actionBarP = false
+      this.ruleForm.sonQuestions = [...this.contentlistInner]
     },
     // 上移
     handleTopComp(data) {
-      this.actionBarP = false;
+      this.actionBarP = false
       // let index = data.number - 1;
       // this.swapArrayComp(this.contentlist, index - 1, index);
-      data.id = data.number;
-      let index = data.number - 1;
-      this.contentlistInner[index] = { ...data };
+      data.id = data.number
+      let index = data.number - 1
+      this.contentlistInner[index] = { ...data }
       this.contentlistInner = this.swapArray(
         [...this.contentlistInner],
         index - 1,
         index
-      );
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+      )
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
       // this.contentlistInner = this.clearSetJump(this.contentlistInner);
       if (Number(data.type) !== 8 && Number(data.type) !== 7) {
         this.contentlistInner = this.contentlistInner.map((item) => {
@@ -696,36 +716,36 @@ export default {
             item.options = item.options.map((it) => {
               return {
                 ...it,
-                action: "",
-              };
-            });
+                action: ''
+              }
+            })
             return {
               ...item,
-              actionItem: "",
-            };
+              actionItem: ''
+            }
           }
           return {
             ...item,
-            actionItem: "",
-          };
-        });
+            actionItem: ''
+          }
+        })
       }
-      this.ruleForm.sonQuestions = [...this.contentlistInner];
+      this.ruleForm.sonQuestions = [...this.contentlistInner]
     },
     // 下移
     handleBottomComp(data) {
-      this.actionBarP = false;
+      this.actionBarP = false
       // let index = data.number - 1;
       // this.swapArrayComp(this.contentlist, index, index + 1);
-      data.id = data.number;
-      let index = data.number - 1;
-      this.contentlistInner[index] = { ...data };
+      data.id = data.number
+      let index = data.number - 1
+      this.contentlistInner[index] = { ...data }
       this.contentlistInner = this.swapArray(
         [...this.contentlistInner],
         index,
         index + 1
-      );
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
+      )
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
       // this.contentlistInner = this.clearSetJump(this.contentlistInner);
       if (Number(data.type) !== 8 && Number(data.type) !== 7) {
         this.contentlistInner = this.contentlistInner.map((item) => {
@@ -733,91 +753,91 @@ export default {
             item.options = item.options.map((it) => {
               return {
                 ...it,
-                action: "",
-              };
-            });
+                action: ''
+              }
+            })
             return {
               ...item,
-              actionItem: "",
-            };
+              actionItem: ''
+            }
           }
           return {
             ...item,
-            actionItem: "",
-          };
-        });
+            actionItem: ''
+          }
+        })
       }
-      this.ruleForm.sonQuestions = [...this.contentlistInner];
+      this.ruleForm.sonQuestions = [...this.contentlistInner]
     },
     // 完成编辑
     complete() {
-      this.$refs["ruleForm"].validate((valid) => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          this.editor = false;
-          this.ruleForm.editor = this.editor;
+          this.editor = false
+          this.ruleForm.editor = this.editor
           this.ruleForm = {
             ...this.ruleForm,
-            sonQuestions: [...this.contentlistInner],
-          };
-          let obj = {};
+            sonQuestions: [...this.contentlistInner]
+          }
+          let obj = {}
           this.ruleForm.sonQuestions = this.ruleForm.sonQuestions.reduce(
             (cur, next) => {
               if (!obj[next.number]) {
-                obj[next.number] = true;
-                cur.push(next);
+                obj[next.number] = true
+                cur.push(next)
               }
-              return cur;
+              return cur
             },
             []
-          );
+          )
           this.ruleForm.sonQuestions = this.handleCheckCode(
             this.ruleForm.sonQuestions
-          );
-          this.contentlistInner = this.handleCheckCode(this.contentlistInner);
-          this.operate = true;
-          this.$emit("handleSaveData", this.ruleForm);
+          )
+          this.contentlistInner = this.handleCheckCode(this.contentlistInner)
+          this.operate = true
+          this.$emit('handleSaveData', this.ruleForm)
         }
-      });
-      return this.editor;
+      })
+      return this.editor
     },
     // 添加一个选项
     add(scope) {
       this.ruleForm.options.splice(scope.number, 0, {
-        number: "",
+        number: '',
         type: 1,
-        name: "",
-        action: "",
-      });
+        name: '',
+        action: ''
+      })
       this.ruleForm.options.map((item) => {
-        item.number = this.ruleForm.options.indexOf(item) + 1;
-      });
+        item.number = this.ruleForm.options.indexOf(item) + 1
+      })
     },
     // 减去一个选项
     minus(scope) {
       this.ruleForm.options = this.ruleForm.options.filter((item) => {
-        return scope.number !== item.number;
-      });
+        return scope.number !== item.number
+      })
       this.ruleForm.options.map((item) => {
-        item.number = this.ruleForm.options.indexOf(item) + 1;
-      });
+        item.number = this.ruleForm.options.indexOf(item) + 1
+      })
     },
     // 向上移动
     moveUp(item) {
-      let index = this.ruleForm.options.indexOf(item);
+      let index = this.ruleForm.options.indexOf(item)
       this.ruleForm.options = this.swapArray(
         this.ruleForm.options,
         index - 1,
         index
-      );
+      )
     },
     // 向下移动
     moveDown(item) {
-      let index = this.ruleForm.options.indexOf(item);
+      let index = this.ruleForm.options.indexOf(item)
       this.ruleForm.options = this.swapArray(
         this.ruleForm.options,
         index,
         index + 1
-      );
+      )
     },
     // 数组元素互换位置
     swapArray(arr, index1, index2) {
@@ -826,67 +846,71 @@ export default {
       //   item.number = arr.indexOf(item) + 1;
       // });
       // return arr;
-      let item1 = arr[index1];
-      let item2 = arr[index2];
+      let item1 = arr[index1]
+      let item2 = arr[index2]
       arr = arr.map((item, index) => {
         if (index === index1) {
-          item = item2;
+          item = item2
         }
         if (index === index2) {
-          item = item1;
+          item = item1
         }
         return {
           ...item,
           id: index + 1,
-          number: index + 1,
-        };
-      });
-      return arr;
+          number: index + 1
+        }
+      })
+      return arr
     },
 
     // 展示一列按钮
     enter() {
-      this.mouseOver = true;
+      this.mouseOver = true
     },
     // 鼠标离开
     leave() {
-      this.mouseOver = false;
+      this.mouseOver = false
     },
     // 编辑
     enterEditor() {
-      this.ruleForm = { ...this.ruleForm, ...this.info };
-      this.overEditorP = true;
-      this.editor = true;
-      this.ruleForm.editor = true;
+      this.ruleForm = { ...this.ruleForm, ...this.info }
+      this.overEditorP = true
+      this.editor = true
+      this.ruleForm.editor = true
       // 完成编辑后再进行编辑
-      this.contentlistInner = [...this.ruleForm.sonQuestions];
+      this.contentlistInner = [...this.ruleForm.sonQuestions]
       this.contentlistInner = this.contentlistInner.map((item, index) => {
         return {
           ...item,
           number: index + 1,
-          type: item.type,
-        };
-      });
-      this.contentlistInner = this.handleCheckCode(this.contentlistInner);
-      this.$emit("handleEnterEditor", this.ruleForm);
+          type: item.type
+        }
+      })
+      this.contentlistInner = this.handleCheckCode(this.contentlistInner)
+      this.$emit('handleEnterEditor', this.ruleForm)
     },
 
     // 复制
     handleCopy() {
-      this.$emit("handleCopy", this.ruleForm, this.actionBarP);
+      this.$emit('handleCopy', this.ruleForm, this.actionBarP)
     },
     // 删除
     handlDelete() {
-      this.$emit("handleDelete", this.ruleForm);
+      this.$emit('handleDelete', this.ruleForm)
     },
     // 上移
     handleTop() {
       if (this.actionBar) {
-        this.$confirm("上下移动将清空跳题设置，确认是否移动？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
+        this.$confirm(
+          this.$t('QN_SHANGXIAYIDONGJIANGQINGKONGTIAOTISHEZHIQUERENSHIFOUYIDONG'),
+          this.$t('QN_TISHI'),
+          {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           // this.contentlistP = this.contentlistP.map((item) => {
           //   if (item.options) {
           //     item.options = item.options.map((it) => {
@@ -905,22 +929,26 @@ export default {
           //     actionItem: "",
           //   };
           // });
-          this.ruleForm.editor = this.editor;
-          this.$emit("handleTop", this.ruleForm);
-        });
+          this.ruleForm.editor = this.editor
+          this.$emit('handleTop', this.ruleForm)
+        })
       } else {
-        this.ruleForm.editor = this.editor;
-        this.$emit("handleTop", this.ruleForm);
+        this.ruleForm.editor = this.editor
+        this.$emit('handleTop', this.ruleForm)
       }
     },
     // 下移
     handleBottom() {
       if (this.actionBar) {
-        this.$confirm("上下移动将清空跳题设置，确认是否移动？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
+        this.$confirm(
+          this.$t('QN_SHANGXIAYIDONGJIANGQINGKONGTIAOTISHEZHIQUERENSHIFOUYIDONG'),
+          this.$t('QN_TISHI'),
+          {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           // this.contentlistP = this.contentlistP.map((item) => {
           //   if (item.options) {
           //     item.options = item.options.map((it) => {
@@ -939,16 +967,16 @@ export default {
           //     actionItem: "",
           //   };
           // });
-          this.ruleForm.editor = this.editor;
-          this.$emit("handleBottom", this.ruleForm);
-        });
+          this.ruleForm.editor = this.editor
+          this.$emit('handleBottom', this.ruleForm)
+        })
       } else {
-        this.ruleForm.editor = this.editor;
-        this.$emit("handleBottom", this.ruleForm);
+        this.ruleForm.editor = this.editor
+        this.$emit('handleBottom', this.ruleForm)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .draggle {
@@ -1140,7 +1168,7 @@ export default {
   border: 2px solid #fff;
   // 不覆盖下面的 会 导致对号变形
   box-sizing: content-box;
-  content: "";
+  content: '';
   border-left: 0;
   border-top: 0;
 }
