@@ -29,12 +29,16 @@ export default {
         this.tableColumns.forEach((e) => {
           if (!e.isHidden && !this.unCols.includes(e.prop)) {
             const column = this.columns.find((c) => c.prop === e.prop)
-            if (column) {
+            if (
+              column &&
+              !filterColumns.some(
+                (fc) => fc.type === column.type && column.type
+              )
+            ) {
               filterColumns.push(column)
             }
           }
         })
-        console.log('filterColumns', filterColumns)
         const columns = []
         const noSettingColumns = [
           'selection',

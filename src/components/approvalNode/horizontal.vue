@@ -38,7 +38,11 @@
               {{ item.approvers[0].taskStatus }}
             </span>
             <div
-              v-if="item.approvers.length === 1 && item.approvers[0].agentUsers"
+              v-if="
+                item.approvers.length === 1 &&
+                item.approvers[0].agentUsers &&
+                item.approvers[0].agentUsers.length
+              "
               class="single-approvers-agents"
             >
               <ul
@@ -156,7 +160,7 @@ export default {
       return height // itemAllUsers.length * 28 + 20
     },
     approveContentHeight() {
-      return this.approverUserHeight + 50
+      return this.approverUserHeight + 70
     }
   },
   methods: {
