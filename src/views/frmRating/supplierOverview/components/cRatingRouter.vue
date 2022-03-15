@@ -18,12 +18,18 @@
                @click="$emit('back')">{{$t('LK_FANHUI')}}</iButton>
     </div>
 
-    <el-tabs class="tabsHeader"
+    <div class="mtz_ndys_nav">
+      <div class="mtz_ndys_nav_all">
+        <div v-for="(item,index) in subNavList" :key="index" :class="tabVal===item.code?'active':''" @click="changeTab(item.code)" v-permission="item.permissionKey">{{language(item.key, item.name)}}</div>
+      </div>
+    </div>
+
+    <!-- <el-tabs class="tabsHeader"
              type="card"
              style="margin-left: 20px"
              v-model="tabVal"
              @tab-click="changeTab">
-      <el-tab-pane name="1"
+      <el-tab-pane name="1" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_SSCRGYSQDYQ"
                    :label="
             language(
               'SHISHICRATINGGONGYINGSHANGQINGDAN',
@@ -31,7 +37,7 @@
             )
           ">
       </el-tab-pane>
-      <el-tab-pane name="2"
+      <el-tab-pane name="2" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_CRGYSXJDDQK"
                    :label="
             language(
               'CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG',
@@ -39,7 +45,8 @@
             )
           ">
       </el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
+
     <iSearch @sure="sure"
              @reset="clickReset"
              class="header">
@@ -360,6 +367,19 @@ export default {
   },
   data () {
     return {
+      subNavList:[
+        {
+          code:'1',
+          key:'SHISHICRATINGGONGYINGSHANGQINGDAN',
+          name:'实时C-Rating供应商清单',
+          permissionKey:'PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_SSCRGYSQDYQ'
+        },{
+          code:'2',
+          key:'CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG',
+          name:'C-Rating供应商询价定点情况',
+          permissionKey:'PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_CRGYSXJDDQK'
+        }
+      ],
       tabVal: '1',
       visibleDetal: false,
       info: {},
@@ -398,6 +418,14 @@ export default {
     }
   },
   watch: {},
+  mounted () {
+    this.$nextTick(_ => {
+      var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+      if (navList.length !== 0) {
+        navList[0].click();
+      }
+    })
+  },
   created () {
     if(this.$route.query && this.$route.query.sapCode){
       this.queryList = this.$route.query;
@@ -567,7 +595,7 @@ export default {
       this.getTaleList()
     },
 
-    clickReset () {
+    clickReset (val) {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.userList = []
@@ -588,9 +616,8 @@ export default {
       }
       this.getTaleList()
     },
-    changeTab () {
-      console.log(this.form.ratingSource)
-      console.log(this.cratingLsit)
+    changeTab (val) {
+      this.tabVal = val;
       this.userList = []
       this.form = {
         ...this.form,
@@ -724,4 +751,43 @@ v::v-deep .el-tabs__nav-wrap:hover {
   font-weight: bold;
 }
 
+.mtz_ndys_nav{
+  margin-top:20px;
+  display: flex;
+  margin-bottom:20px;
+  font-size:1rem;
+  font-weight: bold;
+  color:#727272;
+  // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+  border: none;
+  text-align: center;
+  min-width: 9.375rem;
+  .mtz_ndys_nav_all>div{
+    cursor: pointer;
+    min-width:140px;
+    float:left;
+    height: 2.5rem;
+    box-sizing: border-box;
+    line-height: 2.5rem;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .mtz_ndys_nav_all>div:nth-child(1){
+    border-top-left-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-right: solid 1px #ececec;
+  }
+  .mtz_ndys_nav_all>div:nth-child(3){
+    border-left: solid 1px #ececec;
+    border-top-right-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+  }
+
+  .active{
+    background-color: #ffffff;
+    background: #ffffff;
+    color:#1660f1;
+  }
+}
 </style>
