@@ -83,13 +83,13 @@
                    @handleSelectionChange="handleSelectionChange">
           <!-- 市场价(F) -->
           <template #marketPriceSourceTypeValue="scope">
-            <iSelect v-model="scope.row.marketPriceSourceTypeValue"
+            <iSelect v-model="scope.row.marketPriceSourceType"
                      v-if="editMode"
                      :placeholder="language('QINGXUANZE', '请选择')"
                      @change="handleChangePriceSource($event, scope.row)">
-              <el-option value="手工上传"
+              <el-option :value="1"
                          :label="language('SHOUGONGSHANGCHUAN', '手工上传')"></el-option>
-              <el-option value="系统自动"
+              <el-option :value="2"
                          :label="language('XITONGZIDONG', '系统自动')"></el-option>
             </iSelect>
             <p v-if="!editMode">{{scope.row.marketPriceSourceTypeValue}}</p>
@@ -128,8 +128,9 @@
           </template>
           <!-- 取价规则 -->
           <template #priceRuleValue="scope">
+
             <div class="priceRuleDropDownData"
-                 v-if="editMode && scope.row.marketPriceSourceTypeValue == '系统自动'">
+                 v-if="editMode && scope.row.marketPriceSourceType == '2'">
               <iSelect style="width: 450px;"
                        v-model="scope.row.priceRule"
                        :placeholder="language('QINGXUANZE', '请选择')">
@@ -377,7 +378,7 @@ export default {
       if (
         this.tableListData.find(
           (item) =>
-            item.marketPriceSourceTypeValue == '系统自动' &&
+            item.marketPriceSourceType == '2' &&
             !item.externalMarketPriceSource
         )
       ) {
@@ -422,12 +423,13 @@ export default {
     },
     // 编辑状态-改变市场价事件
     handleChangePriceSource (val, row) {
-      if (val == '手工上传') {
+      if (val == '1') {
         this.$set(row, 'externalMarketPriceSource', null)
         // row.externalMarketPriceSource
-      } else {
-        this.$set(row, 'marketPriceSourceType', 2)
       }
+      //  else {
+      //   this.$set(row, 'marketPriceSourceType', 2)
+      // }
     },
     externalMaterialSelect () {
       externalMaterialSelect().then(res => {
