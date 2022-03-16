@@ -1,0 +1,163 @@
+<!--新增弹窗-->
+<template>
+  <iDialog
+    append-to-body
+    title="新增采购分类"
+    :visible.sync="isShow"
+    height="100px"
+    width="82%"
+    @close="clearDiolog"
+  >
+    <el-form label-position="left" label-width="130px">
+      <el-row :gutter="30">
+        <el-col :span="6">
+          <!-- 上级采购分类编号-->
+          <el-form-item label="上级采购分类编号">
+            <i-select
+              multiple
+              collapse-tags
+              :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
+            >
+              <el-option
+                v-for="item in listDeptData"
+                :key="item.code"
+                :label="item.code"
+                :value="item.id"
+              ></el-option>
+            </i-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <!-- 上级采购分类名称-->
+          <el-form-item label="上级采购分类名称">
+            <i-input disabled></i-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <!-- 采购分类编号-->
+          <el-form-item label="采购分类编号" class="el-form-itemnext lablesize">
+            <i-input :placeholder="$t('partsignLanguage.QingShuRu')"></i-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <!-- 采购分类名称-->
+          <el-form-item label="采购分类名称" class="el-form-itemnext lablesize">
+            <i-input :placeholder="$t('partsignLanguage.QingShuRu')"></i-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="30">
+        <el-col :span="6">
+          <!-- 级别-->
+          <el-form-item label="级别">
+            <i-input disabled></i-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <!-- 股别-->
+          <el-form-item label="股别">
+            <i-select
+              multiple
+              collapse-tags
+              :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
+            >
+              <el-option
+                v-for="item in listDeptData"
+                :key="item.code"
+                :label="item.code"
+                :value="item.id"
+              ></el-option>
+            </i-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <!-- 是否生效-->
+          <el-form-item label="是否生效">
+            <el-switch v-model="value" activeText="Y" inactiveText="N">
+            </el-switch>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <!-- 备注 -->
+      <el-form-item label="备注">
+        <i-input type="textarea" :autosize="{ minRows: 4 }"></i-input>
+      </el-form-item>
+    </el-form>
+    <iButton @click="exportExcel" class="positionSize">{{
+      $t('LK_BAOCUN')
+    }}</iButton>
+  </iDialog>
+</template>
+<script>
+import { iDialog, iInput, iButton, iSelect } from 'rise'
+export default {
+  components: {
+    iDialog,
+    iInput,
+    iButton,
+    iSelect
+  },
+  data() {
+    return {
+      listDeptData: [],
+      value: true
+    }
+  },
+  props: {
+    isShow: { type: Boolean, default: false }
+  },
+  methods: {
+    // 关闭弹窗
+    clearDiolog() {
+      this.$emit('input', false)
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+.positionSize {
+  margin-top: 100px;
+  position: relative;
+  right: -90%;
+  margin-bottom: 30px;
+}
+::v-deep .el-form-itemnext {
+  flex: 1;
+  .el-form-item__label {
+    &:after {
+      text-align: center;
+      content: '*';
+      padding-left: 0.5rem;
+      color: $color-delete;
+      // margin-right: 0.25rem;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .localSize {
+    font-size: 123px;
+  }
+}
+::v-deep .el-switch {
+  position: relative;
+  color: transparent;
+  .el-switch__label {
+    position: absolute;
+    color: transparent;
+  }
+  .el-switch__label--left {
+    left: 25px;
+    z-index: 1;
+  }
+  .el-switch__label--right {
+    left: 5px;
+  }
+  .el-switch__label--left.is-active {
+    color: #000;
+  }
+  .el-switch__label--right.is-active {
+    color: #fff;
+  }
+}
+</style>

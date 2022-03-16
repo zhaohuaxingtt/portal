@@ -31,6 +31,7 @@ import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
 import RouterAssistant from './RouterAssistant'
 import ViewSuppliers from '@/views/viewSuppliers/index'
+import purchaseClassification from './purchaseClassification'
 /* import RouterPopupWindowMa from './RouterPopupWindowMa' */
 
 import RouterManage from './RouterManage'
@@ -256,7 +257,8 @@ export default {
         ...RouterTerms,
         ...RouterReportForm,
         ...backstagemanagement,
-        ...RouterSetting
+        ...RouterSetting,
+        ...purchaseClassification
       ]
     },
     {
