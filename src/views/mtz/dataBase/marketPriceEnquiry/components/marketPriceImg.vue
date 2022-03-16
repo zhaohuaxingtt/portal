@@ -14,14 +14,14 @@
       <el-form :model="formData">
         <el-form-item style="width: 250px;"
                       :label="language('CAILIAOZHONGLEI','材料中类')">
-          <!-- <iSelect
-          v-model="formData['materialNos']"
-          filterable
-          multiple
-          collapse-tags>
+          <iSelect
+            v-model="formData['materialNos']"
+            filterable
+            multiple
+            collapse-tags>
             <el-option v-for="(item, index) in categoryDorpDownList" :key="index" :value="item.code" :label="item.code + '-' + item.message"></el-option>
-          </iSelect> -->
-          <custom-select v-model="formData.materialNos"
+          </iSelect>
+          <!-- <custom-select v-model="formData.materialNos"
                          :user-options="categoryDorpDownList"
                          filterable
                          multiple
@@ -35,29 +35,31 @@
             <template v-slot:unselected="scope">
               <span>{{scope.data.code + '-' + scope.data.message}}</span>
             </template>
-          </custom-select>
+          </custom-select> -->
         </el-form-item>
         <el-form-item :label="language('YUEDUQI','月度起')">
+            <!-- :picker-options="startPickerOptions"  -->
+                       <!-- valueFormat="yyyyMM" -->
           <iDatePicker v-model="formData.periodStart"
+                      @change="adasa"
+                       format="yyyy-MM"
                        type="month"
-                       valueFormat="yyyyMM"
-                       :picker-options="startPickerOptions" />
-
+                       />
         </el-form-item>
         <el-form-item :label="language('YUEDUZHI','月度止')">
+           <!-- :picker-options="endPickerOptions" -->
           <iDatePicker v-model="formData.periodEnd"
                        type="month"
-                       valueFormat="yyyyMM"
-                       :picker-options="endPickerOptions" />
+                       />
         </el-form-item>
         <el-form-item :label="language('SHICHANGJIALEIBIE','市场价类别')">
-          <!-- <iSelect
+          <iSelect
           v-model="formData['marketTypes']"
           multiple
           collapse-tags>
             <el-option v-for="(item, index) in marketTypeDorpDownList" :key="index" :value="item.code" :label="item.message"></el-option>
-          </iSelect> -->
-          <custom-select class="cateGorySelect"
+          </iSelect>
+          <!-- <custom-select class="cateGorySelect"
                          multiple
                          collapse-tags
                          v-model="formData['marketTypes']"
@@ -65,7 +67,7 @@
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="message"
                          value-member="code"
-                         value-key="code" />
+                         value-key="code" /> -->
         </el-form-item>
       </el-form>
     </iSearch>
@@ -115,55 +117,55 @@ export default {
       // search data
       formData: {},
       // start date disabled option
-      startPickerOptions: {
-        disabledDate (startTime) {
-          let res = false //启用
-          // 明年
-          const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
-          if (startTime.getTime() > new Date(nextYearDate).getTime()) {
-            res = true
-          }
-          // 如果月度止数据已存在，月度起数据不能小于月度止且月度起
-          // 距离月度止时间段不能大于1年
-          if (that.formData && that.formData.periodEnd) {
-            const endTime = new Date(that.formData.periodEnd)
-            let beforeYearDate = window._.cloneDeep(endTime).setFullYear(endTime.getFullYear() - 1)
-            beforeYearDate = new Date(beforeYearDate).setMonth(endTime.getMonth() + 1)
-            if (startTime.getTime() > endTime.getTime()) {
-              res = true
-            }
-            if (startTime.getTime() < beforeYearDate) {
-              res = true
-            }
-          }
-          return res
-        }
-      },
+      // startPickerOptions: {
+      //   disabledDate (startTime) {
+      //     let res = false //启用
+      //     // 明年
+      //     const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
+      //     if (startTime.getTime() > new Date(nextYearDate).getTime()) {
+      //       res = true
+      //     }
+      //     // 如果月度止数据已存在，月度起数据不能小于月度止且月度起
+      //     // 距离月度止时间段不能大于1年
+      //     if (that.formData && that.formData.periodEnd) {
+      //       const endTime = new Date(that.formData.periodEnd)
+      //       let beforeYearDate = window._.cloneDeep(endTime).setFullYear(endTime.getFullYear() - 1)
+      //       beforeYearDate = new Date(beforeYearDate).setMonth(endTime.getMonth() + 1)
+      //       if (startTime.getTime() > endTime.getTime()) {
+      //         res = true
+      //       }
+      //       if (startTime.getTime() < beforeYearDate) {
+      //         res = true
+      //       }
+      //     }
+      //     return res
+      //   }
+      // },
       // end date disabled option
-      endPickerOptions: {
-        disabledDate (endTime) {
-          let res = false //启用
-          // 明年
-          const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
-          if (endTime.getTime() > new Date(nextYearDate).getTime()) {
-            res = true
-          }
-          // 如果月度起数据已存在，月度止数据不能小于月度起且月度止
-          // 距离月度止时间段不能大于1年
-          if (that.formData && that.formData.periodStart) {
-            const startTime = new Date(that.formData.periodStart)
-            let beforeYearDate = window._.cloneDeep(startTime).setFullYear(startTime.getFullYear() + 1)
-            beforeYearDate = new Date(beforeYearDate).setMonth(startTime.getMonth() - 1)
-            if (startTime.getTime() > endTime.getTime()) {
-              res = true
-            }
-            if (endTime.getTime() > beforeYearDate) {
-              res = true
-            }
-          }
-          return res
-        }
-      },
+      // endPickerOptions: {
+      //   disabledDate (endTime) {
+      //     let res = false //启用
+      //     // 明年
+      //     const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
+      //     if (endTime.getTime() > new Date(nextYearDate).getTime()) {
+      //       res = true
+      //     }
+      //     // 如果月度起数据已存在，月度止数据不能小于月度起且月度止
+      //     // 距离月度止时间段不能大于1年
+      //     if (that.formData && that.formData.periodStart) {
+      //       const startTime = new Date(that.formData.periodStart)
+      //       let beforeYearDate = window._.cloneDeep(startTime).setFullYear(startTime.getFullYear() + 1)
+      //       beforeYearDate = new Date(beforeYearDate).setMonth(startTime.getMonth() - 1)
+      //       if (startTime.getTime() > endTime.getTime()) {
+      //         res = true
+      //       }
+      //       if (endTime.getTime() > beforeYearDate) {
+      //         res = true
+      //       }
+      //     }
+      //     return res
+      //   }
+      // },
       // 材料中类数据
       categoryDorpDownList: [],
       // 市场价类别数据
@@ -201,15 +203,23 @@ export default {
   methods: {
     // 初始化检索条件
     initSearch () {
-      const defaultMaterialList = ['M01006002', 'M01006001', 'M01006003', '01002', '01001', '01005']
-      const defaultMarketTypeList = ['E', 'F']
+      // const defaultMaterialList = ['M01006002', 'M01006001', 'M01006003', '01002', '01001', '01005']
+      const defaultMaterialList = []
+      // const defaultMarketTypeList = ['E', 'F']
+      const defaultMarketTypeList = []
+      
+      const dateYear = new Date();
+      const year = dateYear.getFullYear();
       this.formData = {
         ...this.formData,
         materialNos: defaultMaterialList,
-        periodStart: '2021-01',
-        periodEnd: '2021-12',
+        periodStart: year+'-01-01 00:00:00',
+        periodEnd: year+'-12-31 00:00:00',
         marketTypes: defaultMarketTypeList,
       }
+    },
+    adasa(e){
+      console.log(e)
     },
     // 获取材料中类下拉框数据
     getCategoryDorpDownList () {
@@ -230,8 +240,8 @@ export default {
     // 获取chart数据
     getChartData () {
       let formData = _.cloneDeep(this.formData)
-      formData.periodStart = formData.periodStart.replace(/[-]/g, "")
-      formData.periodEnd = formData.periodEnd.replace(/[-]/g, "")
+      formData.periodStart = formData.periodStart.split('-')[0]+formData.periodStart.split('-')[1]
+      formData.periodEnd = formData.periodEnd.split('-')[0]+formData.periodEnd.split('-')[1]
       mtzPriceQuery(formData).then(res => {
         if (res && res.code == 200) {
           const data = window._.cloneDeep(res.data)
