@@ -241,10 +241,10 @@
                     ruleForm.supplierRange.includes('CM')
                   "
                 >
-                  <el-checkbox label="0">临时</el-checkbox>
-                  <el-checkbox label="1">正式</el-checkbox>
+                  <el-checkbox :disabled="ruleForm.supplierRange.includes('NT')&&ruleForm.supplierRange.length==1" label="0">临时</el-checkbox>
+                  <el-checkbox :disabled="ruleForm.supplierRange.includes('NT')&&ruleForm.supplierRange.length==1" label="1">正式</el-checkbox>
+                  <!-- :disabled="!ruleForm.supplierRange.includes('NT')" -->
                   <el-checkbox
-                    :disabled="!ruleForm.supplierRange.includes('NT')"
                     label="2"
                     >储蓄池</el-checkbox
                   >
@@ -621,14 +621,17 @@ export default {
         if (val.includes('NT')) {
           if (this.ruleForm.supplierIdentity.indexOf('2') == -1) {
             this.ruleForm.supplierIdentity.push('2')
-          }
+          } else if (val.length == 1 && val[0] == 'NT') {
+              this.ruleForm.supplierIdentity = []
+              this.ruleForm.supplierIdentity.push('2')
+            }
         } else if (val.includes('CM')) {
           this.ruleForm.supplierIdentity = []
         } else {
-          const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
-          if (indexSupplier != -1) {
-            this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
-          }
+          // const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
+          // if (indexSupplier != -1) {
+          //   this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
+          // }
         }
       }
     },
