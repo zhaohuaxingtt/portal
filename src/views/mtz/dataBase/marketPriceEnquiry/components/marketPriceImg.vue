@@ -38,17 +38,16 @@
           </custom-select> -->
         </el-form-item>
         <el-form-item :label="language('YUEDUQI','月度起')">
-            <!-- :picker-options="startPickerOptions"  -->
-                       <!-- valueFormat="yyyyMM" -->
           <iDatePicker v-model="formData.periodStart"
-                      @change="adasa"
+                      :picker-options="startPickerOptions" 
                        format="yyyy-MM"
                        type="month"
                        />
         </el-form-item>
         <el-form-item :label="language('YUEDUZHI','月度止')">
-           <!-- :picker-options="endPickerOptions" -->
           <iDatePicker v-model="formData.periodEnd"
+                      :picker-options="endPickerOptions"
+                      format="yyyy-MM"
                        type="month"
                        />
         </el-form-item>
@@ -117,55 +116,55 @@ export default {
       // search data
       formData: {},
       // start date disabled option
-      // startPickerOptions: {
-      //   disabledDate (startTime) {
-      //     let res = false //启用
-      //     // 明年
-      //     const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
-      //     if (startTime.getTime() > new Date(nextYearDate).getTime()) {
-      //       res = true
-      //     }
-      //     // 如果月度止数据已存在，月度起数据不能小于月度止且月度起
-      //     // 距离月度止时间段不能大于1年
-      //     if (that.formData && that.formData.periodEnd) {
-      //       const endTime = new Date(that.formData.periodEnd)
-      //       let beforeYearDate = window._.cloneDeep(endTime).setFullYear(endTime.getFullYear() - 1)
-      //       beforeYearDate = new Date(beforeYearDate).setMonth(endTime.getMonth() + 1)
-      //       if (startTime.getTime() > endTime.getTime()) {
-      //         res = true
-      //       }
-      //       if (startTime.getTime() < beforeYearDate) {
-      //         res = true
-      //       }
-      //     }
-      //     return res
-      //   }
-      // },
+      startPickerOptions: {
+        disabledDate (startTime) {
+          let res = false //启用
+          // 明年
+          const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
+          if (startTime.getTime() > new Date(nextYearDate).getTime()) {
+            res = true
+          }
+          // 如果月度止数据已存在，月度起数据不能小于月度止且月度起
+          // 距离月度止时间段不能大于1年
+          if (that.formData && that.formData.periodEnd) {
+            const endTime = new Date(that.formData.periodEnd)
+            let beforeYearDate = window._.cloneDeep(endTime).setFullYear(endTime.getFullYear() - 1)
+            beforeYearDate = new Date(beforeYearDate).setMonth(endTime.getMonth() + 1)
+            if (startTime.getTime() > endTime.getTime()) {
+              res = true
+            }
+            if (startTime.getTime() < beforeYearDate) {
+              res = true
+            }
+          }
+          return res
+        }
+      },
       // end date disabled option
-      // endPickerOptions: {
-      //   disabledDate (endTime) {
-      //     let res = false //启用
-      //     // 明年
-      //     const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
-      //     if (endTime.getTime() > new Date(nextYearDate).getTime()) {
-      //       res = true
-      //     }
-      //     // 如果月度起数据已存在，月度止数据不能小于月度起且月度止
-      //     // 距离月度止时间段不能大于1年
-      //     if (that.formData && that.formData.periodStart) {
-      //       const startTime = new Date(that.formData.periodStart)
-      //       let beforeYearDate = window._.cloneDeep(startTime).setFullYear(startTime.getFullYear() + 1)
-      //       beforeYearDate = new Date(beforeYearDate).setMonth(startTime.getMonth() - 1)
-      //       if (startTime.getTime() > endTime.getTime()) {
-      //         res = true
-      //       }
-      //       if (endTime.getTime() > beforeYearDate) {
-      //         res = true
-      //       }
-      //     }
-      //     return res
-      //   }
-      // },
+      endPickerOptions: {
+        disabledDate (endTime) {
+          let res = false //启用
+          // 明年
+          const nextYearDate = (new Date().getFullYear() + 1) + '/12/31 00:00:00'
+          if (endTime.getTime() > new Date(nextYearDate).getTime()) {
+            res = true
+          }
+          // 如果月度起数据已存在，月度止数据不能小于月度起且月度止
+          // 距离月度止时间段不能大于1年
+          if (that.formData && that.formData.periodStart) {
+            const startTime = new Date(that.formData.periodStart)
+            let beforeYearDate = window._.cloneDeep(startTime).setFullYear(startTime.getFullYear() + 1)
+            beforeYearDate = new Date(beforeYearDate).setMonth(startTime.getMonth() - 1)
+            if (startTime.getTime() > endTime.getTime()) {
+              res = true
+            }
+            if (endTime.getTime() > beforeYearDate) {
+              res = true
+            }
+          }
+          return res
+        }
+      },
       // 材料中类数据
       categoryDorpDownList: [],
       // 市场价类别数据
@@ -240,8 +239,16 @@ export default {
     // 获取chart数据
     getChartData () {
       let formData = _.cloneDeep(this.formData)
-      formData.periodStart = formData.periodStart.split('-')[0]+formData.periodStart.split('-')[1]
-      formData.periodEnd = formData.periodEnd.split('-')[0]+formData.periodEnd.split('-')[1]
+      if(formData.periodStart){
+        formData.periodStart = formData.periodStart.split('-')[0]+formData.periodStart.split('-')[1]
+      }else{
+        formData.periodStart = ""
+      }
+      if(formData.periodEnd){
+        formData.periodEnd = formData.periodEnd.split('-')[0]+formData.periodEnd.split('-')[1]
+      }else{
+        formData.periodEnd = ""
+      }
       mtzPriceQuery(formData).then(res => {
         if (res && res.code == 200) {
           const data = window._.cloneDeep(res.data)
@@ -367,5 +374,8 @@ export default {
       width: 250px;
     }
   }
+}
+::v-deep .el-input__suffix-inner{
+  display: none;
 }
 </style>
