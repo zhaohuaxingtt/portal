@@ -32,9 +32,9 @@
             >
               <el-option
               :disabled="optionDisabled"
-                :value="item.conclusionCsc"
-                :label="item.conclusionName"
-                v-for="(item, index) of themenConclusionArrObj"
+                 :value="item.value"
+                :label="item.name"
+                v-for="(item, index) of conclusionCscAll"
                 :key="index"
               ></el-option>
             </iSelect>
@@ -65,7 +65,7 @@
     </div>
 </template>
 <script> 
-import { modifyConclusionByMbdlId } from '@/api/meeting/gpMeeting'
+import { modifyConclusionByMbdlId , findThemenConclusion} from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -99,29 +99,53 @@ export default {
       },
       themenConclusionArrObj:[
           {
-            conclusionCsc: "",
-            conclusionName: "请选择",
-          },
-          {
-            conclusionCsc: "01",
-            conclusionName: "待定",
-          },
-          {
-            conclusionCsc: "02",
-            conclusionName: "通过",
-          },
-          {
-            conclusionCsc: "04",
-            conclusionName: "不通过",
-          },
+          conclusionCsc: '01',
+          conclusionName: '待定'
+        },
+        {
+          conclusionCsc: '08',
+          conclusionName: '通过'
+        },
+        {
+          conclusionCsc: '09',
+          conclusionName: '预备会议通过'
+        },
+        {
+          conclusionCsc: '10',
+          conclusionName: '不通过'
+        },
+        {
+          conclusionCsc: '11',
+          conclusionName: 'Last Call'
+        },
+        {
+          conclusionCsc: "12",
+          conclusionName: "分段定点",
+        },
       ],
+      conclusionCscAll:[],
       isShow:true,
       isDisabled:true,//任务
       optionDisabled:true,//结论
 
     }
   },
-  props:["editprotectConclusionDialogRow"],
+  props:{
+      // ["editprotectConclusionDialogRow"],
+        meetingInfo: {
+            type: Object,
+            default: () => {
+              return {}
+            }
+          },
+          editprotectConclusionDialogRow: {
+            type: Array,
+            default: () => {
+              return {}
+            }
+          },
+        },
+        
   mounted(){
       if (this.editprotectConclusionDialogRow.result == '02' || this.editprotectConclusionDialogRow.result == '04') {
           this.isDisabled =false 
@@ -133,6 +157,9 @@ export default {
     console.log(this.editprotectConclusionDialogRow.conclusion)
     this.ruleForm.conclusion=this.editprotectConclusionDialogRow.conclusion  
     this.ruleForm.result=this.editprotectConclusionDialogRow.result
+  },
+  created() { 
+    this.getConclusion()
   },
   methods: {
     // 提交
@@ -167,6 +194,22 @@ export default {
       }else{
         this.isShow = true
       }
+    },
+    // 结论下拉框字段 findThemenConclusion
+    getConclusion(){
+      const data = {
+        id:this.meetingInfo.meetingTypeId
+      }
+      findThemenConclusion(data).then((res) => {
+        this.conclusionCscAll=[]
+          res.forEach(x => {
+           this.themenConclusionArrObj.forEach(y=>{
+              if (x==y.conclusionCsc) {
+                this.conclusionCscAll.push({value:x,name:y.conclusionName})
+              }
+            })
+          });
+      })
     }
     
   }
