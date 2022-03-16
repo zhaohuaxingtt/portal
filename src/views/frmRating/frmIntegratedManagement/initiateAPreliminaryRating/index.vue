@@ -6,7 +6,9 @@
         {{ $t('SPR_FRM_FRMGL_FQCBPJ') }}
       </span>
       <div class="floatright pj_div">
-        <iButton class="pj_right" @click="retFather">{{language("FANHUI","返回")}}</iButton>
+        <iButton class="pj_right" @click="retFather">{{
+          language('FANHUI', '返回')
+        }}</iButton>
         <logButton />
       </div>
     </div>
@@ -14,15 +16,28 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!-- 手动添加-->
-          <iButton @click="addManully" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONGTIANJIA">{{ $t('SPR_FRM_FRMGL_SDTJ') }}</iButton>
+          <iButton
+            @click="addManully"
+            v-permission="
+              PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONGTIANJIA
+            "
+            >{{ $t('SPR_FRM_FRMGL_SDTJ') }}</iButton
+          >
           <!--自动添加-->
-          <iButton v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_ZIDONGTIANJIA" @click="automaticallyAdded">{{
-            $t('SPR_FRM_FRMGL_ZDTJ')
-          }}</iButton>
+          <iButton
+            v-permission="
+              PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_ZIDONGTIANJIA
+            "
+            @click="automaticallyAdded"
+            >{{ $t('SPR_FRM_FRMGL_ZDTJ') }}</iButton
+          >
           <!--提交-->
-          <iButton v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_TIJIAO" @click="handleSubmit" :loading="submitLoading">{{
-            $t('LK_TIJIAO')
-          }}</iButton>
+          <iButton
+            v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_TIJIAO"
+            @click="handleSubmit"
+            :loading="submitLoading"
+            >{{ $t('LK_TIJIAO') }}</iButton
+          >
         </div>
       </div>
       <tableList
@@ -30,6 +45,7 @@
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
         :index="true"
+        border
         @handleSelectionChange="handleSelectionChange"
       >
         <template #modelId="scope">
@@ -114,9 +130,9 @@ export default {
     this.getSelectModalList()
   },
   methods: {
-    retFather(){
+    retFather() {
       this.$router.push({
-        path: "/supplier/frmrating/frmintegratedmanagement",
+        path: '/supplier/frmrating/frmintegratedmanagement',
         query: {}
       })
     },
@@ -133,7 +149,7 @@ export default {
         }
         const res = await getCommentConfirmedListPage(req)
         if (res.result) {
-          this.tableListData = res.data.map(item => {
+          this.tableListData = res.data.map((item) => {
             item.modelId = this.defaultModleId
             return item
           })
@@ -176,7 +192,7 @@ export default {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       let flag = true
-      this.selectTableData.some(item => {
+      this.selectTableData.some((item) => {
         const modelId = item.modelId
         if (!modelId) {
           flag = false
@@ -206,10 +222,10 @@ export default {
       this.defaultModleId = this.selectList[0].id
     },
     filterSubmitList() {
-      const idList = this.selectTableData.map(item => {
+      const idList = this.selectTableData.map((item) => {
         return item.id
       })
-      const tableIdList = this.tableListData.map(item => {
+      const tableIdList = this.tableListData.map((item) => {
         return item.id
       })
       const finalIdList = _.difference(tableIdList, idList)
@@ -230,11 +246,11 @@ export default {
   margin-top: 0;
   margin-bottom: 0;
 }
-.pj_div{
+.pj_div {
   display: flex;
   align-items: center;
 }
-.pj_right{
+.pj_right {
   display: inline-block;
   margin-right: 20px;
 }

@@ -1,8 +1,10 @@
 <template>
   <iPage id="routerPage">
     <div>
-      <div v-if="this.editorId == undefined" class="header">{{language('新建问卷')}}</div>
-      <div v-else class="header">{{language('编辑问卷')}}</div>
+      <div v-if="this.editorId == undefined" class="header">
+        {{ language('新建问卷') }}
+      </div>
+      <div v-else class="header">{{ language('编辑问卷') }}</div>
     </div>
     <div class="margin-bottom20 clearFloat">
       <iCard style="margin-bottom: 1.875rem">
@@ -13,7 +15,10 @@
             icon="el-icon-success"
             class="from-step"
           ></el-step>
-          <el-step :title="language('题目设置')" icon="el-icon-success"></el-step>
+          <el-step
+            :title="language('题目设置')"
+            icon="el-icon-success"
+          ></el-step>
         </el-steps>
       </iCard>
 
@@ -21,15 +26,17 @@
         <!-- 文字+按钮 -->
         <div class="form-top">
           <div>
-            <h2 v-if="active == 1">{{language('基本设置')}}</h2>
-            <h2 v-if="active !== 1">{{language('题目设置')}}</h2>
+            <h2 v-if="active == 1">{{ language('基本设置') }}</h2>
+            <h2 v-if="active !== 1">{{ language('题目设置') }}</h2>
           </div>
           <div>
-            <iButton @click="handlePreview()">{{language('预览')}}</iButton>
-            <iButton :disabled="checkName == false" @click="complete"
-              >{{language('完成编辑')}}</iButton
-            >
-            <iButton @click="last" v-if="active !== 1">{{language('上一步')}}</iButton>
+            <iButton @click="handlePreview()">{{ language('预览') }}</iButton>
+            <iButton :disabled="checkName == false" @click="complete">{{
+              language('完成编辑')
+            }}</iButton>
+            <iButton @click="last" v-if="active !== 1">{{
+              $t('QN_SHANGYIBU')
+            }}</iButton>
             <iButton
               @click="next"
               v-if="active !== 2"
@@ -41,7 +48,7 @@
                 checkPic == false ||
                 checkPutoutRange == false
               "
-              >{{language('下一步')}}</iButton
+              >{{ $t('QN_XIAYIBU') }}</iButton
             >
           </div>
         </div>
