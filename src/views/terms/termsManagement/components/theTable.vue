@@ -5,9 +5,11 @@
         <div class="floatright">
           <div class="">
             <!-- 新建 -->
-            <iButton @click="handleAdd">新建</iButton>
+            <iButton @click="handleAdd">{{ $t('TM_XINJIAN') }}</iButton>
             <!-- <iButton @click="handleExport">导出当前</iButton> -->
-            <iButton @click="handleExportAll">导出全部</iButton>
+            <iButton @click="handleExportAll">{{
+              $t('TM_DAOCHUQUANBU')
+            }}</iButton>
 
             <button-table-setting @click="$refs.termsTable.openSetting()" />
             <!-- 失效 -->
@@ -44,8 +46,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('TM_SHANGYIYE')"
+        :next-text="$t('TM_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -112,7 +114,6 @@ export default {
     }
   },
   data() {
-    const _self = this
     return {
       tableTitle,
       isPersonalTermsObj,
@@ -138,16 +139,16 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: '序号'
+          i18n: 'TM_XUHAO'
         },
         {
-          i18n: '条款编码',
+          i18n: 'TM_TIAOKUANBIANMA',
           prop: 'termsCode',
           sortable: true,
           minWidth: 100
         },
         {
-          i18n: '条款名称',
+          i18n: 'TM_TIAOKUANMINGCHENG',
           prop: 'name',
           emit: 'go-detail',
           sortable: true,
@@ -157,40 +158,40 @@ export default {
           }
         },
         {
-          i18n: '版本号',
+          i18n: 'TM_BANBENHAO',
           prop: 'termsVersion',
           sortable: true,
           minWidth: 80
         },
         {
-          i18n: '条款状态',
+          i18n: 'TM_TIAOKUANZHUANGTAI',
           prop: 'state',
           sortable: true,
           minWidth: 100,
           customRender: (h, scope) => {
             const states = {
-              '01': '草稿',
-              '02': '待生效',
-              '03': '生效',
-              '04': '失效'
+              '01': 'TM_CAOGAO',
+              '02': 'TM_DAISHENGXIAO',
+              '03': 'TM_SHENGXIAO',
+              '04': 'TM_SHIXIAO'
             }
-            return states[scope.row.state]
+            return this.$t(states[scope.row.state])
           }
         },
         {
-          i18n: '条款生效时间',
+          i18n: 'TM_TIAOKUAISHENGXIAOSHIJIAN',
           prop: 'inDate',
           minWidth: 140,
           sortable: true
         },
         {
-          i18n: '发布日期',
+          i18n: 'TM_FABURIQI',
           prop: 'publishDate',
           minWidth: 140,
           sortable: true
         },
         {
-          i18n: '签署节点',
+          i18n: 'TM_QIANSHUJIEDIAN',
           prop: 'signNode',
           sortable: true,
           minWidth: 120,
@@ -199,7 +200,7 @@ export default {
           }
         },
         {
-          i18n: '签署情况',
+          i18n: 'TM_QIANSHUQINGKUANG',
           prop: 'signResult',
           sortable: true,
           emit: 'sign-detail',
@@ -213,66 +214,73 @@ export default {
           }
         },
         {
-          i18n: '是否个人条款',
+          i18n: 'TM_SHIFOUGERENTIAOKUAN',
           prop: 'isPersonalTerms',
           sortable: true,
           minWidth: 120,
           customRender: (h, scope) => {
             const { isPersonalTerms } = scope.row
-            return isPersonalTerms ? '是' : isPersonalTerms == false ? '否' : ''
+            return isPersonalTerms
+              ? this.$t('TM_SHI')
+              : isPersonalTerms == false
+              ? this.$t('TM_FOU')
+              : ''
           }
         },
         {
-          i18n: '供应商范围',
+          i18n: 'TM_GONGYINGSHANGFANWEI',
           prop: 'supplierRange',
           sortable: true,
           minWidth: 140,
           tooltip: true,
           customRender: (h, scope) => {
             const map = {
-              PP: '生产供应商',
-              GP: '一般供应商',
+              PP: 'TM_SHENGCHANGONGYINGSHANG',
+              GP: 'TM_YIBANGONGYINGSHANG',
               NT: 'N-Tier',
-              CM: '自定义'
+              CM: 'TM_ZIDINGYI'
             }
 
             const res =
-              scope.row.supplierRange?.split(',').map((e) => map[e]) || []
+              scope.row.supplierRange?.split(',').map((e) => this.$t(map[e])) ||
+              []
             return res.join(',')
           }
         },
         {
-          i18n: '供应商身份',
+          i18n: 'TM_GONGYINGSHANGSHENFEN',
           prop: 'supplierIdentity',
           sortable: true,
           minWidth: 140,
           customRender: (h, scope) => {
             const map = {
-              0: '临时',
-              1: '正式',
-              2: '储蓄池'
+              0: 'TM_LINSHI',
+              1: 'TM_ZHENGSHI',
+              2: 'TM_CHUXUCHI'
             }
 
             const res =
-              scope.row.supplierIdentity?.split(',').map((e) => map[e]) || []
+              scope.row.supplierIdentity
+                ?.split(',')
+                .map((e) => this.$t(map[e])) || []
             return res.join(',')
           }
         },
         {
-          i18n: '供应商用户',
+          i18n: 'TM_GONGYINGSHANGYONGHU',
           prop: 'supplierContacts',
           sortable: true,
           minWidth: 120,
           customRender: (h, scope) => {
             const map = {
-              '01': '全部',
-              '02': '主联系人'
+              '01': 'TM_QUANBU',
+              '02': 'TM_ZHULIANXIREN'
             }
-            return map[scope.row.supplierContacts]
+            return this.$t(map[scope.row.supplierContacts])
           }
         },
         {
-          i18n: '条款负责人',
+          i18n: 'TM_TIAOKUANFUZEREN',
           prop: 'chargeName',
           minWidth: 120,
           sortable: true
@@ -312,13 +320,13 @@ export default {
       let supplierRangeList = []
       value?.split(',').map((i) => {
         i == 'PP'
-          ? (supplierRangeList += '生产供应商，')
+          ? (supplierRangeList += this.$t('TM_SHENGCHANGONGYINGSHANG'))
           : i == 'GP'
-          ? (supplierRangeList += '一般供应商，')
+          ? (supplierRangeList += this.$t('TM_YIBANGONGYINGSHANG'))
           : i == 'NT'
           ? (supplierRangeList += 'N-Tier，')
           : i == 'CM'
-          ? (supplierRangeList += '自定义，')
+          ? (supplierRangeList += this.$t('TM_ZIDINGYI'))
           : (supplierRangeList += '')
       })
       supplierRangeList.length == 0
@@ -333,11 +341,11 @@ export default {
       let supplierIdentityList = []
       value?.split(',').map((i) => {
         i == '0'
-          ? (supplierIdentityList += '临时，')
+          ? (supplierIdentityList += this.$t('TM_LINSHI'))
           : i == '1'
-          ? (supplierIdentityList += '正式，')
+          ? (supplierIdentityList += this.$t('TM_ZHENGSHI'))
           : i == '2'
-          ? (supplierIdentityList += '储蓄池，')
+          ? (supplierIdentityList += this.$t('TM_CHUXUCHI'))
           : (supplierIdentityList += '')
       })
       supplierIdentityList.length == 0
@@ -363,13 +371,13 @@ export default {
         let supplierRangeList = []
         item.supplierRange?.split(',').map((i) => {
           i == 'PP'
-            ? (supplierRangeList += '生产供应商，')
+            ? (supplierRangeList += this.$t('TM_SHENGCHANGONGYINGSHANG'))
             : i == 'GP'
-            ? (supplierRangeList += '一般供应商，')
+            ? (supplierRangeList += this.$t('TM_YIBANGONGYINGSHANG'))
             : i == 'NT'
             ? (supplierRangeList += 'N-Tier，')
             : i == 'CM'
-            ? (supplierRangeList += '自定义，')
+            ? (supplierRangeList += this.$t('TM_ZIDINGYI'))
             : (supplierRangeList += '')
         })
         supplierRangeList = supplierRangeList.slice(
@@ -380,11 +388,11 @@ export default {
         let supplierIdentityList = []
         item.supplierIdentity?.split(',').map((i) => {
           i == '0'
-            ? (supplierIdentityList += '临时，')
+            ? (supplierIdentityList += this.$t('TM_LINSHI'))
             : i == '1'
-            ? (supplierIdentityList += '正式，')
+            ? (supplierIdentityList += this.$t('TM_ZHENGSHI'))
             : i == '2'
-            ? (supplierIdentityList += '储蓄池，')
+            ? (supplierIdentityList += this.$t('TM_CHUXUCHI'))
             : (supplierIdentityList += '')
         })
         supplierIdentityList = supplierIdentityList.slice(
@@ -396,7 +404,7 @@ export default {
       // const titleArr = window._.cloneDeep(this.tableTitle)
       // const index = titleArr.findIndex(item => item.props == 'option')
       // titleArr.splice(index, index + 1)
-      excelExport(tableArr, this.tableTitle, '条款管理')
+      excelExport(tableArr, this.tableTitle, this.$t('TM_TIAOKUANGUANLI'))
     },
     // 导出全部
     handleExportAll() {

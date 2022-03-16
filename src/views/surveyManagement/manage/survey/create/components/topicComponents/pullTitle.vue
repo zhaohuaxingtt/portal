@@ -157,7 +157,7 @@
           $t('QN_BIANJI')
         }}</iButton>
         <iButton v-show="mouseOver == true" @click="handleCopy()">{{
-          language('复制')
+           $t('QN_FUZHU')
         }}</iButton>
         <iButton v-show="mouseOver == true" @click="handlDelete()">{{
           $t('QN_SHANCHU')

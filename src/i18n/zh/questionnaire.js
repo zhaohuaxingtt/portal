@@ -357,5 +357,9 @@ export default {
 
   QN_YIGUOQI: '已过期',
 
-  QN_YITONGJI: '已统计'
+  QN_YITONGJI: '已统计',
+
+  QN_SHANGYIBU: '上一步',
+
+  QN_XIAYIBU: '下一步'
 }

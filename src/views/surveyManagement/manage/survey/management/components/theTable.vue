@@ -163,7 +163,7 @@
                 @click="handleCopy(scope.row.id, scope.$index)"
                 :class="'open-link-text cursor'"
               >
-                <span>{{ language('复制') }}</span>
+                <span>{{ $t('QN_FUZHI') }}</span>
               </p>
             </div>
           </template></el-table-column
@@ -176,8 +176,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        :prev-text="language('上一页')"
-        :next-text="language('下一页')"
+        :prev-text="$t('QN_SHANGYIYE')"
+        :next-text="$t('QN_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -294,11 +294,15 @@ export default {
     },
     // 删除
     handleDelete(id) {
-      this.$confirm(this.$t('QN_SHIFOUYAOSHANCHUGAIWENJUAN'),this.$t('QN_TISHI'), {
-        confirmButtonText: this.$t('QN_SHI'),
-        cancelButtonText: this.$t('QN_FOU'),
-        type: 'warning'
-      }).then(
+      this.$confirm(
+        this.$t('QN_SHIFOUYAOSHANCHUGAIWENJUAN'),
+        this.$t('QN_TISHI'),
+        {
+          confirmButtonText: this.$t('QN_SHI'),
+          cancelButtonText: this.$t('QN_FOU'),
+          type: 'warning'
+        }
+      ).then(
         () => {
           let param = { id: id }
           deleteSurvey(param).then(() => {
@@ -313,11 +317,15 @@ export default {
     },
     // 发布
     handlePublish(id) {
-      this.$confirm(this.$t('QN_SHIFOUYAOFABUGAIWENJUAN'), this.$t('QN_TISHI'), {
-        confirmButtonText: this.$t('QN_SHI'),
-        cancelButtonText: this.$t('QN_FOU'),
-        type: 'warning'
-      }).then(
+      this.$confirm(
+        this.$t('QN_SHIFOUYAOFABUGAIWENJUAN'),
+        this.$t('QN_TISHI'),
+        {
+          confirmButtonText: this.$t('QN_SHI'),
+          cancelButtonText: this.$t('QN_FOU'),
+          type: 'warning'
+        }
+      ).then(
         () => {
           let param = { id: id }
           publishSurvey(param).then((res) => {
@@ -337,7 +345,7 @@ export default {
     // 复制
     handleCopy(id, index) {
       this.$confirm(this.$t('QN_SHIFOUYAOFUZHIWENJUAN'), this.$t('QN_TISHI'), {
-          confirmButtonText: this.$t('QN_SHI'),
+        confirmButtonText: this.$t('QN_SHI'),
         cancelButtonText: this.$t('QN_FOU'),
         type: 'warning'
       }).then(

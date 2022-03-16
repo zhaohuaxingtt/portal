@@ -356,6 +356,11 @@ export default {
         this.query({ id: this.$route.query.id })
       }
     })
+    // this.surveyTypeList = [
+    //   { label: '采购问卷', value: 1, code: 7 },
+    //   { label: '物流问卷', value: 2, code: 8 },
+    //   { label: '质保问卷', value: 3, code: 9 }
+    // ]
     findAdminPermission().then((res) => {
       this.surveyTypeList = res?.filter((item) => {
         return item.code > 6 && item.code < 10

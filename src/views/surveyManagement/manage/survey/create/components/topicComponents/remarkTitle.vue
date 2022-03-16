@@ -26,7 +26,9 @@
         </div>
         <div>
           <iButton @click="complete()">{{ $t('QN_WANCHENGBIANJI') }}</iButton>
-          <iButton @click="cancelComplete()">{{ $t('QN_SHANCHUGAITI') }}</iButton>
+          <iButton @click="cancelComplete()">{{
+            $t('QN_SHANCHUGAITI')
+          }}</iButton>
         </div>
       </div>
       <el-row class="form-row">
@@ -66,7 +68,9 @@
         <iButton v-show="mouseOver == true" @click="enterEditor()">{{
           $t('QN_BIANJI')
         }}</iButton>
-        <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
+        <iButton v-show="mouseOver == true" @click="handleCopy()">{{
+          $t('QN_FUZHI')
+        }}</iButton>
         <iButton v-show="mouseOver == true" @click="handlDelete()">{{
           $t('QN_SHANCHU')
         }}</iButton>
@@ -131,9 +135,11 @@ export default {
       } else {
         return callback(
           new Error(
-            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${this.maxLength / 2} ${this.$t(
-              'QN_ZIFU'
-            )}，${this.$t('QN_YINGWEN')} ${this.maxLength} ${this.$t('QN_ZIFU')}`
+            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${
+              this.maxLength / 2
+            } ${this.$t('QN_ZIFU')}，${this.$t('QN_YINGWEN')} ${
+              this.maxLength
+            } ${this.$t('QN_ZIFU')}`
           )
         )
       }
@@ -156,7 +162,11 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: this.$t('QN_BITIAN'), trigger: ['blur', 'change'] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           // {
           //   min: 1,
           //   max: 400,
