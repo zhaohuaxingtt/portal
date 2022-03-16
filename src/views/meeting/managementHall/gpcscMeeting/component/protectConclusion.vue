@@ -290,6 +290,7 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        isFrozenRs:false,
         conclusionCscAllS:[],
         currencyS:[],
         iconShowA:false,
@@ -300,7 +301,9 @@ export default {
         showIFormItemRS: false,
         showIFormItemList: false,
         showIFormItemelform: false,
-        formData:{},
+        formData:{
+          isFrozenRs:false,
+        },
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
@@ -341,6 +344,7 @@ export default {
       }
     } else {
       return {
+        isFrozenRs:false,
         conclusionCscAllS:[],
         currencyS:[],
         iconShowA:false,
@@ -351,7 +355,9 @@ export default {
         showIFormItemRS: false,
         showIFormItemList: false,
         showIFormItemelform: false,
-        formData:{},
+        formData:{
+          isFrozenRs:false,
+        },
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
@@ -663,27 +669,27 @@ export default {
         this.showIFormItemList= false
         this.showIFormItemelform= false
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
+        this.fromData.isFrozenRs=false //是否发送loi审批
       }else if(e == '11' ){
       // 结论 任务 列表
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
+        this.fromData.isFrozenRs=false  //是否发送loi审批
       }else if(e == '10' || e == '08'){
       // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
+        this.fromData.isFrozenRs=false  //是否发送loi审批
       }
       if(e == '09'){
         this.showIFormItemRS= false
         this.showIFormItemelform= true
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
+        this.fromData.isFrozenRs=false  //是否发送loi审批
       }
 
 
