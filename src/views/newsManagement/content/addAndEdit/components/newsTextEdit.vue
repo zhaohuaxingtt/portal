@@ -1,5 +1,5 @@
 <template>
-  <iCard :title="language('NEWS_ZHENGWEN','正文')" collapse>
+  <iCard :title="language('NEWS_ZHENGWEN', '正文')" collapse>
     <el-form
       :model="ruleForm"
       label-width="9rem"
@@ -15,7 +15,10 @@
               :hideRequiredAsterisk="true"
               class="form--item"
             >
-              <iLabel :label="language('NEWS_NEIRONGFENLEI', '内容分类')" slot="label"></iLabel>
+              <iLabel
+                :label="language('NEWS_NEIRONGFENLEI', '内容分类')"
+                slot="label"
+              ></iLabel>
               <iSelect
                 :value="ruleForm.type"
                 @input="handleChangeType"
@@ -50,16 +53,19 @@
                 :http-request="uploadFiles"
                 multiple
                 :disabled="imgUploadLoading"
-                accept=".JPG, .PNG, .JPEG,.jpg, .png, .jpeg" 
+                accept=".JPG, .PNG, .JPEG,.jpg, .png, .jpeg"
               >
                 <div class="upload-text">
-                  <iButton :loading="imgUploadLoading">{{language('NEWS_PLSCTJ','批量上传图集')}}</iButton>
+                  <iButton :loading="imgUploadLoading">{{
+                    language('NEWS_PLSCTJ', '批量上传图集')
+                  }}</iButton>
                   <div slot="tip" class="el-upload__tip">
-                    {{language('NEWS_JYSYBLTP','建议使用16:9比例图文件，不超过10MB')}}<span
-                      style="color: red; font-size: 14px"
-                    >
-                      *</span
-                    >
+                    {{
+                      language(
+                        'NEWS_JYSYBLTP',
+                        '建议使用16:9比例图文件，不超过10MB'
+                      )
+                    }}<span style="color: red; font-size: 14px"> *</span>
                   </div>
                 </div>
               </el-upload>
@@ -118,7 +124,7 @@
                       :show-file-list="false"
                       :http-request="uploadFiles"
                       :on-success="handleAvatarSuccessTwo"
-                      accept=".JPG, .PNG, .JPEG,.jpg, .png, .jpeg" 
+                      accept=".JPG, .PNG, .JPEG,.jpg, .png, .jpeg"
                       :disabled="uploadLoading"
                     >
                       <i class="el-icon-circle-plus-outline icon"></i>
@@ -136,10 +142,17 @@
                 :hideRequiredAsterisk="true"
                 class="form--item"
               >
-                <iLabel :label="language('NEWS_SHIPINXINWEN', '视频新闻')" required slot="label"></iLabel>
-                <span class="video-tip"
-                  >{{language('NEWS_JYSYBLTP','建议使用16:9比例图文件，不超过10MB')}}</span
-                >
+                <iLabel
+                  :label="language('NEWS_SHIPINXINWEN', '视频新闻')"
+                  required
+                  slot="label"
+                ></iLabel>
+                <span class="video-tip">{{
+                  language(
+                    'NEWS_JYSYBLTP',
+                    '建议使用16:9比例图文件，不超过10MB'
+                  )
+                }}</span>
               </iFormItem>
             </div>
             <div class="form-row">
@@ -157,7 +170,7 @@
                     :file-list="videoUrlList"
                     :before-upload="beforeVideoAvatarUpload"
                     :http-request="handleVideoSuccess"
-                    accept=".MP4, .OGG, .WEDM,.mp4, .ogg, .webM" 
+                    accept=".MP4, .OGG, .WEDM,.mp4, .ogg, .webM"
                   >
                     <i slot="default" class="el-icon-plus"></i>
                     <div slot="file" slot-scope="{ file }">
@@ -203,12 +216,17 @@
           </div>
           <!-- 图文 富文本编辑器 -->
           <div v-show="ruleForm.type === 0" class="form-row">
-            <div
+            <!-- <div
               ref="editer"
               v-show="ruleForm.type === 0"
               class="editer"
               id="editer"
-            ></div>
+            ></div> -->
+            <iEditor
+              ref="iEditor"
+              v-if="ruleForm.type === 0"
+              v-model="ruleForm.content"
+            />
           </div>
           <!-- 附件 -->
           <div class="form-row">
@@ -223,12 +241,18 @@
                 :disabled="uploadLoading"
               >
                 <div class="upload-text">
-                  <iButton :loading="uploadLoading">{{language('NEWS_TIANJIAFUJIAN', '添加附件')}}</iButton>
+                  <iButton :loading="uploadLoading">{{
+                    language('NEWS_TIANJIAFUJIAN', '添加附件')
+                  }}</iButton>
                   <div slot="tip" class="el-upload__tip">
-                    {{language('NEWS_ZNSCBCG20MDWJ', '只能上传不超过20M的文件')}}
+                    {{
+                      language('NEWS_ZNSCBCG20MDWJ', '只能上传不超过20M的文件')
+                    }}
                   </div>
                 </div>
-                <div class="upload-tip">{{language('NEWS_FUJIAN', '附件')}}</div>
+                <div class="upload-tip">
+                  {{ language('NEWS_FUJIAN', '附件') }}
+                </div>
               </el-upload>
               <ul
                 v-for="item in ruleForm.newsAttachments"
@@ -321,15 +345,15 @@
 </template>
 
 <script>
-import { iCard, iFormItem, iLabel, iSelect, iButton, iMessage } from "rise";
-import ImgCutter from "vue-img-cutter";
-import E from "wangeditor";
-import draggable from "vuedraggable";
-import { newsTypes } from "./data";
-import UploadMenu from "./UploadPanel";
-import { uploadFile } from "@/api/news/uploadFile";
-import { createAnchorLink } from "@/utils/downloadUtil";
-
+import { iCard, iFormItem, iLabel, iSelect, iButton, iMessage } from 'rise'
+import ImgCutter from 'vue-img-cutter'
+// import E from 'wangeditor'
+import draggable from 'vuedraggable'
+import { newsTypes } from './data'
+// import UploadMenu from './UploadPanel'
+import { uploadFile } from '@/api/news/uploadFile'
+import { createAnchorLink } from '@/utils/downloadUtil'
+import iEditor from '@/views/assistant/components/iEditor.vue'
 export default {
   components: {
     iCard,
@@ -339,32 +363,33 @@ export default {
     iButton,
     ImgCutter,
     draggable,
+    iEditor
   },
   props: {
     value: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   watch: {
     value: {
       immediate: true,
       handler(val) {
-        this.ruleForm = val;
-        if (val.type === 2 && val.videoUrl != null && val.videoUrl != "") {
-          this.videoUrlList = [{ url: val.videoUrl }];
+        this.ruleForm = val
+        if (val.type === 2 && val.videoUrl != null && val.videoUrl != '') {
+          this.videoUrlList = [{ url: val.videoUrl }]
         }
-        this.imgUrls = val.newsAtlas.map((item) => item.atlasUrl);
-      },
+        this.imgUrls = val.newsAtlas.map((item) => item.atlasUrl)
+      }
     },
     ruleForm(val) {
-      this.$emit("input", val);
-    },
+      this.$emit('input', val)
+    }
   },
   data() {
     return {
       newsTypes,
-      dialogVideoUrl: "",
+      dialogVideoUrl: '',
       VideoDialogVisible: false,
       videoFlag: false,
       videoUploadPercent: 0,
@@ -373,388 +398,439 @@ export default {
       isApprovalOption: [
         {
           label: this.language('TERMS_SHI', '是'),
-          value: true,
+          value: true
         },
         {
           label: this.language('TERMS_FOU', '否'),
-          value: false,
-        },
+          value: false
+        }
       ],
       editor: null,
       videoUrlList: [],
       uploadLoading: false,
       imgUploadLoading: false,
       imgUrls: [],
-      filesLength:0,
-      tuJiFilesLength:0,
-    };
+      filesLength: 0,
+      tuJiFilesLength: 0
+    }
   },
   computed: {
     showOrHide() {
       if (this.ruleForm.newsAtlas?.length > 0) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     showOrHide2() {
       if (this.videoUrlList?.length > 0 || this.videoFlag) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     disabledAll() {
       if (this.ruleForm.disabledAll === true) {
-        this.editor.txt.html("");
-        this.editor.disable();
-        this.handleContentClear();
-        return true;
+        this.editor.txt.html('')
+        this.editor.disable()
+        this.handleContentClear()
+        return true
       } else {
         if (this.editor != null) {
           if (this.ruleForm.linkUrl?.length > 0) {
-            this.editor.disable();
-            return true;
+            this.editor.disable()
+            return true
           }
-          this.editor.enable();
+          this.editor.enable()
         }
       }
-      return false;
-    },
+      return false
+    }
   },
   created() {
-    this.value;
+    this.value
   },
   mounted() {
-    let that = this;
+    /* let that = this
     if (this.editor === null) {
-      this.editor = new E("#editer");
+      this.editor = new E('#editer')
       // 配置菜单栏，设置不需要的菜单
       this.editor.config.excludeMenus = [
-        "list",
-        "todo",
-        "emoticon",
-        "image",
-        "video",
-        "table",
-        "code",
-      ];
+        'list',
+        'todo',
+        'emoticon',
+        'image',
+        'video',
+        'table',
+        'code'
+      ]
       // 配置字体
       this.editor.config.fontNames = [
         // 字符串形式
-        "黑体",
-        "仿宋",
-        "楷体",
-        "标楷体",
-        "华文仿宋",
-        "华文楷体",
-        "宋体",
-        "微软雅黑",
-        "Arial",
-        "Tahoma",
-        "Verdana",
-        "Times New Roman",
-        "Courier New",
-      ];
-      this.editor.config.menus = this.editor.config.menus.concat("uploadMenu"); // 配置菜单栏，删减菜单，调整顺序
-      this.editor.config.height = 700;
+        '黑体',
+        '仿宋',
+        '楷体',
+        '标楷体',
+        '华文仿宋',
+        '华文楷体',
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana',
+        'Times New Roman',
+        'Courier New'
+      ]
+      this.editor.config.menus = this.editor.config.menus.concat('uploadMenu') // 配置菜单栏，删减菜单，调整顺序
+      this.editor.config.height = 700
       this.editor.config.customUploadImg = async (files, callaback) => {
-        const urls = [];
+        const urls = []
         for (let i = 0; i < files.length; i++) {
-          const res = await this.upload(files[i]);
-          urls.push(res);
+          const res = await this.upload(files[i])
+          urls.push(res)
         }
-        callaback(urls);
-      };
-      this.editor.menus.extend("uploadMenu", UploadMenu); // 配置扩展的菜单
+        callaback(urls)
+      }
+      this.editor.menus.extend('uploadMenu', UploadMenu) // 配置扩展的菜单
       // 配置 onchange 回调函数
       this.editor.config.onchange = function (newHtml) {
-        that.ruleForm.content = newHtml;
-      };
-      this.editor.create();
-      this.editor.txt.html(this.ruleForm.content);
-    }
-    this.$refs?.uploadFileFuJian?.$refs['upload-inner'].$refs.input.addEventListener('input',this.uploadFileFuJian);
-    this.$refs?.uploadFileTuJi?.$refs['upload-inner'].$refs.input.addEventListener('input',this.uploadFileTuJi);
-    this.$refs?.uploadTwo?.$refs['upload-inner'].$refs.input.addEventListener('input',this.uploadFileTuJi);
+        that.ruleForm.content = newHtml
+      }
+      this.editor.create()
+      this.editor.txt.html(this.ruleForm.content)
+    } */
+    this.$refs?.uploadFileFuJian?.$refs[
+      'upload-inner'
+    ].$refs.input.addEventListener('input', this.uploadFileFuJian)
+    this.$refs?.uploadFileTuJi?.$refs[
+      'upload-inner'
+    ].$refs.input.addEventListener('input', this.uploadFileTuJi)
+    this.$refs?.uploadTwo?.$refs['upload-inner'].$refs.input.addEventListener(
+      'input',
+      this.uploadFileTuJi
+    )
   },
-  beforeDestroy(){
-    this.$refs?.uploadFileFuJian?.$refs['upload-inner'].$refs.input.removeEventListener('input',this.uploadFileFuJian);
-    this.$refs?.uploadFileTuJi?.$refs['upload-inner'].$refs.input.removeEventListener('input',this.uploadFileTuJi);
-    this.$refs?.uploadTwo?.$refs['upload-inner'].$refs.input.removeEventListener('input',this.uploadFileTuJi);
+  beforeDestroy() {
+    this.$refs?.uploadFileFuJian?.$refs[
+      'upload-inner'
+    ].$refs.input.removeEventListener('input', this.uploadFileFuJian)
+    this.$refs?.uploadFileTuJi?.$refs[
+      'upload-inner'
+    ].$refs.input.removeEventListener('input', this.uploadFileTuJi)
+    this.$refs?.uploadTwo?.$refs[
+      'upload-inner'
+    ].$refs.input.removeEventListener('input', this.uploadFileTuJi)
   },
   methods: {
-    uploadFileFuJian(e){
-      this.filesLength = e.target.files.length;
+    uploadFileFuJian(e) {
+      this.filesLength = e.target.files.length
     },
-    uploadFileTuJi(e){
-      this.tuJiFilesLength = e.target.files.length;
+    uploadFileTuJi(e) {
+      this.tuJiFilesLength = e.target.files.length
     },
     handleAvatarSuccessTwo() {
-      this.$refs.uploadTwo.clearFiles();
+      this.$refs.uploadTwo.clearFiles()
     },
     // 拖拽完成
     dragEnd(e) {
-      e.preventDefault(); // 通知 Web 浏览器不要执行与事件关联的默认动作
+      e.preventDefault() // 通知 Web 浏览器不要执行与事件关联的默认动作
       this.ruleForm.newsAtlas.map((item, index) => {
-        item.sort = index + 1;
-      });
+        item.sort = index + 1
+      })
     },
     upload(file) {
       return new Promise((resolve) => {
-        let formData = new FormData();
-        formData.append("file", file);
+        let formData = new FormData()
+        formData.append('file', file)
         uploadFile(formData)
           .then((res) => {
-            resolve(res.path);
+            resolve(res.path)
           })
-          .catch(() => {});
-      });
+          .catch(() => {})
+      })
     },
     handleContentClear() {
-      this.ruleForm.type = 0;
-      this.videoUrlList = [];
-      this.ruleForm.videoUrl = "";
-      this.ruleForm.newsAtlas = [];
+      this.ruleForm.type = 0
+      this.videoUrlList = []
+      this.ruleForm.videoUrl = ''
+      this.ruleForm.newsAtlas = []
     },
     handleChangeType(val) {
       if (val === 0 && this.ruleForm.type === 1) {
         if (this.ruleForm.newsAtlas?.length > 0) {
           this.changeTypeConfirm(val, () => {
-            this.ruleForm.newsAtlas = [];
-          });
+            this.ruleForm.newsAtlas = []
+          })
         } else {
-          this.ruleForm.type = val;
+          this.ruleForm.type = val
         }
       } else if (val === 0 && this.ruleForm.type === 2) {
-        if (this.ruleForm.videoUrl !== null || this.ruleForm.videoUrl !== "") {
+        if (this.ruleForm.videoUrl !== null || this.ruleForm.videoUrl !== '') {
           this.changeTypeConfirm(val, () => {
-            this.ruleForm.videoUrl = "";
-            this.videoUrlList = [];
-          });
+            this.ruleForm.videoUrl = ''
+            this.videoUrlList = []
+          })
         } else {
-          this.ruleForm.type = val;
+          this.ruleForm.type = val
         }
       } else if (val === 1 && this.ruleForm.type === 0) {
-        if (this.ruleForm.content != null && this.ruleForm.content != "") {
+        if (this.ruleForm.content != null && this.ruleForm.content != '') {
           this.changeTypeConfirm(val, () => {
-            this.editor.txt.html("");
-          });
+            this.editor.txt.html('')
+          })
         } else {
-          this.ruleForm.type = val;
+          this.ruleForm.type = val
         }
       } else if (val === 1 && this.ruleForm.type === 2) {
-        if (this.ruleForm.videoUrl !== null && this.ruleForm.videoUrl !== "") {
+        if (this.ruleForm.videoUrl !== null && this.ruleForm.videoUrl !== '') {
           this.changeTypeConfirm(val, () => {
-            this.ruleForm.videoUrl = "";
-            this.videoUrlList = [];
-          });
+            this.ruleForm.videoUrl = ''
+            this.videoUrlList = []
+          })
         } else {
-          this.ruleForm.type = val;
+          this.ruleForm.type = val
         }
       } else if (val === 2 && this.ruleForm.type === 0) {
-        if (this.ruleForm.content != null && this.ruleForm.content != "") {
+        if (this.ruleForm.content != null && this.ruleForm.content != '') {
           this.changeTypeConfirm(val, () => {
-            this.editor.txt.html("");
-          });
+            this.editor.txt.html('')
+          })
         } else {
-          this.ruleForm.type = val;
+          this.ruleForm.type = val
         }
       } else if (val === 2 && this.ruleForm.type === 1) {
         if (this.ruleForm.newsAtlas?.length > 0) {
           this.changeTypeConfirm(val, () => {
-            this.ruleForm.newsAtlas = [];
-            console.log(this.ruleForm);
-          });
+            this.ruleForm.newsAtlas = []
+            console.log(this.ruleForm)
+          })
         } else {
-          this.ruleForm.type = val;
+          this.ruleForm.type = val
         }
       }
     },
     changeTypeConfirm(val, callback) {
       this.$confirm(
-        this.language('NEWS_QDQHNRFLHXWNRJQBQK',"确定切换内容分类后，新闻内容将全部清空。"),
-          this.language('NEWS_SFQDQH',"是否确定切换？"),
+        this.language(
+          'NEWS_QDQHNRFLHXWNRJQBQK',
+          '确定切换内容分类后，新闻内容将全部清空。'
+        ),
+        this.language('NEWS_SFQDQH', '是否确定切换？'),
         {
           confirmButtonText: this.language('TERMS_SHI', '是'),
-              cancelButtonText: this.language('TERMS_FOU', '否'),
-          type: "warning",
+          cancelButtonText: this.language('TERMS_FOU', '否'),
+          type: 'warning'
         }
       ).then(() => {
-        this.ruleForm.type = val;
-        callback && callback();
-      });
+        this.ruleForm.type = val
+        callback && callback()
+      })
     },
     handleChange(file) {
       this.$refs.imgCutterModal.handleOpen({
         name: file.name,
-        src: URL.createObjectURL(file.raw),
-      });
+        src: URL.createObjectURL(file.raw)
+      })
     },
     handleRemove(id) {
       this.ruleForm.newsAtlas = this.ruleForm.newsAtlas.filter(
         (item) => item.atlasId !== id
-      );
-      this.imgUrls = this.imgUrls.filter((item) => item.indexOf(id) === -1);
+      )
+      this.imgUrls = this.imgUrls.filter((item) => item.indexOf(id) === -1)
     },
     handleRemoveFVideo() {
-      this.videoUrlList = [];
-      this.ruleForm.videoUrl = "";
+      this.videoUrlList = []
+      this.ruleForm.videoUrl = ''
     },
     handlePictureCardPreview(url, index) {
-      this.$refs["elImage"][index].showViewer = true;
-      this.$refs["elImage"][index].src = url;
+      this.$refs['elImage'][index].showViewer = true
+      this.$refs['elImage'][index].src = url
     },
     handleVideoPreview(url) {
-      this.VideoDialogVisible = true;
-      this.dialogVideoUrl = url;
+      this.VideoDialogVisible = true
+      this.dialogVideoUrl = url
     },
     handleDownloadFile(url, name) {
       createAnchorLink(
         url, // 前端跨域问题，将api地址替换为反向代理地址
         name
-      );
+      )
     },
     uploadVideoProcess(evt, file) {
-      this.videoFlag = true;
-      this.videoUploadPercent = ((evt.loaded / evt.total) * 100).toFixed(0);
-      this.$refs["videoUpload"].handleProgress(evt, file);
+      this.videoFlag = true
+      this.videoUploadPercent = ((evt.loaded / evt.total) * 100).toFixed(0)
+      this.$refs['videoUpload'].handleProgress(evt, file)
     },
     handleDeleteAccessory(id) {
       this.ruleForm.newsAttachments = this.ruleForm.newsAttachments.filter(
         (item) => item.attachmentId !== id
-      );
+      )
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
-      const isLtM = file.size / 1024 / 1024 < 10;
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLtM = file.size / 1024 / 1024 < 10
 
       if (!isJPG) {
-        this.tuJiFilesLength=this.tuJiFilesLength-1;
-        this.$message.error(this.language('NEWS_SCTPZNSJPGHZPNGGS', file.name+"上传失败，上传图片只能是 JPG 或者 PNG 格式!"));
+        this.tuJiFilesLength = this.tuJiFilesLength - 1
+        this.$message.error(
+          this.language(
+            'NEWS_SCTPZNSJPGHZPNGGS',
+            file.name + '上传失败，上传图片只能是 JPG 或者 PNG 格式!'
+          )
+        )
       }
       if (!isLtM) {
-        this.tuJiFilesLength=this.tuJiFilesLength-1;
-        this.$message.error(this.language('NEWS_SCTPDXBNCG10MB', file.name+"上传失败，上传图片大小不能超过 10MB!"));
+        this.tuJiFilesLength = this.tuJiFilesLength - 1
+        this.$message.error(
+          this.language(
+            'NEWS_SCTPDXBNCG10MB',
+            file.name + '上传失败，上传图片大小不能超过 10MB!'
+          )
+        )
       }
-      return isJPG && isLtM;
+      return isJPG && isLtM
     },
     beforeVideoAvatarUpload(file) {
       if (
         [
-          "video/mp4",
-          "video/ogg",
-          "video/webM",
+          'video/mp4',
+          'video/ogg',
+          'video/webM'
           // "video/avi",
           // "video/wmv",
           // "video/rmvb",
         ].indexOf(file.type) == -1
       ) {
-        this.$message.error(this.language('NEWS_QSCZQDSPGS', file.name+"上传失败，请上传正确的视频格式"));
-        return false;
+        this.$message.error(
+          this.language(
+            'NEWS_QSCZQDSPGS',
+            file.name + '上传失败，请上传正确的视频格式'
+          )
+        )
+        return false
       }
-      const isLtM = file.size / 1024 / 1024 < 100;
+      const isLtM = file.size / 1024 / 1024 < 100
       if (!isLtM) {
-        this.$message.error(this.language('NEWS_SCSPDXBNCG100M', file.name+"上传失败，上传视频大小不能超过 100MB!"));
-        return false;
+        this.$message.error(
+          this.language(
+            'NEWS_SCSPDXBNCG100M',
+            file.name + '上传失败，上传视频大小不能超过 100MB!'
+          )
+        )
+        return false
       }
     },
     beforeAvatarUploadFiles(file) {
-      const isLtM = file.size / 1024 / 1024 < 20;
+      const isLtM = file.size / 1024 / 1024 < 20
       if (!isLtM) {
-        this.filesLength=this.filesLength-1;
-        this.$message.error(this.language('NEWS_SCWJDXBNCG20MB',file.name+"上传失败，上传文件大小不能超过 20MB!"));
+        this.filesLength = this.filesLength - 1
+        this.$message.error(
+          this.language(
+            'NEWS_SCWJDXBNCG20MB',
+            file.name + '上传失败，上传文件大小不能超过 20MB!'
+          )
+        )
       }
-      return isLtM;
+      return isLtM
     },
     uploadFiles(content) {
-      this.imgUploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
-      uploadFile(formData).then((res)=>{
-        this.ruleForm.newsAtlas.push({
-        atlasId: res.id,
-        atlasName: res.name,
-        atlasUrl: res.path,
-        sort: this.ruleForm.newsAtlas.length + 1,
-      });
-      this.imgUrls.push(res.path);
-      this.tuJiFilesLength=this.tuJiFilesLength-1;
-      if(this.tuJiFilesLength===0){
-        iMessage.success(this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功'));
-        this.imgUploadLoading = false;
-      }
-      }).catch(() => {
-        this.tuJiFilesLength=this.tuJiFilesLength-1;
-        iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'));
-        this.imgUploadLoading = false;
-      });
+      this.imgUploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
+      uploadFile(formData)
+        .then((res) => {
+          this.ruleForm.newsAtlas.push({
+            atlasId: res.id,
+            atlasName: res.name,
+            atlasUrl: res.path,
+            sort: this.ruleForm.newsAtlas.length + 1
+          })
+          this.imgUrls.push(res.path)
+          this.tuJiFilesLength = this.tuJiFilesLength - 1
+          if (this.tuJiFilesLength === 0) {
+            iMessage.success(
+              this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功')
+            )
+            this.imgUploadLoading = false
+          }
+        })
+        .catch(() => {
+          this.tuJiFilesLength = this.tuJiFilesLength - 1
+          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'))
+          this.imgUploadLoading = false
+        })
     },
     handleVideoSuccess(content) {
-      this.$refs["videoUpload"].handleStart(content.file);
+      this.$refs['videoUpload'].handleStart(content.file)
 
-      const formData = new FormData();
-      formData.append("file", content.file);
+      const formData = new FormData()
+      formData.append('file', content.file)
       uploadFile(formData, {
-        onUploadProgress: (evt) => this.uploadVideoProcess(evt, content.file),
+        onUploadProgress: (evt) => this.uploadVideoProcess(evt, content.file)
       })
         .then((res) => {
-          this.videoUploadPercent = 0;
-          this.videoFlag = false;
+          this.videoUploadPercent = 0
+          this.videoFlag = false
           this.videoUrlList = [
             {
               ...res,
-              url: res.path,
-            },
-          ];
-          this.ruleForm.videoUrl = res.path;
-          iMessage.success(this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功'));
+              url: res.path
+            }
+          ]
+          this.ruleForm.videoUrl = res.path
+          iMessage.success(
+            this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功')
+          )
         })
         .catch(() => {
-          this.videoUploadPercent = 0;
-          this.videoFlag = false;
-          this.videoUrlList = [];
-          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'));
-        });
+          this.videoUploadPercent = 0
+          this.videoFlag = false
+          this.videoUrlList = []
+          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'))
+        })
     },
-     httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
-       uploadFile(formData)
+    httpUpload(content) {
+      this.uploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
+      uploadFile(formData)
         .then((res) => {
           this.ruleForm.newsAttachments.push({
             attachmentId: res.id,
             attachmentName: res.name,
-            attachmentUrl: res.path,
-          });
-          this.filesLength=this.filesLength-1;
-          if(this.filesLength===0){
-            iMessage.success(this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功'));
-            this.uploadLoading = false;
+            attachmentUrl: res.path
+          })
+          this.filesLength = this.filesLength - 1
+          if (this.filesLength === 0) {
+            iMessage.success(
+              this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功')
+            )
+            this.uploadLoading = false
           }
         })
         .catch(() => {
-          this.filesLength=this.filesLength-1;
-          this.uploadLoading = false;
-          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'));
-        });
+          this.filesLength = this.filesLength - 1
+          this.uploadLoading = false
+          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'))
+        })
     },
     async cutDown(res) {
-      let formData = new FormData();
-      formData.append("file", res.file);
+      let formData = new FormData()
+      formData.append('file', res.file)
       await uploadFile(formData)
         .then((res) => {
           this.ruleForm.imgs1.push({
             ...res,
-            url: res.path,
-          });
-          iMessage.success(this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功'));
+            url: res.path
+          })
+          iMessage.success(
+            this.language('NEWS_SHANGCHUANCHENGGONG', '上传成功')
+          )
         })
         .catch(() => {
-          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'));
-        });
-    },
-  },
-};
+          iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'))
+        })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .form {

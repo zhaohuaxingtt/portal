@@ -295,8 +295,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_NEWS]: {
-        target: `http://${BASE_IP}:8047/news`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
+        // target: `http://${BASE_IP}:8047/news`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
