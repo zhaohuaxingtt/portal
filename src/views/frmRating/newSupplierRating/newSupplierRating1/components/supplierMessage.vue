@@ -10,10 +10,14 @@
             class="font18 font-weight">{{$t('SUPPLIER_XINGONGYINGSHANGPINGJI')}}</span>
       <div v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'"
            class="floatright">
-        <i-button @click="$emit('handleSumbit','无法评级')" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_WUFAPINGJI">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</i-button>
-        <i-button @click="$emit('handleSumbit','提交计算')" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_TIJIAOJISUAN">{{ $t('SPR_FRM_XGYSPJ_TJJS') }}</i-button>
-        <i-button @click="$emit('handleSumbit','提交审批')" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_TIJIAOSHENPI">{{ $t('SPR_FRM_XGYSPJ_TJSP') }}</i-button>
-        <i-button @click="$emit('handleSumbit','保存')" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_SAVE">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button @click="$emit('handleSumbit','无法评级')"
+                  v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_WUFAPINGJI">{{ $t('SPR_FRM_XGYSPJ_WFPJ') }}</i-button>
+        <i-button @click="$emit('handleSumbit','提交计算')"
+                  v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_TIJIAOJISUAN">{{ $t('SPR_FRM_XGYSPJ_TJJS') }}</i-button>
+        <i-button @click="$emit('handleSumbit','提交审批')"
+                  v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_TIJIAOSHENPI">{{ $t('SPR_FRM_XGYSPJ_TJSP') }}</i-button>
+        <i-button @click="$emit('handleSumbit','保存')"
+                  v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_SAVE">{{ $t('LK_BAOCUN') }}</i-button>
         <i-button @click="handleBackProcurement">{{ $t('SPR_FRM_XGYSPJ_TJQQCG') }}</i-button>
       </div>
     </div>
@@ -23,7 +27,8 @@
            :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
       <template slot="header-control">
 
-        <iButton @click="onJump360" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_CKGGYSXX">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>
+        <iButton @click="onJump360"
+                 v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_CKGGYSXX">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>
       </template>
       <iFormGroup row="3">
         <iFormItem v-for="(item,index) in supplierMessageTitle"
@@ -33,8 +38,8 @@
                   :icons="item.icons"
                   :tip="$t(item.tip)"
                   slot="label"
-                  :v-permission="item.permission"></iLabel>
-          <div :v-permission="item.permission"
+                  v-permission="item.permission"></iLabel>
+          <div v-permission="item.permission"
                class="duns flex-align-center"
                v-if="item.name==='DUNS'">
             <iText>{{baseMsg['one']}}</iText>
@@ -43,7 +48,7 @@
             <span></span>
             <iText>{{baseMsg['three']}}</iText>
           </div>
-          <div :v-permission="item.permission"
+          <div v-permission="item.permission"
                v-else>
             <iText>{{ baseMsg[item.key] }}</iText>
           </div>

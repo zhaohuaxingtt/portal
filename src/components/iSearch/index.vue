@@ -1,24 +1,32 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-25 16:34:49
- * @LastEditTime: 2021-05-24 15:45:01
+ * @LastEditTime: 2022-03-17 16:43:22
  * @LastEditors: Please set LastEditors
  * @Description: 界面中存在的搜索区域，公共组件。
  * @FilePath: \rise\src\components\iSearch\index.vue
 -->
 <template>
-  <iCard :title="title" :tabCard="tabCard">
-    <div class="iSearch-content" :class="{hiden:hidens}">
-      <div class="serch" :style="`margin-right:${stypeWidth}px;`">
+  <iCard :title="title"
+         :tabCard="tabCard">
+    <div class="iSearch-content"
+         :class="{hiden:hidens}">
+      <div class="serch"
+           :style="`margin-right:${stypeWidth}px;`">
         <slot>
         </slot>
       </div>
-      <div class="operation" v-if='!hiddenRight'>
+      <div class="operation"
+           v-if='!hiddenRight'>
         <slot name='button'>
-          <iButton @click="$emit('sure')" :v-permission="searchKey">{{ $t('rfq.RFQINQUIRE') }}</iButton>
-          <iButton @click="$emit('reset')" :v-permission="resetKey">{{ $t('rfq.RFQRESET') }}</iButton>
+          <iButton @click="$emit('sure')"
+                   v-permission="searchKey">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+          <iButton @click="$emit('reset')"
+                   v-permission="resetKey">{{ $t('rfq.RFQRESET') }}</iButton>
         </slot>
-        <i @click="toggle" v-if='!icon' class="el-icon-arrow-up icon margin-left20 cursor"
+        <i @click="toggle"
+           v-if='!icon'
+           class="el-icon-arrow-up icon margin-left20 cursor"
            :class="{rotate:hidens}"></i>
       </div>
     </div>
@@ -31,8 +39,8 @@ import iButton from './components/iButton'
  * @example ./README.me
 */
 export default {
-  name:'iSearch',
-  components: {iCard, iButton},
+  name: 'iSearch',
+  components: { iCard, iButton },
   props: {
     /**权限key-search*/
     searchKey: String,
@@ -50,31 +58,31 @@ export default {
       default: false
     },
     //是否显示右边站位模块
-    hiddenRight:{
-      type:Boolean,
-      default:false
+    hiddenRight: {
+      type: Boolean,
+      default: false
     }
   },
-  data() {
+  data () {
     return {
       hidens: false,
-      stypeWidth:0
+      stypeWidth: 0
     }
   },
-  mounted(){
+  mounted () {
     this.getWidth()
   },
-  methods:{
+  methods: {
     /**
      * @description: 获取宽度设置
      * @param {*}
      * @return {*}
      */
-    getWidth(){
-        let rightWidth = this.hiddenRight?0:this.$el.getElementsByClassName('operation')[0]
-        // this.stypeWidth = rightWidth.clientWidth
+    getWidth () {
+      let rightWidth = this.hiddenRight ? 0 : this.$el.getElementsByClassName('operation')[0]
+      // this.stypeWidth = rightWidth.clientWidth
     },
-    toggle(){
+    toggle () {
       this.hidens = !this.hidens
       this.$emit('toggle', this.hidens)
     }
@@ -83,7 +91,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .iSearch-content {
-  transition: max-height .5s;
+  transition: max-height 0.5s;
   max-height: 500px;
   overflow: hidden;
   display: flex;
@@ -116,7 +124,7 @@ export default {
   }
 
   ::v-deep .operation {
-    transition: .5s;
+    transition: 0.5s;
     margin-top: 22px;
     width: 230px;
     position: relative;
@@ -124,14 +132,14 @@ export default {
     flex-shrink: 0;
     align-self: flex-end;
     padding-bottom: 6px;
-    .icon{
+    .icon {
       position: absolute;
       top: -20px;
       right: 0px;
-      }
-      button{
-        margin-top: 5px;
-      }
+    }
+    button {
+      margin-top: 5px;
+    }
   }
 }
 
@@ -149,7 +157,7 @@ export default {
 
 .icon {
   font-size: 20px;
-  color: #D3D3DB;
+  color: #d3d3db;
 
   &:hover {
     color: $color-blue;

@@ -5,19 +5,21 @@
  -->
 <template>
   <iFormGroup row="3">
-    <iFormItem v-for="(item, index) in title" :key="index" :label="$t(item.language)">
+    <iFormItem v-for="(item, index) in title"
+               :key="index"
+               :label="$t(item.language)">
       <iText v-if="item.key === 'isLaborunion'">
-        <span :v-permission="item.permission">{{ handleIsLaborunion(data[item.key]) }}</span>
+        <span v-permission="item.permission">{{ handleIsLaborunion(data[item.key]) }}</span>
       </iText>
       <iText v-else>
-        <span :v-permission="item.permission">{{ data[item.key] ? data[item.key] : '' }}</span>
+        <span v-permission="item.permission">{{ data[item.key] ? data[item.key] : '' }}</span>
       </iText>
     </iFormItem>
   </iFormGroup>
 </template>
 
 <script>
-import {iFormGroup, iFormItem, iText} from "rise";
+import { iFormGroup, iFormItem, iText } from "rise";
 
 export default {
   components: {
@@ -38,7 +40,7 @@ export default {
     }
   },
   methods: {
-    handleIsLaborunion(val) {
+    handleIsLaborunion (val) {
       if (val !== undefined) {
         return val ? "是" : "否";
       } else {
