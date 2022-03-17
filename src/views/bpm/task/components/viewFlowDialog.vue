@@ -39,6 +39,7 @@
           :panorama="panoramas[0].panorama"
           :isEnd="panoramas[0].isEnd"
           :instanceId="panoramas[0].processInstanceId"
+          use-from="dialog"
         />
       </div>
       <div class="no-data" v-if="loadText">{{ loadText }}</div>
@@ -105,11 +106,6 @@ export default {
               })
               this.loadText = res.data.length ? '' : '暂无数据'
             }
-            /* if (res.result) {
-              this.panoramas = res.data || []
-            } else {
-              iMessage.error('获取审批流失败')
-            } */
           })
           .finally(() => {
             this.loading = false

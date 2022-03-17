@@ -1,3 +1,4 @@
+import language from '@/utils/language'
 const userList = [
   { nameZh: '全体用户', id: 0 },
   { nameZh: '全体采购员工用户', id: 1 }, 
@@ -174,8 +175,8 @@ const typeColumn = [
       return (
         <el-switch
           value={scope.row.isTop}
-          active-text="是"
-          inactive-text="否"
+          active-text={language('是')}
+          inactive-text={language('否')}
         ></el-switch>
       )
     },
@@ -191,8 +192,8 @@ const typeColumn = [
       return (
         <el-switch
           value={scope.row.published}
-          active-text="上架"
-          inactive-text="下架"
+          active-text={language('上架')}
+          inactive-text={language('下架')}
         ></el-switch>
       )
     },
@@ -206,13 +207,13 @@ const typeColumn = [
       return (
         <span>
           <iButton type="text" on-click={() => operate('modify', row)}>
-            修改
+            {language('修改')}
           </iButton>
           <iButton type="text" on-click={() => operate('del', row)}>
-            删除
+            {language('删除')}
           </iButton>
           <iButton type="text" on-click={() => operate('add', row)}>
-            添加报告分类
+          {language('添加报告分类')}
           </iButton>
         </span>
       )

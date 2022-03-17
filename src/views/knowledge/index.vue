@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <h1>Knowledge</h1>
+    <h1>{{language('Knowledge')}}</h1>
   </iPage>
 </template>
 

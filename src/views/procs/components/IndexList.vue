@@ -4,7 +4,7 @@
         <div class="indexs row-line" v-if="indexs.length > 0 && showIndex">
             <span v-for="(l,i) in indexs" :key="l" :class="{active:activeIndex == l}" @click="clickIndex(l)" @mouseenter.stop="en(l,i)" @mouseleave.stop="enterActive = ''">{{enterActive && enterActive.index == i ? indexs_data[enterActive.name].length : l}}</span>
         </div>
-        <div v-if="list == 0" class="nodata">目前暂无数据</div>
+        <div v-if="list == 0" class="nodata">{{language('目前暂无数据')}}</div>
         <transition name="moveR">
             <div class="index-list" v-show="!loading">
                 <div class="row row-line"  v-for="l in list" :key="l.id" @click="clickItem(l.id)">

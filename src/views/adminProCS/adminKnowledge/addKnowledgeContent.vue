@@ -153,14 +153,14 @@ export default {
 				coverFile:""
 			},
 			newContentRules: {
-				knowledgeSection: { required:'true',message:"请选择知识分享类型",trigger:'select' },
-				title: { required:'true',message:"请输入知识标题",trigger:'blur' },
-				summary: { required:'true',message:"请输入知识概要",trigger:'blur' },
-				speaker: { required:'true',message:"请输入主讲人",trigger:'blur' },
-				beginDate: { required:'true',message:"请选择开课日期",trigger:'blur' },
-				knowledgeCategory: { required:'true',message:"请选择知识分类",trigger:'change' },
-				organizations: { required:'true',message:"请选择所属科室",trigger:'change' },
-				coverFile: { required:'true',message: "请上传文件",trigger:'change' }
+				knowledgeSection: { required:'true',message:this.language("请选择知识分享类型"),trigger:'select' },
+				title: { required:'true',message:this.language("请输入知识标题"),trigger:'blur' },
+				summary: { required:'true',message:this.language("请输入知识概要"),trigger:'blur' },
+				speaker: { required:'true',message:this.language("请输入主讲人"),trigger:'blur' },
+				beginDate: { required:'true',message:this.language("请选择开课日期"),trigger:'blur' },
+				knowledgeCategory: { required:'true',message:this.language("请选择知识分类"),trigger:'change' },
+				organizations: { required:'true',message:this.language("请选择所属科室"),trigger:'change' },
+				coverFile: { required:'true',message: this.language("请上传文件"),trigger:'change' }
 			},
 			acceptPicType: "image/*",
 			// 调取接口

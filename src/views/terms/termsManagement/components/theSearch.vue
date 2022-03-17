@@ -10,28 +10,28 @@
       <!--第一行-->
       <el-row>
         <!-- 条款名称 -->
-        <el-form-item :label="'条款名称'">
+        <el-form-item :label="$t('TM_TIAOKUANMINGCHENG')">
           <iInput v-model="form.name"></iInput>
         </el-form-item>
         <!-- 是否个人条款  -->
-        <el-form-item :label="'是否个人条款'">
+        <el-form-item :label="$t('TM_SHIFOUGERENTIAOKUAN')">
           <iSelect
-            :placeholder="'全部'"
+            :placeholder="$t('TM_QUANBU')"
             v-model="form.isPersonalTerms"
             clearable
           >
             <el-option
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.i18n)"
               v-for="item of isPersonalTermsList"
               :key="item.value"
             ></el-option>
           </iSelect>
         </el-form-item>
         <!-- 供应商范围 -->
-        <el-form-item :label="'供应商范围'">
+        <el-form-item :label="$t('TM_GONGYINGSHANGFANWEI')">
           <iSelect
-            :placeholder="'全部'"
+            :placeholder="$t('TM_QUANBU')"
             v-model="form.supplierRange"
             clearable
             multiple
@@ -39,16 +39,16 @@
           >
             <el-option
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.i18n)"
               v-for="item of supplierRangeList"
               :key="item.value"
             ></el-option>
           </iSelect>
         </el-form-item>
         <!-- 供应商身份  -->
-        <el-form-item :label="'供应商身份'">
+        <el-form-item :label="$t('TM_GONGYINGSHANGSHENFEN')">
           <iSelect
-            :placeholder="'全部'"
+            :placeholder="$t('TM_QUANBU')"
             v-model="form.supplierIdentity"
             clearable
             multiple
@@ -56,16 +56,16 @@
           >
             <el-option
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.i18n)"
               v-for="item of supplierIdentityList"
               :key="item.value"
             ></el-option>
           </iSelect>
         </el-form-item>
         <!-- 条款状态 -->
-        <el-form-item :label="'条款状态'">
+        <el-form-item :label="$t('TM_TIAOKUANZHUANGTAI')">
           <iSelect
-            :placeholder="'全部'"
+            :placeholder="$t('TM_QUANBU')"
             v-model="form.state"
             clearable
             multiple
@@ -73,7 +73,7 @@
           >
             <el-option
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.i18n)"
               v-for="item of statusList"
               :key="item.value"
             ></el-option>
@@ -84,9 +84,9 @@
       <!--第二行-->
       <el-row style="margin-top: 1rem">
         <!-- 签署节点 -->
-        <el-form-item :label="'签署节点'">
+        <el-form-item :label="$t('TM_QIANSHUJIEDIAN')">
           <iSelect
-            :placeholder="'全部'"
+            :placeholder="$t('TM_QUANBU')"
             v-model="form.signNode"
             clearable
             multiple
@@ -101,7 +101,7 @@
           </iSelect>
         </el-form-item>
         <!-- 条款负责人 -->
-        <el-form-item :label="'条款负责人'">
+        <el-form-item :label="$t('TM_TIAOKUANFUZEREN')">
           <iInput v-model="form.chargeName"></iInput>
         </el-form-item>
         <!-- 发布日期 -->
@@ -114,14 +114,14 @@
           ref="iDateRangePicker"
           :label="$t('发布日期')"
         /> -->
-        <el-form-item label="发布日期" class="searchFormItem">
+        <el-form-item :label="$t('TM_FABURIQI')" class="searchFormItem">
           <iDatePicker
             v-model="resolutionPassTime"
             @change="handleChangeDate"
-            :start-placeholder="'开始日期'"
-            :end-placeholder="'结束日期'"
+            :start-placeholder="$t('TM_KAISHIRIQI')"
+            :end-placeholder="$t('TM_JIESHURIQI')"
             type="daterange"
-            range-separator="至"
+            :range-separator="$t('TM_ZHI')"
             style="width: 300px"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
@@ -131,8 +131,8 @@
       </el-row>
     </el-form>
     <template v-slot:button>
-      <iButton @click="getTableList">{{ '查询' }}</iButton>
-      <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
+      <iButton @click="getTableList">{{ $t('TM_CHAXUN') }}</iButton>
+      <iButton @click="handleSearchReset">{{ $t('TM_CHONGZHI') }}</iButton>
     </template>
   </iSearch>
 </template>
@@ -223,5 +223,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

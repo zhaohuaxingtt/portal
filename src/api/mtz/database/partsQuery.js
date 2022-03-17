@@ -52,7 +52,7 @@ export function partTemplateUrl(data) {
 // 零件导入模板下载
 export function feignDownload(data) {
   return requetDownload({
-    url: '/supplier/localFile/feignDownload?fileId=' + data,
+    url: '/supplier/localFile/webDownload?fileId=' + data,
     method: 'GET'
     // params: data
   })

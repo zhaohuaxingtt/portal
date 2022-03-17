@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{ $t('条款管理') }}</div>
+    <div class="header">{{ $t('TM_TIAOKUANGUANLI') }}</div>
     <theSearch @getTableList="getTableList" />
     <theTable
       ref="theTable"

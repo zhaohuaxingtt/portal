@@ -2,10 +2,10 @@
 	<iDialog :title="language(dialogTitle)"  :visible.sync="show" v-if="show" width="500px" @close='close' append-to-body class="glossaryForm" :close-on-click-modal ="false">
 		<el-form v-loading="loading" ref="form" :model="newGlossaryForm" :rules="newGlossaryRules" label-width="100px" class="glossaryForm validate-required-form">
 			<iFormItem :label="language('标题')" prop='title'>
-				<iInput v-model="newGlossaryForm.title" placeholder="请输入" maxLength=50></iInput>
+				<iInput v-model="newGlossaryForm.title" :placeholder="language('请输入')" maxLength=50></iInput>
 			</iFormItem>
 			<iFormItem :label="language('标题首字母')" prop='firstLetter'>
-				<iInput v-model="newGlossaryForm.firstLetter" placeholder="请输入" maxLength=1></iInput>
+				<iInput v-model="newGlossaryForm.firstLetter" :placeholder="language('请输入')" maxLength=1></iInput>
 			</iFormItem>
 			<iFormItem :label="language('发布日期')" prop='publishDate'>
 				<el-date-picker
@@ -14,14 +14,14 @@
 					style="width:100%;"
 					value-format="yyyy-MM-dd"
 					:picker-options="pickerOptions"
-					placeholder="选择日期">
+					:placeholder="language('选择日期')">
 				</el-date-picker>
 			</iFormItem>
 			<iFormItem :label="language('版本号')" prop='version'>
-				<iInput v-model="newGlossaryForm.version" placeholder="请输入" maxLength=20></iInput>
+				<iInput v-model="newGlossaryForm.version" :placeholder="language('请输入')" maxLength=20></iInput>
 			</iFormItem>
 			<iFormItem :label="language('词条内容')" prop='termsContent'>
-				<iInput resize="none" :rows="3" type="textarea" v-model="newGlossaryForm.termsContent" placeholder="请输入" maxLength=100></iInput>
+				<iInput resize="none" :rows="3" type="textarea" v-model="newGlossaryForm.termsContent" :placeholder="language('请输入')" maxLength=100></iInput>
 			</iFormItem>
 			
 			<iFormItem :label="language('上传图片')" v-if="type==='edit'">
@@ -77,16 +77,16 @@ export default {
 	data() {
 		let firstLetter_valid = (rule, value, callback) =>{
 			if(!value){
-				callback(new Error("请输入标题首字母"));
+				callback(new Error(this.language("请输入标题首字母")));
 				return;
 			}
-			if(value.length > 1) return callback(new Error("只能填写一个字母"));
+			if(value.length > 1) return callback(new Error(this.language("只能填写一个字母")));
 			var reg = /^[A-Z]+$/; //验证规则
 			if (reg.test(value)) {
 				callback();
 				return;
 			}else{
-				callback(new Error("请输入大写字母"));
+				callback(new Error(this.language("请输入大写字母")));
 			}
 		}
 		return {
@@ -99,11 +99,11 @@ export default {
 				termsContent: ''
 			},
 			newGlossaryRules: {
-				title: { required:true,message:"请输入标题",trigger:'blur' },
+				title: { required:true,message:this.language("请输入标题"),trigger:'blur' },
 				firstLetter: { required:true, validator: firstLetter_valid,trigger:'blur' },
-				version: { required:true,message:"请输入版本号",trigger:'blur' },
-				publishDate: { required:true,message:"请选择发布时间",trigger:'blur' },
-				termsContent: { required:true,message:"请输入词条内容",trigger:'blur' }
+				version: { required:true,message:this.language("请输入版本号"),trigger:'blur' },
+				publishDate: { required:true,message:this.language("请选择发布时间"),trigger:'blur' },
+				termsContent: { required:true,message:this.language("请输入词条内容"),trigger:'blur' }
 			},
 			fileList: [],
 			acceptPicType: "image/*",

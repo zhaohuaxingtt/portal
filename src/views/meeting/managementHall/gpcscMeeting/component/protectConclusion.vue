@@ -6,7 +6,7 @@
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
-  >
+  > 
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -33,9 +33,9 @@
               :disabled="isOther"
             >
               <el-option
-                :value="item"
-                :label="item.conclusionName"
-                v-for="(item, index) of themenConclusionArrObj"
+                :value="item.value"
+                :label="item.name"
+                v-for="(item, index) of conclusionCscAll"
                 :key="index"
               ></el-option>
             </iSelect>
@@ -216,7 +216,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList} from '@/api/meeting/gpMeeting'
+import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList ,findThemenConclusion} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
@@ -290,6 +290,8 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        isFrozenRs:false,
+        conclusionCscAllS:[],
         currencyS:[],
         iconShowA:false,
         iconShowB:false,
@@ -299,7 +301,9 @@ export default {
         showIFormItemRS: false,
         showIFormItemList: false,
         showIFormItemelform: false,
-        formData:{},
+        formData:{
+          isFrozenRs:false,
+        },
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
@@ -313,7 +317,8 @@ export default {
           this.autoOpenProtectConclusionObj.conclusionCsc === '06'
             ? true
             : false,
-        themenConclusionArrObj,
+        // conclusionCscAll:[...themenConclusionArrObj],
+        conclusionCscAll:[],
         tableListData: [],
         ruleForm: {
           conclusion: {
@@ -339,6 +344,8 @@ export default {
       }
     } else {
       return {
+        isFrozenRs:false,
+        conclusionCscAllS:[],
         currencyS:[],
         iconShowA:false,
         iconShowB:false,
@@ -348,7 +355,9 @@ export default {
         showIFormItemRS: false,
         showIFormItemList: false,
         showIFormItemelform: false,
-        formData:{},
+        formData:{
+          isFrozenRs:false,
+        },
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
@@ -362,7 +371,8 @@ export default {
           this.selectedTableData[0].conclusionCsc === '06'
             ? true
             : false,
-        themenConclusionArrObj,
+        // conclusionCscAll:[...themenConclusionArrObj],
+        conclusionCscAll:[],
         tableListData: [],
         ruleForm: {
           conclusion: {
@@ -529,6 +539,7 @@ export default {
     this.getList()
     this.getDate()
     this.getCurrency()
+    this.getConclusion()
     // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
     // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
@@ -592,7 +603,7 @@ export default {
     handleSure(){
       console.log(this.selectedRow);
       const params = {
-       conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
+       conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
        result:this.fromData.result,//任务
        themenId:this.selectedTableData[0].id,//议题id
@@ -617,59 +628,70 @@ export default {
     },
     changeConclusion(e) {
       console.log(e);
-      // this.isShowTable = false
-      // this.isShowSwitch = false
-      // if (e.conclusionCsc === '02') {
-      //   this.isShowSwitch = true
-      //   this.ruleForm.isFrozenRs = true
+      // '01': '待定',  01
+      //   '02': '通过', 08
+      //   '03': '预备会议通过', 09
+      //   '04': '不通过', 10
+      //   '05': 'Last Call', 11
+      //   '06': '分段待定' 12
+      // if (e.conclusionCsc == '01' || e.conclusionCsc == '06') {
+      //   // 只有结论和任务
+      //   this.showIFormItemRS= false
+      //   this.showIFormItemList= false
+      //   this.showIFormItemelform= false
+      //   this.fromData.result=''//任务
+      //   this.fromData.isFrozenRs=''  //是否发送loi审批
+      // }else if(e.conclusionCsc == '05' ){
+      //   // 结论 任务 列表
+      //   this.showIFormItemRS= false
+      //   this.showIFormItemList= true
+      //   this.showIFormItemelform= false
+      //   this.fromData.result=''//任务
+      //   this.fromData.isFrozenRs=''  //是否发送loi审批
+      // }else if(e.conclusionCsc == '04' || e.conclusionCsc == '02'){
+      //   // 结论 任务 LOi
+      //   this.showIFormItemRS= true
+      //   this.showIFormItemList= false
+      //   this.showIFormItemelform= true
+      //   this.fromData.result=''//任务
+      //   this.fromData.isFrozenRs=''  //是否发送loi审批
       // }
-      // if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
-      //   this.isShowTable = true
-      //   if (e.conclusionCsc === '05') {
-      //     this.getUpdateDateTableList('Pre CSC').then(() => {
-      //       this.currentRow = {}
-      //     })
-      //   } else {
-      //     this.getUpdateDateTableList('CSC').then(() => {
-      //       this.currentRow = {}
-      //     })
-      //   }
+      // if(e.conclusionCsc == '03'){
+      //   this.showIFormItemRS= false
+      //   this.showIFormItemelform= true
+      //   this.fromData.result=''//任务
+      //   this.fromData.isFrozenRs=''  //是否发送loi审批
       // }
-      // -----------
-      // '01': '待定',
-      //   '02': '通过',
-      //   '03': '预备会议通过',
-      //   '04': '不通过',
-      //   '05': 'Last Call',
-      //   '06': '分段待定'
-      if (e.conclusionCsc == '01' || e.conclusionCsc == '06') {
+      // ------------------
+      if (e == '01' || e == '12') {
         // 只有结论和任务
         this.showIFormItemRS= false
         this.showIFormItemList= false
         this.showIFormItemelform= false
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
-      }else if(e.conclusionCsc == '05' ){
-        // 结论 任务 列表
+        this.fromData.isFrozenRs=false //是否发送loi审批
+      }else if(e == '11' ){
+      // 结论 任务 列表
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
-      }else if(e.conclusionCsc == '04' || e.conclusionCsc == '02'){
-        // 结论 任务 LOi
+        this.fromData.isFrozenRs=false  //是否发送loi审批
+      }else if(e == '10' || e == '08'){
+      // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false
         this.showIFormItemelform= true
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
+        this.fromData.isFrozenRs=false  //是否发送loi审批
       }
-      if(e.conclusionCsc == '03'){
+      if(e == '09'){
         this.showIFormItemRS= false
         this.showIFormItemelform= true
         this.fromData.result=''//任务
-        this.fromData.isFrozenRs=''  //是否发送loi审批
+        this.fromData.isFrozenRs=false  //是否发送loi审批
       }
+
 
     },
     //获取日期改期的更新的表格数据
@@ -718,7 +740,23 @@ export default {
       }
       findThemenById(data).then((res) => {
           console.log(res.meetingTypeName);
+      })
 
+    },
+    // 结论下拉框字段 findThemenConclusion
+    getConclusion(){
+      const data = {
+        id:this.meetingInfo.meetingTypeId
+      }
+      findThemenConclusion(data).then((res) => {
+        this.conclusionCscAll=[]
+          res.forEach(x => {
+           themenConclusionArrObj.forEach(y=>{
+              if (x==y.conclusionCsc) {
+                this.conclusionCscAll.push({value:x,name:y.conclusionName})
+              }
+            })
+          });
       })
 
     }
