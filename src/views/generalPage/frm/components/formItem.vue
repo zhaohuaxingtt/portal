@@ -5,14 +5,17 @@
  -->
 <template>
   <iFormGroup row="3">
-    <iFormItem v-for="(item, index) in title" :key="index" :label="item.language ? $t(item.language) : item.name" :v-permission="item.permission">
+    <iFormItem v-for="(item, index) in title"
+               :key="index"
+               :label="item.language ? $t(item.language) : item.name"
+               v-permission="item.permission">
       <iText>111</iText>
     </iFormItem>
   </iFormGroup>
 </template>
 
 <script>
-import {iFormGroup, iFormItem, iText} from "rise";
+import { iFormGroup, iFormItem, iText } from "rise";
 
 export default {
   components: {
@@ -32,7 +35,7 @@ export default {
     }
   },
   methods: {
-    handleIsLaborunion(val) {
+    handleIsLaborunion (val) {
       if (val !== undefined) {
         return val ? "是" : "否";
       } else {
