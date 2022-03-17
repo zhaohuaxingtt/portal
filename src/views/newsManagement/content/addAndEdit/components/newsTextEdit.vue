@@ -224,6 +224,7 @@
             ></div> -->
             <iEditor
               ref="iEditor"
+              class="editor-wrapper"
               v-if="ruleForm.type === 0"
               v-model="ruleForm.content"
             />
@@ -1035,5 +1036,8 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+.editor-wrapper {
+  width: 100%;
 }
 </style>
