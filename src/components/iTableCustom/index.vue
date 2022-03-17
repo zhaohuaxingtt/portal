@@ -41,7 +41,9 @@
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
           :label="
-            item.i18n ? language(item.i18n, item.label) : language(item.label)
+            item.i18n
+              ? language(item.i18n, item.label)
+              : language(item.label, item.label)
           "
           :width="item.width || '50'"
           :min-width="item.minWidth"
