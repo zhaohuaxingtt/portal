@@ -295,8 +295,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_NEWS]: {
-        target: `http://${BASE_IP}:8047/news`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
+        // target: `http://${BASE_IP}:8047/news`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
@@ -328,8 +328,8 @@ module.exports = {
       },
       // 用户助手中心
       [process.env.VUE_APP_USER_ASSISTANT]: {
-        target: `http://${BASE_IP}:8059/riseassistant`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseassistant/`,
+        // target: `http://${BASE_IP}:8059/riseassistant`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseassistant/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
