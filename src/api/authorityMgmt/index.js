@@ -139,3 +139,12 @@ export function uploadSignImage(data) {
     data
   })
 }
+
+//采购分类列表
+export function page(data) {
+  return requstcg({
+    url: `/web/material/page`,
+    method: 'post',
+    data
+  })
+}

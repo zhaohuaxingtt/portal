@@ -1,6 +1,7 @@
 <!--框架首页表格-->
 <template>
   <iTableCustom
+    height="400px"
     ref="testTable"
     :loading="tableLoading"
     :columns="columns"
@@ -8,6 +9,7 @@
     @handle-selection-change="handleSelectionChange"
     @open-page="openPage"
     :treeExpand="treeExpand"
+    @purchaseAmount='purchaseAmount'
   ></iTableCustom>
 </template>
 
@@ -53,7 +55,7 @@ export default {
           label: ''
         },
         {
-          prop: 'erpMaterialNo',
+          prop: 'materialGroupCode',
           label: '采购分类编号',
           i18n: '采购分类编号',
           tooltip: false,
@@ -63,14 +65,14 @@ export default {
           minWidth: 120,
           customRender: (h, scope) => {
             return (
-              <span class="open-link-text"> {scope.row.erpMaterialNo} </span>
+              <span class="open-link-text"> {scope.row.materialGroupCode} </span>
             )
           },
           emit: 'purchaseAmount'
         },
 
         {
-          prop: 'remark',
+          prop: 'materialGroupName',
           label: '采购分类名称',
           i18n: '采购分类名称',
           tooltip: false,
@@ -80,7 +82,7 @@ export default {
           type: 'expanded'
         },
         {
-          prop: 'price',
+          prop: 'materialGroupLevel',
           label: '级别',
           i18n: '级别',
           tooltip: true,
@@ -88,7 +90,7 @@ export default {
           align: 'center'
         },
         {
-          prop: 'quantity',
+          prop: 'organizationCode',
           label: '股别',
           i18n: '股别',
           tooltip: false,
@@ -97,7 +99,7 @@ export default {
           customRender: (h, scope, column) => {}
         },
         {
-          prop: 'priceUnit',
+          prop: 'isActive',
           label: '是否生效',
           i18n: '是否生效',
           tooltip: true,
@@ -106,7 +108,7 @@ export default {
           minWidth: 100
         },
         {
-          prop: 'totalPrice	',
+          prop: 'materialGroupDesc	',
           label: '备注',
           i18n: '备注',
           tooltip: true,
@@ -145,6 +147,11 @@ export default {
     },
     openPage(row) {
       this.$emit('open-page', row)
+    },
+    //打开修改页面
+    purchaseAmount(val){
+
+this.$emit('changePage', val)
     }
   }
 }
