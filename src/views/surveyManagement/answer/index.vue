@@ -2,11 +2,11 @@
   <div class="container">
     <div class="content">
       <div class="header">
-        <div class="unfinish" @click="handleUnFinish">未完成</div>
-        <div class="finished" @click="handleFinished">已完成</div>
+        <div class="unfinish" @click="handleUnFinish">{{$t('QN_WEIWANCHENG')}}</div>
+        <div class="finished" @click="handleFinished">{{$t('QN_YIWANCHENG')}}</div>
       </div>
       <div class="box-big">
-        <div v-if="tableList.length === 0" class="no-data">暂无数据</div>
+        <div v-if="tableList.length === 0" class= "no-data">{{$t('QN_ZANWUSHUJU')}}</div>
         <ul class="box" v-else>
           <li class="card" v-for="(item, index) of tableList" :key="index">
             <card :info="item" />
@@ -19,8 +19,8 @@
           background
           :page-sizes="page.pageSizes"
           page-size="8"
-          prev-text="上一页"
-          next-text="下一页"
+          :prev-text="$t('QN_SHANGYIYE')"
+          :next-text="$t('QN_XIAYIYE')"
           layout="prev, pager, next, jumper"
           :current-page="page.currPage"
           :total="page.total"
@@ -30,82 +30,82 @@
   </div>
 </template>
 <script>
-import { iPagination, iPage } from "rise";
-import card from "./components/card.vue";
-import { listUserSurvey } from "@/api/survey/answer.js";
-import { pageMixins } from "@/utils/pageMixins";
+import { iPagination } from 'rise'
+import card from './components/card.vue'
+import { listUserSurvey } from '@/api/survey/answer.js'
+import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
   components: {
     card,
-    iPagination,
+    iPagination
     // iPage,
     // iButton,
   },
   data() {
     return {
       curStatus: 1,
-      tableList: [],
-    };
+      tableList: []
+    }
   },
   mounted() {
-    this.handleUnFinish();
+    this.handleUnFinish()
   },
   methods: {
     async query(e) {
       let data = {
         pageNum: e.pageNum,
         pageSize: e.pageSize,
-        status: e.status,
-      };
-      const res = await listUserSurvey(data);
-      this.tableList = res.data;
-      this.page.total = Number(res.total);
+        status: e.status
+      }
+      const res = await listUserSurvey(data)
+      this.tableList = res.data
+      this.page.total = Number(res.total)
     },
     handleCurrentChange(e) {
-      this.page.currPage = e;
+      this.page.currPage = e
       this.query({
         pageNum: e,
         pageSize: 8,
-        status: this.curStatus,
-      });
+        status: this.curStatus
+      })
 
-      this.$emit("handleChangePage", e);
+      this.$emit('handleChangePage', e)
     },
     handleSizeChange(e) {
-      this.handleFinished();
-      this.$emit("handleSizeChange", e);
+      this.handleFinished()
+      this.$emit('handleSizeChange', e)
     },
     handleUnFinish() {
-      document.querySelector(".unfinish").classList.add("active");
-      document.querySelector(".finished").classList.remove("active");
-      this.curStatus = 1;
+      document.querySelector('.unfinish').classList.add('active')
+      document.querySelector('.finished').classList.remove('active')
+      this.curStatus = 1
       this.query({
         pageNum: this.page.currPage,
         pageSize: 8,
-        status: 1,
-      });
+        status: 1
+      })
     },
     handleFinished() {
-      document.querySelector(".finished").classList.add("active");
-      document.querySelector(".unfinish").classList.remove("active");
-      this.curStatus = 2;
+      document.querySelector('.finished').classList.add('active')
+      document.querySelector('.unfinish').classList.remove('active')
+      this.curStatus = 2
       this.query({
         pageNum: this.page.currPage,
         pageSize: 8,
-        status: 2,
+        status: 2
       }).then(() => {
         this.tableList = this.tableList.map((item) => {
           return {
             ...item,
-            state: 5,
-          };
-        });
-        console.log(this.tableList);
-      });
-    },
-  },
-};
+            state: 5
+          }
+        })
+        console.log(this.tableList)
+      })
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .no-data {

@@ -72,21 +72,21 @@ export default {
 	data() {
 		let firstLetter_valid = (rule, value, callback) =>{
 			if(!value){
-				callback(new Error("请输入标题首字母"));
+				callback(new Error(this.language("请输入标题首字母")));
 				return;
 			}
-			if(value.length > 1) return callback(new Error("只能填写一个字母"));
+			if(value.length > 1) return callback(new Error(this.language("只能填写一个字母")));
 			var reg = /^[A-Z]+$/; //验证规则
 			if (reg.test(value)) {
 				callback();
 				return;
 			}else{
-				callback(new Error("请输入大写字母"));
+				callback(new Error(this.language("请输入大写字母")));
 			}
 		}
 		let enName_valid = (rule, value, callback) => {
             if(!value){
-				callback(new Error("请输入英文名"));
+				callback(new Error(this.language("请输入英文名")));
 				return;
 			}
 			var reg = /^[a-zA-Z]+$/; //验证规则
@@ -94,7 +94,7 @@ export default {
 				callback();
 				return;
 			}else{
-				callback(new Error("请输入英文名"));
+				callback(new Error(this.language("请输入英文名")));
 			}
         }
 		return {
@@ -111,22 +111,22 @@ export default {
 			},
 			rules: {
 				name: [
-					{ required:true,message:"请输入流程标题",trigger:'blur' },
-                    {max:50,message:'流程标题长度不能超过50个字符！'},
+					{ required:true,message:this.language("请输入流程标题"),trigger:'blur' },
+                    {max:50,message:this.language('流程标题长度不能超过50个字符！')},
 				],
 				firstLetter: { required:true, validator: firstLetter_valid,trigger:'blur' },
 				nameEn: [
 					{ required:true, enName_valid: enName_valid,trigger:'blur' },
-                    {max:100,message:'英文标题长度不能超过100个字符！'},
+                    {max:100,message:this.language('英文标题长度不能超过100个字符！')},
 				],
 				firstLetterEn: {required:true, validator: firstLetter_valid,trigger:'blur' },
 				version:[
-					{ required:true, message:"请输入版本号",trigger:'blur' },
-					{ max: 20, message: '版本号长度不能超过20个字符！', trigger: 'blur' }
+					{ required:true, message:this.language("请输入版本号"),trigger:'blur' },
+					{ max: 20, message: this.language('版本号长度不能超过20个字符！'), trigger: 'blur' }
 				],
-				updateDt: { required:true,message:"请选择更新时间",trigger:'change' },
-				exports: { required:true,message:"请输入用户名、邮箱进行搜索",trigger:'blur' },
-				organizations: { required:true,message:"请至少输入2个字符进行搜索",trigger:'blur' },
+				updateDt: { required:true,message:this.language("请选择更新时间"),trigger:'change' },
+				exports: { required:true,message:this.language("请输入用户名、邮箱进行搜索"),trigger:'blur' },
+				organizations: { required:true,message:this.language("请至少输入2个字符进行搜索"),trigger:'blur' },
 			},
 			orgList:[],
 			allOrgList:[],

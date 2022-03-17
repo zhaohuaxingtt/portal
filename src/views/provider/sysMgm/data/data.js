@@ -6,8 +6,8 @@ export const tableColumnSetting = [
     width: 50
   },
   {
+    prop: 'index',
     label: '#',
-    type: 'customIndex',
     align: 'center',
     width: 60,
     customRender: (h, scope) => {

@@ -3,59 +3,111 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 移除集团 -->
-        <iButton @click="moveGroup" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_YICHUJITUAN">{{$t('SPR_FRM_DEP_REMOVEGROUP')}}</iButton>
+        <iButton
+          @click="moveGroup"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_YICHUJITUAN"
+          >{{ $t('SPR_FRM_DEP_REMOVEGROUP') }}</iButton
+        >
         <!-- 加入集团 -->
-        <iButton @click="openJoinGroup" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_JIARUJITUAN">{{$t('SPR_FRM_DEP_ADDGROUP')}}</iButton>
+        <iButton
+          @click="openJoinGroup"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_JIARUJITUAN"
+          >{{ $t('SPR_FRM_DEP_ADDGROUP') }}</iButton
+        >
         <!-- 新建集团 -->
-        <iButton @click="openAddGroup" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_XINJIANJITUAN">{{$t('SPR_FRM_DEP_NEWGROUP')}}</iButton>
+        <iButton
+          @click="openAddGroup"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_XINJIANJITUAN"
+          >{{ $t('SPR_FRM_DEP_NEWGROUP') }}</iButton
+        >
         <!-- 预计完成时间 -->
-        <iButton @click="openOverTime" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_YUJIWANCHENGSHIJIAN">{{ $t('SPR_FRM_DEP_YJWCSJ') }}</iButton>
+        <iButton
+          @click="openOverTime"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_YUJIWANCHENGSHIJIAN"
+          >{{ $t('SPR_FRM_DEP_YJWCSJ') }}</iButton
+        >
         <!-- 提交深评报告审核 -->
-        <iButton @click="postExamine" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_TJSPBGSH">{{ $t('SPR_FRM_DEP_SUBDERFR') }}</iButton>
+        <iButton
+          @click="postExamine"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_TJSPBGSH"
+          >{{ $t('SPR_FRM_DEP_SUBDERFR') }}</iButton
+        >
         <!-- 提交清单审批 -->
-        <iButton @click="openEndRating" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_TIJIAOQINGDANSHENPI">{{ $t('SPR_FRM_DEP_SUBLFA') }}</iButton>
+        <iButton
+          @click="openEndRating"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_TIJIAOQINGDANSHENPI"
+          >{{ $t('SPR_FRM_DEP_SUBLFA') }}</iButton
+        >
         <!-- 报告分发 -->
-        <iButton @click="openReport" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_BAOGAOFENFA">{{$t('SPR_FRM_DEP_REPORTDISN')}}</iButton>
+        <iButton
+          @click="openReport"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_BAOGAOFENFA"
+          >{{ $t('SPR_FRM_DEP_REPORTDISN') }}</iButton
+        >
         <!-- 终止 -->
-        <iButton @click="openEnd" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_ZHONGZHI">{{ $t('SPR_FRM_DEP_END') }}</iButton>
+        <iButton
+          @click="openEnd"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_ZHONGZHI"
+          >{{ $t('SPR_FRM_DEP_END') }}</iButton
+        >
         <!-- 导出 -->
-        <iButton @click="exportsTable" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_DAOCHU">{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton>
+        <iButton
+          @click="exportsTable"
+          v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_DAOCHU"
+          >{{ $t('SPR_FRM_DEP_EXPORT') }}</iButton
+        >
       </div>
     </div>
-    <tableList :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="true"
-               :fixed="true"
-               @handleSelectionChange="handleSelectionChange">
+    <tableList
+      :tableData="tableListData"
+      :tableTitle="tableTitle"
+      :tableLoading="tableLoading"
+      :index="true"
+      :fixed="true"
+      border
+      @handleSelectionChange="handleSelectionChange"
+    >
       <!-- 供应商名称 -->
       <template #name="scope">
-        <p class="openPage"
-           @click="jumpViewSuppliers(scope.row)">
+        <p class="openPage" @click="jumpViewSuppliers(scope.row)">
           {{ scope.row.name }}
         </p>
       </template>
       <!-- 状态 -->
       <template #status="scope">
-        <span v-if="scope.row.status == '信息收集' || scope.row.status == '财务经营与分析' ||scope.row.status == '访谈与调查' || scope.row.status == '报告完成'">
-          <iSelect class="selectCenter"
-                   @change="changeStatus(scope.row)"
-                   v-model="scope.row.status">
-            <el-option value="信息收集"
-                       label="信息收集"></el-option>
-            <el-option value="访谈与调查"
-                       label="访谈与调查"></el-option>
-            <el-option value="财务经营与分析"
-                       label="财务经营与分析"></el-option>
-            <el-option value="报告完成"
-                       label="报告完成"></el-option>
-
+        <span
+          v-if="
+            scope.row.status == '信息收集' ||
+            scope.row.status == '财务经营与分析' ||
+            scope.row.status == '访谈与调查' ||
+            scope.row.status == '报告完成'
+          "
+        >
+          <iSelect
+            class="selectCenter"
+            @change="changeStatus(scope.row)"
+            v-model="scope.row.status"
+          >
+            <el-option value="信息收集" label="信息收集"></el-option>
+            <el-option value="访谈与调查" label="访谈与调查"></el-option>
+            <el-option
+              value="财务经营与分析"
+              label="财务经营与分析"
+            ></el-option>
+            <el-option value="报告完成" label="报告完成"></el-option>
           </iSelect>
         </span>
-        <span v-else-if="scope.row.status == '清单审批驳回' || scope.row.status == '报告审批驳回'">
-          <el-tooltip :content="scope.row.returnReason"
-                      placement="top"
-                      effect="light">
+        <span
+          v-else-if="
+            scope.row.status == '清单审批驳回' ||
+            scope.row.status == '报告审批驳回'
+          "
+        >
+          <el-tooltip
+            :content="scope.row.returnReason"
+            placement="top"
+            effect="light"
+          >
             <span>{{ scope.row.status }}</span>
           </el-tooltip>
         </span>
@@ -63,111 +115,142 @@
       </template>
       <!-- 下次跟踪频率 -->
       <template #trackingFrequency="scope">
-        <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.trackingFrequency}} </span>
+        <span v-if="scope.row.status == '生效' || scope.row.status == '历史'">
+          {{ scope.row.trackingFrequency }}
+        </span>
       </template>
       <!-- //深评时间 -->
       <template #approvalEndDate="scope">
-        <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.approvalEndDate}} </span>
+        <span v-if="scope.row.status == '生效' || scope.row.status == '历史'">
+          {{ scope.row.approvalEndDate }}
+        </span>
       </template>
       <!-- //下次评级时间 -->
       <template #nextRatingTime="scope">
-        <span v-if="scope.row.status == '生效'||scope.row.status == '历史'"> {{scope.row.nextRatingTime}} </span>
+        <span v-if="scope.row.status == '生效' || scope.row.status == '历史'">
+          {{ scope.row.nextRatingTime }}
+        </span>
       </template>
       <template #upload="scope">
-        <span class="openPage"
-              @click="openUpload(scope.row.id)">{{$t('LK_SHANGCHUAN')}}</span>
+        <span class="openPage" @click="openUpload(scope.row.id)">{{
+          $t('LK_SHANGCHUAN')
+        }}</span>
       </template>
       <!-- 访谈内容 -->
       <template #interView="scope">
-        <span class="openPage"
-              @click="jumpInterView(scope.row.id)">{{$t('LK_CHAKAN')}}</span>
+        <span class="openPage" @click="jumpInterView(scope.row.id)">{{
+          $t('LK_CHAKAN')
+        }}</span>
       </template>
       <!-- 深评报告 -->
       <template #depthReport="scope">
-        <span class="openPage"
-              @click="jumpDepthReport(scope.row)">{{$t('LK_CHAKAN')}}</span>
+        <span class="openPage" @click="jumpDepthReport(scope.row)">{{
+          $t('LK_CHAKAN')
+        }}</span>
       </template>
       <!-- 财务分析 -->
       <template #financialAnalysis="scope">
-        <span class="openPage"
-              @click="jumpFinancialAnalysis(scope.row)">{{$t('LK_CHAKAN')}}</span>
+        <span class="openPage" @click="jumpFinancialAnalysis(scope.row)">{{
+          $t('LK_CHAKAN')
+        }}</span>
       </template>
       <!-- 深评结果 -->
       <template #deepCommentResult="scope">
-        <div v-if="scope.row.status == '生效'||scope.row.status == '历史'">
-          <icon v-if="scope.row.deepCommentResult == 'GREEN'"
-                symbol
-                name="iconlvdeng"></icon>
-          <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
-                symbol
-                name="iconhuangdeng"></icon>
-          <icon v-else-if="scope.row.deepCommentResult == 'RED'"
-                symbol
-                name="iconhongdeng"></icon>
+        <div v-if="scope.row.status == '生效' || scope.row.status == '历史'">
+          <icon
+            v-if="scope.row.deepCommentResult == 'GREEN'"
+            symbol
+            name="iconlvdeng"
+          ></icon>
+          <icon
+            v-else-if="scope.row.deepCommentResult == 'YELLOW'"
+            symbol
+            name="iconhuangdeng"
+          ></icon>
+          <icon
+            v-else-if="scope.row.deepCommentResult == 'RED'"
+            symbol
+            name="iconhongdeng"
+          ></icon>
           <span v-else-if="!scope.row.deepCommentResult"></span>
         </div>
-
       </template>
       <!-- 备注 -->
       <template #remarks="scope">
-        <span class="openPage"
-              v-if="scope.row.remarks"
-              @click="openRemark(scope.row)">{{ $t('LK_CHAKAN') }}</span>
-        <span class="openPage"
-              v-else
-              @click="openRemark(scope.row)">{{$t('LK_TIANJIA')}}</span>
+        <span
+          class="openPage"
+          v-if="scope.row.remarks"
+          @click="openRemark(scope.row)"
+          >{{ $t('LK_CHAKAN') }}</span
+        >
+        <span class="openPage" v-else @click="openRemark(scope.row)">{{
+          $t('LK_TIANJIA')
+        }}</span>
       </template>
     </tableList>
-    <iPagination v-update
-                 @size-change="handleSizeChange($event, getTableList)"
-                 @current-change="handleCurrentChange($event, getTableList)"
-                 background
-                 :page-sizes="page.pageSizes"
-                 :page-size="page.pageSize"
-                 :layout="page.layout"
-                 :current-page="page.currPage"
-                 :total="page.totalCount" />
+    <iPagination
+      v-update
+      @size-change="handleSizeChange($event, getTableList)"
+      @current-change="handleCurrentChange($event, getTableList)"
+      background
+      :page-sizes="page.pageSizes"
+      :page-size="page.pageSize"
+      :layout="page.layout"
+      :current-page="page.currPage"
+      :total="page.totalCount"
+    />
     <!-- 新建集团 -->
-    <messageBox v-model="addGroup"
-                :maxlength="50"
-                :title="$t('SPR_FRM_DEP_NEWGROUP')"
-                :tip="$t('SPR_FRM_DEP_INPUTGROUPNAME')"
-                @sure="sure"
-                :error="$t('SPR_FRM_DEP_GROUPNOTNAME')"></messageBox>
+    <messageBox
+      v-model="addGroup"
+      :maxlength="50"
+      :title="$t('SPR_FRM_DEP_NEWGROUP')"
+      :tip="$t('SPR_FRM_DEP_INPUTGROUPNAME')"
+      @sure="sure"
+      :error="$t('SPR_FRM_DEP_GROUPNOTNAME')"
+    ></messageBox>
     <!-- 查看备注 -->
-    <messageBox ref="remark"
-                v-model="remark"
-                type="textarea"
-                :required="false"
-                :title="$t('SPR_FRM_DEP_REMARKS')"
-                @sure="sureRemark"></messageBox>
+    <messageBox
+      ref="remark"
+      v-model="remark"
+      type="textarea"
+      :required="false"
+      :title="$t('SPR_FRM_DEP_REMARKS')"
+      @sure="sureRemark"
+    ></messageBox>
     <!-- 报告分发 -->
-    <changeItem ref="report"
-                v-model="report"
-                :tip="$t('SPR_FRM_DEP_QXZFFDX')"
-                multiple
-                @flag="emitFlag"
-                :title="$t('SPR_FRM_DEP_REPORTDISN')"
-                @sure="sureChangeItems"></changeItem>
+    <changeItem
+      ref="report"
+      v-model="report"
+      :tip="$t('SPR_FRM_DEP_QXZFFDX')"
+      multiple
+      @flag="emitFlag"
+      :title="$t('SPR_FRM_DEP_REPORTDISN')"
+      @sure="sureChangeItems"
+    ></changeItem>
     <!-- 预计完成时间 -->
-    <overTime v-model="overTimeShow"
-              :tip="$t('SPR_FRM_DEP_YJWCSJ')"
-              :title="$t('SPR_FRM_DEP_QXZYJWCSJ')"
-              @sure="sureChangeTime"></overTime>
+    <overTime
+      v-model="overTimeShow"
+      :tip="$t('SPR_FRM_DEP_YJWCSJ')"
+      :title="$t('SPR_FRM_DEP_QXZYJWCSJ')"
+      @sure="sureChangeTime"
+    ></overTime>
     <!-- 终止审批页面 -->
-    <endRatingList :disabled="endDisabled"
-                   v-model="endRating"
-                   @getTableList="getTableList"
-                   ref="endRating"></endRatingList>
+    <endRatingList
+      :disabled="endDisabled"
+      v-model="endRating"
+      @getTableList="getTableList"
+      ref="endRating"
+    ></endRatingList>
     <!-- 上传附件 -->
-    <upload v-model="uploadShow"
-            ref="upload"></upload>
+    <upload v-model="uploadShow" ref="upload"></upload>
     <!-- 加入集团 -->
-    <joinGroup v-model="joinGroupShow"
-               @addGroup="addOrMoveGroup"
-               :financialSuppleData="financialSuppleData"
-               :ids="getIds()"
-               ref="joinGroup"></joinGroup>
+    <joinGroup
+      v-model="joinGroupShow"
+      @addGroup="addOrMoveGroup"
+      :financialSuppleData="financialSuppleData"
+      :ids="getIds()"
+      ref="joinGroup"
+    ></joinGroup>
   </iCard>
 </template>
 
@@ -198,11 +281,13 @@ import {
   newGroup,
   reportIssue,
   batch,
-  depSupplierDown,
-
+  depSupplierDown
 } from '@/api/frmRating/depthRating'
 import { getSummarize } from '@/api/frmRating/depthRating/depthReport.js'
-import { postExamine, cehckSummarize } from '@/api/frmRating/depthRating/depthReport'
+import {
+  postExamine,
+  cehckSummarize
+} from '@/api/frmRating/depthRating/depthReport'
 // import { excelExport } from '@/utils/filedowLoad'
 import overTime from './overTime'
 export default {
@@ -229,10 +314,10 @@ export default {
     },
     form: {
       type: Object,
-      default: () => { }
+      default: () => {}
     }
   },
-  data () {
+  data() {
     return {
       tableListData: [],
       fromGroup: [], //下拉框数据
@@ -255,25 +340,25 @@ export default {
   },
   watch: {
     '$i18n.locale': {
-      handler (newValue) {
+      handler(newValue) {
         this.languageName = newValue
       }
     }
   },
-  created () {
+  created() {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange (currentSelect) {
+    handleSelectionChange(currentSelect) {
       this.currentSelect = currentSelect
     },
     // 搜索
-    search () {
+    search() {
       this.page.currPage = 1
       this.getTableList()
     },
     // 获取深评列表
-    getTableList () {
+    getTableList() {
       let data = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -290,7 +375,7 @@ export default {
       })
     },
     // 获取当前选中的ids
-    getIds () {
+    getIds() {
       let ids = []
       this.currentSelect.map((res) => {
         ids.push(res.id)
@@ -298,7 +383,7 @@ export default {
       return ids
     },
     // 改变状态值
-    changeStatus (row) {
+    changeStatus(row) {
       const data = {
         id: row.id,
         status: row.status
@@ -306,8 +391,18 @@ export default {
       if (row.status == '报告完成') {
         getSummarize(row.id, this.languageName).then((result) => {
           if (result.data) {
-            if ((result.data.deepCommentRatingResults == '' || result.data.deepCommentRatingResults == null) && (result.data.trackFrequencyAgain == '' || result.data.trackFrequencyAgain == null)) {
-              iMessage.warn(this.language('QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINGLV1', '请填写状态与后续跟踪频率'))
+            if (
+              (result.data.deepCommentRatingResults == '' ||
+                result.data.deepCommentRatingResults == null) &&
+              (result.data.trackFrequencyAgain == '' ||
+                result.data.trackFrequencyAgain == null)
+            ) {
+              iMessage.warn(
+                this.language(
+                  'QINGTIANXIEZHUANGTAIYUHOUXUGENZONGPINGLV1',
+                  '请填写状态与后续跟踪频率'
+                )
+              )
               this.getTableList()
             } else {
               depSupplier(data).then((res) => {
@@ -327,12 +422,12 @@ export default {
       }
     },
     //新加集团
-    openAddGroup () {
+    openAddGroup() {
       if (this.isSelect()) return
       this.addGroup = true
     },
     // 新加集团确认
-    sure (remark) {
+    sure(remark) {
       let data = {
         idList: this.getIds(),
         financialSupplementName: remark
@@ -346,13 +441,13 @@ export default {
       })
     },
     // 查看备注
-    openRemark (row) {
+    openRemark(row) {
       this.currentId = row.id
       this.$refs.remark.changeBackmark(row.remarks)
       this.remark = true
     },
     // 修改备注
-    sureRemark (remark) {
+    sureRemark(remark) {
       let data = {
         id: this.currentId,
         remarks: remark
@@ -366,7 +461,7 @@ export default {
       })
     },
     // 报告分发
-    openReport () {
+    openReport() {
       if (this.isSelect()) return
       let result = this.currentSelect.every((item) => item.status == '生效')
       if (!result) {
@@ -394,16 +489,16 @@ export default {
       //   iMessage.error(this.$t('SPR_FRM_FRMGL_BGFFMESSAGE'))
       // }
     },
-    emitFlag (val) {
+    emitFlag(val) {
       if (val) {
         this.loadingFlag = false
         this.report = true
-      }else{
+      } else {
         this.report = false
       }
     },
     // 报告分发确认
-    sureChangeItems (ids) {
+    sureChangeItems(ids) {
       let supplierIdList = []
       this.currentSelect.forEach((res) => {
         let obj = {}
@@ -424,7 +519,7 @@ export default {
       })
     },
     // 终止
-    openEnd () {
+    openEnd() {
       if (this.isSelect()) return
       // 判断是否满足终止条件
       let result = this.currentSelect.every(
@@ -470,19 +565,19 @@ export default {
         })
     },
     // 判断是否选择了供应商
-    isSelect () {
+    isSelect() {
       if (this.currentSelect.length == 0) {
         iMessage.error('请选择需要操作的供应商数据')
         return true
       }
     },
     // 上传附件
-    openUpload (id) {
+    openUpload(id) {
       this.$refs.upload.getTableList(id)
       this.uploadShow = true
     },
     // 打开加入集团
-    openJoinGroup () {
+    openJoinGroup() {
       if (this.isSelect()) return
       let result = this.currentSelect.find(
         (item) => item.deepCommentSupplierName
@@ -510,7 +605,7 @@ export default {
       this.joinGroupShow = true
     },
     // 移除集团
-    moveGroup () {
+    moveGroup() {
       if (this.isSelect()) return
       let result = this.currentSelect.every(
         (item) => item.deepCommentSupplierName
@@ -526,7 +621,7 @@ export default {
       this.addOrMoveGroup(data)
     },
     // 加入集团 移除集团
-    addOrMoveGroup (data) {
+    addOrMoveGroup(data) {
       addOrMoveGroup(data).then((res) => {
         if (data.isJoin) {
           this.joinGroupShow = false
@@ -543,7 +638,7 @@ export default {
       })
     },
     // 提交清单审批
-    openEndRating () {
+    openEndRating() {
       if (this.isSelect()) return
       let result = this.currentSelect.every(
         (item) => item.status == '草稿' || item.status == '清单审批驳回'
@@ -558,7 +653,7 @@ export default {
       }
     },
     // 跳转供应商财务数据
-    jumpViewSuppliers (row) {
+    jumpViewSuppliers(row) {
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
@@ -570,7 +665,7 @@ export default {
       })
     },
     // 跳转访谈清单
-    jumpInterView (id) {
+    jumpInterView(id) {
       // this.$router.push('/supplier/frmrating/depthRating/interView')
       let routeData = this.$router.resolve({
         name: 'supplierFrmDepthRatingInterView',
@@ -579,7 +674,7 @@ export default {
       window.open(routeData.href)
     },
     // 查看财报分析
-    jumpFinancialAnalysis (row) {
+    jumpFinancialAnalysis(row) {
       // this.$router.push('/supplier/frmrating/depthRating/financialAnalysis')
       let routeData = this.$router.resolve({
         name: 'depthRatingFinancialAnalysis',
@@ -591,7 +686,7 @@ export default {
       window.open(routeData.href)
     },
     //查看深评报告
-    jumpDepthReport (row) {
+    jumpDepthReport(row) {
       // this.$router.push('/supplier/frmrating/depthRating/depthReport')
       let routeData = this.$router.resolve({
         name: 'depthReport',
@@ -604,7 +699,7 @@ export default {
       window.open(routeData.href)
     },
     // 导出
-    exportsTable () {
+    exportsTable() {
       // if (this.isSelect()) return
       depSupplierDown({
         ...this.form,
@@ -614,12 +709,12 @@ export default {
       })
     },
     // 预计完成时间
-    openOverTime () {
+    openOverTime() {
       if (this.isSelect()) return
       this.overTimeShow = true
     },
     // 修改预计完成时间
-    sureChangeTime (date) {
+    sureChangeTime(date) {
       let data = {
         ids: this.getIds(),
         estimateCompleteMonth: date
@@ -632,7 +727,7 @@ export default {
       })
     },
     // 提交深评报告审核
-    postExamine () {
+    postExamine() {
       if (this.isSelect()) return
       //    let result = this.currentSelect.every(
       //     (item) =>
@@ -643,11 +738,9 @@ export default {
       //     iMessage.error(this.language('只能提交报告完成、报告审批驳回的供应商数据'))
       //     return
       //   }
-      cehckSummarize({ deepCommentSupplierIds: this.getIds() }).then(res => {
+      cehckSummarize({ deepCommentSupplierIds: this.getIds() }).then((res) => {
         if (res?.code === '200') {
-
         } else {
-
         }
       })
       let data = {
@@ -669,7 +762,7 @@ export default {
   font-size: 14px;
   text-decoration: underline;
   cursor: pointer;
-  width: 100px;
+  width: 300px;
   @include text_;
 }
 .selectCenter {

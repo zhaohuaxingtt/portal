@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="'非标条款下载'"
+    :title="$t('TM_FEITIAOKUANXIAZAI')"
     :visible.sync="openDialog"
     append-to-body="true"
     width="95%"
@@ -15,12 +15,12 @@
       :tableLoading="tableLoading"
     >
       <el-table-column
-        label="序号"
+        :label="$t('TM_XUHAO')"
         type="index"
         width="80"
         align="center"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip align="center" label="文件名"
+      <el-table-column show-overflow-tooltip align="center" :label="$t('TM_WENJIANMING')"
         ><template slot-scope="scope">
           <span
             class="open-link-text"
@@ -31,28 +31,28 @@
                 scope.row.attachmentName
               )
             "
-            >{{ scope.row["attachmentName"] }}</span
+            >{{ scope.row['attachmentName'] }}</span
           >
           <span
             class="el-icon-download open-link-text"
             style="font-size: 12px"
           ></span> </template
       ></el-table-column>
-      <el-table-column align="center" label="上传日期"
+      <el-table-column align="center" :label="$t('TM_SHANGCHUANRIQI')"
         ><template slot-scope="scope">
           <span>{{
-            scope.row["uploadDate"] && scope.row["uploadDate"].substring(0,10)
+            scope.row['uploadDate'] && scope.row['uploadDate'].substring(0, 10)
           }}</span>
         </template></el-table-column
       >
-      <el-table-column align="center" label="上传人"
+      <el-table-column align="center" :label="$t('TM_SHANGCHUANREN')"
         ><template slot-scope="scope">
-          <span>{{ scope.row["createBy"] }}</span>
+          <span>{{ scope.row['createBy'] }}</span>
         </template></el-table-column
       >
-      <el-table-column align="center" label="大小"
+      <el-table-column align="center" :label="$t('TM_DAXIAO')"
         ><template slot-scope="scope">
-          <span>{{ scope.row["attachmentSize"] }}</span>
+          <span>{{ scope.row['attachmentSize'] }}</span>
         </template></el-table-column
       >
     </iTableML>
@@ -60,21 +60,21 @@
 </template>
 
 <script>
-import { iDialog, iMessage } from "rise";
+import { iDialog, iMessage } from 'rise'
 // import iTableCustom from "@/components/iTableCustom";
-import iTableML from "@/components/iTableML";
-import { getUnStandard } from "@/api/terms/terms";
-import { download } from "@/utils/downloadUtil";
+import iTableML from '@/components/iTableML'
+import { getUnStandard } from '@/api/terms/terms'
+import { download } from '@/utils/downloadUtil'
 
 export default {
   components: {
     iDialog,
-    iTableML,
+    iTableML
   },
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number, default: -1 },
-    supplierId: { type: Number, default: -1 },
+    supplierId: { type: Number, default: -1 }
   },
   data() {
     return {
@@ -84,19 +84,19 @@ export default {
       // form: {
       //   termsId: this.id,
       // },
-      openUploadFileDialog: false,
+      openUploadFileDialog: false
       // supplierId: -1,
       // attachmentId: "",
       // attachmentName: "",
-    };
+    }
   },
   mounted() {
     let param = {
       termsId: this.id,
       supplierId: this.supplierId,
-      isExclude: false,
-    };
-    this.query(param);
+      isExclude: false
+    }
+    this.query(param)
   },
   methods: {
     // handleUploadFile(row) {
@@ -115,8 +115,8 @@ export default {
     //   this.openUploadFileDialog = bol;
     // },
     clearDiolog() {
-      this.$emit("closeDialog", false);
-      this.$emit("flushTable");
+      this.$emit('closeDialog', false)
+      this.$emit('flushTable')
     },
     // handleChangePage(e) {
     //   this.page.currPage = e;
@@ -127,11 +127,11 @@ export default {
     // },
     query(e) {
       getUnStandard(e).then((res) => {
-        this.tableListData = res.attachments;
+        this.tableListData = res.attachments
         // this.tableListData = res?.termsSupplierList;
         // this.tableListDataSub = this.tableListData.slice(0, 10);
         // this.page.total = res?.termsSupplierList.length;
-      });
+      })
     },
     handleDownloadFile(id, name) {
       download({
@@ -139,14 +139,13 @@ export default {
         filename: name,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error(this.$t('TM_XIAZAISHIBAI'))
           }
-        },
-      });
-    },
-  },
-};
+        }
+      })
+    }
+  }
+}
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

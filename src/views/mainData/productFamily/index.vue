@@ -77,7 +77,7 @@
                     <el-option
                       v-for="item in formIsValidSelect"
                       :key="item.label"
-                      :label="item.label"
+                      :label="language(item.label)"
                       :value="item.value"
                     >
                     </el-option>

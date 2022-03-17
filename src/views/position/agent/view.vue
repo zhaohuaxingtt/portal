@@ -1,14 +1,14 @@
 <template>
   <div>
     <pageHeader class="margin-bottom20">
-      <span>岗位代理明细</span>
+      <span>{{language('岗位代理明细')}}</span>
     </pageHeader>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
         <el-row>
           <el-col :span="6">
-            <iFormItem label="代理岗位" prop="positionList">
+            <iFormItem :label="language('代理岗位')" prop="positionList">
               <div class="selected-tags-panel">
                 <div class="tags">
                   <span
@@ -35,7 +35,7 @@
           </el-col>
           <el-col :span="18">
             <div class="agent-date">
-              <iFormItem label="代理时间" prop="startDate">
+              <iFormItem :label="language('代理时间')" prop="startDate">
                 <iDatePicker
                   v-model="form.startDate"
                   type="date"
@@ -45,7 +45,7 @@
                   :picker-options="startDateOptions"
                 />
               </iFormItem>
-              <iFormItem label="至" prop="endDate" label-width="35px">
+              <iFormItem :label="language('至')" prop="endDate" label-width="35px">
                 <iDatePicker
                   v-model="form.endDate"
                   type="date"
@@ -56,12 +56,12 @@
                 />
               </iFormItem>
               <div class="duration" v-show="duration">
-                共 <span>{{ duration }}</span> 天
+               {{language('共')}} <span>{{ duration }}</span> {{language('天')}}
               </div>
             </div>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="代理原因" style="width: 100%">
+            <el-form-item :label="language('代理原因')" style="width: 100%">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="form.description"
@@ -136,21 +136,21 @@ export default {
         startDate: [
           {
             required: true,
-            message: '开始日期不能为空',
+            message: this.language('开始日期不能为空'),
             trigger: 'blur'
           }
         ],
         endDate: [
           {
             required: true,
-            message: '结束日期不能为空',
+            message: this.language('结束日期不能为空'),
             trigger: 'blur'
           }
         ],
         positionList: [
           {
             required: true,
-            message: '代理岗位不能为空',
+            message: this.language('代理岗位不能为空'),
             trigger: 'blur'
           }
         ]

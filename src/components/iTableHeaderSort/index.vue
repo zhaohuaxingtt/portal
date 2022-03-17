@@ -1,6 +1,6 @@
 <template>
   <i-dialog
-    title="表头设置"
+    :title="language('表头设置')"
     :visible.sync="isShow"
     width="30%"
     class="table-header-modal"
@@ -24,9 +24,9 @@
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
-      <i-button @click="handleSave">保存</i-button>
-      <i-button @click="handleReset">重置</i-button>
-      <i-button @click="handleCancel">退出</i-button>
+      <i-button @click="handleSave">{{language('保存')}}</i-button>
+      <i-button @click="handleReset">{{language('重置')}}</i-button>
+      <i-button @click="handleCancel">{{language('退出')}}</i-button>
     </span>
   </i-dialog>
 </template>

@@ -1,12 +1,13 @@
 <template>
   <div v-loading="BoxLoading">
     <div class="tabsBoxInfor">
-      <div class="inforDiv"
+      <div :style="item.prop == 'actuallyTotalAmt' ? {fontWeight: 'bold'} : null"
+           class="inforDiv"
            v-for="(item,index) in tabsInforList"
            :key="index">
         <span>{{item.name}}</span>
         <div class="inforText"
-             v-if="item.prop == 'time'">{{inforData['monthFrom']}}~{{inforData['monthTo']}}</div>
+             v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
         <div class="inforText"
              v-else>{{inforData[item.prop]}}</div>
       </div>
@@ -14,7 +15,8 @@
     <div class="BtnTitle">
       <span>明细列表</span>
       <div>
-        <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+        <!-- <iButton @click="uploadPZ" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+        <iButton @click="upload" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton> -->
       </div>
     </div>
     <tableList class="margin-top20"
@@ -43,10 +45,12 @@ import tableList from '@/components/commonTable/index.vue'
 import {
   compdocMetalDetailExport,
   getDifferenceInfor,
-  compdocMetalDetailPage
+  compdocMetalDetailPage,
+  mtzBalanceDetailsExport,
+  compdocMetalDetailSum
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getNowFormatDate } from "./util.js";
-
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "tabs3",
@@ -107,11 +111,24 @@ export default {
   created () {
     this.mtzDocId = this.$route.query.mtzDocId
     this.getData();
-    getDifferenceInfor(this.mtzDocId).then(res => {
+    // getDifferenceInfor(this.mtzDocId).then(res => {
+    //   this.inforData = res.data;
+    // })
+    compdocMetalDetailSum({
+      mtzDocId: this.mtzDocId,
+      pgmFlag: 1
+    }).then(res => {
       this.inforData = res.data;
     })
   },
   methods: {
+    tranNumber (val, type) {
+      if (type) {
+        return val.substring(0, 6)
+      } else {
+        return val.substring(6, 12)
+      }
+    },
     getData () {
       compdocMetalDetailPage({
         pageNo: this.page.currPage,
@@ -126,15 +143,46 @@ export default {
         this.loading = false;
       })
     },
-
-    upload () {
-      iMessageBox(`是否导出？`).then(() => {
-        compdocMetalDetailExport({}).then(res => {
+    uploadPZ () {
+      NewMessageBox({
+        title: this.language('LK_WENXINTISHI', '温馨提示'),
+        Tips: this.language('SHIFOUDAOCHU', '是否导出？'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        confirmButtonText: this.language('QUEREN', '确认'),
+      }).then(() => {
+        compdocMetalDetailExport({
+          ...this.serchList,
+          mtzDocId: this.mtzDocId
+        }).then(res => {
           let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");
           link.href = objectUrl;
-          let fname = "MTZ补差单凭证（贵金属）" + getNowFormatDate() + ".xlsx";
+          let fname = "补差单明细（贵金属）" + this.dataObject.bizNo + ".xlsx";
+          // let fname = "MTZ补差单明细（贵金属）" + getNowFormatDate() + ".xlsx";
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          iMessage.success("链接成功！")
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    upload () {
+      NewMessageBox({
+        title: this.language('LK_WENXINTISHI', '温馨提示'),
+        Tips: this.language('SHIFOUDAOCHU', '是否导出？'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        confirmButtonText: this.language('QUEREN', '确认'),
+      }).then(() => {
+        mtzBalanceDetailsExport({ mtzDocId: this.mtzDocId }).then(res => {
+          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = objectUrl;
+          let fname = "MTZ补差单明细(贵金属)凭证" + getNowFormatDate() + ".pdf";
           link.setAttribute("download", fname);
           document.body.appendChild(link);
           link.click();
@@ -159,6 +207,9 @@ export default {
       this.page.currPage = val;
       this.getData();
     },
+  },
+  destroyed () {
+    NewMessageBoxClose();
   }
 }
 </script>
@@ -182,9 +233,18 @@ $tabsInforHeight: 35px;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
+  .inforDiv:nth-child(3n + 2) {
+    span {
+      margin-left: 15%;
+    }
+  }
+  .inforDiv:nth-child(3n + 3) {
+    span {
+      margin-left: 15%;
+    }
+  }
   .inforDiv {
-    width: 27%;
+    width: 33.3%;
     height: $tabsInforHeight;
     display: flex;
     align-items: center;

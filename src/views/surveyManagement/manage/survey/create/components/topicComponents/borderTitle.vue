@@ -9,7 +9,7 @@
         ? '4.375rem'
         : bodyHeight.length > 0
         ? '6.5625rem'
-        : '38.5rem',
+        : '38.5rem'
     }"
     @dragover="$event.preventDefault()"
     @drop="handleonDrop"
@@ -19,36 +19,36 @@
       style="width: 1rem; margin-right: 0.5rem"
       v-show="!isParap"
     />
-    {{ isParap ? "" : "点击题型 或" }}
+    {{ isParap ? '' : $t('QN_DIANJITIXINGHUO') }}
     <img :src="surveyOption" style="width: 1rem; margin: 0 0.5rem" />
-    把题型拖入此区域
+    {{ $t('QN_BATIXINGSHURUCIQUYU') }}
   </div>
 </template>
 
 <script>
-import surveyMouse from "@/assets/images/survey/survey-mouse.svg";
-import surveyOption from "@/assets/images/survey/survey-option.svg";
-import { iMessage } from "rise";
+import surveyMouse from '@/assets/images/survey/survey-mouse.svg'
+import surveyOption from '@/assets/images/survey/survey-option.svg'
+import { iMessage } from 'rise'
 export default {
   // name: "Basic",
   components: {},
-  props: ["bodyHeight", "isParap"],
+  props: ['bodyHeight', 'isParap'],
   data() {
     return {
       surveyMouse,
-      surveyOption,
-    };
+      surveyOption
+    }
   },
   methods: {
     handleonDrop(e) {
-      if (this.isParap && Number(e.dataTransfer.getData("type")) === 9) {
-        iMessage.warn("段落题里不可以再添加段落题!");
-        return;
+      if (this.isParap && Number(e.dataTransfer.getData('type')) === 9) {
+        iMessage.warn(this.$t('QN_DUANLUOTIBUKEYIZAITIANJIADUANLUOTI'))
+        return
       }
-      this.$emit("drop", e);
-    },
-  },
-};
+      this.$emit('drop', e)
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .form-box {
