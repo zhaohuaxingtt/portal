@@ -378,8 +378,8 @@ export default {
       otherPosition: [],
       isDeptOther: true,
       rules: {
-        userNum: [{ required: true, message: '请输入员工号', trigger: 'blur' }],
-        nameZh: [{ required: true, message: '请输入中文名', trigger: 'blur' }]
+        userNum: [{ required: true, message: this.language('请输入员工号'), trigger: 'blur' }],
+        nameZh: [{ required: true, message: this.language('请输入中文名'), trigger: 'blur' }]
       }
     }
   },

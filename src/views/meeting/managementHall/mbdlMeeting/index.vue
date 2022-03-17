@@ -625,6 +625,7 @@
         @close="protectConclusionDialog = false"
         style="padding-bottom: 20px"
         @flushTable='flushTable'
+        :meetingInfo="meetingInfo"
         :selectThemenId='selectThemenId'
       ></protectConclusion>
     </iDialog>
@@ -641,6 +642,7 @@
         @close="editprotectConclusionDialog = false"
         style="padding-bottom: 20px"
         @flushTable='flushTable'
+        :meetingInfo="meetingInfo"
         :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
       ></editprotectConclusion>
     </iDialog>
@@ -754,11 +756,11 @@ export default {
       },
       resultObj:{
         '01': '待定',
-        '02': '通过',
-        '03': '预备会议通过',
-        '04': '不通过',
-        '05': 'Last Call',
-        '06': '分段定点'
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
       },
       curEndTime: '',
       openError: false,
@@ -1615,6 +1617,7 @@ export default {
         console.log(this.selectedTableData[0].isBreak);
         this.protectConclusionDialog=true
         this.selectThemenId=this.selectedTableData[0].id
+        this.meetingInfo=this.meetingInfo
       }
       // this.selectedTableData
       console.log('结束议题');
@@ -2099,6 +2102,7 @@ export default {
       if (this.selectedTableData[0].conclusion == '01') {
         this.editprotectConclusionDialog=true
         this.editprotectConclusionDialogRow=row
+        this.meetingInfo=this.meetingInfo
         console.log(this.editprotectConclusionDialogRow);
         
       }

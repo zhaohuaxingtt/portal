@@ -6,7 +6,6 @@ files.keys().forEach((key) => {
   const name = path.basename(key, '.js')
   modules[name] = files(key).default || files(key)
 })
-console.log(modules)
 function checkRepeat() {
   const modulesKeys = Object.keys(modules)
   for (let i = 0; i < modulesKeys.length; i++) {

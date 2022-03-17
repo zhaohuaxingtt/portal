@@ -50,11 +50,15 @@ export default {
     size: {
       type: String,
       default: 'large'
+    },
+    useFrom: {
+      type: String,
+      default: ''
     }
   },
   computed: {
     panelId() {
-      return 'hp' + this.instanceId
+      return 'hp_' + this.useFrom + '_' + this.instanceId
     }
   },
   data() {
@@ -68,7 +72,7 @@ export default {
       if (this.svgWidth === 0) {
         this.$nextTick(() => {
           this.svgWidth = document.querySelector(
-            '#hrizontalNode > .approval-process-content'
+            `#${this.panelId} > #hrizontalNode > .approval-process-content`
           ).clientWidth
           this.drawLine()
         })
@@ -79,7 +83,7 @@ export default {
     if (this.svgWidth === 0) {
       this.$nextTick(() => {
         this.svgWidth = document.querySelector(
-          '#hrizontalNode > .approval-process-content'
+          `#${this.panelId} > #hrizontalNode > .approval-process-content`
         ).clientWidth
         this.drawLine()
       })
@@ -116,6 +120,7 @@ export default {
           width: element.clientWidth
         })
       }
+      console.log('ddddddddddddddddddd', data)
 
       const len = data.length
       const lines = []
@@ -210,6 +215,7 @@ export default {
                 childNodes[1].top + topIndent
               }`
             )
+            console.log('group positions', groupPositions)
             lines.push({
               style: this.getLineStyle('已提交'),
               points: groupPositionDown.join(' ')
@@ -217,6 +223,7 @@ export default {
           }
         }
       }
+      console.log('lines', lines)
       this.lines = lines
     }
   }

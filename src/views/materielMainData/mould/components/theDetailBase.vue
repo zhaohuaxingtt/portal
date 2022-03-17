@@ -77,21 +77,21 @@ export default {
         code: [
           {
             required: true,
-            message: '模具材料组编号必填',
+            message: this.language('模具材料组编号必填'),
             trigger: 'blur'
           }
         ],
         nameZh: [
           {
             required: true,
-            message: '模具材料组名称(中)必填',
+            message: this.language('模具材料组名称(中)必填'),
             trigger: 'blur'
           }
         ],
         nameDe: [
           {
             required: true,
-            message: '模具材料组名称(德)必填',
+            message: this.language('模具材料组名称(德)必填'),
             trigger: 'blur'
           }
         ]

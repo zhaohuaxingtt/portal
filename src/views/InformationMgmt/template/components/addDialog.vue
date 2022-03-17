@@ -51,7 +51,7 @@ export default {
       dialogVisible: false,
       rules: {
         channel: [
-          { required: true, trigger: 'blur', message: '请选择发布渠道' }
+          { required: true, trigger: 'blur', message: this.language('请选择发布渠道') }
         ]
       },
       templateChannels: TEMPLATE_CHANNELS
