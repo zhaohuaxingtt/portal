@@ -36,13 +36,13 @@
         <el-col :span="6">
           <!-- 采购分类编号-->
           <el-form-item label="采购分类编号" class="el-form-itemnext lablesize">
-            <i-input :placeholder="$t('partsignLanguage.QingShuRu')"></i-input>
+            <i-input :placeholder="$t('partsignLanguage.QingShuRu')" v-model="formData.bmListMoneyStart"></i-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <!-- 采购分类名称-->
           <el-form-item label="采购分类名称" class="el-form-itemnext lablesize">
-            <i-input :placeholder="$t('partsignLanguage.QingShuRu')"></i-input>
+            <i-input :placeholder="$t('partsignLanguage.QingShuRu')" v-model="formData.bmListMoneyStart"></i-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,14 +73,14 @@
         <el-col :span="6">
           <!-- 是否生效-->
           <el-form-item label="是否生效">
-            <el-switch v-model="value" activeText="Y" inactiveText="N">
+            <el-switch v-model="ideffect" activeText="Y" inactiveText="N">
             </el-switch>
           </el-form-item>
         </el-col>
       </el-row>
       <!-- 备注 -->
       <el-form-item label="备注">
-        <i-input type="textarea" :autosize="{ minRows: 4 }"></i-input>
+        <i-input type="textarea" :autosize="{ minRows: 4 }" v-model="formData.bmListMoneyStart"></i-input>
       </el-form-item>
     </el-form>
     <iButton @click="exportExcel" class="positionSize">{{
@@ -90,6 +90,7 @@
 </template>
 <script>
 import { iDialog, iInput, iButton, iSelect } from 'rise'
+import { SEARCH_DATA} from './data'
 export default {
   components: {
     iDialog,
@@ -100,7 +101,8 @@ export default {
   data() {
     return {
       listDeptData: [],
-      value: true
+      ideffect: true,
+      formData: SEARCH_DATA,
     }
   },
   props: {

@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      isShow: true //控制新增弹窗
+      isShow: false, //控制新增弹窗
     }
   },
   methods: {
