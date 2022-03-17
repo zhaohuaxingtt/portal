@@ -89,10 +89,10 @@
                 },
                 labelList:[],
                 formRules: {
-                    questionModuleId:{required:'true',message:"请选择问题模块",trigger:'cahnge'},
-                    questionLableId:{required:'true',message:"请选择标签",trigger:'change'},
-                    questionTitle:{required:'true',message:"请输入问题描述",trigger:'blur'},
-                    answerContent:{required:'true',message:"请输入回复内容",trigger:'change'},
+                    questionModuleId:{required:'true',message: this.language("请选择问题模块"),trigger:'cahnge'},
+                    questionLableId:{required:'true',message: this.language("请选择标签") ,trigger:'change'},
+                    questionTitle:{required:'true',message: this.language("请输入问题描述"),trigger:'blur'},
+                    answerContent:{required:'true',message: this.language("请输入回复内容"),trigger:'change'},
                 },
             }
         },

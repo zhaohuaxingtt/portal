@@ -55,11 +55,11 @@
              v-if="!hiddenRight">
           <slot name="button">
             <iButton @click="query('search')"
-                     :v-permission="searchKey">{{
+                     v-permission="searchKey">{{
               $t('MT_SOUSUO')
             }}</iButton>
             <iButton @click="goBack"
-                     :v-permission="resetKey">{{
+                     v-permission="resetKey">{{
               $t('MT_FANHUI')
             }}</iButton>
           </slot>

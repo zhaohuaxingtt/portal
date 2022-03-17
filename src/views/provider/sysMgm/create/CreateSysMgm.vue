@@ -335,28 +335,28 @@ export default {
       rootMenus: [],
       rules: {
         appNameCn: [
-          { required: true, message: '请输入中文名称', trigger: 'blur' },
-          { max: 20, message: '长度在 20 个字符内', trigger: 'blur' }
+          { required: true, message: this.language('请输入中文名称'), trigger: 'blur' },
+          { max: 20, message:this.language( '长度在 20 个字符内'), trigger: 'blur' }
         ],
         appNameEn: [
-          { required: true, message: '请输入英文名称', trigger: 'blur' },
-          { max: 20, message: '长度在 20 个字符内', trigger: 'blur' }
+          { required: true, message: this.language('请输入英文名称'), trigger: 'blur' },
+          { max: 20, message: this.language('长度在 20 个字符内'), trigger: 'blur' }
         ],
         systemType: [
-          { required: true, message: '请选择系统类型', trigger: 'blur' }
+          { required: true, message: this.language('请选择系统类型'), trigger: 'blur' }
         ],
         parentResourceId: [
-          { required: true, message: '请选择父级菜单', trigger: 'blur' }
+          { required: true, message: this.language('请选择父级菜单'), trigger: 'blur' }
         ],
-        url: [{ required: true, message: '请输入系统URL', trigger: 'blur' }],
+        url: [{ required: true, message: this.language('请输入系统URL'), trigger: 'blur' }],
         description: [
-          { max: 100, message: '长度在 100 个字符内', trigger: 'blur' }
+          { max: 100, message: this.language('长度在 100 个字符内'), trigger: 'blur' }
         ],
         supplierType: [
-          { required: true, message: '请选择系统标签', trigger: 'blur' }
+          { required: true, message: this.language('请选择系统标签'), trigger: 'blur' }
         ],
         appCode: [
-          { required: true, message: '请输入App Code', trigger: 'blur' }
+          { required: true, message: this.language('请输入App Code'), trigger: 'blur' }
         ]
       }
     }

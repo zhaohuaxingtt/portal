@@ -48,6 +48,7 @@
         :isEnd="form.stateCode !== 3 && form.stateCode !== 4"
         :detail="form"
         :instance-id="$route.params.instanceId"
+        use-from="page"
       />
     </i-card>
 

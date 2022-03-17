@@ -1116,11 +1116,11 @@ export default {
       updateDateNEWDialog:false,
       resultObj:{
         '01': '待定',
-        '02': '通过',
-        '03': '预备会议通过',
-        '04': '不通过',
-        '05': 'Last Call',
-        '06': '分段定点'
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
       },
       openError: false,
       errorList: [],
@@ -1251,7 +1251,7 @@ export default {
         iMessage.success('请选择一条数据')
       }else if(this.selectedTableData.length > 1){
         iMessage.success('只能选择一条数据')
-      }else if(this.selectedTableData[0].state == '03' && this.selectedTableData[0].conclusion == '03'){
+      }else if(this.selectedTableData[0].state == '03' && this.selectedTableData[0].conclusion == '09'){
         // 判断议题结论为预备会通过和议题状态为已结束
           // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
           if (this.meetingInfo.isGpPreCSC == true) {
@@ -2056,7 +2056,6 @@ export default {
         })
  
       }else{
-        debugger
         this.openDialog('openProtectConclusion')
       }
       return
@@ -2775,7 +2774,7 @@ export default {
     handleResult(row){
       console.log(row.conclusion);   
       // 待定和Last Call可以改结论
-      if(row.conclusion == '01' ||  row.conclusion == '05'){
+      if(row.conclusion == '01' ||  row.conclusion == '11'){
         this.openDialog('editprotectConclusion')
         this.conclusionStatus=row.conclusion
         this.editprotectConclusionDialogRow=row

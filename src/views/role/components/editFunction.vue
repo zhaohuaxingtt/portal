@@ -15,7 +15,7 @@
     <div class="content">
       <iCard :title="resourceTitle">
         <template slot="header-control">
-          <iButton @click="saveResource">确定</iButton>
+          <iButton @click="saveResource">{{language('确定')}}</iButton>
         </template>
         <functionResource
           editable

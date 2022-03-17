@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="home">
-      <div class="header">问卷管理</div>
+      <div class="header">{{language('问卷管理')}}</div>
       <theSearch @getTableList="getTableList" @setTypeObj="setTypeObj" />
       <theTable
         ref="theTable"
@@ -39,7 +39,7 @@ export default {
     };
   },
   created(){
-    document.title='问卷管理';
+    document.title=this.$t('QN_WENJUANGUANLI');
   },
   mounted() {
     this.getTableList();
@@ -90,7 +90,7 @@ export default {
           this.page.total = res.total;
           this.tableLoading = false;
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false;
         });
     },

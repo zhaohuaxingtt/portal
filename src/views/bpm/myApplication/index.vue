@@ -1,7 +1,7 @@
 <template>
   <iPage class="template">
     <pageHeader>
-      我的申请
+      {{language('我的申请')}}
       <template slot="actions">
         <headerActions
           :todo-total="todoTotal"
@@ -53,6 +53,7 @@
       <processNodeVertical
         v-if="currentInstanceId"
         :instanceId="currentInstanceId"
+        use-from="popover"
       />
     </el-popover>
   </iPage>

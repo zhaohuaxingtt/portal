@@ -98,7 +98,7 @@ export default {
     },
     //点击创建标签按钮
     handleAddTag() {
-      this.$prompt('+自定义标签', {
+      this.$prompt(`+${this.language('自定义标签')}`, {
         cancelButtonClass: 'btn-custom-cancel',
         inputPlaceholder: '请输入自定义标签',
         inputValidator: value => {

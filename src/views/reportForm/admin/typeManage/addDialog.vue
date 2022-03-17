@@ -197,13 +197,13 @@ export default {
                 organizations: []
             },
             rules: {
-                name: { required:true, message:"请输入报表类型",trigger:'blur' },
-                organization: { required:true, message:"请输入部门信息",trigger:'blur' },
-                location: { required:true, message:"请输入location",trigger:'blur' },
-                enName: { required:true, message:"请输入英文名",trigger:'blur' },
-                telefone: { required:true, message:"请输入Telefone",trigger:'blur' },
-                adminUsers: { required:true, message:"请选择管理员",trigger:'blur' },
-                userRange: { required:true, message:"请选择报表可见人员",trigger:'blur' }
+                name: { required:true, message: this.language("请输入报表类型"), trigger:'blur' },
+                organization: { required:true, message: this.language("请输入部门信息"), trigger:'blur' },
+                location: { required:true, message: this.language("请输入location"), trigger:'blur' },
+                enName: { required:true, message: this.language("请输入英文名"), trigger:'blur' },
+                telefone: { required:true, message: this.language("请输入Telefone"), trigger:'blur' },
+                adminUsers: { required:true, message: this.language("请选择管理员"), trigger:'blur' },
+                userRange: { required:true, message: this.language("请选择报表可见人员") ,trigger:'blur' }
             },
             imgCutterRate: '16 : 9',
             imageUrl: '',
@@ -311,7 +311,7 @@ export default {
         beforeAvatarUpload(file){
             const isLt10M = file.size / 10240 / 10240 < 10;
             if (!isLt10M) {
-                this.$message.error('上传头像图片大小不能超过 10MB!');
+                this.$message.error('上传图片大小不能超过 10MB!');
             }
             return  isLt10M;
         },
@@ -351,7 +351,7 @@ export default {
         },
         save(){
             if (this.customFlag && this.form?.users?.length === 0 && this.form?.suppliers?.length === 0) return this.$message({type:'warning', message: '您已选择自定义,请选择供应商或人员'})
-            if (!this.imageUrl) return this.$message({type: 'warning', message: "请上传一张封面！"})
+            if (!this.imageUrl) return this.$message({type: 'warning', message: this.language("请上传一张封面!")})
             this.$refs.typeForm.validate(async v => {
                 if (v) {
                     try {

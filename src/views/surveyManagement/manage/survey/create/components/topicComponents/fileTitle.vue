@@ -22,18 +22,18 @@
       <!-- 文字+按钮 -->
       <div class="form-top">
         <div>
-          <h2>文件上传题</h2>
+          <h2>{{ $t('QN_WENJIANSHANGCHUANTI') }}</h2>
         </div>
         <div>
-          <iButton @click="complete()">完成编辑</iButton>
-          <iButton @click="cancelComplete()">删除该题</iButton>
+          <iButton @click="complete()">{{ $t('QN_WANCHENGBIANJI') }}</iButton>
+          <iButton @click="cancelComplete()">{{ $t('QN_SHANCHUGAITI') }}</iButton>
         </div>
       </div>
       <el-row class="form-row">
         <div class="form-item-row1-col3">
           <iFormItem label="题目编号">
             <iLabel
-              :label="$t('题目编号')"
+              :label="$t('QN_TIMUBIANHAO')"
               slot="label"
               style="width: 10rem"
             ></iLabel>
@@ -41,22 +41,22 @@
             <el-checkbox
               style="margin-left: 4rem"
               v-model="ruleForm.requiredQuestion"
-              >必答</el-checkbox
+              >{{ $t('QN_BIDA') }}</el-checkbox
             >
           </iFormItem>
         </div>
       </el-row>
       <el-row class="form-row">
         <div class="form-item-row1-col3">
-          <iFormItem label="题目标题" prop="name">
+          <iFormItem :label="$t('QN_TIMUBIAOTI')" prop="name">
             <iLabel
-              :label="$t('题目标题')"
+              :label="$t('QN_TIMUBIAOTI')"
               required
               slot="label"
               style="width: 10rem"
             ></iLabel>
             <iInput
-              placeholder="请输入题目标题"
+              :placeholder="$t('QN_QINGSHURUTIMUBIAOTI')"
               v-model="ruleForm.name"
               @keydown.native="keydownName($event)"
             />
@@ -65,22 +65,22 @@
       </el-row>
       <el-row class="form-row">
         <div class="form-item-row1-col3">
-          <iFormItem label="上传格式设置" prop="file">
+          <iFormItem :label="$t('上传格式设置')" prop="file">
             <iLabel
-              :label="$t('上传格式设置')"
+              :label="$t('QN_SHANGCHUANGESHISHEZHI')"
               slot="label"
               :class="isParap ? 'file-show-p' : 'file-show'"
             ></iLabel>
             <div class="uploadSet" v-if="isParap == fasle">
-              <div class="title">限制上传文件类型</div>
+              <div class="title">{{ $t('QN_XIANZHISHANGCHUANWENJIANLEIXING') }}</div>
               <div v-for="item in uploadOptions" :key="item.name">
-                <el-form-item :label="item.name + '：'" class="fileItem">
+                <el-form-item :label="$t(item.i18n) + '：'" class="fileItem">
                   <el-checkbox
                     :indeterminate="item.isIndeterminate"
                     v-model="item.selected"
                     class="item"
                     @change="allCheckboxGroup($event, item, item.list)"
-                    >全选
+                    >{{ $t('QN_QUANXUAN') }}
                   </el-checkbox>
                   <el-checkbox
                     v-model="i.selected"
@@ -99,15 +99,15 @@
               </div>
             </div>
             <div class="uploadSetP" v-else>
-              <div class="titleP">限制上传文件类型</div>
+              <div class="titleP">{{ $t('QN_XIANZHISHANGCHUANWENJIANLEIXING') }}</div>
               <div v-for="item in uploadOptions" :key="item.name">
-                <el-form-item :label="item.name + '：'" class="fileItemP">
+                <el-form-item :label="$t(item.i18n) + '：'" class="fileItemP">
                   <el-checkbox
                     :indeterminate="item.isIndeterminate"
                     v-model="item.selected"
                     class="itemP"
                     @change="allCheckboxGroup($event, item, item.list)"
-                    >全选
+                    >{{ $t('QN_QUANXUAN') }}
                   </el-checkbox>
                   <el-checkbox
                     v-model="i.selected"
@@ -143,18 +143,20 @@
       @mouseout="leave()"
     >
       <div class="operation-btn">
-        <iButton v-show="mouseOver == true" @click="enterEditor()"
-          >编辑</iButton
-        >
-        <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
-        <iButton v-show="mouseOver == true" @click="handlDelete()"
-          >删除</iButton
-        >
+        <iButton v-show="mouseOver == true" @click="enterEditor()">{{
+          $t('QN_BIANJI')
+        }}</iButton>
+        <iButton v-show="mouseOver == true" @click="handleCopy()">{{
+          $t('QN_FUZHI')
+        }}</iButton>
+        <iButton v-show="mouseOver == true" @click="handlDelete()">{{
+          $t('QN_SHANCHU')
+        }}</iButton>
         <iButton
           v-show="mouseOver == true"
           @click="handleTop()"
           :disabled="overEditor ? (isParap ? sortP == 1 : sort == 1) : true"
-          >上移</iButton
+          >{{ $t('QN_SHANGYI') }}</iButton
         >
         <iButton
           v-show="mouseOver == true"
@@ -166,20 +168,23 @@
                 : sort == topicLength
               : true
           "
-          >下移</iButton
+          >{{ $t('QN_XIAYI') }}</iButton
         >
       </div>
       <div class="title">
         <span v-if="ruleForm.requiredQuestion" style="color: red">* </span>
-        {{ isParap ? info.code + "." + infoP.code : info.code + ". "
+        {{ isParap ? info.code + '.' + infoP.code : info.code + '. '
         }}{{ ruleForm.name }}
       </div>
       <div>
         <div class="upload-demo">
           <iButton type="button" class="upload-button" :loading="uploadLoading">
-            上传附件<span class="upload-text"><img :src="uploadIcon" /></span>
+            {{ $t('QN_SHANGCHUANFUJIAN')
+            }}<span class="upload-text"><img :src="uploadIcon" /></span>
           </iButton>
-          <p class="upload-limit">文件大小无限制，最多上传1个文件</p>
+          <p class="upload-limit">
+            {{ $t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN') }}
+          </p>
         </div>
       </div>
     </div>
@@ -187,52 +192,58 @@
 </template>
 
 <script>
-import { iLabel, iInput, iFormItem, iButton } from "rise";
-import surveyMobile from "@/assets/images/survey/survey-mobile.svg";
-import uploadIcon from "@/assets/images/upload-icon.svg";
+import { iLabel, iInput, iFormItem, iButton } from 'rise'
+import surveyMobile from '@/assets/images/survey/survey-mobile.svg'
+import uploadIcon from '@/assets/images/upload-icon.svg'
 export default {
   props: [
-    "copyTopic",
-    "type",
-    "number",
-    "sort",
-    "topicLength",
-    "contentCopy",
-    "isParap",
-    "sortP",
-    "topicLengthP",
-    "numberP",
-    "info",
-    "infoP",
-    "overEditor",
-    "actionBar",
-    "contentlist",
-    "racialTopicLength",
+    'copyTopic',
+    'type',
+    'number',
+    'sort',
+    'topicLength',
+    'contentCopy',
+    'isParap',
+    'sortP',
+    'topicLengthP',
+    'numberP',
+    'info',
+    'infoP',
+    'overEditor',
+    'actionBar',
+    'contentlist',
+    'racialTopicLength'
   ],
   components: {
     iLabel,
     iInput,
     iFormItem,
     // iSelect,
-    iButton,
+    iButton
   },
   data() {
     const validLength = function (rule, value, callback) {
       function getStrLength(str) {
-        return str.replace(/[^x00-xff]/g, "xx").length;
+        return str.replace(/[^x00-xff]/g, 'xx').length
       }
       if (!value) {
-        callback();
+        callback()
       } else if (getStrLength(value) <= this.maxLength) {
-        callback();
+        callback()
       } else {
-        return callback(new Error(`最大长度中文 ${this.maxLength / 2} 字符，英文 ${this.maxLength} 字符`));
+        return callback(
+          new Error(
+            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${this.maxLength / 2} ${this.$t(
+              'QN_ZIFU'
+            )}，${this.$t('QN_YINGWEN')} ${this.maxLength} ${this.$t('QN_ZIFU')}`
+          )
+        )
       }
-    };
+    }
 
     const length100 = {
-      maxLength: 200,
-    };
+      maxLength: 200
+    }
 
     return {
       editor: this.isParap ? this.infoP.editor : this.info.editor,
@@ -244,71 +255,76 @@ export default {
       ruleForm: {
         editor: true,
         // topicType: this.type,
-        name: "", // 问题名称
+        name: '', // 问题名称
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
         type: 5, // 问题类型
         requiredQuestion: true, // 是否必答
-        uploadRule: {}, // 上传题规则,
+        uploadRule: {} // 上传题规则,
       },
       uploadOptions: [
         {
           isIndeterminate: false,
           selected: true,
           list: [
-            { value: 1, label: ".gif", selected: true },
-            { value: 2, label: ".png", selected: true },
-            { value: 3, label: ".jpg", selected: true },
-            { value: 4, label: ".jpeg", selected: true },
-            { value: 5, label: ".bmp", selected: true },
+            { value: 1, label: '.gif', selected: true },
+            { value: 2, label: '.png', selected: true },
+            { value: 3, label: '.jpg', selected: true },
+            { value: 4, label: '.jpeg', selected: true },
+            { value: 5, label: '.bmp', selected: true }
           ],
-          name: "图片文件",
-          type: "pic",
+          name: '图片文件',
+          i18n: 'QN_TUPIANWENJIAN',
+          type: 'pic'
         },
         {
           isIndeterminate: false,
           selected: true,
           list: [
-            { value: 6, label: ".doc", selected: true },
-            { value: 7, label: ".docx", selected: true },
-            { value: 8, label: ".pdf", selected: true },
-            { value: 9, label: ".xls", selected: true },
-            { value: 10, label: ".xlsx", selected: true },
-            { value: 11, label: ".ppt", selected: true },
-            { value: 12, label: ".pptx", selected: true },
-            { value: 13, label: ".txt", selected: true },
+            { value: 6, label: '.doc', selected: true },
+            { value: 7, label: '.docx', selected: true },
+            { value: 8, label: '.pdf', selected: true },
+            { value: 9, label: '.xls', selected: true },
+            { value: 10, label: '.xlsx', selected: true },
+            { value: 11, label: '.ppt', selected: true },
+            { value: 12, label: '.pptx', selected: true },
+            { value: 13, label: '.txt', selected: true }
           ],
-          name: "文档文件",
-          type: "doc",
+          name: '文档文件',
+          i18n: 'QN_WENDANGWENJIAN',
+          type: 'doc'
         },
         {
           isIndeterminate: false,
           selected: true,
           list: [
-            { value: 14, label: ".rar", selected: true },
-            { value: 15, label: ".zip", selected: true },
+            { value: 14, label: '.rar', selected: true },
+            { value: 15, label: '.zip', selected: true }
           ],
-          name: "压缩文件",
-          type: "zip",
+          name: '压缩文件',
+          i18n: 'QN_YASUOWENJIAN',
+          type: 'zip'
         },
         {
           isIndeterminate: false,
           selected: true,
-          list: [{ value: 16, label: ".mp4", selected: true }],
-          name: "视频文件",
-          type: "mp4",
+          list: [{ value: 16, label: '.mp4', selected: true }],
+          name: '视频文件',
+          i18n: 'QN_SHIPINWENJIAN',
+          type: 'mp4'
         },
         {
           isIndeterminate: false,
           selected: true,
-          list: [{ value: 17, label: ".mp3", selected: true }],
-          name: "音频文件",
-          type: "mp3",
-        },
+          list: [{ value: 17, label: '.mp3', selected: true }],
+          name: '音频文件',
+           i18n: 'QN_YINPINWENJIAN',
+          type: 'mp3'
+        }
       ],
       rules: {
         name: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          { required: true, message: this.$t('QN_BITIAN'), trigger: ['blur', 'change'] },
           // {
           //   min: 1,
           //   max: 100,
@@ -317,71 +333,71 @@ export default {
           // },
           {
             validator: validLength.bind(length100),
-            trigger: ["blur", "change"],
-          },
-        ],
-      },
-    };
+            trigger: ['blur', 'change']
+          }
+        ]
+      }
+    }
   },
   mounted() {
-    let obj = this.isParap ? { ...this.infoP } : { ...this.info };
-    this.ruleForm = { ...this.ruleForm, ...obj };
+    let obj = this.isParap ? { ...this.infoP } : { ...this.info }
+    this.ruleForm = { ...this.ruleForm, ...obj }
     if (this.copyTopic == true) {
-      this.ruleForm = this.contentCopy;
-      this.$emit("changeCopyTopic");
+      this.ruleForm = this.contentCopy
+      this.$emit('changeCopyTopic')
     }
-    let isRule = this.ruleForm.uploadRule?.split(",");
+    let isRule = this.ruleForm.uploadRule?.split(',')
     this.uploadOptions = this.uploadOptions.filter((item) => {
       return item.list.map((i) => {
-        let isCheck = isRule.includes(i.label);
-        i.selected = isCheck;
-        this.checkOneBox(item, item.list);
-      });
-    });
+        let isCheck = isRule.includes(i.label)
+        i.selected = isCheck
+        this.checkOneBox(item, item.list)
+      })
+    })
   },
   watch: {
     attachments: {
       immediate: true,
       deep: true,
       handler(val) {
-        console.log(val);
-      },
+        console.log(val)
+      }
     },
-    "info.number": {
+    'info.number': {
       immediate: true,
       deep: true,
       handler(val) {
         if (val) {
           if (!this.isParap) {
-            this.ruleForm = { ...this.ruleForm, ...this.info };
+            this.ruleForm = { ...this.ruleForm, ...this.info }
           }
         }
-      },
+      }
     },
-    "infoP.number": {
+    'infoP.number': {
       immediate: true,
       deep: true,
       handler(val) {
         if (val) {
           if (this.isParap) {
-            this.ruleForm = { ...this.ruleForm, ...this.infoP };
+            this.ruleForm = { ...this.ruleForm, ...this.infoP }
           }
         }
-      },
-    },
+      }
+    }
   },
   methods: {
     // 删除该题
     cancelComplete() {
       if (this.isParap) {
-        this.$emit("cancelCompleteP", this.ruleForm);
+        this.$emit('cancelCompleteP', this.ruleForm)
       } else {
-        this.$emit("cancelComplete", this.ruleForm);
+        this.$emit('cancelComplete', this.ruleForm)
       }
     },
     keydownName(e) {
-      if (e.keyCode == 32 && this.ruleForm.name == "") {
-        e.returnValue = false;
+      if (e.keyCode == 32 && this.ruleForm.name == '') {
+        e.returnValue = false
       }
     },
     // getSort() {
@@ -393,9 +409,9 @@ export default {
     // },
     getSort() {
       if (this.isParap) {
-        return this.info.code + "." + this.infoP.code;
+        return this.info.code + '.' + this.infoP.code
       } else {
-        return this.info.code;
+        return this.info.code
       }
     },
     // 是否全选
@@ -405,18 +421,18 @@ export default {
         if (sonList) {
           // 不论子菜单是否被选中，只要一级菜单被选中，让该子菜单的selected都=true；
           for (let i = 0; i < sonList.length; i++) {
-            sonList[i].selected = true;
+            sonList[i].selected = true
           }
           // 因为在选中部分子菜单的情况下，再点击全选按钮。这种情况也能使一级菜单的selected=true，
           // 此时一级菜单的isIndeterminate=true（且这种情况只有 子菜单存在 才能发生）。
           // 但是只要被全选，一级菜单的isIndeterminate就要=false。
-          preList.isIndeterminate = false;
+          preList.isIndeterminate = false
         }
       } else {
         // 因为让一级菜单的selected=false只有在全部都被选中的情况下发生，所以一级菜单的isIndetermainate是一直=false的
         if (sonList) {
           for (let i = 0; i < sonList.length; i++) {
-            sonList[i].selected = false;
+            sonList[i].selected = false
           }
         }
       }
@@ -427,50 +443,50 @@ export default {
       // tickCount选了的总量，unTickCount没选数量 这里的 e就是当前复选框的selected值
       var tickCount = 0,
         unTickCount = 0,
-        len = sonList.length;
+        len = sonList.length
       for (let i = 0; i < len; i++) {
-        if (sonList[i].selected == true) tickCount++;
-        if (sonList[i].selected == false) unTickCount++;
+        if (sonList[i].selected == true) tickCount++
+        if (sonList[i].selected == false) unTickCount++
       }
       if (tickCount == len) {
         // 选中数量=子级总数，全选
-        preList.selected = true;
-        preList.isIndeterminate = false;
+        preList.selected = true
+        preList.isIndeterminate = false
       } else if (unTickCount == len) {
         // 未选中数量=子级总数，未全选
-        preList.selected = false;
-        preList.isIndeterminate = false;
+        preList.selected = false
+        preList.isIndeterminate = false
       } else {
         // 其他情况是不确定状态
-        preList.selected = false;
-        preList.isIndeterminate = true;
+        preList.selected = false
+        preList.isIndeterminate = true
       }
     },
 
     // 完成编辑
     complete() {
-      this.$refs["ruleForm"].validate((valid) => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          this.ruleForm.uploadRule = "";
-          this.editor = false;
-          this.ruleForm.editor = this.editor;
+          this.ruleForm.uploadRule = ''
+          this.editor = false
+          this.ruleForm.editor = this.editor
           this.uploadOptions = this.uploadOptions.filter((item) => {
             return item.list.map((i) => {
               if (i.selected === true) {
-                if (JSON.stringify(this.ruleForm.uploadRule) !== "{}") {
-                  let isRule = this.ruleForm.uploadRule?.split(",");
+                if (JSON.stringify(this.ruleForm.uploadRule) !== '{}') {
+                  let isRule = this.ruleForm.uploadRule?.split(',')
                   if (!isRule.includes(i.label)) {
-                    this.ruleForm.uploadRule += "," + i.label;
+                    this.ruleForm.uploadRule += ',' + i.label
                   }
                 } else {
-                  this.ruleForm.uploadRule = i.label;
+                  this.ruleForm.uploadRule = i.label
                   //   this.ruleForm.uploadRule += i.label;
                   // } else {
                   //   this.ruleForm.uploadRule = i.label;
                 }
               }
-            });
-          });
+            })
+          })
           // let arr = this.ruleForm.uploadRule.split(".");
           // arr = Array.from(new Set(arr));
           // arr.shift();
@@ -478,49 +494,49 @@ export default {
           // str = "." + str;
           // this.ruleForm.uploadRule = str;
           if (this.isParap) {
-            this.$emit("handleSaveDataP", this.ruleForm);
+            this.$emit('handleSaveDataP', this.ruleForm)
           } else {
-            this.$emit("handleSaveData", this.ruleForm);
+            this.$emit('handleSaveData', this.ruleForm)
           }
           // this.$emit("handleSaveData", this.ruleForm);
         }
-      });
-      return this.editor;
+      })
+      return this.editor
     },
     // 展示一列按钮
     enter() {
-      this.mouseOver = true;
+      this.mouseOver = true
     },
     // 鼠标离开
     leave() {
-      this.mouseOver = false;
+      this.mouseOver = false
     },
     // 编辑
     enterEditor() {
-      this.editor = true;
-      this.ruleForm.editor = true;
-      this.$emit("handleEnterEditor", this.ruleForm);
+      this.editor = true
+      this.ruleForm.editor = true
+      this.$emit('handleEnterEditor', this.ruleForm)
     },
 
     // 复制
     handleCopy() {
-      this.$emit("handleCopy", this.ruleForm);
+      this.$emit('handleCopy', this.ruleForm)
     },
     // 删除
     handlDelete() {
       if (this.isParap) {
-        this.$emit("handleDeleteP", this.ruleForm);
+        this.$emit('handleDeleteP', this.ruleForm)
       } else {
-        this.$emit("handleDelete", this.ruleForm);
+        this.$emit('handleDelete', this.ruleForm)
       }
     },
     // 上移
     handleTop() {
       if (this.actionBar) {
-        this.$confirm("上下移动将清空跳题设置，确认是否移动？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
+        this.$confirm(this.$t('QN_SHANGXIAYIDONGJIANGQINGKONGTIAOTISHEZHIQUERENSHIFOUYIDONG'), this.$t('QN_TISHI'), {
+          confirmButtonText: this.$t('QN_SHI'),
+          cancelButtonText: this.$t('QN_FOU'),
+          type: 'warning'
         }).then(() => {
           // this.contentlist = this.contentlist.map((item) => {
           //   if (item.options) {
@@ -540,21 +556,21 @@ export default {
           //     actionItem: "",
           //   };
           // });
-          this.ruleForm.editor = this.editor;
-          this.$emit("handleTop", this.ruleForm);
-        });
+          this.ruleForm.editor = this.editor
+          this.$emit('handleTop', this.ruleForm)
+        })
       } else {
-        this.ruleForm.editor = this.editor;
-        this.$emit("handleTop", this.ruleForm);
+        this.ruleForm.editor = this.editor
+        this.$emit('handleTop', this.ruleForm)
       }
     },
     // 下移
     handleBottom() {
       if (this.actionBar) {
-        this.$confirm("上下移动将清空跳题设置，确认是否移动？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
+        this.$confirm(this.$t('QN_SHANGXIAYIDONGJIANGQINGKONGTIAOTISHEZHIQUERENSHIFOUYIDONG'), this.$t('QN_TISHI'), {
+          confirmButtonText: this.$t('QN_SHI'),
+          cancelButtonText: this.$t('QN_FOU'),
+          type: 'warning'
         }).then(() => {
           // this.contentlist = this.contentlist.map((item) => {
           //   if (item.options) {
@@ -574,16 +590,16 @@ export default {
           //     actionItem: "",
           //   };
           // });
-          this.ruleForm.editor = this.editor;
-          this.$emit("handleBottom", this.ruleForm);
-        });
+          this.ruleForm.editor = this.editor
+          this.$emit('handleBottom', this.ruleForm)
+        })
       } else {
-        this.ruleForm.editor = this.editor;
-        this.$emit("handleBottom", this.ruleForm);
+        this.ruleForm.editor = this.editor
+        this.$emit('handleBottom', this.ruleForm)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .file-show-p {
@@ -882,7 +898,7 @@ export default {
   border: 2px solid #fff;
   // 不覆盖下面的 会 导致对号变形
   box-sizing: content-box;
-  content: "";
+  content: '';
   border-left: 0;
   border-top: 0;
 }
