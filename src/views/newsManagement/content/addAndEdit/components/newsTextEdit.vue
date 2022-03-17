@@ -326,7 +326,7 @@ import ImgCutter from "vue-img-cutter";
 import E from "wangeditor";
 import draggable from "vuedraggable";
 import { newsTypes } from "./data";
-import UploadMenu from "./UploadPanel";
+import {createUploadImage} from "./UploadPanel";
 import { uploadFile } from "@/api/news/uploadFile";
 import { createAnchorLink } from "@/utils/downloadUtil";
 
@@ -427,16 +427,27 @@ export default {
     let that = this;
     if (this.editor === null) {
       this.editor = new E("#editer");
-      // 配置菜单栏，设置不需要的菜单
-      this.editor.config.excludeMenus = [
-        "list",
-        "todo",
-        "emoticon",
-        "image",
-        "video",
-        "table",
-        "code",
-      ];
+      // 配置菜单栏
+      this.editor.config.menus = [
+          'head',
+          'bold',
+          'fontSize',
+          'fontName',
+          'italic',
+          'underline',
+          'strikeThrough',
+          'indent',
+          'lineHeight',
+          'foreColor',
+          'backColor',
+          'link',
+          'justify',
+          'quote',
+          'splitLine',
+          'undo',
+          'redo',
+          'image',
+      ]
       // 配置字体
       this.editor.config.fontNames = [
         // 字符串形式
@@ -454,7 +465,6 @@ export default {
         "Times New Roman",
         "Courier New",
       ];
-      this.editor.config.menus = this.editor.config.menus.concat("uploadMenu"); // 配置菜单栏，删减菜单，调整顺序
       this.editor.config.height = 700;
       this.editor.config.customUploadImg = async (files, callaback) => {
         const urls = [];
@@ -464,7 +474,7 @@ export default {
         }
         callaback(urls);
       };
-      this.editor.menus.extend("uploadMenu", UploadMenu); // 配置扩展的菜单
+      createUploadImage(this.editor); // 配置扩展的菜单
       // 配置 onchange 回调函数
       this.editor.config.onchange = function (newHtml) {
         that.ruleForm.content = newHtml;

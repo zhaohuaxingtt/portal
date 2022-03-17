@@ -518,16 +518,27 @@ export default {
   mounted() {
     if (this.editor === null) {
       this.editor = new E("#editer");
-      // 配置菜单栏，设置不需要的菜单
-      this. editor.config.excludeMenus = [
-            'list',
-            'todo',
-            'emoticon',
-            'image',
-            'video',
-            'table',
-            'code',
-        ]
+      // 配置菜单栏
+      this.editor.config.menus = [
+          'head',
+          'bold',
+          'fontSize',
+          'fontName',
+          'italic',
+          'underline',
+          'strikeThrough',
+          'indent',
+          'lineHeight',
+          'foreColor',
+          'backColor',
+          'link',
+          'justify',
+          'quote',
+          'splitLine',
+          'undo',
+          'redo',
+          'image',
+      ]
       // 配置字体
       this.editor.config.fontNames = [
           // 字符串形式
@@ -545,8 +556,6 @@ export default {
           'Times New Roman',
           'Courier New',
       ]
-      this.editor.config.menus = this.editor.config.menus.concat('uploadMenu')// 配置菜单栏，删减菜单，调整顺序
-      this.editor.config.menus.concat('uploadMenu')// 配置菜单栏，删减菜单，调整顺序
       this.editor.create();
       this.editor.disable();
     }
