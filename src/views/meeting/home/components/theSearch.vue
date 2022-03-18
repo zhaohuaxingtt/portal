@@ -1,5 +1,5 @@
 <template>
-  <iSearch @reset="handleSearchReset" @sure="searchTableList" :icon="false">
+  <iSearch @reset="handleSearchReset" @sure="searchTableList" :icon="false" :resetKey="PARTSPROCURE_RESET" :searchKey="PARTSPROCURE_CONFIRM">
     <el-form>
       <!--第一行-->
       <el-row>
