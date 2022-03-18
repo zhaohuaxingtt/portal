@@ -1,5 +1,5 @@
 <template>
-  <iSearch @reset="handleSearchReset" @sure="searchTableList" :icon="false" :resetKey="PARTSPROCURE_RESET" :searchKey="PARTSPROCURE_CONFIRM">
+  <iSearch @reset="handleSearchReset" @sure="searchTableList">
     <el-form>
       <!--第一行-->
       <el-row>
@@ -95,11 +95,10 @@
 </template>
 
 <script>
-import { iInput, iSelect, iMessage } from 'rise'
+import { iSearch, iInput, iSelect, iMessage } from 'rise'
 import { getMettingType } from '@/api/meeting/type'
 import { statusList } from './data'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
-import iSearch from '@/components/iSearch/index.vue'
 import dayjs from '@/utils/dayjs.js'
 
 export default {
