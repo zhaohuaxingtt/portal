@@ -346,15 +346,15 @@
 </template>
 
 <script>
-import { iCard, iFormItem, iLabel, iSelect, iButton, iMessage } from 'rise'
-import ImgCutter from 'vue-img-cutter'
-// import E from 'wangeditor'
-import draggable from 'vuedraggable'
-import { newsTypes } from './data'
-// import UploadMenu from './UploadPanel'
-import { uploadFile } from '@/api/news/uploadFile'
-import { createAnchorLink } from '@/utils/downloadUtil'
-import iEditor from '@/views/assistant/components/iEditor.vue'
+import { iCard, iFormItem, iLabel, iSelect, iButton, iMessage } from "rise";
+import ImgCutter from "vue-img-cutter";
+import E from "wangeditor";
+import draggable from "vuedraggable";
+import { newsTypes } from "./data";
+import {createUploadImage} from "./UploadPanel";
+import { uploadFile } from "@/api/news/uploadFile";
+import { createAnchorLink } from "@/utils/downloadUtil";
+
 export default {
   components: {
     iCard,
@@ -452,45 +452,55 @@ export default {
   mounted() {
     /* let that = this
     if (this.editor === null) {
-      this.editor = new E('#editer')
-      // 配置菜单栏，设置不需要的菜单
-      this.editor.config.excludeMenus = [
-        'list',
-        'todo',
-        'emoticon',
-        'image',
-        'video',
-        'table',
-        'code'
+      this.editor = new E("#editer");
+      // 配置菜单栏
+      this.editor.config.menus = [
+          'head',
+          'bold',
+          'fontSize',
+          'fontName',
+          'italic',
+          'underline',
+          'strikeThrough',
+          'indent',
+          'lineHeight',
+          'foreColor',
+          'backColor',
+          'link',
+          'justify',
+          'quote',
+          'splitLine',
+          'undo',
+          'redo',
+          'image',
       ]
       // 配置字体
       this.editor.config.fontNames = [
         // 字符串形式
-        '黑体',
-        '仿宋',
-        '楷体',
-        '标楷体',
-        '华文仿宋',
-        '华文楷体',
-        '宋体',
-        '微软雅黑',
-        'Arial',
-        'Tahoma',
-        'Verdana',
-        'Times New Roman',
-        'Courier New'
-      ]
-      this.editor.config.menus = this.editor.config.menus.concat('uploadMenu') // 配置菜单栏，删减菜单，调整顺序
-      this.editor.config.height = 700
+        "黑体",
+        "仿宋",
+        "楷体",
+        "标楷体",
+        "华文仿宋",
+        "华文楷体",
+        "宋体",
+        "微软雅黑",
+        "Arial",
+        "Tahoma",
+        "Verdana",
+        "Times New Roman",
+        "Courier New",
+      ];
+      this.editor.config.height = 700;
       this.editor.config.customUploadImg = async (files, callaback) => {
         const urls = []
         for (let i = 0; i < files.length; i++) {
           const res = await this.upload(files[i])
           urls.push(res)
         }
-        callaback(urls)
-      }
-      this.editor.menus.extend('uploadMenu', UploadMenu) // 配置扩展的菜单
+        callaback(urls);
+      };
+      createUploadImage(this.editor); // 配置扩展的菜单
       // 配置 onchange 回调函数
       this.editor.config.onchange = function (newHtml) {
         that.ruleForm.content = newHtml
