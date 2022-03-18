@@ -1,9 +1,9 @@
-<!--新增弹窗-->
+<!--修改弹窗-->
 <template>
   <iDialog
     append-to-body
     title="新增采购分类"
-    :visible.sync="isShow"
+    :visible.sync="isChange"
     height="100px"
     width="82%"
     @close="clearDiolog"
@@ -14,16 +14,15 @@
           <!-- 上级采购分类编号-->
           <el-form-item label="上级采购分类编号">
             <i-select
+              multiple
               collapse-tags
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
-              v-model="formData.parentMaterialGroupCode"
-              @change="select"
             >
               <el-option
                 v-for="item in listDeptData"
                 :key="item.code"
-                :label="item.materialGroupCode"
-                :value="item.parentId"
+                :label="item.code"
+                :value="item.id"
               ></el-option>
             </i-select>
           </el-form-item>
@@ -31,28 +30,19 @@
         <el-col :span="6">
           <!-- 上级采购分类名称-->
           <el-form-item label="上级采购分类名称">
-            <i-input
-              disabled
-              v-model="formData.parentMaterialGroupName"
-            ></i-input>
+            <i-input disabled></i-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <!-- 采购分类编号-->
           <el-form-item label="采购分类编号" class="el-form-itemnext lablesize">
-            <i-input
-              :placeholder="$t('partsignLanguage.QingShuRu')"
-              v-model="formData.materialGroupCode"
-            ></i-input>
+            <i-input :placeholder="$t('partsignLanguage.QingShuRu')" v-model="formData.bmListMoneyStart"></i-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <!-- 采购分类名称-->
           <el-form-item label="采购分类名称" class="el-form-itemnext lablesize">
-            <i-input
-              :placeholder="$t('partsignLanguage.QingShuRu')"
-              v-model="formData.materialGroupName"
-            ></i-input>
+            <i-input :placeholder="$t('partsignLanguage.QingShuRu')" v-model="formData.bmListMoneyStart"></i-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -60,7 +50,7 @@
         <el-col :span="6">
           <!-- 级别-->
           <el-form-item label="级别">
-            <i-input disabled v-model="formData.materialGroupLevel"></i-input>
+            <i-input disabled></i-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -72,7 +62,7 @@
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
             >
               <el-option
-                v-for="item in listDeptData2"
+                v-for="item in listDeptData"
                 :key="item.code"
                 :label="item.code"
                 :value="item.id"
@@ -83,33 +73,24 @@
         <el-col :span="6">
           <!-- 是否生效-->
           <el-form-item label="是否生效">
-            <el-switch
-              v-model="formData.isActive"
-              activeText="Y"
-              inactiveText="N"
-            >
+            <el-switch v-model="ideffect" activeText="Y" inactiveText="N">
             </el-switch>
           </el-form-item>
         </el-col>
       </el-row>
       <!-- 备注 -->
       <el-form-item label="备注">
-        <i-input
-          type="textarea"
-          :autosize="{ minRows: 4 }"
-          v-model="formData.materialGroupDesc"
-        ></i-input>
+        <i-input type="textarea" :autosize="{ minRows: 4 }" v-model="formData.bmListMoneyStart"></i-input>
       </el-form-item>
     </el-form>
-    <iButton @click="saveData" class="positionSize">{{
+    <iButton @click="exportExcel" class="positionSize">{{
       $t('LK_BAOCUN')
     }}</iButton>
   </iDialog>
 </template>
 <script>
 import { iDialog, iInput, iButton, iSelect } from 'rise'
-import { SEARCH_DATA } from './data'
-import { getAll, getMaterialGroupById, save } from '@/api/authorityMgmt'
+import { SEARCH_DATA} from './data'
 export default {
   components: {
     iDialog,
@@ -120,44 +101,17 @@ export default {
   data() {
     return {
       listDeptData: [],
-      formData: SEARCH_DATA
+      ideffect: true,
+      formData: SEARCH_DATA,
     }
   },
   props: {
-    isShow: { type: Boolean, default: false }
-  },
-  created() {
-    this.getListData()
+    isChange: { type: Boolean, default: false }
   },
   methods: {
     // 关闭弹窗
     clearDiolog() {
       this.$emit('input', false)
-    },
-    //获取上级采购分类编号
-    getListData() {
-      getAll().then((res) => {
-        if (+res.code == 200) {
-          this.listDeptData = res.data
-        }
-      })
-    },
-    //获取上级采购分类名称
-    select(val) {
-      getMaterialGroupById(val).then((res) => {
-        if (+res.code == 200) {
-        }
-      })
-    },
-    //保存
-    saveData() {
-      console.log(this.formData)
-      save(this.formData).then((res) => {
-        // if (+res.code == 200) {
-        //   this.$emit('input', false)
-        // }
-        this.$emit('saveDataList', false)
-      })
     }
   }
 }

@@ -17,7 +17,9 @@
           @handleSelectionChange="handleSelectionChange"
           @open-page="openPage"
           @changePage='purchaseAmount'
-        ></HomeFrameWorkTab>
+          
+        >
+        </HomeFrameWorkTab>
         <iPagination
           v-update
           @size-change="handleSizeChange($event, getList)"
@@ -32,13 +34,16 @@
       </div>
     </iCard>
     <!-- 新增弹窗 -->
-    <addClassification :isShow="isShow" @input="(val) => (isShow = val)" />
+    <addClassification :isShow="isShow" @input="(val) => (isShow = val)" @saveDataList='saveDataList'/>
+      <!-- 修改弹窗 -->
+    <changeClassification :isChange="isChange" @input="(val) => (isChange = val)" />
   </iPage>
 </template>
 <script>
 import { iCard, iButton, iPagination, iPage } from 'rise'
 import HomeFrameWorkTab from './HomeFrameWorkTab'
 import addClassification from './addClassification'
+import changeClassification from './changeClassification'
 import { page } from '@/api/authorityMgmt'
 import { SEARCH_DATA } from './data'
 import { pageMixins } from '@/utils/pageMixins'
@@ -50,13 +55,15 @@ export default {
     iPagination,
     HomeFrameWorkTab,
     addClassification,
-    iPage
+    iPage,
+    changeClassification
   },
   data() {
     return {
       isShow: false, //控制新增弹窗
       formData: SEARCH_DATA,
-      tablelist: []
+      tablelist: [],
+      isChange:false,//修改弹窗
     }
   },
   created() {
@@ -81,9 +88,14 @@ export default {
         }
       })
     },
+    //修改采购分类
     purchaseAmount(val){
       console.log('111111111',val)
-      this.isShow = true
+      this.isChange = true
+    },
+    //新增后保存
+    saveDataList(){
+      this.isShow=false
     }
   }
 }
@@ -91,5 +103,26 @@ export default {
 <style scoped lang='scss'>
 .routerpage {
   height: calc(100vh - 100px);
+}
+::v-deep .el-switch {
+  position: relative;
+  color: transparent;
+  .el-switch__label {
+    position: absolute;
+    color: transparent;
+  }
+  .el-switch__label--left {
+    left: 25px;
+    z-index: 1;
+  }
+  .el-switch__label--right {
+    left: 5px;
+  }
+  .el-switch__label--left.is-active {
+    color: #000;
+  }
+  .el-switch__label--right.is-active {
+    color: #fff;
+  }
 }
 </style>

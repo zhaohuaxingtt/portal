@@ -9,8 +9,10 @@
     @handle-selection-change="handleSelectionChange"
     @open-page="openPage"
     :treeExpand="treeExpand"
-    @purchaseAmount='purchaseAmount'
-  ></iTableCustom>
+    @purchaseAmount="purchaseAmount"
+    @isChang="isChang"
+  >
+  </iTableCustom>
 </template>
 
 <script>
@@ -18,7 +20,7 @@
   iTableCustom
 } from "rise";*/
 import iTableCustom from '@/components/iTableCustom'
-
+import ISwitch from './iSwitch.vue'
 export default {
   name: 'HomeFrameWork',
   props: {
@@ -50,7 +52,6 @@ export default {
         {
           prop: 'indexCode',
           width: 67,
-
           i18n: '#',
           label: ''
         },
@@ -63,12 +64,8 @@ export default {
           align: 'center',
           // width: 108
           minWidth: 120,
-          customRender: (h, scope) => {
-            return (
-              <span class="open-link-text"> {scope.row.materialGroupCode} </span>
-            )
-          },
-          emit: 'purchaseAmount'
+          type: 'expanded',
+          
         },
 
         {
@@ -79,7 +76,14 @@ export default {
           headerAlign: 'center',
           align: 'center',
           minWidth: 100,
-          type: 'expanded'
+          customRender: (h, scope) => {
+            return (
+              <span class="open-link-text">
+                {scope.row.materialGroupName}
+              </span>
+            )
+          },
+          emit: 'purchaseAmount'
         },
         {
           prop: 'materialGroupLevel',
@@ -102,10 +106,14 @@ export default {
           prop: 'isActive',
           label: '是否生效',
           i18n: '是否生效',
-          tooltip: true,
           headerAlign: 'center',
           align: 'center',
-          minWidth: 100
+           customRender: (h, scope, column) => {
+             const isActive=scope.row.isActive
+             return (<ISwitch currVal={ isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />)
+           },
+          minWidth: 100,
+          emit:'isChang',
         },
         {
           prop: 'materialGroupDesc	',
@@ -120,8 +128,8 @@ export default {
         }
       ],
       treeExpand: {
-        expandKey: 'remark',
-        childrenKey: 'priceLibraryCbdList'
+        expandKey: 'materialGroupCode',
+        childrenKey: 'subMaterialGroupList'
       }
     }
   },
@@ -149,9 +157,8 @@ export default {
       this.$emit('open-page', row)
     },
     //打开修改页面
-    purchaseAmount(val){
-
-this.$emit('changePage', val)
+    purchaseAmount(val) {
+      this.$emit('changePage', val)
     }
   }
 }
