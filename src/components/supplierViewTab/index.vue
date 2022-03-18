@@ -4,11 +4,14 @@
       <div class="text" :class="{'textActive': current === index + 1}">{{ item.key ? $t(item.key) : item.title }}</div>
       <div class="line" v-if="current === index + 1"/>
     </div>
+    <iButton class="btn" @click="goback">{{$t('LK_FANHUI')}}</iButton>
   </div>
 </template>
 
 <script>
+import { iButton } from "rise"
 export default {
+  components:{iButton},
   props: {
     current: {type: Number, default: 1},
     list: {
@@ -16,12 +19,15 @@ export default {
       default: () => {
         return [
           {title: '供应商360', key: 'SUPPLIER_GOYINGSHANG360'},
-          {title: '供应商绩效', key: 'SUPPLIER_GONGYINGSHANGJIXIAO'}
+          // {title: '供应商绩效', key: 'SUPPLIER_GONGYINGSHANGJIXIAO'}
         ]
       }
     }
   },
   methods: {
+    goback(){
+      this.$router.go(-1)
+    },
     handleClick(index) {
       this.$emit('handleClick', index)
     }
@@ -30,11 +36,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.btn{
+  margin-right:80px;
+  margin-bottom:10px;
+}
 .box {
   width: 100%;
   padding-bottom: 1px;
   border-bottom: 1px solid #E3E3E3;;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .item {
     margin-right: 50px;
