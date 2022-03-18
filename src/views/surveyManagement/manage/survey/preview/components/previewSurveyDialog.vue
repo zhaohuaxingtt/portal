@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="问卷预览"
+    :title="$t('QN_WENJUANYULAN')"
     :visible.sync="preOpen"
     width="90rem"
     @close="closePreDialog"
@@ -11,22 +11,22 @@
       <div v-if="choose == true" class="header-title">
         <div class="header-select-choose" @click="choosePC()">
           <img class="header-pc-icon" :src="pc" />
-          <p class="header-name">PC端</p>
+          <p class="header-name">{{ $t('QN_PCDUAN') }}</p>
           <div class="line"></div>
         </div>
         <div class="header-select" @click="chooseMobile()">
           <img class="header-mobile-icon" :src="mobile" />
-          <p class="header-name">手机端</p>
+          <p class="header-name">{{ $t('QN_SHOUJIDUAN') }}</p>
         </div>
       </div>
       <div v-else class="header-title">
         <div class="header-select" @click="choosePC()">
           <img class="header-pc-icon" :src="pc" />
-          <p class="header-name">PC端</p>
+          <p class="header-name">{{ $t('QN_PCDUAN') }}</p>
         </div>
         <div class="header-select-choose" @click="chooseMobile()">
           <img class="header-mobile-icon" :src="mobile" />
-          <p class="header-name">手机端</p>
+          <p class="header-name">{{ $t('QN_SHOUJIDUAN') }}</p>
           <div class="line"></div>
         </div>
       </div>
@@ -45,7 +45,7 @@
             Number(previewData.createBy) === Number(currentUserId) &&
             previewData.state != '2'
           "
-          >编辑</iButton
+          >{{ $t('QN_BIANJI') }}</iButton
         >
       </div>
       <div class="button-list" v-show="!choose">
@@ -61,7 +61,7 @@
             Number(previewData.createBy) === Number(currentUserId) &&
             previewData.state != '2'
           "
-          >编辑</iButton
+          >{{ $t('QN_BIANJI') }}</iButton
         >
       </div>
       <prePC
@@ -74,18 +74,18 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iButton } from "rise";
-import prePC from "./previewPC.vue";
-import preMob from "./previewMobile.vue";
-import pc from "@/assets/images/survey/pc.svg";
-import mobile from "@/assets/images/survey/mobile.svg";
-import store from "@/store";
+import { iDialog, iButton } from 'rise'
+import prePC from './previewPC.vue'
+import preMob from './previewMobile.vue'
+import pc from '@/assets/images/survey/pc.svg'
+import mobile from '@/assets/images/survey/mobile.svg'
+import store from '@/store'
 export default {
   components: {
     prePC,
     preMob,
     iDialog,
-    iButton,
+    iButton
     // iTabsList,
     // iSelect,
     // iFormItem,
@@ -95,54 +95,54 @@ export default {
   props: {
     preOpen: {
       type: Boolean,
-      default: false,
+      default: false
     },
     previewData: {
       type: Object,
       default() {
-        return {};
-      },
+        return {}
+      }
     },
     createPre: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
       pc,
       mobile,
-      currentUserId: "",
+      currentUserId: '',
       choose: true,
       tableData: [],
       ruleForm: {
-        userType: "",
-      },
-    };
+        userType: ''
+      }
+    }
   },
   mounted() {
-    this.currentUserId = store.state.permission.userInfo.id;
+    this.currentUserId = store.state.permission.userInfo.id
   },
   methods: {
     handleEdit() {
       this.$router.push({
-        path: "/survey/create",
+        path: '/survey/create',
         query: {
-          id: this.previewData.id,
-        },
-      });
+          id: this.previewData.id
+        }
+      })
     },
     choosePC() {
-      this.choose = true;
+      this.choose = true
     },
     chooseMobile() {
-      this.choose = false;
+      this.choose = false
     },
     closePreDialog() {
-      this.$emit("closePreDialog");
-    },
-  },
-};
+      this.$emit('closePreDialog')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .el-dialog__header {

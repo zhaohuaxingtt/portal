@@ -80,7 +80,7 @@
                 v-for="item in supplierTypes"
                 :key="item.value"
                 :value="item.value"
-                :label="item.label"
+                :label="language(item.label)"
               />
             </iSelect>
           </iFormItem>

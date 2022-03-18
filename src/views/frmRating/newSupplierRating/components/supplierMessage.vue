@@ -6,19 +6,27 @@
 <template>
   <div class="home">
     <div class="margin-bottom20 clearFloat">
-           <span class="font18 font-weight">{{$t('SUPPLIER_XINGONGYINGSHANGPINGJI')}}</span>
+      <span class="font18 font-weight">{{$t('SUPPLIER_XINGONGYINGSHANGPINGJI')}}</span>
       <div class="floatright">
         <i-button>{{ $t('LK_ZHUANPAI') }}</i-button>
       </div>
     </div>
-    <iCard tabCard collapse :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
+    <iCard tabCard
+           collapse
+           :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
       <template slot="header-control">
         <iButton @click="onJump360">{{ $t('SPR_FRM_XGYSPJ_CKGYSXX') }}</iButton>
       </template>
       <iFormGroup row="3">
-        <iFormItem v-for="(item,index) in supplierMessageTitle" :key="index">
-          <iLabel :label="$t(item.name) " :required="item.required" :icons="item.icons" :tip="$t(item.tip)" slot="label" :v-permission="item.permission"></iLabel>
-          <iText :v-permission="item.permission">{{ baseMsg[item.key] }}</iText>
+        <iFormItem v-for="(item,index) in supplierMessageTitle"
+                   :key="index">
+          <iLabel :label="$t(item.name) "
+                  :required="item.required"
+                  :icons="item.icons"
+                  :tip="$t(item.tip)"
+                  slot="label"
+                  v-permission="item.permission"></iLabel>
+          <iText v-permission="item.permission">{{ baseMsg[item.key] }}</iText>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -33,18 +41,18 @@ export default {
   components: {
     iCard, iButton, iFormGroup, iFormItem, iLabel, iText
   },
-  data() {
+  data () {
     return {
       supplierMessageTitle,
     }
   },
   computed: {
-    baseMsg() {
+    baseMsg () {
       return this.$store.state.baseInfo.baseMsg
     }
   },
   methods: {
-    onJump360() {
+    onJump360 () {
 
     }
   }

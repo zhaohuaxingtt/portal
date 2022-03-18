@@ -162,9 +162,9 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        // target: `http://${BASE_IP}:8015/usercenter/`,
-        target:
-          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
+        target: `http://${BASE_IP}:8015/usercenter/`,
+        // target:
+        //   'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
@@ -337,8 +337,8 @@ module.exports = {
       },
       // adminProcs
       [process.env.VUE_APP_ADMIN_PROCS]: {
-        target: `http://${BASE_IP}:8016/riseprocs`,
-        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/riseprocsApi`,
+        // target: `http://${BASE_IP}:8016/riseprocs`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/riseprocsApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''

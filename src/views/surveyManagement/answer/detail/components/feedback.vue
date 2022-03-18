@@ -6,72 +6,80 @@
           {{ previewData.name || name }}
         </p>
       </div>
-      <div v-if="previewData.state === 2 && previewData.closing == ''" class="card--header--item">
-        <p class="text">感谢您参与此期问卷调查！</p>
+      <div
+        v-if="previewData.state === 2 && previewData.closing == ''"
+        class="card--header--item"
+      >
+        <p class="text">{{ $t('QN_GANXIENINCANYUCIQIWENJUANDIAOCHA') }}</p>
       </div>
-      <div v-else-if="previewData.state === 2 && previewData.closing != ''" class="card--header--item">
-        <p class="text">{{previewData.closing}}</p>
+      <div
+        v-else-if="previewData.state === 2 && previewData.closing != ''"
+        class="card--header--item"
+      >
+        <p class="text">{{ previewData.closing }}</p>
       </div>
-      <div v-else-if="finishData.state === 5 && finishData.closing != ''" class="card--header--item">
-        <p class="text">{{finishData.closing}}</p>
+      <div
+        v-else-if="finishData.state === 5 && finishData.closing != ''"
+        class="card--header--item"
+      >
+        <p class="text">{{ finishData.closing }}</p>
       </div>
-      <div v-else-if="finishData.state === 5 && finishData.closing == ''" class="card--header--item">
-        <p class="text">感谢您参与此期问卷调查！</p>
+      <div
+        v-else-if="finishData.state === 5 && finishData.closing == ''"
+        class="card--header--item"
+      >
+        <p class="text">{{ $t('QN_GANXIENINCANYUCIQIWENJUANDIAOCHA') }}</p>
       </div>
       <div v-else class="card--header--item">
         <p class="text">
-          该问卷已停止收集，谢谢！
+          {{ $t('QN_GAIWENJUANYITINGZHISHOUJIXIEXIE') }}
         </p>
       </div>
     </div>
     <div class="card--body">
-      <div
-        class="card--body--item card--body--item__top"
-      >
-        <iButton  @click="handleClose" class="">关闭</iButton>
+      <div class="card--body--item card--body--item__top">
+        <iButton @click="handleClose" class="">{{ $t('QN_GUANBI') }}</iButton>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { iInput, iButton, iCard, iMessage, iSelect } from "rise";
+import { iButton } from 'rise'
 
 export default {
   components: {
-    iButton,
+    iButton
   },
-   props: {
+  props: {
     value: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
-    name:{
-      type:String
-    },
-
-
+    name: {
+      type: String
+    }
   },
   watch: {
     value: {
       immediate: true,
       handler(val) {
-        this.previewData = val;
+        this.previewData = val
         console.log(val)
-      },
+      }
     },
     ruleForm(val) {
-      this.$emit("input", val);
-    },
+      this.$emit('input', val)
+    }
   },
   data() {
     return {
       start: false,
       stop: false,
-      radioVal: "1",
-      previewData:{},
-      finishData:{}
-    };
+      radioVal: '1',
+      previewData: {},
+      finishData: {}
+    }
   },
   created() {
     this.finishData = this.$route.params
@@ -80,15 +88,15 @@ export default {
   methods: {
     // 关闭按钮
     handleClose() {
-    //   this.$router.push({
-    //     name: "surveyManagement",
-    //   });
+      //   this.$router.push({
+      //     name: "surveyManagement",
+      //   });
       this.$router.push({
-        path: "/survey/answer",
-      });
-    },
-  },
-};
+        path: '/survey/answer'
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .header {

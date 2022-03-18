@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      <span>岗位代理</span>
+      <span>{{language('岗位代理')}}</span>
       <div slot="actions">
         <actionButtons
           :selected-rows="selectedRows"
@@ -67,22 +67,22 @@ export default {
         },
         {
           prop: 'businessId',
-          label: '代理申请号',
+          i18n: '代理申请号',
           width: 140
         },
         {
           prop: 'applyUserName',
-          label: '员工姓名',
+          i18n: '员工姓名',
           width: 150
         },
         {
           prop: 'fullNameZh',
-          label: '代理岗位',
+          i18n: '代理岗位',
           width: 180
         },
         {
           prop: 'startDate',
-          label: '代理开始日期',
+          i18n: '代理开始日期',
           width: 120,
           customRender: (h, scope) => {
             return scope.row.startDate && scope.row.startDate.substr(0, 10)
@@ -90,7 +90,7 @@ export default {
         },
         {
           prop: 'endDate',
-          label: '代理结束日期',
+          i18n: '代理结束日期',
           width: 120,
           customRender: (h, scope) => {
             return scope.row.startDate && scope.row.endDate.substr(0, 10)
@@ -98,7 +98,7 @@ export default {
         },
         {
           prop: 'durationDays',
-          label: '时长',
+          i18n: '时长',
           width: 120,
           customRender: (h, scope) => {
             return scope.row.durationDays + '天'
@@ -106,16 +106,16 @@ export default {
         },
         {
           prop: 'description',
-          label: '代理原因'
+          i18n: '代理原因'
         },
         {
           prop: 'createDate',
-          label: '创建时间',
+          i18n: '创建时间',
           width: 180
         },
         {
           prop: 'status',
-          label: '状态',
+          i18n: '状态',
           width: 100,
           customRender: (h, scope) => {
             return this.agenStatus(scope.row.status)

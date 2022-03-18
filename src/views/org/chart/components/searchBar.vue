@@ -4,7 +4,7 @@
       class="search-autocomplete"
       v-model="searchText"
       :fetch-suggestions="querySearch"
-      placeholder="组织/岗位/人员"
+      :placeholder="language('组织/岗位/人员')"
       :trigger-on-focus="false"
       style="width: 100%"
       clearable

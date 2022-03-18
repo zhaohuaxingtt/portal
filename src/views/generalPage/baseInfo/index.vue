@@ -6,7 +6,8 @@
 <template>
   <div class="baseInfo">
     <div class="save margin-bottom20">
-      <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL">保存</iButton>
+      <iButton @click="saveInfos()"
+               v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL">保存</iButton>
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->

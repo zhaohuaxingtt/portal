@@ -4,17 +4,18 @@
       <img :src="info.surveyCover" />
     </div>
     <div v-if="info.state == '3'" class="state finish">
-      {{ stateObj[info.state] }}
+      {{ $t(stateObj[info.state]) }}
     </div>
     <div class="state" v-else>
-      {{ stateObj[info.state] }}
+      {{ $t(stateObj[info.state]) }}
     </div>
     <div class="foot">
       <div class="title">{{ info.name }}</div>
       <div class="info">
         <span
-          >有效期 ｜ {{ getDate(info.updateDate) }} 至
-          {{ getDate(info.endTime) }} ｜ {{ typeObj[info.surveyModel] }}</span
+          >{{ $t('QN_YOUXIAOQI') }} ｜ {{ getDate(info.updateDate) }} {{ $t('QN_ZHI') }}
+          {{ getDate(info.endTime) }} ｜
+          {{ $t(typeObj[info.surveyModel]) }}</span
         >
       </div>
     </div>
@@ -22,50 +23,62 @@
 </template>
 <script>
 // import img from "@/"
-import dayjs from "dayjs";
+import dayjs from 'dayjs'
 export default {
   props: {
     info: {
       type: Object,
       default() {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
+      // stateObj: {
+      //   1: '未发布',
+      //   2: '进行中',
+      //   3: '已过期',
+      //   4: '已统计',
+      //   5: '已完成'
+      // },
+      // typeObj: {
+      //   7: '采购问卷',
+      //   8: '物流问卷',
+      //   9: '质保问卷'
+      // }
       stateObj: {
-        1: "未发布",
-        2: "进行中",
-        3: "已过期",
-        4: "已统计",
-        5: "已完成",
+        1: 'QN_WEIFABU',
+        2: 'QN_JINXINGZHONG',
+        3: 'QN_YIGUOQI',
+        4: 'QN_YITONGJI',
+        5: 'QN_YIWANCHENG'
       },
       typeObj: {
-        7: "采购问卷",
-        8: "物流问卷",
-        9: "质保问卷",
-      },
-    };
+        7: 'QN_CAIGOUWENJUAN',
+        8: 'QN_WULIUWENJUAN',
+        9: 'QN_ZHIBAOWENJUAN'
+      }
+    }
   },
   methods: {
     getDate(date) {
-      return dayjs(date).format("YYYY-MM-DD");
+      return dayjs(date).format('YYYY-MM-DD')
     },
     handleToSurvey() {
       this.$router.push({
         // path: `/survey/answer/detail/${this.info.id}?state=${this.info.state}`,
-        name: "detail",
+        name: 'detail',
         params: {
           id: this.info.id,
           name: this.info.name,
           state: this.info.state,
-          closing: this.info.closing,
-        },
-      });
-    },
-  },
-};
+          closing: this.info.closing
+        }
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .inner {

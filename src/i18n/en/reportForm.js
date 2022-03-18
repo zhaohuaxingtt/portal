@@ -19,5 +19,21 @@ export default {
     Report类型: 'Report Type',
     Report标题: 'Report Title',
     报表分类: 'Report classify',
-    至: 'To'
+    至: 'To',
+    添加报告分类: 'Add Report Classification',
+    上架: 'Shelves',
+    下架: 'The Shelves',
+    不通知: 'No Notice',
+    '请上传一张封面!': 'Please Upload A Cover!',
+    请输入报表类型: 'Please Input Report Type',
+    请输入部门信息: 'Please Input Dep Info',
+    请输入location: 'Please Input location',
+    请输入Telefone: 'Please Input Telefone',
+    请选择管理员: 'Please Input Administrator',
+    请选择报表可见人员: 'Please Input Report Visible Person',
+    选择文件: 'Select File',
+    请选择报表类型: 'Please Select Report Type',
+    请输入报表标题: 'Please Input Report Title',
+    请选择报表发布时期: 'Please Select Report Published Time',
+    请选择附件: 'Please Select Attachment'
 }
