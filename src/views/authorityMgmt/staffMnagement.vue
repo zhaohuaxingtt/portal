@@ -2,7 +2,7 @@
   <div>
     <iPage>
       <pageHeader>
-        <span>{{language('员工')}} {{ this.formData.nameZh }}</span>
+        <span>{{ language('员工') }} {{ this.formData.nameZh }}</span>
       </pageHeader>
       <div class="Main">
         <!-- 搜索条件 -->
@@ -70,12 +70,26 @@
                       :label="$t('staffManagement.SEX')"
                       class="SearchOption"
                     >
-                      <iInput
+                      <!-- <iInput
                         :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
                         class=""
                         v-model="formData.gender"
                         disabled
-                      ></iInput>
+                      ></iInput> -->
+                      <iSelect
+                        :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
+                        disabled
+                        class="selectWidth"
+                        v-model="formData.gender"
+                      >
+                        <el-option
+                          v-for="item in sexOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                        </el-option>
+                      </iSelect>
                     </iFormItem>
                   </el-col>
                 </el-row>
@@ -414,6 +428,16 @@ export default {
         {
           value: 2,
           label: '外方'
+        }
+      ],
+      sexOptions: [
+        {
+          value: '1',
+          label: '男'
+        },
+        {
+          value: '2',
+          label: '女'
         }
       ],
       tagList: '',
