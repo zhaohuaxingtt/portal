@@ -1,18 +1,17 @@
 <template>
   <div class='mtz-select'>
-    <i-search :icon="true"
-              @sure="sure"
+    <i-search @sure="sure"
               @reset="reset">
-      <el-form label-position="top">
-        <el-form-item v-for="(x,index) in formJSON"
-                      :key="index"
-                      :label="x.name"
-                      class="SearchOption">
-          <i-input v-model="formData[x.props]"
-                   :placeholder="language('QINGSHURU', '请输入')"></i-input>
-        </el-form-item>
-        <el-form-item label="科室"
-                      class="SearchOption">
+      <iFormGroup label-position="top">
+        <iFormItem v-for="(x,index) in formJSON"
+                   :key="index"
+                   :label="x.name"
+                   class="SearchOption">
+          <iInput v-model="formData[x.props]"
+                  :placeholder="language('QINGSHURU', '请输入')"></iInput>
+        </iFormItem>
+        <iFormItem label="科室"
+                   class="SearchOption">
           <!-- <i-select
                   v-model="formData.buyerDeptId	"
                   multiple
@@ -29,15 +28,16 @@
           <custom-select v-model="formData.buyerDeptId"
                          :user-options="departmentDrop"
                          multiple
+                         style="width:100%"
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="departNameEn"
                          value-member="departId"
                          value-key="departId" />
-        </el-form-item>
-        <el-form-item label="市场价来源"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="市场价来源"
+                   class="SearchOption">
           <!-- <i-select
                   v-model="formData.marketSource"
                   multiple
@@ -54,29 +54,30 @@
           <custom-select v-model="formData.marketSource"
                          :user-options="getMtzMarketSourceListDrop"
                          multiple
+                         style="width:100%"
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-        <el-form-item label="有效期起"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="有效期起"
+                   class="SearchOption">
           <iDatePicker v-model="formData.startDate"
                        valueFormat="yyyy-MM-dd"
                        type="date"
                        :placeholder="language('QINGXUANZE', '请选择')" />
-        </el-form-item>
-        <el-form-item label="有效期止"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="有效期止"
+                   class="SearchOption">
           <iDatePicker v-model="formData.endDate"
                        valueFormat="yyyy-MM-dd"
                        type="date"
                        :placeholder="language('QINGXUANZE', '请选择')" />
-        </el-form-item>
-        <el-form-item label="补差周期"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem label="补差周期"
+                   class="SearchOption">
           <!-- <i-select
                   multiple
                   collapse-tags
@@ -95,14 +96,15 @@
                          :user-options="sendersCycle"
                          filterable
                          multiple
+                         style="width:100%"
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="name"
                          value-member="value"
                          value-key="value" />
-        </el-form-item>
-        <el-form-item :label="language('SHIFOUSHENGXIAO','是否生效')"
-                      class="SearchOption">
+        </iFormItem>
+        <iFormItem :label="language('SHIFOUSHENGXIAO','是否生效')"
+                   class="SearchOption">
           <!-- <i-select v-model="formData.effectFlag"
                     :placeholder="language('QINGXUANZE', '请选择')">
             <el-option :label="language('QUANBU', '全部')"
@@ -113,13 +115,14 @@
                        value="0"></el-option>
           </i-select> -->
           <custom-select v-model="formData.effectFlag"
+                         style="width:100%"
                          :user-options="effectFlagDropDown"
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="message"
                          value-member="code"
                          value-key="code" />
-        </el-form-item>
-      </el-form>
+        </iFormItem>
+      </iFormGroup>
     </i-search>
 
     <iCard class="OrganizationTable">
@@ -130,16 +133,23 @@
                      :inactive-text="language('ZHIKANZIJI','只看自己')" />
         </div>
         <div>
-          <iButton @click="handleExportCurrent">下载模板</iButton>
-          <iButton @click="handleSeePartsRelationship">查看一/二次件零件关系</iButton>
+          <iButton @click="handleExportCurrent"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton>
+          <iButton @click="handleSeePartsRelationship"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX">查看一/二次件零件关系</iButton>
           <uploadButton ref="uploadButton"
+                        v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
                         :buttonText="language('SHANGCHUANYIERCIJIANGUANXI', '上传一/二次件零件关系')"
                         :uploadByBusiness="true"
                         @uploadedCallback="handleUpload($event)"
                         class="margin-left10 margin-right10" />
-          <iButton @click="takeEffect(1)">{{language('SHENGXIAO', '生效')}}</iButton>
-          <iButton @click="takeEffect(0)">{{language('SHIXIAO', '失效')}}</iButton>
-          <iButton @click="handleExportAll">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
+          <iButton @click="takeEffect(1)"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHENGXIAO">{{language('SHENGXIAO', '生效')}}</iButton>
+          <iButton @click="takeEffect(0)"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHIXIAO">{{language('SHIXIAO', '失效')}}</iButton>
+          <iButton @click="handleExportAll"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
+          <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
         </div>
       </div>
       <div>
@@ -208,6 +218,7 @@ import {
   iButton,
   iPagination,
   iFormItem,
+  iFormGroup,
   iDialog,
   iDatePicker,
   iMessage
@@ -216,18 +227,20 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, exportTitle, formJSON } from './components/data'
 import Detail from './components/detail'
+import buttonTableSetting from '@/components/buttonTableSetting'
 // import Source from './components/source'
 import RelationalValidity from './components/relationalValidity'
 import {
   // getDeptData,
   mtzBasePricePage,
-  partTemplateUrl,
+  feignDownload,
   exportBaseData,
   getMtzMarketSourceList,
   mtzBasePriceEdit,
   // historyPage,
   uploadPartExcel,
-  queryDeptSection
+  queryDeptSection,
+  queryDeptSectionForPart
 } from '@/api/mtz/database/partsQuery'
 // import {selectDictByKeys} from '@/api/dictionary'
 import { downloadUdFile } from '@/api/file';
@@ -242,13 +255,15 @@ export default {
     iButton,
     iTableCustom,
     iPagination,
-    // iFormItem,
+    iFormItem,
     iDialog,
     iDatePicker,
     Detail,
     // Source,
     RelationalValidity,
-    uploadButton
+    uploadButton,
+    buttonTableSetting,
+    iFormGroup
   },
   mixins: [pageMixins],
   data () {
@@ -273,7 +288,7 @@ export default {
   },
   mounted () {
     this.initSearchData()
-    queryDeptSection({}).then(res => { this.departmentDrop = res.data })//初始化科室
+    queryDeptSectionForPart({}).then(res => { this.departmentDrop = res.data })//初始化科室
     // selectDictByKeys('keys=MTZ_MAKE_CYCLE').then(res=>{this.sendersCycle=res.data.MTZ_MAKE_CYCLE})//补差周期
     this.sendersCycle = [
       { value: 'A', name: '年度' },
@@ -309,6 +324,7 @@ export default {
       this.$set(this.formData, 'effectFlag', '1')
     },
     handlePartNumberDetail (e) {
+      console.log(e)
       // 一二次零件号
       this.isShow = true
       this.clickData = e
@@ -345,6 +361,10 @@ export default {
       this.$router.push('/partsRelationship')
     },
     handleSource (val) {
+      if (val.sourceCode == "初始化") {
+        return false;
+      }
+
       let path = ""
       let query = {}
       if (val.source === '0') {
@@ -396,7 +416,7 @@ export default {
       this.mtzBasePricePage()
     },
     handleExportCurrent () {
-      partTemplateUrl().then(res => {
+      feignDownload('1491338755962384386').then(res => {
         if (res.data) {
           downloadUdFile(res.data)
         }
@@ -449,9 +469,9 @@ export default {
     color: #000;
   }
 }
-.SearchOption {
-  margin-bottom: 20px !important;
-}
+// .SearchOption {
+//   margin-bottom: 20px !important;
+// }
 .open-link-text {
   text-decoration: underline;
 }
@@ -475,5 +495,8 @@ export default {
     margin-top: 2px;
     margin-left: 10px;
   }
+}
+::v-deep .el-form-item {
+  flex-direction: column;
 }
 </style>

@@ -5,46 +5,68 @@
  */
 
 export const tableTitle = [
-  { props: 'sapCode', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
   {
-    props: 'nameZh',
-    name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    width: 60,
+    label: '序号'
+  },
+  { prop: 'sapCode', label: 'SAP号', li8n: 'SUPPLIER_SAPHAO' },
+  {
+    prop: 'nameZh',
+    label: '供应商名称',
+    li8n: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 200,
     tooltip: true
   },
   {
-    props: 'qualitativeScoreStatus',
-    name: '状态',
-    key: 'LK_ZHUANGTAI',
+    prop: 'qualitativeScoreStatus',
+    label: '状态',
+    li8n: 'LK_ZHUANGTAI',
     tooltip: true
   },
-  { props: 'versionNum', name: '版本', key: 'SPR_FRM_CBPJ_BB', tooltip: true },
+  { prop: 'versionNum', label: '版本', li8n: 'SPR_FRM_CBPJ_BB', tooltip: true },
   {
-    props: 'createDate',
-    name: '评分发出时间',
-    key: 'SPR_FRM_CBPJ_PFFCSJ',
+    prop: 'createDate',
+    label: '评分发出时间',
+    li8n: 'SPR_FRM_CBPJ_PFFCSJ',
     tooltip: true
   },
   {
-    props: 'qualitativeReturnDate',
-    name: '评分返回时间',
-    key: 'SPR_FRM_CBPJ_PFFHSJ',
+    prop: 'qualitativeReturnDate',
+    label: '评分返回时间',
+    li8n: 'SPR_FRM_CBPJ_PFFHSJ',
     tooltip: true
   },
-  { props: 'sectionName', name: '负责科股', key: 'FUZEKEGU', tooltip: true },
+  { prop: 'sectionName', label: '负责科股', li8n: 'FUZEKEGU', tooltip: true },
   {
-    props: 'operateContent',
-    name: '最新操作',
-    key: 'SPR_FRM_CBPJ_ZXCZ',
+    prop: 'operateContent',
+    label: '最新操作',
+    li8n: 'SPR_FRM_CBPJ_ZXCZ',
     tooltip: true
   },
-  { props: 'view', name: '操作记录', key: 'SPR_FRM_CBPJ_CZJL', tooltip: true },
-  { props: 'nr', name: 'Nr.', width: 50, tooltip: true },
   {
-    props: 'returnReason',
-    name: '退回理由',
-    key: 'SPR_FRM_CBPJ_THLY',
+    prop: 'view',
+    label: '操作记录',
+    li8n: 'SPR_FRM_CBPJ_CZJL',
+    tooltip: true,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return (
+        <span class="cursor" style="color:#1763F7">
+          查看
+        </span>
+      )
+    }
+  },
+  { prop: 'nr', label: 'Nr.', li8n: 'Nr.', width: 50, tooltip: true },
+  {
+    prop: 'returnReason',
+    label: '退回理由',
+    li8n: 'SPR_FRM_CBPJ_THLY',
     tooltip: true
   }
 ]
@@ -53,7 +75,7 @@ export const scroingTitle = [
   {
     props: 'nameZh',
     name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    key: 'LK_GONGYINGSHANGMINGCHENG1',
     width: 120,
     tooltip: true
   },

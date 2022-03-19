@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-18 09:48:38
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Descripttion: your project
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -13,6 +13,7 @@ export const tableTitle = [
     name: '供应商中文名',
     width: 200,
     key: 'GONGYINGSHANGZHONGWENMING',
+    fixed: true,
     tooltip: true
   },
   {
@@ -28,13 +29,6 @@ export const tableTitle = [
     name: '统一社会信用代码',
     width: 200,
     key: 'UnifySocialCreditCode',
-    tooltip: true
-  },
-  {
-    props: 'supplierTagNameList',
-    name: '供应商标签',
-    width: 200,
-    key: 'GONGYINGSHANGBIAOQIAN',
     tooltip: true
   },
   { props: 'dunsCode', name: 'DUNS', width: 150, tooltip: true },
@@ -64,7 +58,14 @@ export const tableTitle = [
     props: 'epNatureCategory',
     name: '企业性质（大类）',
     width: 150,
-    key: 'epNatureCategory',
+    key: 'QIYEXINGZHIDALEI',
+    tooltip: true
+  },
+  {
+    props: 'epNatureSubcategory',
+    name: '企业性质（小类）',
+    width: 150,
+    key: 'QIYEXINGZHIXIAOLEI',
     tooltip: true
   },
   //   { props: 'epNatureSubcategory', name: '企业性质（小类）', width: 150, key: 'QIYEXINGZHI', tooltip: true },
@@ -74,14 +75,53 @@ export const tableTitle = [
     width: 120,
     key: 'SUPPLIER_SUPPLIERTYPE'
   },
-  { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO' }
+  {
+    props: 'supplierTagNameList',
+    name: '供应商标签',
+    width: 200,
+    key: 'GONGYINGSHANGBIAOQIAN',
+    tooltip: true
+  },
+  { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO1' },
   //   { props: 'dept', name: '科室', width: 120, key: 'SUPPLIER_KESHI', tooltip: true },
   //   { props: 'purchaserNameZh', name: '采购员', width: 120, key: 'SPR_FRM_XGYSPJ_CGY', tooltip: true },
   //   // { props: '', name: '受控状态', width: 120, key: 'SUPPLIER_SHOUKONGZHUANGTAI' },
-  //   { props: 'createDate', name: '创建时间', width: 150, key: 'LK_CHUANGJIANSHIJIAN', tooltip: true },
-  //   { props: 'updateDate', name: '修改时间', width: 150, key: 'SUPPLIER_XGSJ', tooltip: true },
-  //   { props: 'requestVwTime', name: 'VW号申请时间', width: 120, key: 'SUPPLIER_VWHSQSJ', tooltip: true },
-  //   { props: 'vwStatus', name: 'VW号状态', width: 120, key: 'SUPPLIER_VWHZT', tooltip: true },
+  {
+    props: 'requestVwTime',
+    name: 'VW号申请时间',
+    width: 120,
+    key: 'SUPPLIER_VWHSQSJ',
+    tooltip: true
+  },
+  { props: 'vwCsf', name: 'VW CSF', width: 120, key: 'VW CSF', tooltip: true },
+  {
+    props: 'vwLinie',
+    name: 'VW LINIE',
+    width: 120,
+    key: 'VW LINIE',
+    tooltip: true
+  },
+  {
+    props: 'vwStatus',
+    name: 'VW号状态',
+    width: 120,
+    key: 'SUPPLIER_VWHZT',
+    tooltip: true
+  },
+  {
+    props: 'createDate',
+    name: '创建时间',
+    width: 150,
+    key: 'LK_CHUANGJIANSHIJIAN',
+    tooltip: true
+  },
+  {
+    props: 'updateDate',
+    name: '修改时间',
+    width: 150,
+    key: 'SUPPLIER_XGSJ',
+    tooltip: true
+  }
 ]
 const checkEmail = (rule, value, callback) => {
   const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/

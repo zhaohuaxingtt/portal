@@ -63,7 +63,7 @@
                     scope.row.sign=='s' ? 'icon-baofeichuzhi' : scope.row.sign=='f' ?'icon-fenduandingdian':''" ></icon>
               </template>
             </el-table-column>
-            <!-- 股别 supporterDeptNosys  -->
+            <!-- 股别 presenterDept  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -73,7 +73,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys}}</span>
+                <span>{{scope.row.presenterDept}}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName 改 topic-->
@@ -84,7 +84,7 @@
               min-width="198"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.topic}}</span>
+                 <span class="open-link-text look-themen-click" @click="handleCSC(scope.row)">{{scope.row.topic}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -97,7 +97,7 @@
               prop="上会次数"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.preCount}}</span>
+                <span>{{scope.row.cscCount}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -155,9 +155,35 @@
               label="时间"
               min-width="82"
             >
-              <template slot-scope="scope">
+              <!-- <template slot-scope="scope">
                 <span>{{scope.row.time}}</span>
-              </template>
+              </template> -->
+              <!-- <template slot-scope="scope">
+                <span>
+                  {{ scope.row.startDate.substring(0, 0) + ' ' + scope.row.startTime.substring(0, 5) }}
+                  <span v-if="scope.row.endTime">{{  '~' + scope.row.endTime.substring(0, 5) }} </span>
+                  <span v-else>~{{ handleEndTime(scope.row) }}</span>
+                </span>
+              </template> -->
+              <template slot-scope="scope">
+              <div v-if="scope.row.startTime">
+                <span>{{
+                  Number(scope.row.plusDayStartTime) > 0
+                    ? scope.row.startTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayStartTime)
+                    : scope.row.startTime.substring(0, 5)
+                }}</span
+                ><span>~</span>
+                <span v-if="scope.row.endTime">{{
+                  Number(scope.row.plusDayEndTime) > 0
+                    ? scope.row.endTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayEndTime)
+                    : scope.row.endTime.substring(0, 5)
+                }}</span>
+              </div>
+            </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
             <!-- 状态  state-->
@@ -173,7 +199,7 @@
                 </template> 
             </el-table-column>
             <!-- <el-table-column align="center" width="20"></el-table-column> -->
-            <!-- 会议结论/纪要  result-->
+            <!-- 会议结论/纪要  conclusion-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -181,7 +207,7 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span>{{ resultObj[scope.row.result] }}</span>
+                <span>{{ resultObj[scope.row.conclusion] }}</span>
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->
@@ -192,9 +218,9 @@
               min-width="119"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.isSendBm == false ? '否' : scope.row.isSendBm == true ? '是' : ''}}</span>
+              </template>
             </el-table-column>
             <!-- CSC汇报材料  cscStatus-->
             <el-table-column
@@ -217,7 +243,7 @@
               label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.isCscFrozen}}</span>
+                <span>{{scope.row.conclusion == '02' ? '是' : '否' }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -240,11 +266,11 @@
               show-overflow-tooltip
               align="center"
               label="CSC编号"
-              min-width="74"
+              min-width="90"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCode}}</span>
+              </template>
             </el-table-column>
          
         </iTableML>
@@ -269,14 +295,15 @@
   </div>
 </template>
 <script>
+import dayjs from '@/utils/dayjs.js'
 import { iPage, iCard, iPagination } from 'rise'
 import iTableML from '@/components/iTableML'
-import { getMeetingDetail } from '@/api/meeting/home'
+// import { getMeetingDetail } from '@/api/meeting/home'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import { getMettingType } from '@/api/meeting/type'
 import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
 import topicLookDialog from './components/topicLookDialog.vue'
-import { login } from '@/api/usercenter'
 
 export default {
   components: {
@@ -320,6 +347,45 @@ export default {
     }
   },
   methods: {
+    handlePage(data = []) {
+      // this.page.totalCount = data.length;
+      // this.page.pageSize = 10;
+      // this.tableData = data.filter((item, index) => {
+      //   return index < 10;
+      // });
+      this.tableData = data
+      this.tableData = this.tableData.map((item) => {
+        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format('HH:mm')
+        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
+        return {
+          ...item,
+          time: `${
+            Number(item.plusDayStartTime) > 0
+              ? startTime + ' +' + Number(item.plusDayStartTime)
+              : startTime
+          }~${
+            Number(item.plusDayEndTime) > 0
+              ? endTime + ' +' + Number(item.plusDayEndTime)
+              : endTime
+          }`
+        }
+      })
+    },
+    handleEndTime(row) {
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     lookOrEdit(row) {
       this.topicInfo = row
       this.openAddTopic = true
@@ -341,13 +407,27 @@ export default {
       })
     },
     query() {
-      getMeetingDetail(this.$route.query).then((res) => {
+      findThemenById(this.$route.query).then((res) => {
         this.result = res
         this.data = res.themens
         this.dataTable = res.themens.slice(0, 1 * this.pageSize)
+         this.handlePage(res.themens)
         this.handleCurrentChange(1)
+         this.meetingInfo = res
+         this.generateTime()
       })
     },
+    generateTime() {
+      const startDate = this.meetingInfo.startDate
+      const startTime = this.meetingInfo.startTime
+      const endDate = this.meetingInfo.endDate
+      const endTime = this.meetingInfo.endTime
+      this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
+        'YYYY/MM/DD HH:mm'
+      )
+      this.end = `~${dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm')}`
+    },
+    
     handleCurrentChange(pageNum) {
       // 页码切换
       this.pageNum = pageNum
@@ -368,6 +448,22 @@ export default {
         return 'active-row'
       }
       return 'narmal-row'
+    },
+    handleCSC(row){
+      console.log(row);
+      if (row.isBreak) {
+        iMessage.error('改议题为休息')
+      }else if(row.type == 'MANUAL'){
+        iMessage.error('改议题为临时议题')
+      }else{
+        let num = null 
+        if (row.documentType == '13') {
+            num = 1
+        }else{
+            num = 3
+        }
+        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+      } 
     }
   },
   mounted() {

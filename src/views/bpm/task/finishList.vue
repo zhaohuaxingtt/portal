@@ -61,8 +61,7 @@ export default {
       taskType: 0,
       tableListData: [],
       tableExtraData: {
-        taskType: 0,
-        queryTable: this.getTableList
+        taskType: 0
       },
       tableTitle: [
         {
@@ -89,14 +88,14 @@ export default {
           label: '单据类型',
           i18n: '单据类型',
           tooltip: true,
-          minWidth: 130
+          Width: 130
         },
         {
           prop: 'processDefinitionName',
           label: '任务名称',
           i18n: '任务名称',
           tooltip: true,
-          minWidth: 180
+          Width: 180
         },
         {
           prop: 'itemEvent',
@@ -116,7 +115,7 @@ export default {
           label: '任务开始时间?',
           i18n: '任务开始时间',
           tooltip: true,
-          width: 100,
+          width: 140,
           customRender: (h, scope) => {
             if (scope.row.createDate) {
               // eslint-disable-next-line no-undef
@@ -130,7 +129,7 @@ export default {
           label: '申请人',
           i18n: '申请人',
           tooltip: true,
-          width: 150,
+          width: 100,
           customRender: (h, scope) => {
             const res = []
             /* if (scope.row.deptFullCode) {
@@ -148,14 +147,14 @@ export default {
           label: '申请部门',
           i18n: '申请部门',
           tooltip: true,
-          width: 150
+          width: 100
         },
         {
           prop: 'applyDate',
           label: '申请时间',
           i18n: '申请时间',
           tooltip: true,
-          width: 100
+          width: 140
         }
       ],
       selectTableData: [],
@@ -168,7 +167,7 @@ export default {
     }
   },
   created() {
-    this.getTableList()
+    // this.getTableList()
   },
   methods: {
     //打开详情页

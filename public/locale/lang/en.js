@@ -138,9 +138,11 @@
             <!--                                                                   --->
             <!------------------------------------------------------------------------>
             */
-
+    SHOUYINGXIANGLINGJIANXIANGQING: 'Details of affected parts',
     LK_CAIGOUFENEFENPEIDABUDAO:
       'Procurement share allocation cannot reach 100%', // 采购份额分配达不到100%
+    DANGQIANMEIYOUCHUPINMOBAN:
+      'There is currently no preliminary evaluation template',
     LK_CAIGOUGONGCHNEGMINGCHENG: 'Name of Purchasing Factory', // 采购工厂名称
     LK_CAOZUOCHENGGONG: 'Operation is successful', // 操作成功
     LK_CHANLIANGZHANBI: 'Output ratio (%)', // 产量占比（%）
@@ -248,6 +250,7 @@
     LK_BAOJIAJIEZHIRIQI: 'Quotation deadline', //报价截止日期
     LK_RFQQUOTATIONDEADLINE: 'Deadline', //报价截至日期
     LK_NINDANGQIANHAIWEIXUANZE: 'Sorry, you have not selected yet!', //抱歉！您当前还未选择！
+    LK_ZYCBPJZTWZDDSHCNDJCAN: '只有初评状态为中断的时候，才能点击此按钮',
     LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN:
       'Sorry, Forward Buyer not selected!', //抱歉！您当前还未选择询价采购员！
     LK_BEIZHUBUNENGWEIKONG: 'Sorry, notes cannot be empty!', //抱歉，备注不能为空！
@@ -416,7 +419,7 @@
     LK_GONGYINGSHANGCHANPINGAIYAO: 'Supplier Product Profile', //供应商产品概要!
     LK_GONGYINGSHANGGONGSIJIESHAO: 'Supplier Company Introduction', //供应商公司介绍!
     LK_GONGYINGSHANGMING: 'Supplier', //供应商名
-    LK_GONGYINGSHANGMINGCHENG: 'Supplier', //供应商名称
+    LK_GONGYINGSHANGMINGCHENG1: 'Supplier', //供应商名称
     LK_GONGYINGSHANGPINGFEN: 'Supplier Rating', //供应商评分
     LK_GONGYINGSHANGPINGFENFUJIAN: 'Supplier Rating Attachment', //供应商评分附件
     LK_GONGYINGSHANGSHENGCHANCHANGDI: 'Supplier Manufacturing Spot', //供应商生产场地
@@ -968,6 +971,7 @@
     GONGSIGAIKANG: 'Company Profile', //公司概况
     Home: 'Home',
     BasicInformation: 'Basic Information',
+    CAIGOUTIAOKUANQIANSHURIQI: 'Signing date of purchase terms',
     SupplierZh: 'Supplier Zh',
     SupplierEn: 'Supplier En',
     SupplierAbbreviationZh: 'Supplier Abbreviation Zh',
@@ -1007,7 +1011,7 @@
     GONGHUOZHUANGTAI: 'Supplier Status',
     YINHANGZHANGHAO: 'Accounts',
     SHIFOUZAIGONG: 'Is Supply',
-    GONGHUO: 'Supplier Status',
+    GONGHUO1: 'Supplier Status',
     SHIFOUYELEIGONGCHANG: 'Is Factory',
     SHIFOUANQUANJIAN: 'Is Safety Part',
     GONGHUOLINGJIANLEIXING: 'Supply Type',
@@ -1370,7 +1374,7 @@
     SUPPLIER_GAILAN: 'Overview', //概览
     SUPPLIER_FRMZONGHEGUANLI: 'FRM Comprehensive Management', //FRM综合管理
     SUPPLIER_XINGONGYINGSHANGPINGJI: 'New Supplier Rating', //新供应商评级
-    SUPPLIER_CHUBUPINGJI: 'Initial Rating', //初步评级
+    SUPPLIER_CHUBUPINGJI1: 'Initial Rating', //初步评级
     SUPPLIER_SHENRUPINGJI: 'In-depth Analysis', //深入评级
     SUPPLIER_FENGXIANXINHAO: 'Risk Signal', //风险信号
     SUPPLIER_YUQINGJIANCE: 'Media Monitoring', //舆情监测
@@ -1386,7 +1390,7 @@
     SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN: 'Remove Blacklist', //移除黑名单
     // ------------sprint10  FRM 评级开始 --------------------------------------
     SPR_FRM_FRMGL_GYSZYMCSC: '供应商中文名（CSC）', //供应商中文名（CSC）
-    SPR_FRM_FRMGL_XGKS: '相关科室', //相关科室
+    SPR_FRM_FRMGL_XGKS1: '相关科室', //相关科室
     SPR_FRM_FRMGL_CPSJ: '初评时间', //初评时间
     SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
     SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
@@ -1566,14 +1570,16 @@
     SPR_FRM_DEP_COMREMARK:
       '本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。', // 本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。
     SPR_FRM_DEP_CHECK: '必填项不存在', // 必填项不存在
+    SPR_FRM_DEP_BUPINGJIYUANYIN: '请填写不评级原因', //请填写不评级原因
     SPR_FRM_DEP_SELECTGROUP: '选择集团', // 选择集团
     SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
     SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '供应商状态错误',
-    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
+    SPR_FRM_DEP_CHECKSPSTATUS:
+      '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
@@ -2043,6 +2049,73 @@
     MT_ZHUANGTAI: 'Status',
     MT_HUIYIRIQI: 'Meeting date',
     MT_ZHOUCI: 'Weeks',
+    MT_HUIYILEIXINGGUANLI: 'Meeting Type Management',
+    MT_LEIXINGMINGCHENG: 'Type Name',
+    MT_HUIYIGUANLIYUAN: 'Conference Administrator',
+    MT_HUIYIXINXIMIAOSHU: 'Conference Info. Desc.',
+    MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI: 'Generate Meeting Name Suffix',
+    MT_SUOSHUFENLEI: 'Category',
+    MT_MORENYITISHICHANG: 'Default Issue Duration',
+    MT_CHUANGJIANHUIYILEIXING: 'Create Meeting Type',
+    MT_BIANJIHUIYILEIXING: 'Edit Meeting Type',
+    MT_SHANGCHUANFENGMIANTUPIAN: 'Upload Cover Image',
+    MT_QINGXUANZEWENJIAN: 'Please Select File',
+    MT_JIANYISHIYONGBILI:
+      'It is recommended to use 16:9 ratio and the maximum size of the picture is 15M',
+    MT_HUIYISHUXING: 'Meeting Attribute',
+    MT_HUIYISHANGXIAXIANJINE: 'Meeting Upper Limit Amount',
+    MT_XIAXIAN: 'Lower Limit',
+    MT_SHANGXIAN: 'Upper Limit',
+    MT_GUANLIANGUANXI: 'Correlation',
+    MT_FENZHONG: 'Minutes',
+    MT_FOU: 'No',
+    MT_SHI: 'Yes',
+    MT_SHENPILIUCHENG: 'Approval Process',
+    MT_SHIFOUCHUFASHENPI: 'Is Trigger Approval',
+    MT_SHANGYIYE: 'Previous Page',
+    MT_XIAYIYE: 'Next Page',
+    MT_GUANLIDATING: 'Administration Hall',
+    MT_ZHUANGTAI2: 'Status',
+    MT_HUIYIZHUANGTAI: 'Meeting Status',
+    MT_ZHOUCI_: 'Weeks',
+    MT_TISHI: 'Prompt',
+    MT_SHIFOUCHEHUIGAIHUIYI: 'Do you want to withdraw the meeting?',
+    MT_SHENGCHENG: 'Create',
+    MT_SHIFOUKAIFANGGAIHUIYI: 'Is the meeting open?',
+    MT_PILIANGHUIYICHUANGJIAN: 'Batch Meeting Creation',
+    MT_HUIYIJIANGE: 'Meeting Interval',
+    MT_HUIYIZHOUQI: 'Conference Cycle',
+    MT_KAISHISHIJIAN: 'Start Time',
+    MT_HUIYIDIZHI: 'Meeting Address',
+    MT_SHOUJIANREN: 'Receiver',
+    MT_QINGXUANZEHUIYILEIXNG: 'Please Select Meeting Type',
+    MT_QINGXUANZEHUIYIJIANGE: 'Please Select Meeting Interval',
+    MT_QINGXUANZEKAISHISHIJIAN: 'Please Select Start Time',
+    MT_QINGXUANZEJIESHURIQI: 'Please Select End Date',
+    MT_QINGXUANZEHUIYIZHOUQI: 'Please Select Conference Cycle',
+    MT_QINGXUANZESHOUJIANREN: 'Please Select Receiver',
+    MT_QINGXUANZEHUIYIKAISHIJIAN: 'Please Select Meeting Start Time',
+    MT_QINGXUANZEYUHUIREN: 'Please Select Participant',
+    MT_HUIYICHUANGJIAN: 'Meeting Create',
+    MT_SHIFOUSHANCHUGAIHUIYI: 'Whether to delete the conference',
+    // MT_HUIYILIEBIAO:'Meeting List',
+    // MT_YUHUIRENLIEBIAO:'Participants List',
+    // MT_HUIYIXINXI:'Meeting Info.',
+    MT_CHUANGJIANYUHUIRENFENZU: 'Create Participant Group',
+    MT_BAOCUN: 'Save',
+    MT_TIANJIASHOUJIANREN: 'Add Reveiver',
+    MT_QUXIAO: 'Cancel',
+    MT_QUEREN: 'Sure',
+    MT_GUANBICHENGGONG: 'Close Success',
+    MT_TIANJIAZUZHI: 'Add Org.',
+    MT_TIANJIASHOUJIANREN: 'Add Receiver',
+    MT_MINGCHENG: 'Name',
+    MT_XUANZEZUZHI: 'Select Org.',
+    MT_SOUSUOZUZHI: 'Search Org.',
+    MT_ZUZHI: 'Org.',
+    MT_XUANZESHOUJIANREN: 'Select Receiver',
+    MT_SOUSUOSHOUJIANREN: 'Search Receiver',
+    MT_HUIYILIANXIREN: 'Meeting Contact ',
     // MT_QUEREN: '确认',
     // MT_CHONGZHI: '重置',
     MT_XUHAO: 'Num',
@@ -2070,9 +2143,9 @@
     MT_QINGSHURU: 'Please input',
     MT_QINGXUANZE: 'Please select',
     MT_TO: 'To',
-    MT_BITIAN:"required",
-    MT_XUHAO:"No.",
-    
+    MT_BITIAN: 'required',
+    MT_XUHAO: 'No.',
+
     POSITION: {
       POSITION_NAME: 'Position name',
       POSITION_CODE: 'Post code',
@@ -2208,32 +2281,34 @@
     TERMS_QIANSHUZHUANGTAI: 'Signing status', //签署状态
     TERMS_TIAOKUANYOUXIAOQI: 'Term of validity', //条款有效期
     TERMS_CHAKANDINGZHITIAOKUAN: 'View customized terms', //查看定制条款
-    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list' ,//标准条款列表
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list', //标准条款列表
 
     // -------------------------------条款 end---------------------------------------------
-    LK_DANWEIBAIWANRENMINGBI:'单位:百万人名币',//单位:百万人名币
-    LK_SHANGYINIANSHUJUDUIBI:'上一年数据对比',//上一年数据对比
-    LK_ZONGJINE:'总金额:',//总金额
-    LK_MTZCAILIAOZU: 'MTZ材料组',//MTZ材料组
-    LK_CAILIAOZHONGLEI:'材料中类',//材料中类
-    LK_BIJIAOBANBEN:'比较版本',//比较版本
-    LK_YUEFENBIJIAO:'月份比较',//月份比较
-    LK_XIANGQINGLIEBIAO:'详情列表',//详情列表
-    LK_YUEFEN:'月份',//月份
-    LK_SHICHANGJIA:'市场价',//市场价
-    LK_ZONGJI:'总计',//总计
-    LK_CHAYI:'差异',//差异
-    LK_SHICHANGJIACHAYI:'市场价差异',//市场价差异
-    LK_YONGLIANGCHAYI:'用量差异',//用量差异
-    LK_ZONGJIACHAYI:'总价差异',//总价差异
-    LK_CHEXINGLIUWEIHAO:'车型六位号',//车型六位号
-    LK_NIANDUYUSUAN:'年度预算',//年度预算
-    LK_YUEDUYUCE:'月度预测',//月度预测
-    LK_SHIJIZHIFU:'实际支付',//实际支付
-    LK_NIANDUYUSUANCHAYI:'年度预算差异',//年度预算差异
-    LK_YUEDUYUSUANCHAYI:'月度预算差异',//月度预算差异
-    LK_SHIJIZHIFUCHAYI:'实际支付差异',//实际支付差异
-    
+    LK_DANWEIBAIWANRENMINGBI: '单位:百万人名币', //单位:百万人名币
+    LK_SHANGYINIANSHUJUDUIBI: '上一年数据对比', //上一年数据对比
+    LK_ZONGJINE: '总金额:', //总金额
+    LK_MTZCAILIAOZU: 'MTZ材料组', //MTZ材料组
+    LK_MTZKESHIYUSUANFUZEREN: 'MTZ科室预算负责人', //MTZ科室预算负责人
+    LK_MTZYUSUANGUANLIYUAN: 'MTZ预算管理员', //MTZ预算管理员
+    LK_CAILIAOZHONGLEI: '材料中类', //材料中类
+    LK_BIJIAOBANBEN: '比较版本', //比较版本
+    LK_YUEFENBIJIAO: '月份比较', //月份比较
+    LK_XIANGQINGLIEBIAO: '详情列表', //详情列表
+    LK_YUEFEN: '月份', //月份
+    LK_SHICHANGJIA: '市场价', //市场价
+    LK_ZONGJI: '总计', //总计
+    LK_CHAYI: '差异', //差异
+    LK_SHICHANGJIACHAYI: '市场价差异', //市场价差异
+    LK_YONGLIANGCHAYI: '用量差异', //用量差异
+    LK_ZONGJIACHAYI: '总价差异', //总价差异
+    LK_CHEXINGLIUWEIHAO: '车型六位号', //车型六位号
+    LK_NIANDUYUSUAN: '年度预算', //年度预算
+    LK_YUEDUYUCE: '月度预测', //月度预测
+    LK_SHIJIZHIFU: '实际支付', //实际支付
+    LK_NIANDUYUSUANCHAYI: '年度预算差异', //年度预算差异
+    LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
+    LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
+    LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择' //删除资信报告提示语
   }
   i18n.setLocaleMessage('en', oldLanguage)
   // var xmlHttp = ''

@@ -1,13 +1,15 @@
 <template>
   <div class="flex-between-center-center ekl-header">
-    <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
-      <el-tab-pane
-        v-for="item in tabList"
-        :key="item.id"
-        :label="item.name"
-        :name="item.name"
-      />
-    </el-tabs>
+    <div class="tab-tabs">
+      <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
+        <el-tab-pane
+          v-for="item in tabList"
+          :key="item.id"
+          :label="item.name"
+          :name="item.name"
+        />
+      </el-tabs>
+    </div>
     <div class="unit">单位：百万元</div>
   </div>
 </template>
@@ -20,12 +22,22 @@ export default {
     ...mapState({
       eklTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
+      // roleList: (state) => state.permission.userInfo.roleList,
+      // deptName: (state) => state.permission.userInfo.deptDTO.deptNum
     }),
     tabList() {
       if (this.leadTabList.length) {
-        return this.leadTabList
+        return this.unique(
+          JSON.parse(
+            JSON.stringify([...this.eklTabList, ...this.leadTabList])
+          ) || [],
+          'name'
+        )
       }
-      return this.eklTabList
+      return this.unique(
+        JSON.parse(JSON.stringify(this.eklTabList)) || [],
+        'name'
+      )
     }
   },
   data() {
@@ -42,6 +54,11 @@ export default {
     }
   },
   methods: {
+    // 数组去重
+    unique(arr, attrName) {
+      const res = new Map()
+      return arr.filter((a) => !res.has(a[attrName]) && res.set(a[attrName], 1))
+    },
     setActiveName() {
       if (this.eklTabList && this.eklTabList.length > 0) {
         this.activeName = this.eklTabList[0].name
@@ -58,6 +75,13 @@ export default {
 .ekl-header {
   flex-grow: 1;
   margin-right: 20px;
+  align-items: center;
+  max-width: calc(100% - 60px);
+  .tab-tabs {
+    max-width: 70%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
 }
 ::v-deep .ekl-tabs {
   .el-tabs__item {
@@ -81,5 +105,11 @@ export default {
   .el-tabs__nav-wrap::after {
     background-color: transparent;
   }
+}
+::v-deep .el-tabs__nav-prev {
+  display: none;
+}
+::v-deep .el-tabs__nav-next {
+  display: none;
 }
 </style>

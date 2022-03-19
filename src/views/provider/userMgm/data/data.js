@@ -6,6 +6,7 @@ export const tableColumnSetting = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
+    i18n: '联系人姓名',
     align: 'center',
     width: '120px',
     customRender: (h, scope) => {
@@ -19,53 +20,72 @@ export const tableColumnSetting = [
       } else {
         return scope.row.nameZh
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'userName',
     label: '用户登录名',
+    i18n: '用户登录名',
     align: 'center',
     width: '120px',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'opcsCompanyNameZh',
     label: '供应商名',
+    i18n: '供应商名',
     align: 'center',
     tooltip: true,
-    width: '150'
+    width: '150',
+    sortable: true
   },
   {
     prop: 'isMainContact',
     label: '主联系人',
+    i18n: '主联系人',
     align: 'center',
+    width: '110',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
       } else {
         return '否'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'temporaryNum',
     label: '临时号',
-    align: 'center'
+    i18n: '临时号',
+    align: 'center',
+    sortable: true,
+    width: '100'
   },
   {
     prop: 'svwCode',
     label: '正式/SVW号',
-    align: 'center'
+    i18n: '正式/SVW号',
+    align: 'center',
+    sortable: true,
+    width: '130'
   },
   {
     prop: 'sapNum',
     label: 'SAP号',
-    align: 'center'
+    i18n: 'SAP号',
+    align: 'center',
+    sortable: true,
+    width: '100'
   },
   {
     prop: 'status',
     label: '是否有效',
+    i18n: '是否有效',
     align: 'center',
+    width: '110',
     customRender: (h, scope) => {
       // 1正常2冻结
       if (scope.row.status == '1') {
@@ -74,48 +94,59 @@ export const tableColumnSetting = [
         return '否'
       }
       return ''
-    }
+    },
+    sortable: true
   },
   {
     prop: 'telephoneO',
     label: '联系电话',
+    i18n: '联系电话',
     align: 'center',
     tooltip: true,
-    width: '120px'
+    width: '120px',
+    sortable: true
   },
   {
     prop: 'email',
     label: '邮箱',
+    i18n: '邮箱',
     align: 'center',
     tooltip: true,
-    minWidth: '180px'
+    minWidth: '180px',
+    sortable: true
   },
   {
-    prop: 'isValid',
+    prop: 'isExpired',
     label: '是否超期',
+    i18n: '是否超期',
     align: 'center',
-
+    width: '120',
     customRender: (h, scope) => {
-      if (scope.row.isValid) {
-        return '否'
-      } else {
+      if (scope.row.isExpired) {
         return '是'
+      } else {
+        return '否'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'expireDate',
     label: '超期时间',
+    i18n: '超期时间',
     align: 'center',
     width: '180px',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'lastLoginDate',
     label: '最近登录时间',
+    i18n: '最近登录时间',
     align: 'center',
     width: '180px',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   }
 ]
 

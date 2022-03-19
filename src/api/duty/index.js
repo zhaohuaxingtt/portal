@@ -8,6 +8,14 @@ export function getDutyStatistics(data) {
     data
   })
 }
+//任务中心全量
+export function getFullDutyStatistics(data) {
+  return requst({
+    url: `/fullTaskCenterCount`,
+    method: 'POST',
+    data
+  })
+}
 // 任务管理列表
 export function findUndoTask(data) {
   return requst({
@@ -20,7 +28,7 @@ export function findUndoTask(data) {
 export function transferTask(targetUserId, taskId) {
   return requst({
     url: `/web/duty/transfer?targetUserId=${targetUserId}&taskId=${taskId}`,
-    method: 'PUT',
+    method: 'PUT'
     // data
   })
 }
@@ -37,5 +45,13 @@ export function completeTask(taskId) {
   return requst({
     url: `/web/duty/complete/${taskId}`,
     method: 'POST'
+  })
+}
+
+export function fetchTaskCenter(params) {
+  return requst({
+    url: `/taskCenterCountForMap`,
+    method: 'POST',
+    params
   })
 }

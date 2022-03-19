@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditors: 水痕
+ * @LastEditors: YoHo
  * @Description: 材料表格
 -->
 <template>
@@ -33,7 +33,7 @@
           >{{ $t('LK_BAOCUN') }}</i-button
         > -->
         <i-button
-          v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+          v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
           @click="toApplicationMBDL"
           >{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button
         >
@@ -48,7 +48,7 @@
           >{{ $t('SUPPLIER_QUXIAOSHOUKONG') }}</i-button
         >
         <i-button
-          v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION"
+          v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION_MBDL"
           @click="handleMbdlCance"
           >{{ language('YICHUMDBL', '移除MBDL') }}</i-button
         >
@@ -66,14 +66,15 @@
         <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_MATERIALGROUP_LIST" -->
     <table-list
-      v-permission="SUPPLIER_MATERIALGROUP_LIST"
       :tableData="tableListData"
       :tableTitle="tableTitle"
       :tableLoading="tableLoading"
       :index="true"
       :inputProps="['remark']"
       @handleSelectionChange="handleSelectionChange"
+      border
     >
       <template #isEffect="scope">
         <span>{{

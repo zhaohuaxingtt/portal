@@ -3,47 +3,25 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--VWAG评级-->
-        <iButton @click="openVwagRatingDialog">{{ $t('SPR_FRM_FRMGL_VWAGPJ') }}</iButton>
+        <iButton @click="openVwagRatingDialog" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_VWAGPINGJI">{{ $t('SPR_FRM_FRMGL_VWAGPJ') }}</iButton>
         <!--导出财报-->
-        <iButton @click="openExportFinancialReportDialog">{{ $t('SPR_FRM_FRMGL_DCCB') }}</iButton>
+        <iButton @click="openExportFinancialReportDialog" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAOCHUCAIBAO">{{ $t('SPR_FRM_FRMGL_DCCB') }}</iButton>
         <!--导出统计报表-->
         <!--        <iButton>{{ $t('SPR_FRM_FRMGL_DCTJBB') }}</iButton>-->
         <!--深入评级-->
-        <iButton @click="openInDepthRatingDialog">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
+        <iButton @click="openInDepthRatingDialog" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_SHENRUPINGJIBTN">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
-    <tableList :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="true"
-               @handleSelectionChange="handleSelectionChange">
-      <template #isActive='scope'>
-        {{ SUPPLIER_STATUS[scope.row.isActive] }}
-      </template>
-      <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
-              symbol
-              name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
-              symbol
-              name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
-              symbol
-              name="iconhongdeng"></icon>
-      </template>
-      <template #vwagAssessResult="scope">
-        <icon v-if="scope.row.vwagAssessResult == 'green'"
-              symbol
-              name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.vwagAssessResult == 'yellow'"
-              symbol
-              name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.vwagAssessResult == 'red'"
-              symbol
-              name="iconhongdeng"></icon>
-        <span v-else>{{scope.row.vwagAssessResult}}</span>
-      </template>
-    </tableList>
+
+    <iTableCustom
+      ref="tableListRef"
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+    >
+    </iTableCustom>
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -71,6 +49,8 @@
 <script>
 import { iCard, iButton, iPagination, iMessage, icon } from 'rise';
 import tableList from '@/components/commonTable';
+import iTableCustom from '@/components/iTableCustom';
+import buttonTableSetting from '@/components/buttonTableSetting';
 import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import { tableTitle } from './data';
@@ -91,10 +71,12 @@ export default {
     iCard,
     iButton,
     tableList,
+    iTableCustom,
     iPagination,
     inDepthRatingDialog,
     vwagRatingDialog,
     exportFinancialReportDialog,
+    buttonTableSetting,
     icon
   },
   data () {
@@ -157,7 +139,12 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'));
       }
-      this.inDepthRatingDialog = true;
+      if (this.selectTableData[0].deepStatus === "生效" || this.selectTableData[0].deepStatus === "终止" || this.selectTableData[0].deepStatus === "历史" || !this.selectTableData[0].deepStatus) {
+        this.inDepthRatingDialog = true;
+      } else {
+        return iMessage.warn(this.language('CIGONGYINGSHANGYICUNZAIZHENGZAIJINGXINGDESHENRUPINGJI', '此供应商已存在正在进行的深入评级'));
+      }
+
     },
     openVwagRatingDialog () {
       if (this.selectTableData.length === 0) {

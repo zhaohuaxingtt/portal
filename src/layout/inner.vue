@@ -54,6 +54,7 @@ export default {
     getMenus() {
       const { matched, query, meta, params, path } = this.$route
       const { menuType } = query
+
       const activePath = meta.activePath
       const hasParams = params && Object.keys(params).length > 0
       // pathIndex 对应几级菜单
@@ -66,39 +67,49 @@ export default {
       })
       this.pathIndex = pathIndex
       // 当前route的兄弟菜单
-      const pathMenus = this.getSiblingMenus(
-        this.fullMenus,
-        path,
-        menuType,
-        activePath
-      )
+      const pathMenus =
+        this.getSiblingMenus(this.fullMenus, path, menuType, activePath) || []
 
-      // 获取菜单
-      if (pathIndex <= 2) {
-        this.menusLevel3 = this.generateMenuData(pathMenus, 3)
+      console.log('pathMenus', pathMenus)
+      const isDetailPage =
+        Object.keys(query).length !== 0 ||
+        path.includes('add') ||
+        path.includes('edit') ||
+        path.includes('detail') ||
+        path.includes('create')
+      if (pathMenus.length === 0 && !isDetailPage) {
+        this.fixedNoHasAuthMenu()
       } else {
-        const parentPath = matched[2].path
-        const parentMenus = this.getSiblingMenus(
-          this.fullMenus,
-          parentPath,
-          menuType,
-          activePath
-        )
-        this.menusLevel3 = this.generateMenuData(parentMenus, 3)
+        // 获取菜单
+        if (pathIndex <= 2) {
+          this.menusLevel3 = this.generateMenuData(pathMenus, 3)
+        } else {
+          const parentPath = matched[2].path
+          const parentMenus = this.getSiblingMenus(
+            this.fullMenus,
+            parentPath,
+            menuType,
+            activePath
+          )
+          this.menusLevel3 = this.generateMenuData(parentMenus, 3)
 
-        this.menusLevel4 = this.generateMenuData(pathMenus, 4)
-        // 找不到本级菜单，可能url所在菜单未赋权限
-        if (!pathMenus) {
-          const childMenus = parentMenus.filter((e) => e.url === parentPath)
-          if (childMenus.length) {
-            this.menusLevel4 = this.generateMenuData(childMenus[0].menuList, 4)
-            if (this.menusLevel4.length) {
-              const firstUrl = this.menusLevel4[0].url
-              if (firstUrl && firstUrl.indexOf('#') > -1) {
-                window.location.replace(firstUrl)
-              }
-              if (firstUrl && firstUrl.indexOf('#') === -1) {
-                this.$router.replace({ path: firstUrl })
+          this.menusLevel4 = this.generateMenuData(pathMenus, 4)
+          // 找不到本级菜单，可能url所在菜单未赋权限
+          if (!pathMenus) {
+            const childMenus = parentMenus.filter((e) => e.url === parentPath)
+            if (childMenus.length) {
+              this.menusLevel4 = this.generateMenuData(
+                childMenus[0].menuList,
+                4
+              )
+              if (this.menusLevel4.length) {
+                const firstUrl = this.menusLevel4[0].url
+                if (firstUrl && firstUrl.indexOf('#') > -1) {
+                  window.location.replace(firstUrl)
+                }
+                if (firstUrl && firstUrl.indexOf('#') === -1) {
+                  this.$router.replace({ path: firstUrl })
+                }
               }
             }
           }
@@ -161,6 +172,50 @@ export default {
             return res
           }
         }
+      }
+    },
+    getChildrenMenus(data, path) {
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i]
+        const url =
+          (element.url && element.url.indexOf('#') > -1
+            ? element.url.split('#')[1]
+            : element.url) || ''
+        if (url.toLowerCase() === path.toLowerCase()) {
+          return element.menuList
+        }
+        if (element.menuList) {
+          const res = this.getChildrenMenus(element.menuList, path)
+          if (res && res.length) {
+            return res
+          }
+        }
+      }
+    },
+    // url 没有对应菜单的时候，出来方式
+    fixedNoHasAuthMenu() {
+      const { matched, path } = this.$route
+      console.log('fixedNoHasAuthMenu', matched, path)
+      let parentPath = ''
+      for (let i = 0; i < matched.length; i++) {
+        const element = matched[i]
+        if (element.redirect === path) {
+          console.log('-----', element.redirect, element.path)
+          parentPath = element.path
+          break
+        } else {
+          parentPath = path //d
+        }
+      }
+      console.log('parentPath', parentPath, this.fullMenus)
+      const childMenus = this.getChildrenMenus(this.fullMenus, parentPath) || []
+      console.log('childMenus', childMenus)
+      if (childMenus.length > 0) {
+        let url = childMenus[0].url
+        if (!url.includes('/portal/#')) {
+          url = '/portal/#' + url
+        }
+        window.location.href = url
       }
     }
   }

@@ -9,8 +9,8 @@
   >
     <div class="main" v-loading="loading">
       <div class="titleHeader">
-        <span v-if="!isRead && !isEdit">{{ formTitles.createTitle }}</span>
-        <span v-if="isEdit || isRead">{{ formTitles.editTitle }}</span>
+        <span v-if="!isRead && !isEdit">{{ language(formTitles.createTitle) }}</span>
+        <span v-if="isEdit || isRead">{{ language(formTitles.editTitle) }}</span>
       </div>
       <div class="content">
         <el-form
@@ -23,34 +23,34 @@
         >
           <el-row gutter="20">
             <el-col :span="8">
-              <iFormItem :label="formTitles.name" prop="appNameCn">
+              <iFormItem :label="language(formTitles.name)" prop="appNameCn">
                 <iInput
-                  :placeholder="formTitles.input"
+                  :placeholder="language(formTitles.input)"
                   :disabled="isRead"
                   v-model="formData.appNameCn"
                 />
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.nameEN" prop="appNameEn">
+              <iFormItem :label="language(formTitles.nameEN)" prop="appNameEn">
                 <iInput
-                  :placeholder="formTitles.input"
+                  :placeholder="language(formTitles.input)"
                   :disabled="isRead"
                   v-model="formData.appNameEn"
                 />
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.description" prop="description">
+              <iFormItem :label="language(formTitles.description)" prop="description">
                 <iInput
-                  :placeholder="formTitles.input"
+                  :placeholder="language(formTitles.input)"
                   :disabled="isRead"
                   v-model="formData.description"
                 />
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.sysType" prop="systemType">
+              <iFormItem :label="language(formTitles.sysType)" prop="systemType">
                 <iSelect v-model="formData.systemType" :disabled="isRead">
                   <el-option
                     v-for="item in systemOptions"
@@ -78,7 +78,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8" v-if="formData.systemType === '2'">
+            <el-col :span="8">
               <iFormItem
                 :label="$t('URL')"
                 :prop="formData.systemType === '2' ? 'url' : ''"
@@ -87,7 +87,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="formTitles.sysTag" prop="supplierType">
+              <iFormItem :label="language(formTitles.sysTag)" prop="supplierType">
                 <iSelect
                   v-model="formData.supplierType"
                   :disabled="isRead"
@@ -116,13 +116,13 @@
             <el-col :span="24">
               <div class="buttons">
                 <iButton v-if="isRead" @click="edit">
-                  {{ buttonTitles.edit }}
+                  {{ language(buttonTitles.edit) }}
                 </iButton>
                 <iButton v-if="!isRead" @click="comfirm">
-                  {{ buttonTitles.true }}
+                  {{language( buttonTitles.true) }}
                 </iButton>
                 <iButton v-if="!isRead" @click="reset">
-                  {{ buttonTitles.reset }}
+                  {{ language(buttonTitles.reset) }}
                 </iButton>
               </div>
             </el-col>
@@ -141,6 +141,7 @@ import {
   sysDetail,
   fetchSupplierRootMenu
 } from '@/api/provider/index'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   methods: {
     onClose() {
@@ -330,24 +331,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: this.language('生产采购')
-        },
-        {
-          id: '2',
-          label: this.language('一般采购')
-        },
-        {
-          id: '4',
-          label: this.language('物流应用')
-        }
-      ],
+      systemTagOptions: SYSTEM_TAGS,
       rootMenus: [],
       rules: {
         appNameCn: [

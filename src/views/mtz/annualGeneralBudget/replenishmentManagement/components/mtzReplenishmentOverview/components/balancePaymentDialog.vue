@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-14 16:26:18
+ * @LastEditTime: 2022-03-10 12:00:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -11,10 +11,11 @@
     <iDialog :visible.sync="dialogVisible"
              :title="flag ? language('CHUANGJIANBUCHADAN','创建补差单') : language('BIANJIBUCHADAN','编辑补差单')"
              @close="handleClose"
+             v-loading="onLoding"
              top="2%"
              width="90%">
-      <iSearch>
-      </iSearch>
+      <!-- <iSearch>
+      </iSearch> -->
       <el-form :inline="true"
                ref="formList"
                :rules="rules"
@@ -142,6 +143,7 @@
               <iDatePicker v-model="value1"
                            :disabled="editDisabled"
                            @change="handleChangeDate"
+                           @focus="handleFocus"
                            :picker-options="pickerOptions"
                            type="monthrange"
                            style="width:100%"
@@ -292,6 +294,7 @@ export default {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
+          console.log(this.minDate)
         },
         disabledDate: time => {
           var newTime = new Date(val.getTime() + this.differenceTime);
@@ -372,6 +375,7 @@ export default {
       searchFlag: false,
       minDate: "",
       firstSupplierName: "",
+      onLoding: false,
       firstSupplier: "",
       rules: {
         value: [
@@ -405,8 +409,10 @@ export default {
   },
   created () {
     this.searchForm.value = this.dateSearch
-    this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
-    this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    if (this.searchForm.value !== "") {
+      this.searchForm.compTimeStart = window.moment(this.searchForm.value[0]).format('yyyy-MM-DD')
+      this.searchForm.compTimeEnd = window.moment(this.searchForm.value[1]).format('yyyy-MM-DD')
+    }
     this.init()
   },
   methods: {
@@ -462,7 +468,8 @@ export default {
         keyWords: key || ""
       }).then(res => {
         if (res.code === '200') {
-          this.UserSubPurchaseGroup = res.data
+
+          this.UserSubPurchaseGroup = res.data.filter(item => item)
         } else {
           iMessage.error(res.desZh)
         }
@@ -479,12 +486,16 @@ export default {
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
+    handleFocus () {
+      this.pickerOptions.disabledDate = () => false
+    },
     query () {
+      console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
         this.actAmtList = []
         if (this.searchFlag) {
-          delete this.searchForm.isEffAvg
+          // delete this.searchForm.isEffAvg
           delete this.searchForm.effPriceFrom
           delete this.searchForm.effPriceTo
         }
@@ -494,7 +505,7 @@ export default {
           ...this.searchForm
         }
         pageMTZCompByComputer(params).then(res => {
-          if (res.data) {
+          if (res?.code === '200') {
             this.tableData = res.data
             this.tableData.forEach(item => {
               this.actAmtList.push(item.actAmt)
@@ -514,7 +525,7 @@ export default {
           ...this.searchForm
         }
         fetchQueryComp(params).then(res => {
-          if (res.data) {
+          if (res?.code === '200') {
             this.tableData = res.data
             this.tableData.forEach(item => {
               this.actAmtList.push(item.actAmt)
@@ -564,7 +575,7 @@ export default {
         params.push(item.id)
       })
       chargeAgainstMTZComp(params).then(res => {
-        if (res.code === '200') {
+        if (res?.code === '200') {
           iMessage.success(res.desZh)
           this.query()
         } else {
@@ -615,7 +626,7 @@ export default {
           trueCompMoney: this.trueCompMoney,
           itemIds: this.tableData.map(item => item.id)
         }).then(res => {
-          if (res && res.code == 200) {
+          if (res && res.code == '200') {
             iMessage.success(res.desZh)
             this.query()
             this.subLoading = false
@@ -651,6 +662,8 @@ export default {
       this.query()
     },
     calcuLate () {
+      if (this.searchForm.isEffAvg === '') return iMessage.error(this.language('SHIFOUQUSHICHANGJIAJUNZHI', '是否取市场价均值'))
+      this.onLoding = true
       let params = {
         balanceEndDate: this.searchForm.compTimeEnd,
         balanceStartDate: this.searchForm.compTimeStart,
@@ -673,6 +686,7 @@ export default {
         if (valid) {
           balanceCalcuLate(params).then(res => {
             if (res.code === '200') {
+              this.onLoding = false
               this.tableData = res.data
               if (this.tableData.length !== 0) {
                 this.tableData.forEach(item => {
@@ -687,6 +701,7 @@ export default {
 
               iMessage.success(res.desZh)
             } else {
+              this.onLoding = false
               iMessage.error(res.desZh)
             }
 
@@ -747,5 +762,8 @@ export default {
 }
 ::v-deep .el-select {
   width: 100%;
+}
+::v-deep .el-form--label-top .el-form-item__label {
+  padding: 0;
 }
 </style>

@@ -3,30 +3,6 @@
     <pageHeader class="margin-bottom20"
       >{{ this.form.id ? '编辑' : '新增' }}轮岗申请</pageHeader
     >
-    <iCard>
-      <iSteps :active="active" align-center>
-        <iStep title="发起轮岗申请" status="finish">
-          <template slot="icon">
-            <icon symbol name="iconshenpiliu-daishenpi" class="icon" />
-          </template>
-        </iStep>
-        <iStep title="轮岗领导审批" status="finish">
-          <template #icon>
-            <icon name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="原有岗位领导审批" status="finish">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="申请结果">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-      </iSteps>
-    </iCard>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
@@ -157,8 +133,6 @@ import {
   iMessage
 } from 'rise'
 
-import iSteps from '@/components/iSteps'
-import iStep from '@/components/iStep'
 import choosePosition from './components/choosePosition'
 import pageHeader from '@/components/pageHeader'
 import {
@@ -172,8 +146,6 @@ export default {
     iCard,
     iPage,
     Icon,
-    iSteps,
-    iStep,
     iFormItem,
     iInput,
     iButton,
@@ -265,7 +237,7 @@ export default {
       .then((value) => {
         if (value.code == 200) {
           this.form = value.data
-          this.canEdit = value.data.status == 1 //不可编辑
+          this.canEdit = [1, 5].includes(value.data.status) //不可编辑
         }
       })
       .catch((err) => {

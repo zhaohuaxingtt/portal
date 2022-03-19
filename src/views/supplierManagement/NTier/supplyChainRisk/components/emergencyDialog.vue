@@ -2,12 +2,19 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-24 18:04:32
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <iDialog :modal="false" :title="language('TUFASHIJIAN','突发事件')" :show-close="false" :visible.sync="value" width="80%" height="1000px">
-    <div slot="title" class="flex-between-center-center">
+  <iDialog :modal="false"
+           :title="language('TUFASHIJIAN','突发事件')"
+           :close-on-click-modal='false'
+           :visible.sync="value"
+           :show-close="false"
+           width="80%"
+           height="1000px">
+    <div slot="title"
+         class="flex-between-center-center">
       <span class="el-dialog__title">
         {{language('TUFASHIJIAN','突发事件')}}
       </span>
@@ -21,59 +28,173 @@
     </span>
     <el-divider></el-divider>
     <div class="margin-bottom20 flex-end">
-      <!-- 编辑-->
-      <iButton v-if="eventDetail.createType===language('SHOUDONGCHUANGJIAN','手动创建')" @click="handleEdit">{{ language('BIANJI','编辑') }}</iButton>
+      <iButton :loading="sendFeedbackLoading"
+               @click="handleSendFeedback">{{ language('FASONGFANKUIBIAO','发送反馈表')}}</iButton>
+      <iButton :loading="exportFeedbackLoading"
+               @click="handleExportFeedback">{{ language('DAOCHUFANKUIBIAO','导出反馈表')}}</iButton>
+      <!-- 导出报警信-->
+      <iButton :loading="exportAlarmLetterLoading"
+               @click="exportAlarmLetter">{{ language('DAOCHUBAOJINGXING','导出报警信')}}</iButton>
       <!-- 导出当页-->
       <iButton @click="exportCurrentPage">{{ language('DAOCHUQUANBU','导出全部') }}</iButton>
-      <!-- 导出报警信-->
-      <iButton :loading="exportAlarmLetterLoading" @click="exportAlarmLetter">{{ language('DAOCHUBAOJINGXING','导出报警信')}}</iButton>
-      <iButton :loading="exportFeedbackLoading" @click="handleExportFeedback">{{ language('DAOCHUFANKUIBIAO','导出反馈表')}}</iButton>
-      <iButton :loading="sendFeedbackLoading" @click="handleSendFeedback">{{ language('FASONGFANKUIBIAO','发送反馈表')}}</iButton>
+      <!-- 编辑-->
+      <iButton v-if="eventDetail.createType===language('SHOUDONGCHUANGJIAN','手动创建')"
+               @click="handleEdit">{{ language('BIANJI','编辑') }}</iButton>
+
     </div>
-    <el-table height="400" tooltip-effect='light' row-key="number" :tree-props="{children:'partNumList'}" v-loading="tableLoading" :ref="'multipleTable'" :data="tableListData" @selection-change="handleSelectionChange($event,index)">
-      <el-table-column align="center" show-overflow-tooltip type="selection" width="55">
+    <el-table height="400"
+              tooltip-effect='light'
+              row-key="number"
+              v-loading="tableLoading"
+              :ref="'multipleTable'"
+              :data="tableListData"
+              @selection-change="handleSelectionChange($event,index)">
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type="selection"
+                       width="55">
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip type="" prop="supplierId" :label="language('GONGYINGSHANGBIANHAO','供应商编号')">
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type=""
+                       prop="supplierId"
+                       :label="language('GONGYINGSHANGBIANHAO','供应商编号')">
         <template slot-scope="scope">
           <div v-if="scope.row.sapCode">{{scope.row.sapCode}}</div>
           <div v-else-if="scope.row.svwCode">{{scope.row.svwCode}}</div>
         </template>
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip type="" prop="supplierName" :label="language('GONGYINGSHANGMINGCHEN','供应商名称')">
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type=""
+                       prop="supplierName"
+                       :label="language('GONGYINGSHANGMINGCHEN','供应商名称')">
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip type="" prop="supplyLevel" :label="language('GONGHUOGUANXI','供货关系')">
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type=""
+                       prop="supplyLevel"
+                       :label="language('GONGHUOGUANXI','供货关系')">
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip type="" prop="address" :label="language('GONGCHANGDIZHI','工厂地址')">
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type=""
+                       prop="address"
+                       :label="language('GONGCHANGDIZHI','工厂地址')">
       </el-table-column>
-      <el-table-column align="left" show-overflow-tooltip prop="partNumSize" :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')">
-      </el-table-column>
-      <el-table-column align="center" v-if="eventDetail.createType===language('ZIDONGCHUANGJIAN','自动创建')" show-overflow-tooltip type="" prop="impactLevel" :label="language('SOUYINGXIANGCHENGDU','受影响程度')">
-      </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip type="" prop="feedbackStatus" :label="language('FANKUIZHUANGTAI1','反馈状态')">
+      <el-table-column align="left"
+                       show-overflow-tooltip
+                       prop="partNumSize"
+                       :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')"
+                       width="135">
         <template slot-scope="scope">
-          <el-tooltip class="item" :content="language('WEISHOUDAOFANKUI','未收到反馈')" placement="top-start" effect="light">
-            <icon v-if="scope.row.feedbackStatus==='黄'" name="iconbaojiapingfengenzong-jiedian-huang" symbol></icon>
+          <span class="link-text"
+                @click="goDetail(scope.row)">{{scope.row.partNumSize}}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column align="center"
+                       v-if="eventDetail.createType===language('ZIDONGCHUANGJIAN','自动创建')"
+                       show-overflow-tooltip
+                       type=""
+                       prop="impactLevel"
+                       :label="language('SOUYINGXIANGCHENGDU','受影响程度')">
+      </el-table-column> -->
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type=""
+                       prop="feedbackStatus"
+                       :label="language('FANKUIZHUANGTAI1','反馈状态')">
+        <template slot-scope="scope">
+          <el-tooltip class="item"
+                      :content="language('WEISHOUDAOFANKUI','未收到反馈')"
+                      placement="top-start"
+                      effect="light">
+            <icon v-if="scope.row.feedbackStatus==='黄'"
+                  name="iconbaojiapingfengenzong-jiedian-huang"
+                  symbol></icon>
           </el-tooltip>
-          <el-tooltip class="item" :content="language('YOUYONGYINGFENXIAN','有供应风险')" placement="top-start" effect="light">
-            <icon v-if="scope.row.feedbackStatus==='红'" name="iconbaojiapingfengenzong-jiedian-hong" symbol></icon>
+          <el-tooltip class="item"
+                      :content="language('YOUYONGYINGFENXIAN','有供应风险')"
+                      placement="top-start"
+                      effect="light">
+            <icon v-if="scope.row.feedbackStatus==='红'"
+                  name="iconbaojiapingfengenzong-jiedian-hong"
+                  symbol></icon>
           </el-tooltip>
-          <el-tooltip class="item" :content="language('WUGONGYINGFENGXIAN','无供应风险')" placement="top-start" effect="light">
-            <icon v-if="scope.row.feedbackStatus==='绿'" name="iconbaojiapingfengenzong-jiedian-lv" symbol></icon>
+          <el-tooltip class="item"
+                      :content="language('WUGONGYINGFENGXIAN','无供应风险')"
+                      placement="top-start"
+                      effect="light">
+            <icon v-if="scope.row.feedbackStatus==='绿'"
+                  name="iconbaojiapingfengenzong-jiedian-lv"
+                  symbol></icon>
           </el-tooltip>
-          <el-tooltip class="item" :content="language('WEIFASONGFANKUIBIAO','未发送反馈表')" placement="top-start" effect="light">
-            <icon v-if="scope.row.feedbackStatus==='灰'" name="iconbaojiapingfengenzong-jiedian-hui" symbol></icon>
+          <el-tooltip class="item"
+                      :content="language('WEIFASONGFANKUIBIAO','未发送反馈表')"
+                      placement="top-start"
+                      effect="light">
+            <icon v-if="scope.row.feedbackStatus==='灰'"
+                  name="iconbaojiapingfengenzong-jiedian-hui"
+                  symbol></icon>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column align="center" show-overflow-tooltip type="" prop="isWarningLetter" :label="language('BAOJINGXING','报警信')">
+      <el-table-column align="center"
+                       show-overflow-tooltip
+                       type=""
+                       prop="isWarningLetter"
+                       :label="language('BAOJINGXING','报警信')">
         <template slot-scope="scope">
-          <el-tooltip class="item" :content="language('GONGYINGSHANGYITIJIAOBAOJINGXING','供应商已提交报警信')" placement="top-start" effect="light">
-            <img class="cursor" @click="handleAlarmSignal(scope.row.warningLetterId)" v-if="scope.row.isWarningLetter" width="20px" :src="alarm" alt="">
+          <el-tooltip class="item"
+                      :content="language('GONGYINGSHANGYITIJIAOBAOJINGXING','供应商已提交报警信')"
+                      placement="top-start"
+                      effect="light">
+            <img class="cursor"
+                 @click="handleAlarmSignal(scope.row.warningLetterId)"
+                 v-if="scope.row.isWarningLetter"
+                 width="20px"
+                 :src="alarm"
+                 alt="">
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
-    <div slot="footer" class="dialog-footer">
+    <iDialog :append-to-body="true"
+             :visible.sync="visible"
+             v-if="visible"
+             width="40%"
+             height="600px">
+      <div slot="title"
+           class="flex">
+        <span class="el-dialog__title">
+          {{supplierList.supplierName +language('SHOUYINGXIANGLINGJIANXIANGQING','受影响零件详情')}}
+        </span>
+        <span style='font-size:16px;margin-left:20px;vertical-align: bottom;'>{{supplierList.sapCode?supplierList.sapCode:supplierList.svwCode}}</span>
+      </div>
+      <p>{{supplierList.factoryName?supplierList.factoryName:''+'    '+supplierList.address}}</p>
+      <el-divider></el-divider>
+      <div class="margin-bottom20 flex-end">
+        <el-table tooltip-effect='light'
+                  row-key="number"
+                  v-loading="tableLoading1"
+                  :data="supplierList.partNumList">
+          <el-table-column align="center"
+                           show-overflow-tooltip
+                           type="index"
+                           label="#"
+                           width="55"> </el-table-column>
+          <el-table-column align="center"
+                           show-overflow-tooltip
+                           prop="partNumSize"
+                           :label="language('LINGJIANHAO','零件号')" />
+        </el-table>
+      </div>
+      <div slot="footer"
+           class="dialog-footer">
+      </div>
+    </iDialog>
+    <div slot="footer"
+         class="dialog-footer">
     </div>
   </iDialog>
 </template>
@@ -81,27 +202,34 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { iDialog, iButton, icon } from "rise";
+import { iDialog, iButton, icon, iMessage } from "rise";
 import tableList from '@/components/commonTable';
 import alarm from "@/assets/images/alarm.png";
+import { getSupplierPartInfo } from "@/api/supplierManagement/supplyChainRisk/index.js";
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: { iDialog, iButton, tableList, icon },
   props: {
     value: { type: Boolean },
     tableListData: { type: Array, default: [] },
-    eventDetail: { type: Object, default: {} }
+    eventDetail: { type: Object, default: {} },
+    supplierList: { type: Object }
   },
-  data() {
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
+  data () {
     // 这里存放数据
     return {
       exportAlarmLetterLoading: false,
       exportFeedbackLoading: false,
       sendFeedbackLoading: false,
       alarm: alarm,
-      tableListData: [],
+      // tableListData: [],
       selectTableData: [],
       tableLoading: false,
+      visible: false
     }
   },
   // 监听属性 类似于data概念
@@ -109,57 +237,68 @@ export default {
   // 监控data中的数据变化
   watch: {
     tableListData: {
-      handler(data) {
+      handler (data) {
         this.tableListData = data
       }
     }
   },
   // 方法集合
   methods: {
-    handleView() { },
-    handleEdit() {
+    handleView () { },
+    handleEdit () {
       this.$parent.handleEdit()
       this.clearDiolog()
     },
-    handleEmergency() {
+    handleEmergency () {
       this.$router.push({ path: '/supplier/NTier/supplyChainRisk/emergenciesOverview' })
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false);
     },
+    goDetail (val) {
+      this.visible = true
+      getSupplierPartInfo(val).then(res => {
+        if (res?.code === '200') {
+          this.supplierList = res.data
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+
+    },
     // 导出当页
-    exportCurrentPage() {
+    exportCurrentPage () {
       this.$parent.exportCurrentPage()
       this.clearDiolog()
       console.log(this.$parent);
     },
     // 导出反馈表
-    handleExportFeedback() {
+    handleExportFeedback () {
       this.exportFeedbackLoading = true
       this.$parent.handleExportFeedback(this.selectTableData)
       this.exportFeedbackLoading = false
     },
     // 发送反馈表
-    handleSendFeedback() {
+    handleSendFeedback () {
       this.sendFeedbackLoading = true
       this.$parent.handleSendFeedback(this.selectTableData)
       this.sendFeedbackLoading = false
     },
     // 导出报警信
-    exportAlarmLetter() {
+    exportAlarmLetter () {
       this.exportAlarmLetterLoading = true
       this.$parent.exportAlarmLetter(this.selectTableData)
       this.exportAlarmLetterLoading = false
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
 }
@@ -204,5 +343,13 @@ export default {
 .flex-end {
   display: flex;
   justify-content: flex-end;
+}
+.link-text,
+.open-link-text {
+  color: $color-blue;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>

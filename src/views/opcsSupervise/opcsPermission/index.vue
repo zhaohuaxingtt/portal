@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2022-01-14 08:59:38
+ * @LastEditTime: 2022-02-15 09:17:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -19,9 +19,9 @@
         </el-form-item>
         <el-form-item :label="language('YINGYONGFUZEREN', '应用负责人')">
           <iSelect filterable
-                   v-model="form.userName">
+                   v-model="form.contactUserId">
             <el-option :value="item.id"
-                       :label="item.contactName"
+                       :label="item.nameZh"
                        v-for="(item, index) in userList"
                        :key="index"></el-option>
           </iSelect>
@@ -31,15 +31,16 @@
     </iSearch>
     <iCard style="margin-top: 20px">
       <div>
-        <span class="font18 font-weight">{{
-          language('XIANGQINGLIEBIAO', '详情列表')
-        }}</span>
-        <div class="floatright">
-          <i-button @click="add()">{{ language('XINZENG','新增') }}</i-button>
-          <i-button @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
-          <!-- <i-button @click="exportsTable">{{ language('JIHUO','激活') }}</i-button>
-          <i-button @click="handleDelect()">{{ $t('LK_SHANCHU') }}</i-button> -->
-          <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+
+        <div class="floatright"
+             style="margin-bottom: 20px">
+          <i-button v-if="stateAdmin" @click="add()">{{ language('XINJIAN','新建') }}</i-button>
+          <i-button v-if="stateAdmin" @click="edit()">{{ language('BIANJI','编辑') }}</i-button>
+          <i-button v-if="stateAdmin" @click="activeBtn">{{ language('JIHUO','激活') }}</i-button>
+          <i-button v-if="stateAdmin"
+                    @click="handleDelect()" :disabled="onSupplierDeleteAction" :loading="onSupplierDeleteAction">{{ $t('LK_SHANCHU') }}</i-button>
+          <i-button v-if="stateAdmin||stateOpcs"
+                    @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
       <table-list style="margin-top: 20px"
@@ -48,10 +49,12 @@
                   :tableLoading="tableLoading"
                   :openPageProps="'nameZh'"
                   @openPage="openPage"
-                  :openPageGetRowData="true"
+                  :openPageGetRowData="stateAdmin||stateOpcs"
                   @handleSelectionChange="handleSelectionChange"
                   :index="true">
       </table-list>
+      <!-- :selection='stateAdmin' -->
+
       <iPagination style="margin-top: 20px"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -66,7 +69,7 @@
     <iDialog :visible.sync="dialog"
              width="70%"
              top="10%"
-             :key="Math.random()"
+             v-if="dialog"
              @close="cleardialog('close')"
              :title="dialogTitle">
       <iFormGroup row="2"
@@ -77,21 +80,21 @@
           <iLabel :label="language('YINGYONGZHONGWENMING', '应用中文名')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.nameZh"
+          <iInput v-model.trim="formData.nameZh"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="nameEn">
           <iLabel :label="language('YINGYONGYINGWENMING', '应用英文名')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.nameEn"
+          <iInput v-model.trim="formData.nameEn"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="shortName">
           <iLabel :label="language('YINGYONGJIANCHENG', '应⽤简称')"
                   required
                   slot="label"></iLabel>
-          <iInput v-model="formData.shortName"
+          <iInput v-model.trim="formData.shortName"
                   :placeholder="$t('LK_QINGSHURU')"></iInput>
         </iFormItem>
         <iFormItem prop="contactUserId">
@@ -100,15 +103,15 @@
                   slot="label"></iLabel>
           <iSelect filterable
                    v-model="formData.contactUserId">
-            <el-option :value="item.value"
-                       :label="item.label"
+            <el-option :value="item.id"
+                       :label="item.nameZh"
                        v-for="(item, index) in userList"
                        :key="index"></el-option>
           </iSelect>
         </iFormItem>
       </iFormGroup>
       <div class="btnBox">
-        <i-button @click="addBtn()">{{ language('QUEREN','确认') }}</i-button>
+        <i-button @click="addBtn()" :disabled="onSupplierSaveAction" :loading="onSupplierSaveAction">{{ language('QUEREN','确认') }}</i-button>
         <i-button @click="cleardialog()">{{ language('CHONGZHI','重置') }}</i-button>
       </div>
     </iDialog>
@@ -139,8 +142,8 @@ import {
   queryList,
   exportFile,
   getListByParam,
-  queryBase,
-  opcsSupplier
+  opcsSupplier,
+  active
 } from '@/api/opcs/solPermission'
 export default {
   mixins: [pageMixins],
@@ -160,13 +163,15 @@ export default {
   },
   data() {
     return {
+      onSupplierSaveAction: false,
+      onSupplierDeleteAction: false,
       dialogTitle: '',
       formData: {},
       tableTitle: tableTitle,
       selectTableData: [],
       form: {},
       tableListData: [],
-      userList: [{ value: 9016, label: '曹鹏' }],
+      userList: [],
       tableLoading: false,
       dialog: false,
       dialogRules: {
@@ -174,16 +179,22 @@ export default {
           { required: true, message: '请输入应用中文名', trigger: 'blur' }
         ],
         nameEn: [
-          { required: true, message: '请输入应用英文名', trigger: 'blur' }
-        ],
-        shortName: [
-          { required: true, message: '请输入应用简称', trigger: 'blur' },
+          { required: true, message: '请输入应用英文名', trigger: 'blur' },
           {
-            pattern: /^[A-Za-z0-9]+$/,
-            message: '请输入 1 到 7个字符',
+            min: 1,
+            max: 7,
+            message: '请输入1-7位英文字母或数字',
             trigger: 'blur'
           },
-          { min: 1, max: 7, message: '长度在 1 到 7个字符', trigger: 'blur' }
+          {
+            pattern: /^[A-Za-z0-9]+$/,
+            message: '请输入1-7位英文字母或数字',
+            trigger: 'blur'
+          }
+        ],
+        shortName: [
+          { required: true, message: '请输入应用简称', trigger: 'blur' }
+          //   { min: 1, max: 7, message: '请输入1-7位英文字母或数字', trigger: 'blur' }
         ],
         contactUserId: [
           { required: true, message: '请选择应用负责人', trigger: 'change' }
@@ -191,35 +202,66 @@ export default {
       }
     }
   },
+  computed: {
+    stateAdmin() {
+      return this.$store.state.permission.userInfo.roleList.some(
+        (item) => item.code == 'ADMIN'||item.code == 'XTGLY'||item.code == 'CSXTGLY'||item.code=='CIXTGLY'
+      )
+    },
+    stateOpcs() {
+      return this.$store.state.permission.userInfo.roleList.some(
+        (item) => item.code == 'WLGYSGLY'
+      )
+    }
+  },
   created() {
     this.getUser()
     this.getTableData()
   },
   methods: {
+    //激活
+    activeBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      active({
+        opcsSupplierIds: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          this.getTableData()
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
+    },
     //修改表格改动列
     handleSelectionChange(val) {
       this.selectTableData = val
     },
     add() {
       this.dialog = true
-      this.dialogTitle = this.language('XINZENG', '新增')
+      this.dialogTitle = this.language('XINJIAN', '新建')
+      this.cleardialog()
+
     },
     addBtn() {
-      this.$refs.dialogRules.validate(
-        (valid) => {
-          if (valid) {
-            opcsSupplier(this.formData).then((res) => {
-              if (res && res.code == 200) {
-                this.dialog = false
-                this.getTableData()
-                iMessage.error(res.desZh)
-              } else iMessage.error(res.desZh)
-            })
-          } else {
-            return false
-          }
+      this.onSupplierSaveAction = true;
+      this.$refs.dialogRules.validate((valid) => {
+        if (valid) {
+          opcsSupplier(this.formData).then((res) => {
+            if (res && res.code == 200) {
+              this.dialog = false
+              this.getTableData()
+              iMessage.success(res.desZh)
+            } else iMessage.error(res.desZh)
+          })
+        } else {
+          return false
         }
-      )
+        this.onSupplierSaveAction = false;
+      },function() {
+        this.onSupplierSaveAction = false;
+      })
     },
     edit() {
       if (this.selectTableData.length == 0) {
@@ -232,14 +274,13 @@ export default {
         )
         return false
       }
-          this.dialog = true
-          this.dialogTitle = this.language('BIANJI', '编辑')
-          this.formData =this.selectTableData[0]
-          console.log(this.formData)
+      this.dialog = true
+      this.dialogTitle = this.language('BIANJI', '编辑')
+      this.formData = Object.assign({},this.selectTableData[0]);
     },
     async getUser() {
-      //   const res = await getListByParam({ roleCode: 'WLGLY' })
-      //   this.userList = res
+      const res = await getListByParam({ roleCode: 'WLGYSGLY' })
+      this.userList = res.data
     },
     //获取列表接口
     getTableData() {
@@ -278,21 +319,32 @@ export default {
             return x.id
           })
         }
+        this.onSupplierDeleteAction = true;
         deleteList(req).then((res) => {
           if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableData()
           } else iMessage.error(res.desZh)
+          this.onSupplierDeleteAction = false;
+        },function() {
+          this.onSupplierDeleteAction = false;
         })
       })
     },
     openPage(row) {
       console.log(row)
+      let path = ''
+      if (this.stateOpcs) {
+        path = '/provider/opcs/list/application/userManage'
+      } else {
+        path = '/provider/opcs/list/application'
+      }
       let routeData = this.$router.resolve({
-        path: '/provider/opcs/list/application',
+        path: path,
         query: {
           opcsSupplierId: row.id || '',
-          nameZh: row.nameZh || ''
+          nameZh: row.nameZh || '',
+          opcsUserId: row.contactUserId || ''
         }
       })
       window.open(routeData.href)
@@ -315,12 +367,20 @@ export default {
       if (v == 'close') {
         this.dialog = false
       }
-      this.formData = {
-        contactUserId: '',
-        shortName: '',
-        nameEn: '',
-        nameZh: ''
+      if (this.dialogTitle == this.language('XINJIAN', '新建')) {
+        this.formData = {
+          contactUserId: '',
+          shortName: '',
+          nameEn: '',
+          nameZh: ''
+        }
+      } else {
+        this.formData.contactUserId = ''
+        this.formData.shortName = ''
+        this.formData.nameEn = ''
+        this.formData.nameZh = ''
       }
+      console.log(this.formData)
     },
     sure() {
       this.page.currPage = 1

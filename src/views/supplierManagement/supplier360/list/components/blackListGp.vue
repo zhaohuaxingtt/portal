@@ -84,11 +84,16 @@
           }}</iButton>
         </div>
       </div>
-      <p class="tableTitle">
-        {{ language('XIANGQINGLIEBIAO', '详情列表') }}
-      </p>
+      
+      <div class="header">
+        <p class="tableTitle">{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
+        <div>
+          <!-- <buttonTableSetting @click="$refs.tableListRef1.openSetting()" v-if="tabVal == 1"></buttonTableSetting> -->
+          <!-- <buttonTableSetting @click="$refs.tableListRef2.openSetting()" v-else></buttonTableSetting> -->
+        </div>
+      </div>
       <div class="tableBox">
-        <table-list
+        <!-- <table-list
           v-if="tabVal == 1"
           style="margin-top: 20px"
           :tableData="tableListData"
@@ -97,8 +102,27 @@
           :index="true"
           :selection="false"
         >
-        </table-list>
-        <table-list
+        </table-list> -->
+
+        <iTableCustom
+          ref="tableListRef1"
+          v-if="tabVal == 1"
+          :data="tableListData"
+          :columns="tableTitleGpBlackList"
+          :loading="tableLoading"
+        >
+        </iTableCustom>
+
+        <iTableCustom
+          v-if="tabVal == 2"
+          ref="tableListRef2"
+          :data="tableListDataRecord"
+          :columns="tableTitleGpBlackListRecord"
+          :loading="tableLoadingRecord"
+        >
+        </iTableCustom>
+
+        <!-- <table-list
           v-if="tabVal == 2"
           style="margin-top: 20px"
           :tableData="tableListDataRecord"
@@ -107,7 +131,7 @@
           :index="true"
           :selection="false"
         >
-        </table-list>
+        </table-list> -->
       </div>
       <iPagination
         style="margin-top: 20px"
@@ -135,13 +159,15 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitleGpBlackList, tableTitleGpBlackListRecord } from './data'
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
+import iTableCustom from '@/components/iTableCustom'
 import {
   iButton,
   iDatePicker,
   iSelect,
   iMessage,
   iPagination,
-  iDialog
+  iDialog,
 } from 'rise'
 export default {
   mixins: [pageMixins],
@@ -158,7 +184,9 @@ export default {
     iDatePicker,
     iSelect,
     iPagination,
-    iDialog
+    iDialog,
+    iTableCustom,
+    buttonTableSetting
   },
   data() {
     return {
@@ -272,7 +300,8 @@ export default {
 }
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 }
 .tableTitle {
   font-size: 18px;

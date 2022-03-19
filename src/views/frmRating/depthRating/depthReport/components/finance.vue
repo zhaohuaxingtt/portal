@@ -14,7 +14,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.promptInfo"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 财报分析 -->
@@ -36,16 +35,14 @@
           <iInput :disabled="isDisabled"
                   v-model="scope.row.comment"
                   type='textarea'
-                  maxlength="120"
                   show-word-limit
                   :autosize='{minRows:1}'
                   @change="updateData(scope.row,'comment', $event)"></iInput>
         </template>
       </tableList>
     </iCard>
-    <div class="remark">财务分析基于供应商提供/资信报告财务数据和供应商访谈。</div>
+    <div class="remark">财务分析基于供应商提供/资信报告财务数据和供应商访谈。 </div>
   </div>
-
 </template>
 
 <script>
@@ -155,7 +152,6 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #9b9b9b;
 }
 </style>

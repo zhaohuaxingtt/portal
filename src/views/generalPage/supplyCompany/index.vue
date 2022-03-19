@@ -14,6 +14,7 @@
     <el-table :data="tableListData.procureFactoryList"
               v-loading="tableLoading"
               @selection-change="handleSelectionChange"
+              border
               ref="mulitipleTable">
 
       <el-table-column type="selection"
@@ -195,6 +196,9 @@ export default {
         })
     },
     selectable(val) {
+      // if(this.tableListData?.formalStatus==1){
+
+      // }
       if (this.tableListData.isSelect) {
         if (val.companyCode == '9000' || val.companyCode == '8000') {
           return false

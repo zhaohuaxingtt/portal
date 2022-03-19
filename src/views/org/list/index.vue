@@ -104,10 +104,11 @@
                 >{{ language('删除') }}</iButton
               >
               <iButton @click="exportList">{{ language('导出') }}</iButton>
+              <button-table-setting @click="$refs.orgTable.openSetting()" />
             </div>
             <div class="OrganizationTable" v-loading="tableLoading">
               <iTableCustom
-                ref="testTable"
+                ref="orgTable"
                 :data="tableListData"
                 :columns="tableSetting"
                 :tree-expand="exData"
@@ -115,6 +116,7 @@
                 :custom-selection="true"
                 virtual-list
                 :custom-selection-option="{ checkStrictly: true }"
+                permissionKey="CF_PRO_CS_ORG"
                 @handle-selection-change="handleSelectionChange"
               />
             </div>
@@ -159,7 +161,7 @@ export default {
       //所有的list信息
       alltableListData: [],
       pushData: [],
-      exData: { expandKey: 'bussinessAreaName', childrenKey: 'supDeptList' },
+      exData: { expandKey: 'nameZh', childrenKey: 'supDeptList' },
       options: [
         {
           value: '',
@@ -273,7 +275,10 @@ export default {
       let status
       for (let item of this.selectedTableData) {
         // console.log('item',item);
-        if (!item.isLeaf || item.positionList.length > 0) {
+        if (
+          !item.isLeaf ||
+          (item.positionList && item.positionList.length > 0)
+        ) {
           this.$alert('您选择的组织中有下属组织或者下属岗位，不能删除该组织', {
             confirmButtonText: '确定'
           })
@@ -446,5 +451,6 @@ export default {
 .OperationButtonContainer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 </style>

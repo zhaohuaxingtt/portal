@@ -11,7 +11,7 @@
 export default {
   name: 'ShowMeComponents',
   props: {
-    isOnlyMyself: { type: Boolean, default: true }
+    isOnlyMyself: { type: Boolean, default: false }
   },
   methods: {
     showOnlyMyselfData(val) {

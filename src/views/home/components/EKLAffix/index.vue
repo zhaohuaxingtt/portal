@@ -21,7 +21,7 @@
     <div class="ekl-content">
       <div class="target flex-between-center-center">
         <div class="left">
-          <div class="left-lab panel-title margin-bottom12">业绩目标</div>
+          <div class="panel-title margin-bottom12"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">业绩目标</a></div>
           <el-select
             class="left-select"
             v-model="query.type"
@@ -38,7 +38,6 @@
         </div>
         <div
           class="middle middle-m"
-          style="font-size: 40px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
@@ -46,7 +45,7 @@
               ? parseFloat(tabsData.totalTarget).toFixed(2)
               : '0.00'
           }}
-          <span class="mid-num">%</span>
+          <span class="mid-num" style="color: #1763f7;">%</span>
         </div>
         <div class="right">
           <div class="right-lab">目标值/承诺值</div>
@@ -140,7 +139,10 @@ export default {
       code: (code) => code.permission.code,
       eklPfjTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
-    })
+    }),
+    turnUrl() {
+      return window.location.origin
+    }
   },
   watch: {
     eklAffixTabItem() {
@@ -148,18 +150,30 @@ export default {
     }
   },
   mounted() {
+    // if (this.leadTabList.length > 0) {
+    //   this.tabList = this.leadTabList
+    // } else {
+    //   // this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
+    //   this.tabList = this.unique(JSON.parse(JSON.stringify(this.eklPfjTabList)) || [], 'name')
+    // }
+    this.tabList = this.unique(JSON.parse(JSON.stringify(this.eklPfjTabList)) || [], 'name')
     if (this.leadTabList.length > 0) {
-      this.tabList = this.leadTabList
-    } else {
-      this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
-      this.query.dptCode = this.eklPfjTabList[0]?.type
-      this.activeName = this.eklPfjTabList[0]?.name
+      this.tabList = [...this.tabList, ...this.leadTabList]
+    }
+    if(this.tabList.length > 0){
+      this.query.dptCode = this.tabList[0].type || ""
+      this.activeName = this.tabList[0].name || ""
     }
     this.getEklAffix(this.query)
     // log.js
     this.tabChange()
   },
   methods: {
+    // 数组去重
+    unique(arr, attrName) {
+      const res = new Map();
+      return arr.filter((a) => !res.has(a[attrName]) && res.set(a[attrName], 1));
+    }, 
     tabChange() {
       if (this.eklAffixTabItem) {
         this.handleClick(this.eklAffixTabItem)
@@ -256,7 +270,7 @@ export default {
                 position: 'center',
                 color: '#000',
                 formatter: this.tabsData.curSum,
-                fontSize: 30,
+                fontSize: 24,
                 fontWeight: 'bold'
               }
             },
@@ -290,11 +304,19 @@ export default {
     handleCheckYear() {
       this.getEklAffix(this.query)
     }
+  },
+  beforeDestroy() {
+    this.chart = null
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.a-title {
+  color: #1763F7;
+  cursor: pointer;
+  text-decoration: underline;
+}
 .panel-title {
   font-family: Arial;
   font-weight: bold;
@@ -380,6 +402,7 @@ export default {
     }
     > .middle-m {
       margin-top: -36px;
+      font-size: 24px;
     }
   }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2021-11-11 15:41:44
+ * @LastEditTime: 2022-03-09 11:26:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
@@ -241,9 +241,9 @@ export const TABLE_COLUMS = [
 ]
 
 export const tableTitle = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA' },
-  { props: 'saItemNo', name: '项目', key: 'XIANGMU' },
-  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO' },
+  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 180 },
+  { props: 'saItemNo', name: '项目', key: 'XIANGMU', width: 140 },
+  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO', width: 180 },
   { props: 'price', name: '零件价格（RMB）', key: 'LINGJIANJIAGE' },
   { props: 'actAmt', name: '零件实价（RMB）', key: 'LINGJIANSHIJIA' },
   { props: 'priceUnit', name: '价格单位', key: 'JIAGEDANWEI' },

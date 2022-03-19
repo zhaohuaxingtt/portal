@@ -104,12 +104,14 @@ export default {
   },
   created () {
     this.mtzDocId = this.$route.query.mtzDocId
+    console.log(this.mtzDocId)
     this.getData();
     // this.getList();
   },
   watch: {
     "searchFormList": {
       handler (x, y) {
+        this.mtzDocId = this.$route.query.mtzDocId
         this.BoxLoading = true;
         this.serchList = x;
         this.page.currPage = 1;

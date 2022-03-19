@@ -3,6 +3,7 @@ import axiosDownload from '@/utils/axios.download'
 
 const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 const keshi = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const requetDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 const requestDownload = axiosDownload(process.env.VUE_APP_MTZ + '/web/mtz')
 
 //获取MTZ市场价类别下拉框
@@ -23,13 +24,21 @@ export function getDeptData(data) {
   })
 }
 // 新科室字典项
-export function queryDeptSection(data) {
-    return request({
-      url: '/forecastOther/queryDeptSection',
-      method: 'POST',
-      data: data
-    })
-  }
+export function queryDeptSectionForRule(data) {
+  return request({
+    url: '/forecastOther/queryDeptSectionForRule',
+    method: 'POST',
+    data: data
+  })
+}
+// 新科室字典项
+export function queryDeptSectionForPart(data) {
+  return request({
+    url: 'forecastOther/queryDeptSectionForPart',
+    method: 'POST',
+    data: data
+  })
+}
 
 // 零件导入模板下载
 export function partTemplateUrl(data) {
@@ -37,6 +46,15 @@ export function partTemplateUrl(data) {
     url: '/bomInfo/partTemplateUrl',
     method: 'GET',
     params: data
+  })
+}
+
+// 零件导入模板下载
+export function feignDownload(data) {
+  return requetDownload({
+    url: '/supplier/localFile/feignDownload?fileId=' + data,
+    method: 'GET'
+    // params: data
   })
 }
 

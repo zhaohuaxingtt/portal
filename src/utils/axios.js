@@ -8,6 +8,7 @@
  */
 import { iMessage } from 'rise'
 import { getToken } from '@/utils'
+import getResCode from './resCode'
 const loadingMask = document.querySelector('.loading-mask')
 export default function httpRequest(baseUrl = '', timeOut = 600000) {
   // eslint-disable-next-line no-undef
@@ -21,6 +22,8 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         config.headers['token'] = getToken() || ''
       }
       config.headers['language'] = window.localStorage.getItem('lang') || 'zh'
+
+      config.headers['resCode'] = getResCode(config.url)
 
       // 查询参数自动清除null，'' 值
       if (config.clearEmptyParams && config.params) {
@@ -41,11 +44,15 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         t: parseInt(Math.random() * 10000000000),
         ...config.params
       }
-      // 定义请求得数据结构是json
-      config.headers['json-wrapper'] = '1'
-      if (loadingMask) {
-        loadingMask.style.display = 'block'
+      if (config.formData) {
+        // 定义请求得数据结构是formData
+        config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
       }
+      {
+        // 定义请求得数据结构是json
+        config.headers['json-wrapper'] = '1'
+      }
+
       return config
     },
     function (error) {
@@ -64,6 +71,9 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         // 自动提示错误或成功
         const responseDataMessage = response.data.desZh || response.data.desEn
         switch (responseData.code) {
+          case '1':
+            iMessage.error(responseDataMessage || '请求失败')
+            return Promise.reject(responseData)
           case '400':
             iMessage.error(responseDataMessage || '请求失败')
             return Promise.reject(responseData)

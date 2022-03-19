@@ -4,16 +4,16 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('零件号')">
                 <iInput
-                  style="white-space:pre !important"
+                  style="white-space: pre !important"
                   :placeholder="language('请输入')"
                   v-model="searchContent.partNum"
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('零件名称')">
                 <iInput
                   :placeholder="language('请输入')"
@@ -22,7 +22,7 @@
                 </iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('零件来源')">
                 <iSelect
                   :placeholder="language('请输入/请选择')"
@@ -39,28 +39,55 @@
                 </iSelect>
               </iFormItem>
             </el-col>
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+              <iFormItem :label="language('零件状态')">
+                <iSelect
+                  v-model="searchContent.partStatus"
+                  :placeholder="language('请选择')"
+                >
+                  <el-option
+                    v-for="item in partStatusOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+            </el-col>
           </el-row>
-          <iFormItem :label="language('零件状态')">
-            <iSelect v-model="searchContent.partStatus" :placeholder="language('请选择')">
-              <el-option
-                v-for="item in partStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
         </el-form>
       </iSearch>
     </div>
-    <div class="tabList" style="margin-top:20px">
+    <div class="tabList" style="margin-top: 20px">
       <iCard>
         <div class="btnList">
-          <iButton @click="createNew">{{ language('新建') }}</iButton>
-          <iButton @click="activeSta" :disabled="unActiveBtn">{{language('激活')}}</iButton>
-          <iButton @click="del" :disabled="unLoseActiveBtn">{{language('删除')}}</iButton>
-          <buttonDownload  :download-method="exportExcel">{{language('导出')}}</buttonDownload>
+          <iButton
+            @click="createNew"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_ADD'"
+          >
+            {{ language('新建') }}
+          </iButton>
+          <iButton
+            @click="activeSta"
+            :disabled="unActiveBtn"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_SET_ACTIVE'"
+          >
+            {{ language('激活') }}
+          </iButton>
+          <iButton
+            @click="del"
+            :disabled="unLoseActiveBtn"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_DELETE'"
+          >
+            {{ language('删除') }}
+          </iButton>
+          <buttonDownload
+            :download-method="exportExcel"
+            v-permission="'BUTTON_MATERIEL_DATA_PARTS_MESSAGE_EXPORT'"
+          >
+            {{ language('导出') }}
+          </buttonDownload>
         </div>
         <div class="tableContent">
           <div class="tabel">
@@ -124,14 +151,13 @@ export default {
     iSelect,
     iTableCustom,
     iPagination,
-    iMessage,
     buttonDownload
   },
   mixins: [pageMixins],
   created() {
     this.getTableList()
     searchOptions()
-      .then(val => {
+      .then((val) => {
         if (val.code == 200) {
           for (let key in val.data.partSourceSelectData) {
             this.options.push({
@@ -141,7 +167,7 @@ export default {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         iMessage.error(err)
       })
   },
@@ -166,7 +192,7 @@ export default {
         }
       }
       marerielTableList(data)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.loading = false
             this.data = val.data
@@ -174,7 +200,7 @@ export default {
             this.times++
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.dscZh || '获取数据失败')
         })
         .finally(() => {
@@ -200,16 +226,16 @@ export default {
     },
     activeSta() {
       let ids = []
-      this.selectedData.map(item => {
+      this.selectedData.map((item) => {
         return ids.push(item.id)
       })
       activePort(ids)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.getTableList()
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err)
         })
     },
@@ -220,16 +246,16 @@ export default {
         type: 'warning'
       }).then(() => {
         let ids = []
-        this.selectedData.map(item => {
+        this.selectedData.map((item) => {
           return ids.push(item.id)
         })
         invalidPort(ids)
-          .then(val => {
+          .then((val) => {
             if (val.code == 200) {
               this.getTableList()
             }
           })
-          .catch(err => {
+          .catch((err) => {
             iMessage.error(err)
           })
       })
@@ -241,7 +267,7 @@ export default {
     handleSelectionChange(val) {
       if (val.length > 0) {
         let showDelButton = []
-        showDelButton = val.filter(item => {
+        showDelButton = val.filter((item) => {
           return item.partStatusDesc == '草稿' && item.sourceDesc == '手工创建'
         })
         console.log(showDelButton, '=====', showDelButton.length)

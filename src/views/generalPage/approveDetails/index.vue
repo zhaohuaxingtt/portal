@@ -4,6 +4,9 @@
            tabCard
            collapse
            title="供应商信息">
+      <template slot="header-control">
+        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>
+      </template>
       <iFormGroup row="3"
                   ref="baseRulesForm">
         <iFormItem prop="nameZh">
@@ -60,7 +63,7 @@
         <iFormItem prop="vmCode">
           <iLabel label="VW号"
                   slot="label"></iLabel>
-          <iText></iText>
+          <iText>{{ detail.svwCode }}</iText>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -107,7 +110,8 @@ export default {
       tableListData: [],
       tableTitle: TableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      supplierToken: ""
     }
   },
   methods: {
@@ -119,12 +123,23 @@ export default {
         }
         const res = await getApprove(req.id)
         this.detail = res.data
+        this.supplierToken = res.data.supplierToken
         this.tableListData = res.data.supplierMaterialDTOList
         this.loading = false
       } catch {
         this.loading = false
       }
-    }
+    },
+    onJump360 () {
+      this.$router.push({
+        path: '/view-suppliers',
+        query: {
+          current: 1,
+          supplierType: 4,
+          supplierToken: this.$route.query.supplierToken || this.supplierToken
+        }
+      })
+    },
   }
 }
 </script>

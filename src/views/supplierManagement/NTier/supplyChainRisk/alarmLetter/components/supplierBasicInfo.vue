@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-06 11:54:03
- * @LastEditTime: 2021-10-21 15:18:26
- * @LastEditors: zbin
+ * @LastEditTime: 2022-03-09 17:33:36
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainRisk\components\supplierBasicInfo.vue\
 -->
@@ -135,7 +135,7 @@
             <!-- <iInput disabled
                     v-model="scope.row.addressDetail"
                     v-if="editMode"></iInput> -->
-            <span > {{scope.row.addressDetail}}</span>
+            <span> {{scope.row.addressDetail}}</span>
           </template>
           <!-- <editTable-cell slot-scope="{row}"
                           :can-edit="editModeEnabled"
@@ -158,7 +158,7 @@ import {
 } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import editTableCell from './editTableCell'
 export default {
-  data() {
+  data () {
     return {
       editModeEnabled: true,
       // form: {
@@ -204,7 +204,7 @@ export default {
     }
   },
   watch: {
-    isTurnoverStore(val) {
+    isTurnoverStore (val) {
       if (val) {
         this.baseInfo.isTurnoverStore = '是'
       } else {
@@ -217,7 +217,7 @@ export default {
     //   })
     // },
     warningLetterProductAddressList: {
-      handler(val) {
+      handler (val) {
         val.forEach((item) => {
           item.cityList = [item.city, item.country, item.province]
           item.editMode = false
@@ -230,7 +230,7 @@ export default {
       deep: true
     },
     tableData: {
-      handler(val) {
+      handler (val) {
         val.forEach((item) => {
           if (item.cityList.length !== 0) {
             item.city = item.cityList[0]
@@ -243,40 +243,40 @@ export default {
     }
   },
   components: { iButton, editTableCell, iInput, iSelect },
-  created() {
+  created () {
     console.log(this.supplierId)
     this.$nextTick(() => {
-    this.getListFactoryByCircle()
+      this.getListFactoryByCircle()
 
       this.getFactoryList()
     })
   },
-  watch:{
-     supplierId(val) {
- getBySupplierId(val).then((res) => {
+  watch: {
+    supplierId (val) {
+      getBySupplierId(val).then((res) => {
         this.factoryList = res.data
       })
-     }
+    }
   },
   methods: {
-    getFactoryChange(v,i) {
-                  this.tableData[i].addressDetail = this.factoryList.find(
-            (res) => res.factoryName == v
-          ).address
-            this.tableData[i].city = this.factoryList.find(
-            (res) => res.factoryName == v
-          ).city
-            this.tableData[i].country = this.factoryList.find(
-            (res) => res.factoryName == v
-          ).country
-            this.tableData[i].province = this.factoryList.find(
-            (res) => res.factoryName == v
-          ).province
-            console.log(this.tableData)
-            // this.tableData[i].row.city
+    getFactoryChange (v, i) {
+      this.tableData[i].addressDetail = this.factoryList.find(
+        (res) => res.factoryName == v
+      ).address
+      this.tableData[i].city = this.factoryList.find(
+        (res) => res.factoryName == v
+      ).city
+      this.tableData[i].country = this.factoryList.find(
+        (res) => res.factoryName == v
+      ).country
+      this.tableData[i].province = this.factoryList.find(
+        (res) => res.factoryName == v
+      ).province
+      console.log(this.tableData)
+      // this.tableData[i].row.city
 
     },
-    getListFactoryByCircle() {
+    getListFactoryByCircle () {
       listFactoryByCircle({ id: this.$route.query.id }).then((res) => {
         this.tableData = res.data
         this.tableData.forEach((res) => {
@@ -284,18 +284,18 @@ export default {
         })
       })
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    getFactoryList() {
-     
+    getFactoryList () {
+
     },
-    init() {
+    init () {
       getCity().then((res) => {
         this.cityOptions = res
       })
     },
-    add() {
+    add () {
       let letterProductList = {
         id: this.random(1, 100),
         factoryName: '',
@@ -308,16 +308,16 @@ export default {
       }
       this.tableData.push(letterProductList)
     },
-    del() {
+    del () {
       this.multipleSelection.forEach((item) => {
         this.tableData.forEach((i, ind) => {
           if (item.id === i.id) {
-            this.tableData.splice(ind, 1)
+            this.tableData.splice(item, 1)
           }
         })
       })
     },
-    random(min, max) {
+    random (min, max) {
       return Math.floor(Math.random() * (max - min)) + min
     },
     // del () {
@@ -332,9 +332,9 @@ export default {
     // random (min, max) {
     //   return Math.floor(Math.random() * (max - min)) + min;
     // },
-    change(val) {}
+    change (val) { }
   },
-  mounted() {
+  mounted () {
     this.init()
   }
 }

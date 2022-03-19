@@ -144,7 +144,6 @@ export default {
         // mapStyle: 'amap://styles/macaron'
       });
       this.map.on('mousewheel', () => {
-        console.log(this.map.getZoom());
       })
       this.markerList.length && this.handleMarker()
       Object.keys(this.eventDetail).length && this.handleCircle()
@@ -152,7 +151,6 @@ export default {
     // 圆
     handleCircle () {
       var overlays = this.map.getAllOverlays();
-
       if (!overlays.some((overlay) => {
         return overlay.className == "Overlay.Circle"
       })) {
@@ -276,7 +274,6 @@ export default {
           }))
           this.getChainPart(this.marker[index]._opts.extData, item)
         })
-
       })
     },
     // 弹框信息
@@ -314,99 +311,103 @@ export default {
     },
     // 生成贝塞尔曲线
     handleRecursion (data, viewType) {
+      console.log(data)
+      console.log(this.marker)
       data.forEach((item, index) => {
         this.marker.forEach((val, i) => {
-          if (item.address.lon == val._opts.extData.lon && item.address.lat == val._opts.extData.lat && item.chainLevel == 1) {
-            let extData = { ...val.getExtData(), viewType: viewType }
-            val.setExtData(extData)
-          } else if (i === this.marker.length - 1 && item.chainLevel == 1) {
-            this.temporaryMarker[this.temporaryMarker.length] = new AMap.Marker({
-              position: new AMap.LngLat(item.address.lon, item.address.lat),
-              icon: this.grayIcon,
-              anchor: "center",//避免缩小是出现偏移
-              offset: new AMap.Pixel(0, 0),//避免缩小是出现偏移
-              extData: { viewType: viewType, factoryId: item.supplierFactory, supplierId: item.supplierId },
-              topWhenClick: true,//鼠标点击时marker是否置顶
-              clickable: true
-            });
-            this.temporaryMarker[this.temporaryMarker.length - 1].setMap(this.map)
-            this.temporaryMarker[this.temporaryMarker.length - 1].on('click', (e) => {
-              this.circle.forEach(i => {
-                if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
-                  i.setIcon(new AMap.Icon({
-                    image: i.getIcon()._opts.image,
-                    size: new AMap.Size(20, 20),
-                    imageSize: new AMap.Size(20, 20)
-                  }))
-                  return false
-                }
+          if (item.address.lon && item.address.lat) {
+            if (item.address.lon == val._opts.extData.lon && item.address.lat == val._opts.extData.lat && item.chainLevel == 1) {
+              let extData = { ...val.getExtData(), viewType: viewType }
+              val.setExtData(extData)
+            } else if (i === this.marker.length - 1 && item.chainLevel == 1) {
+              this.temporaryMarker[this.temporaryMarker.length] = new AMap.Marker({
+                position: new AMap.LngLat(item.address.lon, item.address.lat),
+                icon: this.grayIcon,
+                anchor: "center",//避免缩小是出现偏移
+                offset: new AMap.Pixel(0, 0),//避免缩小是出现偏移
+                extData: { viewType: viewType, factoryId: item.supplierFactory, supplierId: item.supplierId },
+                topWhenClick: true,//鼠标点击时marker是否置顶
+                clickable: true
+              });
+              this.temporaryMarker[this.temporaryMarker.length - 1].setMap(this.map)
+              this.temporaryMarker[this.temporaryMarker.length - 1].on('click', (e) => {
+                this.circle.forEach(i => {
+                  if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
+                    i.setIcon(new AMap.Icon({
+                      image: i.getIcon()._opts.image,
+                      size: new AMap.Size(20, 20),
+                      imageSize: new AMap.Size(20, 20)
+                    }))
+                    return false
+                  }
+                })
+                this.marker.forEach(i => {
+                  if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
+                    i.setIcon(new AMap.Icon({
+                      image: i.getIcon()._opts.image,
+                      size: new AMap.Size(20, 20),
+                      imageSize: new AMap.Size(20, 20)
+                    }))
+                    return false
+                  }
+                })
+                this.temporaryMarker.forEach(i => {
+                  if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
+                    i.setIcon(new AMap.Icon({
+                      image: i.getIcon()._opts.image,
+                      size: new AMap.Size(20, 20),
+                      imageSize: new AMap.Size(20, 20)
+                    }))
+                    return false
+                  }
+                })
+                e.target.setIcon(new AMap.Icon({
+                  image: e.target.getIcon()._opts.image,
+                  size: new AMap.Size(30, 30),
+                  imageSize: new AMap.Size(30, 30)
+                }))
+                this.getChainPart({ ...e.target._opts.extData, flag: 'supplier' }, item.address)
               })
-              this.marker.forEach(i => {
-                if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
-                  i.setIcon(new AMap.Icon({
-                    image: i.getIcon()._opts.image,
-                    size: new AMap.Size(20, 20),
-                    imageSize: new AMap.Size(20, 20)
-                  }))
-                  return false
-                }
+            } else if (i === this.marker.length - 1 && item.address && item.address.lon && item.address.lat && item.chainLevel > 1) {
+              this.circle[this.circle.length] = new AMap.Marker({
+                position: new AMap.LngLat(item.address.lon, item.address.lat),
+                icon: this.orangeIcon,
+                anchor: "center",//避免缩小是出现偏移
+                offset: new AMap.Pixel(0, 0),//避免缩小是出现偏移
+                extData: { viewType: viewType, factoryId: item.supplierFactory, supplierId: item.supplierId },
+                topWhenClick: true,//鼠标点击时marker是否置顶
+                clickable: true
+              });
+              this.circle[this.circle.length - 1].setMap(this.map)
+              this.circle[this.circle.length - 1].on('click', (e) => {
+                this.circle.forEach(i => {
+                  if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
+                    i.setIcon(new AMap.Icon({
+                      image: i.getIcon()._opts.image,
+                      size: new AMap.Size(20, 20),
+                      imageSize: new AMap.Size(20, 20)
+                    }))
+                    return false
+                  }
+                })
+                this.marker.forEach(i => {
+                  if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
+                    i.setIcon(new AMap.Icon({
+                      image: i.getIcon()._opts.image,
+                      size: new AMap.Size(20, 20),
+                      imageSize: new AMap.Size(20, 20)
+                    }))
+                    return false
+                  }
+                })
+                e.target.setIcon(new AMap.Icon({
+                  image: e.target.getIcon()._opts.image,
+                  size: new AMap.Size(30, 30),
+                  imageSize: new AMap.Size(30, 30)
+                }))
+                this.getChainPart({ ...e.target._opts.extData, flag: 'supplier' }, item.address)
               })
-              this.temporaryMarker.forEach(i => {
-                if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
-                  i.setIcon(new AMap.Icon({
-                    image: i.getIcon()._opts.image,
-                    size: new AMap.Size(20, 20),
-                    imageSize: new AMap.Size(20, 20)
-                  }))
-                  return false
-                }
-              })
-              e.target.setIcon(new AMap.Icon({
-                image: e.target.getIcon()._opts.image,
-                size: new AMap.Size(30, 30),
-                imageSize: new AMap.Size(30, 30)
-              }))
-              this.getChainPart({ ...e.target._opts.extData, flag: 'supplier' }, item.address)
-            })
-          } else if (i === this.marker.length - 1 && item.address && item.address.lon && item.address.lat && item.chainLevel > 1) {
-            this.circle[this.circle.length] = new AMap.Marker({
-              position: new AMap.LngLat(item.address.lon, item.address.lat),
-              icon: this.orangeIcon,
-              anchor: "center",//避免缩小是出现偏移
-              offset: new AMap.Pixel(0, 0),//避免缩小是出现偏移
-              extData: { viewType: viewType, factoryId: item.supplierFactory, supplierId: item.supplierId },
-              topWhenClick: true,//鼠标点击时marker是否置顶
-              clickable: true
-            });
-            this.circle[this.circle.length - 1].setMap(this.map)
-            this.circle[this.circle.length - 1].on('click', (e) => {
-              this.circle.forEach(i => {
-                if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
-                  i.setIcon(new AMap.Icon({
-                    image: i.getIcon()._opts.image,
-                    size: new AMap.Size(20, 20),
-                    imageSize: new AMap.Size(20, 20)
-                  }))
-                  return false
-                }
-              })
-              this.marker.forEach(i => {
-                if (i.getIcon()._opts.size[0] === 30 && i.getIcon()._opts.size[1] === 30) {
-                  i.setIcon(new AMap.Icon({
-                    image: i.getIcon()._opts.image,
-                    size: new AMap.Size(20, 20),
-                    imageSize: new AMap.Size(20, 20)
-                  }))
-                  return false
-                }
-              })
-              e.target.setIcon(new AMap.Icon({
-                image: e.target.getIcon()._opts.image,
-                size: new AMap.Size(30, 30),
-                imageSize: new AMap.Size(30, 30)
-              }))
-              this.getChainPart({ ...e.target._opts.extData, flag: 'supplier' }, item.address)
-            })
+            }
           }
         })
         if (item.line.length) {
@@ -470,23 +471,25 @@ export default {
         viewType: viewType
       }
       const res = await getRetrieveChain(pms)
-      this.maxLon = parseFloat(res.data[0].address.lon)
-      this.maxLat = parseFloat(res.data[0].address.lat)
-      this.minLon = parseFloat(res.data[0].address.lon)
-      this.minLat = parseFloat(res.data[0].address.lat)
-      this.handleRecursion(res.data, viewType)
-      let centerLon = (this.maxLon + this.minLon) / 2
-      let centerLat = (this.maxLat + this.minLat) / 2
-      if (this.maxLat - this.minLat > this.maxLon - this.minLon) {
-        let distance = (this.maxLat - this.minLat) * 50
-        this.getCenter(distance, centerLon, centerLat)
-      } else {
-        let distance = (this.maxLon - this.minLon) * 50
-        this.getCenter(distance, centerLon, centerLat)
+      if (res?.code === '200' && res.data.length !== 0) {
+        this.maxLon = parseFloat(res.data[0].address.lon)
+        this.maxLat = parseFloat(res.data[0].address.lat)
+        this.minLon = parseFloat(res.data[0].address.lon)
+        this.minLat = parseFloat(res.data[0].address.lat)
+        this.handleRecursion(res.data, viewType)
+        let centerLon = (this.maxLon + this.minLon) / 2
+        let centerLat = (this.maxLat + this.minLat) / 2
+        if (this.maxLat - this.minLat > this.maxLon - this.minLon) {
+          let distance = (this.maxLat - this.minLat) * 50
+          this.getCenter(distance, centerLon, centerLat)
+        } else {
+          let distance = (this.maxLon - this.minLon) * 50
+          this.getCenter(distance, centerLon, centerLat)
+        }
+        this.bezierCurve.forEach((item, index) => {
+          this.bezierCurve[index].setMap(this.map)
+        })
       }
-      this.bezierCurve.forEach((item, index) => {
-        this.bezierCurve[index].setMap(this.map)
-      })
     },
   },
 }

@@ -15,7 +15,7 @@
     <div class="Main">
       <div class="Header">
         <div class="HeaderTitle">
-          <span> {{ pageTitle }} </span>
+          <span> {{ language(pageTitle) }} </span>
         </div>
         <div class="HeaderButtons">
           <iButton class="True" :loading="loading" @click="trueBtnClick">{{
@@ -176,12 +176,18 @@
                     >
                       <div class="chooseOrgTag chooseOrgTagLayout" style="">
                         <span
-                          v-if="formCommitData.tagList.length == 0"
+                          v-if="
+                            formCommitData.tagList &&
+                            formCommitData.tagList.length == 0
+                          "
                           style="position: absolute; left: 12px"
                         >
                           {{ language('请选择') }}
                         </span>
-                        <div class="chooseOrgTagList">
+                        <div
+                          class="chooseOrgTagList"
+                          v-if="formCommitData.tagList"
+                        >
                           <el-tag
                             size="medium"
                             closable
@@ -193,6 +199,7 @@
                             {{ item.name }}
                           </el-tag>
                         </div>
+                        <div class="chooseOrgTagList" v-else></div>
                         <span
                           @click.stop="enterOrgTagPage"
                           style="
@@ -425,21 +432,31 @@
                         </div>
                         <div class="chooseOrgTag chooseDownLevelOrgTag">
                           <span
-                            v-if="formCommitData.supDeptList.length == 0"
+                            v-if="
+                              formCommitData.supDeptList &&
+                              formCommitData.supDeptList.length == 0
+                            "
                             style="position: absolute; left: 12px"
                             >{{ language('请选择') }}</span
                           >
-
-                          <el-tag
-                            size="medium"
-                            closable
-                            v-for="item in formCommitData.supDeptList"
-                            :key="item.nameZh"
-                            @close="deleteDownLevelOrgTag(item)"
-                            style="margin-right: 5px"
+                          <span
+                            v-if="
+                              formCommitData.supDeptList &&
+                              formCommitData.supDeptList.length == 0
+                            "
                           >
-                            {{ item.nameZh }}
-                          </el-tag>
+                            <el-tag
+                              size="medium"
+                              closable
+                              v-for="item in formCommitData.supDeptList"
+                              :key="item.nameZh"
+                              @close="deleteDownLevelOrgTag(item)"
+                              style="margin-right: 5px"
+                            >
+                              {{ item.nameZh }}
+                            </el-tag>
+                          </span>
+
                           <span
                             @click.stop="alertDownLevelOrg"
                             style="
@@ -553,7 +570,8 @@ export default {
     trueBtnClick() {
       this.$refs.orgForm.validate((valid) => {
         if (valid) {
-          if (this.$route.params.id) {
+          console.log('id', typeof this.$route.params.id)
+          if (this.$route.params.id && this.$route.params.id !== '0') {
             //编辑组织
             this.editOrg()
           } else {
@@ -697,8 +715,8 @@ export default {
               params: {
                 id: data.id,
                 type: 'editOrg',
-                upLevelID: data.parentId,
-                upLevelName: data.parentName
+                upLevelID: data.parentId || '0',
+                upLevelName: data.parentName || '0'
               }
             })
           } else {
@@ -820,15 +838,20 @@ export default {
       //获取组织维度
 
       let parentID = this.$route.params.upLevelID
+      console.log('parentID----------------:', parentID)
       // console.log('===😝😝😝😝😝', parentID)
       if (parentID != null && parentID != '0') {
         let param = { parentId: parentID }
         parentOrgDimensionList(param)
           .then((value) => {
             if (value.code == 200) {
-              Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
+              Vue.set(this.table, 'extraData', {
+                ...this.table.extraData,
+                dimensionLeftMenu: value.data
+              })
+              // Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
-              this.$forceUpdate()
+              // this.$forceUpdate()
             }
           })
           .catch(() => {})
@@ -836,9 +859,13 @@ export default {
         orgDimensionList(null, {})
           .then((value) => {
             if (value.code == 200) {
-              Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
+              Vue.set(this.table, 'extraData', {
+                ...this.table.extraData,
+                dimensionLeftMenu: value.data
+              })
+              // Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
-              this.$forceUpdate()
+              // this.$forceUpdate()
             }
           })
           .catch(() => {})
@@ -884,12 +911,12 @@ export default {
             if (obj.permissionDTOList.length > 0) {
               let newDimension = []
               for (let item of obj.permissionDTOList) {
-                let idList = item.valueList.map((value) => {
+                let valueIdList = item.valueList.map((value) => {
                   return value.valueId.toString()
                 })
                 let obj = {
                   leftSelect: item.id,
-                  rightSelect: idList,
+                  rightSelect: valueIdList,
                   url: null,
                   optionsSelect: null,
                   originValueList: item.valueList

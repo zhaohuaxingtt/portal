@@ -51,6 +51,147 @@ function getColumnConfig(data) {
   return res
 }
 
+/* function getEklCardHeader(roleList, deptNum) {
+  const deptName = deptNum
+  let eklHeader = []
+  let eklPfjHeader = []
+  if (roleList.length == 1) {
+    const Linie = roleList.some((item) => item.code == 'LINIE')
+    const zycgkzORkzzl = roleList.some(
+      (item) =>
+        item.code == 'ZYCGKZ' ||
+        item.code == 'WS2ZYCGKZ' ||
+        item.code == 'ZYCGKSXTY'
+    )
+    const zycgkz = roleList.some(
+      (item) => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ'
+    )
+    const kzzl = roleList.some(
+      (item) => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
+    )
+    // const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+    const zycgbzORbzzl = roleList.some(
+      (item) =>
+        item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'CSXTGLY'
+    )
+    const zycgbz = roleList.some((item) => item.code == 'CGBZ')
+    const bzzl = roleList.some((item) => item.code == 'BZZL')
+    const zycggz = roleList.some(
+      (item) => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ'
+    )
+    const CGBZ_WF = roleList.some((item) => item.code == 'CGBZ_WF')
+    const ZYCGKZ_WF = roleList.some((item) => item.code == 'ZYCGKZ_WF')
+    const PFJYJGLY = roleList.some((item) => item.code == 'PFJYJGLY')
+    if (PFJYJGLY) {
+      //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+      //            this.btnsgroup1 = ['CS(Spare)']
+    } else if (Linie) {
+      // 采购员 采购员视觉
+      // this.username = this.$store.state.permission.userInfo.id;
+      eklHeader = ['Linie']
+      eklPfjHeader = ['Linie(Spare)']
+    } else if (zycgkzORkzzl) {
+      // 采购科长||科长助理 科室视觉
+      if (zycgkz) {
+        eklHeader = ['CSM']
+        eklPfjHeader = ['CSM(Spare)']
+      }
+      if (kzzl) {
+        eklHeader = [deptName]
+        eklPfjHeader = [`${deptName}(Spare)`]
+      }
+    } else if (zycgbzORbzzl) {
+      // 采购部长||部长助理 部门视觉
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = ['CS', 'CS(Spare)']
+      eklHeader = ['CS']
+      eklPfjHeader = [`CS(Spare)`]
+    } else if (zycggz) {
+      // 采购股长 股视觉
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
+      eklHeader = [deptName]
+      eklPfjHeader = [`${deptName}(Spare)`]
+      return deptName
+    } else if (CGBZ_WF) {
+      this.btnsgroup1 = ['CS', 'CS(Spare)']
+      eklHeader = ['CS']
+      eklPfjHeader = [`CS(Spare)`]
+    } else if (ZYCGKZ_WF) {
+      eklHeader = ['CSM']
+      eklPfjHeader = [`CSM(Spare)`]
+    }
+  } else {
+    const Linie = roleList.some((item) => item.code == 'LINIE') // 采购员
+    const KZ = roleList.some(
+      (item) => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ'
+    ) // 科长
+    const KZZL = roleList.some(
+      (item) => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
+    ) // 科长助理
+    const BZ = roleList.some((item) => item.code == 'CGBZ') // 部长
+    const BZZL = roleList.some((item) => item.code == 'BZZL') // 部长助理
+    const GZ = roleList.some(
+      (item) => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ'
+    ) // 股长
+    const PFJYJGLY = roleList.some((item) => item.code == 'PFJYJGLY')
+    const CSXTGLY = roleList.some((item) => item.code == 'CSXTGLY') // cs系统管理员
+    if (PFJYJGLY) {
+      //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+      //            this.btnsgroup1 = ['CS(Spare)']
+    } else if (KZ && Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = ['CSM', 'CSM(Spare)']
+      eklHeader = ['CSM']
+      eklPfjHeader = [`CSM(Spare)`]
+    } else if (KZ && !Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
+      eklHeader = [deptName]
+      eklPfjHeader = [`${deptName}(Spare)`]
+    } else if (KZZL && Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
+      eklHeader = [deptName, 'Linie']
+      eklPfjHeader = [`${deptName}(Spare)`, 'Linie(Spare)']
+    } else if (KZZL && !Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      //this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
+      eklHeader = [deptName]
+      eklPfjHeader = [`${deptName}(Spare)`]
+    } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
+      // this.btnsgroup1 = ['CS', 'CS(Spare)']
+      eklHeader = ['CS']
+      eklPfjHeader = [`CS(Spare)`]
+    } else if (BZZL && Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
+      eklHeader = ['CS', 'Linie']
+      eklPfjHeader = ['CS(Spare)', 'Linie(Spare)']
+    } else if (GZ && Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
+      eklHeader = [deptName, 'Linie']
+      eklPfjHeader = [`${deptName}(Spare)`, 'Linie(Spare)']
+    } else if (GZ && !Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
+      eklHeader = [deptName]
+      eklPfjHeader = [`${deptName}(Spare)`]
+      return deptName
+    } else if (Linie) {
+      // this.username = this.$store.state.permission.userInfo.id;
+      // this.btnsgroup1 = ['Linie', 'Linie(Spare)']
+      eklHeader = ['Linie']
+      eklPfjHeader = ['Linie(Spare)']
+    } else if (CSXTGLY) {
+      eklHeader = ['CS']
+      eklPfjHeader = ['CS(Spare)']
+    }
+  }
+  return { eklHeader, eklPfjHeader }
+} */
+
 const state = {
   menuList: [],
   vueRouter: [],
@@ -60,7 +201,7 @@ const state = {
   eklTabList: [],
   eklPfjTabList: [],
   leadTabList: [],
-  whiteBtnList: [],
+  whiteBtnList: {},
   userInfo: {},
   isLeader: false,
   cardList: [],
@@ -69,8 +210,10 @@ const state = {
 }
 const mutations = {
   SET_LANGUAGE(state, data) {
-    localStorage.setItem('lang', data)
-    state.language = data
+    if (data) {
+      localStorage.setItem('lang', data)
+      state.language = data
+    }
   },
   SET_MENU_LIST(state, data) {
     state.menuList = data
@@ -89,10 +232,13 @@ const mutations = {
     state.code = data.map((item) => item.code)
   },
   SET_ROLE_EklTabList(state, data) {
+    state.eklTabList = []
+    state.eklPfjTabList = []
     let cs = 0
     data.forEach((item, index) => {
       if (
         item.code === 'BZZL' ||
+        item.code === 'CIXTGLY' ||
         item.code === 'CGBZ_WF' ||
         (item.code === 'CGBZ' && cs < 1)
       ) {
@@ -132,6 +278,11 @@ const mutations = {
           id: index,
           type: 1
         })
+        state.eklTabList.push({
+          name: 'CS',
+          id: index,
+          type: 1
+        })
       } else if (item.code === 'CWEKLGLY') {
         state.eklTabList.push({
           name: 'EKL-CFPM',
@@ -143,9 +294,20 @@ const mutations = {
           id: data.length,
           type: 1
         })
+      } else if (item.code == 'ZYCGKSXTDY') {
+        const parentDeptList = data.parentDeptList || []
+        parentDeptList.map((item) => {
+          if (item.grade === 3) {
+            state.eklTabList.push({
+              name: `EKL-${item.fullCode}`,
+              id: index,
+              type: 2
+            })
+          }
+        })
       } else if (
         item.code == 'ZYCGKSXTY' ||
-        item.code == 'ZYCGKSXTDY' ||
+        // item.code == 'ZYCGKSXTDY' ||
         item.code == 'WS2ZYCGKZ'
       ) {
         state.eklTabList.push({
@@ -223,13 +385,13 @@ const actions = {
             r(menuList)
           } else {
             commit('SET_MENU_LIST', [])
-            commit('SET_WIHTEBTN_LIST', [])
+            commit('SET_WIHTEBTN_LIST', {})
             j()
           }
         })
         .catch(() => {
           commit('SET_MENU_LIST', [])
-          commit('SET_WIHTEBTN_LIST', [])
+          commit('SET_WIHTEBTN_LIST', {})
           j()
         })
     })
@@ -279,8 +441,9 @@ const actions = {
             ) {
               commit('SET_ROLE_EklTabList_LEAD', [
                 {
-                  name: `EKL-${res.data.deptDTO.fullCode}`,
-                  id: 1
+                  name: `EKL-${res.data.deptDTO.fullCode}(Spare)`,
+                  id: 1,
+                  type: 4
                 }
               ])
             }

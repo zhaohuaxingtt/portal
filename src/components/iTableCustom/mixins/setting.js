@@ -1,5 +1,6 @@
 import { iMessage } from 'rise'
 import iTableHeaderSort from '@/components/iTableHeaderSort'
+import getResCode from '@/utils/resCode'
 export default {
   components: { iTableHeaderSort },
   computed: {
@@ -21,30 +22,70 @@ export default {
     tableVisibleColumns() {
       // 表格的列
       if (this.tableColumns.length) {
-        return this.tableColumns.filter(
-          (e) => !e.isHidden && !this.unCols.includes(e.prop)
-        )
+        const filterColumns = []
+        // const filterColumns = this.tableColumns.filter(
+        //   (e) => !e.isHidden && !this.unCols.includes(e.prop)
+        // )
+        this.tableColumns.forEach((e) => {
+          if (!e.isHidden && !this.unCols.includes(e.prop)) {
+            const column = this.columns.find((c) => c.prop === e.prop)
+            if (column) {
+              filterColumns.push(column)
+            }
+          }
+        })
+        console.log('filterColumns', filterColumns)
+        const columns = []
+        const noSettingColumns = [
+          'selection',
+          'customSelection',
+          'index',
+          'fullIndex',
+          'customIndex'
+        ]
+        this.columns.forEach((e) => {
+          if (
+            noSettingColumns.includes(e.type) &&
+            !filterColumns.find((fe) => fe.type === e.type)
+          ) {
+            columns.push(e)
+          }
+        })
+        return columns.concat(filterColumns)
       }
       return this.columns.filter((e) => !this.unCols.includes(e.prop))
     },
     tableSettingColumns() {
       // 表格自由列表设置列
+      const noSettingColumns = [
+        'selection',
+        'customSelection',
+        'index',
+        'fullIndex',
+        'customIndex'
+      ]
       if (this.tableColumns.length) {
-        return this.tableColumns.filter((e) => !this.unCols.includes(e.prop))
+        return this.tableColumns.filter(
+          (e) =>
+            !this.unCols.includes(e.prop) && !noSettingColumns.includes(e.type)
+        )
       }
-      return this.columns.filter((e) => !this.unCols.includes(e.prop))
+      return this.columns.filter(
+        (e) =>
+          !this.unCols.includes(e.prop) && !noSettingColumns.includes(e.type)
+      )
     },
     usercenterApiPrefix() {
       let env = window.sessionStorage.getItem('env') || this.env
       const baseMap = {
-        '': '/api',
+        '': '/usercenterApi',
         dev: '/usercenterApi',
         sit: '/usercenterApi',
         vmsit: '/usercenterApi',
         uat: '/usercenterApi',
-        production: '/api'
+        production: '/usercenterApi'
       }
-      return baseMap[env.toLowerCase()] || '/api'
+      return baseMap[env.toLowerCase()] || '/usercenterApi'
     }
   },
   created() {
@@ -75,7 +116,12 @@ export default {
         const accountId = userData?.accountId
         const http = new XMLHttpRequest()
         const url = `${this.usercenterApiPrefix}/web/configUserListMemory`
+
         http.open('POST', url, true)
+        http.setRequestHeader(
+          'resCode',
+          getResCode('/web/configUserListMemory')
+        )
         http.setRequestHeader('content-type', 'application/json')
         http.setRequestHeader('token', this.getCookie('token'))
         http.onreadystatechange = (res) => {
@@ -113,12 +159,19 @@ export default {
       http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.setRequestHeader('token', this.getCookie('token'))
+      http.setRequestHeader('resCode', getResCode('/web/getUserListMemory'))
       http.onreadystatechange = () => {
         if (http.readyState === 4 && http.status == 200) {
           const response = JSON.parse(http.responseText).data
           if (response && response.length > 0) {
-            this.tableColumns = JSON.parse(response[0].listConfig)
-            this.settingId = response[0].id
+            const listConfig = JSON.parse(response[0].listConfig)
+            // const tableColumns = []
+            if (listConfig.length) {
+              this.tableColumns = listConfig
+              this.settingId = response[0].id
+            } else {
+              this.tableColumns = this.columns
+            }
           } else {
             this.tableColumns = this.columns
           }

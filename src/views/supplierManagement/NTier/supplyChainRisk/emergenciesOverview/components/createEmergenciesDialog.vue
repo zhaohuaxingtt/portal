@@ -24,7 +24,7 @@
                         :label="language('SHIJIANLEIXING','事件类型')">
             <iSelect :placeholder="language('QINGXUANZHE','请选择')"
                      v-model="form.eventName">
-              <el-option v-for="(item,index) in formGroup.eventType"
+              <el-option v-for="(item,index) in eventType"
                          :key="index"
                          :label="item.name"
                          :value="item.name"></el-option>
@@ -60,7 +60,8 @@
                          v-model="form.area"
                          :placeholder="language('QINGXUANZHE','请选择')"
                          :options="formGroup.areaList"
-                         :clearable="true"></el-cascader>
+                         :clearable="true"
+                         filterable></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -103,7 +104,11 @@ export default {
   props: {
     value: { type: Boolean },
     eventDetail: { type: Object, default: {} },
-    edit: { type: Boolean }
+    edit: { type: Boolean },
+    eventType: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data () {
     // 这里存放数据
@@ -124,7 +129,6 @@ export default {
       },
       formGroup: {
         areaList: [],
-        eventType: []
       },
       form: {
         area: [],
@@ -152,13 +156,10 @@ export default {
   },
   // 方法集合
   methods: {
-    async dictByCode () {
-      const res = await dictByCode('risk_event_type')
-      this.formGroup.eventType = res
-    },
     async getCityInfo () {
       const res = await getCity()
       this.formGroup.areaList = res
+      console.log(this.form)
     },
     // 保存
     handleAdd () {
@@ -184,7 +185,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
-    this.dictByCode()
+    dictByCode()
     this.getCityInfo()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）

@@ -1,6 +1,7 @@
 <template>
+<div v-loading="loading">
   <iPage>
-    <div class="title">
+    <div class="title" >
       <div>
         <span class="title__clause">{{ this.ruleForm.name }}</span>
         <span>
@@ -74,7 +75,10 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款名称" prop="name">
                 <iLabel :label="'条款名称'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.name" disabled></iInput>
+                <iInput
+                  v-model="ruleForm.name"
+                  :disabled="ruleForm.state != '03'"
+                ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -162,7 +166,15 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款负责人" prop="chargeName">
                 <iLabel :label="'条款负责人'" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.chargeName" disabled></iInput>
+                <!-- <iInput v-model="ruleForm.chargeName" :disabled="ruleForm.state != '03'"></iInput> -->
+                <el-autocomplete
+                  style="width: 100%"
+                  :disabled="ruleForm.state != '03'"
+                  v-model="ruleForm.chargeName"
+                  :fetch-suggestions="querySearchAsync"
+                  :placeholder="$t('请输入')"
+                  @select="handleSelect"
+                ></el-autocomplete>
               </iFormItem>
             </el-col>
             <el-col :span="6" class="form-item">
@@ -259,11 +271,10 @@
                     controlForm.supplierRange.includes('CM')
                   "
                 >
-                  <el-checkbox label="0">临时</el-checkbox>
-                  <el-checkbox label="1">正式</el-checkbox>
+                  <el-checkbox label="0" :disabled="ruleForm.supplierRange.includes('NT')&&ruleForm.supplierRange.length==1">临时</el-checkbox>
+                  <el-checkbox label="1" :disabled="ruleForm.supplierRange.includes('NT')&&ruleForm.supplierRange.length==1">正式</el-checkbox>
                   <el-checkbox
                     label="2"
-                    :disabled="!ruleForm.supplierRange.includes('NT')"
                     >储蓄池</el-checkbox
                   >
                 </el-checkbox-group>
@@ -303,7 +314,7 @@
                 <iLabel :label="'备注'" slot="label"></iLabel>
                 <iInput
                   v-model="ruleForm.remark"
-                  disabled
+                  :disabled="ruleForm.state != '03'"
                   class="textarea"
                   type="textarea"
                   :rows="3"
@@ -498,6 +509,7 @@
       :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
+</div>
 </template>
 
 <script>
@@ -527,7 +539,8 @@ import {
   findById,
   deleteAttachment,
   saveAttachment,
-  updateEffectiveTerms
+  updateEffectiveTerms,
+  getPageListByParam
 } from '@/api/terms/terms'
 import { getDictByCode } from '@/api/dictionary/index'
 import { download, downloadZip } from '@/utils/downloadUtil'
@@ -551,7 +564,7 @@ export default {
     supplierChooseDialog
   },
   props: {
-    loading: { type: Boolean, default: false },
+    // loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
@@ -563,6 +576,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -634,14 +648,17 @@ export default {
         if (val.includes('NT')) {
           if (this.ruleForm.supplierIdentity.indexOf('2') == -1) {
             this.ruleForm.supplierIdentity.push('2')
-          }
+          } else if (val.length == 1 && val[0] == 'NT') {
+              this.ruleForm.supplierIdentity = []
+              this.ruleForm.supplierIdentity.push('2')
+            }
         } else if (val.includes('CM')) {
           this.ruleForm.supplierIdentity = []
         } else {
-          const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
-          if (indexSupplier != -1) {
-            this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
-          }
+          // const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
+          // if (indexSupplier != -1) {
+          //   this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
+          // }
         }
       }
     }
@@ -906,7 +923,7 @@ export default {
       this.$router.push({
         path: '/terms/management/addClause',
         query: {
-          id: this.ruleForm.id,
+          id: this.ruleForm.id
           // updateTerms: true
         }
       })
@@ -949,6 +966,7 @@ export default {
     //   this.clauseTextContrastShow = true;
     // },
     query(e) {
+      this.loading = true
       // 根据ID查询条款信息
       findById(e).then((res) => {
         if ((res.state == '01' || res.state == '02') && res.isNewest == true) {
@@ -970,10 +988,35 @@ export default {
               this.termsTextName = res.name
             })
           }
+          this.loading = false
         }
       })
     },
+    handleSelect(item) {
+      this.ruleForm.chargeId = item.id
+      this.ruleForm.chargeName = item.nameZh
+    },
+    async querySearchAsync(queryString, cb) {
+      let res = await this.getUsersAll(queryString)
+      res = res || { data: [] }
+      let userArr = res.data || []
+      userArr = userArr.map((item) => {
+        return {
+          value: item.nameZh,
+          ...item
+        }
+      })
+      cb(userArr)
+    },
+    async getUsersAll(str) {
+      const data = {
+        nameZh: str
+      }
+      let res = await getPageListByParam(data)
+      return res
+    },
     handleSave() {
+      console.log('this.ruleForm', this.ruleForm)
       this.$confirm('是否保存该条款？', '提示', {
         confirmButtonText: '是',
         cancelButtonText: '否',
@@ -986,6 +1029,12 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              (this.ruleForm.supplierList?.length == 0 ||
+                this.ruleForm.supplierList == null)
+            ) {
+              this.$message.error('供应商列表不能为空！')
             } else {
               this.ruleForm.supplierRange = this.ruleForm.supplierRange
                 .map((i) => {
@@ -1035,7 +1084,7 @@ export default {
   }
   .title__version {
     margin: 0 1rem 0 3rem;
-    font-size: 8px;
+    font-size: 0.875rem;
     font-family: Arial;
     font-weight: 400;
     line-height: 0px;

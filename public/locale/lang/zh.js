@@ -139,6 +139,7 @@
   */
 
     LK_CAIGOUFENEFENPEIDABUDAO: '采购份额分配达不到100%', // 采购份额分配达不到100%
+    SHOUYINGXIANGLINGJIANXIANGQING: '受影响零件详情',
     LK_CAIGOUGONGCHNEGMINGCHENG: '采购工厂名称', // 采购工厂名称
     LK_CAOZUOCHENGGONG: '操作成功', // 操作成功
     LK_CHANLIANGZHANBI: '产量占比（%）', // 产量占比（%）
@@ -146,6 +147,7 @@
     LK_CAIGOUFENEFENPEIWEIDADAODANGQIAN:
       '当前分配未达到100%当前分配的工厂中存在为0的情况，请重新分配！', // 当前分配未达到100%，请重新分配！
     LK_CAIGOUFENEFENPEICHAOGUO: '当前分配已超过100%，请重新分配！', // 当前分配已超过100%，请重新分配！
+    DANGQIANMEIYOUCHUPINMOBAN: '当前没有初评模板',
     LK_DENGLU: '登录', // 登录
     LK_GONG: '共', // 共
     LK_MEIYOUKEYIXIAZHAIDEXINXI: '没有可以下载的信息', // 没有可以下载的信息
@@ -235,6 +237,7 @@
     LK_BAOJIAJIEZHIRIQI: '截止日期', //报价截止日期
     LK_RFQQUOTATIONDEADLINE: '截止日期', //报价截至日期
     LK_NINDANGQIANHAIWEIXUANZE: '抱歉！您当前还未选择！', //抱歉！您当前还未选择！
+    LK_ZYCBPJZTWZDDSHCNDJCAN: '只有初评状态为中断的时候，才能点击此按钮',
     LK_NINDANGQIANHAIWEIXUANZEXUNJIACAIGOUYUAN:
       '抱歉！您当前还未选择询价采购员！', //抱歉！您当前还未选择询价采购员！
     LK_BEIZHUBUNENGWEIKONG: '抱歉，备注不能为空！', //抱歉，备注不能为空！
@@ -398,7 +401,7 @@
     LK_GONGYINGSHANGCHANPINGAIYAO: '供应商产品概要', //供应商产品概要!
     LK_GONGYINGSHANGGONGSIJIESHAO: '供应商公司介绍', //供应商公司介绍!
     LK_GONGYINGSHANGMING: '供应商名', //供应商名
-    LK_GONGYINGSHANGMINGCHENG: '供应商名称', //供应商名称
+    LK_GONGYINGSHANGMINGCHENG1: '供应商名称', //供应商名称
     LK_GYSMCJT: '供应商名称/集团', //供应商名称/集团
     LK_GONGYINGSHANGPINGFEN: '供应商评分', //供应商评分
     LK_GONGYINGSHANGPINGFENFUJIAN: '供应商评分附件', //供应商评分附件
@@ -806,7 +809,8 @@
       '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码
     GONGSIGAIKANG: '公司概况', //公司概况
     Home: '首页', //首页
-    BasicInformation: '基本信息', //基本信息
+    BasicInformation: '基本信息', //基本信息,
+    CAIGOUTIAOKUANQIANSHURIQI: '采购条款签署日期',
     SupplierZh: '供应商中文名', //供应商中文名
     SupplierEn: '供应商英文名', //供应商中文名
     SupplierAbbreviationZh: '供应商简称（中）', //供应商简称（中）
@@ -847,7 +851,7 @@
     GONGHUOZHUANGTAI: '供货状态', //供货状态
     YINHANGZHANGHAO: '银行账号', //银行账号
     SHIFOUZAIGONG: '是否在供', //是否在供
-    GONGHUO: '供应商状态', //供应商状态
+    GONGHUO1: '供应商状态', //供应商状态
     GYSSF: '供应商身份', //供应商身份
     SHIFOUYELEIGONGCHANG: '是否业内工厂', //是否业内工厂
     SHIFOUANQUANJIAN: '是否安全件', //是否安全件
@@ -1258,7 +1262,7 @@
     SUPPLIER_GAILAN: '概览', //概览
     SUPPLIER_FRMZONGHEGUANLI: 'FRM综合管理', //FRM综合管理
     SUPPLIER_XINGONGYINGSHANGPINGJI: '新供应商评级', //新供应商评级
-    SUPPLIER_CHUBUPINGJI: '初步评级', //初步评级
+    SUPPLIER_CHUBUPINGJI1: '初步评级', //初步评级
     SUPPLIER_SHENRUPINGJI: '深入评级', //深入评级
     SUPPLIER_FENGXIANXINHAO: '风险信号', //风险信号
     SUPPLIER_YUQINGJIANCE: '舆情监测', //舆情监测
@@ -1267,12 +1271,12 @@
     SUPPLIER_VWHZT: 'VW号状态', //VW号状态
     SUPPLIER_DDXXX: '定点信协议', //定点信协议
     SPR_FRM_FRMGL_GYSZYMCSC: '供应商中文名（CSC）', //供应商中文名（CSC）
-    SPR_FRM_FRMGL_XGKS: '相关科室', //相关科室
+    SPR_FRM_FRMGL_XGKS1: '相关科室', //相关科室
     SPR_FRM_FRMGL_CPSJ: '初评时间', //初评时间
     SPR_FRM_FRMGL_CPSJQZ: '初评时间起止', //初评时间起止
     SPR_FRM_FRMGL_WPSJ: '外评时间', //外评时间
     SPR_FRM_FRMGL_WPSJQZ: '外评时间起止', //外评时间起止
-    SPR_FRM_FRMGL_WP: '外评', //外评
+    SPR_FRM_FRMGL_WP1: '外评', //外评
     SPR_FRM_FRMGL_SPZT: '深评状态', //深评状态
     SPR_FRM_FRMGL_DXDFSJ: '定性打分时间', //定性打分时间
     SPR_FRM_FRMGL_DXDFSJQZ: '定性打分时间起止', //定性打分时间起止
@@ -1454,14 +1458,16 @@
     SPR_FRM_DEP_COMREMARK:
       '本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。', // 本报告仅供上汽大众内部商务决策参考之用。请对所述供应商所有信息严格保密，不得向任何其他第三方透露本报告的任何内容，请在公司内部谨慎合理使用所述信息。本报告不得作为法律诉讼的依据，上汽大众不承担任何责任。
     SPR_FRM_DEP_CHECK: '必填项不存在', // 必填项不存在
+    SPR_FRM_DEP_BUPINGJIYUANYIN: '请填写不评级原因',
     SPR_FRM_DEP_SELECTGROUP: '选择集团', // 选择集团
     SPR_FRM_DEP_ALLOK: '全部选取', // 全部选取
     SPR_FRM_DEP_ALLCANCEL: '全部移除', // 全部移除
     SPR_FRM_DEP_CHECKDCSTATUS: '请确认需要分发的深评报告状态',
-    SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
+    SPR_FRM_DEP_CHECKSPSTATUS:
+      '请确认发起深评清单的供应商状态为“草稿”或“清单审批驳回”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回、报告审批驳回、报告审批中、清单审批中的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
@@ -3022,6 +3028,8 @@
     LK_SHANGYINIANSHUJUDUIBI: '上一年数据对比', //上一年数据对比
     LK_ZONGJINE: '总金额:', //总金额
     LK_MTZCAILIAOZU: 'MTZ材料组', //MTZ材料组
+    LK_MTZKESHIYUSUANFUZEREN: 'MTZ科室预算负责人', //MTZ科室预算负责人
+    LK_MTZYUSUANGUANLIYUAN: 'MTZ预算管理员', //MTZ预算管理员
     LK_CAILIAOZHONGLEI: '材料中类', //材料中类
     LK_BIJIAOBANBEN: '比较版本', //比较版本
     LK_YUEFENBIJIAO: '月份比较', //月份比较
@@ -3039,29 +3047,57 @@
     LK_SHIJIZHIFU: '实际支付', //实际支付
     LK_NIANDUYUSUANCHAYI: '年度预算差异', //年度预算差异
     LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
-    LK_SHIJIZHIFUCHAYI: '实际支付差异' //实际支付差异
+    LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
+    LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择' //删除资信报告提示语
   }
   i18n.setLocaleMessage('zh', oldLanguage)
-  var xmlHttp = ''
-  if (window.XMLHttpRequest) {
-    xmlHttp = new XMLHttpRequest()
-  } else {
-    // eslint-disable-next-line no-undef
-    xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
-  }
-  xmlHttp.onreadystatechange = function () {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-      const data = JSON.parse(xmlHttp.responseText)
-      i18n.mergeLocaleMessage('zh', data.data.zh)
-      i18n.mergeLocaleMessage('en', data.data.cn)
-    }
-  }
-  xmlHttp.open(
-    'GET',
-    'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
-    false
-  )
-  xmlHttp.setRequestHeader('Content-type', 'application/json')
-  xmlHttp.setRequestHeader('Accept', '*/*')
-  xmlHttp.send()
+  // var xmlHttp = ''
+  // if (window.XMLHttpRequest) {
+  //   xmlHttp = new XMLHttpRequest()
+  // } else {
+  //   // eslint-disable-next-line no-undef
+  //   xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
+  // }
+  // xmlHttp.onreadystatechange = function () {
+  //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+  //     const data = JSON.parse(xmlHttp.responseText)
+  //     const fixedData = {
+  //       SUPPLIER_CHUBUPINGJI1: '初步评级',
+  //       SHENPINGJIEGUO: '深评结果',
+  //       SPR_FRM_FRMGL_WPSJ: '外评时间',
+  //       SPR_FRM_FRMGL_XGKS1: '相关科室',
+  //       SPR_FRM_FRMGL_DXDFZT: '定性打分状态',
+  //       SPR_FRM_FRMGL_WP1: '外评',
+  //       SPR_FRM_FRMGL_SPZT: '深评状态',
+  //       LK_GONGYINGSHANGMINGCHENG1: '供应商名称',
+  //       SPR_FRM_FRMGL_TZHPJ: '调整后评级',
+  //       SPR_FRM_FRMGL_CPSJ: '初评时间',
+  //       SPR_FRM_FRMGL_SPSJ: '深评时间',
+  //       SPR_FRM_FRMGL_DXDFSJ: '定性打分时间',
+  //       SPR_FRM_FRMGL_VWAGPJ: 'VWAG评级',
+  //       SPR_FRM_FRMGL_VWAGSJ: 'VWAG时间',
+  //       SUPPLIER_SAPHAO: 'SAP号',
+  //       GONGHUO1: '供应商状态',
+  //       SHIJIANLEIXING: '事件类型',
+  //       QUYU: '区域',
+  //       FASHENGSHIJIAN: '发生时间',
+  //       YSGYSSM: '影响供应商数目',
+  //       SJLY: '数据来源',
+  //       CJFS: '创建方式',
+  //       QITAYUANYINGBUNENGWEIKONG: '其它原因不能为空',
+  //       GONGHUOZHUANGTAI: '供货状态'
+  //     }
+  //     const i18nZhData = { ...data.data.zh, ...fixedData }
+  //     i18n.mergeLocaleMessage('zh', i18nZhData)
+  //     i18n.mergeLocaleMessage('en', data.data.cn)
+  //   }
+  // }
+  // xmlHttp.open(
+  //   'GET',
+  //   'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
+  //   false
+  // )
+  // xmlHttp.setRequestHeader('Content-type', 'application/json')
+  // xmlHttp.setRequestHeader('Accept', '*/*')
+  // xmlHttp.send()
 })

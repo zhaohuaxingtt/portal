@@ -1,8 +1,8 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: caopeng
- * @LastEditTime: 2021-12-08 16:42:23
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-14 14:24:27
  * @Description:
  * @FilePath: \front-portal-new\src\router\Router.js
  */
@@ -30,7 +30,8 @@ import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
 import RouterAssistant from './RouterAssistant'
-import RouterPopupWindowMa from './RouterPopupWindowMa'
+import ViewSuppliers from '@/views/viewSuppliers/index'
+/* import RouterPopupWindowMa from './RouterPopupWindowMa' */
 
 import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
@@ -50,6 +51,11 @@ import RouterView from './RouterView'
 import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 import RouterTerms from './RouterTerms'
+
+import RouterReportForm from './RouterReportForm'
+// 后台管理  scoreConfig
+import backstagemanagement from './backstagemanagement'
+import RouterSetting from './RouterSetting'
 
 export default {
   routes: [
@@ -144,14 +150,49 @@ export default {
         )
     },
     {
-      path: "/terms/management/termsPreview",
-      name: "termsPreview",
-      component: () => import(`@/views/terms/termsManagement/components/preview.vue`),
+      path: '/terms/management/termsPreview',
+      name: 'termsPreview',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preview.vue`)
     },
     {
-      path: "/terms/management/clauseDetail/preText",
-      name: "preText",
-      component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+      path: '/terms/management/clauseDetail/preText',
+      name: 'preText',
+      component: () =>
+        import(`@/views/terms/termsManagement/components/preText.vue`)
+    },
+    {
+      path: '/clausepage',
+      name: 'clause',
+      component: DefLayout,
+      children: [
+        {
+          path: 'item',
+          name: 'clausePage',
+          component: () => import(`@/views/generalPage/clausePage`)
+        },
+        {
+          path: 'preview',
+          name: 'procurementTable',
+          component: () => import(`@/views/generalPage/clausePage/previewPdf`)
+        },
+        {
+          path: 'attach',
+          name: 'procurementAttach',
+          component: () =>
+            import(`@/views/generalPage/clausePage/previewAttach`)
+        }
+      ]
+    },
+    {
+      path: '/clausepage/table',
+      name: 'procurementTable',
+      component: () => import(`@/views/generalPage/clausePage/procurementTable`)
+    },
+    {
+      path: '/supplier/contractArchiving',
+      name: 'contractArchiving',
+      component: () => import('@/views/generalPage/contractArchiving')
     },
     {
       path: '/',
@@ -204,7 +245,6 @@ export default {
         ...RouterBiz,
         ...RouterAchievement,
         ...RouterAssistant,
-        ...RouterPopupWindowMa,
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
@@ -213,8 +253,16 @@ export default {
         ...RouterApplications,
         ...RouterOfflineDownload,
         ...RouterElectronicSignature,
-        ...RouterTerms
+        ...RouterTerms,
+        ...RouterReportForm,
+        ...backstagemanagement,
+        ...RouterSetting
       ]
+    },
+    {
+      path: '/view-suppliers',
+      name: 'viewSuppliers',
+      component: ViewSuppliers
     },
     ...RouterView,
     { path: '*', name: 'notFound', component: NotFound }

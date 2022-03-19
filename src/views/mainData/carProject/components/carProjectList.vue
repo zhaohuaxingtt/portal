@@ -1,14 +1,23 @@
 <template>
   <iCard>
     <div class="flex-end-center margin-bottom20">
-      <iButton @click="add">
-        {{language('新建') }}
+      <iButton @click="add" v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_ADD'">
+        {{ language('新建') }}
       </iButton>
-      <iButton @click="changeStatus" :disabled="selectedRows.length === 0">
-        {{language('失效') }}
+      <iButton
+        @click="changeStatus"
+        :disabled="selectedRows.length === 0"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_CHANGE_STATUS'"
+      >
+        {{ language('失效') }}
       </iButton>
 
-      <button-download :download-method="downloadTemplate">
+      <button-download
+        :download-method="downloadTemplate"
+        v-permission="
+          'BUTTON_MAIN_DATA_CAR_PROJECT_DOWNLOAD_PRODUCTION_PLAN_TEMPLATE'
+        "
+      >
         {{ language('下载产量计划模板') }}
       </button-download>
       <el-upload
@@ -23,13 +32,17 @@
           :loading="uploadLoading"
           size="small"
           class="btn-upload"
+          v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_PRODUCTION_PLAN_IMPORT'"
         >
           <span>
             {{ language('导入产量计划') }}
           </span>
         </iButton>
       </el-upload>
-      <button-download :download-method="exportExcel" />
+      <button-download
+        :download-method="exportExcel"
+        v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_EXPORT'"
+      />
     </div>
 
     <i-table-custom

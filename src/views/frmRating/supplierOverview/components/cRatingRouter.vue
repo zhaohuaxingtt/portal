@@ -1,29 +1,35 @@
 <!--
  * @Date: 2021-11-23 15:29:59
- * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 13:39:42
+ * @LastEditors: YoHo
+ * @LastEditTime: 2022-02-15 15:28:39
  * @FilePath: \front-portal-new\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
 -->
 <template>
-  <div >
-      <div class="boxTitle">
-          <p>
-              {{language(
+  <div>
+    <div class="boxTitle">
+      <p>
+        {{language(
               'GONGYINGSHANGXUNJIADINGDIANQINGKUANG',
               '供应商询价定点情况'
             )}}
-          </p>
-          <iButton slot="header-control"
-          v-if="$route.query.isSupplier!=1"
+      </p>
+      <iButton slot="header-control"
+               v-if="$route.query.isSupplier!=1"
                @click="$emit('back')">{{$t('LK_FANHUI')}}</iButton>
+    </div>
+
+    <div class="mtz_ndys_nav">
+      <div class="mtz_ndys_nav_all">
+        <div v-for="(item,index) in subNavList" :key="index" :class="tabVal===item.code?'active':''" @click="changeTab(item.code)" v-permission="item.permissionKey">{{language(item.key, item.name)}}</div>
       </div>
-    
-    <el-tabs class="tabsHeader"
+    </div>
+
+    <!-- <el-tabs class="tabsHeader"
              type="card"
              style="margin-left: 20px"
              v-model="tabVal"
              @tab-click="changeTab">
-      <el-tab-pane name="1"
+      <el-tab-pane name="1" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_SSCRGYSQDYQ"
                    :label="
             language(
               'SHISHICRATINGGONGYINGSHANGQINGDAN',
@@ -31,7 +37,7 @@
             )
           ">
       </el-tab-pane>
-      <el-tab-pane name="2"
+      <el-tab-pane name="2" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_CRGYSXJDDQK"
                    :label="
             language(
               'CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG',
@@ -39,9 +45,11 @@
             )
           ">
       </el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
+
     <iSearch @sure="sure"
-                @reset="clickReset" class="header">
+             @reset="clickReset"
+             class="header">
       <el-form inline
                label-position="top">
         <el-form-item :label="language('SAPHAO', 'SAP号')">
@@ -78,9 +86,9 @@
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                    v-model.trim="form.deptIds">
             <el-option v-for="item in deptList"
-                       :key="item.kvalue"
-                       :label="item.vvalue"
-                       :value="item.kvalue">
+                       :key="item.name"
+                       :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
+                       :value="item.code">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -97,17 +105,6 @@
             </el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item v-if="tabVal == 2"
-                      :label="language('SHIFOUCRATING', '是否C-Rating')">
-          <iSelect :placeholder="language('QINGXUANZE', '请选择')"
-                   v-model.trim="form.iscRating">
-            <el-option v-for="item in iscRatingList"
-                       :key="item.code"
-                       :label="item.name"
-                       :value="item.code">
-            </el-option>
-          </iSelect>
-        </el-form-item>
         <el-form-item :label="language('JIARUCRATINGYUANYIN', '加入C-Rating原因')">
           <iSelect collapse-tags
                    filterable
@@ -115,6 +112,17 @@
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                    v-model.trim="form.ratingSource">
             <el-option v-for="item in cratingLsit"
+                       :key="item.code"
+                       :label="item.name"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
+        <el-form-item v-if="tabVal == 2"
+                      :label="language('SHIFOUCRATING', '是否C-Rating')">
+          <iSelect :placeholder="language('QINGXUANZE', '请选择')"
+                   v-model.trim="form.iscRating">
+            <el-option v-for="item in iscRatingList"
                        :key="item.code"
                        :label="item.name"
                        :value="item.code">
@@ -136,7 +144,7 @@
           </iSelect>
         </el-form-item>
         <el-form-item v-if="tabVal == 2"
-                      :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
+                      :label="$t('LK_LINGJIANZHUANGTAI')">
           <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                    v-model.trim="form.rfqStatus"
                    multiple>
@@ -205,12 +213,14 @@
         </el-form-item>
       </el-form>
     </iSearch>
-    <iCard class="tableBox" style="margin-top:20px">
+    <iCard class="tableBox"
+           style="margin-top:20px">
       <div class="sectionTitle">
         <span class="ptext">
           {{ language('XIANGQINGLIEBIAO', '详情列表') }}
         </span>
         <iButton v-if="tabVal == 1"
+                v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_YICHUCRATING"
                  @click="handleSaveBtn">{{
             language('YICHUCRATING', '移出C-Rating')
         }}</iButton>
@@ -227,9 +237,9 @@
                 scope.row.ratingSource != '100' &&
                   scope.row.ratingSource != null
               ">{{
-                cratingLsit.find(res => {
+                cratingLsit.length ? cratingLsit.find(res => {
                   return res.code == scope.row.ratingSource
-                }).name
+                }).name : scope.row.ratingSource
             }}</span>
           <span v-if="scope.row.ratingSource == '100'">深入评级-
             <icon class="early"
@@ -261,9 +271,9 @@
                 scope.row.ratingSource != '100' &&
                   scope.row.ratingSource != null
               ">{{
-                cratingLsit.find(res => {
+                cratingLsit.length ? cratingLsit.find(res => {
                   return res.code == scope.row.ratingSource
-                }).name
+                }).name : scope.row.ratingSource
             }}</span>
           <span v-if="scope.row.ratingSource == '100'">深入评级-
             <icon class="early"
@@ -272,8 +282,7 @@
           </span>
         </template>
       </table-list>
-      <iPagination v-if="tabVal == 2"
-                   v-update
+      <iPagination v-update
                    @size-change="handleSizeChange($event, getTaleList)"
                    @current-change="handleCurrentChange($event, getTaleList)"
                    background
@@ -324,6 +333,7 @@ import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
 import { userDropDown } from '@/api/frmRating/supplierOverview/index'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { pageMixins } from '@/utils/pageMixins'
+import { selectDictByKeys } from '@/api/dictionary';
 import {
   currentList,
   sapDropDown,
@@ -355,8 +365,21 @@ export default {
       type: String
     }
   },
-  data() {
+  data () {
     return {
+      subNavList:[
+        {
+          code:'1',
+          key:'SHISHICRATINGGONGYINGSHANGQINGDAN',
+          name:'实时C-Rating供应商清单',
+          permissionKey:'PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_SSCRGYSQDYQ'
+        },{
+          code:'2',
+          key:'CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG',
+          name:'C-Rating供应商询价定点情况',
+          permissionKey:'PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK_CRGYSXJDDQK'
+        }
+      ],
       tabVal: '1',
       visibleDetal: false,
       info: {},
@@ -377,7 +400,7 @@ export default {
       sapList: [],
       takeStepsContent: '',
       deptList: [],
-      removeCratingLsit:[],
+      removeCratingLsit: [],
       userList: [],
       supplierList: [],
       selectData: [],
@@ -390,26 +413,41 @@ export default {
         { code: '', name: this.language('QUANBU', '全部') },
         { code: 0, name: this.language('WEIBAOJIA', '未报价') },
         { code: 1, name: this.language('XUNJIAZHONG', '询价中') }
-      ]
+      ],
+      queryList:{},
     }
   },
   watch: {},
-  created() {
-    this.tabVal = '1'
+  mounted () {
+    this.$nextTick(_ => {
+      var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+      if (navList.length !== 0) {
+        navList[0].click();
+      }
+    })
+  },
+  created () {
+    if(this.$route.query && this.$route.query.sapCode){
+      this.queryList = this.$route.query;
+    }
+    this.tabVal = '1';
     if (this.sapCode && this.supplierId) {
       this.form.sapCode[0] = this.sapCode || ''
       this.form.supplierName[0] = this.supplierId || ''
     }
- 
+
     this.getInit()
   },
   methods: {
-    handleDialog() {
+    gysmcChange(val,num){
+      this.form[num] = val;
+    },
+    handleDialog () {
       this.visible = true
       this.getInit()
     },
     // //选择相关科室
-    deptChange(v) {
+    deptChange (v) {
       if (v.length > 0) {
         let req = {
           type: 'user',
@@ -431,22 +469,24 @@ export default {
         })
       }
     },
-    getTaleList() {
+    getTaleList () {
       this.tableLoading = true
       if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
         this.form.supplierIds = this.form.sapCode.concat(this.form.supplierName)
+      }else{
+        this.form.supplierIds = []
       }
       const req = {
         ...this.form,
-          pageNo: this.page.currPage,
-          pageSize: this.page.pageSize
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize
       }
 
       req.sapCode = undefined
       req.supplierName = undefined
       if (this.tabVal == '1') {
         currentList(req).then((res) => {
-              this.page.totalCount = res.data.total
+          this.page.totalCount = res.data.total
           this.tableLoading = false
           this.tableListData = res.data.records
         })
@@ -463,34 +503,65 @@ export default {
         })
       }
     },
-    async getInit() {
+    async getInit () {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
 
-      this.getTaleList()
-           const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
+      
+      const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
       this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
-      const resDept = await sapDropDown({ type: 'dept' })
+      //const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
-      this.deptList = resDept.data
+
+
+      const data = [
+        'SUPPLIER_STATUS',
+        'QUALITATIVE_GRADE_STATUS',
+        'LEGALSTATUS',
+        'RELEVANT_DEPT',
+        'ADJUSTED_RATING_LEVEL',
+        'TEST_RESULT',
+        'DEEP_COMMENT_STATUS',
+      ];
+      let req = 'keys=';
+      req = req + data.join('&keys=');
+      const red = await selectDictByKeys(req);
+      this.deptList = red.data.RELEVANT_DEPT;
+      
+      //this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
       this.motorList = resMotor.data
       this.sapList = res2.data
+      for(var i=0;i<this.sapList.length;i++){
+        if(this.sapList[i].vvalue == this.queryList.sapCode){
+          this.form.sapCode = [this.sapList[i].kvalue]
+          break;
+        }
+      }
+
       this.supplierList = res3.data
+      for(var i=0;i<this.supplierList.length;i++){
+        if(this.supplierList[i].vvalue == this.queryList.nameZh){
+          this.form.supplierName = [this.supplierList[i].kvalue]
+          break;
+        }
+      }
+
+      this.getTaleList()
       //   this.supplierStatus = res4
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectData = val
     },
-    handleSaveBtn() {
+    handleSaveBtn () {
       if (this.selectData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -498,7 +569,7 @@ export default {
       this.visibleDetal = true
     },
     //移除
-    handleSave() {
+    handleSave () {
       if (this.takeStepsContent == '') {
         iMessage.warn(this.language('QINGSHURUYICHUYUANYINS', '请输入移出原因'))
         return false
@@ -518,13 +589,13 @@ export default {
       })
     },
 
-    sure() {
+    sure () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTaleList()
     },
 
-    clickReset() {
+    clickReset (val) {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.userList = []
@@ -545,7 +616,8 @@ export default {
       }
       this.getTaleList()
     },
-    changeTab() {
+    changeTab (val) {
+      this.tabVal = val;
       this.userList = []
       this.form = {
         ...this.form,
@@ -563,7 +635,7 @@ export default {
       this.getTaleList()
     },
 
-    closeDiologDetail() {
+    closeDiologDetail () {
       this.takeStepsContent = ''
       this.visibleDetal = false
     }
@@ -577,8 +649,8 @@ export default {
   margin-bottom: 20px;
   align-items: center;
   justify-content: space-between;
-  p{
-          font-size: 20px;
+  p {
+    font-size: 20px;
     font-family: Arial;
     font-weight: bold;
     color: #131523;
@@ -618,11 +690,11 @@ export default {
     margin: 0 20px;
   }
   ::v-deep.el-select {
-    width: 220px;
+    width: 250px;
   }
   ::v-deep.el-select__tags-text {
     display: inline-block;
-    max-width: 150px;
+    max-width: 100px;
     overflow: hidden;
     vertical-align: middle;
     text-overflow: ellipsis;
@@ -677,5 +749,45 @@ v::v-deep .el-tabs__nav-wrap::after {
 }
 v::v-deep .el-tabs__nav-wrap:hover {
   font-weight: bold;
+}
+
+.mtz_ndys_nav{
+  margin-top:20px;
+  display: flex;
+  margin-bottom:20px;
+  font-size:1rem;
+  font-weight: bold;
+  color:#727272;
+  // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+  border: none;
+  text-align: center;
+  min-width: 9.375rem;
+  .mtz_ndys_nav_all>div{
+    cursor: pointer;
+    min-width:140px;
+    float:left;
+    height: 2.5rem;
+    box-sizing: border-box;
+    line-height: 2.5rem;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .mtz_ndys_nav_all>div:nth-child(1){
+    border-top-left-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-right: solid 1px #ececec;
+  }
+  .mtz_ndys_nav_all>div:nth-child(3){
+    border-left: solid 1px #ececec;
+    border-top-right-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+  }
+
+  .active{
+    background-color: #ffffff;
+    background: #ffffff;
+    color:#1660f1;
+  }
 }
 </style>

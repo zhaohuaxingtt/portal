@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:18
- * @LastEditTime: 2022-01-13 18:56:34
+ * @LastEditTime: 2022-01-27 20:46:10
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\api\frmRating\depthRating\depthReport.js
@@ -16,12 +16,10 @@ import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
 // 深评报告企业概况查询
-export function getCompanyOverview(suppierId, id, lang) {
+export function getCompanyOverview(id, lang) {
   return requst({
     url:
       '/deepCommentReport/companyOverview?deepCommentSupplierId=' +
-      suppierId +
-      '&id=' +
       id +
       `&lang=${lang ? 'en' : 'zh'}`,
     method: 'GET'
@@ -67,14 +65,13 @@ export function postFinancialAnalysis(parmars) {
 }
 
 // 深评报告综述查询
-export function getSummarize(supplierId, id, lang) {
+export function getSummarize(id, lang) {
   return requst({
     url:
       '/deepCommentReport/summarize?deepCommentSupplierId=' +
-      supplierId +
-      '&id=' +
       id +
-      `&lang=${lang ? 'en' : 'zh'}`,
+      `&lang=` +
+      lang,
     method: 'GET'
   })
 }
@@ -84,6 +81,26 @@ export function postSummarize(parmars) {
   return requst({
     url: '/deepCommentReport/summarize',
     method: 'POST',
+    data: parmars
+  })
+}
+
+// 深评报告综述保存
+export function cehckSummarize(parmars) {
+  return requst({
+    url: '/deepCommentReport/cehckSummarize',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+
+// 深评报告导出
+export function exportDeep(parmars) {
+  return requst({
+    url: '/deepCommentReport/exportDeep',
+    method: 'POST',
+    responseType: 'blob',
     data: parmars
   })
 }

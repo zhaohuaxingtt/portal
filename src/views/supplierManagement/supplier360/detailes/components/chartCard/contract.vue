@@ -3,7 +3,7 @@
     <div class="title">
       <p>{{ language('HETONGDINGDAN', '合同订单') }}</p>
     </div>
-    <div class="center">
+    <div class="center" v-if="!isShow">
       <div v-loading="loading1"
            class=" chartStyleBox chartStyle">
         <div ref="chart1"
@@ -20,6 +20,14 @@
       <div v-loading="loading2"
            ref="chart2"
            class="chartStyle2"></div>
+    </div>
+    <div v-if="isShow">
+      <span style="font-size:18px;color:rgba(107, 121, 149, 0.56);margin-bottom: 5px;
+    display: flex;
+    height: 10rem;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;">{{language('GONGYINGSHANGZHANWUYEWUSHUJU', '供应商暂无该业务数据')}}</span>
     </div>
   </iCard>
 </template>
@@ -52,7 +60,8 @@ export default {
       ifBarchart: false,
       loading1: false,
       loading2: false,
-      topcarogery: []
+      topcarogery: [],
+      isShow:false
     }
   },
   computed: {
@@ -70,10 +79,12 @@ export default {
       this.loading1 = true
       this.loading2 = true
       getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
+        this.isShow = true;
         if (res && res.code == 200) {
           this.loading1 = false
           this.info = res.data
           if (this.info.length > 0) {
+            this.isShow = false;
             this.getLeftChart()
           }
         } else this.loading1 = false
@@ -236,9 +247,10 @@ export default {
       })
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
-        obj.chooseEquipment.value = parseInt(
-          obj.chooseEquipment.value / 1000000
-        ).toLocaleString()
+        
+        // console.log(obj.chooseEquipment.value)
+        // obj.chooseEquipment.value = parseInt(obj.chooseEquipment.value / 1000000).toLocaleString()
+        obj.chooseEquipment.value = (obj.chooseEquipment.value / 1000000).toFixed(2)
 
         if (params.percent === 0) obj.chooseEquipment.data = '0.00'
         else obj.chooseEquipment.data = params.percent

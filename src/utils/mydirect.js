@@ -1,17 +1,19 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-01-12 19:24:32
+ * @LastEditTime: 2022-03-17 11:51:22
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \front-portal-new\src\utils\mydirect.js
  */
 
 import store from '../store'
+import router from '@/router'
 import { isNeedJudgePermission } from './index'
 import { numberProcessor } from '@/utils'
 // 按钮权限
 // eslint-disable-next-line no-undef
+
 Vue.directive('permission', {
   bind: function (el, binding, vnode) {
     // 处理可见不可编辑的输入框，select textarea ....
@@ -25,6 +27,25 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+    //如果是个变量则使用变量，否则当做字符串处理
+
+    var proValue = ''
+    if (binding.value == 0) {
+      // console.log(binding)
+      proValue = binding.expression.trim()
+    } else if (binding.value == undefined) {
+      proValue = binding.expression
+    } else {
+      proValue = binding.value
+    }
+    // console.log(proValue)
+    const splitValue = proValue.split('|')
+    // console.log(splitValue)
+    //去除控件传参中存在换行空格等情况
+    const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
+    if (proValue === 'TRUE') {
+      return true
+    }
     if (isNeedJudgePermission()) {
       return true
     } else {
@@ -34,7 +55,21 @@ Vue.directive('permission', {
         !menuBtn
       ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
-        // if(process.env.NODE_ENV == "SIT") el.parentNode.removeChild(el)
+        if (pagePermission !== 'undefined') {
+          // console.log(pagePermission)
+          // console.log(!store.state.permission.whiteBtnList[pagePermission])
+          if (!store.state.permission.whiteBtnList[pagePermission]) {
+            //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
+            if (
+              binding.rawName.split('.')[1] &&
+              binding.rawName.split('.')[1] == 'edit'
+            ) {
+              el.classList.add('is-disabled')
+            } else {
+              el.parentNode.removeChild(el)
+            }
+          }
+        }
       }
     }
   }
@@ -46,6 +81,49 @@ Vue.directive('update', {
     vnode.key = Hash()
   }
 })
+
+Vue.directive('lazyLoading', {
+  bind(el, binding) {
+    console.log(el, binding, '2222222')
+    const { value } = binding
+    let elementClass = null
+    let lazyFun = null
+    if (typeof value == 'object') {
+      const { elementClass: _elementClass, lazyFun: _lazyFun } = value //   elementClass 元素的class,   lazyFun 调用的函数
+      elementClass = _elementClass
+      lazyFun = _lazyFun
+      console.log(elementClass, lazyFun)
+    } else if (typeof value == 'function') {
+      lazyFun = value
+    } else {
+      console.log('传参错误')
+      return
+    }
+    // 获取element-ui定义好的scroll盒子
+    const SELECTWRAP_DOM = el.querySelector(
+      elementClass || '.el-select-dropdown .el-select-dropdown__wrap'
+    )
+    SELECTWRAP_DOM.addEventListener('scroll', function () {
+      let { clientHeight, scrollTop, scrollHeight } = this
+      const CONDITION = Math.round(clientHeight + scrollTop) >= scrollHeight
+      if (CONDITION) {
+        debounce(lazyFun(), 300)
+      }
+    })
+  }
+})
+
+function debounce(fn, delay) {
+  //  防抖
+  var timeout = null // 创建一个标记用来存放定时器的返回值
+  return (e) => {
+    clearTimeout(timeout) // 每当用户输入的时候把前一个 setTimeout clear 掉
+    // 然后又创建一个新的 setTimeout, 这样就能保证interval 间隔内如果时间持续触发，就不会执行 fn 函数
+    timeout = setTimeout(() => {
+      fn.apply(this, arguments)
+    }, delay)
+  }
+}
 
 // 实现拖拽功能
 // eslint-disable-next-line no-undef

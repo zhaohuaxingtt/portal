@@ -187,6 +187,7 @@ export default {
         .finally(() => (this.loading = false))
     },
     areaChange(val, valStrs) {
+      console.log('areaChange', valStrs)
       if (valStrs.length > 2) {
         this.detail.addressInfoVo.country = valStrs[0]
         this.detail.addressInfoVo.province = valStrs[1]

@@ -14,7 +14,8 @@
       </el-row>
     </el-form>
     <div class="export">
-      <iButton @click="exoprtTemplate">导出</iButton>
+      <iButton @click="exoprtTemplate"
+               v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XIANGQING_DAOCHU">导出</iButton>
     </div>
     <div class="oneTwoTable">
       <iTableCustom @go-detail="handleSource"
@@ -123,28 +124,32 @@ export default {
 
     //来源详情 
     handleSource (val) {
-      let path = ""
-      let query = {}
-      if (val.source === '0') {
-        path = "/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor"
-        query = {
-          mtzAppId: val.sourceCode
+      
+      if(val.sourceCode !== "初始化"){
+        let path = ""
+        let query = {}
+        if (val.source === '0') {
+          path = "/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor"
+          query = {
+            mtzAppId: val.sourceCode
+          }
+        } else if (val.source === '1') {
+          path = "/mtz/annualGeneralBudget/MTZapplicationForm"
+          query = {
+            mtzAppId: val.sourceCode
+          }
+        } else if (val.source === '2') {
+          path = "aeko/mtz/details?aekoNum=" + val.sourceCode
+          window.open(process.env.VUE_APP_SOURCING_URL + path)
+          return
         }
-      } else if (val.source === '1') {
-        path = "/mtz/annualGeneralBudget/MTZapplicationForm"
-        query = {
-          mtzAppId: val.sourceCode
-        }
-      } else if (val.source === '2') {
-        path = "aeko/mtz/details?aekoNum=" + val.sourceCode
-        window.open(process.env.VUE_APP_SOURCING_URL + path)
-        return
+        let routerPath = this.$router.resolve({
+          path,
+          query
+        })
+        window.open(routerPath.href)
       }
-      let routerPath = this.$router.resolve({
-        path,
-        query
-      })
-      window.open(routerPath.href)
+
       // this.isShowSource = true
     },
     exoprtTemplate () {

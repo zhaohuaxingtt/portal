@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="table-box">
-        <tableList
+        <!-- <tableList
           :tableData="tableData"
           :tableTitle="TakeNoteTableTitleDialog"
           :tableLoading="loading"
@@ -45,7 +45,14 @@
               <span>{{ scope.row.categoryName }}</span>
             </el-tooltip>
           </template>
-        </tableList>
+        </tableList> -->
+
+        <iTableCustom
+          :data="tableData"
+          :columns="TakeNoteTableTitleDialog"
+          :loading="loading"
+        >
+        </iTableCustom>
       </div>
     </div>
   </div>
@@ -55,6 +62,7 @@
 import { iSelect, iMessage } from 'rise'
 import { TakeNoteTableTitleDialog } from './data'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
 import { getInfo, spiDetailList } from '@/api/kpiChart/spi.js'
 export default {
   props: {
@@ -62,7 +70,8 @@ export default {
   },
   components: {
     iSelect,
-    tableList
+    tableList,
+    iTableCustom
   },
 
   data() {

@@ -3,30 +3,6 @@
     <pageHeader class="margin-bottom20">
       <span>岗位代理明细</span>
     </pageHeader>
-    <iCard>
-      <iSteps :active="active" align-center>
-        <iStep title="发起岗位代理申请" status="finish">
-          <template slot="icon">
-            <icon symbol name="iconshenpiliu-daishenpi" class="icon" />
-          </template>
-        </iStep>
-        <iStep title="代理岗位领导审批">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="原有岗位领导审批">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="申请结果">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-      </iSteps>
-    </iCard>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
@@ -112,9 +88,6 @@
 
 <script>
 import { iCard, Icon, iDatePicker, iFormItem, iInput, iMessage } from 'rise'
-// import { addPositionAgent } from "@/views/position/agent/apply";
-import iSteps from '@/components/iSteps'
-import iStep from '@/components/iStep'
 import choosePosition from '../transfer/components/choosePosition'
 import {
   applyPositionAgent,
@@ -127,8 +100,6 @@ export default {
   components: {
     iCard,
     Icon,
-    iSteps,
-    iStep,
     iFormItem,
     iInput,
     choosePosition,
@@ -189,9 +160,9 @@ export default {
   computed: {
     duration() {
       if (this.form.startDate && this.form.endDate) {
-        const start = moment(this.form.startDate)
-        const end = moment(this.form.endDate)
-        return moment.duration(end.diff(start)).days()
+        const startDate = moment(this.form.startDate).format('YYYY-MM-DD')
+        const endDate = moment(this.form.endDate).format('YYYY-MM-DD')
+        return moment(endDate).diff(startDate, 'day')
       }
       return 0
     }
@@ -222,7 +193,9 @@ export default {
           this.canEdit = value.data.status == 1 //不可编辑
         }
       })
-      .catch((val) => {})
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     handleOpenChoosePositionDialog() {

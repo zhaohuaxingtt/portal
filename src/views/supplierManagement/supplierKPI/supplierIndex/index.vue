@@ -7,74 +7,68 @@
     <div class="page-title">
       <p>{{ language('RENWUGUANLI', '任务管理') }}</p>
     </div>
-    <iSearch @reset="clickReset" @sure="sure" :icon="true" class="dilogHeader">
-      <el-form label-width="80" inline label-position="top">
+    <iSearch @reset="clickReset"
+             @sure="sure"
+             :icon="true"
+             class="dilogHeader">
+      <el-form label-width="80"
+               inline
+               label-position="top">
         <el-form-item :label="language('RENWUMINGCHENG', '任务名称')">
-          <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.name">
+          <iInput :placeholder="$t('LK_QINGSHURU')"
+                  v-model="form.name">
           </iInput>
         </el-form-item>
         <el-form-item :label="language('RENWUZHUANGTAI', '任务状态')">
-          <iSelect
-            :placeholder="language('请选择')"
-            v-model="form.processingStatus"
-          >
-            <el-option
-              v-for="item in processingList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
+          <iSelect :placeholder="language('请选择')"
+                   v-model="form.processingStatus">
+            <el-option v-for="item in processingList"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('RENWUQIZHISHIJIAN', '任务起止时间')">
-          <iDatePicker
-            style="width: 300px"
-            type="datetimerange"
-            :range-separator="$t('SUPPLIER_ZHI')"
-            :placeholder="''"
-            v-model="daterange"
-            value-format="yyyy-MM-dd"
-            clearable
-          />
+          <iDatePicker style="width: 300px"
+                       type="datetimerange"
+                       :range-separator="$t('SUPPLIER_ZHI')"
+                       :placeholder="''"
+                       v-model="daterange"
+                       value-format="yyyy-MM-dd"
+                       clearable />
         </el-form-item>
       </el-form>
     </iSearch>
-    <iCard style="margin-top: 20px" class="tableBox">
+    <iCard style="margin-top: 20px"
+           class="tableBox">
       <div class="table-title">
         <iButton @click="handleExportCurrent">{{
           language('DAOCHU', '导出')
         }}</iButton>
       </div>
-      <table-list
-        :tableData="tableData"
-        :tableTitle="supplierTableTitle"
-        :index="true"
-        :selection="false"
-        :tableLoading="loading"
-      >
+      <table-list :tableData="tableData"
+                  :tableTitle="supplierTableTitle"
+                  :index="true"
+                  :selection="false"
+                  :tableLoading="loading">
         <template #manipulate="scope">
-          <el-button
-            v-if="scope.row.url != '' || scope.row.url != null"
-            @click="handleRouter(scope.row)"
-            type="text"
-          >
-            {{ language('CHAKAN', '查看') }}</el-button
-          >
+          <el-button v-if="scope.row.url != '' || scope.row.url != null"
+                     @click="handleRouter(scope.row)"
+                     type="text">
+            {{ language('CHAKAN', '查看') }}</el-button>
         </template>
       </table-list>
-      <iPagination
-        style="margin-top: 20px"
-        v-update
-        @size-change="handleSizeChange($event, sure)"
-        @current-change="handleCurrentChange($event, fetchReportDetail)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page="page.currPage"
-        :total="page.totalCount"
-      />
+      <iPagination style="margin-top: 20px"
+                   v-update
+                   @size-change="handleSizeChange($event, sure)"
+                   @current-change="handleCurrentChange($event, fetchReportDetail)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page="page.currPage"
+                   :total="page.totalCount" />
     </iCard>
   </iPage>
 </template>
@@ -114,7 +108,7 @@ export default {
     iSearch
   },
   props: {},
-  data() {
+  data () {
     return {
       supplierId: '',
       reportData: null,
@@ -143,7 +137,7 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     console.log(this.supplierId)
     this.form.processingStatus = this.$route.query.status
 
@@ -152,7 +146,7 @@ export default {
   computed: {},
   methods: {
     //获取跟进人
-    getUser() {
+    getUser () {
       let params = {
         supplierId: this.supplierId
       }
@@ -162,7 +156,7 @@ export default {
         }
       })
     },
-    getCategoryList() {
+    getCategoryList () {
       let params = {
         supplierType: this.tabVal
       }
@@ -172,11 +166,11 @@ export default {
         }
       })
     },
-    handleClosed() {
+    handleClosed () {
       this.$router.go(-1)
     },
     //查询列表
-    fetchReportDetail() {
+    fetchReportDetail () {
       console.log(this.form.processingStatus)
 
       this.loading = true
@@ -197,15 +191,19 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    handleRouter(row) {
+    handleRouter (row) {
+      // let routeData = this.$router.resolve({
+      //   path: `${row.url}`
+      // })
+      // console.log(routeData)
       window.open(row.url, '_blank')
     },
     //导出页面
-    handleExportCurrent() {
+    handleExportCurrent () {
       excelExport(this.tableData, supplierTableTitle)
     },
     // 点击重置
-    clickReset() {
+    clickReset () {
       this.form = {
         name: '',
         processingStatus: ''
@@ -215,7 +213,7 @@ export default {
       this.fetchReportDetail()
     },
     //点击查询
-    sure() {
+    sure () {
       this.page.currPage = 1
       this.fetchReportDetail()
     }

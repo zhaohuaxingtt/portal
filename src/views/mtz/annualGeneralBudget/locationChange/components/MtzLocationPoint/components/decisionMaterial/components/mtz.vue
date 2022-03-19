@@ -9,8 +9,8 @@
 <template>
   <div style="padding-bottom:30px;">
     <div class="download_btn">
-      <iButton v-if="!RsObject"
-               @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
+      <!-- <iButton v-if="!RsObject"
+               @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton> -->
     </div>
     <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv"
@@ -166,7 +166,7 @@
           <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
           <span class="buttonBox">
             <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
-                    @click="handleClickSave($event)">{{language('BAOCUN', '保存')}}</iButton>
+                    @click="handleClickSave($event)" v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
@@ -338,6 +338,8 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
+      // transverseDownloadPDF
+      // downloadPDF
       transverseDownloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,

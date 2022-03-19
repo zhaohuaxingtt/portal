@@ -1,5 +1,7 @@
 <template>
-  <div ref="charMap" id="container" :class="$route.path==='/supplier/NTier/NTierMap'?'amap-wrapper60':'amap-wrapper70'">
+  <div ref="charMap"
+       id="container"
+       :class="$route.path==='/supplier/NTier/NTierMap'?'amap-wrapper60':'amap-wrapper70'">
   </div>
 </template>
 
@@ -21,7 +23,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       temporaryMarker: [],//临时点
       p: 0,
@@ -29,6 +31,7 @@ export default {
       supplier: supplier,
       tableDataList: [],
       markerList: [],
+      markerChain: [],
       svwList: [],
       bezierCurve: [],
       lgIcon: new AMap.Icon({
@@ -76,7 +79,7 @@ export default {
   },
   watch: {
     object: {
-      async handler(data) {
+      async handler (data) {
         this.marker = []
         this.markerList = data.areaList || []
         this.markerList.map(item => item.flag = 'supplier')
@@ -87,12 +90,12 @@ export default {
       }
     }
   },
-  created() { },
-  mounted() {
+  created () { },
+  mounted () {
     this.showCityInfo();
   },
   methods: {
-    async querySvwFactory() {
+    async querySvwFactory () {
       this.svwList = []
       const res = await querySvwFactory()
       res.data.forEach(item => {
@@ -106,7 +109,7 @@ export default {
         }
       })
     },
-    showCityInfo() {
+    showCityInfo () {
       this.map = new AMap.Map('container', {
         WebGLParams: {
           preserveDrawingBuffer: true
@@ -124,7 +127,7 @@ export default {
       this.handleMarker()
     },
     // 生成点
-    handleMarker() {
+    handleMarker () {
       // svw
       this.svwList.map((item, index) => {
         if (item.procureFactory == '1000') {
@@ -164,73 +167,114 @@ export default {
         });
         this.marker[index].setMap(this.map)
         this.marker[index].on('click', (e) => {
-          if (e.target._opts.extData.viewType) {
-            this.marker.forEach((i, index) => {
-              this.marker[index].setIcon(new AMap.Icon({
-                image: i.getIcon()._opts.image,
-                size: new AMap.Size(20, 20),
-                imageSize: new AMap.Size(20, 20)
-              }))
-            })
-            this.circle.forEach((i, index) => {
-              this.circle[index].setIcon(new AMap.Icon({
-                image: i.getIcon()._opts.image,
-                size: new AMap.Size(20, 20),
-                imageSize: new AMap.Size(20, 20)
-              }))
-            })
-            e.target.setIcon(new AMap.Icon({
-              image: e.target.getIcon()._opts.image,
-              size: new AMap.Size(30, 30),
-              imageSize: new AMap.Size(30, 30)
+          this.marker.forEach((i, index) => {
+            this.marker[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
             }))
-            this.getChainPart(this.marker[index]._opts.extData, item)
-          }
-        })
+          })
+          this.circle.forEach((i, index) => {
+            this.circle[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
+            }))
+          })
+          e.target.setIcon(new AMap.Icon({
+            image: e.target.getIcon()._opts.image,
+            size: new AMap.Size(30, 30),
+            imageSize: new AMap.Size(30, 30)
+          }))
+          this.getChainPart(this.marker[index]._opts.extData, item)
+          // if (e.target._opts.extData.viewType) {
 
+          // }
+        })
       })
     },
     // 弹框信息
-    async getChainPart(data, item) {
+    async getChainPart (data, item) {
       const pms = {
         supplierId: data.supplierId,
         partNum: data.partNum,
         type: data.flag === 'svw' ? 2 : 1,
         factoryId: data.factoryId
       }
-      if (data.viewType) {
-        const res = await getChainPart(pms)
-        let rate = await listFrameInfo(pms)
-        if (res.data || rate.data) {
-          this.tips = new AMap.InfoWindow({
-            autoMove: false,
-            retainWhenClose: true,
-            content: '',
-            offset: new AMap.Pixel(0, -320),
-          })
-          const infowindowWrap = Vue.extend({
-            template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
-            name: "infowindowWrap",
-            components: {
-              tipTable: tipTable
-            },
-            data() {
-              return {
-                tableDataList: res.data,
-                rate: rate.data
-              };
-            },
-          });
-          const component = new infowindowWrap().$mount();
-          this.tips.setContent(component.$el)
-          this.tips.open(this.map, [item.lon, item.lat])
-        }
+      const res = await getChainPart(pms)
+      let rate = await listFrameInfo(pms)
+      if (res.data || rate.data) {
+        this.tips = new AMap.InfoWindow({
+          autoMove: false,
+          retainWhenClose: true,
+          content: '',
+          offset: new AMap.Pixel(0, -320),
+        })
+        console.log(this.tips)
+        const infowindowWrap = Vue.extend({
+          template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
+          name: "infowindowWrap",
+          components: {
+            tipTable: tipTable
+          },
+          data () {
+            return {
+              tableDataList: res.data,
+              rate: rate.data
+            };
+          },
+        });
+        console.log(infowindowWrap)
+        const component = new infowindowWrap().$mount();
+        this.tips.setContent(component.$el)
+        this.tips.open(this.map, [item.lon, item.lat])
       }
+      // if (data.viewType) {
+
+      // }
     },
     // 生成贝塞尔曲线row:选择的数据
-    handleRecursion(data, partNum, viewType) {
+    handleRecursion (data, partNum, viewType) {
+      data.map((item, index) => {
+        this.markerChain[index] = new AMap.Marker({
+          position: new AMap.LngLat(item.address.lon, item.address.lat),
+          icon: this.lgIcon,
+          anchor: "center",//避免缩小是出现偏移
+          offset: new AMap.Pixel(0, 0),//避免缩小是出现偏移
+          extData: item,
+          topWhenClick: true,//鼠标点击时marker是否置顶
+          clickable: true
+        });
+        this.markerChain[index].setMap(this.map)
+        this.markerChain[index].on('click', (e) => {
+          this.markerChain.forEach((i, index) => {
+            this.markerChain[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
+            }))
+          })
+          this.circle.forEach((i, index) => {
+            this.circle[index].setIcon(new AMap.Icon({
+              image: i.getIcon()._opts.image,
+              size: new AMap.Size(20, 20),
+              imageSize: new AMap.Size(20, 20)
+            }))
+          })
+          e.target.setIcon(new AMap.Icon({
+            image: e.target.getIcon()._opts.image,
+            size: new AMap.Size(30, 30),
+            imageSize: new AMap.Size(30, 30)
+          }))
+          this.getChainPart(this.markerChain[index]._opts.extData, item.address)
+          // if (e.target._opts.extData.viewType) {
+
+          // }
+        })
+      })
+
       data.forEach((item, index) => {
-        this.marker.forEach((val, i) => {
+        this.markerChain.forEach((val, i) => {
           if (item.supplierId == val._opts.extData.supplierId && item.chainLevel === 1) {
             let extData = { ...val.getExtData(), viewType: viewType, partNum: partNum }
             val.setExtData(extData)
@@ -259,8 +303,8 @@ export default {
                   imageSize: new AMap.Size(20, 20)
                 }))
               })
-              this.marker.forEach((i, index) => {
-                this.marker[index].setIcon(new AMap.Icon({
+              this.markerChain.forEach((i, index) => {
+                this.markerChain[index].setIcon(new AMap.Icon({
                   image: i.getIcon()._opts.image,
                   size: new AMap.Size(20, 20),
                   imageSize: new AMap.Size(20, 20)
@@ -296,9 +340,10 @@ export default {
           this.handleRecursion(item.child, partNum, viewType)
         }
       })
+      console.log(this.marker, "marker")
     },
     // 点击零件|供应商
-    async handleCurrentChange(row, viewType) {
+    async handleCurrentChange (row, viewType) {
       this.map.clearInfoWindow()
       this.p = 0
       this.temporaryMarker = []
@@ -306,6 +351,9 @@ export default {
         this.map.remove(this.bezierCurve[index])
       })
       this.circle.forEach(item => {
+        this.map.remove(item)
+      })
+      this.markerChain.forEach(item => {
         this.map.remove(item)
       })
       this.marker.forEach(item => {

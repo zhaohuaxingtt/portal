@@ -93,7 +93,7 @@
           language('LK_YQ_XIANGQINGLIEBIAO', '详情列表')
         }}</span>
       <div class='editControl floatright margin-bottom20'>
-        <span class='margin-left10 margin-right10'>
+        <span class='margin-left10 margin-right10' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_DAORU">
           <Upload
             hideTip
             :buttonText="language('LK_YQ_DAORU', '导⼊')"
@@ -101,17 +101,17 @@
             :accept="'.xlsx,.xls'"
           />
         </span>
-        <i-button @click=''>
+        <i-button @click='' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_DAOCHUQUANBU">
           {{ language('LK_YQ_DAOCHUQUANBU', '导出全部') }}
         </i-button>
-        <i-button @click='deleteOpinionMonitoring()'> {{ language('LK_YQ_SHANCHU', '删除') }}</i-button>
-        <i-button @click=''>
+        <i-button @click='deleteOpinionMonitoring()' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_DEL"> {{ language('LK_YQ_SHANCHU', '删除') }}</i-button>
+        <i-button @click='' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_FABUYUQINGZHOUBAO">
           {{ language('LK_YQ_FABUYUQINGZHOUBAO', '发布舆情周报') }}
         </i-button>
-        <i-button @click='updateItemDate()'>
+        <i-button @click='updateItemDate()' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_FENXIYUQINGJIEGUO">
           {{ language('LK_YQ_FENXIYUQINGJIEGUO', '分析舆情结果') }}
         </i-button>
-        <i-button @click='maintenanceSupplier()'>{{ language('LK_YQ_WEIHUGONGYINGSHANGMINGDAN', '维护供应商名单') }}</i-button>
+        <i-button @click='maintenanceSupplier()' v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_WHGYSMD">{{ language('LK_YQ_WEIHUGONGYINGSHANGMINGDAN', '维护供应商名单') }}</i-button>
       </div>
 
 

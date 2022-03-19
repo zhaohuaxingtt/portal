@@ -187,7 +187,7 @@
                         <span class="link"  @click="toUrl(infoData,'mtzRsNum')">{{ infoData.mtzRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>MTZ {{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
+                        <span>{{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'rsNlNum')">{{ infoData.rsNlNum }}</span>
                     </div>
 
@@ -357,11 +357,11 @@
                             <span>MTZ {{ language('LK_GUIZEBIANHAO', '规则编号') }}{{ key + 1 }}：</span>
                             <span>{{ item.mtzRuleCode }}</span>
                         </div>
-                        <div class="divItem">
+                        <div class="divItem" v-if="item.mtzCategoryZh && item.mtzCategoryDe">
                             <span>MTZ {{ language('LK_CAILIAOZU', '材料组')}}：</span>
                             <span>{{ item.mtzCategoryZh + '-' + item.mtzCategoryDe }}</span>
                         </div>
-                        <div class="divItem">
+                        <div class="divItem" v-if="item.mtzMaterialCode && item.mtzMaterialName">
                             <span>{{ language('LK_YUANCAILIAO', '原材料')}}：</span>
                             <span>{{ item.mtzMaterialCode + '-' + item.mtzMaterialName }}</span>
                         </div>
@@ -487,10 +487,10 @@
             this.bookmarkNodes.sort(sort)
             if (this.bookmarkNodes && this.bookmarkNodes[0]) {
               if (this.bookmarkNodes[0].children && this.bookmarkNodes[0].children[0]) {
-                this.getRecordDetail(this.bookmarkNodes[0].children[0], 0)
+                this.getRecordDetail(res.data.mainSpindleNodes[0], 0)
                 this.bookmarkNodes[0].index = 0
               } else {
-                this.getRecordDetail(this.bookmarkNodes[0], 0)
+                this.getRecordDetail(res.data.mainSpindleNodes[0], 0)
                 this.checkedIndex1 = 0
               }
             }
@@ -542,17 +542,16 @@
       toUrl(item,typeName) {
         let {type,desinateId, designateType, projectId, rfqId,letterId,aekoId,loiId,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,rsNum,businessType,aekoCode} = item
         let path = ''
-        console.log(type,'type',item)
         if(type==1) path = ''                        // 会议
         if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${businessTitle}` // 寻源 ok
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${loiId}` // LOI
         if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
         if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // Aeko
-        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${letterId}` // 配件定点
-        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz定点
+        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=1000060` // 配件定点
+        if(type==7) path = `/portal/#/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor?currentStep=1&mtzAppId=${businessTitle}` // mtz定点
         if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // 定点信编号ok
         if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${letterId}` // 定点信编号
-        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz rs编号
+        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/portal/#/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor?currentStep=1&mtzAppId=${businessTitle}` // mtz rs编号
         if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${rfqId}` // 成本分析
         if(typeName == 'RFQ' && businessTitle) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editordetail?id=${businessTitle}` // rfq编号
         if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // fs编号

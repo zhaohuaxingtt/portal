@@ -24,8 +24,12 @@ export const TABLE = [
       i18n: '触发类型'
     },
     {
-      prop: 'interfaceSystem',
+      prop: 'interfaceSystemName',
       i18n: '外部系统'
+    },
+    {
+      prop: 'interfaceName',
+      i18n: '接口名称'
     },
     {
       prop: 'createDate',
@@ -33,7 +37,7 @@ export const TABLE = [
       width: "150px"
     },
     {
-      prop: 'rqTime',
+      prop: 'bizId',
       i18n: '业务编号'
     },
     {
@@ -41,8 +45,8 @@ export const TABLE = [
       i18n: '用户ID'
     },
     {
-      prop: 'userType',
-      i18n: '用户类型'
+      prop: 'userRole',
+      i18n: '用户角色'
     },
     {
       prop: 'creator',
@@ -52,7 +56,19 @@ export const TABLE = [
       prop: 'content',
       i18n: '操作内容',
       minWidth: 200,
-      tooltip: true
+      // tooltip: true,
+      customRender: (h, {row}) => {
+        return (
+          <el-popover
+            title=""
+            width="500"
+            trigger="hover"
+            content={row.content}>
+            
+            <div slot="reference" style="width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{row.content}</div>
+           </el-popover>
+        )
+      }
     },
     {
       prop: 'success',
@@ -86,7 +102,10 @@ export const TABLE_DETAIL = [
     fixed:"left",
     width: '50px',
     customRender: (h, {row}) => {
-      return <div style="padding:10px 20px">{row.result}</div>
+      return <div style="padding:10px 20px">
+         <div style="margin-bottom:10px">请求日志：{row.request}</div>
+         <div>响应日志：{row.result}</div>
+      </div>
     }
   },
   {
@@ -102,7 +121,7 @@ export const TABLE_DETAIL = [
   {
     prop: 'content',
     i18n: '操作内容',
-    minWidth: 200,
+    minWidth: "200px",
     tooltip: true
   },
   {
@@ -145,7 +164,7 @@ export const TABLE_DETAIL = [
     i18n: '接口名称'
   },
   {
-    prop: 'interfaceSystem',
+    prop: 'interfaceSystemName',
     i18n: '对接系统'
   },
 ]

@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -12,12 +12,15 @@
     <el-col :span="8">
       <iCard class="Ltd">
         <div>
-          <div class="titleZh margin-right10">{{info.nameZh}}</div>
-          <span class="titleEn">{{info.nameEn}}</span>
+          <span class="titleEn"
+                v-if="info.isForeignManufacture&&info.isForeignManufacture==1">{{info.nameEn}}</span>
+          <div class="titleZh margin-right10"
+               v-else>{{info.nameZh}}</div>
         </div>
-        <div class="tagStyle" v-if="tagList.length>0">
+        <div class="tagStyle"
+             v-if="tagList.length>0">
 
-          <el-popover placement="top-end"
+          <el-popover placement="top-start"
                       width="200"
                       trigger="hover">
             <div><span v-for="(item,index) in tagList"
@@ -54,7 +57,8 @@
         </div>
       </iCard>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="16"
+            v-if="isShowAll">
       <iCard class="countryMap"
              :title="$t('SPR_FRM_XGYSPJ_GCDT')">
         <el-row type="flex"
@@ -95,6 +99,12 @@ export default {
     tableList
   },
   props: {
+    isShowAll: {
+      type: Boolean,
+      default: () => {
+        return false
+      }
+    },
     factoryAddressVOList: {
       type: Array,
       default: () => {
@@ -108,7 +118,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       nameZh: '',
       nameEn: '',
@@ -119,26 +129,34 @@ export default {
     }
   },
   watch: {
-    factoryAddressVOList(data) {
+    // isShowAll(data){
+
+    // },
+    factoryAddressVOList (data) {
       data.map((item) => (item.name = item.city))
       this.tableListData = data
       if (this.$refs.chart && this.tableListData.length > 0) {
         this.handleMap()
       }
     },
-    supplier360ViewVO(data) {
-      this.info = data
+    supplier360ViewVO (data) {
+      if (data) {
+        this.$parent.$parent.$parent.pageLoading = true
+        this.$parent.onLoading = true
+        this.info = data
+        this.getTags()
+      }
       //    this.nameZh=data.nameZh
       //    this.nameEn=data.nameEn
-      this.getTags()
+
     }
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     this.handleMap()
   },
   methods: {
-    async getTags() {
+    async getTags () {
       const pms = {
         pageNo: 1,
         pageSize: 10,
@@ -146,21 +164,23 @@ export default {
       }
       const res = await getTags(pms)
       if (res.result) {
+        this.$parent.$parent.$parent.pageLoading = false
+        this.$parent.onLoading = false
         this.tagList = res.data
       }
     },
-    handleShareholder() {
-      console.log(this.info)
+    handleShareholder () {
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
           supplierToken: this.info.token || '',
           supplierType: '4',
-          subSupplierType: this.$route.query.supplierType
+          subSupplierType: this.$route.query.supplierType,
+          supplierId: this.$route.query.subSupplierId
         }
       })
     },
-    handleMap() {
+    handleMap () {
       console.log('creat map')
       // 初始化地图
       var map = new AMap.Map('container', {
@@ -244,9 +264,15 @@ export default {
   position: relative;
   .tagStyle {
     position: absolute;
-    top: 50px;
-    width: 120px;
-    left: 360px;
+    top: 30px;
+    width: 170px;
+    height: 30px;
+    line-height: 30px;
+    // color:black;
+    padding: 0 15px;
+    background: #f1f1f1;
+    border-radius: 15px;
+    right: 30px;
     overflow: hidden; /*超出隐藏*/
     white-space: nowrap; /* 强制不换行 */
     text-overflow: ellipsis; /*文字隐藏的格式 */

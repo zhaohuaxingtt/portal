@@ -1,11 +1,11 @@
 <template>
 	<iPage>
 		<pageHeader class="margin-bottom20">系统管理员日志</pageHeader>
-		<iSearch @sure="search" @reset="reset">
+		<iSearch @sure="search(true)" @reset="reset">
 			<el-form :model="form" ref="form" class="search-form" :inline="true" size="normal">	
 				<div class="form-item">
 					<iLabel class="label" :label="language('模块菜单')" slot="label"></iLabel>
-					<iSelect v-model="form.module" class="w-220" filterable clearable>
+					<iSelect v-model="form.menuId" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in moduleMenu"
 							:label="item.value"
@@ -38,7 +38,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('触发类型')" slot="label"></iLabel>
-					<iSelect v-model="form.triggerType" class="w-220" filterable clearable>
+					<iSelect v-model="form.triggerType" :disabled="form.category != 2" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in triggerTypes"
 							:label="item.value"
@@ -54,7 +54,6 @@
 						:start-placeholder="language('开始日期')"
 						:end-placeholder="language('结束日期')"
 						type="daterange"
-						format="yyyy-MM-dd"
 						range-separator="至"
 						value-format="yyyy-MM-dd"
 						class="p-date"
@@ -63,8 +62,8 @@
 					/>
 				</div>
                 <div class="form-item">
-					<iLabel class="label" :label="language('对接外部系统')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceSystem" @change="sysChange" class="w-220" filterable clearable>
+					<iLabel class="label" :label="language('接口对应系统')" slot="label"></iLabel>
+					<iSelect v-model="form.interfaceSystemCode" :disabled="form.category != 2" @change="sysChange" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in interfaceSystemList"
 							:label="item.value"
@@ -75,7 +74,7 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('接口名称')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceName" class="w-220" filterable clearable>
+					<iSelect v-model="form.interfaceCode" :disabled="form.category != 2" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in apiList"
 							:label="item.value"
@@ -90,7 +89,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作内容')" slot="label"></iLabel>
-					<iInput v-model="form.content_like" class="w-220" :placeholder="language('请输入')" />
+					<iInput v-model="form.content" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('岗位')" slot="label"></iLabel>
@@ -99,7 +98,7 @@
 				
 				<div class="form-item">
 					<iLabel class="label" :label="language('用户')" slot="label"></iLabel>
-					<iInput v-model="form.userRole" class="w-220" :placeholder="language('请输入')" />
+					<iInput v-model="form.creator" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('接口流水号')" slot="label"></iLabel>
@@ -111,7 +110,7 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" label="" slot="label"></iLabel>
-                    <el-checkbox v-model="form.success" style="margin-top:6px" label="" :indeterminate="false" @change="statusChange">是否成功</el-checkbox>
+                    <el-checkbox v-model="form.success" style="margin-top:6px" label="" :indeterminate="false" @change="statusChange">是否失败</el-checkbox>
 				</div>
 			</el-form>
 		</iSearch>
@@ -119,7 +118,7 @@
 			<div class="log-btns">
                 <button-download :download-method="exportExcel" />
 			</div>
-			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
+			<CommonTable ref="table" :extraData="extraData" :tableColumns="getTableColumn" :params="form" :fromAdminLog="true"></CommonTable>
 		</iCard>
 
 		<detail ref="detail" :show.sync="show" :params="params"></detail>
@@ -130,7 +129,7 @@
 import pageHeader from '@/components/pageHeader'
 import { iPage,iSearch, iInput, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
-import {TABLE} from './table';
+import { TABLE } from './table';
 import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu,listInterface} from '@/api/biz/log';
 import detail from './detail.vue';
 import moment from 'moment';
@@ -168,9 +167,28 @@ export default {
         this.restForm()
         this.init()
         this.$nextTick(() => {
-            this.search()
+            this.search(true)
         })
     },
+	watch:{
+		"form.category"(n){
+			if(n != 2){
+				this.$set(this.form, "triggerType", "")
+				this.$set(this.form, "interfaceSystemCode", "")
+				this.$set(this.form, "interfaceCode", "")
+			}
+		}
+	},
+	computed: {
+		getTableColumn() {
+			// 日志类别 选择接口日志类型及其他类型的区别
+			if (this.form.category !== '2') {
+				return this.tableColumns.filter(e => e.prop !== 'interfaceName')
+			} else {
+				return this.tableColumns
+			}
+		}
+	},
 	methods: {
         async init(){
             // 日志类别
@@ -179,7 +197,7 @@ export default {
             // 操作类型
             let operRes = await listOperation()
             this.operationTypes = operRes.data || []
-            // 对接外部系统
+            // 外部所属系统
             let sysRes = await listInterfaceSystem()
             this.interfaceSystemList = sysRes.data || []
             // 触发类型
@@ -192,43 +210,43 @@ export default {
 		restForm(){
 			return new Promise((resolve) => {
                 this.form = {
-                    module:"",
+                    menuId:"",
                     type:"",
                     category:"1",
                     triggerType:"",
-                    interfaceSystem:"",
+                    interfaceSystemCode:"",
                     bizId:"",
-                    content_like:"",
+                    content:"",
                     userPosition:"",
-                    interfaceName:"",
-                    userRole:"",
+                    interfaceCode:"",
+                    creator:"",
                     interfaceSerial:"",
-                    createDate_gt:"",
-                    createDate_le:"",
-                    success:true,
+                    startDate:"",
+                    endDate:"",
+                    success: false,
 					id:""
                 }	
 				let end = moment().format('YYYY-MM-DD')
-				let start = moment(new Date(end).getTime() - (90 * 24 * 3600 * 1000)).format("YYYY-MM-DD")
+				let start = moment(new Date(end).getTime() - (30 * 24 * 3600 * 1000)).format("YYYY-MM-DD") 		//30天
 				this.date = [start, end]
-				this.form.createDate_gt = start
-				this.form.createDate_le = end
+				this.form.startDate = start
+				this.form.endDate = end
                 resolve()
             })
 		},
 		async reset() {
             await this.restForm()
-			this.search()
+			this.search(true)
 		},
-		search() {
-            this.$refs.table.query()
+		search(t) {
+            this.$refs.table.query(t)
 		},
         exportExcel(){
             return exportBizLog({ extendFields: this.form })
         },
 		// 查看详情
         msgDetail(row){
-			if(!row.traceId) return this.$message.warning("traceId为空")
+			if(!row.traceId) return this.$message.success("没有关联信息")
 			this.params = {
 				traceId:row.traceId,
 				category:row.category
@@ -239,15 +257,15 @@ export default {
 			})
         },
         dateChange(date){
-            this.form.createDate_gt = date ? date[0] : ""
-            this.form.createDate_le = date ? date[1] : ""
+            this.form.startDate = date ? date[0] : ""
+            this.form.endDate = date ? date[1] : ""
         },
         statusChange(){
-            this.search()
+            this.search(true)
         },
 		async sysChange(v){
 			// 获取接口名称
-			this.form.interfaceName = ""
+			this.form.interfaceCode = ""
 			let res = await listInterface(v)
 			this.apiList = res.data
 		}

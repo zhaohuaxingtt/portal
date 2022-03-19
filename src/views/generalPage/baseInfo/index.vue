@@ -6,7 +6,8 @@
 <template>
   <div class="baseInfo">
     <div class="save margin-bottom20">
-      <iButton @click="saveInfos()">保存</iButton>
+      <iButton @click="saveInfos()"
+               v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL">保存</iButton>
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
@@ -114,11 +115,12 @@ export default {
   methods: {
     // 获取基本信息
     supplierDetail () {
+      this.$parent.$parent.onLoading = true
       supplierDetail(this.supplierType).then(res => {
         if (res.data) {
           //初始数据很多为null 需要重置为“” 不然会触发表单验证
           let baseInfo = this.reView(res.data)
-          console.log(baseInfo)
+          this.$parent.$parent.onLoading = false
           baseInfo.supplierInfoVo.isListing = baseInfo.supplierInfoVo.isListing.toString()
           if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo
             .gpSupplierInfoVO
@@ -126,8 +128,13 @@ export default {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
-          if (baseInfo.settlementBankVo) this.supplierComplete.settlementBankDTO = baseInfo
-            .settlementBankVo
+          if (baseInfo.settlementBankVo) {
+            if (!baseInfo.settlementBankVo.bankTaxCode || baseInfo.settlementBankVo.bankTaxCode == '') {
+              baseInfo.settlementBankVo.bankTaxCode = baseInfo.supplierInfoVo.socialcreditNo
+            }
+            this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
+
+          }
           if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
           // 如果是查看修改 需要从不同的表获取 基础信息
           // if (baseInfo.gpSupplierInfoVO) {

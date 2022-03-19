@@ -3,8 +3,8 @@
  * @createTime: 2021-5-24 16:11:06
  * @Description:企业概况
  -->
-<template>
-  <div>
+<template >
+  <div v-loading="loading">
     <!-- 基本信息 -->
     <iCard title="基本信息"
            collapse
@@ -13,8 +13,14 @@
         <iFormItem :label="item.name"
                    v-for="(item,index) in baseInfoTitle"
                    :key="index">
-          <iInput :disabled="isDisabled"
-                  :value="info.supplier[item.props]"></iInput>
+          <el-date-picker v-model="info.supplier['registeredDate']"
+                          v-if="item.props==='registeredDate'"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择日期">
+          </el-date-picker>
+          <iInput v-else
+                  v-model="info.supplier[item.props]"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -27,7 +33,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.groupCompany"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 重要变更 -->
@@ -39,7 +44,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.importantChange"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 融资信息 -->
@@ -51,7 +55,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.financingInformation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 业务情况 -->
@@ -63,7 +66,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.businessSituation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 搬迁情况 -->
@@ -75,7 +77,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.relocation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 敏感信息 -->
@@ -87,7 +88,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.sensitiveInformation"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 公司简介 -->
@@ -99,7 +99,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.companyProfile"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 其他补充信息 -->
@@ -111,7 +110,6 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.otherSupplementaryInfo"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <el-row :gutter="50">
@@ -145,10 +143,9 @@
               :autosize='rowRange'
               placeholder="请输入"
               v-model="info.remark"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
-    <div class="remark">来源于公开信息，供应商提供信息和供应商访谈。</div>
+    <div class="remark"> 来源于公开信息，供应商提供信息和供应商访谈。 </div>
   </div>
 </template>
 
@@ -169,7 +166,8 @@ export default {
       info: {
         supplier: {}
       },
-      supplierId: ""
+      supplierId: "",
+      loading: false
     }
   },
   props: {
@@ -179,7 +177,6 @@ export default {
     console.log(this.userInfo)
     // setWaterMark(this.userInfo.nameZh+this.userInfo.id+this.userInfo.deptDTO.deptNum+'仅供CS内部使用',1000,700)
     this.id = this.$route.query.id;
-    this.supplierId = this.$route.query.supplierId;
     this.getOverView()
   },
   destroyed () {
@@ -194,26 +191,34 @@ export default {
   },
   methods: {
     getOverView () {
-      getCompanyOverview(this.supplierId, this.id).then((result) => {
+      this.loading = true;
+      getCompanyOverview(this.id).then((result) => {
+        this.loading = false;
         if (result && result.data !== null) {
           this.info = result.data
         }
 
       }).catch((err) => {
-
+        this.loading = false;
       });
     },
     postOverView () {
-      console.log(this.info, "info")
+      this.baseInfoTitle.forEach(item => {
+        this.info[item.props] = this.info.supplier[item.props]
+      })
+      delete this.info.supplier
+      this.loading = true;
       postCompanyOverview(this.info).then((result) => {
+        this.loading = false;
         if (result.code == 200) {
           this.$message.success(result.desZh)
           this.getOverView()
         } else {
           this.$message.error(result.desZh)
         }
-      }).catch((err) => {
 
+      }).catch(() => {
+        this.loading = false;
       });
     }
   }
@@ -242,7 +247,6 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #9b9b9b;
 }
 </style>

@@ -9,11 +9,11 @@
 			<span class="title">{{$t('SPR_FRM_DEP_FINANA')}}</span>
 			<div class="flex-align-center">
 				<!-- 维护呈现对象 -->
-				<iButton @click='openVisible'>{{$t('SPR_FRM_DEP_CXWHDX')}}</iButton>
+				<iButton @click='openVisible' v-permission="PORTAL_SUPPLIER_NAV_GAILAN_WEIHUCHENGXIANDUIXIANG">{{$t('SPR_FRM_DEP_CXWHDX')}}</iButton>
 				<!-- 加入行业均值 -->
-				<iButton @click='openIndustry'>{{$t('SPR_FRM_DEP_JRHYJZ')}}</iButton>
+				<iButton @click='openIndustry' v-permission="PORTAL_SUPPLIER_NAV_GAILAN_JIARUHANGYEJUNZHI">{{$t('SPR_FRM_DEP_JRHYJZ')}}</iButton>
 				<!-- 维护行业均值 -->
-				<iButton @click='onJumpIndustryAverage'>{{$t('SPR_FRM_DEP_WHHYJZ')}}</iButton>
+				<iButton @click='onJumpIndustryAverage' v-permission="PORTAL_SUPPLIER_NAV_GAILAN_WEIHUHANGYEJUNZHI">{{$t('SPR_FRM_DEP_WHHYJZ')}}</iButton>
                   <iButton slot="header-control"
     
                @click="$router.push({path:'/supplier/frmrating/supplieroverview'})">{{$t('LK_FANHUI')}}</iButton>

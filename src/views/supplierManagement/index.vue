@@ -2,11 +2,12 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-23 15:39:07
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <iPage :class="padding?'padding':''">
+  <iPage :class="padding?'padding':''"
+         v-loading="pageLoading">
     <headerNav :class="padding?'nav':''" />
     <router-view />
   </iPage>
@@ -20,10 +21,11 @@ import headerNav from "./commonHeardNav/headerNav";
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: { iPage, headerNav },
-  data() {
+  data () {
     // 这里存放数据
     return {
-      padding: false
+      padding: false,
+      pageLoading:false
     }
   },
   // 监听属性 类似于data概念
@@ -35,13 +37,13 @@ export default {
 
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-    if (this.$route.path === '/supplier/NTier/NTierMap' ||this.$route.path === '/supplier/NTier/supplyChainRisk/map') {
+  created () {
+    if (this.$route.path === '/supplier/NTier/NTierMap' || this.$route.path === '/supplier/NTier/supplyChainRisk/map') {
       this.padding = true
     }
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
 }
@@ -54,7 +56,7 @@ export default {
 .nav {
   padding: 0 2.5rem 0 2.5rem;
 }
-.routerpage{
+.routerpage {
   position: relative;
 }
 </style>

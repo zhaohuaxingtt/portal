@@ -7,13 +7,13 @@
   <i-card>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <i-button v-permission="SUPPLIER_BACKSUPPLIER">{{ $t('FANHUIGONGYINSHANG360') }}</i-button>
+        <i-button v-permission="SUPPLIER_BACKSUPPLIER360">{{ $t('FANHUIGONGYINSHANG360') }}</i-button>
         <i-button @click="exportsTable" v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+                <!-- v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE" -->
     <table-list :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading"
-                @handleSelectionChange="handleSelectionChange" :index="true"
-                v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE"
+                @handleSelectionChange="handleSelectionChange" :index="true" border
     >
       <template #open="scope">
         <span @click="open(scope.row)" class="open">{{ $t('LK_CHAKAN') }}</span>

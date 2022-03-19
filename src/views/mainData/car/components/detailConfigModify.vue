@@ -9,7 +9,7 @@
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
-            :placeholder='language("请选择")'
+            :placeholder="language('请选择')"
           >
             <el-option
               v-for="item in configVersions"
@@ -23,7 +23,11 @@
           :label="language('年份')"
           v-if="configVersions.length > 0"
         >
-          <iSelect v-model="searchData.year" @change="yearChange" :placeholder='language("请选择")'>
+          <iSelect
+            v-model="searchData.year"
+            @change="yearChange"
+            :placeholder="language('请选择')"
+          >
             <el-option
               v-for="item in yearOptions"
               :key="item"
@@ -43,16 +47,32 @@
             v-show="isEditPage && !editable"
             :disabled="loading"
             @click="setYearVisible = true"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_SET_YEAR'"
           >
             {{ language('应用年份') }}
           </iButton>
-          <iButton v-show="!editable" :disabled="loading" @click="edit">
+          <iButton
+            v-show="!editable"
+            :disabled="loading"
+            @click="edit"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+          >
             {{ language('编辑') }}
           </iButton>
-          <iButton v-show="editable" :disabled="loading" @click="save">
+          <iButton
+            v-show="editable"
+            :disabled="loading"
+            @click="save"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+          >
             {{ language('保存') }}
           </iButton>
-          <iButton v-show="editable" :disabled="loading" @click="cancel">
+          <iButton
+            v-show="editable"
+            :disabled="loading"
+            @click="cancel"
+            v-permission="'BUTTON_MAIN_DATA_CAR_MODEL_CONFIG_MODIFY'"
+          >
             {{ language('取消') }}
           </iButton>
         </div>

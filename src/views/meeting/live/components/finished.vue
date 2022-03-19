@@ -345,14 +345,14 @@ export default {
       },
       immediate: true
     },
-    meetingInfo: {
-      handler() {
-        this.dataAll = [...this.finishedData]
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
-        this.total = this.dataAll.length
-      },
-      immediate: true
-    }
+    // meetingInfo: {
+    //   handler() {
+    //     this.dataAll = [...this.finishedData]
+    //     this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+    //     this.total = this.dataAll.length
+    //   },
+    //   immediate: true
+    // }
   },
   methods: {
     closeDialog() {
@@ -403,6 +403,7 @@ export default {
     },
     //选择页数
     handleCurrentChange(curPage) {
+      console.log('curPage', curPage)
       this.page.pageNum = curPage
       this.currentChangePage(this.dataAll, this.page.pageNum)
     },

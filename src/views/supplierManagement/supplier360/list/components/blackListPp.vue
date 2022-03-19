@@ -186,11 +186,15 @@
           }}</iButton>
         </div>
       </div>
-      <p class="tableTitle">
-        {{ language('XIANGQINGLIEBIAO', '详情列表') }}
-      </p>
+      <div class="header">
+        <p class="tableTitle">{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
+        <div>
+          <!-- <buttonTableSetting @click="$refs.tableListRef1.openSetting()" v-if="tabVal == 1"></buttonTableSetting> -->
+          <!-- <buttonTableSetting @click="$refs.tableListRef2.openSetting()" v-else></buttonTableSetting> -->
+        </div>
+      </div>
       <div class="tableBox">
-        <table-list
+        <!-- <table-list
           v-if="tabVal == 1"
           style="margin-top: 20px"
           :tableData="tableListData"
@@ -202,8 +206,18 @@
           <template #stuffNameEnDe="scope">
             <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
           </template>
-        </table-list>
-        <table-list
+        </table-list> -->
+
+        <iTableCustom
+          ref="tableListRef1"
+          v-if="tabVal == 1"
+          :data="tableListData"
+          :columns="tableTitlePpBlackList"
+          :loading="tableLoading"
+        >
+        </iTableCustom>
+
+        <!-- <table-list
           v-if="tabVal == 2"
           style="margin-top: 20px"
           :tableData="tableListDataRecord"
@@ -215,7 +229,17 @@
           <template #stuffNameEnDe="scope">
             <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
           </template>
-        </table-list>
+        </table-list> -->
+
+        <iTableCustom
+          ref="tableListRef2"
+          v-if="tabVal == 2"
+          :data="tableListDataRecord"
+          :columns="tableTitlePpBlackListRecord"
+          :loading="tableLoadingRecord"
+        >
+        </iTableCustom>
+
         <iPagination
           style="margin-top: 20px"
           v-update
@@ -259,6 +283,8 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitlePpBlackList, tableTitlePpBlackListRecord } from './data'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import {
   iButton,
   iDatePicker,
@@ -282,7 +308,9 @@ export default {
     iDatePicker,
     iSelect,
     iPagination,
-    iDialog
+    iDialog,
+    iTableCustom,
+    buttonTableSetting
   },
   data() {
     return {
@@ -501,7 +529,8 @@ export default {
 }
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 }
 .tableTitle {
   font-size: 18px;

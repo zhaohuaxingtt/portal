@@ -9,6 +9,7 @@ export const navList = [
     url: '/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview',
     activePath: '/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview',
     key: 'MTZ补差总览',
+    permissionKey:'MTZ_REPORT_BUCHAGUANLI_MTZBUCHAZONGLAN',
   },
   {
     value: 2,
@@ -16,6 +17,7 @@ export const navList = [
     url: '/mtz/annualGeneralBudget/replenishmentManagement/supplementaryList',
     activePath: '/mtz/annualGeneralBudget/replenishmentManagement/supplementaryList',
     key: '补差单列表',
+    permissionKey:'MTZ_REPORT_BUCHAGUANLI_BUCHADANLIEBIAO',
   },
   {
     value: 3,
@@ -23,5 +25,6 @@ export const navList = [
     url: '/mtz/annualGeneralBudget/replenishmentManagement/vwptUploadQuantity',
     activePath: '/mtz/annualGeneralBudget/replenishmentManagement/vwptUploadQuantity',
     key: 'VWPT上载数量',
+    permissionKey:'MTZ_REPORT_BUCHAGUANLI_VWPTSHANGZAISHULIANG',
   },
 ];

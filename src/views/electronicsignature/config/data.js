@@ -105,6 +105,27 @@ export  const sinatureColumns=[
     }
   },
   {
+    prop: 'isSend',
+    label: "推送状态",
+    i18n: "推送状态",
+    headerAlign: "center",
+    align: "center",
+    tooltip: true,
+    customRender: (h, scope) => {
+      let sendStatusDesc = scope.row.sendStatusDesc || ''
+      let isSend = scope.row.isSend || ''
+      if (isSend) {
+        if (!sendStatusDesc) {
+          return <span>推送成功</span>
+        } else {
+          return <span>推送失败{sendStatusDesc ? `: ${sendStatusDesc}` : ''}</span>
+        }
+      } else {
+        return <span>尚未推送</span>
+      }
+    }
+  },
+  {
     prop: "signStatus",
     label: "签署状态",
     i18n: "LK_QIANSHUZHUANGTAI",

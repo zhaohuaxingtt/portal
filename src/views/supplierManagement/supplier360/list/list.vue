@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -26,7 +26,7 @@
             </el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG')">
+        <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.supplierName"></iInput>
         </el-form-item>
@@ -100,6 +100,27 @@
             </el-option>
           </iSelect>
         </el-form-item>
+        <el-form-item :label="language('JITUANGONGSI', '集团公司')">
+          <iSelect filterable
+                   :placeholder="language('请选择')"
+                   v-model="form.groupId">
+            <el-option v-for="item in groupList"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
+        <el-form-item :label="language('VWHAOZHUANGTAI', 'vw号状态')">
+          <iSelect :placeholder="language('请选择')"
+                   v-model="form.vwStatus">
+            <el-option v-for="item in vwStatuslist"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
         <el-form-item :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')">
           <iSelect multiple
                    collapse-tags
@@ -118,6 +139,8 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
+          <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
+          <!-- <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
@@ -127,12 +150,13 @@
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
                     v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
-            $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
-          }}</i-button>
-          <i-button @click="handleRegister">{{
-            $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
-          }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
+          <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                    @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
+          <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
+                    @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
+          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -143,7 +167,9 @@
                   @handleSelectionChange="handleSelectionChange"
                   :openPageProps="'nameZh'"
                   @openPage="openPage"
+                  border
                   :openPageGetRowData="true"
+                  :fixed="true"
                   :index="true">
         <template #supplierTagNameList="scope">
           <i-button type="text"
@@ -256,7 +282,7 @@ import {
 } from 'rise'
 import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
-import { dropDownTagName } from '@/api/supplierManagement/supplierTag/index'
+import { dropDownTagName, groupCompanyList, vwStatusList } from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
@@ -269,7 +295,7 @@ import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, dictByCode } from './data'
 import listDialog from './listDialog'
-import { getBasicList } from '@/api/basic/basic'
+import { getBasicList, synchronizationSap } from '@/api/basic/basic'
 import { addInitial } from '@/api/frmRating/overView/overView.js'
 export default {
   mixins: [generalPageMixins, pageMixins],
@@ -295,6 +321,8 @@ export default {
     return {
       tagdropDownList: [],
       supplierId: '',
+      vwStatuslist: [],
+      groupList: [],
       gpRemoveParams: {
         key: 0,
         visible: false
@@ -386,6 +414,20 @@ export default {
     // })
   },
   methods: {
+    remoteGetGroup (query) {
+      if (!query.match(/^[ ]*$/)) {
+        const params = {
+          keyword: query,
+          //   supplierId: this.clickTableList.subSupplierId,
+          //   deptIds: this.form.deptIds
+        }
+        // purchaseListSearch(params).then((res) => {
+        //   if (res && res.code == 200) {
+        //     this.purchaseList = res.data
+        //   } else iMessage.error(res.desZh)
+        // })
+      }
+    },
     changTag () {
       this.form.tagNameList = []
       //获取标签列表
@@ -511,12 +553,62 @@ export default {
         }
       }
     },
+    toApplicationBDL () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
+      this.$router.push({
+        path: '/supplier/application-BDL',
+        query: { supplierToken: this.selectTableData[0].supplierToken }
+      })
+    },
+    toApplicationMBDL () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
+      this.$router.push({
+        path: '/supplier/application-BDL',
+        query: { supplierToken: this.selectTableData[0].supplierToken, mbdl: true }
+      })
+    },
+    synchro () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+      }
+      if (this.selectTableData.length > 1) {
+        return iMessage.error(
+          this.language('ZHINENGXUANZEYITIAO', '只能选择一条')
+        )
+      }
+      synchronizationSap({
+        supplierId: this.selectTableData[0].subSupplierId
+      }).then((res) => {
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
 
     async handleInfo () {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
-
+      const res6 = await groupCompanyList({})
+      const res5 = await vwStatusList({})
+      this.vwStatuslist = res5.data
+      this.groupList = res6.data
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4
@@ -531,6 +623,13 @@ export default {
     handleTagsList (row) {
       this.rowList = row
       this.issetTagList = true
+    },
+    // 跳转采购条款归档
+    togoFiling () {
+      let routeData = this.$router.resolve({
+        path: '/supplier/contractArchiving'
+      })
+      window.open(routeData.href)
     },
     tagTab () {
       let routeData = this.$router.resolve({
@@ -565,7 +664,8 @@ export default {
         path: '/supplier/supplierList/details',
         query: {
           supplierType: this.form.supplierType || '',
-          subSupplierId: params.subSupplierId || ''
+          subSupplierId: params.subSupplierId || '',
+          isShowAll: params.isShowAll || '',
         }
       })
       window.open(routeData.href)
@@ -585,6 +685,8 @@ export default {
         vwCode: '',
         tagdropDownList: [],
         isActive: '',
+        groupId: '',
+        vwStatus: '',
         supplierType: this.userType,
         dept: ''
       }

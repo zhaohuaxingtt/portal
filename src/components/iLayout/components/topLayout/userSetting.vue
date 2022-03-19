@@ -3,6 +3,7 @@
     placement="bottom"
     trigger="click"
     :popper-class="'setting-popover'"
+    v-model="visible"
     @show="handleShow"
     @hide="handleHide"
   >
@@ -10,7 +11,7 @@
       <div class="title flex-align-center">
         <icon symbol class="icon" name="iconSetting" />
         <!-- <span class="margin-left10">{{ $t('topLayout.setting.personal') | capitalizeFilter }}</span> -->
-        <span class="margin-left10">个人设置</span>
+        <span class="margin-left10">{{ language('个人设置') }}</span>
       </div>
       <div>
         <div
@@ -20,18 +21,17 @@
           :class="{
             'flex-between-center-center': true,
             menu: true,
-            active: $route.path === menu.url,
-            disabled: menu.name !== 'logout'
+            active: $route.path === menu.path
           }"
         >
-          <span>{{ menu.title }}</span>
+          <span>{{ language(menu.title) }}</span>
         </div>
       </div>
       <div v-if="menus_admin.length">
         <div class="title flex-align-center">
           <icon symbol class="icon" name="iconguanliyuanshezhi" />
           <!-- <span class="margin-left10">{{ $t('topLayout.setting.admin') | capitalizeFilter }}</span> -->
-          <span class="margin-left10">管理端</span>
+          <span class="margin-left10">{{ language('管理端') }}</span>
         </div>
         <div>
           <div
@@ -49,7 +49,7 @@
             }"
             :url="menu.url"
           >
-            <span>{{ menu.title }}</span>
+            <span>{{ language(menu.title) }}</span>
           </div>
         </div>
       </div>
@@ -58,10 +58,7 @@
       :class="['user', { active: active || usernameActive }]"
       slot="reference"
     >
-      <el-avatar
-        class="icon"
-        src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
-      ></el-avatar>
+      <el-avatar class="icon" :src="avatar"></el-avatar>
       <div class="info">
         <p class="name">{{ userInfo.nameZh || 'admin' }}</p>
         <p class="dept">{{ deptName }}</p>
@@ -73,7 +70,6 @@
 <script>
 import { icon, iMessage } from 'rise'
 import filters from '@/utils/filters'
-import { removeToken } from '@/utils/index.js'
 
 export default {
   mixins: [filters],
@@ -113,6 +109,12 @@ export default {
         this.activeMenu.length &&
         this.activeMenu[0] === 'RISE_ADMIN'
       )
+    },
+    avatar() {
+      return (
+        this.userInfo?.profile?.path ||
+        'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg'
+      )
     }
   },
   data() {
@@ -125,15 +127,18 @@ export default {
           name: 'profile'
         },
         {
-          title: _self.$t('setting'),
-          name: 'setting'
+          title: '设置',
+          name: 'setting',
+          url: '/portal/#/setting',
+          path: '/setting'
         },
         {
-          title: _self.$t('LK_TUICHUDENGLU'),
+          title: '退出登录',
           name: 'logout'
         }
       ],
-      menus_admin: []
+      menus_admin: [],
+      visible: false
     }
   },
   methods: {
@@ -147,20 +152,20 @@ export default {
     //模拟退出登录方法
     logout() {
       this.$emit('click-menu', 'logout')
-      removeToken()
-      window.sessionStorage.clear()
-      window.localStorage.clear()
-      this.$store.commit('SET_USER_INFO', {})
-      window.location.href = process.env.VUE_APP_LOGOUT_URL
     },
     handleProfileClick(menu) {
       if (menu.name === 'logout') {
         this.logout()
+      } else if (menu.name === 'setting') {
+        window.location.href = '/portal/#/setting'
       } else {
-        iMessage.success('coming soon')
+        // iMessage.success('coming soon')
+        this.$emit('click-menu', menu.name)
       }
+      this.visible = false
     },
     handleRedirect(menu) {
+      window.sessionStorage.setItem('seconedPerminssionKey', menu.permissionKey)
       if (!menu.url) {
         iMessage.success('coming soon')
       } else if (menu?.url.indexOf('http') !== -1) {
@@ -178,6 +183,7 @@ export default {
           this.$router.push(menu.url)
         }
       }
+      this.visible = false
     },
     removeToken() {
       const keys = document.cookie.match(/[^ =;]+(?==)/g)

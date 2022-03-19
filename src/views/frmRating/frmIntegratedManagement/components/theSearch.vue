@@ -32,7 +32,7 @@
           </iSelect>
         </el-form-item>
         <!--相关科室-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_XGKS')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_XGKS1')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.takeChargeSection">
             <el-option value=""
@@ -48,14 +48,14 @@
       <!--第二行-->
       <el-row class="margin-bottom20">
         <!--供应商状态-->
-        <el-form-item :label="$t('GONGHUO')">
+        <el-form-item :label="$t('GONGHUO1')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.isActive">
             <!--            <el-option value="" :label="$t('all')"></el-option>-->
-            <el-option :value="item.name"
-                       :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
-                       v-for="item of allSelectObject.SUPPLIER_STATUS"
-                       :key="item.name"></el-option>
+            <el-option value="1"
+                       label="正常"></el-option>
+            <el-option value="0"
+                       label="受控"></el-option>
           </iSelect>
         </el-form-item>
 
@@ -118,7 +118,7 @@
       <!--第三行-->
       <el-row>
         <!--外评-->
-        <el-form-item :label="$t('SPR_FRM_FRMGL_WP')">
+        <el-form-item :label="$t('SPR_FRM_FRMGL_WP1')">
           <el-row gutter="5"
                   style="display: inline-block">
             <el-col :span="11">

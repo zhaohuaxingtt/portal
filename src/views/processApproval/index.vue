@@ -1,17 +1,17 @@
 <template>
   <div style="height: 100%; padding-bottom: 40px">
     <div class="ProApproval-menu">
-      <iNavMvp :list="menus" :lev="1" router-page />
+      <iNavMvp :list="menus"
+               :lev="1"
+               router-page />
 
       <iTabBadge>
-        <iTabBadgeItem
-          v-for="item in subMenus"
-          :name="item.name"
-          :key="item.value"
-          :active="item.type === queryType"
-          :activeBorder="false"
-          @click="changeSubMenu(item)"
-        />
+        <iTabBadgeItem v-for="item in subMenus"
+                       :name="item.name"
+                       :key="item.value"
+                       :active="item.type === queryType"
+                       :activeBorder="false"
+                       @click="changeSubMenu(item)" />
       </iTabBadge>
     </div>
 
@@ -25,7 +25,7 @@ import { iNavMvp } from 'rise'
 export default {
   name: 'processApproval',
   components: { iNavMvp, iTabBadge, iTabBadgeItem },
-  data() {
+  data () {
     return {
       menus: [
         {
@@ -34,7 +34,8 @@ export default {
           message: 0,
           url: '/bpm/template',
           activePath: '/bpm/template',
-          key: '流程模板管理'
+          key: '流程模板管理',
+          permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_TEMPLATE'
         },
         {
           value: 2,
@@ -42,7 +43,8 @@ export default {
           message: 0,
           url: '/bpm/monitoring',
           activePath: '/bpm/monitoring',
-          key: '流程监控'
+          key: '流程监控',
+          permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_MONITOR'
         },
         {
           value: 3,
@@ -50,7 +52,8 @@ export default {
           message: 0,
           url: '/bpm/report',
           activePath: '/bpm/report',
-          key: '流程报表'
+          key: '流程报表',
+          permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_REPORT'
         },
         {
           value: 4,
@@ -59,6 +62,7 @@ export default {
           url: '/approval/agent',
           activePath: '/approval/agent',
           key: '审批代理',
+          permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT',
           children: [
             {
               value: 5,
@@ -67,7 +71,8 @@ export default {
               url: '/approval/agent?type=normal',
               activePath: '/approval/agent',
               key: '审批代理',
-              type: 'normal'
+              type: 'normal',
+              permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT_NORMAL'
             },
             {
               value: 6,
@@ -76,7 +81,8 @@ export default {
               url: '/approval/agent?type=meeting',
               activePath: '/approval/agent',
               key: '会议审批代理',
-              type: 'meeting'
+              type: 'meeting',
+              permissionKey: 'ADMIN_APPROVAL_MANAGEMENT_AGENT_MEETING'
             }
           ]
         }
@@ -84,23 +90,62 @@ export default {
     }
   },
   computed: {
-    subMenus() {
+    subMenus () {
       const path = this.$route.path
       const items = this.menus.filter((e) => e.url === path)
+      let subMenus = []
       if (items && items.length && items[0].children) {
-        return items[0].children
+        subMenus = items[0].children
       }
-      return []
+      return subMenus.filter((e) => this.whiteBtnList[e.permissionKey])
     },
-    queryType() {
+    queryType () {
       if (!this.$route.query || Object.keys(this.$route.query).length === 0) {
         return 'normal'
       }
       return this.$route.query.type || ''
+    },
+    whiteBtnList () {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
+  created () {
+    const { fullPath } = this.$route
+    if (fullPath === '/approval/agent') {
+      if (this.whiteBtnList['ADMIN_APPROVAL_MANAGEMENT_AGENT_NORMAL']) {
+        this.$router.replace({
+          path: '/approval/agent',
+          query: { type: 'normal' }
+        })
+      } else {
+        this.$router.replace({
+          path: '/approval/agent',
+          query: { type: 'meeting' }
+        })
+      }
+    } else {
+      this.checkHasEnterMenu()
     }
   },
   methods: {
-    changeSubMenu(item) {
+    checkHasEnterMenu () {
+      const { fullPath } = this.$route
+      let redirectUrl = ''
+      for (let i = 0; i < this.menus.length; i++) {
+        const menu = this.menus[i]
+        if (menu.url === fullPath) {
+          console.log('permissionKey', menu.permissionKey)
+          const permissionKey = menu.permissionKey
+          if (!this.whiteBtnList[permissionKey]) {
+            redirectUrl =  this.menus[i + 1].url 
+          }
+        }
+      }
+      if (redirectUrl) {
+        this.$router.push({ path: redirectUrl })
+      }
+    },
+    changeSubMenu (item) {
       this.activeSubMenuName = item.name
       this.$router.replace({ path: item.url })
     }

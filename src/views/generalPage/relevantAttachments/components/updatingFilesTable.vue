@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2022-01-11 10:57:44
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-16 17:47:37
+ * @LastEditors: YoHo
  * @Description: 相关附件
 -->
 <template>
@@ -13,7 +13,7 @@
       }}</span>
       <div class="floatright">
         <i-button @click="saveInfos('')"
-                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">
+                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT_BAOCUN">
           {{ $t('LK_BAOCUN') }}
         </i-button>
         <i-button @click="exportsTable"
@@ -21,7 +21,9 @@
         </i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"  -->
     <table-list :tableData="tableListData"
+                ref="table"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
@@ -29,12 +31,20 @@
                 @handleUploadedCallback="handleUploadedCallback"
                 @handleFileDownload="handleFileDownload"
                 @handleExampleDownload="handleExampleDownload"
+                @viewPublish="viewPublish"
+                @publish="publish"
                 :index="true"
-                v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS" />
+                :disabled="disabled" />
     <attachment-dialog @handleSignature="handleSignature"
                        :detail="attachmentDetail"
+                       :id=currentTemplateId
                        :loading="attachmentLoading"
-                       v-model="attachmentDialog" />
+                       v-model="attachmentDialog"
+                       :disableButton="disableButton" />
+    <clause-dialog v-model="show"
+                   :supplierId="supplierId"
+                   @purchaseTerms="purchaseTerms"
+                   :isMaintain="isMaintain"></clause-dialog>
   </i-card>
 </template>
 
@@ -52,6 +62,8 @@ import {
 import attachmentDialog from './attachmentDialog'
 import { downloadUdFile } from '@/api/file'
 import { cloneDeep } from 'lodash'
+import clauseDialog from "@/views/generalPage/clausePage/clauseDialog.vue";
+import { purchaseTerms } from '@/api/frmRating/overView/overView.js'
 
 export default {
   mixins: [generalPageMixins],
@@ -59,7 +71,8 @@ export default {
     iCard,
     iButton,
     tableList,
-    attachmentDialog
+    attachmentDialog,
+    clauseDialog
   },
   data () {
     return {
@@ -69,15 +82,45 @@ export default {
       selectTableData: [],
       attachmentDialog: false,
       attachmentDetail: '',
+      disableButton: false,
       attachmentLoading: false,
       currentTemplateId: '',
-      attachmentInfo: {}
+      attachmentInfo: {},
+      isMaintain: true,
+      show: false,
+      disabled: false,
     }
+  },
+  computed: {
+    supplierId () {
+      return this.$store.state.baseInfo.baseMsg.ppSupplierDTO.id
+    },
+    supplierIdMain () {
+      return this.$store.state.baseInfo.baseMsg.supplierDTO.id
+    },
   },
   created () {
     this.getTableList()
+    this.purchaseTerms()
+  },
+  mounted () {
   },
   methods: {
+    async purchaseTerms () {
+      let disabled = false
+      let params = {
+        supplierId: this.supplierId,
+        headerId: this.$store.state.permission.userInfo.id // 就是Linie id
+      }
+      await purchaseTerms(params).then(res => {
+        if (res?.code == '200') {
+          res.data.forEach(i => {
+            disabled = disabled || ['02', '04', '05'].includes(i.termsStatus) // 02:审批中,04:审批通过,05:签署中
+          })
+        }
+      })
+      this.disabled = disabled
+    },
     async getTableList () {
       this.tableLoading = true
       try {
@@ -93,6 +136,27 @@ export default {
         this.tableLoading = false
       }
     },
+    async publish (row) {
+      if (!this.supplierId&&this.supplierIdMain) {
+        iMessage.error('供应商id获取失败')
+        return
+      }
+      await this.purchaseTerms()
+      if (this.disabled) return
+      let query = {
+        supplierId: this.supplierId,
+        supplierIdMain: this.supplierIdMain
+      }
+      const router = this.$router.resolve({ path: '/clausepage/item', query })
+      window.open(router.href, '_blank')
+    },
+    viewPublish (row) {
+      if (!this.supplierId) {
+        iMessage.error('供应商id获取失败')
+        return
+      }
+      this.show = true
+    },
     async handleViewAttachment (row) {
       this.attachmentInfo = {}
       this.attachmentDetail = ''
@@ -103,17 +167,19 @@ export default {
         id: this.currentTemplateId
       }
       const res = await getAttachmentCommitment(req)
-      this.attachmentDetail = res.data.detail
+      this.attachmentDetail = res.data?.detail
+      this.disableButton = (res.data?.termsId == null)
       this.attachmentLoading = false
       this.attachmentInfo = res.data
     },
-    async handleSignature () {
+    async handleSignature (detailContent) {
       this.attachmentLoading = true
       const req = {
         step: 'submit',
         id: this.currentTemplateId,
         termsId: this.attachmentInfo.termsId || '',
         termsVersion: this.attachmentInfo.termsVersion || '',
+        termsContent: detailContent
       }
       const res = await signatureAttachment(req)
       this.attachmentLoading = false

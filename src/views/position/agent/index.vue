@@ -8,6 +8,7 @@
           @add="handleAdd"
           @edit="handleEdit"
           @delete="handleDelete"
+          @handle-setting="$refs.agentTable.openSetting()"
         />
       </div>
     </pageHeader>
@@ -17,9 +18,10 @@
         :data="tableData"
         :columns="tableColumns"
         :extra-data="tableExtraData"
+        permission-key="CF_PRO_CS_POSITION_AGENT"
         @handle-selection-change="handleSelectionChange"
         @go-detail="handleTableClick"
-        ref="approvalTable"
+        ref="agentTable"
       />
       <iPagination
         v-update
@@ -66,12 +68,12 @@ export default {
         {
           prop: 'businessId',
           label: '代理申请号',
-          width: 160
+          width: 140
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          width: 180
+          width: 150
         },
         {
           prop: 'fullNameZh',
@@ -109,7 +111,7 @@ export default {
         {
           prop: 'createDate',
           label: '创建时间',
-          width: 150
+          width: 180
         },
         {
           prop: 'status',
@@ -204,15 +206,14 @@ export default {
       })
     },
     agenStatus(val) {
-      if (val === 1) {
-        return '草稿'
-      } else if (val === 2) {
-        return '审批中'
-      } else if (val === 3) {
-        return '同意'
-      } else {
-        return '拒绝'
+      const statusMap = {
+        1: '草稿',
+        2: '审批中',
+        3: '同意',
+        4: '拒绝',
+        5: '撤回'
       }
+      return statusMap[val.toString()]
     }
   },
   destroyed() {

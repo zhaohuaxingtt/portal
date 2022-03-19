@@ -60,15 +60,27 @@
                     @click="submit">{{$t('LK_TIJIAO')}}</i-button>
           <i-button v-permission="SUPPLIER_APPLYBDL_EXPORT"
                     @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
         </div>
       </div>
-      <table-list v-permission="SUPPLIER_APPLYBDL_TABEL"
+      <!-- v-permission="SUPPLIER_APPLYBDL_TABEL" -->
+      <!-- <table-list 
                   :height="400"
                   :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   :index="true"
-                  @handleSelectionChange="handleSelectionChange" />
+                  @handleSelectionChange="handleSelectionChange" /> -->
+
+      <iTableCustom
+        ref="tableListRef"
+        :data="tableListData"
+        :columns="tableTitle"
+        :loading="tableLoading"
+        @handle-selection-change="handleSelectionChange"
+      >
+      </iTableCustom>
+      
       <add-bdl-dialog :title="$t('LK_TIANJIA')"
                       @handleSelection='handleSelection'
                       v-model="addBdldialog" />
@@ -79,7 +91,9 @@
 <script>
 import { iCard, iButton, iMessage, iSelect, } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
+import iTableCustom from '@/components/iTableCustom'
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
 import addBdlDialog from './addBdlDialog'
@@ -94,7 +108,9 @@ export default {
     iButton,
     tableList,
     addBdlDialog,
-    iSelect
+    iSelect,
+    iTableCustom,
+    buttonTableSetting
   },
   data () {
     return {
@@ -176,6 +192,7 @@ export default {
             this.selectTableData.forEach((item) => {
               pms.bdlSaveList.push({
                 stuffId: item.id,
+                stuffCode: item.stuffCode,
                 categoryId: item.categoryId,
                 categoryCode: item.categoryCode,
                 categoryNameZh: item.categoryNameZh,

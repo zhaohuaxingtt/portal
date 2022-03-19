@@ -8,6 +8,7 @@
           @add="handleAdd"
           @edit="handleEdit"
           @delete="handleDelete"
+          @handle-setting="$refs.approvalTable.openSetting()"
         />
       </div>
     </pageHeader>
@@ -17,6 +18,7 @@
         :data="tableData"
         :columns="tableColumns"
         :extra-data="tableExtraData"
+        permission-key="CF_PRO_CS_POSITION_TRANSFER"
         @handle-selection-change="handleSelectionChange"
         @go-detail="handleTableClick"
         ref="approvalTable"
@@ -67,37 +69,44 @@ export default {
         {
           prop: 'businessId',
           label: '轮岗申请号',
-          width: 160
+          width: 140,
+          sortable: true
         },
         {
           prop: 'applyUserName',
           label: '员工姓名',
-          minWidth: 180
+          minWidth: 120,
+          sortable: true
         },
         {
           prop: 'sourceName',
           minWidth: 180,
-          label: '原岗位'
+          label: '原岗位',
+          sortable: true
         },
         {
           prop: 'fullNameZh',
-          label: '目标岗位'
+          label: '目标岗位',
+          minWidth: 180,
+          sortable: true
         },
         {
           prop: 'startDate',
           label: '交接开始日期',
-          width: 120,
+          width: 140,
           customRender: (h, scope) => {
             return scope.row.startDate && scope.row.startDate.substr(0, 10)
-          }
+          },
+          sortable: true
         },
         {
           prop: 'endDate',
           label: '交接结束日期',
-          width: 120,
+          width: 140,
           customRender: (h, scope) => {
             return scope.row.endDate && scope.row.endDate.substr(0, 10)
-          }
+          },
+          sortable: true
         },
         {
           prop: 'durationDays',
@@ -105,12 +114,14 @@ export default {
           width: 120,
           customRender: (h, scope) => {
             return scope.row.durationDays + '天'
-          }
+          },
+          sortable: true
         },
         {
           prop: 'createDate',
           label: '创建时间',
-          width: 150
+          width: 180,
+          sortable: true
         },
         {
           prop: 'status',
@@ -119,7 +130,8 @@ export default {
           customRender: (h, scope) => {
             return this.agenStatus(scope.row.status)
             // return <span class="open-link-text">{scope.row.nameZh}</span>;
-          }
+          },
+          sortable: true
         }
       ],
       tableData: [],
@@ -209,15 +221,25 @@ export default {
       })
     },
     agenStatus(val) {
-      if (val == '1') {
+      /* if (val == '1') {
         return '草稿'
       } else if (val == '2') {
         return '审批中'
       } else if (val == '3') {
         return '同意'
-      } else {
+      } else if (val == '4') {
         return '拒绝'
+      } else if (val == '5') {
+        return '撤回'
+      } */
+      const statusMap = {
+        1: '草稿',
+        2: '审批中',
+        3: '同意',
+        4: '拒绝',
+        5: '撤回'
       }
+      return statusMap[val.toString()]
     }
   },
   destroyed() {

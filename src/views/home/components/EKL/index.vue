@@ -22,7 +22,7 @@
     <div class="ekl-content">
       <div class="target flex-between-center-center">
         <div class="left">
-          <div class="panel-title margin-bottom12">业绩目标</div>
+          <div class="panel-title margin-bottom12"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">业绩目标</a></div>
           <el-select v-model="query.year" @change="handleCheckYear">
             <el-option
               v-for="item in options"
@@ -35,14 +35,13 @@
         </div>
         <div
           class="middle middle-m"
-          style="font-size: 24px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
             parseFloat(tabsData.totalTarget)
               ? parseFloat(tabsData.totalTarget).toFixed(2)
               : '0.00'
-          }}<span style="color: #1763f7; font-size: 24px">%</span>
+          }} <span style="color: #1763f7;">%</span>
         </div>
         <div class="right">
           <div style="font-family: Arial; font-weight: bold; color: #343434">
@@ -132,7 +131,8 @@ export default {
         dptCode: ''
       },
       tabList: [],
-      listData: []
+      listData: [],
+      chart: null
     }
   },
   computed: {
@@ -140,7 +140,10 @@ export default {
       code: (code) => code.permission.code,
       eklTabList: (eklTabList) => eklTabList.permission.eklTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
-    })
+    }),
+    turnUrl() {
+      return window.location.origin
+    }
   },
   watch: {
     eklTabItem() {
@@ -149,28 +152,53 @@ export default {
   },
   mounted() {
     this.options = [this.query.year, this.query.year + 1]
+    // if (this.leadTabList.length > 0) {
+    //   // 由于在store全部加了(Spare) 需在ekl去掉(Spare) 只在配附件ekl种展示
+    //   // this.tabList = this.leadTabList
+    //   this.leadTabList.map(item => {
+    //     item.name = item.name.replace('(Spare)', '') || ''
+    //   })
+    //   this.tabList = this.leadTabList
+    // } else {
+    //   this.tabList = this.unique(this.eklTabList || [], 'name')
+    //   // this.tabList = this.eklTabList
+    // }
+    this.tabList = this.unique(this.eklTabList || [], 'name')
     if (this.leadTabList.length > 0) {
-      this.tabList = this.leadTabList
-    } else {
-      this.tabList = this.eklTabList
-      if (this.eklTabList.length > 0) {
-        this.query.type = this.eklTabList[0].type
-        this.activeName = this.eklTabList[0].name
-      }
+      // this.leadTabList.map(item => {
+      //   item.name = item.name.replace('(Spare)', '') || ''
+      // })
+      let leadTabList = JSON.parse(JSON.stringify(this.leadTabList))
+        leadTabList.map(item => {
+          item.name = item.name.replace('(Spare)', '') || ''
+        })
+      this.tabList = [...this.tabList, ...leadTabList]
+    }
+    if(this.tabList.length > 0){
+      this.query.type = this.tabList[0].type || ""
+      this.activeName = this.tabList[0].name || ""
     }
     this.getEkl(this.query)
     // log.js
     this.tabChange()
   },
   methods: {
+    // 数组去重
+    unique(arr, attrName) {
+      const res = new Map();
+      return arr.filter((a) => !res.has(a[attrName]) && res.set(a[attrName], 1));
+    }, 
     tabChange() {
       if (this.eklTabItem) {
         this.handleClick(this.eklTabItem)
       }
     },
     handleClick({ name }) {
+      console.log(name, '2222')
       this.activeName = name
-      this.eklTabList.forEach((item) => {
+      console.log(this.tabList, '3333')
+      this.tabList.forEach((item) => {
+        console.log(item, '333')
         if (item.name == name) {
           this.query.type = item.type
           this.activeName = item.name
@@ -179,6 +207,7 @@ export default {
       })
     },
     async getEkl(data) {
+      console.log(data, '1234')
       const res = await getEkl(data)
       if (res && res.code == '200') {
         this.tabsData = res.data
@@ -288,17 +317,26 @@ export default {
           }
         ]
       }
+      console.log('set echarts', option)
       this.chart && this.chart.setOption(option)
     },
     handleCheckYear(year) {
       this.query.year = year
       this.getEkl(this.query)
     }
+  },
+  beforeDestroy() {
+    this.chart = null
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.a-title {
+  color: #1763F7;
+  cursor: pointer;
+  text-decoration: underline;
+}
 .panel-title {
   font-family: Arial;
   font-weight: bold;
@@ -384,6 +422,7 @@ export default {
     }
     > .middle-m {
       margin-top: -36px;
+      font-size: 24px;
     }
   }
 

@@ -2,70 +2,92 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
   <div>
-    <el-row :gutter="20" type="flex" justify="space-between">
-      <el-col :span="8" v-permission="Card_SPI">
+    <el-row :gutter="20">
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_SPI"
+              class="margin-bottom20">
+        <!-- <el-col :span="8"> -->
+
         <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
       </el-col>
-      <el-col :span="8" v-permission="Card_Accessories_Supply_Rate">
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_SUPPLY_RATE"
+              v
+              class="margin-bottom20">
+
+        <!-- <el-col :span="8"> -->
         <!-- 配附件供货率 -->
         <supplyRate :infodata="infodata"></supplyRate>
       </el-col>
-      <el-col :span="8" v-permission="Card_EKL_BP">
+      <!-- <el-col :span="8"> -->
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_EKL"
+              class="margin-bottom20">
+
         <!-- ekl批量件 -->
         <eklSupplier :infodata="infodata"></eklSupplier>
       </el-col>
-    </el-row>
-    <el-row
-      class="margin-top20"
-      :gutter="20"
-      type="flex"
-      justify="space-between"
-    >
-      <el-col :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_SAMPLEDELIVERY"
+              :span="8"
+              class="margin-bottom20">
         <!-- 送样 -->
         <sampleDelivery></sampleDelivery>
       </el-col>
-      <el-col :span="8" v-permission="Card_Nomination">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION"
+              :span="8"
+              class="margin-bottom20">
         <!-- 定点 -->
         <fixed></fixed>
       </el-col>
-      <el-col v-permission="Card_Sourcing" :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING"
+              :span="8"
+              class="margin-bottom20">
         <!-- 寻源 -->
         <sourcing></sourcing>
       </el-col>
-    </el-row>
-    <el-row
-      class="margin-top20"
-      :gutter="20"
-      type="flex"
-      justify="space-between"
-    >
-      <el-col :span="8">
+      <el-col v-permission="PORTAL_SUPPLIER_CARD_PRODUCTIVITY"
+              :span="8"
+              class="margin-bottom20">
         <!-- 产能预警 -->
         <productivity></productivity>
       </el-col>
-      <el-col :span="8" v-permission="Card_C-Rating">
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD_CRATING"
+              class="margin-bottom20">
         <!-- 财务预警 -->
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
-      <el-col :span="8"  v-permission="Card_Public_opinion_monitoring">
+      <el-col :span="8"
+              v-permission="PORTAL_SUPPLIER_CARD__MONITORING"
+              class="margin-bottom20">
+
         <!-- 舆情监测 -->
         <publicOpinion> </publicOpinion>
       </el-col>
     </el-row>
-    <el-row
-      class="margin-top20"
-      :gutter="20"
-      type="flex"
-      justify="space-between"
-    >
-      <el-col :span="24" v-permission="Card_Contract">
+    <!-- <el-row class="margin-bottom20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
+
+    </el-row>
+    <el-row class="margin-bottom20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
+
+    </el-row> -->
+    <el-row class="margin-bottom20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
+      <el-col :span="24">
         <contract> </contract>
       </el-col>
     </el-row>
@@ -98,7 +120,7 @@ export default {
     sampleDelivery,
     contract
   },
-  data() {
+  data () {
     return {
       soon: soon,
       infodata: {}
@@ -119,11 +141,11 @@ export default {
     }
   },
   watch: {
-    supplier360ViewVO(data) {
+    supplier360ViewVO (data) {
       this.infodata = data
     }
   },
-  mounted() {},
+  mounted () { },
   methods: {}
 }
 </script>

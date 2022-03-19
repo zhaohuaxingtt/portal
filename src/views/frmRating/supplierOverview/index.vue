@@ -2,73 +2,75 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: 概览
 -->
 <template>
   <iPage>
-    <iNavMvp
-      :list="tabRouterList"
-      class="margin-bottom20"
-      routerPage
-      :lev="1"
-      v-if="$route.query.isSupplier!=1"
-    />
-    <div class="dashboard-div" v-if="showMain">
-      <el-row :gutter="16" type="flex" justify="space-between">
-        <el-col :span="6">
-          <card1
-            v-if="flag"
-            :title="$t('SUPPLIER_XINGONGYINGSHANGPINGJI')"
-            :newSupplierAssessVOList="newSupplierAssessVOList"
-            :chartsId="'newSupplierPie'"
-            @getTableList="getTableList"
-          />
+    <iNavMvp :list="tabRouterList"
+             class="margin-bottom20"
+             routerPage
+             :lev="1"
+             v-if="$route.query.isSupplier!=1" />
+    <div class="dashboard-div"
+         v-if="showMain">
+      <el-row :gutter="16"
+              type="flex"
+              justify="space-between">
+        <!-- 新供应商评级 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_XGYSPJ">
+          <card1 v-if="flag"
+                 :title="$t('SUPPLIER_XINGONGYINGSHANGPINGJI')"
+                 :newSupplierAssessVOList="newSupplierAssessVOList"
+                 :chartsId="'newSupplierPie'"
+                 @getTableList="getTableList" />
         </el-col>
-        <el-col :span="6">
-          <card1
-            v-if="flag"
-            :title="$t('SPR_FRM_XGYSPJ_GYSRZGL')"
-            :newSupplierAssessVOList="financeAnalyseVOList"
-            :chartsId="'supplierFinancingPie'"
-            @getTableList="getTableList"
-          />
+        <!-- 供应商融资管理 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSRZGL">
+          <card1 v-if="flag"
+                 :title="$t('SPR_FRM_XGYSPJ_GYSRZGL')"
+                 :newSupplierAssessVOList="financeAnalyseVOList"
+                 :chartsId="'supplierFinancingPie'"
+                 @getTableList="getTableList" />
         </el-col>
-        <el-col :span="6">
+        <!-- 初步评级 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_CHUBUPINGJI">
           <preliminaryRatingsCard />
         </el-col>
-        <el-col :span="6">
+        <!-- 深入评级 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_SHENRUPINGJI">
           <depth-rating-overview @show="showDepthCard" />
         </el-col>
       </el-row>
-      <el-row
-        :gutter="16"
-        class="margin-top20"
-        type="flex"
-        justify="space-between"
-      >
-        <el-col :span="6">
+      <el-row :gutter="16"
+              class="margin-top20"
+              type="flex"
+              justify="space-between">
+        <!-- 财报分析 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_CAIWUFENXI">
           <resultsAnalysis />
         </el-col>
-        <el-col :span="6">
+        <!-- 风险信号 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_FENGXIANXINHAO">
           <riskSignal @show="showRiskSignalCard" />
         </el-col>
-        <el-col :span="6">
+        <!-- 供应商询价定点情况 -->
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_GYSXJDDQK">
           <vertexSituation @show="showCrating" />
         </el-col>
         <!--舆情检测卡片-->
-        <el-col :span="6">
+        <el-col :span="6" v-permission="PORTAL_SUPPLIER_NAV_GAILAN_YQJCKP">
           <monitor />
         </el-col>
       </el-row>
     </div>
-    <further-rating-card
-      v-if="showDepth"
-      :deepGradeVOList="deepGradeVOList"
-      @back="hideDepthCard"
-    />
-    <risk-signal-info v-if="showRiskSigna" @back="hideRiskSignalCard" />
-    <cRatingRouter v-if="showcRatintg" @back="hideCrating" />
+    <further-rating-card v-if="showDepth"
+                         :deepGradeVOList="deepGradeVOList"
+                         @back="hideDepthCard" />
+    <risk-signal-info v-if="showRiskSigna"
+                      @back="hideRiskSignalCard" />
+    <cRatingRouter v-if="showcRatintg"
+                   @back="hideCrating" />
   </iPage>
 </template>
 
@@ -102,7 +104,7 @@ export default {
     FurtherRatingCard,
     RiskSignalInfo
   },
-  data() {
+  data () {
     return {
       tabRouterList,
       newSupplierAssessVOList: [],
@@ -112,18 +114,18 @@ export default {
       showDepth: false,
       showRiskSigna: false,
       showMain: true,
-      showcRatintg:false
+      showcRatintg: false
     };
   },
-  created() {
-         if(this.$route.query.isSupplier==1){
-        this.showMain=false
-         this.showcRatintg=true
+  created () {
+    if (this.$route.query.isSupplier == 1) {
+      this.showMain = false
+      this.showcRatintg = true
     }
     this.getTableList()
   },
   methods: {
-    async getTableList() {
+    async getTableList () {
       const pms = {
         subSupplierId: '0',
         supplierType: '0'
@@ -131,30 +133,30 @@ export default {
       const res = await getInitOverView(pms)
       this.flag = true
       this.newSupplierAssessVOList = res.data.newSupplierAssessVOList
-      this.deepGradeVOList = res.data.deepGradeVOList.slice(0, 5)
+      this.deepGradeVOList = res.data.deepGradeVOList
       this.financeAnalyseVOList = res.data.financeAnalyseVO || []
     },
-    showDepthCard() {
+    showDepthCard () {
       this.showDepth = true
       this.showMain = false
     },
-    hideDepthCard() {
+    hideDepthCard () {
       this.showDepth = false
       this.showMain = true
     },
-    showCrating(){
-        this.showcRatintg=true
-         this.showMain = false
+    showCrating () {
+      this.showcRatintg = true
+      this.showMain = false
     },
-    hideCrating(){
-        this.showcRatintg=false
-         this.showMain = true
+    hideCrating () {
+      this.showcRatintg = false
+      this.showMain = true
     },
-    showRiskSignalCard() {
+    showRiskSignalCard () {
       this.showRiskSigna = true
       this.showMain = false
     },
-    hideRiskSignalCard() {
+    hideRiskSignalCard () {
       this.showRiskSigna = false
       this.showMain = true
     },

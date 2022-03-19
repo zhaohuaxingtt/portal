@@ -68,7 +68,7 @@
       <div class="tableBox">
         <div class="table-title">
           <p>{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
-          <iButton @click="handleExportCurrent">{{
+          <iButton @click="handleExportCurrent" v-permission="SUPPLIER_WORKBENCH_JIXIAO_BANNIANBAOHUIGU_DAOCHUQUANBU">{{
             language('DAOCHUQUANBU', '导出全部')
           }}</iButton>
         </div>
@@ -83,7 +83,7 @@
         <iPagination
           style="margin-top: 20px"
           v-update
-          @size-change="handleSizeChange($event, sure)"
+          @size-change="handleSizeChange($event, fetchReportDetail)"
           @current-change="handleCurrentChange($event, fetchReportDetail)"
           background
           :page-sizes="page.pageSizes"

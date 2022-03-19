@@ -39,7 +39,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO3')"
+        label="#"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -261,14 +261,17 @@
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
-              <p
-                v-if="scope.row.state == '02'"
-                @click="actionObj('importFile')(scope.row.id)"
-              >
-                <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
-                <span> {{ $t('MT_DAORUYITI') }}</span>
-                <span class="line">|</span>
-              </p>
+              <!-- 导出议题  gp会议不需要导出议题按钮  如有影响到通用会议 请联系gp -->
+              <template  v-if="scope.row.isGpCSC == true || scope.row.isMBDL == true ? showP=false : showP=true ">
+                  <p
+                  v-if="scope.row.state == '02'"
+                    @click="actionObj('importFile')(scope.row.id)"
+                  >
+                    <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
+                    <span> {{ $t('MT_DAORUYITI') }}</span>
+                    <span class="line">|</span>
+                  </p>
+              </template>
               <p
                 v-if="scope.row.state == '04'"
                 @click="actionObj('endVedio')(scope.row)"
@@ -378,7 +381,7 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> {{ $t('生成Agenda') }}</span>
+                <span> {{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -389,7 +392,7 @@
                 "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> {{ $t('生成Agenda') }}</span>
+                <span> {{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -487,13 +490,13 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>{{ $t('生成Agenda') }}</span>
+                <span>{{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
               <p v-if="scope.row.state == '02' && isGenerating">
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>{{ $t('生成Agenda') }}</span>
+                <span>{{ language('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -746,6 +749,8 @@ import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
 import dayjs from 'dayjs'
 import { findThemenById } from '@/api/meeting/details'
+import { exportMeetingAgenda } from '@/api/meeting/gpMeeting'
+import { exportExcel } from '@/utils/gpfiledowLoad'
 
 export default {
   components: {
@@ -806,6 +811,7 @@ export default {
   },
   data() {
     return {
+      showP:false,
       currentCloseRow: {},
       openFreezeDialog: false,
       warnTableData: [],
@@ -901,15 +907,23 @@ export default {
     //   const subject = row ? row.name : '哈哈哈'
     //   const send = list ? list.join(';') : ''
     //   // let minuteSrc = 'aaa'
-    //   const attachments = row.attachments
-    //     ? row.attachments.find((item) => {
-    //         return item.source === '02'
-    //       })
-    //     : []
-    //   const minuteSrc = attachments ? attachments.attachmentUrl : ''
+    //   // const attachments = row.attachments
+    //   //   ? row.attachments.find((item) => {
+    //   //       return item.source === '02'
+    //   //     })VUE_APP_EMAIL_BASE_IP
+    //   //   : []
+    //   //const fileIds = attachments ? attachments.attachmentId : '1485603415003676674'
+    //   const fileApi = process.env.VUE_APP_FILEAPI.substring(1)
+    //   console.log('fileApi', fileApi)
+    //   const minuteSrc = `http%3A%2F%2F${process.env.VUE_APP_EMAIL_BASE_IP}%2F${fileApi}%2Ffileud%2FgetFileByFileId%3FisDown%3Dtrue%26fileId%3D1485603415003676674`
+    //   // process.env.VUE_APP_EMAIL_BASE_IP +
+    //   // process.env.VUE_APP_FILEAPI +
+    //   // '/fileud/getFileByFileId?isDown=true%26fileId=' +
+    //   // '1485603415003676674'
     //   const src = process.env.VUE_APP_EMAIL_ICON
-    //   console.log('src', src, process.env)
-    //   let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
+    //   console.log('src', src, process.env, minuteSrc)
+    //   //let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
+    //   let body = `Dear%20all%2C%0D%0A%0D%0APlease%20find%20minutes%20of%20${subject}%20in%20RiSE%20below.%0D%0A${minuteSrc}%0D%0A%0D%0ABest%20Regards!%20%2F%20Mit%20freundlichen%20Gr%C3%BC%C3%9Fen!%0D%0A%0D%0ACSC%20Meeting`
     //   let href = `mailto:${send}?subject=${subject}&body=${body}`
     //   this.createAnchorLink(href)
     // },
@@ -968,15 +982,24 @@ export default {
       const attachments = row.attachments.find((item) => {
         return item.source === '02'
       })
-      const minuteSrc = attachments ? attachments.attachmentUrl : ''
-      let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
+      const fileIds = attachments ? attachments.attachmentId : ''
+      const fileApi = process.env.VUE_APP_FILEAPI.substring(1)
+      const minuteSrc = `http%3A%2F%2F${process.env.VUE_APP_EMAIL_BASE_IP}%2F${fileApi}%2Ffileud%2FgetFileByFileId%3FisDown%3Dtrue%26fileId%3D${fileIds}`
+      // const minuteSrc =
+      //   process.env.VUE_APP_EMAIL_BASE_IP +
+      //   process.env.VUE_APP_FILEAPI +
+      //   '/fileud/getFileByFileId?isDown=true%26fileId=' +
+      //   fileIds
+      // let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
+      //let body = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head><body> <br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/></body></html>`
+      let body = `Dear%20all%2C%0D%0A%0D%0APlease%20find%20minutes%20of%20${subject}%20in%20RiSE%20below.%0D%0A${minuteSrc}%0D%0A%0D%0ABest%20Regards!%20%2F%20Mit%20freundlichen%20Gr%C3%BC%C3%9Fen!%0D%0A%0D%0ACSC%20Meeting`
       let href = `mailto:${send}?subject=${subject}&body=${body}`
       this.createAnchorLink(href)
     },
     // 确认提交审批流
     handleCloseOK(info, list, row) {
       if (info === 'close') {
-        iMessage.success('MT_GUANBICHENGGONG')
+        iMessage.success(this.$t('MT_GUANBICHENGGONG'))
         if (list) {
           this.handleSendEmail(list, row)
         }
@@ -1319,7 +1342,7 @@ export default {
           this.id = e
         },
         newA: (e) => {
-          this.isGenerating = true
+          // this.isGenerating = true
           // 生成Agenda
           // generateAgenda({ id: e }).then((res) => {
           //   iMessage.success("生成Agenda成功");
@@ -1331,8 +1354,31 @@ export default {
           // this.timeout = setTimeout(() => {
 
           // }, 500)
-          generateAgenda({ id: e })
-            .then((res) => {
+
+          // generateAgenda({ id: e }).then((res) => {
+          //     if (res.code === 200) {
+          //       iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
+          //     }
+          //     this.isGenerating = false
+          //     this.refreshTable()
+          //   })
+          //   .catch(() => {
+          //     this.isGenerating = false
+          //   })
+          //gp会议  生成Agenda
+          if (this.selectedRow[0].isGpCSC==true || this.selectedRow[0].isMBDL==true) {
+            if(this.selectedRow[0].isMBDL==true){
+              return
+            }else{
+              console.log('gp生成Agenda');
+              exportMeetingAgenda({ id: e }).then((res) => {
+                exportExcel(res)
+              })
+            }
+          }else{
+            // console.log('原来生成Agenda');
+            this.isGenerating = true
+            generateAgenda({ id: e }).then((res) => {
               if (res.code === 200) {
                 iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
               }
@@ -1342,6 +1388,12 @@ export default {
             .catch(() => {
               this.isGenerating = false
             })
+          }
+
+
+
+
+
         },
         importFile: (e) => {
           // 导入议题

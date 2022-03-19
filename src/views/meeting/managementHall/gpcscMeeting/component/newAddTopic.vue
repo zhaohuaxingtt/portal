@@ -81,7 +81,6 @@
             <el-select
               class="autoSearch"
               v-model="ruleForm.presenter"
-              
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
@@ -574,9 +573,8 @@ export default {
       this.selectUserArr = currentSearchUserData
       console.log(this.selectUserArr,'重要');
       if (this.editOrAdd === 'edit') {
-        // this.ruleForm.presenter =  this.selectUserArr
-        // this.ruleForm.supporter =  this.selectUserArr
-        console.log(this.ruleForm.supporter,'11111');
+        this.ruleForm.presenter =  this.selectUserArr
+        this.ruleForm.supporter =  this.selectUserArr
       }
     },
 

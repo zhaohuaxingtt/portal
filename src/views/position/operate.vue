@@ -1,23 +1,23 @@
 <template>
   <iPage>
     <div class="position-operate-page" v-loading="loading">
-      <pageHeader class="margin-bottom20">
-        {{ $route.query.id ? '编辑' : '新增' }}岗位
+      <pageHeader class="margin-bottom20" v-if="editable">
+        {{language( $route.query.id ? '编辑' : '新增') }} {{language('岗位')}}
 
         <div slot="actions">
-          <iButton @click="handleDirect" v-if="type === 'detail'">编辑</iButton>
+          <iButton @click="handleDirect" v-if="type === 'detail'">{{language('编辑')}}</iButton>
           <iButton
             @click="handleConfirm"
             v-if="type !== 'detail'"
             class="margin-right20"
             :loading="saveLoading"
-            >确认</iButton
+            >{{language('确认')}}</iButton
           >
           <iButton
             @click="handleReset"
             :loading="saveLoading"
             v-if="type !== 'detail'"
-            >重置</iButton
+            >{{language('重置')}}</iButton
           >
         </div>
       </pageHeader>
@@ -39,16 +39,19 @@ export default {
       type: '',
       detailId: '',
       deptId: '',
-      saveLoading: false
+      saveLoading: false,
+      editable: false
     }
   },
   watch: {
     $route(newValue) {
       this.type = newValue.params.type
-      console.log(newValue)
     }
   },
   mounted() {
+    this.$route.query.editable == 1
+      ? (this.editable = true)
+      : (this.editable = false)
     this.type = this.$route.params.type
     this.detailId = this.$route.query.id
     this.deptId = this.$route.query.deptId
@@ -68,9 +71,11 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
+    console.log(from, '=======', to)
     if (from.name !== 'positionTag' && to.params.type !== 'add') {
       next((vm) => {
         vm.$store.dispatch('GetPositionDetail', vm.detailId)
+        // to.query.editable == 1 ? vm.editable = true : vm.editable = false
       })
     }
     next()
@@ -97,7 +102,8 @@ export default {
         path: '/position/operate/edit',
         query: {
           id: this.detailId,
-          deptId: this.deptId
+          deptId: this.deptId,
+          editable: this.editable ? 1 : 2
         }
       })
     },
@@ -136,7 +142,8 @@ export default {
           this.detailId = res.data.id
           const query = {
             id: res.data.id,
-            deptId: this.deptId
+            deptId: this.deptId,
+            editable: this.editable ? 1 : 2
           }
           this.$router.replace({
             path: '/position/operate/detail',

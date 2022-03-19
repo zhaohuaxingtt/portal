@@ -10,7 +10,8 @@ export const tableSetting = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
-    minWidth: '120px',
+    i18n: '联系人姓名',
+    width: '150px',
     align: 'center',
     emit: 'goEdit',
     customRender: (h, scope) => {
@@ -24,47 +25,59 @@ export const tableSetting = [
       } else {
         return <span class="link-text">{scope.row.nameZh}</span>
       }
-    }
+    },
+    // sortable: true
   },
   {
     prop: 'userName',
     label: '用户登录名',
+    i18n: '用户登录名',
     width: '150px',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     prop: 'opcsCompanyNameZh',
     label: '供应商中文名',
+    i18n: '供应商中文名',
     align: 'center',
     width: '150',
-    tooltip: true
+    tooltip: true,
+    sortable: true
   },
   {
     prop: 'isMainContact',
     label: '是否主联系人',
+    i18n: '是否主联系人',
     align: 'center',
-    width: '100px',
+    width: '150px',
     customRender: (h, scope) => {
       if (scope.row.isMainContact) {
         return '是'
       } else {
         return '否'
       }
-    }
+    },
+    sortable: true
   },
   {
     prop: 'temporaryNum',
     label: '临时号',
-    align: 'center'
+    i18n: '临时号',
+    align: 'center',
+    sortable: true,
+    width:90
   },
   {
     i18n: '正式/SVW号',
-    width: '100px',
-    prop: 'svwCode'
+    width: '130px',
+    prop: 'svwCode',
+    sortable: true
   },
   {
     i18n: 'SAP号',
-    prop: 'sapNum'
+    prop: 'sapNum',
+    sortable: true
   },
 
   /* {
@@ -85,16 +98,20 @@ export const tableSetting = [
   {
     prop: 'telephoneO',
     label: '联系电话',
+    i18n: '联系电话',
     align: 'center',
     width: '100px',
-    tooltip: true
+    tooltip: true,
+    // sortable: true
   },
   {
     prop: 'email',
     label: '邮箱',
+    i18n: '邮箱',
     align: 'center',
-    minWidth: '180px',
-    tooltip: true
+    width: '180px',
+    tooltip: true,
+    // sortable: true
   }
 ]
 
@@ -110,6 +127,7 @@ export const EditTableSetting = [
   {
     prop: 'appNameCn',
     label: '中文名称',
+    i18n: '中文名称',
     align: 'center',
     emit: 'edit',
     customRender: (h, scope) => {
@@ -119,11 +137,13 @@ export const EditTableSetting = [
   {
     prop: 'appNameEn',
     label: '英文名称',
+    i18n: '英文名称',
     align: 'center'
   },
   {
     prop: 'description',
     label: '系统功能说明',
+    i18n: '系统功能说明',
     align: 'center'
   }
 ]
@@ -135,6 +155,7 @@ export const ReadTableSetting = [
   {
     prop: 'appNameCn',
     label: '中文名称',
+    i18n: '中文名称',
     align: 'center',
     emit: 'edit',
     customRender: (h, scope) => {
@@ -144,11 +165,13 @@ export const ReadTableSetting = [
   {
     prop: 'appNameEn',
     label: '英文名称',
+    i18n: '英文名称',
     align: 'center'
   },
   {
     prop: 'appNameEn',
     label: '系统类型',
+    i18n: '系统类型',
     align: 'center',
     customRender: (h, scope) => {
       if (scope.row.systemType) {
@@ -163,6 +186,7 @@ export const ReadTableSetting = [
   {
     prop: 'description',
     label: '系统功能说明',
+    i18n: '系统功能说明',
     align: 'center'
   }
 ]

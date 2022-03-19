@@ -20,7 +20,7 @@
         <div style="height: 100%">
             <keep-live
                     :include="['zfgsj', 'zfkssj','zfcgysj','zfbmsj','wfbmsj','wfkssj','pfjwfbmsj','pfjwfkssj','pfjzfbmsj','pfjzfcgysj','pfjzfgsj','pfjzfkssj']">
-                <component :is="currentView" @getData="getData" :username="username"/>
+                <component :is="currentView" @getData="getData" :username="username" :supplier_code_name="supplier_code_name"/>
             </keep-live>
         </div>
 
@@ -30,8 +30,8 @@
 
 <script>
   import {iPage, iNavMvp, iButton} from 'rise';
-  import {tabRouterList, btnsgroup1} from '../data';
-  import {getPowerBiVal} from '@/api/achievement'
+  import {tabRouterList, btnsgroup1,} from '../data';
+  import {getPowerBiVal,getEklPbi} from '@/api/achievement'
   import * as pbi from 'powerbi-client';
   import zfbmsj from './components/zfbmsj.vue'
   import zfkssj from './components/zfkssj.vue'
@@ -70,7 +70,7 @@
         btnsgroup1: [],
         indexBtn: 0,
         currentView: '',
-        username: '8',
+        username: this.$store.state.permission.userInfo.id,
         url: {
           accessToken: "", //验证token
           embedUrl: "", //报告信息内嵌地址
@@ -92,7 +92,8 @@
         values: [],
         show: false,
         state: false, // 控制科室采购员
-        roleList: this.$store.state.permission.userInfo.roleList
+        roleList: this.$store.state.permission.userInfo.roleList,
+        // supplier_code_name: '10012-上海汽车地毯总厂有限公司',
       };
     },
     computed: {
@@ -111,7 +112,8 @@
           const zycgkzORkzzl = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ' || item.code == 'ZYCGKSXTY')
           const zycgkz = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ')
           const kzzl = this.roleList.some(item => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY')
-          const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+          // const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
+          const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'CSXTGLY')
           const zycgbz = this.roleList.some(item => item.code == 'CGBZ')
           const bzzl = this.roleList.some(item => item.code == 'BZZL')
           const zycggz = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ')
@@ -122,27 +124,27 @@
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
           }else if (Linie) {        // 采购员 采购员视觉
-            this.username = '8'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
           } else if (zycgkzORkzzl) { // 采购科长||科长助理 科室视觉
             if (zycgkz) {
-              this.username = '3'
+              // this.username = this.$store.state.permission.userInfo.id;
               this.btnsgroup1 = ['CSM', 'CSM(Spare)']
               return 'KZ'
 
             }
             if (kzzl) {
-              this.username = '4'
+              // this.username = this.$store.state.permission.userInfo.id;
               this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
               return deptName
             }
           } else if (zycgbzORbzzl) { // 采购部长||部长助理 部门视觉
-            this.username = ''
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CS', 'CS(Spare)']
             return 'CS'
           } else if (zycggz) {       // 采购股长 股视觉
-            this.username = '7'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
           } else if (CGBZ_WF) {
@@ -160,23 +162,24 @@
           const BZZL = this.roleList.some(item => item.code == 'BZZL')    // 部长助理
           const GZ = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ') // 股长
           const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
+          const CSXTGLY = this.roleList.some(item => item.code == 'CSXTGLY') // cs系统管理员
           if(PFJYJGLY) {
 //            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
 //            this.btnsgroup1 = ['CS(Spare)']
-          }else if (KZ && Linie) {
-            this.username = '3'
+          } else if (KZ && Linie) {
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
             return 'KZ&&linie'
           } else if (KZ && !Linie) {
-            this.username = '3'
-            this.btnsgroup1 = ['CSM', 'CSM(Spare)']
+            // this.username = this.$store.state.permission.userInfo.id;
+            this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return 'KZ'
           } else if (KZZL && Linie) {
-            this.username = '4'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
             return `${deptName}&&Linie`
           } else if (KZZL && !Linie) {
-            this.username = '4'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
           } else if ((BZ && Linie) || (BZ && !Linie) || (BZZL && !Linie)) {
@@ -188,23 +191,33 @@
             }
 
           } else if (BZZL && Linie) {
-            this.username = '2'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = ['CS', 'CS(Spare)', 'Linie', 'Linie(Spare)']
             return 'CS&&Linie'
           } else if (GZ && Linie) {
-            this.username = '7'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`, 'Linie', 'Linie(Spare)']
             return `${deptName}&&Linie`
           } else if (GZ && !Linie) {
-            this.username = '7'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.btnsgroup1 = [deptName, `${deptName}(Spare)`]
             return deptName
+          } else if (Linie) {
+            // this.username = this.$store.state.permission.userInfo.id;
+            this.btnsgroup1 = ['Linie', 'Linie(Spare)']
+            return 'Linie'
+          } else if (CSXTGLY) {
+            this.btnsgroup1 = ['CS', 'CS(Spare)']
+            return 'CS'
           }
         }
       },
     },
 
     mounted() {
+        // getEklPbil().then(res=>{
+        // })
+        // console.log('this.$store.state.permission.userInfo.roleList', this.$store.state.permission.userInfo.roleList);
       if(this.pfjgly) {
         this.currentView = 'pfjzfbmsj'
       }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
@@ -236,7 +249,11 @@
           permissionKey: 'ACHIEVEMENT',
           key: 'LK_WDYJ'
         }]
+      } else if(this.role == 'CS&&Linie') {
+        //  CRW-4185
+        this.currentView = 'zfbmsj'
       }
+      console.log('this.currentView', this.currentView, this.role);
     },
     methods: {
       getData(data) {
@@ -246,7 +263,7 @@
         getPowerBiVal(data).then(res => {
           if (res.result) {
             this.url = res.data
-            this.renderBi()
+            this.renderBi(data)
           }
         })
       },
@@ -255,76 +272,82 @@
           if (this.role == 'CGBZ_WF') {
             this.currentView = 'wfbmsj'
           } else {
+            this.username = '';
             this.currentView = 'zfbmsj'
           }
+          console.error(item, '===>', this.username, '===>', this.currentView);
         } else if (item == 'CS(Spare)') {
           if (this.role == 'CGBZ_WF') {
-            this.currentView = 'pfjwfbmsj'
+            this.currentView = 'pfjwfbmsj';
           } else if (this.role == 'BZ') { // 部长
-            this.username = '1'
-            this.currentView = 'pfjzfbmsj'
+            // this.username = this.$store.state.permission.userInfo.id;
+            this.currentView = 'pfjzfbmsj';
           } else if (this.role == 'CS') { //部长助理
-            this.username = '2'
-            this.currentView = 'pfjzfbmsj'
+            // this.username = this.$store.state.permission.userInfo.id;
+            this.currentView = 'pfjzfbmsj';
+          } else {
+            // this.username = this.$store.state.permission.userInfo.id;
+            this.currentView = 'pfjzfbmsj';
           }
+          console.error(item, '===>', this.username, '===>', this.currentView);
         } else if (item == 'CSM') { // 科室
           if (this.role == 'ZYCGKZ_WF') {
             this.currentView = 'wfkssj'
           } else if (this.role == 'KZ') {
-            this.username = '3'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'zfkssj'
           } else if (this.role == `${this.dept}&&Linie` || this.role == 'CSM') {
-            this.username = '4'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'zfkssj'
           }
         } else if (item == 'CSM(Spare)') {
           if (this.role == 'ZYCGKZ_WF') {
             this.currentView = 'pfjwfkssj'
           } else {
-            this.username = '5'
+            // this.username = this.$store.state.permission.userInfo.id;
             if (this.role == `${this.dept}&&Linie` || this.role == 'CSM') {
-              this.username = '6'
+              // this.username = this.$store.state.permission.userInfo.id;
             }
             this.currentView = 'pfjzfkssj'
           }
         } else if (item == 'CSEN(Spare)') { // 股长
-          this.username = '9'
+          // this.username = this.$store.state.permission.userInfo.id;
           if (this.role == 'CSEN&&Linie') {
-            this.username = '10'
+            // this.username = this.$store.state.permission.userInfo.id;
           }
           this.currentView = 'pfjzfgsj'
         } else if (item == 'CSEN') { // 股长
-          this.username = '7'
+          // this.username = this.$store.state.permission.userInfo.id;
           this.currentView = 'zfgsj'
         } else if (item == 'Linie') { // 采购员视觉
           if (this.role == 'Linie') { // 采购员
-            this.username = 8
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == 'CSEN&&Linie' || this.role == 'CSEN') { // 股长&&采购员 || 股长
-            this.username = '7'
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == 'CS&&Linie') { // 部长助理&&采购员
-            this.username = '2'
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == `${this.dept}&&Linie`) { // 科长助理&&采购员
-            this.username = '4'
+            // this.username = this.$store.state.permission.userInfo.id;
           }
           this.currentView = 'zfcgysj'
         } else if (item == 'Linie(Spare)') { // 采购员附件视觉
-          this.username = '6'
+          // this.username = this.$store.state.permission.userInfo.id;
           if (this.role == 'CSEN&&Linie') { // 股长&&采购员
-            this.username = '10'
+            // this.username = this.$store.state.permission.userInfo.id;
           } else if (this.role == 'Linie') { // 采购员
-            this.username = '12'
+            // this.username = this.$store.state.permission.userInfo.id;
           }
           this.currentView = 'pfjzfcgysj'
         } else if (item == `${this.dept}(Spare)` || item == this.dept) {
           if(item == this.dept) {
-            this.username = '4'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'zfkssj'
           } else {
-            this.username = '6'
+            // this.username = this.$store.state.permission.userInfo.id;
             this.currentView = 'pfjzfkssj'
           }
         }
-        this.indexBtn = index
+        this.indexBtn = index;
       },
       // 初始化页面
       renderBi() {
@@ -375,6 +398,13 @@
         var year = myDate.getFullYear();
         var month = myDate.getMonth() + 1
         var date = myDate.getDate()
+        var materialCode = "";
+        var materialName = "";
+        var supplier_code_name = this.$route.query.supplier_code_name || '';
+        if(this.$route.query.materialCode){
+          materialCode = this.$route.query.materialCode;
+          materialName = this.$route.query.materialName;
+        }
         if (date < 10) {
           month = month - 1
         }
@@ -383,23 +413,47 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_version"
             },
             operator: "In",
-//                        values: [year + month],
+            values: [year+""+month],
             filterType: pbi.models.FilterType.BasicFilter
           };
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_LK_data_source",
+              table: "app_proc_ekl_data_source",
               column: "data_year"
             },
             operator: "In",
             values: [year],
             filterType: pbi.models.FilterType.BasicFilter
           };
+          console.log('year_parameteryear_parameter', year_parameter);
+          var	material_group_parameter = {
+              $schema: "http://powerbi.com/product/schema#basic",
+              target: {
+                table: "app_proc_ekl_data_source",
+                column: "material_group_code_name"
+              },
+              operator: "In",
+              values: [materialName],
+              filterType: pbi.models.FilterType.BasicFilter
+          };
+
+          var	supplier_code_name_parameter = {
+								$schema: "http://powerbi.com/product/schema#basic",
+								target: {
+									table: "app_proc_ekl_data_source",
+									column: "supplier_code_name"
+								},
+								operator: "In",
+								values: [supplier_code_name],
+                filterType: pbi.models.FilterType.BasicFilter
+						};
+          console.log(supplier_code_name_parameter);
+
           const pages = await report.getPages();
           var page = pages.filter(function (page) {
             return page.isActive
@@ -416,6 +470,19 @@
               visual.setSlicerState({
                 filters: [year_parameter]
               });
+            }
+
+            if(visual.title == "material_group" && page.isActive==true){
+              visual.setSlicerState({
+                filters: [material_group_parameter]
+              });				    							    						    		
+            }
+            
+            //  供应商
+            if(page.isActive == true && supplier_code_name){
+              visual.setSlicerState({
+                filters: [supplier_code_name_parameter]
+              });				    							    						    		
             }
           });
         });

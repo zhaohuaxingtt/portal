@@ -119,7 +119,10 @@ const position = {
         permissionList: [],
         userList: [],
         purchaseGroup: '',
-        tempPurchaseGroup: ''
+        tempPurchaseGroup: '',
+        property: null,
+        otherPurchaseGroup: [],
+        otherTempPurchaseGroup: []
       },
       originPosDetail: {},
 
@@ -213,6 +216,17 @@ const position = {
           }
         })
       }
+      if (dataVal.otherPurchaseGroup) {
+        dataVal.otherPurchaseGroup = dataVal.otherPurchaseGroup.split(',')
+      }else{
+        dataVal.otherPurchaseGroup = []
+      }
+      if (dataVal.otherTempPurchaseGroup) {
+        dataVal.otherTempPurchaseGroup =
+          dataVal.otherTempPurchaseGroup.split(',')
+      }else{
+        dataVal.otherTempPurchaseGroup = []
+      }
       state.pos.positionDetail = _.cloneDeep(dataVal)
       state.pos.originPosDetail = _.cloneDeep(dataVal)
 
@@ -235,7 +249,10 @@ const position = {
         userList: [],
         purchaseGroup: '',
         tempPurchaseGroup: '',
-        setCode: ''
+        setCode: '',
+        property: null,
+        otherPurchaseGroup: [],
+        otherTempPurchaseGroup: []
       }
       state.pos.dimensionSelected = []
       state.pos.dimensionList = []
@@ -649,7 +666,16 @@ const position = {
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
-        setCode: setCode ? setCode.join(',') : ''
+        setCode: setCode ? setCode.join(',') : '',
+        property: this.state.position.pos.positionDetail.property,
+        otherPurchaseGroup:
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(
+            ','
+          ) || '',
+        otherTempPurchaseGroup:
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(
+            ','
+          ) || ''
       }
       commit('SET_POSLOADING', true)
       const res = await SavePosition(params).finally(() =>
@@ -702,6 +728,8 @@ const position = {
       }).finally(() => commit('SET_POSLOADING', false))
       if (res?.code === '200' && res?.data) {
         res.data.permissionList = res.data.permissionList || []
+        // res.data.otherPurchaseGroup = res.data.otherPurchaseGroup.length == 0 ? [] : res.data.otherPurchaseGroup.split(',') 
+        // res.data.otherTempPurchaseGroup = res.data.otherTempPurchaseGroup.length == 0 ? [] : res.data.otherTempPurchaseGroup.split(',')
         commit('SET_POSITION_DETAIL', res.data)
         commit('INIT_DIMENSION_LIST', res.data.permissionList)
         commit('INIT_ROLE_SELECTED', res.data.roleDTOList)
@@ -722,7 +750,6 @@ const position = {
           valueList: options.filter((vl) => valueIds.includes(vl.valueId))
         }
       })
-
       const { setCode } = this.state.position.pos.positionDetail
       const params = {
         id: this.state.position.pos.positionDetail.id,
@@ -738,7 +765,12 @@ const position = {
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
-        setCode: setCode ? setCode.join(',') : ''
+        setCode: setCode ? setCode.join(',') : '',
+        property: this.state.position.pos.positionDetail.property,
+        otherPurchaseGroup:
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
+        otherTempPurchaseGroup:
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
       }
       commit('SET_POSLOADING', true)
       const res = await UpdatePosition(params).finally(() =>

@@ -1,6 +1,10 @@
 <template>
   <div class="news-container" @scroll="scrollHandler($event)">
-    <div class="news-img-card" @click="goNewsDetail(firstNews)">
+    <div
+      v-if="middleListL && middleListL.length"
+      class="news-img-card"
+      @click="goNewsDetail(firstNews)"
+    >
       <div class="news-banner">
         <img :src="firstNews.picUrl" alt="加载失败" />
       </div>
@@ -85,10 +89,15 @@ export default {
           item.publishDate = item.publishDate.split(/\s+/)[0]
         })
       }
-      if (Object.keys(this.firstNews).length == 0 && res.data.length > 0) {
+      if (
+        Object.keys(this.firstNews).length == 0 &&
+        res &&
+        res.data &&
+        res.data.length > 0
+      ) {
         this.firstNews = res.data[0]
       }
-      if (res.data.length > 0 && res) {
+      if (res && res.data && res.data.length > 0) {
         this.page = res.pages
         this.newsList = [...this.newsList, ...res.data]
         this.middleListL = this.newsList.slice(1)

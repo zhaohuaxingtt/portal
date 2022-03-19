@@ -11,8 +11,8 @@
          class="flex-between-center-center">
       <div class="text margin-bottom20">{{ language('GYLGL','N级供应链管理')}}</div>
       <div>
-        <iButton :loading="saveButtonLoading"
-                 v-if="$route.path!=='/NTierMap'"
+        <!-- v-if="$route.path!=='/NTierMap'" -->
+        <iButton :loading="saveButtonLoading" v-permission="CATEGORY_ASSISTANT_WBGYSCFX_GONGYINGLIANGAILAN_SAVE"
                  @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
         <iButton @click="handleBack">{{language('FANHUI','返回')}}</iButton>
       </div>
@@ -77,7 +77,7 @@
                      collapse-tags
                      filterable></el-cascader>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="5" style="text-align:right">
         <iButton @click="getMapList">{{language('QUEDING','确定')}}</iButton>
         <iButton @click="handleSearchReset">{{language('CHONGZHI','重置')}}</iButton>
       </el-col>
@@ -143,8 +143,9 @@ export default {
   // 监控data中的数据变化
   watch: {
     categoryCode: {
-      handler (val) {
+      async handler (val) {
         if (val) {
+          await this.getSelectList()
           this.disabled = true
           let arr = val.split(",")
           this.formGoup.categoryList.forEach(item => {
@@ -335,9 +336,8 @@ export default {
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created () {
-
-    this.getSelectList()
+  async created () {
+    await this.getSelectList()
     this.getMapList()
     this.getCityInfo()
   },

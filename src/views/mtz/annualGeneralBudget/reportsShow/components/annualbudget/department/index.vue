@@ -1,51 +1,94 @@
 <template>
-  <div
+  <div v-permission.auto="MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE"
+       class="outFrame">
+    <!-- <div
     v-permission.auto="
-      MTZ_REPORT_DISPLAY_ANNUAL_BUDGET_DEPARTMENT_PAGE | 年度预算科室页面
+      MTZ_REPORT_ANNUAL_BUDGET_DEPARTMENT
     "
     class="outFrame"
-  >
-    <iButton @click="handleDownPdf" class="exportData">{{
-      $t('LK_DAOCHU')
-    }}</iButton>
-    <div ref="pdf" id="pdf">
+  > -->
+    <iButton @click="handleDownPdf"
+             :loading="downloadLoading"
+             class="exportData">{{ $t('LK_DAOCHU') }}</iButton>
+    <div>
       <el-row :gutter="10">
-        <el-col :span="12" class="total">
-          <iSelect
-            class="selectsize"
-            v-model="form['yearDropList']"
-            @change="selectYear"
-          >
-            <el-option
-              v-for="(item, index) in yearList"
-              :key="index"
-              :value="item.code"
-              :label="`${item.message} 年`"
-            />
-          </iSelect>
-          <span>{{
-            language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
-          }}</span>
-          <totalAmountComponent
-            :key="keyString"
-            :deptData="deptData"
-            :showEchart="showEchart"
-          />
-        </el-col>
-        <el-col :span="12" class="totalTwo"
-          ><div class="dataList">
-            <span class="lastYearData">{{
-              language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
-            }}</span
-            ><span class="unit">{{
+        <el-col :span="12"
+                class="total">
+          <div class="flex-between-center-center card-header">
+            <iSelect class="selectsize"
+                     v-model="form['year']"
+                     @change="selectYear">
+              <el-option v-for="(item, index) in yearList"
+                         :key="index"
+                         :value="item.code"
+                         :label="`${item.message} 年`" />
+            </iSelect>
+
+            <span>{{
               language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
             }}</span>
           </div>
-          <dataComparisonLastYear
-            :key="keyString"
-            :deptData="deptData"
-            :showEchart="showEchart"
-          />
+          <totalAmountComponent :key="keyString"
+                                :deptData="deptData"
+                                :showEchart="showEchart" />
+        </el-col>
+        <el-col :span="12"
+                class="totalTwo">
+          <div class="dataList">
+            <span class="lastYearData">{{
+              language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
+            }}</span><span class="unit">{{
+              language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+            }}</span>
+          </div>
+          <dataComparisonLastYear :key="keyString"
+                                  :deptData="deptData"
+                                  :showEchart="showEchart" />
+        </el-col>
+      </el-row>
+    </div>
+
+    <div ref="pdf"
+         id="pdf">
+      <div class="pdf-name"
+           id="pdf-name">
+        {{ form['year'] }}-MTZ年度预算-科室
+      </div>
+      <el-row :gutter="10">
+        <el-col :span="12"
+                class="total">
+          <div class="flex-between-center-center card-header">
+            <iSelect class="selectsize"
+                     v-model="form['year']"
+                     @change="selectYear">
+              <el-option v-for="(item, index) in yearList"
+                         :key="index"
+                         :value="item.code"
+                         :label="`${item.message} 年`" />
+            </iSelect>
+
+            <span>{{
+              language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+            }}</span>
+          </div>
+          <totalAmountComponent :key="keyString"
+                                :deptData="deptData"
+                                :showEchart="showEchart"
+                                chartId="chartTotal2" />
+        </el-col>
+        <el-col :span="12"
+                class="totalTwo">
+          <div class="dataList">
+            <span class="lastYearData">{{
+              language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')
+            }}</span><span class="unit">{{
+              language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人民币')
+            }}</span>
+          </div>
+          <dataComparisonLastYear :key="keyString"
+                                  :deptData="deptData"
+                                  :showEchart="showEchart"
+                                  chartId="chartData2" />
         </el-col>
       </el-row>
     </div>
@@ -53,7 +96,7 @@
 </template>
 
 <script>
-import { iPage, iSelect, iButton } from 'rise'
+import { iSelect, iButton } from 'rise'
 import totalAmountComponent from './components/totalAmountComponent'
 import dataComparisonLastYear from './components/dataComparisonLastYear'
 import { yearBudgetDept, yearDropDown } from '@/api/mtz/reportsShow'
@@ -63,29 +106,31 @@ import JsPDF from 'jspdf'
 export default {
   name: 'index',
   components: {
-    iPage,
     iSelect,
     totalAmountComponent,
     dataComparisonLastYear,
     iButton
   },
-  data() {
+  data () {
     return {
       form: form,
       yearList: [], //年份数据
-      deptData: '', //金额数据
+      deptData: { lastYearPrice: '0.00', curYear: '', lastYear: '' }, //金额数据
       keyString: 0,
       showEchart: false,
-      pdf: null
+      pdf: null,
+      downloadLoading: false
     }
   },
-  created() {
+  async created () {
+    await this.getYearDropDown()
     this.queryYearBudgetDept()
-    this.getYearDropDown()
+
   },
   methods: {
     //数据查询
-    queryYearBudgetDept() {
+    queryYearBudgetDept () {
+      console.log(this.form, "==============")
       this.form.onlySeeMySelf = false
       yearBudgetDept(this.form)
         .then((res) => {
@@ -93,34 +138,62 @@ export default {
             this.deptData = res.data
             this.showEchart = true
             this.keyString += 1
+          } else {
+            this.deptData = { lastYearPrice: '0.00', curYear: '', lastYear: '' }
+            this.showEchart = true
+            this.keyString += 1
+            this.$message.error(res.desZh)
           }
         })
         .catch((err) => {
           console.log(err)
         })
+
     },
     //获取年数据
-    getYearDropDown() {
-      yearDropDown(false)
+    async getYearDropDown () {
+      await yearDropDown(false)
         .then((res) => {
           this.yearList = res.data
-          this.form['yearDropList'] = this.yearList[0].message
+          var year = new Date().getFullYear();
+          var yearList = [];
+          res.data.forEach((e, index) => {
+            yearList.push({
+              num: Math.abs(e.code - year),
+              index: index
+            })
+          });
+          var minNumber = Math.min.apply(Math, yearList.map(function (o) { return o.num }))
+          var message = 0;
+          for (var i = 0; i < yearList.length; i++) {
+            if (yearList[i].num == minNumber) {
+              message = yearList[i].index;
+              break;
+            }
+          }
+          this.form['year'] = this.yearList[message].message
         })
         .catch((err) => {
           console.log(err)
         })
     },
     //选择年
-    selectYear(val) {
+    selectYear (val) {
       this.form.year = val
       this.queryYearBudgetDept()
     },
     //导出
-    handleDownPdf() {
-      this.downloadPdf({ idEle: 'pdf', pdfName: '222' })
+    handleDownPdf () {
+      this.downloadPdf({
+        idEle: 'pdf',
+        pdfName: `${this.form.year}-MTZ年度预算-科室`
+      })
     },
-    downloadPdf({ idEle: ele, pdfName: pdfName, callback: callback }) {
-      let el = document.getElementById(ele) //通过getElementById获取要导出的内容
+    downloadPdf ({ idEle: ele, pdfName: pdfName, callback: callback }) {
+      this.downloadLoading = true
+      const el = document.getElementById(ele) //通过getElementById获取要导出的内容
+
+      el.style.opacity = 1
       let eleW = el.offsetWidth // 获得该容器的宽
       let eleH = el.offsetHeight // 获得该容器的高
 
@@ -141,7 +214,6 @@ export default {
       var context = canvas.getContext('2d')
       context.scale(2, 2)
       context.translate(-eleOffsetLeft - abs, -eleOffsetTop)
-
       html2canvas(el, {
         dpi: 96, //分辨率
         scale: 2, //设置缩放
@@ -149,46 +221,54 @@ export default {
         //backgroundColor:'#ffffff',这样背景还是黑的
         bgcolor: '#ffffff', //应该这样写
         logging: false //打印日志用的 可以不加默认为false
-      }).then((canvas) => {
-        // el.setAttribute("crossOrigin",'anonymous');
-        var contentWidth = canvas.width
-        var contentHeight = canvas.height
-        //一页pdf显示html页面生成的canvas高度;
-        var pageHeight = (contentWidth / 592.28) * 641.89
-        //未生成pdf的html页面高度
-        var leftHeight = contentHeight
-        //页面偏移
-        var position = 0
-        //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-        var imgWidth = 841.89
-        var imgHeight = (841.89 / contentWidth) * contentHeight
-        let pageData = canvas.toDataURL('image/jpeg', 1.0)
-        var pdf = new JsPDF('l', 'pt', 'a4')
+      })
+        .then((canvas) => {
+          el.style.opacity = 0
+          el.setAttribute('crossOrigin', 'anonymous')
+          var contentWidth = canvas.width
+          var contentHeight = canvas.height
+          //一页pdf显示html页面生成的canvas高度;
+          var pageHeight = (contentWidth / 592.28) * 641.89
+          //未生成pdf的html页面高度
+          var leftHeight = contentHeight
+          //页面偏移
+          var position = 0
+          //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+          var imgWidth = 841.89
+          var imgHeight = (841.89 / contentWidth) * contentHeight
 
-        if (leftHeight < pageHeight) {
-          //在pdf.addImage(pageData, 'JPEG', 左，上，宽度，高度)设置在pdf中显示；
-          pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
-        } else {
-          // 分页
-          while (leftHeight > 0) {
-            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
-            leftHeight -= pageHeight
-            position -= 841.89
-            //避免添加空白页
-            if (leftHeight > 0) {
-              pdf.addPage()
+          let pageData = canvas.toDataURL('image/jpeg', 1.0)
+          var pdf = new JsPDF('l', 'pt', 'a4')
+
+          if (leftHeight < pageHeight) {
+            //在pdf.addImage(pageData, 'JPEG', 左，上，宽度，高度)设置在pdf中显示；
+            pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
+          } else {
+            // 分页
+            while (leftHeight > 0) {
+              pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+              leftHeight -= pageHeight
+              position -= 841.89
+              //避免添加空白页
+              if (leftHeight > 0) {
+                pdf.addPage()
+              }
             }
           }
-        }
-        //可动态生成
-        pdf.save(pdfName)
-        if (callback) {
-          callback(pdf, pdfName)
-        }
-      })
+          //可动态生成
+          pdf.save(pdfName)
+          if (callback) {
+            callback(pdf, pdfName)
+          }
+          this.downloadLoading = false
+        })
+        .catch(() => {
+          el.style.opacity = 0
+          this.downloadLoading = false
+        })
     }
   },
-  mounted() {
+  mounted () {
     this.pdf = this.$refs.pdf
   }
 }
@@ -207,7 +287,15 @@ export default {
   position: relative;
   background-color: white;
   height: 100%;
+  .card-header {
+    margin: 30px 20px 0px 20px;
+    position: relative;
+  }
   .selectsize {
+    width: 220px;
+  }
+
+  /* .selectsize {
     width: 220px;
     margin-top: 30px;
     margin-left: 20px;
@@ -216,7 +304,7 @@ export default {
     position: absolute;
     right: 30px;
     top: 30px;
-  }
+  } */
 }
 
 .el-row {
@@ -246,6 +334,18 @@ export default {
     position: absolute;
     right: 30px;
     top: 30px;
+  }
+}
+#pdf {
+  margin-top: 50px;
+  padding-top: 300px;
+  position: relative;
+  opacity: 0;
+  .pdf-name {
+    /* display: none; */
+    position: absolute;
+    top: 0px;
+    left: 15px;
   }
 }
 </style>

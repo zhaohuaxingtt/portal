@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 17:21:59
- * @LastEditors: caopeng
- * @LastEditTime: 2022-01-13 11:04:55
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-01-27 00:19:22
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systemDetail.vue
 -->
 <template>
@@ -14,11 +14,11 @@
       <el-form inline
                label-position="left">
         <el-form-item :label="language('YINGYONGZHONGWENMING', '应用中文名')">
-          <iInput v-model="form.appNameCn"
+          <iInput v-model="form.nameZh"
                   :placeholder="language('QINGSHURU', '请输入')"></iInput>
         </el-form-item>
         <el-form-item :label="language('YINGYONGYINGWENMING', '应用英文名')">
-          <iInput v-model="form.appNameEn"
+          <iInput v-model="form.nameEn"
                   :placeholder="language('QINGSHURU', '请输入')"></iInput>
         </el-form-item>
 
@@ -45,10 +45,14 @@
         <table-list style="margin-top: 20px"
                     :tableData="tableListDataAdd"
                     :tableTitle="tableTitle"
-                    :tableLoadingAdd="tableLoadingAdd"
+                    :tableLoading="tableLoadingAdd"
                     @handleSelectionChange="handleSelectionChangeAdd"
                     :index="true"
                     ref="commonTable">
+
+          <template #memo='scope'>
+            <span >{{scope.row.memo | filter_memo}}</span>
+          </template>
 
         </table-list>
       </div>
@@ -58,18 +62,20 @@
             {{ language('YIYOUYINGYONGQUANXIAN', '已有应用权限') }}
           </span>
           <iButton :disabled="selectDelArr.length == 0"
-                   @click="clickDel">{{
+                   @click="del">{{
               language('SHANCHU', '删除')
             }}</iButton>
         </div>
         <table-list style="margin-top: 20px"
                     :tableData="tableListDataDel"
                     :tableTitle="tableTitle"
-                    :tableLoadingAdd="tableLoadingDel"
+                    :tableLoading="tableLoadingDel"
                     @handleSelectionChange="handleSelectionChangeDel"
                     :index="true"
                     ref="commonTable">
-
+          <template #memo='scope'>
+            <span >{{scope.row.memo | filter_memo}}</span>
+          </template>
         </table-list>
       </div>
     </div>
@@ -80,8 +86,14 @@
 <script>
 import tableList from '@/components/commonTable'
 import { iDialog, iButton, iMessage, iInput } from 'rise'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 import { tableTitleDetail } from './data'
-import { operationAdd, operationQuery, relateQuery } from '@/api/opcs/system'
+import {
+  operationAdd,
+  unBindingOperationQuery,
+  operationQuery,
+  operationRemove
+} from '@/api/opcs/system'
 export default {
   components: {
     iDialog,
@@ -94,33 +106,45 @@ export default {
     rowList: { type: Object }
   },
   watch: {
-    rowList(val) {
-      if (val) {
-        this.getAddList()
-        this.getDelList()
-      }
+    value () {
+      this.getAddList()
     }
   },
-  data() {
+  data () {
     return {
       form: {},
       tableLoadingAdd: false,
       tableLoadingDel: false,
       tableTitle: tableTitleDetail,
-      selectTableData: [],
       tableListDataAdd: [],
       tableListDataDel: [],
       selectAddArr: [],
       selectDelArr: []
     }
   },
-  created() {},
+  filters:{
+    filter_memo (memo) {
+      let sysTags = SYSTEM_TAGS
+      let array = memo ? memo.split(',') : []
+      let strArray = []
+      if (array.length > 0) {
+        sysTags.forEach((val) => {
+          if (array.indexOf(val.id) >= 0) {
+            strArray.push(val.label)
+          }
+        })
+      }
+      return strArray.join(',')
+    }
+  },
+  created () { },
   methods: {
-    sure() {
+
+    sure () {
       this.getAddList()
     },
     //获取列表接口
-    getAddList() {
+    getAddList () {
       this.tableLoadingAdd = true
       const params = {
         ...this.form,
@@ -129,14 +153,15 @@ export default {
         pageSize: 99999,
         opcsUserId: this.rowList.id
       }
-      operationQuery(params).then((res) => {
+      unBindingOperationQuery(params).then((res) => {
         this.tableLoadingAdd = false
         if (res && res.code == 200) {
+          this.getDelList()
           this.tableListDataAdd = res.data
         } else iMessage.error(res.desZh)
       })
     },
-    getDelList() {
+    getDelList () {
       this.tableLoadingDel = true
       const params = {
         ...this.form,
@@ -145,43 +170,62 @@ export default {
         pageSize: 99999,
         opcsUserId: this.rowList.id
       }
-      relateQuery(params).then((res) => {
+      operationQuery(params).then((res) => {
         this.tableLoadingDel = false
         if (res && res.code == 200) {
+          this.$nextTick(() => {
+            this.tableListDataAdd = this.tableListDataAdd.filter(
+              (item) => !this.tableListDataDel.some((ele) => ele.id === item.id)
+            )
+          })
           this.tableListDataDel = res.data
         } else iMessage.error(res.desZh)
       })
     },
-    clickadd() {
+    clickadd () {
       let parmars = {
-        saveUserList: this.tableListDataAdd,
-        opcsSupplierKeyId: this.$route.query.opcsSupplierId
+        appsList: this.selectAddArr,
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        opcsUserId: this.rowList.id
       }
       operationAdd(parmars).then((res) => {
         if (res && res.code == 200) {
-          this.getDelList()
           this.getAddList()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
     },
-    del() {},
-
-    selectTableDataDetail(val) {
-      console.log(val)
-      val.forEach((v) => {
-        this.tableListDataAdd.push(v)
+    del () {
+      if (this.selectDelArr.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return
+      }
+      const req = {
+        appIds: this.selectDelArr.map((v) => {
+          return v.id
+        }),
+        opcsUserId: this.rowList.id
+      }
+      operationRemove(req).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getAddList()
+        } else iMessage.error(res.desZh)
       })
     },
 
-    handleSelectionChangeAdd(val) {
+    handleSelectionChangeAdd (val) {
       this.selectAddArr = val
     },
-    handleSelectionChangeDel(val) {
+    handleSelectionChangeDel (val) {
       this.selectDelArr = val
     },
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false)
+    },
+    clickReset () {
+      this.form = {}
+      this.getAddList()
     }
   }
 }

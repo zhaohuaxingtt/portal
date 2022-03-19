@@ -1,52 +1,49 @@
 <template>
   <iCard class="my-topics-box">
     <div class="iSearch-content">
-      <div class="serch" :style="`margin-right:${stypeWidth}px;`">
+      <div class="serch"
+           :style="`margin-right:${stypeWidth}px;`">
         <el-form>
           <el-row>
             <el-form-item :label="'Present Items'">
-              <iSelect
-                :placeholder="$t('LK_QINGXUANZE')"
-                v-model="form.presentItem"
-              >
-                <el-option
-                  :value="item.value"
-                  :label="item.label"
-                  v-for="item of presentList"
-                  :key="item.value"
-                ></el-option>
+              <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                       v-model="form.presentItem">
+                <el-option :value="item.value"
+                           :label="item.label"
+                           v-for="item of presentList"
+                           :key="item.value"></el-option>
               </iSelect>
             </el-form-item>
-            <iDateRangePicker
-              :startDateProps="form.startDateBegin"
-              :endDateProps="form.startDateEnd"
-              @change-start="changeStart"
-              @change-end="changeEnd"
-              ref="iDateRangePicker"
-              label="Time"
-            />
+            <iDateRangePicker :startDateProps="form.startDateBegin"
+                              :endDateProps="form.startDateEnd"
+                              @change-start="changeStart"
+                              @change-end="changeEnd"
+                              ref="iDateRangePicker"
+                              label="Time" />
             <el-form-item label="Topic">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.topic"
-              ></iInput>
+              <iInput :placeholder="$t('LK_QINGSHURU')"
+                      v-model="form.topic"></iInput>
             </el-form-item>
           </el-row>
         </el-form>
       </div>
-      <div class="operation" v-if="!hiddenRight">
+      <div class="operation"
+           v-if="!hiddenRight">
         <slot name="button">
-          <iButton @click="query('search')" :v-permission="searchKey">{{
+          <iButton @click="query('search')"
+                   v-permission="searchKey">{{
             $t('MT_SOUSUO')
           }}</iButton>
-          <iButton @click="goBack" :v-permission="resetKey">{{
+          <iButton @click="goBack"
+                   v-permission="resetKey">{{
             $t('MT_FANHUI')
           }}</iButton>
         </slot>
       </div>
     </div>
     <p class="line"></p>
-    <iTableML tooltip-effect="light" :data="tableData">
+    <iTableML tooltip-effect="light"
+              :data="tableData">
       <!-- <el-table-column
         type="index"
         min-width="48"
@@ -72,80 +69,69 @@
           />
         </template>
       </el-table-column> -->
-      <el-table-column prop="follow" align="left" label="No." width="50">
+      <el-table-column prop="follow"
+                       align="left"
+                       label="No."
+                       width="50">
         <template slot-scope="scope">
           <div class="img-word">
             <div>
               {{ scope.$index + 1 }}
             </div>
             <div>
-              <img
-                v-if="isTheyHaveMyOrCreatedByMyself(scope.row)"
-                src="@/assets/images/add-follow-red.svg"
-              />
-              <img
-                v-if="
+              <img v-if="isTheyHaveMyOrCreatedByMyself(scope.row)"
+                   src="@/assets/images/add-follow-red.svg" />
+              <img v-if="
                   !isTheyHaveMyOrCreatedByMyself(scope.row) && scope.row.follow
                 "
-                src="@/assets/images/empty-star.svg"
-                @click="handleUnfollow(scope.row, following)"
-                class="follow"
-              />
-              <img
-                v-if="
+                   src="@/assets/images/empty-star.svg"
+                   @click="handleUnfollow(scope.row, following)"
+                   class="follow" />
+              <img v-if="
                   !isTheyHaveMyOrCreatedByMyself(scope.row) && !scope.row.follow
                 "
-                src="@/assets/images/solid-star.svg"
-                @click="handleFollow(scope.row, following)"
-                class="follow"
-              />
+                   src="@/assets/images/solid-star.svg"
+                   @click="handleFollow(scope.row, following)"
+                   class="follow" />
             </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="count"
-        min-width="70"
-        align="center"
-        label="Count"
-        width="70"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="topic"
-        min-width="130"
-        align="center"
-        label="Topic"
-        width="220"
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="count"
+                       min-width="70"
+                       align="center"
+                       label="Count"
+                       width="70"></el-table-column>
+      <el-table-column show-overflow-tooltip
+                       prop="topic"
+                       min-width="130"
+                       align="center"
+                       label="Topic"
+                       width="220">
         <template slot-scope="scope">
-          <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
+          <span class="open-link-text"
+                @click="lookOrEdit(scope.row)">{{
             scope.row.topic
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="meetingName"
-        min-width="147"
-        align="center"
-        label="Meeting"
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="meetingName"
+                       min-width="147"
+                       align="center"
+                       label="Meeting">
         <template slot-scope="scope">
           <!-- <span class="open-link-text" @click="checkDetail(scope.row.meetingId)">{{scope.row.meetingName}}</span> -->
           <span>{{ scope.row.meetingName }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        min-width="90"
-        label="Status"
-      >
+      <el-table-column show-overflow-tooltip
+                       align="center"
+                       min-width="90"
+                       label="Status">
         <template slot-scope="scope">
-          <span
-            :class="[
+          <span :class="[
               {
                 draft: scope.row.meetingStatus == '01',
                 open: scope.row.meetingStatus == '02',
@@ -155,26 +141,20 @@
                 close: scope.row.meetingStatus == '06'
               },
               'circle'
-            ]"
-            >{{ $t(statusObj[scope.row.meetingStatus]) }}</span
-          >
+            ]">{{ $t(statusObj[scope.row.meetingStatus]) }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="duration"
-        align="center"
-        min-width="90"
-        label="Duration"
-        width="90"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="time"
-        align="center"
-        min-width="200"
-        label="Time"
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="duration"
+                       align="center"
+                       min-width="90"
+                       label="Duration"
+                       width="90"></el-table-column>
+      <el-table-column show-overflow-tooltip
+                       prop="time"
+                       align="center"
+                       min-width="200"
+                       label="Time">
         <template slot-scope="scope">
           <div v-if="scope.row.startTime">
             <span>{{
@@ -183,8 +163,7 @@
                   ' +' +
                   Number(scope.row.plusDayStartTime)
                 : scope.row.startTime.substring(0, 5)
-            }}</span
-            ><span>~</span>
+            }}</span><span>~</span>
             <span v-if="scope.row.endTime">{{
               Number(scope.row.plusDayEndTime) > 0
                 ? scope.row.endTime.substring(0, 5) +
@@ -195,96 +174,76 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="presenter"
-        align="center"
-        min-width="188"
-        label="Presenter"
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="presenter"
+                       align="center"
+                       min-width="188"
+                       label="Presenter">
         <template slot-scope="scope">
           <span>{{ scope.row.presenter }}</span>
           <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
           <span>{{ scope.row.presenterNosys }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="presenterDept"
-        align="center"
-        min-width="170"
-        label="Presenter Dept."
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="presenterDept"
+                       align="center"
+                       min-width="170"
+                       label="Presenter Dept.">
         <template slot-scope="scope">
           <span>{{ scope.row.presenterDept }}</span>
-          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
-            >/</span
-          >
+          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys">/</span>
           <span>{{ scope.row.presenterDeptNosys }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="supporter"
-        align="center"
-        min-width="200"
-        label="Supporter"
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="supporter"
+                       align="center"
+                       min-width="200"
+                       label="Supporter">
         <template slot-scope="scope">
           <span>{{ scope.row.supporter }}</span>
           <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
           <span>{{ scope.row.supporterNosys }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="supporterDept"
-        align="center"
-        min-width="161"
-        label="Supporter Dept."
-      >
+      <el-table-column show-overflow-tooltip
+                       prop="supporterDept"
+                       align="center"
+                       min-width="161"
+                       label="Supporter Dept.">
         <template slot-scope="scope">
           <span>{{ scope.row.supporterDept }}</span>
-          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
-            >/</span
-          >
+          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys">/</span>
           <span>{{ scope.row.supporterDeptNosys }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="remark"
-        align="center"
-        min-width="104"
-        label="Remark"
-      ></el-table-column>
+      <el-table-column show-overflow-tooltip
+                       prop="remark"
+                       align="center"
+                       min-width="104"
+                       label="Remark"></el-table-column>
     </iTableML>
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, query)"
-      @current-change="handleCurrentChange($event, query)"
-      background
-      :current-page="page.pageNum"
-      :page-size="page.pageSize"
-      layout="prev, pager, next, jumper"
-      :prev-text="$t('MT_SHANGYIYE')"
-      :next-text="$t('MT_XIAYIYE')"
-      :total="total"
-    />
-    <detailDialog
-      :openDialog="openDetail"
-      v-if="openDetail"
-      :id="id"
-      @closeDialog="closeDetail"
-    />
-    <addTopic
-      v-if="openAddTopic"
-      :openAddTopic="openAddTopic"
-      :meetingInfo="meetingInfo"
-      :editOrAdd="editOrAdd"
-      @closeDialog="closeDialog"
-      :lookThemenObj="lookThemenObj"
-    >
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, query)"
+                 @current-change="handleCurrentChange($event, query)"
+                 background
+                 :current-page="page.pageNum"
+                 :page-size="page.pageSize"
+                 layout="prev, pager, next, jumper"
+                 :prev-text="$t('MT_SHANGYIYE')"
+                 :next-text="$t('MT_XIAYIYE')"
+                 :total="total" />
+    <detailDialog :openDialog="openDetail"
+                  v-if="openDetail"
+                  :id="id"
+                  @closeDialog="closeDetail" />
+    <addTopic v-if="openAddTopic"
+              :openAddTopic="openAddTopic"
+              :meetingInfo="meetingInfo"
+              :editOrAdd="editOrAdd"
+              @closeDialog="closeDialog"
+              :lookThemenObj="lookThemenObj">
     </addTopic>
   </iCard>
 </template>
@@ -312,7 +271,7 @@ export default {
     detailDialog,
     addTopic
   },
-  data() {
+  data () {
     return {
       following: false,
       currentPage: 1,
@@ -354,23 +313,23 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
     this.meetingTypeId = this.$route.query.meetingTypeId
     this.query()
   },
   watch: {
     tableData: {
-      handler(tableD) {
+      handler (tableD) {
         console.log('tableD', tableD)
       }
     }
   },
   methods: {
     // 取消关注
-    handleUnfollow(e) {
+    handleUnfollow (e) {
       if (e.state === '03') {
-        iMessage.warn('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU'))
         return
       }
       if (!this.following) {
@@ -387,7 +346,7 @@ export default {
         unfollow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('MT_QUXIAOGUANZHUCHENGGONG')
+              iMessage.success(this.$t('MT_QUXIAOGUANZHUCHENGGONG'))
             }
             this.query().then(() => {
               this.following = false
@@ -401,9 +360,9 @@ export default {
       // });
     },
     // 添加关注
-    handleFollow(e, bol) {
+    handleFollow (e, bol) {
       if (e.state === '03') {
-        iMessage.warn('MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU'))
         return
       }
       this.following = true
@@ -420,7 +379,7 @@ export default {
         follow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('MT_GUANZHUCHENGGONG')
+              iMessage.success(this.$t('MT_GUANZHUCHENGGONG'))
             }
             this.query().then(() => {
               this.following = false
@@ -433,7 +392,7 @@ export default {
       }
       // });
     },
-    isTheyHaveMyOrCreatedByMyself(item) {
+    isTheyHaveMyOrCreatedByMyself (item) {
       if (Number(item.createBy) === this.currentUserId) {
         return true
       }
@@ -448,10 +407,10 @@ export default {
       }
       return false
     },
-    closeDialog() {
+    closeDialog () {
       this.openAddTopic = false
     },
-    lookOrEdit(row) {
+    lookOrEdit (row) {
       this.lookThemenObj = { ...row }
       this.editOrAdd = 'look'
       this.openAddTopic = true
@@ -459,10 +418,10 @@ export default {
     // searchTableList(e) {
     //   this.query();
     // },
-    changeStart(e) {
+    changeStart (e) {
       this.form.startDateBegin = e
     },
-    changeEnd(e) {
+    changeEnd (e) {
       this.form.startDateEnd = e
     },
 
@@ -476,7 +435,7 @@ export default {
     //   }, 4);
     //   this.query();
     // },
-    goBack() {
+    goBack () {
       this.$router.go(-1)
     },
 
@@ -487,11 +446,11 @@ export default {
     // },
 
     // 关闭详情弹窗
-    closeDetail() {
+    closeDetail () {
       this.openDetail = false
     },
     // 获取数据
-    async query(e) {
+    async query (e) {
       if (e === 'search') {
         this.currentPage = 1
       }
@@ -509,13 +468,13 @@ export default {
       this.handleCurrentChange(this.currentPage)
     },
     //选择页数
-    handleCurrentChange(curPage) {
+    handleCurrentChange (curPage) {
       this.currentPage = curPage
       this.page.pageNum = curPage
       this.currentChangePage(this.dataAll, this.page.pageNum)
     },
     // 分页方法
-    currentChangePage(data, pageNum) {
+    currentChangePage (data, pageNum) {
       let from = (pageNum - 1) * this.page.pageSize
       let to = pageNum * this.page.pageSize
       this.tableData = data.slice(from, to)

@@ -19,6 +19,7 @@
           type="APPROVAL"
           :typeName="item.typeName"
           @open="openListPage"
+          @set-aeko-num="handleSetAekoNum"
         />
       </div>
     </div>
@@ -80,7 +81,23 @@ export default {
       let totalNum = 0
       data.forEach((e) => {
         e.wfCategoryList.forEach((wf) => {
-          totalNum += wf.todoNum
+          if (e.typeName !== 'aeko') {
+            totalNum += wf.todoNum
+          }
+        })
+      })
+      this.$emit('set-num', totalNum)
+    },
+    handleSetAekoNum(val) {
+      const data = this.data
+      let totalNum = 0
+      data.forEach((e) => {
+        e.wfCategoryList.forEach((wf) => {
+          if (e.typeName === 'aeko') {
+            totalNum += val
+          } else {
+            totalNum += wf.todoNum
+          }
         })
       })
       this.$emit('set-num', totalNum)

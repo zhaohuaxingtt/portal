@@ -5,14 +5,16 @@ export const tableColumn = (list) => {
       width: 50
     },
     {
-      type:'index',
-      label:'序号',
+      type: 'index',
+      label: '#',
       width: 100
     },
     {
       prop: 'lableName',
       label: '标签内容',
-      align: 'center'
+      i18n: '标签内容',
+      align: 'center',
+      sortable: true
     },
     {
       // prop: 'moduleId',
@@ -20,20 +22,25 @@ export const tableColumn = (list) => {
       i18n: '问题模块',
       align: 'center',
       customRender: (h, scope) => {
-        return list[scope.row.moduleId] ? list[scope.row.moduleId].menuName : "";
-      }
+        return list[scope.row.moduleId] ? `${list[scope.row.moduleId].parentName ? list[scope.row.moduleId].parentName+'-': ''}${list[scope.row.moduleId].menuName}` : ''
+      },
+      sortable: true
     },
     {
       prop: 'createByName',
       label: '添加人',
+      i18n: '添加人',
       align: 'center',
-      tooltip: true
+      tooltip: true,
+      sortable: true
     },
     {
       prop: 'createDate',
       label: '添加日期',
+      i18n: '添加日期',
       align: 'center',
-      tooltip: true
+      tooltip: true,
+      sortable: true
     }
   ]
 }

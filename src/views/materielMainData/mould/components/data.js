@@ -32,14 +32,15 @@ export const MOULD_TABLE_COLUMNS = [
     width: '50px'
   },
   {
+    label: '#',
     type: 'index',
-    width: '50px'
+    width: '55'
   },
   {
     prop: 'code',
     label: '模具材料组编号',
     i18n: '模具材料组编号',
-    width:'120px',
+    width: '150px',
     // openNewPage: true,
     emit: 'go-detail',
     customRender: (h, scope) => {
@@ -66,18 +67,18 @@ export const DETAIL_PARTS_GROUP_COLUMNS = [
   {
     i18n: '序号',
     type: 'index',
-    width: '50px'
+    width: '55'
   },
   {
     prop: 'categoryCode',
     label: '零件材料组编号',
     i18n: '零件材料组编号',
-    width:'140px',
+    width: '140px',
     // openNewPage:true,
     tooltip: true,
-    emit:'to-detail',
-    customRender:(h,scope)=>{
-      return <span class='link-text'>{scope.row.categoryCode}</span>
+    emit: 'to-detail',
+    customRender: (h, scope) => {
+      return <span class="link-text">{scope.row.categoryCode}</span>
     }
   },
   {

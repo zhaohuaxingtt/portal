@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: caopeng
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierUserNameTable.vue
 -->
@@ -32,12 +32,14 @@
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_USER"
+     <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_USER" -->
+    <table-list
                 ref="commonTable"
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
+                border
                 :index="true">
       <template #isDefault="scope">
         <icon v-if="scope.row.isDefault === true"

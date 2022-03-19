@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 14:51:25
- * @LastEditTime: 2021-11-24 18:55:23
+ * @LastEditTime: 2022-03-02 18:01:50
  * @LastEditors: Please set LastEditors
  * @Description: 公共步骤条封装
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\commonFlow.vue
@@ -19,30 +19,35 @@
           <div class="title_block">
             <span>申请单类型：</span>
             <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== ''"
-                    :value="formInfor.flowType"
-                    :placeholder="language('QINGXUANZE','请选择')"
-                    @change="chioce($event)">
+                     :value="formInfor.flowType"
+                     v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
+                     :placeholder="language('QINGXUANZE','请选择')"
+                     @change="chioce($event)">
               <el-option :value="item.code"
-                        :label="item.message"
-                        v-for="item in getFlowTypeList"
-                        :key="item.code"></el-option>
+                         :label="item.message"
+                         v-for="item in getFlowTypeList"
+                         :key="item.code"></el-option>
             </iSelect>
           </div>
         </div>
       </div>
       <div class="opration">
         <template v-if="ttNominateAppId == '' && appStatus == '通过'">
-          <iButton @click="submitPass" v-show="locationNow==3&&meetingNumber == 0" >{{ language('TIJIAO', '提交') }}</iButton>
+          <iButton @click="submitPass"
+                   v-show="locationNow==3&&meetingNumber == 0"
+                   v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO">{{ language('TIJIAO', '提交') }}</iButton>
         </template>
         <template v-else>
           <iButton @click="submit"
-                    v-show="locationNow==3&&meetingNumber == 0"
-                  :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                   v-show="locationNow==3&&meetingNumber == 0"
+                   v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
+                   :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         </template>
         <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
       </div>
     </div>
-    <div class="stepBoxMap" v-if="meetingNumber == 0">
+    <div class="stepBoxMap"
+         v-if="meetingNumber == 0">
       <div class="stepBox">
         <div class="stepBox_div"
              v-for="(item,index) in topImgList"
@@ -91,7 +96,7 @@
 </template>
 
 <script>
-import { iButton, iDialog, iMessage, iMessageBox,iSelect } from "rise"
+import { iButton, iDialog, iMessage, iMessageBox, iSelect } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
@@ -109,7 +114,7 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
 export default {
   components: {
@@ -129,9 +134,9 @@ export default {
   data () {
     return {
       locationId: "",
-      mtzAppName:"",
-      user:"",
-      dept:"",
+      mtzAppName: "",
+      user: "",
+      dept: "",
       topImgList,
       locationNow: this.$route.query.stepNum || 1,
       mtzAddShow: false,
@@ -142,12 +147,12 @@ export default {
       appStatus: "",
       stepNum: 1,
       ttNominateAppId: "",
-      NumberCESHI:0,
-      meetingNumber:Number(this.$route.query.meeting) || 0,
+      NumberCESHI: 0,
+      meetingNumber: Number(this.$route.query.meeting) || 0,
       getFlowTypeList: [],
-      formInfor:{
-        flowType:"",
-        flowTypeName:"",
+      formInfor: {
+        flowType: "",
+        flowTypeName: "",
       },
     }
   },
@@ -162,13 +167,13 @@ export default {
     submitDataList () {
       return this.$store.state.location.submitDataList;
     },
-    submitInfor(){
+    submitInfor () {
       return this.$store.state.location.submitInfor;
     }
   },
 
   watch: {
-    submitInfor(newValue, oldValue){
+    submitInfor (newValue, oldValue) {
       this.formInfor = newValue;
       this.ttNominateAppId = newValue.ttNominateAppId;
       this.flowType = newValue.flowType;
@@ -184,7 +189,7 @@ export default {
     }
   },
   created () {
-    
+
 
     if (JSON.parse(sessionStorage.getItem('MtzLIst')) == null) {
       sessionStorage.setItem('MtzLIst', JSON.stringify({ mtzAppId: undefined }))
@@ -192,13 +197,13 @@ export default {
 
     // console.log(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId)
     // console.log(this.$route.query.mtzAppId)
-    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId !== this.$route.query.mtzAppId){
+    if (JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId !== this.$route.query.mtzAppId) {
       var data = deepClone(this.$route.query);
       store.commit("routerMtzData", {
-        mtzAppId:data.mtzAppId
+        mtzAppId: data.mtzAppId
       });
       sessionStorage.setItem("MtzLIst", JSON.stringify({
-        mtzAppId:data.mtzAppId
+        mtzAppId: data.mtzAppId
       }))
     }
 
@@ -243,7 +248,7 @@ export default {
     })
   },
   methods: {
-    submitPass(){
+    submitPass () {
       mtzAppNomiSubmit({
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }).then(res => {
@@ -256,12 +261,12 @@ export default {
           sessionStorage.setItem("MtzLIst", JSON.stringify(data))
           console.log("submitRequest")
           this.getType();
-        }else{
+        } else {
           iMessage.error(res.desZh)
         }
       })
     },
-    chioce(data, name){
+    chioce (data, name) {
       // console.log(data)
       pageAppRule({
         pageNo: 1,
@@ -275,22 +280,22 @@ export default {
             num++;
           }
         })
-        if(num !== 0 && data == "SIGN"){
+        if (num !== 0 && data == "SIGN") {
           this.formInfor.flowType = this.flowType;
           return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
-        }else{
+        } else {
           this.saveEdit(data);
         }
       })
     },
-    saveEdit(val){
+    saveEdit (val) {
       iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         modifyAppFormInfo({
           ...this.formInfor,
-          flowType:val
+          flowType: val
         }).then(res => {
           iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
           var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
@@ -303,7 +308,7 @@ export default {
           this.getType();
         })
       }).catch(res => {
-        
+
       })
     },
     handleSync (params) {
@@ -343,22 +348,22 @@ export default {
         iMessage.warn(this.language("MTZGZBNWK", "MTZ规则不能为空"))
         return false;
       }
-      
+
       if (this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == "") {
       } else {
         this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
         if (this.flowType !== "FILING") {//上会/流转
           this.setSubmit();
-        }else{//备案
+        } else {//备案
           fetchAppNomiDecisionDataPage({
             pageNo: 1,
             pageSize: 10,
             mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
           }).then(res => {
-            if(res && res.code == 200) {
-              if(res.data.length<1){
+            if (res && res.code == 200) {
+              if (res.data.length < 1) {
                 return iMessage.error(this.language('SQDLXWBASTJSJCZLZDJCFJBNWK', '申请单类型为备案时，提交时决策资料中的附件不能为空！'))
-              }else{
+              } else {
                 this.submitRequest();
               }
             } else iMessage.error(res.desZh)
@@ -366,28 +371,28 @@ export default {
         }
       }
     },
-    setSubmit(){
+    setSubmit () {
       pageApprove({
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         pageNo: 1,
         pageSize: 10
       }).then(res => {
         if (res.code === "200" && res.result) {
-          if(res.data.length < 1){
-            iMessage.error(this.language("ZANWUSHENPIRENXINXI","暂无审批人信息！"))
-          }else{
+          if (res.data.length < 1) {
+            iMessage.error(this.language("ZANWUSHENPIRENXINXI", "暂无审批人信息！"))
+          } else {
             if (this.flowType === "MEETING") {//上会
               this.mtzAddShow = true;
-            } else if(this.flowType === "SIGN"){//流转
+            } else if (this.flowType === "SIGN") {//流转
               this.submitRequest();
             }
           }
-        }else{
+        } else {
           iMessage.error(res.desZh)
         }
       })
     },
-    submitRequest(){
+    submitRequest () {
       NewMessageBox({
         title: this.language('LK_WENXINTISHI', '温馨提示'),
         Tips: this.language('SHIROUQUERENTIJIAO', '是否确认提交？'),
@@ -406,7 +411,7 @@ export default {
             sessionStorage.setItem("MtzLIst", JSON.stringify(data))
             console.log("submitRequest")
             this.getType();
-          }else{
+          } else {
             iMessage.error(res.desZh)
           }
         })
@@ -537,7 +542,7 @@ export default {
     }
     span {
       display: inline-block;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       margin-top: 10px;
       color: #5d5d5d;
@@ -554,18 +559,17 @@ export default {
   }
 }
 
-
-.title_type{
-  margin-left:50px;
+.title_type {
+  margin-left: 50px;
   display: inline-block;
-  
-  .title_block{
+
+  .title_block {
     display: flex;
     align-items: center;
   }
 
-  .el-select{
-    width:auto!important;
+  .el-select {
+    width: auto !important;
   }
 }
 </style>

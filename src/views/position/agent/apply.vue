@@ -3,30 +3,6 @@
     <pageHeader class="margin-bottom20">
       <span>{{ this.form.id ? '编辑' : '新增' }}岗位代理</span>
     </pageHeader>
-    <iCard>
-      <iSteps :active="active" align-center>
-        <iStep title="发起岗位代理申请" status="finish">
-          <template slot="icon">
-            <icon symbol name="iconshenpiliu-daishenpi" class="icon" />
-          </template>
-        </iStep>
-        <iStep title="代理岗位领导审批">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="原有岗位领导审批">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-        <iStep title="申请结果">
-          <template #icon>
-            <icon symbol name="iconshenpiliu-daishenpi" />
-          </template>
-        </iStep>
-      </iSteps>
-    </iCard>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
@@ -127,9 +103,6 @@ import {
   iPage,
   iMessage
 } from 'rise'
-// import { addPositionAgent } from "@/views/position/agent/apply";
-import iSteps from '@/components/iSteps'
-import iStep from '@/components/iStep'
 import choosePosition from '../transfer/components/choosePosition'
 import {
   applyPositionAgent,
@@ -143,8 +116,6 @@ export default {
     iCard,
     iPage,
     Icon,
-    iSteps,
-    iStep,
     iFormItem,
     iInput,
     iButton,
@@ -206,9 +177,12 @@ export default {
   computed: {
     duration() {
       if (this.form.startDate && this.form.endDate) {
-        const start = moment(this.form.startDate)
-        const end = moment(this.form.endDate)
-        return moment.duration(end.diff(start)).days()
+        // const start = moment(this.form.startDate)
+        // const end = moment(this.form.endDate)
+        // return moment.duration(end.diff(start)).days()
+        const startDate = moment(this.form.startDate).format('YYYY-MM-DD')
+        const endDate = moment(this.form.endDate).format('YYYY-MM-DD')
+        return moment(endDate).diff(startDate, 'day')
       }
       return 0
     }
@@ -236,10 +210,12 @@ export default {
       .then((value) => {
         if (value.code == 200) {
           this.form = value.data
-          this.canEdit = value.data.status == 1 //不可编辑
+          this.canEdit = [1, 5].includes(value.data.status) //不可编辑
         }
       })
-      .catch((val) => {})
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     handleOpenChoosePositionDialog() {
@@ -315,49 +291,53 @@ export default {
       })
     },
     addPositionAgent() {
-      this.form.durationDays = this.duration
-      // this.form.startDate = this.form.startDate + " 23:59:59";
-      let startSuffix = ' 00:00:00'
-      let suffix = ' 23:59:59'
-      if (
-        this.form.startDate &&
-        this.form.startDate.indexOf(startSuffix) == -1
-      ) {
-        this.form.startDate = this.form.startDate + startSuffix
-      }
-      if (this.form.endDate && this.form.endDate.indexOf(suffix) == -1) {
-        this.form.endDate = this.form.endDate + suffix
-      }
-      let param = {
-        ...this.form,
-        type: 3,
-        sourceId: this.$store.state.permission.userInfo.positionDTO.id
-      }
-      this.loading = true
-      applyPositionAgent(param)
-        .then((value) => {
-          // console.log("====oooo", value);
-          if (value.code == 200) {
-            //创建成功
-            iMessage.success(value.desZh || '提交成功')
-            if (window.opener) {
-              setTimeout(() => {
-                window.close()
-              }, 2000)
-              window.opener.postMessage('refresh')
-            } else {
-              this.$router.go(-1)
-            }
-          } else {
-            iMessage.error(value.desZh || '提交失败')
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.form.durationDays = this.duration
+          // this.form.startDate = this.form.startDate + " 23:59:59";
+          let startSuffix = ' 00:00:00'
+          let suffix = ' 23:59:59'
+          if (
+            this.form.startDate &&
+            this.form.startDate.indexOf(startSuffix) == -1
+          ) {
+            this.form.startDate = this.form.startDate + startSuffix
           }
-        })
-        .catch((err) => {
-          iMessage.error(err.desZh || '')
-        })
-        .finally(() => {
-          this.loading = false
-        })
+          if (this.form.endDate && this.form.endDate.indexOf(suffix) == -1) {
+            this.form.endDate = this.form.endDate + suffix
+          }
+          let param = {
+            ...this.form,
+            type: 3,
+            sourceId: this.$store.state.permission.userInfo.positionDTO.id
+          }
+          this.loading = true
+          applyPositionAgent(param)
+            .then((value) => {
+              // console.log("====oooo", value);
+              if (value.code == 200) {
+                //创建成功
+                iMessage.success(value.desZh || '提交成功')
+                if (window.opener) {
+                  setTimeout(() => {
+                    window.close()
+                  }, 2000)
+                  window.opener.postMessage('refresh')
+                } else {
+                  this.$router.go(-1)
+                }
+              } else {
+                iMessage.error(value.desZh || '提交失败')
+              }
+            })
+            .catch((err) => {
+              iMessage.error(err.desZh || '')
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        }
+      })
     },
     deletePosition(value) {
       if (!this.canEdit) {

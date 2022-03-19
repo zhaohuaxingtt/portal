@@ -1,3 +1,4 @@
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export const userMessage = [
   {
     type: 'index',
@@ -6,12 +7,14 @@ export const userMessage = [
   {
     prop: 'nameZh',
     label: '联系人姓名',
+    i18n: '联系人姓名',
     width: '180px',
     align: 'center'
   },
   {
     prop: 'userName',
     label: '用户登录名',
+    i18n: '用户登录名',
     minWidth: '180px',
     align: 'center',
     tooltip: true
@@ -19,6 +22,7 @@ export const userMessage = [
   {
     prop: 'userName',
     label: '用户类型',
+    i18n: '用户类型',
     minWidth: '100px',
     align: 'center',
     customRender: (h, scope) => {
@@ -76,6 +80,7 @@ export const authList = [
   {
     prop: 'appNameCn',
     label: '中文名称',
+    i18n: '中文名称',
     // minWidth: '150px',
     align: 'center',
     tooltip: true
@@ -83,6 +88,7 @@ export const authList = [
   {
     prop: 'appNameEn',
     label: '英文文名称',
+    i18n: '英文文名称',
     // minWidth: '150px',
     align: 'center',
     tooltip: true
@@ -90,6 +96,7 @@ export const authList = [
   {
     prop: 'appNameEn',
     label: '系统类型',
+    i18n: '系统类型',
     align: 'center',
     customRender: (h, scope) => {
       if (scope.row.systemType) {
@@ -104,6 +111,7 @@ export const authList = [
   {
     prop: 'appNameEn',
     label: '系统标签',
+    i18n: '系统标签',
     // minWidth: '150px',
     align: 'center',
     customRender: (h, scope) => {
@@ -113,20 +121,7 @@ export const authList = [
       // }
       // return 'Scenario'
       let type = scope.row.supplierType
-      let sysTags = [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: '生产采购'
-        },
-        {
-          id: '2',
-          label: '一般采购'
-        }
-      ]
+      let sysTags = SYSTEM_TAGS
       let array = type ? type.split(',') : []
       let strArray = []
       if (array.length > 0) {

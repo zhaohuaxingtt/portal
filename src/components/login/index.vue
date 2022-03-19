@@ -45,6 +45,7 @@
 import { iMessage } from 'rise'
 import { login } from './api'
 import { encryptPwd, setToken } from './utils'
+import { getToken } from '@/utils'
 export default {
   data() {
     return {
@@ -102,9 +103,18 @@ export default {
     if (this.$route.path.indexOf('superLogin') > -1) {
       //nothing to do
     } else {
-      if (process.env.VUE_APP_LOGIN_URL) {
+      const token = getToken()
+      let redirectUrl = ''
+      if (token) {
+        redirectUrl =
+          process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
+      } else {
+        redirectUrl =
+          process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
+      }
+      if (redirectUrl && redirectUrl !== '/portal/#/login') {
         this.ssoLogin = true
-        location.href = process.env.VUE_APP_LOGIN_URL
+        location.href = redirectUrl
       }
     }
   }

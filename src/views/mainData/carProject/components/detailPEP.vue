@@ -5,12 +5,17 @@
     header-control
     collapse
   >
-    <div class="top-buttons margin-bottom20">
+    <div
+      class="top-buttons margin-bottom20"
+      v-permission="'BUTTON_MAIN_DATA_CAR_PROJECT_PEP_NODE_TIME_MODIFY'"
+    >
       <iButton v-if="isEditPage && !editable" @click="edit">
-        {{language('编辑')}}
+        {{ language('编辑') }}
       </iButton>
-      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
-      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
+      <iButton v-show="editable" @click="save">{{ language('保存') }}</iButton>
+      <iButton v-show="editable" @click="cancel">{{
+        language('取消')
+      }}</iButton>
     </div>
     <carTypeLifeCycle
       class="margin-bottom20"
@@ -200,7 +205,11 @@
             </iFormItem>
           </el-col>
           <el-col span="6">
-            <iFormItem label-width="100px" :label="language(formTitles.ME)" prop="pepMe">
+            <iFormItem
+              label-width="100px"
+              :label="language(formTitles.ME)"
+              prop="pepMe"
+            >
               <iDatePicker
                 v-model="formData.pepMe"
                 type="date"
@@ -229,7 +238,7 @@ export default {
   props: {
     pepData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -437,7 +446,7 @@ export default {
       this.formData = data
     },
     save() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.saveToServer()
         }
@@ -473,11 +482,11 @@ export default {
         // createBy: this.$store.state.permission.userInfo.id,
         ...this.formData,
         cartypeProId: this.carTypeProId,
-        carProjectId:this.carTypeProId,
-        createBy: this.$store.state.permission.userInfo.id,
+        carProjectId: this.carTypeProId,
+        createBy: this.$store.state.permission.userInfo.id
       }
       savePepDateNode(data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             this.editstate = false
             iMessage.success('保存成功')
@@ -485,7 +494,7 @@ export default {
             iMessage.error('保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error('保存失败')
           console.log('savePepDateNode err', err)
         })

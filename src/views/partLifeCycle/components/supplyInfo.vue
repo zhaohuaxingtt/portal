@@ -171,7 +171,12 @@ export default {
             tooltip: {
               axisPointer: {
                 type: 'shadow'
-              }
+              },
+              position: function (p) {
+                  // 位置回调
+                  // console.log && console.log(p);
+                  return [p[0] + 10, p[1] - 10];
+              },
             },
             grid: {
               top: '-10%',
@@ -230,7 +235,7 @@ export default {
                     barBorderRadius: [5,5,5,5],
                     color: '#1660F1',
                     label: {
-                      show: true, //自动显示数据
+                      show: false, //自动显示数据
                       position: 'right', //在上方显示
                       offset: [-70,0],
                       textStyle: { //数值样式
@@ -253,7 +258,7 @@ export default {
                     barBorderRadius: [5,5,5,5],
                     color: '#73A1FA',
                     label: {
-                      show: true, //自动显示数据
+                      show: false, //自动显示数据
                       position: 'right', //在上方显示
                       offset: [-70,0],
                       textStyle: { //数值样式

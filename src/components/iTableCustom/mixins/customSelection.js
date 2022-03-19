@@ -5,8 +5,10 @@ export default {
     ------------------------------------------------------------------------------------------*/
     handleCheckedAll(val) {
       this.tableData.forEach((e) => {
-        e.checked = val
-        e.isIndeterminate = false
+        if (!e.disabledChecked) {
+          e.checked = val
+          e.isIndeterminate = false
+        }
       })
       this.indeterminateAll = false
 
@@ -20,6 +22,7 @@ export default {
     handleCheckedRow(val, row) {
       const { checkStrictly } = this.customSelectionOption
       if (!checkStrictly) {
+        // 选中子元素
         const childs = this.getChildRows(row)
         if (childs.length > 0) {
           childs.forEach((e) => {
@@ -31,7 +34,7 @@ export default {
       if (!val) {
         row.isIndeterminate = false
       }
-      // 如果是取消选中
+      // 父级选中
       if (!checkStrictly) {
         this.setParentChecked(row.parentUniqueId)
       }
@@ -65,12 +68,12 @@ export default {
     },
     // 手动设置选中状态
     handleToggleSelectedRow(val, row) {
-      const filterRow = this.tableData.filter(
+      const filterRow = this.tableData.find(
         (e) => e[this.rowKey] === row[this.rowKey]
       )
-      if (filterRow.length > 0) {
-        filterRow[0].checked = val
-        this.handleCheckedRow(val, row)
+      if (filterRow) {
+        filterRow.checked = val
+        this.handleCheckedRow(val, filterRow)
       }
     },
     handleToggleSelectedAll(val) {

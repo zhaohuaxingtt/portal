@@ -10,38 +10,39 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 新供应商评级-->
-        <iButton @click="handleTask">{{
+        <iButton @click="handleTask" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_XGYSPJ">{{
           $t('SUPPLIER_XINGONGYINGSHANGPINGJI')
         }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
-    <tableList
-      :openPageProps="'nameZh'"
-      @openPage="openPage"
-      :openPageGetRowData="true"
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      :index="true"
-      @handleSelectionChange="handleSelectionChange"
-    />
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-    />
+    <iTableCustom
+      ref="tableListRef"
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+      @go-detail="openPage"
+    >
+    </iTableCustom>
+    
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
   </iCard>
 </template>
 
 <script>
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableTitle } from './data'
 import { getNewSupplierRating } from '@/api/frmRating/newSupplierRating/newSupplierRating'
 import { pageMixins } from '@/utils/pageMixins'
@@ -54,9 +55,11 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination
+    iPagination,
+    buttonTableSetting,
+    iTableCustom
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       selectTableData: [],
@@ -64,16 +67,17 @@ export default {
       tableLoading: false
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    async getTableList(reqParams) {
+    async getTableList (reqParams) {
       this.tableLoading = true
       try {
         const req = {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
+          ratingStatusList: this.$route.query.ratingStatusList ? JSON.parse(this.$route.query.ratingStatusList) : [],
           ...reqParams
         }
         const res = await getNewSupplierRating(req)
@@ -89,14 +93,14 @@ export default {
         this.tableLoading = false
       }
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
     // 下载
-    async handleExampleDownload(row) {
+    async handleExampleDownload (row) {
       await downloadUdFile(row.snapshotPath)
     },
-    handleTask() {
+    handleTask () {
       if (this.selectTableData.length === 1) {
         if (
           this.selectTableData[0].ratingStatus === '草稿' ||
@@ -115,7 +119,7 @@ export default {
         iMessage.warn(this.$t('SPR_FRM_XGYSPJ_QXZYTSJTJ'))
       }
     },
-    openPage(row) {
+    openPage (row) {
       if (row.ratingStatus === '草稿' || row.ratingStatus === '驳回') {
         this.$router.push({
           path: '/supplier/frmrating/newsupplierrating/rating1',

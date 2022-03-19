@@ -150,11 +150,12 @@ const subPosition = {
       const query = this.state.subPosition.query
       const { deptId } = data
       const params = { ...query, deptId }
+
       commit('SET_GET_SUB_POSITION_LOADING', true)
       const res = await GetSubPositionList(params).finally(() =>
         commit('SET_GET_SUB_POSITION_LOADING', false)
       )
-      // const res = await GetSubList(params) //mock数据
+
       if (res?.code === '200' && res?.data) {
         const subPositionList = res.data || []
         subPositionList.forEach((e) => {
@@ -166,7 +167,7 @@ const subPosition = {
             })
           }
         })
-        commit('SET_SUB_POSITIONLIST', res.data || [])
+        commit('SET_SUB_POSITIONLIST', subPositionList || [])
       }
     },
 

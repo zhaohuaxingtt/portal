@@ -24,9 +24,21 @@
         <iButton @click="handleTransfer"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_ZHUANPAI">{{ $t('LK_ZHUANPAI') }}</iButton>
         <!--查看-->
         <iButton @click="handleView"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_CHAKAN">{{ $t('LK_CHAKAN') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
-    <tableList :tableData="tableListData"
+
+    <iTableCustom
+      ref="tableListRef"
+      :data="tableListData"
+      :columns="tableTitle"
+      :loading="tableLoading"
+      @handle-selection-change="handleSelectionChange"
+      @go-detail="handleOpenPage"
+    >
+    </iTableCustom>
+
+    <!-- <tableList :tableData="tableListData"
                :tableTitle="tableTitle"
                :tableLoading="tableLoading"
                :index="true"
@@ -34,7 +46,7 @@
                openPageProps="view"
                @openPage="handleOpenPage"
                :openPageGetRowData="true"
-               :customOpenPageWord="$t('LK_CHAKAN')" />
+               :customOpenPageWord="$t('LK_CHAKAN')" /> -->
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -88,6 +100,8 @@
 <script>
 import { iCard, iButton, iPagination, iMessageBox, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
+import iTableCustom from '@/components/iTableCustom'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { tableTitle } from './data'
@@ -109,11 +123,13 @@ export default {
     iCard,
     iButton,
     tableList,
+    iTableCustom,
     iPagination,
     assignDialog,
     returnDialog,
     transferDialog,
-    scoringDialog
+    scoringDialog,
+    buttonTableSetting
   },
   created () {
     this.checkRolePermission()
@@ -337,14 +353,14 @@ export default {
     async handleAssignQualitativeScoreSubmit (reqParams) {
       try {
         this.assignQualitativeScoreLoading = true
-        const initialIds = this.selectTableData.map((item) => {
-          return item.id
-        })
-        const req = {
+        // const initialIds = this.selectTableData.map((item) => {
+        //   return item.id
+        // })
+        /*const req = {
           initialIds,
           ...reqParams
-        }
-        const res = await assignQualitativeScore(req)
+        }*/
+        const res = await assignQualitativeScore(reqParams)
         this.resultMessage(res, () => {
           this.assignDialog = false
           this.getTableList()

@@ -16,9 +16,12 @@
             :name="language('我的审批')"
             @click="$emit('toggle', 'approval')"
           />
+          <iTabBadgeItem
+            v-permission="'ADMIN_APPROVAL_MANAGEMENT_AGENT'"
+            :name="language('审批代理')"
+            @click="handleGoApprovalAgent"
+          />
         </iTabBadge>
-
-        <logIcon />
       </div>
     </pageHeader>
   </div>
@@ -26,8 +29,6 @@
 
 <script>
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
-import logIcon from '@/components/logIcon'
-import { Icon } from 'rise'
 import pageHeader from '@/components/pageHeader'
 export default {
   name: 'panelHeader',
@@ -45,7 +46,17 @@ export default {
       default: 0
     }
   },
-  components: { pageHeader, Icon, iTabBadge, iTabBadgeItem, logIcon }
+  components: { pageHeader, iTabBadge, iTabBadgeItem },
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
+  methods: {
+    handleGoApprovalAgent() {
+      this.$router.push({ path: '/approval/agent', query: { type: 'normal' } })
+    }
+  }
 }
 </script>
 

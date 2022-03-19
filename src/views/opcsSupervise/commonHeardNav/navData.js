@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-28 10:45:04
+ * @LastEditTime: 2022-01-19 14:35:05
  * @FilePath: \front-portal-new\src\views\opcsSupervise\commonHeardNav\navData.js
  */
 export const tabRouterList = [
@@ -23,6 +23,18 @@ export const tabRouterList = [
       key: 'YINGYONGGUANLI',
       icon:'el-icon-s-grid'
     },
+    {
+        value: 2,
+        name: '联系人与用户管理',
+        url: '/provider/opcs/list/application/userManage',
+        activePath: '/provider/opcs/list/application/userManage',
+        key: 'LIANXIRENYUYONGHUGUANLI',
+        icon:'el-icon-s-check'
+      },
+   
+  ]
+  
+  export const applicationRouterListOpcs = [
     {
         value: 2,
         name: '联系人与用户管理',

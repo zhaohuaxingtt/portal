@@ -1,12 +1,24 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-02-07 10:34:39
+ * @LastEditTime: 2022-03-09 16:57:15
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\views\viewSuppliers\index.vue
+-->
 <template>
-  <div class="viewSuppliers">
-    <supplierViewTab
-      class="margin-bottom20"
-      @handleClick="handleTabClick"
-      :current="current"
-    />
-    <log-button class="logButton" />
+  <div class="viewSuppliers"
+       v-loading="onLoading">
+    <supplierViewTab class="margin-bottom20"
+                     v-if="flag"
+                     @handleClick="handleTabClick"
+                     :current="current" />
+    <log-button class="logButton"
+                @toLogPage="toLog" />
     <supplier360-page v-if="current === 1" />
+    <iUserLog :show.sync="showDialog"
+              menuId="WS3203"
+              is-page />
   </div>
 </template>
 
@@ -14,23 +26,37 @@
 import supplierViewTab from '../../components/supplierViewTab'
 import logButton from '@/components/logButton'
 import supplier360Page from '../supplier360'
-
+import iUserLog from '@/components/iUserLog'
 export default {
   components: {
     supplierViewTab,
     supplier360Page,
-    logButton
+    logButton,
+    iUserLog
   },
-  data() {
+  data () {
     return {
       tab: 'supplier360',
-      current: 1
+      current: 1,
+      flag: true,
+      showDialog: false,
+      onLoading: false
     }
   },
   methods: {
-    handleTabClick(index) {
+    handleTabClick (index) {
       this.current = index
+    },
+    toLog () {
+      this.showDialog = true
     }
+  },
+  mounted () {
+    console.log(this.$route)
+    if (this.$route.path === '/view-suppliers') {
+      this.flag = false
+    }
+
   }
 }
 </script>

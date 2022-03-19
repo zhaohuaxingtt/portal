@@ -9,17 +9,17 @@
           <el-form>
             <el-row :gutter="20">
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.name">
+                <el-form-item :label="language(searchOptionTitles.name)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.appNameCn"
                   ></iInput>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.nameEN">
+                <el-form-item :label="language(searchOptionTitles.nameEN)">
                   <iInput
-                    :placeholder="searchOptionTitles.input"
+                    :placeholder="language(searchOptionTitles.input)"
                     v-model="formData.appNameEn"
                   ></iInput>
                 </el-form-item>
@@ -46,7 +46,7 @@
                 </el-form-item>
               </el-col> -->
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sysType">
+                <el-form-item :label="language(searchOptionTitles.sysType)">
                   <iSelect v-model="formData.systemType">
                     <el-option
                       v-for="item in systemOptions"
@@ -59,8 +59,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sysTag">
-                  <iSelect v-model="formData.supplierType">
+                <el-form-item :label="language(searchOptionTitles.sysTag)">
+                  <iSelect v-model="formData.supplierType" multiple>
                     <el-option
                       v-for="item in systemTagOptions"
                       :key="item.id"
@@ -74,10 +74,10 @@
               <el-col :span="24">
                 <div class="searchButtons">
                   <iButton @click="search">{{
-                    searchOptionTitles.buttons.search
+                    language(searchOptionTitles.buttons.search)
                   }}</iButton>
                   <iButton @click="reset">{{
-                    searchOptionTitles.buttons.reset
+                    language(searchOptionTitles.buttons.reset)
                   }}</iButton>
                 </div>
               </el-col>
@@ -87,15 +87,13 @@
       </div>
       <div class="tableList">
         <iCard>
-          <div class="tableButtons">
-            <iButton @click="create">{{ buttonTitles.create }}</iButton>
+          <div class="tableButtons flex-end-center">
+            <iButton @click="create">{{ language(buttonTitles.create) }}</iButton>
             <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
-              buttonTitles.delete
+              language(buttonTitles.delete)
             }}</iButton>
             <button-download :download-method="exportData" />
-            <!-- <iButton @click="exportData">
-              {{ buttonTitles.export }}
-            </iButton> -->
+            <button-table-setting @click="$refs.sysMgm.openSetting()" />
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -110,6 +108,7 @@
             :columns="tableColumnSetting"
             :data="tableData"
             :loading="loading"
+            permission-key="ADMIN_PRO_CS_PROVIDER_SYSTEM"
             @open-detail="enterDetail"
             @handle-selection-change="handleSelectionChange"
           />
@@ -146,6 +145,7 @@ import { tableColumnSetting } from './data/data'
 import CreateSysMgm from './create/CreateSysMgm'
 import { pageMixins } from '@/utils/pageMixins'
 import { sysList, deleteSys, sysExport } from '@/api/provider/index'
+import { SYSTEM_TAGS } from '@/views/provider/data'
 export default {
   methods: {
     search() {
@@ -166,8 +166,12 @@ export default {
       newFormData.supplierType = newFormData.supplierType
         ? newFormData.supplierType.join(',')
         : '' */
+      const supplierType = newFormData.supplierType
+        ? newFormData.supplierType.join(',')
+        : ''
       let param = {
         ...newFormData,
+        supplierType,
         size: this.page.pageSize,
         current: this.page.currPage
       }
@@ -315,20 +319,7 @@ export default {
           label: 'Scenario'
         }
       ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: this.language('生产采购')
-        },
-        {
-          id: '2',
-          label: this.language('一般采购')
-        }
-      ]
+      systemTagOptions: SYSTEM_TAGS
     }
   }
 }

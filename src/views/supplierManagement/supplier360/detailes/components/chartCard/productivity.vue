@@ -1,9 +1,8 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('CHANNENGYUJING', '产能预警')}}</p>
       <el-dropdown>
-          
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -16,13 +15,18 @@
       <img :src="img"
            class="imgIcon" />
       <div class="float">
-          <icon class="alert"
-                symbol
-                name="iconcaiwuyujing-hongdeng"></icon>
-          <!-- <icon class="alert"
-                      symbol
-                      name="iconlvdeng"></icon> -->
-          <p class="fontsize">You have capacity alert,You have capacity alert</p>
+        <icon class="alert"
+              v-if="redBkaNum"
+              symbol
+              name="iconcaiwuyujing-hongdeng"></icon>
+        <icon class="alert"
+              symbol
+              v-else
+              name="iconlvdeng"></icon>
+        <p class="fontsize"
+           v-if="redBkaNum">You have capacity alert,You have capacity alert</p>
+        <p class="fontsize"
+           v-else>{{this.language('GAIGONGYINGSHANGCHANNENGZHUANGKUANGLIANGHAO','该供应商产能状况良好')}}</p>
       </div>
 
     </div>
@@ -90,6 +94,7 @@
 import { iCard, icon, iDialog, iSearch, iSelect } from 'rise'
 import img from '@/assets/images/productivity.svg'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
+import { queryByParam } from "@/api/basic/basic";
 import tableList from '@/components/commonTable'
 export default {
   props: {},
@@ -101,35 +106,45 @@ export default {
     iSelect,
     tableList
   },
-  data() {
+  data () {
     return {
       visible: false,
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
-      img:img,
-      tableTitleMonitorRecord: tableTitleMonitorRecord
+      img: img,
+      tableTitleMonitorRecord: tableTitleMonitorRecord,
+      redBkaNum: 0
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
   methods: {
-    sure() {},
-    clickReset() {},
-    changeTab() {}
+    sure () { },
+    clickReset () { },
+    changeTab () { },
+    getRedBkaNum () {
+      queryByParam(this.$route.query.subSupplierId).then(res => {
+        if (res?.code === "200") {
+          this.redBkaNum = res.data
+        }
+      })
+    }
   },
-  mounted() {}
+  mounted () {
+    this.getRedBkaNum()
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .title {
   display: flex;
@@ -156,7 +171,7 @@ export default {
     margin-left: 30px;
     text-align: left;
   }
-  
+
   .fontsize {
     color: #798489;
     margin-top: 10px;

@@ -14,7 +14,7 @@
         </el-form-item>
         <!-- 合同类型 -->
         <el-form-item :label="language('LK_HETONGLEIXING', '合同类型')" prop='type'>
-          <i-select v-model.trim='queryForm.type' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.type' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in contractTypeSelectDatas' :value='item.code'
                        :label='item.name' :key='index'></el-option>
           </i-select>
@@ -58,14 +58,14 @@
 
         <!-- 印章类型 -->
         <el-form-item :label="language('LK_YINZHANGLEIXING', '印章类型')" prop='docTypeNo'>
-          <i-select v-model.trim='queryForm.docTypeNo' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.docTypeNo' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in sealtypes' :value='item.docTypeNo'
                        :label='item.signName' :key='index'></el-option>
           </i-select>
         </el-form-item>
         <!-- 签署状态 -->
         <el-form-item :label="language('LK_QIANSHUZHUANGTAI', '签署状态')" prop='signStatus'>
-          <i-select v-model.trim='queryForm.signStatus' :placeholder="language('LK_QINGXUANZE','请选择')">
+          <i-select v-model.trim='queryForm.signStatus' clearable :placeholder="language('LK_QINGXUANZE','请选择')">
             <el-option v-for='(item, index) in signStatusSelectDatas' :value='item.code'
                        :label='item.name' :key='index'></el-option>
           </i-select>
@@ -132,7 +132,7 @@ export default {
         docNo: '',//业务合同编号
         docTitle: '',//合同标题
         purchaseUserName: '',//采购员名
-        signStatus: '',//签署状态，0：未签署；1：乙方认证；2：乙方签署；3：甲方签署 4:签署完成 5:撤销中 6：已撤销
+        signStatus: '',//签署状态， -1：待乙方认证；0：未签署；1：乙方认证；2：乙方签署；3：甲方签署 4:签署完成 5:撤销中 6：已撤销
         type: '',//合同类型，0:模具合同；1：采购条款；2：预警信
         docTypeNo: '',//文件类型编码//印章类型
         supplierName: '',
@@ -178,7 +178,10 @@ export default {
           this.signStatusSelectDatas = mySignStatusSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
           })
-          this.extraData.signStatusSelectDatas = this.signStatusSelectDatas
+          let tempSignStatusSelectDatas = JSON.parse(JSON.stringify(this.signStatusSelectDatas))
+          tempSignStatusSelectDatas.unshift({code: -1, name: '待乙方认证'})
+          // let tempSignStatusSelectDatas = this.signStatusSelectDatas.unshift({code: -1, name: '待乙方认证'}) // 签署状态下拉框未加'待乙方认证'， 如后端在接口加上 这行代码可去掉
+          this.extraData.signStatusSelectDatas = tempSignStatusSelectDatas
           let myContractTypeSelectData = res.data.contractTypeSelectData
           this.contractTypeSelectDatas = myContractTypeSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
@@ -207,6 +210,7 @@ export default {
         if (code == 200) {
           this.sinaturedatas = data.records
           this.page.totalCount = data.total
+          
         } else {
           this.$message.error(res.desZh)
         }
@@ -268,13 +272,23 @@ export default {
     },
     //签署
     sign() {
+      console.log(this.selSinaturedatas);
+      if (this.selSinaturedatas.length > 1) {
+        return this.$message.warning(this.language('LK_BAOQIANCAIGOUTIAOKUANZANBUZHICHIPILIANGQIANSHU', '抱歉，采购条款暂不支持批量签署'))
+      }
       if (this.selSinaturedatas.length <= 0) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOQIANSHUDEHETONG', '抱歉，您当前还未选择需要签署的合同'))
       }
       let filterRes = this.selSinaturedatas.filter(item => item.signStatus == 3)
-      if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
-        return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
-      }
+      // 判断是否只有待甲方签署
+      let filterNo = this.selSinaturedatas.filter(item => item.signStatus != 3)
+      if (filterNo.length > 0) return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
+      // if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
+      //   return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
+      // }
+      let companyNo = this.selSinaturedatas[0].companyNumber
+      let f = this.selSinaturedatas.find(e => e.companyNumber != companyNo)
+      if(f) return this.$message.error(this.language('请选择相同公司编码的数据进行批量签署'))
       let reqData = filterRes.map(item => ({
         companyNumber: item.companyNumber,
         docNo: item.docNo,
@@ -286,6 +300,7 @@ export default {
         if (res.code == 200) {
           this.loadContractList()
           this.$message.success(res.desZh)
+          window.open(res.data)
         } else {
           this.$message.error(res.desZh)
 

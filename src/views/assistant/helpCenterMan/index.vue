@@ -3,7 +3,7 @@
     <!-- <div class="flex justify-between"> -->
     <!-- <div class="content-title">用户助手管理</div> -->
     <pageHeader class="title">
-      <!-- {{language('用户助手管理')}} -->
+      <!-- {{ language('用户助手管理') }} -->
       <iNavMvp :list="menusLevel3" :lev="1" lang router-page />
 
       <div class="types" slot="actions">
@@ -13,6 +13,7 @@
             :key="tab.name"
             :active="activeMoudle === tab.type"
             :name="language(tab.name)"
+            v-permission="tab.permissionKey"
             @click="tabChange(tab.type)"
           />
         </iTabBadge>
@@ -20,13 +21,17 @@
     </pageHeader>
     <!-- </div> -->
     <el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
-      <el-tab-pane label="内部用户" name="inner"> </el-tab-pane>
-      <el-tab-pane label="供应商用户" name="supplier"> </el-tab-pane>
+      <el-tab-pane :label="language('内部用户')" name="inner"> </el-tab-pane>
+      <el-tab-pane :label="language('供应商用户')" name="supplier"> </el-tab-pane>
     </el-tabs>
     <!-- 用户手册 -->
-    <div class="flex flex-row content" v-if="activeMoudle === 'manual'">
+    <div
+      class="flex flex-row content"
+      v-if="activeMoudle === 'manual'"
+      v-permission="'ADMIN_PROCS_USER_ASSIS_manual'"
+    >
       <CommonProblem
-        title="问题模块"
+        :title="language('问题模块')"
         :moudleList="manualList"
         :currentMoudleId="manualInfo.id"
         :loading="manualInfo.loading"
@@ -35,7 +40,7 @@
         <iInput
           slot="top"
           v-model="manualInfo.keyword"
-          placeholder="搜索.."
+          :placeholder="language('搜索...')"
         ></iInput>
       </CommonProblem>
       <div class="content-right" v-loading="contentLoading">
@@ -50,10 +55,14 @@
     </div>
 
     <!-- 常见问题 -->
-    <div class="flex flex-row content" v-if="activeMoudle === 'question'">
+    <div
+      class="flex flex-row content"
+      v-if="activeMoudle === 'question'"
+      v-permission="'ADMIN_PROCS_USER_ASSIS_question'"
+    >
       <CommonProblem
         ref="CommonProblem2"
-        title="常见问题"
+        :title="language('常见问题')"
         :moudleList="qsInfo.list"
         :currentMoudleId="qsInfo.id"
         :loading="qsInfo.loading"
@@ -70,7 +79,7 @@
             v-model="qsInfo.params.keyWord"
             @keydown.native.enter="refreshQs"
             @blur="refreshQs"
-            placeholder="搜索.."
+            :placeholder="language('搜索...')"
           ></iInput>
           <iSelect
             class="content-select"
@@ -134,8 +143,16 @@ export default {
     return {
       activeUser: 'inner',
       tabs: [
-        { name: '用户手册', type: 'manual' },
-        { name: '常见问题', type: 'question' }
+        {
+          name: '用户手册',
+          type: 'manual',
+          permissionKey: 'ADMIN_PROCS_USER_ASSIS_manual'
+        },
+        {
+          name: '常见问题',
+          type: 'question',
+          permissionKey: 'ADMIN_PROCS_USER_ASSIS_question'
+        }
       ],
       activeMoudle: 'manual',
       contentLoading: false,
@@ -175,6 +192,7 @@ export default {
     this.getProbleList()
     this.queryFaqListByPage()
     this.getMenusLevel3()
+    this.checkHasEnterMenu()
   },
   computed: {
     manualList() {
@@ -187,17 +205,21 @@ export default {
     },
     fullMenus() {
       return this.$store.state.permission.menuList
+    },
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
     }
   },
   methods: {
     // 用户手册-问题模块
-    async getProbleList() {
+    async getProbleList() { 
       this.manualInfo.loading = true
       try {
         await queryModuleBySource(this.activeUser).then((res) => {
           if (res.code === '200') {
-            this.manualInfo.list = res.data
-            this.manualInfo.id = res.data[0]?.id
+            console.log(res, '2222')
+            this.manualInfo.list = res.data || []
+            this.manualInfo.id = res.data?.[0]?.id || ''
             if (this.manualInfo.id) {
               this.manualInfo.activeInfo = res.data[0]
               this.queryManualDetail()
@@ -340,6 +362,41 @@ export default {
       })
       this.menusLevel3 = menusLevel3
       console.log('helpCenterMan getMenusLevel3', menusLevel3)
+    },
+    checkHasEnterMenu() {
+      const menuList = [
+        {
+          permissionKey: 'ADMIN_PROCS_USER_ASSIS_manual',
+          url: '/assistant/helpCenterMan'
+        },
+        {
+          permissionKey: 'ADMIN_PROCS_USER_ASSIS_question',
+          url: '/assistant/helpCenterMan?module=question'
+        }
+      ]
+      const { fullPath } = this.$route
+      const menuItem = menuList.find(
+        (e) =>
+          e.url === fullPath || e.url + '?module=problemHandler' === fullPath
+      )
+
+      if (menuItem) {
+        const permissionKey = menuItem.permissionKey
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              redirectUrl = menu.url
+              break
+            }
+          }
+          if (redirectUrl) {
+            this.$router.push({ path: redirectUrl })
+          }
+        }
+      }
     }
   }
 }

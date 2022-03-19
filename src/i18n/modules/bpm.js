@@ -9,5 +9,10 @@ export default {
   任务开始时间: 'Task start time',
   审批事项: 'Approval items',
   任务起止日期: 'Task start and end date',
-  补充材料: 'Supplementary materials'
+  补充材料: 'Supplementary materials',
+  流程模板管理: 'Process template management',
+  流程监控: 'Process monitoring',
+  流程报表: 'Process report',
+  审批代理: 'Approval Agent',
+  会议审批代理: 'Meeting Approval Agent'
 }

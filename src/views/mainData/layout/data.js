@@ -9,7 +9,7 @@
 export const COLUMNS = [
   {
     type: 'fullIndex',
-    width: 70
+    width: 40
   },
   {
     prop: 'title',
@@ -17,7 +17,6 @@ export const COLUMNS = [
     i18n: '资源名称',
     align: 'left',
     headerAlign: 'left',
-    minWidth: 160,
     emit: 'click-menu',
     customRender: (h, scope) => {
       return <span class="cursor-pointer">{scope.row.title}</span>
@@ -25,17 +24,40 @@ export const COLUMNS = [
   }
 ]
 
-export const MENUS = [
+export const MENUSZh = [
   {
     title: '产品家族',
-    url: '/main-data/product-family'
+    url: '/main-data/product-family',
+    permissionKey: 'ADMIN_MAIN_DATA_PRODUCT_FAMILY'
   },
   {
     title: '车型项目管理',
-    url: '/main-data/car-project'
+    url: '/main-data/car-project',
+    permissionKey: 'ADMIN_MAIN_DATA_CARPROJECT'
   },
   {
     title: '车型主数据管理',
-    url: '/main-data/car'
+    url: '/main-data/car',
+    permissionKey: 'ADMIN_MAIN_DATA_CARMODEL'
   }
 ]
+
+export const MENUSEn = [
+  {
+    title: 'Product Family',
+    url: '/main-data/product-family',
+    permissionKey: 'ADMIN_MAIN_DATA_PRODUCT_FAMILY'
+  },
+  {
+    title: 'Model Project Management',
+    url: '/main-data/car-project',
+    permissionKey: 'ADMIN_MAIN_DATA_CARPROJECT'
+  },
+  {
+    title: 'Vehicle Master Data Management',
+    url: '/main-data/car',
+    permissionKey: 'ADMIN_MAIN_DATA_CARMODEL'
+  }
+]
+
+

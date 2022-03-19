@@ -44,7 +44,7 @@ export const SUPPLIER_TABLE_COLUMNS = [
   {
     label: '序号',
     type: 'index',
-    width: '50px'
+    width: '60px'
   },
   {
     prop: 'nameZh',
@@ -87,7 +87,16 @@ export const SUPPLIER_TABLE_COLUMNS = [
     prop: 'formalStatus',
     i18n: '供应商身份',
     minWidth: '100',
-    tooltip: true
+    tooltip: true,
+    customRender: (h, scope) => {
+      if (scope.row.formalStatus == '0') {
+        return '临时'
+      }
+      if (scope.row.formalStatus == '1') {
+        return '正式'
+      }
+      return '储蓄池'
+    }
   },
   {
     prop: 'sapCode',
@@ -293,13 +302,17 @@ export const FACTORY_TABLE_COLUMNS = [
       if (!scope.row.addressInfoVo) {
         return ''
       }
-      return (
-        <span>
-          {scope?.row?.addressInfoVo?.country}-
-          {scope?.row?.addressInfoVo?.province}-
-          {scope?.row?.addressInfoVo?.city}
-        </span>
-      )
+      const res = []
+      if (scope?.row?.addressInfoVo?.country) {
+        res.push(scope?.row?.addressInfoVo?.country)
+      }
+      if (scope?.row?.addressInfoVo?.province) {
+        res.push(scope?.row?.addressInfoVo?.province)
+      }
+      if (scope?.row?.addressInfoVo?.city) {
+        res.push(scope?.row?.addressInfoVo?.city)
+      }
+      return res.join('-')
     }
   },
   {
@@ -577,7 +590,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
       return (
         <iInput
           value={scope.row.nameZh}
-          onInput={val => (scope.row.nameZh = val)}
+          onInput={(val) => (scope.row.nameZh = val)}
         />
       )
     }
@@ -589,7 +602,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
       return (
         <iInput
           value={scope.row.designation}
-          onInput={val => (scope.row.designation = val)}
+          onInput={(val) => (scope.row.designation = val)}
         />
       )
     }
@@ -601,7 +614,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
       return (
         <iInput
           value={scope.row.dept}
-          onInput={val => (scope.row.dept = val)}
+          onInput={(val) => (scope.row.dept = val)}
         />
       )
     }
@@ -613,20 +626,20 @@ export const SUPPLIER_CONTACT_COLUMNS = [
       return (
         <iInput
           value={scope.row.telephoneAreaCode}
-          onInput={val => (scope.row.telephoneAreaCode = val)}
+          onInput={(val) => (scope.row.telephoneAreaCode = val)}
         />
       )
     }
   },
   {
-    prop: 'phoneH',
+    prop: 'telephone',
     i18n: '联系电话',
     required: true,
     customRender: (h, scope) => {
       return (
         <iInput
-          value={scope.row.phoneH}
-          onInput={val => (scope.row.phoneH = val)}
+          value={scope.row.telephone}
+          onInput={(val) => (scope.row.telephone = val)}
         />
       )
     }
@@ -638,7 +651,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
       return (
         <iInput
           value={scope.row.email}
-          onInput={val => (scope.row.email = val)}
+          onInput={(val) => (scope.row.email = val)}
         />
       )
     }
@@ -650,7 +663,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
       return (
         <iInput
           value={scope.row.remark}
-          onInput={val => (scope.row.remark = val)}
+          onInput={(val) => (scope.row.remark = val)}
         />
       )
     }

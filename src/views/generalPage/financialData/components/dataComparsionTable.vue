@@ -1,15 +1,16 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
 <template>
-  <div>
+  <div v-loading="loadPage">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <i-button @click="saveInfos()">
+        <i-button @click="saveInfos()"
+                  v-if="this.comparisonTableData[0].dataChannelName !== '资信报告'">
           {{ $t("LK_BAOCUN") }}
         </i-button>
       </div>
@@ -18,8 +19,10 @@
                :selection="false"
                :tableData="tableListData"
                :tableTitle="tableTitle"
+               v-loading="loading"
                :tableLoading="tableLoading"
                @handleSelectionChange="handleSelectionChange"
+               border
                :index="true">
       <template #value0="scope">
         <iDatePicker style="width:100%"
@@ -77,7 +80,6 @@ export default {
   },
   watch: {
     tabValue (n) {
-      console.log(n)
       this.tabValue = n;
       this.$nextTick(() => {
         this.getTableList(n);
@@ -92,8 +94,12 @@ export default {
       tableLoading: false,
       tableListData: [],
       selectTableData: [],
-      id: ""
+      id: "",
+      loading: false,
+      loadPage: false
     };
+  },
+  created () {
   },
   methods: {
     handleTitle () {
@@ -109,6 +115,8 @@ export default {
       });
     },
     async saveInfos () {
+      this.loadPage = true
+      this.tableLoading = true
       const pms = {
         displayType: this.tabValue,
         financeId: this.comparisonTableData[0].id,
@@ -156,7 +164,7 @@ export default {
           pms.financeIds.push(item.id);
         });
         const res = await financeFieldDisplayList(pms);
-        console.log("111")
+
         res.data && res.data.list.map(item => {
           if (item.fieldName === 'isAudit') {
             item.info.forEach((i, index) => {
@@ -167,14 +175,12 @@ export default {
               return item.info[index].value = i.value ? this.$t('SUPPLIER_SHI') : this.$t('SUPPLIER_SHI')
             })
           }
-          console.log(item.info, "info")
           item.info && item.info.length && item.info.forEach((i, index) => {
             if (i.value !== null && !isNaN(i.value)) {
               return item.info[index].value = String(parseFloat(i.value).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             }
           })
         })
-        console.log("121")
         res.data &&
           res.data.list.map((item) => {
             item.info &&
@@ -183,7 +189,6 @@ export default {
                 return (item["financeId" + x] = i.financeId);
               });
           });
-        console.log("131")
         res.data &&
           res.data.list.map((item) => {
             // 判断是否是数据对比
@@ -195,8 +200,9 @@ export default {
               return (item.isEdit = false);
             }
           });
-        console.log("141")
+
         this.$nextTick(async () => {
+          this.loadPage = false
           this.id = res.data && res.data.id;
           this.tableListData = res.data && res.data.list;
           this.page.currPage = res.data.current;
@@ -204,11 +210,13 @@ export default {
           this.page.totalCount = res.data.total;
           await this.handleTitle();
           this.tableLoading = false;
+          console.log(this.tableListData, "tableListData")
         });
       } catch {
         this.tableLoading = false
       }
-    }
+    },
+
   }
 };
 </script>

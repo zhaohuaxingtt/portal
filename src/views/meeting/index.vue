@@ -42,7 +42,7 @@ export default {
           value: 1,
           name: '管理大厅',
           url: '/meeting/home',
-          key: this.$t('MT_GUANLIDATING')
+          key: '管理大厅'
         }
       ],
       meetingButtonList: [
@@ -51,21 +51,21 @@ export default {
           name: '会议列表',
           url: '/meeting/home',
           activePath: '/meeting/home',
-          key: this.$t('MT_HUIYILIEBIAO')
+          key: '会议列表'
         },
         {
           value: 2,
           name: '与会人列表',
           url: '/meeting/participants',
           activePath: '/meeting/participants',
-          key: this.$t('MT_YUHUIRENLIEBIAO')
+          key: '与会人列表'
         },
         {
           value: 3,
           name: '会议信息',
           url: '/meeting/information',
           activePath: '/meeting/information',
-          key: this.$t('MT_HUIYIXINXI')
+          key: '会议信息'
         }
       ]
     }

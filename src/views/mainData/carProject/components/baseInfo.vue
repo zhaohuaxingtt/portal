@@ -5,7 +5,12 @@
     header-control
     collapse
   >
-    <div class="top-buttons margin-bottom20">
+    <div
+      class="top-buttons margin-bottom20"
+      v-permission="
+        'BUTTON_MAIN_DATA_CAR_PROJECT_MODIFY|BUTTON_MAIN_DATA_CAR_PROJECT_ADD'
+      "
+    >
       <iButton v-if="isEditPage && !editable" @click="edit">{{
         language('编辑')
       }}</iButton>
@@ -25,7 +30,10 @@
       >
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.num)" prop="cartypeProjectCode">
+            <iFormItem
+              :label="language(formTitles.num)"
+              prop="cartypeProjectCode"
+            >
               <iInput
                 :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.cartypeProjectCode"
@@ -55,7 +63,10 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.materail)" prop="carProTypeCode">
+            <iFormItem
+              :label="language(formTitles.materail)"
+              prop="carProTypeCode"
+            >
               <iSelect
                 :placeholder="language('请选择')"
                 v-model="formData.carProTypeCode"
@@ -74,7 +85,10 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.nameCN)" prop="cartypeProjectZh">
+            <iFormItem
+              :label="language(formTitles.nameCN)"
+              prop="cartypeProjectZh"
+            >
               <iInput
                 :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.cartypeProjectZh"
@@ -83,7 +97,10 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.nameEN)" prop="cartypeProjectEn">
+            <iFormItem
+              :label="language(formTitles.nameEN)"
+              prop="cartypeProjectEn"
+            >
               <iInput
                 :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.cartypeProjectEn"
@@ -162,7 +179,10 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.saler)" prop="projectPurchaser">
+            <iFormItem
+              :label="language(formTitles.saler)"
+              prop="projectPurchaser"
+            >
               <iSelectorInput
                 v-model="formData.projectPurchaser"
                 :tagLabel="'nameZh'"
@@ -172,7 +192,10 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.controller)" prop="areaController">
+            <iFormItem
+              :label="language(formTitles.controller)"
+              prop="areaController"
+            >
               <iSelectorInput
                 v-model="formData.areaController"
                 :tagLabel="'nameZh'"
@@ -182,7 +205,10 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.producter)" prop="projectManager">
+            <iFormItem
+              :label="language(formTitles.producter)"
+              prop="projectManager"
+            >
               <iSelectorInput
                 v-model="formData.projectManager"
                 :tagLabel="'nameZh'"
@@ -194,7 +220,10 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.sap)" prop="sapCartypeProjectNum">
+            <iFormItem
+              :label="language(formTitles.sap)"
+              prop="sapCartypeProjectNum"
+            >
               <iInput
                 :placeholder="language(formTitles.inputPlaceholder)"
                 v-model="formData.sapCartypeProjectNum"
@@ -231,7 +260,10 @@
         </el-row>
         <el-row gutter="20">
           <el-col :span="8">
-            <iFormItem :label="language(formTitles.releasestatus)" prop="publishStatus">
+            <iFormItem
+              :label="language(formTitles.releasestatus)"
+              prop="publishStatus"
+            >
               <iSelect
                 :placeholder="language('请选择')"
                 v-model="formData.publishStatus"

@@ -80,7 +80,7 @@
             <!--<iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>-->
             <!--<iButton @click="sendDepartment(form.year)">{{ $t('LK_TZKS') }}</iButton>-->
             <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('LK_QUEREN') }}</iButton>
-            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('LK_TZKS') }}</iButton>
+            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE') && !isButton">{{ $t('LK_TZKS') }}</iButton>
         </div>
     </iDialog>
 </template>
@@ -135,7 +135,7 @@
                 orgName:'',
                 isAuth,
                 whiteBtnList: this.$store.state.permission.whiteBtnList,
-
+                roleList: this.$store.state.permission.userInfo.roleList,
             };
         },
         created() {
@@ -147,6 +147,9 @@
             },
             linie() {
                 return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE')
+            },
+            isButton: function(){
+                return this.roleList.some(item => item.code == 'ZYCGKSXTDY');
             }
         },
         methods: {

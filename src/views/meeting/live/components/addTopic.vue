@@ -548,7 +548,7 @@ import {
   addThemenAttachment,
   findTheThemenById
 } from '@/api/meeting/details'
-import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { findUsersById, uploadFile } from '@/api/meeting/type'
 import { getMyMettingList } from '@/api/meeting/home'
 import { download } from '@/utils/downloadUtil'
 export default {
@@ -711,15 +711,27 @@ export default {
           }
         ],
         remark: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterNosys: [
           {
@@ -731,10 +743,18 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterNosys: [
           {
@@ -862,7 +882,8 @@ export default {
       immediate: true
     },
     'ruleForm.presenter': {
-      handler: function (newV) {
+      handler: function (newVV) {
+        let newV = typeof newVV === 'string' ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -883,13 +904,18 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
     },
     'ruleForm.supporter': {
-      handler: function (newV) {
+      handler: function (newVV) {
+        let newV = typeof newVV === 'string' ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -910,7 +936,11 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
@@ -1176,7 +1206,8 @@ export default {
       const data = {
         id: this.receiverId ? this.receiverId : this.meetingInfo.receiverId
       }
-      getReceiverById(data).then((res) => {
+      // getReceiverById(data).then((res) => {
+      findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS
         this.currentSearchUserData = [...res.employeeDTOS]
       })

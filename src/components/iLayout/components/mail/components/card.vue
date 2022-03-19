@@ -150,8 +150,8 @@ export default {
       return text.replace(regex, '')
     }
   },
-  watch:{
-    'item.content'(){
+  watch: {
+    'item.content'() {
       this.getContentRows()
     }
   },
@@ -203,7 +203,9 @@ export default {
     handleRedirect() {
       if (!this.item.url) {
         console.log('url为空')
+        this.$emit('read-callback', { tab: this.tab })
       } else {
+        this.$emit('read-callback', { tab: this.tab })
         this.$emit('hide-drawer')
         setTimeout(() => {
           if (
@@ -212,11 +214,8 @@ export default {
           ) {
             location.href = this.item.url
           } else {
-            if (this.item.url.indexOf('#') === -1) {
-              this.$router.replace(this.item.url)
-            } else {
               location.href = this.item.url
-            }
+            
           }
         }, 200)
       }
@@ -224,7 +223,7 @@ export default {
     async handleDel() {
       const result = await removeMailById({ ids: this.item.id })
       if (result?.code === '200') {
-        this.$emit('delCallback', { tab: this.tab })
+        this.$emit('del-callback', { tab: this.tab })
       }
     },
     async handleRead() {
@@ -233,7 +232,6 @@ export default {
       } else {
         const result = await readMailById({ ids: this.item.id })
         if (result?.code === '200') {
-          this.$emit('readCallback', { tab: this.tab })
           this.handleRedirect()
         }
       }

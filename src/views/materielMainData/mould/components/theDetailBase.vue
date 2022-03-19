@@ -1,10 +1,20 @@
 <template>
   <iCard :title="language('基础信息')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">
+      <iButton
+        v-show="!editable"
+        @click="editable = true"
+        v-permission="'BUTTON_MATERIEL_DATA_MOULD_BASEINFO_MODIFY'"
+      >
         {{ language('编辑') }}
       </iButton>
-      <iButton v-show="editable" @click="save">
+      <iButton
+        v-show="editable"
+        @click="save"
+        v-permission="
+          'BUTTON_MATERIEL_DATA_MOULD_BASEINFO_MODIFY|BUTTON_MATERIEL_DATA_MOULD_ADD'
+        "
+      >
         {{ language('保存') }}
       </iButton>
       <iButton v-show="editable" @click="cancel">

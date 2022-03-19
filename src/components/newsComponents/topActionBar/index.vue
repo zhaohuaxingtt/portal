@@ -1,26 +1,28 @@
 <template>
   <div class="top-action-bar">
-    <div class="language margin-right20" @click="handleChangeLang">
-      <icon
-          symbol
-          v-if="lang === 'zh'"
-          class="icon"
-          name="iconzhongyingwenzhuanhuanzhong"
-      />
-      <icon symbol v-else class="icon" name="iconzhongyingwenzhuanhuanying"/>
+    <div class="language margin-right20"
+         @click="handleChangeLang">
+      <icon symbol
+            v-if="lang === 'zh'"
+            class="icon"
+            name="iconzhongyingwenzhuanhuanzhong" />
+      <icon symbol
+            v-else
+            class="icon"
+            name="iconzhongyingwenzhuanhuanying" />
     </div>
     <!--提交-->
     <i-button @click="handleTopSubmitButtonClick"
               :disabled="submitButtonDisabled"
-              :loading="submitButtonLoading"
-    >{{ $t('SUPPLIER_TIJIAO') }}
+              :loading="submitButtonLoading">{{ $t('SUPPLIER_TIJIAO') }}
     </i-button>
-    <log-button @toLogPage="toLogPage" v-if="showLogButton"/>
+    <log-button @toLogPage="toLogPage"
+                v-if="showLogButton" />
   </div>
 </template>
 
 <script>
-import {iButton, icon} from 'rise'
+import { iButton, icon } from 'rise'
 import logButton from '../logButton'
 
 export default {
@@ -40,29 +42,29 @@ export default {
       type: Boolean, default: false
     }
   },
-  created() {
+  created () {
     this.lang = localStorage.getItem("lang");
   },
-  data() {
+  data () {
     return {
       lang: "",
     }
   },
   methods: {
-    handleTopSubmitButtonClick() {
+    handleTopSubmitButtonClick () {
       this.$emit('handleTopSubmitButtonClick')
     },
-    toLogPage() {
+    toLogPage () {
 
     },
-    handleChangeLang() {
+    handleChangeLang () {
       this.lang = this.lang === "zh" ? "en" : "zh";
       localStorage.setItem("lang", this.lang);
       this.$i18n.locale = this.lang;
-      if(this.lang == 'en'){
+      if (this.lang == 'en') {
         // eslint-disable-next-line no-undef
         ELEMENT.locale(ELEMENT.lang.en)
-      }else{
+      } else {
         // eslint-disable-next-line no-undef
         ELEMENT.locale(ELEMENT.lang.zhCN)
       }
@@ -77,7 +79,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
 }
-.language{
+.language {
   .icon {
     line-height: 97px;
     font-size: 25px;

@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 17:05:13
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -14,6 +14,7 @@
         <i-button @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+        <!-- v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
@@ -24,7 +25,7 @@
         @handleSelectionChange="handleSelectionChange"
         @openPage="handleOpenPage"
         :openPageGetRowData="true"
-        v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES"
+        border
     />
     <!--内容框-->
     <content-dialog

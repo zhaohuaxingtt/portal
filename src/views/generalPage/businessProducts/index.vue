@@ -18,8 +18,12 @@
           <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT">
             {{ $t('LK_DAOCHU') }}
           </iButton>
+          <iButton @click="handleNextStep" v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE">
+            {{ $t('LK_BAOCUN') }}
+          </iButton>
         </div>
       </div>
+      <!-- v-permission="SUPPLIER_MAINPRODUCT_TABLE" -->
       <table-list
           :tableData="tableListData"
           :tableTitle="tableTitle"
@@ -27,11 +31,12 @@
           @handleSelectionChange="handleSelectionChange"
           :input-props="inputProps"
           :index="true"
-          v-permission="SUPPLIER_MAINPRODUCT_TABLE"
           ref="commonTable"
+          border
       >
         <template #deliveryStartDate="scope">
           <iDatePicker
+              style="width:100%!important"
               value-format="yyyy-MM-dd"
               type="date"
               :placeholder="$t('SUPPLIER_XUANZERQI')"
@@ -39,6 +44,7 @@
         </template>
         <template #deliveryYear="scope">
           <iDatePicker
+              style="width:100%!important"
               value-format="yyyy"
               type="year"
               :placeholder="$t('SUPPLIER_XUANZENIANFEN')"

@@ -17,13 +17,15 @@
           <!-- v-if="isSupplierDetail" -->
           <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
           <!-- 调取外部评级 -->
-          <i-button @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <i-button @click="handleRatings"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
           <!-- <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
                     @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
           </i-button> -->
           <i-button v-if="isSupplierDetail"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD"
                     @click="addTableItem">{{
             $t('LK_XINZENG')
           }}</i-button>
@@ -33,11 +35,13 @@
             {{ $t('LK_XINZENG') }}
           </i-button>
           <i-button v-if="isSupplierDetail"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
                     @click="deleteItem('ids', deleteFinance)">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
                     v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="deleteItem('ids', deleteFinance)">
             {{ $t('LK_SHANCHU') }}
+
           </i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
                     @click="openDataComparison"
@@ -45,7 +49,7 @@
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
                     v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="openDataComparison">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
-          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
                     @click="exportsTable"
                     v-if="showExportsButton && isSupplierDetail">{{ $t('LK_DAOCHU') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
@@ -58,21 +62,29 @@
                     v-if="$route.path === '/supplier/view-suppliers'"
                     @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}
           </i-button>
-          <i-button v-if="
-              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
-            "
-                    @click="handleExportEarnings">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+
+
+
+          <i-button v-if="$route.path == '/supplier/frmrating/newsupplierrating/rating1'"
+                    @click="handleExportEarnings"
+                    v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_DCCB"
+                    >{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+          </i-button>
+          <i-button v-if="$route.path !== '/supplier/frmrating/newsupplierrating/rating1'"
+                    @click="handleExportEarnings"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
         </div>
       </div>
-      <tableList v-permission="SUPPLIER_FINANCIALDATA_TABLE"
-                 ref="commonTable"
+      <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->
+      <tableList ref="commonTable"
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :tableLoading="tableLoading"
                  @handleSelectionChange="handleSelectionChange"
                  :input-props="inputProps"
                  :index="true"
+                 border
                  :select-props="selectProps"
                  :select-props-options-object="selectPropsOptionsObject">
         <template #dataChannelName="scope">
@@ -93,10 +105,12 @@
         <template #operation="scope">
           <uploadButton :showText="true"
                         @uploadedCallback="handleUploadedCallback($event, scope.row)"
-                        button-text="LK_SHANGCHUAN" />
+                        button-text="LK_SHANGCHUAN"
+                        v-if="scope.row.dataChannelName==='供应商数据'" />
           <el-popover placement="bottom"
                       width="400"
-                      trigger="click">
+                      trigger="click"
+                      v-if="scope.row.dataChannelName==='供应商数据'">
             <table-list :selection="false"
                         :index="true"
                         :tableData="scope.row.attachList"
@@ -127,6 +141,11 @@
               {{ $t('LK_XIAZAI') }}
             </span>
           </el-popover>
+          <span class="openLinkText cursor"
+                @click="hanldeDownload(scope.row)"
+                v-else-if="scope.row.dataChannelName==='资信报告'&&scope.row.reportUrlPdf">
+            {{ $t('LK_XIAZAI') }}
+          </span>
         </template>
         <template #year="scope">
           <iDatePicker v-model="scope.row.year"
@@ -154,7 +173,8 @@
                      class="margin-top20" />
     <dataComparison :comparisonTableData="comparisonTableData"
                     v-model="dataComparisonDialog" />
-    <fetchExternalRatingsDialog v-model="ratingsDialog" @refreshTable="refreshTable" />
+    <fetchExternalRatingsDialog v-model="ratingsDialog"
+                                @refreshTable="refreshTable" />
   </div>
 </template>
 
@@ -162,7 +182,7 @@
 import tableList from '@/components/commonTable'
 import financialSearch from './components/financialSearch'
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
-import { iCard, iButton, iMessage, iDatePicker, iSelect } from 'rise'
+import { iCard, iButton, iMessage, iDatePicker, iSelect, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
@@ -196,7 +216,8 @@ export default {
     uploadButton,
     iDatePicker,
     fetchExternalRatingsDialog,
-    iSelect
+    iSelect,
+    iInput
   },
   data () {
     return {
@@ -246,10 +267,11 @@ export default {
   },
   methods: {
     // pullLevel(){
-      
+
     // },
-    refreshTable(){
+    refreshTable () {
       this.getTableList();
+      this.$emit("submitCalculateRefresh", "calculate")
     },
     async getDictByCode () {
       let res = await getDictByCode('PP_CSTMGMT_CURRENCY')
@@ -321,6 +343,10 @@ export default {
       //   fileList: [row.id]
       // }
       await downloadUdFile(row.filePath)
+    },
+    async hanldeDownload (val) {
+      // if(!val.reportUrlPdf) 
+      await downloadUdFile(val.reportUrlPdf)
     },
     // 上传接口
     async handleUploadedCallback (evnet, row) {

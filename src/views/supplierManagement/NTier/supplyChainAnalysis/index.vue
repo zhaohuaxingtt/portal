@@ -1,68 +1,299 @@
 <!--
- * @version: 1.0
- * @Author: zbin
- * @Date: 2021-08-23 20:52:20
+ * @Author: your name
+ * @Date: 2022-01-20 15:07:12
+ * @LastEditTime: 2022-01-20 17:25:12
  * @LastEditors: Please set LastEditors
- * @Descripttion: your project
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainAnalysis\components\tabs1.vue
 -->
+<!--
+ * @author: shujie
+ * @createTime: 2021-5-25 15:30:50
+ * @Description:财报分析
+ -->
 <template>
-  <div class="content">
-    <div class="btn">
-      <iButton>{{language('CHONGZHISUOYOU','重置所有')}}</iButton>
-      <iButton>{{language('CHAKANXIANGQING','查看详情')}}</iButton>
-    </div>
-    <iTabsList v-model="tabVal"
-               @tab-click="handleTabClick"
-               type="card"
-               slot="components"
-               class='margin-top20 iTabsList'>
-      <el-tab-pane :name="1"
-                   :label="language('SANJIANGUOJIHUAFENXI','散件国际化分析')"> </el-tab-pane>
-      <el-tab-pane :name="2"
-                   :label="language('SANJIANGONGYINGJIZHONGDUFENXI','散件供应集中度分析')"> </el-tab-pane>
-    </iTabsList>
+  <div>
+    <!--    <div>-->
+    <!--      <span @click="toZH">中文 </span>-->
+    <!--      <span @click="toEN"> 英文</span>-->
+    <!--    </div>-->
+    <!-- v-permission="TOOLING_PAYMENTPLAN_PAYMENTBOARD" -->
+    <iPage class="page-content">
+      <iCard id='powerBi'>
+
+      </iCard>
+    </iPage>
   </div>
+
 </template>
 
 <script>
-// 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-// 例如：import 《组件名称》 from '《组件路径》';
-import { iTabsList, iButton } from "rise";
+import { iPage, iCard } from 'rise';
+import { getLoosePartsPbi } from "@/api/supplierManagement/supplyChainRisk";
+import * as pbi from 'powerbi-client';
+import store from "@/store";
 export default {
-  // import引入的组件需要注入到对象中才能使用
-  components: { iTabsList, iButton },
+  components: { iPage, iCard },
   data () {
-    // 这里存放数据
     return {
-      tabVal: 1
+      visible: false,
+      industry: false,
+      url: {
+        accessToken: "", //验证token
+        embedUrl: "", //报告信息内嵌地址
+        tokenExpiry: "", //token过期时间
+      },
+      supplierNameData: [],//供应商名称
+      averageNameData: [],//行业均值
+      report: null,
+      name: '',
+      filter: {
+        $schema: "http://powerbi.com/product/schema#basic",
+        target: {
+          table: "app_supplier_fin_analysis_sum_nt_daily",
+          column: "subject_name"
+        },
+        operator: "In",
+        values: [],//[this.name],// values
+        filterType: null,
+        requireSingleSelection: true
+      },
+      values: []
     }
   },
-  // 监听属性 类似于data概念
-  computed: {},
-  // 监控data中的数据变化
-  watch: {},
-  // 方法集合
-  methods: {
-
-  },
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created () {
-
-  },
-  // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
-
+    if (this.$route.query.name) {
+      this.name = this.$route.query.name;
+    }
+    this.filter = { ...this.filter, filterType: pbi.models.FilterType.BasicFilter }
+    this.powerBiUrl()
   },
-}
-</script>
-<style lang='scss' scoped>
-// @import url(); 引入公共css类
-.content {
-  position: relative;
-  .btn {
-    position: absolute;
-    top: 0.4rem;
-    right: 0;
+  methods: {
+    toZH () {
+      store.state.investmentAdmin.report.setPage(process.env.VUE_APP_CHANGELANG_POWERBI_CODE_ZH);
+    },
+    toEN () {
+      store.state.investmentAdmin.report.setPage(process.env.VUE_APP_CHANGELANG_POWERBI_CODE_EN);
+    },
+    // 打开呈现对象弹窗
+    openVisible () {
+      this.visible = true
+    },
+    // 打开行业均值弹窗
+    openIndustry () {
+      this.industry = true
+    },
+    // 呈现对象确认
+    sureChangeItems (data) {
+      this.visible = false
+      this.values = [...this.values, ...data.map((v) => v.nameZh)]
+      let newfilter = window._.cloneDeep(this.filter);
+      newfilter.values = this.values
+      this.report.setFilters([newfilter])
+      // this.report.updateFilters(pbi.models.FiltersOperations.Add, [filter]);
+    },
+    // 加入行业均值
+    sureIndustryChangeItems (data) {
+      this.industry = false
+      console.log(data);
+      this.values = [...this.values, data.industryName]
+      let newfilter = window._.cloneDeep(this.filter);
+
+      newfilter.values = this.values
+      console.log(newfilter);
+
+      this.report.setFilters([newfilter])
+    },
+    // 获取财报iframeurl
+    powerBiUrl () {
+      getLoosePartsPbi().then(res => {
+        if (res.data) {
+          this.url = res.data
+          this.renderBi()
+        }
+      })
+    },
+    // 初始化页面
+    renderBi () {
+      var permissions = pbi.models.Permissions.All
+      let pageName = localStorage.getItem('lang') == 'zh' ? process.env.VUE_APP_CHANGELANG_POWERBI_CODE_ZH : process.env.VUE_APP_CHANGELANG_POWERBI_CODE_EN
+
+      var config = {
+        type: 'report',
+        tokenType: pbi.models.TokenType.Embed,
+        accessToken: this.url.accessToken,
+        embedUrl: this.url.embedUrl,
+        // id: 'f6bfd646-b718-44dc-a378-b73e6b528204',
+        pageName: pageName,
+        /*visualName: '47eb6c0240defd498d4b',
+        permissions: permissions,*/
+        settings: {
+          panes: {
+            filters: {
+              visible: false
+            },
+            pageNavigation: {
+              visible: false
+            }
+          }
+        }
+      };
+      let powerbi = new pbi.service.Service(pbi.factories.hpmFactory, pbi.factories.wpmpFactory, pbi.factories.routerFactory);
+      var reportContainer = document.getElementById('powerBi');
+      var report = powerbi.embed(reportContainer, config);
+      this.$store.commit('SET_report', report);
+
+      // Report.off removes a given event handler if it exists.
+      report.off("loaded");
+
+      // Report.on will add an event handler which prints to Log window.
+      const name = this.name
+      const newfilter = window._.cloneDeep(this.filter);
+      newfilter.values = [name]
+      this.values = [name]
+      report.on("loaded", function () {
+        console.log("Loaded");
+        if (name !== '') {
+          report.setFilters([newfilter])
+          // report.updateFilters(pbi.models.FiltersOperations.Add, [newfilter]);
+        }
+      });
+
+      // Report.off removes a given event handler if it exists.
+      report.off("rendered");
+
+      // Report.on will add an event handler which prints to Log window.
+      report.on("rendered", async function () {
+        // 	console.log("Rendered");
+        // 	//获取所有页面
+        // 	const pages = await report.getPages();
+        // 	let page = pages.filter(function (page) {
+        // 			return page.isActive
+        // 	})[0];
+        //
+        // 	//获取所有视觉对象
+        // 	const visuals = await page.getVisuals();
+        // 	//获取单个视觉对象
+        // 	var visual = visuals.filter(async function (visual) {
+        // 		//56e2a71da3229e40e713
+        // 		if(visual.name == "56e2a71da3229e40e713"){
+        // 			console.log("表格："+visual.title);
+        // 			//导出某个视觉对象的数据
+        // 			var result =await visual.exportData(pbi.models.ExportDataType.Summarized);
+        // 			console.log(result.data);
+        //
+        //
+        // 	    var newSettings = {
+        // 				commands: [
+        // 						{
+        // 							/**
+        // 								spotlight: {
+        // 										displayOption: models.CommandDisplayOption.Hidden
+        // 								},
+        // 								drill: {
+        // 										displayOption: models.CommandDisplayOption.Hidden
+        // 								},
+        // 								*/
+        // 								exportData: {
+        // 									displayOption: pbi.models.CommandDisplayOption.Enabled
+        // 								}
+        // 						}
+        // 				]
+        // 			};
+        //     	report.updateSettings(newSettings);
+        // 	  }else{
+        //
+        // 			var newSettings = {
+        // 						commands: [
+        // 								{
+        // 									/**
+        // 										spotlight: {
+        // 												displayOption: models.CommandDisplayOption.Hidden
+        // 										},
+        // 										drill: {
+        // 												displayOption: models.CommandDisplayOption.Hidden
+        // 										},
+        // 										*/
+        // 										exportData: {
+        // 											displayOption: pbi.models.CommandDisplayOption.Hidden
+        // 										}
+        // 								}
+        // 						]
+        // 			};
+        // 			report.updateSettings(newSettings);
+        // 	  }
+        //
+        // 		return visual.title === "表格";
+        // })[0];
+
+
+
+        console.log("报表渲染事件");
+      });
+      report.off("filtersApplied")
+
+      report.on("filtersApplied", function () {
+        console.log("filtersApplied");
+      });
+
+      report.on("error", function (event) {
+        console.log(event.detail);
+        report.off("error");
+      });
+
+      report.off("saved");
+      report.on("saved", function (event) {
+        console.log(event.detail);
+        if (event.detail.saveAs) {
+          console.log(
+            'In order to interact with the new report, create a new token and load the new report'
+          );
+        }
+      });
+
+      this.report = report
+
+    },
+  },
+
+  watch: {
+    '$store.state.permission.language': (val) => {
+      if (val === 'zh') {
+        store.state.investmentAdmin.report.setPage(process.env.VUE_APP_CHANGELANG_POWERBI_CODE_ZH);
+      } else {
+        store.state.investmentAdmin.report.setPage(process.env.VUE_APP_CHANGELANG_POWERBI_CODE_EN);
+      }
+    }
   }
 }
+</script>
+
+<style lang="scss" scoped>
+.page-content {
+  padding: 20px 20px 0 0 !important;
+}
+.title {
+  font-weight: bold;
+  font-size: 20px;
+  color: $color-black;
+  margin-bottom: 20px;
+}
+
+#powerBi {
+  width: 100%;
+  height: calc(100vh - 190px);
+}
+</style>
+<style lang="scss">
+iframe {
+  border: none;
+}
+// .content {
+//   position: relative;
+//   .btn {
+//     position: absolute;
+//     top: 0.4rem;
+//     right: 0;
+//   }
+// }
 </style>

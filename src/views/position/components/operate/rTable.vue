@@ -5,25 +5,32 @@
         @click="handleAdd"
         v-if="type !== 'detail'"
         :disabled="roleInDel && roleInDel.length"
-        >增加角色</iButton
+        >{{language('增加角色')}}</iButton
       >
       <iButton
         @click="del"
         v-if="type !== 'detail'"
         :disabled="roleInDel && !roleInDel.length"
         class="margin-right20"
-        >删除角色</iButton
+        >{{language('删除角色')}}</iButton
       >
     </div>
     <iTableCustom
+      v-if="this.$route.query.editable == 1"
       :loading="tableLoading"
       :data="roles"
       :columns="tableSetting[type]"
       @handle-selection-change="handleSelectionChange"
       @go-detail="handleGoDetail"
       ref="roleTable"
-    >
-    </iTableCustom>
+    />
+    <iTableCustom
+      v-if="this.$route.query.editable == 2"
+      :loading="tableLoading"
+      :data="roles"
+      :columns="tableSettingNotEmit[type]"
+      @handle-selection-change="handleSelectionChange"
+    />
     <!-- <role-modal
       :show="dialogRoleVisible"
       @update-show="handleUpdateShow"
@@ -114,7 +121,7 @@ export default {
           tooltip: false
         }
       ],
-      tableSetting: {
+      tableSettingNotEmit:{
         detail: [
           {
             type: 'index',
@@ -122,14 +129,10 @@ export default {
             width: 80
           },
           {
-            prop: 'roleCode',
+            prop: 'fullNameEn',
             label: '角色代码',
             align: 'center',
             tooltip: false,
-            emit: 'go-detail',
-            customRender: (h, scope) => {
-              return <span class="open-link-text">{scope.row.fullNameEn}</span>
-            }
           },
           {
             prop: 'fullNameZh',
@@ -158,10 +161,6 @@ export default {
             label: '角色代码',
             align: 'center',
             tooltip: false,
-            emit: 'go-detail',
-            customRender: (h, scope) => {
-              return <span class="open-link-text">{scope.row.code}</span>
-            }
           },
           {
             prop: 'fullNameZh',
@@ -190,10 +189,6 @@ export default {
             label: '角色代码',
             align: 'center',
             tooltip: false,
-            emit: 'go-detail',
-            customRender: (h, scope) => {
-              return <span class="open-link-text">{scope.row.code}</span>
-            }
           },
           {
             prop: 'fullNameZh',
@@ -204,6 +199,110 @@ export default {
           {
             prop: 'desciption',
             label: '角色描述',
+            align: 'center',
+            tooltip: false
+          }
+        ]
+      },
+      tableSetting: {
+        detail: [
+          {
+            type: 'index',
+            label: '序号',
+            width: 80
+          },
+          {
+            prop: 'roleCode',
+            label: '角色代码',
+            i18n:'角色代码',
+            align: 'center',
+            tooltip: false,
+            emit: 'go-detail',
+            customRender: (h, scope) => {
+              return <span class="open-link-text">{scope.row.fullNameEn}</span>
+            }
+          },
+          {
+            prop: 'fullNameZh',
+            label: '角色名称',
+            i18n:'角色名称',
+            align: 'center',
+            tooltip: false
+          },
+          {
+            prop: 'description',
+            label: '角色描述',
+            i18n:'角色描述',
+            align: 'center',
+            tooltip: false
+          }
+        ],
+        edit: [
+          {
+            type: 'selection'
+          },
+          {
+            type: 'index',
+            label: '序号',
+            width: 80
+          },
+          {
+            prop: 'code',
+            label: '角色代码',
+            i18n:'角色代码',
+            align: 'center',
+            tooltip: false,
+            emit: 'go-detail',
+            customRender: (h, scope) => {
+              return <span class="open-link-text">{scope.row.code}</span>
+            }
+          },
+          {
+            prop: 'fullNameZh',
+            label: '角色名称',
+            i18n:'角色名称',
+            align: 'center',
+            tooltip: false
+          },
+          {
+            prop: 'desciption',
+            label: '角色描述',
+            i18n:'角色描述',
+            align: 'center',
+            tooltip: false
+          }
+        ],
+        add: [
+          {
+            type: 'selection'
+          },
+          {
+            type: 'index',
+            label: '序号',
+            width: 80
+          },
+          {
+            prop: 'code',
+            label: '角色代码',
+            i18n:'角色代码',
+            align: 'center',
+            tooltip: false,
+            emit: 'go-detail',
+            customRender: (h, scope) => {
+              return <span class="open-link-text">{scope.row.code}</span>
+            }
+          },
+          {
+            prop: 'fullNameZh',
+            label: '角色名称',
+            i18n:'角色名称',
+            align: 'center',
+            tooltip: false
+          },
+          {
+            prop: 'desciption',
+            label: '角色描述',
+            i18n:'角色描述',
             align: 'center',
             tooltip: false
           }

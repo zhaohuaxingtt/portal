@@ -14,7 +14,6 @@
               :autosize='rowRange'
               placeholder="Please enter."
               v-model="info.promptInfo"
-              maxlength="120"
               show-word-limit></iInput>
     </iCard>
     <!-- 财报分析 -->
@@ -38,12 +37,11 @@
                   type='textarea'
                   :autosize='{minRows:1}'
                   @change="updateData(scope.row,'comment', $event)"
-                  maxlength="120"
                   show-word-limit></iInput>
         </template>
       </tableList>
     </iCard>
-    <div class="remark">The financial analysis is based on the financial data from the third party & supplier interview.</div>
+    <div class="remark">Financial analysis is based on the data provided by supplier, credit report & supplier interview.</div>
   </div>
 
 </template>
@@ -155,7 +153,6 @@ export default {
   font-family: Arial;
   font-weight: 400;
   line-height: 18px;
-  color: #000000;
-  opacity: 0.42;
+  color: #9b9b9b;
 }
 </style>

@@ -1,13 +1,17 @@
 <template>
   <div class="base-info margin-bottom20">
-    <iCard tabCard collapse title="基本信息">
+    <iCard tabCard collapse :title="language('基本信息')">
       <iFormGroup
         :row="type === 'add' ? 3 : 4"
         :model="positionObj"
         ref="baseForm1"
       >
         <iFormItem prop="code" v-if="type === 'detail' || type === 'edit'">
-          <iLabel :label="'岗位编码'" :required="true" slot="label"></iLabel>
+          <iLabel
+            :label="language('岗位编码')"
+            :required="true"
+            slot="label"
+          ></iLabel>
           <iText>{{ positionObj.code }}</iText>
         </iFormItem>
         <iFormItem
@@ -21,7 +25,7 @@
           ]"
         >
           <iLabel
-            :label="'岗位名称（中）'"
+            :label="language('岗位名称（中）')"
             :required="true"
             slot="label"
           ></iLabel>
@@ -30,7 +34,7 @@
             v-else
             v-model="positionObj.fullNameZh"
             type="text"
-            placeholder="请输入岗位名称（中）"
+            :placeholder="language('请输入岗位名称（中）')"
           />
         </iFormItem>
         <iFormItem
@@ -44,7 +48,7 @@
           ]"
         >
           <iLabel
-            :label="'岗位名称（英）'"
+            :label="language('岗位名称（英）')"
             :required="true"
             slot="label"
           ></iLabel>
@@ -53,7 +57,7 @@
             v-else
             v-model="positionObj.fullNameEn"
             type="text"
-            placeholder="请输入岗位名称（英）"
+            :placeholder="language('请输入岗位名称（英）')"
           />
         </iFormItem>
         <iFormItem
@@ -67,14 +71,18 @@
           ]"
         >
           <iLabel
-            :label="'是否组织领导'"
+            :label="language('是否组织领导')"
             :required="true"
             slot="label"
           ></iLabel>
           <iText v-if="type === 'detail'">{{
             positionObj.isDeptLead | leaderFilter
           }}</iText>
-          <iSelect v-else placeholder="请选择" v-model="positionObj.isDeptLead">
+          <iSelect
+            v-else
+            :placeholder="language('请选择')"
+            v-model="positionObj.isDeptLead"
+          >
             <el-option
               :value="item.value"
               :label="item.label"
@@ -97,17 +105,21 @@
             }
           ]"
         >
-          <iLabel :label="'岗位描述'" :required="true" slot="label"></iLabel>
+          <iLabel
+            :label="language('岗位描述')"
+            :required="true"
+            slot="label"
+          ></iLabel>
           <iText v-if="type === 'detail'">{{ positionObj.description }}</iText>
           <i-input
             v-else
             v-model="positionObj.description"
             type="text"
-            placeholder="请输入岗位描述"
+            :placeholder="language('请输入岗位描述')"
           />
         </iFormItem>
         <iFormItem prop="tagList">
-          <iLabel :label="'岗位标签'" slot="label"></iLabel>
+          <iLabel :label="language('岗位标签')" slot="label"></iLabel>
           <div>
             <!-- <div style="position:relative"> -->
             <!-- <iInput type="text" v-model="positionObj.tagList.length" style="opacity:0;z-index:1; width:80%"></iInput> -->
@@ -136,11 +148,13 @@
 
       <iFormGroup row="3" :model="positionObj" ref="baseForm3">
         <iFormItem>
-          <iLabel :label="language('正式价采购组')" slot="label"></iLabel>
+          <iLabel :label="language('默认正式采购组')" slot="label"></iLabel>
           <iSelect
             v-model="positionObj.purchaseGroup"
             filterable
             :disabled="type === 'detail'"
+            clearable
+            @change="handlePruchaseGroupChange"
           >
             <el-option
               v-for="item in purchasegroupOptions"
@@ -151,10 +165,11 @@
           </iSelect>
         </iFormItem>
         <iFormItem>
-          <iLabel :label="language('暂作价采购组')" slot="label"></iLabel>
+          <iLabel :label="language('默认暂作采购组')" slot="label"></iLabel>
           <iSelect
             v-model="positionObj.tempPurchaseGroup"
             filterable
+            clearable
             :disabled="type === 'detail'"
           >
             <el-option
@@ -182,6 +197,59 @@
             />
           </iSelect>
         </iFormItem>
+        <iFormItem v-if="positionObj.isDeptLead">
+          <iLabel :label="language('是否外方领导')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.property" :disabled="type === 'detail'">
+            <el-option label="是" :value="2" />
+            <el-option label="否" :value="1" />
+          </iSelect>
+        </iFormItem>
+        <iFormItem>
+          <iLabel :label="language('其他正式组')" slot="label"></iLabel>
+          <iSelectAll
+            v-model="positionObj.otherPurchaseGroup"
+            :options="otherTempPurchasegroupOptions"
+            valueKey="purchaseGroupCode"
+            labelKey="purchaseGroupCode"
+            :disabled="type === 'detail'"
+          />
+          <!-- <iSelect
+            v-model="positionObj.otherPurchaseGroup"
+            filterable
+            multiple
+            :disabled="type === 'detail'"
+          >
+            <el-option
+              v-for="item in otherTempPurchasegroupOptions"
+              :key="item.purchaseGroupCode"
+              :label="item.purchaseGroupCode"
+              :value="item.purchaseGroupCode"
+            />
+          </iSelect> -->
+        </iFormItem>
+        <iFormItem>
+          <iLabel :label="language('其他暂作采购组')" slot="label"></iLabel>
+          <iSelectAll
+            v-model="positionObj.otherTempPurchaseGroup"
+            :options="tempPurchasegroupOptions"
+            valueKey="purchaseGroupCode"
+            labelKey="purchaseGroupCode"
+            :disabled="type === 'detail'"
+          />
+          <!-- <iSelect
+            v-model="positionObj.otherTempPurchaseGroup"
+            filterable
+            :disabled="type === 'detail'"
+            multiple
+          >
+            <el-option
+              v-for="item in tempPurchasegroupOptions"
+              :key="item.purchaseGroupCode"
+              :label="item.purchaseGroupCode"
+              :value="item.purchaseGroupCode"
+            />
+          </iSelect> -->
+        </iFormItem>
       </iFormGroup>
 
       <dTable :type="type" />
@@ -202,6 +270,7 @@ import {
 import dTable from './dTable.vue'
 import { queryPurchasegroup } from '@/api/position'
 import { getProGroupOptions } from '@/api/materiel/materielMainData'
+import iSelectAll from '@/components/iSelectAll'
 export default {
   components: {
     iCard,
@@ -211,7 +280,8 @@ export default {
     iText,
     iInput,
     iSelect,
-    dTable
+    dTable,
+    iSelectAll
   },
   props: {
     type: {
@@ -252,7 +322,22 @@ export default {
   computed: {
     positionObj() {
       return this.$store.state.position.pos.positionDetail
+    },
+    otherTempPurchasegroupOptions() {
+      return this.purchasegroupOptions.filter(
+        (e) => e.purchaseGroupCode !== this.positionObj.purchaseGroup
+      )
     }
+    // otherTempPurchaseGroup(){
+    //   const otherTempPurchaseGroup = this.$store.state.position.pos.positionDetail.otherTempPurchaseGroup
+    //   console.log(otherTempPurchaseGroup,'====');
+    //   return otherTempPurchaseGroup?.split(',')
+    // },
+    // otherPurchaseGroup(){
+    //   const otherPurchaseGroup = this.$store.state.position.pos.positionDetail.otherPurchaseGroup
+    //   console.log( this.$store.state.position.pos.positionDetail.otherPurchaseGroup,'-------');
+    //   return otherPurchaseGroup?.split(',')
+    // }
   },
   methods: {
     handleDirect() {
@@ -273,6 +358,10 @@ export default {
     async queryProGroupOptions() {
       const res = await getProGroupOptions()
       this.setCodeOptions = res.data
+    },
+    handlePruchaseGroupChange(val) {
+      this.positionObj.otherTempPurchaseGroup =
+        this.positionObj.otherTempPurchaseGroup.filter((e) => e !== val)
     }
   }
 }

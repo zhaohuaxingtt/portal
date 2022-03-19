@@ -1,4 +1,5 @@
 <template>
+<div v-loading="loading">
   <iPage>
     <div class="title">
       <div>
@@ -240,10 +241,10 @@
                     ruleForm.supplierRange.includes('CM')
                   "
                 >
-                  <el-checkbox label="0">临时</el-checkbox>
-                  <el-checkbox label="1">正式</el-checkbox>
+                  <el-checkbox :disabled="ruleForm.supplierRange.includes('NT')&&ruleForm.supplierRange.length==1" label="0">临时</el-checkbox>
+                  <el-checkbox :disabled="ruleForm.supplierRange.includes('NT')&&ruleForm.supplierRange.length==1" label="1">正式</el-checkbox>
+                  <!-- :disabled="!ruleForm.supplierRange.includes('NT')" -->
                   <el-checkbox
-                    :disabled="!ruleForm.supplierRange.includes('NT')"
                     label="2"
                     >储蓄池</el-checkbox
                   >
@@ -492,6 +493,7 @@
       :supplierList="this.ruleForm.supplierList"
     />
   </iPage>
+</div>
 </template>
 
 <script>
@@ -553,6 +555,7 @@ export default {
     return {
       // tableListDataSub: [],
       // updateTerms: false,
+      loading: false,
       uploadIcon,
       rules: baseRules,
       supplierContactsList,
@@ -618,14 +621,17 @@ export default {
         if (val.includes('NT')) {
           if (this.ruleForm.supplierIdentity.indexOf('2') == -1) {
             this.ruleForm.supplierIdentity.push('2')
-          }
+          } else if (val.length == 1 && val[0] == 'NT') {
+              this.ruleForm.supplierIdentity = []
+              this.ruleForm.supplierIdentity.push('2')
+            }
         } else if (val.includes('CM')) {
           this.ruleForm.supplierIdentity = []
         } else {
-          const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
-          if (indexSupplier != -1) {
-            this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
-          }
+          // const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
+          // if (indexSupplier != -1) {
+          //   this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
+          // }
         }
       }
     },
@@ -745,11 +751,13 @@ export default {
       return res
     },
     query(e) {
+      this.loading = true
       // 根据ID查询条款信息
       findById(e).then((res) => {
         res.supplierRange = res.supplierRange?.split(',')
         res.supplierIdentity = res.supplierIdentity?.split(',')
         this.ruleForm = res
+        this.loading = false
         if (this.ruleForm.termsText != '') {
           this.editor.txt.html(this.ruleForm.termsText)
           if (this.ruleForm.isNewest != true) {
@@ -949,6 +957,11 @@ export default {
               this.ruleForm.supplierIdentity.length == 0
             ) {
               this.$message.error('供应商身份不能为空！')
+            } else if (
+              this.ruleForm.supplierRange.includes('CM') &&
+              this.ruleForm.supplierList.length == 0
+            ) {
+              this.$message.error('供应商列表不能为空！')
             }
             // else if (
             //   this.ruleForm.attachments.length == 0
@@ -1102,7 +1115,7 @@ export default {
   }
   .title__version {
     margin: 0 1rem 0 3rem;
-    font-size: 8px;
+    font-size: 0.875rem;
     font-family: Arial;
     font-weight: 400;
     line-height: 0px;

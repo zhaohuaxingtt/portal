@@ -12,12 +12,16 @@
         <iButton @click="cancel"
                  v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="add"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="continueBtn"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YANYONG', '沿用') }}</iButton>
         <iButton @click="delecte"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
                  v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
@@ -37,13 +41,14 @@
                          width="60">
         </el-table-column>
         <el-table-column label="#"
+                         fixed
                          type="index"
                          width="60">
         </el-table-column>
         <el-table-column prop="ruleNo"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
+                         width="100"
                          :label="language('GUIZEBIANHAO','规则编号')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
@@ -57,7 +62,7 @@
         <el-table-column prop="formalFlag"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
+                         width="120"
                          :label="language('SHIFOUWEIXINGUIZE','是否为新规则')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
@@ -72,7 +77,7 @@
                          align="center"
                          :label="language('SHIFOUSHENGXIAO','是否生效')"
                          show-overflow-tooltip
-                         width="150">
+                         width="100">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'effectFlag'"
                           :rules="formRules.effectFlag ? formRules.effectFlag : ''">
@@ -109,7 +114,7 @@
                            :value="item.materialGroupCode">
                 </el-option>
               </el-select>
-              <span v-else>{{scope.row.materialGroup}}</span>
+              <span v-else>{{scope.row.materialGroupName}}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -117,7 +122,7 @@
                          align="center"
                          :label="language('CHEXING','车型')"
                          show-overflow-tooltip
-                         width="200">
+                         width="300">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'carline'"
                           :rules="formRules.carline ? formRules.carline : ''"
@@ -140,14 +145,14 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="supplierId"
+        <el-table-column prop="sapCode"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('GONGYINGSHANGBIANHAO','供应商编号')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'supplierId'"
-                          :rules="formRules.supplierId ? formRules.supplierId : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+                          :rules="formRules.sapCode ? formRules.sapCode : ''">
               <!-- <el-select v-model="scope.row.supplierId"
                             clearable
                             filterable
@@ -162,13 +167,13 @@
                                 :value="item.code">
                             </el-option>
                         </el-select> -->
-              <spa>{{scope.row.supplierId}}</spa>
+              <spa>{{scope.row.sapCode}}</spa>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column prop="supplierName"
                          align="center"
-                         width="150"
+                         width="160"
                          :label="language('GONGYINGSHANGMINGCHENG','供应商名称')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -194,7 +199,7 @@
         </el-table-column>
         <el-table-column prop="materialCode"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('YUANCAILIAOPAIHAO','原材料牌号')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -229,9 +234,8 @@
         </el-table-column>
         <el-table-column prop="price"
                          align="center"
-                         width="150"
-                         :label="language('JIJIA','基价')"
-                         >
+                         width="130"
+                         :label="language('JIJIA','基价')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'price'"
                           :rules="formRules.price ? formRules.price : ''">
@@ -246,9 +250,8 @@
         </el-table-column>
         <el-table-column prop="priceMeasureUnit"
                          align="center"
-                         width="150"
-                         :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
-                         >
+                         width="130"
+                         :label="language('JIJIAJILIANGDANWEI','基价计量单位')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'priceMeasureUnit'"
                           :rules="formRules.priceMeasureUnit ? formRules.priceMeasureUnit : ''">
@@ -274,9 +277,8 @@
         </el-table-column>
         <el-table-column prop="tcCurrence"
                          align="center"
-                         width="150"
-                         :label="language('HUOBI','货币')"
-                         >
+                         width="80"
+                         :label="language('HUOBI','货币')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
                           :rules="formRules.tcCurrence ? formRules.tcCurrence : ''">
@@ -296,9 +298,8 @@
         </el-table-column>
         <el-table-column prop="tcExchangeRate"
                          align="center"
-                         width="150"
-                         :label="language('HUILV','汇率')"
-                         >
+                         width="120"
+                         :label="language('HUILV','汇率')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
                           :rules="formRules.tcExchangeRate ? formRules.tcExchangeRate : ''">
@@ -311,9 +312,8 @@
         </el-table-column>
         <el-table-column prop="source"
                          align="center"
-                         width="150"
-                         :label="language('SHICHANGJIALAIYUAN','市场价来源')"
-                         >
+                         width="200"
+                         :label="language('SHICHANGJIALAIYUAN','市场价来源')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
@@ -347,9 +347,8 @@
         </el-table-column>
         <el-table-column prop="compensationRatio"
                          align="center"
-                         width="150"
-                         :label="language('BUCHAXISHU','补差系数')"
-                         >
+                         width="120"
+                         :label="language('BUCHAXISHU','补差系数')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationRatio'"
                           :rules="formRules.compensationRatio ? formRules.compensationRatio : ''">
@@ -363,9 +362,8 @@
         </el-table-column>
         <el-table-column prop="compensationPeriod"
                          align="center"
-                         width="150"
-                         :label="language('BUCHAZHOUQI','补差周期')"
-                         >
+                         width="120"
+                         :label="language('BUCHAZHOUQI','补差周期')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationPeriod'"
                           :rules="formRules.compensationPeriod ? formRules.compensationPeriod : ''">
@@ -386,8 +384,7 @@
         <el-table-column prop="threshold"
                          align="center"
                          :label="language('YUZHI','阈值')"
-                         width="150"
-                         >
+                         width="100">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'threshold'"
                           :rules="formRules.threshold ? formRules.threshold : ''">
@@ -398,9 +395,8 @@
                   <p>{{language("ZUIDUOSHURUXIAOSHUDIANHOUSIWEI","最多输入小数点后4位")}}</p>
                 </div>
                 <iInput type="number"
-                    step="0.0001"
-                    v-model="scope.row.threshold"
-                    ></iInput>
+                        step="0.0001"
+                        v-model="scope.row.threshold"></iInput>
               </el-tooltip>
               <span v-else>{{scope.row.threshold}}</span>
             </el-form-item>
@@ -408,9 +404,8 @@
         </el-table-column>
         <el-table-column prop="thresholdCompensationLogic"
                          align="center"
-                         width="150"
-                         :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')"
-                         >
+                         width="130"
+                         :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'thresholdCompensationLogic'"
                           :rules="formRules.thresholdCompensationLogic ? formRules.thresholdCompensationLogic : ''">
@@ -431,8 +426,7 @@
         <el-table-column prop="startDate"
                          align="center"
                          width="200"
-                         :label="language('YOUXIAOQIQI','有效期起')"
-                         >
+                         :label="language('YOUXIAOQIQI','有效期起')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'startDate'"
                           :rules="formRules.startDate ? formRules.startDate : ''">
@@ -451,8 +445,7 @@
         <el-table-column prop="endDate"
                          align="center"
                          width="200"
-                         :label="language('YOUXIAOQIZHI','有效期止')"
-                         >
+                         :label="language('YOUXIAOQIZHI','有效期止')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'endDate'"
                           :rules="formRules.endDate ? formRules.endDate : ''">
@@ -471,8 +464,7 @@
 
         <el-table-column prop="platinumPrice"
                          align="center"
-                         width="150"
-                         >
+                         width="120">
           <template slot="header">
             <div>
               <span>{{language('BOJIJIA','铂基价')}}</span>
@@ -503,8 +495,7 @@
         </el-table-column>
         <el-table-column prop="platinumDosage"
                          align="center"
-                         width="150"
-                         >
+                         width="130">
           <template slot="header">
             <div>
               <span>{{language('BOYONGLIANG','铂用量')}}</span>
@@ -534,8 +525,7 @@
         </el-table-column>
         <el-table-column prop="palladiumPrice"
                          align="center"
-                         width="150"
-                         >
+                         width="120">
           <template slot="header">
             <div>
               <span>{{language('BAJIJIA','钯基价')}}</span>
@@ -565,8 +555,7 @@
         </el-table-column>
         <el-table-column prop="palladiumDosage"
                          align="center"
-                         width="150"
-                         >
+                         width="130">
           <template slot="header">
             <div>
               <span>{{language('BAYONGLIANG','钯用量')}}</span>
@@ -595,8 +584,7 @@
         </el-table-column>
         <el-table-column prop="rhodiumPrice"
                          align="center"
-                         width="150"
-                         >
+                         width="120">
           <template slot="header">
             <div>
               <span>{{language('LAOJIJIA','铑基价')}}</span>
@@ -626,8 +614,7 @@
 
         <el-table-column prop="rhodiumDosage"
                          align="center"
-                         width="150"
-                         >
+                         width="130">
           <template slot="header">
             <div>
               <span>{{language('LAOYONGLIANG','铑用量')}}</span>
@@ -655,12 +642,11 @@
             </el-form-item>
           </template>
         </el-table-column>
-        
+
         <el-table-column prop="preciousMetalDosageUnit"
                          align="center"
                          width="200"
-                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
-                         >
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
                           :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
@@ -692,7 +678,7 @@
              v-if="addDialog"
              width="70%"
              @close="saveGzDialog">
-             <!-- :dataObject="dataObject" -->
+      <!-- :dataObject="dataObject" -->
       <addGZ :resetType="resetType"
              @close="saveGzClose"
              @addDialogGZ="addDialogGZList">
@@ -793,7 +779,7 @@ export default {
           message: "KG"
         }
       ],
-      getMtzMarketSourceList:[],//市场价来源
+      getMtzMarketSourceList: [],//市场价来源
       materialGroup: [],
       // materialCode: [],
       mtzAddShow: false,
@@ -832,7 +818,7 @@ export default {
     currencyDict().then(res => {
       this.tcCurrence = res.data;
     })
-    getMtzMarketSourceList({}).then(res=>{
+    getMtzMarketSourceList({}).then(res => {
       this.getMtzMarketSourceList = res.data;
     })
   },
@@ -841,8 +827,8 @@ export default {
       this.getTableList();
       this.getMtzCailiao();
     },
-    sourceChange(e,val){
-      this.$set(e,'source',val);
+    sourceChange (e, val) {
+      this.$set(e, 'source', val);
     },
     add () {//新增
       if (this.flowType !== "SIGN") {
@@ -888,15 +874,15 @@ export default {
         this.resetNum = false;
         setTimeout(() => {
           this.$parent.$refs.theDataTabs.pageAppRequest()
-          if(!this.$parent.$refs.theDataTabs.editType){
+          if (!this.$parent.$refs.theDataTabs.editType) {
             this.$parent.$refs.theDataTabs.getTableList()
           }
         }, 500);
-        
-      }else{//上会、备案
+
+      } else {//上会、备案
         setTimeout(() => {
           this.$parent.$refs.theDataTabs.pageAppRequest()
-          if(!this.$parent.$refs.theDataTabs.editType){
+          if (!this.$parent.$refs.theDataTabs.editType) {
             this.$parent.$refs.theDataTabs.getTableList()
           }
         }, 500);
@@ -931,7 +917,7 @@ export default {
         })
         this.$refs['contractForm'].validate(async valid => {
           if (valid) {
-            iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX','规则发生变化，相关零件将同步更改，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+            iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX', '规则发生变化，相关零件将同步更改，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
               confirmButtonText: this.language('QUEREN', '确认'),
               cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res => {
@@ -947,7 +933,7 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if(!this.$parent.$refs.theDataTabs.editType){
+                    if (!this.$parent.$refs.theDataTabs.editType) {
                       this.$parent.$refs.theDataTabs.getTableList()
                     }
                   }, 500);
@@ -979,7 +965,7 @@ export default {
         })
         this.$refs['contractForm'].validate(async valid => {
           if (valid) {
-            iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX','规则发生变化，相关零件将同步更改，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+            iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX', '规则发生变化，相关零件将同步更改，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
               confirmButtonText: this.language('QUEREN', '确认'),
               cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res => {
@@ -992,7 +978,7 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if(!this.$parent.$refs.theDataTabs.editType){
+                    if (!this.$parent.$refs.theDataTabs.editType) {
                       this.$parent.$refs.theDataTabs.getTableList()
                     }
                   }, 500);
@@ -1047,17 +1033,17 @@ export default {
     addDialogDataList (val) {//沿用
       val.forEach(item => {
         // item.source = item.sourceType;
-        this.$set(item,"source",item.sourceType)
+        this.$set(item, "source", item.sourceType)
         // if(item.preciousMetalDosageUnit == ""){
         //   this.$set(item,"preciousMetalDosageUnit","OZ")
         // }
         item.formalFlag = "Y";
         delete item.sourceType;
         delete item.id;
-        if(item.carline == null){
+        if (item.carline == null) {
           item.carlineList = []
           item.carline = "";
-        }else{
+        } else {
           item.carlineList = item.carline.split(",")
         }
         // checkPreciousMetal({code:item.materialCode}).then(res=>{
@@ -1093,7 +1079,7 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
-              if(!this.$parent.$refs.theDataTabs.editType){
+              if (!this.$parent.$refs.theDataTabs.editType) {
                 this.$parent.$refs.theDataTabs.getTableList()
               }
             }, 500);
@@ -1163,6 +1149,7 @@ export default {
       })
     },
     handleSelectionChange (val) {
+      console.log(val)
       this.selectList = val;
     },
     // supplierBH (arr, value) {
@@ -1238,5 +1225,11 @@ export default {
 }
 ::v-deep .el-table .el-table__row .el-input {
   width: 100% !important;
+}
+</style>
+<style lang="scss">
+.el-table__fixed-body-wrapper,
+.el-table__fixed-header-wrapper {
+  background: #fff;
 }
 </style>

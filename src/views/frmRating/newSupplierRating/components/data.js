@@ -2,116 +2,150 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
- * @LastEditTime: 2021-07-14 20:02:27
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-02-18 19:53:17
  * @Descripttion: your project
  */
 import { getDictByCode } from '@/api/dictionary'
 export const tableTitle = [
   {
-    props: 'nameZh',
-    name: '供应商名称',
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    width: 60,
+    label: '序号'
+  },
+  {
+    prop: 'nameZh',
+    label: '供应商名称',
+    li8n: 'LK_GONGYINGSHANGMINGCHENG1',
+    width: 200,
+    tooltip: true,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return (
+        <span class="cursor" style="color:#1763F7">
+          {scope.row.nameZh}
+        </span>
+      )
+    }
+  },
+  {
+    prop: 'nameEn',
+    label: '供应商英文名称',
+    li8n: 'SPR_FRM_XGYSPJ_GYSYWMC',
+    width: 150,
+    tooltip: true
+  },
+  {
+    prop: 'socialcreditNo',
+    label: '统一社会信用代码',
+    li8n: 'UnifySocialCreditCode',
+    width: 200
+  },
+  {
+    prop: 'dunsCode',
+    label: 'DUNS号',
+    li8n: 'SUPPLIER_CAILIAOZU_DUNSHAO',
+    width: 150,
+    tooltip: true
+  },
+  {
+    prop: 'approvalTime',
+    label: '申请时间',
+    li8n: 'SPR_FRM_XGYSPJ_SQSJ',
     width: 120,
     tooltip: true
   },
   {
-    props: 'nameEn',
-    name: '供应商英文名称',
-    key: 'SPR_FRM_XGYSPJ_GYSYWMC',
+    prop: 'buyerDept',
+    label: '采购科室',
     width: 120,
+    li8n: 'SPR_FRM_XGYSPJ_CGKS',
     tooltip: true
   },
   {
-    props: 'socialcreditNo',
-    name: '统一社会信用代码',
-    key: 'UnifySocialCreditCode',
+    prop: 'buyer',
+    label: '采购员',
+    li8n: 'SPR_FRM_XGYSPJ_CGY',
+    tooltip: true,
     width: 120
   },
   {
-    props: 'dunsCode',
-    name: 'DUNS号',
-    key: 'SUPPLIER_CAILIAOZU_DUNSHAO',
-    width: 100,
-    tooltip: true
-  },
-  {
-    props: 'approvalTime',
-    name: '申请时间',
-    key: 'SPR_FRM_XGYSPJ_SQSJ',
-    width: 100,
-    tooltip: true
-  },
-  {
-    props: 'buyerDept',
-    name: '采购科室',
-    key: 'SPR_FRM_XGYSPJ_CGKS',
-    tooltip: true
-  },
-  { props: 'buyer', name: '采购员', key: 'SPR_FRM_XGYSPJ_CGY', tooltip: true },
-  {
-    props: 'categoryId',
-    name: '材料组编号',
-    key: 'LK_CAILIAOZUBIANHAO',
+    prop: 'categoryId',
+    label: '材料组编号',
+    li8n: 'LK_CAILIAOZUBIANHAO',
     width: 120
   },
   {
-    props: 'categoryNameZh',
-    name: '材料组名称',
-    key: 'SUPPLIER_CAILIAOZUMINGCHENG',
+    prop: 'categoryNameZh',
+    label: '材料组名称',
+    li8n: 'SUPPLIER_CAILIAOZUMINGCHENG',
     width: 120,
     tooltip: true
   },
   {
-    props: 'ratingResult',
-    name: '评级结果',
-    key: 'SPR_FRM_XGYSPJ_PJJG',
-    width: 100,
-    tooltip: true
-  },
-  {
-    props: 'markingTime',
-    name: '评级时间',
-    key: 'SPR_FRM_XGYSPJ_PJSJ',
+    prop: 'ratingResult',
+    label: '评级结果',
+    li8n: 'SPR_FRM_XGYSPJ_PJJG',
     width: 120,
     tooltip: true
   },
   {
-    props: 'gradingPerson',
-    name: '评级负责人',
-    key: 'SPR_FRM_XGYSPJ_PJFZR',
-    width: 110,
-    tooltip: true
-  },
-  { props: 'ratingStatus', name: '状态', key: 'LK_ZHUANGTAI', tooltip: true },
-  {
-    props: 'remark',
-    name: '不通过原因',
-    key: 'SPR_FRM_XGYSPJ_BTGYY',
+    prop: 'markingTime',
+    label: '评级时间',
+    li8n: 'SPR_FRM_XGYSPJ_PJSJ',
+    width: 120,
     tooltip: true
   },
   {
-    props: 'dataChannel',
-    name: '数据来源',
-    key: 'SPR_FRM_XGYSPJ_SJLY',
+    prop: 'gradingPerson',
+    label: '评级负责人',
+    li8n: 'SPR_FRM_XGYSPJ_PJFZR',
+    width: 150,
+    tooltip: true
+  },
+  {
+    prop: 'ratingStatus',
+    label: '状态',
+    li8n: 'LK_ZHUANGTAI',
+    tooltip: true,
+    width: 120
+  },
+  {
+    prop: 'remark',
+    label: '不通过原因',
+    li8n: 'SPR_FRM_XGYSPJ_BTGYY',
+    tooltip: true,
+    width: 120
+  },
+  {
+    prop: 'dataChannel',
+    label: '数据来源',
+    li8n: 'SPR_FRM_XGYSPJ_SJLY',
     width: 120,
     tooltip: true
   }
 ]
 export const supplierMessageTitle = [
   {
+    //供应商名称
     key: 'nameZh',
-    name: 'LK_GONGYINGSHANGMINGCHENG',
+    name: 'LK_GONGYINGSHANGMINGCHENG1',
     icons: '',
     tip: '',
-    permission: 'LK_GONGYINGSHANGMINGCHENG'
+    permission: 'SUPPLIER_BASEINFO_SUPPLIERNAME'
   },
   {
+    //供应商名称（中）
     key: 'shortNameZh',
     name: 'SupplierAbbreviationZh',
-    permission: 'SupplierAbbreviationZh'
+    permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH'
   },
   {
+    //统一社会信用代码
     key: 'socialcreditNo',
     name: 'UnifySocialCreditCode',
     icons: '',
@@ -119,6 +153,7 @@ export const supplierMessageTitle = [
     permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE'
   },
   {
+    //供应商英文名
     key: 'nameEn',
     name: 'SupplierEn',
     icons: '',
@@ -126,11 +161,13 @@ export const supplierMessageTitle = [
     permission: 'SUPPLIER_BASEINFO_SUPPLIEREN'
   },
   {
+    //供应商简称（英）
     key: 'shortNameEn',
     name: 'SupplierAbbreviationEn',
     permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN'
   },
   {
+    //DUNS
     key: 'dunsCode',
     name: 'DUNS',
     permission: 'SUPPLIER_BASEINFO_DUNS'

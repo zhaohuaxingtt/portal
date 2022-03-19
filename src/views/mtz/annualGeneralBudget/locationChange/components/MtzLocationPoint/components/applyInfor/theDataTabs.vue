@@ -7,42 +7,46 @@
         {{language('WHMTZLLZSJ','维护MTZ零件主数据')}}
       </span>
       <div>
-        <el-upload
-            class="upload-demo"
-            style="display:inline-block;margin-right:10px;"
-            multiple
-            :action="uploadUrl"
-            :show-file-list="false"
-            :on-success="uploadSuccess"
-            :on-progress="uploadProgress"
-            :data="uploadData"
-            :before-upload="beforeUpload"
-            :on-exceed="handleExceed"
-            v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-            >
-            <el-tooltip
-                :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
-                placement="top"
-                effect="light"
-            >
-                <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
-            </el-tooltip>
+        <el-upload class="upload-demo"
+                   style="display:inline-block;margin-right:10px;"
+                   multiple
+                   :action="uploadUrl"
+                   :show-file-list="false"
+                   :on-success="uploadSuccess"
+                   :on-progress="uploadProgress"
+                   :data="uploadData"
+                   :before-upload="beforeUpload"
+                   :on-exceed="handleExceed"
+                   v-permission="PORTAL_MTZ_POINT_INFOR_DATA_SHANGCHUAN"
+                   v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">
+          <el-tooltip :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
+                      placement="top"
+                      effect="light">
+            <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
+          </el-tooltip>
         </el-upload>
         <iButton @click="download"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_DATA_XIAZAIMUBAN"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XIAZAIMUBAN', '下载模板') }}</iButton>
         <iButton @click="cancel"
                  v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="rfqClick"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_DATA_YINYONGRFQ"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
         <iButton @click="locationClick"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_DATA_YYDDSQDLJ"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
         <iButton @click="historyClick"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_DATA_ZJLSMTZLJZSJ"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
         <iButton @click="add"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="delecte"
+                 v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
                  v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
                  v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
@@ -62,13 +66,14 @@
                          width="60">
         </el-table-column>
         <el-table-column label="#"
+                         fixed
                          type="index"
                          width="60">
         </el-table-column>
         <el-table-column prop="assemblyPartnum"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
+                         width="130"
                          :label="language('LINGJIANHAO','零件号')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'assemblyPartnum'"
@@ -81,7 +86,6 @@
         <el-table-column prop="partName"
                          align="center"
                          show-overflow-tooltip
-                         width="150"
                          :label="language('LINGJIANMINGCHENG','零件名称')">
           <template slot-scope="scope">
             <span>{{scope.row.partName}}</span>
@@ -91,11 +95,11 @@
                          align="center"
                          :label="language('GUIZEBIANHAO','规则编号')"
                          show-overflow-tooltip
-                         width="150">
+                         width="130">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
                           :rules="formRules.ruleNo ? formRules.ruleNo : ''">
-              
+
               <el-tooltip effect="light"
                           v-if="editId.indexOf(scope.row.id)!==-1"
                           placement="right">
@@ -103,29 +107,29 @@
                   <p>{{language("GZBHBXCZYSMYCLGZBGZ","规则编号必须存在于上面原材料规则表格中")}}</p>
                 </div>
                 <el-select v-model="scope.row.ruleNo"
-                         clearable
-                         :placeholder="language('QINGSHURU', '请输入')"
-                         @change="choiseGZ(scope,$event)">
-                    <el-option v-for="item in ruleNo"
-                              :key="item.id"
-                              :label="item.ruleNo"
-                              :value="item.id">
-                    </el-option>
-                  </el-select>
+                           clearable
+                           :placeholder="language('QINGSHURU', '请输入')"
+                           @change="choiseGZ(scope,$event)">
+                  <el-option v-for="item in ruleNo"
+                             :key="item.id"
+                             :label="item.ruleNo"
+                             :value="item.id">
+                  </el-option>
+                </el-select>
               </el-tooltip>
               <span v-else>{{scope.row.ruleNo}}</span>
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column prop="supplierId"
+        <el-table-column prop="sapCode"
                          align="center"
                          :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')"
                          show-overflow-tooltip
                          width="150">
           <!-- supplierName供应商名称 -->
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'supplierId'"
-                          :rules="formRules.supplierId ? formRules.supplierId : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
+                          :rules="formRules.sapCode ? formRules.sapCode : ''">
               <!-- <el-select v-model="scope.row.supplierId"
                                 clearable
                                 filterable
@@ -140,89 +144,81 @@
                                 :value="item.code">
                             </el-option>
                         </el-select> -->
-                        <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
-                    </el-form-item>
-                </template>
-            </el-table-column>
-            <el-table-column prop="partUnit"
-                            align="center"
-                            width="150"
-                            :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')"
-                            show-overflow-tooltip>
-                <template slot-scope="scope">
-                    <el-form-item
-                        :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
-                        :rules="formRules.partUnit ? formRules.partUnit : ''"
-                    >
-                        <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-                        <span>{{scope.row.partUnit}}</span>
-                    </el-form-item>
-                </template>
-            </el-table-column>
-            <el-table-column prop="priceUnit"
-                            align="center"
-                            :label="language('MEI','每')"
-                            show-overflow-tooltip
-                            width="150">
-                <template slot-scope="scope">
-                    <el-form-item
-                        :prop="'tableData.' + scope.$index + '.' + 'priceUnit'"
-                        :rules="formRules.priceUnit ? formRules.priceUnit : ''"
-                    >
-                        <iInput v-model="scope.row.priceUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
-                        <span v-else>{{scope.row.priceUnit}}</span>
-                    </el-form-item>
-                </template>
-            </el-table-column>
-            <el-table-column prop="dosage"
-                            align="center"
-                            width="150"
-                            :label="language('YONGLIANG','用量')"
-                            show-overflow-tooltip>
-                <template slot-scope="scope">
-                    <el-form-item
-                        :prop="'tableData.' + scope.$index + '.' + 'dosage'"
-                        :rules="formRules.dosage ? formRules.dosage : ''"
-                    >
-                        <iInput v-model="scope.row.dosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
-                        <span v-else>{{scope.row.dosage}}</span>
-                    </el-form-item>
-                </template>
-            </el-table-column>
-            <el-table-column prop="dosageMeasureUnit"
-                            align="center"
-                            width="150"
-                            :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')"
-                            show-overflow-tooltip>
-                <template slot-scope="scope">
-                    <el-form-item
-                        :prop="'tableData.' + scope.$index + '.' + 'dosageMeasureUnit'"
-                        :rules="formRules.dosageMeasureUnit ? formRules.dosageMeasureUnit : ''"
-                    >
-                        <el-select v-model="scope.row.dosageMeasureUnit"
-                                clearable
-                                filterable
-                                :placeholder="language('QINGSHURU', '请输入')"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                            <el-option
-                                v-for="item in dosageMeasureUnit"
-                                :key="item.code"
-                                :label="item.code"
-                                :value="item.code">
-                            </el-option>
-                        </el-select>
-                        <span v-else>{{scope.row.dosageMeasureUnit}}</span>
-                    </el-form-item>
-                </template>
-            </el-table-column>
-            <el-table-column prop="startDate"
-                            align="center"
-                            width="200"
-                            :label="language('YOUXIAOQIQI','有效期起')"
-                            show-overflow-tooltip>
-                <template slot-scope="scope">
-                    <!-- <iDatePicker v-model="scope.row.startDate"
+              <span>{{scope.row.sapCode}}/{{scope.row.supplierName}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column prop="partUnit"
+                         align="center"
+                         width="130"
+                         :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')"
+                         show-overflow-tooltip>
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
+                          :rules="formRules.partUnit ? formRules.partUnit : ''">
+              <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+              <span>{{scope.row.partUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column prop="priceUnit"
+                         align="center"
+                         :label="language('MEI','每')"
+                         show-overflow-tooltip
+                         width="150">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'priceUnit'"
+                          :rules="formRules.priceUnit ? formRules.priceUnit : ''">
+              <iInput v-model="scope.row.priceUnit"
+                      v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+              <span v-else>{{scope.row.priceUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column prop="dosage"
+                         align="center"
+                         width="150"
+                         :label="language('YONGLIANG','用量')"
+                         show-overflow-tooltip>
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'dosage'"
+                          :rules="formRules.dosage ? formRules.dosage : ''">
+              <iInput v-model="scope.row.dosage"
+                      v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+              <span v-else>{{scope.row.dosage}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column prop="dosageMeasureUnit"
+                         align="center"
+                         width="150"
+                         :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')"
+                         show-overflow-tooltip>
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'dosageMeasureUnit'"
+                          :rules="formRules.dosageMeasureUnit ? formRules.dosageMeasureUnit : ''">
+              <el-select v-model="scope.row.dosageMeasureUnit"
+                         clearable
+                         filterable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1">
+                <el-option v-for="item in dosageMeasureUnit"
+                           :key="item.code"
+                           :label="item.code"
+                           :value="item.code">
+                </el-option>
+              </el-select>
+              <span v-else>{{scope.row.dosageMeasureUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column prop="startDate"
+                         align="center"
+                         width="150"
+                         :label="language('YOUXIAOQIQI','有效期起')"
+                         show-overflow-tooltip>
+          <template slot-scope="scope">
+            <!-- <iDatePicker v-model="scope.row.startDate"
                                 style="width: 180px!important;"
                                 :disabled="true"
                                 type="datetime"
@@ -234,7 +230,7 @@
         </el-table-column>
         <el-table-column prop="endDate"
                          align="center"
-                         width="200"
+                         width="150"
                          :label="language('YOUXIAOQIZHI','有效期止')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -264,7 +260,7 @@
         </el-table-column>
         <el-table-column prop="materialCode"
                          align="center"
-                         width="150"
+                         width="140"
                          :label="language('YUANCAILIAOPAIHAO','原材料牌号')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -295,7 +291,7 @@
         </el-table-column>
         <el-table-column prop="price"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('JIJIA','基价')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -305,7 +301,7 @@
         </el-table-column>
         <el-table-column prop="priceMeasureUnit"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -315,7 +311,7 @@
         </el-table-column>
         <el-table-column prop="tcCurrence"
                          align="center"
-                         width="150"
+                         width="80"
                          :label="language('HUOBI','货币')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -325,7 +321,7 @@
         </el-table-column>
         <el-table-column prop="tcExchangeRate"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('HUILV','汇率')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -335,7 +331,7 @@
         </el-table-column>
         <el-table-column prop="priceSource"
                          align="center"
-                         width="150"
+                         width="200"
                          :label="language('SHICHANGJIALAIYUAN','市场价来源')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -345,7 +341,7 @@
         </el-table-column>
         <el-table-column prop="compensationRatio"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('BUCHAXISHU','补差系数')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -355,7 +351,7 @@
         </el-table-column>
         <el-table-column prop="compensationPeriod"
                          align="center"
-                         width="150"
+                         width="120"
                          :label="language('BUCHAZHOUQI','补差周期')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -365,7 +361,7 @@
         </el-table-column>
         <el-table-column prop="threshold"
                          align="center"
-                         width="150"
+                         width="100"
                          :label="language('YUZHI','阈值')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -375,7 +371,7 @@
         </el-table-column>
         <el-table-column prop="thresholdCompensationLogic"
                          align="center"
-                         width="150"
+                         width="130"
                          :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')"
                          show-overflow-tooltip>
           <template slot-scope="scope">
@@ -398,7 +394,7 @@
 
         <el-table-column prop="platinumPrice"
                          align="center"
-                         width="150"
+                         width="120"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -420,7 +416,7 @@
         </el-table-column>
         <el-table-column prop="platinumDosage"
                          align="center"
-                         width="150"
+                         width="130"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -442,7 +438,7 @@
         </el-table-column>
         <el-table-column prop="palladiumPrice"
                          align="center"
-                         width="150"
+                         width="120"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -464,7 +460,7 @@
         </el-table-column>
         <el-table-column prop="palladiumDosage"
                          align="center"
-                         width="150"
+                         width="130"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -486,7 +482,7 @@
         </el-table-column>
         <el-table-column prop="rhodiumPrice"
                          align="center"
-                         width="150"
+                         width="120"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -508,7 +504,7 @@
         </el-table-column>
         <el-table-column prop="rhodiumDosage"
                          align="center"
-                         width="150"
+                         width="130"
                          show-overflow-tooltip>
           <template slot="header">
             <div>
@@ -531,8 +527,7 @@
         <el-table-column prop="preciousMetalDosageUnit"
                          align="center"
                          width="200"
-                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
-                         >
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')">
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
                           :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
@@ -560,14 +555,13 @@
                  @addRfq="addRfqData"></rfqDialog>
     </iDialog>
 
-    <iDialog
-        :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
-        :visible.sync="addDialog"
-        v-if="addDialog"
-        width="70%"
-        @close="saveGzDialog"
-        >
-        <addData @close="saveGzClose" :listData="listData"></addData>
+    <iDialog :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
+             :visible.sync="addDialog"
+             v-if="addDialog"
+             width="70%"
+             @close="saveGzDialog">
+      <addData @close="saveGzClose"
+               :listData="listData"></addData>
     </iDialog>
 
     <iDialog :title="language('YINGYONGDINGDIANSHENQINGDANLINGJIAN', '引用定点申请单零件')"
@@ -575,7 +569,8 @@
              v-if="quoteDialog"
              width="90%"
              @close="quoteType">
-      <quoteData @quoteDialog="quoteDialogList" :applyNumber="applyNumber"></quoteData>
+      <quoteData @quoteDialog="quoteDialogList"
+                 :applyNumber="applyNumber"></quoteData>
     </iDialog>
 
     <iDialog :title="language('LSMTZLJZSJ', '历史MTZ零件主数据')"
@@ -587,16 +582,14 @@
                   @historyDialog="historyDialogList"></historyBox>
     </iDialog>
 
-    <iDialog
-      :title="language('SCFJYZBTG', '上传附件验证不通过')"
-      class="title_color"
-      :visible.sync="cancelNo"
-      v-if="cancelNo"
-      width="90%"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      @close="cancelClose"
-    >
+    <iDialog :title="language('SCFJYZBTG', '上传附件验证不通过')"
+             class="title_color"
+             :visible.sync="cancelNo"
+             v-if="cancelNo"
+             width="90%"
+             :close-on-press-escape="false"
+             :close-on-click-modal="false"
+             @close="cancelClose">
       <cancelReqestNo :errorList="errorList"></cancelReqestNo>
     </iDialog>
   </iCard>
@@ -631,7 +624,7 @@ import { deepClone } from "./util"
 export default {
   name: "Search",
   componentName: "theDataTabs",
-  props: ["appStatus","inforData","applyNumber"],
+  props: ["appStatus", "inforData", "applyNumber"],
   components: {
     iCard,
     iButton,
@@ -650,60 +643,60 @@ export default {
   mixins: [pageMixins],
   data () {
     var validatePass = (rule, value, callback) => {//规则编号
-        var number = 0;
-        this.ruleNo.forEach(e=>{
-          if(e.ruleNo == value){
-            number++;
-          }
-        })
-        if(number == 0){
-          callback(new Error(this.language("","当前MTZ申请单中规则编号不存在！")));
-        }else{
-          callback();
+      var number = 0;
+      this.ruleNo.forEach(e => {
+        if (e.ruleNo == value) {
+          number++;
         }
+      })
+      if (number == 0) {
+        callback(new Error(this.language("", "当前MTZ申请单中规则编号不存在！")));
+      } else {
+        callback();
+      }
     }
     return {
-        formRules:{
-          assemblyPartnum:[{required: true, message: '请选择', trigger: 'blur'}],//零件号
-          ruleNo:[
-            {required: true, message: '请选择', trigger: 'blur'},
-            { validator:validatePass, trigger: 'blur' }
-          ],//规则编号
-          supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
-          priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
-          dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
-          dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位
-        },
-        uploadUrl:process.env.VUE_APP_MTZ + "/web/mtz/mtzAppNomi/uploadData",
-        uploadData:{},
-        // supplierList:[],//供应商编号
-        ruleNo:[],//规则编号
-        tableData: [],
-        dosageMeasureUnit:[],
-        newDataList:[],
-        editId:"",
-        selectList:[],
-        loading: false,
-        // materialCode:[],
-        thresholdCompensationLogic:[
-            {
-                code:"A",
-                message:"全额补差"
-            },{
-                code:"B",
-                message:"超额补差"
-            }
-        ],
-        rfqShowType:false,
-        editType:false,
-        addDialog:false,
-        quoteDialog:false,
-        historyType:false,
-        dialogEditType:false,
-        dataCloseAllRequest:false,//判断是否为选择维护mtz零件主数据
-        listData:[],
-        cancelNo:false,
-        errorList:[],
+      formRules: {
+        assemblyPartnum: [{ required: true, message: '请选择', trigger: 'blur' }],//零件号
+        ruleNo: [
+          { required: true, message: '请选择', trigger: 'blur' },
+          { validator: validatePass, trigger: 'blur' }
+        ],//规则编号
+        // sapCode: [{ required: true, message: '请选择', trigger: 'blur' }],//供应商编号
+        priceUnit: [{ required: true, message: '请选择', trigger: 'blur' }],//每
+        dosage: [{ required: true, message: '请选择', trigger: 'blur' }],//用量
+        dosageMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],//用量计量单位
+      },
+      uploadUrl: process.env.VUE_APP_MTZ + "/web/mtz/mtzAppNomi/uploadData",
+      uploadData: {},
+      // supplierList:[],//供应商编号
+      ruleNo: [],//规则编号
+      tableData: [],
+      dosageMeasureUnit: [],
+      newDataList: [],
+      editId: "",
+      selectList: [],
+      loading: false,
+      // materialCode:[],
+      thresholdCompensationLogic: [
+        {
+          code: "A",
+          message: "全额补差"
+        }, {
+          code: "B",
+          message: "超额补差"
+        }
+      ],
+      rfqShowType: false,
+      editType: false,
+      addDialog: false,
+      quoteDialog: false,
+      historyType: false,
+      dialogEditType: false,
+      dataCloseAllRequest: false,//判断是否为选择维护mtz零件主数据
+      listData: [],
+      cancelNo: false,
+      errorList: [],
     }
   },
   computed: {
@@ -720,15 +713,15 @@ export default {
   },
   created () {
     this.uploadData = {
-      mtzAppId:this.inforData.mtzAppId,
-      userId:JSON.parse(sessionStorage.getItem('userInfo')).id
+      mtzAppId: this.inforData.mtzAppId,
+      userId: JSON.parse(sessionStorage.getItem('userInfo')).id
     };
     this.pageAppRequest();
     // getMtzSupplierList({}).then(res => {
     //   this.supplierList = res.data;
     // })
-    getDosageUnitList({}).then(res=>{
-        this.dosageMeasureUnit = res.data;
+    getDosageUnitList({}).then(res => {
+      this.dosageMeasureUnit = res.data;
     })
   },
   mounted () {
@@ -745,14 +738,14 @@ export default {
       //   this.materialCode = res.data;
       // })
     },
-    download(){
+    download () {
       iMessageBox(this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         downloadFile({
           mtzAppId: this.inforData.mtzAppId
-        }).then(res=>{
+        }).then(res => {
           let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");
@@ -767,34 +760,33 @@ export default {
         })
       })
     },
-    cancelClose(){
+    cancelClose () {
       this.cancelNo = false;
     },
-    uploadSuccess(res, file){
-      if(res.code == 200 && res.result){
+    uploadSuccess (res, file) {
+      if (res.code == 200 && res.result) {
         this.getTableList()
-      }else{
-        if(res.data == null){
+      } else {
+        if (res.data == null) {
           iMessage.error(res.desZh);
-        }else{
+        } else {
           this.errorList = res.data;
           this.cancelNo = true;
         }
       }
     },
-    beforeUpload(file){
-        const isLt2M = file.size / 1024 / 1024 < 20;
-        if (!isLt2M) {
-            iMessage.error("上传文件大小不能超过 20MB!");
-        }
-        return isLt2M;
+    beforeUpload (file) {
+      const isLt2M = file.size / 1024 / 1024 < 20;
+      if (!isLt2M) {
+        iMessage.error("上传文件大小不能超过 20MB!");
+      }
+      return isLt2M;
     },
-    handleExceed(files, fileList) {
-        iMessage.warn(
-            `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-            files.length + fileList.length
-            } 个文件`
-        );
+    handleExceed (files, fileList) {
+      iMessage.warn(
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
+        } 个文件`
+      );
     },
 
 
@@ -815,13 +807,13 @@ export default {
         return true;
       }
     },
-    add(){//新增
-        var arr = [];
-        this.tableData.forEach(e=>{
-            arr.push(e.assemblyPartnum)
-        })
-        this.listData = arr;
-        this.addDialog = true;
+    add () {//新增
+      var arr = [];
+      this.tableData.forEach(e => {
+        arr.push(e.assemblyPartnum)
+      })
+      this.listData = arr;
+      this.addDialog = true;
     },
     edit () {//编辑
       if (this.selectList.length > 0) {
@@ -1007,7 +999,7 @@ export default {
       })
     },
     locationClick () {
-      if(this.applyNumber == ""){
+      if (this.applyNumber == "") {
         return iMessage.error(this.language('YYDDSQDLJXXGLLJDDSQ', '引用定点申请单零件需先关联零件定点申请！'))
       }
       iMessageBox(this.language('CCZJSCNYWHDSYLJZSJSFJX', '此操作将删除您已维护的所有零件主数据，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
@@ -1036,18 +1028,18 @@ export default {
     },
     //获取列表
     getTableList () {
-        this.loading = true
-        pagePartMasterData({
-            pageNo: this.page.currPage,
-            pageSize: this.page.pageSize,
-            mtzAppId:this.inforData.mtzAppId,
-        }).then(res=>{
-            this.tableData = res.data;
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.page.totalCount = res.total
-            this.loading = false;
-        })
+      this.loading = true
+      pagePartMasterData({
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        mtzAppId: this.inforData.mtzAppId,
+      }).then(res => {
+        this.tableData = res.data;
+        this.page.currPage = res.pageNum
+        this.page.pageSize = res.pageSize
+        this.page.totalCount = res.total
+        this.loading = false;
+      })
     },
     getTableDown () {
       this.loading = true;
@@ -1064,12 +1056,12 @@ export default {
           }).then(res => {
             this.loading = false;
             var dataListCopy = res.data;
-            dataListCopy.forEach(e=>{
-              if(e.priceUnit == null){
-                this.$set(e,"priceUnit",1)
+            dataListCopy.forEach(e => {
+              if (e.priceUnit == null) {
+                this.$set(e, "priceUnit", 1)
               }
-              if(e.dosageMeasureUnit == null){
-                this.$set(e,"dosageMeasureUnit","KG")
+              if (e.dosageMeasureUnit == null) {
+                this.$set(e, "dosageMeasureUnit", "KG")
               }
             })
             this.tableData = dataListCopy;
@@ -1242,9 +1234,15 @@ export default {
   margin-top: 0;
   margin-bottom: 0;
 }
-.title_color{
-  ::v-deep .el-dialog__title{
-    color:red;
+.title_color {
+  ::v-deep .el-dialog__title {
+    color: red;
   }
+}
+</style>
+<style lang="scss">
+.el-table__fixed-body-wrapper,
+.el-table__fixed-header-wrapper {
+  background: #fff;
 }
 </style>

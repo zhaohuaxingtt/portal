@@ -1,3 +1,10 @@
+<!--
+ * @Author: YoHo
+ * @Date: 2022-02-16 17:36:57
+ * @LastEditTime: 2022-03-03 17:03:03
+ * @LastEditors: YoHo
+ * @Description: 
+-->
 <template>
   <iCard>
     <div class="margin-bottom20 clearFloat">
@@ -5,13 +12,14 @@
         <i-button @click="exportsTable" v-permission="SUPPLIER_GOVERNANCE_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_GOVERNANCE_TABLE" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
         @handleSelectionChange="handleSelectionChange"
         :index="true"
-        v-permission="SUPPLIER_GOVERNANCE_TABLE"
+        border
     />
   </iCard>
 </template>

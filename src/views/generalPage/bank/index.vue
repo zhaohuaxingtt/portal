@@ -25,6 +25,7 @@
                   :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange" :input-props="inputProps"
                   :index="true"
                   ref="commonTable"
+                  border
       >
         <template #creditDateStart="scope">
           <iDatePicker value-format="yyyy-MM-dd" type="date" :placeholder="$t('SUPPLIER_XUANZERQI')"

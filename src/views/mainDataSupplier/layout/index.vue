@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mainData\layout\index.vue
 -->
 <template>
-  <iPage style="padding-top: 0px;">
+  <iPage style="padding-top: 0px">
     <div class="main-data">
       <!-- <pageHeader> {{ title }} </pageHeader> -->
       <div class="main-data-body margin-top20">
@@ -32,7 +32,7 @@
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
-import { COLUMNS, MENUS } from './data'
+import { COLUMNS, MENUSZh, MENUSEn } from './data'
 import { iCard, iPage } from 'rise'
 export default {
   name: 'sideMenu',
@@ -48,16 +48,42 @@ export default {
         return bodyHeight - 100 + 'px'
       }
       return '500px'
+    },
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList
+    },
+    lang(){
+      return this.$store.state.permission.language
+    },
+    menus() {
+      const res = []
+      this.MENUS.forEach((element) => {
+        if (this.whiteBtnList[element.permissionKey]) {
+          res.push(element)
+        }
+      })
+      return res
+    }
+  },
+  watch:{
+    lang(){
+      this.changeMenus()
     }
   },
   data() {
     return {
       columns: COLUMNS,
-      menus: MENUS,
-      tableExpanded: { expandKey: 'title', childrenKey: 'children' }
+      tableExpanded: { expandKey: 'title', childrenKey: 'children' },
+      MENUS:[]
     }
   },
+  created(){
+    this.changeMenus()
+  },
   methods: {
+    changeMenus(){
+      this.MENUS = this.lang == 'zh' ? MENUSZh : MENUSEn
+    },
     handleClickMenu(row) {
       const { fullPath } = this.$route
       if (row.isLeaf && fullPath !== row.url) {
@@ -76,10 +102,10 @@ export default {
   align-items: stretch;
   min-height: calc(100vh - 170px);
   .main-data-side-menu {
-    width: 390px;
+    width: 300px;
   }
   .main-data-content {
-    width: calc(100% - 410px);
+    width: calc(100% - 320px);
   }
   .main-data-routerpage {
     padding: 0px;

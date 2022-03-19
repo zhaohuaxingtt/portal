@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-06 11:54:03
- * @LastEditTime: 2021-10-21 15:12:07
- * @LastEditors: zbin
+ * @LastEditTime: 2022-03-09 19:12:37
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainRisk\components\supplierBasicInfo.vue\
 -->
@@ -403,7 +403,7 @@
                          prop="assemblyPartNum"
                          min-width="180">
           <template slot-scope="scope">
-           
+
             <iSelect v-if="editMode"
                      filterable
                      @change="getFactoryChangeGys($event,scope.$index)"
@@ -482,11 +482,11 @@ import {
 import {
   getBySupplierId,
   selectChainPart,
-  queryChainSupplier
+  // queryChainSupplier
 } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import { getCity } from '@/api/supplierManagement/supplyChainOverall/index.js'
 export default {
-  data() {
+  data () {
     return {
       editModeEnabled: true,
       checkList: [],
@@ -503,7 +503,8 @@ export default {
       factoryList: [],
       chainPartList: {},
       chainSupplierList: [],
-      factorySupplierList:[],
+      factorySupplierList: [],
+      multipleSelection: []
     }
   },
   props: {
@@ -534,55 +535,55 @@ export default {
     }
   },
   watch: {
-    shortageReason(val) {
+    shortageReason (val) {
       this.checkList = val.split(',')
     },
     warningLetterPartRelList: {
-      handler(val) {
+      handler (val) {
         this.tableList = _.cloneDeep(val)
-      },
-      deep: true
-    },
-    tableList: {
-      handler(val) {
-        val.forEach((item) => {
+        this.tableList.forEach((item) => {
           item.involveCarType.toString()
+          item.id = Math.floor(Math.random() * 100)
         })
       },
       deep: true
     },
-    shortageLevel(val) {
+    // tableList: {
+    //   handler (val) {
+
+    //   },
+    //   deep: true
+    // },
+    shortageLevel (val) {
       this.select = val
     },
-    supplierId(val) {
+    supplierId (val) {
       queryUpOrDownStream({
         isRecursion: true,
         isUp: true,
         supplierFactoryId: '',
         supplierId: val
       }).then((res) => {
-      
         this.supplierList = res.data
+        this.chainSupplierList = res.data
       })
-        getBySupplierId(val).then((res) => {
+      getBySupplierId(val).then((res) => {
         this.factoryList = res.data
       })
-   
-      
-       queryChainSupplier(val).then((res) => {
-        this.chainSupplierList = res.data
-    //       getBySupplierId(res.data[0].id||0).then((res) => {
-    //     this.factorySupplierList = res.data
-    //   })
-      })
+      // queryChainSupplier(val).then((res) => {
+      //   this.chainSupplierList = res.data
+      //   //       getBySupplierId(res.data[0].id||0).then((res) => {
+      //   //     this.factorySupplierList = res.data
+      //   //   })
+      // })
       selectChainPart({ supplierId: val }).then((res) => {
         this.chainPartList = res.data
       })
     }
   },
   components: { iButton, editTableCell, icon, iInput, iSelect },
-  created(){
-  this.$nextTick(() => {
+  created () {
+    this.$nextTick(() => {
       this.init()
       console.log(this.supplierId)
     })
@@ -595,9 +596,9 @@ export default {
   //   })
   // },
   methods: {
-    init() {
-    
-     
+    init () {
+
+
       getCity().then((res) => {
         this.cityOptions = res
       })
@@ -608,12 +609,12 @@ export default {
         this.selectProcureFactory = res.data
       })
     },
-    getFactoryChangeLj(v, i) {
+    getFactoryChangeLj (v, i) {
       this.tableList[i].partName = this.chainPartList.partNumList.find(
         (res) => res.partNum == v
       ).partName
     },
-    getFactoryChangeGys(v, i) {
+    getFactoryChangeGys (v, i) {
       this.tableList[i].sparePartFactoryCode = this.factorySupplierList.find(
         (res) => res.factoryName == v
       ).factoryId
@@ -621,29 +622,29 @@ export default {
         (res) => res.factoryName == v
       ).address
     },
-    getFactoryChangeGysmc(v, i) {
+    getFactoryChangeGysmc (v, i) {
 
       this.tableList[i].sparePartSupplierCode = this.chainSupplierList.find(
         (res) => res.supplierNameCn == v
       ).creditCode
-        let id = this.chainSupplierList.find(
+      let id = this.chainSupplierList.find(
         (res) => res.supplierNameCn == v
       ).id
-      this.factorySupplierList=[]
-      this.tableList[i].sparePartFactoryCode=''
-       this.tableList[i].sparePartFactoryName=''
-      this.tableList[i].sparePartSupplierDetailAddress=''
-          getBySupplierId(id).then((res) => {
-             
+      this.factorySupplierList = []
+      this.tableList[i].sparePartFactoryCode = ''
+      this.tableList[i].sparePartFactoryName = ''
+      this.tableList[i].sparePartSupplierDetailAddress = ''
+      getBySupplierId(id).then((res) => {
+
         this.factorySupplierList = res.data
       })
 
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.multipleSelection = val
       console.log(this.multipleSelection)
     },
-    add() {
+    add () {
       console.log(this.tableList)
       let obj = {
         id: this.random(1, 100),
@@ -655,7 +656,7 @@ export default {
         involveFactoryName: '',
         involveCarType: [],
         assemblyPartNum: '',
-        sparePartFactoryName:'',
+        sparePartFactoryName: '',
         involveFactoryNum: '',
         sparePartSupplierName: '',
         sparePartSupplierCode: '',
@@ -666,19 +667,15 @@ export default {
       }
       this.tableList.push(obj)
     },
-    del() {
-      this.multipleSelection.forEach((item) => {
-        this.tableList.forEach((i, ind) => {
-          if (item.id === i.id) {
-            this.tableList.splice(ind, 1)
-          }
-        })
+    del () {
+      this.tableData.forEach((item, index) => {
+        if (this.multipleSelection.findIndex((i) => i.id === item.id) > -1) this.tableData.splice(index, 1)
       })
     },
-    handleAddress(val) {
+    handleAddress (val) {
       val.sparePartSupplierAddress = val.sparePartSupplierAddress.toString()
     },
-    handleSpareSupplier(val) {
+    handleSpareSupplier (val) {
       console.log(val)
       this.supplierList.forEach((item) => {
         if (item.supplierId === val.spareSupplierId) {
@@ -686,10 +683,10 @@ export default {
         }
       })
     },
-    selected(val) {
+    selected (val) {
       this.select = val
     },
-    random(min, max) {
+    random (min, max) {
       return Math.floor(Math.random() * (max - min)) + min
     }
   }

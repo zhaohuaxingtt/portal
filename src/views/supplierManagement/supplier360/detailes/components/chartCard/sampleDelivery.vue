@@ -1,5 +1,5 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height:16rem">
     <div class="title">
       <p>{{language('SONGYANG', '送样')}}</p>
       <span class="el-dropdown-link">
@@ -7,36 +7,37 @@
       </span>
     </div>
     <div class="box">
-       <img :src="img"
-           class="imgIcon" />
-      <div ref="chart"
-           class="chartStyle">
+      <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span>
+      <!--       <img :src="img"-->
+      <!--           class="imgIcon" />-->
+      <!--      <div ref="chart"-->
+      <!--           class="chartStyle">-->
 
-      </div>
-      <div class="chartText chartLeft">
-        <p>History</p>
-        <p>30%</p>
-        <div>
-          <span>On-Time</span>
-          <span>70%</span>
-        </div>
-        <div>
-          <span>Delay</span>
-          <span>30%</span>
-        </div>
-      </div>
-      <div class="chartText chartRight">
-        <p>On-going</p>
-        <p>30%</p>
-        <div>
-          <span>On-Time</span>
-          <span>70%</span>
-        </div>
-        <div>
-          <span>Delay</span>
-          <span>30%</span>
-        </div>
-      </div>
+      <!--      </div>-->
+      <!--      <div class="chartText chartLeft">-->
+      <!--        <p>History</p>-->
+      <!--        <p>30%</p>-->
+      <!--        <div>-->
+      <!--          <span>On-Time</span>-->
+      <!--          <span>70%</span>-->
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <span>Delay</span>-->
+      <!--          <span>30%</span>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div class="chartText chartRight">-->
+      <!--        <p>On-going</p>-->
+      <!--        <p>30%</p>-->
+      <!--        <div>-->
+      <!--          <span>On-Time</span>-->
+      <!--          <span>70%</span>-->
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <span>Delay</span>-->
+      <!--          <span>30%</span>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
   </iCard>
 </template>
@@ -49,20 +50,20 @@ export default {
   components: {
     iCard,
   },
-  data() {
+  data () {
     return {
       chart: 'oneChart',
-      img:img
+      img: img
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
   methods: {},
-  mounted() {
+  mounted () {
     const myChart = echarts().init(this.$refs.chart)
     var option = {
       grid: {
@@ -96,9 +97,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .title {
   display: flex;
@@ -138,7 +139,7 @@ export default {
   }
 
   .chartText {
-      text-align: center;
+    text-align: center;
     width: 100px;
     position: absolute;
     top: 30px;
@@ -149,7 +150,7 @@ export default {
       color: #41434a;
     }
     p:nth-child(2) {
-        margin: 8px auto 0;
+      margin: 8px auto 0;
       width: 40px;
       font-size: 18px;
       font-family: Arial;

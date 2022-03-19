@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -13,13 +13,14 @@
         <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_SAVE" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_MATERIALGROUP_RECORD" -->
     <table-list
-        v-permission="SUPPLIER_MATERIALGROUP_RECORD"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
         :index="true"
         @handleSelectionChange="handleSelectionChange"
+        border
     />
   </i-card>
 </template>

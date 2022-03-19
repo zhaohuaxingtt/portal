@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-06 10:06:24
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
  */
 /**
@@ -78,12 +78,13 @@ export function getBySupplierId(parmars) {
 }
 
 //查询散件供应商名称
-export function queryChainSupplier(parmars) {
-  return requst({
-    url: `/ntierSupplier/queryChainSupplier/${parmars}`,
-    method: 'GET'
-  })
-}
+// export function queryChainSupplier(parmars) {
+//   return requst({
+//     url: `/ntierSupplier/queryChainSupplier/${parmars}`,
+//     method: 'GET'
+//   })
+// }
+
 //零件号查询
 export function selectChainPart(parmars) {
   return requst({
@@ -172,7 +173,7 @@ export const getCity = async () => {
   let areaList = []
   let res = await getCityInfo()
   // 筛选国家
-  res.data.map(item => {
+  res.data.map((item) => {
     if (item.locationType === 'Nation') {
       areaList.push({
         value: item.cityNameCn,
@@ -183,7 +184,7 @@ export const getCity = async () => {
     }
   })
   // 筛选省
-  res.data.forEach(item => {
+  res.data.forEach((item) => {
     areaList.forEach((val, index) => {
       if (
         item.locationType === 'Province' &&
@@ -200,7 +201,7 @@ export const getCity = async () => {
     })
   })
   // 筛选市
-  res.data.forEach(item => {
+  res.data.forEach((item) => {
     areaList.forEach((val, j) => {
       val.children.forEach((i, index) => {
         if (item.locationType === 'City' && item.parentCityId === i.cityId) {
@@ -215,9 +216,9 @@ export const getCity = async () => {
     })
   })
   // 删除空数组
-  areaList.map(item => {
+  areaList.map((item) => {
     if (item.children.length) {
-      item.children.map(val => {
+      item.children.map((val) => {
         if (item.children.length === 0) {
           delete val.children
         }
@@ -226,9 +227,9 @@ export const getCity = async () => {
       delete item.children
     }
   })
-  areaList.reverse()
-  areaList.map(item => {
-    return item.children && item.children.reverse()
+  areaList
+  areaList.map((item) => {
+    return item.children && item.children
   })
   return areaList
 }

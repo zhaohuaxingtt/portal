@@ -15,21 +15,24 @@ export const tabRouterList = [
     name: '供应商360',
     //url: '/supplier/index',
     //activePath: '',
-    key: '供应商360'
+    key: '供应商360',
+    permissionKey: 'SUPPLIER_WORKBENCH_360'
   },
   {
     value: 1,
     name: '供应商绩效',
     url: '/supplier/kpiIndex',
     activePath: '/supplier/kpiIndex',
-    key: '供应商绩效'
+    key: '供应商绩效',
+    permissionKey: 'SUPPLIER_MERITS'
   },
   {
     value: 3,
     name: 'KPI',
     url: '/supplier/kpiList',
     activePath: '/supplier/kpiList',
-    key: 'KPI'
+    key: 'KPI',
+    permissionKey: 'WORKBENCH_KPI'
   },
   {
     value: 4,
@@ -54,21 +57,23 @@ export const categoryManagementAssistantList = [
     name: '总览',
     url: '/supplier/kpiIndex',
     activePath: '/supplier/kpiIndex',
-    key: '总览'
+    key: '总览',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_ZONGLAN'
   },
   {
     value: 2,
     name: '供应商绩效',
     url: '/supplier/supplierPowerBi',
     activePath: '/supplier/supplierPowerBi',
-    key: '供应商绩效'
+    key: '供应商绩效',
+    permissionKey: 'SUPPLIER_WORKBENCH_JIXIAO_GONGYINGSHANGJIXIAO'
   },
   {
     value: 3,
-    name: '年度回顾&绩效追踪 ',
+    name: '年度回顾&绩效追踪',
     url: '/supplier/supplierList',
     activePath: '/supplier/supplierList',
-    key: '年度回顾&绩效追踪 '
+    key: '年度回顾&绩效追踪'
   }
 ]
 

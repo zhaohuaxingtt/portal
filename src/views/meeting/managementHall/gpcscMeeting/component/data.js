@@ -193,10 +193,62 @@ export const themenConclusionArrObj = [
     conclusionName: 'Last Call'
   },
   {
-    conclusionCsc: '06',
-    conclusionName: '分段定点'
-  }
-]
+    conclusionCsc: "06",
+    conclusionName: "分段定点",
+  },
+];
+export const themenConclusionArrObjALL = [
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
+  {
+    conclusionCsc: "02",
+    conclusionName: "通过",
+  },
+  // {
+  //   conclusionCsc: "03",
+  //   conclusionName: "预备会议通过",
+  // },
+  {
+    conclusionCsc: "04",
+    conclusionName: "不通过",
+  },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "Last Call",
+  // },
+  // {
+  //   conclusionCsc: "06",
+  //   conclusionName: "分段定点",
+  // },
+];
+export const themenConclusionArrObjALLLastCall = [
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
+  {
+    conclusionCsc: "02",
+    conclusionName: "通过",
+  },
+  // {
+  //   conclusionCsc: "03",
+  //   conclusionName: "预备会议通过",
+  // },
+  {
+    conclusionCsc: "04",
+    conclusionName: "不通过",
+  },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "Last Call",
+  // },
+  {
+    conclusionCsc: "06",
+    conclusionName: "分段定点",
+  },
+];
 export const numToLetter = {
   1: 'A',
   2: 'B',
@@ -378,17 +430,6 @@ export const buttonList = [
 //列表
 export const TABLE_COLUMNS_DEFAULT = [
   {
-    props: 'index',
-    name: '#',
-    width: 50
-  },
-  {
-    type: 'index',
-    label: '#',
-    i18n: '',
-    width: 50
-  },
-  {
     props: 'currency',
     name: '货币类型',
     key: '',
@@ -400,14 +441,14 @@ export const TABLE_COLUMNS_DEFAULT = [
     name: '目标价',
     key: '',
     required: true,
-    rule: { required: true, message: '货币类型', trigger: 'change' }
+    rule: { required: true, message: '目标价', trigger: 'blur' }
   },
   {
     props: 'finalPrice',
     name: '最终成交价',
     key: '',
     required: true,
-    rule: { required: true, message: '货币类型', trigger: 'change' }
+    rule: { required: true, message: '最终成交价', trigger: 'blur' }
   },
   {
     props: 'supplierName',

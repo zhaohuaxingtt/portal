@@ -2,24 +2,52 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
-  <i-search @reset="handleSearchReset" @sure="handleInit" :icon="true">
+  <i-search @reset="handleSearchReset"
+            @sure="handleInit"
+            :icon="true">
     <el-form>
       <el-form-item :label="language('SHIJIANLEIXING','事件类型')">
-        <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.eventName"></iInput>
+        <iSelect :placeholder="$t('LK_QINGSHURU')"
+                 v-model="form.eventName">
+          <el-option v-for="(item,index) in eventType"
+                         :key="index"
+                         :label="item.name"
+                         :value="item.name"></el-option>
+        </iSelect>
+        <!-- <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.eventName"></iInput> -->
       </el-form-item>
       <el-form-item :label="language('QUYU','区域')">
-        <el-cascader v-model="form.area" :placeholder="language('QUYU','区域')" :options="formGoup.areaList" :props="{multiple:true}" :clearable="true" collapse-tags></el-cascader>
+        <el-cascader v-model="form.area"
+                     :placeholder="language('QUYU','区域')"
+                     :options="formGoup.areaList"
+                     :props="{multiple:true}"
+                     :clearable="true"
+                     collapse-tags
+                     filterable></el-cascader>
       </el-form-item>
       <el-form-item :label="language('SHIJIANQIZHI','时间起止')">
-        <iDatePicker v-model="form.date" @change="handleSubmitTime" value-format="yyyy-MM-dd" :picker-options="pickerOptions" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :placeholder="$t('LK_QINGSHURU')"></iDatePicker>
+        <iDatePicker v-model="form.date"
+                     @change="handleSubmitTime"
+                     value-format="yyyy-MM-dd"
+                     :picker-options="pickerOptions"
+                     type="daterange"
+                     range-separator="-"
+                     start-placeholder="开始日期"
+                     end-placeholder="结束日期"
+                     :placeholder="$t('LK_QINGSHURU')"></iDatePicker>
       </el-form-item>
       <el-form-item :label="language('CHUANGJIANFANGSHI','创建方式')">
-        <iSelect :placeholder="$t('LK_QINGSHURU')" v-model="form.createType">
-          <el-option v-for="(item,index) in formGoup.createTypeList" :key="index" :value="item" :label="item">
+        <iSelect :placeholder="$t('LK_QINGSHURU')"
+                 v-model="form.createType">
+          <el-option v-for="(item,index) in formGoup.createTypeList"
+                     :key="index"
+                     :value="item"
+                     :label="item">
           </el-option>
         </iSelect>
       </el-form-item>
@@ -37,10 +65,16 @@ export default {
     iDatePicker,
     iSelect
   },
-  data() {
+  props:{
+    eventType: {
+      type: Object,
+      default:()=>({})
+    }
+  },
+  data () {
     return {
       pickerOptions: {
-        disabledDate(time) {
+        disabledDate (time) {
           return time > new Date();
         }
       },
@@ -62,19 +96,19 @@ export default {
       },
     }
   },
-  created() {
+  created () {
     this.getCityInfo()
   },
   methods: {
-    async getCityInfo() {
+    async getCityInfo () {
       const res = await getCity()
       this.formGoup.areaList = res
     },
-    handleSubmitTime(e) {
+    handleSubmitTime (e) {
       this.form.occurrenceStartTime = e[0]
       this.form.occurrenceEndTime = e[1]
     },
-    handleSearchReset() {
+    handleSearchReset () {
       this.form = {
         date: [],
         area: [],
@@ -89,7 +123,7 @@ export default {
       }
       this.handleInit()
     },
-    handleInit() {
+    handleInit () {
       this.form.countryList = []
       this.form.provinceList = []
       this.form.occurrencePlace = []
@@ -126,7 +160,7 @@ export default {
 ::v-deep .el-cascader__tags {
   justify-content: space-between;
   flex-wrap: nowrap;
-  span{
+  span {
     width: 50%;
   }
 }

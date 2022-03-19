@@ -45,7 +45,7 @@ export const tableSetting = [
     width: 150,
     emit: 'go-partNumber',
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.assemblyPartnum}</span>
+      return <pre class="open-link-text">{scope.row.assemblyPartnum}</pre>
     }
   },
   {
@@ -81,7 +81,7 @@ export const tableSetting = [
     width: 150
   },
   {
-    prop: 'buyerDeptName',
+    prop: 'buyerDeptNum',
     label: '科室',
     align: 'center',
     i18n: '科室',
@@ -299,7 +299,11 @@ export const tableSetting = [
     emit: 'go-source',
     tooltip: true,
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.sourceCode}</span>
+      if(scope.row.sourceCode == "初始化"){
+        return <span>{scope.row.sourceCode}</span>
+      }else{
+        return <span class="open-link-text">{scope.row.sourceCode}</span>
+      }
     }
   },
   {
@@ -374,7 +378,10 @@ export const partNumber = [
     label: '',
     i18n: '一次件零件号',
     align: 'center',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <pre>{scope.row.assemblyPartnum}</pre>
+    }
   },
   {
     prop: 'assemblySupplierSap',
@@ -577,11 +584,17 @@ export const partNumber = [
     i18n: '来源',
     emit: 'go-detail',
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.sourceCode}</span>
+      if(scope.row.sourceCode == "初始化"){
+        return <span>{scope.row.sourceCode}</span>
+      }else{
+        return <span class="open-link-text">{scope.row.sourceCode}</span>
+      }
     }
   },
   { prop: 'versionNum', label: '版本', align: 'center', i18n: '版本' },
-  { prop: 'attr', label: '备注', align: 'center', i18n: '备注' },
+  { prop: 'attr', label: '备注', align: 'center', i18n: '备注',tooltip: true,width:200,
+    headerRender: (h, { column }) => renderIcon(h, column, 1)
+  },
   {
     prop: 'platinumPrice',
     label: '铂基价',
@@ -752,30 +765,51 @@ export const oneTwoPartNumber = [
 // 查看一二次零件form表单
 export const partsRelationship = [
   { props: 'partNum', name: 'SAP零件号', key: 'SAPLINGJIANHAO' },
-  { props: 'partNameZh', name: '零件名(中)', key: 'LINGJIANMINGZHONG' },
-  { props: 'partNameDe', name: '零件名(德)', key: 'LINGJIANMINGDE' },
+  { props: 'partNameZh', name: '零件名(中)', key: 'LK_LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名(德)', key: 'LK_LINGJIANMINGDE' },
   { props: 'carType', name: '车  型', key: 'CHEXING' }
 ]
 
 // 查看一二次零件表头
 export const partsRelationshipTableSetting = [
-  { props: 'partNum', name: 'SAP零件号', key: 'SAPLINGJIANHAO', tooltip: true },
+  { type: 'selection', width: 50 },
+  { type: 'index', label: '#', i18n: '#', width: 50 },
   {
-    props: 'partNameZh',
-    name: '零件名（中）',
-    key: 'LINGJIANMINGZHONG',
+    prop: 'partNum',
+    label: 'SAP零件号',
+    i18n: 'SAPLINGJIANHAO',
+    tooltip: true,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return <pre class="open-link-text">{scope.row.partNum}</pre>
+    }
+  },
+  {
+    prop: 'partNameZh',
+    label: '零件名（中）',
+    i18n: 'LK_LINGJIANMINGZHONG',
     tooltip: true
   },
   {
-    props: 'partNameDe',
-    name: '零件名（德）',
+    prop: 'partNameDe',
+    label: '零件名（德）',
     tooltip: true,
-    key: 'LINGJIANMINGDE'
+    i18n: 'LK_LINGJIANMINGDE'
   },
-  { props: 'carType', name: '车型', tooltip: true, key: 'CHEXING' },
-  { props: 'importDate', name: '导入时间', tooltip: true, key: 'DAORUSHIJIAN' },
-  { props: 'startDate', name: '开始时间', tooltip: true, key: 'KAISHISHIJIAN' },
-  { props: 'version', name: '版本', tooltip: true, key: 'BANBEN' }
+  { prop: 'carType', label: '车型', tooltip: true, i18n: 'CHEXING' },
+  {
+    prop: 'importDate',
+    label: '导入时间',
+    tooltip: true,
+    i18n: 'DAORUSHIJIAN'
+  },
+  {
+    prop: 'startDate',
+    label: '开始时间',
+    tooltip: true,
+    i18n: 'KAISHISHIJIAN'
+  },
+  { prop: 'version', label: '版本', tooltip: true, i18n: 'BANBEN' }
 ]
 
 //  查看一二次零件详情
@@ -784,14 +818,14 @@ export const partsRelationshipDetailTableSetting = [
   {
     props: 'partNameZh',
     name: '零件名（中）',
-    key: 'LINGJIANMINGZHONG',
+    key: 'LK_LINGJIANMINGZHONG',
     tooltip: true
   },
   {
     props: 'partNameDe',
     name: '零件名（德）',
     tooltip: true,
-    key: 'LINGJIANMINGDE'
+    key: 'LK_LINGJIANMINGDE'
   },
   { props: 'lcOrCkd', name: 'Bezug类型', key: 'BEZUGLEIXING', tooltip: true },
   { props: 'dosage', name: '用量', tooltip: true, key: 'YONGLIANG' }

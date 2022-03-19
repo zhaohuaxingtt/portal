@@ -1,19 +1,23 @@
 <template>
-  <iCard style="height: 14rem">
+  <iCard style="height: 16rem">
     <div class="title">
       <p>{{ language('GONGYINGSHANGDEFEN', '供应商得分') }}</p>
-      <span class="el-dropdown-link" v-permission="Card_SPI_More">
+      <span class="el-dropdown-link"
+            v-permission="PORTAL_SUPPLIER_CARD_SPI_MORE">
         <i class="el-icon-more"></i>
       </span>
     </div>
     <div class="box">
-      <img :src="img" class="imgIcon" />
+      <img :src="img"
+           class="imgIcon" />
       <div class="boxText">
         <div>
           {{ info.currentScore }}
           <div>
-              <i v-if="info.upDown > 0" class="el-icon-top green"></i>
-                   <i v-if="info.upDown < 0" class="el-icon-bottom orgin"></i>
+            <i v-if="info.upDown > 0"
+               class="el-icon-top green"></i>
+            <i v-if="info.upDown < 0"
+               class="el-icon-bottom orgin"></i>
             <!-- <icon
               v-if="info.upDown > 0"
               symbol
@@ -28,28 +32,27 @@
               name="iconxiajiang-VP"
             >
             </icon> -->
-            <span v-if="info.upDown > 0" class="green"
-              >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
+            <span v-if="info.upDown > 0"
+                  class="green">{{ info.percent ? parseInt(info.percent).toString() : '' }}%
             </span>
-            <span v-if="info.upDown < 0" class="orgin"
-              >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
+            <span v-if="info.upDown < 0"
+                  class="orgin">{{ info.percent ? parseInt(info.percent).toString() : '' }}%
             </span>
           </div>
         </div>
         <p>
           {{ language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署') }}
-          <span
-            v-if="info.developScore != 0"
-            :class="parseInt(info.developScore) >= 0 ? 'green' : 'orgin'"
-          >
-            + {{ info.developScore ? info.developScore.toString() : '' }}</span
-          >
-          <span class="green" v-if="info.developScore == 0"> 0</span>
+          <span v-if="info.developScore != 0"
+                :class="parseInt(info.developScore) >= 0 ? 'green' : 'orgin'">
+            + {{ info.developScore ? info.developScore.toString() : '' }}</span>
+          <span class="green"
+                v-if="info.developScore == 0"> 0</span>
         </p>
         <p>{{ language('WURANWEIGUI', '污染违规') }} <span></span></p>
       </div>
       <div class="chartbox">
-        <div ref="chart" class="chartStyle"></div>
+        <div ref="chart"
+             class="chartStyle"></div>
         <div class="line">
           <p>{{ fristYear }}</p>
           <p>{{ language('ZHIJIN', '至今') }}</p>
@@ -69,7 +72,7 @@ export default {
     iCard,
     icon
   },
-  data() {
+  data () {
     return {
       img: img,
       chart: 'oneChart',
@@ -79,13 +82,13 @@ export default {
     }
   },
   computed: {
-    style() {
+    style () {
       return {}
     }
   },
   watch: {},
   methods: {
-    getData() {
+    getData () {
       performCard360({ supplierId: this.$route.query.subSupplierId }).then(
         (res) => {
           this.info = res.data
@@ -93,7 +96,7 @@ export default {
         }
       )
     },
-    getChart() {
+    getChart () {
       const myChart = echarts().init(this.$refs.chart)
       let data1 = []
       let data2 = []
@@ -167,7 +170,7 @@ export default {
       myChart.setOption(this.option)
     }
   },
-  mounted() {
+  mounted () {
     this.getData()
   }
 }

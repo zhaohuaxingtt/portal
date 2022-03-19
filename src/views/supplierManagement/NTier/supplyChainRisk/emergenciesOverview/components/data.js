@@ -13,12 +13,26 @@ export const supplierTableTitle = [
   { props: 'materialGroup', name: '预警值', key: 'YJZ' }
 ]
 export const emergenciesTableTitle = [
-  { props: 'eventName', name: '事件类型', key: 'SHIJIANLEIXING' },
-  { props: 'occurrenceTime', name: '发生时间', key: 'FASHENGSHIJIAN' },
-  { props: 'occurrenceCity', name: '区域', key: 'QUYU', tooltip: true },
-  { props: 'influenceNum', name: '影响供应商数目', key: 'YSGYSSM' },
-  { props: 'source', name: '数据来源', key: 'SJLY' },
-  { props: 'createType', name: '创建方式', key: 'CJFS' }
+  { prop: 'eventName', lable: '事件类型', i18n: 'SHIJIANLEIXING' },
+  { prop: 'occurrenceTime', lable: '发生时间', i18n: 'FASHENGSHIJIAN' },
+  { prop: 'occurrenceCity', lable: '区域', i18n: 'QUYU', tooltip: true },
+  { prop: 'influenceNum', lable: '影响供应商数目', i18n: 'YSGYSSM',emit: 'go-detail',
+    customRender: (h, scope) => {
+      return <span class="cursor" style="color:#1763F7">{scope.row.influenceNum}</span>
+    }
+  },
+  { prop: 'source', lable: '数据来源', i18n: 'SJLY',emit: 'go-weather',
+    customRender: (h, scope) => {
+      var str;
+      if(scope.row.sourceLink){
+        str = <a class="cursor" style="color:#1763F7" href={scope.row.sourceLink}>{scope.row.source}</a>
+      }else{
+        str = <span>{scope.row.source}</span>
+      }
+      return str
+    }
+  },
+  { prop: 'createType', lable: '创建方式', i18n: 'CJFS' }
 ]
 // 数据字典查询
 export const dictByCode = async function (key) {

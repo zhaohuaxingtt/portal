@@ -5,14 +5,30 @@
 -->
 <template>
   <iPage>
-    <supplierMessage @handleSumbit='handleSumbit' class="margin-bottom20" />
-    <financialDataTable class="margin-bottom20"></financialDataTable>
-    <basicInformationTable v-loading='loading' :basicDTO='basicDTO' ref="basicInformationTable" class="margin-bottom20" />
+    <supplierMessage @handleSumbit='handleSumbit'
+                     class="margin-bottom20" />
+    <financialDataTable @submitCalculateRefresh="submitCalculateRefresh"
+                        class="margin-bottom20"></financialDataTable>
+    <basicInformationTable v-loading='loading'
+                           :basicDTO='basicDTO'
+                           ref="basicInformationTable"
+                           class="margin-bottom20" />
     <shareholderInformationTable class="margin-bottom20" />
-    <financialOverview v-loading='loading' :financeDTO='financeDTO' class="margin-bottom20" />
-    <pkpiTable v-loading='loading' :resultVO='resultVO' :otherVO='otherVO' :scoreDTO='scoreDTO' ref="pkpiTable" class="margin-bottom20" />
-    <riskEarlyWarningTable v-loading='loading' :riskDTO='riskDTO' class="margin-bottom20" />
-    <remarks v-loading='loading' ref="remarks" class="margin-bottom20" />
+    <financialOverview v-loading='loading'
+                       :financeDTO='financeDTO'
+                       class="margin-bottom20" />
+    <pkpiTable v-loading='loading'
+               :resultVO='resultVO'
+               :otherVO='otherVO'
+               :scoreDTO='scoreDTO'
+               ref="pkpiTable"
+               class="margin-bottom20" />
+    <riskEarlyWarningTable v-loading='loading'
+                           :riskDTO='riskDTO'
+                           class="margin-bottom20" />
+    <remarks v-loading='loading'
+             ref="remarks"
+             class="margin-bottom20" />
   </iPage>
 </template>
 
@@ -42,7 +58,7 @@ export default {
     riskEarlyWarningTable,
     remarks,
   },
-  data() {
+  data () {
     return {
       basicDTO: [],
       financeDTO: [],
@@ -53,22 +69,22 @@ export default {
       loading: false
     };
   },
-  created() {
-    this.submitCalculate('view')
+  created () {
+    this.submitCalculate('view', false)
   },
   methods: {
-    async handleSumbit(e) {
+    async handleSumbit (e) {
       this.loading = true
       switch (e) {
         case '提交计算':
           var flag = await this.handleSave()
           if (flag !== false) {
-            var regMoney = await this.$refs.basicInformationTable.backRemark()
-            this.submitCalculate('calculate', regMoney)
+            // var regMoney = await this.$refs.basicInformationTable.backRemark()
+            this.submitCalculate('calculate', false)
           }
           break;
         case '无法评级':
-          var flag = await this.handleSave()
+          flag = await this.handleSave()
           flag && this.$refs.remarks.unableRatings()
           break;
         case '提交审批':
@@ -76,7 +92,7 @@ export default {
             this.$t('SPR_FRM_FXXH_NSFQRTJSP'), // 暂时处理
             this.$t('LK_WENXINTISHI'),
             { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
-          ).then(async (res) => {
+          ).then(async () => {
             var flag = await this.handleSave()
             if (flag !== false) {
               this.$refs.remarks.submitApprove()
@@ -84,9 +100,9 @@ export default {
           })
           break;
         case '保存':
-          var flag = await this.handleSave('save')
+          flag = await this.handleSave('save')
           if (flag !== false) {
-            await this.submitCalculate('view')
+            await this.submitCalculate('view', false)
           }
           break;
         default:
@@ -94,7 +110,7 @@ export default {
       }
       this.loading = false
     },
-    async handleSave(flag) {
+    async handleSave (flag) {
       var regMoney = this.$refs.basicInformationTable.backRemark()
       if (regMoney === '') {
         iMessage.warn(this.$t('SPR_FRM_XGYSPJ_ZCZBY'))
@@ -104,12 +120,16 @@ export default {
       await this.$refs.pkpiTable.$refs.pkpiTable2.saveInfos(remark, regMoney, flag)
       return true
     },
-    async submitCalculate(viewType) {
+    submitCalculateRefresh (viewType) {
+      this.submitCalculate(viewType, true);
+    },
+    async submitCalculate (viewType, isExternalRating = false) {
       this.loading = true
       const pms = {
         viewType: viewType,
         ratingSupplierId: this.$route.query.supplierId,
-        ratingId: this.$route.query.id
+        ratingId: this.$route.query.id,
+        isExternalRating: isExternalRating || false
       }
       const res = await getCalculate(pms)
       viewType !== 'view' && this.resultMessage(res)
@@ -118,7 +138,7 @@ export default {
       this.financeDTO = res.data.financeDTO
       this.scoreDTO = res.data.scoreDTO
       this.scoreDTO[14]['value2'] = this.scoreDTO[15]['value']
-      this.scoreDTO.splice(15,1)
+      this.scoreDTO.splice(15, 1)
       this.riskDTO = res.data.riskDTO
       this.otherVO = [res.data.otherVO]
       this.resultVO = [res.data.resultVO]

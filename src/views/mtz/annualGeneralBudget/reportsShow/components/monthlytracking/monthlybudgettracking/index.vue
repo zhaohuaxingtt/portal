@@ -1,6 +1,6 @@
 <!--预算月度跟踪--->
 <template>
-  <div>
+  <div v-permission='MTZ_REPORT_MONTHLY_TRACKING_MONTHLY_BUDGET_TRACKING_PAGE'>
     <i-card class='search'>
       <div class="search-content">
         <div class="form-condition">
@@ -35,9 +35,9 @@
                   <i-select v-model="searchForm.materialMediumNum" :placeholder='language("请选择")'>
                     <el-option
                       v-for="item in materialMiddleOption"
-                      :key="item.materialCategoryCode"
-                      :label="item.materialNameZh"
-                      :value='item.materialCategoryCode'
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
                     ></el-option>
                   </i-select>
                 </i-form-item>
@@ -53,9 +53,13 @@
         </div>
         <div class="btn-list">
           <span class="only-myself" >{{language('只看自己 ')}}
-            <el-switch v-model="searchForm.onlySeeMySelf" ></el-switch>
+            <el-switch 
+              v-model="searchForm.onlySeeMySelf" 
+              active-color="#1660F1"
+              inactive-color="#cccccc"  
+            ></el-switch>
           </span>
-          <i-button @click="sure">{{language('确认')}}</i-button>
+          <i-button @click="sure">{{language('搜索')}}</i-button>
           <i-button @click="reset">{{language('重置')}}</i-button>
         </div>
       </div>
@@ -91,6 +95,7 @@ import echarts from '@/utils/echarts'
 import contrast from './components/contrast'
 import {searchTrackingReport,getDept} from '@/api/mtz/reportsShow/monthlytrackingpayment'
 import {queryMtzMaterial,queryMaterialMedium} from '@/api/mtz/reportsShow'
+// import { math } from '@/utils'
 export default {
   name: 'paymentTracking',
   components:{
@@ -107,6 +112,8 @@ export default {
       onlySelf:false,
       loading:false,
       time:'',
+      //最大刻度
+      maximumScale:0,
       //科室选择
       deptOption:[],
       //MTZ材料组选择
@@ -128,7 +135,9 @@ export default {
         onlySeeMySelf:false,//是否只查看自己
         yearMonth:''//年月
       },
-      currentYearMonth:''//当前年月
+      currentYearMonth:'',//当前年月
+
+      // yearValueMax:0,
     }
   },
   created(){
@@ -140,17 +149,13 @@ export default {
     this.getMaterialMedium()
     this.sure()
   },
-  mounted(){
-    // this.iniChart()
-  },
   methods:{
     iniChart(){
-      // const date = new Date
-      const month = this.currentYearMonth
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
-      const _this = this
+      // const _this = this
       chart.setOption({
+        color:['rgb(2,96,241)'],
         title: {
           text: '单位：⼈⺠币/百万',
           top: 0,
@@ -162,7 +167,8 @@ export default {
           }
         },
         grid:{
-          left:'2%',
+          top:"20%",
+          left:'3%',
           right:'2%'
         },
         xAxis: {
@@ -186,9 +192,10 @@ export default {
         },
         yAxis: [
           {
+            type:'value',
             //设置间距，需要计算
-            max: 10,
-            splitNumber: '10',
+            // max: this.yearValueMax*1.2,
+            // splitNumber: 5,
           }
         ],
         legend: {
@@ -225,34 +232,31 @@ export default {
           {
             name:'实际应付',
             type: 'bar',
-            barWidth:'30',
-            data:this.dataMonth,
-            itemStyle: {
-              normal: {
-                color: function(params){
-                  if(params.name < _this.searchForm.yearMonth){
-                    return 'rgb(2,96,241)'
-                  }else{
-                    return 'rgb(119,203,255)'
+            barWidth:'40',
+            data:this.dataMonth.map(item => {
+              return {
+                value:item.value,
+                itemStyle:{
+                  normal:{
+                    borderRadius:item.value > 0 ? [4,4,0,0] : [0,0,4,4],
+                    color: item.type == 'monthForecastPrice' ? 'rgb(119,203,255)' : 'rgb(2,96,241)'
+                  },
+                },
+                label: {
+                  normal:{
+                    show: true,
+                    position:item.value > 0? 'top' : 'bottom',
+                    formatter:(params)=>{
+                      return Number(params.value).toFixed(2)
+                    },
+                    textStyle: {
+                      color: 'inherit',
+                    }
                   }
                 },
-                
-                borderRadius:[4,4,0,0],
-              },
-            },
-            label: {
-              normal:{
-                show: true,
-                position: 'top',
-                formatter:(params)=>{
-                  return Number(params.value).toFixed(2)
-                },
-                textStyle: {
-                  color: 'inherit',
-                }
               }
+            }),
             },
-          },
           {
             name:'月度预测',
             type:'line',
@@ -267,6 +271,7 @@ export default {
             name:'年度预测',
             type: 'line',
             data:this.yearData,
+            // data:[10,150,850,1000,2000,5000,7000,7500,9000,9001,10000,11800],
             symbol:'circle',
             symbolSize:6,
             itemStyle: {
@@ -322,22 +327,30 @@ export default {
           this.xAxisData = []
           this.yearData = []
           this.dataMonth = []
+          const allPrice = []
           data?.forEach((item)=>{
+            // this.contrastData.push({price:5000,priceType:item.priceType})
             this.contrastData.push({price:item.diffPrice,priceType:item.priceType})
             this.xAxisData.push(item.yearMonth)
-            this.yearData.push(Math.abs(Number(item.yearForecastPrice))/1000000)
+            allPrice.push(Number(item.yearForecastPrice))
+            this.yearData.push(Number(item.yearForecastPrice)/1000000)
             // console.log(this.currentYearMonth ,  item.yearMonth, this.currentYearMonth > item.yearMonth,'=======');
             if(item.dataType == 1){
-              this.dataMonth.push(Math.abs(Number(item.actualPrice))/1000000 )
+              this.dataMonth.push({value: Number(item.actualPrice)/1000000, type:'actualPrice'})
+              allPrice.push(Number(item.actualPrice))
             }else{
-              this.dataMonth.push(Math.abs(Number(item.monthForecastPrice))/1000000)
+              this.dataMonth.push({value:Number( item.monthForecastPrice)/1000000,type:'monthForecastPrice'})
+              allPrice.push(Number(item.monthForecastPrice))
             }
           })
+
+          // var str = [10,150,850,1000,2000,5000,7000,7500,9000,9001,10000,11800];
+          // this.yearValueMax = Number(Math.max(...str));
+          // console.log(this.yearValueMax);
+          this.maximumScale = Number(Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10)*10)
+          //  +  Number(Math.ceil((Math.max(...allPrice)/1000000)))
+          // console.log(this.maximumScale,Math.ceil((Math.max(...allPrice)/1000000).toFixed()/10), Number(Math.ceil((Math.max(...allPrice)/1000000))),'=======');
           this.iniChart()
-          // this.contrastData = data.diffPrice//差额
-          // this.dataMonth = [...data.actualPrice,...data.monthForecastPrice]//data.monthForecastPrice月度预测金额 data.actualPrice实际应付金额
-          // this.yearData = data.yearForecastPrice//年度预测金额
-          // this.xAxisData = data.yearMonth//年月
         }else{
           this.$message.error(res.desZh || '获取数据失败')
         }
@@ -380,7 +393,14 @@ export default {
     getMaterialMedium(){
       queryMaterialMedium().then(res => {
         if(res.code == 200){
-          this.materialMiddleOption = res.data
+          const data = res.data
+          this.materialMiddleOption = data.map((item)=>{
+            return {
+              label:`${item.materialCategoryCode}-${item.materialNameZh}`,
+              value:item.materialCategoryCode
+            }
+          })
+          // this.materialMiddleOption = res.data
         }else{
           this.$message.error(res.desZh || '获取材料组中类失败')
         }
@@ -416,9 +436,9 @@ export default {
       width: 100%;
       top: 40px;
       .report-contrast{
-        margin-left: 2%;
+        margin-left: 3%;
         margin-right: 2%;
-        width: 96%;
+        width: 95%;
         display: flex;
         justify-content: space-around;
         align-items: center;

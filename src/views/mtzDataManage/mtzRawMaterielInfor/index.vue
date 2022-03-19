@@ -4,7 +4,7 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料大类')">
                 <iSelect
                   v-model="searchContent.generalCategoryCode"
@@ -19,7 +19,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('大类元素简称')">
                 <iInput
                   v-model="searchContent.generalShortName"
@@ -27,7 +27,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('材料中类')">
                 <iInput
                   v-model="searchContent.rawMaterialCode"
@@ -35,9 +35,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-          </el-row>
-          <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('中类描述')">
                 <iInput
                   v-model="searchContent.rawMaterialName"
@@ -46,7 +44,7 @@
                 </iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('中类计量单位')">
                 <iInput
                   v-model="searchContent.rawMaterialCountUnit"
@@ -54,7 +52,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料牌号')">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCode"
@@ -62,9 +60,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-          </el-row>
-          <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料名称')">
                 <iInput
                   v-model="searchContent.mtzRawMaterialName"
@@ -73,7 +69,7 @@
                 </iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料计量单位')">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCountUnit"
@@ -81,9 +77,12 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('状态')">
-                <iSelect v-model="searchContent.status" :placeholder="language('请选择')">
+                <iSelect
+                  v-model="searchContent.status"
+                  :placeholder="language('请选择')"
+                >
                   <el-option
                     v-for="item in staOptions"
                     :key="item.value"
@@ -93,9 +92,12 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('是否贵金属')">
-                <iSelect v-model="searchContent.isPreciousMetal" :placeholder='language("请选择")'>
+                <iSelect
+                  v-model="searchContent.isPreciousMetal"
+                  :placeholder="language('请选择')"
+                >
                   <el-option label="是" :value="true" />
                   <el-option label="否" :value="false" />
                 </iSelect>
@@ -108,11 +110,34 @@
     <div class="rawMaterielList">
       <iCard>
         <div class="btnList">
-          <iButton @click="add">{{language('新建')}}</iButton>
-          <iButton @click="active" :disabled="disAtiveBtn">{{language('生效')}}</iButton>
-          <iButton @click="loseActive" :disabled="disLOActiveBtn">{{language('失效')}}</iButton>
-          <iButton @click="del" :disabled="this.selectedItem.length == 0">{{language('删除')}}</iButton>
-          <button-download :download-method="exportExcel">{{language('导出')}}</button-download>
+          <iButton
+            @click="add"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_ADD'"
+            >{{ language('新建') }}</iButton
+          >
+          <iButton
+            @click="active"
+            :disabled="disAtiveBtn"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_ACTIVE'"
+            >{{ language('生效') }}</iButton
+          >
+          <iButton
+            @click="loseActive"
+            :disabled="disLOActiveBtn"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_DISACTIVE'"
+            >{{ language('失效') }}</iButton
+          >
+          <iButton
+            @click="del"
+            :disabled="this.selectedItem.length == 0"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_DELETE'"
+            >{{ language('删除') }}</iButton
+          >
+          <button-download
+            :download-method="exportExcel"
+            v-permission="'BUTTON_MATERIEL_DATA_MTZ_RAW_EXPORT'"
+            >{{ language('导出') }}</button-download
+          >
         </div>
         <div class="rawMaterielTabel">
           <iTabelCustom

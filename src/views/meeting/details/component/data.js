@@ -375,7 +375,7 @@ export const buttonList = [
         title: '查看会议纪要',
         methodName: 'lookMeetingMinutes'
       },
-      { i18n: '', title: 'MT_FANHUI', methodName: 'back' }
+      { i18n: 'MT_FANHUI', title: '返回', methodName: 'back' }
     ],
     tableButtonList: [
       [

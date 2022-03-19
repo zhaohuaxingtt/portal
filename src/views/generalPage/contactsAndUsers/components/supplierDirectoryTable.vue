@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierDirectoryTable.vue
 -->
@@ -23,8 +23,9 @@
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
-                ref="commonTable"
+    <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST" -->
+    <table-list ref="commonTable"
+                border
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -108,9 +109,11 @@ export default {
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
       let cust = [...this.tableListData]
+      // console.log(this.tableListData)
+      // console.log(res.data)
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.contactType) {
+          if (item.contactType === val.contactType || item.contactType === val.nameType) {
             cust[index] = { ...item, ...val }
           }
         })

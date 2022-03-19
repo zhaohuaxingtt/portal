@@ -11,10 +11,11 @@
       <span class="font18 font-weight">{{$route.query.flag==='creat'?$t('SPR_FRM_FXXH_SDFQFXXH'):$t('SPR_FRM_FXXH_XTFQXH')}}</span>
       <div class="floatright">
         <i-button v-if="$route.query.flag==='creat'"
+                   v-permission="SUPPLIER_FRMRATING_RISKSIGNAL_NTYQZC"
                   @click="handleRegister">{{language('NTIERYAOQINGZHUCE','N-tier邀请注册') }}</i-button>
-        <i-button :disabled="effectiveTimeDisabled"
+        <i-button :disabled="effectiveTimeDisabled"  v-permission="SUPPLIER_FRMRATING_RISKSIGNAL_TIJIAO"
                   @click="saveInfos('submit')">{{ $t('LK_TIJIAO') }}</i-button>
-        <i-button :disabled="effectiveTimeDisabled"
+        <i-button :disabled="effectiveTimeDisabled"  v-permission="SUPPLIER_FRMRATING_RISKSIGNAL_ZANCUN"
                   @click="saveInfos('tempStore')">{{ $t('SUPPLIER_ZANCUN') }}</i-button>
       </div>
     </div>

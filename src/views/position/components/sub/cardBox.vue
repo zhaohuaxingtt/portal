@@ -2,8 +2,8 @@
   <div class="card-list" v-loading="loading">
     <position-card
       class="margin-bottom20"
-      v-for="(item, index) in subPositionList"
-      :key="index"
+      v-for="item in subPositionList"
+      :key="item.id"
       :item="item"
       :deptId="deptId"
       :dimensionOptions="dimensionOptions"
@@ -28,6 +28,16 @@ export default {
     },
     loading() {
       return this.$store.state.subPosition.getSubPositionLoading
+    },
+    leftDimenstionOptions() {
+      const options = [...this.dimensionOptions]
+      const optionIds = options.map((e) => e.id)
+      this.subPositionList.forEach((element) => {
+        if (!options.find((e) => optionIds.includes(e.id))) {
+          options.push(element)
+        }
+      })
+      return options
     }
   },
   data() {
@@ -59,7 +69,6 @@ export default {
             item.valueList = valueList
             noRepetData.push(item)
           })
-          console.log('noRepetData', noRepetData)
           this.dimensionOptions = noRepetData
         }
       })

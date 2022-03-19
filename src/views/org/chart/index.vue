@@ -10,7 +10,7 @@
     <div class="org-tree" v-loading="loading">
       <tree
         :org-data="orgTreeList"
-        :search-item="searchItem"
+        :default-level="defaultLevel"
         @get-user="queryCurOrgUsers"
         @search="toggleSide"
       />
@@ -49,7 +49,8 @@ export default {
       treeMap: {},
       loading: false,
       orginalOrgTreeList: [],
-      searchItem: {}
+      searchItem: {},
+      defaultLevel: '3'
     }
   },
   created() {
@@ -60,9 +61,6 @@ export default {
       a.fullCode = a.fullCode || '0'
       b.fullCode = b.fullCode || '0'
       return a.fullCode.toLowerCase() > b.fullCode.toLowerCase() ? 1 : -1
-    },
-    logBtnClick: function () {
-      this.$router.push('/organizationManagement/orglist')
     },
     async queryOrgTreeList() {
       this.loading = true
@@ -219,6 +217,7 @@ export default {
       return res
     },
     queryCurOrgUsers(orgId) {
+      console.log('查询用户', orgId)
       const users = []
       if (this.orgUserMap[orgId]) {
         const positionList = this.orgUserMap[orgId]
@@ -243,7 +242,10 @@ export default {
                   positionEn: position.fullNameEn,
                   categoryNameZh: userDTO.categoryNameZh,
                   orgFullCode: position.orgFullCode,
-                  deptLogo: position.deptLogo
+                  deptLogo: position.deptLogo,
+                  wechat: userDTO.wechat,
+                  profile: userDTO.profile,
+                  profileId: userDTO.profileId
                 }
                 if (
                   Object.keys(this.searchItem).length > 0 &&
@@ -342,6 +344,7 @@ export default {
     },
     clearSearch() {
       this.searchItem = {}
+      this.defaultLevel = '3'
       this.orgTreeList = _.cloneDeep(this.orginalOrgTreeList)
     },
     toggleSide(val) {
@@ -353,28 +356,52 @@ export default {
       }
     },
     onSearch(item) {
+      this.orgTreeList = _.cloneDeep(this.orginalOrgTreeList)
+
       this.searchItem = item
-
       const uniqueIdArr = item.uniqueId.split('@@')
-      const orgId = uniqueIdArr[uniqueIdArr.length - 1]
+      const orgCount = uniqueIdArr.length
+      const orgId = uniqueIdArr[orgCount - 1]
+      console.info(uniqueIdArr)
 
-      const currentBottomEdge = $('#org_node_id_' + orgId).find('.bottomEdge')
-      if (currentBottomEdge) {
-        currentBottomEdge.trigger('click')
-      }
-      for (let i = 0; i < uniqueIdArr.length; i++) {
-        const id = uniqueIdArr[i]
-        const nodeSide = $('#org_node_id_' + id).find('.rightEdge')
-        const node = $('#org_node_id_' + id)
+      this.defaultLevel = uniqueIdArr.length.toString()
 
-        const slibingNodes = node.closest('tr.nodes').find('>td').not('.hidden')
-        if (slibingNodes.length > 1) {
-          nodeSide.trigger('click')
+      this.$nextTick(() => {
+        console.log('orgId', orgId)
+
+        for (let i = 0; i < orgCount; i++) {
+          const id = uniqueIdArr[i]
+          // 左右
+          const orgNode = $('#org_node_id_' + id)
+
+          if (orgNode) {
+            const slibingNodes = orgNode
+              .closest('tr.nodes')
+              .find('>td')
+              .not('.hidden')
+            slibingNodes.addClass('hidden')
+            const item = slibingNodes.find(`#org_node_id_${id}.node`)
+            if (item) {
+              item.closest('table').closest('td').removeClass('hidden')
+            }
+            item
+              .closest('.nodes')
+              .prev('.lines')
+              .find('.left.top')
+              .addClass('hidden')
+            item
+              .closest('.nodes')
+              .prev('.lines')
+              .find('.right.top')
+              .addClass('hidden')
+          }
         }
-      }
-      $('.org-node-item').removeClass('active')
-      $('#org-node-item--' + orgId).addClass('active')
-      this.queryCurOrgUsers(orgId)
+        this.$nextTick(() => {
+          $('.org-node-item').removeClass('active')
+          $('#org-node-item--' + orgId).addClass('active')
+          this.queryCurOrgUsers(orgId)
+        })
+      })
     },
     generateSearchData(data, searchItem) {
       if (data) {

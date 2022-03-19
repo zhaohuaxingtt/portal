@@ -4,7 +4,7 @@
       <iSearch @sure="sure" @reset="reset">
         <el-form>
           <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料编号大类')">
                 <iInput
                   v-model="searchContent.generalCategoryCode"
@@ -12,7 +12,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料名称(中文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameZh"
@@ -20,7 +20,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('原材料名称(英文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameEn"
@@ -28,9 +28,7 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-          </el-row>
-          <el-row gutter="24">
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('大类元素简称')">
                 <iInput
                   v-model="searchContent.generalShortName"
@@ -38,9 +36,12 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
               <iFormItem :label="language('状态')">
-                <iSelect v-model="searchContent.status" :placeholder='language("请选择")'>
+                <iSelect
+                  v-model="searchContent.status"
+                  :placeholder="language('请选择')"
+                >
                   <el-option
                     v-for="item in statusOptions"
                     :key="item.id"
@@ -58,15 +59,32 @@
     <div class="tabelList">
       <iCard>
         <div class="btnList">
-          <iButton @click="add">{{language('新建')}}</iButton>
-          <iButton @click="active" :disabled="activeBtnDis">{{language('生效')}}</iButton>
-          <iButton @click="loseActive" :disabled="loseActiveBtnDis"
-            >{{language('失效')}}</iButton
+          <iButton @click="add" v-permission="'BUTTON_MATERIEL_DATA_RAW_ADD'">{{
+            language('新建')
+          }}</iButton>
+          <iButton
+            @click="active"
+            :disabled="activeBtnDis"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_ACTIVE'"
+            >{{ language('生效') }}</iButton
           >
-          <iButton @click="del" :disabled="this.selectedItem.length == 0"
-            >{{language('删除')}}</iButton
+          <iButton
+            @click="loseActive"
+            :disabled="loseActiveBtnDis"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_DISACTIVE'"
+            >{{ language('失效') }}</iButton
           >
-          <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
+          <iButton
+            @click="del"
+            :disabled="this.selectedItem.length == 0"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_DELETE'"
+            >{{ language('删除') }}</iButton
+          >
+          <buttonDownload
+            :download-method="exportExcel"
+            v-permission="'BUTTON_MATERIEL_DATA_RAW_EXPORT'"
+            >{{ language('导出') }}</buttonDownload
+          >
         </div>
         <div class="tabelContent">
           <iTabelCustom
@@ -243,14 +261,14 @@ export default {
       this.propItem = val
     },
     reset() {
-      ;(this.searchContent = {
+      this.searchContent = {
         generalCategoryCode: '',
         generalCategoryNameZh: '',
         generalCategoryNameEn: '',
         generalShortName: '',
         status: ''
-      }),
-        (this.page.totalCount = 0)
+      }
+      this.page.totalCount = 0
       this.page.currPage = 1
       this.getRawMeterielPage()
     },

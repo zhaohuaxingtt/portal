@@ -7,6 +7,7 @@
     @close="closeDiolog()"
     :title="'移除⿊名单 - ⽣产采购 -' + clickTableList.nameZh"
     :visible.sync="value"
+    append-to-body
     top="2%"
     width="85%"
   >
@@ -122,11 +123,14 @@
       </el-form>
       <div class="header">
         <p>{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
-        <i-button @click="handleRemove">{{
-          language('YICHU', '移除')
-        }}</i-button>
+        <div>
+          <i-button @click="handleRemove">{{
+            language('YICHU', '移除')
+          }}</i-button>
+          <!-- <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting> -->
+        </div>
       </div>
-      <table-list
+      <!-- <table-list
         style="margin-top: 20px"
         :tableData="tableListData"
         :tableTitle="tableTitlePp"
@@ -137,7 +141,17 @@
         <template #stuffNameEnDe="scope">
           <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
         </template></table-list
+      > -->
+
+      <iTableCustom
+        ref="tableListRef"
+        :data="tableListData"
+        :columns="tableTitlePp"
+        :loading="tableLoading"
+        @handle-selection-change="handleSelectionChange"
       >
+      </iTableCustom>
+
       <iPagination
         v-update
         @size-change="handleSizeChange($event, getList)"
@@ -162,7 +176,9 @@ import {
   purchaseListSearch,
   stuffListSearch
 } from '@/api/supplier360/blackList'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableTitlePp } from './data'
+import iTableCustom from '@/components/iTableCustom'
 import tableList from '@/components/commonTable'
 import {
   iButton,
@@ -184,11 +200,13 @@ export default {
   },
   components: {
     iButton,
+    iTableCustom,
     tableList,
     iSelect,
     iDatePicker,
     iDialog,
-    iPagination
+    iPagination,
+    buttonTableSetting
   },
 
   data() {

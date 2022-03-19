@@ -7,7 +7,7 @@
     >
       <div class="flex-align-center">
         <div class="margin-right5 position-name">
-          岗位：{{ itemSelected.code }} {{ itemSelected.fullNameZh }}
+          {{language('岗位')}}：{{ itemSelected.code }} {{ itemSelected.fullNameZh }}
         </div>
         <div>
           <i
@@ -20,16 +20,9 @@
     <div class="card-content" v-loading="loading">
       <iFormGroup row="2" ref="positionForm" :model="itemSelected">
         <iFormItem>
-          <iLabel label="主负责人" slot="label"></iLabel>
-          <i-select
-            multiple
-            v-model="itemSelected.userDTOListIds"
-            :disabled="
-              !itemSelected.isEdit ||
-              (itemSelected.userDTOListIds &&
-                !itemSelected.userDTOListIds.length)
-            "
-          >
+          <iLabel :label="language('主负责人')" slot="label"></iLabel>
+          <iInput :value="mainUser" disabled />
+          <!-- <i-select multiple v-model="itemSelected.userDTOListIds" disabled>
             <el-option
               :value="option.id"
               :label="option.nameZh"
@@ -37,16 +30,11 @@
               :disabled="option.disabled"
               :key="option.id"
             ></el-option>
-          </i-select>
+          </i-select> -->
         </iFormItem>
         <iFormItem>
-          <iLabel label="基础角色" slot="label"></iLabel>
-          <i-select
-            multiple
-            :placeholder="`请选择基础角色`"
-            v-model="itemSelected.roleDTOListIds"
-            disabled
-          >
+          <iLabel :label="language('基础角色')" slot="label"></iLabel>
+          <i-select multiple v-model="itemSelected.roleDTOListIds" disabled>
             <el-option
               :value="option.id"
               :label="option.fullNameZh"
@@ -56,37 +44,38 @@
           </i-select>
         </iFormItem>
         <iFormItem>
-          <iLabel label="其他负责人" slot="label"></iLabel>
-          <i-select v-model="itemSelected.chiefUserId" disabled>
+          <iLabel :label="language('其他负责人')" slot="label"></iLabel>
+          <iInput :value="otherUser" disabled />
+          <!-- <i-select v-model="itemSelected.chiefUserId" disabled>
             <el-option
               :value="option.id"
               :label="option.nameZh"
               v-for="option in itemSelected.leaderOptions"
               :key="option.id"
             ></el-option>
-          </i-select>
+          </i-select> -->
         </iFormItem>
       </iFormGroup>
 
       <div class="flex-end-center margin-bottom20">
         <iButton v-show="!extraData.dimenssionEditable" @click="handleEdit"
-          >编辑</iButton
+          >{{language('编辑')}}</iButton
         >
         <iButton v-show="extraData.dimenssionEditable" @click="handleAdd">
-          增加维度
+          {{language('增加维度')}}
         </iButton>
         <iButton
           v-show="extraData.dimenssionEditable"
           @click="handleDel"
           :disabled="selectedRows.length === 0"
         >
-          删除维度
+          {{language('删除维度')}}
         </iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleSave">
-          保存
+          {{language('保存')}}
         </iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleCancel">
-          取消
+          {{language('取消')}}
         </iButton>
       </div>
       <iTableCustom
@@ -111,10 +100,12 @@ import {
   iSelect,
   iLabel,
   iButton,
-  iMessage
+  iMessage,
+  iInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { UpdateSubPosition } from '@/api/position'
+import iSelectAll from '@/components/iSelectAll'
 export default {
   components: {
     iCard,
@@ -123,7 +114,8 @@ export default {
     iSelect,
     iLabel,
     iButton,
-    iTableCustom
+    iTableCustom,
+    iInput
   },
   props: {
     item: {
@@ -167,12 +159,15 @@ export default {
         {
           prop: 'description',
           label: '维度',
+          i18n:'维度',
           tooltip: false,
-          align: 'center'
+          align: 'center',
+          width:'400px',
         },
         {
           prop: 'content',
           label: '内容',
+          i18n: '内容',
           align: 'center',
           tooltip: false,
           customRender: (h, scope) => {
@@ -195,28 +190,27 @@ export default {
         {
           prop: 'dimension',
           label: '维度',
+          i18n: '维度',
           tooltip: false,
+          width:'400px',
           align: 'center',
           customRender: (h, scope) => {
-            const options = _self.dimensionOptions
+            const options = _self.getDimensionOptions()
+            console.log('维度', options)
             return (
               <iSelect
                 value={scope.row.id}
                 onchange={(val) => {
                   scope.row.id = val
-                  const dimensionOption = options.filter((e) => {
+                  const dimensionOption = options.find((e) => {
                     return e.id === val
                   })
-                  if (
-                    dimensionOption &&
-                    dimensionOption.length &&
-                    dimensionOption[0].valueList
-                  ) {
-                    scope.row.code = dimensionOption[0].code
-                    scope.row.description = dimensionOption[0].description
-                    scope.row.id = dimensionOption[0].id
-                    scope.row.name = dimensionOption[0].name
-                    scope.row.url = dimensionOption[0].url
+                  if (dimensionOption && dimensionOption.valueList) {
+                    scope.row.code = dimensionOption.code
+                    scope.row.description = dimensionOption.description
+                    scope.row.id = dimensionOption.id
+                    scope.row.name = dimensionOption.name
+                    scope.row.url = dimensionOption.url
                   } else {
                     scope.row.contentOptions = []
                   }
@@ -239,40 +233,39 @@ export default {
         {
           prop: 'content',
           label: '内容',
+          i18n: '内容',
           align: 'center',
           tooltip: false,
           customRender: (h, scope) => {
             let options = []
-            const dimensionOptions = _self.dimensionOptions
-            const dimensionOption = dimensionOptions.filter((e) => {
+            const dimensionOptions = _self.getDimensionOptions()
+            console.log('内容dimensionOptions', scope.row.id, dimensionOptions)
+            const dimensionOption = dimensionOptions.find((e) => {
               return e.id === scope.row.id
             })
-            if (
-              dimensionOption &&
-              dimensionOption.length &&
-              dimensionOption[0].valueList
-            ) {
-              options = dimensionOption[0].valueList
-              scope.row.valueList = dimensionOption[0].valueList
+
+            if (dimensionOption && dimensionOption.valueList) {
+              const valueList = scope.row.valueList || []
+              const dimensionOptionValueList = dimensionOption.valueList || []
+              console.log('valueList', valueList)
+              console.log('dimensionOptionValueList', dimensionOptionValueList)
+              options = valueList
+              dimensionOptionValueList.forEach((e) => {
+                if (!options.find((option) => option.valueId === e.valueId)) {
+                  options.push(e)
+                }
+              })
+              // options = [...valueList, ...dimensionOptionValueList]
+              // scope.row.valueList = dimensionOption.valueList
             }
             return (
-              <iSelect
-                placeholder="请选择"
-                multiple={true}
-                filterable={true}
+              <iSelectAll
                 value={scope.row.valueIds}
                 onchange={(val) => (scope.row.valueIds = val)}
-              >
-                {options.map((item) => {
-                  return (
-                    <el-option
-                      value={item.valueId}
-                      label={item.value}
-                      key={item.valueId}
-                    />
-                  )
-                })}
-              </iSelect>
+                options={options}
+                valueKey="valueId"
+                labelKey="value"
+              />
             )
           }
         }
@@ -300,6 +293,24 @@ export default {
       set(val) {
         this.item = val
       }
+    },
+    mainUser() {
+      if (this.item.userDTOList) {
+        const users = this.item.userDTOList.filter(
+          (e) => e.positionUserType === 1
+        )
+        return users.map((e) => e.nameZh).join(',')
+      }
+      return ''
+    },
+    otherUser() {
+      if (this.item.userDTOList) {
+        const users = this.item.userDTOList.filter(
+          (e) => e.positionUserType !== 1
+        )
+        return users.map((e) => e.nameZh).join(',')
+      }
+      return ''
     }
   },
   methods: {
@@ -364,6 +375,21 @@ export default {
     },
     handleSelectionChange(val) {
       this.selectedRows = val
+    },
+    getDimensionOptions() {
+      const options = _.cloneDeep(this.dimensionOptions)
+
+      const optionIds = options.map((e) => e.id)
+      this.permissionList.forEach((element) => {
+        if (!optionIds.includes(element.id)) {
+          options.push({
+            id: element.id,
+            description: element.description,
+            valueList: _.cloneDeep(element.valueList)
+          })
+        }
+      })
+      return options
     }
   }
 }

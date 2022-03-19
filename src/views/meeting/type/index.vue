@@ -25,7 +25,7 @@
           type="index"
           width="68"
           align="center"
-          :label="$t('MT_XUHAO3')"
+          :label="language('序号')"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -86,7 +86,7 @@
         <el-table-column
           show-overflow-tooltip
           width="163"
-          :label="$t('MT_SHIFOUCHUFASHENPILIU')"
+          :label="language('是否触发审批流')"
           ><template slot-scope="scope">
             <span>{{
               scope.row.isTriggerApproval ? $t('MT_SHI') : $t('MT_FOU')

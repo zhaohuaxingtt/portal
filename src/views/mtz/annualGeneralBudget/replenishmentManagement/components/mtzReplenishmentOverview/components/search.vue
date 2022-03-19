@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-04 09:47:25
+ * @LastEditTime: 2022-03-03 16:48:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -10,10 +10,11 @@
   <div>
     <iSearch @reset="handleSearchReset"
              @sure="handleSubmitSearch">
-      <el-form :inline="true"
-               :model="searchForm">
-        <el-form-item style="marginRight:68px"
-                      :label="language('YICIJIANGONGYINGSHANG', '一次件供应商')">
+      <iFormGroup :inline="true"
+                  :row="5"
+                  :model="searchForm">
+        <iFormItem style="marginRight:68px"
+                   :label="language('YICIJIANGONGYINGSHANG', '一次件供应商')">
           <custom-select v-model="searchForm.firstSuppliers"
                          :user-options="fsupplierList"
                          multiple
@@ -33,9 +34,9 @@
                        :value="item.code">
             </el-option>
           </el-select> -->
-        </el-form-item>
-        <el-form-item style="marginRight:68px"
-                      :label="language('ERCIJIANGONGYINGSHANG', '二次件供应商')">
+        </iFormItem>
+        <iFormItem style="marginRight:68px"
+                   :label="language('ERCIJIANGONGYINGSHANG', '二次件供应商')">
           <custom-select v-model="searchForm.secondSuppliers"
                          :user-options="ssupplierList"
                          multiple
@@ -54,9 +55,9 @@
                        :value="item.code">
             </el-option>
           </el-select> -->
-        </el-form-item>
-        <el-form-item style="marginRight:68px"
-                      :label="language('BUCHASHIJIANDUAN', '补差时间段')">
+        </iFormItem>
+        <iFormItem style="marginRight:68px"
+                   :label="language('BUCHASHIJIANDUAN', '补差时间段')">
           <iDatePicker v-model="value1"
                        type="daterange"
                        @change="handleChange"
@@ -64,18 +65,18 @@
                        start-placeholder="开始日期"
                        end-placeholder="结束日期">
           </iDatePicker>
-        </el-form-item>
-        <!-- <el-form-item class="searchButton">
+        </iFormItem>
+        <!-- <iFormItem class="searchButton">
           <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
           <iButton @click="handleSearchReset">{{language('CZ', '重置')}}</iButton>
-        </el-form-item> -->
-      </el-form>
+        </iFormItem> -->
+      </iFormGroup>
     </iSearch>
   </div>
 </template>
 
 <script>
-import { iCard, iButton, iMessage, iSearch, iDatePicker } from 'rise'
+import { iCard, iButton, iMessage, iSearch, iDatePicker, iFormGroup, iFormItem } from 'rise'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { getNowFormatDate } from "./util";
 
@@ -86,7 +87,9 @@ export default {
     iCard,
     iButton,
     iSearch,
-    iDatePicker
+    iDatePicker,
+    iFormGroup,
+    iFormItem
   },
   data () {
     return {
@@ -113,7 +116,9 @@ export default {
     getTime () {
       var date = new Date();
       var year = date.getFullYear();
-      return [year + "-01-01 00:00:00", getNowFormatDate() + " 00:00:00"];
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      return [year + "-01-01 00:00:00", year + "-" + month + "-" + day + " 00:00:00"];
     },
     init () {
       getMtzSupplierList({}).then(res => {

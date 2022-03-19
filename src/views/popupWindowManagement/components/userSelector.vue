@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getUserSelectPageList } from '@/api/authorityMgmt/index'
+import { getUserSelectPageList, getSpUserList } from '@/api/authorityMgmt/index'
 import iSelectorDialog from '@/components/iSelector/iSelectorDialog'
 import iSelectorInput from '@/components/iSelector/iSelectorInput'
 export default {
@@ -29,6 +29,10 @@ export default {
     value: {
       type: Array,
       require: true
+    },
+    onlyReportForm: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -104,7 +108,13 @@ export default {
   },
   methods: {
     handleSearch(param) {
-      return getUserSelectPageList(param)
+      if (this.onlyReportForm) {
+        // param.accountType = 1
+        return getSpUserList(param)
+      } else {
+        return getUserSelectPageList(param)
+      }
+      
     }
   }
 }

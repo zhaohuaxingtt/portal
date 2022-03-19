@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-09-07 11:00:53
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
  */
 
@@ -191,5 +191,20 @@ export function getImpactFeedback(parmars) {
     url: `/eventInformation/getImpactFeedback/${parmars}`,
     method: 'GET',
     data: parmars
+  })
+}
+// PowerBi
+export function getLoosePartsPbi(parmars) {
+  return requst({
+    url: `/pbiReport/getLoosePartsPbi`,
+    method: 'GET',
+    data: parmars
+  })
+}
+// PowerBi
+export function getSupplierPartInfo(parmars) {
+  return requst({
+    url: `/eventInformation/getSupplierPartInfo/${parmars.eventId}/${parmars.id}`,
+    method: 'POST'
   })
 }

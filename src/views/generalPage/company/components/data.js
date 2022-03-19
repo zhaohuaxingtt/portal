@@ -1,10 +1,17 @@
+/*
+ * @Author: YoHo
+ * @Date: 2022-02-16 17:36:57
+ * @LastEditTime: 2022-03-03 17:48:04
+ * @LastEditors: YoHo
+ * @Description: 
+ */
 export const shareholderTitle = [
-  { props: 'name', name: '股东名称', key: 'GUDONGMINCHEN' },
+  { props: 'name', name: '股东名称', key: 'GUDONGMINCHEN', width: 200 },
   { props: 'nation', name: '国家/地区', key: 'GUOJIA_DIQU' },
   { props: 'shareholderContribution', name: '出资额', key: 'CHUZIE' },
   { props: 'currency', name: '币种', key: 'BIZHONG' },
   { props: 'proportion', name: '持股比例（%）', width: 150, key: 'ZHIGUBILI' },
-  { props: 'mainBusiness', name: '主营业务', key: 'ZHUYINYEWU' },
+  { props: 'mainBusiness', name: '主营业务', key: 'ZHUYINYEWU', width: 300 },
   { props: 'industryBelongs', name: '行业归属', key: 'HANGYEGUISHU' },
   { props: 'principal', name: '负责人', key: 'FUZEREN' },
   {
@@ -19,7 +26,7 @@ export const shareholderTitle = [
     width: 150,
     key: 'GUDONGZHENGJIANHANGMA'
   },
-  { props: 'investor_type', name: '股东类型', key: 'GUDONGLEIXING' }
+  { props: 'investorType', name: '股东类型', key: 'GUDONGLEIXING' }
 ]
 export const groupTitle = [
   { props: 'name', name: '集团公司全称', key: 'JITUANGONGSIQUANCHEN' },

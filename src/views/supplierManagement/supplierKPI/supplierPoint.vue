@@ -112,11 +112,14 @@
           </span>
         </div>
 
-        <iButton @click="handleExportCurrent">{{
-          language('DAOCHUQUANBU', '导出全部')
-        }}</iButton>
+        <div>
+          <iButton @click="handleExportCurrent" v-permission="SUPPLIER_WORKBENCH_JIXIAO_NDZDZZ_DAOCHUQUANBU">{{
+            language('DAOCHUQUANBU', '导出全部')
+          }}</iButton>
+          <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
+        </div>
       </div>
-      <tableList
+      <!-- <tableList
         style="margin-top: 30px"
         :tableData="tabledata"
         :tableTitle="PointCloum"
@@ -129,11 +132,22 @@
             language('CHAKAN', '查看')
           }}</i-button>
         </template>
-      </tableList>
+      </tableList> -->
+
+      <iTableCustom
+        ref="tableListRef"
+        style="margin-top: 30px"
+        :data="tabledata"
+        :columns="PointCloum"
+        :loading="tableLoading"
+        @go-detail="handleTakeNotes"
+      >
+      </iTableCustom>
+
       <iPagination
         style="margin-top: 20px"
         v-update
-        @size-change="handleSizeChange($event, sure)"
+        @size-change="handleSizeChange($event, getTableData)"
         @current-change="handleCurrentChange($event, getTableData)"
         background
         :page-sizes="page.pageSizes"
@@ -161,6 +175,8 @@
 
 <script>
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
+import iTableCustom from '@/components/iTableCustom'
 import supplierTakeDilog from './components/supplierTakeDilog'
 import { pageMixins } from '@/utils/pageMixins'
 import {
@@ -183,14 +199,15 @@ export default {
   mixins: [pageMixins],
   components: {
     tableList,
-
+    iTableCustom,
     iDialog,
     iButton,
     iSearch,
     iCard,
     supplierTakeDilog,
     iSelect,
-    iPagination
+    iPagination,
+    buttonTableSetting
   },
   data() {
     return {

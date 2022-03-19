@@ -1,15 +1,17 @@
 <template>
   <iPage>
-    <viewHeader :title="language('角色名称')" @toggle-tab="toggleTab" />
-    <viewBase v-show="activeTab === 'base'" :form="roleData" />
-    <viewFunction v-show="activeTab === 'function'" :detail="roleData" />
-    <viewData
-      v-show="activeTab === 'data'"
-      :full-menu="fullMenu"
-      :detail="roleData"
-    />
-    <viewPosition v-show="activeTab === 'position'" :roldID="roleID" />
-    <viewUser v-show="activeTab === 'user'" :roldID="roleID" />
+    <div v-loading="loading">
+      <viewHeader :title="roleTitle" @toggle-tab="toggleTab" />
+      <viewBase v-show="activeTab === 'base'" :form="roleData" />
+      <viewFunction v-show="activeTab === 'function'" :detail="roleData" />
+      <viewData
+        v-show="activeTab === 'data'"
+        :full-menu="fullMenu"
+        :detail="roleData"
+      />
+      <viewPosition v-show="activeTab === 'position'" :roldID="roleID" />
+      <viewUser v-show="activeTab === 'user'" :roldID="roleID" />
+    </div>
   </iPage>
 </template>
 
@@ -22,7 +24,7 @@ import {
   viewPosition,
   viewUser
 } from './components'
-import { iPage } from 'rise'
+import { iPage, iMessage } from 'rise'
 import { fetchRoleDetail, fetchResource } from '@/api/role/index'
 export default {
   name: 'roleView',
@@ -35,10 +37,17 @@ export default {
     viewPosition,
     viewUser
   },
+  computed: {
+    roleTitle() {
+      const { fullNameZh } = this.roleData
+      return fullNameZh
+    }
+  },
   data() {
     return {
       activeTab: 'base',
       roleID: this.$route.params.id,
+      title: '',
       roleData: {
         id: '',
         code: '',
@@ -47,7 +56,8 @@ export default {
         status: '',
         tagDTOList: []
       },
-      fullMenu: []
+      fullMenu: [],
+      loading: false
     }
   },
   created() {
@@ -60,15 +70,22 @@ export default {
     },
     roleDetail() {
       let param = { id: this.$route.params.id }
+      this.loading = true
       fetchRoleDetail(param)
         .then((val) => {
           if (val.code == 200) {
             //头部信息
             const { data } = val
             this.roleData = data
+            this.title = val.data.shortNameZh
+          } else {
+            iMessage.error(val.desZh || '获取角色信息失败')
           }
         })
-        .catch(() => {})
+        .catch((err) => {
+          iMessage.error(err.desZh || '获取角色信息失败')
+        })
+        .finally(() => (this.loading = false))
     },
     async queryFullMenu() {
       // 查询所有菜单

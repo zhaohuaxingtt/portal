@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 17:37:39
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -13,13 +13,14 @@
         <i-button @click="exportsTable" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+        <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
     <table-list
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="tableLoading"
         :index="true"
         @handleSelectionChange="handleSelectionChange"
-        v-permission="SUPPLIER_CHANGEHISTORY_TABLE"
+        border
     />
   </i-card>
 </template>

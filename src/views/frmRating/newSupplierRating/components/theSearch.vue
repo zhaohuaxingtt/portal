@@ -6,44 +6,38 @@
  * @Descripttion: your project
 -->
 <template>
-  <i-search @reset="handleSearchReset" @sure="getTableList" :icon="true">
+  <i-search @reset="handleSearchReset"
+            @sure="getTableList"
+            :icon="true">
     <el-form>
-      <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG')">
-        <iInput
-          :placeholder="$t('LK_QINGSHURU')"
-          v-model="form.nameZh"
-        ></iInput>
+      <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
+        <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.nameZh"></iInput>
       </el-form-item>
       <el-form-item :label="$t('UnifySocialCreditCode')">
-        <iInput
-          :placeholder="$t('LK_QINGSHURU')"
-          v-model="form.socialcreditNo"
-        ></iInput>
+        <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.socialcreditNo"></iInput>
       </el-form-item>
       <el-form-item label="DUNS">
-        <iInput
-          :placeholder="$t('LK_QINGSHURU')"
-          v-model="form.dunsCode"
-        ></iInput>
+        <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.dunsCode"></iInput>
       </el-form-item>
       <el-form-item :label="$t('SPR_FRM_XGYSPJ_CGKS')">
-        <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.buyerDeptId">
-          <el-option
-            :value="item.id"
-            :label="item.nameZh"
-            v-for="item of formGoup.deptList"
-            :key="item.id"
-          ></el-option>
+        <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                 v-model="form.buyerDeptId">
+          <el-option :value="item.id"
+                     :label="item.nameZh"
+                     v-for="item of formGoup.deptList"
+                     :key="item.id"></el-option>
         </iSelect>
       </el-form-item>
       <el-form-item :label="$t('SPR_FRM_XGYSPJ_PJJG')">
-        <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.ratingResult">
-          <el-option
-            :value="item.code"
-            :label="item.name"
-            v-for="item of formGoup.ratingResultList"
-            :key="item.fieldCode"
-          ></el-option>
+        <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                 v-model="form.ratingResult">
+          <el-option :value="item.code"
+                     :label="item.name"
+                     v-for="item of formGoup.ratingResultList"
+                     :key="item.fieldCode"></el-option>
         </iSelect>
       </el-form-item>
     </el-form>
@@ -60,7 +54,7 @@ export default {
     iInput,
     iSelect,
   },
-  data() {
+  data () {
     return {
       form: {
         nameZh: "",
@@ -76,16 +70,16 @@ export default {
       fieldList: [],
     };
   },
-  created() {
+  created () {
     this.handleDict();
     this.getDept();
   },
   methods: {
-    async handleDict() {
+    async handleDict () {
       const res = await dictByCode("newSupplierRating");
       this.formGoup.ratingResultList = res;
     },
-    handleSearchReset() {
+    handleSearchReset () {
       this.form = {
         nameZh: "",
         socialcreditNo: "",
@@ -95,10 +89,10 @@ export default {
       };
       this.getTableList();
     },
-    getTableList() {
+    getTableList () {
       this.$emit("getTableList", this.form);
     },
-    async getDept() {
+    async getDept () {
       const res = await getDept();
       this.formGoup.deptList = res.data;
     },

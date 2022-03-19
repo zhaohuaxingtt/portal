@@ -104,6 +104,16 @@ export const generalPageMixins = {
             if (this.selectTableData.length === 0) {
                 return iMessage.warn(this.$t("LK_NINDANGQIANHAIWEIXUANZE"));
             }
+            console.log(this.selectTableData);
+            let isReport = false;
+            this.selectTableData.map(item => {
+                if (item.dataChannel == 'reportData') {
+                    isReport = true;
+                }
+            })
+            if(isReport === true){
+                return iMessage.warn(this.$t("LK_SHANCHUZHIXINGBAOGAO"));
+            }
             iMessageBox(
                 this.$t('LK_SHIFOUQUERENSHANCHU'),
                 this.$t('LK_WENXINTISHI'),
@@ -136,7 +146,9 @@ export const generalPageMixins = {
                     if (ids.length !== 0) {
                         const req = {
                             [idName]: ids,
-                            step: 'register'
+                            step: 'register',
+                            supplierId: this.$route.query.supplierId||"",
+                            supplierToken: this.$route.query.supplierToken||"",
                         }
                         if (this.supplierType > 3) {
                             req.step = 'submit'

@@ -1,13 +1,13 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-13 17:50:00
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  */
 
 export const supplierDirectoryTableTitle = [
   {
-    props: 'nameType',
+    props: 'contactType',
     name: '联系人类型',
     key: 'SUPPLIER_LIANXIRENLEIXING'
   },
@@ -17,21 +17,22 @@ export const supplierDirectoryTableTitle = [
     key: 'SUPPLIER_LIANXIRENXINGMING',
     required: true
   },
-  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI' },
-  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN' },
+  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI', width: 200 },
+  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN', width: 200 },
   { props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO' },
   {
     props: 'telephone',
     name: '联系电话',
     key: 'SUPPLIER_LIANXIDIANHUA',
-    required: true
+    required: true,
+    width: 150
   },
   {
     props: 'email',
     name: '电子邮件',
     key: 'SUPPLIER_DIANZIYOUJIAN',
     required: true,
-    width: 150,
+    width: 270,
     rule: [
       {
         pattern:
@@ -58,20 +59,21 @@ export const supplierUserNameTableTitle = [
     required: true,
     width: 140
   },
-  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI' },
-  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN' },
+  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI', width: 200 },
+  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN', width: 200 },
   { props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO' },
   {
     props: 'telephone',
     name: '联系电话',
     key: 'SUPPLIER_LIANXIDIANHUA',
-    required: true
+    required: true,
+    width: 150
   },
   {
     props: 'email',
     name: '电子邮件',
     key: 'SUPPLIER_DIANZIYOUJIAN',
-    width: 150,
+    width: 270,
     required: true,
     rule: [
       {
@@ -86,7 +88,8 @@ export const supplierUserNameTableTitle = [
     props: 'userName',
     name: '用户登录名',
     key: 'SUPPLIER_YONGHUDENGLUMING',
-    tooltip: true
+    tooltip: true,
+    width: 170,
   },
   {
     props: 'isActivity',
@@ -99,14 +102,15 @@ export const supplierUserNameTableTitle = [
     props: 'expireDate',
     name: '超期时间',
     key: 'CHAOQISHIJIAN',
-    tooltip: true
+    tooltip: true,
+    width: 200
   },
   {
     props: 'loginDate',
     name: '登录rise系统时间',
-    width: 170,
     key: 'DENGLURISEXITONGSHIJIAN',
-    tooltip: true
+    tooltip: true,
+    width: 200
   },
   { props: 'operation', name: '应用关联', key: '' }
 ]

@@ -7,12 +7,15 @@
       <iButton @click="exportRoles" :loading="exportLoading">
         {{ language('导出') }}
       </iButton>
+      <button-table-setting @click="$refs.roleTable.openSetting()" />
     </div>
 
     <i-table-custom
+      ref="roleTable"
       :loading="tableLoading"
       :data="tableData"
       :columns="tableColumns"
+      permissionKey="CF_PRO_CS_ROLE"
       @go-detail="handleGoDetail"
       @handle-selection-change="handleSelectionChange"
     />

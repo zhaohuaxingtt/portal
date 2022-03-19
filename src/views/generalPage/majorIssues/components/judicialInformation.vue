@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-01-08 12:54:57
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-03 17:05:27
+ * @LastEditors: YoHo
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -15,6 +15,7 @@
                   v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
+    <!-- v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION" -->
     <table-list :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
@@ -24,7 +25,8 @@
                 @handleSelectionChange="handleSelectionChange"
                 @openPage="handleOpenPage"
                 :openPageGetRowData="true"
-                v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION">
+                border
+                >
       <template v-slot:currency="scope">
         <span>{{currency(scope.row.currency)}}</span>
       </template>

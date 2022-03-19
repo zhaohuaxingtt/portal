@@ -14,11 +14,11 @@
     'VWHEADOFFICE-REGULARITALIC', 'VWTEXTOFFICE-BOLD', 'VWTEXTOFFICE-BOLDITALIC',
     'VWTEXTOFFICE-REGULARITALIC';
   &::-webkit-scrollbar {
-    width: 9px;
-    height: 9px;
+    width: 16px;
+    height: 16px;
   }
   &::-webkit-scrollbar-track {
-    width: 8px;
+    width: 15px;
     background-color: #e4e4e5;
     -webkit-border-radius: 2em;
     -moz-border-radius: 2em;
@@ -570,4 +570,13 @@ a {
   left:0;
   z-index: 999999999;
   display: none;
+}
+.text-blue {
+  color: $color-blue;
+}
+
+.w-e-text{
+  a{
+    color: blue !important;
+  }
 }

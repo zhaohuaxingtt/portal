@@ -5,7 +5,7 @@
         @click="handleAdd"
         v-if="type !== 'detail'"
         :disabled="dimensionChecked && dimensionChecked.length"
-        >增加维度</iButton
+        >{{language('增加维度')}}</iButton
       >
       <iButton
         @click="handleDel"
@@ -14,9 +14,10 @@
         "
         v-if="type !== 'detail'"
         class="margin-right20"
-        >删除维度</iButton
+        >{{language('删除维度')}}</iButton
       >
     </div>
+
     <iTableCustom
       :loading="tableLoading"
       :data="dimensions"
@@ -29,6 +30,7 @@
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
+import iSelectAll from '@/components/iSelectAll'
 import { iButton } from 'rise'
 export default {
   components: { iTableCustom, iButton },
@@ -50,12 +52,14 @@ export default {
           {
             prop: 'description',
             label: '维度',
+            i18n:'维度',
             tooltip: false,
             align: 'center'
           },
           {
             prop: 'content',
             label: '内容',
+            i18n:'内容',
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
@@ -78,10 +82,12 @@ export default {
           {
             prop: 'dimension',
             label: '维度',
+            i18n:'维度',
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
-              const options = _self.dimensionOptions
+              let options = _self.dimensionOptions
+
               return (
                 <iSelect
                   value={scope.row.id}
@@ -123,6 +129,7 @@ export default {
             prop: 'content',
             label: '内容',
             align: 'center',
+            i18n:'内容',
             tooltip: false,
             customRender: (h, scope) => {
               let options = []
@@ -138,8 +145,18 @@ export default {
                 options = dimensionOption[0].valueList
                 scope.row.valueList = dimensionOption[0].valueList
               }
-
               return (
+                <iSelectAll
+                  value={scope.row.valueIds}
+                  onchange={(val) => (scope.row.valueIds = val)}
+                  options={options}
+                  valueKey="valueId"
+                  labelKey="value"
+                  labelMethod={(item) => `${item.value}【${item.valueId}】`}
+                />
+              )
+
+              /* return (
                 <iSelect
                   placeholder="请选择"
                   multiple={true}
@@ -157,7 +174,7 @@ export default {
                     )
                   })}
                 </iSelect>
-              )
+              ) */
             }
           }
         ],
@@ -173,6 +190,7 @@ export default {
           {
             prop: 'dimension',
             label: '维度',
+            i18n:'维度',
             tooltip: false,
             align: 'center',
             customRender: (h, scope) => {
@@ -218,12 +236,23 @@ export default {
           {
             prop: 'content',
             label: '内容',
+            i18n:'内容',
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
               const options =
                 scope.row.contentOptions || scope.row.valueList || []
               return (
+                <iSelectAll
+                  value={scope.row.valueIds}
+                  onchange={(val) => (scope.row.valueIds = val)}
+                  options={options}
+                  valueKey="valueId"
+                  labelKey="value"
+                  labelMethod={(item) => `${item.value}【${item.valueId}】`}
+                />
+              )
+              /* return (
                 <iSelect
                   placeholder="请选择"
                   multiple={true}
@@ -241,7 +270,7 @@ export default {
                     )
                   })}
                 </iSelect>
-              )
+              ) */
             }
           }
         ]
@@ -263,7 +292,12 @@ export default {
       return this.$store.state.position.pos.dimensionSelected
     }, */
     dimensionOptions() {
-      return this.$store.state.position.pos.dimensionOptions
+      const { dimensionOptions, positionDetail } =
+        this.$store.state.position.pos
+      if (dimensionOptions && dimensionOptions.length > 0) {
+        return dimensionOptions
+      }
+      return positionDetail.permissionList
     }
   },
   methods: {

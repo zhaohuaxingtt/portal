@@ -4,6 +4,7 @@
       <div class="node" v-for="(item, index) in data" :key="index">
         <div
           class="node-content"
+          :class="size"
           :style="{ height: approveContentHeight + 'px' }"
         >
           <div class="title">
@@ -34,6 +35,7 @@
             <span v-if="item.approvers.length === 1">
               {{ item.approvers[0].deptFullCode }}
               {{ item.approvers[0].nameZh }}
+              {{ item.approvers[0].taskStatus }}
             </span>
             <div
               v-if="item.approvers.length === 1 && item.approvers[0].agentUsers"
@@ -59,7 +61,7 @@
                 v-for="(approver, i) in item.approvers"
                 :key="i"
                 :class="{
-                  active: ['同意', '拒绝', '有异议', '无异议'].includes(
+                  active: ['同意', '拒绝', '有异议', '无异议', '拒绝'].includes(
                     approver.taskStatus
                   )
                 }"
@@ -123,6 +125,10 @@ export default {
       default: function () {
         return []
       }
+    },
+    size: {
+      type: String,
+      default: 'large'
     }
   },
   computed: {
@@ -191,7 +197,12 @@ export default {
       .node-content {
         box-sizing: content-box;
         text-align: center;
-        min-width: 240px;
+        &.small {
+          min-width: 160px;
+        }
+        &.large {
+          min-width: 240px;
+        }
         .approval-user {
           height: 50px;
           &.single {

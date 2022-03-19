@@ -19,17 +19,12 @@
         @click-menu="clickMenu"
       />
       <div class="language" @click="handleChangeLang">
-        <icon
-          symbol
-          v-if="lang === 'zh'"
-          class="icon"
-          name="iconzhongyingwenzhuanhuanzhong"
-        />
-        <icon symbol v-else class="icon" name="iconzhongyingwenzhuanhuanying" />
+        <icon symbol class="icon" :name="langIcon" />
       </div>
-      <iMailTrigger />
+      <iMailTrigger ref="iMail" />
     </div>
     <notify ref="notify" v-if="!drawerVisible" />
+    <profile :visible.sync="profileVisible" />
   </div>
 </template>
 <script>
@@ -41,6 +36,7 @@ import { getCountInMail } from '@/api/layout/topLayout'
 import { removeToken } from '@/utils/index.js'
 import iMailTrigger from '../mail/trigger.vue'
 import iUserSetting from './userSetting.vue'
+import profile from '../profile'
 export default {
   mixins: [filters],
   components: {
@@ -48,7 +44,8 @@ export default {
     icon,
     notify,
     iMailTrigger,
-    iUserSetting
+    iUserSetting,
+    profile
   },
   props: {
     menus: {
@@ -79,30 +76,48 @@ export default {
         notice: [],
         message: []
       },
-      isClose: true
+      isClose: true,
+      profileVisible: false
     }
   },
   computed: {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
       userInfo: (state) => state.permission.userInfo
-    })
+    }),
+    langIcon() {
+      const locale = this.$i18n.locale || 'zh'
+      if (locale === 'zh') {
+        return 'iconzhongyingwenzhuanhuanzhong'
+      }
+      return 'iconzhongyingwenzhuanhuanying'
+    }
   },
   created() {
-    this.lang = localStorage.getItem('lang')
+    this.lang = localStorage.getItem('lang') || 'zh'
+    this.$store.commit('SET_LANGUAGE', this.lang)
   },
-
   beforeDestroy() {
     this.socketVm && this.socketVm.close()
   },
   methods: {
-    clickMenu(val){
-      if(val == 'logout'){
-        this.$emit('click-menu',val)
-      }else{
+    clickMenu(val) {
+      if (val == 'logout') {
+        this.$refs.iMail.handleHideDrawer()
+        this.$emit('click-menu', val)
+        this.$nextTick(() => {
+          removeToken()
+          window.sessionStorage.clear()
+          window.localStorage.clear()
+          this.$store.commit('SET_USER_INFO', {})
+          window.location.href = process.env.VUE_APP_LOGOUT_URL
+        })
+      } else {
         this.$emit('click-menu')
       }
-            
+      if (val === 'profile') {
+        this.showProfile()
+      }
     },
     //模拟退出登录方法
     loginOut() {
@@ -136,6 +151,9 @@ export default {
     },
     afterClear() {
       this.getCountInMail()
+    },
+    showProfile() {
+      this.profileVisible = true
     }
   }
 }

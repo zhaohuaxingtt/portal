@@ -13,14 +13,24 @@
         <i-button @click="handleRemove">{{
           language('YICHU', '移除')
         }}</i-button>
+        <!-- <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting> -->
       </div>
-      <table-list style="margin-top:20px"
+      <!-- <table-list style="margin-top:20px"
                   :tableData="tableListData"
                   :tableTitle="tableTitleGp"
                   :tableLoading="tableLoading"
                   @handleSelectionChange="handleSelectionChange"
                   :index="true">
-      </table-list>
+      </table-list> -->
+
+      <iTableCustom
+        ref="tableListRef"
+        :data="tableListData"
+        :columns="tableTitleGp"
+        :loading="tableLoading"
+        @handle-selection-change="handleSelectionChange"
+      >
+      </iTableCustom>
     </div>
   </iDialog>
 </template>
@@ -32,6 +42,8 @@ import {
 } from '@/api/supplier360/blackList'
 import { tableTitleGp } from './data'
 import tableList from '@/components/commonTable'
+import buttonTableSetting from '@/components/buttonTableSetting'
+import iTableCustom from '@/components/iTableCustom'
 import { iButton, iMessage, iMessageBox, iDialog } from 'rise'
 export default {
   props: {
@@ -44,7 +56,9 @@ export default {
   components: {
     iButton,
     tableList,
-    iDialog
+    iDialog,
+    iTableCustom,
+    buttonTableSetting
   },
 
   data() {
@@ -132,6 +146,7 @@ export default {
 }
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

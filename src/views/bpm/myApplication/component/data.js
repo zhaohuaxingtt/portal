@@ -4,7 +4,7 @@ export const searchForm = {
   itemName: '', //审批名称
   applyUserName: '', //申请人
   applyUserOrg: '', // 申请部门
-  procProgress: '0', //审批进度
+  procProgress: [], //审批进度
   categoryList: [],
   businessId: '',
   endTime: '',
@@ -88,7 +88,7 @@ export const tableTitle = [
     label: '申请时间',
     i18n: '申请时间',
     tooltip: true,
-    width: 100,
+    width: 110,
     customRender: (h, scope) => {
       if (scope.row.applyDate) {
         // eslint-disable-next-line no-undef
