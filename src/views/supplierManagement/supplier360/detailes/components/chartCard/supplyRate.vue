@@ -4,13 +4,14 @@
       <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
     </div>
 
-    <div class="box">
+    <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div>
+    <!-- <div class="box">
       <img :src="img"
            class="imgIcon" />
 
       <div ref="chart"
            class="chartStyle"></div>
-    </div>
+    </div> -->
   </iCard>
 </template>
 <script>
@@ -233,4 +234,11 @@ export default {
 .box:nth-child(1) div {
   margin: 6px;
 }
+
+.center {
+  height: 160px;
+  display: flex;
+  align-items: center;
+}
+
 </style>
