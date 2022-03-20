@@ -11,6 +11,7 @@
 				<iFormItem v-for="(item, index) in frmTitle"
 						:key="index"
 						:label="item.language ? $t(item.language) : item.name"
+						v-permission="item.permission"
 						>
 					<iText v-if="item.key !=='deepCommentResult'">{{dataList[item.key]}}</iText>
 					<iText v-else>
