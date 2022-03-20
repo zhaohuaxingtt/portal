@@ -1,7 +1,7 @@
 <template>
   <div class="news-container" @scroll="scrollHandler($event)">
     <div
-      v-if="middleListL && middleListL.length"
+      v-if="firstNews && Object.keys(firstNews).length"
       class="news-img-card"
       @click="goNewsDetail(firstNews)"
     >
@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     ...mapState({
-      id: (id) => id.permission.userInfo.id
+      id: (state) => state.permission.userInfo.id
     })
   },
   mounted() {
