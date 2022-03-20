@@ -163,10 +163,8 @@ module.exports = {
       },
       [process.env.VUE_APP_USER_CENTER]: {
         // target: `http://${BASE_IP}:8015/usercenter/`,
-        // target:
-        //   'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
         target:
-          'http://rise-nginx-internal.apps.vmocp-prod.csvw.com/usercenterApi/',
+          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
@@ -298,8 +296,7 @@ module.exports = {
       },
       [process.env.VUE_APP_NEWS]: {
         // target: `http://${BASE_IP}:8047/news`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
-        target: `http://rise-nginx-internal.apps.vmocp-prod.csvw.com/newsApi/`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
