@@ -59,7 +59,7 @@
                     >
                       <iInput
                         :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-                        class=""
+                        class="eng-name"
                         v-model="formData.nameEn"
                         :disabled="isEdit"
                       ></iInput>
@@ -70,12 +70,6 @@
                       :label="$t('staffManagement.SEX')"
                       class="SearchOption"
                     >
-                      <!-- <iInput
-                        :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-                        class=""
-                        v-model="formData.gender"
-                        disabled
-                      ></iInput> -->
                       <iSelect
                         :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
                         disabled
@@ -582,6 +576,12 @@ export default {
           //去抖函数
           this.debounceFn(reqData)
         }
+        if (res.data.gender === 'male' || res.data.gender === '男') {
+          this.formData.gender = '1'
+        }
+        if (res.data.gender === 'female' || res.data.gender === '女') {
+          this.formData.gender = '2'
+        }
         //上下级信息表格数据格式拼接
         res.data.subUserList == null ? (res.data.subUserList = []) : ''
         res.data.supUserList == null ? (res.data.supUserList = []) : ''
@@ -937,6 +937,11 @@ export default {
 }
 .routerpage {
   height: calc(100vh - 50px);
+}
+.eng-name {
+  ::v-deep .el-input__inner {
+    text-transform: capitalize;
+  }
 }
 // ::v-deep.el-table tr:nth-child(even){
 //   background-color: #fff;
