@@ -531,8 +531,7 @@ export default {
     display: block;
   }
   p {
-    text-indent: 2em;
-    margin: 1em;
+    margin: 1em 0px;
     text-align: justify; /* 文本两端对齐 */
     text-justify: distribute; /* 文本两端对齐 */
     word-break: break-word; /* 只对超长的英文单词断句 */
