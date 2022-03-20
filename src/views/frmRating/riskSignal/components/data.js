@@ -13,21 +13,21 @@ export const tableTitle = [
     name: '风险供应商',
     key: 'SPR_FRM_FXXH_FXGYS',
     tooltip: true,
-    width: 150
+    width: 300
   },
   {
     props: 'content',
     name: '内容',
     key: 'SUPPLIER_NEIRONG',
     tooltip: true,
-    width: 100
+    width: 60
   },
   {
     props: 'signalFrom',
     name: '信号来源',
     key: 'SPR_FRM_FXXH_XHLY',
     tooltip: true,
-    width: 100
+    width: 90
   },
   {
     props: 'relativeDept',
@@ -41,21 +41,21 @@ export const tableTitle = [
     name: '供货关系',
     key: 'SPR_FRM_FXXH_GHGX',
     tooltip: true,
-    width: 150
+    width: 90
   },
   {
     props: 'processTypeName',
     name: '处置方式',
     key: 'SPR_FRM_FXXH_CZFS',
     tooltip: true,
-    width: 150
+    width: 90
   },
   {
     props: 'furtherRatingResult',
     name: '深评结果',
     key: 'SPR_FRM_DEP_DEPRESULT',
     tooltip: true,
-    width: 150
+    width: 90
   },
   {
     props: 'riskBigTypeName',
@@ -76,14 +76,14 @@ export const tableTitle = [
     name: '是否违约',
     key: 'SPR_FRM_FXXH_SFWY',
     tooltip: true,
-    width: 150
+    width: 90
   },
   {
     props: 'signalAuthorZh',
     name: '提交人',
     key: 'SPR_FRM_FXXH_TJR',
     tooltip: true,
-    width: 150
+    width: 120
   },
   {
     props: 'submitDept',
@@ -97,49 +97,49 @@ export const tableTitle = [
     name: '提交时间',
     key: 'SPR_FRM_FXXH_TJSJ',
     tooltip: true,
-    width: 150
+    width: 110
   },
   {
     props: 'processDate',
     name: '处置时间',
     key: 'SPR_FRM_FXXH_CZSJ',
     tooltip: true,
-    width: 150
+    width: 110
   },
   {
     props: 'statusName',
     name: '状态',
     key: 'SPR_FRM_DEP_STATE',
     tooltip: true,
-    width: 150
+    width: 80
   },
   {
     props: 'principalZh',
     name: '负责人',
     key: 'LK_FUZEREN',
     tooltip: true,
-    width: 180
+    width: 120
   },
   {
     props: 'progress',
     name: '进展',
     key: 'SPR_FRM_FXXH_JZ',
     tooltip: true,
-    width: 180
+    width: 100
   },
   {
     props: 'effectiveDate',
     name: '有效期时间',
     key: 'SPR_FRM_FXXH_YXQSJ',
     tooltip: true,
-    width: 150
+    width: 110
   },
   {
     props: 'oldRiskSignalId',
     name: '原始风险供应商',
     key: 'SPR_FRM_FXXH_YSFXGYS',
     tooltip: true,
-    width: 180
+    width: 130
   }
 ]
 export const riskTableTitle = [

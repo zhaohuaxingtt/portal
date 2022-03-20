@@ -88,7 +88,9 @@
       <div class="tableList">
         <iCard>
           <div class="tableButtons flex-end-center">
-            <iButton @click="create">{{ language(buttonTitles.create) }}</iButton>
+            <iButton @click="create">{{
+              language(buttonTitles.create)
+            }}</iButton>
             <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
               language(buttonTitles.delete)
             }}</iButton>

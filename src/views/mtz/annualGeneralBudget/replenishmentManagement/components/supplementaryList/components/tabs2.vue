@@ -9,9 +9,6 @@
         <div class="inforText"
              v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
         <div class="inforText"
-             v-else-if="item.prop==='totalAmt'||item.prop==='actuallyTotalAmt'">{{toThousands(inforData[item.prop])}}</div>
-        <!-- <div class="inforText" v-if="item.prop == 'monthFromTo'">{{inforData["monthFrom"]}}~{{inforData["monthTo"]}}</div> -->
-        <div class="inforText"
              v-else>{{inforData[item.prop]}}</div>
       </div>
     </div>

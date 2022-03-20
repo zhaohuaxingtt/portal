@@ -17,5 +17,10 @@ export default {
     未处理:'Untreated',
     已处理:'Treated ',
     已完成:'Completed',
-    全部:'All'
+    全部:'All',
+    '确定要删除该问题吗?': 'Are you Sure You Want To Delete This Question',
+    问题标签:'Problem Label',
+    请选择问题模块: 'Please Select The Problem Module',
+    请选择标签: 'Please Select A Label',
+    请输入回复内容: 'Please Enter The Reply'
 }

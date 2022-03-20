@@ -4,7 +4,7 @@
     <iframe
       v-if="pdfBlob"
       :src="pdfBlob"
-      title="预览"
+     :title="$t('TM_YULAN')"
       width="100%"
       height="100%"
       class="preview-iframe"

@@ -22,12 +22,10 @@ export default {
   name: 'eklHeader',
   computed: {
     ...mapState({
-      eklTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
+      eklTabList: (eklPfjTabList) => eklPfjTabList.permission.eklTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     }),
     tabList() {
-      console.log('leadTabList', this.leadTabList)
-      console.log('eklTabList', this.eklTabList)
       if (this.leadTabList.length) {
         let leadTabList = JSON.parse(JSON.stringify(this.leadTabList))
         leadTabList.map((item) => {

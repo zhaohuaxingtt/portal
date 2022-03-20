@@ -60,7 +60,7 @@ export default {
             adminUsers: [],
 			currId: null,
 			newContentRules: {
-				adminUsers: { required:'true',message:"请选择知识分享类型",trigger:'select' },
+				adminUsers: { required:'true',message:this.language("请选择知识分享类型"),trigger:'select' },
 			}
 		}
     },

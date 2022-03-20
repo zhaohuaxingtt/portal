@@ -21,18 +21,20 @@
       <!-- 文字+按钮 -->
       <div class="form-top">
         <div>
-          <h2>多选题</h2>
+          <h2>{{ $t('QN_DUOXUANTI') }}</h2>
         </div>
         <div>
-          <iButton @click="complete()">完成编辑</iButton>
-          <iButton @click="cancelComplete()">删除该题</iButton>
+          <iButton @click="complete()">{{ $t('QN_WANCHENGBIANJI') }}</iButton>
+          <iButton @click="cancelComplete()">{{
+            $t('QN_SHANCHUGAITI')
+          }}</iButton>
         </div>
       </div>
       <el-row class="form-row">
         <div class="form-item-row1-col3">
           <iFormItem label="题目编号" prop="code">
             <iLabel
-              :label="$t('题目编号')"
+              :label="$t('QN_TIMUBIANHAO')"
               slot="label"
               style="width: 10rem"
             ></iLabel>
@@ -49,7 +51,7 @@
               ></iLabel> -->
               <!-- <iInput placeholder="" v-model="ruleForm.multipleRule.most" /> -->
               <iSelect v-model="ruleForm.most">
-                <el-option label="不限制" value=""></el-option>
+                <el-option :label="$t('QN_BUXIANZHI')" value=""></el-option>
                 <el-option
                   v-for="(item, index) in mostOptionList"
                   :key="index"
@@ -85,13 +87,13 @@
               :class="isParap ? 'more-select-P' : 'more-select'"
               ><iSelect
                 v-model="ruleForm.actionItem"
-                placeholder="请选择"
+                :placeholder="$t('QN_QINGXUANZE')"
                 @focus="
                   () => {
                     if (isParap) {
-                      selectOptionP();
+                      selectOptionP()
                     } else {
-                      selectOption();
+                      selectOption()
                     }
                   }
                 "
@@ -109,7 +111,7 @@
             <el-checkbox
               :class="isParap ? 'more-select-P' : 'more-select'"
               v-model="ruleForm.requiredQuestion"
-              >必答</el-checkbox
+              >{{ $t('QN_BIDA') }}</el-checkbox
             >
           </iFormItem>
         </div>
@@ -118,13 +120,13 @@
         <div class="form-item-row1-col3">
           <iFormItem label="题目标题" prop="name">
             <iLabel
-              :label="$t('题目标题')"
+              :label="$t('QN_TIMUBIAOTI')"
               required
               slot="label"
               style="width: 10rem"
             ></iLabel>
             <iInput
-              placeholder="请输入题目标题"
+              :placeholder="$t('QN_QINGSHURUTIMUBIAOTI')"
               v-model="ruleForm.name"
               @keydown.native="keydownName($event)"
             />
@@ -142,13 +144,13 @@
             :prop="`options.${index}.name`"
           >
             <iLabel
-              :label="$t('选项' + (index + 1))"
+              :label="getChoiceName(index + 1)"
               required
               slot="label"
               style="width: 10rem"
             ></iLabel>
             <iInput
-              placeholder="请输入选项内容"
+              :placeholder="$t('QN_QINGSHURUXUANXIANGNEIRONG')"
               v-model="item.name"
               @keydown.native="keydownContent($event, item)"
             />
@@ -193,18 +195,20 @@
       @mouseout="leave()"
     >
       <div class="operation-btn">
-        <iButton v-show="mouseOver == true" @click="enterEditor()"
-          >编辑</iButton
-        >
-        <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
-        <iButton v-show="mouseOver == true" @click="handlDelete()"
-          >删除</iButton
-        >
+        <iButton v-show="mouseOver == true" @click="enterEditor()">{{
+          $t('QN_BIANJI')
+        }}</iButton>
+        <iButton v-show="mouseOver == true" @click="handleCopy()">{{
+          $t('QN_FUZHI')
+        }}</iButton>
+        <iButton v-show="mouseOver == true" @click="handlDelete()">{{
+          $t('QN_SHANCHU')
+        }}</iButton>
         <iButton
           v-show="mouseOver == true"
           @click="handleTop()"
           :disabled="overEditor ? (isParap ? sortP == 1 : sort == 1) : true"
-          >上移</iButton
+          >{{ $t('QN_SHANGYI') }}</iButton
         >
         <iButton
           v-show="mouseOver == true"
@@ -216,16 +220,21 @@
                 : sort == topicLength
               : true
           "
-          >下移</iButton
+          >{{ $t('QN_XIAYI') }}</iButton
         >
       </div>
       <div class="title">
         <span v-if="ruleForm.requiredQuestion" style="color: red">* </span>
-        {{ isParap ? info.code + "." + infoP.code : info.code + ". "
+        {{ isParap ? info.code + '.' + infoP.code : info.code + '. '
         }}{{ ruleForm.name }}
         <span class="text" style="margin-left: 10px; color: #999999">
-          <span v-if="ruleForm.least">最少选择{{ ruleForm.least }}项；</span
-          ><span v-if="ruleForm.most">最多选择{{ ruleForm.most }}项；</span>
+          <span v-if="ruleForm.least"
+            >{{ $t('QN_ZUISHAOXUANZE') }}{{ ruleForm.least
+            }}{{ $t('QN_XIANG') }}</span
+          ><span v-if="ruleForm.most"
+            >{{ $t('QN_ZUIDUOXUANZE') }}{{ ruleForm.most
+            }}{{ $t('QN_XIANG') }}</span
+          >
         </span>
       </div>
       <el-checkbox-group
@@ -236,7 +245,7 @@
         :max="0"
       >
         <el-checkbox :label="item.name + index" class="radioItem">{{
-          String.fromCharCode("A".charCodeAt(0) + index) + ". " + item.name
+          String.fromCharCode('A'.charCodeAt(0) + index) + '. ' + item.name
         }}</el-checkbox>
       </el-checkbox-group>
     </div>
@@ -244,28 +253,28 @@
 </template>
 
 <script>
-import { iLabel, iSelect, iInput, iFormItem, iButton } from "rise";
-import surveyMobile from "@/assets/images/survey/survey-mobile.svg";
+import { iLabel, iSelect, iInput, iFormItem, iButton } from 'rise'
+import surveyMobile from '@/assets/images/survey/survey-mobile.svg'
 
 export default {
   props: [
-    "copyTopic",
-    "sort",
-    "type",
-    "number",
-    "topicLength",
-    "contentCopy",
-    "isParap",
-    "sortP",
-    "topicLengthP",
-    "numberP",
-    "info",
-    "infoP",
-    "overEditor",
-    "actionBar",
-    "contentlist",
-    "racialTopicLength",
-    "racialTopicLengthP",
+    'copyTopic',
+    'sort',
+    'type',
+    'number',
+    'topicLength',
+    'contentCopy',
+    'isParap',
+    'sortP',
+    'topicLengthP',
+    'numberP',
+    'info',
+    'infoP',
+    'overEditor',
+    'actionBar',
+    'contentlist',
+    'racialTopicLength',
+    'racialTopicLengthP'
     // "racialTopicLengthM",
   ],
   components: {
@@ -273,28 +282,36 @@ export default {
     iInput,
     iFormItem,
     iSelect,
-    iButton,
+    iButton
   },
   data() {
     const validLength = function (rule, value, callback) {
       function getStrLength(str) {
-        return str.replace(/[^x00-xff]/g, "xx").length;
+        return str.replace(/[^x00-xff]/g, 'xx').length
       }
       if (!value) {
-        callback();
+        callback()
       } else if (getStrLength(value) <= this.maxLength) {
-        callback();
+        callback()
       } else {
-        return callback(new Error(`最大长度中文 ${this.maxLength / 2} 字符，英文 ${this.maxLength} 字符`));
+        return callback(
+          new Error(
+            `${this.$t('QN_ZUIDACHANGDUZHONGWEN')} ${
+              this.maxLength / 2
+            } ${this.$t('QN_ZIFU')}，${this.$t('QN_YINGWEN')} ${
+              this.maxLength
+            } ${this.$t('QN_ZIFU')}`
+          )
+        )
       }
-    };
+    }
 
     const length30 = {
-      maxLength: 60,
-    };
+      maxLength: 60
+    }
     const length100 = {
-      maxLength: 200,
-    };
+      maxLength: 200
+    }
     return {
       // currentIndex: 0,
       checkList: [],
@@ -304,8 +321,8 @@ export default {
         editor: true,
         // topicType: this.type,
         // id: this.id,
-        id: "",
-        name: "", // 问题名称
+        id: '',
+        name: '', // 问题名称
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
         type: 2, // 问题类型
@@ -314,21 +331,21 @@ export default {
         //   most: "",
         //   least: 1,
         // }, // 多选题规则
-        most: "",
+        most: '',
         least: 1,
         options: [
           {
             number: 1, // 选项序号
             type: 1, // 选项类型
-            name: "", // 选项名称
-            action: "", // 跳题事件
+            name: '', // 选项名称
+            action: '' // 跳题事件
           },
           {
             number: 2, // 选项序号
             type: 1, // 选项类型
-            name: "", // 选项名称
-            action: "", // 跳题事件
-          },
+            name: '', // 选项名称
+            action: '' // 跳题事件
+          }
           // {
           //   number: 3, // 选项序号
           //   type: 1, // 选项类型
@@ -337,13 +354,17 @@ export default {
           // },
         ], // 问题选项
         actionItem: {
-          value: "",
-          label: "",
-        },
+          value: '',
+          label: ''
+        }
       },
       rules: {
         name: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           // {
           //   min: 1,
           //   max: 200,
@@ -352,11 +373,15 @@ export default {
           // },
           {
             validator: validLength.bind(length100),
-            trigger: ["blur", "change"],
-          },
+            trigger: ['blur', 'change']
+          }
         ],
         options: [
-          { required: true, message: "必填", trigger: ["blur", "change"] },
+          {
+            required: true,
+            message: this.$t('QN_BITIAN'),
+            trigger: ['blur', 'change']
+          },
           // {
           //   min: 1,
           //   max: 60,
@@ -365,26 +390,26 @@ export default {
           // },
           {
             validator: validLength.bind(length30),
-            trigger: ["blur", "change"],
-          },
-        ],
+            trigger: ['blur', 'change']
+          }
+        ]
       },
       // actionItem: "", // 跳题选择
       optionsList: [],
       optionsListP: [],
       surveyMobile,
       mostOptionList: [], // 最多选择个数
-      leastOptionList: [],
-    };
+      leastOptionList: []
+    }
   },
   mounted() {
     if (this.isParap) {
-      this.selectOptionP();
+      this.selectOptionP()
     } else {
-      this.selectOption();
+      this.selectOption()
     }
-    let obj = this.isParap ? { ...this.infoP } : { ...this.info };
-    this.ruleForm = { ...this.ruleForm, ...obj };
+    let obj = this.isParap ? { ...this.infoP } : { ...this.info }
+    this.ruleForm = { ...this.ruleForm, ...obj }
     // this.ruleForm.options =
     //   this.ruleForm.options &&
     //   this.ruleForm.options.map((item) => {
@@ -409,40 +434,40 @@ export default {
     //       : "",
     // }
     this.ruleForm.actionItem = this.generateObj(
-      this.ruleForm.options[0] ? this.ruleForm.options[0].action : ""
-    );
+      this.ruleForm.options[0] ? this.ruleForm.options[0].action : ''
+    )
     if (this.obj && this.obj.multipleRule) {
-      let mulObj = this.obj.multipleRule;
-      this.ruleForm.most = mulObj ? (mulObj.most ? mulObj.most : "") : "";
-      this.ruleForm.least = mulObj ? (mulObj.least ? mulObj.least : 1) : 1;
+      let mulObj = this.obj.multipleRule
+      this.ruleForm.most = mulObj ? (mulObj.most ? mulObj.most : '') : ''
+      this.ruleForm.least = mulObj ? (mulObj.least ? mulObj.least : 1) : 1
     }
     if (this.copyTopic == true) {
-      this.ruleForm = this.contentCopy;
-      this.$emit("changeCopyTopic");
+      this.ruleForm = this.contentCopy
+      this.$emit('changeCopyTopic')
     }
   },
   watch: {
-    "ruleForm.actionItem": {
+    'ruleForm.actionItem': {
       immediate: true,
       deep: true,
       handler(val) {
         if (val) {
           if (this.isParap) {
             if (
-              Number(this.ruleForm.code.toString().split(".")[1]) &&
+              Number(this.ruleForm.code.toString().split('.')[1]) &&
               Number(val.value) !== -1
             ) {
-              this.ruleForm.actionItem = "";
+              this.ruleForm.actionItem = ''
             }
           } else {
             if (Number(this.ruleForm.code) > val && Number(val.value) !== -1) {
-              this.ruleForm.actionItem = "";
+              this.ruleForm.actionItem = ''
             }
           }
         }
-      },
+      }
     },
-    "info.number": {
+    'info.number': {
       immediate: true,
       deep: true,
       handler(val) {
@@ -452,15 +477,15 @@ export default {
             ...this.info,
             most: this.info.multipleRule.most
               ? this.info.multipleRule.most
-              : "",
+              : '',
             least: this.info.multipleRule.least
               ? this.info.multipleRule.least
-              : 1,
-          };
+              : 1
+          }
         }
-      },
+      }
     },
-    "infoP.number": {
+    'infoP.number': {
       immediate: true,
       deep: true,
       handler(val) {
@@ -470,77 +495,80 @@ export default {
             ...this.infoP,
             most: this.infoP.multipleRule.most
               ? this.infoP.multipleRule.most
-              : "",
+              : '',
             least: this.infoP.multipleRule.least
               ? this.infoP.multipleRule.least
-              : 1,
-          };
+              : 1
+          }
         }
-      },
+      }
     },
-    "ruleForm.most": {
+    'ruleForm.most': {
       handler(val) {
-        let arr = [];
+        let arr = []
         if (val) {
           this.ruleForm.options.forEach((item, index) => {
             if (index + 1 <= val) {
-              arr.push(index + 1);
+              arr.push(index + 1)
             }
-          });
+          })
         } else {
           this.ruleForm.options.forEach((item, index) => {
-            arr.push(index + 1);
-          });
+            arr.push(index + 1)
+          })
         }
-        this.leastOptionList = arr;
+        this.leastOptionList = arr
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
-    "ruleForm.least": {
+    'ruleForm.least': {
       handler(val) {
-        let arr = [];
+        let arr = []
         if (val) {
           this.ruleForm.options.forEach((item, index) => {
             if (index + 1 >= val) {
-              arr.push(index + 1);
+              arr.push(index + 1)
             }
-          });
+          })
         } else {
           this.ruleForm.options.forEach((item, index) => {
-            arr.push(index + 1);
-          });
+            arr.push(index + 1)
+          })
         }
-        this.mostOptionList = arr;
+        this.mostOptionList = arr
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
+    getChoiceName(index) {
+      return `${this.$t('QN_XUANXIANG')}${index}`
+    },
     generateObj(action) {
-      let obj = {};
+      let obj = {}
       obj = {
         value: action
-          ? action.toString().includes(".")
+          ? action.toString().includes('.')
             ? action.toString()
             : Number(action)
-          : "",
+          : '',
         label:
           Number(action) == -1
-            ? "结束答题"
+            ? this.$t('QN_JIESHUDATI')
             : Number(action)
-            ? "第" + action + "题"
-            : "",
-      };
-      return obj;
+            ? this.$t('QN_DI') + action + this.$t('QN_TI')
+            : ''
+      }
+      return obj
     },
     // 删除该题
     cancelComplete() {
       if (this.isParap) {
-        this.$emit("cancelCompleteP", this.ruleForm);
+        this.$emit('cancelCompleteP', this.ruleForm)
       } else {
-        this.$emit("cancelComplete", this.ruleForm);
+        this.$emit('cancelComplete', this.ruleForm)
       }
     },
     // 最多选择个数
@@ -565,13 +593,13 @@ export default {
     //   }
     // },
     keydownName(e) {
-      if (e.keyCode == 32 && this.ruleForm.name == "") {
-        e.returnValue = false;
+      if (e.keyCode == 32 && this.ruleForm.name == '') {
+        e.returnValue = false
       }
     },
     keydownContent(e, i) {
-      if (e.keyCode == 32 && i.name == "") {
-        e.returnValue = false;
+      if (e.keyCode == 32 && i.name == '') {
+        e.returnValue = false
       }
     },
     // getSort() {
@@ -583,15 +611,15 @@ export default {
     // },
     getSort() {
       if (this.isParap) {
-        return this.info.code + "." + this.infoP.code;
+        return this.info.code + '.' + this.infoP.code
       } else {
-        return this.info.code;
+        return this.info.code
       }
     },
     selectOption() {
-      this.optionsList = [];
+      this.optionsList = []
       if (this.info.code == this.racialTopicLength) {
-        this.optionsList = [];
+        this.optionsList = []
       } else {
         // this.optionsList.push({
         //   label: "第" + this.sort + 1 + "题",
@@ -599,23 +627,23 @@ export default {
         // });
         for (let i = this.info.code; i < this.racialTopicLength; i++) {
           this.optionsList.push({
-            label: "第" + (i + 1) + "题",
-            value: i + 1,
-          });
+            label: this.$t('QN_DI') + (i + 1) + this.$t('QN_TI'),
+            value: i + 1
+          })
         }
       }
       this.optionsList.push({
-        label: "结束答题",
-        value: -1,
-      });
+        label: this.$t('QN_JIESHUDATI'),
+        value: -1
+      })
     },
     selectOptionP() {
       // this.racialTopicLengthP = this.racialTopicLengthM
       //   ? this.racialTopicLengthM
       //   : this.racialTopicLengthP;
-      this.optionsListP = [];
+      this.optionsListP = []
       if (this.infoP.code == this.racialTopicLengthP) {
-        this.optionsListP = [];
+        this.optionsListP = []
       } else {
         // this.optionsListP.push({
         //   label: "第" + this.sortP + 1 + "题",
@@ -623,120 +651,122 @@ export default {
         // });
         for (let i = this.infoP.code; i < this.racialTopicLengthP; i++) {
           this.optionsListP.push({
-            label: `第 ${this.info.code}.${i + 1} 题`,
-            value: `${this.info.code}.${i + 1}`,
-          });
+            label: `${this.$t('QN_DI')} ${this.info.code}.${i + 1} ${this.$t(
+              'QN_TI'
+            )}`,
+            value: `${this.info.code}.${i + 1}`
+          })
         }
       }
       this.optionsListP.push({
-        label: "结束答题",
-        value: -1,
-      });
+        label: this.$t('QN_JIESHUDATI'),
+        value: -1
+      })
     },
     // 完成编辑
     complete() {
-      this.$refs["ruleForm"] &&
-        this.$refs["ruleForm"].validate((valid) => {
+      this.$refs['ruleForm'] &&
+        this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             this.ruleForm.options = this.ruleForm.options.map((item) => {
               return {
                 ...item,
-                action: this.ruleForm.actionItem.value,
-              };
-            });
-            this.editor = false;
-            this.ruleForm.editor = this.editor;
+                action: this.ruleForm.actionItem.value
+              }
+            })
+            this.editor = false
+            this.ruleForm.editor = this.editor
             this.ruleForm.multipleRule = {
               most: this.ruleForm.most,
-              least: this.ruleForm.least,
-            };
+              least: this.ruleForm.least
+            }
             this.ruleForm.options = this.ruleForm.options.map((item) => {
               return {
                 ...item,
                 action:
-                  typeof item.action === "object"
+                  typeof item.action === 'object'
                     ? item.action.value
-                    : item.action,
-              };
-            });
+                    : item.action
+              }
+            })
             if (this.isParap) {
-              this.$emit("handleSaveDataP", this.ruleForm);
+              this.$emit('handleSaveDataP', this.ruleForm)
             } else {
-              this.$emit("handleSaveData", this.ruleForm);
+              this.$emit('handleSaveData', this.ruleForm)
             }
           }
-        });
-      return this.editor;
+        })
+      return this.editor
     },
     // 添加一个选项
     add(scope) {
-      let arr = [];
+      let arr = []
       this.ruleForm.options.splice(scope.number, 0, {
-        number: "",
+        number: '',
         type: 1,
-        name: "",
-        action: "",
-      });
+        name: '',
+        action: ''
+      })
       this.ruleForm.options.map((item) => {
-        item.number = this.ruleForm.options.indexOf(item) + 1;
-      });
-      this.ruleForm.most = "";
-      this.ruleForm.least = 1;
+        item.number = this.ruleForm.options.indexOf(item) + 1
+      })
+      this.ruleForm.most = ''
+      this.ruleForm.least = 1
       this.ruleForm.options.forEach((item, index) => {
-        arr.push(index + 1);
-      });
-      this.mostOptionList = arr;
-      this.leastOptionList = arr;
+        arr.push(index + 1)
+      })
+      this.mostOptionList = arr
+      this.leastOptionList = arr
     },
     // 减去一个选项
     minus(scope) {
-      let arr = [];
+      let arr = []
       this.ruleForm.options = this.ruleForm.options.filter((item) => {
-        return scope.number !== item.number;
-      });
+        return scope.number !== item.number
+      })
       this.ruleForm.options.map((item) => {
-        item.number = this.ruleForm.options.indexOf(item) + 1;
-      });
-      this.ruleForm.most = "";
-      this.ruleForm.least = 1;
+        item.number = this.ruleForm.options.indexOf(item) + 1
+      })
+      this.ruleForm.most = ''
+      this.ruleForm.least = 1
       this.ruleForm.options.forEach((item, index) => {
-        arr.push(index + 1);
-      });
-      this.mostOptionList = arr;
-      this.leastOptionList = arr;
+        arr.push(index + 1)
+      })
+      this.mostOptionList = arr
+      this.leastOptionList = arr
     },
     // 向上移动
     moveUp(item) {
-      let index = this.ruleForm.options.indexOf(item);
-      this.swapArray(this.ruleForm.options, index - 1, index);
+      let index = this.ruleForm.options.indexOf(item)
+      this.swapArray(this.ruleForm.options, index - 1, index)
     },
     // 向下移动
     moveDown(item) {
-      let index = this.ruleForm.options.indexOf(item);
-      this.swapArray(this.ruleForm.options, index, index + 1);
+      let index = this.ruleForm.options.indexOf(item)
+      this.swapArray(this.ruleForm.options, index, index + 1)
     },
     // 数组元素互换位置
     swapArray(arr, index1, index2) {
-      arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+      arr[index1] = arr.splice(index2, 1, arr[index1])[0]
       arr.map((item) => {
-        item.number = arr.indexOf(item) + 1;
-      });
-      return arr;
+        item.number = arr.indexOf(item) + 1
+      })
+      return arr
     },
 
     // 展示一列按钮
     enter() {
-      this.mouseOver = true;
+      this.mouseOver = true
     },
     // 鼠标离开
     leave() {
-      this.mouseOver = false;
+      this.mouseOver = false
     },
     // 编辑
     enterEditor() {
-      this.editor = true;
-      this.ruleForm.editor = true;
-      this.$emit("handleEnterEditor", this.ruleForm);
+      this.editor = true
+      this.ruleForm.editor = true
+      this.$emit('handleEnterEditor', this.ruleForm)
     },
 
     // 复制
@@ -744,27 +774,33 @@ export default {
       this.ruleForm.options = this.ruleForm.options.map((item) => {
         return {
           ...item,
-          action: "",
-        };
-      });
-      this.$emit("handleCopy", { ...this.ruleForm });
+          action: ''
+        }
+      })
+      this.$emit('handleCopy', { ...this.ruleForm })
     },
     // 删除
     handlDelete() {
       if (this.isParap) {
-        this.$emit("handleDeleteP", this.ruleForm);
+        this.$emit('handleDeleteP', this.ruleForm)
       } else {
-        this.$emit("handleDelete", this.ruleForm);
+        this.$emit('handleDelete', this.ruleForm)
       }
     },
     // 上移
     handleTop() {
       if (this.actionBar) {
-        this.$confirm("上下移动将清空跳题设置，确认是否移动？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
+        this.$confirm(
+          this.$t(
+            'QN_SHANGXIAYIDONGJIANGQINGKONGTIAOTISHEZHIQUERENSHIFOUYIDONG'
+          ),
+          this.$t('QN_TISHI'),
+          {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           if (!this.isParap) {
             // this.contentlist = this.contentlist.map((item) => {
             //   if (item.options) {
@@ -785,22 +821,28 @@ export default {
             //   };
             // });
           }
-          this.ruleForm.editor = this.editor;
-          this.$emit("handleTop", this.ruleForm, this.contentlist);
-        });
+          this.ruleForm.editor = this.editor
+          this.$emit('handleTop', this.ruleForm, this.contentlist)
+        })
       } else {
-        this.ruleForm.editor = this.editor;
-        this.$emit("handleTop", this.ruleForm, this.contentlist);
+        this.ruleForm.editor = this.editor
+        this.$emit('handleTop', this.ruleForm, this.contentlist)
       }
     },
     // 下移
     handleBottom() {
       if (this.actionBar) {
-        this.$confirm("上下移动将清空跳题设置，确认是否移动？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
+        this.$confirm(
+          this.$t(
+            'QN_SHANGXIAYIDONGJIANGQINGKONGTIAOTISHEZHIQUERENSHIFOUYIDONG'
+          ),
+          this.$t('QN_TISHI'),
+          {
+            confirmButtonText: this.$t('QN_SHI'),
+            cancelButtonText: this.$t('QN_FOU'),
+            type: 'warning'
+          }
+        ).then(() => {
           if (!this.isParap) {
             // this.contentlist = this.contentlist.map((item) => {
             //   if (item.options) {
@@ -821,16 +863,16 @@ export default {
             //   };
             // });
           }
-          this.ruleForm.editor = this.editor;
-          this.$emit("handleBottom", this.ruleForm, this.contentlist);
-        });
+          this.ruleForm.editor = this.editor
+          this.$emit('handleBottom', this.ruleForm, this.contentlist)
+        })
       } else {
-        this.ruleForm.editor = this.editor;
-        this.$emit("handleBottom", this.ruleForm, this.contentlist);
+        this.ruleForm.editor = this.editor
+        this.$emit('handleBottom', this.ruleForm, this.contentlist)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .add-minus {
@@ -1011,7 +1053,7 @@ export default {
   border: 2px solid #fff;
   // 不覆盖下面的 会 导致对号变形
   box-sizing: content-box;
-  content: "";
+  content: '';
   border-left: 0;
   border-top: 0;
 }

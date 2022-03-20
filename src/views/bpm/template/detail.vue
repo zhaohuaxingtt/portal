@@ -3,7 +3,7 @@
     <iPage class="approval-template">
       <div class="page-header margin-bottom20">
         <div class="font20 font-weight">
-          {{ form.modelId ? '编辑流程' : '新建流程' }}
+          {{language( form.modelId ? '编辑流程' : '新建流程') }}
         </div>
         <div class="operation-btn">
           <iButton :loading="saveLoading" @click="save">

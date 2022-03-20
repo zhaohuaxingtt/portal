@@ -40,7 +40,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="language('模具材料组名称(中)')" prop="nameZh">
+          <iFormItem :label="$t('模具材料组名称(中)')" prop="nameZh">
             <iInput
               v-model="form.nameZh"
               :placeholder="language('请输入')"
@@ -49,7 +49,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="language('模具材料组名称(德)')" prop="nameDe">
+          <iFormItem :label="$t('模具材料组名称(德)')" prop="nameDe">
             <iInput
               v-model="form.nameDe"
               :placeholder="language('请输入')"
@@ -77,21 +77,21 @@ export default {
         code: [
           {
             required: true,
-            message: '模具材料组编号必填',
+            message: this.language('模具材料组编号必填'),
             trigger: 'blur'
           }
         ],
         nameZh: [
           {
             required: true,
-            message: '模具材料组名称(中)必填',
+            message: this.language('模具材料组名称(中)必填'),
             trigger: 'blur'
           }
         ],
         nameDe: [
           {
             required: true,
-            message: '模具材料组名称(德)必填',
+            message: this.language('模具材料组名称(德)必填'),
             trigger: 'blur'
           }
         ]
