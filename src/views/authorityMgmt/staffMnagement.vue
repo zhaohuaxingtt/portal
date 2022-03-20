@@ -2,7 +2,7 @@
   <div>
     <iPage>
       <pageHeader>
-        <span>{{language('员工')}} {{ this.formData.nameZh }}</span>
+        <span>{{ language('员工') }} {{ this.formData.nameZh }}</span>
       </pageHeader>
       <div class="Main">
         <!-- 搜索条件 -->
@@ -59,7 +59,7 @@
                     >
                       <iInput
                         :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-                        class=""
+                        class="eng-name"
                         v-model="formData.nameEn"
                         :disabled="isEdit"
                       ></iInput>
@@ -70,12 +70,20 @@
                       :label="$t('staffManagement.SEX')"
                       class="SearchOption"
                     >
-                      <iInput
-                        :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-                        class=""
-                        v-model="formData.gender"
+                      <iSelect
+                        :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
                         disabled
-                      ></iInput>
+                        class="selectWidth"
+                        v-model="formData.gender"
+                      >
+                        <el-option
+                          v-for="item in sexOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                        </el-option>
+                      </iSelect>
                     </iFormItem>
                   </el-col>
                 </el-row>
@@ -416,6 +424,16 @@ export default {
           label: '外方'
         }
       ],
+      sexOptions: [
+        {
+          value: '1',
+          label: '男'
+        },
+        {
+          value: '2',
+          label: '女'
+        }
+      ],
       tagList: '',
       departmentVal: '',
       roleListLength: 1,
@@ -557,6 +575,12 @@ export default {
           })
           //去抖函数
           this.debounceFn(reqData)
+        }
+        if (res.data.gender === 'male' || res.data.gender === '男') {
+          this.formData.gender = '1'
+        }
+        if (res.data.gender === 'female' || res.data.gender === '女') {
+          this.formData.gender = '2'
         }
         //上下级信息表格数据格式拼接
         res.data.subUserList == null ? (res.data.subUserList = []) : ''
@@ -913,6 +937,11 @@ export default {
 }
 .routerpage {
   height: calc(100vh - 50px);
+}
+.eng-name {
+  ::v-deep .el-input__inner {
+    text-transform: capitalize;
+  }
 }
 // ::v-deep.el-table tr:nth-child(even){
 //   background-color: #fff;
