@@ -317,11 +317,11 @@ export default {
       isDept: true,
       sex: [
         {
-          value: '男',
+          value: '1',
           label: '男'
         },
         {
-          value: '女',
+          value: '1',
           label: '女'
         }
       ],
