@@ -16,8 +16,7 @@
           ref="homeframeworktab"
           @handleSelectionChange="handleSelectionChange"
           @open-page="openPage"
-          @changePage='purchaseAmount'
-          
+          @changePage="purchaseAmount"
         >
         </HomeFrameWorkTab>
         <iPagination
@@ -34,9 +33,17 @@
       </div>
     </iCard>
     <!-- 新增弹窗 -->
-    <addClassification :isShow="isShow" @input="(val) => (isShow = val)" @saveDataList='saveDataList'/>
-      <!-- 修改弹窗 -->
-    <changeClassification :isChange="isChange" @input="(val) => (isChange = val)" />
+    <addClassification
+      :isShow="isShow"
+      @input="(val) => (isShow = val)"
+      @saveDataList="saveDataList"
+    />
+    <!-- 修改弹窗 -->
+    <changeClassification
+      :isChange="isChange"
+      @input="(val) => (isChange = val)"
+      @saveChangeList="saveChangeList"
+    />
   </iPage>
 </template>
 <script>
@@ -44,7 +51,7 @@ import { iCard, iButton, iPagination, iPage } from 'rise'
 import HomeFrameWorkTab from './HomeFrameWorkTab'
 import addClassification from './addClassification'
 import changeClassification from './changeClassification'
-import { page } from '@/api/authorityMgmt'
+import { page, getMaterialGroupById } from '@/api/authorityMgmt'
 import { SEARCH_DATA } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
@@ -63,7 +70,7 @@ export default {
       isShow: false, //控制新增弹窗
       formData: SEARCH_DATA,
       tablelist: [],
-      isChange:false,//修改弹窗
+      isChange: false //修改弹窗
     }
   },
   created() {
@@ -76,12 +83,12 @@ export default {
     },
     //获取列表值
     getList() {
-      this.formData.currentPage = this.page.currPage
-      this.formData.pageSize = this.page.pageSize
+      this.formData.current = this.page.currPage
+      this.formData.size = this.page.pageSize
       page(this.formData).then((res) => {
         if (+res.code == 200) {
-          this.tablelist = res.data.data.map((k,i)=>{
-            k.indexCode=i+1
+          this.tablelist = res.data.data.map((k, i) => {
+            k.indexCode = i + 1
             return k
           })
           this.page.totalCount = res.data.total
@@ -89,13 +96,29 @@ export default {
       })
     },
     //修改采购分类
-    purchaseAmount(val){
-      console.log('111111111',val)
+    purchaseAmount(val) {
       this.isChange = true
+      getMaterialGroupById(val.id).then((res) => {
+        this.formData.parentMaterialGroupCode = res.data.parentMaterialGroupCode
+        this.formData.parentMaterialGroupName = res.data.parentMaterialGroupName
+        this.formData.parentMaterialGroupLevel =
+          res.data.parentMaterialGroupLevel + 1
+        this.formData.materialGroupCode = res.data.materialGroupCode
+        this.formData.materialGroupName = res.data.materialGroupName
+        this.formData.materialGroupDesc = res.data.materialGroupDesc
+        this.formData.isActive = res.data.isActive
+        this.formData.isActive1 = res.data.isActive1
+      })
     },
     //新增后保存
-    saveDataList(){
-      this.isShow=false
+    saveDataList() {
+      this.isShow = false
+      this.getList()
+    },
+    //修改后保存
+    saveChangeList() {
+      this.isChange = false
+      this.getList()
     }
   }
 }

@@ -60,7 +60,10 @@
         <el-col :span="6">
           <!-- 级别-->
           <el-form-item label="级别">
-            <i-input disabled v-model="formData.materialGroupLevel"></i-input>
+            <i-input
+              disabled
+              v-model="formData.parentMaterialGroupLevel"
+            ></i-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -146,6 +149,10 @@ export default {
     select(val) {
       getMaterialGroupById(val).then((res) => {
         if (+res.code == 200) {
+          if (res.data.parentMaterialGroupLevel != null) {
+            this.parentMaterialGroupLevel =
+              res.data.parentMaterialGroupLevel + 1
+          }
         }
       })
     },

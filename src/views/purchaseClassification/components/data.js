@@ -5,7 +5,7 @@ export const SEARCH_DATA = {
   materialGroupName: null,//采购分类名称
   materialGroupDesc: null,//备注
   isActive:true,//是否有效
-  materialGroupLevel: null,//级别
+  parentMaterialGroupLevel: null,//级别
   isActive1:'',//股别
   'pageSize': '10',
   'currentPage': "1",
