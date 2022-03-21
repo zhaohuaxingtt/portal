@@ -12,7 +12,7 @@ export const tableTitle = [
     props: 'name',
     name: '供应商名称',
     key: 'SPR_FRM_DEP_SUPNAME',
-    width: 100,
+    width: 300,
     tooltip: true
   },
   { props: 'sap', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
@@ -66,14 +66,14 @@ export const tableTitle = [
     props: 'relevantDept',
     name: '相关科室',
     key: 'SPR_FRM_DEP_REKADEP',
-    width: 150
+    width: 220
   },
   { props: 'remarks', name: '备注', key: 'SPR_FRM_DEP_REMARKS' },
   {
     props: 'distributionObjects',
     name: '已分发对象',
     key: 'SPR_FRM_DEP_DISOBJ',
-    width: 150
+    width: 220
   },
   {
     props: 'gradeStartMonth',

@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="标记例外"
+    :title="$t('TM_BIAOJILIWAI')"
     :visible.sync="openDialog"
     append-to-body="true"
     width="32.1875rem"
@@ -10,15 +10,17 @@
   >
     <div class="upload">
       <div class="upload-text">
-        请确认是否标记该供应商为例外，如标记该供应商将无需签署条款！
+        {{
+          $t('TM_QINGQUERENSHIFOUBIAOJIGAIGONGYINGSHANGLIWAIRUBIAOJIWUCXUQIANSHUTIAOKUAN')
+        }}
       </div>
       <div class="exception">
-        <span class="exc">例外：</span>
+        <span class="exc">{{ $t('TM_LIWAI') }}</span>
         <el-switch
           class="el-switch"
           v-model="form.isExclude"
-          :active-text="'是'"
-          :inactive-text="'否'"
+          :active-text="$t('TM_SHI')"
+          :inactive-text="$t('TM_FOU')"
           :active-value="true"
           :inactive-value="false"
           @change="handleChange($event)"
@@ -26,7 +28,7 @@
         </el-switch>
       </div>
       <div>
-        <span class="attachment">附件：</span>
+        <span class="attachment">{{ $t('TM_FUJIAN') }}</span>
         <el-upload
           class="upload-demo"
           style="display: inline-block"
@@ -78,9 +80,9 @@
     </div>
     <div class="button-list">
       <iButton :disabled="this.clauseState == '04'" @click="handleSubmit">{{
-        '保存'
+        $t('TM_BAOCUN')
       }}</iButton>
-      <iButton @click="clearDiolog" class="cancel">{{ '退出' }}</iButton>
+      <iButton @click="clearDiolog" class="cancel">{{ $t('TM_TUICHU') }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -133,7 +135,7 @@ export default {
   methods: {
     handleSubmit() {
       if (this.form.isExclude == true && this.form.attachments.length == 0) {
-        iMessage.error('请上传附件')
+        iMessage.error(this.$t('TM_QINGSHANGCHUANFUJIAN'))
       } else {
         if (this.form.isExclude == false) {
           const submitFile = {
@@ -174,7 +176,7 @@ export default {
           markExclude(submitFile)
             .then((res) => {
               if (res.code == 200) {
-                iMessage.success(this.$t('操作成功！'))
+                iMessage.success(this.$t('TM_CAOZUOCHENGGONG'))
                 this.$emit('closeDialog', false)
                 this.$emit('getTableList', { termsId: this.id })
               }
@@ -211,10 +213,10 @@ export default {
             attachmentSize: (content.file.size / 1024).toFixed(0),
             uploadDate: createDate
           })
-          iMessage.success('上传成功')
+          iMessage.success(this.$t('TM_SHANGCHUANCHENGGONG'))
         })
         .catch(() => {
-          iMessage.error('上传失败')
+          iMessage.error(this.$t('TM_SHANGCHUANSHIBAI'))
         })
       this.uploadLoading = false
       this.submitLoading = false
@@ -237,7 +239,7 @@ export default {
         filename: name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('TM_XIAZAISHIBAI'))
           }
         }
       })

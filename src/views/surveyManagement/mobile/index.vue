@@ -34,7 +34,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -51,19 +51,20 @@
                       :http-request="(content) => httpUpload(content, item)"
                       :disabled="disabledAll || item.uploadLoading"
                     >
-                    <!-- :accept="`${item.uploadRule}`" -->
+                      <!-- :accept="`${item.uploadRule}`" -->
                       <iButton
                         @click="handleClick(index)"
                         type="button"
                         class="upload-button"
                         :loading="item.uploadLoading"
                       >
-                        上传附件<span class="upload-text"
+                        {{ $t('QN_SHANGCHUANFUJIAN')
+                        }}<span class="upload-text"
                           ><img :src="uploadIcon"
                         /></span>
                       </iButton>
                       <div class="upload-limit">
-                        文件大小无限制，最多上传1个文件
+                        {{ $t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN') }}
                       </div>
                     </el-upload>
                     <ul
@@ -120,7 +121,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -130,10 +131,10 @@
                     <div v-if="item.multipleRule">
                       <span class="form-item-multipleRule">
                         <span v-if="min(item)">
-                          最少选择{{ min(item) }}项；
+                          {{ $t('QN_ZUISHAOXUANZE') }}{{ min(item) }}{{ $t('QN_XIANG') }}
                         </span>
                         <span v-if="max(item)">
-                          最多选择{{ max(item) }}项；
+                          {{ $t('QN_ZUIDUOXUANZE') }}{{ max(item) }}{{ $t('QN_XIANG') }}
                         </span>
                       </span>
                     </div>
@@ -149,8 +150,8 @@
                         class="radioItem optionItemScrow"
                       >
                         {{
-                          String.fromCharCode("A".charCodeAt(0) + checkIndex) +
-                          ". " +
+                          String.fromCharCode('A'.charCodeAt(0) + checkIndex) +
+                          '. ' +
                           ite.name
                         }}
                       </el-checkbox>
@@ -168,7 +169,7 @@
                 <li class="item" v-if="item.type === 6">
                   <!-- <iFormItem prop="answer" v-if="item.first">
                     <iLabel
-                      :label="item.codeP + '.' + item.nameP + (item.requiredQuestion ? '' : '   (可选填)')"
+                      :label="item.codeP + '.' + item.nameP + (item.requiredQuestion ? '' : '   QN_KEXUANTIAN')"
                       :required="item.requireP"
                       slot="label"
                     ></iLabel>
@@ -179,7 +180,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -214,7 +215,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -252,7 +253,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -300,7 +301,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -314,10 +315,13 @@
                       class="from-item-group"
                       @change="handleRadio(i.action, item.type)"
                     >
-                      <el-radio :label="i.id + '-' + i.name" class="radioItem optionItemScrow">
+                      <el-radio
+                        :label="i.id + '-' + i.name"
+                        class="radioItem optionItemScrow"
+                      >
                         {{
-                          String.fromCharCode("A".charCodeAt(0) + index) +
-                          ". " +
+                          String.fromCharCode('A'.charCodeAt(0) + index) +
+                          '. ' +
                           i.name
                         }}
                       </el-radio>
@@ -339,7 +343,7 @@
                         item.code +
                         '. ' +
                         item.name +
-                        (item.requiredQuestion ? '' : '   (可选填)')
+                        (item.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                       "
                       :required="item.requiredQuestion"
                       :class="{ 'is-required': item.requiredQuestion }"
@@ -352,7 +356,7 @@
                       resize="none"
                       :autosize="{ minRows: 6, maxRows: 8 }"
                       show-word-limit
-                      placeholder="请输入您的回答。"
+                      :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
                       v-model="item.answer"
                       maxlength="100"
                     ></iInput>
@@ -392,7 +396,7 @@
                             sonItem.code +
                             ' ' +
                             sonItem.name +
-                            (sonItem.requiredQuestion ? '' : '   (可选填)')
+                            (sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                           "
                           :required="sonItem.requiredQuestion"
                           :class="{ 'is-required': sonItem.requiredQuestion }"
@@ -412,19 +416,20 @@
                           "
                           :disabled="disabledAll || sonItem.uploadLoading"
                         >
-                        <!-- :accept="`${sonItem.uploadRule}`" -->
+                          <!-- :accept="`${sonItem.uploadRule}`" -->
                           <iButton
                             @click="handleSonClick(index, sonIndex)"
                             type="button"
                             class="upload-button"
                             :loading="sonItem.uploadLoading"
                           >
-                            上传附件<span class="upload-text"
+                            {{ $t('QN_SHANGCHUANFUJIAN')
+                            }}<span class="upload-text"
                               ><img :src="uploadIcon"
                             /></span>
                           </iButton>
                           <div class="upload-limit">
-                            文件大小无限制，最多上传1个文件
+                            {{ $t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN') }}
                           </div>
                         </el-upload>
                         <ul
@@ -452,9 +457,7 @@
                             </a>
                             <label class="el-upload-list__item-status-label">
                               <i
-                                class="
-                                  el-icon-upload-success el-icon-circle-check
-                                "
+                                class="el-icon-upload-success el-icon-circle-check"
                               ></i>
                             </label>
                             <i
@@ -487,7 +490,7 @@
                             sonItem.code +
                             ' ' +
                             sonItem.name +
-                            (sonItem.requiredQuestion ? '' : '   (可选填)')
+                            (sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                           "
                           :required="sonItem.requiredQuestion"
                           :class="{ 'is-required': sonItem.requiredQuestion }"
@@ -497,10 +500,12 @@
                         <div v-if="sonItem.multipleRule">
                           <span class="form-item-multipleRule">
                             <span v-if="min(sonItem)">
-                              最少选择{{ min(sonItem) }}项；
+                              {{ $t('QN_ZUISHAOXUANZE') }}{{ min(sonItem)
+                              }}{{ $t('QN_XIANG') }}
                             </span>
                             <span v-if="max(sonItem)">
-                              最多选择{{ max(sonItem) }}项；
+                              {{ $t('QN_ZUIDUOXUANZE') }}{{ max(sonItem)
+                              }}{{ $t('QN_XIANG') }}
                             </span>
                           </span>
                         </div>
@@ -519,8 +524,8 @@
                             class="radioItem optionItemScrow"
                           >
                             {{
-                              String.fromCharCode("A".charCodeAt(0) + inde) +
-                              ". " +
+                              String.fromCharCode('A'.charCodeAt(0) + inde) +
+                              '. ' +
                               it.name
                             }}
                           </el-checkbox>
@@ -552,7 +557,7 @@
                             sonItem.code +
                             ' ' +
                             sonItem.name +
-                            (sonItem.requiredQuestion ? '' : '   (可选填)')
+                            (sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                           "
                           :required="sonItem.requiredQuestion"
                           :class="{ 'is-required': sonItem.requiredQuestion }"
@@ -587,7 +592,7 @@
                             sonItem.code +
                             ' ' +
                             sonItem.name +
-                            (sonItem.requiredQuestion ? '' : '   (可选填)')
+                            (sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                           "
                           :required="sonItem.requiredQuestion"
                           :class="{ 'is-required': sonItem.requiredQuestion }"
@@ -635,7 +640,7 @@
                             sonItem.code +
                             ' ' +
                             sonItem.name +
-                            (sonItem.requiredQuestion ? '' : '   (可选填)')
+                            (sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                           "
                           :required="sonItem.requiredQuestion"
                           :class="{ 'is-required': sonItem.requiredQuestion }"
@@ -653,8 +658,8 @@
                             class="radioItem optionItemScrow"
                           >
                             {{
-                              String.fromCharCode("A".charCodeAt(0) + index) +
-                              ". " +
+                              String.fromCharCode('A'.charCodeAt(0) + index) +
+                              '. ' +
                               it.name
                             }}
                           </el-radio>
@@ -676,7 +681,7 @@
                             sonItem.code +
                             ' ' +
                             sonItem.name +
-                            (sonItem.requiredQuestion ? '' : '   (可选填)')
+                            (sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN'))
                           "
                           :required="sonItem.requiredQuestion"
                           :class="{ 'is-required': sonItem.requiredQuestion }"
@@ -689,7 +694,7 @@
                           resize="none"
                           :autosize="{ minRows: 6, maxRows: 8 }"
                           show-word-limit
-                          placeholder="请输入您的回答。"
+                          :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
                           v-model="sonItem.answer"
                           maxlength="100"
                         ></iInput>
@@ -701,7 +706,9 @@
             </ul>
           </el-form>
           <footer class="submit-footer">
-            <iButton class="submit" @click="handleSubmit">提交</iButton>
+            <iButton class="submit" @click="handleSubmit">{{
+              $t('QN_TIJIAO')
+            }}</iButton>
             <!-- <iButton class="submit" @click="handle">message提交</iButton> -->
           </footer>
         </main>
@@ -717,12 +724,11 @@ import {
   iLabel,
   iInput,
   iSelect,
-  iPage,
-} from "rise";
-import { uploadFile } from "@/api/survey/uploadFile.js";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import { rulesInfo } from "./data";
-import { queryForAnswer, findById, saveAnswer } from "@/api/survey/survey";
+  iPage
+} from 'rise'
+import { uploadFile } from '@/api/survey/uploadFile.js'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { queryForAnswer, saveAnswer } from '@/api/survey/survey'
 export default {
   components: {
     iButton,
@@ -730,7 +736,7 @@ export default {
     iLabel,
     iInput,
     iSelect,
-    iPage,
+    iPage
   },
   data() {
     return {
@@ -739,7 +745,7 @@ export default {
       uploadLoading: false,
       uploadIcon,
       ruleForm: {},
-      id: "",
+      id: '',
       listIndex: null,
       sonListIndex: null,
       maxSize: 15,
@@ -748,50 +754,51 @@ export default {
       checkMax: null,
       checkMin: null,
       loading: false,
-      disabled: false,
-    };
+      disabled: false
+    }
   },
   created() {
-    this.id = this.$route.params.id;
-    document.title = "问卷调查";
+    this.id = this.$route.params.id
+    document.title = this.$t('QN_WENJUANDIAOCHA')
   },
   mounted() {
-    this.query();
-    document.querySelectorAll(".flex-align-center").forEach((item) => {
-      let dom = item.querySelector("span").cloneNode(true);
-      item.querySelector("span").remove();
-      item.appendChild(dom);
-    });
+    this.query()
+    document.querySelectorAll('.flex-align-center').forEach((item) => {
+      let dom = item.querySelector('span').cloneNode(true)
+      item.querySelector('span').remove()
+      item.appendChild(dom)
+    })
   },
   computed: {
-    FileType(){
+    FileType() {
       return 'image/gif,image/png, image/jpeg,image/bmp,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,application/x-rar-compressed,application/zip,video/mpeg,audio/mpeg'
     },
     questions() {
-      console.log("-=-=-=-=");
-      let actionCode = 0;
-      let sonActionCode = 0;
-      return this.ruleForm?.questions?.filter((item, index) => {
-        item._ = item.sonQuestions?.map((it) => it.answer); // 维持sonQuestions的深度引用。
+      let actionCode = 0
+      return this.ruleForm?.questions?.filter((item) => {
+        item._ = item.sonQuestions?.map((it) => it.answer) // 维持sonQuestions的深度引用。
         if (actionCode == -1 || item.code < actionCode) return false
         if (item.type != 9) {
-          if (!item.answer || item.answer == "") return true;
+          if (!item.answer || item.answer == '') return true
         }
-        if (item.type === 5) return true;
+        if (item.type === 5) return true
 
-        if (item.answer && (item.type === 6 || item.type === 2 || item.type === 1)) {
+        if (
+          item.answer &&
+          (item.type === 6 || item.type === 2 || item.type === 1)
+        ) {
           const ids = []
             .concat(item.answer)
-            .map((answer) => answer?.split("-")?.[0]);
+            .map((answer) => answer?.split('-')?.[0])
           const answerItems = item.options?.filter((item) =>
             ids.includes(item.id)
-          );
-          actionCode = item.code;
+          )
+          actionCode = item.code
           answerItems.forEach((answer) => {
-            if (-1 == answer.action) actionCode = -1;
+            if (-1 == answer.action) actionCode = -1
             else if (actionCode != -1)
-              actionCode = Math.max(actionCode, answer.action || 0);
-          });
+              actionCode = Math.max(actionCode, answer.action || 0)
+          })
         }
 
         //  item.sonQuestions = item.sonQuestions?.filter((it,index) => {
@@ -812,56 +819,57 @@ export default {
         //   }
         //   return true
         // });
-        return true;
-      });
+        return true
+      })
     },
     sonQuestions() {
-      console.log("-=-=-=-=");
-      let actionCode = 0;
-      let sonActionCode = 0;
-      return this.questions?.map((item, index) => {
+      let sonActionCode = 0
+      return this.questions?.map((item) => {
         return {
           ...item,
-          sonQuestions: item.sonQuestions?.filter((it, index) => {
-            if (sonActionCode == -1 || it.code < sonActionCode) return false;
-            if (!it.answer || it.answer == "") return true;
-            if (it.type === 5) return true;
+          sonQuestions: item.sonQuestions?.filter((it) => {
+            if (sonActionCode == -1 || it.code < sonActionCode) return false
+            if (!it.answer || it.answer == '') return true
+            if (it.type === 5) return true
 
-            if (it.answer && (item.type === 6 || item.type === 2 || item.type === 1)) {
+            if (
+              it.answer &&
+              (item.type === 6 || item.type === 2 || item.type === 1)
+            ) {
               const ids = []
                 .concat(it.answer)
-                .map((answer) => answer?.split("-")?.[0]);
+                .map((answer) => answer?.split('-')?.[0])
               const answerItems = it.options?.filter((it) =>
                 ids.includes(it.id)
-              );
-              sonActionCode = it.code;
+              )
+              sonActionCode = it.code
               answerItems.forEach((answer) => {
-                if (-1 == answer.action) sonActionCode = -1;
+                if (-1 == answer.action) sonActionCode = -1
                 else if (sonActionCode != -1)
-                  sonActionCode = Math.max(sonActionCode, answer.action || 0);
-              });
+                  sonActionCode = Math.max(sonActionCode, answer.action || 0)
+              })
             }
-            return true;
-          }),
-        };
-      });
+            return true
+          })
+        }
+      })
     },
     max() {
       return function (da) {
         const multipleRule = da?.multipleRule
           ? JSON.parse(da?.multipleRule)
-          : {};
-        return multipleRule?.most || "";
-      };
+          : {}
+        return multipleRule?.most || ''
+      }
     },
     min() {
       return function (da) {
         const multipleRule = da?.multipleRule
           ? JSON.parse(da?.multipleRule)
-          : {};
-        return multipleRule?.least || "";
-      };
-    },
+          : {}
+        return multipleRule?.least || ''
+      }
+    }
   },
   methods: {
     // 伪代码  调整弹框样式
@@ -873,36 +881,36 @@ export default {
     //   })
     // },
     handleRadio(action, type) {
-      console.log("单选", action, type);
+      console.log('单选', action, type)
     },
     async httpUpload(content, item) {
-      console.log(754, content, item);
-      item.uploadLoading = true;
+      console.log(754, content, item)
+      item.uploadLoading = true
       // console.log(756,uploadLoading)
-      let formData = new FormData();
-      formData.append("file", content.file);
-      const res = await uploadFile(formData).catch((err) => {
-        iMessage.error(this.$t("上传成功"));
-      });
-      iMessage.success(this.$t("上传失败"));
-      let list = [];
-      let previewList = this.questions;
+      let formData = new FormData()
+      formData.append('file', content.file)
+      const res = await uploadFile(formData).catch(() => {
+        iMessage.error(this.$t('QN_SHANGCHUANCHENGGONG'))
+      })
+      iMessage.success(this.$t('QN_SHANGCHUANSHIBAI'))
+      let list = []
+      let previewList = this.questions
       list.push({
         attachmentId: res.id,
         attachmentName: res.name,
         attachmentUrl: res.path,
-        upLoadFileName: res.name,
-      });
+        upLoadFileName: res.name
+      })
       if (previewList[this.listIndex].type == 9) {
         previewList[this.listIndex].sonQuestions[this.sonListIndex].answer =
-          list;
+          list
         // if(previewList[this.listIndex].sonQuestions[this.sonListIndex].answer == null) {
         //   previewList[this.listIndex].sonQuestions[this.sonListIndex].answer = list;
         // }else {
         //   previewList[this.listIndex].sonQuestions[this.sonListIndex].answer = [...previewList[this.listIndex].sonQuestions[this.sonListIndex].answer, ...list]
         // }
       } else {
-        previewList[this.listIndex].answer = list;
+        previewList[this.listIndex].answer = list
         // if(previewList[this.listIndex].answer == null) {
         //   previewList[this.listIndex].answer = list;
         // }else {
@@ -910,24 +918,24 @@ export default {
         // }
       }
 
-      this.$refs["ruleForm"].clearValidate("attachments");
+      this.$refs['ruleForm'].clearValidate('attachments')
 
-      item.uploadLoading = false;
+      item.uploadLoading = false
     },
     beforeAvatarUpload(file, uploadRule) {
-      console.log(653, file, uploadRule);
-      const fileExtension = file.name.substring(file.name.lastIndexOf("."));
-      console.log(768, uploadRule.indexOf(fileExtension));
-      console.log(769, uploadRule, fileExtension);
-      let isRule = uploadRule?.split(",");
-      let isFileType;
+      console.log(653, file, uploadRule)
+      const fileExtension = file.name.substring(file.name.lastIndexOf('.'))
+      console.log(768, uploadRule.indexOf(fileExtension))
+      console.log(769, uploadRule, fileExtension)
+      let isRule = uploadRule?.split(',')
+      let isFileType
       if (uploadRule) {
-        isFileType = !isRule.includes(fileExtension);
+        isFileType = !isRule.includes(fileExtension)
         if (isFileType) {
           this.$message.error({
-            message: "上传的文件类型为" + uploadRule,
-            customClass: "uploadCss",
-          });
+            message: this.$t('QN_SHANGCHUANWENJIANLEIXINGWEI') + uploadRule,
+            customClass: 'uploadCss'
+          })
         }
       }
       // const isLt15M = file.size / 1024 / 1024 < this.maxSize;
@@ -936,259 +944,263 @@ export default {
       //   this.$message.error(`上传文件大小不能超过 ${this.maxSize}MB!`);
       // }
       // return !isFileType && isLt15M;
-      return !isFileType;
+      return !isFileType
     },
     handleDeleteAccessory(val, index, sonIndex) {
-      let list = this.questions;
+      let list = this.questions
       if (list[index].type == 9) {
         // list[index].sonQuestions[sonIndex].answer = list[index].sonQuestions[
         //   sonIndex
         // ].answer.filter((item) => {
         //   return !item.attachmentId.includes(val);
         // });
-        list[index].sonQuestions[sonIndex].answer = null;
+        list[index].sonQuestions[sonIndex].answer = null
       } else {
         // list[index].answer = list[index].answer.filter((item) => {
         //   return !item.attachmentId.includes(val);
         // });
-        list[index].answer = null;
+        list[index].answer = null
       }
     },
     handleSubmit() {
-      let flag = false;
-      let sonFlag = false;
+      let flag = false
+      let sonFlag = false
       let sonFlagArr = []
-      let questionList = [];
+      let questionList = []
       this.sonQuestions.map((it) => {
         if (it.type == 9) {
           sonFlagArr.push(this.doNotMake(it.sonQuestions))
           console.log(sonFlagArr)
-          sonFlag = sonFlagArr.includes(true);
-          console.log(82,sonFlag)
-          return questionList.push(this.formateData(it));
+          sonFlag = sonFlagArr.includes(true)
+          console.log(82, sonFlag)
+          return questionList.push(this.formateData(it))
         }
-      });
-      this.questions.map((e, index) => {
+      })
+      this.questions.map((e) => {
         if (
           e.type != 9 &&
           (!e.answer || e.answer.length == 0) &&
           e.requiredQuestion
         ) {
-          flag = true;
+          flag = true
         }
-        if (e.type == 3 && e?.answer?.trim() == "" && e.requiredQuestion) {
-          flag = true;
+        if (e.type == 3 && e?.answer?.trim() == '' && e.requiredQuestion) {
+          flag = true
         }
         if (e.type == 7 || e.type == 8) {
-          return;
+          return
         } else if (e.type != 9) {
-          return questionList.push(this.formateData(e));
+          return questionList.push(this.formateData(e))
         }
-      });
+      })
 
       if (flag || sonFlag) {
-        if (document.getElementsByClassName("el-message").length === 0) {
-          this.$message.error("请回答必答问题");
+        if (document.getElementsByClassName('el-message').length === 0) {
+          this.$message.error(this.$t('QN_QINGHUIDABIDAWENTI'))
         }
-        return;
+        return
       }
 
-      questionList = questionList.filter((item) => item);
-      if (document.getElementsByClassName("el-message").length === 0) {
+      questionList = questionList.filter((item) => item)
+      if (document.getElementsByClassName('el-message').length === 0) {
         // isFlag = false
       } else {
         console.log(
-          "错误信息进来了",
-          document.getElementsByClassName("el-message")
-        );
-        return;
+          '错误信息进来了',
+          document.getElementsByClassName('el-message')
+        )
+        return
       }
       const formDate = {
         questions: questionList,
-        surveyId: Number(this.ruleForm.id),
-      };
-      console.log(838, formDate);
-      this.loading = true;
+        surveyId: Number(this.ruleForm.id)
+      }
+      console.log(838, formDate)
+      this.loading = true
       saveAnswer(formDate)
         .then((res) => {
-          this.loading = false;
-          this.$message.success(`提交成功`);
-          console.log("保存答案", res);
+          this.loading = false
+          this.$message.success(this.$t('QN_TIJIAOCHENGGONG'))
+          console.log('保存答案', res)
           let data = {
             name: this.ruleForm.name,
-            closing: this.ruleForm.closing,
-          };
+            closing: this.ruleForm.closing
+          }
           this.$router.push({
-            name: "mobileFinish",
-            params: data,
-          });
+            name: 'mobileFinish',
+            params: data
+          })
         })
-        .catch((err) => {
-          this.loading = false;
-        });
+        .catch(() => {
+          this.loading = false
+        })
     },
     doNotMake(questions) {
-      let flag = false;
-      console.log(81, questions);
+      let flag = false
+      console.log(81, questions)
       questions.map((e) => {
         if ((!e.answer || e.answer.length == 0) && e.requiredQuestion == true) {
-          if (e.type == 3 && e?.answer?.trim() == "") flag = true;
-          flag = true;
+          if (e.type == 3 && e?.answer?.trim() == '') flag = true
+          flag = true
         }
-      });
-      return flag;
+      })
+      return flag
     },
-    formateData(data, sondata) {
-      let obj = {};
+    formateData(data) {
+      let obj = {}
       if (data.type == 1) {
-        if (!data.answer) return;
+        if (!data.answer) return
         obj = {
           questionId: data.id,
           questionType: data.type,
           options: data?.answer
             ? [
                 {
-                  id: data.answer.split("-")[0],
-                  name: data.answer.split("-")[1],
-                },
+                  id: data.answer.split('-')[0],
+                  name: data.answer.split('-')[1]
+                }
               ]
-            : "",
-        };
+            : ''
+        }
       } else if (data.type == 2) {
-        console.log("gefasfwfwfa", data);
-        if (!data.answer) return;
+        console.log('gefasfwfwfa', data)
+        if (!data.answer) return
         obj = {
           questionId: data.id,
           questionType: data.type,
-          options: this.formateList(data?.answer),
-        };
-        if (obj.options.length == 0) return;
-        console.log(858, obj.options.length);
-        this.checkMax = this.max(data);
-        this.checkMin = this.min(data);
-        const checkMax = this.max(data);
-        const checkMin = this.min(data);
+          options: this.formateList(data?.answer)
+        }
+        if (obj.options.length == 0) return
+        console.log(858, obj.options.length)
+        this.checkMax = this.max(data)
+        this.checkMin = this.min(data)
+        const checkMax = this.max(data)
+        const checkMin = this.min(data)
         console.log(
           859,
           this.min(data) > obj.options.length ||
             obj.options.length > this.max(data)
-        );
-        console.log(885, this.min(data), obj.options.length, this.max(data));
+        )
+        console.log(885, this.min(data), obj.options.length, this.max(data))
         if (checkMin && checkMax) {
           if (checkMin > obj.options.length || obj.options.length > checkMax) {
-            if (document.getElementsByClassName("el-message").length === 0) {
+            if (document.getElementsByClassName('el-message').length === 0) {
               this.$message.error(
-                `题目${data.code}，多选题最多选择${this.checkMax}，最少选择${this.checkMin}`
-              );
-              return;
+                `${this.$t('QN_TIMU')}${data.code}，${this.$t('QN_DUOXUANTIZUIDUOXUANZE')}${
+                  this.checkMax
+                }，${this.$t('QN_ZUISHAOXUANZE')}${this.checkMin}`
+              )
+              return
             }
           }
         } else if (checkMin) {
           if (checkMin > obj.options.length) {
-            if (document.getElementsByClassName("el-message").length === 0) {
+            if (document.getElementsByClassName('el-message').length === 0) {
               this.$message.error(
-                `题目${data.code}，多选题最多选择${this.checkMax}，最少选择${this.checkMin}`
-              );
-              return;
+                `${this.$t('QN_TIMU')}${data.code}，${this.$t('QN_DUOXUANTIZUIDUOXUANZE')}${
+                  this.checkMax
+                }，${this.$t('QN_ZUISHAOXUANZE')}${this.checkMin}`
+              )
+              return
             }
           }
         } else if (checkMax) {
           if (obj.options.length > checkMax) {
-            if (document.getElementsByClassName("el-message").length === 0) {
+            if (document.getElementsByClassName('el-message').length === 0) {
               this.$message.error(
-                `题目${data.code}，多选题最多选择${this.checkMax}，最少选择${this.checkMin}`
-              );
-              return;
+                `${this.$t('QN_TIMU')}${data.code}，${this.$t('QN_DUOXUANTIZUIDUOXUANZE')}${this.checkMax}，${this.$t('QN_ZUISHAOXUANZE')}${this.checkMin}`
+              )
+              return
             }
           }
         }
       } else if (data.type == 6) {
-        if (!data.answer) return;
+        if (!data.answer) return
         obj = {
           questionId: data.id,
           questionType: data.type,
           options: data?.answer
             ? [
                 {
-                  id: data.answer.split("-")[0],
-                  name: data.answer.split("-")[1],
-                },
+                  id: data.answer.split('-')[0],
+                  name: data.answer.split('-')[1]
+                }
               ]
-            : "",
-        };
+            : ''
+        }
       } else if (data.type == 4) {
-        if (!data.answer) return;
+        if (!data.answer) return
         obj = {
           questionId: data.id,
           questionType: data.type,
-          answer: data.answer.split("-")[1],
+          answer: data.answer.split('-')[1],
           options: data?.answer
             ? [
                 {
-                  id: data.answer.split("-")[0],
-                  name: data.answer.split("-")[1],
-                },
+                  id: data.answer.split('-')[0],
+                  name: data.answer.split('-')[1]
+                }
               ]
-            : "",
-        };
+            : ''
+        }
       } else if (data.type == 3) {
-        if (!data.answer) return;
+        if (!data.answer) return
         obj = {
           questionId: data.id,
           questionType: data.type,
-          answer: data?.answer.trim(),
-        };
+          answer: data?.answer.trim()
+        }
       } else if (data.type == 5) {
-        if (!data.answer || data.length) return;
+        if (!data.answer || data.length) return
         obj = {
           questionId: data.id,
           questionType: data.type,
           answer: data.answer
             ? data.answer[0].attachmentId +
-              "." +
+              '.' +
               (data.answer[0].upLoadFileName.length > 55
                 ? data.answer[0].upLoadFileName.slice(-50)
                 : data.answer[0].upLoadFileName)
-            : null,
-        };
+            : null
+        }
       } else if (data.type == 9) {
-        console.log(752, data);
+        console.log(752, data)
         obj = {
           questionId: data.id,
           questionType: data.type,
           sonQuestions: data.sonQuestions.map((e) => {
-            return this.formateData(e);
-          }),
-        };
-        let sonQuestions = obj.sonQuestions.filter((item) => item);
-        obj = { ...obj, sonQuestions };
-        if (obj.sonQuestions.length == 0) return;
+            return this.formateData(e)
+          })
+        }
+        let sonQuestions = obj.sonQuestions.filter((item) => item)
+        obj = { ...obj, sonQuestions }
+        if (obj.sonQuestions.length == 0) return
       }
-      return obj;
+      return obj
     },
 
     formateList(data) {
-      let list = [];
+      let list = []
       if (data) {
         for (let i = 0; i < data.length; i++) {
           list.push({
-            id: data[i].split("-")[0],
-            name: data[i].split("-")[1],
-          });
+            id: data[i].split('-')[0],
+            name: data[i].split('-')[1]
+          })
         }
       }
-      return list;
+      return list
     },
     handleClick(index) {
-      console.log("上传附件", index);
-      this.listIndex = index;
+      console.log('QN_SHANGCHUANFUJIAN', index)
+      this.listIndex = index
     },
     handleSonClick(index, sonIndex) {
-      console.log("上传附件2", index, sonIndex);
-      this.listIndex = index;
-      this.sonListIndex = sonIndex;
+      console.log('QN_SHANGCHUANFUJIAN2', index, sonIndex)
+      this.listIndex = index
+      this.sonListIndex = sonIndex
     },
-    handleChange(index, action, type, sonIndex) {
+    handleChange() {
       // console.log("多选", index, action, type, sonIndex);
       // if(type == 9){
       //   this.questions[index].sonQuestions[sonIndex].answer = this.sonCheckList;
@@ -1202,41 +1214,41 @@ export default {
         if (res.id == null) {
           let data = {
             name: res.name,
-            closing: res.closing,
-          };
-          this.$router.push({ name: "mobileFinish", params: data });
-          this.$message.error("重复答题");
-          this.disabled = false;
+            closing: res.closing
+          }
+          this.$router.push({ name: 'mobileFinish', params: data })
+          this.$message.error(this.$t('QN_CHONGFUDATI'))
+          this.disabled = false
         }
-        console.log(res);
-        this.ruleForm = res;
-        this.formData = res;
+        console.log(res)
+        this.ruleForm = res
+        this.formData = res
         this.ruleForm.questions = this.ruleForm.questions.map((item) => {
-          if (item.type == 2) item.answer = [];
+          if (item.type == 2) item.answer = []
           return {
             ...item,
             uploadLoading: false,
             sonQuestions: item?.sonQuestions?.map((it) => {
-              if (it.type == 2) it.answer = [];
+              if (it.type == 2) it.answer = []
               return {
                 ...it,
-                uploadLoading: false,
-              };
-            }),
-          };
-        });
-        this.disabled = true;
-        console.log(1022, this.ruleForm);
-      });
-    },
-  },
-};
+                uploadLoading: false
+              }
+            })
+          }
+        })
+        this.disabled = true
+        console.log(1022, this.ruleForm)
+      })
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
-.optionItemScrow span:nth-child(2){
-    white-space: normal !important;
-    display: inline-table !important;
-    line-height: initial !important;
+.optionItemScrow span:nth-child(2) {
+  white-space: normal !important;
+  display: inline-table !important;
+  line-height: initial !important;
 }
 .content .app-content ::v-deep {
   overflow: auto;
@@ -1672,7 +1684,6 @@ export default {
 }
 </style>
 
-
 <style lang="scss">
 html {
   font-size: 18px !important;
@@ -1686,7 +1697,7 @@ html {
   overflow: visible !important;
   text-overflow: clip !important;
   padding: 0 0.8rem;
-  span{
+  span {
     display: inline-block;
     padding-right: 15px;
   }

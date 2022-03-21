@@ -14,14 +14,14 @@
       <el-form :model="formData">
         <el-form-item style="width: 250px;"
                       :label="language('CAILIAOZHONGLEI','材料中类')">
-          <!-- <iSelect
-          v-model="formData['materialNos']"
-          filterable
-          multiple
-          collapse-tags>
+          <iSelect
+            v-model="formData['materialNos']"
+            filterable
+            multiple
+            collapse-tags>
             <el-option v-for="(item, index) in categoryDorpDownList" :key="index" :value="item.code" :label="item.code + '-' + item.message"></el-option>
-          </iSelect> -->
-          <custom-select v-model="formData.materialNos"
+          </iSelect>
+          <!-- <custom-select v-model="formData.materialNos"
                          :user-options="categoryDorpDownList"
                          filterable
                          multiple
@@ -35,29 +35,30 @@
             <template v-slot:unselected="scope">
               <span>{{scope.data.code + '-' + scope.data.message}}</span>
             </template>
-          </custom-select>
+          </custom-select> -->
         </el-form-item>
         <el-form-item :label="language('YUEDUQI','月度起')">
           <iDatePicker v-model="formData.periodStart"
+                      :picker-options="startPickerOptions" 
+                       format="yyyy-MM"
                        type="month"
-                       valueFormat="yyyyMM"
-                       :picker-options="startPickerOptions" />
-
+                       />
         </el-form-item>
         <el-form-item :label="language('YUEDUZHI','月度止')">
           <iDatePicker v-model="formData.periodEnd"
+                      :picker-options="endPickerOptions"
+                      format="yyyy-MM"
                        type="month"
-                       valueFormat="yyyyMM"
-                       :picker-options="endPickerOptions" />
+                       />
         </el-form-item>
         <el-form-item :label="language('SHICHANGJIALEIBIE','市场价类别')">
-          <!-- <iSelect
+          <iSelect
           v-model="formData['marketTypes']"
           multiple
           collapse-tags>
             <el-option v-for="(item, index) in marketTypeDorpDownList" :key="index" :value="item.code" :label="item.message"></el-option>
-          </iSelect> -->
-          <custom-select class="cateGorySelect"
+          </iSelect>
+          <!-- <custom-select class="cateGorySelect"
                          multiple
                          collapse-tags
                          v-model="formData['marketTypes']"
@@ -65,7 +66,7 @@
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="message"
                          value-member="code"
-                         value-key="code" />
+                         value-key="code" /> -->
         </el-form-item>
       </el-form>
     </iSearch>
@@ -201,15 +202,23 @@ export default {
   methods: {
     // 初始化检索条件
     initSearch () {
-      const defaultMaterialList = ['M01006002', 'M01006001', 'M01006003', '01002', '01001', '01005']
-      const defaultMarketTypeList = ['E', 'F']
+      // const defaultMaterialList = ['M01006002', 'M01006001', 'M01006003', '01002', '01001', '01005']
+      const defaultMaterialList = []
+      // const defaultMarketTypeList = ['E', 'F']
+      const defaultMarketTypeList = []
+      
+      const dateYear = new Date();
+      const year = dateYear.getFullYear();
       this.formData = {
         ...this.formData,
         materialNos: defaultMaterialList,
-        periodStart: '2021-01',
-        periodEnd: '2021-12',
+        periodStart: year+'-01-01 00:00:00',
+        periodEnd: year+'-12-31 00:00:00',
         marketTypes: defaultMarketTypeList,
       }
+    },
+    adasa(e){
+      console.log(e)
     },
     // 获取材料中类下拉框数据
     getCategoryDorpDownList () {
@@ -230,8 +239,16 @@ export default {
     // 获取chart数据
     getChartData () {
       let formData = _.cloneDeep(this.formData)
-      formData.periodStart = formData.periodStart.replace(/[-]/g, "")
-      formData.periodEnd = formData.periodEnd.replace(/[-]/g, "")
+      if(formData.periodStart){
+        formData.periodStart = formData.periodStart.split('-')[0]+formData.periodStart.split('-')[1]
+      }else{
+        formData.periodStart = ""
+      }
+      if(formData.periodEnd){
+        formData.periodEnd = formData.periodEnd.split('-')[0]+formData.periodEnd.split('-')[1]
+      }else{
+        formData.periodEnd = ""
+      }
       mtzPriceQuery(formData).then(res => {
         if (res && res.code == 200) {
           const data = window._.cloneDeep(res.data)
@@ -357,5 +374,8 @@ export default {
       width: 250px;
     }
   }
+}
+::v-deep .el-input__suffix-inner{
+  display: none;
 }
 </style>

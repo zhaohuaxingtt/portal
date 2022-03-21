@@ -1,7 +1,8 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{language( $route.query.id ? '编辑' : '新增' )}}{{ language('车型主数据') }}
+      {{ language($route.query.id ? '编辑' : '新增')
+      }}{{ language('车型主数据') }}
     </pageHeader>
 
     <detailBase
@@ -16,11 +17,11 @@
     <detailPlan
       :product-factory-options="selectedProductFactoryOptions"
       class="margin-bottom20"
-      v-show="baseForm.id"
+      v-if="baseForm.id"
     />
 
     <detailConfig
-      v-show="baseForm.id"
+      v-if="baseForm.id"
       :product-factory-options="selectedProductFactoryOptions"
     />
   </iPage>

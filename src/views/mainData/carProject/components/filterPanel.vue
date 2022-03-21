@@ -67,7 +67,7 @@
               <el-option
                 v-for="item in validSelecOptions"
                 :key="item.value"
-                :label="item.label"
+                :label="language(item.label)"
                 :value="item.value"
               >
               </el-option>

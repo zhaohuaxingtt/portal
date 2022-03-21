@@ -3,6 +3,7 @@
     v-if="nodeData && nodeData.length"
     :nodeData="nodeData"
     :instanceId="instanceId"
+    :useFrom="useFrom"
   />
 </template>
 
@@ -23,6 +24,10 @@ export default {
       default: false
     },
     instanceId: {
+      type: String,
+      default: ''
+    },
+    useFrom: {
       type: String,
       default: ''
     }
@@ -57,7 +62,7 @@ export default {
         return []
       }
       this.setItemChildBranchFlag()
-
+      console.log('this.panorama', this.panorama)
       const nodeData = []
       const len = this.panorama.length
       for (let i = 0; i < len; i++) {
@@ -93,6 +98,7 @@ export default {
 
         item.isUsed = true
       }
+      console.log('node data', nodeData)
       this.nodeData = nodeData
     },
     getDatItem(panoromaItem) {

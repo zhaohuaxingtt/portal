@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader>
-      <span>轮岗</span>
+      <span>{{language('轮岗')}}</span>
       <div slot="actions">
         <actionButtons
           :selected-rows="selectedRows"
@@ -68,31 +68,31 @@ export default {
         },
         {
           prop: 'businessId',
-          label: '轮岗申请号',
+          i18n: '轮岗申请号',
           width: 140,
           sortable: true
         },
         {
           prop: 'applyUserName',
-          label: '员工姓名',
+          i18n: '员工姓名',
           minWidth: 120,
           sortable: true
         },
         {
           prop: 'sourceName',
           minWidth: 180,
-          label: '原岗位',
+          i18n: '原岗位',
           sortable: true
         },
         {
           prop: 'fullNameZh',
-          label: '目标岗位',
+          i18n: '目标岗位',
           minWidth: 180,
           sortable: true
         },
         {
           prop: 'startDate',
-          label: '交接开始日期',
+          i18n: '交接开始日期',
           width: 140,
           customRender: (h, scope) => {
             return scope.row.startDate && scope.row.startDate.substr(0, 10)
@@ -101,7 +101,7 @@ export default {
         },
         {
           prop: 'endDate',
-          label: '交接结束日期',
+          i18n: '交接结束日期',
           width: 140,
           customRender: (h, scope) => {
             return scope.row.endDate && scope.row.endDate.substr(0, 10)
@@ -110,7 +110,7 @@ export default {
         },
         {
           prop: 'durationDays',
-          label: '时长',
+          i18n: '时长',
           width: 120,
           customRender: (h, scope) => {
             return scope.row.durationDays + '天'
@@ -119,13 +119,13 @@ export default {
         },
         {
           prop: 'createDate',
-          label: '创建时间',
+          i18n: '创建时间',
           width: 180,
           sortable: true
         },
         {
           prop: 'status',
-          label: '状态',
+          i18n: '状态',
           width: 100,
           customRender: (h, scope) => {
             return this.agenStatus(scope.row.status)
@@ -199,7 +199,7 @@ export default {
     },
     handleDelete() {
       if (this.selectedRows.filter((e) => e.status == 2).length > 0) {
-        iMessage.error('审批中的轮岗不允许删除')
+        iMessage.error(this.language('审批中的轮岗不允许删除'))
         return
       }
       this.onDelete().then(() => {

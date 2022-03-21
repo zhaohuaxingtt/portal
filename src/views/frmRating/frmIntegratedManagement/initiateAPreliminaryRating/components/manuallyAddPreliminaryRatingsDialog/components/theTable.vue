@@ -3,22 +3,37 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 导出供应商模板-->
-        <iButton @click="exportSupplierTemplate"
-                  v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DCGYSMB"
-                 :loading="exportButtonLoading">{{ $t('SPR_FRM_FRMGL_DCGYSMB') }}</iButton>
+        <iButton
+          @click="exportSupplierTemplate"
+          v-permission="
+            PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DCGYSMB
+          "
+          :loading="exportButtonLoading"
+          >{{ $t('SPR_FRM_FRMGL_DCGYSMB') }}</iButton
+        >
         <!-- 导入供应商-->
-        <importButton buttonText="SPR_FRM_FRMGL_DRGYS"
-                      v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DRGYS"
-                      @uploadedCallback="importConfirmedListExcel"
-                      class="margin-right10 margin-left10" />
+        <importButton
+          buttonText="SPR_FRM_FRMGL_DRGYS"
+          v-permission="
+            PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DRGYS
+          "
+          @uploadedCallback="importConfirmedListExcel"
+          class="margin-right10 margin-left10"
+        />
         <!--添加至初评-->
-        <iButton @click="addToPreliminaryReview" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_TJZCP">{{
-          $t('SPR_FRM_FRMGL_TJZCP')
-        }}</iButton>
+        <iButton
+          @click="addToPreliminaryReview"
+          v-permission="
+            PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_TJZCP
+          "
+          >{{ $t('SPR_FRM_FRMGL_TJZCP') }}</iButton
+        >
         <!--删除-->
-        <iButton @click="handleDelete" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DEL">{{
-          $t('delete')
-        }}</iButton>
+        <iButton
+          @click="handleDelete"
+          v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_FQCBPJ_SHOUDONG_DEL"
+          >{{ $t('delete') }}</iButton
+        >
         <!-- <el-popconfirm
           :title="$t('LK_SHIFOUQUERENSHANCHU')"
           @confirm="handleDelete"
@@ -29,21 +44,26 @@
         </el-popconfirm> -->
       </div>
     </div>
-    <tableList :tableData="tableListData"
-               :tableTitle="tableTitle"
-               :tableLoading="tableLoading"
-               :index="true"
-               @handleSelectionChange="handleSelectionChange" />
-    <iPagination v-if="showPagination"
-                 v-update
-                 @size-change="handleSizeChange($event, getTableList)"
-                 @current-change="handleCurrentChange($event, getTableList)"
-                 background
-                 :page-sizes="page.pageSizes"
-                 :page-size="page.pageSize"
-                 :layout="page.layout"
-                 :current-page="page.currPage"
-                 :total="page.totalCount" />
+    <tableList
+      :tableData="tableListData"
+      :tableTitle="tableTitle"
+      :tableLoading="tableLoading"
+      :index="true"
+      border
+      @handleSelectionChange="handleSelectionChange"
+    />
+    <iPagination
+      v-if="showPagination"
+      v-update
+      @size-change="handleSizeChange($event, getTableList)"
+      @current-change="handleCurrentChange($event, getTableList)"
+      background
+      :page-sizes="page.pageSizes"
+      :page-size="page.pageSize"
+      :layout="page.layout"
+      :current-page="page.currPage"
+      :total="page.totalCount"
+    />
   </div>
 </template>
 
@@ -52,7 +72,10 @@ import { iPagination, iButton, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
-import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+import {
+  NewMessageBox,
+  NewMessageBoxClose
+} from '@/components/newMessageBox/dialogReset.js'
 import { tableTitle } from '../../data'
 import {
   importConfirmedListExcel,
@@ -70,7 +93,7 @@ export default {
     iButton,
     importButton
   },
-  data () {
+  data() {
     return {
       tableListData: [],
       selectTableData: [],
@@ -80,20 +103,20 @@ export default {
       exportButtonLoading: false
     }
   },
-  created () {
+  created() {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.selectTableData = val
     },
-    handleSearch () {
+    handleSearch() {
       this.page.currPage = 1
       this.getTableList()
     },
-    async getTableList () {
+    async getTableList() {
       this.tableLoading = true
-      const searchItem = this.$parent.$children.filter(item => {
+      const searchItem = this.$parent.$children.filter((item) => {
         return item.$attrs.name === 'theSearch'
       })
       const searchForm = searchItem[0].form
@@ -118,7 +141,7 @@ export default {
         this.showPagination = false
       }
     },
-    async importConfirmedListExcel (content) {
+    async importConfirmedListExcel(content) {
       const formData = new FormData()
       formData.append('file', content.file)
       const res = await importConfirmedListExcel(formData)
@@ -126,7 +149,7 @@ export default {
       this.showPagination = false
       this.resultMessage(res)
     },
-    handleDelete () {
+    handleDelete() {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -134,24 +157,26 @@ export default {
         title: this.language('LK_WENXINTISHI', '温馨提示'),
         Tips: this.language('SHIFOUSHANCHU', '是否删除？'),
         cancelButtonText: this.language('QUXIAO', '取消'),
-        confirmButtonText: this.language('QUEREN', '确认'),
-      }).then(() => {
-        const idList = this.selectTableData.map(item => {
-          return item.id
-        })
-        this.tableListData = this.tableListData.filter(item => {
-          return !idList.includes(item.id)
-        })
-        iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
-      }).catch((err) => {
-        // console.log(err)
+        confirmButtonText: this.language('QUEREN', '确认')
       })
+        .then(() => {
+          const idList = this.selectTableData.map((item) => {
+            return item.id
+          })
+          this.tableListData = this.tableListData.filter((item) => {
+            return !idList.includes(item.id)
+          })
+          iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
+        })
+        .catch((err) => {
+          // console.log(err)
+        })
     },
-    async addToPreliminaryReview () {
+    async addToPreliminaryReview() {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      const supplierIdList = this.selectTableData.map(item => {
+      const supplierIdList = this.selectTableData.map((item) => {
         return item.id
       })
       const oldSupplierIdList = [
@@ -163,7 +188,7 @@ export default {
       this.$store.dispatch('setAddToPreliminaryReviewList', newSupplierIdList)
       iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
     },
-    async exportSupplierTemplate () {
+    async exportSupplierTemplate() {
       try {
         this.exportButtonLoading = true
         const res = await exportInitialCommentConfirmedList({})
@@ -175,8 +200,8 @@ export default {
       }
     }
   },
-  destroyed () {
-    NewMessageBoxClose();
+  destroyed() {
+    NewMessageBoxClose()
   }
 }
 </script>

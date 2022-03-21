@@ -135,14 +135,14 @@ export default {
     return {
       contractForm: _self.data,
       rules: {
-        code: [{ required: true, message: '请输入编码', trigger: 'blur' }],
-        name: [{ required: true, message: '请输入中文名', trigger: 'blur' }],
-        nameEn: [{ required: true, message: '请输入英文名', trigger: 'blur' }],
+        code: [{ required: true, message: this.language('请输入编码'), trigger: 'blur' }],
+        name: [{ required: true, message: this.language('请输入中文名'), trigger: 'blur' }],
+        nameEn: [{ required: true, message: this.language('请输入英文名'), trigger: 'blur' }],
         orderNum: [
-          { required: true, message: '请输入排序', trigger: 'blur' },
+          { required: true, message: this.language('请输入排序'), trigger: 'blur' },
           { validator: checkOrderNum, trigger: 'blur' }
         ],
-        describe: [{ required: true, message: '请输入描述', trigger: 'blur' }]
+        describe: [{ required: true, message: this.language('请输入描述'), trigger: 'blur' }]
       }
     }
   },
