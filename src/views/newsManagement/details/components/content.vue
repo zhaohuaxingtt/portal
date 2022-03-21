@@ -4,7 +4,7 @@
       <div class="form-comtent-top">
         <div class="form-bottom-row2">
           <!-- <h2>车之窗 | 顶住“缺芯”压力，荣威iMAX8上险量继续保持高位！</h2> -->
-          <span v-html="ruleForm.title.replace(/ /g, '&nbsp;')">{{ ruleForm.title }}</span>
+          <span v-html="ruleForm.title.replace(/ /g, '&nbsp;')"></span>
         </div>
         <div class="form-bottom-row2-right">
           <div
