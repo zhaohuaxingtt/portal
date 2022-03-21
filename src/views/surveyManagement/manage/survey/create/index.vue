@@ -1,19 +1,24 @@
 <template>
   <iPage id="routerPage">
     <div>
-      <div v-if="this.editorId == undefined" class="header">新建问卷</div>
-      <div v-else class="header">编辑问卷</div>
+      <div v-if="this.editorId == undefined" class="header">
+        {{ language('新建问卷') }}
+      </div>
+      <div v-else class="header">{{ language('编辑问卷') }}</div>
     </div>
     <div class="margin-bottom20 clearFloat">
       <iCard style="margin-bottom: 1.875rem">
         <!-- 步骤条 -->
         <el-steps :active="active" align-center>
           <el-step
-            title="基本设置"
+            :title="language('基本设置')"
             icon="el-icon-success"
             class="from-step"
           ></el-step>
-          <el-step title="题目设置" icon="el-icon-success"></el-step>
+          <el-step
+            :title="language('题目设置')"
+            icon="el-icon-success"
+          ></el-step>
         </el-steps>
       </iCard>
 
@@ -21,15 +26,17 @@
         <!-- 文字+按钮 -->
         <div class="form-top">
           <div>
-            <h2 v-if="active == 1">基本设置</h2>
-            <h2 v-if="active !== 1">题目设置</h2>
+            <h2 v-if="active == 1">{{ language('基本设置') }}</h2>
+            <h2 v-if="active !== 1">{{ language('题目设置') }}</h2>
           </div>
           <div>
-            <iButton @click="handlePreview()">预览</iButton>
-            <iButton :disabled="checkName == false" @click="complete"
-              >完成编辑</iButton
-            >
-            <iButton @click="last" v-if="active !== 1">上一步</iButton>
+            <iButton @click="handlePreview()">{{ language('预览') }}</iButton>
+            <iButton :disabled="checkName == false" @click="complete">{{
+              language('完成编辑')
+            }}</iButton>
+            <iButton @click="last" v-if="active !== 1">{{
+              $t('QN_SHANGYIBU')
+            }}</iButton>
             <iButton
               @click="next"
               v-if="active !== 2"
@@ -41,7 +48,7 @@
                 checkPic == false ||
                 checkPutoutRange == false
               "
-              >下一步</iButton
+              >{{ $t('QN_XIAYIBU') }}</iButton
             >
           </div>
         </div>
@@ -301,7 +308,7 @@ export default {
     translateQuestion(arr, model) {
       if (model === 'save') {
         arr = this.deleMuptil(arr)
-        return arr.map((item, index) => {
+        return arr.map((item) => {
           if (Number(item.type) !== 9) {
             if (item.multipleRule) {
               return {
@@ -351,7 +358,7 @@ export default {
             return {
               ...item,
               // code: item.number,
-              sonQuestions: arr.map((it, ind) => {
+              sonQuestions: arr.map((it) => {
                 if (it.multipleRule) {
                   return {
                     ...it,
@@ -398,7 +405,7 @@ export default {
         })
       }
       if (model === 'get') {
-        return arr.map((item, index) => {
+        return arr.map((item) => {
           if (Number(item.type) !== 9) {
             if (item.multipleRule) {
               return {
@@ -415,7 +422,7 @@ export default {
             return {
               ...item,
               editor: false,
-              sonQuestions: item.sonQuestions.map((it, ind) => {
+              sonQuestions: item.sonQuestions.map((it) => {
                 if (it.multipleRule) {
                   return {
                     ...it,
@@ -502,7 +509,7 @@ export default {
                 })
               })
             } else {
-              saveSurvey(this.basicRuleForm).then((data) => {
+              saveSurvey(this.basicRuleForm).then(() => {
                 this.$router.push({
                   path: '/survey/management'
                 })
@@ -521,7 +528,7 @@ export default {
             })
           })
         } else {
-          saveSurvey(this.basicRuleForm).then((data) => {
+          saveSurvey(this.basicRuleForm).then(() => {
             this.$router.push({
               path: '/survey/management'
             })

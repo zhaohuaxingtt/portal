@@ -1,12 +1,14 @@
 <template>
   <div v-loading="BoxLoading">
     <div class="tabsBoxInfor">
-      <div class="inforDiv"
+      <div :style="item.prop == 'actuallyTotalAmt' ? {fontWeight: 'bold'} : null"
+           class="inforDiv"
            v-for="(item,index) in tabsInforList"
            :key="index">
         <span>{{item.name}}</span>
         <div class="inforText"
              v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
+        <!-- <div class="inforText" v-if="item.prop == 'monthFromTo'">{{inforData["monthFrom"]}}~{{inforData["monthTo"]}}</div> -->
         <div class="inforText"
              v-else>{{inforData[item.prop]}}</div>
       </div>
@@ -244,9 +246,18 @@ $tabsInforHeight: 35px;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
+  .inforDiv:nth-child(3n + 2) {
+    span {
+      margin-left: 15%;
+    }
+  }
+  .inforDiv:nth-child(3n + 3) {
+    span {
+      margin-left: 15%;
+    }
+  }
   .inforDiv {
-    width: 30%;
+    width: 33.3%;
     height: $tabsInforHeight;
     display: flex;
     align-items: center;
@@ -256,7 +267,7 @@ $tabsInforHeight: 35px;
     span {
     }
     .inforText {
-      width: 75%;
+      width: 60%;
       background: #f8f8fa;
       text-align: center;
       height: $tabsInforHeight;

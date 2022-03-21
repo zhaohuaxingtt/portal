@@ -17,7 +17,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? '' : '   (可选填)' }}
+          {{ item.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
         </div>
         <el-radio-group
           class="option"
@@ -36,15 +36,18 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">*</span>
           {{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? '' : '   (可选填)' }}
+          {{ item.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
           <span
             v-if="item.multipleRule"
             style="margin-left: 10px; color: #999999"
           >
             <span v-if="JSON.parse(item.multipleRule).least"
-              >最少选择{{ JSON.parse(item.multipleRule).least }}项；</span
+              >{{ $t('QN_ZUISHAOXUANZE')
+              }}{{ JSON.parse(item.multipleRule).least
+              }}{{ $t('QN_XIANG') }}</span
             ><span v-if="JSON.parse(item.multipleRule).most"
-              >最多选择{{ JSON.parse(item.multipleRule).most }}项；</span
+              >{{ $t('QN_ZUIDUOXUANZE') }}{{ JSON.parse(item.multipleRule).most
+              }}{{ $t('QN_XIANG') }}</span
             >
           </span>
         </div>
@@ -65,7 +68,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? '' : '   (可选填)' }}
+          {{ item.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
         </div>
         <iInput
           type="textarea"
@@ -73,7 +76,7 @@
           resize="none"
           :autosize="{ minRows: 6, maxRows: 8 }"
           show-word-limit
-          placeholder="请输入您的回答。"
+          :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
           maxlength="100"
         ></iInput>
       </div>
@@ -82,7 +85,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? '' : '   (可选填)' }}
+          {{ item.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
         </div>
         <!-- 垂直排布 -->
         <div v-if="item.pictureRule == 1" class="onepic">
@@ -135,7 +138,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name }}
-          {{ item.requiredQuestion ? '' : '   (可选填)' }}
+          {{ item.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
         </div>
         <div>
           <el-upload
@@ -153,9 +156,12 @@
               class="upload-button"
               :loading="item.uploadLoading"
             >
-              上传附件<span class="upload-text"><img :src="uploadIcon" /></span>
+              {{ $t('QN_SHANGCHUANFUJIAN')
+              }}<span class="upload-text"><img :src="uploadIcon" /></span>
             </iButton>
-            <p class="upload-limit">文件大小无限制，最多上传1个文件</p>
+            <p class="upload-limit">
+              {{ $t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN') }}
+            </p>
           </el-upload>
           <ul
             v-for="item in item.answer"
@@ -194,11 +200,11 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span>
           {{ item.code }}.{{ item.name }}
-          {{ item.requiredQuestion ? '' : '   (可选填)' }}
+          {{ item.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
         </div>
         <iSelect
           v-model="item.answer"
-          placeholder="请选择"
+          :placeholder="$t('QN_QINGXUANZE')"
           @change="handleSelectChange(item)"
           class="i-select"
         >
@@ -235,7 +241,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
+              {{ sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
             </div>
             <el-radio-group
               class="option"
@@ -260,17 +266,19 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span>
               {{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
+              {{ sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
               <span
                 v-if="sonItem.multipleRule"
                 style="margin-left: 10px; color: #999999"
               >
                 <span v-if="JSON.parse(sonItem.multipleRule).least"
-                  >最少选择{{
-                    JSON.parse(sonItem.multipleRule).least
-                  }}项；</span
+                  >{{ $t('QN_ZUISHAOXUANZE')
+                  }}{{ JSON.parse(sonItem.multipleRule).least
+                  }}{{ $t('QN_XIANG') }}</span
                 ><span v-if="JSON.parse(sonItem.multipleRule).most"
-                  >最多选择{{ JSON.parse(sonItem.multipleRule).most }}项；</span
+                  >{{ $t('QN_ZUIDUOXUANZE')
+                  }}{{ JSON.parse(sonItem.multipleRule).most
+                  }}{{ $t('QN_XIANG') }}</span
                 >
               </span>
             </div>
@@ -297,14 +305,14 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
+              {{ sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
             </div>
             <iInput
               v-model="sonItem.answer"
               type="textarea"
               resize="none"
               :autosize="{ minRows: 6, maxRows: 8 }"
-              placeholder="请输入您的回答。"
+              :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
               show-word-limit
               maxlength="100"
             ></iInput>
@@ -318,7 +326,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
+              {{ sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
             </div>
             <div v-if="sonItem.pictureRule == 1" class="onepic">
               <el-radio-group
@@ -372,7 +380,7 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
+              {{ sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
             </div>
             <div>
               <el-upload
@@ -392,11 +400,14 @@
                   :loading="sonItem.uploadLoading"
                   @click="handleSonClick(index, sonIndex)"
                 >
-                  上传附件<span class="upload-text"
-                    ><img :src="uploadIcon"
-                  /></span>
+                  {{ $t('QN_SHANGCHUANFUJIAN')
+                  }}<span class="upload-text"><img :src="uploadIcon" /></span>
                 </iButton>
-                <p class="upload-limit">文件大小无限制，最多上传1个文件</p>
+                <p class="upload-limit">
+                  {{
+                    $t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN')
+                  }}
+                </p>
               </el-upload>
               <ul
                 v-for="item in sonItem.answer"
@@ -444,11 +455,11 @@
             <div class="title">
               <span v-if="sonItem.requiredQuestion" style="color: red">* </span
               >{{ sonItem.code }} {{ sonItem.name }}
-              {{ sonItem.requiredQuestion ? '' : '   (可选填)' }}
+              {{ sonItem.requiredQuestion ? '' : $t('QN_KEXUANTIAN') }}
             </div>
             <iSelect
               v-model="sonItem.answer"
-              placeholder="请选择"
+              :placeholder="$t('QN_QINGXUANZE')"
               @change="handleSelectChange(sonItem)"
               class="i-select"
             >
@@ -481,9 +492,9 @@
       </div>
     </div>
     <div class="bottom">
-      <iButton class="" @click="$emit('subClick', questions, sonQuestions)"
-        >提交</iButton
-      >
+      <iButton class="" @click="$emit('subClick', questions, sonQuestions)">{{
+        $t('QN_TIJIAO')
+      }}</iButton>
     </div>
   </iPage>
 </template>
@@ -554,7 +565,7 @@ export default {
     }
   },
   created() {
-    document.title = '问卷调查'
+    document.title = this.$t('QN_WENJUANDIAOCHA')
   },
   mounted() {
     this.userId = store.state.permission.userInfo.id
@@ -563,9 +574,7 @@ export default {
   },
   computed: {
     questions() {
-      console.log('-=-=-=-=')
       let actionCode = 0
-      let sonActionCode = 0
       return this.previewData?.questions?.filter((item) => {
         item._ = item.sonQuestions?.map((it) => it.answer) // 维持sonQuestions的深度引用。
         if (actionCode == -1 || item.code < actionCode) return false
@@ -621,13 +630,11 @@ export default {
       })
     },
     sonQuestions() {
-      console.log('-=-=-=-=')
-      let actionCode = 0
       let sonActionCode = 0
-      return this.questions?.map((item, index) => {
+      return this.questions?.map((item) => {
         return {
           ...item,
-          sonQuestions: item.sonQuestions?.filter((it, index) => {
+          sonQuestions: item.sonQuestions?.filter((it) => {
             if (sonActionCode == -1 || it.code < sonActionCode) return false
             if (!it.answer || it.answer == '') return true
             if (it.type === 5) return true
@@ -678,7 +685,7 @@ export default {
           let previewList = this.questions
           console.log('res', res)
           if (res.id) {
-            this.$message.success('上传成功')
+            this.$message.success(this.$t('QN_SHANGCHUANCHENGGONG'))
           }
           list.push({
             attachmentId: res.id,
@@ -705,7 +712,7 @@ export default {
           // this.uploadLoading = false;
           item.uploadLoading = false
         })
-        .catch((err) => {})
+        .catch(() => {})
     },
     handleDeleteAccessory(val, index, sonIndex) {
       console.log(val, index, sonIndex, this.questions)
@@ -760,7 +767,7 @@ export default {
       if (uploadRule) {
         isFileType = !isRule.includes(fileExtension)
         if (isFileType) {
-          this.$message.error(`上传的文件类型为 ${uploadRule}`)
+          this.$message.error(`${this.$t('QN_SHANGCHUANWENJIANLEIXINGWEI')} ${uploadRule}`)
         }
       }
       // const isLt15M = file.size / 1024 / 1024 < 15;
@@ -772,7 +779,7 @@ export default {
       return !isFileType
     },
     // 单选题
-    hanldeRadioChange(item) {},
+    hanldeRadioChange() {},
     // 多选题
     handleChange(value) {
       console.log(value)
@@ -788,9 +795,9 @@ export default {
       // }
     },
     // 图片选择
-    handleImgChange(item) {},
+    handleImgChange() {},
     // 下拉选择
-    handleSelectChange(item) {}
+    handleSelectChange() {}
   }
 }
 </script>

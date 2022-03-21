@@ -58,7 +58,7 @@
                         :accept="'.xlsx'"
                         @uploadedCallback="handleUpload($event)" />
           <iButton v-if="!editMode"
-                    v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_SGTBSJ"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN_SGTBSJ"
                    @click="handleManualSync">{{language('SHOUGONGTONGBUSHUJU','手工同步数据')}}</iButton>
           <iButton v-if="!editMode"
                    @click="handleClickUpload"
@@ -83,13 +83,13 @@
                    @handleSelectionChange="handleSelectionChange">
           <!-- 市场价(F) -->
           <template #marketPriceSourceTypeValue="scope">
-            <iSelect v-model="scope.row.marketPriceSourceTypeValue"
+            <iSelect v-model="scope.row.marketPriceSourceType"
                      v-if="editMode"
                      :placeholder="language('QINGXUANZE', '请选择')"
                      @change="handleChangePriceSource($event, scope.row)">
-              <el-option value="手工上传"
+              <el-option :value="1"
                          :label="language('SHOUGONGSHANGCHUAN', '手工上传')"></el-option>
-              <el-option value="系统自动"
+              <el-option :value="2"
                          :label="language('XITONGZIDONG', '系统自动')"></el-option>
             </iSelect>
             <p v-if="!editMode">{{scope.row.marketPriceSourceTypeValue}}</p>
@@ -128,16 +128,16 @@
           </template>
           <!-- 取价规则 -->
           <template #priceRuleValue="scope">
-            <div class="priceRuleDropDownData" v-if="editMode && scope.row.marketPriceSourceTypeValue == '系统自动'">
-              <iSelect
-              style="width: 450px;"
-              v-model="scope.row.priceRuleValue"
-              :placeholder="language('QINGXUANZE', '请选择')">
-                <el-option 
-                v-for="(item, index) in priceRuleValue" 
-                :key="index" 
-                :value="item.code" 
-                :label="item.message">
+
+            <div class="priceRuleDropDownData"
+                 v-if="editMode && scope.row.marketPriceSourceType == '2'">
+              <iSelect style="width: 450px;"
+                       v-model="scope.row.priceRule"
+                       :placeholder="language('QINGXUANZE', '请选择')">
+                <el-option v-for="(item, index) in priceRuleValue"
+                           :key="index"
+                           :value="item.code"
+                           :label="item.message">
                 </el-option>
               </iSelect>
             </div>
@@ -209,7 +209,7 @@ export default {
   },
   data () {
     return {
-      priceRuleValue:[],//取价规则
+      priceRuleValue: [],//取价规则
       searchForm: {}, //表单数据
       dropDownData: {},
       tableListData: [], //表格数据
@@ -378,7 +378,7 @@ export default {
       if (
         this.tableListData.find(
           (item) =>
-            item.marketPriceSourceTypeValue == '系统自动' &&
+            item.marketPriceSourceType == '2' &&
             !item.externalMarketPriceSource
         )
       ) {
@@ -411,18 +411,25 @@ export default {
     getPriceRule () {
       fetchPriceRule().then((res) => {
         if (res && res.code == 200) {
+          res.data.unshift({
+            code: 0,
+            message: "空"
+          })
           this.priceRuleValue = res.data
+
+          console.log(this.priceRuleValue, "value")
         } else iMessage.error(res.desZh)
       })
     },
     // 编辑状态-改变市场价事件
     handleChangePriceSource (val, row) {
-      if (val == '手工上传') {
+      if (val == '1') {
         this.$set(row, 'externalMarketPriceSource', null)
         // row.externalMarketPriceSource
-      } else {
-        this.$set(row, 'marketPriceSourceType', 2)
       }
+      //  else {
+      //   this.$set(row, 'marketPriceSourceType', 2)
+      // }
     },
     externalMaterialSelect () {
       externalMaterialSelect().then(res => {

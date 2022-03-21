@@ -1,6 +1,6 @@
 <template>
 	<iPage>
-		<pageHeader class="margin-bottom20">系统管理员日志</pageHeader>
+		<pageHeader class="margin-bottom20">{{language('系统管理员日志')}}</pageHeader>
 		<iSearch @sure="search(true)" @reset="reset">
 			<el-form :model="form" ref="form" class="search-form" :inline="true" size="normal">	
 				<div class="form-item">

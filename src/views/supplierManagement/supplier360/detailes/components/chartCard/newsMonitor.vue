@@ -33,7 +33,7 @@
         </div>
         <div class="bjText">
           <p> <span v-if="info.isAlert"> {{language('CRATINGLAIYUAN', 'C-Rating来源')}}:</span> <span>{{info.ratingSource}}</span></p>
-          <p> {{language('GENXINSHIJIAN', '更新时间')}}:{{info.updateDate}}</p>
+          <p v-if="info.updateDate"> {{language('GENXINSHIJIAN', '更新时间')}}:{{info.updateDate}}</p>
         </div>
       </div>
     </div>
