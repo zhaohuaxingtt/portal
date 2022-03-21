@@ -31,7 +31,7 @@
                       slot="label"
                       required
                     ></iLabel>
-                    <p class="el-p" :title="ruleForm.title">{{ ruleForm.title }}</p>
+                    <p class="el-p" :title="ruleForm.title" v-html="ruleForm.title.replace(/ /g, '&nbsp;')"></p>
                   </iFormItem>
                 </div>
                 <div class="form-row">
@@ -45,7 +45,7 @@
                       slot="label"
                       required
                     ></iLabel>
-                    <p class="el-p" :title="ruleForm.source">{{ ruleForm.source }}</p>
+                    <p class="el-p" :title="ruleForm.source"  v-html="ruleForm.source.replace(/ /g, '&nbsp;')"></p>
                   </iFormItem>
                   <iFormItem :label="language('NEWS_FABURIQI', '发布日期')" prop="inDate">
                     <iLabel
@@ -103,7 +103,7 @@
                 <div class="form-row">
                   <iFormItem :label="language('NEWS_XINWENGAIYAO', '新闻概要')">
                     <iLabel :label="language('NEWS_XINWENGAIYAO', '新闻概要')" slot="label"></iLabel>
-                    <p class="el-p" :title="ruleForm.summary">{{ ruleForm.summary }}</p>
+                    <p class="el-p" :title="ruleForm.summary" v-html="ruleForm.summary.replace(/ /g, '&nbsp;')"></p>
                   </iFormItem>
                 </div>
                 <div v-show="ruleForm.category === 0" class="form-row">
