@@ -12,7 +12,7 @@ export const tabRouterList = [
         name: '我的业绩',
         url: '/achievement/baseData/mymerit',
         activePath: '/achievement/baseData/mymerit',
-        permissionKey:'ACHIEVEMENT',
+        permissionKey:'ACHIEVEMENT_MYBASE',
         key: 'LK_WDYJ',
     },
     {
