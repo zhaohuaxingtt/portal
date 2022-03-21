@@ -588,7 +588,7 @@ export default {
         }
       }
       data.stuffId = this.$route.query.stuffId
-      data.isEffect = true 
+      data.isEffect = true
       exportBdl(data).then((res) => {
         if (res.code == 1) {
           iMessage.error('导出失败')
