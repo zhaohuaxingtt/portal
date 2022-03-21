@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div style="height: 100%">
+        <div style="height: 100%" v-permission="ACHIEVEMENT_MYBASE">
             <keep-live
                     :include="['zfgsj', 'zfkssj','zfcgysj','zfbmsj','wfbmsj','wfkssj','pfjwfbmsj','pfjwfkssj','pfjzfbmsj','pfjzfcgysj','pfjzfgsj','pfjzfkssj']">
                 <component :is="currentView" @getData="getData" :username="username" :supplier_code_name="supplier_code_name"/>
@@ -246,7 +246,7 @@
           name: '我的业绩',
           url: '/achievement/baseData/mymerit',
           activePath: '/achievement/baseData/mymerit',
-          permissionKey: 'ACHIEVEMENT',
+          permissionKey: 'ACHIEVEMENT_MYBASE',
           key: 'LK_WDYJ'
         }]
       } else if(this.role == 'CS&&Linie') {

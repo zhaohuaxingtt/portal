@@ -1,7 +1,7 @@
 <template>
   <iPage class="template">
     <pageHeader>
-      <span>待审批列表</span>
+      <span>{{language('待审批列表')}}</span>
       <div slot="actions">
         <actionHeader :todo-total="todoTotal" :task-type="0" />
       </div>

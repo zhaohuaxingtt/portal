@@ -1065,15 +1065,15 @@ export default {
       loading: false,
       rules: {
         //验证规则
-        fullCode: [{ required: true, message: '请输入组织机构编码' }], //组织机构编码
-        nameZh: [{ required: true, message: '请输入组织机构名称（中）' }], //组织机构名称（中）
-        nameEn: [{ required: true, message: '请输入组织机构名称（英）' }], //组织机构名称（英）
-        level: [{ required: true, message: '请选择组织级别' }], //组织级别
-        svcdCode: [{ required: true, message: '请输入SVCD组织编码' }], //SVCD组织编码
-        isVisible: [{ required: true, message: '请选择是否显示在组织树' }], //是否显示在组织树
-        isCommodity: [{ required: true, message: '请选择是否为Commodity' }], //是否为Commodity
-        syncStatus: [{ required: true, message: '请选择是否同步svcd' }], //是否同步svcd
-        logoName: [{ required: true, message: '请上传部门Logo' }] //部门LogoURL
+        fullCode: [{ required: true, message: this.language('请输入组织机构编码') }], //组织机构编码
+        nameZh: [{ required: true, message: this.language('请输入组织机构名称（中）') }], //组织机构名称（中）
+        nameEn: [{ required: true, message: this.language('请输入组织机构名称（英）') }], //组织机构名称（英）
+        level: [{ required: true, message: this.language('请选择组织级别') }], //组织级别
+        svcdCode: [{ required: true, message: this.language('请输入SVCD组织编码') }], //SVCD组织编码
+        isVisible: [{ required: true, message: this.language('请选择是否显示在组织树') }], //是否显示在组织树
+        isCommodity: [{ required: true, message:this.language( '请选择是否为Commodity') }], //是否为Commodity
+        syncStatus: [{ required: true, message: this.language('请选择是否同步svcd') }], //是否同步svcd
+        logoName: [{ required: true, message: this.language('请上传部门Logo') }] //部门LogoURL
       }
     }
   }

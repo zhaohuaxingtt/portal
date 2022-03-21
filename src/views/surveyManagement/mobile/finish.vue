@@ -2,11 +2,12 @@
   <div class="continer">
     <div class="mobile">
       <h1 class="header">
-        {{ name || 'SAIC对上海地区男性用户用车车型的喜好度市场调查的问卷'}}
-        
+        {{ name || $t('QN_SAICDUISHANGHAIDIQUNANXINGYONGHUCHEXINGDEXIHAODUSHICHANGDIAOCHADEWENJUAN') }}
       </h1>
       <main class="body">
-        <header class="title">{{ closing == '' ?'感谢您参与此期问卷调查':closing}}</header>
+        <header class="title">
+          {{ closing == '' ? $t('QN_GANXIENINCANYUCIQIWENJUANDIAOCHA') : closing }}
+        </header>
         <footer class="submit-footer">
           <!-- <iButton class="submit">关闭</iButton> -->
         </footer>
@@ -15,10 +16,10 @@
   </div>
 </template>
 <script>
-import { iMessage } from "rise";
-import { uploadFile } from "@/api/survey/uploadFile.js";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import { queryForAnswer } from "@/api/survey/survey";
+import { iMessage } from 'rise'
+import { uploadFile } from '@/api/survey/uploadFile.js'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { queryForAnswer } from '@/api/survey/survey'
 export default {
   components: {
     // iButton,
@@ -26,82 +27,80 @@ export default {
   data() {
     return {
       checkList: [],
-      value: "",
-      radio: "",
+      value: '',
+      radio: '',
       uploadLoading: false,
       attachments: [], // 完成编辑页，附件
       uploadIcon,
-      ruleForm: {
-      },
-      id:'',
-      name:'',
-      finishData:{
-        name:'',
-        closing:''
+      ruleForm: {},
+      id: '',
+      name: '',
+      finishData: {
+        name: '',
+        closing: ''
       }
-    };
+    }
   },
-   created() {
-    this.id = this.$route.params.id;
-    this.name = this.$route.params.name;
-    this.closing = this.$route.params.closing;
-    console.log(42,this.$route)
+  created() {
+    this.id = this.$route.params.id
+    this.name = this.$route.params.name
+    this.closing = this.$route.params.closing
+    console.log(42, this.$route)
   },
   mounted() {
     // this.query();
-    document.querySelectorAll(".flex-align-center").forEach((item) => {
-      let dom = item.querySelector("span").cloneNode(true);
-      item.querySelector("span").remove();
-      item.appendChild(dom);
-    });
+    document.querySelectorAll('.flex-align-center').forEach((item) => {
+      let dom = item.querySelector('span').cloneNode(true)
+      item.querySelector('span').remove()
+      item.appendChild(dom)
+    })
   },
   methods: {
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      this.uploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       await uploadFile(formData)
         .then((res) => {
           this.attachments.push({
             attachmentId: res.id,
             attachmentName: res.name,
-            attachmentUrl: res.path,
-          });
-          iMessage.success(this.$t("上传成功"));
+            attachmentUrl: res.path
+          })
+          iMessage.success(this.$t('QN_SHANGCHUANCHENGGONG'))
         })
-        .catch((err) => {
-          iMessage.error(this.$t("上传失败"));
-        });
-      this.uploadLoading = false;
+        .catch(() => {
+          iMessage.error(this.$t('QN_SHANGCHUANSHIBAI'))
+        })
+      this.uploadLoading = false
     },
     handleDeleteAccessory(val) {
       this.attachments = this.attachments.filter((item) => {
-        return !item.attachmentId.includes(val);
-      });
+        return !item.attachmentId.includes(val)
+      })
     },
     query() {
-      queryForAnswer({ id: this.id })
-        .then((res) => {
-          console.log(res);
-          this.ruleForm = res;
-          this.formData = res;
-          this.ruleForm.questions = this.ruleForm.questions.map(item  => {
-            return {
-              ...item,
-              uploadLoading:false,
-              sonQuestions:item?.sonQuestions?.map(it => {
-                return {
-                  ...it,
-                  uploadLoading:false,
-                }
-              })
-            }
-          })
-          console.log(1022,this.ruleForm)
+      queryForAnswer({ id: this.id }).then((res) => {
+        console.log(res)
+        this.ruleForm = res
+        this.formData = res
+        this.ruleForm.questions = this.ruleForm.questions.map((item) => {
+          return {
+            ...item,
+            uploadLoading: false,
+            sonQuestions: item?.sonQuestions?.map((it) => {
+              return {
+                ...it,
+                uploadLoading: false
+              }
+            })
+          }
         })
-    },
-  },
-};
+        console.log(1022, this.ruleForm)
+      })
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .content .app-content ::v-deep {

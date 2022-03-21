@@ -119,11 +119,11 @@ export default {
           }
         },
         rule:{
-          popupName:{required:'true',message:'请输入弹窗标题',trigger:'blur'},
-          publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
+          popupName:{required:'true',message:this.language('请输入弹窗标题'),trigger:'blur'},
+          publishRange:{required:'true',message:this.language('请输入发布范围'),trigger:'blur'},
           // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
-          content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
-          popupStyle:{required:'true',message:'请选择弹窗布局',trigger:'blur'}
+          content:{required:'true',message:this.language('请输入弹窗说明'),trigger:'blur'},
+          popupStyle:{required:'true',message:this.language('请选择弹窗布局'),trigger:'blur'}
         },
       }
     },
