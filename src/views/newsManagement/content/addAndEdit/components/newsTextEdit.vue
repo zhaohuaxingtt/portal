@@ -354,6 +354,7 @@ import { newsTypes } from "./data";
 import {createUploadImage} from "./UploadPanel";
 import { uploadFile } from "@/api/news/uploadFile";
 import { createAnchorLink } from "@/utils/downloadUtil";
+import iEditor from "@/views/assistant/components/iEditor.vue"
 
 export default {
   components: {
