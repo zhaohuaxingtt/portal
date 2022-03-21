@@ -307,19 +307,19 @@ export default {
       },
       rules: {
         categoryCode: [
-          { required: true, message: '请输入材料组编号', trigger: 'blur' }
+          { required: true, message: this.language('请输入材料组编号'), trigger: 'blur' }
         ],
         categoryNameZh: [
-          { required: true, message: '请输入材料组名称', tigger: 'blur' }
+          { required: true, message: this.language('请输入材料组名称'), tigger: 'blur' }
         ],
         categoryNameDe: [
-          { required: true, message: '请输入材料组名称(德)', tigger: 'blur' }
+          { required: true, message: this.language('请输入材料组名称(德)'), tigger: 'blur' }
         ],
         isFixAsset: [
-          { required: true, message: '请选择入账是否抽查', trigger: 'change' }
+          { required: true, message: this.language('请选择入账是否抽查'), trigger: 'change' }
         ],
         moldProperties: [
-          { required: true, message: '请选择模具预算属性', trigger: 'change' }
+          { required: true, message: this.language('请选择模具预算属性'), trigger: 'change' }
         ]
         // masterLinieName:[
         // 	{ required: true, message: '请选择主采购员', trigger: 'change' }

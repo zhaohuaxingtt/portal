@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="'供应商列表'"
+    :title="$t('TM_GONGYINGSHANGLIEBIAO')"
     :visible.sync="openDialog"
     width="95%"
     top="5vh"
@@ -12,54 +12,56 @@
         <el-form>
           <el-row>
             <!-- 供应商身份  -->
-            <el-form-item :label="'供应商身份'">
+            <el-form-item :label="$t('TM_GONGYINGSHANGSHENFEN')">
               <iSelect
-                :placeholder="'全部'"
+                :placeholder="$t('TM_QUANBU')"
                 v-model="form.formalStatus"
                 clearable
               >
                 <el-option
                   :value="item.value"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   v-for="item of supplierIdentityList"
                   :key="item.value"
                 ></el-option>
               </iSelect>
             </el-form-item>
             <!-- 供应商类型 -->
-            <el-form-item :label="'供应商类型'">
+            <el-form-item :label="$t('TM_GONGYINGSHANGLEIXING')">
               <iSelect
-                :placeholder="'全部'"
+                :placeholder="$t('TM_QUANBU')"
                 v-model="form.supplierType"
                 clearable
               >
                 <el-option
                   :value="item.value"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   v-for="item of supplierRangeList"
                   :key="item.value"
                 ></el-option>
               </iSelect>
             </el-form-item>
             <!-- 供应商 -->
-            <el-form-item :label="'供应商名称'">
+            <el-form-item :label="$t('TM_GONGYINGSHANGMINGCHENG')">
               <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
-            <el-form-item :label="'供应商SAP号'">
+            <el-form-item :label="$t('TM_GONGYINGSHANGSAPHAO')">
               <iInput v-model="form.sapCode"></iInput>
             </el-form-item>
-            <el-form-item :label="'供应商临时号'">
+            <el-form-item :label="$t('TM_GONGYINGSHANGLINSHIHAO')">
               <iInput v-model="form.svwTempCode"></iInput>
             </el-form-item>
-            <el-form-item :label="'供应商SVW号'">
+            <el-form-item :label="$t('TM_GONGYINGSHANGSVWHAO')">
               <iInput v-model="form.svwCode"></iInput>
             </el-form-item>
           </el-row>
         </el-form>
       </div>
       <div class="button__list">
-        <iButton @click="getTableList" class="cancel">{{ '查询' }}</iButton>
-        <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
+        <iButton @click="getTableList" class="cancel">{{
+          $t('TM_CHAXUN')
+        }}</iButton>
+        <iButton @click="handleSearchReset">{{ $t('TM_CHONGZHI') }}</iButton>
       </div>
     </div>
     <div style="padding-bottom: 20px">
@@ -73,60 +75,65 @@
         @selectionChange="handleSelectionChange"
       >
         <el-table-column
-          label="序号"
+          :label="$t('TM_XUHAO')"
           type="index"
           width="80"
           align="center"
         ></el-table-column>
-        <el-table-column align="center" label="供应商中文名"
+        <el-table-column
+          align="center"
+          :label="$t('TM_GONGYINGSHANGZHONGWENMING')"
           ><template slot-scope="scope">
             <span>{{ scope.row['shortNameZh'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="供应商英文名">
+        <el-table-column
+          align="center"
+          :label="$t('TM_GONGYINGSHANGYINGWENMING')"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row['shortNameEn'] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="供应商身份"
+        <el-table-column align="center" :label="$t('TM_GONGYINGSHANGSHENFEN')"
           ><template slot-scope="scope">
             <span>{{
               scope.row.formalStatus == '0'
-                ? '临时'
+                ? $t('TM_LINSHI')
                 : scope.row.formalStatus == '1'
-                ? '正式'
+                ? $t('TM_ZHENGSHI')
                 : scope.row.formalStatus == '2'
-                ? '储蓄池'
+                ? $t('TM_CHUXUCHI')
                 : ''
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="供应商类型"
+        <el-table-column align="center" :label="$t('TM_GONGYINGSHANGLEIXING')"
           ><template slot-scope="scope">
             <span>{{
               scope.row.supplierType == 'PP'
-                ? '生产供应商'
+                ? $t('TM_SHENGCHANGONGYINGSHANG')
                 : scope.row.supplierType == 'GP'
-                ? '一般供应商'
+                ? $t('TM_YIBANGONGYINGSHANG')
                 : scope.row.supplierType == 'NT'
                 ? 'N-Tier'
                 : scope.row.supplierType == 'CM'
-                ? '自定义'
+                ? $t('TM_ZIDINGYI')
                 : ''
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="临时号">
+        <el-table-column align="center" :label="$t('TM_LINSHIHAO')">
           <template slot-scope="scope">
             <span>{{ scope.row['svwTempCode'] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="SVW号"
+        <el-table-column align="center" :label="$t('TM_SVWHAO')"
           ><template slot-scope="scope">
             <span>{{ scope.row['svwCode'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="SAP号">
+        <el-table-column align="center" :label="$t('TM_SAPHAO')">
           <template slot-scope="scope">
             <span>{{ scope.row['sapCode'] }}</span>
           </template>

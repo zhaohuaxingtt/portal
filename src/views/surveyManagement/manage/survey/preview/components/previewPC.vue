@@ -14,7 +14,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name
-          }}{{ item.requiredQuestion ? "" : "   (可选填)" }}
+          }}{{ item.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
         </div>
         <el-radio-group
           class="option"
@@ -31,23 +31,23 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name
-          }}{{ item.requiredQuestion ? "" : "   (可选填)" }}
+          }}{{ item.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
           <span
             v-if="item.multipleRule.constructor == Object"
             class="text"
             style="margin-left: 10px; color: #999999"
           >
             <span v-if="item.multipleRule.least"
-              >最少选择{{ item.multipleRule.least }}项；</span
+              >{{$t('QN_ZUISHAOXUANZE')}}{{ item.multipleRule.least }}{{$t('QN_XIANG')}}</span
             ><span v-if="item.multipleRule.most"
-              >最多选择{{ item.multipleRule.most }}项；</span
+              >{{$t('QN_ZUIDUOXUANZE')}}{{ item.multipleRule.most }}{{$t('QN_XIANG')}}</span
             >
           </span>
           <span v-else class="text" style="margin-left: 10px; color: #999999">
             <span v-if="JSON.parse(item.multipleRule).least"
-              >最少选择{{ JSON.parse(item.multipleRule).least }}项；</span
+              >{{$t('QN_ZUISHAOXUANZE')}}{{ JSON.parse(item.multipleRule).least }}{{$t('QN_XIANG')}}</span
             ><span v-if="JSON.parse(item.multipleRule).most"
-              >最多选择{{ JSON.parse(item.multipleRule).most }}项；</span
+              >{{$t('QN_ZUIDUOXUANZE')}}{{ JSON.parse(item.multipleRule).most }}{{$t('QN_XIANG')}}</span
             >
           </span>
         </div>
@@ -68,12 +68,12 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name
-          }}{{ item.requiredQuestion ? "" : "   (可选填)" }}
+          }}{{ item.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
         </div>
         <iInput
           type="textarea"
           :autosize="{ minRows: 6, maxRows: 8 }"
-          placeholder="请输入您的回答。"
+        :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
         ></iInput>
       </div>
       <!-- 4-图片选择题 -->
@@ -81,7 +81,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name
-          }}{{ item.requiredQuestion ? "" : "   (可选填)" }}
+          }}{{ item.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
         </div>
         <!-- 垂直排布 -->
         <div v-if="item.pictureRule == 1" class="onepic">
@@ -128,7 +128,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name
-          }}{{ item.requiredQuestion ? "" : "   (可选填)" }}
+          }}{{ item.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
         </div>
         <div>
           <div class="upload-demo">
@@ -138,9 +138,9 @@
               class="upload-button"
               :loading="uploadLoading"
             >
-              上传附件<span class="upload-text"><img :src="uploadIcon" /></span>
+              {{$t('QN_SHANGCHUANFUJIAN')}}<span class="upload-text"><img :src="uploadIcon" /></span>
             </iButton>
-            <p class="upload-limit">文件大小无限制，最多上传1个文件</p>
+            <p class="upload-limit">{{$t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN')}}</p>
           </div>
           <!-- <el-upload
             class="upload-demo"
@@ -197,7 +197,7 @@
         <div class="title">
           <span v-if="item.requiredQuestion" style="color: red">* </span
           >{{ item.code }}. {{ item.name
-          }}{{ item.requiredQuestion ? "" : "   (可选填)" }}
+          }}{{ item.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
         </div>
         <iSelect placeholder="请选择" class="i-select">
           <el-option
@@ -236,7 +236,7 @@
                     : item.code + "." + i.code)
                   : i.code
               }}
-              {{ i.name }}{{ i.requiredQuestion ? "" : "   (可选填)" }}
+              {{ i.name }}{{ i.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
             </div>
             <el-radio-group
               class="option"
@@ -265,16 +265,16 @@
                     : item.code + "." + i.code)
                   : i.code
               }}
-              {{ i.name }}{{ i.requiredQuestion ? "" : "   (可选填)" }}
+              {{ i.name }}{{ i.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
               <span
                 v-if="i.multipleRule.constructor == Object"
                 class="text"
                 style="margin-left: 10px; color: #999999"
               >
                 <span v-if="i.multipleRule.least"
-                  >最少选择{{ i.multipleRule.least }}项；</span
+                  >{{$t('QN_ZUISHAOXUANZE')}}{{ i.multipleRule.least }}{{$t('QN_XIANG')}}</span
                 ><span v-if="i.multipleRule.most"
-                  >最多选择{{ i.multipleRule.most }}项；</span
+                  >{{$t('QN_ZUIDUOXUANZE')}}{{ i.multipleRule.most }}{{$t('QN_XIANG')}}</span
                 >
               </span>
               <span
@@ -283,9 +283,9 @@
                 style="margin-left: 10px; color: #999999"
               >
                 <span v-if="JSON.parse(i.multipleRule).least"
-                  >最少选择{{ JSON.parse(i.multipleRule).least }}项；</span
+                  >{{$t('QN_ZUISHAOXUANZE')}}{{ JSON.parse(i.multipleRule).least }}{{$t('QN_XIANG')}}</span
                 ><span v-if="JSON.parse(i.multipleRule).most"
-                  >最多选择{{ JSON.parse(i.multipleRule).most }}项；</span
+                  >{{$t('QN_ZUIDUOXUANZE')}}{{ JSON.parse(i.multipleRule).most }}{{$t('QN_XIANG')}}</span
                 >
               </span>
             </div>
@@ -318,12 +318,12 @@
                     : item.code + "." + i.code)
                   : i.code
               }}
-              {{ i.name }}{{ i.requiredQuestion ? "" : "   (可选填)" }}
+              {{ i.name }}{{ i.requiredQuestion ? "" :$t('QN_KEXUANTIAN') }}
             </div>
             <iInput
               type="textarea"
               :autosize="{ minRows: 6, maxRows: 8 }"
-              placeholder="请输入您的回答。"
+              :placeholder="$t('QN_QINGSHURUNINDEHUIDA')"
             ></iInput>
           </div>
           <!-- 4-图片选择题 -->
@@ -341,7 +341,7 @@
                     : item.code + "." + i.code)
                   : i.code
               }}
-              {{ i.name }}{{ i.requiredQuestion ? "" : "   (可选填)" }}
+              {{ i.name }}{{ i.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
             </div>
             <div v-if="i.pictureRule == 1" class="onepic">
               <el-radio-group
@@ -395,7 +395,7 @@
                     : item.code + "." + i.code)
                   : i.code
               }}
-              {{ i.name }}{{ i.requiredQuestion ? "" : "   (可选填)" }}
+              {{ i.name }}{{ i.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
             </div>
             <div>
               <div class="upload-demo">
@@ -405,11 +405,11 @@
                   :loading="uploadLoading"
                   @click="handleSonClick(index, sonIndex)"
                 >
-                  上传附件<span class="upload-text"
+                  {{$t('QN_SHANGCHUANFUJIAN')}}<span class="upload-text"
                     ><img :src="uploadIcon"
                   /></span>
                 </iButton>
-                <p class="upload-limit">文件大小无限制，最多上传1个文件</p>
+                <p class="upload-limit">{{$t('QN_WENJIANDAXIAOWUXIANZHIZUIDUOSHANGCHUANYIGEWENJIAN')}}</p>
               </div>
               <!-- <el-upload
                 class="upload-demo"
@@ -485,9 +485,9 @@
                     : item.code + "." + i.code)
                   : i.code
               }}
-              {{ i.name }}{{ i.requiredQuestion ? "" : "   (可选填)" }}
+              {{ i.name }}{{ i.requiredQuestion ? "" : $t('QN_KEXUANTIAN') }}
             </div>
-            <iSelect placeholder="请选择" class="i-select">
+            <iSelect :placeholder="$t('QN_QINGXUANZE')" class="i-select">
               <el-option
                 v-for="item in i.options"
                 :key="item.number"

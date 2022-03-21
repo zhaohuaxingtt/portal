@@ -45,8 +45,8 @@ export default {
         moduleId:''
       },
       newLabeRules: {
-        lableName:{required:'true',message:"请输入标签内容",trigger:'blur'},
-        moduleId:{required:'true',message:"请选择内容模块",trigger:'change'},
+        lableName:{required:'true',message:this.language("请输入标签内容"),trigger:'blur'},
+        moduleId:{required:'true',message:this.language("请选择内容模块"),trigger:'change'},
       },
     }
   },

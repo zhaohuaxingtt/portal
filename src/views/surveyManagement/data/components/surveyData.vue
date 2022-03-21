@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="问卷数据"
+    :title="$t('QN_WENJUANSHUJU')"
     :visible.sync="open"
     width="108.75rem"
     :close-on-click-modal="false"
@@ -9,24 +9,26 @@
   >
     <div class="conatiner">
       <div class="button-list">
-        <iButton @click="exportAllDetails" class="margin-right20"
-          >导出全部详情</iButton
-        >
-        <iButton @click="exportReport" class="margin0">导出报告</iButton>
+        <iButton @click="exportAllDetails" class="margin-right20">{{
+          $t('QN_DAOCHUQUANBUXIANGQING')
+        }}</iButton>
+        <iButton @click="exportReport" class="margin0">{{
+          $t('QN_DAOCHUBAOGAO')
+        }}</iButton>
       </div>
       <div class="header-title">
         <div class="replay-num">
           <div class="head">
             {{ surData.answeredNumber ? surData.answeredNumber : 0 }}
           </div>
-          <div class="foot">回复问卷数</div>
+          <div class="foot">{{ $t('QN_HUIFUWENJUANSHU') }}</div>
         </div>
         <div class="replay-num">
           <div v-if="surData.putoutNumber == null" class="head head-total">
             0
           </div>
           <div v-else class="head head-total">{{ surData.putoutNumber }}</div>
-          <div class="foot">总发放问卷数</div>
+          <div class="foot">{{ $t('QN_ZONGFAFANGWENJUANSHU') }}</div>
         </div>
         <div class="divider-line"></div>
         <div class="replay-num">
@@ -38,7 +40,7 @@
               )
             }}%
           </div>
-          <div class="foot">完成率</div>
+          <div class="foot">{{ $t('QN_WANCHENGLV') }}</div>
         </div>
       </div>
       <div class="scroll-question">
@@ -60,7 +62,7 @@
             <div class="header-content">
               <div class="left-content">
                 <div class="single-choice-title">
-                  {{ quetionType[Number(item.questionType) - 1] }}
+                  {{ $t(quetionType[Number(item.questionType) - 1]) }}
                 </div>
                 <div class="single-choice-content">
                   {{ item.code }}.
@@ -106,8 +108,10 @@
                   </div>
                 </div>
               </div>
-              <iButton class="look-details" @click="handleSingleDetails(item)"
-                >查看详细</iButton
+              <iButton
+                class="look-details"
+                @click="handleSingleDetails(item)"
+                >{{ $t('QN_CHAKANXIANGXI') }}</iButton
               >
             </div>
             <div class="body-content">
@@ -117,9 +121,11 @@
                   style="width: 100%"
                   :row-class-name="tableRowClassName"
                 >
-                  <el-table-column prop="name" label="选项"> </el-table-column>
-                  <el-table-column prop="count" label="人数"> </el-table-column>
-                  <el-table-column prop="percent" label="占比">
+                  <el-table-column prop="name" :label="$t('QN_XUANXIANG')">
+                  </el-table-column>
+                  <el-table-column prop="count" :label="$t('QN_RENSHU')">
+                  </el-table-column>
+                  <el-table-column prop="percent" :label="$t('QN_ZHANBI')">
                   </el-table-column>
                 </el-table>
               </div>
@@ -201,19 +207,19 @@
             <div class="header-content">
               <div class="left-content">
                 <div class="single-choice-title">
-                  {{ quetionType[Number(item.questionType) - 1] }}
+                  {{ $t(quetionType[Number(item.questionType) - 1]) }}
                 </div>
                 <div class="single-choice-content">
                   {{ item.code }}.
                   {{ item.name }}
                 </div>
               </div>
-              <iButton class="look-details" @click="handleBlankDetails(item)"
-                >查看详细</iButton
-              >
+              <iButton class="look-details" @click="handleBlankDetails(item)">{{
+                $t('QN_CHAKANXIANGXI')
+              }}</iButton>
             </div>
             <div class="body-content">
-              <span class="left-state">已提交</span>
+              <span class="left-state">{{ $t('QN_YITIJIAO') }}</span>
               <span class="right-content">{{
                 item.count == null ? 0 : item.count
               }}</span>
@@ -226,19 +232,19 @@
             <div class="header-content">
               <div class="left-content">
                 <div class="single-choice-title">
-                  {{ quetionType[Number(item.questionType) - 1] }}
+                  {{ $t(quetionType[Number(item.questionType) - 1]) }}
                 </div>
                 <div class="single-choice-content">
                   {{ item.code }}.
                   {{ item.name }}
                 </div>
               </div>
-              <iButton class="look-details" @click="handleFileDetails(item)"
-                >查看详细</iButton
-              >
+              <iButton class="look-details" @click="handleFileDetails(item)">{{
+                $t('QN_CHAKANXIANGXI')
+              }}</iButton>
             </div>
             <div class="body-content">
-              <span class="left-state">已提交</span>
+              <span class="left-state">{{ $t('QN_YITIJIAO') }}</span>
               <span class="right-content">{{
                 item.count == null ? 0 : item.count
               }}</span>
@@ -250,49 +256,56 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iButton, iMessage } from "rise";
-import blueList1 from "@/assets/images/survey/blue-list1.svg";
-import blueList2 from "@/assets/images/survey/blue-list2.svg";
-import blueList3 from "@/assets/images/survey/blue-list3.svg";
-import grayList1 from "@/assets/images/survey/gray-list1.svg";
-import grayList2 from "@/assets/images/survey/gray-list2.svg";
-import grayList3 from "@/assets/images/survey/gray-list3.svg";
-import iEchartsML from "@/components/iEchartsML/index.vue";
-import { exportFile } from "@/utils/exportFileUtil";
-import borderTitleVue from "../../manage/survey/create/components/topicComponents/borderTitle.vue";
+import { iDialog, iButton } from 'rise'
+import blueList1 from '@/assets/images/survey/blue-list1.svg'
+import blueList2 from '@/assets/images/survey/blue-list2.svg'
+import blueList3 from '@/assets/images/survey/blue-list3.svg'
+import grayList1 from '@/assets/images/survey/gray-list1.svg'
+import grayList2 from '@/assets/images/survey/gray-list2.svg'
+import grayList3 from '@/assets/images/survey/gray-list3.svg'
+import iEchartsML from '@/components/iEchartsML/index.vue'
+import { exportFile } from '@/utils/exportFileUtil'
 import store from '@/store'
 
 export default {
   components: {
     iDialog,
     iButton,
-    iEchartsML,
+    iEchartsML
   },
   props: {
     open: {
       type: Boolean,
-      default: false,
+      default: false
     },
     surData: {
       type: Object,
       default() {
-        return {};
-      },
+        return {}
+      }
     },
     surveyId: {
       type: String,
-      default: "",
-    },
+      default: ''
+    }
   },
   data() {
     return {
+      // quetionType: [
+      //   '单选题',
+      //   '多选题',
+      //   '填空题',
+      //   '图片选择题',
+      //   '文件上传题',
+      //   '下拉题'
+      // ],
       quetionType: [
-        "单选题",
-        "多选题",
-        "填空题",
-        "图片选择题",
-        "文件上传题",
-        "下拉题",
+        'QN_DANXUANTI',
+        'QN_DUOXUANTI',
+        'QN_TIANKONGTI',
+        'QN_TUPIANXUANZETI',
+        'QN_WENJIANSHANGCHUANTI',
+        'QN_XIALATI'
       ],
       option: {},
       blueList1,
@@ -302,14 +315,14 @@ export default {
       grayList2,
       grayList3,
       activeImgs: [],
-      showQuestions: [],
-    };
+      showQuestions: []
+    }
   },
   watch: {
     surData: {
       handler(data) {
-        console.log("data", data);
-        let i = 0;
+        console.log('data', data)
+        let i = 0
         data.questions.forEach((item) => {
           if (
             Number(item.questionType) === 1 ||
@@ -319,13 +332,13 @@ export default {
             Number(item.questionType) === 3 ||
             Number(item.questionType) === 5
           ) {
-            this.showQuestions.push(item);
+            this.showQuestions.push(item)
           } else if (Number(item.questionType) === 9) {
-            item.sonQuestionReports.forEach((it, ind) => {
-              this.showQuestions.push(it);
-            });
+            item.sonQuestionReports.forEach((it) => {
+              this.showQuestions.push(it)
+            })
           }
-        });
+        })
         this.showQuestions.forEach((item, index) => {
           if (
             Number(item.questionType) === 1 ||
@@ -333,16 +346,16 @@ export default {
             Number(item.questionType) === 4 ||
             Number(item.questionType) === 6
           ) {
-            this.activeImgs.push("img1" + i);
-            this.showQuestions[index].outIndex = i;
-            i++;
+            this.activeImgs.push('img1' + i)
+            this.showQuestions[index].outIndex = i
+            i++
           }
-        });
-        console.log("showQuestions", this.showQuestions);
+        })
+        console.log('showQuestions', this.showQuestions)
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     // getSummaries(param) {
@@ -399,88 +412,88 @@ export default {
           return {
             ...item,
             // percent: (item.percent * 100).toFixed(2) + "%",
-            percent: item.percent * 100 + "%",
-          };
-        });
+            percent: item.percent * 100 + '%'
+          }
+        })
       }
-      return [];
+      return []
     },
     getHeight(index) {
-      let hei;
+      let hei
       this.$nextTick(() => {
-        hei = window.getComputedStyle(this.$refs["content"][index]).height;
-        if (hei === "0px") {
-          this.$refs["content"][index].classList.add("content-container");
+        hei = window.getComputedStyle(this.$refs['content'][index]).height
+        if (hei === '0px') {
+          this.$refs['content'][index].classList.add('content-container')
         } else {
-          this.$refs["content"][index].classList.add("content-box");
+          this.$refs['content'][index].classList.add('content-box')
         }
-      });
+      })
     },
     getOption(tableData, activeImg) {
-      let option = {};
+      let option = {}
       if (!tableData) {
-        tableData = [];
+        tableData = []
       }
-      const active = activeImg.split("").slice(0, 4).join("");
+      const active = activeImg.split('').slice(0, 4).join('')
       switch (active) {
-        case "img1":
+        case 'img1':
           option = {
             tooltip: {
-              trigger: "item",
+              trigger: 'item',
               // formatter: "{c}人 <br/>{d}%",
               formatter: function (params) {
                 for (let i = 0; i < option.series[0].data.length; i++) {
                   return (
                     tableData[params.dataIndex].count +
-                    "人" +
-                    "<br/>" +
+                    '人' +
+                    '<br/>' +
                     (tableData[params.dataIndex].percent * 100).toFixed(2) +
-                    "%"
-                  );
+                    '%'
+                  )
                 }
-              },
+              }
             },
             xAxis: {
-              type: "category",
+              type: 'category',
               data: tableData.slice(0, tableData.length).map((item) => {
-                return item.name;
+                return item.name
               }),
               show: true,
               axisLabel: {
                 interval: 0,
                 formatter: function (params) {
-                  var newParamsName = ""; // 最终拼接成的字符串
-                  var paramsNameNumber = params.length; // 实际标签的个数
-                  var provideNumber = 5; // 每行能显示的字的个数
-                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber); // 换行的话，需要显示几行，向上取整
+                  var newParamsName = '' // 最终拼接成的字符串
+                  var paramsNameNumber = params.length // 实际标签的个数
+                  var provideNumber = 5 // 每行能显示的字的个数
+                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber) // 换行的话，需要显示几行，向上取整
                   if (paramsNameNumber > provideNumber) {
                     /** 循环每一行,p表示行 */
                     for (var p = 0; p < rowNumber; p++) {
-                      var tempStr = ""; // 表示每一次截取的字符串
-                      var start = p * provideNumber; // 开始截取的位置
-                      var end = start + provideNumber; // 结束截取的位置
+                      var tempStr = '' // 表示每一次截取的字符串
+                      var start = p * provideNumber // 开始截取的位置
+                      var end = start + provideNumber // 结束截取的位置
                       // 此处特殊处理最后一行的索引值
                       if (p == rowNumber - 1) {
                         // 最后一次不换行
-                        tempStr = params.substring(start, paramsNameNumber);
+                        tempStr = params.substring(start, paramsNameNumber)
                       } else {
                         // 每一次拼接字符串并换行
-                        tempStr = params.substring(start, end) + "\n";
+                        tempStr = params.substring(start, end) + '\n'
                       }
-                      newParamsName += tempStr; // 最终拼成的字符串
+                      newParamsName += tempStr // 最终拼成的字符串
                     }
                   } else {
                     // 将旧标签的值赋给新标签
-                    newParamsName = params;
+                    newParamsName = params
                   }
                   // 将最终的字符串返回
-                  return newParamsName;
-                },
-              },
+                  return newParamsName
+                }
+              }
             },
             yAxis: {
-              type: "value",
-              show: true,
+              type: 'value',
+              show: true
               // axisLabel: {
               //   show: true,
               //   interval: "auto",
@@ -490,92 +503,92 @@ export default {
             series: [
               {
                 data: tableData.slice(0, tableData.length).map((item) => {
-                  return item.count;
+                  return item.count
                 }),
-                type: "line",
-              },
-            ],
-          };
-          break;
-        case "img2":
+                type: 'line'
+              }
+            ]
+          }
+          break
+        case 'img2':
           option = {
             tooltip: {
-              trigger: "item",
+              trigger: 'item',
               // formatter: "{b} : {c}%",
               formatter: function (params) {
                 for (let i = 0; i < option.series[0].data.length; i++) {
                   return (
                     tableData[params.dataIndex].count +
-                    "人" +
-                    "<br/>" +
+                    '人' +
+                    '<br/>' +
                     (tableData[params.dataIndex].percent * 100).toFixed(2) +
-                    "%"
-                  );
+                    '%'
+                  )
                 }
-              },
+              }
             },
             legend: {
-              icon: "circle",
-              left: "left",
-              orient: "vertical",
+              icon: 'circle',
+              left: 'left',
+              orient: 'vertical',
               interval: 0,
               // bottom: 0,
               top: 0,
               // left:0,
-              align: "left",
+              align: 'left',
               data: [...tableData].slice(0, tableData.length).map((item) => {
-                return item.name;
+                return item.name
               }),
               formatter: function (params) {
-                var newParamsName = ""; // 最终拼接成的字符串
-                var paramsNameNumber = params.length; // 实际标签的个数
-                var provideNumber = 6; // 每行能显示的字的个数
-                var rowNumber = Math.ceil(paramsNameNumber / provideNumber); // 换行的话，需要显示几行，向上取整
+                var newParamsName = '' // 最终拼接成的字符串
+                var paramsNameNumber = params.length // 实际标签的个数
+                var provideNumber = 6 // 每行能显示的字的个数
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber) // 换行的话，需要显示几行，向上取整
                 if (paramsNameNumber > provideNumber) {
                   /** 循环每一行,p表示行 */
                   for (var p = 0; p < rowNumber; p++) {
-                    var tempStr = ""; // 表示每一次截取的字符串
-                    var start = p * provideNumber; // 开始截取的位置
-                    var end = start + provideNumber; // 结束截取的位置
+                    var tempStr = '' // 表示每一次截取的字符串
+                    var start = p * provideNumber // 开始截取的位置
+                    var end = start + provideNumber // 结束截取的位置
                     // 此处特殊处理最后一行的索引值
                     if (p == rowNumber - 1) {
                       // 最后一次不换行
-                      tempStr = params.substring(start, paramsNameNumber);
+                      tempStr = params.substring(start, paramsNameNumber)
                     } else {
                       // 每一次拼接字符串并换行
-                      tempStr = params.substring(start, end) + "\n";
+                      tempStr = params.substring(start, end) + '\n'
                     }
-                    newParamsName += tempStr; // 最终拼成的字符串
+                    newParamsName += tempStr // 最终拼成的字符串
                   }
                 } else {
                   // 将旧标签的值赋给新标签
-                  newParamsName = params;
+                  newParamsName = params
                 }
                 // 将最终的字符串返回
-                return newParamsName;
-              },
+                return newParamsName
+              }
             },
             xAxis: [
               {
-                type: "category",
-                show: false,
-              },
+                type: 'category',
+                show: false
+              }
             ],
             yAxis: [
               {
-                type: "value",
-                show: false,
-              },
+                type: 'value',
+                show: false
+              }
             ],
             series: [
               {
-                type: "pie",
-                radius: "60%",
+                type: 'pie',
+                radius: '60%',
                 data: [...tableData].slice(0, tableData.length).map((item) => {
                   return {
                     value: (item.percent * 100).toFixed(2),
-                    name: item.name,
-                  };
+                    name: item.name
+                  }
                 }),
                 itemStyle: {
                   normal: {
@@ -586,44 +599,44 @@ export default {
                         for (let i = 0; i < option.series[0].data.length; i++) {
                           return (
                             tableData[params.dataIndex].count +
-                            "人" +
-                            "\r\n" +
+                            '人' +
+                            '\r\n' +
                             (tableData[params.dataIndex].percent * 100).toFixed(
                               2
                             ) +
-                            "%"
-                          );
+                            '%'
+                          )
                         }
-                      },
+                      }
                     },
-                    labelLine: { show: true },
-                  },
-                },
-              },
-            ],
-          };
-          break;
-        case "img3":
+                    labelLine: { show: true }
+                  }
+                }
+              }
+            ]
+          }
+          break
+        case 'img3':
           option = {
             tooltip: {
-              trigger: "item",
+              trigger: 'item',
               // formatter: "{b}人 <br/>{c}%",
               formatter: function (params) {
                 for (let i = 0; i < option.series[0].data.length; i++) {
                   return (
                     tableData[params.dataIndex].count +
-                    "人" +
-                    "<br/>" +
+                    '人' +
+                    '<br/>' +
                     (tableData[params.dataIndex].percent * 100).toFixed(2) +
-                    "%"
-                  );
+                    '%'
+                  )
                 }
-              },
+              }
             },
             xAxis: {
-              type: "category",
+              type: 'category',
               data: tableData.slice(0, tableData.length).map((item) => {
-                return item.name;
+                return item.name
               }),
               show: true,
               // splitLine: {
@@ -632,38 +645,38 @@ export default {
               axisLabel: {
                 interval: 0,
                 formatter: function (params) {
-                  var newParamsName = ""; // 最终拼接成的字符串
-                  var paramsNameNumber = params.length; // 实际标签的个数
-                  var provideNumber = 5; // 每行能显示的字的个数
-                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber); // 换行的话，需要显示几行，向上取整
+                  var newParamsName = '' // 最终拼接成的字符串
+                  var paramsNameNumber = params.length // 实际标签的个数
+                  var provideNumber = 5 // 每行能显示的字的个数
+                  var rowNumber = Math.ceil(paramsNameNumber / provideNumber) // 换行的话，需要显示几行，向上取整
                   if (paramsNameNumber > provideNumber) {
                     /** 循环每一行,p表示行 */
                     for (var p = 0; p < rowNumber; p++) {
-                      var tempStr = ""; // 表示每一次截取的字符串
-                      var start = p * provideNumber; // 开始截取的位置
-                      var end = start + provideNumber; // 结束截取的位置
+                      var tempStr = '' // 表示每一次截取的字符串
+                      var start = p * provideNumber // 开始截取的位置
+                      var end = start + provideNumber // 结束截取的位置
                       // 此处特殊处理最后一行的索引值
                       if (p == rowNumber - 1) {
                         // 最后一次不换行
-                        tempStr = params.substring(start, paramsNameNumber);
+                        tempStr = params.substring(start, paramsNameNumber)
                       } else {
                         // 每一次拼接字符串并换行
-                        tempStr = params.substring(start, end) + "\n";
+                        tempStr = params.substring(start, end) + '\n'
                       }
-                      newParamsName += tempStr; // 最终拼成的字符串
+                      newParamsName += tempStr // 最终拼成的字符串
                     }
                   } else {
                     // 将旧标签的值赋给新标签
-                    newParamsName = params;
+                    newParamsName = params
                   }
                   // 将最终的字符串返回
-                  return newParamsName;
-                },
-              },
+                  return newParamsName
+                }
+              }
             },
             yAxis: {
-              type: "value",
-              show: true,
+              type: 'value',
+              show: true
               // axisLabel: {
               //   show: true,
               //   interval: "auto",
@@ -675,82 +688,87 @@ export default {
             },
             series: [
               {
-                type: "bar",
+                type: 'bar',
                 data: tableData.slice(0, tableData.length).map((item) => {
-                  return item.count;
-                }),
-              },
-            ],
-          };
-          break;
+                  return item.count
+                })
+              }
+            ]
+          }
+          break
         default:
-          this.option = {};
-          break;
+          this.option = {}
+          break
       }
-      return option;
+      return option
     },
     handleFileDetails(item) {
-      this.$emit("openFileDetails", item);
+      this.$emit('openFileDetails', item)
     },
     handleBlankDetails(item) {
-      this.$emit("openBlankDetails", item);
+      this.$emit('openBlankDetails', item)
     },
     handleSingleDetails(item) {
-      this.$emit("openSingleDetails", item);
+      this.$emit('openSingleDetails', item)
     },
     handleBrokenLineChart(item, index) {
-      this.activeImgs.splice(index, 1, "img1" + index);
+      this.activeImgs.splice(index, 1, 'img1' + index)
     },
     handlePieChart(item, index) {
-      this.activeImgs.splice(index, 1, "img2" + index);
+      this.activeImgs.splice(index, 1, 'img2' + index)
     },
     handleColumnarChart(item, index) {
-      this.activeImgs.splice(index, 1, "img3" + index);
+      this.activeImgs.splice(index, 1, 'img3' + index)
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
-        return "warning-row";
+        return 'warning-row'
       } else if (rowIndex === 3) {
-        return "success-row";
+        return 'success-row'
       }
-      return "";
+      return ''
     },
     close() {
-      this.$emit("closeDialog");
+      this.$emit('closeDialog')
     },
     exportReport() {
-      console.log("导出报告");
       exportFile({
-        url: process.env.VUE_APP_SURVEY+`/surveyService/exportSurveyReport?userId=`+store.state.permission.userInfo.id,
+        url:
+          process.env.VUE_APP_SURVEY +
+          `/surveyService/exportSurveyReport?userId=` +
+          store.state.permission.userInfo.id,
         // url: "/surveyApi/surveyService/exportSurveyReport",
         data: {
           // questionId: "",
-          id: this.surveyId,
-        },
+          id: this.surveyId
+        }
         // callback: (e) => {
         //   if (!e) {
         //     iMessage.error("导出失败");
         //   }
         // },
-      });
+      })
     },
     exportAllDetails() {
       exportFile({
-        url: process.env.VUE_APP_SURVEY+`/surveyService/exportDetailReport?userId=`+store.state.permission.userInfo.id,
+        url:
+          process.env.VUE_APP_SURVEY +
+          `/surveyService/exportDetailReport?userId=` +
+          store.state.permission.userInfo.id,
         // url: "/surveyApi/surveyService/exportDetailReport",
         data: {
           // questionId: "",
-          id: this.surveyId,
-        },
+          id: this.surveyId
+        }
         // callback: (e) => {
         //   if (!e) {
         //     iMessage.error("导出失败");
         //   }
         // },
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .scroll-question {

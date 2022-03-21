@@ -1,7 +1,7 @@
 <template>
   <!-- 签署情况 -->
   <iDialog
-    :title="'签署情况：' + signTitle.name + signTitle.termsVersion"
+    :title="getDialogTitle(signTitle.name, signTitle.termsVersion)"
     :visible.sync="openDialog"
     append-to-body="true"
     width="95%"
@@ -15,15 +15,15 @@
         <el-row :gutter="24" class="form__first">
           <!-- 供应商 -->
           <el-col :span="4">
-            <el-form-item :label="$t('供应商名称')">
+            <el-form-item :label="$t('TM_GONGYINGSHANGMINGCHENG')">
               <iInput v-model="form.shortNameZh"></iInput>
             </el-form-item>
           </el-col>
           <!-- 签署状态 -->
           <el-col :span="4">
-            <el-form-item :label="'签署状态'">
+            <el-form-item :label="$t('TM_QIANSHUZHUANGTAI')">
               <iSelect
-                :placeholder="'全部'"
+                :placeholder="$t('TM_QUANBU')"
                 v-model="form.signStatus"
                 clearable
                 multiple
@@ -31,7 +31,7 @@
               >
                 <el-option
                   :value="item.value"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   v-for="item of signStatusList"
                   :key="item.value"
                 ></el-option>
@@ -40,9 +40,9 @@
           </el-col>
           <!-- 供应商身份 -->
           <el-col :span="4">
-            <el-form-item :label="$t('供应商身份')">
+            <el-form-item :label="$t('TM_GONGYINGSHANGSHENFEN')">
               <iSelect
-                :placeholder="'全部'"
+                :placeholder="$t('TM_QUANBU')"
                 v-model="form.supplierIdentity"
                 clearable
                 multiple
@@ -50,7 +50,7 @@
               >
                 <el-option
                   :value="item.value"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   v-for="item of supplierIdentityList"
                   :key="item.value"
                 ></el-option>
@@ -59,9 +59,9 @@
           </el-col>
           <!-- 供应商类型 -->
           <el-col :span="4">
-            <el-form-item :label="$t('供应商类型')">
+            <el-form-item :label="$t('TM_GONGYINGSHANGLEIXING')">
               <iSelect
-                :placeholder="'全部'"
+                :placeholder="$t('TM_QUANBU')"
                 v-model="form.supplierType"
                 clearable
                 multiple
@@ -69,7 +69,7 @@
               >
                 <el-option
                   :value="item.value"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   v-for="item of supplierRangeList"
                   :key="item.value"
                 ></el-option>
@@ -81,17 +81,17 @@
             <el-tooltip
               class="item"
               effect="light"
-              content="请输入国家或城市名称"
+              :content="$t('TM_QINGSHURUGUOJIAHUOCHENGSHIMINGCHENG')"
               placement="top"
             >
-              <el-form-item :label="$t('地区')">
+              <el-form-item :label="$t('TM_DIQU')">
                 <el-cascader
                   v-model="form.area"
                   :options="formGoup.areaList"
                   :props="{ multiple: true }"
                   :clearable="true"
                   popper-class="area-select"
-                  :placeholder="'全部'"
+                  :placeholder="$t('TM_QUANBU')"
                   collapse-tags
                   filterable
                 ></el-cascader>
@@ -100,8 +100,10 @@
           </el-col>
 
           <div class="search">
-            <iButton @click="getTableList(form)">{{ '查询' }}</iButton>
-            <iButton @click="handleSearchReset">{{ '重置' }}</iButton>
+            <iButton @click="getTableList(form)">{{ $t('TM_CHAXUN') }}</iButton>
+            <iButton @click="handleSearchReset">{{
+              $t('TM_CHONGZHI')
+            }}</iButton>
           </div>
         </el-row>
 
@@ -109,7 +111,7 @@
         <el-row :gutter="24">
           <!-- 业务编号 -->
           <el-col :span="4">
-            <el-form-item :label="$t('业务编号')">
+            <el-form-item :label="$t('TM_YEWUBIANHAO')">
               <iInput v-model="form.serviceCode"></iInput>
             </el-form-item>
           </el-col>
@@ -123,7 +125,7 @@
           @click="handleException"
           v-show="this.extendFields !== false"
           :disabled="signTitle.state == '04'"
-          >{{ '标记例外' }}</iButton
+          >{{ $t('TM_BIAOJILIWAI') }}</iButton
         >
         <!-- <iButton @click="handleExport">{{ '导出当前' }}</iButton> -->
         <iButton
@@ -131,10 +133,10 @@
           v-show="termsCode == KZSorXJCode && buttonShow == true"
           >{{ KZSorXJ }}</iButton
         >
-        <iButton @click="handleExportAll">{{ '导出全部' }}</iButton>
+        <iButton @click="handleExportAll">{{ $t('TM_DAOCHUQUANBU') }}</iButton>
       </div>
       <div v-show="this.extendFields !== false" class="tips">
-        若实际签署数量与条款管理页面的统计数据不一致，可能是由于供应商签署范围调整而造成的统计误差。
+        {{ $t('TM_RUSHIJIBUYIZHIKENENGSHITONGJIWUCHA') }}
       </div>
 
       <iTableML
@@ -144,7 +146,7 @@
         :tableLoading="tableLoading"
       >
         <el-table-column
-          label="序号"
+          :label="$t('TM_XUHAO')"
           type="index"
           width="80"
           align="center"
@@ -153,84 +155,88 @@
           show-overflow-tooltip
           align="center"
           min-width="160px"
-          label="供应商名称"
+          :label="$t('TM_GONGYINGSHANGMINGCHENG')"
           ><template slot-scope="scope">
             <span>{{ scope.row['shortNameZh'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="业务编号"
+        <el-table-column align="center" :label="$t('TM_YEWUBIANHAO')"
           ><template slot-scope="scope">
             <span>{{ scope.row['serviceCode'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="临时号">
+        <el-table-column align="center" :label="$t('TM_LINSHIHAO')">
           <template slot-scope="scope">
             <span>{{ scope.row['svwTempCode'] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="SVW号"
+        <el-table-column align="center" :label="$t('TM_SVWHAO')"
           ><template slot-scope="scope">
             <span>{{ scope.row['svwCode'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="SAP号"
+        <el-table-column align="center" :label="$t('TM_SAPHAO')"
           ><template slot-scope="scope">
             <span>{{ scope.row['sapCode'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="供应商身份"
+        <el-table-column align="center" :label="$t('TM_GONGYINGSHANGSHENFEN')"
           ><template slot-scope="scope">
             <span>{{
               scope.row.formalStatus == '0'
-                ? '临时'
+                ? $t('TM_LINSHI')
                 : scope.row.formalStatus == '1'
-                ? '正式'
+                ? $t('TM_ZHENGSHI')
                 : scope.row.formalStatus == '2'
-                ? '储蓄池'
+                ? $t('TM_CHUXUCHI')
                 : ''
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="供应商类型"
+        <el-table-column align="center" :label="$t('TM_GONGYINGSHANGLEIXING')"
           ><template slot-scope="scope">
             <span>{{
               scope.row.supplierType == 'PP'
-                ? '生产供应商'
+                ? $t('TM_SHENGCHANGONGYINGSHANG')
                 : scope.row.supplierType == 'GP'
-                ? '一般供应商'
+                ? $t('TM_YIBANGONGYINGSHANG')
                 : scope.row.supplierType == 'NT'
                 ? 'N-Tier'
                 : scope.row.supplierType == 'CM'
-                ? '自定义'
+                ? $t('TM_ZIDINGYI')
                 : ''
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="签署人"
+        <el-table-column align="center" :label="$t('TM_QIANSHUREN')"
           ><template slot-scope="scope">
             <span>{{ scope.row['signName'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="签署状态"
+        <el-table-column align="center" :label="$t('TM_QIANSHUZHUANGTAI')"
           ><template slot-scope="scope">
-            <span v-if="scope.row.signStatus == '01'"> 未签署 </span>
-            <span v-if="scope.row.signStatus == '02'"> 已签署标准 </span>
+            <span v-if="scope.row.signStatus == '01'">
+              {{ $t('TM_WEIQIANSHU') }}
+            </span>
+            <span v-if="scope.row.signStatus == '02'">
+              {{ $t('TM_YIQIANSHUBIAOZHUN') }}
+            </span>
             <span v-if="scope.row.signStatus == '03'" style="color: #f75526">
-              已签署非标
+              {{ $t('TM_YIQIANSHUFEIBIAO') }}
             </span>
             <span v-if="scope.row.signStatus == '04'" style="color: #f75526">
-              例外
+              {{ $t('TM_LIWAI') }}
             </span>
             <span v-else></span> </template
         ></el-table-column>
-        <el-table-column align="center" label="签署日期">
+        <el-table-column align="center" :label="$t('TM_QIANSHURIQI')">
           <template slot-scope="scope">
             <span>{{
               scope.row['signDate'] && scope.row['signDate'].substring(0, 10)
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="240px" label="操作">
+        <el-table-column align="center" width="240px" :label="$t('TM_CAOZUO')">
           <template slot-scope="scope">
             <div v-if="scope.row.signStatus == '02'">—</div>
             <div v-else>
@@ -239,19 +245,19 @@
                   class="open-link-text"
                   @click="handleDownloadFile(scope.row)"
                   style="margin-right: 8px"
-                  >{{ '非标条款下载' }}</span
+                  >{{ $t('TM_FEITIAOKUANXIAZAI') }}</span
                 >
                 <a
                   class="el-icon-paperclip open-link-text"
                   style="font-size: 16px; margin-right: 2.5rem"
                 ></a>
                 <span style="color: #5d5d5d; opacity: 0.2">{{
-                  '例外操作'
+                  $t(' TM_LIWAICAOZUO')
                 }}</span>
               </div>
               <div v-else>
                 <span style="margin-right: 8px; color: #5d5d5d; opacity: 0.2">{{
-                  '非标条款下载'
+                  $t('TM_FEITIAOKUANXIAZAI')
                 }}</span>
                 <a
                   class="el-icon-paperclip"
@@ -265,7 +271,7 @@
                 <span
                   class="open-link-text"
                   @click="handleUploadFile(scope.row)"
-                  >{{ '例外操作' }}</span
+                  >{{ $t('TM_LIWAICAOZUO') }}</span
                 >
               </div>
             </div>
@@ -280,8 +286,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('TM_SHANGYIYE')"
+        :next-text="$t('TM_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -404,6 +410,9 @@ export default {
     this.getTermsCode()
   },
   methods: {
+    getDialogTitle(name, version) {
+      return `${this.$t('TM_QIANSHUQINGKUANG')}: ${name}${version}`
+    },
     async getCityInfo() {
       const res = await getCity()
       this.formGoup.areaList = res
@@ -413,11 +422,13 @@ export default {
         if (res?.data[0]?.subDictResultVo?.length > 0) {
           res.data[0].subDictResultVo.forEach((item) => {
             if (item.code == 'Terms_KZS') {
-              this.KZSorXJ = '可再生能源签署情况导出'
+              this.KZSorXJ = this.$t(
+                'TM_KEZAISHENGNENGYUANQIANSHUQINGKUANGDAOCHU'
+              )
               this.KZSorXJCode = item.name
               return
             } else if (item.code == 'Terms_XJ') {
-              this.KZSorXJ = '询价签署情况导出'
+              this.KZSorXJ = this.$t('TM_XUNJIAQIANSHUQINGKUANGDAOCHU')
               this.KZSorXJCode = item.name
               return
             }
@@ -432,13 +443,13 @@ export default {
         let supplierRangeList = []
         item.supplierType.split(',').map((i) => {
           i == 'PP'
-            ? (supplierRangeList += '生产供应商，')
+            ? (supplierRangeList += this.$t('TM_SHENGCHANGONGYINGSHANG'))
             : i == 'GP'
-            ? (supplierRangeList += '一般供应商，')
+            ? (supplierRangeList += this.$t('TM_YIBANGONGYINGSHANG'))
             : i == 'NT'
             ? (supplierRangeList += 'Ntier，')
             : i == 'CM'
-            ? (supplierRangeList += '自定义，')
+            ? (supplierRangeList += this.$t('TM_ZIDINGYI'))
             : (supplierRangeList += '')
         })
         supplierRangeList = supplierRangeList.slice(
@@ -449,11 +460,11 @@ export default {
         let supplierIdentityList = []
         item.formalStatus.split(',').map((i) => {
           i == '0'
-            ? (supplierIdentityList += '临时，')
+            ? (supplierIdentityList += this.$t('TM_LINSHI'))
             : i == '1'
-            ? (supplierIdentityList += '正式，')
+            ? (supplierIdentityList += this.$t('TM_ZHENGSHI'))
             : i == '2'
-            ? (supplierIdentityList += '储蓄池，')
+            ? (supplierIdentityList += this.$t('TM_CHUXUCHI'))
             : (supplierIdentityList += '')
         })
         item.signDate = item.signDate?.substring(0, 10)
@@ -463,7 +474,7 @@ export default {
         )
         item.formalStatus = supplierIdentityList
       })
-      excelExport(tableArr, this.signTableTitle, '签署情况')
+      excelExport(tableArr, this.signTableTitle, this.$t('TM_QIANSHUQINGKUANG'))
     },
     handleExportAll() {
       if (this.form.supplierIdentity) {
@@ -527,18 +538,20 @@ export default {
           `/termsQueryService/exportTermsLog?userId=` +
           store.state.permission.userInfo.id,
         filename:
-          (this.KZSorXJ == '可再生能源签署情况导出'
-            ? '可再生能源使用承诺书签署情况'
-            : '询价承诺书签署情况') +
+          (this.KZSorXJ ==
+          this.$t('TM_KEZAISHENGNENGYUANQIANSHUQINGKUANGDAOCHU')
+            ? this.$t('TM_KEZAISHENGNENGYUANSHIYONGCHENGNUOSHUQIANSHUQINGKUANG')
+            : this.$t('TM_XUNJIACHENGNUOSHUQIANSHUQINGKUANG')) +
           `_` +
           `${y}.${M}.${d}` +
           `.xlsx`,
         data: {
           termsId: this.id,
           status:
-            this.KZSorXJ == '可再生能源签署情况导出'
+            this.KZSorXJ ==
+            this.$t('TM_KEZAISHENGNENGYUANQIANSHUQINGKUANGDAOCHU')
               ? 0
-              : this.KZSorXJ == '询价签署情况导出'
+              : this.KZSorXJ == this.$t('TM_XUNJIAQIANSHUQINGKUANGDAOCHU')
               ? 1
               : ''
         },
@@ -567,17 +580,21 @@ export default {
     closeUploadFileDialog(bol) {
       if (bol.isExclude == false) {
         this.openUploadFileDialog = false
-        this.$confirm('请确认是否取消例外?', '提示', {
-          confirmButtonText: '确认',
-          cancelButtonText: '返回',
-          type: 'warning'
-        })
+        this.$confirm(
+          this.$t('TM_QINGQUERENSHIFOUQUXIAOLIWAI'),
+          this.$t('TM_TISHI'),
+          {
+            confirmButtonText: this.$t('TM_QUEREN'),
+            cancelButtonText: this.$t('TM_FANHUI'),
+            type: 'warning'
+          }
+        )
           .then(() => {
             const submitFile = bol
             markExclude(submitFile)
               .then((res) => {
                 if (res.code == 200) {
-                  iMessage.success(this.$t('操作成功！'))
+                  iMessage.success(this.$t('TM_CAOZUOCHENGGONG'))
                   this.getTableList({ termsId: submitFile.termsId })
                 }
               })
