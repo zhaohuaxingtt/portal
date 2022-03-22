@@ -21,6 +21,13 @@
         @click="toggleActive(index)"
       >
         {{ item.typeValue }}
+        <span
+          v-if="numVisible && item.totalTodoNum"
+          class="badge"
+          :class="{ large: item.totalTodoNum > 99 }"
+        >
+          {{ item.totalTodoNum > 99 ? '99+' : item.totalTodoNum }}
+        </span>
       </div>
     </div>
   </div>
@@ -39,6 +46,10 @@ export default {
     activeIndex: {
       type: Number,
       default: -1
+    },
+    numVisible: {
+      type: Boolean,
+      default: false
     }
   },
   // data() {
@@ -73,6 +84,8 @@ export default {
       padding-left: 20px;
       color: #909091;
       position: relative;
+      cursor: pointer;
+      position: relative;
       &::before {
         position: absolute;
         left: 0;
@@ -93,8 +106,26 @@ export default {
           background-size: contain;
         }
       }
-
-      cursor: pointer;
+      .badge {
+        min-width: 20px;
+        height: 20px;
+        line-height: 20px;
+        background: #e30d0d;
+        border-radius: 50%;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        display: block;
+        position: absolute;
+        top: -10px;
+        right: -20px;
+        display: block;
+        &.large {
+          padding: 0px 5px;
+          border-radius: 10px;
+          right: -30px;
+        }
+      }
     }
     .divider {
       width: 5px;
