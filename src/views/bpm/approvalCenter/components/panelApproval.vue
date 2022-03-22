@@ -111,10 +111,11 @@ export default {
         e.wfCategoryList.forEach((wf) => {
           if (e.typeName === 'aeko') {
             totalNum += val
+            totalTodoNum += val || 0
           } else {
             totalNum += wf.todoNum
+            totalTodoNum += wf.todoNum || 0
           }
-          totalTodoNum += wf.todoNum || 0
         })
         e.totalTodoNum = totalTodoNum
       })
