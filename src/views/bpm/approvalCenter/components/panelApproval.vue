@@ -48,7 +48,19 @@ export default {
   computed: {
     activeData() {
       if (this.activeIndex === -1) {
-        return this.data
+        // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
+        const hasValueData = this.data.filter((e) => {
+          const wfList = e?.wfCategoryList?.filter((wf) => {
+            return wf.todoNum
+          })
+          if (wfList.length) {
+            e.wfCategoryList = wfList
+            return true
+          }
+          return false
+        })
+        return hasValueData
+        // return this.data
       }
 
       return [this.data[this.activeIndex]]
@@ -75,31 +87,36 @@ export default {
     },
     async getOverview() {
       this.loading = true
-      const { data } = await queryApprovalOverview({
+      const { data = [] } = await queryApprovalOverview({
         userID: this.$store.state.permission.userInfo.id
       }).finally(() => (this.loading = false))
-      this.data = data
+
       let totalNum = 0
       data.forEach((e) => {
+        let totalTodoNum = 0
         e.wfCategoryList.forEach((wf) => {
-          if (e.typeName !== 'aeko') {
-            totalNum += wf.todoNum
-          }
+          totalTodoNum += wf.todoNum || 0
+          totalNum += wf.todoNum || 0
         })
+        e.totalTodoNum = totalTodoNum
       })
+      this.data = data
       this.$emit('set-num', totalNum)
     },
     handleSetAekoNum(val) {
       const data = this.data
       let totalNum = 0
       data.forEach((e) => {
+        let totalTodoNum = 0
         e.wfCategoryList.forEach((wf) => {
           if (e.typeName === 'aeko') {
             totalNum += val
           } else {
             totalNum += wf.todoNum
           }
+          totalTodoNum += wf.todoNum || 0
         })
+        e.totalTodoNum = totalTodoNum
       })
       this.$emit('set-num', totalNum)
     }
