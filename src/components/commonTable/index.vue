@@ -12,7 +12,7 @@
     :rules="rules"
     ref="commonTableForm"
     class="commonTable"
-    :class="{ formStyle: ruleLength === 0 }"
+    :class="{ formStyle: ruleLength === 0, 'table-border-visible': border }"
   >
     <el-table
       :highlight-current-row="highlightCurrentRow"
@@ -28,6 +28,7 @@
       @row-click="handleClickRow"
       :row-class-name="handleTableRow"
       v-bind="$attrs"
+      :border="border"
     >
       <el-table-column
         v-if="selection"
@@ -114,13 +115,13 @@
                 v-model="scope.row[items.props]"
                 v-if="inputType"
                 :type="inputType"
-                 :placeholder="language('QINGSHURU', '请输入')"
+                :placeholder="language('QINGSHURU', '请输入')"
                 :maxlength="items.maxlength ? items.maxlength : 300"
               />
               <i-input
                 v-model="scope.row[items.props]"
                 v-else
-                 :placeholder="language('QINGSHURU', '请输入')"
+                :placeholder="language('QINGSHURU', '请输入')"
                 :maxlength="items.maxlength ? items.maxlength : 300"
               />
             </el-form-item>
@@ -289,7 +290,8 @@ export default {
     highlightCurrentRow: { type: Boolean, default: false },
     renderHeader: {
       type: Function
-    }
+    },
+    border: { type: Boolean, default: false }
   },
   components: {
     iInput,
@@ -380,7 +382,6 @@ export default {
   margin: 2px 0;
 }
 .commonTable {
-  
   ::v-deep .el-table__row {
     .el-form-item {
       margin-top: 0;
@@ -389,7 +390,7 @@ export default {
     .el-input {
       height: 35px !important;
       width: 100% !important;
-  
+
       .el-input__inner {
         height: 35px !important;
       }
@@ -413,5 +414,15 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.table-border-visible {
+  ::v-deep .el-table--border th {
+    border-right: 1px solid #ffffff !important;
+  }
+
+  ::v-deep .el-table--border td {
+    border-right: 0 !important;
+  }
 }
 </style>

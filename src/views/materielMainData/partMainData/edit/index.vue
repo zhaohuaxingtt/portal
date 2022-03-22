@@ -1154,17 +1154,17 @@ export default {
       ],
       rules: {
         partNameZh: [
-          { required: true, message: '请输入零件中文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入零件中文名称'), trigger: 'blur' }
         ],
         partNameDe: [
-          { required: true, message: '请输入零件德文名称', trigger: 'blur' }
+          { required: true, message: this.language('请输入零件德文名称'), trigger: 'blur' }
         ],
-        bmgDesc: [{ required: true, message: '请输入BMG', trigger: 'blur' }],
-        zp: [{ required: true, message: '请输入ZP', trigger: 'blur' }],
+        bmgDesc: [{ required: true, message: this.language('请输入BMG'), trigger: 'blur' }],
+        zp: [{ required: true, message: this.language('请输入ZP'), trigger: 'blur' }],
         // drawingDate:[
         //     { required: true, message: '请选择时间', trigger: 'blur' },
         // ],
-        fgId: [{ required: true, message: '请选择专业组', trigger: 'blur' }],
+        fgId: [{ required: true, message: this.language('请选择专业组'), trigger: 'blur' }],
         partNum1: [{ required: true, message: ' ', trigger: 'blur' }],
         partNum2: [{ required: true, message: ' ', trigger: 'blur' }],
         partNum3: [{ required: true, message: ' ', trigger: 'blur' }],

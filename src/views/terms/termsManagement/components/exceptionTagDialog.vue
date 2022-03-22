@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="'例外标记'"
+   :title="$t('TM_LIWAIBIAOJI')"
     :visible.sync="openDialog"
     append-to-body="true"
     width="95%"
@@ -12,13 +12,13 @@
     <div class="card">
       <div class="card__body">
         <div class="search-input">
-          <div class="the_font">搜索：</div>
+          <div class="the_font">{{$t('TM_SOUSUO')}}</div>
           <iInput v-model="shortNameZh"></iInput>
-          <iButton @click="getTableList">{{ '查询' }}</iButton>
+          <iButton @click="getTableList">{{ 'TM_CHAXUN' }}</iButton>
         </div>
 
         <div class="tag-box">
-          <div class="the_font">例外：</div>
+          <div class="the_font">{{$t('TM_LIWAI')}}</div>
           <div class="tag-button">
             <el-tag
               size="medium"
@@ -34,8 +34,8 @@
             <div class="el-icon-close" @click="handleDelAll"></div>
           </div>
           <div>
-            <iButton @click="handleChecked">{{ '确认例外' }}</iButton>
-            <iButton @click="clearDiolog">{{ '取消' }}</iButton>
+            <iButton @click="handleChecked">{{ $t('TM_QUERENLIWAI') }}</iButton>
+            <iButton @click="clearDiolog">{{ $t('TM_QUXIAO') }}</iButton>
           </div>
         </div>
         <iTableML
@@ -59,32 +59,32 @@
             width="80"
             align="center"
           ></el-table-column>
-          <el-table-column align="center" label="供应商中文名"
+          <el-table-column align="center" :label="$t('TM_GONGYINGSHANGZHONGWENMING')"
             ><template slot-scope="scope">
               <span>{{ scope.row['shortNameZh'] }}</span>
             </template></el-table-column
           >
-          <el-table-column align="center" label="供应商英文名"
+          <el-table-column align="center" :label="$t('TM_GONGYINGSHANGYINGWENMING')"
             ><template slot-scope="scope">
               <span>{{ scope.row['shortNameEn'] }}</span>
             </template></el-table-column
           >
-          <el-table-column align="center" label="临时号">
+          <el-table-column align="center" :label="$t('TM_LINSHIHAO')">
             <template slot-scope="scope">
               <span>{{ scope.row['svwTempCode'] }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="SVW号"
+          <el-table-column align="center" :label="$t('TM_SVWHAO')"
             ><template slot-scope="scope">
               <span>{{ scope.row['svwCode'] }}</span>
             </template></el-table-column
           >
-          <el-table-column align="center" label="SAP号"
+          <el-table-column align="center" :label="$t('TM_SAPHAO')"
             ><template slot-scope="scope">
               <span>{{ scope.row['sapCode'] }}</span>
             </template></el-table-column
           >
-          <el-table-column align="center" label="供应商用户"
+          <el-table-column align="center" :label="$t('TM_GONGYINGSHANGYONGHU')"
             ><template slot-scope="scope">
               <span>{{ scope.row['nameZh'] }}</span>
             </template></el-table-column
@@ -97,8 +97,8 @@
           background
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"
-          prev-text="上一页"
-          next-text="下一页"
+          :prev-text="$t('TM_SHANGYIYE')"
+          :next-text="$t('TM_XIAYIYE')"
           :layout="page.layout"
           :current-page="page.currPage"
           :total="page.total"
@@ -252,9 +252,9 @@ export default {
     },
     handleChecked() {
       if (this.tags.length > 0) {
-        this.$confirm('是否确认标记例外？', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(this.$t('TM_SHIFOUQUERENBIAOJILIWAI'), this.$t('TM_TISHI'), {
+          confirmButtonText: this.$t('TM_SHI'),
+          cancelButtonText: this.$t('TM_FOU'),
           type: 'warning'
         }).then(() => {
           let list = this.tags.map((item) => {
@@ -263,7 +263,7 @@ export default {
           excludeBatch({ termsId: this.id, list })
             .then((res) => {
               if (res.code == 200) {
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('TM_CAOZUOCHENGGONG'))
                 this.$emit('closeDialog', false)
                 this.$emit('getTableList', { termsId: this.id })
               }
@@ -273,7 +273,7 @@ export default {
             })
         })
       } else {
-        this.$message.error('请选择需要进行例外标记的数据')
+        this.$message.error(this.$t('TM_QINGXUANZEXUYAOJINXINGLIWAIBIAOJIDESHUJU'))
       }
     },
     handleDel(id) {

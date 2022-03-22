@@ -1,14 +1,18 @@
 <template>
   <iDialog
-    title="问卷数据"
+    :title="$t('QN_WENJUANSHUJU')"
     :visible.sync="openSingleChooseDetailsBol"
     width="108.75rem"
     :close-on-click-modal="false"
   >
     <div class="conatiner">
       <div class="button-list">
-        <iButton @click="exportAllDetails" class="margin-right20">返回</iButton>
-        <iButton @click="exportReport" class="margin0">导出数据</iButton>
+        <iButton @click="exportAllDetails" class="margin-right20">{{
+          $t('QN_FANHUI')
+        }}</iButton>
+        <iButton @click="exportReport" class="margin0">{{
+          $t('QN_DAOCHUSHUJU')
+        }}</iButton>
         <div class="empty"></div>
         <div class="goback" @click="goback">
           <i class="el-icon-arrow-left"></i>
@@ -24,19 +28,19 @@
           <iFormItem prop="userType">
             <div class="operate">
               <iLabel
-                :label="$t('用户类型')"
+                :label="$t('QN_YONGHULEIXING')"
                 slot="label"
                 class="operate-name"
               ></iLabel>
               <iSelect
                 @change="changeUserType($event)"
                 v-model="ruleForm.userType"
-                placeholder="全部用户"
+                :placeholder="$t('QN_QUANBUYONGHU')"
                 class="operate-select"
               >
                 <el-option
                   :value="item.value"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   v-for="item of presentList"
                   :key="item.value"
                 ></el-option>
@@ -59,98 +63,98 @@
                 show-overflow-tooltip
                 type="index"
                 align="center"
-                label="序号"
+                :label="$t('QN_XUHAO')"
                 width="80"
               >
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="用户类型"
+                :label="$t('QN_YONGHULEIXING')"
                 width="120"
                 ><template slot-scope="scope">
                   <span>{{
-                    presentListObj[scope.row["userType"]] || "-"
+                    $t(presentListObj[scope.row['userType']]) || '-'
                   }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="联系人姓名"
+                :label="$t('QN_LIANXIRENXINGMING')"
                 width="160"
                 ><template slot-scope="scope">
-                  <span>{{ scope.row["nameZh"] || "-" }}</span>
+                  <span>{{ scope.row['nameZh'] || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="用户登录名"
+                :label="$t('QN_YONGHUDENGLUMING')"
                 width="160"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row["userName"] || "-" }}</span>
+                  <span>{{ scope.row['userName'] || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="供应商/部门名称"
+                :label="$t('QN_GONGYINGSHANGHUOBUMENMINGCHENG')"
                 width="316"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row["department"] || "-" }}</span>
+                  <span>{{ scope.row['department'] || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="邮箱"
+                :label="$t('QN_YOUXIANG')"
                 width="207"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row["email"] || "-" }}</span>
+                  <span>{{ scope.row['email'] || '-' }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="SAP号"
+                :label="$t('QN_SAPHAO')"
                 width="207"
                 ><template slot-scope="scope">
                   <span>{{
                     (scope.row.supplierUserDTO &&
-                      scope.row.supplierUserDTO["sapNum"]) ||
-                    "-"
+                      scope.row.supplierUserDTO['sapNum']) ||
+                    '-'
                   }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="SVW号"
+                :label="$t('QN_SVWHAO')"
                 width="207"
               >
                 <template slot-scope="scope">
                   <span>{{
                     (scope.row.supplierUserDTO &&
-                      scope.row.supplierUserDTO["svwCode"]) ||
-                    "-"
+                      scope.row.supplierUserDTO['svwCode']) ||
+                    '-'
                   }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
-                label="临时号"
+                :label="$t('QN_LINSHIHAO')"
                 width="207"
               >
                 <template slot-scope="scope">
                   <span>{{
                     (scope.row.supplierUserDTO &&
-                      scope.row.supplierUserDTO["temporaryNum"]) ||
-                    "-"
+                      scope.row.supplierUserDTO['temporaryNum']) ||
+                    '-'
                   }}</span>
                 </template>
               </el-table-column>
@@ -162,11 +166,11 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iButton, iSelect, iMessage, iFormItem, iLabel } from "rise";
-import iTableML from "@/components/iTableML";
-import { questionReportDetail } from "@/api/survey/surveyData.js";
-import { exportFile } from "@/utils/exportFileUtil";
-import iEditForm from "@/components/iEditForm";
+import { iDialog, iButton, iSelect, iFormItem, iLabel } from 'rise'
+import iTableML from '@/components/iTableML'
+import { questionReportDetail } from '@/api/survey/surveyData.js'
+import { exportFile } from '@/utils/exportFileUtil'
+import iEditForm from '@/components/iEditForm'
 import store from '@/store'
 export default {
   components: {
@@ -176,133 +180,139 @@ export default {
     iTableML,
     iFormItem,
     iLabel,
-    iEditForm,
+    iEditForm
   },
   props: {
     openSingleChooseDetailsBol: {
       type: Boolean,
-      default: false,
+      default: false
     },
     chooseDetails: {
       type: Object,
       default() {
-        return {};
-      },
+        return {}
+      }
     },
     surveyId: {
       type: String,
-      default: "",
-    },
+      default: ''
+    }
   },
   data() {
     return {
-      activeName: "first0",
+      activeName: 'first0',
       arrobj: [],
       optionDetails: [],
       initTableData: [],
       tableData: [],
       ruleForm: {
-        userType: "",
+        userType: ''
       },
       presentList: [
         {
-          label: "全部用户",
-          value: "",
+          label: '全部用户',
+          value: '',
+          i18n: 'QN_QUANBUYONGHU'
         },
         {
-          label: "员工用户",
+          label: '员工用户',
           value: 1,
+          i18n: 'QN_YUANGONGYONGHU'
         },
         {
-          label: "供应商用户",
+          label: '供应商用户',
           value: 2,
-        },
+          i18n: 'QN_GONGYINGSHANGYONGHU'
+        }
       ],
       presentListObj: {
-        1: "员工用户",
-        2: "供应商用户",
-      },
-    };
+        1: 'QN_YUANGONGYONGHU',
+        2: 'QN_GONGYINGSHANGYONGHU'
+      }
+    }
   },
   mounted() {
     if (this.chooseDetails.answerReports == null) {
-      this.arrobj = [];
+      this.arrobj = []
     } else {
-      this.arrobj = [...this.chooseDetails.answerReports];
+      this.arrobj = [...this.chooseDetails.answerReports]
     }
     this.arrobj.unshift({
-      name: "全部",
-    });
-    this.arrobj.pop();
-    this.query();
+      name: '全部'
+    })
+    this.arrobj.pop()
+    this.query()
   },
   methods: {
     changeUserType(e) {
-      this.ruleForm.userType = e;
-      this.query();
+      this.ruleForm.userType = e
+      this.query()
     },
     clickTabs() {
-      const index = Number(this.activeName.split("first")[1]);
+      const index = Number(this.activeName.split('first')[1])
       const currentObj = this.optionDetails.find((item) => {
-        return item.name === this.arrobj[index].name;
-      });
+        return item.name === this.arrobj[index].name
+      })
       if (currentObj) {
         this.tableData = currentObj.answerDetails
           ? currentObj.answerDetails
-          : [];
+          : []
       } else {
-        this.tableData = this.initTableData;
+        this.tableData = this.initTableData
       }
     },
     query() {
       const data = {
         surveyId: this.surveyId,
         questionId: this.chooseDetails.id,
-        userType: this.ruleForm.userType,
-      };
+        userType: this.ruleForm.userType
+      }
       questionReportDetail(data).then((res) => {
-        let arr = [];
-        let obj = {};
-        this.optionDetails = res.optionDetails;
+        let arr = []
+        let obj = {}
+        this.optionDetails = res.optionDetails
         res.optionDetails.forEach((item) => {
           if (item.answerDetails) {
-            arr = arr.concat(item.answerDetails);
+            arr = arr.concat(item.answerDetails)
           }
-        });
+        })
         this.tableData = arr.reduce((cur, next) => {
           if (!obj[next.id]) {
-            obj[next.id] = true;
-            cur.push(next);
+            obj[next.id] = true
+            cur.push(next)
           }
-          return cur;
-        }, []);
-        this.initTableData = [...this.tableData];
-      });
+          return cur
+        }, [])
+        this.initTableData = [...this.tableData]
+      })
     },
     goback() {
-      this.$emit("backIndexDialog", "single");
+      this.$emit('backIndexDialog', 'single')
     },
     exportAllDetails() {
-      this.goback();
+      this.goback()
     },
     exportReport() {
       exportFile({
-        url: process.env.VUE_APP_SURVEY+`/surveyService/exportQuestionReport?userId=`+store.state.permission.userInfo.id,
+        url:
+          process.env.VUE_APP_SURVEY +
+          `/surveyService/exportQuestionReport?userId=` +
+          store.state.permission.userInfo.id,
         // url: "/surveyApi/surveyService/exportQuestionReport",
         data: {
           questionId: this.chooseDetails.id,
           surveyId: this.surveyId,
-          userType: this.ruleForm.userType,
-        },
+          userType: this.ruleForm.userType
+        }
         // callback: (e) => {
         //   if (!e) {
         //     iMessage.error("导出失败");
         //   }
         // },
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .el-dialog__headerbtn {

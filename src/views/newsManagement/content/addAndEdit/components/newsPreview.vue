@@ -31,7 +31,7 @@
                       slot="label"
                       required
                     ></iLabel>
-                    <p class="el-p" :title="ruleForm.title">{{ ruleForm.title }}</p>
+                    <p class="el-p" :title="ruleForm.title" v-html="ruleForm.title.replace(/ /g, '&nbsp;')"></p>
                   </iFormItem>
                 </div>
                 <div class="form-row">
@@ -45,7 +45,7 @@
                       slot="label"
                       required
                     ></iLabel>
-                    <p class="el-p" :title="ruleForm.source">{{ ruleForm.source }}</p>
+                    <p class="el-p" :title="ruleForm.source"  v-html="ruleForm.source.replace(/ /g, '&nbsp;')"></p>
                   </iFormItem>
                   <iFormItem :label="language('NEWS_FABURIQI', '发布日期')" prop="inDate">
                     <iLabel
@@ -103,7 +103,7 @@
                 <div class="form-row">
                   <iFormItem :label="language('NEWS_XINWENGAIYAO', '新闻概要')">
                     <iLabel :label="language('NEWS_XINWENGAIYAO', '新闻概要')" slot="label"></iLabel>
-                    <p class="el-p" :title="ruleForm.summary">{{ ruleForm.summary }}</p>
+                    <p class="el-p" :title="ruleForm.summary" v-html="ruleForm.summary.replace(/ /g, '&nbsp;')"></p>
                   </iFormItem>
                 </div>
                 <div v-show="ruleForm.category === 0" class="form-row">
@@ -518,16 +518,27 @@ export default {
   mounted() {
     if (this.editor === null) {
       this.editor = new E("#editer");
-      // 配置菜单栏，设置不需要的菜单
-      this. editor.config.excludeMenus = [
-            'list',
-            'todo',
-            'emoticon',
-            'image',
-            'video',
-            'table',
-            'code',
-        ]
+      // 配置菜单栏
+      this.editor.config.menus = [
+          'head',
+          'bold',
+          'fontSize',
+          'fontName',
+          'italic',
+          'underline',
+          'strikeThrough',
+          'indent',
+          'lineHeight',
+          'foreColor',
+          'backColor',
+          'link',
+          'justify',
+          'quote',
+          'splitLine',
+          'undo',
+          'redo',
+          'image',
+      ]
       // 配置字体
       this.editor.config.fontNames = [
           // 字符串形式
@@ -545,8 +556,6 @@ export default {
           'Times New Roman',
           'Courier New',
       ]
-      this.editor.config.menus = this.editor.config.menus.concat('uploadMenu')// 配置菜单栏，删减菜单，调整顺序
-      this.editor.config.menus.concat('uploadMenu')// 配置菜单栏，删减菜单，调整顺序
       this.editor.create();
       this.editor.disable();
     }

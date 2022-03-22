@@ -144,3 +144,12 @@ export function exportMeetingAgenda(data) {
     data
   })
 }
+// 根据会议类型id查询议题结论
+// /gpMeetingService/findThemenConclusion
+export function findThemenConclusion(data) {
+  return requst({
+    url: `/gpMeetingService/findThemenConclusion`,
+    method: 'POST',
+    data
+  })
+}

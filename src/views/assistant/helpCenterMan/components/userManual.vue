@@ -79,7 +79,7 @@
         },
         methods: {
             async save(){
-                if(!this.content) return this.$message.warning("请输入内容")
+                if(!this.content) return this.$message.warning(this.language("请输入内容"))
                 try {
                     this.loading = true
                     await insertNewManual({
@@ -89,7 +89,7 @@
                         source:this.userType,
                         attachmentList: this.files
                     })
-                    this.$message.success("保存成功")
+                    this.$message.success(this.language("保存成功"))
                     this.type = "detail"
                     this.$emit("refresh")
                 } finally {
@@ -97,9 +97,9 @@
                 }
             },
             async del(){
-                this.$confirm('确定要删除吗?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.language('确定要删除该问题吗?'), this.language('提示'), {
+                    confirmButtonText: this.language('确定'),
+                    cancelButtonText: this.language('取消'),
                     type: 'warning'
                 }).then(async () => {
                     await delManual(this.detail.id)

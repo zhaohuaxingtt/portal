@@ -1,12 +1,12 @@
 <template>
   <div>
-    <pageHeader class="margin-bottom20"> 轮岗明细 </pageHeader>
+    <pageHeader class="margin-bottom20"> {{language('轮岗明细')}} </pageHeader>
 
     <iCard class="margin-top20" v-loading="loading">
       <el-form label-width="80px" :model="form" :rules="rules" ref="ruleForm">
         <el-row>
           <el-col :span="6">
-            <iFormItem label="申请人">
+            <iFormItem :label="language('申请人')">
               <div class="selected-tags-panel">
                 <!-- <div class="tags" style="text-align: center">
                   <span>
@@ -24,7 +24,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem label="原有岗位" prop="sourceId">
+            <iFormItem :label="language('原有岗位')" prop="sourceId">
               <i-select
                 v-model="form.sourceName"
                 @change="selectPosition"
@@ -41,7 +41,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem label="目标岗位" prop="positionList">
+            <iFormItem :label="language('目标岗位')" prop="positionList">
               <div class="selected-tags-panel">
                 <div class="tags">
                   <span
@@ -71,7 +71,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem label="交接时间" prop="durationDays">
+            <iFormItem :label="language('交接时间')" prop="durationDays">
               <div class="agent-date">
                 <iInput
                   v-Int
@@ -79,7 +79,7 @@
                   :placeholder="language('请输入')"
                   :disabled="!canEdit"
                 />
-                <span class="date-divider">天</span>
+                <span class="date-divider">{{language('天')}}</span>
               </div>
             </iFormItem>
           </el-col>
@@ -133,21 +133,21 @@ export default {
         durationDays: [
           {
             required: true,
-            message: '交接时间不能为空',
+            message: this.language('交接时间不能为空'),
             trigger: 'blur'
           }
         ],
         sourceId: [
           {
             required: true,
-            message: '原有岗位不能为空',
+            message: this.language('原有岗位不能为空'),
             trigger: 'blur'
           }
         ],
         positionList: [
           {
             required: true,
-            message: '目标岗位不能为空',
+            message: this.language('目标岗位不能为空'),
             trigger: 'blur'
           }
         ]

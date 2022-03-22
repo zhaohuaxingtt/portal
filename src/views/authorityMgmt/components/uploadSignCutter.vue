@@ -124,12 +124,12 @@ export default {
             this.fileInfo = data
             this.$emit('change', this.fileInfo)
           } else {
-            iMessage.error('文件仅支持图片格式，像素比列（4:3）')
+            iMessage.error(res.desZh || '文件仅支持图片格式，像素比列（4:3）')
           }
         })
         .catch((err) => {
           console.log(err)
-          iMessage.error('文件仅支持图片格式，像素比列（4:3）')
+          iMessage.error(err.desZh || '文件仅支持图片格式，像素比列（4:3）')
         })
         .finally(() => {
           this.uploadLoading = false
