@@ -163,8 +163,7 @@ module.exports = {
       },
       [process.env.VUE_APP_USER_CENTER]: {
         target: `http://${BASE_IP}:8015/usercenter/`,
-        // target:
-        //   'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
+        // target: 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
@@ -181,9 +180,9 @@ module.exports = {
       // -----------------ws3 供应商---------------------------
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
-        // target: `http://${BASE_IP}:8010/supplierservice`,
-        target:
-          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
+        target: `http://${BASE_IP}:8010/supplierservice`,
+        // target:
+        //   'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''
@@ -208,8 +207,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        // target: `http://${BASE_IP}:8044/risemessage`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/risemessageApi`,
+        target: `http://${BASE_IP}:8044/risemessage`,
+        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/risemessageApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''
