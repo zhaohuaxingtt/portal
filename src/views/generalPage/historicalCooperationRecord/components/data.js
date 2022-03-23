@@ -28,9 +28,9 @@ export const tableTitle = [
     {props: 'bub', name: 'BU-B TO',key: 'SUPPLIER_BUBTO', width: 240}
 ]
 export const projectDescriptionsTableTitle = [
+    {props: '4', name: '合同编号'},
     {props: '1', name: '项目描述'},
     {props: '2', name: '定点金额'},
     {props: '3', name: '定点时间'},
-    {props: '4', name: '合同编号'},
     {props: '5', name: '采购员'}
 ]

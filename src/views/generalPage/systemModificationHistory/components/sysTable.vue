@@ -7,12 +7,10 @@
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
 <template>
-  <i-card>
-    <div class="margin-bottom20 clearFloat">
-      <div class="floatright">
-        <i-button @click="exportsTable" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
-      </div>
-    </div>
+  <i-card :title="$t('XITONGXIUGAILISHILIEBIAO')" tabCard>
+    <template slot="header-control">
+      <i-button @click="exportsTable" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+    </template>
         <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
     <table-list
         :tableData="tableListData"

@@ -12,7 +12,8 @@
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
     <baseInfoCard ref="baseInfoCard" />
-    <buyer ref="buyer"
+    <linie ref="linie" :supplierData="supplierComplete.supplierDTO" v-if="$route.query.subSupplierType=='GP'"></linie>
+    <buyer ref="buyer" v-if="$route.query.subSupplierType!=='GP'"
            :supplierData="supplierComplete.supplierDTO"
            disabled
            class="margin-bottom20"></buyer>
@@ -50,6 +51,7 @@ import {
 import {
   supplierComplete
 } from "./components/data";
+import linie from './components/linie'
 import {
   saveInfos,
   supplierDetail
@@ -84,7 +86,8 @@ export default {
     opneBank,
     iButton,
     buyer,
-    baseInfoCard
+    baseInfoCard,
+    linie
   },
   data () {
     return {

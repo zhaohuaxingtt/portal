@@ -22,12 +22,19 @@ import SuppliersDetails from '@/views/supplierManagement/supplier360/detailes/in
 import RiskSignal from '../views/frmRating/riskSignal/index'
 import Details from '../views/frmRating/riskSignal/details'
 import Supplier360 from '@/views/supplierManagement/supplier360/list/list.vue'
+import Supplier360GP from '@/views/supplierManagement/supplier360/list/listGP.vue'
 import supplierManagement from '@/views/supplierManagement/index.vue'
 import NTierMap from '@/views/supplierManagement/NTier/supplyChainMap/index.vue'
 import NTierRouter from '@/views/supplierManagement/NTier/router.vue'
 import PublicOpinionDetection from '@/views/supplierManagement/yuqingjiance'
+import dispersedSupplier from '@/views/supplierManagement/dispersedSupplier'
 
 export default [
+  {
+    path: '/supplier/supplierListDis/supplierDisDetails',
+    name: 'supplierDisDetails',
+    component: () =>import('@/views/supplierManagement/dispersedSupplier/components/supplierDisDetails')
+  },
   {
     path: '/supplier/frmrating/riskSignal',
     name: 'riskSignal',
@@ -241,9 +248,27 @@ export default [
         component: Supplier360
       },
       {
+        path: 'supplierListDis',
+        name: 'supplierListDis',
+        component: dispersedSupplier
+      },
+      {
+        path: 'supplierListGP',
+        name: 'supplierListGP',
+        component: Supplier360GP
+      },
+      {
         path: 'supplierList/details',
         name: 'suppliersDetails',
         component: SuppliersDetails
+      },
+      {
+        path: 'supplierList/detailsGP',
+        name: 'detailsGP',
+        component: () =>
+          import(
+            '@/views/supplierManagement/supplier360/detailesGP/index.vue'
+          )
       },
       {
         path: 'NTier',

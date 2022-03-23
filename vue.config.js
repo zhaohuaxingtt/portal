@@ -146,8 +146,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        // target: `http://${BASE_IP}:8043/riseekl`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseekl/`,
+        target: `http://${BASE_IP}:8043/riseekl`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseekl/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
@@ -162,17 +162,16 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        // target: `http://${BASE_IP}:8015/usercenter/`,
-        target:
-          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
+        target: `http://${BASE_IP}:8015/usercenter/`,
+        // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/usercenter/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        // target: `http://${BASE_IP}:8012/approval`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
+        target: `http://${BASE_IP}:8012/approval`,
+        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -181,9 +180,8 @@ module.exports = {
       // -----------------ws3 供应商---------------------------
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
-        // target: `http://${BASE_IP}:8010/supplierservice`,
-        target:
-          'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
+        target: `http://${BASE_IP}:8010/supplierservice`,
+        // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''
@@ -208,8 +206,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        // target: `http://${BASE_IP}:8044/risemessage`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/risemessageApi`,
+        target: `http://${BASE_IP}:8044/risemessage`,
+        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/risemessageApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''
@@ -248,24 +246,24 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_NTIER]: {
-        // target: `http://${BASE_IP}:8045/ntier`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/ntier/`,
+        target: `http://${BASE_IP}:8045/ntier`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/ntier/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NTIER]: ''
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        // target: `http://${BASE_IP}:8046/mtz`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
+        target: `http://${BASE_IP}:8046/mtz`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
         }
       },
       [process.env.VUE_APP_MATERIEL]: {
-        // target: `http://${BASE_IP}:8018/parts`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/parts/`,
+        target: `http://${BASE_IP}:8018/parts`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/parts/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MATERIEL]: ''
@@ -295,8 +293,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_NEWS]: {
-        // target: `http://${BASE_IP}:8047/news`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
+        target: `http://${BASE_IP}:8047/news`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/news/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
@@ -328,8 +326,8 @@ module.exports = {
       },
       // 用户助手中心
       [process.env.VUE_APP_USER_ASSISTANT]: {
-        // target: `http://${BASE_IP}:8059/riseassistant`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseassistant/`,
+        target: `http://${BASE_IP}:8059/riseassistant`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/riseassistant/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''

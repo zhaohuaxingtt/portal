@@ -21,11 +21,11 @@
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE"
                   v-if="this.supplierType === 4"
                   @click="handleActivity(true)">{{ $t('SUPPLIER_JIEDONG') }}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN"
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN" v-if="$route.query.subSupplierType!=='GP'"
                   @click="setMasterUser">{{ $t('SUPPLIER_SHEWEIZHUYONGHU') }}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD"
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD" v-if="$route.query.subSupplierType!=='GP'"
                   @click="handleAdd">{{ $t('LK_XINZENG') }}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE"
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE" v-if="$route.query.subSupplierType!=='GP'"
                   @click="deleteItem('ids', deleteUser)">{{ $t('LK_SHANCHU') }}</i-button>
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT"
                   @click="exportsTableHandler"
@@ -41,7 +41,7 @@
                 @handleSelectionChange="handleSelectionChange"
                 border
                 :index="true">
-      <template #isDefault="scope">
+      <template #isDefault="scope" v-if="$route.query.subSupplierType!=='GP'">
         <icon v-if="scope.row.isDefault === true"
               name="iconsheweizhuyonghu1"
               symbol></icon>
@@ -102,7 +102,7 @@
 import { iCard, iButton, iMessage, icon, iMessageBox, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { supplierUserNameTableTitle } from './data'
+import { supplierUserNameTableTitle,supplierUserNameTableTitleGP } from './data'
 import {
   saveUser,
   selectUser,
@@ -130,7 +130,9 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: supplierUserNameTableTitle,
+      tableTitle: [],
+      supplierUserNameTableTitle,
+      supplierUserNameTableTitleGP,
       tableLoading: false,
       selectTableData: [],
       userNameDialog: false,
@@ -148,6 +150,8 @@ export default {
     }
   },
   created () {
+    this.tableTitle = this.$route.query.subSupplierType=='GP'?this.supplierUserNameTableTitleGP:this.supplierUserNameTableTitle
+
     this.userType = this.$store.state.permission.userInfo.userType
     this.isMainContact = this.$store.state.permission.userInfo.isMainContact
     this.opcsCompanyNameZh =

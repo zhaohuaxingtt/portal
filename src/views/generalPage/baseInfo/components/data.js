@@ -181,3 +181,63 @@ export const bankRules={
 		{ pattern:/^[A-Za-z0-9]+$/, message: '税务代码错误', trigger: 'blur' }
 	]
 }
+
+export const tableTitle = [
+  {
+      props: 'name',
+      name: '业务类型',
+      key: 'EKL_YJGL_YWLX',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 150
+  },
+  {
+      props: 'annualOutput',
+      name: '采购员邮箱',
+      key: 'SUPPLIER_PURCHASEREMAIL',
+      maxlength: 50
+  },
+  {
+      props: 'oemName',
+      name: '采购员',
+      width: 180,
+      key: 'SPR_FRM_XGYSPJ_CGY',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 100
+  },
+  {
+      props: 'deliveryStartDate',
+      name: '采购员工号',
+      key: 'CAIGOUYUANGONGHAO'
+  },
+  {
+      props: 'deliveryYear',
+      name: '采购员科室',
+      key: 'CAIGOUYUANKESHI'
+  },
+  {
+      props: 'annualVolumns',
+      name: '业务部门联系人邮箱',
+      key: 'YEWUBUMENLIANXIRENYOUXIANG',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 100
+  },
+  {
+      props: 'domesticMarketShare',
+      name: '业务部门联系人姓名',
+      width: 180,
+      key: 'YEWUBUMENLIANXIRENXINGMING',
+      rule: [
+        {
+          pattern: /^([1-9][0-9]{0,1}|100)$/,
+          message: '请输入1-100的整数',
+          trigger: 'blur',
+        }],
+      maxlength: 3,
+  },
+  {
+      props: 'industryPosition',
+      name: '是否启用',
+      key: 'SHIFOUQIYONG',
+      maxlength: 200
+  },
+]

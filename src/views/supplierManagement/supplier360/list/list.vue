@@ -24,6 +24,11 @@
                        :label="item.name"
                        :disabled="userType != '' && userType != 'PRE'">
             </el-option>
+            <!-- <el-option v-for="(item, index) in fromGroup.supplierTypeList"
+                       :key="index"
+                       :value="item.code"
+                       :label="item.name">
+            </el-option> -->
           </iSelect>
         </el-form-item>
         <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">

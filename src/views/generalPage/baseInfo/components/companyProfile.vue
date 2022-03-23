@@ -318,7 +318,7 @@
                      :key="index"></el-option>
         </iSelect> -->
       </iFormItem>
-      <iFormItem>
+      <iFormItem v-if="$route.query.subSupplierType !== 'GP'">
         <iLabel :label="language('QIANDINGCAIGOUTIAOKUAN', '签订采购条款')"
                 slot="label"></iLabel>
         <iText> {{isPP?supplierData.ppSupplierDTO.isSignedClause?supplierData.ppSupplierDTO.signTime:this.language('FOU','否'):supplierData.gpSupplierInfoVO.isSignedClause?supplierData.ppSupplierDTO.signTime:this.language('FOU','否') }}</iText>

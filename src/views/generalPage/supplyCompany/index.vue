@@ -2,70 +2,72 @@
  * @Author: caopeng
 -->
 <template>
-  <i-card>
-    <div class="margin-bottom20 clearFloat">
-      <div class="floatright">
+  <div>
+    <baseInfo ref="basic" class="margin-bottom20" v-if="$route.query.subSupplierType=='GP'"></baseInfo>
+    <i-card :title="$t('SUPPLIER_GONGHUOGONGSI')" tabCard>
+      <template slot="header-control">
         <i-button @click="subBtn">{{ language('TIJIAO', '提交') }}</i-button>
-        <iButton @click="$router.go(-1)">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
-      </div>
-    </div>
+        <iButton @click="$router.go(-1)" v-if="$route.query.subSupplierType!=='GP'">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
+      </template>
 
-    <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
-    <el-table :data="tableListData.procureFactoryList"
-              v-loading="tableLoading"
-              @selection-change="handleSelectionChange"
-              border
-              ref="mulitipleTable">
+      <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
+      <el-table :data="tableListData.procureFactoryList"
+                v-loading="tableLoading"
+                @selection-change="handleSelectionChange"
+                border
+                ref="mulitipleTable">
 
-      <el-table-column type="selection"
-                       width="50"
-                       align="center"
-                       :selectable="selectable"></el-table-column>
-      <!-- <el-table-column prop="code"
-                       align='center'
-                       label="工厂编号">
-        <template slot-scope="scope">
-          <iInput  style="width:220px" clearable
-                  v-model="scope.row.code"
-                  :placeholder="language('QINGSHURU', '请输入')"
-                  maxlength="200"></iInput>
-        </template>
+        <el-table-column type="selection"
+                        width="50"
+                        align="center"
+                        :selectable="selectable"></el-table-column>
+        <!-- <el-table-column prop="code"
+                        align='center'
+                        label="工厂编号">
+          <template slot-scope="scope">
+            <iInput  style="width:220px" clearable
+                    v-model="scope.row.code"
+                    :placeholder="language('QINGSHURU', '请输入')"
+                    maxlength="200"></iInput>
+          </template>
 
-      </el-table-column>
-      <el-table-column prop="code"
-                       align='center'
-                       label="工厂名称">
-        <template slot-scope="scope">
-          <iInput  style="width:220px" clearable
-                  v-model="scope.row.code"
-                  :placeholder="language('QINGSHURU', '请输入')"
-                  maxlength="200"></iInput>
-        </template>
+        </el-table-column>
+        <el-table-column prop="code"
+                        align='center'
+                        label="工厂名称">
+          <template slot-scope="scope">
+            <iInput  style="width:220px" clearable
+                    v-model="scope.row.code"
+                    :placeholder="language('QINGSHURU', '请输入')"
+                    maxlength="200"></iInput>
+          </template>
 
-      </el-table-column>
-      <el-table-column prop="code"
-                       align='center'
-                       label="公司编号">
-        <template slot-scope="scope">
-          <iInput style="width:220px" clearable
-                  v-model="scope.row.code"
-                  :placeholder="language('QINGSHURU', '请输入')"
-                  maxlength="200"></iInput>
-        </template>
+        </el-table-column>
+        <el-table-column prop="code"
+                        align='center'
+                        label="公司编号">
+          <template slot-scope="scope">
+            <iInput style="width:220px" clearable
+                    v-model="scope.row.code"
+                    :placeholder="language('QINGSHURU', '请输入')"
+                    maxlength="200"></iInput>
+          </template>
 
-      </el-table-column> -->
+        </el-table-column> -->
 
-      <el-table-column v-for="i in tableTitle"
-                       :key="i.key"
-                       :width="i.width"
-                       align="center"
-                       :prop="i.props"
-                       :label="i.name"></el-table-column>
-    </el-table>
-  </i-card>
+        <el-table-column v-for="i in tableTitle"
+                        :key="i.key"
+                        :width="i.width"
+                        align="center"
+                        :prop="i.props"
+                        :label="i.name"></el-table-column>
+      </el-table>
+    </i-card>
+  </div>
 </template>
 
 <script>
+import baseInfo from "../components/baseInfoCard";
 import { iCard, iButton, iMessageBox, iMessage } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { tableTitle } from './components/data'
@@ -78,7 +80,8 @@ export default {
   mixins: [generalPageMixins],
   components: {
     iCard,
-    iButton
+    iButton,
+    baseInfo
   },
   data() {
     return {

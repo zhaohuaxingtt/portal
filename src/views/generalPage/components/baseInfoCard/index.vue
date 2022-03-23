@@ -32,7 +32,7 @@
 
 <script>
 import { iCard, iButton, iFormGroup, iFormItem, iText, iLabel, iInput } from "rise";
-import { baseInfoTitle } from "./data"
+import { baseInfoTitle,baseInfoTitleGP } from "./data"
 import { cloneDeep } from "lodash"
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins';
 export default {
@@ -42,12 +42,21 @@ export default {
   },
   data () {
     return {
-      baseInfoTitle: cloneDeep(baseInfoTitle)
+      baseInfoTitle:[]
     }
   },
   computed: {
     baseMsg () {
       return this.$store.state.baseInfo.baseMsg
+    }
+  },
+  created(){
+    if(this.$route.query.subSupplierType == "PP"){
+      this.baseInfoTitle = cloneDeep(baseInfoTitle)
+    }else if(this.$route.query.subSupplierType == "GP"){
+      this.baseInfoTitle = cloneDeep(baseInfoTitleGP)
+    }else{
+      this.baseInfoTitle = cloneDeep(baseInfoTitle)
     }
   },
   methods: {
