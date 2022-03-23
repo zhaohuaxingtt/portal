@@ -7,14 +7,14 @@
       numVisible
     />
 
-    <div v-for="(item, index) in activeData" :key="index">
+    <div v-for="item in activeData" :key="item.typeName">
       <div class="category-name">
         {{ item.typeValue }}
       </div>
       <div class="category-content">
         <overview-panel
-          v-for="(subItem, i) in item.wfCategoryList"
-          :key="i"
+          v-for="subItem in item.wfCategoryList"
+          :key="subItem.subType"
           :data="subItem"
           :category-name="item.typeValue"
           type="APPROVAL"
@@ -110,6 +110,7 @@ export default {
         let totalTodoNum = 0
         e.wfCategoryList.forEach((wf) => {
           if (e.typeName === 'aeko') {
+            wf.todoNum = val
             totalNum += val
             totalTodoNum += val || 0
           } else {
