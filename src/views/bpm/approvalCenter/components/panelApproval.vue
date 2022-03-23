@@ -20,7 +20,6 @@
           type="APPROVAL"
           :typeName="item.typeName"
           @open="openListPage"
-          @set-aeko-num="handleSetAekoNum"
         />
       </div>
     </div>
@@ -34,7 +33,11 @@
 <script>
 import OverviewPanel from './OverviewPanel.vue'
 import panelCategory from '@/components/common/panelCategory'
-import { queryApprovalOverview } from '@/api/approval/statistics'
+import {
+  queryApprovalOverview,
+  queryAekoTodoCount
+} from '@/api/approval/statistics'
+// import { queryAekoTodoCount } from '@/api/approval/statistics'
 export default {
   name: 'panelApproval',
   components: { OverviewPanel, panelCategory },
@@ -102,6 +105,7 @@ export default {
       })
       this.data = data
       this.$emit('set-num', totalNum)
+      this.getAekoTodoCount()
     },
     handleSetAekoNum(val) {
       const data = this.data
@@ -121,6 +125,15 @@ export default {
         e.totalTodoNum = totalTodoNum
       })
       this.$emit('set-num', totalNum)
+    },
+    getAekoTodoCount() {
+      queryAekoTodoCount({}).then((res) => {
+        if (res.result) {
+          this.handleSetAekoNum(res.total || 0)
+          /* this.aekoTodoCount = res.total || 0
+          this.$emit('set-aeko-num', this.aekoTodoCount) */
+        }
+      })
     }
   }
 }
