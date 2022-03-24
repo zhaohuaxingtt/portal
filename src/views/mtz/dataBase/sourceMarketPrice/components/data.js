@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-07 15:05:40
- * @LastEditTime: 2022-03-24 18:58:02
+ * @LastEditTime: 2022-03-24 19:01:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\sourceMarketPrice\components\data.js
@@ -61,6 +61,7 @@ export const tableSetting = [
   {
     props: 'externalMarketPriceSource',
     name: '外部市场价来源',
+
     key: 'WAIBUSHICHANGJIALAIYUAN',
     width: 180
   },
