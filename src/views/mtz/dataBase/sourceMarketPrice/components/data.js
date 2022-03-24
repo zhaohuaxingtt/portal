@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-07 15:05:40
- * @LastEditTime: 2022-03-09 14:31:24
+ * @LastEditTime: 2022-03-24 18:58:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\sourceMarketPrice\components\data.js
@@ -68,7 +68,7 @@ export const tableSetting = [
     props: 'externalMaterialCode',
     name: '外部来源对应牌号',
     key: 'WAIBULAIYUANDUIYINGPAIHAO',
-    width: 160
+    width: 250
   },
   {
     props: 'priceRuleValue',
