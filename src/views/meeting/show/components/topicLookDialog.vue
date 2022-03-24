@@ -135,6 +135,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isOnly: {
+      type: Boolean,
+      default: false
+    },
     isMeetingShow: {
       type: Boolean,
       default: false
@@ -236,6 +240,9 @@ export default {
   //   }
   // },
   created() {
+    if (this.isOnly) {
+      this.showAttachments = this.isOnly
+    }
     if (this.isGetInfoById) {
       const p1 = new Promise((resolve, reject) => {
         const presenterName = this.topicInfo.presenter
