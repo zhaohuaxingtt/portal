@@ -4,9 +4,7 @@
       <template #header-control>
         <div>
           <iButton @click="add">{{ language('LK_XINZENG', '新增') }}</iButton>
-          <iButton @click="handleExport">{{
-            language('完成', '完成')
-          }}</iButton>
+          <iButton @click="done">{{ language('完成', '完成') }}</iButton>
         </div>
       </template>
       <div class="OrganizationTable">
@@ -119,6 +117,13 @@ export default {
     saveChangeList() {
       this.isChange = false
       this.getList()
+    },
+    //完成
+    done() {
+      console.log('aaaaaaaaa', this.tablelist)
+    },
+    input(val) {
+      console.log('123456', val)
     }
   }
 }

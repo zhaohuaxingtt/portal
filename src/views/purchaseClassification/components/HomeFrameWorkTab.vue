@@ -10,7 +10,8 @@
     @open-page="openPage"
     :treeExpand="treeExpand"
     @purchaseAmount="purchaseAmount"
-    @isChang="isChang"
+    @switchChange="switchChange"
+   
   >
   </iTableCustom>
 </template>
@@ -28,6 +29,7 @@ export default {
     contractStatus: { type: Array },
     tableLoading: { type: Boolean, default: false }
   },
+
   computed: {
     contractState(type) {
       if (
@@ -110,10 +112,10 @@ export default {
           align: 'center',
            customRender: (h, scope, column) => {
              const isActive=scope.row.isActive
-             return (<ISwitch currVal={ isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />)
+             return scope.row.isMinimumPurchase==true?(<ISwitch  currVal={ isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />):''
            },
           minWidth: 100,
-          emit:'isChang',
+          emit:'switchChange',
         },
         {
           prop: 'materialGroupDesc	',
@@ -137,6 +139,9 @@ export default {
     iTableCustom
   },
   methods: {
+    switchChange(val){
+      console.log(val)
+    },
     // 展开功能
     expandAll() {
       this.$refs.testTable.expandAll()
