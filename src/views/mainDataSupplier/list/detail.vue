@@ -10,6 +10,27 @@
       :supplierId="supplierId"
       :dicts="dicts"
       @the-detail-base-query="query"
+      v-if="$route.query.supplierType!=='GP'"
+    />
+    <theDetailBaseGP
+      class="margin-bottom20"
+      id="targetBaseGP"
+      :detail="baseInfo"
+      :supplier-type="supplierType"
+      :supplierId="supplierId"
+      :dicts="dicts"
+      @the-detail-base-query="query"
+      v-if="$route.query.supplierType=='GP'"
+    />
+    <linie
+      class="margin-bottom20"
+      id="linie"
+      :detail="baseInfo"
+      :supplier-type="supplierType"
+      :supplierId="supplierId"
+      :dicts="dicts"
+      @the-detail-base-query="query"
+      v-if="$route.query.supplierType=='GP'"
     />
     <theDetailSupplierState
       class="margin-bottom20"
@@ -22,6 +43,7 @@
     />
     <theDetailFactory
       class="margin-bottom20"
+      v-if="$route.query.supplierType!=='GP'"
       id="targetFactory"
       :supplierId="supplierId"
       :supplierPlantVo="supplierPlantVo"
@@ -34,6 +56,16 @@
       :supplierId="supplierId"
       :supplier-type="supplierType"
       :dicts="dicts"
+      v-if="$route.query.supplierType!=='GP'"
+    />
+    <theDetailBankGp
+      :bank-form="bankForm"
+      class="margin-bottom20"
+      id="targetBank"
+      :supplierId="supplierId"
+      :supplier-type="supplierType"
+      :dicts="dicts"
+      v-if="$route.query.supplierType=='GP'"
     />
     <theDetailSupplierUser
       :supplierId="supplierId"
@@ -64,8 +96,11 @@ import {
   theDetailFactory,
   theDetailBank,
   theDetailSupplierUser,
-  theDetailSupplierContact
+  theDetailSupplierContact,
 } from './components'
+import theDetailBaseGP from './components/theDetailBaseGP'
+import theDetailBankGp from './components/theDetailBankGp'
+import linie from './components/linie'
 import { fetchSupplier } from '@/api/mainDataSupplier/list'
 import { BANK_FORM } from './components/data'
 import { selectDictByKeys } from '@/api/dictionary'
@@ -79,7 +114,10 @@ export default {
     theDetailFactory,
     theDetailBank,
     theDetailSupplierUser,
-    theDetailSupplierContact
+    theDetailSupplierContact,
+    linie,
+    theDetailBaseGP,
+    theDetailBankGp
   },
   data() {
     return {

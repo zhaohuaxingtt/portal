@@ -58,9 +58,9 @@ export default {
     menus() {
       const res = []
       this.MENUS.forEach((element) => {
-        if (this.whiteBtnList[element.permissionKey]) {
+        // if (this.whiteBtnList[element.permissionKey]) {
           res.push(element)
-        }
+        // }
       })
       return res
     }
@@ -85,10 +85,11 @@ export default {
       this.MENUS = this.lang == 'zh' ? MENUSZh : MENUSEn
     },
     handleClickMenu(row) {
-      const { fullPath } = this.$route
-      if (row.isLeaf && fullPath !== row.url) {
+      console.log(row)
+      // const { fullPath } = this.$route
+      // if (row.isLeaf && fullPath !== row.url) {
         this.$router.push(row.url)
-      }
+      // }
     }
   }
 }

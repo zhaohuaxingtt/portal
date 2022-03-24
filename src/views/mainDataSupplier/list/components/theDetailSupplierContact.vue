@@ -11,6 +11,13 @@
       >
         {{ language('删除') }}
       </iButton>
+      <iButton
+        :loading="delLoading"
+        :disabled="!selectedRows.length"
+        @click="handleDelete"
+      >
+        {{ language('导出') }}
+      </iButton>
     </div>
     <i-table-custom
       :loading="loading"
