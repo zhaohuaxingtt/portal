@@ -121,10 +121,10 @@
               <el-option v-for="item in externalMaterialSelectList"
                          :key="item.externalMaterialCode"
                          :value="item.externalMaterialCode"
-                         :label="item.externalMaterialCode">
+                         :label="item.quotaName+'/'+item.spec+'/'+item.area">
               </el-option>
             </iSelect>
-            <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
+            <p v-if="!editMode">{{externalMaterialCode(scope.row) }}</p>
           </template>
           <!-- 取价规则 -->
           <template #priceRuleValue="scope">
@@ -198,9 +198,9 @@ export default {
     uploadButton
   },
   mixins: [pageMixins],
-  created () {
+  async created () {
+    await this.externalMaterialSelect()
     this.initDropDown()
-    this.externalMaterialSelect()
     this.initSearchData()
     this.getPriceRule()
     this.$nextTick(() => {
@@ -220,6 +220,18 @@ export default {
       backupData: [],
       priceRuleDropDownData: [],
       externalMaterialSelectList: []
+    }
+  },
+  computed: {
+    externalMaterialCode () {
+      return function (val) {
+        if (val.externalMaterialCode) {
+          let obj = this.externalMaterialSelectList.find(item => item.externalMaterialCode === val.externalMaterialCode)
+          return obj.quotaName + '/' + obj.spec + '/' + obj.area
+        } else {
+          return ""
+        }
+      }
     }
   },
   methods: {
@@ -431,8 +443,9 @@ export default {
       //   this.$set(row, 'marketPriceSourceType', 2)
       // }
     },
-    externalMaterialSelect () {
-      externalMaterialSelect().then(res => {
+    async externalMaterialSelect () {
+      this.loading = true
+      await externalMaterialSelect().then(res => {
         this.externalMaterialSelectList = res.data
       })
     }
