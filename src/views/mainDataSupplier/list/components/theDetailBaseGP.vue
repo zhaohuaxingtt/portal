@@ -306,6 +306,7 @@ export default {
     }
   },
   created() {
+    console.log(this.detail);
     this.setRules()
   },
   methods: {

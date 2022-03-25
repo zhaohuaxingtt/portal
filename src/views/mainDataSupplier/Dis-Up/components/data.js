@@ -45,27 +45,18 @@
       tooltip: true
     },
     {
-      prop: 'isMbdl',
+      prop: 'supplierTag',
       i18n: '供应商标签',
       minWidth: '100',
-      customRender: (h, scope) => {
-        return scope.row.isMbdl ? '是' : '否'
-      }
     },
     {
-      prop: 'supplierType',
+      prop: 'svwTempCode',
       i18n: '临时号',
       minWidth: '120',
       tooltip: true,
-      customRender: (h, scope, column, extraData) => {
-        if (extraData.supplierTypeMap[scope.row.supplierType]) {
-          return extraData.supplierTypeMap[scope.row.supplierType]
-        }
-        return scope.row.supplierType
-      }
     },
     {
-      prop: 'sapCode',
+      prop: 'svwCode',
       i18n: '正式号',
       minWidth: '100',
       tooltip: true
@@ -77,27 +68,39 @@
       tooltip: true
     },
     {
-      prop: 'dunsCode',
+      prop: 'supplierTypeDesc',
       i18n: '供应商类型',
       minWidth: '100',
       tooltip: true
     },
     {
-      prop: 'svwCode',
+      prop: 'gpBusinessTypeDesc',
       i18n: '业务类型',
-      minWidth: '100',
+      minWidth: '150',
       tooltip: true
     },
     {
-      prop: 'country',
+      prop: 'createDate',
       i18n: '创建时间',
       minWidth: '100',
       tooltip: true
     },
     {
-      prop: 'country',
+      prop: 'updateDate',
       i18n: '修改时间',
       minWidth: '100',
       tooltip: true
     }
   ]
+
+  export const FILTER_FORM = {
+    nameZh: '', // 供应商名称（中）
+    gpBusinessType:'',//业务类型
+    dunsCode: '', //DUNS
+    supplierType: '', // 供应商类型（生产/一般/共用
+    svwTempCode: '', // 临时号
+    vmCode: '', // 正式号
+    svwCode: '', // 上海大众编码
+    sapCode: '', // SAP号
+    socialcreditNo: '' //社会信用号,
+  }

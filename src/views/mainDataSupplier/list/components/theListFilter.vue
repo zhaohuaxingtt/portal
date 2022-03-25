@@ -33,6 +33,21 @@
           </iFormItem>
         </el-col>
         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+          <iFormItem :label="language('业务类型')">
+            <iSelect
+              v-model="form.gpBusinessType"
+              :placeholder="language('请选择')"
+            >
+              <el-option
+                v-for="item in businessTypeList"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+              />
+            </iSelect>
+          </iFormItem>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('临时号')">
             <iInput
               v-model="form.svwTempCode"
@@ -41,7 +56,7 @@
           </iFormItem>
         </el-col>
         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-          <iFormItem :label="language('SVW号')">
+          <iFormItem :label="language('正式/SVW号')">
             <iInput v-model="form.svwCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
@@ -70,14 +85,15 @@
 
 <script>
 import { iSearch, iInput, iSelect, iFormItem } from 'rise'
-import { SUPPLIER_TYPES, FILTER_FORM } from './data'
+import { SUPPLIER_TYPES, FILTER_FORM,businessTypeList } from './data'
 export default {
   name: 'TheListFilter',
   components: { iSearch, iInput, iSelect, iFormItem },
   data() {
     return {
       form: { ...FILTER_FORM },
-      supplierTypes: SUPPLIER_TYPES
+      supplierTypes: SUPPLIER_TYPES,
+      businessTypeList:businessTypeList,
     }
   },
   methods: {

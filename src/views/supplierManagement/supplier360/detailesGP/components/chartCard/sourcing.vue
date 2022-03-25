@@ -1,5 +1,5 @@
 <template>
-  <iCard style="height:400px;">
+  <iCard style="height:25rem">
     <div class="title">
       <p>{{language('XUNYUAN', '寻源')}}</p>
       <el-dropdown v-permission="Card_Sourcing_More">
@@ -24,41 +24,17 @@
             <th>{{language('ONGOINGXUNJIASHU', 'Ongoing询价数')}}</th>
             <th>{{language('RFQSHU', 'RFQ数')}}</th>
           </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
-          </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
-          </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
-          </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
-          </tr>
-          <tr class="bgtr">
-            <td>100</td>
-            <td>$100</td>
-            <td>100</td>
-            <td>100</td>
+          <tr class="bgtr" v-for="(item,index) in dataList" :key="index">
+            <td>{{item.deptNum}}</td>
+            <td>{{item.fixPointNum}}</td>
+            <td>{{item.inquiryTimes}}</td>
+            <td>{{item.rfqNum}}</td>
           </tr>
         </table>
       </div>
 
     </div>
-    <iDialog @close="closeDiolog()"
+    <!-- <iDialog @close="closeDiolog()"
              :visible.sync="visible"
              width="85%">
       <el-tabs class="tabsHeader"
@@ -115,7 +91,7 @@
                   :index="true"
                   :selection="false">
       </table-list>
-    </iDialog>
+    </iDialog> -->
   </iCard>
 </template>
 <script>
@@ -133,6 +109,14 @@ export default {
     iSelect,
     tableList
   },
+  props:{
+    gpSourceingDataVos:{
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+  },
   data () {
     return {
       visible: false,
@@ -140,15 +124,24 @@ export default {
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
       tableTitleMonitorRecord: tableTitleMonitorRecord,
-      img: img
+      img: img,
+      dataList:[],
+
     }
+  },
+  created(){
+    console.log(this.gpSourceingDataVos);
   },
   computed: {
     style () {
       return {}
     }
   },
-  watch: {},
+  watch: {
+    gpSourceingDataVos(val){
+      this.dataList = val;
+    }
+  },
   methods: {
     sure () { },
     clickReset () { },
@@ -288,10 +281,10 @@ v::v-deep .el-tabs__nav-wrap:hover {
 }
 
 ::v-deep .cardBody{
-  height:400px!important;
+  height:25rem!important;
 }
 
 .cardtableTitle{
-  background:#f7f7f7;
+  background:#f8f8fa;
 }
 </style>

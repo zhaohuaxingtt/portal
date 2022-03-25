@@ -63,7 +63,7 @@ export default {
     }
   },
   created() {
-    this.checkHasEnterMenu()
+    // this.checkHasEnterMenu()
   },
   methods: {
     checkHasEnterMenu() {

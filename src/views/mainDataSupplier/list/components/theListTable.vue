@@ -98,6 +98,7 @@ export default {
       this.selectedRows = val
     },
     search(val) {
+      console.log(val);
       this.page.currPage = 1
       this.page.totalCount = 0
       this.searchData = { ...val }

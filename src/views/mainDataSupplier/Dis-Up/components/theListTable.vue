@@ -38,9 +38,9 @@ import { iCard, iPagination, iButton, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import deleteMixin from '@/mixins/deleteMixin'
 import {
-  fetchSuppliers,
-  exportSupplier,
-  deleteSupplier
+  gpListexport,
+  deleteSupplier,
+  fetchSuppliersGP
 } from '@/api/mainDataSupplier/list'
 import { SUPPLIER_TABLE_COLUMNS, SUPPLIER_TYPES } from './data'
 import { arrayToMap } from '@/utils'
@@ -89,7 +89,7 @@ export default {
       })
     },
     handleExport() {
-      return exportSupplier(this.searchData)
+      return gpListexport(this.searchData)
     },
     handleGoDetail(row) {
       window.open(`${this.detailUrl}?id=${row.id}&supplierType=${row.supplierType}`)
@@ -110,7 +110,7 @@ export default {
         size: this.page.pageSize
       }
       this.tableLoading = true
-      const res = await fetchSuppliers(requestData)
+      const res = await fetchSuppliersGP(requestData)
         .catch((err) => iMessage.error(err.desZh || '获取失败'))
         .finally(() => (this.tableLoading = false))
       this.tableData = res.data || []

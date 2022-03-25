@@ -60,8 +60,10 @@
     />
     <theDetailBankGp
       :bank-form="bankForm"
+      :subBankVos="subBankVos"
       class="margin-bottom20"
       id="targetBank"
+      @delete-bank-success="query"
       :supplierId="supplierId"
       :supplier-type="supplierType"
       :dicts="dicts"
@@ -124,6 +126,7 @@ export default {
       dicts: {},
       detail: {},
       bankForm: {},
+      subBankVos:[],
       supplierId: '',
       mainSupplierId: '',
       baseInfo: { addressInfoVo: {} },
@@ -154,6 +157,7 @@ export default {
                 ppSupplierVo,
                 settlementBankVo,
                 supplierContactVos,
+                subBankVos,
                 addressInfoVo,
                 assCompanyVos,
                 supplierProductVos,
@@ -172,6 +176,8 @@ export default {
               this.supplierPlantVo = supplierPlantVo || []
 
               this.bankForm = settlementBankVo || { ...BANK_FORM }
+              this.subBankVos = subBankVos;
+              console.log(subBankVos)
               this.mainSupplierId = supplierVo.id
               /* this.supplierId = supplierVo.id
               this.baseInfo = {
@@ -214,6 +220,7 @@ export default {
                   enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'GP' // 一般
+                console.log(this.baseInfo)
               }
               if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
                 let isForeignManufacture
@@ -317,7 +324,7 @@ export default {
     },
     deleteFactorySuccess() {
       this.query()
-    }
+    },
   }
 }
 </script>

@@ -679,7 +679,7 @@ export default {
     },
     openPage (params) {
       let routeData = this.$router.resolve({
-        path: '/supplier/supplierList/detailsGP',
+        path: '/supplier/supplierListGP/detailsGP',
         query: {
           // supplierType: this.form.supplierType || '',
           supplierType: "GP",

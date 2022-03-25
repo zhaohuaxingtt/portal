@@ -263,7 +263,7 @@ export default [
         component: SuppliersDetails
       },
       {
-        path: 'supplierList/detailsGP',
+        path: 'supplierListGP/detailsGP',
         name: 'detailsGP',
         component: () =>
           import(

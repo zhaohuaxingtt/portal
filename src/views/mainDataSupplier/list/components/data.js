@@ -1,13 +1,14 @@
 export const FILTER_FORM = {
   nameZh: '', // 供应商名称（中）
   nameEn: '', // 供应商名称（英）
-  dunsCode: '', //
+  gpBusinessType:'',//业务类型
+  dunsCode: '', //DUNS
   supplierType: '', // 供应商类型（生产/一般/共用
   svwTempCode: '', // 临时号
   vmCode: '', // 正式号
   svwCode: '', // 上海大众编码
   sapCode: '', // SAP号
-  socialcreditNo: '' //社会信用号
+  socialcreditNo: '' //社会信用号,
 }
 
 export const SUPPLIER_TYPES = [
@@ -84,7 +85,7 @@ export const SUPPLIER_TABLE_COLUMNS = [
     }
   },
   {
-    prop: 'sapCode',
+    prop: 'gpBusinessTypeDesc',
     i18n: '业务类型',
     minWidth: '100',
     tooltip: true
@@ -94,15 +95,15 @@ export const SUPPLIER_TABLE_COLUMNS = [
     i18n: '供应商身份',
     minWidth: '100',
     tooltip: true,
-    customRender: (h, scope) => {
-      if (scope.row.formalStatus == '0') {
-        return '临时'
-      }
-      if (scope.row.formalStatus == '1') {
-        return '正式'
-      }
-      return '储蓄池'
-    }
+    // customRender: (h, scope) => {
+    //   if (scope.row.formalStatus == '0') {
+    //     return '临时'
+    //   }
+    //   if (scope.row.formalStatus == '1') {
+    //     return '正式'
+    //   }
+    //   return '储蓄池'
+    // }
   },
   {
     prop: 'sapCode',
@@ -579,12 +580,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
     i18n: '联系人类型',
     customRender: (h, scope) => {
       return (
-        <span>
-          {scope.row.contactType}
-          {scope.row.contactType === '商务联系人' && (
-            <span style="color:red">*</span>
-          )}
-        </span>
+        <span>{scope.row.contactType}{scope.row.contactType === '商务联系人' && (<span style="color:red">*</span>)}</span>
       )
     }
   },
@@ -775,30 +771,44 @@ export const tableTitle = [
 ]
 
 export const bankRules={
-	'settlementBankDTO.country':[
+	'country':[
 		{ required: false, message: '请选择银行所在国家', trigger: 'change' }
 	],
-	'settlementBankDTO.province':[
+	'province':[
 		{ required: false, message: '请选择银行所在省份', trigger: 'change' }
 	],
-	'settlementBankDTO.city':[
+	'city':[
 		{ required: false, message: '请选择银行所在城市', trigger: 'change' }
 	],
-	'settlementBankDTO.bankName':[
+	'bankName':[
 		{ required: false, message: '请输入银行名称', trigger: 'blur' }
 	],
-	'settlementBankDTO.bankCode':[
+	'bankCode':[
 		{ required: false,message: '请输入正确银行代码', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
-	'settlementBankDTO.bankAccount':[
+	'bankAccount':[
 		{ required: false, message: '请输入正确银行卡号', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
-	'settlementBankDTO.bankTaxCode':[
+	'bankTaxCode':[
 		{ required: false, message: '请输入税务代码', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '税务代码错误', trigger: 'blur' }
 	]
 }
+
+
+export const businessTypeList = [
+  {
+    value:1,
+    label:"集中采购"
+  },{
+    value:2,
+    label:"报废处理"
+  },{
+    value:3,
+    label:"分散采购"
+  },
+]

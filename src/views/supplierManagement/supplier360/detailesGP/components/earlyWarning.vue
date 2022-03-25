@@ -84,7 +84,7 @@
             type="flex"
             justify="space-between">
       <el-col :span="24">
-        <pointeMoney> </pointeMoney>
+        <pointeMoney :gpOrderVo="gpOrderVo"></pointeMoney>
       </el-col>
     </el-row>
   </div>
@@ -125,6 +125,12 @@ export default {
     }
   },
   props: {
+    gpOrderVo:{
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
     financialEarlyWarningVO: {
       type: Object,
       default: () => {

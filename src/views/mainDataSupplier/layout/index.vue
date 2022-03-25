@@ -86,10 +86,10 @@ export default {
     },
     handleClickMenu(row) {
       console.log(row)
-      // const { fullPath } = this.$route
-      // if (row.isLeaf && fullPath !== row.url) {
+      const { fullPath } = this.$route
+      if (row.isLeaf && fullPath !== row.url) {
         this.$router.push(row.url)
-      // }
+      }
     }
   }
 }

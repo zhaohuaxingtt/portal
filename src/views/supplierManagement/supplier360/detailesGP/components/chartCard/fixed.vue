@@ -1,5 +1,5 @@
 <template>
-  <iCard style="height:400px">
+  <iCard style="height:25rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
       <el-dropdown v-permission="Card_Sourcing_More">
@@ -11,7 +11,6 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <!-- <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div> -->
     <div class="box">
       <img :src="img"
            class="imgIcon" />
@@ -31,12 +30,12 @@ export default {
   props: {},
   components: {
     iCard,
-
   },
   data () {
     return {
       chart: 'oneChart',
-      img: img
+      img: img,
+      myChart:null,
     }
   },
   computed: {
@@ -44,45 +43,67 @@ export default {
       return {}
     }
   },
-  watch: {},
-  methods: {},
-  mounted () {
-    const myChart = echarts().init(this.$refs.chart)
-    var option = {
-      grid: {
-        right: '10%'
-      },
-      tooltip: {
-        trigger: 'item'
-      },
-
-      series: [
-        {
-          labelLine: {
-            normal: {
-              length: 5, // 改变标示线的长度
-              lineStyle: {
-                color: '#8C98AC' // 改变标示线的颜色
-              }
-            }
-          },
-          itemStyle: {
-            borderColor: '#fff',
-            borderWidth: 5
-          },
-          name: 'Access From',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' }
-          ]
-        }
-      ]
+  props:{
+    gpFixPointVos:{
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+  },
+  watch: {
+    gpFixPointVos(val){
+      if(val){
+        this.dataList = val;
+        this.dataList.forEach(e => {
+          e.value = e.percent;
+          e.name = e.deptNum;
+          delete e.percent;
+          delete e.deptNum;
+        });
+        this.getCanvas();
+        // if(this.myChart){
+        //   this.myChart.resize();
+        // }
+      }
     }
-    myChart.setOption(option)
+  },
+  methods: {
+    getCanvas(){
+      this.myChart = echarts().init(this.$refs.chart)
+      var option = {
+        grid: {
+          right: '10%'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+
+        series: [
+          {
+            labelLine: {
+              normal: {
+                length: 5, // 改变标示线的长度
+                lineStyle: {
+                  color: '#8C98AC' // 改变标示线的颜色
+                }
+              }
+            },
+            itemStyle: {
+              borderColor: '#fff',
+              borderWidth: 5
+            },
+            type: 'pie',
+            radius: ['40%', '70%'],
+            data: this.dataList
+          }
+        ]
+      }
+      this.myChart.setOption(option)
+    }
+  },
+  mounted () {
+    
   }
 }
 </script>
@@ -146,7 +167,7 @@ export default {
   align-items: center;
 }
 .chartStyle {
-  width: 55%;
+  width: 100%;
   height: calc(100% - 100px);
   margin:-10px auto 0;
 }
@@ -159,6 +180,6 @@ export default {
   align-items: center;
 }
 ::v-deep .cardBody{
-  height:400px!important;
+  height:25rem!important;
 }
 </style>

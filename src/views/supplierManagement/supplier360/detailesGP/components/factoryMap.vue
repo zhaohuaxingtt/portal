@@ -61,14 +61,14 @@
             :span="8"
             class="margin-bottom20">
       <!-- 寻源 -->
-      <sourcing></sourcing>
+      <sourcing :gpSourceingDataVos="gpSourceingDataVos"></sourcing>
     </el-col>
 
     <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION"
             :span="8"
             class="margin-bottom20">
       <!-- 定点 -->
-      <fixed></fixed>
+      <fixed :gpFixPointVos="gpFixPointVos"></fixed>
     </el-col>
 
   </el-row>
@@ -96,6 +96,18 @@ export default {
       type: Boolean,
       default: () => {
         return false
+      }
+    },
+    gpSourceingDataVos:{
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    gpFixPointVos:{
+      type: Array,
+      default: () => {
+        return []
       }
     },
     factoryAddressVOList: {

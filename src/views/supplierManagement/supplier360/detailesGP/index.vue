@@ -7,12 +7,14 @@
 -->
 <template>
   <div v-loading="onLoading">
-    <factoryMap :factoryAddressVOList='factoryAddressVOList'
-                :supplier360ViewVO='supplier360ViewVO'
+    <factoryMap :supplier360ViewVO='supplier360ViewVO'
+                :gpSourceingDataVos="gpSourceingDataVos"
+                :gpFixPointVos="gpFixPointVos"
                 :isShowAll="isShowAll"
                 class="" />
     <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO'
                   :supplier360ViewVO='supplier360ViewVO'
+                  :gpOrderVo="gpOrderVo"
                   v-if="isShowAll"
                    />
     <affiliatedCompany :groupRelationsVO='groupRelationsVO'
@@ -27,6 +29,7 @@ import { getProfile } from "@/api/basic/basic";
 import factoryMap from "./components/factoryMap";
 import earlyWarning from "./components/earlyWarning";
 import affiliatedCompany from "./components/affiliatedCompany";
+
 export default {
   components: {
     factoryMap, earlyWarning, affiliatedCompany
@@ -38,6 +41,9 @@ export default {
       supplier360ViewVO: {},
       financialEarlyWarningVO: [],
       relatedCompanyVO: [],
+      gpFixPointVos:[],
+      gpOrderVo:[],
+      gpSourceingDataVos:[],
       isShowAll: false,
       onLoading: false
     }
@@ -56,13 +62,16 @@ export default {
       const res = await getProfile(pms)
       if (res?.code === '200') {
         this.onLoading = false
+        this.gpFixPointVos = res.data.gpFixPointVos;//定点
+        this.gpOrderVo = res.data.gpOrderVo;//订单
+        this.gpSourceingDataVos = res.data.gpSourceingDataVos;//寻源
+
         this.factoryAddressVOList = res.data.factoryAddressVOList
         this.supplier360ViewVO = res.data.supplier360ViewVO
         this.financialEarlyWarningVO = res.data.financialEarlyWarningVO
         this.relatedCompanyVO = res.data.relatedCompanyVO
         this.groupRelationsVO = res.data.groupRelationsVO
       }
-
     }
   }
 }

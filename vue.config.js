@@ -13,8 +13,8 @@ const postcss = px2rem({
 })
 
 // const BASE_IP = 'http://rise-nginx-internal.apps.vmocp-uat.csvw.com'
-// const BASE_IP = '10.122.18.166'
-const BASE_IP = '10.122.17.38'
+const BASE_IP = '10.122.18.166'
+// const BASE_IP = '10.122.17.38'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -178,9 +178,19 @@ module.exports = {
         }
       },
       // -----------------ws3 供应商---------------------------
+      // [process.env.VUE_APP_SUPPLIER]: {
+      //   //   供应商
+      //   target: `http://${BASE_IP}:8010/supplierservice`,
+      //   // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_SUPPLIER]: ''
+      //   }
+      // },
+      // -----------------ws3 供应商---------------------------
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
-        target: `http://${BASE_IP}:8010/supplierservice`,
+        target: `http://${BASE_IP}:8017/supplier/overall`,
         // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {

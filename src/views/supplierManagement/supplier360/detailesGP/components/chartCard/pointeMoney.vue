@@ -1,7 +1,7 @@
 <template>
   <iCard style="height:25rem">
     <div class="title">
-      <p>{{language('YUQINGJIANCE', '舆情监测')}}</p>
+      <p>{{$t('HETONGDINGDAN')}}</p>
       <el-dropdown v-permission="Card_Sourcing_More">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -26,7 +26,14 @@ import { iCard, } from 'rise'
 import img from '@/assets/images/icon/jiantou.png'
 import echarts from '@/utils/echarts'
 export default {
-  props: {},
+  props: {
+    gpOrderVo:{
+        type: Array,
+        default: () => {
+            return []
+        }
+    },
+  },
   components: {
     iCard,
 
@@ -37,6 +44,11 @@ export default {
         img: img,
         option1:{},
         option2:{},
+        year:[],//年份
+        yearObject:[],//总量
+        dataAll:[],
+        dataY:[],
+        echart2:null,
     }
   },
   created(){
@@ -47,16 +59,64 @@ export default {
       return {}
     }
   },
-  watch: {},
+  watch: {
+      gpOrderVo(val){
+        this.dataAll = val;
+        var name = [];
+        var table = [];
+        val.forEach(e => {
+            if(name.indexOf(e.deptNum) === -1){
+                name.push(e.deptNum)
+                table.push({
+                    name:e.deptNum,
+                    value:0,
+                })
+            }
+        })
+        val.forEach(e=>{
+            name.forEach((ele,index)=>{
+                if(ele == e.deptNum){
+                    table[index].value = table[index].value + Number(e.amount)
+                }
+            })
+        })
+
+        var year = [];
+        var yearObject = [];
+        val.forEach(e=>{
+            console.log(e);
+            if(year.indexOf(e.year) === -1){
+                year.push(e.year)
+                yearObject.push(0);
+            }
+        })
+        var yearNew = year.sort();
+        val.forEach(e=>{
+            yearNew.forEach((ele,index)=>{
+                if(ele == e.year){
+                    yearObject[index] = yearObject[index] + Number(e.amount)
+                }
+            })
+        })
+
+        this.year = yearNew;
+        this.yearObject = yearObject;
+
+        console.log(yearNew)
+        console.log(yearObject)
+
+
+        this.setEcharts1(table);
+      }
+  },
+  mounted () { 
+      
+  },
   methods: {
-    setEcharts1(){
+    setEcharts1(val){
+        var index = 0;//默认选中高亮模块索引
         const echart1 = echarts().init(this.$refs.echart1)
-        var dataList = [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' }
-        ]
+        var dataList = val
         this.option1 = {
             title:{
                 show:true,
@@ -74,7 +134,11 @@ export default {
                 
             },
             tooltip: {
-                trigger: 'item'
+                trigger: 'item',
+                formatter:(params)=>{
+                    var html = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:'+ params.color +'"></span>';
+                    return html + params.name +":"+params.value;
+                }
             },
             legend:{
                 x: 'center',
@@ -153,7 +217,6 @@ export default {
                     },
                     top:'-10%',
                     bottom:"10%",
-                    name: 'Access From',
                     type: 'pie',
                     radius: ['50%', '70%'],
                     data: dataList
@@ -161,10 +224,52 @@ export default {
             ]
         }
         echart1.setOption(this.option1)
+        var number = 0;
+        var indexNumebr = 0;
+        val.forEach((e,index)=>{
+            if(e.value >= number){
+                number = e.value;
+                indexNumebr = index;
+            }
+        })
+
+        var Tname = val[indexNumebr].name;
+        this.setEcharts2(Tname);
+
+        echart1.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: indexNumebr});//设置默认选中高亮部分
+
+
+        var that = this;
+        echart1.on('click',function(e){
+            index = e.dataIndex;
+            that.rightResize(val[e.dataIndex].name)
+            echart1.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: e.dataIndex});
+        });
+
+        echart1.on('mouseover',function(e){
+            if(e.dataIndex != index){
+                echart1.dispatchAction({type: 'downplay', seriesIndex: 0, dataIndex: index });
+            }
+        });
+        echart1.on('mouseout',function(e){
+            index = e.dataIndex;
+            echart1.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: e.dataIndex});
+        });
     },
-    setEcharts2(){
-        const echart2 = echarts().init(this.$refs.echart2)
-        var xData = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021];
+    setEcharts2(name){
+        var dataY = [];
+        this.year.forEach(e=>{
+            this.dataAll.forEach(ele=>{
+                if(e == ele.year){
+                    if(ele.deptNum == name){
+                        dataY.push(Number(ele.amount))
+                    }
+                }
+            })
+        })
+        this.dataY = dataY;
+
+        this.echart2 = echarts().init(this.$refs.echart2)
         this.option2 = {
             title:{
                 show:true,
@@ -195,13 +300,6 @@ export default {
                     type: "shadow",
                 },
                 formatter: "{b0}: {c0}",
-                // formatter: function(params) {
-                //     var result = '';
-                //     params.forEach(function (item) {
-                //         result += item.marker + " " + item.seriesName + " : " + item.value +"</br>";
-                //     });
-                //     return result;
-                // }
             },
             xAxis: [
                 {
@@ -224,7 +322,7 @@ export default {
                             fontSize: "12",
                         },
                     },
-                    data: xData,
+                    data: this.year,
                 },
             ],
             yAxis: {
@@ -234,23 +332,10 @@ export default {
                 },
                 axisLine: {
                     show: false,
-                    // lineStyle: {
-                    //     color: "#32346c",
-                    // },
                 },
                 splitLine: {
                     show: false,
-                    // lineStyle: {
-                    //     color: "#32346c",
-                    // },
                 },
-                // axisLabel: {
-                //     textStyle: {
-                //         color: "#bac0c0",
-                //         fontWeight: "normal",
-                //         fontSize: "12",
-                //     },
-                // },
             },
             series: [
                 {
@@ -263,7 +348,7 @@ export default {
                         },
                     },
                     barWidth: 20,
-                    data: [15,20,10,5,6,10,10,20,18,2],
+                    data: this.dataY,
                 },
                 {
                     name: "",
@@ -276,17 +361,31 @@ export default {
                         },
                     },
                     barWidth: 20,
-                    data: [30, 30, 30, 30, 30, 30,30,30,30,30],
+                    data: this.yearObject,
                 }
             ]
         }
-        echart2.setOption(this.option2)
+        this.echart2.setOption(this.option2)
+    },
+
+    rightResize(name){
+        var dataY = [];
+        this.year.forEach(e=>{
+            this.dataAll.forEach(ele=>{
+                if(e == ele.year){
+                    if(ele.deptNum == name){
+                        dataY.push(Number(ele.amount))
+                    }
+                }
+            })
+        })
+        this.dataY = dataY;
+
+        this.option2.series[0].data = this.dataY;
+        this.echart2.setOption(this.option2)
     },
   },
-  mounted () { 
-      this.setEcharts1();
-      this.setEcharts2();
-  }
+  
 }
 </script>
 

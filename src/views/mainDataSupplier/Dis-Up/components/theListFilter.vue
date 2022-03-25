@@ -28,14 +28,18 @@
         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
           <iFormItem :label="language('供应商标签')">
             <iSelect
-              v-model="form.supplierType"
+              v-model="form.tagIds"
               :placeholder="language('请选择')"
+              multiple
+              filterable
+              clearable
+              collapse-tags
             >
               <el-option
                 v-for="item in supplierTypes"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
+                :key="item.id"
+                :value="item.id"
+                :label="item.message"
               />
             </iSelect>
           </iFormItem>
@@ -47,7 +51,10 @@
 
 <script>
 import { iSearch, iInput, iSelect, iFormItem } from 'rise'
-// import { SUPPLIER_TYPES, FILTER_FORM } from './data'
+import { SUPPLIER_TYPES, FILTER_FORM } from './data'
+import {
+  dropDownTagName,
+} from '@/api/mainDataSupplier/list'
 export default {
   name: 'TheListFilter',
   components: { iSearch, iInput, iSelect, iFormItem },
@@ -57,9 +64,15 @@ export default {
       supplierTypes: []
     }
   },
+  created(){
+    dropDownTagName({}).then(res=>{
+      console.log(res);
+      this.supplierTypes = res.data;
+    })
+  },
   methods: {
     reset() {
-    //   this.form = { ...FILTER_FORM }
+      this.form = { ...FILTER_FORM }
       this.sure()
     },
     sure() {
