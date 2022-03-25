@@ -11,7 +11,7 @@
     </div>
     <div class="content">
       <div class="total">
-        {{ isAekoApproval ? aekoTodoCount : data.todoNum }}
+        {{ data.todoNum }}
       </div>
       <div class="sub-title">
         <span class="sub-title-icon">
@@ -27,7 +27,6 @@
 
 <script>
 import { Icon } from 'rise'
-import { queryAekoTodoCount } from '@/api/approval/statistics'
 export default {
   name: 'ApprovalOverviewPanel',
   components: { Icon },
@@ -46,31 +45,6 @@ export default {
     typeName: {
       type: String,
       default: ''
-    }
-  },
-  computed: {
-    isAekoApproval() {
-      return this.type === 'APPROVAL' && this.typeName === 'aeko'
-    }
-  },
-  data() {
-    return {
-      aekoTodoCount: 0 // aeko 待审批要单独接口取
-    }
-  },
-  created() {
-    if (this.isAekoApproval) {
-      this.getAekoTodoCount()
-    }
-  },
-  methods: {
-    getAekoTodoCount() {
-      queryAekoTodoCount({}).then((res) => {
-        if (res.result) {
-          this.aekoTodoCount = res.total || 0
-          this.$emit('set-aeko-num', this.aekoTodoCount)
-        }
-      })
     }
   }
 }
