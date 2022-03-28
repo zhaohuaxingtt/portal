@@ -4,7 +4,7 @@
       <div class="form-comtent-top">
         <div class="form-bottom-row2">
           <!-- <h2>车之窗 | 顶住“缺芯”压力，荣威iMAX8上险量继续保持高位！</h2> -->
-          <span>{{ ruleForm.title }}</span>
+          <span v-html="ruleForm.title.replace(/ /g, '&nbsp;')"></span>
         </div>
         <div class="form-bottom-row2-right">
           <div
@@ -23,7 +23,7 @@
 
       <div class="form-content-top2">
         <div class="form-bottom-row3">
-          <div>{{ ruleForm.source }}</div>
+          <div v-html="ruleForm.source.replace(/ /g, '&nbsp;')"></div>
           <!-- <div class="form-content-data">2021-07-06 11:22:33</div> -->
           <div class="form-content-data">{{ ruleForm.publishDate }}</div>
         </div>

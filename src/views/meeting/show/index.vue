@@ -247,6 +247,7 @@
       @closeDialog="closeDialog"
       :topicInfo="topicInfo"
       :isMeetingShow="true"
+      :isOnly="true"
     />
   </iPage>
 </template>

@@ -65,7 +65,12 @@ export const TECHNOLOGY_COLUMNS = [
     // openNewPage: true,
     emit: 'goDetail',
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.stuffCode}</span>
+      if(scope.row.selected){
+        return <span class="open-link-text">{scope.row.stuffCode}</span>
+      }else{
+        return <span>{scope.row.stuffCode}</span>
+      }
+      
     }
   },
   {
