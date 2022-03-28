@@ -116,7 +116,11 @@ export default {
         current: this.page.currPage
       }
       stuffPagedList(data).then((res) => {
-        this.tableData = res.data
+        const data = res.data
+        this.tableData = data.map(item=>{
+          item.selected = false
+          return item
+        })
         for (let item of this.tableData) {
           for (let val of this.modelBudgetType) {
             if (item.moldBudgetType == val.code) {
@@ -135,25 +139,41 @@ export default {
       )
     },
     goDetail(row) {
-      if (this.readOnly) {
-        window.open(
-          '/portal/#/materielData/material-group/detail/add-technology?categoryId=' +
-            this.categoryId +
-            '&stuffId=' +
-            row.id +
-            '&readOnly=1'
-        )
-      } else {
-        window.open(
-          '/portal/#/materielData/material-group/detail/add-technology?categoryId=' +
-            this.categoryId +
-            '&stuffId=' +
-            row.id
-        )
+      if(this.selectTableData.length > 0){
+        this.selectTableData.forEach(item =>{
+          if(item.id == row.id){
+            if (this.readOnly) {
+              window.open(
+                '/portal/#/materielData/material-group/detail/add-technology?categoryId=' +
+                  this.categoryId +
+                  '&stuffId=' +
+                  row.id +
+                  '&readOnly=1'
+              )
+            } else {
+              window.open(
+                '/portal/#/materielData/material-group/detail/add-technology?categoryId=' +
+                  this.categoryId +
+                  '&stuffId=' +
+                  row.id
+              )
+            }
+          }
+        })
       }
+      
     },
     handleSelectionChange(val) {
-      this.selectTableData = val
+      this.selectTableData = []
+      this.tableData.forEach(item=>item.selected=false)
+      this.tableData.forEach(item=>{
+        val?.map(value => {
+          if(item.id == value.id){
+              item.selected = true
+              this.selectTableData.push(item)
+          }
+        })
+      })
     },
     deleteTechnology() {
       this.$confirm('是否删除已选中数据', '提示', {
