@@ -64,6 +64,13 @@ export function fetchSupplier(params) {
     params
   })
 }
+// 获取供应商GP
+export function fetchSupplierGP(params) {
+  return request({
+    url: `/supplier/detail/${params.supplierType}/${params.id}`,
+    params
+  })
+}
 
 // 保存供应商
 export function saveSupplier(params, data) {

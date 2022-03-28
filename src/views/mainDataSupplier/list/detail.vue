@@ -103,7 +103,7 @@ import {
 import theDetailBaseGP from './components/theDetailBaseGP'
 import theDetailBankGp from './components/theDetailBankGp'
 import linie from './components/linie'
-import { fetchSupplier } from '@/api/mainDataSupplier/list'
+import { fetchSupplier,fetchSupplierGP } from '@/api/mainDataSupplier/list'
 import { BANK_FORM } from './components/data'
 import { selectDictByKeys } from '@/api/dictionary'
 export default {
@@ -142,11 +142,12 @@ export default {
   },
   methods: {
     query() {
-      const { id } = this.$route.query
+      const { id,supplierType } = this.$route.query
       console.log(id, '--------')
       if (id) {
         this.loading = true
-        fetchSupplier({ id })
+        if(this.$route.query.supplierType == "GP"){
+          fetchSupplierGP({ id,supplierType })
           .then((res) => {
             const { data, result } = res
             if (result) {
@@ -282,6 +283,144 @@ export default {
             iMessage.error(err.desZh || '获取数据失败')
           })
           .finally(() => (this.loading = false))
+        }else{
+          fetchSupplier({ id })
+          .then((res) => {
+            const { data, result } = res
+            if (result) {
+              this.detail = data || []
+              const {
+                supplierVo,
+                gpSupplierVo,
+                ppSupplierVo,
+                settlementBankVo,
+                supplierContactVos,
+                subBankVos,
+                addressInfoVo,
+                assCompanyVos,
+                supplierProductVos,
+                supplierPlantVo,
+                supplierCorpVo
+              } = data
+              const defaultAddressInfo = {
+                provinceCode: '',
+                countryCode: '',
+                cityCode: '',
+                address: '',
+                province: '',
+                country: '',
+                city: ''
+              }
+              this.supplierPlantVo = supplierPlantVo || []
+
+              this.bankForm = settlementBankVo || { ...BANK_FORM }
+              this.subBankVos = subBankVos;
+              console.log(subBankVos)
+              this.mainSupplierId = supplierVo.id
+              /* this.supplierId = supplierVo.id
+              this.baseInfo = {
+                ...supplierVo,
+                isListing: supplierVo.isListing && supplierVo.isListing + '',
+                isForeignManufacture:
+                  supplierVo.isForeignManufacture &&
+                  supplierVo.isForeignManufacture + '',
+                addressInfoVo: addressInfoVo || defaultAddressInfo,
+                assCompanyVos: assCompanyVos || [], // 关联产品
+                supplierProductVos: supplierProductVos || [], // 关联公司
+                supplierCorpVo: supplierCorpVo || [] // 关联集团
+              }
+              this.supplierType = 'PD' // 公用 */
+              this.contacts = supplierContactVos || []
+
+              if (supplierVo.supplierType === 'GP' && gpSupplierVo) {
+                let isForeignManufacture
+                if (
+                  supplierVo.isForeignManufacture == 1 ||
+                  supplierVo.isForeignManufacture == 0
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
+                }
+                this.supplierId = gpSupplierVo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...gpSupplierVo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  isListing: supplierVo.isListing + '',
+                  isForeignManufacture,
+                  // :
+                  //   supplierVo.isForeignManufacture &&
+                  //   supplierVo.isForeignManufacture + ''
+                  // ,
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
+                }
+                this.supplierType = 'GP' // 一般
+                console.log(this.baseInfo)
+              }
+              if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
+                let isForeignManufacture
+                if (
+                  supplierVo.isForeignManufacture == 0 ||
+                  supplierVo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
+                }
+                this.supplierId = ppSupplierVo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...ppSupplierVo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  isListing: supplierVo.isListing + '',
+                  isForeignManufacture,
+                  // isForeignManufacture:
+                  //   supplierVo.isForeignManufacture &&
+                  //   supplierVo.isForeignManufacture + '',
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
+                }
+                this.supplierType = 'PP' // 生产
+              }
+              // CRW-4378[供应商主数据管理]供应商信息详情页，用户列表为空
+              if (supplierVo.supplierType === 'PD') {
+                const vo = ppSupplierVo || gpSupplierVo
+                let isForeignManufacture
+                if (
+                  vo.isForeignManufacture == 0 ||
+                  vo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture = vo.isForeignManufacture.toString()
+                }
+                this.supplierId = vo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...vo,
+                  isListing: vo.isListing && vo.isListing + '',
+                  isForeignManufacture,
+                  // isForeignManufacture:
+                  //   vo.isForeignManufacture && vo.isForeignManufacture + '',
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
+                }
+                this.supplierType = 'PD'
+              }
+            } else {
+              iMessage.error(res.desZh || '获取数据失败')
+            }
+          })
+          .catch((err) => {
+            iMessage.error(err.desZh || '获取数据失败')
+          })
+          .finally(() => (this.loading = false))
+        }
       }
     },
     scrollTo(refId) {
