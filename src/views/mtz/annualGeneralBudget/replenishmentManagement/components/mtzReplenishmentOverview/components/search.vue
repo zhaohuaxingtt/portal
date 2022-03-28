@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-03 16:48:53
+ * @LastEditTime: 2022-03-28 14:11:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -60,6 +60,8 @@
                    :label="language('BUCHASHIJIANDUAN', '补差时间段')">
           <iDatePicker v-model="value1"
                        type="daterange"
+                       format="yyyy-MM-dd"
+                       value-format="yyyy-MM-dd"
                        @change="handleChange"
                        range-separator="至"
                        start-placeholder="开始日期"
@@ -107,6 +109,7 @@ export default {
   created () {
     this.init()
     this.value1 = this.getTime();
+
     this.searchForm.compStartDate = window.moment(this.value1[0]).format('yyyy-MM-DD')
     this.searchForm.compEndDate = window.moment(this.value1[1]).format('yyyy-MM-DD')
   },
@@ -116,9 +119,11 @@ export default {
     getTime () {
       var date = new Date();
       var year = date.getFullYear();
-      var month = date.getMonth() + 1;
+      var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
       var day = date.getDate();
+      console.log(month)
       return [year + "-01-01 00:00:00", year + "-" + month + "-" + day + " 00:00:00"];
+      // return window.moment(new Date()).format('yyyy-MM-DD')
     },
     init () {
       getMtzSupplierList({}).then(res => {
