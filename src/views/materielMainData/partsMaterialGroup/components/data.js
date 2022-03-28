@@ -47,6 +47,39 @@ export const PART_MATERIAL_COLUMNS = [
   }
 ]
 
+export const TECHNOLOGY_COLUMNS_NOT_EMIT =[
+  {
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    width: 50,
+    i18n: '序号'
+  },
+  {
+    prop: 'stuffCode',
+    i18n: '工艺组编号',
+    tooltip: true,
+    minWidth: '50px',
+    // openNewPage: true,
+  },
+  {
+    prop: 'stuffName',
+    i18n: '工艺组名称',
+    tooltip: true
+  },
+  {
+    prop: 'stuffNameDe',
+    i18n: '工艺组名称(德)',
+    tooltip: true
+  },
+  {
+    prop: 'stuffMemo',
+    i18n: '工艺组说明',
+    tooltip: true
+  }
+]
 export const TECHNOLOGY_COLUMNS = [
   {
     type: 'selection',
@@ -65,12 +98,8 @@ export const TECHNOLOGY_COLUMNS = [
     // openNewPage: true,
     emit: 'goDetail',
     customRender: (h, scope) => {
-      if(scope.row.selected){
-        return <span class="open-link-text">{scope.row.stuffCode}</span>
-      }else{
-        return <span>{scope.row.stuffCode}</span>
-      }
       
+      return <span class="open-link-text">{scope.row.stuffCode}</span>
     }
   },
   {
