@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import {setSwitch} from '@/store/module/approval.js'
 export default {
 	name: 'iSwitch',
 	props: {
@@ -31,7 +32,8 @@ export default {
 	methods: {
 		handlePublishChange(e) {
 			console.log(this.currItem, '1234',e)
-			this.$emit("input",e)
+			// this.$emit("input",e)
+			this.$store.dispatch("setSwitch",{id:this.currItem.id,bool:e,coordinate:this.currItem.uniqueId})
 		}
 	}
 }

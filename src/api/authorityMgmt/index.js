@@ -183,3 +183,13 @@ export function getMaterialGroupById(data) {
     method: 'get',
   })
 }
+
+
+//完成
+export function finish(data) {
+  return requstcg({
+    url: `/web/material/finish`,
+    method: 'post',
+    data
+  })
+}

@@ -11,7 +11,7 @@
     :treeExpand="treeExpand"
     @purchaseAmount="purchaseAmount"
     @switchChange="switchChange"
-   
+    @handle-current-change="handleaaaaa"
   >
   </iTableCustom>
 </template>
@@ -22,6 +22,7 @@
 } from "rise";*/
 import iTableCustom from '@/components/iTableCustom'
 import ISwitch from './iSwitch.vue'
+// import aa from '@/store/module/approval.js'
 export default {
   name: 'HomeFrameWork',
   props: {
@@ -43,9 +44,37 @@ export default {
       return type
     }
   },
-  created() {},
+  created() {
+    console.log(this.$store.state.approval.switchData)
+  },
+  watch:{
+    "$store.state.approval.switchData":{
+      handler(newval){
+        this.requestData.push({id:newval.id,isActive:newval.bool})
+
+        let aa = [{id:newval.id,isActive:newval.bool}]
+        // 实时更新原数据
+        // let sit = newval.coordinate.split("-")
+    
+        // if(sit.length==1){
+        //   this.tableData[sit[0]].isActive=newval.bool
+        //   this.tableData.splice(0,0)
+        // }
+        // if(sit.length==2){
+        //   this.tableData[sit[0]].subMaterialGroupList[sit[1]].isActive=newval.bool
+        // }
+        // if(sit.length==3){
+        //   this.tableData[sit[0]].subMaterialGroupList[sit[2]].subMaterialGroupList[sit[2]].isActive=newval.bool
+        // }
+        
+        this.$emit('returnData',this.requestData)
+      } 
+      
+    }
+  },
   data() {
     return {
+      requestData:[],
       columns: [
         {
           type: 'selection',
@@ -112,7 +141,7 @@ export default {
           align: 'center',
            customRender: (h, scope, column) => {
              const isActive=scope.row.isActive
-             return scope.row.isMinimumPurchase==true?(<ISwitch  currVal={ isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />):''
+             return scope.row.isMinimumPurchase==true?(<ISwitch currVal={ scope.row.isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />):''
            },
           minWidth: 100,
           emit:'switchChange',
@@ -134,6 +163,9 @@ export default {
         childrenKey: 'subMaterialGroupList'
       }
     }
+  },
+  mounted(){
+    
   },
   components: {
     iTableCustom

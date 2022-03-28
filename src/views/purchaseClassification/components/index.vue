@@ -15,6 +15,7 @@
           @handleSelectionChange="handleSelectionChange"
           @open-page="openPage"
           @changePage="purchaseAmount"
+          @returnData="returnData"
         >
         </HomeFrameWorkTab>
         <iPagination
@@ -49,7 +50,7 @@ import { iCard, iButton, iPagination, iPage } from 'rise'
 import HomeFrameWorkTab from './HomeFrameWorkTab'
 import addClassification from './addClassification'
 import changeClassification from './changeClassification'
-import { page, getMaterialGroupById } from '@/api/authorityMgmt'
+import { page, getMaterialGroupById, finish } from '@/api/authorityMgmt'
 import { SEARCH_DATA } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
@@ -68,7 +69,8 @@ export default {
       isShow: false, //控制新增弹窗
       formData: SEARCH_DATA,
       tablelist: [],
-      isChange: false //修改弹窗
+      isChange: false, //修改弹窗
+      finash: []
     }
   },
   created() {
@@ -118,12 +120,15 @@ export default {
       this.isChange = false
       this.getList()
     },
-    //完成
-    done() {
-      console.log('aaaaaaaaa', this.tablelist)
-    },
-    input(val) {
-      console.log('123456', val)
+    //实时保存
+    returnData(x) {
+      this.finash = x
+      console.log(this.finash)
+      let aa = { id: this.finash[0].id, isActive: this.finash[0].isActive }
+      console.log(aa)
+      finish(aa).then((res) => {
+        
+      })
     }
   }
 }
