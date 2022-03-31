@@ -712,20 +712,20 @@ export const DEFAULT_CONTACT = {
 
 export const tableTitle = [
   {
-    props: 'name',
-    name: '业务类型',
-    key: 'EKL_YJGL_YWLX',
-    rule: [{required: true, message: '请输入', trigger: 'blur'}],
-    maxlength: 150
+      props: 'businessTypeDesc',
+      name: '业务类型',
+      key: 'EKL_YJGL_YWLX',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 150
   },
   {
-      props: 'annualOutput',
+      props: 'businessBuyerEmail',
       name: '采购员邮箱',
       key: 'SUPPLIER_PURCHASEREMAIL',
       maxlength: 50
   },
   {
-      props: 'oemName',
+      props: 'businessBuyerName',
       name: '采购员',
       width: 180,
       key: 'SPR_FRM_XGYSPJ_CGY',
@@ -733,33 +733,33 @@ export const tableTitle = [
       maxlength: 100
   },
   {
-      props: 'deliveryStartDate',
+      props: 'businessBuyerNum',
       name: '采购员工号',
       key: 'CAIGOUYUANGONGHAO'
   },
   {
-      props: 'deliveryYear',
+      props: 'businessBuyerDept',
       name: '采购员科室',
       key: 'CAIGOUYUANKESHI'
   },
   {
-      props: 'annualVolumns',
+      props: 'businessContactEmail',
       name: '业务部门联系人邮箱',
       key: 'YEWUBUMENLIANXIRENYOUXIANG',
       rule: [{required: true, message: '请输入', trigger: 'blur'}],
       maxlength: 100
   },
   {
-      props: 'domesticMarketShare',
+      props: 'businessContactUser',
       name: '业务部门联系人姓名',
       width: 180,
       key: 'YEWUBUMENLIANXIRENXINGMING',
-      rule: [
-        {
-          pattern: /^([1-9][0-9]{0,1}|100)$/,
-          message: '请输入1-100的整数',
-          trigger: 'blur',
-        }],
+      // rule: [
+      //   {
+      //     pattern: /^([1-9][0-9]{0,1}|100)$/,
+      //     message: '请输入1-100的整数',
+      //     trigger: 'blur',
+      //   }],
       maxlength: 3,
   },
   {

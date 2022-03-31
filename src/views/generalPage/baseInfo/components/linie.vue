@@ -1,19 +1,34 @@
 <template>
     <iCard :title="$t('CAIGOUYUANXINXI')" collapse>
         <table-list
-            :tableData="tableListData"
+            :tableData="supplierData"
             :tableTitle="tableTitle"
             :tableLoading="tableLoading"
             @handleSelectionChange="handleSelectionChange"
             ref="commonTable"
             :selection="false"
         >
+            <template #businessBuyerEmail="scope">
+                <iInput v-model="scope.row.businessBuyerEmail"></iInput>
+            </template>
+            <template #businessBuyerNum="scope">
+                <iInput v-model="scope.row.businessBuyerNum"></iInput>
+            </template>
+            <template #businessBuyerDept="scope">
+                <iInput v-model="scope.row.businessBuyerDept"></iInput>
+            </template>
+            <template #businessContactEmail="scope">
+                <iInput v-model="scope.row.businessContactEmail"></iInput>
+            </template>
+            <template #businessContactUser="scope">
+                <iInput v-model="scope.row.businessContactUser"></iInput>
+            </template>
         </table-list>
     </iCard>
 </template>
 
 <script>
-import { iCard } from "rise";
+import { iCard,iInput } from "rise";
 import tableList from './table'
 import { tableTitle } from './data'
 export default {
@@ -25,7 +40,8 @@ export default {
     },
     components:{
         iCard,
-        tableList
+        tableList,
+        iInput
     },
     data(){
         return{
@@ -41,12 +57,18 @@ export default {
     },
     methods:{
         handleSelectionChange(e){
-
+            this.tableListData = e;
         },
     }
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+::v-deep .el-form-item{
+    margin:0!important;
+}
 
+::v-deep .el-table .el-table__row .el-input{
+    width:100%!important;
+}
 </style>

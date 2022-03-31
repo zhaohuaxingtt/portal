@@ -5,17 +5,11 @@
       <el-form class="form">
         <el-form-item :label="$t('TERMS_GONGYINGSHANGMINGCHENG')">
           <iInput :placeholder="language('请输入')"
-                  v-model="form.socialcreditNo"></iInput>
+                  v-model="form.supplierName"></iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_LINGSHIHAO')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.svwTempCode"></iInput>
-        </el-form-item>
-        <el-form-item v-if="form.supplierType === 'PP'"
-                      :label="$t('ZHENGSHIHAO')">
-          <iInput :placeholder="language('请输入')"
-                  v-model="form.vwCode">
-          </iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_SAPHAO')">
           <iInput :placeholder="language('请输入')"
@@ -26,6 +20,7 @@
           <iSelect multiple
                    collapse-tags
                    filterable
+                   clearable
                    :placeholder="language('请选择')"
                    v-model="form.tagNameList">
             <el-option v-for="item in tagdropDownList"
@@ -40,7 +35,7 @@
 
     <iCard>
         <template slot="header-control">
-            <i-button @click="exportsTable" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_XINZENG') }}</i-button>
+            <i-button @click="exportsTableAdd" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_XINZENG') }}</i-button>
             <i-button @click="exportsTable" v-if="!showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
             <i-button @click="exportsTable" v-if="!showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('MAIL.CANCEL') }}</i-button>
 
@@ -63,26 +58,45 @@
                 :openPageGetRowData="true"
                 :highlightCurrentRow="true"
                 >
+          <template slot="yewuType">
+            <span>{{$t("LK_YEWULEIXING")}}</span>
+          </template>
+          <template slot="supplierType" slot-scope="scope">
+            <span>{{scope.row.supplierType == "GP"?$t('YIBANGONGYINGSHANG'):''}}</span>
+          </template>
         </tableList>
+        <iPagination v-update
+                   @size-change="handleSizeChange($event, getTableList)"
+                   @current-change="handleCurrentChange($event, getTableList)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page="page.currPage"
+                   :total="page.totalCount" />
     </iCard>
   </div>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
-import { iSearch,iSelect,iInput,iCard,iButton } from "rise";
-import { dropDownTagName} from '@/api/supplierManagement/supplierTag/index'
+import { iSearch,iSelect,iInput,iCard,iButton,iPagination } from "rise";
+import { pageMixins } from '@/utils/pageMixins'
+
+import { dropDownTagName,pageInner} from '@/api/supplierManagement/supplierTag/index'
 import { tableTitle } from "./data"
 
 export default {
     name:"",
+    mixins: [pageMixins],
     components:{
         iSearch,
         iSelect,
         iInput,
         iCard,
         iButton,
-        tableList
+        tableList,
+        iPagination
     },
     data(){
         return{
@@ -90,7 +104,7 @@ export default {
             tableTitle:tableTitle,
             tableLoading:false,
             form:{
-                socialcreditNo:"",
+                supplierName:"",
                 svwTempCode:"",
                 vwCode:"",
                 sapCode:"",
@@ -101,39 +115,69 @@ export default {
         }
     },
     created(){
-
+      this.changTag();
+      this.getTableList();
     },
     methods:{
-        openPage(params){
-            let routeData = this.$router.resolve({
-                path: '/supplier/supplierListDis/supplierDisDetails',
-                query: {
-                    supplierType: this.form.supplierType || '',
-                    subSupplierType: "GP",
-                    subSupplierId: params.subSupplierId || '',
-                    isShowAll: params.isShowAll || '',
-                }
-            })
-            window.open(routeData.href)
-        },
-        handleSelectionChange(){
+      exportsTableAdd(){
+        this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {subSupplierType: "GP"}})
+      },
+      openPage(params){
+          let routeData = this.$router.resolve({
+              path: '/supplier/supplierListDis/supplierDisDetails',
+              query: {
+                  supplierType: this.form.supplierType || '',
+                  subSupplierType: "GP",
+                  subSupplierId: params.subSupplierId || '',
+                  isShowAll: params.isShowAll || '',
+              }
+          })
+          window.open(routeData.href)
+      },
+      handleSelectionChange(){
 
-        },
-        changTag () {
-            this.form.tagNameList = []
-            //获取标签列表
-            dropDownTagName({ isMeRelated: 0 }).then((res) => {
-                if (res && res.code == 200) {
-                this.tagdropDownList = res.data
-                }
-            })
-        },
-        sure(){
+      },
+      changTag () {
+          this.form.tagNameList = []
+          //获取标签列表
+          dropDownTagName({ isMeRelated: 0 }).then((res) => {
+              if (res && res.code == 200) {
+              this.tagdropDownList = res.data
+              }
+          })
+      },
+      getTableList(){
+        this.tableLoading = true;
+        var data = {
+          ...this.form,
+          pageNo: this.page.currPage,
+          pageSize: this.page.pageSize,
+        }
+        pageInner(data).then(res=>{
+          if(res.result){
+            this.tableListData = res.data.list;
+            this.page.currPage = res.pageNum
+            this.page.pageSize = res.pageSize
+            this.page.totalCount = res.total
 
-        },
-        reset(){
-
-        },
+          }else{
+            
+          }
+          this.tableLoading = false;
+        })
+      },
+      sure(){
+        this.getTableList();
+      },
+      reset(){
+        this.form = {
+          socialcreditNo:"",
+          svwTempCode:"",
+          vwCode:"",
+          sapCode:"",
+          tagNameList:[],
+        }
+      },
 
     }
 }

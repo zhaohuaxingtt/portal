@@ -156,6 +156,7 @@ export default {
                 supplierVo,
                 gpSupplierVo,
                 ppSupplierVo,
+                gpSupplierDetails,
                 settlementBankVo,
                 supplierContactVos,
                 subBankVos,
@@ -178,7 +179,7 @@ export default {
 
               this.bankForm = settlementBankVo || { ...BANK_FORM }
               this.subBankVos = subBankVos;
-              console.log(subBankVos)
+              // console.log(subBankVos)
               this.mainSupplierId = supplierVo.id
               /* this.supplierId = supplierVo.id
               this.baseInfo = {
@@ -205,9 +206,11 @@ export default {
                     supplierVo.isForeignManufacture.toString()
                 }
                 this.supplierId = gpSupplierVo.id
+                console.log(gpSupplierDetails);
                 this.baseInfo = {
                   ...supplierVo,
                   ...gpSupplierVo,
+                  gpSupplierDetails:gpSupplierDetails,
                   assCompanyVos: assCompanyVos || [], // 关联产品
                   supplierProductVos: supplierProductVos || [], // 关联公司
                   isListing: supplierVo.isListing + '',

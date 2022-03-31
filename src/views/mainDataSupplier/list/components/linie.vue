@@ -9,24 +9,44 @@
                         @click="cancel">{{ language('取消') }}</i-button>
         </template>
         <table-list
-            :tableData="tableListData"
+            :tableData="detail.gpSupplierDetails"
             :tableTitle="tableTitle"
             :tableLoading="tableLoading"
             @handleSelectionChange="handleSelectionChange"
             ref="commonTable"
             :selection="false"
-        >
+        >   
+            <template #businessBuyerEmail="scope">
+                <span v-if="editType">{{scope.row.businessBuyerEmail}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerEmail"></iInput>
+            </template>
+            <template #businessBuyerNum="scope">
+                <span v-if="editType">{{scope.row.businessBuyerNum}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerNum"></iInput>
+            </template>
+            <template #businessBuyerDept="scope">
+                <span v-if="editType">{{scope.row.businessBuyerDept}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerDept"></iInput>
+            </template>
+            <template #businessContactEmail="scope">
+                <span v-if="editType">{{scope.row.businessContactEmail}}</span>
+                <iInput v-else v-model="scope.row.businessContactEmail"></iInput>
+            </template>
+            <template #businessContactUser="scope">
+                <span v-if="editType">{{scope.row.businessContactUser}}</span>
+                <iInput v-else v-model="scope.row.businessContactUser"></iInput>
+            </template>
         </table-list>
     </iCard>
 </template>
 
 <script>
-import { iCard,iButton } from "rise";
+import { iCard,iButton,iInput } from "rise";
 import tableList from './table'
 import { tableTitle } from './data'
 export default {
     props:{
-        supplierData:{
+        detail:{
             type: Object,
             default: () => { }
         }
@@ -34,7 +54,8 @@ export default {
     components:{
         iCard,
         tableList,
-        iButton
+        iButton,
+        iInput
     },
     data(){
         return{
@@ -66,6 +87,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+::v-deep .el-form-item{
+    margin:0!important;
+}
 
+::v-deep .el-table .el-table__row .el-input{
+    width:100%!important;
+}
 </style>

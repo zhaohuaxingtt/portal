@@ -3075,6 +3075,7 @@
     SHIFOUCHAOQI:'是否超期',
     DENGLURISEXITONGTIME:'登录RISE系统时间',
     YINGYONGGUANLIAN:'应用关联',
+    YIBANGONGYINGSHANG:"一般供应商",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
   // var xmlHttp = ''

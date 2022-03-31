@@ -24,17 +24,13 @@
                        :label="item.name"
                        :disabled="userType != '' && userType != 'PRE'">
             </el-option>
-            <!-- <el-option v-for="(item, index) in fromGroup.supplierTypeList"
-                       :key="index"
-                       :value="item.code"
-                       :label="item.name">
-            </el-option> -->
           </iSelect>
         </el-form-item>
+        <!-- 业务类型 -->
         <el-form-item :label="$t('LK_YEWULEIXING')">
           <iSelect :placeholder="language('请选择')"
-                   v-model="form.isActive">
-            <el-option v-for="(item, index) in fromGroup.supplierStatusList"
+                   v-model="form.gpBusinessType">
+            <el-option v-for="(item, index) in fromGroup.yewuList"
                        :key="index"
                        :value="item.code"
                        :label="item.name">
@@ -79,11 +75,11 @@
         <!-- 采购分类 -->
         <el-form-item :label="$t('SUPPLIER_CAIGOUFENLEI')">
           <iSelect :placeholder="language('请选择')"
-                   v-model="form.isActive">
-            <el-option v-for="(item, index) in fromGroup.supplierStatusList"
+                   v-model="form.procureCategoryId">
+            <el-option v-for="(item, index) in fromGroup.purchaseList"
                        :key="index"
-                       :value="item.code"
-                       :label="item.name">
+                       :value="item.procureCagetoryId"
+                       :label="item.procureCagetoryName">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -300,7 +296,8 @@ import {
 } from 'rise'
 import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
-import { dropDownTagName, groupCompanyList, vwStatusList } from '@/api/supplierManagement/supplierTag/index'
+import { dropDownTagName, groupCompanyList, vwStatusList,getGpBusinessType,getProcureCategory } from '@/api/supplierManagement/supplierTag/index'
+
 import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
@@ -371,6 +368,7 @@ export default {
       isShowPpBlackList: false,
       listDialog: false,
       fromGroup: {
+        yewuList:[],
         deptList: [],
         supplierStatusList: [],
         supplierTypeList: [],
@@ -383,7 +381,8 @@ export default {
             label: this.$t('SUPPLIER_FOU'),
             value: false
           }
-        ]
+        ],
+        purchaseList:[],
       },
       tableListData: [],
       tableTitle: tableTitleGP,
@@ -406,6 +405,8 @@ export default {
         isActive: '',
         tagdropDownList: [],
         supplierType: '',
+        gpBusinessType:"",
+        procureCategoryId:"",
         dept: '',
         relatedToMe: true,
         materialOrCraftCode: ''
@@ -421,7 +422,7 @@ export default {
       },
       rowList: {
         id: ''
-      }
+      },
     }
   },
   created () {
@@ -429,9 +430,21 @@ export default {
     // this.$nextTick(() => {
     this.getUserType()
     this.changTag()
+    this.getYw();
+    this.getCGFL();
     // })
   },
   methods: {
+    getCGFL(){
+      getProcureCategory().then(res=>{
+        this.fromGroup.purchaseList = res.data;
+      })
+    },
+    getYw(){
+      getGpBusinessType("register").then(res=>{
+        this.fromGroup.yewuList = res.data;
+      })
+    },
     remoteGetGroup (query) {
       if (!query.match(/^[ ]*$/)) {
         const params = {
@@ -684,7 +697,8 @@ export default {
           // supplierType: this.form.supplierType || '',
           supplierType: "GP",
           subSupplierId: params.subSupplierId || '',
-          isShowAll: params.isShowAll || '',
+          // isShowAll: params.isShowAll || '',
+          isShowAll:true,
         }
       })
       window.open(routeData.href)
@@ -707,7 +721,9 @@ export default {
         groupId: '',
         vwStatus: '',
         supplierType: this.userType,
-        dept: ''
+        dept: '',
+        gpBusinessType:"",
+        procureCategoryId:"",
       }
       this.page.currPage = 1
       this.page.pageSize = 10

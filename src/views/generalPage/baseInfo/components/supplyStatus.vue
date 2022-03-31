@@ -133,6 +133,9 @@ export default {
       }
     }
   },
+  created(){
+
+  },
   mounted () {
     console.log(this.supplierData, "data")
     // console.log(this.supplierData[infoVo])

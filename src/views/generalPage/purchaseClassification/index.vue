@@ -28,6 +28,7 @@
 <script>
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
 import tableList from '@/components/commonTable';
+import { gpProcureRelList } from "@/api/supplier360/purchaseClassification"
 import { tableTitle } from "./data";
 import { iButton,iCard } from "rise";
 
@@ -50,7 +51,17 @@ export default {
 
     }
   },
+  created(){
+    this.getData();
+  },
   methods: {
+    getData(){
+      gpProcureRelList({
+        gpSupplierId:this.$route.query.supplierId
+      }).then(res=>{
+        console.log(res);
+      })
+    },
     handleSelectionChange(val){
 
     },

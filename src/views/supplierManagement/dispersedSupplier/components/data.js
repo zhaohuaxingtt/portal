@@ -114,6 +114,30 @@ export const tableTitleUser = [
 	},
 ]
 
+export const tableTitleUpload = [
+	{
+		props: 'fileName',
+		name: '文件名称',
+		key: 'TERMS_WENJIANMINGCHENG'
+	},{
+		props: 'fileSize',
+		name: '大小（MB）',
+		key: 'LK_DAXIAOMB'
+	},{
+		props: 'createDate',
+		name: '上传日期',
+		key: 'LK_SHANGCHUANRIQI'
+	},{
+		props: 'createBy',
+		name: '上传人',
+		key: 'LK_SHANGCHUANREN'
+	},{
+		props: 'validityOfCertificate',
+		name: '证件有效期',
+		key: 'SUPPLIER_ZHENGJIANYOUXIAOQI'
+	}
+]
+
 export const supplierComplete = {
 	// 主表
 	supplierDTO: {
@@ -139,6 +163,7 @@ export const supplierComplete = {
 		shortNameEn: "",
 		socialcreditNo: "", //社会信用代码
 		dunsCode: "",
+		corpEmail:"",//公司邮箱
 		epNatureCategory: "",//企业性质(大类)
 		epNatureSubcategory: "",//企业性质(小类)
 		businessScope: "",//经营范围
@@ -156,10 +181,36 @@ export const supplierComplete = {
 		isListing: "",//是否上市
 		supplyProperty: ""//供货属性
 	},
+	contactsSaveDTO:{
+		list:[
+			{
+				contactType:"BUSINESS_CONTACTS",
+				nameZh:"",
+				designation:"",
+				dept:"",
+				telephoneAreaCode:"",
+				telephone:"",
+				email:"",
+				remark:"",
+			}
+		]
+	},
 	// 一般供应商
 	gpSupplierDTO: {
 
 	},
+	//附件信息
+	attachmentList:[],
+	//GP电子银票DTO
+	gpSupplierBankNoteDTO:{
+		bankNoteName:"",
+		bankNoteAccount:"",
+		country:"",
+		province:"",
+		city:"",
+	},
+	//银行子账户列表信息
+	subBankList:[],
 	// 生产供应商
 	ppSupplierDTO: {
 		payHistory: "",//付款记录
@@ -184,3 +235,4 @@ export const supplierComplete = {
 		bankTaxCode: ""//税务号
 	}
 }
+

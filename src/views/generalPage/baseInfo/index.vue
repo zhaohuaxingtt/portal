@@ -11,8 +11,8 @@
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
-    <baseInfoCard ref="baseInfoCard" />
-    <linie ref="linie" :supplierData="supplierComplete.supplierDTO" v-if="$route.query.subSupplierType=='GP'"></linie>
+    <baseInfoCard ref="baseInfoCard" class="margin-bottom20"/>
+    <linie ref="linie" :supplierData="supplierComplete.gpSupplierDetails" v-if="$route.query.subSupplierType=='GP'" class="margin-bottom20"></linie>
     <buyer ref="buyer" v-if="$route.query.subSupplierType!=='GP'"
            :supplierData="supplierComplete.supplierDTO"
            disabled
@@ -29,6 +29,7 @@
                      v-if="isPP">
     </operationStatus>
     <!-- 开户银行 -->
+              <!-- v-if="$route.path!=='/supplier/view-suppliers'" -->
     <opneBank ref="opneBank"
               :country="country"
               :supplierData="supplierComplete"
@@ -87,7 +88,7 @@ export default {
     iButton,
     buyer,
     baseInfoCard,
-    linie
+    linie,
   },
   data () {
     return {
@@ -131,12 +132,23 @@ export default {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
+          if(baseInfo.gpSupplierDetails){
+            this.supplierComplete.gpSupplierDetails = baseInfo.gpSupplierDetails
+          }
+
+          if(baseInfo.subBankVos){
+            this.supplierComplete.subBankList = baseInfo.subBankVos
+          }
+
+          if(baseInfo.gpSupplierBankNoteVO){
+            this.supplierComplete.gpSupplierBankNoteDTO = baseInfo.gpSupplierBankNoteVO
+          }
+
           if (baseInfo.settlementBankVo) {
             if (!baseInfo.settlementBankVo.bankTaxCode || baseInfo.settlementBankVo.bankTaxCode == '') {
               baseInfo.settlementBankVo.bankTaxCode = baseInfo.supplierInfoVo.socialcreditNo
             }
             this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
-
           }
           if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
           // 如果是查看修改 需要从不同的表获取 基础信息
@@ -153,11 +165,14 @@ export default {
           this.$refs.baseInfoCard.changeTitle()
           //如果有详情，则获取下拉框数据 回显
           this.$refs.companyProfile.changeListing()
+
           if (this.supplierComplete.supplierDTO.epNatureCategory) this.$refs.companyProfile.getEpNatureSubcategorySelect()
           if (this.supplierComplete.supplierDTO.countryCode) this.$refs.companyProfile.getCity()
           if (this.supplierComplete.supplierDTO.provinceCode) this.$refs.companyProfile.getProvince()
           if (this.supplierComplete.settlementBankDTO.countryCode) this.$refs.opneBank.getBankProvince()
           if (this.supplierComplete.settlementBankDTO.provinceCode) this.$refs.opneBank.getBankCity()
+          if (this.supplierComplete.gpSupplierBankNoteDTO.country) this.$refs.opneBank.getYP()
+          if (this.supplierComplete.subBankList) this.$refs.opneBank.getSubBank()
         }
       })
     },
@@ -180,7 +195,7 @@ export default {
     basicChange (data) {
       for (let i in data) {
         this.supplierComplete.supplierDTO[i] = data[i]
-      }
+      }                                      
     },
     // 保存基本信息
     saveInfos (step = '') {

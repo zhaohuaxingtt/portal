@@ -3,8 +3,8 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">新增分散（内部报销）供应商</span>
       <div class="floatright">
-        <i-button v-permission="" @click="save">{{ $t('LK_TIJIAO') }}</i-button>
-        <i-button v-permission="" @click="cancle">{{ $t('LK_QUXIAO') }}</i-button>
+        <i-button @click="save">{{ $t('LK_TIJIAO') }}</i-button>
+        <i-button @click="cancle">{{ $t('LK_QUXIAO') }}</i-button>
       </div>
     </div>
 
@@ -12,23 +12,23 @@
       <iFormGroup row="3" :rules="baseRules" :model="supplierData" ref="baseRulesForm">
         <iFormItem prop="nameZh">
           <iLabel :label="$t('SupplierZh')" required slot="label"></iLabel>
-          <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierZh')" v-model="supplierData.nameZh"></iInput>
+          <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierZh')" v-model="supplierComplete.supplierDTO.nameZh"></iInput>
         </iFormItem>
         <iFormItem prop="shortNameZh">
           <iLabel :label="$t('SupplierAbbreviationZh')" slot="label" required icons="iconxinxitishi"
             :tip="$t('SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS')"></iLabel>
-          <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierAbbreviationZh')" v-model="supplierData.shortNameZh"></iInput>
+          <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierAbbreviationZh')" v-model="supplierComplete.supplierDTO.shortNameZh"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
 
     <iCard :title="$t('GONGSIGAIKANG')" tabCard collapse>
-      <iFormGroup row="3" :rules="comRules" :model="compare" ref="baseRulesForm">
+      <iFormGroup row="3" :rules="comRules" :model="supplierComplete.supplierDTO" ref="baseRulesForm">
         <iFormItem prop="countryCode">
           <iLabel :label="$t('SUPPLIER_GUOJIA')"
                   required
                   slot="label"></iLabel>
-          <iSelect v-model="compare.countryCode"
+          <iSelect v-model="supplierComplete.supplierDTO.countryCode"
                   @change="changeCountry()">
             <el-option :value="item.sapLocationCode"
                       :label="item.cityNameCn"
@@ -40,7 +40,7 @@
           <iLabel :label="$t('SUPPLIER_SHENGFEN')"
                   required
                   slot="label"></iLabel>
-          <iSelect v-model="compare.provinceCode"
+          <iSelect v-model="supplierComplete.supplierDTO.provinceCode"
                   @change="changeProvince()">
             <el-option :value="item.sapLocationCode"
                       :label="item.cityNameCn"
@@ -52,12 +52,18 @@
           <iLabel :label="$t('SUPPLIER_CHENGSHI')"
                   required
                   slot="label"></iLabel>
-          <iSelect v-model="compare.cityCode">
+          <iSelect v-model="supplierComplete.supplierDTO.cityCode">
             <el-option :value="item.cityIdStr"
                       :label="item.cityNameCn"
                       v-for="(item, index) in city"
                       :key="index"></el-option>
           </iSelect>
+        </iFormItem>
+        <iFormItem prop="corpEmail">
+          <iLabel :label="$t('TERMS_YOUXIANG')"
+                  required
+                  slot="label"></iLabel>
+          <iInput :placeholder="$t('LK_QINGSHURU')+$t('TERMS_YOUXIANG')" v-model="supplierComplete.supplierDTO.corpEmail"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
@@ -69,26 +75,26 @@
               :fromGroup="fromGroup">
     </opneBank>
 
-    <mailList ref="mailList" class="margin-bottom20"
+    <mailList ref="mailList" class="margin-bottom20" :supplierData="supplierComplete"
               >
     </mailList>
-    <user ref="user"></user>
+    <!-- <user ref="user"></user> -->
+    <upload ref="user" :supplierData="supplierComplete"></upload>
   </iPage>
 </template>
 
 <script>
 import { iPage,iButton,iCard,iFormGroup,iFormItem,iLabel,iInput,iSelect } from "rise";
-import { baseRules,comRules } from "./data";
+import { baseRules,comRules,supplierComplete } from "./data";
 import opneBank from "@/views/generalPage/baseInfo/components/opneBank"
 import mailList from "./mailList"
 import user from "./user"
-import {
-  supplierComplete
-} from "./data";
+import upload from "./upload"
 import {
   selectDictByKeys,
   getCityInfo
 } from "@/api/dictionary";
+import { saveInner } from "@/api/supplierManagement/dispersedSupplier"
 
 export default {
   components:{
@@ -102,10 +108,12 @@ export default {
     iSelect,
     opneBank,
     mailList,
-    user
+    user,
+    upload
   },
   data(){
     return{
+      supplierComplete:supplierComplete,
       baseRules,
       comRules,
       supplierData:{
@@ -117,16 +125,9 @@ export default {
           cityCode:'',
         }
       },
-      compare:{
-        countryCode:'',
-        provinceCode:'',
-        cityCode:'',
-      },
       province:[],
       country:[],
       city:[],
-
-      supplierComplete,
       fromGroup:[],
     }
   },
@@ -150,7 +151,7 @@ export default {
     // 获取省份
     getProvince () {
       let data = {
-        sapLocationCode: this.compare.countryCode
+        sapLocationCode: this.supplierComplete.supplierDTO.countryCode
       }
       getCityInfo(data).then((res) => {
         if (res.data) {
@@ -166,7 +167,7 @@ export default {
     //获取城市
     getCity () {
       let data = {
-        sapLocationCode: this.compare.provinceCode
+        sapLocationCode: this.supplierComplete.supplierDTO.provinceCode
       }
       getCityInfo(data).then((res) => {
         if (res.data) {
@@ -181,15 +182,15 @@ export default {
     },
     // 国家切换 获取省信息
     changeCountry () {
-      this.compare.provinceCode = ''
-      this.compare.cityCode = ''
+      this.supplierComplete.supplierDTO.provinceCode = ''
+      this.supplierComplete.supplierDTO.cityCode = ''
       this.province = []
       this.city = []
       this.getProvince()
     },
     // 省市切换 获取市级信息
     changeProvince () {
-      this.compare.cityCode = ''
+      this.supplierComplete.supplierDTO.cityCode = ''
       this.city = []
       this.getCity()
     },
@@ -208,10 +209,29 @@ export default {
       })
     },
     save(){
-
+      console.log(this.supplierComplete);
+      var data = _.cloneDeep(this.supplierComplete)
+      data.subBankList.forEach(e=>{
+        delete e.bankCity
+        delete e.bankProvince
+      })
+      data.attachmentList.forEach(e=>{
+        e.attachId = e.id;
+        e.attachRemark = "";
+        e.file = {
+          dummyName:"",
+          fileName:e.fileName,
+          filePath:e.filePath,
+          fileSize:e.fileSize,
+          id:e.id
+        }
+      })
+      saveInner(data).then(res=>{
+        console.log(res);
+      })
     },
     cancle(){
-
+      this.$router.go(-1)
     },
   },
 }

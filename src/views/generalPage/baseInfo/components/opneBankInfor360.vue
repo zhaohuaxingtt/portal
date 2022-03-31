@@ -2,41 +2,41 @@
 	<iCard tabCard collapse :title="$t('KAIHUYINHANG')" class="margin-top20">
 		<iButton class="btn_class" @click="addBank" v-if="$route.query.subSupplierType=='GP'">新增子银行账户</iButton>
 		<iFormGroup row="3" :rules="bankRules" :model="supplierData" ref="bankRules">
-			<iFormItem prop="settlementBankDTO.country" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
+			<iFormItem prop="settlementBankVo.country" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
 				<iLabel :label="$t('YINHANGSUOZAIGUOJIA')" slot="label"></iLabel>
-				<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry()">
+				<iSelect v-model="supplierData.settlementBankVo.countryCode" @change="changeCountry()">
 					<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
 				</iSelect>
 			</iFormItem>
-			<iFormItem prop="settlementBankDTO.province" v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
+			<iFormItem prop="settlementBankVo.province" v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
 				<iLabel :label="$t('YINGHANSUOZAISHENGFEN')" slot="label"></iLabel>
-				<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince()">
+				<iSelect v-model="supplierData.settlementBankVo.provinceCode" @change="changeProvince()">
 					<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
 				</iSelect>
 			</iFormItem>
-			<iFormItem prop="settlementBankDTO.city" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
+			<iFormItem prop="settlementBankVo.city" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
 				<iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label"></iLabel>
-				<iSelect v-model="supplierData.settlementBankDTO.cityCode">
+				<iSelect v-model="supplierData.settlementBankVo.cityCode">
 					<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
 				</iSelect>
 			</iFormItem>
 			
-			<iFormItem prop="settlementBankDTO.bankName" v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
+			<iFormItem prop="settlementBankVo.bankName" v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
 				<iLabel :label="$t('YINGHANGMINCHENG')" slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
-				<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
+				<iInput v-model="supplierData.settlementBankVo.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 			</iFormItem>
-			<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
+			<iFormItem prop="settlementBankVo.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
 				<iLabel :label="$t('YINHANGDAIMA')" slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
-				<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
+				<iInput v-model="supplierData.settlementBankVo.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
 			</iFormItem>
-			<iFormItem prop="settlementBankDTO.bankAccount" v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
+			<iFormItem prop="settlementBankVo.bankAccount" v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
 				<iLabel :label="$t('YINHANGZHANGHAO')" slot="label"></iLabel>
-				<iInput v-model="supplierData.settlementBankDTO.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
+				<iInput v-model="supplierData.settlementBankVo.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
 			</iFormItem>
 			
-			<iFormItem prop="settlementBankDTO.bankTaxCode" v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
+			<iFormItem prop="settlementBankVo.bankTaxCode" v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
 				<iLabel :label="$t('SHUIWUDAIMA')" slot="label"></iLabel>
-				<iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankDTO.bankTaxCode"></iInput>
+				<iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankVo.bankTaxCode"></iInput>
 			</iFormItem>
 
 
@@ -45,7 +45,7 @@
 				<iLabel :label="$t('DZYPZHYHMC')" required
 						slot="label"></iLabel>
 				<iInput :placeholder="$t('LK_QINGSHURU')"
-						v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
+						v-model="supplierData.gpSupplierBankNoteVO.bankNoteName"
 						></iInput>
 			</iFormItem>
 			<!-- 电子银票银行账户行号 -->
@@ -53,14 +53,14 @@
 				<iLabel :label="$t('DZYPYHZHHH')" required
 						slot="label"></iLabel>
 				<iInput :placeholder="$t('LK_QINGSHURU')"
-						v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
+						v-model="supplierData.gpSupplierBankNoteVO.bankNoteAccount"
 						></iInput>
 			</iFormItem>
 			<!-- 电子银票银行所在国家 -->
 			<iFormItem v-if="$route.query.subSupplierType == 'GP'">
 				<iLabel :label="$t('DZYPYHSZGJ')" required
 						slot="label"></iLabel>
-				<iSelect v-model="supplierData.gpSupplierBankNoteDTO.country"
+				<iSelect v-model="supplierData.gpSupplierBankNoteVO.country"
 						@change="changeCountryDC()">
 				<el-option :value="item.cityIdStr"
 							:label="item.cityNameCn"
@@ -72,7 +72,7 @@
 			<iFormItem v-if="$route.query.subSupplierType == 'GP'">
 				<iLabel :label="$t('DZYPYHSZSF')" required
 						slot="label"></iLabel>
-				<iSelect v-model="supplierData.gpSupplierBankNoteDTO.province"
+				<iSelect v-model="supplierData.gpSupplierBankNoteVO.province"
 						@change="changeProvinceDC()">
 				<el-option :value="item.cityIdStr"
 							:label="item.cityNameCn"
@@ -84,7 +84,7 @@
 			<iFormItem v-if="$route.query.subSupplierType == 'GP'">
 				<iLabel :label="$t('DZYPYHSZCS')" required
 						slot="label"></iLabel>
-				<iSelect v-model="supplierData.gpSupplierBankNoteDTO.city"
+				<iSelect v-model="supplierData.gpSupplierBankNoteVO.city"
 						>
 				<el-option :value="item.cityIdStr"
 							:label="item.cityNameCn"
@@ -95,7 +95,7 @@
 		</iFormGroup>
 
 		<!-- 修改 -->
-		<div v-for="(item, index) in supplierData.subBankList" :key="index" class="smallbank">
+		<div v-for="(item, index) in supplierData.subBankVos" :key="index" class="smallbank">
 			<iButton class="btn" @click="removeBank(index)">删除</iButton>
 			<el-divider></el-divider>
 			<iCard
@@ -237,53 +237,16 @@
 			}
 		},
 		methods:{
-			getYP(){
-				if(this.supplierData.gpSupplierBankNoteDTO.country){
-					// 获取银行省市
-					let  data = {
-						parentCityId: this.supplierData.gpSupplierBankNoteDTO.country
-					}
-					getCityInfo(data).then(res=>{
-						this.bankProvinceDC=res.data
-					})
-				}
-				if(this.supplierData.gpSupplierBankNoteDTO.province){
-					let data = {
-						parentCityId: this.supplierData.gpSupplierBankNoteDTO.province
-					}
-					getCityInfo(data).then(res=>{
-						this.bankCityDC=res.data
-					})
-				}
-			},
-			getSubBank(){
-				if(this.supplierData.subBankList){
-					this.supplierData.subBankList.forEach((ele,index) => {
-						if(ele.country){
-							let data = {parentCityId: ele.country}
-							getCityInfo(data).then(res=>{
-								this.$set(this.supplierData.subBankList[index],"bankProvince",res.data)
-							})
-						}
-						if(ele.province){
-							let data1 = {parentCityId: ele.province}
-							getCityInfo(data1).then(res=>{
-								this.$set(this.supplierData.subBankList[index],"bankCity",res.data)
-							})
-						}
-					});
-				}
-			},
 			addBank(){
-				this.supplierData.subBankList.push(_.cloneDeep(this.subBank))
+				this.supplierData.subBankVos.push(_.cloneDeep(this.subBank))
 			},
 			removeBank(val){
-				this.supplierData.subBankList.splice(val,1);
+				this.supplierData.subBankVos.splice(val,1);
 			},
 			// 获取银行省市
 			getBankProvince(){
 				let  data = {
-					sapLocationCode: this.supplierData.settlementBankDTO.countryCode
+					sapLocationCode: this.supplierData.settlementBankVo.countryCode
 				}
 				getCityInfo(data).then(res=>{
 					if (res.data) {
@@ -299,7 +262,7 @@
 			// 获取银行城市
 			getBankCity(){
 				let  data = {
-					sapLocationCode: this.supplierData.settlementBankDTO.provinceCode
+					sapLocationCode: this.supplierData.settlementBankVo.provinceCode
 				}
 				getCityInfo(data).then(res=>{
 					if (res.data) {
@@ -314,27 +277,27 @@
 			},
 			// 获取城市 国家 省市对应中文名
 			getCityName(){
-					if (this.supplierData.settlementBankDTO.countryCode) {
-				this.supplierData.settlementBankDTO.country=this.country.find(item=>item.sapLocationCode==this.supplierData.settlementBankDTO.countryCode).cityNameCn
+					if (this.supplierData.settlementBankVo.countryCode) {
+				this.supplierData.settlementBankVo.country=this.country.find(item=>item.sapLocationCode==this.supplierData.settlementBankVo.countryCode).cityNameCn
 					}
-					if (this.supplierData.settlementBankDTO.provinceCode) {
-				this.supplierData.settlementBankDTO.province=this.bankProvince.find(item=>item.sapLocationCode==this.supplierData.settlementBankDTO.provinceCode).cityNameCn
+					if (this.supplierData.settlementBankVo.provinceCode) {
+				this.supplierData.settlementBankVo.province=this.bankProvince.find(item=>item.sapLocationCode==this.supplierData.settlementBankVo.provinceCode).cityNameCn
 					}
-					if (this.supplierData.settlementBankDTO.cityCode) {
-				this.supplierData.settlementBankDTO.city=this.bankCity.find(item=>item.cityIdStr==this.supplierData.settlementBankDTO.cityCode).cityNameCn
+					if (this.supplierData.settlementBankVo.cityCode) {
+				this.supplierData.settlementBankVo.city=this.bankCity.find(item=>item.cityIdStr==this.supplierData.settlementBankVo.cityCode).cityNameCn
 					}
 			},	
 			// 国家切换 获取省信息
 			changeCountry(){
-				this.supplierData.settlementBankDTO.provinceCode=""
-				this.supplierData.settlementBankDTO.cityCode=""
+				this.supplierData.settlementBankVo.provinceCode=""
+				this.supplierData.settlementBankVo.cityCode=""
 				this.bankProvince=[]
 				this.bankCity=[]
 				this.getBankProvince()
 			},
 			// 省市切换 获取市级信息
 			changeProvince(){
-				this.supplierData.settlementBankDTO.cityCode=""
+				this.supplierData.settlementBankVo.cityCode=""
 				this.bankCity=[]
 				this.getBankCity()
 			},
@@ -343,23 +306,23 @@
 
 
 			changeProvinceDC(){
-				this.supplierData.gpSupplierBankNoteDTO.city=""
+				this.supplierData.gpSupplierBankNoteVO.city=""
 				this.bankCityDC=[]
 				let data = {
-					parentCityId: this.supplierData.gpSupplierBankNoteDTO.province
+					parentCityId: this.supplierData.gpSupplierBankNoteVO.province
 				}
 				getCityInfo(data).then(res=>{
 					this.bankCityDC=res.data
 				})
 			},
 			changeCountryDC(){// 国家切换 获取省信息
-				this.supplierData.gpSupplierBankNoteDTO.province=""
-				this.supplierData.gpSupplierBankNoteDTO.city=""
+				this.supplierData.gpSupplierBankNoteVO.province=""
+				this.supplierData.gpSupplierBankNoteVO.city=""
 				this.bankProvinceDC=[]
 				this.bankCityDC=[]
 				// 获取银行省市
 				let  data = {
-					parentCityId: this.supplierData.gpSupplierBankNoteDTO.country
+					parentCityId: this.supplierData.gpSupplierBankNoteVO.country
 				}
 				getCityInfo(data).then(res=>{
 					this.bankProvinceDC=res.data
@@ -369,24 +332,24 @@
 
 			changeGJ(val,index){
 				console.log(index);
-				this.supplierData.subBankList[index].province=""
-				this.supplierData.subBankList[index].city=""
-				this.supplierData.subBankList[index].bankProvince=[]
-				this.supplierData.subBankList[index].bankCity=[]
+				this.supplierData.subBankVos[index].province=""
+				this.supplierData.subBankVos[index].city=""
+				this.supplierData.subBankVos[index].bankProvince=[]
+				this.supplierData.subBankVos[index].bankCity=[]
 
 				let data = {parentCityId: val}
 				getCityInfo(data).then(res=>{
-					this.$set(this.supplierData.subBankList[index],"bankProvince",res.data)
+					this.$set(this.supplierData.subBankVos[index],"bankProvince",res.data)
 
-					console.log(this.supplierData.subBankList)
+					console.log(this.supplierData.subBankVos)
 				})
 			},
 			changeSF(val,index){
-				this.supplierData.subBankList[index].city=""
-				this.supplierData.subBankList[index].bankCity=[]
+				this.supplierData.subBankVos[index].city=""
+				this.supplierData.subBankVos[index].bankCity=[]
 				let data1 = {parentCityId: val}
 				getCityInfo(data1).then(res=>{
-					this.$set(this.supplierData.subBankList[index],"bankCity",res.data)
+					this.$set(this.supplierData.subBankVos[index],"bankCity",res.data)
 				})
 			},
 
