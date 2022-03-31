@@ -246,6 +246,7 @@ export default {
       return res
     },
     setMenuModalVisible(val) {
+      console.log('setMenuModalVisible', val)
       this.menuModelVisible = val
     },
     handleClick(list) {

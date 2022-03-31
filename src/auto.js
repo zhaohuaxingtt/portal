@@ -12,13 +12,17 @@ class SetSize {
     this.size = 16
   }
   setRem() {
-    const scale = document.documentElement.clientWidth / 1920
+    const clientWidth = document.documentElement.clientWidth
+    const scale = clientWidth / 1920
     // 设置页面根节点字体大小（“Math.min(scale, 2)” 指最高放大比例为2，可根据实际业务需求调整）
     if (scale) {
       document.documentElement.style.fontSize =
         this.size * Math.min(scale, 1) + 'px'
     } else {
       document.documentElement.style.fontSize = '14px'
+    }
+    if (clientWidth > 2096) {
+      window.localStorage.setItem('isLargeScreen', 1)
     }
   }
   init() {
