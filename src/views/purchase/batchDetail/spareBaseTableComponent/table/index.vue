@@ -1,14 +1,15 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-07-13 16:37:55
- * @LastEditors: 舒杰
+ * @LastEditTime: 2022-03-31 22:33:44
+ * @LastEditors: YoHo
  * @Description: 通用表格
 -->
 <template>
 
     <el-form :model="{tableData}" status-icon :rules="rules" ref="commonTableForm">
         <el-table :height="height"
+                  border
                   ref="table"
                   :span-method="handleMerge"
                   tooltip-effect='light'
