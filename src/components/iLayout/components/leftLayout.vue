@@ -113,6 +113,9 @@ export default {
       console.log('menuVisible', val)
     }
   },
+  mounted() {
+    this.setDefaultActiveIndex()
+  },
   methods: {
     setDefaultActiveIndex() {
       if (this.activeMenu && this.activeMenu.length) {
