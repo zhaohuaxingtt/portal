@@ -21,8 +21,14 @@ class SetSize {
     } else {
       document.documentElement.style.fontSize = '14px'
     }
-    if (clientWidth > 2096) {
-      window.localStorage.setItem('isLargeScreen', 1)
+    if (clientWidth > 1920) {
+      const zoom = clientWidth / 1920
+      document.documentElement.style.zoom = clientWidth / 1920
+      localStorage.setItem('isLargeScreen', 'yes')
+      localStorage.setItem('zoom', zoom)
+    } else {
+      localStorage.setItem('isLargeScreen', 'no')
+      localStorage.setItem('zoom', 1)
     }
   }
   init() {
