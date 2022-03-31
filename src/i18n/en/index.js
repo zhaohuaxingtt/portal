@@ -8,6 +8,8 @@ import partLifeCycle from './partLifeCycle'
 import others from './others'
 import meetingType from './meetingType'
 import questionnaire from './questionnaire'
+import terms from './terms'
+import meeting from './meeting'
 export default {
   ...online,
   ...mainData,
@@ -19,5 +21,7 @@ export default {
   ...partLifeCycle,
   ...others,
   ...meetingType,
-  ...questionnaire
+  ...questionnaire,
+  ...terms,
+  ...meeting
 }

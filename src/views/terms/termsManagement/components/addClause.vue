@@ -1,470 +1,546 @@
 <template>
-<div v-loading="loading">
-  <iPage>
-    <div class="title">
-      <div>
-        <span v-if="this.$route.query.id">
-          <span class="title__clause">{{ this.ruleForm.name }}</span>
-          <span class="title__version">条款版本：</span>
-          <span>
-            <iSelect
-              :placeholder="$t('LK_QINGXUANZE')"
-              v-model="ruleForm.termsVersion"
-              @change="changeDisplayVersion"
-              class="title__select"
-            >
-              <el-option
-                :value="item.id"
-                :label="item.termsVersion"
-                v-for="item of ruleForm.termsHistoryList"
-                :key="item.id"
-              ></el-option>
-            </iSelect>
+  <div v-loading="loading">
+    <iPage>
+      <div class="title">
+        <div>
+          <span v-if="this.$route.query.id">
+            <span class="title__clause">{{ this.ruleForm.name }}</span>
+            <span class="title__version">{{ $t('TM_TIAOKUANBANBEN') }}</span>
+            <span>
+              <iSelect
+                :placeholder="$t('LK_QINGXUANZE')"
+                v-model="ruleForm.termsVersion"
+                @change="changeDisplayVersion"
+                class="title__select"
+              >
+                <el-option
+                  :value="item.id"
+                  :label="item.termsVersion"
+                  v-for="item of ruleForm.termsHistoryList"
+                  :key="item.id"
+                ></el-option>
+              </iSelect>
+            </span>
           </span>
-        </span>
-        <span v-else class="title__clause">{{ '新建条款' }}</span>
+          <span v-else class="title__clause">{{
+            $t('TM_XINJIANTIAOKUAN')
+          }}</span>
+        </div>
+        <div>
+          <!-- 保存 -->
+          <iButton
+            @click="handleSubmit(1)"
+            :disabled="submitLoading"
+            v-if="ruleForm.isNewest != false"
+            >{{ $t('TM_BAOCUN') }}</iButton
+          >
+          <!-- 删除 -->
+          <iButton
+            @click="handleDelete"
+            :disabled="submitLoading"
+            v-if="
+              ruleForm.isNewest == true &&
+              (this.ruleForm.state == '01' || this.ruleForm.state == '02')
+            "
+            >{{ $t('TM_SHANCHU') }}</iButton
+          >
+          <!-- 发布 -->
+          <iButton
+            @click="handleSubmit(0)"
+            :disabled="submitLoading"
+            v-if="ruleForm.isNewest != false"
+            >{{ $t('TM_FABU') }}</iButton
+          >
+          <!-- 返回 -->
+          <iButton @click="clearDiolog">{{ $t('TM_FANHUI') }}</iButton>
+        </div>
       </div>
-      <div>
-        <!-- 保存 -->
-        <iButton @click="handleSubmit(1)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
-          '保存'
-        }}</iButton>
-        <!-- 删除 -->
-        <iButton
-          @click="handleDelete"
-          :disabled="submitLoading"
-          v-if="ruleForm.isNewest == true&&(this.ruleForm.state == '01' || this.ruleForm.state == '02')"
-          >{{ '删除' }}</iButton
+      <iCard>
+        <div class="basic">{{ $t('TM_JIBENXINXI') }}</div>
+        <el-form
+          :model="ruleForm"
+          label-width="10rem"
+          :rules="rules"
+          ref="ruleForm"
+          :hideRequiredAsterisk="true"
         >
-        <!-- 发布 -->
-        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
-          '发布'
-        }}</iButton>
-        <!-- 返回 -->
-        <iButton @click="clearDiolog">{{ '返回' }}</iButton>
-      </div>
-    </div>
-    <iCard>
-      <div class="basic">基本信息</div>
-      <el-form
-        :model="ruleForm"
-        label-width="10rem"
-        :rules="rules"
-        ref="ruleForm"
-        :hideRequiredAsterisk="true"
-      >
-        <div class="form">
-          <div class="input-box">
-            <!-- 第一行 -->
-            <el-col :span="6" class="form-item">
-              <iFormItem label="条款编码" prop="termsCode">
-                <iLabel :label="'条款编码'" slot="label"></iLabel>
-                <iInput v-model="ruleForm.termsCode" disabled></iInput>
-              </iFormItem>
-            </el-col>
-            <el-col :span="6" class="form-item">
-              <iFormItem label="条款名称" prop="name">
-                <iLabel :label="'条款名称'" slot="label" required></iLabel>
-                <iInput
-                  :disabled="ruleForm.isNewest == false"
-                  v-model="ruleForm.name"
-                ></iInput>
-              </iFormItem>
-            </el-col>
-            <el-col :span="6" class="form-item">
-              <iFormItem label="条款状态" prop="state">
-                <iLabel :label="'条款状态'" slot="label"></iLabel>
-                <iSelect
-                  :placeholder="$t('LK_QINGXUANZE')"
-                  v-model="ruleForm.state"
-                  clearable
-                  disabled
-                >
-                  <el-option
-                    :value="item.value"
-                    :label="item.label"
-                    v-for="item of statusList"
-                    :key="item.value"
-                  ></el-option>
-                </iSelect>
-                <!-- <iInput v-model="ruleForm.state" disabled></iInput> -->
-              </iFormItem>
-            </el-col>
-            <el-col :span="6" class="form-item">
-              <iFormItem label="生效时间" prop="inDate">
-                <iLabel :label="'生效时间'" slot="label" required></iLabel>
-                <iDatePicker
-                  style="width: 100%"
-                  :disabled="ruleForm.isNewest == false"
-                  value-format="yyyy-MM-dd"
-                  type="date"
-                  v-model="ruleForm.inDate"
-                  :picker-options="pickerOptions"
-                />
-              </iFormItem>
-            </el-col>
-            <!-- 第二行 -->
-            <el-col :span="6" class="form-item">
-              <iFormItem label="是否个人条款" prop="isPersonalTerms">
-                <iLabel :label="'是否个人条款'" slot="label" required></iLabel>
-                <iSelect
-                  v-model="ruleForm.isPersonalTerms"
-                  :placeholder="$t('LK_QINGXUANZE')"
-                  :disabled="ruleForm.isNewest == false"
-                >
-                  <el-option
-                    v-for="item in isApprovalOption"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
-            </el-col>
-            <el-col :span="6" class="form-item">
-              <iFormItem label="签署节点" prop="signNode">
-                <iLabel :label="'签署节点'" slot="label" required></iLabel>
-                <iSelect
-                  v-model="ruleForm.signNode"
-                  :placeholder="$t('LK_QINGXUANZE')"
-                  :disabled="ruleForm.isNewest == false"
-                >
-                  <el-option
-                    v-for="item in signNodeList"
-                    :key="item.name"
-                    :label="item.describe"
-                    :value="item.name"
-                  >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
-            </el-col>
-            <el-col :span="6" class="form-item">
-              <iFormItem label="条款负责人" prop="chargeName">
-                <iLabel :label="'条款负责人'" slot="label" required></iLabel>
-                <el-autocomplete
-                  style="width: 100%"
-                  :disabled="ruleForm.isNewest == false"
-                  v-model="ruleForm.chargeName"
-                  :fetch-suggestions="querySearchAsync"
-                  :placeholder="$t('请输入')"
-                  @select="handleSelect"
-                ></el-autocomplete>
-              </iFormItem>
-            </el-col>
-            <el-col :span="6" class="form-item">
-              <iFormItem label="签署情况" prop="signResult">
-                <iLabel :label="'签署情况'" slot="label"></iLabel>
-                <iInput v-model="ruleForm.signResult" disabled></iInput>
-              </iFormItem>
-            </el-col>
-            <!-- 第三行 -->
-            <el-col :span="6" class="form-item">
-              <iFormItem label="按业务事件签署" prop="isRound">
-                <iLabel :label="'按业务事件签署'" slot="label"></iLabel>
-                <iSelect
-                  v-model="ruleForm.isRound"
-                  :placeholder="$t('LK_QINGXUANZE')"
-                  :disabled="ruleForm.isNewest == false"
-                >
-                  <el-option
-                    v-for="item in isApprovalOption"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
-            </el-col>
-            <el-col :span="18" class="form-item">
-              <iFormItem label="供应商范围" prop="supplierRange">
-                <iLabel :label="'供应商范围'" slot="label" required></iLabel>
-                <el-checkbox-group
-                  style="display: inline-block"
-                  v-model="ruleForm.supplierRange"
-                  @input="handleGroupCheckList"
-                  :disabled="ruleForm.isNewest == false"
-                >
-                  <el-checkbox
-                    label="PP"
-                    :disabled="ruleForm.supplierRange.includes('CM')"
-                    >生产供应商</el-checkbox
-                  >
-                  <el-checkbox
-                    label="GP"
-                    :disabled="ruleForm.supplierRange.includes('CM')"
-                    >一般供应商</el-checkbox
-                  >
-                  <el-checkbox
-                    label="NT"
-                    :disabled="ruleForm.supplierRange.includes('CM')"
-                    >N-Tier</el-checkbox
-                  >
-                  <el-checkbox
-                    label="CM"
-                    :disabled="
-                      ruleForm.supplierRange.includes('PP') ||
-                      ruleForm.supplierRange.includes('GP') ||
-                      ruleForm.supplierRange.includes('NT')
-                    "
-                    >自定义</el-checkbox
-                  >
-                </el-checkbox-group>
-                <div class="searchInput">
+          <div class="form">
+            <div class="input-box">
+              <!-- 第一行 -->
+              <el-col :span="6" class="form-item">
+                <iFormItem label="条款编码" prop="termsCode">
+                  <iLabel
+                    :label="$t('TM_TIAOKUANBIANMA')"
+                    slot="label"
+                  ></iLabel>
+                  <iInput v-model="ruleForm.termsCode" disabled></iInput>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item">
+                <iFormItem label="条款名称" prop="name">
+                  <iLabel
+                    :label="$t('TM_TIAOKUANMINGCHENG')"
+                    slot="label"
+                    required
+                  ></iLabel>
                   <iInput
-                    :placeholder="'选择器'"
-                    @focus="handleOpenSupplierChooseDialog()"
+                    :disabled="ruleForm.isNewest == false"
+                    v-model="ruleForm.name"
+                  ></iInput>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item">
+                <iFormItem label="条款状态" prop="state">
+                  <iLabel
+                    :label="$t('TM_TIAOKUANZHUANGTAI')"
+                    slot="label"
+                  ></iLabel>
+                  <iSelect
+                    :placeholder="$t('LK_QINGXUANZE')"
+                    v-model="ruleForm.state"
+                    clearable
+                    disabled
+                  >
+                    <el-option
+                      :value="item.value"
+                      :label="$t(item.i18n)"
+                      v-for="item of statusList"
+                      :key="item.value"
+                    ></el-option>
+                  </iSelect>
+                  <!-- <iInput v-model="ruleForm.state" disabled></iInput> -->
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item">
+                <iFormItem label="生效时间" prop="inDate">
+                  <iLabel
+                    :label="$t('TM_SHENGXIAOSHIJIAN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iDatePicker
+                    style="width: 100%"
+                    :disabled="ruleForm.isNewest == false"
+                    value-format="yyyy-MM-dd"
+                    type="date"
+                    v-model="ruleForm.inDate"
+                    :picker-options="pickerOptions"
+                  />
+                </iFormItem>
+              </el-col>
+              <!-- 第二行 -->
+              <el-col :span="6" class="form-item">
+                <iFormItem label="是否个人条款" prop="isPersonalTerms">
+                  <iLabel
+                    :label="$t('TM_SHIFOUGERENTIAOKUAN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.isPersonalTerms"
+                    :placeholder="$t('LK_QINGXUANZE')"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-option
+                      v-for="item in isApprovalOption"
+                      :key="item.value"
+                      :label="$t(item.i18n)"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item">
+                <iFormItem label="签署节点" prop="signNode">
+                  <iLabel
+                    :label="$t('TM_QIANSHUJIEDIAN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.signNode"
+                    :placeholder="$t('LK_QINGXUANZE')"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-option
+                      v-for="item in signNodeList"
+                      :key="item.name"
+                      :label="item.describe"
+                      :value="item.name"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item">
+                <iFormItem label="条款负责人" prop="chargeName">
+                  <iLabel
+                    :label="$t('TM_TIAOKUANFUZEREN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <el-autocomplete
+                    style="width: 100%"
+                    :disabled="ruleForm.isNewest == false"
+                    v-model="ruleForm.chargeName"
+                    :fetch-suggestions="querySearchAsync"
+                    :placeholder="$t('TM_FUZEREN')"
+                    @select="handleSelect"
+                  ></el-autocomplete>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item">
+                <iFormItem label="签署情况" prop="signResult">
+                  <iLabel
+                    :label="$t('TM_QIANSHUQINGKUANG')"
+                    slot="label"
+                  ></iLabel>
+                  <iInput v-model="ruleForm.signResult" disabled></iInput>
+                </iFormItem>
+              </el-col>
+              <!-- 第三行 -->
+              <el-col :span="6" class="form-item">
+                <iFormItem label="按业务事件签署" prop="isRound">
+                  <iLabel
+                    :label="$t('TM_ANYEWUSHIJIANQIANSHU')"
+                    slot="label"
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.isRound"
+                    :placeholder="$t('LK_QINGXUANZE')"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-option
+                      v-for="item in isApprovalOption"
+                      :key="item.value"
+                      :label="$t(item.i18n)"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </el-col>
+              <el-col :span="18" class="form-item">
+                <iFormItem label="供应商范围" prop="supplierRange">
+                  <iLabel
+                    :label="$t('TM_GONGYINGSHANGFANWEI')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <el-checkbox-group
+                    style="display: inline-block"
+                    v-model="ruleForm.supplierRange"
+                    @input="handleGroupCheckList"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-checkbox
+                      label="PP"
+                      :disabled="ruleForm.supplierRange.includes('CM')"
+                      >{{ $t('TM_SHENGCHANGONGYINGSHANG') }}</el-checkbox
+                    >
+                    <el-checkbox
+                      label="GP"
+                      :disabled="ruleForm.supplierRange.includes('CM')"
+                      >{{ $t('TM_YIBANGONGYINGSHANG') }}</el-checkbox
+                    >
+                    <el-checkbox
+                      label="NT"
+                      :disabled="ruleForm.supplierRange.includes('CM')"
+                      >N-Tier</el-checkbox
+                    >
+                    <el-checkbox
+                      label="CM"
+                      :disabled="
+                        ruleForm.supplierRange.includes('PP') ||
+                        ruleForm.supplierRange.includes('GP') ||
+                        ruleForm.supplierRange.includes('NT')
+                      "
+                      >{{ $t('TM_ZIDINGYI') }}</el-checkbox
+                    >
+                  </el-checkbox-group>
+                  <div class="searchInput">
+                    <iInput
+                      :placeholder="$t('TM_XUANZEQI')"
+                      @focus="handleOpenSupplierChooseDialog()"
+                      :disabled="!ruleForm.supplierRange.includes('CM')"
+                    >
+                      <i
+                        slot="prefix"
+                        class="el-input__icon el-icon-search"
+                      ></i>
+                    </iInput>
+                  </div>
+                  <iButton
                     :disabled="!ruleForm.supplierRange.includes('CM')"
+                    class="look"
+                    @click="handleOpenSupplierListDialog()"
+                    >{{ $t('TM_CHAKAN') }}</iButton
                   >
-                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                  </iInput>
-                </div>
-                <iButton
-                  :disabled="!ruleForm.supplierRange.includes('CM')"
-                  class="look"
-                  @click="handleOpenSupplierListDialog()"
-                  >查看</iButton
-                >
-              </iFormItem>
-            </el-col>
-            <!-- 第四行 -->
-            <el-col :span="12" class="form-item">
-              <iFormItem label="供应商身份" prop="supplierIdentity">
-                <iLabel :label="'供应商身份'" slot="label" required></iLabel>
-                <el-checkbox-group
-                  v-model="ruleForm.supplierIdentity"
-                  @input="handleGroupCheckList"
-                  :disabled="
-                    ruleForm.isNewest == false ||
-                    ruleForm.supplierRange.includes('CM')
-                  "
-                >
-                  <el-checkbox label="0">临时</el-checkbox>
-                  <el-checkbox label="1">正式</el-checkbox>
-                  <el-checkbox
-                    :disabled="!ruleForm.supplierRange.includes('NT')"
-                    label="2"
-                    >储蓄池</el-checkbox
-                  >
-                </el-checkbox-group>
-              </iFormItem>
-            </el-col>
-            <el-col
-              :span="12"
-              class="form-item"
-              v-if="ruleForm.isPersonalTerms == true"
-            >
-              <iFormItem
-                class="change-label-class"
-                label="供应商用户范围"
-                prop="supplierContacts"
-              >
-                <iLabel
-                  :label="'供应商用户范围'"
-                  slot="label"
-                  required
-                ></iLabel>
-                <el-radio-group
-                  v-model="ruleForm.supplierContacts"
-                  @input="handleGroupCheckList"
-                >
-                  <el-radio
-                    v-for="item in supplierContactsList"
-                    :key="item.value"
-                    :label="item.value"
-                    >{{ item.label }}</el-radio
-                  >
-                </el-radio-group>
-              </iFormItem>
-            </el-col>
-            <!-- 第五行 -->
-            <el-col :span="24" class="form-item">
-              <iFormItem label="备注" prop="remark">
-                <iLabel :label="'备注'" slot="label"></iLabel>
-                <iInput
-                  :disabled="ruleForm.isNewest == false"
-                  v-model="ruleForm.remark"
-                  class="textarea"
-                  type="textarea"
-                  :rows="3"
-                ></iInput>
-              </iFormItem>
-            </el-col>
-          </div>
-        </div>
-      </el-form>
-    </iCard>
-    <!-- 正文 -->
-    <iCard style="margin: 1.5rem 0">
-      <div class="editBox">编辑框</div>
-      <el-form
-        :model="ruleForm"
-        label-width="10rem"
-        :rules="rules"
-        ref="ruleFormEdit"
-        :hideRequiredAsterisk="true"
-      >
-        <div class="form">
-          <div class="input-box">
-            <el-col :span="23" class="form-item" id="editMode">
-              <iFormItem label="编辑方式" prop="editMode">
-                <iLabel :label="'编辑方式'" slot="label" required></iLabel>
-                <el-radio-group
-                  v-model="ruleForm.editMode"
-                  @input="handleGroupCheckList"
-                  :disabled="ruleForm.isNewest == false"
-                >
-                  <el-radio
-                    v-for="item in editModeList"
-                    :key="item.value"
-                    :label="item.value"
-                    >{{ item.label }}</el-radio
-                  >
-                </el-radio-group>
-              </iFormItem>
-            </el-col>
-            <el-col
-              :span="24"
-              v-show="ruleForm.editMode == '01'"
-              class="form-item"
-            >
-              <div style="float: right; margin-top: -3rem">
-                <iButton @click="handlePreEdit()">{{ '预览' }}</iButton>
-              </div>
-              <iFormItem label="条款正文" prop="termsText">
-                <iLabel :label="'条款正文'" slot="label" required></iLabel>
-                <div ref="editer" class="editer" id="editer"></div>
-              </iFormItem>
-            </el-col>
-            <el-col
-              :span="24"
-              v-show="ruleForm.editMode == '02'"
-              class="form-item"
-            >
-              <iFormItem label="条款正文" prop="termsTextId">
-                <iLabel :label="'条款正文'" slot="label" required></iLabel>
-                <el-upload
-                  v-if="
-                    this.ruleForm.termsTextId == '' ||
-                    this.ruleForm.termsTextId == null
-                  "
-                  :on-success="handleAvatarSuccess"
-                  :show-file-list="false"
-                  :http-request="httpUploadTerms"
-                  style="display: inline-block"
-                  accept=".doc,.docx"
-                  ><span
-                    class="el-icon-upload2"
-                    style="margin-right: 1rem; color: blue; font-size: 16px"
-                  ></span>
-                </el-upload>
-                <li
-                  v-else
-                  class="el-upload-list__item is-success i-paperclip"
-                  style="display: inline-block; margin-right: 64px"
-                >
-                  <a
-                    class="el-upload-list__item-name"
-                    @click="
-                      handleDownloadFile(ruleForm.termsTextId, termsTextName)
+                </iFormItem>
+              </el-col>
+              <!-- 第四行 -->
+              <el-col :span="12" class="form-item">
+                <iFormItem label="供应商身份" prop="supplierIdentity">
+                  <iLabel
+                    :label="$t('TM_GONGYINGSHANGSHENFEN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <el-checkbox-group
+                    v-model="ruleForm.supplierIdentity"
+                    @input="handleGroupCheckList"
+                    :disabled="
+                      ruleForm.isNewest == false ||
+                      ruleForm.supplierRange.includes('CM')
                     "
                   >
-                    <i class="el-icon-paperclip" :title="this.termsTextName">
-                      {{ this.termsTextName }}
-                    </i>
-                  </a>
-                  <label class="el-upload-list__item-status-label">
-                    <i class="el-icon-upload-success el-icon-circle-check"></i>
-                  </label>
-                  <i @click="handleDeleteAccessory()" class="el-icon-close"></i>
-                </li>
-                <iButton
-                  @click="handlePre()"
-                  :disabled="this.ruleForm.termsTextId == '' || this.ruleForm.termsTextId == null"
-                  >{{ '预览' }}</iButton
+                    <el-checkbox label="0">{{ $t('TM_LINSHI') }}</el-checkbox>
+                    <el-checkbox label="1">{{ $t('TM_ZHENGSHI') }}</el-checkbox>
+                    <el-checkbox
+                      :disabled="!ruleForm.supplierRange.includes('NT')"
+                      label="2"
+                      >{{ $t('TM_CHUXUCHI') }}</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </iFormItem>
+              </el-col>
+              <el-col
+                :span="12"
+                class="form-item"
+                v-if="ruleForm.isPersonalTerms == true"
+              >
+                <iFormItem
+                  class="change-label-class"
+                  label="供应商用户范围"
+                  prop="supplierContacts"
                 >
-              </iFormItem>
-            </el-col>
-          </div>
-        </div>
-      </el-form>
-    </iCard>
-    <!-- 附件 -->
-    <iCard>
-      <div class="enclosure">条款附件</div>
-      <div class="form">
-        <div class="input-box">
-          <el-col :span="24" class="form-item">
-            <div class="upload-box">
-              <el-upload
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-                :show-file-list="false"
-                :http-request="httpUpload"
-                multiple
-              >
-                <iButton
-                  v-if="ruleForm.isNewest != false"
-                  style="margin-right: 8px"
-                  >上传附件</iButton
-                >
-              </el-upload>
-              <iButton
-                @click="handleDownload"
-                :disabled="this.selectedFileData.length === 0"
-                >{{ '下载附件' }}</iButton
-              >
-              <iButton
-                @click="handleDel"
-                v-if="ruleForm.isNewest != false"
-                :disabled="this.selectedFileData.length === 0"
-                >{{ '删除' }}</iButton
-              >
-            </div>
-          </el-col>
-          <el-col :span="24" class="form-item">
-            <iTableML
-              tooltip-effect="light"
-              :data="this.ruleForm.attachments"
-              @selectionChange="handleSelectionChange"
-            >
-              <el-table-column
-                type="selection"
-                width="50"
-                align="center"
-              ></el-table-column>
-              <el-table-column
-                label="序号"
-                type="index"
-                width="50"
-                align="center"
-              ></el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="center"
-                label="文件名称"
-                ><template slot-scope="scope">
-                  <span
-                    class="open-link-text"
-                    @click="handleDownFile(scope.row)"
-                    >{{ scope.row['attachmentName'] }}</span
+                  <iLabel
+                    :label="$t('TM_GONGYINGSHANGYONGHUFANWEI')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <el-radio-group
+                    v-model="ruleForm.supplierContacts"
+                    @input="handleGroupCheckList"
                   >
-                </template></el-table-column
+                    <el-radio
+                      v-for="item in supplierContactsList"
+                      :key="item.value"
+                      :label="item.value"
+                      >{{ $t(item.i18n) }}</el-radio
+                    >
+                  </el-radio-group>
+                </iFormItem>
+              </el-col>
+              <!-- 第五行 -->
+              <el-col :span="24" class="form-item">
+                <iFormItem label="备注" prop="remark">
+                  <iLabel :label="$t('TM_BEIZHU')" slot="label"></iLabel>
+                  <iInput
+                    :disabled="ruleForm.isNewest == false"
+                    v-model="ruleForm.remark"
+                    class="textarea"
+                    type="textarea"
+                    :rows="3"
+                  ></iInput>
+                </iFormItem>
+              </el-col>
+            </div>
+          </div>
+        </el-form>
+      </iCard>
+      <!-- 正文 -->
+      <iCard style="margin: 1.5rem 0">
+        <div class="editBox">{{ $t('TM_BIANJIKUANG') }}</div>
+        <el-form
+          :model="ruleForm"
+          label-width="10rem"
+          :rules="rules"
+          ref="ruleFormEdit"
+          :hideRequiredAsterisk="true"
+        >
+          <div class="form">
+            <div class="input-box">
+              <el-col :span="23" class="form-item" id="editMode">
+                <iFormItem label="编辑方式" prop="editMode">
+                  <iLabel
+                    :label="$t('TM_BIANJIFANGSHI')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <el-radio-group
+                    v-model="ruleForm.editMode"
+                    @input="handleGroupCheckList"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-radio
+                      v-for="item in editModeList"
+                      :key="item.value"
+                      :label="item.value"
+                      >{{ $t(item.i18n) }}</el-radio
+                    >
+                  </el-radio-group>
+                </iFormItem>
+              </el-col>
+              <el-col
+                :span="24"
+                v-show="ruleForm.editMode == '01'"
+                class="form-item"
               >
-              <el-table-column align="center" label="大小（KB）"
-                ><template slot-scope="scope">
-                  <span>{{ scope.row['attachmentSize'] }}</span>
-                </template></el-table-column
+                <div style="float: right; margin-top: -3rem">
+                  <iButton @click="handlePreEdit()">{{
+                    $t('TM_YULAN')
+                  }}</iButton>
+                </div>
+                <iFormItem label="条款正文" prop="termsText">
+                  <iLabel
+                    :label="$t('TM_TIAOKUANZHENGWEN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <div ref="editer" class="editer" id="editer"></div>
+                </iFormItem>
+              </el-col>
+              <el-col
+                :span="24"
+                v-show="ruleForm.editMode == '02'"
+                class="form-item"
               >
-              <el-table-column align="center" label="上传日期"
-                ><template slot-scope="scope">
-                  <span>{{ scope.row['uploadDate'] }}</span>
-                </template></el-table-column
+                <iFormItem label="条款正文" prop="termsTextId">
+                  <iLabel
+                    :label="$t('TM_TIAOKUANZHENGWEN')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <el-upload
+                    v-if="
+                      this.ruleForm.termsTextId == '' ||
+                      this.ruleForm.termsTextId == null
+                    "
+                    :on-success="handleAvatarSuccess"
+                    :show-file-list="false"
+                    :http-request="httpUploadTerms"
+                    style="display: inline-block"
+                    accept=".doc,.docx"
+                    ><span
+                      class="el-icon-upload2"
+                      style="margin-right: 1rem; color: blue; font-size: 16px"
+                    ></span>
+                  </el-upload>
+                  <li
+                    v-else
+                    class="el-upload-list__item is-success i-paperclip"
+                    style="display: inline-block; margin-right: 64px"
+                  >
+                    <a
+                      class="el-upload-list__item-name"
+                      @click="
+                        handleDownloadFile(ruleForm.termsTextId, termsTextName)
+                      "
+                    >
+                      <i class="el-icon-paperclip" :title="this.termsTextName">
+                        {{ this.termsTextName }}
+                      </i>
+                    </a>
+                    <label class="el-upload-list__item-status-label">
+                      <i
+                        class="el-icon-upload-success el-icon-circle-check"
+                      ></i>
+                    </label>
+                    <i
+                      @click="handleDeleteAccessory()"
+                      class="el-icon-close"
+                    ></i>
+                  </li>
+                  <iButton
+                    @click="handlePre()"
+                    :disabled="
+                      this.ruleForm.termsTextId == '' ||
+                      this.ruleForm.termsTextId == null
+                    "
+                    >{{ $t('TM_YULAN') }}</iButton
+                  >
+                </iFormItem>
+              </el-col>
+            </div>
+          </div>
+        </el-form>
+      </iCard>
+      <!-- 附件 -->
+      <iCard>
+        <div class="enclosure">{{ $t('TM_TIAOKUANFUJIAN') }}</div>
+        <div class="form">
+          <div class="input-box">
+            <el-col :span="24" class="form-item">
+              <div class="upload-box">
+                <el-upload
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload"
+                  :show-file-list="false"
+                  :http-request="httpUpload"
+                  multiple
+                >
+                  <iButton
+                    v-if="ruleForm.isNewest != false"
+                    style="margin-right: 8px"
+                    >{{ $t('TM_SHANGCHUANFUJIAN') }}</iButton
+                  >
+                </el-upload>
+                <iButton
+                  @click="handleDownload"
+                  :disabled="this.selectedFileData.length === 0"
+                  >{{ $t('TM_XIAZAIFUJIAN') }}</iButton
+                >
+                <iButton
+                  @click="handleDel"
+                  v-if="ruleForm.isNewest != false"
+                  :disabled="this.selectedFileData.length === 0"
+                  >{{ $t('TM_SHANCHU') }}</iButton
+                >
+              </div>
+            </el-col>
+            <el-col :span="24" class="form-item">
+              <iTableML
+                tooltip-effect="light"
+                :data="this.ruleForm.attachments"
+                @selectionChange="handleSelectionChange"
               >
-            </iTableML>
-            <!-- <iPagination
+                <el-table-column
+                  type="selection"
+                  width="50"
+                  align="center"
+                ></el-table-column>
+                <el-table-column
+                  :label="$t('TM_XUHAO')"
+                  type="index"
+                  width="50"
+                  align="center"
+                ></el-table-column>
+                <el-table-column
+                  show-overflow-tooltip
+                  align="center"
+                  :label="$t('TM_WENJIANMINGCHENG')"
+                  ><template slot-scope="scope">
+                    <span
+                      class="open-link-text"
+                      @click="handleDownFile(scope.row)"
+                      >{{ scope.row['attachmentName'] }}</span
+                    >
+                  </template></el-table-column
+                >
+                <el-table-column align="center" :label="$t('TM_DAXIAOKB')"
+                  ><template slot-scope="scope">
+                    <span>{{ scope.row['attachmentSize'] }}</span>
+                  </template></el-table-column
+                >
+                <el-table-column align="center" :label="$t('TM_SHANGCHUANRIQI')"
+                  ><template slot-scope="scope">
+                    <span>{{ scope.row['uploadDate'] }}</span>
+                  </template></el-table-column
+                >
+              </iTableML>
+              <!-- <iPagination
               v-update
               @current-change="handleChangePage($event)"
               background
@@ -475,25 +551,25 @@
               :current-page="page.currPage"
               :total="this.ruleForm.attachments.length"
             /> -->
-          </el-col>
+            </el-col>
+          </div>
         </div>
-      </div>
-    </iCard>
-    <supplierListDialog
-      v-if="openSupplierListDialog"
-      :openDialog="openSupplierListDialog"
-      :supplierList="this.ruleForm.supplierList"
-      @closeDialog="closeSupplierListDialog"
-    />
-    <supplierChooseDialog
-      v-if="openSupplierChooseDialog"
-      :openDialog="openSupplierChooseDialog"
-      @closeDialog="closeSupplierChooseDialog"
-      @selectedTableData="selectedTableData"
-      :supplierList="this.ruleForm.supplierList"
-    />
-  </iPage>
-</div>
+      </iCard>
+      <supplierListDialog
+        v-if="openSupplierListDialog"
+        :openDialog="openSupplierListDialog"
+        :supplierList="this.ruleForm.supplierList"
+        @closeDialog="closeSupplierListDialog"
+      />
+      <supplierChooseDialog
+        v-if="openSupplierChooseDialog"
+        :openDialog="openSupplierChooseDialog"
+        @closeDialog="closeSupplierChooseDialog"
+        @selectedTableData="selectedTableData"
+        :supplierList="this.ruleForm.supplierList"
+      />
+    </iPage>
+  </div>
 </template>
 
 <script>
@@ -506,14 +582,14 @@ import {
   iSelect,
   iMessage,
   iDatePicker,
-  iCard,
+  iCard
   // iPagination,
 } from 'rise'
 // import { pageMixins } from '@/utils/pageMixins'
 import E from 'wangeditor'
 import UploadMenu from './UploadPanel'
 import {
-  baseRules,
+  // baseRules,
   statusList,
   supplierContactsList,
   editModeList
@@ -557,7 +633,95 @@ export default {
       // updateTerms: false,
       loading: false,
       uploadIcon,
-      rules: baseRules,
+      rules: {
+        // 条款名称
+        name: [
+          {
+            required: true,
+            message: this.$t('TM_BITIAN'),
+            trigger: ['blur', 'change']
+          },
+          {
+            min: 1,
+            max: 30,
+            message: this.$t('TM_ZUIDACHANGDU30ZIFU'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 生效时间
+        inDate: [
+          {
+            required: true,
+            message: this.$t('TM_BITIAN'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 是否个人条款
+        isPersonalTerms: [
+          {
+            required: true,
+            message: this.$t('TM_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 签署节点
+        signNode: [
+          {
+            required: true,
+            message: this.$t('TM_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 条款负责人
+        chargeName: [
+          {
+            required: true,
+            message: this.$t('TM_BITIAN'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 供应商范围
+        supplierRange: [
+          {
+            required: true,
+            message: this.$t('TM_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // // 供应商身份
+        // supplierIdentity: [
+        //   {
+        //     required: true,
+        //     message: "必选",
+        //     trigger: ["blur", "change"],
+        //   },
+        // ],
+        // 供应商用户范围
+        supplierContacts: [
+          {
+            required: true,
+            message: this.$t('TM_BIXUAN'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 备注
+        remark: [
+          {
+            min: 1,
+            max: 150,
+            message: this.$t('TM_ZUIDACHANGDU150ZIFU'),
+            trigger: ['blur', 'change']
+          }
+        ],
+        // 编辑方式
+        editMode: [
+          {
+            required: true,
+            message: this.$t('TM_BITIAN'),
+            trigger: ['blur', 'change']
+          }
+        ]
+      },
       supplierContactsList,
       editModeList,
       signNodeList: [], // 签署节点
@@ -597,11 +761,13 @@ export default {
       isApprovalOption: [
         {
           label: '是',
-          value: true
+          value: true,
+          i18n: 'TM_SHI'
         },
         {
           label: '否',
-          value: false
+          value: false,
+          i18n: 'TM_FOU'
         }
       ],
       uploadLoading: false,
@@ -621,17 +787,20 @@ export default {
         if (val.includes('NT')) {
           if (this.ruleForm.supplierIdentity.indexOf('2') == -1) {
             this.ruleForm.supplierIdentity.push('2')
-          }
+          } else if (val.length == 1 && val[0] == 'NT') {
+              this.ruleForm.supplierIdentity = []
+              this.ruleForm.supplierIdentity.push('2')
+            }
         } else if (val.includes('CM')) {
           this.ruleForm.supplierIdentity = []
         } else {
-          const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
-          if (indexSupplier != -1) {
-            this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
-          }
+          // const indexSupplier = this.ruleForm.supplierIdentity.indexOf('2')
+          // if (indexSupplier != -1) {
+          //   this.ruleForm.supplierIdentity.splice(indexSupplier, 1)
+          // }
         }
       }
-    },
+    }
     // 'ruleForm.supplierIdentity': {
     //   immediate: true,
     //   deep: true,
@@ -679,13 +848,13 @@ export default {
         // 'list',
         // 'todo',
         // 'emoticon',
-        'image',
+        'image'
         // 'video',
         // 'table',
         // 'code'
       ]
       // 配置字体
-      this.editor.config.fontNames = [ 
+      this.editor.config.fontNames = [
         // 字符串形式
         '黑体',
         '仿宋',
@@ -791,7 +960,7 @@ export default {
         .then((res) => {
           this.ruleForm.termsTextId = res.id
           this.ruleForm.termsTextUrl = res.path
-          iMessage.success('上传成功')
+          iMessage.success(this.$t('TM_SHANGCHUANCHENGGONG'))
           // console.log('res')
           getFileByIds([res.id]).then((res) => {
             this.termsTextName = res.name
@@ -823,7 +992,7 @@ export default {
             uploadDate: createDate
           })
           // this.handleChangePage(this.page.currPage)
-          iMessage.success('上传成功')
+          iMessage.success(this.$t('TM_SHANGCHUANCHENGGONG'))
         })
         .catch(() => {
           // iMessage.error("上传失败");
@@ -837,7 +1006,7 @@ export default {
         filename: name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('TM_XIAZAISHIBAI'))
           }
         }
       })
@@ -848,7 +1017,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('TM_XIAZAISHIBAI'))
           }
         }
       })
@@ -863,16 +1032,18 @@ export default {
         this.selectedFileData.length == 1
           ? ''
           : this.$route.query.id
-          ? this.ruleForm.name + '_' +
-            this.ruleForm.termsVersion + '_' +
+          ? this.ruleForm.name +
+            '_' +
+            this.ruleForm.termsVersion +
+            '_' +
             new Date().getTime()
-          : '条款附件' + new Date().getTime()
+          : this.$t('TM_TIAOKUANFUJIAN') + new Date().getTime()
       downloadZip({
         fileIds: fileNameids,
         filename: filename,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('TM_XIAZAISHIBAI'))
           }
         }
       })
@@ -919,9 +1090,9 @@ export default {
       this.ruleForm.supplierList = val
     },
     clearDiolog() {
-      this.$confirm('是否取消编辑？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('TM_SHIFOUQUXIAOBIANJI'), this.$t('TM_TISHI'), {
+        confirmButtonText: this.$t('TM_SHI'),
+        cancelButtonText: this.$t('TM_FOU'),
         type: 'warning'
       }).then(() => {
         this.$router.push({
@@ -930,11 +1101,17 @@ export default {
       })
     },
     handleSubmit(e) {
-      this.$confirm(e === 0 ? '是否发布该条款？' : '是否保存该条款？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        e === 0
+          ? this.$t('TM_SHIFOUFABUGAITIAOKUAN')
+          : this.$t('TM_SHIFOUBAOCUNGAITIAOKUAN'),
+        this.$t('TM_TISHI'),
+        {
+          confirmButtonText: this.$t('TM_SHI'),
+          cancelButtonText: this.$t('TM_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         this.submitForm('ruleForm', e)
       })
     },
@@ -948,23 +1125,27 @@ export default {
               (this.ruleForm.editMode == '02' &&
                 this.ruleForm.termsTextId == '')
             ) {
-              this.$message.error('条款正文不能为空！')
+              this.$message.error(this.$t('TM_TIAOKUANZHENGWENBUNENGWEIKONG'))
             } else if (
               this.ruleForm.supplierRange[0] != 'CM' &&
               this.ruleForm.supplierIdentity.length == 0
             ) {
-              this.$message.error('供应商身份不能为空！')
+              this.$message.error(
+                this.$t('TM_GONGYINGSHANGSHENFENBUNENGWEIKONG')
+              )
             } else if (
               this.ruleForm.supplierRange.includes('CM') &&
               this.ruleForm.supplierList.length == 0
             ) {
-              this.$message.error('供应商列表不能为空！')
+              this.$message.error(
+                this.$t('TM_GONGYINGSHANGLIEBIAOBUNENGWEIKONG')
+              )
             }
             // else if (
             //   this.ruleForm.attachments.length == 0
             // ) {
             //   this.$message.error('条款附件不能为空！')
-            // } 
+            // }
             else {
               if (valid) {
                 this.submitLoading = true
@@ -986,7 +1167,7 @@ export default {
                       releaseTerms(formData)
                         .then((data) => {
                           if (data) {
-                            iMessage.success(this.$t('发布成功！'))
+                            iMessage.success(this.$t('TM_FABUCHENGGONG'))
                             this.$router.push({
                               path: '/terms/management'
                             })
@@ -1002,7 +1183,9 @@ export default {
                           this.submitLoading = false
                         })
                     } else {
-                      iMessage.error(this.$t('生效日期不能小于当天'))
+                      iMessage.error(
+                        this.$t('TM_SHENGXIAORIQIBUNENGXIAOYUDANGTIAN')
+                      )
                       formData.supplierRange =
                         formData.supplierRange?.split(',')
                       formData.supplierIdentity =
@@ -1013,7 +1196,7 @@ export default {
                     updateTerms(formData)
                       .then((data) => {
                         if (data) {
-                          iMessage.success(this.$t('保存成功！'))
+                          iMessage.success(this.$t('TM_BAOCUNCHENGGONG'))
                           this.$router.push({
                             path: '/terms/management'
                           })
@@ -1033,7 +1216,11 @@ export default {
                   saveTerms(formData)
                     .then((data) => {
                       if (data) {
-                        iMessage.success(e === 0 ? '发布成功！' : '保存成功！')
+                        iMessage.success(
+                          e === 0
+                            ? this.$t('TM_FABUCHENGGONG')
+                            : this.$t('TM_BAOCUNCHENGGONG')
+                        )
                         this.$router.push({
                           path: '/terms/management'
                         })
@@ -1060,7 +1247,7 @@ export default {
     beforeAvatarUpload(file) {
       const isSize = file.size / 1024 / 1024 < 50
       if (!isSize) {
-        this.$message.error('文件大小最大限制50MB')
+        this.$message.error(this.$t('TM_WENJIANDAXIAOXIAOZHI50MB'))
       }
       return isSize
     },
@@ -1069,16 +1256,16 @@ export default {
       this.ruleForm.termsTextUrl = ''
     },
     handleDelete() {
-      this.$confirm('是否删除该条款？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('TM_SHANCHUGAITIAOKUAN'), this.$t('TM_TISHI'), {
+        confirmButtonText: this.$t('TM_SHI'),
+        cancelButtonText: this.$t('TM_FOU'),
         type: 'warning'
       }).then(() => {
         if (this.ruleForm.state == '01' || this.ruleForm.state == '02') {
           deleteTerms({ id: this.ruleForm.id })
             .then((res) => {
               if (res.code == 200) {
-                this.$message.success('删除成功')
+                this.$message.success(this.$t('TM_SHANCHUCHENGGONG'))
                 this.$router.push({
                   path: '/terms/management'
                 })
@@ -1088,7 +1275,11 @@ export default {
               // this.$message.error("删除失败!");
             })
         } else {
-          this.$message.error('此条款状态不是草稿/待生效状态，不能删除')
+          this.$message.error(
+            this.$t(
+              'TM_CITIAOKUANZHUANGTAIBUSHICAOGAOHUODAISHENGXIAOZHUANGTAIBUNENGSHANCHU'
+            )
+          )
         }
       })
     }

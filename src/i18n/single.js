@@ -1,6 +1,5 @@
 const path = require('path')
 const files = require.context('./modules', false, /.js$/)
-
 const modules = {}
 files.keys().forEach((key) => {
   const name = path.basename(key, '.js')

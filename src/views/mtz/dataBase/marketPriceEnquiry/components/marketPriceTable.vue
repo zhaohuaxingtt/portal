@@ -321,6 +321,8 @@ export default {
               })
             }
           })
+        }else{
+          iMessage.error(res.desZh)
         }
       })
     },

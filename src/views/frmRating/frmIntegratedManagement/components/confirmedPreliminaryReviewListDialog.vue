@@ -1,60 +1,77 @@
 <template>
   <!--待确认初评清单-->
   <iDialog
-      :title="$t('SPR_FRM_FRMGL_DQRCPQD')"
-      :visible.sync="value"
-      width="90%"
-      @close="clearDiolog"
-      :close-on-click-modal="false"
+    :title="$t('SPR_FRM_FRMGL_DQRCPQD')"
+    :visible.sync="value"
+    width="90%"
+    @close="clearDiolog"
+    :close-on-click-modal="false"
   >
     <div class="content">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!--退回-->
-          <iButton @click="handleBack" :loading="backButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TUIHUI">{{ $t('LK_TUIHUI') }}</iButton>
+          <iButton
+            @click="handleBack"
+            :loading="backButtonLoading"
+            v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TUIHUI"
+            >{{ $t('LK_TUIHUI') }}</iButton
+          >
           <!--提交-->
-          <iButton @click="handleSubmit" :loading="submitButtonLoading" v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TIJIAO">{{ $t('LK_TIJIAO') }}</iButton>
+          <iButton
+            @click="handleSubmit"
+            :loading="submitButtonLoading"
+            v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TIJIAO"
+            >{{ $t('LK_TIJIAO') }}</iButton
+          >
         </div>
       </div>
       <tableList
-          :tableData="tableListData"
-          :tableTitle="tableTitle"
-          :tableLoading="tableLoading"
-          :index="true"
-          @handleSelectionChange="handleSelectionChange"
+        :tableData="tableListData"
+        :tableTitle="tableTitle"
+        :tableLoading="tableLoading"
+        :index="true"
+        border
+        @handleSelectionChange="handleSelectionChange"
       >
         <template #modelId="scope">
           <iSelect v-model="scope.row.modelId">
-            <el-option v-for="item of selectList" :key="item.id" :value="item.id" :label="item.modelName"/>
+            <el-option
+              v-for="item of selectList"
+              :key="item.id"
+              :value="item.id"
+              :label="item.modelName"
+            />
           </iSelect>
         </template>
       </tableList>
       <iPagination
-          v-update
-          @size-change="handleSizeChange($event, getTableList)"
-          @current-change="handleCurrentChange($event, getTableList)"
-          background
-          :page-sizes="page.pageSizes"
-          :page-size="page.pageSize"
-          :layout="page.layout"
-          :current-page='page.currPage'
-          :total="page.totalCount"/>
+        v-update
+        @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+      />
     </div>
   </iDialog>
 </template>
 
 <script>
-import {iDialog, iButton, iPagination, iMessage, iSelect} from 'rise';
-import tableList from '@/components/commonTable';
-import {pageMixins} from '@/utils/pageMixins';
-import resultMessageMixin from '@/mixins/resultMessageMixin';
-import {confirmedPreliminaryReviewListTableTitle} from './data';
+import { iDialog, iButton, iPagination, iMessage, iSelect } from 'rise'
+import tableList from '@/components/commonTable'
+import { pageMixins } from '@/utils/pageMixins'
+import resultMessageMixin from '@/mixins/resultMessageMixin'
+import { confirmedPreliminaryReviewListTableTitle } from './data'
 import {
   getInitialCommentConfirmedList,
   getSelectModalList,
   handleInitialCommentConfirmedListBack,
-  handleConfirmedListSubmit,
-} from '../../../../api/frmRating/frmIntegratedManagement';
+  handleConfirmedListSubmit
+} from '../../../../api/frmRating/frmIntegratedManagement'
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -63,10 +80,10 @@ export default {
     iButton,
     iPagination,
     tableList,
-    iSelect,
+    iSelect
   },
   props: {
-    value: {type: Boolean},
+    value: { type: Boolean }
   },
   data() {
     return {
@@ -78,100 +95,100 @@ export default {
       submitButtonLoading: false,
       selectList: [],
       defaultModleId: ''
-    };
+    }
   },
   methods: {
     clearDiolog() {
-      this.$emit('input', false);
+      this.$emit('input', false)
     },
     handleSelectionChange(val) {
-      this.selectTableData = val;
+      this.selectTableData = val
     },
     async getTableList() {
-      this.tableLoading = true;
+      this.tableLoading = true
       try {
         const req = {
           pageNo: this.page.currPage,
-          pageSize: this.page.pageSize,
-        };
-        const res = await getInitialCommentConfirmedList(req);
+          pageSize: this.page.pageSize
+        }
+        const res = await getInitialCommentConfirmedList(req)
         if (res.result) {
-          this.tableListData = res.data.map(item => {
+          this.tableListData = res.data.map((item) => {
             item.modelId = this.defaultModleId
             return item
-          });
-          this.page.currPage = res.pageNum;
-          this.page.pageSize = res.pageSize;
-          this.page.totalCount = res.total || 0;
+          })
+          this.page.currPage = res.pageNum
+          this.page.pageSize = res.pageSize
+          this.page.totalCount = res.total || 0
         }
-        this.tableLoading = false;
+        this.tableLoading = false
       } catch {
-        this.tableListData = [];
-        this.tableLoading = false;
+        this.tableListData = []
+        this.tableLoading = false
       }
     },
     async getSelectModalList() {
-      const res = await getSelectModalList({});
-      this.selectList = res.data.modelDTOList;
+      const res = await getSelectModalList({})
+      this.selectList = res.data.modelDTOList
       this.defaultModleId = this.selectList[0].id
     },
     async handleBack() {
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
+        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       try {
-        this.backButtonLoading = true;
-        const ids = this.selectTableData.map(item => {
-          return item.id;
-        });
-        const req = {ids};
-        const res = await handleInitialCommentConfirmedListBack(req);
+        this.backButtonLoading = true
+        const ids = this.selectTableData.map((item) => {
+          return item.id
+        })
+        const req = { ids }
+        const res = await handleInitialCommentConfirmedListBack(req)
         this.resultMessage(res, () => {
-          this.getTableList();
-        });
-        this.backButtonLoading = false;
+          this.getTableList()
+        })
+        this.backButtonLoading = false
       } catch {
-        this.backButtonLoading = false;
+        this.backButtonLoading = false
       }
     },
     async handleSubmit() {
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
+        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      let flag = true;
-      this.selectTableData.some(item => {
-        const modelId = item.modelId;
+      let flag = true
+      this.selectTableData.some((item) => {
+        const modelId = item.modelId
         if (!modelId) {
-          flag = false;
-          return iMessage.warn(this.$t('SPR_FRM_FRMGL_QXZSYMX'));
+          flag = false
+          return iMessage.warn(this.$t('SPR_FRM_FRMGL_QXZSYMX'))
         }
-      });
+      })
       if (flag) {
         try {
-          this.submitButtonLoading = true;
+          this.submitButtonLoading = true
           const req = {
-            initConfirmedList: this.selectTableData,
-          };
-          const res = await handleConfirmedListSubmit(req);
+            initConfirmedList: this.selectTableData
+          }
+          const res = await handleConfirmedListSubmit(req)
           this.resultMessage(res, () => {
-            this.getTableList();
-          });
-          this.submitButtonLoading = false;
+            this.getTableList()
+          })
+          this.submitButtonLoading = false
         } catch {
-          this.submitButtonLoading = false;
+          this.submitButtonLoading = false
         }
       }
-    },
+    }
   },
   watch: {
     value(val) {
       if (val) {
-        this.getTableList();
-        this.getSelectModalList();
+        this.getTableList()
+        this.getSelectModalList()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

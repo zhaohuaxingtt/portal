@@ -317,11 +317,11 @@ export default {
       isDept: true,
       sex: [
         {
-          value: '男',
+          value: '1',
           label: '男'
         },
         {
-          value: '女',
+          value: '1',
           label: '女'
         }
       ],
@@ -378,8 +378,20 @@ export default {
       otherPosition: [],
       isDeptOther: true,
       rules: {
-        userNum: [{ required: true, message: this.language('请输入员工号'), trigger: 'blur' }],
-        nameZh: [{ required: true, message: this.language('请输入中文名'), trigger: 'blur' }]
+        userNum: [
+          {
+            required: true,
+            message: this.language('请输入员工号'),
+            trigger: 'blur'
+          }
+        ],
+        nameZh: [
+          {
+            required: true,
+            message: this.language('请输入中文名'),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },

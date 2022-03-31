@@ -83,7 +83,9 @@
         <iButton v-show="mouseOver == true" @click="enterEditor()">{{
           $t('QN_BIANJI')
         }}</iButton>
-        <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
+        <iButton v-show="mouseOver == true" @click="handleCopy()">{{
+          $t('QN_FUZHI')
+        }}</iButton>
         <iButton v-show="mouseOver == true" @click="handlDelete()">{{
           $t('QN_SHANCHU')
         }}</iButton>

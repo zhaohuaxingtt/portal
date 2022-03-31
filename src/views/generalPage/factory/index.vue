@@ -12,7 +12,8 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <i-button @click="saveInfos('')"
-                    v-if="supplierType>3">{{ $t('LK_BAOCUN') }}</i-button>
+                    v-if="supplierType>3"
+                    v-permission="SUPPLIER_FACTORY_TABLE_SAVE">{{ $t('LK_BAOCUN') }}</i-button>
           <i-button v-permission="SUPPLIER_FACTORY_TABLE_ADD"
                     @click="()=>addTableItem({countryList: this.countryList })">{{ $t('LK_XINZENG') }}
           </i-button>

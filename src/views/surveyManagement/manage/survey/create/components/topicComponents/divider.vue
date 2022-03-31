@@ -20,7 +20,7 @@
       <!-- 文字+按钮 -->
       <div class="form-top">
         <div>
-          <h2>{{$t('QN_FENGEXIAN')}}</h2>
+          <h2>{{ $t('QN_FENGEXIAN') }}</h2>
         </div>
         <div>
           <!-- <iButton @click="complete()">完成编辑</iButton> -->
@@ -48,15 +48,17 @@
         <!-- <iButton v-show="mouseOver == true" @click="enterEditor()"
           >编辑</iButton
         > -->
-        <iButton v-show="mouseOver == true" @click="handleCopy()">复制</iButton>
-        <iButton v-show="mouseOver == true" @click="handlDelete()"
-          >{{$t('QN_SHANCHU')}}</iButton
-        >
+        <iButton v-show="mouseOver == true" @click="handleCopy()">{{
+          $t('QN_FUZHI')
+        }}</iButton>
+        <iButton v-show="mouseOver == true" @click="handlDelete()">{{
+          $t('QN_SHANCHU')
+        }}</iButton>
         <iButton
           v-show="mouseOver == true"
           @click="handleTop()"
           :disabled="overEditor ? sort == 1 : true"
-          >{{$t('QN_SHANGYI')}}</iButton
+          >{{ $t('QN_SHANGYI') }}</iButton
         >
         <iButton
           v-show="mouseOver == true"
@@ -68,7 +70,7 @@
                 : sort == topicLength
               : true
           "
-          >{{$t('QN_XIAYI')}}</iButton
+          >{{ $t('QN_XIAYI') }}</iButton
         >
       </div>
       <el-row class="form-row">
@@ -79,27 +81,27 @@
 </template>
 
 <script>
-import { iButton } from "rise";
-import surveyMobile from "@/assets/images/survey/survey-mobile.svg";
+import { iButton } from 'rise'
+import surveyMobile from '@/assets/images/survey/survey-mobile.svg'
 
 export default {
   props: [
-    "copyTopic",
-    "sort",
-    "type",
-    "number",
-    "topicLength",
-    "contentCopy",
-    "sortP",
-    "topicLengthP",
-    "numberP",
-    "info",
-    "infoP",
-    "overEditor",
-    "isParap",
+    'copyTopic',
+    'sort',
+    'type',
+    'number',
+    'topicLength',
+    'contentCopy',
+    'sortP',
+    'topicLengthP',
+    'numberP',
+    'info',
+    'infoP',
+    'overEditor',
+    'isParap'
   ],
   components: {
-    iButton,
+    iButton
   },
   data() {
     return {
@@ -109,21 +111,21 @@ export default {
       ruleForm: {
         editor: false,
         // topicType: this.type,
-        name: "", // 问题名称
+        name: '', // 问题名称
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
-        type: 8, // 问题类型
-      },
-    };
+        type: 8 // 问题类型
+      }
+    }
   },
   mounted() {
-    let obj = this.isParap ? { ...this.infoP } : { ...this.info };
-    this.ruleForm = { ...this.ruleForm, ...obj };
+    let obj = this.isParap ? { ...this.infoP } : { ...this.info }
+    this.ruleForm = { ...this.ruleForm, ...obj }
     if (this.copyTopic == true) {
-      this.ruleForm = this.contentCopy;
-      this.$emit("changeCopyTopic");
+      this.ruleForm = this.contentCopy
+      this.$emit('changeCopyTopic')
     }
-    this.complete();
+    this.complete()
   },
   watch: {
     info: {
@@ -132,10 +134,10 @@ export default {
       handler(val) {
         if (val) {
           if (!this.isParap) {
-            this.ruleForm = { ...this.ruleForm, ...val };
+            this.ruleForm = { ...this.ruleForm, ...val }
           }
         }
-      },
+      }
     },
     infoP: {
       immediate: true,
@@ -143,62 +145,62 @@ export default {
       handler(val) {
         if (val) {
           if (!this.isParap) {
-            this.ruleForm = { ...this.ruleForm, ...val };
+            this.ruleForm = { ...this.ruleForm, ...val }
           }
         }
-      },
-    },
+      }
+    }
   },
   methods: {
     // 完成编辑
     complete() {
       // this.editor = false;
-      this.ruleForm.editor = this.editor;
+      this.ruleForm.editor = this.editor
       if (this.isParap) {
-        this.$emit("handleSaveDataP", this.ruleForm);
+        this.$emit('handleSaveDataP', this.ruleForm)
       } else {
-        this.$emit("handleSaveData", this.ruleForm);
+        this.$emit('handleSaveData', this.ruleForm)
       }
     },
     // 展示一列按钮
     enter() {
-      this.mouseOver = true;
+      this.mouseOver = true
     },
     // 鼠标离开
     leave() {
-      this.mouseOver = false;
+      this.mouseOver = false
     },
     // 编辑
     enterEditor() {
-      this.editor = true;
-      this.ruleForm.editor = true;
-      this.$emit("handleEnterEditor", this.ruleForm);
+      this.editor = true
+      this.ruleForm.editor = true
+      this.$emit('handleEnterEditor', this.ruleForm)
     },
 
     // 复制
     handleCopy() {
-      this.$emit("handleCopy", this.ruleForm);
+      this.$emit('handleCopy', this.ruleForm)
     },
     // 删除
     handlDelete() {
       if (this.isParap) {
-        this.$emit("handleDeleteP", this.ruleForm);
+        this.$emit('handleDeleteP', this.ruleForm)
       } else {
-        this.$emit("handleDelete", this.ruleForm);
+        this.$emit('handleDelete', this.ruleForm)
       }
     },
     // 上移
     handleTop() {
       // this.ruleForm.editor = this.editor;
-      this.$emit("handleTop", this.ruleForm);
+      this.$emit('handleTop', this.ruleForm)
     },
     // 下移
     handleBottom() {
       // this.ruleForm.editor = this.editor;
-      this.$emit("handleBottom", this.ruleForm);
-    },
-  },
-};
+      this.$emit('handleBottom', this.ruleForm)
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .form-box {

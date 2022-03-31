@@ -42,10 +42,52 @@ export default {
 
     }
   },
+  computed: {
+    whiteBtnList () {
+      return this.$store.state.permission.whiteBtnList
+    }
+  },
   methods: {
     toLog () {
       this.showDialog = true
-    }
+    },
+    checkHasEnterMenu () {
+      const { path } = this.$route
+      const menuList = [
+        ...this.tabRouterList,
+        // ...this.subNavListOne,
+        // ...this.monthlyTrackingNavList,
+        // ...this.navList
+      ]
+
+      const menuItem = menuList.find((e) => e.url === path)
+
+      if (menuItem) {
+        const permissionKey = menuItem.permissionKey
+        console.log(
+          'this.whiteBtnList[permissionKey]',
+          this.whiteBtnList[permissionKey]
+        )
+        // 入口url不在授权列表
+        if (!this.whiteBtnList[permissionKey]) {
+          let redirectUrl = ''
+          for (let i = 0; i < menuList.length; i++) {
+            const menu = menuList[i]
+            if (this.whiteBtnList[menu.permissionKey]) {
+              redirectUrl = menu.url
+              break
+            }
+          }
+          console.log('redirectUrl', redirectUrl)
+          if (redirectUrl) {
+            this.$router.push({ path: redirectUrl })
+          }
+        }
+      }
+    },
+  },
+  mounted () {
+    this.checkHasEnterMenu()
   }
 }
 </script>

@@ -4,7 +4,7 @@
       <div class="form-comtent-top">
         <div class="form-bottom-row2">
           <!-- <h2>车之窗 | 顶住“缺芯”压力，荣威iMAX8上险量继续保持高位！</h2> -->
-          <span>{{ ruleForm.title }}</span>
+          <span v-html="ruleForm.title.replace(/ /g, '&nbsp;')"></span>
         </div>
         <div class="form-bottom-row2-right">
           <div
@@ -13,7 +13,9 @@
             class="form-bottom-row2-right-list"
           >
             <div class="form-content-row4-content">
-              <div class="form-content-row4-div" :title="item.content">{{ item.content }}</div>
+              <div class="form-content-row4-div" :title="item.content">
+                {{ item.content }}
+              </div>
             </div>
           </div>
         </div>
@@ -21,7 +23,7 @@
 
       <div class="form-content-top2">
         <div class="form-bottom-row3">
-          <div>{{ ruleForm.source }}</div>
+          <div v-html="ruleForm.source.replace(/ /g, '&nbsp;')"></div>
           <!-- <div class="form-content-data">2021-07-06 11:22:33</div> -->
           <div class="form-content-data">{{ ruleForm.publishDate }}</div>
         </div>
@@ -52,7 +54,14 @@
             <div class="form-content-icon-text">{{ ruleForm.thumbsUpNum }}</div>
           </div>
           <div class="form-content-icon">
-            <a :href="`mailto:?subject=RiSE${language('NEWS_YNFXYTXW','与您分享一条新闻')}：${ruleForm.title}&body=${ruleForm.summary}%0A%0D${mailtoShare}`">
+            <a
+              :href="`mailto:?subject=RiSE${language(
+                'NEWS_YNFXYTXW',
+                '与您分享一条新闻'
+              )}：${ruleForm.title}&body=${
+                ruleForm.summary
+              }%0A%0D${mailtoShare}`"
+            >
               <img
                 src="@/assets/images/news/share.svg"
                 alt=""
@@ -132,7 +141,10 @@
             芯片供应紧张问题正在支持发酵。业内人士预测，“缺芯”问题对二季度的影响幅度将大于一季度。二季度第一个月的数据也初步印证了这一观点：中汽协发布的报告中显示，
             4月份乘用车产销171.4万辆和170.4万辆，环比下降9.0%和9.1%
           </div> -->
-          <div class="form-item-imgContent" v-html="ruleForm.content">
+          <div
+            class="form-item-imgContent news-detail-content"
+            v-html="ruleForm.content"
+          >
             <!-- {{ruleForm.content}} -->
           </div>
           <!-- <div class="form-item-imgContent-div">
@@ -147,7 +159,9 @@
 
       <!-- 附件 -->
       <div v-if="ruleForm.newsAttachments" class="form-item-file">
-        <div class="form-item-title">{{language('NEWS_XIANGGUANFUJIN','相关附件')}}</div>
+        <div class="form-item-title">
+          {{ language('NEWS_XIANGGUANFUJIN', '相关附件') }}
+        </div>
         <ul>
           <li v-for="item in ruleForm.newsAttachments" :key="item.id">
             <a
@@ -166,34 +180,34 @@
 </template>
 
 <script>
-import { iCard } from "rise";
-import { createAnchorLink } from "@/utils/downloadUtil";
+import { iCard } from 'rise'
+import { createAnchorLink } from '@/utils/downloadUtil'
 
 export default {
-  name: "newContent",
+  name: 'newContent',
   components: {
-    iCard,
+    iCard
   },
   props: {
     value: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     viewLinke: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   watch: {
     value: {
       immediate: true,
       handler(val) {
-        this.ruleForm = val;
+        this.ruleForm = val
         this.newsAtlas = val.newsAtlas?.map((item) => {
-          return item.atlasUrl;
-        });
-      },
-    },
+          return item.atlasUrl
+        })
+      }
+    }
   },
   data() {
     return {
@@ -201,64 +215,64 @@ export default {
       openImg: false,
       newsAtlas: [],
       disabledClick: false,
-      disabledClick2: false,
-    };
+      disabledClick2: false
+    }
   },
   computed: {
     mailtoShare() {
-      return window.location.href;
-    },
+      return window.location.href
+    }
   },
   mounted() {},
   methods: {
     // 预览
     handlePreview() {
-      this.openImg = true;
+      this.openImg = true
     },
     // 关闭预览
     closePrev() {
-      this.openImg = false;
+      this.openImg = false
     },
     // 预览-轮播图移动
     arrowClick(val) {
-      if (val === "next") {
-        this.$refs.cardShow.next();
+      if (val === 'next') {
+        this.$refs.cardShow.next()
       } else {
-        this.$refs.cardShow.prev();
+        this.$refs.cardShow.prev()
       }
     },
     handleDownloadFile(url, name) {
       createAnchorLink(
         url, // 前端跨域问题，将api地址替换为反向代理地址
         name
-      );
+      )
     },
     handleLike() {
-      let time = "";
+      let time = ''
       if (this.disabledClick) {
-        clearTimeout(time);
-        return;
+        clearTimeout(time)
+        return
       }
-      this.disabledClick = true;
+      this.disabledClick = true
       time = setTimeout(() => {
-        this.disabledClick = false;
-      }, 3000);
-      this.$emit("handleLike");
+        this.disabledClick = false
+      }, 3000)
+      this.$emit('handleLike')
     },
     handleLikeRed() {
-      let time = "";
+      let time = ''
       if (this.disabledClick2) {
-        clearTimeout(time);
-        return;
+        clearTimeout(time)
+        return
       }
-      this.disabledClick2 = true;
+      this.disabledClick2 = true
       time = setTimeout(() => {
-        this.disabledClick2 = false;
-      }, 3000);
-      this.$emit("handleLikeRed");
-    },
-  },
-};
+        this.disabledClick2 = false
+      }, 3000)
+      this.$emit('handleLikeRed')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .form-content-icard {
@@ -311,7 +325,7 @@ export default {
     font-weight: bold;
   }
   .form-bottom-row2-right {
-    min-width:10%;
+    min-width: 10%;
     max-width: 40%;
     display: flex;
     flex-wrap: wrap;
@@ -424,7 +438,7 @@ export default {
 
 .form-tem-contentImg {
   .form-item-imgContent {
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
     /* padding: 2rem 0; */
     /* margin-top: 20px; */
     text-align: justify;
@@ -509,5 +523,19 @@ export default {
   opacity: 0.5;
   z-index: 999;
   background: #000000;
+}
+::v-deep .news-detail-content {
+  img {
+    max-width: 100%;
+    text-indent: 0em;
+    display: block;
+  }
+  p {
+    margin: 1em 0px;
+    text-align: justify; /* 文本两端对齐 */
+    text-justify: distribute; /* 文本两端对齐 */
+    word-break: break-word; /* 只对超长的英文单词断句 */
+    display: block;
+  }
 }
 </style>

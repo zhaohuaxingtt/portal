@@ -108,18 +108,13 @@ export default {
   watch: {
     activeMenu() {
       this.setDefaultActiveIndex()
+    },
+    menuVisible(val) {
+      console.log('menuVisible', val)
     }
   },
   mounted() {
-    document.addEventListener('click', (e) => {
-      this.clickListener(e)
-    })
     this.setDefaultActiveIndex()
-  },
-  beforeDestroy() {
-    document.removeEventListener('click', (e) => {
-      this.clickListener(e)
-    })
   },
   methods: {
     setDefaultActiveIndex() {
@@ -129,26 +124,6 @@ export default {
     },
     getFirstMenuActive() {
       return this.$route.meta.top || 'RISE_WORKBENCH'
-    },
-    clickListener(e) {
-      const leftLayout = document.getElementsByClassName('leftLayout')
-      const side = document.getElementsByClassName('menuLayout')
-      if (leftLayout && leftLayout.length && side && side.length) {
-        const leftLayoutRect = leftLayout[0].getBoundingClientRect()
-        const sideRect = side[0].getBoundingClientRect()
-        const xt = 0
-        const xb = leftLayoutRect.width + sideRect.width
-        const yt = 0
-        const yb = leftLayoutRect.height
-        if (
-          e.clientY < yt ||
-          e.clientY > yb ||
-          e.clientX < xt ||
-          e.clientX > xb
-        ) {
-          this.menuVisible = false
-        }
-      }
     },
     toggleSubMenu(item) {
       const href = window.location.href
@@ -194,9 +169,11 @@ export default {
     },
     showSideMenu() {
       this.menuVisible = true
+      this.$emit('set-menu-modal-visible', true)
     },
     hideSideMenu() {
       this.menuVisible = false
+      this.$emit('set-menu-modal-visible', false)
     }
   }
 }
