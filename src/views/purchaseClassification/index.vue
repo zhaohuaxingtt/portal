@@ -2,6 +2,7 @@
   <div class="master-data">
     <div class="Master-menu">
       <iNavMvp :list="menus" :lev="1" router-page />
+     <index />
     </div>
     <router-view style="height: 100%"></router-view>
   </div>
@@ -12,9 +13,10 @@ import { iNavMvp } from 'rise'
 import { MENUSZh as mainDataMenus } from '@/views/mainData/layout/data'
 import { MENUSZh as materielDataMenus } from '@/views/materielMainData/layout/data'
 import { MENUSZh as supplierDataMenus } from '@/views/mainDataSupplier/layout/data'
+import index from './components/index.vue'
 export default {
   name: 'masterDataManage',
-  components: { iNavMvp },
+  components: { iNavMvp,index },
   data() {
     return {
       menus: [
