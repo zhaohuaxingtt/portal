@@ -144,7 +144,8 @@ export default {
       const data = {
         pageNo: 1,
         pageSize: 100,
-        type: 'modelTemplate'
+        type: 'modelTemplate',
+        userId: this.$store.state.permission.userInfo.id
       }
       const res = await queryModelTemplate(data)
       const list = res?.data?.records || []
