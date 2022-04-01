@@ -90,7 +90,7 @@ export const tableTitle = [
     label: '申请时间',
     i18n: '申请时间',
     tooltip: true,
-    width: 100,
+    width: 120,
     customRender: (h, scope) => {
       if (scope.row.applyDate) {
         return moment(scope.row.applyDate).format('YYYY-MM-DD')
