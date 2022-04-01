@@ -31,6 +31,7 @@
         </div>
       </template>
       <tableList :tableData="interViewData.investorVOList"
+                  border
                  :tableTitle="tableTitle"
                  :tableLoading="tableLoading"
                  :index="true"
