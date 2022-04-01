@@ -125,8 +125,11 @@ export default {
       const params = {
         processInstanceId: this.instanceId
       }
-      const { data } = await fetchTaskNodes(params)
-      this.taskNodes = data
+      const { data = [] } = await fetchTaskNodes(params)
+      this.taskNodes = [
+        { taskId: 'ALL', activityName: 'ALL', approver: '' },
+        ...data
+      ]
       if (data.length === 1) {
         this.form.node = data[0].taskId
       }
@@ -169,7 +172,18 @@ export default {
         comment: this.form.comment,
         processInstanceId: this.instanceId,
         taskFiles,
-        taskId: this.form.node
+        taskId: this.form.node,
+        isAll: false
+      }
+      // CRW-4985
+      //【CF】【优化】审批人要求补充材料后，申请人在编辑补充材料的规则优化
+      if (data.taskId === 'ALL') {
+        data.isAll = true
+        if (this.taskNodes.length > 1) {
+          data.taskId = this.taskNodes[1].taskId
+        } else {
+          data.taskId = ''
+        }
       }
       this.uploadLoading = true
       saveApprovalAttach(data)

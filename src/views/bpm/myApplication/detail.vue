@@ -20,6 +20,10 @@
         >
           {{ language('补充材料') }}
         </iButton>
+
+        <iButton @click="onAppendAttachment">
+          {{ language('补充材料') }}
+        </iButton>
       </div>
     </div>
 
