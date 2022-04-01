@@ -94,7 +94,8 @@ export default {
       data: [],
       itemSelected: {},
       exData: { expandKey: 'name', childrenKey: 'subDictResultVo' },
-      parentNode: {}
+      parentNode: {},
+      keyword:'',
     }
   },
   methods: {
@@ -116,6 +117,7 @@ export default {
     },
     handleSearch(val) {
       this.page.currPage = 1
+      this.keyword = val
       this.getDictList(val)
     },
     handleAddRoot() {
@@ -179,22 +181,23 @@ export default {
       }
       return data
     },
-    async getDictList(keyword) {
+    async getDictList() {
+      // console.log(keyword,'keyword');
       this.loading = true
-      let query = {}
-      if (keyword) {
-        query = {
-          keyword: keyword,
+      // let query = {}
+      // if (this.keyword) {
+      //   query = {
+      //     keyword: this.keyword,
+      //     current: this.page.currPage,
+      //     size: this.page.pageSize
+      //   }
+      // } else {
+       let query = {
+          keyword: this.keyword,
           current: this.page.currPage,
           size: this.page.pageSize
         }
-      } else {
-        query = {
-          keyword: '',
-          current: this.page.currPage,
-          size: this.page.pageSize
-        }
-      }
+      // }
 
       const result = await queryDictPaged(query)
       this.loading = false
