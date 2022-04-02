@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-07-13 16:37:55
- * @LastEditors: 舒杰
+ * @LastEditTime: 2022-03-31 21:58:20
+ * @LastEditors: YoHo
  * @Description: 通用表格
 -->
 <template>
@@ -10,6 +10,7 @@
     <el-form :model="{tableData}" status-icon :rules="rules" ref="commonTableForm">
         <el-table :height="height"
                   ref="table"
+                  border
                   :span-method="handleMerge"
                   tooltip-effect='light'
                   :data='tableData'
@@ -27,7 +28,7 @@
                                  :label="items.key ? $t(items.key) : items.name" :fixed="items.fixed">
                     <template slot-scope="scope">
                         <el-form-item>
-              <span v-for="key,i in openPageProps">
+              <span :key="i" v-for="(key,i) in openPageProps">
                 <span v-if="key=='operation'" class="openLinkText cursor linkEllipsis">
                   <span v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_CONFIRM')"
                       @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">

@@ -1,8 +1,15 @@
+/*
+ * @Author: YoHo
+ * @Date: 2021-12-24 15:14:51
+ * @LastEditTime: 2022-04-01 00:03:07
+ * @LastEditors: YoHo
+ * @Description: 
+ */
 export const tableTitle = [
     {props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
     {props: 'partName', name: '零件名称', key: 'LK_PFJ_LJMC', width: 120, tooltip: true,},
     {props: 'carFamily', name: '产品家族', key: 'LK_CPJZ', width: 120, tooltip: true},
-    {props: 'carconfigSixcode', name: '车型代码', key: 'LK_CHEXINGDAIMA', tooltip: true,},
+    {props: 'carconfigSixcode', name: '车型代码', key: 'LK_CHEXINGDAIMA', width: 82, tooltip: true,},
     {props: 'factoryCode', name: '采购工厂', key: 'LK_CAIGOUGONGCHANG', width: 100,tooltip: true,},
     {props: 'supplierName', name: '供应商', key: 'LK_GONGYINGSHANG', tooltip: true, width: 240},
     {props: 'unit', name: '单位', key: 'LK_DANWEI', width: 80, tooltip: true,},
@@ -15,12 +22,12 @@ export const tableTitle = [
     {props: '_isConfirm', name: '确认状态', key: 'LK_QUERENZHUANGT', width: 100, tooltip: true,},
     {props: 'procAmount', name: '采购金额', key: 'LK_CAIGOUJINE', width: 150, tooltip: true,},
     {props: 'carconfigSixcodeVolumn', name: '全年产量', key: 'LK_QNCL', width: 100, tooltip: true,},
-    {props: 'configName', name: '配置', key: 'LK_PEIZHI', width: 120, tooltip: true,},
-    {props: 'csGroupName', name: '材料组', key: 'LK_CAILIAOZU', width: 120, tooltip: true,},
-    {props: 'partType', name: '零件类型', key: 'LK_LINGJIANLEIXING', width: 120, tooltip: true,},
+    {props: 'configName', name: '配置', key: 'LK_PEIZHI', width: 280, tooltip: true,},
+    {props: 'csGroupName', name: '材料组', key: 'LK_CAILIAOZU', width: 150, tooltip: true,},
+    {props: 'partType', name: '零件类型', key: 'LK_LINGJIANLEIXING', width: 82, tooltip: true,},
     {props: 'deptCode', name: '科室', key: 'LK_KESHI', width: 80, tooltip: true,},
-    {props: 'buyerName', name: '采购员', key: 'LK_CGY', width: 80, tooltip: true,},
-    {props: 'idxCode', name: '索引号', key: 'LK_SYH', width: 80, tooltip: true,},
+    {props: 'buyerName', name: '采购员', key: 'LK_CGY', width: 160, tooltip: true,},
+    {props: 'idxCode', name: '索引号', key: 'LK_SYH', width: 130, tooltip: true,},
     {props: 'carconfigVolumn', name: '数量', key: 'LK_SHUL', width: 80, tooltip: true,},
 ];
 export const monthTitle = [
