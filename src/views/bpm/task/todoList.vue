@@ -175,7 +175,7 @@ export default {
           label: '申请时间',
           i18n: '申请时间',
           tooltip: true,
-          width: 100
+          width: 120
         }
       ],
       selectTableData: [],
