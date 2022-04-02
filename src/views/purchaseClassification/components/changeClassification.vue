@@ -121,6 +121,7 @@ export default {
     },
     //保存
     save(){
+      this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
       updateList(this.formData).then((res) => {
         this.$emit('saveChangeList', false)
       })
