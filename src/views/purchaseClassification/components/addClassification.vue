@@ -23,7 +23,7 @@
                 v-for="item in listDeptData"
                 :key="item.code"
                 :label="item.materialGroupCode"
-                :value="item.parentId"
+                :value="item.id"
               ></el-option>
             </i-select>
           </el-form-item>
@@ -110,20 +110,21 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iInput, iButton, iSelect } from 'rise'
-import { SEARCH_DATA } from './data'
+import { iDialog, iInput, iButton, iSelect,iMessage } from 'rise'
+import { SEARCH_ADD_DATA } from './data'
 import { getAll, getMaterialGroupById, save } from '@/api/authorityMgmt'
 export default {
   components: {
     iDialog,
     iInput,
     iButton,
-    iSelect
+    iSelect,
+    iMessage
   },
   data() {
     return {
       listDeptData: [],
-      formData: SEARCH_DATA
+      formData: SEARCH_ADD_DATA
     }
   },
   props: {
@@ -149,20 +150,27 @@ export default {
     select(val) {
       getMaterialGroupById(val).then((res) => {
         if (+res.code == 200) {
-          if (res.data.parentMaterialGroupLevel != null) {
-            this.parentMaterialGroupLevel =
-              res.data.parentMaterialGroupLevel + 1
+          this.formData.parentMaterialGroupName=res.data.parentMaterialGroupName
+          this.formData.parentId=res.data.id
+          if (res.data.materialGroupLevel != null) {
+            this.formData.parentMaterialGroupLevel =
+              res.data.materialGroupLevel + 1
+          }
+          else{
+            this.formData.parentMaterialGroupLevel =
+              res.data.materialGroupLevel
           }
         }
       })
     },
     //保存
     saveData() {
-      console.log(this.formData)
+      this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
       save(this.formData).then((res) => {
         // if (+res.code == 200) {
         //   this.$emit('input', false)
         // }
+        iMessage.success('新增成功')
         this.$emit('saveDataList', false)
       })
     }

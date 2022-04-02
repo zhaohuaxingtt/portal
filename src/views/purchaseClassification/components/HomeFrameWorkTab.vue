@@ -1,7 +1,6 @@
 <!--框架首页表格-->
 <template>
   <iTableCustom
-    height="400px"
     ref="testTable"
     :loading="tableLoading"
     :columns="columns"
@@ -147,7 +146,7 @@ export default {
           emit:'switchChange',
         },
         {
-          prop: 'materialGroupDesc	',
+          prop: 'materialGroupDesc',
           label: '备注',
           i18n: '备注',
           tooltip: true,
@@ -155,7 +154,7 @@ export default {
           align: 'left',
           // width: 100,
           minWidth: 150,
-          customRender: (h, scope) => {}
+          
         }
       ],
       treeExpand: {

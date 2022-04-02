@@ -51,7 +51,7 @@ import HomeFrameWorkTab from './HomeFrameWorkTab'
 import addClassification from './addClassification'
 import changeClassification from './changeClassification'
 import { page, getMaterialGroupById, finish } from '@/api/authorityMgmt'
-import { SEARCH_DATA } from './data'
+import { SEARCH_DATA, SEARCH_ADD_DATA } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
@@ -70,7 +70,8 @@ export default {
       formData: SEARCH_DATA,
       tablelist: [],
       isChange: false, //修改弹窗
-      finash: []
+      finash: [],
+      addlist: SEARCH_ADD_DATA
     }
   },
   created() {
@@ -80,6 +81,11 @@ export default {
     //新增
     add() {
       this.isShow = true
+      for (let i in this.addlist) {
+        if (i !== 'isActive') {
+          this.addlist[i] = ''
+        }
+      }
     },
     //获取列表值
     getList() {
@@ -126,9 +132,7 @@ export default {
       console.log(this.finash)
       let aa = { id: this.finash[0].id, isActive: this.finash[0].isActive }
       console.log(aa)
-      finish(aa).then((res) => {
-        
-      })
+      finish(aa).then((res) => {})
     }
   }
 }
