@@ -606,6 +606,7 @@ export default {
     },
     //follow为true表示关注的，false为 自己提交的
     selectionChange(val) {
+      console.log(val);
       this.selectedData = val
       let bol =
         val.length === 0
@@ -618,6 +619,7 @@ export default {
                 item.state !== '04'
               )
             })
+            console.log(bol);
       if ((val && val.length === 1 && bol) || bol) {
         this.disabledButton = false
       } else {
