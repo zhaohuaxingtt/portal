@@ -525,8 +525,11 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
+                <!-- <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11' ? '':'' "  
+                @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
                 <!-- <span>{{ resultObj[scope.row.conclusion] }}</span> -->
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->
@@ -735,7 +738,9 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
+                <!-- <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->

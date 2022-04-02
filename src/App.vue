@@ -13,9 +13,7 @@
 </template>
 <script>
 export default {
-  mounted() {
-    console.log(process.env, process.env.EKL_BAOBIAO_PARAMS.pfjwfbmsj.workspaceId)
-  }
+  mounted() {}
 }
 </script>
 <style lang="scss" scopde>
