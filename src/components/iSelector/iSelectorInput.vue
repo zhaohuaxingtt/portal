@@ -1,9 +1,9 @@
 <template>
-  <div  class="i-selector-input"  @click="handleClick">
+  <div class="i-selector-input" @click="handleClick">
     <div class="input-wrapper">
       <i-input
         v-model="valueString"
-        :placeholder=" value.length > 0 ? '' : $t('LK_QINGXUANZE')"
+        :placeholder="value.length > 0 ? '' : $t('LK_QINGXUANZE')"
         :readonly="true"
         :disabled="disabled"
       ></i-input>
@@ -33,26 +33,26 @@ export default {
     event: 'change'
   },
   props: {
-    singleSelect:{
-      type:Boolean,
-      default:false
+    singleSelect: {
+      type: Boolean,
+      default: false
     },
     disabled: {
       type: Boolean,
-      default: function() {
+      default: function () {
         return false
       }
     },
     tagLabel: {
       type: String,
-      default: function() {
+      default: function () {
         return 'label'
       },
       required: true
     },
     value: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -67,25 +67,23 @@ export default {
       this.valueString =
         newValue &&
         newValue
-          .map(it => {
+          .map((it) => {
             return it.id
           })
           .join(',')
-          if(this.singleSelect){
-            this.valueChange(newValue)
-          }
-          
+      if (this.singleSelect) {
+        this.valueChange(newValue)
+      }
     }
   },
-  methods:{
-    valueChange(val){
-     this.$emit('value-change',val);
+  methods: {
+    valueChange(val) {
+      this.$emit('value-change', val)
     },
-    handleClick(){
-      if(!this.disabled){
+    handleClick() {
+      if (!this.disabled) {
         this.$emit('handle-click')
       }
-      
     }
   }
 }
@@ -122,6 +120,6 @@ export default {
 </style>
 <style lang="scss">
 .i-selector-input .el-input .el-input__inner {
-  color: #fff;
+  color: transparent;
 }
 </style>

@@ -1232,6 +1232,7 @@ export default {
     //     }
     //   })
     // },
+    //下载附件
     downloadEnclosure(e, row) {
       const arr = e.attachmentName ? e.attachmentName.split('.') : []
       const suffix = arr[arr.length - 1]
