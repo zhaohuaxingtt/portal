@@ -82,10 +82,14 @@
               >
               </iDatePicker>
               <el-checkbox v-model="form.reApprove" v-if="isTodoPage">
-                复核中单据
+                {{ language('复核中单据') }}
                 <el-tooltip
                   effect="light"
-                  content="显示全部仍在复核期内的单据，包括已经完成复核操作的单据。"
+                  :content="
+                    language(
+                      '显示全部仍在复核期内的单据，包括已经完成复核操作的单据。'
+                    )
+                  "
                 >
                   <icon name="iconzengjiacailiaochengben_lan" symbol />
                 </el-tooltip>
