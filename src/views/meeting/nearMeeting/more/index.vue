@@ -5,7 +5,8 @@
            :style="`margin-right:${stypeWidth}px;`">
         <el-form>
           <el-row>
-            <el-form-item :label="'Present Items'">
+            <el-form-item 
+            :label="language('Present Items', '会议所有者')">
               <iSelect :placeholder="$t('LK_QINGXUANZE')"
                        v-model="form.presentItem">
                 <el-option :value="item.value"
@@ -19,8 +20,8 @@
                               @change-start="changeStart"
                               @change-end="changeEnd"
                               ref="iDateRangePicker"
-                              label="Time" />
-            <el-form-item label="Topic">
+                              :label="language('Time', '时间')" />
+            <el-form-item  :label="language('Topic', '会议名称')">
               <iInput :placeholder="$t('LK_QINGSHURU')"
                       v-model="form.topic"></iInput>
             </el-form-item>
@@ -71,7 +72,7 @@
       </el-table-column> -->
       <el-table-column prop="follow"
                        align="left"
-                       label="No."
+                       :label="language('No.', '序号')"
                        width="50">
         <template slot-scope="scope">
           <div class="img-word">
@@ -101,13 +102,13 @@
                        prop="count"
                        min-width="70"
                        align="center"
-                       label="Count"
+                       :label="language('Count', '次数')"
                        width="70"></el-table-column>
       <el-table-column show-overflow-tooltip
                        prop="topic"
                        min-width="130"
                        align="center"
-                       label="Topic"
+                       :label="language('Topic', '会议名称')"
                        width="220">
         <template slot-scope="scope">
           <span class="open-link-text"
@@ -120,7 +121,8 @@
                        prop="meetingName"
                        min-width="147"
                        align="center"
-                       label="Meeting">
+                       :label="language('Meeting', '会议类型')"
+                       >
         <template slot-scope="scope">
           <!-- <span class="open-link-text" @click="checkDetail(scope.row.meetingId)">{{scope.row.meetingName}}</span> -->
           <span>{{ scope.row.meetingName }}</span>
@@ -129,7 +131,8 @@
       <el-table-column show-overflow-tooltip
                        align="center"
                        min-width="90"
-                       label="Status">
+                       :label="language('Status', '会议状态')"
+                       >
         <template slot-scope="scope">
           <span :class="[
               {
@@ -148,13 +151,13 @@
                        prop="duration"
                        align="center"
                        min-width="90"
-                       label="Duration"
+                       :label="language('Duration', '持续时间')"
                        width="90"></el-table-column>
       <el-table-column show-overflow-tooltip
                        prop="time"
                        align="center"
                        min-width="200"
-                       label="Time">
+                       :label="language('Time', '会议时间')">
         <template slot-scope="scope">
           <div v-if="scope.row.startTime">
             <span>{{
@@ -178,7 +181,7 @@
                        prop="presenter"
                        align="center"
                        min-width="188"
-                       label="Presenter">
+                       :label="language('Presenter', '参会人')">
         <template slot-scope="scope">
           <span>{{ scope.row.presenter }}</span>
           <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
@@ -189,7 +192,7 @@
                        prop="presenterDept"
                        align="center"
                        min-width="170"
-                       label="Presenter Dept.">
+                       :label="language('Presenter Dept.', '股别')">
         <template slot-scope="scope">
           <span>{{ scope.row.presenterDept }}</span>
           <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys">/</span>
@@ -200,7 +203,7 @@
                        prop="supporter"
                        align="center"
                        min-width="200"
-                       label="Supporter">
+                       :label="language('Supporter', '提交人')">
         <template slot-scope="scope">
           <span>{{ scope.row.supporter }}</span>
           <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
@@ -211,7 +214,7 @@
                        prop="supporterDept"
                        align="center"
                        min-width="161"
-                       label="Supporter Dept.">
+                       :label="language('Supporter Dept.', '部门')">
         <template slot-scope="scope">
           <span>{{ scope.row.supporterDept }}</span>
           <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys">/</span>
@@ -222,7 +225,7 @@
                        prop="remark"
                        align="center"
                        min-width="104"
-                       label="Remark"></el-table-column>
+                       :label="language('Remark', '备注')"></el-table-column>
     </iTableML>
     <iPagination v-update
                  @size-change="handleSizeChange($event, query)"

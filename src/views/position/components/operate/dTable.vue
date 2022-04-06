@@ -155,26 +155,6 @@ export default {
                   labelMethod={(item) => `${item.value}【${item.valueId}】`}
                 />
               )
-
-              /* return (
-                <iSelect
-                  placeholder="请选择"
-                  multiple={true}
-                  filterable={true}
-                  value={scope.row.valueIds}
-                  onchange={(val) => (scope.row.valueIds = val)}
-                >
-                  {options.map((item) => {
-                    return (
-                      <el-option
-                        value={item.valueId}
-                        label={item.value}
-                        key={item.valueId}
-                      />
-                    )
-                  })}
-                </iSelect>
-              ) */
             }
           }
         ],
@@ -252,25 +232,6 @@ export default {
                   labelMethod={(item) => `${item.value}【${item.valueId}】`}
                 />
               )
-              /* return (
-                <iSelect
-                  placeholder="请选择"
-                  multiple={true}
-                  filterable={true}
-                  value={scope.row.valueIds}
-                  onchange={(val) => (scope.row.valueIds = val)}
-                >
-                  {options.map((item) => {
-                    return (
-                      <el-option
-                        value={item.valueId}
-                        label={item.value}
-                        key={item.valueId}
-                      />
-                    )
-                  })}
-                </iSelect>
-              ) */
             }
           }
         ]

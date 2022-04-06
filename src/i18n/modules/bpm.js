@@ -14,5 +14,8 @@ export default {
   流程监控: 'Process monitoring',
   流程报表: 'Process report',
   审批代理: 'Approval Agent',
-  会议审批代理: 'Meeting Approval Agent'
+  会议审批代理: 'Meeting Approval Agent',
+  复核中单据: 'Document under review',
+  '显示全部仍在复核期内的单据，包括已经完成复核操作的单据。':
+    'Displays all the documents still in the review period, including the documents that have been reviewed.'
 }
