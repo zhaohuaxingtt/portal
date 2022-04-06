@@ -4,7 +4,7 @@ export const baseRules = {
 		{ min: 1, max: 70, message: '长度在 1 到 70个字符', trigger: 'blur' }  
 	],
 	shortNameZh: [
-		{ required: true, message: '请输入供应商简称(中)', trigger: 'blur' },
+		{ required: true, message: '请输入供应商英文名', trigger: 'blur' },
 		{ min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }
 	],
 }
@@ -138,7 +138,7 @@ export const tableTitleUpload = [
 	}
 ]
 
-export const supplierComplete = {
+export const supplierCompleteRe = {
 	// 主表
 	supplierDTO: {
 		addressId: "",

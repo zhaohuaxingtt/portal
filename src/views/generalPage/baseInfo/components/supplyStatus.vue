@@ -105,7 +105,8 @@ export default {
   },
   data () {
     return {
-      that: this
+      that: this,
+      infoVo:"",
     }
   },
   filters: {
@@ -125,8 +126,10 @@ export default {
       let name = ""
       if (this.fromGroup[key]) {
         this.fromGroup[key].filter(item => {
-          if (item.code == value.toString()) {
-            name = item.name
+          if(value){
+            if (item.code == value.toString()) {
+              name = item.name
+            }
           }
         })
         return name
@@ -134,7 +137,11 @@ export default {
     }
   },
   created(){
-
+    if(this.$route.query.subSupplierType == "GP"){
+      this.infoVo = "gpSupplierDTO"
+    }else if(this.$route.query.subSupplierType == "PP"){
+      this.infoVo = "ppSupplierDTO"
+    }
   },
   mounted () {
     console.log(this.supplierData, "data")

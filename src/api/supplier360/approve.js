@@ -24,6 +24,13 @@ export function priorApprovalDetail(taskId) {
     method: 'GET'
   })
 }
+// 数据查询
+export function gpAdmittanceInfo(data) {
+  return requst({
+    url: `/gpSupplier/gpAdmittanceInfo/${data.supplierId}/${data.businessType}`,
+    method: 'GET'
+  })
+}
 // 材料组分页查询
 export function priorApproval(params) {
   return requst({

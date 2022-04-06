@@ -4,19 +4,19 @@
 		<iFormGroup row="3" :rules="bankRules" :model="supplierData" ref="bankRules">
 			<iFormItem prop="settlementBankDTO.country" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
 				<iLabel :label="$t('YINHANGSUOZAIGUOJIA')" slot="label"></iLabel>
-				<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry()">
+				<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event)">
 					<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
 				</iSelect>
 			</iFormItem>
 			<iFormItem prop="settlementBankDTO.province" v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
 				<iLabel :label="$t('YINGHANSUOZAISHENGFEN')" slot="label"></iLabel>
-				<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince()">
+				<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event)">
 					<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
 				</iSelect>
 			</iFormItem>
 			<iFormItem prop="settlementBankDTO.city" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
 				<iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label"></iLabel>
-				<iSelect v-model="supplierData.settlementBankDTO.cityCode">
+				<iSelect v-model="supplierData.settlementBankDTO.cityCode" @change="changeCity($event)">
 					<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
 				</iSelect>
 			</iFormItem>
@@ -280,22 +280,7 @@
 			removeBank(val){
 				this.supplierData.subBankList.splice(val,1);
 			},
-			// 获取银行省市
-			getBankProvince(){
-				let  data = {
-					sapLocationCode: this.supplierData.settlementBankDTO.countryCode
-				}
-				getCityInfo(data).then(res=>{
-					if (res.data) {
-						let req={
-							parentCityId:res.data[0].cityIdStr
-						}
-						getCityInfo(req).then(result=>{
-							this.bankProvince=result.data
-						})
-					}
-				})
-			},
+			
 			// 获取银行城市
 			getBankCity(){
 				let  data = {
@@ -325,18 +310,57 @@
 					}
 			},	
 			// 国家切换 获取省信息
-			changeCountry(){
+			changeCountry(val){
+				for(let i=0;i<this.country.length;i++){
+					if(this.country[i].sapLocationCode == val){
+						this.supplierData.settlementBankDTO.country = this.country[i].cityNameCn
+						break;
+					}
+				}
+
 				this.supplierData.settlementBankDTO.provinceCode=""
 				this.supplierData.settlementBankDTO.cityCode=""
 				this.bankProvince=[]
 				this.bankCity=[]
 				this.getBankProvince()
 			},
+			// 获取银行省市
+			getBankProvince(){
+				let  data = {
+					sapLocationCode: this.supplierData.settlementBankDTO.countryCode
+				}
+				getCityInfo(data).then(res=>{
+					if (res.data) {
+						let req={
+							parentCityId:res.data[0].cityIdStr
+						}
+						getCityInfo(req).then(result=>{
+							this.bankProvince=result.data
+						})
+					}
+				})
+			},
 			// 省市切换 获取市级信息
-			changeProvince(){
+			changeProvince(val){
+				for(let i=0;i<this.bankProvince.length;i++){
+					if(this.bankProvince[i].sapLocationCode == val){
+						this.supplierData.settlementBankDTO.province = this.bankProvince[i].cityNameCn
+						break;
+					}
+				}
+
 				this.supplierData.settlementBankDTO.cityCode=""
 				this.bankCity=[]
 				this.getBankCity()
+			},
+
+			changeCity(val){
+				for(let i=0;i<this.bankCity.length;i++){
+					if(this.bankCity[i].cityIdStr == val){
+						this.supplierData.settlementBankDTO.city = this.bankCity[i].cityNameCn
+						break;
+					}
+				}
 			},
 
 

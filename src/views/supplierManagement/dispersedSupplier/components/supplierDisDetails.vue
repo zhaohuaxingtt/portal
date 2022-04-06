@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="margin-bottom20 clearFloat">
-      <span class="font18 font-weight">新增分散（内部报销）供应商</span>
+      <span class="font18 font-weight">{{$route.query.subSupplierId?'修改分散（内部报销）供应商':'新增分散（内部报销）供应商'}}</span>
       <div class="floatright">
         <i-button @click="save">{{ $t('LK_TIJIAO') }}</i-button>
         <i-button @click="cancle">{{ $t('LK_QUXIAO') }}</i-button>
@@ -9,27 +9,27 @@
     </div>
 
     <iCard :title="$t('LK_JICHUXINXI')" tabCard collapse class="margin-bottom20">
-      <iFormGroup row="3" :rules="baseRules" :model="supplierData" ref="baseRulesForm">
-        <iFormItem prop="nameZh">
+      <iFormGroup row="3" :rules="baseRules" :model="supplierComplete.supplierDTO" ref="baseRulesForm1">
+        <iFormItem :prop="supplierComplete.supplierDTO.nameZh">
           <iLabel :label="$t('SupplierZh')" required slot="label"></iLabel>
           <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierZh')" v-model="supplierComplete.supplierDTO.nameZh"></iInput>
         </iFormItem>
-        <iFormItem prop="shortNameZh">
-          <iLabel :label="$t('SupplierAbbreviationZh')" slot="label" required icons="iconxinxitishi"
-            :tip="$t('SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS')"></iLabel>
-          <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierAbbreviationZh')" v-model="supplierComplete.supplierDTO.shortNameZh"></iInput>
+        <iFormItem :prop="supplierComplete.supplierDTO.nameEn">
+          <iLabel :label="$t('SupplierEn')" slot="label" required
+            ></iLabel>
+          <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierEn')" v-model="supplierComplete.supplierDTO.nameEn"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>
 
     <iCard :title="$t('GONGSIGAIKANG')" tabCard collapse>
-      <iFormGroup row="3" :rules="comRules" :model="supplierComplete.supplierDTO" ref="baseRulesForm">
+      <iFormGroup row="3" :rules="comRules" :model="supplierComplete.supplierDTO" ref="baseRulesForm2">
         <iFormItem prop="countryCode">
           <iLabel :label="$t('SUPPLIER_GUOJIA')"
                   required
                   slot="label"></iLabel>
           <iSelect v-model="supplierComplete.supplierDTO.countryCode"
-                  @change="changeCountry()">
+                  @change="changeCountry($event)">
             <el-option :value="item.sapLocationCode"
                       :label="item.cityNameCn"
                       v-for="(item, index) in country"
@@ -41,7 +41,7 @@
                   required
                   slot="label"></iLabel>
           <iSelect v-model="supplierComplete.supplierDTO.provinceCode"
-                  @change="changeProvince()">
+                  @change="changeProvince($event)">
             <el-option :value="item.sapLocationCode"
                       :label="item.cityNameCn"
                       v-for="(item, index) in province"
@@ -52,7 +52,7 @@
           <iLabel :label="$t('SUPPLIER_CHENGSHI')"
                   required
                   slot="label"></iLabel>
-          <iSelect v-model="supplierComplete.supplierDTO.cityCode">
+          <iSelect v-model="supplierComplete.supplierDTO.cityCode" @change="changeCity($event)">
             <el-option :value="item.cityIdStr"
                       :label="item.cityNameCn"
                       v-for="(item, index) in city"
@@ -85,7 +85,7 @@
 
 <script>
 import { iPage,iButton,iCard,iFormGroup,iFormItem,iLabel,iInput,iSelect } from "rise";
-import { baseRules,comRules,supplierComplete } from "./data";
+import { baseRules,comRules,supplierCompleteRe } from "./data";
 import opneBank from "@/views/generalPage/baseInfo/components/opneBank"
 import mailList from "./mailList"
 import user from "./user"
@@ -94,7 +94,7 @@ import {
   selectDictByKeys,
   getCityInfo
 } from "@/api/dictionary";
-import { saveInner } from "@/api/supplierManagement/dispersedSupplier"
+import { saveInner,getInner } from "@/api/supplierManagement/dispersedSupplier"
 
 export default {
   components:{
@@ -113,18 +113,19 @@ export default {
   },
   data(){
     return{
-      supplierComplete:supplierComplete,
+      supplierCompleteRe,
+      supplierComplete:{},
       baseRules,
       comRules,
-      supplierData:{
-        supplierData:"",
-        shortNameZh:'',
-        supplierDTO:{
-          countryCode:'',
-          provinceCode:'',
-          cityCode:'',
-        }
-      },
+      // supplierData:{
+      //   supplierData:"",
+      //   shortNameZh:'',
+      //   supplierDTO:{
+      //     countryCode:'',
+      //     provinceCode:'',
+      //     cityCode:'',
+      //   }
+      // },
       province:[],
       country:[],
       city:[],
@@ -132,10 +133,65 @@ export default {
     }
   },
   created(){
+    this.supplierComplete = _.cloneDeep(this.supplierCompleteRe)
+
+    this.getData();
     this.getAllSelect()
     this.getCityInfo();
+    
   },
   methods:{
+    getData(){
+      if(!this.$route.query.subSupplierId) return false;
+      var data = {
+        supplierId:this.$route.query.subSupplierId,
+      }
+      getInner(data).then(res=>{
+        if(res.data.supplierInfoVo){//基本信息
+          this.supplierComplete.supplierDTO = res.data.supplierInfoVo;
+        }
+
+        if(res.data.gpSupplierBankNoteVO){//电子银票
+          this.supplierComplete.gpSupplierBankNoteDTO = res.data.gpSupplierBankNoteVO;
+        }
+
+        if(res.data.subBankList){//银行子账号
+          this.supplierComplete.subBankList = res.data.subBankList;
+        }
+
+        if(res.data.settlementBankVo){//开户银行
+          this.supplierComplete.settlementBankDTO = res.data.settlementBankVo;
+        }
+
+        if(res.data.contactsList){//供应商通讯录
+          this.supplierComplete.contactsSaveDTO.list = res.data.contactsList;
+        }
+
+        if(res.data.attachList){//附件上传
+          this.supplierComplete.attachmentList = res.data.attachList;
+        }
+
+        if(res.data.gpSupplierInfoVO){
+          this.supplierComplete.gpSupplierDTO = res.data.gpSupplierInfoVO;
+        }
+
+
+
+        if(this.supplierComplete.supplierDTO.countryCode){
+          this.getProvince();
+        }
+        if(this.supplierComplete.supplierDTO.provinceCode){
+          this.getCity();
+        }
+
+        if (this.supplierComplete.settlementBankDTO.countryCode) this.$refs.opneBank.getBankProvince()
+        if (this.supplierComplete.settlementBankDTO.provinceCode) this.$refs.opneBank.getBankCity()
+        if (this.supplierComplete.gpSupplierBankNoteDTO.country) this.$refs.opneBank.getYP()
+        if (this.supplierComplete.subBankList) this.$refs.opneBank.getSubBank()
+
+
+      })
+    },
     //获取国家
     getCityInfo () {
       let data = {
@@ -181,18 +237,39 @@ export default {
       })
     },
     // 国家切换 获取省信息
-    changeCountry () {
+    changeCountry (val) {
+      for(let i=0;i<this.country.length;i++){
+        if(this.country[i].sapLocationCode == val){
+          this.supplierComplete.supplierDTO.country = this.country[i].cityNameCn
+          break;
+        }
+      }
       this.supplierComplete.supplierDTO.provinceCode = ''
       this.supplierComplete.supplierDTO.cityCode = ''
+
       this.province = []
       this.city = []
       this.getProvince()
     },
     // 省市切换 获取市级信息
-    changeProvince () {
+    changeProvince (val) {
+      for(let i=0;i<this.province.length;i++){
+        if(this.province[i].sapLocationCode == val){
+          this.supplierComplete.supplierDTO.province = this.province[i].cityNameCn
+          break;
+        }
+      }
       this.supplierComplete.supplierDTO.cityCode = ''
       this.city = []
       this.getCity()
+    },
+    changeCity(val){
+      for(let i=0;i<this.city.length;i++){
+        if(this.city[i].cityIdStr == val){
+          this.supplierComplete.supplierDTO.city = this.city[i].cityNameCn
+          break;
+        }
+      }
     },
     // 获取下拉框数据
     getAllSelect () {
@@ -215,20 +292,28 @@ export default {
         delete e.bankCity
         delete e.bankProvince
       })
+      if(this.$route.query.subSupplierId){
+        data.supplierId = this.$route.query.subSupplierId;
+      }
       data.attachmentList.forEach(e=>{
-        e.attachId = e.id;
+        // e.attachId = e.id;
         e.attachRemark = "";
         e.file = {
           dummyName:"",
           fileName:e.fileName,
           filePath:e.filePath,
           fileSize:e.fileSize,
-          id:e.id
+          id:e.fileId
         }
       })
-      saveInner(data).then(res=>{
-        console.log(res);
-      })
+      // console.log(data.attachmentList);
+      setTimeout(() => {
+        saveInner(data).then(res=>{
+          if(res.result){
+            this.$router.go(-1)
+          }
+        })
+      }, 500);
     },
     cancle(){
       this.$router.go(-1)

@@ -8,43 +8,43 @@
             {{ $t('LK_DAOCHU') }}
             </iButton> -->
         </template>
-        <table-list :tableData="tableListData" :tableTitle="tableTitle"
+        <table-list :tableData="supplierData.contactsSaveDTO.list" :tableTitle="tableTitle"
                     :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange"
                     :index="true"
                     ref="commonTable"
                     border
         >
             <template slot="contactType" slot-scope="scope">
-                <span v-if="scope.row.contactType">{{scope.row.contactType}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].contactType"></iInput>
+                <span v-if="scope.row.contactType">{{scope.row.contactType == "BUSINESS_CONTACTS"?'商务联系人':''}}</span>
+                <!-- <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.contactType"></iInput> -->
             </template>
             <template slot="nameZh" slot-scope="scope">
-                <span v-if="scope.row.nameZh">{{scope.row.nameZh}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].nameZh"></iInput>
+                <!-- <span v-if="scope.row.nameZh">{{scope.row.nameZh}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.nameZh"></iInput>
             </template>
             <template slot="designation" slot-scope="scope">
-                <span v-if="scope.row.designation">{{scope.row.designation}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].designation"></iInput>
+                <!-- <span v-if="scope.row.designation">{{scope.row.designation}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.designation"></iInput>
             </template>
             <template slot="dept" slot-scope="scope">
-                <span v-if="scope.row.dept">{{scope.row.dept}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].dept"></iInput>
+                <!-- <span v-if="scope.row.dept">{{scope.row.dept}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.dept"></iInput>
             </template>
             <template slot="telephoneAreaCode" slot-scope="scope">
-                <span v-if="scope.row.telephoneAreaCode">{{scope.row.telephoneAreaCode}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].telephoneAreaCode"></iInput>
+                <!-- <span v-if="scope.row.telephoneAreaCode">{{scope.row.telephoneAreaCode}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.telephoneAreaCode"></iInput>
             </template>
             <template slot="telephone" slot-scope="scope">
-                <span v-if="scope.row.telephone">{{scope.row.telephone}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].telephone"></iInput>
+                <!-- <span v-if="scope.row.telephone">{{scope.row.telephone}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.telephone"></iInput>
             </template>
             <template slot="email" slot-scope="scope">
-                <span v-if="scope.row.email">{{scope.row.email}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].email"></iInput>
+                <!-- <span v-if="scope.row.email">{{scope.row.email}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.email"></iInput>
             </template>
             <template slot="remark" slot-scope="scope">
-                <span v-if="scope.row.remark">{{scope.row.remark}}</span>
-                <iInput v-else :placeholder="$t('LK_QINGSHURU')" v-model="supplierData.contactsSaveDTO.list[0].remark"></iInput>
+                <!-- <span v-if="scope.row.remark">{{scope.row.remark}}</span> -->
+                <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.remark"></iInput>
             </template>
         </table-list>
   </iCard>
@@ -71,7 +71,7 @@ export default {
     data(){
         return{
             tableListData:[{
-                contactType:"商务联系人"
+                contactType:"BUSINESS_CONTACTS"
             }],
             tableTitle:tableTitle,
             tableLoading:false,

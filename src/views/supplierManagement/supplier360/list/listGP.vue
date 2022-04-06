@@ -14,6 +14,7 @@
              :resetKey="PARTSPROCURE_RESET"
              :searchKey="PARTSPROCURE_CONFIRM">
       <el-form>
+        <!-- 供应商类型 -->
         <el-form-item :label="$t('SUPPLIER_SUPPLIERTYPE')">
           <iSelect @change="changeSupplierType"
                    :placeholder="language('请选择')"
@@ -37,22 +38,27 @@
             </el-option>
           </iSelect>
         </el-form-item>
+        <!-- 供应商名称 -->
         <el-form-item :label="$t('TERMS_GONGYINGSHANGMINGCHENG')">
           <iInput :placeholder="language('请输入')"
-                  v-model="form.socialcreditNo"></iInput>
+                  v-model="form.supplierName"></iInput>
         </el-form-item>
+        <!-- 统一社会信用代码 -->
         <el-form-item :label="$t('UnifySocialCreditCode')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.socialcreditNo"></iInput>
         </el-form-item>
+        <!-- DUNS号 -->
         <el-form-item :label="$t('SUPPLIER_CAILIAOZU_DUNSHAO')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.dunsCode"></iInput>
         </el-form-item>
+        <!-- 临时号 -->
         <el-form-item :label="$t('SUPPLIER_LINGSHIHAO')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.svwTempCode"></iInput>
         </el-form-item>
+        <!-- 正式号 -->
         <el-form-item v-if="form.supplierType === 'PP'"
                       :label="$t('ZHENGSHIHAO')">
           <iInput :placeholder="language('请输入')"
@@ -404,11 +410,11 @@ export default {
         vwCode: '',
         isActive: '',
         tagdropDownList: [],
-        supplierType: '',
+        supplierType: "GP",
         gpBusinessType:"",
         procureCategoryId:"",
         dept: '',
-        relatedToMe: true,
+        relatedToMe: false,
         materialOrCraftCode: ''
       },
       carTypeOptions: [],
@@ -487,7 +493,7 @@ export default {
             this.isCgy = true
           }
           if (this.userType == 'GP') this.form.supplierType = 'GP'
-          this.form.relatedToMe = true
+          this.form.relatedToMe = false
           this.getTableList(this.form.supplierType)
         } else {
           this.userType = ''
@@ -705,8 +711,8 @@ export default {
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
     },
     handleSearchReset () {
-      this.form.relatedToMe == true
-      this.relatedToMe = true
+      this.form.relatedToMe == false
+      this.relatedToMe = false
       this.form = {
         supplierName: '',
         socialcreditNo: '',
@@ -720,7 +726,7 @@ export default {
         isActive: '',
         groupId: '',
         vwStatus: '',
-        supplierType: this.userType,
+        supplierType: "GP",
         dept: '',
         gpBusinessType:"",
         procureCategoryId:"",
@@ -734,9 +740,9 @@ export default {
       this.tableLoading = true
       const pms = {
         ...this.form,
-        sortColumn: 'string',
+        sortColumn: '',
         sortType: 'ASC',
-        stepCode: 'string',
+        stepCode: '',
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         supplierType: this.form.supplierType

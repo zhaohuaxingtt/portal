@@ -10,3 +10,12 @@ export function saveInner(params) {
         data:params
     })
 }
+
+//城市信息查询
+export function getInner(params) {
+    return requst({
+        url: `/gpSupplier/getInner`,
+        method: 'POST',
+        data:params
+    })
+}

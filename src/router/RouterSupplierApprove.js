@@ -49,6 +49,11 @@ export default [
     component: ApproveDetails
   },
   {
+    path: '/supplier/approval/gpAdmittance',
+    name: 'indexGp',
+    component: () => import('@/views/generalPage/approveDetails/indexGp')
+  },
+  {
     path: '/supplier/change-approval-details',
     name: 'changeApprovalDetails',
     component: ChangeApprovalDetails

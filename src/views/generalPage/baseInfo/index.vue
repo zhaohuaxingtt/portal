@@ -132,6 +132,7 @@ export default {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
+
           if(baseInfo.gpSupplierDetails){
             this.supplierComplete.gpSupplierDetails = baseInfo.gpSupplierDetails
           }
@@ -150,7 +151,10 @@ export default {
             }
             this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
           }
-          if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
+          if (baseInfo.supplierInfoVo){
+            this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
+            this.supplierComplete.supplierDTO.address = baseInfo.supplierInfoVo.companyAddress
+          }
           // 如果是查看修改 需要从不同的表获取 基础信息
           // if (baseInfo.gpSupplierInfoVO) {
           // 	baseInfo.supplierInfoVo.svwTempCode = baseInfo.gpSupplierInfoVO.svwTempCode
@@ -206,21 +210,29 @@ export default {
           this.$refs.opneBank.getCityName()
           let data = {
             stepCode: 'submit',
+            step:"submit",
             supplierDTO: this.supplierComplete.supplierDTO,
             settlementBankDTO: this.supplierComplete.settlementBankDTO
           }
           // 判断是一般还是生产供应商 减去相应参数
           if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
+            data.gpSupplierSubBankListSaveDTO = {};
+            data.gpSupplierSubBankListSaveDTO.list = this.supplierComplete.subBankList;
+            data.gpSupplierBankNoteDTO = this.supplierComplete.gpSupplierBankNoteDTO;
+
+            data.supplierDTO.companyAddress = this.supplierComplete.supplierDTO.address
           } else {
             data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
           }
+
           saveInfos(data, this.supplierType).then(res => {
             if (res.data) {
               iMessage.success('保存成功')
               if (step === 'submit') {
                 const req = {
                   stepCode: 'submit',
+                  step:"submit",
                   userId: this.$store.state.permission.userInfo.id
                 }
                 baseInfoSubmit(req).then((res) => {

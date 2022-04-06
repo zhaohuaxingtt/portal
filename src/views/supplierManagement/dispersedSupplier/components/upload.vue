@@ -104,7 +104,7 @@ export default {
                 // })
             })
         },
-        async exportsAdd(event){
+        exportsAdd(event){
             console.log(event);
             this.tableLoading = true
             this.supplierData.attachmentList.push(
@@ -112,7 +112,7 @@ export default {
                     fileName: event.name,
                     filePath: event.filePath,
                     fileSize: event.fileSize.toString(),
-                    id: event.id,
+                    fileId: event.id,
                     createDate:event.createDate,
                     validityOfCertificate:'',
                 }

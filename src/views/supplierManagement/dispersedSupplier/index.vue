@@ -59,7 +59,7 @@
                 :highlightCurrentRow="true"
                 >
           <template slot="yewuType">
-            <span>{{$t("LK_YEWULEIXING")}}</span>
+            <span>{{$t("FENSANCAIGOU")}}</span>
           </template>
           <template slot="supplierType" slot-scope="scope">
             <span>{{scope.row.supplierType == "GP"?$t('YIBANGONGYINGSHANG'):''}}</span>
@@ -123,16 +123,11 @@ export default {
         this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {subSupplierType: "GP"}})
       },
       openPage(params){
-          let routeData = this.$router.resolve({
-              path: '/supplier/supplierListDis/supplierDisDetails',
-              query: {
-                  supplierType: this.form.supplierType || '',
-                  subSupplierType: "GP",
-                  subSupplierId: params.subSupplierId || '',
-                  isShowAll: params.isShowAll || '',
-              }
-          })
-          window.open(routeData.href)
+        this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {
+          supplierType: "GP",
+          subSupplierType: "GP",
+          subSupplierId: params.subSupplierId || '',
+        }})
       },
       handleSelectionChange(){
 
