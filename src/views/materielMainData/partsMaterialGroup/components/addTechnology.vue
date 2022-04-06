@@ -380,7 +380,7 @@ export default {
         stuffId: this.stuffId,
         size: this.page.pageSize,
         current: this.page.currPage,
-        isEffect:true
+        isEffect: true
       }
       if (this.stuffId != '') {
         searchBdlTableList(data).then((res) => {
@@ -429,28 +429,30 @@ export default {
     },
     initTechnology() {
       let id = this.$route.query.stuffId
-      searchTechnologyForm(id).then((res) => {
-        this.formData.stuffCode = res.data.stuffCode
-        this.formData.stuffName = res.data.stuffName
-        this.formData.stuffNameDe = res.data.stuffNameDe
-        this.formData.stuffMemo = res.data.stuffMemo
-        this.formData.moldBudgetType = res.data.moldBudgetType
-        this.iniFormData.stuffCode = JSON.parse(
-          JSON.stringify(res.data.stuffCode)
-        )
-        this.iniFormData.stuffName = JSON.parse(
-          JSON.stringify(res.data.stuffName)
-        )
-        this.iniFormData.stuffNameDe = JSON.parse(
-          JSON.stringify(res.data.stuffNameDe)
-        )
-        this.iniFormData.stuffMemo = JSON.parse(
-          JSON.stringify(res.data.stuffMemo)
-        )
-        this.iniFormData.moldBudgetType = JSON.parse(
-          JSON.stringify(res.data.moldBudgetType)
-        )
-      })
+      if (id) {
+        searchTechnologyForm(id).then((res) => {
+          this.formData.stuffCode = res.data.stuffCode
+          this.formData.stuffName = res.data.stuffName
+          this.formData.stuffNameDe = res.data.stuffNameDe
+          this.formData.stuffMemo = res.data.stuffMemo
+          this.formData.moldBudgetType = res.data.moldBudgetType
+          this.iniFormData.stuffCode = JSON.parse(
+            JSON.stringify(res.data.stuffCode)
+          )
+          this.iniFormData.stuffName = JSON.parse(
+            JSON.stringify(res.data.stuffName)
+          )
+          this.iniFormData.stuffNameDe = JSON.parse(
+            JSON.stringify(res.data.stuffNameDe)
+          )
+          this.iniFormData.stuffMemo = JSON.parse(
+            JSON.stringify(res.data.stuffMemo)
+          )
+          this.iniFormData.moldBudgetType = JSON.parse(
+            JSON.stringify(res.data.moldBudgetType)
+          )
+        })
+      }
     },
 
     addNew() {
@@ -470,7 +472,7 @@ export default {
         ...val,
         // spiReportId:
         pageNo: val.current,
-        relatedToMe :false,
+        relatedToMe: false
         // supplierType:'PP'
         // pageSize:val.size
       }
@@ -587,8 +589,8 @@ export default {
       }
       data.stuffId = this.$route.query.stuffId
       data.isEffect = true
-      exportBdl(data).then(res=>{
-        if(res.code == 1) {
+      exportBdl(data).then((res) => {
+        if (res.code == 1) {
           iMessage.error('导出失败')
         }
       })

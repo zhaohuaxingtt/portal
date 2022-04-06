@@ -1,12 +1,13 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-03-03 18:29:59
- * @LastEditors: YoHo
+ * @LastEditTime: 2022-03-18 17:12:17
+ * @LastEditors: Please set LastEditors
  * @Description: 附件上传表格
 -->
 <template>
-  <el-table class="table" :height="height"
+  <el-table class="table"
+            :height="height"
             tooltip-effect='light'
             :data='tableData'
             :empty-text="$t('LK_ZANWUSHUJU')"
@@ -61,24 +62,29 @@
                        :label="items.key ? $t(items.key) : items.name"
                        :fixed="items.fixed">
         <template slot-scope="scope">
-          <template v-if="scope.row.templateId=='21'">
-            <iButton type="text"
-                     class="openLinkText text-500"
-                     v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_QUERENBINGFABU"
-                     :disabled="disabled"
-                     @click="publish(scope.row)">确认并发布</iButton>
-            <iButton type="text"
-                     class="openLinkText text-500"
-                     v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_CHAKANYIFABU"
-                     @click="viewPublish(scope.row)">查看已发布</iButton>
-          </template>
-          <span v-else-if="scope.row.isCommitment"
-                class="openLinkText cursor"
-                @click="handleViewAttachment(scope.row)">{{ $t('LK_CHAKAN') }}</span>
-          <uploadButton :showText="true"
-                        @uploadedCallback="handleUploadedCallback($event,scope.row)"
-                        button-text="LK_SHANGCHUAN"
-                        v-else />
+          <div class="flex-center-center">
+            <template v-if="scope.row.templateId=='21'">
+              <div class="flex">
+                <iButton type="text"
+                         class="openLinkText text-500"
+                         v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_QUERENBINGFABU"
+                         :disabled="disabled"
+                         @click="publish(scope.row)">确认并发布</iButton>
+                <iButton type="text"
+                         class="openLinkText text-500"
+                         v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_CHAKANYIFABU"
+                         @click="viewPublish(scope.row)">查看已发布</iButton>
+              </div>
+            </template>
+            <span v-else-if="scope.row.isCommitment"
+                  class="openLinkText cursor"
+                  @click="handleViewAttachment(scope.row)">{{ $t('LK_CHAKAN') }}</span>
+            <uploadButton :showText="true"
+                          @uploadedCallback="handleUploadedCallback($event,scope.row)"
+                          button-text="LK_SHANGCHUAN"
+                          v-else />
+
+          </div>
         </template>
       </el-table-column>
       <!-- 上传/确认日期-->
@@ -266,8 +272,7 @@ export default {
   margin: 2px 0;
 }
 
-.table{
-  
+.table {
   ::v-deep .el-table__row .el-input {
     height: 35px !important;
     width: 100% !important;

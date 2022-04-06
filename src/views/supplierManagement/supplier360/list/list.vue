@@ -156,12 +156,12 @@
                     v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
                     v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
-          <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
                     @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
                     @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
-          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
+          <i-button @click="synchro" v-permission="PORTAL_SUPPLIER_SAP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"

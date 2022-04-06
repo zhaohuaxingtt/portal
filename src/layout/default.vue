@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <h1>{{ $route.meta.title }}</h1>
+    <h1>{{language( $route.meta.title )}}</h1>
   </iPage>
 </template>
 

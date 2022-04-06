@@ -115,13 +115,13 @@ export default {
       },
       rules: {
         generalCategoryCode: [
-          { required: true, message: '请输入原材料编号(大类)', trigger: 'blur' }
+          { required: true, message: this.language('请输入原材料编号(大类)'), trigger: 'blur' }
         ],
         generalCategoryNameZh: [
-          { required: true, message: '请输入原材料名称(中文)', trigger: 'blur' }
+          { required: true, message: this.language('请输入原材料名称(中文)'), trigger: 'blur' }
         ],
         generalCategoryNameEn: [
-          { required: true, message: '请输入原材料名称(英文)', trigger: 'blur' }
+          { required: true, message: this.language('请输入原材料名称(英文)'), trigger: 'blur' }
         ]
         // rawMaterielElement:[{required:true,message:'材料组大类元素简称',trigger:'blur'}],
       }

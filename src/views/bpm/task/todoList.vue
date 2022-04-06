@@ -1,7 +1,7 @@
 <template>
   <iPage class="template">
     <pageHeader>
-      <span>待审批列表</span>
+      <span>{{ language('待审批列表') }}</span>
       <div slot="actions">
         <actionHeader :todo-total="todoTotal" :task-type="0" />
       </div>
@@ -136,7 +136,7 @@ export default {
           label: '任务开始时间?',
           i18n: '任务开始时间',
           tooltip: true,
-          width: 100,
+          width: 120,
           customRender: (h, scope) => {
             if (scope.row.createDate) {
               // eslint-disable-next-line no-undef
@@ -175,7 +175,7 @@ export default {
           label: '申请时间',
           i18n: '申请时间',
           tooltip: true,
-          width: 100
+          width: 120
         }
       ],
       selectTableData: [],

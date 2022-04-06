@@ -53,6 +53,15 @@ export default {
           activePath: '/exchange-parities',
           key: '汇率管理',
           permissionKey: 'ADMIN_MAIN_DATA_EXCHANGE_PARTIES'
+        },
+        {
+          value: 5,
+          name: '采购分类',
+          message: 0,
+          url: '/purchaseClassification',
+          activePath: '/purchaseClassification',
+          key: '采购分类',
+          permissionKey: 'ADMIN_MAIN_DATA_EXCHANGE_PARTIES'
         }
       ]
     }

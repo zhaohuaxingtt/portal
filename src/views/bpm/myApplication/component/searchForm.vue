@@ -58,9 +58,9 @@
             <iDatePicker
               v-model="date"
               type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              :range-separator="language('至')"
+              :start-placeholder="language('开始日期')"
+              :end-placeholder="language('结束日期')"
               style="width: 100%"
             >
             </iDatePicker>
@@ -144,7 +144,8 @@ export default {
       const data = {
         pageNo: 1,
         pageSize: 100,
-        type: 'modelTemplate'
+        type: 'modelTemplate',
+        userId: this.$store.state.permission.userInfo.id
       }
       const res = await queryModelTemplate(data)
       const list = res?.data?.records || []

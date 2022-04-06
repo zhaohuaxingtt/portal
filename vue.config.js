@@ -21,7 +21,7 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: false,
-  productionSourceMap: false,
+  productionSourceMap: process.env.NODE_ENV !== 'production',
   parallel: require('os').cpus().length > 1,
   chainWebpack: (config) => {
     //定义全局别名
@@ -109,12 +109,18 @@ module.exports = {
     }
     //开启gizp压缩
     config.devtool = 'source-map'
+
+    if (process.env.NODE_ENV === 'dev') {
+      config.watchOptions = {
+        ignored: /node_modules/
+      }
+    }
   },
   //引入全局css变量
   css: {
     //是否开起css分离
     extract: false,
-    sourceMap: false, // process.env.NODE_ENV !== 'production',
+    sourceMap: process.env.NODE_ENV !== 'production',
     requireModuleExtension: true,
     loaderOptions: {
       sass: {
@@ -347,7 +353,7 @@ module.exports = {
       // adminProcs
       [process.env.VUE_APP_ADMIN_PROCS]: {
         target: `http://${BASE_IP}:8016/riseprocs`,
-        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/riseprocsApi`,
+        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/riseprocsApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''

@@ -88,13 +88,13 @@ export default {
   methods: {
     //点击创建标签按钮
     addTag() {
-      this.$prompt('+自定义标签', {
+      this.$prompt(`+${this.language('自定义标签')}`, {
         cancelButtonClass: 'btn-custom-cancel',
-        inputPlaceholder: '请输入自定义标签',
+        inputPlaceholder: this.language('请输入自定义标签'),
         inputPattern: /\S/,
-        inputErrorMessage: '自定义标签不能为空',
-        cancelButtonText: '退出',
-        confirmButtonText: '确定'
+        inputErrorMessage: this.language('自定义标签不能为空'),
+        cancelButtonText: this.language('退出'),
+        confirmButtonText: this.language('确定')
       })
         .then(({ value }) => {
           console.log(value)

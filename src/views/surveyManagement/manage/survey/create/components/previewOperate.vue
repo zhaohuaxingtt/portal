@@ -29,7 +29,7 @@
         <iInput
           type="textarea"
           :autosize="{ minRows: 6, maxRows: 8 }"
-          placeholder="请输入您的回答。"
+          :placeholder="language('请输入您的回答')"
           onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
         ></iInput>
       </div>
@@ -57,9 +57,9 @@
               class="upload-button"
               :loading="uploadLoading"
             >
-              上传附件<span class="upload-text"><img :src="uploadIcon" /></span>
+              {{language('上传附件')}}<span class="upload-text"><img :src="uploadIcon" /></span>
             </iButton>
-            <p class="upload-limit">文件大小最大限制15MB</p>
+            <p class="upload-limit">{{language('文件大小最大限制15MB')}}</p>
           </el-upload>
           <ul
             v-for="item in attachments"
@@ -140,7 +140,7 @@
           <span v-if="ruleForm.requiredQuestion" style="color: red">* </span>
           {{ sort }}.{{ ruleForm.code }} {{ ruleForm.name }}
         </div>
-        <iSelect v-model="value" placeholder="请选择" class="i-select">
+        <iSelect v-model="value" :placeholder="language('请选择')" class="i-select">
           <el-option
             v-for="item in ruleForm.options"
             :key="item.number"
@@ -180,9 +180,9 @@
           {{ sort }}.{{ ruleForm.number }} {{ ruleForm.name }}
           <span class="text" style="margin-left: 10px; color: #999999">
             <span v-if="ruleForm.multipleRule.least"
-              >最少选择{{ ruleForm.multipleRule.least }}项；</span
+              >{{language('QN_ZUISHAOXUANZE')}}{{ ruleForm.multipleRule.least }}{{language('QN_XIANG')}}；</span
             ><span v-if="ruleForm.multipleRule.most"
-              >最多选择{{ ruleForm.multipleRule.most }}项；</span
+              >{{language('QN_ZUIDUOXUANZE')}}{{ ruleForm.multipleRule.most }}{{language('QN_XIANG')}}；</span
             >
           </span>
         </div>
@@ -270,10 +270,10 @@ export default {
             attachmentName: res.name,
             attachmentUrl: res.path,
           });
-          iMessage.success(this.$t("上传成功"));
+          iMessage.success(this.$t("QN_SHANGCHUANCHENGGONG"));
         })
-        .catch((err) => {
-          iMessage.error(this.$t("上传失败"));
+        .catch(() => {
+          iMessage.error(this.$t("QN_SHANGCHUANSHIBAI"));
         });
       this.uploadLoading = false;
     },

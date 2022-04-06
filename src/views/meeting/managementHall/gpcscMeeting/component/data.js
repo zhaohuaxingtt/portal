@@ -177,23 +177,23 @@ export const themenConclusionArrObj = [
     conclusionName: '待定'
   },
   {
-    conclusionCsc: '02',
+    conclusionCsc: '08',
     conclusionName: '通过'
   },
   {
-    conclusionCsc: '03',
+    conclusionCsc: '09',
     conclusionName: '预备会议通过'
   },
   {
-    conclusionCsc: '04',
+    conclusionCsc: '10',
     conclusionName: '不通过'
   },
   {
-    conclusionCsc: '05',
+    conclusionCsc: '11',
     conclusionName: 'Last Call'
   },
   {
-    conclusionCsc: "06",
+    conclusionCsc: "12",
     conclusionName: "分段定点",
   },
 ];

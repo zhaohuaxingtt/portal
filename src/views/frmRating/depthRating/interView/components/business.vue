@@ -6,227 +6,267 @@
 <template>
   <div>
     <!-- 集团、股东、实际控制人（详见股权结构图） -->
-    <iCard :title="$t('SPR_FRM_DEP_ZYCPJZBCPGY')"
-           collapse
-           class="margin-top20">
+    <iCard :title="$t('SPR_FRM_DEP_ZYCPJZBCPGY')" collapse class="margin-top20">
       <template slot="header">
-        <div class="flex-end-center"
-             style="width:100%">
-          <iButton @click="addProdProp" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_ADD">{{language('XINZENG','新增')}}</iButton>
-          <iButton @click="delProdProp" v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_DEL">{{language('SHANCHU','删除')}}</iButton>
+        <div class="flex-end-center" style="width: 100%">
+          <iButton
+            @click="addProdProp"
+            v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_ADD"
+            >{{ language('XINZENG', '新增') }}</iButton
+          >
+          <iButton
+            @click="delProdProp"
+            v-permission="PORTAL_SUPPLIER_NAV_SHENRUPINGJI_FANGTAN_DEL"
+            >{{ language('SHANCHU', '删除') }}</iButton
+          >
         </div>
       </template>
-      <tableList :tableData="interViewData.prodPropList"
-                 :tableTitle="mainProduct"
-                 :tableLoading="tableLoading"
-                 :index="true"
-                 ref="table1"
-                 :input-props="inputProduct"
-                 @handleSelectionChange="handleSelectionProduct">
-        <template slot-scope="scope"
-                  slot="proportion">
+      <tableList
+        :tableData="interViewData.prodPropList"
+        :tableTitle="mainProduct"
+        :tableLoading="tableLoading"
+        :index="true"
+        ref="table1"
+        :input-props="inputProduct"
+        @handleSelectionChange="handleSelectionProduct"
+      >
+        <template slot-scope="scope" slot="proportion">
           <div>
-            <el-input-number v-model="scope.row.proportion"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              v-model="scope.row.proportion"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
       </tableList>
       <!-- 主要业务模式和加工深度务 -->
-      <div class="title">{{$t('SPR_FRM_DEP_ZYYWMSHJGSD')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.mainBusinessProcessingDepth'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_ZYYWMSHJGSD') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.mainBusinessProcessingDepth"
+      ></iInput>
       <!-- 设备投资、原材料、进出口业务 -->
-      <div class="title">{{$t('SPR_FRM_DEP_SBTZYCLJCKYW')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.business'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_SBTZYCLJCKYW') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.business"
+      ></iInput>
       <!-- 会议纪要 -->
-      <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.productsProportionMeeting'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_HYJY') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.productsProportionMeeting"
+      ></iInput>
     </iCard>
     <!-- 主要客户 -->
-    <iCard title='主要客户'
-           collapse
-           class="margin-top20">
+    <iCard title="主要客户" collapse class="margin-top20">
       <template slot="header">
-        <div class="flex-end-center"
-             style="width:100%">
-          <iButton @click="addCustomer">{{language('XINZENG','新增')}}</iButton>
-          <iButton @click="delCustomer">{{language('SHANCHU','删除')}}</iButton>
+        <div class="flex-end-center" style="width: 100%">
+          <iButton @click="addCustomer">{{
+            language('XINZENG', '新增')
+          }}</iButton>
+          <iButton @click="delCustomer">{{
+            language('SHANCHU', '删除')
+          }}</iButton>
         </div>
       </template>
-      <tableList :tableData="interViewData.customerList"
-                 :tableTitle="mainCustomers"
-                 :tableLoading="tableLoading"
-                 :index="true"
-                 ref="table2"
-                 :input-props="inputCustomers"
-                 @handleSelectionChange="handleSelectionCustomers">
-        <template slot-scope="scope"
-                  slot="totalSalesPro">
+      <tableList
+        :tableData="interViewData.customerList"
+        :tableTitle="mainCustomers"
+        :tableLoading="tableLoading"
+        :index="true"
+        ref="table2"
+        :input-props="inputCustomers"
+        @handleSelectionChange="handleSelectionCustomers"
+      >
+        <template slot-scope="scope" slot="totalSalesPro">
           <div>
-            <el-input-number v-model="scope.row.totalSalesPro"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              v-model="scope.row.totalSalesPro"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
-        <template slot-scope="scope"
-                  slot="amountOfSupply">
+        <template slot-scope="scope" slot="amountOfSupply">
           <div>
-            <el-input-number v-model="scope.row.amountOfSupply"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              v-model="scope.row.amountOfSupply"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
-        <template slot-scope="scope"
-                  slot="cashNotesPro">
+        <template slot-scope="scope" slot="cashNotesPro">
           <div>
-            <el-input-number v-model="scope.row.cashNotesPro"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              v-model="scope.row.cashNotesPro"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
       </tableList>
       <!-- 会议纪要 -->
-      <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.customersMeetingMinutes'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_HYJY') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.customersMeetingMinutes"
+      ></iInput>
     </iCard>
     <!-- SVW业务情况 -->
-    <iCard :title="$t('SPR_FRM_DEP_SVWYWQK')"
-           collapse
-           class="margin-top20">
+    <iCard :title="$t('SPR_FRM_DEP_SVWYWQK')" collapse class="margin-top20">
       <!-- 合作时间 -->
       <div class="flex-align-center cooperation">
-        <span>{{$t('SPR_FRM_DEP_HZSJ')}}</span>
-        <iInput :placeholder="$t('SPR_FRM_DEP_INPUT')"
-                v-model='interViewData.cooperationTime'></iInput>
+        <span>{{ $t('SPR_FRM_DEP_HZSJ') }}</span>
+        <iInput
+          :placeholder="$t('SPR_FRM_DEP_INPUT')"
+          v-model="interViewData.cooperationTime"
+        ></iInput>
       </div>
       <!-- 供货产品 -->
-      <div class="title">{{$t('SUPPLIER_GONGHUOCHANPIN')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.supplyProduct'></iInput>
+      <div class="title">{{ $t('SUPPLIER_GONGHUOCHANPIN') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.supplyProduct"
+      ></iInput>
       <!-- 过去，现在及未来的项目情况 -->
-      <div class="title">{{$t('SPR_FRM_DEP_GQXZJWLDXMQK')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.projectSituation'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_GQXZJWLDXMQK') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.projectSituation"
+      ></iInput>
       <!-- 会议纪要 -->
-      <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
-      <iInput type='textarea'
-              :autosize='rowRange'
-              :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model='interViewData.svwBusinessSituationMeetingMinutes'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_HYJY') }}</div>
+      <iInput
+        type="textarea"
+        :autosize="rowRange"
+        :placeholder="$t('SPR_FRM_DEP_INPUT')"
+        v-model="interViewData.svwBusinessSituationMeetingMinutes"
+      ></iInput>
     </iCard>
     <!-- 业务发展及投资 -->
-    <iCard :title="$t('SPR_FRM_DEP_YWFZJTZ')"
-           collapse
-           class="margin-top20">
-      <iInput v-model='interViewData.businessDevelopmentInvestment'
-              type='textarea'
-              :autosize='rowRange'
-              placeholder='当年销售预测、未来三年销售预测（关联数据：营业收入）、固定资产投入（关联数据：固定资产、在建工程、无形资产、长期待摊费用、购建固定资产、无形资产和其他长期资产支付的现金）、投资与业务情况比较…'></iInput>
+    <iCard :title="$t('SPR_FRM_DEP_YWFZJTZ')" collapse class="margin-top20">
+      <iInput
+        v-model="interViewData.businessDevelopmentInvestment"
+        type="textarea"
+        :autosize="rowRange"
+        placeholder="当年销售预测、未来三年销售预测（关联数据：营业收入）、固定资产投入（关联数据：固定资产、在建工程、无形资产、长期待摊费用、购建固定资产、无形资产和其他长期资产支付的现金）、投资与业务情况比较…"
+      ></iInput>
     </iCard>
     <!-- 主要供应商 -->
-    <iCard :title="$t('SPR_FRM_DEP_ZYGYS')"
-           collapse
-           class="margin-top20">
+    <iCard :title="$t('SPR_FRM_DEP_ZYGYS')" collapse class="margin-top20">
       <template slot="header">
-        <div class="flex-end-center"
-             style="width:100%">
-          <iButton @click="addSupplier">{{language('XINZENG','新增')}}</iButton>
-          <iButton @click="delSupplier">{{language('SHANCHU','删除')}}</iButton>
+        <div class="flex-end-center" style="width: 100%">
+          <iButton @click="addSupplier">{{
+            language('XINZENG', '新增')
+          }}</iButton>
+          <iButton @click="delSupplier">{{
+            language('SHANCHU', '删除')
+          }}</iButton>
         </div>
       </template>
-      <tableList :tableData="interViewData.supplierList"
-                 :tableTitle="mainSupplier"
-                 :tableLoading="tableLoading"
-                 :index="true"
-                 ref="table3"
-                 :input-props="inputSupplier"
-                 @handleSelectionChange="handleSelectionSupplier">
-        <template slot-scope="scope"
-                  slot="totalSalesPro">
+      <tableList
+        :tableData="interViewData.supplierList"
+        :tableTitle="mainSupplier"
+        :tableLoading="tableLoading"
+        :index="true"
+        ref="table3"
+        :input-props="inputSupplier"
+        @handleSelectionChange="handleSelectionSupplier"
+      >
+        <template slot-scope="scope" slot="totalSalesPro">
           <div>
-            <el-input-number v-model="scope.row.totalSalesPro"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              v-model="scope.row.totalSalesPro"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
-        <template slot-scope="scope"
-                  slot="amountOfSupply">
+        <template slot-scope="scope" slot="amountOfSupply">
           <div>
-            <el-input-number v-model="scope.row.amountOfSupply"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              class="el-input-number"
+              v-model="scope.row.amountOfSupply"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
-        <template slot-scope="scope"
-                  slot="cashNotesPro">
+        <template slot-scope="scope" slot="cashNotesPro">
           <div>
-            <el-input-number v-model="scope.row.cashNotesPro"
-                             :controls="false"
-                             :precision="2"
-                             :step="0.1"></el-input-number>
+            <el-input-number
+              v-model="scope.row.cashNotesPro"
+              :controls="false"
+              :precision="2"
+              :step="0.1"
+            ></el-input-number>
           </div>
         </template>
       </tableList>
       <!-- 会议纪要 -->
-      <div class="title">{{$t('SPR_FRM_DEP_HYJY')}}</div>
-      <iInput v-model='interViewData.supplierMeetingMinutes'
-              type='textarea'
-              :autosize='rowRange'
-              placeholder='是否进口、是否强势（关联指标：预付账款）…'></iInput>
+      <div class="title">{{ $t('SPR_FRM_DEP_HYJY') }}</div>
+      <iInput
+        v-model="interViewData.supplierMeetingMinutes"
+        type="textarea"
+        :autosize="rowRange"
+        placeholder="是否进口、是否强势（关联指标：预付账款）…"
+      ></iInput>
     </iCard>
     <!-- 产能情况 -->
-    <iCard :title="$t('SPR_FRM_DEP_CNQK')"
-           collapse
-           class="margin-top20">
-      <iInput v-model='interViewData.productionCapacity'
-              type='textarea'
-              :autosize='rowRange'
-              placeholder='计划产能、实际产能、已使用产能（开工率）…'></iInput>
+    <iCard :title="$t('SPR_FRM_DEP_CNQK')" collapse class="margin-top20">
+      <iInput
+        v-model="interViewData.productionCapacity"
+        type="textarea"
+        :autosize="rowRange"
+        placeholder="计划产能、实际产能、已使用产能（开工率）…"
+      ></iInput>
     </iCard>
     <!-- 业务&上下游-补充 -->
-    <iCard :title="$t('SPR_FRM_DEP_YWSXYBC')"
-           collapse
-           class="margin-top20">
-      <iInput v-model='interViewData.upDownSupplement'
-              type='textarea'
-              :autosize='rowRange'
-              placeholder='模具、土地租用/自有（关联数据：无形资产）…'></iInput>
+    <iCard :title="$t('SPR_FRM_DEP_YWSXYBC')" collapse class="margin-top20">
+      <iInput
+        v-model="interViewData.upDownSupplement"
+        type="textarea"
+        :autosize="rowRange"
+        placeholder="模具、土地租用/自有（关联数据：无形资产）…"
+      ></iInput>
     </iCard>
   </div>
 </template>
 
 <script>
-import { iCard, iInput, iButton, iMessage } from 'rise';
-import tableList from '@/components/commonTable';
-import { mainProduct, mainCustomers, mainSupplier } from '../data';
-import { interviewUpDownMessage, interviewUpDownInfo } from '@/api/frmRating/depthRating/interView';
-import resultMessageMixin from '@/mixins/resultMessageMixin';
+import { iCard, iInput, iButton, iMessage } from 'rise'
+import tableList from '@/components/commonTable'
+import { mainProduct, mainCustomers, mainSupplier } from '../data'
+import {
+  interviewUpDownMessage,
+  interviewUpDownInfo
+} from '@/api/frmRating/depthRating/interView'
+import resultMessageMixin from '@/mixins/resultMessageMixin'
 export default {
   mixins: [resultMessageMixin],
   components: { iCard, iInput, tableList, iButton },
-  data () {
+  data() {
     return {
       rowRange: { minRows: 3, maxRows: 6 },
       mainProduct,
@@ -246,36 +286,44 @@ export default {
   props: {
     id: { type: String }
   },
-  created () {
+  created() {
     this.getData()
     this.setInputProps()
   },
   methods: {
     // 获取获取访谈清单
-    setInputProps () {
+    setInputProps() {
       this.inputProduct = ['businessProductName']
       this.inputCustomers = []
       this.inputSupplier = []
       // this.mainProduct.map(item => {
       //   if (!this.selectProps.includes(item.props)) {
       //     this.inputProduct.push(item.props)
-      //   }  
+      //   }
       // })
-      this.mainCustomers.map(item => {
-        if (item.props !== 'totalSalesPro' && item.props !== 'amountOfSupply' && item.props !== 'cashNotesPro') {
+      this.mainCustomers.map((item) => {
+        if (
+          item.props !== 'totalSalesPro' &&
+          item.props !== 'amountOfSupply' &&
+          item.props !== 'cashNotesPro'
+        ) {
           this.inputCustomers.push(item.props)
         }
       })
-      this.mainSupplier.map(item => {
-        if (item.props !== 'totalSalesPro' && item.props !== 'amountOfSupply' && item.props !== 'cashNotesPro') {
+      this.mainSupplier.map((item) => {
+        if (
+          item.props !== 'totalSalesPro' &&
+          item.props !== 'amountOfSupply' &&
+          item.props !== 'cashNotesPro'
+        ) {
           this.inputSupplier.push(item.props)
         }
       })
       console.log(this.inputCustomers, this.inputSupplier)
     },
-    getData () {
+    getData() {
       this.tableLoading = true
-      interviewUpDownMessage({ deepCommentSupplierId: this.id }).then(res => {
+      interviewUpDownMessage({ deepCommentSupplierId: this.id }).then((res) => {
         if (res.data) {
           this.interViewData = res.data
           if (!this.interViewData.prodPropList) {
@@ -292,33 +340,41 @@ export default {
       })
     },
     // 保存
-    save () {
+    save() {
       this.interViewData.deepCommentSupplierId = this.id
-      interviewUpDownInfo(this.interViewData).then(res => {
+      interviewUpDownInfo(this.interViewData).then((res) => {
         this.resultMessage(res, () => {
           this.getData()
         })
       })
     },
-    addProdProp () {
+    addProdProp() {
       let obj = {}
-      let arr = this.mainProduct.map(item => item.props)
-      for (let key in arr) { //这里key索引
-        obj[arr[key]] = ""
+      let arr = this.mainProduct.map((item) => item.props)
+      for (let key in arr) {
+        //这里key索引
+        obj[arr[key]] = ''
       }
       let rand = Math.random()
       obj.addId = Math.round(rand * 999)
       this.interViewData.prodPropList.push(obj)
     },
-    delProdProp () {
+    delProdProp() {
       if (this.selectionProduct.length === 0) {
         iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
       }
-      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
-        confirmButtonText: this.language('QUEDING', '确定'),
-        cancelButtonText: this.language('QUXIAO', '取消'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.language(
+          'SHIFOUSHANCHUYIXUANZHONGXUANXIANG',
+          '是否删除已选中选项?'
+        ),
+        this.language('TISHI', '提示'),
+        {
+          confirmButtonText: this.language('QUEDING', '确定'),
+          cancelButtonText: this.language('QUXIAO', '取消'),
+          type: 'warning'
+        }
+      ).then(() => {
         let val = this.selectionProduct
         val.forEach((val, index) => {
           if (val.id) {
@@ -337,25 +393,33 @@ export default {
         })
       })
     },
-    addCustomer () {
+    addCustomer() {
       let obj = {}
-      let arr = this.mainCustomers.map(item => item.props)
-      for (let key in arr) { //这里key索引
-        obj[arr[key]] = ""
+      let arr = this.mainCustomers.map((item) => item.props)
+      for (let key in arr) {
+        //这里key索引
+        obj[arr[key]] = ''
       }
       let rand = Math.random()
       obj.addId = Math.round(rand * 999)
       this.interViewData.customerList.push(obj)
     },
-    delCustomer () {
+    delCustomer() {
       if (this.selectionCustomers.length === 0) {
         iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
       }
-      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
-        confirmButtonText: this.language('QUEDING', '确定'),
-        cancelButtonText: this.language('QUXIAO', '取消'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.language(
+          'SHIFOUSHANCHUYIXUANZHONGXUANXIANG',
+          '是否删除已选中选项?'
+        ),
+        this.language('TISHI', '提示'),
+        {
+          confirmButtonText: this.language('QUEDING', '确定'),
+          cancelButtonText: this.language('QUXIAO', '取消'),
+          type: 'warning'
+        }
+      ).then(() => {
         let val = this.selectionCustomers
         val.forEach((val, index) => {
           if (val.id) {
@@ -374,25 +438,33 @@ export default {
         })
       })
     },
-    addSupplier () {
+    addSupplier() {
       let obj = {}
-      let arr = this.mainSupplier.map(item => item.props)
-      for (let key in arr) { //这里key索引
-        obj[arr[key]] = ""
+      let arr = this.mainSupplier.map((item) => item.props)
+      for (let key in arr) {
+        //这里key索引
+        obj[arr[key]] = ''
       }
       let rand = Math.random()
       obj.addId = Math.round(rand * 999)
       this.interViewData.supplierList.push(obj)
     },
-    delSupplier () {
+    delSupplier() {
       if (this.selectionSupplier.length === 0) {
         iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
       }
-      this.$confirm(this.language('SHIFOUSHANCHUYIXUANZHONGXUANXIANG', '是否删除已选中选项?'), this.language('TISHI', '提示'), {
-        confirmButtonText: this.language('QUEDING', '确定'),
-        cancelButtonText: this.language('QUXIAO', '取消'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.language(
+          'SHIFOUSHANCHUYIXUANZHONGXUANXIANG',
+          '是否删除已选中选项?'
+        ),
+        this.language('TISHI', '提示'),
+        {
+          confirmButtonText: this.language('QUEDING', '确定'),
+          cancelButtonText: this.language('QUXIAO', '取消'),
+          type: 'warning'
+        }
+      ).then(() => {
         let val = this.selectionSupplier
         val.forEach((val, index) => {
           if (val.id) {
@@ -411,13 +483,13 @@ export default {
         })
       })
     },
-    handleSelectionProduct (val) {
+    handleSelectionProduct(val) {
       this.selectionProduct = val
     },
-    handleSelectionCustomers (val) {
+    handleSelectionCustomers(val) {
       this.selectionCustomers = val
     },
-    handleSelectionSupplier (val) {
+    handleSelectionSupplier(val) {
       this.selectionSupplier = val
     }
   }
@@ -438,5 +510,8 @@ export default {
     font-size: 16px;
     color: $color-black;
   }
+}
+.el-input-number {
+  width: 100%;
 }
 </style>

@@ -176,28 +176,28 @@ export default {
       dialog: false,
       dialogRules: {
         nameZh: [
-          { required: true, message: '请输入应用中文名', trigger: 'blur' }
+          { required: true, message: this.language('请输入应用中文名'), trigger: 'blur' }
         ],
         nameEn: [
-          { required: true, message: '请输入应用英文名', trigger: 'blur' },
+          { required: true, message: this.language('请输入应用英文名'), trigger: 'blur' },
           {
             min: 1,
             max: 7,
-            message: '请输入1-7位英文字母或数字',
+            message: this.language('请输入1-7位英文字母或数字'),
             trigger: 'blur'
           },
           {
             pattern: /^[A-Za-z0-9]+$/,
-            message: '请输入1-7位英文字母或数字',
+            message: this.language('请输入1-7位英文字母或数字'),
             trigger: 'blur'
           }
         ],
         shortName: [
-          { required: true, message: '请输入应用简称', trigger: 'blur' }
+          { required: true, message: this.language('请输入应用简称'), trigger: 'blur' }
           //   { min: 1, max: 7, message: '请输入1-7位英文字母或数字', trigger: 'blur' }
         ],
         contactUserId: [
-          { required: true, message: '请选择应用负责人', trigger: 'change' }
+          { required: true, message: this.language('请选择应用负责人'), trigger: 'change' }
         ]
       }
     }

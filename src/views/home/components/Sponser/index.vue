@@ -86,7 +86,7 @@ export default {
       barChart: null
     }
   },
-  created(){
+  created() {
     const year = new Date().getFullYear() - 1
     this.query.beginTime = `${year}-01-01`
     this.query.endTime = `${year}-12-31`
@@ -445,9 +445,6 @@ export default {
           bottom: 0
         }
       }
-      this.$nextTick(() => {
-        this.pieChart && this.pieChart.setOption(option)
-      })
       // 监听饼状图鼠标移入事件
       this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
@@ -666,9 +663,9 @@ export default {
             top: 10,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${isNaN(cRating) ? 0 :cRating.toFixed(
-                2
-              )}%`,
+              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${
+                isNaN(cRating) ? 0 : cRating.toFixed(2)
+              }%`,
               font: '9px sans-serif'
             }
           }
@@ -736,9 +733,6 @@ export default {
           bottom: 0
         }
       }
-      this.$nextTick(() => {
-        this.barChart && this.barChart.setOption(option)
-      })
     },
     mergeBarOptions() {}
   }

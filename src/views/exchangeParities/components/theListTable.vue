@@ -64,6 +64,11 @@ export default {
   name: 'the-list-table',
   components: { iCard, iButton, iPagination, iTabelCustom },
   mixins: [pageMixins],
+  computed: {
+    whiteBtnList() {
+      return this.$store.state.permission.whiteBtnList || {}
+    }
+  },
   data() {
     return {
       editSta: true,
@@ -216,7 +221,11 @@ export default {
             const data = val.data || []
             data.forEach((item) => {
               if (item.type == 1) {
-                item.isEdit = true
+                item.isEdit = this.whiteBtnList[
+                  'BUTTON_MATERIEL_DATA_EXCHANGE_MODIFY'
+                ]
+                  ? true
+                  : false
                 item.checked = false
                 item.disabledChecked = false
               } else {

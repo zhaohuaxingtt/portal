@@ -1,3 +1,4 @@
+import language from '@/utils/language'
 export default [
   {
     type: 'index',
@@ -31,8 +32,8 @@ export default [
       return (
         <el-switch
           value={scope.row.published}
-          active-text="上架"
-          inactive-text="下架"
+          active-text={language('上架')}
+          inactive-text={language('下架')}
         ></el-switch>
       )
     },
@@ -47,8 +48,8 @@ export default [
       return (
         <el-switch
           value={scope.row.isSendMessage}
-          active-text="通知"
-          inactive-text="不通知"
+          active-text={language('通知')}
+          inactive-text={language('不通知')}
         ></el-switch>
       )
     },
@@ -61,10 +62,10 @@ export default [
       return (
         <span>
           <el-button type="text" onclick={() => extraData.edit(row)}>
-            修改
+            {language('修改')}
           </el-button>
           <el-button type="text" onclick={() => extraData.del(row)}>
-            删除
+            {language('删除')}
           </el-button>
         </span>
       )

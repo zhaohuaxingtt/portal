@@ -16,12 +16,12 @@ export const tableTitle = [
     {props: 'lasting', name: 'Lasting', key: 'Lasting', width: 150, tooltip: true,},
     {props: 'average', name: 'Average', key: 'Average', width: 150, tooltip: true,},
     {props: '', name: '跟踪进度', key: 'LK_GZJD', width: 100, tooltip: true,},
-    {props: 'configName', name: '配置', key: 'LK_PEIZHI', width: 200, tooltip: true,},
+    {props: 'configName', name: '配置', key: 'LK_PEIZHI', width: 280, tooltip: true,},
     {props: 'csGroupName', name: '材料组', key: 'LK_CAILIAOZU', width: 150, tooltip: true,},
-    {props: 'partType', name: '零件类型', key: 'LK_LINGJIANLEIXING', width: 120, tooltip: true,},
-    {props: 'deptCode', name: '科室', key: 'LK_KESHI', width: 100, tooltip: true,},
-    {props: 'buyerName', name: '采购员', key: 'LK_CAIGOUYUAN', width: 120, tooltip: true,},
-    {props: 'idxCode', name: '索引号', key: 'LK_SYH', width: 150, tooltip: true,},
+    {props: 'partType', name: '零件类型', key: 'LK_LINGJIANLEIXING', width: 82, tooltip: true,},
+    {props: 'deptCode', name: '科室', key: 'LK_KESHI', width: 80, tooltip: true,},
+    {props: 'buyerName', name: '采购员', key: 'LK_CAIGOUYUAN', width: 160, tooltip: true,},
+    {props: 'idxCode', name: '索引号', key: 'LK_SYH', width: 130, tooltip: true,},
 
 ];
 export const monthTitle = [

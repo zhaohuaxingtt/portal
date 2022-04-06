@@ -1,9 +1,10 @@
 <template>
-  <iCard style="height:20rem">
+  <iCard style="height:24rem">
     <div class="title">
       <p>{{ language('HETONGDINGDAN', '合同订单') }}</p>
     </div>
-    <div class="center" v-if="!isShow">
+    <div class="center"
+         v-if="!isShow">
       <div v-loading="loading1"
            class=" chartStyleBox chartStyle">
         <div ref="chart1"
@@ -61,7 +62,7 @@ export default {
       loading1: false,
       loading2: false,
       topcarogery: [],
-      isShow:false
+      isShow: false
     }
   },
   computed: {
@@ -247,7 +248,7 @@ export default {
       })
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
-        
+
         // console.log(obj.chooseEquipment.value)
         // obj.chooseEquipment.value = parseInt(obj.chooseEquipment.value / 1000000).toLocaleString()
         obj.chooseEquipment.value = (obj.chooseEquipment.value / 1000000).toFixed(2)

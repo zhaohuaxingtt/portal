@@ -1,7 +1,7 @@
 <!--
  * @Author: YoHo
  * @Date: 2022-01-10 14:51:08
- * @LastEditTime: 2022-02-25 11:56:58
+ * @LastEditTime: 2022-03-14 15:35:52
  * @LastEditors: YoHo
  * @Description: 采购条款维护
 -->
@@ -151,7 +151,7 @@
               :key="item.prop"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.fileUrl ? scope.row.signTime : '' }}</span>
+                <span>{{ scope.row.fileUrl || scope.row.signWay == 'off_line' ? scope.row.signTime : '' }}</span>
               </template>
             </el-table-column>
             <el-table-column

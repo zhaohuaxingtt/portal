@@ -1,12 +1,10 @@
 const path = require('path')
 const files = require.context('./modules', false, /.js$/)
-
 const modules = {}
 files.keys().forEach((key) => {
   const name = path.basename(key, '.js')
   modules[name] = files(key).default || files(key)
 })
-
 function checkRepeat() {
   const modulesKeys = Object.keys(modules)
   for (let i = 0; i < modulesKeys.length; i++) {

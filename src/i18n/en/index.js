@@ -7,6 +7,9 @@ import ReportForm from './reportForm'
 import partLifeCycle from './partLifeCycle'
 import others from './others'
 import meetingType from './meetingType'
+import questionnaire from './questionnaire'
+import terms from './terms'
+import meeting from './meeting'
 export default {
   ...online,
   ...mainData,
@@ -17,5 +20,8 @@ export default {
   ...online,
   ...partLifeCycle,
   ...others,
-  ...meetingType
+  ...meetingType,
+  ...questionnaire,
+  ...terms,
+  ...meeting
 }

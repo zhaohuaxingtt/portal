@@ -5,9 +5,9 @@
         <div class="floatright">
           <div class="">
             <!-- 新建 -->
-            <iButton @click="handleAdd">新建</iButton>
+            <iButton @click="handleAdd">{{ $t('TM_XINJIAN') }}</iButton>
             <!-- <iButton @click="handleExport">导出当前</iButton> -->
-            <iButton @click="handleExportAll">导出全部</iButton>
+            <iButton @click="handleExportAll">{{ $t('TM_DAOCHUQUANBU') }}</iButton>
             <!-- 失效 -->
             <!-- <iButton
               @click="handleFailure"
@@ -36,12 +36,12 @@
           align="center"
         ></el-table-column>
         <el-table-column
-          label="序号"
+          :label="$t('TM_XUHAO')"
           type="index"
           width="80"
           align="center"
         ></el-table-column>
-        <el-table-column align="center" label="条款编码" min-width="100"
+        <el-table-column align="center" :label="$t('TM_TIAOKUANBIANMA')" min-width="100"
           ><template slot-scope="scope">
             <span>{{ scope.row['termsCode'] }}</span>
           </template></el-table-column
@@ -49,7 +49,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          label="条款名称"
+          :label="$t('TM_TIAOKUANMINGCHENG')"
           min-width="400"
           ><template slot-scope="scope">
             <span class="open-link-text" @click="handleGoDetail(scope.row)">{{
@@ -57,42 +57,45 @@
             }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" label="版本号" min-width="80">
+        <el-table-column align="center" :label="$t('TM_BANBENHAO')" min-width="80">
           <template slot-scope="scope">
             <span>{{ scope.row['termsVersion'] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="条款状态" min-width="100"
+        <el-table-column align="center" :label="$t('TM_TIAOKUANZHUANGTAI')" min-width="100"
           ><template slot-scope="scope">
             {{
               scope.row.state === '01'
-                ? '草稿'
+                ? $t('TM_CAOGAO')
                 : scope.row.state === '02'
-                ? '待生效'
+                ? $t('TM_DAISHENGXIAO')
                 : scope.row.state === '03'
-                ? '生效'
+                ? $t('TM_SHENGXIAO')
                 : scope.row.state === '04'
-                ? '失效'
+                ? $t('TM_SHIXIAO')
                 : ''
             }}
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="140" label="条款生效时间"
+        <el-table-column
+          align="center"
+          min-width="140"
+          :label="$t('TM_TIAOKUAISHENGXIAOSHIJIAN')"
           ><template slot-scope="scope">
             <span>{{ scope.row['inDate'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="120" label="发布日期"
+        <el-table-column align="center" min-width="120" :label="$t('TM_FABURIQI')"
           ><template slot-scope="scope">
             <span>{{ scope.row['publishDate'] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="120" label="签署节点">
+        <el-table-column align="center" min-width="120" :label="$t('TM_QIANSHUJIEDIAN')">
           <template slot-scope="scope">
             <span>{{ signNodeListObj[scope.row['signNode']] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="120" label="签署情况">
+        <el-table-column align="center" min-width="120" :label="$t('TM_QIANSHUQINGKUANG')">
           <template slot-scope="scope">
             <span
               class="open-link-text"
@@ -103,13 +106,17 @@
             <span v-else>{{ scope.row['signResult'] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="是否个人条款" min-width="120">
+        <el-table-column
+          align="center"
+          :label="$t('TM_SHIFOUGERENTIAOKUAN')"
+          min-width="120"
+        >
           <template slot-scope="scope">
             <span>{{
               scope.row.isPersonalTerms == true
-                ? '是'
+                ? $t('TM_SHI')
                 : scope.row.isPersonalTerms == false
-                ? '否'
+                ? $t('TM_FOU')
                 : ''
             }}</span>
           </template>
@@ -117,7 +124,7 @@
         <el-table-column
           align="center"
           min-width="140"
-          label="供应商范围"
+          :label="$t('TM_GONGYINGSHANGFANWEI')"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -138,7 +145,7 @@
         <el-table-column
           align="center"
           min-width="140"
-          label="供应商身份"
+          :label="$t('TM_GONGYINGSHANGSHENFEN')"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -156,18 +163,26 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="120" label="供应商用户">
+        <el-table-column
+          align="center"
+          min-width="120"
+          :label="$t('TM_GONGYINGSHANGYONGHU')"
+        >
           <template slot-scope="scope">
             <span>{{
               scope.row['supplierContacts'] == '01'
-                ? '全部'
+                ? $t('TM_QUANBU')
                 : scope.row['supplierContacts'] == '02'
-                ? '主联系人'
+                ? $t('TM_ZHULIANXIREN')
                 : ''
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="120" label="条款负责人">
+        <el-table-column
+          align="center"
+          min-width="120"
+          :label="$t('TM_TIAOKUANFUZEREN')"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row['chargeName'] }}</span>
           </template>
@@ -180,8 +195,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('TM_SHANGYIYE')"
+        :next-text="$t('TM_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -299,13 +314,13 @@ export default {
       let supplierRangeList = []
       value?.split(',').map((i) => {
         i == 'PP'
-          ? (supplierRangeList += '生产供应商，')
+          ? (supplierRangeList += this.$t('TM_SHENGCHANGONGYINGSHANG'))
           : i == 'GP'
-          ? (supplierRangeList += '一般供应商，')
+          ? (supplierRangeList += this.$t('TM_YIBANGONGYINGSHANG'))
           : i == 'NT'
           ? (supplierRangeList += 'N-Tier，')
           : i == 'CM'
-          ? (supplierRangeList += '自定义，')
+          ? (supplierRangeList += this.$t('TM_ZIDINGYI'))
           : (supplierRangeList += '')
       })
       supplierRangeList.length == 0
@@ -320,11 +335,11 @@ export default {
       let supplierIdentityList = []
       value?.split(',').map((i) => {
         i == '0'
-          ? (supplierIdentityList += '临时，')
+          ? (supplierIdentityList += this.$t('TM_LINSHI'))
           : i == '1'
-          ? (supplierIdentityList += '正式，')
+          ? (supplierIdentityList += this.$t('TM_ZHENGSHI'))
           : i == '2'
-          ? (supplierIdentityList += '储蓄池，')
+          ? (supplierIdentityList += this.$t('TM_CHUXUCHI'))
           : (supplierIdentityList += '')
       })
       supplierIdentityList.length == 0
@@ -350,13 +365,13 @@ export default {
         let supplierRangeList = []
         item.supplierRange?.split(',').map((i) => {
           i == 'PP'
-            ? (supplierRangeList += '生产供应商，')
+            ? (supplierRangeList += this.$t('TM_SHENGCHANGONGYINGSHANG'))
             : i == 'GP'
-            ? (supplierRangeList += '一般供应商，')
+            ? (supplierRangeList += this.$t('TM_YIBANGONGYINGSHANG'))
             : i == 'NT'
             ? (supplierRangeList += 'N-Tier，')
             : i == 'CM'
-            ? (supplierRangeList += '自定义，')
+            ? (supplierRangeList += this.$t('TM_ZIDINGYI'))
             : (supplierRangeList += '')
         })
         supplierRangeList = supplierRangeList.slice(
@@ -367,11 +382,11 @@ export default {
         let supplierIdentityList = []
         item.supplierIdentity?.split(',').map((i) => {
           i == '0'
-            ? (supplierIdentityList += '临时，')
+            ? (supplierIdentityList += '')
             : i == '1'
-            ? (supplierIdentityList += '正式，')
+            ? (supplierIdentityList += this.$t('TM_ZHENGSHI'))
             : i == '2'
-            ? (supplierIdentityList += '储蓄池，')
+            ? (supplierIdentityList += this.$t('TM_CHUXUCHI'))
             : (supplierIdentityList += '')
         })
         supplierIdentityList = supplierIdentityList.slice(
@@ -383,7 +398,7 @@ export default {
       // const titleArr = window._.cloneDeep(this.tableTitle)
       // const index = titleArr.findIndex(item => item.props == 'option')
       // titleArr.splice(index, index + 1)
-      excelExport(tableArr, this.tableTitle, '条款管理')
+      excelExport(tableArr, this.tableTitle, this.$t('TM_TIAOKUANGUANLI'))
     },
     // 导出全部
     handleExportAll() {
