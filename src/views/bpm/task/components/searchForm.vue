@@ -8,7 +8,7 @@
   >
     <el-form label-position="top">
       <el-row :gutter="2">
-        <el-col :span="6">
+        <el-col :span="5">
           <iFormItem :label="language('单据编号')">
             <iInput
               :placeholder="language('请输入')"
@@ -16,7 +16,7 @@
             />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <iFormItem :label="language('单据类型')">
             <iSelect
               :placeholder="language('请选择')"
@@ -35,7 +35,7 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="14">
           <iFormItem :label="language('任务名称')" style="width: 80%">
             <iSelect
               :placeholder="language('请选择')"
@@ -59,27 +59,42 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <iFormItem :label="language('申请人')">
             <userSearch v-model="form.applyUserId" />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <iFormItem :label="language('申请部门')">
             <orgSearch v-model="form.applyUserDeptId" />
           </iFormItem>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="14">
           <iFormItem :label="language('任务起止日期')" style="width: 80%">
-            <iDatePicker
-              v-model="date"
-              type="daterange"
-              :range-separator="language('至')"
-              :start-placeholder="language('开始日期')"
-              :end-placeholder="language('结束日期')"
-              style="width: 100%"
-            >
-            </iDatePicker>
+            <div class="flex-between-center-center">
+              <iDatePicker
+                v-model="date"
+                type="daterange"
+                :range-separator="language('至')"
+                :start-placeholder="language('开始日期')"
+                :end-placeholder="language('结束日期')"
+                :style="{ width: isTodoPage ? 'auto' : '100%' }"
+              >
+              </iDatePicker>
+              <el-checkbox v-model="form.reApprove" v-if="isTodoPage">
+                {{ language('复核中单据') }}
+                <el-tooltip
+                  effect="light"
+                  :content="
+                    language(
+                      '显示全部仍在复核期内的单据，包括已经完成复核操作的单据。'
+                    )
+                  "
+                >
+                  <icon name="iconzengjiacailiaochengben_lan" symbol />
+                </el-tooltip>
+              </el-checkbox>
+            </div>
           </iFormItem>
         </el-col>
       </el-row>
@@ -88,7 +103,7 @@
 </template>
 
 <script>
-import { iFormItem, iInput, iSearch, iSelect, iDatePicker } from 'rise'
+import { iFormItem, iInput, iSearch, iSelect, iDatePicker, Icon } from 'rise'
 import { BPM_APPROVAL_TYPE_OPTIONS } from '@/constants'
 import { queryModelTemplate } from '@/api/approval/myApproval'
 import {
@@ -111,7 +126,13 @@ export default {
     iSelect,
     iDatePicker,
     userSearch,
-    orgSearch
+    orgSearch,
+    Icon
+  },
+  computed: {
+    isTodoPage() {
+      return this.$route.path === '/bpm/todoList'
+    }
   },
   data() {
     return {
@@ -124,7 +145,8 @@ export default {
         itemName: '',
         startTime: '',
         applyUserDeptId: '',
-        itemTypeList: ''
+        itemTypeList: '',
+        reApprove: false
       },
       templates: [{ name: '', value: '全部' }],
       nameOptions: [],
@@ -159,6 +181,9 @@ export default {
         searchData.startTime = this.date[0]
         searchData.endTime = this.date[1]
       }
+      if (!this.isTodoPage) {
+        delete searchData.reApprove
+      }
       this.$emit('search', searchData, this.templates)
     },
     reset() {
@@ -170,7 +195,8 @@ export default {
         itemName: '',
         startTime: '',
         applyUserDeptId: '',
-        itemTypeList: ''
+        itemTypeList: '',
+        reApprove: false
       }
       this.date = ''
       this.$emit('search', this.form, this.templates)
