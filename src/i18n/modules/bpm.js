@@ -14,5 +14,6 @@ export default {
   流程监控: 'Process monitoring',
   流程报表: 'Process report',
   审批代理: 'Approval Agent',
-  会议审批代理: 'Meeting Approval Agent'
+  会议审批代理: 'Meeting Approval Agent',
+  所有人可见: 'Visible to everyone'
 }

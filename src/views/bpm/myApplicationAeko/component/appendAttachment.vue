@@ -50,11 +50,17 @@
           :loading="uploadLoading"
           size="small"
           class="btn-upload"
+          slot="trigger"
         >
           <span>
             {{ language('上传附件') }}
           </span>
         </iButton>
+        <span class="margin-left40">
+          <el-checkbox v-model="form.isAll">
+            {{ language('所有人可见') }}
+          </el-checkbox>
+        </span>
       </el-upload>
     </div>
 
@@ -98,7 +104,8 @@ export default {
       uploadLoading: false,
       form: {
         node: '',
-        comment: ''
+        comment: '',
+        isAll: true
       },
       attachList: [],
       taskNodes: []
@@ -173,17 +180,7 @@ export default {
         processInstanceId: this.instanceId,
         taskFiles,
         taskId: this.form.node,
-        isAll: false
-      }
-      // CRW-4985
-      //【CF】【优化】审批人要求补充材料后，申请人在编辑补充材料的规则优化
-      if (data.taskId === 'ALL') {
-        data.isAll = true
-        if (this.taskNodes.length > 1) {
-          data.taskId = this.taskNodes[1].taskId
-        } else {
-          data.taskId = ''
-        }
+        isAll: this.form.isAll // CRW-4985 【CF】【优化】审批人要求补充材料后，申请人在编辑补充材料的规则优化
       }
       this.uploadLoading = true
       saveApprovalAttach(data)
