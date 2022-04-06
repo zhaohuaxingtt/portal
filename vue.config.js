@@ -109,6 +109,10 @@ module.exports = {
     }
     //开启gizp压缩
     config.devtool = 'source-map'
+
+    config.watchOptions = {
+      ignored: /node_modules/
+    }
   },
   //引入全局css变量
   css: {
