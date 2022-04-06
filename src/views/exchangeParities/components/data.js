@@ -121,10 +121,14 @@ export const PARITIES_EDIT_COLUMNS = [
     prop: 'type',
     required: true,
     customRender: (h, scope) => {
-      if (!scope.row.isEdit) {
+      if (scope.row.type === 1) {
+        return '项目汇率'
+      }
+      return 'SAP汇率'
+      /* if (!scope.row.isEdit) {
         return 'SAP汇率'
       }
-      return '项目汇率'
+      return '项目汇率' */
     }
   },
   {
