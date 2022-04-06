@@ -735,7 +735,6 @@ export default {
       this.page.pageSize = 10
       this.getUserType()
     },
-
     async getTableList () {
       this.tableLoading = true
       const pms = {
@@ -745,7 +744,8 @@ export default {
         stepCode: '',
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        supplierType: this.form.supplierType
+        supplierType: this.form.supplierType,
+        supplierTableType:"GP-TABLE"
       }
       const res = await getBasicList(pms)
       this.relatedToMe = this.form.relatedToMe

@@ -81,7 +81,7 @@ export const baseInfoTitle = [
     },
     {
         key: 'svwCode',
-        name: 'SUPPLIER_SVWHAO',
+        name: 'SUPPLIER_ZHENGSHIHAO',
         required: false,
         icons: "",
         tip: "",
@@ -175,7 +175,7 @@ export const baseInfoTitleGP = [
     },
     {
         key: 'svwCode',
-        name: 'SUPPLIER_SVWHAO',
+        name: 'ZHENGSHIHAO',
         required: false,
         icons: "",
         tip: "",

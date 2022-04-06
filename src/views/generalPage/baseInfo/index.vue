@@ -126,8 +126,7 @@ export default {
           let baseInfo = this.reView(res.data)
           this.$parent.$parent.onLoading = false
           baseInfo.supplierInfoVo.isListing = baseInfo.supplierInfoVo.isListing.toString()
-          if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo
-            .gpSupplierInfoVO
+          if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo.gpSupplierInfoVO
           if (baseInfo.ppSupplierInfoVo) {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
