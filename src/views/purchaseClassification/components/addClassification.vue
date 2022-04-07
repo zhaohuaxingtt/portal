@@ -70,15 +70,16 @@
           <!-- 股别-->
           <el-form-item label="股别">
             <i-select
-              multiple
+              
               collapse-tags
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
+              v-model="formData.organizationId"
             >
               <el-option
-                v-for="item in listDeptData2"
-                :key="item.code"
-                :label="item.code"
-                :value="item.id"
+                v-for="item in AllBelongOrgList"
+                :key="item.belongToOrgCode"
+                :label="item.belongToOrgCode"
+                :value="item.belongToOrgId"
               ></el-option>
             </i-select>
           </el-form-item>
@@ -112,7 +113,7 @@
 <script>
 import { iDialog, iInput, iButton, iSelect,iMessage } from 'rise'
 import { SEARCH_ADD_DATA } from './data'
-import { getAll, getMaterialGroupById, save } from '@/api/authorityMgmt'
+import { getAll, getMaterialGroupById, save,getAllBelongOrgList } from '@/api/authorityMgmt'
 export default {
   components: {
     iDialog,
@@ -124,7 +125,8 @@ export default {
   data() {
     return {
       listDeptData: [],
-      formData: SEARCH_ADD_DATA
+      formData: SEARCH_ADD_DATA,
+      AllBelongOrgList:[],
     }
   },
   props: {
@@ -132,6 +134,7 @@ export default {
   },
   created() {
     this.getListData()
+    this.getBelongOrgList()
   },
   methods: {
     // 关闭弹窗
@@ -150,7 +153,7 @@ export default {
     select(val) {
       getMaterialGroupById(val).then((res) => {
         if (+res.code == 200) {
-          this.formData.parentMaterialGroupName=res.data.parentMaterialGroupName
+          this.formData.parentMaterialGroupName=res.data.materialGroupName
           this.formData.parentId=res.data.id
           if (res.data.materialGroupLevel != null) {
             this.formData.parentMaterialGroupLevel =
@@ -173,7 +176,15 @@ export default {
         iMessage.success('新增成功')
         this.$emit('saveDataList', false)
       })
-    }
+    },
+    //获取股别
+    getBelongOrgList() {
+      getAllBelongOrgList().then((res) => {
+        if (+res.code === 200) {
+          this.AllBelongOrgList = res.data
+        }
+      })
+    },
   }
 }
 </script>
