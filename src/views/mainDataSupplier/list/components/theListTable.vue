@@ -57,6 +57,7 @@ export default {
       tableColumns: SUPPLIER_TABLE_COLUMNS,
       selectedRows: [],
       detailUrl: '/portal/#/mainDataSupplier/list/detail',
+      detailUrl2: '/gpsupplierportal/#/mainDataSupplier/list/detail',
 
       extraData: {
         supplierTypeMap: arrayToMap(SUPPLIER_TYPES, 'value', 'label')
@@ -68,8 +69,12 @@ export default {
   },
   methods: {
     edit() {
-      const { id } = this.selectedRows[0]
-      window.open(`${this.detailUrl}?id=${id}`)
+      const { id,supplierType } = this.selectedRows[0]
+      if(process.env.NODE_ENV == 'vmsit' && supplierType =="GP"){
+        window.open(`${this.detailUrl2}?id=${id}&supplierType=${supplierType}`)
+      }else{
+        window.open(`${this.detailUrl}?id=${id}&supplierType=${supplierType}`)
+      }
     },
     handleDelete() {
       this.onDelete().then(() => {
@@ -92,7 +97,11 @@ export default {
       return exportSupplier(this.searchData)
     },
     handleGoDetail(row) {
-      window.open(`${this.detailUrl}?id=${row.id}&supplierType=${row.supplierType}`)
+      if(process.env.NODE_ENV == 'vmsit' && row.supplierType =="GP"){
+        window.open(`${this.detailUrl2}?id=${row.id}&supplierType=${row.supplierType}`)
+      }else{
+        window.open(`${this.detailUrl}?id=${row.id}&supplierType=${row.supplierType}`)
+      }
     },
     handleSelectionChange(val) {
       this.selectedRows = val
