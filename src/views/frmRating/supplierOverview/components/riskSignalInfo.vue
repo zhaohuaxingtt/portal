@@ -1,8 +1,8 @@
 <template>
   <div>
     <iCard>
-      <div slot="header" style="width: 100%;" :stretch="true" >
-        <iTabs style='float:left;margin-left:20px; width: 90%;' v-model="tabVal" @tab-click="changeTab" >
+      <div slot="header" class="content-header" :stretch="true" >
+        <iTabs style='float:left; width: 100%;' v-model="tabVal" @tab-click="changeTab" >
           <el-tab-pane name="gp" label="一般采购风险信号">
             <riskSignalInfoDetail :tabVal="tabVal" :key="key"  @searchChange="searchChange" @initData="initData"/>
           </el-tab-pane>
@@ -10,7 +10,7 @@
             <riskSignalInfoDetail :tabVal="tabVal" :key="key"  @searchChange="searchChange" @initData="initData"/>
           </el-tab-pane>
         </iTabs>
-        <el-button  slot="header-control" type="primary" @click="$emit('back')" style="float:right;margin-right:20px;">{{$t('LK_FANHUI')}}</el-button>
+        <el-button  slot="header-control" class="back" type="primary" @click="$emit('back')">{{$t('LK_FANHUI')}}</el-button>
       </div>
     </iCard>
   </div>
@@ -126,7 +126,15 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
-
+<style lang='scss' scoped>
+.content-header{
+  width: 100%;
+  position: relative;
+  .back{
+    position: absolute;
+    top: -5px;
+    right: 0;
+  }
+}
  
 </style>
