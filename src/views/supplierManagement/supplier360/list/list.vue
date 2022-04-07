@@ -137,8 +137,8 @@
       </el-form>
     </iSearch>
     <i-card class="margin-top20">
-      <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
+      <div class="margin-bottom10 clearFloat">
+        <div class="floatright btn-box">
           <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
           <!-- <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
           <i-button @click="tagTab"
@@ -773,5 +773,10 @@ export default {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+.btn-box{
+  ::v-deep .el-button{
+    margin-bottom: 10px;
+  }
 }
 </style>

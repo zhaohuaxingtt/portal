@@ -177,8 +177,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        target: `http://${BASE_IP}:8012/approval`,
-        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
+        // target: `http://${BASE_IP}:8012/approval`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approval`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -206,7 +206,8 @@ module.exports = {
       },
       //------------------- 业务日志 ---------------------
       [process.env.VUE_APP_BIZLOG]: {
-        target: `http://${BASE_IP}:8013/bizlog`,
+        // target: `http://${BASE_IP}:8013/bizlog`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/bizlog`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BIZLOG]: ''
