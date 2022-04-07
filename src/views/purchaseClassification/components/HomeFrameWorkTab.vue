@@ -140,7 +140,7 @@ export default {
           align: 'center',
            customRender: (h, scope, column) => {
              const isActive=scope.row.isActive
-             return scope.row.isMinimumPurchase==true?(<ISwitch currVal={ scope.row.isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />):''
+             return <ISwitch currVal={ scope.row.isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />
            },
           minWidth: 100,
           emit:'switchChange',
