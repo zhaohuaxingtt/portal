@@ -157,19 +157,23 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认'),
       }).then(() => {
         mtzBalanceDetailsExport({ mtzDocId: this.dataObject.id }).then(res => {
-          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          link.href = objectUrl;
-          let fname = "MTZ补差单明细凭证" + getNowFormatDate() + ".pdf";
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          this.$message({
-            type: "success",
-            message: "链接成功!"
-          });
+          if (res.type === 'application/json') {
+            iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
+          } else {
+            let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+            let objectUrl = URL.createObjectURL(blob);
+            let link = document.createElement("a");
+            link.href = objectUrl;
+            let fname = "MTZ补差单明细凭证" + getNowFormatDate() + ".pdf";
+            link.setAttribute("download", fname);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+            this.$message({
+              type: "success",
+              message: "链接成功!"
+            });
+          }
         })
       }).catch((err) => {
         console.log(err)

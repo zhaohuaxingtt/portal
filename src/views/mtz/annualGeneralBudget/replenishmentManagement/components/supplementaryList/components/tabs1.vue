@@ -240,8 +240,8 @@ export default {
         mtzBalanceDetailsExport({
           mtzDocId: this.mtzDocId
         }).then(res => {
-          if (Object.prototype.toString.call(res) === '[Object Object]') {
-            iMessage.error(res.desZh)
+          if (res.type === 'application/json') {
+            iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
           } else {
             let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
             let objectUrl = URL.createObjectURL(blob);
