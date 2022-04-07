@@ -2,8 +2,8 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-02-18 19:53:17
+ * @LastEditors: YoHo
+ * @LastEditTime: 2022-04-01 10:54:07
  * @Descripttion: your project
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -53,6 +53,20 @@ export const tableTitle = [
     tooltip: true
   },
   {
+    prop: 'ratingResult',
+    label: '评级结果',
+    li8n: 'SPR_FRM_XGYSPJ_PJJG',
+    width: 120,
+    tooltip: true
+  },
+  {
+    prop: 'ratingStatus',
+    label: '状态',
+    li8n: 'LK_ZHUANGTAI',
+    tooltip: true,
+    width: 120
+  },
+  {
     prop: 'approvalTime',
     label: '申请时间',
     li8n: 'SPR_FRM_XGYSPJ_SQSJ',
@@ -87,13 +101,6 @@ export const tableTitle = [
     tooltip: true
   },
   {
-    prop: 'ratingResult',
-    label: '评级结果',
-    li8n: 'SPR_FRM_XGYSPJ_PJJG',
-    width: 120,
-    tooltip: true
-  },
-  {
     prop: 'markingTime',
     label: '评级时间',
     li8n: 'SPR_FRM_XGYSPJ_PJSJ',
@@ -106,13 +113,6 @@ export const tableTitle = [
     li8n: 'SPR_FRM_XGYSPJ_PJFZR',
     width: 150,
     tooltip: true
-  },
-  {
-    prop: 'ratingStatus',
-    label: '状态',
-    li8n: 'LK_ZHUANGTAI',
-    tooltip: true,
-    width: 120
   },
   {
     prop: 'remark',
