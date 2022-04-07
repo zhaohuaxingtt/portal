@@ -34,6 +34,7 @@ export const interViewTabList = [
 export const groupShareholder = [
   { props: 'name', name: '股东名称', key: 'SPR_FRM_XGYSPJ_GDMC', minWidth:200 },
   { props: 'industryBelongs', name: '行业归属', key: 'HANGYEGUISHU', width:200 },
+  { props: 'mainBusiness', name: '主营业务', key: 'ZHUYINYEWU', minWidth:200 },
   { props: 'principal', name: '负责人', key: 'FUZEREN', width:120 },
   { props: 'proportion', name: '持股比例（%）', key: 'SPR_FRM_XGYSPJ_CGBL', width:140 },
   {
@@ -42,7 +43,6 @@ export const groupShareholder = [
     key: 'SPR_FRM_DEP_CGJE',
     width:120
   },
-  { props: 'mainBusiness', name: '主营业务', key: 'ZHUYINYEWU', minWidth:200 }
 ]
 
 // 组织机构、人员情况
