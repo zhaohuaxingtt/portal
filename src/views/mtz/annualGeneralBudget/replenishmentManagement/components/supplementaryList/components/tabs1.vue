@@ -22,11 +22,15 @@
       <div>
         <!-- <iButton @click="bingo" v-permission="PORTAL_MTZ_FAQIBUCHA" v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton> -->
         <!-- <iButton @click="refuse" v-if="dataObject.status == '供应商确认中'">{{language('JUJUE', '拒绝')}}</iButton> -->
-        <iButton @click="uploadPZ" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
-        <iButton @click="upload" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
-        <iButton @click="save" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHUBEIZHU">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
+        <iButton @click="uploadPZ"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+        <iButton @click="upload"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+        <iButton @click="save"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHUBEIZHU">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
         <iButton @click="bingo"
-                 v-if="dataObject.status == '供应商确认中'" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAIGONGYINGSHANGQUEREN">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
+                 v-if="dataObject.status == '供应商确认中'"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAIGONGYINGSHANGQUEREN">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
       </div>
     </div>
     <tableList class="margin-top20"
@@ -73,7 +77,7 @@ import {
 } from "@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details"
 import { deepClone, getNowFormatDate } from "./util.js";
 
-import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "tabs1",
@@ -164,7 +168,7 @@ export default {
       }).then(res => {
         if (res.data.length < 1) {
           this.$emit("componentHidden", false)
-        }else{
+        } else {
           this.$emit("componentHidden", true)
         }
         this.tableListData = res.data;
@@ -236,16 +240,21 @@ export default {
         mtzBalanceDetailsExport({
           mtzDocId: this.mtzDocId
         }).then(res => {
-          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          link.href = objectUrl;
-          let fname = "MTZ补差单汇总凭证" + this.dataObject.bizNo + ".pdf";
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          iMessage.success("链接成功！")
+          if (res.type === 'application/json') {
+            iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
+          } else {
+            let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+            let objectUrl = URL.createObjectURL(blob);
+            let link = document.createElement("a");
+            link.href = objectUrl;
+            let fname = "MTZ补差单汇总凭证" + this.dataObject.bizNo + ".pdf";
+            link.setAttribute("download", fname);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+            iMessage.success("链接成功！")
+          }
+
         })
       }).catch((err) => {
         console.log(err)

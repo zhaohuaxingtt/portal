@@ -757,7 +757,7 @@ import dayjs from 'dayjs'
 import { findThemenById } from '@/api/meeting/details'
 import { exportMeetingAgenda } from '@/api/meeting/gpMeeting'
 import { exportExcel } from '@/utils/gpfiledowLoad'
-
+import { downloadAll } from '@/utils/downloadAll'
 export default {
   components: {
     iCard,
@@ -1234,21 +1234,72 @@ export default {
     // },
     //下载附件
     downloadEnclosure(e, row) {
+      const typeMap = {
+        doc: 'application/msword',
+        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        rtf: 'application/rtf',
+        xls: 'application/vnd.ms-excelapplication/x-excel',
+        xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ppt: 'application/vnd.ms-powerpoint',
+        pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        pps: 'application/vnd.ms-powerpoint',
+        ppsx: 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+        pdf: 'application/pdf',
+        swf: 'application/x-shockwave-flash',
+        dll: 'application/x-msdownload',
+        exe: 'application/octet-stream',
+        msi: 'application/octet-stream',
+        chm: 'application/octet-stream',
+        cab: 'application/octet-stream',
+        ocx: 'application/octet-stream',
+        rar: 'application/octet-stream',
+        tar: 'application/x-tar',
+        tgz: 'application/x-compressed',
+        zip: 'application/x-zip-compressed',
+        wav: 'audio/wav',
+        wma: 'audio/x-ms-wma',
+        wmv: 'video/x-ms-wmv',
+        mp3: '.mp2.mpe.mpeg.mpgaudio/mpeg',
+        rm: 'application/vnd.rn-realmedia',
+        mid: '.midi.rmiaudio/mid',
+        bmp: 'image/bmp',
+        gif: 'image/gif',
+        png: 'image/png',
+        tif: 'image/tiff',
+        tiff: 'image/tiff',
+        jpe: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        jpg: 'image/jpeg',
+        txt: 'text/plain',
+        xml: 'text/xml',
+        html: 'text/html'
+      }
       const arr = e.attachmentName ? e.attachmentName.split('.') : []
       const suffix = arr[arr.length - 1]
-      download({
-        // url: MOCK_FILE_URL + e.attachmentId,
-        fileIds: e.attachmentId,
-        filename: row?.name
-          ? row.name.split('/').join(' ') + '.' + suffix
-          : ' ' + '.' + suffix,
-        // filename: e.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
-          }
-        }
+      const filename = row.name
+        ? row.name.split('/').join(' ') + '.' + suffix
+        : ' ' + '.' + suffix
+
+      downloadAll({
+        url:
+          process.env.VUE_APP_FILEAPI +
+          '/fileud/udDown?isDown=true&fileIds=' +
+          e.attachmentId,
+        filename,
+        callback: null,
+        type: typeMap[suffix.toLowerCase()]
       })
+      // download({
+      //   // url: MOCK_FILE_URL + e.attachmentId,
+      //   fileIds: e.attachmentId,
+      //   filename,
+      //   // filename: e.attachmentName,
+      //   callback: (e) => {
+      //     if (!e) {
+      //       iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      //     }
+      //   }
+      // })
     },
     // 下载模版
     downDemo() {

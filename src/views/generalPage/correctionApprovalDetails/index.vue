@@ -170,6 +170,7 @@ export default {
       attachmentDetail: '',
       attachmentLoading: false,
       currentTemplateId: '',
+      supplierId: ""
     }
   },
   methods: {
@@ -183,6 +184,7 @@ export default {
         const res = await getTaskDetails(req)
         this.detail = res.data ? res.data : {}
         this.supplierToken = this.detail.token
+        this.supplierId = this.detail.supplierId
         this.tableListData = res.data.informationList ? res.data.informationList : []
         this.loading = false
         this.tableLoading = false
@@ -219,6 +221,7 @@ export default {
           current: 14,
           supplierType: 4,
           supplierToken: this.supplierToken,
+          supplierId: this.supplierId
         },
       })
     },
