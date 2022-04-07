@@ -96,7 +96,7 @@
                 $store.state.permission.userInfo.userType == 2 && !item.value
               "
                        :value="item.value"
-                       :label="item.label">
+                       :label="language(item.key,item,label)">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -358,11 +358,13 @@ export default {
         supplierTypeList: [],
         relatedToMeList: [
           {
-            label: this.$t('SUPPLIER_SHI'),
+            label:'是',
+            key:'SUPPLIER_SHI',
             value: true
           },
           {
-            label: this.$t('SUPPLIER_FOU'),
+            label: '否',
+            key:'SUPPLIER_FOU',
             value: false
           }
         ]
