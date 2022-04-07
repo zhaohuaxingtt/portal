@@ -137,8 +137,8 @@
       </el-form>
     </iSearch>
     <i-card class="margin-top20">
-      <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
+      <div class="margin-bottom10 clearFloat">
+        <div class="floatright btn-box">
           <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
           <!-- <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
           <i-button @click="tagTab"
@@ -151,12 +151,12 @@
                     v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
                     v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
-          <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
                     @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
                     @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
-          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
+          <i-button @click="synchro" v-permission="PORTAL_SUPPLIER_SAP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -773,5 +773,10 @@ export default {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+.btn-box{
+  ::v-deep .el-button{
+    margin-bottom: 10px;
+  }
 }
 </style>

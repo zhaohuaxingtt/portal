@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-03-03 18:52:33
+ * @LastEditTime: 2022-04-01 11:06:27
  * @LastEditors: YoHo
  * @Description: 通用表格
 -->
@@ -78,6 +78,7 @@
         <!--输入框-->
         <el-table-column
           :width="items.width"
+          :min-width="items.minWidth"
           :show-overflow-tooltip="items.tooltip"
           :key="index"
           align="center"

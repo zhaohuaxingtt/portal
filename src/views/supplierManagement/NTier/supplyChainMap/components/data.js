@@ -2,14 +2,14 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-05 15:41:21
- * @LastEditors: zbin
+ * @LastEditors: YoHo
  * @Descripttion: your project
  */
 import { getDictByCode } from "@/api/dictionary";
 
 export const supplierTableTitle = [
-  { props: 'sapCode', name: '供应商编号', key: 'GONGYINGSHANGBIANHAO', tooltip: true },
-  { props: 'supplierNameCn', name: '供应商名称', key: 'GONGYINGSHANGMINGCHEN', tooltip: true },
+  { props: 'sapCode', name: '供应商编号', key: 'GONGYINGSHANGBIANHAO', tooltip: true, width: 100 },
+  { props: 'supplierNameCn', name: '供应商名称', key: 'GONGYINGSHANGMINGCHEN', tooltip: true, width: 140 },
   { props: 'address', name: '工厂地址', key: 'GONGCHANGDIZHI', tooltip: true },
 ]
 export const partTableTitle = [

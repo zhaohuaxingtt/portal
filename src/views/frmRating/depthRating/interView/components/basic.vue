@@ -31,6 +31,7 @@
         </div>
       </template>
       <tableList :tableData="interViewData.investorVOList"
+                  border
                  :tableTitle="tableTitle"
                  :tableLoading="tableLoading"
                  :index="true"
@@ -60,7 +61,7 @@
       <iInput type='textarea'
               :autosize='rowRange'
               :placeholder="$t('SPR_FRM_DEP_INPUT')"
-              v-model="interViewData.personSituationMeetingMinutes"></iInput>
+              v-model="interViewData.situationMeetingMinutes"></iInput>
     </iCard>
     <!-- 组织机构、人员情况 -->
     <iCard :title="$t('SPR_FRM_DEP_ZZJGRYQK')"

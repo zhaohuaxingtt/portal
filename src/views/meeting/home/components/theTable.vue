@@ -142,7 +142,7 @@
                     v-for="item in scope.row.attachments"
                     :key="item.attachmentId"
                     class="open-link-text enclosure-item"
-                    @click="downloadEnclosure(item)"
+                    @click="downloadEnclosure(item, scope.row)"
                   >
                     <img :src="enclosure" alt="" srcset="" />
                     <span style="color: #1763f7">{{
@@ -262,15 +262,21 @@
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
               <!-- 导出议题  gp会议不需要导出议题按钮  如有影响到通用会议 请联系gp -->
-              <template  v-if="scope.row.isGpCSC == true || scope.row.isMBDL == true ? showP=false : showP=true ">
-                  <p
+              <template
+                v-if="
+                  scope.row.isGpCSC == true || scope.row.isMBDL == true
+                    ? (showP = false)
+                    : (showP = true)
+                "
+              >
+                <p
                   v-if="scope.row.state == '02'"
-                    @click="actionObj('importFile')(scope.row.id)"
-                  >
-                    <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
-                    <span> {{ $t('MT_DAORUYITI') }}</span>
-                    <span class="line">|</span>
-                  </p>
+                  @click="actionObj('importFile')(scope.row.id)"
+                >
+                  <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
+                  <span> {{ $t('MT_DAORUYITI') }}</span>
+                  <span class="line">|</span>
+                </p>
               </template>
               <p
                 v-if="scope.row.state == '04'"
@@ -811,7 +817,7 @@ export default {
   },
   data() {
     return {
-      showP:false,
+      showP: false,
       currentCloseRow: {},
       openFreezeDialog: false,
       warnTableData: [],
@@ -1214,11 +1220,29 @@ export default {
       )
     },
     // 下载附件
-    downloadEnclosure(e) {
+    // downloadEnclosure(e) {
+    //   download({
+    //     fileIds: e.attachmentId,
+    //     // url: MOCK_FILE_URL + e.attachmentId,
+    //     filename: e.attachmentName,
+    //     callback: (e) => {
+    //       if (!e) {
+    //         iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+    //       }
+    //     }
+    //   })
+    // },
+    //下载附件
+    downloadEnclosure(e, row) {
+      const arr = e.attachmentName ? e.attachmentName.split('.') : []
+      const suffix = arr[arr.length - 1]
       download({
-        fileIds: e.attachmentId,
         // url: MOCK_FILE_URL + e.attachmentId,
-        filename: e.attachmentName,
+        fileIds: e.attachmentId,
+        filename: row?.name
+          ? row.name.split('/').join(' ') + '.' + suffix
+          : ' ' + '.' + suffix,
+        // filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
             iMessage.error(this.$t('MT_XIAZAISHIBAI'))
@@ -1366,34 +1390,33 @@ export default {
           //     this.isGenerating = false
           //   })
           //gp会议  生成Agenda
-          if (this.selectedRow[0].isGpCSC==true || this.selectedRow[0].isMBDL==true) {
-            if(this.selectedRow[0].isMBDL==true){
+          if (
+            this.selectedRow[0].isGpCSC == true ||
+            this.selectedRow[0].isMBDL == true
+          ) {
+            if (this.selectedRow[0].isMBDL == true) {
               return
-            }else{
-              console.log('gp生成Agenda');
+            } else {
+              console.log('gp生成Agenda')
               exportMeetingAgenda({ id: e }).then((res) => {
                 exportExcel(res)
               })
             }
-          }else{
+          } else {
             // console.log('原来生成Agenda');
             this.isGenerating = true
-            generateAgenda({ id: e }).then((res) => {
-              if (res.code === 200) {
-                iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
-              }
-              this.isGenerating = false
-              this.refreshTable()
-            })
-            .catch(() => {
-              this.isGenerating = false
-            })
+            generateAgenda({ id: e })
+              .then((res) => {
+                if (res.code === 200) {
+                  iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
+                }
+                this.isGenerating = false
+                this.refreshTable()
+              })
+              .catch(() => {
+                this.isGenerating = false
+              })
           }
-
-
-
-
-
         },
         importFile: (e) => {
           // 导入议题

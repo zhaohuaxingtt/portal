@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-08 11:47:59
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-01-28 18:48:57
+ * @LastEditors: YoHo
+ * @LastEditTime: 2022-04-01 11:06:49
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\interView\data.js
  */
 export const interViewTabList = [
@@ -32,16 +32,17 @@ export const interViewTabList = [
 ]
 // 集团、股东、实际控制人（详见股权结构图）
 export const groupShareholder = [
-  { props: 'name', name: '股东名称', key: 'SPR_FRM_XGYSPJ_GDMC' },
-  { props: 'industryBelongs', name: '行业归属', key: 'HANGYEGUISHU' },
-  { props: 'principal', name: '负责人', key: 'FUZEREN' },
-  { props: 'proportion', name: '持股比例（%）', key: 'SPR_FRM_XGYSPJ_CGBL' },
+  { props: 'name', name: '股东名称', key: 'SPR_FRM_XGYSPJ_GDMC', minWidth:200 },
+  { props: 'industryBelongs', name: '行业归属', key: 'HANGYEGUISHU', width:200 },
+  { props: 'principal', name: '负责人', key: 'FUZEREN', width:120 },
+  { props: 'proportion', name: '持股比例（%）', key: 'SPR_FRM_XGYSPJ_CGBL', width:140 },
   {
     props: 'shareholderContribution',
     name: '持股金额',
-    key: 'SPR_FRM_DEP_CGJE'
+    key: 'SPR_FRM_DEP_CGJE',
+    width:120
   },
-  { props: 'mainBusiness', name: '主营业务', key: 'ZHUYINYEWU' }
+  { props: 'mainBusiness', name: '主营业务', key: 'ZHUYINYEWU', minWidth:200 }
 ]
 
 // 组织机构、人员情况

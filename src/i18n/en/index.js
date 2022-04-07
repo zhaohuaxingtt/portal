@@ -9,6 +9,8 @@ import others from './others'
 import meetingType from './meetingType'
 import questionnaire from './questionnaire'
 import terms from './terms'
+import meeting from './meeting'
+import supplier from "./supplier";
 export default {
   ...online,
   ...mainData,
@@ -21,5 +23,7 @@ export default {
   ...others,
   ...meetingType,
   ...questionnaire,
-  ...terms
+  ...terms,
+  ...meeting,
+  ...supplier
 }

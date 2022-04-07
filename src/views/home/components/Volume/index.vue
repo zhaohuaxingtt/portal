@@ -86,11 +86,13 @@ export default {
         this.partList = result.data.sort(
           (a, b) => b.reductionPotential - a.reductionPotential
         )
-        this.itemSelected = this.partList[0]
-        this.$refs.volumeTable.$refs.theCustomTable.setCurrentRow(
-          this.partList[0]
-        )
-        this.getDetail()
+        if (this.partList.length) {
+          this.itemSelected = this.partList[0]
+          this.$refs.volumeTable.$refs.theCustomTable.setCurrentRow(
+            this.partList[0]
+          )
+          this.getDetail()
+        }
       }
     },
     handleCurveData(data) {
