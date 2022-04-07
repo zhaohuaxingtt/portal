@@ -198,7 +198,7 @@ module.exports = {
       // ------------------ 上传 ----------------------------
       '/fileApi': {
         // target: `http://${BASE_IP}:8034`,
-        target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/fileApi`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
