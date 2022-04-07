@@ -13,6 +13,8 @@ import { word2Pdf } from '@/api/terms/terms'
 const request = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 
 const createAnchorLink = (href, filename = '') => {
+  console.log('href', href)
+  console.log('filename', filename)
   // console.log('href', href)
   const a = document.createElement('a')
   a.download = filename

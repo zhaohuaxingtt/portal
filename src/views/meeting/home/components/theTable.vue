@@ -1236,12 +1236,13 @@ export default {
     downloadEnclosure(e, row) {
       const arr = e.attachmentName ? e.attachmentName.split('.') : []
       const suffix = arr[arr.length - 1]
+      const filename = row.name
+        ? row.name.split('/').join(' ') + '.' + suffix
+        : ' ' + '.' + suffix
       download({
         // url: MOCK_FILE_URL + e.attachmentId,
         fileIds: e.attachmentId,
-        filename: row?.name
-          ? row.name.split('/').join(' ') + '.' + suffix
-          : ' ' + '.' + suffix,
+        filename,
         // filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
