@@ -155,6 +155,8 @@ export default {
               this.buttonLoad = false
               iMessage.error(res.desZh)
             }
+          }).catch((error) => {
+            this.buttonLoad = false
           })
         })
       } else {
