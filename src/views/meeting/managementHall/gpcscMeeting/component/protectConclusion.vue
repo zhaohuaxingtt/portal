@@ -317,7 +317,20 @@ export default {
           this.autoOpenProtectConclusionObj.conclusionCsc === '06'
             ? true
             : false,
-        // conclusionCscAll:[...themenConclusionArrObj],
+        conclusionCscAllLIN:[
+          {
+          conclusionCsc: "01",
+          conclusionName: "待定",
+          },
+          {
+            conclusionCsc: "08",
+            conclusionName: "通过",
+          },
+          {
+            conclusionCsc: "10",
+            conclusionName: "不通过",
+          },
+        ],
         conclusionCscAll:[],
         tableListData: [],
         ruleForm: {
@@ -371,7 +384,20 @@ export default {
           this.selectedTableData[0].conclusionCsc === '06'
             ? true
             : false,
-        // conclusionCscAll:[...themenConclusionArrObj],
+        conclusionCscAllLIN:[
+          {
+          conclusionCsc: "01",
+          conclusionName: "待定",
+          },
+          {
+            conclusionCsc: "08",
+            conclusionName: "通过",
+          },
+          {
+            conclusionCsc: "10",
+            conclusionName: "不通过",
+          },
+        ],
         conclusionCscAll:[],
         tableListData: [],
         ruleForm: {
@@ -399,6 +425,17 @@ export default {
     }
   },
   mounted() {
+    // 先根据会议是否是临时议题 绝对下拉框数据  
+    // conclusionCscAllLIN 临时议题
+    // conclusionCscAll   会议议题
+    //判断MANUAL --临时议题    GP  --上会议题  结论不一样
+    if (curObj.type=="MANUAL") {
+      this.relateCommon(['08','01','10'])
+    }else{
+      this.getConclusion()
+    }
+
+
     const curObj = this.autoOpenProtectConclusionObj
       ? this.autoOpenProtectConclusionObj
       : this.selectedTableData[0]
@@ -539,9 +576,6 @@ export default {
     this.getList()
     this.getDate()
     this.getCurrency()
-    this.getConclusion()
-    // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
-    // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
     //货币下拉框
@@ -748,17 +782,20 @@ export default {
       const data = {
         id:this.meetingInfo.meetingTypeId
       }
-      findThemenConclusion(data).then((res) => {
-        this.conclusionCscAll=[]
-          res.forEach(x => {
+      findThemenConclusion(data).then((res) => { 
+          this.relateCommon(res)
+      })
+
+    },
+    relateCommon(data){
+      this.conclusionCscAll=[]
+          data.forEach(x => {
            themenConclusionArrObj.forEach(y=>{
               if (x==y.conclusionCsc) {
                 this.conclusionCscAll.push({value:x,name:y.conclusionName})
               }
             })
           });
-      })
-
     }
   }
 }
