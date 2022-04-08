@@ -1189,6 +1189,8 @@
     SUPPLIER_SHEWEIZHUYONGHU: 'Set As Admin',
     SUPPLIER_FUJIANSHANGCHUAN: 'Upload Attachments',
     SUPPLIER_XIANGGUANFUJIAN: 'Related Accessory',
+    SUPPLIER_SHI: '是',
+    SUPPLIER_FOU: '否',
     SUPPLIER_FUJIANMINGCHENG: 'Accessory Name',
     SUPPLIER_CAOZUO: 'Operation',
     SUPPLIER_SHANGCHUANQUERENRQI: 'Upload Date',

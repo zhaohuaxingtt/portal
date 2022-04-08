@@ -4,7 +4,7 @@ import paritiesSelectTime from './paritiesSelectTime.vue'
 import paritiesSelectActive from './paritiesSelectActive.vue'
 export const PARITIES_VIEW_COLUMNS = [
   {
-    i18n: '序号',
+    i18n: '#',
     type: 'index',
     width: '50px'
   },
@@ -68,7 +68,7 @@ export const PARITIES_EDIT_COLUMNS = [
     width: '50px'
   },
   {
-    i18n: '序号',
+    i18n: '#',
     type: 'index',
     width: '50px'
   },
@@ -121,10 +121,14 @@ export const PARITIES_EDIT_COLUMNS = [
     prop: 'type',
     required: true,
     customRender: (h, scope) => {
-      if (!scope.row.isEdit) {
+      if (scope.row.type === 1) {
+        return '项目汇率'
+      }
+      return 'SAP汇率'
+      /* if (!scope.row.isEdit) {
         return 'SAP汇率'
       }
-      return '项目汇率'
+      return '项目汇率' */
     }
   },
   {

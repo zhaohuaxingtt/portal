@@ -139,3 +139,57 @@ export function uploadSignImage(data) {
     data
   })
 }
+
+//采购分类列表
+export function page(data) {
+  return requstcg({
+    url: `/web/material/page`,
+    method: 'post',
+    data
+  })
+}
+
+//修改采购分类
+export function updateList(data) {
+  return requstcg({
+    url: `/web/material/update`,
+    method: 'post',
+    data
+  })
+}
+
+//采购分类编号
+export function getAll(data) {
+  return requstcg({
+    url: `/web/material/getAll`,
+    method: 'post',
+    data
+  })
+}
+
+//保存采购分类
+export function save(data) {
+  return requstcg({
+    url: `/web/material/save`,
+    method: 'post',
+    data
+  })
+}
+
+//根据id查采购分类
+export function getMaterialGroupById(data) {
+  return requstcg({
+    url: `/web/material/getMaterialGroupById?id=${data}`,
+    method: 'get',
+  })
+}
+
+
+//完成
+export function finish(data) {
+  return requstcg({
+    url: `/web/material/finish`,
+    method: 'post',
+    data
+  })
+}

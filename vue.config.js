@@ -109,6 +109,12 @@ module.exports = {
     }
     //开启gizp压缩
     config.devtool = 'source-map'
+
+    if (process.env.NODE_ENV === 'dev') {
+      config.watchOptions = {
+        ignored: /node_modules/
+      }
+    }
   },
   //引入全局css变量
   css: {
@@ -172,7 +178,7 @@ module.exports = {
       },
       [process.env.VUE_APP_APPROVAL]: {
         // target: `http://${BASE_IP}:8012/approval`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approval`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -192,7 +198,7 @@ module.exports = {
       // ------------------ 上传 ----------------------------
       '/fileApi': {
         // target: `http://${BASE_IP}:8034`,
-        target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/fileApi`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -200,7 +206,8 @@ module.exports = {
       },
       //------------------- 业务日志 ---------------------
       [process.env.VUE_APP_BIZLOG]: {
-        target: `http://${BASE_IP}:8013/bizlog`,
+        // target: `http://${BASE_IP}:8013/bizlog`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/bizlog`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BIZLOG]: ''
@@ -256,8 +263,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        target: `http://${BASE_IP}:8046/mtz`,
-        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
+        // target: `http://${BASE_IP}:8046/mtz`,
+        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
