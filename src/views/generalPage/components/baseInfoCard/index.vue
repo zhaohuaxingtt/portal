@@ -64,7 +64,8 @@ export default {
         path: "/supplier/supplierList/details",
         query: {
           supplierType: this.$route.query.subSupplierType,
-          subSupplierId: this.$route.query.supplierId
+          subSupplierId: this.$route.query.subSupplierId,
+          isShowAll: true
         }
       })
     }

@@ -218,10 +218,11 @@ export default {
       this.$router.push({
         path: '/view-suppliers',
         query: {
-          current: 14,
+          current: 1,
           supplierType: 4,
           supplierToken: this.supplierToken,
-          supplierId: this.supplierId
+          subSupplierId: this.supplierId,
+          subSupplierType: "pp"
         },
       })
     },
