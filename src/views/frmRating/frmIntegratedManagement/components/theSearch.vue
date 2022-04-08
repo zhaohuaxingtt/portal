@@ -25,7 +25,7 @@
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.enterpriseType">
             <!--            <el-option value="" :label="$t('all')"></el-option>-->
-            <el-option :value="item.name"
+            <el-option :value="item.code"
                        :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
                        v-for="item of allSelectObject.LEGALSTATUS"
                        :key="item.name"></el-option>
