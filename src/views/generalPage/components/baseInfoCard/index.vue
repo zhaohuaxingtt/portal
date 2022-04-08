@@ -48,7 +48,7 @@ export default {
   computed: {
     baseMsg () {
       return this.$store.state.baseInfo.baseMsg
-    }
+    },
   },
   methods: {
     changeTitle () {
@@ -63,7 +63,7 @@ export default {
       this.$router.push({
         path: "/supplier/supplierList/details",
         query: {
-          supplierType: this.$route.query.subSupplierType,
+          supplierType: this.baseMsg.supplierDTO.supplierType,
           subSupplierId: this.$route.query.subSupplierId,
           isShowAll: true
         }
@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route, "route")
+    console.log(this.baseMsg, "baseMsg")
   }
 }
 </script>
