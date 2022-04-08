@@ -129,7 +129,7 @@ export const ruleTableTitle1_1 = [
     key: 'JIJIAJILIANGDANWEI',
     overlap: true,
     overlapbottom: 'Base price Unit',
-    minWidth: 115
+    width: 120
   },
   {
     props: 'tcCurrence',
@@ -137,7 +137,7 @@ export const ruleTableTitle1_1 = [
     key: 'HUOBI',
     overlap: true,
     overlapbottom: 'Currency',
-    minWidth: 70
+    width: 60
   },
   {
     props: 'tcExchangeRate',
@@ -145,7 +145,7 @@ export const ruleTableTitle1_1 = [
     key: 'MTZHUILV',
     overlap: true,
     overlapbottom: 'Exchange Rate',
-    minWidth: 105
+    width: 110
   },
   {
     props: 'source',
@@ -168,7 +168,7 @@ export const ruleTableTitle1_1 = [
     key: 'YOUXIAOQIQI',
     overlap: true,
     overlapbottom: 'Valid From',
-    minWidth: 90
+    width: 110
   },
   {
     props: 'endDate',
@@ -176,7 +176,7 @@ export const ruleTableTitle1_1 = [
     key: 'YOUXIAOQIZHI',
     overlap: true,
     overlapbottom: 'Valid To',
-    minWidth: 90
+    width: 110
   }
 ]
 
@@ -330,7 +330,7 @@ export const partTableTitle1_1 = [
 
 // 附件上传
 export const uploadTableTitle = [
-  { props: 'fileName', name: '文件名', key: 'WENJIANMING', width: 300 },
+  { props: 'fileName', name: '文件名', key: 'WENJIANMING', width: 600 },
   { props: 'createDate', name: '上传日期', key: 'SHANGCHUANRIQI' },
   { props: 'createByName', name: '上传人', key: 'SHANGCHUANREN' }
 ]
