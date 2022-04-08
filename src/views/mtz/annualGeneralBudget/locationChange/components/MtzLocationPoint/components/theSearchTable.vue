@@ -243,20 +243,20 @@
           </p>
         </template>
         <template slot="freezeDate" slot-scope="scope">
-          <p>
+          <p class="date-time-cell">
             {{ scope.row.freezeDate ? scope.row.freezeDate.split(' ')[0] : '' }}
           </p>
-          <p>
+          <p class="date-time-cell">
             {{ scope.row.freezeDate ? scope.row.freezeDate.split(' ')[1] : '' }}
           </p>
         </template>
         <template slot="nominateDate" slot-scope="scope">
-          <p>
+          <p class="date-time-cell">
             {{
               scope.row.nominateDate ? scope.row.nominateDate.split(' ')[0] : ''
             }}
           </p>
-          <p>
+          <p class="date-time-cell">
             {{
               scope.row.nominateDate ? scope.row.nominateDate.split(' ')[1] : ''
             }}
@@ -1137,5 +1137,9 @@ export default {
 }
 .searchFormItem {
   width: 240px;
+}
+.date-time-cell {
+  margin: 5px 0;
+  line-height: 1em;
 }
 </style>
