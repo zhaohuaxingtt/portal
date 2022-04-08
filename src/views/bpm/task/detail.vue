@@ -374,10 +374,6 @@ export default {
       excelExport(this.selectTableData, this.tableTitle).finally(
         () => (this.exportLoading = false)
       )
-    },
-    // 补充材料
-    onAppendAttachment() {
-      this.dialogAppendAttachVisible = true
     }
   },
   watch: {
