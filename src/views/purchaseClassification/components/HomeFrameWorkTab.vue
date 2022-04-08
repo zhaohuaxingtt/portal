@@ -171,7 +171,7 @@ export default {
   },
   methods: {
     switchChange(val){
-      console.log(val)
+      // console.log(val)
     },
     // 展开功能
     expandAll() {

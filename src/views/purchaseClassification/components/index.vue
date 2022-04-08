@@ -156,10 +156,11 @@ export default {
     },
     //实时保存
     returnData(x) {
+      console.log('qqqqqqqqqq',x)
       this.finash = x
-      console.log(this.finash)
-      let aa = { id: this.finash[0].id, isActive: this.finash[0].isActive }
-      console.log(aa)
+      // console.log(this.finash)
+      let aa = { id: this.finash[this.finash.length-1].id, isActive: this.finash[this.finash.length-1].isActive }
+      // console.log(aa)
       finish(aa).then((res) => {
         this.getList()
       })
