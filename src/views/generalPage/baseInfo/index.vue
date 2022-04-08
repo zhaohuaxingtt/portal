@@ -50,7 +50,7 @@ import {
   iMessage
 } from 'rise';
 import {
-  supplierComplete
+  supplierComplete,tableData
 } from "./components/data";
 import linie from './components/linie'
 import {
@@ -64,10 +64,8 @@ import {
 import {
   generalPageMixins
 } from '@/views/generalPage/commonFunMixins';
-// import basic from "../home/components/basic";
 import companyProfile from "./components/companyProfile"
 import supplyStatus from './components/supplyStatus';
-// import comment from './components/comment';
 import operationStatus from './components/operationStatus';
 import opneBank from './components/opneBank';
 import buyer from "../home/components/buyer";
@@ -94,7 +92,8 @@ export default {
     return {
       supplierComplete, //详情信息入参
       fromGroup: {}, //下拉框值
-      country: []
+      country: [],
+      tableData,
     }
   },
   created () {
@@ -135,6 +134,12 @@ export default {
           if(baseInfo.gpSupplierDetails){
             this.supplierComplete.gpSupplierDetails = baseInfo.gpSupplierDetails
           }
+          this.supplierComplete.gpSupplierDetails = Object.assign(this.tableData,this.supplierComplete.gpSupplierDetails);
+          this.supplierComplete.gpSupplierDetails.forEach(e=>{
+            if(e.businessBuyerEmail){
+              e.industryPosition = "Y";
+            }
+          })
 
           if(baseInfo.subBankVos){
             this.supplierComplete.subBankList = baseInfo.subBankVos

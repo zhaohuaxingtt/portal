@@ -15,26 +15,24 @@
             @handleSelectionChange="handleSelectionChange"
             ref="commonTable"
             :selection="false"
-        >   
+        >
             <template #businessBuyerEmail="scope">
-                <span v-if="editType">{{scope.row.businessBuyerEmail}}</span>
-                <iInput v-else v-model="scope.row.businessBuyerEmail"></iInput>
+                <span v-if="scope.row.industryPosition=='Y'">{{scope.row.businessBuyerEmail}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerEmail" @change="chioseEamil($event,scope.row)"></iInput>
             </template>
             <template #businessBuyerNum="scope">
-                <span v-if="editType">{{scope.row.businessBuyerNum}}</span>
+                <span v-if="scope.row.industryPosition=='Y'">{{scope.row.businessBuyerNum}}</span>
                 <iInput v-else v-model="scope.row.businessBuyerNum"></iInput>
             </template>
             <template #businessBuyerDept="scope">
-                <span v-if="editType">{{scope.row.businessBuyerDept}}</span>
+                <span v-if="scope.row.industryPosition=='Y'">{{scope.row.businessBuyerDept}}</span>
                 <iInput v-else v-model="scope.row.businessBuyerDept"></iInput>
             </template>
             <template #businessContactEmail="scope">
-                <span v-if="editType">{{scope.row.businessContactEmail}}</span>
-                <iInput v-else v-model="scope.row.businessContactEmail"></iInput>
+                <iInput v-model="scope.row.businessContactEmail"></iInput>
             </template>
             <template #businessContactUser="scope">
-                <span v-if="editType">{{scope.row.businessContactUser}}</span>
-                <iInput v-else v-model="scope.row.businessContactUser"></iInput>
+                <iInput v-model="scope.row.businessContactUser"></iInput>
             </template>
         </table-list>
     </iCard>
@@ -43,6 +41,7 @@
 <script>
 import { iCard,iButton,iInput } from "rise";
 import tableList from './table'
+import { getUserInfo } from "@/api/register/home"
 import { tableTitle } from './data'
 export default {
     props:{
@@ -83,6 +82,21 @@ export default {
         handleSelectionChange(e){
 
         },
+        chioseEamil(val,data){
+            if(val){
+                getUserInfo({
+                    purchaserEmail: val
+                }).then(res=>{
+                    data.businessBuyerName = res.data.nameZh;
+                    data.businessBuyerNum = res.data.userNum;
+                    data.businessBuyerDept = res.data.purchaserSection;
+                })
+            }else{
+                data.businessBuyerName = "";
+                data.businessBuyerNum = "";
+                data.businessBuyerDept = "";
+            };
+        }
     }
 }
 </script>

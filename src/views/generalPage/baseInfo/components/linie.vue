@@ -9,13 +9,16 @@
             :selection="false"
         >
             <template #businessBuyerEmail="scope">
-                <iInput v-model="scope.row.businessBuyerEmail"></iInput>
+                <span v-if="scope.row.industryPosition=='Y'">{{scope.row.businessBuyerEmail}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerEmail" @change="chioseEamil($event,scope.row)"></iInput>
             </template>
             <template #businessBuyerNum="scope">
-                <iInput v-model="scope.row.businessBuyerNum"></iInput>
+                <span v-if="scope.row.industryPosition=='Y'">{{scope.row.businessBuyerNum}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerNum"></iInput>
             </template>
             <template #businessBuyerDept="scope">
-                <iInput v-model="scope.row.businessBuyerDept"></iInput>
+                <span v-if="scope.row.industryPosition=='Y'">{{scope.row.businessBuyerDept}}</span>
+                <iInput v-else v-model="scope.row.businessBuyerDept"></iInput>
             </template>
             <template #businessContactEmail="scope">
                 <iInput v-model="scope.row.businessContactEmail"></iInput>
@@ -31,11 +34,12 @@
 import { iCard,iInput } from "rise";
 import tableList from './table'
 import { tableTitle } from './data'
+import { getUserInfo } from "@/api/register/home"
 export default {
     props:{
         supplierData:{
-            type: Object,
-            default: () => { }
+            type: Array,
+            default: () => []
         }
     },
     components:{
@@ -45,20 +49,32 @@ export default {
     },
     data(){
         return{
-            tableListData:[
-                
-            ],
             tableTitle:tableTitle,
             tableLoading:false,
         }
     },
     created(){
-
+        
     },
     methods:{
         handleSelectionChange(e){
             this.tableListData = e;
         },
+        chioseEamil(val,data){
+            if(val){
+                getUserInfo({
+                    purchaserEmail: val
+                }).then(res=>{
+                    data.businessBuyerName = res.data.nameZh;
+                    data.businessBuyerNum = res.data.userNum;
+                    data.businessBuyerDept = res.data.purchaserSection;
+                })
+            }else{
+                data.businessBuyerName = "";
+                data.businessBuyerNum = "";
+                data.businessBuyerDept = "";
+            };
+        }
     }
 }
 </script>

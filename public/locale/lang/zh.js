@@ -3053,8 +3053,8 @@
     LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
     LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择', //删除资信报告提示语
     QINGXUANZEYEWULEIXING:'请选择业务类型',
-    YEWULEIXINGLIANXIRENYOUXIANG:'业务类型联系人邮箱',
-    YEWUBUMENLIANXIRENXINGMING:'业务类型联系人姓名',
+    YEWUBUMENLIANXIRENYOUXIANG:'业务部门联系人邮箱',
+    YEWUBUMENLIANXIRENXINGMING:'业务部门联系人姓名',
     YEWULEIXING:"业务类型",
     DZYPZHYHMC:'电子银票账户银行名称',
     DZYPYHZHHH:'电子银票银行账户行号',

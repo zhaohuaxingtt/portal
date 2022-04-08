@@ -100,6 +100,9 @@ import {
   theDetailSupplierUser,
   theDetailSupplierContact,
 } from './components'
+import {
+  tableData
+} from "./components/datas";
 import theDetailBaseGP from './components/theDetailBaseGP'
 import theDetailBankGp from './components/theDetailBankGp'
 import linie from './components/linie'
@@ -133,7 +136,8 @@ export default {
       bankSpplierId: '',
       supplierType: '',
       supplierPlantVo: [],
-      loading: false
+      loading: false,
+      tableData,
     }
   },
   created() {
@@ -224,6 +228,13 @@ export default {
                   enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'GP' // 一般
+                
+                this.baseInfo.gpSupplierDetails = Object.assign(this.tableData,this.baseInfo.gpSupplierDetails);
+                this.baseInfo.gpSupplierDetails.forEach(e=>{
+                  if(e.businessBuyerEmail){
+                    e.industryPosition = "Y";
+                  }
+                })
                 console.log(this.baseInfo)
               }
               if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
