@@ -12,19 +12,46 @@ export const tableSetting = [
     props: 'materialCode',
     name: '原材料牌号',
     key: 'YUANCAILIAOPAIHAO',
-    tooltip: true
+    tooltip: true,
+    width: 110
   },
-  { props: 'period', name: '月份期间', key: 'YUEFENQIJIAN', tooltip: true },
-  { props: 'marketType', name: '市场价类别', key: 'SHICHANGJIALEIBIE' },
-  { props: 'materialName', name: '原材料名称', key: 'YUANCAILIAOMINGCHENG' },
-  { props: 'materialCategory', name: '材料中类', key: 'CAILIAOZHONGLEI' },
+  {
+    props: 'period',
+    name: '月份期间',
+    key: 'YUEFENQIJIAN',
+    tooltip: true,
+    width: 90
+  },
+  {
+    props: 'marketType',
+    name: '市场价类别',
+    key: 'SHICHANGJIALEIBIE',
+    width: 130
+  },
+  {
+    props: 'materialName',
+    name: '原材料名称',
+    key: 'YUANCAILIAOMINGCHENG',
+    width: 130
+  },
+  {
+    props: 'materialCategory',
+    name: '材料中类',
+    key: 'CAILIAOZHONGLEI',
+    width: 90
+  },
   { props: 'categoryDesc', name: '中类描述', key: 'ZHONGLEIMIAOSHU' },
-  { props: 'source', name: '市场价来源', key: 'SHICHANGJIALAIYUAN' },
-  { props: 'eprice', name: '市场价', key: 'SHICHANGJIA' },
-  { props: 'unit', name: '计量单位', key: 'JILIANGDANWEI' },
-  { props: 'priceUnit', name: '每', key: 'MEI' },
-  { props: 'currency', name: '货币', key: 'HUOBI' },
-  { props: 'exchangeRate', name: '汇率', key: 'MTZHUILV' }
+  {
+    props: 'source',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    minWidth: 150
+  },
+  { props: 'eprice', name: '市场价', key: 'SHICHANGJIA', minWidth: 150 },
+  { props: 'unit', name: '计量单位', key: 'JILIANGDANWEI', width: 90 },
+  { props: 'priceUnit', name: '每', key: 'MEI', width: 70 },
+  { props: 'currency', name: '货币', key: 'HUOBI', width: 70 },
+  { props: 'exchangeRate', name: '汇率', key: 'MTZHUILV', width: 70 }
 ]
 
 export const ruleQueryFormData = [
@@ -69,16 +96,33 @@ export const ruleQueryFormData = [
 ]
 
 export const uploadInfoTableTitle = [
-  { props: 'index', name: '#', key: '', tooltip: true, width: 50},
-  { props: 'remark', name: '错误信息', key: 'CUOWUXINXI', tooltip: true, width: 400},
-  { props: 'materialNo', name: '编码', key: 'BIANMA', tooltip: true, width: 120},
+  { props: 'index', name: '#', key: '', tooltip: true, width: 50 },
+  {
+    props: 'remark',
+    name: '错误信息',
+    key: 'CUOWUXINXI',
+    tooltip: true,
+    width: 400
+  },
+  {
+    props: 'materialNo',
+    name: '编码',
+    key: 'BIANMA',
+    tooltip: true,
+    width: 120
+  },
   { props: 'name', name: '名称', key: 'MINGCHENG', tooltip: true, width: 120 },
   { props: 'period', name: '生效期间', key: 'SHENGXIAOQIJIAN', width: 120 },
   { props: 'marketType', name: '类别', key: 'LEIBIE', width: 120 },
   { props: 'eprice', name: '市场价', key: 'SHICHANGJIA', width: 120 },
   { props: 'currency', name: '币种', key: 'BIZHONG', width: 120 },
   { props: 'priceUnit', name: '定价单位', key: 'DINGJIADANWEI', width: 120 },
-  { props: 'unit', name: '定价计量单位', key: 'DINGJIAJILIANGDANWEI', width: 150 },
+  {
+    props: 'unit',
+    name: '定价计量单位',
+    key: 'DINGJIAJILIANGDANWEI',
+    width: 150
+  },
   { props: 'exchangeRate', name: '汇率', key: 'MTZHUILV', width: 120 },
-  { props: 'source', name: '来源', key: 'LAIYUAN', width: 120  },
+  { props: 'source', name: '来源', key: 'LAIYUAN', width: 120 }
 ]
