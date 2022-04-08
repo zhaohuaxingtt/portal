@@ -127,7 +127,10 @@ export const TABLE_COLUMNS = [
     prop: 'countUnit',
     label: '零件数量',
     minWidth: 120,
-    tooltip: true
+    tooltip: true,
+    customRender: (h) => {
+      return ''
+    }
   },
   {
     prop: 'dosage',

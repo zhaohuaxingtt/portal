@@ -241,9 +241,9 @@ export const TABLE_COLUMS = [
 ]
 
 export const tableTitle = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 180 },
-  { props: 'saItemNo', name: '项目', key: 'XIANGMU', width: 140 },
-  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO', width: 180 },
+  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140 },
+  { props: 'saItemNo', name: '项目', key: 'XIANGMU', width: 70 },
+  { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140 },
   { props: 'price', name: '零件价格（RMB）', key: 'LINGJIANJIAGE' },
   { props: 'actAmt', name: '零件实价（RMB）', key: 'LINGJIANSHIJIA' },
   { props: 'priceUnit', name: '价格单位', key: 'JIAGEDANWEI' },
@@ -251,10 +251,10 @@ export const tableTitle = [
   { props: 'appAmt', name: '补差额（RMB）', key: 'BUCHAE' }
 ]
 export const tableTitle2 = [
-  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 150 },
-  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 150 },
-  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 150 },
-  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 150 },
+  { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140 },
+  { props: 'saItemNo', name: '项目号', key: 'XIANGMUHAO', width: 70 },
+  { props: 'mtzDocMonth', name: '补差期间', key: 'BUCHAQIJIAN', width: 140 },
+  { props: 'fPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140 },
   {
     props: 'materialCode',
     name: '原材料牌号',
@@ -265,50 +265,50 @@ export const tableTitle2 = [
     props: 'material',
     name: '原材料名称',
     key: 'YUANCAILIAOMINGCHENG',
-    width: 150
+    width: 120
   },
   {
     props: 'categoryName',
     name: '材料中类',
     key: 'CAILIAOZHONGLEI',
-    width: 150
+    width: 120
   },
   {
     props: 'basePrice',
     name: '原材料基价',
     key: 'YUANCAILIAOJIJIA',
-    width: 150
+    width: 120
   },
-  { props: 'basePriceUnit', name: '单位', key: 'DANWEI', width: 150 },
-  { props: 'bExchangeRate', name: '基价汇率', key: 'JIJIAHUILV', width: 150 },
+  { props: 'basePriceUnit', name: '单位', key: 'DANWEI', width: 100 },
+  { props: 'bExchangeRate', name: '基价汇率', key: 'JIJIAHUILV', width: 100 },
   {
     props: 'calUsg',
     name: '原材料用量',
     key: 'YUANCAILIAOYONGLIANG',
-    width: 150
+    width: 100
   },
-  { props: 'cond', name: '阈值', key: 'YUZHI', width: 150 },
+  { props: 'cond', name: '阈值', key: 'YUZHI', width: 100 },
   {
     props: 'thresholdCompensationLogic',
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI',
     width: 150
   },
-  { props: 'rate', name: '补差系数', key: 'BUCHAXISHU', width: 150 },
+  { props: 'rate', name: '补差系数', key: 'BUCHAXISHU', width: 100 },
   {
     props: 'effPrice',
     name: '原材料市场价',
     key: 'YUANCAILIAOSHICHANGJIA',
-    width: 150
+    width: 120
   },
   {
     props: 'effExchangeRate',
     name: '市场价汇率',
     key: 'SHICHANGJIAHUILV',
-    width: 150
+    width: 120
   },
-  { props: 'qty', name: '零件数量', key: 'LINGJIANSHULIANG', width: 150 },
-  { props: 'appAmt', name: '补差额', key: 'BUCHAE', width: 150 },
+  { props: 'qty', name: '零件数量', key: 'LINGJIANSHULIANG', width: 100 },
+  { props: 'appAmt', name: '补差额', key: 'BUCHAE', width: 100 },
   {
     props: 'sPartNo',
     name: '二次件零件号',
