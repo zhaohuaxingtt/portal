@@ -221,7 +221,7 @@ export default {
           current: 14,
           supplierType: 4,
           supplierToken: this.supplierToken,
-          supplierId: this.supplierId
+          subSupplierId: this.supplierId
         },
       })
     },
