@@ -21,7 +21,7 @@
                   border
       >
         <template #procureCagetoryName="scope">
-          <iSelect v-model="scope.row.procureCagetoryId" :placeholder="$t('LK_QINGXUANZE')" @change="choise($event,scope.row.index)">
+          <iSelect v-model="scope.row.procureCagetoryId" :placeholder="$t('LK_QINGXUANZE')" @change="choise($event,scope.row)">
             <el-option 
               :disabled="item.disabled"
               :value="item.procureCagetoryId"
@@ -141,18 +141,17 @@ export default {
         this.getList();
       })
     },
-    choise(val,index){
+    choise(val,data){
       for(var i=0;i<this.procureCagetoryList.length;i++){
         if(val == this.procureCagetoryList[i].procureCagetoryId){
-          this.$set(this.tableListData,index,{
-            bigCategoryCode:this.procureCagetoryList[i].bigCategoryCode,
-            bigCategoryName:this.procureCagetoryList[i].bigCategoryName,
-            procureCagetoryCode:this.procureCagetoryList[i].procureCagetoryCode,
-            procureCagetoryId:this.procureCagetoryList[i].procureCagetoryId,
-            procureCagetoryName:this.procureCagetoryList[i].procureCagetoryName,
-            supplierId:this.$route.query.supplierId
-          })
-
+          // this.$set(this.tableListData,index,{
+          data.bigCategoryCode = this.procureCagetoryList[i].bigCategoryCode,
+          data.bigCategoryName = this.procureCagetoryList[i].bigCategoryName,
+          data.procureCagetoryCode = this.procureCagetoryList[i].procureCagetoryCode,
+          data.procureCagetoryId = this.procureCagetoryList[i].procureCagetoryId,
+          data.procureCagetoryName = this.procureCagetoryList[i].procureCagetoryName,
+          data.supplierId = this.$route.query.supplierId
+          // })
           this.refreshSelect();
           break;
         }
