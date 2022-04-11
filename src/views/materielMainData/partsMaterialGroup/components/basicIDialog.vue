@@ -6,12 +6,7 @@
     width="480px"
   >
     <div class="margin-bottom20">
-      <el-form
-        label-position="left"
-        label-width="115px"
-        :model="formData"
-        ref="formData"
-      >
+      <el-form label-width="120px" :model="formData" ref="formData">
         <iFormItem :label="language('零件6位号')" prop="sixPartCode">
           <iInput
             :placeholder="language('请输入')"
@@ -46,7 +41,7 @@
             :placeholder="language('请输入')"
             v-model="formData.isFixAsset"
             :disabled="isDisabled || isCheckSta"
-            class="selectEntry"
+            style="width: 100%"
           >
             <el-option
               v-for="item in isCheckedOptions"
@@ -74,7 +69,7 @@
       >
       <iButton
         v-if="readOnly ? false : !isCheck"
-        @click="submit"
+        @click="handleCheck"
         v-permission="
           'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'
         "
@@ -229,6 +224,43 @@ export default {
       this.formData.deptCodes = ''
       this.formData.linieNames = ''
     },
+    handleCheck() {
+      let data = {
+        ...this.formData,
+        categoryId: this.categoryId,
+        isFixAsset: this.formData.isFixAsset,
+        checkIsUse: true
+      }
+      if (this.formData.sixPartCode.length === 6) {
+        saveSixParts(data)
+          .then((res) => {
+            if (res.code == 200) {
+              this.submit()
+            } else if (res.code == 205) {
+              this.$confirm(
+                res.desZh + ' 是否继续保存？',
+                this.language('提示'),
+                {
+                  confirmButtonText: this.language('确定'),
+                  cancelButtonText: this.language('取消'),
+                  type: 'warning'
+                }
+              )
+                .then(() => {
+                  this.submit()
+                })
+                .catch(() => {
+                  this.$emit('changeVisible', false)
+                })
+            }
+          })
+          .catch((err) => {
+            iMessage.error(err)
+          })
+      } else {
+        iMessage.error('零件六位号输入错误')
+      }
+    },
     submit() {
       // console.log(this.formData.isFixAsset,'this.formData.isFixAsset=================');
       let data = {
@@ -280,20 +312,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .el-form {
+/* ::v-deep .el-form {
   width: 80%;
 }
 ::v-deep .el-input .el-input__inner {
   width: 270px;
-}
+} */
 .button-end {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-bottom: 20px;
 }
-.selectEntry .el-input .el-input__inner,
+/* .selectEntry .el-input .el-input__inner,
 .selectEntry .el-form-item__content {
   width: 270px;
-}
+} */
 </style>
