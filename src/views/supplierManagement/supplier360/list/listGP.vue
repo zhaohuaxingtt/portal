@@ -480,26 +480,29 @@ export default {
       })
     },
     getUserType () {
-      getBuyerType({}).then((res) => {
-        if (res && res.code == 200) {
-          this.userType = res.data
-          // this.userType = 'LINIE'
-          if (res.data == null) {
-            this.form.supplierType = 'PP'
-            this.userType = ''
-          }
-          if (this.userType == 'LINIE' || this.userType == 'PRE') {
-            this.form.supplierType = 'PP'
-            this.isCgy = true
-          }
-          if (this.userType == 'GP') this.form.supplierType = 'GP'
-          this.form.relatedToMe = false
-          this.getTableList(this.form.supplierType)
-        } else {
-          this.userType = ''
-          iMessage.error(res.desZh)
-        }
-      })
+      this.form.supplierType = 'GP'
+      this.userType = "";
+      this.getTableList()
+      // getBuyerType({}).then((res) => {
+      //   if (res && res.code == 200) {
+      //     this.userType = res.data
+      //     // this.userType = 'LINIE'
+      //     if (res.data == null) {
+      //       this.form.supplierType = 'PP'
+      //       this.userType = ''
+      //     }
+      //     if (this.userType == 'LINIE' || this.userType == 'PRE') {
+      //       this.form.supplierType = 'PP'
+      //       this.isCgy = true
+      //     }
+      //     if (this.userType == 'GP') this.form.supplierType = 'GP'
+      //     this.form.relatedToMe = false
+      //     this.getTableList(this.form.supplierType)
+      //   } else {
+      //     this.userType = ''
+      //     iMessage.error(res.desZh)
+      //   }
+      // })
     },
     //加入黑名单
     lacklistBtn (type, text) {
@@ -648,7 +651,7 @@ export default {
       this.groupList = res6.data
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
-      this.fromGroup.supplierTypeList = res4
+      this.fromGroup.supplierTypeList = [{...res4[0]},{...res4[1]}]
     },
     //标签设置弹窗
     setTagBtn () {
@@ -745,6 +748,7 @@ export default {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         supplierType: this.form.supplierType,
+        userId:JSON.parse(sessionStorage.getItem('userInfo')).id,
         supplierTableType:"GP-TABLE"
       }
       const res = await getBasicList(pms)

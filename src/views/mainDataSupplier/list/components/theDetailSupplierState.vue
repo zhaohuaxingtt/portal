@@ -1,6 +1,6 @@
 <template>
   <iCard :title="language('供应商状态')" collapse>
-    <div class="actions" slot="header-control">
+    <!-- <div class="actions" slot="header-control">
       <iButton v-show="!editable" @click="editable = true">{{
         language('编辑')
       }}</iButton>
@@ -10,7 +10,7 @@
       <iButton v-show="editable" @click="cancel">{{
         language('取消')
       }}</iButton>
-    </div>
+    </div> -->
     <el-form
       label-position="left"
       label-width="130px"
