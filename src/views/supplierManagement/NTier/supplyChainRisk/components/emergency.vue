@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-24 15:57:27
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
@@ -62,12 +62,13 @@
                          align="center"
                          show-overflow-tooltip
                          prop="supplierName"
+                         width="190"
                          :label="language('GONGYINGSHANGMINGCHEN','供应商名称')" />
-        <el-table-column align="left"
+        <el-table-column align="center"
                          show-overflow-tooltip
                          prop="partNumSize"
                          :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')"
-                         width="135">
+                         width="190">
           <template slot-scope="scope">
             <span class="link-text"
                   @click="goDetail(scope.row)">{{scope.row.partNumSize}}</span>

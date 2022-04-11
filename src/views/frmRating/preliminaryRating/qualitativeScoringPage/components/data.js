@@ -19,7 +19,7 @@ export const tableTitle = [
     prop: 'nameZh',
     label: '供应商名称',
     li8n: 'LK_GONGYINGSHANGMINGCHENG1',
-    width: 200,
+    width: 300,
     tooltip: true
   },
   {

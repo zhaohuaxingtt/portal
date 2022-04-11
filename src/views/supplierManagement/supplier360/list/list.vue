@@ -101,7 +101,7 @@
                 $store.state.permission.userInfo.userType == 2 && !item.value
               "
                        :value="item.value"
-                       :label="item.label">
+                       :label="language(item.key,item,label)">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -142,8 +142,8 @@
       </el-form>
     </iSearch>
     <i-card class="margin-top20">
-      <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
+      <div class="margin-bottom10 clearFloat">
+        <div class="floatright btn-box">
           <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
           <!-- <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
           <i-button @click="tagTab"
@@ -363,11 +363,13 @@ export default {
         supplierTypeList: [],
         relatedToMeList: [
           {
-            label: this.$t('SUPPLIER_SHI'),
+            label:'是',
+            key:'SUPPLIER_SHI',
             value: true
           },
           {
-            label: this.$t('SUPPLIER_FOU'),
+            label: '否',
+            key:'SUPPLIER_FOU',
             value: false
           }
         ]
@@ -778,5 +780,10 @@ export default {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+.btn-box{
+  ::v-deep .el-button{
+    margin-bottom: 10px;
+  }
 }
 </style>

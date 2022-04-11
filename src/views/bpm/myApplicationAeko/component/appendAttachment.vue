@@ -50,11 +50,17 @@
           :loading="uploadLoading"
           size="small"
           class="btn-upload"
+          slot="trigger"
         >
           <span>
             {{ language('上传附件') }}
           </span>
         </iButton>
+        <span class="margin-left40">
+          <el-checkbox v-model="form.isAll">
+            {{ language('所有人可见') }}
+          </el-checkbox>
+        </span>
       </el-upload>
     </div>
 
@@ -98,7 +104,8 @@ export default {
       uploadLoading: false,
       form: {
         node: '',
-        comment: ''
+        comment: '',
+        isAll: true
       },
       attachList: [],
       taskNodes: []
@@ -125,8 +132,11 @@ export default {
       const params = {
         processInstanceId: this.instanceId
       }
-      const { data } = await fetchTaskNodes(params)
-      this.taskNodes = data
+      const { data = [] } = await fetchTaskNodes(params)
+      this.taskNodes = [
+        { taskId: 'ALL', activityName: 'ALL', approver: '' },
+        ...data
+      ]
       if (data.length === 1) {
         this.form.node = data[0].taskId
       }
@@ -169,7 +179,8 @@ export default {
         comment: this.form.comment,
         processInstanceId: this.instanceId,
         taskFiles,
-        taskId: this.form.node
+        taskId: this.form.node,
+        isAll: this.form.isAll // CRW-4985 【CF】【优化】审批人要求补充材料后，申请人在编辑补充材料的规则优化
       }
       this.uploadLoading = true
       saveApprovalAttach(data)
