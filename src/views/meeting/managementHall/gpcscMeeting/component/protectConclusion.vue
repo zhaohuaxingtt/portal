@@ -800,14 +800,10 @@ export default {
           });
     },
     getRelateCommon(){
-      console.log('进啦了GP');
-      debugger
       if (this.fromData=="MANUAL") {
         this.relateCommon(['08','01','10'])
-        console.log('进啦了GP1');
       }else{
         this.getConclusion()
-        console.log('进啦了GP2');
       }
     }
   }
