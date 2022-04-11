@@ -5,14 +5,14 @@
         @click="handleAdd"
         v-if="type !== 'detail'"
         :disabled="roleInDel && roleInDel.length"
-        >{{language('增加角色')}}</iButton
+        >{{ language('增加角色') }}</iButton
       >
       <iButton
         @click="del"
         v-if="type !== 'detail'"
         :disabled="roleInDel && !roleInDel.length"
         class="margin-right20"
-        >{{language('删除角色')}}</iButton
+        >{{ language('删除角色') }}</iButton
       >
     </div>
     <iTableCustom
@@ -121,7 +121,7 @@ export default {
           tooltip: false
         }
       ],
-      tableSettingNotEmit:{
+      tableSettingNotEmit: {
         detail: [
           {
             type: 'index',
@@ -132,7 +132,7 @@ export default {
             prop: 'fullNameEn',
             label: '角色代码',
             align: 'center',
-            tooltip: false,
+            tooltip: false
           },
           {
             prop: 'fullNameZh',
@@ -160,7 +160,7 @@ export default {
             prop: 'code',
             label: '角色代码',
             align: 'center',
-            tooltip: false,
+            tooltip: false
           },
           {
             prop: 'fullNameZh',
@@ -188,7 +188,7 @@ export default {
             prop: 'code',
             label: '角色代码',
             align: 'center',
-            tooltip: false,
+            tooltip: false
           },
           {
             prop: 'fullNameZh',
@@ -214,25 +214,25 @@ export default {
           {
             prop: 'roleCode',
             label: '角色代码',
-            i18n:'角色代码',
+            i18n: '角色代码',
             align: 'center',
             tooltip: false,
             emit: 'go-detail',
             customRender: (h, scope) => {
-              return <span class="open-link-text">{scope.row.fullNameEn}</span>
+              return <span class="open-link-text">{scope.row.code}</span>
             }
           },
           {
             prop: 'fullNameZh',
             label: '角色名称',
-            i18n:'角色名称',
+            i18n: '角色名称',
             align: 'center',
             tooltip: false
           },
           {
             prop: 'description',
             label: '角色描述',
-            i18n:'角色描述',
+            i18n: '角色描述',
             align: 'center',
             tooltip: false
           }
@@ -249,7 +249,7 @@ export default {
           {
             prop: 'code',
             label: '角色代码',
-            i18n:'角色代码',
+            i18n: '角色代码',
             align: 'center',
             tooltip: false,
             emit: 'go-detail',
@@ -260,14 +260,14 @@ export default {
           {
             prop: 'fullNameZh',
             label: '角色名称',
-            i18n:'角色名称',
+            i18n: '角色名称',
             align: 'center',
             tooltip: false
           },
           {
             prop: 'desciption',
             label: '角色描述',
-            i18n:'角色描述',
+            i18n: '角色描述',
             align: 'center',
             tooltip: false
           }
@@ -284,7 +284,7 @@ export default {
           {
             prop: 'code',
             label: '角色代码',
-            i18n:'角色代码',
+            i18n: '角色代码',
             align: 'center',
             tooltip: false,
             emit: 'go-detail',
@@ -295,14 +295,14 @@ export default {
           {
             prop: 'fullNameZh',
             label: '角色名称',
-            i18n:'角色名称',
+            i18n: '角色名称',
             align: 'center',
             tooltip: false
           },
           {
             prop: 'desciption',
             label: '角色描述',
-            i18n:'角色描述',
+            i18n: '角色描述',
             align: 'center',
             tooltip: false
           }
