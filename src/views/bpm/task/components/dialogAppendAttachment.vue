@@ -62,6 +62,7 @@ image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel
       <div class="item comment">
         <iInput
           :placeholder="language('请输入补充材料留言内容')"
+          type="textarea"
           v-model="form.comment"
         />
       </div>
@@ -164,8 +165,8 @@ export default {
       const params = {
         processInstanceId: this.instanceId
       }
-      const { data } = await fetchTaskNodes(params)
-      this.taskNodes = data
+      const { data = [] } = await fetchTaskNodes(params)
+      this.taskNodes = [{ taskId: 'ALL', activityName: 'ALL' }, ...data]
       if (data.length === 1) {
         this.form.node = data[0].taskId
       }
