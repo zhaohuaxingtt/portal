@@ -576,6 +576,7 @@ export default {
     this.getList()
     this.getDate()
     this.getCurrency()
+    this.getRelateCommon()
   },
   methods: {
     //货币下拉框
@@ -796,6 +797,14 @@ export default {
               }
             })
           });
+    },
+    getRelateCommon(){
+      console.log('进啦了GP');
+      if (curObj.type=="MANUAL") {
+      this.relateCommon(['08','01','10'])
+      }else{
+        this.getConclusion()
+      }
     }
   }
 }
