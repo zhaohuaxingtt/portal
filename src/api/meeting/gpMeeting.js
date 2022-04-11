@@ -82,6 +82,17 @@ export function exportMeetingMinutes(data) {
     responseType: 'blob'
   })
 }
+// 导出会议纪要 mbdl
+// /gpMeetingService/exportMbdlMeetingMinutes
+export function exportMbdlMeetingMinutes(data) {
+  return requst({
+    url: `/gpMeetingService/exportMbdlMeetingMinutes`,
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+
 //货币下拉框
 // gpMeetingService/getCscCurrencyList
 export function getCscCurrencyList(data) {
