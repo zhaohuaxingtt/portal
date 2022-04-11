@@ -232,31 +232,27 @@ export default {
         checkIsUse: true
       }
       if (this.formData.sixPartCode.length === 6) {
-        saveSixParts(data)
-          .then((res) => {
-            if (res.code == 200) {
-              this.submit()
-            } else if (res.code == 205) {
-              this.$confirm(
-                res.desZh + ' 是否继续保存？',
-                this.language('提示'),
-                {
-                  confirmButtonText: this.language('确定'),
-                  cancelButtonText: this.language('取消'),
-                  type: 'warning'
-                }
-              )
-                .then(() => {
-                  this.submit()
-                })
-                .catch(() => {
-                  this.$emit('changeVisible', false)
-                })
-            }
-          })
-          .catch((err) => {
-            iMessage.error(err)
-          })
+        saveSixParts(data).then((res) => {
+          if (res.code == 200) {
+            this.submit()
+          } else if (res.code == 205) {
+            this.$confirm(
+              res.desZh + ' 是否继续保存？',
+              this.language('提示'),
+              {
+                confirmButtonText: this.language('确定'),
+                cancelButtonText: this.language('取消'),
+                type: 'warning'
+              }
+            )
+              .then(() => {
+                this.submit()
+              })
+              .catch(() => {
+                this.$emit('changeVisible', false)
+              })
+          }
+        })
       } else {
         iMessage.error('零件六位号输入错误')
       }
