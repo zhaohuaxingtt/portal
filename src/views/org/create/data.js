@@ -8,19 +8,18 @@ export const tableSetting = [
     width: '50'
   },
   {
-    label: '序号',
+    label: '#',
     key: '',
-    width: '100px',
+    width: '50px',
     tooltip: false,
     align: 'center',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_CREATE.TABLE_INDEX',
     type: 'index'
   },
   {
     prop: 'dimension',
     label: '维度',
     i18n: 'ORGANIZATION_MANAGERMENT.ORG_CREATE.TABLE_DIMENSION',
-    width: '278px',
+    width: '150px',
     key: '',
     tooltip: false,
     align: 'center',
