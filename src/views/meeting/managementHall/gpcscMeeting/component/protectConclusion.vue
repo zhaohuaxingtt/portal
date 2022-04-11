@@ -573,10 +573,10 @@ export default {
     }
   },
   created() {  
-    this.getList()
     this.getDate()
+    this.getList()
     this.getCurrency()
-    this.getRelateCommon()
+    // this.getRelateCommon()
   },
   methods: {
     //货币下拉框
@@ -614,6 +614,7 @@ export default {
       findGpInfoByThemenId(params).then((res) => {
         console.log(res)
         this.fromData=res
+        this.getRelateCommon()
         //判断是否显示图标
         //判断图标
         // 最低金额  lowerLimitMoney    最高金额  upperLimitMoney
@@ -784,7 +785,6 @@ export default {
         id:this.meetingInfo.meetingTypeId
       }
       findThemenConclusion(data).then((res) => { 
-         console.log('进啦了GP2');
           this.relateCommon(res)
       })
 
@@ -800,7 +800,8 @@ export default {
           });
     },
     getRelateCommon(){
-      if (this.fromData=="MANUAL") {
+      console.log(this.fromData);
+      if (this.fromData.type == "MANUAL") {
         this.relateCommon(['08','01','10'])
       }else{
         this.getConclusion()
