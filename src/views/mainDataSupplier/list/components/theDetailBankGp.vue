@@ -17,7 +17,7 @@
       ref="ruleForm"
     >
         <!-- 银行所在国家 -->
-          <iFormItem :label="$t('YINHANGSUOZAIGUOJIA')">
+          <iFormItem :label="$t('YINHANGSUOZAIGUOJIA')" prop="countryCode">
             <iSelect v-model="form.countryCode" @change="changeCountry" :disabled="!editable">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
             </iSelect>
@@ -59,7 +59,7 @@
             <iFormGroup row="3"
                     :rules="bankRules"
                     :model="item"
-                    ref="bankRules">
+                    :ref="'bankRulesDTO'+index">
               <!-- 银行所在国家 -->
               <iFormItem prop="country"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
@@ -100,7 +100,7 @@
               </iFormItem>
 
               <!-- 银行名称 -->
-              <iFormItem prop="item.bankName"
+              <iFormItem prop="bankName"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
                   <iLabel :label="$t('YINGHANGMINCHENG')" 
                           slot="label"
@@ -201,7 +201,7 @@ export default {
       }, 100)
     }
     var bankAccount = (rule, value, callback) => {
-      const mailReg = /^[1-9]\d{9,29}$/
+      const mailReg = /^[a-zA-Z\d]+$/
       setTimeout(() => {
         if (mailReg.test(value)) {
           callback()
@@ -428,9 +428,44 @@ export default {
         this.originalForm = _.cloneDeep(val)
       }
     },
+    getRule(){
+      var that = this;
+      that.number = 0;
+      return new Promise((resolve, reject) => {
+        that.zbankList.forEach((e,index)=>{
+          var bankRulesDTO = "bankRulesDTO"+index
+          var rule = that.$refs;
+          console.log(rule[bankRulesDTO])
+          rule[bankRulesDTO][0].validate((valid, object) => {
+            if (valid) {
+            } else {
+              that.number++;
+            }
+          });
+        })
+        setTimeout(() => {
+          if(that.number==0){
+            resolve();
+          }else{
+            return false;
+          }
+        }, 0);
+      })
+    },
+    getRuleSetting(){
+      return new Promise((resolve, reject) => {
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            resolve(valid)
+          }else{
+            return false;
+          }
+        })
+      })
+    },
     save() {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
+      return new Promise((resolve, reject) => {
+        Promise.all([this.getRule(), this.getRuleSetting()]).then(res=>{
           this.loading = true;
           const params = { supplierId: this.supplierId }
           this.zbankList.forEach(e=>{
@@ -476,7 +511,7 @@ export default {
               this.loading = false;
               iMessage.error(err.desZh || '保存失败')
             })
-        }
+        })
       })
     },
     cancel() {

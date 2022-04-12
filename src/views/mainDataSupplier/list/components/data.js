@@ -772,29 +772,29 @@ export const tableTitle = [
 
 export const bankRules={
 	country:[
-		{ required: false, message: '请选择银行所在国家', trigger: 'change' }
+		{ required: true, message: '请选择银行所在国家', trigger: 'change' }
 	],
 	province:[
-		{ required: false, message: '请选择银行所在省份', trigger: 'change' }
+		{ required: true, message: '请选择银行所在省份', trigger: 'change' }
 	],
 	city:[
-		{ required: false, message: '请选择银行所在城市', trigger: 'change' }
+		{ required: true, message: '请选择银行所在城市', trigger: 'change' }
 	],
 	bankName:[
-		{ required: false, message: '请输入银行名称', trigger: 'blur' }
+		{ required: true, message: '请输入银行名称', trigger: 'blur' }
 	],
 	bankCode:[
-		{ required: false,message: '请输入正确银行代码', trigger: 'blur' },
+		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	bankAccount:[
-		{ required: false, message: '请输入正确银行卡号', trigger: 'blur' },
+		{ required: true, message: '请输入正确银行卡号', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	salaryAccount:[
-		{ required: false, message: '请输入农民工工资专用账户名称', trigger: 'change' }
+		{ required: true, message: '请输入农民工工资专用账户名称', trigger: 'change' }
 	],
 }
 

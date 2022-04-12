@@ -35,6 +35,7 @@ export const tableTitle = [
 		props: 'nameZh',
 		name: '联系人姓名',
 		key: 'SUPPLIER_LIANXIRENXINGMING',
+		rule: [{required: true, message: '请输入', trigger: 'blur'}],
 		required: true
 	},
 	{ props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI', width: 200 },
@@ -45,6 +46,10 @@ export const tableTitle = [
 		name: '联系电话',
 		key: 'SUPPLIER_LIANXIDIANHUA',
 		required: true,
+		rule: [
+			{required: true, message: '请输入', trigger: 'blur'},
+			{pattern: /^[0-9]+$/, message: '请输入', trigger: 'blur'},
+		],
 		width: 150
 	},
 	{

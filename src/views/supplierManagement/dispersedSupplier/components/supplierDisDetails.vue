@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { iPage,iButton,iCard,iFormGroup,iFormItem,iLabel,iInput,iSelect } from "rise";
+import { iPage,iButton,iCard,iFormGroup,iFormItem,iLabel,iInput,iSelect,iMessage } from "rise";
 import { baseRules,comRules,supplierCompleteRe } from "./data";
 import opneBank from "@/views/generalPage/baseInfo/components/opneBank"
 import mailList from "./mailList"
@@ -130,6 +130,7 @@ export default {
       country:[],
       city:[],
       fromGroup:[],
+      number:0,
     }
   },
   created(){
@@ -285,35 +286,108 @@ export default {
         }
       })
     },
-    save(){
-      console.log(this.supplierComplete);
-      var data = _.cloneDeep(this.supplierComplete)
-      data.subBankList.forEach(e=>{
-        delete e.bankCity
-        delete e.bankProvince
-      })
-      if(this.$route.query.subSupplierId){
-        data.supplierId = this.$route.query.subSupplierId;
-      }
-      data.attachmentList.forEach(e=>{
-        // e.attachId = e.id;
-        e.attachRemark = "";
-        e.file = {
-          dummyName:"",
-          fileName:e.fileName,
-          filePath:e.filePath,
-          fileSize:e.fileSize,
-          id:e.fileId
-        }
-      })
-      // console.log(data.attachmentList);
-      setTimeout(() => {
-        saveInner(data).then(res=>{
-          if(res.result){
-            this.$router.go(-1)
+    getRule1(){
+      return new Promise((resolve, reject) => {
+        this.$refs.baseRulesForm1.validate((valid, object) => {
+          if (valid) {
+            resolve(valid)
+          } else {
+            return false;
           }
+        });
+      })
+    },
+    getRule2(){
+      return new Promise((resolve, reject) => {
+        this.$refs.baseRulesForm2.validate((valid, object) => {
+          if (valid) {
+            resolve(valid)
+          } else {
+            return false;
+          }
+        });
+      })
+    },
+    getRule3(){//bank
+      return new Promise((resolve, reject) => {
+        this.$refs.opneBank.$refs.bankRules1.validate((valid, object) => {
+          if (valid) {
+            resolve(valid)
+          } else {
+            return false;
+          }
+        });
+      })
+    },
+    getRule4(){//bank
+      var that = this;
+      that.number = 0;
+      return new Promise((resolve, reject) => {
+        that.supplierComplete.subBankList.forEach((e,index)=>{
+          var bankRulesDTO = "bankRulesDTO"+index
+          var rule = that.$refs.opneBank.$refs;
+          rule[bankRulesDTO][0].validate((valid, object) => {
+            if (valid) {
+            } else {
+              that.number++;
+            }
+          });
         })
-      }, 500);
+        setTimeout(() => {
+          if(that.number==0){
+            resolve();
+          }else{
+            return false;
+          }
+        }, 0);
+      })
+    },
+    getRule5(){
+      return new Promise((resolve, reject) => {
+        this.$refs.mailList.$refs.commonTable.$refs.commonTableForm.validate((valid, object) => {
+          if (valid) {
+            resolve(valid)
+          } else {
+            return false;
+          }
+        });
+      })
+    },
+    save(){
+      return new Promise((resolve, reject) => {
+        Promise.all([this.getRule1(), this.getRule2(), this.getRule3(), this.getRule4(), this.getRule5()]).then(res=>{
+          console.log(this.supplierComplete);
+          var data = _.cloneDeep(this.supplierComplete)
+          data.subBankList.forEach(e=>{
+            delete e.bankCity
+            delete e.bankProvince
+          })
+          if(this.$route.query.subSupplierId){
+            data.supplierId = this.$route.query.subSupplierId;
+          }
+          data.attachmentList.forEach(e=>{
+            // e.attachId = e.id;
+            e.attachRemark = "";
+            e.file = {
+              dummyName:"",
+              fileName:e.fileName,
+              filePath:e.filePath,
+              fileSize:e.fileSize,
+              id:e.fileId
+            }
+          })
+          // console.log(data.attachmentList);
+          setTimeout(() => {
+            saveInner(data).then(res=>{
+              if(res.result){
+                this.$router.go(-1)
+              }else{
+                iMessage.error(res.desZh);
+              }
+            })
+          }, 500);
+        })
+      })
     },
     cancle(){
       this.$router.go(-1)

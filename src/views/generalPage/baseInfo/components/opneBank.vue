@@ -109,9 +109,9 @@
 				class="margin-top20 ziyinhang"
 			>
 				<iFormGroup row="3"
-						:rules="bankRules111"
+						:rules="bankRulesBank"
 						:model="item"
-						ref="bankRules2">
+						:ref="'bankRulesDTO'+index">
 					<!-- 银行所在国家 -->
 					<iFormItem prop="country"
 								v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
@@ -208,7 +208,7 @@
 <script>
 	import {iCard,iFormGroup,iFormItem,iLabel,iInput,iSelect,iButton} from "rise";
 	import {getCityInfo} from "@/api/dictionary";
-	import {bankRules} from "./data";
+	import {bankRules,bankRulesBank} from "./data";
 	export default{
 		components:{iCard,iFormGroup,iFormItem,iLabel,iInput,iSelect,iButton},
 		props:{
@@ -227,7 +227,7 @@
 		},
 		data() {
 			return {
-				bankRules111:{},
+				bankRulesBank,
 				bankRules,
 				bankProvince:[],
 				bankCity:[],
