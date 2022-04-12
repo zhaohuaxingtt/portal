@@ -145,11 +145,11 @@ export default {
       interviewFinanceMessage({ deepCommentSupplierId: this.id }).then(res => {
         if (res.data) {
           this.interViewData = res.data
-          this.interViewData.bankList.forEach(item => {
-            item.creditDate = item.creditDate.split(',')
-          })
-          console.log(this.interViewData.bankList)
-          if (!this.interViewData.bankList) {
+          if (this.interViewData.bankList && this.interViewData.bankList.length !== 0) {
+            this.interViewData.bankList.forEach(item => {
+              item.creditDate = item.creditDate.split(',')
+            })
+          } else {
             this.interViewData.bankList = []
           }
           this.tableLoading = false

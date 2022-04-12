@@ -262,7 +262,7 @@ export default {
   TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG:
     "After submitting the change of supplier's information, the supplier will synchronize with SAP immediately after it is approved and cannot be revoked",
   QIANDINGCAIGOUTIAOKUAN: 'Sign Proc. Policy',
-  SHENQINGMBDL: 'App.MBDL',
+  SHENQINGMBDL: 'App. MBDL',
   YIICHUBDL: 'Remove BDL',
   YICHUMDBL: 'Remove MBDL',
   SHENPITONGGUO: 'Approved',

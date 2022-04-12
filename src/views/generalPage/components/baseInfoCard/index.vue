@@ -48,7 +48,7 @@ export default {
   computed: {
     baseMsg () {
       return this.$store.state.baseInfo.baseMsg
-    }
+    },
   },
   methods: {
     changeTitle () {
@@ -59,11 +59,19 @@ export default {
       });
     },
     onJump360 () {
-      this.$router.go(-1)
-      // this.$router.push({
-      // 	path:"/supplier/supplierList"
-      // })
+      // this.$router.go(-1)
+      this.$router.push({
+        path: "/supplier/supplierList/details",
+        query: {
+          supplierType: this.baseMsg.supplierDTO.supplierType,
+          subSupplierId: this.$route.query.subSupplierId,
+          isShowAll: true
+        }
+      })
     }
+  },
+  mounted () {
+    console.log(this.baseMsg, "baseMsg")
   }
 }
 </script>

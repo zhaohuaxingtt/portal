@@ -82,7 +82,7 @@
 
 <script>
 import { iCard, iFormGroup, iFormItem, iLabel, iText, iPage, iButton, iMessage } from 'rise'
-import { priorApprovalDetail, priorApproval } from '../../../api/supplier360/approve'
+import { priorApprovalDetail, priorApproval } from '@/api/supplier360/approve'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { TableTitle } from "./components/data";
@@ -155,6 +155,8 @@ export default {
               this.buttonLoad = false
               iMessage.error(res.desZh)
             }
+          }).catch((error) => {
+            this.buttonLoad = false
           })
         })
       } else {
@@ -163,16 +165,21 @@ export default {
           taskId: this.$route.query.taskId
         }
         priorApproval(params).then(res => {
-          if (res?.code === '200') {
+          try {
+            if (res?.code === '200') {
+              this.buttonLoad = false
+              iMessage.success(res.desZh)
+            } else {
+              this.buttonLoad = false
+              iMessage.error(res.desZh)
+            }
+          } catch (err) {
             this.buttonLoad = false
-            iMessage.success(res.desZh)
-          } else {
-            this.buttonLoad = false
-            iMessage.error(res.desZh)
           }
+        }).catch((error) => {
+          this.buttonLoad = false
         })
       }
-
     }
   }
 }

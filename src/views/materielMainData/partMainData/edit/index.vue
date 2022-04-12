@@ -87,9 +87,8 @@
                     <iInput
                       v-model="itemContent.partNum1"
                       :disabled="editNumber"
-                      style="width: 35px"
                       @input="topartNum2"
-                      class="partNum1 partNum"
+                      class="partNum1 partNum partNum-input"
                       maxlength="3"
                     >
                     </iInput>
@@ -101,10 +100,9 @@
                       @change="searchMaterielGroup"
                       id="partNum2"
                       :disabled="editNumber"
-                      style="width: 35px"
                       :focus="onPartNum2"
                       maxlength="3"
-                      class="partNum"
+                      class="partNum partNum-input"
                       @input="topartNum3"
                     >
                     </iInput>
@@ -116,9 +114,8 @@
                       @change="searchMaterielGroup"
                       id="partNum3"
                       :disabled="editNumber"
-                      style="width: 35px"
                       maxlength="3"
-                      class="partNum"
+                      class="partNum partNum-input"
                       @input="topartNum4"
                     ></iInput>
                   </iFormItem>
@@ -126,10 +123,9 @@
                     <iInput
                       v-model="itemContent.partNum4"
                       :disabled="editNumber"
-                      style="width: 35px"
                       id="partNum4"
                       maxlength="2"
-                      class="partNum"
+                      class="partNum partNum-input"
                       @input="topartNum5"
                     >
                     </iInput>
@@ -138,10 +134,9 @@
                     <iInput
                       v-model="itemContent.partNum5"
                       :disabled="editNumber"
-                      style="width: 35px"
-                      id="partNum5"
+                      id="partNum5 "
                       maxlength="3"
-                      class="partNum"
+                      class="partNum partNum-input"
                     ></iInput>
                   </iFormItem>
                 </div>
@@ -974,16 +969,16 @@ export default {
       params.baseUnitId = this.materielUnit //选择零件号id
       params.partInfoId = this.searchId //保存后返回的id
       params.vos = []
-      let isFill = this.measureEditdata.filter(item=>{
+      let isFill = this.measureEditdata.filter((item) => {
         return !item.numeratorValue
       })
-      if(isFill.length > 0){
+      if (isFill.length > 0) {
         this.$message.error(this.language('请输入计量单位转换关系数值'))
-      }else{
+      } else {
         this.measureEditdata.map((item) => {
-        params.vos.push({
-          denominatorUnitId: item.denominatorUnitId,
-          numeratorValue: item.numeratorValue
+          params.vos.push({
+            denominatorUnitId: item.denominatorUnitId,
+            numeratorValue: item.numeratorValue
           })
         })
         saveUnitList(params)
@@ -1002,7 +997,6 @@ export default {
             this.editStatus = true
           })
       }
-
     },
     async getProGroupOptions() {
       await getProGroupOptions()
@@ -1154,17 +1148,43 @@ export default {
       ],
       rules: {
         partNameZh: [
-          { required: true, message: this.language('请输入零件中文名称'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请输入零件中文名称'),
+            trigger: 'blur'
+          }
         ],
         partNameDe: [
-          { required: true, message: this.language('请输入零件德文名称'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请输入零件德文名称'),
+            trigger: 'blur'
+          }
         ],
-        bmgDesc: [{ required: true, message: this.language('请输入BMG'), trigger: 'blur' }],
-        zp: [{ required: true, message: this.language('请输入ZP'), trigger: 'blur' }],
+        bmgDesc: [
+          {
+            required: true,
+            message: this.language('请输入BMG'),
+            trigger: 'blur'
+          }
+        ],
+        zp: [
+          {
+            required: true,
+            message: this.language('请输入ZP'),
+            trigger: 'blur'
+          }
+        ],
         // drawingDate:[
         //     { required: true, message: '请选择时间', trigger: 'blur' },
         // ],
-        fgId: [{ required: true, message: this.language('请选择专业组'), trigger: 'blur' }],
+        fgId: [
+          {
+            required: true,
+            message: this.language('请选择专业组'),
+            trigger: 'blur'
+          }
+        ],
         partNum1: [{ required: true, message: ' ', trigger: 'blur' }],
         partNum2: [{ required: true, message: ' ', trigger: 'blur' }],
         partNum3: [{ required: true, message: ' ', trigger: 'blur' }],
@@ -1330,5 +1350,8 @@ export default {
     text-align: center;
     font-size: 12px;
   }
+}
+.partNum-input {
+  width: 35px;
 }
 </style>

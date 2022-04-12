@@ -322,8 +322,8 @@ export const tableTitleHistory = [
     name: '一次件零件名',
     key: 'YICIJIANLINGJIANMING'
   },
-  { width: 130, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
-  { width: 150, props: 'buyerDeptName', name: '科室', key: 'KESHI' },
+  { width: 120, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
+  { width: 120, props: 'buyerDeptName', name: '科室', key: 'KESHI' },
   {
     width: 150,
     props: 'piecePartnum',
@@ -354,9 +354,9 @@ export const tableTitleHistory = [
     name: '二次件与一次件比例',
     key: 'ECJYYCJBL'
   },
-  { width: 150, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
+  { width: 130, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
   {
-    width: 150,
+    width: 120,
     props: 'materialCode',
     name: '原材料牌号',
     key: 'YUANCAILIAOPAIHAO'
@@ -367,18 +367,18 @@ export const tableTitleHistory = [
     name: '原材料名称',
     key: 'YUANCAILIAOMINGCHENG'
   },
-  { width: 130, props: 'price', name: '基价', key: 'JIJIA' },
+  { width: 100, props: 'price', name: '基价', key: 'JIJIA' },
   {
-    width: 130,
+    width: 120,
     props: 'priceCountUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI'
   },
-  { width: 150, props: 'priceUnit', name: '每', key: 'MEI' },
-  { width: 150, props: 'countUnit', name: '零件数量', key: 'LINGJIANSHULIANG' }, ////////////////
-  { width: 150, props: 'dosage', name: '用量', key: 'YONGLIANG' },
+  { width: 50, props: 'priceUnit', name: '每', key: 'MEI' },
+  { width: 100, props: 'countUnit', name: '零件数量', key: 'LINGJIANSHULIANG' }, ////////////////
+  { width: 120, props: 'dosage', name: '用量', key: 'YONGLIANG' },
   {
-    width: 150,
+    width: 120,
     props: 'dosageMeasureUnit',
     name: '用量计量单位',
     key: 'YONGLIANGJILIANGDANEWI'
@@ -395,24 +395,24 @@ export const tableTitleHistory = [
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI'
   },
-  { width: 120, props: 'tcCurrence', name: '货币', key: 'HUOBI' },
+  { width: 80, props: 'tcCurrence', name: '货币', key: 'HUOBI' },
   {
-    width: 130,
+    width: 100,
     props: 'compensationRatio',
     name: '补差系数',
     key: 'BUCHAXISHU'
   },
-  { width: 130, props: 'threshold', name: '阈值', key: 'YUZHI' },
+  { width: 110, props: 'threshold', name: '阈值', key: 'YUZHI' },
   {
-    width: 130,
+    width: 100,
     props: 'compensationPeriod',
     name: '补差周期',
     key: 'BUCHAZHOUQI'
   },
-  { width: 130, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
-  { width: 130, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
-  { width: 120, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
-  { width: 130, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
+  { width: 110, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
+  { width: 110, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
+  { width: 100, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
+  { width: 110, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
   { width: 120, props: 'sourceCode', name: '来源', key: 'LAIYUAN' }
 ]
 

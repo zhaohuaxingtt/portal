@@ -38,9 +38,17 @@
           v-for="item,i in signalColumn"
           :key="i"
           :label="item.name"
+          :width="item.width"
           header-align="center"
           align="center">
           <template slot-scope="scope">
+            <!-- <div style="position:relative">
+              <p style="fontWeight: bold">{{scope.row[item.riskBigType]}}</p>
+              <div style="position:absolute;right:0px;top:0px">
+                <p v-if="scope.row[item.riskBigType + 'Num'] == 0" class="noValNum">{{scope.row[item.riskBigType + 'Num']}}</p>
+                <p v-else class="havaValNum">{{scope.row[item.riskBigType + 'Num']}}</p>
+              </div>
+            </div> -->
             <el-row :gutter="2">
               <el-col :span="20">
                 <p style="fontWeight: bold">{{scope.row[item.riskBigType]}}</p>
@@ -162,7 +170,7 @@ export default {
     initTableColumns() {
       this.signalColumn = []
       this.tableData.map(item => {
-        item['width'] = '200'
+        // item['width'] = '200'
         item['props'] = item.riskBigType
         item['name'] = item.riskBigTypeName
         this.signalColumn.push(item)
@@ -207,10 +215,10 @@ export default {
   font-weight: 600;
 }
 .char-div {
-  width: 1400px;
+  width: 100%;
 }
 .table-div {
-  width: 1400px;
+  width: 100%;
 }
 .noValNum {
   color: #ACB8CF;
