@@ -2802,7 +2802,7 @@ export default {
         }else{
             num = 3
         }
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
       } 
     }
   }

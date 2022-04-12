@@ -2117,7 +2117,7 @@ export default {
         iMessage.error('该议题为临时议题')
       }else{
         // window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}&code=${row.cscCode}`)
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
+        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/mbdlDetails?id=${row.fixedPointApplyId}`)
 
       }
     } 
