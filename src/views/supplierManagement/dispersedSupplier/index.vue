@@ -61,8 +61,8 @@
           <template slot="yewuType">
             <span>{{$t("FENSANCAIGOU")}}</span>
           </template>
-          <template slot="supplierType" slot-scope="scope">
-            <span>{{scope.row.supplierType == "GP"?$t('YIBANGONGYINGSHANG'):''}}</span>
+          <template slot="supplierType">
+            <span>{{$t('YIBANGONGYINGSHANG')}}</span>
           </template>
         </tableList>
         <iPagination v-update
@@ -151,9 +151,9 @@ export default {
         pageInner(data).then(res=>{
           if(res.result){
             this.tableListData = res.data.list;
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.page.totalCount = res.total
+            this.page.currPage = res.data.current
+            this.page.pageSize = res.data.size
+            this.page.totalCount = res.data.total
 
           }else{
             

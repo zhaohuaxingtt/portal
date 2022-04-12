@@ -10,11 +10,11 @@
 
     <iCard :title="$t('LK_JICHUXINXI')" tabCard collapse class="margin-bottom20">
       <iFormGroup row="3" :rules="baseRules" :model="supplierComplete.supplierDTO" ref="baseRulesForm1">
-        <iFormItem :prop="supplierComplete.supplierDTO.nameZh">
+        <iFormItem prop="nameZh">
           <iLabel :label="$t('SupplierZh')" required slot="label"></iLabel>
           <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierZh')" v-model="supplierComplete.supplierDTO.nameZh"></iInput>
         </iFormItem>
-        <iFormItem :prop="supplierComplete.supplierDTO.nameEn">
+        <iFormItem prop="nameEn">
           <iLabel :label="$t('SupplierEn')" slot="label" required
             ></iLabel>
           <iInput :placeholder="$t('LK_QINGSHURU')+$t('SupplierEn')" v-model="supplierComplete.supplierDTO.nameEn"></iInput>

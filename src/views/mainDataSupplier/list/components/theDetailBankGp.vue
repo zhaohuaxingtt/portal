@@ -10,60 +10,43 @@
       }}</iButton>
       <iButton @click="addBank">新增子银行账户</iButton>
     </div>
-    <el-form
-      label-position="left"
-      label-width="130px"
+    <iFormGroup
+      row="3"
       :model="form"
       :rules="rules"
       ref="ruleForm"
-      class="validate-required-form formClass"
     >
         <!-- 银行所在国家 -->
-      <el-row :gutter="20">
-        <el-col :span="8">
           <iFormItem :label="$t('YINHANGSUOZAIGUOJIA')">
             <iSelect v-model="form.countryCode" @change="changeCountry" :disabled="!editable">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
             </iSelect>
           </iFormItem>
-        </el-col>
-        <el-col :span="8">
+        <!-- 银行所在省份 -->
           <iFormItem :label="$t('YINGHANSUOZAISHENGFEN')">
             <iSelect v-model="form.provinceCode" @change="changeProvince" :disabled="!editable">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
             </iSelect>
           </iFormItem>
-        </el-col>
-        <el-col :span="8">
+        <!-- 银行所在城市/区 -->
           <iFormItem :label="$t('YINHANGSUOZAICHENGSHI')">
-            <iSelect v-model="form.cityCode" :disabled="!editable">
+            <iSelect v-model="form.cityCode" :disabled="!editable" @change="changeCity">
                 <el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
             </iSelect>
           </iFormItem>
-        </el-col>
-
-        <el-col :span="8">
           <iFormItem :label="language('银行名称')">
             <iInput v-model="form.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
           </iFormItem>
-        </el-col>
-        <el-col :span="8">
-          <iFormItem :label="language('银行代码')">
+          <iFormItem :label="language('银行代码')" prop="bankCode">
             <iInput v-model="form.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
           </iFormItem>
-        </el-col>
-        <el-col :span="8">
-          <iFormItem :label="language('银行账号')">
+          <iFormItem :label="language('银行账号')" prop="bankAccount">
             <iInput v-model="form.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
           </iFormItem>
-        </el-col>
-        <el-col :span="8">
           <iFormItem :label="language('税务代码')">
             <iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="form.bankTaxCode"></iInput>
           </iFormItem>
-        </el-col>
-      </el-row>
-    </el-form>
+    </iFormGroup>
     <!-- 修改 -->
     <div v-for="(item, index) in zbankList" :key="index" class="smallbank">
         <iButton class="btn" @click="removeBank(item.id,index)">删除</iButton>
@@ -75,11 +58,12 @@
         >
             <iFormGroup row="3"
                     :rules="bankRules"
-                    :model="supplierData"
+                    :model="item"
                     ref="bankRules">
-              <iFormItem 
+              <!-- 银行所在国家 -->
+              <iFormItem prop="country"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
-                  <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" required 
+                  <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" 
                           slot="label"></iLabel>
                   <iSelect v-model="item.country"
                           @change="changeCountrySmall($event,index)">
@@ -89,9 +73,10 @@
                               :key="index"></el-option>
                   </iSelect>
               </iFormItem>
-              <iFormItem 
+              <!-- 银行所在省份 -->
+              <iFormItem prop="province"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
-                  <iLabel :label="$t('YINGHANSUOZAISHENGFEN')" required
+                  <iLabel :label="$t('YINGHANSUOZAISHENGFEN')"
                           slot="label"></iLabel>
                   <iSelect v-model="item.province"
                           @change="changeProvinceSmall($event,index)">
@@ -101,9 +86,10 @@
                               :key="index"></el-option>
                   </iSelect>
               </iFormItem>
-              <iFormItem 
+              <!-- 银行所在城市/区 -->
+              <iFormItem prop="city"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
-                  <iLabel :label="$t('YINHANGSUOZAICHENGSHI')" required
+                  <iLabel :label="$t('YINHANGSUOZAICHENGSHI')"
                           slot="label"></iLabel>
                   <iSelect v-model="item.city">
                   <el-option :value="item.id"
@@ -114,9 +100,9 @@
               </iFormItem>
 
               <!-- 银行名称 -->
-              <iFormItem 
+              <iFormItem prop="item.bankName"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
-                  <iLabel :label="$t('YINGHANGMINCHENG')" required
+                  <iLabel :label="$t('YINGHANGMINCHENG')" 
                           slot="label"
                           icons="iconxinxitishi"
                           :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
@@ -124,9 +110,9 @@
                           :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"></iInput>
               </iFormItem>
               <!-- 银行代码 -->
-              <iFormItem 
+              <iFormItem  prop="bankCode"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
-                  <iLabel :label="$t('YINHANGDAIMA')" required
+                  <iLabel :label="$t('YINHANGDAIMA')" 
                           slot="label"
                           icons="iconxinxitishi"
                           :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
@@ -134,27 +120,27 @@
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGDAIMA')"></iInput>
               </iFormItem>
               <!-- 银行账号 -->
-              <iFormItem 
+              <iFormItem  prop="bankAccount"
                           v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
-                  <iLabel :label="$t('YINHANGZHANGHAO')" required
+                  <iLabel :label="$t('YINHANGZHANGHAO')" 
                           slot="label"></iLabel>
                   <iInput v-model="item.bankAccount"
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"></iInput>
               </iFormItem>
               <!-- 农民工工资专用账户名称 -->
-              <iFormItem >
-                  <iLabel :label="$t('NONGMINGGONGGONGZIZHUANYONG')" required
+              <iFormItem prop="salaryAccount">
+                  <iLabel :label="$t('NONGMINGGONGGONGZIZHUANYONG')" 
                           slot="label"></iLabel>
                   <iInput v-model="item.salaryAccount"
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"></iInput>
               </iFormItem>
             </iFormGroup>
             <iFormGroup row="1"
-                      :rules="bankRules"
-                      :model="supplierData"
+                      :model="item"
                       ref="bankRules2">
+              <!-- 备注 -->
               <iFormItem >
-                  <iLabel :label="$t('BEIZHU')" required
+                  <iLabel :label="$t('BEIZHU')" 
                           slot="label"></iLabel>
                   <iInput v-model="item.remark"
                           type="textarea"
@@ -204,6 +190,26 @@ export default {
     }
   },
   data() {
+    var bankCode = (rule, value, callback) => {
+      const mailReg = /^[a-zA-Z\d]+$/
+      setTimeout(() => {
+        if (mailReg.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入数字或字母大小写'))
+        }
+      }, 100)
+    }
+    var bankAccount = (rule, value, callback) => {
+      const mailReg = /^[1-9]\d{9,29}$/
+      setTimeout(() => {
+        if (mailReg.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入正确银行卡号'))
+        }
+      }, 100)
+    }
     return {
       loading:false,
       form: {
@@ -213,7 +219,14 @@ export default {
       },
       editable: false,
       originalForm: {},
-      rules: {},
+      rules: {
+        bankCode: [
+          { validator: bankCode, trigger: 'blur' },
+        ],
+        bankAccount:[
+          { validator: bankAccount, trigger: 'blur' },
+        ]
+      },
       country:[],
       bankProvince:[],
       bankCity:[],
@@ -298,6 +311,16 @@ export default {
           }
       })
     },
+    changeCity(){
+      let  data = {
+          parentCityId: this.form.cityCode
+      }
+      getCityInfo(data).then(res=>{
+          if (res.data) {
+            this.form.city = res.data[0].cityNameCn
+          }
+      })
+    },
     // 获取银行省市
     getBankProvince(){
         let  data = {
@@ -308,6 +331,7 @@ export default {
                 let req={
                     parentCityId:res.data[0].cityIdStr
                 }
+                this.form.country = res.data[0].cityNameCn
                 getCityInfo(req).then(result=>{
                     this.bankProvince=result.data
                 })
@@ -330,6 +354,7 @@ export default {
                 let req={
                     parentCityId:res.data[0].cityIdStr
                 }
+                this.form.province = res.data[0].cityNameCn
                 getCityInfo(req).then(result=>{
                     this.bankCity=result.data
                 })
@@ -424,9 +449,9 @@ export default {
               countryCode: this.form.countryCode,
               provinceCode: this.form.provinceCode,
               cityCode: this.form.cityCode,
-              // city: this.form.city,
-              // country: this.form.country,
-              // province: this.form.province
+              city: this.form.city,
+              country: this.form.country,
+              province: this.form.province
             },
             gpSubBankVos:this.zbankList
           }

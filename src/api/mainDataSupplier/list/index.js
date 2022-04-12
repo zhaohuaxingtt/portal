@@ -68,7 +68,6 @@ export function fetchSupplier(params) {
 export function fetchSupplierGP(params) {
   return request({
     url: `/supplier/detail/${params.supplierType}/${params.id}`,
-    params
   })
 }
 

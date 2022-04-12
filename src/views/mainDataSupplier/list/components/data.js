@@ -771,32 +771,31 @@ export const tableTitle = [
 ]
 
 export const bankRules={
-	'country':[
+	country:[
 		{ required: false, message: '请选择银行所在国家', trigger: 'change' }
 	],
-	'province':[
+	province:[
 		{ required: false, message: '请选择银行所在省份', trigger: 'change' }
 	],
-	'city':[
+	city:[
 		{ required: false, message: '请选择银行所在城市', trigger: 'change' }
 	],
-	'bankName':[
+	bankName:[
 		{ required: false, message: '请输入银行名称', trigger: 'blur' }
 	],
-	'bankCode':[
+	bankCode:[
 		{ required: false,message: '请输入正确银行代码', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
-	'bankAccount':[
+	bankAccount:[
 		{ required: false, message: '请输入正确银行卡号', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
-	'bankTaxCode':[
-		{ required: false, message: '请输入税务代码', trigger: 'blur' },
-		{ pattern:/^[A-Za-z0-9]+$/, message: '税务代码错误', trigger: 'blur' }
-	]
+	salaryAccount:[
+		{ required: false, message: '请输入农民工工资专用账户名称', trigger: 'change' }
+	],
 }
 
 

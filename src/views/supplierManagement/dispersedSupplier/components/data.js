@@ -3,7 +3,7 @@ export const baseRules = {
 		{ required: true, message: '请输入供应商中文名', trigger: 'blur' },
 		{ min: 1, max: 70, message: '长度在 1 到 70个字符', trigger: 'blur' }  
 	],
-	shortNameZh: [
+	nameEn: [
 		{ required: true, message: '请输入供应商英文名', trigger: 'blur' },
 		{ min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }
 	],
@@ -18,6 +18,10 @@ export const comRules = {
 	],
 	cityCode:[
 		{ required: true, message: '请选择城市', trigger: 'change' }
+	],
+	corpEmail:[
+		{ required: true, message: '请输入邮箱', trigger: 'blur' },
+		{ pattern:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: '邮箱格式错误', trigger: 'blur' }
 	],
 }
 
@@ -128,7 +132,7 @@ export const tableTitleUpload = [
 		name: '上传日期',
 		key: 'LK_SHANGCHUANRIQI'
 	},{
-		props: 'createBy',
+		props: 'createrName',
 		name: '上传人',
 		key: 'LK_SHANGCHUANREN'
 	},{

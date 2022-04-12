@@ -28,7 +28,7 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
       .set('pages', resolve('src/views'))
-    if (process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'vmsit') {
+    if (process.env.NODE_ENV !== 'dev') {
       config.optimization.splitChunks({
         chunks: 'all',
         cacheGroups: {
@@ -68,7 +68,7 @@ module.exports = {
       })
     )
     //为生产环境移除console debugger 代码压缩
-    if (process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'vmsit') {
+    if (process.env.NODE_ENV !== 'dev') {
       config.plugins.push(
         new UglifyJsPlugin({
           uglifyOptions: {
@@ -110,7 +110,7 @@ module.exports = {
     //开启gizp压缩
     config.devtool = 'source-map'
 
-    if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'vmsit') {
+    if (process.env.NODE_ENV === 'dev') {
       config.watchOptions = {
         ignored: /node_modules/
       }
