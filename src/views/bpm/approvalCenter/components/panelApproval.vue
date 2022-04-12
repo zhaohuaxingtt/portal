@@ -52,7 +52,8 @@ export default {
     activeData() {
       if (this.activeIndex === -1) {
         // CRW-7138 在全部Tab下只显示有待办任务的卡片，点击后面的分类Tab会将此分类下的全部卡片显示，包含审批任务为0的卡片
-        const hasValueData = this.data.filter((e) => {
+        const data = _.cloneDeep(this.data)
+        const hasValueData = data.filter((e) => {
           const wfList = e?.wfCategoryList?.filter((wf) => {
             return wf.todoNum
           })
