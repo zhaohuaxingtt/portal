@@ -2753,6 +2753,28 @@
 
     MT_XUANZEZUZHI: '选择组织',
 
+    MT_HUIYISUOYOUZHE: '会议所有者',
+
+    MT_CISHU: '次数',
+
+    MT_CHIXUSHIJIAN: '持续时间',
+
+    MT_CHANHUIREN: '参会人',
+
+    MT_GUBIE: '股别',
+
+    MT_TIJIAOREN: '提交人',
+
+    MT_BUMEN: '部门',
+
+    MT_BEIZHU: '备注',
+
+
+
+
+
+    
+
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',

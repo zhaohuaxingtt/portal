@@ -2147,6 +2147,19 @@
     MT_TO: 'To',
     MT_BITIAN: 'required',
     MT_XUHAO: 'No.',
+    MT_HUIYISUOYOUZHE: 'Present Items',
+    MT_CISHU: 'Count',
+    MT_CHIXUSHIJIAN: 'Duration',
+    MT_CHANHUIREN: 'Presenter',
+    MT_GUBIE: 'Presenter Dept.',
+    MT_TIJIAOREN: 'Supporter',
+    MT_BUMEN: 'Supporter Dept.',
+    MT_BEIZHU: 'Remark',
+
+
+
+
+    
 
     POSITION: {
       POSITION_NAME: 'Position name',
