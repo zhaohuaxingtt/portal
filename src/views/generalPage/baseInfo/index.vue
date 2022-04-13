@@ -134,7 +134,15 @@ export default {
           if(baseInfo.gpSupplierDetails){
             this.supplierComplete.gpSupplierDetails = baseInfo.gpSupplierDetails
           }
-          this.supplierComplete.gpSupplierDetails = Object.assign(this.tableData,this.supplierComplete.gpSupplierDetails);
+
+          this.tableData.forEach(e=>{
+            this.supplierComplete.gpSupplierDetails.forEach(item =>{
+              if(e.businessType == item.businessType){
+                e = Object.assign(e,item);
+              }
+            })
+          })
+          this.supplierComplete.gpSupplierDetails = this.tableData;
           this.supplierComplete.gpSupplierDetails.forEach(e=>{
             if(e.businessBuyerEmail){
               e.industryPosition = "Y";

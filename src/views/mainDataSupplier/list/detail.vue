@@ -229,7 +229,14 @@ export default {
                 }
                 this.supplierType = 'GP' // 一般
                 
-                this.baseInfo.gpSupplierDetails = Object.assign(this.tableData,this.baseInfo.gpSupplierDetails);
+                this.tableData.forEach(e=>{
+                  this.baseInfo.gpSupplierDetails.forEach(item =>{
+                    if(e.businessType == item.businessType){
+                      e = Object.assign(e,item);
+                    }
+                  })
+                })
+                this.baseInfo.gpSupplierDetails = this.tableData
                 this.baseInfo.gpSupplierDetails.forEach(e=>{
                   if(e.businessBuyerEmail){
                     e.industryPosition = "Y";

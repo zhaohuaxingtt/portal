@@ -21,22 +21,34 @@
         :index="true"
         border
     />
+    <iPagination
+        @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)"
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+        :layout="page.layout"
+      >
+    </iPagination>
   </i-card>
 </template>
 
 <script>
-import {iCard, iButton} from "rise";
+import {iCard, iButton,iPagination} from "rise";
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import {projectDescriptionsTableTitle} from './data'
+import { pageMixins } from '@/utils/pageMixins'
 
 
 export default {
-  mixins: [generalPageMixins],
+  mixins: [generalPageMixins,pageMixins],
   components: {
     iCard,
     iButton,
-    tableList
+    tableList,
+    iPagination
   },
   data() {
     return {
@@ -47,6 +59,9 @@ export default {
     }
   },
   methods: {
+    getTableList(){
+
+    },
   }
 }
 </script>

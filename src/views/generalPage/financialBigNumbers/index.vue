@@ -8,7 +8,7 @@
   <div>
     <base-info-card v-if="this.supplierType > 3" />
     <i-card class="margin-top20">
-      <div class="margin-bottom20 clearFloat" v-if="$route.query.subSupplierType!=='GP'">
+      <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <i-button v-if="isSupplierDetail"
                     @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
@@ -55,7 +55,7 @@ import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
 import { iCard, iButton, iMessage, iMessageBox, iSelect } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { tableTitle } from './components/data'
+import { tableTitle1,tableTitleGP1,tableTitleGP2 } from './components/data'
 import { deleteFinancialBig, saveFinancialBig, selectFinancialBig } from "../../../api/register/financialBigNumbers";
 import { getDictByCode } from '@/api/dictionary'
 
@@ -72,13 +72,40 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: tableTitle,
+      tableTitle:[],
+      tableTitle1,
+      tableTitleGP1,
+      tableTitleGP2,
       tableLoading: false,
       selectTableData: [],
       currencyList: []
     }
   },
+  computed: {
+    baseMsg () {
+      return this.$store.state.baseInfo.baseMsg
+    },
+  },
   created () {
+    console.log(this.baseMsg.gpSupplierDetails)
+    if(this.$route.query.subSupplierType=="GP"){
+      let number = 0;
+      this.baseMsg.gpSupplierDetails.forEach(e=>{
+        if(e.businessType == 1 && e.industryPosition == "Y"){
+          number++;
+        }
+      })
+      setTimeout(() => {
+        if(number>0){
+          this.tableTitle = this.tableTitleGP1;
+        }else{
+          this.tableTitle = this.tableTitleGP2;
+        }
+      }, 0);
+    }else{
+      this.tableTitle = this.tableTitle1;
+    }
+
     this.getDictByCode()
     this.getTableList()
   },

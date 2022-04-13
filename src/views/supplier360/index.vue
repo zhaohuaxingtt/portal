@@ -363,6 +363,14 @@ export default {
         },
         {
           current: '17',
+          title: '财务数据',
+          ref: 'financialData',
+          component: 'financialData',
+          key: 'SUPPLIER_CAIWUSHUJU',
+          permission: 'SUPPLIER_FINANCIALDATA'
+        },
+        {
+          current: '18',
           title: '供货公司',
           ref: 'supplyCompany',
           component: 'supplyCompany',
