@@ -19,16 +19,7 @@ class SetSize {
       document.documentElement.style.fontSize =
         this.size * Math.min(scale, 1) + 'px'
     } else {
-      document.documentElement.style.fontSize = '14px'
-    }
-    if (clientWidth > 1920) {
-      const zoom = clientWidth / 1920
-      document.documentElement.style.zoom = clientWidth / 1920
-      localStorage.setItem('isLargeScreen', 'yes')
-      localStorage.setItem('zoom', zoom)
-    } else {
-      localStorage.setItem('isLargeScreen', 'no')
-      localStorage.setItem('zoom', 1)
+      document.documentElement.style.fontSize = '16px'
     }
   }
   init() {
