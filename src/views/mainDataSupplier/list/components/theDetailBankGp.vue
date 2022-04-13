@@ -18,19 +18,19 @@
     >
         <!-- 银行所在国家 -->
           <iFormItem :label="$t('YINHANGSUOZAIGUOJIA')" prop="countryCode">
-            <iSelect v-model="form.countryCode" @change="changeCountry" :disabled="!editable">
+            <iSelect v-model="form.countryCode" @change="changeCountry">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
             </iSelect>
           </iFormItem>
         <!-- 银行所在省份 -->
           <iFormItem :label="$t('YINGHANSUOZAISHENGFEN')">
-            <iSelect v-model="form.provinceCode" @change="changeProvince" :disabled="!editable">
+            <iSelect v-model="form.provinceCode" @change="changeProvince">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
             </iSelect>
           </iFormItem>
         <!-- 银行所在城市/区 -->
           <iFormItem :label="$t('YINHANGSUOZAICHENGSHI')">
-            <iSelect v-model="form.cityCode" :disabled="!editable" @change="changeCity">
+            <iSelect v-model="form.cityCode" @change="changeCity">
                 <el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
             </iSelect>
           </iFormItem>
