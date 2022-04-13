@@ -233,6 +233,8 @@ export default {
                 this.baseInfo.gpSupplierDetails.forEach(e=>{
                   if(e.businessBuyerEmail){
                     e.industryPosition = "Y";
+                  }else{
+                    e.industryPosition = "N";
                   }
                 })
                 console.log(this.baseInfo)

@@ -68,15 +68,26 @@ export default {
       });
     },
     onJump360 () {
+      if(this.baseMsg.supplierDTO.supplierType == "GP"){
+        this.$router.push({
+          path: "/supplier/supplierListGP/detailsGP",
+          query: {
+            supplierType: this.baseMsg.supplierDTO.supplierType,
+            subSupplierId: this.$route.query.supplierId,
+            isShowAll: true
+          }
+        })
+      }else{
+        this.$router.push({
+          path: "/supplier/supplierList/details",
+          query: {
+            supplierType: this.baseMsg.supplierDTO.supplierType,
+            subSupplierId: this.$route.query.subSupplierId,
+            isShowAll: true
+          }
+        })
+      }
       // this.$router.go(-1)
-      this.$router.push({
-        path: "/supplier/supplierList/details",
-        query: {
-          supplierType: this.baseMsg.supplierDTO.supplierType,
-          subSupplierId: this.$route.query.subSupplierId,
-          isShowAll: true
-        }
-      })
     }
   },
   mounted () {

@@ -17,3 +17,12 @@ export function gpSubBankDelete(data) {
     data
   })
 }
+
+// 删除子账号
+export function batchSaveOrUpd(data) {
+  return request({
+    url: `/supplier/gpSupplierDetail/batchSaveOrUpd`,
+    method: 'POST',
+    data
+  })
+}

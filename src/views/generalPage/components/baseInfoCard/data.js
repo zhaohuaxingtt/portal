@@ -191,13 +191,13 @@ export const baseInfoTitleGP = [
         permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE',
         disabled:true
     },
-    {
-        key: 'payRecord',
-        name: 'FUKUANGJILV',
-        required: false,
-        // icons: "iconxinxitishi",
-        // tip: "SUPPLIER_VWCODETIP",
-        permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE',
-        disabled:true
-    }
+    // {
+    //     key: 'payRecord',
+    //     name: 'FUKUANGJILV',
+    //     required: false,
+    //     // icons: "iconxinxitishi",
+    //     // tip: "SUPPLIER_VWCODETIP",
+    //     permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE',
+    //     disabled:true
+    // }
 ]

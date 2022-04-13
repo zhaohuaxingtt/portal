@@ -1,12 +1,12 @@
 <template>
     <iCard :title="$t('CAIGOUYUANXINXI')" collapse>
         <template slot="header-control">
-            <i-button v-if="editType"
-                        @click="editClick">{{ language('编辑') }}</i-button>
-            <i-button v-if="!editType"
+            <!-- <i-button v-if="editType"
+                        @click="editClick">{{ language('编辑') }}</i-button> -->
+            <i-button 
                         @click="save">{{ language('保存') }}</i-button>
-            <i-button v-if="!editType"
-                        @click="cancel">{{ language('取消') }}</i-button>
+            <!-- <i-button v-if="!editType"
+                        @click="cancel">{{ language('取消') }}</i-button> -->
         </template>
         <table-list
             :tableData="detail.gpSupplierDetails"
@@ -42,6 +42,7 @@
 import { iCard,iButton,iInput } from "rise";
 import tableList from './table'
 import { getUserInfo } from "@/api/register/home"
+import { batchSaveOrUpd } from '@/api/mainDataSupplier/list/bank'
 import { tableTitle } from './data'
 export default {
     props:{
@@ -71,7 +72,14 @@ export default {
     },
     methods:{
         save(){
-            
+            this.detail.gpSupplierDetails.forEach(e => {
+                e.supplierId = this.$route.query.id;
+            });
+            batchSaveOrUpd(
+                this.detail.gpSupplierDetails
+            ).then(res=>{
+                console.log(res.data)
+            })
         },
         cancel(){
             this.editType = true;
@@ -90,6 +98,7 @@ export default {
                     data.businessBuyerName = res.data.nameZh;
                     data.businessBuyerNum = res.data.userNum;
                     data.businessBuyerDept = res.data.purchaserSection;
+                    data.businessBuyerId = res.data.id;
                 })
             }else{
                 data.businessBuyerName = "";

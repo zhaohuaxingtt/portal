@@ -77,6 +77,10 @@ export default {
         if(res.result){
           
           this.tableListData = res.data;
+          
+          this.tableListData.forEach(e=>{
+            e.procureCagetoryId = Number(e.procureCagetoryId)
+          })
 
           getProcureCategory().then(res=>{
             this.procureCagetoryList = res.data;
