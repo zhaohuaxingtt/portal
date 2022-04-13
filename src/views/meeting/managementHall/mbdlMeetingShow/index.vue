@@ -272,7 +272,7 @@ export default {
       }else if(row.type == 'MANUAL'){
         iMessage.error('改议题为临时议题')
       }else{
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
+        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/mbdlDetails?id=${row.fixedPointApplyId}`)
       }
     } 
 
