@@ -1,12 +1,12 @@
 <template>
     <iCard :title="$t('CAIGOUYUANXINXI')" collapse>
         <template slot="header-control">
-            <!-- <i-button v-if="editType"
-                        @click="editClick">{{ language('编辑') }}</i-button> -->
-            <i-button 
+            <i-button v-if="editType"
+                        @click="editClick">{{ language('编辑') }}</i-button>
+            <i-button v-if="!editType"
                         @click="save">{{ language('保存') }}</i-button>
-            <!-- <i-button v-if="!editType"
-                        @click="cancel">{{ language('取消') }}</i-button> -->
+            <i-button v-if="!editType"
+                        @click="cancel">{{ language('取消') }}</i-button>
         </template>
         <table-list
             :tableData="detail.gpSupplierDetails"
@@ -65,10 +65,11 @@ export default {
             ],
             tableTitle:tableTitle,
             tableLoading:false,
+            oldData:[],
         }
     },
     created(){
-
+        
     },
     methods:{
         save(){
@@ -83,6 +84,9 @@ export default {
         },
         cancel(){
             this.editType = true;
+
+            console.log(this.oldData)
+            this.detail.gpSupplierDetails = _.cloneDeep(this.oldData);
         },
         editClick(){
             this.editType = false;

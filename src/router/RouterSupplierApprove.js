@@ -7,7 +7,7 @@
  */
 //updated by dolphin on 5/19/2020, 7:54:14 PM.
 
-'use strict'
+// 'use strict'
 import CorrectionApprovalDetails from '../views/generalPage/correctionApprovalDetails/index'
 import CorrectionApprovalDetailsGP from '../views/generalPage/correctionApprovalDetailsGP/index'
 import DepthReportApproval from '../views/bpm/frmRatingApproval/depthReportApproval'

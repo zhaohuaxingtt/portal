@@ -23,18 +23,18 @@
             </iSelect>
           </iFormItem>
         <!-- 银行所在省份 -->
-          <iFormItem :label="$t('YINGHANSUOZAISHENGFEN')">
+          <iFormItem :label="$t('YINGHANSUOZAISHENGFEN')" prop="provinceCode">
             <iSelect v-model="form.provinceCode" @change="changeProvince">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
             </iSelect>
           </iFormItem>
         <!-- 银行所在城市/区 -->
-          <iFormItem :label="$t('YINHANGSUOZAICHENGSHI')">
+          <iFormItem :label="$t('YINHANGSUOZAICHENGSHI')" prop="cityCode">
             <iSelect v-model="form.cityCode" @change="changeCity">
                 <el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
             </iSelect>
           </iFormItem>
-          <iFormItem :label="language('银行名称')">
+          <iFormItem :label="language('银行名称')"  prop="bankName">
             <iInput v-model="form.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
           </iFormItem>
           <iFormItem :label="language('银行代码')" prop="bankCode">
@@ -61,7 +61,8 @@
                     :model="item"
                     :ref="'bankRulesDTO'+index">
               <!-- 银行所在国家 -->
-              <iFormItem prop="country"
+              <!-- prop="country" -->
+              <iFormItem 
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
                   <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" 
                           slot="label"></iLabel>
@@ -74,7 +75,8 @@
                   </iSelect>
               </iFormItem>
               <!-- 银行所在省份 -->
-              <iFormItem prop="province"
+               <!-- prop="province" -->
+              <iFormItem
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
                   <iLabel :label="$t('YINGHANSUOZAISHENGFEN')"
                           slot="label"></iLabel>
@@ -87,7 +89,8 @@
                   </iSelect>
               </iFormItem>
               <!-- 银行所在城市/区 -->
-              <iFormItem prop="city"
+              <!-- prop="city" -->
+              <iFormItem 
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
                   <iLabel :label="$t('YINHANGSUOZAICHENGSHI')"
                           slot="label"></iLabel>
@@ -100,7 +103,8 @@
               </iFormItem>
 
               <!-- 银行名称 -->
-              <iFormItem prop="bankName"
+              <!-- prop="bankName" -->
+              <iFormItem 
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
                   <iLabel :label="$t('YINGHANGMINCHENG')" 
                           slot="label"
@@ -110,7 +114,8 @@
                           :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"></iInput>
               </iFormItem>
               <!-- 银行代码 -->
-              <iFormItem  prop="bankCode"
+              <!-- prop="bankCode" -->
+              <iFormItem  
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
                   <iLabel :label="$t('YINHANGDAIMA')" 
                           slot="label"
@@ -120,7 +125,8 @@
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGDAIMA')"></iInput>
               </iFormItem>
               <!-- 银行账号 -->
-              <iFormItem  prop="bankAccount"
+              <!-- prop="bankAccount" -->
+              <iFormItem  
                           v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
                   <iLabel :label="$t('YINHANGZHANGHAO')" 
                           slot="label"></iLabel>
@@ -128,7 +134,9 @@
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"></iInput>
               </iFormItem>
               <!-- 农民工工资专用账户名称 -->
-              <iFormItem prop="salaryAccount">
+              <!-- prop="salaryAccount" -->
+              <iFormItem 
+              >
                   <iLabel :label="$t('NONGMINGGONGGONGZIZHUANYONG')" 
                           slot="label"></iLabel>
                   <iInput v-model="item.salaryAccount"
@@ -398,7 +406,7 @@ export default {
       })
     },
     removeBank(val,index){
-      iMessageBox("是否取消编辑？", '温馨提示', {
+      iMessageBox("是否删除？", '温馨提示', {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消'),
       }).then(red=>{

@@ -25,6 +25,7 @@
     <linie
       class="margin-bottom20"
       id="linie"
+      ref="linie"
       :detail="baseInfo"
       :supplier-type="supplierType"
       :supplierId="supplierId"
@@ -237,6 +238,7 @@ export default {
                   })
                 })
                 this.baseInfo.gpSupplierDetails = this.tableData
+
                 this.baseInfo.gpSupplierDetails.forEach(e=>{
                   if(e.businessBuyerEmail){
                     e.industryPosition = "Y";
@@ -244,6 +246,8 @@ export default {
                     e.industryPosition = "N";
                   }
                 })
+
+                this.$refs.linie.oldData = _.cloneDeep(this.baseInfo.gpSupplierDetails);
                 console.log(this.baseInfo)
               }
               if (supplierVo.supplierType === 'PP' && ppSupplierVo) {

@@ -95,6 +95,10 @@ export default {
     },
     // 这里主要是为了补全5种类型联系人
     init() {
+      if(this.$route.query.supplierType == "GP"){
+        this.tableData = _.cloneDeep(this.contacts)
+        return false;
+      }
       if (this.contacts) {
         this.contacts.forEach((item) => {
           // console.log(this.dicts.SUPPLIER_CODE_TYPE,'=======')
