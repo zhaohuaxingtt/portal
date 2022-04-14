@@ -116,7 +116,8 @@ export default {
       loading: false,
       approveLoading: false,
       rejectLoading: false,
-      supplierToken: ""
+      supplierToken: "",
+      supplierId:""
     }
   },
   methods: {
@@ -129,6 +130,7 @@ export default {
         const res = await getTaskDetails(req)
         this.detail = res.data ? res.data : {}
         this.supplierToken = this.detail.token
+        this.supplierId = this.detail.supplierId
         this.loading = false
         if (!res.data || !res.data.dunsCode) {
           return false
@@ -168,7 +170,8 @@ export default {
         query: {
           current: 1,
           supplierType: 4,
-          supplierToken: this.supplierToken
+          supplierToken: this.supplierToken,
+          subSupplierId: this.supplierId
         }
       })
     },
