@@ -1,18 +1,19 @@
 <template>
   <iPage>
+    <div style="font-size:1.5rem;margin-bottom:15px;">
+      <span style="font-weight:bold">{{detail.desc}}</span>
+    </div>
     <iCard class="margin-bottom20 clearFloat"
            tabCard
            collapse
            title="供应商信息">
       <template slot="header">
         <div>
-          <span style="font-weight:bold">{{detail.desc}}</span>
+          <span style="font-weight:bold">供应商信息</span>
         </div>
         <div>
-          <iButton @click="handler('1')"
-                   :loading="buttonLoad">{{language('QUEREN','确认')}}</iButton>
-          <iButton @click="handler('0')"
-                   :loading="buttonLoad">{{language('JUJUE','拒绝')}}</iButton>
+          <iButton @click="goSupplierInfor"
+                   :loading="buttonLoad">{{language('查看供应商信息')}}</iButton>
         </div>
       </template>
       <iFormGroup row="3"
@@ -71,19 +72,34 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
-    <iCard>
-    <table-list :tableData="tableListData"
-                :tableTitle="tableTitle"
-                :selection="false"
-                border
-                :index="true"
-                :openPageGetRowData="true"
-                openPageProps="templateName"
-                @openPage="handleDownload"
-                :tableLoading="tableLoading" />
-      <template #templateName="scope">
-        <div>{{ scope.row.templateName }} <span style="color: red">*</span></div>
+    <iCard class="margin-bottom20 clearFloat"
+           tabCard
+           collapse
+           title="准入所需附件">
+      <template slot="header">
+        <div>
+          <span style="font-weight:bold">准入所需附件</span>
+        </div>
+        <div>
+          <iButton @click="handler('1')"
+                   :loading="buttonLoad">{{language('QUEREN','确认')}}</iButton>
+          <iButton @click="handler('0')"
+                   :loading="buttonLoad">{{language('JUJUE','拒绝')}}</iButton>
+        </div>
       </template>
+      <table-list :tableData="tableListData"
+                  :tableTitle="tableTitle"
+                  :selection="false"
+                  border
+                  :index="true"
+                  :openPageGetRowData="true"
+                  openPageProps="templateName"
+                  @openPage="handleDownload"
+                  :tableLoading="tableLoading">
+        <template #templateName="scope">
+          <div>{{ scope.row.templateName }}<span style="color: red">*</span></div>
+        </template>
+      </table-list>
     </iCard>
   </iPage>
 </template>
@@ -129,6 +145,18 @@ export default {
     window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
   },
   methods: {
+    goSupplierInfor(){
+      this.$router.push({
+        path: '/view-suppliers',
+        query: {
+          current: 1,
+          supplierType: 4,
+          supplierToken: this.detail.token,
+          subSupplierType:"GP",
+          supplierId:this.detail.id,
+        }
+      })
+    },
     async handleDownload (row) {
       const req = row.fileId
       await downloadUdFile(req)
@@ -142,6 +170,7 @@ export default {
         }
         const res = await gpAdmittanceInfo(req)
         this.detail = res.data
+        this.supplierToken = res.data.supplierToken
         this.tableListData = res.data.attachList
         this.loading = false
       } catch {

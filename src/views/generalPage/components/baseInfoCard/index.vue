@@ -9,7 +9,8 @@
            collapse
            :title="$t('LK_JICHUXINXI')">
       <template slot="header-control">
-        <iButton @click="onJump360">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
+        <iButton @click="onJump360" v-if="$route.path=='/view-suppliers'">{{ $t('FANHUI') }}</iButton>
+        <iButton @click="onJump360" v-else>{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </template>
       <iFormGroup row="3">
         <iFormItem v-for="(item,index) in baseInfoTitle"
@@ -69,6 +70,10 @@ export default {
       });
     },
     onJump360 () {
+      if(this.$router.path="/view-suppliers"){
+        this.$router.go(-1)
+        return;
+      }
       if(this.baseMsg.supplierDTO.supplierType == "GP"){
         this.$router.push({
           path: "/supplier/supplierListGP/detailsGP",
