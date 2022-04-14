@@ -59,11 +59,11 @@
                       :key="index"></el-option>
           </iSelect>
         </iFormItem>
-        <iFormItem prop="corpEmail">
-          <iLabel :label="$t('TERMS_YOUXIANG')"
+        <iFormItem prop="postCode">
+          <iLabel :label="$t('YOUBIAN')"
                   required
                   slot="label"></iLabel>
-          <iInput :placeholder="$t('LK_QINGSHURU')+$t('TERMS_YOUXIANG')" v-model="supplierComplete.supplierDTO.corpEmail"></iInput>
+          <iInput :placeholder="$t('LK_QINGSHURU')+$t('YOUBIAN')" v-model="supplierComplete.supplierDTO.postCode"></iInput>
         </iFormItem>
       </iFormGroup>
     </iCard>

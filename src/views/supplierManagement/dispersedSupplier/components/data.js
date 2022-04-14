@@ -19,9 +19,9 @@ export const comRules = {
 	cityCode:[
 		{ required: true, message: '请选择城市', trigger: 'change' }
 	],
-	corpEmail:[
-		{ required: true, message: '请输入邮箱', trigger: 'blur' },
-		{ pattern:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: '邮箱格式错误', trigger: 'blur' }
+	postCode:[
+		{ required: true, message: '请输入邮编', trigger: 'blur' },
+		{ pattern:/^\d{6}$/, message: '邮编格式错误', trigger: 'blur' }
 	],
 }
 

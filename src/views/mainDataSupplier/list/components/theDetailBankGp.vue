@@ -17,30 +17,36 @@
       ref="ruleForm"
     >
         <!-- 银行所在国家 -->
-          <iFormItem :label="$t('YINHANGSUOZAIGUOJIA')" prop="countryCode">
+          <iFormItem prop="countryCode">
+            <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" slot="label" required></iLabel>
             <iSelect v-model="form.countryCode" @change="changeCountry">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
             </iSelect>
           </iFormItem>
         <!-- 银行所在省份 -->
-          <iFormItem :label="$t('YINGHANSUOZAISHENGFEN')" prop="provinceCode">
+          <iFormItem prop="provinceCode">
+            <iLabel :label="$t('YINGHANSUOZAISHENGFEN')" slot="label" required></iLabel>
             <iSelect v-model="form.provinceCode" @change="changeProvince">
                 <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
             </iSelect>
           </iFormItem>
         <!-- 银行所在城市/区 -->
-          <iFormItem :label="$t('YINHANGSUOZAICHENGSHI')" prop="cityCode">
+          <iFormItem prop="cityCode">
+            <iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label" required></iLabel>
             <iSelect v-model="form.cityCode" @change="changeCity">
                 <el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
             </iSelect>
           </iFormItem>
-          <iFormItem :label="language('银行名称')"  prop="bankName">
+          <iFormItem prop="bankName">
+            <iLabel :label="language('银行名称')" slot="label" required></iLabel>
             <iInput v-model="form.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
           </iFormItem>
-          <iFormItem :label="language('银行代码')" prop="bankCode">
+          <iFormItem prop="bankCode">
+            <iLabel :label="language('银行代码')" slot="label" required></iLabel>
             <iInput v-model="form.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
           </iFormItem>
-          <iFormItem :label="language('银行账号')" prop="bankAccount">
+          <iFormItem prop="bankAccount">
+            <iLabel :label="language('银行账号')" slot="label" required></iLabel>
             <iInput v-model="form.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
           </iFormItem>
           <iFormItem :label="language('税务代码')">
