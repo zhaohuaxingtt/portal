@@ -72,21 +72,29 @@
       </iFormGroup>
     </iCard>
     <iCard>
-      <!-- <table-list :tableData="tableListData"
-                  :tableTitle="tableTitle"
-                  :selection="false"
-                  :tableLoading="tableLoading" /> -->
+    <table-list :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :selection="false"
+                border
+                :index="true"
+                :openPageGetRowData="true"
+                openPageProps="templateName"
+                @openPage="handleDownload"
+                :tableLoading="tableLoading" />
+      <template #templateName="scope">
+        <div>{{ scope.row.templateName }} <span style="color: red">*</span></div>
+      </template>
     </iCard>
   </iPage>
 </template>
 
 <script>
 import { iCard, iFormGroup, iFormItem, iLabel, iText, iPage, iButton, iMessage } from 'rise'
-import { priorApprovalDetail, priorApproval,gpAdmittanceInfo } from '../../../api/supplier360/approve'
+import { priorApprovalDetail, priorApproval,gpAdmittanceInfo,commitAdmittance } from '../../../api/supplier360/approve'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { TableTitle } from "./components/data";
-
+import { TableTitleGP } from "./components/data";
+import { downloadUdFile } from '@/api/file'
 
 export default {
   mixins: [generalPageMixins],
@@ -108,8 +116,8 @@ export default {
     return {
       detail: {},
       loading: false,
-      // tableListData: [],
-      tableTitle: TableTitle,
+      tableListData: [],
+      tableTitle: TableTitleGP,
       tableLoading: false,
       selectTableData: [],
       buttonLoad: false,
@@ -121,6 +129,10 @@ export default {
     window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
   },
   methods: {
+    async handleDownload (row) {
+      const req = row.fileId
+      await downloadUdFile(req)
+    },
     async getTaskDetails () {
       this.loading = true
       try {
@@ -130,7 +142,7 @@ export default {
         }
         const res = await gpAdmittanceInfo(req)
         this.detail = res.data
-        // this.tableListData = res.data.supplierMaterialDTOList
+        this.tableListData = res.data.attachList
         this.loading = false
       } catch {
         this.loading = false
@@ -148,9 +160,9 @@ export default {
             approvalStatus: val,
             taskId: this.$route.query.taskId,
             businessType:this.$route.query.businessType,
-            supplierId:this.$route.query.taskId,
+            supplierId:this.detail.id,
           }
-          priorApproval(params).then(res => {
+          commitAdmittance(params).then(res => {
             if (res?.code === '200') {
               this.buttonLoad = false
               iMessage.success(res.desZh)
@@ -165,9 +177,9 @@ export default {
           approvalStatus: val,
           taskId: this.$route.query.taskId,
           businessType:this.$route.query.businessType,
-          supplierId:this.$route.query.taskId,
+          supplierId:this.detail.id,
         }
-        priorApproval(params).then(res => {
+        commitAdmittance(params).then(res => {
           if (res?.code === '200') {
             this.buttonLoad = false
             iMessage.success(res.desZh)

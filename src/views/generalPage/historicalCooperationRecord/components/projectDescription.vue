@@ -21,7 +21,7 @@
         :index="true"
         border
     />
-    <iPagination
+    <!-- <iPagination
         @size-change="handleSizeChange($event, getTableList)"
         @current-change="handleCurrentChange($event, getTableList)"
         :page-sizes="page.pageSizes"
@@ -30,7 +30,7 @@
         :total="page.totalCount"
         :layout="page.layout"
       >
-    </iPagination>
+    </iPagination> -->
   </i-card>
 </template>
 
@@ -39,16 +39,19 @@ import {iCard, iButton,iPagination} from "rise";
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import {projectDescriptionsTableTitle} from './data'
-import { pageMixins } from '@/utils/pageMixins'
-
+// import { pageMixins } from '@/utils/pageMixins'
+import {queryGpSupplierCooperationRecord} from "@/api/supplier360/historicalCooperationRecord";
 
 export default {
-  mixins: [generalPageMixins,pageMixins],
+  mixins: [
+    generalPageMixins,
+    // pageMixins
+  ],
   components: {
     iCard,
     iButton,
     tableList,
-    iPagination
+    // iPagination
   },
   data() {
     return {
@@ -58,9 +61,17 @@ export default {
       selectTableData: []
     }
   },
+  created(){
+    this.getTableList();
+  },
   methods: {
     getTableList(){
-
+      queryGpSupplierCooperationRecord(
+          this.$route.query.supplierId
+      ).then(res=>{
+        console.log(res);
+        this.tableListData = res.data;
+      })
     },
   }
 }

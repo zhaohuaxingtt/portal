@@ -39,3 +39,12 @@ export function priorApproval(params) {
     data: params
   })
 }
+
+// 材料组分页查询
+export function commitAdmittance(params) {
+  return requst({
+    url: `/gpSupplier/commitAdmittance`,
+    method: 'POST',
+    data: params
+  })
+}
