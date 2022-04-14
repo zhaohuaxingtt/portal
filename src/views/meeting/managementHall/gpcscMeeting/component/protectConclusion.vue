@@ -429,11 +429,11 @@ export default {
     // conclusionCscAllLIN 临时议题
     // conclusionCscAll   会议议题
     //判断MANUAL --临时议题    GP  --上会议题  结论不一样
-    if (curObj.type=="MANUAL") {
-      this.relateCommon(['08','01','10'])
-    }else{
-      this.getConclusion()
-    }
+    // if (curObj.type=="MANUAL") {
+    //   this.relateCommon(['08','01','10'])
+    // }else{
+    //   this.getConclusion()
+    // }
 
 
     const curObj = this.autoOpenProtectConclusionObj
@@ -799,10 +799,29 @@ export default {
             })
           });
     },
+    //临时议题 不要 11 和 12   在根据后端返回判断
     getRelateCommon(){
       console.log(this.fromData);
       if (this.fromData.type == "MANUAL") {
-        this.relateCommon(['08','01','10'])
+        // this.relateCommon(['08','01','10',])
+        const data = {
+          id:this.meetingInfo.meetingTypeId
+        }
+        findThemenConclusion(data).then((res) => { 
+          console.log(res);
+          // 临时议题 不要 11 和 12 
+          for (let i = 0; i < res.length; i++) {
+            if (res[i] == '11') {
+              res.splice(i,'11')
+            }
+          }
+          for (let i = 0; i < res.length; i++) {
+            if (res[i] == '12') {
+              res.splice(i,'12')
+            }
+          }
+          this.relateCommon(res)
+        })
       }else{
         this.getConclusion()
       }
