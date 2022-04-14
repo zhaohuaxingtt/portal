@@ -120,6 +120,7 @@ export default {
       updateModules(requestData)
         .then((res) => {
           if (res.result) {
+            this.$store.dispatch('getModules')
             iMessage.success(res.desZh || '保存成功')
           } else {
             iMessage.error(res.desZh || '保存失败')
