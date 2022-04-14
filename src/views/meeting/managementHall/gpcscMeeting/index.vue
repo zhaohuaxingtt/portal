@@ -528,7 +528,7 @@
                 <!-- <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11' ? '':'' "  
                 @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
                 <!-- <span>{{ resultObj[scope.row.conclusion] }}</span> -->
-                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue" @click="handleResultObj">{{resultObj[scope.row.conclusion]}}</span>
                 <span v-else>{{resultObj[scope.row.conclusion]}}</span>
               </template>
             </el-table-column>
@@ -739,7 +739,7 @@
             >
               <template slot-scope="scope">
                 <!-- <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
-                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue" @click="handleResultObj">{{resultObj[scope.row.conclusion]}}</span>
                 <span v-else>{{resultObj[scope.row.conclusion]}}</span>
               </template>
             </el-table-column>
@@ -1243,6 +1243,10 @@ export default {
   //   }
   // },
   methods: {
+    handleResultObj(){
+      this.openDialog('openProtectConclusion')
+
+    },
     //批量调整
     batchAdjustment(){
       this.batchAdjustmentDialog=true
