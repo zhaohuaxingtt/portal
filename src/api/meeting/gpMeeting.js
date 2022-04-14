@@ -145,7 +145,7 @@ export function modifyConclusionByMbdlId(data) {
     data
   })
 }
-// 导出会议agenda
+// 导出会议agenda   MBDL
 // /gpMeetingService/exportMeetingAgenda
 export function exportMeetingAgenda(data) {
   return requst({
@@ -155,6 +155,17 @@ export function exportMeetingAgenda(data) {
     data
   })
 }
+// 导出Csc会议agenda
+// /gpMeetingService/exportCscMeetingAgenda
+export function exportCscMeetingAgenda(data) {
+  return requst({
+    url: `/gpMeetingService/exportCscMeetingAgenda`,
+    method: 'POST',
+    responseType: 'blob',
+    data
+  })
+}
+
 // 根据会议类型id查询议题结论
 // /gpMeetingService/findThemenConclusion
 export function findThemenConclusion(data) {
