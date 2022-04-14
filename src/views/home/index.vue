@@ -9,18 +9,17 @@
 <template>
   <iPage>
     <div class="index-wrapper">
-      <el-row :gutter="20"
-              class="index-container"
-              id="myModules">
-        <el-col :xs="24"
-                :sm="12"
-                :md="8"
-                :lg="6"
-                :xl="6"
-                :key="card.id"
-                v-for="card in cards">
-          <module-card :card="card"
-                       @del="handleDelete" />
+      <el-row :gutter="20" class="index-container" id="myModules">
+        <el-col
+          :xs="24"
+          :sm="12"
+          :md="8"
+          :lg="6"
+          :xl="6"
+          :key="card.id"
+          v-for="card in cards"
+        >
+          <module-card :card="card" @del="handleDelete" />
         </el-col>
       </el-row>
     </div>
@@ -33,45 +32,42 @@ import Sortable from 'sortablejs'
 import { updateBatchModules } from '@/api/home'
 export default {
   components: { moduleCard, iPage },
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   },
   computed: {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
-      cardList: state => state.permission.cardList
+      cardList: (state) => state.permission.cardList
     }),
-    cards () {
-      let cards = this.cardList.filter(li => !li.value)
+    cards() {
+      let cards = this.cardList.filter((li) => !li.value)
       return cards
       // return this.cardList.filter(li => li.name ==`EKL`)
     }
   },
-  mounted () {
-    console.log(this.$store.state.permission, "1111")
+  mounted() {
     this.$nextTick(() => {
       new Sortable(document.getElementById('myModules'), {
         group: { name: 'myModules' }, // set both lists to same group
         ghostClass: 'my-modules-drop-ghost',
         animation: 150,
-        onUpdate: event => this.handleDragUpdate(event),
-        onRemove: event => this.handleDragEnd(event)
+        onUpdate: (event) => this.handleDragUpdate(event),
+        onRemove: (event) => this.handleDragEnd(event)
       })
     })
   },
   methods: {
-    handleDragEnd (event) {
+    handleDragEnd(event) {
       console.log('handleDragEnd', event)
     },
-    async handleDragUpdate (event) {
+    async handleDragUpdate(event) {
       const cards = _.cloneDeep(this.cards)
       const item = _.cloneDeep(cards[event.oldIndex])
       const endItem = _.cloneDeep(cards[event.newIndex])
       const cardList = _.cloneDeep(this.cardList)
-      const index = cardList.findIndex(e => e.id === endItem.id)
-      const newCards = cardList.filter(e => e.id !== item.id)
+      const index = cardList.findIndex((e) => e.id === endItem.id)
+      const newCards = cardList.filter((e) => e.id !== item.id)
       newCards.splice(index, 0, item)
       const newCardList = newCards.map((e, i) => {
         e.orderNum = i
@@ -82,9 +78,9 @@ export default {
         this.$store.dispatch('getModules')
       }
     },
-    async handleDelete (card) {
+    async handleDelete(card) {
       const cards = _.cloneDeep(this.cardList)
-      const newCards = cards.map(e => {
+      const newCards = cards.map((e) => {
         if (e.id === card.id) {
           e.value = true
         }
