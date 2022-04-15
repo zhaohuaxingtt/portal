@@ -234,7 +234,9 @@ export default {
       if (this.formData.sixPartCode.length === 6) {
         saveSixParts(data).then((res) => {
           if (res.code == 200) {
-            this.submit()
+            this.$emit('changeVisible', false)
+            iMessage.success('保存成功')
+            this.$emit('initPartMaterialDetail')
           } else if (res.code == 205) {
             this.$confirm(
               res.desZh + ' 是否继续保存？',
