@@ -174,7 +174,7 @@
             <el-form-item>
               {{
                 scope.row[items.props]
-                  ? scope.row[items.props] / 1024 / 1024
+                  ? (scope.row[items.props] / 1024 / 1024).toFixed(2)
                   : 0
               }}
             </el-form-item>

@@ -9,6 +9,14 @@ import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER+ '/web')
 
+// 采购分类
+export function getProcureCategory(parmars) {
+    return requst({
+        url: '/getProcureCategory',
+        method: 'GET',
+    })
+}
+
 // 查询标签管理页面
 export function getTagPage(parmars) {
     return requst({
@@ -55,6 +63,21 @@ export function dropDownTagName(parmars) {
         url: 'tags/tags/dropDownTagName',
         method: 'POST',
         data: parmars
+    })
+}
+//   查询下拉标签列表
+export function pageInner(parmars) {
+    return requst({
+        url: '/gpSupplier/pageInner',
+        method: 'POST',
+        data: parmars
+    })
+}
+//   查询下拉标签列表
+export function getGpBusinessType(parmars) {
+    return requst({
+        url: `/gpSupplier/getGpBusinessType/${parmars}`,
+        method: 'GET',
     })
 }
 //   039-供应商标签设置

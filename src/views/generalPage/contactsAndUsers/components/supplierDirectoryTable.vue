@@ -16,8 +16,8 @@
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
         <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_ADD" @click="addTableItem">新增</i-button> -->
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
-                  @click="deleteItem('ids', deleteContacts)">{{ $t('LK_SHANCHU') }}</i-button>
+        <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
+                  @click="deleteItem('ids', deleteContacts)">{{ $t('LK_SHANCHU') }}</i-button> -->
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
                   @click="exportsTable"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
@@ -48,7 +48,7 @@
         </div>
         <div v-else>{{ scope.row.contactType }}</div> -->
         <div>
-          {{ scope.row.nameType }}<span style="color: red">*</span>
+          {{ scope.row.nameType }}<span v-if="scope.row.nameType=='商务联系人'" style="color: red">*</span>
         </div>
       </template>
     </table-list>
@@ -87,13 +87,13 @@ export default {
   },
   methods: {
     async getDictByCode () {
-      const res = await getDictByCode('SUPPLIER_CODE_TYPE')
-      res.data[0].subDictResultVo.forEach((item) => {
-        this.tableListData.push({
-          nameType: item.name,
-          contactType: item.code
-        })
-      })
+      // const res = await getDictByCode('SUPPLIER_CODE_TYPE')
+      // res.data[0].subDictResultVo.forEach((item) => {
+      //   this.tableListData.push({
+      //     nameType: item.name,
+      //     contactType: item.code
+      //   })
+      // })
     },
     async getTableList () {
       this.tableLoading = true
@@ -108,6 +108,10 @@ export default {
       }
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
+      this.tableListData = res.data
+      return;
+
+
       let cust = [...this.tableListData]
       // console.log(this.tableListData)
       // console.log(res.data)

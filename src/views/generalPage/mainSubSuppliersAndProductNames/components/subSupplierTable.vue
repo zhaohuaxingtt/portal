@@ -6,7 +6,8 @@
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">
-      <span class="font18 font-weight">{{ $t('SUPPLIER_ZHUYAOFENGONGFANGMING') }}</span>
+      <span class="font18 font-weight" v-if="$route.query.subSupplierType=='GP'">{{ $t('SUPPLIER_ZHUYAOFENGONGFANGMINGCHENGJICHANPIN') }}</span>
+      <span class="font18 font-weight" v-else>{{ $t('SUPPLIER_ZHUYAOFENGONGFANGMING') }}</span>
       <div class="floatright">
         <i-button @click="()=>addTableItem({countryList: this.countryList })"
                   v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_ADD">

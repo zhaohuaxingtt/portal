@@ -14,8 +14,8 @@
                 v-permission.edit="SUPPLIER_BASEINFO_COMPANY_LEGALPERSON"
                 :placeholder="$t('LK_QINGSHURU') + $t('LegalPerson')"></iInput>
       </iFormItem>
+      <!-- v-if="isPP" -->
       <iFormItem prop="supplierDTO.companySize"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYSIZE">
         <iLabel :label="$t('companySize')"
                 required
@@ -28,7 +28,6 @@
         </iSelect>
       </iFormItem>
       <iFormItem prop="supplierDTO.businessState"
-                 v-if="isPP && supplierType == 4"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_BUSINESSSTATUS">
         <iLabel :label="$t('JINGYINGZHUANGTAI')"
                 required
@@ -53,7 +52,6 @@
         </iSelect>
       </iFormItem>
       <iFormItem prop="supplierDTO.epNatureCategory"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_EPNATURECATEGORY">
         <iLabel :label="$t('epNatureCategory')"
                 required
@@ -67,7 +65,6 @@
         </iSelect>
       </iFormItem>
       <iFormItem prop="supplierDTO.epNatureSubcategory"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYNATURE">
         <iLabel :label="$t('QIYEXINGZHI')"
                 required
@@ -101,7 +98,6 @@
         <iText>{{isIndustryCode}}</iText>
       </iFormItem>
       <iFormItem prop="supplierDTO.businessOfScope"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_SCOPEOFBUSINESS">
         <iLabel :label="$t('YEWUFANWEI')"
                 required
@@ -115,7 +111,6 @@
       </iFormItem>
       <!-- 四 -->
       <iFormItem prop="supplierDTO.isListing"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_ISLISTING">
         <iLabel :label="$t('IsListing')"
                 required
@@ -131,7 +126,6 @@
       <iFormItem prop="supplierDTO.listingAddress"
                  :rules="listingAddress"
                  ref="listingAddressItem"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_LISTINGADDRESS">
         <iLabel :label="$t('listingAddress')"
                 :required="isListing"
@@ -147,7 +141,6 @@
       <iFormItem prop="supplierDTO.stockCode"
                  :rules="stockCode"
                  ref="stockCodeItem"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_CODEOFSTOCK">
         <iLabel :label="$t('GUPIAODAIMA')"
                 :required="isListing"
@@ -182,7 +175,6 @@
           }"></iDatePicker>
       </iFormItem>
       <iFormItem prop="supplierDTO.supplyProperty"
-                 v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_SUPPLIERSTATUS">
         <iLabel :label="$t('GONGHUOSHUXING')"
                 required
@@ -251,7 +243,7 @@
         <iInput v-model="supplierData.supplierDTO.post"
                 :placeholder="$t('LK_QINGSHURU') + $t('ZHUCEDIZHIYOUBIAN')"></iInput>
       </iFormItem>
-      <iFormItem v-if="isPP"
+      <iFormItem 
                  v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYWEBSITE">
         <iLabel :label="$t('GONGSHIWANGZHI')"
                 slot="label"></iLabel>
@@ -259,7 +251,7 @@
                 :placeholder="$t('LK_QINGSHURU') + $t('GONGSHIWANGZHI')"></iInput>
       </iFormItem>
       <!-- 八 -->
-      <iFormItem v-if="isPP">
+      <iFormItem >
         <iLabel :label="$t('financialStatus')"
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.supplierDTO.financialStatus">
@@ -269,7 +261,7 @@
                      :key="index"></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem v-if="isPP"
+      <iFormItem 
                  v-permission="SUPPLIER_BASEINFO_COMPANY_FINANCIALTREND">
         <iLabel :label="$t('CAIWUQUSHI')"
                 slot="label"></iLabel>
@@ -318,7 +310,7 @@
                      :key="index"></el-option>
         </iSelect> -->
       </iFormItem>
-      <iFormItem>
+      <iFormItem v-if="$route.query.subSupplierType !== 'GP'">
         <iLabel :label="language('QIANDINGCAIGOUTIAOKUAN', '签订采购条款')"
                 slot="label"></iLabel>
         <iText> {{isPP?supplierData.ppSupplierDTO.isSignedClause?supplierData.ppSupplierDTO.signTime:this.language('FOU','否'):supplierData.gpSupplierInfoVO.isSignedClause?supplierData.ppSupplierDTO.signTime:this.language('FOU','否') }}</iText>

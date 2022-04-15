@@ -6,20 +6,18 @@
 <template>
   <div>
     <baseInfo ref="basic" class="margin-bottom20"></baseInfo>
-    <iCard>
-      <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
-          <template v-if="supplierType<4">
-            <iButton v-permission="SUPPLIER_BAKN_TABLE_ADD" @click="addTableItem">{{ $t('LK_XINZENG') }}</iButton>
-            <iButton v-permission="SUPPLIER_BAKN_TABLE_DELETE" @click="deleteItem('ids', deleteSupplierBank)">
-              {{ $t('delete') }}
-            </iButton>
-          </template>
-          <iButton v-permission="SUPPLIER_BAKN_TABLE_EXPORT" @click="exportsTable" v-if="showExportsButton">
-            {{ $t('LK_DAOCHU') }}
+    <iCard :title="$t('SHOUQUANYINHANGXINXI')" tabCard>
+      <template slot="header-control">
+        <template v-if="supplierType<4">
+          <iButton v-permission="SUPPLIER_BAKN_TABLE_ADD" @click="addTableItem">{{ $t('LK_XINZENG') }}</iButton>
+          <iButton v-permission="SUPPLIER_BAKN_TABLE_DELETE" @click="deleteItem('ids', deleteSupplierBank)">
+            {{ $t('delete') }}
           </iButton>
-        </div>
-      </div>
+        </template>
+        <iButton v-permission="SUPPLIER_BAKN_TABLE_EXPORT" @click="exportsTable" v-if="showExportsButton">
+          {{ $t('LK_DAOCHU') }}
+        </iButton>
+      </template>
 <!--      v-permission="SUPPLIER_BAKN_TABLE"-->
       <table-list :tableData="tableListData" :tableTitle="tableTitle"
                   :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange" :input-props="inputProps"
