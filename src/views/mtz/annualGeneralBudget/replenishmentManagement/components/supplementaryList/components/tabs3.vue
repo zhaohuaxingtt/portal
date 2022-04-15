@@ -16,8 +16,10 @@
     <div class="BtnTitle">
       <span>明细列表</span>
       <div>
-        <iButton @click="uploadPZ" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
-        <iButton @click="upload" v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+        <iButton @click="uploadPZ"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_DAOCHU">{{language('DAOCHU', '导出')}}</iButton>
+        <iButton @click="upload"
+                 v-permission="PROTAL_MTZ_BUCHAGUANLI_BUCHALIEBIAO_PINGZHENGDAOCHU">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
       </div>
     </div>
     <tableList class="margin-top20"
@@ -55,7 +57,7 @@ import {
   compdocMetalDetailSum
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getNowFormatDate } from "./util.js";
-import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "tabs3",
@@ -119,7 +121,7 @@ export default {
       }).then(res => {
         if (res.data.length < 1) {
           this.$emit("componentHidden", false)
-        }else{
+        } else {
           this.$emit("componentHidden", true)
         }
         this.tableListData = res.data;
@@ -140,17 +142,21 @@ export default {
           ...this.serchList,
           mtzDocId: this.dataObject.id
         }).then(res => {
-          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          link.href = objectUrl;
-          let fname = "补差单明细（贵金属）" + this.dataObject.bizNo + ".xlsx";
-          // let fname = "MTZ补差单明细（贵金属）" + getNowFormatDate() + ".xlsx";
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          iMessage.success("链接成功！")
+          if (res.type === 'application/json') {
+            iMessage.error(this.language('LK_ZANWUSHUJU', '暂无数据'))
+          } else {
+            let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+            let objectUrl = URL.createObjectURL(blob);
+            let link = document.createElement("a");
+            link.href = objectUrl;
+            let fname = "补差单明细（贵金属）" + this.dataObject.bizNo + ".xlsx";
+            // let fname = "MTZ补差单明细（贵金属）" + getNowFormatDate() + ".xlsx";
+            link.setAttribute("download", fname);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+            iMessage.success("链接成功！")
+          }
         })
       }).catch((err) => {
         console.log(err)

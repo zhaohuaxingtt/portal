@@ -171,7 +171,9 @@ export default {
     getauthList(sysResult) {
       if (this.selectedUsers.length === 1) {
         queryAuthList({
-          supplierUserId: this.selectedUsers[0].id
+          supplierUserId: this.selectedUsers[0].id,
+          current: 1,
+          size: 1000
         })
           .then((res) => {
             const { data } = res

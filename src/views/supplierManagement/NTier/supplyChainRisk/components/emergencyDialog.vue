@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-24 18:04:32
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo
  * @Descripttion: your project
 -->
 <template>
@@ -58,6 +58,7 @@
                        show-overflow-tooltip
                        type=""
                        prop="supplierId"
+                       width="100"
                        :label="language('GONGYINGSHANGBIANHAO','供应商编号')">
         <template slot-scope="scope">
           <div v-if="scope.row.sapCode">{{scope.row.sapCode}}</div>
@@ -68,25 +69,28 @@
                        show-overflow-tooltip
                        type=""
                        prop="supplierName"
+                       width="300"
                        :label="language('GONGYINGSHANGMINGCHEN','供应商名称')">
       </el-table-column>
       <el-table-column align="center"
                        show-overflow-tooltip
                        type=""
                        prop="supplyLevel"
+                       width="130"
                        :label="language('GONGHUOGUANXI','供货关系')">
       </el-table-column>
       <el-table-column align="center"
                        show-overflow-tooltip
                        type=""
                        prop="address"
+                       min-width="300"
                        :label="language('GONGCHANGDIZHI','工厂地址')">
       </el-table-column>
-      <el-table-column align="left"
+      <el-table-column align="center"
                        show-overflow-tooltip
                        prop="partNumSize"
                        :label="language('LINGJIANSHULIANGLINGJIANHAO','零件数量（零件号）')"
-                       width="135">
+                       width="190">
         <template slot-scope="scope">
           <span class="link-text"
                 @click="goDetail(scope.row)">{{scope.row.partNumSize}}</span>
@@ -103,6 +107,7 @@
                        show-overflow-tooltip
                        type=""
                        prop="feedbackStatus"
+                       width="80"
                        :label="language('FANKUIZHUANGTAI1','反馈状态')">
         <template slot-scope="scope">
           <el-tooltip class="item"
@@ -142,6 +147,7 @@
       <el-table-column align="center"
                        show-overflow-tooltip
                        type=""
+                       width="80"
                        prop="isWarningLetter"
                        :label="language('BAOJINGXING','报警信')">
         <template slot-scope="scope">

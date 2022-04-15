@@ -9,7 +9,7 @@
 -->
 <template>
   <div class="level-inner-container">
-    <router-view style="height:100%" />
+    <router-view style="height: 100%" />
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
 <style lang="scss" scoped>
 .level-inner-container {
   height: 100%;
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
 }
 .level-inner-menu {
   margin: 20px 30px 0px 30px;
