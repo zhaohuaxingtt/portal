@@ -6,7 +6,7 @@
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
-  > 
+  > 123124124
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -308,15 +308,15 @@ export default {
         loading: false,
         themenConclusion,
         curChooseArr: [],
-        isShowSwitch:
-          this.autoOpenProtectConclusionObj.conclusionCsc === '02'
-            ? this.autoOpenProtectConclusionObj.isFrozenRs
-            : false,
-        isShowTable:
-          this.autoOpenProtectConclusionObj.conclusionCsc === '05' ||
-          this.autoOpenProtectConclusionObj.conclusionCsc === '06'
-            ? true
-            : false,
+        // isShowSwitch:
+        //   this.autoOpenProtectConclusionObj.conclusionCsc === '02'
+        //     ? this.autoOpenProtectConclusionObj.isFrozenRs
+        //     : false,
+        // isShowTable:
+        //   this.autoOpenProtectConclusionObj.conclusionCsc === '05' ||
+        //   this.autoOpenProtectConclusionObj.conclusionCsc === '06'
+        //     ? true
+        //     : false,
         conclusionCscAllLIN:[
           {
           conclusionCsc: "01",
@@ -376,12 +376,12 @@ export default {
         themenConclusion,
         curChooseArr: [],
         isShowSwitch:
-          this.selectedTableData[0].conclusionCsc === '02'
-            ? this.selectedTableData[0].isFrozenRs
+          this.selectedTableData.conclusionCsc === '02'
+            ? this.selectedTableData.isFrozenRs
             : false,
         isShowTable:
-          this.selectedTableData[0].conclusionCsc === '05' ||
-          this.selectedTableData[0].conclusionCsc === '06'
+          this.selectedTableData.conclusionCsc === '05' ||
+          this.selectedTableData.conclusionCsc === '06'
             ? true
             : false,
         conclusionCscAllLIN:[
@@ -402,22 +402,22 @@ export default {
         tableListData: [],
         ruleForm: {
           conclusion: {
-            conclusionCsc: this.selectedTableData[0].conclusionCsc
-              ? this.selectedTableData[0].conclusionCsc
+            conclusionCsc: this.selectedTableData.conclusionCsc
+              ? this.selectedTableData.conclusionCsc
               : '01',
             conclusionName:
               themenConclusion[
-                this.selectedTableData[0].conclusionCsc
-                  ? this.selectedTableData[0].conclusionCsc
+                this.selectedTableData.conclusionCsc
+                  ? this.selectedTableData.conclusionCsc
                   : '01'
               ]
           },
-          taskCsc: this.selectedTableData[0].conclusion
-            ? this.selectedTableData[0].conclusion
+          taskCsc: this.selectedTableData.conclusion
+            ? this.selectedTableData.conclusion
             : '',
           isFrozenRs:
             this.beforeResult === '02'
-              ? this.selectedTableData[0].isFrozenRs
+              ? this.selectedTableData.isFrozenRs
               : true
         },
         currentRow: {}
@@ -425,7 +425,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.selectedTableData);
+      console.log(this.selectedTableData);
     // 先根据会议是否是临时议题 绝对下拉框数据  
     // conclusionCscAllLIN 临时议题
     // conclusionCscAll   会议议题
@@ -439,7 +439,7 @@ export default {
 
     const curObj = this.autoOpenProtectConclusionObj
       ? this.autoOpenProtectConclusionObj
-      : this.selectedTableData[0]
+      : this.selectedTableData
     if ( curObj.type === 'MANUAL' ) {
       this.themenConclusionArrObj = [
         {
@@ -583,7 +583,7 @@ export default {
     //货币下拉框
     getCurrency(){
       const params = {
-        id:this.selectedTableData[0].id//议题id
+        id:this.selectedTableData.id//议题id
       }
       getCscCurrencyList(params).then((res) => {
         if (res == '') {
@@ -598,7 +598,7 @@ export default {
     getList(){
       const params = {
       //  meetingId:this.$route.query.id,//会议id
-       themenId:this.selectedTableData[0].id//议题id
+       themenId:this.selectedTableData.id//议题id
       }
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
@@ -610,7 +610,7 @@ export default {
     getDate(){
       const params = {
       //  meetingId:this.$route.query.id,//会议id
-       themenId:this.selectedTableData[0].id//议题id
+       themenId:this.selectedTableData.id//议题id
       }
       findGpInfoByThemenId(params).then((res) => {
         console.log(res)
@@ -643,11 +643,12 @@ export default {
        conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
        result:this.fromData.result,//任务
-       themenId:this.selectedTableData[0].id,//议题id
+       themenId:this.selectedTableData.id,//议题id
        isLoi: this.fromData.isFrozenRs ,   //是否发送loi审批
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
+    //   return
       endCscThemen(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
@@ -735,7 +736,7 @@ export default {
     async getUpdateDateTableList(str, str2) {
       const curObj = this.autoOpenProtectConclusionObj
         ? this.autoOpenProtectConclusionObj
-        : this.selectedTableData[0]
+        : this.selectedTableData
       let param = {
         pageNum: 1,
         pageSize: 10,
@@ -753,7 +754,7 @@ export default {
     async queryMettingList(e, str2) {
       const curObj = this.autoOpenProtectConclusionObj
         ? this.autoOpenProtectConclusionObj
-        : this.selectedTableData[0]
+        : this.selectedTableData
       const res = await getMettingList(e)
       this.tableListData = res.data
       if (str2 === 'init') {
