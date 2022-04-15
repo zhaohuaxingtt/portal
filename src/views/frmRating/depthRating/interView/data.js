@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-08 11:47:59
- * @LastEditors: YoHo
- * @LastEditTime: 2022-04-01 11:06:49
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-15 11:39:39
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\interView\data.js
  */
 export const interViewTabList = [
@@ -201,8 +201,8 @@ export const mainSupplier = [
 
 //资金与融资渠道
 export const CapitalFinancing = [
-  { props: 'bankName', name: '银行名称', key: 'YINHANGMINCHENG' },
-  { props: 'creditAmount', name: '授信金额', key: 'SHOUQUANJINE' },
+  { props: 'bankName', name: '银行名称', key: 'YINHANGMINCHENG',rule:[{ required: true, message: '请输入银行名称', trigger: 'blur' }]},
+  { props: 'creditAmount', name: '授信金额', key: 'SHOUQUANJINE' ,rule:[{ required: true, message: '请输入授信金额', trigger: 'blur' }]},
   { props: 'hasUse', name: '已使用', key: '已使用' },
   {
     props: 'creditDateStart',
@@ -211,6 +211,6 @@ export const CapitalFinancing = [
     width: 350
   },
   { props: 'mortgage', name: '担保/抵押/质押', key: 'SPR_FRM_DEP_DBDYZY' },
-  { props: 'interestRate', name: '利率', key: 'LILV' },
+  { props: 'interestRate', name: '利率', key: 'LILV',rule:[{ required: true, message: '请输入利率', trigger: 'blur' }] },
   { props: 'repaymentSchedule', name: '还款计划', key: 'HUANKUANGJIHUA' }
 ]

@@ -13,11 +13,8 @@ import { MessageBox } from 'element-ui'
 // eslint-disable-next-line no-unused-vars
 const whiteList = ['/login', '/ui', '/superLogin']
 
-
-
-
 router.beforeEach((to, from, next) => {
-  store.commit("setToPath", to);
+  store.commit('setToPath', to)
 
   const token = getToken()
   // eslint-disable-next-line no-debugger
@@ -36,7 +33,6 @@ router.beforeEach((to, from, next) => {
               .then((res) => {
                 if (res.length == 0) {
                   removeToken()
-                  console.log('zhixszhesl')
                   const appLoading = document.getElementById('app-loading')
                   if (appLoading) {
                     appLoading.style.display = 'none'

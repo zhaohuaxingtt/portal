@@ -148,7 +148,8 @@ export default {
       tableLoading: false,
       filTableTitle: filTableTitle,
       fileTableListData: [],
-      supplierToken: ''
+      supplierToken: '',
+      supplierId:""
     }
   },
   methods: {
@@ -173,6 +174,7 @@ export default {
         if (res.result) {
           this.detail = res.data ? res.data : {}
           this.supplierToken = this.detail.token
+          this.supplierId = this.detail.supplierId
           this.tableListData = res.data.list ? res.data.list : []
           this.fileTableListData = res.data.informationList ? res.data.informationList : []
         }
@@ -199,9 +201,10 @@ export default {
       this.$router.push({
         path: '/view-suppliers',
         query: {
-          current: 1,
+          current: 14,
           supplierType: 4,
-          supplierToken: this.supplierToken
+          supplierToken: this.supplierToken,
+          subSupplierId: this.supplierId
         }
       })
     },
