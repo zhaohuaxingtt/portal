@@ -48,6 +48,7 @@
                  :tableLoading="tableLoading"
                  :index="true"
                  :input-props="inputProps"
+                 ref="bankTable"
                  @handleSelectionChange="handleSelectionChange">
         <template slot-scope="scope"
                   slot="creditAmount">
@@ -160,13 +161,19 @@ export default {
     save () {
       this.interViewData.deepCommentSupplierId = this.id
       this.interViewData.bankList.forEach(item => {
-        item.creditDate = item.creditDate.toString()
+        console.log(item.creditDate)
+        if(item.creditDate&&item.creditDate.length!==0) item.creditDate = item.creditDate.toString()
       })
-      interviewFinanceInfo(this.interViewData).then(res => {
-        this.resultMessage(res, () => {
-          this.getData()
-        })
-      })
+      this.$refs.bankTable.$refs.commonTableForm.validate((vaild)=>{
+       if(vaild){
+          interviewFinanceInfo(this.interViewData).then(res => {
+            this.resultMessage(res, () => {
+               this.getData()
+             })
+          })
+        }
+     })
+      
     },
     add () {
       let obj = {}
