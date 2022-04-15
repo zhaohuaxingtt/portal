@@ -29,7 +29,10 @@
         />
       </template>
       <template slot="dashboard" v-else>
-        <myModules :index="activeIndex" />
+        <myModules
+          :index="activeIndex"
+          @set-menu-modal-visible="setMenuModalVisible"
+        />
       </template>
     </leftLayout>
     <div class="app-content" :class="{ keepAlive: $route.meta.keepAlive }">

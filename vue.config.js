@@ -178,7 +178,7 @@ module.exports = {
       },
       [process.env.VUE_APP_APPROVAL]: {
         // target: `http://${BASE_IP}:8012/approval`,
-        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approval`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/approvalApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -271,8 +271,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MATERIEL]: {
-        // target: `http://${BASE_IP}:8018/parts`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/parts/`,
+        target: `http://${BASE_IP}:8018/parts`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/parts/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MATERIEL]: ''
@@ -344,8 +344,8 @@ module.exports = {
       },
       // adminProcs
       [process.env.VUE_APP_ADMIN_PROCS]: {
-        target: `http://${BASE_IP}:8016/riseprocs`,
-        // target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/riseprocsApi`,
+        // target: `http://${BASE_IP}:8016/riseprocs`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/riseprocsApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''

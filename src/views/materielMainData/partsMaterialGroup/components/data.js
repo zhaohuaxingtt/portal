@@ -47,7 +47,7 @@ export const PART_MATERIAL_COLUMNS = [
   }
 ]
 
-export const TECHNOLOGY_COLUMNS_NOT_EMIT =[
+export const TECHNOLOGY_COLUMNS_NOT_EMIT = [
   {
     type: 'selection',
     width: 50
@@ -55,13 +55,13 @@ export const TECHNOLOGY_COLUMNS_NOT_EMIT =[
   {
     type: 'index',
     width: 50,
-    i18n: '序号'
+    label: '#'
   },
   {
     prop: 'stuffCode',
     i18n: '工艺组编号',
     tooltip: true,
-    minWidth: '50px',
+    minWidth: '50px'
     // openNewPage: true,
   },
   {
@@ -88,7 +88,7 @@ export const TECHNOLOGY_COLUMNS = [
   {
     type: 'index',
     width: 50,
-    i18n: '序号'
+    label: '#'
   },
   {
     prop: 'stuffCode',
@@ -98,7 +98,6 @@ export const TECHNOLOGY_COLUMNS = [
     // openNewPage: true,
     emit: 'goDetail',
     customRender: (h, scope) => {
-      
       return <span class="open-link-text">{scope.row.stuffCode}</span>
     }
   },
@@ -126,7 +125,7 @@ export const SUPPLIER_TECHNOLOGY = [
   {
     type: 'index',
     width: 50,
-    i18n: '序号'
+    label: '#'
   },
   {
     prop: 'supplierName',
@@ -220,7 +219,7 @@ export const CBD_PRESET = [
   {
     type: 'index',
     width: 50,
-    i18n: '序号'
+    label: '#'
   },
   {
     prop: 'presetType',
@@ -291,7 +290,7 @@ export const SUPPLIER_CHOOSE = [
   {
     type: 'index',
     width: 50,
-    i18n: '序号'
+    label: '#'
   },
   {
     prop: 'nameZh',

@@ -79,6 +79,7 @@ export default {
           if (res && res.result) {
             this.loading = false
             await setToken(res.data.token)
+            this.$store.dispatch('getModules')
             this.$router
               .replace({
                 path: '/index'
