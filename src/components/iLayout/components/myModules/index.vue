@@ -125,13 +125,14 @@ export default {
       this.$store.dispatch('getModules')
     },
     handleDragStart(event) {
-      this.startIndex = event.oldIndex
       console.log('onStart', event)
+      this.$emit('set-menu-modal-visible', false)
+      this.startIndex = event.oldIndex
 
       // this.start = true
     },
     async handleDragEnd(event) {
-      console.log('onEnd', event)
+      this.$emit('set-menu-modal-visible', true)
       const item = this.filterList[event.oldIndex]
       item.value = false
       const cards = _.cloneDeep(this.list)
@@ -142,36 +143,11 @@ export default {
         e.orderNum = i
         return e
       })
+
       const res = await updateBatchModules(newCards)
-      // const res = await updateModules(item)
       if (res.result) {
         this.getList()
       }
-
-      /* this.start = false
-      const obj = document
-        .getElementsByClassName('card-container')[0]
-        .getBoundingClientRect()
-      const xt = obj.x
-      const xb = obj.x + obj.width
-      const yt = obj.y
-      const yb = obj.y + obj.height
-      const item = this.list.find(li => {
-        return li.id == (e.target.id || e.target.offsetParent.id)
-      })
-      console.log('item', item)
-      if (
-        e.clientY < yt ||
-        e.clientY > yb ||
-        e.clientX < xt ||
-        e.clientX > xb
-      ) {
-        item.value = false
-        const res = await updateModules(item)
-        if (res.code === '200' && res.data) {
-          this.getList()
-        }
-      } */
     },
     handleInput() {
       const list = _.cloneDeep(this.list)
