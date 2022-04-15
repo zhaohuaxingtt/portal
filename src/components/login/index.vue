@@ -101,23 +101,23 @@ export default {
     }
   },
   created() {
-    // if (this.$route.path.indexOf('superLogin') > -1) {
-    //   //nothing to do
-    // } else {
-    //   const token = getToken()
-    //   let redirectUrl = ''
-    //   if (token) {
-    //     redirectUrl =
-    //       process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
-    //   } else {
-    //     redirectUrl =
-    //       process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
-    //   }
-    //   if (redirectUrl && redirectUrl !== '/portal/#/login') {
-    //     this.ssoLogin = true
-    //     location.href = redirectUrl
-    //   }
-    // }
+    if (this.$route.path.indexOf('superLogin') > -1) {
+      //nothing to do
+    } else {
+      const token = getToken()
+      let redirectUrl = ''
+      if (token) {
+        redirectUrl =
+          process.env.VUE_APP_LOGOUT_URL || process.env.VUE_APP_LOGIN_URL
+      } else {
+        redirectUrl =
+          process.env.VUE_APP_LOGIN_URL || process.env.VUE_APP_LOGOUT_URL
+      }
+      if (redirectUrl && redirectUrl !== '/portal/#/login') {
+        this.ssoLogin = true
+        location.href = redirectUrl
+      }
+    }
   }
 }
 </script>
