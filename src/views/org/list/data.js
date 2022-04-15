@@ -40,7 +40,7 @@ export const tableSetting = [
     label: '组织级别',
     align: 'center',
     headerAlign: 'center',
-    width: '100px',
+    width: '120px',
     i18n: '组织级别',
     sortable: true
   },

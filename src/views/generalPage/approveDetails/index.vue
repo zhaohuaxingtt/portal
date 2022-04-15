@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { iCard, iFormGroup, iFormItem, iLabel, iText } from 'rise'
+import { iCard, iFormGroup, iFormItem, iLabel, iText ,iButton} from 'rise'
 import { getApprove } from '../../../api/supplier360/approve'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
@@ -92,7 +92,8 @@ export default {
     iFormItem,
     iLabel,
     iText,
-    tableList
+    tableList,
+    iButton
   },
   created () {
     this.$store.dispatch('setValiCode', this.$route.query.supplierToken)
@@ -111,7 +112,8 @@ export default {
       tableTitle: TableTitle,
       tableLoading: false,
       selectTableData: [],
-      supplierToken: ""
+      supplierToken: "",
+      supplierId:""
     }
   },
   methods: {
@@ -124,6 +126,7 @@ export default {
         const res = await getApprove(req.id)
         this.detail = res.data
         this.supplierToken = res.data.supplierToken
+        this.supplierId=res.data.supplierId
         this.tableListData = res.data.supplierMaterialDTOList
         this.loading = false
       } catch {
@@ -134,9 +137,10 @@ export default {
       this.$router.push({
         path: '/view-suppliers',
         query: {
-          current: 1,
+          current: 14,
           supplierType: 4,
-          supplierToken: this.$route.query.supplierToken || this.supplierToken
+          supplierToken: this.$route.query.supplierToken || this.supplierToken,
+          subSupplierId: this.supplierId
         }
       })
     },

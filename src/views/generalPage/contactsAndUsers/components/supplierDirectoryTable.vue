@@ -42,13 +42,12 @@
       ]"
                 :index="true">
       <template #contactType="scope">
-
         <!-- <div v-if="scope.row.contactType === '商务联系人'">
           {{ scope.row.contactType }} <span style="color: red">*</span>
         </div>
         <div v-else>{{ scope.row.contactType }}</div> -->
         <div>
-          {{ scope.row.nameType }}<span v-if="scope.row.nameType=='商务联系人'" style="color: red">*</span>
+          {{ scope.row.contactType }}<span v-if="scope.row.contactType=='商务联系人'" style="color: red">*</span>
         </div>
       </template>
     </table-list>
@@ -87,13 +86,16 @@ export default {
   },
   methods: {
     async getDictByCode () {
-      // const res = await getDictByCode('SUPPLIER_CODE_TYPE')
-      // res.data[0].subDictResultVo.forEach((item) => {
-      //   this.tableListData.push({
-      //     nameType: item.name,
-      //     contactType: item.code
-      //   })
-      // })
+      if(this.$route.query.subSupplierType=="GP"){
+        return false;
+      }
+      const res = await getDictByCode('SUPPLIER_CODE_TYPE')
+      res.data[0].subDictResultVo.forEach((item) => {
+        this.tableListData.push({
+          nameType: item.name,
+          contactType: item.code
+        })
+      })
     },
     async getTableList () {
       this.tableLoading = true
@@ -109,10 +111,9 @@ export default {
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
       this.tableListData = res.data
-      return;
-
-
-      let cust = [...this.tableListData]
+      if(this.$route.query.subSupplierType=="GP"){
+        return false;
+      }
       // console.log(this.tableListData)
       // console.log(res.data)
       res.data.forEach((item, x) => {

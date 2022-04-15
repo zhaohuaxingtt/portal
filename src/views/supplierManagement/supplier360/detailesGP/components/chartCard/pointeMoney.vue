@@ -1,7 +1,7 @@
 <template>
   <iCard style="height:25rem">
     <div class="title">
-      <p>{{$t('HETONGDINGDAN')}}</p>
+      <p>{{$t('DINGDIANJINE')}}</p>
       <el-dropdown v-permission="Card_Sourcing_More">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>

@@ -6,5 +6,6 @@
  * @Description: 
  */
 export default {
-  
+  GONGYINGSHANGZUGUANLI: '供应商组管理',
+  TIANJIAZIDINGYIZU: '添加自定义组'
 }

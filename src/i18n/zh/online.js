@@ -1727,6 +1727,7 @@ export default {
   LK_FSNRGSNR: 'FS/GS/SP No.',
   LK_DINGDIANXINZHUANGTAI: '定点信状态',
   HETONGDINGDAN: '合同订单',
+  DINGDIANJINE: '定点金额',
   SHIFOUCRATING: '是否C-Rating',
   审批代理: '审批代理',
   会议审批代理: '会议审批代理',

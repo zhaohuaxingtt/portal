@@ -421,7 +421,16 @@ export default [
           import(
             '@/views/supplierManagement/NTier/supplyChainRisk/emergenciesOverview/index.vue'
           )
-      }
+      },
+      {
+        path: 'suppliergroupmanagement',
+        name: 'suppliergroupmanagement',
+        meta: {
+          title: '供应商组管理',
+          activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
+        },
+        component: () => import('@/views/supplierManagement/supplierGroup/index.vue')
+      },
       // {
       //   path: 'alarmLetter',
       //   name: 'alarmLetter',

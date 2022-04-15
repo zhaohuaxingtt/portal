@@ -7,7 +7,8 @@
     >
       <div class="flex-align-center">
         <div class="margin-right5 position-name">
-          {{language('岗位')}}：{{ itemSelected.code }} {{ itemSelected.fullNameZh }}
+          {{ language('岗位') }}：{{ itemSelected.code }}
+          {{ itemSelected.fullNameZh }}
         </div>
         <div>
           <i
@@ -58,24 +59,24 @@
       </iFormGroup>
 
       <div class="flex-end-center margin-bottom20">
-        <iButton v-show="!extraData.dimenssionEditable" @click="handleEdit"
-          >{{language('编辑')}}</iButton
-        >
+        <iButton v-show="!extraData.dimenssionEditable" @click="handleEdit">{{
+          language('编辑')
+        }}</iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleAdd">
-          {{language('增加维度')}}
+          {{ language('增加维度') }}
         </iButton>
         <iButton
           v-show="extraData.dimenssionEditable"
           @click="handleDel"
           :disabled="selectedRows.length === 0"
         >
-          {{language('删除维度')}}
+          {{ language('删除维度') }}
         </iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleSave">
-          {{language('保存')}}
+          {{ language('保存') }}
         </iButton>
         <iButton v-show="extraData.dimenssionEditable" @click="handleCancel">
-          {{language('取消')}}
+          {{ language('取消') }}
         </iButton>
       </div>
       <iTableCustom
@@ -153,16 +154,16 @@ export default {
       tableSettingView: [
         {
           type: 'index',
-          label: '序号',
-          width: 80
+          label: '#',
+          width: 50
         },
         {
           prop: 'description',
           label: '维度',
-          i18n:'维度',
+          i18n: '维度',
           tooltip: false,
           align: 'center',
-          width:'400px',
+          width: '150px'
         },
         {
           prop: 'content',
@@ -185,14 +186,14 @@ export default {
         {
           type: 'index',
           label: '序号',
-          width: 80
+          width: 50
         },
         {
           prop: 'dimension',
           label: '维度',
           i18n: '维度',
           tooltip: false,
-          width:'400px',
+          width: '150px',
           align: 'center',
           customRender: (h, scope) => {
             const options = _self.getDimensionOptions()

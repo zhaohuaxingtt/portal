@@ -56,7 +56,6 @@ export const tableTitle = [
 		props: 'email',
 		name: '电子邮件',
 		key: 'SUPPLIER_DIANZIYOUJIAN',
-		required: true,
 		width: 270,
 		rule: [
 			{
