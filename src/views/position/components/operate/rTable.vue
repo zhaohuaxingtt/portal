@@ -212,7 +212,7 @@ export default {
             width: 80
           },
           {
-            prop: 'roleCode',
+            prop: 'code',
             label: '角色代码',
             i18n: '角色代码',
             align: 'center',
