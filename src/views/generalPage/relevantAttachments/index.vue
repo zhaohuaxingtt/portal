@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2022-04-08 15:14:24
+ * @LastEditTime: 2022-04-15 16:57:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
 -->
@@ -111,7 +111,7 @@ export default {
         }
       })
     },
-  }
+  },
 }
 </script>
 

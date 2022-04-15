@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-02-14 14:24:27
+ * @LastEditTime: 2022-04-15 16:39:47
  * @Description:
  * @FilePath: \front-portal-new\src\router\Router.js
  */
@@ -32,6 +32,7 @@ import RouterAchievement from './RouterAchievement'
 import RouterAssistant from './RouterAssistant'
 import ViewSuppliers from '@/views/viewSuppliers/index'
 import purchaseClassification from './purchaseClassification'
+import SuppliersDetails from '@/views/supplierManagement/supplier360/detailes/index.vue'
 /* import RouterPopupWindowMa from './RouterPopupWindowMa' */
 
 import RouterManage from './RouterManage'
@@ -265,6 +266,11 @@ export default {
       path: '/view-suppliers',
       name: 'viewSuppliers',
       component: ViewSuppliers
+    },
+    {
+      path: '/suppliersDetails',
+      name: 'suppliersDetails',
+      component: SuppliersDetails
     },
     ...RouterView,
     { path: '*', name: 'notFound', component: NotFound }

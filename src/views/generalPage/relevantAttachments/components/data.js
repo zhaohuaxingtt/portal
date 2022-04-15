@@ -13,13 +13,24 @@ export const upadtingFilesTableTitle = [
     key: 'SUPPLIER_FUJIANMINGCHENG',
     width: 330
   },
-  { props: 'isCommitment', name: '操作', key: 'SUPPLIER_CAOZUO' },
+  {
+    props: 'isCommitment',
+    name: '操作',
+    key: 'SUPPLIER_CAOZUO',
+    minWidth: 180
+  },
   {
     props: 'createDateTime',
     name: '上传/确认日期',
-    key: 'SUPPLIER_SHANGCHUANQUERENRQI'
+    key: 'SUPPLIER_SHANGCHUANQUERENRQI',
+    width: 180
   },
-  { props: 'attachRemark', name: '备注说明', key: 'SUPPLIER_BEIZHUSHUOMING' },
+  {
+    props: 'attachRemark',
+    name: '备注说明',
+    key: 'SUPPLIER_BEIZHUSHUOMING',
+    width: 160
+  },
   {
     props: 'templateDemoUrl',
     name: '样例文件',
@@ -30,17 +41,19 @@ export const upadtingFilesTableTitle = [
     props: 'notAvailableReason',
     name: '不能提供原因',
     key: 'SUPPLIER_BUNENGTIGONGYUANYIN',
-    width: 200
+    width: 160
   },
   {
     props: 'lastAvailableTime',
     name: '最晚提供时间',
-    key: 'SUPPLIER_ZUIWANTIGONGSHIJIAN'
+    key: 'SUPPLIER_ZUIWANTIGONGSHIJIAN',
+    width: 160
   },
   {
     props: 'validityOfCertificate',
     name: '证件有效期',
-    key: 'SUPPLIER_ZHENGJIANYOUXIAOQI'
+    key: 'SUPPLIER_ZHENGJIANYOUXIAOQI',
+    width: 160
   }
 ]
 
