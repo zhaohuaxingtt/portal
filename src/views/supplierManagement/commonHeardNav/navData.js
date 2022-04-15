@@ -66,6 +66,25 @@ export const tabRouterList = [
   //   },
 ]
 
+export const tabRouterListGP = [
+  {
+    value:1,
+    name: '供应商360',
+    url: '/supplier/supplierListGP',
+    activePath: '/supplierListGP',
+    key: 'GONGYINGSHANGLIST',
+    permissionKey: 'SUPPLIER_WORKBENCH_360'
+  },
+  {
+    value:2,
+    name: '分散（内部报销）供应商',
+    url: '/supplier/supplierListDis',
+    activePath: '/supplierListDis',
+    key: 'FENSANNEIBUBAOXIAOGONGYINGSHANG',
+    permissionKey: 'SUPPLIER_DISPERSEDSUPPLIER'
+  },
+]
+
 export const categoryManagementAssistantList = [
   {
     value: 1,

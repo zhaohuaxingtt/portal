@@ -4,13 +4,11 @@
 * @Description: 历史变更信息
  -->
 <template>
-  <i-card>
-    <div class="margin-bottom20 clearFloat">
-      <div class="floatright">
-        <i-button v-permission="SUPPLIER_BACKSUPPLIER360">{{ $t('FANHUIGONGYINSHANG360') }}</i-button>
-        <i-button @click="exportsTable" v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
-      </div>
-    </div>
+  <i-card :title="$t('SUPPLIER_LISHIYANGE')" tabCard>
+    <template slot="header-control">
+			<i-button v-permission="SUPPLIER_BACKSUPPLIER360" v-if="$route.query.subSupplierType!=='GP'">{{ $t('FANHUIGONGYINSHANG360') }}</i-button>
+      <i-button @click="exportsTable" v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+		</template>
                 <!-- v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE" -->
     <table-list :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange" :index="true" border

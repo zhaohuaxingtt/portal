@@ -39,6 +39,9 @@ import historicalCooperationRecord from '@/views/generalPage/historicalCooperati
 import majorIssues from '@/views/generalPage/majorIssues'
 import contactsAndUsers from '@/views/generalPage/contactsAndUsers'
 import relevantAttachments from '@/views/generalPage/relevantAttachments'
+
+import purchaseClassification from "../generalPage/purchaseClassification"
+
 import materialGroup from '@/views/generalPage/materialGroup'
 import systemModificationHistory from '@/views/generalPage/systemModificationHistory'
 import financialBigNumbers from '@/views/generalPage/financialBigNumbers'
@@ -69,7 +72,8 @@ export default {
     systemModificationHistory,
     financialBigNumbers,
     financialData,
-    supplyCompany
+    supplyCompany,
+    purchaseClassification
   },
   data () {
     return {
@@ -228,13 +232,163 @@ export default {
           permission: 'SUPPLIER_SUPPLYCOMPANY'
         }
       ],
+      listGP: [
+        {
+          current: '1',
+          title: '基本信息',
+          ref: 'baseInfo',
+          component: 'baseInfo',
+          key: 'SUPPLIER_JIBENXINXI',
+          permission: 'SUPPLIER_BASEINFO'
+        },
+        {
+          current: '2',
+          title: '历史沿革',
+          ref: 'history',
+          component: 'history',
+          key: 'SUPPLIER_LISHIYANGE',
+          permission: 'SUPPLIER_ENTERPRISEHISTORY'
+        },
+        {
+          current: '3',
+          title: 'FRM评级',
+          ref: 'frm',
+          component: 'frm',
+          key: 'SUPPLIER_FRMPINGJI',
+          permission: 'SUPPLIER_FRM'
+        },
+        {
+          current: '4',
+          title: '授信银行信息',
+          ref: 'bank',
+          component: 'bank',
+          key: 'SUPPLIER_SHOUXINYINHANGXINXIN',
+          permission: 'SUPPLIER_BAKN'
+        },
+        {
+          current: '5',
+          title: '股东、集团与关联公司',
+          ref: 'company',
+          component: 'company',
+          key: 'SUPPLIER_GUDONGJITUANYUGUANLIANGONGSI',
+          permission: 'SUPPLIER_COMPANY_'
+        },
+        {
+          current: '6',
+          title: '人员及公司治理情况',
+          ref: 'governance',
+          component: 'governance',
+          key: 'SUPPLIER_RENYUANJIGONGSIZHILIQINGKUANG',
+          permission: 'SUPPLIER_GOVERNANCE'
+        },
+        {
+          current: '7',
+          title: '主要业务及产品',
+          ref: 'businessProducts',
+          component: 'businessProducts',
+          key: 'SUPPLIER_ZHUYAOYEWUJICHANPIN',
+          permission: 'SUPPLIER_MAINPRODUCT'
+        },
+        {
+          current: '8',
+          title: '主要客户',
+          ref: 'customer',
+          component: 'customer',
+          key: 'SUPPLIER_ZHUYAOKEHU',
+          permission: 'SUPPLIER_NAMEOFCUSTOMERS'
+        },
+        {
+          current: '9',
+          title: '主要分供方名称及产品',
+          ref: 'mainSubSuppliersAndProductNames',
+          component: 'mainSubSuppliersAndProductNames',
+          key: 'SUPPLIER_ZHUYAOFANGGONGFANGMINGCHENGJICHANPIN',
+          permission: 'SUPPLIER_SUBSUPPLIERANDPRODUCT'
+        },
+        {
+          current: '10',
+          title: '历年合作记录',
+          ref: 'historicalCooperationRecord',
+          component: 'historicalCooperationRecord',
+          key: 'SUPPLIER_LISHIHEZUOJILU',
+          permission: 'SUPPLIER_HISTORY'
+        },
+        {
+          current: '11',
+          title: '重大事项',
+          ref: 'majorIssues',
+          component: 'majorIssues',
+          key: 'SUPPLIER_ZHONGDASHIXIANG',
+          permission: 'SUPPLIER_SIGNIFICANTEVENTS'
+        },
+        {
+          current: '12',
+          title: '联系人与用户',
+          ref: 'contactsAndUsers',
+          component: 'contactsAndUsers',
+          key: 'SUPPLIER_LIANXIRENYUYONGHU',
+          permission: 'SUPPLIER_SUPPLIERCONTACT'
+        },
+        {
+          current: '13',
+          title: '相关附件',
+          ref: 'relevantAttachments',
+          component: 'relevantAttachments',
+          key: 'SUPPLIER_XIANGGUANFUJIAN',
+          permission: 'SUPPLIER_RELATEDACCESSORY'
+        },
+        {
+          current: '14',
+          title: '采购分类',
+          ref: 'purchaseClassification',
+          component: 'purchaseClassification',
+          key: 'SUPPLIER_CAIGOUFENLEI',
+          permission: 'SUPPLIER_PURCHASE'
+        },
+        {
+          current: '15',
+          title: '系统修改历史',
+          ref: 'systemModificationHistory',
+          component: 'systemModificationHistory',
+          key: 'SUPPLIER_XITONGXIUGAILISHI',
+          permission: 'SUPPLIER_CHANGEHISTORY'
+        },
+        {
+          current: '16',
+          title: '财务大数',
+          ref: 'financialBigNumbers',
+          component: 'financialBigNumbers',
+          key: 'SUPPLIER_CAIWUDASHU',
+          permission: 'SUPPLIER_KEYFINANCIALFIGURE'
+        },
+        {
+          current: '17',
+          title: '财务数据',
+          ref: 'financialData',
+          component: 'financialData',
+          key: 'SUPPLIER_CAIWUSHUJU',
+          permission: 'SUPPLIER_FINANCIALDATA'
+        },
+        {
+          current: '18',
+          title: '供货公司',
+          ref: 'supplyCompany',
+          component: 'supplyCompany',
+          key: 'SUPPLIER_GONGHUOGONGSI',
+          permission: 'SUPPLIER_SUPPLYCOMPANY'
+        }
+      ],
       refData: [],
 
     }
   },
   computed: {
     supplierTabList () {
-      return this.list
+      if(this.$route.query.subSupplierType == "GP"){
+        return this.listGP
+      }else{
+        return this.list
+      }
     }
   },
   methods: {

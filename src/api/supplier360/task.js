@@ -30,6 +30,17 @@ export function handleTaskInfo(parmars) {
   })
 }
 
+// 任务处理
+export function gpAdminRegularAppro(parmars) {
+  return requst({
+    url: `/task/gpAdminRegularAppro`,
+    method: 'POST',
+    data: {
+      ...parmars
+    }
+  })
+}
+
 //变更申请任务详情
 export function getTaskDetailsChangeInfo(parmars) {
   return requst({

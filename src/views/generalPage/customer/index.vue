@@ -6,19 +6,17 @@
 <template>
   <div>
     <base-info-card/>
-    <iCard class="margin-top20">
-      <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
-          <iButton @click="addTableItem"  v-permission="SUPPLIER_NAMEOFCUSTOMERS_ADD">{{ $t('LK_XINZENG') }}
-          </iButton>
-          <iButton @click="deleteItem('ids', deleteMainCustomer)" v-permission="SUPPLIER_NAMEOFCUSTOMERS_DELETE">
-            {{ $t('delete') }}
-          </iButton>
-          <iButton @click="exportsTable"  v-permission="SUPPLIER_NAMEOFCUSTOMERS_EXPORT">
-            {{ $t('LK_DAOCHU') }}
-          </iButton>
-        </div>
-      </div>
+    <iCard class="margin-top20" :title="$t('SUPPLIER_ZHUYAOKEHU')" tabCard>
+      <template slot="header-control">
+        <iButton @click="addTableItem"  v-permission="SUPPLIER_NAMEOFCUSTOMERS_ADD">{{ $t('LK_XINZENG') }}
+        </iButton>
+        <iButton @click="deleteItem('ids', deleteMainCustomer)" v-permission="SUPPLIER_NAMEOFCUSTOMERS_DELETE">
+          {{ $t('delete') }}
+        </iButton>
+        <iButton @click="exportsTable"  v-permission="SUPPLIER_NAMEOFCUSTOMERS_EXPORT">
+          {{ $t('LK_DAOCHU') }}
+        </iButton>
+      </template>
       <!-- v-permission="SUPPLIER_NAMEOFCUSTOMERS_TABLE" -->
       <table-list
           :tableData="tableListData"

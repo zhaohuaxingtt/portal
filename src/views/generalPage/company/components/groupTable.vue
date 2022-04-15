@@ -7,18 +7,17 @@
 -->
 <!-- 集团 -->
 <template>
-  <iCard>
-    <div class="margin-bottom20 clearFloat">
-      <div class="floatright">
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE"
-                  @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD"
-                  @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE"
-                  @click="deleteItem('ids', delSupplierCorp)">{{$t('delete')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_GROUP_EXPORT" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
-      </div>
-    </div>
+  <iCard :title="$t('JITUANXINXI')" tabCard>
+    <template slot="header-control">
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE"
+                @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD"
+                @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE"
+                @click="deleteItem('ids', delSupplierCorp)">{{$t('delete')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_GROUP_EXPORT" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+    </template>
+    
     <!-- v-permission="SUPPLIER_COMPANY_GROUP" -->
     <table-list
         :tableData="tableListData"

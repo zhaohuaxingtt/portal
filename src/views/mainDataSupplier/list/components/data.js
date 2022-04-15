@@ -1,13 +1,14 @@
 export const FILTER_FORM = {
   nameZh: '', // 供应商名称（中）
   nameEn: '', // 供应商名称（英）
-  dunsCode: '', //
+  gpBusinessType:'',//业务类型
+  dunsCode: '', //DUNS
   supplierType: '', // 供应商类型（生产/一般/共用
   svwTempCode: '', // 临时号
   vmCode: '', // 正式号
   svwCode: '', // 上海大众编码
   sapCode: '', // SAP号
-  socialcreditNo: '' //社会信用号
+  socialcreditNo: '' //社会信用号,
 }
 
 export const SUPPLIER_TYPES = [
@@ -84,19 +85,25 @@ export const SUPPLIER_TABLE_COLUMNS = [
     }
   },
   {
+    prop: 'gpBusinessTypeDesc',
+    i18n: '业务类型',
+    minWidth: '100',
+    tooltip: true
+  },
+  {
     prop: 'formalStatus',
     i18n: '供应商身份',
     minWidth: '100',
     tooltip: true,
-    customRender: (h, scope) => {
-      if (scope.row.formalStatus == '0') {
-        return '临时'
-      }
-      if (scope.row.formalStatus == '1') {
-        return '正式'
-      }
-      return '储蓄池'
-    }
+    // customRender: (h, scope) => {
+    //   if (scope.row.formalStatus == '0') {
+    //     return '临时'
+    //   }
+    //   if (scope.row.formalStatus == '1') {
+    //     return '正式'
+    //   }
+    //   return '储蓄池'
+    // }
   },
   {
     prop: 'sapCode',
@@ -573,12 +580,7 @@ export const SUPPLIER_CONTACT_COLUMNS = [
     i18n: '联系人类型',
     customRender: (h, scope) => {
       return (
-        <span>
-          {scope.row.contactType}
-          {scope.row.contactType === '商务联系人' && (
-            <span style="color:red">*</span>
-          )}
-        </span>
+        <span>{scope.row.contactType}{scope.row.contactType === '商务联系人' && (<span style="color:red">*</span>)}</span>
       )
     }
   },
@@ -706,3 +708,106 @@ export const DEFAULT_CONTACT = {
   isDelete: false,
   email: ''
 }
+
+
+export const tableTitle = [
+  {
+      props: 'businessTypeDesc',
+      name: '业务类型',
+      key: 'EKL_YJGL_YWLX',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 150
+  },
+  {
+      props: 'businessBuyerEmail',
+      name: '采购员邮箱',
+      key: 'SUPPLIER_PURCHASEREMAIL',
+      maxlength: 50
+  },
+  {
+      props: 'businessBuyerName',
+      name: '采购员',
+      width: 180,
+      key: 'SPR_FRM_XGYSPJ_CGY',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 100
+  },
+  {
+      props: 'businessBuyerNum',
+      name: '采购员工号',
+      key: 'CAIGOUYUANGONGHAO'
+  },
+  {
+      props: 'businessBuyerDept',
+      name: '采购员科室',
+      key: 'CAIGOUYUANKESHI'
+  },
+  {
+      props: 'businessContactEmail',
+      name: '业务部门联系人邮箱',
+      key: 'YEWUBUMENLIANXIRENYOUXIANG',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 100
+  },
+  {
+      props: 'businessContactUser',
+      name: '业务部门联系人姓名',
+      width: 180,
+      key: 'YEWUBUMENLIANXIRENXINGMING',
+      // rule: [
+      //   {
+      //     pattern: /^([1-9][0-9]{0,1}|100)$/,
+      //     message: '请输入1-100的整数',
+      //     trigger: 'blur',
+      //   }],
+      maxlength: 3,
+  },
+  {
+      props: 'industryPosition',
+      name: '是否启用',
+      key: 'SHIFOUQIYONG',
+      maxlength: 200
+  },
+]
+
+export const bankRules={
+	country:[
+		{ required: true, message: '请选择银行所在国家', trigger: 'change' }
+	],
+	province:[
+		{ required: true, message: '请选择银行所在省份', trigger: 'change' }
+	],
+	city:[
+		{ required: true, message: '请选择银行所在城市', trigger: 'change' }
+	],
+	bankName:[
+		{ required: true, message: '请输入银行名称', trigger: 'blur' }
+	],
+	bankCode:[
+		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
+		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
+		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+	],
+	bankAccount:[
+		{ required: true, message: '请输入正确银行卡号', trigger: 'blur' },
+		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
+		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+	],
+	salaryAccount:[
+		{ required: true, message: '请输入农民工工资专用账户名称', trigger: 'change' }
+	],
+}
+
+
+export const businessTypeList = [
+  {
+    value:1,
+    label:"集中采购"
+  },{
+    value:2,
+    label:"报废处理"
+  },{
+    value:3,
+    label:"分散采购"
+  },
+]
