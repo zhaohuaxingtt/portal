@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-07 10:34:39
- * @LastEditTime: 2022-03-09 16:57:15
+ * @LastEditTime: 2022-04-15 16:56:03
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\viewSuppliers\index.vue
@@ -57,7 +57,7 @@ export default {
       this.flag = false
     }
 
-  }
+  },
 }
 </script>
 

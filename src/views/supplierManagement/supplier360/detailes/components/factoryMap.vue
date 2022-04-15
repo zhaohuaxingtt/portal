@@ -170,13 +170,26 @@ export default {
       }
     },
     handleShareholder () {
+      if(this.$route.path==='/suppliersDetails'){
+        this.$router.push({
+        path: '/view-suppliers',
+        query: {
+          current:14,
+          supplierToken: this.info.token || '',
+          supplierType: '4',
+          subSupplierType: this.$route.query.supplierType,
+          subSupplierId: this.$route.query.subSupplierId
+        }
+        })
+        return
+      }
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
           supplierToken: this.info.token || '',
           supplierType: '4',
           subSupplierType: this.$route.query.supplierType,
-          supplierId: this.$route.query.subSupplierId
+          subSupplierId: this.$route.query.subSupplierId
         }
       })
     },
