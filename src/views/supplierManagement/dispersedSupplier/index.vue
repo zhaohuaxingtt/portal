@@ -38,6 +38,7 @@
             <i-button @click="exportsTableAdd" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_XINZENG') }}</i-button>
             <i-button @click="exportsTable" v-if="!showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
             <i-button @click="exportsTable" v-if="!showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('MAIL.CANCEL') }}</i-button>
+            <i-button @click="exportsTableEdit" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_BIANJI') }}</i-button>
 
             <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
@@ -59,7 +60,7 @@
                 :highlightCurrentRow="true"
                 >
           <template slot="yewuType">
-            <span>{{$t("FENSANCAIGOU")}}</span>
+            <span>{{$t("NEIBUBAOXIAO")}}</span>
           </template>
           <template slot="supplierType">
             <span>{{$t('YIBANGONGYINGSHANG')}}</span>
@@ -112,6 +113,7 @@ export default {
             },
             tagdropDownList: [],
             showExportsButton:true,
+            listData:[],
         }
     },
     created(){
@@ -119,18 +121,37 @@ export default {
       this.getTableList();
     },
     methods:{
+      exportsTableEdit(){
+        if(this.listData.length == 1){
+          this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {
+            supplierType: "GP",
+            subSupplierType: "GP",
+            subSupplierId: this.listData[0].subSupplierId || '',
+          }})
+        }
+      },
       exportsTableAdd(){
         this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {subSupplierType: "GP"}})
       },
       openPage(params){
-        this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {
-          supplierType: "GP",
-          subSupplierType: "GP",
-          subSupplierId: params.subSupplierId || '',
-        }})
+        let routeData = this.$router.resolve({
+          path: '/supplier/supplierListGP/detailsGP',
+          query: {
+            supplierType: "GP",
+            subSupplierId: params.subSupplierId || '',
+            isShowAll:true,
+          }
+        })
+        window.open(routeData.href)
+        // this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {
+        //   supplierType: "GP",
+        //   subSupplierType: "GP",
+        //   subSupplierId: params.subSupplierId || '',
+        // }})
       },
-      handleSelectionChange(){
 
+      handleSelectionChange(e){
+        this.listData = e;
       },
       changTag () {
           this.form.tagNameList = []
@@ -172,6 +193,10 @@ export default {
           sapCode:"",
           tagNameList:[],
         }
+        this.page.currPage = 1
+        this.page.pageSize = 10
+
+        this.getTableList();
       },
 
     }
