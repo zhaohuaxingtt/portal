@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-04-07 16:38:09
+ * @LastEditTime: 2022-04-15 17:58:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -120,8 +120,8 @@ export default {
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-      var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-
+      var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+      console.log(month)
       return [year + "-01-01 00:00:00", year + "-" + month + "-" + day + " 00:00:00"];
       // return window.moment(new Date()).format('yyyy-MM-DD')
     },
