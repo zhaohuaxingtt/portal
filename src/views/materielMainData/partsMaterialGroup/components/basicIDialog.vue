@@ -271,12 +271,10 @@ export default {
               this.$emit('changeVisible', false)
               iMessage.success('保存成功')
               this.$emit('initPartMaterialDetail')
-            } else if (res.code == 1) {
-              this.$message.error(res.desZh)
             }
           })
           .catch((err) => {
-            iMessage.error(err)
+            console.log(err)
           })
       } else {
         iMessage.error('零件六位号输入错误')
