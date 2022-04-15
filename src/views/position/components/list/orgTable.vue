@@ -49,11 +49,12 @@ export default {
         {
           prop: 'nameZh',
           label: '组织机构名称',
-          i18n:'组织机构名称',
+          i18n: '组织机构名称',
           // width: 200,
           key: '',
           tooltip: false,
-          align: 'center',
+          headerAlign: 'center',
+          align: 'left',
           emit: 'go-detail',
           type: 'expanded',
           customRender: (h, scope) => {
@@ -63,7 +64,7 @@ export default {
         {
           prop: 'fullCode',
           label: '组织机构编号',
-          i18n:'组织机构编号',
+          i18n: '组织机构编号',
           key: '',
           width: 120,
           tooltip: false,
@@ -72,7 +73,7 @@ export default {
         {
           prop: 'posCount',
           label: '岗位数量',
-          i18n:'岗位数量',
+          i18n: '岗位数量',
           width: 100,
           align: 'center',
           key: '',
@@ -88,7 +89,7 @@ export default {
         {
           prop: 'userCount',
           label: '用户数量',
-          i18n:'用户数量',
+          i18n: '用户数量',
           align: 'center',
           width: 100,
           key: '',
