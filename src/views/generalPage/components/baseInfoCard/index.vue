@@ -42,7 +42,8 @@ export default {
   },
   data () {
     return {
-      baseInfoTitle: cloneDeep(baseInfoTitle)
+      baseInfoTitle: cloneDeep(baseInfoTitle),
+      flag:false
     }
   },
   computed: {
@@ -59,7 +60,17 @@ export default {
       });
     },
     onJump360 () {
-      // this.$router.go(-1)
+      if(this.$route.path==='/view-suppliers'){
+        this.$router.push({
+        path: "/suppliersDetails",
+        query: {
+          supplierType: this.baseMsg.supplierDTO.supplierType,
+          subSupplierId: this.$route.query.subSupplierId,
+          isShowAll: true
+        }
+        })
+        return
+      }
       this.$router.push({
         path: "/supplier/supplierList/details",
         query: {
@@ -70,6 +81,7 @@ export default {
       })
     }
   },
+
   mounted () {
     console.log(this.baseMsg, "baseMsg")
   }
