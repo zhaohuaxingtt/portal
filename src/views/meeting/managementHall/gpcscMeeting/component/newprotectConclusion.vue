@@ -6,7 +6,7 @@
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
-  > 123124124
+  >
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -216,7 +216,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList ,findThemenConclusion} from '@/api/meeting/gpMeeting'
+import {modifyConclusionByCscId, endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList ,findThemenConclusion} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
@@ -636,9 +636,29 @@ export default {
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
-    // 提交 endCscThemen
+    // 提交 endCscThemen 改为  modifyConclusionByCscId
     handleSure(){
-      console.log(this.selectedRow);
+    //   console.log(this.selectedRow);
+    //   const params = {
+      //  conclusion: this.ruleForm.conclusion,//结论
+      //  meetingId:this.$route.query.id,//会议id
+      //  result:this.fromData.result,//任务
+      //  themenId:this.selectedTableData.id,//议题id
+      //  isLoi: this.fromData.isFrozenRs ,   //是否发送loi审批
+      //  bidderInfoDTOList: this.selectedRow,  //列表数据当前行
+    //   }
+    //   console.log(params);
+    // //   return
+      // endCscThemen(params).then((res) => {
+      //   if (res.code) {
+      //     iMessage.success('结束议题成功！')
+      //     this.$emit('flushTable')
+      //     this.$emit('close')
+      //     this.close()
+      //   }else{
+      //     iMessage.success('结束会议失败！')
+      //   }
+      // })
       const params = {
        conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
@@ -648,8 +668,7 @@ export default {
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
-    //   return
-      endCscThemen(params).then((res) => {
+      modifyConclusionByCscId(params).then((res) => {
         if (res.code) {
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
