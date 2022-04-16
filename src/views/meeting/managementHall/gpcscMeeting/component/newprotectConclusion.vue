@@ -648,7 +648,6 @@ export default {
       //  bidderInfoDTOList: this.selectedRow,  //列表数据当前行
     //   }
     //   console.log(params);
-    // //   return
       // endCscThemen(params).then((res) => {
       //   if (res.code) {
       //     iMessage.success('结束议题成功！')
