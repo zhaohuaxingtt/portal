@@ -18,7 +18,7 @@
       :list="list"
     >
       <transition-group>
-        <ul class="content" v-for="(item, index) of list" :key="index">
+        <ul class="content" v-for="(item, index) in list" :key="index">
           <li :class="index > 0 ? 'info-row info-row-top' : 'info-row'">
             <div class="icon">
               <div class="icon-line"></div>
