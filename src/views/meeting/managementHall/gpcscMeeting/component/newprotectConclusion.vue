@@ -575,7 +575,7 @@ export default {
   },
   created() {  
     this.getDate()
-    this.getList()
+    // this.getList()
     this.getCurrency()
     // this.getRelateCommon()
   },
@@ -829,18 +829,53 @@ export default {
         }
         findThemenConclusion(data).then((res) => { 
           console.log(res);
-          // 临时议题 不要 11 和 12 
-          for (let i = 0; i < res.length; i++) {
-            if (res[i] == '11') {
-              res.splice(i,'11')
+          console.log(this.fromData.conclusion);
+            // 临时议题  待定 01    不要 11 和 12 
+          if (this.fromData.conclusion =='01') {
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '01') {
+                res.splice(i,'01')
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '11') {
+                res.splice(i,'11')
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '12') {
+                res.splice(i,'12')
+              }
             }
           }
-          for (let i = 0; i < res.length; i++) {
-            if (res[i] == '12') {
-              res.splice(i,'12')
+            this.relateCommon(res)
+        })
+      }else if(this.fromData.type == "GP"){
+        const data = {
+          id:this.meetingInfo.meetingTypeId
+        }
+        findThemenConclusion(data).then((res) => { 
+          console.log(res);
+          console.log(this.fromData.conclusion,'走进来了');
+            // 不是临时议题  lastcall  就只有 08 10 12
+          if (this.fromData.conclusion =='11') {
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '01') {
+                res.splice(i,'01')
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '11') {
+                res.splice(i,'11')
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '09') {
+                res.splice(i,'09')
+              }
             }
           }
-          this.relateCommon(res)
+            this.relateCommon(res)
         })
       }else{
         this.getConclusion()
