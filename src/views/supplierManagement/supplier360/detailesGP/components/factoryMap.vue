@@ -40,7 +40,7 @@
           <el-divider />
           <div>{{$t('LegalPerson')}}:{{info.legalPerson}}</div>
           <el-divider />
-          <div>{{$t('SUPPLIER_ZHUCEZIBENWAN')}}:{{info.registeredCapital&&info.registeredCapital+'元'}}</div>
+          <div>{{$t('注册资本')}}:{{info.registeredCapital&&info.registeredCapital+'元'}}</div>
           <el-divider />
           <el-popover width="200"
                       trigger="hover"

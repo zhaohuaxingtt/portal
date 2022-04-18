@@ -15,7 +15,7 @@
       <img :src="img"
            class="imgIcon" />
       <div class="boxTitle">
-        <p>90%</p>
+        <p>{{number}}%</p>
         <span>GP</span>
       </div>
     </div>
@@ -36,6 +36,9 @@ export default {
       chart: 'oneChart',
       img: img,
       myChart:null,
+      dataList:[],
+      maxNumber:[],
+      number:"",
     }
   },
   computed: {
@@ -56,12 +59,18 @@ export default {
       if(val){
         this.dataList = val;
         this.dataList.forEach(e => {
+          this.maxNumber.push(e.percent)
           e.value = e.percent;
           e.name = e.deptNum;
           delete e.percent;
           delete e.deptNum;
         });
         this.getCanvas();
+
+        setTimeout(() => {
+          this.number = Math.max.apply(null,this.maxNumber)
+          console.log(this.number)
+        }, 0);
         // if(this.myChart){
         //   this.myChart.resize();
         // }
