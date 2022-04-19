@@ -239,14 +239,14 @@ export default {
       if (e.state == '04') {
         url = '/meeting/live'
       }
-      // if (e.state == '04') {
-      //   if (e.name == "MBDL会议") {
-      //     url = '/MBDLMeeting/live'
-      //   }else  {
-      //     //非MBDL会议
-      //     url = '/CSCMeeting/live'
-      //   }
-      // }
+      if (e.category=='03') {
+        if (e.name == "MBDL会议") {
+          url = '/MBDLMeeting/live'
+        }else  {
+          //非MBDL会议
+          url = '/CSCMeeting/live'
+        }
+      }
       this.$router.push({
         path: url,
         query: {
