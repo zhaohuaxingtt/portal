@@ -178,7 +178,6 @@ export default {
       const iframe = document.querySelector('#flowForm')
       iframe.contentWindow.addEventListener('load', () => {
         const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
-        iframeAppDom.style.height = "auto";
         if (iframeAppDom) {
           const appDomObserver = new MutationObserver(() => {
             const tabsBoxWrap = iframeAppDom.querySelector('#tabsBoxWrap')
@@ -186,7 +185,6 @@ export default {
               this.autoFrameHeight = tabsBoxWrap ? tabsBoxWrap.clientHeight || 0 : 0
             }else{
               const iframeAppContentDom = iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
-              iframeAppContentDom.style.height = "auto";
               this.autoFrameHeight = iframeAppContentDom ? iframeAppContentDom.clientHeight || 0 : 0
             }
           })
