@@ -5,85 +5,87 @@
     @close="clearDialog"
     width="480px"
   >
-    <div class="margin-bottom20">
-      <el-form label-width="120px" :model="formData" ref="formData">
-        <iFormItem :label="language('零件6位号')" prop="sixPartCode">
-          <iInput
-            :placeholder="language('请输入')"
-            v-model="formData.sixPartCode"
-            :disabled="isDisabled"
-            @input="getSixPartsName($event)"
-          ></iInput>
-        </iFormItem>
-        <iFormItem :label="language('零件名称（中）')">
-          <iInput
-            :placeholder="language('请输入')"
-            v-model="formData.partNameZh"
-            :disabled="isDisabled"
-          ></iInput>
-        </iFormItem>
-        <iFormItem :label="language('零件名称（德）')">
-          <iInput
-            :placeholder="language('请输入')"
-            v-model="formData.partNameDe"
-            :disabled="isDisabled"
-          ></iInput>
-        </iFormItem>
-        <!-- <iFormItem :label='formDataLabel.partNameEn'>
+    <div v-loading="saveLoading">
+      <div class="margin-bottom20">
+        <el-form label-width="120px" :model="formData" ref="formData">
+          <iFormItem :label="language('零件6位号')" prop="sixPartCode">
+            <iInput
+              :placeholder="language('请输入')"
+              v-model="formData.sixPartCode"
+              :disabled="isDisabled"
+              @input="getSixPartsName($event)"
+            ></iInput>
+          </iFormItem>
+          <iFormItem :label="language('零件名称（中）')">
+            <iInput
+              :placeholder="language('请输入')"
+              v-model="formData.partNameZh"
+              :disabled="isDisabled"
+            ></iInput>
+          </iFormItem>
+          <iFormItem :label="language('零件名称（德）')">
+            <iInput
+              :placeholder="language('请输入')"
+              v-model="formData.partNameDe"
+              :disabled="isDisabled"
+            ></iInput>
+          </iFormItem>
+          <!-- <iFormItem :label='formDataLabel.partNameEn'>
           <iInput
             :placeholder='formDataLabel.inputPlaceholder'
             v-model='formData.partNameEn'
             :disabled='isDisabled'
           ></iInput>  
         </iFormItem> -->
-        <iFormItem :label="language('入账是否抽查')" prop="isFixAsset">
-          <iSelect
-            :placeholder="language('请输入')"
-            v-model="formData.isFixAsset"
-            :disabled="isDisabled || isCheckSta"
-            style="width: 100%"
-          >
-            <el-option
-              v-for="item in isCheckedOptions"
-              :key="item.value"
-              :value="item.value"
-              :label="item.code"
+          <iFormItem :label="language('入账是否抽查')" prop="isFixAsset">
+            <iSelect
+              :placeholder="language('请输入')"
+              v-model="formData.isFixAsset"
+              :disabled="isDisabled || isCheckSta"
+              style="width: 100%"
             >
-            </el-option>
-          </iSelect>
-        </iFormItem>
-        <iFormItem :label="language('Linie')">
-          <iInput v-model="formData.linieNames" disabled="true"></iInput>
-        </iFormItem>
-        <iFormItem :label="language('Linie科室')">
-          <iInput v-model="formData.deptCodes" disabled="true"></iInput>
-        </iFormItem>
-      </el-form>
-    </div>
-    <div class="button-end">
-      <iButton
-        v-if="readOnly ? false : isCheck"
-        @click="edit"
-        v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY'"
-        >{{ language('编辑') }}</iButton
-      >
-      <iButton
-        v-if="readOnly ? false : !isCheck"
-        @click="handleCheck"
-        v-permission="
-          'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'
-        "
-        >{{ language('保存') }}</iButton
-      >
-      <iButton
-        v-if="readOnly ? false : !isCheck"
-        @click="reset"
-        v-permission="
-          'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'
-        "
-        >{{ language('重置') }}</iButton
-      >
-      <iButton @click="clearDialog">{{ language('退出') }}</iButton>
+              <el-option
+                v-for="item in isCheckedOptions"
+                :key="item.value"
+                :value="item.value"
+                :label="item.code"
+              >
+              </el-option>
+            </iSelect>
+          </iFormItem>
+          <iFormItem :label="language('Linie')">
+            <iInput v-model="formData.linieNames" disabled="true"></iInput>
+          </iFormItem>
+          <iFormItem :label="language('Linie科室')">
+            <iInput v-model="formData.deptCodes" disabled="true"></iInput>
+          </iFormItem>
+        </el-form>
+      </div>
+      <div class="button-end">
+        <iButton
+          v-if="readOnly ? false : isCheck"
+          @click="edit"
+          v-permission="'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY'"
+          >{{ language('编辑') }}</iButton
+        >
+        <iButton
+          v-if="readOnly ? false : !isCheck"
+          @click="handleCheck"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'
+          "
+          >{{ language('保存') }}</iButton
+        >
+        <iButton
+          v-if="readOnly ? false : !isCheck"
+          @click="reset"
+          v-permission="
+            'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_MODIFY|BUTTON_MATERIEL_DATA_MATERIAL_GROUP_SIX_NUMBER_ADD'
+          "
+          >{{ language('重置') }}</iButton
+        >
+        <iButton @click="clearDialog">{{ language('退出') }}</iButton>
+      </div>
     </div>
   </iDialog>
 </template>
@@ -91,6 +93,7 @@
 import { iDialog, iFormItem, iInput, iButton, iSelect, iMessage } from 'rise'
 import {
   saveSixParts,
+  checkPartsBindOther,
   getChangeSixParts
 } from '@/api/materiel/partsMaterialGroup'
 export default {
@@ -167,7 +170,8 @@ export default {
           value: false
         }
       ],
-      categoryId: ''
+      categoryId: '',
+      saveLoading: false
     }
   },
   created() {
@@ -232,27 +236,39 @@ export default {
         checkIsUse: true
       }
       if (this.formData.sixPartCode.length === 6) {
-        saveSixParts(data).then((res) => {
-          if (res.code == 200) {
-            this.submit()
-          } else if (res.code == 205) {
-            this.$confirm(
-              res.desZh + ' 是否继续保存？',
-              this.language('提示'),
-              {
-                confirmButtonText: this.language('确定'),
-                cancelButtonText: this.language('取消'),
-                type: 'warning'
-              }
-            )
-              .then(() => {
+        this.saveLoading = true
+        checkPartsBindOther(data)
+          .then((res) => {
+            if (res.code == 200) {
+              if (res.data) {
+                this.$confirm(
+                  '零件六位号被其他材料组绑定，是否继续保存？',
+                  this.language('提示'),
+                  {
+                    confirmButtonText: this.language('确定'),
+                    cancelButtonText: this.language('取消'),
+                    type: 'warning'
+                  }
+                )
+                  .then(() => {
+                    this.submit()
+                  })
+                  .catch(() => {
+                    this.saveLoading = false
+                    this.$emit('changeVisible', false)
+                  })
+              } else {
                 this.submit()
-              })
-              .catch(() => {
-                this.$emit('changeVisible', false)
-              })
-          }
-        })
+              }
+            } else {
+              this.saveLoading = false
+              iMessage.error(res.desZh)
+            }
+          })
+          .catch((err) => {
+            this.saveLoading = false
+            iMessage.error(err.desZh)
+          })
       } else {
         iMessage.error('零件六位号输入错误')
       }
@@ -271,13 +287,12 @@ export default {
               this.$emit('changeVisible', false)
               iMessage.success('保存成功')
               this.$emit('initPartMaterialDetail')
-            } else if (res.code == 1) {
-              this.$message.error(res.desZh)
             }
           })
           .catch((err) => {
-            iMessage.error(err)
+            console.log(err)
           })
+          .finally(() => (this.saveLoading = false))
       } else {
         iMessage.error('零件六位号输入错误')
       }
