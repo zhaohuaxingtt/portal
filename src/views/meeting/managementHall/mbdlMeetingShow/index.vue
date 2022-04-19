@@ -142,7 +142,7 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
            <template slot-scope="scope">
-              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.result] }}</span>
+              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
              </template>
           </el-table-column>
          
@@ -201,13 +201,21 @@ export default {
         '02': '进行中',
         '03': '已结束'
       },
-      resultObj:{
+      // resultObj:{ 
+      //   '01': '待定',
+      //   '02': '通过',
+      //   '03': '预备会议通过',
+      //   '04': '不通过',
+      //   '05': 'Last Call',
+      //   '06': '分段待定'
+      // },
+      resultObj:{ 
         '01': '待定',
-        '02': '通过',
-        '03': '预备会议通过',
-        '04': '不通过',
-        '05': 'Last Call',
-        '06': '分段待定'
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段待定'
       },
       timer: '',
       openAddTopic: false,
