@@ -10,7 +10,7 @@
           type="flex"
           justify="space-between">
     <el-col :span="16"
-            v-permission="PORTAL_SUPPLIER_CARD_COMPANIES">
+            v-permission="PORTAL_SUPPLIER_CARD_COMPANIES_GP">
       <iCard :title="$t('SUPPLIER_GLGS')"
              class="affiliatedCompany"
              v-loading="onGraphLoading">
@@ -24,7 +24,7 @@
       </iCard>
     </el-col>
     <el-col :span="8"
-            v-permission="PORTAL_SUPPLIER_Card_RELATED_GROUP">
+            v-permission="PORTAL_SUPPLIER_Card_RELATED_GROUP_GP">
       <iCard :title="$t('SUPPLIER_JTGX')"
              class="groupRelations">
         <iText class="margin-bottom20">

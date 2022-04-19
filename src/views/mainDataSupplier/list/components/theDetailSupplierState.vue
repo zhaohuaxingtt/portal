@@ -25,7 +25,10 @@
           </iFormItem>
         </el-col>
         <el-col :span="$route.query.supplierType !== 'GP'?6:8">
-          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh">
+          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh" v-if="$route.query.supplierType=='GP'">
+            <el-input :value="detail.formalStatus" disabled />
+          </iFormItem>
+          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh" v-if="$route.query.supplierType!=='GP'">
             <el-input :value="identification" disabled />
           </iFormItem>
         </el-col>

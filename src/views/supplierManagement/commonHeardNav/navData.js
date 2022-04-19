@@ -73,7 +73,7 @@ export const tabRouterListGP = [
     url: '/supplier/supplierListGP',
     activePath: '/supplierListGP',
     key: 'GONGYINGSHANGLIST',
-    permissionKey: 'SUPPLIER_WORKBENCH_360'
+    permissionKey: 'SUPPLIER_WORKBENCH_360_GP'
   },
   {
     value:2,
@@ -81,7 +81,7 @@ export const tabRouterListGP = [
     url: '/supplier/supplierListDis',
     activePath: '/supplierListDis',
     key: 'FENSANNEIBUBAOXIAOGONGYINGSHANG',
-    permissionKey: 'SUPPLIER_DISPERSEDSUPPLIER'
+    permissionKey: 'SUPPLIER_DISPERSEDSUPPLIER_GP'
   },
 ]
 

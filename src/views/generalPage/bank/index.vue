@@ -14,9 +14,8 @@
             {{ $t('delete') }}
           </iButton>
         </template>
-        <iButton v-permission="SUPPLIER_BAKN_TABLE_EXPORT" @click="exportsTable" v-if="showExportsButton">
-          {{ $t('LK_DAOCHU') }}
-        </iButton>
+        <iButton v-permission="SUPPLIER_BAKN_TABLE_EXPORT" @click="exportsTable" v-if="showExportsButton && $route.query.subSupplierType!=='GP'">{{ $t('LK_DAOCHU') }}</iButton>
+        <iButton v-permission="SUPPLIER_BAKN_TABLE_EXPORT_GP" @click="exportsTable" v-if="$route.query.subSupplierType=='GP'">{{ $t('LK_DAOCHU') }}</iButton>
       </template>
 <!--      v-permission="SUPPLIER_BAKN_TABLE"-->
       <table-list :tableData="tableListData" :tableTitle="tableTitle"

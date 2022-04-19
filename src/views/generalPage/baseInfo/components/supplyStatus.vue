@@ -20,7 +20,12 @@
         <!-- <iText>{{supplierData[infoVo].isSupply}}</iText> -->
       </iFormItem>
       <!-- 供应商身份 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS" v-if="$route.query.subSupplierType=='GP'">
+        <iLabel :label="$t('GYSSF')"
+                slot="label"></iLabel>
+        <iText>{{supplierData[infoVo].formalStatus}}</iText>
+      </iFormItem>
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('GYSSF')"
                 slot="label"></iLabel>
         <iText>{{supplierData[infoVo].formalStatus|formalStatus(that)}}</iText>

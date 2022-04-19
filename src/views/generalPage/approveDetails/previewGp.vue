@@ -192,14 +192,18 @@ export default {
             supplierId:this.detail.id,
           }
           commitAdmittance(params).then(res => {
-            if (res?.code === '200') {
+            if (res.code == '200') {
               this.buttonLoad = false
               iMessage.success(res.desZh)
             } else {
               this.buttonLoad = false
               iMessage.error(res.desZh)
             }
+          }).catch(e=>{
+            this.buttonLoad = false
           })
+        }).catch(e=>{
+          this.buttonLoad = false
         })
       } else {//确认
         let params = {

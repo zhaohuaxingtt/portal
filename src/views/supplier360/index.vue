@@ -239,7 +239,7 @@ export default {
           ref: 'baseInfo',
           component: 'baseInfo',
           key: 'SUPPLIER_JIBENXINXI',
-          permission: 'SUPPLIER_BASEINFO'
+          permission: 'SUPPLIER_BASEINFO_GP'
         },
         {
           current: '2',
@@ -247,7 +247,7 @@ export default {
           ref: 'history',
           component: 'history',
           key: 'SUPPLIER_LISHIYANGE',
-          permission: 'SUPPLIER_ENTERPRISEHISTORY'
+          permission: 'SUPPLIER_ENTERPRISEHISTORY_GP'
         },
         {
           current: '3',
@@ -255,7 +255,7 @@ export default {
           ref: 'frm',
           component: 'frm',
           key: 'SUPPLIER_FRMPINGJI',
-          permission: 'SUPPLIER_FRM'
+          permission: 'SUPPLIER_FRM_GP'
         },
         {
           current: '4',
@@ -263,7 +263,7 @@ export default {
           ref: 'bank',
           component: 'bank',
           key: 'SUPPLIER_SHOUXINYINHANGXINXIN',
-          permission: 'SUPPLIER_BAKN'
+          permission: 'SUPPLIER_BAKN_GP'
         },
         {
           current: '5',
@@ -271,7 +271,7 @@ export default {
           ref: 'company',
           component: 'company',
           key: 'SUPPLIER_GUDONGJITUANYUGUANLIANGONGSI',
-          permission: 'SUPPLIER_COMPANY_'
+          permission: 'SUPPLIER_COMPANY_GP'
         },
         {
           current: '6',
@@ -279,7 +279,7 @@ export default {
           ref: 'governance',
           component: 'governance',
           key: 'SUPPLIER_RENYUANJIGONGSIZHILIQINGKUANG',
-          permission: 'SUPPLIER_GOVERNANCE'
+          permission: 'SUPPLIER_GOVERNANCE_GP'
         },
         {
           current: '7',
@@ -287,7 +287,7 @@ export default {
           ref: 'businessProducts',
           component: 'businessProducts',
           key: 'SUPPLIER_ZHUYAOYEWUJICHANPIN',
-          permission: 'SUPPLIER_MAINPRODUCT'
+          permission: 'SUPPLIER_MAINPRODUCT_GP'
         },
         {
           current: '8',
@@ -295,7 +295,7 @@ export default {
           ref: 'customer',
           component: 'customer',
           key: 'SUPPLIER_ZHUYAOKEHU',
-          permission: 'SUPPLIER_NAMEOFCUSTOMERS'
+          permission: 'SUPPLIER_NAMEOFCUSTOMERS_GP'
         },
         {
           current: '9',
@@ -303,7 +303,7 @@ export default {
           ref: 'mainSubSuppliersAndProductNames',
           component: 'mainSubSuppliersAndProductNames',
           key: 'SUPPLIER_ZHUYAOFANGGONGFANGMINGCHENGJICHANPIN',
-          permission: 'SUPPLIER_SUBSUPPLIERANDPRODUCT'
+          permission: 'SUPPLIER_SUBSUPPLIERANDPRODUCT_GP'
         },
         {
           current: '10',
@@ -311,7 +311,7 @@ export default {
           ref: 'historicalCooperationRecord',
           component: 'historicalCooperationRecord',
           key: 'SUPPLIER_LISHIHEZUOJILU',
-          permission: 'SUPPLIER_HISTORY'
+          permission: 'SUPPLIER_HISTORY_GP'
         },
         {
           current: '11',
@@ -319,7 +319,7 @@ export default {
           ref: 'majorIssues',
           component: 'majorIssues',
           key: 'SUPPLIER_ZHONGDASHIXIANG',
-          permission: 'SUPPLIER_SIGNIFICANTEVENTS'
+          permission: 'SUPPLIER_SIGNIFICANTEVENTS_GP'
         },
         {
           current: '12',
@@ -327,7 +327,7 @@ export default {
           ref: 'contactsAndUsers',
           component: 'contactsAndUsers',
           key: 'SUPPLIER_LIANXIRENYUYONGHU',
-          permission: 'SUPPLIER_SUPPLIERCONTACT'
+          permission: 'SUPPLIER_SUPPLIERCONTACT_GP'
         },
         {
           current: '13',
@@ -335,7 +335,7 @@ export default {
           ref: 'relevantAttachments',
           component: 'relevantAttachments',
           key: 'SUPPLIER_XIANGGUANFUJIAN',
-          permission: 'SUPPLIER_RELATEDACCESSORY'
+          permission: 'SUPPLIER_RELATEDACCESSORY_GP'
         },
         {
           current: '14',
@@ -343,7 +343,7 @@ export default {
           ref: 'purchaseClassification',
           component: 'purchaseClassification',
           key: 'SUPPLIER_CAIGOUFENLEI',
-          permission: 'SUPPLIER_PURCHASE'
+          permission: 'SUPPLIER_PURCHASE_GP'
         },
         {
           current: '15',
@@ -351,7 +351,7 @@ export default {
           ref: 'systemModificationHistory',
           component: 'systemModificationHistory',
           key: 'SUPPLIER_XITONGXIUGAILISHI',
-          permission: 'SUPPLIER_CHANGEHISTORY'
+          permission: 'SUPPLIER_CHANGEHISTORY_GP'
         },
         {
           current: '16',
@@ -359,7 +359,7 @@ export default {
           ref: 'financialBigNumbers',
           component: 'financialBigNumbers',
           key: 'SUPPLIER_CAIWUDASHU',
-          permission: 'SUPPLIER_KEYFINANCIALFIGURE'
+          permission: 'SUPPLIER_KEYFINANCIALFIGURE_GP'
         },
         {
           current: '17',
@@ -367,7 +367,7 @@ export default {
           ref: 'financialData',
           component: 'financialData',
           key: 'SUPPLIER_CAIWUSHUJU',
-          permission: 'SUPPLIER_FINANCIALDATA'
+          permission: 'SUPPLIER_FINANCIALDATA_GP'
         },
         {
           current: '18',
@@ -375,7 +375,7 @@ export default {
           ref: 'supplyCompany',
           component: 'supplyCompany',
           key: 'SUPPLIER_GONGHUOGONGSI',
-          permission: 'SUPPLIER_SUPPLYCOMPANY'
+          permission: 'SUPPLIER_SUPPLYCOMPANY_GP'
         }
       ],
       refData: [],

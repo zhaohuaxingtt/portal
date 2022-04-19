@@ -1,6 +1,6 @@
 <template>
 	<iCard tabCard collapse :title="$t('KAIHUYINHANG')" class="margin-top20">
-		<iButton class="btn_class" @click="addBank" v-if="$route.query.subSupplierType=='GP'">新增子银行账户</iButton>
+		<iButton class="btn_class" @click="addBank" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_ADDBANK_GP" v-if="$route.query.subSupplierType=='GP'">新增子银行账户</iButton>
 		<iFormGroup row="3" :rules="bankRules" :model="supplierData" ref="bankRules1">
 			<!-- 银行所在国家 -->
 			<iFormItem prop="settlementBankDTO.countryCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
