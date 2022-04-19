@@ -43,7 +43,7 @@
         width="50"
         align="center"
         :fixed="fixed"
-        label="#"
+        :label="indexLabel"
       ></el-table-column>
       <template v-for="(items, index) in tableTitle">
         <!-- 点击事件-->
@@ -292,7 +292,8 @@ export default {
     renderHeader: {
       type: Function
     },
-    border: { type: Boolean, default: false }
+    border: { type: Boolean, default: false },
+    indexLabel:{type: String, default: '#' }
   },
   components: {
     iInput,

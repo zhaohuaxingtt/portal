@@ -431,6 +431,15 @@ export default [
         },
         component: () => import('@/views/supplierManagement/supplierGroup/index.vue')
       },
+      {
+        path: 'suppliergroupmanagementdetail',
+        name: 'suppliergroupmanagementdetail',
+        meta: {
+          title: '供应商组管理',
+          activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
+        },
+        component: () => import('@/views/supplierManagement/supplierGroup/components/supplierGroupDetail.vue')
+      },
       // {
       //   path: 'alarmLetter',
       //   name: 'alarmLetter',
