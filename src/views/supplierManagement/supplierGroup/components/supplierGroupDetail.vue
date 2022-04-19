@@ -6,7 +6,7 @@
         <iButton v-if="!editStatus && !show" @click="intoEdit">编辑</iButton>
         <template v-else-if="editStatus || show">
           <iButton v-show="editStatus" @click="outEdit">退出编辑</iButton>
-          <iButton v-show="show" @click="save">保存</iButton>
+          <iButton v-show="editStatus ||show" @click="save">保存</iButton>
         </template>
       </div>
     </div>
