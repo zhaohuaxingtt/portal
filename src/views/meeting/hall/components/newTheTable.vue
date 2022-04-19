@@ -244,7 +244,7 @@ export default {
           url = '/MBDLMeeting/live'
         }else  {
           //非MBDL会议
-          url = '/CSCMeeting/live'
+          url = '/MBDLMeeting/live'
         }
       }
       this.$router.push({

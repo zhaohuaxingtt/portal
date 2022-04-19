@@ -256,14 +256,14 @@ export default [
     name: 'myMBDLMeetingBox',
     component: () => import(`@/views/meeting/myMBDLmeeting.vue`),
     children: [
-      //MBDL会议直播
+      //MBDL会议直播 live
       {
         path: '/MBDLMeeting/live',
         name: 'liveMeeting',
         meta: {
           title: '直播会议'
         },
-        component: () => import(`@/views/meeting/managementHall/live/index.vue`)
+        component: () => import(`@/views/meeting/managementHall/gpMBDlLive/index.vue`)
       },
       //MBDL近期会议
       {
@@ -272,35 +272,44 @@ export default [
         meta: {
           title: '近期会议'
         },
-        component: () => import(`@/views/meeting/managementHall/live/index.vue`)
+        component: () => import(`@/views/meeting/managementHall/gpMBDLNearMeeting/index.vue`)
+      },
+      {
+        path: '/nearMBDlMeetingDetail',
+        name: 'nearMeetingDetail',
+        meta: {
+          title: '近期会议详情',
+        },
+        component: () =>
+          import(`@/views/meeting/managementHall/gpMBDLNearMeeting/detail/index.vue`)
       },
     ]
   },
-  {
-    path: '/meeting/myCSCmeeting',
-    name: 'myCSCMeetingBox',
-    component: () => import(`@/views/meeting/myCSCmeeting.vue`),
-    children: [
-      //CSC会议直播
-      {
-        path: '/CSCMeeting/live',
-        name: 'liveMeeting',
-        meta: {
-          title: '直播会议'
-        },
-        component: () => import(`@/views/meeting/managementHall/nearGPMeeting/index.vue`)
-      },
-      //CSC近期会议
-      {
-        path: '/nearCSCMeeting/live',
-        name: 'liveMeeting',
-        meta: {
-          title: '直播会议'
-        },
-        component: () => import(`@/views/meeting/managementHall/nearGPMeeting/index.vue`)
-      }
-    ]
-  },
+  // {
+  //   path: '/meeting/myCSCmeeting',
+  //   name: 'myCSCMeetingBox',
+  //   component: () => import(`@/views/meeting/myCSCmeeting.vue`),
+  //   children: [
+  //     //CSC会议直播
+  //     {
+  //       path: '/CSCMeeting/live',
+  //       name: 'liveMeeting',
+  //       meta: {
+  //         title: '直播会议'
+  //       },
+  //       component: () => import(`@/views/meeting/managementHall/nearGPMeeting/index.vue`)
+  //     },
+  //     //CSC近期会议
+  //     {
+  //       path: '/nearCSCMeeting/live',
+  //       name: 'liveMeeting',
+  //       meta: {
+  //         title: '直播会议'
+  //       },
+  //       component: () => import(`@/views/meeting/managementHall/nearGPMeeting/index.vue`)
+  //     }
+  //   ]
+  // },
   {
     path: '/meeting/my-meeting-special',
     name: 'nearMeetingBoxSpecial',
