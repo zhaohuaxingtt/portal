@@ -9,7 +9,7 @@
   <div class='flex-between-center-center'>
     <el-row style="width:80%" type="flex" align='bottom' :gutter="15">
       <el-col :span="6">
-        <iInput :placeholder="language('GONGYINGSHANGBIANHAO','供应商编号')" v-model="form.supplierIdList[0]"></iInput>
+        <iInput :placeholder="language('GONGYINGSHANGBIANHAO','供应商编号')" v-model="form.sapCodes[0]"></iInput>
         <!-- <iSelectCustom :placeholder="language('GONGYINGSHANGBIANHAO','供应商编号')" :data="formGoup.provinceList" label="cityNameCn" value="cityId" v-model="form.province" :multiple="true" :popoverClass="'popover-class'" /> -->
       </el-col>
       <!-- 材料组 -->
@@ -59,7 +59,7 @@ export default {
     return {
       form: {
         supplierNameList: [],
-        supplierIdList: [],
+        sapCodes: [],
         feedbackStatusList: [],
         impactLevelList: [],
       },
@@ -115,7 +115,7 @@ export default {
     handleSearchReset() {
       this.form = {
         supplierNameList: [],
-        supplierIdList: [],
+        sapCodes: [],
         feedbackStatusList: [],
         impactLevelList: [],
       }
