@@ -249,3 +249,11 @@ export function getunitSelect() {
     method: 'GET'
   })
 }
+
+export function checkPartsBindOther(data) {
+  return request({
+    url: '/checkOtherBindingRel',
+    method: 'POST',
+    data
+  })
+}
