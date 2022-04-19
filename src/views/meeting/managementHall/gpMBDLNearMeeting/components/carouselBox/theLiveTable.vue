@@ -102,7 +102,7 @@
         width="90"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/{{handleWeeks()}}</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="81" align="center" label=""></el-table-column>
@@ -145,7 +145,7 @@
       </el-table-column>
       <el-table-column width="27" align="center" label=""></el-table-column>
       <!-- <el-table-column prop="supporter" align="center" label="操作" min-width="200">
-        <template scope="scope">
+        <template slot-scope="scope">
           <p class="action-box" @click="newSummary(scope.row.id)">
             <img class="new-file" :src="newFile" alt="" srcset="" />
             <span>查看会议纪要</span>
@@ -239,7 +239,7 @@ export default {
       const currentFistYearDay = `${dayjs().year()}-01-01`
       const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
       const totalDay = isLeap ? 366 : 365
-      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const weekNum2 = new Date(currentFistYearDay).getDay()===0?7:new Date(currentFistYearDay).getDay()
       const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
       const weekNum = Math.ceil((totalDay - shouldDel) / 7)
       return weekNum
@@ -259,9 +259,10 @@ export default {
       }
       return str
     },
+
     goToDetail(e) {
       this.$router.push({
-        path: '/meeting/special-near-meeting/specialDetail',
+        path: '/meeting/near-meeting/detail',
         query: {
           id: e
         }

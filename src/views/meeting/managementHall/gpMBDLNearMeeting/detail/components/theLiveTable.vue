@@ -5,7 +5,6 @@
       :data="data"
       :rowClassName="tableRowClassName"
     >
-      <el-table-column width="15" align="center" label=""></el-table-column>
       <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
@@ -77,140 +76,50 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="14" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="count"
+        align="center"
+        label="Count"
+        width="70"
+      >
+        <template slot-scope="scope">
+          <span>{{
+            !scope.row.count && scope.row.isBreak ? '-' : scope.row.count
+          }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="topic"
         align="center"
-        label="Present Items"
-        :width="setColumnWidth(tableData)"
-      >
-        <!-- min-width="120" -->
-        <template slot-scope="scope">
-          <span>{{ scope.row.topic }}</span>
-          <!-- <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
-          <span class="open-link-text" @click="lookOrEdit(scope.row)" v-else>{{
-            scope.row.topic
-          }}</span> -->
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        prop="cscCount"
-        align="center"
-        label="Record"
-        show-overflow-tooltip
+        label="Topic"
+        width="220"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.isBreak">-</span>
-          <span v-else>{{
-            (scope.row.cscCount || 0) + '/' + (scope.row.preCount || 0)
+          <span>{{
+            !scope.row.topic && scope.row.isBreak ? '-' : scope.row.topic
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
+        prop="duration"
         align="center"
-        label="Part No."
-        min-width="100"
-        prop="tnr"
+        label="Duration"
+        width="90"
       >
         <template slot-scope="scope">
-          <span v-if="!scope.row.tnr">-</span>
-          <span v-else>{{ scope.row.tnr }}</span>
+          <span>{{
+            !scope.row.duration && scope.row.isBreak ? '-' : scope.row.duration
+          }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        align="center"
-        label="BEN(CN)"
-        min-width="100"
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="Carline"
-        min-width="100"
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.carline">{{ scope.row.carline }}</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="Sourcing"
-        min-width="100"
-      >
-        <template slot-scope="scope">
-          <span v-if="!scope.row.supporter">-</span>
-          <span v-else>{{ scope.row.supporter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="Linie"
-        min-width="100"
-        prop="presenter"
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="Commodity"
-        min-width="100"
-      >
-        <template slot-scope="scope">
-          <span v-if="!scope.row.presenterDept">-</span>
-          <span v-else>{{ scope.row.presenterDept }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="EP"
-        min-width="100"
-      >
-        <template slot-scope="scope">
-          <span v-if="!scope.row.ep">-</span>
-          <span v-else>{{ scope.row.ep }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="State"
-        min-width="100"
-      >
-        <template slot-scope="scope">
-          {{ $t(stateObj[scope.row.state]) }}
-        </template>
-      </el-table-column>
-      <el-table-column width="4" align="center" label=""></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
+        prop="time"
         align="center"
         label="Time"
-        min-width="140"
       >
         <template slot-scope="scope">
           <div v-if="scope.row.startTime">
@@ -230,10 +139,88 @@
                 : scope.row.endTime.substring(0, 5)
             }}</span>
           </div>
-          <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column width="20" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="presenter"
+        align="center"
+        label="Presenter"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.presenter }}</span>
+          <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
+          <span v-if="scope.row.isBreak">-</span>
+          <span>{{ scope.row.presenterNosys }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="presenterDept"
+        align="center"
+        label="Presenter Dept."
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.presenterDept }}</span>
+          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
+            >/</span
+          >
+          <span v-if="scope.row.isBreak">-</span>
+          <span>{{ scope.row.presenterDeptNosys }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="supporter"
+        align="center"
+        label="Supporter"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.supporter }}</span>
+          <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
+          <span v-if="scope.row.isBreak">-</span>
+          <span>{{ scope.row.supporterNosys }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="supporterDept"
+        align="center"
+        label="Supporter Dept."
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.supporterDept }}</span>
+          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
+            >/</span
+          >
+          <span v-if="scope.row.isBreak">-</span>
+          <span>{{ scope.row.supporterDeptNosys }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="status"
+        width="120"
+        min-width="120"
+        align="center"
+        label="Status"
+      >
+        <template slot-scope="scope">
+          {{ $t(statusObj[scope.row.state]) }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="remark"
+        align="center"
+        label="Remark"
+      >
+        <template slot-scope="scope">
+          <span>{{
+            !scope.row.remark && scope.row.isBreak ? '-' : scope.row.remark
+          }}</span>
+        </template>
+      </el-table-column>
     </iTableML>
     <iPagination
       v-update
@@ -246,15 +233,6 @@
       :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
-    <addTopicNew
-      v-if="openAddTopic"
-      :openAddTopic="openAddTopic"
-      :meetingInfo="meetingInfo"
-      :editOrAdd="editOrAdd"
-      @closeDialog="closeDialog"
-      :topicInfo="lookThemenObj"
-    >
-    </addTopicNew>
   </div>
 </template>
 
@@ -262,15 +240,11 @@
 import { iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
-import { stateObj,  themenConclusion } from '../../../gpMBDLNearMeeting/components/carouselBox/data.js'
-
-import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
 
 export default {
   components: {
     iPagination,
-    iTableML,
-    addTopicNew
+    iTableML
   },
   props: {
     data: {
@@ -300,18 +274,11 @@ export default {
   },
   data() {
     return {
-      lookThemenObj: {},
-      editOrAdd: 'add',
-      openAddTopic: false,
-      processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
-      stateObj,
-      themenConclusion,
       following: false,
       statusObj: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        '01': 'MT_WEIJINXING',
+        '02': 'MT_JINXINGZHONG',
+        '03': 'MT_YIJIESHU'
       }
     }
   },
@@ -319,30 +286,6 @@ export default {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
   },
   methods: {
-    lookOrEdit(row) {
-      if (row.source === '04') {
-        if (row.type === 'FS+MTZ') {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
-        } else if (row.type === 'MTZ') {
-          window.open(
-            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
-            '_blank'
-          )
-        } else {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
-        }
-      } else {
-        this.lookThemenObj = { ...row }
-        this.editOrAdd = 'look'
-        this.openAddTopic = true
-      }
-    },
     isThemenHavaMy(item) {
       const presenterId = item.presenterId ? item.presenterId.split(',') : []
       const supporterId = item.supporterId ? item.supporterId.split(',') : []
@@ -427,53 +370,12 @@ export default {
         // })
         // });
       }
-    },
-    setColumnWidth(data) {
-      if (!data || data.length === 0) {
-        return
-      }
-      let index = 0
-      let maxStr = ''
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].topic === null) {
-          return
-        }
-        const nowline = data[i].topic + ''
-        const maxline = data[index].topic + ''
-        if (nowline.length > maxline.length) {
-          index = i
-        }
-      }
-      maxStr = data[index].topic
-      let columnWidth = 0
-      for (let char of maxStr) {
-        if (char >= 'A' && char <= 'Z') {
-          columnWidth += 8
-        } else if (char >= 'a' && char <= 'z') {
-          columnWidth += 6
-        } else if (char >= '\u4e00' && char <= '\u9fa5') {
-          columnWidth += 13
-        } else {
-          columnWidth += 7
-        }
-      }
-      if (columnWidth < 120) {
-        // 设置最小宽度
-        columnWidth = 120
-      }
-      if (columnWidth > 306) {
-        columnWidth = 306
-      }
-      return columnWidth + 'px'
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-::v-deep .cell {
-  padding: 0 !important;
-}
 /* .img-word {
   display: flex;
   justify-content: center;
@@ -481,64 +383,6 @@ export default {
     width: 30px;
     text-align: center;
     margin-right: 9.42px;
-  }
-} */
-/* .img-word {
-  display: flex;
-  align-items: center;
-  span:first-child {
-    display: block;
-    flex-grow: 1;
-    flex-shrink: 0;
-    width: 20px;
-  }
-  .img-box {
-    flex: 1;
-    position: relative;
-    transform: translateY(2px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      flex-grow: 1;
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-    }
-    .follow-new {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-    .follow {
-      cursor: pointer;
-    }
-  }
-} */
-/* .img-word {
-  display: flex;
-  align-items: center;
-  div:first-child {
-    flex-grow: 1;
-    flex-shrink: 0;
-    width: 20px;
-    text-align: center;
-  }
-  .img-box {
-    flex: 1;
-    position: relative;
-    transform: translateY(2px);
-    display: flex;
-    align-items: center;
-    img {
-      flex-grow: 1;
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-    }
   }
 } */
 .img-word {

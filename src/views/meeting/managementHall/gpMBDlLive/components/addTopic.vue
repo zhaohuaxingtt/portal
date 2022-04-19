@@ -79,7 +79,7 @@
         </div>
         <div class="row-choice" v-show="editOrAdd !== 'look'">
           <iFormItem
-            :label="$t('选择会议')"
+            label="选择会议"
             prop="meeting"
             :hideRequiredAsterisk="true"
           >
@@ -548,7 +548,7 @@ import {
   addThemenAttachment,
   findTheThemenById
 } from '@/api/meeting/details'
-import { uploadFile, findUsersById } from '@/api/meeting/type'
+import { findUsersById, uploadFile } from '@/api/meeting/type'
 import { getMyMettingList } from '@/api/meeting/home'
 import { download } from '@/utils/downloadUtil'
 export default {
@@ -596,10 +596,12 @@ export default {
         (!value || (value && value.length === 0)) &&
         this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+        )
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
+          callback(new Error('MT_ZUIDACHANGDU255ZIFU'))
         }
         callback()
       }
@@ -609,7 +611,11 @@ export default {
         !value.trim() &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -622,7 +628,11 @@ export default {
         (!value || (value && value.length === 0)) &&
         this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -635,7 +645,11 @@ export default {
         !value.trim() &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -683,7 +697,9 @@ export default {
       attachment: {},
       attachments: [],
       rules: {
-        meeting: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }],
+        meeting: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }
+        ],
         // topic: [
         //   { required: true, message: "必填", trigger: "blur" },
         //   { min: 1, max: 255, message: "最大长度 255 字符", trigger: "blur" },
@@ -694,14 +710,28 @@ export default {
             validator: validateTopic
           }
         ],
-        remark: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        remark: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterNosys: [
           {
@@ -713,10 +743,18 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterNosys: [
           {
@@ -844,7 +882,8 @@ export default {
       immediate: true
     },
     'ruleForm.presenter': {
-      handler: function (newV) {
+      handler: function (newVV) {
+        let newV = typeof newVV === 'string' ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -865,13 +904,18 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
     },
     'ruleForm.supporter': {
-      handler: function (newV) {
+      handler: function (newVV) {
+        let newV = typeof newVV === 'string' ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -892,7 +936,11 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
@@ -1158,6 +1206,7 @@ export default {
       const data = {
         id: this.receiverId ? this.receiverId : this.meetingInfo.receiverId
       }
+      // getReceiverById(data).then((res) => {
       findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS
         this.currentSearchUserData = [...res.employeeDTOS]
@@ -1240,9 +1289,9 @@ export default {
       formData.append('type', 1)
       await uploadFile(formData)
         .then((res) => {
-          this.attachment.attachmentId = res.data[0].id
-          this.attachment.attachmentUrl = res.data[0].path
-          this.attachment.attachmentName = res.data[0].name
+          this.attachment.attachmentId = res[0].id
+          this.attachment.attachmentUrl = res[0].path
+          this.attachment.attachmentName = res[0].name
           this.attachment.source = '04'
           this.attachments.push({ ...this.attachment })
           iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))

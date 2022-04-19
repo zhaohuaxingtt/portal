@@ -61,6 +61,7 @@
 <script>
 import { iCard, iButton } from "rise";
 import dayjs from "dayjs";
+// import webStorage from '@/utils/storageManager';
 export default {
   components: { iCard, iButton },
   props: {

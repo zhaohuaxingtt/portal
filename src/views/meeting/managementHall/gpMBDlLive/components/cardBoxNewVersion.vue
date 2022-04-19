@@ -13,7 +13,7 @@
       </div>
       <div class="header-other" v-else>
         <div class="meeting-state">
-          {{ themen.state === '01' ? 'Next' : 'Finish' }}
+          {{ themen.state === "01" ? "Next" : "Finish" }}
         </div>
       </div>
       <div class="header-info">
@@ -30,73 +30,53 @@
             themen.state !== '02' ? 'themen-num  themen-num-no' : 'themen-num'
           "
         >
-          <span class="current-num">{{ index ? index : themen.itemNo }}</span
+          <span class="current-num">{{ index?index:themen.itemNo }}</span
           >/{{ total }}
         </div>
       </div>
       <div class="container" v-if="!themen.isBreak">
         <div class="ul-li">
-          <div class="left">Duration</div>
-          <div class="right" :title="themen.duration">
-            {{ themen.duration }}
-          </div>
+          <div class="left">Item No</div>
+          <div class="right">{{ themen.itemNo }}</div>
         </div>
         <div class="ul-li">
-          <div class="left">Sourcing</div>
-          <div class="right" :title="themen.supporter">
-            {{ themen.supporter }}
-          </div>
+          <div class="left">Count</div>
+          <div class="right">{{ themen.count }}</div>
         </div>
         <div class="ul-li">
-          <div class="left">Linie</div>
-          <div class="right" :title="themen.presenter">
-            {{ themen.presenter }}
-            <!-- {{ themen.presenter
+          <div class="left">Presenter</div>
+          <div class="right">
+            {{ themen.presenter
             }}{{
               themen.presenter && themen.presenterNosys
-                ? ',' + themen.presenterNosys
+                ? "," + themen.presenterNosys
                 : themen.presenterNosys
                 ? themen.presenterNosys
-                : ''
-            }} -->
+                : ""
+            }}
           </div>
         </div>
         <div class="ul-li">
-          <div class="left" :title="themen.presenterDept">Commodity</div>
+          <div class="left">Presenter Department</div>
           <div class="right">
-            {{ themen.presenterDept }}
-            <!-- {{ themen.presenterDept
+            {{ themen.presenterDept
             }}{{
               themen.presenterDept && themen.presenterDeptNosys
-                ? ',' + themen.presenterDeptNosys
+                ? "," + themen.presenterDeptNosys
                 : themen.presenterDeptNosys
                 ? themen.presenterDeptNosys
-                : ''
-            }} -->
-          </div>
-        </div>
-        <div class="ul-li">
-          <div class="left">Carline</div>
-          <div class="right" :title="themen.carline">
-            {{ themen.carline }}
-            <!-- {{ themen.presenterDept
-            }}{{
-              themen.presenterDept && themen.presenterDeptNosys
-                ? ',' + themen.presenterDeptNosys
-                : themen.presenterDeptNosys
-                ? themen.presenterDeptNosys
-                : ''
-            }} -->
+                : ""
+            }}
           </div>
         </div>
         <div class="time">
           <div class="time-left">Time</div>
           <div class="time-right-live" v-if="themen.state === '02'">
-            {{ getTime(themen) }}/Live!
+            {{ themen.startTime }}/Live!
           </div>
           <div class="time-right" v-else>
-            {{ getTime(themen) }}/
-            {{ themen.state === '01' ? 'Next' : 'Finished' }}
+            {{ themen.startTime }}/
+            {{ themen.state === "01" ? "Next" : "Finished" }}
           </div>
         </div>
       </div>
@@ -110,37 +90,37 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 export default {
   props: {
     index: {
       type: Number,
-      default: 0
+      default: 0,
     },
     meetingName: {
       type: String,
       default: () => {
-        return ''
-      }
+        return "";
+      },
     },
     themen: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     total: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     current: {
       type: Number,
       default: () => {
-        return 0
-      }
-    }
+        return 0;
+      },
+    },
     // startDate: {
     //   type: String,
     //   default: () => {
@@ -156,38 +136,33 @@ export default {
   },
   data() {
     return {
-      timer: '',
-      nowTime: dayjs(new Date()).format('HH:mm:ss')
-    }
+      timer: "",
+      nowTime: dayjs(new Date()).format("HH:mm:ss"),
+    };
   },
   created() {
-    if (this.themen.state === '02') {
+    if (this.themen.state === "02") {
       this.timer = setInterval(() => {
-        this.nowTime = this.getNowTime()
-      }, 5000)
+        this.nowTime = this.getNowTime();
+      }, 5000);
     }
   },
   methods: {
-    getTime(themen) {
-      return dayjs(new Date(`${themen.startDate} ${themen.startTime}`)).format(
-        'HH:mm'
-      )
-    },
     getNowTime() {
-      return dayjs(new Date()).format('HH:mm:ss')
-    }
+      return dayjs(new Date()).format("HH:mm:ss");
+    },
   },
   beforeDestroy() {
-    clearInterval(this.timer)
+    clearInterval(this.timer);
   },
   computed: {
-    dom: function () {
-      console.log(this.$refs.boxTopic.$el)
-      console.log(this.$refs.spanTopic.$el)
-      return 0
-    }
-  }
-}
+    dom: function() {
+      console.log(this.$refs.boxTopic.$el);
+      console.log(this.$refs.spanTopic.$el);
+      return 0;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 /* @keyframes liveBounce{
@@ -360,7 +335,7 @@ export default {
   }
   .rest {
     width: 100%;
-    height: 360px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;

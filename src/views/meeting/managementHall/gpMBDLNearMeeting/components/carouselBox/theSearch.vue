@@ -17,7 +17,7 @@
             ></iInput>
           </el-form-item>
           <!--会议类型-->
-          <el-form-item :label="$t('MT_HUIYILEIXING')">
+          <!-- <el-form-item :label="'会议类型'">
             <iSelect
               :placeholder="$t('LK_QINGXUANZE')"
               v-model="form.meetingTypeId"
@@ -30,14 +30,14 @@
                 :key="item.id"
               ></el-option>
             </iSelect>
-          </el-form-item>
+          </el-form-item> -->
           <!--状态-->
-          <el-form-item :label="$t('MT_ZHUANGTAI')">
+          <el-form-item :label="$t('状态')">
             <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.states">
               <el-option value="" :label="$t('all')"></el-option>
               <el-option
                 :value="item.value"
-                :label="$t(item.i18n)"
+                :label="$t(item.label)"
                 v-for="item of statusList"
                 :key="item.value"
               ></el-option>
@@ -54,6 +54,7 @@
             ref="iDateRangePicker"
             :label="$t('MT_HUIYIRIQI')"
           />
+          <!-- 周次 -->
           <el-form-item :label="$t('MT_SHOUJIANREN')">
             <el-autocomplete
               v-model="form.receiver"
@@ -61,24 +62,6 @@
               :placeholder="$t('MT_QINGSHURU')"
               @select="handleSelect"
             ></el-autocomplete>
-          </el-form-item>
-          <!-- 周次 -->
-          <el-form-item :label="$t('MT_ZHOUCI')" class="LastSearchOption">
-            <iSelect
-              filterable
-              :placeholder="$t('LK_QINGXUANZE')"
-              v-model="form.weekOfYears"
-              :multiple="true"
-              :collapse-tags="true"
-              onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
-            >
-              <el-option
-                :value="item.value"
-                :label="item.label"
-                v-for="item of weekList"
-                :key="item.value"
-              ></el-option>
-            </iSelect>
           </el-form-item>
         </el-row>
       </el-form>
@@ -89,11 +72,11 @@
 <script>
 import { iInput, iSelect } from 'rise'
 import { getMettingType } from '@/api/meeting/type'
+// import { getUsers } from "@/api/meeting/type";
 import { getPageListByParam } from '@/api/usercenter/receiver.js'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iSearch from '@/components/iSearch/index.vue'
-import dayjs from '@/utils/dayjs.js'
-import { datestring } from '@/utils/utils.js'
+
 export default {
   components: {
     iSearch,
@@ -111,6 +94,7 @@ export default {
   },
   data() {
     return {
+      meetingTypeId: '',
       restaurants: [],
       timeout: null,
       meetingTypeList: [],
@@ -120,29 +104,24 @@ export default {
         //   value: "01",
         // },
         {
-          label: '开放',
-          value: '02',
-          i18n: 'MT_KAIFANG'
+          label: 'MT_KAIFANG',
+          value: '02'
         },
         {
-          label: '锁定',
-          value: '03',
-          i18n: 'MT_SUODING'
+          label: 'MT_SUODING',
+          value: '03'
         },
         {
-          label: '开始',
-          value: '04',
-          i18n: 'MT_KAISHI'
+          label: 'MT_KAISHI',
+          value: '04'
         },
         {
-          label: '结束',
-          value: '05',
-          i18n: 'MT_JIESHU'
+          label: 'MT_JIESHU',
+          value: '05'
         },
         {
-          label: '关闭',
-          value: '06',
-          i18n: 'MT_GUANBI'
+          label: 'MT_GUANBI',
+          value: '06'
         }
       ],
       datePickerOptionsStart: {
@@ -165,84 +144,32 @@ export default {
           )
         }
       },
-      pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6,
-      startWeek: 0,
-      // endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
-      endWeek: 0,
-      weekListInit: [],
-      weekList: [],
-      startDate: '',
-      endDate: ''
+      pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6
     }
   },
-  created() {
-    this.startDate = datestring(
-      new Date(new Date().valueOf()) - 24 * 60 * 60 * 1000 * 13
-    )
-    this.endDate = datestring(
-      Number(new Date(new Date().valueOf())) + 24 * 60 * 60 * 1000 * 6
-    )
-    this.startWeek = this.getCurWeekNum(this.startDate)
-    this.endWeek = this.getCurWeekNum(this.endDate)
-    this.weekListInit = this.getWeekList(this.startWeek, this.endWeek)
-    this.weekList = this.getWeekList(this.startWeek, this.endWeek)
-  },
   mounted() {
+    this.meetingTypeId = this.$route.query.id
     this.getAllSelectList()
+    this.getUsersAll()
   },
   methods: {
-    getWeekList(startWeek, endWeek) {
-      let list = []
-      if (startWeek <= endWeek) {
-        for (let index = startWeek; index <= endWeek; index++) {
-          let str = index < 9 ? '0' + index : index
-          list.push({
-            label:
-              'CW' + str + '/' + this.handleWeeks(`${dayjs().year()}-01-01`),
-            value: index
-          })
-        }
-      } else {
-        let middleYear = dayjs(
-          this.form.startDateBegin ? this.form.startDateBegin : this.startDate
-        ).year()
-        for (let index = startWeek; index <= middleYear; index++) {
-          let str = index < 9 ? '0' + index : index
-          list.push({
-            label: 'CW' + str + '/' + this.handleWeeks(`${middleYear}-01-01`),
-            value: index
-          })
-        }
-        let curWeekNum = this.getCurWeekNum(
-          this.form.startDateEnd ? this.form.startDateEnd : this.endDate
-        )
-        for (let index = 1; index <= curWeekNum; index++) {
-          let str = index < 9 ? '0' + index : index
-          list.push({
-            label:
-              'CW' + str + '/' + this.handleWeeks(`${middleYear + 1}-01-01`),
-            value: index
-          })
-        }
-      }
-      return list
-    },
-    getCurWeekNum(e) {
-      const weekNum2 = new Date(e).getDay()
-      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
-      const curDayNum = dayjs(e).dayOfYear()
-      const curWeekNum = Math.ceil((curDayNum - shouldDel) / 7)
-      return curWeekNum
-    },
-    handleWeeks(e) {
-      const currentFistYearDay = e ? e : `${dayjs().year()}-01-01`
-      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
-      const totalDay = isLeap ? 366 : 365
-      const weekNum2 = new Date(currentFistYearDay).getDay()
-      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
-      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
-      return weekNum
-    },
+    // querySearchAsync(queryString, cb) {
+    //   // console.log("queryString", queryString);
+    //   let restaurants = this.restaurants.map((item) => {
+    //     return {
+    //       value: item.name,
+    //       id: item.id
+    //     }
+    //   })
+    //   let results = queryString
+    //     ? restaurants.filter(this.createStateFilter(queryString))
+    //     : restaurants
+
+    //   clearTimeout(this.timeout)
+    //   this.timeout = setTimeout(() => {
+    //     cb(results)
+    //   }, 500 * Math.random())
+    // },
     async querySearchAsync(queryString, cb) {
       let res = await this.getUsersAll(queryString)
       res = res || { data: [] }
@@ -255,11 +182,15 @@ export default {
       })
       cb(userArr)
     },
+    createStateFilter(queryString) {
+      return (state) => {
+        return state.value.toLowerCase().match(queryString.toLowerCase())
+      }
+    },
     handleSelect(item) {
       this.form.receiverId = item.id
       // console.log("this.form.receiver.id", this.form.receiverId);
     },
-
     async getUsersAll(str) {
       const data = {
         nameZh: str
@@ -267,12 +198,21 @@ export default {
       let res = await getPageListByParam(data)
       return res
     },
+    // getUsersAll() {
+    //   const data = {
+    //     pageNum: 1,
+    //     pageSize: 1000,
+    //   };
+    //   getUsers(data).then((res) => {
+    //     // console.log("res", res);
+    //     this.restaurants = res.data;
+    //   });
+    // },
     handleSearchReset() {
       this.form = {}
-      this.weekList = [...this.weekListInit]
-      this.$nextTick(() => {
-        this.$refs.iDateRangePicker.c()
-      })
+      setTimeout(() => {
+        this.$refs.iDateRangePicker.initDate()
+      }, 4)
       this.$emit('handleSearchReset')
     },
     searchTableList() {
@@ -284,46 +224,15 @@ export default {
         pageNum: 1
       }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data.filter((item) => {
-          return item.category === '02'
-        })
+        this.meetingTypeList = res.data
+        this.$emit('setTypeObj', res.data)
       })
     },
     changeStart(e) {
       this.form.startDateBegin = e
-
-      // this.startWeek = dayjs(e).week() - 1
-      // let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
-      // this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
-      this.weekList = this.getWeekList(
-        this.getCurWeekNum(
-          this.form.startDateBegin ? this.form.startDateBegin : this.startDate
-        ),
-        this.getCurWeekNum(
-          this.form.startDateEnd ? this.form.startDateEnd : this.endDate
-        )
-      )
-      this.$emit('deleteWeek')
     },
     changeEnd(e) {
       this.form.startDateEnd = e
-      // if (e) {
-      //   this.endWeek = dayjs(e).week()
-      // } else {
-      //   // this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
-      //   this.endWeek = this.handleWeeks()
-      // }
-      // let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
-      // this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
-      this.weekList = this.getWeekList(
-        this.getCurWeekNum(
-          this.form.startDateBegin ? this.form.startDateBegin : this.startDate
-        ),
-        this.getCurWeekNum(
-          this.form.startDateEnd ? this.form.startDateEnd : this.endDate
-        )
-      )
-      this.$emit('deleteWeek')
     }
   }
 }

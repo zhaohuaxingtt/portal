@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">{{ $t('MT_HUIYIZILIAO') }}</div>
+    <div class="header">{{ $t('MT_ZILIAOXIAZAI') }}</div>
     <div v-if="documentTypeList.length > 0">
       <el-tabs v-model="activeName">
         <el-tab-pane
@@ -30,7 +30,14 @@ export default {
     iCard,
     dataTable
   },
-
+  props: {
+    meetingTypeId: {
+      type: Number,
+      default: () => {
+        return ''
+      }
+    }
+  },
   data() {
     return {
       activeName: 'first0',
@@ -39,13 +46,14 @@ export default {
   },
   mounted() {
     const param = {
-      category:"02",
+      meetingTypeId: this.meetingTypeId
     }
     this.query(param)
   },
   methods: {
     query(param) {
       findByMeetingTypeId(param).then((res) => {
+        console.log('res', res)
         this.documentTypeList = [...res].slice(0, 8)
       })
     }

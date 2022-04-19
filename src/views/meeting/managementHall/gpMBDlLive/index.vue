@@ -18,26 +18,31 @@
                 <div class="img-box">
                   <img src="@/assets/images/time.svg" class="img" />
                 </div>
-                <span class="time"> {{ `${begin}~${end}` }}</span>
-                <!-- <span class="time">{{
-                  `${meetingInfo.startDate} ${meetingInfo.startTime.substring(
-                    0,
-                    5
-                  )}
+                <!-- <span class="time"> {{ `${begin}~${end}` }}</span> -->
+                <span class="time">{{
+                  `${meetingInfo.startDate} ${
+                    meetingInfo.startTime
+                      ? meetingInfo.startTime
+                        ? meetingInfo.startTime.substring(0, 5)
+                        : ''
+                      : ''
+                  }
                 ~
                 ${
-                  Number(
-                    meetingInfo.themens[meetingInfo.themens.length - 1]
-                      .plusDayEndTime
-                  ) > 0
-                    ? meetingInfo.endTime.substring(0, 5) +
-                      ` +${Number(
-                        meetingInfo.themens[meetingInfo.themens.length - 1]
-                          .plusDayEndTime
-                      )}`
-                    : meetingInfo.endTime.substring(0, 5)
+                  [...meetingInfo.themens].pop()
+                    ? Number([...meetingInfo.themens].pop().plusDayEndTime) > 0
+                      ? meetingInfo.endTime
+                        ? meetingInfo.endTime.substring(0, 5)
+                        : '' +
+                          ` +${Number(
+                            [...meetingInfo.themens].pop().plusDayEndTime
+                          )}`
+                      : meetingInfo.endTime
+                      ? meetingInfo.endTime.substring(0, 5)
+                      : ''
+                    : ''
                 }`
-                }}</span> -->
+                }}</span>
               </div>
               <div class="address">
                 <!-- <i class="el-icon-location"></i> -->
@@ -91,7 +96,7 @@
               indicator-position="outside"
               :autoplay="false"
               trigger="click"
-              height="27.5rem"
+              height="23.75rem"
               :initial-index="myLiveIndex"
               ref="carouselMy"
             >
@@ -141,7 +146,7 @@
               indicator-position="outside"
               :autoplay="false"
               trigger="click"
-              height="27.5rem"
+              height="23.75rem"
               :initial-index="noMyLiveIndex"
               ref="carouselNoMy"
             >
@@ -208,7 +213,7 @@
               indicator-position="outside"
               :autoplay="false"
               trigger="click"
-              height="27.5rem"
+              height="23.75rem"
               :initial-index="noMyLiveIndex"
               ref="carouselNoMy"
             >
@@ -259,7 +264,7 @@
       @getMyTopics="getMyTopics"
       :curMeetingId="curMeetingId"
     ></my-topics>
-    <dataDownload></dataDownload>
+    <dataDownload :meetingTypeId="meetingTypeId"></dataDownload>
   </div>
 </template>
 
@@ -302,12 +307,22 @@ export default {
       // refresh: false,
       myThemenData: [],
       noMyThemenData: [],
+      meetingTypeId: this.$route.query.id,
       total: 0,
       begin: '',
       end: '',
       noMyTotal: 0
     }
   },
+  // watch: {
+  //   myThemenData: {
+  //     handler(v) {
+  //       console.log("哈哈哈哈啊哈哈哈",v);
+  //     },
+  //     immediate: true,
+  //     deep: true,
+  //   },
+  // },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
     this.getMeetingTypeObject()
@@ -317,6 +332,9 @@ export default {
   methods: {
     handleTurnMode() {
       this.value = !this.value
+    },
+    setActiveItem(name) {
+      console.log(name)
     },
     //取俩个数组的前6后6
     // assignArr(beforeArr, afterArr, isMy) {
@@ -383,14 +401,18 @@ export default {
       this.$refs.childTopic
         .queryMeeting()
         .then(() => {
-          iMessage.success(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
+          iMessage.success(
+            bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG')
+          )
           this.$refs.childTopic.query().then(() => {
             obj.following = false
           })
         })
         .catch(() => {
           obj.following = false
-          iMessage.err(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
+          iMessage.err(
+            bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG')
+          )
         })
     },
     getMyTopics(themens) {
@@ -401,20 +423,40 @@ export default {
       }
       if (Number(this.meetingId) === -1) {
         const liveItem = this.isHaveLiveTheme()
+
         if (liveItem) {
+          // this.$route.push({
+          //   path: "/meeting/live",
+          //   query: {
+          //     id: this.meetingTypeId,
+          //     meetingInfoId: liveItem.meetingId,
+          //   },
+          // });
           this.queryMeetingInfoById(liveItem.meetingId)
           this.curMeetingId = liveItem.meetingId
         }
       } else {
         const liveItem = this.isHaveLiveTheme()
         if (!liveItem) {
+          // this.$route.push({f
+          //   path: "/meeting/live",
+          //   query: {
+          //     id: this.meetingTypeId,
+          //     meetingInfoId: -1,
+          //   },
+          // });
           this.curMeetingId = -1
           this.queryMeetingInfoById(-1)
         } else {
-          this.curMeetingId = liveItem.meetingId
           this.queryMeetingInfoById(liveItem.meetingId)
         }
       }
+      // let curIndex = this.getCurrentLiveIndex();
+      // let refDom = this.$refs.swiperRef;
+      // if (this.resThemeData.length > 2) {
+      //   this.translateX(refDom, curIndex);
+      // }
+      // this.curIndex = curIndex;
     },
     handlePreClick() {
       if (this.curIndex > 1) {
@@ -432,6 +474,26 @@ export default {
         this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
+    // getCurrentLiveIndex() {
+    //   let liveIndex = -10;
+    //   this.resThemeData.forEach((item, index) => {
+    //     if (item.state === "02") {
+    //       liveIndex = index;
+    //     }
+    //   });
+    //   if (liveIndex === 0) {
+    //     liveIndex = 1;
+    //   }
+    //   if (liveIndex === this.resThemeData.length - 1) {
+    //     liveIndex = this.resThemeData.length - 2;
+    //   }
+    //   this.isLiving = true;
+    //   if (liveIndex === -10) {
+    //     liveIndex = 1;
+    //     this.isLiving = false;
+    //   }
+    //   return liveIndex;
+    // },
 
     //判断当前 是否 有直播的议题
     isHaveLiveTheme() {
@@ -465,22 +527,9 @@ export default {
       const endDate = this.meetingInfo.endDate
       const endTime = this.meetingInfo.endTime
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
-        'YYYY/MM/DD HH:mm'
+        'YYYY/MM/DD HH:mm:ss'
       )
-      let end =
-        Number(
-          this.meetingInfo.themens
-            ? this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
-                .plusDayEndTime
-            : 0
-        ) > 0
-          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm') +
-            ` +${Number(
-              this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
-                .plusDayEndTime
-            )}`
-          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm')
-      this.end = end
+      this.end = dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
     },
     getMeetingTypeObject() {
       let param = {
@@ -516,6 +565,12 @@ export default {
       _this.meetingInfo = res
       return res
     }
+    //移动
+    // translateX(refDom, curIndex) {
+    //   if (refDom) {
+    //     refDom.style.transform = `translateX(${(1 - curIndex) * 35}rem)`;
+    //   }
+    // },
   },
   watch: {
     isLiving: {
@@ -945,7 +1000,7 @@ export default {
     } */
     .white {
       background-color: #fff;
-      height: 440px;
+      height: 380px;
       width: 40px;
     }
     .card-list-left {
@@ -993,7 +1048,7 @@ export default {
 
     .card-list-line {
       width: 0;
-      height: 434px;
+      height: 374px;
       border: 1px solid #d0d4d9;
       margin-top: 3px;
       background-color: #d0d4d9;

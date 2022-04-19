@@ -32,32 +32,23 @@
     </iSearch> -->
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton
-          class="revort-topic"
-          :disabled="disabledButton"
-          @click="handleRevokeTopic"
-          >{{ $t('MT_CHEHUIYITI') }}</iButton
-        >
         <iButton @click="handleMore">{{ 'MORE' }}</iButton>
       </div>
     </div>
-    <iTableML
-      tooltip-effect="light"
-      :data="tableData"
-      @selectionChange="selectionChange"
-    >
-      <el-table-column align="center" width="25"></el-table-column>
+    <iTableML tooltip-effect="light" :data="tableData">
+      <el-table-column width="16" align="center" label=""></el-table-column>
       <el-table-column
-        type="selection"
-        align="center"
-        min-width="20"
-      ></el-table-column>
-      <el-table-column prop="follow" align="left" label="#" width="50">
+        prop="follow"
+        align="left"
+        label="No."
+        width="40"
+        min-width="40"
+      >
         <template slot-scope="scope">
           <div class="img-word">
-            <span>
+            <div>
               {{ scope.$index + 1 }}
-            </span>
+            </div>
             <div>
               <img
                 v-if="scope.row.follow"
@@ -71,107 +62,185 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="20"></el-table-column>
+      <el-table-column width="15" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="count"
+        align="center"
+        label="Count"
+        width="50"
+        min-width="50"
+      ></el-table-column>
+      <el-table-column width="15" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="topic"
         align="center"
-        label="Present Items"
-        :width="setColumnWidth(tabData)"
+        label="Topic"
+        width="220"
+        min-width="220"
       >
-        <!-- min-width="223" -->
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column width="16" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="meetingName"
+        min-width="120"
         align="center"
         label="Meeting"
-        min-width="404"
+        width="120"
       >
+        <template slot-scope="scope">
+          <span
+            class="open-link-text"
+            @click="checkDetail(scope.row.meetingId)"
+            >{{ scope.row.meetingName }}</span
+          >
+        </template>
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+
+      <el-table-column width="15" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
+        prop="duration"
         align="center"
-        label="Part No."
-        min-width="164"
-        prop="tnr"
-      >
-      </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
-      <!-- <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="BEN(CN)"
-        min-width="58"
-        prop="benCn"
-      >
-      </el-table-column> -->
-      <el-table-column align="center" width="30"></el-table-column>
+        min-width="70"
+        label="Duration"
+        width="70"
+      ></el-table-column>
+      <el-table-column width="16" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
+        prop="time"
         align="center"
-        label="Carline"
-        min-width="60"
-        prop="carline"
+        min-width="190"
+        width="190"
+        label="Time"
       >
+        <template slot-scope="scope">
+            <div v-if="scope.row.startTime">
+            <span>{{
+              Number(scope.row.plusDayStartTime) > 0
+                ? scope.row.startTime.substring(0, 5) +
+                  ' +' +
+                  Number(scope.row.plusDayStartTime)
+                : scope.row.startTime.substring(0, 5)
+            }}</span
+            ><span>~</span>
+            <span v-if="scope.row.endTime">{{
+              Number(scope.row.plusDayEndTime) > 0
+                ? scope.row.endTime.substring(0, 5) +
+                  ' +' +
+                  Number(scope.row.plusDayEndTime)
+                : scope.row.endTime.substring(0, 5)
+            }}</span>
+          </div>
+        </template>
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column width="15" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        align="center"
-        label="Sourcing"
-        min-width="61"
-        prop="supporter"
-      >
-      </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        align="center"
-        label="Linie"
-        min-width="45"
         prop="presenter"
+        align="center"
+        min-width="170"
+        width="170"
+        label="Presenter"
       >
+        <template slot-scope="scope">
+          <span>{{ scope.row.presenter }}</span>
+          <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
+          <span>{{ scope.row.presenterNosys }}</span>
+        </template>
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column width="15" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        align="center"
-        label="Commodity"
-        min-width="80"
         prop="presenterDept"
+        align="center"
+        min-width="110"
+        width="110"
+        label="Presenter Dept."
       >
+        <template slot-scope="scope">
+          <span>{{ scope.row.presenterDept }}</span>
+          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
+            >/</span
+          >
+          <span>{{ scope.row.presenterDeptNosys }}</span>
+        </template>
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column width="15" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="supporter"
+        align="center"
+        min-width="160"
+        label="Supporter"
+        width="160"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.supporter }}</span>
+          <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
+          <span>{{ scope.row.supporterNosys }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="15" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="supporterDept"
+        align="center"
+        min-width="120"
+        label="Supporter Dept."
+        width="120"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.supporterDept }}</span>
+          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
+            >/</span
+          >
+          <span>{{ scope.row.supporterDeptNosys }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="16" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="State"
-        min-width="45"
+        min-width="70"
+        width="70"
+        label="Status"
       >
         <template slot-scope="scope">
-          {{ $t(stateObj[scope.row.state]) }}
+          <span
+            :class="[
+              {
+                draft: scope.row.meetingStatus == '01',
+                open: scope.row.meetingStatus == '02',
+                lock: scope.row.meetingStatus == '03',
+                begin: scope.row.meetingStatus == '04',
+                end: scope.row.meetingStatus == '05',
+                close: scope.row.meetingStatus == '06'
+              },
+              'circle'
+            ]"
+            >{{ $t(statusObj[scope.row.meetingStatus]) }}</span
+          >
         </template>
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column width="16" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
+        prop="remark"
         align="center"
-        label="Result"
-        min-width="45"
-      >
-        <template slot-scope="scope">
-          <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+        min-width="130"
+        width="130"
+        label="Remark"
+      ></el-table-column>
+      <el-table-column width="16" align="center" label=""></el-table-column>
     </iTableML>
     <iPagination
       v-update
@@ -191,29 +260,25 @@
       :id="id"
       @closeDialog="closeDetail"
     />
-    <addTopicNew
+    <addTopic
       @closeDialog="closeDialog"
       v-if="openAddTopic"
       :openAddTopic="openAddTopic"
       :editOrAdd="editOrAdd"
-      :topicInfo="lookThemenObj"
-      :isGetInfoById="true"
-      :isSelf="isSelf"
+      :lookThemenObj="lookThemenObj"
     >
-    </addTopicNew>
+    </addTopic>
   </div>
 </template>
 
 <script>
-import { iPagination, iButton, iMessage } from 'rise'
+import { iPagination, iButton } from 'rise'
 // import iSearch from "@/components/iSearch/index.vue";
 // import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
 import iTableML from '@/components/iTableML'
 import { findMyThemens } from '@/api/meeting/myMeeting'
 import detailDialog from './detailDialog.vue'
-import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
-import { stateObj, themenConclusion } from '../carouselBox/data.js'
-import { getUserIdListTree } from '@/api/usercenter'
+import addTopic from '@/views/meeting/live/components/addTopic.vue'
 export default {
   components: {
     // iInput,
@@ -224,19 +289,13 @@ export default {
     iPagination,
     iTableML,
     detailDialog,
-    addTopicNew
+    addTopic
   },
   data() {
     return {
-      isSelf: false,
-      processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
-      disabledButton: true,
-      selectedData: [],
-      stateObj,
-      themenConclusion,
       editOrAdd: '',
       openAddTopic: false,
+      meetingTypeId: '',
       tableLoading: false,
       openDetail: false,
       id: '',
@@ -263,86 +322,27 @@ export default {
         }
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },
   mounted() {
+    this.meetingTypeId = this.$route.query.id
     this.query()
   },
   methods: {
-    //follow为true表示关注的，false为 自己提交的
-    selectionChange(val) {
-      this.selectedData = val
-      let bol =
-        val.length === 0
-          ? false
-          : val.every((item) => {
-              // console.log(typeof item.follow)
-              return (
-                (item.meetingStatus === '03' || item.meetingStatus === '02') &&
-                !item.follow &&
-                item.state !== '04'
-              )
-            })
-      if ((val && val.length === 1 && bol) || bol) {
-        this.disabledButton = false
-      } else {
-        this.disabledButton = true
-      }
-    },
     closeDialog() {
       this.openAddTopic = false
     },
-    async queryRelateUserList(currentUserId) {
-      const requestData = {
-        userId: currentUserId,
-        isAgent: true
-      }
-      return await getUserIdListTree(requestData)
-    },
-    async lookOrEdit(row) {
-      const getUserId = JSON.parse(sessionStorage.getItem('userInfo')).id
-      const currentUserId = getUserId ? getUserId.toString() : ''
-      const presenterId = row.presenterId ? row.presenterId.toString() : ''
-      const supporterId = row.supporterId ? row.supporterId.toString() : ''
-      this.isSelf =
-        currentUserId === presenterId || currentUserId === supporterId
-      if (row.source === '04') {
-        if (!this.isSelf) {
-          const res = await this.queryRelateUserList(getUserId)
-          const list = res.data.map((item) => item.toString())
-          if (!(list.includes(presenterId) || list.includes(supporterId))) {
-            iMessage.warn(this.$t('MT_WUCHAKANQUANXIAN'))
-            return
-          }
-        }
-        if (row.type === 'FS+MTZ') {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
-        } else if (row.type === 'MTZ') {
-          window.open(
-            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
-            '_blank'
-          )
-        } else {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
-        }
-      } else {
-        this.lookThemenObj = { ...row }
-        this.editOrAdd = 'look'
-        this.openAddTopic = true
-      }
+    lookOrEdit(row) {
+      this.lookThemenObj = { ...row }
+      this.editOrAdd = 'look'
+      this.openAddTopic = true
     },
     // searchTableList(e) {
     //   this.query();
@@ -367,10 +367,10 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/special-more-themens'
-        // query: {
-        //   meetingTypeId: this.meetingTypeId
-        // }
+        path: '/meeting/near-meeting/more-themens',
+        query: {
+          meetingTypeId: this.meetingTypeId
+        }
       })
     },
 
@@ -398,8 +398,7 @@ export default {
         presentItem: '04',
         pageNum: 1,
         pageSize: 9999,
-        // meetingTypeId: this.meetingTypeId
-        category: '02'
+        meetingTypeId: this.meetingTypeId
       }
       findMyThemens(param).then((res) => {
         let data =
@@ -422,45 +421,6 @@ export default {
       let from = (pageNum - 1) * this.page.pageSize
       let to = pageNum * this.page.pageSize
       this.tableData = data.slice(from, to)
-    },
-    //表格列字符限制
-    setColumnWidth(data) {
-      if (!data || data.length === 0) {
-        return
-      }
-      let index = 0
-      let maxStr = ''
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].topic === null) {
-          return
-        }
-        const nowline = data[i].topic + ''
-        const maxline = data[index].topic + ''
-        if (nowline.length > maxline.length) {
-          index = i
-        }
-      }
-      maxStr = data[index].topic
-      let columnWidth = 0
-      for (let char of maxStr) {
-        if (char >= 'A' && char <= 'Z') {
-          columnWidth += 8
-        } else if (char >= 'a' && char <= 'z') {
-          columnWidth += 6
-        } else if (char >= '\u4e00' && char <= '\u9fa5') {
-          columnWidth += 13
-        } else {
-          columnWidth += 7
-        }
-      }
-      if (columnWidth < 223) {
-        // 设置最小宽度
-        columnWidth = 223
-      }
-      if (columnWidth > 306) {
-        columnWidth = 306
-      }
-      return columnWidth + 'px'
     }
   }
 }
@@ -478,16 +438,10 @@ export default {
     /* text-align: center; */
     /* margin-right: 5px; */
   }
-  span:first-child {
-    display: block;
-    width: 20px;
-    /* text-align: center; */
-    margin-right: 5px;
-  }
 }
 
 /*.my-topics-box {
-   ::v-deep .circle:before {
+  ::v-deep .circle:before {
     content: "";
     display: inline-block;
     border-radius: 50%;
