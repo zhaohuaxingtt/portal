@@ -143,7 +143,7 @@ export default {
             legend:{
                 x: 'center',
                 bottom: '5%',
-                itemGap:40,
+                itemGap:10,
                 formatter:(name)=>{
                     let data=dataList;
                     let total = 0;
@@ -162,11 +162,11 @@ export default {
                 textStyle:{
                     rich:{
                         a:{
-                            fontSize:15,
+                            fontSize:14,
                             verticalAlign:'top',
                         },
                         b:{
-                            fontSize:14,
+                            fontSize:12,
                         }
                     }
                 }
@@ -196,7 +196,7 @@ export default {
                         emphasis: {//中间文字显示
                             show: true,
                             formatter:function(parme){
-                                return '{total|' + parme.percent.toFixed(2) + '%' + '}' + '\n\r' + '{active|' + parme.value + '}'
+                                return '{total|' + parme.percent.toFixed(2) + '%' + '}' + '\n\r' + '{active|' + parme.value.toFixed(2) + '}'
                             },
                             rich: {
                                 total:{

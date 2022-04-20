@@ -9,7 +9,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="8"
-              v-permission="PORTAL_SUPPLIER_CARD_SPI"
+              v-permission="PORTAL_SUPPLIER_CARD_KPI_GP"
               class="margin-bottom20">
         <!-- <el-col :span="8"> -->
 
@@ -56,13 +56,13 @@
       </el-col> -->
       <!-- 财务预警 -->
       <el-col :span="8"
-              v-permission="PORTAL_SUPPLIER_CARD_CRATING"
+              v-permission="PORTAL_SUPPLIER_CARD_MONITOR_GP"
               class="margin-bottom20">
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
       <!-- 舆情监测 -->
       <el-col :span="8"
-              v-permission="PORTAL_SUPPLIER_CARD__MONITORING"
+              v-permission="PORTAL_SUPPLIER_CARD_PUBLIC_GP"
               class="margin-bottom20">
         <publicOpinion> </publicOpinion>
       </el-col>
@@ -80,6 +80,7 @@
 
     </el-row> -->
     <el-row class="margin-bottom20"
+            v-permission="PORTAL_SUPPLIER_CARD_POINTEMONEY_GP"
             :gutter="25"
             type="flex"
             justify="space-between">

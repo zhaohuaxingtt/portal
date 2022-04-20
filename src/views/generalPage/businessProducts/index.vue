@@ -7,7 +7,7 @@
   <div>
     <base-info-card/>
     <iCard class="margin-top20" :title="$t('SUPPLIER_ZHUYAOYEWUJICHANPIN')" tabCard>
-      <template slot="header-control">
+      <template slot="header-control" v-if="$route.query.subSupplierType!=='GP'">
         <iButton @click="addTableItem"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_ADD">
           {{ $t('LK_XINZENG') }}
         </iButton>
@@ -18,6 +18,20 @@
           {{ $t('LK_BAOCUN') }}
         </iButton>
         <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT">
+          {{ $t('LK_DAOCHU') }}
+        </iButton>
+      </template>
+      <template slot="header-control" v-if="$route.query.subSupplierType=='GP'">
+        <iButton @click="addTableItem"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_ADD_GP">
+          {{ $t('LK_XINZENG') }}
+        </iButton>
+        <iButton @click="deleteItem('idList', deleteSupplierProduct)" v-permission="SUPPLIER_MAINPRODUCT_TABLE_DELETE_GP">
+          {{ $t('delete') }}
+        </iButton>
+        <iButton @click="handleNextStep" v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE_GP">
+          {{ $t('LK_BAOCUN') }}
+        </iButton>
+        <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_GP">
           {{ $t('LK_DAOCHU') }}
         </iButton>
       </template>

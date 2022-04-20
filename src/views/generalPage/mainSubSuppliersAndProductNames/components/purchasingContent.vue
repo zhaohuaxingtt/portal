@@ -5,13 +5,16 @@
         <!--国内采购内容-->
         <div class="label">{{$t('SUPPLIER_GUONEICAIGOUNEIRONG')}}：</div>
       </div>
-      <i-button @click="saveAdditionalInfo" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SAVE">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button v-if="$route.query.subSupplierType!=='GP'" @click="saveAdditionalInfo" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SAVE">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button v-if="$route.query.subSupplierType=='GP'" @click="saveAdditionalInfo" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SAVE_GP">{{$t('LK_BAOCUN')}}</i-button>
     </div>
-    <i-input type="textarea" rows="4" resize="none" v-model="detail" class="margin-top30" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PRODUCTSPURCHASEDINDOMESTICMARKET"/>
+    <i-input type="textarea" rows="4" resize="none" v-model="detail" class="margin-top30" v-if="$route.query.subSupplierType!=='GP'" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PRODUCTSPURCHASEDINDOMESTICMARKET"/>
+    <i-input type="textarea" rows="4" resize="none" v-model="detail" class="margin-top30" v-if="$route.query.subSupplierType=='GP'" />
     <div class="row2">
       <!--采购信息备注-->
       <div class="label">{{$t('SUPPLIER_CAIGOUXINXIBEIZHU')}}：</div>
-      <i-input type="textarea" rows="4" resize="none" v-model="remark" class="margin-top30" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_REMARKSOFPURCHASEINFORMATION"/>
+      <i-input type="textarea" rows="4" resize="none" v-model="remark" class="margin-top30" v-if="$route.query.subSupplierType!=='GP'" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_REMARKSOFPURCHASEINFORMATION"/>
+      <i-input type="textarea" rows="4" resize="none" v-model="remark" class="margin-top30" v-if="$route.query.subSupplierType=='GP'" />
     </div>
   </i-card>
 </template>

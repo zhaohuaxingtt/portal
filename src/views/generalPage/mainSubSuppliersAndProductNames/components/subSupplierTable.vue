@@ -8,7 +8,7 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight" v-if="$route.query.subSupplierType=='GP'">{{ $t('SUPPLIER_ZHUYAOFENGONGFANGMINGCHENGJICHANPIN') }}</span>
       <span class="font18 font-weight" v-else>{{ $t('SUPPLIER_ZHUYAOFENGONGFANGMING') }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button @click="()=>addTableItem({countryList: this.countryList })"
                   v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_ADD">
           {{ $t('LK_XINZENG') }}
@@ -19,6 +19,24 @@
         </i-button>
         <i-button @click="exportsTable"
                   v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_EXPORT">
+          {{ $t('LK_DAOCHU') }}
+        </i-button>
+      </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button @click="()=>addTableItem({countryList: this.countryList })"
+                  v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_ADD_GP">
+          {{ $t('LK_XINZENG') }}
+        </i-button>
+        <i-button @click="deleteItem('ids', deleteSubSupplierInfos)"
+                  v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_DELETE_GP">
+          {{ $t('delete') }}
+        </i-button>
+        <i-button @click="saveTable('ids', deleteSubSupplierInfos)"
+                  v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_SAVE_GP">
+          {{ $t('LK_BAOCUN') }}
+        </i-button>
+        <i-button @click="exportsTable"
+                  v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_EXPORT_GP">
           {{ $t('LK_DAOCHU') }}
         </i-button>
       </div>
@@ -103,6 +121,9 @@ export default {
     this.getTableList()
   },
   methods: {
+    saveTable(){
+      this.saveInfos();
+    },
     deleteSubSupplierInfos,
     setInputProps () {
       this.inputProps = []

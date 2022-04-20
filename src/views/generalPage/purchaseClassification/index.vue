@@ -2,7 +2,7 @@
   <div>
     <base-info-card class="margin-bottom20"/>
     <iCard tabCard>
-      <template slot="header-control">
+      <template slot="header-control" v-if="$route.query.subSupplierType!=='GP'">
         <iButton v-permission="SUPPLIER_CAIGOUFENLEI_TABLE_ADD" @click="add" v-if="showExportsButton" :disabled="disabled">
           {{ $t('LK_XINZENG') }}
         </iButton>
@@ -10,6 +10,17 @@
           {{ $t('delete') }}
         </iButton>
         <iButton v-permission="SUPPLIER_CAIGOUFENLEI_TABLE_SAVE" @click="save" v-if="showExportsButton">
+          {{ $t('LK_BAOCUN') }}
+        </iButton>
+      </template>
+      <template slot="header-control" v-if="$route.query.subSupplierType=='GP'">
+        <iButton v-permission="SUPPLIER_CAIGOUFENLEI_TABLE_ADD_GP" @click="add" v-if="showExportsButton" :disabled="disabled">
+          {{ $t('LK_XINZENG') }}
+        </iButton>
+        <iButton v-permission="SUPPLIER_CAIGOUFENLEI_TABLE_DEL_GP" @click="del" v-if="showExportsButton">
+          {{ $t('delete') }}
+        </iButton>
+        <iButton v-permission="SUPPLIER_CAIGOUFENLEI_TABLE_SAVE_GP" @click="save" v-if="showExportsButton">
           {{ $t('LK_BAOCUN') }}
         </iButton>
       </template>

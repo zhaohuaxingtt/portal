@@ -10,7 +10,8 @@
   <i-card>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button @click="exportsTable" v-if="$route.query.subSupplierType!=='GP'">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button @click="exportsTable" v-permission="SUPPLIER_HISTORY_EXPORT_GP" v-if="$route.query.subSupplierType=='GP'">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
     <table-list

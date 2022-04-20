@@ -8,12 +8,14 @@
 -->
 <template>
   <iCard
-    v-permission="SUPPLIER_FINANCIALDATA_FINANCIALDATAREMARKS"
     title="财务数据备注："
     tabCard
   >
-    <template slot="header-control">
-      <iButton @click="saveInfo">{{ $t("LK_BAOCUN") }}</iButton>
+    <template slot="header-control" v-if="$route.query.subSupplierType!=='GP'">
+      <iButton @click="saveInfo" v-permission="SUPPLIER_FINANCIALDATA_FINANCIALDATAREMARKS">{{ $t("LK_BAOCUN") }}</iButton>
+    </template>
+    <template slot="header-control" v-if="$route.query.subSupplierType=='GP'">
+      <iButton @click="saveInfo" v-permission="SUPPLIER_FINANCIALDATA_FINANCIALDATAREMARKS_GP">{{ $t("LK_BAOCUN") }}</iButton>
     </template>
     <iInput v-model="remark" type="textarea" rows="4"></iInput>
   </iCard>

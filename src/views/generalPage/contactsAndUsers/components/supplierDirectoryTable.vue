@@ -11,7 +11,7 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_GONGYINGSHANGTONGXUNLU')
       }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
@@ -19,6 +19,14 @@
         <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
                   @click="deleteItem('ids', deleteContacts)">{{ $t('LK_SHANCHU') }}</i-button> -->
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
+                  @click="exportsTable"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+      </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT_GP"
                   @click="exportsTable"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>

@@ -40,7 +40,7 @@
           <el-divider />
           <div>{{$t('LegalPerson')}}:{{info.legalPerson}}</div>
           <el-divider />
-          <div>{{$t('SUPPLIER_ZHUCEZIBENWAN')}}:{{info.registeredCapital&&info.registeredCapital+'元'}}</div>
+          <div>{{$t('注册资本')}}:{{info.registeredCapital&&info.registeredCapital+'元'}}</div>
           <el-divider />
           <el-popover width="200"
                       trigger="hover"
@@ -57,14 +57,14 @@
       </iCard>
     </el-col>
 
-    <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING"
+    <el-col v-permission="PORTAL_SUPPLIER_CARD_SOURCING_GP"
             :span="8"
             class="margin-bottom20">
       <!-- 寻源 -->
       <sourcing :gpSourceingDataVos="gpSourceingDataVos"></sourcing>
     </el-col>
 
-    <el-col v-permission="PORTAL_SUPPLIER_CARD_NOMINATION"
+    <el-col v-permission="PORTAL_SUPPLIER_CARD_FIXED_GP"
             :span="8"
             class="margin-bottom20">
       <!-- 定点 -->

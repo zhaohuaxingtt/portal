@@ -9,7 +9,7 @@
     <base-info-card v-if="this.supplierType > 3" />
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
+        <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
           <i-button v-if="isSupplierDetail"
                     @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
           <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_ADD"
@@ -26,6 +26,15 @@
                     @click="exportsTable"
                     v-else-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
           <i-button @click="saveTable" v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_SAVE">{{language('BAOCUN','保存')}}</i-button>
+        </div>
+        <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_ADD_GP"
+                    @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_DELETE_GP"
+                    @click="deleteItem('ids',deleteFinancialBig)">{{$t('LK_SHANCHU')}}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_EXPORT_GP"
+                    @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button @click="saveTable" v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_SAVE_GP">{{language('BAOCUN','保存')}}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"

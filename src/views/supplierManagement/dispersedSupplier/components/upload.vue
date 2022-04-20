@@ -1,10 +1,10 @@
 <template>
   <iCard :title="$t('SUPPLIER_ZIYOUSHANGCHUAN')">
-        <template slot="header-control">
-            <iButton @click="exportsRemove">
+        <template slot="header-control" >
+            <iButton @click="exportsRemove" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_DELFUJIAN_GP">
             {{ $t('APPROVAL.REMOVE_ATTACH') }}
             </iButton>
-            <upload-button class="margin-left20" @uploadedCallback="exportsAdd" />
+            <upload-button v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_UPLOAD_GP" class="margin-left20" @uploadedCallback="exportsAdd" />
         </template>
         <table-list :tableData="supplierData.attachmentList" :tableTitle="tableTitle"
                     :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange"

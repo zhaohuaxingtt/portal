@@ -164,19 +164,19 @@
         <div class="floatright">
           <!-- <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
           <i-button @click="tagTab"
-                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN_GP">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
           <i-button @click="setTagBtn"
-                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI_GP">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
-                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN') }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN_GP">{{ $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN') }}</i-button>
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
-                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
+                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN_GP">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
-          <i-button @click="handleRegister">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN_GP">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
+          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQING_GP">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
           <!-- <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL" @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button> -->
           <!-- <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL" @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button> -->
-          <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
+          <i-button @click="synchro" v-permission="PORTAL_SUPPLIER_SAP_GP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -673,7 +673,10 @@ export default {
     },
     tagTab () {
       let routeData = this.$router.resolve({
-        path: '/supplier/supplierTag'
+        path: '/supplier/supplierTag',
+        query: {
+          supplierType:"GP",
+        }
       })
       window.open(routeData.href)
     },

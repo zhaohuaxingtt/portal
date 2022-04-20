@@ -15,7 +15,7 @@
                     border
         >
             <template slot="contactType" slot-scope="scope">
-                <span v-if="scope.row.contactType">{{scope.row.contactType == "BUSINESS_CONTACTS"?'商务联系人':''}}</span>
+                <span v-if="scope.row.contactType">{{scope.row.contactType == "BUSINESS_CONTACTS"?'商务联系人':scope.row.contactType}}</span>
             </template>
             <template slot="nameZh" slot-scope="scope">
                 <iInput :placeholder="$t('LK_QINGSHURU')" v-model="scope.row.nameZh"></iInput>
