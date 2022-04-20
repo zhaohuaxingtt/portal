@@ -20,7 +20,7 @@
     <div class="margin-bottom10 f-right">
       <iButton @click="add">添加</iButton>
     </div>
-      <tableList :tableData="tableData" :tableTitle="addTableTitle" index :indexLabel="'序号'" height="330" @handleSelectionChange="handleSelectionChange"></tableList>
+      <tableList v-loading="tableLoading" :tableData="tableData" :tableTitle="addTableTitle" index :indexLabel="'序号'" height="330" @handleSelectionChange="handleSelectionChange"></tableList>
       <iPagination class="padding-bottom20"
         v-update
         @size-change="handleSizeChange($event, getTableList)"
@@ -39,6 +39,9 @@ import {iDialog, iSearch, iButton, iSelect, iInput, iPagination, iCard} from "ri
 import { pageMixins } from '@/utils/pageMixins'
 import { addTableTitle, addSearchList } from '../data.js'
 import tableList from '@/components/commonTable'
+import {
+  supplierPage
+} from '@/api/supplier360/supplierGroup.js'
 export default {
   mixins: [pageMixins],
   components:{
@@ -50,9 +53,21 @@ export default {
       default: false
     },
   },
+  watch: {
+    visible(){
+      this.getTableList();
+    }
+  },
   data(){
     return {
-      search:{},
+      search:{
+        supplierType: [],
+        supplierNameZh: '',
+        supplierNameEn: '',
+        supplierTempCode: '',
+        supplierSvwCode: '',
+        supplierSapCode: '',
+      },
       selectOptions:{
         supplierType:[
           {
@@ -83,7 +98,8 @@ export default {
         {zhong:'9'},
         {zhong:'10'},
       ],
-      multipleSelection:[]
+      multipleSelection:[],
+      tableLoading: false,
     }
   },
   methods:{
@@ -109,20 +125,36 @@ export default {
     },
     
     getTableList(){
-      let data = [
-        {zhong:'1'},
-        {zhong:'2'},
-        {zhong:'3'},
-        {zhong:'4'},
-        {zhong:'5'},
-        {zhong:'6'},
-        {zhong:'7'},
-        {zhong:'8'},
-        {zhong:'9'},
-        {zhong:'10'},
-      ]
-      this.page.totalCount = 32
-      this.tableData = data
+      this.tableLoading = true;
+      let params = {
+        ...this.search,
+        pageSize: this.page.pageSize,
+        currPage: this.page.currPage
+      }
+      supplierPage(params).then(res => {
+        if (res?.code == '200') {
+          this.page.totalCount = res.total
+          this.tableData = res.data
+        }
+
+        this.tableLoading = false;
+      }).catch(() => {
+        this.tableLoading = false;
+      })
+      // let data = [
+      //   {zhong:'1'},
+      //   {zhong:'2'},
+      //   {zhong:'3'},
+      //   {zhong:'4'},
+      //   {zhong:'5'},
+      //   {zhong:'6'},
+      //   {zhong:'7'},
+      //   {zhong:'8'},
+      //   {zhong:'9'},
+      //   {zhong:'10'},
+      // ]
+      // this.page.totalCount = 32
+      // this.tableData = data
     },
   }
 }

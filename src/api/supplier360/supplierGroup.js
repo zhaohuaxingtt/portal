@@ -1,6 +1,8 @@
 import axios from '@/utils/axios'
+import axiosDownload from '@/utils/axios.download';
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const dowload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web');
 
 // 供应商组查询接口
 export function findGroupByPage(data) {
@@ -67,10 +69,10 @@ export function queryGroupEnList(data) {
 
 // 供应商导出接口
 export function groupExport(params) {
-  return requst({
+  return dowload({
     url: '/supplierGroup/groupExport',
     method: 'POST',
-    params
+    data: params
   })
 }
 
@@ -79,7 +81,7 @@ export function queryDeptList(params) {
   return requst({
     url: '/supplierGroup/queryDeptList',
     method: 'POST',
-    params
+    data: params
   })
 }
 

@@ -10,7 +10,7 @@
         </template>
       </div>
     </div>
-    <iCard>
+    <iCard v-loading="pageLoading">
       <div>
         <el-form
           class="form"
@@ -24,13 +24,13 @@
             <el-form-item label="中文名称" required prop="zhong">
               <iInput
                 :disabled="!(editStatus || show)"
-                v-model="search.zhong"
+                v-model="search.nameZh"
               ></iInput>
             </el-form-item>
             <el-form-item label="英文名称" required prop="ying">
               <iInput
                 :disabled="!(editStatus || show)"
-                v-model="search.ying"
+                v-model="search.nameEn"
               ></iInput>
             </el-form-item>
           </el-row>
@@ -38,13 +38,13 @@
             <el-form-item label="供应商组科室" required prop="keshi">
               <i-select
                 :disabled="!(editStatus || show)"
-                v-model="search.keshi"
+                v-model="search.deptName"
               >
                 <el-option
-                  :value="child.value"
-                  :label="child.label"
+                  :value="child.code"
+                  :label="child.message"
                   v-for="child in options || []"
-                  :key="child.value"
+                  :key="child.code"
                 ></el-option>
               </i-select>
             </el-form-item>
@@ -85,7 +85,9 @@ import { detailTitle, fromRules } from '../data.js'
 import {
   checkGroup,
   saveGroup,
-  deleteSupplier
+  deleteSupplier,
+  groupDetail,
+  queryDeptList
 } from '@/api/supplier360/supplierGroup.js'
 import addSupplier from './addSupplier.vue'
 export default {
@@ -113,7 +115,8 @@ export default {
         col6: [{ code: '1', name: 'test1', value: 'tet-1' }]
       }, //{col6:[{code:'1',name:'test1',value:'tet-1'}]}
       multipleSelection: [],
-      rules: fromRules(this)
+      rules: fromRules(this),
+      pageLoading: false,
     }
   },
   watch: {
@@ -134,9 +137,31 @@ export default {
     }
   },
   created() {
-    this.getTableData()
+    this.groupDetail();
+    this.queryDeptList();
   },
   methods: {
+    queryDeptList(){
+      queryDeptList({}).then(res => {
+        this.options = res.data
+      })
+    },
+
+    groupDetail(){
+      this.pageLoading = true;
+      groupDetail({
+        supplierGroupId: this.$route.query.id
+      }).then(res => {
+        if(res.code === '200'){
+          this.search = res.data;
+          this.tableData = res.data.groupMappingList || [];
+        }
+
+        this.pageLoading = false
+      }).catch(err => {
+        this.pageLoading = false
+      })
+    },
     intoEdit() {
       this.editStatus = true
       this.initData = JSON.parse(JSON.stringify(this.tableData))
@@ -152,7 +177,6 @@ export default {
     },
     openAdd() {
       this.showiDialog = true
-      console.log(this.showiDialog)
     },
     onClose() {
       this.showiDialog = false
@@ -179,10 +203,11 @@ export default {
           confirmButtonText: this.language('QUEREN', '确认'),
           cancelButtonText: this.language('QUXIAO', '取消')
         }).then(() => {
-          deleteSupplier(deleteList).then((res) => {
+          deleteSupplier(deleteList.map(item => item.id)).then((res) => {
             if (res?.code == '200') {
               // this.getTableData()
-              this.tableData = table
+              this.tableData = table;
+              this.$message.success('操作成功！');
             } else {
               this.$message.error(
                 this.$i18n.locale === 'zh' ? res.desZh : res.desEn
@@ -195,61 +220,33 @@ export default {
       }
     },
     save() {
-      let params = this.tableData
+      let params = {
+        ...this.search,
+        supplierList: this.tableData
+      }
       checkGroup(params).then((res) => {
         if (res?.code == '200') {
-          iMessageBox(res.msg, this.$t('LK_WENXINTISHI'), {
+          iMessageBox(res.desZh, this.$t('LK_WENXINTISHI'), {
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
           }).then(() => {
-            saveGroup(params).then((res) => {
-              if (res?.code == '200') {
+            saveGroup(params).then((res1) => {
+              if (res1?.code == '200') {
                 this.editStatus = false
-                this.getTableData()
+                // this.getTableData()
+                this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn)
               } else {
                 this.$message.error(
-                  this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+                  this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
                 )
               }
             })
           })
         } else {
+          this.$message.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
         }
-        this.$message.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
+        
       })
-    },
-    getTableData() {
-      this.tableData = [
-        {
-          col1: 'test1'
-        },
-        {
-          col1: 'test2'
-        },
-        {
-          col1: 'test3'
-        },
-        {
-          col1: 'test4',
-          zhong: 'HAS ID'
-        },
-        {
-          col1: 'test1'
-        },
-        {
-          col1: 'test2'
-        },
-        {
-          col1: 'test3'
-        },
-        {
-          col1: 'test4',
-          zhong: 'HAS ID'
-        },
-        {
-          col1: 'test1'
-        },
-      ]
     },
     addSupplier(supplierList){
       this.tableData = [...this.tableData, ...supplierList]

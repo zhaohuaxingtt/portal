@@ -23,10 +23,10 @@
               :filterable="item.filterable"
             >
               <el-option
-                :value="child.value"
-                :label="child.label"
+                :value="child.code"
+                :label="child.message"
                 v-for="child in selectOptions[item.selectOption] || []"
-                :key="child.value"
+                :key="child.code"
               ></el-option>
             </iSelect>
           </el-form-item>
@@ -54,12 +54,14 @@
         </div>
       </div>
       <tableList
+        v-loading="tableLoading"
         :tableData="tableData"
         :tableTitle="tableTitle"
-        :openPageProps="'zhong'"
-        @openPage="openPage"
         @handleSelectionChange="handleSelectionChange"
       >
+      <template #nameZh="scope">
+          <div class="link" @click="openPage(scope.row)">{{scope.row.nameZh}}</div>
+        </template>
       </tableList>
       <iPagination
         v-update
@@ -95,7 +97,8 @@ import {
   findGroupByPage,
   deleteGroup,
   queryGroupZhList,
-  queryGroupEnList
+  queryGroupEnList,
+  groupExport
 } from '@/api/supplier360/supplierGroup.js'
 export default {
   mixins: [pageMixins],
@@ -110,15 +113,24 @@ export default {
   },
   data() {
     return {
-      search: {},
+      tableLoading: false,
+      search: {
+        nameZh: '',
+        nameEn: '',
+        supplierNameZh: [],
+        supplierNameEn: [],
+        supplierTempCode: '',
+        supplierSvwCode: '',
+        supplierSapCode: '',
+      },
       tableData: [
-            { zhong: '1' },
-            { zhong: '2' },
-            { zhong: '3' },
-            { zhong: '4' },
-            { zhong: '5' },
-            { zhong: '6' },
-            { zhong: '7' },
+            // { zhong: '1' },
+            // { zhong: '2' },
+            // { zhong: '3' },
+            // { zhong: '4' },
+            // { zhong: '5' },
+            // { zhong: '6' },
+            // { zhong: '7' },
           ],
       tableTitle,
       searchList,
@@ -152,14 +164,16 @@ export default {
       })
     },
     queryGroupZhList() {
-      queryGroupZhList().then((res) => {
+      queryGroupZhList({}).then((res) => {
         if (res?.code == '200') {
           this.selectOptions.zhName = res.data
         }
+
+        console.log('selectOptionsselectOptions', this.selectOptions);
       })
     },
     queryGroupEnList() {
-      queryGroupEnList().then((res) => {
+      queryGroupEnList({}).then((res) => {
         if (res?.code == '200') {
           this.selectOptions.enName = res.data
         }
@@ -172,10 +186,14 @@ export default {
     },
     reset() {
       Object.keys(this.search).forEach((key) => {
+        if(key === 'supplierNameZh' || key === 'supplierNameEn'){
+          this.search[key] = []
+        }
         this.search[key] = ''
       })
     },
     getTableList() {
+      this.tableLoading = true;
       let params = {
         ...this.search,
         pageSize: this.page.pageSize,
@@ -187,30 +205,34 @@ export default {
             this.page.totalCount = res.total
             this.tableData = res.data
           }
+
+          this.tableLoading = false;
         })
         .catch(() => {
-          let data = [
-            { zhong: '1' },
-            { zhong: '2' },
-            { zhong: '3' },
-            { zhong: '4' },
-            { zhong: '5' },
-            { zhong: '6' },
-            { zhong: '7' },
-            { zhong: '8' },
-            { zhong: '9' },
-            { zhong: '10' },
-            { zhong: '11' }
-          ]
-          this.page.totalCount = 32
-          this.tableData = data
+          // let data = [
+          //   { zhong: '1' },
+          //   { zhong: '2' },
+          //   { zhong: '3' },
+          //   { zhong: '4' },
+          //   { zhong: '5' },
+          //   { zhong: '6' },
+          //   { zhong: '7' },
+          //   { zhong: '8' },
+          //   { zhong: '9' },
+          //   { zhong: '10' },
+          //   { zhong: '11' }
+          // ]
+          // this.page.totalCount = 32
+          // this.tableData = data;
+          this.tableLoading = false;
         })
     },
-    openPage() {
+    openPage(row) {
       let routeData = this.$router.resolve({
         path: '/supplier/suppliergroupmanagementdetail',
         query: {
-          status: 'detail'
+          status: 'detail',
+          id: row.id
         }
       })
       window.open(routeData.href)
@@ -233,7 +255,7 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(() => {
-        deleteGroup(this.multipleSelection).then((res) => {
+        deleteGroup(this.multipleSelection.map(item => item.id)).then((res) => {
           console.log(res)
           if(res?.code=='200'){
             this.getTableList()
@@ -242,7 +264,9 @@ export default {
       })
     },
     exportExcel() {
-      console.log('exportExcel')
+      groupExport({}).then(res => {
+
+      })
     }
   }
 }
@@ -251,5 +275,11 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .search {
   margin-right: 200px !important;
+}
+.link{
+  font-size: 14px;
+  color: #1763F7;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>
