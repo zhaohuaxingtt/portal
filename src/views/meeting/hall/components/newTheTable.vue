@@ -243,8 +243,8 @@ export default {
         if (e.name == "MBDL会议") {
           url = '/MBDLMeeting/live'
         }else  {
-          //非MBDL会议
-          url = '/MBDLMeeting/live'
+          //非MBDL会议  csc会议
+          url = '/CSCMeeting/live'
         }
       }
       this.$router.push({
