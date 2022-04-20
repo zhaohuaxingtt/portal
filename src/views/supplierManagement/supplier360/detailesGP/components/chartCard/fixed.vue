@@ -68,9 +68,9 @@ export default {
         this.getCanvas();
 
         setTimeout(() => {
-          console.log(this.maxNumber.join("+"))
+          // console.log(this.maxNumber.join("+"))
           this.number = ((Math.max.apply(null,this.maxNumber))*100).toFixed(0)
-          console.log(this.number)
+          // console.log(this.number)
         }, 0);
       }
     }
@@ -85,9 +85,8 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter:(params)=>{
-            console.log(params)
               var html = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:'+ params.color +'"></span>';
-              return html + params.name +":"+params.value + "<br/>百分比：" + ((params.value/eval(this.maxNumber.join("+")))*100).toFixed(0) + "%";
+              return html + params.name +"："+params.value + "<br/>总占比：" + ((params.value/eval(this.maxNumber.join("+")))*100).toFixed(0) + "%";
           }
         },
         series: [
@@ -111,6 +110,35 @@ export default {
         ]
       }
       this.myChart.setOption(option)
+      var index = 0;//默认选中高亮模块索引
+      var number = 0;
+      var indexNumebr = 0;
+
+      this.dataList.forEach((e,index)=>{
+          if(Number(e.value) >= Number(number)){
+              number = e.value;
+              indexNumebr = index;
+          }
+      })
+
+      this.myChart.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: indexNumebr});//设置默认选中高亮部分
+      var that = this;
+      this.myChart.on('click',function(e){
+          index = e.dataIndex;
+          that.number = Number(e.percent).toFixed(0)
+          that.myChart.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: e.dataIndex});
+      });
+
+      this.myChart.on('mouseover',function(e){
+          if(e.dataIndex != index){
+              that.myChart.dispatchAction({type: 'downplay', seriesIndex: 0, dataIndex: index });
+          }
+      });
+      this.myChart.on('mouseout',function(e){
+          index = e.dataIndex;
+          that.myChart.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: e.dataIndex});
+      });
+
     }
   },
   mounted () {
