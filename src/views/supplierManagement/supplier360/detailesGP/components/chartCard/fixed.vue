@@ -68,12 +68,10 @@ export default {
         this.getCanvas();
 
         setTimeout(() => {
-          this.number = Math.max.apply(null,this.maxNumber)
+          console.log(this.maxNumber.join("+"))
+          this.number = ((Math.max.apply(null,this.maxNumber))*100).toFixed(0)
           console.log(this.number)
         }, 0);
-        // if(this.myChart){
-        //   this.myChart.resize();
-        // }
       }
     }
   },
@@ -85,9 +83,13 @@ export default {
           right: '10%'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter:(params)=>{
+            console.log(params)
+              var html = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:'+ params.color +'"></span>';
+              return html + params.name +":"+params.value + "<br/>百分比：" + ((params.value/eval(this.maxNumber.join("+")))*100).toFixed(0) + "%";
+          }
         },
-
         series: [
           {
             labelLine: {

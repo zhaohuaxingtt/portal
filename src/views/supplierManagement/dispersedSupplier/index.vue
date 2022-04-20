@@ -35,16 +35,13 @@
 
     <iCard>
         <template slot="header-control">
-            <i-button @click="exportsTableAdd" v-if="showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_XINZENG') }}</i-button>
-            <i-button @click="exportsTable" v-if="!showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
-            <i-button @click="exportsTable" v-if="!showExportsButton" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('MAIL.CANCEL') }}</i-button>
-            <i-button @click="exportsTableEdit" v-permission="SUPPLIER_CHANGEHISTORY_TABLE_EXPORT">{{ $t('LK_BIANJI') }}</i-button>
-
+            <i-button @click="exportsTableAdd" v-permission="SUPPLIER_DISPERSEDSUPPLIER_ADD_GP">{{ $t('LK_XINZENG') }}</i-button>
+            <i-button @click="exportsTableEdit" v-permission="SUPPLIER_DISPERSEDSUPPLIER_EDIT_GP">{{ $t('LK_BIANJI') }}</i-button>
             <i-button @click="tagTab"
-                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
+                    v-permission="SUPPLIER_DISPERSEDSUPPLIER_BIAOQIANKU_GP">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
             <i-button @click="setTagBtn"
-                        v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
-            <i-button @click="synchro">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
+                        v-permission="SUPPLIER_DISPERSEDSUPPLIER_STEP_GP">{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button>
+            <i-button @click="synchro" v-permission="SUPPLIER_DISPERSEDSUPPLIER_SAP_GP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </template>
         
         <tableList :tableData="tableListData"
@@ -112,7 +109,6 @@ export default {
                 tagNameList:[],
             },
             tagdropDownList: [],
-            showExportsButton:true,
             listData:[],
         }
     },

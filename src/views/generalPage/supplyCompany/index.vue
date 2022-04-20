@@ -6,7 +6,8 @@
     <baseInfo ref="basic" class="margin-bottom20" v-if="$route.query.subSupplierType=='GP'"></baseInfo>
     <i-card :title="$t('SUPPLIER_GONGHUOGONGSI')" tabCard>
       <template slot="header-control">
-        <i-button @click="subBtn">{{ language('TIJIAO', '提交') }}</i-button>
+        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
+        <i-button @click="subBtn" v-if="$route.query.subSupplierType!=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
         <iButton @click="$router.go(-1)" v-if="$route.query.subSupplierType!=='GP'">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </template>
 

@@ -11,7 +11,7 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_GONGYINGSHANGXINGMING')
       }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
@@ -21,13 +21,27 @@
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE"
                   v-if="this.supplierType === 4"
                   @click="handleActivity(true)">{{ $t('SUPPLIER_JIEDONG') }}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN" v-if="$route.query.subSupplierType!=='GP'"
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN"
                   @click="setMasterUser">{{ $t('SUPPLIER_SHEWEIZHUYONGHU') }}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD" v-if="$route.query.subSupplierType!=='GP'"
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD"
                   @click="handleAdd">{{ $t('LK_XINZENG') }}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE" v-if="$route.query.subSupplierType!=='GP'"
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE"
                   @click="deleteItem('ids', deleteUser)">{{ $t('LK_SHANCHU') }}</i-button>
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT"
+                  @click="exportsTableHandler"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+      </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(false)">{{ $t('SUPPLIER_DONGJIE') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(true)">{{ $t('SUPPLIER_JIEDONG') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT_GP"
                   @click="exportsTableHandler"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>

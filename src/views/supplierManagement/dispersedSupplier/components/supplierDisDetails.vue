@@ -3,8 +3,8 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{$route.query.subSupplierId?'修改分散（内部报销）供应商':'新增分散（内部报销）供应商'}}</span>
       <div class="floatright">
-        <i-button @click="save">{{ $t('LK_TIJIAO') }}</i-button>
-        <i-button @click="cancle">{{ $t('LK_QUXIAO') }}</i-button>
+        <i-button @click="save" v-permission="SUPPLIER_DISPERSEDSUPPLIER_INFO_GP_SUBMIT">{{ $t('LK_TIJIAO') }}</i-button>
+        <i-button @click="cancle" v-permission="SUPPLIER_DISPERSEDSUPPLIER_INFO_GP_CANCLE">{{ $t('LK_QUXIAO') }}</i-button>
       </div>
     </div>
 
