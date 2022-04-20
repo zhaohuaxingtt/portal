@@ -39,6 +39,7 @@ export default {
       dataList:[],
       maxNumber:[],
       number:"",
+      valueAll:[],
     }
   },
   computed: {
@@ -60,9 +61,10 @@ export default {
         this.dataList = val;
         this.dataList.forEach(e => {
           this.maxNumber.push(e.percent)
-          e.value = e.percent;
+          this.valueAll.push(e.rfqNum)
+          e.value = e.rfqNum;
           e.name = e.deptNum;
-          delete e.percent;
+          delete e.rfqNum;
           delete e.deptNum;
         });
         this.getCanvas();
@@ -86,7 +88,7 @@ export default {
           trigger: 'item',
           formatter:(params)=>{
               var html = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:'+ params.color +'"></span>';
-              return html + params.name +"："+params.value + "<br/>总占比：" + ((params.value/eval(this.maxNumber.join("+")))*100).toFixed(0) + "%";
+              return html + params.name +"："+params.value + "<br/>总占比：" + ((params.value/eval(this.valueAll.join("+")))*100).toFixed(0) + "%";
           }
         },
         series: [
@@ -124,6 +126,7 @@ export default {
       this.myChart.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: indexNumebr});//设置默认选中高亮部分
       var that = this;
       this.myChart.on('click',function(e){
+          console.log(e);
           index = e.dataIndex;
           that.number = Number(e.percent).toFixed(0)
           that.myChart.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: e.dataIndex});

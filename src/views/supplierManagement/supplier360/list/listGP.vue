@@ -673,7 +673,10 @@ export default {
     },
     tagTab () {
       let routeData = this.$router.resolve({
-        path: '/supplier/supplierTag'
+        path: '/supplier/supplierTag',
+        query: {
+          supplierType:"GP",
+        }
       })
       window.open(routeData.href)
     },
