@@ -1,52 +1,12 @@
 <template>
   <div class="my-topics-box">
-    <!-- <iSearch @reset="handleSearchReset" @sure="searchTableList" :icon="true">
-      <el-form>
-        <el-row>
-          <el-form-item :label="'Present Items'">
-            <iSelect
-              :placeholder="$t('LK_QINGXUANZE')"
-              v-model="form.presentItem"
-            >
-              <el-option
-                :value="item.value"
-                :label="item.label"
-                v-for="item of presentList"
-                :key="item.value"
-              ></el-option>
-            </iSelect>
-          </el-form-item>
-          <iDateRangePicker
-            :startDateProps="form.startDateBegin"
-            :endDateProps="form.startDateEnd"
-            @change-start="changeStart"
-            @change-end="changeEnd"
-            ref="iDateRangePicker"
-            label="Time"
-          />
-          <el-form-item label="Topic">
-            <iInput
-              :placeholder="$t('LK_QINGSHURU')"
-              v-model="form.topic"
-            ></iInput>
-          </el-form-item>
-        </el-row>
-      </el-form>
-    </iSearch> -->
-    <!-- <el-row class="divider">
-      <el-divider class="divider-line"></el-divider>
-    </el-row> -->
     <el-row class="row-el">
       <iButton class="add-topic" @click="handleAddTopic" :disabled="disabledAddTopic">{{ $t('MT_TIANJIAYITI') }}</iButton>
       <iButton class="revort-topic" :disabled="disabledButton"
         @click="handleRevokeTopic" >{{ $t('MT_CHEHUIYITI') }}</iButton>
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
-    <iTableML
-      tooltip-effect="light"
-      :data="tableData"
-      @selectionChange="selectionChange"
-    >
+    <!-- <iTableML tooltip-effect="light"  :data="tableData" @selectionChange="selectionChange" >
       <el-table-column width="18" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -119,11 +79,6 @@
         min-width="120"
         width="120"
       >
-        <!-- <template slot-scope="scope">
-          <span class="open-link-text" @click="checkDetail(scope.row.id)">{{
-            scope.row.meetingName
-          }}</span>
-        </template> -->
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
       <el-table-column
@@ -199,9 +154,6 @@
         min-width="170"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.presenter }}</span>
-          <span>/</span>
-          <span>{{ scope.row.presenterNosys }}</span> -->
           <span v-if="scope.row.presenter && scope.row.presenterNosys"
             >{{ scope.row.presenter }}/{{ scope.row.presenterNosys }}</span
           >
@@ -221,9 +173,6 @@
         min-width="120"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.presenterDept }}</span>
-          <span>/</span>
-          <span>{{ scope.row.presenterDeptNosys }}</span> -->
           <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
             >{{ scope.row.presenterDept }}/{{
               scope.row.presenterDeptNosys
@@ -246,9 +195,6 @@
         min-width="160"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.supporter }}</span>
-          <span>/</span>
-          <span>{{ scope.row.supporterNosys }}</span> -->
           <span v-if="scope.row.supporter && scope.row.supporterNosys"
             >{{ scope.row.supporter }}/{{ scope.row.supporterNosys }}</span
           >
@@ -268,9 +214,6 @@
         min-width="130"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.supporterDept }}</span>
-          <span>/</span>
-          <span>{{ scope.row.supporterDeptNosys }}</span> -->
           <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
             >{{ scope.row.supporterDept }}/{{
               scope.row.supporterDeptNosys
@@ -298,7 +241,99 @@
         </template>
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
-    </iTableML>
+    </iTableML> -->
+    <iTableML
+          tooltip-effect="light"
+          @selectionChange="handleSelectionChange"
+          :loading="tableLoading"
+          :data="tableData"
+          @go-detail="handleGoDetail"
+          v-if="!showUpdateTopicButtonList"
+          :rowClassName="tableRowClassName"
+          :currentRow="currentRow"
+          :isSingle="isSingle"
+        >
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            label="#"
+            width="50"
+          >
+            <template slot-scope="scope">
+             <span>
+              {{ scope.$index + 1 }}
+            </span>
+            </template>
+          </el-table-column>
+          <!-- MBDL名称    gpName  改 topic-->
+          <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
+            <template slot-scope="scope">
+              <span class="open-link-text look-themen-click" @click="lookOrEdit(scope.row)">{{ scope.row.topic }}</span>
+            </template>
+          </el-table-column>
+          <!-- 英文名称  mbdlNameEn -->
+           <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.mbdlNameEn }}</span>
+            </template>
+          </el-table-column>
+          <!-- 采购分类  materialGroupName -->
+           <el-table-column show-overflow-tooltip align="center" label="采购分类" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.materialGroupName }}</span>
+            </template>
+          </el-table-column>
+          <!-- 有效期起   validFrom-->
+           <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.validFrom }}</span>
+            </template>
+          </el-table-column>
+           <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.validTo }}</span>
+            </template>
+          </el-table-column>
+          <!-- 主要申请部门  applyDept 改 supporterDept-->
+           <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.supporterDept }}</span>
+             </template>
+          </el-table-column>
+          <!-- 股别  presenterDept -->
+           <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.presenterDept }}</span>
+             </template>
+          </el-table-column>
+          <!-- 提交人   supporter 改 presenter-->
+           <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.presenter }}</span>
+             </template>
+          </el-table-column>
+           <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.time }}</span>
+            </template>
+          </el-table-column>
+           <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
+             <template slot-scope="scope">
+              <span >{{ statusObj[scope.row.state] }}</span>
+            </template>
+          </el-table-column>
+          <!-- 会议结论/纪要  conclusion-->
+           <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
+             <template slot-scope="scope">
+              <!-- <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
+              <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue"
+                 @click="handleResult(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
+             </template>
+          </el-table-column>
+         
+        </iTableML>
     <iPagination
       v-update
       @size-change="handleSizeChange($event, query)"
@@ -311,11 +346,6 @@
       :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
-    <!-- <detailDialog
-      :openDialog='openDetail'
-      v-if="openDetail"
-      :id='id'
-    /> -->
     <addTopic
       @closeDialog="closeDialog"
       v-if="openAddTopic"
@@ -355,6 +385,19 @@ export default {
   },
   data() {
     return {
+      statusObj: {
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      },
+      resultObj:{
+        '01': '待定',
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
+      },
       disabledAddTopic:true,
       meetingTypeId: '',
       editOrAdd: 'add',
@@ -384,14 +427,14 @@ export default {
           label: '我的'
         }
       ],
-      statusObj: {
-        '01': 'MT_CAOGAO',
-        '02': 'MT_KAIFANG',
-        '03': 'MT_SUODING',
-        '04': 'MT_KAISHI',
-        '05': 'MT_JIESHU',
-        '06': 'MT_GUANBI'
-      }
+      // statusObj: {
+      //   '01': 'MT_CAOGAO',
+      //   '02': 'MT_KAIFANG',
+      //   '03': 'MT_SUODING',
+      //   '04': 'MT_KAISHI',
+      //   '05': 'MT_JIESHU',
+      //   '06': 'MT_GUANBI'
+      // }
     }
   },
   props: {
