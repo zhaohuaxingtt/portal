@@ -1,3 +1,4 @@
+<!-- 会议直播卡片后的列表 -->
 <template>
   <iPage>
     <div class="container">
@@ -15,9 +16,6 @@
           min-width="60"
         >
           <template slot-scope="scope">
-            <!-- <div
-              v-show="scope.row.state === '03' || Boolean(scope.row.isBreak)"
-            ></div> -->
             <div class="img-word">
               <div class="img-box">
                 <span>
@@ -264,20 +262,6 @@
         <el-table-column width="24" align="center" label=""></el-table-column>
       </iTableML>
     </div>
-    <!-- <iPagination
-        v-update
-        @size-change="handleSizeChange($event, query)"
-        @current-change="handleCurrentChange($event, query)"
-        background
-        :current-page="page.currPage"
-        :page-sizes="page.pages"
-        :page-size="page.pageSize"
-        layout="prev, pager, next"
-        prev-text="上一页"
-        next-text="下一页"
-        :total="page.totalCount"
-      /> -->
-    <!-- <div class="warn-content">会议直播进程将每5秒自动刷新，请耐心等待。</div> -->
   </iPage>
 </template>
 

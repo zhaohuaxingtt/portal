@@ -52,15 +52,7 @@
                 <span class="location">{{ meetingInfo.meetingPlace }}</span>
               </div>
             </div>
-
-            <!-- <el-switch
-          v-model="value"
-          :active-text="switchStatus"
-          class="switch-block"
-          active-color="#1666ef"
-          inactive-color="#1666ef"
-        >
-        </el-switch> -->
+        <!-- 切换图标 -->
             <div class="turn-button">
               <div class="img-box-list" @click="handleTurnMode" v-if="!value">
                 <img src="@/assets/images/list.svg" class="img" />
@@ -84,14 +76,6 @@
         <div v-show="!value" class="card-list">
           <div class="white"></div>
           <div class="card-list-left" v-if="myThemenData.length > 0">
-            <!-- <cardBoxNewVersion
-            :themen="item"
-            :total="resThemeData.length"
-            :num="index + 1"
-            :startDate="meetingInfo.startDate"
-            :endDate="meetingInfo.endDate"
-            :meetingName="meetingInfo.name"
-          /> -->
             <el-carousel
               indicator-position="outside"
               :autoplay="false"
@@ -113,21 +97,6 @@
                     :total="myThemenData.length"
                     :index="index + 1"
                   />
-                  <!-- <cardBoxNewVersion
-                  :themen="item"
-                  :startDate="meetingInfo.startDate"
-                  :endDate="meetingInfo.endDate"
-                  :meetingName="meetingInfo.name"
-                  class="left-card"
-                  :total="
-                    myThemenData.length +
-                      (noMyThemenData.length > 0
-                        ? noMyThemenData[noMyThemenData.length - 1].length !== 2
-                          ? noMyThemenData.length * 2 - 1
-                          : noMyThemenData.length * 2
-                        : 0)
-                  "
-                /> -->
                   <div class="my-icon">
                     My
                     <div class="white-triggle"></div>
@@ -162,21 +131,6 @@
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
-                  <!-- <cardBoxNewVersion
-                  :themen="item[0]"
-                  :total="
-                    myThemenData.length +
-                      (noMyThemenData.length > 0
-                        ? noMyThemenData[noMyThemenData.length - 1].length !== 2
-                          ? noMyThemenData.length * 2 - 1
-                          : noMyThemenData.length * 2
-                        : 0)
-                  "
-                  :startDate="meetingInfo.startDate"
-                  :endDate="meetingInfo.endDate"
-                  :meetingName="meetingInfo.name"
-                  class="right-card"
-                /> -->
                   <div
                     v-if="Number(item.length) !== 2"
                     class="right-card-empty"
@@ -188,22 +142,6 @@
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
-                  <!-- <cardBoxNewVersion
-                  v-else
-                  :themen="item[1]"
-                  :total="
-                    myThemenData.length +
-                      (noMyThemenData.length > 0
-                        ? noMyThemenData[noMyThemenData.length - 1].length !== 2
-                          ? noMyThemenData.length * 2 - 1
-                          : noMyThemenData.length * 2
-                        : 0)
-                  "
-                  :startDate="meetingInfo.startDate"
-                  :endDate="meetingInfo.endDate"
-                  :meetingName="meetingInfo.name"
-                  class="right-card"
-                /> -->
                 </div>
               </el-carousel-item>
             </el-carousel>
@@ -330,46 +268,15 @@ export default {
     this.getTableData()
   },
   methods: {
+    //切换图标
     handleTurnMode() {
+      console.log(this.resThemeData);
+      console.log('图标');
       this.value = !this.value
     },
     setActiveItem(name) {
       console.log(name)
     },
-    //取俩个数组的前6后6
-    // assignArr(beforeArr, afterArr, isMy) {
-    //   let arr = [];
-    //   if (isMy) {
-    //     if (beforeArr.length <= 6) {
-    //       arr = [...beforeArr, ...afterArr].slice(0, 12);
-    //     }
-    //     if (beforeArr.length > 6 && afterArr.length >= 6) {
-    //       let before = [];
-    //       let after = [];
-    //       before = beforeArr.slice(-6);
-    //       after = afterArr.slice(0, 6);
-    //       arr = [...before, ...after];
-    //     }
-    //     if (beforeArr.length > 6 && afterArr.length < 6) {
-    //       arr = [...beforeArr, ...afterArr].slice(-12);
-    //     }
-    //   } else {
-    //     if (beforeArr.length <= 5) {
-    //       arr = [...beforeArr, ...afterArr].slice(0, 12);
-    //     }
-    //     if (beforeArr.length > 5 && afterArr.length >= 7) {
-    //       let before = [];
-    //       let after = [];
-    //       before = beforeArr.slice(-5);
-    //       after = afterArr.slice(0, 7);
-    //       arr = [...before, ...after];
-    //     }
-    //     if (beforeArr.length > 5 && afterArr.length < 7) {
-    //       arr = [...beforeArr, ...afterArr].slice(-12);
-    //     }
-    //   }
-    //   return arr;
-    // },
     //新版本
     assignArr(beforeArr, afterArr) {
       let arr = []
@@ -474,27 +381,6 @@ export default {
         this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
-    // getCurrentLiveIndex() {
-    //   let liveIndex = -10;
-    //   this.resThemeData.forEach((item, index) => {
-    //     if (item.state === "02") {
-    //       liveIndex = index;
-    //     }
-    //   });
-    //   if (liveIndex === 0) {
-    //     liveIndex = 1;
-    //   }
-    //   if (liveIndex === this.resThemeData.length - 1) {
-    //     liveIndex = this.resThemeData.length - 2;
-    //   }
-    //   this.isLiving = true;
-    //   if (liveIndex === -10) {
-    //     liveIndex = 1;
-    //     this.isLiving = false;
-    //   }
-    //   return liveIndex;
-    // },
-
     //判断当前 是否 有直播的议题
     isHaveLiveTheme() {
       return this.resThemeData.find((item) => {
@@ -588,71 +474,6 @@ export default {
       },
       immediate: true
     },
-    // value(val) {
-    //   if (val) {
-    //     this.switchStatus = "卡片";
-    //     return;
-    //   }
-    //   this.switchStatus = "列表";
-    // },
-    // resThemeData: {
-    //   handler(resData) {
-    //     this.fresh = !this.fresh;
-    //     let liveItem = this.isHaveLiveTheme();
-    //     let bolMy = true;
-    //     let bolNoMy = true;
-    //     let whereArr;
-    //     let myArr = [];
-    //     let noMyArr = [];
-    //     let beforeSix = [];
-    //     let afterSix = [];
-    //     if (liveItem) {
-    //       this.isLiving = true;
-    //     } else {
-    //       this.isLiving = false;
-    //       return;
-    //     }
-    //     if (
-    //       Number(liveItem.createBy) === this.currentUserId ||
-    //       liveItem.follow ||
-    //       this.isTheyHaveMy(liveItem)
-    //     ) {
-    //       whereArr = "my";
-    //     }
-    //     resData.forEach((item, index) => {
-    //       let bol =
-    //         Number(item.createBy) === this.currentUserId ||
-    //         item.follow ||
-    //         this.isTheyHaveMy(item);
-    //       if (bol) {
-    //         if (item.state === "02") {
-    //           bolMy = false;
-    //         }
-    //         myArr.push({ ...item, itemNo: index + 1, isMy: true });
-    //       } else {
-    //         if (item.state === "02") {
-    //           bolNoMy = false;
-    //         }
-    //         if (
-    //           (whereArr === "my" && bolMy) ||
-    //           (whereArr !== "my" && bolNoMy)
-    //         ) {
-    //           beforeSix.push({ ...item, itemNo: index + 1, isMy: false });
-    //         }
-    //         if (
-    //           (whereArr === "my" && !bolMy) ||
-    //           (whereArr !== "my" && !bolNoMy)
-    //         ) {
-    //           afterSix.push({ ...item, itemNo: index + 1, isMy: false });
-    //         }
-    //       }
-    //     });
-    //     this.myThemenData = myArr;
-    //     noMyArr = this.assignArr(beforeSix, afterSix, whereArr === "my");
-    //     const newTypeNoMyArr = this.arrTrans(2, [...noMyArr]);
-    //     this.noMyThemenData = newTypeNoMyArr;
-    //   },
-    // },
     resThemeData: {
       handler(resData) {
         this.total = resData ? resData.length : 0

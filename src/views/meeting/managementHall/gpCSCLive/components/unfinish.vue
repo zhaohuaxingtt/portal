@@ -1,48 +1,14 @@
+    <!-- 未完成 -->
 <template>
   <div class="my-topics-box">
-    <!-- <iSearch @reset="handleSearchReset" @sure="searchTableList" :icon="true">
-      <el-form>
-        <el-row>
-          <el-form-item :label="'Present Items'">
-            <iSelect
-              :placeholder="$t('LK_QINGXUANZE')"
-              v-model="form.presentItem"
-            >
-              <el-option
-                :value="item.value"
-                :label="item.label"
-                v-for="item of presentList"
-                :key="item.value"
-              ></el-option>
-            </iSelect>
-          </el-form-item>
-          <iDateRangePicker
-            :startDateProps="form.startDateBegin"
-            :endDateProps="form.startDateEnd"
-            @change-start="changeStart"
-            @change-end="changeEnd"
-            ref="iDateRangePicker"
-            label="Time"
-          />
-          <el-form-item label="Topic">
-            <iInput
-              :placeholder="$t('LK_QINGSHURU')"
-              v-model="form.topic"
-            ></iInput>
-          </el-form-item>
-        </el-row>
-      </el-form>
-    </iSearch> -->
-    <!-- <el-row class="divider">
-      <el-divider class="divider-line"></el-divider>
-    </el-row> -->
     <el-row class="row-el">
       <iButton class="add-topic" @click="handleAddTopic" :disabled="disabledAddTopic">{{ $t('MT_TIANJIAYITI') }}</iButton>
       <iButton class="revort-topic" :disabled="disabledButton"
         @click="handleRevokeTopic" >{{ $t('MT_CHEHUIYITI') }}</iButton>
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
-    <iTableML
+<!-- --------------cf的列表----------------------------  -->
+    <!-- <iTableML
       tooltip-effect="light"
       :data="tableData"
       @selectionChange="selectionChange"
@@ -119,11 +85,6 @@
         min-width="120"
         width="120"
       >
-        <!-- <template slot-scope="scope">
-          <span class="open-link-text" @click="checkDetail(scope.row.id)">{{
-            scope.row.meetingName
-          }}</span>
-        </template> -->
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
       <el-table-column
@@ -199,9 +160,6 @@
         min-width="170"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.presenter }}</span>
-          <span>/</span>
-          <span>{{ scope.row.presenterNosys }}</span> -->
           <span v-if="scope.row.presenter && scope.row.presenterNosys"
             >{{ scope.row.presenter }}/{{ scope.row.presenterNosys }}</span
           >
@@ -221,9 +179,6 @@
         min-width="120"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.presenterDept }}</span>
-          <span>/</span>
-          <span>{{ scope.row.presenterDeptNosys }}</span> -->
           <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
             >{{ scope.row.presenterDept }}/{{
               scope.row.presenterDeptNosys
@@ -246,9 +201,6 @@
         min-width="160"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.supporter }}</span>
-          <span>/</span>
-          <span>{{ scope.row.supporterNosys }}</span> -->
           <span v-if="scope.row.supporter && scope.row.supporterNosys"
             >{{ scope.row.supporter }}/{{ scope.row.supporterNosys }}</span
           >
@@ -268,9 +220,6 @@
         min-width="130"
       >
         <template slot-scope="scope">
-          <!-- <span>{{ scope.row.supporterDept }}</span>
-          <span>/</span>
-          <span>{{ scope.row.supporterDeptNosys }}</span> -->
           <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
             >{{ scope.row.supporterDept }}/{{
               scope.row.supporterDeptNosys
@@ -298,7 +247,231 @@
         </template>
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
-    </iTableML>
+    </iTableML> -->
+<!-- --------------cf的列表----------------------------- -->
+<!-- --------------gp列表----------------------------- -->
+            <!-- :height="'32.125rem'"
+            tooltip-effect="light"
+            @selectionChange="handleSelectionChange"
+            :loading="tableLoading"
+            :data="tableData"
+            @go-detail="handleGoDetail"
+            v-if="!showUpdateTopicButtonList"
+            :rowClassName="tableRowClassName"
+            :currentRow="currentRow"
+            :isSingle="isSingle"
+            ref="hiddenColumnTable" -->
+    <iTableML
+    tooltip-effect="light"
+      :data="tableData"
+      @selectionChange="selectionChange"
+          >
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <el-table-column
+              type="selection"
+              align="center"
+              min-width="40"
+            ></el-table-column>
+            <!-- <el-table-column align="center" width="10"></el-table-column> -->
+            <el-table-column align="center" label="#" width="23" >
+              <template slot-scope="scope">
+                <span style="span-index">{{ scope.$index + 1 }}</span>
+              </template>
+            </el-table-column>
+            <!-- 标记 -->
+            <el-table-column align="center" label="标记" min-width="50">
+              <template slot-scope="scope">
+                <icon symbol :name="scope.row.sign=='S' ? 'iconicon-baofeichuzhi' : scope.row.sign=='F' ?'iconicon-fenduandingdian':''" ></icon>
+              </template>
+            </el-table-column>
+            <!-- 股别 presenterDept  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="股别"
+              min-width="136"
+              prop="股别"
+              sortable
+            >
+            <template slot-scope="scope">
+                <span>{{scope.row.presenterDept }}</span>
+              </template>
+            </el-table-column>
+            <!-- 项目  gpName 改 topic-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="项目"
+              min-width="198"
+            >
+              <template slot-scope="scope">
+                <span class="open-link-text look-themen-click" @click="lookOrEdit(scope.row)">{{scope.row.topic}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 上会次数 cscCount-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="上会次数"
+              min-width="75"
+              prop="上会次数"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCount}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 采购申请号 procurementNumber 改 sourcingNo  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="采购申请号"
+              min-width="75"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.sourcingNo }}
+              </template>
+            </el-table-column>
+            <!-- 申请部门  applyDept 改 supporterDept  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="申请部门"
+              min-width="59"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.supporterDept }}</span>
+              </template>
+            </el-table-column>
+            <!-- 申请人  requestorName  改 supporter  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="申请人"
+              min-width="65"
+              prop="ep"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.supporter}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="16"></el-table-column> -->
+            <!-- 采购员  purchaserName  改 presenter  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="采购员"
+              min-width="115"
+              prop="采购员"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.presenter}}</span>
+              </template>
+            </el-table-column>
+            <!-- 时间  time-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="时间"
+              min-width="82"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.time}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="14"></el-table-column> -->
+            <!-- 状态  state-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="状态"
+              min-width="90"
+              prop="presenterDept"
+            >
+               <template slot-scope="scope">
+                  {{ stateObj[scope.row.state] }}
+                </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="20"></el-table-column> -->
+            <!-- 会议结论/纪要  conclusion-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="会议结论/纪要"
+              min-width="86"
+            >
+              <template slot-scope="scope">
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue" @click="handleResultObj(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
+              </template>
+            </el-table-column>
+            <!-- 是否推送大会 -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="是否推送大会"
+              min-width="119"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.isSendBm == false ? '否' : scope.row.isSendBm == true ? '是' : ''}}</span>
+              </template>
+            </el-table-column>
+            <!-- CSC汇报材料  cscStatus-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="CSC汇报材料"
+              min-width="119"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscStatus}}</span>
+              </template>
+            </el-table-column>
+            <!-- 是否冻结   conclusion   02 就是通过 冻结-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="是否冻结"
+              width="89"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.conclusion == '02' ? '是' : '否' }}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- 属性  attribute-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="属性"
+              width="88"
+              prop="benDe"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.attribute}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- CSC编号  cscCode-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="CSC编号"
+              min-width="90"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCode}}</span>
+              </template>
+            </el-table-column>
+          </iTableML>
+
+<!-- --------------gp列表----------------------------- -->
+
     <iPagination
       v-update
       @size-change="handleSizeChange($event, query)"
@@ -311,11 +484,6 @@
       :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
-    <!-- <detailDialog
-      :openDialog='openDetail'
-      v-if="openDetail"
-      :id='id'
-    /> -->
     <addTopic
       @closeDialog="closeDialog"
       v-if="openAddTopic"
@@ -355,6 +523,20 @@ export default {
   },
   data() {
     return {
+      resultObj:{
+        '01': '待定',
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
+      },
+       stateObj :{
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束',
+        '04': '申请撤回'
+      },
       disabledAddTopic:true,
       meetingTypeId: '',
       editOrAdd: 'add',

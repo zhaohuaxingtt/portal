@@ -2,6 +2,7 @@
   <div class="container">
     <div class="header">{{$t('MT_WODEYITI')}}</div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
+      <!-- 未完成 -->
       <el-tab-pane :label="$t('MT_WEIWANCHENG')" name="first">
         <iCard class="my-topics-all">
           <unfinish
@@ -12,6 +13,7 @@
           />
         </iCard>
       </el-tab-pane>
+      <!-- 已完成 -->
       <el-tab-pane :label="$t('MT_YIWANCHENG')" name="second">
         <iCard class="my-topics-all">
           <finished

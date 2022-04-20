@@ -2,22 +2,14 @@
 <template>
   <div class="card">
     <div class="header">{{$t('MT_WODEYITI')}}</div>
-    <!-- <iCard class="my-topics-all">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="未完成" name="first">
-          <unfinish />
-        </el-tab-pane>
-        <el-tab-pane label="已完成" name="second">
-          <finished />
-        </el-tab-pane>
-      </el-tabs>
-    </iCard> -->
+    <!-- 未完成 -->
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane :label="$t('MT_WEIWANCHENG')" name="first">
         <iCard class="my-topics-all">
           <unfinish />
         </iCard>
       </el-tab-pane>
+      <!-- 已完成 -->
       <el-tab-pane :label="$t('MT_YIWANCHENG')" name="second">
         <iCard class="my-topics-all">
           <finished />

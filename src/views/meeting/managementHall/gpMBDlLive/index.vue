@@ -18,7 +18,6 @@
                 <div class="img-box">
                   <img src="@/assets/images/time.svg" class="img" />
                 </div>
-                <!-- <span class="time"> {{ `${begin}~${end}` }}</span> -->
                 <span class="time">{{
                   `${meetingInfo.startDate} ${
                     meetingInfo.startTime
@@ -52,15 +51,7 @@
                 <span class="location">{{ meetingInfo.meetingPlace }}</span>
               </div>
             </div>
-
-            <!-- <el-switch
-          v-model="value"
-          :active-text="switchStatus"
-          class="switch-block"
-          active-color="#1666ef"
-          inactive-color="#1666ef"
-        >
-        </el-switch> -->
+        <!-- 图标切换 -->
             <div class="turn-button">
               <div class="img-box-list" @click="handleTurnMode" v-if="!value">
                 <img src="@/assets/images/list.svg" class="img" />
@@ -84,14 +75,6 @@
         <div v-show="!value" class="card-list">
           <div class="white"></div>
           <div class="card-list-left" v-if="myThemenData.length > 0">
-            <!-- <cardBoxNewVersion
-            :themen="item"
-            :total="resThemeData.length"
-            :num="index + 1"
-            :startDate="meetingInfo.startDate"
-            :endDate="meetingInfo.endDate"
-            :meetingName="meetingInfo.name"
-          /> -->
             <el-carousel
               indicator-position="outside"
               :autoplay="false"
@@ -113,21 +96,6 @@
                     :total="myThemenData.length"
                     :index="index + 1"
                   />
-                  <!-- <cardBoxNewVersion
-                  :themen="item"
-                  :startDate="meetingInfo.startDate"
-                  :endDate="meetingInfo.endDate"
-                  :meetingName="meetingInfo.name"
-                  class="left-card"
-                  :total="
-                    myThemenData.length +
-                      (noMyThemenData.length > 0
-                        ? noMyThemenData[noMyThemenData.length - 1].length !== 2
-                          ? noMyThemenData.length * 2 - 1
-                          : noMyThemenData.length * 2
-                        : 0)
-                  "
-                /> -->
                   <div class="my-icon">
                     My
                     <div class="white-triggle"></div>
@@ -162,21 +130,6 @@
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
-                  <!-- <cardBoxNewVersion
-                  :themen="item[0]"
-                  :total="
-                    myThemenData.length +
-                      (noMyThemenData.length > 0
-                        ? noMyThemenData[noMyThemenData.length - 1].length !== 2
-                          ? noMyThemenData.length * 2 - 1
-                          : noMyThemenData.length * 2
-                        : 0)
-                  "
-                  :startDate="meetingInfo.startDate"
-                  :endDate="meetingInfo.endDate"
-                  :meetingName="meetingInfo.name"
-                  class="right-card"
-                /> -->
                   <div
                     v-if="Number(item.length) !== 2"
                     class="right-card-empty"
@@ -188,22 +141,6 @@
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
-                  <!-- <cardBoxNewVersion
-                  v-else
-                  :themen="item[1]"
-                  :total="
-                    myThemenData.length +
-                      (noMyThemenData.length > 0
-                        ? noMyThemenData[noMyThemenData.length - 1].length !== 2
-                          ? noMyThemenData.length * 2 - 1
-                          : noMyThemenData.length * 2
-                        : 0)
-                  "
-                  :startDate="meetingInfo.startDate"
-                  :endDate="meetingInfo.endDate"
-                  :meetingName="meetingInfo.name"
-                  class="right-card"
-                /> -->
                 </div>
               </el-carousel-item>
             </el-carousel>
@@ -257,6 +194,7 @@
       </div>
     </div>
     <div v-else class="no-live">{{ $t('MT_ZANWUZHIBOHUIYI') }}</div>
+    <!-- 我的议题 -->
     <my-topics
       ref="childTopic"
       :meetingInfo="meetingInfo"
