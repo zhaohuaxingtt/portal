@@ -1,17 +1,16 @@
 <!-- 股东 -->
 <template>
-  <iCard>
-    <div class="margin-bottom20 clearFloat">
-      <div class="floatright">
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE"
-                  @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD"
-                  @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE"
-                  @click="deleteItem('ids', delSupplierInvestor)">{{$t('delete')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_EXPORT" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
-      </div>
-    </div>
+  <iCard :title="$t('SPR_FRM_XGYSPJ_GDXX')" tabCard>
+    <template slot="header-control">
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE" v-if="$route.query.subSupplierType!=='GP'"
+                @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD" v-if="$route.query.subSupplierType!=='GP'"
+                @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE" v-if="$route.query.subSupplierType!=='GP'"
+                @click="deleteItem('ids', delSupplierInvestor)">{{$t('delete')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_EXPORT" @click="exportsTable" v-if="$route.query.subSupplierType!=='GP'">{{ $t('LK_DAOCHU') }}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_EXPORT_GP" @click="exportsTable" v-if="$route.query.subSupplierType=='GP'">{{ $t('LK_DAOCHU') }}</i-button>
+    </template>
     <!-- v-permission="SUPPLIER_COMPANY_SHAREHOLDER" -->
     <table-list
         :tableData="tableListData"

@@ -6,23 +6,35 @@
 <template>
   <div>
     <base-info-card/>
-    <iCard class="margin-top20">
-      <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
-          <iButton @click="addTableItem"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_ADD">
-            {{ $t('LK_XINZENG') }}
-          </iButton>
-          <iButton @click="deleteItem('idList', deleteSupplierProduct)" v-permission="SUPPLIER_MAINPRODUCT_TABLE_DELETE">
-            {{ $t('delete') }}
-          </iButton>
-          <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT">
-            {{ $t('LK_DAOCHU') }}
-          </iButton>
-          <iButton @click="handleNextStep" v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE">
-            {{ $t('LK_BAOCUN') }}
-          </iButton>
-        </div>
-      </div>
+    <iCard class="margin-top20" :title="$t('SUPPLIER_ZHUYAOYEWUJICHANPIN')" tabCard>
+      <template slot="header-control" v-if="$route.query.subSupplierType!=='GP'">
+        <iButton @click="addTableItem"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_ADD">
+          {{ $t('LK_XINZENG') }}
+        </iButton>
+        <iButton @click="deleteItem('idList', deleteSupplierProduct)" v-permission="SUPPLIER_MAINPRODUCT_TABLE_DELETE">
+          {{ $t('delete') }}
+        </iButton>
+        <iButton @click="handleNextStep" v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE">
+          {{ $t('LK_BAOCUN') }}
+        </iButton>
+        <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT">
+          {{ $t('LK_DAOCHU') }}
+        </iButton>
+      </template>
+      <template slot="header-control" v-if="$route.query.subSupplierType=='GP'">
+        <iButton @click="addTableItem"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_ADD_GP">
+          {{ $t('LK_XINZENG') }}
+        </iButton>
+        <iButton @click="deleteItem('idList', deleteSupplierProduct)" v-permission="SUPPLIER_MAINPRODUCT_TABLE_DELETE_GP">
+          {{ $t('delete') }}
+        </iButton>
+        <iButton @click="handleNextStep" v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_SAVE_GP">
+          {{ $t('LK_BAOCUN') }}
+        </iButton>
+        <iButton @click="exportsTable"  v-permission="SUPPLIER_MAINPRODUCT_TABLE_EXPORT_GP">
+          {{ $t('LK_DAOCHU') }}
+        </iButton>
+      </template>
       <!-- v-permission="SUPPLIER_MAINPRODUCT_TABLE" -->
       <table-list
           :tableData="tableListData"
@@ -59,7 +71,7 @@
 import {iCard, iButton,iDatePicker} from "rise";
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import {tableTitle} from './data'
+import {tableTitle1,tableTitleGP1,tableTitleGP2} from './data'
 import {
   getSupplierProduct,
   saveSupplierProduct,
@@ -80,15 +92,42 @@ export default {
   data() {
     return {
       tableListData: [],
-      tableTitle: tableTitle,
+      tableTitle:[],
+      tableTitle1,
+      tableTitleGP1,
+      tableTitleGP2,
       tableLoading: false,
       selectTableData: [],
       inputProps: []
     }
   },
+  computed: {
+    baseMsg () {
+      return this.$store.state.baseInfo.baseMsg
+    },
+  },
   created() {
-    this.setInputProps()
-    this.getTableList()
+    if(this.$route.query.subSupplierType=="GP"){
+      let number = 0;
+      this.baseMsg.gpSupplierDetails.forEach(e=>{
+        if(e.businessType == 1 && e.industryPosition == "Y"){
+          number++;
+        }
+      })
+      setTimeout(() => {
+        if(number>0){
+          this.tableTitle = this.tableTitleGP1;
+        }else{
+          this.tableTitle = this.tableTitleGP2;
+        }
+      }, 0);
+    }else{
+      this.tableTitle = this.tableTitle1;
+    }
+    setTimeout(() => {
+      this.setInputProps()
+      this.getTableList()
+    }, 0);
   },
   methods: {
     deleteSupplierProduct,
@@ -117,30 +156,33 @@ export default {
       }
     },
     async saveInfos(step = '') {
-      return new Promise((resolve, reject) => {
-        this.$refs.commonTable.$refs.commonTableForm.validate(async (valid) => {
-          if (valid) {
-            this.tableLoading = true
-            const req = {
-              dtoList: this.tableListData,
-              step: 'submit'
+      const flag = this.checkTableRequiredProps(this.tableListData, this.tableTitle)
+      if(flag){
+        return new Promise((resolve, reject) => {
+          this.$refs.commonTable.$refs.commonTableForm.validate(async (valid) => {
+            if (valid) {
+              this.tableLoading = true
+              const req = {
+                dtoList: this.tableListData,
+                step: 'submit'
+              }
+              if (step !== '') {
+                req.step = step
+              }
+              const res = await saveSupplierProduct(req)
+              this.resultMessage(res, () => {
+                this.getTableList()
+                resolve(true)
+              }, () => {
+                this.tableLoading = false
+                reject(false)
+              })
+            } else {
+              return false
             }
-            if (step !== '') {
-              req.step = step
-            }
-            const res = await saveSupplierProduct(req)
-            this.resultMessage(res, () => {
-              this.getTableList()
-              resolve(true)
-            }, () => {
-              this.tableLoading = false
-              reject(false)
-            })
-          } else {
-            return false
-          }
+          })
         })
-      })
+      }
     },
     async handleNextStep() {
       return await this.saveInfos()

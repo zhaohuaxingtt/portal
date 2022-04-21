@@ -58,16 +58,16 @@
           <!-- 股别-->
           <el-form-item label="股别">
             <i-select
-              multiple
+              
               collapse-tags
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
-              v-model="formData.isActive1"
+              v-model="formData.organizationId"
             >
               <el-option
-                v-for="item in listDeptData"
-                :key="item.code"
-                :label="item.code"
-                :value="item.id"
+                v-for="item in AllBelongOrgList"
+                :key="item.belongToOrgCode"
+                :label="item.belongToOrgCode"
+                :value="item.belongToOrgId"
               ></el-option>
             </i-select>
           </el-form-item>
@@ -91,28 +91,32 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iInput, iButton, iSelect } from 'rise'
+import { iDialog, iInput, iButton, iSelect,iMessage } from 'rise'
 import { SEARCH_DATA} from './data'
-import { updateList,getAll } from '@/api/authorityMgmt'
+import { updateList,getAll,getAllBelongOrgList } from '@/api/authorityMgmt'
 export default {
   components: {
     iDialog,
     iInput,
     iButton,
-    iSelect
+    iSelect,
+    iMessage
   },
   data() {
     return {
       listDeptData: [],
       ideffect: true,
-      formData: SEARCH_DATA,
+      // formData: SEARCH_DATA,
+      AllBelongOrgList:[],
     }
   },
   props: {
-    isChange: { type: Boolean, default: false }
+    isChange: { type: Boolean, default: false },
+    formData:{ type: Object}
   },
   created() {
     this.getListData()
+    this.getBelongOrgList()
   },
   methods: {
     // 关闭弹窗
@@ -121,7 +125,11 @@ export default {
     },
     //保存
     save(){
+      // this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
+      // this.formData.organizationId=this.formData.isActive1
+     this.formData.organizationId=parseInt(this.formData.organizationId)
       updateList(this.formData).then((res) => {
+        iMessage.success('修改成功')
         this.$emit('saveChangeList', false)
       })
     },
@@ -130,6 +138,14 @@ export default {
       getAll().then((res) => {
         if (+res.code == 200) {
           this.listDeptData = res.data
+        }
+      })
+    },
+    //获取股别
+    getBelongOrgList() {
+      getAllBelongOrgList().then((res) => {
+        if (+res.code === 200) {
+          this.AllBelongOrgList = res.data
         }
       })
     },

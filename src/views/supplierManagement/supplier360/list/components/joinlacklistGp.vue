@@ -186,7 +186,8 @@ export default {
     //状态
     getTypeList() {
       let params = {
-        supplierType: this.tabVal
+        supplierType: this.tabVal,
+        supplierId:this.clickTableList.subSupplierId || ""
       }
       measuresTypeList(params).then((res) => {
         if (res && res.code == 200) {

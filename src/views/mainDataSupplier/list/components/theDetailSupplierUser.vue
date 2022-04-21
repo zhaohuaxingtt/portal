@@ -18,7 +18,7 @@
       >
         {{ language('冻结') }}
       </iButton>
-      <iButton @click="handleAdd">{{ language('新增') }} </iButton>
+      <!-- <iButton @click="handleAdd">{{ language('新增') }} </iButton>
       <iButton
         :disabled="selectedRows.length !== 1"
         @click="handleUpdateMainContact"
@@ -27,7 +27,7 @@
       </iButton>
       <iButton :disabled="!selectedRows.length" @click="handleDelete">
         {{ language('删除') }}
-      </iButton>
+      </iButton> -->
       <iButton :disabled="selectedRows.length !== 1" @click="handleEdit">
         {{ language('编辑') }}
       </iButton>

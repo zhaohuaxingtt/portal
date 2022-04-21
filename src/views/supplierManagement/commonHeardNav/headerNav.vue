@@ -9,7 +9,7 @@
   <div>
     <div class="navBox">
       <iNavMvp :lang='true'
-               :list="tabRouterList"
+               :list="tabRouter"
                class="margin-bottom20"
                routerPage
                :lev="1" />
@@ -24,7 +24,7 @@
 
 <script>
 import { iNavMvp } from 'rise'
-import { tabRouterList, categoryManagementAssistantList } from './navData'
+import { tabRouterList,tabRouterListGP, categoryManagementAssistantList } from './navData'
 import logButton from '@/components/logButton'
 import iUserLog from '@/components/iUserLog'
 export default {
@@ -35,17 +35,26 @@ export default {
   },
   data () {
     return {
+      tabRouter:[],
       tabRouterList,
+      tabRouterListGP,
       categoryManagementAssistantList,
       isShowKpiMenu: true,
       showDialog: false,
-
     }
   },
   computed: {
     whiteBtnList () {
       return this.$store.state.permission.whiteBtnList
     }
+  },
+  created(){
+    if(this.$route.path.indexOf("/supplier/supplierListGP")!=-1 || this.$route.path.indexOf("/supplier/supplierListDis")!=-1){
+      this.tabRouter = this.tabRouterListGP
+    }else{
+      this.tabRouter = this.tabRouterList
+    }
+    // console.log(this.$route.path)
   },
   methods: {
     toLog () {
@@ -54,7 +63,7 @@ export default {
     checkHasEnterMenu () {
       const { path } = this.$route
       const menuList = [
-        ...this.tabRouterList,
+        ...this.tabRouter,
         // ...this.subNavListOne,
         // ...this.monthlyTrackingNavList,
         // ...this.navList
@@ -87,7 +96,7 @@ export default {
     },
   },
   mounted () {
-    this.checkHasEnterMenu()
+    // this.checkHasEnterMenu()
   }
 }
 </script>

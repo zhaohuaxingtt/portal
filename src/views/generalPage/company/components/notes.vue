@@ -1,7 +1,8 @@
 <template>
 	<iCard :title="$t('GUDONG_JITUANYUGUANLIANGONGSIBUCHONGSHUOMING')" class="margin-top20" tabCard>
 		<template slot="header-control">
-			<iButton v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_REMARK_SAVE" @click="saveAdditionalInfo">{{$t('LK_BAOCUN')}}</iButton>
+			<iButton  v-if="$route.query.subSupplierType!=='GP'" v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_REMARK_SAVE" @click="saveAdditionalInfo">{{$t('LK_BAOCUN')}}</iButton>
+			<iButton  v-if="$route.query.subSupplierType=='GP'" v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_REMARK_SAVE_GP" @click="saveAdditionalInfo">{{$t('LK_BAOCUN')}}</iButton>
 		</template>
 		<iInput type="textarea" :autosize='{minRows:4}' v-model='notes'></iInput>
 	</iCard>

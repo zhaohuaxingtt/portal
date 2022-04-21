@@ -4,12 +4,15 @@
       <div class="left">
         <div class="label">{{$t('SUPPLIER_YEWUFAZHANJIHUA')}}：</div>
       </div>
-      <i-button @click="saveAdditionalInfo" v-permission="SUPPLIER_NAMEOFCUSTOMERS_SAVE">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button @click="saveAdditionalInfo" v-if="$route.query.subSupplierType!=='GP'" v-permission="SUPPLIER_NAMEOFCUSTOMERS_SAVE">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button @click="saveAdditionalInfo" v-if="$route.query.subSupplierType=='GP'" v-permission="SUPPLIER_NAMEOFCUSTOMERS_SAVE_GP">{{$t('LK_BAOCUN')}}</i-button>
     </div>
-    <i-input type="textarea" rows="4" resize="none" v-model="detail" class="margin-top30"  v-permission="SUPPLIER_NAMEOFCUSTOMERS_BUSINESSDEVELOPMENTPLAN"/>
+    <i-input v-if="$route.query.subSupplierType!=='GP'" type="textarea" rows="4" resize="none" v-model="detail" class="margin-top30"  v-permission="SUPPLIER_NAMEOFCUSTOMERS_BUSINESSDEVELOPMENTPLAN"/>
+    <i-input v-if="$route.query.subSupplierType=='GP'" type="textarea" rows="4" resize="none" v-model="detail" class="margin-top30"/>
     <div class="row2">
       <div class="label">{{$t('SUPPLIER_XIAOSHOUXINXIBEIZHU')}}：</div>
-      <i-input type="textarea" rows="4" resize="none" v-model="remark" class="margin-top30" v-permission="SUPPLIER_NAMEOFCUSTOMERS_SALESINFORMATIONREMARKS"/>
+      <i-input v-if="$route.query.subSupplierType!=='GP'" type="textarea" rows="4" resize="none" v-model="remark" class="margin-top30" v-permission="SUPPLIER_NAMEOFCUSTOMERS_SALESINFORMATIONREMARKS"/>
+      <i-input v-if="$route.query.subSupplierType=='GP'" type="textarea" rows="4" resize="none" v-model="remark" class="margin-top30"/>
     </div>
   </i-card>
 </template>
