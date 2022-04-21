@@ -61,10 +61,10 @@ export default {
         this.dataList = val;
         this.dataList.forEach(e => {
           this.maxNumber.push(e.percent)
-          this.valueAll.push(e.rfqNum)
-          e.value = e.rfqNum;
+          this.valueAll.push(e.fixPointNum)
+          e.value = e.fixPointNum;
           e.name = e.deptNum;
-          delete e.rfqNum;
+          delete e.fixPointNum;
           delete e.deptNum;
         });
         this.getCanvas();
