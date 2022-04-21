@@ -67,12 +67,35 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
-    <!-- <iCard>
+   <iCard class="margin-bottom20 clearFloat"
+           tabCard
+           collapse
+           title="准入所需附件">
+      <template slot="header">
+        <div>
+          <span style="font-weight:bold">准入所需附件</span>
+        </div>
+        <div>
+          <!-- <iButton @click="handler('1')"
+                   :loading="buttonLoad">{{language('QUEREN','确认')}}</iButton>
+          <iButton @click="handler('0')"
+                   :loading="buttonLoad">{{language('JUJUE','拒绝')}}</iButton> -->
+        </div>
+      </template>
       <table-list :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :selection="false"
-                  :tableLoading="tableLoading" />
-    </iCard> -->
+                  border
+                  :index="true"
+                  :openPageGetRowData="true"
+                  openPageProps="templateName"
+                  @openPage="handleDownload"
+                  :tableLoading="tableLoading">
+        <template #templateName="scope">
+          <div>{{ scope.row.templateName }}<span style="color: red">*</span></div>
+        </template>
+      </table-list>
+    </iCard>
   </div>
 </template>
 
@@ -81,7 +104,8 @@ import { iCard, iFormGroup, iFormItem, iLabel, iText,iButton } from 'rise'
 import { getApprove,gpAdmittanceInfo } from '../../../api/supplier360/approve'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { TableTitle } from "./components/data";
+import { TableTitleGP } from "./components/data";
+import { downloadUdFile } from '@/api/file'
 
 
 export default {
@@ -108,14 +132,18 @@ export default {
     return {
       detail: {},
       loading: false,
-      // tableListData: [],
-      tableTitle: TableTitle,
+      tableListData: [],
+      tableTitle: TableTitleGP,
       tableLoading: false,
       selectTableData: [],
       supplierToken: ""
     }
   },
   methods: {
+    async handleDownload (row) {
+      const req = row.fileId
+      await downloadUdFile(req)
+    },
     async getTaskDetails () {
       this.loading = true
       try {
@@ -126,7 +154,7 @@ export default {
         const res = await gpAdmittanceInfo(req)
         this.detail = res.data
         this.supplierToken = res.data.token
-        // this.tableListData = res.data.supplierMaterialDTOList
+        this.tableListData = res.data.attachList
         this.loading = false
       } catch {
         this.loading = false
@@ -138,9 +166,9 @@ export default {
         query: {
           current: 1,
           supplierType: 4,
-          supplierToken: this.$route.query.supplierToken || this.supplierToken,
+          supplierToken: this.detail.token,
           subSupplierType:"GP",
-          supplierId:"",
+          supplierId:this.detail.id,
         }
       })
     },
