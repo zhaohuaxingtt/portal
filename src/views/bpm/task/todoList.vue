@@ -3,7 +3,11 @@
     <pageHeader>
       <span>{{ language('待审批列表') }}</span>
       <div slot="actions">
-        <actionHeader :todo-total="todoTotal" :task-type="0" />
+        <actionHeader
+          :todo-total="todoTotal"
+          :task-type="0"
+          :search-form="form"
+        />
       </div>
     </pageHeader>
     <searchForm @search="search" />
@@ -230,7 +234,6 @@ export default {
         pageSize: this.page.pageSize
       }
       const searchData = filterEmptyValue(this.form)
-      console.log('searchData', searchData)
 
       if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
         delete searchData.itemTypeList
