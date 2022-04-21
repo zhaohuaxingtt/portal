@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       tabActive: 'base',
-      tabs: [
+      tabs:[],
+      tabsPP: [
         {
           label: '基本信息',
           value: 'base',
@@ -58,7 +59,41 @@ export default {
           value: 'contact',
           target: 'targetContact'
         }
+      ],
+      tabsGP: [
+        {
+          label: '基本信息',
+          value: 'base',
+          target: 'targetBaseGP'
+        },
+        {
+          label: '供应商状态',
+          value: 'state',
+          target: 'targetState'
+        },
+        {
+          label: '银行信息',
+          value: 'bank',
+          target: 'targetBank'
+        },
+        {
+          label: '供应商用户',
+          value: 'user',
+          target: 'targetUser'
+        },
+        {
+          label: '供应商通讯录',
+          value: 'contact',
+          target: 'targetContact'
+        }
       ]
+    }
+  },
+  created(){
+    if(this.$route.query.supplierType == "GP"){
+      this.tabs = this.tabsGP
+    }else{
+      this.tabs = this.tabsPP
     }
   },
   methods: {

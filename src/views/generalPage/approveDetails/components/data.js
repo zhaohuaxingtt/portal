@@ -62,3 +62,28 @@ export const TableTitle = [
     tooltip: true
   }
 ]
+
+
+export const TableTitleGP = [
+  {
+    props: 'templateName',
+    name: '附件名称',
+    key: 'SUPPLIER_FUJIANMINGCHENG',
+    tooltip: true
+  },{
+    props: 'createDate',
+    name: '上传/确认日期',
+    key: 'SUPPLIER_SHANGCHUANQUERENRQI',
+    tooltip: true
+  },{
+    props: 'remark',
+    name: '备注说明',
+    key: 'SUPPLIER_BEIZHUSHUOMING',
+    tooltip: true
+  },{
+    props: 'validityOfCertificate',
+    name: '证件有效期',
+    key: 'SUPPLIER_ZHENGJIANYOUXIAOQI',
+    tooltip: true
+  }
+]

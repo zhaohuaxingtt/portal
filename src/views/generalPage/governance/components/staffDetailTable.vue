@@ -9,7 +9,8 @@
   <iCard>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <i-button @click="exportsTable" v-permission="SUPPLIER_GOVERNANCE_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button v-if="$route.query.subSupplierType!=='GP'" @click="exportsTable" v-permission="SUPPLIER_GOVERNANCE_TABLE_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button v-if="$route.query.subSupplierType=='GP'" @click="exportsTable" v-permission="SUPPLIER_GOVERNANCE_TABLE_EXPORT_GP">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
     <!-- v-permission="SUPPLIER_GOVERNANCE_TABLE" -->

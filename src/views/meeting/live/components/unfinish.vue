@@ -37,15 +37,9 @@
       <el-divider class="divider-line"></el-divider>
     </el-row> -->
     <el-row class="row-el">
-      <iButton class="add-topic" @click="handleAddTopic">{{
-        $t('MT_TIANJIAYITI')
-      }}</iButton>
-      <iButton
-        class="revort-topic"
-        :disabled="disabledButton"
-        @click="handleRevokeTopic"
-        >{{ $t('MT_CHEHUIYITI') }}</iButton
-      >
+      <iButton class="add-topic" @click="handleAddTopic" :disabled="disabledAddTopic">{{ $t('MT_TIANJIAYITI') }}</iButton>
+      <iButton class="revort-topic" :disabled="disabledButton"
+        @click="handleRevokeTopic" >{{ $t('MT_CHEHUIYITI') }}</iButton>
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
     <iTableML
@@ -361,6 +355,7 @@ export default {
   },
   data() {
     return {
+      disabledAddTopic:true,
       meetingTypeId: '',
       editOrAdd: 'add',
       openAddTopic: false,
@@ -445,6 +440,11 @@ export default {
     // }
   },
   mounted() {
+    // console.log(this.unFinishedData[0].type)
+    //后来gp说这个按钮是gp会议就禁用
+    if (this.unFinishedData[0].type == 'GP') {
+      this.disabledAddTopic=false
+    }
     this.meetingTypeId = this.$route.query.id
   },
   methods: {

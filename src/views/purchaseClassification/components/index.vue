@@ -39,6 +39,7 @@
     />
     <!-- 修改弹窗 -->
     <changeClassification
+    :formData='formData'
       :isChange="isChange"
       @input="(val) => (isChange = val)"
       @saveChangeList="saveChangeList"
@@ -50,8 +51,13 @@ import { iCard, iButton, iPagination, iPage } from 'rise'
 import HomeFrameWorkTab from './HomeFrameWorkTab'
 import addClassification from './addClassification'
 import changeClassification from './changeClassification'
-import { page, getMaterialGroupById, finish } from '@/api/authorityMgmt'
-import { SEARCH_DATA } from './data'
+import {
+  page,
+  getMaterialGroupById,
+  finish,
+  getAllBelongOrgList
+} from '@/api/authorityMgmt'
+import { SEARCH_DATA, SEARCH_ADD_DATA } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
@@ -70,7 +76,8 @@ export default {
       formData: SEARCH_DATA,
       tablelist: [],
       isChange: false, //修改弹窗
-      finash: []
+      finash: [],
+      addlist: SEARCH_ADD_DATA
     }
   },
   created() {
@@ -80,9 +87,19 @@ export default {
     //新增
     add() {
       this.isShow = true
+      for (let i in this.addlist) {
+        if (i !== 'isActive') {
+          this.addlist[i] = ''
+        }
+      }
     },
     //获取列表值
     getList() {
+      for (let i in this.formData) {
+        if (i !== 'isActive') {
+          this.formData[i] = ''
+        }
+      }
       this.formData.current = this.page.currPage
       this.formData.size = this.page.pageSize
       page(this.formData).then((res) => {
@@ -99,20 +116,37 @@ export default {
     purchaseAmount(val) {
       this.isChange = true
       getMaterialGroupById(val.id).then((res) => {
-        this.formData.parentMaterialGroupCode = res.data.parentMaterialGroupCode
-        this.formData.parentMaterialGroupName = res.data.parentMaterialGroupName
-        this.formData.parentMaterialGroupLevel =
-          res.data.parentMaterialGroupLevel + 1
-        this.formData.materialGroupCode = res.data.materialGroupCode
-        this.formData.materialGroupName = res.data.materialGroupName
-        this.formData.materialGroupDesc = res.data.materialGroupDesc
-        this.formData.isActive = res.data.isActive
-        this.formData.isActive1 = res.data.isActive1
+        this.formData=res.data
+        // this.formData.parentMaterialGroupCode = res.data.parentMaterialGroupCode
+        // this.formData.parentMaterialGroupName = res.data.parentMaterialGroupName
+        // this.formData.parentMaterialGroupLevel =
+        //   res.data.parentMaterialGroupLevel + 1
+        // this.formData.materialGroupCode = res.data.materialGroupCode
+        // this.formData.materialGroupName = res.data.materialGroupName
+        // this.formData.materialGroupDesc = res.data.materialGroupDesc
+        // this.formData.isActive = res.data.isActive
+        // getAllBelongOrgList().then((AllBelongOrgList) => {
+        //   if (+AllBelongOrgList.code === 200) {
+        //     AllBelongOrgList.data.forEach((i) => {
+        //       if (i.belongToOrgId == res.data.organizationId) {
+        //         this.formData.organizationId = i.belongToOrgCode
+        //       }
+        //     })
+        //   }
+        // })
+        this.formData.parentId = val.parentId
+        this.formData.id = val.id
+
       })
     },
     //新增后保存
     saveDataList() {
       this.isShow = false
+      for (let i in this.formData) {
+        if (i !== 'isActive') {
+          this.addlist[i] = ''
+        }
+      }
       this.getList()
     },
     //修改后保存
@@ -122,12 +156,13 @@ export default {
     },
     //实时保存
     returnData(x) {
+      console.log('qqqqqqqqqq',x)
       this.finash = x
-      console.log(this.finash)
-      let aa = { id: this.finash[0].id, isActive: this.finash[0].isActive }
-      console.log(aa)
+      // console.log(this.finash)
+      let aa = { id: this.finash[this.finash.length-1].id, isActive: this.finash[this.finash.length-1].isActive }
+      // console.log(aa)
       finish(aa).then((res) => {
-        
+        this.getList()
       })
     }
   }

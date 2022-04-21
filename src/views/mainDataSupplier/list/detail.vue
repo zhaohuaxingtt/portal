@@ -10,6 +10,28 @@
       :supplierId="supplierId"
       :dicts="dicts"
       @the-detail-base-query="query"
+      v-if="$route.query.supplierType!=='GP'"
+    />
+    <theDetailBaseGP
+      class="margin-bottom20"
+      id="targetBaseGP"
+      :detail="baseInfo"
+      :supplier-type="supplierType"
+      :supplierId="supplierId"
+      :dicts="dicts"
+      @the-detail-base-query="query"
+      v-if="$route.query.supplierType=='GP'"
+    />
+    <linie
+      class="margin-bottom20"
+      id="linie"
+      ref="linie"
+      :detail="baseInfo"
+      :supplier-type="supplierType"
+      :supplierId="supplierId"
+      :dicts="dicts"
+      @the-detail-base-query="query"
+      v-if="$route.query.supplierType=='GP'"
     />
     <theDetailSupplierState
       class="margin-bottom20"
@@ -22,6 +44,7 @@
     />
     <theDetailFactory
       class="margin-bottom20"
+      v-if="$route.query.supplierType!=='GP'"
       id="targetFactory"
       :supplierId="supplierId"
       :supplierPlantVo="supplierPlantVo"
@@ -34,6 +57,18 @@
       :supplierId="supplierId"
       :supplier-type="supplierType"
       :dicts="dicts"
+      v-if="$route.query.supplierType!=='GP'"
+    />
+    <theDetailBankGp
+      :bank-form="bankForm"
+      :subBankVos="subBankVos"
+      class="margin-bottom20"
+      id="targetBank"
+      @delete-bank-success="query"
+      :supplierId="supplierId"
+      :supplier-type="supplierType"
+      :dicts="dicts"
+      v-if="$route.query.supplierType=='GP'"
     />
     <theDetailSupplierUser
       :supplierId="supplierId"
@@ -64,9 +99,15 @@ import {
   theDetailFactory,
   theDetailBank,
   theDetailSupplierUser,
-  theDetailSupplierContact
+  theDetailSupplierContact,
 } from './components'
-import { fetchSupplier } from '@/api/mainDataSupplier/list'
+import {
+  tableData
+} from "./components/datas";
+import theDetailBaseGP from './components/theDetailBaseGP'
+import theDetailBankGp from './components/theDetailBankGp'
+import linie from './components/linie'
+import { fetchSupplier,fetchSupplierGP } from '@/api/mainDataSupplier/list'
 import { BANK_FORM } from './components/data'
 import { selectDictByKeys } from '@/api/dictionary'
 export default {
@@ -79,20 +120,25 @@ export default {
     theDetailFactory,
     theDetailBank,
     theDetailSupplierUser,
-    theDetailSupplierContact
+    theDetailSupplierContact,
+    linie,
+    theDetailBaseGP,
+    theDetailBankGp
   },
   data() {
     return {
       dicts: {},
       detail: {},
       bankForm: {},
+      subBankVos:[],
       supplierId: '',
       mainSupplierId: '',
       baseInfo: { addressInfoVo: {} },
       bankSpplierId: '',
       supplierType: '',
       supplierPlantVo: [],
-      loading: false
+      loading: false,
+      tableData,
     }
   },
   created() {
@@ -101,11 +147,12 @@ export default {
   },
   methods: {
     query() {
-      const { id } = this.$route.query
+      const { id,supplierType } = this.$route.query
       console.log(id, '--------')
       if (id) {
         this.loading = true
-        fetchSupplier({ id })
+        if(this.$route.query.supplierType == "GP"){
+          fetchSupplierGP({ id,supplierType })
           .then((res) => {
             const { data, result } = res
             if (result) {
@@ -114,8 +161,10 @@ export default {
                 supplierVo,
                 gpSupplierVo,
                 ppSupplierVo,
+                gpSupplierDetails,
                 settlementBankVo,
                 supplierContactVos,
+                subBankVos,
                 addressInfoVo,
                 assCompanyVos,
                 supplierProductVos,
@@ -134,6 +183,8 @@ export default {
               this.supplierPlantVo = supplierPlantVo || []
 
               this.bankForm = settlementBankVo || { ...BANK_FORM }
+              this.subBankVos = subBankVos;
+              // console.log(subBankVos)
               this.mainSupplierId = supplierVo.id
               /* this.supplierId = supplierVo.id
               this.baseInfo = {
@@ -160,9 +211,11 @@ export default {
                     supplierVo.isForeignManufacture.toString()
                 }
                 this.supplierId = gpSupplierVo.id
+                console.log(gpSupplierDetails);
                 this.baseInfo = {
                   ...supplierVo,
                   ...gpSupplierVo,
+                  gpSupplierDetails:gpSupplierDetails,
                   assCompanyVos: assCompanyVos || [], // 关联产品
                   supplierProductVos: supplierProductVos || [], // 关联公司
                   isListing: supplierVo.isListing + '',
@@ -176,6 +229,26 @@ export default {
                   enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'GP' // 一般
+                
+                this.tableData.forEach(e=>{
+                  this.baseInfo.gpSupplierDetails.forEach(item =>{
+                    if(e.businessType == item.businessType){
+                      e = Object.assign(e,item);
+                    }
+                  })
+                })
+                this.baseInfo.gpSupplierDetails = this.tableData
+
+                this.baseInfo.gpSupplierDetails.forEach(e=>{
+                  if(e.businessBuyerEmail){
+                    e.industryPosition = "Y";
+                  }else{
+                    e.industryPosition = "N";
+                  }
+                })
+
+                this.$refs.linie.oldData = _.cloneDeep(this.baseInfo.gpSupplierDetails);
+                console.log(this.baseInfo)
               }
               if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
                 let isForeignManufacture
@@ -237,6 +310,144 @@ export default {
             iMessage.error(err.desZh || '获取数据失败')
           })
           .finally(() => (this.loading = false))
+        }else{
+          fetchSupplier({ id })
+          .then((res) => {
+            const { data, result } = res
+            if (result) {
+              this.detail = data || []
+              const {
+                supplierVo,
+                gpSupplierVo,
+                ppSupplierVo,
+                settlementBankVo,
+                supplierContactVos,
+                subBankVos,
+                addressInfoVo,
+                assCompanyVos,
+                supplierProductVos,
+                supplierPlantVo,
+                supplierCorpVo
+              } = data
+              const defaultAddressInfo = {
+                provinceCode: '',
+                countryCode: '',
+                cityCode: '',
+                address: '',
+                province: '',
+                country: '',
+                city: ''
+              }
+              this.supplierPlantVo = supplierPlantVo || []
+
+              this.bankForm = settlementBankVo || { ...BANK_FORM }
+              this.subBankVos = subBankVos;
+              console.log(subBankVos)
+              this.mainSupplierId = supplierVo.id
+              /* this.supplierId = supplierVo.id
+              this.baseInfo = {
+                ...supplierVo,
+                isListing: supplierVo.isListing && supplierVo.isListing + '',
+                isForeignManufacture:
+                  supplierVo.isForeignManufacture &&
+                  supplierVo.isForeignManufacture + '',
+                addressInfoVo: addressInfoVo || defaultAddressInfo,
+                assCompanyVos: assCompanyVos || [], // 关联产品
+                supplierProductVos: supplierProductVos || [], // 关联公司
+                supplierCorpVo: supplierCorpVo || [] // 关联集团
+              }
+              this.supplierType = 'PD' // 公用 */
+              this.contacts = supplierContactVos || []
+
+              if (supplierVo.supplierType === 'GP' && gpSupplierVo) {
+                let isForeignManufacture
+                if (
+                  supplierVo.isForeignManufacture == 1 ||
+                  supplierVo.isForeignManufacture == 0
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
+                }
+                this.supplierId = gpSupplierVo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...gpSupplierVo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  isListing: supplierVo.isListing + '',
+                  isForeignManufacture,
+                  // :
+                  //   supplierVo.isForeignManufacture &&
+                  //   supplierVo.isForeignManufacture + ''
+                  // ,
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
+                }
+                this.supplierType = 'GP' // 一般
+                console.log(this.baseInfo)
+              }
+              if (supplierVo.supplierType === 'PP' && ppSupplierVo) {
+                let isForeignManufacture
+                if (
+                  supplierVo.isForeignManufacture == 0 ||
+                  supplierVo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture =
+                    supplierVo.isForeignManufacture.toString()
+                }
+                this.supplierId = ppSupplierVo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...ppSupplierVo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  isListing: supplierVo.isListing + '',
+                  isForeignManufacture,
+                  // isForeignManufacture:
+                  //   supplierVo.isForeignManufacture &&
+                  //   supplierVo.isForeignManufacture + '',
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
+                }
+                this.supplierType = 'PP' // 生产
+              }
+              // CRW-4378[供应商主数据管理]供应商信息详情页，用户列表为空
+              if (supplierVo.supplierType === 'PD') {
+                const vo = ppSupplierVo || gpSupplierVo
+                let isForeignManufacture
+                if (
+                  vo.isForeignManufacture == 0 ||
+                  vo.isForeignManufacture == 1
+                ) {
+                  isForeignManufacture = vo.isForeignManufacture.toString()
+                }
+                this.supplierId = vo.id
+                this.baseInfo = {
+                  ...supplierVo,
+                  ...vo,
+                  isListing: vo.isListing && vo.isListing + '',
+                  isForeignManufacture,
+                  // isForeignManufacture:
+                  //   vo.isForeignManufacture && vo.isForeignManufacture + '',
+                  addressInfoVo: addressInfoVo || defaultAddressInfo,
+                  assCompanyVos: assCompanyVos || [], // 关联产品
+                  supplierProductVos: supplierProductVos || [], // 关联公司
+                  supplierCorpVo: supplierCorpVo || [], // 关联集团
+                  enterpriseType: supplierVo.enterpriseType
+                }
+                this.supplierType = 'PD'
+              }
+            } else {
+              iMessage.error(res.desZh || '获取数据失败')
+            }
+          })
+          .catch((err) => {
+            iMessage.error(err.desZh || '获取数据失败')
+          })
+          .finally(() => (this.loading = false))
+        }
       }
     },
     scrollTo(refId) {
@@ -279,7 +490,7 @@ export default {
     },
     deleteFactorySuccess() {
       this.query()
-    }
+    },
   }
 }
 </script>

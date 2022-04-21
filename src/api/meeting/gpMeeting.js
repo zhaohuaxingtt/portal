@@ -82,6 +82,17 @@ export function exportMeetingMinutes(data) {
     responseType: 'blob'
   })
 }
+// 导出会议纪要 mbdl
+// /gpMeetingService/exportMbdlMeetingMinutes
+export function exportMbdlMeetingMinutes(data) {
+  return requst({
+    url: `/gpMeetingService/exportMbdlMeetingMinutes`,
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}
+
 //货币下拉框
 // gpMeetingService/getCscCurrencyList
 export function getCscCurrencyList(data) {
@@ -134,7 +145,7 @@ export function modifyConclusionByMbdlId(data) {
     data
   })
 }
-// 导出会议agenda
+// 导出会议agenda   MBDL
 // /gpMeetingService/exportMeetingAgenda
 export function exportMeetingAgenda(data) {
   return requst({
@@ -144,6 +155,17 @@ export function exportMeetingAgenda(data) {
     data
   })
 }
+// 导出Csc会议agenda
+// /gpMeetingService/exportCscMeetingAgenda
+export function exportCscMeetingAgenda(data) {
+  return requst({
+    url: `/gpMeetingService/exportCscMeetingAgenda`,
+    method: 'POST',
+    responseType: 'blob',
+    data
+  })
+}
+
 // 根据会议类型id查询议题结论
 // /gpMeetingService/findThemenConclusion
 export function findThemenConclusion(data) {

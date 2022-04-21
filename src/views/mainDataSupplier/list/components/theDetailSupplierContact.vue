@@ -11,6 +11,13 @@
       >
         {{ language('删除') }}
       </iButton>
+      <!-- <iButton
+        :loading="delLoading"
+        @click="exportEXT"
+      >
+        {{ language('导出') }}
+      </iButton> -->
+      <button-download :download-method="exportEXT" />
     </div>
     <i-table-custom
       :loading="loading"
@@ -23,12 +30,13 @@
 </template>
 
 <script>
-import { iCard, iButton, iMessage } from 'rise'
+import { iCard, iButton, iMessage,iMessageBox } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { SUPPLIER_CONTACT_COLUMNS, DEFAULT_CONTACT } from './data'
 import {
   deleteSupplierContact,
-  updateBantchSupplierContact
+  updateBantchSupplierContact,
+  contactExport
 } from '@/api/mainDataSupplier/list/contacts'
 import deleteMixin from '@/mixins/deleteMixin'
 export default {
@@ -82,8 +90,15 @@ export default {
     this.init()
   },
   methods: {
+    exportEXT() {
+      return contactExport(this.supplierId)
+    },
     // 这里主要是为了补全5种类型联系人
     init() {
+      if(this.$route.query.supplierType == "GP"){
+        this.tableData = _.cloneDeep(this.contacts)
+        return false;
+      }
       if (this.contacts) {
         this.contacts.forEach((item) => {
           // console.log(this.dicts.SUPPLIER_CODE_TYPE,'=======')

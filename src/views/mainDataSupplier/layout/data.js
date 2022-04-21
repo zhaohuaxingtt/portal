@@ -37,9 +37,14 @@ export const MENUSZh = [
   },
   {
     title: 'N-Tier供应商信息',
-    url: '/mainDataSupplier/N-Tier',
+    url: '/mainDataSupplier/n-tier',
     permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER'
-  }
+  },
+  {
+    title: '分散（内部报销）供应商信息',
+    url: '/mainDataSupplier/dis-up',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DISPERSED'
+  },
 ]
 
 export const MENUSEn = [
@@ -57,5 +62,10 @@ export const MENUSEn = [
     title: 'N-Tier Supplier Info',
     url: '/mainDataSupplier/N-Tier',
     permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DATA_N_TIER'
+  },
+  {
+    title: 'Dispersed Supplier Info',
+    url: '/mainDataSupplier/dis-up',
+    permissionKey: 'ADMIN_MAIN_DATA_SUPPLIER_DISPERSED'
   }
 ]

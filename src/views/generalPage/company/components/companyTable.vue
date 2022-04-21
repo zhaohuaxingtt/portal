@@ -7,19 +7,26 @@
  * @FilePath: \front-portal\src\views\generalPage\company\components\companyTable.vue
 -->
 <template>
-  <iCard>
-    <div class="margin-bottom20 clearFloat">
-      <div class="floatright">
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE"
-                  @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD"
-                  @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE"
-                  @click="deleteItem('ids', delCompany)">{{$t('delete')}}</i-button>
-        <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_EXPORT"
-                  @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
-      </div>
-    </div>
+  <iCard :title="$t('SUPPLIER_GLGS')" tabCard>
+    <template slot="header-control" v-if="$route.query.subSupplierType!=='GP'">
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE"
+                @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD"
+                @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE"
+                @click="deleteItem('ids', delCompany)">{{$t('delete')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_EXPORT"
+                @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+    </template>
+    <template slot="header-control" v-if="$route.query.subSupplierType=='GP'">
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_SAVE_GP"
+                @click="saveInfos">{{$t('LK_BAOCUN')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_ADD_GP"
+                @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_DELETE_GP"
+                @click="deleteItem('ids', delCompany)">{{$t('delete')}}</i-button>
+      <i-button v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY_EXPORT_GP" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+    </template>
      <!-- v-permission="SUPPLIER_COMPANY_RELATEDCOMPANY" -->
     <table-list
                 :tableData="tableListData"

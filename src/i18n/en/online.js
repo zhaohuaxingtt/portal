@@ -356,6 +356,7 @@ export default {
   SONGYANG: 'Sample',
   ZHUANGKUANGLIANGHAO: 'Good',
   HETONGDINGDAN: 'Contract Order',
+  DINGDIANJINE: '定点金额',
   ZHIJIN: 'Till now',
   JINEWANAYUAN: 'Amount (10k)',
   SupplierEn: 'Supplier Name (EN)',
