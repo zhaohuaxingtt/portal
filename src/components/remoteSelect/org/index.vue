@@ -71,7 +71,7 @@ export default {
     }
   },
   created() {
-    this.userId = this.value
+    this.id = this.value
     if (this.defaultOptions && this.defaultOptions.length > 0) {
       this.options = this.defaultOptions
     }
