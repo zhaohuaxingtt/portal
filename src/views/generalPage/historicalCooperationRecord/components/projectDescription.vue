@@ -21,7 +21,11 @@
         @handleSelectionChange="handleSelectionChange"
         :index="true"
         border
-    />
+    >
+      <template #contractCode="scope">
+        <span class="open-link-text look-themen-click" @click="goGoGp(scope.row)">{{scope.row.contractCode}}</span>
+      </template>
+    </table-list>
     <!-- <iPagination
         @size-change="handleSizeChange($event, getTableList)"
         @current-change="handleCurrentChange($event, getTableList)"
@@ -66,6 +70,9 @@ export default {
     this.getTableList();
   },
   methods: {
+    goGoGp(row){
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${row.contractId}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE`)
+    },
     getTableList(){
       queryGpSupplierCooperationRecord(
           this.$route.query.supplierId
@@ -78,6 +85,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+::v-deep .look-themen-click {
+  cursor: pointer;
+  color: #1763f7;
+}
 </style>
