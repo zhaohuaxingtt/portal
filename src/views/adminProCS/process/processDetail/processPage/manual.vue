@@ -64,8 +64,7 @@ export default {
     }
   },
   watch: {
-    info(val) {
-      console.log('info val', val)
+    info() {
       this.init()
     }
   },
