@@ -44,7 +44,8 @@ export default {
   },
   data () {
     return {
-      baseInfoTitle:[]
+      baseInfoTitle: cloneDeep(baseInfoTitle),
+      flag:false
     }
   },
   computed: {
@@ -70,32 +71,28 @@ export default {
       });
     },
     onJump360 () {
-      if(this.$router.path="/view-suppliers"){
-        this.$router.go(-1)
-        return;
-      }
-      if(this.baseMsg.supplierDTO.supplierType == "GP"){
+      if(this.$route.path==='/view-suppliers'){
         this.$router.push({
-          path: "/supplier/supplierListGP/detailsGP",
-          query: {
-            supplierType: this.baseMsg.supplierDTO.supplierType,
-            subSupplierId: this.$route.query.supplierId,
-            isShowAll: true
-          }
+        path: "/suppliersDetails",
+        query: {
+          supplierType: this.baseMsg.supplierDTO.supplierType,
+          subSupplierId: this.$route.query.subSupplierId,
+          isShowAll: true
+        }
         })
-      }else{
-        this.$router.push({
-          path: "/supplier/supplierList/details",
-          query: {
-            supplierType: this.baseMsg.supplierDTO.supplierType,
-            subSupplierId: this.$route.query.subSupplierId,
-            isShowAll: true
-          }
-        })
+        return
       }
-      // this.$router.go(-1)
+      this.$router.push({
+        path: "/supplier/supplierList/details",
+        query: {
+          supplierType: this.baseMsg.supplierDTO.supplierType,
+          subSupplierId: this.$route.query.subSupplierId,
+          isShowAll: true
+        }
+      })
     }
   },
+
   mounted () {
     console.log(this.baseMsg, "baseMsg")
   }
