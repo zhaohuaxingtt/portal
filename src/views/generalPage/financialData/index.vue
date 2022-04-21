@@ -13,7 +13,7 @@
     <i-card :title="$t('SUPPLIER_CAIWUSHUJU')"
             class="margin-top20">
       <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
+        <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
           <!-- v-if="isSupplierDetail" -->
           <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
           <!-- 调取外部评级 -->
@@ -74,6 +74,16 @@
                     @click="handleExportEarnings"
                     v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
+        </div>
+        <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+          <!-- 调取外部评级 -->
+          <i-button @click="handleRatings" v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI_GP">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD_GP" @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE_GP" @click="deleteItem('ids', deleteFinance)">{{ $t('LK_SHANCHU') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON_GP" @click="openDataComparison">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT_GP" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE_GP" @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+          <i-button @click="handleExportEarnings" v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO_GP">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}</i-button>
         </div>
       </div>
       <!-- v-permission="SUPPLIER_FINANCIALDATA_TABLE" -->

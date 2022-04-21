@@ -5,7 +5,7 @@
         @click="handleAdd"
         v-if="type !== 'detail'"
         :disabled="dimensionChecked && dimensionChecked.length"
-        >{{language('增加维度')}}</iButton
+        >{{ language('增加维度') }}</iButton
       >
       <iButton
         @click="handleDel"
@@ -14,7 +14,7 @@
         "
         v-if="type !== 'detail'"
         class="margin-right20"
-        >{{language('删除维度')}}</iButton
+        >{{ language('删除维度') }}</iButton
       >
     </div>
 
@@ -46,20 +46,21 @@ export default {
         detail: [
           {
             type: 'index',
-            label: '序号',
-            width: 80
+            label: '#',
+            width: 50
           },
           {
             prop: 'description',
             label: '维度',
-            i18n:'维度',
+            i18n: '维度',
             tooltip: false,
-            align: 'center'
+            align: 'center',
+            width: 150
           },
           {
             prop: 'content',
             label: '内容',
-            i18n:'内容',
+            i18n: '内容',
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
@@ -76,15 +77,16 @@ export default {
           },
           {
             type: 'index',
-            label: '序号',
-            width: 80
+            label: '#',
+            width: 50
           },
           {
             prop: 'dimension',
             label: '维度',
-            i18n:'维度',
+            i18n: '维度',
             tooltip: false,
             align: 'center',
+            width: 150,
             customRender: (h, scope) => {
               let options = _self.dimensionOptions
 
@@ -129,7 +131,7 @@ export default {
             prop: 'content',
             label: '内容',
             align: 'center',
-            i18n:'内容',
+            i18n: '内容',
             tooltip: false,
             customRender: (h, scope) => {
               let options = []
@@ -164,15 +166,16 @@ export default {
           },
           {
             type: 'index',
-            label: '序号',
-            width: 80
+            label: '#',
+            width: 50
           },
           {
             prop: 'dimension',
             label: '维度',
-            i18n:'维度',
+            i18n: '维度',
             tooltip: false,
             align: 'center',
+            width: 150,
             customRender: (h, scope) => {
               const options = _self.dimensionOptions
               return (
@@ -216,7 +219,7 @@ export default {
           {
             prop: 'content',
             label: '内容',
-            i18n:'内容',
+            i18n: '内容',
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {

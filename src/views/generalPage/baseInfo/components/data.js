@@ -67,7 +67,17 @@ export const supplierComplete = {
     city: "",//	城市
     bankAccount: "",//结算银行账号
     bankTaxCode: ""//税务号
-  }
+  },
+  //GP电子银票DTO
+	gpSupplierBankNoteDTO:{
+		bankNoteName:"",
+		bankNoteAccount:"",
+		country:"",
+		province:"",
+		city:"",
+	},
+  //银行子账户列表信息
+  subBankList:[],
 }
 //非零数字
 const checkNumber = (rule, value, callback) => {
@@ -154,30 +164,169 @@ export const businessRules = {
 }
 
 export const bankRules={
-	'settlementBankDTO.country':[
-		{ required: false, message: '请选择银行所在国家', trigger: 'change' }
+	'settlementBankDTO.countryCode':[
+		{ required: true, message: '请选择银行所在国家', trigger: 'change' }
 	],
-	'settlementBankDTO.province':[
-		{ required: false, message: '请选择银行所在省份', trigger: 'change' }
+	'settlementBankDTO.provinceCode':[
+		{ required: true, message: '请选择银行所在省份', trigger: 'change' }
 	],
-	'settlementBankDTO.city':[
-		{ required: false, message: '请选择银行所在城市', trigger: 'change' }
+	'settlementBankDTO.cityCode':[
+		{ required: true, message: '请选择银行所在城市', trigger: 'change' }
 	],
 	'settlementBankDTO.bankName':[
-		{ required: false, message: '请输入银行名称', trigger: 'blur' }
+		{ required: true, message: '请输入银行名称', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankCode':[
-		{ required: false,message: '请输入正确银行代码', trigger: 'blur' },
+		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankAccount':[
-		{ required: false, message: '请输入正确银行卡号', trigger: 'blur' },
+		{ required: true, message: '请输入正确银行卡号', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
 		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankTaxCode':[
-		{ required: false, message: '请输入税务代码', trigger: 'blur' },
+		{ required: true, message: '请输入税务代码', trigger: 'blur' },
 		{ pattern:/^[A-Za-z0-9]+$/, message: '税务代码错误', trigger: 'blur' }
-	]
+	],
+  'gpSupplierBankNoteDTO.bankNoteName':[
+    { required: true, message: '请输入电子银票账户银行名称', trigger: 'blur' },
+  ],
+  'gpSupplierBankNoteDTO.bankNoteAccount':[
+    { required: true, message: '请输入电子银票银行账户行号', trigger: 'blur' },
+    { pattern:/^[A-Za-z0-9]+$/, message: '账户行号错误', trigger: 'blur' }
+  ],
+  'gpSupplierBankNoteDTO.country':[
+    { required: true, message: '请输入电子银票银行所在国家', trigger: 'blur' },
+  ],
+  'gpSupplierBankNoteDTO.province':[
+    { required: true, message: '请输入电子银票银行所在省份', trigger: 'blur' },
+  ],
+  'gpSupplierBankNoteDTO.city':[
+    { required: true, message: '请输入电子银票账户银行城市', trigger: 'blur' },
+  ],
 }
+
+export const bankRulesBank = {
+  'country':[
+		{ required: true, message: '请选择银行所在国家', trigger: 'change' }
+	],
+	'province':[
+		{ required: true, message: '请选择银行所在省份', trigger: 'change' }
+	],
+	'city':[
+		{ required: true, message: '请选择银行所在城市', trigger: 'change' }
+	],
+	'bankName':[
+		{ required: true, message: '请输入银行名称', trigger: 'blur' }
+	],
+	'bankCode':[
+		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
+		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
+		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+	],
+	'bankAccount':[
+		{ required: true, message: '请输入正确银行卡号', trigger: 'blur' },
+		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
+		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+	],
+	'salaryAccount':[
+		{ required: true, message: '请输入农民工工资专用账户名称', trigger: 'blur' },
+	],
+}
+
+export const tableTitle = [
+  {
+      props: 'businessTypeDesc',
+      name: '业务类型',
+      key: 'EKL_YJGL_YWLX',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 150
+  },
+  {
+      props: 'businessBuyerEmail',
+      name: '采购员邮箱',
+      key: 'SUPPLIER_PURCHASEREMAIL',
+      maxlength: 50
+  },
+  {
+      props: 'businessBuyerName',
+      name: '采购员',
+      width: 180,
+      key: 'SPR_FRM_XGYSPJ_CGY',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 100
+  },
+  {
+      props: 'businessBuyerNum',
+      name: '采购员工号',
+      key: 'CAIGOUYUANGONGHAO'
+  },
+  {
+      props: 'businessBuyerDept',
+      name: '采购员科室',
+      key: 'CAIGOUYUANKESHI'
+  },
+  {
+      props: 'businessContactEmail',
+      name: '业务部门联系人邮箱',
+      key: 'YEWUBUMENLIANXIRENYOUXIANG',
+      rule: [{required: true, message: '请输入', trigger: 'blur'}],
+      maxlength: 100
+  },
+  {
+      props: 'businessContactUser',
+      name: '业务部门联系人姓名',
+      width: 180,
+      key: 'YEWUBUMENLIANXIRENXINGMING',
+      // rule: [
+      //   {
+      //     pattern: /^([1-9][0-9]{0,1}|100)$/,
+      //     message: '请输入1-100的整数',
+      //     trigger: 'blur',
+      //   }],
+      maxlength: 3,
+  },
+  {
+      props: 'industryPosition',
+      name: '是否启用',
+      key: 'SHIFOUQIYONG',
+      maxlength: 200
+  },
+]
+
+
+export const tableData = [
+  {
+    businessTypeDesc:'集中采购',
+    businessType:'1',
+    businessBuyerEmail:"",
+    businessBuyerName:"",
+    businessBuyerNum:"",
+    businessBuyerDept:"",
+    businessContactEmail:"",
+    businessContactUser:"",
+    industryPosition:"N",
+  },{
+    businessTypeDesc:'报废处置',
+    businessType:'2',
+    businessBuyerEmail:"",
+    businessBuyerName:"",
+    businessBuyerNum:"",
+    businessBuyerDept:"",
+    businessContactEmail:"",
+    businessContactUser:"",
+    industryPosition:"N",
+  },{
+    businessTypeDesc:'分散采购',
+    businessType:'3',
+    businessBuyerEmail:"",
+    businessBuyerName:"",
+    businessBuyerNum:"",
+    businessBuyerDept:"",
+    businessContactEmail:"",
+    businessContactUser:"",
+    industryPosition:"N",
+  },
+]

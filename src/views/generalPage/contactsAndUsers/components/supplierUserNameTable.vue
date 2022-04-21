@@ -11,7 +11,7 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_GONGYINGSHANGXINGMING')
       }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
@@ -31,6 +31,20 @@
                   @click="exportsTableHandler"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(false)">{{ $t('SUPPLIER_DONGJIE') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(true)">{{ $t('SUPPLIER_JIEDONG') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT_GP"
+                  @click="exportsTableHandler"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+      </div>
     </div>
      <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_USER" -->
     <table-list
@@ -41,7 +55,7 @@
                 @handleSelectionChange="handleSelectionChange"
                 border
                 :index="true">
-      <template #isDefault="scope">
+      <template #isDefault="scope" v-if="$route.query.subSupplierType!=='GP'">
         <icon v-if="scope.row.isDefault === true"
               name="iconsheweizhuyonghu1"
               symbol></icon>
@@ -102,7 +116,7 @@
 import { iCard, iButton, iMessage, icon, iMessageBox, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { supplierUserNameTableTitle } from './data'
+import { supplierUserNameTableTitle,supplierUserNameTableTitleGP } from './data'
 import {
   saveUser,
   selectUser,
@@ -130,7 +144,9 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: supplierUserNameTableTitle,
+      tableTitle: [],
+      supplierUserNameTableTitle,
+      supplierUserNameTableTitleGP,
       tableLoading: false,
       selectTableData: [],
       userNameDialog: false,
@@ -148,6 +164,8 @@ export default {
     }
   },
   created () {
+    this.tableTitle = this.$route.query.subSupplierType=='GP'?this.supplierUserNameTableTitleGP:this.supplierUserNameTableTitle
+
     this.userType = this.$store.state.permission.userInfo.userType
     this.isMainContact = this.$store.state.permission.userInfo.isMainContact
     this.opcsCompanyNameZh =

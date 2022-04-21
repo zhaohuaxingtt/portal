@@ -9,7 +9,8 @@
            collapse
            :title="$t('LK_JICHUXINXI')">
       <template slot="header-control">
-        <iButton @click="onJump360">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
+        <iButton @click="onJump360" v-if="$route.path=='/view-suppliers'">{{ $t('FANHUI') }}</iButton>
+        <iButton @click="onJump360" v-else>{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </template>
       <iFormGroup row="3">
         <iFormItem v-for="(item,index) in baseInfoTitle"
@@ -23,6 +24,7 @@
           <iText v-if="item.key=='svwTempCode' || item.key=='svwCode'">{{baseMsg[infoVo][item.key]}}</iText>
           <iInput v-else-if="item.key=='vmCode' && !item.disabled"
                   v-model="baseMsg[infoVo][item.key]"></iInput>
+          <iText v-else-if="item.key=='supplierType'">{{ baseMsg.supplierDTO[item.key]=='GP'?'一般供应商':baseMsg.supplierDTO[item.key]=='PP'?'生产供应商':baseMsg.supplierDTO[item.key]=='PD'?'公用供应商':'' }}</iText>
           <iText v-else>{{ baseMsg.supplierDTO[item.key] }}</iText>
         </iFormItem>
       </iFormGroup>
@@ -32,7 +34,7 @@
 
 <script>
 import { iCard, iButton, iFormGroup, iFormItem, iText, iLabel, iInput } from "rise";
-import { baseInfoTitle } from "./data"
+import { baseInfoTitle,baseInfoTitleGP } from "./data"
 import { cloneDeep } from "lodash"
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins';
 export default {
@@ -42,13 +44,23 @@ export default {
   },
   data () {
     return {
-      baseInfoTitle: cloneDeep(baseInfoTitle)
+      baseInfoTitle: cloneDeep(baseInfoTitle),
+      flag:false
     }
   },
   computed: {
     baseMsg () {
       return this.$store.state.baseInfo.baseMsg
     },
+  },
+  created(){
+    if(this.$route.query.subSupplierType == "PP"){
+      this.baseInfoTitle = cloneDeep(baseInfoTitle)
+    }else if(this.$route.query.subSupplierType == "GP"){
+      this.baseInfoTitle = cloneDeep(baseInfoTitleGP)
+    }else{
+      this.baseInfoTitle = cloneDeep(baseInfoTitle)
+    }
   },
   methods: {
     changeTitle () {
@@ -59,7 +71,17 @@ export default {
       });
     },
     onJump360 () {
-      // this.$router.go(-1)
+      if(this.$route.path==='/view-suppliers'){
+        this.$router.push({
+        path: "/suppliersDetails",
+        query: {
+          supplierType: this.baseMsg.supplierDTO.supplierType,
+          subSupplierId: this.$route.query.subSupplierId,
+          isShowAll: true
+        }
+        })
+        return
+      }
       this.$router.push({
         path: "/supplier/supplierList/details",
         query: {
@@ -70,6 +92,7 @@ export default {
       })
     }
   },
+
   mounted () {
     console.log(this.baseMsg, "baseMsg")
   }

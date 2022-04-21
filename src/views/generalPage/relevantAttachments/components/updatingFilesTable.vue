@@ -11,13 +11,22 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_FUJIANSHANGCHUAN')
       }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button @click="saveInfos('')"
                   v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT_BAOCUN">
           {{ $t('LK_BAOCUN') }}
         </i-button>
         <i-button @click="exportsTable"
                   v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">{{ $t('LK_DAOCHU') }}
+        </i-button>
+      </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button @click="saveInfos('')"
+                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT_BAOCUN_GP">
+          {{ $t('LK_BAOCUN') }}
+        </i-button>
+        <i-button @click="exportsTable"
+                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT_GP">{{ $t('LK_DAOCHU') }}
         </i-button>
       </div>
     </div>

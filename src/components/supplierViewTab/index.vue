@@ -4,7 +4,7 @@
       <div class="text" :class="{'textActive': current === index + 1}">{{ item.key ? $t(item.key) : item.title }}</div>
       <div class="line" v-if="current === index + 1"/>
     </div>
-    <iButton class="btn" @click="goback">{{$t('LK_FANHUI')}}</iButton>
+    <!-- <iButton class="btn" @click="goback">{{$t('LK_FANHUI')}}</iButton> -->
   </div>
 </template>
 
