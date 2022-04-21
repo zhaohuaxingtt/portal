@@ -61,12 +61,18 @@
         </el-col>
         <el-col :span="5">
           <iFormItem :label="language('申请人')">
-            <userSearch v-model="form.applyUserId" />
+            <userSearch
+              v-model="form.applyUserId"
+              :default-options="userDefaultOptions"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="5">
           <iFormItem :label="language('申请部门')">
-            <orgSearch v-model="form.applyUserDeptId" />
+            <orgSearch
+              v-model="form.applyUserDeptId"
+              :default-options="deptDefaultOptions"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="14">
@@ -79,6 +85,8 @@
                 :start-placeholder="language('开始日期')"
                 :end-placeholder="language('结束日期')"
                 :style="{ width: isTodoPage ? 'auto' : '100%' }"
+                value-format="yyyy-MM-dd"
+                format="yyyy-MM-dd"
               >
               </iDatePicker>
               <el-checkbox v-model="form.reApprove" v-if="isTodoPage">
@@ -111,6 +119,8 @@ import {
   orgSelect as orgSearch
 } from '@/components/remoteSelect'
 import { AEKO_CATEGORY_LIST, BPM_SINGL_CATEGORY_LIST } from '@/constants'
+import { fetchUser } from '@/api/approval/agent'
+import { searchOrganizationByID } from '@/api/organization'
 export default {
   name: 'searchForm',
   props: {
@@ -153,11 +163,13 @@ export default {
       loading: false,
       dOptions: BPM_APPROVAL_TYPE_OPTIONS,
       multipleCategoryList: true,
-      bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST
+      bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
+      userDefaultOptions: [],
+      deptDefaultOptions: []
     }
   },
   created() {
-    if (this.$route.query.modelTemplate) {
+    if (!this.isFinished && this.$route.query.modelTemplate) {
       const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
       if (
         moduleTemplate.length === 1 &&
@@ -169,17 +181,66 @@ export default {
         this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
       }
     }
+    // CRW-8311
+    // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
+    if (this.isFinished) {
+      if (this.$route.query.doneQueryStr) {
+        try {
+          const queryForm = JSON.parse(
+            decodeURIComponent(this.$route.query.doneQueryStr)
+          )
+          if (queryForm.startTime && queryForm.endTime) {
+            this.date = [
+              moment(queryForm.startTime).format('YYYY-MM-DD'),
+              moment(queryForm.endTime).format('YYYY-MM-DD')
+            ]
+          }
+          this.form = queryForm
+          if (this.form.applyUserId) {
+            this.queryUserOptions()
+          }
+          if (this.form.applyUserDeptId) {
+            this.queryDeptOptions()
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    } else {
+      if (this.$route.query.todoQueryStr) {
+        try {
+          const queryForm = JSON.parse(
+            decodeURIComponent(this.$route.query.todoQueryStr)
+          )
+          if (queryForm.startTime && queryForm.endTime) {
+            this.date = [
+              moment(queryForm.startTime).format('YYYY-MM-DD'),
+              moment(queryForm.endTime).format('YYYY-MM-DD')
+            ]
+          }
+          this.form = queryForm
+          if (this.form.applyUserId) {
+            this.queryUserOptions()
+          }
+          if (this.form.applyUserDeptId) {
+            this.queryDeptOptions()
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    }
+
     this.queryModelTemplate()
   },
   methods: {
     search() {
       const searchData = { ...this.form }
-      if (this.date) {
-        if (this.date[1]) {
-          this.date[1] = this.date[1].split(' ')[0] + ' 23:59:59'
-        }
-        searchData.startTime = this.date[0]
-        searchData.endTime = this.date[1]
+      if (this.date && this.date.length === 2) {
+        searchData.startTime =
+          moment(this.date[0]).format('YYYY-MM-DD') + ' 00:00:00'
+        searchData.endTime =
+          moment(this.date[1]).format('YYYY-MM-DD') + ' 23:59:59'
       }
       if (!this.isTodoPage) {
         delete searchData.reApprove
@@ -213,6 +274,22 @@ export default {
       list.unshift({ name: '', value: '全部' })
       this.templates = list.filter((e) => !AEKO_CATEGORY_LIST.includes(e.name))
       this.search()
+    },
+    async queryUserOptions() {
+      const queryData = {
+        userId: this.form.applyUserId
+      }
+      const { data } = await fetchUser(queryData)
+      this.userDefaultOptions = data
+    },
+    async queryDeptOptions() {
+      const queryData = {
+        id: this.form.applyUserDeptId
+      }
+      const { data } = await searchOrganizationByID(queryData)
+      if (data) {
+        this.deptDefaultOptions = [data]
+      }
     }
   }
 }
