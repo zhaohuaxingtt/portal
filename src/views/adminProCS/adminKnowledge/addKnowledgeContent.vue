@@ -90,7 +90,7 @@
           <el-option
             v-for="item in organizationsList"
             :key="item.id"
-            :label="item.nameZh || item.name"
+            :label="item.fullCode || item.nameEn"
             :value="item.id"
           >
           </el-option>
