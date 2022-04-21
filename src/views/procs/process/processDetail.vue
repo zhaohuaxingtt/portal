@@ -341,9 +341,11 @@ export default {
       }
     },
     init(id) {
-      this.queryPageSample(id)
-      this.getPageDetail(id)
-      this.queryPageFAQ(id)
+      if (id) {
+        this.queryPageSample(id)
+        this.getPageDetail(id)
+        this.queryPageFAQ(id)
+      }
     },
     // 查询目录
     async getProcessCatalog() {
