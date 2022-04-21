@@ -54,28 +54,28 @@ export default {
           url: '/meeting/hall',
           activePath: '/meeting/type',
           key: this.$t('MT_TONGYONGHUIYI'),
-          permissionKey:"CF_MEETING_TONGYONGHUIYI",
+          permissionKey: 'CF_MEETING_TONGYONGHUIYI'
         },
         {
           value: 2,
           name: '生产采购CSC',
           url: '/meeting/hall',
           key: this.$t('MT_SHENGCHANCAIGOUSCC'),
-          permissionKey:"CF_MEETING_SCCGCSC",
+          permissionKey: 'CF_MEETING_SCCGCSC'
         },
         {
           value: 3,
           name: '一般采购CSG',
           url: '/meeting/hall',
           key: this.$t('MT_YIBANCAIGOUCSG'),
-          permissionKey:"CF_MEETING_YBCGCSG",
+          permissionKey: 'CF_MEETING_YBCGCSG'
         },
         {
           value: 4,
           name: '管理大厅',
           url: '/meeting/hall',
           key: this.$t('MT_GUANLIDATING'),
-          permissionKey:"CF_MEETING_HOME",
+          permissionKey: 'CF_MEETING_HOME'
         }
       ],
       menuType: ''

@@ -90,7 +90,7 @@
           <el-option
             v-for="item in organizationsList"
             :key="item.id"
-            :label="item.nameZh || item.name"
+            :label="item.fullCode || item.nameEn"
             :value="item.id"
           >
           </el-option>
@@ -296,7 +296,9 @@ export default {
     },
     handleImageError() {
       let img = document.querySelector('avatar')
-      img.src = this.linkUrl()
+      if (img) {
+        img.src = this.linkUrl()
+      }
     },
     linkUrl() {
       return this.imageUrl
@@ -334,6 +336,7 @@ export default {
       this.getCurrCategoryData(va)
     },
     async getCurrCategoryData(va) {
+      this.newContentForm.knowledgeCategory = []
       await getCurrCategory(va).then((res) => {
         if (res) {
           this.knowledgeCategoryList = res
