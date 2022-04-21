@@ -3,7 +3,11 @@
     <pageHeader>
       <span>{{ language('已审批列表') }}</span>
       <div slot="actions">
-        <actionHeader :todo-total="todoTotal" :task-type="1" />
+        <actionHeader
+          :todo-total="todoTotal"
+          :task-type="1"
+          :search-form="form"
+        />
       </div>
     </pageHeader>
     <searchForm is-finished @search="search" />
