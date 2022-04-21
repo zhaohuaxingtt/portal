@@ -88,17 +88,17 @@ export default {
       if (this.info) {
         const { attachMents } = this.info
         if (attachMents && attachMents.length) {
-          const operatorImage = attachMents.filter(
+          const operatorImage = attachMents.find(
             (e) => e.name === 'operatorImage'
           )
           if (operatorImage) {
-            this.form.operatorImage = operatorImage
+            this.form.operatorImage = [{ ...operatorImage }]
           }
-          const operatorFile = attachMents.filter(
+          const operatorFile = attachMents.find(
             (e) => e.name === 'operatorFile'
           )
           if (operatorFile) {
-            this.form.operatorFile = operatorFile
+            this.form.operatorFile = [{ ...operatorFile }]
           }
         }
       }
