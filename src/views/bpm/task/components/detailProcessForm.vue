@@ -209,18 +209,18 @@ export default {
         this.initIframeDomObserver()
       })
 
-      iframe.id = 'flowForm'
-      iframe.frameborder = 'no'
-      iframe.border = '0'
-      iframe.marginwidth = '0'
-      iframe.marginheight = '0'
-      iframe.scrolling = 'no'
-      iframe.allowtransparency = 'yes'
-      iframe.style.width = '100%'
-      iframe.style.height = this.frameHeight
-      iframe.src = this.url
+      iframeDom.id = 'flowForm'
+      iframeDom.frameborder = 'no'
+      iframeDom.border = '0'
+      iframeDom.marginwidth = '0'
+      iframeDom.marginheight = '0'
+      iframeDom.scrolling = 'no'
+      iframeDom.allowtransparency = 'yes'
+      iframeDom.style.width = '100%'
+      iframeDom.style.height = this.frameHeight
+      iframeDom.src = this.url
 
-      this.$refs.iframe.appendChild(iframe)
+      this.$refs.iframe.appendChild(iframeDom)
     }
   }
 }
