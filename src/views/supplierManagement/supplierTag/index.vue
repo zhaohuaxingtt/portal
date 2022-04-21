@@ -247,6 +247,7 @@ export default {
       this.tableLoading = true
       const params = {
         pageNo: this.page.currPage,
+        type:this.$route.query.supplierType=="GP"?2:"",
         pageSize: this.page.pageSize,
         ...this.form
       }
@@ -302,7 +303,8 @@ export default {
         return false
       }
       const req = {
-        tagName: this.tagName
+        tagName: this.tagName,
+        type:this.$route.query.supplierType=="GP"?2:"",
       }
       tagAdd(req).then((res) => {
         if (res && res.code == 200) {

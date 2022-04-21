@@ -20,13 +20,18 @@
         <!-- <iText>{{supplierData[infoVo].isSupply}}</iText> -->
       </iFormItem>
       <!-- 供应商身份 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS" v-if="$route.query.subSupplierType=='GP'">
+        <iLabel :label="$t('GYSSF')"
+                slot="label"></iLabel>
+        <iText>{{supplierData[infoVo].formalStatus}}</iText>
+      </iFormItem>
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('GYSSF')"
                 slot="label"></iLabel>
         <iText>{{supplierData[infoVo].formalStatus|formalStatus(that)}}</iText>
       </iFormItem>
       <!-- 是否业内工厂 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISFACTORY">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISFACTORY" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('SHIFOUYELEIGONGCHANG')"
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.ppSupplierDTO.isFactory">
@@ -37,7 +42,7 @@
         </iSelect>
       </iFormItem>
       <!-- 是否隶属华域 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSUBJECTIONCHINA">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSUBJECTIONCHINA" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('SHIFOULISHUHUOYU')"
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.ppSupplierDTO.isSubjectionchina">
@@ -48,7 +53,7 @@
         </iSelect>
       </iFormItem>
       <!-- 供货类型 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLYPROPERTIES">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLYPROPERTIES" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('GONGHUOLEIXING')"
                 slot="label"></iLabel>
         <!-- <iText>{{dicName('TURE_FALSE',supplierData.ppSupplierDTO.supplyType)}}</iText> -->
@@ -61,19 +66,19 @@
         <iText>{{dicName('TURE_FALSE',supplierData[infoVo].isShareSupplier)}}</iText>
       </iFormItem>
       <!-- 供货零件类型 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLYTYPE">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLYTYPE" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('GONGHUOLINGJIANLEIXING')"
                 slot="label"></iLabel>
         <iText>{{supplierData.ppSupplierDTO.supplyPartForm}}</iText>
       </iFormItem>
       <!-- 相关专业科室 -->
-      <iFormItem v-model="supplierData.ppSupplierDTO.relevantDept">
+      <iFormItem v-model="supplierData.ppSupplierDTO.relevantDept" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('XIANGGUANZHUANYEKESHI')"
                 slot="label"></iLabel>
         <iText>{{supplierData.ppSupplierDTO.relevantDept}}</iText>
       </iFormItem>
       <!-- 定点行协议 -->
-      <iFormItem>
+      <iFormItem v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('SUPPLIER_DDXXX')"
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.ppSupplierDTO.isSign">
@@ -105,7 +110,8 @@ export default {
   },
   data () {
     return {
-      that: this
+      that: this,
+      infoVo:"",
     }
   },
   filters: {
@@ -125,12 +131,21 @@ export default {
       let name = ""
       if (this.fromGroup[key]) {
         this.fromGroup[key].filter(item => {
-          if (item.code == value.toString()) {
-            name = item.name
+          if(value){
+            if (item.code == value.toString()) {
+              name = item.name
+            }
           }
         })
         return name
       }
+    }
+  },
+  created(){
+    if(this.$route.query.subSupplierType == "GP"){
+      this.infoVo = "gpSupplierDTO"
+    }else if(this.$route.query.subSupplierType == "PP"){
+      this.infoVo = "ppSupplierDTO"
     }
   },
   mounted () {

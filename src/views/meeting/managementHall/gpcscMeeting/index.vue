@@ -528,7 +528,7 @@
                 <!-- <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11' ? '':'' "  
                 @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
                 <!-- <span>{{ resultObj[scope.row.conclusion] }}</span> -->
-                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue" @click="handleResultObj(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
                 <span v-else>{{resultObj[scope.row.conclusion]}}</span>
               </template>
             </el-table-column>
@@ -739,7 +739,7 @@
             >
               <template slot-scope="scope">
                 <!-- <span @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
-                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue" @click="handleResultObj(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
                 <span v-else>{{resultObj[scope.row.conclusion]}}</span>
               </template>
             </el-table-column>
@@ -942,6 +942,19 @@
       :beforeResult="beforeResult"
       :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
     />
+    <!-- 结束议题  二次修改 -->
+    <newprotectConclusion
+      v-if="dialogStatusManageObj.opennewprotectConclusion"
+      :open="dialogStatusManageObj.opennewprotectConclusion"
+      @close="dialogStatusManageObj.opennewprotectConclusion = false"
+      @flushTable="flushTable"
+      @closeDialog="closeDialog"
+      :selectedTableData="newSelectedTableData"
+      :meetingInfo="meetingInfo"
+      :isOther="isOther"
+      :beforeResult="beforeResult"
+      :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
+    />
     <lookConclusion
       v-if="dialogStatusManageObj.openLookConclusion"
       :open="dialogStatusManageObj.openLookConclusion"
@@ -1035,6 +1048,7 @@
   </iPage>
 </template>
 <script>
+import newprotectConclusion from './component/newprotectConclusion.vue'
 import editprotectConclusion from './component/editprotectConclusion.vue'
 import updateDateNEW from './component/updateDateNEW'
 import batchAdjustment from './component/batchAdjustment'
@@ -1049,7 +1063,7 @@ import addTopic from './component/addTopic.vue'
 import topicLookDialog from './component/topicLookDialog.vue'
 import newProtectInfo from './component/newProtectInfo.vue'
 import updateDate from './component/updateDate.vue'
-import iTableML from '@/components/iTableML'
+import iTableML from '@/components/iTableML' 
 import protectConclusion from './component/protectConclusion.vue'
 import addTopicNew from './component/addTopicNew.vue'
 import lookConclusion from './component/lookConclusion.vue'
@@ -1087,6 +1101,7 @@ import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
 export default {
   mixins: [pageMixins],
   components: { 
+    newprotectConclusion,
     editprotectConclusion,
     updateDateNEW,
     batchAdjustment,//批量调整
@@ -1117,6 +1132,7 @@ export default {
   },
   data() {
     return {
+      newprotectConclusion:false,
       editprotectConclusionDialog:false,
       updateDateNEWDialog:false,
       resultObj:{
@@ -1138,6 +1154,7 @@ export default {
       buttonList,
       receiverId: '',
       selectedTableData: [],
+      newSelectedTableData:[],
       isOther: false,
       themenConclusion,
       stateObj,
@@ -1153,6 +1170,7 @@ export default {
       editNewSummary: false,
       //弹窗状态管理对象
       dialogStatusManageObj: {
+        newprotectConclusion:false,
         editprotectConclusion:false,
         openAddRestDialog: false,
         openAddTopicDialog: false,
@@ -1243,6 +1261,13 @@ export default {
   //   }
   // },
   methods: {
+    handleResultObj(row){
+      this.newSelectedTableData=row
+      console.log(row); 
+      console.log(this.newSelectedTableData);
+      this.openDialog('opennewprotectConclusion')
+
+    },
     //批量调整
     batchAdjustment(){
       this.batchAdjustmentDialog=true
@@ -2802,7 +2827,7 @@ export default {
         }else{
             num = 3
         }
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
       } 
     }
   }

@@ -11,7 +11,8 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{$t('SUPPLIER_ZHONGDASHIXIANGXINGZHENCHUFA')}}</span>
       <div class="floatright">
-        <i-button @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button v-if="$route.query.subSupplierType!=='GP'" @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button v-if="$route.query.subSupplierType=='GP'" @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES_EXPORT_GP">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
         <!-- v-permission="SUPPLIER_SIGNIFICANTEVENTS_ADMINISTRATIVEPENALTIES" -->

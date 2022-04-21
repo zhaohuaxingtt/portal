@@ -13,7 +13,7 @@
         <el-tab-pane :name="2" label="MTZ Rules&Parts"></el-tab-pane>
     </iTabsList> -->
     <!-- v-show="tabsValue == 1" -->
-    <iframe
+    <!-- <iframe
       :src="url"
       id="flowForm"
       frameborder="no"
@@ -25,7 +25,7 @@
       :style="{
         height: autoFrameHeight ? autoFrameHeight + 'px' : frameHeight
       }"
-    />
+    /> -->
     <!-- <iCard v-show="tabsValue == 2">
       <div class="infor_futitle">
         <span class="big_font">Regulation:</span>
@@ -120,7 +120,8 @@ export default {
       ruleTableListData: [],
       partTableListData:[],
       partTableTitle,
-      ruleTableTitle
+      ruleTableTitle,
+      iframeDom: null
     }
   },
   watch: {
@@ -131,7 +132,9 @@ export default {
     },
     url(val) {
       if (!val) return
-      this.$nextTick(() => this.initIframeDomObserver())
+      this.$nextTick(() => {
+        this.updateIframe()
+      })
     }
   },
   created() {
@@ -154,7 +157,7 @@ export default {
         this.url &&
         this.url.indexOf(window.location.origin) > -1
       ) {
-        window.requestAnimationFrame(() => this.initIframeDomObserver())
+        window.requestAnimationFrame(() => this.updateIframe())
       }
     })
   },
@@ -175,28 +178,49 @@ export default {
       }
     },
     initIframeDomObserver() {
-      const iframe = document.querySelector('#flowForm')
-      iframe.contentWindow.addEventListener('load', () => {
-        const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
-        iframeAppDom.style.height = "auto";
-        if (iframeAppDom) {
-          const appDomObserver = new MutationObserver(() => {
-            const tabsBoxWrap = iframeAppDom.querySelector('#tabsBoxWrap')
-            if(tabsBoxWrap){
-              this.autoFrameHeight = tabsBoxWrap ? tabsBoxWrap.clientHeight || 0 : 0
-            }else{
-              const iframeAppContentDom = iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
-              iframeAppContentDom.style.height = "auto";
-              this.autoFrameHeight = iframeAppContentDom ? iframeAppContentDom.clientHeight || 0 : 0
-            }
-          })
-          appDomObserver.observe(iframeAppDom, {
-            childList: true,
-            attributes: true,
-            subtree: true
-          })
-        }
+      const iframeAppDom =  this.iframeDom.contentWindow.document.querySelector('#app') // sourcing vue根DOM
+
+      if (iframeAppDom) {
+        const appDomObserver = new MutationObserver(() => {
+          const tabsBoxWrap = iframeAppDom.querySelector('#tabsBoxWrap')
+          iframeAppDom.style.height = "auto";
+          if (tabsBoxWrap) {
+            this.autoFrameHeight = tabsBoxWrap ? tabsBoxWrap.clientHeight || 0 : 0
+          } else {
+            const iframeAppContentDom = iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
+            this.autoFrameHeight = iframeAppContentDom ? iframeAppContentDom.clientHeight || 0 : 0
+          }
+
+          iframeDom.style.height = `${ this.autoFrameHeight }px`
+        })
+
+        appDomObserver.observe(iframeAppDom, {
+          childList: true,
+          attributes: true,
+          subtree: true
+        })
+      }
+    },
+    updateIframe() {
+      if (this.iframeDom) this.$refs.iframe.removeChild(this.iframeDom)
+
+      this.iframeDom = document.createElement('iframe')
+      this.iframeDom.addEventListener('load', () => {
+        this.initIframeDomObserver()
       })
+
+      this.iframeDom.id = 'flowForm'
+      this.iframeDom.setAttribute('frameborder', 'no')
+      this.iframeDom.setAttribute('border', '0')
+      this.iframeDom.setAttribute('marginwidth', '0')
+      this.iframeDom.setAttribute('marginheight', '0')
+      this.iframeDom.setAttribute('scrolling', 'no')
+      this.iframeDom.setAttribute('allowtransparency', 'yes')
+      this.iframeDom.setAttribute('width', '100%')
+      this.iframeDom.style.height = this.frameHeight
+      this.iframeDom.src = this.url
+
+      this.$refs.iframe.appendChild(this.iframeDom)
     }
   }
 }
@@ -206,6 +230,7 @@ export default {
 #flowForm {
   width: 100%;
   //   min-height: 500px;
+  border: 0;
 }
 
 .infor_futitle{

@@ -224,6 +224,11 @@ export default {
           component: ApproveDetails
         },
         {
+          path: '/supplier/task/gpAdmittance',
+          name: 'approve',
+          component: () => import("@/views/generalPage/approveDetails/previewGp")
+        },
+        {
           path: '/supplier/maintenancesupplier',
           name: 'MaintenanceSupplier',
           component: MaintenanceSupplier

@@ -1,7 +1,8 @@
 <template>
-	<iCard v-permission="SUPPLIER_ENTERPRISEHISTORY_CHANGEOFSHAREHOLDER" :title="$t('SUPPLIER_QIYEYANGEMIAOSHU') + ':'" class="margin-top20" tabCard>
+	<iCard :title="$t('SUPPLIER_QIYEYANGEMIAOSHU') + ':'" class="margin-top20" tabCard>
 		<template slot="header-control">
-			<iButton v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE_SAVE" @click="saveAdditionalInfo">{{$t('LK_BAOCUN')}}</iButton>
+			<iButton v-if="$route.query.subSupplierType!=='GP'" v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE_SAVE" @click="saveAdditionalInfo">{{$t('LK_BAOCUN')}}</iButton>
+			<iButton v-if="$route.query.subSupplierType=='GP'" v-permission="SUPPLIER_ENTERPRISEHISTORY_ENTERPRISEHISTORYTABLE_SAVE_GP" @click="saveAdditionalInfo">{{$t('LK_BAOCUN')}}</iButton>
 		</template>
 		<iInput type="textarea" :autosize='{minRows:4}' v-model='notes'></iInput>
 	</iCard>

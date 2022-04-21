@@ -755,7 +755,7 @@ import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
 import dayjs from 'dayjs'
 import { findThemenById } from '@/api/meeting/details'
-import { exportMeetingAgenda } from '@/api/meeting/gpMeeting'
+import { exportMeetingAgenda , exportCscMeetingAgenda} from '@/api/meeting/gpMeeting'
 import { exportExcel } from '@/utils/gpfiledowLoad'
 import { downloadAll } from '@/utils/downloadAll'
 export default {
@@ -1440,16 +1440,16 @@ export default {
           //   .catch(() => {
           //     this.isGenerating = false
           //   })
-          //gp会议  生成Agenda
-          if (
-            this.selectedRow[0].isGpCSC == true ||
-            this.selectedRow[0].isMBDL == true
-          ) {
+          //gp会议  生成Agenda  exportCscMeetingAgenda  exportMeetingAgenda
+          if ( this.selectedRow[0].isGpCSC == true || this.selectedRow[0].isMBDL == true ) {
             if (this.selectedRow[0].isMBDL == true) {
-              return
-            } else {
-              console.log('gp生成Agenda')
+              console.log('isMBDL生成Agenda')
               exportMeetingAgenda({ id: e }).then((res) => {
+                exportExcel(res)
+              })
+            } else {
+              console.log('isGpCSC生成Agenda')
+              exportCscMeetingAgenda({ id: e }).then((res) => {
                 exportExcel(res)
               })
             }
