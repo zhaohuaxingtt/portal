@@ -1,19 +1,24 @@
 export const tableTitle = [
   { name: '供应商组中文名称', props: 'nameZh', key: '', },
   { name: '供应商组英文名称', props: 'nameEn', key: '', },
+  { name: '供应商组标签', props: 'labelName', key: '', },
   { name: '科室', props: 'deptName', key: '', },
   { name: '更新人', props: 'updateByName', key: '', },
   { name: '更新日期', props: 'updateDate', key: '', },
+  { name: '供应商数量', props: 'supplierNum', key: '', },
 ]
 
 export const searchList = [
   {label:'供应商组中文名称',labelKey:'',props:'supplierNameZh',type:'select',selectOption:'zhName',multiple:true,collapse:true,clearable:true,permissionKey:''},
   {label:'供应商组英文名称',labelKey:'',props:'supplierNameEn',type:'select',selectOption:'enName',multiple:true,collapse:true,clearable:true,permissionKey:''},
-  {label:'供应商中文名称',labelKey:'',props:'nameZh',type:'input',permissionKey:''},
-  {label:'供应商英文名称',labelKey:'',props:'nameEn',type:'input',permissionKey:''},
+  {label:'供应商中文名称',labelKey:'',props:'nameZh',type:'select',selectOption:'nameZh',multiple:true,collapse:true,clearable:true,permissionKey:''},
+  {label:'供应商英文名称',labelKey:'',props:'nameEn',type:'select',selectOption:'nameEn',multiple:true,collapse:true,clearable:true,permissionKey:''},
+  // {label:'供应商中文名称',labelKey:'',props:'nameZh',type:'input',permissionKey:''},
+  // {label:'供应商英文名称',labelKey:'',props:'nameEn',type:'input',permissionKey:''},
   {label:'临时号',labelKey:'',props:'supplierTempCode',type:'input',permissionKey:''},
   {label:'SVW号',labelKey:'',props:'supplierSvwCode',type:'input',permissionKey:''},
   {label:'SAP号',labelKey:'',props:'supplierSapCode',type:'input',permissionKey:''},
+  {label:'供应商组标签',labelKey:'',props:'labelNames',type:'select',selectOption:'labelNames',multiple:true,collapse:true,clearable:true,permissionKey:''},
 ]
 
 export const detailTitle = [
@@ -46,13 +51,13 @@ export const addTableTitle = [
 ]
 
 export const fromRules = (vm) => ({
-  zhong:[
+  nameZh:[
     {required: true, message: vm.language('BITIAN','必填'), trigger: ["blur","change"]}
   ],
-  ying:[
+  nameEn:[
     {required: true, message: vm.language('BITIAN','必填'), trigger: ["blur","change"]}
   ],
-  keshi:[
+  deptName:[
     {required: true, message: vm.language('BIXUAN','必选'), trigger: ["blur","change"]}
   ],
 })

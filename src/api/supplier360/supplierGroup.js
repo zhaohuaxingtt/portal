@@ -4,6 +4,33 @@ import axiosDownload from '@/utils/axios.download';
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const dowload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web');
 
+// 供应商组标签下拉
+export function queryGroupLabelDown(data) {
+  return requst({
+    url: '/supplierGroup/queryGroupLabelDown',
+    method: 'POST',
+    data
+  })
+}
+
+// 供应商英文列表查询
+export function querySupplierEnList(data) {
+  return requst({
+    url: '/supplierGroup/querySupplierEnList',
+    method: 'POST',
+    data
+  })
+}
+
+// 供应商中文列表查询
+export function querySupplierZhList(data) {
+  return requst({
+    url: '/supplierGroup/querySupplierZhList',
+    method: 'POST',
+    data
+  })
+}
+
 // 供应商组查询接口
 export function findGroupByPage(data) {
   return requst({
