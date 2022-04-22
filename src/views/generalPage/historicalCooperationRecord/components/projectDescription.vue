@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     goGoGp(row){
-      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${row.contractId}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE`)
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${row.contractId}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE&navType=true`)
     },
     getTableList(){
       queryGpSupplierCooperationRecord(
