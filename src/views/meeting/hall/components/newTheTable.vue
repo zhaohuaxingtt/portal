@@ -233,8 +233,7 @@ export default {
     },
 
     goNearFuture(e) {
-      debugger
-      console.log(e,'这里是一般采购里卡片的点击事件');
+      // console.log(e,'这里是一般采购里卡片的点击事件');
       let url = '/meeting/near-meeting'
       if (e.state == '04') {
         url = '/meeting/live'
