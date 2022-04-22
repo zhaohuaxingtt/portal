@@ -805,7 +805,7 @@ export const businessTypeList = [
     label:"集中采购"
   },{
     value:2,
-    label:"报废处理"
+    label:"报废处置"
   },{
     value:3,
     label:"分散采购"
