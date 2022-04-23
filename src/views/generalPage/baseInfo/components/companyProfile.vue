@@ -152,11 +152,11 @@
       <!-- 五 -->
       <iFormItem prop="supplierDTO.registeredCapital"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_REGISTEREDCAPITAL">
-        <iLabel :label="$t('SUPPLIER_ZHUCEZIBENWAN')"
+        <iLabel :label="$t('SUPPLIER_ZHUCEZIBEN')"
                 required
                 slot="label"></iLabel>
         <iInput v-model="supplierData.supplierDTO.registeredCapital"
-                :placeholder="$t('LK_QINGSHURU') + $t('SUPPLIER_ZHUCEZIBENWAN')"></iInput>
+                :placeholder="$t('LK_QINGSHURU') + $t('SUPPLIER_ZHUCEZIBEN')"></iInput>
       </iFormItem>
       <iFormItem prop="supplierDTO.registeredDate"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_REGISTEREDDATE">
