@@ -250,7 +250,14 @@ export default [
       {
         path: 'supplierListDis',
         name: 'supplierListDis',
-        component: dispersedSupplier
+        component: dispersedSupplier,
+        children: [
+          {
+            path: 'detailsGP',
+            name: 'detailsGP',
+            component: () => import('@/views/supplierManagement/supplier360/detailesGP/index.vue')
+          }
+        ]
       },
       {
         path: 'supplierListGP',

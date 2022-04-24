@@ -130,23 +130,22 @@ export default {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
-
           if(baseInfo.gpSupplierDetails){
-            this.supplierComplete.gpSupplierDetails = baseInfo.gpSupplierDetails
+            this.supplierComplete.gpSupplierDetails = _.cloneDeep(baseInfo.gpSupplierDetails)
           }
-
-          this.tableData.forEach(e=>{
+          var tableDataList = _.cloneDeep(this.tableData)
+          tableDataList.forEach(e=>{
             this.supplierComplete.gpSupplierDetails.forEach(item =>{
               if(e.businessType == item.businessType){
                 e = Object.assign(e,item);
               }
             })
           })
-          this.supplierComplete.gpSupplierDetails = this.tableData;
+          this.supplierComplete.gpSupplierDetails = tableDataList;
           this.supplierComplete.gpSupplierDetails.forEach(e=>{
-            if(e.businessBuyerEmail){
+            // if(e.businessBuyerEmail){
               e.industryPosition = "Y";
-            }
+            // }
           })
 
           if(baseInfo.subBankVos){
@@ -189,6 +188,9 @@ export default {
           if (this.supplierComplete.settlementBankDTO.provinceCode) this.$refs.opneBank.getBankCity()
           if (this.supplierComplete.gpSupplierBankNoteDTO.country) this.$refs.opneBank.getYP()
           if (this.supplierComplete.subBankList) this.$refs.opneBank.getSubBank()
+
+
+          this.$forceUpdate();
         }
       })
     },
@@ -228,6 +230,15 @@ export default {
           }
           // 判断是一般还是生产供应商 减去相应参数
           if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
+            if(this.supplierComplete.gpSupplierDetails.length>0){
+              this.supplierComplete.gpSupplierDetails.forEach(e=>{
+                if(!e.supplierId){
+                  e.supplierId = this.$route.query.supplierId;
+                }
+              })
+            }
+
+            data.gpSupplierDetailDTO=this.supplierComplete.gpSupplierDetails;
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
             data.gpSupplierSubBankListSaveDTO = {};
             data.gpSupplierSubBankListSaveDTO.list = this.supplierComplete.subBankList;
@@ -241,6 +252,7 @@ export default {
           saveInfos(data, this.supplierType).then(res => {
             if (res.data) {
               iMessage.success('保存成功')
+              this.supplierDetail();
               if (step === 'submit') {
                 const req = {
                   stepCode: 'submit',
