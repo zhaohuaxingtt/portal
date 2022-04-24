@@ -11,7 +11,7 @@
       label-position="left"
       :model="newContentForm"
       :rules="newContentRules"
-      label-width="100px"
+      label-width="120px"
       class="contentForm validate-required-form"
       v-loading="loading"
       ref="knowledgeContentForm"
@@ -90,7 +90,7 @@
           <el-option
             v-for="item in organizationsList"
             :key="item.id"
-            :label="item.nameZh || item.name"
+            :label="item.fullCode || item.nameEn"
             :value="item.id"
           >
           </el-option>
@@ -253,7 +253,9 @@ export default {
   },
   computed: {
     dialogTitle() {
-      return this.operateType === 'add' ? '新增知识类型' : '修改知识类型'
+      return this.operateType === 'add'
+        ? '新增知识分享内容'
+        : '修改知识分享内容'
     }
   },
   created() {

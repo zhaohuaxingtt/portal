@@ -7,8 +7,8 @@
           <unfinish
             :meetingInfo="meetingInfo"
             :unFinishedData="unFinishedData"
-            @findMyThemens="findMyThemens"
-            @findMyThemensByCondition="findMyThemensByCondition"
+            @findMyGpThemens="findMyGpThemens"
+            @findMyGpThemensByCondition="findMyGpThemensByCondition"
           />
         </iCard>
       </el-tab-pane>
@@ -17,8 +17,8 @@
           <finished
             :meetingInfo="meetingInfo"
             :finishedData="finishedData"
-            @findMyThemens="findMyThemens"
-            @findMyThemensByCondition="findMyThemensByCondition"
+            @findMyGpThemens="findMyGpThemens"
+            @findMyGpThemensByCondition="findMyGpThemensByCondition"
           />
         </iCard>
       </el-tab-pane>
@@ -30,7 +30,8 @@
 import { iCard } from "rise";
 import finished from "./finished.vue";
 import unfinish from "./unfinish.vue";
-import { findMyThemens } from "@/api/meeting/live";
+import { findMyGpThemens } from "@/api/meeting/live";
+// findMyThemens 全局替换 findMyGpThemens
 
 export default {
   components: {
@@ -77,7 +78,7 @@ export default {
     // }, 5000);
   },
   methods: {
-    findMyThemens() {
+    findMyGpThemens() {
       this.query();
     },
     async queryMeeting() {
@@ -89,7 +90,7 @@ export default {
           meetingId: this.curMeetingId ? this.curMeetingId : this.meetingId,
           meetingTypeId: this.meetingTypeId,
         };
-        let res = await findMyThemens(params).catch(() => {
+        let res = await findMyGpThemens(params).catch(() => {
           clearTimeout(this.timer);
           this.timer = setTimeout(() => {
             this.queryMeeting();
@@ -109,7 +110,7 @@ export default {
         pageSize: 9999,
         meetingTypeId: this.meetingTypeId,
       };
-      let res = await findMyThemens(params);
+      let res = await findMyGpThemens(params);
       let arrObj = [];
       // let arrObjUn = [];
       res.data.forEach((item) => {
@@ -136,7 +137,7 @@ export default {
         pageSize: 9999,
         meetingTypeId: this.meetingTypeId,
       };
-      let res = await findMyThemens(params);
+      let res = await findMyGpThemens(params);
 
       res.data.forEach((item) => {
         if (item.state === "03") {
@@ -149,7 +150,7 @@ export default {
         return !item.isBreak;
       });
     },
-    findMyThemensByCondition(form) {
+    findMyGpThemensByCondition(form) {
       // this.refresh = false;
       const params = {
         ...form,
@@ -159,7 +160,7 @@ export default {
         pageSize: 9999,
         meetingTypeId: this.meetingTypeId,
       };
-      findMyThemens(params).then((res) => {
+      findMyGpThemens(params).then((res) => {
         let arrObj = [];
         let arrObjUn = [];
         // const data = res.data.filter((item) => {

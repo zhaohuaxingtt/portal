@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {iDialog, iSearch, iButton, iSelect, iInput, iPagination, iCard} from "rise";
+import {iDialog, iSearch, iButton, iSelect, iInput, iPagination, iCard, iMessage} from "rise";
 import { pageMixins } from '@/utils/pageMixins'
 import { addTableTitle, addSearchList } from '../data.js'
 import tableList from '@/components/commonTable'
@@ -113,14 +113,21 @@ export default {
     },
     reset(){
       Object.keys(this.search).forEach(key=>{
+        if(key === 'supplierType'){
+          this.search[key] = []
+        }
         this.search[key] = ''
       })
+
+      this.sure()
     },
     handleSelectionChange(val){
       this.multipleSelection = val
     },
     add(){
-      console.log('add');
+      if(this.multipleSelection.length === 0){
+        return iMessage.warn('请选择数据')
+      }
       this.$emit('addSupplier',this.multipleSelection)
     },
     

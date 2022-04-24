@@ -69,7 +69,7 @@ export default {
     },
     methods:{
         async handleDownload (row) {
-            const req = row.id
+            const req = row.fileId
             await downloadUdFile(req)
         },
         exportsRemove(){
