@@ -76,6 +76,7 @@ export default {
             this.detail.gpSupplierDetails.forEach(e => {
                 e.supplierId = this.$route.query.id;
             });
+            this.oldData = _.cloneDeep(this.detail.gpSupplierDetails);
             batchSaveOrUpd(
                 this.detail.gpSupplierDetails
             ).then(res=>{

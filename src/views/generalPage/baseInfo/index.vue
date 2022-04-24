@@ -131,6 +131,10 @@ export default {
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
           if(baseInfo.gpSupplierDetails){
+            baseInfo.gpSupplierDetails.forEach(e=>{
+              e.industryPosition = "Y";
+            })
+
             this.supplierComplete.gpSupplierDetails = _.cloneDeep(baseInfo.gpSupplierDetails)
           }
           var tableDataList = _.cloneDeep(this.tableData)
@@ -142,11 +146,11 @@ export default {
             })
           })
           this.supplierComplete.gpSupplierDetails = tableDataList;
-          this.supplierComplete.gpSupplierDetails.forEach(e=>{
-            // if(e.businessBuyerEmail){
-              e.industryPosition = "Y";
-            // }
-          })
+          // this.supplierComplete.gpSupplierDetails.forEach(e=>{
+          //   // if(e.businessBuyerEmail){
+          //     e.industryPosition = "Y";
+          //   // }
+          // })
 
           if(baseInfo.subBankVos){
             this.supplierComplete.subBankList = baseInfo.subBankVos
@@ -163,6 +167,10 @@ export default {
             this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
           }
           if (baseInfo.supplierInfoVo){
+            if(this.supplierComplete.supplierDTO.supplierType == "GP"){
+              this.supplierComplete.supplierDTO.svwTempCode = this.supplierComplete.gpSupplierDTO.svwTempCode
+              this.supplierComplete.supplierDTO.svwCode = this.supplierComplete.gpSupplierDTO.svwCode
+            }
             this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
             this.supplierComplete.supplierDTO.address = baseInfo.supplierInfoVo.companyAddress
           }

@@ -3,8 +3,8 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{$route.query.subSupplierId?'修改分散（内部报销）供应商':'新增分散（内部报销）供应商'}}</span>
       <div class="floatright">
-        <i-button @click="save" v-permission="SUPPLIER_DISPERSEDSUPPLIER_INFO_GP_SUBMIT">{{ $t('LK_TIJIAO') }}</i-button>
-        <i-button @click="cancle" v-permission="SUPPLIER_DISPERSEDSUPPLIER_INFO_GP_CANCLE">{{ $t('LK_QUXIAO') }}</i-button>
+        <i-button :loading="loadingType" @click="save" v-permission="SUPPLIER_DISPERSEDSUPPLIER_INFO_GP_SUBMIT">{{ $t('LK_TIJIAO') }}</i-button>
+        <i-button :loading="loadingType" @click="cancle" v-permission="SUPPLIER_DISPERSEDSUPPLIER_INFO_GP_CANCLE">{{ $t('LK_QUXIAO') }}</i-button>
       </div>
     </div>
 
@@ -131,6 +131,7 @@ export default {
       city:[],
       fromGroup:[],
       number:0,
+      loadingType:false,
     }
   },
   created(){
@@ -354,6 +355,7 @@ export default {
       })
     },
     save(){
+      this.loadingType = true;
       return new Promise((resolve, reject) => {
         Promise.all([this.getRule1(), this.getRule2(), this.getRule3(), this.getRule4(), this.getRule5()]).then(res=>{
           console.log(this.supplierComplete);
@@ -380,6 +382,7 @@ export default {
           setTimeout(() => {
             saveInner(data).then(res=>{
               if(res.result){
+                this.loadingType = false;
                 this.$router.go(-1)
               }else{
                 iMessage.error(res.desZh);

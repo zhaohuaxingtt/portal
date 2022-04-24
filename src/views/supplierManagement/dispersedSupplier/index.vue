@@ -7,6 +7,10 @@
           <iInput :placeholder="language('请输入')"
                   v-model="form.supplierName"></iInput>
         </el-form-item>
+        <el-form-item :label="$t('ZHENGSHIHAO')">
+          <iInput :placeholder="language('请输入')"
+                  v-model="form.svwCode"></iInput>
+        </el-form-item>
         <el-form-item :label="$t('SUPPLIER_LINGSHIHAO')">
           <iInput :placeholder="language('请输入')"
                   v-model="form.svwTempCode"></iInput>
@@ -104,6 +108,7 @@ export default {
             form:{
                 supplierName:"",
                 svwTempCode:"",
+                svwCode:"",
                 vwCode:"",
                 sapCode:"",
                 tagNameList:[],
@@ -134,6 +139,7 @@ export default {
           path: '/supplier/supplierListDis/detailsGP',
           query: {
             supplierType: "GP",
+            type:"LR",
             subSupplierId: params.subSupplierId || '',
             isShowAll:true,
           }
@@ -162,6 +168,7 @@ export default {
         this.tableLoading = true;
         var data = {
           ...this.form,
+          isInner:true,
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
         }
@@ -186,6 +193,7 @@ export default {
           socialcreditNo:"",
           svwTempCode:"",
           vwCode:"",
+          svwCode:"",
           sapCode:"",
           tagNameList:[],
         }
