@@ -179,6 +179,7 @@ export default {
         path: '/supplier/view-suppliers',
         query: {
           supplierToken: this.info.token || '',
+          type:this.$route.query.type?this.$route.query.type:"",
           supplierType: '4',
           subSupplierType: this.$route.query.supplierType,
           supplierId: this.$route.query.subSupplierId
