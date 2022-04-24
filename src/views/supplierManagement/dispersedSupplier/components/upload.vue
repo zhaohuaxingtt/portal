@@ -115,6 +115,7 @@ export default {
                     fileId: event.id,
                     createDate:event.createDate,
                     validityOfCertificate:'',
+                    createrName:JSON.parse(sessionStorage.getItem("userInfo")).nameZh
                 }
             )
             this.tableLoading = false

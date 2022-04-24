@@ -131,7 +131,7 @@ export default {
       },
       openPage(params){
         let routeData = this.$router.resolve({
-          path: '/supplier/supplierListGP/detailsGP',
+          path: '/supplier/supplierListDis/detailsGP',
           query: {
             supplierType: "GP",
             subSupplierId: params.subSupplierId || '',
