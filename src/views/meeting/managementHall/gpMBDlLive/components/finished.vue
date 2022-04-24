@@ -253,8 +253,27 @@
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
-             <template slot-scope="scope">
+             <!-- <template slot-scope="scope">
               <span >{{ scope.row.time }}</span>
+            </template> -->
+            <template slot-scope="scope">
+              <div v-if="scope.row.startTime">
+                <span>{{
+                  Number(scope.row.plusDayStartTime) > 0
+                    ? scope.row.startTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayStartTime)
+                    : scope.row.startTime.substring(0, 5)
+                }}</span
+                ><span>~</span>
+                <span v-if="scope.row.endTime">{{
+                  Number(scope.row.plusDayEndTime) > 0
+                    ? scope.row.endTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayEndTime)
+                    : scope.row.endTime.substring(0, 5)
+                }}</span>
+              </div>
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >

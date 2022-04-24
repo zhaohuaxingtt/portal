@@ -10,6 +10,7 @@
 // 'use strict'
 import CorrectionApprovalDetails from '../views/generalPage/correctionApprovalDetails/index'
 import CorrectionApprovalDetailsGP from '../views/generalPage/correctionApprovalDetailsGP/index'
+import CorrectioDetailsGP from '../views/generalPage/correctioDetailsGP/index'
 import DepthReportApproval from '../views/bpm/frmRatingApproval/depthReportApproval'
 import FrmRatingApproval from '../views/bpm/frmRatingApproval/depthRatingApproval'
 import NewsupplierratingTask from '../views/frmRating/newSupplierRating/task'
@@ -27,6 +28,11 @@ export default [
     path: '/supplier/correction-approval-details-gp-admin',
     name: 'correctionApprovalDetailsGp',
     component: CorrectionApprovalDetailsGP
+  },
+  {
+    path:"/supplier/correction-approval-details-attachment-changelist",
+    name: 'correctionApprovalchangelist',
+    component: CorrectioDetailsGP
   },
   {
     path: '/approval/frmRatingApproval/depthReportApproval',
