@@ -120,8 +120,8 @@ export default {
       search: {
         nameZh: [],
         nameEn: [],
-        supplierNameZh: [],
-        supplierNameEn: [],
+        supplierNameZh: '',
+        supplierNameEn: '',
         supplierTempCode: '',
         supplierSvwCode: '',
         supplierSapCode: '',
@@ -188,8 +188,10 @@ export default {
       Object.keys(this.search).forEach((key) => {
         if(key === 'supplierNameZh' || key === 'supplierNameEn'){
           this.search[key] = []
+        }else{
+          this.search[key] = ''
         }
-        this.search[key] = ''
+        
       })
       this.sure();
     },
