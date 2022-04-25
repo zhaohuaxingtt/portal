@@ -84,6 +84,9 @@
               ></el-option>
             </i-select>
           </template>
+          <template #supplierNameZh="scope">
+            <div @click="goto(scope.row)" class="link">{{scope.row.supplierNameZh}}</div>
+          </template>
 
         </tableList>
       </div>
@@ -92,7 +95,7 @@
       :visible.sync="showiDialog"
       class="xxx"
       @onClose="onClose"
-      @getTableData="getTableData"
+      @getTableData="groupDetail"
       @addSupplier="addSupplier"
     ></addSupplier>
   </div>
@@ -164,6 +167,19 @@ export default {
     this.queryDeptList();
   },
   methods: {
+    goto(row){
+      console.log(row);
+      return
+      this.$router.push({
+        path: 'supplier/view-suppliers',
+        query: {
+          supplierType: row.supplierType,
+          subSupplierType:'row.subSupplierType',
+          subSupplierId: row.subSupplierId,
+          supplierToken:"row.supplierToken"
+        }
+      })
+    },
     queryDeptList(){
       queryDeptList({}).then(res => {
         this.options = res.data
@@ -228,8 +244,8 @@ export default {
         }).then(() => {
           deleteSupplier(deleteList.map(item => item.id)).then((res) => {
             if (res?.code == '200') {
-              // this.getTableData()
-              this.tableData = table;
+              this.groupDetail()
+              // this.tableData = table;
               this.$message.success('操作成功！');
             } else {
               this.$message.error(
@@ -269,7 +285,10 @@ export default {
           let params = {
             ...this.search,
             supplierGroupId: this.search.id,
-            supplierList: this.tableData
+            supplierList: this.tableData.map(item=>{
+              item.supplierGroupMappingId = item.id
+              return item
+            })
           }
           checkGroup(params).then((res) => {
             if (res?.code == '200') {
@@ -367,5 +386,11 @@ export default {
       margin-right: 0.25rem;
     }
   }
+  .link{
+  font-size: 14px;
+  color: #1763F7;
+  text-decoration: underline;
+  cursor: pointer;
+}
 }
 </style>>
