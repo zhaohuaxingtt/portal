@@ -355,9 +355,9 @@ export default {
       })
     },
     save(){
-      this.loadingType = true;
       return new Promise((resolve, reject) => {
         Promise.all([this.getRule1(), this.getRule2(), this.getRule3(), this.getRule4(), this.getRule5()]).then(res=>{
+          this.loadingType = true;
           console.log(this.supplierComplete);
           var data = _.cloneDeep(this.supplierComplete)
           data.subBankList.forEach(e=>{
