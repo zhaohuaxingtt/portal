@@ -290,7 +290,7 @@
                 clearable
                 filterable
                 :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
+                v-if="editId.indexOf(scope.row.id) !== -1&&scope.row.partUnit!=='PC'"
               >
                 <el-option
                   v-for="item in dosageMeasureUnit"
