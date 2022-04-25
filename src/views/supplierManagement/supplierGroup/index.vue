@@ -38,6 +38,11 @@
         <div class="floatright btn-box">
           <i-button
             v-permission="SUPPLIER_GROUP_MANAGEMENT_ADD_ZIDINGYIZU"
+            @click="setTags"
+            >{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button
+          >
+          <i-button
+            v-permission="SUPPLIER_GROUP_MANAGEMENT_ADD_ZIDINGYIZU"
             @click="addData"
             >{{ language('TIANJIAZIDINGYIZU', '添加自定义组') }}</i-button
           >
@@ -75,6 +80,14 @@
         :total="page.totalCount"
       />
     </iCard>
+          
+      <!-- 标签设置 -->
+
+      <setTagdilog @closeDiolog="closeDiolog"
+                   v-model="isSetTag"
+                   :selectTableData="multipleSelection"
+                   v-if="isSetTag">
+      </setTagdilog>
   </div>
 </template>
 
@@ -90,18 +103,16 @@ import {
   iMessageBox
 } from 'rise'
 import tableList from '@/components/commonTable'
+import setTagdilog from './components/setTag'
 import { tableTitle, searchList } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
-import { getDeptData as getDeptDropDownList } from '@/api/kpiChart/index.js'
 import {
   findGroupByPage,
   deleteGroup,
   queryGroupZhList,
   queryGroupEnList,
   groupExport,
-  querySupplierZhList,
-  querySupplierEnList,
-  queryGroupLabelDown
+  queryGroupLabelDown,
 } from '@/api/supplier360/supplierGroup.js'
 export default {
   mixins: [pageMixins],
@@ -112,7 +123,8 @@ export default {
     iSelect,
     iPagination,
     iButton,
-    tableList
+    tableList,
+    setTagdilog
   },
   data() {
     return {
@@ -138,31 +150,34 @@ export default {
         nameZh: [],
         nameEn: [],
       },
-      multipleSelection: []
+      multipleSelection: [],
+      isSetTag:false
     }
   },
   created() {
     this.sure()
     this.queryGroupZhList()
     this.queryGroupEnList()
-    this.getDeptDropDownList()
-    this.querySupplier();
+    this.queryGroupLabelDown();
   },
   methods: {
-
-    querySupplier(){
-      Promise.all([querySupplierZhList({}), querySupplierEnList({}), queryGroupLabelDown({})]).then(res => {
-        this.selectOptions.nameZh = res[0].data;
-        this.selectOptions.nameEn = res[1].data;
-        this.selectOptions.labelNames = res[2].data;
+  //标签设置弹窗
+    setTags(){
+      if (this.multipleSelection.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+      } else this.isSetTag = true
+    },
+    closeDiolog(){
+      this.isSetTag = false
+      this.getTableList()
+      this.queryGroupLabelDown()
+    },
+    queryGroupLabelDown(){
+      queryGroupLabelDown({}).then(res => {
+        this.selectOptions.labelNames = res.data;
       })
     },
 
-    getDeptDropDownList(){
-      getDeptDropDownList().then(res=>{
-        console.log(res);
-      })
-    },
     queryGroupZhList() {
       queryGroupZhList({}).then((res) => {
         if (res?.code == '200') {
@@ -186,7 +201,7 @@ export default {
     },
     reset() {
       Object.keys(this.search).forEach((key) => {
-        if(key === 'supplierNameZh' || key === 'supplierNameEn'){
+        if(key === 'nameZh' || key === 'nameEn' || key === 'labelNames'){
           this.search[key] = []
         }else{
           this.search[key] = ''
@@ -212,21 +227,6 @@ export default {
           this.tableLoading = false;
         })
         .catch(() => {
-          // let data = [
-          //   { zhong: '1' },
-          //   { zhong: '2' },
-          //   { zhong: '3' },
-          //   { zhong: '4' },
-          //   { zhong: '5' },
-          //   { zhong: '6' },
-          //   { zhong: '7' },
-          //   { zhong: '8' },
-          //   { zhong: '9' },
-          //   { zhong: '10' },
-          //   { zhong: '11' }
-          // ]
-          // this.page.totalCount = 32
-          // this.tableData = data;
           this.tableLoading = false;
         })
     },
@@ -259,17 +259,17 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(() => {
         deleteGroup(this.multipleSelection.map(item => item.id)).then((res) => {
-          console.log(res)
           if(res?.code=='200'){
             this.getTableList()
+            this.queryGroupZhList()
+            this.queryGroupEnList()
+            this.queryGroupLabelDown();
           }
         })
       })
     },
     exportExcel() {
-      groupExport({}).then(res => {
-
-      })
+      groupExport({})
     }
   }
 }

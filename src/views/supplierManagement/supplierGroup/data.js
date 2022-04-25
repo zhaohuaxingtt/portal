@@ -9,14 +9,14 @@ export const tableTitle = [
 ]
 
 export const searchList = [
-  {label:'供应商组中文名称',labelKey:'',props:'supplierNameZh',type:'input',permissionKey:''},
-  {label:'供应商组英文名称',labelKey:'',props:'supplierNameEn',type:'input',permissionKey:''},
-  // {label:'供应商组中文名称',labelKey:'',props:'supplierNameZh',type:'select',selectOption:'zhName',multiple:true,collapse:true,clearable:true,permissionKey:''},
-  // {label:'供应商组英文名称',labelKey:'',props:'supplierNameEn',type:'select',selectOption:'enName',multiple:true,collapse:true,clearable:true,permissionKey:''},
-  {label:'供应商中文名称',labelKey:'',props:'nameZh',type:'select',selectOption:'nameZh',multiple:true,collapse:true,clearable:true,permissionKey:''},
-  {label:'供应商英文名称',labelKey:'',props:'nameEn',type:'select',selectOption:'nameEn',multiple:true,collapse:true,clearable:true,permissionKey:''},
-  // {label:'供应商中文名称',labelKey:'',props:'nameZh',type:'input',permissionKey:''},
-  // {label:'供应商英文名称',labelKey:'',props:'nameEn',type:'input',permissionKey:''},
+  // {label:'供应商组中文名称',labelKey:'',props:'nameZh',type:'select',permissionKey:''},
+  // {label:'供应商组英文名称',labelKey:'',props:'nameEn',type:'select',permissionKey:''},
+  // {label:'供应商中文名称',labelKey:'',props:'supplierNameZh',type:'select',selectOption:'nameZh',multiple:true,collapse:true,clearable:true,permissionKey:''},
+  // {label:'供应商英文名称',labelKey:'',props:'supplierNameEn',type:'select',selectOption:'nameEn',multiple:true,collapse:true,clearable:true,permissionKey:''},
+  {label:'供应商组中文名称',labelKey:'',props:'nameZh',type:'select',selectOption:'zhName',multiple:true,collapse:true,clearable:true,permissionKey:''},
+  {label:'供应商组英文名称',labelKey:'',props:'nameEn',type:'select',selectOption:'enName',multiple:true,collapse:true,clearable:true,permissionKey:''},
+  {label:'供应商中文名称',labelKey:'',props:'supplierNameZh',type:'input',permissionKey:''},
+  {label:'供应商英文名称',labelKey:'',props:'supplierNameEn',type:'input',permissionKey:''},
   {label:'临时号',labelKey:'',props:'supplierTempCode',type:'input',permissionKey:''},
   {label:'SVW号',labelKey:'',props:'supplierSvwCode',type:'input',permissionKey:''},
   {label:'SAP号',labelKey:'',props:'supplierSapCode',type:'input',permissionKey:''},
