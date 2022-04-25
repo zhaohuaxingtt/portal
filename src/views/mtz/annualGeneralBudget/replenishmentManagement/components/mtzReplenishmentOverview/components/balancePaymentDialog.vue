@@ -1,304 +1,259 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-10 12:00:44
+ * @LastEditTime: 2022-04-24 14:18:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
 <template>
   <div>
-    <iDialog
-      :visible.sync="dialogVisible"
-      :title="
+    <iDialog :visible.sync="dialogVisible"
+             :title="
         flag
           ? language('CHUANGJIANBUCHADAN', '创建补差单')
           : language('BIANJIBUCHADAN', '编辑补差单')
       "
-      @close="handleClose"
-      v-loading="onLoding"
-      top="2%"
-      width="90%"
-    >
+             @close="handleClose"
+             v-loading="onLoding"
+             top="2%"
+             width="90%">
       <!-- <iSearch>
       </iSearch> -->
-      <el-form
-        :inline="true"
-        ref="formList"
-        :rules="rules"
-        :model="searchForm"
-        label-position="top"
-        class="searchForm"
-      >
+      <el-form :inline="true"
+               ref="formList"
+               :rules="rules"
+               :model="searchForm"
+               label-position="top"
+               class="searchForm">
         <el-row style="border-bottom: 1px solid #ccc">
           <el-col :span="21">
-            <el-form-item label="一次件供应商" class="searchFormItem">
-              <iInput
-                v-model="searchForm.firstSupplierName"
-                :disabled="true"
-              ></iInput>
+            <el-form-item label="一次件供应商"
+                          class="searchFormItem">
+              <iInput v-model="searchForm.firstSupplierName"
+                      :disabled="true"></iInput>
             </el-form-item>
-            <el-form-item
-              label="补差时间段"
-              prop="value"
-              class="searchFormItem"
-            >
-              <iDatePicker
-                v-model="searchForm.value"
-                :disabled="editDisabled"
-                @change="handleChange"
-                type="monthrange"
-                style="width: 100%"
-                format="yyyy-MM"
-                value-format="yyyy-MM-dd"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              >
+            <el-form-item label="补差时间段"
+                          prop="value"
+                          class="searchFormItem">
+              <iDatePicker v-model="searchForm.value"
+                           :disabled="editDisabled"
+                           @change="handleChange"
+                           type="monthrange"
+                           style="width: 100%"
+                           format="yyyy-MM"
+                           value-format="yyyy-MM-dd"
+                           range-separator="至"
+                           start-placeholder="开始日期"
+                           end-placeholder="结束日期">
               </iDatePicker>
             </el-form-item>
-            <el-form-item label="二次件供应商" class="searchFormItem">
-              <custom-select
-                v-model="searchForm.secondSupplierList"
-                :user-options="ssupplierList"
-                multiple
-                clearable
-                :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                display-member="codeMessage"
-                value-member="code"
-                value-key="code"
-              >
+            <el-form-item label="二次件供应商"
+                          class="searchFormItem">
+              <custom-select v-model="searchForm.secondSupplierList"
+                             :user-options="ssupplierList"
+                             multiple
+                             clearable
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="codeMessage"
+                             value-member="code"
+                             value-key="code">
               </custom-select>
             </el-form-item>
-            <el-form-item
-              label="材料中类"
-              class="searchFormItem"
-              prop="materialKindList"
-            >
-              <custom-select
-                v-model="searchForm.materialKindList"
-                :user-options="Mgroups"
-                multiple
-                clearable
-                :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                display-member="message"
-                value-member="code"
-                value-key="code"
-              >
+            <el-form-item label="材料中类"
+                          class="searchFormItem"
+                          prop="materialKindList">
+              <custom-select v-model="searchForm.materialKindList"
+                             :user-options="Mgroups"
+                             multiple
+                             clearable
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
               </custom-select>
             </el-form-item>
-            <el-form-item label="SAP订单号" class="searchFormItem">
-              <comboBox
-                v-model="searchForm.sapOrderNo"
-                :editPlaceholder="language('QINGSHURU', '请输入')"
-                :placeholder="language('QINGSHURU', '请输入')"
-              >
+            <el-form-item label="SAP订单号"
+                          class="searchFormItem">
+              <comboBox v-model="searchForm.sapOrderNo"
+                        :editPlaceholder="language('QINGSHURU', '请输入')"
+                        :placeholder="language('QINGSHURU', '请输入')">
               </comboBox>
             </el-form-item>
-            <el-form-item
-              label="原材料编号"
-              prop="materialCode"
-              class="searchFormItem"
-            >
-              <custom-select
-                v-model="searchForm.materialCode"
-                :user-options="RawMaterialNos"
-                multiple
-                clearable
-                @change="handleMaterialCode"
-                :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                display-member="codeMessage"
-                value-member="code"
-                value-key="code"
-              >
+            <el-form-item label="原材料编号"
+                          prop="materialCode"
+                          class="searchFormItem">
+              <custom-select v-model="searchForm.materialCode"
+                             :user-options="RawMaterialNos"
+                             multiple
+                             clearable
+                             @change="handleMaterialCode"
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="codeMessage"
+                             value-member="code"
+                             value-key="code">
               </custom-select>
             </el-form-item>
 
-            <el-form-item label="采购组" class="searchFormItem">
-              <custom-select
-                v-model="searchForm.ekGroupList"
-                :user-options="UserSubPurchaseGroup"
-                multiple
-                clearable
-                @change="handleMaterialCode"
-                :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                display-member="message"
-                value-member="code"
-                value-key="code"
-              >
+            <el-form-item label="采购组"
+                          class="searchFormItem">
+              <custom-select v-model="searchForm.ekGroupList"
+                             :user-options="UserSubPurchaseGroup"
+                             multiple
+                             clearable
+                             @change="handleMaterialCode"
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
               </custom-select>
             </el-form-item>
-            <el-form-item
-              label="一次零件号"
-              prop="fpartNo"
-              class="searchFormItem"
-            >
-              <comboBox
-                v-model="searchForm.fpartNo"
-                :editPlaceholder="language('QINGSHURU', '请输入')"
-                :placeholder="language('QINGSHURU', '请输入')"
-              >
+            <el-form-item label="一次零件号"
+                          prop="fpartNo"
+                          class="searchFormItem">
+              <comboBox v-model="searchForm.fpartNo"
+                        :editPlaceholder="language('QINGSHURU', '请输入')"
+                        :placeholder="language('QINGSHURU', '请输入')">
               </comboBox>
             </el-form-item>
-            <el-form-item label="二次零件号" class="searchFormItem">
-              <comboBox
-                v-model="searchForm.spartNo"
-                :editPlaceholder="language('QINGSHURU', '请输入')"
-                :placeholder="language('QINGSHURU', '请输入')"
-              >
+            <el-form-item label="二次零件号"
+                          class="searchFormItem">
+              <comboBox v-model="searchForm.spartNo"
+                        :editPlaceholder="language('QINGSHURU', '请输入')"
+                        :placeholder="language('QINGSHURU', '请输入')">
               </comboBox>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <div class="flex">
-              <iButton
-                v-if="flag"
-                class="margin-top45"
-                style="float: right"
-                @click="search"
-                >{{ language('CHAXUN', '查询') }}</iButton
-              >
-              <iButton
-                v-if="flag"
-                class="margin-top45"
-                style="float: right"
-                @click="reset"
-                >{{ language('CHONGZHI', '重置') }}</iButton
-              >
+              <iButton v-if="flag"
+                       class="margin-top45"
+                       style="float: right"
+                       @click="search">{{ language('CHAXUN', '查询') }}</iButton>
+              <iButton v-if="flag"
+                       class="margin-top45"
+                       style="float: right"
+                       @click="reset">{{ language('CHONGZHI', '重置') }}</iButton>
             </div>
           </el-col>
         </el-row>
         <el-row style="border-bottom: 1px solid #ccc; width: 100%">
           <el-col :span="21">
-            <el-form-item label="市场价偏移区间" class="searchFormItem">
-              <iDatePicker
-                v-model="value1"
-                :disabled="editDisabled"
-                @change="handleChangeDate"
-                @focus="handleFocus"
-                :picker-options="pickerOptions"
-                type="monthrange"
-                style="width: 100%"
-                format="yyyy-MM"
-                value-format="yyyy-MM-dd"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              >
+            <el-form-item label="市场价偏移区间"
+                          class="searchFormItem">
+              <iDatePicker v-model="value1"
+                           :disabled="editDisabled"
+                           @change="handleChangeDate"
+                           @focus="handleFocus"
+                           :picker-options="pickerOptions"
+                           type="monthrange"
+                           style="width: 100%"
+                           format="yyyy-MM"
+                           value-format="yyyy-MM-dd"
+                           range-separator="至"
+                           start-placeholder="开始日期"
+                           end-placeholder="结束日期">
               </iDatePicker>
             </el-form-item>
-            <el-form-item label="是否取市场价均值" class="searchFormItem">
-              <iSelect
-                v-model="searchForm.isEffAvg"
-                :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                @change="handleMaterialCode"
-                class="operate-select"
-              >
-                <el-option
-                  :value="item.value"
-                  :label="item.label"
-                  v-for="(item, index) in isEffAvgList"
-                  :key="index"
-                ></el-option>
+            <el-form-item label="是否取市场价均值"
+                          class="searchFormItem">
+              <iSelect v-model="searchForm.isEffAvg"
+                       :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                       @change="handleMaterialCode"
+                       class="operate-select">
+                <el-option :value="item.value"
+                           :label="item.label"
+                           v-for="(item, index) in isEffAvgList"
+                           :key="index"></el-option>
               </iSelect>
             </el-form-item>
           </el-col>
-          <el-col v-if="flag" :span="3">
-            <iButton
-              class="margin-top45"
-              style="float: right"
-              @click="calcuLate"
-              >{{ language('JISUAN', '计算') }}</iButton
-            >
+          <el-col v-if="flag"
+                  :span="3">
+            <iButton class="margin-top45"
+                     style="float: right"
+                     @click="calcuLate">{{ language('JISUAN', '计算') }}</iButton>
           </el-col>
         </el-row>
       </el-form>
       <div class="table">
         <div class="header flex">
-          <div class="flex" style="align-items: center">
+          <div class="flex"
+               style="align-items: center">
             <div class="margin-right20">
-              <label for="" class="label margin-right10">{{
+              <label for=""
+                     class="label margin-right10">{{
                 language('DAIFAQIPINZHENG', '待发起凭证')
               }}</label>
-              <el-input-number
-                v-model="waitCompDocMoney"
-                :precision="2"
-                :disabled="true"
-                :controls="false"
-              ></el-input-number>
+              <el-input-number v-model="waitCompDocMoney"
+                               :precision="2"
+                               :disabled="true"
+                               :controls="false"></el-input-number>
             </div>
             <div>
               <label for="">{{
                 language('SHIJIBUCHAJINE', '实际补差金额')
               }}</label>
-              <el-tooltip
-                class="item margin-right10"
-                effect="light"
-                content="可修改，但小于或等于待发起凭证总额；实际补差 金额修改后，变化量将平均打散到每条行项次"
-                placement="top"
-              >
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
+              <el-tooltip class="item margin-right10"
+                          effect="light"
+                          content="可修改，但小于或等于待发起凭证总额；实际补差 金额修改后，变化量将平均打散到每条行项次"
+                          placement="top">
+                <i class="el-icon-warning-outline margin-left10"
+                   style="color: blue"></i>
               </el-tooltip>
-              <el-input-number
-                v-model="trueCompMoney"
-                :precision="2"
-                @change="changeNum"
-                :controls="false"
-              ></el-input-number>
+              <el-input-number v-model="trueCompMoney"
+                               :precision="2"
+                               @change="changeNum"
+                               :controls="false"></el-input-number>
             </div>
           </div>
           <div class="flex">
-            <el-tooltip
-              class="item margin-right10"
-              effect="light"
-              :content="
+            <el-tooltip class="item margin-right10"
+                        effect="light"
+                        :content="
                 language(
                   'CHEHUIHOUJIANGCONGBUCHASHENQINGZHONGQUXIAORENKEZAIBUCHAZONGLANZHONGCAOZUO',
                   '撤回后将从补差申请中取消，仍可在补差总览中操作'
                 )
               "
-              placement="top"
-            >
+                        placement="top">
               <iButton @click="recall">{{
                 language('CHEHUI', '撤回')
               }}</iButton>
             </el-tooltip>
-            <el-tooltip
-              class="item margin-right10"
-              effect="light"
-              :content="
+            <el-tooltip class="item margin-right10"
+                        effect="light"
+                        :content="
                 language(
                   'CHONGXIAOHOUJIANGCONGBUCHASHENQINGZHONGQUXIAOBUNENGZHIJIEZAIBUCHAZONGLANZHONGCAOZUOXUSHOUGONGCHUANGJIANBUCHAXINXI',
                   '冲销后将从补差申请中取消，不能直接在补差总览中操作，需手工创建补差信息'
                 )
               "
-              placement="top"
-            >
+                        placement="top">
               <iButton @click="offset">{{
                 language('CHONGXIAO', '冲销')
               }}</iButton>
             </el-tooltip>
-            <iButton v-if="flag" @click="submit" :loading="subLoading">{{
+            <iButton v-if="flag"
+                     @click="submit"
+                     :loading="subLoading">{{
               language('TIJIAO', '提交')
             }}</iButton>
-            <iButton v-if="!flag" @click="submit" :loading="subLoading">{{
+            <iButton v-if="!flag"
+                     @click="submit"
+                     :loading="subLoading">{{
               language('BAOCUN', '保存')
             }}</iButton>
           </div>
         </div>
         <div>
-          <i-table-custom
-            :loading="tableLoading"
-            :data="tableData"
-            :columns="tableColumns"
-            min-height="328px"
-            height="600px"
-            ref="iTable"
-            @handle-selection-change="handleSelectionChange"
-          />
+          <i-table-custom :loading="tableLoading"
+                          :data="tableData"
+                          :columns="tableColumns"
+                          min-height="328px"
+                          height="600px"
+                          ref="iTable"
+                          @handle-selection-change="handleSelectionChange" />
           <!-- <iPagination v-update
                        @size-change="handleSizeChange($event, query)"
                        @current-change="handleCurrentChange($event, query)"
@@ -378,7 +333,7 @@ export default {
     }
   },
   watch: {
-    minDate(val) {
+    minDate (val) {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
@@ -403,7 +358,7 @@ export default {
       }
     },
     selectData: {
-      handler(val) {
+      handler (val) {
         console.log(val, 'val')
         if (val && val.length !== 0) {
           this.firstSupplierName = val[0].firstSupplierName
@@ -420,11 +375,11 @@ export default {
       immediate: true
     },
     tableData: {
-      handler() {},
+      handler () { },
       deep: true
     }
   },
-  data() {
+  data () {
     return {
       searchForm: {
         firstSupplierName: '',
@@ -501,10 +456,10 @@ export default {
     }
   },
   computed: {
-    editDisabled() {
+    editDisabled () {
       return !this.flag ? true : false
     },
-    differenceTime() {
+    differenceTime () {
       let startTME = this.searchForm.compTimeStart
       let endTME = this.searchForm.compTimeEnd
       startTME = window.moment(startTME).format('yyyy-MM-DD')
@@ -515,7 +470,7 @@ export default {
       return diffTime
     }
   },
-  created() {
+  created () {
     this.searchForm.value = this.dateSearch
     if (this.searchForm.value !== '') {
       this.searchForm.compTimeStart = window
@@ -528,7 +483,7 @@ export default {
     this.init()
   },
   methods: {
-    async init() {
+    async init () {
       await this.getMgroups()
       await this.getRawMaterialNos()
       await this.getUserSubPurchaseGroup()
@@ -544,7 +499,7 @@ export default {
       })
     },
 
-    handleMaterial(val) {
+    handleMaterial (val) {
       this.Mgroups.forEach((item) => {
         val.forEach((i) => {
           if (item.code === i) {
@@ -553,7 +508,7 @@ export default {
         })
       })
     },
-    getMgroups(key) {
+    getMgroups (key) {
       getMtzGroups({
         keyWords: key || ''
       }).then((res) => {
@@ -564,7 +519,7 @@ export default {
         }
       })
     },
-    getRawMaterialNos(key) {
+    getRawMaterialNos (key) {
       getRawMaterialNos({
         keyWords: key || ''
       }).then((res) => {
@@ -575,7 +530,7 @@ export default {
         }
       })
     },
-    getUserSubPurchaseGroup(key) {
+    getUserSubPurchaseGroup (key) {
       getUserSubPurchaseGroup({
         keyWords: key || ''
       }).then((res) => {
@@ -586,21 +541,21 @@ export default {
         }
       })
     },
-    handleClose() {
+    handleClose () {
       this.$emit('close', false)
     },
-    handleChange(val) {
+    handleChange (val) {
       this.searchForm.compTimeStart = val[0]
       this.searchForm.compTimeEnd = val[1]
     },
-    handleChangeDate(val) {
+    handleChangeDate (val) {
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
-    handleFocus() {
+    handleFocus () {
       this.pickerOptions.disabledDate = () => false
     },
-    query() {
+    query () {
       console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
@@ -632,7 +587,7 @@ export default {
         this.actAmtList = []
         let params = {
           pageNo: 1,
-          pageSize: 400,
+          pageSize: 2000,
           ...this.searchForm
         }
         fetchQueryComp(params).then((res) => {
@@ -648,11 +603,11 @@ export default {
         })
       }
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.muiltSelectList = val
-      this.tableData.filter((item) => {})
+      this.tableData.filter((item) => { })
     },
-    recall() {
+    recall () {
       if (this.muiltSelectList.length === 0) {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
       }
@@ -675,7 +630,7 @@ export default {
 
       this.$refs.iTable.clearSelection()
     },
-    offset() {
+    offset () {
       if (this.muiltSelectList.length === 0) {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
         return
@@ -693,7 +648,7 @@ export default {
         }
       })
     },
-    submit() {
+    submit () {
       if (this.flag) {
         this.subLoading = true
         let params = {
@@ -744,11 +699,11 @@ export default {
         })
       }
     },
-    search() {
+    search () {
       this.searchFlag = true
       this.query()
     },
-    reset() {
+    reset () {
       this.searchFlag = true
       this.searchForm = {
         firstSupplierName: this.firstSupplierName,
@@ -771,7 +726,7 @@ export default {
       this.value1 = ''
       this.query()
     },
-    calcuLate() {
+    calcuLate () {
       if (this.searchForm.isEffAvg === '')
         return iMessage.error(
           this.language('SHIFOUQUSHICHANGJIAJUNZHI', '是否取市场价均值')
@@ -824,7 +779,7 @@ export default {
         }
       })
     },
-    changeNum(val) {
+    changeNum (val) {
       let trueMoney = Math.abs(val)
       let waitMoney = Math.abs(this.waitCompDocMoney)
       if (trueMoney > waitMoney) {
