@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-04-24 14:18:29
+ * @LastEditTime: 2022-04-25 16:37:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -567,7 +567,7 @@ export default {
         }
         let params = {
           pageNo: 1,
-          pageSize: 400,
+          pageSize: 2000,
           ...this.searchForm
         }
         pageMTZCompByComputer(params).then((res) => {
