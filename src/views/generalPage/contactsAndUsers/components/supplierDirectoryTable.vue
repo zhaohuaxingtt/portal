@@ -49,14 +49,8 @@
         'remark'
       ]"
                 :index="true">
-      <template #contactType="scope">
-        <!-- <div v-if="scope.row.contactType === '商务联系人'">
-          {{ scope.row.contactType }} <span style="color: red">*</span>
-        </div>
-        <div v-else>{{ scope.row.contactType }}</div> -->
-        <div>
-          {{ scope.row.contactType }}<span v-if="scope.row.contactType=='商务联系人'" style="color: red">*</span>
-        </div>
+      <template #contactTypeDesc="scope">
+        <div>{{ scope.row.contactTypeDesc }}<span v-if="scope.row.contactTypeDesc == '商务联系人'" style="color: red">*</span></div>
       </template>
     </table-list>
   </i-card>
