@@ -169,14 +169,14 @@ export default {
   methods: {
     goto(row){
       console.log(row);
-      return
+      // return
       this.$router.push({
-        path: 'supplier/view-suppliers',
+        path: '/supplier/view-suppliers',
         query: {
           supplierType: row.supplierType,
-          subSupplierType:'row.subSupplierType',
+          subSupplierType:row.subSupplierType,
           subSupplierId: row.subSupplierId,
-          supplierToken:"row.supplierToken"
+          supplierToken:row.supplierToken
         }
       })
     },

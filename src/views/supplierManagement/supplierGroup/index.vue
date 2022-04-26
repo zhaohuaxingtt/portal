@@ -215,7 +215,7 @@ export default {
       let params = {
         ...this.search,
         pageSize: this.page.pageSize,
-        currPage: this.page.currPage
+        pageNo: this.page.currPage
       }
       findGroupByPage(params)
         .then((res) => {
