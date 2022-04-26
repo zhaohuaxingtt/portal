@@ -603,17 +603,17 @@ export default {
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
         this.tableDataList=res
-        this.tableDataList.push(
-          {
-            cscId: "假的数据",
-            currency: "假的数据",
-            finalPrice: '假的数据',
-            isFlag: '假的数据',
-            supplierId: "假的数据",
-            supplierName: "假的数据",
-            targetPrice: '假的数据',
-          }
-        )
+        // this.tableDataList.push(
+        //   {
+        //     cscId: "假的数据",
+        //     currency: "假的数据",
+        //     finalPrice: '假的数据',
+        //     isFlag: '假的数据',
+        //     supplierId: "假的数据",
+        //     supplierName: "假的数据",
+        //     targetPrice: '假的数据',
+        //   }
+        // )
         this.handleIntercept()
       })
     },
