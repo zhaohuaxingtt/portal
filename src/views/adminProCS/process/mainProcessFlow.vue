@@ -269,10 +269,10 @@ export default {
         testDiv.style.borderRadius = '50%'
         // })
         let obj = {
-          yco: this.startY + Y,
-          xco: this.startX + X,
-          width: this.currWidth,
-          height: this.currHeight
+          yco: parseInt(this.startY + Y),
+          xco: parseInt(this.startX + X),
+          width: parseInt(this.currWidth),
+          height: parseInt(this.currHeight)
         }
         if (this.modifyFlag) {
           obj.name = this.projectInfoData[this.currIndex + 1].name
