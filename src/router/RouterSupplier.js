@@ -250,7 +250,7 @@ export default [
       {
         path: 'supplierListDis',
         name: 'supplierListDis',
-        component: dispersedSupplier
+        component: dispersedSupplier,
       },
       {
         path: 'supplierListGP',
@@ -261,6 +261,14 @@ export default [
         path: 'supplierList/details',
         name: 'suppliersDetails',
         component: SuppliersDetails
+      },
+      {
+        path: 'supplierListDis/detailsGP',
+        name: 'detailsGP3',
+        component: () =>
+          import(
+            '@/views/supplierManagement/supplier360/detailesGP/index.vue'
+          )
       },
       {
         path: 'supplierListGP/detailsGP',

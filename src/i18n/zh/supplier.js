@@ -10,5 +10,6 @@ export default {
   TIANJIAZIDINGYIZU: '添加自定义组',
   QUERENSHANCHUGONGYINGSHANGZU:'确认删除供应商组？',
   BITIAN: '必填',
-  BIXUAN: '必选'
+  BIXUAN: '必选',
+  GONGYINGSHANGZUBIAOQIAN:'供应商组标签'
 }

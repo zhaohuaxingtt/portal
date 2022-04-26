@@ -20,7 +20,11 @@
     <div class="margin-bottom10 f-right">
       <iButton @click="add">添加</iButton>
     </div>
-      <tableList v-loading="tableLoading" :tableData="tableData" :tableTitle="addTableTitle" index :indexLabel="'序号'" height="330" @handleSelectionChange="handleSelectionChange"></tableList>
+      <tableList v-loading="tableLoading" :tableData="tableData" :tableTitle="addTableTitle" index :indexLabel="'序号'" height="330" @handleSelectionChange="handleSelectionChange">
+        <template #supplierType="scope">
+          <div>{{supplierTypeMap[scope.row.supplierType]}}</div>
+        </template>
+      </tableList>
       <iPagination class="padding-bottom20"
         v-update
         @size-change="handleSizeChange($event, getTableList)"
@@ -67,6 +71,11 @@ export default {
         supplierTempCode: '',
         supplierSvwCode: '',
         supplierSapCode: '',
+      },
+      supplierTypeMap: {
+        'GP': '一般供应商',
+        'PP': '生产供应商',
+        'PD': '共用供应商'
       },
       selectOptions:{
         supplierType:[
@@ -115,8 +124,10 @@ export default {
       Object.keys(this.search).forEach(key=>{
         if(key === 'supplierType'){
           this.search[key] = []
+        }else{
+          this.search[key] = ''
         }
-        this.search[key] = ''
+        
       })
 
       this.sure()

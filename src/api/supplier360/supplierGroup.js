@@ -4,6 +4,15 @@ import axiosDownload from '@/utils/axios.download';
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const dowload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web');
 
+// 供应商组标签设置
+export function saveGroupLabel(data) {
+  return requst({
+    url: '/supplierGroup/saveGroupLabel',
+    method: 'POST',
+    data
+  })
+}
+
 // 供应商组标签下拉
 export function queryGroupLabelDown(data) {
   return requst({
