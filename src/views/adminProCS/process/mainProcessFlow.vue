@@ -413,7 +413,7 @@ export default {
     .drag-box {
       position: absolute;
       display: none;
-      background-color: red;
+      background-color: #eb3b5a;
       pointer-events: none;
     }
   }
