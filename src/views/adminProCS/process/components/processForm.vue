@@ -52,15 +52,15 @@
           :placeholder="language('请选择')"
         />
       </iFormItem>
-      <iFormItem :label="language('流程专家')" prop="exports">
+      <iFormItem :label="language('流程专家')" prop="experts">
         <iSelect
-          v-model="form.exports"
+          v-model="form.experts"
           class="w-300"
           filterable
           remote
           reserve-keyword
           :remote-method="queryUser"
-          :loading="exports_loading"
+          :loading="experts_loading"
           multiple
           :placeholder="language('可进行搜索')"
         >
@@ -93,7 +93,7 @@
         </iSelect>
       </iFormItem>
       <iFormItem :label="language('发布范围')">
-        <iSelect v-model="form.scope">
+        <iSelect v-model="form.rangeType" class="w-300">
           <el-option
             v-for="item in scopeOptions"
             :key="item.value"
@@ -104,10 +104,16 @@
       </iFormItem>
       <iFormItem
         :label="language('选择用户')"
-        prop="userList"
-        v-if="form.scope === 999"
+        prop="rangeUser"
+        v-if="form.rangeType === 15"
       >
-        <userSelector v-model="form.userList" @change="userListChange" />
+        <userSelector
+          v-model="form.rangeUser"
+          label-key="nameZh"
+          value-key="accountId"
+          class="w-300"
+          @change="userListChange"
+        />
       </iFormItem>
     </el-form>
     <div class="flex felx-row mt20 pb20 justify-end">
@@ -176,7 +182,8 @@ export default {
       }
     }
     const validateUserList = (rule, value, callback) => {
-      if (value.length === 0 && this.form.scope === 999) {
+      console.log('validate user value:', value, this.form.rangeUser)
+      if (value.length === 0 && this.form.rangeType === 15) {
         callback(new Error('请选择用户'))
       } else {
         callback()
@@ -191,10 +198,10 @@ export default {
         firstLetterEn: '',
         version: '',
         updateDt: '',
-        exports: [],
+        experts: [],
         organizations: [],
-        scope: 1,
-        userList: []
+        rangeType: 0,
+        rangeUser: ''
       },
       rules: {
         name: [
@@ -239,7 +246,7 @@ export default {
           message: this.language('请选择更新时间'),
           trigger: 'change'
         },
-        exports: {
+        experts: {
           required: true,
           message: this.language('请输入用户名、邮箱进行搜索'),
           trigger: 'blur'
@@ -249,79 +256,79 @@ export default {
           message: this.language('请至少输入2个字符进行搜索'),
           trigger: 'blur'
         },
-        userList: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }]
       },
       orgList: [],
       allOrgList: [],
       userList: [],
       loading: false,
-      exports_loading: false,
+      experts_loading: false,
       org_loading: false,
       onceGetUser: true,
       scopeOptions: [
         {
           label: '全体用户',
-          value: 1
+          value: 0
         },
         {
           label: '全体采购员工用户',
-          value: 2
+          value: 1
         },
         {
           label: '全体内部员工用户',
-          value: 3
+          value: 2
         },
         {
           label: '全体供应商用户',
-          value: 4
+          value: 3
         },
         {
           label: '全体供应商主联系人用户',
-          value: 5
+          value: 4
         },
         {
           label: '全体生产采购供应商用户',
-          value: 6
+          value: 5
         },
         {
           label: '全体生产采购供应商主联系人用户',
-          value: 7
+          value: 6
         },
         {
           label: '全体生产采购正式供应商用户',
-          value: 8
+          value: 7
         },
         {
           label: '全体生产采购正式供应商主联系人用户',
-          value: 9
+          value: 8
         },
         {
           label: '全体一般采购供应商用户',
-          value: 10
+          value: 9
         },
         {
           label: '全体一般采购供应商主联系人用户',
-          value: 11
+          value: 10
         },
         {
           label: '全体一般采购正式供应商用户',
-          value: 12
+          value: 11
         },
         {
           label: '全体一般采购正式供应商主联系人用户',
-          value: 13
+          value: 12
         },
         {
           label: '全体N_Tier供应商用户',
-          value: 14
+          value: 13
         },
         {
           label: '全体N_Tier供应商主联系人用户',
-          value: 15
+          value: 14
         },
         {
           label: '自定义',
-          value: 999
+          value: 15
         }
       ]
     }
@@ -335,20 +342,23 @@ export default {
     async queryDetail(id) {
       try {
         this.loading = true
-        this.form = await getProcess(id)
-        console.log(this.form, '233333')
-        this.$set(
-          this.form,
-          'exports',
-          this.form.experts ? this.form.experts.map((e) => e.id) : []
-        )
-        this.$set(
-          this.form,
-          'organizations',
-          this.form.organizations
-            ? this.form.organizations.map((e) => e.id)
-            : []
-        )
+        const formData = await getProcess(id)
+        const experts = formData.experts
+          ? formData.experts.map((e) => e.id)
+          : []
+        const rangeUser = formData.rangeUser
+          ? formData.rangeUser.map((e) => {
+              return {
+                nameZh: e.name || e.nameZh,
+                accountId: parseInt(e.accountId || e.id)
+              }
+            })
+          : []
+        const organizations = formData.organizations
+          ? formData.organizations.map((e) => e.id)
+          : []
+        this.form = { ...formData, experts, rangeUser, organizations }
+        this.loading = false
         return this.form
       } finally {
         this.loading = false
@@ -376,15 +386,23 @@ export default {
             this.form.updateDt = moment(this.form.updateDt).format(
               'YYYY-MM-DD HH:mm:ss'
             )
-            // this.form.organizations = this.form.organizations.map(e => e + '')
+            const submitData = _.cloneDeep(this.form)
+
+            if (submitData.rangeUser) {
+              submitData.rangeUser = submitData.rangeUser
+                .map((e) => e.accountId)
+                .join(',')
+            }
             let formData = new FormData()
-            Object.keys(this.form).forEach((key) => {
-              if (key === 'exports' || key === 'organizations') {
-                this.form[key].forEach((e) => {
-                  formData.append(key, e)
+            Object.keys(submitData).forEach((key) => {
+              if (key === 'Experts' || key === 'organizations') {
+                submitData[key].forEach((e) => {
+                  if (e) {
+                    formData.append(key, e)
+                  }
                 })
               } else {
-                formData.append(key, this.form[key])
+                formData.append(key, submitData[key])
               }
             })
             formData.append('type', 'WorkFlow')
@@ -420,13 +438,13 @@ export default {
         keyword: keyword || ''
       }
       try {
-        this.exports_loading = true
+        this.experts_loading = true
         let res = await getUsersList(params)
         console.log('usersList')
         if (this.type != 'add' && this.onceGetUser) {
           let uIds = res.map((e) => e.id)
-          let many = this.form.experts
-            ? this.form.experts.filter((e) => !uIds.includes(e.id))
+          let many = this.form.Experts
+            ? this.form.Experts.filter((e) => !uIds.includes(e.id))
             : []
           this.userList = [...res, ...many]
           this.onceGetUser = false
@@ -434,7 +452,7 @@ export default {
           this.userList = res
         }
       } finally {
-        this.exports_loading = false
+        this.experts_loading = false
       }
     },
     reset() {
@@ -445,14 +463,21 @@ export default {
         firstLetterEn: '',
         version: '',
         updateDt: '',
-        exports: '',
+        experts: '',
         organizations: ''
       }
       this.$refs.form.resetFields()
       this.$emit('close')
     },
     userListChange(val) {
-      this.form.userList = val
+      this.form.rangeUser = val
+        .filter((e) => e.accountId)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            accountId: parseInt(e.accountId)
+          }
+        })
     }
   }
 }

@@ -138,9 +138,9 @@ export default {
     event: 'change'
   },
   props: {
-    singleSelect:{
-      type:Boolean,
-      default:false
+    singleSelect: {
+      type: Boolean,
+      default: false
     },
     tagLabel: {
       type: String,
@@ -191,12 +191,12 @@ export default {
     }
   },
   data() {
-    var singleSelectValidate = (rule, value, callback)=>{
-      if(this.listSelected.length == 0 ){
+    var singleSelectValidate = (rule, value, callback) => {
+      if (this.listSelected.length == 0) {
         return callback('最少且只能选择一项')
-      }else if(this.listSelected.length > 1){
+      } else if (this.listSelected.length > 1) {
         return callback('最多选择一项')
-      }else{
+      } else {
         callback()
       }
     }
@@ -205,11 +205,9 @@ export default {
         listSelected: null
       },
       rules: {
-        listSelected: 
-            this.singleSelect 
-            ?  [{validator:singleSelectValidate,trigger:'blur'}]
-            :  [{ required: true, message: '请至少选择一项', trigger: 'blur' }]
-        
+        listSelected: this.singleSelect
+          ? [{ validator: singleSelectValidate, trigger: 'blur' }]
+          : [{ required: true, message: '请至少选择一项', trigger: 'blur' }]
       },
       query: {
         current: 1,
@@ -220,9 +218,7 @@ export default {
       listSelected: []
     }
   },
-  created(){
-    
-  },
+  created() {},
   computed: {
     isShow: {
       get() {
@@ -299,7 +295,7 @@ export default {
       if (rows && rows.length) {
         rows.forEach((row) => {
           this.$nextTick(() => {
-            console.log('===-----------');
+            console.log('===-----------')
             this.$refs.multipleTable.toggleRowSelection(row, true)
           })
         })
@@ -368,6 +364,7 @@ export default {
     },
     getListSelectedByPage() {
       const listSelected = this.listSelected || []
+      console.log('listSelected', listSelected)
       const ids = listSelected.map((li) => {
         return li[this.idKey]
       })
