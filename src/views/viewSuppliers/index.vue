@@ -10,9 +10,14 @@
   <div class="viewSuppliers"
        v-loading="onLoading">
     <supplierViewTab class="margin-bottom20"
-                     v-if="flag"
+                     v-if="$route.query.type!=='LR'"
                      @handleClick="handleTabClick"
                      :current="current" />
+    <titleTag class="margin-bottom20"
+                     v-if="$route.query.type=='LR'"
+                     @handleClick="handleTabClick"
+                     :current="current">
+    </titleTag>
     <log-button class="logButton"
                 @toLogPage="toLog" />
     <supplier360-page v-if="current === 1" />
@@ -24,12 +29,14 @@
 
 <script>
 import supplierViewTab from '../../components/supplierViewTab'
+import titleTag from './titleTag'
 import logButton from '@/components/logButton'
 import supplier360Page from '../supplier360'
 import iUserLog from '@/components/iUserLog'
 export default {
   components: {
     supplierViewTab,
+    titleTag,
     supplier360Page,
     logButton,
     iUserLog
@@ -42,6 +49,9 @@ export default {
       showDialog: false,
       onLoading: false
     }
+  },
+  created(){
+    console.log(this.$route.query.type)
   },
   methods: {
     handleTabClick (index) {

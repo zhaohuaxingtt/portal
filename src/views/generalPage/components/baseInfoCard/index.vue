@@ -61,6 +61,8 @@ export default {
     }else{
       this.baseInfoTitle = cloneDeep(baseInfoTitle)
     }
+
+    console.log(this.$store.state.baseInfo);
   },
   methods: {
     changeTitle () {
