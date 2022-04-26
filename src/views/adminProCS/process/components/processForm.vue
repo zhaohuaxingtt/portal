@@ -93,7 +93,7 @@
         </iSelect>
       </iFormItem>
       <iFormItem :label="language('发布范围')">
-        <iSelect v-model="form.scope">
+        <iSelect v-model="form.rangeType">
           <el-option
             v-for="item in scopeOptions"
             :key="item.value"
@@ -104,10 +104,10 @@
       </iFormItem>
       <iFormItem
         :label="language('选择用户')"
-        prop="userList"
-        v-if="form.scope === 999"
+        prop="rangeUser"
+        v-if="form.rangeType === 999"
       >
-        <userSelector v-model="form.userList" @change="userListChange" />
+        <userSelector v-model="form.rangeUser" @change="userListChange" />
       </iFormItem>
     </el-form>
     <div class="flex felx-row mt20 pb20 justify-end">
@@ -176,7 +176,7 @@ export default {
       }
     }
     const validateUserList = (rule, value, callback) => {
-      if (value.length === 0 && this.form.scope === 999) {
+      if (value.length === 0 && this.form.rangeType === 999) {
         callback(new Error('请选择用户'))
       } else {
         callback()
@@ -193,8 +193,8 @@ export default {
         updateDt: '',
         exports: [],
         organizations: [],
-        scope: 1,
-        userList: []
+        rangeType: 1,
+        rangeUser: ''
       },
       rules: {
         name: [
@@ -249,7 +249,7 @@ export default {
           message: this.language('请至少输入2个字符进行搜索'),
           trigger: 'blur'
         },
-        userList: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }]
       },
       orgList: [],
       allOrgList: [],

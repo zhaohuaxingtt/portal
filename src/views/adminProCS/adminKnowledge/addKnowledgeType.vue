@@ -62,7 +62,7 @@
         </div>
       </iFormItem>
       <iFormItem :label="language('发布范围')">
-        <iSelect v-model="newTypeForm.scope">
+        <iSelect v-model="newTypeForm.rangeType">
           <el-option
             v-for="item in scopeOptions"
             :key="item.value"
@@ -73,10 +73,13 @@
       </iFormItem>
       <iFormItem
         :label="language('选择用户')"
-        prop="userList"
-        v-if="newTypeForm.scope === 999"
+        prop="rangeUser"
+        v-if="newTypeForm.rangeType === 999"
       >
-        <userSelector v-model="newTypeForm.userList" @change="userListChange" />
+        <userSelector
+          v-model="newTypeForm.rangeUser"
+          @change="userListChange"
+        />
       </iFormItem>
     </el-form>
     <div class="flex justify-end btn">
@@ -140,8 +143,8 @@ export default {
         name: '',
         enName: '',
         coverFile: '',
-        scope: 1,
-        userList: []
+        rangeType: 1,
+        rangeUser: []
       },
       newTypeRules: {
         name: {
@@ -155,7 +158,7 @@ export default {
           message: this.language('请上传文件'),
           trigger: 'change'
         },
-        userList: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }]
       },
       imgCutterRate: '16 : 9',
       fileList: [],
@@ -352,7 +355,7 @@ export default {
       this.newTypeForm.coverFileName = `${currVa.name}.png`
     },
     userListChange(val) {
-      this.newTypeForm.userList = val
+      this.newTypeForm.rangeUser = val
     }
   },
   computed: {
