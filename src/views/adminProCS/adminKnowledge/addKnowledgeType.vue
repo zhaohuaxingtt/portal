@@ -74,10 +74,12 @@
       <iFormItem
         :label="language('选择用户')"
         prop="rangeUser"
-        v-if="newTypeForm.rangeType === 999"
+        v-if="newTypeForm.rangeType === 15"
       >
         <userSelector
           v-model="newTypeForm.rangeUser"
+          label-key="nameZh"
+          value-key="accountId"
           @change="userListChange"
         />
       </iFormItem>
@@ -131,7 +133,7 @@ export default {
       }
     }
     const validateUserList = (rule, value, callback) => {
-      if (value.length === 0 && this.form.scope === 999) {
+      if (value.length === 0 && this.form.rangeType === 15) {
         callback(new Error('请选择用户'))
       } else {
         callback()
@@ -143,7 +145,7 @@ export default {
         name: '',
         enName: '',
         coverFile: '',
-        rangeType: 1,
+        rangeType: 0,
         rangeUser: []
       },
       newTypeRules: {
@@ -169,67 +171,67 @@ export default {
       scopeOptions: [
         {
           label: '全体用户',
-          value: 1
+          value: 0
         },
         {
           label: '全体采购员工用户',
-          value: 2
+          value: 1
         },
         {
           label: '全体内部员工用户',
-          value: 3
+          value: 2
         },
         {
           label: '全体供应商用户',
-          value: 4
+          value: 3
         },
         {
           label: '全体供应商主联系人用户',
-          value: 5
+          value: 4
         },
         {
           label: '全体生产采购供应商用户',
-          value: 6
+          value: 5
         },
         {
           label: '全体生产采购供应商主联系人用户',
-          value: 7
+          value: 6
         },
         {
           label: '全体生产采购正式供应商用户',
-          value: 8
+          value: 7
         },
         {
           label: '全体生产采购正式供应商主联系人用户',
-          value: 9
+          value: 8
         },
         {
           label: '全体一般采购供应商用户',
-          value: 10
+          value: 9
         },
         {
           label: '全体一般采购供应商主联系人用户',
-          value: 11
+          value: 10
         },
         {
           label: '全体一般采购正式供应商用户',
-          value: 12
+          value: 11
         },
         {
           label: '全体一般采购正式供应商主联系人用户',
-          value: 13
+          value: 12
         },
         {
           label: '全体N_Tier供应商用户',
-          value: 14
+          value: 13
         },
         {
           label: '全体N_Tier供应商主联系人用户',
-          value: 15
+          value: 14
         },
         {
           label: '自定义',
-          value: 999
+          value: 15
         }
       ]
     }
@@ -268,7 +270,6 @@ export default {
       let form = new FormData()
       form.append('file', content.file)
       form.append('applicationName', 'popupImage')
-      console.log(content, '12345')
       this.coverFile = content.dataURL
       uploadFileWithNOTokenTwo(form).then((result) => {
         if (result.code == '200') {
@@ -298,7 +299,11 @@ export default {
               this.newTypeForm.coverFileName = this.imgName
                 ? this.imgName
                 : this.newTypeForm.coverFileName
-
+              if (this.newTypeForm.rangeUser) {
+                this.newTypeForm.rangeUser = this.newTypeForm.rangeUser.map(
+                  (e) => e.accountId
+                )
+              }
               let formData = new FormData()
               Object.keys(this.newTypeForm).forEach((key) => {
                 formData.append(key, this.newTypeForm[key])
@@ -320,6 +325,11 @@ export default {
               // this.newTypeForm.coverFile = this.imageUrl || ""
 
               this.newTypeForm.coverFileName = this.imgName
+              if (this.newTypeForm.rangeUser) {
+                this.newTypeForm.rangeUser = this.newTypeForm.rangeUser.map(
+                  (e) => e.accountId
+                )
+              }
               let formData = new FormData()
               Object.keys(this.newTypeForm).forEach((key) => {
                 formData.append(key, this.newTypeForm[key])
@@ -345,17 +355,39 @@ export default {
     },
     initModify(currVa) {
       console.log(currVa, '1111')
+      const row = _.cloneDeep(currVa)
       this.modifyFlag = true
-      this.modifyTypeId = currVa.id
+      this.modifyTypeId = row.id
       // this.newTypeForm = JSON.parse(JSON.stringify(currVa))
-      this.newTypeForm.name = currVa.name
-      this.newTypeForm.enName = currVa.enName
+      this.newTypeForm.name = row.name
+      this.newTypeForm.enName = row.enName
+      this.newTypeForm.rangeType = row.rangeType
+      if (row.rangeUser) {
+        console.log('row.rangeUser', row.rangeUser)
+        this.newTypeForm.rangeUser = row.rangeUser.map((e) => {
+          return {
+            nameZh: e.name,
+            accountId: parseInt(e.accountId)
+          }
+        })
+      } else {
+        this.newTypeForm.rangeUser = []
+      }
+
       this.imageUrl = currVa?.cover.split('uploader/')[1]
       this.newTypeForm.coverFile = this.imageUrl
       this.newTypeForm.coverFileName = `${currVa.name}.png`
     },
     userListChange(val) {
+      console.log('userListChange', val)
       this.newTypeForm.rangeUser = val
+        .filter((e) => e.accountId)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            accountId: parseInt(e.accountId)
+          }
+        })
     }
   },
   computed: {
