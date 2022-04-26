@@ -33,7 +33,6 @@
         <el-radio-group v-model="newTypeForm.coverFile"></el-radio-group>
 
         <div class="photo-content">
-          <div class="photo-text">{{ language('请上传封面图片') }}</div>
           <ImgCutter
             class="avatar-uploader"
             fileType=".jpg, .jpeg, .png"
@@ -42,6 +41,7 @@
             :file-list="fileList"
           >
             <div slot="open">
+              <div class="photo-text">{{ language('请上传封面图片') }}</div>
               <img
                 v-if="imageUrl"
                 :src="imageUrl"
