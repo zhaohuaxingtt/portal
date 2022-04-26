@@ -7,7 +7,7 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="openNav">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -54,6 +54,12 @@ export default {
         return []
       }
     },
+    supplier360ViewVO:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    }
   },
   watch: {
     gpFixPointVos(val){
@@ -78,6 +84,9 @@ export default {
     }
   },
   methods: {
+    openNav(){
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/rfq/myTask?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+    },
     getCanvas(){
       this.myChart = echarts().init(this.$refs.chart)
       var option = {

@@ -7,7 +7,7 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item  @click.native="openNav">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -33,6 +33,12 @@ export default {
             return []
         }
     },
+    supplier360ViewVO:{
+        type:Object,
+        default:()=>{
+            return {}
+        }
+    }
   },
   components: {
     iCard,
@@ -49,6 +55,7 @@ export default {
         dataAll:[],
         dataY:[],
         echart2:null,
+        info:{}
     }
   },
   created(){
@@ -60,6 +67,11 @@ export default {
     }
   },
   watch: {
+      supplier360ViewVO (data) {
+        if (data) {
+            this.info = data
+        }
+      },
       gpOrderVo(val){
         this.dataAll = val;
         var name = [];
@@ -113,6 +125,19 @@ export default {
       
   },
   methods: {
+    openNav(){
+      this.$router.push({
+        path: '/supplier/view-suppliers',
+        query: {
+          supplierToken: this.info.token || '',
+          type:this.$route.query.type?this.$route.query.type:"",
+          supplierType: '4',
+          subSupplierType: this.$route.query.supplierType,
+          supplierId: this.$route.query.subSupplierId,
+          current:10,
+        }
+      })
+    },
     setEcharts1(val){
         var index = 0;//默认选中高亮模块索引
         const echart1 = echarts().init(this.$refs.echart1)
@@ -226,6 +251,9 @@ export default {
         echart1.setOption(this.option1)
         var number = 0;
         var indexNumebr = 0;
+
+        if(val.length<1) return false;
+
         val.forEach((e,index)=>{
             if(e.value >= number){
                 number = e.value;
