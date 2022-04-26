@@ -193,6 +193,7 @@ export const supplierCompleteRe = {
 		list:[
 			{
 				contactType:"BUSINESS_CONTACTS",
+				contactTypeDesc:"商务联系人",
 				nameZh:"",
 				designation:"",
 				dept:"",
