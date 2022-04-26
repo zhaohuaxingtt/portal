@@ -50,6 +50,10 @@ export default {
       },
       required: true
     },
+    tagId: {
+      type: String,
+      default: 'id'
+    },
     value: {
       type: Array,
       default: function () {
@@ -68,7 +72,7 @@ export default {
         newValue &&
         newValue
           .map((it) => {
-            return it.id
+            return it[this.tagId]
           })
           .join(',')
       if (this.singleSelect) {
