@@ -303,11 +303,16 @@ export default {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       // if (this.selectTableData.map(item => item.isDefault).indexOf('true') > -1) {
-      let item
-      // }
-      for (let i = 0; item; item = this.selectTableData[i++]) {
-        if (item.isDefault) return iMessage.err(this.language('BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO', '不可删除主联系人，请先设置其他账号为主联系人后，再删除该账号'))
+      // let item
+      // // }
+      for (var i = 0, item; item = this.selectTableData[i++];) {
+        console.log(item, "hahahah")
+        if (item.isDefault) return iMessage.error(this.language('BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO', '不可删除主联系人，请先设置其他账号为主联系人后，再删除该账号'))
       }
+      // for (let i = 0; i < this.selectTableData.length; i++) {
+      //   let item = this.selectTableData[i]
+      //   if (item.isDefault) return iMessage.error(this.language('BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO', '不可删除主联系人，请先设置其他账号为主联系人后，再删除该账号'))
+      // }
       iMessageBox(
         this.$t('LK_SHIFOUQUERENSHANCHU'),
         this.$t('LK_WENXINTISHI'),
