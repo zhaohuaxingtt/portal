@@ -437,6 +437,6 @@ export default {
   }
 }
 .shadow {
-  box-shadow: 10px 10px 5px #888888;
+  box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.65);
 }
 </style>
