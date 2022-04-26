@@ -84,6 +84,9 @@
               ></el-option>
             </i-select>
           </template>
+          <template #supplierNameZh="scope">
+            <div @click="goto(scope.row)" class="link">{{scope.row.supplierNameZh}}</div>
+          </template>
 
         </tableList>
       </div>
@@ -92,7 +95,7 @@
       :visible.sync="showiDialog"
       class="xxx"
       @onClose="onClose"
-      @getTableData="getTableData"
+      @getTableData="groupDetail"
       @addSupplier="addSupplier"
     ></addSupplier>
   </div>
@@ -164,6 +167,19 @@ export default {
     this.queryDeptList();
   },
   methods: {
+    goto(row){
+      console.log(row);
+      return
+      this.$router.push({
+        path: 'supplier/view-suppliers',
+        query: {
+          supplierType: row.supplierType,
+          subSupplierType:'row.subSupplierType',
+          subSupplierId: row.subSupplierId,
+          supplierToken:"row.supplierToken"
+        }
+      })
+    },
     queryDeptList(){
       queryDeptList({}).then(res => {
         this.options = res.data
@@ -228,8 +244,8 @@ export default {
         }).then(() => {
           deleteSupplier(deleteList.map(item => item.id)).then((res) => {
             if (res?.code == '200') {
-              // this.getTableData()
-              this.tableData = table;
+              this.groupDetail()
+              // this.tableData = table;
               this.$message.success('操作成功！');
             } else {
               this.$message.error(
@@ -242,6 +258,26 @@ export default {
         this.tableData = table
       }
     },
+
+    saveGroup(params){
+      saveGroup(params).then((res1) => {
+        if (res1?.code == '200') {
+          this.editStatus = false
+          // this.getTableData()
+          this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn);
+          const query = JSON.parse(JSON.stringify(this.$route.query)) // 获取路由参数信息
+          query.status = 'detail';
+          query['id'] = res1.data.id;
+          this.$router.replace({ path: this.$route.path, query }) //更新路由
+          this.groupDetail();
+        } else {
+          this.$message.error(
+            this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
+          )
+        }
+      })
+    },
+
     save() {
 
       this.$refs.ruleForm.validate((valid) => {
@@ -249,27 +285,42 @@ export default {
           let params = {
             ...this.search,
             supplierGroupId: this.search.id,
-            supplierList: this.tableData
+            supplierList: this.tableData.map(item=>{
+              item.supplierGroupMappingId = item.id
+              return item
+            })
           }
           checkGroup(params).then((res) => {
             if (res?.code == '200') {
+              
 
-              saveGroup(params).then((res1) => {
-                if (res1?.code == '200') {
-                  this.editStatus = false
-                  // this.getTableData()
-                  this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn);
-                  const query = JSON.parse(JSON.stringify(this.$route.query)) // 获取路由参数信息
-                  query.status = 'detail';
-                  query['id'] = res1.data.id;
-                  this.$router.replace({ path: this.$route.path, query }) //更新路由
-                  this.groupDetail();
-                } else {
-                  this.$message.error(
-                    this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
-                  )
-                }
-              })
+              if(res.data.status === 1){
+                this.saveGroup(params)
+              }else{
+                iMessageBox(res.data.statusDesc, this.$t('LK_WENXINTISHI'), {
+                  confirmButtonText: this.language('QUEREN', '确认'),
+                  cancelButtonText: this.language('QUXIAO', '取消')
+                }).then(() => {
+                  this.saveGroup(params)
+                })
+              }
+
+              // saveGroup(params).then((res1) => {
+              //   if (res1?.code == '200') {
+              //     this.editStatus = false
+              //     // this.getTableData()
+              //     this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn);
+              //     const query = JSON.parse(JSON.stringify(this.$route.query)) // 获取路由参数信息
+              //     query.status = 'detail';
+              //     query['id'] = res1.data.id;
+              //     this.$router.replace({ path: this.$route.path, query }) //更新路由
+              //     this.groupDetail();
+              //   } else {
+              //     this.$message.error(
+              //       this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
+              //     )
+              //   }
+              // })
 
               // iMessageBox(res.desZh, this.$t('LK_WENXINTISHI'), {
               //   confirmButtonText: this.language('QUEREN', '确认'),
@@ -325,6 +376,21 @@ export default {
     ::v-deep .el-input__inner {
       width: 300px;
     }
+
+    ::v-deep .el-form-item__label::before{
+      display: none;
+    }
+    ::v-deep .el-form-item__label::after{
+      content: '*';
+      color: #EF3737;
+      margin-right: 0.25rem;
+    }
   }
+  .link{
+  font-size: 14px;
+  color: #1763F7;
+  text-decoration: underline;
+  cursor: pointer;
+}
 }
 </style>>

@@ -20,5 +20,6 @@ export default {
   JITUANGONGSI: 'Group Company',
   VWHAOZHUANGTAI: 'VW Status',
   GONGYINGSHANGZUGUANLI: 'Supplier Group Management',
-  QUERENSHANCHUGONGYINGSHANGZU:'确认删除供应商组？'
+  QUERENSHANCHUGONGYINGSHANGZU:'Are you sure to delete the supplier group?',
+  GONGYINGSHANGZUBIAOQIAN:'Supplier Group Tag'
 }
