@@ -37,10 +37,11 @@
             </el-form-item>
           </el-row>
           <el-row type="flex" justify="space-between">
-            <el-form-item label="供应商组科室" required prop="deptName">
+            <el-form-item label="供应商组科室" required prop="deptCode">
               <i-select
                 :disabled="!(editStatus || show)"
-                v-model="search.deptName"
+                v-model="search.deptCode"
+                @change="changedeptName"
               >
                 <el-option
                   :value="child.code"
@@ -167,9 +168,10 @@ export default {
     this.queryDeptList();
   },
   methods: {
+    changedeptName(){
+      this.search.deptName = this.options.filter(item=>item.code==this.search.deptCode)[0].message
+    },
     goto(row){
-      console.log(row);
-      // return
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
@@ -224,7 +226,6 @@ export default {
       this.multipleSelection = val
     },
     deleteData() {
-      console.log(this.multipleSelection)
       if (!this.multipleSelection.length) return iMessage.warn('请选择需要删除的数据')
       let indexList = this.multipleSelection.map((item) => item.index)
       let table = []

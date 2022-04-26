@@ -61,7 +61,7 @@ export const fromRules = (vm) => ({
   nameEn:[
     {required: true, message: vm.language('BITIAN','必填'), trigger: ["blur","change"]}
   ],
-  deptName:[
+  deptCode:[
     {required: true, message: vm.language('BIXUAN','必选'), trigger: ["blur","change"]}
   ],
 })
