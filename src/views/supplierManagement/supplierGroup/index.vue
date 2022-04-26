@@ -59,7 +59,7 @@
         :tableTitle="tableTitle"
         @handleSelectionChange="handleSelectionChange"
       >
-      <template #nameZh="scope">
+        <template #nameZh="scope">
           <div class="link" @click="openPage(scope.row)">{{scope.row.nameZh}}</div>
         </template>
       </tableList>
@@ -98,7 +98,10 @@ import {
   deleteGroup,
   queryGroupZhList,
   queryGroupEnList,
-  groupExport
+  groupExport,
+  querySupplierZhList,
+  querySupplierEnList,
+  queryGroupLabelDown
 } from '@/api/supplier360/supplierGroup.js'
 export default {
   mixins: [pageMixins],
@@ -115,38 +118,25 @@ export default {
     return {
       tableLoading: false,
       search: {
-        nameZh: '',
-        nameEn: '',
+        nameZh: [],
+        nameEn: [],
         supplierNameZh: [],
         supplierNameEn: [],
         supplierTempCode: '',
         supplierSvwCode: '',
         supplierSapCode: '',
+        labelNames: []
       },
       tableData: [
-            // { zhong: '1' },
-            // { zhong: '2' },
-            // { zhong: '3' },
-            // { zhong: '4' },
-            // { zhong: '5' },
-            // { zhong: '6' },
-            // { zhong: '7' },
           ],
       tableTitle,
       searchList,
       selectOptions: {
-        zhName: [
-          { label: 'test', value: 1 },
-          { label: 'test2', value: 2 },
-          { label: 'test3', value: 3 },
-          { label: 'test4', value: 4 }
-        ],
-        enName: [
-          { label: 'test', value: 1 },
-          { label: 'test2', value: 2 },
-          { label: 'test3', value: 3 },
-          { label: 'test4', value: 4 }
-        ]
+        zhName: [],
+        enName: [],
+        labelNames: [],
+        nameZh: [],
+        nameEn: [],
       },
       multipleSelection: []
     }
@@ -156,8 +146,18 @@ export default {
     this.queryGroupZhList()
     this.queryGroupEnList()
     this.getDeptDropDownList()
+    this.querySupplier();
   },
   methods: {
+
+    querySupplier(){
+      Promise.all([querySupplierZhList({}), querySupplierEnList({}), queryGroupLabelDown({})]).then(res => {
+        this.selectOptions.nameZh = res[0].data;
+        this.selectOptions.nameEn = res[1].data;
+        this.selectOptions.labelNames = res[2].data;
+      })
+    },
+
     getDeptDropDownList(){
       getDeptDropDownList().then(res=>{
         console.log(res);
@@ -191,6 +191,7 @@ export default {
         }
         this.search[key] = ''
       })
+      this.sure();
     },
     getTableList() {
       this.tableLoading = true;

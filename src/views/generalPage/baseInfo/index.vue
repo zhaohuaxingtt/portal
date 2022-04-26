@@ -5,9 +5,9 @@
  -->
 <template>
   <div class="baseInfo">
-    <div class="save margin-bottom20">
+    <div class="save margin-bottom20" v-if="$route.path=='/supplier/view-suppliers'">
       <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL_GP" v-if="$route.query.subSupplierType=='GP'">保存</iButton>
-      <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL" v-else>保存</iButton>
+      <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL" v-if="$route.query.subSupplierType!=='GP'">保存</iButton>
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
