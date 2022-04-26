@@ -10,7 +10,7 @@
   <i-card>
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{ $t('SUPPLIER_FUKUANQINGKUANG') }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button @click="addTableItem" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PAY_TABLE_ADD">{{
             $t('LK_XINZENG')
           }}
@@ -19,6 +19,12 @@
                   v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PAY_TABLE_DELETE">{{ $t('delete') }}
         </i-button>
         <i-button @click="exportsTable" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PAY_TABLE_EXPORT">{{
+            $t('LK_DAOCHU')
+          }}
+        </i-button>
+      </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button @click="exportsTable" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_PAY_TABLE_EXPORT_GP">{{
             $t('LK_DAOCHU')
           }}
         </i-button>

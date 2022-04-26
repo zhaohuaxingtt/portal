@@ -57,7 +57,6 @@ export default {
           return false
         })
         return hasValueData
-        // return this.data
       }
 
       return [this.data[this.activeIndex]]

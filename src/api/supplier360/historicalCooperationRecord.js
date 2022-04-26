@@ -19,3 +19,11 @@ export function getSupplierTtoList(parmars) {
     }
   })
 }
+
+// 历年合作记录
+export function queryGpSupplierCooperationRecord(parmars) {
+  return requst({
+    url: `/gpSupplier/queryGpSupplierCooperationRecord?supplierId=${parmars}`,
+    method: 'GET',
+  })
+}

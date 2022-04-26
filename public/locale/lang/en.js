@@ -1032,6 +1032,7 @@
     BIANGENGHOU: 'After',
     BIANGENGCHAKAN: 'View',
     GUDONGBANGENGQIAN: 'Before Change Of Shareholder',
+    GUDONGBANGENG: '股东变更', //股东变更
     GUDONGBIANGENGHOU: 'After Change Of Shareholder',
     QIYEYANGEMIAOSHU: 'Remarks Of Enterprise History',
     XINGONGYINGSHANGPINGJIJIEGUO: 'New Supplier Rating Result',
@@ -1110,6 +1111,7 @@
     ZHANGQI: 'Payment Days',
     XIANJINGPIAOJUJINGLI: 'Ratio Of Cash To Bill',
     SUPPLIER_ZHUYAOFENGONGFANGMINGCHENG: 'Subsupplier Name And Product Name',
+    SUPPLIER_ZHUYAOFENGONGFANGMINGCHENGJICHANPIN: '主要分供方名称及产品',
     SUPPLIER_SHEHUITONGYIXINYONGDAIMA: 'Unified Social Credit Identifier',
     SUPPLIER_CHANPIN: 'Product Name',
     SUPPLIER_GUOJIA: 'Country',
@@ -1353,6 +1355,7 @@
     SUPPLIER_WUXIAO: 'Invalid', //无效
     SUPPLIER_YOUXIAO: 'Availability', //有效
     SUPPLIER_PURCHASEREMAIL: 'Purchaser Email', //采购员邮箱
+    CAIGOUYUANXINXI: 'Purchaser Information', //采购员信息
     SUPPLIER_PURCHASERNAME: 'Purchaser Name', //采购员姓名
     SUPPLIER_SUPPLIERTYPE: 'Supplier Type', //供应商类型
     SUPPLIER_ZHUANZHENGSUOXUFUJIAN: 'Attachments Needed For Correction', //转正所需附件
@@ -2147,6 +2150,19 @@
     MT_TO: 'To',
     MT_BITIAN: 'required',
     MT_XUHAO: 'No.',
+    MT_HUIYISUOYOUZHE: 'Present Items',
+    MT_CISHU: 'Count',
+    MT_CHIXUSHIJIAN: 'Duration',
+    MT_CHANHUIREN: 'Presenter',
+    MT_GUBIE: 'Presenter Dept.',
+    MT_TIJIAOREN: 'Supporter',
+    MT_BUMEN: 'Supporter Dept.',
+    MT_BEIZHU: 'Remark',
+
+
+
+
+    
 
     POSITION: {
       POSITION_NAME: 'Position name',
@@ -2310,7 +2326,34 @@
     LK_NIANDUYUSUANCHAYI: '年度预算差异', //年度预算差异
     LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
     LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
-    LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择' //删除资信报告提示语
+    LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择', //删除资信报告提示语
+    QINGXUANZEYEWULEIXING:'请选择业务类型',
+    YEWULEIXINGLIANXIRENYOUXIANG:'业务类型联系人邮箱',
+    YEWUBUMENLIANXIRENXINGMING:'业务类型联系人姓名',
+    YEWULEIXING:"业务类型",
+    DZYPZHYHMC:'电子银票账户银行名称',
+    DZYPYHZHHH:'电子银票银行账户行号',
+    DZYPYHSZGJ:'电子银票银行所在国家',
+    DZYPYHSZSF:'电子银票银行所在省份',
+    DZYPYHSZCS:'电子银票银行所在城市',
+    GONGYINGSHANGZIYINHANGZHANGHU:'供应商子银行账户',
+    NONGMINGGONGGONGZIZHUANYONG:'农民工工资专用账户名称',
+    CAIGOUYUANXINXI:'采购员信息',
+    YEWUBUMENLIANXIRENYOUXIANG:'业务部门联系人邮箱',
+    SHIFOUQIYONG:'是否启用',
+    SHOUQUANYINHANGXINXI:"授权银行信息",
+    JITUANXINXI:'集团信息',
+    SUPPLIER_CAIGOUFENLEI:'采购分类',
+    XITONGXIUGAILISHILIEBIAO:'系统修改历史列表',
+    FENSANNEIBUBAOXIAOGONGYINGSHANG:"分散（内部报销）供应商",
+    NEIBUBAOXIAO:'内部报销',
+    ZHENGSHIHAO:'正式号',
+    SHIFOUCHAOQI:'是否超期',
+    DENGLURISEXITONGTIME:'登录RISE系统时间',
+    YINGYONGGUANLIAN:'应用关联',
+    YIBANGONGYINGSHANG:"一般供应商",
+    LK_BITIANXIANGBUNENGWEIKONG:"必填项不能为空",
+    SUPPLIER_ZHUCEZIBEN:"注册资本"
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

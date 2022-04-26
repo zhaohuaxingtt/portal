@@ -90,6 +90,9 @@ export default {
     //获取标签列表
     getTagListObj() {
       let params = {}
+      if(this.selectTableData[0].supplierType == "GP"){
+        params.type = 2;
+      }
       getTagList(params).then((res) => {
         if (res && res.code == 200) {
           this.tagList = res.data

@@ -7,7 +7,7 @@
 
 export const supplierDirectoryTableTitle = [
   {
-    props: 'contactType',
+    props: 'contactTypeDesc',
     name: '联系人类型',
     key: 'SUPPLIER_LIANXIRENLEIXING'
   },
@@ -114,6 +114,70 @@ export const supplierUserNameTableTitle = [
   },
   { props: 'operation', name: '应用关联', key: '' }
 ]
+export const supplierUserNameTableTitleGP = [
+  {
+    props: 'nameZh',
+    name: '联系人姓名',
+    key: 'SUPPLIER_LIANXIRENXINGMING',
+    required: true,
+    width: 140
+  },
+  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI', width: 200 },
+  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN', width: 200 },
+  { props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO' },
+  {
+    props: 'telephone',
+    name: '联系电话',
+    key: 'SUPPLIER_LIANXIDIANHUA',
+    required: true,
+    width: 150
+  },
+  {
+    props: 'email',
+    name: '电子邮件',
+    key: 'SUPPLIER_DIANZIYOUJIAN',
+    width: 270,
+    required: true,
+    rule: [
+      {
+        pattern:
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: '请输入正确的电子邮件',
+        trigger: 'blur'
+      }
+    ]
+  },
+  {
+    props: 'userName',
+    name: '用户登录名',
+    key: 'SUPPLIER_YONGHUDENGLUMING',
+    tooltip: true,
+    width: 170,
+  },
+  {
+    props: 'isActivity',
+    name: '是否有效',
+    key: 'SUPPLIER_SHIFOUHUODONG',
+    tooltip: true
+  },
+  { props: 'isExpire', name: '是否超期', key: 'SHIFOUCHAOQI', tooltip: true },
+  {
+    props: 'expireDate',
+    name: '超期时间',
+    key: 'CHAOQISHIJIAN',
+    tooltip: true,
+    width: 200
+  },
+  {
+    props: 'loginDate',
+    name: '登录rise系统时间',
+    key: 'DENGLURISEXITONGSHIJIAN',
+    tooltip: true,
+    width: 200
+  },
+  { props: 'operation', name: '应用关联', key: '' }
+]
+
 export const dialogTableTitle = [
   { props: 'isExpire', name: '中文名称', key: '' },
   { props: 'expireDate', name: '英文名称', key: '' },

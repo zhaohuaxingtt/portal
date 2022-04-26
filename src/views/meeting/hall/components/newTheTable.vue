@@ -238,10 +238,14 @@ export default {
       if (e.state == '04') {
         url = '/meeting/live'
       }
-      //gp管理大厅
-      // if (e.state == '04') {
-      //   url = '/meeting/managementHall'
-      // }
+      if (e.category=='03') {
+        if (e.name == "MBDL会议") {
+          url = '/MBDLMeeting/live'
+        }else  {
+          //非MBDL会议  csc会议
+          url = '/CSCMeeting/live'
+        }
+      }
       this.$router.push({
         path: url,
         query: {

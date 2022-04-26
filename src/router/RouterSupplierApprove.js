@@ -7,8 +7,10 @@
  */
 //updated by dolphin on 5/19/2020, 7:54:14 PM.
 
-'use strict'
+// 'use strict'
 import CorrectionApprovalDetails from '../views/generalPage/correctionApprovalDetails/index'
+import CorrectionApprovalDetailsGP from '../views/generalPage/correctionApprovalDetailsGP/index'
+import CorrectioDetailsGP from '../views/generalPage/correctioDetailsGP/index'
 import DepthReportApproval from '../views/bpm/frmRatingApproval/depthReportApproval'
 import FrmRatingApproval from '../views/bpm/frmRatingApproval/depthRatingApproval'
 import NewsupplierratingTask from '../views/frmRating/newSupplierRating/task'
@@ -21,6 +23,16 @@ export default [
     path: '/supplier/correction-approval-details',
     name: 'correctionApprovalDetails',
     component: CorrectionApprovalDetails
+  },
+  {
+    path: '/supplier/correction-approval-details-gp-admin',
+    name: 'correctionApprovalDetailsGp',
+    component: CorrectionApprovalDetailsGP
+  },
+  {
+    path:"/supplier/correction-approval-details-attachment-changelist",
+    name: 'correctionApprovalchangelist',
+    component: CorrectioDetailsGP
   },
   {
     path: '/approval/frmRatingApproval/depthReportApproval',
@@ -41,6 +53,11 @@ export default [
     path: '/supplier/approve-details',
     name: 'approveDetails',
     component: ApproveDetails
+  },
+  {
+    path: '/supplier/approval/gpAdmittance',
+    name: 'indexGp',
+    component: () => import('@/views/generalPage/approveDetails/indexGp')
   },
   {
     path: '/supplier/change-approval-details',

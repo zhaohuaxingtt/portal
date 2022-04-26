@@ -9,7 +9,7 @@
     <base-info-card v-if="this.supplierType > 3" />
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
-        <div class="floatright">
+        <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
           <i-button v-if="isSupplierDetail"
                     @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
           <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_ADD"
@@ -26,6 +26,15 @@
                     @click="exportsTable"
                     v-else-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
           <i-button @click="saveTable" v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_SAVE">{{language('BAOCUN','保存')}}</i-button>
+        </div>
+        <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_ADD_GP"
+                    @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_DELETE_GP"
+                    @click="deleteItem('ids',deleteFinancialBig)">{{$t('LK_SHANCHU')}}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_EXPORT_GP"
+                    @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button @click="saveTable" v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_SAVE_GP">{{language('BAOCUN','保存')}}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -55,7 +64,7 @@ import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
 import { iCard, iButton, iMessage, iMessageBox, iSelect } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { tableTitle } from './components/data'
+import { tableTitle1,tableTitleGP1,tableTitleGP2 } from './components/data'
 import { deleteFinancialBig, saveFinancialBig, selectFinancialBig } from "../../../api/register/financialBigNumbers";
 import { getDictByCode } from '@/api/dictionary'
 
@@ -72,13 +81,40 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: tableTitle,
+      tableTitle:[],
+      tableTitle1,
+      tableTitleGP1,
+      tableTitleGP2,
       tableLoading: false,
       selectTableData: [],
       currencyList: []
     }
   },
+  computed: {
+    baseMsg () {
+      return this.$store.state.baseInfo.baseMsg
+    },
+  },
   created () {
+    console.log(this.baseMsg.gpSupplierDetails)
+    if(this.$route.query.subSupplierType=="GP"){
+      let number = 0;
+      this.baseMsg.gpSupplierDetails.forEach(e=>{
+        if(e.businessType == 1 && e.industryPosition == "Y"){
+          number++;
+        }
+      })
+      setTimeout(() => {
+        if(number>0){
+          this.tableTitle = this.tableTitleGP1;
+        }else{
+          this.tableTitle = this.tableTitleGP2;
+        }
+      }, 0);
+    }else{
+      this.tableTitle = this.tableTitle1;
+    }
+
     this.getDictByCode()
     this.getTableList()
   },
