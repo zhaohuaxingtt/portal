@@ -19,6 +19,7 @@
           isCustHttp
           :uploadHandle="uploadHandleImg"
           :removeHandle="removeHandleImg"
+          mode="image"
         ></iUpload>
       </div>
       <div class="flex content-item">
