@@ -269,10 +269,10 @@ export default {
         testDiv.style.borderRadius = '50%'
         // })
         let obj = {
-          yco: this.startY + Y,
-          xco: this.startX + X,
-          width: this.currWidth,
-          height: this.currHeight
+          yco: parseInt(this.startY + Y),
+          xco: parseInt(this.startX + X),
+          width: parseInt(this.currWidth),
+          height: parseInt(this.currHeight)
         }
         if (this.modifyFlag) {
           obj.name = this.projectInfoData[this.currIndex + 1].name
@@ -413,7 +413,7 @@ export default {
     .drag-box {
       position: absolute;
       display: none;
-      background-color: red;
+      background-color: #eb3b5a;
       pointer-events: none;
     }
   }
@@ -437,6 +437,6 @@ export default {
   }
 }
 .shadow {
-  box-shadow: 10px 10px 5px #888888;
+  box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.65);
 }
 </style>

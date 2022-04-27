@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="dialogVisible = true">
-      <iSelectorInput tag-label="nameZh" v-model="users" />
+      <iSelectorInput :tag-label="labelKey" v-model="users" />
     </div>
     <i-selector-dialog
       :show.sync="dialogVisible"
@@ -11,6 +11,7 @@
       :filter="userFilters"
       :title="'选择用户'"
       :search-method="handleSearch"
+      :id-key="valueKey"
       tag-label="nameZh"
     />
   </div>
@@ -31,6 +32,14 @@ export default {
     onlyReportForm: {
       type: Boolean,
       default: false
+    },
+    valueKey: {
+      type: String,
+      default: 'id'
+    },
+    labelKey: {
+      type: String,
+      default: 'nameZh'
     }
   },
   data() {
@@ -44,7 +53,8 @@ export default {
         {
           prop: '',
           type: 'index',
-          label: '编号'
+          label: '编号',
+          width: 60
         },
         {
           prop: 'userNum',

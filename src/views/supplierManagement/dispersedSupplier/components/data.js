@@ -27,7 +27,7 @@ export const comRules = {
 
 export const tableTitle = [
 	{
-		props: 'contactType',
+		props: 'contactTypeDesc',
 		name: '联系人类型',
 		key: 'SUPPLIER_LIANXIRENLEIXING'
 	},
@@ -193,6 +193,7 @@ export const supplierCompleteRe = {
 		list:[
 			{
 				contactType:"BUSINESS_CONTACTS",
+				contactTypeDesc:"商务联系人",
 				nameZh:"",
 				designation:"",
 				dept:"",
