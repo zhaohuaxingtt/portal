@@ -86,23 +86,29 @@ export default {
   },
   methods: {
     init() {
-      if (this.info) {
-        const { attachMents } = this.info
-        if (attachMents && attachMents.length) {
-          const operatorImage = attachMents.find(
-            (e) => e.name === 'operatorImage'
-          )
-          if (operatorImage) {
-            this.form.operatorImage = [{ ...operatorImage }]
-          }
-          const operatorFile = attachMents.find(
-            (e) => e.name === 'operatorFile'
-          )
-          if (operatorFile) {
-            this.form.operatorFile = [{ ...operatorFile }]
-          }
+      // if (this.info) {
+      const info = _.cloneDeep(this.info)
+      const { attachMents } = info
+      if (attachMents && attachMents.length) {
+        const operatorImage = attachMents.find(
+          (e) => e.name === 'operatorImage'
+        )
+        if (operatorImage) {
+          this.form.operatorImage = [{ ...operatorImage }]
+        } else {
+          this.form.operatorImage = []
         }
+        const operatorFile = attachMents.find((e) => e.name === 'operatorFile')
+        if (operatorFile) {
+          this.form.operatorFile = [{ ...operatorFile }]
+        } else {
+          this.form.operatorFile = []
+        }
+      } else {
+        this.form.operatorImage = []
+        this.form.operatorFile = []
       }
+      // }
     },
     uploadImg(file) {
       return new Promise(async (res, rej) => {

@@ -83,6 +83,16 @@
           @change="userListChange"
         />
       </iFormItem>
+      <iFormItem
+        :label="language('选择供应商')"
+        prop="rangeSupplier"
+        v-if="newTypeForm.rangeType === 15"
+      >
+        <supplierSelect
+          v-model="form.rangeSupplier"
+          @change="supplierListChange"
+        />
+      </iFormItem>
     </el-form>
     <div class="flex justify-end btn">
       <iButton @click="close">{{ language('取消') }}</iButton>
@@ -94,6 +104,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton, iSelect } from 'rise'
 import userSelector from '@/components/userSelector'
+import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import { createKnowledgeType, modifyKnowledgeTypeById } from '@/api/adminProCS'
@@ -106,7 +117,8 @@ export default {
     ImgCutter,
     iButton,
     userSelector,
-    iSelect
+    iSelect,
+    supplierSelect
   },
   props: {
     operateType: {
@@ -139,6 +151,17 @@ export default {
         callback()
       }
     }
+    const validateSupplierList = (rule, value, callback) => {
+      if (
+        value.length === 0 &&
+        this.form.rangeUser.length === 0 &&
+        this.form.rangeType === 15
+      ) {
+        callback(new Error('请选择供应商'))
+      } else {
+        callback()
+      }
+    }
     return {
       visible: false,
       newTypeForm: {
@@ -146,7 +169,8 @@ export default {
         enName: '',
         coverFile: '',
         rangeType: 0,
-        rangeUser: []
+        rangeUser: [],
+        rangeSupplier: []
       },
       newTypeRules: {
         name: {
@@ -160,7 +184,8 @@ export default {
           message: this.language('请上传文件'),
           trigger: 'change'
         },
-        rangeUser: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }],
+        rangeSupplier: [{ validator: validateSupplierList, trigger: 'change' }]
       },
       imgCutterRate: '16 : 9',
       fileList: [],
@@ -304,6 +329,10 @@ export default {
                   (e) => e.accountId
                 )
               }
+              if (this.newTypeForm.rangeSupplier) {
+                this.newTypeForm.rangeSupplier =
+                  this.newTypeForm.rangeSupplier.map((e) => e.id)
+              }
               let formData = new FormData()
               Object.keys(this.newTypeForm).forEach((key) => {
                 formData.append(key, this.newTypeForm[key])
@@ -373,19 +402,38 @@ export default {
       } else {
         this.newTypeForm.rangeUser = []
       }
+      if (row.rangeSupplier) {
+        this.newTypeForm.rangeSupplier = row.rangeSupplier.map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            accountId: parseInt(e.id)
+          }
+        })
+      } else {
+        this.newTypeForm.rangeSupplier = []
+      }
 
       this.imageUrl = currVa?.cover.split('uploader/')[1]
       this.newTypeForm.coverFile = this.imageUrl
       this.newTypeForm.coverFileName = `${currVa.name}.png`
     },
     userListChange(val) {
-      console.log('userListChange', val)
       this.newTypeForm.rangeUser = val
         .filter((e) => e.accountId)
         .map((e) => {
           return {
             nameZh: e.name || e.nameZh,
             accountId: parseInt(e.accountId)
+          }
+        })
+    },
+    supplierListChange(val) {
+      this.form.rangeSupplier = val
+        .filter((e) => e.id)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            id: parseInt(e.id)
           }
         })
     }
