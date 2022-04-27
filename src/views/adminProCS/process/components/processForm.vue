@@ -8,35 +8,55 @@
       :inline="type == 'edit'"
       class="validate-required-form process-form"
     >
-      <iFormItem :label="language('流程标题')" prop="name">
+      <iFormItem
+        :label="language('流程标题')"
+        prop="name"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.name"
           class="w-300"
           :placeholder="language('请输入流程标题')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('首字母')" prop="firstLetter">
+      <iFormItem
+        :label="language('首字母')"
+        prop="firstLetter"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.firstLetter"
           class="w-300"
           :placeholder="language('请输入标题首字母')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('英文标题')" prop="nameEn">
+      <iFormItem
+        :label="language('英文标题')"
+        prop="nameEn"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.nameEn"
           class="w-300"
           :placeholder="language('请输入英文标题')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('英文首字母')" prop="firstLetterEn">
+      <iFormItem
+        :label="language('英文首字母')"
+        prop="firstLetterEn"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.firstLetterEn"
           class="w-300"
           :placeholder="language('请输入英文标题首字母')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('版本号')" prop="version">
+      <iFormItem
+        :label="language('版本号')"
+        prop="version"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.version"
           class="w-300"
@@ -44,7 +64,11 @@
         ></iInput>
       </iFormItem>
 
-      <iFormItem :label="language('更新日期')" prop="updateDt">
+      <iFormItem
+        :label="language('更新日期')"
+        prop="updateDt"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iDatePicker
           type="date"
           v-model="form.updateDt"
@@ -52,7 +76,11 @@
           :placeholder="language('请选择')"
         />
       </iFormItem>
-      <iFormItem :label="language('流程专家')" prop="experts">
+      <iFormItem
+        :label="language('流程专家')"
+        prop="experts"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iSelect
           v-model="form.experts"
           class="w-300"
@@ -72,7 +100,11 @@
           ></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="language('关联机构')" prop="organizations">
+      <iFormItem
+        :label="language('关联机构')"
+        prop="organizations"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iSelect
           v-model="form.organizations"
           class="w-300"
@@ -92,7 +124,10 @@
           ></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="language('发布范围')">
+      <iFormItem
+        :label="language('发布范围')"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iSelect v-model="form.rangeType" class="w-300">
           <el-option
             v-for="item in scopeOptions"
@@ -105,6 +140,7 @@
       <iFormItem
         :label="language('选择用户')"
         prop="rangeUser"
+        :class="{ 'form-item': type === 'edit' }"
         v-if="form.rangeType === 15"
       >
         <userSelector
@@ -117,9 +153,9 @@
       </iFormItem>
     </el-form>
     <div class="flex felx-row mt20 pb20 justify-end">
-      <iButton @click="reset" v-if="type == 'add'">{{
-        language('取消')
-      }}</iButton>
+      <iButton @click="reset" v-if="type == 'add'">
+        {{ language('取消') }}
+      </iButton>
       <iButton @click="$router.back()" v-else>{{ language('返回') }}</iButton>
       <iButton @click.native="save">{{ language('保存') }}</iButton>
     </div>
@@ -485,15 +521,19 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../comon.scss';
-.process-form {
-  ::v-deep &.el-form--inline {
-    .el-form-item {
-      margin-right: 30px !important;
-    }
-  }
-}
+// .process-form {
+//   ::v-deep &.el-form--inline {
+//     .el-form-item {
+//       margin-right: 30px !important;
+//     }
+//   }
+// }
 
 ::v-deep .el-loading-mask {
   z-index: 2000;
+}
+.form-item {
+  width: 25%;
+  margin-right: 0px !important;
 }
 </style>
