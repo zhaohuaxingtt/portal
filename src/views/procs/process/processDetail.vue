@@ -209,12 +209,13 @@
     <iDialog
       :title="dialog.type == 'img' ? '流程图' : '视频'"
       :visible.sync="dialog.show"
-      width="70%"
+      width="100%"
       @close="closeDialog"
       append-to-body
+      top="0vh"
       class="qs-dialog"
     >
-      <div class="pb20 content">
+      <div class="pb20 content" style="min-height: calc(100vh - 100px)">
         <ProcessDraw
           v-if="dialog.type == 'img'"
           :data="dialog.drawInfo"
