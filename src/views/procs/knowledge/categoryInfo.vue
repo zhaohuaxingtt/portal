@@ -268,6 +268,8 @@ export default {
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
+    max-height: 280px;
+    overflow-y: auto;
     .department-item {
       padding: 8px 12px;
       border-radius: 50px;
