@@ -35,7 +35,14 @@
     <div class="flex justify-between items-center mt20">
       <div class="title">
         {{ detail.name }}
-        <el-popover
+
+        <span
+          v-show="detail.workFlowFile && detail.workFlowFile.length > 0"
+          @click="handleDownloadProcess"
+          ><i class="cursor el-icon-download"></i
+        ></span>
+
+        <!-- <el-popover
           placement="right"
           trigger="click"
           v-show="detail.workFlowFile && detail.workFlowFile.length > 0"
@@ -52,7 +59,7 @@
             {{ file.name }} {{ file.publishDate }}
           </div>
           <span slot="reference"><i class="cursor el-icon-download"></i></span>
-        </el-popover>
+        </el-popover> -->
       </div>
       <div class="expert">
         <div class="flex">
@@ -264,6 +271,7 @@ import {
   getWorkFlowPage,
   getProcessCatalog
 } from '@/api/procs'
+import { createAnchorLink } from '@/utils/downloadUtil'
 import mixin from './../mixins'
 import ProcessDraw from './../components/ProcessDraw'
 
@@ -415,7 +423,9 @@ export default {
     downAttach(url) {
       if (!url) return
       let downLoadUrl = url.split('uploader/')[1]
-      window.open(downLoadUrl)
+      console.log('downloadUrl', downLoadUrl)
+      // window.open(downLoadUrl)
+      createAnchorLink(downLoadUrl)
     },
     dirClick(v) {
       this.init(v.pageId)
@@ -427,6 +437,16 @@ export default {
         type: 'html',
         targetStyles: ['*'] // 打印内容使用所有HTML样式，没有设置这个属性/值，设置分页打印没有效果
       })
+    },
+    handleDownloadProcess() {
+      if (this.detail.workFlowFile) {
+        for (let i = 0; i < this.detail.workFlowFile.length; i++) {
+          const file = this.detail.workFlowFile[i]
+          if (file.attachMents && file.attachMents[0].url) {
+            this.downAttach(file.attachMents[0].url)
+          }
+        }
+      }
     }
   }
 }
@@ -490,6 +510,8 @@ $line-color: #bbc4d6;
   .file-tlt {
     padding: 10px 20px;
     border-bottom: 1px solid $line-color;
+    font-weight: bold;
+    font-size: 18px;
   }
 
   .row {
