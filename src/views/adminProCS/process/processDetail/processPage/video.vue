@@ -87,8 +87,14 @@ export default {
               newVideo.fileUrl = newVideo.url
             }
             this.videos = [newVideo]
+          } else {
+            this.videos = []
           }
+        } else {
+          this.videos = []
         }
+      } else {
+        this.videos = []
       }
     },
     upload(file) {

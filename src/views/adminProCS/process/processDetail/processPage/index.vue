@@ -39,7 +39,6 @@
     ></Edit>
     <!-- 操作手册 -->
     <Manual
-      v-if="manualDialog.show"
       :show.sync="manualDialog.show"
       :info="manualDialog.info"
       @refresh="queryList"
@@ -165,7 +164,8 @@ export default {
           this.editDialog.show = true
           break
         case 'manual': //操作手册
-          this.manualDialog.info = row
+          // this.manualDialog.info = row
+          Vue.set(this.manualDialog, 'info', _.cloneDeep(row))
           this.manualDialog.show = true
           break
         case 'video': //操作视频

@@ -109,7 +109,7 @@ export default {
       dialogVisible: false,
       fileUrl: '',
       uploading: false,
-      imgFmt: ['jpg', 'jpeg', 'gif', 'png'],
+      imgFmt: ['jpg', 'jpeg', 'gif', 'png', 'pdf'],
       isSlot: false
     }
   },

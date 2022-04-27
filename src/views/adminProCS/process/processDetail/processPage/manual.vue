@@ -95,11 +95,18 @@ export default {
         )
         if (operatorImage) {
           this.form.operatorImage = [{ ...operatorImage }]
+        } else {
+          this.form.operatorImage = []
         }
         const operatorFile = attachMents.find((e) => e.name === 'operatorFile')
         if (operatorFile) {
           this.form.operatorFile = [{ ...operatorFile }]
+        } else {
+          this.form.operatorFile = []
         }
+      } else {
+        this.form.operatorImage = []
+        this.form.operatorFile = []
       }
       // }
     },
