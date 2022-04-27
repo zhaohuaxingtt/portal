@@ -122,7 +122,8 @@ export default {
       console.log(this.files, '2222221111')
       let l = this.files || []
       l.forEach((e) => {
-        let fmt = e.fileName.split('.')[e.fileName.split('.').length - 1]
+        const fileName = e.fileName || e.originalFileName || ''
+        let fmt = fileName.split('.')[fileName.split('.').length - 1]
         if (this.imgFmt.includes(fmt)) {
           arr.push(e.fileUrl)
         }
