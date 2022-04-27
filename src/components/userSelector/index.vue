@@ -44,7 +44,8 @@ export default {
         {
           prop: '',
           type: 'index',
-          label: '编号'
+          label: '编号',
+          width: 60
         },
         {
           prop: 'userNum',
