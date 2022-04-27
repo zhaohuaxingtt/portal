@@ -44,7 +44,7 @@
         </iFormItem>
         <iFormItem :label="language('词条')">
           <div class="insert-glossary flex flex-between-center">
-            <iSelect v-model="glossaryId">
+            <iSelect v-model="glossaryId" filterable>
               <el-option
                 v-for="item in glossaryList"
                 :value="item.id"
