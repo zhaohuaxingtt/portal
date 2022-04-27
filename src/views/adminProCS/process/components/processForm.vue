@@ -151,6 +151,18 @@
           @change="userListChange"
         />
       </iFormItem>
+      <iFormItem
+        v-if="form.rangeType === 15"
+        prop="rangeSupplier"
+        :label="language('选择供应商')"
+        :class="{ 'form-item': type === 'edit' }"
+      >
+        <supplierSelect
+          v-model="form.rangeSupplier"
+          @change="supplierListChange"
+          class="w-300"
+        />
+      </iFormItem>
     </el-form>
     <div class="flex felx-row mt20 pb20 justify-end">
       <iButton @click="reset" v-if="type == 'add'">
@@ -165,6 +177,7 @@
 <script>
 import { iFormItem, iInput, iDatePicker, iButton, iSelect } from 'rise'
 import userSelector from '@/components/userSelector'
+import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import {
   getOrganizationList,
   getUsersList,
@@ -180,7 +193,8 @@ export default {
     iDatePicker,
     iButton,
     userSelector,
-    iSelect
+    iSelect,
+    supplierSelect
   },
   props: {
     type: {
@@ -218,9 +232,23 @@ export default {
       }
     }
     const validateUserList = (rule, value, callback) => {
-      console.log('validate user value:', value, this.form.rangeUser)
-      if (value.length === 0 && this.form.rangeType === 15) {
+      if (
+        value.length === 0 &&
+        this.form.rangeSupplier.length === 0 &&
+        this.form.rangeType === 15
+      ) {
         callback(new Error('请选择用户'))
+      } else {
+        callback()
+      }
+    }
+    const validateSupplierList = (rule, value, callback) => {
+      if (
+        value.length === 0 &&
+        this.form.rangeUser.length === 0 &&
+        this.form.rangeType === 15
+      ) {
+        callback(new Error('请选择供应商'))
       } else {
         callback()
       }
@@ -237,7 +265,8 @@ export default {
         experts: [],
         organizations: [],
         rangeType: 0,
-        rangeUser: ''
+        rangeUser: [],
+        rangeSupplier: []
       },
       rules: {
         name: [
@@ -292,7 +321,8 @@ export default {
           message: this.language('请至少输入2个字符进行搜索'),
           trigger: 'blur'
         },
-        rangeUser: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }],
+        rangeSupplier: [{ validator: validateSupplierList, trigger: 'change' }]
       },
       orgList: [],
       allOrgList: [],
@@ -390,10 +420,24 @@ export default {
               }
             })
           : []
+        const rangeSupplier = formData.rangeSupplier
+          ? formData.rangeSupplier.map((e) => {
+              return {
+                nameZh: e.name || e.nameZh,
+                id: parseInt(e.id)
+              }
+            })
+          : []
         const organizations = formData.organizations
           ? formData.organizations.map((e) => e.id)
           : []
-        this.form = { ...formData, experts, rangeUser, organizations }
+        this.form = {
+          ...formData,
+          experts,
+          rangeUser,
+          organizations,
+          rangeSupplier
+        }
         this.loading = false
         return this.form
       } finally {
@@ -427,6 +471,11 @@ export default {
             if (submitData.rangeUser) {
               submitData.rangeUser = submitData.rangeUser
                 .map((e) => e.accountId)
+                .join(',')
+            }
+            if (submitData.rangeSupplier) {
+              submitData.rangeSupplier = submitData.rangeSupplier
+                .map((e) => e.id)
                 .join(',')
             }
             let formData = new FormData()
@@ -500,7 +549,10 @@ export default {
         version: '',
         updateDt: '',
         experts: '',
-        organizations: ''
+        organizations: '',
+        rangeType: 0,
+        rangeUser: [],
+        rangeSupplier: []
       }
       this.$refs.form.resetFields()
       this.$emit('close')
@@ -512,6 +564,16 @@ export default {
           return {
             nameZh: e.name || e.nameZh,
             accountId: parseInt(e.accountId)
+          }
+        })
+    },
+    supplierListChange(val) {
+      this.form.rangeSupplier = val
+        .filter((e) => e.id)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            id: parseInt(e.id)
           }
         })
     }
