@@ -233,8 +233,7 @@ export default {
       this.tableData.forEach((child, i) => {
         if (!indexList.includes(i)) {
           table.push(child)
-        }
-        if (child.id) {
+        }else if (child.id) { // 新添加的供应商没有id
           deleteList.push(child)
         }
       })
@@ -245,8 +244,7 @@ export default {
         }).then(() => {
           deleteSupplier(deleteList.map(item => item.id)).then((res) => {
             if (res?.code == '200') {
-              this.groupDetail()
-              // this.tableData = table;
+              this.tableData = table;
               this.$message.success('操作成功！');
             } else {
               this.$message.error(
