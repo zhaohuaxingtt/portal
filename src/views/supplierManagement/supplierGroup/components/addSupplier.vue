@@ -58,7 +58,8 @@ export default {
     },
   },
   watch: {
-    visible(){
+    visible(val){
+      if(val)
       this.getTableList();
     }
   },

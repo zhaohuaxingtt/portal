@@ -85,7 +85,7 @@
             type="flex"
             justify="space-between">
       <el-col :span="24">
-        <pointeMoney :gpOrderVo="gpOrderVo"></pointeMoney>
+        <pointeMoney :supplier360ViewVO="supplier360ViewVO" :gpOrderVo="gpOrderVo"></pointeMoney>
       </el-col>
     </el-row>
   </div>

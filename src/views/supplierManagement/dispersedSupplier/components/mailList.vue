@@ -63,7 +63,8 @@ export default {
     data(){
         return{
             tableListData:[{
-                contactType:"BUSINESS_CONTACTS"
+                contactTypeDesc:"商务联系人",
+                contactType:"BUSINESS_CONTACTS",
             }],
             tableTitle:tableTitle,
             tableLoading:false,
