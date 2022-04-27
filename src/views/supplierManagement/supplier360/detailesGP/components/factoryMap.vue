@@ -61,14 +61,14 @@
             :span="8"
             class="margin-bottom20">
       <!-- 寻源 -->
-      <sourcing :gpSourceingDataVos="gpSourceingDataVos"></sourcing>
+      <sourcing :supplier360ViewVO="supplier360ViewVO" :gpSourceingDataVos="gpSourceingDataVos"></sourcing>
     </el-col>
 
     <el-col v-permission="PORTAL_SUPPLIER_CARD_FIXED_GP"
             :span="8"
             class="margin-bottom20">
       <!-- 定点 -->
-      <fixed :gpFixPointVos="gpFixPointVos"></fixed>
+      <fixed :supplier360ViewVO="supplier360ViewVO" :gpFixPointVos="gpFixPointVos"></fixed>
     </el-col>
 
   </el-row>
@@ -145,6 +145,7 @@ export default {
       }
     },
     supplier360ViewVO (data) {
+      console.log(data);
       if (data) {
         this.$parent.$parent.$parent.pageLoading = true
         this.$parent.onLoading = true
