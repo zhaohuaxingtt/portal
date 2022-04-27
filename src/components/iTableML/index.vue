@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
+ * @LastEditTime: 2022-04-15 11:46:22
  * @LastEditors: Please set LastEditors
  * @Description: 通用表格
 -->
@@ -21,7 +21,7 @@
       ref="tableML"
       :border="border"
       @row-click="handleRowClick"
-      :defaultSort="defaultSort"
+      :defaultSort="defaultSort" 
     >
       <slot></slot>
     </el-table>

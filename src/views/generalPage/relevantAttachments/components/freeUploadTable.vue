@@ -10,12 +10,19 @@
   <i-card>
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{ $t('SUPPLIER_ZIYOUSHANGCHUAN') }}</span>
-      <div class="floatright">
+      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
         <i-button @click="deleteItem"  v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_DELETE">{{
             $t('SUPPLIER_FUJIANSHANCHU')
           }}
         </i-button>
         <upload-button class="margin-left20" @uploadedCallback="handleUploadedCallback" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD"/>
+      </div>
+      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <i-button @click="deleteItem"  v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_DELETE_GP">{{
+            $t('SUPPLIER_FUJIANSHANCHU')
+          }}
+        </i-button>
+        <upload-button class="margin-left20" @uploadedCallback="handleUploadedCallback" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD_GP"/>
       </div>
     </div>
         <!-- v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD" -->

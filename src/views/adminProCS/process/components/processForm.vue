@@ -40,7 +40,7 @@
 			</iFormItem>
 			<iFormItem :label="language('关联机构')" prop='organizations'>
 				<el-select v-model="form.organizations" class="w-300" remote reserve-keyword :remote-method="queryOrg" :loading="org_loading" filterable multiple :placeholder="language('可进行搜索')">
-					<el-option v-for="org in orgList" :key="org.id" :label="org.name" :value="org.id"></el-option>
+					<el-option v-for="org in orgList" :key="org.id" :label="org.nameEn" :value="org.id"></el-option>
 				</el-select>
 			</iFormItem>
 		</el-form>

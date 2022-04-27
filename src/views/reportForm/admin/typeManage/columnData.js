@@ -1,19 +1,19 @@
 import language from '@/utils/language'
 const userList = [
   { nameZh: '全体用户', id: 0 },
-  { nameZh: '全体采购员工用户', id: 1 }, 
-  { nameZh: '全体内部员工用户', id: 2 }, 
-  { nameZh: '全体供应商用户', id: 3 }, 
+  { nameZh: '全体采购员工用户', id: 1 },
+  { nameZh: '全体内部员工用户', id: 2 },
+  { nameZh: '全体供应商用户', id: 3 },
   { nameZh: '全体供应商主联系人用户', id: 4 },
   { nameZh: '全体生产采购供应商用户', id: 5 },
-  { nameZh: '全体生产采购供应商主联系人用户', id: 6 }, 
-  { nameZh: '全体生产采购正式供应商用户', id: 7 }, 
-  { nameZh: '全体生产采购正式供应商主联系人用户', id: 8 }, 
-  { nameZh: '全体一般采购供应商用户', id: 9 }, 
+  { nameZh: '全体生产采购供应商主联系人用户', id: 6 },
+  { nameZh: '全体生产采购正式供应商用户', id: 7 },
+  { nameZh: '全体生产采购正式供应商主联系人用户', id: 8 },
+  { nameZh: '全体一般采购供应商用户', id: 9 },
   { nameZh: '全体一般采购供应商主联系人用户', id: 10 },
-  { nameZh: '全体一般采购正式供应商用户', id: 11 }, 
-  { nameZh: '全体一般采购正式供应商主联系人用户', id: 12 }, 
-  { nameZh: '全体N_Tier供应商用户', id: 13 }, 
+  { nameZh: '全体一般采购正式供应商用户', id: 11 },
+  { nameZh: '全体一般采购正式供应商主联系人用户', id: 12 },
+  { nameZh: '全体N_Tier供应商用户', id: 13 },
   { nameZh: '全体N_Tier供应商主联系人用户', id: 14 },
   { nameZh: '自定义', id: 15 },
 ]
@@ -55,9 +55,9 @@ const typeColumn = [
       let new_adminUsers =
         adminUsers?.length > 0
           ? adminUsers
-              .slice(0, 4)
-              .map((item) => item.nameZh)
-              .join(',')
+            .slice(0, 4)
+            .map((item) => item.nameZh)
+            .join(',')
           : ''
       let text =
         adminUsers?.length > 0
@@ -91,9 +91,9 @@ const typeColumn = [
       let new_organizations =
         organizations?.length > 0
           ? organizations
-              .slice(0, 4)
-              .map((item) => item.name)
-              .join(',')
+            .slice(0, 4)
+            .map((item) => item.name)
+            .join(',')
           : ''
       let text =
         organizations?.length > 0
@@ -129,23 +129,23 @@ const typeColumn = [
       // if (users.length === 0) {
       //   showText = userList[userRange].nameZh
       // } else {
-        let new_users =
+      let new_users =
         users?.length > 0
           ? users
-              .slice(0, 4)
-              .map((item) => item.nameZh)
-              .join(',')
+            .slice(0, 4)
+            .map((item) => item.nameZh)
+            .join(',')
           : ''
       let text = ""
-          if(scope.row.userRange == 15){
-            text =  users?.length > 0
-            ? users.length > 4
-              ? `${new_users}等${users.length}人`
-              : `${new_users}`
-            : ''
-          }else{
-            text = userListKV[scope.row.userRange].nameZh
-          }
+      if (scope.row.userRange == 15) {
+        text = users?.length > 0
+          ? users.length > 4
+            ? `${new_users}等${users.length}人`
+            : `${new_users}`
+          : ''
+      } else {
+        text = userListKV[scope.row.userRange].nameZh
+      }
       return (
         <span>
           <div
@@ -213,7 +213,7 @@ const typeColumn = [
             {language('删除')}
           </iButton>
           <iButton type="text" on-click={() => operate('add', row)}>
-          {language('添加报告分类')}
+            {language('添加报告分类')}
           </iButton>
         </span>
       )

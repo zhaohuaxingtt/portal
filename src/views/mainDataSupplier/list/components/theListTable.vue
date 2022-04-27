@@ -10,16 +10,14 @@
       <button-download :download-method="handleExport" />
     </div>
     <i-table-custom
-      permissionKey="PORTAL_MAIN_DATA_SUPPLIER_TABLE"
       :loading="tableLoading"
       :data="tableData"
-      :columns="tableColumns"
       :extra-data="extraData"
+      :columns="tableColumns"
       min-height="328px"
       @go-detail="handleGoDetail"
       @handle-selection-change="handleSelectionChange"
     />
-
     <iPagination
       v-update
       @size-change="handleSizeChange($event, query)"
@@ -59,6 +57,7 @@ export default {
       tableColumns: SUPPLIER_TABLE_COLUMNS,
       selectedRows: [],
       detailUrl: '/portal/#/mainDataSupplier/list/detail',
+      detailUrl2: '/gpsupplierportal/#/mainDataSupplier/list/detail',
 
       extraData: {
         supplierTypeMap: arrayToMap(SUPPLIER_TYPES, 'value', 'label')
@@ -70,8 +69,12 @@ export default {
   },
   methods: {
     edit() {
-      const { id } = this.selectedRows[0]
-      window.open(`${this.detailUrl}?id=${id}`)
+      const { id,supplierType } = this.selectedRows[0]
+      if(process.env.NODE_ENV == 'vmsit' && supplierType =="GP"){
+        window.open(`${this.detailUrl2}?id=${id}&supplierType=${supplierType}`)
+      }else{
+        window.open(`${this.detailUrl}?id=${id}&supplierType=${supplierType}`)
+      }
     },
     handleDelete() {
       this.onDelete().then(() => {
@@ -94,12 +97,17 @@ export default {
       return exportSupplier(this.searchData)
     },
     handleGoDetail(row) {
-      window.open(`${this.detailUrl}?id=${row.id}`)
+      if(process.env.NODE_ENV == 'vmsit' && row.supplierType =="GP"){
+        window.open(`${this.detailUrl2}?id=${row.id}&supplierType=${row.supplierType}`)
+      }else{
+        window.open(`${this.detailUrl}?id=${row.id}&supplierType=${row.supplierType}`)
+      }
     },
     handleSelectionChange(val) {
       this.selectedRows = val
     },
     search(val) {
+      console.log(val);
       this.page.currPage = 1
       this.page.totalCount = 0
       this.searchData = { ...val }

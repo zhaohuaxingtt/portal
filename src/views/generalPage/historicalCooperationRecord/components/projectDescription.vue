@@ -10,7 +10,8 @@
   <i-card>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button @click="exportsTable" v-if="$route.query.subSupplierType!=='GP'">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button @click="exportsTable" v-permission="SUPPLIER_HISTORY_EXPORT_GP" v-if="$route.query.subSupplierType=='GP'">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
     <table-list
@@ -20,23 +21,42 @@
         @handleSelectionChange="handleSelectionChange"
         :index="true"
         border
-    />
+    >
+      <template #contractCode="scope">
+        <span class="open-link-text look-themen-click" @click="goGoGp(scope.row)">{{scope.row.contractCode}}</span>
+      </template>
+    </table-list>
+    <!-- <iPagination
+        @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)"
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+        :layout="page.layout"
+      >
+    </iPagination> -->
   </i-card>
 </template>
 
 <script>
-import {iCard, iButton} from "rise";
+import {iCard, iButton,iPagination} from "rise";
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import {projectDescriptionsTableTitle} from './data'
-
+// import { pageMixins } from '@/utils/pageMixins'
+import {queryGpSupplierCooperationRecord} from "@/api/supplier360/historicalCooperationRecord";
 
 export default {
-  mixins: [generalPageMixins],
+  mixins: [
+    generalPageMixins,
+    // pageMixins
+  ],
   components: {
     iCard,
     iButton,
-    tableList
+    tableList,
+    // iPagination
   },
   data() {
     return {
@@ -46,11 +66,28 @@ export default {
       selectTableData: []
     }
   },
+  created(){
+    this.getTableList();
+  },
   methods: {
+    goGoGp(row){
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${row.contractId}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE&navType=true`)
+    },
+    getTableList(){
+      queryGpSupplierCooperationRecord(
+          this.$route.query.supplierId
+      ).then(res=>{
+        console.log(res);
+        this.tableListData = res.data;
+      })
+    },
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+::v-deep .look-themen-click {
+  cursor: pointer;
+  color: #1763f7;
+}
 </style>
