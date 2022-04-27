@@ -149,7 +149,7 @@
               <el-option
                 v-for="item in filterList"
                 :key="item.id"
-                :label="item.nameZh || item.name"
+                :label="item.fullCode || item.nameEn"
                 :value="item.id"
               >
               </el-option>
@@ -551,7 +551,7 @@ export default {
       } else {
         let tempArr = []
         this.organizationList.map((item) => {
-          if (item.nameZh.indexOf(this.filterWord) !== -1) {
+          if (item.fullCode.indexOf(this.filterWord) !== -1) {
             tempArr.push(item)
           }
         })

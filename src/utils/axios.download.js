@@ -21,7 +21,7 @@ export default function httpRequest(baseUrl = '', timeOut = 15000) {
   // eslint-disable-next-line no-undef
   const instance = axios.create({
     baseURL: baseUrl,
-    timeout: timeOut,
+    // timeout: timeOut,
     responseType: 'blob'
   })
   instance.interceptors.request.use(

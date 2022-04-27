@@ -208,7 +208,7 @@
 
 <script>
 import { exportExcel } from '@/utils/gpfiledowLoad'
-import { exportMeetingMinutes } from '@/api/meeting/gpMeeting'
+import { exportMbdlMeetingMinutes } from '@/api/meeting/gpMeeting'
 import {
   iDialog,
   iInput,
@@ -422,13 +422,13 @@ export default {
         }
       })
     },
-    //导出会议纪要  exportMeetingMinutes
+    //导出会议纪要  exportMbdlMeetingMinutes
     handleExport(){
       const params = {
         id:this.$route.query.id,//会议id
       }
-      exportMeetingMinutes(params).then((res) => {
-        
+      exportMbdlMeetingMinutes(params).then((res) => {
+        console.log('导出GP');
         exportExcel(res)
       })
 

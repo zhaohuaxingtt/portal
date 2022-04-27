@@ -349,7 +349,10 @@
           <!-- 会议结论/纪要  conclusion-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span>
+              <!-- <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
+              <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue"
+                 @click="handleResult(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
              </template>
           </el-table-column>
          
@@ -2097,15 +2100,22 @@ export default {
       return 'narmal-row'
     },
     //点击纪要  维护结论
-    handleResult(row){
-      console.log(row.result);
-      if (this.selectedTableData[0].conclusion == '01') {
+    handleResult(row){ 
+      console.log(row);
+      if (row.conclusion == '01') {
         this.editprotectConclusionDialog=true
         this.editprotectConclusionDialogRow=row
         this.meetingInfo=this.meetingInfo
         console.log(this.editprotectConclusionDialogRow);
         
       }
+      // if (this.selectedTableData[0].conclusion == '01') {
+      //   this.editprotectConclusionDialog=true
+      //   this.editprotectConclusionDialogRow=row
+      //   this.meetingInfo=this.meetingInfo
+      //   console.log(this.editprotectConclusionDialogRow);
+        
+      // }
     },
     //跳转到gp  mbdl详情 id mbdlDetails  cscCode
     // window.open(`${process.env.VUE_APP_HOST}/gpbidding/#/supplierBidHall?supplierId=${row.supplierId}`)
@@ -2117,7 +2127,7 @@ export default {
         iMessage.error('该议题为临时议题')
       }else{
         // window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}&code=${row.cscCode}`)
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/mbdlDetails?id=${row.fixedPointApplyId}`)
+        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/mbdlDetails?id=${row.fixedPointApplyId}`)
 
       }
     } 

@@ -19,4 +19,7 @@ export default {
   NJIGONGYINGLIANWEIHU: 'N-tier Supply chain maintenance',
   JITUANGONGSI: 'Group Company',
   VWHAOZHUANGTAI: 'VW Status',
+  GONGYINGSHANGZUGUANLI: 'Supplier Group Management',
+  QUERENSHANCHUGONGYINGSHANGZU:'Are you sure to delete the supplier group?',
+  GONGYINGSHANGZUBIAOQIAN:'Supplier Group Tag'
 }

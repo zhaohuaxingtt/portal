@@ -225,47 +225,6 @@ export default [
     name: 'nearMeetingBox',
     component: () => import(`@/views/meeting/myMeeting.vue`),
     children: [
-      // {
-      //   path: '/meeting/managementHall',
-      //   name: 'managementHall',
-      //   meta: {
-      //     title: '管理大厅'
-      //   },
-      //   component: () => import(`@/views/meeting/managementHall/index.vue`),
-      //   redirect:'/meeting/managementHall/meetingListCurrent',
-      //   children:[
-      //     //会议右边路由
-      //     {
-      //       path: '/meeting/managementHall/meetingListCurrent',
-      //       name: 'meetingListCurrent',
-      //       meta: {
-      //         title: '会议列表'
-      //       },
-      //       component: () => import(`@/views/meeting/managementHall/meetingList/index.vue`)
-      //     },
-      //     {
-      //       path: '/meeting/managementHall/meetingListAttendees',
-      //       name: 'meetingListAttendees',
-      //       meta: {
-      //         title: '与会人列表'
-      //       },
-      //       // component: () => import(`@/views/meeting/managementHall/meetingListAttendees/index.vue`)
-      //       //与会人列表 链接原来的管理大厅页面
-      //       component: () => import(`@/views/meeting/participants/index.vue`)
-      //     },
-      //     {
-      //       path: '/meeting/managementHall/meetingInformation',
-      //       name: 'meetingInformation',
-      //       meta: {
-      //         title: '会议信息'
-      //       },
-      //       // component: () => import(`@/views/meeting/managementHall/meetingInformation/index.vue`)
-      //       //会议信息 链接原来的管理大厅页面
-      //       component: () => import(`@/views/meeting/information/index.vue`)
-      //     },
-
-      //   ]
-      // },
       {
         path: '/meeting/near-meeting',
         name: 'nearMeeting',
@@ -289,7 +248,75 @@ export default [
           title: '直播会议'
         },
         component: () => import(`@/views/meeting/live/index.vue`)
-      }
+      },
+    ]
+  },
+  {
+    path: '/meeting/myMBDLmeeting',
+    name: 'myMBDLMeetingBox',
+    component: () => import(`@/views/meeting/myMBDLmeeting.vue`),
+    children: [
+      //MBDL会议直播 live
+      {
+        path: '/MBDLMeeting/live',
+        name: 'liveMeeting',
+        meta: {
+          title: '直播会议'
+        },
+        component: () => import(`@/views/meeting/managementHall/gpMBDlLive/index.vue`)
+      },
+      //MBDL近期会议
+      {
+        path: '/nearMBDlMeeting/live',
+        name: 'liveMeeting',
+        meta: {
+          title: '近期会议'
+        },
+        component: () => import(`@/views/meeting/managementHall/gpMBDLNearMeeting/index.vue`)
+      },
+      {
+        path: '/nearMBDlMeetingDetail',
+        name: 'nearMeetingDetail',
+        meta: {
+          title: '近期会议详情',
+        },
+        component: () =>
+          import(`@/views/meeting/managementHall/gpMBDLNearMeeting/detail/index.vue`)
+      },
+    ]
+  },
+  {
+    path: '/meeting/myCSCmeeting',
+    name: 'myCSCMeetingBox',
+    component: () => import(`@/views/meeting/myCSCmeeting.vue`),
+    children: [
+      //CSC会议直播
+      {
+        path: '/CSCMeeting/live',
+        name: 'liveMeeting',
+        meta: {
+          title: '直播会议'
+        },
+        component: () => import(`@/views/meeting/managementHall/gpCSCLive/index.vue`)
+      },
+      //CSC近期会议
+      {
+        path: '/nearCSCMeeting/live',
+        name: 'liveMeeting',
+        meta: {
+          title: '直播会议'
+        },
+        component: () => import(`@/views/meeting/managementHall/gpCSCNearMeeting/index.vue`)
+      },
+      {
+        path: '/nearMBDlMeetingDetail',
+        name: 'nearMeetingDetail',
+        meta: {
+          title: '近期会议详情',
+        },
+        component: () =>
+          import(`@/views/meeting/managementHall/gpCSCNearMeeting/detail/index.vue`)
+      },
     ]
   },
   {
