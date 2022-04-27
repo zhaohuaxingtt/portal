@@ -50,11 +50,9 @@
 <script>
 import { iButton, iMessage, iDialog, iSelect } from 'rise'
 import {
-  saveGroupLabel
+  saveGroupLabel,
+  queryGroupTagList
 } from '@/api/supplier360/supplierGroup.js'
-import {
-  getTagList,
-} from '@/api/supplierManagement/supplierTag/index'
 export default {
   props: {
     selectTableData: { type: Array },
@@ -90,8 +88,7 @@ export default {
   methods: {
     //获取标签列表
     getTagListObj() {
-      console.log(this.selectTableData);
-      getTagList({}).then((res) => {
+      queryGroupTagList({}).then((res) => {
         if (res && res.code == 200) {
           this.tagList = res.data
         }
