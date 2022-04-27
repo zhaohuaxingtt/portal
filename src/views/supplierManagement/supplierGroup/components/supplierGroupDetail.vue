@@ -37,10 +37,11 @@
             </el-form-item>
           </el-row>
           <el-row type="flex" justify="space-between">
-            <el-form-item label="供应商组科室" required prop="deptName">
+            <el-form-item label="供应商组科室" required prop="deptCode">
               <i-select
                 :disabled="!(editStatus || show)"
-                v-model="search.deptName"
+                v-model="search.deptCode"
+                @change="changedeptName"
               >
                 <el-option
                   :value="child.code"
@@ -167,16 +168,17 @@ export default {
     this.queryDeptList();
   },
   methods: {
+    changedeptName(){
+      this.search.deptName = this.options.filter(item=>item.code==this.search.deptCode)[0].message
+    },
     goto(row){
-      console.log(row);
-      return
       this.$router.push({
-        path: 'supplier/view-suppliers',
+        path: '/supplier/view-suppliers',
         query: {
           supplierType: row.supplierType,
-          subSupplierType:'row.subSupplierType',
+          subSupplierType:row.subSupplierType,
           subSupplierId: row.subSupplierId,
-          supplierToken:"row.supplierToken"
+          supplierToken:row.supplierToken
         }
       })
     },
@@ -224,7 +226,6 @@ export default {
       this.multipleSelection = val
     },
     deleteData() {
-      console.log(this.multipleSelection)
       if (!this.multipleSelection.length) return iMessage.warn('请选择需要删除的数据')
       let indexList = this.multipleSelection.map((item) => item.index)
       let table = []
@@ -232,8 +233,7 @@ export default {
       this.tableData.forEach((child, i) => {
         if (!indexList.includes(i)) {
           table.push(child)
-        }
-        if (child.id) {
+        }else if (child.id) { // 新添加的供应商没有id
           deleteList.push(child)
         }
       })
@@ -244,8 +244,7 @@ export default {
         }).then(() => {
           deleteSupplier(deleteList.map(item => item.id)).then((res) => {
             if (res?.code == '200') {
-              this.groupDetail()
-              // this.tableData = table;
+              this.tableData = table;
               this.$message.success('操作成功！');
             } else {
               this.$message.error(
