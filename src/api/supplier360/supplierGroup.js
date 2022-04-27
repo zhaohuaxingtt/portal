@@ -22,6 +22,14 @@ export function queryGroupLabelDown(data) {
   })
 }
 
+// 供应商组标签列表
+export function queryGroupTagList() {
+  return requst({
+    url: '/supplierGroup/tagList',
+    method: 'POST',
+  })
+}
+
 // 供应商英文列表查询
 export function querySupplierEnList(data) {
   return requst({
