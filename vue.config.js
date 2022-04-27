@@ -193,7 +193,7 @@ module.exports = {
       // },
       // -----------------ws3 供应商---------------------------
       [process.env.VUE_APP_SUPPLIER]: {
-        target: `${BASE_IP}/supplierservice/`,
+        target: `${BASE_IP}/supplierApi/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''
