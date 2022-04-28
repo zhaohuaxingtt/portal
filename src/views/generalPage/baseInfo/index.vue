@@ -133,7 +133,9 @@ export default {
           }
           if(baseInfo.gpSupplierDetails){
             baseInfo.gpSupplierDetails.forEach(e=>{
-              e.industryPosition = "Y";
+              if(e.isUse){
+                e.industryPosition = "Y";
+              }
             })
 
             this.supplierComplete.gpSupplierDetails = _.cloneDeep(baseInfo.gpSupplierDetails)

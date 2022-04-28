@@ -6,7 +6,7 @@
     <baseInfo ref="basic" class="margin-bottom20" v-if="$route.query.subSupplierType=='GP'"></baseInfo>
     <i-card :title="$t('SUPPLIER_GONGHUOGONGSI')" tabCard>
       <template slot="header-control">
-        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
+        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP' && tableListData.formalStatus.indexOf('正式') !== -1">{{ language('TIJIAO', '提交') }}</i-button>
         <i-button @click="subBtn" v-if="$route.query.subSupplierType!=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
         <iButton @click="$router.go(-1)" v-if="$route.query.subSupplierType!=='GP'">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </template>
@@ -103,7 +103,7 @@ export default {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-    async getTableListGP(){
+    async getTableListGP(val){
       this.tableLoading = true
       const req = {
         supplierToken: this.$route.query.supplierToken
@@ -155,6 +155,7 @@ export default {
             }
           })
         } else {
+          console.log(11111)
           //转正后的默认选中
           this.$nextTick(() => {
             this.tableListData.procureFactoryList.forEach((e) => {
@@ -262,7 +263,11 @@ export default {
           }
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
-              this.getTableList(1)
+              if(this.$route.query.subSupplierType == "GP"){
+                this.getTableList(1)
+              }else{
+                this.getTableListGP(1)
+              }
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
           })
@@ -273,7 +278,7 @@ export default {
 
       // }
       if (this.tableListData.isSelect) {
-        if (val.companyCode == '9000' || val.companyCode == '8000') {
+        if (val.isExist) {
           return false
         }
         return true
