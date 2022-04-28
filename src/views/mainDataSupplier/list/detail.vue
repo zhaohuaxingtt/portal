@@ -62,6 +62,7 @@
     <theDetailBankGp
       :bank-form="bankForm"
       :subBankVos="subBankVos"
+      :gpSupplierBankNoteVO="gpSupplierBankNoteVO"
       class="margin-bottom20"
       id="targetBank"
       @delete-bank-success="query"
@@ -139,6 +140,7 @@ export default {
       supplierPlantVo: [],
       loading: false,
       tableData,
+      gpSupplierBankNoteVO:[],
     }
   },
   created() {
@@ -169,6 +171,7 @@ export default {
                 assCompanyVos,
                 supplierProductVos,
                 supplierPlantVo,
+                gpSupplierBankNoteVO,
                 supplierCorpVo
               } = data
               const defaultAddressInfo = {
@@ -184,6 +187,7 @@ export default {
 
               this.bankForm = settlementBankVo || { ...BANK_FORM }
               this.subBankVos = subBankVos;
+              this.gpSupplierBankNoteVO = gpSupplierBankNoteVO;
               // console.log(subBankVos)
               this.mainSupplierId = supplierVo.id
               /* this.supplierId = supplierVo.id
@@ -331,7 +335,8 @@ export default {
                 assCompanyVos,
                 supplierProductVos,
                 supplierPlantVo,
-                supplierCorpVo
+                supplierCorpVo,
+                gpSupplierBankNoteVO
               } = data
               const defaultAddressInfo = {
                 provinceCode: '',
@@ -346,6 +351,7 @@ export default {
 
               this.bankForm = settlementBankVo || { ...BANK_FORM }
               this.subBankVos = subBankVos;
+              this.gpSupplierBankNoteVO = gpSupplierBankNoteVO;
               console.log(subBankVos)
               this.mainSupplierId = supplierVo.id
               /* this.supplierId = supplierVo.id
