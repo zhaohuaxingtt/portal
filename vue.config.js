@@ -12,7 +12,7 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-const BASE_IP = 'http://rise-nginx-internal.apps.vmocp-test.csvw.com'
+const BASE_IP = 'http://rise-nginx-internal.apps.vmocp-dev.csvw.com'
 // const BASE_IP = '10.122.18.166'
 // const BASE_IP = '10.122.17.38'
 // const BASE_IP = "http://rise-gateway-runtime.apps.vmocp-dev.csvw.com";
@@ -182,16 +182,6 @@ module.exports = {
         }
       },
       // -----------------ws3 供应商---------------------------
-      // [process.env.VUE_APP_SUPPLIER]: {
-      //   //   供应商
-      //   target: `http://${BASE_IP}:8010/supplierservice`,
-      //   // target:'http://rise-gateway-runtime.apps.vmocp-test.csvw.com/supplierservice/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     ['^' + process.env.VUE_APP_SUPPLIER]: ''
-      //   }
-      // },
-      // -----------------ws3 供应商---------------------------
       [process.env.VUE_APP_SUPPLIER]: {
         target: `${BASE_IP}/supplierApi/`,
         changeOrigin: true,
@@ -332,7 +322,8 @@ module.exports = {
       },
       // adminProcs
       [process.env.VUE_APP_ADMIN_PROCS]: {
-        target: `${BASE_IP}/riseprocsApi`,
+        target: 'http://10.160.141.206:8016/riseprocs',
+        // target: `${BASE_IP}/riseprocsApi`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_ADMIN_PROCS]: ''
