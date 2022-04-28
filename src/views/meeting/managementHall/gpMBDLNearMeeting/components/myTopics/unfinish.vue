@@ -494,7 +494,8 @@ export default {
         presentItem: '04',
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId
+        meetingTypeId: this.meetingTypeId,
+        category: "03"
       }
       findMyGpThemens(param).then((res) => {
         let data =

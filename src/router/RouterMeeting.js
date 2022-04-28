@@ -309,7 +309,7 @@ export default [
         component: () => import(`@/views/meeting/managementHall/gpCSCNearMeeting/index.vue`)
       },
       {
-        path: '/nearMBDlMeetingDetail',
+        path: '/nearCSCMeetingDetail',
         name: 'nearMeetingDetail',
         meta: {
           title: '近期会议详情',
