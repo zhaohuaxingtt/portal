@@ -1,6 +1,6 @@
 <template>
   <iCard :title="language('供应商状态')" collapse>
-    <div class="actions" slot="header-control">
+    <!-- <div class="actions" slot="header-control">
       <iButton v-show="!editable" @click="editable = true">{{
         language('编辑')
       }}</iButton>
@@ -10,7 +10,7 @@
       <iButton v-show="editable" @click="cancel">{{
         language('取消')
       }}</iButton>
-    </div>
+    </div> -->
     <el-form
       label-position="left"
       label-width="130px"
@@ -19,17 +19,20 @@
       class="validate-required-form"
     >
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="$route.query.supplierType !== 'GP'?6:8">
           <iFormItem :label="language('是否在供')" prop="materialGroupCode">
             <el-input :value="detail.isSupply ? '是' : '否'" disabled />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
-          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh">
+        <el-col :span="$route.query.supplierType !== 'GP'?6:8">
+          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh" v-if="$route.query.supplierType=='GP'">
+            <el-input :value="detail.formalStatus" disabled />
+          </iFormItem>
+          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh" v-if="$route.query.supplierType!=='GP'">
             <el-input :value="identification" disabled />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="$route.query.supplierType !== 'GP'">
           <iFormItem
             :label="language('是否业内工厂')"
             prop="materialGroupNameEn"
@@ -44,7 +47,7 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="$route.query.supplierType !== 'GP'">
           <iFormItem :label="language('是否隶属华域 ')" prop="dept">
             <iSelect v-model="detail.isSubjectionchina" :disabled="!editable">
               <el-option
@@ -56,27 +59,27 @@
             </iSelect>
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="$route.query.supplierType !== 'GP'">
           <iFormItem :label="language('供货类型')" prop="rawMaterialCodes">
             <el-input :value="detail.supplyType" disabled />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="$route.query.supplierType !== 'GP'?6:8">
           <iFormItem :label="language('是否共用供应商')">
             <el-input :value="detail.isShareSupplier ? '是' : '否'" disabled />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="$route.query.supplierType !== 'GP'">
           <iFormItem :label="language('供货零件类型')">
             <el-input :value="detail.supplyPartForm" disabled />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="$route.query.supplierType !== 'GP'">
           <iFormItem :label="language('相关专业科室')">
             <el-input :value="detail.relevantDept" disabled />
           </iFormItem>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="$route.query.supplierType !== 'GP'">
           <iFormItem :label="language('是否签署定点协议')">
             <iSelect
               v-model="detail.isSign"

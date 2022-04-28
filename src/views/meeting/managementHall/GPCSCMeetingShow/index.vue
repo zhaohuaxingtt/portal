@@ -317,11 +317,11 @@ export default {
     return {
       resultObj:{
         '01': '待定',
-        '02': '通过',
-        '03': '预备会议通过',
-        '04': '不通过',
-        '05': 'Last Call',
-        '06': '分段待定'
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段待定'
       },
       timeClock,
       positionMark,
@@ -462,7 +462,7 @@ export default {
         }else{
             num = 3
         }
-        window.open(`${process.env.VUE_APP_HOST}/gpurchase/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
       } 
     }
   },

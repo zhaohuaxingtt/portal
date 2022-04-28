@@ -1,6 +1,7 @@
 import axios from '@/utils/axios'
-
+import axiosDownload from '@/utils/axios.download'
 const request = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 
 // 更新通讯录
 export function updateSupplierContact(params, data) {
@@ -25,5 +26,14 @@ export function updateBantchSupplierContact(params, data) {
     url: `/supplier/update/${params.supplierId}/contact/saveOrUpdate`,
     method: 'POST',
     data
+  })
+}
+
+// 导出
+export function contactExport(data) {
+  return requestDownload({
+    url: `/supplier/contact/export?supplierId=${data}`,
+    method: 'POST',
+    responseType: 'blob',
   })
 }

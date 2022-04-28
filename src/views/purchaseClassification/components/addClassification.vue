@@ -23,7 +23,7 @@
                 v-for="item in listDeptData"
                 :key="item.code"
                 :label="item.materialGroupCode"
-                :value="item.parentId"
+                :value="item.id"
               ></el-option>
             </i-select>
           </el-form-item>
@@ -70,15 +70,16 @@
           <!-- 股别-->
           <el-form-item label="股别">
             <i-select
-              multiple
+              
               collapse-tags
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
+              v-model="formData.organizationId"
             >
               <el-option
-                v-for="item in listDeptData2"
-                :key="item.code"
-                :label="item.code"
-                :value="item.id"
+                v-for="item in AllBelongOrgList"
+                :key="item.belongToOrgCode"
+                :label="item.belongToOrgCode"
+                :value="item.belongToOrgId"
               ></el-option>
             </i-select>
           </el-form-item>
@@ -110,20 +111,22 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iInput, iButton, iSelect } from 'rise'
-import { SEARCH_DATA } from './data'
-import { getAll, getMaterialGroupById, save } from '@/api/authorityMgmt'
+import { iDialog, iInput, iButton, iSelect,iMessage } from 'rise'
+import { SEARCH_ADD_DATA } from './data'
+import { getAll, getMaterialGroupById, save,getAllBelongOrgList } from '@/api/authorityMgmt'
 export default {
   components: {
     iDialog,
     iInput,
     iButton,
-    iSelect
+    iSelect,
+    iMessage
   },
   data() {
     return {
       listDeptData: [],
-      formData: SEARCH_DATA
+      formData: SEARCH_ADD_DATA,
+      AllBelongOrgList:[],
     }
   },
   props: {
@@ -131,6 +134,7 @@ export default {
   },
   created() {
     this.getListData()
+    this.getBelongOrgList()
   },
   methods: {
     // 关闭弹窗
@@ -149,23 +153,38 @@ export default {
     select(val) {
       getMaterialGroupById(val).then((res) => {
         if (+res.code == 200) {
-          if (res.data.parentMaterialGroupLevel != null) {
-            this.parentMaterialGroupLevel =
-              res.data.parentMaterialGroupLevel + 1
+          this.formData.parentMaterialGroupName=res.data.materialGroupName
+          this.formData.parentId=res.data.id
+          if (res.data.materialGroupLevel != null) {
+            this.formData.parentMaterialGroupLevel =
+              res.data.materialGroupLevel + 1
+          }
+          else{
+            this.formData.parentMaterialGroupLevel =
+              res.data.materialGroupLevel
           }
         }
       })
     },
     //保存
     saveData() {
-      console.log(this.formData)
+      this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
       save(this.formData).then((res) => {
         // if (+res.code == 200) {
         //   this.$emit('input', false)
         // }
+        iMessage.success('新增成功')
         this.$emit('saveDataList', false)
       })
-    }
+    },
+    //获取股别
+    getBelongOrgList() {
+      getAllBelongOrgList().then((res) => {
+        if (+res.code === 200) {
+          this.AllBelongOrgList = res.data
+        }
+      })
+    },
   }
 }
 </script>

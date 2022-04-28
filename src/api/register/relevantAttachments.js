@@ -23,6 +23,17 @@ export function getTemplateList(params) {
   })
 }
 
+//查询-相关模板附件
+export function getTemplateListNew(params) {
+  return requst({
+    url: `/attachment/templateList`,
+    method: 'POST',
+    data: {
+      ...params,
+    }
+  })
+}
+
 //获取承诺书详情-相关附件
 export function getAttachmentCommitment(params) {
   return requst({
@@ -55,6 +66,17 @@ export function saveAttachment(params) {
     data: {
       ...params,
       supplierToken: store.state.home.valiCode
+    }
+  })
+}
+
+//保存相关附件
+export function saveAttachmentNew(params) {
+  return requst({
+    url: `/attachment/save`,
+    method: 'POST',
+    data: {
+      ...params,
     }
   })
 }

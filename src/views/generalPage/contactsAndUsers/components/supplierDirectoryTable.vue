@@ -11,14 +11,24 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_GONGYINGSHANGTONGXUNLU')
       }}</span>
-      <div class="floatright">
+      <div class="floatright"
+           v-if="$route.query.subSupplierType!=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
         <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_ADD" @click="addTableItem">新增</i-button> -->
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
-                  @click="deleteItem('ids', deleteContacts)">{{ $t('LK_SHANCHU') }}</i-button>
+        <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
+                  @click="deleteItem('ids', deleteContacts)">{{ $t('LK_SHANCHU') }}</i-button> -->
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
+                  @click="exportsTable"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+      </div>
+      <div class="floatright"
+           v-if="$route.query.subSupplierType=='GP'">
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT_GP"
                   @click="exportsTable"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
@@ -41,15 +51,9 @@
         'remark'
       ]"
                 :index="true">
-      <template #contactType="scope">
-
-        <!-- <div v-if="scope.row.contactType === '商务联系人'">
-          {{ scope.row.contactType }} <span style="color: red">*</span>
-        </div>
-        <div v-else>{{ scope.row.contactType }}</div> -->
-        <div>
-          {{ scope.row.nameType }}<span style="color: red">*</span>
-        </div>
+      <template #contactTypeDesc="scope">
+        <div>{{ scope.row.contactTypeDesc }}<span v-if="scope.row.contactTypeDesc == '商务联系人'"
+                style="color: red">*</span></div>
       </template>
     </table-list>
   </i-card>
@@ -87,6 +91,9 @@ export default {
   },
   methods: {
     async getDictByCode () {
+      if (this.$route.query.subSupplierType == "GP") {
+        return false;
+      }
       const res = await getDictByCode('SUPPLIER_CODE_TYPE')
       res.data[0].subDictResultVo.forEach((item) => {
         this.tableListData.push({
@@ -108,9 +115,13 @@ export default {
       }
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
-      let cust = [...this.tableListData]
+      this.tableListData = res.data
+      if (this.$route.query.subSupplierType == "GP") {
+        return false;
+      }
       // console.log(this.tableListData)
       // console.log(res.data)
+      let cust
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
           if (item.contactType === val.contactType || item.contactType === val.nameType) {

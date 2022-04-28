@@ -1,3 +1,7 @@
+/*
+ * @Author: HS
+ * @FilePath: \front-portal\src\api\meeting\live.js
+ */
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_MEETING)
 
@@ -49,6 +53,15 @@ export function findMyThemens(data) {
 export function queryDeptList(data) {
   return requst({
     url: `/meetingService/queryDeptList`,
+    method: 'POST',
+    data
+  })
+}
+// ---------------------------GP
+//分页查询当前用户会议议题
+export function findMyGpThemens(data) {
+  return requst({
+    url: `/meetingService/findMyGpThemens`,
     method: 'POST',
     data
   })
