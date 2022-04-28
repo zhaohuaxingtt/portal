@@ -370,6 +370,24 @@ export default [
     },
     component: () => import(`@/views/meeting/nearMeeting/more/index.vue`)
   },
+  // gp csc更多议题
+  {
+    path: '/CSCmeeting/live/more-themens',
+    name: 'moreThemens',
+    meta: {
+      title: '更多议题'
+    },
+    component: () => import(`@/views/meeting/managementHall/gpCSCNearMeeting/more/index.vue`)
+  },
+  // gp mbdl 更多议题
+  {
+    path: '/MBDlmeeting/live/more-themens',
+    name: 'moreThemens',
+    meta: {
+      title: '更多议题'
+    },
+    component: () => import(`@/views/meeting/managementHall/gpMBDLNearMeeting/more/index.vue`)
+  },
   {
     path: '/meeting/near-meeting/special-more-themens',
     name: 'moreThemens',

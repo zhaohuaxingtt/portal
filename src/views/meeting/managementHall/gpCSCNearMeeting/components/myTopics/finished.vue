@@ -448,7 +448,8 @@
 <script>
 import { iButton, iPagination } from 'rise'
 import iTableML from '@/components/iTableML'
-import { findMyThemens } from '@/api/meeting/myMeeting'
+// import { findMyThemens } from '@/api/meeting/myMeeting'
+import { findMyGpThemens } from "@/api/meeting/live";
 import detailDialog from './detailDialog.vue'
 import addTopic from '@/views/meeting/live/components/addTopic.vue'
 
@@ -553,7 +554,8 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/more-themens',
+        // path: '/meeting/near-meeting/more-themens',
+        path: '/CSCmeeting/live/more-themens',
         query: {
           meetingTypeId: this.meetingTypeId
         }
@@ -583,9 +585,10 @@ export default {
         presentItem: '03',
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId
+        meetingTypeId: this.meetingTypeId,
+        category: "03",
       }
-      findMyThemens(param).then((res) => {
+      findMyGpThemens(param).then((res) => {
         let data =
           res.data &&
           res.data.filter((item) => {
