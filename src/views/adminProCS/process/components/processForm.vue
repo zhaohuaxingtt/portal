@@ -229,6 +229,7 @@ export default {
         return
       } else {
         callback(new Error(this.language('请输入英文名')))
+        return
       }
     }
     const validateUserList = (rule, value, callback) => {
@@ -283,7 +284,7 @@ export default {
           trigger: 'blur'
         },
         nameEn: [
-          { required: true, enName_valid: enName_valid, trigger: 'blur' },
+          { required: true, validator: enName_valid, trigger: 'blur' },
           {
             max: 100,
             message: this.language('英文标题长度不能超过100个字符！')
