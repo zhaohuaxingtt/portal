@@ -433,11 +433,11 @@ export default {
     },
     supplierListChange(val) {
       this.newTypeForm.rangeSupplier = val
-        .filter((e) => e.id)
+        .filter((e) => e.subSupplierId)
         .map((e) => {
           return {
             nameZh: e.name || e.nameZh,
-            id: parseInt(e.id)
+            id: parseInt(e.subSupplierId)
           }
         })
     }
