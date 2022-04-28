@@ -235,7 +235,9 @@ export default {
                 this.supplierType = 'GP' // 一般
 
                 this.baseInfo.gpSupplierDetails.forEach(e=>{
-                  e.industryPosition = "Y";
+                  if(e.isUse){
+                    e.industryPosition = "Y";
+                  }
                 })
                 var tableDataList = _.cloneDeep(this.tableData)
                 tableDataList.forEach(e=>{
