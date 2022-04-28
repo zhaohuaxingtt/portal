@@ -89,7 +89,7 @@
         v-if="newTypeForm.rangeType === 15"
       >
         <supplierSelect
-          v-model="form.rangeSupplier"
+          v-model="newTypeForm.rangeSupplier"
           @change="supplierListChange"
         />
       </iFormItem>
@@ -145,7 +145,7 @@ export default {
       }
     }
     const validateUserList = (rule, value, callback) => {
-      if (value.length === 0 && this.form.rangeType === 15) {
+      if (value.length === 0 && this.newTypeForm.rangeType === 15) {
         callback(new Error('请选择用户'))
       } else {
         callback()
@@ -154,8 +154,8 @@ export default {
     const validateSupplierList = (rule, value, callback) => {
       if (
         value.length === 0 &&
-        this.form.rangeUser.length === 0 &&
-        this.form.rangeType === 15
+        this.newTypeForm.rangeUser.length === 0 &&
+        this.newTypeForm.rangeType === 15
       ) {
         callback(new Error('请选择供应商'))
       } else {
@@ -359,6 +359,10 @@ export default {
                   (e) => e.accountId
                 )
               }
+              if (this.newTypeForm.rangeSupplier) {
+                this.newTypeForm.rangeSupplier =
+                  this.newTypeForm.rangeSupplier.map((e) => e.id)
+              }
               let formData = new FormData()
               Object.keys(this.newTypeForm).forEach((key) => {
                 formData.append(key, this.newTypeForm[key])
@@ -428,7 +432,7 @@ export default {
         })
     },
     supplierListChange(val) {
-      this.form.rangeSupplier = val
+      this.newTypeForm.rangeSupplier = val
         .filter((e) => e.id)
         .map((e) => {
           return {
