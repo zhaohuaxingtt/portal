@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-04-27 20:00:03
+ * @LastEditTime: 2022-04-28 15:40:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -248,7 +248,7 @@
         </div>
         <div>
           <i-table-custom :loading="tableLoading"
-                          :data="tableData"
+                          :data="tableDataList"
                           :columns="tableColumns"
                           min-height="328px"
                           height="600px"
@@ -375,7 +375,20 @@ export default {
       immediate: true
     },
     tableData: {
-      handler () { },
+      handler (data) {
+        console.log(data, "===")
+        // console.log(data, "====")
+        if (data) {
+          this.tableLoading = false
+          // this.tableListData = data
+          this.tableDataList = data.slice(0, 100)
+        } else {
+          this.tableLoading = true
+          setTimeout(() => {
+            this.tableLoading = false
+          }, 10000)
+        }
+      },
       deep: true
     }
   },
@@ -425,6 +438,8 @@ export default {
       firstSupplierName: '',
       onLoding: false,
       firstSupplier: '',
+      tableDataList: [],
+      times: 0,
       rules: {
         value: [
           {
@@ -481,6 +496,45 @@ export default {
         .format('yyyy-MM-DD')
     }
     this.init()
+  },
+  mounted () {
+    this.$nextTick(() => {
+      let dom = this.$refs.iTable.$refs.theCustomTable.bodyWrapper
+      dom.addEventListener('scroll', (res) => {
+        // const scrollDistance = dom.scrollHeight - dom.scrollTop - dom.clientHeight;
+        // if (this.tableData.length > 10) {
+        //   // this.tableData = []
+        //   // this.tableData = this.tableListData.slice(0, 10)
+        //   if (scrollDistance <= 0) {//等于0证明已经到底，可以请求接口
+        //     // setTimeout(function () {
+        //     //   for (let i = 11; i < this.tableListData.length; i++) {
+        //     //     this.tableData.push(this.tableListData[i])
+        //     //   }
+        //     // })
+        //   }
+        // } else {
+        //   this.tableData = this.tableListData
+        // }
+
+        const height = res.target
+        const clientHeight = height.clientHeight // 表格视窗高度 即wraper
+        const scrollTop = height.scrollTop // 表格内容已滚动的高度
+        const scrollHeight = height.scrollHeight // 表格内容撑起的高度
+        console.log(clientHeight, scrollTop, scrollHeight)
+        if (clientHeight + scrollTop + 10 >= scrollHeight) {
+          // 表格滚动已经触底 更新表格数据
+          this.times++
+          const length =
+            100 * this.times > this.tableData.length
+              ? this.tableData.length
+              : 100 * this.times
+          console.log(length, "length")
+          this.tableDataList = this.tableData.slice(0, length)
+          console.log(this.tableDataList, "tableDataList")
+        }
+      })
+    })
+
   },
   methods: {
     async init () {
