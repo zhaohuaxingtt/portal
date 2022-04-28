@@ -20,7 +20,11 @@
     <div class="margin-bottom10 f-right">
       <iButton @click="add">添加</iButton>
     </div>
-      <tableList v-loading="tableLoading" :tableData="tableData" :tableTitle="addTableTitle" index :indexLabel="'序号'" height="330" @handleSelectionChange="handleSelectionChange"></tableList>
+      <tableList v-loading="tableLoading" :tableData="tableData" :tableTitle="addTableTitle" index :indexLabel="'序号'" height="330" @handleSelectionChange="handleSelectionChange">
+        <template #supplierType="scope">
+          <div>{{supplierTypeMap[scope.row.supplierType]}}</div>
+        </template>
+      </tableList>
       <iPagination class="padding-bottom20"
         v-update
         @size-change="handleSizeChange($event, getTableList)"
@@ -35,7 +39,7 @@
 </template>
 
 <script>
-import {iDialog, iSearch, iButton, iSelect, iInput, iPagination, iCard} from "rise";
+import {iDialog, iSearch, iButton, iSelect, iInput, iPagination, iCard, iMessage} from "rise";
 import { pageMixins } from '@/utils/pageMixins'
 import { addTableTitle, addSearchList } from '../data.js'
 import tableList from '@/components/commonTable'
@@ -54,7 +58,8 @@ export default {
     },
   },
   watch: {
-    visible(){
+    visible(val){
+      if(val)
       this.getTableList();
     }
   },
@@ -67,6 +72,11 @@ export default {
         supplierTempCode: '',
         supplierSvwCode: '',
         supplierSapCode: '',
+      },
+      supplierTypeMap: {
+        'GP': '一般供应商',
+        'PP': '生产供应商',
+        'PD': '共用供应商'
       },
       selectOptions:{
         supplierType:[
@@ -113,14 +123,23 @@ export default {
     },
     reset(){
       Object.keys(this.search).forEach(key=>{
-        this.search[key] = ''
+        if(key === 'supplierType'){
+          this.search[key] = []
+        }else{
+          this.search[key] = ''
+        }
+        
       })
+
+      this.sure()
     },
     handleSelectionChange(val){
       this.multipleSelection = val
     },
     add(){
-      console.log('add');
+      if(this.multipleSelection.length === 0){
+        return iMessage.warn('请选择数据')
+      }
       this.$emit('addSupplier',this.multipleSelection)
     },
     
@@ -129,7 +148,7 @@ export default {
       let params = {
         ...this.search,
         pageSize: this.page.pageSize,
-        currPage: this.page.currPage
+        pageNo: this.page.currPage
       }
       supplierPage(params).then(res => {
         if (res?.code == '200') {

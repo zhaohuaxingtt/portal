@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { iCard,iButton,iInput } from "rise";
+import { iCard,iButton,iInput,iMessage } from "rise";
 import tableList from './table'
 import { getUserInfo } from "@/api/register/home"
 import { batchSaveOrUpd } from '@/api/mainDataSupplier/list/bank'
@@ -76,10 +76,14 @@ export default {
             this.detail.gpSupplierDetails.forEach(e => {
                 e.supplierId = this.$route.query.id;
             });
+            this.oldData = _.cloneDeep(this.detail.gpSupplierDetails);
             batchSaveOrUpd(
                 this.detail.gpSupplierDetails
             ).then(res=>{
-                console.log(res.data)
+                if(res.result){
+                    console.log(res.data)
+                    iMessage.success(res.desZh)
+                }
             })
         },
         cancel(){

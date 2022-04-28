@@ -38,6 +38,11 @@
         <div class="floatright btn-box">
           <i-button
             v-permission="SUPPLIER_GROUP_MANAGEMENT_ADD_ZIDINGYIZU"
+            @click="setTags"
+            >{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button
+          >
+          <i-button
+            v-permission="SUPPLIER_GROUP_MANAGEMENT_ADD_ZIDINGYIZU"
             @click="addData"
             >{{ language('TIANJIAZIDINGYIZU', '添加自定义组') }}</i-button
           >
@@ -59,7 +64,7 @@
         :tableTitle="tableTitle"
         @handleSelectionChange="handleSelectionChange"
       >
-      <template #nameZh="scope">
+        <template #nameZh="scope">
           <div class="link" @click="openPage(scope.row)">{{scope.row.nameZh}}</div>
         </template>
       </tableList>
@@ -75,6 +80,14 @@
         :total="page.totalCount"
       />
     </iCard>
+          
+      <!-- 标签设置 -->
+
+      <setTagdilog @closeDiolog="closeDiolog"
+                   v-model="isSetTag"
+                   :selectTableData="multipleSelection"
+                   v-if="isSetTag">
+      </setTagdilog>
   </div>
 </template>
 
@@ -90,15 +103,16 @@ import {
   iMessageBox
 } from 'rise'
 import tableList from '@/components/commonTable'
+import setTagdilog from './components/setTag'
 import { tableTitle, searchList } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
-import { getDeptData as getDeptDropDownList } from '@/api/kpiChart/index.js'
 import {
   findGroupByPage,
   deleteGroup,
   queryGroupZhList,
   queryGroupEnList,
-  groupExport
+  groupExport,
+  queryGroupLabelDown,
 } from '@/api/supplier360/supplierGroup.js'
 export default {
   mixins: [pageMixins],
@@ -109,60 +123,61 @@ export default {
     iSelect,
     iPagination,
     iButton,
-    tableList
+    tableList,
+    setTagdilog
   },
   data() {
     return {
       tableLoading: false,
       search: {
-        nameZh: '',
-        nameEn: '',
-        supplierNameZh: [],
-        supplierNameEn: [],
+        nameZh: [],
+        nameEn: [],
+        supplierNameZh: '',
+        supplierNameEn: '',
         supplierTempCode: '',
         supplierSvwCode: '',
         supplierSapCode: '',
+        labelNames: []
       },
       tableData: [
-            // { zhong: '1' },
-            // { zhong: '2' },
-            // { zhong: '3' },
-            // { zhong: '4' },
-            // { zhong: '5' },
-            // { zhong: '6' },
-            // { zhong: '7' },
           ],
       tableTitle,
       searchList,
       selectOptions: {
-        zhName: [
-          { label: 'test', value: 1 },
-          { label: 'test2', value: 2 },
-          { label: 'test3', value: 3 },
-          { label: 'test4', value: 4 }
-        ],
-        enName: [
-          { label: 'test', value: 1 },
-          { label: 'test2', value: 2 },
-          { label: 'test3', value: 3 },
-          { label: 'test4', value: 4 }
-        ]
+        zhName: [],
+        enName: [],
+        labelNames: [],
+        nameZh: [],
+        nameEn: [],
       },
-      multipleSelection: []
+      multipleSelection: [],
+      isSetTag:false
     }
   },
   created() {
     this.sure()
     this.queryGroupZhList()
     this.queryGroupEnList()
-    this.getDeptDropDownList()
+    this.queryGroupLabelDown();
   },
   methods: {
-    getDeptDropDownList(){
-      getDeptDropDownList().then(res=>{
-        console.log(res);
+  //标签设置弹窗
+    setTags(){
+      if (this.multipleSelection.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+      } else this.isSetTag = true
+    },
+    closeDiolog(){
+      this.isSetTag = false
+      this.getTableList()
+      this.queryGroupLabelDown()
+    },
+    queryGroupLabelDown(){
+      queryGroupLabelDown({}).then(res => {
+        this.selectOptions.labelNames = res.data;
       })
     },
+
     queryGroupZhList() {
       queryGroupZhList({}).then((res) => {
         if (res?.code == '200') {
@@ -186,18 +201,21 @@ export default {
     },
     reset() {
       Object.keys(this.search).forEach((key) => {
-        if(key === 'supplierNameZh' || key === 'supplierNameEn'){
+        if(key === 'nameZh' || key === 'nameEn' || key === 'labelNames'){
           this.search[key] = []
+        }else{
+          this.search[key] = ''
         }
-        this.search[key] = ''
+        
       })
+      this.sure();
     },
     getTableList() {
       this.tableLoading = true;
       let params = {
         ...this.search,
         pageSize: this.page.pageSize,
-        currPage: this.page.currPage
+        pageNo: this.page.currPage
       }
       findGroupByPage(params)
         .then((res) => {
@@ -209,21 +227,6 @@ export default {
           this.tableLoading = false;
         })
         .catch(() => {
-          // let data = [
-          //   { zhong: '1' },
-          //   { zhong: '2' },
-          //   { zhong: '3' },
-          //   { zhong: '4' },
-          //   { zhong: '5' },
-          //   { zhong: '6' },
-          //   { zhong: '7' },
-          //   { zhong: '8' },
-          //   { zhong: '9' },
-          //   { zhong: '10' },
-          //   { zhong: '11' }
-          // ]
-          // this.page.totalCount = 32
-          // this.tableData = data;
           this.tableLoading = false;
         })
     },
@@ -256,17 +259,17 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(() => {
         deleteGroup(this.multipleSelection.map(item => item.id)).then((res) => {
-          console.log(res)
           if(res?.code=='200'){
             this.getTableList()
+            this.queryGroupZhList()
+            this.queryGroupEnList()
+            this.queryGroupLabelDown();
           }
         })
       })
     },
     exportExcel() {
-      groupExport({}).then(res => {
-
-      })
+      groupExport({})
     }
   }
 }

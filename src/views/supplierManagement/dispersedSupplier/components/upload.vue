@@ -69,7 +69,7 @@ export default {
     },
     methods:{
         async handleDownload (row) {
-            const req = row.id
+            const req = row.fileId
             await downloadUdFile(req)
         },
         exportsRemove(){
@@ -115,6 +115,7 @@ export default {
                     fileId: event.id,
                     createDate:event.createDate,
                     validityOfCertificate:'',
+                    createrName:JSON.parse(sessionStorage.getItem("userInfo")).nameZh
                 }
             )
             this.tableLoading = false

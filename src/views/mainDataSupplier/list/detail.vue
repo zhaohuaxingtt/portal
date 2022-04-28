@@ -229,23 +229,27 @@ export default {
                   enterpriseType: supplierVo.enterpriseType
                 }
                 this.supplierType = 'GP' // 一般
-                
-                this.tableData.forEach(e=>{
+
+                this.baseInfo.gpSupplierDetails.forEach(e=>{
+                  e.industryPosition = "Y";
+                })
+                var tableDataList = _.cloneDeep(this.tableData)
+                tableDataList.forEach(e=>{
                   this.baseInfo.gpSupplierDetails.forEach(item =>{
                     if(e.businessType == item.businessType){
                       e = Object.assign(e,item);
                     }
                   })
                 })
-                this.baseInfo.gpSupplierDetails = this.tableData
+                this.baseInfo.gpSupplierDetails = _.cloneDeep(tableDataList)
 
-                this.baseInfo.gpSupplierDetails.forEach(e=>{
-                  if(e.businessBuyerEmail){
-                    e.industryPosition = "Y";
-                  }else{
-                    e.industryPosition = "N";
-                  }
-                })
+                // this.baseInfo.gpSupplierDetails.forEach(e=>{
+                //   if(e.businessBuyerEmail){
+                //     e.industryPosition = "Y";
+                //   }else{
+                //     e.industryPosition = "N";
+                //   }
+                // })
 
                 this.$refs.linie.oldData = _.cloneDeep(this.baseInfo.gpSupplierDetails);
                 console.log(this.baseInfo)

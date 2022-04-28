@@ -21,28 +21,31 @@
           label-width="120px"
         >
           <el-row>
-            <el-form-item label="中文名称" required prop="zhong">
+            <el-form-item label="中文名称" required prop="nameZh">
               <iInput
                 :disabled="!(editStatus || show)"
                 v-model="search.nameZh"
+                placeholder="自定义-请输入"
               ></iInput>
             </el-form-item>
-            <el-form-item label="英文名称" required prop="ying">
+            <el-form-item label="英文名称" required prop="nameEn">
               <iInput
                 :disabled="!(editStatus || show)"
                 v-model="search.nameEn"
+                placeholder="Please enter"
               ></iInput>
             </el-form-item>
           </el-row>
           <el-row type="flex" justify="space-between">
-            <el-form-item label="供应商组科室" required prop="keshi">
+            <el-form-item label="供应商组科室" required prop="deptCode">
               <i-select
                 :disabled="!(editStatus || show)"
-                v-model="search.deptName"
+                v-model="search.deptCode"
+                @change="changedeptName"
               >
                 <el-option
                   :value="child.code"
-                  :label="child.message"
+                  :label="child.code"
                   v-for="child in options || []"
                   :key="child.code"
                 ></el-option>
@@ -65,14 +68,35 @@
           :selectPropsOptionsObject="selectPropsOptionsObject"
           :customSelectValueKey="'value'"
           @handleSelectionChange="handleSelectionChange"
-        ></tableList>
+        >
+
+          <template #deptName="scope">
+            <div v-if="!(editStatus || show)">{{scope.row.deptName}}</div>
+            <i-select
+              :disabled="!(editStatus || show)"
+              v-model="scope.row.deptName"
+              v-else
+            >
+              <el-option
+                :value="child.code"
+                :label="child.code"
+                v-for="child in options || []"
+                :key="child.code"
+              ></el-option>
+            </i-select>
+          </template>
+          <template #supplierNameZh="scope">
+            <div @click="goto(scope.row)" class="link">{{scope.row.supplierNameZh}}</div>
+          </template>
+
+        </tableList>
       </div>
     </iCard>
     <addSupplier
       :visible.sync="showiDialog"
       class="xxx"
       @onClose="onClose"
-      @getTableData="getTableData"
+      @getTableData="groupDetail"
       @addSupplier="addSupplier"
     ></addSupplier>
   </div>
@@ -137,10 +161,27 @@ export default {
     }
   },
   created() {
-    this.groupDetail();
+    if(this.$route.query.status === 'detail'){
+      this.groupDetail();
+    }
+    
     this.queryDeptList();
   },
   methods: {
+    changedeptName(){
+      this.search.deptName = this.options.filter(item=>item.code==this.search.deptCode)[0].message
+    },
+    goto(row){
+      this.$router.push({
+        path: '/supplier/view-suppliers',
+        query: {
+          supplierType: row.supplierType,
+          subSupplierType:row.subSupplierType,
+          subSupplierId: row.subSupplierId,
+          supplierToken:row.supplierToken
+        }
+      })
+    },
     queryDeptList(){
       queryDeptList({}).then(res => {
         this.options = res.data
@@ -185,7 +226,6 @@ export default {
       this.multipleSelection = val
     },
     deleteData() {
-      console.log(this.multipleSelection)
       if (!this.multipleSelection.length) return iMessage.warn('请选择需要删除的数据')
       let indexList = this.multipleSelection.map((item) => item.index)
       let table = []
@@ -193,8 +233,7 @@ export default {
       this.tableData.forEach((child, i) => {
         if (!indexList.includes(i)) {
           table.push(child)
-        }
-        if (child.id) {
+        }else if (child.id) { // 新添加的供应商没有id
           deleteList.push(child)
         }
       })
@@ -205,7 +244,6 @@ export default {
         }).then(() => {
           deleteSupplier(deleteList.map(item => item.id)).then((res) => {
             if (res?.code == '200') {
-              // this.getTableData()
               this.tableData = table;
               this.$message.success('操作成功！');
             } else {
@@ -219,37 +257,103 @@ export default {
         this.tableData = table
       }
     },
-    save() {
-      let params = {
-        ...this.search,
-        supplierList: this.tableData
-      }
-      checkGroup(params).then((res) => {
-        if (res?.code == '200') {
-          iMessageBox(res.desZh, this.$t('LK_WENXINTISHI'), {
-            confirmButtonText: this.language('QUEREN', '确认'),
-            cancelButtonText: this.language('QUXIAO', '取消')
-          }).then(() => {
-            saveGroup(params).then((res1) => {
-              if (res1?.code == '200') {
-                this.editStatus = false
-                // this.getTableData()
-                this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn)
-              } else {
-                this.$message.error(
-                  this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
-                )
-              }
-            })
-          })
+
+    saveGroup(params){
+      saveGroup(params).then((res1) => {
+        if (res1?.code == '200') {
+          this.editStatus = false
+          // this.getTableData()
+          this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn);
+          const query = JSON.parse(JSON.stringify(this.$route.query)) // 获取路由参数信息
+          query.status = 'detail';
+          query['id'] = res1.data.id;
+          this.$router.replace({ path: this.$route.path, query }) //更新路由
+          this.groupDetail();
         } else {
-          this.$message.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
+          this.$message.error(
+            this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
+          )
         }
-        
       })
     },
+
+    save() {
+
+      this.$refs.ruleForm.validate((valid) => {
+        if(valid){
+          let params = {
+            ...this.search,
+            supplierGroupId: this.search.id,
+            supplierList: this.tableData.map(item=>{
+              item.supplierGroupMappingId = item.id
+              return item
+            })
+          }
+          checkGroup(params).then((res) => {
+            if (res?.code == '200') {
+              
+
+              if(res.data.status === 1){
+                this.saveGroup(params)
+              }else{
+                iMessageBox(res.data.statusDesc, this.$t('LK_WENXINTISHI'), {
+                  confirmButtonText: this.language('QUEREN', '确认'),
+                  cancelButtonText: this.language('QUXIAO', '取消')
+                }).then(() => {
+                  this.saveGroup(params)
+                })
+              }
+
+              // saveGroup(params).then((res1) => {
+              //   if (res1?.code == '200') {
+              //     this.editStatus = false
+              //     // this.getTableData()
+              //     this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn);
+              //     const query = JSON.parse(JSON.stringify(this.$route.query)) // 获取路由参数信息
+              //     query.status = 'detail';
+              //     query['id'] = res1.data.id;
+              //     this.$router.replace({ path: this.$route.path, query }) //更新路由
+              //     this.groupDetail();
+              //   } else {
+              //     this.$message.error(
+              //       this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
+              //     )
+              //   }
+              // })
+
+              // iMessageBox(res.desZh, this.$t('LK_WENXINTISHI'), {
+              //   confirmButtonText: this.language('QUEREN', '确认'),
+              //   cancelButtonText: this.language('QUXIAO', '取消')
+              // }).then(() => {
+              //   saveGroup(params).then((res1) => {
+              //     if (res1?.code == '200') {
+              //       this.editStatus = false
+              //       // this.getTableData()
+              //       this.$message.success(this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn)
+              //     } else {
+              //       this.$message.error(
+              //         this.$i18n.locale === 'zh' ? res1.desZh : res1.desEn
+              //       )
+              //     }
+              //   })
+              // })
+            } else {
+              this.$message.error(this.$i18n.locale === 'zh' ? res.desZh : res.desEn)
+            }
+            
+          })
+        }
+      })
+
+      
+    },
     addSupplier(supplierList){
-      this.tableData = [...this.tableData, ...supplierList]
+
+      const res = new Map();
+      const arr = [...this.tableData, ...supplierList].filter((item) => !res.has(item['supplierSapCode']) && res.set(item['supplierSapCode'], 1));
+      
+      this.tableData = arr;
+      this.showiDialog = false;
     }
   }
 }
@@ -271,6 +375,21 @@ export default {
     ::v-deep .el-input__inner {
       width: 300px;
     }
+
+    ::v-deep .el-form-item__label::before{
+      display: none;
+    }
+    ::v-deep .el-form-item__label::after{
+      content: '*';
+      color: #EF3737;
+      margin-right: 0.25rem;
+    }
   }
+  .link{
+  font-size: 14px;
+  color: #1763F7;
+  text-decoration: underline;
+  cursor: pointer;
+}
 }
 </style>>

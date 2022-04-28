@@ -191,7 +191,7 @@ export default {
             this.autoFrameHeight = iframeAppContentDom ? iframeAppContentDom.clientHeight || 0 : 0
           }
 
-          iframeDom.style.height = `${ this.autoFrameHeight }px`
+          this.iframeDom.style.height = `${ this.autoFrameHeight }px`
         })
 
         appDomObserver.observe(iframeAppDom, {
