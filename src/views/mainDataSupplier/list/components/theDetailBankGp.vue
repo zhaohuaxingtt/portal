@@ -16,42 +16,104 @@
       :rules="rules"
       ref="ruleForm"
     >
-        <!-- 银行所在国家 -->
-          <iFormItem prop="countryCode">
-            <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" slot="label" required></iLabel>
-            <iSelect v-model="form.countryCode" @change="changeCountry">
-                <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
-            </iSelect>
-          </iFormItem>
-        <!-- 银行所在省份 -->
-          <iFormItem prop="provinceCode">
-            <iLabel :label="$t('YINGHANSUOZAISHENGFEN')" slot="label" required></iLabel>
-            <iSelect v-model="form.provinceCode" @change="changeProvince">
-                <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
-            </iSelect>
-          </iFormItem>
-        <!-- 银行所在城市/区 -->
-          <iFormItem prop="cityCode">
-            <iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label" required></iLabel>
-            <iSelect v-model="form.cityCode" @change="changeCity">
-                <el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
-            </iSelect>
-          </iFormItem>
-          <iFormItem prop="bankName">
-            <iLabel :label="language('银行名称')" slot="label" required></iLabel>
-            <iInput v-model="form.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
-          </iFormItem>
-          <iFormItem prop="bankCode">
-            <iLabel :label="language('银行代码')" slot="label" required></iLabel>
-            <iInput v-model="form.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
-          </iFormItem>
-          <iFormItem prop="bankAccount">
-            <iLabel :label="language('银行账号')" slot="label" required></iLabel>
-            <iInput v-model="form.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
-          </iFormItem>
-          <iFormItem :label="language('税务代码')">
-            <iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="form.bankTaxCode"></iInput>
-          </iFormItem>
+      <!-- 银行所在国家 -->
+       <!-- prop="countryCode" -->
+      <iFormItem>
+        <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" slot="label"></iLabel>
+        <iSelect v-model="form.countryCode" @change="changeCountry">
+            <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
+        </iSelect>
+      </iFormItem>
+      <!-- 银行所在省份 -->
+       <!-- prop="provinceCode" -->
+      <iFormItem>
+        <iLabel :label="$t('YINGHANSUOZAISHENGFEN')" slot="label"></iLabel>
+        <iSelect v-model="form.provinceCode" @change="changeProvince">
+            <el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
+        </iSelect>
+      </iFormItem>
+      <!-- 银行所在城市/区 -->
+       <!-- prop="cityCode" -->
+      <iFormItem>
+        <iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label" ></iLabel>
+        <iSelect v-model="form.cityCode" @change="changeCity">
+            <el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
+        </iSelect>
+      </iFormItem>
+       <!-- prop="bankName" -->
+      <iFormItem>
+        <iLabel :label="language('银行名称')" slot="label" ></iLabel>
+        <iInput v-model="form.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
+      </iFormItem>
+       <!-- prop="bankCode" -->
+      <iFormItem prop="bankCode">
+        <iLabel :label="language('银行代码')" slot="label" ></iLabel>
+        <iInput v-model="form.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
+      </iFormItem>
+       <!-- prop="bankAccount" -->
+      <iFormItem prop="bankAccount">
+        <iLabel :label="language('银行账号')" slot="label" ></iLabel>
+        <iInput v-model="form.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
+      </iFormItem>
+        <!-- prop="bankTaxCode" -->
+      <iFormItem :label="language('税务代码')">
+        <iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="form.bankTaxCode"></iInput>
+      </iFormItem>
+
+      <!-- 电子银票账户银行名称 -->
+      <!-- prop="gpSupplierBankNoteDTO.bankNoteName" -->
+      <iFormItem>
+        <iLabel :label="$t('DZYPZHYHMC')" 
+                slot="label"></iLabel>
+        <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.gpSupplierBankNoteDTO.bankNoteName"></iInput>
+      </iFormItem>
+      <!-- 电子银票银行账户行号 -->
+      <!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
+      <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount">
+        <iLabel :label="$t('DZYPYHZHHH')" 
+                slot="label"></iLabel>
+        <iInput :placeholder="$t('LK_QINGSHURU')"
+                v-model="form.gpSupplierBankNoteDTO.bankNoteAccount"></iInput>
+      </iFormItem>
+      <!-- 电子银票银行所在国家 -->
+      <!-- prop="gpSupplierBankNoteDTO.country" -->
+      <iFormItem>
+        <iLabel :label="$t('DZYPYHSZGJ')" 
+                slot="label"></iLabel>
+        <iSelect v-model="form.gpSupplierBankNoteDTO.country" filterable
+                  @change="changeCountryDC()">
+          <el-option :value="item.cityIdStr"
+                      :label="item.cityNameCn"
+                      v-for="(item, index) in country"
+                      :key="index"></el-option>
+        </iSelect>
+      </iFormItem>
+      <!-- 电子银票银行所在省份 -->
+      <!-- prop="gpSupplierBankNoteDTO.province" -->
+      <iFormItem>
+        <iLabel :label="$t('DZYPYHSZSF')" 
+                slot="label"></iLabel>
+        <iSelect v-model="form.gpSupplierBankNoteDTO.province" filterable
+                  @change="changeProvinceDC()">
+          <el-option :value="item.cityIdStr"
+                      :label="item.cityNameCn"
+                      v-for="(item, index) in BankNoteProvinceList"
+                      :key="index"></el-option>
+        </iSelect>
+      </iFormItem>
+      <!-- 电子银票银行所在城市 -->
+      <!-- prop="gpSupplierBankNoteDTO.city" -->
+      <iFormItem>
+        <iLabel :label="$t('DZYPYHSZCS')" 
+                slot="label"></iLabel>
+        <iSelect v-model="form.gpSupplierBankNoteDTO.city" filterable>
+          <el-option :value="item.cityIdStr"
+                      :label="item.cityNameCn"
+                      v-for="(item, index) in BankNoteCityList"
+                      :key="index"></el-option>
+        </iSelect>
+      </iFormItem>
     </iFormGroup>
     <!-- 修改 -->
     <div v-for="(item, index) in zbankList" :key="index" class="smallbank">
@@ -68,9 +130,9 @@
                     :ref="'bankRulesDTO'+index">
               <!-- 银行所在国家 -->
               <!-- prop="country" -->
-              <iFormItem 
+              <iFormItem prop="country"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
-                  <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" 
+                  <iLabel :label="$t('YINHANGSUOZAIGUOJIA')" required
                           slot="label"></iLabel>
                   <iSelect v-model="item.country"
                           @change="changeCountrySmall($event,index)">
@@ -82,9 +144,9 @@
               </iFormItem>
               <!-- 银行所在省份 -->
                <!-- prop="province" -->
-              <iFormItem
+              <iFormItem prop="province"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
-                  <iLabel :label="$t('YINGHANSUOZAISHENGFEN')"
+                  <iLabel :label="$t('YINGHANSUOZAISHENGFEN')" required
                           slot="label"></iLabel>
                   <iSelect v-model="item.province"
                           @change="changeProvinceSmall($event,index)">
@@ -96,9 +158,9 @@
               </iFormItem>
               <!-- 银行所在城市/区 -->
               <!-- prop="city" -->
-              <iFormItem 
+              <iFormItem prop="city"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
-                  <iLabel :label="$t('YINHANGSUOZAICHENGSHI')"
+                  <iLabel :label="$t('YINHANGSUOZAICHENGSHI')" required
                           slot="label"></iLabel>
                   <iSelect v-model="item.city">
                   <el-option :value="item.id"
@@ -110,9 +172,9 @@
 
               <!-- 银行名称 -->
               <!-- prop="bankName" -->
-              <iFormItem 
+              <iFormItem prop="bankName"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
-                  <iLabel :label="$t('YINGHANGMINCHENG')" 
+                  <iLabel :label="$t('YINGHANGMINCHENG')" required
                           slot="label"
                           icons="iconxinxitishi"
                           :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
@@ -121,9 +183,9 @@
               </iFormItem>
               <!-- 银行代码 -->
               <!-- prop="bankCode" -->
-              <iFormItem  
+              <iFormItem  prop="bankCode"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
-                  <iLabel :label="$t('YINHANGDAIMA')" 
+                  <iLabel :label="$t('YINHANGDAIMA')" required
                           slot="label"
                           icons="iconxinxitishi"
                           :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
@@ -132,18 +194,18 @@
               </iFormItem>
               <!-- 银行账号 -->
               <!-- prop="bankAccount" -->
-              <iFormItem  
+              <iFormItem  prop="bankAccount"
                           v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
-                  <iLabel :label="$t('YINHANGZHANGHAO')" 
+                  <iLabel :label="$t('YINHANGZHANGHAO')" required
                           slot="label"></iLabel>
                   <iInput v-model="item.bankAccount"
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"></iInput>
               </iFormItem>
               <!-- 农民工工资专用账户名称 -->
               <!-- prop="salaryAccount" -->
-              <iFormItem 
+              <iFormItem prop="salaryAccount"
               >
-                  <iLabel :label="$t('NONGMINGGONGGONGZIZHUANYONG')" 
+                  <iLabel :label="$t('NONGMINGGONGGONGZIZHUANYONG')" required
                           slot="label"></iLabel>
                   <iInput v-model="item.salaryAccount"
                           :placeholder="$t('LK_QINGSHURU') + $t('YINHANGZHANGHAO')"></iInput>
@@ -172,7 +234,7 @@ import { iCard, iInput, iFormGroup,iFormItem,iLabel, iButton, iMessage,iSelect,i
 import { areaSelect } from '@/components/remoteSelect'
 import { updateSupplierBank,gpSubBankDelete } from '@/api/mainDataSupplier/list/bank'
 import { getCityInfo } from "@/api/dictionary";
-import {bankRules} from "./data";
+import {bankRulesData,bankRules} from "./data";
 export default {
   name: 'theDetailBank',
   components: {
@@ -201,6 +263,12 @@ export default {
     supplierId: {
       type: String,
       default: ''
+    },
+    gpSupplierBankNoteVO:{
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
@@ -230,17 +298,19 @@ export default {
         countryCode:"",
         cityCode:"",
         provinceCode:"",
+        gpSupplierBankNoteDTO:{
+          bankNoteName:"",
+          bankNoteAccount:"",
+          country:"",
+          province:"",
+          city:"",
+        }
       },
+      BankNoteProvinceList:[],
+      BankNoteCityList:[],
       editable: false,
       originalForm: {},
-      rules: {
-        bankCode: [
-          { validator: bankCode, trigger: 'blur' },
-        ],
-        bankAccount:[
-          { validator: bankAccount, trigger: 'blur' },
-        ]
-      },
+      rules: bankRulesData,
       country:[],
       bankProvince:[],
       bankCity:[],
@@ -258,18 +328,60 @@ export default {
   },
   watch: {
     bankForm(val) {
-      console.log(val)
       this.setForm(val)
       this.getCountry();
       this.getProvice();
       this.getCityList();
     },
     subBankVos(val){
-      console.log(val)
       this.zBankGet(val);
-    }
+    },
   },
   methods: {
+    changeCountryDC(val){
+      this.form.gpSupplierBankNoteDTO.province = ""
+      this.form.gpSupplierBankNoteDTO.city = ""
+      this.BankNoteProvinceList = []
+      this.BankNoteCityList = []
+      // 获取银行省市
+      let data = {
+        parentCityId: this.form.gpSupplierBankNoteDTO.country
+      }
+      getCityInfo(data).then(res => {
+        this.BankNoteProvinceList = res.data
+      })
+    },
+    changeProvinceDC(val){
+      this.form.gpSupplierBankNoteDTO.city = ""
+      this.BankNoteCityList = []
+      let data = {
+        parentCityId: this.form.gpSupplierBankNoteDTO.province
+      }
+      getCityInfo(data).then(res => {
+        this.BankNoteCityList = res.data
+      })
+    },
+    getBankNodeAddress(){
+      if(this.form.gpSupplierBankNoteDTO.country){
+        // 获取银行省市
+        let data = {
+          parentCityId: this.form.gpSupplierBankNoteDTO.country
+        }
+        getCityInfo(data).then(res => {
+          this.BankNoteProvinceList = res.data
+        })
+      }
+
+      if(this.form.gpSupplierBankNoteDTO.province){
+        let data = {
+          parentCityId: this.form.gpSupplierBankNoteDTO.province
+        }
+        getCityInfo(data).then(res => {
+          this.BankNoteCityList = res.data
+        })
+      }
+
+    },
     zBankGet(val){
       val.forEach(e=>{
         let data = {parentCityId: e.country}
@@ -438,9 +550,31 @@ export default {
     },
     setForm(val) {
       if (val && Object.keys(val).length) {
-        this.form = _.cloneDeep(val)
+        this.form = _.cloneDeep(Object.assign(this.form,val))
+        // this.form.countryCode = val.countryCode
+        // this.form.cityCode = val.cityCode
+        // this.form.provinceCode = val.provinceCode
+
         this.originalForm = _.cloneDeep(val)
       }
+      if(this.gpSupplierBankNoteVO){
+        this.form.gpSupplierBankNoteDTO = _.cloneDeep(this.gpSupplierBankNoteVO)
+        this.originalForm.gpSupplierBankNoteDTO = _.cloneDeep(this.gpSupplierBankNoteVO)
+        this.getBankNodeAddress();
+      }else{
+        this.originalForm.gpSupplierBankNoteDTO = {
+          bankNoteName:"",
+          bankNoteAccount:"",
+          country:"",
+          province:"",
+          city:"",
+        }
+      }
+
+
+      console.log(this.form);
+
+      console.log(this.originalForm);
     },
     getRule(){
       var that = this;
@@ -492,7 +626,14 @@ export default {
             bankCode: this.form.bankCode,
             bankName: this.form.bankName,
             bankTaxCode: this.form.bankTaxCode,
-
+            gpSupplierBankNoteDTO:{
+              bankNoteName:this.form.gpSupplierBankNoteDTO.bankNoteName,
+              bankNoteAccount:this.form.gpSupplierBankNoteDTO.bankNoteAccount,
+              country:this.form.gpSupplierBankNoteDTO.country,
+              province:this.form.gpSupplierBankNoteDTO.province,
+              city:this.form.gpSupplierBankNoteDTO.city,
+              supplierId:this.supplierId,
+            },
             addressInfoUpdateVo: {
               addressId: this.form.addressId,
               countryCode: this.form.countryCode,
@@ -529,6 +670,7 @@ export default {
       })
     },
     cancel() {
+      console.log(this.originalForm)
       this.form = _.cloneDeep(this.originalForm)
       console.log(this.zbankList)
       console.log(this.zbankListOld)
