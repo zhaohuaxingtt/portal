@@ -413,7 +413,7 @@ export default {
     .drag-box {
       position: absolute;
       display: none;
-      background-color: #eb3b5a;
+      background-color: rgba(235, 59, 90, 0.5);
       pointer-events: none;
     }
   }
@@ -436,7 +436,7 @@ export default {
     height: 100%;
   }
 }
-.shadow {
-  box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.65);
-}
+// .shadow {
+//   box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.65);
+// }
 </style>

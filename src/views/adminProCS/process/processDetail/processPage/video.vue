@@ -14,7 +14,7 @@
           v-model="videos"
           accept="video/*"
           btnTxt="选择视频"
-          tipTxt="文件大小最大限制10MB!"
+          tipTxt="文件大小最大限制20MB!"
           :maxSize="10"
           :limit="1"
           isCustHttp
@@ -87,8 +87,14 @@ export default {
               newVideo.fileUrl = newVideo.url
             }
             this.videos = [newVideo]
+          } else {
+            this.videos = []
           }
+        } else {
+          this.videos = []
         }
+      } else {
+        this.videos = []
       }
     },
     upload(file) {

@@ -22,6 +22,14 @@ export function queryGroupLabelDown(data) {
   })
 }
 
+// 供应商组标签列表
+export function queryGroupTagList() {
+  return requst({
+    url: '/supplierGroup/tagList',
+    method: 'POST',
+  })
+}
+
 // 供应商英文列表查询
 export function querySupplierEnList(data) {
   return requst({
@@ -124,7 +132,7 @@ export function queryDeptList(params) {
 //添加供应商-供应商分页列表
 export function supplierPage(data) {
   return requst({
-    url: `/supplierGroup/supplierPage/`,
+    url: `/supplierGroup/supplierPage`,
     method: 'POST',
     data
   })
@@ -133,7 +141,7 @@ export function supplierPage(data) {
 // 供应商组详情
 export function groupDetail(data) {
   return requst({
-    url: `/supplierGroup/groupDetail/`,
+    url: `/supplierGroup/groupDetail`,
     method: 'POST',
     data
   })

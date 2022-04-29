@@ -8,35 +8,55 @@
       :inline="type == 'edit'"
       class="validate-required-form process-form"
     >
-      <iFormItem :label="language('流程标题')" prop="name">
+      <iFormItem
+        :label="language('流程标题')"
+        prop="name"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.name"
           class="w-300"
           :placeholder="language('请输入流程标题')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('首字母')" prop="firstLetter">
+      <iFormItem
+        :label="language('首字母')"
+        prop="firstLetter"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.firstLetter"
           class="w-300"
           :placeholder="language('请输入标题首字母')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('英文标题')" prop="nameEn">
+      <iFormItem
+        :label="language('英文标题')"
+        prop="nameEn"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.nameEn"
           class="w-300"
           :placeholder="language('请输入英文标题')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('英文首字母')" prop="firstLetterEn">
+      <iFormItem
+        :label="language('英文首字母')"
+        prop="firstLetterEn"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.firstLetterEn"
           class="w-300"
           :placeholder="language('请输入英文标题首字母')"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="language('版本号')" prop="version">
+      <iFormItem
+        :label="language('版本号')"
+        prop="version"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iInput
           v-model="form.version"
           class="w-300"
@@ -44,7 +64,11 @@
         ></iInput>
       </iFormItem>
 
-      <iFormItem :label="language('更新日期')" prop="updateDt">
+      <iFormItem
+        :label="language('更新日期')"
+        prop="updateDt"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iDatePicker
           type="date"
           v-model="form.updateDt"
@@ -52,7 +76,11 @@
           :placeholder="language('请选择')"
         />
       </iFormItem>
-      <iFormItem :label="language('流程专家')" prop="experts">
+      <iFormItem
+        :label="language('流程专家')"
+        prop="experts"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iSelect
           v-model="form.experts"
           class="w-300"
@@ -72,7 +100,11 @@
           ></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="language('关联机构')" prop="organizations">
+      <iFormItem
+        :label="language('关联机构')"
+        prop="organizations"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iSelect
           v-model="form.organizations"
           class="w-300"
@@ -92,7 +124,10 @@
           ></el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="language('发布范围')">
+      <iFormItem
+        :label="language('发布范围')"
+        :class="{ 'form-item': type === 'edit' }"
+      >
         <iSelect v-model="form.rangeType" class="w-300">
           <el-option
             v-for="item in scopeOptions"
@@ -105,6 +140,7 @@
       <iFormItem
         :label="language('选择用户')"
         prop="rangeUser"
+        :class="{ 'form-item': type === 'edit' }"
         v-if="form.rangeType === 15"
       >
         <userSelector
@@ -115,11 +151,23 @@
           @change="userListChange"
         />
       </iFormItem>
+      <iFormItem
+        v-if="form.rangeType === 15"
+        prop="rangeSupplier"
+        :label="language('选择供应商')"
+        :class="{ 'form-item': type === 'edit' }"
+      >
+        <supplierSelect
+          v-model="form.rangeSupplier"
+          @change="supplierListChange"
+          class="w-300"
+        />
+      </iFormItem>
     </el-form>
     <div class="flex felx-row mt20 pb20 justify-end">
-      <iButton @click="reset" v-if="type == 'add'">{{
-        language('取消')
-      }}</iButton>
+      <iButton @click="reset" v-if="type == 'add'">
+        {{ language('取消') }}
+      </iButton>
       <iButton @click="$router.back()" v-else>{{ language('返回') }}</iButton>
       <iButton @click.native="save">{{ language('保存') }}</iButton>
     </div>
@@ -129,6 +177,7 @@
 <script>
 import { iFormItem, iInput, iDatePicker, iButton, iSelect } from 'rise'
 import userSelector from '@/components/userSelector'
+import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import {
   getOrganizationList,
   getUsersList,
@@ -144,7 +193,8 @@ export default {
     iDatePicker,
     iButton,
     userSelector,
-    iSelect
+    iSelect,
+    supplierSelect
   },
   props: {
     type: {
@@ -173,18 +223,33 @@ export default {
         callback(new Error(this.language('请输入英文名')))
         return
       }
-      var reg = /^[a-zA-Z]+$/ //验证规则
+      var reg = /^[a-z A-Z]+$/ //验证规则
       if (reg.test(value)) {
         callback()
         return
       } else {
         callback(new Error(this.language('请输入英文名')))
+        return
       }
     }
     const validateUserList = (rule, value, callback) => {
-      console.log('validate user value:', value, this.form.rangeUser)
-      if (value.length === 0 && this.form.rangeType === 15) {
+      if (
+        value.length === 0 &&
+        this.form.rangeSupplier.length === 0 &&
+        this.form.rangeType === 15
+      ) {
         callback(new Error('请选择用户'))
+      } else {
+        callback()
+      }
+    }
+    const validateSupplierList = (rule, value, callback) => {
+      if (
+        value.length === 0 &&
+        this.form.rangeUser.length === 0 &&
+        this.form.rangeType === 15
+      ) {
+        callback(new Error('请选择供应商'))
       } else {
         callback()
       }
@@ -201,7 +266,8 @@ export default {
         experts: [],
         organizations: [],
         rangeType: 0,
-        rangeUser: ''
+        rangeUser: [],
+        rangeSupplier: []
       },
       rules: {
         name: [
@@ -218,7 +284,7 @@ export default {
           trigger: 'blur'
         },
         nameEn: [
-          { required: true, enName_valid: enName_valid, trigger: 'blur' },
+          { required: true, validator: enName_valid, trigger: 'blur' },
           {
             max: 100,
             message: this.language('英文标题长度不能超过100个字符！')
@@ -256,7 +322,8 @@ export default {
           message: this.language('请至少输入2个字符进行搜索'),
           trigger: 'blur'
         },
-        rangeUser: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }],
+        rangeSupplier: [{ validator: validateSupplierList, trigger: 'change' }]
       },
       orgList: [],
       allOrgList: [],
@@ -354,10 +421,24 @@ export default {
               }
             })
           : []
+        const rangeSupplier = formData.rangeSupplier
+          ? formData.rangeSupplier.map((e) => {
+              return {
+                nameZh: e.name || e.nameZh,
+                id: parseInt(e.id)
+              }
+            })
+          : []
         const organizations = formData.organizations
           ? formData.organizations.map((e) => e.id)
           : []
-        this.form = { ...formData, experts, rangeUser, organizations }
+        this.form = {
+          ...formData,
+          experts,
+          rangeUser,
+          organizations,
+          rangeSupplier
+        }
         this.loading = false
         return this.form
       } finally {
@@ -391,6 +472,11 @@ export default {
             if (submitData.rangeUser) {
               submitData.rangeUser = submitData.rangeUser
                 .map((e) => e.accountId)
+                .join(',')
+            }
+            if (submitData.rangeSupplier) {
+              submitData.rangeSupplier = submitData.rangeSupplier
+                .map((e) => e.id)
                 .join(',')
             }
             let formData = new FormData()
@@ -464,7 +550,10 @@ export default {
         version: '',
         updateDt: '',
         experts: '',
-        organizations: ''
+        organizations: '',
+        rangeType: 0,
+        rangeUser: [],
+        rangeSupplier: []
       }
       this.$refs.form.resetFields()
       this.$emit('close')
@@ -478,6 +567,16 @@ export default {
             accountId: parseInt(e.accountId)
           }
         })
+    },
+    supplierListChange(val) {
+      this.form.rangeSupplier = val
+        .filter((e) => e.subSupplierId)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            id: parseInt(e.subSupplierId)
+          }
+        })
     }
   }
 }
@@ -485,15 +584,19 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../comon.scss';
-.process-form {
-  ::v-deep &.el-form--inline {
-    .el-form-item {
-      margin-right: 30px !important;
-    }
-  }
-}
+// .process-form {
+//   ::v-deep &.el-form--inline {
+//     .el-form-item {
+//       margin-right: 30px !important;
+//     }
+//   }
+// }
 
 ::v-deep .el-loading-mask {
   z-index: 2000;
+}
+.form-item {
+  width: 25%;
+  margin-right: 0px !important;
 }
 </style>
