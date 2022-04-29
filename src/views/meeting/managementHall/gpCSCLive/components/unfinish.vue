@@ -885,10 +885,12 @@ export default {
     },
     // 查看更多
     handleMore() {
+      console.log(this.$route.query.id);
       this.$router.push({
-        path: '/meeting/live/more-themens',
+        // path: '/meeting/live/more-themens',
+        path: '/CSCmeeting/live/more-themens',
         query: {
-          meetingTypeId: this.meetingTypeId
+          meetingTypeId: this.$route.query.id
         }
       })
     }

@@ -279,8 +279,10 @@ export default {
         });
     },
     goToDetail(e) {
+      // csc会议 近期会议卡片内more按钮 nearCSCMeetingDetail
       this.$router.push({
         path: "/meeting/near-meeting/detail",
+        // path: "/nearCSCMeetingDetail",
         query: {
           id: e,
         },
