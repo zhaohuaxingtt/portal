@@ -140,7 +140,6 @@ export default {
 
             this.supplierComplete.gpSupplierDetails = _.cloneDeep(baseInfo.gpSupplierDetails)
 
-
             var tableDataList = _.cloneDeep(this.tableData)
             tableDataList.forEach(e=>{
               this.supplierComplete.gpSupplierDetails.forEach(item =>{
