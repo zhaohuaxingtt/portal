@@ -309,7 +309,7 @@ export default [
         component: () => import(`@/views/meeting/managementHall/gpCSCNearMeeting/index.vue`)
       },
       {
-        path: '/nearMBDlMeetingDetail',
+        path: '/nearCSCMeetingDetail',
         name: 'nearMeetingDetail',
         meta: {
           title: '近期会议详情',
@@ -369,6 +369,24 @@ export default [
       title: '更多议题'
     },
     component: () => import(`@/views/meeting/nearMeeting/more/index.vue`)
+  },
+  // gp csc更多议题
+  {
+    path: '/CSCmeeting/live/more-themens',
+    name: 'moreThemens',
+    meta: {
+      title: '更多议题'
+    },
+    component: () => import(`@/views/meeting/managementHall/gpCSCNearMeeting/more/index.vue`)
+  },
+  // gp mbdl 更多议题
+  {
+    path: '/MBDlmeeting/live/more-themens',
+    name: 'moreThemens',
+    meta: {
+      title: '更多议题'
+    },
+    component: () => import(`@/views/meeting/managementHall/gpMBDLNearMeeting/more/index.vue`)
   },
   {
     path: '/meeting/near-meeting/special-more-themens',

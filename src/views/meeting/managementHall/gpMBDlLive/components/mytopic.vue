@@ -105,6 +105,7 @@ export default {
     },
     async query() {
       const params = {
+        category:'03',
         presentItem: "03",
         pageNum: 1,
         pageSize: 9999,
@@ -132,6 +133,7 @@ export default {
     async queryunFinishedData() {
       let arrObjUn = [];
       const params = {
+        category:'03',
         presentItem: "04",
         pageNum: 1,
         pageSize: 9999,
@@ -159,7 +161,8 @@ export default {
         pageNum: 1,
         pageSize: 9999,
         meetingTypeId: this.meetingTypeId,
-      };
+        category:'03'
+      }; 
       findMyGpThemens(params).then((res) => {
         let arrObj = [];
         let arrObjUn = [];
