@@ -15,7 +15,7 @@
                 v-if="$route.query.subSupplierType !== 'GP'"
                 v-permission.edit="SUPPLIER_BASEINFO_COMPANY_LEGALPERSON"
                 :placeholder="$t('LK_QINGSHURU') + $t('LegalPerson')"></iInput>
-        <iInput v-model="supplierData.supplierDTO.legalPerson"
+        <iInput v-model="supplierData.supplierDTO.legalPerson" v-else
                 :placeholder="$t('LK_QINGSHURU') + $t('LegalPerson')"></iInput>
       </iFormItem>
       <!-- 企业规模 -->
