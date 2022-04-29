@@ -136,16 +136,17 @@ export default {
             })
 
             this.supplierComplete.gpSupplierDetails = _.cloneDeep(baseInfo.gpSupplierDetails)
-          }
-          var tableDataList = _.cloneDeep(this.tableData)
-          tableDataList.forEach(e=>{
-            this.supplierComplete.gpSupplierDetails.forEach(item =>{
-              if(e.businessType == item.businessType){
-                e = Object.assign(e,item);
-              }
+
+            var tableDataList = _.cloneDeep(this.tableData)
+            tableDataList.forEach(e=>{
+              this.supplierComplete.gpSupplierDetails.forEach(item =>{
+                if(e.businessType == item.businessType){
+                  e = Object.assign(e,item);
+                }
+              })
             })
-          })
-          this.supplierComplete.gpSupplierDetails = tableDataList;
+            this.supplierComplete.gpSupplierDetails = tableDataList;
+          }
           // this.supplierComplete.gpSupplierDetails.forEach(e=>{
           //   // if(e.businessBuyerEmail){
           //     e.industryPosition = "Y";
