@@ -11,7 +11,8 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_GONGYINGSHANGTONGXUNLU')
       }}</span>
-      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
+      <div class="floatright"
+           v-if="$route.query.subSupplierType!=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
@@ -22,7 +23,8 @@
                   @click="exportsTable"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
-      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+      <div class="floatright"
+           v-if="$route.query.subSupplierType=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE_GP"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
@@ -50,7 +52,8 @@
       ]"
                 :index="true">
       <template #contactTypeDesc="scope">
-        <div>{{ scope.row.contactTypeDesc }}<span v-if="scope.row.contactTypeDesc == '商务联系人'" style="color: red">*</span></div>
+        <div>{{ scope.row.contactTypeDesc }}<span v-if="scope.row.contactTypeDesc == '商务联系人'"
+                style="color: red">*</span></div>
       </template>
     </table-list>
   </i-card>
@@ -88,7 +91,7 @@ export default {
   },
   methods: {
     async getDictByCode () {
-      if(this.$route.query.subSupplierType=="GP"){
+      if (this.$route.query.subSupplierType == "GP") {
         return false;
       }
       const res = await getDictByCode('SUPPLIER_CODE_TYPE')
@@ -113,11 +116,12 @@ export default {
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
       this.tableListData = res.data
-      if(this.$route.query.subSupplierType=="GP"){
+      if (this.$route.query.subSupplierType == "GP") {
         return false;
       }
       // console.log(this.tableListData)
       // console.log(res.data)
+      let cust
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
           if (item.contactType === val.contactType || item.contactType === val.nameType) {
