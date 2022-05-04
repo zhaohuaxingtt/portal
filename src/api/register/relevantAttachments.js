@@ -88,8 +88,8 @@ export function getFreeAttachmentList(params) {
     url: `/attachment/list`,
     method: 'POST',
     data: {
+      supplierToken: store.state.home.valiCode,
       ...params,
-      supplierToken: store.state.home.valiCode
     }
   })
 }

@@ -19,7 +19,7 @@
         <el-form-item
           :label="language('HUIYILEIXING', '会议类型')"
           prop="meetingTypeId"
-        >
+        > 
           <iSelect
             v-model="formData.meetingTypeId"
             :placeholder="language('请选择', '请选择')"
@@ -135,7 +135,7 @@ import { MEETING_SEARCH_DATA, MEETING_TABLE_COLUMNS,  weekListInit } from './dat
 import dayjs from '@/utils/dayjs.js'
 import { pageMixins } from '@/utils/pageMixins'
 import { getMettingType } from '@/api/meeting/type'
-import { findToReschedule , rescheduleThemen} from '@/api/meeting/gpMeeting'
+import { findToReschedule , rescheduleThemen , findByPageForGP} from '@/api/meeting/gpMeeting'
 export default {
    mixins: [pageMixins],
    components: {
@@ -204,7 +204,7 @@ export default {
     this.query()
   },
   methods:{
-    //获取列表
+    //获取列表 
     query(){
       const params = {
         pageNum: this.page.currPage,
@@ -225,7 +225,7 @@ export default {
         })
       })
     },
-    //会议类型
+    //会议类型  后面说还要改
     getAllSelectList() {
       let param = {
         pageSize: 1000,
@@ -242,12 +242,39 @@ export default {
       console.log(this.formData);
       this.page.currPage = 1
       this.formDataDefault =(this.formData)
-      this.query()
+      // this.query()
+      // 查询改为调别得接口  findByPageForGP
+      this.getList()
+
+    },
+    // 这个接口仅仅只是查询调  findByPageForGP
+    getList(){
+      const params = {
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize,
+        themenId:this.rowId,
+        meetingId: this.$route.query.id,
+        ...this.formDataDefault
+      }
+      findByPageForGP(params).then((res) => {
+        this.tableData = res.data
+        this.page.totalCount = res.total
+        this.tableData.forEach(x=>{
+          this.meetingStatus.forEach(y=>{
+            if (x.state == y.code) {
+              x.state = y.name 
+            }
+          })
+        })
+      })
+
     },
     // 重置
     reset() {
       this.formData = { ...MEETING_SEARCH_DATA }
-      this.search()
+      // this.search()
+      // 重置还是调原来的接口
+      this.query()
     },
     //当前行
     handleSelectionChange(selection) {
@@ -286,8 +313,10 @@ export default {
         themenId:this.rowId,
 
       }
-      rescheduleThemen(params) .then(() => {
+      debugger
+      rescheduleThemen(params) .then((res) => {
           iMessage.success('改期成功')
+          // iMessage.success(res.message)
           this.$emit('flushTable')
           this.$emit('close')
       })

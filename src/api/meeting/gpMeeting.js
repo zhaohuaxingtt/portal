@@ -111,6 +111,14 @@ export function findToReschedule(data) {
     data,
   })
 }
+// findByPageForGP  改期页面 查询单独接口
+export function findByPageForGP(data) {
+  return requst({
+    url: `/gpMeetingService/findByPageForGP`,
+    method: 'POST',
+    data,
+  })
+}
 // 会议议题改期
 export function rescheduleThemen(data) {
   return requst({
