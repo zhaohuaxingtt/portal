@@ -228,6 +228,11 @@ export default {
           component: () => import("@/views/generalPage/approveDetails/previewGp")
         },
         {
+          path: '/supplier/task/inactiveYears',
+          name: 'inactiveYears',
+          component: () => import("@/views/generalPage/approveDetails/inactiveYears")
+        },
+        {
           path: '/supplier/maintenancesupplier',
           name: 'MaintenanceSupplier',
           component: MaintenanceSupplier
