@@ -385,8 +385,11 @@ export default {
                 this.loadingType = false;
                 this.$router.go(-1)
               }else{
+                this.loadingType = false;
                 iMessage.error(res.desZh);
               }
+            }).catch(res=>{
+              this.loadingType = false;
             })
           }, 500);
         })

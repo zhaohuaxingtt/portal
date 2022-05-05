@@ -1,6 +1,8 @@
+    <!-- 近期会议卡片 more 列表-->
 <template>
   <div>
-    <iTableML
+    近期会议卡片 more 列表
+    <!-- <iTableML
       tooltip-effect="light"
       :data="data"
       :rowClassName="tableRowClassName"
@@ -221,7 +223,118 @@
           }}</span>
         </template>
       </el-table-column>
-    </iTableML>
+    </iTableML> -->
+    <iTableML
+          tooltip-effect="light"
+          @selectionChange="handleSelectionChange"
+          :loading="tableLoading"
+          :data="data"
+          @go-detail="handleGoDetail"
+          v-if="!showUpdateTopicButtonList"
+          :rowClassName="tableRowClassName"
+          :currentRow="currentRow"
+          :isSingle="isSingle"
+        >
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            label="#"
+            width="50"
+          >
+            <template slot-scope="scope">
+             <span>
+              {{ scope.$index + 1 }}
+            </span>
+            </template>
+          </el-table-column>
+          <!-- MBDL名称    gpName  改 topic-->
+          <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
+            <template slot-scope="scope">
+              <span class="open-link-text look-themen-click" @click="lookOrEdit(scope.row)">{{ scope.row.topic }}</span>
+            </template>
+          </el-table-column>
+          <!-- 英文名称  mbdlNameEn -->
+           <el-table-column show-overflow-tooltip align="center" label="英文名称" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.mbdlNameEn }}</span>
+            </template>
+          </el-table-column>
+          <!-- 采购分类  materialGroupName -->
+           <el-table-column show-overflow-tooltip align="center" label="采购分类" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.materialGroupName }}</span>
+            </template>
+          </el-table-column>
+          <!-- 有效期起   validFrom-->
+           <el-table-column show-overflow-tooltip align="center" label="有效期起" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.validFrom }}</span>
+            </template>
+          </el-table-column>
+           <el-table-column show-overflow-tooltip align="center" label="有效期止" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.validTo }}</span>
+            </template>
+          </el-table-column>
+          <!-- 主要申请部门  applyDept 改 supporterDept-->
+           <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.supporterDept }}</span>
+             </template>
+          </el-table-column>
+          <!-- 股别  presenterDept -->
+           <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.presenterDept }}</span>
+             </template>
+          </el-table-column>
+          <!-- 提交人   supporter 改 presenter-->
+           <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
+             <template slot-scope="scope">
+              <span >{{ scope.row.presenter }}</span>
+             </template>
+          </el-table-column>
+           <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
+             <!-- <template slot-scope="scope">
+              <span >{{ scope.row.time }}</span>
+            </template> -->
+            <template slot-scope="scope">
+              <div v-if="scope.row.startTime">
+                <span>{{
+                  Number(scope.row.plusDayStartTime) > 0
+                    ? scope.row.startTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayStartTime)
+                    : scope.row.startTime.substring(0, 5)
+                }}</span
+                ><span>~</span>
+                <span v-if="scope.row.endTime">{{
+                  Number(scope.row.plusDayEndTime) > 0
+                    ? scope.row.endTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayEndTime)
+                    : scope.row.endTime.substring(0, 5)
+                }}</span>
+              </div>
+            </template>
+          </el-table-column>
+           <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
+             <template slot-scope="scope">
+              <span >{{ statusObj[scope.row.state] }}</span>
+            </template>
+          </el-table-column>
+          <!-- 会议结论/纪要  conclusion-->
+           <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
+             <template slot-scope="scope">
+              <!-- <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
+              <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue"
+                 @click="handleResult(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
+             </template>
+          </el-table-column>
+         
+        </iTableML>
     <iPagination
       v-update
       @current-change="handleCurrentChange($event, query)"
@@ -240,6 +353,7 @@
 import { iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 
 export default {
   components: {
@@ -247,12 +361,12 @@ export default {
     iTableML
   },
   props: {
-    data: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
+    // data: {
+    //   type: Array,
+    //   default: () => {
+    //     return []
+    //   }
+    // },
     total: {
       type: Number || String,
       default: () => {
@@ -274,16 +388,33 @@ export default {
   },
   data() {
     return {
-      following: false,
+      data:{},
       statusObj: {
-        '01': 'MT_WEIJINXING',
-        '02': 'MT_JINXINGZHONG',
-        '03': 'MT_YIJIESHU'
-      }
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      },
+      resultObj:{
+        '01': '待定',
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
+      },
+      following: false,
+      // statusObj: {
+      //   '01': 'MT_WEIJINXING',
+      //   '02': 'MT_JINXINGZHONG',
+      //   '03': 'MT_YIJIESHU'
+      // }
     }
   },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
+  },
+  created() {  
+    this.queryMeetingInfoById()
   },
   methods: {
     isThemenHavaMy(item) {
@@ -370,7 +501,19 @@ export default {
         // })
         // });
       }
-    }
+    },
+    queryMeetingInfoById() {
+      const data = {
+        id:this.$route.query.id
+      }
+      findThemenById(data).then((res) => {
+          console.log(res);
+          this.data = res.themens
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   }
 }
 </script>

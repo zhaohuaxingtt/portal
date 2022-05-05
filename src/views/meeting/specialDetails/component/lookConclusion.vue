@@ -30,9 +30,10 @@
         class="conclusion-box conclusion-special"
         v-if="selectedTableData[0].conclusionCsc === '02'"
       >
-        <span class="conclusion-title" style="white-space:nowrap"
-          ><span>{{$t('MT_SHIFOUDONGJIE')}}:</span></span
-        >
+        <span
+          class="conclusion-title"
+          style="white-space:nowrap"
+        ><span>{{$t('MT_SHIFOUDONGJIE')}}:</span></span>
         <div class="conclusion-content">
           {{ selectedTableData[0].isFrozenRs ? $t('MT_SHI') : $t('MT_FOU') }}
         </div>
@@ -92,22 +93,27 @@ export default {
   height: 375.33px;
   .conclusion-box {
     display: flex;
+    align-items: center;
     margin-bottom: 40px;
     width: 100%;
+    height: 20px;
+    line-height: 20px;
     .conclusion-title {
+      height: 100%;
       white-space: nowrap;
       display: block;
-      height: 100%;
+      /* height: 100%; */
       /* width: 96px; */
       font-size: 16px;
       font-weight: 400;
       margin-right: 4px;
     }
     .conclusion-content {
+      height: 100%;
       width: 100%;
       font-size: 14px;
       font-weight: 400;
-      transform: translateY(2px);
+      min-width: 20px;
     }
   }
   .conclusion-special {

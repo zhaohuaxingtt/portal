@@ -1271,7 +1271,8 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-      if (this.ruleForm.lowerLimitMoney > this.ruleForm.upperLimitMoney) {
+      if ( parseInt(this.ruleForm.lowerLimitMoney) > parseInt(this.ruleForm.upperLimitMoney)  ) {
+        //下限金额不能大于上限金额！
         iMessage.error(this.$t('MT_XIAXIANJINEBUNENGDAYUSHANGXIANJINE'))
       } else {
         this.submitForm('ruleForm')

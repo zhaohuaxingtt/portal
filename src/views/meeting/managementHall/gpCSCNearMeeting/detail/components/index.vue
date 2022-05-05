@@ -1,5 +1,7 @@
+    <!-- 卡片详情列表页面 -->
 <template>
   <div class="card">
+    卡片详情列表页面
     <p class="go-back">
       <iButton @click="goBack">{{ $t('MT_FANHUI') }}</iButton>
     </p>

@@ -358,6 +358,7 @@ import iTableML from '@/components/iTableML'
 import { findMyThemens } from '@/api/meeting/myMeeting'
 import detailDialog from './detailDialog.vue'
 import addTopic from '@/views/meeting/live/components/addTopic.vue'
+import { findMyGpThemens } from "@/api/meeting/live";
 
 export default {
   components: {
@@ -459,7 +460,8 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/more-themens',
+        // path: '/meeting/near-meeting/more-themens',
+        path: '/MBDlmeeting/live/more-themens',
         query: {
           meetingTypeId: this.meetingTypeId
         }
@@ -486,12 +488,13 @@ export default {
     query() {
       let param = {
         // ...this.form,
+        category: "03",
         presentItem: '03',
         pageNum: 1,
         pageSize: 9999,
         meetingTypeId: this.meetingTypeId
       }
-      findMyThemens(param).then((res) => {
+      findMyGpThemens(param).then((res) => {
         let data =
           res.data &&
           res.data.filter((item) => {
@@ -499,6 +502,7 @@ export default {
           })
         this.dataAll = data
         this.tableData = data.slice(0, 1 * this.page.pageSize)
+        console.log(this.tableData);
         this.total = data.length
       })
     },

@@ -109,7 +109,7 @@ export default {
       dialogVisible: false,
       fileUrl: '',
       uploading: false,
-      imgFmt: ['jpg', 'jpeg', 'gif', 'png'],
+      imgFmt: ['jpg', 'jpeg', 'gif', 'png', 'pdf'],
       isSlot: false
     }
   },
@@ -122,7 +122,8 @@ export default {
       console.log(this.files, '2222221111')
       let l = this.files || []
       l.forEach((e) => {
-        let fmt = e.fileName.split('.')[e.fileName.split('.').length - 1]
+        const fileName = e.fileName || e.originalFileName || ''
+        let fmt = fileName.split('.')[fileName.split('.').length - 1]
         if (this.imgFmt.includes(fmt)) {
           arr.push(e.fileUrl)
         }
