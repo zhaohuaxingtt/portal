@@ -18,10 +18,10 @@
         </el-form-item>
         <el-form-item
           :label="language('HUIYILEIXING', '会议类型')"
-          prop="meetingTypeId"
+          prop="meetingTypeIds"
         > 
           <iSelect
-            v-model="formData.meetingTypeId"
+            v-model="formData.meetingTypeIds"
             :placeholder="language('请选择', '请选择')"
           >
             <el-option
@@ -243,6 +243,7 @@ export default {
       console.log(this.formData);
       this.page.currPage = 1
       this.formDataDefault =(this.formData)
+      this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
       // this.query()
       // 查询改为调别得接口  findByPageForGP
       this.getList()
