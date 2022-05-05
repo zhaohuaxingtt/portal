@@ -6,7 +6,7 @@
     <baseInfo ref="basic" class="margin-bottom20" v-if="$route.query.subSupplierType=='GP'"></baseInfo>
     <i-card :title="$t('SUPPLIER_GONGHUOGONGSI')" tabCard>
       <template slot="header-control">
-        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
+        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP' && tableListData.formalStatus.indexOf('正式') !== -1">{{ language('TIJIAO', '提交') }}</i-button>
         <i-button @click="subBtn" v-if="$route.query.subSupplierType!=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
         <iButton @click="$router.go(-1)" v-if="$route.query.subSupplierType!=='GP'">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </template>
@@ -93,11 +93,81 @@ export default {
     }
   },
   async created() {
-    await this.getTableList()
+    if(this.$route.query.subSupplierType=="GP"){
+      await this.getTableListGP()
+    }else{
+      await this.getTableList()
+    }
   },
   methods: {
     handleSelectionChange(val) {
       this.selectTableData = val
+    },
+    async getTableListGP(val){
+      this.tableLoading = true
+      const req = {
+        supplierToken: this.$route.query.supplierToken
+      }
+      try {
+        const res = await getSupplierProcureFactory(req)
+        this.tableListData = res.data ? res.data : []
+        this.tableLoading = false
+        //转正前
+        if (this.tableListData.isSelect && val != 1) {
+          const data = []
+          const isExistList = []
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              if (e.isExist) {
+                isExistList.push(e)
+              }
+            })
+            //若只有两个默认8000，9000其他默认全选，有除了默认的外就只勾选选中的
+            if (isExistList.length == 2) {
+              this.tableListData.procureFactoryList.forEach((e) => {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              })
+            } else {
+              this.tableListData.procureFactoryList.forEach((e) => {
+                if (e.isExist) {
+                  this.$refs.mulitipleTable.toggleRowSelection(e, true)
+                }
+              })
+            }
+            //进入页面若没提交过则默认提交code为9000与8000的公司
+            if (isExistList.length == 0) {
+              this.tableListData.procureFactoryList.forEach((res) => {
+                if (res.companyCode == '9000' || res.companyCode == '8000') {
+                  data.push(res)
+                }
+              })
+              const parms = {
+                procureFactoryList: data,
+                supplierToken: this.$route.query.supplierToken
+              }
+              saveSupplierProcureFactory(parms).then((res) => {
+                this.$nextTick(() => {
+                   this.tableListData.procureFactoryList.forEach((e) => {
+                    this.$refs.mulitipleTable.toggleRowSelection(e, true)
+                  })
+                })
+              })
+            }
+          })
+        } else {
+          console.log(11111)
+          //转正后的默认选中
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              if (e.isExist) {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              }
+            })
+          })
+        }
+      } catch {
+        this.tableLoading = false
+      }
     },
     async getTableList(val) {
       this.tableLoading = true
@@ -193,7 +263,11 @@ export default {
           }
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
-              this.getTableList(1)
+              if(this.$route.query.subSupplierType == "GP"){
+                this.getTableList(1)
+              }else{
+                this.getTableListGP(1)
+              }
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
           })
@@ -204,7 +278,7 @@ export default {
 
       // }
       if (this.tableListData.isSelect) {
-        if (val.companyCode == '9000' || val.companyCode == '8000') {
+        if (val.isExist) {
           return false
         }
         return true

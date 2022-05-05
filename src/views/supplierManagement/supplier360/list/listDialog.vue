@@ -58,6 +58,7 @@ export default {
         supplierName: "",
         contactName: "",
         contactEmail: "",
+        supplierType:"GP",
       },
     }
   },

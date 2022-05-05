@@ -1,76 +1,142 @@
 /*flex*/
 
-.flex { display: flex }
+.flex {
+  display: flex;
+}
 
-.flex-1 { flex: 1; }
-.flex-2 { flex: 2; }
+.flex-1 {
+  flex: 1;
+}
+.flex-2 {
+  flex: 2;
+}
 
-.flex-column  { flex-direction: column }
+.flex-column {
+  flex-direction: column;
+}
 
-.flex-row     { flex-direction: row }
+.flex-row {
+  flex-direction: row;
+}
 
-.flex-wrap    { flex-wrap: wrap }
+.flex-wrap {
+  flex-wrap: wrap;
+}
 
-.items-start    { align-items: flex-start }
+.items-start {
+  align-items: flex-start;
+}
 
-.items-end      { align-items: flex-end }
+.items-end {
+  align-items: flex-end;
+}
 
-.items-center   { align-items: center }
+.items-center {
+  align-items: center;
+}
 
-.items-baseline { align-items: baseline }
+.items-baseline {
+  align-items: baseline;
+}
 
-.items-stretch  { align-items: stretch }
+.items-stretch {
+  align-items: stretch;
+}
 
-.self-start    { align-self: flex-start }
+.self-start {
+  align-self: flex-start;
+}
 
-.self-end      { align-self: flex-end }
+.self-end {
+  align-self: flex-end;
+}
 
-.self-center   { align-self: center }
+.self-center {
+  align-self: center;
+}
 
-.self-baseline { align-self: baseline }
+.self-baseline {
+  align-self: baseline;
+}
 
-.self-stretch  { align-self: stretch }
+.self-stretch {
+  align-self: stretch;
+}
 
-.justify-start   { justify-content: flex-start }
+.justify-start {
+  justify-content: flex-start;
+}
 
-.justify-end     { justify-content: flex-end }
+.justify-end {
+  justify-content: flex-end;
+}
 
-.justify-center  { justify-content: center }
+.justify-center {
+  justify-content: center;
+}
 
-.justify-between { justify-content: space-between }
+.justify-between {
+  justify-content: space-between;
+}
 
-.justify-around  { justify-content: space-around }
+.justify-around {
+  justify-content: space-around;
+}
 
-.content-start   { align-content: flex-start }
+.content-start {
+  align-content: flex-start;
+}
 
-.content-end     { align-content: flex-end }
+.content-end {
+  align-content: flex-end;
+}
 
-.content-center  { align-content: center }
+.content-center {
+  align-content: center;
+}
 
-.content-between { align-content: space-between }
+.content-between {
+  align-content: space-between;
+}
 
-.content-around  { align-content: space-around }
+.content-around {
+  align-content: space-around;
+}
 
-.content-stretch { align-content: stretch }
+.content-stretch {
+  align-content: stretch;
+}
 
-.mt20 { margin-top: 20px }
-.mt10 { margin-top: 10px }
+.mt20 {
+  margin-top: 20px;
+}
+.mt10 {
+  margin-top: 10px;
+}
 
-.ml20 { margin-left: 20px }
-.pb20{
+.ml20 {
+  margin-left: 20px;
+}
+.pb20 {
   padding-bottom: 20px;
 }
-.mb20 { margin-bottom: 20px }
-.mr20 { margin-right: 20px }
-.cursor { cursor: pointer }
+.mb20 {
+  margin-bottom: 20px;
+}
+.mr20 {
+  margin-right: 20px;
+}
+.cursor {
+  cursor: pointer;
+}
 
 .overflow-hidden {
-    overflow: hidden;
+  overflow: hidden;
 }
 .overflow-auto {
-    overflow: auto;
+  overflow: auto;
 }
-.ellipsis{
+.ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -78,7 +144,7 @@
 .center {
   width: 100%;
   height: 100%;
-  margin: auto
+  margin: auto;
 }
 .nav {
   ::v-deep .el-tabs__active-bar {
@@ -107,22 +173,21 @@
   }
 }
 
-.qs-dialog{
-
-  ::v-deep .el-dialog{
-    height: 90%;
+.qs-dialog {
+  ::v-deep .el-dialog {
+    min-height: 90%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    .el-dialog__body{
+    .el-dialog__body {
       flex: 1;
-      height: 100%;
+      min-height: 100%;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
   }
-  .content{
+  .content {
     flex: 1;
     padding: 0 10px;
     overflow-y: auto;
@@ -130,34 +195,32 @@
   }
 }
 
-.upload-btn{
+.upload-btn {
   align-items: baseline;
   color: #2369f1;
   cursor: pointer;
-  span{
-      text-decoration: underline;
+  span {
+    text-decoration: underline;
   }
 }
 
-
-.upload-txt{
+.upload-txt {
   margin-left: 20px;
-	color: #999;
+  color: #999;
 }
 
-.w-250{
+.w-250 {
   width: 250px !important;
 }
 
-.process-dialog{
-
-  ::v-deep .el-dialog{
+.process-dialog {
+  ::v-deep .el-dialog {
     max-height: 90%;
     height: auto;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    .el-dialog__body{
+    .el-dialog__body {
       flex: 1;
       height: 100%;
       overflow: hidden;
@@ -165,7 +228,7 @@
       flex-direction: column;
     }
   }
-  .content{
+  .content {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
@@ -173,7 +236,7 @@
   }
 }
 
-.no-data{
+.no-data {
   margin: 40px 0 20px;
   text-align: center;
   color: #666;

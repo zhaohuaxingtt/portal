@@ -48,3 +48,26 @@ export function commitAdmittance(params) {
     data: params
   })
 }
+
+//保存相关附件
+export function saveAttachment(params) {
+  return requst({
+    url: `/attachment/save`,
+    method: 'POST',
+    data: {
+      ...params,
+    }
+  })
+}
+
+//附件上传
+//查询-相关模板附件
+export function getTemplateList(params) {
+  return requst({
+    url: `/attachment/templateList`,
+    method: 'POST',
+    data: {
+      ...params,
+    }
+  })
+}
