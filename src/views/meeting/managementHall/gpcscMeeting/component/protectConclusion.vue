@@ -829,12 +829,12 @@ export default {
           // 临时议题 不要 11 和 12 
           for (let i = 0; i < res.length; i++) {
             if (res[i] == '11') {
-              res.splice(i,'11')
+              res.splice(i,1)
             }
           }
           for (let i = 0; i < res.length; i++) {
             if (res[i] == '12') {
-              res.splice(i,'12')
+              res.splice(i,1)
             }
           }
           this.relateCommon(res)
