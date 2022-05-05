@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2021-11-12 09:59:48
+ * @LastEditTime: 2022-04-29 16:26:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
@@ -129,7 +129,7 @@ export const TABLE_COLUMS = [
     minWidth: 120
   },
   {
-    prop: 'sPartNo',
+    prop: 'spartNo',
     label: '二次件零件号',
     minWidth: 120
   },
