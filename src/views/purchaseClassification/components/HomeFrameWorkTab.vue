@@ -129,8 +129,7 @@ export default {
           i18n: '股别',
           tooltip: false,
           headerAlign: 'center',
-          align: 'left',
-          customRender: (h, scope, column) => {}
+          align: 'center',
         },
         {
           prop: 'isActive',

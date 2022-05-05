@@ -33,7 +33,6 @@
         <el-radio-group v-model="newTypeForm.coverFile"></el-radio-group>
 
         <div class="photo-content">
-          <div class="photo-text">{{ language('请上传封面图片') }}</div>
           <ImgCutter
             class="avatar-uploader"
             fileType=".jpg, .jpeg, .png"
@@ -42,6 +41,7 @@
             :file-list="fileList"
           >
             <div slot="open">
+              <div class="photo-text">{{ language('请上传封面图片') }}</div>
               <img
                 v-if="imageUrl"
                 :src="imageUrl"
@@ -62,7 +62,7 @@
         </div>
       </iFormItem>
       <iFormItem :label="language('发布范围')">
-        <iSelect v-model="newTypeForm.scope">
+        <iSelect v-model="newTypeForm.rangeType">
           <el-option
             v-for="item in scopeOptions"
             :key="item.value"
@@ -73,10 +73,25 @@
       </iFormItem>
       <iFormItem
         :label="language('选择用户')"
-        prop="userList"
-        v-if="newTypeForm.scope === 999"
+        prop="rangeUser"
+        v-if="newTypeForm.rangeType === 15"
       >
-        <userSelector v-model="newTypeForm.userList" @change="userListChange" />
+        <userSelector
+          v-model="newTypeForm.rangeUser"
+          label-key="nameZh"
+          value-key="accountId"
+          @change="userListChange"
+        />
+      </iFormItem>
+      <iFormItem
+        :label="language('选择供应商')"
+        prop="rangeSupplier"
+        v-if="newTypeForm.rangeType === 15"
+      >
+        <supplierSelect
+          v-model="newTypeForm.rangeSupplier"
+          @change="supplierListChange"
+        />
       </iFormItem>
     </el-form>
     <div class="flex justify-end btn">
@@ -89,6 +104,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton, iSelect } from 'rise'
 import userSelector from '@/components/userSelector'
+import supplierSelect from '@/views/popupWindowManagement/components/supplierSelect'
 import ImgCutter from 'vue-img-cutter'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 import { createKnowledgeType, modifyKnowledgeTypeById } from '@/api/adminProCS'
@@ -101,7 +117,8 @@ export default {
     ImgCutter,
     iButton,
     userSelector,
-    iSelect
+    iSelect,
+    supplierSelect
   },
   props: {
     operateType: {
@@ -128,8 +145,19 @@ export default {
       }
     }
     const validateUserList = (rule, value, callback) => {
-      if (value.length === 0 && this.form.scope === 999) {
+      if (value.length === 0 && this.newTypeForm.rangeType === 15) {
         callback(new Error('请选择用户'))
+      } else {
+        callback()
+      }
+    }
+    const validateSupplierList = (rule, value, callback) => {
+      if (
+        value.length === 0 &&
+        this.newTypeForm.rangeUser.length === 0 &&
+        this.newTypeForm.rangeType === 15
+      ) {
+        callback(new Error('请选择供应商'))
       } else {
         callback()
       }
@@ -140,8 +168,9 @@ export default {
         name: '',
         enName: '',
         coverFile: '',
-        scope: 1,
-        userList: []
+        rangeType: 0,
+        rangeUser: [],
+        rangeSupplier: []
       },
       newTypeRules: {
         name: {
@@ -155,7 +184,8 @@ export default {
           message: this.language('请上传文件'),
           trigger: 'change'
         },
-        userList: [{ validator: validateUserList, trigger: 'change' }]
+        rangeUser: [{ validator: validateUserList, trigger: 'change' }],
+        rangeSupplier: [{ validator: validateSupplierList, trigger: 'change' }]
       },
       imgCutterRate: '16 : 9',
       fileList: [],
@@ -166,67 +196,67 @@ export default {
       scopeOptions: [
         {
           label: '全体用户',
-          value: 1
+          value: 0
         },
         {
           label: '全体采购员工用户',
-          value: 2
+          value: 1
         },
         {
           label: '全体内部员工用户',
-          value: 3
+          value: 2
         },
         {
           label: '全体供应商用户',
-          value: 4
+          value: 3
         },
         {
           label: '全体供应商主联系人用户',
-          value: 5
+          value: 4
         },
         {
           label: '全体生产采购供应商用户',
-          value: 6
+          value: 5
         },
         {
           label: '全体生产采购供应商主联系人用户',
-          value: 7
+          value: 6
         },
         {
           label: '全体生产采购正式供应商用户',
-          value: 8
+          value: 7
         },
         {
           label: '全体生产采购正式供应商主联系人用户',
-          value: 9
+          value: 8
         },
         {
           label: '全体一般采购供应商用户',
-          value: 10
+          value: 9
         },
         {
           label: '全体一般采购供应商主联系人用户',
-          value: 11
+          value: 10
         },
         {
           label: '全体一般采购正式供应商用户',
-          value: 12
+          value: 11
         },
         {
           label: '全体一般采购正式供应商主联系人用户',
-          value: 13
+          value: 12
         },
         {
           label: '全体N_Tier供应商用户',
-          value: 14
+          value: 13
         },
         {
           label: '全体N_Tier供应商主联系人用户',
-          value: 15
+          value: 14
         },
         {
           label: '自定义',
-          value: 999
+          value: 15
         }
       ]
     }
@@ -265,7 +295,6 @@ export default {
       let form = new FormData()
       form.append('file', content.file)
       form.append('applicationName', 'popupImage')
-      console.log(content, '12345')
       this.coverFile = content.dataURL
       uploadFileWithNOTokenTwo(form).then((result) => {
         if (result.code == '200') {
@@ -295,7 +324,15 @@ export default {
               this.newTypeForm.coverFileName = this.imgName
                 ? this.imgName
                 : this.newTypeForm.coverFileName
-
+              if (this.newTypeForm.rangeUser) {
+                this.newTypeForm.rangeUser = this.newTypeForm.rangeUser.map(
+                  (e) => e.accountId
+                )
+              }
+              if (this.newTypeForm.rangeSupplier) {
+                this.newTypeForm.rangeSupplier =
+                  this.newTypeForm.rangeSupplier.map((e) => e.id)
+              }
               let formData = new FormData()
               Object.keys(this.newTypeForm).forEach((key) => {
                 formData.append(key, this.newTypeForm[key])
@@ -317,6 +354,15 @@ export default {
               // this.newTypeForm.coverFile = this.imageUrl || ""
 
               this.newTypeForm.coverFileName = this.imgName
+              if (this.newTypeForm.rangeUser) {
+                this.newTypeForm.rangeUser = this.newTypeForm.rangeUser.map(
+                  (e) => e.accountId
+                )
+              }
+              if (this.newTypeForm.rangeSupplier) {
+                this.newTypeForm.rangeSupplier =
+                  this.newTypeForm.rangeSupplier.map((e) => e.id)
+              }
               let formData = new FormData()
               Object.keys(this.newTypeForm).forEach((key) => {
                 formData.append(key, this.newTypeForm[key])
@@ -342,17 +388,58 @@ export default {
     },
     initModify(currVa) {
       console.log(currVa, '1111')
+      const row = _.cloneDeep(currVa)
       this.modifyFlag = true
-      this.modifyTypeId = currVa.id
+      this.modifyTypeId = row.id
       // this.newTypeForm = JSON.parse(JSON.stringify(currVa))
-      this.newTypeForm.name = currVa.name
-      this.newTypeForm.enName = currVa.enName
+      this.newTypeForm.name = row.name
+      this.newTypeForm.enName = row.enName
+      this.newTypeForm.rangeType = row.rangeType
+      if (row.rangeUser) {
+        console.log('row.rangeUser', row.rangeUser)
+        this.newTypeForm.rangeUser = row.rangeUser.map((e) => {
+          return {
+            nameZh: e.name,
+            accountId: parseInt(e.accountId)
+          }
+        })
+      } else {
+        this.newTypeForm.rangeUser = []
+      }
+      if (row.rangeSupplier) {
+        this.newTypeForm.rangeSupplier = row.rangeSupplier.map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            accountId: parseInt(e.id)
+          }
+        })
+      } else {
+        this.newTypeForm.rangeSupplier = []
+      }
+
       this.imageUrl = currVa?.cover.split('uploader/')[1]
       this.newTypeForm.coverFile = this.imageUrl
       this.newTypeForm.coverFileName = `${currVa.name}.png`
     },
     userListChange(val) {
-      this.newTypeForm.userList = val
+      this.newTypeForm.rangeUser = val
+        .filter((e) => e.accountId)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            accountId: parseInt(e.accountId)
+          }
+        })
+    },
+    supplierListChange(val) {
+      this.newTypeForm.rangeSupplier = val
+        .filter((e) => e.subSupplierId)
+        .map((e) => {
+          return {
+            nameZh: e.name || e.nameZh,
+            id: parseInt(e.subSupplierId)
+          }
+        })
     }
   },
   computed: {

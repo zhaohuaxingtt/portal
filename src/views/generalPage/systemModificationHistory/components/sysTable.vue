@@ -22,7 +22,18 @@
         :index="true"
         @handleSelectionChange="handleSelectionChange"
         border
-    />
+    >
+      <!-- 变更前 -->
+      <template #beforeValue="scope">
+        <span class="value_click" v-if="scope.row.beforeValue" @click="upload(scope.row.beforeValue)">{{scope.row.beforeValue}}</span>
+        <span v-else>{{scope.row.beforeValue}}</span>
+      </template>
+      <!-- 变更后 -->
+      <template #afterValue="scope">
+        <span class="value_click" v-if="scope.row.afterValue" @click="upload(scope.row.afterValue)">{{scope.row.afterValue}}</span>
+        <span v-else>{{scope.row.afterValue}}</span>
+      </template>
+    </table-list>
   </i-card>
 </template>
 
@@ -31,6 +42,7 @@ import {iCard, iButton} from "rise";
 import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import {tableTitle} from './data'
+import { downloadUdFile } from '@/api/file'
 import {getSupplierEditList} from "../../../../api/supplier360/systemModificationHistory";
 
 
@@ -53,6 +65,9 @@ export default {
     this.getTableList()
   },
   methods: {
+    async upload(val){
+      await downloadUdFile(val)
+    },
     async getTableList(otherParams = {}) {
       this.tableLoading = true
       const req = {
@@ -72,6 +87,11 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.value_click{
+  color:#1763F7;
+  text-decoration:underline;
+  font-weight:bold;
+  cursor: pointer;
+}
 </style>

@@ -7,7 +7,7 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="openNav">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -103,7 +103,6 @@ export default {
   props: {},
   components: {
     iCard,
-
     iDialog,
     iSearch,
     iSelect,
@@ -116,6 +115,12 @@ export default {
         return []
       }
     },
+    supplier360ViewVO:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    }
   },
   data () {
     return {
@@ -143,6 +148,9 @@ export default {
     }
   },
   methods: {
+    openNav(){
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/csc/myCsc?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+    },
     sure () { },
     clickReset () { },
     changeTab () { }

@@ -137,6 +137,12 @@ export default {
           reject()
         }
       })
+    },
+    insertHtml(html) {
+      if (!html) {
+        return
+      }
+      this.editor.cmd.do('insertHTML', html)
     }
   }
 }
