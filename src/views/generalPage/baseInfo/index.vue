@@ -150,6 +150,7 @@ export default {
             })
             this.supplierComplete.gpSupplierDetails = tableDataList;
           }
+          
           // this.supplierComplete.gpSupplierDetails.forEach(e=>{
           //   // if(e.businessBuyerEmail){
           //     e.industryPosition = "Y";

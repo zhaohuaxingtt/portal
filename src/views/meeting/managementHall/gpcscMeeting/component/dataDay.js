@@ -6,7 +6,7 @@ import dayjs from '@/utils/dayjs.js';
 // 会议列表查询字段
 export const MEETING_SEARCH_DATA = {
     name: null,
-    meetingTypeId: null,
+    meetingTypeIds: [],
     startDateBegin: null,
     startDateEnd: null,
     states: [],
