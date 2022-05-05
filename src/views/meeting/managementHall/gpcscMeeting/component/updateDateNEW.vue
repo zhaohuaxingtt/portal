@@ -134,8 +134,8 @@ import { iDialog, iPagination, iButton, iInput, iSelect, iDatePicker, iMessage }
 import { MEETING_SEARCH_DATA, MEETING_TABLE_COLUMNS,  weekListInit } from './dataDay'
 import dayjs from '@/utils/dayjs.js'
 import { pageMixins } from '@/utils/pageMixins'
-import { getMettingType } from '@/api/meeting/type'
-import { findToReschedule , rescheduleThemen , findByPageForGP} from '@/api/meeting/gpMeeting'
+// import { getMettingType } from '@/api/meeting/type'
+import { findToReschedule , rescheduleThemen , findByPageForGP ,findByReschedule} from '@/api/meeting/gpMeeting'
 export default {
    mixins: [pageMixins],
    components: {
@@ -225,15 +225,16 @@ export default {
         })
       })
     },
-    //会议类型  后面说还要改
+    //会议类型  后面说还要改  /meetingTypeService/findByReschedule
     getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true
+        isCurrentUser: true,
+        meetingId: this.$route.query.id,
       }
-      getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data.map(item => 
+      findByReschedule(param).then((res) => {
+        this.meetingTypeList = res.map(item => 
         ({id: Number(item.id), name: item.name}))
       })
     },
