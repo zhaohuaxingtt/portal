@@ -107,8 +107,8 @@ export const baseInfoTitleGP = [
         required: true,
         icons: "",
         tip: "",
-        permission: 'SUPPLIER_BASEINFO_SUPPLIERZH',
-        // permission: 'SUPPLIER_BASEINFO_SUPPLIERZH_GP',
+        // permission: 'SUPPLIER_BASEINFO_SUPPLIERZH',
+        permission: 'SUPPLIER_BASEINFO_SUPPLIERZH_GP',
         disabled:true
     },
     {
@@ -117,8 +117,8 @@ export const baseInfoTitleGP = [
         required: true,
         icons: "iconxinxitishi",
         tip: "SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS",
-        permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH',
-        // permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH_GP',
+        // permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH',
+        permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONZH_GP',
         disabled:true
     },
     {
@@ -127,8 +127,8 @@ export const baseInfoTitleGP = [
         required: true,
         icons: "",
         tip: "",
-        permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE',
-        // permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE_GP',
+        // permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE',
+        permission: 'SUPPLIER_BASEINFO_UNIFYSOCIALCREDITCODE_GP',
         disabled:true
     },
     {
@@ -137,8 +137,8 @@ export const baseInfoTitleGP = [
         required: true,
         icons: "",
         tip: "",
-        // permission: 'SUPPLIER_BASEINFO_SUPPLIEREN_GP',
-        permission: 'SUPPLIER_BASEINFO_SUPPLIEREN',
+        permission: 'SUPPLIER_BASEINFO_SUPPLIEREN_GP',
+        // permission: 'SUPPLIER_BASEINFO_SUPPLIEREN',
         disabled:true
     },
     {
@@ -147,8 +147,8 @@ export const baseInfoTitleGP = [
         required: true,
         icons: "iconxinxitishi",
         tip: "SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS",
-        permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN',
-        // permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN_GP',
+        // permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN',
+        permission: 'SUPPLIER_BASEINFO_SUPPLIERABBREVIATIONEN_GP',
         disabled:true
     },
     {
@@ -157,8 +157,8 @@ export const baseInfoTitleGP = [
         required: false,
         icons: "iconxinxitishi",
         tip: "SUPPLIER_DUNSTIPS",
-        permission: 'SUPPLIER_BASEINFO_DUNS',
-        // permission: 'SUPPLIER_BASEINFO_DUNS_GP',
+        // permission: 'SUPPLIER_BASEINFO_DUNS',
+        permission: 'SUPPLIER_BASEINFO_DUNS_GP',
         disabled:true
     },
     {
@@ -167,8 +167,8 @@ export const baseInfoTitleGP = [
         required: false,
         icons: "",
         tip: "",
-        permission: 'SUPPLIER_BASEINFO_SAPNO',
-        // permission: 'SUPPLIER_BASEINFO_SAPNO_GP',
+        // permission: 'SUPPLIER_BASEINFO_SAPNO',
+        permission: 'SUPPLIER_BASEINFO_SAPNO_GP',
         disabled:true
     },
     {
@@ -177,8 +177,8 @@ export const baseInfoTitleGP = [
         required: false,
         icons: "",
         tip: "",
-        permission: 'SUPPLIER_BASEINFO_TEMPNO',
-        // permission: 'SUPPLIER_BASEINFO_TEMPNO_GP',
+        // permission: 'SUPPLIER_BASEINFO_TEMPNO',
+        permission: 'SUPPLIER_BASEINFO_TEMPNO_GP',
         disabled:true
     },
     {
@@ -187,8 +187,8 @@ export const baseInfoTitleGP = [
         required: false,
         icons: "",
         tip: "",
-        permission: 'SUPPLIER_BASEINFO_SVW_NO',
-        // permission: 'SUPPLIER_BASEINFO_SVW_NO_GP',
+        // permission: 'SUPPLIER_BASEINFO_SVW_NO',
+        permission: 'SUPPLIER_BASEINFO_SVW_NO_GP',
         disabled:true
     },
     {
@@ -197,8 +197,8 @@ export const baseInfoTitleGP = [
         required: false,
         // icons: "iconxinxitishi",
         // tip: "SUPPLIER_VWCODETIP",
-        permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE',
-        // permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE_GP',
+        // permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE',
+        permission: 'SUPPLIER_BASEINFO_SUPPLIERTYPE_GP',
         disabled:true
     },
     // {
