@@ -1,7 +1,7 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-14 17:50:00
- * @LastEditors: YoHo
+ * @LastEditors: Please set LastEditors
  * @Description: 财务数据
  */
 import { getDictByCode } from '@/api/dictionary'
@@ -15,7 +15,12 @@ export const tableTitle = [
     required: true,
     rule: [{ required: true, message: '请输入', trigger: 'blur' }]
   },
-  { props: 'dataChannelName', name: '数据渠道', key: 'SUPPLIER_SHUJUQUDAO', width: 120, },
+  {
+    props: 'dataChannelName',
+    name: '数据渠道',
+    key: 'SUPPLIER_SHUJUQUDAO',
+    width: 120
+  },
   {
     props: 'startAccountCycle',
     name: '会计周期起',
@@ -80,7 +85,12 @@ export const tableTitle = [
     required: true,
     rule: [{ required: true, message: '请选择', trigger: 'blur' }]
   },
-  { props: 'dataTime', name: '上传时间', key: 'SUPPLIER_SHANGCHUANSHIJIAN', width: 180 },
+  {
+    props: 'dataTime',
+    name: '上传时间',
+    key: 'SUPPLIER_SHANGCHUANSHIJIAN',
+    width: 180
+  },
   { props: 'operation', name: '操作', key: 'LK_CAOZUO' }
 ]
 export const supplierDataTableTitle = [
@@ -135,7 +145,7 @@ export const getComparisonTableTitle = function (tabTitle, data, info) {
   dataComparisonTableTitle.push({ props: '', name: '' })
   dataComparisonTableTitle[1]['rule'] = [
     {
-      pattern: /^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$/,
+      pattern: /^[\-\+]?\d+([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$/,
       message: '请输入正确的格式',
       trigger: 'change'
     }
