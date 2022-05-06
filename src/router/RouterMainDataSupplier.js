@@ -36,11 +36,20 @@ export default [
         path: 'n-tier',
         name: 'MainDataSupplierUser',
         meta: {
-          title: '车型主数据管理',
+          title: 'N-Tier供应商信息',
           activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainDataSupplier/N-Tier')
-      }
+      },
+      {
+        path: 'dis-up',
+        name: 'MainDataSupplierUser',
+        meta: {
+          title: '分散内部报销供应商信息',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
+        },
+        component: () => import('@/views/mainDataSupplier/Dis-Up')
+      },
     ]
   }
 ]

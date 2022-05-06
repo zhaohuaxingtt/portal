@@ -193,3 +193,11 @@ export function finish(data) {
     data
   })
 }
+
+//股别
+export function getAllBelongOrgList(data) {
+  return requstcg({
+    url: `/getAllBelongOrgList`,
+    method: 'get',
+  })
+}

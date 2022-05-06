@@ -1,9 +1,9 @@
 /*
  * @Author: YoHo
  * @Date: 2022-04-01 10:32:02
- * @LastEditTime: 2022-04-01 10:37:50
- * @LastEditors: YoHo
- * @Description: 
+ * @LastEditTime: 2022-04-26 15:02:37
+ * @LastEditors: Please set LastEditors
+ * @Description:
  */
 export default {
   DANGANGUANLI: 'Archives Management',
@@ -19,4 +19,9 @@ export default {
   NJIGONGYINGLIANWEIHU: 'N-tier Supply chain maintenance',
   JITUANGONGSI: 'Group Company',
   VWHAOZHUANGTAI: 'VW Status',
+  GONGYINGSHANGZUGUANLI: 'Supplier Group Management',
+  QUERENSHANCHUGONGYINGSHANGZU: 'Are you sure to delete the supplier group?',
+  GONGYINGSHANGZUBIAOQIAN: 'Supplier Group Tag',
+  BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO:
+    'The primary contact cannot be deleted. Please set another account as the primary contact before deleting this account'
 }

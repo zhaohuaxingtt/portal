@@ -48,6 +48,14 @@ export const tabRouterList = [
     activePath: '/supplier/NTier',
     key: 'NJIGONGYINGLIAN',
     permissionKey: 'WORKBENCH_N_LEVEL_SUPPLIER'
+  },
+  {
+    value: 5,
+    name: '供应商组管理',
+    url: '/supplier/suppliergroupmanagement',
+    activePath: '/supplier/suppliergroupmanagement',
+    key: 'GONGYINGSHANGZUGUANLI',
+    // permissionKey: 'WORKBENCH_SUPPLIER_GROUP_MANAGEMENT'
   }
   //   {
   //     value: 6,
@@ -56,6 +64,25 @@ export const tabRouterList = [
   //     activePath: '/supplier/supplierTag',
   //     key: '供应商标签库',
   //   },
+]
+
+export const tabRouterListGP = [
+  {
+    value:1,
+    name: '供应商360',
+    url: '/supplier/supplierListGP',
+    activePath: '/supplierListGP',
+    key: 'GONGYINGSHANGLIST',
+    permissionKey: 'SUPPLIER_WORKBENCH_360_GP'
+  },
+  {
+    value:2,
+    name: '分散（内部报销）供应商',
+    url: '/supplier/supplierListDis',
+    activePath: '/supplierListDis',
+    key: 'FENSANNEIBUBAOXIAOGONGYINGSHANG',
+    permissionKey: 'SUPPLIER_DISPERSEDSUPPLIER_GP'
+  },
 ]
 
 export const categoryManagementAssistantList = [

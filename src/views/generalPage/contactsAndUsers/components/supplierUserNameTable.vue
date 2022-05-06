@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: YoHo
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierUserNameTable.vue
 -->
@@ -11,7 +11,8 @@
       <span class="font18 font-weight">{{
         $t('SUPPLIER_GONGYINGSHANGXINGMING')
       }}</span>
-      <div class="floatright">
+      <div class="floatright"
+           v-if="$route.query.subSupplierType!=='GP'">
         <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE"
                   v-if="this.supplierType === 4"
                   @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
@@ -31,17 +32,32 @@
                   @click="exportsTableHandler"
                   v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
+      <div class="floatright"
+           v-if="$route.query.subSupplierType=='GP'">
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(false)">{{ $t('SUPPLIER_DONGJIE') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE_GP"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(true)">{{ $t('SUPPLIER_JIEDONG') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT_GP"
+                  @click="exportsTableHandler"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+      </div>
     </div>
-     <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_USER" -->
-    <table-list
-                ref="commonTable"
+    <!-- v-permission="SUPPLIER_SUPPLIERCONTACT_USER" -->
+    <table-list ref="commonTable"
                 :tableData="tableListData"
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
                 border
                 :index="true">
-      <template #isDefault="scope">
+      <template #isDefault="scope"
+                v-if="$route.query.subSupplierType!=='GP'">
         <icon v-if="scope.row.isDefault === true"
               name="iconsheweizhuyonghu1"
               symbol></icon>
@@ -102,12 +118,12 @@
 import { iCard, iButton, iMessage, icon, iMessageBox, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { supplierUserNameTableTitle } from './data'
+import { supplierUserNameTableTitle, supplierUserNameTableTitleGP } from './data'
 import {
   saveUser,
   selectUser,
   deleteUser,
-  freeze, unFreeze,appOperateAuth
+  freeze, unFreeze, appOperateAuth
 } from '../../../../api/register/contactsAndUsers'
 import supplierUserNameDialog from './supplierUserNameDialog'
 import tipDialog from './tipDialog'
@@ -130,7 +146,9 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: supplierUserNameTableTitle,
+      tableTitle: [],
+      supplierUserNameTableTitle,
+      supplierUserNameTableTitleGP,
       tableLoading: false,
       selectTableData: [],
       userNameDialog: false,
@@ -148,6 +166,8 @@ export default {
     }
   },
   created () {
+    this.tableTitle = this.$route.query.subSupplierType == 'GP' ? this.supplierUserNameTableTitleGP : this.supplierUserNameTableTitle
+
     this.userType = this.$store.state.permission.userInfo.userType
     this.isMainContact = this.$store.state.permission.userInfo.isMainContact
     this.opcsCompanyNameZh =
@@ -199,16 +219,16 @@ export default {
       this.tipDialogFlag = 0
     },
     handleDialog (row) {
-         appOperateAuth({},this.supplierType).then(res=>{
-           if(res&&res.code==200){
-                if(res.data){
-                this.rowList = row
-                this.userNameDialog = true
-            }
-            }else{
-                iMessage.error(res.desZh)
-            }
-        })
+      appOperateAuth({}, this.supplierType).then(res => {
+        if (res && res.code == 200) {
+          if (res.data) {
+            this.rowList = row
+            this.userNameDialog = true
+          }
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
     },
     tableTitles () {
       if (this.$route.query.supplierType <= 3) {
@@ -282,9 +302,17 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
+      // if (this.selectTableData.map(item => item.isDefault).indexOf('true') > -1) {
+      // let item
+      // // }
+      for (var i = 0, item; item = this.selectTableData[i++];) {
+        console.log(item, "hahahah")
+        if (item.isDefault) return iMessage.error(this.language('BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO', '不可删除主联系人，请先设置其他账号为主联系人后，再删除该账号'))
       }
+      // for (let i = 0; i < this.selectTableData.length; i++) {
+      //   let item = this.selectTableData[i]
+      //   if (item.isDefault) return iMessage.error(this.language('BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO', '不可删除主联系人，请先设置其他账号为主联系人后，再删除该账号'))
+      // }
       iMessageBox(
         this.$t('LK_SHIFOUQUERENSHANCHU'),
         this.$t('LK_WENXINTISHI'),

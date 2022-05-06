@@ -188,3 +188,8 @@ export const baseRules = {
     }
   ]
 }
+
+
+export const supplierRegister = [
+  
+]

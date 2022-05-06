@@ -5,14 +5,15 @@
  -->
 <template>
   <div class="baseInfo">
-    <div class="save margin-bottom20">
-      <iButton @click="saveInfos()"
-               v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL">保存</iButton>
+    <div class="save margin-bottom20" v-if="$route.path=='/supplier/view-suppliers'">
+      <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL_GP" v-if="$route.query.subSupplierType=='GP'">保存</iButton>
+      <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL" v-if="$route.query.subSupplierType!=='GP'">保存</iButton>
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
-    <baseInfoCard ref="baseInfoCard" />
-    <buyer ref="buyer"
+    <baseInfoCard ref="baseInfoCard" class="margin-bottom20"/>
+    <linie ref="linie" :supplierData="supplierComplete.gpSupplierDetails" v-if="$route.query.subSupplierType=='GP'" class="margin-bottom20"></linie>
+    <buyer ref="buyer" v-if="$route.query.subSupplierType!=='GP'"
            :supplierData="supplierComplete.supplierDTO"
            disabled
            class="margin-bottom20"></buyer>
@@ -28,6 +29,7 @@
                      v-if="isPP">
     </operationStatus>
     <!-- 开户银行 -->
+              <!-- v-if="$route.path!=='/supplier/view-suppliers'" -->
     <opneBank ref="opneBank"
               :country="country"
               :supplierData="supplierComplete"
@@ -48,8 +50,9 @@ import {
   iMessage
 } from 'rise';
 import {
-  supplierComplete
+  supplierComplete,tableData
 } from "./components/data";
+import linie from './components/linie'
 import {
   saveInfos,
   supplierDetail
@@ -61,10 +64,8 @@ import {
 import {
   generalPageMixins
 } from '@/views/generalPage/commonFunMixins';
-// import basic from "../home/components/basic";
 import companyProfile from "./components/companyProfile"
 import supplyStatus from './components/supplyStatus';
-// import comment from './components/comment';
 import operationStatus from './components/operationStatus';
 import opneBank from './components/opneBank';
 import buyer from "../home/components/buyer";
@@ -84,13 +85,15 @@ export default {
     opneBank,
     iButton,
     buyer,
-    baseInfoCard
+    baseInfoCard,
+    linie,
   },
   data () {
     return {
       supplierComplete, //详情信息入参
       fromGroup: {}, //下拉框值
-      country: []
+      country: [],
+      tableData,
     }
   },
   created () {
@@ -122,20 +125,57 @@ export default {
           let baseInfo = this.reView(res.data)
           this.$parent.$parent.onLoading = false
           baseInfo.supplierInfoVo.isListing = baseInfo.supplierInfoVo.isListing.toString()
-          if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo
-            .gpSupplierInfoVO
+          if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo.gpSupplierInfoVO
           if (baseInfo.ppSupplierInfoVo) {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
             this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
           }
+          if(baseInfo.gpSupplierDetails){
+            baseInfo.gpSupplierDetails.forEach(e=>{
+              e.industryPosition = "Y";
+            })
+
+            this.supplierComplete.gpSupplierDetails = _.cloneDeep(baseInfo.gpSupplierDetails)
+
+            var tableDataList = _.cloneDeep(this.tableData)
+            tableDataList.forEach(e=>{
+              this.supplierComplete.gpSupplierDetails.forEach(item =>{
+                if(e.businessType == item.businessType){
+                  e = Object.assign(e,item);
+                }
+              })
+            })
+            this.supplierComplete.gpSupplierDetails = tableDataList;
+          }
+          
+          // this.supplierComplete.gpSupplierDetails.forEach(e=>{
+          //   // if(e.businessBuyerEmail){
+          //     e.industryPosition = "Y";
+          //   // }
+          // })
+
+          if(baseInfo.subBankVos){
+            this.supplierComplete.subBankList = baseInfo.subBankVos
+          }
+
+          if(baseInfo.gpSupplierBankNoteVO){
+            this.supplierComplete.gpSupplierBankNoteDTO = baseInfo.gpSupplierBankNoteVO
+          }
+
           if (baseInfo.settlementBankVo) {
             if (!baseInfo.settlementBankVo.bankTaxCode || baseInfo.settlementBankVo.bankTaxCode == '') {
               baseInfo.settlementBankVo.bankTaxCode = baseInfo.supplierInfoVo.socialcreditNo
             }
             this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
-
           }
-          if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
+          if (baseInfo.supplierInfoVo){
+            if(this.supplierComplete.supplierDTO.supplierType == "GP"){
+              this.supplierComplete.supplierDTO.svwTempCode = this.supplierComplete.gpSupplierDTO.svwTempCode
+              this.supplierComplete.supplierDTO.svwCode = this.supplierComplete.gpSupplierDTO.svwCode
+            }
+            this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
+            this.supplierComplete.supplierDTO.address = baseInfo.supplierInfoVo.companyAddress
+          }
           // 如果是查看修改 需要从不同的表获取 基础信息
           // if (baseInfo.gpSupplierInfoVO) {
           // 	baseInfo.supplierInfoVo.svwTempCode = baseInfo.gpSupplierInfoVO.svwTempCode
@@ -150,11 +190,17 @@ export default {
           this.$refs.baseInfoCard.changeTitle()
           //如果有详情，则获取下拉框数据 回显
           this.$refs.companyProfile.changeListing()
+
           if (this.supplierComplete.supplierDTO.epNatureCategory) this.$refs.companyProfile.getEpNatureSubcategorySelect()
           if (this.supplierComplete.supplierDTO.countryCode) this.$refs.companyProfile.getCity()
           if (this.supplierComplete.supplierDTO.provinceCode) this.$refs.companyProfile.getProvince()
           if (this.supplierComplete.settlementBankDTO.countryCode) this.$refs.opneBank.getBankProvince()
           if (this.supplierComplete.settlementBankDTO.provinceCode) this.$refs.opneBank.getBankCity()
+          if (this.supplierComplete.gpSupplierBankNoteDTO.country) this.$refs.opneBank.getYP()
+          if (this.supplierComplete.subBankList) this.$refs.opneBank.getSubBank()
+
+
+          this.$forceUpdate();
         }
       })
     },
@@ -177,7 +223,7 @@ export default {
     basicChange (data) {
       for (let i in data) {
         this.supplierComplete.supplierDTO[i] = data[i]
-      }
+      }                                      
     },
     // 保存基本信息
     saveInfos (step = '') {
@@ -188,21 +234,39 @@ export default {
           this.$refs.opneBank.getCityName()
           let data = {
             stepCode: 'submit',
+            step:"submit",
             supplierDTO: this.supplierComplete.supplierDTO,
             settlementBankDTO: this.supplierComplete.settlementBankDTO
           }
           // 判断是一般还是生产供应商 减去相应参数
           if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
+            if(this.supplierComplete.gpSupplierDetails.length>0){
+              this.supplierComplete.gpSupplierDetails.forEach(e=>{
+                if(!e.supplierId){
+                  e.supplierId = this.$route.query.supplierId;
+                }
+              })
+            }
+
+            data.gpSupplierDetailDTO=this.supplierComplete.gpSupplierDetails;
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
+            data.gpSupplierSubBankListSaveDTO = {};
+            data.gpSupplierSubBankListSaveDTO.list = this.supplierComplete.subBankList;
+            data.gpSupplierBankNoteDTO = this.supplierComplete.gpSupplierBankNoteDTO;
+
+            data.supplierDTO.companyAddress = this.supplierComplete.supplierDTO.address
           } else {
             data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
           }
+
           saveInfos(data, this.supplierType).then(res => {
             if (res.data) {
               iMessage.success('保存成功')
+              this.supplierDetail();
               if (step === 'submit') {
                 const req = {
                   stepCode: 'submit',
+                  step:"submit",
                   userId: this.$store.state.permission.userInfo.id
                 }
                 baseInfoSubmit(req).then((res) => {
