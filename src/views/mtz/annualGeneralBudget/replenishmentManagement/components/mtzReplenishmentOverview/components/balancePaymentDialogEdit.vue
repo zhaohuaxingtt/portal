@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-06 15:43:49
+ * @LastEditTime: 2022-05-06 19:30:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -460,6 +460,7 @@ export default {
           this.offsetLoading = false
         } else {
           iMessage.error(res.desZh)
+          this.offsetLoading = false
         }
       })
     },
