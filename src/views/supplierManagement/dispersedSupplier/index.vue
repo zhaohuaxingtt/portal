@@ -77,14 +77,21 @@
                    :current-page="page.currPage"
                    :total="page.totalCount" />
     </iCard>
+
+    <!-- 标签设置 -->
+    <setTagdilog @closeDiolog="closeDiolog"
+                v-model="isSetTag"
+                :selectTableData="listData"
+                v-if="isSetTag">
+    </setTagdilog>
   </div>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
-import { iSearch,iSelect,iInput,iCard,iButton,iPagination } from "rise";
+import { iSearch,iSelect,iInput,iCard,iButton,iPagination,iMessage } from "rise";
 import { pageMixins } from '@/utils/pageMixins'
-
+import setTagdilog from '../supplier360/list/components/setTag'
 import { dropDownTagName,pageInner} from '@/api/supplierManagement/supplierTag/index'
 import { tableTitle } from "./data"
 
@@ -98,7 +105,8 @@ export default {
         iCard,
         iButton,
         tableList,
-        iPagination
+        iPagination,
+        setTagdilog
     },
     data(){
         return{
@@ -115,6 +123,7 @@ export default {
             },
             tagdropDownList: [],
             listData:[],
+            isSetTag:false,
         }
     },
     created(){
@@ -122,6 +131,27 @@ export default {
       this.getTableList();
     },
     methods:{
+      closeDiolog (v) {
+        if (v == 1) {
+          this.sure()
+        }
+        this.isSetTag = false
+      },
+      //标签设置弹窗
+      setTagBtn () {
+        if (this.listData.length == 0) {
+          iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        } else this.isSetTag = true
+      },
+      tagTab () {
+        let routeData = this.$router.resolve({
+          path: '/supplier/supplierTag',
+          query: {
+            supplierType:"GP",
+          }
+        })
+        window.open(routeData.href)
+      },
       exportsTableEdit(){
         if(this.listData.length == 1){
           this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {
@@ -158,7 +188,10 @@ export default {
       changTag () {
           this.form.tagNameList = []
           //获取标签列表
-          dropDownTagName({ isMeRelated: 0 }).then((res) => {
+          dropDownTagName({
+            isMeRelated: 0,
+            type:this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"?2:""
+          }).then((res) => {
               if (res && res.code == 200) {
               this.tagdropDownList = res.data
               }
