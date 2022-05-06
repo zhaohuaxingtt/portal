@@ -2,7 +2,7 @@
   <iCard style="height:25rem">
     <div class="title">
       <p>{{$t('DINGDIANJINE')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More">
+      <el-dropdown v-permission="Card_Sourcing_More" v-if="!isShow">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -11,13 +11,25 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="center">
+    <div class="center" v-if="!isShow">
       <div id="echart1" ref="echart1"></div>
       <img :src="img" class="imgIcon" />
       <div id="echart2" ref="echart2"></div>
       <!-- <div class="nomore">
         {{language('GAIGONGYINGSHANGZANWUYUQINGXINWEN', '该供应商暂无舆情新闻')}}
       </div> -->
+    </div>
+
+
+
+    <div v-if="isShow" style="height:90%">
+      <span style="font-size:18px;color:rgba(107, 121, 149, 0.56);margin-bottom: 5px;
+        display: flex;
+        height: 100%;
+        position: relative;
+        align-items: center;
+        justify-content: center;">{{language('GONGYINGSHANGZHANWUYEWUSHUJU', '供应商暂无该业务数据')}}
+      </span>
     </div>
   </iCard>
 </template>
@@ -55,7 +67,8 @@ export default {
         dataAll:[],
         dataY:[],
         echart2:null,
-        info:{}
+        info:{},
+        isShow:false,
     }
   },
   created(){
@@ -73,6 +86,10 @@ export default {
         }
       },
       gpOrderVo(val){
+        if(val.length < 1){
+            this.isShow=true;
+            return false;
+        }
         this.dataAll = val;
         var name = [];
         var table = [];

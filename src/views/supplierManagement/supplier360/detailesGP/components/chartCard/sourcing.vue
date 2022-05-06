@@ -2,7 +2,7 @@
   <iCard style="height:25rem">
     <div class="title">
       <p>{{language('XUNYUAN', '寻源')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More">
+      <el-dropdown v-permission="Card_Sourcing_More" v-if="!isShow">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -11,12 +11,10 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="center">
-      <!-- <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span> -->
+    <div class="center" v-if="!isShow">
       <img :src="img"
            class="imgIcon" />
       <div class="float">
-
         <table cellpadding='10'>
           <tr class="cardtableTitle">
             <th>Group</th>
@@ -32,66 +30,18 @@
           </tr>
         </table>
       </div>
-
     </div>
-    <!-- <iDialog @close="closeDiolog()"
-             :visible.sync="visible"
-             width="85%">
-      <el-tabs class="tabsHeader"
-               type="card"
-               style="margin-left:20px;"
-               v-model="tabVal"
-               @tab-click="changeTab">
-        <el-tab-pane name="1"
-                     :label="
-            language('SHISHICRATINGGONGYINGSHANGQINGDAN', '实时C-Rating供应商清单')
-          ">
-        </el-tab-pane>
-        <el-tab-pane name="2"
-                     :label="language('CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG', 'C-Rating供应商询价定点情况')">
-        </el-tab-pane>
-      </el-tabs>
-      <iSearch @reset="clickReset"
-               tabCard
-               @sure="sure"
-               :icon="true">
-        <el-form inline
-                 label-position="top">
-          <el-form-item :label="language('SAPHAO', 'SAP号')">
-            <iSelect collapse-tags
-                     filterable
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.purchaserIds">
-              <el-option v-for="item in purchaseList"
-                         :key="item.purchaserId"
-                         :label="item.purchaserName"
-                         :value="item.purchaserId">
-              </el-option>
-            </iSelect>
 
-          </el-form-item>
-        </el-form>
-      </iSearch>
-      <p class="tableTitle">
-        详情列表
-      </p>
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitor"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitorRecord"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-    </iDialog> -->
+
+    <div v-if="isShow" style="height:90%">
+      <span style="font-size:18px;color:rgba(107, 121, 149, 0.56);margin-bottom: 5px;
+        display: flex;
+        height: 100%;
+        position: relative;
+        align-items: center;
+        justify-content: center;">{{language('GONGYINGSHANGZHANWUYEWUSHUJU', '供应商暂无该业务数据')}}
+      </span>
+    </div>
   </iCard>
 </template>
 <script>
@@ -131,7 +81,7 @@ export default {
       tableTitleMonitorRecord: tableTitleMonitorRecord,
       img: img,
       dataList:[],
-
+      isShow:false,
     }
   },
   created(){
@@ -144,6 +94,10 @@ export default {
   },
   watch: {
     gpSourceingDataVos(val){
+      if(val.length<1){
+        this.isShow = true;
+        return false;
+      }
       this.dataList = val;
     }
   },
