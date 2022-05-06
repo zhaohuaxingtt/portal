@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iTableML
+    <!-- <iTableML
       tooltip-effect="light"
       :data="data"
       :rowClassName="tableRowClassName"
@@ -221,7 +221,226 @@
           }}</span>
         </template>
       </el-table-column>
-    </iTableML>
+    </iTableML> -->
+    <iTableML
+            :height="'32.125rem'"
+            tooltip-effect="light"
+            @selectionChange="handleSelectionChange"
+            :loading="tableLoading"
+            :data="data"
+            @go-detail="handleGoDetail"
+            v-if="!showUpdateTopicButtonList"
+            :rowClassName="tableRowClassName"
+            :currentRow="currentRow"
+            :isSingle="isSingle"
+            ref="hiddenColumnTable"
+          >
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <el-table-column
+              type="selection"
+              align="center"
+              min-width="40"
+            ></el-table-column>
+            <!-- <el-table-column align="center" width="10"></el-table-column> -->
+            <el-table-column align="center" label="#" width="23" >
+              <template slot-scope="scope">
+                <span style="span-index">{{ scope.$index + 1 }}</span>
+              </template>
+            </el-table-column>
+            <!-- 标记 -->
+            <el-table-column align="center" label="标记" min-width="50">
+              <template slot-scope="scope">
+                <icon symbol :name="scope.row.sign=='S' ? 'iconicon-baofeichuzhi' : scope.row.sign=='F' ?'iconicon-fenduandingdian':''" ></icon>
+              </template>
+            </el-table-column>
+            <!-- 股别 presenterDept  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="股别"
+              min-width="136"
+              prop="股别"
+              sortable
+            >
+            <template slot-scope="scope">
+                <span>{{scope.row.presenterDept }}</span>
+              </template>
+            </el-table-column>
+            <!-- 项目  gpName 改 topic-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="项目"
+              min-width="198"
+            >
+              <template slot-scope="scope">
+                <span class="open-link-text look-themen-click" @click="handleCSC(scope.row)">{{scope.row.topic}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 上会次数 cscCount-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="上会次数"
+              min-width="75"
+              prop="上会次数"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCount}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 采购申请号 procurementNumber 改 sourcingNo  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="采购申请号"
+              min-width="75"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.sourcingNo }}
+              </template>
+            </el-table-column>
+            <!-- 申请部门  applyDept 改 supporterDept  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="申请部门"
+              min-width="59"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.supporterDept }}</span>
+              </template>
+            </el-table-column>
+            <!-- 申请人  requestorName  改 supporter  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="申请人"
+              min-width="65"
+              prop="ep"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.supporter}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="16"></el-table-column> -->
+            <!-- 采购员  purchaserName  改 presenter  -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="采购员"
+              min-width="115"
+              prop="采购员"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.presenter}}</span>
+              </template>
+            </el-table-column>
+            <!-- 时间  time-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="时间"
+              min-width="82"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.time}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="14"></el-table-column> -->
+            <!-- 状态  state-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="状态"
+              min-width="90"
+              prop="presenterDept"
+            >
+               <template slot-scope="scope">
+                  {{ stateObj[scope.row.state] }}
+                </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="20"></el-table-column> -->
+            <!-- 会议结论/纪要  conclusion-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="会议结论/纪要"
+              min-width="86"
+            >
+              <template slot-scope="scope">
+                <!-- <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11' ? '':'' "  
+                @click="handleResult(scope.row)">{{ resultObj[scope.row.conclusion] }}</span> -->
+                <!-- <span>{{ resultObj[scope.row.conclusion] }}</span> -->
+                <span v-if="scope.row.conclusion=='01'||  scope.row.conclusion=='11'" style="color:blue" @click="handleResultObj(scope.row)">{{resultObj[scope.row.conclusion]}}</span>
+                <span v-else>{{resultObj[scope.row.conclusion]}}</span>
+              </template>
+            </el-table-column>
+            <!-- 是否推送大会 -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="是否推送大会"
+              min-width="119"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.isSendBm == false ? '否' : scope.row.isSendBm == true ? '是' : ''}}</span>
+              </template>
+            </el-table-column>
+            <!-- CSC汇报材料  cscStatus-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="CSC汇报材料"
+              min-width="119"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscStatus}}</span>
+              </template>
+            </el-table-column>
+            <!-- 是否冻结   conclusion   02 就是通过 冻结-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="是否冻结"
+              width="89"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.conclusion == '02' ? '是' : '否' }}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- 属性  attribute-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="属性"
+              width="88"
+              prop="benDe"
+              label-class-name="can-hideen"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.attribute}}</span>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- CSC编号  cscCode-->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="CSC编号"
+              min-width="90"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCode}}</span>
+              </template>
+            </el-table-column>
+          </iTableML>
     <iPagination
       v-update
       @current-change="handleCurrentChange($event, query)"
@@ -240,6 +459,7 @@
 import { iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 
 export default {
   components: {
@@ -251,7 +471,8 @@ export default {
       type: Array,
       default: () => {
         return []
-      }
+      },
+      data:{}
     },
     total: {
       type: Number || String,
@@ -275,15 +496,32 @@ export default {
   data() {
     return {
       following: false,
-      statusObj: {
-        '01': 'MT_WEIJINXING',
-        '02': 'MT_JINXINGZHONG',
-        '03': 'MT_YIJIESHU'
-      }
+      // statusObj: {
+      //   '01': 'MT_WEIJINXING',
+      //   '02': 'MT_JINXINGZHONG',
+      //   '03': 'MT_YIJIESHU'
+      // },
+      resultObj:{
+        '01': '待定',
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段定点'
+      },
+       stateObj :{
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束',
+        '04': '申请撤回'
+      },
     }
   },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
+  },
+  created() { 
+    this.queryMeetingInfoById()
   },
   methods: {
     isThemenHavaMy(item) {
@@ -370,7 +608,19 @@ export default {
         // })
         // });
       }
-    }
+    },
+     queryMeetingInfoById() {
+      const data = {
+        id:this.$route.query.id
+      }
+      findThemenById(data).then((res) => {
+          console.log(res);
+          this.data = res.themens
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   }
 }
 </script>

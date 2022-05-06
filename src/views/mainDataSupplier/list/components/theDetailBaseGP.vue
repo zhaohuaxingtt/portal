@@ -47,8 +47,14 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="language('是否国外供应商')">
-            <iInput v-model="detail.svwTempCode" disabled />
+          <iFormItem :label="language('是否国外厂商')">
+            <iSelect
+              v-model="detail.isForeignManufacture"
+              :disabled="!editable"
+            >
+              <el-option value="0" label="否" />
+              <el-option value="1" label="是" />
+            </iSelect>
           </iFormItem>
         </el-col>
         <el-col :span="8">
