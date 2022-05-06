@@ -44,7 +44,7 @@
           <i-button
             v-permission="SUPPLIER_GROUP_MANAGEMENT_ADD_ZIDINGYIZU"
             @click="addData"
-            >{{ language('TIANJIAZIDINGYIZU', '添加自定义组') }}</i-button
+            >{{ language('TIANJIAGONGYINGSHANGZU', '添加供应商组') }}</i-button
           >
           <i-button
             v-permission="SUPPLIER_GROUP_MANAGEMENT_DELETE_ZIDINGYIZU"
