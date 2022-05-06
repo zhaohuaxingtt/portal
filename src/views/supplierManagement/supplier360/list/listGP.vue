@@ -232,7 +232,6 @@
       <listDialog @getTableList="getTableList"
                   v-model="listDialog"></listDialog>
       <!-- 标签设置 -->
-
       <setTagdilog @closeDiolog="closeDiolog"
                    v-model="isSetTag"
                    :selectTableData="selectTableData"
@@ -473,7 +472,10 @@ export default {
       //     isMeRelated = 1
       //   } else isMeRelated = 0
       //   isMeRelated ,supplierId:this.$store.state.permission.userInfo.id
-      dropDownTagName({ isMeRelated: 0 }).then((res) => {
+      dropDownTagName({
+        isMeRelated: 0,
+        type:this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"?2:""
+      }).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }
