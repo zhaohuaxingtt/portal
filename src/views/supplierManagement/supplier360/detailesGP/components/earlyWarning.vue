@@ -85,7 +85,7 @@
             type="flex"
             justify="space-between">
       <el-col :span="24">
-        <pointeMoney :supplier360ViewVO="supplier360ViewVO" :gpOrderVo="gpOrderVo"></pointeMoney>
+        <pointeMoney :supplier360ViewVO="supplier360ViewVO" :superGpOrderVo="superGpOrderVo"></pointeMoney>
       </el-col>
     </el-row>
   </div>
@@ -126,7 +126,7 @@ export default {
     }
   },
   props: {
-    gpOrderVo:{
+    superGpOrderVo:{
       type: Array,
       default: () => {
         return []
