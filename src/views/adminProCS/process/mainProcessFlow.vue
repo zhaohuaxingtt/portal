@@ -250,8 +250,8 @@ export default {
       }
       //  CIRW2-708 换接口
       // 【Pro CS】流程管理，主流程图添加跳转流程时，下架的流程不能选择
-      // const res = await queryCanUseProcessList(params)
-      const res = await queryProcessList(params)
+      const res = await queryCanUseProcessList(params)
+      // const res = await queryProcessList(params)
       this.processList = res.content || []
     },
     async loadProcessPageList() {

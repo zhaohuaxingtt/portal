@@ -548,6 +548,15 @@ export function addProcessProd(processId, data) {
     formData: true
   })
 }
+// 添加流程ProDS
+export function addProcessProds(processId, data) {
+  return procsRequest({
+    url: `/workflow_doc_mgr/${processId}/addDocs.json`,
+    method: 'post',
+    data
+  })
+}
+
 // 删除流程ProD
 export function deleteProcessProd(id) {
   return procsRequest({
