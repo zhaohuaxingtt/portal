@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+        tableLoading:false,
       isShow: false, //控制新增弹窗
       formData: SEARCH_DATA,
       tablelist: [],
@@ -100,9 +101,11 @@ export default {
           this.formData[i] = ''
         }
       }
+      this.tableLoading=true
       this.formData.current = this.page.currPage
       this.formData.size = this.page.pageSize
       page(this.formData).then((res) => {
+          this.tableLoading=false
         if (+res.code == 200) {
           this.tablelist = res.data.data.map((k, i) => {
             k.indexCode = i + 1
@@ -156,13 +159,16 @@ export default {
     },
     //实时保存
     returnData(x) {
+        this.tableLoading=true
+
       console.log('qqqqqqqqqq',x)
       this.finash = x
       // console.log(this.finash)
-      let aa = { id: this.finash[this.finash.length-1].id, isActive: this.finash[this.finash.length-1].isActive }
+      let aa = { id: this.finash[this.finash.length-1].id, isActive: this.finash[this.finash.length-1].isActive, isParentNodeActive: this.finash[this.finash.length-1].isParentNodeActive }
       // console.log(aa)
       finish(aa).then((res) => {
         this.getList()
+
       })
     }
   }

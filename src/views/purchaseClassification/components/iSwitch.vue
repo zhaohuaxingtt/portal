@@ -1,5 +1,6 @@
 <template>
 	<el-switch
+        :disabled="!disabledActive"
 		v-model="currVal"
 		active-text="Y" 
 		:inactive-text="language(inactiveText)"
@@ -12,6 +13,9 @@ import {setSwitch} from '@/store/module/approval.js'
 export default {
 	name: 'iSwitch',
 	props: {
+        disabledActive:{
+          type: Boolean,
+        },
 		currVal: {
 			type: Boolean,
 			default: false
@@ -33,7 +37,7 @@ export default {
 		handlePublishChange(e) {
 			console.log(this.currItem, '1234',e)
 			// this.$emit("input",e)
-			this.$store.dispatch("setSwitch",{id:this.currItem.id,bool:e,coordinate:this.currItem.uniqueId})
+			this.$store.dispatch("setSwitch",{id:this.currItem.id,bool:e,coordinate:this.currItem.uniqueId,isParentNodeActive:this.currItem.isParentNodeActive})
 		}
 	}
 }

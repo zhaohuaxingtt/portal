@@ -7,7 +7,7 @@
  */
 export default {
   GONGYINGSHANGZUGUANLI: '供应商组管理',
-  TIANJIAZIDINGYIZU: '添加自定义组',
+  TIANJIAGONGYINGSHANGZU: '添加供应商组',
   QUERENSHANCHUGONGYINGSHANGZU: '确认删除供应商组？',
   BITIAN: '必填',
   BIXUAN: '必选',
