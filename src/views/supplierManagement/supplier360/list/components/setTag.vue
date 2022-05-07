@@ -92,6 +92,8 @@ export default {
       let params = {}
       if(this.selectTableData[0].supplierType == "GP"){
         params.type = 2;
+      }else{
+        params.type = "";
       }
       getTagList(params).then((res) => {
         if (res && res.code == 200) {
@@ -109,6 +111,7 @@ export default {
         supplierIds: this.selectTableData.map((res) => {
           return res.subSupplierId
         }),
+        type:this.selectTableData[0].supplierType == "GP"?2:"",
         ...this.form
       }
       saveSupplierTag(req).then((res) => {

@@ -2,16 +2,16 @@
   <iCard style="height:25rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More">
+      <el-dropdown v-permission="Card_Sourcing_More" v-if="!isShow">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="openNav">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="box">
+    <div class="box" v-if="!isShow">
       <img :src="img"
            class="imgIcon" />
       <div class="boxTitle">
@@ -19,7 +19,17 @@
         <span>GP</span>
       </div>
     </div>
-    <div ref="chart" class="chartStyle"></div>
+    <div v-if="!isShow" ref="chart" class="chartStyle"></div>
+
+    <div v-if="isShow" style="height:90%">
+      <span style="font-size:18px;color:rgba(107, 121, 149, 0.56);margin-bottom: 5px;
+        display: flex;
+        height: 100%;
+        position: relative;
+        align-items: center;
+        justify-content: center;">{{language('GONGYINGSHANGZHANWUYEWUSHUJU', '供应商暂无该业务数据')}}
+      </span>
+    </div>
   </iCard>
 </template>
 <script>
@@ -40,6 +50,7 @@ export default {
       maxNumber:[],
       number:"",
       valueAll:[],
+      isShow:false,
     }
   },
   computed: {
@@ -54,9 +65,19 @@ export default {
         return []
       }
     },
+    supplier360ViewVO:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    }
   },
   watch: {
     gpFixPointVos(val){
+      if(val.length < 1){
+        this.isShow = true;
+        return false;
+      }
       if(val){
         this.dataList = val;
         this.dataList.forEach(e => {
@@ -78,6 +99,9 @@ export default {
     }
   },
   methods: {
+    openNav(){
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/rfq/myTaskRfq?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+    },
     getCanvas(){
       this.myChart = echarts().init(this.$refs.chart)
       var option = {

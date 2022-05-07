@@ -603,6 +603,17 @@ export default {
       findGpBidderInfoByThemenId(params).then((res) => {
         console.log(res);
         this.tableDataList=res
+        // this.tableDataList.push(
+        //   {
+        //     cscId: "假的数据",
+        //     currency: "假的数据",
+        //     finalPrice: '假的数据',
+        //     isFlag: '假的数据',
+        //     supplierId: "假的数据",
+        //     supplierName: "假的数据",
+        //     targetPrice: '假的数据',
+        //   }
+        // )
         this.handleIntercept()
       })
     },
@@ -707,6 +718,8 @@ export default {
         this.showIFormItemelform= false
         this.fromData.result=''//任务
         this.fromData.isFrozenRs=false //是否发送loi审批
+        this.selectedRow=[]
+
       }else if(e == '11' ){
       // 结论 任务 列表
         this.showIFormItemRS= false
@@ -714,6 +727,7 @@ export default {
         this.showIFormItemelform= false
         this.fromData.result=''//任务
         this.fromData.isFrozenRs=false  //是否发送loi审批
+        this.selectedRow=[]
       }else if(e == '10' || e == '08'){
       // 结论 任务 LOi
         this.showIFormItemRS= true
@@ -721,12 +735,14 @@ export default {
         this.showIFormItemelform= true
         this.fromData.result=''//任务
         this.fromData.isFrozenRs=false  //是否发送loi审批
+        this.selectedRow=[]
       }
       if(e == '09'){
         this.showIFormItemRS= false
         this.showIFormItemelform= true
         this.fromData.result=''//任务
         this.fromData.isFrozenRs=false  //是否发送loi审批
+        this.selectedRow=[]
       }
 
 
@@ -813,12 +829,12 @@ export default {
           // 临时议题 不要 11 和 12 
           for (let i = 0; i < res.length; i++) {
             if (res[i] == '11') {
-              res.splice(i,'11')
+              res.splice(i,1)
             }
           }
           for (let i = 0; i < res.length; i++) {
             if (res[i] == '12') {
-              res.splice(i,'12')
+              res.splice(i,1)
             }
           }
           this.relateCommon(res)

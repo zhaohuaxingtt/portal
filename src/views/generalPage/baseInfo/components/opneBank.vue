@@ -46,64 +46,125 @@
 				<iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankDTO.bankTaxCode"></iInput>
 			</iFormItem>
 
-
-			<!-- 电子银票账户银行名称 -->
-			 <!-- prop="gpSupplierBankNoteDTO.bankNoteName" -->
-			<iFormItem prop="gpSupplierBankNoteDTO.bankNoteName" v-if="$route.query.subSupplierType == 'GP'">
-				<iLabel :label="$t('DZYPZHYHMC')"  required
-						slot="label"></iLabel>
-				<iInput :placeholder="$t('LK_QINGSHURU')"
-						v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
-						></iInput>
-			</iFormItem>
-			<!-- 电子银票银行账户行号 -->
-			 <!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
-			<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" v-if="$route.query.subSupplierType == 'GP'">
-				<iLabel :label="$t('DZYPYHZHHH')"  required
-						slot="label"></iLabel>
-				<iInput :placeholder="$t('LK_QINGSHURU')"
-						v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
-						></iInput>
-			</iFormItem>
-			<!-- 电子银票银行所在国家 -->
-			 <!-- prop="gpSupplierBankNoteDTO.country" -->
-			<iFormItem prop="gpSupplierBankNoteDTO.country" v-if="$route.query.subSupplierType == 'GP'">
-				<iLabel :label="$t('DZYPYHSZGJ')"  required
-						slot="label"></iLabel>
-				<iSelect v-model="supplierData.gpSupplierBankNoteDTO.country"
-						@change="changeCountryDC()">
-				<el-option :value="item.cityIdStr"
-							:label="item.cityNameCn"
-							v-for="(item, index) in country"
-							:key="index"></el-option>
-				</iSelect>
-			</iFormItem>
-			<!-- 电子银票银行所在省份 -->
-			 <!-- prop="gpSupplierBankNoteDTO.province" -->
-			<iFormItem prop="gpSupplierBankNoteDTO.province" v-if="$route.query.subSupplierType == 'GP'">
-				<iLabel :label="$t('DZYPYHSZSF')"  required
-						slot="label"></iLabel>
-				<iSelect v-model="supplierData.gpSupplierBankNoteDTO.province"
-						@change="changeProvinceDC()">
-				<el-option :value="item.cityIdStr"
-							:label="item.cityNameCn"
-							v-for="(item, index) in bankProvinceDC"
-							:key="index"></el-option>
-				</iSelect>
-			</iFormItem>
-			<!-- 电子银票银行所在城市 -->
-			 <!-- prop="gpSupplierBankNoteDTO.city" -->
-			<iFormItem prop="gpSupplierBankNoteDTO.city" v-if="$route.query.subSupplierType == 'GP'">
-				<iLabel :label="$t('DZYPYHSZCS')"  required
-						slot="label"></iLabel>
-				<iSelect v-model="supplierData.gpSupplierBankNoteDTO.city"
-						>
-				<el-option :value="item.cityIdStr"
-							:label="item.cityNameCn"
-							v-for="(item, index) in bankCityDC"
-							:key="index"></el-option>
-				</iSelect>
-			</iFormItem>
+			<template v-if="this.$route.path=='/supplier/supplierListDis/supplierDisDetails'" >
+				<!-- 电子银票账户银行名称 -->
+				<!-- prop="gpSupplierBankNoteDTO.bankNoteName" -->
+				<iFormItem v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPZHYHMC')" 
+							slot="label"></iLabel>
+					<iInput :placeholder="$t('LK_QINGSHURU')"
+							v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
+							></iInput>
+				</iFormItem>
+				<!-- 电子银票银行账户行号 -->
+				<!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
+				<iFormItem v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHZHHH')" 
+							slot="label"></iLabel>
+					<iInput :placeholder="$t('LK_QINGSHURU')"
+							v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
+							></iInput>
+				</iFormItem>
+				<!-- 电子银票银行所在国家 -->
+				<!-- prop="gpSupplierBankNoteDTO.country" -->
+				<iFormItem v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHSZGJ')" 
+							slot="label"></iLabel>
+					<iSelect v-model="supplierData.gpSupplierBankNoteDTO.country"
+							@change="changeCountryDC()">
+					<el-option :value="item.cityIdStr"
+								:label="item.cityNameCn"
+								v-for="(item, index) in country"
+								:key="index"></el-option>
+					</iSelect>
+				</iFormItem>
+				<!-- 电子银票银行所在省份 -->
+				<!-- prop="gpSupplierBankNoteDTO.province" -->
+				<iFormItem v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHSZSF')"  
+							slot="label"></iLabel>
+					<iSelect v-model="supplierData.gpSupplierBankNoteDTO.province"
+							@change="changeProvinceDC()">
+					<el-option :value="item.cityIdStr"
+								:label="item.cityNameCn"
+								v-for="(item, index) in bankProvinceDC"
+								:key="index"></el-option>
+					</iSelect>
+				</iFormItem>
+				<!-- 电子银票银行所在城市 -->
+				<!-- prop="gpSupplierBankNoteDTO.city" -->
+				<iFormItem  v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHSZCS')"  
+							slot="label"></iLabel>
+					<iSelect v-model="supplierData.gpSupplierBankNoteDTO.city"
+							>
+					<el-option :value="item.cityIdStr"
+								:label="item.cityNameCn"
+								v-for="(item, index) in bankCityDC"
+								:key="index"></el-option>
+					</iSelect>
+				</iFormItem>
+			</template>
+			<template v-else>
+				<!-- 电子银票账户银行名称 -->
+				<!-- prop="gpSupplierBankNoteDTO.bankNoteName" -->
+				<iFormItem prop="gpSupplierBankNoteDTO.bankNoteName" v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPZHYHMC')"  required
+							slot="label"></iLabel>
+					<iInput :placeholder="$t('LK_QINGSHURU')"
+							v-model="supplierData.gpSupplierBankNoteDTO.bankNoteName"
+							></iInput>
+				</iFormItem>
+				<!-- 电子银票银行账户行号 -->
+				<!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
+				<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHZHHH')"  required
+							slot="label"></iLabel>
+					<iInput :placeholder="$t('LK_QINGSHURU')"
+							v-model="supplierData.gpSupplierBankNoteDTO.bankNoteAccount"
+							></iInput>
+				</iFormItem>
+				<!-- 电子银票银行所在国家 -->
+				<!-- prop="gpSupplierBankNoteDTO.country" -->
+				<iFormItem prop="gpSupplierBankNoteDTO.country" v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHSZGJ')"  required
+							slot="label"></iLabel>
+					<iSelect v-model="supplierData.gpSupplierBankNoteDTO.country"
+							@change="changeCountryDC()">
+					<el-option :value="item.cityIdStr"
+								:label="item.cityNameCn"
+								v-for="(item, index) in country"
+								:key="index"></el-option>
+					</iSelect>
+				</iFormItem>
+				<!-- 电子银票银行所在省份 -->
+				<!-- prop="gpSupplierBankNoteDTO.province" -->
+				<iFormItem prop="gpSupplierBankNoteDTO.province" v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHSZSF')"  required
+							slot="label"></iLabel>
+					<iSelect v-model="supplierData.gpSupplierBankNoteDTO.province"
+							@change="changeProvinceDC()">
+					<el-option :value="item.cityIdStr"
+								:label="item.cityNameCn"
+								v-for="(item, index) in bankProvinceDC"
+								:key="index"></el-option>
+					</iSelect>
+				</iFormItem>
+				<!-- 电子银票银行所在城市 -->
+				<!-- prop="gpSupplierBankNoteDTO.city" -->
+				<iFormItem prop="gpSupplierBankNoteDTO.city" v-if="$route.query.subSupplierType == 'GP'">
+					<iLabel :label="$t('DZYPYHSZCS')"  required
+							slot="label"></iLabel>
+					<iSelect v-model="supplierData.gpSupplierBankNoteDTO.city"
+							>
+					<el-option :value="item.cityIdStr"
+								:label="item.cityNameCn"
+								v-for="(item, index) in bankCityDC"
+								:key="index"></el-option>
+					</iSelect>
+				</iFormItem>
+			</template>
+			
 		</iFormGroup>
 
 		<!-- 修改 -->

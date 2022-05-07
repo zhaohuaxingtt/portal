@@ -58,7 +58,8 @@ export default {
     },
   },
   watch: {
-    visible(){
+    visible(val){
+      if(val)
       this.getTableList();
     }
   },
@@ -147,7 +148,7 @@ export default {
       let params = {
         ...this.search,
         pageSize: this.page.pageSize,
-        currPage: this.page.currPage
+        pageNo: this.page.currPage
       }
       supplierPage(params).then(res => {
         if (res?.code == '200') {

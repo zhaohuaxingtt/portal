@@ -494,9 +494,11 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/live/more-themens',
+        // path: '/meeting/live/more-themens',
+        path: '/MBDlmeeting/live/more-themens',
         query: {
-          meetingTypeId: this.meetingTypeId
+          // meetingTypeId: this.meetingTypeId
+          meetingTypeId: this.$route.query.id
         }
       })
     }

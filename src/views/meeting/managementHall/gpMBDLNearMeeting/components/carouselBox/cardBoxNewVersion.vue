@@ -279,8 +279,10 @@ export default {
         });
     },
     goToDetail(e) {
+      // MBDl 会议 近期会议卡片内more按钮 nearMBDlMeetingDetail
       this.$router.push({
         path: "/meeting/near-meeting/detail",
+        // path: '/nearMBDlMeetingDetail',
         query: {
           id: e,
         },

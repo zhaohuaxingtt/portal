@@ -2,22 +2,34 @@
   <iCard style="height:25rem">
     <div class="title">
       <p>{{$t('DINGDIANJINE')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More">
+      <el-dropdown v-permission="Card_Sourcing_More" v-if="!isShow">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
+          <el-dropdown-item  @click.native="openNav">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="center">
+    <div class="center" v-if="!isShow">
       <div id="echart1" ref="echart1"></div>
       <img :src="img" class="imgIcon" />
       <div id="echart2" ref="echart2"></div>
       <!-- <div class="nomore">
         {{language('GAIGONGYINGSHANGZANWUYUQINGXINWEN', '该供应商暂无舆情新闻')}}
       </div> -->
+    </div>
+
+
+
+    <div v-if="isShow" style="height:90%">
+      <span style="font-size:18px;color:rgba(107, 121, 149, 0.56);margin-bottom: 5px;
+        display: flex;
+        height: 100%;
+        position: relative;
+        align-items: center;
+        justify-content: center;">{{language('GONGYINGSHANGZHANWUYEWUSHUJU', '供应商暂无该业务数据')}}
+      </span>
     </div>
   </iCard>
 </template>
@@ -33,6 +45,12 @@ export default {
             return []
         }
     },
+    supplier360ViewVO:{
+        type:Object,
+        default:()=>{
+            return {}
+        }
+    }
   },
   components: {
     iCard,
@@ -49,6 +67,8 @@ export default {
         dataAll:[],
         dataY:[],
         echart2:null,
+        info:{},
+        isShow:false,
     }
   },
   created(){
@@ -60,7 +80,16 @@ export default {
     }
   },
   watch: {
+      supplier360ViewVO (data) {
+        if (data) {
+            this.info = data
+        }
+      },
       gpOrderVo(val){
+        if(val.length < 1){
+            this.isShow=true;
+            return false;
+        }
         this.dataAll = val;
         var name = [];
         var table = [];
@@ -113,6 +142,19 @@ export default {
       
   },
   methods: {
+    openNav(){
+      this.$router.push({
+        path: '/supplier/view-suppliers',
+        query: {
+          supplierToken: this.info.token || '',
+          type:this.$route.query.type?this.$route.query.type:"",
+          supplierType: '4',
+          subSupplierType: this.$route.query.supplierType,
+          supplierId: this.$route.query.subSupplierId,
+          current:10,
+        }
+      })
+    },
     setEcharts1(val){
         var index = 0;//默认选中高亮模块索引
         const echart1 = echarts().init(this.$refs.echart1)
@@ -226,6 +268,9 @@ export default {
         echart1.setOption(this.option1)
         var number = 0;
         var indexNumebr = 0;
+
+        if(val.length<1) return false;
+
         val.forEach((e,index)=>{
             if(e.value >= number){
                 number = e.value;
