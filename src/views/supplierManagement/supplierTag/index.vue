@@ -127,7 +127,7 @@
       <iPagination
         style="margin-top: 20px"
         v-update
-        @size-change="handleSizeChange($event, sure)"
+        @size-change="handleSizeChange($event, getTableData)"
         @current-change="handleCurrentChange($event, getTableData)"
         background
         :page-sizes="page.pageSizes"
