@@ -39,7 +39,7 @@ import img from '@/assets/images/icon/jiantou.png'
 import echarts from '@/utils/echarts'
 export default {
   props: {
-    gpOrderVo:{
+    superGpOrderVo:{
         type: Array,
         default: () => {
             return []
@@ -85,15 +85,15 @@ export default {
             this.info = data
         }
       },
-      gpOrderVo(val){
-        if(val.length < 1){
+      superGpOrderVo(val){
+        if(val.gpOrderVo.length < 1){
             this.isShow=true;
             return false;
         }
-        this.dataAll = val;
+        this.dataAll = val.gpOrderVo;
         var name = [];
         var table = [];
-        val.forEach(e => {
+        val.gpOrderVo.forEach(e => {//统计部门
             if(name.indexOf(e.deptNum) === -1){
                 name.push(e.deptNum)
                 table.push({
@@ -102,7 +102,7 @@ export default {
                 })
             }
         })
-        val.forEach(e=>{
+        val.gpOrderVo.forEach(e=>{//统计部门所有年总数
             name.forEach((ele,index)=>{
                 if(ele == e.deptNum){
                     table[index].value = table[index].value + Number(e.amount)
@@ -110,17 +110,13 @@ export default {
             })
         })
 
-        var year = [];
+        var year = val.orderedYears;
         var yearObject = [];
-        val.forEach(e=>{
-            console.log(e);
-            if(year.indexOf(e.year) === -1){
-                year.push(e.year)
-                yearObject.push(0);
-            }
-        })
         var yearNew = year.sort();
-        val.forEach(e=>{
+        yearNew.forEach(e=>{
+            yearObject.push(0);
+        })
+        val.gpOrderVo.forEach(e=>{
             yearNew.forEach((ele,index)=>{
                 if(ele == e.year){
                     yearObject[index] = yearObject[index] + Number(e.amount)
@@ -128,12 +124,11 @@ export default {
             })
         })
 
-        this.year = yearNew;
+        this.year = year;
         this.yearObject = yearObject;
 
         console.log(yearNew)
         console.log(yearObject)
-
 
         this.setEcharts1(table);
       }
@@ -238,7 +233,16 @@ export default {
                         emphasis: {//中间文字显示
                             show: true,
                             formatter:function(parme){
-                                return '{total|' + parme.percent.toFixed(2) + '%' + '}' + '\n\r' + '{active|' + parme.value.toFixed(2) + '}'
+                                let data=dataList;
+                                let total = 0;
+                                let target;
+                                for (let i = 0, l = data.length; i < l; i++) {
+                                    total += data[i].value;
+                                    if (data[i].name == parme.name) {
+                                        target = data[i].value;
+                                    }
+                                }
+                                return '{total|' + ((target/total)*100).toFixed(2) + '%' + '}' + '\n\r' + '{active|' + parme.value.toFixed(2) + '}'
                             },
                             rich: {
                                 total:{
@@ -287,7 +291,8 @@ export default {
         var that = this;
         echart1.on('click',function(e){
             index = e.dataIndex;
-            that.rightResize(val[e.dataIndex].name)
+            // that.rightResize(val[e.dataIndex].name)
+            that.setEcharts2(val[e.dataIndex].name);
             echart1.dispatchAction({type: 'highlight',seriesIndex: 0,dataIndex: e.dataIndex});
         });
 
@@ -302,16 +307,21 @@ export default {
         });
     },
     setEcharts2(name){
+        var ttt = this.superGpOrderVo.orderedYears[this.superGpOrderVo.orderedYears.length - 1] - this.superGpOrderVo.orderedYears[0] + 1;
         var dataY = [];
-        this.year.forEach(e=>{
+        for(var i=0;i<ttt;i++){
+            dataY.push(0);
+        }
+        this.superGpOrderVo.orderedYears.forEach((e,index)=>{
             this.dataAll.forEach(ele=>{
-                if(e == ele.year){
-                    if(ele.deptNum == name){
-                        dataY.push(Number(ele.amount))
+                if(ele.deptNum == name){
+                    if(e == ele.year){
+                        dataY[index] = Number(ele.amount)
                     }
                 }
             })
         })
+
         this.dataY = dataY;
 
         this.echart2 = echarts().init(this.$refs.echart2)
@@ -367,7 +377,7 @@ export default {
                             fontSize: "12",
                         },
                     },
-                    data: this.year,
+                    data: this.superGpOrderVo.orderedYears,
                 },
             ],
             yAxis: {
@@ -413,22 +423,22 @@ export default {
         this.echart2.setOption(this.option2)
     },
 
-    rightResize(name){
-        var dataY = [];
-        this.year.forEach(e=>{
-            this.dataAll.forEach(ele=>{
-                if(e == ele.year){
-                    if(ele.deptNum == name){
-                        dataY.push(Number(ele.amount))
-                    }
-                }
-            })
-        })
-        this.dataY = dataY;
+    // rightResize(name){
+        // var dataY = [];
+        // this.superGpOrderVo.orderedYears.forEach(e=>{
+        //     this.dataAll.forEach(ele=>{
+        //         if(e == ele.year){
+        //             if(ele.deptNum == name){
+        //                 dataY.push(Number(ele.amount))
+        //             }
+        //         }
+        //     })
+        // })
+        // this.dataY = dataY;
 
-        this.option2.series[0].data = this.dataY;
-        this.echart2.setOption(this.option2)
-    },
+        // this.option2.series[0].data = this.dataY;
+        // this.echart2.setOption(this.option2)
+    // },
   },
   
 }

@@ -191,7 +191,17 @@ export default {
   methods: {
     //获取标签列表
     getTagListdropDown() {
-      dropDownTagName({}).then((res) => {
+      var list = {};
+      if(this.$route.path == "/supplier/supplierListGP"){
+        list = {
+          type:2
+        }
+      }else{
+        list = {
+
+        }
+      }
+      dropDownTagName(list).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }
@@ -199,11 +209,22 @@ export default {
     },
     getList() {
       this.tableLoading = true
-      const req = {
-        supplierId: this.rowList.subSupplierId,
-        ...this.form,
-        pageNo: 1,
-        pageSize: 9999
+      var req = {};
+      if(this.$route.path=="/supplier/supplierListGP"){
+        req = {
+          supplierId: this.rowList.subSupplierId,
+          ...this.form,
+          pageNo: 1,
+          pageSize: 9999,
+          type:2
+        }
+      }else{
+        req = {
+          supplierId: this.rowList.subSupplierId,
+          ...this.form,
+          pageNo: 1,
+          pageSize: 9999
+        }
       }
       supplierTagPage(req).then((res) => {
         if (res && res.code == 200) {

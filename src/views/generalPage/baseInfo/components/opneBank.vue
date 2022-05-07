@@ -41,7 +41,7 @@
 				<iInput v-model="supplierData.settlementBankDTO.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
 			</iFormItem>
 			<!-- 税务代码 -->
-			<iFormItem prop="settlementBankDTO.bankTaxCode" v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
+			<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
 				<iLabel :label="$t('SHUIWUDAIMA')" slot="label"></iLabel>
 				<iInput  :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankDTO.bankTaxCode"></iInput>
 			</iFormItem>
