@@ -7,6 +7,7 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  王企鹅请问群无
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->
@@ -834,17 +835,17 @@ export default {
           if (this.fromData.conclusion =='01') {
             for (let i = 0; i < res.length; i++) {
               if (res[i] == '01') {
-                res.splice(i,'01')
+                res.splice(i,1)
               }
             }
             for (let i = 0; i < res.length; i++) {
               if (res[i] == '11') {
-                res.splice(i,'11')
+                res.splice(i,1)
               }
             }
             for (let i = 0; i < res.length; i++) {
               if (res[i] == '12') {
-                res.splice(i,'12')
+                res.splice(i,1)
               }
             }
           }
@@ -855,23 +856,40 @@ export default {
           id:this.meetingInfo.meetingTypeId
         }
         findThemenConclusion(data).then((res) => { 
-          console.log(res);
-          console.log(this.fromData.conclusion,'走进来了');
+          // console.log(res);
             // 不是临时议题  lastcall  就只有 08 10 12
           if (this.fromData.conclusion =='11') {
             for (let i = 0; i < res.length; i++) {
               if (res[i] == '01') {
-                res.splice(i,'01')
-              }
-            }
-            for (let i = 0; i < res.length; i++) {
-              if (res[i] == '11') {
-                res.splice(i,'11')
+                res.splice(i,1)
               }
             }
             for (let i = 0; i < res.length; i++) {
               if (res[i] == '09') {
-                res.splice(i,'09')
+                res.splice(i,1)
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '11') {
+                res.splice(i,1)
+              }
+            }
+          }
+         // 不是临时议题 待定 01    不要 11 和 12 
+          if (this.fromData.conclusion =='01') {
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '01') {
+                res.splice(i,1)
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '11') {
+                res.splice(i,1)
+              }
+            }
+            for (let i = 0; i < res.length; i++) {
+              if (res[i] == '12') {
+                res.splice(i,1)
               }
             }
           }

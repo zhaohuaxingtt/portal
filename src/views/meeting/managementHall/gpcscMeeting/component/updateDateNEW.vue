@@ -243,7 +243,25 @@ export default {
       console.log(this.formData);
       this.page.currPage = 1
       this.formDataDefault =(this.formData)
-      this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+      this.meetingTypeList.forEach(x=>{
+        if (this.formData.meetingTypeIds==x.name) {
+          this.formData.meetingTypeIds=x.id
+        }
+      })
+      // this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+      if (this.formDataDefault.meetingTypeIds=='') {
+        this.formDataDefault.meetingTypeIds=[]
+      }else{
+        if (this.formDataDefault.meetingTypeIds!='') {
+          if (this.formDataDefault.meetingTypeIds!=this.formData.meetingTypeIds) {
+            
+            this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+          }else{
+            this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+          }
+        }
+      }
+
       // this.query()
       // 查询改为调别得接口  findByPageForGP
       this.getList()
@@ -269,11 +287,21 @@ export default {
           })
         })
       })
+      this.meetingTypeList.forEach(x=>{
+        if (this.formData.meetingTypeIds==x.id) {
+          this.formData.meetingTypeIds=x.name
+        }
+      })
 
     },
     // 重置
     reset() {
       this.formData = { ...MEETING_SEARCH_DATA }
+      this.formDataDefault.meetingTypeIds=[]
+      this.formDataDefault.weekOfYears=[]
+      this.formDataDefault.states=[]
+      this.formDataDefault.startDateBegin=null
+      this.formDataDefault.startDateEnd=null
       // this.search()
       // 重置还是调原来的接口
       this.query()
