@@ -1,125 +1,110 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-10 21:30:57
+ * @LastEditTime: 2022-05-06 19:30:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
 <template>
   <div>
-    <iDialog
-      :visible.sync="dialogVisible"
-      :title="
+    <iDialog :visible.sync="dialogVisible"
+             :title="
         flag
           ? language('CHUANGJIANBUCHADAN', '创建补差单')
           : language('BIANJIBUCHADAN', '编辑补差单')
       "
-      @close="handleClose"
-      top="2%"
-      width="90%"
-    >
-      <el-form
-        :inline="true"
-        :model="searchForm"
-        label-position="top"
-        class="searchForm"
-      >
+             @close="handleClose"
+             top="2%"
+             width="90%">
+      <el-form :inline="true"
+               :model="searchForm"
+               label-position="top"
+               class="searchForm">
         <el-row style="border-bottom: 1px solid #ccc">
           <el-col :span="24">
-            <el-form-item v-if="!flag" label="补差单号" class="searchFormItem">
-              <el-input
-                :disabled="editDisabled"
-                v-model="searchForm.mtzDocId"
-                placeholder="MTZ-YYYY/MM/DD"
-              ></el-input>
+            <el-form-item v-if="!flag"
+                          label="补差单号"
+                          class="searchFormItem">
+              <el-input :disabled="editDisabled"
+                        v-model="searchForm.mtzDocId"
+                        placeholder="MTZ-YYYY/MM/DD"></el-input>
             </el-form-item>
-            <el-form-item label="一次件供应商" class="searchFormItem">
-              <el-input
-                v-model="searchForm.firstSupplierName"
-                :disabled="true"
-              ></el-input>
+            <el-form-item label="一次件供应商"
+                          class="searchFormItem">
+              <el-input v-model="searchForm.firstSupplierName"
+                        :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="补差时间段" class="searchFormItem">
-              <el-date-picker
-                v-model="value"
-                :disabled="editDisabled"
-                @change="handleChange"
-                type="daterange"
-                style="width: 100%"
-                format="yyyyMM"
-                value-format="yyyyMM"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              >
+            <el-form-item label="补差时间段"
+                          class="searchFormItem">
+              <el-date-picker v-model="value"
+                              :disabled="editDisabled"
+                              @change="handleChange"
+                              type="daterange"
+                              style="width: 100%"
+                              format="yyyyMM"
+                              value-format="yyyyMM"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="二次件供应商" class="searchFormItem">
-              <el-input
-                v-model="searchForm.secondSupplierList"
-                :disabled="true"
-              ></el-input>
+            <el-form-item label="二次件供应商"
+                          class="searchFormItem">
+              <el-input v-model="searchForm.secondSupplierList"
+                        :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="材料中类" class="searchFormItem">
-              <el-input
-                v-model="searchForm.materialKindList"
-                :disabled="true"
-              ></el-input>
+            <el-form-item label="材料中类"
+                          class="searchFormItem">
+              <el-input v-model="searchForm.materialKindList"
+                        :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="原材料编号" class="searchFormItem">
-              <el-input
-                v-model="searchForm.materialCode"
-                :disabled="true"
-              ></el-input>
+            <el-form-item label="原材料编号"
+                          class="searchFormItem">
+              <el-input v-model="searchForm.materialCode"
+                        :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="SAP订单号" class="searchFormItem">
-              <el-input
-                :disabled="editDisabled"
-                v-model="searchForm.sapOrderNo"
-              ></el-input>
+            <el-form-item label="SAP订单号"
+                          class="searchFormItem">
+              <el-input :disabled="editDisabled"
+                        v-model="searchForm.sapOrderNo"></el-input>
             </el-form-item>
             <!-- <el-form-item label="凭证类型"
                           class="searchFormItem">
             </el-form-item> -->
-            <el-form-item label="采购组" class="searchFormItem">
-              <el-input
-                v-model="searchForm.ekGroupList"
-                :disabled="true"
-              ></el-input>
+            <el-form-item label="采购组"
+                          class="searchFormItem">
+              <el-input v-model="searchForm.ekGroupList"
+                        :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="一次零件号" class="searchFormItem">
-              <el-input
-                :disabled="editDisabled"
-                v-model="searchForm.fpartNo"
-              ></el-input>
+            <el-form-item label="一次零件号"
+                          class="searchFormItem">
+              <el-input :disabled="editDisabled"
+                        v-model="searchForm.fpartNo"></el-input>
             </el-form-item>
-            <el-form-item label="二次零件号" class="searchFormItem">
-              <el-input
-                :disabled="editDisabled"
-                v-model="searchForm.spartNo"
-              ></el-input>
+            <el-form-item label="二次零件号"
+                          class="searchFormItem">
+              <el-input :disabled="editDisabled"
+                        v-model="searchForm.spartNo"></el-input>
             </el-form-item>
 
-            <el-form-item label="是否取市场价均值" class="searchFormItem">
-              <el-input
-                v-model="searchForm.isEffAvg"
-                :disabled="true"
-              ></el-input>
+            <el-form-item label="是否取市场价均值"
+                          class="searchFormItem">
+              <el-input v-model="searchForm.isEffAvg"
+                        :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="市场价偏移区间" class="searchFormItem">
-              <el-date-picker
-                v-model="value1"
-                :disabled="editDisabled"
-                @change="handleChangeDate"
-                type="monthrange"
-                style="width: 100%"
-                format="yyyy-MM"
-                value-format="yyyy-MM"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              >
+            <el-form-item label="市场价偏移区间"
+                          class="searchFormItem">
+              <el-date-picker v-model="value1"
+                              :disabled="editDisabled"
+                              @change="handleChangeDate"
+                              type="monthrange"
+                              style="width: 100%"
+                              format="yyyy-MM"
+                              value-format="yyyy-MM"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -138,107 +123,98 @@
         </el-row>
         <el-row style="border-bottom: 1px solid #ccc; width: 100%">
           <el-col :span="21"> </el-col>
-          <el-col v-if="flag" :span="3">
-            <iButton
-              class="margin-top45"
-              style="float: right"
-              @click="calcuLate"
-              >{{ language('JISUAN', '计算') }}</iButton
-            >
+          <el-col v-if="flag"
+                  :span="3">
+            <iButton class="margin-top45"
+                     style="float: right"
+                     @click="calcuLate">{{ language('JISUAN', '计算') }}</iButton>
           </el-col>
         </el-row>
       </el-form>
       <div class="table">
         <div class="header flex">
-          <div class="flex" style="align-items: center">
+          <div class="flex"
+               style="align-items: center">
             <div class="margin-right20">
-              <label for="" class="label margin-right10">{{
+              <label for=""
+                     class="label margin-right10">{{
                 language('DAIFAQIPINZHENG', '待发起凭证')
               }}</label>
               <!-- <el-input v-model="trueCompMoney"
                       style="margin-right:20px;width:200px"
                       :disabled="true"></el-input> -->
-              <el-input-number
-                v-model="waitCompDocMoney"
-                :precision="2"
-                :disabled="true"
-                :controls="false"
-              ></el-input-number>
+              <el-input-number v-model="waitCompDocMoney"
+                               :precision="2"
+                               :disabled="true"
+                               :controls="false"></el-input-number>
             </div>
             <div>
               <label for="">{{
                 language('SHIJIBUCHAJINE', '实际补差金额')
               }}</label>
-              <el-tooltip
-                class="item margin-right10"
-                effect="light"
-                content="可修改，但小于或等于待发起凭证总额；实际补差 金额修改后，变化量将平均打散到每条行项次"
-                placement="top"
-              >
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
+              <el-tooltip class="item margin-right10"
+                          effect="light"
+                          content="可修改，但小于或等于待发起凭证总额；实际补差 金额修改后，变化量将平均打散到每条行项次"
+                          placement="top">
+                <i class="el-icon-warning-outline margin-left10"
+                   style="color: blue"></i>
               </el-tooltip>
-              <el-input
-                v-model="trueCompMoney"
-                class="wait_input"
-                @change="waitChange"
-                @input="waitInput"
-                type="number"
-              ></el-input>
+              <el-input v-model="trueCompMoney"
+                        class="wait_input"
+                        @change="waitChange"
+                        @input="waitInput"
+                        type="number"></el-input>
               <!-- <el-input v-model="waitCompDocMoney"
                         style="margin-left:20px;width:200px"></el-input> -->
             </div>
           </div>
           <div class="flex">
-            <el-tooltip
-              class="item margin-right10"
-              effect="light"
-              :content="
+            <el-tooltip class="item margin-right10"
+                        effect="light"
+                        :content="
                 language(
                   'CHEHUIHOUJIANGCONGBUCHASHENQINGZHONGQUXIAORENKEZAIBUCHAZONGLANZHONGCAOZUO',
                   '撤回后将从补差申请中取消，仍可在补差总览中操作'
                 )
               "
-              placement="top"
-            >
+                        placement="top">
               <iButton @click="recall">{{
                 language('CHEHUI', '撤回')
               }}</iButton>
             </el-tooltip>
-            <el-tooltip
-              class="item margin-right10"
-              effect="light"
-              :content="
+            <el-tooltip class="item margin-right10"
+                        effect="light"
+                        :content="
                 language(
                   'CHONGXIAOHOUJIANGCONGBUCHASHENQINGZHONGQUXIAOBUNENGZHIJIEZAIBUCHAZONGLANZHONGCAOZUOXUSHOUGONGCHUANGJIANBUCHAXINXI',
                   '冲销后将从补差申请中取消，不能直接在补差总览中操作，需手工创建补差信息'
                 )
               "
-              placement="top"
-            >
-              <iButton @click="offset">{{
+                        placement="top">
+              <iButton @click="offset"
+                       :loading="offsetLoading">{{
                 language('CHONGXIAO', '冲销')
               }}</iButton>
             </el-tooltip>
-            <iButton v-if="flag" @click="submit" :loading="subLoading">{{
+            <iButton v-if="flag"
+                     @click="submit"
+                     :loading="subLoading">{{
               language('TIJIAO', '提交')
             }}</iButton>
-            <iButton v-if="!flag" @click="submit" :loading="subLoading">{{
+            <iButton v-if="!flag"
+                     @click="submit"
+                     :loading="subLoading">{{
               language('BAOCUN', '保存')
             }}</iButton>
           </div>
         </div>
         <div>
-          <i-table-custom
-            :loading="tableLoading"
-            :data="tableData"
-            :columns="tableColumns"
-            min-height="328px"
-            ref="multipleTable"
-            @handle-selection-change="handleSelectionChange"
-          />
+          <i-table-custom :loading="tableLoading"
+                          :data="tableData"
+                          :columns="tableColumns"
+                          min-height="328px"
+                          ref="multipleTable"
+                          @handle-selection-change="handleSelectionChange" />
           <!-- <iPagination v-update
                        @size-change="handleSizeChange($event, query)"
                        @current-change="handleCurrentChange($event, query)"
@@ -297,7 +273,7 @@ export default {
   },
   watch: {
     selectData: {
-      handler(val) {
+      handler (val) {
         if (val && val.length !== 0) {
           this.dataAll = val
           this.getDataFunc(val)
@@ -307,7 +283,7 @@ export default {
       immediate: true
     }
   },
-  data() {
+  data () {
     return {
       dataAll: [],
       searchForm: {
@@ -333,6 +309,7 @@ export default {
       name: '默认空，“计算”后显示',
       tableLoading: false,
       subLoading: false,
+      offsetLoading: false,
       tableColumns: TABLE_COLUMS,
       tableData: [],
       combobox: [],
@@ -351,20 +328,20 @@ export default {
     }
   },
   computed: {
-    editDisabled() {
+    editDisabled () {
       return !this.flag ? true : false
     }
   },
-  created() {
+  created () {
     this.init()
   },
   methods: {
-    init() {
+    init () {
       this.$nextTick(() => {
         this.query()
       })
     },
-    getDataFunc(val) {
+    getDataFunc (val) {
       const data = val[0]
       this.mtzId = data.id
       this.searchForm.mtzDocId = data.bizNo
@@ -382,11 +359,11 @@ export default {
         if (res.data.offsetFrom && res.data.offsetTo)
           this.searchForm.value1 = [
             res.data.offsetFrom.substring(0, 4) +
-              '-' +
-              res.data.offsetFrom.substring(4, 6),
+            '-' +
+            res.data.offsetFrom.substring(4, 6),
             res.data.offsetTo.substring(0, 4) +
-              '-' +
-              res.data.offsetTo.substring(4, 6)
+            '-' +
+            res.data.offsetTo.substring(4, 6)
           ] //市场价偏移区间
         // this.value = [res.data.monthFrom.substring(0, 4) + "-" + res.data.monthFrom.substring(4, 6) + "-00", res.data.monthTo.substring(0, 4) + "-" + res.data.monthTo.substring(4, 6) + "-00"]
         this.value = [res.data.monthFrom, res.data.monthTo]
@@ -394,18 +371,18 @@ export default {
         this.trueCompMoney = res.data.approvedAmt
       })
     },
-    handleClose() {
+    handleClose () {
       this.$emit('close', false)
     },
-    handleChange(val) {
+    handleChange (val) {
       this.searchForm.compTimeStart = val[0]
       this.searchForm.compTimeEnd = val[1]
     },
-    handleChangeDate(val) {
+    handleChangeDate (val) {
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
-    query() {
+    query () {
       this.tableLoading = true
       this.actAmtList = []
       fetchQueryComp({
@@ -423,11 +400,11 @@ export default {
         }
       })
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       // console.log(val);
       this.muiltSelectList = val
     },
-    recall() {
+    recall () {
       // console.log(this.muiltSelectList.length)
       if (this.muiltSelectList.length < 1) {
         return iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
@@ -465,11 +442,12 @@ export default {
         }
       })
     },
-    offset() {
+    offset () {
       if (this.muiltSelectList.length === 0) {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
         return
       }
+      this.offsetLoading = true
       let params = []
       this.muiltSelectList.forEach((item) => {
         params.push(item.id)
@@ -479,12 +457,14 @@ export default {
           iMessage.success(res.desZh)
           this.getDataFunc(this.dataAll)
           this.query()
+          this.offsetLoading = false
         } else {
           iMessage.error(res.desZh)
+          this.offsetLoading = false
         }
       })
     },
-    submit() {
+    submit () {
       let withdrawIds = this.dataListPush.filter((item) => {
         return !this.selectDataList.map((item) => item.id).includes(item)
       })
@@ -507,20 +487,20 @@ export default {
           this.query()
         })
     },
-    search() {
+    search () {
       this.searchFlag = true
       this.query()
     },
-    reset() {
+    reset () {
       this.searchFlag = true
       this.searchForm = {}
       this.query()
     },
-    calcuLate() {
+    calcuLate () {
       let params = {}
-      balanceCalcuLate().then((res) => {})
+      balanceCalcuLate().then((res) => { })
     },
-    waitChange(val) {
+    waitChange (val) {
       if (Math.abs(Number(val)) > Math.abs(Number(this.waitCompDocMoney))) {
         // iMessage.error(language("","实际补差金额需小于待发起凭证金额"))
         iMessage.error('实际补差金额绝对值需小于待发起凭证金额绝对值')
@@ -529,7 +509,7 @@ export default {
         this.trueCompMoney = val
       }
     },
-    waitInput(val) {}
+    waitInput (val) { }
   }
 }
 </script>
