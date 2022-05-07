@@ -15,8 +15,8 @@ const postcss = px2rem({
 // const BASE_IP = 'http://rise-nginx-internal.apps.vmocp-dev.csvw.com'
 // const BASE_IP = '10.122.18.166'
 // const BASE_IP = '10.122.17.38'
-const BASE_IP = "http://rise-gateway-runtime.apps.vmocp-dev.csvw.com";
-
+// const BASE_IP = "http://rise-gateway-runtime.apps.vmocp-dev.csvw.com";
+const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com'
 console.log(BASE_IP)
 
 module.exports = {
