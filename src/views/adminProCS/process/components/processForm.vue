@@ -397,7 +397,8 @@ export default {
           label: '自定义',
           value: 15
         }
-      ]
+      ],
+      detailData: {}
     }
   },
   created() {
@@ -410,6 +411,7 @@ export default {
       try {
         this.loading = true
         const formData = await getProcess(id)
+        this.detailData = formData
         const experts = formData.experts
           ? formData.experts.map((e) => e.id)
           : []
@@ -440,6 +442,7 @@ export default {
           rangeSupplier
         }
         this.loading = false
+        this.queryUsersList()
         return this.form
       } finally {
         this.loading = false
@@ -455,7 +458,11 @@ export default {
       // 	this.org_loading = false
       // }
       this.org_loading = true
-      this.orgList = this.allOrgList.filter((e) => e.name.includes(v))
+      //       CIRW2-703
+      // 【Pro CS】流程管理，创建流程时，关联机构无法搜索
+      this.orgList = this.allOrgList.filter((e) =>
+        e.nameEn.toLowerCase().includes(v.toLowerCase())
+      )
       this.org_loading = false
     },
     save() {
@@ -523,11 +530,20 @@ export default {
       let params = {
         keyword: keyword || ''
       }
+      const detailExperts = this.detailData.experts || []
+
       try {
         this.experts_loading = true
-        let res = await getUsersList(params)
-        console.log('usersList')
-        if (this.type != 'add' && this.onceGetUser) {
+        // CIRW2-702 【Pro CS】流程管理，创建流程时，流程专家字段取错
+        const res = await getUsersList(params)
+        const resIds = res.map((e) => e.id)
+        const currentExpertsNotInRes = detailExperts.filter(
+          (e) => !resIds.includes(e.id)
+        )
+
+        this.userList = [...res, ...currentExpertsNotInRes]
+
+        /* if (this.type != 'add' && this.onceGetUser) {
           let uIds = res.map((e) => e.id)
           let many = this.form.Experts
             ? this.form.Experts.filter((e) => !uIds.includes(e.id))
@@ -536,7 +552,8 @@ export default {
           this.onceGetUser = false
         } else {
           this.userList = res
-        }
+        } */
+        this.experts_loading = false
       } finally {
         this.experts_loading = false
       }
