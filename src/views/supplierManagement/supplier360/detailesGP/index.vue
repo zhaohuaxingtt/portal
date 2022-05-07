@@ -14,7 +14,7 @@
                 class="" />
     <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO'
                   :supplier360ViewVO='supplier360ViewVO'
-                  :gpOrderVo="gpOrderVo"
+                  :superGpOrderVo="superGpOrderVo"
                   v-if="isShowAll"
                    />
     <affiliatedCompany :groupRelationsVO='groupRelationsVO'
@@ -42,7 +42,7 @@ export default {
       financialEarlyWarningVO: [],
       relatedCompanyVO: [],
       gpFixPointVos:[],
-      gpOrderVo:[],
+      superGpOrderVo:[],
       gpSourceingDataVos:[],
       isShowAll: false,
       onLoading: false
@@ -63,7 +63,7 @@ export default {
       if (res?.code === '200') {
         this.onLoading = false
         this.gpFixPointVos = res.data.gpFixPointVos;//定点
-        this.gpOrderVo = res.data.gpOrderVo;//订单
+        this.superGpOrderVo = res.data.superGpOrderVo;//订单
         this.gpSourceingDataVos = res.data.gpSourceingDataVos;//寻源
 
         this.factoryAddressVOList = res.data.factoryAddressVOList

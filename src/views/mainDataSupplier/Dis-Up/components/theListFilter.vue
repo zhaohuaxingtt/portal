@@ -65,7 +65,9 @@ export default {
     }
   },
   created(){
-    dropDownTagName({}).then(res=>{
+    dropDownTagName({
+      type:2
+    }).then(res=>{
       console.log(res);
       this.supplierTypes = res.data;
     })
