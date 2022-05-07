@@ -177,7 +177,7 @@ export default {
           path: '/supplier/view-suppliers',
           query: {
             supplierToken: row.supplierToken || '',
-            type:row.type || 'LR',
+            type:row.type || '',
             supplierType: '4',
             subSupplierType: row.supplierType,
             supplierId: row.subSupplierId,
