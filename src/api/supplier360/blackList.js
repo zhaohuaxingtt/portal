@@ -34,6 +34,16 @@ export function measuresTypeList(params) {
   })
 }
 
+//获取状态
+export function measuresTypeGPList(params) {
+  return requst({
+    url: '/gpSupplerBlack/measuresTypeList',
+    method: 'POST',
+    data: params
+  })
+}
+
+
 //一般供应商黑名单历史分页
 export function gpSupplerBlackListHistoryPage(params) {
   return requst({
