@@ -154,6 +154,9 @@ export default {
         var index = 0;//默认选中高亮模块索引
         const echart1 = echarts().init(this.$refs.echart1)
         var dataList = val
+        dataList.forEach(e=>{
+            e.value = Number((e.value).toFixed(2))
+        })
         this.option1 = {
             title:{
                 show:true,
