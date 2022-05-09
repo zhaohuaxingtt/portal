@@ -60,6 +60,10 @@
                 :openPageGetRowData="true"
                 :highlightCurrentRow="true"
                 >
+          <template #supplierTagNameList="scope">
+            <i-button type="text"
+                      @click="handleTagsList(scope.row)">{{scope.row.supplierTagNameList.length>0?scope.row.supplierTagNameList.join(","):""}}</i-button>
+          </template>
           <template slot="yewuType">
             <span>{{$t("NEIBUBAOXIAO")}}</span>
           </template>
@@ -84,6 +88,11 @@
                 :selectTableData="listData"
                 v-if="isSetTag">
     </setTagdilog>
+    <setTagList @closeDiolog="closeDiolog"
+                v-model="issetTagList"
+                :rowList="rowList"
+                v-if="issetTagList">
+    </setTagList>
   </div>
 </template>
 
@@ -92,6 +101,7 @@ import tableList from '@/components/commonTable'
 import { iSearch,iSelect,iInput,iCard,iButton,iPagination,iMessage } from "rise";
 import { pageMixins } from '@/utils/pageMixins'
 import setTagdilog from '../supplier360/list/components/setTag'
+import setTagList from '@/views/supplierManagement/supplier360/list/components/setTagList'
 import { dropDownTagName,pageInner} from '@/api/supplierManagement/supplierTag/index'
 import { tableTitle } from "./data"
 
@@ -106,7 +116,8 @@ export default {
         iButton,
         tableList,
         iPagination,
-        setTagdilog
+        setTagdilog,
+        setTagList
     },
     data(){
         return{
@@ -124,6 +135,8 @@ export default {
             tagdropDownList: [],
             listData:[],
             isSetTag:false,
+            rowList:{},
+            issetTagList: false, //标签列表
         }
     },
     created(){
@@ -131,11 +144,17 @@ export default {
       this.getTableList();
     },
     methods:{
+      //标签列表弹窗
+      handleTagsList (row) {
+        this.rowList = row
+        this.issetTagList = true
+      },
       closeDiolog (v) {
         if (v == 1) {
           this.sure()
         }
         this.isSetTag = false
+        this.issetTagList = false
       },
       //标签设置弹窗
       setTagBtn () {
