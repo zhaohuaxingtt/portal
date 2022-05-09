@@ -51,6 +51,51 @@ export const staffTitle = [
     }
 ]
 
+export const staffTitleGP = [
+    {
+        key: 'totalEmployees',
+        name: '员工数',
+        permissionKey: 'PARTSIGN_EDITORDETAIL_PARTNUMBER',
+        language: 'YUANGONGSHU',
+        permission: 'SUPPLIER_GOVERNANCE_AMOUNTOFTOTALEMPLOYEES_GP'
+    },
+    {
+        key: 'managerNum',
+        name: '管理人员数',
+        permissionKey: 'PARTSIGN_EDITORDETAIL_PARTNAMEZH',
+        language: 'GUANLIRENYUAN',
+        permission: 'SUPPLIER_GOVERNANCE_AMOUNTOFMANAGERS_GP'
+    },
+    {
+        key: 'technicistNum',
+        name: '研发人员数',
+        permissionKey: 'PARTSIGN_EDITORDETAIL_PARTNAMEGER',
+        language: 'YANFARENYUANSHU',
+        permission: 'SUPPLIER_GOVERNANCE_AMOUNTOFTECHNICIANS_GP'
+    },
+    {
+        key: 'salesmanNum',
+        name: '生产人员数',
+        permissionKey: 'PARTSIGN_EDITORDETAIL_VEHICLECATEGORIES',
+        language: 'SHENGCHANRENYUANSHU',
+        permission: 'SUPPLIER_GOVERNANCE_AMOUNTPRODUCT_GP'
+    },
+    {
+        key: 'daytalerNum',
+        name: '临时工人数',
+        permissionKey: 'PARTSIGN_EDITORDETAIL_MODELPROJECT',
+        language: 'LINSHIGONGRENSHU',
+        permission: 'SUPPLIER_GOVERNANCE_AMOUNTOFCASUALWORKERS_GP'
+    },
+    {
+        key: 'isLaborunion',
+        name: '是否设置工会',
+        permissionKey: 'PARTSIGN_EDITORDETAIL_INFORMATIONCLASSIFICATION',
+        language: 'SHIFOUSHEZHIGONGHUI',
+        permission: 'SUPPLIER_GOVERNANCE_LABOURUNIONORNONE_GP'
+    }
+]
+
 export const staffTableTitle = [
     {props: 'mainManagerName', name: '主要管理人员姓名', key: 'ZHUYAOGUANLIRENYUAN',tooltip :true},
     {props: 'sex', name: '性别', key: 'XINGBIE'},
