@@ -20,14 +20,26 @@
     <companyProfile ref="companyProfile"
                     :country="country"
                     :supplierData="supplierComplete"
+                    v-if="$route.query.subSupplierType!=='GP'"
                     :fromGroup="fromGroup">
     </companyProfile>
+    <companyProfileGP ref="companyProfile"
+                    v-if="$route.query.subSupplierType=='GP'"
+                    :country="country"
+                    :supplierData="supplierComplete"
+                    :fromGroup="fromGroup">
+    </companyProfileGP>
     <!-- 经营状态 -->
     <operationStatus ref="operationStatus"
                      :supplierData="supplierComplete"
                      :fromGroup="fromGroup"
-                     v-if="isPP">
+                     v-if="$route.query.subSupplierType!=='GP'">
     </operationStatus>
+    <operationStatusGP ref="operationStatus"
+                     :supplierData="supplierComplete"
+                     :fromGroup="fromGroup"
+                     v-if="$route.query.subSupplierType=='GP'">
+    </operationStatusGP>
     <!-- 开户银行 -->
               <!-- v-if="$route.path!=='/supplier/view-suppliers'" -->
     <opneBank ref="opneBank"
@@ -65,8 +77,10 @@ import {
   generalPageMixins
 } from '@/views/generalPage/commonFunMixins';
 import companyProfile from "./components/companyProfile"
+import companyProfileGP from "./components/companyProfileGP"
 import supplyStatus from './components/supplyStatus';
 import operationStatus from './components/operationStatus';
+import operationStatusGP from './components/operationStatusGP';
 import opneBank from './components/opneBank';
 import buyer from "../home/components/buyer";
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
@@ -88,6 +102,8 @@ export default {
     buyer,
     baseInfoCard,
     linie,
+    companyProfileGP,
+    operationStatusGP
   },
   data () {
     return {
