@@ -2878,6 +2878,7 @@
         var self = this
         self.$refs.vueSelect.handleOptionSelectAll(self.originOptions)
         self.selectedData = []
+
         self.originOptions.forEach(function (option) {
           self.$refs.vueSelect.options.forEach((item) => {
             if (option[self.valueKey] === item.value && item.visible) {
