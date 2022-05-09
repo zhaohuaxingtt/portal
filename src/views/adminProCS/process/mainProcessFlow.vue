@@ -14,14 +14,19 @@
               height: item.height + 'px',
               top: item.yco + 'px',
               left: item.xco + 'px',
-              display: 'block',
-              borderRadius: '50%'
+              display: 'block'
             }"
           ></div>
         </div>
         <!-- <img src="~@/assets/images/mainProcess.png" class="img-process" /> -->
-        <div @mousedown.capture="mouseStart" @mouseup.capture="mouseEnd">
-          <img :src="filePath" class="img-process" />
+        <div
+          @mousedown.capture="mouseStart"
+          @mouseup.capture="mouseEnd"
+          :style="imgStyle"
+        >
+          <div style="user-select: none">
+            <img :src="filePath" class="img-process" ref="imgProcess" />
+          </div>
         </div>
       </div>
       <div class="rightContent">
@@ -68,6 +73,7 @@ import {
   loadProcessPageList,
   createFlowchartInfo,
   updateFlowchart,
+  queryCanUseProcessList,
   queryProcessList,
   addFlowchartNode,
   delFlowchartNode,
@@ -82,6 +88,15 @@ export default {
     iPage,
     BaseInfo,
     ProjectInfo
+  },
+  computed: {
+    imgStyle() {
+      const style = {}
+      if (this.imgWidth) {
+        style.width = this.imgWidth + 'px'
+      }
+      return style
+    }
   },
   data() {
     return {
@@ -106,11 +121,23 @@ export default {
       loading: false,
       flowChartId: this.$route.query.flowChartId,
       processId: this.$route.query.processId,
-      delFlag: false
+      delFlag: false,
+      imgWidth: 0
     }
   },
   created() {
     this.getMainChartInfo()
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.$refs.imgProcess) {
+        this.$refs.imgProcess.onload = () => {
+          if (this.$refs.imgProcess.width) {
+            this.imgWidth = this.$refs.imgProcess.width
+          }
+        }
+      }
+    })
   },
   methods: {
     async getMainChartInfo() {
@@ -217,11 +244,14 @@ export default {
       }
     },
     async getProcessList() {
-      let params = {
+      const params = {
         page: 0,
         size: 1000
       }
-      let res = await queryProcessList(params)
+      //  CIRW2-708 换接口
+      // 【Pro CS】流程管理，主流程图添加跳转流程时，下架的流程不能选择
+      const res = await queryCanUseProcessList(params)
+      // const res = await queryProcessList(params)
       this.processList = res.content || []
     },
     async loadProcessPageList() {
@@ -234,6 +264,7 @@ export default {
     },
 
     mouseStart(e) {
+      console.log('canDrawFlag', this.canDrawFlag)
       if (!this.canDrawFlag) return
       this.startX = e.layerX
       this.startY = e.layerY
@@ -244,10 +275,10 @@ export default {
       this.endX = e.layerX
       this.endY = e.layerY
       this.clickFlag = false
-
+      console.log('mouseEnd', this.startX, this.startY, this.endX, this.endY)
       if (this.startX && this.startY && this.endX && this.endY) {
-        this.currWidth = this.endX - this.startX
-        this.currHeight = this.endY - this.startY
+        this.currWidth = Math.abs(this.endX - this.startX)
+        this.currHeight = Math.abs(this.endY - this.startY)
         // this.$nextTick(()=> {
         console.log(`testDiv${this.currIndex}`)
         let divIndex = null
@@ -266,7 +297,6 @@ export default {
         testDiv.style.left = `${this.startX + X}px`
         testDiv.style.width = `${this.currWidth}px`
         testDiv.style.height = `${this.currHeight}px`
-        testDiv.style.borderRadius = '50%'
         // })
         let obj = {
           yco: parseInt(this.startY + Y),
