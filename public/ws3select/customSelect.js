@@ -2880,7 +2880,7 @@
         self.selectedData = []
         self.originOptions.forEach(function (option) {
           self.$refs.vueSelect.options.forEach((item) => {
-            if (option.code === item.value && item.visible) {
+            if (option[self.valueKey] === item.value && item.visible) {
               self.selectedOptions.push(option)
               self.selectedData.push(option[self.valueMember])
             }
