@@ -73,7 +73,7 @@ import {
   loadProcessPageList,
   createFlowchartInfo,
   updateFlowchart,
-  queryCanUseProcessList,
+  /* queryCanUseProcessList, */
   queryProcessList,
   addFlowchartNode,
   delFlowchartNode,
@@ -250,7 +250,7 @@ export default {
       }
       //  CIRW2-708 换接口
       // 【Pro CS】流程管理，主流程图添加跳转流程时，下架的流程不能选择
-      const res = await queryCanUseProcessList(params)
+      const res = await queryProcessList(params)
       // const res = await queryProcessList(params)
       this.processList = res.content || []
     },
@@ -292,15 +292,17 @@ export default {
         let testDiv = document.getElementById(`testDiv${divIndex}`)
         let X = this.$refs.box.scrollLeft
         let Y = this.$refs.box.scrollTop
+        const top = Math.min(this.endY, this.startY) + Y
+        const left = Math.min(this.endX, this.startX) + X
         testDiv.style.display = 'block'
-        testDiv.style.top = `${this.startY + Y}px`
-        testDiv.style.left = `${this.startX + X}px`
+        testDiv.style.top = `${top}px`
+        testDiv.style.left = `${left}px`
         testDiv.style.width = `${this.currWidth}px`
         testDiv.style.height = `${this.currHeight}px`
         // })
         let obj = {
-          yco: parseInt(this.startY + Y),
-          xco: parseInt(this.startX + X),
+          yco: parseInt(top),
+          xco: parseInt(left),
           width: parseInt(this.currWidth),
           height: parseInt(this.currHeight)
         }

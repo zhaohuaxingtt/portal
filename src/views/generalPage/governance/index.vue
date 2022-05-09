@@ -7,7 +7,7 @@
   <div class="frm">
     <base-info-card v-if="this.supplierType > 3"/>
     <iCard class="margin-top20">
-      <formItem :title="staffTitle" :data="staffData"></formItem>
+      <formItem :title="titleAll" :data="staffData"></formItem>
     </iCard>
     <staffTable class="margin-top20"></staffTable>
   </div>
@@ -16,7 +16,7 @@
 <script>
 import {iCard} from "rise";
 import formItem from "./components/formItem";
-import {staffTitle} from "./components/data";
+import {staffTitle,staffTitleGP} from "./components/data";
 import staffTable from "./components/staffDetailTable"
 import {getGovernConditionListView} from '../../../api/supplier360/governance'
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
@@ -32,7 +32,9 @@ export default {
   },
   data() {
     return {
+      titleAll:[],
       staffTitle,
+      staffTitleGP,
       staffData: {
         totalEmployees: '',
         managerNum: '',
@@ -44,6 +46,11 @@ export default {
     }
   },
   created() {
+    if(this.$route.query.subSupplierType == "GP"){
+      this.titleAll = this.staffTitleGP;
+    }else{
+      this.titleAll = this.staffTitle;
+    }
     this.getGovernConditionList()
   },
   methods: {
