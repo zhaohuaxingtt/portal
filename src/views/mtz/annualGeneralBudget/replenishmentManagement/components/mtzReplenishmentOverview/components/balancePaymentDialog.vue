@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-04-28 15:40:27
+ * @LastEditTime: 2022-05-09 10:19:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -230,7 +230,8 @@
                 )
               "
                         placement="top">
-              <iButton @click="offset">{{
+              <iButton @click="offset"
+                       :loading="offsetLoading">{{
                 language('CHONGXIAO', '冲销')
               }}</iButton>
             </el-tooltip>
@@ -689,15 +690,18 @@ export default {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
         return
       }
+      this.offsetLoading = true
       let params = []
       this.muiltSelectList.forEach((item) => {
         params.push(item.id)
       })
       chargeAgainstMTZComp(params).then((res) => {
         if (res?.code === '200') {
+          this.offsetLoading = false
           iMessage.success(res.desZh)
           this.query()
         } else {
+          this.offsetLoading = false
           iMessage.error(res.desZh)
         }
       })
