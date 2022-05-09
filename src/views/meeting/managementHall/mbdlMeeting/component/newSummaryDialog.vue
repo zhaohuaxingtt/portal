@@ -8,7 +8,6 @@
     @close="handleCancel"
     class="summary-dialog-box"
   >
-  123123
     <iEditForm>
       <el-form
         :model="resultData"
@@ -81,13 +80,15 @@
               </div>
               <div class="agenda-item-content">
                 <p class="task">Task</p>
+                <!-- task取 result ，conclusion取conclusion -->
                 <iFormItem
                   :prop="'conclusion' + index"
                   class="meet-desc"
                   :rules="rule"
                 >
+                    <!-- v-model="conclusionCscList[item.conclusion]" -->
                   <iInput
-                    v-model="item.result"
+                  v-model="item.result"
                     type="textarea"
                     resize="none"
                     rows="4"
@@ -250,12 +251,13 @@ export default {
       ],
       conclusionCscList: {
         '01': '待定',
-        '02': '通过',
-        '03': '预备会议通过',
-        '04': '不通过',
-        '05': 'Last Call',
-        '06': '分段待定'
+        '08': '通过',
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段待定' 
       },
+     
     }
   },
   mounted() {
