@@ -24,35 +24,35 @@
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
-    <baseInfoCard ref="baseInfoCard" class="margin-bottom20" />
-    <linie
-      ref="linie"
-      :supplierData="supplierComplete.gpSupplierDetails"
-      v-if="$route.query.subSupplierType == 'GP'"
-      class="margin-bottom20"
-    ></linie>
-    <buyer
-      ref="buyer"
-      v-if="$route.query.subSupplierType !== 'GP'"
-      :supplierData="supplierComplete.supplierDTO"
-      disabled
-      class="margin-bottom20"
-    ></buyer>
-    <companyProfile
-      ref="companyProfile"
-      :country="country"
-      :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
-    >
+    <baseInfoCard ref="baseInfoCard" class="margin-bottom20"/>
+    <linie ref="linie" :supplierData="supplierComplete.gpSupplierDetails" v-if="$route.query.subSupplierType=='GP'" class="margin-bottom20"></linie>
+    <buyer ref="buyer" v-if="$route.query.subSupplierType!=='GP'"
+           :supplierData="supplierComplete.supplierDTO"
+           disabled
+           class="margin-bottom20"></buyer>
+    <companyProfile ref="companyProfile"
+                    :country="country"
+                    :supplierData="supplierComplete"
+                    v-if="$route.query.subSupplierType!=='GP'"
+                    :fromGroup="fromGroup">
     </companyProfile>
+    <companyProfileGP ref="companyProfile"
+                    v-if="$route.query.subSupplierType=='GP'"
+                    :country="country"
+                    :supplierData="supplierComplete"
+                    :fromGroup="fromGroup">
+    </companyProfileGP>
     <!-- 经营状态 -->
-    <operationStatus
-      ref="operationStatus"
-      :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
-      v-if="isPP"
-    >
+    <operationStatus ref="operationStatus"
+                     :supplierData="supplierComplete"
+                     :fromGroup="fromGroup"
+                     v-if="$route.query.subSupplierType!=='GP'">
     </operationStatus>
+    <operationStatusGP ref="operationStatus"
+                     :supplierData="supplierComplete"
+                     :fromGroup="fromGroup"
+                     v-if="$route.query.subSupplierType=='GP'">
+    </operationStatusGP>
     <!-- 开户银行 -->
     <!-- v-if="$route.path!=='/supplier/view-suppliers'" -->
     <opneBank
@@ -77,14 +77,24 @@
 import { iButton, iMessage } from 'rise'
 import { supplierComplete, tableData } from './components/data'
 import linie from './components/linie'
-import { saveInfos, supplierDetail } from '@/api/register/baseInfo'
-import { selectDictByKeys, getCityInfo } from '@/api/dictionary'
-import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
-import companyProfile from './components/companyProfile'
-import supplyStatus from './components/supplyStatus'
-import operationStatus from './components/operationStatus'
-import opneBank from './components/opneBank'
-import buyer from '../home/components/buyer'
+import {
+  saveInfos,
+  supplierDetail
+} from "@/api/register/baseInfo";
+import {
+  selectDictByKeys,
+  getCityInfo
+} from "@/api/dictionary";
+import {
+  generalPageMixins
+} from '@/views/generalPage/commonFunMixins';
+import companyProfile from "./components/companyProfile"
+import companyProfileGP from "./components/companyProfileGP"
+import supplyStatus from './components/supplyStatus';
+import operationStatus from './components/operationStatus';
+import operationStatusGP from './components/operationStatusGP';
+import opneBank from './components/opneBank';
+import buyer from "../home/components/buyer";
 import baseInfoCard from '@/views/generalPage/components/baseInfoCard'
 import { baseInfoSubmit } from '../../../api/supplier360/baseInfo'
 import { deleteDict } from '@/api/params'
@@ -101,7 +111,9 @@ export default {
     iButton,
     buyer,
     baseInfoCard,
-    linie
+    linie,
+    companyProfileGP,
+    operationStatusGP
   },
   data() {
     return {

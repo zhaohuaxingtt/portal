@@ -30,5 +30,6 @@ export default {
   查看: 'View',
   返回: 'Back',
   输入姓名搜索: 'Enter name to search',
-  输入关键词搜索: 'Enter keyword to search'
+  输入关键词搜索: 'Enter keyword to search',
+  '文件大小最大限制10MB！': 'Maximum file size 10MB!'
 }

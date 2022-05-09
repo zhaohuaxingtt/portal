@@ -4,19 +4,13 @@ const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 
-/* const ChangeNginxConfig = require(resolve(
-      './loadersPlugins/pluginTranslateNginxConfig'
-    )) */
 const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
 })
 
-// const BASE_IP = 'http://rise-nginx-internal.apps.vmocp-dev.csvw.com'
-// const BASE_IP = '10.122.18.166'
-// const BASE_IP = '10.122.17.38'
-// const BASE_IP = "http://rise-gateway-runtime.apps.vmocp-dev.csvw.com";
-const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com'
+const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-test.csvw.com'
+
 console.log(BASE_IP)
 
 module.exports = {
@@ -204,7 +198,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `${BASE_IP}/`,
+        target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
         // target: `http://${BASE_IP}:8034`,
         // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
         changeOrigin: true,
