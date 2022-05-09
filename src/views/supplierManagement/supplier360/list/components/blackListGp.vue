@@ -65,7 +65,7 @@
               clearable
             />
           </el-form-item>
-          <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
+          <el-form-item :label="$t('SKTZQZSJ')">
             <iDatePicker
               style="width: 220px"
               type="daterange"
@@ -222,6 +222,7 @@ export default {
         supplierType: this.tabVal
       }
       if(this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"){
+        params.supplierId=this.clickTableList.subSupplierId;
         measuresTypeGPList(params).then((res) => {
           if (res && res.code == 200) {
             this.typeList = res.data
