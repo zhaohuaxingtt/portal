@@ -2839,7 +2839,8 @@
       return {
         selectedData: '',
         selectedOptions: [],
-        originOptions: []
+        originOptions: [],
+        originOptionsCopye: []
       }
     },
     watch: {
@@ -2852,6 +2853,7 @@
       userOptions: {
         handler: function (val) {
           this.originOptions = val
+          // this.originOptionsCopye = _.cloneDeep(this.originOptions)
         },
         deep: true
       },
@@ -2876,10 +2878,16 @@
         var self = this
         self.$refs.vueSelect.handleOptionSelectAll(self.originOptions)
         self.selectedData = []
+
         self.originOptions.forEach(function (option) {
-          self.selectedOptions.push(option)
-          self.selectedData.push(option[self.valueMember])
+          self.$refs.vueSelect.options.forEach((item) => {
+            if (option[self.valueKey] === item.value && item.visible) {
+              self.selectedOptions.push(option)
+              self.selectedData.push(option[self.valueMember])
+            }
+          })
         })
+        self.originOptionsCopye = _.cloneDeep(self.originOptions)
         self.originOptions.splice(0, self.originOptions.length)
         // this.$emit('change', this.selectedOptions)
         this.$emit('input', this.selectedData)
@@ -2887,11 +2895,12 @@
       unselectAll: function () {
         var self = this
         self.$refs.vueSelect.handleOptionSelectAll(self.selectedOptions)
-        self.selectedOptions.forEach(function (option) {
+        self.originOptionsCopye.forEach(function (option) {
           self.originOptions.push(option)
         })
         self.selectedOptions.splice(0, self.selectedOptions.length)
         self.selectedData = []
+        self.originOptionsCopye = []
         // this.$emit('change', this.selectedData)
         this.$emit('input', this.selectedData)
       },
