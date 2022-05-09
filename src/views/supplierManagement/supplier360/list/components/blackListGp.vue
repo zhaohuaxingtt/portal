@@ -153,6 +153,7 @@
 <script>
 import {
   measuresTypeList,
+  measuresTypeGPList,
   gpSupplerBlackListHistoryPage,
   gpSupplerBlackListStatus
 } from '@/api/supplier360/blackList'
@@ -209,6 +210,8 @@ export default {
     // this.$nextTick(() => {
     this.getList()
     this.getTypeList()
+    console.log(this.clickTableList)
+    console.log(this.value)
     // })
   },
   computed: {},
@@ -218,11 +221,19 @@ export default {
       let params = {
         supplierType: this.tabVal
       }
-      measuresTypeList(params).then((res) => {
-        if (res && res.code == 200) {
-          this.typeList = res.data
-        }
-      })
+      if(this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"){
+        measuresTypeGPList(params).then((res) => {
+          if (res && res.code == 200) {
+            this.typeList = res.data
+          }
+        })
+      }else{
+        measuresTypeList(params).then((res) => {
+          if (res && res.code == 200) {
+            this.typeList = res.data
+          }
+        })
+      }
     },
     getList() {
       this.tableLoading = true
