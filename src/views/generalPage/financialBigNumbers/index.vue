@@ -96,8 +96,11 @@ export default {
     },
   },
   created () {
-    console.log(this.baseMsg.gpSupplierDetails)
     if(this.$route.query.subSupplierType=="GP"){
+      if(!this.baseMsg.gpSupplierDetails){
+        this.tableTitle = this.tableTitleGP2;
+        return false;
+      }
       let number = 0;
       this.baseMsg.gpSupplierDetails.forEach(e=>{
         if(e.businessType == 1 && e.industryPosition == "Y"){
