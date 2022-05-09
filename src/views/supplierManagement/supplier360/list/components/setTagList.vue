@@ -192,7 +192,7 @@ export default {
     //获取标签列表
     getTagListdropDown() {
       var list = {};
-      if(this.$route.path == "/supplier/supplierListGP"){
+      if(this.$route.path == "/supplier/supplierListGP" || this.$route.path == "/supplier/supplierListDis"){
         list = {
           type:2
         }
@@ -210,7 +210,7 @@ export default {
     getList() {
       this.tableLoading = true
       var req = {};
-      if(this.$route.path=="/supplier/supplierListGP"){
+      if(this.$route.path=="/supplier/supplierListGP" || this.$route.path == "/supplier/supplierListDis"){
         req = {
           supplierId: this.rowList.subSupplierId,
           ...this.form,
