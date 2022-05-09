@@ -268,7 +268,7 @@ export default {
     clickDraw(item) {
       checkFlowHotAreaRedirect(item.contentId).then((res) => {
         const { data, desZh } = res
-        if (data.result) {
+        if (data && data.result) {
           this.$router.push({
             path: '/cf-ProCS/processDetail',
             query: { id: item.contentId }
