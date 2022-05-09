@@ -746,13 +746,21 @@ export default {
       })
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      debugger
+      if (this.ruleForm.presenter=='') {
+        iMessage.success('请选择采购员')
+      }else if(this.ruleForm.supporter==''){
+        iMessage.success('请选择申请人')
+        return
+      }else{
+        this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true
           this.subButtonFlag = true
           //开始保存
           if (this.editOrAdd === 'edit') {
             this.handleUploadFile()
+            console.log(this.ruleForm);
             const formData = {
               ...this.ruleForm,
               meetingId: this.meetingInfo.id,
@@ -787,47 +795,55 @@ export default {
                 this.subButtonFlag = false
               })
           } else {
-            const formData = {
-              themen: {
-                ...this.ruleForm,
-                id: '',
-                meetingId: this.meetingInfo.id,
-                isBreak: false,
-                // presenterDept:
-                //   this.userData.filter((e) => e.id === this.ruleForm.presenter)
-                //     .length > 0
-                //     ? this.userData.filter(
-                //         (e) => e.id === this.ruleForm.presenter
-                //       )[0].department
-                //     : '' || '',
-                // supporterDept: this.userData.filter(
-                //   (e) => e.id === this.ruleForm.supporter
-                // )[0].department
-                // presenter:this.ruleForm.presenter[0].id,
-                // supporter:this.ruleForm.supporter[0].id,
-              }
-            }
-            saveThemen(formData)
-              .then((data) => {
-                if (data) {
-                  iMessage.success('保存成功')
-                } else {
-                  iMessage.error('error')
+            // if (this.ruleForm.presenter=='') {
+            //   // iMessage.success('请选择采购员')
+            // }else if(this.ruleForm.supporter==''){
+            //   // iMessage.success('请选择申请人')
+            //   return
+            // }else{}
+              const formData = {
+                themen: {
+                  ...this.ruleForm,
+                  id: '',
+                  meetingId: this.meetingInfo.id,
+                  isBreak: false,
+                  // presenterDept:
+                  //   this.userData.filter((e) => e.id === this.ruleForm.presenter)
+                  //     .length > 0
+                  //     ? this.userData.filter(
+                  //         (e) => e.id === this.ruleForm.presenter
+                  //       )[0].department
+                  //     : '' || '',
+                  // supporterDept: this.userData.filter(
+                  //   (e) => e.id === this.ruleForm.supporter
+                  // )[0].department
+                  // presenter:this.ruleForm.presenter[0].id,
+                  // supporter:this.ruleForm.supporter[0].id,
                 }
-                this.loading = false
-                this.subButtonFlag = false
-                this.close()
-              })
-              .catch((err) => {
-                this.loading = false
-                console.log('err', err)
-                this.subButtonFlag = false
-              })
+              }
+              saveThemen(formData) .then((data) => {
+                  if (data) {
+                    iMessage.success('保存成功')
+                  } else {
+                    iMessage.error('error')
+                  }
+                  this.loading = false
+                  this.subButtonFlag = false
+                  this.close()
+                })
+                .catch((err) => {
+                  this.loading = false
+                  console.log('err', err)
+                  this.subButtonFlag = false
+                })
+
           }
         } else {
-          return false
+          return 
         }
       })
+        
+      }
     }
   }
 }
