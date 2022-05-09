@@ -255,7 +255,11 @@ export default [
       {
         path: 'supplierListGP',
         name: 'supplierListGP',
-        component: Supplier360GP
+        component: Supplier360GP,
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
       },
       {
         path: 'supplierList/details',
