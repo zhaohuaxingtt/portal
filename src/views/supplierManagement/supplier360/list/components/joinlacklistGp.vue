@@ -103,7 +103,8 @@
 // let that
 import {
   gpSupplierBlackSave,
-  measuresTypeList
+  measuresTypeList,
+  measuresTypeGPList
 } from '@/api/supplier360/blackList'
 import {
   iSelect,
@@ -189,14 +190,26 @@ export default {
         supplierType: this.tabVal,
         supplierId:this.clickTableList.subSupplierId || ""
       }
-      measuresTypeList(params).then((res) => {
-        if (res && res.code == 200) {
-          this.typeList = res.data
-          this.form.types = res.data.map((res) => {
-            return res.code
-          })
-        }
-      })
+
+      if(this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"){
+        measuresTypeGPList(params).then((res) => {
+          if (res && res.code == 200) {
+            this.typeList = res.data
+            this.form.types = res.data.map((res) => {
+              return res.code
+            })
+          }
+        })
+      }else{
+        measuresTypeList(params).then((res) => {
+          if (res && res.code == 200) {
+            this.typeList = res.data
+            this.form.types = res.data.map((res) => {
+              return res.code
+            })
+          }
+        })
+      }
     },
     //提交
     handleSub() {
