@@ -147,7 +147,7 @@ import {
   queryMyWorkFlow,
   getMainFlowchart
 } from '@/api/procs'
-import { iCard, iButton } from 'rise'
+import { iCard, iButton, iMessage } from 'rise'
 import ProcessDraw from './../components/ProcessDraw'
 export default {
   components: {
@@ -265,10 +265,14 @@ export default {
     },
     // 流程点点击
     clickDraw(item) {
-      this.$router.push({
-        path: '/cf-ProCS/processDetail',
-        query: { id: item.contentId }
-      })
+      if (!item.published) {
+        iMessage.error('无法跳转')
+      } else {
+        this.$router.push({
+          path: '/cf-ProCS/processDetail',
+          query: { id: item.contentId }
+        })
+      }
     },
     tabChange(v) {
       this.activeName = v
