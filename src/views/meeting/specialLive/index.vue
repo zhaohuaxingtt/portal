@@ -383,14 +383,18 @@ export default {
       this.$refs.childTopic
         .queryMeeting()
         .then(() => {
-          iMessage.success(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
+          iMessage.success(
+            bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG')
+          )
           this.$refs.childTopic.query().then(() => {
             obj.following = false
           })
         })
         .catch(() => {
           obj.following = false
-          iMessage.err(bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG'))
+          iMessage.err(
+            bol ? this.$t('MT_QUXIAOCHENGGONG') : this.$t('MT_GUANZHUCHENGGONG')
+          )
         })
     },
     getMyTopics(themens) {
@@ -724,7 +728,7 @@ export default {
 
 .table-container {
   background-color: #fff;
-  width: 1740px;
+  width: 100%; // 1740px;
   padding: 0 40px 30px 40px;
 }
 .notice {
@@ -823,7 +827,7 @@ export default {
   }
 }
 .card {
-  width: 1740px;
+  width: 100%; // 1740px;
   overflow: hidden;
   .box-title-content {
     padding: 40px;

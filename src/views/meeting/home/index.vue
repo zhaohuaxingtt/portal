@@ -195,8 +195,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.meeting-home {
-  width: 1740px;
-}
-</style>
+<style lang="scss" scoped></style>

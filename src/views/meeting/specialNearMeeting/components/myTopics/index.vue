@@ -1,7 +1,6 @@
-
 <template>
   <div class="card">
-    <div class="header">{{$t('MT_WODEYITI')}}</div>
+    <div class="header">{{ $t('MT_WODEYITI') }}</div>
     <!-- <iCard class="my-topics-all">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="未完成" name="first">
@@ -28,33 +27,30 @@
 </template>
 
 <script>
-import { iCard } from "rise";
-import finished from "./finished.vue";
-import unfinish from "./unfinish.vue";
+import { iCard } from 'rise'
+import finished from './finished.vue'
+import unfinish from './unfinish.vue'
 
 export default {
   components: {
     iCard,
     finished,
-    unfinish,
+    unfinish
   },
   data() {
     return {
-      activeName: 'first',
-    };
+      activeName: 'first'
+    }
   },
-  mounted() {
-  },
-  methods: {
-  }
-};
+  mounted() {},
+  methods: {}
+}
 </script>
 
 <style lang="scss" scoped>
-
-.card {
+/* .card {
   width: 1731px;
-}
+} */
 
 .header {
   font-size: 18px;
@@ -81,7 +77,7 @@ export default {
       line-height: 25px;
     }
     .is-active {
-      color: #1763F7;
+      color: #1763f7;
     }
     .el-tabs__active-bar {
       height: 3px;
@@ -112,5 +108,4 @@ export default {
     }
   }
 } */
-
 </style>

@@ -45,7 +45,6 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        width="220"
         min-width="220"
         :label="$t('MT_HUIYIMINGCHENG')"
       >
@@ -755,7 +754,10 @@ import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
 import dayjs from 'dayjs'
 import { findThemenById } from '@/api/meeting/details'
-import { exportMeetingAgenda , exportCscMeetingAgenda} from '@/api/meeting/gpMeeting'
+import {
+  exportMeetingAgenda,
+  exportCscMeetingAgenda
+} from '@/api/meeting/gpMeeting'
 import { exportExcel } from '@/utils/gpfiledowLoad'
 import { downloadAll } from '@/utils/downloadAll'
 export default {
@@ -1441,7 +1443,10 @@ export default {
           //     this.isGenerating = false
           //   })
           //gp会议  生成Agenda  exportCscMeetingAgenda  exportMeetingAgenda
-          if ( this.selectedRow[0].isGpCSC == true || this.selectedRow[0].isMBDL == true ) {
+          if (
+            this.selectedRow[0].isGpCSC == true ||
+            this.selectedRow[0].isMBDL == true
+          ) {
             if (this.selectedRow[0].isMBDL == true) {
               console.log('isMBDL生成Agenda')
               exportMeetingAgenda({ id: e }).then((res) => {
