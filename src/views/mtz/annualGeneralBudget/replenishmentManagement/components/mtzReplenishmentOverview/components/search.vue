@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-04-15 17:58:24
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 14:58:56
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -19,7 +19,6 @@
                          :user-options="fsupplierList"
                          multiple
                          clearable
-                         @change="handleMaterialCode"
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                          display-member="codeMessage"
                          value-member="code"
@@ -134,14 +133,9 @@ export default {
           iMessage.error(res.desZh)
         }
       })
-      // getMtzSupplierList({}).then(res => {
-      //   if (res.code === '200') {
-
-      //   } else {
-      //     iMessage.error(res.desZh)
-      //   }
-      // })
-
+    },
+    handleMaterialCode (codes) {
+      this.$emit('materialCodes', codes)
     },
     handleChange (val) {
       this.searchForm.compStartDate = window.moment(val[0]).format('yyyy-MM-DD')
