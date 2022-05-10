@@ -145,9 +145,10 @@ import {
   queryHotTerms,
   querySample,
   queryMyWorkFlow,
-  getMainFlowchart
+  getMainFlowchart,
+  checkFlowHotAreaRedirect
 } from '@/api/procs'
-import { iCard, iButton } from 'rise'
+import { iCard, iButton, iMessage } from 'rise'
 import ProcessDraw from './../components/ProcessDraw'
 export default {
   components: {
@@ -265,9 +266,16 @@ export default {
     },
     // 流程点点击
     clickDraw(item) {
-      this.$router.push({
-        path: '/cf-ProCS/processDetail',
-        query: { id: item.contentId }
+      checkFlowHotAreaRedirect(item.contentId).then((res) => {
+        const { data, desZh } = res
+        if (data && data.result) {
+          this.$router.push({
+            path: '/cf-ProCS/processDetail',
+            query: { id: item.contentId }
+          })
+        } else {
+          iMessage.error(desZh || '该流程无权限查看')
+        }
       })
     },
     tabChange(v) {
