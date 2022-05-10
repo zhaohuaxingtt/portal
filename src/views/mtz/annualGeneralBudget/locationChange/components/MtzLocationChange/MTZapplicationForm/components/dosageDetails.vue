@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-02-10 17:40:57
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 16:48:31
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
 -->
@@ -317,16 +317,17 @@ export default {
       this.editFlag = false
     },
     handleSelectionChange (val) {
-      if (val.length > 1) {
-        var duoxuans = val.pop();
-        this.muliteList = val.pop();
-        //清除所有选中
-        this.$refs.paramsTable.clearSelection();
-        //给最后一个加上选中
-        this.$refs.paramsTable.toggleRowSelection(duoxuans);
-      } else {
-        this.muliteList = val
-      }
+      this.muliteList = val
+      // if (val.length > 1) {
+      //   var duoxuans = val.pop();
+      //   this.muliteList = val.pop();
+      //   //清除所有选中
+      //   this.$refs.paramsTable.clearSelection();
+      //   //给最后一个加上选中
+      //   this.$refs.paramsTable.toggleRowSelection(duoxuans);
+      // } else {
+      //   this.muliteList = val
+      // }
     },
     handleSelectionChange1 (val) {
       this.muliteList1 = val
@@ -436,6 +437,10 @@ export default {
     handleChangeDate () {
       if (this.muliteList.length === 0) {
         iMessage.error('请选择数据')
+        return
+      }
+      if (this.muliteList.length > 1) {
+        iMessage.error('只能选择一条数据')
         return
       }
       this.dateList[0].value[0] = this.muliteList[0].startDate
