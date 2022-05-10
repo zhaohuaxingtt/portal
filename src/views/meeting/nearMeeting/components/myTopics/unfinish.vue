@@ -77,7 +77,6 @@
         prop="topic"
         align="center"
         label="Topic"
-        width="220"
         min-width="220"
       >
         <template slot-scope="scope">
@@ -123,7 +122,7 @@
         label="Time"
       >
         <template slot-scope="scope">
-            <div v-if="scope.row.startTime">
+          <div v-if="scope.row.startTime">
             <span>{{
               Number(scope.row.plusDayStartTime) > 0
                 ? scope.row.startTime.substring(0, 5) +

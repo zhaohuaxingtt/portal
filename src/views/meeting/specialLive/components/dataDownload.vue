@@ -39,7 +39,7 @@ export default {
   },
   mounted() {
     const param = {
-      category:"02",
+      category: '02'
     }
     this.query(param)
   },
@@ -54,7 +54,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .no-doc {
-  width: 1740px;
+  /* width: 1740px; */
   height: 105px;
   border-radius: 10px;
   background-color: #ffffff;
@@ -102,7 +102,7 @@ export default {
 ::v-deep.container {
   /* width: 1740px;
   margin: 0 auto; */
-  width: 1740px;
+  /* width: 1740px; */
   .header {
     font-size: 18px;
     font-weight: bold;
@@ -136,7 +136,7 @@ export default {
   }
 }
 
-::v-deep .el-table {
+/* ::v-deep .el-table {
   width: 1660px;
-}
+} */
 </style>

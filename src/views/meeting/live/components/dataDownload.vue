@@ -62,7 +62,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .no-doc {
-  width: 1740px;
+  // width: 1740px;
   height: 105px;
   border-radius: 10px;
   background-color: #ffffff;
@@ -74,7 +74,7 @@ export default {
   text-align: center;
 }
 .card {
-  width: 1731px;
+  // width: 1731px;
 }
 .header {
   font-size: 18px;
@@ -110,7 +110,7 @@ export default {
 ::v-deep.container {
   /* width: 1740px;
   margin: 0 auto; */
-  width: 1740px;
+  // width: 1740px;
   .header {
     font-size: 18px;
     font-weight: bold;
@@ -144,7 +144,7 @@ export default {
   }
 }
 
-::v-deep .el-table {
-  width: 1660px;
-}
+// ::v-deep .el-table {
+//   width: 1660px;
+// }
 </style>

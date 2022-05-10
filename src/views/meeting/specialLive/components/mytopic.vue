@@ -265,7 +265,7 @@ export default {
   }
 }
 
-::v-deep .el-table {
+/* ::v-deep .el-table {
   width: 1660px;
-}
+} */
 </style>

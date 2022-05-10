@@ -37,9 +37,18 @@
       <el-divider class="divider-line"></el-divider>
     </el-row> -->
     <el-row class="row-el">
-      <iButton class="add-topic" @click="handleAddTopic" :disabled="disabledAddTopic">{{ $t('MT_TIANJIAYITI') }}</iButton>
-      <iButton class="revort-topic" :disabled="disabledButton"
-        @click="handleRevokeTopic" >{{ $t('MT_CHEHUIYITI') }}</iButton>
+      <iButton
+        class="add-topic"
+        @click="handleAddTopic"
+        :disabled="disabledAddTopic"
+        >{{ $t('MT_TIANJIAYITI') }}</iButton
+      >
+      <iButton
+        class="revort-topic"
+        :disabled="disabledButton"
+        @click="handleRevokeTopic"
+        >{{ $t('MT_CHEHUIYITI') }}</iButton
+      >
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
     <iTableML
@@ -101,7 +110,6 @@
         prop="topic"
         align="center"
         label="Topic"
-        width="220"
         min-width="220"
       >
         <template slot-scope="scope">
@@ -355,7 +363,7 @@ export default {
   },
   data() {
     return {
-      disabledAddTopic:true,
+      disabledAddTopic: true,
       meetingTypeId: '',
       editOrAdd: 'add',
       openAddTopic: false,
@@ -428,7 +436,7 @@ export default {
         this.page.pageNum = 1
       },
       immediate: true
-    },
+    }
     // meetingInfo: {
     //   handler() {
     //     console.log('11111111111111111111111')
@@ -443,7 +451,7 @@ export default {
     // console.log(this.unFinishedData[0].type)
     //后来gp说这个按钮是gp会议就禁用
     if (this.unFinishedData[0].type == 'GP') {
-      this.disabledAddTopic=false
+      this.disabledAddTopic = false
     }
     this.meetingTypeId = this.$route.query.id
   },
@@ -606,7 +614,7 @@ export default {
     },
     //follow为true表示关注的，false为 自己提交的
     selectionChange(val) {
-      console.log(val);
+      console.log(val)
       this.selectedData = val
       let bol =
         val.length === 0
@@ -619,7 +627,7 @@ export default {
                 item.state !== '04'
               )
             })
-            console.log(bol);
+      console.log(bol)
       if ((val && val.length === 1 && bol) || bol) {
         this.disabledButton = false
       } else {
