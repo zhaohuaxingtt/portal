@@ -67,9 +67,9 @@
                   <img :src="upArrow" alt="" srcset="" />
                 </div>
               </div>
-              <div class="agenda-item-content">
+              <div class="agenda-item-content" v-if="GPType==false">
                 <p class="task">Task</p>
-                <iFormItem
+                <iFormItem 
                   :prop="'themens.' + index + '.conclusion'"
                   class="meet-desc"
                   :rules="rule"
@@ -89,6 +89,37 @@
                 >
                   <iInput
                     v-model="item.result"
+                    type="textarea"
+                    resize="none"
+                    rows="4"
+                  />
+                </iFormItem>
+              </div>
+              <!-- gp取值不一样   Task 取值 result   Result 取值 conclusion -->
+              <div class="agenda-item-content" v-if="GPType">
+                <!-- gp取值不一样   Task 取值 result    -->
+                <p class="task">Task</p>
+                <iFormItem 
+                  :prop="'themens.' + index + '.conclusion'"
+                  class="meet-desc"
+                  :rules="rule"
+                >
+                  <iInput
+                    v-model="item.result"
+                    type="textarea"
+                    resize="none"
+                    rows="4"
+                  />
+                </iFormItem>
+                <!-- gp取值不一样   Result 取值 conclusion    -->
+                <p class="task">Result</p>
+                <iFormItem
+                  :prop="'themens.' + index + '.result'"
+                  class="meet-desc"
+                  :rules="rule"
+                >
+s                  <iInput
+                    v-model="conclusionCscList[item.conclusion]"
                     type="textarea"
                     resize="none"
                     rows="4"
@@ -159,6 +190,16 @@ export default {
   },
   data() {
     return {
+      conclusionCscList: {
+        '01': '待定',
+        '08': '通过', 
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段待定'
+      },
+      GPType:false,//gp会议的标识
+      GPTypeData:'',//gp会议的标识
       loadingCreate: false,
       // numToLetter,
       upArrow,
@@ -187,6 +228,13 @@ export default {
       }
       getMeetingSummary(param).then((res) => {
         this.resultData = res
+        // gp会议的标识
+        this.GPTypeData=this.resultData.themens[0].type
+        if (this.GPTypeData=='GP') {
+          this.GPType=true
+        }else{
+          this.GPType=false
+        }
         // this.$set(this.resultData.name, res.name)
         // this.resultData.name = res.name;
         // this.resultData.attendeeGroupName = res.attendeeGroupName;

@@ -315,6 +315,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
+                <!-- 生成会议纪要 按钮-->
                 <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
@@ -440,7 +441,7 @@
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
                 <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
-                <span class="line">|</span>
+                <!-- <span class="line">|</span> -->
               </p>
               <p
                 v-if="scope.row.state == '05' || scope.row.state == '06'"
@@ -1322,6 +1323,7 @@ export default {
       // })
     },
     actionObj(e) {
+      console.log(e);
       const funcMap = {
         begin: (e) => {
           // 开始
