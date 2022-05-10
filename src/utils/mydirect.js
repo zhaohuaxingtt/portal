@@ -29,49 +29,49 @@ Vue.directive('permission', {
   inserted: function (el, binding, Nodes) {
     //如果是个变量则使用变量，否则当做字符串处理
 
-    var proValue = ''
-    if (binding.value == 0) {
-      // console.log(binding)
-      proValue = binding.expression.trim()
-    } else if (binding.value == undefined) {
-      proValue = binding.expression
-    } else {
-      proValue = binding.value
-    }
-    // console.log(proValue)
-    const splitValue = proValue.split('|')
-    // console.log(splitValue)
-    //去除控件传参中存在换行空格等情况
-    const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
-    if (proValue === 'TRUE') {
-      return true
-    }
-    if (isNeedJudgePermission()) {
-      return true
-    } else {
-      let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
-      if (
-        !store.state.permission.whiteBtnList[binding.expression] &&
-        !menuBtn
-      ) {
-        // 处理控件中，不可见的组件 列入：Ibutton.
-        if (pagePermission !== 'undefined') {
-          // console.log(pagePermission)
-          // console.log(!store.state.permission.whiteBtnList[pagePermission])
-          if (!store.state.permission.whiteBtnList[pagePermission]) {
-            //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
-            if (
-              binding.rawName.split('.')[1] &&
-              binding.rawName.split('.')[1] == 'edit'
-            ) {
-              el.classList.add('is-disabled')
-            } else {
-              el.parentNode.removeChild(el)
-            }
-          }
-        }
-      }
-    }
+    // var proValue = ''
+    // if (binding.value == 0) {
+    //   // console.log(binding)
+    //   proValue = binding.expression.trim()
+    // } else if (binding.value == undefined) {
+    //   proValue = binding.expression
+    // } else {
+    //   proValue = binding.value
+    // }
+    // // console.log(proValue)
+    // const splitValue = proValue.split('|')
+    // // console.log(splitValue)
+    // //去除控件传参中存在换行空格等情况
+    // const pagePermission = splitValue[0] ? splitValue[0].trim() : splitValue[0]
+    // if (proValue === 'TRUE') {
+    //   return true
+    // }
+    // if (isNeedJudgePermission()) {
+    //   return true
+    // } else {
+    //   let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
+    //   if (
+    //     !store.state.permission.whiteBtnList[binding.expression] &&
+    //     !menuBtn
+    //   ) {
+    //     // 处理控件中，不可见的组件 列入：Ibutton.
+    //     if (pagePermission !== 'undefined') {
+    //       // console.log(pagePermission)
+    //       // console.log(!store.state.permission.whiteBtnList[pagePermission])
+    //       if (!store.state.permission.whiteBtnList[pagePermission]) {
+    //         //**************  重要：如果是输入框，选择框，富文本等可编辑控件需要添加权限，给该组件加上v-permission.edit=""  **************
+    //         if (
+    //           binding.rawName.split('.')[1] &&
+    //           binding.rawName.split('.')[1] == 'edit'
+    //         ) {
+    //           el.classList.add('is-disabled')
+    //         } else {
+    //           el.parentNode.removeChild(el)
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 })
 //切换I8n动态更新element值
