@@ -373,12 +373,12 @@ export default {
   /* padding: 40px 40px 0; */
   /* background-color: #fff; */
   /* width: 100%; */
-  width: 1740px;
+  /* width: 1740px; */
   .card-list-container {
     position: relative;
     /* padding-bottom: 40px; */
     overflow: hidden;
-    width: 1740px;
+    /* width: 1740px; */
     /* height: 420px; */
     /* margin-left: 20px; */
     .show-double-card {

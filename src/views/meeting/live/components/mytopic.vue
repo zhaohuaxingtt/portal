@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">{{$t('MT_WODEYITI')}}</div>
+    <div class="header">{{ $t('MT_WODEYITI') }}</div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane :label="$t('MT_WEIWANCHENG')" name="first">
         <iCard class="my-topics-all">
@@ -27,141 +27,141 @@
 </template>
 
 <script>
-import { iCard } from "rise";
-import finished from "./finished.vue";
-import unfinish from "./unfinish.vue";
-import { findMyThemens } from "@/api/meeting/live";
+import { iCard } from 'rise'
+import finished from './finished.vue'
+import unfinish from './unfinish.vue'
+import { findMyThemens } from '@/api/meeting/live'
 
 export default {
   components: {
     iCard,
     finished,
-    unfinish,
+    unfinish
   },
   props: {
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     curMeetingId: {
       type: Number,
       default: () => {
-        return -1;
-      },
-    },
+        return -1
+      }
+    }
   },
   data() {
     return {
-      meetingId: "",
-      timer: "",
-      activeName: "first",
+      meetingId: '',
+      timer: '',
+      activeName: 'first',
       allFollowThemen: [],
       finishedData: [],
-      unFinishedData: [],
+      unFinishedData: []
       // refresh: false,
-    };
+    }
   },
 
   mounted() {
     //往下走
-    this.meetingId = this.$route.query.meetingInfoId;
-    this.meetingTypeId = this.$route.query.id;
-    this.query();
-    this.queryunFinishedData();
+    this.meetingId = this.$route.query.meetingInfoId
+    this.meetingTypeId = this.$route.query.id
+    this.query()
+    this.queryunFinishedData()
     //往上走
-    this.queryMeeting();
+    this.queryMeeting()
     // this.timer = setInterval(() => {
     //   this.queryMeeting();
     // }, 5000);
   },
   methods: {
     findMyThemens() {
-      this.query();
+      this.query()
     },
     async queryMeeting() {
       if (this.meetingId) {
         const params = {
-          presentItem: "02",
+          presentItem: '02',
           pageNum: 1,
           pageSize: 9999,
           meetingId: this.curMeetingId ? this.curMeetingId : this.meetingId,
-          meetingTypeId: this.meetingTypeId,
-        };
+          meetingTypeId: this.meetingTypeId
+        }
         let res = await findMyThemens(params).catch(() => {
-          clearTimeout(this.timer);
+          clearTimeout(this.timer)
           this.timer = setTimeout(() => {
-            this.queryMeeting();
-          }, 5000);
-        });
-        this.$emit("getMyTopics", res.data);
-        clearTimeout(this.timer);
+            this.queryMeeting()
+          }, 5000)
+        })
+        this.$emit('getMyTopics', res.data)
+        clearTimeout(this.timer)
         this.timer = setTimeout(() => {
-          this.queryMeeting();
-        }, 5000);
+          this.queryMeeting()
+        }, 5000)
       }
     },
     async query() {
       const params = {
-        presentItem: "03",
+        presentItem: '03',
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId,
-      };
-      let res = await findMyThemens(params);
-      let arrObj = [];
+        meetingTypeId: this.meetingTypeId
+      }
+      let res = await findMyThemens(params)
+      let arrObj = []
       // let arrObjUn = [];
       res.data.forEach((item) => {
-        if (item.state === "03") {
-          arrObj.push(item);
+        if (item.state === '03') {
+          arrObj.push(item)
         } else {
           // arrObjUn.push(item);
         }
-      });
+      })
       // this.$emit("getMyTopics", res.data);
       this.finishedData = arrObj.filter((item) => {
-        return !item.isBreak;
-      });
+        return !item.isBreak
+      })
       // this.unFinishedData = arrObjUn.filter((item) => {
       //   return !item.isBreak;
       // });
-      return "over";
+      return 'over'
     },
     async queryunFinishedData() {
-      let arrObjUn = [];
+      let arrObjUn = []
       const params = {
-        presentItem: "04",
+        presentItem: '04',
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId,
-      };
-      let res = await findMyThemens(params);
+        meetingTypeId: this.meetingTypeId
+      }
+      let res = await findMyThemens(params)
 
       res.data.forEach((item) => {
-        if (item.state === "03") {
+        if (item.state === '03') {
           // arrObj.push(item);
         } else {
-          arrObjUn.push(item);
+          arrObjUn.push(item)
         }
-      });
+      })
       this.unFinishedData = arrObjUn.filter((item) => {
-        return !item.isBreak;
-      });
+        return !item.isBreak
+      })
     },
     findMyThemensByCondition(form) {
       // this.refresh = false;
       const params = {
         ...form,
-        presentItem: "03",
+        presentItem: '03',
         // meetingId: this.meetingInfo.id,
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId,
-      };
+        meetingTypeId: this.meetingTypeId
+      }
       findMyThemens(params).then((res) => {
-        let arrObj = [];
-        let arrObjUn = [];
+        let arrObj = []
+        let arrObjUn = []
         // const data = res.data.filter((item) => {
         //   return !item.isBreak;
         // });
@@ -169,28 +169,28 @@ export default {
           // if (item.state !== "03") {
           //   arrObj.push(item);
           // }
-          if (item.state === "03") {
-            arrObj.push(item);
+          if (item.state === '03') {
+            arrObj.push(item)
           } else {
-            arrObjUn.push(item);
+            arrObjUn.push(item)
           }
-        });
-        this.finishedData = arrObj;
-        this.unFinishedData = arrObjUn;
+        })
+        this.finishedData = arrObj
+        this.unFinishedData = arrObjUn
         // this.refresh = true;
-      });
-    },
+      })
+    }
   },
   beforeDestroy() {
-    clearInterval(this.timer);
-  },
-};
+    clearInterval(this.timer)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.card {
-  width: 1731px;
-}
+// .card {
+//   width: 1731px;
+// }
 
 .header {
   font-size: 18px;
@@ -262,7 +262,7 @@ export default {
   }
 }
 
-::v-deep .el-table {
-  width: 1660px;
-}
+// ::v-deep .el-table {
+//   width: 1660px;
+// }
 </style>

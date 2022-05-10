@@ -274,11 +274,15 @@ export default {
     },
     deleteDocumentType(e) {
       // console.log(e);
-      this.$confirm(this.$t('MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO'), this.$t('MT_TISHI'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         deleteDocumentType({ id: e.id })
           .then((res) => {
             if (res.code === 200) {
@@ -335,7 +339,6 @@ export default {
   // padding: 40px 0;
   .card-list-container {
     // position: relative;
-    width: 98.875rem;
     padding-bottom: 200px;
     overflow: hidden;
     .click-area {
