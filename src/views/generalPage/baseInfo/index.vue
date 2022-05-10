@@ -255,7 +255,7 @@ export default {
             stepCode: 'submit',
             step:"submit",
             supplierDTO: this.supplierComplete.supplierDTO,
-            settlementBankDTO: this.supplierComplete.settlementBankDTO
+            settlementBankDTO: this.supplierComplete.settlementBankDTO,
           }
           // 判断是一般还是生产供应商 减去相应参数
           if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
@@ -267,7 +267,12 @@ export default {
               })
             }
 
-            data.gpSupplierDetailDTO=this.supplierComplete.gpSupplierDetails;
+            data.gpSupplierDetailDTO=_.cloneDeep(this.supplierComplete.gpSupplierDetails);
+
+            data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e=>{
+              return !(!e.businessBuyerEmail&&!e.businessBuyerName&&!e.businessBuyerNum&&!e.businessBuyerDept&&!e.businessContactEmail&&!e.businessContactUser && e.industryPosition == "N")
+            })
+
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
             delete data.gpSupplierDTO.formalStatus;
             data.gpSupplierSubBankListSaveDTO = {};
