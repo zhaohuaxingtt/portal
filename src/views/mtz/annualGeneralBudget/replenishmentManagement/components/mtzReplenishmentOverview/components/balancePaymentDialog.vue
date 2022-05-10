@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-10 10:45:53
+ * @LastEditTime: 2022-05-10 16:02:17
  * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -331,14 +331,29 @@ export default {
     },
     flag: {
       type: Boolean
+    },
+    materialCodes: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   watch: {
+    materialCodes: {
+      handler (val) {
+        this.$nextTick(() => {
+          this.$set(this.searchForm, "secondSupplierList", val)
+        });
+      },
+      deep: true,
+      immediate: true
+    },
     minDate (val) {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
-          console.log(this.minDate)
+
         },
         disabledDate: (time) => {
           var newTime = new Date(val.getTime() + this.differenceTime)
@@ -360,7 +375,6 @@ export default {
     },
     selectData: {
       handler (val) {
-        console.log(val, 'val')
         if (val && val.length !== 0) {
           this.firstSupplierName = val[0].firstSupplierName
           this.firstSupplier = val[0].firstSupplierId
@@ -377,8 +391,6 @@ export default {
     },
     tableData: {
       handler (data) {
-        console.log(data, "===")
-        // console.log(data, "====")
         if (data) {
           this.tableLoading = false
           // this.tableListData = data
@@ -522,7 +534,7 @@ export default {
         const clientHeight = height.clientHeight // 表格视窗高度 即wraper
         const scrollTop = height.scrollTop // 表格内容已滚动的高度
         const scrollHeight = height.scrollHeight // 表格内容撑起的高度
-        console.log(clientHeight, scrollTop, scrollHeight)
+
         if (clientHeight + scrollTop + 10 >= scrollHeight) {
           // 表格滚动已经触底 更新表格数据
           this.times++
@@ -530,9 +542,9 @@ export default {
             100 * this.times > this.tableData.length
               ? this.tableData.length
               : 100 * this.times
-          console.log(length, "length")
+
           this.tableDataList = this.tableData.slice(0, length)
-          console.log(this.tableDataList, "tableDataList")
+
         }
       })
     })
@@ -612,7 +624,6 @@ export default {
       this.pickerOptions.disabledDate = () => false
     },
     query () {
-      console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
         this.actAmtList = []
@@ -621,11 +632,13 @@ export default {
           delete this.searchForm.effPriceFrom
           delete this.searchForm.effPriceTo
         }
+
         let params = {
           pageNo: 1,
           pageSize: 10000,
           ...this.searchForm
         }
+        console.log(params, "searchForm")
         pageMTZCompByComputer(params).then((res) => {
           if (res?.code === '200') {
             this.tableData = res.data
@@ -781,7 +794,7 @@ export default {
         value: '',
         secondSupplierList: []
       }
-      console.log(this.searchForm, 'searchForm')
+
       this.value1 = ''
       this.query()
     },
@@ -833,7 +846,7 @@ export default {
             }
           })
         } else {
-          console.log('error submit!!')
+
           return false
         }
       })
