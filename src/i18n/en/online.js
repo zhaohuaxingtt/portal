@@ -497,7 +497,7 @@ export default {
     "The supplier's capacity is in good condition",
   YIBANGONGYINGSHANG: 'General Supplier',
   SHENGCHANGONGYINGSHANG: 'Proc. Supplier',
- 
+
   SHURUCHAXUNGONGYINGSHANGMINGCHENG: 'Please enter supplier name',
   '加⼊重点追踪时间': 'Add Focus-tracking Time',
   移除重点追踪时间: 'Remove Focus-tracking Time',
@@ -3908,5 +3908,6 @@ export default {
   LK_ZHINENGSHANGCHUANWENJIAN: 'You can only upload files',
   QINGQIUCUOWU: 'Request failed!',
   EKL_CAILIAOZU: 'Material Group No.',
-  SUPPLIER_FUKUANXIGUAN: 'Pay Habit'
+  SUPPLIER_FUKUANXIGUAN: 'Pay Habit',
+  JINGQINGQIDAI: 'Stay tuned'
 }
