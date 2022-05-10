@@ -10,7 +10,7 @@ import meetingType from './meetingType'
 import questionnaire from './questionnaire'
 import terms from './terms'
 import meeting from './meeting'
-import supplier from "./supplier";
+import supplier from './supplier'
 export default {
   ...online,
   ...mainData,
