@@ -6,7 +6,7 @@
       :rowClassName="tableRowClassName"
     >
       <el-table-column width="15" align="center" label=""></el-table-column>
-      <el-table-column prop="follow" align="left" label="No." width="50">
+      <el-table-column prop="follow" align="left" label="No." width="55">
         <template slot-scope="scope">
           <div class="img-word">
             <div class="img-box">
@@ -77,13 +77,13 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="14" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="14" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         prop="topic"
         align="center"
         label="Present Items"
-        :width="setColumnWidth(tableData)"
+        :min-width="setColumnWidth(tableData)"
       >
         <!-- min-width="120" -->
         <template slot-scope="scope">
@@ -94,12 +94,13 @@
           }}</span> -->
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         prop="cscCount"
         align="center"
         label="Record"
         show-overflow-tooltip
+        width="100"
       >
         <template slot-scope="scope">
           <span v-if="scope.row.isBreak">-</span>
@@ -108,12 +109,12 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Part No."
-        min-width="100"
+        width="140"
         prop="tnr"
       >
         <template slot-scope="scope">
@@ -121,48 +122,48 @@
           <span v-else>{{ scope.row.tnr }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="BEN(CN)"
-        min-width="100"
+        width="100"
       >
         <template slot-scope="scope">
           <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Carline"
-        min-width="100"
+        width="140"
       >
         <template slot-scope="scope">
           <span v-if="scope.row.carline">{{ scope.row.carline }}</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Sourcing"
-        min-width="100"
+        width="140"
       >
         <template slot-scope="scope">
           <span v-if="!scope.row.supporter">-</span>
           <span v-else>{{ scope.row.supporter }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Linie"
-        min-width="100"
+        width="100"
         prop="presenter"
       >
         <template slot-scope="scope">
@@ -170,47 +171,47 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Commodity"
-        min-width="100"
+        width="100"
       >
         <template slot-scope="scope">
           <span v-if="!scope.row.presenterDept">-</span>
           <span v-else>{{ scope.row.presenterDept }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="EP"
-        min-width="100"
+        width="100"
       >
         <template slot-scope="scope">
           <span v-if="!scope.row.ep">-</span>
           <span v-else>{{ scope.row.ep }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="State"
-        min-width="100"
+        width="100"
       >
         <template slot-scope="scope">
           {{ $t(stateObj[scope.row.state]) }}
         </template>
       </el-table-column>
-      <el-table-column width="4" align="center" label=""></el-table-column>
+      <!-- <el-table-column width="4" align="center" label=""></el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Time"
-        min-width="140"
+        width="140"
       >
         <template slot-scope="scope">
           <div v-if="scope.row.startTime">

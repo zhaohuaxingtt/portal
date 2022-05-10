@@ -57,5 +57,6 @@ export default {
   任务中心: 'Task Center',
   '新闻&公告模块管理': 'News & Announcements Module Mgt',
   设置: 'Setting',
-  退出登录: 'Logout'
+  退出登录: 'Logout',
+  主数据中心: 'Master data center'
 }

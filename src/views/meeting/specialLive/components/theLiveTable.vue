@@ -6,23 +6,20 @@
         :data="tableData"
         :rowClassName="tableRowClassName"
       >
-        <el-table-column width="20" align="center" label=""></el-table-column>
-        <el-table-column prop="follow" align="left" label="#" min-width="15">
+        <!-- <el-table-column width="20" align="center" label=""></el-table-column> -->
+        <el-table-column prop="follow" align="center" label="#" width="55">
           <template slot-scope="scope">
-            <div class="img-word">
-              <span>
-                {{ scope.$index + 1 }}
-              </span>
-            </div>
+            {{ scope.$index + 1 }}
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           prop="topic"
           align="center"
           label="Present Items"
           :width="setColumnWidth(tabData)"
+          min-width="120"
         >
           <!-- min-width="120" -->
           <template slot-scope="scope">
@@ -36,12 +33,13 @@
             > -->
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           prop="cscCount"
           align="center"
           label="Record"
           show-overflow-tooltip
+          width="100"
         >
           <template slot-scope="scope">
             <span v-if="scope.row.isBreak">-</span>
@@ -50,19 +48,19 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Part No."
-          min-width="100"
+          width="140"
         >
           <template slot-scope="scope">
             <span v-if="!scope.row.tnr">-</span>
             <span v-else>{{ scope.row.tnr }}</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <!-- <el-table-column
           show-overflow-tooltip
           align="center"
@@ -74,36 +72,36 @@
             <span v-else>-</span>
           </template>
         </el-table-column> -->
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Carline"
-          min-width="100"
+          width="140"
         >
           <template slot-scope="scope">
             <span v-if="scope.row.carline">{{ scope.row.carline }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Sourcing"
-          min-width="100"
+          width="100"
         >
           <template slot-scope="scope">
             <span v-if="!scope.row.supporter">-</span>
             <span v-else>{{ scope.row.supporter }}</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Linie"
-          min-width="100"
+          width="100"
           prop="presenter"
         >
           <template slot-scope="scope">
@@ -111,47 +109,47 @@
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Commodity"
-          min-width="100"
+          width="100"
         >
           <template slot-scope="scope">
             <span v-if="!scope.row.presenterDept">-</span>
             <span v-else>{{ scope.row.presenterDept }}</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="EP"
-          min-width="100"
+          width="100"
         >
           <template slot-scope="scope">
             <span v-if="!scope.row.ep">-</span>
             <span v-else>{{ scope.row.ep }}</span>
           </template>
         </el-table-column>
-        <el-table-column width="44" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="44" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Status"
-          min-width="100"
+          width="100"
         >
           <template slot-scope="scope">
             {{ scope.row.state ? $t(stateObj[scope.row.state]) : '-' }}
           </template>
         </el-table-column>
-        <el-table-column width="24" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="24" align="center" label=""></el-table-column> -->
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Time"
-          min-width="120"
+          width="120"
         >
           <template slot-scope="scope">
             <div v-if="scope.row.startTime">
@@ -174,7 +172,7 @@
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column width="20" align="center" label=""></el-table-column>
+        <!-- <el-table-column width="20" align="center" label=""></el-table-column> -->
       </iTableML>
       <addTopicNew
         v-if="openAddTopic"

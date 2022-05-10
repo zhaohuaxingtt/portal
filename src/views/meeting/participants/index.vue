@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import { iCard, iTabs } from "rise";
+import { iCard, iTabs } from 'rise'
 // import { actionButtons, addOrEditGroupDialog } from "./component";
-import receiver from "./receiver";
-import attendee from "./attendee";
+import receiver from './receiver'
+import attendee from './attendee'
 // import { getAttendee, deleteGroup } from "@/api/meeting/type";
 // import { pageMixins } from "@/utils/pageMixins";
 // import iTableCustom from "@/components/iTableCustom";
@@ -28,10 +28,10 @@ export default {
     iCard,
     iTabs,
     receiver,
-    attendee,
+    attendee
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     /* handleClick(tab) {
@@ -101,12 +101,12 @@ export default {
     closeDialog(bol) {
       this.openDialog = bol;
     }, */
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.width {
+/* .width {
   width: 108.75rem;
-}
+} */
 </style>

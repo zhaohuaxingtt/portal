@@ -31,6 +31,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
+                :disabled="!item.published"
               >
               </el-option>
             </iSelect>

@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-09 17:16:19
- * @LastEditTime: 2021-10-25 19:33:01
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 16:24:50
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: front-portalsrcviewsmtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\comboBox.vue
 -->
@@ -103,7 +103,7 @@ export default {
     },
     maxNum: {
       type: Number,
-      default: 100
+      default: 500
     },
     options: {
       type: Array,
