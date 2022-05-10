@@ -76,10 +76,9 @@
       <el-table-column
         show-overflow-tooltip
         prop="topic"
-        min-width="220"
         align="center"
         label="Topic"
-        width="220"
+        min-width="200"
       >
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{

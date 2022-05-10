@@ -277,24 +277,55 @@ export default {
     // 保存基本信息
     saveInfos(step = '') {
       return new Promise((resolve, reject) => {
-        Promise.all([this.isBaseInfoRules(), this.isBusinessRules()]).then(
-          (res) => {
-            // 获取国家 城市 相应的name
-            this.$refs.companyProfile.getCityName()
-            this.$refs.opneBank.getCityName()
-            let data = {
-              stepCode: 'submit',
-              step: 'submit',
-              supplierDTO: this.supplierComplete.supplierDTO,
-              settlementBankDTO: this.supplierComplete.settlementBankDTO
+        Promise.all([this.isBaseInfoRules(), this.isBusinessRules()]).then(res => {
+          // 获取国家 城市 相应的name
+          this.$refs.companyProfile.getCityName()
+          this.$refs.opneBank.getCityName()
+          let data = {
+            stepCode: 'submit',
+            step:"submit",
+            supplierDTO: this.supplierComplete.supplierDTO,
+            settlementBankDTO: this.supplierComplete.settlementBankDTO,
+          }
+          // 判断是一般还是生产供应商 减去相应参数
+          if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
+            if(this.supplierComplete.gpSupplierDetails.length>0){
+              this.supplierComplete.gpSupplierDetails.forEach(e=>{
+                if(!e.supplierId){
+                  e.supplierId = this.$route.query.supplierId;
+                }
+              })
             }
-            // 判断是一般还是生产供应商 减去相应参数
-            if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
-              if (this.supplierComplete.gpSupplierDetails.length > 0) {
-                this.supplierComplete.gpSupplierDetails.forEach((e) => {
-                  if (!e.supplierId) {
-                    e.supplierId = this.$route.query.supplierId
-                  }
+
+            data.gpSupplierDetailDTO=_.cloneDeep(this.supplierComplete.gpSupplierDetails);
+
+            data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e=>{
+              return !(!e.businessBuyerEmail&&!e.businessBuyerName&&!e.businessBuyerNum&&!e.businessBuyerDept&&!e.businessContactEmail&&!e.businessContactUser && e.industryPosition == "N")
+            })
+
+            data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
+            delete data.gpSupplierDTO.formalStatus;
+            data.gpSupplierSubBankListSaveDTO = {};
+            data.gpSupplierSubBankListSaveDTO.list = this.supplierComplete.subBankList;
+            data.gpSupplierBankNoteDTO = this.supplierComplete.gpSupplierBankNoteDTO;
+
+            data.supplierDTO.companyAddress = this.supplierComplete.supplierDTO.address
+          } else {
+            data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
+          }
+
+          saveInfos(data, this.supplierType).then(res => {
+            if (res.data) {
+              iMessage.success('保存成功')
+              this.supplierDetail();
+              if (step === 'submit') {
+                const req = {
+                  stepCode: 'submit',
+                  step:"submit",
+                  userId: this.$store.state.permission.userInfo.id
+                }
+                baseInfoSubmit(req).then((res) => {
+                  this.resultMessage(res)
                 })
               }
 
@@ -334,6 +365,7 @@ export default {
             })
           }
         )
+      })
       })
     },
     async handleNextStep() {

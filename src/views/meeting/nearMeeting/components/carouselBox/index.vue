@@ -83,32 +83,32 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-      <p v-else class="no-data">{{$t('MT_ZANWUHUIYI')}}</p>
+      <p v-else class="no-data">{{ $t('MT_ZANWUHUIYI') }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import cardBoxNewVersion from "./cardBoxNewVersion.vue";
-import theLiveTable from "./theLiveTable.vue";
-import theSearch from "./theSearch.vue";
-import { findMyMeetings } from "@/api/meeting/myMeeting";
-import { datestring } from "@/utils/utils.js";
+import cardBoxNewVersion from './cardBoxNewVersion.vue'
+import theLiveTable from './theLiveTable.vue'
+import theSearch from './theSearch.vue'
+import { findMyMeetings } from '@/api/meeting/myMeeting'
+import { datestring } from '@/utils/utils.js'
 
 export default {
   components: {
     cardBoxNewVersion,
     // iButton,
     theLiveTable,
-    theSearch,
+    theSearch
   },
   data() {
     return {
-      meetingTypeId: "",
+      meetingTypeId: '',
       initIndex: 0,
       newTypeData: [[]],
       value: false,
-      switchStatus: "列表",
+      switchStatus: '列表',
       data: [],
       dataTable: [],
       typeObj: {},
@@ -118,20 +118,20 @@ export default {
         ),
         startDateEnd: datestring(
           Number(new Date(new Date().valueOf())) + 24 * 60 * 60 * 1000 * 6
-        ),
+        )
       },
       pageSize: 10,
       pageNum: 1,
-      curIndex: 1,
-    };
+      curIndex: 1
+    }
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id;
-    this.query();
+    this.meetingTypeId = this.$route.query.id
+    this.query()
   },
   methods: {
     handleTurnMode() {
-      this.value = !this.value;
+      this.value = !this.value
     },
     //初始化定位
     // handleInitPosition() {
@@ -139,11 +139,11 @@ export default {
     // },
     // 一维数组转二维 数组
     arrTrans(num, arr) {
-      const newArr = [];
+      const newArr = []
       while (arr.length > 0) {
-        newArr.push(arr.splice(0, num));
+        newArr.push(arr.splice(0, num))
       }
-      return newArr;
+      return newArr
     },
     // 获取详细信息
     query() {
@@ -155,25 +155,25 @@ export default {
         startDateEnd: this.form.startDateEnd,
         states: this.form.states
           ? [this.form.states]
-          : ["02", "03", "04", "05", "06"],
+          : ['02', '03', '04', '05', '06'],
         receiver: this.form.receiverId,
         pageNum: 1,
-        pageSize: 999,
-      };
+        pageSize: 999
+      }
       findMyMeetings(param).then((res) => {
-        this.data = res.data;
+        this.data = res.data
         this.dataTable = res.data.slice(
           (this.pageNum - 1) * this.pageSize,
           this.pageNum * this.pageSize
-        );
-        this.initMoveCard();
-      });
+        )
+        this.initMoveCard()
+      })
     },
 
     // 搜索
     handleSearch() {
-      this.pageNum = 1;
-      this.query();
+      this.pageNum = 1
+      this.query()
     },
 
     // 重置
@@ -184,39 +184,39 @@ export default {
         ),
         startDateEnd: datestring(
           Number(new Date(new Date().valueOf())) + 24 * 60 * 60 * 1000 * 6
-        ),
-      };
-      this.pageNum = 1;
-      this.query();
+        )
+      }
+      this.pageNum = 1
+      this.query()
     },
 
     // 页码切换
     handleCurrentChange(pageNum) {
-      this.pageNum = pageNum;
-      this.currentChangePage(this.data, this.pageNum);
+      this.pageNum = pageNum
+      this.currentChangePage(this.data, this.pageNum)
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.pageSize;
-      let to = pageNum * this.pageSize;
-      this.dataTable = data.slice(from, to);
+      let from = (pageNum - 1) * this.pageSize
+      let to = pageNum * this.pageSize
+      this.dataTable = data.slice(from, to)
     },
     // 点击上一个轮播图
     handlePreClick() {
       if (this.data.length > 3) {
         if (this.curIndex > 1) {
-          this.curIndex--;
+          this.curIndex--
         }
-        this.translateX(this.$refs.swiperRef, this.curIndex);
+        this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
     // 点击下一个轮播图
     handleNextClick() {
       if (this.data.length > 3) {
         if (this.curIndex < this.data.length - 2) {
-          this.curIndex++;
+          this.curIndex++
         }
-        this.translateX(this.$refs.swiperRef, this.curIndex);
+        this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
     //移动
@@ -235,76 +235,76 @@ export default {
         (curIndex == 1 || (curIndex == 2 && this.data.length == 3))
       ) {
         // 初始化展示
-        refDom.style.transform = `translateX(0)`;
+        refDom.style.transform = `translateX(0)`
       } else if (refDom && curIndex > 1 && curIndex != this.data.length - 1) {
-        refDom.style.transform = `translateX(${(1 - curIndex) * 35.625}rem)`;
+        refDom.style.transform = `translateX(${(1 - curIndex) * 35.625}rem)`
       }
     },
     // 初始化移动至高亮项
     initMoveCard() {
       for (let i = 0; i < this.data.length; i++) {
-        if (this.data[i].state == "04") {
+        if (this.data[i].state == '04') {
           if (i >= this.data.length - 2) {
-            this.curIndex = this.data.length - 2;
+            this.curIndex = this.data.length - 2
           } else if (i == 0) {
-            this.curIndex = 1;
+            this.curIndex = 1
           } else {
-            this.curIndex = i;
+            this.curIndex = i
           }
           setTimeout(() => {
-            this.translateX(this.$refs.swiperRef, i);
-          }, 4);
-          return;
+            this.translateX(this.$refs.swiperRef, i)
+          }, 4)
+          return
         }
       }
-    },
+    }
   },
   watch: {
     value(val) {
       if (val) {
-        this.switchStatus = "卡片";
-        return;
+        this.switchStatus = '卡片'
+        return
       }
-      this.switchStatus = "列表";
-      this.curIndex = 1;
-      this.initMoveCard();
+      this.switchStatus = '列表'
+      this.curIndex = 1
+      this.initMoveCard()
     },
     data: {
       handler(val) {
-        let curIdnex = 0;
-        let bol = true;
-        let live = false;
-        this.newTypeData = this.arrTrans(3, [...val]);
+        let curIdnex = 0
+        let bol = true
+        let live = false
+        this.newTypeData = this.arrTrans(3, [...val])
         aaa: for (let index = 0; index <= this.newTypeData.length; index++) {
           if (this.newTypeData[index]) {
             for (let i = 0; i < this.newTypeData[index].length; i++) {
               if (
                 bol &&
-                (this.newTypeData[index][i].state === "01" ||
-                  this.newTypeData[index][i].state === "02" ||
-                  this.newTypeData[index][i].state === "03")
+                (this.newTypeData[index][i].state === '01' ||
+                  this.newTypeData[index][i].state === '02' ||
+                  this.newTypeData[index][i].state === '03')
               ) {
-                curIdnex = index;
-                bol = false;
+                curIdnex = index
+                bol = false
               }
-              if (this.newTypeData[index][i].state === "04") {
-                live = true;
-                curIdnex = index;
-                break aaa;
+              if (this.newTypeData[index][i].state === '04') {
+                live = true
+                curIdnex = index
+                break aaa
               }
             }
           }
         }
         if (bol && !live) {
-          curIdnex = this.newTypeData.length - 1;
+          curIdnex = this.newTypeData.length - 1
         }
-        this.initIndex = curIdnex;
+        this.initIndex = curIdnex
       },
       immediate: true,
-      deep: true,
-    },
-  },
-};
+      deep: true
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -368,12 +368,12 @@ export default {
   /* padding: 40px 40px 0; */
   /* background-color: #fff; */
   /* width: 100%; */
-  width: 1740px;
+  // width: 1740px;
   .card-list-container {
     position: relative;
     /* padding-bottom: 40px; */
     overflow: hidden;
-    width: 1740px;
+    // width: 1740px;
     /* height: 420px; */
     /* margin-left: 20px; */
     .show-double-card {

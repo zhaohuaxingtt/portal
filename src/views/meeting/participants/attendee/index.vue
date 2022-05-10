@@ -111,6 +111,7 @@ export default {
           i18n: 'MT_YUHUIREN',
           align: 'left',
           tooltip: true,
+          minWidth: 200,
           customRender: (h, scope) => {
             return h(
               'div',
@@ -132,7 +133,7 @@ export default {
         {
           width: 100,
           label: '操作',
-          i18n:"MT_CAOZUO2",
+          i18n: 'MT_CAOZUO2',
           customRender: (h, scope) => {
             return h('span', [
               h(
@@ -195,11 +196,15 @@ export default {
   },
   methods: {
     deleteGroup(e) {
-      this.$confirm(this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'), this.$t('MT_TISHI'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         deleteGroup({ id: e.id })
           .then(() => {
             this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))

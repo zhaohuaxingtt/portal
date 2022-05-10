@@ -18,7 +18,6 @@
         show-overflow-tooltip
         align="center"
         :label="$t('MT_HUIYIMINGCHENG')"
-        width="340"
         min-width="340"
       >
         <template slot-scope="scope">
@@ -102,7 +101,7 @@
         width="90"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/{{handleWeeks()}}</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="81" align="center" label=""></el-table-column>
