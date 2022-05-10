@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2022-03-09 11:26:28
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 17:07:32
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
  */
@@ -374,7 +374,7 @@ export const tableTitle3 = [
     key: 'YUZHIBUCHALUOJI',
     width: 150
   },
-  { props: 'balance', name: '补差系数', key: 'BUCHAXISHU', width: 150 },
+  { props: 'rate', name: '补差系数', key: 'BUCHAXISHU', width: 150 },
   { props: 'price', name: '购买价', key: 'GOUMAIJIA', width: 150 },
   {
     props: 'exchangeRate',
@@ -384,12 +384,12 @@ export const tableTitle3 = [
   },
   { props: 'partNumber', name: '购买数量', key: 'GOUMAISHULIANG', width: 150 },
   {
-    props: 'bulkPartsConsume',
+    props: 'balance',
     name: '消耗数量',
     key: 'XIAOHAOSHULIANG',
     width: 150
   },
-  { props: 'balance', name: '余数', key: 'YUSHU', width: 150 },
+  { props: 'bulkPartsConsume', name: '余数', key: 'YUSHU', width: 150 },
   { props: 'appAmt', name: '补差额', key: 'BUCHAE', width: 150 }
 ]
 
