@@ -125,7 +125,6 @@
         align="center"
         label="Meeting"
         min-width="120"
-        width="120"
       >
         <!-- <template slot-scope="scope">
           <span class="open-link-text" @click="checkDetail(scope.row.id)">{{
@@ -203,8 +202,7 @@
         prop="presenter"
         align="center"
         label="Presenter"
-        width="170"
-        min-width="170"
+        min-width="150"
       >
         <template slot-scope="scope">
           <!-- <span>{{ scope.row.presenter }}</span>

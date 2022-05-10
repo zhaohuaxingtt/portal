@@ -146,8 +146,7 @@
         show-overflow-tooltip
         prop="presenter"
         align="center"
-        min-width="170"
-        width="170"
+        min-width="150"
         label="Presenter"
       >
         <template slot-scope="scope">

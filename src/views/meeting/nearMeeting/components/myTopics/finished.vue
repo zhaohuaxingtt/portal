@@ -78,7 +78,7 @@
         prop="topic"
         align="center"
         label="Topic"
-        min-width="220"
+        min-width="200"
       >
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{

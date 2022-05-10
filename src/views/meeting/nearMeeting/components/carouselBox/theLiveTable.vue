@@ -18,7 +18,7 @@
         show-overflow-tooltip
         align="center"
         :label="$t('MT_HUIYIMINGCHENG')"
-        min-width="340"
+        min-width="320"
       >
         <template slot-scope="scope">
           <span @click="goToDetail(scope.row.id)" class="open-link-text">{{
