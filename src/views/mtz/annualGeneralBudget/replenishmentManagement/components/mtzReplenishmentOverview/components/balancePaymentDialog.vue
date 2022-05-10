@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-09 10:19:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 10:45:53
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -438,6 +438,7 @@ export default {
       minDate: '',
       firstSupplierName: '',
       onLoding: false,
+      offsetLoading: false,
       firstSupplier: '',
       tableDataList: [],
       times: 0,
