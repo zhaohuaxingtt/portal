@@ -118,7 +118,7 @@
                   class="meet-desc"
                   :rules="rule"
                 >
-s                  <iInput
+                 <iInput
                     v-model="conclusionCscList[item.conclusion]"
                     type="textarea"
                     resize="none"
