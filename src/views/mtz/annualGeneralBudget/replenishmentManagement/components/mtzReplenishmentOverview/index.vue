@@ -1,15 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 21:19:28
- * @LastEditTime: 2021-11-02 11:58:28
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 15:58:37
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\index.vue
 -->
 <template>
   <div>
     <search class="margin-bottom20"
-            ref="searchBox"></search>
+            ref="searchBox"
+            @materialCodes="handleMaterialCodes"></search>
     <theTable ref="theTable"
               @dialog="handleAdd"></theTable>
     <balancePaymentDialog @close="handleClose"
@@ -17,6 +18,7 @@
                           :dialogVisible="dialogVisible"
                           :dateSearch="date"
                           :selectData="selectData"
+                          :materialCodes="materialCodes"
                           :flag="flag"></balancePaymentDialog>
   </div>
 </template>
@@ -42,7 +44,8 @@ export default {
       dialogVisible: false,
       selectData: [],
       flag: false,
-      date: ""
+      date: "",
+      materialCodes: []
     }
   },
   mixins: [pageMixins],
@@ -57,6 +60,9 @@ export default {
     },
     handleClose (val) {
       this.dialogVisible = val
+    },
+    handleMaterialCodes (codes) {
+      this.materialCodes = codes
     }
   }
 };

@@ -9,7 +9,7 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-test.csvw.com'
+const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com'
 
 console.log(BASE_IP)
 
@@ -189,7 +189,7 @@ module.exports = {
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
         // target: `http://${BASE_IP}:8066/supplier/overall`,
-        target: `${BASE_IP}/supplier/overall/`,
+        target: `${BASE_IP}/supplierservice/`,
         // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {
@@ -198,9 +198,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
-        // target: `http://${BASE_IP}:8034`,
-        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
+        target: `http://rise-nginx-internal.apps.vmocp-uat.csvw.com/fileApi`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''

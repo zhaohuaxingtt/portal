@@ -67,7 +67,7 @@
         prop="topic"
         align="center"
         label="Topic"
-        width="220"
+        min-width="220"
       >
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
@@ -344,7 +344,7 @@ export default {
         this.total = this.dataAll.length
       },
       immediate: true
-    },
+    }
     // meetingInfo: {
     //   handler() {
     //     this.dataAll = [...this.finishedData]
