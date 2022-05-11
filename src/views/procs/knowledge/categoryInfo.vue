@@ -73,7 +73,7 @@ import {
   downloadKnowledge,
   operationlogs
 } from '@/api/procs'
-import { getDeptDropDownList } from '@/api/authorityMgmt'
+import { getDeptByCondition } from '@/api/usercenter'
 import mixin from './../mixins'
 export default {
   components: {
@@ -97,16 +97,17 @@ export default {
   },
   methods: {
     async init() {
-      //  知识分类
-      let cate = await listCategoryBySection(this.$route.query.id)
-      this.knowList.push(...cate)
       // 科室
       // this.departList = await getDeptDropDownList({})
       // console.log(this.departList, '3333333')
-      await getDeptDropDownList({}).then((res) => {
+      await getDeptByCondition({ deptNum: 'CS', gradeAbove: 3 }).then((res) => {
         let data = res.data || []
-        this.departList = data.slice(0, 200)
+        this.departList = data
       })
+
+      //  知识分类
+      let cate = await listCategoryBySection(this.$route.query.id)
+      this.knowList.push(...cate)
     },
     async queryDetail() {
       let data = {
