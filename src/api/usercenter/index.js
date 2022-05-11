@@ -105,3 +105,12 @@ export function fetchUserListMemery(data) {
     data
   })
 }
+
+// 获取CS下属的R1/R2部门
+export function getDeptByCondition(data) {
+  return requst({
+    url: `/web/dept/getSubDeptListByParam`,
+    method: 'post',
+    data
+  })
+}
