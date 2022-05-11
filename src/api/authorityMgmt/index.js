@@ -180,10 +180,9 @@ export function save(data) {
 export function getMaterialGroupById(data) {
   return requstcg({
     url: `/web/material/getMaterialGroupById?id=${data}`,
-    method: 'get',
+    method: 'get'
   })
 }
-
 
 //完成
 export function finish(data) {
@@ -198,6 +197,6 @@ export function finish(data) {
 export function getAllBelongOrgList(data) {
   return requstcg({
     url: `/getAllBelongOrgList`,
-    method: 'get',
+    method: 'get'
   })
 }

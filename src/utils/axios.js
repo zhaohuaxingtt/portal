@@ -48,9 +48,11 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         // 定义请求得数据结构是formData
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
       }
-      {
-        // 定义请求得数据结构是json
-        config.headers['json-wrapper'] = '1'
+
+      // 定义请求得数据结构是json
+      config.headers['json-wrapper'] = '1'
+      if (loadingMask) {
+        loadingMask.style.display = 'block'
       }
 
       return config
