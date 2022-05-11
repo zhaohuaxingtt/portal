@@ -213,13 +213,13 @@ module.exports = {
         }
       },
       // ------------------ 上传 ----------------------------
-      '/fileApi': {
+      [process.env.VUE_APP_FILEAPI]: {
         target: `${BASE_IP}/`,
         // target: `http://${BASE_IP}:8034`,
         // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
         changeOrigin: true,
         pathRewrite: {
-          '/fileApi': ''
+          ['^' + process.env.VUE_APP_FILEAPI]: ''
         }
       },
       //------------------- 业务日志 ---------------------
