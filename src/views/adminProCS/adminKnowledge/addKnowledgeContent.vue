@@ -158,7 +158,7 @@ import {
   createKnowledgeContent,
   modifyKnowledgeContent
 } from '@/api/adminProCS'
-import { getDeptDropDownList } from '@/api/authorityMgmt'
+import { getDeptByCondition } from '@/api/usercenter'
 export default {
   name: 'addKnowledgeContent',
   components: {
@@ -439,9 +439,9 @@ export default {
       this.fileList.splice(idx, 1)
     },
     async organizationsInfo() {
-      await getDeptDropDownList({}).then((res) => {
+      await getDeptByCondition({ deptNum: 'CS', gradeAbove: 3 }).then((res) => {
         this.organizationMenu = res.data || []
-        this.organizationsList = this.organizationMenu.slice(0, 200)
+        this.organizationsList = this.organizationMenu
       })
     }
   }
