@@ -440,7 +440,7 @@
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
                 <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
-                <!-- <span class="line">|</span> -->
+                <span class="line">|</span>
               </p>
               <p
                 v-if="scope.row.state == '05' || scope.row.state == '06'"
@@ -1640,7 +1640,7 @@ export default {
           // if (e.meetingTypeName === 'Pre CSC' || e.meetingTypeName === 'CSC') {
           if (e.isPreCSC || e.isCSC) {
             this.receiverId = e?.receiverId
-            this.openNewSummaryNew = true
+            this.openNewSummaryNew = true 
           } else {
             this.openNewSummary = true
           }
