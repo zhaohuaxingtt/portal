@@ -1,8 +1,8 @@
 /*
  * @Author: YoHo
  * @Date: 2022-04-01 10:32:02
- * @LastEditTime: 2022-04-26 15:02:37
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-10 17:39:39
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description:
  */
 export default {
@@ -23,5 +23,6 @@ export default {
   QUERENSHANCHUGONGYINGSHANGZU: 'Are you sure to delete the supplier group?',
   GONGYINGSHANGZUBIAOQIAN: 'Supplier Group Tag',
   BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO:
-    'The primary contact cannot be deleted. Please set another account as the primary contact before deleting this account'
+    'The primary contact cannot be deleted. Please set another account as the primary contact before deleting this account',
+  BUNENGCHAOGUO500TIAO: 'No more than 500'
 }
