@@ -1882,7 +1882,11 @@ export default {
       }
       const _this = this
       findThemenById(data).then((res) => {
-        console.log(res);
+        // mock数据
+        // res.themens[0].sign='F'
+        // console.log(res);
+        // console.log(res.themens);
+        // console.log(res.themens[0].sign);
         // return
         this.meetingType = res.state
         _this.meetingInfo = res
