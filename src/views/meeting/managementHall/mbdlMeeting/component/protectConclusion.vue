@@ -89,7 +89,8 @@ export default {
     return {
       ruleForm:{
         conclusion:'',
-        taskCsc:''
+        taskCsc:'',
+        result:''
       },
       themenConclusionArrObj:[
         {
@@ -143,7 +144,7 @@ export default {
       const params = {
        conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.taskCsc,//任务
+       result:this.ruleForm.result,//任务
        themenId:this.selectThemenId//议题id
       }
       console.log(params);
