@@ -249,8 +249,11 @@ export default {
       }
       const res = await getMeetingDetail(this.$route.query)
       this.result = res
-      const res2 = await findMyThemens(param)
-      this.data = [...res2.data]
+      const { data = [] } = await findMyThemens(param)
+      // this.data = [...res2.data]
+      this.data = data.map((e, i) => {
+        return { ...e, index: i + 1 }
+      })
       this.newTypeData = this.arrTrans(3, [...this.data])
       this.dataTable = this.data.slice(
         (this.pageNum - 1) * this.pageSize,
