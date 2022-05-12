@@ -195,3 +195,11 @@ export function exportInitialCommentConfirmedList(params) {
     data: params
   })
 }
+//导出供应商模板
+export function frmExport(params) {
+  return requstDownload({
+    url: `/initialCommentModel/frmExport`,
+    method: 'POST',
+    data: params
+  })
+}

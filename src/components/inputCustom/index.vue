@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-09 17:16:19
- * @LastEditTime: 2022-05-10 16:24:50
+ * @LastEditTime: 2022-05-10 17:43:55
  * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: front-portalsrcviewsmtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\comboBox.vue
@@ -249,7 +249,7 @@ export default {
         vm.inputVal = valArr.splice(0, valArr.length).join(",");
         if (valArr.length > vm.maxNum) {
           vm.inputVal = valArr.splice(0, vm.maxNum).join(",");
-          iMessage.warn({ message: vm.$t('pwCombobox.label.cutTip') });
+          iMessage.warn({ message: vm.$t('BUNENGCHAOGUO500TIAO') });
         }
       } else {
         var valArr = vm.textareaValue.split(/[\n,]/g);
@@ -266,7 +266,7 @@ export default {
         });
         if (newValArr.length > vm.maxNum) {
           vm.textareaValue = newValArr.splice(0, vm.maxNum).join(",").replace(/[,]/g, '\n');
-          iMessage.warn({ message: vm.$t('pwCombobox.label.cutTip') });
+          iMessage.warn({ message: vm.$t('BUNENGCHAOGUO500TIAO') });
         }
       }
     }
