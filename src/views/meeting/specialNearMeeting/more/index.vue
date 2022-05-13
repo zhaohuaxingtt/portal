@@ -37,7 +37,7 @@
                 <iSelect :placeholder="$t('LK_QINGXUANZE')"
                          v-model="form.result">
                   <el-option :value="item.conclusionCsc"
-                             :label="item.i18n"
+                             :label="$t(item.i18n)"
                              v-for="item of resultList"
                              :key="item.conclusionCsc"></el-option>
                 </iSelect>
