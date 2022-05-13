@@ -86,7 +86,10 @@
     </iCard>
     <!--转正所需附件-->
     <updating-files class="margin-top20"
-                  ref="updatingFiles" />
+                  ref="updatingFiles"></updating-files>
+    <freeFiles class="margin-top20"
+                  ref="freeFiles">
+    </freeFiles>
   </iPage>
 </template>
 
@@ -96,6 +99,7 @@ import { getTaskDetails, handleTaskInfo,gpAdminRegularAppro } from '@/api/suppli
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import updatingFiles from '../relevantAttachments/components/updatingFilesTableNew'
+import freeFiles from './freeFiles'
 import { downloadUdFile } from '@/api/file'
 import { getAttachmentCommitment } from '@/api/register/relevantAttachments'
 
@@ -112,6 +116,7 @@ export default {
     tableList,
     icon,
     updatingFiles,
+    freeFiles
   },
   created () {
     this.getTaskDetails()
@@ -141,6 +146,7 @@ export default {
         const res = await getTaskDetails(req)
         this.detail = res.data ? res.data : {}
         this.supplierToken = this.detail.token
+        this.$refs.freeFiles.getTableList(this.supplierToken)
         // console.log(this.supplierToken);
         this.$refs.updatingFiles.getTableList(this.supplierToken);
         this.tableListData = res.data.informationList ? res.data.informationList : []
