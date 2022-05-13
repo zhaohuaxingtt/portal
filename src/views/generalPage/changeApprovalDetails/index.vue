@@ -110,6 +110,9 @@
                   :index="true"
                   :selection="false" />
     </iCard>
+    <freeFiles class="margin-top20"
+                  ref="freeFiles">
+    </freeFiles>
   </iPage>
 </template>
 
@@ -120,7 +123,7 @@ import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle, filTableTitle } from "./data";
 import { downloadUdFile } from '@/api/file'
-
+import freeFiles from './freeFiles'
 
 export default {
   mixins: [generalPageMixins],
@@ -132,7 +135,8 @@ export default {
     iFormItem,
     iLabel,
     iText,
-    tableList
+    tableList,
+    freeFiles
   },
   created () {
     this.getTaskDetailsChangeInfo()
@@ -176,6 +180,7 @@ export default {
           this.supplierToken = this.detail.token
           this.supplierId = this.detail.supplierId
           this.tableListData = res.data.list ? res.data.list : []
+          this.$refs.freeFiles.getTableList(this.supplierToken)
           this.fileTableListData = res.data.informationList ? res.data.informationList : []
         }
       } catch {
