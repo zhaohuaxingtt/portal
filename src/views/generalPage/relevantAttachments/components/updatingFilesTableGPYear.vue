@@ -49,6 +49,9 @@ import {
   getAttachmentCommitment,
   signatureAttachment,
   saveAttachmentNew,
+  submitTempTaskInfo,
+  getSupplierFileReloadVo,
+  supplierFileReloadSave
 } from '../../../../api/register/relevantAttachments'
 import attachmentDialog from './attachmentDialog'
 import { downloadUdFile } from '@/api/file'
@@ -95,15 +98,36 @@ export default {
     },
   },
   created () {
-    if(this.$route.query.supplierToken){
-      this.supplierToken = this.$route.query.supplierToken;
-    }
     this.getTableList()
-    this.purchaseTerms()
   },
   mounted () {
   },
   methods: {
+    reluesType(){
+      let newTableList = cloneDeep(this.tableListData)
+      var requiredNum = 0;
+      newTableList.forEach(e => {
+        if(e.required){
+          if(!e.fileId){
+            requiredNum++;
+          }
+        }
+      });
+      if(requiredNum !== 0){
+        iMessage.error("请上传附件名称中带星号的附件")
+        return;
+      }else{
+        submitTempTaskInfo({
+            taskId:this.$route.query.id
+        }).then(res=>{
+            if(res.result){
+                iMessage.success(res.desZh);
+            }else{
+                iMessage.error(res.desZh);
+            }
+        })
+      }
+    },
     async purchaseTerms () {
       let disabled = false
       let params = {
@@ -119,21 +143,21 @@ export default {
       })
       this.disabled = disabled
     },
-    async getTableList (token) {
-      // if(this.supplierToken){
-      //   this.supplierToken = token;
-      // }
+    async getTableList () {
       this.tableLoading = true
       try {
-        const req = {
-          pageNo: 1,
-          pageSize: 9999,
-          step: 'submit',
-          supplierToken:this.supplierToken
+        var res = await getSupplierFileReloadVo({taskId:this.$route.query.id})
+        if(res.data){
+          this.supplierToken = res.data.token;
+          this.tableListData = res.data.informationList;
+          this.tableLoading = false
+          if (this.isFirst) {
+            this.oldTableListDataStr = JSON.stringify(_.cloneDeep(this.tableListData))
+            this.isFirst = false
+          }
+        }else{
+          iMessage.error(res.desZh);
         }
-        const res = await getTemplateListNew(req)
-        this.tableListData = res.data
-        this.tableLoading = false
       } catch {
         this.tableLoading = false
       }
@@ -192,31 +216,23 @@ export default {
       })
     },
     async handleUploadedCallback (evnet, row) {
-      const req = {
-        list: [
-          {
-            file: {
-              // fileName: evnet.fileName,
-              // filePath: evnet.filePath,
-              // fileSize: evnet.fileSize
-              // TODO上传返回的字段临时修改
-              fileName: evnet.name,
-              filePath: evnet.path,
-              fileSize: evnet.size,
-              id: evnet.path.split('?')[1].split('=')[1]
-            },
-            ...row
-          }
-        ],
-        step: 'submit',
+      console.log(evnet, row)
+
+      const red = {
+        id:row.attachId,
+        fileId:evnet.id,
         supplierToken:this.supplierToken
       }
-      const res = await saveAttachmentNew(req)
-      await this.saveInfos('', false, true)
-      res.moduleName = this.$t('SUPPLIER_FUJIANSHANGCHUAN')
-      this.resultMessage(res, () => {
+      const res = await supplierFileReloadSave(red);
+      console.log(res);
+      // TODO先注释代码，重复调用接口attachment/save
+      // await this.saveInfos('', false, true)
+      if(res.result){
+        iMessage.success(this.$t('SUPPLIER_FUJIANSHANGCHUAN'))
         this.getTableList()
-      })
+      }else{
+        iMessage.error(res.desZh)
+      }
     },
     async saveInfos (step = '', nextStep = false, hideMessage = false) {
       let newTableList = cloneDeep(this.tableListData)

@@ -2,18 +2,23 @@
     <iPage>
         <div style="font-size:1.35rem;margin-bottom:15px;" class="year_button">
             <span style="font-weight:bold">{{detail.desc}}</span>
-            <iButton @click="saveInfos">{{ $t('LK_TIJIAO') }}</iButton>
+            <div>
+                <iButton @click="handleTaskInfo(true)" :loading="saveLoading">{{ $t('SUPPLIER_PIZHUN') }}</iButton>
+                <iButton @click="handleTaskInfo(false)" :loading="saveLoading">{{ $t('LK_JUJUE') }}</iButton>
+            </div>
         </div>
+        <yearTable class="margin-top20" ref="yearTable"></yearTable>
         <updatingFilesTableGPYear class="margin-top20" ref="updatingFiles"></updatingFilesTableGPYear>
-        <freeUploadTableGPYear class="margin-top20"
-                 ref="freeUpload" />
     </iPage>
 </template>
 
 <script>
-import { iPage,iButton } from 'rise'
+import { iPage,iButton,iMessage } from 'rise'
 import updatingFilesTableGPYear from '@/views/generalPage/relevantAttachments/components/updatingFilesTableGPYear'
-import freeUploadTableGPYear from '@/views/generalPage/relevantAttachments/components/freeUploadTableGPYear'
+import yearTable from "./yearTable";
+import {
+  checkUpSupplierFileReloadTask
+} from '@/api/register/relevantAttachments'
 
 export default {
     name:"",
@@ -21,33 +26,36 @@ export default {
         iPage,
         iButton,
         updatingFilesTableGPYear,
-        freeUploadTableGPYear
+        yearTable
     },
     data(){
         return{
             detail:{
-                desc:"三年不活跃准入材料重新上传"
-            }
+                desc:"三年不活跃准入材料重新上传申请"
+            },
+            saveLoading:false,
         }
     },
     created(){
 
     },
     methods:{
-        async saveInfos (step) {
-            await Promise.all([
-                this.$refs.updatingFiles.saveInfos(step),
-                this.$refs.freeUpload.saveInfos(step)
-            ])
-        },
-        async handleNextStep () {
-            let flag = false
-            const res = await Promise.all([
-                this.$refs.updatingFiles.handleNextStep(),
-                this.$refs.freeUpload.handleNextStep()
-            ])
-            flag = res[0] && res[1]
-            return flag
+        async handleTaskInfo(step) {
+            this.saveLoading = true;
+            setTimeout(() => {
+                this.saveLoading = false;
+            }, 200);
+            const res = await checkUpSupplierFileReloadTask({
+                taskId:this.$route.query.id,
+                checkResult:step,
+            })
+            if(res.result){
+                this.saveLoading = false;
+                iMessage.success(res.desZh)
+            }else{
+                this.saveLoading = false;
+                iMessage.error(res.desZh)
+            }
         },
     }
 }
