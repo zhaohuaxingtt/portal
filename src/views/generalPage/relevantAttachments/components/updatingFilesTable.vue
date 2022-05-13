@@ -110,16 +110,16 @@ export default {
   },
   created () {
     this.getTableList()
-    this.purchaseTerms()
+    this.purchaseTerms(false)
   },
   mounted () {
   },
   methods: {
-    async purchaseTerms () {
+    async purchaseTerms (flag=true) {
       let disabled = false
       let params = {
         supplierId: this.supplierId,
-        headerId: this.$store.state.permission.userInfo.id // 就是Linie id
+        headerId: flag?this.$store.state.permission.userInfo.id:undefined // 就是Linie id
       }
       await purchaseTerms(params).then(res => {
         if (res?.code == '200') {
@@ -150,7 +150,7 @@ export default {
         iMessage.error('供应商id获取失败')
         return
       }
-      await this.purchaseTerms()
+      await this.purchaseTerms(false)
       if (this.disabled) return
       let query = {
         supplierId: this.supplierId,

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-05-10 16:48:31
+ * @LastEditTime: 2022-05-13 11:31:20
  * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -440,7 +440,7 @@ export default {
         return
       }
       if (this.muliteList.length > 1) {
-        iMessage.error('只能选择一条数据')
+        iMessage.error('变更有效期仅能对单条数据进行操作')
         return
       }
       this.dateList[0].value[0] = this.muliteList[0].startDate
