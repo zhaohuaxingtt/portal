@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-02 19:09:27
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-13 14:18:43
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -162,6 +162,17 @@
                          value-member="code"
                          value-key="code" />
         </iFormItem>
+        <iFormItem label="是否有效"
+                   class="searchFormItem">
+          <custom-select v-model="searchForm.effectFlag"
+                         :user-options="effectFlagList"
+                         style="width:100%"
+                         clearable
+                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code" />
+        </iFormItem>
       </iFormGroup>
     </iSearch>
   </div>
@@ -198,6 +209,20 @@ export default {
       mtzUserList: [],
       mtzPeriodList: [],
       mtzSourceList: [],
+      effectFlagList: [
+        {
+          message: "全部",
+          code: ""
+        },
+        {
+          message: "有效",
+          code: 1
+        },
+        {
+          message: "无效",
+          code: 0
+        }
+      ]
       // pickerOptions: {}
     }
   },
