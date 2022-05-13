@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-10 16:32:05
+ * @LastEditTime: 2022-05-13 11:11:09
  * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -31,7 +31,7 @@
     </iTableCustom>
     <iPagination @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
-                 :page-sizes="[200,500,1000]"
+                 :page-sizes="[50,100,200,500,1000]"
                  :page-size="page.pageSize"
                  :current-page="page.currPage"
                  :total="page.totalCount"
@@ -95,7 +95,7 @@ export default {
     init () {
       // this.addFlag = this.addFlag || false
       // this.mtzAppId = this.mtzAppId || ""
-      this.page.pageSize = 200
+      this.page.pageSize = 50
       this.getTableList()
     },
     getTableList () {
