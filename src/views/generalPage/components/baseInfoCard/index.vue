@@ -24,7 +24,7 @@
           <iText v-if="item.key=='svwTempCode' || item.key=='svwCode'">{{baseMsg[infoVo][item.key]}}</iText>
           <iInput v-else-if="item.key=='vmCode' && !item.disabled"
                   v-model="baseMsg[infoVo][item.key]"></iInput>
-          <iText v-else-if="item.key=='supplierType'">{{ baseMsg.supplierDTO[item.key]=='GP'?'一般供应商':baseMsg.supplierDTO[item.key]=='PP'?'生产供应商':baseMsg.supplierDTO[item.key]=='PD'?'公用供应商':'' }}</iText>
+          <iText v-else-if="item.key=='supplierType'">{{ baseMsg.supplierDTO[item.key]=='GP'?'一般供应商':baseMsg.supplierDTO[item.key]=='PP'?'生产供应商':baseMsg.supplierDTO[item.key]=='PD'?'共用供应商':'' }}</iText>
           <iText v-else>{{ baseMsg.supplierDTO[item.key] }}</iText>
         </iFormItem>
       </iFormGroup>
