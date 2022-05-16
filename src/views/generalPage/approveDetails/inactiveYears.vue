@@ -8,7 +8,7 @@
             </div>
         </div>
         <yearTable class="margin-top20" ref="yearTable"></yearTable>
-        <updatingFilesTableGPYear class="margin-top20" ref="updatingFiles"></updatingFilesTableGPYear>
+        <updatingFilesTableGPYear class="margin-top20" ref="updatingFiles" @getSupplierToken="getSupplierToken"></updatingFilesTableGPYear>
     </iPage>
 </template>
 
@@ -34,28 +34,33 @@ export default {
                 desc:"三年不活跃准入材料重新上传申请"
             },
             saveLoading:false,
+            supplierToken:'',
         }
     },
     created(){
 
     },
     methods:{
+        getSupplierToken(val){
+            this.supplierToken = val;
+        },
         async handleTaskInfo(step) {
             this.saveLoading = true;
-            setTimeout(() => {
-                this.saveLoading = false;
-            }, 200);
-            const res = await checkUpSupplierFileReloadTask({
+            checkUpSupplierFileReloadTask({
                 taskId:this.$route.query.id,
                 checkResult:step,
+                supplierToken:this.supplierToken
+            }).then(res=>{
+                if(res.result){
+                    iMessage.success(res.desZh)
+                }else{
+                    iMessage.error(res.desZh)
+                }
+                this.saveLoading = false;
+            }).catch(res=>{
+                console.log(res);
+                this.saveLoading = false;
             })
-            if(res.result){
-                this.saveLoading = false;
-                iMessage.success(res.desZh)
-            }else{
-                this.saveLoading = false;
-                iMessage.error(res.desZh)
-            }
         },
     }
 }
