@@ -13,14 +13,14 @@ export const upadtingFilesTableTitle = [
     key: 'SUPPLIER_FUJIANMINGCHENG',
     // width: 330
   },
-  // {
-  //   props: 'isCommitment',
-  //   name: '操作',
-  //   key: 'SUPPLIER_CAOZUO',
-  //   minWidth: 180
-  // },
   {
-    props: 'createDateTime',
+    props: 'isCommitment',
+    name: '操作',
+    key: 'SUPPLIER_CAOZUO',
+    minWidth: 180
+  },
+  {
+    props: 'updateDateTime',
     name: '上传/确认日期',
     key: 'SUPPLIER_SHANGCHUANQUERENRQI',
     width: 180
