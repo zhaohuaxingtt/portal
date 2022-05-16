@@ -162,7 +162,7 @@
                          value-member="code"
                          value-key="code" />
         </iFormItem>
-        <iFormItem label="是否有效"
+        <iFormItem label="是否生效"
                    class="searchFormItem">
           <custom-select v-model="searchForm.effectFlag"
                          :user-options="effectFlagList"
@@ -215,11 +215,11 @@ export default {
           code: ""
         },
         {
-          message: "有效",
+          message: "生效",
           code: 1
         },
         {
-          message: "无效",
+          message: "失效",
           code: 0
         }
       ]
