@@ -18,5 +18,6 @@ export default {
   所有人可见: 'Visible to everyone',
   复核中单据: 'Document under review',
   '显示全部仍在复核期内的单据，包括已经完成复核操作的单据。':
-    'Displays all the documents still in the review period, including the documents that have been reviewed.'
+    'Displays all the documents still in the review period, including the documents that have been reviewed.',
+  无进行中的审批项: 'No on-going application'
 }
