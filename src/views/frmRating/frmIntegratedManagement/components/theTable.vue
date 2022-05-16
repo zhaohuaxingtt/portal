@@ -3,68 +3,47 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--VWAG评级-->
-        <iButton
-          @click="openVwagRatingDialog"
-          v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_VWAGPINGJI"
-          >{{ $t('SPR_FRM_FRMGL_VWAGPJ') }}</iButton
-        >
+        <iButton @click="openVwagRatingDialog"
+                 v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_VWAGPINGJI">{{ $t('SPR_FRM_FRMGL_VWAGPJ') }}</iButton>
         <!--导出财报-->
-        <iButton
-          @click="openExportFinancialReportDialog"
-          v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAOCHUCAIBAO"
-          >{{ $t('SPR_FRM_FRMGL_DCCB') }}</iButton
-        >
-        <!--导出统计报表-->
-        <!--        <iButton>{{ $t('SPR_FRM_FRMGL_DCTJBB') }}</iButton>-->
-        <!--深入评级-->
-        <iButton
-          @click="openInDepthRatingDialog"
-          v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_SHENRUPINGJIBTN"
-          >{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton
-        >
-        <buttonTableSetting
-          @click="$refs.tableListRef.openSetting()"
-        ></buttonTableSetting>
+        <iButton @click="openExportFinancialReportDialog"
+                 v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAOCHUCAIBAO">{{ $t('SPR_FRM_FRMGL_DCCB') }}</iButton>
+        <!-- 导出统计报表-->
+        <iButton @click="exportDCTJBB">{{ $t('SPR_FRM_FRMGL_DCTJBB') }}</iButton>
+        <!--深入评级 -->
+        <iButton @click="openInDepthRatingDialog"
+                 v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_SHENRUPINGJIBTN">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
+        <buttonTableSetting @click="$refs.tableListRef.openSetting()"></buttonTableSetting>
       </div>
     </div>
 
-    <iTableCustom
-      ref="tableListRef"
-      :data="tableListData"
-      :columns="tableTitle"
-      :loading="tableLoading"
-      @handle-selection-change="handleSelectionChange"
-    >
+    <iTableCustom ref="tableListRef"
+                  :data="tableListData"
+                  :columns="tableTitle"
+                  :loading="tableLoading"
+                  @handle-selection-change="handleSelectionChange">
     </iTableCustom>
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-    />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
 
     <!--深入评级-->
-    <inDepthRatingDialog
-      v-model="inDepthRatingDialog"
-      :loading="inDepthRatingDialogLoading"
-      @handleSubmit="handleInDepthRatingSubmit"
-    />
+    <inDepthRatingDialog v-model="inDepthRatingDialog"
+                         :loading="inDepthRatingDialogLoading"
+                         @handleSubmit="handleInDepthRatingSubmit" />
     <!--VWAG评级-->
-    <vwagRatingDialog
-      v-model="vwagRatingDialog"
-      @handleSubmit="handleVwagSubmit"
-    />
+    <vwagRatingDialog v-model="vwagRatingDialog"
+                      @handleSubmit="handleVwagSubmit" />
     <!--导出财报-->
-    <exportFinancialReportDialog
-      v-model="exportFinancialReportDialog"
-      @handleSubmit="handleFinancialReport"
-      :loading="exportFinancialReportDialogLoading"
-    />
+    <exportFinancialReportDialog v-model="exportFinancialReportDialog"
+                                 @handleSubmit="handleFinancialReport"
+                                 :loading="exportFinancialReportDialogLoading" />
   </iCard>
 </template>
 
@@ -83,7 +62,8 @@ import {
   getFrmList,
   updateDeepCommentReason,
   exportFinanceReport,
-  saveVwag
+  saveVwag,
+  frmExport
 } from '../../../../api/frmRating/frmIntegratedManagement'
 import { SUPPLIER_STATUS } from '../../../../constants/frmRating/preliminaryRating'
 
@@ -101,7 +81,7 @@ export default {
     buttonTableSetting,
     icon
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle,
@@ -115,18 +95,18 @@ export default {
       SUPPLIER_STATUS
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    handleSearch() {
+    handleSearch () {
       this.page.currPage = 1
       this.getTableList()
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       const searchItem = this.$parent.$children.filter((item) => {
         return item.$attrs.name === 'theSearch'
@@ -154,7 +134,18 @@ export default {
         this.tableLoading = false
       }
     },
-    openInDepthRatingDialog() {
+    exportDCTJBB () {
+      if (this.selectTableData.length === 0) {
+        return iMessage.error(this.language(
+          'QINGXUANZESHUJU',
+          '请选择数据'
+        ))
+      }
+      let supplierIds = this.selectTableData.map(item => item.supplierId)
+      // let supplierIds = []
+      frmExport({ supplierIds }).then()
+    },
+    openInDepthRatingDialog () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -177,7 +168,7 @@ export default {
         )
       }
     },
-    openVwagRatingDialog() {
+    openVwagRatingDialog () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -186,7 +177,7 @@ export default {
       }
       this.vwagRatingDialog = true
     },
-    async handleInDepthRatingSubmit(reqQuery) {
+    async handleInDepthRatingSubmit (reqQuery) {
       try {
         const idArray = this.selectTableData.map((item) => {
           return item.supplierId
@@ -207,7 +198,7 @@ export default {
         this.inDepthRatingDialogLoading = false
       }
     },
-    openExportFinancialReportDialog() {
+    openExportFinancialReportDialog () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -216,7 +207,7 @@ export default {
       }
       this.exportFinancialReportDialog = true
     },
-    async handleFinancialReport(params) {
+    async handleFinancialReport (params) {
       try {
         this.exportFinancialReportDialogLoading = true
         const supplierId = this.selectTableData.map((item) => {
@@ -233,7 +224,7 @@ export default {
         this.exportFinancialReportDialogLoading = false
       }
     },
-    async handleVwagSubmit(params) {
+    async handleVwagSubmit (params) {
       const supplierId = this.selectTableData.map((item) => {
         return item.supplierId
       })

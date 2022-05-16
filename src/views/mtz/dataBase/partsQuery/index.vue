@@ -167,7 +167,7 @@
                      @size-change="handleSizeChange($event, sure)"
                      @current-change="handleCurrentChange($event, mtzBasePricePage)"
                      background
-                     :page-sizes="[200,500,1000]"
+                     :page-sizes="[50,100,200,500,1000]"
                      :page-size="page.pageSize"
                      :layout="page.layout"
                      :current-page='page.currPage'
@@ -299,7 +299,7 @@ export default {
 
     getMtzMarketSourceList().then(res => { this.getMtzMarketSourceListDrop = res.data })
     this.$nextTick(_ => {
-      this.page.pageSize = 200
+      this.page.pageSize = 50
       this.mtzBasePricePage()
     })
   },
