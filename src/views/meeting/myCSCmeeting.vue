@@ -46,8 +46,8 @@ export default {
                 '&meetingInfoId=' +
                 localStorage.getItem('my_mbdlcsc_meeting__info_id')),
           activePath: '/CSCMeeting/live',
-          key: this.$t('MT_HUIYIZHIBO'),
-          permissionKey:"CF_MEETING_SCCGCSC_HUIYIZHIBO"
+          key: 'MT_HUIYIZHIBO',
+          permissionKey: 'CF_MEETING_SCCGCSC_HUIYIZHIBO'
         },
         {
           value: 2,
@@ -62,8 +62,8 @@ export default {
                 '&meetingInfoId=' +
                 localStorage.getItem('my_mbdlcsc_meeting__info_id')),
           activePath: '/nearCSCMeeting/live',
-          key: this.$t('MT_JINQIHUIYI'),
-          permissionKey:"CF_MEETING_SCCGCSC_JINQIHUIYI"
+          key: 'MT_JINQIHUIYI',
+          permissionKey: 'CF_MEETING_SCCGCSC_JINQIHUIYI'
         }
       ]
     }
