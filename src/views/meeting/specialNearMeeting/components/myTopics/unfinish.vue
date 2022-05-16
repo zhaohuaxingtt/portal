@@ -56,7 +56,7 @@
         <template slot-scope="scope">
           <div class="img-word">
             <span>
-              {{ scope.$index + 1 }}
+              {{ scope.row.rowNo }}
             </span>
             <div>
               <img
@@ -401,15 +401,21 @@ export default {
         // meetingTypeId: this.meetingTypeId
         category: '02'
       }
-      findMyThemens(param).then((res) => {
+      findMyThemens(param).then((res = []) => {
         let data =
           res.data &&
           res.data.filter((item) => {
             return item.state == '01' || item.state == '02'
           })
-        this.dataAll = data
-        this.tableData = data.slice(0, 1 * this.page.pageSize)
-        this.total = data.length
+        this.dataAll = data.map((e, index) => {
+          return {
+            ...e,
+            rowNo: index + 1
+          }
+        })
+        console.log('dataAll', this.dataAll)
+        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+        this.total = this.dataAll.length
       })
     },
     //选择页数

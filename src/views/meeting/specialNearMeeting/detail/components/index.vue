@@ -252,7 +252,7 @@ export default {
       const { data = [] } = await findMyThemens(param)
       // this.data = [...res2.data]
       this.data = data.map((e, i) => {
-        return { ...e, index: i + 1 }
+        return { ...e, rowNo: i + 1 }
       })
       this.newTypeData = this.arrTrans(3, [...this.data])
       this.dataTable = this.data.slice(
