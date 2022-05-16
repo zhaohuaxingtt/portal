@@ -118,7 +118,8 @@ export default {
         return;
       }else{
         submitTempTaskInfo({
-            taskId:this.$route.query.id
+            taskId:this.$route.query.id,
+            supplierToken:this.supplierToken
         }).then(res=>{
             if(res.result){
                 iMessage.success(res.desZh);
@@ -149,6 +150,7 @@ export default {
         var res = await getSupplierFileReloadVo({taskId:this.$route.query.id})
         if(res.data){
           this.supplierToken = res.data.token;
+          this.$emit("getSupplierToken",res.data.token);
           this.tableListData = res.data.informationList;
           this.tableLoading = false
           if (this.isFirst) {
