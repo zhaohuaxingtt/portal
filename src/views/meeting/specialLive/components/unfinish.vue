@@ -61,7 +61,7 @@
         <template slot-scope="scope">
           <div class="img-word">
             <span>
-              {{ scope.$index + 1 }}
+              {{ scope.row.rowNo }}
             </span>
             <div>
               <img

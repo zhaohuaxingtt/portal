@@ -11,7 +11,7 @@
           <div class="img-word">
             <div class="img-box">
               <span>
-                {{ scope.$index + 1 }}
+                {{ scope.row.rowNo }}
               </span>
               <div
                 v-show="

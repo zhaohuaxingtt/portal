@@ -47,7 +47,7 @@
         <template slot-scope="scope">
           <div class="img-word">
             <span>
-              {{ scope.$index + 1 }}
+              {{ scope.row.rowNo }}
             </span>
             <div>
               <img
@@ -285,7 +285,7 @@ export default {
         this.total = this.dataAll.length
       },
       immediate: true
-    },
+    }
     // meetingInfo: {
     //   handler() {
     //     this.dataAll = [...this.finishedData]
