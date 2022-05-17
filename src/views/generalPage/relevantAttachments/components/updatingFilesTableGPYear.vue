@@ -42,7 +42,7 @@
 <script>
 import { iCard, iButton, iMessage } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
-import tableList from './updatingFilesTableList'
+import tableList from './updatingFilesTableListYear'
 import { upadtingFilesTableTitle } from './data'
 import {
   getTemplateListNew,
@@ -104,19 +104,19 @@ export default {
   },
   methods: {
     reluesType(){
-      let newTableList = cloneDeep(this.tableListData)
-      var requiredNum = 0;
-      newTableList.forEach(e => {
-        if(e.required){
-          if(!e.fileId){
-            requiredNum++;
-          }
-        }
-      });
-      if(requiredNum !== 0){
-        iMessage.error("请上传附件名称中带星号的附件")
-        return;
-      }else{
+      // let newTableList = cloneDeep(this.tableListData)
+      // var requiredNum = 0;
+      // newTableList.forEach(e => {
+      //   if(e.required){
+      //     if(!e.fileId){
+      //       requiredNum++;
+      //     }
+      //   }
+      // });
+      // if(requiredNum !== 0){
+      //   iMessage.error("请上传附件名称中带星号的附件")
+      //   return;
+      // }else{
         submitTempTaskInfo({
             taskId:this.$route.query.id,
             supplierToken:this.supplierToken
@@ -127,7 +127,7 @@ export default {
                 iMessage.error(res.desZh);
             }
         })
-      }
+      // }
     },
     async purchaseTerms () {
       let disabled = false
