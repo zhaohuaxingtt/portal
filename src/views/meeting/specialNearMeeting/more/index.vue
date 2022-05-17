@@ -37,7 +37,7 @@
                 <iSelect :placeholder="$t('LK_QINGXUANZE')"
                          v-model="form.result">
                   <el-option :value="item.conclusionCsc"
-                             :label="item.i18n"
+                             :label="$t(item.i18n)"
                              v-for="item of resultList"
                              :key="item.conclusionCsc"></el-option>
                 </iSelect>
@@ -290,6 +290,7 @@ export default {
     return {
       isSelf: false,
       meetingTypeList: [],
+      processUrlGpPortal:process.env.VUE_APP_POINT_GP_PORTAL,
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       disabledButton: true,
@@ -653,7 +654,12 @@ export default {
             `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
             '_blank'
           )
-        } else {
+        } else if (row.type === 'CSF') {
+          window.open(
+            `${this.processUrlGpPortal}/myCscDetails/${row.fixedPointApplyId}?current=3`,
+            '_blank'
+          )
+        }else {
           window.open(
             `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
             '_blank'
