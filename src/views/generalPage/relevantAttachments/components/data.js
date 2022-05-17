@@ -17,7 +17,7 @@ export const upadtingFilesTableTitle = [
     props: 'isCommitment',
     name: '操作',
     key: 'SUPPLIER_CAOZUO',
-    minWidth: 180
+    Width: 60
   },
   {
     props: 'updateDateTime',
