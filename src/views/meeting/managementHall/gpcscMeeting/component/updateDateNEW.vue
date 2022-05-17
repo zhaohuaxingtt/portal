@@ -72,7 +72,8 @@
             />
           </div>
         </el-form-item>
-        <el-form-item :label="language('周次', '周次')" prop="weekOfYears">
+        <!-- 不要周次 -->
+        <!-- <el-form-item :label="language('周次', '周次')" prop="weekOfYears">
           <iSelect
             v-model="formData.weekOfYears"
             :placeholder="language('请选择', '请选择')"
@@ -87,7 +88,7 @@
               :value="item.value"
             ></el-option>
           </iSelect>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </search>
     <el-divider></el-divider>

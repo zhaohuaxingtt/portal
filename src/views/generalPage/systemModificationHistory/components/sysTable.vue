@@ -24,13 +24,13 @@
         border
     >
       <!-- 变更前 -->
-      <template #beforeValue="scope">
-        <span class="value_click" v-if="scope.row.beforeValue" @click="upload(scope.row.beforeValue)">{{scope.row.beforeValue}}</span>
+      <template #beforeFileName="scope">
+        <span class="value_click" v-if="scope.row.isAttachMent" @click="upload(scope.row.beforeValue)">{{scope.row.beforeFileName}}</span>
         <span v-else>{{scope.row.beforeValue}}</span>
       </template>
       <!-- 变更后 -->
-      <template #afterValue="scope">
-        <span class="value_click" v-if="scope.row.afterValue" @click="upload(scope.row.afterValue)">{{scope.row.afterValue}}</span>
+      <template #afterFileName="scope">
+        <span class="value_click" v-if="scope.row.isAttachMent" @click="upload(scope.row.afterValue)">{{scope.row.afterFileName}}</span>
         <span v-else>{{scope.row.afterValue}}</span>
       </template>
     </table-list>

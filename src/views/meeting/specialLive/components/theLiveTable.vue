@@ -223,6 +223,7 @@ export default {
     return {
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
+      processUrlGpPortal:process.env.VUE_APP_POINT_GP_PORTAL,
       lookThemenObj: {},
       stateObj,
       tableLoading: false,

@@ -49,7 +49,7 @@ export default {
   watch:{
     "$store.state.approval.switchData":{
       handler(newval){
-        this.requestData.push({id:newval.id,isActive:newval.bool})
+        this.requestData.push({id:newval.id,isActive:newval.bool,isParentNodeActive:newval.isParentNodeActive})
 
         let aa = [{id:newval.id,isActive:newval.bool}]
         // 实时更新原数据
@@ -139,7 +139,9 @@ export default {
           align: 'center',
            customRender: (h, scope, column) => {
              const isActive=scope.row.isActive
-             return <ISwitch currVal={ scope.row.isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />
+           const isparent=  this.tableData.findIndex(val => val.id==scope.row.id)
+           
+           return <ISwitch disabledActive={isparent==-1?scope.row.isParentNodeActive:true} currVal={ scope.row.isActive } currItem = { scope.row } activeText={'Y'}  inactiveText={'N'} />
            },
           minWidth: 100,
           emit:'switchChange',
@@ -170,7 +172,8 @@ export default {
   },
   methods: {
     switchChange(val){
-      // console.log(val)
+      console.log(val)
+       this.$emit('switchChange', val)
     },
     // 展开功能
     expandAll() {
