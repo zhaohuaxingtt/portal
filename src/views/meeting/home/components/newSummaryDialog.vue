@@ -8,7 +8,7 @@
     @close="handleCancel"
     class="summary-dialog-box"
   >
-  驱蚊器翁
+  
     <iEditForm>
       <el-form
         :model="resultData"
