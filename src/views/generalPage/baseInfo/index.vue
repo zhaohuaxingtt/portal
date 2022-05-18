@@ -191,7 +191,7 @@ export default {
             this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
             this.supplierComplete.supplierDTO.address = baseInfo.supplierInfoVo.companyAddress
 
-            if(this.supplierComplete.supplierDTO.supplierType == "GP"){
+            if(this.$route.query.subSupplierType == "GP"){
               this.supplierComplete.supplierDTO.svwTempCode = baseInfo.gpSupplierInfoVO.svwTempCode
               this.supplierComplete.supplierDTO.svwCode = baseInfo.gpSupplierInfoVO.svwCode
             }

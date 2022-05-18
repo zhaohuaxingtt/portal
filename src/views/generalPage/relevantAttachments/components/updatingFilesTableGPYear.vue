@@ -43,7 +43,7 @@
 import { iCard, iButton, iMessage } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from './updatingFilesTableListYear'
-import { upadtingFilesTableTitle } from './data'
+import { upadtingFilesTableTitle,upadtingFilesTableTitleNew } from './data'
 import {
   getTemplateListNew,
   getAttachmentCommitment,
@@ -62,7 +62,7 @@ import { purchaseTerms } from '@/api/frmRating/overView/overView.js'
 export default {
   mixins: [generalPageMixins],
   props:{
-    
+    approveValue: { type: Boolean, default: false },
   },
   components: {
     iCard,
@@ -74,7 +74,9 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: upadtingFilesTableTitle,
+      tableTitle:[],
+      upadtingFilesTableTitle,
+      upadtingFilesTableTitleNew,
       tableLoading: false,
       selectTableData: [],
       attachmentDialog: false,
@@ -98,6 +100,11 @@ export default {
     },
   },
   created () {
+    if(this.approveValue){
+      this.tableTitle = this.upadtingFilesTableTitleNew;
+    }else{
+      this.tableTitle = this.upadtingFilesTableTitle;
+    }
     this.getTableList()
   },
   mounted () {

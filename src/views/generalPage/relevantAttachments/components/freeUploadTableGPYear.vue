@@ -9,42 +9,37 @@
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">
-      <span class="font18 font-weight">{{ $t('SUPPLIER_ZIYOUSHANGCHUAN') }}</span>
-      <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
-        <i-button @click="deleteItem"  v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_DELETE">{{
-            $t('SUPPLIER_FUJIANSHANCHU')
-          }}
-        </i-button>
-        <upload-button class="margin-left20" @uploadedCallback="handleUploadedCallback" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD"/>
-      </div>
-      <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
-        <i-button @click="deleteItem"  v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_DELETE_GP">{{
-            $t('SUPPLIER_FUJIANSHANCHU')
-          }}
-        </i-button>
-        <upload-button class="margin-left20" @uploadedCallback="handleUploadedCallback" v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD_ADD_GP"/>
+      <span class="font18 font-weight">{{
+        $t('SUPPLIER_ZIYOUSHANGCHUAN')
+      }}</span>
+      <div class="floatright" v-if="!approveValue">
+        <i-button @click="deleteItem">{{
+          $t('SUPPLIER_FUJIANSHANCHU')
+        }}</i-button>
+        <upload-button class="margin-left20"
+                       @uploadedCallback="handleUploadedCallback"
+                       />
       </div>
     </div>
-        <!-- v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD" -->
-    <table-list
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        @handleSelectionChange="handleSelectionChange"
-        :openPageGetRowData="true"
-        openPageProps="fileName"
-        @openPage="handleDownload"
-        :index="true"
-        border
-    >
+    <table-list :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                @handleSelectionChange="handleSelectionChange"
+                :openPageGetRowData="true"
+                openPageProps="fileName"
+                @openPage="handleDownload"
+                :index="true"
+                v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD">
       <template #validityOfCertificate="scope">
-        <iDatePicker
-            value-format="yyyy-MM-dd"
-            v-model="scope.row.validityOfCertificate"
-            type="date"
-            :placeholder="$t('SUPPLIER_XUANZERQI')"
-            :picker-options="{disabledDate(time) {return time.getTime() < Date.now() - 24 * 60 * 60 * 1000}}"
-        />
+        <iDatePicker value-format="yyyy-MM-dd"
+                     v-model="scope.row.validityOfCertificate"
+                     type="date"
+                     :placeholder="$t('SUPPLIER_XUANZERQI')"
+                     :picker-options="{
+            disabledDate(time) {
+              return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
+            }
+          }" />
       </template>
     </table-list>
   </i-card>
@@ -58,10 +53,14 @@ import {freeUploadTableTitle} from './data'
 import uploadButton from '@/components/uploadButton'
 import {downloadFile} from "@/api/file";
 import {
-  getFreeAttachmentList,
-  deleteAttachment,
-  saveAttachment
+  saveAttachment,
+  supplierFileReloadSave,
+  getSupplierFileReloadVo,
+  supplierFreeFileReloadDelete
 } from "@/api/register/relevantAttachments";
+
+import _ from 'lodash'
+import { mapMutations } from 'vuex'
 
 export default {
   mixins: [generalPageMixins],
@@ -72,93 +71,103 @@ export default {
     uploadButton,
     iDatePicker
   },
+  props:{
+    approveValue: { type: Boolean, default: false },
+  },
   data() {
     return {
       tableListData: [],
+      oldTableListDataStr: '',
       tableTitle: freeUploadTableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      supplierToken:"",
+      isFirst: true,
     }
   },
   created() {
     this.getTableList()
   },
   methods: {
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
-      const req = {
-        pageNo: 1,
-        pageSize: 9999,
-        step: 'submit',
-        supplierToken:this.$route.query.supplierToken
+      try {
+        var res = await getSupplierFileReloadVo({taskId:this.$route.query.id})
+        if(res.data){
+          this.supplierToken = res.data.token;
+          this.tableListData = res.data.attachList;
+          this.tableLoading = false
+          if (this.isFirst) {
+            this.oldTableListDataStr = JSON.stringify(_.cloneDeep(this.tableListData))
+            this.isFirst = false
+          }
+        }else{
+          iMessage.error(res.desZh);
+        }
+      } catch {
+        this.tableLoading = false
       }
-      const res = await getFreeAttachmentList(req)
-      this.tableListData = res.data
-      this.tableLoading = false
     },
-    async deleteItem() {
+
+    async deleteItem () {
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t("LK_NINDANGQIANHAIWEIXUANZE"));
+        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       iMessageBox(
-          this.$t('LK_SHIFOUQUERENSHANCHU'),
-          this.$t('LK_WENXINTISHI'),
-          {confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO')}
-      ).then(async () => {
-        const ids = this.selectTableData.map(item => {
-          return item.id
-        })
-        const req = {
-          ids
+        this.$t('LK_SHIFOUQUERENSHANCHU'),
+        this.$t('LK_WENXINTISHI'),
+        {
+          confirmButtonText: this.$t('LK_QUEDING'),
+          cancelButtonText: this.$t('LK_QUXIAO')
         }
-        const res = await deleteAttachment(req)
-        res.moduleName = this.$t('SUPPLIER_ZIYOUSHANGCHUAN')
-        this.resultMessage(res, () => {
-          this.getTableList()
+      ).then(async () => {
+        const ids = this.selectTableData.map((item) => {
+          return Number(item.id)
         })
+        const res = await supplierFreeFileReloadDelete(ids)
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        }
+        // res.moduleName = this.$t('SUPPLIER_ZIYOUSHANGCHUAN')
+        // this.resultMessage(res, () => {
+        //   this.getTableList()
+        // })
       })
     },
-    async handleDownload(row) {
-      const req = {
-        applicationName: 'rise',
-        fileList: [row.fileName]
-      }
-      await downloadFile(req)
+    async handleDownload (row) {
+      const req = row.fileId
+      await downloadUdFileNew(req)
     },
-    async handleUploadedCallback(event) {
-      this.tableLoading = true
-      const req = {
-        list: [
-          {
-            file: {
-              fileName: event.fileName,
-              filePath: event.filePath,
-              fileSize: event.fileSize
-            }
-          }
-        ],
-        step: 'submit'
+    async handleUploadedCallback (event, row) {
+      const red = {
+        fileId:event.id,
+        tempCode:this.$route.query.tempCode,
+        supplierToken:this.supplierToken,
       }
-      const res = await saveAttachment(req)
-      await this.saveInfos('', true)
-      res.moduleName = this.$t('SUPPLIER_ZIYOUSHANGCHUAN')
-      this.resultMessage(res, () => {
+      const res = await supplierFileReloadSave(red);
+      // TODO先注释代码，重复调用接口attachment/save
+      if(res.result){
+        iMessage.success(this.$t('SUPPLIER_FUJIANSHANGCHUAN'))
         this.getTableList()
-        this.tableLoading = false
-      }, () => {
-        this.tableLoading = false
-      })
+      }else{
+        iMessage.error(res.desZh)
+      }
     },
-    async saveInfos(step = '', hideMessage = false) {
+    async saveInfos (step = '', hideMessage = false) {
       this.tableLoading = true
       const req = {
         list: this.tableListData,
-        step: 'submit'
+        businessType: this.supplierGP,
+        step: 'register'
+      }
+      if (this.supplierType > 3) {
+        req.step = 'submit'
       }
       if (step !== '') {
         req.step = step
       }
-      const res = await saveAttachment(req)
+      const res = await saveAttachment(req, this.supplierType)
       res.moduleName = this.$t('SUPPLIER_ZIYOUSHANGCHUAN')
       if (hideMessage) {
         if (res.result) {
@@ -167,19 +176,46 @@ export default {
           this.tableLoading = false
         }
       } else {
-        this.resultMessage(res, () => {
-          this.getTableList()
-          this.nextStep = true
-        }, () => {
-          this.tableLoading = false
-          this.nextStep = false
-        })
+        console.log(hideMessage)
+        this.resultMessage(
+          res, hideMessage,
+          () => {
+            this.getTableList()
+            this.nextStep = true
+          },
+          () => {
+            this.tableLoading = false
+            this.nextStep = false
+          }
+        )
       }
-
     },
-    async handleNextStep(step = '') {
-      await this.saveInfos(step)
+    async handleNextStep (step = '') {
+      if (this.tableListData?.length === 0) {
+        await this.saveInfos(step, true)
+      }
       return this.nextStep
+    },
+    ...mapMutations({
+      setFlag: 'SET_FLAG',
+      setIsDisabledSave: 'SET_IS_DISABLED_SAVE'
+    })
+  },
+  watch: {
+    tableListData: {
+      handler (newVal) {
+        const flag = JSON.stringify(newVal) == this.oldTableListDataStr
+        if (this.name == 'relevantAttachments' && this.oldVuexStoreFlag) {
+          this.setFlag(flag)
+        }
+        if (!flag) {
+          this.setIsDisabledSave(false)
+        } else {
+          // this.setIsDisabledSave(true)
+        }
+      },
+      immediate: false,
+      deep: true
     }
   }
 }
