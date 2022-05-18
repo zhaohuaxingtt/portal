@@ -7,7 +7,6 @@
     :close-on-click-modal="false"
     @close="close"
   >
-  王企鹅请问群无
   <!-- 分段定点  待定 只有下拉框和任务 -->
   <!-- Last Call  有下拉框和任务rfq发送对象 -->
   <!-- 不通过  提交  任务 文本框 -->

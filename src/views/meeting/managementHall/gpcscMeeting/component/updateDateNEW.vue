@@ -136,7 +136,7 @@ import { MEETING_SEARCH_DATA, MEETING_TABLE_COLUMNS,  weekListInit } from './dat
 import dayjs from '@/utils/dayjs.js'
 import { pageMixins } from '@/utils/pageMixins'
 // import { getMettingType } from '@/api/meeting/type'
-import { findToReschedule , rescheduleThemen , findByPageForGP ,findByReschedule} from '@/api/meeting/gpMeeting'
+import { findToReschedule , rescheduleThemen , findByPageForGP ,findByReschedule, updateMeeting} from '@/api/meeting/gpMeeting'
 export default {
    mixins: [pageMixins],
    components: {
@@ -345,7 +345,9 @@ export default {
 
       }
       debugger
-      rescheduleThemen(params) .then((res) => {
+      console.log(params);
+      // return
+      updateMeeting(params) .then((res) => {
           iMessage.success('改期成功')
           // iMessage.success(res.message)
           this.$emit('flushTable')

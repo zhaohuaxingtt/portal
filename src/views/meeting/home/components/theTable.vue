@@ -689,6 +689,7 @@
       @handleOK="handleNewSummaryOK"
       @handleCancel="handleNewSummaryCancel"
       @refreshTable="refreshTable"
+      :rowE="rowE"
     />
     <newSummaryDialogNew
       v-if="openNewSummaryNew"
@@ -820,6 +821,7 @@ export default {
   },
   data() {
     return {
+      rowE:[],//gp需要的参数
       showP: false,
       currentCloseRow: {},
       openFreezeDialog: false,
@@ -1642,6 +1644,8 @@ export default {
             this.receiverId = e?.receiverId
             this.openNewSummaryNew = true 
           } else {
+            this.rowE=e
+            console.log(e,this.rowE);
             this.openNewSummary = true
           }
         },
