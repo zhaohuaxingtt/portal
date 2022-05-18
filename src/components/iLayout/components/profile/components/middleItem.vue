@@ -5,6 +5,7 @@
     </div>
     <div class="value">
       {{ value }}
+      <slot></slot>
     </div>
   </div>
 </template>
