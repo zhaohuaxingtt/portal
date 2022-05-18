@@ -4,7 +4,7 @@
 -->
 <template>
   <iDialog @close="closeDiolog()"
-           :title="'移除⿊名单 - 一般采购 -'+ clickTableList.nameZh"
+           :title="supplierType=='GP'?('移除⿊名单 - 一般采购 -'+ clickTableList.nameZh):('移除⿊名单 - 共用采购 -'+ clickTableList.nameZh)"
            :visible.sync="value"
            top="2%"
            width="85%">
@@ -69,11 +69,15 @@ export default {
       tableTitleGp: tableTitleGp,
       tableListData: [],
       selectTableData: [],
-      tableLoading: true
+      tableLoading: true,
+      supplierType:""
     }
   },
   created() {
     // this.$nextTick(() => {
+    if(this.clickTableList.supplierType){
+      this.supplierType = this.clickTableList.supplierType
+    }
     this.getList()
     // })
   },
