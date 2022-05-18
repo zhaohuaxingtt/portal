@@ -8,7 +8,6 @@
     @close="handleCancel"
     class="summary-dialog-box"
   >
-  
     <iEditForm>
       <el-form
         :model="resultData"
@@ -228,10 +227,11 @@ export default {
   mounted() {
     // gp会议的标识
     // this.rowE.isGpCSC=false
+    debugger
     if (this.rowE.isGpCSC==true) {
       this.GPTypeData=this.rowE.isGpCSC
     }else if (this.rowE.isMBDL==true) {
-      this.GPTypeData=this.rowE.isGpCSC
+      this.GPTypeData=this.rowE.isMBDL
     }else{
       this.GPTypeData=false
     }
