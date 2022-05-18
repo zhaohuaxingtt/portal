@@ -183,7 +183,7 @@
           }}</i-button>
         </template>
         <template #supplierType="scope">
-          <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':''}} </span>
+          <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':scope.row.supplierType==='PD'?'共用供应商':''}} </span>
         </template>
         <template #supplierStatus="scope">
           <div v-if="form.supplierType == 'GP'">
