@@ -295,7 +295,12 @@ export default {
       let supplierList = []
       this.tableData.forEach((item,i)=>{
         item.supplierGroupMappingId = item.id
-        if(item.deptName!=data[i].deptName){
+        let initItem = data.filter(child=> child.subSupplierId==item.subSupplierId)
+        if(initItem.length){
+          if(item.deptName!=initItem[0].deptName || item.id!=initItem[0].id){
+            supplierList.push(item)
+          }
+        }else{
           supplierList.push(item)
         }
       })

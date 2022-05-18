@@ -201,7 +201,7 @@
           <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':scope.row.supplierType==='PD'?'共用供应商':''}} </span>
         </template>
         <template #supplierStatus="scope">
-          <div v-if="form.supplierType == 'GP'">
+          <div v-if="form.supplierType == 'GP' || form.supplierType == 'PD'">
             <i-button v-if="scope.row.isGpBlackList != 1"
                       type="text"
                       @click="handleBlackList(scope.row)">{{ language('ZHENGCHANG', '正常') }}</i-button>
@@ -242,6 +242,7 @@
                   :rowList="rowList"
                   v-if="issetTagList">
       </setTagList>
+
       <!-- 一般供应商加入黑名单 -->
       <joinlacklistGp v-if="clickTableList.id != ''"
                       :key="gpJoinParams.key + 1"
@@ -257,13 +258,13 @@
                         :clickTableList="clickTableList">
       </removelacklistGp>
       <!-- 一般供应商黑命单记录 -->
-
       <blackListGp v-if="rowList.id != ''"
                    :key="gpBlackParams.key + 3"
                    v-model="gpBlackParams.visible"
                    @closeDiolog="closeDiolog"
                    :clickTableList="rowList">
       </blackListGp>
+
       <!-- 生产供应商加入黑名单 -->
       <joinlacklistPP v-if="clickTableList.id != ''"
                       :key="ppJoinParams.key + 4"
@@ -549,6 +550,12 @@ export default {
                 key: Math.random(),
                 visible: true
               }
+            }else if(this.form.supplierType == 'PD'){
+              this.gpJoinParams = {
+                ...this.gpJoinParams,
+                key: Math.random(),
+                visible: true
+              }
             }
           } else {
             iMessage.warn(
@@ -561,6 +568,22 @@ export default {
         })
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
+          if (this.clickTableList.isGpBlackList != 1) {
+            this.$message({
+              type: 'warning',
+              message: this.language(
+                'GAIGONGYINGSHANGBUZAIHEIMINGDANZHONG,WUXUYICHU',
+                '该供应商不在黑名单中，无需移除！'
+              )
+            })
+          } else {
+            this.gpRemoveParams = {
+              ...this.gpRemoveParams,
+              key: Math.random(),
+              visible: true
+            }
+          }
+        } else if(this.form.supplierType == 'PD'){
           if (this.clickTableList.isGpBlackList != 1) {
             this.$message({
               type: 'warning',
@@ -775,6 +798,13 @@ export default {
     handleBlackList (row) {
       this.rowList = row
       if (this.form.supplierType == 'GP') {
+        this.gpBlackParams = {
+          ...this.gpBlackParams,
+          key: Math.random(),
+          visible: true
+        }
+      }
+      if (this.form.supplierType == 'PD') {
         this.gpBlackParams = {
           ...this.gpBlackParams,
           key: Math.random(),
