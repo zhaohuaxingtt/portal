@@ -3908,5 +3908,6 @@ export default {
   LK_ZHINENGSHANGCHUANWENJIAN: 'You can only upload files',
   QINGQIUCUOWU: 'Request failed!',
   EKL_CAILIAOZU: 'Material Group No.',
-  SUPPLIER_FUKUANXIGUAN: 'Pay Habit'
+  SUPPLIER_FUKUANXIGUAN: 'Pay Habit',
+  JIARUHEIMINGDANGONGYONGCAIGOU: '加入黑名单 - 共用采购',
 }
