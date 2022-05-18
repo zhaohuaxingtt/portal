@@ -7,13 +7,11 @@
     @close="closeDiolog()"
     :visible.sync="value"
     top="2%"
-    :title="'供应商⿊名单记录 - ⼀般采购  -' + clickTableList.nameZh"
+    :title="supplierType=='GP'?'供应商⿊名单记录 - ⼀般采购  -' + clickTableList.nameZh:'供应商⿊名单记录 - 共用采购  -' + clickTableList.nameZh"
     width="85%"
   >
     <div slot="title" class="headerTitle">
-      <span>{{
-        '供应商黑名单记录 - ⼀般采购  -' + clickTableList.nameZh
-      }}</span>
+      <span>{{supplierType=='GP'?'供应商黑名单记录 - ⼀般采购  -' + clickTableList.nameZh:'供应商黑名单记录 - 共用采购  -' + clickTableList.nameZh}}</span>
     </div>
     <div class="box">
       <el-tabs
@@ -203,15 +201,17 @@ export default {
       typeList: [],
       daterange: [],
       daterange2: [],
-      tabVal: '1'
+      tabVal: '1',
+      supplierType:'',
     }
   },
   created() {
     // this.$nextTick(() => {
+    if(this.clickTableList.supplierType){
+      this.supplierType = this.clickTableList.supplierType;
+    }
     this.getList()
     this.getTypeList()
-    console.log(this.clickTableList)
-    console.log(this.value)
     // })
   },
   computed: {},
@@ -219,7 +219,7 @@ export default {
     //状态
     getTypeList() {
       let params = {
-        supplierType: this.tabVal
+        supplierType: this.supplierType
       }
       if(this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"){
         params.supplierId=this.clickTableList.subSupplierId;

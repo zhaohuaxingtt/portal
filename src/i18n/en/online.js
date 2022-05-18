@@ -3909,5 +3909,6 @@ export default {
   QINGQIUCUOWU: 'Request failed!',
   EKL_CAILIAOZU: 'Material Group No.',
   SUPPLIER_FUKUANXIGUAN: 'Pay Habit',
-  JINGQINGQIDAI: 'Stay tuned'
+  JINGQINGQIDAI: 'Stay tuned',
+  JIARUHEIMINGDANGONGYONGCAIGOU: '加入黑名单 - 共用采购',
 }
