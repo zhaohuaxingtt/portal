@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 14:32:30
- * @LastEditTime: 2021-11-04 14:07:31
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-18 15:03:52
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\processVertical.vue
 -->
@@ -145,6 +145,9 @@ export default {
   },
   watch: {
     instanceId () {
+      this.getDetail()
+    },
+    epmsId () {
       this.getDetail()
     }
   },

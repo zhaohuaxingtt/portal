@@ -5,28 +5,25 @@
  -->
 <template>
   <div class="baseInfo">
-    <div
-      class="save margin-bottom20"
-      v-if="$route.path == '/supplier/view-suppliers'"
-    >
-      <iButton
-        @click="saveInfos()"
-        v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL_GP"
-        v-if="$route.query.subSupplierType == 'GP'"
-        >保存</iButton
-      >
-      <iButton
-        @click="saveInfos()"
-        v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL"
-        v-if="$route.query.subSupplierType !== 'GP'"
-        >保存</iButton
-      >
+    <div class="save margin-bottom20"
+         v-if="$route.path == '/supplier/view-suppliers'">
+      <iButton @click="saveInfos()"
+               v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL_GP"
+               v-if="$route.query.subSupplierType == 'GP'">保存</iButton>
+      <iButton @click="saveInfos()"
+               v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_SAVEALL"
+               v-if="$route.query.subSupplierType !== 'GP'">保存</iButton>
     </div>
     <!-- <basic ref="basic" class="margin-bottom20" :supplierData="supplierComplete.supplierDTO"
 			@changeBaseInfo='basicChange'></basic> -->
-    <baseInfoCard ref="baseInfoCard" class="margin-bottom20"/>
-    <linie ref="linie" :supplierData="supplierComplete.gpSupplierDetails" v-if="$route.query.subSupplierType=='GP'" class="margin-bottom20"></linie>
-    <buyer ref="buyer" v-if="$route.query.subSupplierType!=='GP'"
+    <baseInfoCard ref="baseInfoCard"
+                  class="margin-bottom20" />
+    <linie ref="linie"
+           :supplierData="supplierComplete.gpSupplierDetails"
+           v-if="$route.query.subSupplierType=='GP'"
+           class="margin-bottom20"></linie>
+    <buyer ref="buyer"
+           v-if="$route.query.subSupplierType!=='GP'"
            :supplierData="supplierComplete.supplierDTO"
            disabled
            class="margin-bottom20"></buyer>
@@ -37,10 +34,10 @@
                     :fromGroup="fromGroup">
     </companyProfile>
     <companyProfileGP ref="companyProfile"
-                    v-if="$route.query.subSupplierType=='GP'"
-                    :country="country"
-                    :supplierData="supplierComplete"
-                    :fromGroup="fromGroup">
+                      v-if="$route.query.subSupplierType=='GP'"
+                      :country="country"
+                      :supplierData="supplierComplete"
+                      :fromGroup="fromGroup">
     </companyProfileGP>
     <!-- 经营状态 -->
     <operationStatus ref="operationStatus"
@@ -49,24 +46,20 @@
                      v-if="$route.query.subSupplierType!=='GP'">
     </operationStatus>
     <operationStatusGP ref="operationStatus"
-                     :supplierData="supplierComplete"
-                     :fromGroup="fromGroup"
-                     v-if="$route.query.subSupplierType=='GP'">
+                       :supplierData="supplierComplete"
+                       :fromGroup="fromGroup"
+                       v-if="$route.query.subSupplierType=='GP'">
     </operationStatusGP>
     <!-- 开户银行 -->
     <!-- v-if="$route.path!=='/supplier/view-suppliers'" -->
-    <opneBank
-      ref="opneBank"
-      :country="country"
-      :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
-    ></opneBank>
+    <opneBank ref="opneBank"
+              :country="country"
+              :supplierData="supplierComplete"
+              :fromGroup="fromGroup"></opneBank>
     <!-- 供货状态 -->
-    <supplyStatus
-      ref="supplyStatus"
-      :supplierData="supplierComplete"
-      :fromGroup="fromGroup"
-    >
+    <supplyStatus ref="supplyStatus"
+                  :supplierData="supplierComplete"
+                  :fromGroup="fromGroup">
     </supplyStatus>
     <!-- 内部评价 -->
     <!-- <comment  :supplierData="supplierComplete"></comment> -->
@@ -115,7 +108,7 @@ export default {
     companyProfileGP,
     operationStatusGP
   },
-  data() {
+  data () {
     return {
       supplierComplete, //详情信息入参
       fromGroup: {}, //下拉框值
@@ -123,16 +116,16 @@ export default {
       tableData
     }
   },
-  created() {
+  created () {
     this.getAllSelect()
     this.getCityInfo()
     // if (this.$store.state.home.valiCode) {
     // 	this.supplierDetail()
     // }
   },
-  mounted() {},
+  mounted () { },
   computed: {
-    isPP() {
+    isPP () {
       if (
         this.supplierComplete.supplierDTO.supplierType == 'GP' &&
         this.supplierType == 1
@@ -145,7 +138,7 @@ export default {
   },
   methods: {
     // 获取基本信息
-    supplierDetail() {
+    supplierDetail () {
       this.$parent.$parent.onLoading = true
       supplierDetail(this.supplierType).then((res) => {
         if (res.data) {
@@ -253,7 +246,7 @@ export default {
       })
     },
     // 调整详情数据
-    reView(data) {
+    reView (data) {
       for (let i in data) {
         if (data[i]) {
           for (let k in data[i]) {
@@ -268,13 +261,13 @@ export default {
       }
       return data
     },
-    basicChange(data) {
+    basicChange (data) {
       for (let i in data) {
         this.supplierComplete.supplierDTO[i] = data[i]
       }
     },
     // 保存基本信息
-    saveInfos(step = '') {
+    saveInfos (step = '') {
       return new Promise((resolve, reject) => {
         Promise.all([this.isBaseInfoRules(), this.isBusinessRules()]).then(res => {
           // 获取国家 城市 相应的name
@@ -282,24 +275,24 @@ export default {
           this.$refs.opneBank.getCityName()
           let data = {
             stepCode: 'submit',
-            step:"submit",
+            step: "submit",
             supplierDTO: this.supplierComplete.supplierDTO,
             settlementBankDTO: this.supplierComplete.settlementBankDTO,
           }
           // 判断是一般还是生产供应商 减去相应参数
           if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
-            if(this.supplierComplete.gpSupplierDetails.length>0){
-              this.supplierComplete.gpSupplierDetails.forEach(e=>{
-                if(!e.supplierId){
+            if (this.supplierComplete.gpSupplierDetails.length > 0) {
+              this.supplierComplete.gpSupplierDetails.forEach(e => {
+                if (!e.supplierId) {
                   e.supplierId = this.$route.query.supplierId;
                 }
               })
             }
 
-            data.gpSupplierDetailDTO=_.cloneDeep(this.supplierComplete.gpSupplierDetails);
+            data.gpSupplierDetailDTO = _.cloneDeep(this.supplierComplete.gpSupplierDetails);
 
-            data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e=>{
-              return !(!e.businessBuyerEmail&&!e.businessBuyerName&&!e.businessBuyerNum&&!e.businessBuyerDept&&!e.businessContactEmail&&!e.businessContactUser && e.industryPosition == "N")
+            data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e => {
+              return !(!e.businessBuyerEmail && !e.businessBuyerName && !e.businessBuyerNum && !e.businessBuyerDept && !e.businessContactEmail && !e.businessContactUser && e.industryPosition == "N")
             })
 
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
@@ -320,7 +313,7 @@ export default {
               if (step === 'submit') {
                 const req = {
                   stepCode: 'submit',
-                  step:"submit",
+                  step: "submit",
                   userId: this.$store.state.permission.userInfo.id
                 }
                 baseInfoSubmit(req).then((res) => {
@@ -343,36 +336,36 @@ export default {
               data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
             }
 
-            saveInfos(data, this.supplierType).then((res) => {
-              if (res.data) {
-                iMessage.success('保存成功')
-                this.supplierDetail()
-                if (step === 'submit') {
-                  const req = {
-                    stepCode: 'submit',
-                    step: 'submit',
-                    userId: this.$store.state.permission.userInfo.id
-                  }
-                  baseInfoSubmit(req).then((res) => {
-                    this.resultMessage(res)
-                  })
-                }
-                resolve(true)
-              } else {
-                iMessage.error(res.desZh)
-              }
-            })
+            // saveInfos(data, this.supplierType).then((res) => {
+            //   if (res.data) {
+            //     iMessage.success('保存成功')
+            //     this.supplierDetail()
+            //     if (step === 'submit') {
+            //       const req = {
+            //         stepCode: 'submit',
+            //         step: 'submit',
+            //         userId: this.$store.state.permission.userInfo.id
+            //       }
+            //       baseInfoSubmit(req).then((res) => {
+            //         this.resultMessage(res)
+            //       })
+            //     }
+            //     resolve(true)
+            //   } else {
+            //     iMessage.error(res.desZh)
+            //   }
+            // })
           }
-        )
-      })
+          )
+        })
       })
     },
-    async handleNextStep() {
+    async handleNextStep () {
       const nextStep = await this.saveInfos()
       return nextStep
     },
     // 基础信息校验
-    isBaseInfoRules() {
+    isBaseInfoRules () {
       return new Promise((resolve, reject) => {
         this.$refs.companyProfile.$refs.baseInfoRules.validate(
           (valid, object) => {
@@ -397,7 +390,7 @@ export default {
       })
     },
     // 经营状态校验
-    isBusinessRules() {
+    isBusinessRules () {
       if (this.isPP) {
         return new Promise((resolve, reject) => {
           this.$refs.operationStatus.$refs.businessRules.validate((valid) => {
@@ -413,7 +406,7 @@ export default {
       }
     },
     // 获取下拉框数据
-    getAllSelect() {
+    getAllSelect () {
       let data = [
         'FINANCIAL',
         'TREND',
@@ -442,7 +435,7 @@ export default {
       })
     },
     //获取国家
-    getCityInfo() {
+    getCityInfo () {
       let data = {
         parentCityId: -1,
         cityName: ''
