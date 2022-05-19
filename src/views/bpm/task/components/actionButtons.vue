@@ -58,7 +58,14 @@ export default {
     return {
       approvalTypeMap: MAP_APPROVAL_TYPE,
       hideAppendButtonList: ['meeting_recheck_m_sign'],
-      hideRefuseButtonList: ['meeting_rs_recheck', 'mtz_node_approval']
+      hideRefuseButtonList: [
+        'meeting_rs_recheck',
+        'mtz_node_approval',
+        'csf_contract',
+        'css_contract',
+        'csg_contract',
+        'discard_contract'
+      ]
     }
   },
   computed: {
