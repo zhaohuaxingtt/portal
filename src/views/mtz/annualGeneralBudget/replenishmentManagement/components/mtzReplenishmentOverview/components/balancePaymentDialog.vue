@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-10 16:02:17
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2022-05-17 14:42:18
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -394,7 +394,7 @@ export default {
         if (data) {
           this.tableLoading = false
           // this.tableListData = data
-          this.tableDataList = data.slice(0, 100)
+          this.tableDataList = data.slice(0, 1000)
         } else {
           this.tableLoading = true
           setTimeout(() => {
@@ -539,9 +539,9 @@ export default {
           // 表格滚动已经触底 更新表格数据
           this.times++
           const length =
-            100 * this.times > this.tableData.length
+            500 * this.times > this.tableData.length
               ? this.tableData.length
-              : 100 * this.times
+              : 500 * this.times
 
           this.tableDataList = this.tableData.slice(0, length)
 
@@ -635,7 +635,7 @@ export default {
 
         let params = {
           pageNo: 1,
-          pageSize: 10000,
+          pageSize: 20000,
           ...this.searchForm
         }
         console.log(params, "searchForm")
@@ -656,7 +656,7 @@ export default {
         this.actAmtList = []
         let params = {
           pageNo: 1,
-          pageSize: 10000,
+          pageSize: 20000,
           ...this.searchForm
         }
         fetchQueryComp(params).then((res) => {

@@ -183,6 +183,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer)
+    clearTimeout(this.timer)
   }
 }
 </script>
