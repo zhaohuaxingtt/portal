@@ -253,12 +253,20 @@ export default [
       {
         path: 'supplierListDis',
         name: 'supplierListDis',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
         component: dispersedSupplier
       },
       {
         path: 'supplierListGP',
         name: 'supplierListGP',
-        component: Supplier360GP
+        component: Supplier360GP,
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        }
       },
       {
         path: 'supplierList/details',
@@ -268,12 +276,20 @@ export default [
       {
         path: 'supplierListDis/detailsGP',
         name: 'detailsGP3',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
         component: () =>
           import('@/views/supplierManagement/supplier360/detailesGP/index.vue')
       },
       {
         path: 'supplierListGP/detailsGP',
         name: 'detailsGP',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
         component: () =>
           import('@/views/supplierManagement/supplier360/detailesGP/index.vue')
       },

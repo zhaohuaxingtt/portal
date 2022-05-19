@@ -225,7 +225,13 @@ export default {
   methods: {
     //获取标签列表
     getTagListdropDown() {
-      dropDownTagName({}).then((res) => {
+      var list = {};
+      if(this.$route.query.supplierType=="GP"){
+        list = {
+          type:2
+        }
+      }
+      dropDownTagName(list).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }

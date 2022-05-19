@@ -234,6 +234,7 @@ export default {
       isSelf: false,
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
+      processUrlGpPortal:process.env.VUE_APP_POINT_GP_PORTAL,
       themenConclusion,
       stateObj,
       editOrAdd: 'add',
@@ -363,6 +364,11 @@ export default {
         } else if (row.type === 'MTZ') {
           window.open(
             `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
+            '_blank'
+          )
+        }else if (row.type === 'CSF') {
+          window.open(
+            `${this.processUrlGpPortal}/myCscDetails/${row.fixedPointApplyId}?current=3`,
             '_blank'
           )
         } else {

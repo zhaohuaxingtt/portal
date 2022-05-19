@@ -2353,7 +2353,8 @@
     YINGYONGGUANLIAN:'应用关联',
     YIBANGONGYINGSHANG:"一般供应商",
     LK_BITIANXIANGBUNENGWEIKONG:"必填项不能为空",
-    SUPPLIER_ZHUCEZIBEN:"注册资本"
+    SUPPLIER_ZHUCEZIBEN:"注册资本",
+    SKTZQZSJ:"受控停止起止时间",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

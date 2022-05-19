@@ -13,7 +13,7 @@ export function getUsers(params) {
   let str = ''
   let url = `/api/users`
   if (params.userIdList && params.userIdList.length > 0) {
-    params.userIdList.forEach((item, index) => {
+    params.userIdList.filter((item)=>item).forEach((item, index) => {
       if (index === 0) {
         str += `?userIdList=${item}`
       } else {

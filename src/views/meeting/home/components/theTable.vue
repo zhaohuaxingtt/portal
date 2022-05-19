@@ -314,6 +314,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
+                <!-- 生成会议纪要 按钮-->
                 <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
@@ -1324,6 +1325,7 @@ export default {
       // })
     },
     actionObj(e) {
+      console.log(e);
       const funcMap = {
         begin: (e) => {
           // 开始
@@ -1638,7 +1640,7 @@ export default {
           // if (e.meetingTypeName === 'Pre CSC' || e.meetingTypeName === 'CSC') {
           if (e.isPreCSC || e.isCSC) {
             this.receiverId = e?.receiverId
-            this.openNewSummaryNew = true
+            this.openNewSummaryNew = true 
           } else {
             this.openNewSummary = true
           }

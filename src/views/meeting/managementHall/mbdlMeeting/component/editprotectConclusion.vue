@@ -167,7 +167,7 @@ export default {
       const params = {
        conclusion:this.ruleForm.conclusion,//任务
       //  meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.result说z,//结论
+       result:this.ruleForm.result,//结论
        themenId:this.editprotectConclusionDialogRow.id//议题id
       }
       console.log(params);

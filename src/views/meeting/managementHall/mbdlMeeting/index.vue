@@ -1808,7 +1808,6 @@ export default {
     },
     //修改议题
     editTopic() {
-      
       if (this.selectedTableData[0].state === '03') {
         iMessage.warn('已结束的议题不能进行修改议题')
         return

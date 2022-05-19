@@ -990,6 +990,7 @@ export default {
       curState: '',
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
+      processUrlGpPortal:process.env.VUE_APP_POINT_GP_PORTAL,
       buttonList,
       receiverId: '',
       selectedTableData: [],
@@ -1412,7 +1413,12 @@ export default {
               `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
               '_blank'
             )
-          } else {
+          }else if (themen.type === 'CSF') {
+          window.open(
+            `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
+            '_blank'
+          )
+        } else {
             window.open(
               `${this.processUrl}/desinatepreview/title?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
               '_blank'
