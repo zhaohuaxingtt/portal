@@ -7,7 +7,7 @@
                 <iButton @click="handleTaskInfo(false)" :loading="saveLoading">{{ $t('LK_JUJUE') }}</iButton>
             </div>
         </div>
-        <yearTable class="margin-top20" ref="yearTable"></yearTable>
+        <yearTable class="margin-top20" ref="yearTable" @inforTable="inforTable"></yearTable>
         <updatingFilesTableGPYear class="margin-top20" ref="updatingFiles" @getSupplierToken="getSupplierToken"></updatingFilesTableGPYear>
         <freeUploadTableGPYear class="margin-top20" ref="freeUploadTableGPYear"></freeUploadTableGPYear>
     </iPage>
@@ -34,7 +34,7 @@ export default {
     data(){
         return{
             detail:{
-                desc:"三年不活跃准入材料重新上传申请"
+                desc:""
             },
             saveLoading:false,
             supplierToken:'',
@@ -44,6 +44,11 @@ export default {
 
     },
     methods:{
+        inforTable(val){
+            if(val){
+                this.detail.desc = "请处理" + val.nameZh + "供应商准入材料更新上传";
+            }
+        },
         getSupplierToken(val){
             this.supplierToken = val;
         },
