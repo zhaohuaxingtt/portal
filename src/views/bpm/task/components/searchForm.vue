@@ -171,6 +171,7 @@ export default {
   created() {
     if (!this.isFinished && this.$route.query.modelTemplate) {
       const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
+      console.log('module-template', moduleTemplate)
       if (
         moduleTemplate.length === 1 &&
         BPM_SINGL_CATEGORY_LIST.includes(moduleTemplate[0])
