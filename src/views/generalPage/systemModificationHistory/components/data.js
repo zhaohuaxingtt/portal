@@ -9,14 +9,14 @@
 export const tableTitle = [
   { props: 'fieldName', name: '变更字段', key: 'SUPPLIER_BIANGENGZIDUAN' },
   {
-    props: 'beforeFileName',
+    props: 'beforeValue',
     name: '变更前',
     tooltip: true,
     key: 'SUPPLIER_YUANNEIRONG',
     width: 300
   },
   {
-    props: 'afterFileName',
+    props: 'afterValue',
     name: '变更后',
     tooltip: true,
     key: 'SUPPLIER_XINEIRONG',
