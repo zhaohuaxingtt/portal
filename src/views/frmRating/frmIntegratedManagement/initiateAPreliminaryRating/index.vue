@@ -219,7 +219,7 @@ export default {
     async getSelectModalList() {
       const res = await getSelectModalList({})
       this.selectList = res.data.modelDTOList
-      this.defaultModleId = this.selectList[0].id
+      this.defaultModleId = this.selectList[2].id
     },
     filterSubmitList() {
       const idList = this.selectTableData.map((item) => {
