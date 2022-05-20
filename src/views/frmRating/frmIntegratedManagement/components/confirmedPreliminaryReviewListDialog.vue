@@ -1,61 +1,47 @@
 <template>
   <!--待确认初评清单-->
-  <iDialog
-    :title="$t('SPR_FRM_FRMGL_DQRCPQD')"
-    :visible.sync="value"
-    width="90%"
-    @close="clearDiolog"
-    :close-on-click-modal="false"
-  >
+  <iDialog :title="$t('SPR_FRM_FRMGL_DQRCPQD')"
+           :visible.sync="value"
+           width="90%"
+           @close="clearDiolog"
+           :close-on-click-modal="false">
     <div class="content">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!--退回-->
-          <iButton
-            @click="handleBack"
-            :loading="backButtonLoading"
-            v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TUIHUI"
-            >{{ $t('LK_TUIHUI') }}</iButton
-          >
+          <iButton @click="handleBack"
+                   :loading="backButtonLoading"
+                   v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TUIHUI">{{ $t('LK_TUIHUI') }}</iButton>
           <!--提交-->
-          <iButton
-            @click="handleSubmit"
-            :loading="submitButtonLoading"
-            v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TIJIAO"
-            >{{ $t('LK_TIJIAO') }}</iButton
-          >
+          <iButton @click="handleSubmit"
+                   :loading="submitButtonLoading"
+                   v-permission="PORTAL_SUPPLIER_NAV_FRMZONGHEGUANLI_DAIQUEREN_TIJIAO">{{ $t('LK_TIJIAO') }}</iButton>
         </div>
       </div>
-      <tableList
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        :index="true"
-        border
-        @handleSelectionChange="handleSelectionChange"
-      >
+      <tableList :tableData="tableListData"
+                 :tableTitle="tableTitle"
+                 :tableLoading="tableLoading"
+                 :index="true"
+                 border
+                 @handleSelectionChange="handleSelectionChange">
         <template #modelId="scope">
           <iSelect v-model="scope.row.modelId">
-            <el-option
-              v-for="item of selectList"
-              :key="item.id"
-              :value="item.id"
-              :label="item.modelName"
-            />
+            <el-option v-for="item of selectList"
+                       :key="item.id"
+                       :value="item.id"
+                       :label="item.modelName" />
           </iSelect>
         </template>
       </tableList>
-      <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page="page.currPage"
-        :total="page.totalCount"
-      />
+      <iPagination v-update
+                   @size-change="handleSizeChange($event, getTableList)"
+                   @current-change="handleCurrentChange($event, getTableList)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page="page.currPage"
+                   :total="page.totalCount" />
     </div>
   </iDialog>
 </template>
@@ -85,7 +71,7 @@ export default {
   props: {
     value: { type: Boolean }
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: confirmedPreliminaryReviewListTableTitle,
@@ -98,13 +84,13 @@ export default {
     }
   },
   methods: {
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false)
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       try {
         const req = {
@@ -127,12 +113,12 @@ export default {
         this.tableLoading = false
       }
     },
-    async getSelectModalList() {
+    async getSelectModalList () {
       const res = await getSelectModalList({})
       this.selectList = res.data.modelDTOList
-      this.defaultModleId = this.selectList[0].id
+      this.defaultModleId = this.selectList[2].id
     },
-    async handleBack() {
+    async handleBack () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -151,7 +137,7 @@ export default {
         this.backButtonLoading = false
       }
     },
-    async handleSubmit() {
+    async handleSubmit () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -181,7 +167,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    value (val) {
       if (val) {
         this.getTableList()
         this.getSelectModalList()

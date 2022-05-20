@@ -300,7 +300,7 @@ import {
   iSelect,
   iPagination
 } from 'rise'
-import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
+import { getBuyerType, checkAddBlackIsFull,gpSupplerBlackCheckAddBlack } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
 import { dropDownTagName, groupCompanyList, vwStatusList,getGpBusinessType,getProcureCategory } from '@/api/supplierManagement/supplierTag/index'
 
@@ -533,39 +533,56 @@ export default {
           )
         })
       } else if (type == 'join') {
-        console.log(this.selectTableData)
-        checkAddBlackIsFull({
-          supplierId: this.selectTableData[0].subSupplierId
-        }).then((res) => {
-          if (res && res.code == '200') {
-            if (this.form.supplierType == 'GP') {
+        if(this.form.supplierType == 'GP'){
+          gpSupplerBlackCheckAddBlack({
+            supplierId: this.selectTableData[0].subSupplierId
+          }).then(res=>{
+            if (res.data && res.code == '200') {
               this.gpJoinParams = {
                 ...this.gpJoinParams,
                 key: Math.random(),
                 visible: true
               }
-            } else if (this.form.supplierType == 'PP') {
-              this.ppJoinParams = {
-                ...this.ppJoinParams,
-                key: Math.random(),
-                visible: true
-              }
-            }else if(this.form.supplierType == 'PD'){
-              this.gpJoinParams = {
-                ...this.gpJoinParams,
-                key: Math.random(),
-                visible: true
-              }
-            }
-          } else {
-            iMessage.warn(
-              this.language(
-                'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON',
-                '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！'
+            }else{
+              iMessage.warn(
+                this.language(
+                  'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON',
+                  '该供应商所有业务类型均已受控，无需重复添加！'
+                )
               )
-            )
-          }
-        })
+            }
+          })
+        }else{
+          checkAddBlackIsFull({
+            supplierId: this.selectTableData[0].subSupplierId
+          }).then((res) => {
+            if (res && res.code == '200') {
+              if (this.form.supplierType == 'GP') {
+                this.gpJoinParams = {
+                  ...this.gpJoinParams,
+                  key: Math.random(),
+                  visible: true
+                }
+              } else if (this.form.supplierType == 'PP') {
+                this.ppJoinParams = {
+                  ...this.ppJoinParams,
+                  key: Math.random(),
+                  visible: true
+                }
+              }else if(this.form.supplierType == 'PD'){
+                this.gpJoinParams = {
+                  ...this.gpJoinParams,
+                  key: Math.random(),
+                  visible: true
+                }
+              }
+            } else {
+              iMessage.warn(
+                this.$t('GGYSYZSYKNDGYZDMDZWXCFTJ')
+              )
+            }
+          })
+        }
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
           if (this.clickTableList.isGpBlackList != 1) {
