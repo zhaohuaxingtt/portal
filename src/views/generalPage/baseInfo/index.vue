@@ -319,18 +319,13 @@ export default {
           if (valid) {
             resolve(valid)
           } else {
-            return false;
-            // this.$nextTick(() => {
-            // 	let isError = document.getElementsByClassName(
-            // 		'el-form-item__error')
-            // 	isError[0].scrollIntoView({
-            // 		// 值有start,center,end，nearest，当前显示在视图区域中间
-            // 		block: 'center',
-            // 		// 值有auto、instant,smooth，缓动动画（当前是慢速的）
-            // 		behavior: 'smooth'
-            // 	})
-            // 	return false;
-            // })
+            this.$nextTick(() => {
+            	setTimeout(() => {
+                var isError = document.getElementsByClassName('is-error')
+                isError[0].querySelector('input').focus()
+              }, 100)
+            	return false;
+            })
           }
         });
       })
@@ -343,7 +338,13 @@ export default {
             if (valid) {
               resolve(valid)
             } else {
-              return false;
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  var isError = document.getElementsByClassName('is-error')
+                  isError[0].querySelector('input').focus()
+                }, 100)
+                return false;
+              })
             }
           });
         })
