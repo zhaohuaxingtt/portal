@@ -379,7 +379,7 @@ export default {
             	return false;
             })
           }
-        )
+        })
       })
     },
     // 经营状态校验
