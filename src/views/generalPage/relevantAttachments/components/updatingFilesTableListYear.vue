@@ -147,12 +147,13 @@
         :label="items.key ? $t(items.key) : items.name"
       >
         <template slot-scope="scope">
-          <i-input
+          <!-- <i-input
             v-model="scope.row.attachRemark"
             v-if="scope.row.attachId && !scope.row.isCommitment"
             :maxlength="300"
-          />
-          <span v-else>{{ scope.row.attachRemark }}</span>
+          /> -->
+          <!-- v-else -->
+          <span>{{ scope.row.attachRemark }}</span>
         </template>
       </el-table-column>
 
@@ -203,11 +204,12 @@
         :label="items.key ? $t(items.key) : items.name"
       >
         <template slot-scope="scope">
-          <i-input
+          <!-- <i-input
             v-model="scope.row.notAvailableReason"
             v-if="scope.row.isDisplayReason"
             :maxlength="300"
-          />
+          /> -->
+          <span>{{ scope.row.notAvailableReason }}</span>
         </template>
       </el-table-column>
 
@@ -222,7 +224,7 @@
         :label="items.key ? $t(items.key) : items.name"
       >
         <template slot-scope="scope">
-          <iDatePicker
+          <!-- <iDatePicker
             value-format="yyyy-MM-dd"
             v-model="scope.row.lastAvailableTime"
             v-if="scope.row.isDisplayLastTime"
@@ -233,7 +235,8 @@
                 return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
               }
             }"
-          />
+          /> -->
+          <span>{{ scope.row.lastAvailableTime }}</span>
         </template>
       </el-table-column>
 
@@ -248,7 +251,7 @@
         :label="items.key ? $t(items.key) : items.name"
       >
         <template slot-scope="scope">
-          <iDatePicker
+          <!-- <iDatePicker
             value-format="yyyy-MM-dd"
             v-model="scope.row.validityOfCertificate"
             v-if="scope.row.isDisplayValidity"
@@ -259,7 +262,8 @@
                 return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
               }
             }"
-          />
+          /> -->
+          <span>{{ scope.row.validityOfCertificate }}</span>
         </template>
       </el-table-column>
     </template>
@@ -327,6 +331,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+::v-deep .el-table__row{
+  td{
+    padding:1.2rem 0!important;
+  }
+}
 .openLinkText {
   color: $color-blue;
 }

@@ -9,7 +9,7 @@
         </div>
         <yearTable class="margin-top20" ref="yearTable" @inforTable="inforTable"></yearTable>
         <updatingFilesTableGPYear class="margin-top20" ref="updatingFiles" @getSupplierToken="getSupplierToken"></updatingFilesTableGPYear>
-        <freeUploadTableGPYear class="margin-top20" ref="freeUploadTableGPYear"></freeUploadTableGPYear>
+        <freeUploadTableGPYear class="margin-top20" ref="freeUploadTableGPYear" :approveValue="true"></freeUploadTableGPYear>
     </iPage>
 </template>
 
