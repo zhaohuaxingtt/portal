@@ -50,6 +50,7 @@ export default {
   },
   computed: {
     baseMsg () {
+      console.log(this.$store.state.baseInfo.baseMsg)
       return this.$store.state.baseInfo.baseMsg
     },
   },

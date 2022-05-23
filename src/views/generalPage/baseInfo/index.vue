@@ -201,16 +201,14 @@ export default {
             }
             this.supplierComplete.settlementBankDTO = baseInfo.settlementBankVo
           }
-          if (baseInfo.supplierInfoVo) {
-            if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
-              this.supplierComplete.supplierDTO.svwTempCode =
-                this.supplierComplete.gpSupplierDTO.svwTempCode
-              this.supplierComplete.supplierDTO.svwCode =
-                this.supplierComplete.gpSupplierDTO.svwCode
-            }
+          if (baseInfo.supplierInfoVo){
             this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
-            this.supplierComplete.supplierDTO.address =
-              baseInfo.supplierInfoVo.companyAddress
+            this.supplierComplete.supplierDTO.address = baseInfo.supplierInfoVo.companyAddress
+
+            if(this.$route.query.subSupplierType == "GP"){
+              this.supplierComplete.supplierDTO.svwTempCode = baseInfo.gpSupplierInfoVO.svwTempCode
+              this.supplierComplete.supplierDTO.svwCode = baseInfo.gpSupplierInfoVO.svwCode
+            }
           }
           // 如果是查看修改 需要从不同的表获取 基础信息
           // if (baseInfo.gpSupplierInfoVO) {
@@ -221,6 +219,7 @@ export default {
           // 	baseInfo.supplierInfoVo.svwCode = baseInfo.ppSupplierInfoVo.svwCode
           // 	baseInfo.supplierInfoVo.vmCode = baseInfo.ppSupplierInfoVo.vmCode
           // }
+          console.log(this.supplierComplete);
           this.$store.dispatch('setBaseInfo', this.supplierComplete)
           // vw号可以修改
           this.$refs.baseInfoCard.changeTitle()
@@ -368,26 +367,19 @@ export default {
     // 基础信息校验
     isBaseInfoRules () {
       return new Promise((resolve, reject) => {
-        this.$refs.companyProfile.$refs.baseInfoRules.validate(
-          (valid, object) => {
-            if (valid) {
-              resolve(valid)
-            } else {
-              return false
-              // this.$nextTick(() => {
-              // 	let isError = document.getElementsByClassName(
-              // 		'el-form-item__error')
-              // 	isError[0].scrollIntoView({
-              // 		// 值有start,center,end，nearest，当前显示在视图区域中间
-              // 		block: 'center',
-              // 		// 值有auto、instant,smooth，缓动动画（当前是慢速的）
-              // 		behavior: 'smooth'
-              // 	})
-              // 	return false;
-              // })
-            }
+        this.$refs.companyProfile.$refs.baseInfoRules.validate((valid, object) => {
+          if (valid) {
+            resolve(valid)
+          } else {
+            this.$nextTick(() => {
+            	setTimeout(() => {
+                var isError = document.getElementsByClassName('is-error')
+                isError[0].querySelector('input').focus()
+              }, 100)
+            	return false;
+            })
           }
-        )
+        })
       })
     },
     // 经营状态校验
@@ -398,7 +390,13 @@ export default {
             if (valid) {
               resolve(valid)
             } else {
-              return false
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  var isError = document.getElementsByClassName('is-error')
+                  isError[0].querySelector('input').focus()
+                }, 100)
+                return false;
+              })
             }
           })
         })

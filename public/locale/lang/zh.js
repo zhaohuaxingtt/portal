@@ -3102,6 +3102,7 @@
     LK_BITIANXIANGBUNENGWEIKONG:"必填项不能为空",
     SUPPLIER_ZHUCEZIBEN:"注册资本",
     SKTZQZSJ:"受控停止起止时间",
+    GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })
