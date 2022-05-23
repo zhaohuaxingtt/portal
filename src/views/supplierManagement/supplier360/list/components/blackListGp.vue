@@ -7,13 +7,11 @@
     @close="closeDiolog()"
     :visible.sync="value"
     top="2%"
-    :title="'供应商⿊名单记录 - ⼀般采购  -' + clickTableList.nameZh"
+    :title="supplierType=='GP'?'供应商⿊名单记录 - ⼀般采购  -' + clickTableList.nameZh:'供应商⿊名单记录 - 共用采购  -' + clickTableList.nameZh"
     width="85%"
   >
     <div slot="title" class="headerTitle">
-      <span>{{
-        '供应商黑名单记录 - ⼀般采购  -' + clickTableList.nameZh
-      }}</span>
+      <span>{{supplierType=='GP'?'供应商黑名单记录 - ⼀般采购  -' + clickTableList.nameZh:'供应商黑名单记录 - 共用采购  -' + clickTableList.nameZh}}</span>
     </div>
     <div class="box">
       <el-tabs
@@ -65,7 +63,7 @@
               clearable
             />
           </el-form-item>
-          <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
+          <el-form-item :label="$t('SKTZQZSJ')">
             <iDatePicker
               style="width: 220px"
               type="daterange"
@@ -153,6 +151,7 @@
 <script>
 import {
   measuresTypeList,
+  measuresTypeGPList,
   gpSupplerBlackListHistoryPage,
   gpSupplerBlackListStatus
 } from '@/api/supplier360/blackList'
@@ -202,11 +201,15 @@ export default {
       typeList: [],
       daterange: [],
       daterange2: [],
-      tabVal: '1'
+      tabVal: '1',
+      supplierType:'',
     }
   },
   created() {
     // this.$nextTick(() => {
+    if(this.clickTableList.supplierType){
+      this.supplierType = this.clickTableList.supplierType;
+    }
     this.getList()
     this.getTypeList()
     // })
@@ -216,13 +219,22 @@ export default {
     //状态
     getTypeList() {
       let params = {
-        supplierType: this.tabVal
+        supplierType: this.supplierType
       }
-      measuresTypeList(params).then((res) => {
-        if (res && res.code == 200) {
-          this.typeList = res.data
-        }
-      })
+      if(this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"){
+        params.supplierId=this.clickTableList.subSupplierId;
+        measuresTypeGPList(params).then((res) => {
+          if (res && res.code == 200) {
+            this.typeList = res.data
+          }
+        })
+      }else{
+        measuresTypeList(params).then((res) => {
+          if (res && res.code == 200) {
+            this.typeList = res.data
+          }
+        })
+      }
     },
     getList() {
       this.tableLoading = true

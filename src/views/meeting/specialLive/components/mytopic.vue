@@ -123,8 +123,11 @@ export default {
         }
       })
       // this.$emit("getMyTopics", res.data);
-      this.finishedData = arrObj.filter((item) => {
+      const finishedData = arrObj.filter((item) => {
         return !item.isBreak
+      })
+      this.finishedData = finishedData.map((e, index) => {
+        return { ...e, rowNo: index + 1 }
       })
       // this.unFinishedData = arrObjUn.filter((item) => {
       //   return !item.isBreak;
@@ -148,8 +151,11 @@ export default {
           arrObjUn.push(item)
         }
       })
-      this.unFinishedData = arrObjUn.filter((item) => {
+      const unFinishedData = arrObjUn.filter((item) => {
         return !item.isBreak
+      })
+      this.unFinishedData = unFinishedData.map((e, index) => {
+        return { ...e, rowNo: index + 1 }
       })
     },
     findMyThemensByCondition(form) {
@@ -186,6 +192,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer)
+    clearTimeout(this.timer)
   }
 }
 </script>
@@ -265,7 +272,7 @@ export default {
   }
 }
 
-::v-deep .el-table {
+/* ::v-deep .el-table {
   width: 1660px;
-}
+} */
 </style>

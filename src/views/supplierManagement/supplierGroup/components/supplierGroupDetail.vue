@@ -172,15 +172,28 @@ export default {
       this.search.deptName = this.options.filter(item=>item.code==this.search.deptCode)[0].message
     },
     goto(row){
-      this.$router.push({
-        path: '/supplier/view-suppliers',
-        query: {
-          supplierType: row.supplierType,
-          subSupplierType:row.subSupplierType,
-          subSupplierId: row.subSupplierId,
-          supplierToken:row.supplierToken
-        }
-      })
+      if(row.supplierType=='GP'){
+        this.$router.push({
+          path: '/supplier/view-suppliers',
+          query: {
+            supplierToken: row.supplierToken || '',
+            type:row.type || '',
+            supplierType: '4',
+            subSupplierType: row.supplierType,
+            supplierId: row.subSupplierId,
+          }
+        })
+      }else{
+        this.$router.push({
+          path: '/supplier/view-suppliers',
+          query: {
+            supplierType: "4",
+            subSupplierType:row.supplierType,
+            subSupplierId: row.subSupplierId,
+            supplierToken:row.supplierToken
+          }
+        })
+      }
     },
     queryDeptList(){
       queryDeptList({}).then(res => {
@@ -278,16 +291,25 @@ export default {
     },
 
     save() {
-
+      let data = JSON.parse(JSON.stringify(this.initData))
+      let supplierList = []
+      this.tableData.forEach((item,i)=>{
+        item.supplierGroupMappingId = item.id
+        let initItem = data.filter(child=> child.subSupplierId==item.subSupplierId)
+        if(initItem.length){
+          if(item.deptName!=initItem[0].deptName || item.id!=initItem[0].id){
+            supplierList.push(item)
+          }
+        }else{
+          supplierList.push(item)
+        }
+      })
       this.$refs.ruleForm.validate((valid) => {
         if(valid){
           let params = {
             ...this.search,
             supplierGroupId: this.search.id,
-            supplierList: this.tableData.map(item=>{
-              item.supplierGroupMappingId = item.id
-              return item
-            })
+            supplierList: supplierList
           }
           checkGroup(params).then((res) => {
             if (res?.code == '200') {

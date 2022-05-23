@@ -186,3 +186,11 @@ export function batchChangeState(data) {
     data: deleteString(data)
   })
 }
+// 保存会议纪要 gp
+export function saveGpMeetingMinutes(data) {
+  return requst({
+    url: `/meetingService/saveGpMeetingMinutes`,
+    method: 'POST',
+    data: deleteString(data)
+  })
+}

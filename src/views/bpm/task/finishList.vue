@@ -200,28 +200,24 @@ export default {
       }
 
       const searchData = filterEmptyValue(this.form)
-      console.log('searchData', searchData)
 
       if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
         delete searchData.itemTypeList
       }
-      if (searchData.categoryList && searchData.categoryList.length === 0) {
-        delete searchData.categoryList
+      if (searchData.categoryList && _.isArray(searchData.categoryList)) {
+        if (
+          searchData.categoryList.length === 0 ||
+          (searchData.categoryList.length === 1 &&
+            searchData.categoryList[0] === '')
+        ) {
+          delete searchData.categoryList
+        }
       }
       if (
         searchData.categoryList &&
         typeof searchData.categoryList === 'string'
       ) {
         searchData.categoryList = [searchData.categoryList]
-      }
-      if (
-        !searchData.categoryList ||
-        (searchData.categoryList.length === 1 &&
-          searchData.categoryList[0] === '')
-      ) {
-        searchData.categoryList = this.templates
-          .filter((e) => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
-          .map((e) => e.name)
       }
 
       const data = {

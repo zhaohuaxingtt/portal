@@ -60,6 +60,10 @@
                 :openPageGetRowData="true"
                 :highlightCurrentRow="true"
                 >
+          <template #supplierTagNameList="scope">
+            <i-button type="text"
+                      @click="handleTagsList(scope.row)">{{scope.row.supplierTagNameList.length>0?scope.row.supplierTagNameList.join(","):""}}</i-button>
+          </template>
           <template slot="yewuType">
             <span>{{$t("NEIBUBAOXIAO")}}</span>
           </template>
@@ -77,14 +81,27 @@
                    :current-page="page.currPage"
                    :total="page.totalCount" />
     </iCard>
+
+    <!-- 标签设置 -->
+    <setTagdilog @closeDiolog="closeDiolog"
+                v-model="isSetTag"
+                :selectTableData="listData"
+                v-if="isSetTag">
+    </setTagdilog>
+    <setTagList @closeDiolog="closeDiolog"
+                v-model="issetTagList"
+                :rowList="rowList"
+                v-if="issetTagList">
+    </setTagList>
   </div>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
-import { iSearch,iSelect,iInput,iCard,iButton,iPagination } from "rise";
+import { iSearch,iSelect,iInput,iCard,iButton,iPagination,iMessage } from "rise";
 import { pageMixins } from '@/utils/pageMixins'
-
+import setTagdilog from '../supplier360/list/components/setTag'
+import setTagList from '@/views/supplierManagement/supplier360/list/components/setTagList'
 import { dropDownTagName,pageInner} from '@/api/supplierManagement/supplierTag/index'
 import { tableTitle } from "./data"
 
@@ -98,7 +115,9 @@ export default {
         iCard,
         iButton,
         tableList,
-        iPagination
+        iPagination,
+        setTagdilog,
+        setTagList
     },
     data(){
         return{
@@ -115,6 +134,9 @@ export default {
             },
             tagdropDownList: [],
             listData:[],
+            isSetTag:false,
+            rowList:{},
+            issetTagList: false, //标签列表
         }
     },
     created(){
@@ -122,6 +144,33 @@ export default {
       this.getTableList();
     },
     methods:{
+      //标签列表弹窗
+      handleTagsList (row) {
+        this.rowList = row
+        this.issetTagList = true
+      },
+      closeDiolog (v) {
+        if (v == 1) {
+          this.sure()
+        }
+        this.isSetTag = false
+        this.issetTagList = false
+      },
+      //标签设置弹窗
+      setTagBtn () {
+        if (this.listData.length == 0) {
+          iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        } else this.isSetTag = true
+      },
+      tagTab () {
+        let routeData = this.$router.resolve({
+          path: '/supplier/supplierTag',
+          query: {
+            supplierType:"GP",
+          }
+        })
+        window.open(routeData.href)
+      },
       exportsTableEdit(){
         if(this.listData.length == 1){
           this.$router.push({path: '/supplier/supplierListDis/supplierDisDetails', query: {
@@ -158,7 +207,10 @@ export default {
       changTag () {
           this.form.tagNameList = []
           //获取标签列表
-          dropDownTagName({ isMeRelated: 0 }).then((res) => {
+          dropDownTagName({
+            isMeRelated: 0,
+            type:this.$route.path=="/supplier/supplierListGP" || this.$route.path=="/supplier/supplierListDis"?2:""
+          }).then((res) => {
               if (res && res.code == 200) {
               this.tagdropDownList = res.data
               }

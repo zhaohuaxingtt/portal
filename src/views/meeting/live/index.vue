@@ -779,7 +779,7 @@ export default {
 
 .table-container {
   background-color: #fff;
-  width: 1740px;
+  /* width: 1740px; */
   padding: 0 40px 30px 40px;
 }
 .notice {
@@ -788,7 +788,7 @@ export default {
   margin-top: 8px;
 }
 .no-live {
-  width: 1740px;
+  // width: 1740px;
   height: 105px;
   border-radius: 10px;
   background-color: #ffffff;
@@ -878,7 +878,7 @@ export default {
   }
 }
 .card {
-  width: 1740px;
+  // width: 1740px;
   overflow: hidden;
   .box-title-content {
     padding: 40px;

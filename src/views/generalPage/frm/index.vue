@@ -8,7 +8,7 @@
 		<baseInfo ref="basic"></baseInfo>
 		<iCard class="margin-top20">
 			<iFormGroup row="3">
-				<iFormItem v-for="(item, index) in frmTitle"
+				<iFormItem v-for="(item, index) in frmTitleAl"
 						:key="index"
 						:label="item.language ? $t(item.language) : item.name"
 						v-permission="item.permission"
@@ -39,7 +39,7 @@
 <script>
 import { iFormGroup, iFormItem, iText,iCard,iMessage,icon } from "rise";
 
-import {frmTitle} from "./components/data.js";
+import {frmTitle,frmTitleGP} from "./components/data.js";
 import baseInfo from "../components/baseInfoCard";
 
 import { getFrmRating } from "@/api/supplier360/frm"
@@ -51,10 +51,17 @@ export default{
 	data() {
 		return {
 			frmTitle,
+			frmTitleGP,
+			frmTitleAl:[],
 			dataList:{},
 		}
 	},
 	created(){
+		if(this.$route.query.subSupplierType == "GP"){
+			this.frmTitleAl = this.frmTitleGP;
+		}else{
+			this.frmTitleAl = this.frmTitle;
+		}
 		this.getList();
 	},
 	methods:{

@@ -7,7 +7,7 @@
  */
 
 export const tableTitle = [
-  { props: 'fieldName', name: '修改信息', key: 'SUPPLIER_BIANGENGZIDUAN' },
+  { props: 'fieldName', name: '变更字段', key: 'SUPPLIER_BIANGENGZIDUAN' },
   {
     props: 'beforeValue',
     name: '变更前',

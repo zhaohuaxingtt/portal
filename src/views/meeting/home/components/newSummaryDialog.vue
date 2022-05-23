@@ -67,9 +67,40 @@
                   <img :src="upArrow" alt="" srcset="" />
                 </div>
               </div>
-              <div class="agenda-item-content">
-                <p class="task">Task</p>
+              <!-- gp取值不一样   Task 取值 result   Result 取值 conclusion -->
+              <div class="agenda-item-content" v-if="GPType" >
+                <!-- gp取值不一样   Task 取值 result    -->
+                <p class="task">Task--gp</p>
+                <iFormItem 
+                  :prop="'themens.' + index + '.conclusion'"
+                  class="meet-desc"
+                  :rules="rule"
+                >
+                  <iInput
+                    v-model="item.result"
+                    type="textarea"
+                    resize="none"
+                    rows="4"
+                  />
+                </iFormItem>
+                <!-- gp取值不一样   Result 取值 conclusion    -->
+                <p class="task">Result</p>
                 <iFormItem
+                  :prop="'themens.' + index + '.result'"
+                  class="meet-desc"
+                  :rules="rule"
+                >
+                 <iInput
+                    v-model="conclusionCscList[item.conclusion]"
+                    type="textarea"
+                    resize="none"
+                    rows="4"
+                  />
+                </iFormItem>
+              </div>
+              <div class="agenda-item-content" v-else>
+                <p class="task">Task</p>
+                <iFormItem 
                   :prop="'themens.' + index + '.conclusion'"
                   class="meet-desc"
                   :rules="rule"
@@ -129,7 +160,7 @@ import {
 } from 'rise'
 // import { numToLetter } from './data'
 import iEditForm from '@/components/iEditForm'
-import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
+import { getMeetingSummary, saveMeetingMinutes ,saveGpMeetingMinutes} from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
 
 export default {
@@ -155,10 +186,26 @@ export default {
       default: () => {
         return ''
       }
+    },
+    rowE:{
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
     return {
+      conclusionCscList: {
+        '01': '待定',
+        '08': '通过', 
+        '09': '预备会议通过',
+        '10': '不通过',
+        '11': 'Last Call',
+        '12': '分段待定'
+      },
+      GPType:false,//gp会议的标识
+      GPTypeData:'',//gp会议的标识
       loadingCreate: false,
       // numToLetter,
       upArrow,
@@ -178,6 +225,22 @@ export default {
     }
   },
   mounted() {
+    // gp会议的标识
+    // this.rowE.isGpCSC=false
+    debugger
+    if (this.rowE.isGpCSC==true) {
+      this.GPTypeData=this.rowE.isGpCSC
+    }else if (this.rowE.isMBDL==true) {
+      this.GPTypeData=this.rowE.isMBDL
+    }else{
+      this.GPTypeData=false
+    }
+    console.log(this.GPTypeData);
+    if (this.GPTypeData==true) {
+      this.GPType=true
+    }else{
+      this.GPType=false
+    }
     this.getMeetingSummary()
   },
   methods: {
@@ -197,17 +260,31 @@ export default {
         // })
       })
     },
-    handleOK() {
+    handleOK() { 
+      console.log(this.GPTypeData);
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.loadingCreate = true
-          saveMeetingMinutes(this.resultData).then((res) => {
-            if (Number(res.code) === 200) {
-              iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
-              this.$emit('handleOK')
-            }
-            this.loadingCreate = false
-          })
+          //  为gp的生成会议纪要  saveGpMeetingMinutes
+          if (this.GPTypeData==true) {
+            saveGpMeetingMinutes(this.resultData).then((res) => {
+              console.log('gp1111');
+              if (Number(res.code) === 200) {
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
+                this.$emit('handleOK')
+              }
+              this.loadingCreate = false
+            })
+          }else{
+            saveMeetingMinutes(this.resultData).then((res) => {
+              console.log('gp2222');
+              if (Number(res.code) === 200) {
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
+                this.$emit('handleOK')
+              }
+              this.loadingCreate = false
+            })
+          }
         }
       })
     },

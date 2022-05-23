@@ -13,14 +13,19 @@
          class="margin-top20">
     <iFormGroup row="3">
       <!-- 是否在供 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSUPPLY">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSUPPLY" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('SHIFOUZAIGONG')"
                 slot="label"></iLabel>
         <iText>{{dicName('TURE_FALSE',supplierData[infoVo].isSupply)}}</iText>
-        <!-- <iText>{{supplierData[infoVo].isSupply}}</iText> -->
       </iFormItem>
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSUPPLY_GP" v-if="$route.query.subSupplierType=='GP'">
+        <iLabel :label="$t('SHIFOUZAIGONG')"
+                slot="label"></iLabel>
+        <iText>{{dicName('TURE_FALSE',supplierData[infoVo].isSupply)}}</iText>
+      </iFormItem>
+
       <!-- 供应商身份 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS" v-if="$route.query.subSupplierType=='GP'">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS_GP" v-if="$route.query.subSupplierType=='GP'">
         <iLabel :label="$t('GYSSF')"
                 slot="label"></iLabel>
         <iText>{{supplierData[infoVo].formalStatus}}</iText>
@@ -60,7 +65,12 @@
         <iText>{{supplierData.ppSupplierDTO.supplyType}}</iText>
       </iFormItem>
       <!-- 是否共用供应商 -->
-      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSHAREDSUPPLIER">
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSHAREDSUPPLIER" v-if="$route.query.subSupplierType!=='GP'">
+        <iLabel :label="$t('SHIFOUGONGONGGONGYINGSHANG')"
+                slot="label"></iLabel>
+        <iText>{{dicName('TURE_FALSE',supplierData[infoVo].isShareSupplier)}}</iText>
+      </iFormItem>
+      <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISSHAREDSUPPLIER_GP" v-if="$route.query.subSupplierType=='GP'">
         <iLabel :label="$t('SHIFOUGONGONGGONGYINGSHANG')"
                 slot="label"></iLabel>
         <iText>{{dicName('TURE_FALSE',supplierData[infoVo].isShareSupplier)}}</iText>

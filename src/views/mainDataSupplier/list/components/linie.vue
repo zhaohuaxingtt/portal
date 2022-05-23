@@ -77,8 +77,13 @@ export default {
                 e.supplierId = this.$route.query.id;
             });
             this.oldData = _.cloneDeep(this.detail.gpSupplierDetails);
+
+            this.oldData = this.oldData.filter(e=>{
+              return !(!e.businessBuyerEmail&&!e.businessBuyerName&&!e.businessBuyerNum&&!e.businessBuyerDept&&!e.businessContactEmail&&!e.businessContactUser && e.industryPosition == "N")
+            })
+
             batchSaveOrUpd(
-                this.detail.gpSupplierDetails
+                this.oldData
             ).then(res=>{
                 if(res.result){
                     console.log(res.data)
@@ -88,7 +93,6 @@ export default {
         },
         cancel(){
             this.editType = true;
-
             console.log(this.oldData)
             this.detail.gpSupplierDetails = _.cloneDeep(this.oldData);
         },

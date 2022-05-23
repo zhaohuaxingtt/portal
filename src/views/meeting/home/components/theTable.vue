@@ -45,7 +45,6 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        width="220"
         min-width="220"
         :label="$t('MT_HUIYIMINGCHENG')"
       >
@@ -315,6 +314,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
+                <!-- 生成会议纪要 按钮-->
                 <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
@@ -689,6 +689,7 @@
       @handleOK="handleNewSummaryOK"
       @handleCancel="handleNewSummaryCancel"
       @refreshTable="refreshTable"
+      :rowE="rowE"
     />
     <newSummaryDialogNew
       v-if="openNewSummaryNew"
@@ -755,7 +756,10 @@ import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
 import dayjs from 'dayjs'
 import { findThemenById } from '@/api/meeting/details'
-import { exportMeetingAgenda , exportCscMeetingAgenda} from '@/api/meeting/gpMeeting'
+import {
+  exportMeetingAgenda,
+  exportCscMeetingAgenda
+} from '@/api/meeting/gpMeeting'
 import { exportExcel } from '@/utils/gpfiledowLoad'
 import { downloadAll } from '@/utils/downloadAll'
 export default {
@@ -817,6 +821,7 @@ export default {
   },
   data() {
     return {
+      rowE:[],//gp需要的参数
       showP: false,
       currentCloseRow: {},
       openFreezeDialog: false,
@@ -1322,6 +1327,7 @@ export default {
       // })
     },
     actionObj(e) {
+      console.log(e);
       const funcMap = {
         begin: (e) => {
           // 开始
@@ -1441,7 +1447,10 @@ export default {
           //     this.isGenerating = false
           //   })
           //gp会议  生成Agenda  exportCscMeetingAgenda  exportMeetingAgenda
-          if ( this.selectedRow[0].isGpCSC == true || this.selectedRow[0].isMBDL == true ) {
+          if (
+            this.selectedRow[0].isGpCSC == true ||
+            this.selectedRow[0].isMBDL == true
+          ) {
             if (this.selectedRow[0].isMBDL == true) {
               console.log('isMBDL生成Agenda')
               exportMeetingAgenda({ id: e }).then((res) => {
@@ -1633,8 +1642,10 @@ export default {
           // if (e.meetingTypeName === 'Pre CSC' || e.meetingTypeName === 'CSC') {
           if (e.isPreCSC || e.isCSC) {
             this.receiverId = e?.receiverId
-            this.openNewSummaryNew = true
+            this.openNewSummaryNew = true 
           } else {
+            this.rowE=e
+            console.log(e,this.rowE);
             this.openNewSummary = true
           }
         },

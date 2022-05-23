@@ -445,6 +445,9 @@ export default {
           bottom: 0
         }
       }
+      this.$nextTick(() => {
+        this.pieChart && this.pieChart.setOption(option)
+      })
       // 监听饼状图鼠标移入事件
       this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
@@ -733,6 +736,9 @@ export default {
           bottom: 0
         }
       }
+      this.$nextTick(() => {
+        this.barChart && this.barChart.setOption(option)
+      })
     },
     mergeBarOptions() {}
   }

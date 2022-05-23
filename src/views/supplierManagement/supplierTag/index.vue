@@ -127,7 +127,7 @@
       <iPagination
         style="margin-top: 20px"
         v-update
-        @size-change="handleSizeChange($event, sure)"
+        @size-change="handleSizeChange($event, getTableData)"
         @current-change="handleCurrentChange($event, getTableData)"
         background
         :page-sizes="page.pageSizes"
@@ -225,7 +225,13 @@ export default {
   methods: {
     //获取标签列表
     getTagListdropDown() {
-      dropDownTagName({}).then((res) => {
+      var list = {};
+      if(this.$route.query.supplierType=="GP"){
+        list = {
+          type:2
+        }
+      }
+      dropDownTagName(list).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }

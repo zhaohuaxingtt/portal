@@ -107,7 +107,10 @@
         >
           <div>
             <iButton>{{ language('添加附件') }}</iButton>
-            <!-- <span style="marginLeft:20px" @click.stop=";">支持图片格式'jpg'，'png'，'gif'，图片不能超过10M</span> -->
+            <!-- CIRW2-697 【Pro CS】知识管理，上传附件，页面提示一个最大10兆的文案 -->
+            <span style="margin-left: 20px" @click.stop="">
+              {{ language('文件大小最大限制10MB！') }}
+            </span>
           </div>
         </iUpload>
       </iFormItem>
@@ -155,7 +158,7 @@ import {
   createKnowledgeContent,
   modifyKnowledgeContent
 } from '@/api/adminProCS'
-import { getDeptDropDownList } from '@/api/authorityMgmt'
+import { getDeptByCondition } from '@/api/usercenter'
 export default {
   name: 'addKnowledgeContent',
   components: {
@@ -436,9 +439,9 @@ export default {
       this.fileList.splice(idx, 1)
     },
     async organizationsInfo() {
-      await getDeptDropDownList({}).then((res) => {
+      await getDeptByCondition({ deptNum: 'CS', gradeAbove: 3 }).then((res) => {
         this.organizationMenu = res.data || []
-        this.organizationsList = this.organizationMenu.slice(0, 200)
+        this.organizationsList = this.organizationMenu
       })
     }
   }

@@ -226,5 +226,10 @@ export default {
 
   MT_HUIYILEIXINGGUANLI: 'Meeting type management',
 
-  MT_CHUANGJIANYUHUIRENFENZU: 'Create a participant group'
+  MT_CHUANGJIANYUHUIRENFENZU: 'Create a participant group',
+  MT_JINQIHUIYI: 'Recent meeting',
+  MT_HUIYIZHIBO: 'Live meeting',
+  MT_TONGYONGHUIYI: 'General meeting',
+  MT_SHENGCHANCAIGOUSCC: 'Production procurement CSC',
+  MT_YIBANCAIGOUCSG: 'General procurement CSG'
 }

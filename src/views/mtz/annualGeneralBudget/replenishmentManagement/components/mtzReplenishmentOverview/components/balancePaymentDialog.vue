@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-04-28 15:40:27
+ * @LastEditTime: 2022-05-17 14:42:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -230,7 +230,8 @@
                 )
               "
                         placement="top">
-              <iButton @click="offset">{{
+              <iButton @click="offset"
+                       :loading="offsetLoading">{{
                 language('CHONGXIAO', '冲销')
               }}</iButton>
             </el-tooltip>
@@ -330,14 +331,29 @@ export default {
     },
     flag: {
       type: Boolean
+    },
+    materialCodes: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   watch: {
+    materialCodes: {
+      handler (val) {
+        this.$nextTick(() => {
+          this.$set(this.searchForm, "secondSupplierList", val)
+        });
+      },
+      deep: true,
+      immediate: true
+    },
     minDate (val) {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
-          console.log(this.minDate)
+
         },
         disabledDate: (time) => {
           var newTime = new Date(val.getTime() + this.differenceTime)
@@ -359,7 +375,6 @@ export default {
     },
     selectData: {
       handler (val) {
-        console.log(val, 'val')
         if (val && val.length !== 0) {
           this.firstSupplierName = val[0].firstSupplierName
           this.firstSupplier = val[0].firstSupplierId
@@ -376,12 +391,10 @@ export default {
     },
     tableData: {
       handler (data) {
-        console.log(data, "===")
-        // console.log(data, "====")
         if (data) {
           this.tableLoading = false
           // this.tableListData = data
-          this.tableDataList = data.slice(0, 100)
+          this.tableDataList = data.slice(0, 1000)
         } else {
           this.tableLoading = true
           setTimeout(() => {
@@ -437,6 +450,7 @@ export default {
       minDate: '',
       firstSupplierName: '',
       onLoding: false,
+      offsetLoading: false,
       firstSupplier: '',
       tableDataList: [],
       times: 0,
@@ -520,17 +534,17 @@ export default {
         const clientHeight = height.clientHeight // 表格视窗高度 即wraper
         const scrollTop = height.scrollTop // 表格内容已滚动的高度
         const scrollHeight = height.scrollHeight // 表格内容撑起的高度
-        console.log(clientHeight, scrollTop, scrollHeight)
+
         if (clientHeight + scrollTop + 10 >= scrollHeight) {
           // 表格滚动已经触底 更新表格数据
           this.times++
           const length =
-            100 * this.times > this.tableData.length
+            500 * this.times > this.tableData.length
               ? this.tableData.length
-              : 100 * this.times
-          console.log(length, "length")
+              : 500 * this.times
+
           this.tableDataList = this.tableData.slice(0, length)
-          console.log(this.tableDataList, "tableDataList")
+
         }
       })
     })
@@ -610,7 +624,6 @@ export default {
       this.pickerOptions.disabledDate = () => false
     },
     query () {
-      console.log(this.searchForm)
       if (this.flag) {
         this.tableLoading = true
         this.actAmtList = []
@@ -619,11 +632,13 @@ export default {
           delete this.searchForm.effPriceFrom
           delete this.searchForm.effPriceTo
         }
+
         let params = {
           pageNo: 1,
-          pageSize: 10000,
+          pageSize: 20000,
           ...this.searchForm
         }
+        console.log(params, "searchForm")
         pageMTZCompByComputer(params).then((res) => {
           if (res?.code === '200') {
             this.tableData = res.data
@@ -641,7 +656,7 @@ export default {
         this.actAmtList = []
         let params = {
           pageNo: 1,
-          pageSize: 10000,
+          pageSize: 20000,
           ...this.searchForm
         }
         fetchQueryComp(params).then((res) => {
@@ -689,15 +704,18 @@ export default {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
         return
       }
+      this.offsetLoading = true
       let params = []
       this.muiltSelectList.forEach((item) => {
         params.push(item.id)
       })
       chargeAgainstMTZComp(params).then((res) => {
         if (res?.code === '200') {
+          this.offsetLoading = false
           iMessage.success(res.desZh)
           this.query()
         } else {
+          this.offsetLoading = false
           iMessage.error(res.desZh)
         }
       })
@@ -776,7 +794,7 @@ export default {
         value: '',
         secondSupplierList: []
       }
-      console.log(this.searchForm, 'searchForm')
+
       this.value1 = ''
       this.query()
     },
@@ -828,7 +846,7 @@ export default {
             }
           })
         } else {
-          console.log('error submit!!')
+
           return false
         }
       })

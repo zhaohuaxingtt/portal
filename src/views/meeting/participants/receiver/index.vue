@@ -140,7 +140,7 @@ export default {
           // prop: "employeeDTOS",
           label: '参与人员姓名',
           i18n: 'MT_CANYURENYUANXINGMING',
-          // width: 240,
+          minWidth: 200,
 
           align: 'left',
           tooltip: true,
@@ -257,11 +257,15 @@ export default {
       this.openEditDialog = false
     },
     deleteReceiver(e) {
-      this.$confirm(this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'), this.$t('MT_TISHI'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'),
+        this.$t('MT_TISHI'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         deleteReceiver({ id: e.id }).then((res) => {
           if (res.code === 200) {
             this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))

@@ -81,6 +81,62 @@ export function saveAttachmentNew(params) {
   })
 }
 
+//提交任务
+export function submitTempTaskInfo(params) {
+  return requst({
+    url: `/supplier/attachmentReload/submitTempTaskInfo`,
+    method: 'POST',
+    data: {
+      supplierToken: store.state.home.valiCode,
+      ...params,
+    }
+  })
+}
+
+//保存相关附件
+export function getSupplierFileReloadVo(params) {
+  return requst({
+    url: `/supplier/attachmentReload/getSupplierFileReloadVo`,
+    method: 'POST',
+    data: {
+      ...params,
+    }
+  })
+}
+
+//保存相关附件
+export function supplierFreeFileReloadDelete(params) {
+  return requst({
+    url: `/supplier/attachmentReload/supplierFreeFileReloadDelete`,
+    method: 'DELETE',
+    data:params
+  })
+}
+
+//保存文件信息
+export function supplierFileReloadSave(params) {
+  return requst({
+    url: `/supplier/attachmentReload/supplierFileReloadSave`,
+    method: 'POST',
+    data: {
+      supplierToken: store.state.home.valiCode,
+      ...params,
+    }
+  })
+}
+
+//采购员提交审批流
+export function checkUpSupplierFileReloadTask(params) {
+  return requst({
+    url: `/supplier/attachmentReload/checkUpSupplierFileReloadTask`,
+    method: 'POST',
+    data: {
+      supplierToken: store.state.home.valiCode,
+      ...params,
+    }
+  })
+}
+
 //自由上传
 //查询-相关模板附件
 export function getFreeAttachmentList(params) {
@@ -88,8 +144,8 @@ export function getFreeAttachmentList(params) {
     url: `/attachment/list`,
     method: 'POST',
     data: {
+      supplierToken: store.state.home.valiCode,
       ...params,
-      supplierToken: store.state.home.valiCode
     }
   })
 }

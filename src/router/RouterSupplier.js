@@ -33,7 +33,10 @@ export default [
   {
     path: '/supplier/supplierListDis/supplierDisDetails',
     name: 'supplierDisDetails',
-    component: () =>import('@/views/supplierManagement/dispersedSupplier/components/supplierDisDetails')
+    component: () =>
+      import(
+        '@/views/supplierManagement/dispersedSupplier/components/supplierDisDetails'
+      )
   },
   {
     path: '/supplier/frmrating/riskSignal',
@@ -105,24 +108,24 @@ export default [
     redirect: '/supplier/frmrating/preliminaryrating/qualitativeScoringPage',
     component: QualitativeScoringPage,
     meta: {
-      title: '定性打分',
-    },
+      title: '定性打分'
+    }
   },
   {
     path: '/supplier/frmrating/preliminaryrating/preliminaryrating',
     name: 'Preliminaryrating',
     component: Preliminaryrating,
     meta: {
-      title: '初步评级',
-    },
+      title: '初步评级'
+    }
   },
   {
     path: '/supplier/frmrating/preliminaryrating/qualitativeScoringPage',
     name: 'QualitativeScoringPage',
     component: QualitativeScoringPage,
     meta: {
-      title: '定性打分',
-    },
+      title: '定性打分'
+    }
   },
   {
     path: '/supplier/frmrating/supplieroverview',
@@ -250,12 +253,20 @@ export default [
       {
         path: 'supplierListDis',
         name: 'supplierListDis',
-        component: dispersedSupplier,
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
+        component: dispersedSupplier
       },
       {
         path: 'supplierListGP',
         name: 'supplierListGP',
-        component: Supplier360GP
+        component: Supplier360GP,
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        }
       },
       {
         path: 'supplierList/details',
@@ -265,18 +276,22 @@ export default [
       {
         path: 'supplierListDis/detailsGP',
         name: 'detailsGP3',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
         component: () =>
-          import(
-            '@/views/supplierManagement/supplier360/detailesGP/index.vue'
-          )
+          import('@/views/supplierManagement/supplier360/detailesGP/index.vue')
       },
       {
         path: 'supplierListGP/detailsGP',
         name: 'detailsGP',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_GP', 'GP_SUPPLIER'] // 一级菜单,二级菜单
+        },
         component: () =>
-          import(
-            '@/views/supplierManagement/supplier360/detailesGP/index.vue'
-          )
+          import('@/views/supplierManagement/supplier360/detailesGP/index.vue')
       },
       {
         path: 'NTier',
@@ -437,7 +452,8 @@ export default [
           title: '供应商组管理',
           activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
         },
-        component: () => import('@/views/supplierManagement/supplierGroup/index.vue')
+        component: () =>
+          import('@/views/supplierManagement/supplierGroup/index.vue')
       },
       {
         path: 'suppliergroupmanagementdetail',
@@ -446,8 +462,11 @@ export default [
           title: '供应商组管理',
           activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
         },
-        component: () => import('@/views/supplierManagement/supplierGroup/components/supplierGroupDetail.vue')
-      },
+        component: () =>
+          import(
+            '@/views/supplierManagement/supplierGroup/components/supplierGroupDetail.vue'
+          )
+      }
       // {
       //   path: 'alarmLetter',
       //   name: 'alarmLetter',

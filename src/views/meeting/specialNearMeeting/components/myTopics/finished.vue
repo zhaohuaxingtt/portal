@@ -52,7 +52,7 @@
         <template slot-scope="scope">
           <div class="img-word">
             <span>
-              {{ scope.$index + 1 }}
+              {{ scope.row.rowNo }}
             </span>
             <div>
               <img
@@ -225,6 +225,7 @@ export default {
       isSelf: false,
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
+      processUrlGpPortal:process.env.VUE_APP_POINT_GP_PORTAL,
       stateObj,
       themenConclusion,
       editOrAdd: '',
@@ -303,6 +304,11 @@ export default {
             `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
             '_blank'
           )
+        }else if (row.type === 'CSF') {
+          window.open(
+            `${this.processUrlGpPortal}/myCscDetails/${row.fixedPointApplyId}?current=3`,
+            '_blank'
+          )
         } else {
           window.open(
             `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
@@ -371,15 +377,17 @@ export default {
         // meetingTypeId: this.meetingTypeId
         category: '02'
       }
-      findMyThemens(param).then((res) => {
+      findMyThemens(param).then((res = []) => {
         let data =
           res.data &&
           res.data.filter((item) => {
             return item.state == '03'
           })
-        this.dataAll = data
-        this.tableData = data.slice(0, 1 * this.page.pageSize)
-        this.total = data.length
+        this.dataAll = data.map((e, index) => {
+          return { ...e, rowNo: index + 1 }
+        })
+        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+        this.total = this.dataAll.length
       })
     },
     //选择页数

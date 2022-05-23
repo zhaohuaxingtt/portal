@@ -175,7 +175,7 @@ export default {
         },
         {
           label: '操作',
-          i18n:'MT_CAOZUO2',
+          i18n: 'MT_CAOZUO2',
           width: 160,
           customRender: (h, scope) => {
             if (scope.row.state !== 1) {
@@ -252,7 +252,7 @@ export default {
                       }
                     }
                   },
-                  this.$t("MT_XIAZAI")
+                  this.$t('MT_XIAZAI')
                 )
               ])
             } else {
@@ -271,7 +271,7 @@ export default {
                       }
                     }
                   },
-           this.$t("MT_XIAZAI")
+                  this.$t('MT_XIAZAI')
                 )
               ])
             }
@@ -412,9 +412,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container {
+/* .container {
   width: 1660px;
-}
+} */
 ::v-deep .el-switch__label {
   position: absolute;
   display: none;

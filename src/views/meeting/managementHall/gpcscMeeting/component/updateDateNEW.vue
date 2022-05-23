@@ -18,10 +18,10 @@
         </el-form-item>
         <el-form-item
           :label="language('HUIYILEIXING', '会议类型')"
-          prop="meetingTypeId"
-        >
+          prop="meetingTypeIds"
+        > 
           <iSelect
-            v-model="formData.meetingTypeId"
+            v-model="formData.meetingTypeIds"
             :placeholder="language('请选择', '请选择')"
           >
             <el-option
@@ -72,7 +72,8 @@
             />
           </div>
         </el-form-item>
-        <el-form-item :label="language('周次', '周次')" prop="weekOfYears">
+        <!-- 不要周次 -->
+        <!-- <el-form-item :label="language('周次', '周次')" prop="weekOfYears">
           <iSelect
             v-model="formData.weekOfYears"
             :placeholder="language('请选择', '请选择')"
@@ -87,7 +88,7 @@
               :value="item.value"
             ></el-option>
           </iSelect>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </search>
     <el-divider></el-divider>
@@ -134,8 +135,8 @@ import { iDialog, iPagination, iButton, iInput, iSelect, iDatePicker, iMessage }
 import { MEETING_SEARCH_DATA, MEETING_TABLE_COLUMNS,  weekListInit } from './dataDay'
 import dayjs from '@/utils/dayjs.js'
 import { pageMixins } from '@/utils/pageMixins'
-import { getMettingType } from '@/api/meeting/type'
-import { findToReschedule , rescheduleThemen} from '@/api/meeting/gpMeeting'
+// import { getMettingType } from '@/api/meeting/type'
+import { findToReschedule , rescheduleThemen , findByPageForGP ,findByReschedule, updateMeeting} from '@/api/meeting/gpMeeting'
 export default {
    mixins: [pageMixins],
    components: {
@@ -204,7 +205,7 @@ export default {
     this.query()
   },
   methods:{
-    //获取列表
+    //获取列表 
     query(){
       const params = {
         pageNum: this.page.currPage,
@@ -225,15 +226,16 @@ export default {
         })
       })
     },
-    //会议类型
+    //会议类型  后面说还要改  /meetingTypeService/findByReschedule
     getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true
+        isCurrentUser: true,
+        meetingId: this.$route.query.id,
       }
-      getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data.map(item => 
+      findByReschedule(param).then((res) => {
+        this.meetingTypeList = res.map(item => 
         ({id: Number(item.id), name: item.name}))
       })
     },
@@ -242,12 +244,68 @@ export default {
       console.log(this.formData);
       this.page.currPage = 1
       this.formDataDefault =(this.formData)
-      this.query()
+      this.meetingTypeList.forEach(x=>{
+        if (this.formData.meetingTypeIds==x.name) {
+          this.formData.meetingTypeIds=x.id
+        }
+      })
+      // this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+      if (this.formDataDefault.meetingTypeIds=='') {
+        this.formDataDefault.meetingTypeIds=[]
+      }else{
+        if (this.formDataDefault.meetingTypeIds!='') {
+          if (this.formDataDefault.meetingTypeIds!=this.formData.meetingTypeIds) {
+            
+            this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+          }else{
+            this.formDataDefault.meetingTypeIds=[this.formData.meetingTypeIds]
+          }
+        }
+      }
+
+      // this.query()
+      // 查询改为调别得接口  findByPageForGP
+      this.getList()
+
+    },
+    // 这个接口仅仅只是查询调  findByPageForGP
+    getList(){
+      const params = {
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize,
+        themenId:this.rowId,
+        meetingId: this.$route.query.id,
+        ...this.formDataDefault
+      }
+      findByPageForGP(params).then((res) => {
+        this.tableData = res.data
+        this.page.totalCount = res.total
+        this.tableData.forEach(x=>{
+          this.meetingStatus.forEach(y=>{
+            if (x.state == y.code) {
+              x.state = y.name 
+            }
+          })
+        })
+      })
+      this.meetingTypeList.forEach(x=>{
+        if (this.formData.meetingTypeIds==x.id) {
+          this.formData.meetingTypeIds=x.name
+        }
+      })
+
     },
     // 重置
     reset() {
       this.formData = { ...MEETING_SEARCH_DATA }
-      this.search()
+      this.formDataDefault.meetingTypeIds=[]
+      this.formDataDefault.weekOfYears=[]
+      this.formDataDefault.states=[]
+      this.formDataDefault.startDateBegin=null
+      this.formDataDefault.startDateEnd=null
+      // this.search()
+      // 重置还是调原来的接口
+      this.query()
     },
     //当前行
     handleSelectionChange(selection) {
@@ -286,8 +344,12 @@ export default {
         themenId:this.rowId,
 
       }
-      rescheduleThemen(params) .then(() => {
+      debugger
+      console.log(params);
+      // return
+      updateMeeting(params) .then((res) => {
           iMessage.success('改期成功')
+          // iMessage.success(res.message)
           this.$emit('flushTable')
           this.$emit('close')
       })

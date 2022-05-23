@@ -11,16 +11,61 @@ export const upadtingFilesTableTitle = [
     props: 'templateName',
     name: '附件名称',
     key: 'SUPPLIER_FUJIANMINGCHENG',
-    width: 330
+    // width: 330
   },
   {
     props: 'isCommitment',
     name: '操作',
     key: 'SUPPLIER_CAOZUO',
-    minWidth: 180
+    Width: 60
   },
   {
-    props: 'createDateTime',
+    props: 'updateDateTime',
+    name: '上传/确认日期',
+    key: 'SUPPLIER_SHANGCHUANQUERENRQI',
+    width: 180
+  },
+  {
+    props: 'attachRemark',
+    name: '备注说明',
+    key: 'SUPPLIER_BEIZHUSHUOMING',
+    width: 160
+  },
+  {
+    props: 'templateDemoUrl',
+    name: '样例文件',
+    key: 'SUPPLIER_YANGLIWENJIAN',
+    width: 120
+  },
+  {
+    props: 'notAvailableReason',
+    name: '不能提供原因',
+    key: 'SUPPLIER_BUNENGTIGONGYUANYIN',
+    width: 160
+  },
+  {
+    props: 'lastAvailableTime',
+    name: '最晚提供时间',
+    key: 'SUPPLIER_ZUIWANTIGONGSHIJIAN',
+    width: 160
+  },
+  {
+    props: 'validityOfCertificate',
+    name: '证件有效期',
+    key: 'SUPPLIER_ZHENGJIANYOUXIAOQI',
+    width: 160
+  }
+]
+
+export const upadtingFilesTableTitleNew = [
+  {
+    props: 'templateName',
+    name: '附件名称',
+    key: 'SUPPLIER_FUJIANMINGCHENG',
+    // width: 330
+  },
+  {
+    props: 'updateDateTime',
     name: '上传/确认日期',
     key: 'SUPPLIER_SHANGCHUANQUERENRQI',
     width: 180
