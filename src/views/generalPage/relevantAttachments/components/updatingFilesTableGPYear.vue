@@ -100,11 +100,11 @@ export default {
     },
   },
   created () {
-    if(this.approveValue){
+    // if(this.approveValue){
       this.tableTitle = this.upadtingFilesTableTitleNew;
-    }else{
-      this.tableTitle = this.upadtingFilesTableTitle;
-    }
+    // }else{
+      // this.tableTitle = this.upadtingFilesTableTitle;
+    // }
     this.getTableList()
   },
   mounted () {
