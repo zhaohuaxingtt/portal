@@ -30,8 +30,8 @@
                 @openPage="handleDownload"
                 :index="true"
                 v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD">
-      <template #validityOfCertificate="scope">
-        <iDatePicker value-format="yyyy-MM-dd"
+      <!-- <template #validityOfCertificate="scope"> -->
+        <!-- <iDatePicker value-format="yyyy-MM-dd"
                      v-model="scope.row.validityOfCertificate"
                      type="date"
                      :placeholder="$t('SUPPLIER_XUANZERQI')"
@@ -39,8 +39,8 @@
             disabledDate(time) {
               return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
             }
-          }" />
-      </template>
+          }" /> -->
+      <!-- </template> -->
     </table-list>
   </i-card>
 </template>
