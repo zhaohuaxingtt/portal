@@ -54,3 +54,12 @@ export function getUserInfo(parmars, type) {
         : `${process.env.VUE_APP_SUPPLIER}/web`
   })
 }
+
+
+export const getPurchaseInfo = (params) => {
+  return requst({
+    url: '/register/changeApproval/getPurchaseInfo',
+    method: 'POST',
+    data: params
+  })
+}
