@@ -49,6 +49,18 @@ export const BPM_CATEGORY_RENAME_YIYI_LIST = [
   'mtz_node_approval'
 ]
 
+// 审批中心-我的申请列表只能单选任务名称的类型清单
+export const BPM_APPLY_SINGLE_CATEGORY_LIST = [
+  'gp_access_central_purchasing',
+  'gp_access_scrap_disposal'
+]
+
+// 审批中心-我的申请列表需要隐藏recall按钮的清单
+export const BPM_APPLY_HIDE_RECALL_CATEGORY_LIST = [
+  'gp_access_central_purchasing',
+  'gp_access_scrap_disposal'
+]
+
 // 审批单据类型
 /**
  * 单据类型
