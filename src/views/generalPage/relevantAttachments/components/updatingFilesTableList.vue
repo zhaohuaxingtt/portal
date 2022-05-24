@@ -126,13 +126,13 @@
         align="center"
         :width="items.width"
         :show-overflow-tooltip="items.tooltip"
-        v-if="items.props === 'createDateTime'"
+        v-if="items.props === 'updateDateTime'"
         :prop="items.props"
         :label="items.key ? $t(items.key) : items.name"
         :fixed="items.fixed"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.createDateTime }}</span>
+          <span>{{ scope.row.updateDateTime }}</span>
         </template>
       </el-table-column>
 
