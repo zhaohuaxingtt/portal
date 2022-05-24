@@ -120,20 +120,16 @@
         </el-form-item>
       </el-form>
     </i-search>
-    <i-card
-      v-permission.auto="
-        (ELECTRONIC - SIGNATURE_DATA_AREA) | 电子签章数据展示区
-      "
-    >
+    <i-card v-permission="'ELECTRONIC-SIGNATURE_DATA_AREA|电子签章数据展示区'">
       <div class="floatright margin-bottom20">
         <i-button
-          v-permission.auto="(ELECTRONIC - SIGNATURE_SIGN_BUTTON) | 签署按钮"
+          v-permission="'ELECTRONIC-SIGNATURE_SIGN_BUTTON|签署按钮'"
           @click="sign"
         >
           {{ language('LK_QIANSHU', '签署') }}</i-button
         >
         <i-button
-          v-permission.auto="(ELECTRONIC - SIGNATURE_REVOKE_BUTTON) | 撤销按钮"
+          v-permission="'ELECTRONIC-SIGNATURE_REVOKE_BUTTON|撤销按钮'"
           @click="revokeContract"
         >
           {{ language('LK_CHEXIAO', '撤销') }}</i-button
