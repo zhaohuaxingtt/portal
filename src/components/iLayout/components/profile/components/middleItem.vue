@@ -2,6 +2,14 @@
   <div class="middle-item">
     <div class="label">
       {{ label }}
+      <el-tooltip effect="light" :content="description">
+        <icon
+          v-if="description"
+          name="iconzengjiacailiaochengben_lan"
+          symbol
+          style="font-size: 14px"
+        />
+      </el-tooltip>
     </div>
     <div class="value">
       {{ value }}
@@ -11,13 +19,19 @@
 </template>
 
 <script>
+import { Icon } from 'rise'
 export default {
   name: 'middleItem',
+  components: { Icon },
   props: {
     label: {
-      type: String
+      type: String,
+      required: true
     },
     value: {
+      type: String
+    },
+    description: {
       type: String
     }
   }

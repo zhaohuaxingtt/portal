@@ -1,7 +1,12 @@
 <template>
   <div class="middle">
     <middleItem label="Department:" :value="deptName" />
-    <middleItem label="Position:">
+    <middleItem
+      label="Position:"
+      :description="
+        positionList.length > 1 ? '多岗位时，单击非当前岗位名称可切换岗位' : ''
+      "
+    >
       <div class="position-panel">
         <div
           class="position-label"
@@ -15,6 +20,7 @@
             v-if="positionDtoId === item.id"
             symbol
             name="iconshenpiliu-yishenpi"
+            style="font-size: 14px"
           />
           <span class="name">{{ item.fullNameZh }}</span>
         </div>
@@ -36,7 +42,7 @@ export default {
       return this.$store.state.permission.userInfo || {}
     },
     positionList() {
-      return this.userInfo.positionList
+      return this.userInfo.positionList || []
     },
     positionDtoId() {
       return this.userInfo?.positionDTO?.id
