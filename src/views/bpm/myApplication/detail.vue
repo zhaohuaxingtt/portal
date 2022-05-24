@@ -9,15 +9,12 @@
       <div class="operation-btn">
         <viewFlow :detail="form" />
         <!-- 撤回 -->
-        <iButton v-if="!finished" @click="dialogRecallVisible = true">
+        <iButton v-if="buttonRecallVisible" @click="dialogRecallVisible = true">
           {{ language('撤回') }}
         </iButton>
         <!-- 补充材料 -->
 
-        <iButton
-          v-if="!finished && form.stateCode === mapApprovalType.APPEND_DATA"
-          @click="onAppendAttachment"
-        >
+        <iButton v-if="buttonAppendVisible" @click="onAppendAttachment">
           {{ language('补充材料') }}
         </iButton>
       </div>
@@ -220,6 +217,20 @@ export default {
         })
       }
       return this.form.histories
+    },
+    // 撤回按钮显示
+    buttonRecallVisible() {
+      const recallButton = Object.keys(this.form).includes('recallButton')
+        ? this.form.recallButton
+        : true
+      return !this.finished && recallButton
+    },
+    // 补充材料按钮显示
+    buttonAppendVisible() {
+      return (
+        !this.finished &&
+        this.form.stateCode === this.mapApprovalType.APPEND_DATA
+      )
     }
   },
   created() {

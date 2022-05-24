@@ -154,7 +154,7 @@ export default {
                   options={options}
                   valueKey="valueId"
                   labelKey="value"
-                  labelMethod={(item) => `${item.value}【${item.valueId}】`}
+                  labelMethod={(item) => `${item.value}`}
                 />
               )
             }
@@ -232,7 +232,7 @@ export default {
                   options={options}
                   valueKey="valueId"
                   labelKey="value"
-                  labelMethod={(item) => `${item.value}【${item.valueId}】`}
+                  labelMethod={(item) => `${item.value}`}
                 />
               )
             }
