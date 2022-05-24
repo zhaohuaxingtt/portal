@@ -8,16 +8,15 @@
           v-for="item in positionList"
           :key="item.id"
           :class="{ active: positionDtoId === item.id }"
+          :title="positionDtoId !== item.id ? '点击切换岗位' : ''"
           @click="handleSwitchPosition(item)"
         >
-          <span :title="positionDtoId !== item.id ? '点击切换岗位' : ''">
-            <icon
-              v-if="positionDtoId === item.id"
-              symbol
-              name="iconshenpiliu-yishenpi"
-            />
-            {{ item.fullNameZh }}
-          </span>
+          <icon
+            v-if="positionDtoId === item.id"
+            symbol
+            name="iconshenpiliu-yishenpi"
+          />
+          <span class="name">{{ item.fullNameZh }}</span>
         </div>
       </div>
     </middleItem>
@@ -27,7 +26,8 @@
 
 <script>
 import middleItem from './middleItem'
-import { Icon } from 'rise'
+import { switchPosition } from '@/api/usercenter'
+import { Icon, iMessage } from 'rise'
 export default {
   name: 'profileMiddle',
   components: { middleItem, Icon },
@@ -61,23 +61,35 @@ export default {
         }
       )
         .then(() => {
-          console.log('切换了', position)
-          this.$emit('close')
-          window.sessionStorage.removeItem('userInfo')
-          window.sessionStorage.removeItem('cardList')
-          window.sessionStorage.removeItem('columnConfig')
-          this.$store.commit('SET_USER_INFO', {})
-          this.$store.commit('SET_USER_INFO', {})
-          const currentPath = window.location.href.replace(
-            window.location.origin,
-            ''
-          )
-
-          if (currentPath === '/portal/#/index') {
-            window.location.reload()
-          } else {
-            window.location.href = '/portal/#/index'
+          const req = {
+            positionId: position.id
           }
+          switchPosition(req)
+            .then((res) => {
+              if (res.code == 200) {
+                console.log('切换了', position)
+                this.$emit('close')
+                window.sessionStorage.removeItem('userInfo')
+                window.sessionStorage.removeItem('cardList')
+                window.sessionStorage.removeItem('columnConfig')
+                this.$store.commit('SET_USER_INFO', {})
+                this.$store.commit('SET_CARD_LIST', {})
+                const currentPath = window.location.href.replace(
+                  window.location.origin,
+                  ''
+                )
+                if (currentPath === '/portal/#/index') {
+                  window.location.reload()
+                } else {
+                  window.location.href = '/portal/#/index'
+                }
+              } else {
+                iMessage.error(res.desZh || '岗位切换失败！')
+              }
+            })
+            .catch((err) => {
+              iMessage.error(err.desZh || '岗位切换失败！')
+            })
         })
         .catch((err) => {
           console.log(err)
@@ -100,13 +112,17 @@ export default {
 .position-label {
   margin-right: 10px;
   cursor: pointer;
-
+  display: flex;
+  align-items: center;
   &.active {
     color: $color-blue;
     cursor: default;
   }
   &:hover {
     color: $color-blue;
+  }
+  .name {
+    margin-left: 5px;
   }
 }
 </style>

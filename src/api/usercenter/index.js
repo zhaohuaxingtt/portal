@@ -114,3 +114,12 @@ export function getDeptByCondition(data) {
     data
   })
 }
+
+// 切换岗位
+export function switchPosition(data) {
+  return requst({
+    url: `/web/switchPosition`,
+    method: 'post',
+    data
+  })
+}
