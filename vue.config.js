@@ -11,8 +11,6 @@ const postcss = px2rem({
 
 const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com'
 
-console.log(BASE_IP)
-
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
   outputDir: 'dist',
@@ -200,7 +198,7 @@ module.exports = {
       [process.env.VUE_APP_FILEAPI]: {
         // target: `${BASE_IP}/`,
         // target: `http://${BASE_IP}:8034`,
-        target:`http://rise-nginx-internal.apps.vmocp-dev.csvw.com/fileApi`,
+        target: `http://rise-nginx-internal.apps.vmocp-dev.csvw.com/fileApi`,
         // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
         changeOrigin: true,
         pathRewrite: {
