@@ -8,11 +8,11 @@
   >
     <div v-loading="loading">
       <profileHeader :loading.sync="loading" />
-      <middle />
+      <middle @close="onClose" />
       <bottom ref="bottom" :loading.sync="loading" />
     </div>
     <div slot="footer">
-      <iButton @click="isShow = false">{{language('确定')}}</iButton>
+      <iButton @click="isShow = false">{{ language('确定') }}</iButton>
     </div>
   </iDialog>
 </template>
