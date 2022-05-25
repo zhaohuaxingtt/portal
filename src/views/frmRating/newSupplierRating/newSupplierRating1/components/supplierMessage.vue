@@ -55,6 +55,7 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
+    <!-- 供应商财务评级结果 -->
     <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
            :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJG')">
       <iFormGroup row="3">
@@ -65,6 +66,7 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
+    <!-- 供应商财务评级结果-备注 -->
     <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
            class="margin-top20"
            :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJGBZ')">
@@ -117,8 +119,11 @@ export default {
       this.$store.dispatch('setValiCode', res.data.supplierToken)
       this.$emit("requestBtn");
 
-      console.log(this.$route.query);
-      const res1 = await getApprove({ ratingId: this.$route.query.ratingId })
+      // console.log(this.$route.query);
+      var res1;
+      if(this.$route.path !== "/supplier/frmrating/newsupplierrating/rating1"){
+        res1 = await getApprove({ ratingId: this.$route.query.ratingId })
+      }
 
       if (!res.data || !res.data.dunsCode) {
         return false

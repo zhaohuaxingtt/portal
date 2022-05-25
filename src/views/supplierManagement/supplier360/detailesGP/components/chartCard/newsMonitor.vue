@@ -8,7 +8,7 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-permission="PORTAL_SUPPLIER_CARD_CRATING_MORE"
+          <el-dropdown-item 
                             @click.native="openDilog">{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
