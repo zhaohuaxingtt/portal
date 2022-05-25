@@ -2,7 +2,7 @@
   <iCard style="height:25rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More" v-if="!isShow">
+      <el-dropdown v-if="!isShow">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
