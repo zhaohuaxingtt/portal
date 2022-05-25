@@ -112,12 +112,14 @@ export default {
         ratingSupplierId: this.$route.query.supplierId,
       }
       const res = await getNewSupplierInfo(pms)
-      const res1 = await getApprove({ ratingId: this.$route.query.ratingId })
-      if (res1.result) {
-        this.info = res1.data
-      }
       this.baseMsg = res.data
       this.supplierToken = res.data.supplierToken
+      this.$store.dispatch('setValiCode', res.data.supplierToken)
+      this.$emit("requestBtn");
+
+      console.log(this.$route.query);
+      const res1 = await getApprove({ ratingId: this.$route.query.ratingId })
+
       if (!res.data || !res.data.dunsCode) {
         return false
       }
@@ -125,6 +127,10 @@ export default {
       this.baseMsg['one'] = res.data.dunsCode.slice(0, 2)
       this.baseMsg['tow'] = res.data.dunsCode.slice(2, 5)
       this.baseMsg['three'] = res.data.dunsCode.slice(5, 9)
+
+      if (res1.result) {
+        this.info = res1.data
+      }
     },
     onJump360 () {
       this.$router.push({
