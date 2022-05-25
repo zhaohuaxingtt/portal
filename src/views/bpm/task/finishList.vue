@@ -89,8 +89,8 @@ export default {
         },
         {
           prop: 'itemType',
-          label: '单据类型',
-          i18n: '单据类型',
+          label: '业务模块',
+          i18n: '业务模块',
           tooltip: true,
           Width: 130
         },

@@ -17,7 +17,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="language('单据类型')">
+          <iFormItem :label="language('业务模块')">
             <iSelect
               :placeholder="language('请选择')"
               multiple
