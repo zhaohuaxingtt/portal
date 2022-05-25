@@ -15,16 +15,16 @@
                 v-model="supplierData.purchaserEmail"
                 :disabled="disabled"
                 @change="getUserInfo"></iInput> -->
-      <iSelect v-model="supplierData.purchaserEmail"
-               filterable
-               :filter-method="filter"
-               @change="hanldeChange"
-               value-key="purchaserId">
-        <el-option v-for="item in purchaseListCopy"
-                   :key="item.purchaserId"
-                   :value="item.purchaserEmail"
-                   :label="item.purchaserEmail"></el-option>
-      </iSelect>
+        <iSelect v-model="supplierData.purchaserEmail"
+                 filterable
+                 :filter-method="filter"
+                 @change="hanldeChange"
+                 value-key="purchaserId">
+          <el-option v-for="item in purchaseListCopy"
+                     :key="item.purchaserId"
+                     :value="item.purchaserEmail"
+                     :label="item.purchaserEmail"></el-option>
+        </iSelect>
       </iFormItem>
       <iFormItem :label="$t('SUPPLIER_PURCHASERNAME')"
                  v-permission="SUPPLIER_BASEINFO_BUYER_NAME">
@@ -74,9 +74,9 @@
 </template>
 
 <script>
-import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect ,iMessage} from 'rise'
+import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect, iMessage } from 'rise'
 import { purchaseRules, dictByCode } from './data'
-import { getUserInfo,getPurchaseInfo } from '@/api/register/home'
+import { getUserInfo, getPurchaseInfo } from '@/api/register/home'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 export default {
   mixins: [generalPageMixins],
@@ -91,21 +91,21 @@ export default {
   props: {
     supplierData: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     disabled: {
       type: Boolean,
       default: false
     }
   },
-  watch:{
-    supplierData(val){
-    if(val.purchaserJobNumber){
-        this.supplierData.userNum=val.purchaserJobNumber
+  watch: {
+    supplierData (val) {
+      if (val.purchaserJobNumber) {
+        this.supplierData.userNum = val.purchaserJobNumber
+      }
     }
-}
   },
-  data() {
+  data () {
     return {
       purchaseRules: purchaseRules,
       supplierTypeList: [], //供应商类型
@@ -114,12 +114,12 @@ export default {
       purchaseListCopy: []
     }
   },
-  created() {
+  created () {
     this.getPurchaseInfo()
     this.getDictByCode()
   },
-  mounted() {
- 
+  mounted () {
+
     if (this.$route.query.user && !this.supplierData.purchaserEmail) {
       this.supplierData.purchaserEmail = this.$route.query.user
       this.getUserInfo()
@@ -127,11 +127,11 @@ export default {
   },
   methods: {
     // 获取供应商类型
-    async getDictByCode() {
+    async getDictByCode () {
       this.supplierTypeList = await dictByCode('SUPPLIER_TYPE')
     },
     // 根据邮箱查询信息
-    getUserInfo() {
+    getUserInfo () {
       getUserInfo({
         purchaserEmail: this.supplierData.purchaserEmail
       }).then((res) => {
@@ -144,24 +144,24 @@ export default {
             'purchaserSection',
             res.data.purchaserSection
           )
-       
+
           if (!this.supplierData.supplierType)
             this.supplierData.supplierType = res.data.sapUserType || ''
         }
         console.log(this.supplierData)
       })
     },
-     clearDiolog () {
+    clearDiolog () {
       this.purchaseObj = {}
       this.purchaseListCopy = []
       this.$emit("input", false);
     },
     hanldeChange (val) {
-     let purchaseObj= this.purchaseListCopy.find(item=>item.purchaserEmail===val)
-     this.supplierData.purchaserSection=purchaseObj.department
-     this.supplierData.userNum=purchaseObj.userNum
-     this.supplierData.purchaserName=purchaseObj.purchaserName
-     this.supplierData.purchaserId=purchaseObj.purchaserId
+      let purchaseObj = this.purchaseListCopy.find(item => item.purchaserEmail === val)
+      this.supplierData.purchaserSection = purchaseObj.department
+      this.supplierData.userNum = purchaseObj.userNum
+      this.supplierData.purchaserName = purchaseObj.purchaserName
+      this.supplierData.purchaserId = purchaseObj.purchaserId
     },
     filter (val) {
       if (!val) this.purchaseListCopy = []
@@ -170,7 +170,7 @@ export default {
     getPurchaseInfo () {
       let req = {
         supplierToken: this.$route.query.supplierToken,
-        tag: this.flag
+        tag: '1'
       }
       getPurchaseInfo(req).then(res => {
         if (res?.code == '200') {
