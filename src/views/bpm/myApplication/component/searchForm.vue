@@ -39,7 +39,7 @@
             <iSelect
               :placeholder="language('请选择')"
               v-model="form.categoryList"
-              multiple
+              :multiple="multipleCategoryList"
               collapse-tags
             >
               <el-option
@@ -98,7 +98,11 @@ import {
   approvalTypes
 } from './data'
 import { queryModelTemplate } from '@/api/approval/myApproval'
-import { AEKO_CATEGORY_LIST, BPM_APPROVAL_TYPE_OPTIONS } from '@/constants'
+import {
+  AEKO_CATEGORY_LIST,
+  BPM_APPROVAL_TYPE_OPTIONS,
+  BPM_APPLY_SINGLE_CATEGORY_LIST
+} from '@/constants'
 export default {
   name: 'searchForm',
   props: {
@@ -120,12 +124,26 @@ export default {
       approvalTypes,
       templates: [],
       date: '',
-      dOptions: BPM_APPROVAL_TYPE_OPTIONS
+      dOptions: BPM_APPROVAL_TYPE_OPTIONS,
+      multipleCategoryList: true // 任务名称是否可多选
     }
   },
   created() {
     if (this.$route.query.modelTemplate) {
-      this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+      const categoryList = JSON.parse(this.$route.query.modelTemplate)
+      if (!this.finished) {
+        if (
+          categoryList.length === 1 &&
+          BPM_APPLY_SINGLE_CATEGORY_LIST.includes(categoryList[0])
+        ) {
+          this.form.categoryList = categoryList[0]
+          this.multipleCategoryList = false
+        } else {
+          this.form.categoryList = categoryList
+        }
+      } else {
+        this.form.categoryList = categoryList
+      }
     }
     this.queryModelTemplate()
   },

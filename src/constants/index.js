@@ -49,6 +49,24 @@ export const BPM_CATEGORY_RENAME_YIYI_LIST = [
   'mtz_node_approval'
 ]
 
+// 审批中心-我的申请列表只能单选任务名称的类型清单
+export const BPM_APPLY_SINGLE_CATEGORY_LIST = [
+  'countsign_remove_mbdl_parts_supplier',
+  'gp_supplier_access_apply',
+  'gp_supplier_conversion',
+  'gp_supplier_change_info',
+  'gp_supplier_inactivity'
+]
+
+// 审批中心-我的申请列表需要隐藏recall按钮的清单
+export const BPM_APPLY_HIDE_RECALL_CATEGORY_LIST = [
+  'countsign_remove_mbdl_parts_supplier',
+  'gp_supplier_access_apply',
+  'gp_supplier_conversion',
+  'gp_supplier_change_info',
+  'gp_supplier_inactivity'
+]
+
 // 审批单据类型
 /**
  * 单据类型
