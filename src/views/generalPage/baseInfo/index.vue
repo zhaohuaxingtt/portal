@@ -288,13 +288,14 @@ export default {
                 }
               })
             }
-
+            
             data.gpSupplierDetailDTO = _.cloneDeep(this.supplierComplete.gpSupplierDetails);
-
+            data.gpSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
+            data.gpSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
             data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e => {
               return !(!e.businessBuyerEmail && !e.businessBuyerName && !e.businessBuyerNum && !e.businessBuyerDept && !e.businessContactEmail && !e.businessContactUser && e.industryPosition == "N")
             })
-
+           
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
             delete data.gpSupplierDTO.formalStatus;
             data.gpSupplierSubBankListSaveDTO = {};
@@ -304,6 +305,8 @@ export default {
             data.supplierDTO.companyAddress = this.supplierComplete.supplierDTO.address
           } else {
             data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
+            data.ppSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
+            data.ppSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
           }
 
           saveInfos(data, this.supplierType).then(res => {

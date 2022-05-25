@@ -11,10 +11,20 @@
                 required
                 icons="iconzhongyaoxinxitishi"
                 tip="请填写与您联系的大众汽车采购员信息，否则您的申请将无法被审批。"></iLabel>
-        <iInput :placeholder="$t('LK_QINGSHURU')+$t('SUPPLIER_PURCHASEREMAIL')"
+        <!-- <iInput :placeholder="$t('LK_QINGSHURU')+$t('SUPPLIER_PURCHASEREMAIL')"
                 v-model="supplierData.purchaserEmail"
                 :disabled="disabled"
-                @change="getUserInfo"></iInput>
+                @change="getUserInfo"></iInput> -->
+      <iSelect v-model="supplierData.purchaserEmail"
+               filterable
+               :filter-method="filter"
+               @change="hanldeChange"
+               value-key="purchaserId">
+        <el-option v-for="item in purchaseListCopy"
+                   :key="item.purchaserId"
+                   :value="item.purchaserEmail"
+                   :label="item.purchaserEmail"></el-option>
+      </iSelect>
       </iFormItem>
       <iFormItem :label="$t('SUPPLIER_PURCHASERNAME')"
                  v-permission="SUPPLIER_BASEINFO_BUYER_NAME">
@@ -64,9 +74,9 @@
 </template>
 
 <script>
-import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect } from 'rise'
+import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect ,iMessage} from 'rise'
 import { purchaseRules, dictByCode } from './data'
-import { getUserInfo } from '@/api/register/home'
+import { getUserInfo,getPurchaseInfo } from '@/api/register/home'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 export default {
   mixins: [generalPageMixins],
@@ -98,10 +108,14 @@ export default {
   data() {
     return {
       purchaseRules: purchaseRules,
-      supplierTypeList: [] //供应商类型
+      supplierTypeList: [], //供应商类型
+      purchaseList: [],
+      purchaseObj: {},
+      purchaseListCopy: []
     }
   },
   created() {
+    this.getPurchaseInfo()
     this.getDictByCode()
   },
   mounted() {
@@ -136,7 +150,37 @@ export default {
         }
         console.log(this.supplierData)
       })
-    }
+    },
+     clearDiolog () {
+      this.purchaseObj = {}
+      this.purchaseListCopy = []
+      this.$emit("input", false);
+    },
+    hanldeChange (val) {
+     let purchaseObj= this.purchaseListCopy.find(item=>item.purchaserEmail===val)
+     this.supplierData.purchaserSection=purchaseObj.department
+     this.supplierData.userNum=purchaseObj.userNum
+     this.supplierData.purchaserName=purchaseObj.purchaserName
+     this.supplierData.purchaserId=purchaseObj.purchaserId
+    },
+    filter (val) {
+      if (!val) this.purchaseListCopy = []
+      else this.purchaseListCopy = this.purchaseList.filter(item => item.showContext.indexOf(val) > -1)
+    },
+    getPurchaseInfo () {
+      let req = {
+        supplierToken: this.$route.query.supplierToken,
+        tag: this.flag
+      }
+      getPurchaseInfo(req).then(res => {
+        if (res?.code == '200') {
+          this.purchaseList = res.data
+          // this.purchaseListCopy = _.deepClone(this.purchaseList)
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
   }
 }
 </script>
