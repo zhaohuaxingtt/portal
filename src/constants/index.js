@@ -51,20 +51,18 @@ export const BPM_CATEGORY_RENAME_YIYI_LIST = [
 
 // 审批中心-我的申请列表只能单选任务名称的类型清单
 export const BPM_APPLY_SINGLE_CATEGORY_LIST = [
-  'countsign_remove_mbdl_parts_supplier',
-  'gp_supplier_access_apply',
-  'gp_supplier_conversion',
-  'gp_supplier_change_info',
-  'gp_supplier_inactivity'
+  'gp_supplier_access_apply', // 一般供应商准入申请
+  'gp_supplier_conversion', //  一般供应商转正申请
+  'gp_supplier_change_info', // 一般供应商信息变更
+  'gp_supplier_inactivity' // 3 年不活跃且未审核准入材料
 ]
 
 // 审批中心-我的申请列表需要隐藏recall按钮的清单
 export const BPM_APPLY_HIDE_RECALL_CATEGORY_LIST = [
-  'countsign_remove_mbdl_parts_supplier',
-  'gp_supplier_access_apply',
-  'gp_supplier_conversion',
-  'gp_supplier_change_info',
-  'gp_supplier_inactivity'
+  'gp_supplier_access_apply', // 一般供应商准入申请
+  'gp_supplier_conversion', //  一般供应商转正申请
+  'gp_supplier_change_info', // 一般供应商信息变更
+  'gp_supplier_inactivity' // 3 年不活跃且未审核准入材料
 ]
 
 // 审批单据类型
