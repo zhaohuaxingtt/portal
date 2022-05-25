@@ -6,8 +6,10 @@
 <template>
   <iPage>
     <supplierMessage @handleSumbit='handleSumbit'
+                      @requestBtn="requestBtn"
                      class="margin-bottom20" />
     <financialDataTable @submitCalculateRefresh="submitCalculateRefresh"
+                        ref="financialDataTable"
                         class="margin-bottom20"></financialDataTable>
     <basicInformationTable v-loading='loading'
                            :basicDTO='basicDTO'
@@ -73,6 +75,9 @@ export default {
     this.submitCalculate('view', false)
   },
   methods: {
+    requestBtn(){
+      this.$refs.financialDataTable.supplierDetail();
+    },
     async handleSumbit (e) {
       this.loading = true
       switch (e) {
