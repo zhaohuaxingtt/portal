@@ -1,11 +1,7 @@
 <template>
   <div class="search-box flex-between-center-center margin-bottom2">
-    <div class="input-box flex-align-center margin-right30">
-      <div
-        v-for="(item, index) in query"
-        :key="index"
-        :class="!index && 'margin-right68'"
-      >
+    <div class="input-box flex-align-center margin-right20">
+      <div v-for="(item, index) in query" :key="index" :class="itemClass">
         <iLabel
           :label="language(query[index].label)"
           slot="label"
@@ -32,6 +28,9 @@ export default {
     },
     query: {
       type: Array
+    },
+    itemClass: {
+      type: String
     }
   },
   methods: {
