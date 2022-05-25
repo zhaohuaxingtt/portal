@@ -1,7 +1,7 @@
 <template>
   <div class="position">
-    <searchBox :query="query" type="pos" />
-    <posTable :showBtns='showBtns'/>
+    <searchBox :query="query" type="pos" item-class="margin-right20" />
+    <posTable :showBtns="showBtns" />
   </div>
 </template>
 
@@ -10,15 +10,15 @@ import searchBox from './search.vue'
 import posTable from './posTable.vue'
 export default {
   components: { searchBox, posTable },
-  props:{
-    showBtns:{
-      type:Boolean,
-      default:true
+  props: {
+    showBtns: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
     query() {
-      return this.$store.state.position.pos.query 
+      return this.$store.state.position.pos.query
     }
   }
 }
