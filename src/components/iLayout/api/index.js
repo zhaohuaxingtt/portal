@@ -69,19 +69,10 @@ export function queryFavorites(data) {
   })
 }
 
-/**
- * 切换岗位
- * @returns Promise
- */
-export function switchPosition() {
-  return new Promise((resolve, reject) => {
-    resolve({
-      code: '200',
-      result: true
-    })
+// 切换岗位
+export function switchPosition(params) {
+  return requestUSER({
+    url: `/web/switchPosition`,
+    params
   })
-  // return requestUSER({
-  //   url: '/web/sapUser/getFavoriteList',
-  //   method: 'post'
-  // })
 }
