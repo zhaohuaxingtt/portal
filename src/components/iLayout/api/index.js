@@ -68,3 +68,11 @@ export function queryFavorites(data) {
     data
   })
 }
+
+// 切换岗位
+export function switchPosition(params) {
+  return requestUSER({
+    url: `/web/switchPosition`,
+    params
+  })
+}
