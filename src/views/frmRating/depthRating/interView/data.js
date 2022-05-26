@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-08 11:47:59
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-04-15 11:39:39
+ * @LastEditors: zhaohuaxing 870063335@qq.com
+ * @LastEditTime: 2022-05-26 21:56:44
  * @FilePath: \front-portal-new\src\views\frmRating\depthRating\interView\data.js
  */
 export const interViewTabList = [
@@ -203,7 +203,7 @@ export const mainSupplier = [
 export const CapitalFinancing = [
   { props: 'bankName', name: '银行名称', key: 'YINHANGMINCHENG',rule:[{ required: true, message: '请输入银行名称', trigger: 'blur' }]},
   { props: 'creditAmount', name: '授信金额', key: 'SHOUQUANJINE' ,rule:[{ required: true, message: '请输入授信金额', trigger: 'blur' }]},
-  { props: 'hasUse', name: '已使用', key: '已使用' },
+  { props: 'usedAmount', name: '已使用', key: '已使用' },
   {
     props: 'creditDateStart',
     name: '授信起止日期',
