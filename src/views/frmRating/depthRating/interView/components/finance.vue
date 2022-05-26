@@ -148,13 +148,14 @@ export default {
           this.interViewData = res.data
           if (this.interViewData.bankList && this.interViewData.bankList.length !== 0) {
             this.interViewData.bankList.forEach(item => {
-              item.creditDate = item.creditDate.split(',')
+              item.creditDate = item.creditDate.replace(/\//g, '-').split(',')
             })
           } else {
             this.interViewData.bankList = []
           }
           this.tableLoading = false
         }
+        console.log(this.interViewData.bankList)
       })
     },
     // 保存
