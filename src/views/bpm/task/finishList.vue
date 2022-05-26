@@ -40,7 +40,7 @@
 import { iCard, iPage, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import filters from '@/utils/filters'
-import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
+import { MAP_APPROVAL_TYPE } from '@/constants'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
@@ -135,7 +135,7 @@ export default {
           tooltip: true,
           width: 100,
           customRender: (h, scope) => {
-            const res = []
+            // const res = []
             /* if (scope.row.deptFullCode) {
               res.push(scope.row.deptFullCode)
             }
