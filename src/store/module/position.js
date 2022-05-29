@@ -139,8 +139,18 @@ const position = {
           value: ''
         },
         {
-          label: '岗位名称（中）',
+          label: '岗位名称(中)',
           key: 'fullNameZh',
+          value: ''
+        },
+        {
+          label: '员工姓名(中)',
+          key: 'userNameZh',
+          value: ''
+        },
+        {
+          label: '员工姓名(英)',
+          key: 'userNameEn',
           value: ''
         }
       ]
@@ -218,13 +228,13 @@ const position = {
       }
       if (dataVal.otherPurchaseGroup) {
         dataVal.otherPurchaseGroup = dataVal.otherPurchaseGroup.split(',')
-      }else{
+      } else {
         dataVal.otherPurchaseGroup = []
       }
       if (dataVal.otherTempPurchaseGroup) {
         dataVal.otherTempPurchaseGroup =
           dataVal.otherTempPurchaseGroup.split(',')
-      }else{
+      } else {
         dataVal.otherTempPurchaseGroup = []
       }
       state.pos.positionDetail = _.cloneDeep(dataVal)
@@ -728,7 +738,7 @@ const position = {
       }).finally(() => commit('SET_POSLOADING', false))
       if (res?.code === '200' && res?.data) {
         res.data.permissionList = res.data.permissionList || []
-        // res.data.otherPurchaseGroup = res.data.otherPurchaseGroup.length == 0 ? [] : res.data.otherPurchaseGroup.split(',') 
+        // res.data.otherPurchaseGroup = res.data.otherPurchaseGroup.length == 0 ? [] : res.data.otherPurchaseGroup.split(',')
         // res.data.otherTempPurchaseGroup = res.data.otherTempPurchaseGroup.length == 0 ? [] : res.data.otherTempPurchaseGroup.split(',')
         commit('SET_POSITION_DETAIL', res.data)
         commit('INIT_DIMENSION_LIST', res.data.permissionList)
@@ -768,9 +778,13 @@ const position = {
         setCode: setCode ? setCode.join(',') : '',
         property: this.state.position.pos.positionDetail.property,
         otherPurchaseGroup:
-          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(',') || '',
+          this.state.position.pos.positionDetail.otherPurchaseGroup?.join(
+            ','
+          ) || '',
         otherTempPurchaseGroup:
-          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(',') || ''
+          this.state.position.pos.positionDetail.otherTempPurchaseGroup?.join(
+            ','
+          ) || ''
       }
       commit('SET_POSLOADING', true)
       const res = await UpdatePosition(params).finally(() =>

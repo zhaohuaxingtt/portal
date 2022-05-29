@@ -1,7 +1,7 @@
 <template>
   <iPage class="template">
     <pageHeader>
-      {{language('我的申请')}}
+      {{ language('我的申请') }}
       <template slot="actions">
         <headerActions
           :todo-total="todoTotal"
@@ -14,7 +14,7 @@
     <iCard>
       <div class="operation-btn">
         <iButton
-          v-show="!finished"
+          v-show="!finished && recallButtonVisible"
           @click="recallDialogVisible = true"
           :disabled="selectTableData.length !== 1"
         >
@@ -71,6 +71,7 @@ import { searchForm, headerActions } from './component'
 import { queryApplications } from '@/api/approval/myApplication'
 import { filterEmptyValue } from '@/utils'
 import { processNodeVertical } from '../task/components'
+import { BPM_APPLY_HIDE_RECALL_CATEGORY_LIST } from '@/constants'
 export default {
   mixins: [pageMixins, filters],
   components: {
@@ -84,6 +85,29 @@ export default {
     pageHeader,
     headerActions,
     processNodeVertical
+  },
+  computed: {
+    routeParamCategory() {
+      if (this.$route.query.modelTemplate) {
+        const categoryList = JSON.parse(this.$route.query.modelTemplate)
+        return categoryList
+      }
+      return []
+    },
+    recallButtonVisible() {
+      if (this.routeParamCategory) {
+        const categoryList = this.routeParamCategory
+        if (!this.finished) {
+          if (
+            categoryList.length === 1 &&
+            BPM_APPLY_HIDE_RECALL_CATEGORY_LIST.includes(categoryList[0])
+          ) {
+            return false
+          }
+        }
+      }
+      return true
+    }
   },
   data() {
     return {

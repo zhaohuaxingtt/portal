@@ -199,7 +199,7 @@ export const tableTitleGP = [
     width: 120,
     key: 'SUPPLIER_SUPPLIERTYPE'
   },
-  { props: 'gpbusinessTypeArrayStr', name: '业务类型', width: 120, key: 'YEWULEIXING' },
+  { props: 'gpBusinessTypeArrayStr', name: '业务类型', width: 120, key: 'YEWULEIXING' },
   { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO1' },
   //   { props: 'dept', name: '科室', width: 120, key: 'SUPPLIER_KESHI', tooltip: true },
   //   { props: 'purchaserNameZh', name: '采购员', width: 120, key: 'SPR_FRM_XGYSPJ_CGY', tooltip: true },

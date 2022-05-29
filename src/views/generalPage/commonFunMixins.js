@@ -25,11 +25,11 @@ export const generalPageMixins = {
         },
         // 判断数据属于哪个表
         infoVo(){
-            if(this.$store.state.baseInfo.baseMsg.supplierDTO.supplierType=='GP'){
+            if(this.$route.query.subSupplierType=='GP'){
                 return 'gpSupplierDTO'
             }else{
                 return 'ppSupplierDTO'
-            }    
+            }
         }
     },
     methods: {

@@ -2,7 +2,7 @@
   <iCard style="height:16rem">
     <div class="title">
       <p>{{language('YUQINGJIANCE', '舆情监测')}}</p>
-      <el-dropdown v-permission="Card_Sourcing_More">
+      <el-dropdown>
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>

@@ -18,6 +18,7 @@ import generalSupplierApprove from '../views/generalPage/generalSupplierApprove/
 import ApproveDetails from '../views/generalPage/approveDetails/index'
 import ChangeApprovalDetails from '../views/generalPage/changeApprovalDetails/index'
 import ConversionDetails from '../views/generalPage/conversionDetails/index'
+import inactiveYears from "../views/generalPage/approveDetails/approveInactiveYears"
 export default [
   {
     path: '/supplier/correction-approval-details',
@@ -63,6 +64,11 @@ export default [
     path: '/supplier/change-approval-details',
     name: 'changeApprovalDetails',
     component: ChangeApprovalDetails
+  },
+  {
+    path: '/supplier/inactiveYears',
+    name: 'supplierInactiveYears',
+    component: inactiveYears
   },
   {
     path: '/supplier/conversion-details',

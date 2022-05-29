@@ -208,7 +208,7 @@
                 required
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.supplierDTO.countryCode"
-                 @change="changeCountry()">
+                 @change="changeCountry">
           <el-option :value="item.sapLocationCode"
                      :label="item.cityNameCn"
                      v-for="(item, index) in country"
@@ -216,13 +216,13 @@
         </iSelect>
       </iFormItem>
       <!-- 省份 -->
-      <iFormItem prop="supplierDTO.provinceCode"
+      <iFormItem prop="supplierDTO.provinceCode" :rules="provinceRules"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_PROVINCE_GP">
         <iLabel :label="$t('SUPPLIER_SHENGFEN')"
-                required
+                :required="supplierData.supplierDTO.countryCode =='CN'?true:false"
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.supplierDTO.provinceCode"
-                 @change="changeProvince()">
+                 @change="changeProvince">
           <el-option :value="item.sapLocationCode"
                      :label="item.cityNameCn"
                      v-for="(item, index) in province"
@@ -230,10 +230,10 @@
         </iSelect>
       </iFormItem>
       <!-- 城市 -->
-      <iFormItem prop="supplierDTO.cityCode"
+      <iFormItem prop="supplierDTO.cityCode" :rules="cityRules"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_CITY_GP">
         <iLabel :label="$t('SUPPLIER_CHENGSHI')"
-                required
+                :required="supplierData.supplierDTO.countryCode =='CN'?true:false"
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.supplierDTO.cityCode">
           <el-option :value="item.cityIdStr"
@@ -427,6 +427,26 @@ export default {
     }
   },
   computed: {
+    //省市校验规则
+    provinceRules () {
+      let rules = []
+      if (this.supplierData.supplierDTO.countryCode == 'CN') {
+        rules = [{ required: true, message: '请选择省市', trigger: 'change' }]
+      } else {
+        rules = [{ required: false, message: '请选择省市', trigger: 'change' }]
+      }
+      return rules
+    },
+    //城市校验规则
+    cityRules () {
+      let rules = []
+      if (this.supplierData.supplierDTO.countryCode == 'CN') {
+        rules = [{ required: true, message: '请选择城市', trigger: 'change' }]
+      } else {
+        rules = [{ required: false, message: '请选择城市', trigger: 'change' }]
+      }
+      return rules
+    },
     // 是否可编辑 股票代码 和 上市地点
     isListing () {
       return this.supplierData.supplierDTO.isListing == '1' ? true : false
@@ -557,17 +577,15 @@ export default {
     },
     // 获取城市 国家 省市对应中文名
     getCityName () {
-      this.supplierData.supplierDTO.country = this.country.find(
-        (item) =>
-          item.sapLocationCode == this.supplierData.supplierDTO.countryCode
-      ).cityNameCn
-      this.supplierData.supplierDTO.province = this.province.find(
-        (item) =>
-          item.sapLocationCode == this.supplierData.supplierDTO.provinceCode
-      ).cityNameCn
-      this.supplierData.supplierDTO.city = this.city.find(
-        (item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode
-      ).cityNameCn
+      if(this.supplierData.supplierDTO.country){
+        this.supplierData.supplierDTO.country = this.country.find((item) => item.sapLocationCode == this.supplierData.supplierDTO.countryCode).cityNameCn
+      }
+      if(this.supplierData.supplierDTO.province){
+        this.supplierData.supplierDTO.province = this.province.find((item) =>item.sapLocationCode == this.supplierData.supplierDTO.provinceCode).cityNameCn
+      }
+      if(this.supplierData.supplierDTO.city){
+        this.supplierData.supplierDTO.city = this.city.find((item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode).cityNameCn
+      }
     },
     //查询企业小类
     getEpNatureSubcategorySelect (clear) {

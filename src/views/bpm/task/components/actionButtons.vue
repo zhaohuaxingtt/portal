@@ -32,7 +32,12 @@
 </template>
 
 <script>
-import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST } from '@/constants'
+import {
+  MAP_APPROVAL_TYPE,
+  BPM_CATEGORY_RENAME_YIYI_LIST,
+  BPM_HIDE_REFUSE_BUTTON_LIST,
+  BPM_HIDE_APPEND_BUTTON_LIST
+} from '@/constants'
 import { iButton } from 'rise'
 
 export default {
@@ -57,8 +62,8 @@ export default {
   data() {
     return {
       approvalTypeMap: MAP_APPROVAL_TYPE,
-      hideAppendButtonList: ['meeting_recheck_m_sign'],
-      hideRefuseButtonList: ['meeting_rs_recheck', 'mtz_node_approval']
+      hideAppendButtonList: BPM_HIDE_APPEND_BUTTON_LIST,
+      hideRefuseButtonList: BPM_HIDE_REFUSE_BUTTON_LIST
     }
   },
   computed: {
