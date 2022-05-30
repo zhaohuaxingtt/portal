@@ -34,8 +34,9 @@
         <iPagination
           v-update
           background
-          @size-change="handleSizeChange($event, query)"
-          @current-change="handleCurrentChange($event, query)"
+          @size-change="handleSizeChange($event, technologyList)"
+          @current-change="handleCurrentChange($event, technologyList)"
+          :current-page="page.currPage"
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"
           :layout="page.layout"
@@ -48,7 +49,7 @@
 <script>
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
-import { TECHNOLOGY_COLUMNS,TECHNOLOGY_COLUMNS_NOT_EMIT } from './data'
+import { TECHNOLOGY_COLUMNS, TECHNOLOGY_COLUMNS_NOT_EMIT } from './data'
 // import { openUrl } from '@/utils'
 import { pageMixins } from '@/utils/pageMixins'
 import {
@@ -86,9 +87,13 @@ export default {
   },
   created() {
     // console.log(this.$store.state.permission.whiteBtnList['BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_NUMBER_JUMP'],'===')
-    if(this.$store.state.permission.whiteBtnList['BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_NUMBER_JUMP']){
+    if (
+      this.$store.state.permission.whiteBtnList[
+        'BUTTON_MATERIEL_DATA_MATERIAL_GROUP_TECHNOLOGY_GROUP_NUMBER_JUMP'
+      ]
+    ) {
       this.tableColumns = TECHNOLOGY_COLUMNS
-    }else{
+    } else {
       this.tableColumns = TECHNOLOGY_COLUMNS_NOT_EMIT
     }
     if (this.$route.query.id) {
