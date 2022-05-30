@@ -50,16 +50,18 @@
     > .position {
       width: 50%;
       > .search-box {
-        padding: 30px 40px;
+        padding: 30px 20px;
         box-shadow: $panel-box-shadow;
         background-color: $color-white;
         border-radius: 10px 10px 0px 0px;
         > .input-box {
           .search-input {
-            max-width: 220px;
+            max-width: 200px;
           }
         }
         > .btn-box {
+          flex: 1;
+          display: flex;
         }
       }
       > .table-box {

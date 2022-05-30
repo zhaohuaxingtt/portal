@@ -198,10 +198,10 @@
           }}</i-button>
         </template>
         <template #supplierType="scope">
-          <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':''}} </span>
+          <span>{{scope.row.supplierType==='PP'?'生产供应商':scope.row.supplierType==='GP'?'一般供应商':scope.row.supplierType==='PD'?'共用供应商':''}} </span>
         </template>
         <template #supplierStatus="scope">
-          <div v-if="form.supplierType == 'GP'">
+          <div v-if="form.supplierType == 'GP' || form.supplierType == 'PD'">
             <i-button v-if="scope.row.isGpBlackList != 1"
                       type="text"
                       @click="handleBlackList(scope.row)">{{ language('ZHENGCHANG', '正常') }}</i-button>
@@ -242,6 +242,7 @@
                   :rowList="rowList"
                   v-if="issetTagList">
       </setTagList>
+
       <!-- 一般供应商加入黑名单 -->
       <joinlacklistGp v-if="clickTableList.id != ''"
                       :key="gpJoinParams.key + 1"
@@ -257,13 +258,13 @@
                         :clickTableList="clickTableList">
       </removelacklistGp>
       <!-- 一般供应商黑命单记录 -->
-
       <blackListGp v-if="rowList.id != ''"
                    :key="gpBlackParams.key + 3"
                    v-model="gpBlackParams.visible"
                    @closeDiolog="closeDiolog"
                    :clickTableList="rowList">
       </blackListGp>
+
       <!-- 生产供应商加入黑名单 -->
       <joinlacklistPP v-if="clickTableList.id != ''"
                       :key="ppJoinParams.key + 4"
@@ -299,7 +300,7 @@ import {
   iSelect,
   iPagination
 } from 'rise'
-import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
+import { getBuyerType, checkAddBlackIsFull,gpSupplerBlackCheckAddBlack } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
 import { dropDownTagName, groupCompanyList, vwStatusList,getGpBusinessType,getProcureCategory } from '@/api/supplierManagement/supplierTag/index'
 
@@ -532,35 +533,74 @@ export default {
           )
         })
       } else if (type == 'join') {
-        console.log(this.selectTableData)
-        checkAddBlackIsFull({
-          supplierId: this.selectTableData[0].subSupplierId
-        }).then((res) => {
-          if (res && res.code == '200') {
-            if (this.form.supplierType == 'GP') {
+        if(this.form.supplierType == 'GP'){
+          gpSupplerBlackCheckAddBlack({
+            supplierId: this.selectTableData[0].subSupplierId
+          }).then(res=>{
+            if (res.data && res.code == '200') {
               this.gpJoinParams = {
                 ...this.gpJoinParams,
                 key: Math.random(),
                 visible: true
               }
-            } else if (this.form.supplierType == 'PP') {
-              this.ppJoinParams = {
-                ...this.ppJoinParams,
-                key: Math.random(),
-                visible: true
-              }
-            }
-          } else {
-            iMessage.warn(
-              this.language(
-                'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON',
-                '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！'
+            }else{
+              iMessage.warn(
+                this.language(
+                  'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON',
+                  '该供应商所有业务类型均已受控，无需重复添加！'
+                )
               )
-            )
-          }
-        })
+            }
+          })
+        }else{
+          checkAddBlackIsFull({
+            supplierId: this.selectTableData[0].subSupplierId
+          }).then((res) => {
+            if (res && res.code == '200') {
+              if (this.form.supplierType == 'GP') {
+                this.gpJoinParams = {
+                  ...this.gpJoinParams,
+                  key: Math.random(),
+                  visible: true
+                }
+              } else if (this.form.supplierType == 'PP') {
+                this.ppJoinParams = {
+                  ...this.ppJoinParams,
+                  key: Math.random(),
+                  visible: true
+                }
+              }else if(this.form.supplierType == 'PD'){
+                this.gpJoinParams = {
+                  ...this.gpJoinParams,
+                  key: Math.random(),
+                  visible: true
+                }
+              }
+            } else {
+              iMessage.warn(
+                this.$t('GGYSYZSYKNDGYZDMDZWXCFTJ')
+              )
+            }
+          })
+        }
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
+          if (this.clickTableList.isGpBlackList != 1) {
+            this.$message({
+              type: 'warning',
+              message: this.language(
+                'GAIGONGYINGSHANGBUZAIHEIMINGDANZHONG,WUXUYICHU',
+                '该供应商不在黑名单中，无需移除！'
+              )
+            })
+          } else {
+            this.gpRemoveParams = {
+              ...this.gpRemoveParams,
+              key: Math.random(),
+              visible: true
+            }
+          }
+        } else if(this.form.supplierType == 'PD'){
           if (this.clickTableList.isGpBlackList != 1) {
             this.$message({
               type: 'warning',
@@ -775,6 +815,13 @@ export default {
     handleBlackList (row) {
       this.rowList = row
       if (this.form.supplierType == 'GP') {
+        this.gpBlackParams = {
+          ...this.gpBlackParams,
+          key: Math.random(),
+          visible: true
+        }
+      }
+      if (this.form.supplierType == 'PD') {
         this.gpBlackParams = {
           ...this.gpBlackParams,
           key: Math.random(),

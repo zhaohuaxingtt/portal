@@ -165,7 +165,7 @@ export default {
     },
     filter (val) {
       if (!val) this.purchaseListCopy = []
-      else this.purchaseListCopy = this.purchaseList.filter(item => item.showContext.indexOf(val) > -1)
+      else this.purchaseListCopy = this.purchaseList.filter(item => item.purchaserEmail.indexOf(val) > -1)
     },
     getPurchaseInfo () {
       let req = {

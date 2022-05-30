@@ -6,9 +6,7 @@
   <!-- 生产供应商加入黑名单 -->
   <iDialog top="2%" @close="closeDiolog()" :visible.sync="value" width="85%">
     <div slot="title" class="headerTitle">
-      <span>{{
-        language('JIARUHEIMINGDANYIBANCAIGOU', '加入黑名单 - ⼀般采购')
-      }}</span>
+      <span>{{tabVal=='GP'?language('JIARUHEIMINGDANYIBANCAIGOU', '加入黑名单 - ⼀般采购'):language('JIARUHEIMINGDANGONGYONGCAIGOU', '加入黑名单 - 共用采购')}}</span>
       <!-- <span>加入黑名单 - ⼀般采购</span> -->
     </div>
     <div class="box">
@@ -171,7 +169,8 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      tabVal:""
     }
   },
   beforeCreate() {
@@ -179,6 +178,9 @@ export default {
   },
   created() {
     // this.$nextTick(() => {
+    if(this.clickTableList.supplierType){
+      this.tabVal = this.clickTableList.supplierType
+    }
     this.getTypeList()
     // })
   },
@@ -195,18 +197,22 @@ export default {
         measuresTypeGPList(params).then((res) => {
           if (res && res.code == 200) {
             this.typeList = res.data
-            this.form.types = res.data.map((res) => {
-              return res.code
-            })
+            if(res.data){
+              this.form.types = res.data.map((res) => {
+                return res.code
+              })
+            }
           }
         })
       }else{
         measuresTypeList(params).then((res) => {
           if (res && res.code == 200) {
             this.typeList = res.data
-            this.form.types = res.data.map((res) => {
-              return res.code
-            })
+            if(res.data){
+              this.form.types = res.data.map((res) => {
+                return res.code
+              })
+            }
           }
         })
       }

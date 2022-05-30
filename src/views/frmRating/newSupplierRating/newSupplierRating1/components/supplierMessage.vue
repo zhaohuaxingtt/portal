@@ -55,6 +55,7 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
+    <!-- 供应商财务评级结果 -->
     <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
            :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJG')">
       <iFormGroup row="3">
@@ -65,6 +66,7 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
+    <!-- 供应商财务评级结果-备注 -->
     <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
            class="margin-top20"
            :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJGBZ')">
@@ -112,12 +114,17 @@ export default {
         ratingSupplierId: this.$route.query.supplierId,
       }
       const res = await getNewSupplierInfo(pms)
-      const res1 = await getApprove({ ratingId: this.$route.query.ratingId })
-      if (res1.result) {
-        this.info = res1.data
-      }
       this.baseMsg = res.data
       this.supplierToken = res.data.supplierToken
+      this.$store.dispatch('setValiCode', res.data.supplierToken)
+      this.$emit("requestBtn");
+
+      // console.log(this.$route.query);
+      var res1;
+      if(this.$route.path !== "/supplier/frmrating/newsupplierrating/rating1"){
+        res1 = await getApprove({ ratingId: this.$route.query.ratingId })
+      }
+
       if (!res.data || !res.data.dunsCode) {
         return false
       }
@@ -125,6 +132,10 @@ export default {
       this.baseMsg['one'] = res.data.dunsCode.slice(0, 2)
       this.baseMsg['tow'] = res.data.dunsCode.slice(2, 5)
       this.baseMsg['three'] = res.data.dunsCode.slice(5, 9)
+
+      if (res1.result) {
+        this.info = res1.data
+      }
     },
     onJump360 () {
       this.$router.push({

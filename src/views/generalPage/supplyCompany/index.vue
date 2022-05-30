@@ -6,7 +6,7 @@
     <baseInfo ref="basic" class="margin-bottom20" v-if="$route.query.subSupplierType=='GP'"></baseInfo>
     <i-card :title="$t('SUPPLIER_GONGHUOGONGSI')" tabCard>
       <template slot="header-control">
-        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP' && tableListData.formalStatus.indexOf('正式') !== -1">{{ language('TIJIAO', '提交') }}</i-button>
+        <i-button @click="subBtn" v-permission="SUPPLIER_SUPPLYCOMPANY_SUBMIT_GP" v-if="$route.query.subSupplierType=='GP' && formalStatus">{{ language('TIJIAO', '提交') }}</i-button>
         <i-button @click="subBtn" v-if="$route.query.subSupplierType!=='GP'">{{ language('TIJIAO', '提交') }}</i-button>
         <iButton @click="$router.go(-1)" v-if="$route.query.subSupplierType!=='GP'">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </template>
@@ -89,7 +89,8 @@ export default {
       tableListData: [],
       tableTitle: tableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      formalStatus:false,
     }
   },
   async created() {
@@ -111,6 +112,12 @@ export default {
       try {
         const res = await getSupplierProcureFactory(req)
         this.tableListData = res.data ? res.data : []
+
+        console.log(this.tableListData)
+        if(this.tableListData.formalStatus.indexOf('正式') !== -1){
+          this.formalStatus = true;
+        }
+
         this.tableLoading = false
         //转正前
         if (this.tableListData.isSelect && val != 1) {
@@ -236,15 +243,16 @@ export default {
     },
     subBtn() {
       let text = ''
-      if (this.tableListData.isSelect) {
-        text = this.language(
-          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG',
-          '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。'
-        )
-      } else {
+      // this.tableListData.isSelect
+      if (this.tableListData.formalStatus.indexOf('正式') !== -1) {
         text = this.language(
           'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO',
           '提交供货公司信息更改后，数据将立即同步SAP，不得撤销。'
+        )
+      } else {
+        text = this.language(
+          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG',
+          '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。'
         )
       }
       if (this.selectTableData.length == 0) {

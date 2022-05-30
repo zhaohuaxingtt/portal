@@ -104,6 +104,15 @@ export function getSupplierFileReloadVo(params) {
   })
 }
 
+//保存相关附件
+export function supplierFreeFileReloadDelete(params) {
+  return requst({
+    url: `/supplier/attachmentReload/supplierFreeFileReloadDelete`,
+    method: 'DELETE',
+    data:params
+  })
+}
+
 //保存文件信息
 export function supplierFileReloadSave(params) {
   return requst({
