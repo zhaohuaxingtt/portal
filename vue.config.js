@@ -11,8 +11,6 @@ const postcss = px2rem({
 
 const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-test.csvw.com'
 
-console.log(BASE_IP)
-
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
   outputDir: 'dist',
@@ -189,7 +187,7 @@ module.exports = {
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
         // target: `http://${BASE_IP}:8066/supplier/overall`,
-        target: `${BASE_IP}/supplierservice/`,
+        target: `${BASE_IP}/supplier/overall/`,
         // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {

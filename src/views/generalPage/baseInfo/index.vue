@@ -269,7 +269,7 @@ export default {
     // 保存基本信息
     saveInfos (step = '') {
       return new Promise((resolve, reject) => {
-        Promise.all([this.isBaseInfoRules(), this.isBusinessRules()]).then(res => {
+        Promise.all([this.isBaseInfoRules(),this.isBusinessRules(),this.cityRules()]).then(res => {
           // 获取国家 城市 相应的name
           this.$refs.companyProfile.getCityName()
           this.$refs.opneBank.getCityName()
@@ -288,13 +288,14 @@ export default {
                 }
               })
             }
-
+            
             data.gpSupplierDetailDTO = _.cloneDeep(this.supplierComplete.gpSupplierDetails);
-
+            data.gpSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
+            data.gpSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
             data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e => {
               return !(!e.businessBuyerEmail && !e.businessBuyerName && !e.businessBuyerNum && !e.businessBuyerDept && !e.businessContactEmail && !e.businessContactUser && e.industryPosition == "N")
             })
-
+           
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
             delete data.gpSupplierDTO.formalStatus;
             data.gpSupplierSubBankListSaveDTO = {};
@@ -304,6 +305,8 @@ export default {
             data.supplierDTO.companyAddress = this.supplierComplete.supplierDTO.address
           } else {
             data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
+            data.ppSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
+            data.ppSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
           }
 
           saveInfos(data, this.supplierType).then(res => {
@@ -363,6 +366,34 @@ export default {
     async handleNextStep () {
       const nextStep = await this.saveInfos()
       return nextStep
+    },
+    cityRules(){
+      return new Promise((resolve, reject) => {
+        var num = 0;
+        if(this.$refs.opneBank.supplierData.settlementBankDTO.cityCode){
+          let bank = this.$refs.opneBank.bankCity.find(item => item.cityIdStr == this.$refs.opneBank.supplierData.settlementBankDTO.cityCode);
+          if(!bank){
+            num++;
+            setTimeout(()=>{
+              iMessage.error("开户银行所在省份和城市/区重复。")
+            },0)
+          }
+        }
+
+        if(this.$refs.companyProfile.supplierData.supplierDTO.cityCode){
+          let companyProfile = this.$refs.companyProfile.city.find((item) => item.cityIdStr == this.$refs.companyProfile.supplierData.supplierDTO.cityCode);
+          if(!companyProfile){
+            num++;
+            iMessage.error("公司概况省份和城市重复。")
+          }
+        }
+
+        if(num == 0){
+          resolve(true)
+        }else{
+          return false
+        }
+      })
     },
     // 基础信息校验
     isBaseInfoRules () {

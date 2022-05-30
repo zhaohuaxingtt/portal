@@ -21,16 +21,48 @@ export const BPM_SINGL_CATEGORY_LIST = [
   'meeting_recheck_m_sign',
   'officialPricing',
   'mtz_node_approval',
-  'csf_contract',
+  'contract',
   'css_contract',
   'csg_contract',
+  'csf_contract',
   'discard_contract'
 ]
+
+// 审批列表隐藏拒绝按钮
+export const BPM_HIDE_REFUSE_BUTTON_LIST = [
+  'meeting_rs_recheck',
+  'mtz_node_approval',
+  'contract',
+  'css_contract',
+  'csg_contract',
+  'csf_contract',
+  'discard_contract'
+]
+
+// 审批列表隐藏补充材料
+export const BPM_HIDE_APPEND_BUTTON_LIST = ['meeting_recheck_m_sign']
+
 // 'officialPricing'
 // 审批有异议、无异议判断
 export const BPM_CATEGORY_RENAME_YIYI_LIST = [
   'meeting_rs_recheck',
   'mtz_node_approval'
+]
+
+// 审批中心-我的申请列表只能单选任务名称的类型清单
+export const BPM_APPLY_SINGLE_CATEGORY_LIST = [
+  'gp_supplier_access_apply', // 一般供应商准入申请
+  'gp_supplier_conversion', //  一般供应商转正申请
+  'gp_supplier_change_info', // 一般供应商信息变更
+  'gp_supplier_inactivity' // 3 年不活跃且未审核准入材料
+]
+
+// 审批中心-我的申请列表需要隐藏recall按钮的清单
+export const BPM_APPLY_HIDE_RECALL_CATEGORY_LIST = [
+  'gp_supplier_access_apply', // 一般供应商准入申请
+  'gp_supplier_conversion', //  一般供应商转正申请
+  'gp_supplier_change_info', // 一般供应商信息变更
+  'gp_supplier_inactivity' // 3 年不活跃且未审核准入材料
 ]
 
 // 审批单据类型
