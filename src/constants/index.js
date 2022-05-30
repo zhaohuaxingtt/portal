@@ -75,7 +75,11 @@ export const BPM_APPLY_SINGLE_CATEGORY_LIST = [
   'gp_scrap_change_bank', // 正式报废处置一般供应商修改银行信息
   'gp_central_change_sub_account', // 正式集中采购一般供应商修改农民工子账号信息
   'gp_scrap_change_sub_account', // 正式报废处置一般供应商修改农民工子账号信息
-  'gp_inactivity' // 供应商 N 年不活跃基本信息更新
+  'gp_inactivity', // 供应商 N 年不活跃基本信息更新
+  'meeting_recheck_m_sign',
+  'mtz_gap',
+  'mtz_node_approval',
+  'mtz_node_approval_outside'
 ]
 
 // 审批中心-我的申请列表需要隐藏recall按钮的清单
@@ -104,7 +108,11 @@ export const BPM_APPLY_HIDE_RECALL_CATEGORY_LIST = [
   'gp_scrap_change_bank', // 正式报废处置一般供应商修改银行信息
   'gp_central_change_sub_account', // 正式集中采购一般供应商修改农民工子账号信息
   'gp_scrap_change_sub_account', // 正式报废处置一般供应商修改农民工子账号信息
-  'gp_inactivity' // 供应商 N 年不活跃基本信息更新
+  'gp_inactivity', // 供应商 N 年不活跃基本信息更新
+  'meeting_recheck_m_sign',
+  'mtz_gap',
+  'mtz_node_approval',
+  'mtz_node_approval_outside'
 ]
 
 // 审批单据类型
