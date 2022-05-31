@@ -1,7 +1,7 @@
 /*
  * @Author: YoHo
  * @Date: 2022-04-01 10:32:02
- * @LastEditTime: 2022-05-10 17:39:39
+ * @LastEditTime: 2022-05-30 10:54:03
  * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description:
  */
@@ -25,5 +25,7 @@ export default {
   GONGYINGSHANGZUBIAOQIAN: 'Supplier Group Tag',
   BUKESHANCHUZHULIANXIRENQINGXIANSHEZHIQITAZHANGHAOWEIZHULIANXIRENHOUZAISHANCHUGAIZHANGHAO:
     'The primary contact cannot be deleted. Please set another account as the primary contact before deleting this account',
-  BUNENGCHAOGUO500TIAO: 'No more than 500'
+  BUNENGCHAOGUO500TIAO: 'No more than 500',
+  YES: 'yes',
+  NO: 'no'
 }

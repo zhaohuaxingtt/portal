@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: YoHo
+ * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
@@ -18,12 +18,14 @@
           <iSelect @change="changeSupplierType"
                    :placeholder="language('请选择')"
                    v-model="form.supplierType">
-            <el-option v-for="(item, index) in fromGroup.supplierTypeList"
-                       :key="index"
-                       :value="item.code"
-                       :label="item.name"
-                       :disabled="userType != '' && userType != 'PRE'">
-            </el-option>
+            <template v-for="(item, index) in fromGroup.supplierTypeList">
+               <el-option v-if="item.code !== 'GP'"
+                          :key="index"
+                          :value="item.code"
+                          :label="item.name"
+                          :disabled="userType != '' && userType != 'PRE'">
+                </el-option>
+            </template>
             <!-- <el-option v-for="(item, index) in fromGroup.supplierTypeList"
                        :key="index"
                        :value="item.code"
@@ -101,7 +103,7 @@
                 $store.state.permission.userInfo.userType == 2 && !item.value
               "
                        :value="item.value"
-                       :label="language(item.key,item,label)">
+                       :label="language(item.key,item.label)">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -144,7 +146,8 @@
     <i-card class="margin-top20">
       <div class="margin-bottom10 clearFloat">
         <div class="floatright btn-box">
-          <i-button @click="togoFiling" v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
+          <i-button @click="togoFiling"
+                    v-permission="PORTAL_SUPPLIER_DANGANGUANLI">{{ language('DANGANGUANLI', '档案管理') }}</i-button>
           <!-- <i-button @click="togoFiling">{{ language('DANGANGUANLI', '档案管理') }}</i-button> -->
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button>
@@ -156,12 +159,14 @@
                     v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button>
           <i-button @click="handleRating"
                     v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{$t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')}}</i-button>
-          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
+          <i-button @click="handleRegister"
+                    v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{$t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')}}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
                     @click="toApplicationBDL">{{ language('SHENQINGBDL','申请BDL') }}</i-button>
           <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_MBDL"
                     @click="toApplicationMBDL">{{ language('SHENQINGMBDL', '申请MBDL') }}</i-button>
-          <i-button @click="synchro" v-permission="PORTAL_SUPPLIER_SAP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
+          <i-button @click="synchro"
+                    v-permission="PORTAL_SUPPLIER_SAP">{{ language('TONGBUSAP', '同步SAP') }}</i-button>
         </div>
       </div>
       <table-list :tableData="tableListData"
@@ -363,13 +368,13 @@ export default {
         supplierTypeList: [],
         relatedToMeList: [
           {
-            label:'是',
-            key:'SUPPLIER_SHI',
+            label: '是',
+            key: 'YES',
             value: true
           },
           {
             label: '否',
-            key:'SUPPLIER_FOU',
+            key: 'NO',
             value: false
           }
         ]
@@ -462,7 +467,7 @@ export default {
             this.form.supplierType = 'PP'
             this.isCgy = true
           }
-          if (this.userType == 'GP') this.form.supplierType = 'GP'
+          if (this.userType == 'GP') this.form.supplierType = 'PP'//pp供应商360只保留pp逻辑
           this.form.relatedToMe = true
           this.getTableList(this.form.supplierType)
         } else {
@@ -781,8 +786,8 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
-.btn-box{
-  ::v-deep .el-button{
+.btn-box {
+  ::v-deep .el-button {
     margin-bottom: 10px;
   }
 }
