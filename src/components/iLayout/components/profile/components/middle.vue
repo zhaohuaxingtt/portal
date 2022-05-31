@@ -46,8 +46,7 @@ export default {
       return this.$store.state.permission.userInfo || {}
     },
     switchPositionEnable() {
-      // return this.userInfo.switchPosition
-      return true
+      return this.userInfo.switchPosition
     },
     positionList() {
       return this.userInfo.positionList || []
