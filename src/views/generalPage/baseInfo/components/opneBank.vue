@@ -1,7 +1,8 @@
 <template>
 	<iCard tabCard collapse :title="$t('KAIHUYINHANG')" class="margin-top20">
 		<template v-if="$route.path=='/supplier/view-suppliers' || $route.path=='/supplier/supplierListDis/supplierDisDetails'">
-			<iButton class="btn_class" @click="addBank" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_ADDBANK_GP" v-if="$route.query.subSupplierType=='GP'">新增子银行账户</iButton>
+			<iButton class="btn_class" @click="addBank" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_ADDBANK_GP" v-if="$route.query.subSupplierType=='GP' && $route.path=='/supplier/view-suppliers'">新增子银行账户</iButton>
+			<iButton class="btn_class" @click="addBank" v-permission="SUPPLIER_BASEINFO_COMPANY_BASEINFO_ADDBANK_GP_FS" v-if="$route.query.subSupplierType=='GP' && $route.path=='/supplier/supplierListDis/supplierDisDetails'">新增子银行账户</iButton>
 		</template>
 		<iFormGroup row="3" :rules="bankRules" :model="supplierData" ref="bankRules1">
 			<template v-if="$route.query.subSupplierType !== 'GP'">

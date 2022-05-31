@@ -14,6 +14,8 @@
           <!-- 上级采购分类编号-->
           <el-form-item label="上级采购分类编号">
             <i-select
+            
+            disabled
               collapse-tags
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
               v-model="formData.parentMaterialGroupCode"
@@ -111,12 +113,20 @@ export default {
     }
   },
   props: {
+  isEdit: { type: Boolean, default: false },
     isChange: { type: Boolean, default: false },
     formData:{ type: Object}
   },
   created() {
+    console.log(this.isEdit)
+
     this.getListData()
     this.getBelongOrgList()
+  },
+  watch:{
+      isEdit(val){
+          this.isEdit=val
+      }
   },
   methods: {
     // 关闭弹窗
@@ -128,8 +138,13 @@ export default {
       // this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
       // this.formData.organizationId=this.formData.isActive1
      this.formData.organizationId=parseInt(this.formData.organizationId)
+     this.formData.organizationCode=this.AllBelongOrgList.find(val=>val.belongToOrgId==this.formData.organizationId)?.belongToOrgCode||''
+     console.log(this.formData)
+     console.log(this.AllBelongOrgList.find(val=>val.belongToOrgId==this.formData.organizationId)?.belongToOrgCode||'')
+
       updateList(this.formData).then((res) => {
         iMessage.success('修改成功')
+        this.getListData()
         this.$emit('saveChangeList', false)
       })
     },
@@ -140,6 +155,7 @@ export default {
           this.listDeptData = res.data
         }
       })
+      console.log(this.formData)
     },
     //获取股别
     getBelongOrgList() {
