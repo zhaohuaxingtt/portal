@@ -1,7 +1,7 @@
 <template>
   <div>
     <LayHeader title="知识管理"></LayHeader>
-    <div class="mt20">
+    <div class="mt20 list" v-loading="loading">
       <el-row :gutter="20" class="cards">
         <el-col
           :xs="24"
@@ -45,11 +45,15 @@ export default {
   mixins: [mixin],
   data() {
     return {
-      list: []
+      list: [],
+      loading: false
     }
   },
   async created() {
-    let res = await queryKnowledgeTypeList({ page: 0, size: 9999 })
+    this.loading = true
+    let res = await queryKnowledgeTypeList({ page: 0, size: 9999 }).finally(
+      () => (this.loading = false)
+    )
     // this.list = res.content || []
     this.list = res || []
   },
@@ -64,6 +68,9 @@ export default {
 
 <style lang="scss" scoped>
 @import './../comon';
+.list {
+  min-height: 400px;
+}
 .cards {
   flex: 1;
   padding-right: 10px;
