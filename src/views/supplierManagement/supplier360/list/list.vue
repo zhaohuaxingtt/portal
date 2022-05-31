@@ -18,12 +18,14 @@
           <iSelect @change="changeSupplierType"
                    :placeholder="language('请选择')"
                    v-model="form.supplierType">
-            <el-option v-for="(item, index) in fromGroup.supplierTypeList"
-                       :key="index"
-                       :value="item.code"
-                       :label="item.name"
-                       :disabled="userType != '' && userType != 'PRE'">
-            </el-option>
+            <template v-for="(item, index) in fromGroup.supplierTypeList">
+               <el-option v-if="item.code !== 'GP'"
+                          :key="index"
+                          :value="item.code"
+                          :label="item.name"
+                          :disabled="userType != '' && userType != 'PRE'">
+                </el-option>
+            </template>
             <!-- <el-option v-for="(item, index) in fromGroup.supplierTypeList"
                        :key="index"
                        :value="item.code"
@@ -465,7 +467,7 @@ export default {
             this.form.supplierType = 'PP'
             this.isCgy = true
           }
-          if (this.userType == 'GP') this.form.supplierType = 'GP'
+          if (this.userType == 'GP') this.form.supplierType = 'PP'//pp供应商360只保留pp逻辑
           this.form.relatedToMe = true
           this.getTableList(this.form.supplierType)
         } else {
