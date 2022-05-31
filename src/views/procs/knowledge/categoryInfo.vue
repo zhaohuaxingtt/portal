@@ -2,40 +2,55 @@
   <div>
     <LayHeader title="知识类型信息"></LayHeader>
     <div class="flex mt20">
-      <el-row :gutter="20" class="cards mr20">
-        <el-col
-          :xs="24"
-          :sm="12"
-          :md="8"
-          :lg="8"
-          :xl="8"
-          class="card-item"
-          v-for="(l, i) in list"
-          :key="l.id"
-        >
-          <div class="top">
-            <img class="img" :src="l.cover" alt="" />
-            <span class="new" v-if="isNew(l.updatedAt)">NEW</span>
-            <div class="detail">
-              <div>{{ l.summary }}</div>
-              <div>
-                {{ l.category.map((e) => e.name).join(' ') }}
-                <span class="cursor"
-                  ><i class="el-icon-download"></i>{{ l.downloadCount }}</span
-                >
+      <div class="cards mr20" v-loading="loading">
+        <el-row :gutter="20">
+          <el-col
+            :xs="24"
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="8"
+            class="card-item"
+            v-for="(l, i) in list"
+            :key="l.id"
+          >
+            <div class="top">
+              <img class="img" :src="l.cover" alt="" />
+              <span class="new" v-if="isNew(l.updatedAt)">NEW</span>
+              <div class="detail">
+                <div>{{ l.summary }}</div>
+                <div>
+                  {{ l.category.map((e) => e.name).join(' ') }}
+                  <span class="cursor"
+                    ><i class="el-icon-download"></i>{{ l.downloadCount }}</span
+                  >
+                </div>
+                <div>{{ l.openingDate }}</div>
+                <button class="down" @click="downLoad(l, i)">DOWNLOAD</button>
               </div>
-              <div>{{ l.openingDate }}</div>
-              <button class="down" @click="downLoad(l, i)">DOWNLOAD</button>
             </div>
-          </div>
-          <div class="flex justify-between items-center title">
-            <div>{{ l.title }}</div>
-            <div>
-              {{ l.organizations.map((e) => e.code).join(',') }} {{ l.speaker }}
+            <div class="flex justify-between items-center title">
+              <div>{{ l.title }}</div>
+              <div>
+                {{ l.organizations.map((e) => e.code).join(',') }}
+                {{ l.speaker }}
+              </div>
             </div>
-          </div>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+        <iPagination
+          v-update
+          @size-change="handleSizeChange($event, queryDetail)"
+          @current-change="handleCurrentChange($event, queryDetail)"
+          background
+          :current-page="page.currPage"
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :total="page.totalCount"
+        />
+      </div>
+
       <div class="info-r">
         <UiCard
           title="知识分类"
@@ -75,12 +90,15 @@ import {
 } from '@/api/procs'
 import { getDeptByCondition } from '@/api/usercenter'
 import mixin from './../mixins'
+import { pageMixins } from '@/utils/pageMixins'
+import { iPagination } from 'rise'
 export default {
   components: {
     LayHeader,
-    UiCard
+    UiCard,
+    iPagination
   },
-  mixins: [mixin],
+  mixins: [mixin, pageMixins],
   data() {
     return {
       list: {},
@@ -88,11 +106,14 @@ export default {
       departList: [],
 
       knowledgeCategory: '',
-      organizations: []
+      organizations: [],
+      loading: false
     }
   },
   created() {
+    this.page.pageSize = 9
     this.init()
+
     this.queryDetail()
   },
   methods: {
@@ -111,8 +132,8 @@ export default {
     },
     async queryDetail() {
       let data = {
-        page: 0,
-        size: 9,
+        page: this.page.currPage - 1, // 0,
+        size: this.page.pageSize,
         knowledgeCategory: this.knowledgeCategory,
         organizations: this.organizations
         // sort:"openingDate,DESC"
@@ -121,10 +142,17 @@ export default {
       for (const key in data) {
         formdata.append(key, data[key])
       }
-      let res = await queryKnowledgeTwoLevelCard(this.$route.query.id, formdata)
+      this.loading = true
+      let res = await queryKnowledgeTwoLevelCard(
+        this.$route.query.id,
+        formdata
+      ).finally(() => {
+        this.loading = false
+      })
       res?.content.map((item) => {
         item.cover = item.cover.split('/uploader/')[1]
       })
+      this.page.totalCount = res.totalElements
       this.list = res.content || []
     },
     departChange(id) {
@@ -177,7 +205,7 @@ export default {
 .cards {
   flex: 1;
   padding-right: 10px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 
   .card-item {
     margin-bottom: 20px;
