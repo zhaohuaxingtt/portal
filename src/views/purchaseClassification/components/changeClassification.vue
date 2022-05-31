@@ -15,7 +15,7 @@
           <el-form-item label="上级采购分类编号">
             <i-select
             
-            :disabled="!formData.parentMaterialGroupCode"
+            disabled
               collapse-tags
               :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
               v-model="formData.parentMaterialGroupCode"
