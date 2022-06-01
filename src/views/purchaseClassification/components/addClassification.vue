@@ -170,7 +170,12 @@ export default {
     saveData() {
              this.formData.organizationCode=this.AllBelongOrgList.find(val=>val.belongToOrgId==this.formData.organizationId)?.belongToOrgCode||''
 
+      if(!this.formData.parentMaterialGroupCode){
+          this.formData.materialGroupLevel=1
+      }else{
       this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
+
+      }
       save(this.formData).then((res) => {
         // if (+res.code == 200) {
         //   this.$emit('input', false)
