@@ -33,7 +33,8 @@
       <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_SUPPLIERSTATUS" v-if="$route.query.subSupplierType!=='GP'">
         <iLabel :label="$t('GYSSF')"
                 slot="label"></iLabel>
-        <iText>{{supplierData[infoVo].formalStatus|formalStatus(that)}}</iText>
+        <iText v-if='supplierData.supplierDTO.supplierType=="PP"'>{{supplierData[infoVo].formalStatus|formalStatus(that)}}</iText>
+        <iText v-if='supplierData.supplierDTO.supplierType=="PD"'>{{language('ZHENGSHI', '正式')}}</iText>
       </iFormItem>
       <!-- 是否业内工厂 -->
       <iFormItem v-permission="SUPPLIER_BASEINFO_SUPPLIERSTATUS_ISFACTORY" v-if="$route.query.subSupplierType!=='GP'">
