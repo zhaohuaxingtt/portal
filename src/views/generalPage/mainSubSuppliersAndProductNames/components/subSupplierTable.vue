@@ -214,7 +214,7 @@ export default {
         case 'country':
           this.tableTitle.forEach((item) => {
             if (item.props === 'province' || item.props === 'city' || item.props === 'socialcreditNo') {
-              if (data.sapLocationCode !== 'CN') {
+              if (data.cityIdStr !== '300001') {
                 this.$set(item, 'required', false)
                 this.$set(item, 'rule', [])
                 this.$refs.commonTable.$refs.commonTableForm.clearValidate(['socialcreditNo'])
