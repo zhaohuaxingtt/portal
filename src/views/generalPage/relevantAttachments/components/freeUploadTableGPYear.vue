@@ -29,7 +29,7 @@
                 openPageProps="fileName"
                 @openPage="handleDownload"
                 :index="true"
-                v-permission="SUPPLIER_RELATEDACCESSORY_FREEUPLOAD">
+                >
       <!-- <template #validityOfCertificate="scope"> -->
         <!-- <iDatePicker value-format="yyyy-MM-dd"
                      v-model="scope.row.validityOfCertificate"
