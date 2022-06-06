@@ -208,7 +208,7 @@
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.supplierDTO.countryCode"
                  @change="changeCountry()">
-          <el-option :value="item.sapLocationCode"
+          <el-option :value="item.cityIdStr"
                      :label="item.cityNameCn"
                      v-for="(item, index) in country"
                      :key="index"></el-option>
@@ -222,7 +222,7 @@
                 slot="label"></iLabel>
         <iSelect v-model="supplierData.supplierDTO.provinceCode"
                  @change="changeProvince()">
-          <el-option :value="item.sapLocationCode"
+          <el-option :value="item.cityIdStr"
                      :label="item.cityNameCn"
                      v-for="(item, index) in province"
                      :key="index"></el-option>
@@ -443,7 +443,7 @@ export default {
     //邮编校验规则
     postRules () {
       let rules = []
-      if (this.supplierData.supplierDTO.countryCode == 'CN') {
+      if (this.supplierData.supplierDTO.countryCode == '300001') {
         rules = [
           { required: true, message: '请输入注册地址邮编', trigger: 'blur' },
           { pattern: /^[0-9]{6}$/, message: '邮编错误', trigger: 'blur' }
@@ -470,39 +470,58 @@ export default {
     // 获取省份
     getProvince () {
       let data = {
-        sapLocationCode: this.supplierData.supplierDTO.countryCode
+        parentCityId: this.supplierData.supplierDTO.countryCode
       }
-      getCityInfo(data).then((res) => {
-        if (res.data) {
-          if (this.$route.path == '/supplier/register') {
-            this.getisForeignCountry(res.data)
-          } else {
-            console.log(this.supplierData.supplierDTO.isForeignManufacture)
-          }
-          let req = {
-            parentCityId: res.data[0].cityIdStr
-          }
-          getCityInfo(req).then((result) => {
-            this.province = result.data
-          })
+      getCityInfo(data).then(res => {
+        if (this.$route.path == '/supplier/register') {
+          this.getisForeignCountry(res.data)
+        } else {
+          console.log(this.supplierData.supplierDTO.isForeignManufacture)
         }
+        this.province = res.data
       })
+
+      // let data = {
+      //   sapLocationCode: this.supplierData.supplierDTO.countryCode
+      // }
+      // getCityInfo(data).then((res) => {
+      //   if (res.data) {
+      //     if (this.$route.path == '/supplier/register') {
+      //       this.getisForeignCountry(res.data)
+      //     } else {
+      //       console.log(this.supplierData.supplierDTO.isForeignManufacture)
+      //     }
+      //     let req = {
+      //       parentCityId: res.data[0].cityIdStr
+      //     }
+      //     getCityInfo(req).then((result) => {
+      //       this.province = result.data
+      //     })
+      //   }
+      // })
     },
     //获取城市
     getCity () {
+
       let data = {
-        sapLocationCode: this.supplierData.supplierDTO.provinceCode
+        parentCityId: this.supplierData.supplierDTO.provinceCode
       }
-      getCityInfo(data).then((res) => {
-        if (res.data) {
-          let req = {
-            parentCityId: res.data[0].cityIdStr
-          }
-          getCityInfo(req).then((result) => {
-            this.city = result.data
-          })
-        }
+      getCityInfo(data).then(res => {
+        this.city = res.data
       })
+      // let data = {
+      //   sapLocationCode: this.supplierData.supplierDTO.provinceCode
+      // }
+      // getCityInfo(data).then((res) => {
+      //   if (res.data) {
+      //     let req = {
+      //       parentCityId: res.data[0].cityIdStr
+      //     }
+      //     getCityInfo(req).then((result) => {
+      //       this.city = result.data
+      //     })
+      //   }
+      // })
     },
     //是否黑名单
     getisBlack () {
@@ -556,17 +575,33 @@ export default {
     },
     // 获取城市 国家 省市对应中文名
     getCityName () {
-      this.supplierData.supplierDTO.country = this.country.find(
-        (item) =>
-          item.sapLocationCode == this.supplierData.supplierDTO.countryCode
-      ).cityNameCn
-      this.supplierData.supplierDTO.province = this.province.find(
-        (item) =>
-          item.sapLocationCode == this.supplierData.supplierDTO.provinceCode
-      ).cityNameCn
-      this.supplierData.supplierDTO.city = this.city.find(
-        (item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode
-      ).cityNameCn
+      if (this.supplierData.supplierDTO.countryCode) {
+        if(this.country.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.countryCode)){
+          this.supplierData.supplierDTO.country = this.country.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.countryCode).cityNameCn
+        }
+      }
+      if (this.supplierData.supplierDTO.provinceCode) {
+        if(this.province.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.provinceCode)){
+          this.supplierData.supplierDTO.province = this.province.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.provinceCode).cityNameCn
+        }
+      }
+      if (this.supplierData.supplierDTO.cityCode) {
+        if(this.city.find((item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode)){
+          this.supplierData.supplierDTO.city = this.city.find((item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode).cityNameCn
+        }
+      }
+
+      // this.supplierData.supplierDTO.country = this.country.find(
+      //   (item) =>
+      //     item.sapLocationCode == this.supplierData.supplierDTO.countryCode
+      // ).cityNameCn
+      // this.supplierData.supplierDTO.province = this.province.find(
+      //   (item) =>
+      //     item.sapLocationCode == this.supplierData.supplierDTO.provinceCode
+      // ).cityNameCn
+      // this.supplierData.supplierDTO.city = this.city.find(
+      //   (item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode
+      // ).cityNameCn
     },
     //查询企业小类
     getEpNatureSubcategorySelect (clear) {
