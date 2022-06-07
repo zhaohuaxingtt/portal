@@ -202,7 +202,8 @@ export default {
         this.detail = res.data ? res.data : {}
 
         if(this.detail.rsFileId){
-          this.pdfSrc = "http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi/fileud/getFileByFileId?fileId=" + this.detail.rsFileId
+          this.pdfSrc = process.env.VUE_APP_FILE_SERVER + "/fileud/getFileByFileId?fileId=" + this.detail.rsFileId
+          // this.pdfSrc = "http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi/fileud/getFileByFileId?fileId=" + this.detail.rsFileId
           this.rsType = true;
         }
 
