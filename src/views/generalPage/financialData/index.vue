@@ -270,9 +270,11 @@ export default {
     if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
       this.inputProps = ['auditUnit', 'currencyUnit']
       this.selectProps = ['isAudit', 'isMergeReport']
+      this.supplierDetail()
+    }else{
+      
     }
     this.getDictByCode()
-    this.supplierDetail()
     this.getTableList()
   },
   methods: {
@@ -288,7 +290,7 @@ export default {
       this.currencyList = res.data[0].subDictResultVo
     },
     supplierDetail () {
-      supplierDetail(this.supplierType).then(res => {
+      supplierDetail(this.supplierType,this.$store.state.home.valiCode).then(res => {
         if (res.data) {
           //初始数据很多为null 需要重置为“” 不然会触发表单验证
           let baseInfo = this.reView(res.data)

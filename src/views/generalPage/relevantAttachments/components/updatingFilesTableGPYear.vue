@@ -42,8 +42,8 @@
 <script>
 import { iCard, iButton, iMessage } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
-import tableList from './updatingFilesTableList'
-import { upadtingFilesTableTitle } from './data'
+import tableList from './updatingFilesTableListYear'
+import { upadtingFilesTableTitle,upadtingFilesTableTitleNew } from './data'
 import {
   getTemplateListNew,
   getAttachmentCommitment,
@@ -62,7 +62,7 @@ import { purchaseTerms } from '@/api/frmRating/overView/overView.js'
 export default {
   mixins: [generalPageMixins],
   props:{
-    
+    approveValue: { type: Boolean, default: false },
   },
   components: {
     iCard,
@@ -74,7 +74,9 @@ export default {
   data () {
     return {
       tableListData: [],
-      tableTitle: upadtingFilesTableTitle,
+      tableTitle:[],
+      upadtingFilesTableTitle,
+      upadtingFilesTableTitleNew,
       tableLoading: false,
       selectTableData: [],
       attachmentDialog: false,
@@ -98,27 +100,33 @@ export default {
     },
   },
   created () {
+    // if(this.approveValue){
+      this.tableTitle = this.upadtingFilesTableTitleNew;
+    // }else{
+      // this.tableTitle = this.upadtingFilesTableTitle;
+    // }
     this.getTableList()
   },
   mounted () {
   },
   methods: {
     reluesType(){
-      let newTableList = cloneDeep(this.tableListData)
-      var requiredNum = 0;
-      newTableList.forEach(e => {
-        if(e.required){
-          if(!e.fileId){
-            requiredNum++;
-          }
-        }
-      });
-      if(requiredNum !== 0){
-        iMessage.error("请上传附件名称中带星号的附件")
-        return;
-      }else{
+      // let newTableList = cloneDeep(this.tableListData)
+      // var requiredNum = 0;
+      // newTableList.forEach(e => {
+      //   if(e.required){
+      //     if(!e.fileId){
+      //       requiredNum++;
+      //     }
+      //   }
+      // });
+      // if(requiredNum !== 0){
+      //   iMessage.error("请上传附件名称中带星号的附件")
+      //   return;
+      // }else{
         submitTempTaskInfo({
-            taskId:this.$route.query.id
+            taskId:this.$route.query.id,
+            supplierToken:this.supplierToken
         }).then(res=>{
             if(res.result){
                 iMessage.success(res.desZh);
@@ -126,7 +134,7 @@ export default {
                 iMessage.error(res.desZh);
             }
         })
-      }
+      // }
     },
     async purchaseTerms () {
       let disabled = false
@@ -149,6 +157,7 @@ export default {
         var res = await getSupplierFileReloadVo({taskId:this.$route.query.id})
         if(res.data){
           this.supplierToken = res.data.token;
+          this.$emit("getSupplierToken",res.data.token);
           this.tableListData = res.data.informationList;
           this.tableLoading = false
           if (this.isFirst) {

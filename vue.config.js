@@ -187,7 +187,7 @@ module.exports = {
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
         // target: `http://${BASE_IP}:8066/supplier/overall`,
-        target: `${BASE_IP}/supplierservice/`,
+        target: `${BASE_IP}/supplier/overall/`,
         // target:'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/supplierservice/',
         changeOrigin: true,
         pathRewrite: {

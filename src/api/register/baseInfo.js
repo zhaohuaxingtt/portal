@@ -22,12 +22,12 @@ export function saveInfos(parmars, type) {
   })
 }
 // 根据token查询供应商基本信息详情
-export function supplierDetail(type) {
+export function supplierDetail(type,token) {
   return requst({
     url: '/basic/supplierDetail',
     method: 'POST',
     data: {
-      supplierToken: store.state.home.valiCode
+      supplierToken: token?token:store.state.home.valiCode
     },
     baseURL:
       type < 4

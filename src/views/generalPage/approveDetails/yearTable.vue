@@ -94,6 +94,7 @@ export default {
               }
               const res = await getTaskDetails(req)
               this.detail = res.data ? res.data : {}
+              this.$emit("inforTable",res.data)
               this.loading = false
           } catch {
               this.loading = false

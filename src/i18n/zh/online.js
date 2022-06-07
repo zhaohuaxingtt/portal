@@ -1965,6 +1965,7 @@ export default {
   专业组: '专业组',
   JIARUHEIMINGDANSHENGCHANCAIGOU: '加入黑名单 - 生产采购',
   JIARUHEIMINGDANYIBANCAIGOU: '加入黑名单 - ⼀般采购',
+  JIARUHEIMINGDANGONGYONGCAIGOU: '加入黑名单 - 共用采购',
   GUANLIANDANHAO: '关联单号',
   是否贵金属: '是否贵金属',
   弹窗布局: '弹窗布局',

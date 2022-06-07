@@ -39,6 +39,7 @@
     />
     <!-- 修改弹窗 -->
     <changeClassification
+    :isEdit="isEdit"
     :formData='formData'
       :isChange="isChange"
       @input="(val) => (isChange = val)"
@@ -72,6 +73,7 @@ export default {
   },
   data() {
     return {
+        isEdit:false,
         tableLoading:false,
       isShow: false, //控制新增弹窗
       formData: SEARCH_DATA,
@@ -137,6 +139,10 @@ export default {
         //     })
         //   }
         // })
+        if(!res.data.parentId){
+            this.formData.parentMaterialGroupCode=''
+            this.isEdit=true
+        }
         this.formData.parentId = val.parentId
         this.formData.id = val.id
 

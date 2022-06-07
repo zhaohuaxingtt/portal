@@ -127,6 +127,15 @@ export function rescheduleThemen(data) {
     data
   })
 }
+// gpMeetingService/gp/updateMeeting  改期
+export function updateMeeting(data) {
+  return requst({
+    url: `gpMeetingService/gp/updateMeeting`,
+    method: 'POST',
+    data
+  })
+}
+
 // //二次修改结论 通用  modifyConclusionById
 // export function modifyConclusionById(data) {
 //   return requst({

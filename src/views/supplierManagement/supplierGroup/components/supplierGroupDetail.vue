@@ -291,16 +291,25 @@ export default {
     },
 
     save() {
-
+      let data = JSON.parse(JSON.stringify(this.initData))
+      let supplierList = []
+      this.tableData.forEach((item,i)=>{
+        item.supplierGroupMappingId = item.id
+        let initItem = data.filter(child=> child.subSupplierId==item.subSupplierId)
+        if(initItem.length){
+          if(item.deptName!=initItem[0].deptName || item.id!=initItem[0].id){
+            supplierList.push(item)
+          }
+        }else{
+          supplierList.push(item)
+        }
+      })
       this.$refs.ruleForm.validate((valid) => {
         if(valid){
           let params = {
             ...this.search,
             supplierGroupId: this.search.id,
-            supplierList: this.tableData.map(item=>{
-              item.supplierGroupMappingId = item.id
-              return item
-            })
+            supplierList: supplierList
           }
           checkGroup(params).then((res) => {
             if (res?.code == '200') {

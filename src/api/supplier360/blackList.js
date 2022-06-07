@@ -226,9 +226,18 @@ export function getSupplerInfo(params) {
 }
 //校验加入黑名单是否已经全部加入
 export function checkAddBlackIsFull(params) {
-    return requst({
-      url: '/ppSupplerBlack/checkAddBlackIsFull',
-      method: 'post',
-      data: params
-    })
-  }
+  return requst({
+    url: '/ppSupplerBlack/checkAddBlackIsFull',
+    method: 'post',
+    data: params
+  })
+}
+
+//校验加入黑名单是否已经全部加入
+export function gpSupplerBlackCheckAddBlack(params) {
+  return requst({
+    url: '/gpSupplerBlack/checkAddBlack',
+    method: 'post',
+    data: params
+  })
+}
