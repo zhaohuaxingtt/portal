@@ -31,7 +31,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-                :disabled="!item.published"
+                :disabled="isMainFlow && !item.published"
               >
               </el-option>
             </iSelect>
@@ -117,6 +117,9 @@ export default {
       } else {
         return this.listData
       }
+    },
+    isMainFlow() {
+      return !this.$route.query.flowChartId
     }
   },
   data() {
