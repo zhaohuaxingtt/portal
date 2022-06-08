@@ -173,6 +173,46 @@ export const supplierMessageTitle = [
     permission: 'SUPPLIER_BASEINFO_DUNS'
   }
 ]
+
+export const supplierMessageTitleSP = [
+  {
+    //供应商名称
+    key: 'nameZh',
+    name: 'LK_GONGYINGSHANGMINGCHENG1',
+    icons: '',
+    tip: '',
+  },
+  {
+    //供应商名称（中）
+    key: 'shortNameZh',
+    name: 'SupplierAbbreviationZh',
+  },
+  {
+    //统一社会信用代码
+    key: 'socialcreditNo',
+    name: 'UnifySocialCreditCode',
+    icons: '',
+    tip: '',
+  },
+  {
+    //供应商英文名
+    key: 'nameEn',
+    name: 'SupplierEn',
+    icons: '',
+    tip: '',
+  },
+  {
+    //供应商简称（英）
+    key: 'shortNameEn',
+    name: 'SupplierAbbreviationEn',
+  },
+  {
+    //DUNS
+    key: 'dunsCode',
+    name: 'DUNS',
+  }
+]
+
 export const supplierAddMaterialsTableTitle = [
   { props: 'approvalTime', name: '任务日期', key: 'SPR_FRM_XGYSPJ_RWRQ' },
   { props: 'stuffCode', name: '材料组编号', key: 'SUPPLIER_CAILIAOZUBIANHAO' },
