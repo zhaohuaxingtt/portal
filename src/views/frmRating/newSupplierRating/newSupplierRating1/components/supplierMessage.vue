@@ -21,7 +21,8 @@
         <i-button @click="handleBackProcurement">{{ $t('SPR_FRM_XGYSPJ_TJQQCG') }}</i-button>
       </div>
     </div>
-    <iCard class="margin-bottom20"
+    <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'"
+           class="margin-bottom20"
            tabCard
            collapse
            :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
@@ -55,6 +56,36 @@
         </iFormItem>
       </iFormGroup>
     </iCard>
+    <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
+           class="margin-bottom20"
+           tabCard
+           collapse
+           :title="$t('SUPPLIER_GONGYINGSHANGXINXI')">
+      <template slot="header-control">
+        <!-- <iButton @click="onJump360" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_INFOR_CKGGYSXX">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton> -->
+      </template>
+      <iFormGroup row="3">
+        <iFormItem v-for="(item,index) in supplierMessageTitleSP"
+                   :key="index">
+          <iLabel :label="$t(item.name) "
+                  :required="item.required"
+                  :icons="item.icons"
+                  :tip="$t(item.tip)"
+                  slot="label"></iLabel>
+          <div class="duns flex-align-center"
+               v-if="item.name==='DUNS'">
+            <iText>{{baseMsg['one']}}</iText>
+            <span></span>
+            <iText>{{baseMsg['tow']}}</iText>
+            <span></span>
+            <iText>{{baseMsg['three']}}</iText>
+          </div>
+          <div v-else>
+            <iText>{{ baseMsg[item.key] }}</iText>
+          </div>
+        </iFormItem>
+      </iFormGroup>
+    </iCard>
     <!-- 供应商财务评级结果 -->
     <iCard v-if="$route.path==='/supplier/frmrating/newsupplierrating/task'"
            :title="$t('SPR_FRM_XGYSPJ_GYSCWPJJG')">
@@ -79,7 +110,7 @@
 
 <script>
 import { iCard, iButton, iFormGroup, iFormItem, iText, iLabel, iInput } from "rise";
-import { supplierMessageTitle } from "../../components/data"
+import { supplierMessageTitle,supplierMessageTitleSP } from "../../components/data"
 import { getNewSupplierInfo, backProcurement, getApprove } from "@/api/frmRating/newSupplierRating/newSupplierRating";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 
@@ -91,6 +122,7 @@ export default {
   data () {
     return {
       supplierMessageTitle,
+      supplierMessageTitleSP,
       info: {
         ratingResult: this.$route.query.ratingResult || '',
         remark: ''
