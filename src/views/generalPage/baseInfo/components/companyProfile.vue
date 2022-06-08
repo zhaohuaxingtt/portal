@@ -200,15 +200,27 @@
                      :key="index"></el-option>
         </iSelect>
       </iFormItem>
+
+
+
+
+
       <!-- 国家 -->
       <iFormItem prop="supplierDTO.countryCode"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_NATION">
         <iLabel :label="$t('SUPPLIER_GUOJIA')"
                 required
                 slot="label"></iLabel>
-        <iSelect v-model="supplierData.supplierDTO.countryCode"
-                 @change="changeCountry()">
+        <iSelect v-model="supplierData.supplierDTO.countryCode" v-show="!supplierData.supplierDTO.countryCode || supplierData.supplierDTO.countryCode.length>='6'"
+                 @change="changeCountry($event)">
           <el-option :value="item.cityIdStr"
+                     :label="item.cityNameCn"
+                     v-for="(item, index) in country"
+                     :key="index"></el-option>
+        </iSelect>
+        <iSelect v-model="supplierData.supplierDTO.countryCode" v-show="!(!supplierData.supplierDTO.countryCode || supplierData.supplierDTO.countryCode.length>='6')"
+                 @change="changeCountry($event,true)">
+          <el-option :value="item.sapLocationCode"
                      :label="item.cityNameCn"
                      v-for="(item, index) in country"
                      :key="index"></el-option>
@@ -220,9 +232,16 @@
         <iLabel :label="$t('SUPPLIER_SHENGFEN')"
                 required
                 slot="label"></iLabel>
-        <iSelect v-model="supplierData.supplierDTO.provinceCode"
-                 @change="changeProvince()">
+        <iSelect v-model="supplierData.supplierDTO.provinceCode" v-show="!supplierData.supplierDTO.provinceCode || supplierData.supplierDTO.provinceCode.length>='6'"
+                 @change="changeProvince($event)">
           <el-option :value="item.cityIdStr"
+                     :label="item.cityNameCn"
+                     v-for="(item, index) in province"
+                     :key="index"></el-option>
+        </iSelect>
+        <iSelect v-model="supplierData.supplierDTO.provinceCode" v-show="!(!supplierData.supplierDTO.provinceCode || supplierData.supplierDTO.provinceCode.length>='6')"
+                 @change="changeProvince($event,true)">
+          <el-option :value="item.sapLocationCode"
                      :label="item.cityNameCn"
                      v-for="(item, index) in province"
                      :key="index"></el-option>
@@ -241,6 +260,11 @@
                      :key="index"></el-option>
         </iSelect>
       </iFormItem>
+
+
+
+
+
       <!-- 注册地址 -->
       <iFormItem prop="supplierDTO.address"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_COMPANYADDRESS">
@@ -395,14 +419,6 @@ export default {
       },
       immediate: true
     }
-    // country (val) {
-    //   if (val.length > 0) {
-    //     if (this.$route.path == '/supplier/register') {
-    //       console.log(val)
-    //       this.getisForeignCountry(val)
-    //     }
-    //   }
-    // }
   },
   data () {
     return {
@@ -443,7 +459,7 @@ export default {
     //邮编校验规则
     postRules () {
       let rules = []
-      if (this.supplierData.supplierDTO.countryCode == '300001') {
+      if (this.supplierData.supplierDTO.countryCode == '300001' || this.supplierData.supplierDTO.countryCode =='CN') {
         rules = [
           { required: true, message: '请输入注册地址邮编', trigger: 'blur' },
           { pattern: /^[0-9]{6}$/, message: '邮编错误', trigger: 'blur' }
@@ -467,62 +483,7 @@ export default {
     this.getisBlack()
   },
   methods: {
-    // 获取省份
-    getProvince () {
-      let data = {
-        parentCityId: this.supplierData.supplierDTO.countryCode
-      }
-      getCityInfo(data).then(res => {
-        if (this.$route.path == '/supplier/register') {
-          this.getisForeignCountry(res.data)
-        } else {
-          console.log(this.supplierData.supplierDTO.isForeignManufacture)
-        }
-        this.province = res.data
-      })
-
-      // let data = {
-      //   sapLocationCode: this.supplierData.supplierDTO.countryCode
-      // }
-      // getCityInfo(data).then((res) => {
-      //   if (res.data) {
-      //     if (this.$route.path == '/supplier/register') {
-      //       this.getisForeignCountry(res.data)
-      //     } else {
-      //       console.log(this.supplierData.supplierDTO.isForeignManufacture)
-      //     }
-      //     let req = {
-      //       parentCityId: res.data[0].cityIdStr
-      //     }
-      //     getCityInfo(req).then((result) => {
-      //       this.province = result.data
-      //     })
-      //   }
-      // })
-    },
-    //获取城市
-    getCity () {
-
-      let data = {
-        parentCityId: this.supplierData.supplierDTO.provinceCode
-      }
-      getCityInfo(data).then(res => {
-        this.city = res.data
-      })
-      // let data = {
-      //   sapLocationCode: this.supplierData.supplierDTO.provinceCode
-      // }
-      // getCityInfo(data).then((res) => {
-      //   if (res.data) {
-      //     let req = {
-      //       parentCityId: res.data[0].cityIdStr
-      //     }
-      //     getCityInfo(req).then((result) => {
-      //       this.city = result.data
-      //     })
-      //   }
-      // })
-    },
+    
     //是否黑名单
     getisBlack () {
       isBlack({ supplierToken: this.$route.query.supplierToken }).then(
@@ -541,48 +502,93 @@ export default {
     getIsSigned () {
       //   isSigned({}).then((res) => {})
     },
-    //是否国内外
-    // getisForeignCountry (val) {
-    //   if (val.length > 0) {
-    //     isForeignCountry({
-    //       addressInfoId: val.find(
-    //         (item) =>
-    //           item.sapLocationCode == this.supplierData.supplierDTO.countryCode
-    //       ).id
-    //     }).then((res) => {
-    //       let code = 0
-    //       if (res.data) {
-    //         code = 1
-    //       } else code = 0
-    //       this.$set(this.supplierData.supplierDTO, 'isForeignManufacture', code)
-    //     })
-    //   }
-    // },
 
     // 国家切换 获取省信息
-    changeCountry () {
+    changeCountry (val,type) {
       this.supplierData.supplierDTO.provinceCode = ''
       this.supplierData.supplierDTO.cityCode = ''
       this.province = []
       this.city = []
-      this.getProvince()
+      this.getProvince(type)
+    },
+    // 获取省份
+    getProvince (type) {
+      if(type){
+        let data = {
+          sapLocationCode: this.supplierData.supplierDTO.countryCode
+        }
+        getCityInfo(data).then((res) => {
+          if (res.data) {
+            let req = {
+              parentCityId: res.data[0].cityIdStr
+            }
+            getCityInfo(req).then((result) => {
+              this.province = result.data
+            })
+          }
+        })
+      }else{
+        let data = {
+          parentCityId: this.supplierData.supplierDTO.countryCode
+        }
+        getCityInfo(data).then(res => {
+          this.province = res.data
+        })
+      }
     },
     // 省市切换 获取市级信息
-    changeProvince () {
+    changeProvince (val,type) {
       this.supplierData.supplierDTO.cityCode = ''
       this.city = []
-      this.getCity()
+      this.getCity(type)
+    },
+    //获取城市
+    getCity (type) {
+      if(type){
+        let data = {
+          sapLocationCode: this.supplierData.supplierDTO.provinceCode
+        }
+        getCityInfo(data).then((res) => {
+          if (res.data) {
+            let req = {
+              parentCityId: res.data[0].cityIdStr
+            }
+            getCityInfo(req).then((result) => {
+              this.city = result.data
+            })
+          }
+        })
+      }else{
+        let data = {
+          parentCityId: this.supplierData.supplierDTO.provinceCode
+        }
+        getCityInfo(data).then(res => {
+          this.city = res.data
+        })
+      }
     },
     // 获取城市 国家 省市对应中文名
     getCityName () {
       if (this.supplierData.supplierDTO.countryCode) {
-        if(this.country.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.countryCode)){
-          this.supplierData.supplierDTO.country = this.country.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.countryCode).cityNameCn
+        if(this.supplierData.supplierDTO.countryCode.length>=6){
+          if(this.country.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.countryCode)){
+            this.supplierData.supplierDTO.country = this.country.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.countryCode).cityNameCn
+          }
+        }else{
+          if(this.country.find((item) =>item.sapLocationCode == this.supplierData.supplierDTO.countryCode)){
+            this.supplierData.supplierDTO.country = this.country.find((item) =>item.sapLocationCode == this.supplierData.supplierDTO.countryCode).cityNameCn
+          }
         }
       }
       if (this.supplierData.supplierDTO.provinceCode) {
-        if(this.province.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.provinceCode)){
-          this.supplierData.supplierDTO.province = this.province.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.provinceCode).cityNameCn
+        if(this.supplierData.supplierDTO.provinceCode.length>=6){
+          if(this.province.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.provinceCode)){
+            this.supplierData.supplierDTO.province = this.province.find((item) =>item.cityIdStr == this.supplierData.supplierDTO.provinceCode).cityNameCn
+          }
+        }else{
+          if(this.province.find((item) =>item.sapLocationCode == this.supplierData.supplierDTO.provinceCode)){
+            this.supplierData.supplierDTO.province = this.province.find((item) =>item.sapLocationCode == this.supplierData.supplierDTO.provinceCode).cityNameCn
+          }
         }
       }
       if (this.supplierData.supplierDTO.cityCode) {
@@ -590,7 +596,6 @@ export default {
           this.supplierData.supplierDTO.city = this.city.find((item) => item.cityIdStr == this.supplierData.supplierDTO.cityCode).cityNameCn
         }
       }
-
       // this.supplierData.supplierDTO.country = this.country.find(
       //   (item) =>
       //     item.sapLocationCode == this.supplierData.supplierDTO.countryCode

@@ -229,13 +229,32 @@ export default {
           if (this.supplierComplete.supplierDTO.epNatureCategory)
             this.$refs.companyProfile.getEpNatureSubcategorySelect()
           if (this.supplierComplete.supplierDTO.countryCode)
-            this.$refs.companyProfile.getCity()
-          if (this.supplierComplete.supplierDTO.provinceCode)
-            this.$refs.companyProfile.getProvince()
-          if (this.supplierComplete.settlementBankDTO.countryCode)
-            this.$refs.opneBank.getBankProvince()
-          if (this.supplierComplete.settlementBankDTO.provinceCode)
-            this.$refs.opneBank.getBankCity()
+            if(this.supplierComplete.supplierDTO.countryCode.length>=6){
+              this.$refs.companyProfile.getProvince()
+            }else{
+              this.$refs.companyProfile.getProvince(true)
+            }
+          if (this.supplierComplete.supplierDTO.provinceCode){
+            if(this.supplierComplete.supplierDTO.provinceCode.length>=6){
+              this.$refs.companyProfile.getCity()
+            }else{
+              this.$refs.companyProfile.getCity(true)
+            }
+          }
+          if (this.supplierComplete.settlementBankDTO.countryCode){
+            if(this.supplierComplete.settlementBankDTO.countryCode.length>=6){
+              this.$refs.opneBank.getBankProvince()
+            }else{
+              this.$refs.opneBank.getBankProvince(true)
+            }
+          }
+          if (this.supplierComplete.settlementBankDTO.provinceCode){
+            if(this.supplierComplete.settlementBankDTO.provinceCode.length>=6){
+              this.$refs.opneBank.getBankCity()
+            }else{
+              this.$refs.opneBank.getBankCity(true)
+            }
+          }
           if (this.supplierComplete.gpSupplierBankNoteDTO.country)
             this.$refs.opneBank.getYP()
           if (this.supplierComplete.subBankList)
@@ -280,7 +299,7 @@ export default {
             settlementBankDTO: this.supplierComplete.settlementBankDTO,
           }
           // 判断是一般还是生产供应商 减去相应参数
-          if (this.supplierComplete.supplierDTO.supplierType == 'GP') {
+          if (this.$route.query.subSupplierType == "GP") {
             if (this.supplierComplete.gpSupplierDetails.length > 0) {
               this.supplierComplete.gpSupplierDetails.forEach(e => {
                 if (!e.supplierId) {
