@@ -179,11 +179,13 @@ export default {
     },
     initIframeDomObserver() {
       const iframeAppDom =  this.iframeDom.contentWindow.document.querySelector('#app') // sourcing vue根DOM
+      const iframeHtml =  this.iframeDom.contentWindow.document.querySelector('html') // sourcing vue根DOM
 
       if (iframeAppDom) {
         const appDomObserver = new MutationObserver(() => {
           const tabsBoxWrap = iframeAppDom.querySelector('#tabsBoxWrap')
           iframeAppDom.style.height = "auto";
+          iframeHtml.style.zoom = "unset";
           if (tabsBoxWrap) {
             this.autoFrameHeight = tabsBoxWrap ? tabsBoxWrap.clientHeight || 0 : 0
           } else {
