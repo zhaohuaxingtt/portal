@@ -179,7 +179,7 @@ export default {
     },
     initIframeDomObserver() {
       const iframeAppDom =  this.iframeDom.contentWindow.document.querySelector('#app') // sourcing vue根DOM
-      const iframeHtml =  this.iframeDom.contentWindow.document.querySelector('html') // sourcing vue根DOM
+      const iframeHtml =  this.iframeDom.contentWindow.document.querySelector('html') // sourcing html节点
 
       if (iframeAppDom) {
         const appDomObserver = new MutationObserver(() => {
