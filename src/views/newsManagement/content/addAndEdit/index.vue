@@ -56,7 +56,7 @@ import {
   increasePageViews
 } from '@/api/news/news'
 import { newsClassify, newsTypes } from './components/data'
-
+import { reloadOpener } from '@/utils'
 import dayjs from 'dayjs'
 export default {
   components: {
@@ -279,13 +279,8 @@ export default {
             this.language('NEWS_GENGXINCHENGGONG', '更新成功')
           )
           this.saveFlag = false
-          // this.$router.push({
-          //   name: "newsContent",
-          // });
+          reloadOpener()
           window.close()
-          if (window.opener) {
-            window.opener.location.reload()
-          }
         })
       } else {
         //新增
