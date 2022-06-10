@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="delivery-container">
+  <div class="delivery-container">
     <div class="rate-container flex-between-center-center">
       <div>
         <div class="title">个人</div>
@@ -13,12 +13,12 @@
       </div>
     </div>
     <div class="line-container" ref="line" style="height: 240px"></div>
-  </div> -->
-  <div class="center">
+  </div>
+  <!-- <div class="center">
     <span style="font-size: 16px; color: rgba(107, 121, 149, 0.56)">{{
       language('JINGQINGQIDAI', '敬请期待')
     }}</span>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -49,23 +49,23 @@ export default {
     }
   },
   async mounted() {
-    // const res = await getRate()
-    // let lindData_2 = []
-    // if (res.code == '200' && res) {
-    //   let lindData = _.cloneDeep(res.data)
-    //   lindData_2 = lindData.slice(lindData.length - 2)
-    //   for (let i = 0; i < lindData.length - 2; i += 1) {
-    //     this.departmentData_1.push(lindData[i].supplyRateDept)
-    //     this.stocksData.push(lindData[i].supplyRateDeptG)
-    //     this.departmentData_2.push(lindData[i].supplyRateDeptK)
-    //     this.perData.push(lindData[i].supplyRatePerson)
-    //     this.month.push(lindData[i].month.split('.')[0] + '月')
-    //   }
-    //   this.rate.personal =
-    //     lindData_2 && lindData_2.length && lindData_2[0].person
-    //   this.rate.CS = lindData_2 && lindData_2.length > 1 && lindData_2[1].cs
-    //   this.initLine()
-    // }
+    const res = await getRate()
+    let lindData_2 = []
+    if (res.code == '200' && res) {
+      let lindData = _.cloneDeep(res.data)
+      lindData_2 = lindData.slice(lindData.length - 2)
+      for (let i = 0; i < lindData.length - 2; i += 1) {
+        this.departmentData_1.push(lindData[i].supplyRateDept)
+        this.stocksData.push(lindData[i].supplyRateDeptG)
+        this.departmentData_2.push(lindData[i].supplyRateDeptK)
+        this.perData.push(lindData[i].supplyRatePerson)
+        this.month.push(lindData[i].month.split('.')[0] + '月')
+      }
+      this.rate.personal =
+        lindData_2 && lindData_2.length && lindData_2[0].person
+      this.rate.CS = lindData_2 && lindData_2.length > 1 && lindData_2[1].cs
+      this.initLine()
+    }
   },
 
   methods: {
