@@ -113,7 +113,7 @@ import {
   completeApproval,
   stageCompleteApproval
 } from '@/api/approval/myApproval'
-
+import { reloadOpener } from '@/utils'
 export default {
   name: 'UndoTaskDetail',
   components: {
@@ -341,15 +341,14 @@ export default {
             if (res.result) {
               this.$message.success(res.desZh || this.language('操作成功'))
 
-              if (window.opener) {
-                window.opener.location.reload()
-              }
+              reloadOpener()
               this.replaceUrl()
             } else {
               this.$message.error(res.desZh || this.language('操作失败'))
             }
           })
           .catch((err) => {
+            console.log('审批结果ERR', err)
             this.loading = false
             this.$message.error(err.desZh || this.language('操作失败'))
           })
@@ -359,9 +358,7 @@ export default {
       }
     },
     approvelSuccess() {
-      if (window.opener) {
-        window.opener.location.reload()
-      }
+      reloadOpener()
       this.dialogApprovalVisible = false
       this.replaceUrl()
     },

@@ -22,7 +22,7 @@
               <iFormItem :label="$t('模板编号')">
                 <iInput
                   v-model="createTemp.code"
-                  class="createInput "
+                  class="createInput"
                   disabled
                 />
               </iFormItem>
@@ -104,6 +104,7 @@ import {
   TEMPLATE_TYPES
 } from './components/data'
 import iEditor from '@/components/iEditor'
+import { reloadOpener } from '@/utils'
 export default {
   name: 'createInfo',
   components: { iPage, iSelect, iInput, iEditor, iCard, iButton, iFormItem },
@@ -197,7 +198,7 @@ export default {
     query() {
       if (this.id) {
         fetchTemplateById({ id: this.id })
-          .then(res => {
+          .then((res) => {
             const { result, data } = res
             if (result) {
               this.createTemp = data
@@ -209,7 +210,7 @@ export default {
               this.originalData = _.cloneDeep(this.createTemp)
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log('查询数据出错', err)
             iMessage.error('查询数据出错')
           })
@@ -221,7 +222,7 @@ export default {
       this.$refs.iEditor.insertHTML(this.parameter)
     },
     save(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           const channel = this.id ? this.createTemp.channel : this.channel
           let data = {
@@ -238,23 +239,20 @@ export default {
               return false
             }
           }
-          console.log(window.opener)
           saveTemplate(data)
-            .then(val => {
+            .then((val) => {
               if (val.code == 200) {
                 iMessage.success('保存成功')
 
                 setTimeout(() => {
                   window.close()
                 }, 3000)
-                if (window.opener) {
-                  window.opener.location.reload()
-                }
+                reloadOpener()
               } else {
                 iMessage.error('保存失败')
               }
             })
-            .catch(err => {
+            .catch((err) => {
               console.log('err', err)
               iMessage.error('保存失败')
             })
@@ -265,7 +263,7 @@ export default {
       this.createTemp = _.cloneDeep(this.originalData)
     },
     getChannel(arr, total) {
-      const useableArr = arr.filter(e => e <= total) // 筛选一下
+      const useableArr = arr.filter((e) => e <= total) // 筛选一下
       let totalValue = total
       const len = useableArr.length - 1
       const res = []
