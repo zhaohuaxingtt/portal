@@ -14,7 +14,11 @@
     </div>
     <div class="line-container" ref="line" style="height: 240px"></div>
   </div> -->
-   <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div>
+  <div class="center">
+    <span style="font-size: 16px; color: rgba(107, 121, 149, 0.56)">{{
+      language('JINGQINGQIDAI', '敬请期待')
+    }}</span>
+  </div>
 </template>
 
 <script>
