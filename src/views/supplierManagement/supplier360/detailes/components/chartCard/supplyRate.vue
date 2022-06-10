@@ -1,22 +1,20 @@
 <template>
-  <iCard style="height:16rem">
+  <iCard style="height: 16rem">
     <div class="title">
-      <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
+      <p>{{ language('PEIFUJIANGONGHUOLV', '配附件供货率') }}</p>
     </div>
 
-    <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div>
-    <!-- <div class="box">
-      <img :src="img"
-           class="imgIcon" />
+    <!-- <div class="center"> <span style="font-size:16px;color:rgba(107, 121, 149, 0.56);">{{language('JINGQINGQIDAI', '敬请期待')}}</span></div> -->
+    <div class="box">
+      <img :src="img" class="imgIcon" />
 
-      <div ref="chart"
-           class="chartStyle"></div>
-    </div> -->
+      <div ref="chart" class="chartStyle"></div>
+    </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, } from 'rise'
+import { iCard } from 'rise'
 import { getSapSupplierRate } from '@/api/supplierManagement/supplierCard/index'
 import img from '@/assets/images/supplyRate.svg'
 export default {
@@ -29,9 +27,9 @@ export default {
     }
   },
   components: {
-    iCard,
+    iCard
   },
-  data () {
+  data() {
     return {
       img: img,
       chart: 'oneChart',
@@ -40,30 +38,30 @@ export default {
     }
   },
   computed: {
-    style () {
+    style() {
       return {}
     }
   },
   watch: {
-    infodata (data) {
+    infodata(data) {
       this.getData(data.sapCode)
     },
-    '$i18n.locale' () {
-      this.getChart();
+    '$i18n.locale'() {
+      this.getChart()
     }
   },
 
-  mounted () {
-
+  mounted() {
+    this.getData()
   },
   methods: {
-    getData () {
+    getData() {
       getSapSupplierRate(this.infodata.sapCode).then((res) => {
         this.info = res.data
         this.getChart()
       })
     },
-    getChart () {
+    getChart() {
       let data1 = []
       let data2 = []
       let data3 = []
@@ -72,10 +70,11 @@ export default {
         data2.push(e.supplyRate)
         data3.push(e.month)
       })
-      data3 = data3.map(res => {
-        return res = parseInt(res) + this.language('SPR_FRM_DEP_MONTH', '月')
+      data3 = data3.map((res) => {
+        return (res = parseInt(res) + this.language('SPR_FRM_DEP_MONTH', '月'))
       })
-      let max = Math.max(...data2) === 0 ? Math.max(...data1) : Math.max(...data2)
+      let max =
+        Math.max(...data2) === 0 ? Math.max(...data1) : Math.max(...data2)
 
       const myChart = echarts().init(this.$refs.chart)
       this.option = {
@@ -101,15 +100,13 @@ export default {
         tooltip: {
           trigger: 'axis',
           formatter: function (data) {
-
             let str = ''
             let val = ''
-            data.forEach(res => {
-              val = (Number(res.data) * 100).toFixed(2) + "%"
+            data.forEach((res) => {
+              val = (Number(res.data) * 100).toFixed(2) + '%'
               str += res.marker + res.seriesName + ':' + val + '<br>'
             })
             return str
-
           }
         },
         grid: {
@@ -240,5 +237,4 @@ export default {
   display: flex;
   align-items: center;
 }
-
 </style>
