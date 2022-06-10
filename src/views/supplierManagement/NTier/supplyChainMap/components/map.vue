@@ -235,7 +235,9 @@ export default {
     },
     // 生成贝塞尔曲线row:选择的数据
     handleRecursion (data, partNum, viewType) {
+      console.log(data);
       data.map((item, index) => {
+        if(!item.address) return false;
         this.markerChain[index] = new AMap.Marker({
           position: new AMap.LngLat(item.address.lon, item.address.lat),
           icon: this.lgIcon,
@@ -274,6 +276,7 @@ export default {
       })
 
       data.forEach((item, index) => {
+        if(!item.address) return false;
         this.markerChain.forEach((val, i) => {
           if (item.supplierId == val._opts.extData.supplierId && item.chainLevel === 1) {
             let extData = { ...val.getExtData(), viewType: viewType, partNum: partNum }
@@ -367,6 +370,7 @@ export default {
       }
       const res = await getRetrieveChain(pms)
       this.handleRecursion(res.data, row.partNum, viewType)
+      console.log(this.bezierCurve)
       this.bezierCurve.forEach((item, index) => {
         this.bezierCurve[index].setMap(this.map)
       })
