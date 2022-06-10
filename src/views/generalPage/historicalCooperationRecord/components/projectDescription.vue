@@ -46,6 +46,7 @@ import tableList from '@/components/commonTable'
 import {projectDescriptionsTableTitle} from './data'
 // import { pageMixins } from '@/utils/pageMixins'
 import {queryGpSupplierCooperationRecord} from "@/api/supplier360/historicalCooperationRecord";
+import base64 from '@/utils/base64'
 
 export default {
   mixins: [
@@ -71,7 +72,9 @@ export default {
   },
   methods: {
     goGoGp(row){
-      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${row.contractId}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE&navType=true`)
+      var base = new base64();
+      var id = base.encode(row.contractId)
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${id}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE&navType=true`)
     },
     getTableList(){
       queryGpSupplierCooperationRecord(
