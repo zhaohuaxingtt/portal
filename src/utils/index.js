@@ -343,3 +343,14 @@ export function pad(num, n) {
   }
   return num
 }
+
+// window.opener.location.reload
+export function reloadOpener() {
+  try {
+    if (window.opener) {
+      window.opener.location.reload()
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}

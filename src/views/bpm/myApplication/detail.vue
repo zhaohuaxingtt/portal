@@ -87,7 +87,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { MAP_APPROVAL_TYPE } from '@/constants'
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import { baseForm, lastNode, appentAttachment } from './component'
-
+import { reloadOpener } from '@/utils'
 export default {
   name: 'BpmTaskApplyDetail',
   components: {
@@ -289,9 +289,7 @@ export default {
       setTimeout(() => {
         window.close()
       }, 3000)
-      if (window.opener) {
-        window.opener.location.reload()
-      }
+      reloadOpener()
     },
     closeRecall() {
       this.dialogRecallVisible = false
@@ -302,9 +300,7 @@ export default {
       setTimeout(() => {
         window.close()
       }, 3000)
-      if (window.opener) {
-        window.opener.location.reload()
-      }
+      reloadOpener()
     },
     //导出
     exportTemplate() {
