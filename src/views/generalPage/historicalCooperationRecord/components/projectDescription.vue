@@ -72,13 +72,13 @@ export default {
   },
   methods: {
     goGoGp(row){
-      var base = new base64();
-      var id = base.encode(row.contractId)
+      var id = window.btoa(row.contractId)
       window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/contractDetail?contractCode=${row.contractCode}&id=${id}&contractStatus=${row.contractStatus}&contractType=AGREEMENT_PRICE&navType=true`)
     },
     getTableList(){
+      console.log(this.$route.query);
       queryGpSupplierCooperationRecord(
-          this.$route.query.supplierId
+          this.$route.query.subSupplierId | this.$route.query.supplierId
       ).then(res=>{
         console.log(res);
         this.tableListData = res.data;
