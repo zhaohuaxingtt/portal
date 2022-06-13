@@ -103,7 +103,7 @@ export default {
             let str = ''
             let val = ''
             data.forEach((res) => {
-              val = (Number(res.data) * 100).toFixed(2) + '%'
+              val = Number(res.data).toFixed(2) + '%'
               str += res.marker + res.seriesName + ':' + val + '<br>'
             })
             return str
