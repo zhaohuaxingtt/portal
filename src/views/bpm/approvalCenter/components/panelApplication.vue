@@ -81,7 +81,9 @@ export default {
           modelTemplate: JSON.stringify(item.categoryList)
         }
       }) */
-      if (item.subType === 'aeko_approval') {
+      if (item.cardUrl) {
+        window.open(item.cardUrl)
+      } else if (item.subType === 'aeko_approval') {
         this.$router.push({
           name: 'bpmMyAppyAeko'
         })
