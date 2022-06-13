@@ -101,6 +101,7 @@ import {
 } from '@/api/approval/attach'
 import { pageMixins } from '@/utils/pageMixins'
 import deleteMixin from '@/mixins/deleteMixin'
+import { reloadOpener } from '@/utils'
 export default {
   name: 'DialogAppendAttachment',
   components: { iDialog, iButton, iInput, iSelect, iPagination, iTableCustom },
@@ -233,9 +234,7 @@ export default {
             iMessage.success(this.language('保存成功'))
             this.attachList.length = 0
             this.$emit('success')
-            if (window.opener) {
-              window.opener.location.reload()
-            }
+            reloadOpener()
           }
         })
         .catch(() => {

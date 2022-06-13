@@ -216,6 +216,7 @@ import {
   dataDic
 } from '@/api/materiel/partsMaterialGroup'
 import { getBasicList } from '@/api/basic/basic'
+import { reloadOpener } from '@/utils'
 export default {
   components: {
     iButton,
@@ -500,10 +501,7 @@ export default {
             if (res.code == '200') {
               this.isShowBdlSupplier = true
               this.stuffId = res.data
-              // window.close()
-              if (window.opener) {
-                window.opener.location.reload()
-              }
+              reloadOpener()
               iMessage.success('保存成功')
               // this.$route.query.stuffId =res.data
               this.$router.replace({
