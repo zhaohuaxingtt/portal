@@ -82,12 +82,12 @@
 </template>
 
 <script>
-import { iTabsList,iCard } from "rise";
-import { ruleTableTitle,partTableTitle } from "./data";
+import { iTabsList, iCard } from 'rise'
+import { ruleTableTitle, partTableTitle } from './data'
 import tableList from '@/components/commonTable/index.vue'
 export default {
   name: 'flowForm',
-  components:{
+  components: {
     iTabsList,
     iCard,
     tableList
@@ -116,9 +116,9 @@ export default {
     return {
       frameHeight: '500px',
       autoFrameHeight: 0,
-      tabsValue:2,
+      tabsValue: 2,
       ruleTableListData: [],
-      partTableListData:[],
+      partTableListData: [],
       partTableTitle,
       ruleTableTitle,
       iframeDom: null
@@ -162,7 +162,7 @@ export default {
     })
   },
   methods: {
-    tableChange(val){
+    tableChange(val) {
       console.log(val)
     },
     setHeight(e) {
@@ -178,22 +178,29 @@ export default {
       }
     },
     initIframeDomObserver() {
-      const iframeAppDom =  this.iframeDom.contentWindow.document.querySelector('#app') // sourcing vue根DOM
-      const iframeHtml =  this.iframeDom.contentWindow.document.querySelector('html') // sourcing html节点
+      const iframeAppDom =
+        this.iframeDom.contentWindow.document.querySelector('#app') // sourcing vue根DOM
+      const iframeHtml =
+        this.iframeDom.contentWindow.document.querySelector('html') // sourcing html节点
 
       if (iframeAppDom) {
         const appDomObserver = new MutationObserver(() => {
           const tabsBoxWrap = iframeAppDom.querySelector('#tabsBoxWrap')
-          iframeAppDom.style.height = "auto";
-          iframeHtml.style.zoom = "unset";
+          iframeAppDom.style.height = 'auto'
+          iframeHtml.style.zoom = 'unset'
           if (tabsBoxWrap) {
-            this.autoFrameHeight = tabsBoxWrap ? tabsBoxWrap.clientHeight || 0 : 0
+            this.autoFrameHeight = tabsBoxWrap
+              ? tabsBoxWrap.clientHeight || 0
+              : 0
           } else {
-            const iframeAppContentDom = iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
-            this.autoFrameHeight = iframeAppContentDom ? iframeAppContentDom.clientHeight || 0 : 0
+            const iframeAppContentDom =
+              iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
+            this.autoFrameHeight = iframeAppContentDom
+              ? iframeAppContentDom.clientHeight || 0
+              : 0
           }
 
-          this.iframeDom.style.height = `${ this.autoFrameHeight }px`
+          this.iframeDom.style.height = `${this.autoFrameHeight}px`
         })
 
         appDomObserver.observe(iframeAppDom, {
@@ -235,15 +242,15 @@ export default {
   border: 0;
 }
 
-.infor_futitle{
-  padding:0.5rem 0;
-  font-size:15px!important;
-  line-height:25px;
-  .big_font{
+.infor_futitle {
+  padding: 0.5rem 0;
+  font-size: 15px !important;
+  line-height: 25px;
+  .big_font {
     font-weight: bold;
   }
-  .big_small{
-    padding-left:15px;
+  .big_small {
+    padding-left: 15px;
   }
 }
 .tableTitle {
@@ -254,16 +261,16 @@ export default {
   opacity: 1;
   font-size: 18px;
 }
-::v-deep .el-tabs--card .el-tabs__header{
-  margin-bottom:10px!important;
+::v-deep .el-tabs--card .el-tabs__header {
+  margin-bottom: 10px !important;
 }
 
-::v-deep .el-table__header-wrapper{
-  .el-table__header{
-    .has-gutter{
-      .cell{
-        span{
-          font-weight: bold!important;
+::v-deep .el-table__header-wrapper {
+  .el-table__header {
+    .has-gutter {
+      .cell {
+        span {
+          font-weight: bold !important;
         }
       }
     }
