@@ -22,11 +22,9 @@
 </template>
 
 <script>
-import { Icon } from 'rise'
 import echarts from '@/utils/echarts'
 import { getRate } from '@/api/home'
 export default {
-  components: { Icon },
   props: {
     data: {
       type: Array,
@@ -73,11 +71,7 @@ export default {
       const chart = echarts().init(this.$refs.line)
       const option = {
         tooltip: {
-          trigger: 'axis',
-          formatter: (data) => {
-            data.sort((a, b) => a.value - b.value)
-            return `<div class="tooltip_fs">${data[0].value}%</div>`
-          }
+          trigger: 'axis'
         },
         color: ['#FCB04D', '#6192F0', '#21D59B', '#77CBFF'],
         legend: {
@@ -163,9 +157,10 @@ export default {
       > .title {
         font-size: 16px;
         color: #333;
+        margin-bottom: 10px;
       }
       > .rate {
-        font-size: 48px;
+        font-size: 36px;
         color: #1763f7;
         height: 100%;
         > span {
