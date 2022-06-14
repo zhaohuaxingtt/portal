@@ -78,6 +78,11 @@ export default {
     saveInfos() {
       this.purchaseRulesValid().then(async (data) => {
         this.repeatClick = true
+        if(this.$route.path=="/supplier/supplierList"){//PP
+          this.supplierRegisterForm.supplierType = "PP"
+        }else{
+          this.supplierRegisterForm.supplierType = "GP"
+        }
         const res = await getInvitation(this.supplierRegisterForm)
         this.resultMessage(res, () => {
           this.clearDiolog()
