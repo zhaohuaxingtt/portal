@@ -20,35 +20,33 @@
           </iInput>
           <iButton @click="$router.back()">{{ language('返回') }}</iButton>
         </div>
+
         <div class="detail">
-          <div class="detail-item" v-for="(l, index) in dataList" :key="index">
-            <h3 class="title" v-text="l.categoryName"></h3>
-            <div class="file" v-for="(item, index1) in l.list" :key="item.id">
+          <div class="detail-item" v-for="(value, name) in dataMap" :key="name">
+            <h3 class="title" v-text="value.categoryName"></h3>
+            <div class="file" v-for="item in value.list" :key="item.id">
               <div class="bell" v-if="item.isNew"></div>
-              <span class="title-text" @click="openFun(item, index, index1)">{{
-                `${
-                  item.source
-                    .substring(item.source.lastIndexOf('.') + 1)
-                    .toUpperCase() || 'PNG'
-                } ${item.title}-${item.publishDate}`
-              }}</span>
+              <span class="title-text" @click="openFun(item)">
+                {{ `${getSuffix(item)} ${item.title}-${item.publishDate}` }}
+              </span>
               <div>
-                <iButton size="mini" @click="share(item, index, index1)">
+                <iButton size="mini" @click="share(item)">
                   {{ language('分享') }}
                 </iButton>
-                <iButton size="mini" @click="handLoad(item, index, index1)">{{
-                  language('下载')
-                }}</iButton>
+                <iButton size="mini" @click="handLoad(item)">
+                  {{ language('下载') }}
+                </iButton>
               </div>
             </div>
             <iPagination
               v-update
-              @current-change="queryPage($event, l.categoryId, idx)"
+              @current-change="(val) => queryPage(val, value.categoryId)"
+              @size-change="(val) => handleSizePage(val, value.categoryId)"
               background
-              :current-page="params.current"
-              :page-size="params.size"
-              :page-sizes="[10]"
-              :total="l.total"
+              :current-page="value.page"
+              :page-size="value.size"
+              :page-sizes="[10, 20, 50, 100, 200, 500]"
+              :total="value.total"
               layout="sizes, prev, pager, next, jumper"
             />
           </div>
@@ -69,6 +67,7 @@ import {
   downLoadFileName,
   reportTypeDetailById
 } from '@/api/reportForm'
+
 const fileType = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   xls: 'application/vnd.ms-excel',
@@ -95,6 +94,7 @@ export default {
   data() {
     return {
       dataList: [],
+      dataMap: {},
       params: {
         size: 10,
         current: 1
@@ -114,7 +114,7 @@ export default {
     if (this.categoryIds) {
       this.query()
     }
-    this.queryDetail(queryObj.sectionId)
+    // this.queryDetail(queryObj.sectionId)
   },
   methods: {
     queryDetail(id) {
@@ -123,52 +123,44 @@ export default {
       console.log(res)
     },
     query() {
-      if (this.keyword) {
-        this.params.title = this.keyword
-      }
-      try {
-        this.loading = true
-        let dataList = []
-        this.categoryIds?.map(async (cate, index) => {
-          this.params.categoryId = cate
-          let res = await queryReportContentList(this.params)
-          if (res?.code === '200') {
-            let data = res?.data || []
-            if (data.length > 0) {
-              dataList.push({
-                categoryName: data[0]?.categoryName,
-                total: res.total,
-                page: res.pageNum,
-                list: data,
-                categoryId: this.categoryIds[index]
-              })
-            }
-          }
-        })
-        this.dataList = dataList
-      } finally {
+      this.loading = true
+      Promise.all(
+        this.categoryIds?.map(async (cate) => this.queryPage(1, cate))
+      ).finally(() => {
         this.loading = false
-      }
+      })
     },
-    async queryPage(page, id, index) {
-      this.params.current = page
-      this.params.categoryId = id
-      await queryReportContentList(this.params).then((res) => {
+    handleSizePage(size, categoryId) {
+      this.dataMap[categoryId].size = size
+      this.queryPage(1, categoryId)
+    },
+    async queryPage(page, categoryId) {
+      const pageSize = this.dataMap[categoryId]?.size || 10
+      const params = {
+        current: page,
+        categoryId,
+        size: pageSize
+      }
+      if (this.keyword) {
+        params.title = this.keyword
+      }
+
+      await queryReportContentList(params).then((res) => {
         if (res?.code === '200') {
-          let data = res?.data
-          let demoArr = []
-          demoArr.push({
+          const data = res?.data || []
+          const dataMapItem = {
             categoryName: data[0]?.categoryName,
             total: res.total,
-            page: res.pageNum,
+            page: page,
             list: data,
-            categoryId: this.categoryIds[index]
-          })
-          this.dataList[index] = demoArr
+            categoryId: categoryId,
+            size: pageSize
+          }
+          Vue.set(this.dataMap, categoryId, dataMapItem)
         }
       })
     },
-    share(item, i1, i2) {
+    share(item) {
       let subject = `我与你分享了一条 ${this.title} 《${item.title}》`
       const coverUrl = item?.cover?.includes('http')
         ? item.cover
@@ -176,7 +168,7 @@ export default {
       let body = `我与你分享了一条 ${this.title} 《${item.title}》 %0a%0d ${coverUrl}`
       let href = `mailto:?subject=${subject}&body=${body}`
       this.createAnchorLink(href)
-      this.updateIsNew(item.id, i1, i2)
+      this.updateIsNew(item)
     },
     createAnchorLink(href) {
       const a = document.createElement('a')
@@ -185,7 +177,7 @@ export default {
       a.click()
       a.remove()
     },
-    async handLoad(row, i1, i2) {
+    async handLoad(row) {
       let id = row.cover.split('=')[1] + ''
       let type =
         row.source.substring(row.source.lastIndexOf('.') + 1).toLowerCase() ||
@@ -209,19 +201,15 @@ export default {
           a.remove()
         }
       })
-      this.updateIsNew(row.id, i1, i2)
+      this.updateIsNew(row)
     },
     handleIconClick() {
       this.params.current = 1
       this.query()
     },
-    async openFun(item, i1, i2) {
+    async openFun(item) {
       let id = item.cover.split('=')[1] + ''
-      let type =
-        item.source
-          .substring(item.source.lastIndexOf('.') + 1)
-          .toLowerCase()
-          .toString() || 'png'
+      let type = this.getSuffix(item)
       const TYPEARR = ['png', 'pdf', 'jpg', 'jpeg']
       if (TYPEARR.includes(type)) {
         window.open(item.cover)
@@ -247,12 +235,21 @@ export default {
         })
       }
       // window.open(item.cover)
-      this.updateIsNew(item.id, i1, i2)
+      this.updateIsNew(item)
     },
     // 取消最新 new
-    async updateIsNew(id, i1, i2) {
-      await updateIsNew(id)
-      this.$set(this.dataList[i1].list[i2], 'isNew', false)
+    async updateIsNew(item) {
+      await updateIsNew(item.id)
+      item.isNew = false
+      // this.$set(this.dataList[i1].list[i2], 'isNew', false)
+    },
+    getSuffix(item) {
+      return (
+        item.source
+          .substring(item.source.lastIndexOf('.') + 1)
+          .toLowerCase()
+          .toString() || 'png'
+      )
     }
   }
 }
