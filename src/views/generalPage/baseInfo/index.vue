@@ -309,16 +309,19 @@ export default {
             }
             
             data.gpSupplierDetailDTO = _.cloneDeep(this.supplierComplete.gpSupplierDetails);
-            data.gpSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
-            data.gpSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
             data.gpSupplierDetailDTO = data.gpSupplierDetailDTO.filter(e => {
               return !(!e.businessBuyerEmail && !e.businessBuyerName && !e.businessBuyerNum && !e.businessBuyerDept && !e.businessContactEmail && !e.businessContactUser && e.industryPosition == "N")
             })
-           
+
+            data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO;
+            data.gpSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
+            data.gpSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
             delete data.gpSupplierDTO.formalStatus;
+
             data.gpSupplierSubBankListSaveDTO = {};
             data.gpSupplierSubBankListSaveDTO.list = this.supplierComplete.subBankList;
+
             data.gpSupplierBankNoteDTO = this.supplierComplete.gpSupplierBankNoteDTO;
 
             data.supplierDTO.companyAddress = this.supplierComplete.supplierDTO.address
@@ -343,19 +346,19 @@ export default {
                 })
               }
 
-              data.gpSupplierDetailDTO = this.supplierComplete.gpSupplierDetails
-              data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
-              delete data.gpSupplierDTO.formalStatus
-              data.gpSupplierSubBankListSaveDTO = {}
-              data.gpSupplierSubBankListSaveDTO.list =
-                this.supplierComplete.subBankList
-              data.gpSupplierBankNoteDTO =
-                this.supplierComplete.gpSupplierBankNoteDTO
+              // data.gpSupplierDetailDTO = this.supplierComplete.gpSupplierDetails
+              // data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
+              // delete data.gpSupplierDTO.formalStatus
+              // data.gpSupplierSubBankListSaveDTO = {}
+              // data.gpSupplierSubBankListSaveDTO.list =
+              //   this.supplierComplete.subBankList
+              // data.gpSupplierBankNoteDTO =
+              //   this.supplierComplete.gpSupplierBankNoteDTO
 
-              data.supplierDTO.companyAddress =
-                this.supplierComplete.supplierDTO.address
+              // data.supplierDTO.companyAddress =
+              //   this.supplierComplete.supplierDTO.address
             } else {
-              data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
+              // data.ppSupplierDTO = this.supplierComplete.ppSupplierDTO
             }
 
             // saveInfos(data, this.supplierType).then((res) => {
