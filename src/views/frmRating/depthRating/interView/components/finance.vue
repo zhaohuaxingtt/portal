@@ -154,8 +154,12 @@ export default {
             this.interViewData.bankList = []
           }
           this.tableLoading = false
+        }else{
+          this.tableLoading = false
         }
         console.log(this.interViewData.bankList)
+      }).catch(res=>{
+        this.tableLoading = false
       })
     },
     // 保存
