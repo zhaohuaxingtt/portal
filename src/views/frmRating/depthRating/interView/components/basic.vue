@@ -161,7 +161,11 @@ export default {
             this.interViewData.investorVOList = []
           }
           this.tableLoading = false
+        }else{
+          this.tableLoading = false
         }
+      }).catch(res=>{
+        this.tableLoading = false
       })
     },
     // 保存

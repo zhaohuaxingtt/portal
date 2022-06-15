@@ -336,7 +336,11 @@ export default {
             this.interViewData.supplierList = []
           }
           this.tableLoading = false
+        }else{
+          this.tableLoading = false
         }
+      }).catch(res=>{
+        this.tableLoading = false
       })
     },
     // 保存
