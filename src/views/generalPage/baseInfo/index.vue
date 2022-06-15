@@ -149,6 +149,7 @@ export default {
             baseInfo.supplierInfoVo.isListing.toString()
           if (baseInfo.gpSupplierInfoVO)
             this.supplierComplete.gpSupplierDTO = baseInfo.gpSupplierInfoVO
+            this.$refs.opneBank.getType()
           if (baseInfo.ppSupplierInfoVo) {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign
               ? '1'
@@ -288,7 +289,7 @@ export default {
     // 保存基本信息
     saveInfos (step = '') {
       return new Promise((resolve, reject) => {
-        Promise.all([this.isBaseInfoRules(),this.isBusinessRules(),this.cityRules()]).then(res => {
+        Promise.all([this.isBaseInfoRules(),this.isBusinessRules(),this.cityRules(),this.bankRules()]).then(res => {
           // 获取国家 城市 相应的name
           this.$refs.companyProfile.getCityName()
           this.$refs.opneBank.getCityName()
@@ -388,6 +389,23 @@ export default {
     async handleNextStep () {
       const nextStep = await this.saveInfos()
       return nextStep
+    },
+    bankRules(){
+      return new Promise((resolve, reject) => {
+        this.$refs.opneBank.$refs.bankRules1.validate((valid, object) => {
+          if (valid) {
+            resolve(valid)
+          } else {
+            this.$nextTick(() => {
+            	setTimeout(() => {
+                var isError = document.getElementsByClassName('is-error')
+                isError[0].querySelector('input').focus()
+              }, 100)
+            	return false;
+            })
+          }
+        })
+      })
     },
     cityRules(){
       return new Promise((resolve, reject) => {
