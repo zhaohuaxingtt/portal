@@ -178,33 +178,33 @@ export const bankRules={
 	],
 	'settlementBankDTO.bankCode':[
 		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
-		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
-		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+		// { pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
+		// { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankAccount':[
 		{ required: true, message: '请输入正确银行卡号', trigger: 'blur' },
-		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
-		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+		// { pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
+		// { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankTaxCode':[
 		{ required: true, message: '请输入税务代码', trigger: 'blur' },
-		{ pattern:/^[A-Za-z0-9]+$/, message: '税务代码错误', trigger: 'blur' }
+		// { pattern:/^[A-Za-z0-9]+$/, message: '税务代码错误', trigger: 'blur' }
 	],
   'gpSupplierBankNoteDTO.bankNoteName':[
     { required: true, message: '请输入电子银票账户银行名称', trigger: 'blur' },
   ],
   'gpSupplierBankNoteDTO.bankNoteAccount':[
     { required: true, message: '请输入电子银票银行账户行号', trigger: 'blur' },
-    { pattern:/^[A-Za-z0-9]+$/, message: '账户行号错误', trigger: 'blur' }
+    // { pattern:/^[A-Za-z0-9]+$/, message: '账户行号错误', trigger: 'blur' }
   ],
   'gpSupplierBankNoteDTO.country':[
-    { required: true, message: '请输入电子银票银行所在国家', trigger: 'blur' },
+    { required: true, message: '请输入电子银票银行所在国家', trigger: 'change' },
   ],
   'gpSupplierBankNoteDTO.province':[
-    { required: true, message: '请输入电子银票银行所在省份', trigger: 'blur' },
+    { required: true, message: '请输入电子银票银行所在省份', trigger: 'change' },
   ],
   'gpSupplierBankNoteDTO.city':[
-    { required: true, message: '请输入电子银票账户银行城市', trigger: 'blur' },
+    { required: true, message: '请输入电子银票账户银行城市', trigger: 'change' },
   ],
 }
 
@@ -223,13 +223,13 @@ export const bankRulesBank = {
 	],
 	'bankCode':[
 		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
-		{ pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
-		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+		// { pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
+		// { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'bankAccount':[
 		{ required: true, message: '请输入正确银行卡号', trigger: 'blur' },
-		{ pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
-		{ min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
+		// { pattern:/^[A-Za-z0-9]+$/, message: '银行卡号错误', trigger: 'blur' },
+		// { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'salaryAccount':[
 		{ required: true, message: '请输入农民工工资专用账户名称', trigger: 'blur' },
