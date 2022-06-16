@@ -1,6 +1,6 @@
 <!--
  * @Author: HS  新增议题gp  MBDL会议  修改
- * @FilePath: \front-portal\src\views\meeting\managementHall\mbdlMeeting\component\newAddTopic.vue
+ * @FilePath: \front-site-gpd:\front-portal\front-portal\src\views\meeting\managementHall\mbdlMeeting\component\newAddTopic.vue
 -->
 <template>
   <!--转派-->
@@ -300,7 +300,9 @@ import {
 } from '@/api/meeting/details'
 // import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
 // import { download, createAnchorLink } from "@/utils/downloadUtil";
-import { uploadFile, getReceiverById } from '@/api/meeting/type'
+//改接口  getReceiverById  为   findUsersById
+// import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { uploadFile, findUsersById } from '@/api/meeting/type'
 import { download } from '@/utils/downloadUtil'
 // import { MOCK_FILE_URL } from "@/constants";
 // import { getFileByIds } from "@/api/file/filedownload.js";
@@ -655,7 +657,7 @@ export default {
         id: this.meetingInfo.receiverId
       }
       //查询收件人
-      getReceiverById(data).then((res) => {
+      findUsersById(data).then((res) => {
         this.userData = res.employeeDTOS.filter((e) => e.id !== null)
         this.currentSearchUserData = [...res.employeeDTOS]
         console.log(this.currentSearchUserData);

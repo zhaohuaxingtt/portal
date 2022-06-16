@@ -1,6 +1,6 @@
 <!--
  * @Author: HS  gpcsc会议
- * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
+ * @FilePath: \front-site-gpd:\front-portal\front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
 -->
 <template>
   <iPage>
