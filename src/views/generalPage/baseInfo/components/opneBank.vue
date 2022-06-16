@@ -511,10 +511,12 @@
 		},
 		methods:{
 			getType(){
-				if(this.supplierData.gpSupplierDTO.businessType.indexOf('3') != -1){
-					this.bingoType = true;
-				}else{
-					this.bingoType = false;
+				if(this.supplierData.gpSupplierDTO && this.supplierData.gpSupplierDTO.businessType){
+					if(this.supplierData.gpSupplierDTO.businessType.indexOf('3') != -1){
+						this.bingoType = true;
+					}else{
+						this.bingoType = false;
+					}
 				}
 			},
 			getYP(){
