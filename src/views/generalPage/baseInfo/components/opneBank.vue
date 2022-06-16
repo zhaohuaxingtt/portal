@@ -562,18 +562,22 @@
 		},
 		methods:{
 			getType(){
-				if(this.supplierData.ppSupplierDTO.formalStatus == 1){
-					this.supplierIDCardType = true;
-				}else if(this.supplierData.ppSupplierDTO.formalStatus == 0){
-					this.supplierIDCardType = false;
-				}else{
-					this.supplierIDCardType = false;
+				if(this.supplierData.ppSupplierDTO && this.supplierData.ppSupplierDTO.formalStatus){
+					if(this.supplierData.ppSupplierDTO.formalStatus == 1){
+						this.supplierIDCardType = true;
+					}else if(this.supplierData.ppSupplierDTO.formalStatus == 0){
+						this.supplierIDCardType = false;
+					}else{
+						this.supplierIDCardType = false;
+					}
 				}
 
-				if(this.supplierData.gpSupplierDTO.businessType.indexOf('3') != -1){
-					this.bingoType = true;
-				}else{
-					this.bingoType = false;
+				if(this.supplierData.gpSupplierDTO && this.supplierData.gpSupplierDTO.businessType){
+					if(this.supplierData.gpSupplierDTO.businessType.indexOf('3') != -1){
+						this.bingoType = true;
+					}else{
+						this.bingoType = false;
+					}
 				}
 			},
 			getYP(){
