@@ -149,7 +149,6 @@ export default {
             baseInfo.supplierInfoVo.isListing.toString()
           if (baseInfo.gpSupplierInfoVO)
             this.supplierComplete.gpSupplierDTO = baseInfo.gpSupplierInfoVO
-            this.$refs.opneBank.getType()
           if (baseInfo.ppSupplierInfoVo) {
             baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign
               ? '1'
@@ -261,6 +260,9 @@ export default {
           if (this.supplierComplete.subBankList)
             this.$refs.opneBank.getSubBank()
 
+          setTimeout(() => {
+            this.$refs.opneBank.getType()
+          }, 100);
           this.$forceUpdate()
         }
       })
