@@ -568,6 +568,7 @@
 					}else if(this.supplierData.ppSupplierDTO.formalStatus == 0){
 						this.supplierIDCardType = false;
 					}else{
+						
 						this.supplierIDCardType = false;
 					}
 				}
