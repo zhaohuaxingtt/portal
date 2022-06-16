@@ -17,7 +17,6 @@
     :close-on-click-modal="false"
     @close="close"
   >
-  请问饿哦IQ我和哦
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
