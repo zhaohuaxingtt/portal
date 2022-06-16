@@ -70,15 +70,20 @@ export default {
     handleSubmit() {
       this.$refs.formName.validate(async (valid) => {
         if (valid) {
+          const { supplierId, subSupplierId } = this.$route.query
           const pms = {
             externalType: this.form.externalType,
-            ratingSupplierId: this.$route.query.supplierId
+            ratingSupplierId: supplierId || subSupplierId
           }
           const res = await externalRating(pms)
-          this.resultMessage(res,() => {
+          this.resultMessage(
+            res,
+            () => {
               this.clearDiolog()
-              this.$emit("refreshTable","")
-          },() => {})
+              this.$emit('refreshTable', '')
+            },
+            () => {}
+          )
         }
       })
     },

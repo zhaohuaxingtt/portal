@@ -6,57 +6,107 @@
 		</template>
 		<iFormGroup row="3" :rules="bankRules" :model="supplierData" ref="bankRules1">
 			<template v-if="$route.query.subSupplierType !== 'GP'">
-
-
 				<!-- 银行所在国家 -->
-				<iFormItem prop="settlementBankDTO.countryCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
-					<iLabel :label="$t('YINHANGSUOZAIGUOJIA')" required slot="label"></iLabel>
-					<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event)" v-show="!supplierData.settlementBankDTO.countryCode || supplierData.settlementBankDTO.countryCode.length>=6">
-						<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
-					</iSelect>
-					<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event,true)" v-show="!(!supplierData.settlementBankDTO.countryCode || supplierData.settlementBankDTO.countryCode.length>=6)">
-						<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
-					</iSelect>
-				</iFormItem>
-				<!-- 银行所在省份 -->
-				<iFormItem prop="settlementBankDTO.provinceCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
-					<iLabel :label="$t('YINGHANSUOZAISHENGFEN')" required slot="label"></iLabel>
-					<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event)" v-show="!supplierData.settlementBankDTO.provinceCode || supplierData.settlementBankDTO.provinceCode.length>=6">
-						<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
-					</iSelect>
-					<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event,true)" v-show="!(!supplierData.settlementBankDTO.provinceCode || supplierData.settlementBankDTO.provinceCode.length>=6)">
-						<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
-					</iSelect>
-				</iFormItem>
-				<!-- 银行所在城市/区 -->
-				<iFormItem prop="settlementBankDTO.cityCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
-					<iLabel :label="$t('YINHANGSUOZAICHENGSHI')" required slot="label"></iLabel>
-					<iSelect v-model="supplierData.settlementBankDTO.cityCode" @change="changeCity($event)">
-						<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
-					</iSelect>
-				</iFormItem>
+				<template v-if="supplierIDCardType">
+					<iFormItem prop="settlementBankDTO.countryCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
+						<iLabel :label="$t('YINHANGSUOZAIGUOJIA')" required slot="label"></iLabel>
+						<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event)" v-show="!supplierData.settlementBankDTO.countryCode || supplierData.settlementBankDTO.countryCode.length>=6">
+							<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
+						</iSelect>
+						<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event,true)" v-show="!(!supplierData.settlementBankDTO.countryCode || supplierData.settlementBankDTO.countryCode.length>=6)">
+							<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
+						</iSelect>
+					</iFormItem>
+					<!-- 银行所在省份 -->
+					<iFormItem prop="settlementBankDTO.provinceCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
+						<iLabel :label="$t('YINGHANSUOZAISHENGFEN')" required slot="label"></iLabel>
+						<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event)" v-show="!supplierData.settlementBankDTO.provinceCode || supplierData.settlementBankDTO.provinceCode.length>=6">
+							<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
+						</iSelect>
+						<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event,true)" v-show="!(!supplierData.settlementBankDTO.provinceCode || supplierData.settlementBankDTO.provinceCode.length>=6)">
+							<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
+						</iSelect>
+					</iFormItem>
+					<!-- 银行所在城市/区 -->
+					<iFormItem prop="settlementBankDTO.cityCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
+						<iLabel :label="$t('YINHANGSUOZAICHENGSHI')" required slot="label"></iLabel>
+						<iSelect v-model="supplierData.settlementBankDTO.cityCode" @change="changeCity($event)">
+							<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
+						</iSelect>
+					</iFormItem>
 
 
-				<!-- 银行名称 -->
-				<iFormItem prop="settlementBankDTO.bankName" v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
-					<iLabel :label="$t('YINGHANGMINCHENG')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
-					<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
-				</iFormItem>
-				<!-- 银行代码 -->
-				<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
-					<iLabel :label="$t('YINHANGDAIMA')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
-					<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
-				</iFormItem>
-				<!-- 银行账号 -->
-				<iFormItem prop="settlementBankDTO.bankAccount" v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
-					<iLabel :label="$t('YINHANGZHANGHAO')" required slot="label"></iLabel>
-					<iInput v-model="supplierData.settlementBankDTO.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
-				</iFormItem>
-				<!-- 税务代码 -->
-				<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
-					<iLabel :label="$t('SHUIWUDAIMA')" slot="label"></iLabel>
-					<iInput :disabled="true" :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankDTO.bankTaxCode"></iInput>
-				</iFormItem>
+					<!-- 银行名称 -->
+					<iFormItem prop="settlementBankDTO.bankName" v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
+						<iLabel :label="$t('YINGHANGMINCHENG')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
+						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
+					</iFormItem>
+					<!-- 银行代码 -->
+					<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
+						<iLabel :label="$t('YINHANGDAIMA')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
+						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
+					</iFormItem>
+					<!-- 银行账号 -->
+					<iFormItem prop="settlementBankDTO.bankAccount" v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
+						<iLabel :label="$t('YINHANGZHANGHAO')" required slot="label"></iLabel>
+						<iInput v-model="supplierData.settlementBankDTO.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
+					</iFormItem>
+					<!-- 税务代码 -->
+					<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
+						<iLabel :label="$t('SHUIWUDAIMA')" slot="label"></iLabel>
+						<iInput :disabled="true" :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankDTO.bankTaxCode"></iInput>
+					</iFormItem>
+				</template>
+				<template v-else>
+					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKINCOUNTRY">
+						<iLabel :label="$t('YINHANGSUOZAIGUOJIA')"  slot="label"></iLabel>
+						<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event)" v-show="!supplierData.settlementBankDTO.countryCode || supplierData.settlementBankDTO.countryCode.length>=6">
+							<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
+						</iSelect>
+						<iSelect v-model="supplierData.settlementBankDTO.countryCode" @change="changeCountry($event,true)" v-show="!(!supplierData.settlementBankDTO.countryCode || supplierData.settlementBankDTO.countryCode.length>=6)">
+							<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in country" :key="index"></el-option>
+						</iSelect>
+					</iFormItem>
+					<!-- 银行所在省份 -->
+					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKINPROVINCES">
+						<iLabel :label="$t('YINGHANSUOZAISHENGFEN')"  slot="label"></iLabel>
+						<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event)" v-show="!supplierData.settlementBankDTO.provinceCode || supplierData.settlementBankDTO.provinceCode.length>=6">
+							<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
+						</iSelect>
+						<iSelect v-model="supplierData.settlementBankDTO.provinceCode" @change="changeProvince($event,true)" v-show="!(!supplierData.settlementBankDTO.provinceCode || supplierData.settlementBankDTO.provinceCode.length>=6)">
+							<el-option :value="item.sapLocationCode" :label="item.cityNameCn" v-for="(item, index) in bankProvince" :key="index"></el-option>
+						</iSelect>
+					</iFormItem>
+					<!-- 银行所在城市/区 -->
+					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKINCITY">
+						<iLabel :label="$t('YINHANGSUOZAICHENGSHI')" slot="label"></iLabel>
+						<iSelect v-model="supplierData.settlementBankDTO.cityCode" @change="changeCity($event)">
+							<el-option :value="item.cityIdStr" :label="item.cityNameCn" v-for="(item, index) in bankCity" :key="index"></el-option>
+						</iSelect>
+					</iFormItem>
+
+
+					<!-- 银行名称 -->
+					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKNAME">
+						<iLabel :label="$t('YINGHANGMINCHENG')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
+						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
+					</iFormItem>
+					<!-- 银行代码 -->
+					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
+						<iLabel :label="$t('YINHANGDAIMA')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
+						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
+					</iFormItem>
+					<!-- 银行账号 -->
+					<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_ACCOUNTS">
+						<iLabel :label="$t('YINHANGZHANGHAO')"  slot="label"></iLabel>
+						<iInput v-model="supplierData.settlementBankDTO.bankAccount" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGZHANGHAO')"></iInput>
+					</iFormItem>
+					<!-- 税务代码 -->
+					<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_TAXCODE">
+						<iLabel :label="$t('SHUIWUDAIMA')" slot="label"></iLabel>
+						<iInput :disabled="true" :placeholder="$t('LK_QINGSHURU')+$t('SHUIWUDAIMA')" v-model="supplierData.settlementBankDTO.bankTaxCode"></iInput>
+					</iFormItem>
+				</template>
 			</template>
 
 			<template v-if="$route.query.subSupplierType == 'GP'">
@@ -221,7 +271,7 @@
 					</iSelect>
 				</iFormItem>
 			</template>
-			<template v-else>
+			<template v-if="this.$route.path!='/supplier/supplierListDis/supplierDisDetails'">
 				<!-- 正式 -->
 				<template v-if="bingoType">
 					<!-- 电子银票账户银行名称 -->
@@ -504,6 +554,7 @@
 					bankCity:[],
 				},
 				bingoType:true,
+				supplierIDCardType:true,
 			}
 		},
 		created(){
@@ -511,10 +562,23 @@
 		},
 		methods:{
 			getType(){
-				if(this.supplierData.gpSupplierDTO.businessType.indexOf('3') != -1){
-					this.bingoType = true;
-				}else{
-					this.bingoType = false;
+				if(this.supplierData.ppSupplierDTO && this.supplierData.ppSupplierDTO.formalStatus){
+					if(this.supplierData.ppSupplierDTO.formalStatus == 1){
+						this.supplierIDCardType = true;
+					}else if(this.supplierData.ppSupplierDTO.formalStatus == 0){
+						this.supplierIDCardType = false;
+					}else{
+						
+						this.supplierIDCardType = false;
+					}
+				}
+
+				if(this.supplierData.gpSupplierDTO && this.supplierData.gpSupplierDTO.businessType){
+					if(this.supplierData.gpSupplierDTO.businessType.indexOf('3') != -1){
+						this.bingoType = true;
+					}else{
+						this.bingoType = false;
+					}
 				}
 			},
 			getYP(){

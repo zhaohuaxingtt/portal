@@ -9,7 +9,7 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-dev.csvw.com'
+const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
