@@ -334,3 +334,7 @@ export const uploadTableTitle = [
   { props: 'createDate', name: '上传日期', key: 'SHANGCHUANRIQI' },
   { props: 'createByName', name: '上传人', key: 'SHANGCHUANREN' }
 ]
+
+export const dateFilter = (val, format = "YYYY-MM-DD HH:mm:ss", sourceFormat) => {
+  return typeof val === 'string' ||  typeof val === 'number' ? (val ? window.moment(val, sourceFormat).format(format) : '') : val
+}
