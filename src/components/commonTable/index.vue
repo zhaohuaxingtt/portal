@@ -293,7 +293,8 @@ export default {
       type: Function
     },
     border: { type: Boolean, default: false },
-    indexLabel:{type: String, default: '#' }
+    indexLabel:{type: String, default: '#' },
+    rowClassName:{type: String, default: '' },
   },
   components: {
     iInput,
@@ -360,6 +361,7 @@ export default {
     },
     handleTableRow(row) {
       row.row.index = row.rowIndex
+      return this.rowClassName
     }
   }
 }
