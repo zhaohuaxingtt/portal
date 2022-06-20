@@ -119,7 +119,7 @@ import {
   saveBaseGroup,
   fetchBaseGroup,
   fetchRawMaterial4SelectDict,
-  searchDepartmentList
+  queryDeptByIdListPost
 } from '@/api/materiel/mtzMaterielGroup'
 export default {
   name: 'TheDetailBase',
@@ -239,7 +239,7 @@ export default {
     save() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          searchDepartmentList(this.form.depts).then((val) => {
+          queryDeptByIdListPost(this.form.depts).then((val) => {
             if (val.code == 200) {
               const list = val.data
               this.form.simpleDeptInfos = list.map((e) => {
