@@ -29,7 +29,8 @@ export const tableTitle = [
 ]
 export const projectDescriptionsTableTitle = [
     {props: 'contractCode', name: '合同编号'},
-    {props: 'contractRemark', name: '项目描述'},
+    // {props: 'contractRemark', name: '项目描述'},
+    {props: 'contractName', name: '合同名称'},
     {props: 'nominationTotalPrice', name: '定点金额'},
     {props: 'nominationApproveDate', name: '定点时间'},
     {props: 'purchaserName', name: '采购员'}
