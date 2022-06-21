@@ -91,7 +91,7 @@ export const ruleTableTitle1_1 = [
     minWidth: 50
   },
   {
-    props: 'supplierId',
+    props: 'sapCode',
     name: '供应商',
     key: 'GONGYINGSHANG',
     overlap: true,
@@ -222,7 +222,7 @@ export const partTableTitle1_1 = [
     minWidth: 60
   },
   {
-    props: 'supplierId',
+    props: 'sapCode',
     name: '供应商',
     key: 'GONGYINGSHANG',
     overlap: true,
