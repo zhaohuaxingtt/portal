@@ -57,8 +57,8 @@
           :index="true"
           :selection="false">
           <template slot-scope="scope"
-                    slot="supplierId">
-            <span>{{scope.row.supplierId}}</span><br/>
+                    slot="sapCode">
+            <span>{{scope.row.sapCode}}</span><br/>
             <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope" slot="compensationPeriod">
@@ -80,8 +80,8 @@
           :index="true"
           :selection="false">
           <template slot-scope="scope"
-                    slot="supplierId">
-            <span>{{scope.row.supplierId}}</span><br/>
+                    slot="sapCode">
+            <span>{{scope.row.sapCode}}</span><br/>
             <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope" slot="compensationPeriod">
