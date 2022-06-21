@@ -260,7 +260,6 @@ export default {
           if (this.supplierComplete.subBankList)
             this.$refs.opneBank.getSubBank()
 
-
           setTimeout(() => {
             this.$refs.opneBank.getType()
           }, 100);
