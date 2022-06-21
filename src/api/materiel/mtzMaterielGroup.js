@@ -123,6 +123,15 @@ export function searchDepartmentList(data) {
   })
 }
 
+// 部门列表条件查询POST
+export function queryDeptByIdListPost(data) {
+  return searchRequest({
+    url: '/api/dept/getDeptListByIdListPost',
+    method: 'post',
+    data
+  })
+}
+
 // 根据关键词查询出材料组 并且将已被使用的材料组标注出来
 export function queryCategoryVo4MtzMaterialGroup(data) {
   return request({
