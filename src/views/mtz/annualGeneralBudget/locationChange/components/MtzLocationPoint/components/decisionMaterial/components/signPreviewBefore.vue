@@ -62,8 +62,8 @@
               <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
             </template>
             <template slot-scope="scope"
-                      slot="supplierId">
-              <span>{{scope.row.supplierId}}</span><br/>
+                      slot="sapCode">
+              <span>{{scope.row.sapCode}}</span><br/>
               <span>{{scope.row.supplierName}}</span>
             </template>
           </tableList>
@@ -84,8 +84,8 @@
               <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
             </template>
             <template slot-scope="scope"
-                      slot="supplierId">
-              <span>{{scope.row.supplierId}}</span><br/>
+                      slot="sapCode">
+              <span>{{scope.row.sapCode}}</span><br/>
               <span>{{scope.row.supplierName}}</span>
             </template>
           </tableList>
