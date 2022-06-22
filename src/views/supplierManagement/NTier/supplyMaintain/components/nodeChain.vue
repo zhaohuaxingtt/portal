@@ -6,41 +6,51 @@
  * @Descripttion: your project
 -->
 <template>
-  <div v-cloak
-       class="full-width flex-ver full-height"
-       v-loading="onDataLoading">
-    <div class="full-width flex-hor"
-         style="height: 40px; overflow: hidden; padding: 0"
-         v-show="
+  <div
+    v-cloak
+    class="full-width flex-ver full-height"
+    v-loading="onDataLoading"
+  >
+    <div
+      class="full-width flex-hor"
+      style="height: 40px; overflow: hidden; padding: 0"
+      v-show="
         (toolbar && toolbar.length > 0) ||
         $scopedSlots.toolbar ||
         $slots.toolbar
-      ">
+      "
+    >
       <template v-if="toolbar.indexOf('zoom') >= 0">
-        <div :class="['node-button', zoomInClass]"
-             @click="zoomIn"
-             title="放大"></div>
+        <div
+          :class="['node-button', zoomInClass]"
+          @click="zoomIn"
+          title="放大"
+        ></div>
         <div style="width: 40px; text-align: center">
           {{ parseInt(zoom * 100) }}%
         </div>
-        <div :class="['node-button', zoomOutClass]"
-             @click="zoomOut"
-             title="缩小"></div>
+        <div
+          :class="['node-button', zoomOutClass]"
+          @click="zoomOut"
+          title="缩小"
+        ></div>
       </template>
       <div style="flex: 1">
-        <slot name="toolbar"
-              :initWidth="initWidth"></slot>
+        <slot name="toolbar" :initWidth="initWidth"></slot>
       </div>
       <!-- 工具栏插槽 -->
-      <iButton @click="isDilog = true"
-               v-permission="SUPPLIER_WORKBENCH_N_WEIHU_NZHUCEYAOQING">{{
-        language('NTIERZHUCEYAOQING', 'N-Tier注册邀请')
-      }}</iButton>
-      <div v-if="toolbar.indexOf('reassign-lvl') >= 0"
-           v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI"
-           :class="['node-button', optimizeLevelClass]"
-           @click="optimizeLevel"
-           title="重置层级"></div>
+      <iButton
+        @click="isDilog = true"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_NZHUCEYAOQING"
+        >{{ language('NTIERZHUCEYAOQING', 'N-Tier注册邀请') }}</iButton
+      >
+      <div
+        v-if="toolbar.indexOf('reassign-lvl') >= 0"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI"
+        :class="['node-button', optimizeLevelClass]"
+        @click="optimizeLevel"
+        title="重置层级"
+      ></div>
       <!-- <div
         v-if="toolbar.indexOf('save') >= 0"
         :class="['node-button', emitDataClass]"
@@ -48,102 +58,145 @@
         v-permission="SUPPLIER_WORKBENCH_N_WEIHU_TIJIAOSHUJU"
         title="提交数据"
       ></div> -->
-      <iButton v-if="toolbar.indexOf('opt-node') >= 0"
-               @click="optimizeNodes('reast')"
-               v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI">{{
-        language('CHONGZHICENGJI', '重置层级')
-      }}</iButton>
-      <iButton v-if="toolbar.indexOf('copy') >= 0"
-               @click="copyNode"
-               v-permission="SUPPLIER_WORKBENCH_N_WEIHU_FZGYLL">{{
-        language('FUZHIGONGYINGLIANLU', '复制供应链路')
-      }}</iButton>
+      <iButton
+        v-if="toolbar.indexOf('opt-node') >= 0"
+        @click="optimizeNodes('reast')"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_CHONGZHICENGJI"
+        >{{ language('CHONGZHICENGJI', '重置层级') }}</iButton
+      >
+      <iButton
+        v-if="toolbar.indexOf('copy') >= 0"
+        @click="copyNode"
+        v-permission="SUPPLIER_WORKBENCH_N_WEIHU_FZGYLL"
+        >{{ language('FUZHIGONGYINGLIANLU', '复制供应链路') }}</iButton
+      >
     </div>
-    <div style="flex: 1; height: 0; overflow: auto; width: 100%"
-         ref="nodeChainArea">
-      <div id="canvas"
-           :style="{ height: compTop + 'px', width: compLeft + 'px' }"
-           @click.prevent.stop="isSelected = ''">
+    <div
+      style="flex: 1; height: 0; overflow: auto; width: 100%"
+      ref="nodeChainArea"
+    >
+      <div
+        id="canvas"
+        :style="{ height: compTop + 'px', width: compLeft + 'px' }"
+        @click.prevent.stop="isSelected = ''"
+      >
         <template v-for="node in chainNodeList">
-          <div :key="node.id"
-               :class="{
+          <div
+            :key="node.id"
+            :class="{
               'node-css': node.supplierId != supplierId,
               'highlight-node-css': node.supplierId == supplierId,
               'is-selected': isSelected == node.id
             }"
-               :id="node.id"
-               v-if="!node.hidden"
-               :style="{
+            :id="node.id"
+            v-if="!node.hidden"
+            :style="{
               top: node.top + 'px',
               left: node.left + 'px',
               width: nodeWidth + 'px',
               height: nodeHeight + 'px'
             }"
-               @click.prevent.stop="handleSelectedChange(node)">
-            <div class="full-width full-height flex-ver"
-                 style="align-items: flex-start; justify-content: flex-start">
-              <div class="full-width flex-hor"
-                   style="
+            @click.prevent.stop="handleSelectedChange(node)"
+          >
+            <div
+              class="full-width full-height flex-ver"
+              style="align-items: flex-start; justify-content: flex-start"
+            >
+              <div
+                class="full-width flex-hor"
+                style="
                   height: 40px;
                   align-items: center;
                   justify-content: flex-end;
-                ">
-                <slot name="head"
-                      :node="node"></slot>
+                "
+              >
+                <slot name="head" :node="node"></slot>
                 <!-- 节点抬头插槽 -->
-                <template v-if="node.chainLevel > 1 && whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIAN']">
-                  <div :class="['node-button', removeNodeClass, 'show-mini']"
-                       @click="removeNode(node)"></div>
+                <template
+                  v-if="
+                    node.chainLevel > 1 &&
+                    whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIAN']
+                  "
+                >
+                  <div
+                    :class="['node-button', removeNodeClass, 'show-mini']"
+                    @click="removeNode(node)"
+                  ></div>
                 </template>
-                <template v-if="node.chainLevel > -1 && whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIA']">
-                  <div :class="['node-button', addChildNodeClass, 'show-mini']"
-                       @click="addChildNode(node)"></div>
+                <template
+                  v-if="
+                    node.chainLevel > -1 &&
+                    whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_JIA']
+                  "
+                >
+                  <div
+                    :class="['node-button', addChildNodeClass, 'show-mini']"
+                    @click="addChildNode(node)"
+                  ></div>
                 </template>
               </div>
               <slot :node="node"></slot>
               <!-- 节点内容插槽 -->
-              <div v-if="showExpand(node)"
-                   :class="[
+              <div
+                v-if="showExpand(node)"
+                :class="[
                   'expand-node',
                   nodeExpanded(node) ? expandClass : reduceClass
                 ]"
-                   @click.prevent.stop="expandClicked(node)"></div>
+                @click.prevent.stop="expandClicked(node)"
+              ></div>
             </div>
           </div>
         </template>
       </div>
     </div>
-    <iDialog @close="closeDiolog()"
-             :title="language('NTIERZHUCEYAOQING', 'N-Tier注册邀请')"
-             :visible.sync="isDilog"
-             v-if="isDilog"
-             width="80%">
-      <iFormGroup row="3"
-                  :rules="baseRules"
-                  :model="formModel"
-                  ref="formModelRules">
+    <iDialog
+      @close="closeDiolog()"
+      :title="language('NTIERZHUCEYAOQING', 'N-Tier注册邀请')"
+      :visible.sync="isDilog"
+      v-if="isDilog"
+      width="80%"
+    >
+      <iFormGroup
+        row="3"
+        :rules="baseRules"
+        :model="formModel"
+        ref="formModelRules"
+      >
         <iFormItem prop="supplierName">
-          <iLabel :label="language('GONGYINGSHANGZHONGWENMING', '供应商中文名')"
-                  required
-                  slot="label"></iLabel>
-          <iInput :placeholder="language('请选择')"
-                  v-model="formModel.supplierName">
+          <iLabel
+            :label="language('GONGYINGSHANGZHONGWENMING', '供应商中文名')"
+            required
+            slot="label"
+          ></iLabel>
+          <iInput
+            :placeholder="language('请选择')"
+            v-model="formModel.supplierName"
+          >
           </iInput>
         </iFormItem>
         <iFormItem prop="contactName">
-          <iLabel :label="language('LIANXIRENXINGMING', '联系人姓名')"
-                  required
-                  slot="label"></iLabel>
-          <iInput :placeholder="language('请选择')"
-                  v-model="formModel.contactName">
+          <iLabel
+            :label="language('LIANXIRENXINGMING', '联系人姓名')"
+            required
+            slot="label"
+          ></iLabel>
+          <iInput
+            :placeholder="language('请选择')"
+            v-model="formModel.contactName"
+          >
           </iInput>
         </iFormItem>
         <iFormItem prop="contactEmail">
-          <iLabel :label="language('contactEmail', '联系人邮箱')"
-                  required
-                  slot="label"></iLabel>
-          <iInput :placeholder="language('请选择')"
-                  v-model="formModel.contactEmail">
+          <iLabel
+            :label="language('contactEmail', '联系人邮箱')"
+            required
+            slot="label"
+          ></iLabel>
+          <iInput
+            :placeholder="language('请选择')"
+            v-model="formModel.contactEmail"
+          >
           </iInput>
         </iFormItem>
       </iFormGroup>
@@ -376,7 +429,7 @@ export default {
     }
   },
   methods: {
-    handleScroll (id) {
+    handleScroll(id) {
       var div = this.$refs.nodeChainArea
       for (const key in this.chainNodeList) {
         if (this.chainNodeList[key].id === id) {
@@ -385,13 +438,12 @@ export default {
         }
       }
     },
-    expainExpress (str, node) {
+    expainExpress(str, node) {
       return eval(str)
     },
-    handleSelectedChange (node) {
+    handleSelectedChange(node) {
       this.isSelected = node.id
       this.node = node
-
     },
     initNodeChains: function () {
       var self = this
@@ -416,8 +468,8 @@ export default {
 
     messageConfirm: function (option, successFun, errorFun) {
       option = _.cloneDeep(Object.assign({ type: 'warning' }, option))
-      successFun = successFun || function () { }
-      errorFun = errorFun || function () { }
+      successFun = successFun || function () {}
+      errorFun = errorFun || function () {}
       Vue.confirm(option)
         .then(successFun)
         .catch(function (action) {
@@ -428,7 +480,7 @@ export default {
           }
         })
     },
-    handleSbumit () {
+    handleSbumit() {
       this.$refs.formModelRules.validate((valid) => {
         if (valid) {
           // if (
@@ -450,11 +502,11 @@ export default {
         }
       })
     },
-    closeDiolog () {
+    closeDiolog() {
       this.isDilog = false
       this.formModel = {
         supplierName: '',
-        contactName: "",
+        contactName: '',
         contactEmail: ''
       }
     },
@@ -485,7 +537,7 @@ export default {
             self.fintRootId(conn.targetId) !=
             self.fintRootId(conn.connection.suspendedElementId)
           ) {
-            // 
+            //
             // jsPlumb.deleteConnection(conn);
             // var edgeList = [];
             // edgeList[0] = {
@@ -530,7 +582,7 @@ export default {
       }
 
       // 绑定 当连线从一个终端点断开时的事件
-      jsPlumb.bind('connectionDetached', function (info, originalEvent) { })
+      jsPlumb.bind('connectionDetached', function (info, originalEvent) {})
 
       // 绑定 当连线从一个终端点断开时的事件
       jsPlumb.bind('connectionDragStop', function (info, originalEvent) {
@@ -873,12 +925,15 @@ export default {
       return newPosition
     },
     copyNode: function () {
-
       if (this.node.id != undefined) {
         this.$emit('copy-node', this.node)
-
       } else {
-        iMessage.warn(this.language('QINGXUANZEGUANLIANDEXIAYOUGONGYINGSHANGTANKUANG', '请选择所关联的下游供应商弹框'))
+        iMessage.warn(
+          this.language(
+            'QINGXUANZEGUANLIANDEXIAYOUGONGYINGSHANGTANKUANG',
+            '请选择所关联的下游供应商弹框'
+          )
+        )
       }
     },
 
@@ -932,7 +987,6 @@ export default {
       )
     },
 
-
     //上下同时修改，上面用于watch监听，下面用于点击重置
     optimizeNodes: function (v) {
       var self = this
@@ -952,7 +1006,6 @@ export default {
           self.initNodeChains()
         })
       })
-
     },
     findChildIds: function (parentId) {
       var childIds = []
@@ -988,7 +1041,6 @@ export default {
     },
 
     optimizeLevel: function () {
-
       var self = this
       self.onDataLoading = true
       self.$nextTick(function () {
@@ -1060,19 +1112,18 @@ export default {
       })
     }
   },
-  created () {
-  },
-  mounted () {
+  created() {},
+  mounted() {
     console.log()
-    var editBtn = document.querySelectorAll(".cursor>svg");
+    var editBtn = document.querySelectorAll('.cursor>svg')
     if (!this.whiteBtnList['SUPPLIER_WORKBENCH_N_WEIHU_EDIT']) {
-      editBtn.forEach(e => {
-        e.parentNode.removeChild(e);
+      editBtn.forEach((e) => {
+        e.parentNode.removeChild(e)
       })
     }
   },
   computed: {
-    whiteBtnList () {
+    whiteBtnList() {
       return this.$store.state.permission.whiteBtnList
     },
     compLeft: function () {
@@ -1087,7 +1138,7 @@ export default {
   watch: {
     nodeDatas: {
       handler: function (val) {
-
+        console.log('watch nodeDatas', val)
         if (JSON.stringify(val) !== '{}') {
           var self = this
           this.onDataLoading = true
