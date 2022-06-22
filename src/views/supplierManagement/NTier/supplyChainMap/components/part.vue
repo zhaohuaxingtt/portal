@@ -16,6 +16,10 @@
       </div>
       <div class="flex-ver" style="width: 87%;">
         <tableList :highlightCurrentRow="true" :height="200" style="width: 100%;" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :selection='false' :index="false" @handleCurrentChange="handleCurrentChange">
+          <template #partNum="scope">
+            <span>{{scope.row.partNum}}</span><br />
+            <span>{{scope.row.partNameCn}}</span>
+          </template>
         </tableList>
       </div>
     </div>
@@ -54,6 +58,7 @@ export default {
   watch: {
     object: {
       handler(data) {
+        console.log(data);
         this.tableListData = data.partList
       }
     }
