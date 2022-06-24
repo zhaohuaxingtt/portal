@@ -1546,7 +1546,7 @@
     SPR_FRM_DEP_FOLLOW: '后续跟踪建议', // 后续跟踪建议
     SPR_FRM_DEP_NEXT: '再次跟踪频率', // 再次跟踪频率
     SPR_FRM_DEP_COMMENT: '1-36个月/无需后续跟踪', // 1-36个月/无需后续跟踪
-    SPR_FRM_DEP_NOFOLLOW: '无需后续跟踪', // 无需后续跟踪
+    SPR_FRM_DEP_NOFOLLOW: 'No follow-up', // 无需后续跟踪
     SPR_FRM_DEP_MONTH: '月', // 月
     SPR_FRM_DEP_EXTINFO: '补充建议', // 补充建议
     SPR_FRM_DEP_BACKGROUND: '背景', // 背景
