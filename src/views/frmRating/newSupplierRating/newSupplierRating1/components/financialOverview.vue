@@ -5,7 +5,21 @@
 -->
 <template>
   <iCard collapse :title="$t('SPR_FRM_XGYSPJ_GYSZRPGMO_CWXX')">
-    <tableList :tableData="tableListData" :tableTitle="financialOverviewTitle" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange"/>
+    <tableList :tableData="tableListData"
+                :tableTitle="financialOverviewTitle"
+                :tableLoading="tableLoading"
+                :index="true"
+                @handleSelectionChange="handleSelectionChange">
+      <template #firstValue="scope">
+        <span>{{scope.row.firstValue?Number(scope.row.firstValue).toFixed(2):""}}</span>
+      </template>
+      <template #secondValue="scope">
+        <span>{{scope.row.secondValue?Number(scope.row.secondValue).toFixed(2):""}}</span>
+      </template>
+      <template #thirdValue="scope">
+        <span>{{scope.row.thirdValue?Number(scope.row.thirdValue).toFixed(2):""}}</span>
+      </template>
+    </tableList>
   </iCard>
 </template>
 

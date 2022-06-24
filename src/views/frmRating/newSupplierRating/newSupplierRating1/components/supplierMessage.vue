@@ -155,10 +155,9 @@ export default {
       var res1;
       if(this.$route.path !== "/supplier/frmrating/newsupplierrating/rating1"){
         res1 = await getApprove({ ratingId: this.$route.query.ratingId })
-      }
-
-      if (res1.result) {
-        this.info = res1.data
+        if (res1.result) {
+          this.info = res1.data
+        }
       }
 
       if (!res.data || !res.data.dunsCode) {
