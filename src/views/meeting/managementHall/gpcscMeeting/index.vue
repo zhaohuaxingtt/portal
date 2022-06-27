@@ -1316,23 +1316,48 @@ export default {
     },
     //发送大会议程
     sendAgenda() {
-      console.log(this.meetingInfo);
+      console.log(this.meetingInfo); 
+      console.log(this.meetingInfo.themens); //全部会议
       console.log(this.selectedTableData);
-      if (this.selectedTableData.length < 1) {
-        iMessage.success('请选择一条数据')
-      } else if (this.selectedTableData.length > 1) {
-        iMessage.success('只能选择一条数据')
-      } else if (this.selectedTableData[0].state == '03' && this.selectedTableData[0].conclusion == '09') {
-        // 判断议题结论为预备会通过和议题状态为已结束
-        // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
-        if (this.meetingInfo.isGpPreCSC == true) {
+      // if (this.selectedTableData.length < 1) {
+      //   iMessage.success('请选择一条数据')
+      // } else if (this.selectedTableData.length > 1) {
+      //   iMessage.success('只能选择一条数据')
+      // } else if (this.selectedTableData[0].state == '03' && this.selectedTableData[0].conclusion == '09') {
+      //   // 判断议题结论为预备会通过和议题状态为已结束
+      //   // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
+      //   if (this.meetingInfo.isGpPreCSC == true) {
+      //     this.sendAgendaDialog = true
+      //     this.rowId = this.selectedTableData[0].id
+      //   } else {
+      //     iMessage.error('不是预备会，不能发送大会议程！')
+      //   }
+      // } else {
+      //   iMessage.success('请确认议题为结束状态且结论为预备会通过')
+      // }
+      //6月27  修改为一次发送全部议题 
+      // state == '03' conclusion == '09'
+      if (this.meetingInfo.isGpPreCSC == true) {
+        let dataList=[]
+          this.meetingInfo.themens.map(x=>{
+            console.log(x);
+            if(x.state=='03' &&  x.conclusion== '09'){
+              dataList.push(x)
+            }
+          })
+          console.log(dataList);
+          let dataRowId =[]
+          dataList.forEach(z=>{
+            dataRowId.push(z.id)
+          })
+          console.log(dataRowId);
+
+
           this.sendAgendaDialog = true
-          this.rowId = this.selectedTableData[0].id
-        } else {
-          iMessage.error('不是预备会，不能发送大会议程！')
-        }
+          // this.rowId = this.selectedTableData[0].id  //单个id
+          this.rowId=dataRowId
       } else {
-        iMessage.success('请确认议题为结束状态且结论为预备会通过')
+        iMessage.error('不是预备会，不能发送大会议程！')
       }
     },
     handleClickColumn() {

@@ -627,7 +627,7 @@ export default {
   mixins: [resultMessageMixin],
   props: {
     rowId: {
-      type: String,
+      type: Array,
       default: () => {
         return []
       }
@@ -753,6 +753,8 @@ export default {
     },
     // 提交接口   单选 sendBigMeetingThemen
     handleSaveOk() {
+      console.log(this.rowId);
+      // return
       if (this.selectedRow.length < 1) {
         iMessage.success('请选择一条数据')
       } else if (this.selectedRow.length > 1) {
@@ -765,7 +767,6 @@ export default {
         }
         console.log(param);
         sendBigMeetingThemen(param).then((res) => {
-          debugger
           this.$alert(res.message, this.$t('GP_PROMPT'), {
             type: 'warning'
           })

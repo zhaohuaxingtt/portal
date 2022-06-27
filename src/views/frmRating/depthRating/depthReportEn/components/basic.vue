@@ -68,7 +68,7 @@
                    placeholder="Please select">
             <el-option value="0"
                        key="0"
-                       :label="$t('SPR_FRM_DEP_NOFOLLOW')"></el-option>
+                       label="No follow-up"></el-option>
             <el-option v-for="num in range(1,36)"
                        :key="num"
                        :value="num"
