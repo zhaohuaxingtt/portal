@@ -1,20 +1,20 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2022-06-27 14:31:07
+ * @LastEditTime: 2022-06-29 10:22:36
  * @LastEditors: Please set LastEditors
  * @Description: 首页
- * @FilePath: \front-site-gpd:\front-portal\front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
+ * @FilePath: \front-portal-gpd:\新建文件夹\front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
 -->
 <template>
   <div class="meeting-home">
-    <theSearch
+    <!-- <theSearch
       @searchTableList="searchTableList"
       @handleSearchReset="handleSearchReset"
       @setTypeObj="setTypeObj"
       @deleteWeek="deleteWeek"
       :form="form"
-    />
+    /> -->
     <theTable
       v-loading="loading"
       ref="theTable"
