@@ -1,10 +1,10 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2022-01-20 00:40:00
+ * @LastEditTime: 2022-06-27 14:31:07
  * @LastEditors: Please set LastEditors
  * @Description: 首页
- * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
+ * @FilePath: \front-site-gpd:\front-portal\front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
 -->
 <template>
   <div class="meeting-home">
@@ -62,7 +62,7 @@ export default {
       default: 'admin' //原来的路由大厅是admin，tab页上的cf
     },
     rowId:{
-      type: String,
+      type: Array,
     }
   },
   data() {
@@ -135,12 +135,11 @@ export default {
       const query={
         meetingId:this.$route.query.id,
         pageNum: this.page.currPage,
-        pageSize: 10,
-        relationMeetingId:this.rowId,
-
+        pageSize: this.page.pageSize,
+        //这个查询是根据meetingid去查的  可以不传
+        // relationMeetingId:this.rowId,
       } 
       findByRelationMeeting(query).then((res) => {
-          console.log(res,'1111');
           this.tableListData = res.data
           this.page.total = res.total
       })

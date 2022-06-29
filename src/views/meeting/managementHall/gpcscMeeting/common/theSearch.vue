@@ -36,6 +36,13 @@
             ></el-option>
           </iSelect>
         </el-form-item>
+        <!-- 待确认 原本没有这个按钮 -->
+        <!-- <template class="btn">
+          <div>
+            <iButton @click="searchTableList">查询</iButton>
+            <iButton @click="handleSearchReset">重置</iButton>
+          </div>
+        </template> -->
       </el-row>
       <el-row>
         <!--状态-->
@@ -87,7 +94,7 @@
 </template>
 
 <script>
-import { iInput, iSelect } from 'rise'
+import { iInput, iSelect ,iButton} from 'rise'
 import { getMettingType } from '@/api/meeting/type'
 import { statusList, weekListInit } from './data'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
@@ -96,6 +103,7 @@ import dayjs from '@/utils/dayjs.js'
 
 export default {
   components: {
+    iButton,
     iSearch,
     iInput,
     iSelect,
@@ -269,6 +277,9 @@ export default {
 </script>
 
 <style scoped>
+.btn{
+  margin-top: 20px;
+}
 ::v-deep .LastSearchOption {
   margin-top: 20px;
 }
