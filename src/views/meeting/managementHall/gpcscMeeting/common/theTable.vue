@@ -763,7 +763,7 @@ export default {
         const param = {
           meetingId: this.$route.query.id,
           relationMeetingId:this.selectedRow[0].id,//勾选数据
-          themenId:this.rowId //当前议题的id
+          themenIds:this.rowId //当前议题的id
         }
         console.log(param);
         sendBigMeetingThemen(param).then((res) => {
