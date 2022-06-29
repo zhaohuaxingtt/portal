@@ -767,10 +767,14 @@ export default {
         }
         console.log(param);
         sendBigMeetingThemen(param).then((res) => {
-          this.$alert(res.message, this.$t('GP_PROMPT'), {
-            type: 'warning'
-          })
-          // iMessage.success('发送大会议程成功!');
+          // this.$alert(res.message, this.$t('GP_PROMPT'), {
+          //   type: 'warning'
+          // })
+          if (res.code=='200') {
+            iMessage.success('发送大会议程成功!');
+          }else{
+            iMessage.error('发送大会议程失败!');
+          }
           //关闭弹窗
           this.$emit('handleCloseSaveOk')
         })
