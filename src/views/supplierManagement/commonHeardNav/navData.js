@@ -55,7 +55,7 @@ export const tabRouterList = [
     url: '/supplier/suppliergroupmanagement',
     activePath: '/supplier/suppliergroupmanagement',
     key: 'GONGYINGSHANGZUGUANLI',
-    // permissionKey: 'WORKBENCH_SUPPLIER_GROUP_MANAGEMENT'
+    permissionKey: 'GONGYINGSHANGZUGUANLI'
   }
   //   {
   //     value: 6,
