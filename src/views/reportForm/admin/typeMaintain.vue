@@ -5,7 +5,7 @@
         </pageHeader>
         <div style="width: 100%;">
             <div class="nav main">
-                <el-tabs class="pro-tabs" v-model="currentName">
+                <!-- <el-tabs class="pro-tabs" v-model="currentName">
                     <el-tab-pane :label="language('类型管理')" name="typeManager">
                         <TypeManage
                             v-if="currentName==='typeManager'"
@@ -14,9 +14,22 @@
                     <el-tab-pane :label="language('内容管理')" name="contentManager">
                         <ContentManger v-if="currentName==='contentManager'"></ContentManger>
                     </el-tab-pane>
-                </el-tabs>
+                </el-tabs> -->
+              <div class="mtz_ndys_nav">
+                <div class="mtz_ndys_nav_all">
+                  <div :class="currentName==='typeManager'?'active':''"
+                      @click="tableChange('typeManager')" 
+                      v-permission="ADMIN_REPORT_TYPEGL">{{language('类型管理')}}</div>
+                  <div :class="currentName==='contentManager'?'active':''"
+                      @click="tableChange('contentManager')"
+                      v-permission="ADMIN_REPORT_CONTENTGL">{{language('内容管理')}}</div>
+                </div>
+              </div>
             </div>
         </div>
+
+        <TypeManage v-if="currentName==='typeManager'"/>
+        <ContentManger v-if="currentName==='contentManager'"></ContentManger>
     </iPage>
 </template>
 
@@ -37,6 +50,21 @@ export default {
         return {
             currentName: 'typeManager'
         }
+    },
+    methods:{
+      tableChange(val){
+        if(this.currentName != val){
+          this.currentName = val;
+        }
+      },
+    },
+    mounted () {
+      this.$nextTick(_ => {
+        var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+        if (navList.length !== 0) {
+          navList[0].click();
+        }
+      })
     },
 }
 </script>
@@ -80,6 +108,49 @@ export default {
     padding-right: 20px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.08);
     border-radius: 3px;
+  }
+}
+
+
+.mtz_ndys_nav {
+  margin-top: 20px;
+  display: flex;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #727272;
+  // box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+  border: none;
+  text-align: center;
+  min-width: 9.375rem;
+  .mtz_ndys_nav_all {
+  }
+  .mtz_ndys_nav_all > div {
+    cursor: pointer;
+    min-width: 140px;
+    float: left;
+    height: 2.5rem;
+    box-sizing: border-box;
+    line-height: 2.5rem;
+    box-shadow: 0 0 1.25rem rgb(0 0 0 / 8%);
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .mtz_ndys_nav_all > div:nth-child(1) {
+    border-top-left-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-right: solid 1px #ececec;
+  }
+  .mtz_ndys_nav_all > div:nth-child(2) {
+    border-left: solid 1px #ececec;
+    border-top-right-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+  }
+
+  .active {
+    background-color: #ffffff;
+    background: #ffffff;
+    color: #1660f1;
   }
 }
 </style>
