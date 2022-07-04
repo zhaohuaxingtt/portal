@@ -1,6 +1,6 @@
 <!--
  * @Author: HS  gpcsc会议
- * @FilePath: \front-site-gpd:\front-portal\front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
+ * @FilePath: \front-portal-gpd:\新建文件夹\front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
 -->
 <template>
   <iPage>
@@ -1351,11 +1351,13 @@ export default {
             dataRowId.push(z.id)
           })
           console.log(dataRowId);
-
-
-          this.sendAgendaDialog = true
-          // this.rowId = this.selectedTableData[0].id  //单个id
-          this.rowId=dataRowId
+          if (dataRowId.length == 0) {
+            iMessage.error('没有预备会通过状态的议题，不能发送大会')
+          }else{
+            this.sendAgendaDialog = true
+            // this.rowId = this.selectedTableData[0].id  //单个id
+            this.rowId=dataRowId
+          }
       } else {
         iMessage.error('不是预备会，不能发送大会议程！')
       }
