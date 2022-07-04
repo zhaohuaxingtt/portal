@@ -650,6 +650,7 @@ export default {
     // 提交 endCscThemen
     handleSure(){
       console.log(this.selectedRow);
+      this.loading=true
       const params = {
        conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
@@ -661,14 +662,22 @@ export default {
       console.log(params);
       endCscThemen(params).then((res) => {
         if (res.code) {
+           this.loading=false
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
           this.$emit('close')
           this.close()
         }else{
+             this.loading=false
           iMessage.success('结束会议失败！')
         }
       })
+        .catch((err)=>{
+          this.loading=false
+           this.$alert('系统异常', this.$t('GP_PROMPT'), {
+            type: 'warning'
+          })
+        })
 
     },
     handleCancel() {

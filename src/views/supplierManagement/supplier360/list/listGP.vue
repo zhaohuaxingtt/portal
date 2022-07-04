@@ -27,6 +27,11 @@
             </el-option>
           </iSelect>
         </el-form-item>
+        <!-- 供应商名称 -->
+        <el-form-item :label="$t('TERMS_GONGYINGSHANGMINGCHENG')">
+          <iInput :placeholder="language('请输入')" @change="supplierFun($event)"
+                  v-model="form.supplierName"></iInput>
+        </el-form-item>
         <!-- 业务类型 -->
         <el-form-item :label="$t('LK_YEWULEIXING')">
           <iSelect :placeholder="language('请选择')"
@@ -38,11 +43,7 @@
             </el-option>
           </iSelect>
         </el-form-item>
-        <!-- 供应商名称 -->
-        <el-form-item :label="$t('TERMS_GONGYINGSHANGMINGCHENG')">
-          <iInput :placeholder="language('请输入')"
-                  v-model="form.supplierName"></iInput>
-        </el-form-item>
+        
         <!-- 统一社会信用代码 -->
         <el-form-item :label="$t('UnifySocialCreditCode')">
           <iInput :placeholder="language('请输入')"
@@ -75,7 +76,7 @@
                   v-model="form.svwCode"></iInput>
         </el-form-item> -->
         <el-form-item :label="$t('companyAddress')">
-          <iInput :placeholder="language('请输入')"
+          <iInput :placeholder="language('请输入')" @change="addressFun($event)"
                   v-model="form.address"></iInput>
         </el-form-item>
         <!-- 采购分类 -->
@@ -441,6 +442,12 @@ export default {
     // })
   },
   methods: {
+    addressFun(val){
+      this.form.address = val;
+    },
+    supplierFun(val){
+      this.form.supplierName = val;
+    },
     getCGFL(){
       getProcureCategory().then(res=>{
         this.fromGroup.purchaseList = res.data;

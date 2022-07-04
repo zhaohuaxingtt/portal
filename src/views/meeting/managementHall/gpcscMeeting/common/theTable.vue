@@ -2,7 +2,7 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton @click="handleSaveOk">{{ $t('提交') }}</iButton>
+        <iButton :loading="loading" @click="handleSaveOk">{{ $t('提交') }}</iButton>
       </div>
     </div>
     <iTableML
@@ -671,6 +671,7 @@ export default {
   },
   data() {
     return {
+      loading:false,
       isGenerating: false,
       isCanRecall: false,
       isCanOpen: false,
@@ -766,17 +767,21 @@ export default {
           themenIds:this.rowId //当前议题的id
         }
         console.log(param);
+        this.loading=true
         sendBigMeetingThemen(param).then((res) => {
-          // this.$alert(res.message, this.$t('GP_PROMPT'), {
-          //   type: 'warning'
-          // })
-          if (res.code=='200') {
-            iMessage.success('发送大会议程成功!');
-          }else{
-            iMessage.error('发送大会议程失败!');
-          }
+          this.$alert(res.message, this.$t('GP_PROMPT'), {
+            type: 'warning'
+          })
+           this.loading=false
+          // iMessage.success('发送大会议程成功!');
           //关闭弹窗
           this.$emit('handleCloseSaveOk')
+        })
+        .catch((err)=>{
+          this.loading=false
+           this.$alert('系统异常', this.$t('GP_PROMPT'), {
+            type: 'warning'
+          })
         })
       }
     },
