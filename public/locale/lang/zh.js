@@ -3105,6 +3105,8 @@
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
+    '审批数量':"审批数量",
+    "申请数量":"申请数量",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

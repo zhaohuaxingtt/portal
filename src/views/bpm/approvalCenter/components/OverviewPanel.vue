@@ -18,7 +18,7 @@
           <icon symbol class="icon" name="icongongyingshangshenhewancheng" />
         </span>
         <span class="text">{{
-          type === 'APPLY' ? '申请数量' : '审批数量'
+          type === 'APPLY' ? $t("申请数量") : $t("审批数量")
         }}</span>
       </div>
     </div>
