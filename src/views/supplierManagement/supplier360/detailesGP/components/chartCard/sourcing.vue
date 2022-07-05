@@ -103,7 +103,8 @@ export default {
   },
   methods: {
     openNav(){
-      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/csc/myCsc?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+      // window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/csc/myCsc?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/rfq/strandTaskRfq?supplierId=${this.supplier360ViewVO.subSupplierId}`)
     },
     sure () { },
     clickReset () { },
