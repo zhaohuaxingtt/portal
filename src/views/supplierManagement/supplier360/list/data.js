@@ -11,7 +11,7 @@ export const tableTitle = [
   {
     props: 'nameZh',
     name: '供应商中文名',
-    width: 200,
+    width: 320,
     key: 'GONGYINGSHANGZHONGWENMING',
     fixed: true,
     tooltip: true
@@ -19,7 +19,7 @@ export const tableTitle = [
   {
     props: 'nameEn',
     name: '供应商英文名',
-    width: 200,
+    width: 400,
     key: 'SupplierEn',
     tooltip: true
   },
@@ -27,7 +27,7 @@ export const tableTitle = [
   {
     props: 'socialcreditNo',
     name: '统一社会信用代码',
-    width: 200,
+    width: 250,
     key: 'UnifySocialCreditCode',
     tooltip: true
   },
@@ -78,7 +78,7 @@ export const tableTitle = [
   {
     props: 'supplierTagNameList',
     name: '供应商标签',
-    width: 200,
+    width: 350,
     key: 'GONGYINGSHANGBIAOQIAN',
     tooltip: true
   },
@@ -97,7 +97,7 @@ export const tableTitle = [
   {
     props: 'vwLinie',
     name: 'VW LINIE',
-    width: 120,
+    width: 250,
     key: 'VW LINIE',
     tooltip: true
   },
@@ -127,7 +127,7 @@ export const tableTitleGP = [
   {
     props: 'nameZh',
     name: '供应商中文名',
-    width: 200,
+    width: 320,
     key: 'GONGYINGSHANGZHONGWENMING',
     fixed: true,
     tooltip: true
@@ -135,7 +135,7 @@ export const tableTitleGP = [
   {
     props: 'nameEn',
     name: '供应商英文名',
-    width: 200,
+    width: 400,
     key: 'SupplierEn',
     tooltip: true
   },
@@ -150,7 +150,7 @@ export const tableTitleGP = [
   {
     props: 'supplierTagNameList',
     name: '供应商标签',
-    width: 200,
+    width: 350,
     key: 'GONGYINGSHANGBIAOQIAN',
     tooltip: true
   },
@@ -199,7 +199,7 @@ export const tableTitleGP = [
     width: 120,
     key: 'SUPPLIER_SUPPLIERTYPE'
   },
-  { props: 'gpBusinessTypeArrayStr', name: '业务类型', width: 120, key: 'YEWULEIXING' },
+  { props: 'gpBusinessTypeArrayStr', name: '业务类型', width: 160, key: 'YEWULEIXING' },
   { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO1' },
   //   { props: 'dept', name: '科室', width: 120, key: 'SUPPLIER_KESHI', tooltip: true },
   //   { props: 'purchaserNameZh', name: '采购员', width: 120, key: 'SPR_FRM_XGYSPJ_CGY', tooltip: true },
