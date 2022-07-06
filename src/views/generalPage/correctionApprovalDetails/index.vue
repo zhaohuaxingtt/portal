@@ -240,15 +240,29 @@ export default {
       }
     },
     onJump360 () {
-      this.$router.push({
-        path: '/view-suppliers',
-        query: {
-          current: 14,
-          supplierType: 4,
-          supplierToken: this.supplierToken,
-          subSupplierId: this.supplierId
-        },
-      })
+      if(this.detail?.supplierType == "GP"){
+        this.$router.push({
+          path: '/view-suppliers',
+          query: {
+            current: 13,
+            supplierType: 4,
+            supplierToken: this.supplierToken,
+            subSupplierType:"GP",
+            supplierId:this.supplierId,
+          },
+        })
+      }else{
+        this.$router.push({
+          path: '/view-suppliers',
+          query: {
+            current: 14,
+            supplierType: 4,
+            supplierToken: this.supplierToken,
+            subSupplierType:"PP",
+            supplierId:this.supplierId,
+          },
+        })
+      }
     },
     async handleFileDownload (row) {
       if (row.attachId && !row.isCommitment) {
