@@ -419,6 +419,16 @@
                 ></icon>
               </template>
             </el-table-column>
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="CSC编号"
+              min-width="90"
+            >
+              <template slot-scope="scope">
+                <span>{{scope.row.cscCode}}</span>
+              </template>
+            </el-table-column>
             <!-- 股别 presenterDept  -->
             <el-table-column
               show-overflow-tooltip
@@ -603,16 +613,7 @@
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <!-- CSC编号  cscCode-->
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="CSC编号"
-              min-width="90"
-            >
-              <template slot-scope="scope">
-                <span>{{scope.row.cscCode}}</span>
-              </template>
-            </el-table-column>
+            
           </iTableML>
           <div id="table-drag">
             <!-- 原meeting代码删除 就是实现议题调整 -->
@@ -653,6 +654,16 @@
                     symbol
                     :name="scope.row.sign=='S' ? 'iconicon-baofeichuzhi' : scope.row.sign=='F' ?'iconicon-fenduandingdian':''"
                   ></icon>
+                </template>
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="CSC编号"
+                min-width="90"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.cscCode}}</span>
                 </template>
               </el-table-column>
               <!-- 股别 presenterDept  -->
@@ -834,16 +845,7 @@
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <!-- CSC编号 -->
-              <el-table-column
-                show-overflow-tooltip
-                align="center"
-                label="CSC编号"
-                min-width="90"
-              >
-                <template slot-scope="scope">
-                  <span>{{scope.row.cscCode}}</span>
-                </template>
-              </el-table-column>
+              
             </iTableML>
           </div>
         </div>
@@ -1339,18 +1341,18 @@ export default {
       // state == '03' conclusion == '09'
       if (this.meetingInfo.isGpPreCSC == true) {
         let dataList=[]
+     
           this.meetingInfo.themens.map(x=>{
-            console.log(x);
             if(x.state=='03' &&  x.conclusion== '09'){
-              dataList.push(x)
+              if(!x.isSendbm){
+                dataList.push(x)
+              }
             }
           })
-          console.log(dataList);
           let dataRowId =[]
           dataList.forEach(z=>{
             dataRowId.push(z.id)
           })
-          console.log(dataRowId);
           if (dataRowId.length == 0) {
             iMessage.error('没有预备会通过状态的议题，不能发送大会')
           }else{
