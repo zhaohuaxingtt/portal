@@ -12,7 +12,7 @@
         </el-tabs>
       </div>
     </div>
-    <div class="unit">单位：百万元</div>
+    <div class="unit">{{$("DANWEIBAIWANRMB")}}</div>
   </div>
 </template>
 

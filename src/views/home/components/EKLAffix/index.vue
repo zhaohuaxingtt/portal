@@ -21,7 +21,7 @@
     <div class="ekl-content">
       <div class="target flex-between-center-center">
         <div class="left">
-          <div class="panel-title margin-bottom12"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">业绩目标</a></div>
+          <div class="panel-title margin-bottom12"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">{{$t("YEJIMUBIAO")}}</a></div>
           <el-select
             class="left-select"
             v-model="query.type"
@@ -119,8 +119,8 @@ export default {
       activeName: 'CS(Spare)',
       num: 2400,
       options: [
-        { name: '配件', value: 1 },
-        { name: '附件', value: 2 }
+        { name: '配件',nameEn:"Parts", value: 1 },
+        { name: '附件',nameEn:"Attachment", value: 2 }
       ],
       tabsData: {},
       value: '',
