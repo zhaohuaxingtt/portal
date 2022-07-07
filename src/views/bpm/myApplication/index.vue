@@ -170,6 +170,10 @@ export default {
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize
       }
+      // 接口需要收数组
+      if(typeof this.form.categoryList === 'string'){
+        this.form.categoryList = [this.form.categoryList]
+      }
       const data = {
         applyUserId: this.$store.state.permission.userInfo.id,
         isFinished: this.finished,
