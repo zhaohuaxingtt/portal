@@ -30,7 +30,7 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
+      <iButton :loading="loading" @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
     </span>
   </iDialog>
 </template>
@@ -57,7 +57,8 @@ export default {
       form: {
         externalType: ''
       },
-      dataChannelList: []
+      dataChannelList: [],
+      loading: false
     }
   },
   created() {
@@ -68,24 +69,29 @@ export default {
       this.$emit('input', false)
     },
     handleSubmit() {
-      this.$refs.formName.validate(async (valid) => {
-        if (valid) {
-          const { supplierId, subSupplierId } = this.$route.query
-          const pms = {
-            externalType: this.form.externalType,
-            ratingSupplierId: supplierId || subSupplierId
+      if(!this.loading){
+        this.loading = true
+        this.$refs.formName.validate(async (valid) => {
+          if (valid) {
+            const { supplierId, subSupplierId } = this.$route.query
+            const pms = {
+              externalType: this.form.externalType,
+              ratingSupplierId: supplierId || subSupplierId
+            }
+            const res = await externalRating(pms)
+            this.loading = false
+            this.resultMessage(
+              res,
+              () => {
+                this.clearDiolog()
+                this.$emit('refreshTable', '')
+                this.$refs.formName.resetFields()
+              },
+              () => {}
+            )
           }
-          const res = await externalRating(pms)
-          this.resultMessage(
-            res,
-            () => {
-              this.clearDiolog()
-              this.$emit('refreshTable', '')
-            },
-            () => {}
-          )
-        }
-      })
+        })
+      }
     },
     async getSelectList() {
       const res = await dictByCode('externalDataChannel')
