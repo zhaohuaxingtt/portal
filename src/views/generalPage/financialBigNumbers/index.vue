@@ -146,8 +146,15 @@ export default {
       }
       const flag = this.checkTableRequiredProps(this.tableListData, this.tableTitle)
       if (flag) {
+        let tableListData = JSON.parse(JSON.stringify(this.tableListData))
+        tableListData.forEach(item=>{
+          Object.keys(item).forEach(key=>{
+            if(typeof item[key] == 'string')
+            item[key] = item[key] && item[key].replaceAll(',','').replaceAll('，','')
+          })
+        })
         const pms = {
-          list: this.tableListData,
+          list: tableListData,
           "step": "register"
         }
         if (this.supplierType > 3) {
