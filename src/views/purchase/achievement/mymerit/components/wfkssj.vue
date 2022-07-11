@@ -19,7 +19,7 @@ export default {
         reportId: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].wfkssj.reportId,
         datasets: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].wfkssj.datasets,
         username: this.$store.state.permission.userInfo.id,
-        roles: []
+        roles: ["dept_permission"]
       }
     }
   },
