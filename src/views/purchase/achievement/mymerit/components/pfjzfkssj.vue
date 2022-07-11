@@ -21,10 +21,7 @@ export default {
         datasets: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].pfjzfkssj.datasets,
         username: this.username,
         roles: [
-          'cs_permission',
-          'buy_permission',
-          'dept_permission',
-          'gu_permission'
+          'dept_permission'
         ]
       }
     }
