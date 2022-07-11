@@ -30,7 +30,7 @@
             <el-option
               v-for="item in options"
               :key="item"
-              :label="item.name"
+              :label="$getLabel(item.name,item.nameEn)"
               :value="item.value"
             >
             </el-option>
@@ -48,7 +48,7 @@
           <span class="mid-num" style="color: #1763f7;">%</span>
         </div>
         <div class="right">
-          <div class="right-lab">目标值/承诺值</div>
+          <div class="right-lab">{{$t("MUBIAOZHIANDCHENGNUOZHI")}}</div>
           <div
             v-if="tabsData.totalTarget && tabsData.totalCommitment"
             class="target-val"
@@ -60,7 +60,7 @@
       </div>
       <div class="base flex-between-center-center">
         <div class="left">
-          <div class="title right-lab panel-title">业绩基础</div>
+          <div class="title right-lab panel-title">{{$t("LK_YJJC")}}</div>
         </div>
         <div class="middle">
           {{
@@ -76,8 +76,8 @@
       </div>
       <div class="echart">
         <div class="ekl-pie" ref="pie" style="height: 240px"></div>
-        <div class="tips">
-          <div class="title" style="color: #333333">当前完成率</div>
+        <div class="tips" style="max-width:42%;">
+          <div class="title" style="color: #333333">{{$t("DANGQIANWANCHENGLV")}}</div>
           <div>
             {{
               String(Number(tabsData.valEklType) / Number(tabsData.sumAll)) !=
@@ -222,7 +222,7 @@ export default {
     setEcharts() {
       const option = {
         title: {
-          text: '当前完成(持续)',
+          text: this.$t("DANGQIANWANCHENGCHIXU"),
           left: '-4',
           textStyle: {
             fontSize: '12px'
@@ -238,7 +238,7 @@ export default {
           color: ['#1AB5C7', '#B9EBF2'],
           right: '10',
           icon: 'circle',
-          top: '0%',
+          top: '6%',
           tooltip: {
             show: true,
             formatter: (data) => {
@@ -286,14 +286,14 @@ export default {
                 itemStyle: {
                   color: '#1AB5C7'
                 },
-                name: '完成'
+                name: this.$t("LK_YWC")
               },
               {
                 value: this.tabsData.subtract,
                 itemStyle: {
                   color: '#B9EBF2'
                 },
-                name: '待完成'
+                name: this.$t("LK_WWC")
               }
             ]
           }

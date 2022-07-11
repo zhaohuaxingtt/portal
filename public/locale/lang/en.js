@@ -2362,6 +2362,10 @@
     // 2022/7/7
     YEJIMUBIAO:"Performance objectives",
     DANWEIBAIWANRMB: 'unit: million (RMB)',
+    MUBIAOZHIANDCHENGNUOZHI:"Target No. / Commitment No.",
+    DANGQIANWANCHENGLV:"Current completion rate",
+    ZHONGQIGAIKUAN:"Metaphase Alteration",
+    DANGQIANWANCHENGCHIXU:"Current completion (continuous)",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
