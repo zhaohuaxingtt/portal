@@ -832,6 +832,7 @@ export default {
   props: {
     RsType: { type: Boolean }
   },
+  inject:['pageTitle'],
   data () {
     return {
       formData: {},
@@ -998,14 +999,16 @@ export default {
     },
     downPdf () {
       this.percentage = '0'
-      this.handleExportPdf()
-      return
       var name = ''
       if (this.title == '') {
         name = 'RS导出'
+      }else if(this.pageTitle.title){
+        name = this.pageTitle.title
       } else {
         name = this.title
       }
+      this.handleExportPdf(name)
+      return
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -1200,7 +1203,7 @@ export default {
       window.open(href, '_blank')
     },
     // 导出pdf
-    handleExportPdf() {
+    handleExportPdf(name) {
       this.loading = true
       console.time('截图')
       this.fileList = []
@@ -1224,7 +1227,7 @@ export default {
               j:i
             })
           }
-          this.pdf.save('test')
+          this.pdf.save(name)
           console.timeEnd('截图')
           this.loading = false
         })
