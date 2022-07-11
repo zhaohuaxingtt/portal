@@ -6,7 +6,7 @@
         multiple
         collapse-tags
         style="width: 100%"
-        placeholder="请选择科室"
+        :placeholder="`${ this.$i18n.locale === 'zh' ? '请选择科室' : 'please select department' }`"
         @change="handleChange"
       >
         <el-option
@@ -596,6 +596,7 @@ export default {
     },
     // init bar echarts
     initBar() {
+      var that = this;
       const totalCount = this.totalCount || 0
       if (!this.barChart) {
         this.barChart = echarts().init(this.$refs.bar)
@@ -634,7 +635,8 @@ export default {
               ? 0
               : ((total / totalCount) * 100).toFixed(2)
             const type = data[0].data.type
-            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${percent}%`
+
+            return `${type}-Rating ${that.$t('LK_SHUL')}：${total} ${that.$i18n.locale === 'zh' ? '家' : ''}<br/>${type}-Rating ${that.$i18n.locale === 'zh' ? '比例' : 'proportion'}：${percent}%`
           }
         },
         xAxis: {
@@ -662,11 +664,11 @@ export default {
         graphic: [
           {
             type: 'text',
-            right: 0,
+            right: 30,
             top: 10,
             style: {
               fill: '#7E84A3',
-              text: `C-Rating数量:${cTotal}家\n \nC-Rating比例:${
+              text: `C-Rating ${this.$t("LK_SHUL")}:${cTotal} ${that.$i18n.locale === 'zh' ? '家' : ''}\n \nC-Rating ${that.$i18n.locale === 'zh' ? '比例' : 'proportion'}:${
                 isNaN(cRating) ? 0 : cRating.toFixed(2)
               }%`,
               font: '9px sans-serif'
@@ -730,7 +732,7 @@ export default {
         ],
         grid: {
           containLabel: true,
-          left: 0,
+          left: 15,
           top: 50,
           right: 0,
           bottom: 0
