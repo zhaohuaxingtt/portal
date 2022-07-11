@@ -2358,8 +2358,14 @@
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
-    '审批数量':"Approval quantity",
-    "申请数量":"Number of applications",
+
+    // 2022/7/7
+    YEJIMUBIAO:"Performance objectives",
+    DANWEIBAIWANRMB: 'unit: million (RMB)',
+    MUBIAOZHIANDCHENGNUOZHI:"Target No. / Commitment No.",
+    DANGQIANWANCHENGLV:"Current completion rate",
+    ZHONGQIGAIKUAN:"Metaphase Alteration",
+    DANGQIANWANCHENGCHIXU:"Current completion (continuous)",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

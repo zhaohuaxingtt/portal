@@ -3105,8 +3105,14 @@
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
-    '审批数量':"审批数量",
-    "申请数量":"申请数量",
+
+    // 2022/7/7
+    YEJIMUBIAO:"业绩目标",
+    DANWEIBAIWANRMB: '单位：百万元',
+    MUBIAOZHIANDCHENGNUOZHI:"目标值/承诺值",
+    DANGQIANWANCHENGLV:"当前完成率",
+    ZHONGQIGAIKUAN:"中期改款",
+    DANGQIANWANCHENGCHIXU:"当前完成（持续）",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })
