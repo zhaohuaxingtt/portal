@@ -1,8 +1,9 @@
+<!-- 配附件供货率 -->
 <template>
   <div class="delivery-container">
     <div class="rate-container flex-between-center-center">
       <div>
-        <div class="title">个人</div>
+        <div class="title">{{`${ this.$i18n.locale === 'zh' ? '个人' : 'Personal' }`}}</div>
         <div class="rate">
           {{ rate.personal }} <span v-if="rate.personal">%</span>
         </div>
@@ -68,6 +69,10 @@ export default {
 
   methods: {
     initLine() {
+      // var geren = `${ this.$i18n.locale === 'zh' ? '个人' : 'Personal' }`
+      // var geren = `${ this.$i18n.locale === 'zh' ? '股' : 'Dept.' }`
+      // var geren = `${ this.$i18n.locale === 'zh' ? '科室' : 'Department' }`
+      // var geren = `${ this.$i18n.locale === 'zh' ? '部门' : 'Department' }`
       const chart = echarts().init(this.$refs.line)
       const option = {
         tooltip: {

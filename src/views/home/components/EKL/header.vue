@@ -12,7 +12,7 @@
         </el-tabs>
       </div>
     </div>
-    <div class="unit">{{$("DANWEIBAIWANRMB")}}</div>
+    <div class="unit">{{$t("DANWEIBAIWANRMB")}}</div>
   </div>
 </template>
 
