@@ -285,7 +285,7 @@
 					</iFormItem>
 					<!-- 电子银票银行账户行号 -->
 					<!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
-					<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
+					<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(1)" v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
 						<iLabel :label="$t('DZYPYHZHHH')"  required
 								slot="label"></iLabel>
 						<iInput :placeholder="$t('LK_QINGSHURU')"
@@ -345,7 +345,7 @@
 					</iFormItem>
 					<!-- 电子银票银行账户行号 -->
 					<!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
-					<iFormItem v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
+					<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(2)" v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
 						<iLabel :label="$t('DZYPYHZHHH')"
 								slot="label"></iLabel>
 						<iInput :placeholder="$t('LK_QINGSHURU')"
@@ -561,6 +561,18 @@
 			console.log(this.supplierData);
 		},
 		methods:{
+			hanghaoRules(val){
+				var rules = []
+				if(val == 1){
+					rules = [
+						{ required: true, message: '请输入电子银票银行账户行号', trigger: 'blur' },
+						{ pattern: /^\d{12,12}$/, message: '请输入12位数字', trigger: 'blur' },
+					]
+				}else if(val == 2){
+					rules = [{ pattern: /^\d{12,12}$/, message: '请输入12位数字', trigger: 'blur' }]
+				}
+				return rules
+			},
 			getType(){
 				if(this.supplierData.ppSupplierDTO && this.supplierData.ppSupplierDTO.formalStatus){
 					if(this.supplierData.ppSupplierDTO.formalStatus == 1){
