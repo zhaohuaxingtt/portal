@@ -2358,6 +2358,7 @@
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
+    SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
