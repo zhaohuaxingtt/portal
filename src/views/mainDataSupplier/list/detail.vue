@@ -321,7 +321,7 @@ export default {
           })
           .finally(() => (this.loading = false))
         }else{
-          fetchSupplier({ id })
+          fetchSupplierGP({ id,supplierType })
           .then((res) => {
             const { data, result } = res
             if (result) {
