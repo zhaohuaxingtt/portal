@@ -2369,6 +2369,7 @@
 
     MT_CHEHUIYITI:"Withdraw Topics",
     MT_ZILIAOSHANGCHUANREN: 'Data Uploaded By',
+    SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

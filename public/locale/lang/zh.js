@@ -3113,6 +3113,7 @@
     DANGQIANWANCHENGLV:"当前完成率",
     ZHONGQIGAIKUAN:"中期改款",
     DANGQIANWANCHENGCHIXU:"当前完成（持续）",
+    SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

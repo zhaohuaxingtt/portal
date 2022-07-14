@@ -17,15 +17,19 @@ export const supplierDirectoryTableTitle = [
     key: 'SUPPLIER_LIANXIRENXINGMING',
     required: true
   },
-  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI', width: 200 },
-  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN', width: 200 },
+  { props: 'designation', name: '职位', key: 'SUPPLIER_ZHIWEI' },
+  { props: 'dept', name: '部门', key: 'SUPPLIER_BUMEN'},
   { props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO' },
   {
     props: 'telephone',
     name: '联系电话',
     key: 'SUPPLIER_LIANXIDIANHUA',
     required: true,
-    width: 150
+  },
+  {
+    props: 'phoneM',
+    name: '电话号码',
+    key: 'SUPPLIER_DIANHUAHAOMA',
   },
   {
     props: 'email',
