@@ -70,7 +70,7 @@
       </iFormItem>
       <!-- 电子银票银行账户行号 -->
       <!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
-      <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount">
+      <iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(2)">
         <iLabel :label="$t('DZYPYHZHHH')" 
                 slot="label"></iLabel>
         <iInput :placeholder="$t('LK_QINGSHURU')"
@@ -338,6 +338,18 @@ export default {
     },
   },
   methods: {
+    hanghaoRules(val){
+      var rules = []
+      if(val == 1){
+        rules = [
+          { required: true, message: '请输入电子银票银行账户行号', trigger: 'blur' },
+          { pattern: /^\d{12,12}$/, message: '请输入12位数字', trigger: 'blur' },
+        ]
+      }else if(val == 2){
+        rules = [{ pattern: /^\d{12,12}$/, message: '请输入12位数字', trigger: 'blur' }]
+      }
+      return rules
+    },
     changeCountryDC(val){
       this.form.gpSupplierBankNoteDTO.province = ""
       this.form.gpSupplierBankNoteDTO.city = ""
