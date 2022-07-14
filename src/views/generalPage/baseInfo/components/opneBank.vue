@@ -41,7 +41,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构代码 -->
 					<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
 						<iLabel :label="$t('YINHANGDAIMA')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -91,7 +91,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构代码 -->
 					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
 						<iLabel :label="$t('YINHANGDAIMA')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -143,7 +143,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构代码 -->
 					<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE_GP">
 						<iLabel :label="$t('YINHANGDAIMA')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -192,7 +192,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构代码 -->
 					<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE_GP">
 						<iLabel :label="$t('YINHANGDAIMA')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -464,7 +464,7 @@
 							<iInput v-model="item.bankName"
 									:placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"></iInput>
 						</iFormItem>
-						<!-- 银行代码 -->
+						<!-- 银行机构代码 -->
 						<!-- prop="bankCode" -->
 						<iFormItem  prop="bankCode"
 									v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE_SON_GP">
