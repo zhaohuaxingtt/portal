@@ -134,13 +134,19 @@ export default {
       //     modelTemplate: JSON.stringify(item.categoryList)
       //   }
       // })
-      const url =
-        window.location.origin + process.env.VUE_APP_PUBLICPATH +
-        '/#/bpm/myApply?modelTemplate=' +
-        JSON.stringify(item.categoryList)
+      let url = ''
+      if (item.subType === 'aeko_approval') {
+        url = window.location.origin + process.env.VUE_APP_PUBLICPATH + '/#/bpm/myAekoApply?modelTemplate=' + JSON.stringify(item.categoryList)
+      } else {
+        url = window.location.origin + process.env.VUE_APP_PUBLICPATH + '/#/bpm/myApply?modelTemplate=' + JSON.stringify(item.categoryList)
+      }
       this.openUrl(url)
     },
     handleToApproval(item) {
+      if (item.cardUrl) {
+        window.open(item.cardUrl)
+        return
+      }
       const url =
         window.location.origin + process.env.VUE_APP_PUBLICPATH +
         '/portal/#/bpm/todoList?modelTemplate=' +
