@@ -2366,6 +2366,9 @@
     DANGQIANWANCHENGLV:"Current completion rate",
     ZHONGQIGAIKUAN:"Metaphase Alteration",
     DANGQIANWANCHENGCHIXU:"Current completion (continuous)",
+
+    MT_CHEHUIYITI:"Withdraw Topics",
+    MT_ZILIAOSHANGCHUANREN: 'Data Uploaded By',
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
