@@ -28,18 +28,13 @@
           </el-row>
         </el-form>
       </div>
-      <div class="operation"
-           v-if="!hiddenRight">
-        <slot name="button">
-          <iButton @click="query('search')"
-                   v-permission="searchKey">{{
+      <div class="operation">
+          <iButton @click="query('search')" >{{
             $t('MT_SOUSUO')
           }}</iButton>
-          <iButton @click="goBack"
-                   v-permission="resetKey">{{
+          <iButton @click="goBack" >{{
             $t('MT_FANHUI')
           }}</iButton>
-        </slot>
       </div>
     </div>
     <p class="line"></p>
@@ -253,8 +248,7 @@
 </template>
 
 <script>
-import { iCard, iPagination, iMessage } from 'rise'
-import { iInput, iSelect, iButton } from 'rise'
+import { iCard, iPagination, iMessage, iInput, iSelect, iButton } from 'rise'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iTableML from '@/components/iTableML'
 import { findMyThemens } from '@/api/meeting/myMeeting'
