@@ -97,7 +97,8 @@
         width="220"
       >
         <template slot-scope="scope">
-          <span>{{
+          <span class="open-link-text"
+                @click="lookOrEdit(scope.row)">{{
             !scope.row.topic && scope.row.isBreak ? '-' : scope.row.topic
           }}</span>
         </template>
@@ -233,18 +234,27 @@
       :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
+    <addTopic v-if="openAddTopic"
+              :openAddTopic="openAddTopic"
+              :meetingInfo="meetingInfo"
+              :editOrAdd="editOrAdd"
+              @closeDialog="closeDialog"
+              :lookThemenObj="lookThemenObj">
+    </addTopic>
   </div>
 </template>
 
 <script>
 import { iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
+import addTopic from '../../../live/components/addTopic.vue'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
 
 export default {
   components: {
     iPagination,
-    iTableML
+    iTableML,
+    addTopic
   },
   props: {
     data: {
@@ -279,13 +289,25 @@ export default {
         '01': 'MT_WEIJINXING',
         '02': 'MT_JINXINGZHONG',
         '03': 'MT_YIJIESHU'
-      }
+      },
+      editOrAdd: '',
+      openAddTopic: false,
+      meetingInfo: {},
+      lookThemenObj: {},
     }
   },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
   },
   methods: {
+    closeDialog () {
+      this.openAddTopic = false
+    },
+    lookOrEdit (row) {
+      this.lookThemenObj = { ...row }
+      this.editOrAdd = 'look'
+      this.openAddTopic = true
+    },
     isThemenHavaMy(item) {
       const presenterId = item.presenterId ? item.presenterId.split(',') : []
       const supporterId = item.supporterId ? item.supporterId.split(',') : []
