@@ -177,8 +177,8 @@ export const bankRules={
 		{ required: true, message: '请输入银行名称', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankCode':[
-		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
-		// { pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
+		{ required: true,message: '请输入正确银行机构代码', trigger: 'blur' },
+		// { pattern:/^[A-Za-z0-9]+$/, message: '银行机构代码错误', trigger: 'blur' },
 		// { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'settlementBankDTO.bankAccount':[
@@ -222,8 +222,8 @@ export const bankRulesBank = {
 		{ required: true, message: '请输入银行名称', trigger: 'blur' }
 	],
 	'bankCode':[
-		{ required: true,message: '请输入正确银行代码', trigger: 'blur' },
-		// { pattern:/^[A-Za-z0-9]+$/, message: '银行代码错误', trigger: 'blur' },
+		{ required: true,message: '请输入正确银行机构代码', trigger: 'blur' },
+		// { pattern:/^[A-Za-z0-9]+$/, message: '银行机构代码错误', trigger: 'blur' },
 		// { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' }
 	],
 	'bankAccount':[

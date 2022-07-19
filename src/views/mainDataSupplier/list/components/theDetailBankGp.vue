@@ -181,7 +181,7 @@
                   <iInput v-model="item.bankName"
                           :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"></iInput>
               </iFormItem>
-              <!-- 银行代码 -->
+              <!-- 银行机构代码 -->
               <!-- prop="bankCode" -->
               <iFormItem  prop="bankCode"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
