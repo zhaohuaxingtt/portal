@@ -331,7 +331,7 @@ export default {
         this.option2 = {
             title:{
                 show:true,
-                left:'5%',
+                left:30,
                 top:'top',
                 text:"Turnover",
                 textStyle:{
@@ -349,8 +349,10 @@ export default {
                 },
             },
             grid: {
-                width:"84%",
-                height:"70%",
+                top:55,
+                left:70,
+                right:70,
+                bottom:30,
             },
             tooltip: {
                 trigger: "axis",
