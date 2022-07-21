@@ -2327,20 +2327,20 @@
     LK_YUEDUYUSUANCHAYI: '月度预算差异', //月度预算差异
     LK_SHIJIZHIFUCHAYI: '实际支付差异', //实际支付差异
     LK_SHANCHUZHIXINGBAOGAO: '不可删除资信报告，请重新选择', //删除资信报告提示语
-    QINGXUANZEYEWULEIXING:'请选择业务类型',
-    YEWULEIXINGLIANXIRENYOUXIANG:'业务类型联系人邮箱',
-    YEWUBUMENLIANXIRENXINGMING:'业务类型联系人姓名',
+    QINGXUANZEYEWULEIXING:'Please Select Business Type',
+    YEWULEIXINGLIANXIRENYOUXIANG:'Business type Contact Person Email',
+    YEWUBUMENLIANXIRENXINGMING:'Business type Contact Person Name',
     YEWULEIXING:"业务类型",
-    DZYPZHYHMC:'电子银票账户银行名称',
-    DZYPYHZHHH:'电子银票银行账户行号',
-    DZYPYHSZGJ:'电子银票银行所在国家',
-    DZYPYHSZSF:'电子银票银行所在省份',
-    DZYPYHSZCS:'电子银票银行所在城市',
-    GONGYINGSHANGZIYINHANGZHANGHU:'供应商子银行账户',
-    NONGMINGGONGGONGZIZHUANYONG:'农民工工资专用账户名称',
-    CAIGOUYUANXINXI:'采购员信息',
-    YEWUBUMENLIANXIRENYOUXIANG:'业务部门联系人邮箱',
-    SHIFOUQIYONG:'是否启用',
+    DZYPZHYHMC:'E-bank draft name',
+    DZYPYHZHHH:'E-bank draft No.',
+    DZYPYHSZGJ:'E-bank Country',
+    DZYPYHSZSF:'E-bank Province',
+    DZYPYHSZCS:'E-bank City',
+    GONGYINGSHANGZIYINHANGZHANGHU:'Supplier sub bank account',
+    NONGMINGGONGGONGZIZHUANYONG:'Account name for migrant workers wages',
+    CAIGOUYUANXINXI:'Buyer’s information',
+    YEWUBUMENLIANXIRENYOUXIANG:'Planning dept. contact person Email',
+    SHIFOUQIYONG:'Enable or not',
     SHOUQUANYINHANGXINXI:"授权银行信息",
     JITUANXINXI:'集团信息',
     SUPPLIER_CAIGOUFENLEI:'采购分类',
@@ -2348,16 +2348,15 @@
     FENSANNEIBUBAOXIAOGONGYINGSHANG:"分散（内部报销）供应商",
     NEIBUBAOXIAO:'内部报销',
     ZHENGSHIHAO:'正式号',
-    SHIFOUCHAOQI:'是否超期',
+    SHIFOUCHAOQI:'Overdue (Y/N)',
     DENGLURISEXITONGTIME:'登录RISE系统时间',
-    YINGYONGGUANLIAN:'应用关联',
-    YIBANGONGYINGSHANG:"一般供应商",
+    YINGYONGGUANLIAN:'Relevant Application',
+    YIBANGONGYINGSHANG:"General Supplier",
     LK_BITIANXIANGBUNENGWEIKONG:"必填项不能为空",
-    SUPPLIER_ZHUCEZIBEN:"注册资本",
+    SUPPLIER_ZHUCEZIBEN:"Register Capital",
     SKTZQZSJ:"受控停止起止时间",
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
-    GONGYONG:"共用",
 
     // 2022/7/7
     YEJIMUBIAO:"Performance objectives",
@@ -2369,6 +2368,7 @@
 
     MT_CHEHUIYITI:"Withdraw Topics",
     MT_ZILIAOSHANGCHUANREN: 'Data Uploaded By',
+    GONGYONG:"sharing",
     SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
   }
   i18n.setLocaleMessage('en', oldLanguage)

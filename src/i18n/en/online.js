@@ -3041,7 +3041,7 @@ export default {
   SUPPLIER_DIANZIYOUJIAN: 'Email',
   LK_JICHUXINXI: 'Basic Info',
   LK_LIANXIREN: 'Contact',
-  SHIFOUGUOWAICHANGSHANG: 'International Manufacturer (Y/N)',
+  SHIFOUGUOWAICHANGSHANG: 'Domestic Manufacturer (Y/N)',
   QIYEZIZHIYURENZHENG: 'Enterprise Qualification and Certification',
   SHENGCAHNGONGCHANGXINXI: 'Prod. Factory Info.',
   工厂占地面积: 'Factory Area',
