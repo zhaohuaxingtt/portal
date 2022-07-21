@@ -76,7 +76,6 @@ $color-blue-3: #2d539b;
       margin: 20px 0 0 20px;
       white-space: normal;
       text-overflow: ellipsis;
-      // overflow: hidden;
       max-width: calc(100% - 106px);
     }
     .cat-name {
