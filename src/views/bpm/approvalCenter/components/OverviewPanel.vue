@@ -68,15 +68,15 @@ $color-blue-3: #2d539b;
     display: flex;
     justify-content: space-between;
     position: relative;
+    min-height: 62px;
     .name {
       font-size: 16px;
       color: $color-blue-1;
       font-weight: bold;
       margin: 20px 0 0 20px;
-      white-space: nowrap;
+      white-space: normal;
       text-overflow: ellipsis;
-      overflow: hidden;
-      max-width: calc(100% - 70px);
+      max-width: calc(100% - 106px);
     }
     .cat-name {
       .text {

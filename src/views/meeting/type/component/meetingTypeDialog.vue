@@ -1145,7 +1145,8 @@ export default {
     async query(val) {
       let param = {
         roleCode: process.env.VUE_APP_MEETING_ADMIN_ROLE_CODE,
-        nameZh: val || ''
+        nameZh: val || '',
+        allPositonFlag: true
       }
       const res = await getListByParam(param)
       const { data } = res

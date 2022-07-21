@@ -448,7 +448,7 @@ export default {
   mounted() {
     // console.log(this.unFinishedData[0].type)
     //后来gp说这个按钮是gp会议就禁用
-    if (this.unFinishedData[0].type == 'GP') {
+    if (this.unFinishedData.length&&this.unFinishedData[0].type == 'GP') {
       this.disabledAddTopic = false
     }
     this.meetingTypeId = this.$route.query.id
