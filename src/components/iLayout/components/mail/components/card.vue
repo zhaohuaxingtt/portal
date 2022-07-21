@@ -238,15 +238,17 @@ export default {
     },
     getContentRows() {
       const div = document.createElement('div')
-      div.style.width = '240px'
+      div.style.width = '18.75rem'
       div.style.lineHeight = '16px'
       div.style.fontSize = '12px'
       div.innerHTML = this.item.content || ''
       div.style.whiteSpace = 'pre-wrap'
       div.style.wordBreak = 'break-all'
       document.body.append(div)
+      // console.log(div.clientHeight)
       const divRows = div.clientHeight / 16
       this.rows = divRows
+
       document.body.removeChild(div)
     },
     removeHtmlTag(text) {
