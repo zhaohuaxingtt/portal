@@ -44,13 +44,14 @@ export default {
     }
   },
   methods: {
-    async saveInfos(remark, regMoney, flag) {
+    async saveInfos(remark, regMoney, flag, basicDTO) {
       const pms = {
         regMoney: regMoney,
         otherScore: this.tableListData[0].result || '',
         otherRemark: this.tableListData[0].description || '',
         remark: remark,
-        ratingId: this.$route.query.id
+        ratingId: this.$route.query.id,
+        basicDTO: basicDTO
       }
       const res = await save(pms)
       if (flag === 'save') {
