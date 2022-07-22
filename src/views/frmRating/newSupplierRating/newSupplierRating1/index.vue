@@ -122,7 +122,7 @@ export default {
         return false
       }
       var remark = this.$refs.remarks.backRemark()
-      await this.$refs.pkpiTable.$refs.pkpiTable2.saveInfos(remark, regMoney, flag)
+      await this.$refs.pkpiTable.$refs.pkpiTable2.saveInfos(remark, regMoney, flag, this.basicDTO)
       return true
     },
     submitCalculateRefresh (viewType) {
@@ -134,7 +134,8 @@ export default {
         viewType: viewType,
         ratingSupplierId: this.$route.query.supplierId,
         ratingId: this.$route.query.id,
-        isExternalRating: isExternalRating || false
+        isExternalRating: isExternalRating || false,
+        basicDTO: this.basicDTO
       }
       const res = await getCalculate(pms)
       viewType !== 'view' && this.resultMessage(res)
