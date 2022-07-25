@@ -3,7 +3,7 @@
     <div class="header margin-bottom20">
       <span class="title">供应商组详情</span>
       <div>
-        <iButton v-if="!editStatus && !show" @click="intoEdit">编辑</iButton>
+        <iButton v-if="!editStatus && !show" @click="intoEdit" v-permission="SUPPLIER_GROUP_DETAIL_EDIT">编辑</iButton>
         <template v-else-if="editStatus || show">
           <iButton v-show="editStatus" @click="outEdit">退出编辑</iButton>
           <iButton v-show="editStatus ||show" @click="save">保存</iButton>

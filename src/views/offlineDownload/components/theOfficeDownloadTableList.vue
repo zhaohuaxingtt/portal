@@ -92,7 +92,8 @@ export default {
       const data = {
         ...this.searchForm,
         size: this.page.pageSize,
-        current: this.page.currPage
+        current: this.page.currPage,
+        userId: this.$store.state.permission.userInfo.id
       }
       getOfflineDownloadList(data)
         .then((res) => {

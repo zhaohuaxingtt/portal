@@ -324,31 +324,31 @@ export default {
     remoteMethod(v) {
       this.filterWord = v
     },
-    async getUsersList() {
-      // let params = {
-      // 	privilege: 'BBNRGLY'
+    getUsersList() {
+      let params = {
+        privilege: 'BBNRGLY'
+      }
+      getKnowledgeUser(params).then((res) => {
+        if (res) {
+          this.adminList = res || []
+        }
+      })
+      // let CSParams = {
+      //   privilege: 'CSXTGLY'
       // }
-      // await getKnowledgeUser(params).then(res => {
-      //     if (res) {
-      //         this.adminList = res || [{name: '测试', id: '1'}]
-      //     }
+      // let CIParams = {
+      //   privilege: 'CIXTGLY'
+      // }
+      // const fn1 = new Promise((resolve) => {
+      //   resolve(getKnowledgeUser(CSParams))
       // })
-      let CSParams = {
-        privilege: 'CSXTGLY'
-      }
-      let CIParams = {
-        privilege: 'CIXTGLY'
-      }
-      const fn1 = new Promise((resolve) => {
-        resolve(getKnowledgeUser(CSParams))
-      })
-      const fn2 = new Promise((resolve) => {
-        resolve(getKnowledgeUser(CIParams))
-      })
-      Promise.all([fn1, fn2]).then((result) => {
-        this.adminList = [...result[0], ...result[1]] || []
-        console.log(this.adminList, '33333')
-      })
+      // const fn2 = new Promise((resolve) => {
+      //   resolve(getKnowledgeUser(CIParams))
+      // })
+      // Promise.all([fn1, fn2]).then((result) => {
+      //   this.adminList = [...result[0], ...result[1]] || []
+      //   console.log(this.adminList, '33333')
+      // })
     },
     async getOrganizationsList() {
       this.orgLoading = true

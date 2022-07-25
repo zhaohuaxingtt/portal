@@ -94,7 +94,7 @@
     <el-divider></el-divider>
     <div class="padding-bottom35">
       <div class="flex-end-center margin-bottom25">
-        <iButton @click="sure">{{ language('QUEDING', ' 确定') }}</iButton>
+        <iButton :loading="loadingBtn" @click="sure">{{ language('QUEDING', ' 确定') }}</iButton>
       </div>
       <commonTable
         @handleSelectionChange="handleSelectionChange"
@@ -154,6 +154,7 @@ export default {
       formData: { ...MEETING_SEARCH_DATA },
       formDataDefault: { ...MEETING_SEARCH_DATA },
       loading: false,
+      loadingBtn:false,
     //   meetingType: [{ id: 149, name: 'MBDL会议' }],
       meetingTypeList:[],
       meetingStatus: [
@@ -309,8 +310,8 @@ export default {
     },
     //当前行
     handleSelectionChange(selection) {
-      console.log(selection);
       this.selectRows = selection
+       console.log(this.selectRows)
     },
     changeStart(e) {
       this.startWeek = dayjs(e).week() - 1
@@ -330,6 +331,7 @@ export default {
     },
     //列表勾选确认  rescheduleThemen
     sure(){
+      console.log(this.selectRows)
      if (this.selectRows.length > 1 || this.selectRows < 1)
         return this.$alert(
           this.$t('请选择一条数据'),
@@ -344,15 +346,23 @@ export default {
         themenId:this.rowId,
 
       }
-      debugger
       console.log(params);
       // return
+      this.loadingBtn=true
       updateMeeting(params) .then((res) => {
           iMessage.success('改期成功')
+          this.loadingBtn=false
+
           // iMessage.success(res.message)
           this.$emit('flushTable')
           this.$emit('close')
       })
+        .catch((err)=>{
+          this.loading=false
+           this.$alert('系统异常', this.$t('GP_PROMPT'), {
+            type: 'warning'
+          })
+        })
         
 
     }

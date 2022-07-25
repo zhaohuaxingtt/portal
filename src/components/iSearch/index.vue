@@ -7,27 +7,22 @@
  * @FilePath: \rise\src\components\iSearch\index.vue
 -->
 <template>
-  <iCard :title="title"
-         :tabCard="tabCard">
-    <div class="iSearch-content"
-         :class="{hiden:hidens}">
-      <div class="serch"
-           :style="`margin-right:${stypeWidth}px;`">
-        <slot>
-        </slot>
+  <iCard :title="title" :tabCard="tabCard">
+    <div class="iSearch-content" :class="{ hiden: hidens }">
+      <div class="serch" :style="`margin-right:${stypeWidth}px;`">
+        <slot> </slot>
       </div>
-      <div class="operation"
-           v-if='!hiddenRight'>
-        <slot name='button'>
-          <iButton @click="$emit('sure')"
-                   v-permission="searchKey">{{ $t('rfq.RFQINQUIRE') }}</iButton>
-          <iButton @click="$emit('reset')"
-                   v-permission="resetKey">{{ $t('rfq.RFQRESET') }}</iButton>
+      <div class="operation" v-if="!hiddenRight">
+        <slot name="button">
+          <iButton @click="$emit('sure')">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+          <iButton @click="$emit('reset')">{{ $t('rfq.RFQRESET') }}</iButton>
         </slot>
-        <i @click="toggle"
-           v-if='!icon'
-           class="el-icon-arrow-up icon margin-left20 cursor"
-           :class="{rotate:hidens}"></i>
+        <i
+          @click="toggle"
+          v-if="!icon"
+          class="el-icon-arrow-up icon margin-left20 cursor"
+          :class="{ rotate: hidens }"
+        ></i>
       </div>
     </div>
   </iCard>
@@ -37,7 +32,7 @@ import iCard from './components/iCard'
 import iButton from './components/iButton'
 /**
  * @example ./README.me
-*/
+ */
 export default {
   name: 'iSearch',
   components: { iCard, iButton },
@@ -63,13 +58,13 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       hidens: false,
       stypeWidth: 0
     }
   },
-  mounted () {
+  mounted() {
     this.getWidth()
   },
   methods: {
@@ -78,18 +73,20 @@ export default {
      * @param {*}
      * @return {*}
      */
-    getWidth () {
-      let rightWidth = this.hiddenRight ? 0 : this.$el.getElementsByClassName('operation')[0]
+    getWidth() {
+      let rightWidth = this.hiddenRight
+        ? 0
+        : this.$el.getElementsByClassName('operation')[0]
       // this.stypeWidth = rightWidth.clientWidth
     },
-    toggle () {
+    toggle() {
       this.hidens = !this.hidens
       this.$emit('toggle', this.hidens)
     }
   }
 }
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .iSearch-content {
   transition: max-height 0.5s;
   max-height: 500px;

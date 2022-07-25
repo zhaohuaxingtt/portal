@@ -245,7 +245,7 @@ export default {
           supplierType: 4,
           supplierToken: this.detail.token,
           subSupplierType:"GP",
-          supplierId:this.detail.id,
+          supplierId:this.detail.supplierId,
         },
       })
     },

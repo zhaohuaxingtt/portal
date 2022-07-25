@@ -47,6 +47,7 @@
         'telephoneAreaCode',
         'telephone',
         'phoneF',
+        'phoneM',
         'email',
         'remark'
       ]"

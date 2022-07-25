@@ -786,9 +786,9 @@ export default {
       this.editStatus = false
     },
     unitTabCancel() {
-      if (this.initialValue.baseUnitId == '') {
-        this.initialValue.baseUnitId = '59'
-      }
+    //   if (this.initialValue.baseUnitId == '') {
+    //     this.initialValue.baseUnitId = '59'
+    //   }
       if (this.initialValue.vos && this.measureEditdata) {
         if (
           this.initialValue.vos.length == this.measureEditdata.length &&
@@ -829,7 +829,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.initialValue.baseUnitId = '59'
+        // this.initialValue.baseUnitId = '59'
         this.editStatus = true
         this.id = 0
         this.getUnitTableList()
@@ -927,7 +927,7 @@ export default {
               this.data = []
               this.measureEditdata = []
               this.loading = false
-              this.materielUnit = '59'
+              this.materielUnit = ''
             } else {
               const data = val.data.vos
               if (data) {

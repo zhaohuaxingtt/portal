@@ -109,7 +109,12 @@
           label="Topic"
           width="220"
           min-width="220"
-        ></el-table-column>
+        >
+        <template slot-scope="scope">
+          <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
+            scope.row.topic
+          }}</span>
+        </template></el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -278,6 +283,18 @@
         :total="page.totalCount"
       /> -->
     <!-- <div class="warn-content">会议直播进程将每5秒自动刷新，请耐心等待。</div> -->
+    
+    <addTopic
+      @closeDialog="closeDialog"
+      v-if="openAddTopic"
+      :openAddTopic="openAddTopic"
+      @flushTable="flushTable"
+      :meetingInfo="meetingInfo"
+      :editOrAdd="editOrAdd"
+      :selectedTableData="selectedTableData"
+      :lookThemenObj="lookThemenObj"
+    >
+    </addTopic>
   </iPage>
 </template>
 
@@ -288,12 +305,14 @@ import iTableML from '@/components/iTableML'
 import { pageMixins } from '@/utils/pageMixins'
 import { follow, unfollow } from '@/api/meeting/live'
 import dayjs from 'dayjs'
+import addTopic from './addTopic.vue'
 
 export default {
   mixins: [pageMixins],
   components: {
     // iPagination,
-    iTableML
+    iTableML,
+    addTopic
   },
   data() {
     return {
@@ -301,7 +320,10 @@ export default {
       tableData: [],
       // resThemeData: [],
       currentUserId: '',
-      following: false
+      following: false,
+      openAddTopic:false,
+      editOrAdd: 'add',
+      lookThemenObj:{}
     }
   },
   props: {
@@ -339,6 +361,29 @@ export default {
     this.queryMeetingInfoById()
   },
   methods: {
+    closeDialog() {
+      this.openAddTopic = false
+    },
+    flushTable(info) {
+      if (info === 'onlyClose') {
+        this.closeDialog()
+      }
+      let timer = setTimeout(() => {
+        this.$emit('findMyThemensByCondition', this.form)
+        clearTimeout(timer)
+      }, 0)
+    },
+    lookOrEdit(row) {
+      this.lookThemenObj = row
+      if (row.follow || row.meetingStatus !== '02') {
+        this.editOrAdd = 'look'
+        // this.editOrAdd = "edit";
+        this.openAddTopic = true
+        return
+      }
+      this.editOrAdd = 'edit'
+      this.openAddTopic = true
+    },
     isThemenHavaMy(item) {
       const presenterId = item.presenterId ? item.presenterId.split(',') : []
       const supporterId = item.supporterId ? item.supporterId.split(',') : []
@@ -565,6 +610,9 @@ export default {
 ::v-deep .active-row {
   background: #1660f1 !important;
   color: #fff;
+  .open-link-text{
+    color: #fff;
+  }
 }
 .add-follow {
   display: flex;

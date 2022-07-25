@@ -20,10 +20,7 @@ export default {
         datasets: EKL_BAOBIAO_PARAMS[process.env.NODE_ENV].pfjzfbmsj.datasets,
         username: this.$store.state.permission.userInfo.id,
         roles: [
-          'cs_permission',
-          'buy_permission',
-          'dept_permission',
-          'gu_permission'
+          'cs_permission'
         ]
       }
     }
