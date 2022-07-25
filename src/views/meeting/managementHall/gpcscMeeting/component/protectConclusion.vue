@@ -198,12 +198,24 @@
          <!--定点金额   price -->
          <el-col :span="12" >
             <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
-                <i-input v-model="fromData.price" disabled>
-                </i-input>
+                <!-- <i-input v-model="fromData.price" disabled> -->
+                     <i-text
+                     class="text"
+                >{{thousands}}</i-text>
+                <!-- </i-input> -->
                  <span class="iconWid" v-if="iconShowA">高</span>
                  <span class="iconWid" v-if="iconShowB">低</span>
             </el-form-item> 
          </el-col>
+      </el-row>
+        <el-row :gutter="24">
+        <!--  货币   -->
+          <el-col :span="12" >
+            <el-form-item :label="language('HUOBI', '货币')" prop="currency">
+               <i-input v-model="fromData.currency" disabled></i-input>
+              </el-form-item>
+         </el-col>
+     
       </el-row>
           
       </el-form>
@@ -216,12 +228,15 @@
   </iDialog>
 </template>
 <script>
+import { toThousands  } from '@/utils'
+
 import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId , getCscCurrencyList ,findThemenConclusion} from '@/api/meeting/gpMeeting'
 import { findThemenById } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
 import {
+  iText,
   iDialog,
   iFormItem,
   iSelect,
@@ -238,6 +253,7 @@ import dayjs from 'dayjs'
 
 export default {
   components: {
+      iText,
     iDialog,
     iFormItem,
     iEditForm,
@@ -290,6 +306,8 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+    thousands:'',
+
         isFrozenRs:false,
         conclusionCscAllS:[],
         currencyS:[],
@@ -626,16 +644,17 @@ export default {
       findGpInfoByThemenId(params).then((res) => {
         console.log(res)
         this.fromData=res
+        this.thousands=toThousands(this.fromData.price)
         this.getRelateCommon()
         //判断是否显示图标
         //判断图标
         // 最低金额  lowerLimitMoney    最高金额  upperLimitMoney
         console.log(res.upperLimitMoney,res.lowerLimitMoney);
-        if (res.price !== null) {
-          if (res.price > res.upperLimitMoney) {
+        if (res.rmbPrice !== null) {
+          if (res.rmbPrice > res.upperLimitMoney) {
             this.iconShowA =true
           }
-          if (res.price < res.lowerLimitMoney){
+          if (res.rmbPrice < res.lowerLimitMoney){
             this.iconShowB =true
           }
         }
@@ -650,6 +669,7 @@ export default {
     // 提交 endCscThemen
     handleSure(){
       console.log(this.selectedRow);
+      this.loading=true
       const params = {
        conclusion: this.ruleForm.conclusion,//结论
        meetingId:this.$route.query.id,//会议id
@@ -661,14 +681,22 @@ export default {
       console.log(params);
       endCscThemen(params).then((res) => {
         if (res.code) {
+           this.loading=false
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
           this.$emit('close')
           this.close()
         }else{
+             this.loading=false
           iMessage.success('结束会议失败！')
         }
       })
+        .catch((err)=>{
+          this.loading=false
+           this.$alert('系统异常', this.$t('GP_PROMPT'), {
+            type: 'warning'
+          })
+        })
 
     },
     handleCancel() {
@@ -1018,5 +1046,16 @@ export default {
     position: absolute;
     top: 100%;
     left: 28px;
+    
+}
+.text{
+text-align:left;
+padding-left:20px;
+color: #C0C4CC;
+background: #F5F7FA;
+border: 1px solid;
+border-color: #E4E7ED;
+box-shadow: 0 0 0.1875rem rgb(0 38 98 / 15%);
+cursor: not-allowed;
 }
 </style>

@@ -37,7 +37,7 @@
       <div class="margin-bottom10 clearFloat">
         <div class="floatright btn-box">
           <i-button
-            v-permission="SUPPLIER_GROUP_MANAGEMENT_ADD_ZIDINGYIZU"
+            v-permission="SUPPLIER_GROUP_MANAGEMENT_BIAOQIANSHEZHI"
             @click="setTags"
             >{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button
           >
@@ -47,12 +47,12 @@
             >{{ language('TIANJIAGONGYINGSHANGZU', '添加供应商组') }}</i-button
           >
           <i-button
-            v-permission="SUPPLIER_GROUP_MANAGEMENT_DELETE_ZIDINGYIZU"
+            v-permission="SUPPLIER_GROUP_MANAGEMENT_DELETE"
             @click="deleteData"
             >{{ language('SHANCHU', '删除') }}</i-button
           >
           <i-button
-            v-permission="SUPPLIER_GROUP_MANAGEMENT_EXPORT_ZIDINGYIZU"
+            v-permission="SUPPLIER_GROUP_MANAGEMENT_EXPORT"
             @click="exportExcel"
             >{{ language('DAOCHU', '导出') }}</i-button
           >

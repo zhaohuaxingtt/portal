@@ -100,7 +100,8 @@ export default {
   },
   methods: {
     openNav(){
-      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/rfq/myTaskRfq?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+      // window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/rfq/myTaskRfq?supplierId=${this.supplier360ViewVO.subSupplierId}`)
+      window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/csc/cscstrandTask?supplierId=${this.supplier360ViewVO.subSupplierId}`)
     },
     getCanvas(){
       this.myChart = echarts().init(this.$refs.chart)

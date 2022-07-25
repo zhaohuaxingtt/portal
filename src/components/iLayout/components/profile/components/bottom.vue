@@ -1,6 +1,14 @@
 <template>
   <div>
-    <bottomItem label="Phone:" :text="userInfo.phone" />
+    <bottomItem
+      ref="phone"
+      label="Phone:"
+      text-key="phone"
+      :text="userInfo.phone"
+      placeholder="请输入电话"
+      editable
+    />
+
     <bottomItem label="Email:" :text="userInfo.email" />
     <bottomItem label="Role:" :text="role" />
     <bottomItem
@@ -10,7 +18,6 @@
       :text="userInfo.officeLocal"
       placeholder="请输入办公室地址"
       editable
-      @update="handleUpdate"
     />
     <bottomItem
       ref="mobile"
@@ -58,6 +65,7 @@ export default {
       this.$refs.office.handleSetEdit(false)
       this.$refs.mobile.handleSetEdit(false)
       this.$refs.wechat.handleSetEdit(false)
+      this.$refs.phone.handleSetEdit(false)
     }
   }
 }
