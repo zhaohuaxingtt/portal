@@ -417,11 +417,11 @@
         rightLoading: false,
         exportLoading: false,
         // baseUrl:process.env.NODE_ENV== 'dev'?'http://10.122.17.38':process.env.NODE_ENV!= 'production' ? process.env.VUE_APP_HOST: 'http://rise-nginx-internal.apps.vmocp-test.csvw.com',
-        baseUrl:""
+        baseUrl: process.env.VUE_APP_HOST
       }
     },
     created() {
-      this.baseUrl = window.location.host;
+    //   this.baseUrl = process.env.VUE_APP_HOST;
       this.getPartsRecordNodes()
     },
     methods: {
