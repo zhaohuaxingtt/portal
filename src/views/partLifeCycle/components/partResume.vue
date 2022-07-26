@@ -417,11 +417,11 @@
         rightLoading: false,
         exportLoading: false,
         // baseUrl:process.env.NODE_ENV== 'dev'?'http://10.122.17.38':process.env.NODE_ENV!= 'production' ? process.env.VUE_APP_HOST: 'http://rise-nginx-internal.apps.vmocp-test.csvw.com',
-        baseUrl:""
+        baseUrl: process.env.VUE_APP_HOST
       }
     },
     created() {
-      this.baseUrl = window.location.host;
+    //   this.baseUrl = process.env.VUE_APP_HOST;
       this.getPartsRecordNodes()
     },
     methods: {
@@ -559,7 +559,8 @@
         if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // fs编号
         if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${desinateId}&designateType=${designateType}` // RS单号
         if(path){
-          window.open(this.baseUrl + path, '_blank');
+          console.log(`${this.baseUrl}${path}`)
+          window.open(`${this.baseUrl}${path}`, '_blank');
         }
 
       },
