@@ -47,7 +47,7 @@
       </iFormItem>
        <!-- prop="bankCode" -->
       <iFormItem prop="bankCode">
-        <iLabel :label="language('银行代码')" slot="label" ></iLabel>
+        <iLabel :label="language('银行机构编码')" slot="label" ></iLabel>
         <iInput v-model="form.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
       </iFormItem>
        <!-- prop="bankAccount" -->
@@ -181,7 +181,7 @@
                   <iInput v-model="item.bankName"
                           :placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"></iInput>
               </iFormItem>
-              <!-- 银行代码 -->
+              <!-- 银行机构编码 -->
               <!-- prop="bankCode" -->
               <iFormItem  prop="bankCode"
                           v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">

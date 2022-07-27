@@ -967,7 +967,7 @@
     QDLYBJHJRXKZCXY_YINGHANGMINCHEN:
       'Please login the silver circ financial license query page (http://xkz.cbirc.gov.cn/jr), query the bank specific bank name', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr ），查询开户银行具体的银行名称
     QDLYBJHJRXKZCXY_YINGHANGDAIMA:
-      'Please login the silver circ financial license query page (http://xkz.cbirc.gov.cn/jr), query the bank 15 institutions code as the bank code', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码
+      'Please login the silver circ financial license query page (http://xkz.cbirc.gov.cn/jr), query the bank 15 institutions code as the bank code', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行机构编码
     GONGSIGAIKANG: 'Company Profile', //公司概况
     Home: 'Home',
     BasicInformation: 'Basic Information',
