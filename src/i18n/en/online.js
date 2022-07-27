@@ -3123,7 +3123,7 @@ export default {
   是否定点: 'Nomi. (Y/N)',
   供应商工厂DUNS: 'Supplier Plant DUNS',
   银行名称: 'Bank Name',
-  银行代码: 'Swift Code',
+  银行机构编码: 'Swift Code',
   银行账号: 'Account',
   税务代码: 'Tax Code',
   银行所在地: 'Location',
