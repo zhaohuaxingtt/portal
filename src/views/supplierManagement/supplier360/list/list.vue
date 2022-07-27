@@ -22,9 +22,9 @@
                <el-option v-if="item.code !== 'GP'"
                           :key="index"
                           :value="item.code"
-                          :label="item.name"
-                          :disabled="userType != '' && userType != 'PRE'">
+                          :label="item.name">
                 </el-option>
+                <!-- :disabled="userType != '' && userType != 'PRE'"> -->
             </template>
             <!-- <el-option v-for="(item, index) in fromGroup.supplierTypeList"
                        :key="index"
