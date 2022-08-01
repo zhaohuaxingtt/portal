@@ -907,6 +907,7 @@ export default {
   ZZYSZJEBWMH: '最终预算总金额（百万元）：',
   LK_LINGJIANHAO: '零件号',
   LK_LINGJIANMINGCHENG: '零件名称',
+  LK_ZHANGFU: '涨幅%',
   LK_AEKOHAO: 'Aeko号',
   LK_GONGYINGSHANG: '供应商',
   LK_KESHI: '科室',

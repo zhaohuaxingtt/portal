@@ -1848,6 +1848,7 @@ export default {
   LK_QINGXUANZHE: 'Please Select',
   LK_LINGJIANHAO: 'Part No.',
   LK_LINGJIANMINGCHENG: 'Part Name',
+  LK_ZHANGFU: 'Increase',
   LK_AEKOHAO: 'Aeko No.',
   LK_CAIGOUGONGCHANG: 'SVW Factory',
   LK_EOPZHUANGTAI: 'EOP Status',
