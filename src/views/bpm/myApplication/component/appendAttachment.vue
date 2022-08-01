@@ -32,6 +32,7 @@
         </iFormItem>
       </el-form>
       <el-upload
+        v-if="showType"
         action="1"
         show-file-list
         with-credentials
@@ -82,6 +83,10 @@ export default {
   components: { iDialog, iButton, iInput, iFormItem, iSelect },
   mixins: [deleteMixin],
   props: {
+    modelId:{
+      type: String,
+      require: true
+    },
     visible: {
       type: Boolean,
       default: false
@@ -106,7 +111,8 @@ export default {
       },
       attachList: [],
       taskNodes: [],
-      isAll: true
+      isAll: true,
+      showType:true,
     }
   },
   computed: {
@@ -119,6 +125,11 @@ export default {
     }
   },
   created() {
+    console.log(this.modelId);
+    var supplierTypeGPList = ['883757','883759','883761']//判断gp供应商
+    if(this.modelId){
+      this.showType = !supplierTypeGPList.indexOf(this.modelId)
+    }
     this.dialogVisible = this.visible
     this.queryTaskNodes()
   },

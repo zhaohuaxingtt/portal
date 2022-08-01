@@ -69,7 +69,7 @@
               </el-form-item>
               <el-form-item
                 :label="$t('staffManagement.STATEEMPLOYEES')"
-                class="LastSearchOption"
+                class="SearchOption"
               >
                 <i-select
                   :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
