@@ -62,6 +62,7 @@
     />
 
     <appentAttachment
+      :modelId="modelId"
       v-if="dialogAppendAttachVisible"
       :visible="dialogAppendAttachVisible"
       :instance-id="form.flowInstanceId"
@@ -105,6 +106,7 @@ export default {
   },
   data() {
     return {
+      modelId:"",
       form: {
         histories: []
       },
@@ -254,6 +256,9 @@ export default {
         queryWorkflowDetail(params)
           .then((res) => {
             if (res.result) {
+              if(res.data.modelId){
+                this.modelId = res.data.modelId;
+              }
               const data = res.data
               this.form = { ...this.taskDetail, ...data }
               const histories = []

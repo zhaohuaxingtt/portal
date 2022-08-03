@@ -63,3 +63,21 @@ export const getPurchaseInfo = (params) => {
     data: params
   })
 }
+
+// 提交前较验是否有流程和任务的接口
+// isHaveUnfinishedTaskOrProcess
+export const isHaveUnfinishedTaskOrProcess = (supplierId) => {
+  return requst({
+    url: `supplierInfo/isHaveUnfinishedTaskOrProcess/${supplierId}`,
+    method: 'POST',
+  })
+}
+// 保存采购员邮箱接口
+// isHaveUnfinishedTaskOrProcess
+export const savePurchaserEmail = (params) => {
+  return requst({
+    url: `/supplierInfo/savePurchaserEmail`,
+    method: 'POST',
+    data:params
+  })
+}

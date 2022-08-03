@@ -66,7 +66,7 @@
               </el-form-item>
               <el-form-item
                 :label="language('是否同步svcd')"
-                class="LastSearchOption"
+                class="SearchOption"
               >
                 <i-select
                   :placeholder="language('请选择')"

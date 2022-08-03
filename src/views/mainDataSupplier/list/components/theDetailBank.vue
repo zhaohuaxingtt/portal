@@ -28,7 +28,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="language('银行代码')" prop="materialGroupNameZh">
+          <iFormItem :label="language('银行机构编码')" prop="materialGroupNameZh">
             <iInput
               v-model="form.bankCode"
               :placeholder="language('请输入')"
