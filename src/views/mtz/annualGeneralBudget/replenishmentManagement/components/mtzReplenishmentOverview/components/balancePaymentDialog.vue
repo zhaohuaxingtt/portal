@@ -635,7 +635,7 @@ export default {
 
         let params = {
           pageNo: 1,
-          pageSize: 20000,
+          pageSize: 100000,
           ...this.searchForm
         }
         console.log(params, "searchForm")
@@ -656,7 +656,7 @@ export default {
         this.actAmtList = []
         let params = {
           pageNo: 1,
-          pageSize: 20000,
+          pageSize: 100000,
           ...this.searchForm
         }
         fetchQueryComp(params).then((res) => {
