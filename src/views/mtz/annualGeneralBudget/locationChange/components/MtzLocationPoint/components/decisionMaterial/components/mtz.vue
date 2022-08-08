@@ -17,7 +17,8 @@
          id="qrCodeDiv"
          @click="rulesClick()"
          style="position: relative">
-      <div class="content_dialog"
+         <!-- 水印 class="content_dialog" -->
+      <div class=""
            v-if="
           !RsObject &&
           (formData.appStatus == '流转完成' || formData.appStatus == '定点')
@@ -378,7 +379,8 @@
     <div id="pdfPage-box" ref="pdfPage-box" class="pdfPage-box">
       <template v-for="(tableData,index) in ruleTableList">
         <div :key="index" class="page-item">
-          <div class="content_dialog"
+          <!-- class="content_dialog" -->
+          <div 
               v-if="
               !RsObject &&
               (formData.appStatus == '流转完成' || formData.appStatus == '定点')
@@ -528,7 +530,8 @@
       </template>
       <template v-for="(tableData,index) in partTableList">
         <div :key="index" class="page-item">
-          <div class="content_dialog"
+           <!-- class="content_dialog" -->
+          <div
               v-if="
               !RsObject &&
               (formData.appStatus == '流转完成' || formData.appStatus == '定点')
@@ -670,7 +673,8 @@
       </template>
       <template v-for="(remark,index) in remarkList">
         <div :key="index" class="page-item remarkCard">
-          <div class="content_dialog" v-if=" !RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
+          <!-- class="content_dialog" -->
+          <div  v-if=" !RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
           <div :style="{'height': remarkPageHeight+'px',background:'#fff'}">
             <iCard>
               <div slot="header"
@@ -737,7 +741,8 @@
         </div>
       </template>
       <div v-if="appPage" class="page-item remarkCard">
-          <div class="content_dialog"
+        <!-- class="content_dialog" -->
+          <div 
               v-if="
               !RsObject &&
               (formData.appStatus == '流转完成' || formData.appStatus == '定点')
@@ -1262,7 +1267,7 @@ export default {
           var contentHeight = canvas.height //
           var imgWidth = 841.89
           var imgHeight = (841.89 / contentWidth) * contentHeight
-          let pageData = canvas.toDataURL('image/jpeg', 1.0)
+          let pageData = canvas.toDataURL('image/jpeg', 0.5)//压缩倍率
           if(j!=0)
           this.pdf.addPage()
           this.pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
