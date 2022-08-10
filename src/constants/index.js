@@ -300,16 +300,22 @@ export const EKL_BAOBIAO_PARAMS = {
       datasets: ['38d3176e-14c6-4a77-a9d7-0091d6702f9c']
     }
   },
-  production: {
+  production: {//目前隐藏部分参数为测试环境参数，如需本地调试，需手动操作。
     pfjwfbmsj: {
-      workspaceId: 'addf20a8-7f65-445c-a737-0f636f428e76',
-      reportId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
-      datasets: ['0571b1ad-b958-4057-aff9-7b9239c811b6']
+      // workspaceId: 'addf20a8-7f65-445c-a737-0f636f428e76',
+      // reportId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      // datasets: ['0571b1ad-b958-4057-aff9-7b9239c811b6']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: 'f7e92b62-fbd2-4039-be19-95a63b2a298f',
+      datasets: ['0571b1ad-b958-4057-aff9-7b9239c811d6']
     },
     pfjwfkssj: {
-      workspaceId: 'addf20a8-7f65-445c-a737-0f636f428e76',
-      reportId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
-      datasets: ['0571b1ad-b958-4057-aff9-7b9239c811b6']
+      // workspaceId: 'addf20a8-7f65-445c-a737-0f636f428e76',
+      // reportId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      // datasets: ['0571b1ad-b958-4057-aff9-7b9239c811b6']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: 'f7e92b62-fbd2-4039-be19-95a63b2a298f',
+      datasets: ['0571b1ad-b958-4057-aff9-7b9239c811d6']
     },
     pfjzfbmsj: {
       workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
@@ -361,35 +367,53 @@ export const EKL_BAOBIAO_PARAMS = {
     //   reportId: '06bfe2a1-4814-4dd6-a9ec-1687aa896d06',
     //   datasets: ['b331bdd5-e6c6-4a4c-922a-0099058cf3f3']
     // },
-    wfbmsj: {
-      workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-      reportId: '9f8cfa43-184d-46d5-a204-37ec659d13f6',
-      datasets: ['2eddaa0a-da1e-4fd2-ad1e-0c8e28aa3623']
+    wfbmsj: {//外方部门视觉
+      // workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+      // reportId: '9f8cfa43-184d-46d5-a204-37ec659d13f6',
+      // datasets: ['2eddaa0a-da1e-4fd2-ad1e-0c8e28aa3623']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: '27c468ba-77ba-481d-ac69-3488a58f0ee2',
+      datasets: ['a7c0b0bc-e5be-412e-ab36-3bf1636bbec3']
     },
-    wfkssj: {
-      workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-      reportId: 'ed65e96c-5c93-46c8-99d3-63c2c7ac0b08',
-      datasets: ['40d5c619-a61c-4b19-8575-d4da919bce0b']
+    wfkssj: {//外方科室视觉
+      // workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+      // reportId: 'ed65e96c-5c93-46c8-99d3-63c2c7ac0b08',
+      // datasets: ['40d5c619-a61c-4b19-8575-d4da919bce0b']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: 'c940921c-a477-4f64-af67-72eaaad30226',
+      datasets: ['41ef7d80-2706-4ba8-b4d6-4a18e6d40477']
     },
-    zfbmsj: {
-      workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-      reportId: 'bcf59da6-3518-4db7-bffc-cf5d434d34ae',
-      datasets: ['c00c0ef7-778c-41ee-8960-90e504abd70b']
+    zfbmsj: {//中方部门视觉
+      // workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+      // reportId: 'bcf59da6-3518-4db7-bffc-cf5d434d34ae',
+      // datasets: ['c00c0ef7-778c-41ee-8960-90e504abd70b']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: '9b62a0e4-8ef9-425f-a862-e0c9325a63ba',
+      datasets: ['e758e837-7712-4298-9c3c-f2a9dcebeb84']
     },
-    zfcgysj: {
-      workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-      reportId: 'f3fe9132-dda7-4a9e-81ff-eac032974cfe',
-      datasets: ['4b849a8e-6f67-4fab-a6ab-7f41919780b9']
+    zfcgysj: {//中方采购员视觉
+      // workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+      // reportId: 'f3fe9132-dda7-4a9e-81ff-eac032974cfe',
+      // datasets: ['4b849a8e-6f67-4fab-a6ab-7f41919780b9']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: '02151d5a-899c-4880-93af-20a6efe8765b',
+      datasets: ['61525451-7923-46ca-bee0-6c3dfb969b6f']
     },
-    zfgsj: {
-      workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-      reportId: '125f7e44-e9d2-43a6-9619-bd4add6ebb60',
-      datasets: ['2d7f4900-070c-46c7-a850-9a768c49deae']
+    zfgsj: {//中方股视觉
+      // workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+      // reportId: '125f7e44-e9d2-43a6-9619-bd4add6ebb60',
+      // datasets: ['2d7f4900-070c-46c7-a850-9a768c49deae']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: '6a395915-fad7-4519-8840-bb05bd2c25e3',
+      datasets: ['18ba9d81-d4a4-4397-9b13-00b93d4aa036']
     },
-    zfkssj: {
-      workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-      reportId: '35cd4f44-1616-4f62-ab72-7d5b8a35528d',
-      datasets: ['16e08bc4-f04d-4171-9d73-a997a4565ea7']
+    zfkssj: {//中方科室视觉
+      // workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+      // reportId: '35cd4f44-1616-4f62-ab72-7d5b8a35528d',
+      // datasets: ['16e08bc4-f04d-4171-9d73-a997a4565ea7']
+      workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+      reportId: '37fcffc8-96c7-46d7-8db6-9fb07c9f47d6',
+      datasets: ['38d3176e-14c6-4a77-a9d7-0091d6702f9c']
     }
   }
 }

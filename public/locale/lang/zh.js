@@ -806,7 +806,7 @@
     QDLYBJHJRXKZCXY_YINGHANGMINCHEN:
       '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr ），查询开户银行具体的银行名称', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr ），查询开户银行具体的银行名称
     QDLYBJHJRXKZCXY_YINGHANGDAIMA:
-      '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行代码
+      '请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行机构编码', //请登录银保监会金融许可证查询页 面（http://xkz.cbirc.gov.cn/jr）， 查询开户银行的15位机构编码作为 银行机构编码
     GONGSIGAIKANG: '公司概况', //公司概况
     Home: '首页', //首页
     BasicInformation: '基本信息', //基本信息,
@@ -846,7 +846,7 @@
     YINHANGMINCHENG: '银行名称', //银行名称
     SHUIWUDAIMA: '税务代码', //税务代码
     YINGHANGSUOZAICHENGSHI: '银行所在省市', //银行所在省市
-    YINHANGDAIMA: '银行代码', //银行代码
+    YINHANGDAIMA: '银行机构编码', //银行机构编码
     YINHANGSUOZAICHENGSHI: '银行所在城市/区', //银行所在城市
     GONGHUOZHUANGTAI: '供货状态', //供货状态
     YINHANGZHANGHAO: '银行账号', //银行账号
@@ -3105,6 +3105,7 @@
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
+    SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

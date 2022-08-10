@@ -41,7 +41,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构编码 -->
 					<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
 						<iLabel :label="$t('YINHANGDAIMA')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -91,7 +91,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构编码 -->
 					<iFormItem  v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE">
 						<iLabel :label="$t('YINHANGDAIMA')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -143,7 +143,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构编码 -->
 					<iFormItem prop="settlementBankDTO.bankCode" v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE_GP">
 						<iLabel :label="$t('YINHANGDAIMA')" required slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -192,7 +192,7 @@
 						<iLabel :label="$t('YINGHANGMINCHENG')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGMINCHEN')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankName" :placeholder="$t('LK_QINGSHURU')+$t('YINGHANGMINCHENG')"></iInput>
 					</iFormItem>
-					<!-- 银行代码 -->
+					<!-- 银行机构编码 -->
 					<iFormItem v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE_GP">
 						<iLabel :label="$t('YINHANGDAIMA')"  slot="label" icons="iconxinxitishi" :tip="$t('QDLYBJHJRXKZCXY_YINGHANGDAIMA')"></iLabel>
 						<iInput v-model="supplierData.settlementBankDTO.bankCode" :placeholder="$t('LK_QINGSHURU')+$t('YINHANGDAIMA')"></iInput>
@@ -285,7 +285,7 @@
 					</iFormItem>
 					<!-- 电子银票银行账户行号 -->
 					<!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
-					<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
+					<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(1)" v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
 						<iLabel :label="$t('DZYPYHZHHH')"  required
 								slot="label"></iLabel>
 						<iInput :placeholder="$t('LK_QINGSHURU')"
@@ -345,7 +345,7 @@
 					</iFormItem>
 					<!-- 电子银票银行账户行号 -->
 					<!-- prop="gpSupplierBankNoteDTO.bankNoteAccount" -->
-					<iFormItem v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
+					<iFormItem prop="gpSupplierBankNoteDTO.bankNoteAccount" :rules="hanghaoRules(2)" v-if="$route.query.subSupplierType == 'GP'" v-permission="SUPPLIER_BASEINFO_BANK_DZYPCODE_GP">
 						<iLabel :label="$t('DZYPYHZHHH')"
 								slot="label"></iLabel>
 						<iInput :placeholder="$t('LK_QINGSHURU')"
@@ -464,7 +464,7 @@
 							<iInput v-model="item.bankName"
 									:placeholder="$t('LK_QINGSHURU') + $t('YINGHANGMINCHENG')"></iInput>
 						</iFormItem>
-						<!-- 银行代码 -->
+						<!-- 银行机构编码 -->
 						<!-- prop="bankCode" -->
 						<iFormItem  prop="bankCode"
 									v-permission="SUPPLIER_BASEINFO_BANK_BANKCODE_SON_GP">
@@ -561,6 +561,18 @@
 			console.log(this.supplierData);
 		},
 		methods:{
+			hanghaoRules(val){
+				var rules = []
+				if(val == 1){
+					rules = [
+						{ required: true, message: '请输入电子银票银行账户行号', trigger: 'blur' },
+						{ pattern: /^\d{12,12}$/, message: '请输入12位数字', trigger: 'blur' },
+					]
+				}else if(val == 2){
+					rules = [{ pattern: /^\d{12,12}$/, message: '请输入12位数字', trigger: 'blur' }]
+				}
+				return rules
+			},
 			getType(){
 				if(this.supplierData.ppSupplierDTO && this.supplierData.ppSupplierDTO.formalStatus){
 					if(this.supplierData.ppSupplierDTO.formalStatus == 1){

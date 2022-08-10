@@ -22,12 +22,14 @@
             <th>{{language('ONGOINGXUNJIASHU', 'Ongoing询价数')}}</th>
             <th>{{language('RFQSHU', 'RFQ数')}}</th>
           </tr>
-          <tr class="bgtr" v-for="(item,index) in dataList" :key="index">
-            <td>{{item.deptNum}}</td>
-            <td>{{item.fixPointNum}}</td>
-            <td>{{item.inquiryTimes}}</td>
-            <td>{{item.rfqNum}}</td>
-          </tr>
+          <template>
+            <tr class="bgtr" v-for="(item,index) in dataList" :key="index">
+              <td>{{item.deptNum}}</td>
+              <td>{{item.fixPointNum}}</td>
+              <td>{{item.inquiryTimes}}</td>
+              <td>{{item.rfqNum}}</td>
+            </tr>
+          </template>
         </table>
       </div>
     </div>
@@ -142,6 +144,7 @@ export default {
   margin-top:10px;
 
   .float{
+    overflow-y: auto;
     margin-left: 30px;
     width: 80%;
     text-align: left;
@@ -250,4 +253,10 @@ v::v-deep .el-tabs__nav-wrap:hover {
 .cardtableTitle{
   background:#f8f8fa;
 }
+
+::-webkit-scrollbar{
+  width:0.8rem!important;
+  height:0.8rem!important;
+}
+
 </style>

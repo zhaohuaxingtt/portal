@@ -148,16 +148,6 @@ export const tableTitleGP = [
     tooltip: true
   },
   {
-    props: 'supplierTagNameList',
-    name: '供应商标签',
-    width: 350,
-    key: 'GONGYINGSHANGBIAOQIAN',
-    tooltip: true
-  },
-  { props: 'dunsCode', name: 'DUNS', width: 150, tooltip: true },
-
-
-  {
     props: 'svwTempCode',
     name: '临时号',
     width: 120,
@@ -178,6 +168,21 @@ export const tableTitleGP = [
     key: 'SUPPLIER_SAPHAO',
     tooltip: true
   },
+  {
+    props: 'supplierType',
+    name: '供应商类型',
+    width: 120,
+    key: 'SUPPLIER_SUPPLIERTYPE'
+  },
+  { props: 'gpBusinessTypeArrayStr', name: '业务类型', width: 160, key: 'YEWULEIXING' },
+  {
+    props: 'supplierTagNameList',
+    name: '供应商标签',
+    width: 350,
+    key: 'GONGYINGSHANGBIAOQIAN',
+    tooltip: true
+  },
+  { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO1' },
   // { props: 'vwCode', name: 'VW号', key: 'SUPPLIER_VWHAO', tooltip: true },
   {
     props: 'epNatureCategory',
@@ -193,14 +198,7 @@ export const tableTitleGP = [
     key: 'QIYEXINGZHIXIAOLEI',
     tooltip: true
   },
-  {
-    props: 'supplierType',
-    name: '供应商类型',
-    width: 120,
-    key: 'SUPPLIER_SUPPLIERTYPE'
-  },
-  { props: 'gpBusinessTypeArrayStr', name: '业务类型', width: 160, key: 'YEWULEIXING' },
-  { props: 'supplierStatus', name: '供应商状态', width: 120, key: 'GONGHUO1' },
+  { props: 'dunsCode', name: 'DUNS', width: 150, tooltip: true },
   //   { props: 'dept', name: '科室', width: 120, key: 'SUPPLIER_KESHI', tooltip: true },
   //   { props: 'purchaserNameZh', name: '采购员', width: 120, key: 'SPR_FRM_XGYSPJ_CGY', tooltip: true },
   //   // { props: '', name: '受控状态', width: 120, key: 'SUPPLIER_SHOUKONGZHUANGTAI' },
