@@ -693,7 +693,8 @@ export default {
         query: {
           id: row.id,
           name: row.name,
-          status: row.status
+          status: row.status,
+          isLocal:true,
         }
       })
       window.open(routeData.href)
