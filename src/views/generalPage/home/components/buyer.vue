@@ -1,5 +1,8 @@
 <template>
   <iCard class="margin-top20">
+    <div class="save margin-bottom20">
+      <iButton @click="saveInfos()" v-permission="SUPPLIER_BASEINFO_BUYER_SAVEALL|基本信息-采购员-保存">保存</iButton>
+    </div>
     <iFormGroup row="3"
                 :rules="purchaseRules"
                 :model="supplierData"
@@ -17,6 +20,7 @@
                 @change="getUserInfo"></iInput> -->
         <iSelect v-model="supplierData.purchaserEmail"
                  filterable
+                 clearablel
                  :filter-method="filter"
                  @change="hanldeChange"
                  value-key="purchaserId">
@@ -74,9 +78,9 @@
 </template>
 
 <script>
-import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect, iMessage } from 'rise'
+import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect, iMessage, iButton } from 'rise'
 import { purchaseRules, dictByCode } from './data'
-import { getUserInfo, getPurchaseInfo } from '@/api/register/home'
+import { getUserInfo, getPurchaseInfo, isHaveUnfinishedTaskOrProcess, savePurchaserEmail } from '@/api/register/home'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 export default {
   mixins: [generalPageMixins],
@@ -86,7 +90,8 @@ export default {
     iFormItem,
     iInput,
     iLabel,
-    iSelect
+    iSelect,
+    iButton
   },
   props: {
     supplierData: {
@@ -119,13 +124,29 @@ export default {
     this.getDictByCode()
   },
   mounted () {
-
     if (this.$route.query.user && !this.supplierData.purchaserEmail) {
       this.supplierData.purchaserEmail = this.$route.query.user
       this.getUserInfo()
     }
   },
   methods: {
+    // 保存信息
+    saveInfos(){
+      isHaveUnfinishedTaskOrProcess(this.$route.query.subSupplierId).then(res=>{
+        if(res?.code=='200'){
+          savePurchaserEmail({
+            supplierId:this.$route.query.subSupplierId,
+            purchaserEmail:this.supplierData.purchaserEmail,
+          }).then(res=>{
+            if(res?.code == '200'){
+              iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.dataEn)
+            }
+          })
+        }else{
+          iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.dataEn)
+        }
+      })
+    },
     // 获取供应商类型
     async getDictByCode () {
       this.supplierTypeList = await dictByCode('SUPPLIER_TYPE')
@@ -157,14 +178,15 @@ export default {
       this.$emit("input", false);
     },
     hanldeChange (val) {
+      if (!val) this.purchaseListCopy = JSON.parse(JSON.stringify(this.purchaseList)) || []
       let purchaseObj = this.purchaseListCopy.find(item => item.purchaserEmail === val)
-      this.supplierData.purchaserSection = purchaseObj.department
-      this.supplierData.userNum = purchaseObj.userNum
-      this.supplierData.purchaserName = purchaseObj.purchaserName
-      this.supplierData.purchaserId = purchaseObj.purchaserId
+      this.supplierData.purchaserSection = purchaseObj?.department || ''
+      this.supplierData.userNum = purchaseObj?.userNum || ''
+      this.supplierData.purchaserName = purchaseObj?.purchaserName || ''
+      this.supplierData.purchaserId = purchaseObj?.purchaserId || ''
     },
     filter (val) {
-      if (!val) this.purchaseListCopy = []
+      if (!val) this.purchaseListCopy = JSON.parse(JSON.stringify(this.purchaseList)) || []
       else this.purchaseListCopy = this.purchaseList.filter(item => item.purchaserEmail.indexOf(val) > -1)
     },
     getPurchaseInfo () {
@@ -174,8 +196,9 @@ export default {
       }
       getPurchaseInfo(req).then(res => {
         if (res?.code == '200') {
-          this.purchaseList = res.data
-          // this.purchaseListCopy = _.deepClone(this.purchaseList)
+          console.log(res.data);
+          this.purchaseList = res.data.filter(item=>item.purchaserEmail)
+          this.purchaseListCopy = JSON.parse(JSON.stringify(this.purchaseList))
         } else {
           iMessage.error(res.desZh)
         }
@@ -198,5 +221,8 @@ export default {
 
 ::v-deep .tips:hover .text {
   white-space: pre-line !important;
+}
+.save {
+  text-align: right;
 }
 </style>
