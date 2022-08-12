@@ -208,6 +208,7 @@ export default {
             if(this.$route.query.subSupplierType == "GP"){
               this.supplierComplete.supplierDTO.svwTempCode = baseInfo.gpSupplierInfoVO.svwTempCode
               this.supplierComplete.supplierDTO.svwCode = baseInfo.gpSupplierInfoVO.svwCode
+              this.supplierComplete.supplierDTO.payHistory = this.supplierComplete.gpSupplierDTO.payHistory;
             }
           }
           // 如果是查看修改 需要从不同的表获取 基础信息
@@ -319,7 +320,8 @@ export default {
             data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO;
             data.gpSupplierDTO.purchaserEmail=this.supplierComplete.supplierDTO.purchaserEmail
             data.gpSupplierDTO.purchaserId=this.supplierComplete.supplierDTO.purchaserId
-            data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
+            // data.gpSupplierDTO = this.supplierComplete.gpSupplierDTO
+            data.gpSupplierDTO.payHistory = this.supplierComplete.supplierDTO.payHistory;
             delete data.gpSupplierDTO.formalStatus;
 
             data.gpSupplierSubBankListSaveDTO = {};
