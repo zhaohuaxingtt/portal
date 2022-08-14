@@ -12,7 +12,14 @@
                routerPage
                :query="query" />
       <div class="flex-align-center">
-        <iNavMvp :list="interViewTabList"
+        <iNavMvp v-if="$route.query.isLocal"
+                 :list="interViewTabList"
+                 :lev='2'
+                 right
+                 class="rightNav"
+                 @change="changeNav" />
+        <iNavMvp v-if="!$route.query.isLocal"
+                 :list="interViewTabListNo"
                  :lev='2'
                  right
                  class="rightNav"
@@ -75,7 +82,7 @@
 
 <script>
 import { iPage, iNavMvp, iButton, iMessage } from 'rise';
-import { interViewTabList } from './data';
+import { interViewTabList,interViewTabListNo } from './data';
 import basic from './components/basic';
 import business from './components/business';
 import finance from './components/finance';
@@ -98,6 +105,7 @@ export default {
   data () {
     return {
       interViewTabList,
+      interViewTabListNo,
       depthReportRouter,
       currentNav: 1,
       meeting: false,//会议纪要,
@@ -105,6 +113,7 @@ export default {
       name: '',
       supplierId: "",
       status: '',
+      isLocal:"",
 
       info: {
         supplier: {}
@@ -116,7 +125,7 @@ export default {
   },
   computed: {
     query () {
-      return { id: this.id, name: this.name, supplierId: this.supplierId, status: this.status }
+      return { id: this.id, name: this.name, supplierId: this.supplierId, status: this.status,isLocal:this.isLocal }
     }
   },
   created () {
@@ -132,6 +141,7 @@ export default {
     this.name = this.$route.query.name;
     this.supplierId = this.$route.query.supplierId;
     this.status = this.$route.query.status;
+    this.isLocal = this.$route.query.isLocal;
 
     this.getOverView();
   },
