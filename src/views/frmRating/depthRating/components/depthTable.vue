@@ -508,7 +508,7 @@ export default {
       })
       let data = {
         reciveIds: ids,
-        reportUrl: '/supplier/frmrating/depthRating/depthReport?id=',
+        reportUrl: '/portal/#/supplier/frmrating/depthRating/depthReport?id=',
         supplierList: supplierIdList
       }
       reportIssue(data).then((res) => {
