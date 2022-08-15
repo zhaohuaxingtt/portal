@@ -8,6 +8,9 @@
               @reset="reset"
               class="margin-top20">
       <el-form>
+        <el-form-item :label="language('SAPLINGJIANHAO','SAP零件号')" class="SearchOption">
+          <iMultiLineInput :title="language('SAPLINGJIANHAO','SAP零件号')" v-model="formData.partnum"></iMultiLineInput>
+        </el-form-item>
         <el-form-item v-for="(x,index) in partsRelationship"
                       :key="index"
                       :label="x.name"
@@ -89,7 +92,8 @@ import {
   iFormItem,
   iDialog,
   iDatePicker,
-  iMessage
+  iMessage,
+  iMultiLineInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
@@ -114,7 +118,8 @@ export default {
     iDatePicker,
     Detail,
     // tableList,
-    buttonTableSetting
+    buttonTableSetting,
+    iMultiLineInput
   },
   mixins: [pageMixins],
   data () {

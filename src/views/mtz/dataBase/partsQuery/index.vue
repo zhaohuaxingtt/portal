@@ -3,6 +3,9 @@
     <i-search @sure="sure"
               @reset="reset">
       <iFormGroup label-position="top">
+        <iFormItem :label="language('LK_LINGJIANHAO','零件号')" class="SearchOption">
+          <iMultiLineInput :title="language('LK_LINGJIANHAO','零件号')" v-model="formData.partnum"></iMultiLineInput>
+        </iFormItem>
         <iFormItem v-for="(x,index) in formJSON"
                    :key="index"
                    :label="x.name"
@@ -221,7 +224,8 @@ import {
   iFormGroup,
   iDialog,
   iDatePicker,
-  iMessage
+  iMessage,
+  iMultiLineInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
@@ -263,7 +267,8 @@ export default {
     RelationalValidity,
     uploadButton,
     buttonTableSetting,
-    iFormGroup
+    iFormGroup,
+    iMultiLineInput
   },
   mixins: [pageMixins],
   data () {

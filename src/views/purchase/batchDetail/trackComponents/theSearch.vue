@@ -5,7 +5,8 @@
             <el-row class="margin-bottom10">
                 <!--零件号-->
                 <el-form-item :label="language('LK_LINGJIANHAO','零件号')">
-                    <iInput :placeholder="language('请输入')" v-model="form.partNum"></iInput>
+                    <!-- <iInput :placeholder="language('请输入')" v-model="form.partNum"></iInput> -->
+                    <iMultiLineInput :title="language('LK_LINGJIANHAO','零件号')" v-model="form.partNum"></iMultiLineInput>
                 </el-form-item>
                 <!--材料组-->
                 <el-form-item :label="language('LK_CAILIAOZU','材料组')">
@@ -145,7 +146,7 @@
 </template>
 
 <script>
-  import {iSearch, iInput, iSelect, icon, iDatePicker} from 'rise';
+  import {iSearch, iInput, iSelect, icon, iDatePicker, iMultiLineInput} from 'rise';
   import {queryAllDropdown,getTrackingType} from '@/api/achievement';
 
   export default {
@@ -155,6 +156,7 @@
       iSelect,
       icon,
       iDatePicker,
+      iMultiLineInput
     },
     data() {
       return {
