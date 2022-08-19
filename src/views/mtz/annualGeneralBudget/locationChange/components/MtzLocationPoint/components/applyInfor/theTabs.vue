@@ -317,12 +317,12 @@
               :prop="'tableData.' + scope.$index + '.' + 'price'"
               :rules="formRules.price ? formRules.price : ''"
             >
-              <!-- <iInput type="number"
+              <!-- :disabled='scope.row.metalType && editId.indexOf(scope.row.id)!==-1' -->
+              <iInput type="number"
                             v-model="scope.row.price"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                            :disabled='scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        ></iInput> -->
-              <span>{{ scope.row.price }}</span>
+                            v-if="editId.indexOf(scope.row.id) !== -1"
+                        ></iInput>
+              <span v-else>{{ scope.row.price }}</span>
             </el-form-item>
           </template>
         </el-table-column>
