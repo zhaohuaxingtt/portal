@@ -108,13 +108,13 @@
                 :disabled="true"
                 />
             </iFormItem>
+            <!-- :disabled="metalType" -->
             <iFormItem prop="price">
                 <iLabel :label="language('JIJIA','基价')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.price"
                 type="number"
                 placeholder="请输入基价"
-                :disabled="metalType"
                 />
             </iFormItem>
             <iFormItem prop="priceMeasureUnit">
