@@ -244,8 +244,8 @@ export const tableTitle = [
   { props: 'saNo', name: '采购框架', key: 'CAIGOUKUANGJIA', width: 140 },
   { props: 'saItemNo', name: '项目', key: 'XIANGMU', width: 70 },
   { props: 'firstPartNo', name: '零件号', key: 'LINGJIANHAO', width: 140 },
-  { props: 'price', name: '零件价格（RMB）', key: 'LINGJIANJIAGE' },
-  { props: 'actAmt', name: '零件实价（RMB）', key: 'LINGJIANSHIJIA' },
+  // { props: 'price', name: '零件价格（RMB）', key: 'LINGJIANJIAGE' },
+  // { props: 'actAmt', name: '零件实价（RMB）', key: 'LINGJIANSHIJIA' },
   { props: 'priceUnit', name: '价格单位', key: 'JIAGEDANWEI' },
   { props: 'shippedQty', name: '零件数量', key: 'LINGJIANSHULIANG' },
   { props: 'appAmt', name: '补差额（RMB）', key: 'BUCHAE' }
