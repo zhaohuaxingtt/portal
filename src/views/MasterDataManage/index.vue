@@ -60,7 +60,7 @@ export default {
           message: 0,
           url: '/purchaseClassification',
           activePath: '/purchaseClassification',
-          key: '采购分类',
+          key: 'SUPPLIER_CAIGOUFENLEI',
           permissionKey: 'ADMIN_MAIN_DATA_PURCHASE_FICATION'
         }
       ]
