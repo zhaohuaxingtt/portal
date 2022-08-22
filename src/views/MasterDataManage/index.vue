@@ -61,7 +61,7 @@ export default {
           url: '/purchaseClassification',
           activePath: '/purchaseClassification',
           key: '采购分类',
-          permissionKey: 'ADMIN_MAIN_DATA_EXCHANGE_PARTIES'
+          permissionKey: 'ADMIN_MAIN_DATA_PURCHASE_FICATION'
         }
       ]
     }
