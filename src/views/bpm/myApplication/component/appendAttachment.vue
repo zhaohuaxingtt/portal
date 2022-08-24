@@ -128,7 +128,11 @@ export default {
     console.log(this.modelId);
     var supplierTypeGPList = ['883757','883759','883761']//判断gp供应商
     if(this.modelId){
-      this.showType = !supplierTypeGPList.indexOf(this.modelId)
+      if(supplierTypeGPList.indexOf(this.modelId) == -1){
+        this.showType = true;
+      }else{
+        this.showType = false;
+      }
     }
     this.dialogVisible = this.visible
     this.queryTaskNodes()
