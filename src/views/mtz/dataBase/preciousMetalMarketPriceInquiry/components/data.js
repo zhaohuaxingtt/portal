@@ -1,6 +1,6 @@
 export const tableSearchProps = [
   {
-    type: 'input',
+    type: 'iMultiLineInput',
     props: 'partNo',
     labelLanguageKey: 'LINGJIANHAO',
     label: '零件号',
