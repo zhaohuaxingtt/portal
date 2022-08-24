@@ -17,10 +17,11 @@
           ></iInput>
         </el-form-item>
         <el-form-item :label="language('ERCILINGJIANHAO', '二次零件号')">
-          <iInput
+          <!-- <iInput
             v-model="searchForm.secPartNo"
             :placeholder="language('请输入', '请输入')"
-          ></iInput>
+          ></iInput> -->
+          <iMultiLineInput :title="language('ERCILINGJIANHAO', '二次零件号')" v-model="searchForm.secPartNo"></iMultiLineInput>
         </el-form-item>
         <el-form-item :label="language('ZCGYSSAPH', '总成供应商SAP号')">
           <iInput
@@ -44,14 +45,15 @@
 </template>
 
 <script>
-import { iSearch, iInput, iDatePicker } from 'rise'
+import { iSearch, iInput, iDatePicker, iMultiLineInput } from 'rise'
 import theTable from './components/theTable'
 export default {
   components: {
     theTable,
     iSearch,
     iInput,
-    iDatePicker
+    iDatePicker,
+    iMultiLineInput
   },
   data() {
     return {
