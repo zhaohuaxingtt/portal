@@ -320,7 +320,7 @@
       <iFormItem v-permission="SUPPLIER_BASEINFO_COMPANY_PAYMENTRECORD_GP">
         <iLabel :label="$t('FUKUANGJILV')"
                 slot="label"></iLabel>
-        <iSelect v-model="supplierData.ppSupplierDTO.payHistory">
+        <iSelect v-model="supplierData.supplierDTO.payHistory">
           <el-option :value="item.code"
                      :label="item.name"
                      v-for="(item, index) in fromGroup.PAYMENT"

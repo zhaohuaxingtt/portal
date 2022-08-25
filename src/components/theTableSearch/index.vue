@@ -51,6 +51,12 @@
             </template>
           </iSelect>
         </template>
+        <iMultiLineInput
+          v-else-if="item.type === 'iMultiLineInput'"
+          :placeholder="language('partsprocure.PARTSPROCURE','请输入零件号，多个逗号分隔')"
+          :title="language('partsprocure.PARTSPROCUREPARTNUMBER','零件号')"
+          v-model="form[item.props]"
+        ></iMultiLineInput>
       </el-form-item>
     </el-form>
   </iSearch>
@@ -75,7 +81,7 @@ select: {
     notAnObject  可选项，不是对象形式
 },
 */
-import {iSearch, iInput, iDatePicker, iSelect} from 'rise';
+import {iSearch, iInput, iDatePicker, iSelect, iMultiLineInput} from 'rise';
 
 export default {
   components: {
@@ -83,6 +89,7 @@ export default {
     iInput,
     iDatePicker,
     iSelect,
+    iMultiLineInput
   },
   props: {
     tableSearchProps: {

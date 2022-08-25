@@ -23,6 +23,23 @@ export const interViewTabList = [{
 		permissionKey:"PORTAL_FENGXIAN_SHENRUPINGJI_SHENPING_SPR_FRM_DEP_CWFX"
 	}
 ];
+export const interViewTabListNo = [
+	{
+		value: 1,
+		name: '综述',
+		key: 'SPR_FRM_DEP_ZS',
+	},
+	{
+		value: 2,
+		name: '企业概况',
+		key: 'SPR_FRM_DEP_QYGK',
+	},
+	{
+		value: 3,
+		name: '财务分析',
+		key: 'SPR_FRM_DEP_CWFX',
+	}
+]
 // 深入评级结果
 export const depthResult=[
 	{props: 'deepCommentRatingDate', name: '深评时间', key: ''},

@@ -176,16 +176,20 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      if (
-        this.selectTableData.some(
-          (e) => !e.relevantDept || !e.relevantDept.length
-        )
-      ) {
-        return iMessage.warn(
-          this.$t(
-            '在一年内没有TO记录或者三年内没有定点信息不允许加入初步评级清单'
+      if(this.selectTableData.some(
+            (e) => e.supplierType !== "GP"
+      )){
+        if (
+          this.selectTableData.some(
+            (e) => !e.relevantDept || !e.relevantDept.length
           )
-        )
+        ) {
+          return iMessage.warn(
+            this.$t(
+              '在一年内没有TO记录或者三年内没有定点信息不允许加入初步评级清单'
+            )
+          )
+        }
       }
       const supplierIdList = this.selectTableData.map((item) => {
         return item.id
