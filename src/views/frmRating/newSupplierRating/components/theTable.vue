@@ -9,6 +9,8 @@
   <iCard>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
+        <!-- 导出 -->
+        <iButton @click="downExcel">{{$t('MT_DAOCHU')}}</iButton>
         <!-- 新供应商评级-->
         <iButton @click="handleTask" v-permission="PORTAL_SUPPLIER_NAV_XINGONGYINGSHANGPINGJI_XGYSPJ">{{
           $t('SUPPLIER_XINGONGYINGSHANGPINGJI')
@@ -44,7 +46,7 @@ import tableList from '@/components/commonTable'
 import iTableCustom from '@/components/iTableCustom'
 import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableTitle } from './data'
-import { getNewSupplierRating } from '@/api/frmRating/newSupplierRating/newSupplierRating'
+import { getNewSupplierRating,exportLoad } from '@/api/frmRating/newSupplierRating/newSupplierRating'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
@@ -71,6 +73,11 @@ export default {
     this.getTableList()
   },
   methods: {
+    downExcel(){
+      exportLoad().then(res=>{
+        
+      })
+    },
     async getTableList (reqParams) {
       this.tableLoading = true
       try {

@@ -2104,6 +2104,8 @@
 
     MT_KAISHISHIJIAN: '开始时间',
 
+    MT_JIEZHISHIJIAN: '截止时间',
+
     MT_QINGXUANZEHUIYIKAISHIJIAN: '请选择会议开始时间',
 
     MT_QINGXUANZEHUIYIKAISHIRIQI: '请选择会议开始日期',
@@ -3106,6 +3108,8 @@
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
     SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
+
+    ZYGDCGSGJLSZQS:"主要股东（超过十个仅列示至前十）",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

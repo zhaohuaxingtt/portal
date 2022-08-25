@@ -7,6 +7,8 @@ import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
+const requstBaseApi = axios(process.env.VUE_APP_BASE_INFO)
+
 //  主页 - 新供应商评级
 export function getNewSupplierRating(parmars) {
   return requst({
@@ -17,6 +19,18 @@ export function getNewSupplierRating(parmars) {
     }
   })
 }
+
+//  主页 - 导出
+export function exportLoad(parmars) {
+  return requst({
+    url: `/newVendorAccessRating/export`,
+    method: 'POST',
+    data: {
+      ...parmars
+    }
+  })
+}
+
 //  新供应商评级按钮 - 新供应商评级
 export function getNewSupplierInfo(parmars) {
   return requst({
@@ -112,5 +126,16 @@ export function getDept() {
   return requst({
     url: `/newVendorAccessRating/dept`,
     method: 'GET'
+  })
+}
+
+//从字典表获取审批流程列表
+export function newSupplierRating(data) {
+  return requstBaseApi({
+    url: `/web/dict`,
+    method: 'get',
+    params: {
+      code: data
+    }
   })
 }
