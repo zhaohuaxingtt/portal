@@ -508,7 +508,7 @@ export default {
       })
       let data = {
         reciveIds: ids,
-        reportUrl: '/supplier/frmrating/depthRating/depthReport?id=',
+        reportUrl: '/portal/#/supplier/frmrating/depthRating/depthReport?id=',
         supplierList: supplierIdList
       }
       reportIssue(data).then((res) => {
@@ -693,7 +693,8 @@ export default {
         query: {
           id: row.id,
           name: row.name,
-          status: row.status
+          status: row.status,
+          isLocal:true,
         }
       })
       window.open(routeData.href)

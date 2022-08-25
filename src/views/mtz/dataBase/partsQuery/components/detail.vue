@@ -117,7 +117,9 @@ export default {
           this.page.pageSize = res.pageSize;
           this.page.totalCount = res.total || 0;
         } else {
-          this.$message({ type: 'error', message: res.desZh })
+          this.$message({ type: 'error', message: res.desZh,
+            duration: 10000, // error 错误提示显示10秒
+            showClose: true })
         }
       })
     },

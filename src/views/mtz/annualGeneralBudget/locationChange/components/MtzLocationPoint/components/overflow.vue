@@ -154,6 +154,9 @@ export default {
         flowType: "",
         flowTypeName: "",
       },
+      pageTitle:{
+        title:''
+      }
     }
   },
   computed: {
@@ -169,7 +172,7 @@ export default {
     },
     submitInfor () {
       return this.$store.state.location.submitInfor;
-    }
+    },
   },
 
   watch: {
@@ -187,6 +190,9 @@ export default {
       // console.log("watch")
       this.getType();
     }
+  },
+  provide () {
+    return {'pageTitle':this.pageTitle}
   },
   created () {
 
@@ -340,6 +346,7 @@ export default {
     downRS () {
       this.rsType = true;
       this.downType = true;
+      this.pageTitle.title = this.commonTitle+'-'+(this.locationId&&this.locationId||'')+'-'+(this.mtzAppName&&this.mtzAppName||'')+'-'+(this.user&&this.user||'')+'-'+(this.dept&&this.dept||'')
     },
 
     // 提交

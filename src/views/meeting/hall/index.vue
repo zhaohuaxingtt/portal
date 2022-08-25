@@ -70,13 +70,13 @@ export default {
           key: 'MT_YIBANCAIGOUCSG',
           permissionKey: 'CF_MEETING_YBCGCSG'
         },
-        {
-          value: 4,
-          name: '管理大厅',
-          url: '/meeting/hall',
-          key: 'MT_GUANLIDATING',
-          permissionKey: 'CF_MEETING_HOME'
-        }
+        // {
+        //   value: 4,
+        //   name: '管理大厅',
+        //   url: '/meeting/hall',
+        //   key: 'MT_GUANLIDATING',
+        //   permissionKey: 'CF_MEETING_HOME'
+        // }
       ],
       menuType: ''
     }

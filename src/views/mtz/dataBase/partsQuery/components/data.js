@@ -741,7 +741,7 @@ export const exportTitle = [
 ]
 
 export const formJSON = [
-  { props: 'partnum', name: '零件号' },
+  // { props: 'partnum', name: '零件号' },
   { props: 'partName', name: '零件名' },
   { props: 'supplierSap', name: '供应商SAP号' },
   { props: 'supplierName', name: '供应商名称' },
@@ -764,7 +764,7 @@ export const oneTwoPartNumber = [
 
 // 查看一二次零件form表单
 export const partsRelationship = [
-  { props: 'partNum', name: 'SAP零件号', key: 'SAPLINGJIANHAO' },
+  // { props: 'partNum', name: 'SAP零件号', key: 'SAPLINGJIANHAO' },
   { props: 'partNameZh', name: '零件名(中)', key: 'LK_LINGJIANMINGZHONG' },
   { props: 'partNameDe', name: '零件名(德)', key: 'LK_LINGJIANMINGDE' },
   { props: 'carType', name: '车  型', key: 'CHEXING' }
