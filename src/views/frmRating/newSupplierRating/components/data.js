@@ -210,6 +210,11 @@ export const supplierMessageTitleSP = [
     //DUNS
     key: 'dunsCode',
     name: 'DUNS',
+  },
+  {
+    //法定代表人
+    key: 'legalPerson',
+    name: 'LegalPerson',
   }
 ]
 

@@ -2362,6 +2362,8 @@
     SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
 
     ZYGDCGSGJLSZQS:"Major shareholders (more than ten listed only to the top ten)",
+
+    QSRTHYY:"Please enter the return reason",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

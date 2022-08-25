@@ -66,7 +66,8 @@ export default {
       tableListData: [],
       selectTableData: [],
       tableTitle,
-      tableLoading: false
+      tableLoading: false,
+      reqParams:{},
     }
   },
   created () {
@@ -74,11 +75,15 @@ export default {
   },
   methods: {
     downExcel(){
-      exportLoad().then(res=>{
-        
+      exportLoad({
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ratingStatusList: this.$route.query.ratingStatusList ? JSON.parse(this.$route.query.ratingStatusList) : [],
+        ...this.reqParams
       })
     },
     async getTableList (reqParams) {
+      this.reqParams = reqParams;
       this.tableLoading = true
       try {
         const req = {
@@ -140,4 +145,6 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+
+</style>

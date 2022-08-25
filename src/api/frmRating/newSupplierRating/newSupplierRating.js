@@ -4,11 +4,11 @@
  * @Description:  新供应商评级
  */
 import axios from '@/utils/axios'
-
+import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
 const requstBaseApi = axios(process.env.VUE_APP_BASE_INFO)
-
+const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER+ '/web')
 //  主页 - 新供应商评级
 export function getNewSupplierRating(parmars) {
   return requst({
@@ -22,7 +22,7 @@ export function getNewSupplierRating(parmars) {
 
 //  主页 - 导出
 export function exportLoad(parmars) {
-  return requst({
+  return requestDownload({
     url: `/newVendorAccessRating/export`,
     method: 'POST',
     data: {

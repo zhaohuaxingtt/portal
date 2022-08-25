@@ -3110,6 +3110,8 @@
     SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
 
     ZYGDCGSGJLSZQS:"主要股东（超过十个仅列示至前十）",
+
+    QSRTHYY:"请输入退回原因",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

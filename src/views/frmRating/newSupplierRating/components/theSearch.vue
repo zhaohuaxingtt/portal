@@ -70,7 +70,7 @@
       </el-form-item>
       <el-form-item :label="$t('SPR_FRM_DEP_STATE')">
         <iSelect :placeholder="$t('LK_QINGXUANZE')"
-                 v-model="form.ratingStatusList">
+                 v-model="form.newVendorRatingStatus">
           <el-option :value="item.code"
                      :label="item.name"
                      v-for="item of formGoup.ratingList"
@@ -101,7 +101,7 @@ export default {
         dunsCode: "",
         buyerDeptId: "",
         ratingResult: "",
-        ratingStatusList:"",
+        newVendorRatingStatus:"",
       },
       formGoup: {
         ratingResultList: [],
