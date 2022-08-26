@@ -26,7 +26,7 @@ Object.keys(custom.filters).forEach((key) => {
 import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
 Vue.prototype.showLoading = showFullScreenLoading
 Vue.prototype.hideLoading = hideFullScreenLoading
-Vue.prototype.$message = iMessage
+// Vue.prototype.$message = iMessage
 
 require('./auto').init()
 Vue.config.productionTip = false
