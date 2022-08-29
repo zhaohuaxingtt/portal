@@ -62,6 +62,7 @@ import {
   stageCompleteApproval
 } from '@/api/approval/myApproval'
 import { filterEmptyValue } from '@/utils'
+import { excelExport } from '@/utils/filedowLoad'
 
 export default {
   mixins: [pageMixins, filters, taskMixin],
@@ -137,7 +138,7 @@ export default {
 
         {
           prop: 'createDate',
-          label: '任务开始时间?',
+          label: '任务开始时间',
           i18n: '任务开始时间',
           tooltip: true,
           width: 120,
@@ -151,7 +152,7 @@ export default {
         },
         {
           prop: 'applyUserName',
-          label: '申请人?',
+          label: '申请人',
           i18n: '申请人',
           tooltip: true,
           width: 150,
@@ -339,7 +340,15 @@ export default {
     approvelSuccess() {
       this.dialogApprovalVisible = false
       this.getTableList()
-    }
+    },
+    
+    //导出
+    exportTemplate() {
+      if(!this.selectTableData.length){
+        return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
+      }
+      excelExport(this.selectTableData, this.tableTitle.filter(item=> item.type!='selection'), 'TEST')
+    },
   }
 }
 </script>

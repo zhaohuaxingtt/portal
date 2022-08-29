@@ -28,6 +28,12 @@
     >
       {{ appendText }}
     </iButton>
+    <iButton
+      v-show="taskType === 0 && !isRefuseButton"
+      @click="$emit('export')"
+    >
+      {{ language('LK_DAOCHU') }}
+    </iButton>
   </div>
 </template>
 
