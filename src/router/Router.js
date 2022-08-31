@@ -57,6 +57,7 @@ import RouterTerms from './RouterTerms'
 import RouterReportForm from './RouterReportForm'
 // 后台管理  scoreConfig
 import backstagemanagement from './backstagemanagement'
+import capacityManagement from './capacityManagement'
 import RouterSetting from './RouterSetting'
 
 export default {
@@ -268,6 +269,7 @@ export default {
         ...RouterTerms,
         ...RouterReportForm,
         ...backstagemanagement,
+        ...capacityManagement,
         ...RouterSetting,
         ...purchaseClassification
       ]
