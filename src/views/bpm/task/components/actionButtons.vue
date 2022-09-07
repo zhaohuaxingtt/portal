@@ -28,10 +28,7 @@
     >
       {{ appendText }}
     </iButton>
-    <iButton
-      v-show="taskType === 0 && !isRefuseButton"
-      @click="$emit('export')"
-    >
+    <iButton v-show="categoryList == 'BDLApprove'" @click="$emit('export')">
       {{ language('LK_DAOCHU') }}
     </iButton>
   </div>
