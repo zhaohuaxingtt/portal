@@ -170,7 +170,13 @@ export default {
         })
         circleMarker.setMap(this.map)
       }
-      this.getCenter(parseFloat(this.eventDetail.influenceSize) / 2, this.eventDetail.longitude, this.eventDetail.latitude)
+      var mapHightSize = 0;
+      if(parseFloat(this.eventDetail.influenceSize) / 2 == 0){
+        mapHightSize = 150;
+      }else{
+        mapHightSize = parseFloat(this.eventDetail.influenceSize) / 2
+      }
+      this.getCenter(mapHightSize, this.eventDetail.longitude, this.eventDetail.latitude)
     },
     getCenter (influenceSize, lon, lat) {
       console.log(influenceSize, lon, lat);
