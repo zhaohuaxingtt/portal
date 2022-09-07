@@ -6,11 +6,9 @@
       :selectOptions="selectOptions"
       @sure="pageNotSendAlarmLetter"
     />
-    <i-card :title="language('待发送报警信列表', '待发送报警信列表')">
+    <i-card :title="language('报警信列表', '报警信列表')">
       <template slot="header-control">
-        <i-button @click="sent">{{
-          language('发送报警信', '发送报警信')
-        }}</i-button>
+        <i-button @click="closeAlarm">{{ language('关闭', '关闭') }}</i-button>
         <buttonTableSetting @click="edittableHeader" />
       </template>
       <tableList
@@ -18,32 +16,59 @@
         index
         :tableData="tableData"
         :tableTitle="tableTitle"
-        @handleSelectionChange="handleSelectionChange"
       >
-        <template #bkaName="scope">
-          <span class="link cursor" @click="gotoBKA(scope.row)">{{
-            scope.row.bkaName
+        <template #alarm="scope">
+          <span class="link cursor" @click="gotoAlarm(scope.row)">{{
+            language('CHAKAN', '查看')
           }}</span>
         </template>
-        <template #date="scope">
-          <template v-if="scope.row.out">
-            <span style="color: red"
-              >{{ scope.row.date }}{{ ` 已超期${scope.row.out}天` }}</span
-            >
-          </template>
-          <span v-else>{{ scope.row.date }}</span>
+        <template #supplierName="scope">
+          <span class="link cursor" @click="gotoSupplier(scope.row)">{{
+            scope.row.supplierName
+          }}</span>
+        </template>
+        <template #sourceType="scope">
+          <span>{{ getSourceType(scope.row.sourceType) }}</span>
+        </template>
+        <template #bkaName="scope">
+          <span
+            class="link cursor"
+            v-if="scope.row.sourceType == '1'"
+            @click="gotoBKA(scope.row)"
+            >{{ scope.row.bkaName }}</span
+          >
+          <span v-if="scope.row.sourceType == '2'">{{
+            scope.row.eventType
+          }}</span>
+          <span v-if="scope.row.sourceType == '3'">{{
+            scope.row.eventName
+          }}</span>
+        </template>
+        <template #level="scope">
+          <icon
+            symbol
+            v-if="scope.row.level == 1"
+            name="iconbaojiapingfengenzong-jiedian-hei"
+          />
+          <icon
+            symbol
+            v-if="scope.row.level == 2"
+            name="iconbaojiapingfengenzong-jiedian-hong"
+          />
+          <icon
+            symbol
+            v-if="scope.row.level == 3"
+            name="iconbaojiapingfengenzong-jiedian-cheng"
+          />
+          <icon
+            symbol
+            v-if="scope.row.level == 4"
+            name="iconbaojiapingfengenzong-jiedian-huang"
+          />
+          <span class="margin-left5">{{ getLevelLabel(scope.row.level) }}</span>
         </template>
         <template #status="scope">
           <span>{{ getStatus(scope.row.status) }}</span>
-        </template>
-        <template #closeReason="scope">
-          <span
-            v-if="scope.row.closeReason == '1'"
-            class="link cursor"
-            @click="gotoAlarm(scope.row)"
-            >{{ getCloseReason(scope.row.closeReason) }}</span
-          >
-          <span v-else>{{ getCloseReason(scope.row.closeReason) }}</span>
         </template>
         <template #sort="scope">
           <icon
@@ -98,15 +123,23 @@
 
 <script>
 import { iCard, iButton, icon, iPagination, iDialog, iMessage } from 'rise'
-import buttonTableSetting from '@/components/buttonTableSetting'
+// import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import tableList from 'rise/web/components/iTableSort'
 import Search from '../components/search'
-import { sentTableTitle as tableTitle, statusList, reasonList, searchList } from '../data'
+import {
+  toBeSentTableTitle as tableTitle,
+  levelList,
+  sourceTypeList,
+  statusList,
+  reasonList,
+  toBeSearchList as searchList,
+  eventList
+} from '../data'
 import { pageMixins } from '@/utils/pageMixins'
 import { getToken } from '@/utils'
 import { pageNotSendAlarmLetter } from '@/api/capacityManagement/index.js'
-import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
+// import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
 
 export default {
   components: {
@@ -116,8 +149,8 @@ export default {
     iPagination,
     iDialog,
     tableList,
-    Search,
-    buttonTableSetting
+    Search
+    // buttonTableSetting
   },
   mixins: [pageMixins, tableSortMixins],
   data() {
@@ -125,10 +158,13 @@ export default {
       typeShow: false,
       tableData: [
         {
+          alarm: '123',
+          supplierName: '供应商1',
+          sourceType: '1',
+          level: '1',
+          sentDate: '123',
           bkaName: 'test',
-          date: '2022-12-12',
-          status: '2',
-          closeReason: '3',
+          status: '1',
           closeDate: 'test',
           dept: 'test',
           linie: 'test',
@@ -136,20 +172,41 @@ export default {
           out: 5
         },
         {
+          alarm: '123',
+          sourceType: '2',
+          level: '2',
+          sentDate: '123',
           bkaName: 'test',
-          date: '2023-12-12',
-          status: '1',
-          closeReason: '2',
+          status: '2',
           closeDate: 'test',
           dept: 'test',
           linie: 'test',
+          eventType: 'TEST/突发事件',
+          meetName: 'BKM会议',
+          top: true,
           top: false
         },
         {
+          alarm: '123',
+          sourceType: '3',
+          level: '3',
+          sentDate: '123',
           bkaName: 'test',
-          date: '2023-12-12',
-          status: '1',
-          closeReason: '1',
+          status: '2',
+          closeDate: 'test',
+          dept: 'test',
+          linie: 'test',
+          eventName: '自己输入名称',
+          top: false,
+          closeLink: true
+        },
+        {
+          alarm: '123',
+          sourceType: '2',
+          level: '4',
+          sentDate: '123',
+          bkaName: 'test',
+          status: '2',
           closeDate: 'test',
           dept: 'test',
           linie: 'test',
@@ -160,22 +217,31 @@ export default {
       tableTitle,
       searchList,
       selectOptions: {
+        levelList,
+        sourceTypeList,
         statusList,
-        reasonList
+        reasonList,
+        eventList
       },
       multipleSelection: []
     }
   },
   created() {
-    this.getDept()
+    // this.getDept()
     // this.pageNotSendAlarmLetter()
   },
   methods: {
-    sent() {
+    closeAlarm() {
       if (this.multipleSelection.length > 0) {
         this.typeShow = true
       }
       return iMessage.warn('请选择数据')
+    },
+    close() {
+      this.typeShow = false
+    },
+    getLevelLabel(level) {
+      return levelList.find((item) => item.value == level)?.label
     },
     // 获取报警信列表
     pageNotSendAlarmLetter() {
@@ -200,33 +266,32 @@ export default {
       })
     },
     // 获取科室下拉数据
-    getDept() {
-      getDepartmentPullDown().then((res) => {
-        if (res?.code == '200') {
-          this.selectOptions
-          let deptList = res.data.map((item) => {
-            return {
-              value: item.deptId,
-              label: item.commodity
-            }
-          })
-          this.$set(this.selectOptions, 'deptList', deptList)
-        }
-      })
-    },
+    // getDept() {
+    //   getDepartmentPullDown().then((res) => {
+    //     if (res?.code == '200') {
+    //       this.selectOptions
+    //       let deptList = res.data.map((item) => {
+    //         return {
+    //           value: item.deptId,
+    //           label: item.commodity
+    //         }
+    //       })
+    //       this.$set(this.selectOptions, 'deptList', deptList)
+    //     }
+    //   })
+    // },
     // 获取对应状态
     getStatus(value) {
-      return this.selectOptions.statusList.find((item) => item.value == value)
-        .label
+      return statusList.find((item) => item.value == value).label
     },
     // 获取对应关闭原因
-    getCloseReason(value) {
-      return this.selectOptions.reasonList.find((item) => item.value == value)
-        .label
+    getSourceType(value) {
+      return sourceTypeList.find((item) => item.value == value).label
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-      console.log(this.multipleSelection)
+
+    // 供应商跳转BKA
+    gotoSupplier(row) {
+      return iMessage.warn('暂无URL,跳转BKA详情')
     },
     // 跳转BKA详情
     gotoBKA(row) {

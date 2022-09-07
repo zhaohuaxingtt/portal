@@ -11,7 +11,11 @@
             v-if="item.type == 'input'"
             v-model="form[item.prop]"
           ></i-input>
-          <i-select v-if="item.type == 'select'" v-model="form[item.prop]">
+          <i-select
+            v-if="item.type == 'select'"
+            v-model="form[item.prop]"
+            clearable
+          >
             <el-option
               v-if="item.showAll"
               :label="language('All', '全部')"
@@ -21,7 +25,7 @@
               :key="index"
               v-for="(child, index) in selectOptions[item.optionName] || []"
               :label="$i18n.locale == 'zh' ? child.name : child.nameEn"
-              :value="item.value"
+              :value="child.code"
             ></el-option>
           </i-select>
         </iFormItem>
@@ -44,7 +48,7 @@
               :selection="false"
               highlight-current-row
               class="table"
-              @current-change="handleCurrentChange"
+              @current-change="checkRow"
             >
               <template #supplierShortNameZh="scope">
                 <span class="link cursor" @click="gotoBKA(scope.row)">{{
@@ -74,32 +78,37 @@
               index
               class="table-right"
             >
-              <template #col1="scope" @click="gotoBKA(scope.row)">
-                <span class="link cursor">{{ scope.row.col1 }}</span>
+              <template #supplierShortNameZh="scope">
+                <span class="link cursor" @click="gotoBKA(scope.row)">{{
+                  $i18n.locale == 'zh'
+                    ? scope.row.supplierShortNameZh
+                    : scope.row.supplierShortNameEn
+                }}</span>
               </template>
-              <template #col2="scope">
-                <template
-                  v-if="scope.row.status == '1'"
-                  @click="gotoBKA(scope.row)"
-                >
-                  <span class="link cursor">{{ scope.row.col1 }}</span>
+              <template #bkaName="scope">
+                <template v-if="scope.row.sourceType == '2'">
+                  <span>{{ scope.row.bkaName + '-' + scope.row.bkaName }}</span>
                 </template>
-                <template v-if="scope.row.status == '2'">
-                  <span class="link cursor">{{
-                    scope.row.partNum + '-' + scope.row.partName
+                <template v-else>
+                  <span class="link cursor" @click="gotoBKA(scope.row)">{{
+                    scope.row.bkaName
                   }}</span>
                 </template>
               </template>
-              <template #col4="scope">
+              <template #sourceType="scope">
+                <span>{{ getSourceType(scope.row.sourceType) }}</span>
+              </template>
+              <template #taskEndDate="scope">
                 <template v-if="scope.row.out">
                   <span style="color: red"
-                    >{{ scope.row.col4 }}{{ `已超期${scope.row.out}天` }}</span
+                    >{{ scope.row.taskEndDate
+                    }}{{ `已超期${scope.row.out}天` }}</span
                   >
                 </template>
-                <span v-else>{{ scope.row.col4 }}</span>
+                <span v-else>{{ scope.row.taskEndDate }}</span>
               </template>
-              <template #col6="scope">
-                <span>{{ getStatus(scope.row.col6) }}</span>
+              <template #status="scope">
+                <span>{{ getStatus(scope.row.status) }}</span>
               </template>
             </table-list>
             <iPagination
@@ -148,8 +157,10 @@ import { pageMixins } from '@/utils/pageMixins'
 import tableList from 'rise/web/components/iTableSort'
 import {
   getUnfinishTaskList,
-  getUnfinishTaskListBySupplier
+  getUnfinishTaskListBySupplier,
+  getTaskDepartmentList
 } from '@/api/capacityManagement/index.js'
+
 import { getToken } from '@/utils'
 export default {
   components: {
@@ -174,8 +185,9 @@ export default {
         sourceType: '',
         taskStatus: ''
       },
-      supplier: '',
+      supplierInfo: {},
       selectOptions: {
+        deptList: [],
         taskStatusList,
         sourceTypeList
       },
@@ -186,6 +198,7 @@ export default {
     }
   },
   created() {
+    this.getDept()
     // this.getUnfinishTaskList()
     // this.getUnfinishTaskListBySupplier()
   },
@@ -193,6 +206,19 @@ export default {
     this.search()
   },
   methods: {
+    getDept() {
+      getTaskDepartmentList().then((res) => {
+        if (res?.code == '200') {
+          this.selectOptions.deptList = res.data.map((item) => {
+            return {
+              code: item.departmentCode,
+              name: item.departmentName,
+              nameEn: item.departmentName
+            }
+          })
+        }
+      })
+    },
     gotoBKA(row) {
       let url =
         process.env.VUE_APP_HOST + '/bkm/login.do' + '?userno=' + getToken()
@@ -210,6 +236,13 @@ export default {
       }
     },
     getUnfinishTaskList() {
+      // 接口太慢，先用假数据
+      // this.tableDataLeft = result
+      // this.$nextTick(() => {
+      //   this.$refs.supplierTable?.$refs?.moviesTable?.setCurrentRow(
+      //     this.tableDataLeft[0]
+      //   )
+      // })
       getUnfinishTaskList(this.form).then((res) => {
         if (res?.code == '200') {
           this.tableDataLeft = res.data || result
@@ -221,8 +254,9 @@ export default {
         }
       })
     },
-    handleCurrentChange(row) {
-      this.supplier = row.supplierShortNameZh
+    checkRow(row) {
+      this.supplierInfo = JSON.parse(JSON.stringify(row))
+      this.page.currPage = 1
       this.getUnfinishTaskListBySupplier()
     },
     getUnfinishTaskListBySupplier() {
@@ -230,19 +264,21 @@ export default {
         ...this.form,
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
-        supplier: this.supplier || this.form.department
+        supplier: this.supplierInfo?.tmSupplierId
       }).then((res) => {
-        console.log(res)
         if (res?.code == '200') {
           this.tableDataRight = res.data.records
-          this.page.total = res.data.total
+          this.page.totalCount = res.data.total
         }
       })
     },
-    getStatus(status) {
-      return this.selectOptions.taskStatusList.find(
-        (item) => item.status == status
-      ).name
+    getSourceType(code) {
+      return this.selectOptions.sourceTypeList.find((item) => item.code == code)
+        ?.name
+    },
+    getStatus(code) {
+      return this.selectOptions.taskStatusList.find((item) => item.code == code)
+        ?.name
     }
   }
 }

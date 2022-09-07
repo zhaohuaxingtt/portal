@@ -1,6 +1,14 @@
 import axios from '@/utils/axios'
 const request = axios(process.env.VUE_APP_BKM)
 
+// 产能维护任务科室查询
+export function getTaskDepartmentList() {
+  return request({
+    url: '/web/maintain/getTaskDepartmentList',
+    method: 'post',
+  })
+}
+
 // 产能维护任务查询
 export function getUnfinishTaskList(data) {
   return request({

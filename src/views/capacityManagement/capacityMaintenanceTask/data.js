@@ -6,30 +6,31 @@ export const searchForm = [
 ]
 
 export const tableTitleLeft = [
-  { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, minWidth: 110 },
+  { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, minWidth: 110, tooltip: true },
   { props: 'taskNumber', name: '产能维护任务数', key: '', sortable: true, minWidth: 160 },
 ]
 
 export const tableTitleRight = [
-  { props: 'col1', name: '供应商', key: '', sortable: true },
-  { props: 'col2', name: 'BKA', key: '', sortable: true },
-  { props: 'col3', name: '来源', key: '', sortable: true },
-  { props: 'col4', name: '供应商任务截止日期', key: '', sortable: true, minWidth: 220 },
-  { props: 'col5', name: '科室', key: '', sortable: true },
-  { props: 'col6', name: '状态', key: '', sortable: true },
+  { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, tooltip: true },
+  { props: 'bkaName', name: 'BKA', key: '', sortable: true, minWidth: 200, tooltip: true },
+  { props: 'sourceType', name: '来源', key: '', sortable: true, tooltip: true },
+  { props: 'taskEndDate', name: '供应商任务截止日期', key: '', sortable: true, width: 160 },
+  { props: 'departmentCode', name: '科室', key: '', sortable: true },
+  { props: 'status', name: '状态', key: '', sortable: true },
 ]
 
 export const sourceTypeList = [
-  { status: '1', name: '需求导入-待创建BKA' },
-  { status: '2', name: '需求导入-待更新BKA' },
-  { status: '3', name: '定时-待更新BKA' },
-  { status: '4', name: '产能调查-待更新BKA' },
-
+  { code: '1', name: '需求导入-待创建BKA' },
+  { code: '2', name: '需求导入-待更新BKA' },
+  { code: '3', name: '定时-待更新BKA' },
+  { code: '4', name: '产能调查-待更新BKA' },
 ]
 
 export const taskStatusList = [
-  { status: '1', name: '进行中' },
-  { status: '2', name: '已超时' },
+  { code: 'TO_DO', name: '待完成' },
+  { code: 'FINISHED', name: '已完成' },
+  { code: 'OVERDUE', name: '逾期' },
+  { code: 'OVERDUE_FINISHED', name: '逾期完成' },
 ]
 export const result = [
   {

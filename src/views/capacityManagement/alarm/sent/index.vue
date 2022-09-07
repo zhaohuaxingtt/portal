@@ -6,11 +6,8 @@
       :selectOptions="selectOptions"
       @sure="pageNotSendAlarmLetter"
     />
-    <i-card :title="language('已发送报警信列表', '已发送报警信列表')">
+    <i-card :title="language('待反馈报警信', '待反馈报警信')">
       <template slot="header-control">
-        <!-- <i-button @click="sent">{{
-          language('发送报警信', '发送报警信')
-        }}</i-button> -->
         <buttonTableSetting @click="edittableHeader" />
       </template>
       <tableList
@@ -20,6 +17,11 @@
         :tableData="tableData"
         :tableTitle="tableTitle"
       >
+        <template #supplierName="scope">
+          <span class="link cursor" @click="gotoSupplier(scope.row)">{{
+            scope.row.supplierName
+          }}</span>
+        </template>
         <template #bkaName="scope">
           <span class="link cursor" @click="gotoBKA(scope.row)">{{
             scope.row.bkaName
@@ -130,6 +132,7 @@ export default {
       typeShow: false,
       tableData: [
         {
+          supplierName: '供应商1',
           bkaName: 'test',
           date: '2022-12-12',
           status: '2',
@@ -176,12 +179,6 @@ export default {
     // this.pageNotSendAlarmLetter()
   },
   methods: {
-    // sent() {
-    //   if (this.multipleSelection.length > 0) {
-    //     this.typeShow = true
-    //   }
-    //   return iMessage.warn('请选择数据')
-    // },
     // 获取报警信列表
     pageNotSendAlarmLetter() {
       let params = this.$refs.search?.searchParams || {}
@@ -228,6 +225,10 @@ export default {
     getCloseReason(value) {
       return this.selectOptions.reasonList.find((item) => item.value == value)
         .label
+    },
+    // 供应商跳转BKA
+    gotoSupplier(row) {
+      return iMessage.warn('暂无URL,跳转BKA详情')
     },
     // 跳转BKA详情
     gotoBKA(row) {
