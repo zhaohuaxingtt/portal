@@ -341,14 +341,18 @@ export default {
       this.dialogApprovalVisible = false
       this.getTableList()
     },
-    
+
     //导出
     exportTemplate() {
-      if(!this.selectTableData.length){
+      if (!this.selectTableData.length) {
         return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
       }
-      excelExport(this.selectTableData, this.tableTitle.filter(item=> item.type!='selection'), 'TEST')
-    },
+      excelExport(
+        this.selectTableData,
+        this.tableTitle.filter((item) => item.type != 'selection'),
+        this.language('待审批列表')
+      )
+    }
   }
 }
 </script>

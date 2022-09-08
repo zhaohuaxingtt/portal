@@ -28,7 +28,7 @@
     >
       {{ appendText }}
     </iButton>
-    <iButton v-show="categoryList == 'BDLApprove'" @click="$emit('export')">
+    <iButton @click="$emit('export')">
       {{ language('LK_DAOCHU') }}
     </iButton>
   </div>
