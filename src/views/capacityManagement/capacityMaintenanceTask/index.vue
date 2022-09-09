@@ -67,7 +67,9 @@
           class="table-card"
         >
           <template slot="header-control">
-            <i-button>{{ language('批量导出', '批量导出') }}</i-button>
+            <i-button @click="exportTaskList">{{
+              language('批量导出', '批量导出')
+            }}</i-button>
             <icon name="iconSetting" class="margin-left10" symbol />
           </template>
           <template slot="body">
@@ -158,7 +160,8 @@ import tableList from 'rise/web/components/iTableSort'
 import {
   getUnfinishTaskList,
   getUnfinishTaskListBySupplier,
-  getTaskDepartmentList
+  getTaskDepartmentList,
+  exportTaskList
 } from '@/api/capacityManagement/index.js'
 
 import { getToken } from '@/utils'
@@ -270,6 +273,16 @@ export default {
           this.tableDataRight = res.data.records
           this.page.totalCount = res.data.total
         }
+      })
+    },
+    exportTaskList() {
+      exportTaskList({
+        ...this.form,
+        currentPage: this.page.currPage,
+        pageSize: this.page.pageSize,
+        supplier: this.supplierInfo?.tmSupplierId
+      }).then((res) => {
+        console.log(res)
       })
     },
     getSourceType(code) {

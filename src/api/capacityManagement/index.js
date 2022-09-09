@@ -18,6 +18,15 @@ export function getUnfinishTaskList(data) {
   })
 }
 
+// 产能维护任务批量导出
+export function exportTaskList(data) {
+  return request({
+    url: '/web/maintain/exportTaskList',
+    method: 'post',
+    data
+  })
+}
+
 // 单个供应商产能维护任务明细查询
 export function getUnfinishTaskListBySupplier(data) {
   return request({
@@ -31,6 +40,15 @@ export function getUnfinishTaskListBySupplier(data) {
 export function pageNotSendAlarmLetter(data) {
   return request({
     url: '/web/alarm/pageNotSendAlarmLetter',
+    method: 'post',
+    data
+  })
+}
+
+// 报警信列表排序
+export function setAlarmLetterOrder(data) {
+  return request({
+    url: '/web/alarm/setAlarmLetterOrder',
     method: 'post',
     data
   })

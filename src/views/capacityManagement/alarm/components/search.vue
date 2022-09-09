@@ -7,7 +7,7 @@
     :resetKey="CHAXUN"
     :searchKey="REST"
   >
-    <el-form>
+    <el-form ref="form" :model="searchParams">
       <el-form-item
         v-for="(item, index) in searchList"
         :key="index"
@@ -73,7 +73,11 @@ export default {
   },
   created() {
     this.searchList.map((item) => {
-      this.$set(this.searchParams, [item.prop], '')
+      if (item.multiple) {
+        this.$set(this.searchParams, [item.prop], [])
+      } else {
+        this.$set(this.searchParams, [item.prop], '')
+      }
     })
   },
   methods: {
@@ -81,10 +85,16 @@ export default {
       this.$emit('sure', this.searchParams)
     },
     reset() {
+      console.log('0-0')
+      // this.$refs.form.resetFields()
       this.searchList.map((item) => {
-        this.$set(this.searchParams, [item.prop], '')
+        if (item.multiple) {
+          this.$set(this.searchParams, [item.prop], [])
+        } else {
+          this.$set(this.searchParams, [item.prop], '')
+        }
       })
-      this.$emit('reset', {})
+      this.$emit('reset', this.searchParams)
     }
   }
 }

@@ -73,13 +73,13 @@
         <template #sort="scope">
           <icon
             symbol
-            @click="topType(scope.row)"
+            @click="topType(scope.row.alarmLetterTaskId, 0)"
             v-if="scope.row.top"
             name="iconliebiaoyizhiding"
           />
           <icon
             symbol
-            @click="topType(scope.row)"
+            @click="topType(scope.row.alarmLetterTaskId, 1)"
             v-else
             name="iconliebiaoweizhiding"
           />
@@ -138,8 +138,11 @@ import {
 } from '../data'
 import { pageMixins } from '@/utils/pageMixins'
 import { getToken } from '@/utils'
-import { pageNotSendAlarmLetter } from '@/api/capacityManagement/index.js'
-// import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
+import {
+  pageNotSendAlarmLetter,
+  setAlarmLetterOrder
+} from '@/api/capacityManagement/index.js'
+import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
 
 export default {
   components: {
@@ -227,8 +230,8 @@ export default {
     }
   },
   created() {
-    // this.getDept()
-    // this.pageNotSendAlarmLetter()
+    this.getDept()
+    this.pageNotSendAlarmLetter()
   },
   methods: {
     closeAlarm() {
@@ -266,20 +269,20 @@ export default {
       })
     },
     // 获取科室下拉数据
-    // getDept() {
-    //   getDepartmentPullDown().then((res) => {
-    //     if (res?.code == '200') {
-    //       this.selectOptions
-    //       let deptList = res.data.map((item) => {
-    //         return {
-    //           value: item.deptId,
-    //           label: item.commodity
-    //         }
-    //       })
-    //       this.$set(this.selectOptions, 'deptList', deptList)
-    //     }
-    //   })
-    // },
+    getDept() {
+      getDepartmentPullDown().then((res) => {
+        if (res?.code == '200') {
+          this.selectOptions
+          let deptList = res.data.map((item) => {
+            return {
+              value: item.deptId,
+              label: item.commodity
+            }
+          })
+          this.$set(this.selectOptions, 'deptList', deptList)
+        }
+      })
+    },
     // 获取对应状态
     getStatus(value) {
       return statusList.find((item) => item.value == value).label
@@ -310,17 +313,24 @@ export default {
     },
     // 跳转报警信详情
     gotoAlarm(row) {
-      return iMessage.warn('暂无URL,跳转报警信详情')
+      // return iMessage.warn('暂无URL,跳转报警信详情')
       this.$router.push({
-        path: '/bka',
+        path: '/alarmLetter',
         query: {
           row: row
         }
       })
     },
     // 数据置顶
-    topType(row) {
-      return iMessage.warn('暂无置顶,跳转报警信详情')
+    topType(alarmLetterTaskId, setType) {
+      //0 取消置顶， 1 置顶
+      setAlarmLetterOrder({
+        alarmLetterTaskId,
+        setType
+      }).then((res) => {
+        console.log(res)
+      })
+      // return iMessage.warn('暂无置顶,跳转报警信详情')
     }
   }
 }

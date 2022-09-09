@@ -1,5 +1,5 @@
 export const searchList = [
-  { prop: 'supplier', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
+  { prop: 'supplierId', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList' },
   { prop: 'closeReasonList', label: '关闭原因', key: '关闭原因', type: 'select', optionName: 'reasonList', multiple: true },
   { prop: 'departmentCodeList', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
@@ -9,7 +9,7 @@ export const searchList = [
 
 export const toBeSearchList = [
   { prop: 'sourceType', label: '来源', key: 'LAIYUAN', type: 'select', optionName: 'sourceTypeList' },
-  { prop: 'supplier', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
+  { prop: 'supplierId', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'enevtName', label: 'SHIJIANMINGCHEN', key: 'SHIJIANMINGCHEN', type: 'select', optionName: 'eventList', multiple: true },
   { prop: 'level', label: '紧缺级别', key: 'JINQUEJIBIE', type: 'select', optionName: 'levelList', multiple: true },
   { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList' },
