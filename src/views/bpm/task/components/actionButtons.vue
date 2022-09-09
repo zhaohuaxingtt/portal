@@ -28,6 +28,9 @@
     >
       {{ appendText }}
     </iButton>
+    <iButton @click="$emit('export')">
+      {{ language('LK_DAOCHU') }}
+    </iButton>
   </div>
 </template>
 

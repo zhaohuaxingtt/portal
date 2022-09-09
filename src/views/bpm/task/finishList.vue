@@ -12,6 +12,11 @@
     </pageHeader>
     <searchForm is-finished @search="search" />
     <iCard>
+      <div class="operation-btn">
+        <iButton @click="exportTemplate">
+          {{ language('LK_DAOCHU') }}
+        </iButton>
+      </div>
       <i-table-custom
         :loading="loading"
         :data="tableListData"
@@ -37,7 +42,7 @@
 </template>
 
 <script>
-import { iCard, iPage, iPagination } from 'rise'
+import { iCard, iPage, iPagination, iButton } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import filters from '@/utils/filters'
 import { MAP_APPROVAL_TYPE } from '@/constants'
@@ -56,6 +61,7 @@ export default {
     iCard,
     iPagination,
     iTableCustom,
+    iButton,
     pageHeader,
     searchForm,
     actionHeader
@@ -167,11 +173,26 @@ export default {
       dialogApprovalVisible: false,
       todoTotal: 0,
       approvalTypeMap: MAP_APPROVAL_TYPE,
-      templates: []
+      templates: [],
+      modelTemplate: []
     }
   },
   created() {
-    // this.getTableList()
+    const queryForm = JSON.parse(
+      decodeURIComponent(this.$route.query.todoQueryStr)
+    )
+    if (queryForm.categoryList) {
+      let modelTemplate = []
+      const { categoryList } = queryForm
+      if (categoryList) {
+        if (_.isArray(categoryList)) {
+          modelTemplate = JSON.stringify(categoryList)
+        } else {
+          modelTemplate = JSON.stringify([categoryList])
+        }
+      }
+      this.modelTemplate = modelTemplate
+    }
   },
   methods: {
     //打开详情页
@@ -200,6 +221,7 @@ export default {
       }
 
       const searchData = filterEmptyValue(this.form)
+      console.log(searchData)
 
       if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
         delete searchData.itemTypeList
@@ -240,9 +262,24 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    //导出
+    exportTemplate() {
+      excelExport(
+        this.tableExtraData,
+        this.tableTitle,
+        this.language('已审批列表')
+      )
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.operation-btn {
+  float: right;
+  display: flex;
+  margin-bottom: 22px;
+  text-align: right;
+}
+</style>
