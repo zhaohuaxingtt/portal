@@ -8,24 +8,36 @@
 -->
 <template>
   <div>
-    <div style="margin-top:20px">
-      <el-table :data="tableList" style="width: 100%" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
-        <el-table-column label="#" type="index" width="65">
-        </el-table-column>
-        <el-table-column :label="language('FUJIANMINGCHEN','附件名称')" min-width="180">
+    <div style="margin-top: 20px">
+      <el-table :data="warningLetterAnnexList" style="width: 100%">
+        <el-table-column label="#" type="index" width="65"> </el-table-column>
+        <el-table-column
+          :label="language('FUJIANMINGCHEN', '附件名称')"
+          min-width="180"
+        >
           <template slot-scope="scope">
-            <span class="file" @click="detail(scope.row)">{{scope.row.trueName}}</span>
+            <span class="file" @click="detail(scope.row)">{{
+              scope.row.trueName
+            }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="language('DAXIAO_B','大小 (B)')" prop="size" min-width="180">
-
+        <el-table-column
+          :label="language('DAXIAO_B', '大小 (B)')"
+          prop="size"
+          min-width="180"
+        >
         </el-table-column>
-        <el-table-column :label="language('SHANGCHUANREN','上传人')" prop="createUserName" min-width="180">
-
+        <el-table-column
+          :label="language('SHANGCHUANREN', '上传人')"
+          prop="createUserName"
+          min-width="180"
+        >
         </el-table-column>
-        <el-table-column :label="language('SHANGCHUANSHIJIAN','上传时间')" prop="uploadDate" min-width="180">
+        <el-table-column
+          :label="language('SHANGCHUANSHIJIAN', '上传时间')"
+          prop="uploadDate"
+          min-width="180"
+        >
         </el-table-column>
       </el-table>
     </div>
@@ -33,15 +45,7 @@
 </template>
 
 <script>
-import { iPage, iCard, iButton } from 'rise'
-import editTableCell from './editTableCell'
 export default {
-  data() {
-    return {
-      editModeEnabled: true,
-      tableList: []
-    }
-  },
   props: {
     warningLetterAnnexList: {
       type: Array,
@@ -50,20 +54,7 @@ export default {
       }
     }
   },
-  watch: {
-    warningLetterAnnexList: {
-      handler(val) {
-        this.tableList = _.cloneDeep(val)
-      },
-      deep: true
-    }
-  },
-  components: {
-  },
   methods: {
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
     detail(val) {
       window.open(val.dir)
     }

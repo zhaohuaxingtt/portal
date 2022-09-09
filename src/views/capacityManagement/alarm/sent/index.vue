@@ -27,13 +27,11 @@
             scope.row.bkaName
           }}</span>
         </template>
-        <template #date="scope">
-          <template v-if="scope.row.out">
-            <span style="color: red"
-              >{{ scope.row.date }}{{ ` 已超期${scope.row.out}天` }}</span
-            >
+        <template #taskEndDateStr="scope">
+          <template v-if="scope.row.hasOverdue">
+            <span style="color: red">{{ scope.row.taskEndDateStr }}</span>
           </template>
-          <span v-else>{{ scope.row.date }}</span>
+          <span v-else>{{ scope.row.taskEndDateStr }}</span>
         </template>
         <template #status="scope">
           <span>{{ getStatus(scope.row.status) }}</span>
@@ -48,18 +46,12 @@
           <span v-else>{{ getCloseReason(scope.row.closeReason) }}</span>
         </template>
         <template #sort="scope">
-          <icon
-            symbol
-            @click="topType(scope.row)"
-            v-if="scope.row.top"
-            name="iconliebiaoyizhiding"
-          />
-          <icon
-            symbol
-            @click="topType(scope.row)"
-            v-else
-            name="iconliebiaoweizhiding"
-          />
+          <span v-if="scope.row.sort" @click="topType(scope.row.id, '0')">
+            <icon symbol class="cursor" name="iconliebiaoyizhiding" />
+          </span>
+          <span @click="topType(scope.row.id, '1')" v-else>
+            <icon symbol class="cursor" name="iconliebiaoweizhiding" />
+          </span>
         </template>
       </tableList>
       <iPagination
@@ -112,7 +104,10 @@ import {
 } from '../data'
 import { pageMixins } from '@/utils/pageMixins'
 import { getToken } from '@/utils'
-import { pageNotSendAlarmLetter } from '@/api/capacityManagement/index.js'
+import {
+  pageNotSendAlarmLetter,
+  setAlarmLetterOrder
+} from '@/api/capacityManagement/index.js'
 import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
 
 export default {
@@ -130,41 +125,7 @@ export default {
   data() {
     return {
       typeShow: false,
-      tableData: [
-        {
-          supplierName: '供应商1',
-          bkaName: 'test',
-          date: '2022-12-12',
-          status: '2',
-          closeReason: '3',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          top: true,
-          out: 5
-        },
-        {
-          bkaName: 'test',
-          date: '2023-12-12',
-          status: '1',
-          closeReason: '2',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          top: false
-        },
-        {
-          bkaName: 'test',
-          date: '2023-12-12',
-          status: '1',
-          closeReason: '1',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          top: false,
-          closeLink: true
-        }
-      ],
+      tableData: [],
       tableTitle,
       searchList,
       selectOptions: {
@@ -176,7 +137,7 @@ export default {
   },
   created() {
     this.getDept()
-    // this.pageNotSendAlarmLetter()
+    this.pageNotSendAlarmLetter()
   },
   methods: {
     // 获取报警信列表
@@ -197,7 +158,7 @@ export default {
       pageNotSendAlarmLetter(params).then((res) => {
         if (res?.code == '200') {
           this.tableData = res.data.records
-          this.page.total = res.data.total
+          this.page.totalCount = res.data.total
         }
       })
     },
@@ -218,32 +179,30 @@ export default {
     },
     // 获取对应状态
     getStatus(value) {
-      return this.selectOptions.statusList.find((item) => item.value == value)
-        .label
+      return (
+        this.selectOptions.statusList.find((item) => item.value == value)
+          ?.label || value
+      )
     },
     // 获取对应关闭原因
     getCloseReason(value) {
-      return this.selectOptions.reasonList.find((item) => item.value == value)
-        .label
+      return (
+        this.selectOptions.reasonList.find((item) => item.value == value)
+          ?.label || value
+      )
     },
     // 供应商跳转BKA
     gotoSupplier(row) {
-      return iMessage.warn('暂无URL,跳转BKA详情')
+      let url = process.env.VUE_APP_HOST + '/bkm/sso.do'
+      window.open(url)
+      return
     },
     // 跳转BKA详情
     gotoBKA(row) {
       let url =
-        process.env.VUE_APP_HOST + '/bkm/login.do' + '?userno=' + getToken()
+        process.env.VUE_APP_HOST +
+        `/bkm/bkaView/bkaView.do?bkaNo=${row.encryptionBkaId}`
       window.open(url)
-      return
-      return this.item.url
-      return (
-        this.item.menuList &&
-        this.item.menuList.length &&
-        this.item.menuList[0].url
-      )
-      return iMessage.warn('暂无URL,跳转BKA详情')
-      window.open(`/portal/#/bka/template/detail/${row.id}`)
     },
     // 跳转报警信详情
     gotoAlarm(row) {
@@ -256,8 +215,19 @@ export default {
       })
     },
     // 数据置顶
-    topType(row) {
-      return iMessage.warn('暂无置顶,跳转报警信详情')
+    topType(alarmLetterTaskId, setType) {
+      console.log(alarmLetterTaskId, setType)
+      //0 取消置顶， 1 置顶
+      setAlarmLetterOrder({
+        alarmLetterTaskId,
+        setType
+      }).then((res) => {
+        console.log(res)
+        if (res?.code == '200') {
+          this.pageNotSendAlarmLetter()
+        }
+      })
+      // return iMessage.warn('暂无置顶,跳转报警信详情')
     }
   }
 }

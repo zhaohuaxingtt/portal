@@ -82,15 +82,15 @@ export default [
         },
         component: () => import("@/views/capacityManagement/bkmMeeting"),
       },
-      {
-        path: "alarmLetter",
-        name: "alarmLetter",
-        meta: {
-          title: "报警信详情",
-          activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
-        },
-        component: () => import("@/views/capacityManagement/alarmLetter"),
-      },
     ]
-  }
+  },
+  {
+    path: "capacityManagement/alarmLetter",
+    name: "alarmLetter",
+    meta: {
+      title: "报警信详情",
+      activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
+    },
+    component: () => import("@/views/capacityManagement/alarmLetter"),
+  },
 ]

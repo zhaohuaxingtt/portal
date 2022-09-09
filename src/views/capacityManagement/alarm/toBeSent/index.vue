@@ -16,6 +16,7 @@
         index
         :tableData="tableData"
         :tableTitle="tableTitle"
+        @handleSelectionChange="handleSelectionChange"
       >
         <template #alarm="scope">
           <span class="link cursor" @click="gotoAlarm(scope.row)">{{
@@ -27,62 +28,53 @@
             scope.row.supplierName
           }}</span>
         </template>
-        <template #sourceType="scope">
-          <span>{{ getSourceType(scope.row.sourceType) }}</span>
+        <template #source="scope">
+          <span>{{ getSourceType(scope.row.source) }}</span>
         </template>
         <template #bkaName="scope">
           <span
             class="link cursor"
-            v-if="scope.row.sourceType == '1'"
+            v-if="scope.row.source == 'CAPACITY_RED_LIGHT'"
             @click="gotoBKA(scope.row)"
-            >{{ scope.row.bkaName }}</span
+            >{{ scope.row.warningLetterTitle }}</span
           >
-          <span v-if="scope.row.sourceType == '2'">{{
-            scope.row.eventType
-          }}</span>
-          <span v-if="scope.row.sourceType == '3'">{{
-            scope.row.eventName
-          }}</span>
+          <span v-else>{{ scope.row.warningLetterTitle }}</span>
         </template>
-        <template #level="scope">
+        <template #shortageLevel="scope">
           <icon
             symbol
-            v-if="scope.row.level == 1"
+            v-if="scope.row.shortageLevel == 'low'"
             name="iconbaojiapingfengenzong-jiedian-hei"
           />
           <icon
             symbol
-            v-if="scope.row.level == 2"
+            v-if="scope.row.shortageLevel == 'middle'"
             name="iconbaojiapingfengenzong-jiedian-hong"
           />
           <icon
             symbol
-            v-if="scope.row.level == 3"
+            v-if="scope.row.shortageLevel == 'middleHigh'"
             name="iconbaojiapingfengenzong-jiedian-cheng"
           />
           <icon
             symbol
-            v-if="scope.row.level == 4"
+            v-if="scope.row.shortageLevel == 'high'"
             name="iconbaojiapingfengenzong-jiedian-huang"
           />
-          <span class="margin-left5">{{ getLevelLabel(scope.row.level) }}</span>
+          <span class="margin-left5">{{
+            getLevelLabel(scope.row.shortageLevel)
+          }}</span>
         </template>
         <template #status="scope">
           <span>{{ getStatus(scope.row.status) }}</span>
         </template>
         <template #sort="scope">
-          <icon
-            symbol
-            @click="topType(scope.row.alarmLetterTaskId, 0)"
-            v-if="scope.row.top"
-            name="iconliebiaoyizhiding"
-          />
-          <icon
-            symbol
-            @click="topType(scope.row.alarmLetterTaskId, 1)"
-            v-else
-            name="iconliebiaoweizhiding"
-          />
+          <span v-if="scope.row.sort" @click="topType(scope.row.id, '0')">
+            <icon symbol class="cursor" name="iconliebiaoyizhiding" />
+          </span>
+          <span @click="topType(scope.row.id, '1')" v-else>
+            <icon symbol class="cursor" name="iconliebiaoweizhiding" />
+          </span>
         </template>
       </tableList>
       <iPagination
@@ -97,23 +89,18 @@
         :total="page.totalCount"
       />
       <i-dialog
-        :title="language('dialogTitle', 'dialogTitle')"
+        :title="language('TISHI', '提示')"
         style="margin-top: 10vh"
         :visible.sync="typeShow"
         v-if="typeShow"
         width="400px"
         @close="close"
       >
-        <span>是否确认对以下所选BKA发送报警信</span>
-        <div class="bka-list margin-top20">
-          <p v-for="(item, index) in multipleSelection" :key="index">
-            {{ Number(index) + 1 + '.' + item.bkaName }}
-          </p>
-        </div>
+        <span>是否确认关闭所选报警信</span>
         <template slot="footer">
           <div>
-            <i-button>取消</i-button>
-            <i-button>确认</i-button>
+            <i-button @click="close">取消</i-button>
+            <i-button @click="closeAlarmLetter">确认</i-button>
           </div>
         </template>
       </i-dialog>
@@ -123,7 +110,7 @@
 
 <script>
 import { iCard, iButton, icon, iPagination, iDialog, iMessage } from 'rise'
-// import buttonTableSetting from '@/components/buttonTableSetting'
+import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import tableList from 'rise/web/components/iTableSort'
 import Search from '../components/search'
@@ -139,8 +126,9 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 import { getToken } from '@/utils'
 import {
-  pageNotSendAlarmLetter,
-  setAlarmLetterOrder
+  getWarningLetterInfoPage,
+  closeAlarmLetter,
+  setWarningLetterInfoAlarmLetterOrder
 } from '@/api/capacityManagement/index.js'
 import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
 
@@ -152,8 +140,8 @@ export default {
     iPagination,
     iDialog,
     tableList,
-    Search
-    // buttonTableSetting
+    Search,
+    buttonTableSetting
   },
   mixins: [pageMixins, tableSortMixins],
   data() {
@@ -231,14 +219,28 @@ export default {
   },
   created() {
     this.getDept()
-    this.pageNotSendAlarmLetter()
+    this.getWarningLetterInfoPage()
   },
   methods: {
     closeAlarm() {
-      if (this.multipleSelection.length > 0) {
-        this.typeShow = true
+      if (this.multipleSelection.length == 0) {
+        return iMessage.warn('请至少选择一条记录')
       }
-      return iMessage.warn('请选择数据')
+      if (this.multipleSelection.find((item) => item.status != 'SENT')) {
+        return iMessage.warn('仅可关闭已发送状态的报警信，请检查所选记录状态')
+      }
+      this.typeShow = true
+    },
+    closeAlarmLetter() {
+      closeAlarmLetter(this.multipleSelection.map((item) => item.id)).then(
+        (res) => {
+          console.log(res)
+          if (res?.code == '200') {
+            this.typeShow = false
+            this.getWarningLetterInfoPage()
+          }
+        }
+      )
     },
     close() {
       this.typeShow = false
@@ -246,8 +248,11 @@ export default {
     getLevelLabel(level) {
       return levelList.find((item) => item.value == level)?.label
     },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
     // 获取报警信列表
-    pageNotSendAlarmLetter() {
+    getWarningLetterInfoPage() {
       let params = this.$refs.search?.searchParams || {}
       params.taskEndDate = ''
       params.taskStartDate = ''
@@ -261,10 +266,10 @@ export default {
         size: this.page.pageSize,
         currPage: this.page.currPage
       }
-      pageNotSendAlarmLetter(params).then((res) => {
+      getWarningLetterInfoPage(params).then((res) => {
         if (res?.code == '200') {
           this.tableData = res.data.records
-          this.page.total = res.data.total
+          this.page.totalCount = res.data.total
         }
       })
     },
@@ -285,11 +290,11 @@ export default {
     },
     // 获取对应状态
     getStatus(value) {
-      return statusList.find((item) => item.value == value).label
+      return statusList.find((item) => item.value == value)?.label || value
     },
-    // 获取对应关闭原因
+    // 获取对应来源
     getSourceType(value) {
-      return sourceTypeList.find((item) => item.value == value).label
+      return sourceTypeList.find((item) => item.value == value)?.label || value
     },
 
     // 供应商跳转BKA
@@ -299,36 +304,31 @@ export default {
     // 跳转BKA详情
     gotoBKA(row) {
       let url =
-        process.env.VUE_APP_HOST + '/bkm/login.do' + '?userno=' + getToken()
+        process.env.VUE_APP_HOST +
+        `/bkm/bkaView/bkaView.do?bkaNo=${row.encryptionBkaId}`
       window.open(url)
-      return
-      return this.item.url
-      return (
-        this.item.menuList &&
-        this.item.menuList.length &&
-        this.item.menuList[0].url
-      )
-      return iMessage.warn('暂无URL,跳转BKA详情')
-      window.open(`/portal/#/bka/template/detail/${row.id}`)
     },
     // 跳转报警信详情
     gotoAlarm(row) {
-      // return iMessage.warn('暂无URL,跳转报警信详情')
-      this.$router.push({
-        path: '/alarmLetter',
+      let router = this.$router.resolve({
+        path: '/capacityManagement/alarmLetter',
         query: {
-          row: row
+          id: row.id
         }
       })
+      window.open(router.href, '_blank')
     },
     // 数据置顶
-    topType(alarmLetterTaskId, setType) {
+    topType(alarmLetterId, setType) {
       //0 取消置顶， 1 置顶
-      setAlarmLetterOrder({
-        alarmLetterTaskId,
+      setWarningLetterInfoAlarmLetterOrder({
+        alarmLetterId,
         setType
       }).then((res) => {
         console.log(res)
+        if (res?.code == '200') {
+          this.getWarningLetterInfoPage()
+        }
       })
       // return iMessage.warn('暂无置顶,跳转报警信详情')
     }

@@ -1,5 +1,6 @@
 import axios from '@/utils/axios'
 const request = axios(process.env.VUE_APP_BKM)
+const ntier = axios(process.env.VUE_APP_NTIER)
 
 // 产能维护任务科室查询
 export function getTaskDepartmentList() {
@@ -36,7 +37,7 @@ export function getUnfinishTaskListBySupplier(data) {
   })
 }
 
-// 查询未发送报警信列表
+// 查询待反馈报警信列表
 export function pageNotSendAlarmLetter(data) {
   return request({
     url: '/web/alarm/pageNotSendAlarmLetter',
@@ -45,7 +46,7 @@ export function pageNotSendAlarmLetter(data) {
   })
 }
 
-// 报警信列表排序
+// 待反馈报警信列表排序
 export function setAlarmLetterOrder(data) {
   return request({
     url: '/web/alarm/setAlarmLetterOrder',
@@ -53,3 +54,49 @@ export function setAlarmLetterOrder(data) {
     data
   })
 }
+
+// 查询已发送报警信列表
+export function getWarningLetterInfoPage(data) {
+  return ntier({
+    url: '/web/warningLetterInfo/page',
+    method: 'post',
+    data
+  })
+}
+
+// 查询报警信详情
+export function getWarningLetterInfoDetail(id) {
+  return ntier({
+    url: `/web/warningLetterInfo/detail/${id}`,
+    method: 'get',
+  })
+}
+
+// 关闭报警信
+export function closeAlarmLetter(data) {
+  return ntier({
+    url: '/web/warningLetterInfo/closeAlarmLetter',
+    method: 'post',
+    data
+  })
+}
+
+// 提交报警信
+export function submitAlarmLetter(data) {
+  return ntier({
+    url: '/web/warningLetterInfo/submit',
+    method: 'post',
+    data
+  })
+}
+
+// 设置报警信任务排序
+export function setWarningLetterInfoAlarmLetterOrder(data) {
+  return ntier({
+    url: '/web/warningLetterInfo/setAlarmLetterOrder',
+    method: 'post',
+    data
+  })
+}
+
+
