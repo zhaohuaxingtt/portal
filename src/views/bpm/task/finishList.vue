@@ -53,6 +53,7 @@ import taskMixin from './taskMixin'
 import { queryFinishedApprovals } from '@/api/approval/myApproval'
 import { actionHeader, searchForm } from './components'
 import { filterEmptyValue } from '@/utils'
+import { excelExport } from '@/utils/filedowLoad'
 
 export default {
   mixins: [pageMixins, filters, taskMixin],
