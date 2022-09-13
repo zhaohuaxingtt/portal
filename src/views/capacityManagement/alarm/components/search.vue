@@ -85,7 +85,6 @@ export default {
       this.$emit('sure', this.searchParams)
     },
     reset() {
-      console.log('0-0')
       // this.$refs.form.resetFields()
       this.searchList.map((item) => {
         if (item.multiple) {
