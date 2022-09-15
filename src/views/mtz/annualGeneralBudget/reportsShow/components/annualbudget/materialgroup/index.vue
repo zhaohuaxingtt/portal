@@ -101,7 +101,7 @@ export default {
       let params = {
         workspaceId: process.env.NODE_ENV == 'production' ? 'c272ae69-a6b4-4407-bd0e-f67953de36ce' : '876776a9-f959-442e-a011-b4bade0dd862',
         reportId: process.env.NODE_ENV == 'production' ? 'c4601d7a-a410-4628-b041-fc7891d76665' : '2a830470-3ae3-4778-85d8-118f3db9ef35',
-        datasets: process.env.NODE_ENV == 'production' ? 'dc6b3618-c3dc-4fe1-8c8d-a2a4f68b26d0' : ['01141c8d-7886-4eb6-8d86-0ea2fa68e1ea'],
+        datasets: process.env.NODE_ENV == 'production' ? ['dc6b3618-c3dc-4fe1-8c8d-a2a4f68b26d0'] : ['01141c8d-7886-4eb6-8d86-0ea2fa68e1ea'],
         username: this.userInfo.id,
         roles: ['role'] // 固定参数，报表端自己判断角色权限
       }
