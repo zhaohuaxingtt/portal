@@ -89,11 +89,8 @@
             v-model="scope.row.status"
           >
             <el-option value="信息收集" label="信息收集"></el-option>
+            <el-option value="财务经营与分析" label="财务经营与分析"></el-option>
             <el-option value="访谈与调查" label="访谈与调查"></el-option>
-            <el-option
-              value="财务经营与分析"
-              label="财务经营与分析"
-            ></el-option>
             <el-option value="报告完成" label="报告完成"></el-option>
           </iSelect>
         </span>
