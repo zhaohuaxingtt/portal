@@ -206,13 +206,14 @@ export default {
     },
     // 跳转报警信详情
     gotoAlarm(row) {
-      return iMessage.warn('暂无URL,跳转报警信详情')
-      this.$router.push({
-        path: '/bka',
+      // return iMessage.warn('暂无URL,跳转报警信详情')
+      let router = this.$router.resolve({
+        path: '/capacityManagement/alarmLetter',
         query: {
-          row: row
+          id: row.id
         }
       })
+      window.open(router.href, '_blank')
     },
     // 数据置顶
     topType(alarmLetterTaskId, setType) {
