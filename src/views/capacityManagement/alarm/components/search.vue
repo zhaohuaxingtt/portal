@@ -74,9 +74,9 @@ export default {
   created() {
     this.searchList.map((item) => {
       if (item.multiple) {
-        this.$set(this.searchParams, [item.prop], [])
+        this.$set(this.searchParams, [item.prop], item.default || [])
       } else {
-        this.$set(this.searchParams, [item.prop], '')
+        this.$set(this.searchParams, [item.prop], item.default || '')
       }
     })
   },
@@ -85,7 +85,6 @@ export default {
       this.$emit('sure', this.searchParams)
     },
     reset() {
-      console.log('0-0')
       // this.$refs.form.resetFields()
       this.searchList.map((item) => {
         if (item.multiple) {
