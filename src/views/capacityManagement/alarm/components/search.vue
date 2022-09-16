@@ -74,9 +74,9 @@ export default {
   created() {
     this.searchList.map((item) => {
       if (item.multiple) {
-        this.$set(this.searchParams, [item.prop], [])
+        this.$set(this.searchParams, [item.prop], item.default || [])
       } else {
-        this.$set(this.searchParams, [item.prop], '')
+        this.$set(this.searchParams, [item.prop], item.default || '')
       }
     })
   },
