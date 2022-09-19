@@ -267,7 +267,7 @@ export default {
     //导出
     exportTemplate() {
       excelExport(
-        this.tableExtraData,
+        this.tableListData,
         this.tableTitle,
         this.language('已审批列表')
       )
