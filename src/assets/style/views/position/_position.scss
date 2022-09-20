@@ -1,6 +1,7 @@
 .position-page {
   &.list {
     > .organization {
+      width: 40%;
       > .table-box {
         .el-table__body tr.current-row > td:first-child {
           border-left: 0.1875rem solid #1660f1;
@@ -48,7 +49,7 @@
     }
     > .organization,
     > .position {
-      width: 50%;
+      // width: 50%;
       > .search-box {
         padding: 30px 20px;
         box-shadow: $panel-box-shadow;
@@ -69,7 +70,8 @@
         box-shadow: 0px 0px 20px rgba(27, 29, 33, 0.08);
         padding: 30px 40px 30px 40px;
         border-radius: 0px 0px 10px 10px;
-        height: 736px;
+        min-height: 536px; // 736px
+        height: calc(100vh - 305px);
         overflow-y: auto;
         position: relative;
         .pagination-box {
@@ -152,6 +154,7 @@
       }
     }
     > .position {
+      width: 60%;
       > .table-box {
       }
     }
