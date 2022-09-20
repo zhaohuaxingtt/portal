@@ -237,6 +237,7 @@ export default {
         sourceType: '',
         taskStatus: ''
       }
+      this.search()
     },
     getUnfinishTaskList() {
       // 接口太慢，先用假数据
