@@ -153,7 +153,7 @@ export default {
       params = {
         ...params,
         size: this.page.pageSize,
-        currPage: this.page.currPage
+        current: this.page.currPage
       }
       pageNotSendAlarmLetter(params).then((res) => {
         if (res?.code == '200') {
@@ -169,7 +169,7 @@ export default {
           this.selectOptions
           let deptList = res.data.map((item) => {
             return {
-              value: item.deptId,
+              value: item.commodity,
               label: item.commodity
             }
           })
