@@ -4,7 +4,7 @@
       ref="search"
       :searchList="searchList"
       :selectOptions="selectOptions"
-      @sure="pageNotSendAlarmLetter"
+      @sure="getWarningLetterInfoPage"
     />
     <i-card :title="language('报警信列表', '报警信列表')">
       <template slot="header-control">
@@ -79,8 +79,8 @@
       </tableList>
       <iPagination
         v-update
-        @size-change="handleSizeChange($event, pageNotSendAlarmLetter)"
-        @current-change="handleCurrentChange($event, pageNotSendAlarmLetter)"
+        @size-change="handleSizeChange($event, getWarningLetterInfoPage)"
+        @current-change="handleCurrentChange($event, getWarningLetterInfoPage)"
         background
         :current-page="page.currPage"
         :page-sizes="page.pageSizes"
@@ -264,7 +264,7 @@ export default {
       params = {
         ...params,
         size: this.page.pageSize,
-        currPage: this.page.currPage
+        current: this.page.currPage
       }
       getWarningLetterInfoPage(params).then((res) => {
         if (res?.code == '200') {
@@ -280,7 +280,7 @@ export default {
           this.selectOptions
           let deptList = res.data.map((item) => {
             return {
-              value: item.deptId,
+              value: item.commodity,
               label: item.commodity
             }
           })

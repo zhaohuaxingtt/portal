@@ -1,3 +1,4 @@
+// 待反馈报警信
 export const searchList = [
   { prop: 'supplierId', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList', default: 'TO_FOLLOW_UP_OFFLINE' },
@@ -7,11 +8,12 @@ export const searchList = [
   { prop: 'date', label: '任务产生时间', key: '任务产生时间', type: 'date' },
 ]
 
+// 报警信
 export const toBeSearchList = [
-  { prop: 'sourceType', label: '来源', key: 'LAIYUAN', type: 'select', optionName: 'sourceTypeList' },
+  { prop: 'source', label: '来源', key: 'LAIYUAN', type: 'select', optionName: 'sourceTypeList' },
   { prop: 'supplierId', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
-  { prop: 'enevtName', label: 'SHIJIANMINGCHEN', key: 'SHIJIANMINGCHEN', type: 'select', optionName: 'eventList', multiple: true },
-  { prop: 'level', label: '紧缺级别', key: 'JINQUEJIBIE', type: 'select', optionName: 'levelList', multiple: true },
+  { prop: 'eventName', label: '事件名称', key: '事件名称', type: 'input' },
+  { prop: 'emergencyLever', label: '紧缺级别', key: '紧缺级别', type: 'select', optionName: 'levelList', multiple: true },
   { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList' },
   { prop: 'departmentCodeList', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
   { prop: 'linieName', label: 'LINIE', key: 'LINIE', type: 'input' },
