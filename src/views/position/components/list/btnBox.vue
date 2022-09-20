@@ -1,5 +1,5 @@
 <template>
-  <div class="btn-box flex-end-center margin-bottom30">
+  <div class="btn-box flex-end-center margin-bottom20">
     <div v-if="showBtns">
       <iButton
         :disabled="
@@ -28,9 +28,9 @@ export default {
     operations: {
       type: Array
     },
-    showBtns:{
-      type:Boolean,
-      default:true,
+    showBtns: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -52,7 +52,9 @@ export default {
           break
         case 'add':
           this.$store.commit('RESET_POSITION_DETAIL')
-          openUrl(`/position/operate/add?deptId=${this.orgSelected.id}&editable=1`)
+          openUrl(
+            `/position/operate/add?deptId=${this.orgSelected.id}&editable=1`
+          )
           // this.$router.push({
           //   path: '/position/operate/add',
           //   query: {

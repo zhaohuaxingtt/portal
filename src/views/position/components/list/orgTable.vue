@@ -129,7 +129,7 @@ export default {
     tableHeight() {
       const bodyHeight = document.body.clientHeight
       if (bodyHeight) {
-        return bodyHeight - 220 + 'px'
+        return bodyHeight - 365 + 'px'
       }
       return '500px'
     }

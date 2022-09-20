@@ -2,7 +2,7 @@
   <div class="table-box">
     <btnBox
       :operations="operations"
-      :showBtns='showBtns'
+      :showBtns="showBtns"
       @handle-setting="$refs.positoinTable.openSetting()"
     />
     <iTableCustom
@@ -17,20 +17,19 @@
     >
     </iTableCustom>
     <!-- 分页标签 -->
-    <div class="pagination-box">
-      <iPagination
-        v-update
-        background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="posPage.currPage"
-        :page-sizes="posPage.pageSizes"
-        :page-size="posPage.pageSize"
-        :layout="posPage.layout"
-        :total="posPage.totalCount"
-      >
-      </iPagination>
-    </div>
+    <iPagination
+      v-update
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="posPage.currPage"
+      :page-sizes="posPage.pageSizes"
+      :page-size="posPage.pageSize"
+      :layout="posPage.layout"
+      :total="posPage.totalCount"
+      :pager-count="5"
+    >
+    </iPagination>
   </div>
 </template>
 
@@ -45,14 +44,14 @@ export default {
     iPagination,
     btnBox
   },
-  props:{
-    showBtns:{
-      type:Boolean,
-      default:true
+  props: {
+    showBtns: {
+      type: Boolean,
+      default: true
     }
   },
-  created(){
-    if(this.$route.fullPath.includes('cf-position')){
+  created() {
+    if (this.$route.fullPath.includes('cf-position')) {
       this.tableSetting.shift()
     }
   },
@@ -89,15 +88,15 @@ export default {
         {
           prop: 'code',
           label: '岗位编码',
-          i18n:'岗位编码',
+          i18n: '岗位编码',
           tooltip: false,
           sortable: true,
-          width:'120px'
+          width: '120px'
         },
         {
           prop: 'fullNameZh',
           label: '岗位全称',
-          i18n:'岗位全称',
+          i18n: '岗位全称',
           tooltip: true,
           // align: 'left',
           emit: 'go-detail',
@@ -111,7 +110,7 @@ export default {
           prop: 'isDeptLead',
           label: '组织领导',
           align: 'center',
-          i18n:'组织领导',
+          i18n: '组织领导',
           width: 120,
           tooltip: false,
           customRender: (h, scope) => {
@@ -123,7 +122,7 @@ export default {
         {
           prop: 'memberCount',
           label: '用户数量',
-          i18n:'用户数量',
+          i18n: '用户数量',
           align: 'center',
           width: 120,
           tooltip: false,
@@ -160,7 +159,7 @@ export default {
     tableHeight() {
       const bodyHeight = document.body.clientHeight
       if (bodyHeight) {
-        return bodyHeight - 300 + 'px'
+        return bodyHeight - 470 + 'px'
       }
       return '500px'
     }
@@ -188,7 +187,11 @@ export default {
     },
     handleGoDetail(val) {
       const deptId = this.orgSelected.id || val.deptId
-      openUrl(`/position/operate/detail?id=${val.id}&deptId=${deptId}&editable=${this.showBtns ? 1 : 2}`)
+      openUrl(
+        `/position/operate/detail?id=${val.id}&deptId=${deptId}&editable=${
+          this.showBtns ? 1 : 2
+        }`
+      )
       // this.$router.push({
       //   path: '/position/operate/detail',
       //   query: {
