@@ -57,7 +57,7 @@
         <el-table-column :prop="deepCommentReasons"
                          :label="$t('SPR_FRM_DEP_DEPREASON')">
           <template slot-scope="scope">
-            <iSelect v-model="scope.row.deepCommentReasons"
+            <iSelect v-model="scope.row.deepCommentReasons" class="wrap"
                      :disabled="true">
               <el-option :value="item.name"
                          :label="item.name"
@@ -69,20 +69,21 @@
         <el-table-column :prop="deepCommentReasons"
                          :label="$t('SPR_FRM_DEP_XXYY')">
           <template slot-scope="scope">
-            <iInput v-if="scope.row.deepCommentReasons=='其他原因'"
+            <!-- <iInput v-if="scope.row.deepCommentReasons=='其他原因'"
                     :disabled="true"
                     v-model="scope.row.deepCommentOtherReasons"
                     @change="check2(scope.row)"
-                    maxlength="6"></iInput>
+                    maxlength="6"></iInput> -->
+            <span v-if="scope.row.deepCommentReasons=='其他原因'">{{scope.row.deepCommentOtherReasons}}</span>
           </template>
         </el-table-column>
         <el-table-column :prop="isDeepComment"
                          :label="$t('SPR_FRM_DEP_ISDEPTH')">
           <template slot-scope="scope">
-            <iSelect :disabled="true"
+            <iSelect :disabled="true" class="wrap"
                      v-if="scope.row.children!==undefined"
                      v-model="scope.row.isDeepComment">
-              <el-option :value="item.name"
+              <el-option :value="item.code"
                          :label="item.name"
                          v-for="item in fromGroup.TURE_FALSE"
                          :key="item.code"></el-option>
@@ -241,5 +242,13 @@ export default {
   font-weight: bold;
   font-size: 20px;
   color: $color-black;
+}
+::v-deep .el-input{
+  width:100%!important;
+}
+.wrap{
+  ::v-deep .el-input{
+    width:100%!important;
+  }
 }
 </style>
