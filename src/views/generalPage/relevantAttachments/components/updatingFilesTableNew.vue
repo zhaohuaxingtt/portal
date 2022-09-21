@@ -227,7 +227,7 @@ export default {
         supplierToken:this.supplierToken
       }
       const res = await saveAttachmentNew(req)
-      await this.saveInfos('', false, true)
+      // await this.saveInfos('', false, true)
       res.moduleName = this.$t('SUPPLIER_FUJIANSHANGCHUAN')
       this.resultMessage(res, () => {
         this.getTableList()
