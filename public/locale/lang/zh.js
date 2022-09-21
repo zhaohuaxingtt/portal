@@ -3106,6 +3106,9 @@
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"共用",
     SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
+
+    "自动创建":"自动创建",
+    "手动创建":"手动创建",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })
