@@ -102,6 +102,9 @@ export default {
         const res = await eventInformation(req);
         if (res.result) {
           this.tableListData = res.data;
+
+          // return;
+
           this.page.currPage = res.pageNum;
           this.page.pageSize = res.pageSize;
           this.page.totalCount = res.total || 0;
