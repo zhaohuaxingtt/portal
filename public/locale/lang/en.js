@@ -2359,6 +2359,9 @@
     CHAKANRSDAN:"查看RS单",
     GONGYONG:"sharing",
     SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
+
+    "自动创建":"Automatic creation",
+    "手动创建":"Create Manually",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

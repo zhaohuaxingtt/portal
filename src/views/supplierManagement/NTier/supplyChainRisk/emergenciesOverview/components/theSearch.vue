@@ -15,7 +15,7 @@
                  v-model="form.eventName">
           <el-option v-for="(item,index) in eventType"
                          :key="index"
-                         :label="item.name"
+                         :label="$getLabel(item.name,item.nameEn)"
                          :value="item.name"></el-option>
         </iSelect>
         <!-- <iInput :placeholder="$t('LK_QINGSHURU')"
@@ -46,8 +46,8 @@
                  v-model="form.createType">
           <el-option v-for="(item,index) in formGoup.createTypeList"
                      :key="index"
-                     :value="item"
-                     :label="item">
+                     :value="item.value"
+                     :label="$getLabel(item.labelZ,item.labelE)">
           </el-option>
         </iSelect>
       </el-form-item>
@@ -93,12 +93,23 @@ export default {
       },
       formGoup: {
         areaList: [],
-        createTypeList: ['自动创建', '手动创建']
+        createTypeList: []
       },
     }
   },
   created () {
     this.getData()
+    this.formGoup.createTypeList = [
+      {
+        value:"自动创建",
+        labelZ:'自动创建',
+        labelE:'Automatic creation',
+      },{
+        value:"手动创建",
+        labelZ:'手动创建',
+        labelE:'Create Manually',
+      }
+    ]
   },
   methods: {
     filterZR(vnode,val){
