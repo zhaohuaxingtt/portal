@@ -12,11 +12,11 @@ export const tableTitleLeft = [
 
 export const tableTitleRight = [
   { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, tooltip: true },
-  { props: 'bkaName', name: 'BKA', key: '', sortable: true, minWidth: 200, tooltip: true },
-  { props: 'sourceType', name: '来源', key: '', sortable: true, tooltip: true },
+  { props: 'bkaName', name: 'BKA', key: '', sortable: true, minWidth: 120, tooltip: true },
+  { props: 'sourceType', name: '来源', key: '', sortable: true, tooltip: true, width: 170 },
   { props: 'taskEndDate', name: '供应商任务截止日期', key: '', sortable: true, width: 160 },
-  { props: 'departmentCode', name: '科室', key: '', sortable: true },
-  { props: 'status', name: '状态', key: '', sortable: true },
+  { props: 'departmentCode', name: '科室', key: '', sortable: true, width: 80 },
+  { props: 'status', name: '状态', key: '', sortable: true, width: 80 },
 ]
 
 export const sourceTypeList = [
