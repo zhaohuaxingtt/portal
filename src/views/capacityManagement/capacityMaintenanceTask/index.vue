@@ -15,6 +15,8 @@
             v-if="item.type == 'select'"
             v-model="form[item.prop]"
             clearable
+            :multiple="item.multiple"
+            collapse-tags
           >
             <el-option
               v-if="item.showAll"
