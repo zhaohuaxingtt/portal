@@ -1,5 +1,5 @@
 export const searchForm = [
-  { prop: 'department', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList' },
+  { prop: 'department', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
   { prop: 'supplier', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'sourceType', label: '来源', key: 'LAIYUAN', type: 'select', optionName: 'sourceTypeList' },
   { prop: 'taskStatus', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'taskStatusList' },

@@ -15,6 +15,8 @@
             v-if="item.type == 'select'"
             v-model="form[item.prop]"
             clearable
+            :multiple="item.multiple"
+            collapse-tags
           >
             <el-option
               v-if="item.showAll"
@@ -70,10 +72,11 @@
             <i-button @click="exportTaskList">{{
               language('批量导出', '批量导出')
             }}</i-button>
-            <icon name="iconSetting" class="margin-left10" symbol />
+            <buttonTableSetting @click="edittableHeader" />
           </template>
           <template slot="body">
             <table-list
+              ref="tableList"
               height="100%"
               :selectConfig="{ width: 42 }"
               :tableData="tableDataRight"
@@ -160,6 +163,8 @@ import {
 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from 'rise/web/components/iTableSort'
+import buttonTableSetting from '@/components/buttonTableSetting'
+import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import {
   getUnfinishTaskList,
   getUnfinishTaskListBySupplier,
@@ -179,9 +184,10 @@ export default {
     iButton,
     icon,
     tableList,
-    iPagination
+    iPagination,
+    buttonTableSetting
   },
-  mixins: [pageMixins],
+  mixins: [pageMixins, tableSortMixins],
   data() {
     return {
       searchForm,
