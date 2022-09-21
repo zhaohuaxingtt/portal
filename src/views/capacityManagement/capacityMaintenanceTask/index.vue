@@ -48,7 +48,7 @@
               :selection="false"
               highlight-current-row
               class="table"
-              @current-change="checkRow"
+              @row-click="rowClick"
             >
               <template #supplierShortNameZh="scope">
                 <span class="link cursor" @click="gotoBKA(scope.row)">{{
@@ -75,6 +75,7 @@
           <template slot="body">
             <table-list
               height="100%"
+              :selectConfig="{ width: 42 }"
               :tableData="tableDataRight"
               :tableTitle="tableTitleRight"
               index
@@ -88,8 +89,10 @@
                 }}</span>
               </template>
               <template #bkaName="scope">
-                <template v-if="scope.row.sourceType == '2'">
-                  <span>{{ scope.row.bkaName + '-' + scope.row.bkaName }}</span>
+                <template v-if="scope.row.sourceType == '1'">
+                  <span>{{
+                    (scope.row.partName || '') + '-' + (scope.row.partNum || '')
+                  }}</span>
                 </template>
                 <template v-else>
                   <span class="link cursor" @click="gotoBKA(scope.row)">{{
@@ -101,10 +104,10 @@
                 <span>{{ getSourceType(scope.row.sourceType) }}</span>
               </template>
               <template #taskEndDate="scope">
-                <template v-if="scope.row.out">
+                <template v-if="scope.row.overdueDate">
                   <span style="color: red"
                     >{{ scope.row.taskEndDate
-                    }}{{ `已超期${scope.row.out}天` }}</span
+                    }}{{ ` 已超期${scope.row.overdueDate}天` }}</span
                   >
                 </template>
                 <span v-else>{{ scope.row.taskEndDate }}</span>
@@ -251,15 +254,21 @@ export default {
         if (res?.code == '200') {
           this.tableDataLeft = res.data || result
           this.$nextTick(() => {
-            this.$refs.supplierTable?.$refs?.moviesTable?.setCurrentRow(
-              this.tableDataLeft[0]
-            )
+            this.rowClick(this.tableDataLeft[0])
           })
         }
       })
     },
-    checkRow(row) {
-      this.supplierInfo = JSON.parse(JSON.stringify(row))
+    rowClick(row) {
+      console.log('row.tmSupplierId=>', row.tmSupplierId)
+      console.log('supplierInfo.tmSupplierId=>', this.supplierInfo.tmSupplierId)
+      if (row.tmSupplierId == this.supplierInfo?.tmSupplierId) {
+        this.$refs.supplierTable.$refs.moviesTable.setCurrentRow()
+        this.supplierInfo = {}
+      } else {
+        this.$refs.supplierTable.$refs.moviesTable.setCurrentRow(row)
+        this.supplierInfo = JSON.parse(JSON.stringify(row))
+      }
       this.page.currPage = 1
       this.getUnfinishTaskListBySupplier()
     },
@@ -271,7 +280,14 @@ export default {
         supplier: this.supplierInfo?.tmSupplierId
       }).then((res) => {
         if (res?.code == '200') {
-          this.tableDataRight = res.data.records
+          this.tableDataRight = res.data.records.map((item) => {
+            return {
+              ...item,
+              taskEndDate: moment(new Date(item.taskEndDate)).format(
+                'YYYY-MM-DD'
+              )
+            }
+          })
           this.page.totalCount = res.data.total
         }
       })
