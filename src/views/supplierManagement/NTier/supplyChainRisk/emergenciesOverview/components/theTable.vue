@@ -37,7 +37,7 @@
                  :layout="page.layout"
                  :current-page='page.currPage'
                  :total="page.totalCount" />
-    <createEmergenciesDialog v-model="createEmergenciesDialog" v-bind="$attrs" />
+    <createEmergenciesDialog v-model="createEmergenciesDialog" v-if="createEmergenciesDialog" v-bind="$attrs" />
   </iCard>
 </template>
 
@@ -102,6 +102,9 @@ export default {
         const res = await eventInformation(req);
         if (res.result) {
           this.tableListData = res.data;
+
+          // return;
+
           this.page.currPage = res.pageNum;
           this.page.pageSize = res.pageSize;
           this.page.totalCount = res.total || 0;

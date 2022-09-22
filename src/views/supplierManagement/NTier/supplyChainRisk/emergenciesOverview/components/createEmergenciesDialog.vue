@@ -56,7 +56,7 @@
                         required
                         :label="language('ZHONGXINGWEIZHI','中心位置')">
             <br />
-            <el-cascader :show-all-levels="true"
+            <el-cascader :show-all-levels="true" :filter-method="filterZR"
                          v-model="form.area"
                          :placeholder="language('QINGXUANZHE','请选择')"
                          :options="formGroup.areaList"
@@ -94,7 +94,7 @@
 // 例如：import 《组件名称》 from '《组件路径》';
 import { iDialog, iButton, iInput, iDatePicker, iSelect } from "rise";
 import { saveOrEdit } from "@/api/supplierManagement/supplyChainRisk/index.js";
-import { getCity } from "@/api/supplierManagement/supplyChainOverall/index.js";
+import { getCity,getCityInfo } from "@/api/supplierManagement/supplyChainOverall/index.js";
 import resultMessageMixin from "@/mixins/resultMessageMixin.js"
 import { dictByCode } from "./data.js";
 export default {
@@ -156,10 +156,119 @@ export default {
   },
   // 方法集合
   methods: {
-    async getCityInfo () {
-      const res = await getCity()
-      this.formGroup.areaList = res
-      console.log(this.form)
+    filterZR(vnode,val){
+      if(vnode.text.toLowerCase().indexOf(val.toLowerCase()) > -1){
+        return vnode.text;
+      }
+    },
+    getCityInfo () {
+      var that = this;
+      return new Promise((resolve, reject) => {
+        getCityInfo().then(res=>{
+          if(res?.result){
+            let areaList = []
+            // 筛选国家
+            res.data.map((item) => {
+              if (item.locationType === 'Nation') {
+                if(that.$i18n.locale === "zh"){
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameCn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }else{
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameEn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }
+              }
+            })
+            // 筛选省
+            res.data.forEach((item) => {
+              areaList.forEach((val, index) => {
+                if (
+                  item.locationType === 'Province' &&
+                  item.parentCityId === val.cityId
+                ) {
+                  if(that.$i18n.locale === "zh"){
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameCn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }else{
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameEn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }
+                }
+              })
+            })
+            // 筛选市
+            res.data.forEach((item) => {
+              areaList.forEach((val, j) => {
+                val.children.forEach((i, index) => {
+                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
+                    if(that.$i18n.locale === "zh"){
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameCn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }else{
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameEn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }
+                  }
+                })
+              })
+            })
+            // 删除空数组
+            areaList.map((item) => {
+              if (item.children.length) {
+                item.children.map((val) => {
+                  if (item.children.length === 0) {
+                    delete val.children
+                  }
+                })
+              } else {
+                delete item.children
+              }
+            })
+            areaList.map((item) => {
+              return item.children && item.children
+            })
+            resolve(areaList)
+          }
+        }).catch(res=>{
+          reject();
+        })
+      })
+    },
+    async getData(){
+      // const res = await this.getCityInfo()
+      this.getCityInfo().then(res=>{
+        this.formGroup.areaList = _.cloneDeep(res);
+        console.log(this.form)
+      })
+      // console.log(res);
+      // this.formGroup.areaList = res
+      // console.log(this.form)
     },
     // 保存
     handleAdd () {
@@ -186,7 +295,7 @@ export default {
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
     dictByCode()
-    this.getCityInfo()
+    this.getData()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
