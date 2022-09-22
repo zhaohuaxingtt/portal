@@ -171,6 +171,7 @@ import {
   getTaskDepartmentList,
   exportTaskList
 } from '@/api/capacityManagement/index.js'
+import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
 
 import { getToken } from '@/utils'
 export default {
@@ -219,13 +220,19 @@ export default {
   },
   methods: {
     getDept() {
-      getTaskDepartmentList().then((res) => {
+      getDepartmentPullDown().then((res) => {
         if (res?.code == '200') {
+          // this.selectOptions.deptList = res.data.map((item) => {
+          //   return {
+          //     code: item.departmentCode,
+          //     name: item.departmentName,
+          //     nameEn: item.departmentName
+          //   }
+          // })
           this.selectOptions.deptList = res.data.map((item) => {
             return {
-              code: item.departmentCode,
-              name: item.departmentName,
-              nameEn: item.departmentName
+              code: item.commodity,
+              name: item.commodity
             }
           })
         }
@@ -256,7 +263,9 @@ export default {
       //     this.tableDataLeft[0]
       //   )
       // })
-      getUnfinishTaskList(this.form).then((res) => {
+      const params = JSON.parse(JSON.stringify(this.form))
+      params.department = params.department.join(',')
+      getUnfinishTaskList(params).then((res) => {
         if (res?.code == '200') {
           this.tableDataLeft = res.data || result
           this.$nextTick(() => {
@@ -266,25 +275,30 @@ export default {
       })
     },
     rowClick(row) {
-      console.log('row.tmSupplierId=>', row.tmSupplierId)
-      console.log('supplierInfo.tmSupplierId=>', this.supplierInfo.tmSupplierId)
-      if (row.tmSupplierId == this.supplierInfo?.tmSupplierId) {
-        this.$refs.supplierTable.$refs.moviesTable.setCurrentRow()
-        this.supplierInfo = {}
+      if (row) {
+        if (row.tmSupplierId == this.supplierInfo?.tmSupplierId) {
+          this.$refs.supplierTable.$refs.moviesTable.setCurrentRow()
+          this.supplierInfo = {}
+        } else {
+          this.$refs.supplierTable.$refs.moviesTable.setCurrentRow(row)
+          this.supplierInfo = JSON.parse(JSON.stringify(row))
+        }
       } else {
-        this.$refs.supplierTable.$refs.moviesTable.setCurrentRow(row)
-        this.supplierInfo = JSON.parse(JSON.stringify(row))
+        this.supplierInfo = {}
       }
       this.page.currPage = 1
       this.getUnfinishTaskListBySupplier()
     },
     getUnfinishTaskListBySupplier() {
-      getUnfinishTaskListBySupplier({
+      this.tableDataRight = []
+      const params = {
         ...this.form,
+        department: this.form.department.join(','),
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
-        supplier: this.supplierInfo?.tmSupplierId
-      }).then((res) => {
+        supplier: this.supplierInfo?.tmSupplierId || ''
+      }
+      getUnfinishTaskListBySupplier(params).then((res) => {
         if (res?.code == '200') {
           this.tableDataRight = res.data.records.map((item) => {
             return {
