@@ -2364,6 +2364,8 @@
     ZYGDCGSGJLSZQS:"Major shareholders (more than ten listed only to the top ten)",
 
     QSRTHYY:"Please enter the return reason",
+    "自动创建":"Automatic creation",
+    "手动创建":"Create Manually",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

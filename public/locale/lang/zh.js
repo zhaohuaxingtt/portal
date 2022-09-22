@@ -3112,6 +3112,8 @@
     ZYGDCGSGJLSZQS:"主要股东（超过十个仅列示至前十）",
 
     QSRTHYY:"请输入退回原因",
+    "自动创建":"自动创建",
+    "手动创建":"手动创建",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })
