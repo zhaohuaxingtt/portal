@@ -37,7 +37,7 @@
                  :layout="page.layout"
                  :current-page='page.currPage'
                  :total="page.totalCount" />
-    <createEmergenciesDialog v-model="createEmergenciesDialog" v-bind="$attrs" />
+    <createEmergenciesDialog v-model="createEmergenciesDialog" v-if="createEmergenciesDialog" v-bind="$attrs" />
   </iCard>
 </template>
 

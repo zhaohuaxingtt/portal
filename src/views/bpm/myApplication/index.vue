@@ -12,7 +12,7 @@
     </pageHeader>
     <searchForm :finished="finished" @search="search" />
     <iCard>
-      <div class="operation-btn">
+      <!-- <div class="operation-btn">
         <iButton
           v-show="!finished && recallButtonVisible"
           @click="recallDialogVisible = true"
@@ -20,7 +20,7 @@
         >
           {{ language('撤回') }}
         </iButton>
-      </div>
+      </div> -->
       <i-table-custom
         :key="finished.toString()"
         :loading="tableLoading"
@@ -171,7 +171,7 @@ export default {
         pageSize: this.page.pageSize
       }
       // 接口需要收数组
-      if(typeof this.form.categoryList === 'string'){
+      if (typeof this.form.categoryList === 'string') {
         this.form.categoryList = [this.form.categoryList]
       }
       const data = {
