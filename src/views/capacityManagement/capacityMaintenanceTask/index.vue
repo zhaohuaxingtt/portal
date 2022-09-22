@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <iSearch @sure="search" @reset="reset">
       <iFormGroup :inline="true" :row="5" :model="form">
         <iFormItem
@@ -172,7 +172,7 @@ import {
   exportTaskList
 } from '@/api/capacityManagement/index.js'
 import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
-
+import { Loading } from 'element-ui'
 import { getToken } from '@/utils'
 export default {
   components: {
@@ -192,6 +192,7 @@ export default {
   data() {
     return {
       searchForm,
+      loading: false,
       form: {
         department: '',
         supplier: '',
@@ -204,6 +205,7 @@ export default {
         taskStatusList,
         sourceTypeList
       },
+      loadingInstance: null,
       tableTitleLeft,
       tableTitleRight,
       tableDataLeft: [],
@@ -256,6 +258,12 @@ export default {
       this.search()
     },
     getUnfinishTaskList() {
+      this.loading = true
+      // this.loadingInstance = Loading.service({
+      //   lock: true,
+      //   text: 'Loading',
+      //   spinner: 'el-icon-loading'
+      // })
       // 接口太慢，先用假数据
       // this.tableDataLeft = result
       // this.$nextTick(() => {
@@ -264,13 +272,15 @@ export default {
       //   )
       // })
       const params = JSON.parse(JSON.stringify(this.form))
-      params.department = params.department.join(',')
+      params.department = params?.department.join(',') || ''
       getUnfinishTaskList(params).then((res) => {
         if (res?.code == '200') {
           this.tableDataLeft = res.data || result
           this.$nextTick(() => {
             this.rowClick(this.tableDataLeft[0])
           })
+        } else {
+          this.loading = false
         }
       })
     },
@@ -298,19 +308,24 @@ export default {
         pageSize: this.page.pageSize,
         supplier: this.supplierInfo?.tmSupplierId || ''
       }
-      getUnfinishTaskListBySupplier(params).then((res) => {
-        if (res?.code == '200') {
-          this.tableDataRight = res.data.records.map((item) => {
-            return {
-              ...item,
-              taskEndDate: moment(new Date(item.taskEndDate)).format(
-                'YYYY-MM-DD'
-              )
-            }
-          })
-          this.page.totalCount = res.data.total
-        }
-      })
+      getUnfinishTaskListBySupplier(params)
+        .then((res) => {
+          if (res?.code == '200') {
+            this.tableDataRight = res.data.records.map((item) => {
+              return {
+                ...item,
+                taskEndDate: moment(new Date(item.taskEndDate)).format(
+                  'YYYY-MM-DD'
+                )
+              }
+            })
+            this.page.totalCount = res.data.total
+          }
+        })
+        .finally(() => {
+          this.loading = false
+          // this.loadingInstance.close()
+        })
     },
     exportTaskList() {
       exportTaskList({
