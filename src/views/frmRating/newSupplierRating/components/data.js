@@ -171,6 +171,12 @@ export const supplierMessageTitle = [
     key: 'dunsCode',
     name: 'DUNS',
     permission: 'SUPPLIER_BASEINFO_DUNS'
+  },
+  {
+    //法定代表人
+    key: 'legalPerson',
+    name: 'LegalPerson',
+    permission: ''
   }
 ]
 
