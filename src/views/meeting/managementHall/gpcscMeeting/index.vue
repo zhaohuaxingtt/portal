@@ -414,9 +414,11 @@
             >
               <template slot-scope="scope">
                 <icon
+                   v-if="scope.row.sign=='S'||scope.row.sign=='F'"
                   symbol
                   :name="scope.row.sign=='S' ? 'iconicon-baofeichuzhi' : scope.row.sign=='F' ?'iconicon-fenduandingdian':''"
                 ></icon>
+                <span v-if="scope.row.sign=='手工'" class="font-bj">手</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -3014,6 +3016,10 @@ export default {
 ::v-deep .open-link-text {
   /* cursor: pointer; */
   color: #000;
+}
+.font-bj{
+  font-weight: bold;
+  color:#1763f7 ;
 }
 ::v-deep .look-themen-click {
   cursor: pointer;
