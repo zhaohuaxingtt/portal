@@ -93,9 +93,9 @@
               </template>
               <template #bkaName="scope">
                 <template v-if="scope.row.sourceType == '1'">
-                  <span>{{
-                    (scope.row.partName || '') + '-' + (scope.row.partNum || '')
-                  }}</span>
+                  <!-- (scope.row.sourceItem || '') +
+                    '-' + -->
+                  <span>{{ scope.row.sourceItem || '' }}</span>
                 </template>
                 <template v-else>
                   <span class="link cursor" @click="gotoBKA(scope.row)">{{
