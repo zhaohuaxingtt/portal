@@ -332,9 +332,19 @@ export default {
         ...this.form,
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
-        supplier: this.supplierInfo?.tmSupplierId
+        supplier: this.supplierInfo?.tmSupplierId,
+        department: this.form.department.join(',')
       }).then((res) => {
-        console.log(res)
+        let url = window.URL.createObjectURL(res)
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute(
+          'download',
+          this.language('未完成任务明细', '未完成任务明细')
+        )
+        document.body.appendChild(link)
+        link.click()
       })
     },
     getSourceType(code) {
