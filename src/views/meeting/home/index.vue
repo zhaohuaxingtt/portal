@@ -1,10 +1,10 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-02-19 18:01:14
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-09-27 16:29:47
+ * @LastEditors: caopeng
  * @Description: 首页
- * @FilePath: \rise\src\views\home\index.vue
+ * @FilePath: \front-portal\src\views\meeting\home\index.vue
 -->
 <template>
   <div class="meeting-home">
@@ -16,6 +16,7 @@
       :form="form"
     />
     <theTable
+    :form="form"
       v-loading="loading"
       ref="theTable"
       :page="page"
@@ -88,8 +89,18 @@ export default {
     }
   },
   mounted() {
-    this.getTableList()
+ 
+
+      if(sessionStorage.getItem('msgInfo')){
+        let data=JSON.parse(sessionStorage.getItem('search'))
+        this.form=data||this.form
+           this.getTableList()
     this.getSelectListAll()
+    }else{
+        sessionStorage.removeItem('search')
+           this.getTableList()
+    this.getSelectListAll()
+    }
   },
   // watch: {
   //   form: {
