@@ -61,7 +61,7 @@
                        :placeholder="language('LINGJIAN','零件')"
                        @change="handlePart"
                        :data="formGoup.partList"
-                       label="partNameCn"
+                       :label="$getLabel('partNameCn','partNameDe')"
                        value="partNum"
                        v-model="formSelect.partNumList "
                        :multiple="true"
