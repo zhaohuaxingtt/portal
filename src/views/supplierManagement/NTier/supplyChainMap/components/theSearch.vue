@@ -39,7 +39,7 @@
                        @change="handleCategory"
                        :disabled="disabled"
                        :data="formGoup.categoryList"
-                       label="categoryName"
+                       :label="$getLabel('categoryName','categoryNameDe')"
                        value="categoryCode"
                        v-model="formSelect.categoryCodeList"
                        :multiple="true"
