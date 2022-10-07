@@ -110,5 +110,10 @@ export default {
     right: 0;
   }
 }
+
+::v-deep .nav>div{
+  max-width: 160px!important;
+}
+
 </style>
 
