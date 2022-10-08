@@ -305,7 +305,9 @@ export default {
       this.tableDataRight = []
       const params = {
         ...this.form,
-        department: this.form.department.join(','),
+        department: Array.isArray(this.form.department)
+          ? this.form.department.join(',')
+          : '',
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
         supplier: this.supplierInfo?.tmSupplierId || ''
