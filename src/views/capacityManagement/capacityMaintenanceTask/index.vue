@@ -53,7 +53,7 @@
               @row-click="rowClick"
             >
               <template #supplierShortNameZh="scope">
-                <span class="link cursor" @click="gotoBKA(scope.row)">{{
+                <span class="link cursor" @click="gotoSupplier(scope.row)">{{
                   $i18n.locale == 'zh'
                     ? scope.row.supplierShortNameZh
                     : scope.row.supplierShortNameEn
@@ -85,7 +85,7 @@
               class="table-right"
             >
               <template #supplierShortNameZh="scope">
-                <span class="link cursor" @click="gotoBKA(scope.row)">{{
+                <span class="link cursor" @click="gotoSupplier(scope.row)">{{
                   $i18n.locale == 'zh'
                     ? scope.row.supplierShortNameZh
                     : scope.row.supplierShortNameEn
@@ -93,8 +93,6 @@
               </template>
               <template #bkaName="scope">
                 <template v-if="scope.row.sourceType == '1'">
-                  <!-- (scope.row.sourceItem || '') +
-                    '-' + -->
                   <span>{{ scope.row.sourceItem || '' }}</span>
                 </template>
                 <template v-else>
@@ -240,9 +238,18 @@ export default {
         }
       })
     },
+
+    // 供应商跳转BKA
+    gotoSupplier(row) {
+      let url = process.env.VUE_APP_HOST + '/bkm/sso.do'
+      window.open(url)
+      return
+    },
+    // 跳转BKA详情
     gotoBKA(row) {
       let url =
-        process.env.VUE_APP_HOST + '/bkm/login.do' + '?userno=' + getToken()
+        process.env.VUE_APP_HOST +
+        `/bkm/bkaView/bkaView.do?bkaNo=${row.encryptionBkaId}`
       window.open(url)
     },
     search() {

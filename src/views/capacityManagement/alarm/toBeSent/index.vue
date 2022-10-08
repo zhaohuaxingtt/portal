@@ -4,7 +4,7 @@
       ref="search"
       :searchList="searchList"
       :selectOptions="selectOptions"
-      @sure="getWarningLetterInfoPage"
+      @sure="searchData"
     />
     <i-card :title="language('报警信列表', '报警信列表')">
       <template slot="header-control">
@@ -219,7 +219,7 @@ export default {
   },
   mounted() {
     this.getDept()
-    this.getWarningLetterInfoPage()
+    this.searchData()
   },
   methods: {
     closeAlarm() {
@@ -250,6 +250,10 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    searchData() {
+      this.page.currPage = 1
+      this.getWarningLetterInfoPage()
     },
     // 获取报警信列表
     getWarningLetterInfoPage() {
