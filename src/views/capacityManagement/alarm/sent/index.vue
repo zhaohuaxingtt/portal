@@ -4,7 +4,7 @@
       ref="search"
       :searchList="searchList"
       :selectOptions="selectOptions"
-      @sure="pageNotSendAlarmLetter"
+      @sure="searchData"
     />
     <i-card :title="language('待反馈报警信', '待反馈报警信')">
       <template slot="header-control">
@@ -137,9 +137,13 @@ export default {
   },
   mounted() {
     this.getDept()
-    this.pageNotSendAlarmLetter()
+    this.searchData()
   },
   methods: {
+    searchData() {
+      this.page.currPage = 1
+      this.pageNotSendAlarmLetter()
+    },
     // 获取报警信列表
     pageNotSendAlarmLetter() {
       let params = this.$refs.search?.searchParams || {}
