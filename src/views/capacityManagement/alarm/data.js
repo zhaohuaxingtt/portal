@@ -1,6 +1,6 @@
 // 待反馈报警信
 export const searchList = [
-  { prop: 'supplierId', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
+  { prop: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList', default: 'TO_FOLLOW_UP_OFFLINE' },
   { prop: 'closeReasonList', label: '关闭原因', key: '关闭原因', type: 'select', optionName: 'reasonList', multiple: true },
   { prop: 'departmentCodeList', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
@@ -11,7 +11,7 @@ export const searchList = [
 // 报警信
 export const toBeSearchList = [
   { prop: 'source', label: '来源', key: 'LAIYUAN', type: 'select', optionName: 'sourceTypeList' },
-  { prop: 'supplierId', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
+  { prop: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'eventName', label: '事件名称', key: '事件名称', type: 'input' },
   { prop: 'emergencyLever', label: '紧缺级别', key: '紧缺级别', type: 'select', optionName: 'levelList', multiple: true },
   { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList' },
