@@ -38,7 +38,7 @@
         </template>
         <template #closeReason="scope">
           <span
-            v-if="scope.row.closeReason == '1'"
+            v-if="scope.row.closeReason == 'SEND_ALARM_LETTER'"
             class="link cursor"
             @click="gotoAlarm(scope.row)"
             >{{ getCloseReason(scope.row.closeReason) }}</span
@@ -135,7 +135,7 @@ export default {
       multipleSelection: []
     }
   },
-  created() {
+  mounted() {
     this.getDept()
     this.pageNotSendAlarmLetter()
   },

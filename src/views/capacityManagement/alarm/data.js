@@ -54,11 +54,17 @@ export const sourceTypeList = [
   { value: 'EMERGENCY', label: '突发事件' },
   { value: 'OTHER', label: '其他' },
 ]
-
+// 报警信
+export const toBeStatusList = [
+  // { value: 'TO_FOLLOW_UP_OFFLINE', label: '待线下跟进' },
+  { value: 'CLOSED', label: '已关闭' },
+  { value: 'SENT', label: '已发送' },
+]
+// 待线下跟进
 export const statusList = [
   { value: 'TO_FOLLOW_UP_OFFLINE', label: '待线下跟进' },
   { value: 'CLOSED', label: '已关闭' },
-  { value: 'SENT', label: '已发送' },
+  // { value: 'SENT', label: '已发送' },
 ]
 
 export const reasonList = [
