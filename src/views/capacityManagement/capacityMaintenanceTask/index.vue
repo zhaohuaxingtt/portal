@@ -272,7 +272,9 @@ export default {
       //   )
       // })
       const params = JSON.parse(JSON.stringify(this.form))
-      params.department = params?.department.join(',') || ''
+      params.department = Array.isArray(params.department)
+        ? params.department.join(',')
+        : ''
       getUnfinishTaskList(params).then((res) => {
         if (res?.code == '200') {
           this.tableDataLeft = res.data || result
@@ -303,7 +305,9 @@ export default {
       this.tableDataRight = []
       const params = {
         ...this.form,
-        department: this.form.department.join(','),
+        department: Array.isArray(this.form.department)
+          ? this.form.department.join(',')
+          : '',
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
         supplier: this.supplierInfo?.tmSupplierId || ''
