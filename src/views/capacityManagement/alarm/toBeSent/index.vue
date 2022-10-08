@@ -118,7 +118,7 @@ import {
   toBeSentTableTitle as tableTitle,
   levelList,
   sourceTypeList,
-  statusList,
+  toBeStatusList as statusList,
   reasonList,
   toBeSearchList as searchList,
   eventList
@@ -217,7 +217,7 @@ export default {
       multipleSelection: []
     }
   },
-  created() {
+  mounted() {
     this.getDept()
     this.getWarningLetterInfoPage()
   },
