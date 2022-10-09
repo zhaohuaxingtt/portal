@@ -214,7 +214,7 @@ export default {
       let router = this.$router.resolve({
         path: '/capacityManagement/alarmLetter',
         query: {
-          id: row.id
+          id: row.alarmLetterId
         }
       })
       window.open(router.href, '_blank')

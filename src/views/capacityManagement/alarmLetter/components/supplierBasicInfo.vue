@@ -58,7 +58,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item
-            label-width="200px"
+            label-width="240px"
             :label="
               language(
                 'SHIFOUZAISHANGQIDAZONGZOUBIANJIANLIZHONGZHUANKU',
