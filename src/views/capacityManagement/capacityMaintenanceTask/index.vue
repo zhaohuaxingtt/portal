@@ -149,7 +149,8 @@ import {
   iFormItem,
   iButton,
   icon,
-  iPagination
+  iPagination,
+  iMessage
 } from 'rise'
 import {
   searchForm,
@@ -167,7 +168,8 @@ import {
   getUnfinishTaskList,
   getUnfinishTaskListBySupplier,
   getTaskDepartmentList,
-  exportTaskList
+  exportTaskList,
+  encodeBkaId
 } from '@/api/capacityManagement/index.js'
 import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
 import { Loading } from 'element-ui'
@@ -247,10 +249,16 @@ export default {
     },
     // 跳转BKA详情
     gotoBKA(row) {
-      let url =
-        process.env.VUE_APP_HOST +
-        `/bkm/bkaView/bkaView.do?bkaNo=${row.encryptionBkaId}`
-      window.open(url)
+      encodeBkaId({ bkaNo: row.bkaId }).then((res) => {
+        if (res?.code == '200') {
+          let url =
+            process.env.VUE_APP_HOST +
+            `/bkm/bkaView/bkaView.do?bkaNo=${res.data}`
+          window.open(url)
+        } else {
+          iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+        }
+      })
     },
     search() {
       this.getUnfinishTaskList()

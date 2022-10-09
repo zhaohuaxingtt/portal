@@ -28,6 +28,14 @@ export function exportTaskList(data) {
   })
 }
 
+// 获取加密bkaNo
+export function encodeBkaId(params) {
+  return request({
+    url: '/web/maintain/encodeBkaId',
+    method: 'post',
+    params
+  })
+}
 // 单个供应商产能维护任务明细查询
 export function getUnfinishTaskListBySupplier(data) {
   return request({
