@@ -212,13 +212,13 @@ export default {
   computed: {
     baseInfo() {
       return {
-        sapCode: '',
-        supplierName: '',
+        sapCode: this.detailInfo.sapCode,
+        supplierName: this.detailInfo.supplierName,
         fillingUserName: this.detailInfo.fillingUserName,
         fillingUserPost: this.detailInfo.fillingUserPost,
         fillingUserPhone: this.detailInfo.fillingUserPhone,
         fillingUserEmail: this.detailInfo.fillingUserEmail,
-        isTurnoverStore: this.detailInfo.isTurnoverStore,
+        isTurnoverStore: this.detailInfo.isTurnoverStore ? '是' : '否',
         tableData: this.detailInfo.warningLetterProductAddressList || []
       }
     },
