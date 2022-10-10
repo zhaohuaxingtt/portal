@@ -15,21 +15,21 @@ export const TAB = [
   // },
   {
     value: 1,
+    group: 1,
+    name: '产能维护任务',
+    url: "/capacityManagement/capacityMaintenanceTask",
+    activePath: "/capacityMaintenanceTask",
+    key: "产能维护任务",
+    permissionName: "定点申请预设逻辑"
+  },
+  {
+    value: 2,
     group: 2,
     name: '报警信',
     url: "/capacityManagement/alarm",
     activePath: "/alarm",
     key: "报警信",
     permissionName: "质量评分预设规则"
-  },
-  {
-    value: 2,
-    group: 3,
-    name: '产能维护任务',
-    url: "/capacityManagement/capacityMaintenanceTask",
-    activePath: "/capacityMaintenanceTask",
-    key: "产能维护任务",
-    permissionName: "定点申请预设逻辑"
   },
   // {
   //   value: 4,
