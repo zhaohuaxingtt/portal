@@ -103,7 +103,6 @@ import {
   searchList
 } from '../data'
 import { pageMixins } from '@/utils/pageMixins'
-import { getToken } from '@/utils'
 import {
   pageNotSendAlarmLetter,
   setAlarmLetterOrder

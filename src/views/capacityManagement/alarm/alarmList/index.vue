@@ -124,7 +124,6 @@ import {
   eventList
 } from '../data'
 import { pageMixins } from '@/utils/pageMixins'
-import { getToken } from '@/utils'
 import {
   getWarningLetterInfoPage,
   closeAlarmLetter,
@@ -303,7 +302,10 @@ export default {
 
     // 供应商跳转BKA
     gotoSupplier(row) {
-      return iMessage.warn('暂无URL,跳转BKA详情')
+      let url = process.env.VUE_APP_HOST + '/bkm/sso.do'
+      window.open(url)
+      return
+      // return iMessage.warn('暂无URL,跳转BKA详情')
     },
     // 跳转BKA详情
     gotoBKA(row) {

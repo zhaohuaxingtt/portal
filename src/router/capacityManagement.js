@@ -25,24 +25,24 @@ export default [
           activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
         },
         component: () => import("@/views/capacityManagement/alarm"),
-        redirect: "alarm/toBeSent",
+        redirect: "alarm/alarmList",
         children: [
           {
-            path: "toBeSent",
-            name: "toBeSent",
+            path: "alarmList",
+            name: "alarmList",
             meta: {
-              title: "已发送报警信",
+              title: "报警信",
               activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
             },
-            component: () => import("@/views/capacityManagement/alarm/toBeSent"),
+            component: () => import("@/views/capacityManagement/alarm/alarmList"),
           }, {
-            path: "sent",
-            name: "sent",
+            path: "waitingFeedback",
+            name: "waitingFeedback",
             meta: {
-              title: "已发送报警信",
+              title: "待反馈报警信",
               activeMenu: ['RISE_COMMON_FUNCTION', 'BACKSTAGEMANAGEMENT']
             },
-            component: () => import("@/views/capacityManagement/alarm/sent"),
+            component: () => import("@/views/capacityManagement/alarm/waitingFeedback"),
           }
         ]
       },

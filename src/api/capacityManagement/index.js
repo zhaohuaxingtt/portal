@@ -23,7 +23,8 @@ export function getUnfinishTaskList(data) {
 export function exportTaskList(data) {
   return request({
     url: '/web/maintain/exportTaskList',
-    method: 'post', responseType: 'blob',
+    method: 'post',
+    responseType: 'blob',
     data
   })
 }

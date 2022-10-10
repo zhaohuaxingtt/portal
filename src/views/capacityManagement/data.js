@@ -65,8 +65,8 @@ export const subNav = [
     value: 1,
     group: 2,
     name: '报警信',
-    url: "/capacityManagement/alarm/toBeSent",
-    activePath: "/toBeSent",
+    url: "/capacityManagement/alarm/alarmList",
+    activePath: "/alarmList",
     key: "报警信",
     permissionName: ""
   },
@@ -74,8 +74,8 @@ export const subNav = [
     value: 2,
     group: 2,
     name: '待反馈报警信',
-    url: "/capacityManagement/alarm/sent",
-    activePath: "/sent",
+    url: "/capacityManagement/alarm/waitingFeedback",
+    activePath: "/waitingFeedback",
     key: "待反馈报警信",
     permissionName: ""
   },
