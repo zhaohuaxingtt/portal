@@ -14,7 +14,7 @@ export const toBeSearchList = [
   { prop: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
   { prop: 'eventName', label: '事件名称', key: '事件名称', type: 'input' },
   { prop: 'emergencyLever', label: '紧缺级别', key: '紧缺级别', type: 'select', optionName: 'levelList', multiple: true },
-  { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList' },
+  { prop: 'status', label: '状态', key: 'ZHUANGTAI', type: 'select', optionName: 'statusList', default: 'SENT' },
   { prop: 'departmentCodeList', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
   { prop: 'linieName', label: 'LINIE', key: 'LINIE', type: 'input' },
 ]
@@ -24,7 +24,6 @@ export const sentTableTitle = [
   { props: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', sortable: true },
   { props: 'bkaName', label: 'BKA', key: 'BKA', sortable: true, tooltip: true },
   { props: 'taskEndDateStr', label: '供应商任务截止时间', key: '供应商任务截止时间', sortable: true, tooltip: true },
-  // { props: 'date2', label: '跟进截止时间', key: '跟进截止时间', sortable: true },
   { props: 'status', label: '跟进状态', key: '跟进状态', sortable: true },
   { props: 'closeReason', label: '关闭原因', key: '关闭原因', sortable: true },
   { props: 'closeTime', label: '关闭时间', key: '关闭时间', sortable: true },
@@ -42,7 +41,6 @@ export const toBeSentTableTitle = [
   { props: 'shortageLevel', label: '紧缺级别', key: '紧缺级别', sortable: true, width: 120 },
   { props: 'sendTime', label: '发送时间', key: '发送时间', sortable: true },
   { props: 'status', label: '状态', key: '状态', sortable: true, width: 80 },
-  // { props: 'meetName', label: '会议名称', key: '会议名称', sortable: true },
   { props: 'closeTime', label: '关闭时间', key: '关闭时间', sortable: true },
   { props: 'departmentCode', label: '科室', key: 'KESHI', sortable: true },
   { props: 'linieName', label: 'LINIE', key: 'LINIE', sortable: true },
@@ -56,7 +54,6 @@ export const sourceTypeList = [
 ]
 // 报警信
 export const toBeStatusList = [
-  // { value: 'TO_FOLLOW_UP_OFFLINE', label: '待线下跟进' },
   { value: 'CLOSED', label: '已关闭' },
   { value: 'SENT', label: '已发送' },
 ]
@@ -64,7 +61,6 @@ export const toBeStatusList = [
 export const statusList = [
   { value: 'TO_FOLLOW_UP_OFFLINE', label: '待线下跟进' },
   { value: 'CLOSED', label: '已关闭' },
-  // { value: 'SENT', label: '已发送' },
 ]
 
 export const reasonList = [
