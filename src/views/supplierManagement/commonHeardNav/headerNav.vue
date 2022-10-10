@@ -112,7 +112,7 @@ export default {
 }
 
 ::v-deep .nav>div{
-  max-width: 160px!important;
+  max-width: 170px!important;
 }
 
 </style>
