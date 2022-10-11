@@ -146,64 +146,7 @@ export default {
   data() {
     return {
       typeShow: false,
-      tableData: [
-        {
-          alarm: '123',
-          supplierName: '供应商1',
-          sourceType: '1',
-          level: '1',
-          sentDate: '123',
-          bkaName: 'test',
-          status: '1',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          top: true,
-          out: 5
-        },
-        {
-          alarm: '123',
-          sourceType: '2',
-          level: '2',
-          sentDate: '123',
-          bkaName: 'test',
-          status: '2',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          eventType: 'TEST/突发事件',
-          meetName: 'BKM会议',
-          top: true,
-          top: false
-        },
-        {
-          alarm: '123',
-          sourceType: '3',
-          level: '3',
-          sentDate: '123',
-          bkaName: 'test',
-          status: '2',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          eventName: '自己输入名称',
-          top: false,
-          closeLink: true
-        },
-        {
-          alarm: '123',
-          sourceType: '2',
-          level: '4',
-          sentDate: '123',
-          bkaName: 'test',
-          status: '2',
-          closeDate: 'test',
-          dept: 'test',
-          linie: 'test',
-          top: false,
-          closeLink: true
-        }
-      ],
+      tableData: [],
       tableTitle,
       searchList,
       selectOptions: {
