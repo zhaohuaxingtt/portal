@@ -55,7 +55,7 @@
             :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')"
             prop="supplierType"
           >
-            <iSelect
+            <!-- <iSelect
               v-model="ruleForm.isActive"
               clearable
               multiple
@@ -63,6 +63,22 @@
             >
               <el-option value="1" label="正常"></el-option>
               <el-option value="0" label="受控"></el-option>
+            </iSelect> -->
+
+            <iSelect
+              :placeholder="language('请选择')"
+              v-model="ruleForm.isActive"
+              clearable
+              multiple
+              collapse-tags
+            >
+              <el-option
+                v-for="(item, index) in supplierStatusList"
+                :key="index"
+                :value="item.code"
+                :label="item.name"
+              >
+              </el-option>
             </iSelect>
           </iFormItem>
           <iFormItem
@@ -83,17 +99,12 @@
             :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')"
             prop="supplierType"
           >
-            <iSelect
-              v-model="ruleForm.tagName"
-              clearable
-              multiple
-              collapse-tags
-            >
+            <iSelect v-model="ruleForm.tagId" clearable multiple collapse-tags>
               <el-option
                 v-for="item in tagNameList"
-                :key="item.code"
+                :key="item.id"
                 :label="item.message"
-                :value="item.code"
+                :value="item.id"
               >
               </el-option>
             </iSelect>
@@ -315,6 +326,7 @@ import { getCity } from '@/api/supplierManagement/supplyChainOverall/index.js'
 // import {getSupplierInfo} from '@/api/news/uploadFile'
 import { dropDownTagName } from '@/api/supplierManagement/supplierTag/index.js'
 import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
+import { getDictByCode } from '@/api/dictionary'
 
 export default {
   mixins: [pageMixins],
@@ -352,7 +364,7 @@ export default {
         supplierType: null,
         isActive: null,
         dept: null,
-        tagName: null,
+        tagId: null,
         province: null
       },
       rules: {},
@@ -364,13 +376,15 @@ export default {
       supplierType,
       deptList: [],
       tagNameList: [],
-      provinceList: []
+      provinceList: [],
+      supplierStatusList: []
     }
   },
   created() {
     this.getCity()
     this.getTagList()
     this.getDeptList()
+    this.dictByCode()
   },
   mounted() {
     // console.log(178,this.suplierListData)
@@ -390,6 +404,14 @@ export default {
     this.getTableList()
   },
   methods: {
+    dictByCode() {
+      getDictByCode('supplier_active').then((res) => {
+        if (res?.code == '200') {
+          let data = res.data[0] || {}
+          this.supplierStatusList = data.subDictResultVo || []
+        }
+      })
+    },
     getDeptList() {
       getDepartmentPullDown().then((res) => {
         this.deptList = res.data
