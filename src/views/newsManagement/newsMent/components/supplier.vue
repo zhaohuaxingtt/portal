@@ -85,12 +85,17 @@
             :label="language('XIANGGUANKESHI', '相关科室')"
             prop="supplierType"
           >
-            <iSelect v-model="ruleForm.dept" clearable multiple collapse-tags>
+            <iSelect
+              v-model="ruleForm.deptKey"
+              clearable
+              multiple
+              collapse-tags
+            >
               <el-option
                 v-for="item in deptList"
                 :key="item.deptId"
                 :label="item.commodity"
-                :value="item.deptId"
+                :value="item.commodity"
               >
               </el-option>
             </iSelect>
@@ -99,7 +104,7 @@
             :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')"
             prop="supplierType"
           >
-            <iSelect v-model="ruleForm.tagId" clearable multiple collapse-tags>
+            <iSelect v-model="ruleForm.tagIds" clearable multiple collapse-tags>
               <el-option
                 v-for="item in tagNameList"
                 :key="item.id"
@@ -111,7 +116,7 @@
           </iFormItem>
           <iFormItem :label="language('province', '省市')" prop="province">
             <el-cascader
-              v-model="ruleForm.province"
+              v-model="ruleForm.provinceList"
               :options="provinceList"
               :props="{ multiple: true }"
               clearable
@@ -363,9 +368,9 @@ export default {
         svwCode: null,
         supplierType: null,
         isActive: null,
-        dept: null,
-        tagId: null,
-        province: null
+        deptKey: [],
+        tagIds: [],
+        provinceList: []
       },
       rules: {},
       tableLoading: false,
