@@ -85,12 +85,17 @@
             :label="language('XIANGGUANKESHI', '相关科室')"
             prop="supplierType"
           >
-            <iSelect v-model="ruleForm.dept" clearable multiple collapse-tags>
+            <iSelect
+              v-model="ruleForm.deptKey"
+              clearable
+              multiple
+              collapse-tags
+            >
               <el-option
                 v-for="item in deptList"
                 :key="item.deptId"
                 :label="item.commodity"
-                :value="item.deptId"
+                :value="item.commodity"
               >
               </el-option>
             </iSelect>
@@ -363,7 +368,7 @@ export default {
         svwCode: null,
         supplierType: null,
         isActive: null,
-        dept: null,
+        deptKey: null,
         tagId: null,
         province: null
       },
