@@ -69,7 +69,6 @@
               :placeholder="language('请选择')"
               v-model="ruleForm.isActive"
               clearable
-              multiple
               collapse-tags
             >
               <el-option
@@ -86,7 +85,7 @@
             prop="supplierType"
           >
             <iSelect
-              v-model="ruleForm.deptKey"
+              v-model="ruleForm.deptCodeList"
               clearable
               multiple
               collapse-tags
@@ -368,7 +367,7 @@ export default {
         svwCode: null,
         supplierType: null,
         isActive: null,
-        deptKey: [],
+        deptCodeList: [],
         tagIds: [],
         provinceList: []
       },
