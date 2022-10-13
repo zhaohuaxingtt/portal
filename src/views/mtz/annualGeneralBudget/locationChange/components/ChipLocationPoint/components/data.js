@@ -7,8 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\data.js
  */
 export const tableTitle = [
-  { props: 'id', name: '申请单号', key: 'SHENQINGDANHAO', width: 120 },
-  { props: 'ttNominateAppId', name: '关联申请单号', key: 'GLSQDH', width: 120 },
+  { props: 'appNo', name: '申请单号', key: 'SHENQINGDANHAO', width: 120 },
   {
     props: 'appName',
     name: '申请单名称',
@@ -17,13 +16,13 @@ export const tableTitle = [
     tooltip: true
   },
   {
-    props: 'flowTypeDesc',
+    props: 'type',
     name: '流程类型',
     key: 'LIUCHENGLEIXING',
     width: 100
   },
   {
-    props: 'appStatusDesc',
+    props: 'status',
     name: '申请状态',
     key: 'SHENQINGZHUANGTAI',
     width: 100
@@ -46,8 +45,8 @@ export const tableTitle = [
     key: 'DINGDIANSHIJIAN',
     width: 125
   },
-  { props: 'buyer', name: '采购员', key: 'CAIGOUYUAN' },
-  { props: 'linieDeptName', name: '科室', key: 'KESHI' }
+  { props: 'linieName', name: '采购员', key: 'CAIGOUYUAN' },
+  { props: 'depteName', name: '科室', key: 'KESHI' }
   // { props: 'isRsFreezed', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
   // { props: 'rsFreezeDate', name: 'RS冻结时间', key: 'RSDONGJIESHIJIAN' },
 ]

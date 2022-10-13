@@ -2,7 +2,7 @@
 <template>
   <div>
     <theSearchTable v-if="$route.meta.showFooter"></theSearchTable>
-    <!-- <router-view /> -->
+    <router-view />
   </div>
 </template>
 

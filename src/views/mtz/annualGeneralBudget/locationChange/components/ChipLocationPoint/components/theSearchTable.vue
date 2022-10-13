@@ -7,9 +7,8 @@
           :label="language('SHENQINGDANHAO', '申请单号')"
           class="searchFormItem"
         >
-          <!-- getMtzGenericAppId -->
           <custom-select
-            v-model="searchForm.mtzAppId"
+            v-model="searchForm.appNo"
             :user-options="getMtzGenericAppId"
             multiple
             clearable
@@ -19,14 +18,10 @@
             value-key="code"
           >
           </custom-select>
-          <!-- <input-custom v-model="searchForm.mtzAppId"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom> -->
         </el-form-item>
         <el-form-item :label="language('LIUCHENGLEIXING', '流程类型')">
           <custom-select
-            v-model="searchForm.flowType"
+            v-model="searchForm.type"
             :user-options="getFlowTypeList"
             multiple
             clearable
@@ -39,7 +34,7 @@
         </el-form-item>
         <el-form-item :label="language('SHENQINGZHUANGTAI', '申请状态')">
           <custom-select
-            v-model="searchForm.appStatus"
+            v-model="searchForm.status"
             :user-options="getLocationApplyStatus"
             multiple
             clearable
@@ -52,7 +47,7 @@
         </el-form-item>
         <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <custom-select
-            v-model="searchForm.materialCode"
+            v-model="searchForm.materialName"
             :user-options="materialCode"
             multiple
             clearable
@@ -65,7 +60,7 @@
         </el-form-item>
         <el-form-item :label="language('LINGJIANHAO', '零件号')">
           <input-custom
-            v-model="searchForm.assemblyPartnum"
+            v-model="searchForm.partNum"
             :editPlaceholder="language('QINGSHURU', '请输入')"
             :placeholder="language('QINGSHURU', '请输入')"
           >
@@ -73,7 +68,7 @@
         </el-form-item>
         <el-form-item :label="language('KESHI', '科室')">
           <custom-select
-            v-model="searchForm.linieDeptId"
+            v-model="searchForm.deptName"
             :user-options="linieDeptId"
             @change="changeKS"
             multiple
@@ -87,7 +82,7 @@
         </el-form-item>
         <el-form-item :label="language('CAIGOUYUAN', '采购员')">
           <custom-select
-            v-model="searchForm.buyer"
+            v-model="searchForm.linieName"
             :user-options="getCurrentUser"
             multiple
             @change="changeCGY"
@@ -99,48 +94,10 @@
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('GUANLIANDANHAO', '关联单号')">
-          <!-- <input-custom v-model="searchForm.ttNominateAppId"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom> -->
-          <custom-select
-            v-model="searchForm.ttNominateAppId"
-            :user-options="ttNominateAppId"
-            multiple
-            clearable
-            :placeholder="language('QINGXUANZE', '请选择')"
-            display-member="message"
-            value-member="code"
-            value-key="code"
-          >
-          </custom-select>
-        </el-form-item>
-        <!-- <el-form-item label="RS单状态">
-          <custom-select v-model="searchForm.rsFreezed"
-                         :user-options="getRsBillStatusList"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </el-form-item>
-        <el-form-item label="RS冻结时间">
-          <iDatePicker style="width:180px"
-                       v-model="value"
-                       @change="handleChange"
-                       type="daterange"
-                       range-separator="至"
-                       start-placeholder="开始日期"
-                       end-placeholder="结束日期">
-          </iDatePicker>
-        </el-form-item> -->
         <el-form-item :label="language('DINGDIANSHIJIAN', '定点时间')">
           <iDatePicker
             style="width: 220px"
-            v-model="value1"
-            @change="handleChange1"
+            v-model="searchForm.nominateDate"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -148,22 +105,6 @@
           >
           </iDatePicker>
         </el-form-item>
-
-        <!-- 测试 -->
-        <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
-          <iDatePicker style="width:220px"
-                       v-model="value1"
-                       @change="handleChange_ceshi"
-                       :picker-options="pickerOptions"
-                       format="yyyy-MM-dd"
-                       value-format="yyyy-MM-dd"
-                       unlink-panels
-                       type="daterange"
-                       range-separator="至"
-                       start-placeholder="开始日期"
-                       end-placeholder="结束日期">
-          </iDatePicker>
-        </el-form-item> -->
       </el-form>
     </iSearch>
 
@@ -172,48 +113,48 @@
         <span>详情列表</span>
         <div class="opration">
           <iButton
-            @click="handleClickMtzFreeze"
-            v-permission="PORTAL_MTZ_POINT_DONGJIE"
+            @click="handleClickFreeze"
+            v-permission="PORTAL_CHIP_POINT_DONGJIE"
             >{{ language('DONGJIE', '冻结') }}</iButton
           >
           <iButton
-            @click="handleClickMtzUnfreeze"
-            v-permission="PORTAL_MTZ_POINT_JIEDONG"
+            @click="handleClickUnfreeze"
+            v-permission="PORTAL_CHIP_POINT_JIEDONG"
             >{{ language('JIEDONG', '解冻') }}</iButton
           >
           <iButton
-            @click="handleClickMtzNomi"
-            v-permission="PORTAL_MTZ_POINT_DINGDIAN"
+            @click="handleClickNomi"
+            v-permission="PORTAL_CHIP_POINT_DINGDIAN"
             >{{ language('DINGDIAN', '定点') }}</iButton
           >
           <iButton
-            @click="handleClickCancelMtzNomi"
-            v-permission="PORTAL_MTZ_POINT_QUXIAODINGDIAN"
+            @click="unNominate"
+            v-permission="PORTAL_CHIP_POINT_QUXIAODINGDIAN"
             >{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton
           >
           <iButton
             @click="handleClickOutFlow"
-            v-permission="PORTAL_MTZ_POINT_HUIWAILIUZHUAN"
+            v-permission="PORTAL_CHIP_POINT_HUIWAILIUZHUAN"
             >{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton
           >
           <iButton
-            @click="addMtz"
-            v-permission="PORTAL_MTZ_POINT_XINJIANMTZDINGDIANSHENQING"
+            @click="addChip"
+            v-permission="PORTAL_CHIP_POINT_XINJIANCHIPDINGDIANSHENQING"
             >{{
-              language('XINJIANCHIPDINGDIANSHENQING', '新建芯片定点申请')
+              language('XINJIANCHIPDINGDIANSHENQING', '新建定点申请')
             }}</iButton
           >
           <iButton
-            @click="handleClickMtzRecall"
-            v-permission="PORTAL_MTZ_POINT_CHEHUI"
+            @click="handleClickRecall"
+            v-permission="PORTAL_CHIP_POINT_CHEHUI"
             >{{ language('CHEHUI', '撤回') }}</iButton
           >
           <iButton
-            @click="handleClickMtzRecallPointAdmin"
-            v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN"
+            @click="handleClickRecallPointAdmin"
+            v-permission="PORTAL_CHIP_POINT_CHEHUIPOINTADMIN"
             >{{ $t('LK_TUIHUI') }}</iButton
           >
-          <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{
+          <iButton @click="mtzDel" v-permission="PORTAL_CHIP_POINT_SHANCHU">{{
             language('SHANCHU', '删除')
           }}</iButton>
         </div>
@@ -227,15 +168,15 @@
         border
         @handleSelectionChange="handleSelectionChange"
       >
-        <template slot="id" slot-scope="scope">
+        <template slot="appNo" slot-scope="scope">
           <p
             class="openPage"
             @click="handleClickFsupplierName(scope.row)"
             v-if="scope.row.viewDetailsFlag"
           >
-            {{ scope.row.id }}
+            {{ scope.row.appNo }}
           </p>
-          <p v-else style="width: 90%">{{ scope.row.id }}</p>
+          <p v-else style="width: 90%">{{ scope.row.appNo }}</p>
         </template>
         <template slot="ttNominateAppId" slot-scope="scope">
           <p class="openPage" @click="handleClickTtNominateAppId(scope.row)">
@@ -312,22 +253,20 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 // import store from "@/store";
 import {
-  pageMtzNomi,
+  getAppList,
+  freezeData,
+  unFreeze,
+  nominateData,
+  unNominate,
+  recallData,
+  sendBack,
   getFlowTypeList,
   getLocationApplyStatus,
-  // getRsBillStatusList,
-  mtzFreeze,
-  mtzUnfreeze,
-  mtzNomi,
-  cancelMtzNomi,
   mtzMeetingOutFlow,
-  mtzRecall,
   mtzDel,
-  getDeptLimitLevel,
   getMtzGenericAppId,
-  getCurrentUser,
   getNominateAppIdList
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { page } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
 export default {
   name: 'theSearchTable',
@@ -359,14 +298,14 @@ export default {
 
       mtzReasonShow: false,
       searchForm: {
-        mtzAppId: [],
-        appStatus: [],
-        flowType: [],
-        linieDeptId: [],
-        materialCode: [],
-        assemblyPartnum: [],
-        buyer: [],
-        ttNominateAppId: []
+        appNo: [],
+        deptName: [],
+        linieName: [],
+        materialName: [],
+        nominateDate: [],
+        partNum: [],
+        status: [],
+        type: []
       },
       getFlowTypeList: [],
       getLocationApplyStatus: [],
@@ -505,10 +444,19 @@ export default {
     },
     getTableList() {
       this.tableLoading = true
-      pageMtzNomi({
-        pageNo: this.page.currPage,
+      let nominateDateStart = this.searchForm.nominateDate[0]
+      let nominateDateEnd = this.searchForm.nominateDate[1]
+      let searchForm = {}
+      Object.keys(this.searchForm).forEach((key) => {
+        if (key != 'nominateDate')
+          searchForm[key] = this.searchForm[key].join(',')
+      })
+      getAppList({
+        currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
-        ...this.searchForm
+        nominateDateStart,
+        nominateDateEnd,
+        ...searchForm
       })
         .then((res) => {
           if (res.code == 200 && res.data) {
@@ -602,17 +550,18 @@ export default {
     },
     handleClickFsupplierName(val) {
       let routeData = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
+        path: `/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow`,
         query: {
           currentStep: 1,
-          mtzAppId: val.id
+          appNo: val.appNo
         }
       })
       window.open(routeData.href)
     },
-    addMtz() {
+    // 新建Chip定点申请
+    addChip() {
       let routeData = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`
+        path: `/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow`
       })
       window.open(routeData.href, '_blank')
     },
@@ -621,7 +570,7 @@ export default {
       this.selection = val
     },
     // 冻结
-    handleClickMtzFreeze() {
+    handleClickFreeze() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
@@ -671,10 +620,10 @@ export default {
         if (e.message != 'EndIterative') throw e
       }
       if (num == 0) {
-        this.MtzFreezeRequest()
+        this.freezeData()
       }
     },
-    MtzFreezeRequest() {
+    freezeData() {
       this.stopLoading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -682,7 +631,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      mtzFreeze({
+      freezeData({
         ids: this.selection.map((item) => item.id)
       })
         .then((res) => {
@@ -700,7 +649,7 @@ export default {
     },
 
     // 解冻
-    handleClickMtzUnfreeze() {
+    handleClickUnfreeze() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
@@ -740,7 +689,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
 
-        mtzUnfreeze({
+        unFreeze({
           ids: this.selection.map((item) => item.id)
         })
           .then((res) => {
@@ -759,43 +708,11 @@ export default {
     },
 
     // 定点
-    handleClickMtzNomi() {
-      // this.
+    handleClickNomi() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      // var num = 0;
-      // try{
-      //   this.selection.forEach(e=>{
-      //     if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
-      //       num++;
-      //       iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
-      //       throw new Error("EndIterative");
-      //     }
-      //     if(e.flowType == "FILING"){
-      //       if(e.appStatus !== "FREERE"){
-      //         num++;
-      //         iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
-      //         throw new Error("EndIterative");
-      //       }
-      //     } else if (e.flowType == "SIGN") {
-      //       if(e.appStatus !== "FLOWED"){
-      //         num++;
-      //         iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
-      //         throw new Error("EndIterative");
-      //       }
-      //     }else if(e.flowType == "MEETING"){
-      //       num++;
-      //       iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
-      //       throw new Error("EndIterative");
-      //     }
-      //   })
-      // }catch(e){
-      //     if(e.message != "EndIterative") throw e;
-      // }
-      // if(num==0){
       this.getNomi()
-      // }
     },
     getNomi() {
       this.stopLoading = this.$loading({
@@ -805,7 +722,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      mtzNomi({
+      nominateData({
         ids: this.selection.map((item) => item.id)
       })
         .then((res) => {
@@ -823,7 +740,7 @@ export default {
     },
 
     // 取消定点
-    handleClickCancelMtzNomi() {
+    unNominate() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
@@ -871,7 +788,7 @@ export default {
             background: 'rgba(0, 0, 0, 0.7)'
           })
 
-          cancelMtzNomi({
+          unNominate({
             ids: this.selection.map((item) => item.id)
           }).then((res) => {
             if (res && res.code == 200) {
@@ -940,7 +857,7 @@ export default {
     reasonClose() {
       this.mtzReasonShow = false
     },
-    handleClickMtzRecallPointAdmin() {
+    handleClickRecallPointAdmin() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
@@ -998,11 +915,12 @@ export default {
         if (e.message != 'EndIterative') throw e
       }
       if (num == 0) {
+        this.type = 'sendBack'
         this.mtzReasonShow = true
       }
     },
     // 点击撤回
-    handleClickMtzRecall() {
+    handleClickRecall() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
@@ -1055,16 +973,26 @@ export default {
         if (e.message != 'EndIterative') throw e
       }
       if (num == 0) {
+        this.type = 'Recall'
         this.mtzReasonShow = true
       }
     },
 
     // 提交撤回
     handleSubmitRecall(val) {
-      mtzRecall({
-        ids: this.selection.map((item) => item.id),
-        withdrawReason: val
-      }).then((res) => {
+      let todo
+      if (this.type == 'sendBack') {
+        todo = sendBack({
+          ids: this.selection.map((item) => item.id),
+          withdrawReason: val
+        })
+      } else {
+        todo = recallData({
+          ids: this.selection.map((item) => item.id),
+          withdrawReason: val
+        })
+      }
+      todo.then((res) => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.reasonClose()

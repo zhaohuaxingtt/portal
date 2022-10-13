@@ -69,9 +69,9 @@ export default {
     } else if (to.name == 'MtzLocationChange') {
       store.commit('locationBtnChange', 2)
     } else if (to.name == 'ChipLocationPoint') {
-      store.commit('locationBtnChange', 1)
+      store.commit('locationBtnChange', 3)
     } else if (to.name == 'ChipLocationChange') {
-      store.commit('locationBtnChange', 2)
+      store.commit('locationBtnChange', 4)
     }
     next()
   },
