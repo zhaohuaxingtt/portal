@@ -506,11 +506,18 @@ export default {
     },
     query() {
       this.tableLoading = true
+      let ruleForm = JSON.parse(JSON.stringify(this.ruleForm))
+      provinceList = []
+      ruleForm.provinceList.map((item) => {
+        let len = item.length
+        provinceList.push(item[item.length - 1])
+      })
+      ruleForm.provinceList = provinceList
       let param = {
-        ...this.ruleForm,
+        ...ruleForm,
         current: this.page.currPage,
         size: this.page.pageSize,
-        supplierType: this.ruleForm.supplierType,
+        // supplierType: this.ruleForm.supplierType,
         accountType: 2
       }
       pageList(param).then((res) => {
