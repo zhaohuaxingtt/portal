@@ -24,12 +24,12 @@
             language('BAOJINGFABUDUIXIANG', '报警发布对象：')
           }}</label>
           <div class="flex earlyWarning">
-            <el-tag v-for="item in csssList" :key="item.id" color="#409EFF">
+            <!-- <el-tag v-for="item in csssList" :key="item.id" color="#409EFF">
               <span style="color: #fff">csss-{{ item.userName }}</span>
             </el-tag>
             <el-tag v-for="item in plrdList" :key="item.id" color="#409EFF">
               <span style="color: #fff">PLRD-{{ item.userName }}</span>
-            </el-tag>
+            </el-tag> -->
             <el-tag
               v-for="item in releaseList"
               :key="item.userId"
