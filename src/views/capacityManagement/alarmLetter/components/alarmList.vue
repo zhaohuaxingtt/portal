@@ -77,9 +77,12 @@ export default {
       this.getLetterFileList()
     },
     getLetterFileList() {
-      const row = JSON.parse(this.$route.query.row)
-      let letterId = row.id
-      let type = 1
+      let row, letterId, type
+      if (this.$route.query.row) {
+        row = JSON.parse(this.$route.query.row)
+      } else {
+        row = {}
+      }
       if (row.source == 'CAPACITY_RED_LIGHT') {
         // 其它,待发送报警信页面跳转过来携带的是warningLetterId
         letterId = row.id
