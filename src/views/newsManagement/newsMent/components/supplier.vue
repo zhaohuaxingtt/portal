@@ -507,7 +507,7 @@ export default {
     query() {
       this.tableLoading = true
       let ruleForm = JSON.parse(JSON.stringify(this.ruleForm))
-      provinceList = []
+      let provinceList = []
       ruleForm.provinceList.map((item) => {
         let len = item.length
         provinceList.push(item[item.length - 1])

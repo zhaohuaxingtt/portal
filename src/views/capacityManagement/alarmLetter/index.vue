@@ -8,6 +8,11 @@
             '供应商供货紧缺报警信息表'
           )
         }}</span>
+        <div>
+          <iButton @click="openFile">
+            {{ language('查看报警信', '查看报警信') }}
+          </iButton>
+        </div>
       </div>
       <iCard
         style="margin-top: 20px"
@@ -26,7 +31,7 @@
               <span style="color: #fff">PLRD-{{ item.userName }}</span>
             </el-tag>
             <el-tag
-              v-for="item in mulitList"
+              v-for="item in releaseList"
               :key="item.userId"
               color="#409EFF"
             >
@@ -36,22 +41,18 @@
         </div>
         <div class="formItem">
           <label for="">{{ language('QITASOUJIANREN', '其他收件人：') }}</label>
-          <iText class="inline-input"
-            >{{ cSubcategoryNo }}
-            <!-- <el-tag
-              v-for="tag in selected"
-              closable
-              slot="prepend"
-              class="tag"
-              :disable-transitions="true"
-              :key="tag"
-              size="mini"
-              type="info"
-              @close="handleClose(tag)"
-            >
-              <span class="el-select__tags-text">{{ tag }}</span>
-            </el-tag> -->
-          </iText>
+          <div class="email-box">
+            <div>
+              <el-tag
+                v-for="item in otherList"
+                class="tag"
+                :key="item.email"
+                @close="handleCloseTag(item, 'email')"
+              >
+                <span class="el-select__tags-text">{{ item.email }}</span>
+              </el-tag>
+            </div>
+          </div>
         </div>
       </iCard>
       <iCard style="margin-top: 20px" class="cardItem">
@@ -182,6 +183,11 @@
         </div>
       </div>
     </div>
+    <alarm-list
+      @checkPdf="checkPdf"
+      ref="alarmList"
+      :isView.sync="isView"
+    ></alarm-list>
   </iPage>
 </template>
 
@@ -201,12 +207,14 @@ import scarceInformation from './components/scarceInformation'
 import countermeasures from './components/countermeasures'
 import chargePerson from './components/chargePerson'
 import enclosure from './components/enclosure'
+import alarmList from './components/alarmList'
 import { getWarningLetterInfoDetail } from '@/api/capacityManagement/index.js'
 export default {
   name: 'AlarmLetter',
   data() {
     return {
-      detailInfo: {}
+      detailInfo: {},
+      isView: false
     }
   },
   computed: {
@@ -222,17 +230,32 @@ export default {
         tableData: this.detailInfo.warningLetterProductAddressList || []
       }
     },
-    mulitList() {
-      return this.detailInfo.warningLetterReceiverList || []
-    },
     csssList() {
       return this.detailInfo.warningLetterReceiverList || []
     },
     plrdList() {
       return this.detailInfo.warningLetterReceiverList || []
     },
-    cSubcategoryNo() {
-      return this.detailInfo.cSubcategoryNo || ''
+    // 已添加发布对象
+    releaseList() {
+      let releaseList = (this.warningLetterReceiverList || []).filter(
+        (item) => item.userType != 4
+      )
+      return releaseList
+    },
+    // 添加发布对象，剩余待选项
+    residueList() {
+      let idList = (this.warningLetterReceiverList || [])
+        .filter((item) => item.userType != 4)
+        .map((child) => child.userId)
+      return this.linieList.filter((item) => !idList.includes(item.userId))
+    },
+    // 其他收件人
+    otherList() {
+      let otherList = (this.warningLetterReceiverList || []).filter(
+        (item) => item.userType == 4
+      )
+      return otherList
     },
     // 紧缺信息
     scarceInformation() {
@@ -266,6 +289,7 @@ export default {
     countermeasures, //应对措施
     chargePerson, //本次紧缺件处理负责人和联系方式
     enclosure, //附件
+    alarmList, // 报警信
     iSelectCustom,
     iDialog,
     iButton,
@@ -273,6 +297,10 @@ export default {
     iText
   },
   methods: {
+    openFile() {
+      this.isView = true
+      console.log(this.isView)
+    },
     init() {
       if (this.$route.query.id)
         getWarningLetterInfoDetail(this.$route.query.id).then((res) => {
@@ -332,6 +360,15 @@ export default {
         border: 1px solid #ccc;
         box-shadow: 0 0 0.1875rem rgb(0 38 98 / 15%);
         border-color: transparent;
+      }
+
+      .email-box {
+        border: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 0 0.1875rem rgb(0 38 98 / 15%);
       }
     }
     .title {
