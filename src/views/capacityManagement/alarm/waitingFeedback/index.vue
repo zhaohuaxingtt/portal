@@ -108,6 +108,7 @@ import {
   setAlarmLetterOrder
 } from '@/api/capacityManagement/index.js'
 import { getDepartmentPullDown } from '@/api/partLifeCycle/partLifeCycleStar.js'
+import { getToken } from '@/utils'
 
 export default {
   components: {
@@ -196,15 +197,20 @@ export default {
     },
     // 供应商跳转BKA
     gotoSupplier(row) {
-      let url = process.env.VUE_APP_HOST + '/bkm/sso.do'
+      let url =
+        process.env.VUE_APP_HOST +
+        `/bkm/sso.do?supplierId=${row.supplierId}&sapCode=${
+          row.sapCode
+        }&supplierName=${row.supplierName}&token=${getToken()}`
       window.open(url)
-      return
     },
     // 跳转BKA详情
     gotoBKA(row) {
       let url =
         process.env.VUE_APP_HOST +
-        `/bkm/bkaView/bkaView.do?bkaNo=${row.encryptionBkaId}`
+        `/bkm/bkaView/bkaView.do?bkaNo=${
+          row.encryptionBkaId
+        }&token=${getToken()}`
       window.open(url)
     },
     // 跳转报警信详情

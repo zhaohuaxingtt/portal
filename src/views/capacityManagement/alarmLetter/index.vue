@@ -238,21 +238,21 @@ export default {
     },
     // 已添加发布对象
     releaseList() {
-      let releaseList = (this.warningLetterReceiverList || []).filter(
-        (item) => item.userType != 4
-      )
+      let releaseList = (
+        this.detailInfo.warningLetterReceiverList || []
+      ).filter((item) => item.userType != 4)
       return releaseList
     },
     // 添加发布对象，剩余待选项
     residueList() {
-      let idList = (this.warningLetterReceiverList || [])
+      let idList = (this.detailInfo.warningLetterReceiverList || [])
         .filter((item) => item.userType != 4)
         .map((child) => child.userId)
       return this.linieList.filter((item) => !idList.includes(item.userId))
     },
     // 其他收件人
     otherList() {
-      let otherList = (this.warningLetterReceiverList || []).filter(
+      let otherList = (this.detailInfo.warningLetterReceiverList || []).filter(
         (item) => item.userType == 4
       )
       return otherList

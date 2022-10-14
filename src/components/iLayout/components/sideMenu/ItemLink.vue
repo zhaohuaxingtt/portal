@@ -29,6 +29,7 @@
       :href="itemUrl"
       :class="{ active: isActive, disabled: !item.url }"
       class="side-menu-link 2"
+      :target="item.target"
       @click.stop="handleRouterClick"
     >
       <icon
