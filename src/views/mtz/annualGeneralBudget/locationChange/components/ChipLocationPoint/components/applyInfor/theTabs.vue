@@ -5,9 +5,39 @@
   <iCard class="margin-top20">
     <template v-slot:header>
       <span>
-        {{ language('WHMTZYCLGZ', '维护MTZ原材料规则') }}
+        {{ language('维护芯片补差规则', '维护芯片补差规则') }}
       </span>
       <div>
+        <el-upload
+          class="upload-demo"
+          style="display: inline-block; margin-right: 10px"
+          multiple
+          :action="uploadUrl"
+          :show-file-list="false"
+          :on-success="uploadSuccess"
+          :on-progress="uploadProgress"
+          :data="uploadData"
+          :before-upload="beforeUpload"
+          :on-exceed="handleExceed"
+          v-permission="PORTAL_MTZ_POINT_INFOR_DATA_SHANGCHUAN"
+          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+        >
+          <el-tooltip
+            :content="
+              language('WENJIANDAXIAOBUCHAOGUO20MB', '文件大小不超过20MB')
+            "
+            placement="top"
+            effect="light"
+          >
+            <iButton>{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
+          </el-tooltip>
+        </el-upload>
+        <iButton
+          @click="download"
+          v-permission="PORTAL_MTZ_POINT_INFOR_DATA_XIAZAIMUBAN"
+          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          >{{ language('XIAZAIMUBAN', '下载模板') }}</iButton
+        >
         <iButton
           @click="cancel"
           v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
@@ -307,56 +337,14 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="price"
+          prop="materialName"
           align="center"
-          width="130"
-          :label="language('JIJIA', '基价')"
+          width="150"
+          :label="language('补差金额', '补差金额')"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'price'"
-              :rules="formRules.price ? formRules.price : ''"
-            >
-              <!-- :disabled='scope.row.metalType && editId.indexOf(scope.row.id)!==-1' -->
-              <iInput type="number"
-                            v-model="scope.row.price"
-                            v-if="editId.indexOf(scope.row.id) !== -1"
-                        ></iInput>
-              <span v-else>{{ scope.row.price }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="priceMeasureUnit"
-          align="center"
-          width="120"
-          :label="language('JIJIAJILIANGDANWEI', '基价计量单位')"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'priceMeasureUnit'"
-              :rules="
-                formRules.priceMeasureUnit ? formRules.priceMeasureUnit : ''
-              "
-            >
-              <!-- <el-select v-model="scope.row.priceMeasureUnit"
-                            clearable
-                            :placeholder="language('QINGSHURU', '请输入')"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                            >
-                            <el-option
-                                v-for="item in priceMeasureUnit"
-                                :key="item.code"
-                                :label="item.message"
-                                :value="item.code">
-                            </el-option>
-                        </el-select> -->
-              <!-- <iInput
-                            v-model="scope.row.priceMeasureUnit"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                        ></iInput> -->
-              <span>{{ scope.row.priceMeasureUnit }}</span>
-            </el-form-item>
+            <span>{{ scope.row.materialName }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -409,189 +397,6 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="source"
-          align="center"
-          width="200"
-          :label="language('SHICHANGJIALAIYUAN', '市场价来源')"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'source'"
-              :rules="formRules.source ? formRules.source : ''"
-            >
-              <!-- <el-select v-model="scope.row.tcCurrence"
-                         clearable
-                         :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.id)!==-1">
-                <el-option v-for="item in tcCurrence"
-                           :key="item.code"
-                           :label="item.code"
-                           :value="item.code">
-                </el-option>
-              </el-select> -->
-
-              <i-select
-                v-model="scope.row.source"
-                clearable
-                @change="sourceChange(scope.row, $event)"
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in getMtzMarketSourceList"
-                  :key="item.code"
-                  :label="item.code"
-                  :value="item.code"
-                >
-                </el-option>
-              </i-select>
-
-              <span v-else>{{ scope.row.source }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="compensationRatio"
-          align="center"
-          width="110"
-          :label="language('BUCHAXISHU', '补差系数')"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'compensationRatio'"
-              :rules="
-                formRules.compensationRatio ? formRules.compensationRatio : ''
-              "
-            >
-              <iInput
-                type="number"
-                @blur="ratioRules(scope)"
-                v-model="scope.row.compensationRatio"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              ></iInput>
-              <span v-else>{{ scope.row.compensationRatio }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="compensationPeriod"
-          align="center"
-          width="110"
-          :label="language('BUCHAZHOUQI', '补差周期')"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'compensationPeriod'"
-              :rules="
-                formRules.compensationPeriod ? formRules.compensationPeriod : ''
-              "
-            >
-              <el-select
-                v-model="scope.row.compensationPeriod"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in compensationPeriod"
-                  :key="item.code"
-                  :label="item.message"
-                  :value="item.code"
-                >
-                </el-option>
-              </el-select>
-              <span v-else>{{
-                scope.row.compensationPeriod == 'A'
-                  ? '年度'
-                  : scope.row.compensationPeriod == 'H'
-                  ? '半年度'
-                  : scope.row.compensationPeriod == 'Q'
-                  ? '季度'
-                  : scope.row.compensationPeriod == 'M'
-                  ? '月度'
-                  : ''
-              }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="threshold"
-          align="center"
-          :label="language('YUZHI', '阈值')"
-          width="60"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'threshold'"
-              :rules="formRules.threshold ? formRules.threshold : ''"
-            >
-              <el-tooltip
-                effect="light"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-                placement="bottom"
-              >
-                <div slot="content">
-                  <p>
-                    {{
-                      language(
-                        'ZUIDUOSHURUXIAOSHUDIANHOUSIWEI',
-                        '最多输入小数点后4位'
-                      )
-                    }}
-                  </p>
-                </div>
-                <iInput
-                  type="number"
-                  step="0.0001"
-                  v-model="scope.row.threshold"
-                ></iInput>
-              </el-tooltip>
-              <span v-else>{{ scope.row.threshold }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="thresholdCompensationLogic"
-          align="center"
-          width="120"
-          :label="language('YUZHIBUCHALUOJI', '阈值补差逻辑')"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="
-                'tableData.' + scope.$index + '.' + 'thresholdCompensationLogic'
-              "
-              :rules="
-                formRules.thresholdCompensationLogic
-                  ? formRules.thresholdCompensationLogic
-                  : ''
-              "
-            >
-              <el-select
-                v-model="scope.row.thresholdCompensationLogic"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in thresholdCompensationLogic"
-                  :key="item.code"
-                  :label="item.message"
-                  :value="item.code"
-                >
-                </el-option>
-              </el-select>
-              <span v-else>{{
-                scope.row.thresholdCompensationLogic == 'A'
-                  ? '全额补差'
-                  : scope.row.thresholdCompensationLogic == 'B'
-                  ? '超额补差'
-                  : ''
-              }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
           prop="startDate"
           align="center"
           width="110"
@@ -634,219 +439,6 @@
                                 >
                         </iDatePicker> -->
               <span>{{ scope.row.endDate }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="platinumPrice" align="center" width="120">
-          <template slot="header">
-            <div>
-              <span>{{ language('BOJIJIA', '铂基价') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>M01006002-Pt</p>
-                  <!-- <p>{{language('xxxxxxxx','xxxxxxxx')}}</p> -->
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'platinumPrice'"
-              :rules="formRules.platinumPrice ? formRules.platinumPrice : ''"
-            >
-              <!-- <iInput
-                        type="number"
-                        v-model="scope.row.platinumPrice"
-                        v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.platinumPrice }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column prop="platinumDosage" align="center" width="130">
-          <template slot="header">
-            <div>
-              <span>{{ language('BOYONGLIANG', '铂用量') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>M01006002-Pt</p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'platinumDosage'"
-              :rules="formRules.platinumDosage ? formRules.platinumDosage : ''"
-            >
-              <!-- <iInput
-                        type="number"
-                        v-model="scope.row.platinumDosage"
-                        v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.platinumDosage }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column prop="palladiumPrice" align="center" width="120">
-          <template slot="header">
-            <div>
-              <span>{{ language('BAJIJIA', '钯基价') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>M01006001-Pd</p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'palladiumPrice'"
-              :rules="formRules.palladiumPrice ? formRules.palladiumPrice : ''"
-            >
-              <!-- <iInput 
-                        type="number"
-                        v-model="scope.row.palladiumPrice"
-                        v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.palladiumPrice }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column prop="palladiumDosage" align="center" width="130">
-          <template slot="header">
-            <div>
-              <span>{{ language('BAYONGLIANG', '钯用量') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>M01006001-Pd</p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'palladiumDosage'"
-              :rules="
-                formRules.palladiumDosage ? formRules.palladiumDosage : ''
-              "
-            >
-              <!-- <iInput type="number"
-                        v-model="scope.row.palladiumDosage"
-                        v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.palladiumDosage }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column prop="rhodiumPrice" align="center" width="120">
-          <template slot="header">
-            <div>
-              <span>{{ language('LAOJIJIA', '铑基价') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>M01006003-Rh</p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'rhodiumPrice'"
-              :rules="formRules.rhodiumPrice ? formRules.rhodiumPrice : ''"
-            >
-              <!-- <iInput type="number"
-                        v-model="scope.row.rhodiumPrice"
-                        v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.rhodiumPrice }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="rhodiumDosage" align="center" width="130">
-          <template slot="header">
-            <div>
-              <span>{{ language('LAOYONGLIANG', '铑用量') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  <p>M01006003-Rh</p>
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-          </template>
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'rhodiumDosage'"
-              :rules="formRules.rhodiumDosage ? formRules.rhodiumDosage : ''"
-            >
-              <!-- <iInput
-                        type="number"
-                        v-model="scope.row.rhodiumDosage"
-                        v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
-                        @change="jijiaCompute(scope.row,$event)"
-                        ></iInput> -->
-              <span>{{ scope.row.rhodiumDosage }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          prop="preciousMetalDosageUnit"
-          align="center"
-          width="200"
-          :label="
-            language('GUIJINSHUYONGLIANGJIJIADANWEI', '贵金属用量&基价单位')
-          "
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="
-                'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'
-              "
-              :rules="
-                formRules.preciousMetalDosageUnit
-                  ? formRules.preciousMetalDosageUnit
-                  : ''
-              "
-            >
-              <span>{{ scope.row.preciousMetalDosageUnit }}</span>
             </el-form-item>
           </template>
         </el-table-column>

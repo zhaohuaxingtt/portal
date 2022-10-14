@@ -116,7 +116,6 @@
       ref="theTabs"
       @isNomiNumber="isNomiNum"
       @handleReset="handleReset"
-      v-if="beforReturn"
       :appStatus="inforData.appStatus"
       :flowType="inforData.flowType"
     >
