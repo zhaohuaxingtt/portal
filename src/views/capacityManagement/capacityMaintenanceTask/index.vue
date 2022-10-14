@@ -243,9 +243,12 @@ export default {
 
     // 供应商跳转BKA
     gotoSupplier(row) {
-      let url = process.env.VUE_APP_HOST + '/bkm/sso.do'
+      let url =
+        process.env.VUE_APP_HOST +
+        `/bkm/sso.do?supplierId=${row.tmSupplierId}&sapCode=${
+          row.supplierSapCode
+        }&supplierName=${row.supplierShortNameZh}&token=${getToken()}`
       window.open(url)
-      return
     },
     // 跳转BKA详情
     gotoBKA(row) {
