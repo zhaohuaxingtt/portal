@@ -108,4 +108,11 @@ export function setWarningLetterInfoAlarmLetterOrder(data) {
   })
 }
 
-
+// 查询报警信和附件列表
+export function getLetterFileList(params) {
+  return ntier({
+    url: '/web/warningLetterInfo/getLetterFileList',
+    method: 'post',
+    params
+  })
+}
