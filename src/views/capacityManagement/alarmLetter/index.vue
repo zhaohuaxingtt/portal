@@ -304,7 +304,7 @@ export default {
     init() {
       if (this.$route.query.id)
         getWarningLetterInfoDetail(this.$route.query.id).then((res) => {
-          this.detailInfo = res.data
+          if (res?.code == '200') this.detailInfo = res.data || {}
         })
     }
   },
