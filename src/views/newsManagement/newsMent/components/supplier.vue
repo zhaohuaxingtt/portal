@@ -41,7 +41,7 @@
             :label="language('NEWS_GONGYINGSHANGLEIXING', '供应商类型')"
             prop="supplierType"
           >
-            <iSelect v-model="ruleForm.supplierType" clearable>
+            <iSelect v-model="ruleForm.supplierType">
               <el-option
                 v-for="item in supplierType"
                 :key="item.value"
@@ -53,7 +53,7 @@
           </iFormItem>
           <iFormItem
             :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')"
-            prop="supplierType"
+            prop="isActive"
           >
             <!-- <iSelect
               v-model="ruleForm.isActive"
@@ -82,7 +82,7 @@
           </iFormItem>
           <iFormItem
             :label="language('XIANGGUANKESHI', '相关科室')"
-            prop="supplierType"
+            prop="deptCodeList"
           >
             <iSelect
               v-model="ruleForm.deptCodeList"
@@ -101,7 +101,7 @@
           </iFormItem>
           <iFormItem
             :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')"
-            prop="supplierType"
+            prop="tagNameList"
           >
             <iSelect v-model="ruleForm.tagIds" clearable multiple collapse-tags>
               <el-option
@@ -137,129 +137,6 @@
           }}</iButton>
         </template>
       </i-search>
-      <!-- <el-form
-        class="form"
-        :model="ruleForm"
-        :rules="rules"
-        inline
-        label-position="top"
-        :hideRequiredAsterisk="true"
-        :validate-on-rule-change="false"
-      >
-        <div class="form-content">
-          <iFormItem
-            :label="language('NEWS_GONGYINGSHANGZHONGWENMING', '供应商中文名')"
-            prop="supplierName"
-          >
-            <iInput
-              v-model="ruleForm.supplierNameZh"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iInput>
-          </iFormItem>
-          <iFormItem
-            :label="language('SAPHAO', 'SAP号')"
-            prop="supplierSapCode"
-          >
-            <iInput
-              v-model="ruleForm.sapNum"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iInput>
-          </iFormItem>
-          <iFormItem
-            :label="language('SVWHAO', 'SVW号')"
-            prop="supplierSvwCode"
-          >
-            <iLabel :label="language('SVWHAO', 'SVW号')" slot="label"></iLabel>
-            <iInput
-              v-model="ruleForm.svwCode"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iInput>
-          </iFormItem>
-          <iFormItem
-            :label="language('NEWS_GONGYINGSHANGLEIXING', '供应商类型')"
-            prop="supplierType"
-          >
-            <iLabel
-              :label="language('NEWS_GONGYINGSHANGLEIXING', '供应商类型')"
-              slot="label"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iLabel>
-            <iSelect v-model="ruleForm.supplierType" clearable>
-              <el-option
-                v-for="item in supplierType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-          <iFormItem prop="supplierType">
-            <iLabel
-              :label="language('NEWS_GONGYINGSHANGLEIXING', '供应商状态')"
-              slot="label"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iLabel>
-            <iSelect v-model="ruleForm.supplierType" clearable multiple>
-              <el-option
-                v-for="item in supplierType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-          <iFormItem prop="supplierType">
-            <iLabel
-              :label="language('NEWS_GONGYINGSHANGLEIXING', '相关科室')"
-              slot="label"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iLabel>
-            <iSelect v-model="ruleForm.supplierType" clearable multiple>
-              <el-option
-                v-for="item in supplierType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-          <iFormItem prop="supplierType">
-            <iLabel
-              :label="language('NEWS_GONGYINGSHANGLEIXING', '供应商标签')"
-              slot="label"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iLabel>
-            <iSelect v-model="ruleForm.supplierType" clearable multiple>
-              <el-option
-                v-for="item in supplierType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-          <iFormItem prop="supplierType">
-            <iLabel
-              :label="language('NEWS_GONGYINGSHANGLEIXING', '省市')"
-              slot="label"
-              :placeholder="language('LK_QINGSHURU', '请输入')"
-            ></iLabel>
-            <iSelect v-model="ruleForm.supplierType" clearable multiple>
-              <el-option
-                v-for="item in supplierType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-        </div>
-      </el-form> -->
       <!-- 横线 -->
       <div class="link-gray"></div>
 
@@ -365,7 +242,7 @@ export default {
         supplierNameZh: null,
         sapNum: null,
         svwCode: null,
-        supplierType: null,
+        supplierType: 2,
         isActive: null,
         deptCodeList: [],
         tagIds: [],
