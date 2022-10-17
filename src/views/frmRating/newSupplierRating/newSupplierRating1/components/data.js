@@ -23,7 +23,7 @@ export const shareholderInformationTitle = [
   { props: 'shareholderContribution', name: '出资额', key: 'SPR_FRM_XGYSPJ_CZE' },
   { props: 'currency', name: '币种', key: 'SPR_FRM_XGYSPJ_BZ' },
   { props: 'proportion', name: '持股比例（%）', key: 'SPR_FRM_XGYSPJ_CGBL', width: 130 },
-  { props: 'mainBusiness', name: '主营业务', key: 'SPR_FRM_XGYSPJ_ZYYW' },
+  { props: 'mainBusiness', name: '主营业务', key: 'SPR_FRM_XGYSPJ_ZYYW',tooltip: true },
   { props: 'industryBelongs', name: '行业归属', key: 'HANGYEGUISHU' },
   { props: 'principal', name: '负责人', key: 'LK_FUZEREN' },
   { props: 'shareholderSupport', name: '股东对公司的支持情况', key: 'SPR_FRM_XGYSPJ_GDDGSDZCQK', width: 150 },
@@ -33,7 +33,7 @@ export const shareholderInformationTitle = [
 export const financialOverviewTitle = [
   { props: 'beforeFilling', name: '填补前（元）', key: 'SPR_FRM_XGYSPJ_TBQ' },
   { props: 'firstValue', name: '', },
-  { props: 'secondValue', name: '', },
+  { props: 'secondValue', name: '' },
   { props: 'thirdValue', name: '', },
   { props: 'description', name: '说明', key: 'SPR_FRM_XGYSPJ_SM' },
 ]

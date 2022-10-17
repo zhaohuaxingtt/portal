@@ -40,5 +40,6 @@ export default {
   'Top 5 iAgree': 'Top 5 iAgree',
   编辑流程: 'Edit Process',
   '此操作将永久删除该模板, 是否继续?':
-    'This operation will permanently delete this template. Do you want to continue? '
+    'This operation will permanently delete this template. Do you want to continue? ',
+  'BDL待审批列表': 'BDL Pending approval list',
 }

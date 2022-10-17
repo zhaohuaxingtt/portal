@@ -186,8 +186,23 @@ export default {
       this.supplierData.purchaserId = purchaseObj?.purchaserId || ''
     },
     filter (val) {
-      if (!val) this.purchaseListCopy = JSON.parse(JSON.stringify(this.purchaseList)) || []
-      else this.purchaseListCopy = this.purchaseList.filter(item => item.purchaserEmail.indexOf(val) > -1)
+      if (!val){
+        this.purchaseListCopy = JSON.parse(JSON.stringify(this.purchaseList)) || []
+      }else{
+        // this.purchaseListCopy = this.purchaseList.filter(item => item.purchaserEmail.indexOf(val) > -1)
+        this.purchaseListCopy = this.purchaseList.filter((item) => {
+          // if(item.purchaserEmail){
+          //   return item.purchaserName.indexOf(val) > -1 || item.purchaserEmail.indexOf(val) > -1
+          // }else{
+          //   return item.purchaserName.indexOf(val) > -1
+          // }
+          if(item.purchaserEmail){
+            return item.purchaserName.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.purchaserEmail.toLowerCase().indexOf(val.toLowerCase()) > -1
+          }else{
+            return item.purchaserName.toLowerCase().indexOf(val.toLowerCase()) > -1
+          }
+        })
+      }
     },
     getPurchaseInfo () {
       let req = {

@@ -95,7 +95,7 @@
             <el-option
               v-for="(item, index) in sealtypes"
               :value="item.docTypeNo"
-              :label="item.signName"
+              :label="item.signName+'-'+item.companyCode"
               :key="index"
             ></el-option>
           </i-select>

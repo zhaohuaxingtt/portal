@@ -217,8 +217,9 @@ export default {
         ],
         step: 'submit'
       }
+      // TODO先注释代码，重复调用接口attachment/save
       const res = await saveAttachment(req)
-      await this.saveInfos('', false, true)
+      // await this.saveInfos('', false, true)
       res.moduleName = this.$t('SUPPLIER_FUJIANSHANGCHUAN')
       this.resultMessage(res, () => {
         this.getTableList()

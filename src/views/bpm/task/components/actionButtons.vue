@@ -17,16 +17,19 @@
     <iButton
       v-show="taskType === 0 && !isRefuseButton"
       :disabled="selectedRow.length !== 1"
-      @click="$emit('complete', approvalTypeMap.REFUSE)"
+      @click="$emit('complete', approvalTypeMap.REFUSE, refuseText)"
     >
       {{ refuseText }}
     </iButton>
     <iButton
       v-show="taskType === 0 && !isHideAppendButton"
       :disabled="selectedRow.length !== 1"
-      @click="$emit('complete', approvalTypeMap.APPREND_DATA)"
+      @click="$emit('complete', approvalTypeMap.APPEND_DATA, appendText)"
     >
       {{ appendText }}
+    </iButton>
+    <iButton @click="$emit('export')">
+      {{ language('LK_DAOCHU') }}
     </iButton>
   </div>
 </template>

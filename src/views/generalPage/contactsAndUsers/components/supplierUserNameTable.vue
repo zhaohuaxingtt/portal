@@ -1,9 +1,9 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierUserNameTable.vue
+ * @FilePath: \front-portal\src\views\generalPage\contactsAndUsers\components\supplierUserNameTable.vue
 -->
 <template>
   <i-card>
@@ -269,7 +269,8 @@ export default {
       const pms = {
         step: 'register',
         pageNo: 1,
-        pageSize: 999
+        pageSize: 999,
+        supplierId:this.$route.query.supplierId
       }
       if (this.supplierType > 3) {
         pms.step = 'submit'

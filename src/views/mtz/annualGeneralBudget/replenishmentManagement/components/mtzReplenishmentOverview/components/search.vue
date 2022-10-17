@@ -127,8 +127,8 @@ export default {
     init () {
       getMtzSupplierList({}).then(res => {
         if (res.code === '200') {
-          this.fsupplierList = res.data
-          this.ssupplierList = res.data
+          this.fsupplierList = JSON.parse(JSON.stringify(res.data))
+          this.ssupplierList = JSON.parse(JSON.stringify(res.data))
         } else {
           iMessage.error(res.desZh)
         }

@@ -17,13 +17,14 @@
     <el-form inline>
       <el-form-item :label="language('DIQU', '地区')">
         <el-cascader
-          @change="queryByParamsWithAuth"
+          @change="queryByParamsWithAuth" :filter-method="filterZR"
           v-model="form.areaArray"
           :placeholder="language('QINGXUANZHE', '请选择')"
           :options="formGroup.areaList"
           :props="{ multiple: true }"
           :clearable="true"
           collapse-tags
+          filterable
         ></el-cascader>
       </el-form-item>
       <el-form-item :label="language('GONGYINGSHANGMINGCHEN', '供应商名称')">
@@ -37,13 +38,14 @@
             v-for="(item, index) in formGroup.supplierNameList"
             :key="index"
             :value="item.id"
-            :label="item.supplierNameCn"
+            :label="$getLabel(item.supplierNameCn,item.supplierNameEn)"
           >
           </el-option>
         </iSelect>
       </el-form-item>
       <el-form-item :label="language('ZONGCHENLINGJIAN', '总成零件')">
         <iSelect
+          style="width:250px"
           v-el-select-loadmore="loadmore"
           :placeholder="language('请选择')"
           :remote-method="remoteMethod"
@@ -71,7 +73,7 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { iSelect, iSearch, iMessage } from 'rise'
-import { getCity } from '@/api/supplierManagement/supplyChainOverall/index.js'
+import { getCity,getCityInfo } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import {
   queryByParamsDropDownWithAuth,
   queryPart
@@ -119,6 +121,11 @@ export default {
             return partNum.toLowerCase().includes(this.partsQuery.toLowerCase())
           })
         }
+        source.forEach(res=>{
+          if(!res.partName){
+            res.partName = "";
+          }
+        })
         return source.slice(0, pageNo * 10)
       }
       return []
@@ -152,10 +159,124 @@ export default {
   },
   // 方法集合
   methods: {
-    async getSelect() {
-      const res = await getCity()
-      this.formGroup.areaList = res
+    getCityInfo () {
+      var that = this;
+      return new Promise((resolve, reject) => {
+        getCityInfo().then(res=>{
+          if(res?.result){
+            let areaList = []
+            // 筛选国家
+            res.data.map((item) => {
+              if (item.locationType === 'Nation') {
+                if(that.$i18n.locale === "zh"){
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameCn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }else{
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameEn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }
+              }
+            })
+            // 筛选省
+            res.data.forEach((item) => {
+              areaList.forEach((val, index) => {
+                if (
+                  item.locationType === 'Province' &&
+                  item.parentCityId === val.cityId
+                ) {
+                  if(that.$i18n.locale === "zh"){
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameCn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }else{
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameEn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }
+                }
+              })
+            })
+            // 筛选市
+            res.data.forEach((item) => {
+              areaList.forEach((val, j) => {
+                val.children.forEach((i, index) => {
+                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
+                    if(that.$i18n.locale === "zh"){
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameCn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }else{
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameEn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }
+                  }
+                })
+              })
+            })
+            // 删除空数组
+            areaList.map((item) => {
+              if (item.children.length) {
+                item.children.map((val) => {
+                  if (item.children.length === 0) {
+                    delete val.children
+                  }
+                })
+              } else {
+                delete item.children
+              }
+            })
+            areaList.map((item) => {
+              return item.children && item.children
+            })
+            resolve(areaList)
+          }
+        }).catch(res=>{
+          reject();
+        })
+      })
     },
+    async getData(){
+      // const res = await this.getCityInfo()
+      this.getCityInfo().then(res=>{
+        this.formGroup.areaList = _.cloneDeep(res);
+        console.log(this.form)
+      })
+      // console.log(res);
+      // this.formGroup.areaList = res
+      // console.log(this.form)
+    },
+    filterZR(vnode,val){
+      if(vnode.text.toLowerCase().indexOf(val.toLowerCase()) > -1){
+        return vnode.text;
+      }
+    },
+    // async getSelect() {
+    //   const res = await getCity()
+    //   this.formGroup.areaList = res
+    // },
     async queryByParamsDropDownWithAuth(val) {
       const res = await queryByParamsDropDownWithAuth({ areaArray: val })
       this.formGroup.supplierNameList = res.data
@@ -175,11 +296,12 @@ export default {
           Vue.set(this.partsOptionsMap, supplierId, data)
           this.getTableList()
         }
-        console.log('this.partsOptionsMap', this.partsOptionsMap)
+        console.log('this.partsOptionsMap',1, this.partsOptionsMap)
       } else {
         const source = this.partsOptionsMap[supplierId] || []
         this.form.partNum = source[0]?.partNum
         this.getTableList()
+        console.log('this.partsOptionsMap',2, this.partsOptionsMap)
       }
     },
     async getTableList() {
@@ -226,7 +348,7 @@ export default {
     await this.queryByParamsDropDownWithAuth([])
     await this.queryPart(this.pageForm)
     this.getTableList()
-    this.getSelect()
+    this.getData()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {}

@@ -197,7 +197,7 @@ import copySupplierDialog from "./copySupplierDialog.vue";
 import "./component.css";
 import { chain, deleteNode, change } from "@/api/supplierManagement/supplyMaintain/index.js";
 import { iCard, iDialog, iButton, iInput, iLabel, iFormGroup, iFormItem, icon, iSelect } from 'rise'
-import { getCity } from "@/api/supplierManagement/supplyChainOverall/index.js";
+import { getCity,getCityInfo } from "@/api/supplierManagement/supplyChainOverall/index.js";
 import resultMessageMixin from "@/mixins/resultMessageMixin.js";
 import { dictByCode } from "./data";
 export default {
@@ -248,7 +248,7 @@ export default {
   },
   mounted () {
     this.getCardChain()
-    this.getCity()
+    this.getData()
     this.dictByCode()
     this.$nextTick(() => {
       this.outboxHeight = document.documentElement.getBoundingClientRect().height - this.$refs.nodeChain.$el.getBoundingClientRect().y - 60;
@@ -257,6 +257,115 @@ export default {
   created () {
   },
   methods: {
+    getCityInfo () {
+      var that = this;
+      return new Promise((resolve, reject) => {
+        getCityInfo().then(res=>{
+          if(res?.result){
+            let areaList = []
+            // 筛选国家
+            res.data.map((item) => {
+              if (item.locationType === 'Nation') {
+                if(that.$i18n.locale === "zh"){
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameCn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }else{
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameEn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }
+              }
+            })
+            // 筛选省
+            res.data.forEach((item) => {
+              areaList.forEach((val, index) => {
+                if (
+                  item.locationType === 'Province' &&
+                  item.parentCityId === val.cityId
+                ) {
+                  if(that.$i18n.locale === "zh"){
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameCn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }else{
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameEn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }
+                }
+              })
+            })
+            // 筛选市
+            res.data.forEach((item) => {
+              areaList.forEach((val, j) => {
+                val.children.forEach((i, index) => {
+                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
+                    if(that.$i18n.locale === "zh"){
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameCn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }else{
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameEn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }
+                  }
+                })
+              })
+            })
+            // 删除空数组
+            areaList.map((item) => {
+              if (item.children.length) {
+                item.children.map((val) => {
+                  if (item.children.length === 0) {
+                    delete val.children
+                  }
+                })
+              } else {
+                delete item.children
+              }
+            })
+            areaList.map((item) => {
+              return item.children && item.children
+            })
+            resolve(areaList)
+          }
+        }).catch(res=>{
+          reject();
+        })
+      })
+    },
+    async getData(){
+      // const res = await this.getCityInfo()
+      this.getCityInfo().then(res=>{
+        this.formGroup.areaList = _.cloneDeep(res);
+        console.log(this.form)
+      })
+      // console.log(res);
+      // this.formGroup.areaList = res
+      // console.log(this.form)
+    },
     // 过去零件信息
     async dictByCode () {
       const res = await dictByCode('NTIER_CHAIN_PART_TYPE')
@@ -271,11 +380,11 @@ export default {
       })
       this.formGroup.partList = res
     },
-    // 获取区域
-    async getCity () {
-      const res = await getCity()
-      this.formGroup.areaList = res
-    },
+    // // 获取区域
+    // async getCity () {
+    //   const res = await getCity()
+    //   this.formGroup.areaList = res
+    // },
     handleEdit (node) {
       this.node = node
       this.flag = 'edit'

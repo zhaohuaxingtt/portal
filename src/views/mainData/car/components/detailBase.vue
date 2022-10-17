@@ -82,7 +82,7 @@
                 v-for="item in productFamilyOptions"
                 :key="item.code"
                 :value="item.code"
-                :label="item.name"
+                :label="item.code"
               />
             </iSelect>
           </iFormItem>
@@ -347,31 +347,69 @@ export default {
       editstate: false,
       rules: {
         vwModelCode: [
-          { required: true, message: this.language('请输入车型编号'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请输入车型编号'),
+            trigger: 'blur'
+          }
         ],
         modelNameZh: [
-          { required: true, message: this.language('请输入车型名称'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请输入车型名称'),
+            trigger: 'blur'
+          }
         ],
         productCode: [
-          { required: true, message: this.language('请选择PID'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请选择PID'),
+            trigger: 'blur'
+          }
         ],
         carPlatformCode: [
-          { required: true, message: this.language('请选择平台属性'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请选择平台属性'),
+            trigger: 'blur'
+          }
         ],
         brandCode: [
-          { required: true, message: this.language('请选择所属品牌'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请选择所属品牌'),
+            trigger: 'blur'
+          }
         ],
         productFactory: [
-          { required: true, message: this.language('请选择投产工厂'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请选择投产工厂'),
+            trigger: 'blur'
+          }
         ],
         sourceType: [
-          { required: true, message: this.language('请选择Sourcing类别'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('请选择Sourcing类别'),
+            trigger: 'blur'
+          }
         ],
         carTypeLevel: [
-          { required: true, message: this.language('车型级别'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.language('车型级别'),
+            trigger: 'blur'
+          }
         ],
         isValid: [{ required: true, trigger: 'blur' }],
-        type: [{ required: true, message: this.language('请选择车型类型'), trigger: 'blur' }]
+        type: [
+          {
+            required: true,
+            message: this.language('请选择车型类型'),
+            trigger: 'blur'
+          }
+        ]
       },
       platformCodeOptions: [], // 平台属性
       modelTypeLevelOptions: [], // 车型级别
@@ -447,11 +485,15 @@ export default {
         this.$emit('reset', this.orginalBaseForm)
         this.editstate = false
       } else {
-        this.$confirm(this.language('页面内容有更新,是否保存?'), this.language('提示'), {
-          confirmButtonText:this.language('确定'),
-          cancelButtonText: this.language('取消'),
-          type: 'warning'
-        })
+        this.$confirm(
+          this.language('页面内容有更新,是否保存?'),
+          this.language('提示'),
+          {
+            confirmButtonText: this.language('确定'),
+            cancelButtonText: this.language('取消'),
+            type: 'warning'
+          }
+        )
           .then(() => {
             this.save()
           })

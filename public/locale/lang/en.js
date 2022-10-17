@@ -2091,6 +2091,7 @@
     MT_HUIYIJIANGE: 'Meeting Interval',
     MT_HUIYIZHOUQI: 'Conference Cycle',
     MT_KAISHISHIJIAN: 'Start Time',
+    MT_JIEZHISHIJIAN: 'End Time',
     MT_HUIYIDIZHI: 'Meeting Address',
     MT_SHOUJIANREN: 'Receiver',
     MT_QINGXUANZEHUIYILEIXNG: 'Please Select Meeting Type',
@@ -2370,6 +2371,12 @@
     MT_ZILIAOSHANGCHUANREN: 'Data Uploaded By',
     GONGYONG:"sharing",
     SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
+
+    ZYGDCGSGJLSZQS:"Major shareholders (more than ten listed only to the top ten)",
+
+    QSRTHYY:"Please enter the return reason",
+    "自动创建":"Automatic creation",
+    "手动创建":"Create Manually",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
