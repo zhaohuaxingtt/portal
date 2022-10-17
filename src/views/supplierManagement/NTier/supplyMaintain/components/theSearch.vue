@@ -45,6 +45,7 @@
       </el-form-item>
       <el-form-item :label="language('ZONGCHENLINGJIAN', '总成零件')">
         <iSelect
+          style="width:250px"
           v-el-select-loadmore="loadmore"
           :placeholder="language('请选择')"
           :remote-method="remoteMethod"
@@ -295,11 +296,12 @@ export default {
           Vue.set(this.partsOptionsMap, supplierId, data)
           this.getTableList()
         }
-        console.log('this.partsOptionsMap', this.partsOptionsMap)
+        console.log('this.partsOptionsMap',1, this.partsOptionsMap)
       } else {
         const source = this.partsOptionsMap[supplierId] || []
         this.form.partNum = source[0]?.partNum
         this.getTableList()
+        console.log('this.partsOptionsMap',2, this.partsOptionsMap)
       }
     },
     async getTableList() {

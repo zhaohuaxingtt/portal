@@ -684,6 +684,8 @@ export default {
     }
   },
   mounted() {
+        sessionStorage.setItem('msgInfo',true)
+
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
     this.getTableData()
