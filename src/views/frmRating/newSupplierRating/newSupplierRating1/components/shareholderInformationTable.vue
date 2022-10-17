@@ -9,6 +9,7 @@
 <template>
   <iCard collapse
          :title="$t('SPR_FRM_XGYSPJ_GDXX')">
+    <p style="color:red;margin-bottom:10px;">{{$t("ZYGDCGSGJLSZQS")}}</p>
     <tableList :tableData="tableListData"
                :tableTitle="shareholderInformationTitle"
                :tableLoading="tableLoading"

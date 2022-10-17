@@ -3912,4 +3912,8 @@ export default {
   SUPPLIER_FUKUANXIGUAN: 'Pay Habit',
   JINGQINGQIDAI: 'Stay tuned',
   JIARUHEIMINGDANGONGYONGCAIGOU: '加入黑名单 - 共用采购',
+  ZONGLAN: 'Overview',
+  XIANGQING:"Details",
+  NIANDUZHONGDIANZHUIZONG: 'Annual key tracking',
+  'BANNIANBAOHUIGU': 'Semi annual report review',
 }

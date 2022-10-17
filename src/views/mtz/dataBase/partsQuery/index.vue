@@ -326,7 +326,8 @@ export default {
         { code: "1", message: '生效' },
         { code: "0", message: '失效' }
       ]
-      this.$set(this.formData, 'endDate', currDate)
+      
+      // this.$set(this.formData, 'endDate', currDate)
       this.$set(this.formData, 'effectFlag', '1')
     },
     handlePartNumberDetail (e) {
@@ -504,5 +505,10 @@ export default {
 }
 ::v-deep .el-form-item {
   flex-direction: column;
+}
+
+::v-deep .el-form{
+  display: flex;
+  flex-flow: wrap;
 }
 </style>

@@ -15,14 +15,14 @@
                  v-model="form.eventName">
           <el-option v-for="(item,index) in eventType"
                          :key="index"
-                         :label="item.name"
+                         :label="$getLabel(item.name,item.nameEn)"
                          :value="item.name"></el-option>
         </iSelect>
         <!-- <iInput :placeholder="$t('LK_QINGSHURU')"
                 v-model="form.eventName"></iInput> -->
       </el-form-item>
       <el-form-item :label="language('QUYU','区域')">
-        <el-cascader v-model="form.area"
+        <el-cascader v-model="form.area" :filter-method="filterZR"
                      :placeholder="language('QUYU','区域')"
                      :options="formGoup.areaList"
                      :props="{multiple:true}"
@@ -46,8 +46,8 @@
                  v-model="form.createType">
           <el-option v-for="(item,index) in formGoup.createTypeList"
                      :key="index"
-                     :value="item"
-                     :label="item">
+                     :value="item.value"
+                     :label="$getLabel(item.labelZ,item.labelE)">
           </el-option>
         </iSelect>
       </el-form-item>
@@ -57,7 +57,8 @@
 
 <script>
 import { iSearch, iInput, iDatePicker, iSelect } from 'rise'
-import { getCity } from "@/api/supplierManagement/supplyChainOverall/index.js";
+import { getCity,getCityInfo } from "@/api/supplierManagement/supplyChainOverall/index.js";
+
 export default {
   components: {
     iSearch,
@@ -92,17 +93,137 @@ export default {
       },
       formGoup: {
         areaList: [],
-        createTypeList: ['自动创建', '手动创建']
+        createTypeList: []
       },
     }
   },
   created () {
-    this.getCityInfo()
+    this.getData()
+    this.formGoup.createTypeList = [
+      {
+        value:"自动创建",
+        labelZ:'自动创建',
+        labelE:'Automatic creation',
+      },{
+        value:"手动创建",
+        labelZ:'手动创建',
+        labelE:'Create Manually',
+      }
+    ]
   },
   methods: {
-    async getCityInfo () {
-      const res = await getCity()
-      this.formGoup.areaList = res
+    filterZR(vnode,val){
+      if(vnode.text.toLowerCase().indexOf(val.toLowerCase()) > -1){
+        return vnode.text;
+      }
+    },
+    getData(){
+      this.getCityInfo().then(res=>{
+        console.log(res);
+        this.formGoup.areaList = _.cloneDeep(res);
+        console.log(this.form)
+      })
+    },
+    getCityInfo () {
+      var that = this;
+      return new Promise((resolve, reject) => {
+        console.log(that.$i18n.locale);
+        getCityInfo().then(res=>{
+          if(res?.result){
+            let areaList = []
+            // 筛选国家
+            res.data.map((item) => {
+              if (item.locationType === 'Nation') {
+                if(that.$i18n.locale === "zh"){
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameCn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }else{
+                  areaList.push({
+                    value: item.cityNameCn,
+                    label: item.cityNameEn,
+                    cityId: item.cityId,
+                    children: []
+                  })
+                }
+              }
+            })
+            // 筛选省
+            res.data.forEach((item) => {
+              areaList.forEach((val, index) => {
+                if (
+                  item.locationType === 'Province' &&
+                  item.parentCityId === val.cityId
+                ) {
+                  if(that.$i18n.locale === "zh"){
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameCn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }else{
+                    areaList[index].children.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameEn,
+                      cityId: item.cityId,
+                      parentCityId: item.parentCityId,
+                      children: []
+                    })
+                  }
+                }
+              })
+            })
+            // 筛选市
+            res.data.forEach((item) => {
+              areaList.forEach((val, j) => {
+                val.children.forEach((i, index) => {
+                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
+                    if(that.$i18n.locale === "zh"){
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameCn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }else{
+                      areaList[j].children[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameEn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId
+                      })
+                    }
+                  }
+                })
+              })
+            })
+            // 删除空数组
+            areaList.map((item) => {
+              if (item.children.length) {
+                item.children.map((val) => {
+                  if (item.children.length === 0) {
+                    delete val.children
+                  }
+                })
+              } else {
+                delete item.children
+              }
+            })
+            areaList.map((item) => {
+              return item.children && item.children
+            })
+            console.log(areaList)
+            resolve(areaList)
+          }
+        }).catch(res=>{
+          reject();
+        })
+      })
     },
     handleSubmitTime (e) {
       this.form.occurrenceStartTime = e[0]

@@ -40,6 +40,15 @@
         :total="page.totalCount"
       />
     </iCard>
+    <dialogApproval
+      v-if="dialogApprovalVisible"
+      :visible="dialogApprovalVisible"
+      :item="selectTableData[0]"
+      :type="agreeType"
+      :title="dialogApprovalTitle"
+      @success="approvelSuccess"
+      @close="dialogApprovalVisible = false"
+    />
   </iPage>
 </template>
 
@@ -55,13 +64,19 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
-import { actionButtons, actionHeader, searchForm } from './components'
+import {
+  actionButtons,
+  actionHeader,
+  searchForm,
+  dialogApproval
+} from './components'
 import { queryUndoApprovals } from '@/api/approval/myApproval'
 import {
   completeApproval,
   stageCompleteApproval
 } from '@/api/approval/myApproval'
 import { filterEmptyValue } from '@/utils'
+import { excelExport } from '@/utils/filedowLoad'
 
 export default {
   mixins: [pageMixins, filters, taskMixin],
@@ -73,7 +88,8 @@ export default {
     pageHeader,
     searchForm,
     actionHeader,
-    actionButtons
+    actionButtons,
+    dialogApproval
   },
   data() {
     return {
@@ -137,7 +153,7 @@ export default {
 
         {
           prop: 'createDate',
-          label: '任务开始时间?',
+          label: '任务开始时间',
           i18n: '任务开始时间',
           tooltip: true,
           width: 120,
@@ -151,7 +167,7 @@ export default {
         },
         {
           prop: 'applyUserName',
-          label: '申请人?',
+          label: '申请人',
           i18n: '申请人',
           tooltip: true,
           width: 150,
@@ -192,7 +208,8 @@ export default {
       dialogApprovalVisible: false,
       todoTotal: 0,
       approvalTypeMap: MAP_APPROVAL_TYPE,
-      templates: []
+      templates: [],
+      dialogApprovalTitle: ''
     }
   },
   created() {
@@ -279,7 +296,10 @@ export default {
           this.loading = false
         })
     },
-    async batchComplete(type) {
+    async batchComplete(type, title) {
+      console.log(type)
+      console.log(title)
+      this.agreeType = type
       if (type === MAP_APPROVAL_TYPE.AGREE) {
         this.loading = true
         const errorMsgs = []
@@ -330,7 +350,9 @@ export default {
 
         this.loading = false
       } else {
-        this.goDetail(this.selectTableData[0], this.taskType)
+        this.dialogApprovalVisible = true
+        this.dialogApprovalTitle = title
+        // this.goDetail(this.selectTableData[0], this.taskType)
       }
     },
     onComplete(row, type) {
@@ -339,6 +361,18 @@ export default {
     approvelSuccess() {
       this.dialogApprovalVisible = false
       this.getTableList()
+    },
+
+    //导出
+    exportTemplate() {
+      if (!this.selectTableData.length) {
+        return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
+      }
+      excelExport(
+        this.selectTableData,
+        this.tableTitle.filter((item) => item.type != 'selection'),
+        this.language('待审批列表')
+      )
     }
   }
 }

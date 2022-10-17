@@ -22,7 +22,7 @@ export function excelExport(data,title,name){
     for (let i = 0; i < title.length; i++) {
       worksheet['!cols'][i] =  //设置表格的宽度
         {
-          wpx: 120,
+          wpx: title[i].width || title[i].minWidth || 120,
         }
     }
     // 创建工作簿
@@ -60,8 +60,8 @@ function translateData(data,title){
   let baseName = []
   let baseKey = []
   for(let i in title){
-    baseName.push(title[i].name)
-    baseKey.push(title[i].props)
+    baseName.push(title[i].name||title[i].label)
+    baseKey.push(title[i].props||title[i].prop)
   }
   baseName = [baseName]
   data.forEach(element => {

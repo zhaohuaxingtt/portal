@@ -105,11 +105,26 @@
               type="textarea"
               rows="4"></iInput>
     </iCard>
+
+
+    <iDialog
+      :visible="goSullpierType"
+      v-if="goSullpierType"
+      width="30%"
+      @close="close"
+      :title="$t('QSRTHYY')"
+      >
+      <iInput style="margin-bottom:20px;" type="textarea" :rows="10" :placeholder="$t('QSRTHYY')" v-model="textarea" maxlength="300"></iInput>
+      <div class="sullpierGo">
+        <iButton @click="bingo">{{$t('LK_QUEREN')}}</iButton>
+        <iButton @click="close">{{$t('MT_QUXIAO')}}</iButton>
+      </div>
+    </iDialog>
   </div>
 </template>
 
 <script>
-import { iCard, iButton, iFormGroup, iFormItem, iText, iLabel, iInput } from "rise";
+import { iCard, iButton, iFormGroup, iFormItem, iText, iLabel, iInput,iDialog } from "rise";
 import { supplierMessageTitle,supplierMessageTitleSP } from "../../components/data"
 import { getNewSupplierInfo, backProcurement, getApprove } from "@/api/frmRating/newSupplierRating/newSupplierRating";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
@@ -117,7 +132,7 @@ import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 export default {
   mixins: [generalPageMixins],
   components: {
-    iCard, iButton, iFormGroup, iFormItem, iLabel, iText, iInput
+    iCard, iButton, iFormGroup, iFormItem, iLabel, iText, iInput,iDialog
   },
   data () {
     return {
@@ -128,7 +143,10 @@ export default {
         remark: ''
       },
       baseMsg: {},
-      supplierToken: ""
+      supplierToken: "",
+
+      goSullpierType:false,
+      textarea:"",
     }
   },
   computed: {
@@ -140,6 +158,10 @@ export default {
     this.getInfo()
   },
   methods: {
+    close(){
+      this.goSullpierType = false;
+      this.textarea = "";
+    },
     async getInfo () {
       const pms = {
         ratingId: this.$route.query.ratingId || this.$route.query.id,
@@ -179,14 +201,22 @@ export default {
         }
       })
     },
-    async handleBackProcurement () {
-      const pms = {
-        ratingSupplierId: this.$route.query.supplierId || ''
+    async bingo(){
+      if(this.textarea){
+        const pms = {
+          ratingSupplierId: this.$route.query.supplierId || '',
+          remark:this.textarea
+        }
+        const res = await backProcurement(pms)
+        this.resultMessage(res, () => {
+          this.$router.push({ path: '/supplier/frmrating/newsupplierrating' })
+        })
+      }else{
+        iMessage.error(this.$t('QSRTHYY'))
       }
-      const res = await backProcurement(pms)
-      this.resultMessage(res, () => {
-        this.$router.push({ path: '/supplier/frmrating/newsupplierrating' })
-      })
+    },
+    handleBackProcurement () {
+      this.goSullpierType = true;
     }
   }
 }
@@ -206,5 +236,11 @@ export default {
     margin: 0 10px;
     background-color: $color-black;
   }
+}
+.sullpierGo{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom:30px;
 }
 </style>
