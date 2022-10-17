@@ -215,7 +215,7 @@ export default {
     },
     // 跳转报警信详情
     gotoAlarm(row) {
-      // return iMessage.warn('暂无URL,跳转报警信详情')
+      row.source = 'CAPACITY_RED_LIGHT'
       let router = this.$router.resolve({
         path: '/capacityManagement/alarmLetter',
         query: {
