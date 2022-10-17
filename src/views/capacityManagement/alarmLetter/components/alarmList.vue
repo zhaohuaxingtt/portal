@@ -85,11 +85,11 @@ export default {
       }
       if (row.source == 'CAPACITY_RED_LIGHT') {
         // 其它,待发送报警信页面跳转过来携带的是warningLetterId
-        letterId = row.letterTaskId
+        letterId = row.letterTaskId || row.id
         type = 1
       } else if (row.source == 'OTHER') {
         // 其它,待发送报警信页面跳转过来携带的是warningLetterId
-        letterId = row.letterTaskId || row.warningLetterId
+        letterId = row.id || row.warningLetterId
         type = 2
       } else if (!row.source) {
         // Ntier 事件跳转进来
