@@ -195,6 +195,7 @@ export default {
           })
         }
         this.cloneList = _.cloneDeep(this.tableListData)
+        console.log(this.cloneList,323323132)
         this.tableLoading = false
       } catch {
         this.tableListData = []
@@ -270,13 +271,23 @@ export default {
           r.versionNum = 0
         })
         arr.itemList = arr.itemList.map((item, i) => {
-          return {
-            ...item,
-            parentId: arr.id,
-            itemId: this.tableTitleData[i].id,
-            itemCode: this.tableTitleData[i].itemCode
+          console.log(item,1111111111)
+          console.log(this.tableTitleData[i],222222222)
+          if(this.tableTitleData[i]){
+            return {
+              ...item,
+              parentId: arr.id,
+              itemId: this.tableTitleData[i].id,
+              itemCode: this.tableTitleData[i].itemCode
+            }
+          }else{
+            return {
+              ...item,
+              parentId: arr.id,
+            }
           }
         })
+        
         //返回数据若所有下拉框有回填数据，itemList的每个id不能为空，要为返回的id，第一次提交itemList的id为空
         this.cloneList.forEach((res) => {
           if (res.id == arr.id) {
@@ -382,6 +393,7 @@ export default {
           })
           this.cloneList = _.cloneDeep(this.tableListData)
 
+          console.log(this.cloneList)
           // this.qualiativeTable = []
 
           // this.tableListData.forEach((data) => {
@@ -409,7 +421,7 @@ export default {
       }
     },
     getTableList() {
-      console.log(this.action)
+      // console.log(this.action)
       if (this.action === 'view') {
         this.getViewTableList()
       } else {

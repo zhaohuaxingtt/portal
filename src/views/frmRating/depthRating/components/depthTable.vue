@@ -89,11 +89,8 @@
             v-model="scope.row.status"
           >
             <el-option value="信息收集" label="信息收集"></el-option>
+            <el-option value="财务经营与分析" label="财务经营与分析"></el-option>
             <el-option value="访谈与调查" label="访谈与调查"></el-option>
-            <el-option
-              value="财务经营与分析"
-              label="财务经营与分析"
-            ></el-option>
             <el-option value="报告完成" label="报告完成"></el-option>
           </iSelect>
         </span>
@@ -521,10 +518,12 @@ export default {
     // 终止
     openEnd() {
       if (this.isSelect()) return
+      console.log(this.currentSelect);
       // 判断是否满足终止条件
       let result = this.currentSelect.every(
         (item) =>
           item.status == '报告驳回' ||
+          item.status == '报告完成' ||
           item.status == '信息收集' ||
           item.status == '财务经营与分析' ||
           item.status == '清单审批驳回' ||

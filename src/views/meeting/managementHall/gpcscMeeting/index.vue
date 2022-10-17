@@ -1,6 +1,6 @@
 <!--
  * @Author: HS  gpcsc会议
- * @FilePath: \front-portal-gpd:\新建文件夹\front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
+ * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
 -->
 <template>
   <iPage>
@@ -414,9 +414,11 @@
             >
               <template slot-scope="scope">
                 <icon
+                   v-if="scope.row.sign=='S'||scope.row.sign=='F'"
                   symbol
                   :name="scope.row.sign=='S' ? 'iconicon-baofeichuzhi' : scope.row.sign=='F' ?'iconicon-fenduandingdian':''"
                 ></icon>
+                <span v-if="scope.row.sign=='手工'" class="font-bj">手</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -1278,6 +1280,7 @@ export default {
     }
   },
   mounted() {
+    sessionStorage.setItem('msgInfo',true)
     // this.type = this.$route.query.type
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
@@ -1303,6 +1306,9 @@ export default {
   //     );
   //   }
   // },
+  destroyed(){
+    // sessionStorage.removeItem('msgInfo')
+  },
   methods: {
     handleResultObj(row) {
       this.newSelectedTableData = row
@@ -3014,6 +3020,10 @@ export default {
 ::v-deep .open-link-text {
   /* cursor: pointer; */
   color: #000;
+}
+.font-bj{
+  font-weight: bold;
+  color:#1763f7 ;
 }
 ::v-deep .look-themen-click {
   cursor: pointer;

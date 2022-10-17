@@ -15,12 +15,13 @@
       <el-form>
         <el-col :span="4">
           <el-form-item :label="language('QUYU','区域')">
-            <el-cascader v-model="form.areaArray"
+            <el-cascader v-model="form.areaArray" :filter-method="filterZR"
                          :placeholder="language('GUOJIA_SHENGFEN_DIQU','国家-省份-地区')"
                          :options="areaList"
                          @visible-change="visibleChange"
                          :props="{multiple:true}"
                          :clearable="true"
+                         filterable
                          collapse-tags></el-cascader>
           </el-form-item>
         </el-col>
@@ -300,6 +301,11 @@ export default {
   },
   // 方法集合
   methods: {
+    filterZR(vnode,val){
+      if(vnode.text.toLowerCase().indexOf(val.toLowerCase()) > -1){
+        return vnode.text;
+      }
+    },
     handleInitTable () {
       if (JSON.stringify(this.supplierName) === '{}') {
         iMessage.error(this.language('QINGXUANZEXIAYOUGONGYINGSHANG', '请选择下游供应商'))
