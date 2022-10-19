@@ -9,7 +9,7 @@
 
 <template>
   <iPage>
-    <approveTable></approveTable>
+    <approveTable v-bind="$attrs"></approveTable>
   </iPage>
 </template>
 
@@ -21,17 +21,11 @@ export default {
     iPage,
     approveTable
   },
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   },
-  created () {
-
-  },
-  methods: {
-
-  }
+  created() {},
+  methods: {}
 }
 </script>
 

@@ -3,20 +3,13 @@ import axios from '@/utils/axios'
 const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 const requestChip = axios(process.env.VUE_APP_MTZ + '/web/chip')
 const req = axios(process.env.VUE_APP_APPROVAL + '/web')
+const requestParts = axios(process.env.VUE_APP_PART)
+const requestPartCode = axios(process.env.VUE_APP_MATERIEL)
 
 export function pageMtzNomi(parmars) {
   //mtz定点列表查询
   return request({
     url: '/mtzNomiList/pageMtzNomi',
-    method: 'POST',
-    data: parmars
-  })
-}
-
-export function getFlowTypeList(parmars) {
-  //mtz定点流程类型下拉
-  return request({
-    url: '/mtzNomiList/getFlowTypeList',
     method: 'POST',
     data: parmars
   })
@@ -572,6 +565,25 @@ export function getMtzNomiRuleBuyer(parmars) {//mtz沿用规则采购员下拉
 // ================= chip ==================
 // ================= chip ==================
 // ================= chip ==================
+
+// 根据零件号查询零件信息
+export function validationPart(params) {
+  return requestParts({
+    url: `/part`,
+    params,
+  })
+}
+
+export function getFlowTypeList(parmars) {
+  //mtz定点流程类型下拉
+  return request({
+    url: '/mtzNomiList/getFlowTypeList',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+
 // 查询
 export function getAppList(data) {
   return requestChip({
@@ -580,9 +592,16 @@ export function getAppList(data) {
     data
   })
 }
+// 获取单个定点申请单
+export function getAppById(params) {
+  return requestChip({
+    url: '/getAppById',
+    method: 'POST',
+    params
+  })
+}
 // 芯片补差新增，初始化
 export function addAppInit(params) {
-  console.log(params);
   return requestChip({
     url: '/addAppInit',
     method: 'POST',
@@ -601,6 +620,14 @@ export function freezeData(data) {
 export function unFreeze(data) {
   return requestChip({
     url: '/unFreeze',
+    method: 'POST',
+    data
+  })
+}
+// 会外流转
+export function meetingOutFlow(data) {
+  return requestChip({
+    url: '/meetingOutFlow',
     method: 'POST',
     data
   })
@@ -642,6 +669,78 @@ export function deleteData(data) {
   return requestChip({
     url: '/delete',
     method: 'POST',
+    data
+  })
+}
+
+// 更新申请单
+export function updateApp(data) {
+  return requestChip({
+    url: '/updateApp',
+    method: 'POST',
+    data
+  })
+}
+
+// 申请单新增规则校验
+export function addAppDetailCheck(params) {
+  return requestChip({
+    url: '/addAppDetailCheck',
+    method: 'POST',
+    params
+  })
+}
+
+// 申请单新增规则保存
+export function addAppDetail(data, appId) {
+  return requestChip({
+    url: `/addAppDetail?appId=${appId}`,
+    method: 'POST',
+    data
+  })
+}
+
+// 通过零件号获取零件Id
+export function getPartCodeId(data) {
+  return requestPartCode({
+    url: "/web/part",
+    method: "GET",
+    params: data
+  })
+}
+
+// 删除规则
+export function deleteAppDetail(data) {
+  return requestChip({
+    url: "/deleteAppDetail",
+    method: "POST",
+    data
+  })
+}
+
+// 申请单规则单个查询
+export function getAppRecordByCondition(data) {
+  return requestChip({
+    url: "/getAppRecordByCondition",
+    method: "POST",
+    data
+  })
+}
+
+//审批⼈&审批记录-分页查询
+export function pageApprove(params) {
+  return requestChip({
+    url: '/pageApprove',
+    method: 'POST',
+    params
+  })
+}
+
+// 申请单审批人保存更新
+export function modifyApprove(data, appId) {
+  return requestChip({
+    url: `/modifyApprove?appId=${appId}`,
+    method: "POST",
     data
   })
 }

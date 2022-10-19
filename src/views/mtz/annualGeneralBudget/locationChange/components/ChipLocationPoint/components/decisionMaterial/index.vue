@@ -8,7 +8,14 @@
 -->
 <template>
   <div class="downPdfBox">
-    <iNavMvp v-if="RsObject" lang :list="tabRouterList" class="margin-bottom20" :lev="3" @change="handleClickNav"/>
+    <iNavMvp
+      v-if="RsObject"
+      lang
+      :list="tabRouterList"
+      class="margin-bottom20"
+      :lev="3"
+      @change="handleClickNav"
+    />
     <mtz v-if="currentNav == 1" :RsType="RsType" :appStatus="appStatus" />
     <accessoryUpload v-if="currentNav == 2" :appStatus="appStatus" />
   </div>
@@ -19,34 +26,33 @@ import { iNavMvp } from 'rise'
 import mtz from './components/mtz'
 import accessoryUpload from './components/accessoryUpload'
 import { tabRouterList } from './components/data'
-import { getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { getAppById } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   components: {
     iNavMvp,
     mtz,
     accessoryUpload
   },
-  props:{
-    RsType:{ type: Boolean },
+  props: {
+    RsType: {
+      type: Boolean
+    },
+    appStatus: {
+      type: String
+    }
   },
-  data () {
+  data() {
     return {
       tabRouterList,
       currentNav: 1,
       formData: {},
-      RsObject:true,
-      appStatus:"",
+      RsObject: true
     }
   },
   created() {
-    if(this.RsType){
-      this.RsObject = false;
+    if (this.RsType) {
+      this.RsObject = false
     }
-    getAppFormInfo({
-      mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId
-    }).then(res=>{
-      this.appStatus = res.data.appStatus;
-    })
   },
   methods: {
     // 点击导航
@@ -54,13 +60,9 @@ export default {
       this.currentNav = data.value
     }
   },
-  destroyed(){
-    
-  }
+  destroyed() {}
 }
 </script>
 
 <style lang='scss' scoped>
-
- 
 </style>

@@ -64,13 +64,12 @@ export default {
         addAppInit({
           appName: this.form.name
         }).then((res) => {
-          if (res.result && res.code == '200') {
-            var data = deepClone(this.$route.query)
-            data.mtzAppId = res.data
-            store.commit('routerMtzData', data)
-            sessionStorage.setItem('MtzLIst', JSON.stringify(data))
-            this.$emit('close', '')
+          if (res?.code == '200') {
             this.loading = false
+            this.$emit('close', '')
+            this.$router.push({
+              path: `applyInfor?appId=${res.data}`
+            })
           } else {
             iMessage.error(res.desZh)
             this.loading = false

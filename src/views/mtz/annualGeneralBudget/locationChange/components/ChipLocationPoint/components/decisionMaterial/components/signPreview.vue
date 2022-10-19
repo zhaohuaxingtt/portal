@@ -9,127 +9,139 @@
   tabsBoxTitle打印页眉
 -->
 <template>
-  <div style="padding-bottom:30px;">
+  <div style="padding-bottom: 30px">
     <span class="download_btn" v-if="!editMode">
       <!-- <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton> -->
     </span>
     <div id="content">
       <!-- class="content_dialog" -->
       <!-- 水印 -->
-      <div class="" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
+      <div
+        class=""
+        v-if="
+          m1 &&
+          (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+        "
+      ></div>
       <iCard class="upload_hr" id="tabsBoxTitle">
         <div slot="header" class="headBox">
-          <p class="headTitle">{{title}}</p>
+          <p class="headTitle">{{ title }}</p>
           <div class="tabs_box_right">
             <div class="big_text">
-              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+              <span class="samll_val"
+                >{{ formData.mtzAppId }}-{{ formData.appName }}</span
+              >
             </div>
             <div class="small_text">
               <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
               <span>Application date：</span>
-              <span class="samll_val">{{formData.createDate}}</span>
+              <span class="samll_val">{{ formData.createDate }}</span>
             </div>
             <div class="small_text">
               <!-- <span>{{language("KESHI","科室")}}：</span> -->
               <span>Commodity：</span>
-              <span class="samll_val">{{formData.linieDeptName}}</span>
+              <span class="samll_val">{{ formData.linieDeptName }}</span>
             </div>
             <div>
               <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
               <span>Buyer：</span>
-              <span class="samll_val">{{formData.linieNameEn}}</span>
+              <span class="samll_val">{{ formData.linieNameEn }}</span>
             </div>
           </div>
         </div>
-        <el-divider class="hr_divider" />
-        <div class="infor_futitle">
-          <span class="big_font">Regulation:</span>
-          <br />
-          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
-          <span class="big_small">When:effective price > base price *(1+threshold)</span>
-        </div>
-        <el-divider v-if="ruleTableListData.length>0" />
-        <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
+        <el-divider v-if="ruleTableListData.length > 0" />
+        <p class="tableTitle" v-if="ruleTableListData.length > 0">
+          {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
+        </p>
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
-          v-if="ruleTableListData.length>0"
+          v-if="ruleTableListData.length > 0"
           :tableTitle="ruleTableTitle1_1"
           :tableLoading="loading"
           :index="true"
-          :selection="false">
-          <template slot-scope="scope"
-                    slot="sapCode">
-            <span>{{scope.row.sapCode}}</span><br/>
-            <span>{{scope.row.supplierName}}</span>
+          :selection="false"
+        >
+          <template slot-scope="scope" slot="sapCode">
+            <span>{{ scope.row.sapCode }}</span
+            ><br />
+            <span>{{ scope.row.supplierName }}</span>
           </template>
           <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            <span>{{
+              scope.row.compensationPeriod == 'A'
+                ? '年度'
+                : scope.row.compensationPeriod == 'H'
+                ? '半年度'
+                : scope.row.compensationPeriod == 'Q'
+                ? '季度'
+                : scope.row.compensationPeriod == 'M'
+                ? '月度'
+                : ''
+            }}</span>
           </template>
           <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            <span>{{
+              scope.row.thresholdCompensationLogic == 'A'
+                ? '全额补差'
+                : scope.row.thresholdCompensationLogic == 'B'
+                ? '超额补差'
+                : ''
+            }}</span>
           </template>
         </tableList>
-
-        <el-divider class="margin-top20" v-if="partTableListData.length>0" />
-        <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
-        <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_1"
-          v-if="partTableListData.length>0"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope"
-                    slot="sapCode">
-            <span>{{scope.row.sapCode}}</span><br/>
-            <span>{{scope.row.supplierName}}</span>
-          </template>
-          <template slot-scope="scope" slot="compensationPeriod">
-              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-            </template>
-        </tableList>
-      
       </iCard>
       <iCard class="margin-top20">
-        <div slot="header"
-            class="headBox">
-          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
+        <div slot="header" class="headBox">
+          <p class="headTitle">{{ language('BEIZHU', '备注') }}-Remarks</p>
         </div>
-        <iInput v-model="formData.linieMeetingMemo"
-                class="margin-top10"
-                :disabled="true"
-                :rows="8"
-                type="textarea" />
+        <iInput
+          v-model="formData.linieMeetingMemo"
+          class="margin-top10"
+          :disabled="true"
+          :rows="8"
+          type="textarea"
+        />
       </iCard>
-      <iCard v-if="applayDateData.length>0" class="margin-top20">
-        <p>{{language('SHENQINGRIQI','申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
+      <iCard v-if="applayDateData.length > 0" class="margin-top20">
+        <p>
+          {{ language('SHENQINGRIQI', '申请日期') }}:{{
+            moment(new Date()).format('YYYY-MM-DD')
+          }}
+        </p>
         <div class="applayDateBox1">
-          <div class="applayDateContent"
-               v-for="(item, index) in applayDateData"
-               :key="index">
-            <img class="margin-left5 applayDateIcon"
-               :src="item.taskStatus==='同意'?require('@/assets/images/icon/yes.png'):require('@/assets/images/icon/no.png')"
-               :fit="fit" />
+          <div
+            class="applayDateContent"
+            v-for="(item, index) in applayDateData"
+            :key="index"
+          >
+            <img
+              class="margin-left5 applayDateIcon"
+              :src="
+                item.taskStatus === '同意'
+                  ? require('@/assets/images/icon/yes.png')
+                  : require('@/assets/images/icon/no.png')
+              "
+              :fit="fit"
+            />
             <div class="applayDateContentItem first_one">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
+              <span class="applayDateDeptTitle">{{ item.deptFullCode }}</span>
             </div>
             <div class="applayDateContentItem">
               <span>审批人：</span>
-              <span>{{item.nameZh}}</span>
+              <span>{{ item.nameZh }}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
-              <span>{{item.endTime}}</span>
+              <span>{{ item.endTime }}</span>
             </div>
           </div>
         </div>
       </iCard>
       <div class="margin-top30 deptBox" v-if="!m1">
         <div class="deptItem" v-for="(item, index) in deptData" :key="index">
-          <p>{{item.approvalDepartment}}：</p>
+          <p>{{ item.approvalDepartment }}：</p>
           <div></div>
         </div>
       </div>
@@ -139,16 +151,22 @@
 
 <script>
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
-import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1, partTableTitle1_1} from './data'
-import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { ruleTableTitle1_1 } from './data'
+import {
+  getAppFormInfo,
+  pageAppRule,
+  pagePartMasterData,
+  fetchSaveCs1Remark,
+  fetchSignPreviewDept,
+  approvalList
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
+import { dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 // import { exportAsPDF } from '@/utils/PDFExport';
 export default {
   mixins: [pageMixins],
-  props:["m1"],
+  props: ['m1'],
   components: {
     iCard,
     icon,
@@ -157,31 +175,27 @@ export default {
     iPagination,
     tableList
   },
-  data () {
+  data() {
     return {
       formData: {},
-      formList,
       ruleTableTitle1_1,
-
-      partTableTitle1_1,
-
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
         currPage: 1,
         pageSizes: 10,
-        layout: 'sizes, prev, pager, next, jumper',
+        layout: 'sizes, prev, pager, next, jumper'
       },
       partTableListData: [],
       partPageParams: {
         totalCount: 0,
         currPage: 1,
         pageSizes: 10,
-        layout: 'sizes, prev, pager, next, jumper',
+        layout: 'sizes, prev, pager, next, jumper'
       },
       applayDateData: [],
       deptData: [],
-      moment: window.moment,
+      moment: window.moment
 
       // uploadTableLj:false,
       // uploadTableGz:false,
@@ -189,12 +203,12 @@ export default {
   },
   created() {
     // this.$nextTick(e=>{
-      console.log(this.m1)
-      this.getAppFormInfo()
-      this.initApplayDateData()
-      this.getPageAppRule()
-      this.getPagePartMasterData()
-      this.getSignPreviewDept()
+    console.log(this.m1)
+    this.getAppFormInfo()
+    this.initApplayDateData()
+    this.getPageAppRule()
+    this.getPagePartMasterData()
+    this.getSignPreviewDept()
     // })
   },
   computed: {
@@ -204,35 +218,35 @@ export default {
         case 'MEETING':
           // 上会
           res = 'CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
-          break;
+          break
         case 'SIGN':
           // 流转
           res = '流转定点推荐 - MTZ Nomination Recommendation - MTZ'
-          break;
+          break
         case 'FILING':
           // 备案
           res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
-          break;
+          break
         default:
-          break;
+          break
       }
-      return res 
+      return res
     },
     isMeeting() {
       return this.formData.flowType == 'MEETING'
     },
-    mtzObject(){
-      return this.$store.state.location.mtzObject;
+    mtzObject() {
+      return this.$store.state.location.mtzObject
     }
   },
   watch: {
-    mtzObject(newVlue,oldValue){
-
-    }
+    mtzObject(newVlue, oldValue) {}
   },
   methods: {
-    initApplayDateData () {
-      approvalList({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
+    initApplayDateData() {
+      approvalList({
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+      }).then((res) => {
         if (res?.code === '200') {
           let data = res.data
           this.applayDateData = data
@@ -240,14 +254,13 @@ export default {
           iMessage.error(res.desZh)
         }
       })
-
     },
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
         mtzAppId: this.$route.query.mtzAppId
-      }).then(res => {
-        if(res && res.code == 200) {
+      }).then((res) => {
+        if (res && res.code == 200) {
           this.formData = res.data
         } else iMessage.error(res.desZh)
       })
@@ -259,31 +272,31 @@ export default {
         // pageNo: this.rulePageParams.currPage,
         // pageSize: this.rulePageParams.pageSize,
         pageNo: 1,
-        pageSize: 999999,
-      }).then(res => {
-        if(res && res.code == 200) {
+        pageSize: 999999
+      }).then((res) => {
+        if (res && res.code == 200) {
           this.ruleTableListData = res.data
           this.rulePageParams.totalCount = res.total
 
-          res.data.forEach(e=>{//判断是否有贵金属合金
-            if(e.preciousMetalDosageUnit !== ""){
-              this.uploadTableGz = true;
+          res.data.forEach((e) => {
+            //判断是否有贵金属合金
+            if (e.preciousMetalDosageUnit !== '') {
+              this.uploadTableGz = true
             }
           })
-
         } else iMessage.error(res.desZh)
       })
     },
     // 获取零件清单表格数据
     getPagePartMasterData() {
       pagePartMasterData({
-        mtzAppId:this.$route.query.mtzAppId,
+        mtzAppId: this.$route.query.mtzAppId,
         // pageNo: this.partPageParams.currPage,
         // pageSize: this.partPageParams.pageSize,
         pageNo: 1,
-        pageSize: 999999,
-      }).then(res => {
-        if(res && res.code == 200) {
+        pageSize: 999999
+      }).then((res) => {
+        if (res && res.code == 200) {
           this.partTableListData = res.data
 
           // res.data.forEach(e=>{//判断是否有贵金属合金
@@ -296,12 +309,12 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    // 获取部门数据 
+    // 获取部门数据
     getSignPreviewDept() {
       fetchSignPreviewDept({
         mtzAppId: this.$route.query.mtzAppId
-      }).then(res => {
-        if(res && res.code == 200) {
+      }).then((res) => {
+        if (res && res.code == 200) {
           this.deptData = res.data
         } else iMessage.error(res.error)
       })
@@ -309,19 +322,19 @@ export default {
     // 点击保存
     handleClickSave() {
       let params = {}
-      if(this.isMeeting) {
+      if (this.isMeeting) {
         params = {
           mtzAppId: this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
-      } else if(this.isFinite) {
+      } else if (this.isFinite) {
         params = {
           mtzAppId: this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
-      fetchSaveCs1Remark(params).then(res => {
-        if(res && res.code == 200) {
+      fetchSaveCs1Remark(params).then((res) => {
+        if (res && res.code == 200) {
           this.getAppFormInfo()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
@@ -342,34 +355,34 @@ export default {
     // },
     // 导出：导出当前为pdf
     handleClickExport() {
-      var name = "";
-      if (this.title == "") {
-        name = "MTZ申请单"+this.$route.query.mtzAppId +"流转导出";
+      var name = ''
+      if (this.title == '') {
+        name = 'MTZ申请单' + this.$route.query.mtzAppId + '流转导出'
       } else {
-        name = this.title;
+        name = this.title
       }
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       transverseDownloadPDF({
         idEle: 'content',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
-        title:['#tabsBoxTitle .cardHeader'],//顶部页眉dom节点
+        title: ['#tabsBoxTitle .cardHeader'], //顶部页眉dom节点
         callback: async (pdf, pdfName) => {
           try {
-            loading.close();
-            const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
-            const pdfFile = pdf.output("datauristring");
-            const blob = dataURLtoFile(pdfFile, filename);
+            loading.close()
+            const filename = pdfName.replaceAll(/\./g, '_') + '.pdf'
+            const pdfFile = pdf.output('datauristring')
+            const blob = dataURLtoFile(pdfFile, filename)
           } catch {
-            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'));
+            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'))
           }
-        },
+        }
       })
     }
   }
@@ -378,7 +391,6 @@ export default {
 
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
-
 
 .tableTitle {
   display: inline-block;
@@ -414,8 +426,8 @@ $tabsInforHeight: 35px;
 }
 .applayDateIcon {
   margin-top: 10px;
-  width:33px;
-  height:33px;
+  width: 33px;
+  height: 33px;
 }
 .applayDateContentItem {
   width: 100%;
@@ -428,8 +440,8 @@ $tabsInforHeight: 35px;
     font-weight: bold;
   }
 }
-.first_one{
-  margin-top: 30px!important;
+.first_one {
+  margin-top: 30px !important;
 }
 .applayDateContent {
   display: inline-block;
@@ -468,7 +480,7 @@ $tabsInforHeight: 35px;
   }
 }
 .deptBox {
-    margin-left: 30px;
+  margin-left: 30px;
   display: flex;
   .deptItem {
     flex: auto;
@@ -501,95 +513,91 @@ $tabsInforHeight: 35px;
     }
     .inforText {
       font-size: 14px;
-      padding:10px 10px;
+      padding: 10px 10px;
       width: 68%;
       min-height: $tabsInforHeight;
-      height:auto;
+      height: auto;
       background: #f8f8fa;
       text-align: center;
     }
   }
 }
 
-.download_btn{
+.download_btn {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding-top:10px;
-  padding-bottom:20px;
+  padding-top: 10px;
+  padding-bottom: 20px;
 }
-#content{
-  position:relative;
+#content {
+  position: relative;
 }
-.content_dialog{
-  width:100%;
-  height:100%;
+.content_dialog {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background:url("~@/assets/images/icon/pass.png");
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('~@/assets/images/icon/pass.png');
   z-index: 100000;
-  opacity:0.07;
+  opacity: 0.07;
 }
-::v-deep .el-form{
-  .el-table{
-    .cell{
-      padding:0!important;
+::v-deep .el-form {
+  .el-table {
+    .cell {
+      padding: 0 !important;
 
-      span{
-        margin-right:0px!important;
+      span {
+        margin-right: 0px !important;
       }
     }
   }
 }
 
-
-
-
-
-.tabs_box_right{
-  .samll_val{
+.tabs_box_right {
+  .samll_val {
   }
-  .samll_title{
-    width:80px;
+  .samll_title {
+    width: 80px;
   }
-  div{
+  div {
     display: flex;
     align-items: flex-start;
-    margin-right:20px;
+    margin-right: 20px;
   }
-  span{
+  span {
     display: inline-block;
-    font-size: 15px!important;
+    font-size: 15px !important;
   }
-  .small_text{
-    float:left;
+  .small_text {
+    float: left;
   }
-  .big_text{
+  .big_text {
   }
 }
-.hr_divider{
-  margin:0 1.5rem 0 0;
+.hr_divider {
+  margin: 0 1.5rem 0 0;
 }
-::v-deep .cardHeader{
-  padding:1.875rem 1.5625rem 0 2.4rem!important;
+::v-deep .cardHeader {
+  padding: 1.875rem 1.5625rem 0 2.4rem !important;
 }
-.infor_futitle{
-  padding:0.5rem 0;
-  font-size:15px!important;
-  line-height:25px;
-  .big_font{
+.infor_futitle {
+  padding: 0.5rem 0;
+  font-size: 15px !important;
+  line-height: 25px;
+  .big_font {
     font-weight: bold;
   }
-  .big_small{
-    padding-left:15px;
+  .big_small {
+    padding-left: 15px;
   }
 }
-.upload_hr{
-  ::v-deep .cardBody{
-    padding-top:0px!important;
+.upload_hr {
+  ::v-deep .cardBody {
+    padding-top: 0px !important;
   }
 }
 // .over_flow_y_ture{
@@ -598,7 +606,7 @@ $tabsInforHeight: 35px;
 //     overflow-y: auto;
 //   }
 // }
-::v-deep .el-form-item__content{
-  line-height: 20px!important;
+::v-deep .el-form-item__content {
+  line-height: 20px !important;
 }
 </style>

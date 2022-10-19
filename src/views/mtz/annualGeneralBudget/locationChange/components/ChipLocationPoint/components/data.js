@@ -47,8 +47,6 @@ export const tableTitle = [
   },
   { props: 'linieName', name: '采购员', key: 'CAIGOUYUAN' },
   { props: 'depteName', name: '科室', key: 'KESHI' }
-  // { props: 'isRsFreezed', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
-  // { props: 'rsFreezeDate', name: 'RS冻结时间', key: 'RSDONGJIESHIJIAN' },
 ]
 
 export const tableTitleCp = [
@@ -62,20 +60,124 @@ export const tableTitleCp = [
 export const topImgList = [
   {
     id: 1,
-    name: 'MTZ申请单详情',
-    key: 'MTZSHENGQINGDANXIANGQING',
-    url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor'
+    name: '芯片补差申请单详情',
+    key: '芯片补差申请单详情',
+    url: '/mtz/annualGeneralBudget/locationChange/chipLocationPoint/overflow/applyInfor'
   },
   {
     id: 2,
     name: '审批人&审批记录',
     key: 'SHENGPIRENSHENGPIJILU',
-    url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/approverRecord'
+    url: '/mtz/annualGeneralBudget/locationChange/chipLocationPoint/overflow/approverRecord'
   },
   {
     id: 3,
     name: '决策资料',
     key: 'JUECEZILIAO',
-    url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial'
+    url: '/mtz/annualGeneralBudget/locationChange/chipLocationPoint/overflow/decisionMaterial'
+  }
+]
+
+// 申请单状态
+export const appStatus = [
+  {
+    "code": "NEW",
+    "message": "草稿",
+    "codeMessage": null
+  },
+  {
+    "code": "SUBMIT",
+    "message": "已提交",
+    "codeMessage": null
+  },
+  {
+    "code": "APPROVAL_LOADING",
+    "message": "审批中",
+    "codeMessage": null
+  },
+  {
+    "code": "NOTPASS",
+    "message": "未通过",
+    "codeMessage": null
+  },
+  {
+    "code": "PASS",
+    "message": "通过",
+    "codeMessage": null
+  },
+  {
+    "code": "WAIT_APPROVAL",
+    "message": "等待审批",
+    "codeMessage": null
+  },
+  {
+    "code": "APPROVED",
+    "message": "审批通过",
+    "codeMessage": null
+  },
+  {
+    "code": "REJECT_APPROVALED",
+    "message": "审批拒绝",
+    "codeMessage": null
+  },
+  {
+    "code": "CHECK_INPROCESS",
+    "message": "复核中",
+    "codeMessage": null
+  },
+  {
+    "code": "CHECK_PASS",
+    "message": "复核通过",
+    "codeMessage": null
+  },
+  {
+    "code": "CHECK_FAIL",
+    "message": "复核未通过",
+    "codeMessage": null
+  },
+  {
+    "code": "FREERE",
+    "message": "冻结",
+    "codeMessage": null
+  },
+  {
+    "code": "UNFREEZE",
+    "message": "解冻",
+    "codeMessage": null
+  },
+  {
+    "code": "M_CHECK_INPROCESS",
+    "message": "M审批中",
+    "codeMessage": null
+  },
+  {
+    "code": "M_CHECK_FAIL",
+    "message": "M退回",
+    "codeMessage": null
+  },
+  {
+    "code": "M_CHECK_PASS",
+    "message": "M审批通过",
+    "codeMessage": null
+  },
+  {
+    "code": "NOMINATE",
+    "message": "定点",
+    "codeMessage": null
+  },
+  {
+    "code": "ONFLOW",
+    "message": "流转中",
+    "codeMessage": null
+  },
+  {
+    "code": "FLOWED",
+    "message": "流转完成",
+    "codeMessage": null
+  },
+  {
+    "code": "FLOWED_FAIL",
+    "message": "流转不通过",
+    "codeMessage": null
   }
 ]

@@ -31,11 +31,10 @@
         <div class="opration">
           <iButton
             @click="edit"
-            v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
             v-show="
               disabled &&
-              appIdType &&
-              (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')
+              status &&
+              (inforData.status == 'NEW' || inforData.status == '未通过')
             "
             >{{ language('BIANJI', '编辑') }}</iButton
           >
@@ -75,9 +74,9 @@
           >
             <iInput
               :disabled="
-                item.prop == 'mtzAppId' ||
+                item.prop == 'appNo' ||
                 item.prop == 'linieName' ||
-                item.prop == 'appStatus' ||
+                item.prop == 'statusDesc' ||
                 item.prop == 'meetingName'
                   ? true
                   : disabled
@@ -88,9 +87,9 @@
           </el-tooltip>
           <iInput
             :disabled="
-              item.prop == 'mtzAppId' ||
+              item.prop == 'appNo' ||
               item.prop == 'linieName' ||
-              item.prop == 'appStatus' ||
+              item.prop == 'statusDesc' ||
               item.prop == 'meetingName'
                 ? true
                 : disabled
@@ -109,27 +108,20 @@
         type="textarea"
         :rows="4"
         :placeholder="language('QINGSHURUBEIAN', '请输入备注')"
-        v-model="inforData.linieMeetingMemo"
+        v-model="inforData.remark"
       ></el-input>
     </iCard>
     <theTabs
       ref="theTabs"
       @isNomiNumber="isNomiNum"
       @handleReset="handleReset"
-      v-if="beforReturn"
-      :appStatus="inforData.appStatus"
+      :appStatus="inforData.statusDesc"
       :flowType="inforData.flowType"
+      :chipDetailList="chipDetailList"
+      :baseData="baseData"
+      @init="init"
     >
     </theTabs>
-    <theDataTabs
-      ref="theDataTabs"
-      v-if="beforReturn"
-      :appStatus="inforData.appStatus"
-      :flowType="inforData.flowType"
-      :inforData="inforData"
-      :applyNumber="applyNumber"
-    >
-    </theDataTabs>
     <iDialog
       :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
       :visible.sync="mtzAddShow"
@@ -170,7 +162,9 @@ import {
   disassociate,
   fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { updateApp } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+import chip from '@/i18n/zh/chip'
 export default {
   name: 'searchTabs',
   components: {
@@ -184,23 +178,19 @@ export default {
     theDataTabs,
     iSelect
   },
+  props: {
+    baseData: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data() {
     return {
-      beforReturn: false,
-      // getFlowTypeList: [],
       mtzAddShow: false,
       disabled: true,
       textarea: '',
-      inforData: {
-        mtzAppId: '',
-        appName: '',
-        linieName: '',
-        flowType: '',
-        appStatus: '',
-        meetingName: '',
-        linieMeetingMemo: ''
-      },
       tabsInforList: tabsInforList,
+      inforData: {},
       searchForm: {
         idList: [],
         sapPayBalanceNos: [],
@@ -230,73 +220,33 @@ export default {
       numIsNomi: 0
     }
   },
-  // beforeRouteEnter:(to,from,next)=>{
-  //   if(to.query.mtzAppId == undefined){
-
-  //   }else{
-  //     next()
-  //   }
-  // },
   computed: {
+    // 申请单状态
+    status() {
+      return (
+        this.baseData?.chipAppBase?.status == 'NEW' ||
+        this.baseData?.chipAppBase?.status == '未通过'
+      )
+    },
     mtzObject() {
       return this.$store.state.location.mtzObject
+    },
+    chipDetailList() {
+      return this.baseData.chipDetailList || []
     }
   },
   watch: {
-    mtzObject(newVlue, oldValue) {
-      this.init()
-    }
-  },
-  created() {
-    if (
-      JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined &&
-      this.$route.query.mtzAppId == undefined
-    ) {
-    } else {
-      this.init()
-    }
-    // this.getListData()
-    if (this.$route.query.appId) {
-      this.appIdType = false
+    baseData: {
+      handler(val) {
+        this.$set(this, 'inforData', this.baseData?.chipAppBase || {})
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
-    init(val) {
-      getAppFormInfo({
-        mtzAppId:
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-      })
-        .then((res) => {
-          this.inforData.mtzAppId = res.data.mtzAppId
-          this.inforData.linieName = res.data.linieName
-          this.inforData.appStatus = res.data.appStatus
-          this.inforData.meetingName = res.data.meetingName
-          this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
-
-          if (res.data.ttNominateAppId == null) {
-            this.applyNumber = ''
-          } else {
-            this.applyNumber = res.data.ttNominateAppId
-            // this.getLjLocation();
-          }
-          // console.log(this.applyNumber);
-          if (val !== '取消') {
-            store.commit('submitBtnInfor', { ...res.data })
-          }
-          // NOTPASS
-          if (res.data.appStatus == '草稿' || res.data.appStatus == '未通过') {
-            this.showType = true
-          } else {
-            this.showType = false
-          }
-
-          this.inforData.appName = res.data.appName
-          this.inforData.flowType = res.data.flowType
-        })
-        .then((res) => {
-          this.beforReturn = true
-        })
+    init() {
+      this.$emit('getAppById')
     },
     getsyncAuther() {
       syncAuther({ mtzAppId: this.$route.query.mtzAppId, tag: '' })
@@ -352,23 +302,7 @@ export default {
           )
         )
       } else {
-        // if (this.inforData.flowType == "FILING") {//备案
-        // fetchAppNomiDecisionDataPage({
-        //   pageNo: 1,
-        //   pageSize: 10,
-        //   mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-        // }).then(res => {
-        //   if(res && res.code == 200) {
-        //     if(res.data.length<1){
-        //       return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
-        //     }else{
-        //       this.saveEdit();
-        //     }
-        //   } else iMessage.error(res.desZh)
-        // })
-        // }else{
         this.saveEdit()
-        // }
       }
     },
     saveEdit() {
@@ -381,9 +315,11 @@ export default {
         }
       )
         .then((res) => {
-          modifyAppFormInfo({
-            ...this.inforData
-          }).then((res) => {
+          const chipTTO = {
+            chipDetailList: this.baseData.chipDetailList,
+            chipAppBase: this.inforData
+          }
+          updateApp(chipTTO).then((res) => {
             console.log(res)
             iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
             this.disabled = true

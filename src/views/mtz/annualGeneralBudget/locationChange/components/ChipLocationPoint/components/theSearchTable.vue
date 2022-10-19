@@ -154,9 +154,11 @@
             v-permission="PORTAL_CHIP_POINT_CHEHUIPOINTADMIN"
             >{{ $t('LK_TUIHUI') }}</iButton
           >
-          <iButton @click="mtzDel" v-permission="PORTAL_CHIP_POINT_SHANCHU">{{
-            language('SHANCHU', '删除')
-          }}</iButton>
+          <iButton
+            @click="deleteData"
+            v-permission="PORTAL_CHIP_POINT_SHANCHU"
+            >{{ language('SHANCHU', '删除') }}</iButton
+          >
         </div>
       </div>
       <tableList
@@ -168,15 +170,15 @@
         border
         @handleSelectionChange="handleSelectionChange"
       >
+        <template slot="status" slot-scope="scope">
+          <span>
+            {{ getStatus(scope.row.status) }}
+          </span>
+        </template>
         <template slot="appNo" slot-scope="scope">
-          <p
-            class="openPage"
-            @click="handleClickFsupplierName(scope.row)"
-            v-if="scope.row.viewDetailsFlag"
-          >
+          <p class="openPage" @click="handleClickFsupplierName(scope.row)">
             {{ scope.row.appNo }}
           </p>
-          <p v-else style="width: 90%">{{ scope.row.appNo }}</p>
         </template>
         <template slot="ttNominateAppId" slot-scope="scope">
           <p class="openPage" @click="handleClickTtNominateAppId(scope.row)">
@@ -260,10 +262,11 @@ import {
   unNominate,
   recallData,
   sendBack,
+  deleteData,
+  meetingOutFlow,
   getFlowTypeList,
   getLocationApplyStatus,
   mtzMeetingOutFlow,
-  mtzDel,
   getMtzGenericAppId,
   getNominateAppIdList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
@@ -333,6 +336,10 @@ export default {
     this.init()
   },
   methods: {
+    getStatus(status) {
+      return this.getLocationApplyStatus.find((item) => item.code == status)
+        ?.message
+    },
     // handleChange_ceshi(val){
     //   console.log(val);
     // },
@@ -374,6 +381,7 @@ export default {
       })
       getLocationApplyStatus({}).then((res) => {
         this.getLocationApplyStatus = res.data
+        console.log(this.getLocationApplyStatus)
       })
       // getRsBillStatusList({}).then(res => {
       //   this.getRsBillStatusList = res.data;
@@ -461,10 +469,8 @@ export default {
         .then((res) => {
           if (res.code == 200 && res.data) {
             this.tableLoading = false
-            this.tableListData = res.data
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.page.totalCount = res.total
+            this.tableListData = res.data?.records
+            this.page.totalCount = res.data.total
           } else {
             iMessage.error(res.desZh)
           }
@@ -502,17 +508,17 @@ export default {
       this.getTableList()
     },
     reset() {
-      ;(this.searchForm = {
-        mtzAppId: [],
-        appStatus: [],
-        flowType: [],
-        linieDeptId: [],
-        materialCode: [],
-        assemblyPartnum: [],
-        buyer: [],
-        ttNominateAppId: []
-      }),
-        (this.value = [])
+      this.searchForm = {
+        appNo: [],
+        status: [],
+        type: [],
+        deptName: [],
+        linieName: [],
+        materialName: [],
+        partNum: [],
+        nominateDate: []
+      }
+      this.value = []
       this.value1 = []
       this.page.currPage = 1
       this.page.pageSize = 10
@@ -553,7 +559,7 @@ export default {
         path: `/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow`,
         query: {
           currentStep: 1,
-          appNo: val.appNo
+          appId: val.id
         }
       })
       window.open(routeData.href)
@@ -577,23 +583,8 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (
-            e.ttNominateAppId !== '' &&
-            e.ttNominateAppId !== null &&
-            e.ttNominateAppId !== 'null'
-          ) {
-            console.log(e.ttNominateAppId)
-            num++
-            iMessage.warn(
-              this.language(
-                'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-                '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-              )
-            )
-            throw new Error('EndIterative')
-          }
-          if (e.flowType == 'MEETING') {
-            if (e.appStatus !== 'CHECK_PASS') {
+          if (e.type == 'MEETING') {
+            if (e.status !== 'CHECK_PASS') {
               num++
               iMessage.warn(
                 this.language(
@@ -604,7 +595,7 @@ export default {
               throw new Error('EndIterative')
             }
           } else {
-            if (e.appStatus !== 'SUBMIT') {
+            if (e.status !== 'SUBMIT') {
               num++
               iMessage.warn(
                 this.language(
@@ -656,20 +647,6 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (
-            e.ttNominateAppId !== '' &&
-            e.ttNominateAppId !== null &&
-            e.ttNominateAppId !== 'null'
-          ) {
-            num++
-            iMessage.warn(
-              this.language(
-                'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-                '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-              )
-            )
-            throw new Error('EndIterative')
-          }
           if (e.appStatus !== 'FREERE') {
             num++
             iMessage.warn(
@@ -722,9 +699,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      nominateData({
-        ids: this.selection.map((item) => item.id)
-      })
+      nominateData(this.selection.map((item) => item.id))
         .then((res) => {
           if (res && res.code == 200) {
             iMessage.success(res.desZh)
@@ -747,20 +722,6 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (
-            e.ttNominateAppId !== '' &&
-            e.ttNominateAppId !== null &&
-            e.ttNominateAppId !== 'null'
-          ) {
-            num++
-            iMessage.warn(
-              this.language(
-                'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-                '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-              )
-            )
-            throw new Error('EndIterative')
-          }
           if (e.appStatus !== 'NOMINATE') {
             num++
             iMessage.warn(
@@ -807,21 +768,7 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (
-            e.ttNominateAppId !== '' &&
-            e.ttNominateAppId !== null &&
-            e.ttNominateAppId !== 'null'
-          ) {
-            num++
-            iMessage.warn(
-              this.language(
-                'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-                '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-              )
-            )
-            throw new Error('EndIterative')
-          }
-          if (e.flowType == 'SIGN' && e.appStatus == 'FREERE') {
+          if (e.type == 'SIGN' && e.status == 'FREERE') {
           } else {
             num++
             iMessage.warn(
@@ -844,9 +791,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
 
-        mtzMeetingOutFlow({
-          ids: this.selection.map((item) => item.id)
-        }).then((res) => {
+        meetingOutFlow(this.selection.map((item) => item.id)).then((res) => {
           if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableList()
@@ -865,20 +810,6 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (
-            e.ttNominateAppId !== '' &&
-            e.ttNominateAppId !== null &&
-            e.ttNominateAppId !== 'null'
-          ) {
-            num++
-            iMessage.warn(
-              this.language(
-                'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-                '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-              )
-            )
-            throw new Error('EndIterative')
-          }
           if (e.flowType == 'MEETING') {
             if (
               e.appStatus == 'SUBMIT' ||
@@ -928,20 +859,6 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (
-            e.ttNominateAppId !== '' &&
-            e.ttNominateAppId !== null &&
-            e.ttNominateAppId !== 'null'
-          ) {
-            num++
-            iMessage.warn(
-              this.language(
-                'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-                '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-              )
-            )
-            throw new Error('EndIterative')
-          }
           if (e.flowType == 'MEETING') {
             if (e.appStatus == 'SUBMIT' || e.appStatus == 'NOTPASS') {
               ////////////////////////////////////////////
@@ -1002,47 +919,29 @@ export default {
     },
 
     // 删除
-    mtzDel() {
+    deleteData() {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (
-        this.selection.find(
-          (e) =>
-            e.ttNominateAppId == '' ||
-            e.ttNominateAppId == null ||
-            e.ttNominateAppId == 'null'
-        )
-      ) {
-        if (this.selection.find((e) => e.appStatus == 'NEW')) {
-          iMessageBox(
-            this.language('SHIFOUSHANCHU', '是否删除？'),
-            this.language('LK_WENXINTISHI', '温馨提示'),
-            {
-              confirmButtonText: this.language('QUEREN', '确认'),
-              cancelButtonText: this.language('QUXIAO', '取消')
-            }
-          ).then((res) => {
-            mtzDel({
-              ids: this.selection.map((item) => item.id)
-            }).then((res) => {
-              if (res && res.code == 200) {
-                iMessage.success(res.desZh)
-                this.getTableList()
-              } else iMessage.error(res.desZh)
-            })
+      if (this.selection.find((e) => e.status == 'NEW')) {
+        iMessageBox(
+          this.language('SHIFOUSHANCHU', '是否删除？'),
+          this.language('LK_WENXINTISHI', '温馨提示'),
+          {
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+          }
+        ).then((res) => {
+          deleteData(this.selection.map((item) => item.id)).then((res) => {
+            if (res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else iMessage.error(res.desZh)
           })
-        } else {
-          return iMessage.warn(
-            this.language('ZYCGZTCKYSC', '只有草稿状态才可以删除')
-          )
-        }
+        })
       } else {
         return iMessage.warn(
-          this.language(
-            'YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ',
-            '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'
-          )
+          this.language('ZYCGZTCKYSC', '只有草稿状态才可以删除')
         )
       }
     }

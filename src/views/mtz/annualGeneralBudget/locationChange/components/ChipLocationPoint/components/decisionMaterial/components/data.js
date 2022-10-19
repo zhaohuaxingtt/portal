@@ -10,10 +10,10 @@
 export const tabRouterList = [
   {
     value: 1,
-    name: 'MTZ',
+    name: '芯片补差',
     url: '',
     activePath: '',
-    key: 'MTZ'
+    key: '芯片补差'
   },
   {
     value: 2,
@@ -21,46 +21,6 @@ export const tabRouterList = [
     url: '',
     activePath: '',
     key: 'FUJIANSHANGCHUAN'
-  }
-]
-
-// mtz-表单
-export const formList = [
-  {
-    key: 'SHENQINGDANHAO',
-    label: '申请单号',
-    // prop: 'ttNominateAppId',
-    prop: 'mtzAppId'
-  },
-  {
-    key: 'SHENQINGDANMING',
-    label: '申请单名',
-    prop: 'appName'
-  },
-  {
-    key: 'LINIE',
-    label: 'Linie',
-    prop: 'linieName'
-  },
-  {
-    key: 'KESHI',
-    label: '科室',
-    prop: 'linieDeptName'
-  },
-  {
-    key: 'SHENQINGDANLEIXING',
-    label: '申请单类型',
-    prop: 'flowTypeName'
-  },
-  {
-    key: 'HUIYIMINGCHENG',
-    label: '会议名称',
-    prop: 'meetingName'
-  },
-  {
-    key: 'SHENQINGZHUANGTAI',
-    label: '申请状态',
-    prop: 'appStatus'
   }
 ]
 
@@ -336,5 +296,5 @@ export const uploadTableTitle = [
 ]
 
 export const dateFilter = (val, format = "YYYY-MM-DD HH:mm:ss", sourceFormat) => {
-  return typeof val === 'string' ||  typeof val === 'number' ? (val ? window.moment(val, sourceFormat).format(format) : '') : val
+  return typeof val === 'string' || typeof val === 'number' ? (val ? window.moment(val, sourceFormat).format(format) : '') : val
 }

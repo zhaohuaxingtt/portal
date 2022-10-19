@@ -19,7 +19,6 @@
           :data="uploadData"
           :before-upload="beforeUpload"
           :on-exceed="handleExceed"
-          v-permission="PORTAL_MTZ_POINT_INFOR_DATA_SHANGCHUAN"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
         >
           <el-tooltip
@@ -34,7 +33,6 @@
         </el-upload>
         <iButton
           @click="download"
-          v-permission="PORTAL_MTZ_POINT_INFOR_DATA_XIAZAIMUBAN"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
           >{{ language('XIAZAIMUBAN', '下载模板') }}</iButton
         >
@@ -45,25 +43,21 @@
         >
         <iButton
           @click="add"
-          v-permission="PORTAL_MTZ_POINT_INFOR_ADD"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
           >{{ language('XINZENG', '新增') }}</iButton
         >
         <iButton
           @click="edit"
-          v-permission="PORTAL_MTZ_POINT_INFOR_BIANJI"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
         <iButton
           @click="continueBtn"
-          v-permission="PORTAL_MTZ_POINT_INFOR_GZ_YANYONG"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
           >{{ language('YANYONG', '沿用') }}</iButton
         >
         <iButton
           @click="delecte"
-          v-permission="PORTAL_MTZ_POINT_INFOR_DEL"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
           >{{ language('SHANCHU', '删除') }}</iButton
         >
@@ -120,246 +114,91 @@
           align="center"
           show-overflow-tooltip
           width="120"
-          :label="language('SHIFOUWEIXINGUIZE', '是否为新规则')"
+          :label="language('补差方式', '补差方式')"
         >
           <template slot-scope="scope">
             <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
-              :rules="formRules.formalFlag ? formRules.formalFlag : ''"
+              :prop="'tableData.' + scope.$index + '.' + 'method'"
+              :rules="formRules.method ? formRules.method : ''"
             >
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{ scope.row.formalFlag == 'Y' ? '否' : '是' }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          prop="effectFlag"
-          align="center"
-          :label="language('SHIFOUSHENGXIAO', '是否生效')"
-          show-overflow-tooltip
-          width="100"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'effectFlag'"
-              :rules="formRules.effectFlag ? formRules.effectFlag : ''"
-            >
-              <el-select
-                v-model="scope.row.effectFlag"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in effectFlag"
-                  :key="item.code"
-                  :label="item.message"
-                  :value="item.code"
-                >
-                </el-option>
-              </el-select>
-              <span v-else>{{
-                scope.row.effectFlag == 1
-                  ? '是'
-                  : scope.row.effectFlag == 0
-                  ? '否'
-                  : ''
+              <span>{{
+                scope.row.method == '0' ? '变价单补差' : '一次性补差'
               }}</span>
             </el-form-item>
           </template>
         </el-table-column>
 
         <el-table-column
-          prop="materialGroup"
-          align="center"
-          :label="language('MTZCAILIAOZU', 'MTZ-材料组')"
-          show-overflow-tooltip
-          width="150"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'materialGroup'"
-              :rules="formRules.materialGroup ? formRules.materialGroup : ''"
-            >
-              <el-select
-                v-model="scope.row.materialGroup"
-                clearable
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in materialGroup"
-                  :key="item.materialGroupCode"
-                  :label="item.materialGroupNameZh"
-                  :value="item.materialGroupCode"
-                >
-                </el-option>
-              </el-select>
-              <span v-else>{{ scope.row.materialGroupName }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="carline"
-          align="center"
-          :label="language('CHEXING', '车型')"
-          show-overflow-tooltip
-          width="300"
-        >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'carline'"
-              :rules="formRules.carline ? formRules.carline : ''"
-              style="width: 180px !important"
-            >
-              <i-select
-                v-model="scope.row.carlineList"
-                style="width: 180px !important"
-                clearable
-                filterable
-                multiple
-                collapse-tags
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-                <el-option
-                  v-for="item in carline"
-                  :key="item.modelNameZh"
-                  :label="item.modelNameZh"
-                  :value="item.modelNameZh"
-                >
-                </el-option>
-              </i-select>
-              <span v-else>{{ scope.row.carline }}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-        <el-table-column
           prop="sapCode"
           align="center"
-          width="100"
           :label="language('GONGYINGSHANGBIANHAO', '供应商编号')"
           show-overflow-tooltip
+          width="100"
         >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'sapCode'"
-              :rules="formRules.sapCode ? formRules.sapCode : ''"
-            >
-              <!-- <el-select v-model="scope.row.supplierId"
-                            clearable
-                            filterable
-                            :placeholder="language('QINGSHURU', '请输入')"
-                            @change="supplierBH(scope,$event)"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                            >
-                            <el-option
-                                v-for="item in supplierList"
-                                :key="item.code"
-                                :label="item.codeMessage"
-                                :value="item.code">
-                            </el-option>
-                        </el-select> -->
-              <spa>{{ scope.row.sapCode }}</spa>
-            </el-form-item>
-          </template>
         </el-table-column>
+
         <el-table-column
           prop="supplierName"
           align="center"
-          width="150"
-          :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
+          :label="language('供应商名称', '供应商名称')"
           show-overflow-tooltip
+          width="150"
         >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'supplierName'"
-              :rules="formRules.supplierName ? formRules.supplierName : ''"
-            >
-              <!-- <el-select v-model="scope.row.supplierName"
-                            clearable
-                            filterable
-                            :placeholder="language('QINGSHURU', '请输入')"
-                            @change="supplierNC(scope,$event)"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                            >
-                            <el-option
-                                v-for="item in supplierList"
-                                :key="item.message"
-                                :label="item.message"
-                                :value="item.message">
-                            </el-option>
-                        </el-select> -->
-              <span>{{ scope.row.supplierName }}</span>
-            </el-form-item>
-          </template>
         </el-table-column>
         <el-table-column
-          prop="materialCode"
+          prop="materialGroup"
+          align="center"
+          :label="language('材料组', '材料组')"
+          show-overflow-tooltip
+          width="150"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="materialName"
           align="center"
           width="120"
-          :label="language('YUANCAILIAOPAIHAO', '原材料牌号')"
+          :label="language('原材料描述', '原材料描述')"
           show-overflow-tooltip
         >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'materialCode'"
-              :rules="formRules.materialCode ? formRules.materialCode : ''"
-            >
-              <!-- <el-select v-model="scope.row.materialCode"
-                            clearable
-                            filterable
-                            :placeholder="language('QINGSHURU', '请输入')"
-                            v-if="editId.indexOf(scope.row.id)!==-1"
-                            @change="MaterialGrade(scope,$event)"
-                            >
-                            <el-option
-                                v-for="item in materialCode"
-                                :key="item.code"
-                                :label="item.codeMessage"
-                                :value="item.code">
-                            </el-option>
-                        </el-select> -->
-              <span>{{ scope.row.materialCode }}</span>
-            </el-form-item>
-          </template>
         </el-table-column>
         <el-table-column
-          prop="materialName"
+          prop="partNum"
           align="center"
-          width="150"
-          :label="language('YUANCAILIAO', '原材料')"
+          width="120"
+          :label="language('LINGJIANHAO', '零件号')"
           show-overflow-tooltip
         >
-          <template slot-scope="scope">
-            <span>{{ scope.row.materialName }}</span>
-          </template>
         </el-table-column>
         <el-table-column
-          prop="materialName"
+          prop="partName"
+          align="center"
+          width="120"
+          :label="language('LINGJIANMINGCHENG', '零件名称')"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          prop="amount"
           align="center"
           width="150"
           :label="language('补差金额', '补差金额')"
           show-overflow-tooltip
         >
-          <template slot-scope="scope">
-            <span>{{ scope.row.materialName }}</span>
-          </template>
         </el-table-column>
         <el-table-column
-          prop="tcCurrence"
+          prop="currency"
           align="center"
           width="60"
           :label="language('HUOBI', '货币')"
         >
           <template slot-scope="scope">
             <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
-              :rules="formRules.tcCurrence ? formRules.tcCurrence : ''"
+              :prop="'tableData.' + scope.$index + '.' + 'currency'"
+              :rules="formRules.currency ? formRules.currency : ''"
             >
               <el-select
-                v-model="scope.row.tcCurrence"
+                v-model="scope.row.currency"
                 clearable
                 :placeholder="language('QINGSHURU', '请输入')"
                 v-if="editId.indexOf(scope.row.id) !== -1"
@@ -372,27 +211,27 @@
                 >
                 </el-option>
               </el-select>
-              <span v-else>{{ scope.row.tcCurrence }}</span>
+              <span v-else>{{ scope.row.currency }}</span>
             </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
-          prop="tcExchangeRate"
+          prop="exchangeRate"
           align="center"
           width="90"
           :label="language('HUILV', '汇率')"
         >
           <template slot-scope="scope">
             <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
-              :rules="formRules.tcExchangeRate ? formRules.tcExchangeRate : ''"
+              :prop="'tableData.' + scope.$index + '.' + 'exchangeRate'"
+              :rules="formRules.exchangeRate ? formRules.exchangeRate : ''"
             >
               <iInput
                 type="number"
-                v-model="scope.row.tcExchangeRate"
+                v-model="scope.row.exchangeRate"
                 v-if="editId.indexOf(scope.row.id) !== -1"
               ></iInput>
-              <span v-else>{{ scope.row.tcExchangeRate }}</span>
+              <span v-else>{{ scope.row.exchangeRate }}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -403,20 +242,7 @@
           :label="language('YOUXIAOQIQI', '有效期起')"
         >
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'startDate'"
-              :rules="formRules.startDate ? formRules.startDate : ''"
-            >
-              <!-- <iDatePicker v-model="scope.row.startDate"
-                                style="width:180px!important;"
-                                type="date"
-                                value-format="yyyy-MM-dd hh:mm:ss"
-                                format="yyyy-MM-dd"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                        </iDatePicker> -->
-              <span>{{ scope.row.startDate }}</span>
-            </el-form-item>
+            <span>{{ getDay(scope.row.startDate) }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -426,37 +252,16 @@
           :label="language('YOUXIAOQIZHI', '有效期止')"
         >
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'endDate'"
-              :rules="formRules.endDate ? formRules.endDate : ''"
-            >
-              <!-- <iDatePicker v-model="scope.row.endDate"
-                                style="width:180px!important;"
-                                type="date"
-                                value-format="yyyy-MM-dd hh:mm:ss"
-                                format="yyyy-MM-dd"
-                                v-if="editId.indexOf(scope.row.id)!==-1"
-                                >
-                        </iDatePicker> -->
-              <span>{{ scope.row.endDate }}</span>
-            </el-form-item>
+            <span>{{ getDay(scope.row.endDate) }}</span>
           </template>
         </el-table-column>
       </el-table>
     </el-form>
-    <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
-                   @current-change="handleCurrentChange($event, getTableList)"
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :current-page="page.currPage"
-                   :total="page.totalCount"
-                   :layout="page.layout">
-      </iPagination> -->
-
     <iDialog
-      :title="language('SHUJUYANYONG', '数据沿用')"
+      :title="language('沿用芯片补差规则', '沿用芯片补差规则')"
       :visible.sync="mtzAddShow"
       v-if="mtzAddShow"
+      :selectList="selectList"
       width="90%"
       @close="closeDiolog"
     >
@@ -464,13 +269,12 @@
     </iDialog>
 
     <iDialog
-      :title="language('XINZENGMTZYUANCAILIAOGUIZE', '新增MTZ原材料规则')"
+      :title="language('新增芯片补差规则', '新增芯片补差规则')"
       :visible.sync="addDialog"
       v-if="addDialog"
       width="70%"
       @close="saveGzDialog"
     >
-      <!-- :dataObject="dataObject" -->
       <addGZ
         :resetType="resetType"
         @close="saveGzClose"
@@ -494,31 +298,21 @@ import {
   iDialog,
   iSelect
 } from 'rise'
-// import { pageMixins } from "@/utils/pageMixins"
 import continueBox from './continueBox'
 import addGZ from './addGZ'
 import { deepClone, isNumber } from './util'
 import { formRulesGZ } from './data'
-import store from '@/store'
-// import {
-//   getMtzSupplierList,//获取原材料牌号
-// } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
-import {
-  pageAppRule, //维护MTZ原材料规则-分页查询
-  addBatchAppRule, //维护MTZ原材料规则-批量新增
-  deleteAppRule, //列表删除,
-  modifyAppRule,
-  // checkPreciousMetal,
-  getMtzMarketSourceList
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import {
   cartypePaged, //车型
   currencyDict
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
-// import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
   fetchRemoteMtzMaterial //查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import {
+  updateApp,
+  deleteAppDetail
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 
 export default {
   name: 'Search',
@@ -535,7 +329,13 @@ export default {
     addGZ
   },
   watch: {},
-  props: ['appStatus', 'flowType', 'relationType'],
+  props: [
+    'appStatus',
+    'flowType',
+    'relationType',
+    'chipDetailList',
+    'baseData'
+  ],
   //   mixins: [pageMixins],
   data() {
     return {
@@ -545,7 +345,7 @@ export default {
       // supplierList: [],
       newDataList: [], //传过来的列表数据
       editType: false,
-      tableData: [],
+      // tableData: [],
       editId: '',
       selectList: [],
       loading: false,
@@ -585,7 +385,6 @@ export default {
           message: 'KG'
         }
       ],
-      getMtzMarketSourceList: [], //市场价来源
       materialGroup: [],
       // materialCode: [],
       mtzAddShow: false,
@@ -596,25 +395,18 @@ export default {
       resetNum: false
     }
   },
-  computed: {
-    mtzObject() {
-      return this.$store.state.location.mtzObject
+  watch: {
+    chipDetailList(val) {
+      console.log('val=>', val)
+      this.tableData = val
     }
   },
-  watch: {
-    mtzObject(newVlue, oldValue) {
-      // console.log(newVlue)
-      this.init()
+  computed: {
+    tableData() {
+      return this.chipDetailList
     }
   },
   created() {
-    this.init()
-    // getMtzSupplierList({}).then(res => {
-    //   this.supplierList = res.data;
-    // })
-    // getRawMaterialNos({}).then(res => {
-    //   this.materialCode = res.data;
-    // })
     cartypePaged({
       current: 1,
       size: 99999
@@ -624,21 +416,17 @@ export default {
     currencyDict().then((res) => {
       this.tcCurrence = res.data
     })
-    getMtzMarketSourceList({}).then((res) => {
-      this.getMtzMarketSourceList = res.data
-    })
   },
   methods: {
-    init() {
-      this.getTableList()
-      this.getMtzCailiao()
+    getDay(date) {
+      return date ? date.split(' ')[0] : date
     },
     sourceChange(e, val) {
       this.$set(e, 'source', val)
     },
     add() {
       //新增
-      if (this.flowType !== 'SIGN') {
+      if (this.type !== 'SIGN') {
         this.addDialog = true
         // var list = [];
         // this.tableData.forEach(e => {
@@ -681,30 +469,8 @@ export default {
       }
     },
     addDialogGZList() {
-      //mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
-      // console.log(this.resetNum);
-      if (this.resetNum) {
-        //流转
-        this.$emit('handleReset', '')
-        this.$parent.$refs.theDataTabs.removePartMasterData()
-        this.resetNum = false
-        setTimeout(() => {
-          this.$parent.$refs.theDataTabs.pageAppRequest()
-          if (!this.$parent.$refs.theDataTabs.editType) {
-            this.$parent.$refs.theDataTabs.getTableList()
-          }
-        }, 500)
-      } else {
-        //上会、备案
-        setTimeout(() => {
-          this.$parent.$refs.theDataTabs.pageAppRequest()
-          if (!this.$parent.$refs.theDataTabs.editType) {
-            this.$parent.$refs.theDataTabs.getTableList()
-          }
-        }, 500)
-      }
+      this.$emit('init')
       this.saveGzDialog()
-      this.getTableList()
     },
     edit() {
       //编辑
@@ -726,120 +492,101 @@ export default {
 
     save() {
       //保存
-      if (this.dialogEditType) {
-        //新增
-        this.newDataList.forEach((item) => {
-          item.carline = item.carlineList.toString()
-          // item.startDate = item.startDate + " 00:00:00";
-          // item.endDate = item.endDate + " 00:00:00";
-          // item.compensationPeriod = "A";
-        })
-        this.$refs['contractForm'].validate(async (valid) => {
-          if (valid) {
-            iMessageBox(
-              this.language(
-                'GZFSBHXGLJJTBGGSFJX',
-                '规则发生变化，相关零件将同步更改，是否继续？'
-              ),
-              this.language('LK_WENXINTISHI', '温馨提示'),
-              {
-                confirmButtonText: this.language('QUEREN', '确认'),
-                cancelButtonText: this.language('QUXIAO', '取消')
+      // if (this.dialogEditType) {
+      //   //新增
+      //   this.newDataList.forEach((item) => {
+      //     item.carline = item.carlineList.toString()
+      //     // item.startDate = item.startDate + " 00:00:00";
+      //     // item.endDate = item.endDate + " 00:00:00";
+      //     // item.compensationPeriod = "A";
+      //   })
+      //   this.$refs['contractForm'].validate(async (valid) => {
+      //     if (valid) {
+      //       iMessageBox(
+      //         this.language(
+      //           'GZFSBHXGLJJTBGGSFJX',
+      //           '规则发生变化，相关零件将同步更改，是否继续？'
+      //         ),
+      //         this.language('LK_WENXINTISHI', '温馨提示'),
+      //         {
+      //           confirmButtonText: this.language('QUEREN', '确认'),
+      //           cancelButtonText: this.language('QUXIAO', '取消')
+      //         }
+      //       )
+      //         .then((res) => {
+      //           addBatchAppRule({
+      //             mtzAppId:
+      //               this.$route.query.mtzAppId ||
+      //               JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+      //             mtzAppNomiAppRuleList: this.newDataList
+      //           }).then((res) => {
+      //             if (res.code == 200) {
+      //               iMessage.success(this.language(res.desEn, res.desZh))
+      //               this.editId = ''
+      //               this.editType = false
+      //               // this.page.currPage = 1;
+      //               // this.page.pageSize = 10;
+      //             } else {
+      //               iMessage.error(this.language(res.desEn, res.desZh))
+      //               // this.newDataList.forEach(item=>{
+      //               //     item.startDate = item.startDate.split(" ")[0];
+      //               //     item.endDate = item.endDate.split(" ")[0];
+      //               // })
+      //             }
+      //           })
+      //         })
+      //         .catch((res) => {
+      //           // this.newDataList.forEach(item=>{
+      //           //     item.startDate = item.startDate.split(" ")[0];
+      //           //     item.endDate = item.endDate.split(" ")[0];
+      //           // })
+      //         })
+      //       this.$refs['contractForm'].clearValidate()
+      //     } else {
+      //       iMessage.error(
+      //         this.language('QINGBUQUANYANZHENGBITIANXIANG', '请补全验证必填项')
+      //       )
+      //       return false
+      //     }
+      //   })
+      // } else {
+      //编辑
+      this.$refs['contractForm'].validate(async (valid) => {
+        if (valid) {
+          iMessageBox(
+            this.language(
+              'GZFSBHXGLJJTBGGSFJX',
+              '规则发生变化，相关零件将同步更改，是否继续？'
+            ),
+            this.language('LK_WENXINTISHI', '温馨提示'),
+            {
+              confirmButtonText: this.language('QUEREN', '确认'),
+              cancelButtonText: this.language('QUXIAO', '取消')
+            }
+          ).then((res) => {
+            const chipTTO = {
+              chipDetailList: this.tableData,
+              chipAppBase: this.baseData.chipAppBase
+            }
+            updateApp(chipTTO).then((res) => {
+              if (res.code == 200) {
+                this.editId = ''
+                this.editType = false
+                this.$emit('init')
+              } else {
+                iMessage.error(res.message)
               }
-            )
-              .then((res) => {
-                addBatchAppRule({
-                  mtzAppId:
-                    this.$route.query.mtzAppId ||
-                    JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                  mtzAppNomiAppRuleList: this.newDataList
-                }).then((res) => {
-                  if (res.code == 200) {
-                    iMessage.success(this.language(res.desEn, res.desZh))
-                    this.editId = ''
-                    this.editType = false
-                    // this.page.currPage = 1;
-                    // this.page.pageSize = 10;
-                    setTimeout(() => {
-                      this.$parent.$refs.theDataTabs.pageAppRequest()
-                      if (!this.$parent.$refs.theDataTabs.editType) {
-                        this.$parent.$refs.theDataTabs.getTableList()
-                      }
-                    }, 500)
-
-                    this.getTableList()
-                  } else {
-                    iMessage.error(this.language(res.desEn, res.desZh))
-                    // this.newDataList.forEach(item=>{
-                    //     item.startDate = item.startDate.split(" ")[0];
-                    //     item.endDate = item.endDate.split(" ")[0];
-                    // })
-                  }
-                })
-              })
-              .catch((res) => {
-                // this.newDataList.forEach(item=>{
-                //     item.startDate = item.startDate.split(" ")[0];
-                //     item.endDate = item.endDate.split(" ")[0];
-                // })
-              })
-            this.$refs['contractForm'].clearValidate()
-          } else {
-            iMessage.error(
-              this.language('QINGBUQUANYANZHENGBITIANXIANG', '请补全验证必填项')
-            )
-            return false
-          }
-        })
-      } else {
-        //编辑
-        this.selectList.forEach((item) => {
-          item.carline = item.carlineList.toString()
-        })
-        this.$refs['contractForm'].validate(async (valid) => {
-          if (valid) {
-            iMessageBox(
-              this.language(
-                'GZFSBHXGLJJTBGGSFJX',
-                '规则发生变化，相关零件将同步更改，是否继续？'
-              ),
-              this.language('LK_WENXINTISHI', '温馨提示'),
-              {
-                confirmButtonText: this.language('QUEREN', '确认'),
-                cancelButtonText: this.language('QUXIAO', '取消')
-              }
-            ).then((res) => {
-              modifyAppRule({
-                mtzAppId:
-                  this.$route.query.mtzAppId ||
-                  JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                mtzAppNomiAppRuleList: this.selectList
-              }).then((res) => {
-                if (res.code == 200) {
-                  this.editId = ''
-                  this.editType = false
-                  setTimeout(() => {
-                    this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if (!this.$parent.$refs.theDataTabs.editType) {
-                      this.$parent.$refs.theDataTabs.getTableList()
-                    }
-                  }, 500)
-
-                  this.getTableList()
-                } else {
-                  iMessage.error(res.message)
-                }
-              })
             })
-            this.$refs['contractForm'].clearValidate()
-          } else {
-            iMessage.error(
-              this.language('QINGBUQUANYANZHENGBITIANXIANG', '请补全验证必填项')
-            )
-            return false
-          }
-        })
-      }
+          })
+          this.$refs['contractForm'].clearValidate()
+        } else {
+          iMessage.error(
+            this.language('QINGBUQUANYANZHENGBITIANXIANG', '请补全验证必填项')
+          )
+          return false
+        }
+      })
+      // }
     },
     cancel() {
       //取消
@@ -937,19 +684,10 @@ export default {
           this.selectList.forEach((e) => {
             numList.push(e.id)
           })
-          deleteAppRule({
-            idList: numList
-          }).then((res) => {
+          deleteAppDetail(numList).then((res) => {
             if (res.code == 200 && res.result) {
-              iMessage.success(res.desZh)
-              setTimeout(() => {
-                this.$parent.$refs.theDataTabs.pageAppRequest()
-                if (!this.$parent.$refs.theDataTabs.editType) {
-                  this.$parent.$refs.theDataTabs.getTableList()
-                }
-              }, 500)
-
-              this.getTableList()
+              this.$emit('init')
+              console.log(res)
             } else {
               iMessage.error(res.desZh)
             }
@@ -976,38 +714,6 @@ export default {
       } else {
         return true
       }
-    },
-    //获取列表
-    getTableList() {
-      this.loading = true
-      pageAppRule({
-        pageNo: 1,
-        pageSize: 99999,
-        mtzAppId:
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-        sortType: 'DESC',
-        sortColumn: 'id'
-      }).then((res) => {
-        this.tableData = res.data
-        // this.page.currPage = res.pageNum
-        // this.page.pageSize = res.pageSize
-        // this.page.totalCount = res.total
-        var num = 0
-        res.data.forEach((e) => {
-          // if (!e.formalFlag) {
-          if (e.formalFlag == 'N') {
-            num++
-          }
-        })
-        this.$emit('isNomiNumber', num)
-        this.loading = false
-        if (res.total < 1) {
-          store.commit('submitDataNumber', 0)
-        } else {
-          store.commit('submitDataNumber', 1)
-        }
-      })
     },
     getMtzCailiao() {
       fetchRemoteMtzMaterial({}).then((res) => {

@@ -12,19 +12,16 @@
       <!-- <span class="title_name">MTZ申请单-100386 申请单名-采购员-科室</span> -->
       <div>
         <span class="title_name">{{ commonTitle }}-{{ locationId }}</span>
-        <span class="title_name">-{{ mtzAppName }}-{{ user }}-{{ dept }}</span>
+        <span class="title_name">-{{ appName }}-{{ user }}-{{ dept }}</span>
         <div class="title_type">
           <div class="title_block">
             <span>申请单类型：</span>
             <iSelect
-              :disabled="
-                (appStatus !== '草稿' && appStatus !== '未通过') ||
-                formInfor.ttNominateAppId !== ''
-              "
-              :value="formInfor.flowType"
+              :disabled="appStatus !== '草稿' && appStatus !== '未通过'"
+              v-model="formInfor.type"
               v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
               :placeholder="language('QINGXUANZE', '请选择')"
-              @change="chioce($event)"
+              @change="saveEdit($event)"
             >
               <el-option
                 :value="item.code"
@@ -37,7 +34,7 @@
         </div>
       </div>
       <div class="opration">
-        <template v-if="ttNominateAppId == '' && appStatus == '通过'">
+        <template v-if="appStatus == '通过'">
           <iButton
             @click="submitPass"
             v-show="locationNow == 3 && meetingNumber == 0"
@@ -50,10 +47,7 @@
             @click="submit"
             v-show="locationNow == 3 && meetingNumber == 0"
             v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
-            :disabled="
-              (appStatus !== '草稿' && appStatus !== '未通过') ||
-              ttNominateAppId !== ''
-            "
+            :disabled="appStatus !== '草稿' && appStatus !== '未通过'"
             >{{ language('TIJIAO', '提交') }}</iButton
           >
         </template>
@@ -111,7 +105,11 @@
       width="99%"
       @close="closeRS"
     >
-      <RsPdf @close="closeType" :RsType="downType"></RsPdf>
+      <RsPdf
+        @close="closeType"
+        :RsType="downType"
+        :appStatus="appStatus"
+      ></RsPdf>
     </iDialog>
     <iDialog
       :title="language('芯片补差新增', '芯片补差新增')"
@@ -124,7 +122,7 @@
       <MtzAdd @close="closeTyoe"></MtzAdd>
     </iDialog>
     <div class="margin-top20">
-      <router-view />
+      <router-view :baseData="baseData" @getAppById="getAppById" />
     </div>
   </div>
 </template>
@@ -149,6 +147,11 @@ import {
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import {
+  updateApp,
+  getAppById,
+  getLocationApplyStatus
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import {
   NewMessageBox,
   NewMessageBoxClose
 } from '@/components/newMessageBox/dialogReset.js'
@@ -171,7 +174,7 @@ export default {
   data() {
     return {
       locationId: '',
-      mtzAppName: '',
+      appName: '',
       user: '',
       dept: '',
       topImgList,
@@ -179,7 +182,7 @@ export default {
       mtzAddShow: false,
       rsType: false,
       downType: true,
-      beforReturn: true,
+      beforReturn: false,
       flowType: '',
       appStatus: '',
       stepNum: 1,
@@ -187,130 +190,87 @@ export default {
       NumberCESHI: 0,
       meetingNumber: Number(this.$route.query.meeting) || 0,
       getFlowTypeList: [],
-      formInfor: {
-        flowType: '',
-        flowTypeName: ''
-      },
+      formInfor: {},
       pageTitle: {
         title: ''
-      }
+      },
+      baseData: {}
     }
   },
   computed: {
-    mtzObject() {
-      return this.$store.state.location.mtzObject
-    },
     commonTitle() {
       // MTZ申请单-100386 申请单名-采购员-科室
       return this.language('CHIPBUCHASHENGQINGDAN', '芯片补差申请单')
     },
     submitDataList() {
       return this.$store.state.location.submitDataList
-    },
-    submitInfor() {
-      return this.$store.state.location.submitInfor
     }
   },
 
-  watch: {
-    submitInfor(newValue, oldValue) {
-      this.formInfor = newValue
-      this.ttNominateAppId = newValue.ttNominateAppId
-      this.flowType = newValue.flowType
-      this.mtzAppName = newValue.appName
-    },
-    mtzObject(newValue, oldValue) {
-      if (
-        this.$route.query.mtzAppId == undefined &&
-        JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined
-      ) {
-      } else {
-        this.locationId =
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-      }
-      // console.log("watch")
-      this.getType()
-    }
-  },
   provide() {
     return { pageTitle: this.pageTitle }
   },
   created() {
-    if (JSON.parse(sessionStorage.getItem('MtzLIst')) == null) {
-      sessionStorage.setItem('MtzLIst', JSON.stringify({ mtzAppId: undefined }))
-    }
-
-    // console.log(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId)
-    // console.log(this.$route.query.mtzAppId)
-    if (
-      JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId !==
-      this.$route.query.mtzAppId
-    ) {
-      var data = deepClone(this.$route.query)
-      store.commit('routerMtzData', {
-        mtzAppId: data.mtzAppId
-      })
-      sessionStorage.setItem(
-        'MtzLIst',
-        JSON.stringify({
-          mtzAppId: data.mtzAppId
-        })
-      )
-    }
-
-    if (
-      this.$route.query.mtzAppId == undefined &&
-      JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined
-    ) {
-      this.beforReturn = true
-    } else {
+    this.getLocationApplyStatus()
+    this.appId = this.$route.query.appId
+    if (this.appId) {
       this.beforReturn = false
-      this.locationId =
-        this.$route.query.mtzAppId ||
-        JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-      this.mtzAppName = this.$route.query.mtzAppName
-      this.user = this.$route.query.user
-      this.dept = this.$route.query.dept
-      // console.log("created")
-      this.getType()
+      this.getAppById(this.appId)
+    } else {
+      this.beforReturn = true
     }
-    getMtzAppCheckVO({
-      mtzAppId:
-        this.$route.query.mtzAppId ||
-        JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-    }).then((res) => {
-      if (res.data.length == 0) {
-        setMtzAppCheckVO({
-          mtzAppId:
-            this.$route.query.mtzAppId ||
-            JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-          isDone: true,
-          stepStr: '1'
-        }).then((parme) => {
-          this.stepNum = parme.data
-        })
-      } else {
-        var atr = []
-        res.data.forEach((e) => {
-          if (e.isDone) {
-            atr.push(Number(e.stepStr))
-          }
-        })
-        var arr = atr.sort()
-        setTimeout(() => {
-          this.stepNum = arr[arr.length - 1]
-          this.locationNow = this.stepNum
-          // console.log(this.stepNum)
-        }, 100)
-      }
-    })
+    // getMtzAppCheckVO({
+    //   appId:
+    //     this.$route.query.appId ||
+    //     JSON.parse(sessionStorage.getItem('MtzLIst')).appId
+    // }).then((res) => {
+    //   if (res.data.length == 0) {
+    //     setMtzAppCheckVO({
+    //       mtzAppId:
+    //         this.$route.query.mtzAppId ||
+    //         JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+    //       isDone: true,
+    //       stepStr: '1'
+    //     }).then((parme) => {
+    //       this.stepNum = parme.data
+    //     })
+    //   } else {
+    //     var atr = []
+    //     res.data.forEach((e) => {
+    //       if (e.isDone) {
+    //         atr.push(Number(e.stepStr))
+    //       }
+    //     })
+    //     var arr = atr.sort()
+    //     setTimeout(() => {
+    //       this.stepNum = arr[arr.length - 1]
+    //       this.locationNow = this.stepNum
+    //       // console.log(this.stepNum)
+    //     }, 100)
+    //   }
+    // })
 
     getFlowTypeList({}).then((res) => {
       this.getFlowTypeList = res.data
     })
   },
   methods: {
+    setStepNum() {
+      const step1 = ['NEW']
+      const step2 = ['']
+      const step3 = ['']
+      this.appStatus
+    },
+    getLocationApplyStatus() {
+      getLocationApplyStatus({}).then((res) => {
+        this.statusList = res.data
+      })
+    },
+    getStatus(status) {
+      return (
+        this.statusList?.find((item) => item.code == status)?.message || status
+      )
+    },
     submitPass() {
       mtzAppNomiSubmit({
         mtzAppId:
@@ -325,67 +285,23 @@ export default {
           store.commit('routerMtzData', data)
           sessionStorage.setItem('MtzLIst', JSON.stringify(data))
           console.log('submitRequest')
-          this.getType()
+          this.getAppById()
         } else {
           iMessage.error(res.desZh)
         }
       })
     },
-    chioce(data, name) {
-      // console.log(data)
-      pageAppRule({
-        pageNo: 1,
-        pageSize: 99999,
-        mtzAppId:
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-      }).then((res) => {
-        this.tableData = res.data
-        var num = 0
-        res.data.forEach((e) => {
-          if (e.formalFlag == 'N') {
-            num++
-          }
-        })
-        if (num !== 0 && data == 'SIGN') {
-          this.formInfor.flowType = this.flowType
-          return iMessage.error(
-            this.language(
-              'WHMTZYCLGZCZXGZSQDLXWFXZLZ',
-              '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'
-            )
-          )
-        } else {
-          this.saveEdit(data)
-        }
+    saveEdit() {
+      const chipTTO = {
+        chipDetailList: this.baseData.chipDetailList,
+        chipAppBase: this.formInfor
+      }
+      console.log(this.formInfor)
+      console.log(chipTTO)
+      updateApp(chipTTO).then((res) => {
+        iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
+        this.getAppById()
       })
-    },
-    saveEdit(val) {
-      iMessageBox(
-        this.language('QUERENBAOCUN', '确认保存？'),
-        this.language('LK_WENXINTISHI', '温馨提示'),
-        {
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-        }
-      )
-        .then((res) => {
-          modifyAppFormInfo({
-            ...this.formInfor,
-            flowType: val
-          }).then((res) => {
-            iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
-            var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')))
-            data.refresh = true
-            store.commit('routerMtzData', data)
-            sessionStorage.setItem('MtzLIst', JSON.stringify(data))
-            console.log('saveEdit')
-
-            this.handleSync('')
-            this.getType()
-          })
-        })
-        .catch((res) => {})
     },
     handleSync(params) {
       syncAuther({
@@ -401,19 +317,22 @@ export default {
         }
       })
     },
-    getType() {
-      getAppFormInfo({
-        mtzAppId:
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+    getAppById() {
+      getAppById({
+        appId: this.$route.query.appId
       }).then((res) => {
-        this.formInfor = res.data
-        this.flowType = res.data.flowType
-        this.appStatus = res.data.appStatus
-        this.ttNominateAppId = res.data.ttNominateAppId
-        this.mtzAppName = res.data.appName
-        this.user = res.data.linieName
-        this.dept = res.data.linieDeptName
+        let data = res.data.chipAppBase
+        data.statusDesc = this.getStatus(data.status)
+        this.locationId = data.appNo
+        this.$set(this, 'formInfor', data)
+        this.flowType = data.type
+        this.appStatus = this.getStatus(data.status)
+        this.ttNominateAppId = data.id
+        this.appName = data.appName
+        this.user = data.linieName
+        this.dept = data.depteCode
+        this.baseData = res.data
+        console.log(this.baseData)
       })
     },
     closeType() {
@@ -430,7 +349,7 @@ export default {
         '-' +
         ((this.locationId && this.locationId) || '') +
         '-' +
-        ((this.mtzAppName && this.mtzAppName) || '') +
+        ((this.appName && this.appName) || '') +
         '-' +
         ((this.user && this.user) || '') +
         '-' +
@@ -439,52 +358,45 @@ export default {
 
     // 提交
     submit() {
-      if (this.submitDataList == 0) {
-        iMessage.warn(this.language('MTZGZBNWK', 'MTZ规则不能为空'))
-        return false
+      if (this.baseData.chipDetailList.length == 0) {
+        return iMessage.warn(
+          this.language('芯片补差规则不能为空', '芯片补差规则不能为空')
+        )
       }
-
-      if (
-        this.mtzObject.flowType == undefined &&
-        this.flowType == '' &&
-        this.submitType == ''
-      ) {
+      let type = this.baseData.chipAppBase.type
+      if (!type) {
+        return iMessage.warn(
+          this.language('请选择申请单类型', '请选择申请单类型')
+        )
+      }
+      if (type !== 'FILING') {
+        //上会/流转
+        this.setSubmit()
       } else {
-        this.flowType =
-          this.mtzObject.flowType || this.flowType || this.submitType
-        if (this.flowType !== 'FILING') {
-          //上会/流转
-          this.setSubmit()
-        } else {
-          //备案
-          fetchAppNomiDecisionDataPage({
-            pageNo: 1,
-            pageSize: 10,
-            mtzAppId:
-              this.$route.query.mtzAppId ||
-              JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-          }).then((res) => {
-            if (res && res.code == 200) {
-              if (res.data.length < 1) {
-                return iMessage.error(
-                  this.language(
-                    'SQDLXWBASTJSJCZLZDJCFJBNWK',
-                    '申请单类型为备案时，提交时决策资料中的附件不能为空！'
-                  )
+        //备案
+        fetchAppNomiDecisionDataPage({
+          pageNo: 1,
+          pageSize: 10,
+          appId: this.$route.query.appId
+        }).then((res) => {
+          if (res && res?.code == 200) {
+            if (res.data.length < 1) {
+              return iMessage.error(
+                this.language(
+                  'SQDLXWBASTJSJCZLZDJCFJBNWK',
+                  '申请单类型为备案时，提交时决策资料中的附件不能为空！'
                 )
-              } else {
-                this.submitRequest()
-              }
-            } else iMessage.error(res.desZh)
-          })
-        }
+              )
+            } else {
+              this.submitRequest()
+            }
+          } else iMessage.error(res.desZh)
+        })
       }
     },
     setSubmit() {
       pageApprove({
-        mtzAppId:
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        appId: this.$route.query.appId,
         pageNo: 1,
         pageSize: 10
       }).then((res) => {
@@ -530,7 +442,7 @@ export default {
               store.commit('routerMtzData', data)
               sessionStorage.setItem('MtzLIst', JSON.stringify(data))
               console.log('submitRequest')
-              this.getType()
+              this.getAppById()
             } else {
               iMessage.error(res.desZh)
             }
@@ -542,13 +454,10 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
-      // console.log(this.NumberCESHI++);
-      // this.$router.push({
-      //   path: data.url,
-      //   mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-      // })
-
       if (this.$route.query.currentStep == data.id) return false
+      // 跳转步骤在当前步骤之后，提示保存数据
+      console.log(data.id)
+      console.log(this.stepNum)
       if (data.id > this.stepNum) {
         iMessageBox(
           this.language('QQDSJYJWQBC', '请确定数据已经完全保存？'),
@@ -558,31 +467,24 @@ export default {
             cancelButtonText: this.language('QUXIAO', '取消')
           }
         ).then((res) => {
-          setMtzAppCheckVO({
-            mtzAppId:
-              this.$route.query.mtzAppId ||
-              JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-            isDone: true,
-            stepStr: data.id
-          }).then((res) => {
-            var dataList = this.$route.query
-            this.$router.push({
-              path: data.url,
-              query: {
-                ...dataList,
-                currentStep: data.id,
-                stepNum: data.id,
-                mtzAppName: this.mtzAppName,
-                user: this.user,
-                dept: this.dept,
-                mtzAppId:
-                  this.$route.query.mtzAppId ||
-                  JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                appId: this.$route.query.appId || this.mtzObject.appId
-                // isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
-              }
-            })
+          // setMtzAppCheckVO({
+          //   appId: this.$route.query.appId,
+          //   isDone: true,
+          //   stepStr: data.id
+          // }).then((res) => {
+          var dataList = this.$route.query
+          this.$router.push({
+            path: data.url,
+            query: {
+              ...dataList,
+              currentStep: data.id,
+              stepNum: data.id,
+              appName: this.appName,
+              user: this.user,
+              dept: this.dept
+            }
           })
+          // })
         })
       } else {
         var dataList = this.$route.query
@@ -592,14 +494,9 @@ export default {
             ...dataList,
             currentStep: data.id,
             stepNum: this.locationNow,
-            mtzAppName: this.mtzAppName,
+            appName: this.appName,
             user: this.user,
-            dept: this.dept,
-            mtzAppId:
-              this.$route.query.mtzAppId ||
-              JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-            appId: this.$route.query.appId || this.mtzObject.appId
-            // isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+            dept: this.dept
           }
         })
       }
@@ -615,7 +512,7 @@ export default {
         store.commit('routerMtzData', data)
         sessionStorage.setItem('MtzLIst', JSON.stringify(data))
         console.log('closeBingo')
-        this.getType()
+        this.getAppById()
       }
     },
     closeTyoe() {
@@ -623,8 +520,6 @@ export default {
     }
   },
   destroyed() {
-    // sessionStorage.setItem("MtzLIst", JSON.stringify({}))
-    // store.commit("routerMtzData", {});
     NewMessageBoxClose()
   }
 }
@@ -636,7 +531,7 @@ export default {
   font-weight: bold;
 }
 .opration {
-  margin-right: 100px;
+  margin-right: 20px;
 }
 .stepBoxMap {
   width: 100%;
