@@ -62,7 +62,8 @@ import { pageMixins } from '@/utils/pageMixins'
 import { getMettingList } from '@/api/meeting/home'
 import { mtzAppNomiSubmit } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import {
-  saveMeeting //提交
+  saveMeeting, //提交,
+  submit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 
 export default {
@@ -126,11 +127,8 @@ export default {
           topic: this.selectData[0].name
         }).then((res) => {
           if (res.code == 200 && res.result) {
-            mtzAppNomiSubmit({
-              mtzAppId:
-                this.mtzObject.mtzAppId ||
-                this.$route.query.mtzAppId ||
-                JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+            submit({
+              appId: this.$route.query.appId
             }).then((res) => {
               if (res.result && res.code == 200) {
                 this.$emit('close', 'refresh')

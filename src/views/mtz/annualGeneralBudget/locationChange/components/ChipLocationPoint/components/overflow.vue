@@ -474,11 +474,6 @@ export default {
     closeBingo(val) {
       this.closeDiolog()
       if (val == 'refresh') {
-        var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')))
-        data.refresh = true
-        store.commit('routerMtzData', data)
-        sessionStorage.setItem('MtzLIst', JSON.stringify(data))
-        console.log('closeBingo')
         this.getAppById()
       }
     },
