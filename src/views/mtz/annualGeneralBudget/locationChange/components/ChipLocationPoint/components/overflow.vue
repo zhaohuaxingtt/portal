@@ -19,7 +19,6 @@
             <iSelect
               :disabled="appStatus !== '草稿' && appStatus !== '未通过'"
               v-model="formInfor.type"
-              v-permission.edit="PORTAL_MTZ_POINT_INFOR_SHENQINGDANLEIXING"
               :placeholder="language('QINGXUANZE', '请选择')"
               @change="saveEdit($event)"
             >
@@ -145,11 +144,12 @@ import {
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import {
   updateApp,
   getAppById,
-  getLocationApplyStatus
+  getLocationApplyStatus,
+  pageApprove,
+  submit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import {
   NewMessageBox,
@@ -183,7 +183,6 @@ export default {
       rsType: false,
       downType: true,
       beforReturn: false,
-      flowType: '',
       appStatus: '',
       stepNum: 1,
       ttNominateAppId: '',
@@ -272,10 +271,8 @@ export default {
       )
     },
     submitPass() {
-      mtzAppNomiSubmit({
-        mtzAppId:
-          this.$route.query.mtzAppId ||
-          JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      submit({
+        appId: this.$route.query.appId
       }).then((res) => {
         if (res.result && res.code == 200) {
           iMessage.success(this.language(res.desEn, res.desZh))
@@ -325,7 +322,6 @@ export default {
         data.statusDesc = this.getStatus(data.status)
         this.locationId = data.appNo
         this.$set(this, 'formInfor', data)
-        this.flowType = data.type
         this.appStatus = this.getStatus(data.status)
         this.ttNominateAppId = data.id
         this.appName = data.appName
@@ -363,15 +359,21 @@ export default {
           this.language('芯片补差规则不能为空', '芯片补差规则不能为空')
         )
       }
-      let type = this.baseData.chipAppBase.type
-      if (!type) {
-        return iMessage.warn(
-          this.language('请选择申请单类型', '请选择申请单类型')
-        )
-      }
-      if (type !== 'FILING') {
+      if (this.baseData.chipAppBase.type !== 'FILING') {
         //上会/流转
-        this.setSubmit()
+        if (this.baseData.approveList.length < 1) {
+          iMessage.error(
+            this.language('ZANWUSHENPIRENXINXI', '暂无审批人信息！')
+          )
+        } else {
+          if (this.baseData.chipAppBase.type === 'MEETING') {
+            //上会
+            this.mtzAddShow = true
+          } else if (this.baseData.chipAppBase.type === 'SIGN') {
+            //流转
+            this.submitRequest()
+          }
+        }
       } else {
         //备案
         fetchAppNomiDecisionDataPage({
@@ -394,31 +396,6 @@ export default {
         })
       }
     },
-    setSubmit() {
-      pageApprove({
-        appId: this.$route.query.appId,
-        pageNo: 1,
-        pageSize: 10
-      }).then((res) => {
-        if (res.code === '200' && res.result) {
-          if (res.data.length < 1) {
-            iMessage.error(
-              this.language('ZANWUSHENPIRENXINXI', '暂无审批人信息！')
-            )
-          } else {
-            if (this.flowType === 'MEETING') {
-              //上会
-              this.mtzAddShow = true
-            } else if (this.flowType === 'SIGN') {
-              //流转
-              this.submitRequest()
-            }
-          }
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
     submitRequest() {
       NewMessageBox({
         title: this.language('LK_WENXINTISHI', '温馨提示'),
@@ -427,21 +404,11 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认')
       })
         .then(() => {
-          mtzAppNomiSubmit({
-            mtzAppId:
-              this.$route.query.mtzAppId ||
-              JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          submit({
+            appId: this.$route.query.appId
           }).then((res) => {
             if (res.result && res.code == 200) {
               iMessage.success(this.language(res.desEn, res.desZh))
-
-              var data = deepClone(
-                JSON.parse(sessionStorage.getItem('MtzLIst'))
-              )
-              data.refresh = true
-              store.commit('routerMtzData', data)
-              sessionStorage.setItem('MtzLIst', JSON.stringify(data))
-              console.log('submitRequest')
               this.getAppById()
             } else {
               iMessage.error(res.desZh)

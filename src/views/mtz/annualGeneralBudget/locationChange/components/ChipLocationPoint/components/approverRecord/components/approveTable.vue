@@ -64,11 +64,12 @@
                   remote
                   placeholder="输入关键词搜索"
                   @visible-change="
-                    visibleChange(
+                    getSelectDept(
                       $event,
                       scope.row,
                       'selectDeptList',
-                      'deptList'
+                      'deptList',
+                      1
                     )
                   "
                 >
@@ -104,11 +105,12 @@
                   remote
                   placeholder="输入关键词搜索"
                   @visible-change="
-                    visibleChange(
+                    getSelectDept(
                       $event,
                       scope.row,
                       'selectSectionList',
-                      'officeList'
+                      'officeList',
+                      2
                     )
                   "
                 >
@@ -143,7 +145,13 @@
                   remote
                   placeholder="输入关键词搜索"
                   @visible-change="
-                    visibleChange($event, scope.row, 'userList', 'approvalList')
+                    getSelectDept(
+                      $event,
+                      scope.row,
+                      'userList',
+                      'approvalList',
+                      3
+                    )
                   "
                 >
                   <!-- @change="
@@ -230,13 +238,14 @@ import {
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
 import {
-  deleteApprove,
   selectDept,
   getSourceApproval
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/approve'
 import {
   modifyApprove,
-  pageApprove
+  deleteApprove,
+  pageApprove,
+  syncAuther
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   data() {
@@ -293,14 +302,16 @@ export default {
         val.approveList
         this.formInfo = val.chipAppBase || {}
         if (
-          this.formInfo.appStatus == '草稿' ||
-          this.formInfo.appStatus == '未通过'
+          this.formInfo.statusDesc == '草稿' ||
+          this.formInfo.statusDesc == '未通过'
         ) {
           this.flag = false
         } else {
           this.flag = true
         }
-        this.getTableList()
+        syncAuther({ appId: this.formInfo.id }).then((res) => {
+          this.getTableList()
+        })
       }
     }
   },
@@ -330,108 +341,115 @@ export default {
     },
     handleSelectionChange(val) {
       this.muilteList = val
-      if (this.formInfo.ttNominateAppId == '') {
-        this.muilteList.forEach((item) => {
-          this.$set(item, 'userList', [])
-          selectDept({
-            approvalBy: '',
-            approvalDepartmentNum: '',
-            approvalSectionNum: '',
-            mtzAppId: this.mtzAppId || ''
-          }).then((res) => {
-            if (res?.code === '200') {
-              this.$set(item, 'selectDeptList', res.data.deptList)
-              let deptList = item.selectDeptList.find(
-                (i) => item.approvalDepartment === i.message
-              )
-              if (deptList) {
-                item.approvalDepartmentName = deptList.message || ''
-                selectDept({
-                  approvalBy: '',
-                  approvalDepartmentNum: deptList.code,
-                  approvalSectionNum: '',
-                  mtzAppId: this.mtzAppId || ''
-                }).then((red) => {
-                  this.$set(item, 'selectSectionList', red.data.officeList)
-                  let approvalNameList = item.selectSectionList.find(
-                    (i) => item.approvalSection === i.message
-                  )
-                  if (approvalNameList == undefined) {
-                    this.$set(item, 'userList', red.data.approvalList)
-                  } else {
-                    item.approvalSectionName = approvalNameList.message || ''
-                    selectDept({
-                      approvalBy: '',
-                      approvalDepartmentNum: deptList.code,
-                      approvalSectionNum: approvalNameList.code,
-                      mtzAppId: this.mtzAppId || ''
-                    }).then((rez) => {
-                      this.$set(item, 'userList', rez.data.approvalList)
-                    })
-                  }
-                })
-              }
-            }
-          })
-        })
-      } else {
-        this.muilteList.forEach((item) => {
-          this.$set(item, 'userList', [])
-          getSourceApproval({
-            approvalBy: '',
-            approvalDepartmentNum: '',
-            approvalSectionNum: '',
-            mtzAppId: this.mtzAppId || ''
-          }).then((res) => {
-            if (res?.code === '200') {
-              this.$set(item, 'selectDeptList', res.data.deptList)
-              let deptList = item.selectDeptList.find(
-                (i) => item.approvalDepartment === i.message
-              )
-              if (deptList) {
-                item.approvalDepartmentName = deptList.message || ''
-                getSourceApproval({
-                  approvalBy: '',
-                  approvalDepartmentNum: deptList.code,
-                  approvalSectionNum: '',
-                  mtzAppId: this.mtzAppId || ''
-                }).then((red) => {
-                  this.$set(item, 'selectSectionList', red.data.officeList)
-                  let approvalNameList = item.selectSectionList.find(
-                    (i) => item.approvalSection === i.message
-                  )
-                  if (approvalNameList == undefined) {
-                    this.$set(item, 'userList', red.data.approvalList)
-                  } else {
-                    item.approvalSectionName = approvalNameList.message || ''
-                    getSourceApproval({
-                      approvalBy: '',
-                      approvalDepartmentNum: deptList.code,
-                      approvalSectionNum: approvalNameList.code,
-                      mtzAppId: this.mtzAppId || ''
-                    }).then((rez) => {
-                      this.$set(item, 'userList', rez.data.approvalList)
-                    })
-                  }
-                })
-              }
-            }
-          })
-        })
-      }
+      // if (this.formInfo.ttNominateAppId == '') {
+      //   this.muilteList.forEach((item) => {
+      //     this.$set(item, 'userList', [])
+      //     selectDept({
+      //       approvalBy: '',
+      //       approvalDepartmentNum: '',
+      //       approvalSectionNum: '',
+      //       mtzAppId: this.mtzAppId || ''
+      //     }).then((res) => {
+      //       if (res?.code === '200') {
+      //         this.$set(item, 'selectDeptList', res.data.deptList)
+      //         let deptList = item.selectDeptList.find(
+      //           (i) => item.approvalDepartment === i.message
+      //         )
+      //         if (deptList) {
+      //           item.approvalDepartmentName = deptList.message || ''
+      //           selectDept({
+      //             approvalBy: '',
+      //             approvalDepartmentNum: deptList.code,
+      //             approvalSectionNum: '',
+      //             mtzAppId: this.mtzAppId || ''
+      //           }).then((red) => {
+      //             this.$set(item, 'selectSectionList', red.data.officeList)
+      //             let approvalNameList = item.selectSectionList.find(
+      //               (i) => item.approvalSection === i.message
+      //             )
+      //             if (approvalNameList == undefined) {
+      //               this.$set(item, 'userList', red.data.approvalList)
+      //             } else {
+      //               item.approvalSectionName = approvalNameList.message || ''
+      //               selectDept({
+      //                 approvalBy: '',
+      //                 approvalDepartmentNum: deptList.code,
+      //                 approvalSectionNum: approvalNameList.code,
+      //                 mtzAppId: this.mtzAppId || ''
+      //               }).then((rez) => {
+      //                 this.$set(item, 'userList', rez.data.approvalList)
+      //               })
+      //             }
+      //           })
+      //         }
+      //       }
+      //     })
+      //   })
+      // } else {
+      //   this.muilteList.forEach((item) => {
+      //     this.$set(item, 'userList', [])
+      //     getSourceApproval({
+      //       approvalBy: '',
+      //       approvalDepartmentNum: '',
+      //       approvalSectionNum: '',
+      //       mtzAppId: this.mtzAppId || ''
+      //     }).then((res) => {
+      //       if (res?.code === '200') {
+      //         this.$set(item, 'selectDeptList', res.data.deptList)
+      //         let deptList = item.selectDeptList.find(
+      //           (i) => item.approvalDepartment === i.message
+      //         )
+      //         if (deptList) {
+      //           item.approvalDepartmentName = deptList.message || ''
+      //           getSourceApproval({
+      //             approvalBy: '',
+      //             approvalDepartmentNum: deptList.code,
+      //             approvalSectionNum: '',
+      //             mtzAppId: this.mtzAppId || ''
+      //           }).then((red) => {
+      //             this.$set(item, 'selectSectionList', red.data.officeList)
+      //             let approvalNameList = item.selectSectionList.find(
+      //               (i) => item.approvalSection === i.message
+      //             )
+      //             if (approvalNameList == undefined) {
+      //               this.$set(item, 'userList', red.data.approvalList)
+      //             } else {
+      //               item.approvalSectionName = approvalNameList.message || ''
+      //               getSourceApproval({
+      //                 approvalBy: '',
+      //                 approvalDepartmentNum: deptList.code,
+      //                 approvalSectionNum: approvalNameList.code,
+      //                 mtzAppId: this.mtzAppId || ''
+      //               }).then((rez) => {
+      //                 this.$set(item, 'userList', rez.data.approvalList)
+      //               })
+      //             }
+      //           })
+      //         }
+      //       }
+      //     })
+      //   })
+      // }
     },
-    visibleChange(a, b, c, d) {
-      if (a) {
-        selectDept(b, c, d)
-      } else {
-        console.log(a)
+    getSelectDept(visible, row, prop, dataKey, type) {
+      if (!visible) return
+      let obj = {
+        approvalDepartmentNum: '',
+        approvalSectionNum: '',
+        approvalBy: ''
       }
-    },
-    selectDept(row, prop, dataKey) {
+      if (type == 1) {
+        obj.approvalDepartmentNum = row.approvalDepartmentNum
+      } else if (type == 2) {
+        obj.approvalDepartmentNum = row.approvalDepartmentNum
+        obj.approvalSectionNum = row.approvalSectionNum
+      } else if (type == 3) {
+        obj.approvalDepartmentNum = row.approvalDepartmentNum // 部门
+        obj.approvalSectionNum = row.approvalSectionNum // 科室
+        obj.approvalBy = row.approvalBy // 审核人
+      }
       selectDept({
-        approvalBy: row.approvalName,
-        approvalDepartmentNum: row.approvalDepartment,
-        approvalSectionNum: row.approvalSection,
+        ...obj,
         appId: this.$route.query.appId
       }).then((res) => {
         if (res?.code == '200') {
@@ -444,6 +462,7 @@ export default {
               this.$set(row, 'userList', red.data.approvalList)
             }
           }
+          console.log(row)
         }
       })
     },
@@ -465,13 +484,13 @@ export default {
       )
 
       // if (this.formInfo.ttNominateAppId == '') {
-      selectDept({
-        appId: this.$route.query.appId
-      }).then((res) => {
-        if (res?.code === '200') {
-          this.$set(obj, 'selectDeptList', res.data.deptList)
-        }
-      })
+      // selectDept({
+      //   appId: this.$route.query.appId
+      // }).then((res) => {
+      //   if (res?.code === '200') {
+      //     this.$set(obj, 'selectDeptList', res.data.deptList)
+      //   }
+      // })
       // } else {
       //   getSourceApproval({
       //     approvalBy: '',
@@ -593,7 +612,7 @@ export default {
         return
       }
       let idList = this.muilteList.map((item) => item.id)
-      deleteApprove({ idList }).then((res) => {
+      deleteApprove(idList).then((res) => {
         if (res?.code === '200') {
           iMessage.success(res.desZh)
           this.getTableList()

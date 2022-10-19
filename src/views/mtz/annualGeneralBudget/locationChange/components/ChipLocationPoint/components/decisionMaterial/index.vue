@@ -16,7 +16,12 @@
       :lev="3"
       @change="handleClickNav"
     />
-    <mtz v-if="currentNav == 1" :RsType="RsType" :appStatus="appStatus" />
+    <mtz
+      v-if="currentNav == 1"
+      v-bind="$attrs"
+      :RsType="RsType"
+      :appStatus="appStatus"
+    />
     <accessoryUpload v-if="currentNav == 2" :appStatus="appStatus" />
   </div>
 </template>

@@ -350,15 +350,6 @@ export function mtzConfirm(params) {
   })
 }
 
-export function saveMeeting(params) {
-  //保存会议
-  return request({
-    url: '/mtzAppNomi/saveMeeting',
-    method: 'POST',
-    data: params
-  })
-}
-
 export function listPartNumSupplierIdData(params) {
   //查询跳转后零件主数据展示
   return request({
@@ -673,7 +664,7 @@ export function deleteData(data) {
   })
 }
 
-// 更新申请单
+// 更新保存申请单
 export function updateApp(data) {
   return requestChip({
     url: '/updateApp',
@@ -727,6 +718,16 @@ export function getAppRecordByCondition(data) {
   })
 }
 
+// 
+// 新增申请单审批人初始化
+export function syncAuther(params) {
+  return requestChip({
+    url: '/syncAuther',
+    method: 'POST',
+    params
+  })
+}
+
 //审批⼈&审批记录-分页查询
 export function pageApprove(params) {
   return requestChip({
@@ -742,5 +743,32 @@ export function modifyApprove(data, appId) {
     url: `/modifyApprove?appId=${appId}`,
     method: "POST",
     data
+  })
+}
+
+//审批⼈&审批记录-删除
+export function deleteApprove(data) {
+  return requestChip({
+    url: '/deleteApprove',
+    method: 'POST',
+    data
+  })
+}
+
+// 提交申请单
+export function submit(params) {
+  return requestChip({
+    url: '/submit',
+    method: 'POST',
+    params
+  })
+}
+
+export function saveMeeting(params) {
+  //保存会议
+  return requestChip({
+    url: '/saveMeeting',
+    method: 'POST',
+    data: params
   })
 }

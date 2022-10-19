@@ -14,33 +14,27 @@
       }}</iButton>
     </div>
     <!-- RsObject?mtz决策资料:导出 -->
-    <div
-      ref="qrCodeDiv"
-      id="qrCodeDiv"
-      @click="rulesClick()"
-      style="position: relative"
-    >
+    <div ref="qrCodeDiv" id="qrCodeDiv" style="position: relative">
       <!-- 水印 class="content_dialog" -->
       <div
         class=""
         v-if="
           !RsObject &&
-          (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+          (formData.statusDesc == '流转完成' || formData.statusDesc == '定点')
         "
       ></div>
       <iCard class="upload_hr" ref="tabsBoxTitle" id="tabsBoxTitle">
-        <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
-          <span class="buttonBox" style="margin-top: -10px" v-if="!editMode">
+          <span class="buttonBox" style="margin-top: -10px">
             <iButton
               v-if="
                 RsObject &&
-                formData.flowTypeName == '流转' &&
+                formData.type == 'SIGN' &&
                 !(
-                  formData.appStatus == '流转完成' ||
-                  formData.appStatus == '定点' ||
-                  formData.appStatus == '未通过'
+                  formData.statusDesc == '流转完成' ||
+                  formData.statusDesc == '定点' ||
+                  formData.statusDesc == '未通过'
                 )
               "
               @click="handleToSignPreview"
@@ -49,28 +43,24 @@
               }}</iButton
             >
           </span>
-          <!-- <div class="tabs_box_right"> -->
           <div class="tabs_box_right">
             <template v-if="meetingType">
               <div class="big_text">
                 <span class="samll_val"
-                  >{{ formData.mtzAppId }}-{{ formData.appName }}</span
+                  >{{ formData.appNo }}-{{ formData.appName }}</span
                 >
               </div>
               <div class="small_text">
-                <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
                 <span>Application date：</span>
-                <span class="samll_val">{{ formData.createDate }}</span>
+                <span class="samll_val">{{ getDay(formData.createDate) }}</span>
               </div>
               <div class="small_text">
-                <!-- <span>{{language("KESHI","科室")}}：</span> -->
                 <span>Commodity：</span>
-                <span class="samll_val">{{ formData.linieDeptName }}</span>
+                <span class="samll_val">{{ formData.depteName }}</span>
               </div>
               <div>
-                <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
                 <span>Buyer：</span>
-                <span class="samll_val">{{ formData.linieNameEn }}</span>
+                <span class="samll_val">{{ formData.linieName }}</span>
               </div>
             </template>
           </div>
@@ -94,7 +84,6 @@
           ref="moviesTable"
           :tableData="ruleTableListData"
           :tableTitle="ruleTableTitle1_1"
-          @handleClickRow="handleCurrentChangeTable"
           :tableLoading="loadingRule"
           :header-row-class-name="'ruleTableHeader'"
           :index="true"
@@ -103,32 +92,19 @@
           :selection="false"
           border
         >
-          <template slot-scope="scope" slot="compensationPeriod">
+          <template slot-scope="scope" slot="method">
             <span>{{
-              scope.row.compensationPeriod == 'A'
-                ? '年度'
-                : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{
-              scope.row.thresholdCompensationLogic == 'A'
-                ? '全额补差'
-                : scope.row.thresholdCompensationLogic == 'B'
-                ? '超额补差'
-                : ''
+              scope.row.method == '0' ? '变价单补差' : '一次性补差'
             }}</span>
           </template>
           <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.sapCode }}</span>
+          </template>
+          <template slot-scope="scope" slot="startDate">
+            <span>{{ getDay(scope.row.startDate) }}</span>
+          </template>
+          <template slot-scope="scope" slot="endDate">
+            <span>{{ getDay(scope.row.endDate) }}</span>
           </template>
         </tableList>
         <!-- 导出规则表格 -->
@@ -146,22 +122,7 @@
           border
         >
           <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
-          </template>
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
-                ? '年度'
-                : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
+            <span>{{ scope.row.sapCode }}</span>
           </template>
         </tableList>
         <div class="padding-bottom30" ref="padding"></div>
@@ -173,8 +134,8 @@
             <iButton
               v-if="
                 RsObject &&
-                (formData.appStatus == '草稿' ||
-                  formData.appStatus == '未通过') &&
+                (formData.statusDesc == '草稿' ||
+                  formData.statusDesc == '未通过') &&
                 meetingNumber == 0
               "
               @click="handleClickSave($event)"
@@ -187,8 +148,8 @@
           v-model="formData.remark"
           :disabled="
             !(
-              (formData.appStatus == '草稿' ||
-                formData.appStatus == '未通过') &&
+              (formData.statusDesc == '草稿' ||
+                formData.statusDesc == '未通过') &&
               RsObject &&
               meetingNumber == 0
             )
@@ -244,8 +205,8 @@
                 <iButton
                   v-if="
                     RsObject &&
-                    (formData.appStatus == '草稿' ||
-                      formData.appStatus == '未通过') &&
+                    (formData.statusDesc == '草稿' ||
+                      formData.statusDesc == '未通过') &&
                     meetingNumber == 0
                   "
                   @click="handleClickSave($event)"
@@ -328,7 +289,8 @@
           <div
             v-if="
               !RsObject &&
-              (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+              (formData.statusDesc == '流转完成' ||
+                formData.statusDesc == '定点')
             "
           ></div>
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
@@ -344,9 +306,9 @@
                     RsObject &&
                     formData.flowTypeName == '流转' &&
                     !(
-                      formData.appStatus == '流转完成' ||
-                      formData.appStatus == '定点' ||
-                      formData.appStatus == '未通过'
+                      formData.statusDesc == '流转完成' ||
+                      formData.statusDesc == '定点' ||
+                      formData.statusDesc == '未通过'
                     )
                   "
                   @click="handleToSignPreview"
@@ -359,7 +321,7 @@
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
                   <span class="samll_val"
-                    >{{ formData.mtzAppId }}-{{ formData.appName }}</span
+                    >{{ formData.appId }}-{{ formData.appName }}</span
                   >
                 </div>
                 <div class="small_text">
@@ -394,7 +356,6 @@
               class="margin-top20"
               :tableData="tableData"
               :tableTitle="ruleTableTitle1_1"
-              @handleClickRow="handleCurrentChangeTable"
               :tableLoading="loadingRule"
               :index="true"
               v-if="RsObject"
@@ -477,7 +438,8 @@
           <div
             v-if="
               !RsObject &&
-              (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+              (formData.statusDesc == '流转完成' ||
+                formData.statusDesc == '定点')
             "
           ></div>
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
@@ -493,9 +455,9 @@
                     RsObject &&
                     formData.flowTypeName == '流转' &&
                     !(
-                      formData.appStatus == '流转完成' ||
-                      formData.appStatus == '定点' ||
-                      formData.appStatus == '未通过'
+                      formData.statusDesc == '流转完成' ||
+                      formData.statusDesc == '定点' ||
+                      formData.statusDesc == '未通过'
                     )
                   "
                   @click="handleToSignPreview"
@@ -508,7 +470,7 @@
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
                   <span class="samll_val"
-                    >{{ formData.mtzAppId }}-{{ formData.appName }}</span
+                    >{{ formData.appId }}-{{ formData.appName }}</span
                   >
                 </div>
                 <div class="small_text">
@@ -546,7 +508,8 @@
           <div
             v-if="
               !RsObject &&
-              (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+              (formData.statusDesc == '流转完成' ||
+                formData.statusDesc == '定点')
             "
           ></div>
           <div :style="{ height: remarkPageHeight + 'px', background: '#fff' }">
@@ -559,8 +522,8 @@
                   <iButton
                     v-if="
                       RsObject &&
-                      (formData.appStatus == '草稿' ||
-                        formData.appStatus == '未通过') &&
+                      (formData.statusDesc == '草稿' ||
+                        formData.statusDesc == '未通过') &&
                       meetingNumber == 0
                     "
                     @click="handleClickSave($event)"
@@ -640,7 +603,7 @@
         <div
           v-if="
             !RsObject &&
-            (formData.appStatus == '流转完成' || formData.appStatus == '定点')
+            (formData.statusDesc == '流转完成' || formData.statusDesc == '定点')
           "
         ></div>
         <div :style="{ height: remarkPageHeight + 'px', background: '#fff' }">
@@ -725,15 +688,15 @@ import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1 } from './data'
 import {
   pageAppRule,
-  pagePartMasterData,
   fetchSaveCs1Remark,
   approvalList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { updateApp } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
-import { getAppById } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   mixins: [pageMixins],
   components: {
@@ -745,7 +708,12 @@ export default {
     tableList
   },
   props: {
-    RsType: { type: Boolean }
+    RsType: { type: Boolean },
+
+    baseData: {
+      type: Object,
+      default: () => ({})
+    }
   },
   inject: ['pageTitle'],
   data() {
@@ -775,14 +743,39 @@ export default {
     }
   },
   watch: {
-    mtzObject(newVlue, oldValue) {
-      this.getAppById()
-    },
     getRemarkAll(val) {
       if (val.length)
         this.$nextTick(() => {
           this.computedRemark()
         })
+    },
+    baseData: {
+      handler(val) {
+        console.log(val)
+        this.ruleTableListData = val.chipDetailList || []
+        this.formData = val.chipAppBase || {}
+        if (
+          this.formData.type == 'SIGN' &&
+          !(
+            this.formData.statusDesc == '流转完成' ||
+            this.formData.statusDesc == '定点' ||
+            this.formData.statusDesc == '未通过'
+          )
+        ) {
+          if (this.meetingNumber == 0) {
+            if (this.RsObject) {
+              this.meetingType = false
+            } else {
+              this.meetingType = true
+            }
+          } else {
+            this.meetingType = true
+          }
+        } else {
+          this.meetingType = true
+        }
+      },
+      deep: true
     }
   },
   created() {
@@ -790,28 +783,22 @@ export default {
       this.RsObject = false
     }
     this.initApplayDateData()
-    this.getAppById()
-    this.getPageAppRule()
-    this.getPagePartMasterData()
   },
   computed: {
-    mtzObject() {
-      return this.$store.state.location.mtzObject
-    },
     title() {
       let res = ''
-      switch (this.formData.flowType) {
+      switch (this.formData.type) {
         case 'MEETING':
           // 上会
-          res = 'CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
+          res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
           break
         case 'SIGN':
           // 流转
-          res = '流转定点推荐 - MTZ Nomination Recommendation - MTZ'
+          res = '流转定点推荐 - 芯片补差 Nomination Recommendation - Chip'
           break
         case 'FILING':
           // 备案
-          res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
+          res = '备案定点推荐 - 芯片补差 Nomination Recommendation - Chip'
           break
         default:
           break
@@ -819,9 +806,7 @@ export default {
       return res
     },
     isMeeting() {
-      return (
-        this.formData.flowType == 'MEETING' || this.formData.flowType == 'SIGN'
-      )
+      return this.formData.type == 'MEETING' || this.formData.type == 'SIGN'
     },
 
     getRemarkAll() {
@@ -840,6 +825,10 @@ export default {
     }
   },
   methods: {
+    getDay(date) {
+      console.log(date)
+      return date ? date.split(' ')[0] : date
+    },
     // 计算备注高度
     computedRemark() {
       // 考虑边框问题 test（28）.pdf
@@ -880,40 +869,6 @@ export default {
         }
       }
       this.remarkList = remarkList
-    },
-    handleCurrentChangeTable(e) {
-      this.clickRulesNumber = 1
-      this.loadingPart = true
-      var list = {
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: 1,
-        pageSize: 99999,
-        ruleNo: e.ruleNo
-      }
-      pagePartMasterData(list).then((res) => {
-        if (res && res.code == 200) {
-          this.partTableListData = res.data
-          this.clickRulesNumber = 0
-          this.loadingPart = false
-        } else iMessage.error(res.desZh)
-      })
-    },
-    rulesClick() {
-      if (!this.RsObject) return false
-      if (this.clickRulesNumber == 0) {
-        this.loadingPart = true
-        var list = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-          pageNo: 1,
-          pageSize: 99999
-        }
-        pagePartMasterData(list).then((res) => {
-          if (res && res.code == 200) {
-            this.partTableListData = res.data
-            this.loadingPart = false
-          } else iMessage.error(res.desZh)
-        })
-      }
     },
     downPdf() {
       this.percentage = '0'
@@ -956,7 +911,7 @@ export default {
     },
     initApplayDateData() {
       approvalList({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        appId: this.$route.query.appId
       }).then((res) => {
         if (res?.code === '200') {
           let data = res.data
@@ -968,59 +923,6 @@ export default {
           iMessage.error(res.desZh)
         }
       })
-    },
-    // 获取申请单信息
-    getAppById() {
-      getAppById({
-        appId: this.$route.query.appId
-      }).then((res) => {
-        if (res && res.code == 200) {
-          const data = res.data.chipAppBase
-          this.formData = data
-          if (
-            this.formData.type == 'SIGN' &&
-            !(
-              this.formData.appStatus == '流转完成' ||
-              this.formData.appStatus == '定点' ||
-              this.formData.appStatus == '未通过'
-            )
-          ) {
-            if (this.meetingNumber == 0) {
-              if (this.RsObject) {
-                this.meetingType = false
-              } else {
-                this.meetingType = true
-              }
-            } else {
-              this.meetingType = true
-            }
-          } else {
-            this.meetingType = true
-          }
-        } else iMessage.error(res.desZh)
-      })
-    },
-    // 获取规则清单表格数据
-    getPageAppRule() {
-      var list = {}
-
-      list = {
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: 1,
-        pageSize: 99999
-      }
-      // }
-      pageAppRule(list)
-        .then((res) => {
-          if (res && res.code == 200) {
-            this.ruleTableListData = res.data
-          } else iMessage.error(res.desZh)
-        })
-        .finally(() => {
-          this.$nextTick(() => {
-            this.computedRuleTableHeight()
-          })
-        })
     },
     computedRuleTableHeight() {
       let rowList =
@@ -1060,28 +962,6 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.ruleTableList = tableList
-    },
-    // 获取零件清单表格数据
-    getPagePartMasterData() {
-      var list = {}
-
-      list = {
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: 1,
-        pageSize: 99999
-      }
-      // }
-      pagePartMasterData(list)
-        .then((res) => {
-          if (res && res.code == 200) {
-            this.partTableListData = res.data
-          } else iMessage.error(res.desZh)
-        })
-        .finally(() => {
-          this.$nextTick(() => {
-            this.computedPartTableHeight()
-          })
-        })
     },
 
     computedPartTableHeight() {
@@ -1126,16 +1006,12 @@ export default {
     // 点击保存
     handleClickSave(el) {
       el.cancelBubble = true
-      let params = {}
-      params = {
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        linieMeetingMemo: this.formData.linieMeetingMemo
-          ? this.formData.linieMeetingMemo
-          : ''
+      let params = {
+        ...this.baseData,
+        chipAppBase: this.formData
       }
-      fetchSaveCs1Remark(params).then((res) => {
+      updateApp(params).then((res) => {
         if (res && res.code == 200) {
-          this.getAppById()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -1145,7 +1021,7 @@ export default {
       const { href } = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
         query: {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+          appId: this.$route.query.appId
         }
       })
       window.open(href, '_blank')
