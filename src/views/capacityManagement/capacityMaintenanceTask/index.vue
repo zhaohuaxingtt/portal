@@ -157,8 +157,7 @@ import {
   tableTitleLeft,
   tableTitleRight,
   taskStatusList,
-  sourceTypeList,
-  result
+  sourceTypeList
 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from 'rise/web/components/iTableSort'
@@ -283,7 +282,10 @@ export default {
         : ''
       getUnfinishTaskList(params).then((res) => {
         if (res?.code == '200') {
-          this.tableDataLeft = res.data || result
+          this.tableDataLeft = res.data
+          if (this.tableDataLeft.length == 0) {
+            this.supplierInfo = this.tableDataLeft[0]
+          }
           this.$nextTick(() => {
             // this.rowClick(this.tableDataLeft[0])
             this.rowClick()
