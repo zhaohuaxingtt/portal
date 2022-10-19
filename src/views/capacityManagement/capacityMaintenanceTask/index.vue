@@ -157,8 +157,7 @@ import {
   tableTitleLeft,
   tableTitleRight,
   taskStatusList,
-  sourceTypeList,
-  result
+  sourceTypeList
 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from 'rise/web/components/iTableSort'
@@ -277,27 +276,15 @@ export default {
     },
     getUnfinishTaskList() {
       this.loading = true
-      // this.loadingInstance = Loading.service({
-      //   lock: true,
-      //   text: 'Loading',
-      //   spinner: 'el-icon-loading'
-      // })
-      // 接口太慢，先用假数据
-      // this.tableDataLeft = result
-      // this.$nextTick(() => {
-      //   this.$refs.supplierTable?.$refs?.moviesTable?.setCurrentRow(
-      //     this.tableDataLeft[0]
-      //   )
-      // })
       const params = JSON.parse(JSON.stringify(this.form))
       params.department = Array.isArray(params.department)
         ? params.department.join(',')
         : ''
       getUnfinishTaskList(params).then((res) => {
         if (res?.code == '200') {
-          this.tableDataLeft = res.data || result
+          this.tableDataLeft = res.data
           this.$nextTick(() => {
-            this.rowClick(this.tableDataLeft[0])
+            this.rowClick()
           })
         } else {
           this.loading = false
