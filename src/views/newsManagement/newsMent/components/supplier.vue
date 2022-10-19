@@ -242,7 +242,7 @@ export default {
         supplierNameZh: null,
         sapNum: null,
         svwCode: null,
-        supplierType: 2,
+        supplierType: 1,
         isActive: null,
         deptCodeList: [],
         tagIds: [],
