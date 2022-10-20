@@ -3109,6 +3109,8 @@
 
     "自动创建":"自动创建",
     "手动创建":"手动创建",
+
+    SFCXGSSTJXSYSJ:"是否冲销该搜索条件下所有数据？",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })
