@@ -710,6 +710,7 @@ export default {
         if (this.muiltSelectList.length === 0) {
           iMessageBox(this.$t("SFCXGSSTJXSYSJ")).then(()=>{
             this.tableLoading = true
+            this.offsetLoading = true
             if (this.searchFlag) {
               delete this.searchForm.effPriceFrom
               delete this.searchForm.effPriceTo
@@ -722,8 +723,10 @@ export default {
             }
             changeAll(params).then(res=>{
               if(res?.result){
+                this.offsetLoading = true
                 this.tableLoading = false;
                 iMessage.success(res.desZh)
+                this.query()
               }else{
                 this.tableLoading = false;
                 iMessage.error(res.desZh)
