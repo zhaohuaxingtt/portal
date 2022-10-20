@@ -276,6 +276,7 @@ import {
   iCard,
   iButton,
   iMessage,
+  iMessageBox,
   iDialog,
   iSelectCustom,
   iInput,
@@ -300,6 +301,10 @@ import {
   fetchQueryComp,
   fetchSaveComp
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+
+import {
+    changeAll,
+} from '@/api/mtz/mtzCalculationTask'
 export default {
   name: 'Search',
   mixins: [pageMixins],
@@ -375,6 +380,7 @@ export default {
     },
     selectData: {
       handler (val) {
+        console.log(val)
         if (val && val.length !== 0) {
           this.firstSupplierName = val[0].firstSupplierName
           this.firstSupplier = val[0].firstSupplierId
@@ -700,25 +706,73 @@ export default {
       this.$refs.iTable.clearSelection()
     },
     offset () {
-      if (this.muiltSelectList.length === 0) {
-        iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
-        return
-      }
-      this.offsetLoading = true
-      let params = []
-      this.muiltSelectList.forEach((item) => {
-        params.push(item.id)
-      })
-      chargeAgainstMTZComp(params).then((res) => {
-        if (res?.code === '200') {
-          this.offsetLoading = false
-          iMessage.success(res.desZh)
-          this.query()
-        } else {
-          this.offsetLoading = false
-          iMessage.error(res.desZh)
+      if(this.tableData.length > 0){
+        if (this.muiltSelectList.length === 0) {
+          iMessageBox(this.$t("SFCXGSSTJXSYSJ")).then(()=>{
+            this.tableLoading = true
+            if (this.searchFlag) {
+              delete this.searchForm.effPriceFrom
+              delete this.searchForm.effPriceTo
+            }
+
+            let params = {
+              pageNo: 1,
+              pageSize: 100000,
+              ...this.searchForm
+            }
+            changeAll(params).then(res=>{
+              if(res?.result){
+                this.tableLoading = false;
+                iMessage.success(res.desZh)
+              }else{
+                this.tableLoading = false;
+                iMessage.error(res.desZh)
+              }
+            })
+          })
+        }else{
+          this.offsetLoading = true
+          let params = []
+          this.muiltSelectList.forEach((item) => {
+            params.push(item.id)
+          })
+          chargeAgainstMTZComp(params).then((res) => {
+            if (res?.code === '200') {
+              this.offsetLoading = false
+              iMessage.success(res.desZh)
+              this.query()
+            } else {
+              this.offsetLoading = false
+              iMessage.error(res.desZh)
+            }
+          })
         }
-      })
+      }else{
+        iMessage.error(this.language('暂无数据，无法冲销'))
+      }
+
+
+
+
+      // if (this.muiltSelectList.length === 0) {
+      //   iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
+      //   return
+      // }
+      // this.offsetLoading = true
+      // let params = []
+      // this.muiltSelectList.forEach((item) => {
+      //   params.push(item.id)
+      // })
+      // chargeAgainstMTZComp(params).then((res) => {
+      //   if (res?.code === '200') {
+      //     this.offsetLoading = false
+      //     iMessage.success(res.desZh)
+      //     this.query()
+      //   } else {
+      //     this.offsetLoading = false
+      //     iMessage.error(res.desZh)
+      //   }
+      // })
     },
     submit () {
       if (this.flag) {
@@ -820,7 +874,8 @@ export default {
         purchaseGroupList: this.searchForm.ekGroupList,
         sapOrderNoList: this.searchForm.sapOrderNo,
         spartNoList: this.searchForm.spartNo,
-        ssupplierCodeList: this.searchForm.secondSupplierList
+        ssupplierCodeList: this.searchForm.secondSupplierList,
+        fSupplierName:this.searchForm.firstSupplierName,
       }
       this.$refs['formList'].validate((valid) => {
         if (valid) {
