@@ -287,6 +287,9 @@ import comboBox from './comboBox'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { TABLE_COLUMS } from './data'
+
+import { NewMessageBox, NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
+
 import {
   getMtzSupplierList,
   balanceCalcuLate
@@ -708,7 +711,12 @@ export default {
     offset () {
       if(this.tableData.length > 0){
         if (this.muiltSelectList.length === 0) {
-          iMessageBox(this.$t("SFCXGSSTJXSYSJ")).then(()=>{
+          NewMessageBox({
+            title: this.language('LK_WENXINTISHI', '温馨提示'),
+            Tips: this.$t("SFCXGSSTJXSYSJ"),
+            cancelButtonText: this.language('QUXIAO', '取消'),
+            confirmButtonText: this.language('QUEREN', '确认'),
+          }).then(()=>{
             this.tableLoading = true
             this.offsetLoading = true
             if (this.searchFlag) {
@@ -723,11 +731,12 @@ export default {
             }
             changeAll(params).then(res=>{
               if(res?.result){
-                this.offsetLoading = true
+                this.offsetLoading = false
                 this.tableLoading = false;
                 iMessage.success(res.desZh)
                 this.query()
               }else{
+                this.offsetLoading = false
                 this.tableLoading = false;
                 iMessage.error(res.desZh)
               }
@@ -919,6 +928,9 @@ export default {
         })
       }
     }
+  },
+  destroyed () {
+    NewMessageBoxClose();
   }
 }
 </script>
