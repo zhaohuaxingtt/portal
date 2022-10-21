@@ -232,7 +232,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iMessage, iDialog, iSelectCustom } from 'rise'
+import { iCard, iButton, iMessage, iDialog, iSelectCustom,iMessageBox } from 'rise'
 // import comboBox from './comboBox'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
@@ -245,6 +245,10 @@ import {
   getDataList,
   mtzEditRecall
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+
+import {
+    changeAll,
+} from '@/api/mtz/mtzCalculationTask'
 
 export default {
   name: 'Search',
@@ -443,6 +447,54 @@ export default {
       })
     },
     offset () {
+      // if(this.tableData.length > 0){
+      //   if (this.muiltSelectList.length === 0) {
+      //     iMessageBox(this.$t("SFCXGSSTJXSYSJ")).then(()=>{
+      //       this.tableLoading = true
+      //       if (this.searchFlag) {
+      //         delete this.searchForm.effPriceFrom
+      //         delete this.searchForm.effPriceTo
+      //       }
+
+      //       let params = {
+      //         pageNo: 1,
+      //         pageSize: 100000,
+      //         ...this.searchForm
+      //       }
+      //       changeAll(params).then(res=>{
+      //         if(res?.result){
+      //           this.tableLoading = false;
+      //           iMessage.success(res.desZh)
+      //         }else{
+      //           this.tableLoading = false;
+      //           iMessage.error(res.desZh)
+      //         }
+      //       })
+      //     })
+      //   }else{
+      //     this.offsetLoading = true
+      //     let params = []
+      //     this.muiltSelectList.forEach((item) => {
+      //       params.push(item.id)
+      //     })
+      //     chargeAgainstMTZComp(params).then((res) => {
+      //       if (res.code === '200') {
+      //         iMessage.success(res.desZh)
+      //         this.getDataFunc(this.dataAll)
+      //         this.query()
+      //         this.offsetLoading = false
+      //       } else {
+      //         iMessage.error(res.desZh)
+      //         this.offsetLoading = false
+      //       }
+      //     })
+      //   }
+      // }else{
+      //   iMessage.error(this.language('暂无数据，无法冲销'))
+      // }
+
+
+
       if (this.muiltSelectList.length === 0) {
         iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
         return
