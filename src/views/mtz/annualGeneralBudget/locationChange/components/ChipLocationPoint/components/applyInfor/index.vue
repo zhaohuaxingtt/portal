@@ -116,7 +116,7 @@
       @isNomiNumber="isNomiNum"
       @handleReset="handleReset"
       :appStatus="inforData.statusDesc"
-      :flowType="inforData.flowType"
+      :type="inforData.type"
       :chipDetailList="chipDetailList"
       :baseData="baseData"
       @init="init"
@@ -264,7 +264,7 @@ export default {
     handleReset() {
       modifyAppFormInfo({
         ...this.inforData,
-        flowType: 'MEETING'
+        type: 'MEETING'
       }).then((res) => {
         if (res.code == 200) {
           setTimeout(() => {
@@ -293,7 +293,7 @@ export default {
           this.language('SHENQINGDANMINGBUNENGWEIKONG', '申请单名不能为空')
         )
       }
-      if (this.inforData.flowType == 'SIGN' && this.numIsNomi !== 0) {
+      if (this.inforData.type == 'SIGN' && this.numIsNomi !== 0) {
         //流转
         return iMessage.error(
           this.language(

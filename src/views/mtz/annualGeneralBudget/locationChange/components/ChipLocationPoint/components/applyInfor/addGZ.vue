@@ -341,7 +341,7 @@ export default {
         exchangeRate: 1,
         materialGroup: '',
         materialName: '',
-        method: 0,
+        method: 2,
         partName: '',
         partNum: '',
         sapCode: '',
@@ -381,13 +381,13 @@ export default {
       },
       methodList: [
         {
-          code: 0,
-          message: '变价单补差'
-        },
-        {
           code: 1,
           message: '一次性补差',
           disabled: true
+        },
+        {
+          code: 2,
+          message: '变价单补差'
         }
       ],
       materialCode: [],

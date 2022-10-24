@@ -8,29 +8,13 @@
         {{ language('维护芯片补差规则', '维护芯片补差规则') }}
       </span>
       <div>
-        <el-upload
-          class="upload-demo"
-          style="display: inline-block; margin-right: 10px"
-          multiple
-          :action="uploadUrl"
-          :show-file-list="false"
-          :on-success="uploadSuccess"
-          :on-progress="uploadProgress"
-          :data="uploadData"
-          :before-upload="beforeUpload"
-          :on-exceed="handleExceed"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-        >
-          <el-tooltip
-            :content="
-              language('WENJIANDAXIAOBUCHAOGUO20MB', '文件大小不超过20MB')
-            "
-            placement="top"
-            effect="light"
-          >
-            <iButton>{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
-          </el-tooltip>
-        </el-upload>
+        <uploadButton
+          ref="uploadButtonAttachment"
+          :buttonText="language('DAORU', '导入')"
+          :uploadByBusiness="true"
+          @uploadedCallback="uploaded"
+          class="margin-right20"
+        />
         <iButton
           @click="download"
           v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
@@ -78,7 +62,6 @@
         :data="tableData"
         ref="moviesTable"
         border
-        v-loading="loading"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -123,7 +106,7 @@
             >
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
               <span>{{
-                scope.row.method == '0' ? '变价单补差' : '一次性补差'
+                scope.row.method == '2' ? '变价单补差' : '一次性补差'
               }}</span>
             </el-form-item>
           </template>
@@ -300,18 +283,14 @@ import {
 } from 'rise'
 import continueBox from './continueBox'
 import addGZ from './addGZ'
-import { deepClone, isNumber } from './util'
+import uploadButton from '@/components/uploadButton'
 import { formRulesGZ } from './data'
-import {
-  cartypePaged, //车型
-  currencyDict
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
-import {
-  fetchRemoteMtzMaterial //查询MTZ材料组
-} from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
+import { currencyDict } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
 import {
   updateApp,
-  deleteAppDetail
+  deleteAppDetail,
+  uploadData,
+  downloadFile
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 
 export default {
@@ -320,6 +299,7 @@ export default {
   components: {
     iCard,
     iButton,
+    uploadButton,
     iPagination,
     iInput,
     iDatePicker,
@@ -329,70 +309,20 @@ export default {
     addGZ
   },
   watch: {},
-  props: [
-    'appStatus',
-    'flowType',
-    'relationType',
-    'chipDetailList',
-    'baseData'
-  ],
-  //   mixins: [pageMixins],
+  props: ['appStatus', 'type', 'relationType', 'chipDetailList', 'baseData'],
   data() {
     return {
       tcCurrence: [],
       formRules: formRulesGZ,
-      // dataObject: [],
-      // supplierList: [],
       newDataList: [], //传过来的列表数据
       editType: false,
-      // tableData: [],
       editId: '',
       selectList: [],
-      loading: false,
-      listData: {},
-      selectData: {},
-
-      effectFlag: [
-        {
-          code: 0,
-          message: '否'
-        },
-        {
-          code: 1,
-          message: '是'
-        }
-      ],
-      compensationPeriod: [
-        { code: 'A', message: '年度' },
-        { code: 'H', message: '半年度' },
-        { code: 'Q', message: '季度' },
-        { code: 'M', message: '月度' }
-      ],
-      thresholdCompensationLogic: [
-        {
-          code: 'A',
-          message: '全额补差'
-        },
-        {
-          code: 'B',
-          message: '超额补差'
-        }
-      ],
-      priceMeasureUnit: [
-        //基价计量单位
-        {
-          code: '0',
-          message: 'KG'
-        }
-      ],
-      materialGroup: [],
-      // materialCode: [],
       mtzAddShow: false,
       addDialog: false,
-
+      resetNum: false,
       dialogEditType: false, //判断是否是沿用过来的数据
-      carline: [], //车型
-      resetNum: false
+      carline: [] //车型
     }
   },
   watch: {
@@ -407,17 +337,80 @@ export default {
     }
   },
   created() {
-    cartypePaged({
-      current: 1,
-      size: 99999
-    }).then((res) => {
-      this.carline = res.data
-    })
+    // 汇率
     currencyDict().then((res) => {
       this.tcCurrence = res.data
     })
   },
   methods: {
+    beforeUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 20
+      if (!isLt2M) {
+        iMessage.error('上传文件大小不能超过 20MB!')
+      }
+      return isLt2M
+    },
+    handleExceed(files, fileList) {
+      iMessage.warn(
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
+      )
+    },
+    uploadSuccess(res, file) {
+      if (res.code == 200 && res.result) {
+        this.getTableList()
+      } else {
+        if (res.data == null) {
+          iMessage.error(res.desZh)
+        } else {
+          this.errorList = res.data
+          this.cancelNo = true
+        }
+      }
+    },
+    async uploaded(content) {
+      const formData = new FormData()
+      formData.append('file', content.file)
+      formData.append('applicationName', 'rise')
+      const res = await uploadData(formData, { appId: this.$route.query.appId })
+      if (res?.code == '200') {
+        iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+        this.$emit('init')
+      } else {
+        iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+      }
+    },
+
+    download() {
+      iMessageBox(
+        this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'),
+        this.language('LK_WENXINTISHI', '温馨提示'),
+        {
+          confirmButtonText: this.language('QUEREN', '确认'),
+          cancelButtonText: this.language('QUXIAO', '取消')
+        }
+      ).then((res) => {
+        downloadFile({
+          appId: this.$route.query.appId
+        }).then((res) => {
+          let url = window.URL.createObjectURL(res)
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          let fname =
+            '芯片补差-' +
+            this.baseData.chipAppBase.appNo +
+            '-' +
+            this.baseData.chipAppBase.appName +
+            '.xlsx'
+          link.setAttribute('download', fname)
+          document.body.appendChild(link)
+          link.click()
+          link.parentNode.removeChild(link)
+        })
+      })
+    },
     getDay(date) {
       return date ? date.split(' ')[0] : date
     },
@@ -428,22 +421,11 @@ export default {
       //新增
       if (this.type !== 'SIGN') {
         this.addDialog = true
-        // var list = [];
-        // this.tableData.forEach(e => {
-        //   list.push({
-        //     supplierId: e.supplierId || "",
-        //     materialCode: e.materialCode || "",
-        //     price: e.price || "",
-        //     startDate: e.startDate || "",
-        //     endDate: e.endDate || ""
-        //   })
-        // })
-        // this.dataObject = list;
       } else {
         iMessageBox(
           this.language(
-            'XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ',
-            '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'
+            '新增芯片补差规则时，申请单类型不能为流转，继续添加会重置申请单类型，是否确认添加？',
+            '新增芯片补差规则时，申请单类型不能为流转，继续添加会重置申请单类型，是否确认添加？'
           ),
           this.language('LK_WENXINTISHI', '温馨提示'),
           {
@@ -451,25 +433,30 @@ export default {
             cancelButtonText: this.language('QUXIAO', '取消')
           }
         ).then((res) => {
-          // iMessage.success(this.language("KAIFAZHONG","开发中"))
           this.addDialog = true
-          // var list = [];
-          // this.tableData.forEach(e => {
-          //   list.push({
-          //     supplierId: e.supplierId || "",
-          //     materialCode: e.materialCode || "",
-          //     price: e.price || "",
-          //     startDate: e.startDate || "",
-          //     endDate: e.endDate || "",
-          //   })
-          // })
-          // this.dataObject = list;
-          this.resetNum = true //流转
+          this.resetNum = true
         })
       }
     },
     addDialogGZList() {
       this.$emit('init')
+      //mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
+      // if (this.resetNum) {
+      //   //流转
+      //   const chipAppBase = {
+      //     ...this.baseData.chipAppBase,
+      //     type: 'MEETING'
+      //   }
+      //   const chipTTO = {
+      //     chipDetailList: this.baseData.chipDetailList,
+      //     chipAppBase: chipAppBase
+      //   }
+      //   updateApp(chipTTO).then((res) => {
+      //     console.log(res)
+      //     this.$emit('init')
+      //   })
+      //   this.resetNum = false
+      // }
       this.saveGzDialog()
     },
     edit() {
@@ -479,9 +466,6 @@ export default {
         var changeArrayList = []
         this.selectList.forEach((item) => {
           changeArrayList.push(item.id)
-          // checkPreciousMetal({code:item.materialCode}).then(res=>{
-          //     this.$set(item,"metalType",res.data)
-          // })
         })
         this.editId = changeArrayList
         this.dialogEditType = false
@@ -491,66 +475,6 @@ export default {
     },
 
     save() {
-      //保存
-      // if (this.dialogEditType) {
-      //   //新增
-      //   this.newDataList.forEach((item) => {
-      //     item.carline = item.carlineList.toString()
-      //     // item.startDate = item.startDate + " 00:00:00";
-      //     // item.endDate = item.endDate + " 00:00:00";
-      //     // item.compensationPeriod = "A";
-      //   })
-      //   this.$refs['contractForm'].validate(async (valid) => {
-      //     if (valid) {
-      //       iMessageBox(
-      //         this.language(
-      //           'GZFSBHXGLJJTBGGSFJX',
-      //           '规则发生变化，相关零件将同步更改，是否继续？'
-      //         ),
-      //         this.language('LK_WENXINTISHI', '温馨提示'),
-      //         {
-      //           confirmButtonText: this.language('QUEREN', '确认'),
-      //           cancelButtonText: this.language('QUXIAO', '取消')
-      //         }
-      //       )
-      //         .then((res) => {
-      //           addBatchAppRule({
-      //             mtzAppId:
-      //               this.$route.query.mtzAppId ||
-      //               JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-      //             mtzAppNomiAppRuleList: this.newDataList
-      //           }).then((res) => {
-      //             if (res.code == 200) {
-      //               iMessage.success(this.language(res.desEn, res.desZh))
-      //               this.editId = ''
-      //               this.editType = false
-      //               // this.page.currPage = 1;
-      //               // this.page.pageSize = 10;
-      //             } else {
-      //               iMessage.error(this.language(res.desEn, res.desZh))
-      //               // this.newDataList.forEach(item=>{
-      //               //     item.startDate = item.startDate.split(" ")[0];
-      //               //     item.endDate = item.endDate.split(" ")[0];
-      //               // })
-      //             }
-      //           })
-      //         })
-      //         .catch((res) => {
-      //           // this.newDataList.forEach(item=>{
-      //           //     item.startDate = item.startDate.split(" ")[0];
-      //           //     item.endDate = item.endDate.split(" ")[0];
-      //           // })
-      //         })
-      //       this.$refs['contractForm'].clearValidate()
-      //     } else {
-      //       iMessage.error(
-      //         this.language('QINGBUQUANYANZHENGBITIANXIANG', '请补全验证必填项')
-      //       )
-      //       return false
-      //     }
-      //   })
-      // } else {
-      //编辑
       this.$refs['contractForm'].validate(async (valid) => {
         if (valid) {
           iMessageBox(
@@ -586,7 +510,6 @@ export default {
           return false
         }
       })
-      // }
     },
     cancel() {
       //取消
@@ -616,21 +539,6 @@ export default {
         })
         .catch((res) => {})
     },
-    jijiaCompute(arr, val) {
-      if (
-        isNumber(arr.platinumPrice) &&
-        isNumber(arr.platinumDosage) &&
-        isNumber(arr.palladiumPrice) &&
-        isNumber(arr.palladiumDosage) &&
-        isNumber(arr.rhodiumPrice) &&
-        isNumber(arr.rhodiumDosage)
-      ) {
-        console.log('计算出基价值')
-        arr.price = '99.9'
-      } else {
-        iMessage.error('请填写完')
-      }
-    },
     continueBtn() {
       //沿用
       this.mtzAddShow = true
@@ -638,11 +546,7 @@ export default {
     addDialogDataList(val) {
       //沿用
       val.forEach((item) => {
-        // item.source = item.sourceType;
         this.$set(item, 'source', item.sourceType)
-        // if(item.preciousMetalDosageUnit == ""){
-        //   this.$set(item,"preciousMetalDosageUnit","OZ")
-        // }
         item.formalFlag = 'Y'
         delete item.sourceType
         delete item.id
@@ -652,8 +556,6 @@ export default {
         } else {
           item.carlineList = item.carline.split(',')
         }
-        // checkPreciousMetal({code:item.materialCode}).then(res=>{
-        // })
       })
       this.newDataList = val
       this.closeDiolog()
@@ -714,11 +616,6 @@ export default {
       } else {
         return true
       }
-    },
-    getMtzCailiao() {
-      fetchRemoteMtzMaterial({}).then((res) => {
-        this.materialGroup = res.data
-      })
     },
     handleSelectionChange(val) {
       console.log(val)

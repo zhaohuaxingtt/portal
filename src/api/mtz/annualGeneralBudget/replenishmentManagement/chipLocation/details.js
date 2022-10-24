@@ -467,15 +467,6 @@ export function removePartMasterData(params) {
   })
 }
 
-export function downloadFile(params) {//下载
-  return request({
-    url: '/mtzAppNomi/downloadFile',
-    method: 'POST',
-    data: params,
-    responseType: 'blob',
-  })
-}
-
 export function getDosageUnitList(params) {
   //用量单位下拉
   return request({
@@ -640,18 +631,20 @@ export function unNominate(data) {
   })
 }
 // 撤回
-export function recallData(data) {
+export function recallData(data, params) {
   return requestChip({
     url: '/recall',
     method: 'POST',
+    params,
     data
   })
 }
 // 退回
-export function sendBack(data) {
+export function sendBack(data, params) {
   return requestChip({
     url: '/sendBack',
     method: 'POST',
+    params,
     data
   })
 }
@@ -709,7 +702,7 @@ export function deleteAppDetail(data) {
   })
 }
 
-// 申请单规则单个查询
+// 申请单规则沿用查询
 export function getAppRecordByCondition(data) {
   return requestChip({
     url: "/getAppRecordByCondition",
@@ -764,11 +757,58 @@ export function submit(params) {
   })
 }
 
+//保存会议
 export function saveMeeting(params) {
-  //保存会议
   return requestChip({
     url: '/saveMeeting',
     method: 'POST',
-    data: params
+    params
+  })
+}
+
+// 申请单审批附件-查询
+export function searchAtta(params) {
+  return requestChip({
+    url: '/searchAtta',
+    method: 'POST',
+    params
+  })
+}
+
+// 申请单审批附件-保存
+export function saveAtta(params) {
+  return requestChip({
+    url: '/saveAtta',
+    method: 'POST',
+    params
+  })
+}
+
+// 申请单审批人-获取部门科室审批人下拉数据
+export function selectDept(params) {
+  return requestChip({
+    url: '/selectDept',
+    method: 'POST',
+    params
+  })
+}
+
+// 上传数据
+export function uploadData(data, params) {
+  return requestChip({
+    url: '/uploadData',
+    method: 'POST',
+    data,
+    params
+  })
+}
+
+// 下载模板
+export function downloadFile(params) {
+  return requestChip({
+    url: '/downloadFile',
+    method: 'POST',
+    params,
+    responseType: 'blob'
   })
 }

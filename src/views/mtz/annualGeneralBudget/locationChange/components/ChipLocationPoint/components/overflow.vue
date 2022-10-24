@@ -108,6 +108,8 @@
         @close="closeType"
         :RsType="downType"
         :appStatus="appStatus"
+        key="rsPdf"
+        :baseData="baseData"
       ></RsPdf>
     </iDialog>
     <iDialog
@@ -121,7 +123,11 @@
       <MtzAdd @close="closeTyoe"></MtzAdd>
     </iDialog>
     <div class="margin-top20">
-      <router-view :baseData="baseData" @getAppById="getAppById" />
+      <router-view
+        :baseData="baseData"
+        @getAppById="getAppById"
+        :appStatus="appStatus"
+      />
     </div>
   </div>
 </template>

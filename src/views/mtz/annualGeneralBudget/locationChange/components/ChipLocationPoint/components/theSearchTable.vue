@@ -85,7 +85,6 @@
             v-model="searchForm.linieName"
             :user-options="getCurrentUser"
             multiple
-            @change="changeCGY"
             clearable
             :placeholder="language('QINGXUANZE', '请选择')"
             display-member="buyerName"
@@ -180,10 +179,10 @@
             {{ scope.row.appNo }}
           </p>
         </template>
-        <template slot="ttNominateAppId" slot-scope="scope">
-          <p class="openPage" @click="handleClickTtNominateAppId(scope.row)">
-            {{ scope.row.ttNominateAppId }}
-          </p>
+        <template slot="type" slot-scope="scope">
+          <span>
+            {{ getType(scope.row.type) }}
+          </span>
         </template>
         <template slot="freezeDate" slot-scope="scope">
           <p class="date-time-cell">
@@ -314,9 +313,7 @@ export default {
       getLocationApplyStatus: [],
       ttNominateAppId: [], //关联申请单
       linieDeptId: [], //科室
-      // value: "",
       value1: '',
-      // getRsBillStatusList: [],
 
       tableListData: [],
       tableTitle: tableTitle,
@@ -340,6 +337,10 @@ export default {
       return this.getLocationApplyStatus.find((item) => item.code == status)
         ?.message
     },
+    getType(type) {
+      return this.getFlowTypeList.find((item) => item.code == type)?.message
+    },
+
     // handleChange_ceshi(val){
     //   console.log(val);
     // },
@@ -369,9 +370,6 @@ export default {
       })
       this.getCurrentUser = getCurrentNew
     },
-    changeCGY(e) {
-      console.log(e)
-    },
     init() {
       getNominateAppIdList({}).then((res) => {
         this.ttNominateAppId = res.data
@@ -383,18 +381,11 @@ export default {
         this.getLocationApplyStatus = res.data
         console.log(this.getLocationApplyStatus)
       })
-      // getRsBillStatusList({}).then(res => {
-      //   this.getRsBillStatusList = res.data;
-      // })
       getRawMaterialNos({}).then((res) => {
         this.materialCode = res.data
       })
-      // getDeptLimitLevel({}).then(res=>{
-      //   this.linieDeptId = res.data;
-      // })
-
       getDeptAndBuyerByMtzNomi({
-        appType: 'MTZ'
+        appType: 'chip'
       }).then((res) => {
         this.depBuyerAll = res.data
         // this.linieDeptId = res.data;//科室
@@ -622,9 +613,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      freezeData({
-        ids: this.selection.map((item) => item.id)
-      })
+      freezeData(this.selection.map((item) => item.id))
         .then((res) => {
           if (res && res.code == 200) {
             iMessage.success(res.desZh)
@@ -666,9 +655,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
 
-        unFreeze({
-          ids: this.selection.map((item) => item.id)
-        })
+        unFreeze(this.selection.map((item) => item.id))
           .then((res) => {
             if (res && res.code == 200) {
               iMessage.success(res.desZh)
@@ -749,14 +736,19 @@ export default {
             background: 'rgba(0, 0, 0, 0.7)'
           })
 
-          unNominate({
-            ids: this.selection.map((item) => item.id)
-          }).then((res) => {
-            if (res && res.code == 200) {
-              iMessage.success(res.desZh)
-              this.getTableList()
-            } else iMessage.error(res.desZh)
-          })
+          unNominate(this.selection.map((item) => item.id))
+            .then((res) => {
+              if (res && res.code == 200) {
+                iMessage.success(res.desZh)
+                this.getTableList()
+              } else {
+                iMessage.error(res.desZh)
+                this.stopLoading.close()
+              }
+            })
+            .catch(() => {
+              this.stopLoading.close()
+            })
         })
       }
     },
@@ -791,12 +783,19 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
 
-        meetingOutFlow(this.selection.map((item) => item.id)).then((res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else iMessage.error(res.desZh)
-        })
+        meetingOutFlow(this.selection.map((item) => item.id))
+          .then((res) => {
+            if (res?.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else {
+              iMessage.error(res.desZh)
+              this.stopLoading.close()
+            }
+          })
+          .catch(() => {
+            this.stopLoading.close()
+          })
       }
     },
     reasonClose() {
@@ -899,23 +898,30 @@ export default {
     handleSubmitRecall(val) {
       let todo
       if (this.type == 'sendBack') {
-        todo = sendBack({
-          ids: this.selection.map((item) => item.id),
-          withdrawReason: val
-        })
+        todo = sendBack(
+          this.selection.map((item) => item.id),
+          { reason: val }
+        )
       } else {
-        todo = recallData({
-          ids: this.selection.map((item) => item.id),
-          withdrawReason: val
-        })
+        todo = recallData(
+          this.selection.map((item) => item.id),
+          { reason: val }
+        )
       }
-      todo.then((res) => {
-        if (res && res.code == 200) {
-          iMessage.success(res.desZh)
-          this.reasonClose()
-          this.getTableList()
-        } else iMessage.error(res.desZh)
-      })
+      todo
+        .then((res) => {
+          if (res && res.code == 200) {
+            iMessage.success(res.desZh)
+            this.reasonClose()
+            this.getTableList()
+          } else {
+            iMessage.error(res.desZh)
+            this.stopLoading.close()
+          }
+        })
+        .catch(() => {
+          this.stopLoading.close()
+        })
     },
 
     // 删除
@@ -932,12 +938,19 @@ export default {
             cancelButtonText: this.language('QUXIAO', '取消')
           }
         ).then((res) => {
-          deleteData(this.selection.map((item) => item.id)).then((res) => {
-            if (res && res.code == 200) {
-              iMessage.success(res.desZh)
-              this.getTableList()
-            } else iMessage.error(res.desZh)
-          })
+          deleteData(this.selection.map((item) => item.id))
+            .then((res) => {
+              if (res && res.code == 200) {
+                iMessage.success(res.desZh)
+                this.getTableList()
+              } else {
+                iMessage.error(res.desZh)
+                this.stopLoading.close()
+              }
+            })
+            .catch(() => {
+              this.stopLoading.close()
+            })
         })
       } else {
         return iMessage.warn(

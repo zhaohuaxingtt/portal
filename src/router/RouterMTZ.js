@@ -556,6 +556,14 @@ export default [
             component: () => import('@/views/mtz/dataBase/rulesQuery/index.vue')
           },
           {
+            path: 'chipRulesQuery',
+            name: 'chipRulesQuery',
+            meta: {
+              title: '芯片补差规则查询'
+            },
+            component: () => import('@/views/mtz/dataBase/chipRulesQuery/index.vue')
+          },
+          {
             path: 'sourceMarketPrice',
             name: 'sourceMarketPrice',
             meta: {
@@ -572,6 +580,15 @@ export default [
             },
             component: () =>
               import('@/views/mtz/dataBase/marketPriceEnquiry/index.vue')
+          },
+          {
+            path: 'partsRelationship',
+            name: 'partsRelationship',
+            meta: {
+              title: '一二次件零件关系'
+            },
+            component: () =>
+              import('@/views/mtz/dataBase/partsRelationship/index.vue')
           }
         ]
       }

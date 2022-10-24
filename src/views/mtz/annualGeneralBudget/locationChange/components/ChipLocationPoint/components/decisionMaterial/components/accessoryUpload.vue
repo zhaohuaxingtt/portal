@@ -14,10 +14,11 @@
         <span class="buttonBox">
           <iButton
             @click="handleClickDel"
+            class="margin-right20"
             v-if="appStatus == '草稿' || appStatus == '未通过'"
             >{{ language('SHANCHU', '删除') }}</iButton
           >
-          <el-upload
+          <!-- <el-upload
             v-if="appStatus == '草稿' || appStatus == '未通过'"
             class="upload-demo"
             style="margin-left: 10px"
@@ -38,7 +39,12 @@
             >
               <iButton>{{ language('SHANGCHUAN', '上传') }}</iButton>
             </el-tooltip>
-          </el-upload>
+          </el-upload> -->
+          <uploadButton
+            ref="uploadButtonAttachment"
+            :buttonText="language('SHANGCHUAN', '上传')"
+            @uploadedCallback="uploadSuccess"
+          />
         </span>
       </div>
       <tableList
@@ -55,17 +61,6 @@
           </p>
         </template>
       </tableList>
-      <iPagination
-        v-update
-        @size-change="handleSizeChange($event, handleSubmitSearch)"
-        @current-change="handleCurrentChange($event, getTableData)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page="page.currPage"
-        :total="page.totalCount"
-      />
     </iCard>
   </div>
 </template>
@@ -77,13 +72,12 @@ import { uploadTableTitle } from './data'
 import {
   fetchAppNomiDecisionDataPage,
   fetchAppNomiDecisionDataSave,
-  fetchAppNomiDecisionDataDel
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
-import { pageMixins } from '@/utils/pageMixins'
+  fetchAppNomiDecisionDataDel,
+  saveAtta
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import uploadButton from '@/components/uploadButton'
 import { uploads, uploadAttach } from '@/api/file/upload'
 export default {
-  mixins: [pageMixins],
   components: {
     iCard,
     iButton,
@@ -97,24 +91,28 @@ export default {
       uploadTableTitle,
       loading: false,
       selection: [],
-      uploadUrl:
-        process.env.VUE_APP_MTZ + '/web/mtz/mtzBasePriceChange/uploadAttach',
+      uploadUrl: process.env.VUE_APP_COMMON + '/upload',
       uploadData: {
-        mtzAppId: '',
+        appId: '',
         userId: '',
         userName: ''
       }
     }
   },
+  computed: {
+    userInfo() {
+      return this.$store.state.permission.userInfo
+    }
+  },
   created() {
-    ;(this.uploadData = {
+    this.uploadData = {
       appId: this.$route.query.appId,
-      userId: JSON.parse(window.sessionStorage.getItem('userInfo')).id,
-      userName: JSON.parse(window.sessionStorage.getItem('userInfo')).nameZh
-    }),
-      this.$nextTick((e) => {
-        this.getTableData()
-      })
+      userId: this.userInfo.id,
+      userName: this.userInfo.nameZh
+    }
+    this.$nextTick((e) => {
+      this.getTableData()
+    })
   },
   methods: {
     openPage(val) {
@@ -128,10 +126,14 @@ export default {
       iMessage.success('下载成功！')
     },
     uploadSuccess(data) {
-      if (data.code == '200' && data.result) {
-        iMessage.success(data.desZh)
-        this.handleSubmitSearch()
-      } else return iMessage.error(data.desZh)
+      console.log(data)
+      if (data) {
+        saveAtta({ appId: this.$route.query.appId, fileId: data.id }).then(
+          (res) => {
+            console.log(res)
+          }
+        )
+      }
     },
     uploadProgress(res) {
       console.log(res)
@@ -154,20 +156,23 @@ export default {
     getTableData() {
       this.loading = true
       fetchAppNomiDecisionDataPage({
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
         appId: this.$route.query.appId
-      }).then((res) => {
-        if (res && res.code == 200) {
-          this.tableListData = res.data
-          this.page.totalCount = res.total
-          this.loading = false
-        } else iMessage.error(res.desZh)
       })
+        .then((res) => {
+          if (res && res.code == 200) {
+            this.tableListData = res.data
+            this.loading = false
+          } else {
+            iMessage.error(res.desZh)
+            this.loading = false
+          }
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
     // 点击确定查询
     handleSubmitSearch() {
-      this.page.currPage = 1
       this.getTableData()
     },
     // 选中项发生改变

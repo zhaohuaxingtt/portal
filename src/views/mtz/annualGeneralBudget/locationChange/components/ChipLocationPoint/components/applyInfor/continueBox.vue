@@ -2,183 +2,58 @@
 <template>
   <div style="padding-bottom: 30px">
     <div class="searchBox">
-      <iSearch @sure="handleSubmitSearch" @reset="handleSearchReset">
+      <i-search @sure="handleSubmitSearch" @reset="handleSearchReset">
         <el-form
           :inline="true"
-          ref="searchForm"
           :model="searchForm"
           label-position="top"
-          class="demo-form-inline leftBox"
+          class="search-form"
         >
           <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('GUIZEBIANHAO', '规则编号')"
-            class="formItem"
+            v-for="(item, index) in QueryFormData"
+            :key="index"
+            :label="language(item.key, item.name)"
+            class="SearchOption"
           >
-            <iInput
-              v-model="searchForm.ruleNo"
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-            </iInput>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('补差方式', '补差方式')"
-            class="formItem"
-          >
-            <i-select
-              v-model="searchForm.method"
-              clearable
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-              <el-option
-                v-for="item in methodList"
-                :key="item.code"
-                :label="item.message"
-                :disabled="item.disabled"
-                :value="item.code"
-              >
-              </el-option>
-            </i-select>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('CAILIAOZU', '材料组')"
-            class="formItem"
-          >
-            <iInput
-              v-model="searchForm.materialGroup"
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-            </iInput>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('LINGJIANHAO', '零件号')"
-            class="formItem"
-          >
-            <iInput
-              v-model="searchForm.partNum"
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-            </iInput>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('LINGJIANMINGCHEN', '零件名称')"
-            class="formItem"
-          >
-            <iInput
-              v-model="searchForm.partName"
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-            </iInput>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('GONGYINGSHANGSAPHAO', '供应商SAP号')"
-            class="formItem"
-          >
-            <iInput
-              v-model="searchForm.sapCode"
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-            </iInput>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
-            class="formItem"
-          >
-            <iInput
-              v-model="searchForm.supplierName"
-              :placeholder="language('QINGSHURU', '请输入')"
-            >
-            </iInput>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('KESHI', '科室')"
-          >
-            <!-- multiple -->
+            <iMultiLineInput
+              v-if="item.type == 'iMultiLineInput'"
+              :placeholder="
+                language(
+                  'partsprocure.PARTSPROCURE',
+                  '请输入零件号，多个逗号分隔'
+                )
+              "
+              :title="language('LK_LINGJIANHAO', '零件号')"
+              v-model="searchForm[item.props]"
+            ></iMultiLineInput>
             <custom-select
-              v-model="searchForm.deptCode"
-              :user-options="linieDeptId"
-              clearable
-              :placeholder="language('QINGXUANZE', '请选择')"
-              display-member="message"
-              value-member="message"
-              value-key="message"
-            >
-            </custom-select>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('CAIGOUYUAN', '采购员')"
-            class="formItem"
-          >
-            <custom-select
-              v-model="searchForm.buyerName"
-              :user-options="buyer"
-              clearable
-              :placeholder="language('QINGXUANZE', '请选择')"
-              display-member="message"
-              value-member="code"
-              value-key="code"
-            >
-            </custom-select>
-          </el-form-item>
-
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('是否生效', '是否生效')"
-          >
-            <i-select
-              v-model="searchForm.effectFlag"
-              clearable
-              :placeholder="language('QINGXUANZE', '请选择')"
-            >
-              <el-option
-                v-for="item in effectFlagList"
-                :key="item.code"
-                :label="item.message"
-                :value="item.code"
-              >
-              </el-option>
-            </i-select>
-          </el-form-item>
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('YOUXIAOQIQI', '有效期起')"
-          >
+              v-else-if="item.type == 'select'"
+              v-model="searchForm[item.props]"
+              :user-options="options[item.selectOption]"
+              :multiple="item.multiple || false"
+              style="width: 100%"
+              filterable
+              collapse-tags
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              display-member="label"
+              value-member="value"
+              value-key="value"
+            />
             <iDatePicker
-              v-model="searchForm.startDate"
+              v-model="searchForm[item.props]"
+              v-else-if="item.type == 'date'"
+              valueFormat="yyyy-MM-dd"
               type="date"
-              value-format="yyyy-MM-dd hh:mm:ss"
-            >
-            </iDatePicker>
-          </el-form-item>
-          <el-form-item
-            style="marginright: 68px; width: 180px"
-            :label="language('YOUXIAOQIZHI', '有效期止')"
-          >
-            <iDatePicker
-              v-model="searchForm.endDate"
-              type="date"
-              value-format="yyyy-MM-dd hh:mm:ss"
-            >
-            </iDatePicker>
+              :placeholder="language('QINGXUANZE', '请选择')"
+            />
+            <iInput
+              v-else
+              v-model="searchForm[item.props]"
+              :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
+            ></iInput>
           </el-form-item>
         </el-form>
-      </iSearch>
+      </i-search>
     </div>
     <el-divider class="margin-top20"></el-divider>
     <div class="BtnTitle">
@@ -196,13 +71,7 @@
       :index="true"
     >
       <template slot="effectFlag" slot-scope="scope">
-        <span>{{
-          scope.row.effectFlag == 0
-            ? '无效'
-            : scope.row.effectFlag == 1
-            ? '有效'
-            : ''
-        }}</span>
+        <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
       </template>
       <template slot="thresholdCompensationLogic" slot-scope="scope">
         <span>{{
@@ -252,19 +121,20 @@ import {
   iButton,
   iTabs,
   iTabsList,
-  iPagination
+  iFormGroup,
+  iFormItem,
+  iPagination,
+  iMultiLineInput
 } from 'rise'
+import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
-import { continueBox } from './data.js'
-import inputCustom from '@/components/inputCustom'
+import { continueBox, QueryFormData } from './data.js'
 import tableList from '@/components/commonTable/index.vue'
-import {
-  getMtzNomiRuleBuyer,
-  getDeptLimitLevel
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 
-import { getAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
-// import { getDeptData } from '@/api/kpiChart/index'
+import {
+  getAppRecordByCondition,
+  getDeptLimitLevel
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 
 export default {
   components: {
@@ -275,16 +145,44 @@ export default {
     iButton,
     iTabs,
     iTabsList,
-    inputCustom,
     iInput,
     iPagination,
+    iFormGroup,
+    iFormItem,
     tableList,
+    iMultiLineInput,
+    iTableCustom,
     iSearch
   },
   props: ['detailObj', 'selectList'],
   mixins: [pageMixins],
   data() {
     return {
+      QueryFormData,
+      options: {
+        effectFlagList: [
+          {
+            value: false,
+            label: '未生效'
+          },
+          {
+            value: true,
+            label: '生效'
+          }
+        ],
+        methodList: [
+          {
+            value: 1,
+            label: '一次性补差',
+            disabled: true
+          },
+          {
+            value: 2,
+            label: '变价单补差'
+          }
+        ],
+        deptList: []
+      },
       loading: false,
       tableTitle: continueBox,
       tableData: [],
@@ -301,48 +199,7 @@ export default {
         effectFlag: '',
         startDate: '',
         endDate: ''
-      },
-      methodList: [
-        {
-          code: 0,
-          message: '变价单补差'
-        },
-        {
-          code: 1,
-          message: '一次性补差',
-          disabled: true
-        }
-      ],
-      effectFlagList: [
-        {
-          code: 0,
-          message: '无效'
-        },
-        {
-          code: 1,
-          message: '有效'
-        }
-      ],
-      getLocationApplyStatus: [
-        {
-          code: 'A',
-          message: '年度'
-        },
-        {
-          code: 'H',
-          message: '半年度'
-        },
-        {
-          code: 'M',
-          message: '月度'
-        },
-        {
-          code: 'Q',
-          message: '季度'
-        }
-      ],
-      linieDeptId: [],
-      buyer: []
+      }
     }
   },
   created() {
@@ -356,10 +213,14 @@ export default {
   methods: {
     init() {
       getDeptLimitLevel({}).then((res) => {
-        this.linieDeptId = res.data
-      })
-      getMtzNomiRuleBuyer({}).then((res) => {
-        this.buyer = res.data
+        this.$set(
+          this.options,
+          'deptList',
+          res.data.map((item) => ({
+            value: item.code,
+            label: item.message
+          }))
+        )
       })
 
       this.getTableList()
@@ -373,8 +234,8 @@ export default {
       }
       getAppRecordByCondition(params).then((res) => {
         if (res?.code == 200) {
-          console.log(res)
-          this.tableData = res.data
+          this.tableData = res.data.records
+          this.page.totalCount = res.data.total
           this.loading = false
         } else {
           iMessage.error(res.desZh)
@@ -420,6 +281,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.search-form {
+  ::v-deep .el-form-item__label {
+    padding-bottom: 0;
+  }
+}
 .searchBox {
   position: relative;
   display: flex;

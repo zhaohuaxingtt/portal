@@ -197,8 +197,8 @@ module.exports = {
       // ------------------ 上传 ----------------------------
       [process.env.VUE_APP_FILEAPI]: {
         // target: `${BASE_IP}/`,
-        // target: `http://${BASE_IP}:8034`,
-        target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/fileud`,
+        target: `http://${BASE_IP}:8034`,
+        // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/fileud`,
         // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com/fileApi`,
         changeOrigin: true,
         pathRewrite: {

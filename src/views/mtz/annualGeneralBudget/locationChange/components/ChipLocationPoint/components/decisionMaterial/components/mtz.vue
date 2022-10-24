@@ -121,8 +121,19 @@
           :selection="false"
           border
         >
+          <template slot-scope="scope" slot="method">
+            <span>{{
+              scope.row.method == '0' ? '变价单补差' : '一次性补差'
+            }}</span>
+          </template>
           <template slot-scope="scope" slot="sapCode">
             <span>{{ scope.row.sapCode }}</span>
+          </template>
+          <template slot-scope="scope" slot="startDate">
+            <span>{{ getDay(scope.row.startDate) }}</span>
+          </template>
+          <template slot-scope="scope" slot="endDate">
+            <span>{{ getDay(scope.row.endDate) }}</span>
           </template>
         </tableList>
         <div class="padding-bottom30" ref="padding"></div>
@@ -321,7 +332,7 @@
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
                   <span class="samll_val"
-                    >{{ formData.appId }}-{{ formData.appName }}</span
+                    >{{ formData.appNo }}-{{ formData.appName }}</span
                   >
                 </div>
                 <div class="small_text">
@@ -332,12 +343,12 @@
                 <div class="small_text">
                   <!-- <span>{{language("KESHI","科室")}}：</span> -->
                   <span>Commodity：</span>
-                  <span class="samll_val">{{ formData.linieDeptName }}</span>
+                  <span class="samll_val">{{ formData.depteName }}</span>
                 </div>
                 <div>
                   <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
                   <span>Buyer：</span>
-                  <span class="samll_val">{{ formData.linieNameEn }}</span>
+                  <span class="samll_val">{{ formData.linieName }}</span>
                 </div>
               </div>
             </div>
@@ -362,32 +373,19 @@
               :selection="false"
               border
             >
-              <template slot-scope="scope" slot="compensationPeriod">
+              <template slot-scope="scope" slot="method">
                 <span>{{
-                  scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
-                    ? '半年度'
-                    : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                  scope.row.method == '0' ? '变价单补差' : '一次性补差'
                 }}</span>
               </template>
-              <template slot-scope="scope" slot="thresholdCompensationLogic">
-                <span>{{
-                  scope.row.thresholdCompensationLogic == 'A'
-                    ? '全额补差'
-                    : scope.row.thresholdCompensationLogic == 'B'
-                    ? '超额补差'
-                    : ''
-                }}</span>
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span>
               </template>
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
-                <span>{{ scope.row.supplierName }}</span>
+              <template slot-scope="scope" slot="startDate">
+                <span>{{ getDay(scope.row.startDate) }}</span>
+              </template>
+              <template slot-scope="scope" slot="endDate">
+                <span>{{ getDay(scope.row.endDate) }}</span>
               </template>
             </tableList>
             <!-- 导出规则表格 -->
@@ -401,95 +399,21 @@
               :selection="false"
               border
             >
-              <template slot-scope="scope" slot="supplierId">
-                <span>{{ scope.row.supplierId }}</span
-                ><br />
-                <span>{{ scope.row.supplierName }}</span>
-              </template>
-              <template slot-scope="scope" slot="compensationPeriod">
+              <template slot-scope="scope" slot="method">
                 <span>{{
-                  scope.row.compensationPeriod == 'A'
-                    ? '年度'
-                    : scope.row.compensationPeriod == 'H'
-                    ? '半年度'
-                    : scope.row.compensationPeriod == 'Q'
-                    ? '季度'
-                    : scope.row.compensationPeriod == 'M'
-                    ? '月度'
-                    : ''
+                  scope.row.method == '0' ? '变价单补差' : '一次性补差'
                 }}</span>
               </template>
+              <template slot-scope="scope" slot="sapCode">
+                <span>{{ scope.row.sapCode }}</span>
+              </template>
+              <template slot-scope="scope" slot="startDate">
+                <span>{{ getDay(scope.row.startDate) }}</span>
+              </template>
+              <template slot-scope="scope" slot="endDate">
+                <span>{{ getDay(scope.row.endDate) }}</span>
+              </template>
             </tableList>
-          </iCard>
-          <div class="page-logo">
-            <div>
-              <p class="pageNum"></p>
-            </div>
-            <div>
-              <p>{{ userName }}</p>
-              <p>{{ new Date().getTime() | dateFilter('YYYY-MM-DD') }}</p>
-            </div>
-          </div>
-        </div>
-      </template>
-      <template v-for="(tableData, index) in partTableList">
-        <div :key="index" class="page-item">
-          <!-- class="content_dialog" -->
-          <div
-            v-if="
-              !RsObject &&
-              (formData.statusDesc == '流转完成' ||
-                formData.statusDesc == '定点')
-            "
-          ></div>
-          <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
-            <div slot="header" class="headBox">
-              <p class="headTitle">{{ title }}</p>
-              <span
-                class="buttonBox"
-                style="margin-top: -10px"
-                v-if="!editMode"
-              >
-                <iButton
-                  v-if="
-                    RsObject &&
-                    formData.flowTypeName == '流转' &&
-                    !(
-                      formData.statusDesc == '流转完成' ||
-                      formData.statusDesc == '定点' ||
-                      formData.statusDesc == '未通过'
-                    )
-                  "
-                  @click="handleToSignPreview"
-                  >{{
-                    language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
-                  }}</iButton
-                >
-              </span>
-              <!-- <div class="tabs_box_right"> -->
-              <div class="tabs_box_right" v-if="meetingType">
-                <div class="big_text">
-                  <span class="samll_val"
-                    >{{ formData.appId }}-{{ formData.appName }}</span
-                  >
-                </div>
-                <div class="small_text">
-                  <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
-                  <span>Application date：</span>
-                  <span class="samll_val">{{ formData.createDate }}</span>
-                </div>
-                <div class="small_text">
-                  <!-- <span>{{language("KESHI","科室")}}：</span> -->
-                  <span>Commodity：</span>
-                  <span class="samll_val">{{ formData.linieDeptName }}</span>
-                </div>
-                <div>
-                  <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
-                  <span>Buyer：</span>
-                  <span class="samll_val">{{ formData.linieNameEn }}</span>
-                </div>
-              </div>
-            </div>
           </iCard>
           <div class="page-logo">
             <div>
@@ -686,15 +610,10 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1 } from './data'
-import {
-  pageAppRule,
-  fetchSaveCs1Remark,
-  approvalList
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { updateApp } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
-
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
+import { dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 export default {
@@ -721,18 +640,14 @@ export default {
       formData: {},
       ruleTableTitle1_1,
       ruleTableListData: [],
-      partTableListData: [],
       loadingRule: false,
-      loadingPart: false,
       applayDateData: [],
       RsObject: true,
       moment: window.moment,
       meetingNumber: Number(this.$route.query.meeting) || 0,
       meetingType: false,
-      clickRulesNumber: 0,
       loading: false,
       ruleTableList: [],
-      partTableList: [],
       appPage: false,
       percentage: '0',
       pageHeight: 0,
@@ -751,9 +666,8 @@ export default {
     },
     baseData: {
       handler(val) {
-        console.log(val)
-        this.ruleTableListData = val.chipDetailList || []
-        this.formData = val.chipAppBase || {}
+        this.$set(this, 'formData', val.chipAppBase || {})
+        this.$set(this, 'ruleTableListData', val.chipDetailList || [])
         if (
           this.formData.type == 'SIGN' &&
           !(
@@ -774,8 +688,12 @@ export default {
         } else {
           this.meetingType = true
         }
+        this.$nextTick(() => {
+          this.computedRuleTableHeight()
+        })
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   created() {
@@ -786,8 +704,8 @@ export default {
   },
   computed: {
     title() {
-      let res = ''
-      switch (this.formData.type) {
+      let res = '---'
+      switch (this.baseData?.chipAppBase?.type) {
         case 'MEETING':
           // 上会
           res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
@@ -810,7 +728,7 @@ export default {
     },
 
     getRemarkAll() {
-      return this.formData.linieMeetingMemo?.split('\n') || [''] // 默认添加一个'',否者无数据时不显示
+      return this.formData.remark?.split('\n') || [''] // 默认添加一个'',否者无数据时不显示
     },
     username() {
       return this.$store.state.permission.userInfo.userName
@@ -881,33 +799,6 @@ export default {
         name = this.title
       }
       this.handleExportPdf(name)
-      return
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      // transverseDownloadPDF
-      // downloadPDF
-      transverseDownloadPDF({
-        idEle: 'qrCodeDiv',
-        pdfName: name,
-        exportPdf: true,
-        // waterMark: true,
-        title: ['#tabsBoxTitle .cardHeader'], //顶部页眉dom节点
-        callback: async (pdf, pdfName) => {
-          console.log(pdf)
-          try {
-            loading.close()
-            const filename = pdfName.replaceAll(/\./g, '_') + '.pdf'
-            const pdfFile = pdf.output('datauristring')
-            const blob = dataURLtoFile(pdfFile, filename)
-          } catch {
-            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'))
-          }
-        }
-      })
     },
     initApplayDateData() {
       approvalList({
@@ -962,46 +853,6 @@ export default {
       })
       if (arr.length) tableList.push(arr)
       this.ruleTableList = tableList
-    },
-
-    computedPartTableHeight() {
-      let rowList =
-        this.$refs['partTable']?.$el.getElementsByClassName('part-table-row') ||
-        []
-      let partTableHeader =
-        this.$refs['partTable']?.$el.getElementsByClassName(
-          'partTableHeader'
-        )[0].offsetHeight || 0
-      let cardTitle =
-        this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
-          .clientHeight
-      let partTableTitle = this.$refs.ruleTableTitle.offsetHeight // 此处故意使用ruleTableTitle
-      let pageWidth = this.$refs.qrCodeDiv?.clientWidth || 0
-      this.pageHeight = (pageWidth / 841.89) * 595.28
-      let sumHeight = 0
-      let arr = []
-      let tableList = []
-      let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
-      this.pdfItemHeight = this.pageHeight - pageNumHeight
-      rowList.forEach((item, i) => {
-        sumHeight += item.clientHeight
-        if (
-          sumHeight >
-          this.pageHeight -
-            cardTitle -
-            partTableTitle -
-            partTableHeader -
-            pageNumHeight
-        ) {
-          tableList.push(arr)
-          sumHeight = item.clientHeight
-          arr = [this.partTableListData[i]]
-        } else {
-          arr.push(this.partTableListData[i])
-        }
-      })
-      if (arr.length) tableList.push(arr)
-      this.partTableList = tableList
     },
     // 点击保存
     handleClickSave(el) {
