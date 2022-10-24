@@ -34,7 +34,7 @@
       </iFormGroup>
     </iSearch>
     <el-row class="margin-top20 flexBox" :gutter="40">
-      <el-col :span="9">
+      <el-col :span="7">
         <i-card
           :title="
             language('供应商未完成任务数-统计', '供应商未完成任务数-统计')
@@ -63,7 +63,7 @@
           </template>
         </i-card>
       </el-col>
-      <el-col :span="15">
+      <el-col :span="17">
         <i-card
           :title="language('未完成任务明细', '未完成任务明细')"
           class="table-card"
@@ -106,10 +106,11 @@
               </template>
               <template #taskEndDate="scope">
                 <template v-if="scope.row.overdueDate">
-                  <span style="color: red"
-                    >{{ scope.row.taskEndDate
-                    }}{{ ` 已超期${scope.row.overdueDate}天` }}</span
-                  >
+                  <span style="color: red">{{ scope.row.taskEndDate }}</span>
+                  <br />
+                  <span style="color: red">{{
+                    ` 已超期${scope.row.overdueDate}天`
+                  }}</span>
                 </template>
                 <span v-else>{{ scope.row.taskEndDate }}</span>
               </template>
