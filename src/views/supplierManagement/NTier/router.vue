@@ -54,4 +54,8 @@ export default {
   top: 1.75rem;
   right: 9rem;
 }
+
+::v-deep .nav>div{
+  max-width: 180px!important;
+}
 </style>
