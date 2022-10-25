@@ -18,7 +18,7 @@
       ref="ruleForm"
       class="validate-required-form"
     >
-      <el-row :gutter="20">
+      <el-row :gutter="24">
         <el-col :span="$route.query.supplierType !== 'GP'?6:8">
           <iFormItem :label="language('是否在供')" prop="materialGroupCode">
             <el-input :value="detail.isSupply ? '是' : '否'" disabled />
@@ -193,4 +193,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .el-row{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+</style>

@@ -300,6 +300,7 @@ export default {
                 this.baseInfo = {
                   ...supplierVo,
                   ...vo,
+                  gpSupplierDetails:gpSupplierDetails,
                   isListing: vo.isListing && vo.isListing + '',
                   isForeignManufacture,
                   // isForeignManufacture:
@@ -310,6 +311,23 @@ export default {
                   supplierCorpVo: supplierCorpVo || [], // 关联集团
                   enterpriseType: supplierVo.enterpriseType
                 }
+
+                this.baseInfo.gpSupplierDetails.forEach(e=>{
+                  if(e.isUse){
+                    e.industryPosition = "Y";
+                  }
+                })
+                var tableDataList = _.cloneDeep(this.tableData)
+                tableDataList.forEach(e=>{
+                  this.baseInfo.gpSupplierDetails.forEach(item =>{
+                    if(e.businessType == item.businessType){
+                      e = Object.assign(e,item);
+                    }
+                  })
+                })
+                this.baseInfo.gpSupplierDetails = _.cloneDeep(tableDataList)
+                this.$refs.linie.oldData = _.cloneDeep(this.baseInfo.gpSupplierDetails);
+                
                 this.supplierType = 'PD'
               }
             } else {
