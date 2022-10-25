@@ -7,14 +7,14 @@ export const searchForm = [
 
 export const tableTitleLeft = [
   { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, minWidth: 180, tooltip: true },
-  { props: 'taskNumber', name: '产能维护任务数', key: '', sortable: true, width: 130 },
+  { props: 'taskNumber', name: '产能维护任务数', key: '', sortable: true, width: 150 },
 ]
 
 export const tableTitleRight = [
-  { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, minWidth: 180, tooltip: true },
+  { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, minWidth: 160, tooltip: true },
   { props: 'bkaName', name: 'BKA', key: '', sortable: true, minWidth: 160, tooltip: true },
   { props: 'sourceType', name: '来源', key: '', sortable: true, tooltip: true, width: 170 },
-  { props: 'taskEndDate', name: '供应商任务截止日期', key: '', sortable: true, width: 170 },
+  { props: 'taskEndDate', name: '供应商任务截止日期', key: '', sortable: true, width: 190 },
   { props: 'departmentCode', name: '科室', key: '', sortable: true, width: 90 },
   { props: 'status', name: '状态', key: '', sortable: true, width: 90 },
 ]

@@ -5,7 +5,7 @@ export const searchList = [
   { prop: 'closeReasonList', label: '关闭原因', key: '关闭原因', type: 'select', optionName: 'reasonList', multiple: true },
   { prop: 'departmentCodeList', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
   { prop: 'linieName', label: 'LINIE', key: 'LINIE', type: 'input' },
-  { prop: 'date', label: '任务产生时间', key: '任务产生时间', type: 'date' },
+  { prop: 'date', label: '任务产生时间', key: '任务产生时间', type: 'date', default: [] },
 ]
 
 // 报警信
@@ -22,8 +22,8 @@ export const toBeSearchList = [
 
 export const sentTableTitle = [
   { props: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', sortable: true },
-  { props: 'bkaName', label: 'BKA', key: 'BKA', sortable: true, tooltip: true },
-  { props: 'taskEndDateStr', label: '供应商任务截止时间', key: '供应商任务截止时间', sortable: true, tooltip: true },
+  { props: 'bkaName', label: 'BKA', key: 'BKA', sortable: true, tooltip: true, minWidth: 120 },
+  { props: 'taskEndDateStr', label: '供应商任务截止时间', key: '供应商任务截止时间', sortable: true, tooltip: true, width: 210 },
   { props: 'status', label: '跟进状态', key: '跟进状态', sortable: true },
   { props: 'closeReason', label: '关闭原因', key: '关闭原因', sortable: true },
   { props: 'closeTime', label: '关闭时间', key: '关闭时间', sortable: true },
@@ -34,7 +34,7 @@ export const sentTableTitle = [
 
 
 export const toBeSentTableTitle = [
-  { props: 'alarm', label: '报警信', key: '报警信', sortable: true, width: 80 },
+  { props: 'alarm', label: '报警信', key: '报警信', sortable: true, width: 90 },
   { props: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', sortable: true },
   { props: 'source', label: '来源', key: 'LAIYUAN', sortable: true, width: 120 },
   { props: 'bkaName', label: '名称', key: 'BKA名称', sortable: true, tooltip: true, minWidth: 120 },
