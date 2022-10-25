@@ -14,15 +14,11 @@
           {{ language('LIEBIAOXIANGQING', '列表详情') }}
         </span>
         <div>
-          <iButton @click="addMTZ" v-permission="PORTAL_MTZ_CHANGE_ADD">{{
+          <iButton @click="addChip">{{
             language('XINJIANCHIPBIANGENGSHENQING', '新建芯片补差变更申请')
           }}</iButton>
-          <iButton @click="recall" v-permission="PORTAL_MTZ_CHANGE_CHEHUI">{{
-            language('CHEHUI', '撤回')
-          }}</iButton>
-          <iButton @click="del" v-permission="PORTAL_MTZ_CHANGE_DEL">{{
-            language('SHANCHU', '删除')
-          }}</iButton>
+          <iButton @click="recall">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="del">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </template>
       <el-table
@@ -103,21 +99,22 @@
       >
       </iPagination>
     </iCard>
-    <new-mtzlocation-change
+    <new-chipLocation-change
       :dialogVisible="dialogVisible"
       @close="close"
-    ></new-mtzlocation-change>
+    ></new-chipLocation-change>
   </div>
 </template>
 
 <script>
 import { iCard, iButton, iPagination, iMessage } from 'rise'
-import newMtzlocationChange from '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange'
+import newChipLocationChange from '../../newChipLocationChange'
 import {
-  pageList,
-  mtzDel,
+  getPageList,
+  deleteData,
+  recall,
   mtzRecall
-} from '@/api/mtz/annualGeneralBudget/mtzChange'
+} from '@/api/mtz/annualGeneralBudget/chipChange'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   name: 'Search',
@@ -126,7 +123,7 @@ export default {
     iCard,
     iButton,
     iPagination,
-    newMtzlocationChange
+    newChipLocationChange
   },
   watch: {},
   mixins: [pageMixins],
@@ -147,28 +144,22 @@ export default {
         this.getTableList()
       })
     },
-    addMTZ() {
+    addChip() {
       this.dialogVisible = true
-      // let routeData = this.$router.resolve({
-      //   path: `/mtz/annualGeneralBudget/newMtzLocationChange`
-      // })
-      // window.open(routeData.href, '_blank')
     },
     //获取列表
     getTableList() {
       this.loading = true
       let params = {
-        pageNo: this.page.currPage,
+        currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.$parent.$refs.theSearch.searchForm
       }
-      pageList(params).then((res) => {
+      getPageList(params).then((res) => {
         try {
-          if (res && res.code === '200') {
-            this.tableData = res.data
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.page.totalCount = res.total
+          if (res?.code === '200') {
+            this.tableData = res.data.records
+            this.page.totalCount = res.data.total
             this.loading = false
           } else {
             iMessage.error(res.desZh)
@@ -182,10 +173,9 @@ export default {
     },
     detail(val) {
       let routerPath = this.$router.resolve({
-        path: '/mtz/annualGeneralBudget/MTZapplicationForm',
+        path: '/mtz/annualGeneralBudget/ChipApplicationForm',
         query: {
-          mtzAppId: val.mtzAppId || ''
-          // isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
+          appId: val.appId || ''
         }
       })
       this.$store.dispatch('setMtzChangeBtn', false)
@@ -196,7 +186,7 @@ export default {
     },
     del() {
       if (this.muilteList.length === 0) {
-        iMessage.error('QINGXUANZESHUJU', '请选择数据')
+        iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
         return
       }
       if (this.muilteList[0].appStatus === '草稿') {
@@ -206,30 +196,30 @@ export default {
           type: 'warning'
         })
           .then(() => {
-            let ids = this.muilteList.map((item) => item.mtzAppId)
-            mtzDel({ ids }).then((res) => {
-              if (res && res.code === '200') {
-                iMessage.success(res.desZh)
-                this.getTableList()
-              } else {
-                iMessage.error(res.desZh)
+            deleteData(this.muilteList.map((item) => item.appId)).then(
+              (res) => {
+                if (res && res.code === '200') {
+                  iMessage.success(res.desZh)
+                  this.getTableList()
+                } else {
+                  iMessage.error(res.desZh)
+                }
               }
-            })
+            )
           })
           .catch(() => {})
       } else {
-        iMessage.error(
+        iMessage.warn(
           this.language('CAOGAOZHUANGTAICAINENGSHANCHU', '草稿状态才能删除')
         )
       }
     },
     recall() {
       if (this.muilteList.length === 0) {
-        iMessage.error('QINGXUANZESHUJU', '请选择数据')
+        iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
         return
       }
-      let ids = this.muilteList.map((item) => item.mtzAppId)
-      mtzRecall({ ids }).then((res) => {
+      recall(this.muilteList.map((item) => item.appId)).then((res) => {
         if (res && res.code === '200') {
           iMessage.success(res.desZh)
           this.getTableList()

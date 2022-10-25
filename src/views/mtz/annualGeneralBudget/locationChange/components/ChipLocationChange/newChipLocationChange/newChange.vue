@@ -9,47 +9,25 @@
 <!-- MTZ变更分页页面 -->
 <template>
   <div>
-    <theSearch ref="theSearch"
-               v-bind="$attrs"
-               v-on="$listeners"></theSearch>
-    <theTable ref="theTable"
-              v-bind="$attrs"
-              v-on="$listeners"
-              :dateList="dateList"
-              class="margin-top20"></theTable>
-
+    <theSearch ref="theSearch" v-bind="$attrs" v-on="$listeners"></theSearch>
+    <theTable
+      ref="theTable"
+      v-bind="$attrs"
+      v-on="$listeners"
+      :dateList="dateList"
+      class="margin-top20"
+    ></theTable>
   </div>
 </template>
 
 <script>
-import { iButton, iDatePicker, iDialog } from 'rise'
 import theSearch from './components/theSearch'
 import theTable from './components/theTable'
 export default {
   name: '',
   components: {
     theSearch,
-    theTable,
-    iDatePicker,
-    iDialog,
-    iButton
-  },
-  data () {
-    return {
-
-    }
-  },
-  created () {
-
-  },
-  watch: {
-
-  },
-  methods: {
-    backBtn () {
-      this.$router.go(-1)
-    },
-
+    theTable
   }
 }
 </script>

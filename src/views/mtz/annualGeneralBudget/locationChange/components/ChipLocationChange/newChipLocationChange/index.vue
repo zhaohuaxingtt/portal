@@ -8,34 +8,28 @@
 -->
 <!-- MTZ变更分页页面 -->
 <template>
-  <el-dialog :visible.sync="dialogVisible"
-             width="90%"
-             :before-close="handleClose">
-    <div slot="title"
-         class="flex title margin-bottom20">
-      <span class="titleText">{{language('MTZBIANGENG','MTZ变更')}}</span>
+  <el-dialog
+    :visible.sync="dialogVisible"
+    width="90%"
+    :before-close="handleClose"
+  >
+    <div slot="title" class="flex title margin-bottom20">
+      <span class="titleText">{{ language('CHIPBIANGENG', '芯片变更') }}</span>
     </div>
-    <newChange v-bind="$attrs"
-               v-on="$listeners"
-               @close="close"></newChange>
-    <span slot="footer"
-          class="dialog-footer">
-    </span>
+    <newChange v-bind="$attrs" v-on="$listeners" @close="close"></newChange>
+    <span slot="footer" class="dialog-footer"> </span>
   </el-dialog>
 </template>
 
 <script>
-import { iButton } from 'rise'
 import newChange from './newChange'
 export default {
   name: '',
   components: {
     newChange
   },
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   },
   props: {
     dialogVisible: {
@@ -43,16 +37,12 @@ export default {
       default: false
     }
   },
-  created () {
-  },
+  created() {},
   methods: {
-    backBtn () {
-      this.$router.go(-1)
+    handleClose() {
+      this.$emit('close', false)
     },
-    handleClose () {
-      this.$emit('close', false);
-    },
-    close (val) {
+    close(val) {
       if (!val) {
         this.handleClose()
       }

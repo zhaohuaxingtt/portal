@@ -8,15 +8,21 @@
 -->
 <template>
   <iPage>
-    <formInformation ref="formInformation"
-                     :isView="isView"
-                     :formData="formData"></formInformation>
-    <enclosureList ref="enclosureList"
-                   :isView="isView"
-                   class="margin-top20"></enclosureList>
-    <dosageDetails ref="dosageDetails"
-                   :isView="isView"
-                   class="margin-top20"></dosageDetails>
+    <formInformation
+      ref="formInformation"
+      :isView="isView"
+      :formData="formData"
+    ></formInformation>
+    <enclosureList
+      ref="enclosureList"
+      :isView="isView"
+      class="margin-top20"
+    ></enclosureList>
+    <dosageDetails
+      ref="dosageDetails"
+      :isView="isView"
+      class="margin-top20"
+    ></dosageDetails>
   </iPage>
 </template>
 
@@ -25,12 +31,13 @@ import { iPage } from 'rise'
 import dosageDetails from './components/dosageDetails'
 import enclosureList from './components/enclosureList'
 import formInformation from './components/formInformation'
-import { genericAppChangeDetail } from '@/api/mtz/annualGeneralBudget/mtzChange.js'
+import { getDetailById } from '@/api/mtz/annualGeneralBudget/chipChange.js'
+import { getAppById } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
-  data () {
+  data() {
     return {
       formData: {},
-      mtzAppId: "",
+      appId: '',
       isView: false
     }
   },
@@ -40,30 +47,27 @@ export default {
     dosageDetails,
     iPage
   },
-  created () {
-    this.mtzAppId = this.$route.query.mtzAppId
-    this.$nextTick(() => {
-      this.init()
-    });
+  created() {
+    this.appId = this.$route.query.appId
+    this.getDetail()
   },
   methods: {
-    init () {
-      this.getGenericAppChangeDetail()
-    },
-    getGenericAppChangeDetail () {
-      genericAppChangeDetail({
-        mtzAppId: this.mtzAppId
-      }).then(res => {
+    getDetail() {
+      // getDetailById
+      getAppById({ appId: this.appId }).then((res) => {
         if (res.code === '200') {
-          this.formData = res.data
-          if (res.data.appStatus === "草稿" || res.data.appStatus === "未通过") {
+          this.formData = res.data.chipChangeBase
+          if (
+            res.data.appStatus === '草稿' ||
+            res.data.appStatus === '未通过'
+          ) {
             this.isView = false
           } else {
             this.isView = true
           }
         }
       })
-    },
+    }
   }
 }
 </script>

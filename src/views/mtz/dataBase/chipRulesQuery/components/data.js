@@ -217,9 +217,9 @@ export const ruleQueryFormData = [
   { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
   { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'dept', name: '科室', key: '科室', type: 'select', selectOption: 'deptList' },
+  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList' },
   { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
-  { props: 'effectFlag', name: '是否生效', key: '是否生效', type: 'select', selectOption: 'effectFlagList' },
-  { props: 'startDate', name: '有效期起', key: '是否生效', type: 'date' },
-  { props: 'endDate', name: '有效期止', key: '是否生效', type: 'date' },
+  { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', type: 'date' }
 ]

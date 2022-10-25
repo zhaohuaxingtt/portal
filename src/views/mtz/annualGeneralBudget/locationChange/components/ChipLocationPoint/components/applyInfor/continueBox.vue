@@ -15,8 +15,15 @@
             :label="language(item.key, item.name)"
             class="SearchOption"
           >
+            <inputCustom
+              v-if="item.type == 'inputCustom'"
+              v-model="searchForm[item.props]"
+              :editPlaceholder="language('QINGSHURU', '请输入')"
+              :placeholder="language('QINGSHURU', '请输入')"
+              style="width: 100%"
+            ></inputCustom>
             <iMultiLineInput
-              v-if="item.type == 'iMultiLineInput'"
+              v-else-if="item.type == 'iMultiLineInput'"
               :placeholder="
                 language(
                   'partsprocure.PARTSPROCURE',
@@ -73,28 +80,6 @@
       <template slot="effectFlag" slot-scope="scope">
         <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
       </template>
-      <template slot="thresholdCompensationLogic" slot-scope="scope">
-        <span>{{
-          scope.row.thresholdCompensationLogic == 'A'
-            ? '全额补差'
-            : scope.row.thresholdCompensationLogic == 'B'
-            ? '超额补差'
-            : ''
-        }}</span>
-      </template>
-      <template slot="compensationPeriod" slot-scope="scope">
-        <span>{{
-          scope.row.compensationPeriod == 'A'
-            ? '年度'
-            : scope.row.compensationPeriod == 'H'
-            ? '半年度'
-            : scope.row.compensationPeriod == 'Q'
-            ? '季度'
-            : scope.row.compensationPeriod == 'M'
-            ? '月度'
-            : ''
-        }}</span>
-      </template>
     </tableList>
     <iPagination
       @size-change="handleSizeChange($event, getTableList)"
@@ -130,7 +115,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { continueBox, QueryFormData } from './data.js'
 import tableList from '@/components/commonTable/index.vue'
-
+import inputCustom from '@/components/inputCustom'
 import {
   getAppRecordByCondition,
   getDeptLimitLevel
@@ -151,6 +136,7 @@ export default {
     iFormItem,
     tableList,
     iMultiLineInput,
+    inputCustom,
     iTableCustom,
     iSearch
   },

@@ -362,7 +362,7 @@ export default [
                 },
                 component: () =>
                   import(
-                    '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/MtzLocationChangeOverview/index.vue'
+                    '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipLocationChangeOverview/index.vue'
                   )
               },
             ]
@@ -387,6 +387,28 @@ export default [
             component: () =>
               import(
                 '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/MTZapplicationForm/index.vue'
+              )
+          },
+          {
+            path: 'newMtzLocationChange',
+            name: 'newMtzLocationChange',
+            meta: {
+              title: '新建芯片补差变更申请'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/newChipLocationChange/index.vue'
+              )
+          },
+          {
+            path: 'ChipApplicationForm',
+            name: 'ChipApplicationForm',
+            meta: {
+              title: '芯片补差申请单'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipApplicationForm/index.vue'
               )
           },
           {

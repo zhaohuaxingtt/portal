@@ -135,9 +135,9 @@ export const ruleTableTitle1_1 = [
 
 // 附件上传
 export const uploadTableTitle = [
-  { props: 'fileName', name: '文件名', key: 'WENJIANMING', width: 600 },
+  { props: 'attachmentName', name: '文件名', key: 'WENJIANMING', width: 600 },
   { props: 'createDate', name: '上传日期', key: 'SHANGCHUANRIQI' },
-  { props: 'createByName', name: '上传人', key: 'SHANGCHUANREN' }
+  { props: 'createUserName', name: '上传人', key: 'SHANGCHUANREN' }
 ]
 
 export const dateFilter = (val, format = "YYYY-MM-DD HH:mm:ss", sourceFormat) => {

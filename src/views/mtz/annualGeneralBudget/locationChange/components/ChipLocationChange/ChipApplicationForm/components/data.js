@@ -233,3 +233,158 @@ export const tableList = [
     thresholdCompensationLogic: 'string'
   }
 ]
+
+export const tableTitle = [
+  {
+    props: 'ruleNo',
+    name: '规则编号',
+    key: 'GUIZEBIANHAO',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'method',
+    name: '补差方式',
+    key: '补差方式',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'materialGroup',
+    name: '材料组',
+    key: '材料组',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'materialName',
+    name: '原材料描述',
+    key: '原材料描述',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'oncePartNum',
+    name: '一次零件号',
+    key: '一次零件号',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'oncePartName',
+    name: '一次零件名称',
+    key: '一次零件名称',
+    align: 'center',
+    width: 150
+  },
+  {
+    props: 'onceSapCode',
+    name: '一次件供应商编号',
+    key: '一次件供应商编号',
+    align: 'center',
+    width: 150
+  },
+  {
+    props: 'onceSupplierName',
+    name: '一次件供应商名称',
+    width: '100px',
+    align: 'center',
+    key: '一次件供应商名称',
+    width: 150
+  },
+  {
+    props: 'buyer',
+    name: '采购员',
+    width: '100px',
+    align: 'center',
+    key: '采购员',
+    width: 100
+  },
+  {
+    props: 'dept',
+    name: '科室',
+    width: '100px',
+    align: 'center',
+    key: '科室',
+    width: 100
+  }, {
+    props: 'secondPartNum',
+    name: '二次零件号',
+    key: '二次零件号',
+    align: 'center',
+    width: 150
+  }, {
+    props: 'secondPartName',
+    name: '二次零件名称',
+    key: '二次零件名称',
+    align: 'center',
+    width: 150
+  },
+  {
+    props: 'secondSapCode',
+    name: '二次件供应商编号',
+    key: '二次件供应商编号',
+    align: 'center',
+    width: 150
+  },
+  {
+    props: 'secondSupplierName',
+    name: '二次件供应商名称',
+    align: 'center',
+    key: '二次件供应商名称',
+    width: 150
+  },
+  {
+    props: 'proportion',
+    name: '二次件与一次件比例',
+    align: 'center',
+    key: '二次件与一次件比例',
+    width: 150
+  },
+  {
+    props: 'amount',
+    name: '补差金额',
+    width: '100px',
+    align: 'center',
+    key: '补差金额',
+    width: 150
+  },
+  {
+    props: 'tcCurrence',
+    name: '货币',
+    align: 'center',
+    key: 'HUOBI',
+    width: 150
+  },
+  { props: 'tcExchangeRate', name: '汇率', align: 'center', key: 'HUILV' },
+  {
+    props: 'startDate',
+    name: '有效期起',
+    align: 'center',
+    key: 'YOUXIAOQIQI',
+    width: 150
+  },
+  {
+    props: 'endDate',
+    name: '有效期止',
+    align: 'center',
+    key: 'YOUXIAOQIZHI',
+    width: 150
+  },
+  {
+    props: 'effectFlag',
+    name: '是否生效',
+    align: 'center',
+    key: 'SHIFOUSHENGXIAO',
+    width: 150
+  },
+  {
+    props: 'updateDate',
+    name: '更新时间',
+    align: 'center',
+    key: '更新时间',
+    width: 150
+  },
+  {
+    props: 'sourceCode',
+    name: '补差来源',
+    align: 'center',
+    key: '补差来源',
+    width: 150,
+  }
+]

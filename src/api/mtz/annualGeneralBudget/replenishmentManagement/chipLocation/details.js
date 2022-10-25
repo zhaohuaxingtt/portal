@@ -775,12 +775,30 @@ export function searchAtta(params) {
   })
 }
 
-// 申请单审批附件-保存
+// 申请单-查询附件
+export function getAtta(params) {
+  return requestChip({
+    url: '/getAtta',
+    method: 'POST',
+    params
+  })
+}
+
+// 申请单附件-保存
 export function saveAtta(params) {
   return requestChip({
     url: '/saveAtta',
     method: 'POST',
     params
+  })
+}
+
+// 申请单附件-删除
+export function deleteAtta(data) {
+  return requestChip({
+    url: '/deleteAtta',
+    method: 'POST',
+    data
   })
 }
 

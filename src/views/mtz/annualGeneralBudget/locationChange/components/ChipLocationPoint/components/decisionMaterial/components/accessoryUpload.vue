@@ -14,7 +14,6 @@
         <span class="buttonBox">
           <iButton
             @click="handleClickDel"
-            class="margin-right20"
             v-if="appStatus == '草稿' || appStatus == '未通过'"
             >{{ language('SHANCHU', '删除') }}</iButton
           >
@@ -41,6 +40,7 @@
             </el-tooltip>
           </el-upload> -->
           <uploadButton
+            class="margin-left10"
             ref="uploadButtonAttachment"
             :buttonText="language('SHANGCHUAN', '上传')"
             @uploadedCallback="uploadSuccess"
@@ -55,9 +55,9 @@
         :index="true"
         @handleSelectionChange="handleSelectionChange"
       >
-        <template slot="fileName" slot-scope="scope">
+        <template slot="attachmentName" slot-scope="scope">
           <p class="openPage" @click="openPage(scope.row)">
-            {{ scope.row.fileName }}
+            {{ scope.row.attachmentName }}
           </p>
         </template>
       </tableList>
@@ -70,10 +70,9 @@ import { iCard, iButton, iMessage, iMessageBox } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
 import { uploadTableTitle } from './data'
 import {
-  fetchAppNomiDecisionDataPage,
-  fetchAppNomiDecisionDataSave,
-  fetchAppNomiDecisionDataDel,
-  saveAtta
+  deleteAtta,
+  saveAtta,
+  getAtta
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import uploadButton from '@/components/uploadButton'
 import { uploads, uploadAttach } from '@/api/file/upload'
@@ -117,8 +116,8 @@ export default {
   methods: {
     openPage(val) {
       let link = document.createElement('a')
-      link.href = val.fileUrl
-      let fname = val.fileName
+      link.href = val.filePath
+      let fname = val.attachmentName
       link.setAttribute('download', fname)
       document.body.appendChild(link)
       link.click()
@@ -128,11 +127,17 @@ export default {
     uploadSuccess(data) {
       console.log(data)
       if (data) {
-        saveAtta({ appId: this.$route.query.appId, fileId: data.id }).then(
-          (res) => {
-            console.log(res)
+        saveAtta({
+          appId: this.$route.query.appId,
+          fileId: data.id,
+          fileType: 1
+        }).then((res) => {
+          console.log(res)
+          if (res?.code == '200') {
+            iMessage.success('上传成功')
+            this.getTableData()
           }
-        )
+        })
       }
     },
     uploadProgress(res) {
@@ -155,8 +160,9 @@ export default {
     // 获取数据
     getTableData() {
       this.loading = true
-      fetchAppNomiDecisionDataPage({
-        appId: this.$route.query.appId
+      getAtta({
+        appId: this.$route.query.appId,
+        fileType: 1
       })
         .then((res) => {
           if (res && res.code == 200) {
@@ -192,14 +198,14 @@ export default {
           cancelButtonText: this.language('QUXIAO', '取消')
         }
       ).then((res) => {
-        fetchAppNomiDecisionDataDel({
-          idList: this.selection.map((item) => item.id)
-        }).then((res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableData()
-          } else iMessage.error(res.desZh)
-        })
+        deleteAtta(this.selection.map((item) => item.attachmentId)).then(
+          (res) => {
+            if (res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableData()
+            } else iMessage.error(res.desZh)
+          }
+        )
       })
     }
     // 点击上传
