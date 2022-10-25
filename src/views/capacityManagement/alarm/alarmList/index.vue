@@ -13,6 +13,7 @@
       </template>
       <tableList
         ref="tableList"
+        class="table"
         index
         :tableData="tableData"
         :tableTitle="tableTitle"
@@ -296,5 +297,18 @@ export default {
   background: rgb(250, 250, 250);
   height: 150px;
   overflow: auto;
+}
+.table {
+  ::v-deep th > .cell {
+    .slotHeader {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .label-require {
+      color: #f56c6c;
+      font-style: normal;
+    }
+  }
 }
 </style>
