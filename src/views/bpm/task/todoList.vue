@@ -40,6 +40,15 @@
         :total="page.totalCount"
       />
     </iCard>
+    <dialogApproval
+      v-if="dialogApprovalVisible"
+      :visible="dialogApprovalVisible"
+      :item="selectTableData[0]"
+      :type="agreeType"
+      :title="dialogApprovalTitle"
+      @success="approvelSuccess"
+      @close="dialogApprovalVisible = false"
+    />
   </iPage>
 </template>
 
@@ -55,7 +64,12 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
-import { actionButtons, actionHeader, searchForm } from './components'
+import {
+  actionButtons,
+  actionHeader,
+  searchForm,
+  dialogApproval
+} from './components'
 import { queryUndoApprovals } from '@/api/approval/myApproval'
 import {
   completeApproval,
@@ -74,7 +88,8 @@ export default {
     pageHeader,
     searchForm,
     actionHeader,
-    actionButtons
+    actionButtons,
+    dialogApproval
   },
   data() {
     return {
@@ -193,7 +208,8 @@ export default {
       dialogApprovalVisible: false,
       todoTotal: 0,
       approvalTypeMap: MAP_APPROVAL_TYPE,
-      templates: []
+      templates: [],
+      dialogApprovalTitle: ''
     }
   },
   created() {
@@ -280,7 +296,10 @@ export default {
           this.loading = false
         })
     },
-    async batchComplete(type) {
+    async batchComplete(type, title) {
+      console.log(type)
+      console.log(title)
+      this.agreeType = type
       if (type === MAP_APPROVAL_TYPE.AGREE) {
         this.loading = true
         const errorMsgs = []
@@ -331,7 +350,9 @@ export default {
 
         this.loading = false
       } else {
-        this.goDetail(this.selectTableData[0], this.taskType)
+        this.dialogApprovalVisible = true
+        this.dialogApprovalTitle = title
+        // this.goDetail(this.selectTableData[0], this.taskType)
       }
     },
     onComplete(row, type) {
