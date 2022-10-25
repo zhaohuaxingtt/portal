@@ -1065,6 +1065,8 @@ export default {
     }
   },
   mounted() {
+        sessionStorage.setItem('msgInfo',true)
+
     // this.type = this.$route.query.type
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()

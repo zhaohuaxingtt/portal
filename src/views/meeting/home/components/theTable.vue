@@ -782,6 +782,12 @@ export default {
   },
   mixins: [resultMessageMixin],
   props: {
+     form: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     tableListData: {
       type: Array,
       default: () => {
@@ -895,6 +901,9 @@ export default {
       deep: true,
       immediate: true
     }
+  },
+  mounted(){
+  
   },
   methods: {
     handleWeeks() {
@@ -1689,7 +1698,8 @@ export default {
       // gpMBDL会议  /meeting/managementHall/mbdlMeeting
       //gpCSC会议   /meeting/managementHall/gpcscMeeting
       // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
-      if (e.isCSC || e.isPreCSC) {
+     sessionStorage.setItem('search',JSON.stringify(this.form))
+     if (e.isCSC || e.isPreCSC) {
         this.$router.push({
           path: '/meeting/specialDetails',
           query: {

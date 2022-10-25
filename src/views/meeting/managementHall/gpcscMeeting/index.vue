@@ -1,6 +1,6 @@
 <!--
  * @Author: HS  gpcsc会议
- * @FilePath: \front-portal-gpd:\新建文件夹\front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
+ * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\index.vue
 -->
 <template>
   <iPage>
@@ -1280,6 +1280,7 @@ export default {
     }
   },
   mounted() {
+    sessionStorage.setItem('msgInfo',true)
     // this.type = this.$route.query.type
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
@@ -1305,6 +1306,9 @@ export default {
   //     );
   //   }
   // },
+  destroyed(){
+    // sessionStorage.removeItem('msgInfo')
+  },
   methods: {
     handleResultObj(row) {
       this.newSelectedTableData = row
