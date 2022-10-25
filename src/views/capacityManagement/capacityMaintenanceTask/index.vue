@@ -285,16 +285,20 @@ export default {
         if (res?.code == '200') {
           this.tableDataLeft = res.data
           this.$nextTick(() => {
-            this.rowClick()
+            if (this.form.supplier) {
+              this.rowClick(this.tableDataLeft[0], false)
+            } else {
+              this.rowClick()
+            }
           })
         } else {
           this.loading = false
         }
       })
     },
-    rowClick(row) {
+    rowClick(row, type = true) {
       if (row) {
-        if (row.tmSupplierId == this.supplierInfo?.tmSupplierId) {
+        if (row.tmSupplierId == this.supplierInfo?.tmSupplierId && type) {
           this.$refs.supplierTable.$refs.moviesTable.setCurrentRow()
           this.supplierInfo = {}
         } else {
