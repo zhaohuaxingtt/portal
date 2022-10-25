@@ -82,7 +82,7 @@
               :tableData="tableDataRight"
               :tableTitle="tableTitleRight"
               index
-              class="table-right"
+              class="table-right table"
             >
               <template #supplierShortNameZh="scope">
                 <span class="link cursor" @click="gotoSupplier(scope.row)">{{
@@ -397,6 +397,21 @@ export default {
           background: #a3c1f7;
         }
       }
+    }
+  }
+}
+
+.table {
+  ::v-deep th > .cell {
+    .slotHeader {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-flex;
+    }
+    .label-require {
+      color: #f56c6c;
+      font-style: normal;
     }
   }
 }
