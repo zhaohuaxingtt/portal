@@ -304,6 +304,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      display: inline-flex;
     }
     .label-require {
       color: #f56c6c;
