@@ -97,7 +97,7 @@
         width="400px"
         @close="close"
       >
-        <span>是否确认关闭所选报警信</span>
+        <span>是否确认已处理完毕所选报警信</span>
         <template slot="footer">
           <div>
             <i-button @click="close">取消</i-button>
@@ -171,7 +171,7 @@ export default {
         return iMessage.warn('请至少选择一条记录')
       }
       if (this.multipleSelection.find((item) => item.status != 'SENT')) {
-        return iMessage.warn('仅可关闭已发送状态的报警信，请检查所选记录状态')
+        return iMessage.warn('仅可处理已发送状态的报警信，请检查所选记录状态')
       }
       this.typeShow = true
     },
