@@ -383,8 +383,30 @@ export default {
     },
     selectData: {
       handler (val) {
-        console.log(val)
         if (val && val.length !== 0) {
+          if(val[0].echoShow){
+            let obj = JSON.parse(val[0].params)
+            this.searchForm.compTimeEnd = obj.balanceEndDate;
+            this.searchForm.compTimeStart = obj.balanceStartDate;
+            this.searchForm.effPriceTo = obj.effPriceEndDate;
+            this.searchForm.effPriceFrom = obj.effPriceStartDate;
+            this.searchForm.value = [obj.balanceStartDate,obj.balanceEndDate];
+            this.searchForm.secondSupplierList = obj.ssupplierCodeList;
+            this.searchForm.materialKindList = obj.materialKindList;
+            this.searchForm.sapOrderNo = obj.sapOrderNoList;
+            this.searchForm.materialCode = obj.materialCodeList;
+            this.searchForm.ekGroupList = obj.purchaseGroupList;
+            this.searchForm.fpartNo = obj.fpartNoList;
+            this.searchForm.spartNo = obj.spartNoList;
+            this.searchForm.isEffAvg = obj.isEffAvg
+
+            if(obj.effPriceStartDate && obj.effPriceEndDate){
+              this.value1 = [obj.effPriceStartDate,obj.effPriceEndDate];
+            }else{
+              this.value1 = [];
+            }
+          }
+
           this.firstSupplierName = val[0].firstSupplierName
           this.firstSupplier = val[0].firstSupplierId
           this.searchForm.firstSupplier = val[0].firstSupplierId
@@ -518,6 +540,7 @@ export default {
         .moment(this.searchForm.value[1])
         .format('yyyy-MM-DD')
     }
+    console.log("000")
     this.init()
   },
   mounted () {
@@ -562,8 +585,11 @@ export default {
   methods: {
     async init () {
       await this.getMgroups()
+
       await this.getRawMaterialNos()
+
       await this.getUserSubPurchaseGroup()
+
       this.$nextTick(() => {
         this.query()
       })
@@ -622,10 +648,12 @@ export default {
       this.$emit('close', false)
     },
     handleChange (val) {
+      console.log(val)
       this.searchForm.compTimeStart = val[0]
       this.searchForm.compTimeEnd = val[1]
     },
     handleChangeDate (val) {
+      console.log(val)
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
@@ -865,11 +893,14 @@ export default {
       this.query()
     },
     calcuLate () {
-      if (this.searchForm.isEffAvg === '')
+      this.onLoding = true
+      if (this.searchForm.isEffAvg === ''){
+        this.onLoding = false
         return iMessage.error(
           this.language('SHIFOUQUSHICHANGJIAJUNZHI', '是否取市场价均值')
         )
-      this.onLoding = true
+      }
+        
       let params = {
         balanceEndDate: this.searchForm.compTimeEnd,
         balanceStartDate: this.searchForm.compTimeStart,
@@ -887,13 +918,15 @@ export default {
         sapOrderNoList: this.searchForm.sapOrderNo,
         spartNoList: this.searchForm.spartNo,
         ssupplierCodeList: this.searchForm.secondSupplierList,
-        fSupplierName:this.searchForm.firstSupplierName,
+        fsupplierName:this.searchForm.firstSupplierName,
       }
       this.$refs['formList'].validate((valid) => {
         if (valid) {
           balanceCalcuLate(params).then((res) => {
-            if (res.code === '200') {
+            if (res.code == '200') {
               this.onLoding = false
+              iMessage.success(res.desZh)
+
               this.tableData = res.data
               if (this.tableData.length !== 0) {
                 this.tableData.forEach((item) => {
@@ -905,15 +938,15 @@ export default {
                 this.waitCompDocMoney = 0
                 this.trueCompMoney = this.waitCompDocMoney
               }
-
-              iMessage.success(res.desZh)
             } else {
               this.onLoding = false
               iMessage.error(res.desZh)
             }
+          }).catch(res=>{
+            this.onLoding = false
           })
         } else {
-
+          this.onLoding = false
           return false
         }
       })

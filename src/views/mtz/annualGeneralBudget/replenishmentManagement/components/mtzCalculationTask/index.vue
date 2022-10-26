@@ -206,7 +206,9 @@ export default {
         handleAdd(val,num){
             if(num == 2 || num == 3){
                 this.dialogVisible = true
-                this.selectData = [val];
+                const dataList = val;
+                dataList.echoShow = true;
+                this.selectData = [dataList];
                 this.flag = true
                 this.date = [this.tableListData[0].balanceStartDate,this.tableListData[0].balanceEndDate]
             }
@@ -295,11 +297,14 @@ export default {
         handleSelectionChange(val){
 
         },
-        handleSizeChange(){
-
+        handleSizeChange(val){
+            this.page.pageSize = val;
+            this.page.currPage = 1;
+            this.pageMtzCalcuLateTasks();
         },
-        handleCurrentChange(){
-
+        handleCurrentChange(val){
+            this.page.currPage = val;
+            this.pageMtzCalcuLateTasks();
         },
     }
 
