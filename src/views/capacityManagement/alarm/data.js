@@ -26,7 +26,7 @@ export const sentTableTitle = [
   { props: 'taskEndDateStr', label: '供应商任务截止时间', key: '供应商任务截止时间', sortable: true, tooltip: true, width: 210 },
   { props: 'status', label: '跟进状态', key: '跟进状态', sortable: true },
   { props: 'closeReason', label: '关闭原因', key: '关闭原因', sortable: true },
-  { props: 'closeTime', label: '关闭时间', key: '关闭时间', sortable: true },
+  { props: 'closeTime', label: '关闭时间', key: '关闭时间', sortable: true, width: 180 },
   { props: 'departmentCode', label: '科室', key: 'KESHI', sortable: true },
   { props: 'linieName', label: 'LINIE', key: 'LINIE', sortable: true },
   { props: 'sort', label: '', key: '' },
@@ -39,9 +39,9 @@ export const toBeSentTableTitle = [
   { props: 'source', label: '来源', key: 'LAIYUAN', sortable: true, width: 120 },
   { props: 'bkaName', label: '名称', key: 'BKA名称', sortable: true, tooltip: true, minWidth: 120 },
   { props: 'shortageLevel', label: '紧缺级别', key: '紧缺级别', sortable: true, width: 120 },
-  { props: 'sendTime', label: '发送时间', key: '发送时间', sortable: true },
+  { props: 'sendTime', label: '发送时间', key: '发送时间', sortable: true, width: 180 },
   { props: 'status', label: '状态', key: '状态', sortable: true, width: 80 },
-  { props: 'closeTime', label: '关闭时间', key: '关闭时间', sortable: true },
+  { props: 'closeTime', label: '处理时间', key: '处理时间', sortable: true, width: 180 },
   { props: 'departmentCode', label: '科室', key: 'KESHI', sortable: true },
   { props: 'linieName', label: 'LINIE', key: 'LINIE', sortable: true },
   { props: 'sort', label: '', key: '', width: 80 },
@@ -54,12 +54,12 @@ export const sourceTypeList = [
 ]
 // 报警信
 export const toBeStatusList = [
-  { value: 'CLOSED', label: '已关闭' },
+  { value: 'CLOSED', label: '已处理' },
   { value: 'SENT', label: '已发送' },
 ]
 // 待线下跟进
 export const statusList = [
-  { value: 'TO_FOLLOW_UP_OFFLINE', label: '待线下跟进' },
+  { value: 'TO_FOLLOW_UP_OFFLINE', label: '待反馈' },
   { value: 'CLOSED', label: '已关闭' },
 ]
 
