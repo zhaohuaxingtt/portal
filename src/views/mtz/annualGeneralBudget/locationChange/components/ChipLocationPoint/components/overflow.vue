@@ -384,25 +384,35 @@ export default {
           }
         }
       } else {
-        //备案
-        fetchAppNomiDecisionDataPage({
-          pageNo: 1,
-          pageSize: 10,
+        submit({
           appId: this.$route.query.appId
         }).then((res) => {
-          if (res && res?.code == 200) {
-            if (res.data.length < 1) {
-              return iMessage.error(
-                this.language(
-                  'SQDLXWBASTJSJCZLZDJCFJBNWK',
-                  '申请单类型为备案时，提交时决策资料中的附件不能为空！'
-                )
-              )
-            } else {
-              this.submitRequest()
-            }
-          } else iMessage.error(res.desZh)
+          if (res.result && res.code == 200) {
+            iMessage.success(this.language(res.desEn, res.desZh))
+            this.getAppById()
+          } else {
+            iMessage.error(res.desZh)
+          }
         })
+        // //备案
+        // submitRequest({
+        //   pageNo: 1,
+        //   pageSize: 10,
+        //   appId: this.$route.query.appId
+        // }).then((res) => {
+        //   if (res && res?.code == 200) {
+        //     if (res.data.length < 1) {
+        //       return iMessage.error(
+        //         this.language(
+        //           'SQDLXWBASTJSJCZLZDJCFJBNWK',
+        //           '申请单类型为备案时，提交时决策资料中的附件不能为空！'
+        //         )
+        //       )
+        //     } else {
+        //       this.submitRequest()
+        //     }
+        //   } else iMessage.error(res.desZh)
+        // })
       }
     },
     submitRequest() {

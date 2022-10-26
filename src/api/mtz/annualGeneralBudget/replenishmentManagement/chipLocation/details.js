@@ -830,3 +830,23 @@ export function downloadFile(params) {
     responseType: 'blob'
   })
 }
+
+// 数据库生效,失效
+export function partEnable(data, params) {
+  return requestChip({
+    url: '/partEnable',
+    method: 'POST',
+    params,
+    data
+  })
+}
+
+// 导出-数据库
+export function exportAppRecordByCondition(data) {
+  return requestChip({
+    url: '/exportAppRecordByCondition',
+    method: 'POST',
+    data,
+    responseType: 'blob'
+  })
+}

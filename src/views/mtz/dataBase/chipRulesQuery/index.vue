@@ -56,12 +56,12 @@
         />
         <div>
           <iButton
-            @click="takeEffect(1)"
+            @click="takeEffect(true)"
             v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHENGXIAO"
             >{{ language('SHENGXIAO', '生效') }}</iButton
           >
           <iButton
-            @click="takeEffect(0)"
+            @click="takeEffect(false)"
             v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHIXIAO"
             >{{ language('SHIXIAO', '失效') }}</iButton
           >
@@ -137,7 +137,11 @@ import {
 import { selectDictByKeys } from '@/api/dictionary'
 import buttonTableSetting from '@/components/buttonTableSetting'
 
-import { getAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import {
+  getAppRecordByCondition,
+  partEnable,
+  exportAppRecordByCondition
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   components: {
     iSearch,
@@ -231,10 +235,10 @@ export default {
     handlecreatemtz(row) {
       if (row.sourceCode !== '初始化') {
         let routeData = this.$router.resolve({
-          path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow',
+          path: '/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow',
           query: {
             currentStep: 1,
-            mtzAppId: row.sourceCode
+            appId: row.sourceId
           }
         })
         window.open(routeData.href)
@@ -249,12 +253,12 @@ export default {
     getList() {
       getAppRecordByCondition({
         onlySeeMySelf: this.onlySeeMySelf,
-        pageSize: this.page.currPage,
-        currentPage: this.page.pageSize,
+        pageSize: this.page.pageSize,
+        currentPage: this.page.currPage,
         ...this.formData
       }).then((res) => {
         if (res?.code == '200') {
-          this.tableData = res.data.records
+          this.tableListData = res.data.records
           this.page.totalCount = res.data.total || 0
         } else {
           iMessage.error(res.desZh)
@@ -268,24 +272,34 @@ export default {
     reset() {
       this.page.currPage = 1
       this.page.pageSize = 10
-      ;(this.formData = {
+      this.formData = {
         ruleNo: '',
-        method: [],
+        method: '',
         materialGroup: '',
         partNum: '',
         partName: '',
         sapCode: '',
         supplierName: '',
-        deptCode: [],
+        deptCode: '',
         buyerName: '',
         effectFlag: true,
         startDate: '',
         endDate: ''
-      }),
-        this.getList()
+      }
+      this.getList()
     },
     handleExportAll() {
-      exportRuleData(this.formData)
+      exportAppRecordByCondition(this.formData).then((res) => {
+        let url = window.URL.createObjectURL(res)
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        let fname = '芯片补差规则.xlsx'
+        link.setAttribute('download', fname)
+        document.body.appendChild(link)
+        link.click()
+        link.parentNode.removeChild(link)
+      })
     },
     // 选择数据
     handleSelectChange(e) {
@@ -295,7 +309,7 @@ export default {
     takeEffect(x) {
       if (this.selectedData.length > 0) {
         let ids = this.selectedData.map((y) => y.id)
-        ruleEntityEdit({ ids, effectiveFlag: x }).then((res) => {
+        partEnable(ids, { effectFlag: x }).then((res) => {
           if (res.result) {
             this.getList()
             iMessage.success(res.desZh)

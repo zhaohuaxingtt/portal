@@ -56,7 +56,10 @@ export const tableSetting = [
     label: '补差方式',
     i18n: '补差方式',
     align: 'center',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
+    }
   }, {
     prop: 'materialGroup',
     label: '材料组',
@@ -70,27 +73,27 @@ export const tableSetting = [
     align: 'center',
     width: 150
   }, {
-    prop: 'oncePartNum',
+    prop: 'partNum',
     label: '一次零件号',
     i18n: '一次零件号',
     align: 'center',
     width: 150
   }, {
-    prop: 'oncePartName',
+    prop: 'partName',
     label: '一次零件名称',
     i18n: '一次零件名称',
     align: 'center',
     width: 150
   },
   {
-    prop: 'onceSapCode',
+    prop: 'sapCode',
     label: '一次件供应商编号',
     i18n: '一次件供应商编号',
     align: 'center',
     width: 150
   },
   {
-    prop: 'onceSupplierName',
+    prop: 'supplierName',
     label: '一次件供应商名称',
     width: '100px',
     align: 'center',
@@ -98,7 +101,7 @@ export const tableSetting = [
     width: 150
   },
   {
-    prop: 'buyer',
+    prop: 'buyerName',
     label: '采购员',
     width: '100px',
     align: 'center',
@@ -106,34 +109,34 @@ export const tableSetting = [
     width: 100
   },
   {
-    prop: 'dept',
+    prop: 'deptCode',
     label: '科室',
     width: '100px',
     align: 'center',
     i18n: '科室',
     width: 100
   }, {
-    prop: 'secondPartNum',
+    prop: 'partNameSec',
     label: '二次零件号',
     i18n: '二次零件号',
     align: 'center',
     width: 150
   }, {
-    prop: 'secondPartName',
+    prop: 'partNumSec',
     label: '二次零件名称',
     i18n: '二次零件名称',
     align: 'center',
     width: 150
   },
   {
-    prop: 'secondSapCode',
+    prop: 'sapCodeSec',
     label: '二次件供应商编号',
     i18n: '二次件供应商编号',
     align: 'center',
     width: 150
   },
   {
-    prop: 'secondSupplierName',
+    prop: 'supplierNameSec',
     label: '二次件供应商名称',
     width: '100px',
     align: 'center',
@@ -141,7 +144,7 @@ export const tableSetting = [
     width: 150
   },
   {
-    prop: 'proportion',
+    prop: 'secondPrimaryRatio',
     label: '二次件与一次件比例',
     width: '100px',
     align: 'center',
@@ -157,13 +160,13 @@ export const tableSetting = [
     width: 150
   },
   {
-    prop: 'tcCurrence',
+    prop: 'currency',
     label: '货币',
     align: 'center',
     i18n: 'HUOBI',
     width: 150
   },
-  { prop: 'tcExchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
+  { prop: 'exchangeRate', label: '汇率', align: 'center', i18n: 'HUILV' },
   {
     prop: 'startDate',
     label: '有效期起',
@@ -183,7 +186,10 @@ export const tableSetting = [
     label: '是否生效',
     align: 'center',
     i18n: 'SHIFOUSHENGXIAO',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.effectFlag ? '是' : '否'}</span>
+    }
   },
   {
     prop: 'updateDate',

@@ -9,6 +9,7 @@
       </span>
       <div>
         <uploadButton
+          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
           ref="uploadButtonAttachment"
           :buttonText="language('DAORU', '导入')"
           :uploadByBusiness="true"
@@ -399,11 +400,7 @@ export default {
           link.style.display = 'none'
           link.href = url
           let fname =
-            '芯片补差-' +
-            this.baseData.chipAppBase.appNo +
-            '-' +
-            this.baseData.chipAppBase.appName +
-            '.xlsx'
+            '芯片补差规则模板.xlsx'
           link.setAttribute('download', fname)
           document.body.appendChild(link)
           link.click()
@@ -419,6 +416,8 @@ export default {
     },
     add() {
       //新增
+      this.addDialog = true
+      return
       if (this.type !== 'SIGN') {
         this.addDialog = true
       } else {
