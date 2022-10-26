@@ -37,7 +37,7 @@ export const toBeSentTableTitle = [
   { props: 'alarm', label: '报警信', key: '报警信', sortable: true, width: 90 },
   { props: 'supplierName', label: '供应商', key: 'GONGYINGSHANG', sortable: true },
   { props: 'source', label: '来源', key: 'LAIYUAN', sortable: true, width: 120 },
-  { props: 'bkaName', label: '名称', key: 'BKA名称', sortable: true, tooltip: true, minWidth: 120 },
+  { props: 'bkaName', label: '事件名称', key: '事件名称', sortable: true, tooltip: true, minWidth: 120 },
   { props: 'shortageLevel', label: '紧缺级别', key: '紧缺级别', sortable: true, width: 120 },
   { props: 'sendTime', label: '发送时间', key: '发送时间', sortable: true, width: 180 },
   { props: 'status', label: '状态', key: '状态', sortable: true, width: 80 },
