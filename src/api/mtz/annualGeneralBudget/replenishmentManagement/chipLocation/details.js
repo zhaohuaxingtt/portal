@@ -758,11 +758,11 @@ export function submit(params) {
 }
 
 //保存会议
-export function saveMeeting(params) {
+export function saveMeeting(data) {
   return requestChip({
     url: '/saveMeeting',
     method: 'POST',
-    params
+    data
   })
 }
 

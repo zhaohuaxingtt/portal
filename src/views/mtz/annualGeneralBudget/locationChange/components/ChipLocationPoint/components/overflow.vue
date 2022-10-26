@@ -17,8 +17,10 @@
           <div class="title_block">
             <span>申请单类型：</span>
             <iSelect
-              :disabled="appStatus !== '草稿' && appStatus !== '未通过'"
-              v-model="formInfor.type"
+              :disabled="
+                formInfo.status !== 'NEW' && formInfo.status !== 'NOTPASS'
+              "
+              v-model="formInfo.type"
               :placeholder="language('QINGXUANZE', '请选择')"
               @change="saveEdit($event)"
             >
@@ -33,11 +35,10 @@
         </div>
       </div>
       <div class="opration">
-        <template v-if="appStatus == '通过'">
+        <template v-if="formInfo.status == 'PASS'">
           <iButton
             @click="submitPass"
             v-show="locationNow == 3 && meetingNumber == 0"
-            v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
             >{{ language('TIJIAO', '提交') }}</iButton
           >
         </template>
@@ -46,7 +47,9 @@
             @click="submit"
             v-show="locationNow == 3 && meetingNumber == 0"
             v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
-            :disabled="appStatus !== '草稿' && appStatus !== '未通过'"
+            :disabled="
+              formInfo.status !== 'NEW' && formInfo.status !== 'NOTPASS'
+            "
             >{{ language('TIJIAO', '提交') }}</iButton
           >
         </template>
@@ -195,7 +198,7 @@ export default {
       NumberCESHI: 0,
       meetingNumber: Number(this.$route.query.meeting) || 0,
       getFlowTypeList: [],
-      formInfor: {},
+      formInfo: {},
       pageTitle: {
         title: ''
       },
@@ -215,8 +218,8 @@ export default {
   provide() {
     return { pageTitle: this.pageTitle }
   },
-  created() {
-    this.getLocationApplyStatus()
+  async created() {
+    await this.getLocationApplyStatus()
     this.appId = this.$route.query.appId
     if (this.appId) {
       this.beforReturn = false
@@ -266,7 +269,7 @@ export default {
       const step3 = ['']
       this.appStatus
     },
-    getLocationApplyStatus() {
+    async getLocationApplyStatus() {
       getLocationApplyStatus({}).then((res) => {
         this.statusList = res.data
       })
@@ -297,9 +300,9 @@ export default {
     saveEdit() {
       const chipTTO = {
         chipDetailList: this.baseData.chipDetailList,
-        chipAppBase: this.formInfor
+        chipAppBase: this.formInfo
       }
-      console.log(this.formInfor)
+      console.log(this.formInfo)
       console.log(chipTTO)
       updateApp(chipTTO).then((res) => {
         iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
@@ -327,7 +330,7 @@ export default {
         let data = res.data.chipAppBase
         data.statusDesc = this.getStatus(data.status)
         this.locationId = data.appNo
-        this.$set(this, 'formInfor', data)
+        this.$set(this, 'formInfo', data)
         this.appStatus = this.getStatus(data.status)
         this.ttNominateAppId = data.id
         this.appName = data.appName
