@@ -5,29 +5,39 @@
 -->
 <template>
   <iPage>
+    <!-- 供应商信息 -->
     <supplierMessage @handleSumbit='handleSumbit'
                       @requestBtn="requestBtn"
                      class="margin-bottom20" />
+    <!-- 财务数据 -->
     <financialDataTable @submitCalculateRefresh="submitCalculateRefresh"
                         ref="financialDataTable"
                         class="margin-bottom20"></financialDataTable>
+    <!-- 供应商准入评估模型-基本信息 -->
     <basicInformationTable v-loading='loading'
                            :basicDTO='basicDTO'
                            ref="basicInformationTable"
                            class="margin-bottom20" />
+    <!-- 股东信息 -->
     <shareholderInformationTable class="margin-bottom20" />
+    <!-- 供应商准入评估模型-财务状况 -->
     <financialOverview v-loading='loading'
                        :financeDTO='financeDTO'
                        class="margin-bottom20" />
+    <!-- 供应商准入评估模型-得分指标 -->
     <pkpiTable v-loading='loading'
                :resultVO='resultVO'
                :otherVO='otherVO'
                :scoreDTO='scoreDTO'
                ref="pkpiTable"
                class="margin-bottom20" />
+    <!-- 供应商准入评估模型-风险预警 -->
     <riskEarlyWarningTable v-loading='loading'
                            :riskDTO='riskDTO'
                            class="margin-bottom20" />
+    <!-- 附件上传 -->
+    <freeFile ref="freeFile" class="margin-bottom20" />
+    <!-- 供应商准入评估模型 - 备注 -->
     <remarks v-loading='loading'
              ref="remarks"
              class="margin-bottom20" />
@@ -39,6 +49,7 @@ import { iPage, iMessage, iMessageBox } from 'rise';
 import basicInformationTable from "./components/basicInformationTable";
 import supplierMessage from './components/supplierMessage'
 import financialDataTable from "@/views/generalPage/financialData/index.vue";
+import freeFile from "./components/freeFile";
 import shareholderInformationTable from "./components/shareholderInformationTable";
 import financialOverview from "./components/financialOverview";
 import pkpiTable from "./components/pkpiTable";
@@ -54,6 +65,7 @@ export default {
     basicInformationTable,
     supplierMessage,
     financialDataTable,
+    freeFile,
     shareholderInformationTable,
     financialOverview,
     pkpiTable,
