@@ -8,7 +8,7 @@
     />
     <i-card :title="language('报警信列表', '报警信列表')">
       <template slot="header-control">
-        <i-button @click="closeAlarm">{{ language('关闭', '关闭') }}</i-button>
+        <i-button @click="closeAlarm">{{ language('处理', '处理') }}</i-button>
         <buttonTableSetting @click="edittableHeader" />
       </template>
       <tableList

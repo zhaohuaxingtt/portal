@@ -16,7 +16,7 @@ export const tableTitleRight = [
   { props: 'sourceType', name: '来源', key: '', sortable: true, tooltip: true, width: 170 },
   { props: 'taskEndDate', name: '供应商任务截止日期', key: '', sortable: true, width: 190 },
   { props: 'departmentCode', name: '科室', key: '', sortable: true, width: 90 },
-  { props: 'status', name: '状态', key: '', sortable: true, width: 90 },
+  { props: 'status', name: '状态', key: '', sortable: true, width: 100 },
 ]
 
 export const sourceTypeList = [
@@ -27,8 +27,8 @@ export const sourceTypeList = [
 ]
 
 export const taskStatusList = [
-  { code: 'TO_DO', name: '待完成' },
-  { code: 'FINISHED', name: '已完成' },
-  { code: 'OVERDUE', name: '逾期' },
-  { code: 'OVERDUE_FINISHED', name: '逾期完成' },
+  { code: 'TO_DO', name: '待完成', nameEn: '待完成' },
+  { code: 'FINISHED', name: '已完成', nameEn: '已完成' },
+  { code: 'OVERDUE', name: '逾期待完成', nameEn: '逾期待完成' },
+  { code: 'OVERDUE_FINISHED', name: '逾期完成', nameEn: '逾期完成' },
 ]

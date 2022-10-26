@@ -36,9 +36,7 @@
     <el-row class="margin-top20 flexBox" :gutter="40">
       <el-col :span="7">
         <i-card
-          :title="
-            language('供应商未完成任务数-统计', '供应商未完成任务数-统计')
-          "
+          :title="language('供应商待完成任务', '供应商待完成任务')"
           class="table-card"
         >
           <template slot="body">
@@ -65,7 +63,7 @@
       </el-col>
       <el-col :span="17">
         <i-card
-          :title="language('未完成任务明细', '未完成任务明细')"
+          :title="language('待完成任务明细', '待完成任务明细')"
           class="table-card"
         >
           <template slot="header-control">
