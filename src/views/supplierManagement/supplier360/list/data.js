@@ -35,21 +35,21 @@ export const tableTitle = [
   {
     props: 'svwTempCode',
     name: '临时号',
-    width: 120,
+    width: 100,
     key: 'SUPPLIER_LINGSHIHAO',
     tooltip: true
   },
   {
     props: 'svwCode',
     name: 'SVW号',
-    width: 120,
+    width: 100,
     key: 'SUPPLIER_SVWHAO',
     tooltip: true
   },
   {
     props: 'sapCode',
     name: 'SAP号',
-    width: 120,
+    width: 90,
     key: 'SUPPLIER_SAPHAO',
     tooltip: true
   },
@@ -150,21 +150,21 @@ export const tableTitleGP = [
   {
     props: 'svwTempCode',
     name: '临时号',
-    width: 120,
+    width: 100,
     key: 'SUPPLIER_LINGSHIHAO',
     tooltip: true
   },
   {
     props: 'svwCode',
     name: '正式号',
-    width: 120,
+    width: 100,
     key: 'ZHENGSHIHAO',
     tooltip: true
   },
   {
     props: 'sapCode',
     name: 'SAP号',
-    width: 120,
+    width: 90,
     key: 'SUPPLIER_SAPHAO',
     tooltip: true
   },
