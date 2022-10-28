@@ -73,12 +73,15 @@
             <buttonTableSetting @click="edittableHeader" />
           </template>
           <template slot="body">
-            <table-list
+            <iTableCustom
               ref="tableList"
+              permissionKey="capacityMaintenanceTask"
               height="100%"
               :selectConfig="{ width: 42 }"
-              :tableData="tableDataRight"
-              :tableTitle="tableTitleRight"
+              :data="tableDataRight"
+              :columns="tableTitleRight"
+              @gotoSupplier="gotoSupplier"
+              @gotoBKA="gotoBKA"
               index
               class="table-right table"
             >
@@ -115,7 +118,7 @@
               <template #status="scope">
                 <span>{{ getStatus(scope.row.status) }}</span>
               </template>
-            </table-list>
+            </iTableCustom>
             <iPagination
               v-update
               @size-change="
@@ -149,7 +152,8 @@ import {
   iButton,
   icon,
   iPagination,
-  iMessage
+  iMessage,
+  iTableCustom
 } from 'rise'
 import {
   searchForm,
@@ -182,6 +186,7 @@ export default {
     iFormItem,
     iButton,
     icon,
+    iTableCustom,
     tableList,
     iPagination,
     buttonTableSetting
@@ -250,6 +255,7 @@ export default {
     },
     // 跳转BKA详情
     gotoBKA(row) {
+      if (row.sourceType == 1) return
       encodeBkaId({ bkaNo: row.bkaId }).then((res) => {
         if (res?.code == '200') {
           let url =

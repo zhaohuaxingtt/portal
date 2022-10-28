@@ -5,6 +5,7 @@
       class="side-menu-link 1"
       :class="{ active: isActive, disabled: !item.url }"
       :to="{ path: item.url }"
+      :target="item.target"
       @click.native="handleRouterClick"
     >
       <icon

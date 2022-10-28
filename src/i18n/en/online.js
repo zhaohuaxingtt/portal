@@ -2322,6 +2322,7 @@ export default {
   LK_ZHIFUJINEYUEDUGENZONG: 'Monthly Paid Tracking',
   LK_CHEXINGYUSUANYUEDUGENXONG: 'Model Monthly Budget Tracking',
   下载模板: 'Download Template',
+  MTZ补差计算任务: 'MTZ Compensation Calculation Task',
   MTZ补差总览: 'MTZ Compensation Overview',
   补差单列表: 'Compensation List',
   VWPT上载数量: 'VWPT Upload Ct.',

@@ -10,51 +10,18 @@
       <template slot="header-control">
         <buttonTableSetting @click="edittableHeader" />
       </template>
-      <tableList
+      <iTableCustom
+        permissionKey="waitingFeedback"
         ref="tableList"
         class="table"
-        index
-        :selection="false"
-        :tableData="tableData"
-        :tableTitle="tableTitle"
+        :data="tableData"
+        @gotoBKA="gotoBKA"
+        @gotoSupplier="gotoSupplier"
+        @gotoAlarm="gotoAlarm"
+        @topType="topType"
+        :columns="tableTitle"
       >
-        <template #supplierName="scope">
-          <span class="link cursor" @click="gotoSupplier(scope.row)">{{
-            scope.row.supplierName
-          }}</span>
-        </template>
-        <template #bkaName="scope">
-          <span class="link cursor" @click="gotoBKA(scope.row)">{{
-            scope.row.bkaName
-          }}</span>
-        </template>
-        <template #taskEndDateStr="scope">
-          <template v-if="scope.row.hasOverdue">
-            <span style="color: red">{{ scope.row.taskEndDateStr }}</span>
-          </template>
-          <span v-else>{{ scope.row.taskEndDateStr }}</span>
-        </template>
-        <template #status="scope">
-          <span>{{ getStatus(scope.row.status) }}</span>
-        </template>
-        <template #closeReason="scope">
-          <span
-            v-if="scope.row.closeReason == 'SEND_ALARM_LETTER'"
-            class="link cursor"
-            @click="gotoAlarm(scope.row)"
-            >{{ getCloseReason(scope.row.closeReason) }}</span
-          >
-          <span v-else>{{ getCloseReason(scope.row.closeReason) }}</span>
-        </template>
-        <template #sort="scope">
-          <span v-if="scope.row.sort" @click="topType(scope.row.id, '0')">
-            <icon symbol class="cursor" name="iconliebiaoyizhiding" />
-          </span>
-          <span @click="topType(scope.row.id, '1')" v-else>
-            <icon symbol class="cursor" name="iconliebiaoweizhiding" />
-          </span>
-        </template>
-      </tableList>
+      </iTableCustom>
       <iPagination
         v-update
         @size-change="handleSizeChange($event, pageNotSendAlarmLetter)"
@@ -92,7 +59,15 @@
 </template>
 
 <script>
-import { iCard, iButton, icon, iPagination, iDialog, iMessage } from 'rise'
+import {
+  iCard,
+  iButton,
+  icon,
+  iPagination,
+  iDialog,
+  iMessage,
+  iTableCustom
+} from 'rise'
 import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import tableList from 'rise/web/components/iTableSort'
@@ -120,6 +95,7 @@ export default {
     iDialog,
     tableList,
     Search,
+    iTableCustom,
     buttonTableSetting
   },
   mixins: [pageMixins, tableSortMixins],
@@ -216,6 +192,7 @@ export default {
     },
     // 跳转报警信详情
     gotoAlarm(row) {
+      if (row.closeReason != 'SEND_ALARM_LETTER') return
       row.source = 'CAPACITY_RED_LIGHT'
       let router = this.$router.resolve({
         path: '/capacityManagement/alarmLetter',
@@ -227,7 +204,9 @@ export default {
       window.open(router.href, '_blank')
     },
     // 数据置顶
-    topType(alarmLetterTaskId, setType) {
+    topType(row) {
+      const alarmLetterTaskId = row.id
+      const setType = row.sort ? 0 : 1
       console.log(alarmLetterTaskId, setType)
       //0 取消置顶， 1 置顶
       setAlarmLetterOrder({
