@@ -50,7 +50,15 @@
             </el-form-item>
             <el-form-item label="二次件供应商"
                           class="searchFormItem">
-              <custom-select v-model="searchForm.secondSupplierList"
+              <iSelect filterable clearable multiple v-model="searchForm.secondSupplierList" :placeholder="language('QINGXUANZESHURU', '请选择/输入')">
+                  <el-option
+                      v-for="(item,index) in ssupplierList"
+                      :key="index"
+                      :label="item.codeMessage"
+                      :value="item.code">
+                  </el-option>
+              </iSelect>
+              <!-- <custom-select v-model="searchForm.secondSupplierList"
                              :user-options="ssupplierList"
                              multiple
                              clearable
@@ -58,12 +66,20 @@
                              display-member="codeMessage"
                              value-member="code"
                              value-key="code">
-              </custom-select>
+              </custom-select> -->
             </el-form-item>
             <el-form-item label="材料中类"
                           class="searchFormItem"
                           prop="materialKindList">
-              <custom-select v-model="searchForm.materialKindList"
+              <iSelect filterable clearable multiple v-model="searchForm.materialKindList" :placeholder="language('QINGXUANZESHURU', '请选择/输入')">
+                  <el-option
+                      v-for="(item,index) in Mgroups"
+                      :key="index"
+                      :label="item.message"
+                      :value="item.code">
+                  </el-option>
+              </iSelect>
+              <!-- <custom-select v-model="searchForm.materialKindList"
                              :user-options="Mgroups"
                              multiple
                              clearable
@@ -71,7 +87,7 @@
                              display-member="message"
                              value-member="code"
                              value-key="code">
-              </custom-select>
+              </custom-select> -->
             </el-form-item>
             <el-form-item label="SAP订单号"
                           class="searchFormItem">
@@ -83,7 +99,15 @@
             <el-form-item label="原材料编号"
                           prop="materialCode"
                           class="searchFormItem">
-              <custom-select v-model="searchForm.materialCode"
+              <iSelect filterable clearable multiple v-model="searchForm.materialCode" :placeholder="language('QINGXUANZESHURU', '请选择/输入')" @change="handleMaterialCode">
+                  <el-option
+                      v-for="(item,index) in RawMaterialNos"
+                      :key="index"
+                      :label="item.codeMessage"
+                      :value="item.code">
+                  </el-option>
+              </iSelect>
+              <!-- <custom-select v-model="searchForm.materialCode"
                              :user-options="RawMaterialNos"
                              multiple
                              clearable
@@ -92,12 +116,20 @@
                              display-member="codeMessage"
                              value-member="code"
                              value-key="code">
-              </custom-select>
+              </custom-select> -->
             </el-form-item>
 
             <el-form-item label="采购组"
                           class="searchFormItem">
-              <custom-select v-model="searchForm.ekGroupList"
+              <iSelect filterable clearable multiple v-model="searchForm.ekGroupList" :placeholder="language('QINGXUANZESHURU', '请选择/输入')" @change="handleMaterialCode">
+                  <el-option
+                      v-for="(item,index) in UserSubPurchaseGroup"
+                      :key="index"
+                      :label="item.message"
+                      :value="item.code">
+                  </el-option>
+              </iSelect>
+              <!-- <custom-select v-model="searchForm.ekGroupList"
                              :user-options="UserSubPurchaseGroup"
                              multiple
                              clearable
@@ -106,7 +138,7 @@
                              display-member="message"
                              value-member="code"
                              value-key="code">
-              </custom-select>
+              </custom-select> -->
             </el-form-item>
             <el-form-item label="一次零件号"
                           prop="fpartNo"
@@ -381,45 +413,6 @@ export default {
         }
       }
     },
-    selectData: {
-      handler (val) {
-        if (val && val.length !== 0) {
-          if(val[0].echoShow){
-            let obj = JSON.parse(val[0].params)
-            this.searchForm.compTimeEnd = obj.balanceEndDate;
-            this.searchForm.compTimeStart = obj.balanceStartDate;
-            this.searchForm.effPriceTo = obj.effPriceEndDate;
-            this.searchForm.effPriceFrom = obj.effPriceStartDate;
-            this.searchForm.value = [obj.balanceStartDate,obj.balanceEndDate];
-            this.searchForm.secondSupplierList = obj.ssupplierCodeList;
-            this.searchForm.materialKindList = obj.materialKindList;
-            this.searchForm.sapOrderNo = obj.sapOrderNoList;
-            this.searchForm.materialCode = obj.materialCodeList;
-            this.searchForm.ekGroupList = obj.purchaseGroupList;
-            this.searchForm.fpartNo = obj.fpartNoList;
-            this.searchForm.spartNo = obj.spartNoList;
-            this.searchForm.isEffAvg = obj.isEffAvg
-
-            if(obj.effPriceStartDate && obj.effPriceEndDate){
-              this.value1 = [obj.effPriceStartDate,obj.effPriceEndDate];
-            }else{
-              this.value1 = [];
-            }
-          }
-
-          this.firstSupplierName = val[0].firstSupplierName
-          this.firstSupplier = val[0].firstSupplierId
-          this.searchForm.firstSupplier = val[0].firstSupplierId
-          this.searchForm.firstSupplierName = val[0].firstSupplierName
-          if (!this.flag) {
-            const data = val[0]
-            this.searchForm.mtzDocId = data.id
-          }
-        }
-      },
-      deep: true,
-      immediate: true
-    },
     tableData: {
       handler (data) {
         if (data) {
@@ -531,6 +524,39 @@ export default {
     }
   },
   created () {
+    if (this.selectData && this.selectData.length !== 0) {
+      if(this.selectData[0].echoShow){
+        let obj = JSON.parse(this.selectData[0].params)
+        console.log(obj);
+        this.searchForm.compTimeEnd = obj.balanceEndDate;
+        this.searchForm.compTimeStart = obj.balanceStartDate;
+        this.searchForm.effPriceTo = obj.effPriceEndDate;
+        this.searchForm.effPriceFrom = obj.effPriceStartDate;
+        this.searchForm.secondSupplierList = obj.ssupplierCodeList;
+        this.$set(this.searchForm,"materialKindList",obj.materialKindList)
+        this.searchForm.sapOrderNo = obj.sapOrderNoList;
+        this.searchForm.materialCode = obj.materialCodeList;
+        this.searchForm.ekGroupList = obj.purchaseGroupList;
+        this.searchForm.fpartNo = obj.fPartNoList;
+        this.searchForm.spartNo = obj.spartNoList;
+        this.searchForm.isEffAvg = obj.isEffAvg
+
+        if(obj.effPriceStartDate && obj.effPriceEndDate){
+          this.value1 = [obj.effPriceStartDate,obj.effPriceEndDate];
+        }else{
+          this.value1 = [];
+        }
+      }
+      this.firstSupplierName = this.selectData[0].firstSupplierName
+      this.firstSupplier = this.selectData[0].firstSupplierId
+      this.searchForm.firstSupplier = this.selectData[0].firstSupplierId
+      this.searchForm.firstSupplierName = this.selectData[0].firstSupplierName
+      if (!this.flag) {
+        const data = this.selectData[0]
+        this.searchForm.mtzDocId = data.id
+      }
+      console.log(this.searchForm)
+    }
     this.searchForm.value = this.dateSearch
     if (this.searchForm.value !== '') {
       this.searchForm.compTimeStart = window
@@ -541,6 +567,8 @@ export default {
         .format('yyyy-MM-DD')
     }
     console.log("000")
+
+    // return;
     this.init()
   },
   mounted () {

@@ -4,7 +4,7 @@
              @sure="sure">
         <el-form class="margin-top10">
             <el-form-item :label="$t('一次件供应商')">
-                <iSelect filterable v-model="selectOptions.sapCode" :placeholder="language('QINGXUANZE','请选择')">
+                <iSelect filterable clearable v-model="selectOptions.sapCode" :placeholder="language('QINGXUANZE','请选择')">
                     <el-option
                         v-for="(item,index) in fsupplierList"
                         :key="index"
@@ -14,7 +14,7 @@
                 </iSelect>
             </el-form-item>
             <el-form-item :label="$t('采购员')">
-                <iSelect filterable v-model="selectOptions.operatorId" :placeholder="language('QINGXUANZE','请选择')" @change="buyusChange">
+                <iSelect filterable clearable v-model="selectOptions.operatorId" :placeholder="language('QINGXUANZE','请选择')" @change="buyusChange">
                     <el-option
                         v-for="(item,index) in operatorBuyus"
                         :key="index"
@@ -24,7 +24,7 @@
                 </iSelect>
             </el-form-item>
             <el-form-item :label="$t('任务状态')">
-                <iSelect filterable v-model="selectOptions.status" :placeholder="language('QINGXUANZE','请选择')">
+                <iSelect filterable clearable v-model="selectOptions.status" :placeholder="language('QINGXUANZE','请选择')">
                     <el-option
                         v-for="(item,index) in taskTypeList"
                         :key="index"
@@ -167,8 +167,8 @@ export default {
             dialogVisible: false,
             selectData: [],
             flag: false,
-            date: "",
-            materialCodes: []
+            date: [],
+            materialCodes: [],
         }
     },
     created(){
@@ -207,10 +207,11 @@ export default {
             if(num == 2 || num == 3){
                 this.dialogVisible = true
                 const dataList = val;
+                let obj = JSON.parse(val.params)
+                this.date = [obj.balanceStartDate,obj.balanceEndDate]
                 dataList.echoShow = true;
                 this.selectData = [dataList];
                 this.flag = true
-                this.date = [this.tableListData[0].balanceStartDate,this.tableListData[0].balanceEndDate]
             }
         },
         handleClose(){

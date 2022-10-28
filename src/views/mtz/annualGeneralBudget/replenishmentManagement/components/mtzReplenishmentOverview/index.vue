@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     handleAdd (params) {
+      console.log(params)
       this.dialogVisible = params.dialogVisible
       this.selectData = params.selectData
       this.flag = params.flag
