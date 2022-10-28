@@ -239,6 +239,7 @@
             v-slot="scope"
           >
             <el-form-item
+              :class="items.tooltip?'tipsTableClass':''"
               :prop="'tableData.' + scope.$index + '.' + items.props"
               :rules="items.rule ? items.rule : ''"
             >
@@ -427,6 +428,18 @@ export default {
 
   ::v-deep .el-table--border td {
     border-right: 0 !important;
+  }
+}
+
+
+.tipsTableClass{
+  ::v-deep .el-form-item__content{
+    span{
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+      overflow: hidden;
+    }
   }
 }
 </style>

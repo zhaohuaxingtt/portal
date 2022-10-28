@@ -466,9 +466,18 @@ export default {
         ]
       } else {
         rules = [
-          { required: true, message: '请输入注册地址邮编', trigger: 'blur' },
-          { pattern: /^[A-Za-z0-9]+$/, message: '邮编错误', trigger: 'blur' },
-          { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }
+          { required: true, message: "请输入注册地址邮编", trigger: 'blur' },
+          {
+            validator(rule, value, callback) {
+              const ruleT = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/
+              if (ruleT.test(value)) {
+                callback(new Error('邮编错误'))
+              }else{
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }
         ]
       }
       return rules
