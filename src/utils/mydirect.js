@@ -27,6 +27,7 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
+    return
     //如果是个变量则使用变量，否则当做字符串处理
 
     var proValue = ''
