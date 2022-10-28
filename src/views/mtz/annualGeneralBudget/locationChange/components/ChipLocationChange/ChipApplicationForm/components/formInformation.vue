@@ -10,15 +10,12 @@
   <div>
     <div class="header flex">
       <div>
-        <span class="title"
-          >{{ language('BIANGENGDAN', 'MTZ变更单') }}-{{
-            formInline.mtzAppId
-          }}-</span
-        >
-        <span class="title"
-          >{{ formInline.appName }}-{{ linieName }}-
-          <span class="dTitle">{{ linieDeptNumK2 }}</span></span
-        >
+        <span class="title">
+          {{ language('芯片补差申请单', '芯片补差申请单') }}-{{
+            formInline.appNo
+          }}-{{ formInline.appName }}-{{ linieName }}-
+          <span class="dTitle">{{ linieDeptNumK2 }}</span>
+        </span>
       </div>
       <div>
         <iButton
@@ -162,16 +159,15 @@ export default {
     },
     formData: {
       handler(val) {
-        this.$set(this, 'formInline', val)
-        // this.formInline.appName = val.appName
-        // this.formInline.mtzAppId = val.mtzAppId
-        // this.formInline.appStatus = val.appStatus
-        // this.formInline.appType = val.appType
-        // this.formInline.remark = val.remark
-        // this.formInline.approveRemarks = val.approveRemarks
-        // this.linieName = val.linieName
-        // this.linieDeptNum = val.linieDeptNum
-        // this.linieDeptNumK2 = val.linieDeptNumK2
+        this.formInline.appName = val.appName
+        this.formInline.mtzAppId = val.mtzAppId
+        this.formInline.appStatus = val.appStatus
+        this.formInline.appType = val.appType
+        this.formInline.remark = val.remark
+        this.formInline.approveRemarks = val.approveRemarks
+        this.linieName = val.linieName
+        this.linieDeptNum = val.linieDeptNum
+        this.linieDeptNumK2 = val.linieDeptNumK2
       },
       immediate: true,
       deep: true

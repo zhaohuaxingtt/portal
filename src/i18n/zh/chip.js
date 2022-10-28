@@ -1,0 +1,7 @@
+export default {
+  CHIPDINGDIAN: '芯片定点',
+  CHIPBIANGENG: '芯片变更',
+  XINJIANCHIPDINGDIANSHENQING: '新建定点申请',
+  XINJIANCHIPBIANGENGSHENQING: '新建变更申请',
+  CHIPBUCHASHENGQINGDAN: '芯片补差申请单',
+}
