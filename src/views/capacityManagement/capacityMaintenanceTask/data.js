@@ -1,3 +1,4 @@
+import statusShow from "./components/statusShow";
 export const searchForm = [
   { prop: 'department', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
   { prop: 'supplier', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
@@ -11,12 +12,31 @@ export const tableTitleLeft = [
 ]
 
 export const tableTitleRight = [
-  { props: 'supplierShortNameZh', name: '供应商', key: '', sortable: true, minWidth: 160, tooltip: true },
-  { props: 'bkaName', name: 'BKA', key: '', sortable: true, minWidth: 160, tooltip: true },
-  { props: 'sourceType', name: '来源', key: '', sortable: true, tooltip: true, width: 170 },
-  { props: 'taskEndDate', name: '供应商任务截止日期', key: '', sortable: true, width: 190 },
-  { props: 'departmentCode', name: '科室', key: '', sortable: true, width: 90 },
-  { props: 'status', name: '状态', key: '', sortable: true, width: 100 },
+  { type: 'selection', width: 50 },
+  { type: 'index', label: '#', key: '#', width: 50 },
+  {
+    prop: 'supplierShortNameZh', label: '供应商', key: '', sortable: true, minWidth: 160, tooltip: true,
+    emit: 'gotoSupplier',
+    customRender: (h, scope) => {
+      return <statusShow row={scope.row} prop="supplierShortNameZh" link></statusShow>
+    }
+  },
+  {
+    prop: 'bkaName', label: 'BKA', key: '', sortable: true, minWidth: 160, tooltip: true,
+    emit: 'gotoBKA',
+    customRender: (h, scope) => {
+      return <statusShow row={scope.row} prop={scope.row.sourceType == 1 ? 'sourceItem' : 'bkaName'} link={scope.row.sourceType != '1'}></statusShow>
+    }
+  },
+  {
+    prop: 'sourceType', label: '来源', key: '', sortable: true, tooltip: true, width: 170,
+    customRender: (h, scope) => {
+      return <statusShow row={scope.row} prop="sourceType" statusList={sourceTypeList} options={{ value: 'code', label: 'name' }}></statusShow>
+    }
+  },
+  { prop: 'taskEndDate', label: '供应商任务截止日期', key: '', sortable: true, width: 190 },
+  { prop: 'departmentCode', label: '科室', key: '', sortable: true, width: 90 },
+  { prop: 'status', label: '状态', key: '', sortable: true, width: 100 },
 ]
 
 export const sourceTypeList = [
