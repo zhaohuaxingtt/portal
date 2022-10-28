@@ -10,7 +10,6 @@ const postcss = px2rem({
 })
 
 const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-test.csvw.com'
-// const BASE_IP = 'http://rise-gateway-runtime.apps.vmocp-uat.csvw.com'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -378,6 +377,15 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_AEKO]: ''
+        }
+      },
+      [process.env.VUE_APP_BKM]: {
+        target: `${BASE_IP}/bkm/`,
+        // target: `http://${BASE_IP}:8023/procurementrequirement`,
+        // target: `hhttp://rise-gateway-runtime.apps.vmocp-uat.csvw.com/procurementrequirement/`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BKM]: ''
         }
       }
     }
