@@ -11,73 +11,19 @@
         <i-button @click="closeAlarm">{{ language('处理', '处理') }}</i-button>
         <buttonTableSetting @click="edittableHeader" />
       </template>
-      <tableList
+      <iTableCustom
         ref="tableList"
         class="table"
-        index
-        :tableData="tableData"
-        :tableTitle="tableTitle"
-        @handleSelectionChange="handleSelectionChange"
+        permissionKey="alarmList"
+        :data="tableData"
+        :columns="tableTitle"
+        @gotoAlarm="gotoAlarm"
+        @gotoSupplier="gotoSupplier"
+        @gotoBKA="gotoBKA"
+        @topType="topType"
+        @handle-selection-change="handleSelectionChange"
       >
-        <template #alarm="scope">
-          <span class="link cursor" @click="gotoAlarm(scope.row)">{{
-            language('CHAKAN', '查看')
-          }}</span>
-        </template>
-        <template #supplierName="scope">
-          <span class="link cursor" @click="gotoSupplier(scope.row)">{{
-            scope.row.supplierName
-          }}</span>
-        </template>
-        <template #source="scope">
-          <span>{{ getSourceType(scope.row.source) }}</span>
-        </template>
-        <template #bkaName="scope">
-          <span
-            class="link cursor"
-            v-if="scope.row.source == 'CAPACITY_RED_LIGHT'"
-            @click="gotoBKA(scope.row)"
-            >{{ scope.row.warningLetterTitle }}</span
-          >
-          <span v-else>{{ scope.row.warningLetterTitle }}</span>
-        </template>
-        <template #shortageLevel="scope">
-          <icon
-            symbol
-            v-if="scope.row.shortageLevel == 'low'"
-            name="iconbaojiapingfengenzong-jiedian-hei"
-          />
-          <icon
-            symbol
-            v-if="scope.row.shortageLevel == 'middle'"
-            name="iconbaojiapingfengenzong-jiedian-hong"
-          />
-          <icon
-            symbol
-            v-if="scope.row.shortageLevel == 'middleHigh'"
-            name="iconbaojiapingfengenzong-jiedian-cheng"
-          />
-          <icon
-            symbol
-            v-if="scope.row.shortageLevel == 'high'"
-            name="iconbaojiapingfengenzong-jiedian-huang"
-          />
-          <span class="margin-left5">{{
-            getLevelLabel(scope.row.shortageLevel)
-          }}</span>
-        </template>
-        <template #status="scope">
-          <span>{{ getStatus(scope.row.status) }}</span>
-        </template>
-        <template #sort="scope">
-          <span v-if="scope.row.sort" @click="topType(scope.row.id, '0')">
-            <icon symbol class="cursor" name="iconliebiaoyizhiding" />
-          </span>
-          <span @click="topType(scope.row.id, '1')" v-else>
-            <icon symbol class="cursor" name="iconliebiaoweizhiding" />
-          </span>
-        </template>
-      </tableList>
+      </iTableCustom>
       <iPagination
         v-update
         @size-change="handleSizeChange($event, getWarningLetterInfoPage)"
@@ -110,7 +56,15 @@
 </template>
 
 <script>
-import { iCard, iButton, icon, iPagination, iDialog, iMessage } from 'rise'
+import {
+  iCard,
+  iButton,
+  icon,
+  iPagination,
+  iDialog,
+  iMessage,
+  iTableCustom
+} from 'rise'
 import buttonTableSetting from '@/components/buttonTableSetting'
 import { tableSortMixins } from 'rise/web/components/iTableSort/tableSortMixins'
 import tableList from 'rise/web/components/iTableSort'
@@ -142,7 +96,8 @@ export default {
     iDialog,
     tableList,
     Search,
-    buttonTableSetting
+    buttonTableSetting,
+    iTableCustom
   },
   mixins: [pageMixins, tableSortMixins],
   data() {
@@ -193,6 +148,7 @@ export default {
       return levelList.find((item) => item.value == level)?.label
     },
     handleSelectionChange(val) {
+      console.log(val)
       this.multipleSelection = val
     },
     searchData() {
@@ -256,6 +212,7 @@ export default {
     },
     // 跳转BKA详情
     gotoBKA(row) {
+      if (row.source != 'CAPACITY_RED_LIGHT') return
       let url =
         process.env.VUE_APP_HOST +
         `/bkm/bkaView/bkaView.do?bkaNo=${
@@ -275,7 +232,9 @@ export default {
       window.open(router.href, '_blank')
     },
     // 数据置顶
-    topType(alarmLetterId, setType) {
+    topType(row) {
+      const alarmLetterId = row.id
+      const setType = row.sort ? 0 : 1
       //0 取消置顶， 1 置顶
       setWarningLetterInfoAlarmLetterOrder({
         alarmLetterId,

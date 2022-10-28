@@ -2377,6 +2377,8 @@
     QSRTHYY:"Please enter the return reason",
     "自动创建":"Automatic creation",
     "手动创建":"Create Manually",
+
+    SFCXGSSTJXSYSJ:"Reverse all data write-off this search condition?",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

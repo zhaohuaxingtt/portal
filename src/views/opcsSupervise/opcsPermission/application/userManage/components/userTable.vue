@@ -209,15 +209,42 @@ export default {
           this.onUserSaveAction = true;
           saveUser(parmars).then((res) => {
             if (res && res.code == 200) {
-              this.inputProps = []
+              if(res.data.length>0){
+                var msg=``
+                res.data.forEach(val=>{
+                  if(val.id){
+                    msg+=`<p>编辑数据：表格第${this.tableListData.findIndex(item=>item.id==val.id)+1}行数据,${val.remark}</p>`
+                  }else{
+                    msg+=`<p>新增数据：表格第${this.tableListData.findIndex(item=>item.supplierNum==val.supplierNum)+1}行数据,${val.remark}</p>`
+                  }
+                })
+
+                this.$alert(msg, '保存失败', {
+                  confirmButtonText: '确定',
+                  dangerouslyUseHTMLString: true,
+
+                  callback: action => {
+                    this.$message({
+                      type: 'info',
+                      message: `action: ${ action }`
+                    });
+                  }
+                });
+                // iMessage.error(res.desZh)
+              }else{
+                this.inputProps = []
               this.edit = false
               this.getTableData()
               iMessage.success(res.desZh)
+              }
+          
             } else iMessage.error(res.desZh)
             this.onUserSaveAction = false;
           },function() {
             this.onUserSaveAction = false;
           })
+        }else{
+          iMessage.error('请正确输入必填项')
         }
       })
     },

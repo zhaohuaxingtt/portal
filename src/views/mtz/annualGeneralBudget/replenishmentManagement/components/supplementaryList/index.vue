@@ -7,14 +7,14 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\index.vue
 -->
 <template>
-  <iPage>
+  <div>
     <theSearch></theSearch>
     <theTable class="margin-top20"
               @detail="handleDetail"></theTable>
     <search :detailObj="detailObj"
             v-if="dialogShow"
             v-on:dialogShowFun="dialogShowFun" />
-  </iPage>
+  </div>
 </template>
   
 <script>
