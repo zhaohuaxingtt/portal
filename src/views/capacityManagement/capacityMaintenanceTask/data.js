@@ -1,4 +1,5 @@
 import statusShow from "./components/statusShow";
+import overdue from "./components/overdue";
 export const searchForm = [
   { prop: 'department', label: '科室', key: 'KESHI', type: 'select', optionName: 'deptList', multiple: true },
   { prop: 'supplier', label: '供应商', key: 'GONGYINGSHANG', type: 'input' },
@@ -34,7 +35,12 @@ export const tableTitleRight = [
       return <statusShow row={scope.row} prop="sourceType" statusList={sourceTypeList} options={{ value: 'code', label: 'name' }}></statusShow>
     }
   },
-  { prop: 'taskEndDate', label: '供应商任务截止日期', key: '', sortable: true, width: 190 },
+  {
+    prop: 'taskEndDate', label: '供应商任务截止日期', key: '', sortable: true, width: 190,
+    customRender: (h, scope) => {
+      return <overdue row={scope.row} prop="taskEndDate" overdueDate={scope.row.overdueDate}></overdue>
+    }
+  },
   { prop: 'departmentCode', label: '科室', key: '', sortable: true, width: 90 },
   { prop: 'status', label: '状态', key: '', sortable: true, width: 100 },
 ]
