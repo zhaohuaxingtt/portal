@@ -2104,6 +2104,8 @@
 
     MT_KAISHISHIJIAN: '开始时间',
 
+    MT_JIEZHISHIJIAN: '截止时间',
+
     MT_QINGXUANZEHUIYIKAISHIJIAN: '请选择会议开始时间',
 
     MT_QINGXUANZEHUIYIKAISHIRIQI: '请选择会议开始日期',
@@ -3107,8 +3109,13 @@
     GONGYONG:"共用",
     SUPPLIER_DIANHUAHAOMA: '手机号', // 电话号码
 
+    ZYGDCGSGJLSZQS:"主要股东（超过十个仅列示至前十）",
+
+    QSRTHYY:"请输入退回原因",
     "自动创建":"自动创建",
     "手动创建":"手动创建",
+
+    SFCXGSSTJXSYSJ:"是否冲销该搜索条件下所有数据？",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

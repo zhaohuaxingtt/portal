@@ -71,5 +71,11 @@ export default {
   position: absolute;
   top: 0;
   right: 100px;
+  
+  ::v-deep .name{
+    max-width: 165px;
+  }
 }
+
+
 </style>

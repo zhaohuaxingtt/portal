@@ -298,8 +298,20 @@ export default [
               import(
                 '@/views/mtz/annualGeneralBudget/replenishmentManagement/index.vue'
               ),
-            redirect: 'replenishmentManagement/mtzReplenishmentOverview',
+            redirect: 'replenishmentManagement/mtzCalculationTask',
             children: [
+              {
+                path: 'mtzCalculationTask',
+                name: 'mtzCalculationTask',
+                meta: {
+                  title: 'MTZ补差计算任务',
+                  showFooter: true
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/mtzCalculationTask/index.vue'
+                  )
+              },
               {
                 path: 'mtzReplenishmentOverview',
                 name: 'mtzReplenishmentOverview',
