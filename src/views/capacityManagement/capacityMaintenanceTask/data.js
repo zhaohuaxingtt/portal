@@ -42,7 +42,12 @@ export const tableTitleRight = [
     }
   },
   { prop: 'departmentCode', label: '科室', key: '', sortable: true, width: 90 },
-  { prop: 'status', label: '状态', key: '', sortable: true, width: 100 },
+  {
+    prop: 'status', label: '状态', key: '', sortable: true, width: 100,
+    customRender: (h, scope) => {
+      return <statusShow row={scope.row} prop="status" options={{ value: 'code', label: 'name' }} statusList={taskStatusList}></statusShow>
+    }
+  },
 ]
 
 export const sourceTypeList = [
