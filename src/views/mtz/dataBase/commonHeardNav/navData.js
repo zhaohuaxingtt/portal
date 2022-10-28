@@ -16,7 +16,16 @@ export const tabRouterList1 = [
     url: '/mtz/dataBase',
     activePath: '/mtz/dataBase',
     key: 'SHUJUKU',
-    permissionKey:"PORTAL_MTZ_SHUJUKU"
+    permissionKey: "PORTAL_MTZ_SHUJUKU"
+  },
+  {
+    value: 2,
+    name: '定点与变更',
+    url: '/mtz/annualGeneralBudget/locationChange',
+    activePath: '/mtz/annualGeneralBudget/locationChange',
+    key: '定点与变更',
+    // permissionKey: 'PORTAL_MTZ_NAV_DINGDIANYUBIANGENG',
+    permissionKey: 'WORKBENCH_MTZ_SOURCING'
   },
 ];
 
@@ -27,7 +36,7 @@ export const tabRouterList2 = [
     url: '/mtz/dataBase/partsQuery',
     activePath: '/mtz/dataBase/partsQuery',
     key: 'MTZLINGJIANCHAXUN',
-    permissionKey:"PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN"
+    permissionKey: "PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN"
   },
   {
     value: 2,
@@ -35,30 +44,46 @@ export const tabRouterList2 = [
     url: '/mtz/dataBase/rulesQuery',
     activePath: '/mtz/dataBase/rulesQuery',
     key: 'MTZGUIZECHAXUN',
-    permissionKey:"PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN"
+    permissionKey: "PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN"
   },
   {
     value: 3,
+    name: '芯片补差规则查询',
+    url: '/mtz/dataBase/chipRulesQuery',
+    activePath: '/mtz/dataBase/chipRulesQuery',
+    key: '芯片补差规则查询',
+    permissionKey: "PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN"
+  },
+  {
+    value: 4,
     name: 'MTZ市场价来源',
     url: '/mtz/dataBase/sourceMarketPrice',
     activePath: '/mtz/dataBase/sourceMarketPrice',
     key: 'MTZSHICHANGJIALAIYUAN',
-    permissionKey:"PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN"
+    permissionKey: "PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN"
   },
   {
-    value: 4,
+    value: 5,
     name: 'MTZ市场价查询',
     url: '/mtz/dataBase/marketPriceEnquiry',
     activePath: '/mtz/dataBase/marketPriceEnquiry',
     key: 'MTZSHICHANGJIACHAXUN',
-    permissionKey:"PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN"
+    permissionKey: "PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN"
   },
   {
-    value: 5,
+    value: 6,
     name: '贵金属市场价查询',
     url: '/mtz/dataBase/preciousMetalMarketPriceInquiry',
     activePath: '/mtz/dataBase/preciousMetalMarketPriceInquiry',
     key: 'GUIJINSHUSHICHANGJIACHAXUN',
-    permissionKey:"PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN"
+    permissionKey: "PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN"
+  },
+  {
+    value: 7,
+    name: '一二次件关系查询',
+    url: '/mtz/dataBase/partsRelationship',
+    activePath: '/mtz/dataBase/partsRelationship',
+    key: '一二次件关系查询',
+    permissionKey: "PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN"
   }
 ];

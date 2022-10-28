@@ -9,15 +9,21 @@
 
 <template>
   <div class="navBox">
-    <iNavMvp lang :list="tabRouterList1" class="margin-bottom20" :lev="1" />
+    <iNavMvp
+      lang
+      :list="tabRouterList1"
+      routerPage
+      class="margin-bottom20"
+      :lev="1"
+    />
     <div class="rightNav">
       <iNavMvp
-          :list="tabRouterList2"
-          :lev='2'
-          right
-          lang
-          routerPage
-          class="margin-right20"
+        :list="tabRouterList2"
+        :lev="2"
+        right
+        lang
+        routerPage
+        class="margin-right20"
       />
       <slot name="extralButton"></slot>
     </div>
@@ -28,8 +34,8 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { iNavMvp } from "rise";
-import { tabRouterList1, tabRouterList2 } from "../commonHeardNav/navData.js";
+import { iNavMvp } from 'rise'
+import { tabRouterList1, tabRouterList2 } from './navData.js'
 
 export default {
   // import引入的组件需要注入到对象中才能使用
@@ -38,7 +44,7 @@ export default {
     // 这里存放数据
     return {
       tabRouterList1: window._.cloneDeep(tabRouterList1),
-      tabRouterList2: window._.cloneDeep(tabRouterList2),
+      tabRouterList2: window._.cloneDeep(tabRouterList2)
     }
   },
   // 监听属性 类似于data概念
@@ -53,9 +59,7 @@ export default {
   methods: {
     checkHasEnterMenu() {
       const { path } = this.$route
-      const menuList = [
-        ...this.tabRouterList2,
-      ]
+      const menuList = [...this.tabRouterList2]
       const menuItem = menuList.find((e) => e.url === path)
       if (menuItem) {
         const permissionKey = menuItem.permissionKey
@@ -79,16 +83,14 @@ export default {
           }
         }
       }
-    },
+    }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created() {
-    this.checkHasEnterMenu();
+    this.checkHasEnterMenu()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-
-  },
+  mounted() {}
 }
 </script>
 <style lang='scss' scoped>
