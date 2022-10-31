@@ -121,10 +121,10 @@ import {
   iDatePicker,
   iMessage,
   icon,
-  iMultiLineInput,
-  iTableCustom
+  iMultiLineInput
+  // iTableCustom
 } from 'rise'
-// import iTableCustom from '@/components/iTableCustom'
+import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, ruleQueryFormData } from './components/data'
 import Detail from './components/detail'
@@ -169,7 +169,7 @@ export default {
       options: {
         effectFlagList: [
           {
-            value: '',
+            value: 'false,true',
             label: '全部'
           },
           {
@@ -183,7 +183,7 @@ export default {
         ],
         methodList: [
           {
-            value: '',
+            value: '1,2',
             label: '全部'
           },
           {
