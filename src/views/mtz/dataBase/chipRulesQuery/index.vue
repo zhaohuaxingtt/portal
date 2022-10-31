@@ -82,6 +82,7 @@
           :loading="tableLoading"
           :data="tableListData"
           :columns="tableSetting"
+          permissionKey="chip-database-query"
           @go-detail="handlecreatemtz"
           @go-partNumber="handlePartNumberDetail"
           @go-source="handleSource"
@@ -120,9 +121,10 @@ import {
   iDatePicker,
   iMessage,
   icon,
-  iMultiLineInput
+  iMultiLineInput,
+  iTableCustom
 } from 'rise'
-import iTableCustom from '@/components/iTableCustom'
+// import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, ruleQueryFormData } from './components/data'
 import Detail from './components/detail'
@@ -167,6 +169,10 @@ export default {
       options: {
         effectFlagList: [
           {
+            value: '',
+            label: '全部'
+          },
+          {
             value: false,
             label: '未生效'
           },
@@ -176,6 +182,10 @@ export default {
           }
         ],
         methodList: [
+          {
+            value: '',
+            label: '全部'
+          },
           {
             value: 1,
             label: '一次性补差',

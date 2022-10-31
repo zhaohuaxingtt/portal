@@ -41,7 +41,7 @@ const renderIcon = (h, column, type) => {
   ])
 }
 
-// 员工列表Table配置
+// 芯片补差规则表头
 export const tableSetting = [
   { type: 'selection', width: 50 },
   { type: 'index', label: '#', i18n: '#', width: 50 },
@@ -214,7 +214,7 @@ export const tableSetting = [
     }
   },
 ]
-
+// 查询条件
 export const ruleQueryFormData = [
   { props: 'ruleNo', name: '规则编号', key: 'GUIZHEBIANHAO' },
   { props: 'method', name: '补差方式', key: '补差方式', type: 'select', selectOption: 'methodList' },
@@ -223,7 +223,7 @@ export const ruleQueryFormData = [
   { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
   { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList' },
+  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', multiple: true },
   { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
   { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },

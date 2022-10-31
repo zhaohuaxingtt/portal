@@ -145,6 +145,19 @@
           :label="language('原材料描述', '原材料描述')"
           show-overflow-tooltip
         >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'materialName'"
+            >
+              <el-input
+                v-model="scope.row.materialName"
+                :placeholder="language('QINGSHURU', '请输入')"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              >
+              </el-input>
+              <span v-else>{{ scope.row.materialName }}</span>
+            </el-form-item>
+          </template>
         </el-table-column>
         <el-table-column
           prop="partNum"
@@ -169,6 +182,20 @@
           :label="language('补差金额', '补差金额')"
           show-overflow-tooltip
         >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'amount'"
+              :rules="formRules.amount ? formRules.amount : ''"
+            >
+              <el-input
+                v-model="scope.row.amount"
+                :placeholder="language('QINGSHURU', '请输入')"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              >
+              </el-input>
+              <span v-else>{{ scope.row.amount }}</span>
+            </el-form-item>
+          </template>
         </el-table-column>
         <el-table-column
           prop="currency"
@@ -399,8 +426,7 @@ export default {
           let link = document.createElement('a')
           link.style.display = 'none'
           link.href = url
-          let fname =
-            '芯片补差规则模板.xlsx'
+          let fname = '芯片补差规则模板.xlsx'
           link.setAttribute('download', fname)
           document.body.appendChild(link)
           link.click()
@@ -620,58 +646,6 @@ export default {
       console.log(val)
       this.selectList = val
     },
-    // supplierBH (arr, value) {
-    //   var str = arr.row;
-    //   if (value == "") {
-    //     str.supplierName = "";
-    //     str.supplierId = "";
-    //   }
-    //   try {
-    //     this.supplierList.forEach(e => {
-    //       if (e.code == value) {
-    //         str.supplierName = e.message;
-    //         str.supplierId = value;
-    //         throw new Error("EndIterative");
-    //       }
-    //     });
-    //   } catch (e) {
-    //     if (e.message != "EndIterative") throw e;
-    //   }
-    // },
-    // supplierNC (arr, value) {
-    //   var str = arr.row;
-    //   if (value == "") {
-    //     str.supplierName = "";
-    //     str.supplierId = "";
-    //   }
-    //   try {
-    //     this.supplierList.forEach(e => {
-    //       if (e.message == value) {
-    //         str.supplierName = value;
-    //         str.supplierId = e.code;
-    //         throw new Error("EndIterative");
-    //       }
-    //     });
-    //   } catch (e) {
-    //     if (e.message != "EndIterative") throw e;
-    //   }
-    // },
-    // MaterialGrade(arr,value){
-    //     var str = arr.row;
-    //     checkPreciousMetal({code:value}).then(res=>{
-    //         str.metalType = res.data;
-    //     })
-    //     try{
-    //         this.materialCode.forEach(e => {
-    //             if(e.code == value){
-    //                 str.materialName = e.message;
-    //                 throw new Error("EndIterative");
-    //             }
-    //         });
-    //     }catch(e){
-    //         if(e.message != "EndIterative") throw e;
-    //     }
-    // },
     ratioRules(arr) {
       var str = arr.row
       if (str.compensationRatio < 0) {
