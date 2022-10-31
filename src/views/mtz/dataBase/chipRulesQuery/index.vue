@@ -121,10 +121,10 @@ import {
   iDatePicker,
   iMessage,
   icon,
-  iMultiLineInput,
-  iTableCustom
+  iMultiLineInput
+  // iTableCustom
 } from 'rise'
-// import iTableCustom from '@/components/iTableCustom'
+import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, ruleQueryFormData } from './components/data'
 import Detail from './components/detail'
