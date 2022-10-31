@@ -36,7 +36,7 @@ export const ruleTableTitle1_1 = [
   },
   {
     // props: 'materialGroup',
-    props: 'formalFlag',
+    props: 'method',
     name: '补差方式',
     key: '补差方式',
     overlap: true,

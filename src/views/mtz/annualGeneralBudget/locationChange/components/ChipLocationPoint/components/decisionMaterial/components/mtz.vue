@@ -94,7 +94,7 @@
         >
           <template slot-scope="scope" slot="method">
             <span>{{
-              scope.row.method == '0' ? '变价单补差' : '一次性补差'
+              scope.row.method == '2' ? '变价单补差' : '一次性补差'
             }}</span>
           </template>
           <template slot-scope="scope" slot="sapCode">
@@ -870,7 +870,7 @@ export default {
     // 导出会外流转单
     handleToSignPreview() {
       const { href } = this.$router.resolve({
-        path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
+        path: '/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/signPreview',
         query: {
           appId: this.$route.query.appId
         }

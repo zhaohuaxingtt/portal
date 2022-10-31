@@ -636,7 +636,7 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (e.appStatus !== 'FREERE') {
+          if (e.status !== 'FREERE') {
             num++
             iMessage.warn(
               this.language('ZYZTWDJDCKYJD', '只有状态为冻结的才可以解冻')
@@ -709,7 +709,7 @@ export default {
       var num = 0
       try {
         this.selection.forEach((e) => {
-          if (e.appStatus !== 'NOMINATE') {
+          if (e.status !== 'NOMINATE') {
             num++
             iMessage.warn(
               this.language('ZYDDZTCKYQXDD', '只有定点状态才可以取消定点')
@@ -811,10 +811,10 @@ export default {
         this.selection.forEach((e) => {
           if (e.flowType == 'MEETING') {
             if (
-              e.appStatus == 'SUBMIT' ||
-              e.appStatus == 'NOTPASS' ||
-              e.appStatus == 'CHECK_INPROCESS' ||
-              e.appStatus == 'CHECK_FAIL'
+              e.status == 'SUBMIT' ||
+              e.status == 'NOTPASS' ||
+              e.status == 'CHECK_INPROCESS' ||
+              e.status == 'CHECK_FAIL'
             ) {
               ////////////////////////////////////////////
             } else {
@@ -828,7 +828,7 @@ export default {
               throw new Error('EndIterative')
             }
           } else {
-            if (e.appStatus == 'SUBMIT' || e.appStatus == 'FREERE') {
+            if (e.status == 'SUBMIT' || e.status == 'FREERE') {
             } else {
               num++
               iMessage.warn(
@@ -859,7 +859,7 @@ export default {
       try {
         this.selection.forEach((e) => {
           if (e.flowType == 'MEETING') {
-            if (e.appStatus == 'SUBMIT' || e.appStatus == 'NOTPASS') {
+            if (e.status == 'SUBMIT' || e.status == 'NOTPASS') {
               ////////////////////////////////////////////
             } else {
               num++
@@ -872,7 +872,7 @@ export default {
               throw new Error('EndIterative')
             }
           } else {
-            if (e.appStatus == 'SUBMIT') {
+            if (e.status == 'SUBMIT') {
             } else {
               num++
               iMessage.warn(

@@ -174,7 +174,10 @@ export const continueBox = [
     name: '补差方式',
     key: '补差方式',
     align: 'center',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
+    }
   }, {
     props: 'materialGroup',
     name: '材料组',
@@ -188,27 +191,27 @@ export const continueBox = [
     align: 'center',
     width: 150
   }, {
-    props: 'oncePartNum',
+    props: 'partNum',
     name: '一次零件号',
     key: '一次零件号',
     align: 'center',
     width: 150
   }, {
-    props: 'oncePartName',
+    props: 'partName',
     name: '一次零件名称',
     key: '一次零件名称',
     align: 'center',
     width: 150
   },
   {
-    props: 'onceSapCode',
+    props: 'sapCode',
     name: '一次件供应商编号',
     key: '一次件供应商编号',
     align: 'center',
     width: 150
   },
   {
-    props: 'onceSupplierName',
+    props: 'supplierName',
     name: '一次件供应商名称',
     width: '100px',
     align: 'center',
@@ -216,7 +219,7 @@ export const continueBox = [
     width: 150
   },
   {
-    props: 'buyer',
+    props: 'buyerName',
     name: '采购员',
     width: '100px',
     align: 'center',
@@ -224,42 +227,44 @@ export const continueBox = [
     width: 100
   },
   {
-    props: 'dept',
+    props: 'deptCode',
     name: '科室',
     width: '100px',
     align: 'center',
     key: '科室',
     width: 100
   }, {
-    props: 'secondPartNum',
+    props: 'partNameSec',
     name: '二次零件号',
     key: '二次零件号',
     align: 'center',
     width: 150
   }, {
-    props: 'secondPartName',
+    props: 'partNumSec',
     name: '二次零件名称',
     key: '二次零件名称',
     align: 'center',
     width: 150
   },
   {
-    props: 'secondSapCode',
+    props: 'sapCodeSec',
     name: '二次件供应商编号',
     key: '二次件供应商编号',
     align: 'center',
     width: 150
   },
   {
-    props: 'secondSupplierName',
+    props: 'supplierNameSec',
     name: '二次件供应商名称',
+    width: '100px',
     align: 'center',
     key: '二次件供应商名称',
     width: 150
   },
   {
-    props: 'proportion',
+    props: 'secondPrimaryRatio',
     name: '二次件与一次件比例',
+    width: '100px',
     align: 'center',
     key: '二次件与一次件比例',
     width: 150
@@ -273,13 +278,13 @@ export const continueBox = [
     width: 150
   },
   {
-    props: 'tcCurrence',
+    props: 'currency',
     name: '货币',
     align: 'center',
     key: 'HUOBI',
     width: 150
   },
-  { props: 'tcExchangeRate', name: '汇率', align: 'center', key: 'HUILV' },
+  { props: 'exchangeRate', name: '汇率', align: 'center', key: 'HUILV' },
   {
     props: 'startDate',
     name: '有效期起',
@@ -299,7 +304,10 @@ export const continueBox = [
     name: '是否生效',
     align: 'center',
     key: 'SHIFOUSHENGXIAO',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{scope.row.effectFlag ? '是' : '否'}</span>
+    }
   },
   {
     props: 'updateDate',
@@ -314,9 +322,16 @@ export const continueBox = [
     align: 'center',
     key: '补差来源',
     width: 150,
-  }
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      if (scope.row.sourceCode == "初始化") {
+        return <span>{scope.row?.sourceCode}</span>
+      } else {
+        return <span class="link-text">{scope.row?.sourceCode}</span>
+      }
+    }
+  },
 ]
-
 export const tableLeftTitle = [
   { props: 'id', name: 'RFQ号', key: 'RFQHAO', width: 120 },
   { props: 'rfqName', name: 'RFQ名称', key: 'RFQMINGCHENG' },
@@ -513,15 +528,15 @@ export const partNumberTitle = [
 // 沿用补差规则查询
 export const QueryFormData = [
   { props: 'ruleNo', name: '规则编号', key: 'GUIZHEBIANHAO' },
-  { props: 'method', name: '补差方式', key: '补差方式', type: 'select', selectOption: 'methodList' },
+  { props: 'method', name: '补差方式', key: '补差方式', type: 'select', selectOption: 'methodList', multiple: true },
   { props: 'materialGroup', name: '材料组', key: 'LK_CAILIAOZHU' },
   { props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', type: "iMultiLineInput" },
   { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
   { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList' },
+  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', multiple: true },
   { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
-  { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
+  { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList', multiple: true },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },
   { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', type: 'date' },
 ]
