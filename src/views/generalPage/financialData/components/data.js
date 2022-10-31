@@ -113,6 +113,9 @@ export const dictByCode = async function (key) {
 }
 // title
 export const getComparisonTableTitle = function (tabTitle, data, info) {
+  // console.log(tabTitle)
+  // console.log(data)
+  // console.log(info)
   // tabTitle === 'balance' ? '字段' :
   var dataComparisonTableTitle = [
     {
@@ -128,7 +131,7 @@ export const getComparisonTableTitle = function (tabTitle, data, info) {
       info.forEach((i, x) => {
         if (item.id === i['financeId']) {
           dataComparisonTableTitle.push({
-            props: 'value' + index,
+            props: 'value' + x,
             name: item.year,
             width: 180
           })
@@ -142,6 +145,9 @@ export const getComparisonTableTitle = function (tabTitle, data, info) {
       })
     }
   })
+
+
+  console.log(dataComparisonTableTitle);
   dataComparisonTableTitle.push({ props: '', name: '' })
   dataComparisonTableTitle[1]['rule'] = [
     {
