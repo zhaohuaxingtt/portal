@@ -169,7 +169,7 @@ export default {
       options: {
         effectFlagList: [
           {
-            value: 'false,true',
+            value: '',
             label: '全部'
           },
           {
@@ -183,7 +183,7 @@ export default {
         ],
         methodList: [
           {
-            value: '1,2',
+            value: '',
             label: '全部'
           },
           {
