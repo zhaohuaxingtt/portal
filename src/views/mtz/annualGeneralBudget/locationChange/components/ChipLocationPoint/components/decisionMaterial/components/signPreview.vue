@@ -10,42 +10,29 @@
 -->
 <template>
   <div style="padding-bottom: 30px">
-    <span class="download_btn" v-if="!editMode">
-      <!-- <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton> -->
-    </span>
     <div id="content">
       <!-- class="content_dialog" -->
       <!-- 水印 -->
-      <div
-        class=""
-        v-if="
-          m1 &&
-          (formData.appStatus == '流转完成' || formData.appStatus == '定点')
-        "
-      ></div>
       <iCard class="upload_hr" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
           <div class="tabs_box_right">
             <div class="big_text">
               <span class="samll_val"
-                >{{ formData.mtzAppId }}-{{ formData.appName }}</span
+                >{{ formInfo.appNo }}-{{ formInfo.appName }}</span
               >
             </div>
             <div class="small_text">
-              <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
               <span>Application date：</span>
-              <span class="samll_val">{{ formData.createDate }}</span>
+              <span class="samll_val">{{ formInfo.createDate }}</span>
             </div>
             <div class="small_text">
-              <!-- <span>{{language("KESHI","科室")}}：</span> -->
               <span>Commodity：</span>
-              <span class="samll_val">{{ formData.linieDeptName }}</span>
+              <span class="samll_val">{{ formInfo.depteName }}</span>
             </div>
             <div>
-              <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
               <span>Buyer：</span>
-              <span class="samll_val">{{ formData.linieNameEn }}</span>
+              <span class="samll_val">{{ formInfo.linieName }}</span>
             </div>
           </div>
         </div>
@@ -61,33 +48,21 @@
           :tableLoading="loading"
           :index="true"
           :selection="false"
+          border
         >
+          <template slot-scope="scope" slot="method">
+            <span>{{
+              scope.row.method == '2' ? '变价单补差' : '一次性补差'
+            }}</span>
+          </template>
           <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span
-            ><br />
-            <span>{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.sapCode }}</span>
           </template>
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{
-              scope.row.compensationPeriod == 'A'
-                ? '年度'
-                : scope.row.compensationPeriod == 'H'
-                ? '半年度'
-                : scope.row.compensationPeriod == 'Q'
-                ? '季度'
-                : scope.row.compensationPeriod == 'M'
-                ? '月度'
-                : ''
-            }}</span>
+          <template slot-scope="scope" slot="startDate">
+            <span>{{ getDay(scope.row.startDate) }}</span>
           </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{
-              scope.row.thresholdCompensationLogic == 'A'
-                ? '全额补差'
-                : scope.row.thresholdCompensationLogic == 'B'
-                ? '超额补差'
-                : ''
-            }}</span>
+          <template slot-scope="scope" slot="endDate">
+            <span>{{ getDay(scope.row.endDate) }}</span>
           </template>
         </tableList>
       </iCard>
@@ -96,7 +71,7 @@
           <p class="headTitle">{{ language('BEIZHU', '备注') }}-Remarks</p>
         </div>
         <iInput
-          v-model="formData.linieMeetingMemo"
+          v-model="formInfo.remark"
           class="margin-top10"
           :disabled="true"
           :rows="8"
@@ -106,7 +81,7 @@
       <iCard v-if="applayDateData.length > 0" class="margin-top20">
         <p>
           {{ language('SHENQINGRIQI', '申请日期') }}:{{
-            moment(new Date()).format('YYYY-MM-DD')
+            moment(formInfo.updateDate).format('YYYY-MM-DD')
           }}
         </p>
         <div class="applayDateBox1">
@@ -139,12 +114,6 @@
           </div>
         </div>
       </iCard>
-      <div class="margin-top30 deptBox" v-if="!m1">
-        <div class="deptItem" v-for="(item, index) in deptData" :key="index">
-          <p>{{ item.approvalDepartment }}：</p>
-          <div></div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -154,16 +123,14 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1 } from './data'
 import {
-  getAppFormInfo,
-  pageAppRule,
-  pagePartMasterData,
-  fetchSaveCs1Remark,
   fetchSignPreviewDept,
   approvalList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
-// import { exportAsPDF } from '@/utils/PDFExport';
+import {
+  getAppById,
+  getLocationApplyStatus
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   mixins: [pageMixins],
   props: ['m1'],
@@ -177,7 +144,7 @@ export default {
   },
   data() {
     return {
-      formData: {},
+      formInfo: {},
       ruleTableTitle1_1,
       ruleTableListData: [],
       rulePageParams: {
@@ -196,36 +163,32 @@ export default {
       applayDateData: [],
       deptData: [],
       moment: window.moment
-
-      // uploadTableLj:false,
-      // uploadTableGz:false,
     }
   },
-  created() {
+  async created() {
+    await this.getLocationApplyStatus()
     // this.$nextTick(e=>{
     console.log(this.m1)
-    this.getAppFormInfo()
+    this.getAppById()
     this.initApplayDateData()
-    this.getPageAppRule()
-    this.getPagePartMasterData()
-    this.getSignPreviewDept()
+    // this.getSignPreviewDept()
     // })
   },
   computed: {
     title() {
-      let res = ''
-      switch (this.formData.flowType) {
+      let res = '---'
+      switch (this.formInfo?.type) {
         case 'MEETING':
           // 上会
-          res = 'CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
+          res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
           break
         case 'SIGN':
           // 流转
-          res = '流转定点推荐 - MTZ Nomination Recommendation - MTZ'
+          res = '流转定点推荐 - 芯片补差 Nomination Recommendation - Chip'
           break
         case 'FILING':
           // 备案
-          res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
+          res = '备案定点推荐 - 芯片补差 Nomination Recommendation - Chip'
           break
         default:
           break
@@ -233,19 +196,28 @@ export default {
       return res
     },
     isMeeting() {
-      return this.formData.flowType == 'MEETING'
-    },
-    mtzObject() {
-      return this.$store.state.location.mtzObject
+      return this.formInfo.type == 'MEETING'
     }
   },
-  watch: {
-    mtzObject(newVlue, oldValue) {}
-  },
   methods: {
+    getDay(date) {
+      console.log(date)
+      return date ? date.split(' ')[0] : date
+    },
+
+    async getLocationApplyStatus() {
+      getLocationApplyStatus({}).then((res) => {
+        this.statusList = res.data
+      })
+    },
+    getStatus(status) {
+      return (
+        this.statusList?.find((item) => item.code == status)?.message || status
+      )
+    },
     initApplayDateData() {
       approvalList({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        appId: this.$route.query.appId
       }).then((res) => {
         if (res?.code === '200') {
           let data = res.data
@@ -255,58 +227,23 @@ export default {
         }
       })
     },
-    // 获取申请单信息
-    getAppFormInfo() {
-      getAppFormInfo({
-        mtzAppId: this.$route.query.mtzAppId
-      }).then((res) => {
-        if (res && res.code == 200) {
-          this.formData = res.data
-        } else iMessage.error(res.desZh)
-      })
-    },
-    // 获取规则清单表格数据
-    getPageAppRule() {
-      pageAppRule({
-        mtzAppId: this.$route.query.mtzAppId,
-        // pageNo: this.rulePageParams.currPage,
-        // pageSize: this.rulePageParams.pageSize,
-        pageNo: 1,
-        pageSize: 999999
-      }).then((res) => {
-        if (res && res.code == 200) {
-          this.ruleTableListData = res.data
-          this.rulePageParams.totalCount = res.total
 
-          res.data.forEach((e) => {
-            //判断是否有贵金属合金
-            if (e.preciousMetalDosageUnit !== '') {
-              this.uploadTableGz = true
-            }
-          })
-        } else iMessage.error(res.desZh)
-      })
-    },
-    // 获取零件清单表格数据
-    getPagePartMasterData() {
-      pagePartMasterData({
-        mtzAppId: this.$route.query.mtzAppId,
-        // pageNo: this.partPageParams.currPage,
-        // pageSize: this.partPageParams.pageSize,
-        pageNo: 1,
-        pageSize: 999999
+    getAppById() {
+      getAppById({
+        appId: this.$route.query.appId
       }).then((res) => {
-        if (res && res.code == 200) {
-          this.partTableListData = res.data
-
-          // res.data.forEach(e=>{//判断是否有贵金属合金
-          //   if(e.preciousMetalDosageUnit !== ""){
-          //     this.uploadTableLj = true;
-          //   }
-          // })
-
-          this.partPageParams.totalCount = res.total
-        } else iMessage.error(res.desZh)
+        let data = res.data.chipAppBase
+        data.statusDesc = this.getStatus(data.status)
+        this.locationId = data.appNo
+        this.$set(this, 'formInfo', data)
+        this.$set(this, 'ruleTableListData', res.data.chipDetailList || [])
+        this.appStatus = this.getStatus(data.status)
+        this.ttNominateAppId = data.id
+        this.appName = data.appName
+        this.user = data.linieName
+        this.dept = data.depteCode
+        this.baseData = res.data
+        console.log(this.baseData)
       })
     },
     // 获取部门数据
@@ -317,72 +254,6 @@ export default {
         if (res && res.code == 200) {
           this.deptData = res.data
         } else iMessage.error(res.error)
-      })
-    },
-    // 点击保存
-    handleClickSave() {
-      let params = {}
-      if (this.isMeeting) {
-        params = {
-          mtzAppId: this.$route.query.mtzAppId,
-          linieMeetingMemo: this.formData.linieMeetingMemo
-        }
-      } else if (this.isFinite) {
-        params = {
-          mtzAppId: this.$route.query.mtzAppId,
-          cs1MeetingMemo: this.formData.cs1MeetingMemo
-        }
-      }
-      fetchSaveCs1Remark(params).then((res) => {
-        if (res && res.code == 200) {
-          this.getAppFormInfo()
-          iMessage.success(res.desZh)
-        } else iMessage.error(res.desZh)
-      })
-    },
-    // 生成PDF
-    // createPdf() {
-    //   return new Promise(resolve => {
-    //     this.downloadButtonLoading = true
-    //     const pdfParam = {
-    //       domId: 'content',
-    //       pdfName: '会外流转单',
-    //     }
-    //     this.getDownloadFileAndExportPdf(pdfParam).then(res => {
-    //       resolve(res)
-    //     })
-    //   })
-    // },
-    // 导出：导出当前为pdf
-    handleClickExport() {
-      var name = ''
-      if (this.title == '') {
-        name = 'MTZ申请单' + this.$route.query.mtzAppId + '流转导出'
-      } else {
-        name = this.title
-      }
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      transverseDownloadPDF({
-        idEle: 'content',
-        pdfName: name,
-        exportPdf: true,
-        waterMark: true,
-        title: ['#tabsBoxTitle .cardHeader'], //顶部页眉dom节点
-        callback: async (pdf, pdfName) => {
-          try {
-            loading.close()
-            const filename = pdfName.replaceAll(/\./g, '_') + '.pdf'
-            const pdfFile = pdf.output('datauristring')
-            const blob = dataURLtoFile(pdfFile, filename)
-          } catch {
-            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'))
-          }
-        }
       })
     }
   }

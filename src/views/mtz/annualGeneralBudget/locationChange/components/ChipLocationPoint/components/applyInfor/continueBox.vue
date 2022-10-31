@@ -77,6 +77,9 @@
       @handleSelectionChange="handleSelectionChange"
       :index="true"
     >
+      <template slot="method" slot-scope="scope">
+        <span>{{ scope.row.method == '1' ? '一次性补差' : '变价单补差' }}</span>
+      </template>
       <template slot="effectFlag" slot-scope="scope">
         <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
       </template>

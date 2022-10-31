@@ -89,7 +89,6 @@
           <iLabel
             :label="language('LINGJIANMINGCHENG', '零件名称')"
             slot="label"
-            :required="true"
           ></iLabel>
           <i-text>
             <span>{{ contractForm.partName }}</span>
@@ -99,7 +98,6 @@
           <iLabel
             :label="language('CAILIAOZU', '材料组')"
             slot="label"
-            :required="true"
           ></iLabel>
           <i-text>
             <span>{{ contractForm.materialGroup }}</span>
@@ -109,7 +107,6 @@
           <iLabel
             :label="language('原材料描述', '原材料描述')"
             slot="label"
-            :required="true"
           ></iLabel>
           <!-- <i-select
             v-model="contractForm.materialCode"
