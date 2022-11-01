@@ -436,9 +436,13 @@ export default {
       getPartCodeId({ partsNum: partNum }).then((res) => {
         console.log(res)
         if (res?.code == '200') {
-          this.contractForm.partNum = res.data.partNum
-          this.contractForm.partName = res.data.partNameZh
-          this.contractForm.materialGroup = res.data.materialGroup || '-'
+          this.contractForm.partNum = res.data?.partNum || ''
+          this.contractForm.partName = res.data?.partNameZh || ''
+          this.contractForm.materialGroup = res.data?.materialGroup || '-'
+        } else {
+          this.contractForm.partNum = ''
+          this.contractForm.partName = ''
+          this.contractForm.materialGroup = ''
         }
       })
     },
