@@ -117,11 +117,11 @@
     </iDialog>
     <iDialog
       :title="language('芯片补差新增', '芯片补差新增')"
-      :visible.sync="beforReturn"
+      :visible.sync="beforeReturn"
       class="tttttt"
-      v-if="beforReturn"
+      v-if="beforeReturn"
       width="25%"
-      @close="beforReturn = true"
+      @close="beforeReturn = true"
     >
       <MtzAdd @close="closeTyoe"></MtzAdd>
     </iDialog>
@@ -142,22 +142,12 @@ import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
 import MtzAdd from './MtzAdd'
 import store from '@/store'
-import {
-  mtzAppNomiSubmit,
-  getAppFormInfo,
-  setMtzAppCheckVO, //设置
-  getMtzAppCheckVO, //获取
-  fetchAppNomiDecisionDataPage,
-  getFlowTypeList,
-  modifyAppFormInfo,
-  pageAppRule
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import {
   updateApp,
   getAppById,
   getLocationApplyStatus,
-  pageApprove,
+  getFlowTypeList,
   submit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import {
@@ -191,11 +181,9 @@ export default {
       mtzAddShow: false,
       rsType: false,
       downType: true,
-      beforReturn: false,
+      beforeReturn: false,
       appStatus: '',
       stepNum: 1,
-      ttNominateAppId: '',
-      NumberCESHI: 0,
       meetingNumber: Number(this.$route.query.meeting) || 0,
       getFlowTypeList: [],
       formInfo: {},
@@ -207,11 +195,8 @@ export default {
   },
   computed: {
     commonTitle() {
-      // MTZ申请单-100386 申请单名-采购员-科室
+      // 芯片补差申请单-100386 申请单名-采购员-科室
       return this.language('CHIPBUCHASHENGQINGDAN', '芯片补差申请单')
-    },
-    submitDataList() {
-      return this.$store.state.location.submitDataList
     }
   },
 
@@ -222,52 +207,73 @@ export default {
     await this.getLocationApplyStatus()
     this.appId = this.$route.query.appId
     if (this.appId) {
-      this.beforReturn = false
+      this.beforeReturn = false
       this.getAppById(this.appId)
     } else {
-      this.beforReturn = true
+      this.beforeReturn = true
     }
-    // getMtzAppCheckVO({
-    //   appId:
-    //     this.$route.query.appId ||
-    //     JSON.parse(sessionStorage.getItem('MtzLIst')).appId
-    // }).then((res) => {
-    //   if (res.data.length == 0) {
-    //     setMtzAppCheckVO({
-    //       mtzAppId:
-    //         this.$route.query.mtzAppId ||
-    //         JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-    //       isDone: true,
-    //       stepStr: '1'
-    //     }).then((parme) => {
-    //       this.stepNum = parme.data
-    //     })
-    //   } else {
-    //     var atr = []
-    //     res.data.forEach((e) => {
-    //       if (e.isDone) {
-    //         atr.push(Number(e.stepStr))
-    //       }
-    //     })
-    //     var arr = atr.sort()
-    //     setTimeout(() => {
-    //       this.stepNum = arr[arr.length - 1]
-    //       this.locationNow = this.stepNum
-    //       // console.log(this.stepNum)
-    //     }, 100)
-    //   }
-    // })
-
     getFlowTypeList({}).then((res) => {
       this.getFlowTypeList = res.data
     })
   },
   methods: {
     setStepNum() {
+      if (this.$route.query.stepNum) return
+      let step = 1
       const step1 = ['NEW']
       const step2 = ['']
-      const step3 = ['']
-      this.appStatus
+      const step3 = [
+        'SUBMIT',
+        'APPROVAL_LOADING',
+        'NOTPASS',
+        'PASS',
+        'WAIT_APPROVAL',
+        'APPROVED',
+        'REJECT_APPROVALED',
+        'CHECK_INPROCESS',
+        'CHECK_PASS',
+        'CHECK_FAIL',
+        'FREERE',
+        'UNFREEZE',
+        'M_CHECK_INPROCESS',
+        'M_CHECK_FAIL',
+        'M_CHECK_PASS',
+        'NOMINATE',
+        'ONFLOW',
+        'FLOWED',
+        'FLOWED_FAIL'
+      ]
+      const step4 = []
+      if (step1.includes(this.formInfo.status)) {
+        this.locationNow = 1
+        step = 1
+      } else if (step2.includes(this.formInfo.status)) {
+        this.locationNow = 2
+        step = 2
+      } else if (step3.includes(this.formInfo.status)) {
+        this.locationNow = 3
+        step = 3
+      } else if (step4.includes(this.formInfo.status)) {
+        this.locationNow = 3
+        step = 3
+      }
+      console.log(this.topImgList)
+      console.log(this.formInfo.status)
+      const data = this.topImgList[step - 1]
+      var dataList = this.$route.query
+      var stepNum = this.$route.query.stepNum || 1
+      this.$router.push({
+        path: data.url,
+        query: {
+          ...dataList,
+          currentStep: data.id,
+          stepNum: stepNum > data.id ? stepNum : data.id,
+          appName: this.appName,
+          user: this.user,
+          dept: this.dept,
+          appId: this.$route.query.appId
+        }
+      })
     },
     async getLocationApplyStatus() {
       getLocationApplyStatus({}).then((res) => {
@@ -298,13 +304,11 @@ export default {
       })
     },
     saveEdit() {
-      const chipTTO = {
+      const params = {
         chipDetailList: this.baseData.chipDetailList,
         chipAppBase: this.formInfo
       }
-      console.log(this.formInfo)
-      console.log(chipTTO)
-      updateApp(chipTTO).then((res) => {
+      updateApp(params).then((res) => {
         iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
         this.getAppById()
       })
@@ -332,12 +336,11 @@ export default {
         this.locationId = data.appNo
         this.$set(this, 'formInfo', data)
         this.appStatus = this.getStatus(data.status)
-        this.ttNominateAppId = data.id
         this.appName = data.appName
         this.user = data.linieName
         this.dept = data.depteCode
         this.baseData = res.data
-        console.log(this.baseData)
+        this.setStepNum()
       })
     },
     closeType() {
@@ -440,11 +443,13 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
+      console.log(data)
       if (this.$route.query.currentStep == data.id) return false
       // 跳转步骤在当前步骤之后，提示保存数据
       console.log(data.id)
       console.log(this.stepNum)
-      if (data.id > this.stepNum) {
+      const stepNum = this.$route.query.stepNum || 1
+      if (data.id > stepNum) {
         iMessageBox(
           this.language('QQDSJYJWQBC', '请确定数据已经完全保存？'),
           this.language('LK_WENXINTISHI', '温馨提示'),
@@ -464,7 +469,7 @@ export default {
             query: {
               ...dataList,
               currentStep: data.id,
-              stepNum: data.id,
+              stepNum: stepNum > data.id ? stepNum : data.id,
               appName: this.appName,
               user: this.user,
               dept: this.dept
@@ -479,7 +484,7 @@ export default {
           query: {
             ...dataList,
             currentStep: data.id,
-            stepNum: this.locationNow,
+            stepNum: stepNum > this.locationNow ? stepNum : this.locationNow,
             appName: this.appName,
             user: this.user,
             dept: this.dept
@@ -497,7 +502,7 @@ export default {
       }
     },
     closeTyoe() {
-      this.beforReturn = false
+      this.beforeReturn = false
     }
   },
   destroyed() {

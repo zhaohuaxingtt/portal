@@ -31,7 +31,8 @@ export const tableTitle = [
     props: 'meetingName',
     name: '会议',
     key: 'HUIYI',
-    width: 300
+    width: 300,
+    tooltip: true
   },
   {
     props: 'freezeDate',
@@ -57,6 +58,7 @@ export const tableTitleCp = [
   { props: 'meetingPlace', name: '会议地点', key: 'HUIYIDIDIAN' }
 ]
 
+// 步骤条
 export const topImgList = [
   {
     id: 1,
