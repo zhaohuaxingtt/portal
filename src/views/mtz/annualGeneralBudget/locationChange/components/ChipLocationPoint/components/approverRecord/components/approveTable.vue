@@ -288,7 +288,7 @@ export default {
     baseData: {
       handler(val) {
         console.log(val)
-        val.approveList
+
         this.formInfo = val.chipAppBase || {}
         if (
           this.formInfo.statusDesc == '草稿' ||
@@ -298,9 +298,13 @@ export default {
         } else {
           this.flag = true
         }
-        syncAuther({ appId: this.formInfo.id }).then((res) => {
+        if (!val.approveList.length) {
+          syncAuther({ appId: this.formInfo.id }).then((res) => {
+            this.getTableList()
+          })
+        } else {
           this.getTableList()
-        })
+        }
       }
     }
   },
