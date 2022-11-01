@@ -190,7 +190,7 @@
       </el-table>
     </el-form>
 
-    <iPagination
+    <!-- <iPagination
       v-update
       @size-change="handleSizeChange($event, getTableList)"
       @current-change="handleCurrentChange($event, getTableList)"
@@ -200,7 +200,7 @@
       :page-size="page.pageSize"
       :layout="page.layout"
       :total="page.totalCount"
-    />
+    /> -->
     <el-dialog
       title="审批流"
       :visible.sync="dialogVisible"

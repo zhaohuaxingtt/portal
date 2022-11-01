@@ -151,6 +151,10 @@ export default {
       options: {
         effectFlagList: [
           {
+            value: '',
+            label: '全部'
+          },
+          {
             value: false,
             label: '未生效'
           },
@@ -160,6 +164,10 @@ export default {
           }
         ],
         methodList: [
+          {
+            value: '',
+            label: '全部'
+          },
           {
             value: 1,
             label: '一次性补差',
@@ -216,8 +224,11 @@ export default {
     },
     getTableList() {
       this.loading = true
+      let searchForm = JSON.parse(JSON.stringify(this.searchForm))
+      if (Array.isArray(searchForm.deptCode))
+        searchForm.deptCode = searchForm.deptCode.join(',')
       let params = {
-        ...this.searchForm,
+        ...searchForm,
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage
       }
