@@ -97,7 +97,7 @@
           prop="formalFlag"
           align="center"
           show-overflow-tooltip
-          width="120"
+          width="100"
           :label="language('补差方式', '补差方式')"
         >
           <template slot-scope="scope">
@@ -118,7 +118,7 @@
           align="center"
           :label="language('GONGYINGSHANGBIANHAO', '供应商编号')"
           show-overflow-tooltip
-          width="100"
+          width="90"
         >
         </el-table-column>
 
@@ -135,7 +135,7 @@
           align="center"
           :label="language('材料组', '材料组')"
           show-overflow-tooltip
-          width="150"
+          width="100"
         >
         </el-table-column>
         <el-table-column
@@ -249,21 +249,45 @@
         <el-table-column
           prop="startDate"
           align="center"
-          width="110"
+          width="150"
           :label="language('YOUXIAOQIQI', '有效期起')"
         >
           <template slot-scope="scope">
-            <span>{{ getDay(scope.row.startDate) }}</span>
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'startDate'"
+              :rules="formRules.startDate ? formRules.startDate : ''"
+            >
+              <iDatePicker
+                v-model="scope.row.startDate"
+                type="date"
+                value-format="yyyy-MM-dd hh:mm:ss"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              >
+              </iDatePicker>
+              <span v-else>{{ getDay(scope.row.startDate) }}</span>
+            </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
           prop="endDate"
           align="center"
-          width="110"
+          width="150"
           :label="language('YOUXIAOQIZHI', '有效期止')"
         >
           <template slot-scope="scope">
-            <span>{{ getDay(scope.row.endDate) }}</span>
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'endDate'"
+              :rules="formRules.endDate ? formRules.endDate : ''"
+            >
+              <iDatePicker
+                v-model="scope.row.endDate"
+                type="date"
+                value-format="yyyy-MM-dd hh:mm:ss"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              >
+              </iDatePicker>
+              <span v-else>{{ getDay(scope.row.endDate) }}</span>
+            </el-form-item>
           </template>
         </el-table-column>
       </el-table>
@@ -502,31 +526,31 @@ export default {
     save() {
       this.$refs['contractForm'].validate(async (valid) => {
         if (valid) {
-          iMessageBox(
-            this.language(
-              'GZFSBHXGLJJTBGGSFJX',
-              '规则发生变化，相关零件将同步更改，是否继续？'
-            ),
-            this.language('LK_WENXINTISHI', '温馨提示'),
-            {
-              confirmButtonText: this.language('QUEREN', '确认'),
-              cancelButtonText: this.language('QUXIAO', '取消')
+          // iMessageBox(
+          //   this.language(
+          //     'GZFSBHXGLJJTBGGSFJX',
+          //     '规则发生变化，相关零件将同步更改，是否继续？'
+          //   ),
+          //   this.language('LK_WENXINTISHI', '温馨提示'),
+          //   {
+          //     confirmButtonText: this.language('QUEREN', '确认'),
+          //     cancelButtonText: this.language('QUXIAO', '取消')
+          //   }
+          // ).then((res) => {
+          const params = {
+            chipDetailList: this.tableData,
+            chipAppBase: this.baseData.chipAppBase
+          }
+          updateApp(params).then((res) => {
+            if (res.code == 200) {
+              this.editId = ''
+              this.editType = false
+              this.$emit('init')
+            } else {
+              iMessage.error(res.message)
             }
-          ).then((res) => {
-            const chipTTO = {
-              chipDetailList: this.tableData,
-              chipAppBase: this.baseData.chipAppBase
-            }
-            updateApp(chipTTO).then((res) => {
-              if (res.code == 200) {
-                this.editId = ''
-                this.editType = false
-                this.$emit('init')
-              } else {
-                iMessage.error(res.message)
-              }
-            })
           })
+          // })
           this.$refs['contractForm'].clearValidate()
         } else {
           iMessage.error(

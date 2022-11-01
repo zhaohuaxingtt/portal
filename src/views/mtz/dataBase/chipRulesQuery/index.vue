@@ -261,11 +261,14 @@ export default {
       this.isShowSource = true
     },
     getList() {
+      let formData = JSON.parse(JSON.stringify(this.formData))
+      if (Array.isArray(formData.deptCode))
+        formData.deptCode = formData.deptCode.join(',')
       getAppRecordByCondition({
         onlySeeMySelf: this.onlySeeMySelf,
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage,
-        ...this.formData
+        ...formData
       }).then((res) => {
         if (res?.code == '200') {
           this.tableListData = res.data.records
