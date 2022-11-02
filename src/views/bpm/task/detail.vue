@@ -6,7 +6,7 @@
         <viewFlow :detail="form" />
         <!-- 批准 -->
         <iButton
-          v-if="!finished && (buttons.批准 || buttons.无异议)"
+          v-if="!finished && (buttons.批准 || buttons.无异议) && !canApprove"
           :loading="loading"
           @click="onComplete(mapApprovalType.AGREE, language('批准'))"
         >
@@ -14,7 +14,7 @@
         </iButton>
         <!-- 拒绝 -->
         <iButton
-          v-if="!finished && buttons.拒绝"
+          v-if="!finished && buttons.拒绝 && !canApprove"
           :loading="loading"
           @click="onComplete(mapApprovalType.REFUSE, language('拒绝'))"
         >
@@ -22,7 +22,9 @@
         </iButton>
         <!-- 补充材料 -->
         <iButton
-          v-if="!finished && (buttons.补充材料 || buttons.有异议)"
+          v-if="
+            !finished && (buttons.补充材料 || buttons.有异议) && !canApprove
+          "
           :loading="loading"
           @click="
             onComplete(
@@ -243,6 +245,10 @@ export default {
         return JSON.parse(this.form.button)
       }
       return {}
+    },
+    // 已审批的数据不再显示审批按钮
+    canApprove() {
+      return this.form.stateMsg == '同意'
     }
   },
   created() {
