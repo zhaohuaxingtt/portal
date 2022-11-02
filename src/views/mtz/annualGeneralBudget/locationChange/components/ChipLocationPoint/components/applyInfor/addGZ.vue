@@ -17,7 +17,6 @@
           ></iLabel>
           <i-select
             v-model="contractForm.method"
-            clearable
             :placeholder="language('QINGSHURU', '请输入')"
           >
             <el-option
@@ -32,13 +31,12 @@
         </iFormItem>
         <iFormItem prop="sapCode">
           <iLabel
-            :label="language('GONGYINGSHANGBIANHAO', '供应商编号')"
+            :label="language('GONGYINGSHANG', '供应商')"
             slot="label"
             :required="true"
           ></iLabel>
           <i-select
             v-model="contractForm.sapCode"
-            clearable
             filterable
             :placeholder="language('QINGSHURU', '请输入')"
             @change="supplierBH"
@@ -52,7 +50,7 @@
             </el-option>
           </i-select>
         </iFormItem>
-        <iFormItem prop="supplierName">
+        <!-- <iFormItem prop="supplierName">
           <iLabel
             :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
             slot="label"
@@ -73,7 +71,7 @@
             >
             </el-option>
           </i-select>
-        </iFormItem>
+        </iFormItem> -->
         <iFormItem prop="partNum">
           <iLabel
             :label="language('LINGJIANHAO', '零件号')"
@@ -94,35 +92,11 @@
             <span>{{ contractForm.partName }}</span>
           </i-text>
         </iFormItem>
-        <iFormItem>
-          <iLabel
-            :label="language('CAILIAOZU', '材料组')"
-            slot="label"
-          ></iLabel>
-          <i-text>
-            <span>{{ contractForm.materialGroup }}</span>
-          </i-text>
-        </iFormItem>
         <iFormItem prop="materialName">
           <iLabel
             :label="language('原材料描述', '原材料描述')"
             slot="label"
           ></iLabel>
-          <!-- <i-select
-            v-model="contractForm.materialCode"
-            clearable
-            filterable
-            @change="MaterialGrade"
-            :placeholder="language('QINGSHURU', '请输入')"
-          >
-            <el-option
-              v-for="item in materialCode"
-              :key="item.code"
-              :label="item.codeMessage"
-              :value="item.code"
-            >
-            </el-option>
-          </i-select> -->
           <iInput
             :placeholder="language('QINGSHURU', '请输入')"
             v-model.trim="contractForm.materialName"
@@ -149,7 +123,6 @@
           ></iLabel>
           <i-select
             v-model="contractForm.currency"
-            clearable
             :placeholder="language('QINGXUANZE', '请选择')"
           >
             <el-option
@@ -166,6 +139,8 @@
             :label="language('HUILV', '汇率')"
             slot="label"
             :required="true"
+            icons="iconxinxitishi"
+            tip="汇率描述"
           ></iLabel>
           <iInput
             v-model="contractForm.exchangeRate"
@@ -183,7 +158,7 @@
           <iDatePicker
             v-model="contractForm.startDate"
             type="date"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd 00:00:00"
           >
           </iDatePicker>
         </iFormItem>
@@ -196,7 +171,8 @@
           <iDatePicker
             v-model="contractForm.endDate"
             type="date"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd 23:59:59"
+            default-time="23:59:59"
           >
           </iDatePicker>
         </iFormItem>
@@ -352,7 +328,9 @@ export default {
         supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
         materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
         currency: [{ required: true, message: '请选择', trigger: 'blur' }],
-        partNum: [{ required: true, message: '请输入', trigger: 'blur' }],
+        partNum: [
+          { required: true, message: '请输入正确零件号', trigger: 'change' }
+        ],
         exchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
         source: [{ required: true, message: '请输入', trigger: 'blur' }],
         compensationRatio: [
@@ -368,12 +346,12 @@ export default {
           { validator: validatePass2, trigger: 'blur' }
         ],
         startDate: [
-          { required: true, message: '请选择', trigger: 'blur' },
-          { validator: validatePass4, trigger: 'blur' }
+          { required: true, message: '请选择', trigger: 'change' },
+          { validator: validatePass4, trigger: 'change' }
         ],
         endDate: [
-          { required: true, message: '请选择', trigger: 'blur' },
-          { validator: validatePass4, trigger: 'blur' }
+          { required: true, message: '请选择', trigger: 'change' },
+          { validator: validatePass4, trigger: 'change' }
         ]
       },
       methodList: [

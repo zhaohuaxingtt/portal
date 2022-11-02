@@ -100,16 +100,20 @@
           ></iInput>
         </div>
       </div>
-      <span style="display: block; margin-bottom: 20px">{{
-        language('LINIEBEIAN', 'Linie备注')
-      }}</span>
-      <el-input
-        :disabled="disabled"
-        type="textarea"
-        :rows="4"
-        :placeholder="language('QINGSHURUBEIAN', '请输入备注')"
-        v-model="inforData.remark"
-      ></el-input>
+      <div class="remark-box">
+        <span>{{ language('决策单备注', '决策单备注') }}</span>
+        <!-- autosize -->
+        <el-input
+          :disabled="disabled"
+          type="textarea"
+          class="textarea"
+          :rows="1"
+          :placeholder="
+            language('请输入决策单备注,用于审批', '请输入决策单备注,用于审批')
+          "
+          v-model="inforData.remark"
+        ></el-input>
+      </div>
     </iCard>
     <theTabs
       ref="theTabs"
@@ -470,7 +474,6 @@ $tabsInforHeight: 35px;
   margin-right: 0 !important;
 }
 .tabsBoxInfor {
-  margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
   .inforDiv {
@@ -496,6 +499,21 @@ $tabsInforHeight: 35px;
   }
   .inforDiv:nth-child(3n-2) {
     margin-left: 0 !important;
+  }
+}
+.remark-box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  span {
+    font-size: 15px;
+    margin-right: 40px;
+  }
+  .textarea {
+    // flex: 1;
+    // width: auto;
+    width: 90.8%;
   }
 }
 .number_color {

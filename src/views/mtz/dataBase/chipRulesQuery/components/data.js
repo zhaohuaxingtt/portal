@@ -41,6 +41,10 @@ const renderIcon = (h, column, type) => {
   ])
 }
 
+function getDay(date) {
+  return date ? date.split(' ')[0] : date
+}
+
 // 芯片补差规则表头
 export const tableSetting = [
   { type: 'selection', width: 50 },
@@ -71,7 +75,8 @@ export const tableSetting = [
     label: '原材料描述',
     i18n: '原材料描述',
     align: 'center',
-    width: 150
+    width: 150,
+    tooltip: true
   }, {
     prop: 'partNum',
     label: '一次零件号',
@@ -83,7 +88,8 @@ export const tableSetting = [
     label: '一次零件名称',
     i18n: '一次零件名称',
     align: 'center',
-    width: 150
+    width: 150,
+    tooltip: true
   },
   {
     prop: 'sapCode',
@@ -98,7 +104,8 @@ export const tableSetting = [
     width: '100px',
     align: 'center',
     i18n: '一次件供应商名称',
-    width: 150
+    width: 150,
+    tooltip: true
   },
   {
     prop: 'buyerName',
@@ -126,7 +133,8 @@ export const tableSetting = [
     label: '二次零件名称',
     i18n: '二次零件名称',
     align: 'center',
-    width: 150
+    width: 150,
+    tooltip: true
   },
   {
     prop: 'sapCodeSec',
@@ -141,7 +149,8 @@ export const tableSetting = [
     width: '100px',
     align: 'center',
     i18n: '二次件供应商名称',
-    width: 150
+    width: 150,
+    tooltip: true
   },
   {
     prop: 'secondPrimaryRatio',
@@ -172,14 +181,20 @@ export const tableSetting = [
     label: '有效期起',
     align: 'center',
     i18n: 'YOUXIAOQIQI',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{getDay(scope.row.startDate)}</span>
+    }
   },
   {
     prop: 'endDate',
     label: '有效期止',
     align: 'center',
     i18n: 'YOUXIAOQIZHI',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{getDay(scope.row.endDate)}</span>
+    }
   },
   {
     prop: 'effectFlag',
@@ -196,7 +211,10 @@ export const tableSetting = [
     label: '更新时间',
     align: 'center',
     i18n: '更新时间',
-    width: 150
+    width: 150,
+    customRender: (h, scope) => {
+      return <span>{getDay(scope.row.updateDate)}</span>
+    }
   },
   {
     prop: 'sourceCode',

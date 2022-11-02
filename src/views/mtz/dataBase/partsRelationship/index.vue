@@ -8,7 +8,7 @@
         >
           <iMultiLineInput
             :title="language('SAPLINGJIANHAO', 'SAP零件号')"
-            v-model="formData.partnum"
+            v-model="formData.partNum"
           ></iMultiLineInput>
         </el-form-item>
         <el-form-item

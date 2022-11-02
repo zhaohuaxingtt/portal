@@ -130,14 +130,14 @@
           width="150"
         >
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="materialGroup"
           align="center"
           :label="language('材料组', '材料组')"
           show-overflow-tooltip
           width="100"
         >
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="materialName"
           align="center"
@@ -380,7 +380,7 @@ export default {
   watch: {
     chipDetailList(val) {
       console.log('val=>', val)
-      this.tableData = val
+      this.tableData = JSON.parse(JSON.stringify(val))
     }
   },
   computed: {
@@ -395,32 +395,6 @@ export default {
     })
   },
   methods: {
-    beforeUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 20
-      if (!isLt2M) {
-        iMessage.error('上传文件大小不能超过 20MB!')
-      }
-      return isLt2M
-    },
-    handleExceed(files, fileList) {
-      iMessage.warn(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      )
-    },
-    uploadSuccess(res, file) {
-      if (res.code == 200 && res.result) {
-        this.getTableList()
-      } else {
-        if (res.data == null) {
-          iMessage.error(res.desZh)
-        } else {
-          this.errorList = res.data
-          this.cancelNo = true
-        }
-      }
-    },
     async uploaded(content) {
       const formData = new FormData()
       formData.append('file', content.file)
@@ -562,31 +536,17 @@ export default {
     },
     cancel() {
       //取消
-      var that = this
-      iMessageBox(
-        this.language('SHIFOUQUXIAOBIANJI', '是否取消编辑？'),
-        this.language('LK_WENXINTISHI', '温馨提示'),
-        {
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-        }
-      )
-        .then((res) => {
-          this.editType = false
-          if (this.dialogEditType) {
-            this.editId.forEach((e) => {
-              this.tableData.splice(0, 1)
-            })
-            this.dialogEditType = false
-          } else {
-            this.getTableList()
-          }
+      this.editType = false
+      this.editId = ''
+      if (this.dialogEditType) {
+        this.editId.forEach((e) => {
+          this.tableData.splice(0, 1)
         })
-        .then((res) => {
-          this.editId = ''
-          this.$refs['contractForm'].clearValidate()
-        })
-        .catch((res) => {})
+        this.dialogEditType = false
+      } else {
+        this.tableData = JSON.parse(JSON.stringify(val))
+      }
+      this.$refs['contractForm'].clearValidate()
     },
     continueBtn() {
       //沿用
