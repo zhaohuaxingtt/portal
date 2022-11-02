@@ -8,7 +8,7 @@
         <iButton
           v-if="!finished && (buttons.批准 || buttons.无异议)"
           :loading="loading"
-          :disabled="!canApprove"
+          :disabled="canApprove"
           @click="onComplete(mapApprovalType.AGREE, language('批准'))"
         >
           {{ buttons.批准 ? language('批准') : language('无异议') }}
@@ -17,7 +17,7 @@
         <iButton
           v-if="!finished && buttons.拒绝"
           :loading="loading"
-          :disabled="!canApprove"
+          :disabled="canApprove"
           @click="onComplete(mapApprovalType.REFUSE, language('拒绝'))"
         >
           {{ language('拒绝') }}
@@ -25,7 +25,7 @@
         <!-- 补充材料 -->
         <iButton
           v-if="!finished && (buttons.补充材料 || buttons.有异议)"
-          :disabled="!canApprove"
+          :disabled="canApprove"
           :loading="loading"
           @click="
             onComplete(
@@ -249,7 +249,7 @@ export default {
     },
     // 已审批的数据不再显示审批按钮
     canApprove() {
-      return this.form.stateMsg == '同意'
+      return ['同意', '拒绝', '补充材料'].includes(this.form.stateMsg)
     }
   },
   created() {
