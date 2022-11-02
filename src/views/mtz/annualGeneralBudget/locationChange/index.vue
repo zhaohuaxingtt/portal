@@ -9,7 +9,7 @@
 <!-- 定点与变更 -->
 <template>
   <div>
-    <iTabsList
+    <!-- <iTabsList
       v-if="$route.meta.showFooter"
       v-model="tabsValue"
       @tab-click="tableChange"
@@ -29,7 +29,7 @@
       ></el-tab-pane>
       <el-tab-pane
         :name="3"
-        path="ChipLocationChange"
+        path="ChipLocationPoint"
         :label="language('CHIPDINGDIAN', '芯片定点')"
       ></el-tab-pane>
       <el-tab-pane
@@ -37,7 +37,7 @@
         path="ChipLocationChange"
         :label="language('CHIPBIANGENG', '芯片变更')"
       ></el-tab-pane>
-    </iTabsList>
+    </iTabsList> -->
     <router-view />
   </div>
 </template>

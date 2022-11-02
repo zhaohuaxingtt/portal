@@ -29,33 +29,15 @@
           </el-tooltip>
         </div>
         <div class="opration">
-          <iButton
-            @click="edit"
-            v-show="
-              disabled &&
-              status &&
-              (inforData.status == 'NEW' || inforData.status == '未通过')
-            "
-            >{{ language('BIANJI', '编辑') }}</iButton
-          >
-          <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
+          <iButton @click="edit" v-show="disabled && canEdit">{{
+            language('BIANJI', '编辑')
+          }}</iButton>
           <iButton @click="cancel" v-show="!disabled">{{
             language('QUXIAO', '取消')
           }}</iButton>
           <iButton @click="save" v-show="!disabled">{{
             language('BAOCUN', '保存')
           }}</iButton>
-          <iButton
-            @click="relation"
-            v-permission="PORTAL_MTZ_POINT_INFOR_GLLJDDSQ"
-            v-if="applyNumber === '' && showType && disabled"
-            >{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton
-          >
-          <iButton
-            @click="cancelRelation"
-            v-if="applyNumber !== '' && showType && disabled"
-            >{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton
-          >
         </div>
       </div>
       <div class="tabsBoxInfor">
@@ -119,7 +101,7 @@
       ref="theTabs"
       @isNomiNumber="isNomiNum"
       @handleReset="handleReset"
-      :appStatus="inforData.statusDesc"
+      :canEdit="canEdit"
       :type="inforData.type"
       :chipDetailList="chipDetailList"
       :baseData="baseData"
@@ -225,12 +207,10 @@ export default {
     }
   },
   computed: {
-    // 申请单状态
-    status() {
-      return (
-        this.baseData?.chipAppBase?.status == 'NEW' ||
-        this.baseData?.chipAppBase?.status == '未通过'
-      )
+    // 申请单能否编辑
+    canEdit() {
+      // 草稿，已提交，不通过状态可以编辑
+      return ['NEW', 'NOTPASS', 'SUBMIT'].includes(this.inforData.status)
     },
     mtzObject() {
       return this.$store.state.location.mtzObject
