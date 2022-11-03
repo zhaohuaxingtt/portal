@@ -175,13 +175,13 @@
         <iButton @click="sure">确 定</iButton>
       </span>
     </iDialog>
-    <new-mtzlocation-change
+    <new-chip-location-change
       :dialogVisible="dialogVisible"
       v-if="dialogVisible"
       :addFlag="true"
       :mtzAppId="mtzAppId"
       @close="close"
-    ></new-mtzlocation-change>
+    ></new-chip-location-change>
   </div>
 </template>
 
@@ -197,7 +197,7 @@ import {
   iTableCustom,
   iDatePicker
 } from 'rise'
-import newMtzlocationChange from '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange'
+import newChipLocationChange from '../../newChipLocationChange'
 import uploadButton from '@/components/uploadButton'
 import tableList from '@/components/commonTable/index.vue'
 import {
@@ -227,7 +227,7 @@ export default {
     uploadButton,
     iDialog,
     iDatePicker,
-    newMtzlocationChange,
+    newChipLocationChange,
     tableList,
     iInput
   },

@@ -130,7 +130,13 @@
           sortable
         >
           <template slot-scope="scope">
-            <span>{{ scope.row.sapCode + '-' + scope.row.supplierName }}</span>
+            <i-input
+              v-model="scope.row.supplier"
+              @change="change($event, scope.row)"
+              :placeholder="language('请输入供应商SAP号', '请输入供应商SAP号')"
+              v-if="editId.indexOf(scope.row.id) !== -1"
+            ></i-input>
+            <span>{{ scope.row.supplier }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -195,7 +201,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="unitNameZh"
+          prop="partUnit"
           align="center"
           width="110"
           :label="language('JILIANGDANWEI', '计量单位')"
@@ -352,7 +358,8 @@ import {
   updateApp,
   deleteAppDetail,
   uploadData,
-  downloadFile
+  downloadFile,
+  getSupplierInfoBySap
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 
 export default {
@@ -425,6 +432,45 @@ export default {
     })
   },
   methods: {
+    // 分割供应商输入框
+    change(val, row) {
+      console.log(val)
+      console.log(row)
+      if (val) {
+        let arr = val.split('-')
+        if (arr.length >= 1) {
+          getSupplierInfoBySap({
+            sapCode: arr[0],
+            supplierType: 'PP'
+          })
+            .then((res) => {
+              console.log(res)
+              if (!res.data) {
+                return iMessage.error('暂无此供应商')
+              }
+              if (res?.code == '200') {
+                this.$set(row, 'sapCode', res.data.sapCode)
+                this.$set(row, 'supplierName', res.data.nameZh)
+                this.$set(
+                  row,
+                  'supplier',
+                  res.data.sapCode + '-' + res.data.nameZh
+                )
+              }
+            })
+            .then((res) => {
+              if (!res.data) {
+                return iMessage.error('暂无此供应商')
+              } else {
+                this.orderDetails.supplierInfo = `${res?.data?.sapCode}-${res?.data?.nameZh}`
+                this.orderDetails.supplierShortNameZh = res?.data?.shortNameZh
+                this.orderDetails.supplierSapCode = res?.data?.sapCode
+                this.orderDetails.tmSupplierId = res?.data?.supplierId
+              }
+            })
+        }
+      }
+    },
     async uploaded(content) {
       const formData = new FormData()
       formData.append('file', content.file)
@@ -526,7 +572,10 @@ export default {
       this.mtzAddShow = true
     },
     addDialogDataList(val) {
-      this.newDataList = val
+      this.newDataList = val.map((item) => {
+        item.supplier = item.sapCode + '-' + item.supplierName
+        return item
+      })
       this.closeDiolog()
       this.tableData.unshift(...this.newDataList)
       this.editType = true
