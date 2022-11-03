@@ -214,7 +214,7 @@ export default {
           this.options,
           'deptList',
           res.data.map((item) => ({
-            value: item.code,
+            value: item.message,
             label: item.message
           }))
         )
@@ -227,6 +227,10 @@ export default {
       let searchForm = JSON.parse(JSON.stringify(this.searchForm))
       if (Array.isArray(searchForm.deptCode))
         searchForm.deptCode = searchForm.deptCode.join(',')
+      if (Array.isArray(searchForm.effectFlag))
+        searchForm.effectFlag = searchForm.effectFlag.join(',')
+      if (Array.isArray(searchForm.method))
+        searchForm.method = searchForm.method.join(',')
       let params = {
         ...searchForm,
         pageSize: this.page.pageSize,

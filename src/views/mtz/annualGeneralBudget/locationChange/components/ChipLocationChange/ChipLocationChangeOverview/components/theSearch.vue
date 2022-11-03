@@ -38,6 +38,19 @@
           >
           </custom-select>
         </iFormItem>
+        <iFormItem label="补差类型" class="searchFormItem">
+          <custom-select
+            v-model="searchForm.makeType"
+            :user-options="makeTypeList"
+            style="width: 100%"
+            clearable
+            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+            display-member="message"
+            value-member="code"
+            value-key="code"
+          >
+          </custom-select>
+        </iFormItem>
         <iFormItem label="科室" class="searchFormItem">
           <custom-select
             v-model="searchForm.deptCodes"
@@ -149,6 +162,20 @@ export default {
       },
       deptList: [],
       statusList: [],
+      makeTypeList: [
+        {
+          code: '',
+          message: '全部'
+        },
+        {
+          code: '1',
+          message: '芯片补差'
+        },
+        {
+          code: '2',
+          message: 'MTZ'
+        }
+      ],
       RawMaterialNos: [],
       locationApplyFilters: [],
       locationApplyFilterLinie: [],
@@ -300,7 +327,7 @@ export default {
         appStatus: [],
         buyerNameList: [],
         buyerDeptId: [],
-
+        makeType: '',
         materialCode: [],
         assemblyPartnum: []
       }

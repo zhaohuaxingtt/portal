@@ -9,6 +9,26 @@
         :rules="rules"
         ref="contractForm"
       >
+        <iFormItem prop="type">
+          <iLabel
+            :label="language('补差类型', '补差类型')"
+            slot="label"
+            :required="true"
+          ></iLabel>
+          <i-select
+            v-model="contractForm.type"
+            :placeholder="language('QINGSHURU', '请输入')"
+          >
+            <el-option
+              v-for="item in typeList"
+              :key="item.code"
+              :label="item.message"
+              :disabled="item.disabled"
+              :value="item.code"
+            >
+            </el-option>
+          </i-select>
+        </iFormItem>
         <iFormItem prop="method">
           <iLabel
             :label="language('补差方式', '补差方式')"
@@ -76,7 +96,7 @@
             slot="label"
           ></iLabel>
           <i-text>
-            <span>{{ contractForm.unitNameZh }}</span>
+            <span>{{ contractForm.partUnit }}</span>
           </i-text>
         </iFormItem>
         <iFormItem prop="materialName">
@@ -301,7 +321,8 @@ export default {
         exchangeRate: 1,
         materialGroup: '',
         materialName: '',
-        method: 2,
+        method: '2',
+        type: '1',
         partName: '',
         partNum: '',
         sapCode: '',
@@ -350,6 +371,12 @@ export default {
         {
           code: '2',
           message: '变价单补差'
+        }
+      ],
+      typeList: [
+        {
+          code: '1',
+          message: '芯片补差'
         }
       ],
       materialCode: [],
@@ -403,13 +430,13 @@ export default {
         if (res?.code == '200') {
           this.contractForm.partNum = res.data?.partNum || ''
           this.contractForm.partName = res.data?.partNameZh || ''
-          this.contractForm.unitNameZh = res.data?.unitNameZh || ''
+          this.contractForm.partUnit = res.data?.unitNameEn || ''
           this.contractForm.materialGroup = res.data?.materialGroup || '-'
         } else {
           this.contractForm.partNum = ''
           this.contractForm.partName = ''
           this.contractForm.materialGroup = ''
-          this.contractForm.unitNameZh = ''
+          this.contractForm.partUnit = ''
         }
       })
     },
