@@ -1,7 +1,7 @@
 <template>
   <div class="mtz-select">
     <i-search @sure="sure" @reset="reset">
-      <iFormGroup label-position="top">
+      <iFormGroup>
         <iFormItem
           v-for="(item, index) in ruleQueryFormData"
           :key="index"

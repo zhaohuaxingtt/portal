@@ -466,7 +466,8 @@ export const tableTitleHistory = [
 export const formRulesGZ = {
   effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
   materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }], //MTZ-材料组
-  carline: [{ required: true, message: '请选择', trigger: 'blur' }], //车型
+  startDate: [{ required: true, message: '请选择', trigger: 'change' }], //开始日期
+  endDate: [{ required: true, message: '请选择', trigger: 'change' }], //结束日期
 
   // supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
   // supplierName:[{required: true, message: '请选择', trigger: 'blur'}],//供应商名

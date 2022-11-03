@@ -17,9 +17,7 @@
           <div class="title_block">
             <span>申请单类型：</span>
             <iSelect
-              :disabled="
-                formInfo.status !== 'NEW' && formInfo.status !== 'NOTPASS'
-              "
+              :disabled="!canEdit"
               v-model="formInfo.type"
               :placeholder="language('QINGXUANZE', '请选择')"
               @change="saveEdit($event)"
@@ -46,10 +44,7 @@
           <iButton
             @click="submit"
             v-show="locationNow == 3 && meetingNumber == 0"
-            v-permission="PORTAL_MTZ_POINT_INFOR_TIJIAO"
-            :disabled="
-              formInfo.status !== 'NEW' && formInfo.status !== 'NOTPASS'
-            "
+            :disabled="!canEdit"
             >{{ language('TIJIAO', '提交') }}</iButton
           >
         </template>
@@ -197,6 +192,11 @@ export default {
     commonTitle() {
       // 芯片补差申请单-100386 申请单名-采购员-科室
       return this.language('CHIPBUCHASHENGQINGDAN', '芯片补差申请单')
+    },
+    canEdit() {
+      // 草稿，已提交，不通过状态可以编辑
+      return ['NEW', 'NOTPASS'].includes(this.formInfo.status)
+      // return ['NEW', 'NOTPASS', 'SUBMIT'].includes(this.formInfo.status)
     }
   },
 
@@ -257,8 +257,6 @@ export default {
         this.locationNow = 3
         step = 3
       }
-      console.log(this.topImgList)
-      console.log(this.formInfo.status)
       const data = this.topImgList[step - 1]
       var dataList = this.$route.query
       var stepNum = this.$route.query.stepNum || 1

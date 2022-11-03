@@ -17,7 +17,6 @@
           ></iLabel>
           <i-select
             v-model="contractForm.method"
-            clearable
             :placeholder="language('QINGSHURU', '请输入')"
           >
             <el-option
@@ -32,13 +31,12 @@
         </iFormItem>
         <iFormItem prop="sapCode">
           <iLabel
-            :label="language('GONGYINGSHANGBIANHAO', '供应商编号')"
+            :label="language('GONGYINGSHANG', '供应商')"
             slot="label"
             :required="true"
           ></iLabel>
           <i-select
             v-model="contractForm.sapCode"
-            clearable
             filterable
             :placeholder="language('QINGSHURU', '请输入')"
             @change="supplierBH"
@@ -48,28 +46,6 @@
               :key="item.code"
               :label="item.codeMessage"
               :value="item.code"
-            >
-            </el-option>
-          </i-select>
-        </iFormItem>
-        <iFormItem prop="supplierName">
-          <iLabel
-            :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
-            slot="label"
-            :required="true"
-          ></iLabel>
-          <i-select
-            v-model="contractForm.supplierName"
-            clearable
-            filterable
-            :placeholder="language('QINGSHURU', '请输入')"
-            @change="supplierNC"
-          >
-            <el-option
-              v-for="item in supplierList"
-              :key="item.message"
-              :label="item.message"
-              :value="item.message"
             >
             </el-option>
           </i-select>
@@ -96,11 +72,11 @@
         </iFormItem>
         <iFormItem>
           <iLabel
-            :label="language('CAILIAOZU', '材料组')"
+            :label="language('JILIANGDANWEI', '计量单位')"
             slot="label"
           ></iLabel>
           <i-text>
-            <span>{{ contractForm.materialGroup }}</span>
+            <span>{{ contractForm.unitNameZh }}</span>
           </i-text>
         </iFormItem>
         <iFormItem prop="materialName">
@@ -108,21 +84,6 @@
             :label="language('原材料描述', '原材料描述')"
             slot="label"
           ></iLabel>
-          <!-- <i-select
-            v-model="contractForm.materialCode"
-            clearable
-            filterable
-            @change="MaterialGrade"
-            :placeholder="language('QINGSHURU', '请输入')"
-          >
-            <el-option
-              v-for="item in materialCode"
-              :key="item.code"
-              :label="item.codeMessage"
-              :value="item.code"
-            >
-            </el-option>
-          </i-select> -->
           <iInput
             :placeholder="language('QINGSHURU', '请输入')"
             v-model.trim="contractForm.materialName"
@@ -149,7 +110,6 @@
           ></iLabel>
           <i-select
             v-model="contractForm.currency"
-            clearable
             :placeholder="language('QINGXUANZE', '请选择')"
           >
             <el-option
@@ -166,6 +126,8 @@
             :label="language('HUILV', '汇率')"
             slot="label"
             :required="true"
+            icons="iconxinxitishi"
+            tip="货币比人民币"
           ></iLabel>
           <iInput
             v-model="contractForm.exchangeRate"
@@ -183,7 +145,7 @@
           <iDatePicker
             v-model="contractForm.startDate"
             type="date"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd 00:00:00"
           >
           </iDatePicker>
         </iFormItem>
@@ -196,7 +158,8 @@
           <iDatePicker
             v-model="contractForm.endDate"
             type="date"
-            value-format="yyyy-MM-dd hh:mm:ss"
+            value-format="yyyy-MM-dd 23:59:59"
+            default-time="23:59:59"
           >
           </iDatePicker>
         </iFormItem>
@@ -352,7 +315,9 @@ export default {
         supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
         materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
         currency: [{ required: true, message: '请选择', trigger: 'blur' }],
-        partNum: [{ required: true, message: '请输入', trigger: 'blur' }],
+        partNum: [
+          { required: true, message: '请输入正确零件号', trigger: 'change' }
+        ],
         exchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
         source: [{ required: true, message: '请输入', trigger: 'blur' }],
         compensationRatio: [
@@ -368,22 +333,22 @@ export default {
           { validator: validatePass2, trigger: 'blur' }
         ],
         startDate: [
-          { required: true, message: '请选择', trigger: 'blur' },
-          { validator: validatePass4, trigger: 'blur' }
+          { required: true, message: '请选择', trigger: 'change' },
+          { validator: validatePass4, trigger: 'change' }
         ],
         endDate: [
-          { required: true, message: '请选择', trigger: 'blur' },
-          { validator: validatePass4, trigger: 'blur' }
+          { required: true, message: '请选择', trigger: 'change' },
+          { validator: validatePass4, trigger: 'change' }
         ]
       },
       methodList: [
         {
-          code: 1,
+          code: '1',
           message: '一次性补差',
           disabled: true
         },
         {
-          code: 2,
+          code: '2',
           message: '变价单补差'
         }
       ],
@@ -438,11 +403,13 @@ export default {
         if (res?.code == '200') {
           this.contractForm.partNum = res.data?.partNum || ''
           this.contractForm.partName = res.data?.partNameZh || ''
+          this.contractForm.unitNameZh = res.data?.unitNameZh || ''
           this.contractForm.materialGroup = res.data?.materialGroup || '-'
         } else {
           this.contractForm.partNum = ''
           this.contractForm.partName = ''
           this.contractForm.materialGroup = ''
+          this.contractForm.unitNameZh = ''
         }
       })
     },

@@ -42,6 +42,9 @@
       @handleSelectionChange="handleSelectionChange"
       index
     >
+      <template slot="method" slot-scope="scope">
+        <span>{{ scope.row.method == '1' ? '一次性补差' : '变价单补差' }}</span>
+      </template>
       <template slot="effectFlag" slot-scope="scope">
         <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
       </template>
@@ -143,7 +146,7 @@ export default {
           let routerPath = this.$router.resolve({
             path: '/mtz/annualGeneralBudget/ChipApplicationForm',
             query: {
-              appId: data.appId || ''
+              appId: data
             }
           })
           this.$store.dispatch('setMtzChangeBtn', false)

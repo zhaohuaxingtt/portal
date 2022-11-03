@@ -8,74 +8,80 @@
 -->
 <template>
   <div class="process-vertical">
-    <div class="loading"
-         v-loading="loading"></div>
+    <div class="loading" v-loading="loading"></div>
     <div v-if="instanceId">
       <template v-for="(item, index) in panorama">
-            <!-- v-if="numberList.indexOf(index) !== -1" -->
-        <div :key="index"
-            class="node"
-            v-if="numberFunc(item)"
-            :class="{mulitiple: isMultiApprovalUser(item),active: isDividerActive(item)}">
+        <!-- v-if="numberList.indexOf(index) !== -1" -->
+        <div
+          :key="index"
+          class="node"
+          v-if="numberFunc(item)"
+          :class="{
+            mulitiple: isMultiApprovalUser(item),
+            active: isDividerActive(item)
+          }"
+        >
           <div class="node-icon">
-            <icon symbol
-                  size="30"
-                  :name="getIcon(item)" />
+            <icon symbol size="30" :name="getIcon(item)" />
           </div>
           <div class="title">{{ item.status || item.nodeName }}</div>
-          <div class="item-name"
-              v-if="!isMultiApprovalUser(item)">
+          <div class="item-name" v-if="!isMultiApprovalUser(item)">
             <div>
-              <span v-for="(approvalUser, i) of approvalUsers(item)"
-                    :key="i">
-                {{approvalUser.approvedUser? getUserName(approvalUser.approvedUser): getUserName(approvalUser)}}
+              <span v-for="(approvalUser, i) of approvalUsers(item)" :key="i">
+                {{
+                  approvalUser.approvedUser
+                    ? getUserName(approvalUser.approvedUser)
+                    : getUserName(approvalUser)
+                }}
               </span>
             </div>
           </div>
-          <div class="post text-ellipsis"
-              v-if="!isMultiApprovalUser(item)">
+          <div class="post text-ellipsis" v-if="!isMultiApprovalUser(item)">
             <div>
-              <span v-for="(approvalUser, i) of approvalUsers(item)"
-                    :key="i">
+              <span v-for="(approvalUser, i) of approvalUsers(item)" :key="i">
                 {{ approvalUser.positionZhNameList }}
               </span>
             </div>
           </div>
-          <div class="date"
-              v-if="!isMultiApprovalUser(item)">
+          <div class="date" v-if="!isMultiApprovalUser(item)">
             {{ getSingleApprovalDate(item) }}
           </div>
-          <div class="commit"
-              v-if="!isMultiApprovalUser(item)">
+          <div class="commit" v-if="!isMultiApprovalUser(item)">
             {{ getStatus(item) }}
           </div>
-          <div v-if="isMultiApprovalUser(item)"
-              class="content "
-              :class="{active: isActiveItem(item)}">
-
+          <div
+            v-if="isMultiApprovalUser(item)"
+            class="content"
+            :class="{ active: isActiveItem(item) }"
+          >
             <div class="type">
               {{ item.nodeTye === 'Non_MultiInst' ? '并行' : '会签' }}
             </div>
             <ul class="list">
               <template v-for="(approvalUser, i) of approvalUsers(item)">
-                <li :key="i" :class="{ active: isUserActive(approvalUser) }" v-if="shenpiMtz(approvalUser)">
+                <li
+                  :key="i"
+                  :class="{ active: isUserActive(approvalUser) }"
+                  v-if="shenpiMtz(approvalUser)"
+                >
                   <div class="item-name">
                     <span v-if="approvalUser">
                       {{
-                      approvalUser.approvedUser
-                        ? getUserName(approvalUser.approvedUser)
-                        : getUserName(approvalUser)
-                    }}
+                        approvalUser.approvedUser
+                          ? getUserName(approvalUser.approvedUser)
+                          : getUserName(approvalUser)
+                      }}
                     </span>
                   </div>
                   <div class="post">
                     {{ approvalUser.positionZhNameList }}
                   </div>
-                  <div class="date"
-                      v-if="getApprovalDate(approvalUser)">
+                  <div class="date" v-if="getApprovalDate(approvalUser)">
                     {{ getApprovalDate(approvalUser) }}
                   </div>
-                  <div class="commit">{{ getApprovalStatus(approvalUser) }}</div>
+                  <div class="commit">
+                    {{ getApprovalStatus(approvalUser) }}
+                  </div>
                 </li>
               </template>
             </ul>
@@ -83,39 +89,8 @@
         </div>
       </template>
     </div>
-    <div v-if="epmsId">
-      <template v-for="(item, index) of panorama">
-        <div 
-          :key="index"
-          class="node"
-          v-if="numberFunc(item)"
-          :class="{
-          mulitiple: isMultiApprovalUser(item),
-          active: isDividerActive(item)
-          }">
-          <div class="node-icon">
-            <icon symbol
-                  size="30"
-                  :name="getIcon(item)" />
-          </div>
-          <div class="title">{{ item.approverStatus }}</div>
-          <div class="item-name">
-            <span>{{item.approver}}</span>
-          </div>
-          <div class="post text-ellipsis">
-            <span>
-              {{ item.approverPosition }}
-            </span>
-          </div>
-          <div class="date">
-            {{ item.approverTime }}
-          </div>
-        </div>
-      </template>
-    </div>
-    <div class="noData flex"
-         v-if="noData">
-      {{language('ZANWUSHENPIJIEGUO','暂无审批结果')}}
+    <div class="noData flex" v-if="noData">
+      {{ language('ZANWUSHENPIJIEGUO', '暂无审批结果') }}
     </div>
   </div>
 </template>
@@ -137,33 +112,33 @@ export default {
     epmsId: {
       type: String
     },
-    tableData:{
-      type:Array,
-      default:() => [],
+    tableData: {
+      type: Array,
+      default: () => []
     },
-    formInfor:{
-      type:Object,
-      default:() => {},
+    formInfor: {
+      type: Object,
+      default: () => {}
     }
   },
-  data () {
+  data() {
     return {
       panorama: [],
       detail: {},
       loading: false,
       noData: false,
-      shenpiType:false,
-      numberList:[],
+      shenpiType: false,
+      numberList: []
     }
   },
   computed: {
-    isEnd () {
+    isEnd() {
       return this.detail.stateCode !== 3 && this.detail.stateCode !== 4
     }
   },
   watch: {
     instanceId: {
-      handler (val) {
+      handler(val) {
         if (!val) {
           this.noData = true
         } else {
@@ -173,14 +148,13 @@ export default {
       },
       immediate: true
     }
-
   },
-  created () {
+  created() {
     // console.log(this.tableData)
     this.getDetail()
   },
   methods: {
-    numberFunc(item){
+    numberFunc(item) {
       // if(this.formInfor.flowType !== "SIGN"){
       //   return true;
       // }
@@ -209,45 +183,45 @@ export default {
         }
       }
 
-      var number = 0;
-      if(item.status=="已审批"||item.status=="未审批"){
-        for(let i=0;i<users.length;i++){
-          if(this.shenpiMtz(users[i])){
-            number++;
+      var number = 0
+      if (item.status == '已审批' || item.status == '未审批') {
+        for (let i = 0; i < users.length; i++) {
+          if (this.shenpiMtz(users[i])) {
+            number++
           }
         }
-        if(number == 0){
-          return false;
-        }else{
-          return true;
+        if (number == 0) {
+          return false
+        } else {
+          return true
         }
-      }else{
-        return true;
+      } else {
+        return true
       }
     },
-    shenpiMtz(val){
+    shenpiMtz(val) {
       // if(this.formInfor.flowType !== "SIGN"){
       //   return true;
       // }
-      const id = val.id;
-      var number = 0;
-      try{
-        this.tableData.forEach(e=>{
-          if(Number(e.approvalBy) == Number(id)){
-            number++;
-            throw new Error("EndIterative");
+      const id = val.id
+      var number = 0
+      try {
+        this.tableData.forEach((e) => {
+          if (Number(e.approvalBy) == Number(id)) {
+            number++
+            throw new Error('EndIterative')
           }
         })
-      }catch(e){
-        if(e.message != "EndIterative") throw e;
+      } catch (e) {
+        if (e.message != 'EndIterative') throw e
       }
-      if(number == 0){
-        return false;
-      }else{
-        return true;
+      if (number == 0) {
+        return false
+      } else {
+        return true
       }
     },
-    getDetail () {
+    getDetail() {
       this.loading = true
       if (this.instanceId) {
         try {
@@ -256,7 +230,7 @@ export default {
             currentUserId: this.$store.state.permission.userInfo.id
           }
           queryWorkflowDetail(params)
-            .then(res => {
+            .then((res) => {
               const { data } = res
               this.panorama = data.panorama || []
               this.detail = data
@@ -271,28 +245,8 @@ export default {
       } else {
         this.loading = false
       }
-      if (this.epmsId) {
-        try {
-          const params = { id: this.epmsId, "isDeptLead": true }
-          approvalStatus(params)
-            .then(res => {
-              const { data } = res
-              this.panorama = data.epmsApprovalFlow || []
-              this.detail = data
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } catch (err) {
-          this.loading = false
-        }
-      } else {
-        this.loading = false
-      }
-
     },
-    getUserName (user) {
+    getUserName(user) {
       const res = []
       if (!user) {
         return ''
@@ -307,7 +261,7 @@ export default {
       }
       return res.join(' ')
     },
-    getIcon (item) {
+    getIcon(item) {
       if (this.isEnd) {
         return 'iconshenpiliu-yishenpi'
       }
@@ -319,23 +273,24 @@ export default {
       }
       return 'iconshenpiliu-daishenpi'
     },
-    isActiveItem (item) {
+    isActiveItem(item) {
       return ['已提交', '已审批'].includes(item.status)
     },
-    isDividerActive (item) {
+    isDividerActive(item) {
       return ['已提交', '已审批'].includes(item.status)
     },
-    isMultiApprovalUser (item) {
+    isMultiApprovalUser(item) {
       const users = this.approvalUsers(item)
       return users && users.length > 1
     },
-    approvalUsers (item) {
+    approvalUsers(item) {
       let users = []
       // console.log(item);
       if (item.approvalUserList) {
         for (let i = 0; i < item.approvalUserList.length; i++) {
           const element = item.approvalUserList[i]
-          const status = item.nodeTye === 'MultiInst' ? false : item.status === '已审批'
+          const status =
+            item.nodeTye === 'MultiInst' ? false : item.status === '已审批'
           users.push({ ...element, approvalStatus: status })
         }
       }
@@ -343,7 +298,10 @@ export default {
         for (let i = 0; i < item.taskNodeList.length; i++) {
           const element = item.taskNodeList[i]
           if (element.approvedUser) {
-            const status = item.nodeTye === 'MultiInst' ? element.endTime !== null : item.status === '已审批'
+            const status =
+              item.nodeTye === 'MultiInst'
+                ? element.endTime !== null
+                : item.status === '已审批'
             users.push({
               ...element.approvedUser,
               approvalStatus: status,
@@ -358,20 +316,20 @@ export default {
       return users
       // return item.approvalUserList || item.taskNodeList
     },
-    isUserActive (user) {
+    isUserActive(user) {
       return user.approvalStatus
       /* if (!user.taskStatus) {
         return false
       }
       return ['同意'].includes(user.taskStatus) */
     },
-    getApprovalDate (user) {
+    getApprovalDate(user) {
       if (!user.endTime) {
         return ''
       }
       return user.endTime
     },
-    getApprovalStatus (user) {
+    getApprovalStatus(user) {
       if (!user.taskStatus) {
         return ''
       }
@@ -380,17 +338,17 @@ export default {
       }
       return user.taskStatus
     },
-    getSingleApprovalDate (item) {
+    getSingleApprovalDate(item) {
       if (item.taskNodeList && item.taskNodeList.length > 0) {
         return item.taskNodeList[0].endTime
       }
-      return ""
+      return ''
     },
-    getStatus(item){
+    getStatus(item) {
       if (item.taskNodeList && item.taskNodeList.length > 0) {
         return item.taskNodeList[0].taskStatus
       }
-      return ""
+      return ''
     }
   }
 }
@@ -448,7 +406,7 @@ $borderColor: #cbcbcb;
     }
     .date {
       font-size: 14px;
-      width:160px;
+      width: 160px;
     }
     &::before {
       content: '';

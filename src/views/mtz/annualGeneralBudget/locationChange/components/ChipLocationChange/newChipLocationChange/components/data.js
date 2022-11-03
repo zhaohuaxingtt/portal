@@ -266,27 +266,27 @@ export const tableTitle = [
     align: 'center',
     width: 150
   }, {
-    props: 'oncePartNum',
+    props: 'partNum',
     name: '一次零件号',
     key: '一次零件号',
     align: 'center',
     width: 150
   }, {
-    props: 'oncePartName',
+    props: 'partName',
     name: '一次零件名称',
     key: '一次零件名称',
     align: 'center',
     width: 150
   },
   {
-    props: 'onceSapCode',
+    props: 'sapCode',
     name: '一次件供应商编号',
     key: '一次件供应商编号',
     align: 'center',
     width: 150
   },
   {
-    props: 'onceSupplierName',
+    props: 'supplierName',
     name: '一次件供应商名称',
     width: '100px',
     align: 'center',
@@ -309,34 +309,34 @@ export const tableTitle = [
     key: '科室',
     width: 100
   }, {
-    props: 'secondPartNum',
+    props: 'partNumSec',
     name: '二次零件号',
     key: '二次零件号',
     align: 'center',
     width: 150
   }, {
-    props: 'secondPartName',
+    props: 'partNameSec',
     name: '二次零件名称',
     key: '二次零件名称',
     align: 'center',
     width: 150
   },
   {
-    props: 'secondSapCode',
+    props: 'sapCodeSec',
     name: '二次件供应商编号',
     key: '二次件供应商编号',
     align: 'center',
     width: 150
   },
   {
-    props: 'secondSupplierName',
+    props: 'supplierNameSec',
     name: '二次件供应商名称',
     align: 'center',
     key: '二次件供应商名称',
     width: 150
   },
   {
-    props: 'proportion',
+    props: 'secondPrimaryRatio',
     name: '二次件与一次件比例',
     align: 'center',
     key: '二次件与一次件比例',
@@ -351,13 +351,13 @@ export const tableTitle = [
     width: 150
   },
   {
-    props: 'tcCurrence',
+    props: 'currency',
     name: '货币',
     align: 'center',
     key: 'HUOBI',
     width: 150
   },
-  { props: 'tcExchangeRate', name: '汇率', align: 'center', key: 'HUILV' },
+  { props: 'exchangeRate', name: '汇率', align: 'center', key: 'HUILV' },
   {
     props: 'startDate',
     name: '有效期起',

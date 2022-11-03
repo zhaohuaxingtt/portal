@@ -272,7 +272,7 @@ module.exports = {
       },
       [process.env.VUE_APP_MTZ]: {
         target: `${BASE_IP}/mtz/`,
-        // target: `http://192.168.50.170:8080/mtz`,
+        // target: `http://192.168.50.172:8080/mtz`,
         // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
         changeOrigin: true,
         pathRewrite: {
