@@ -10,13 +10,10 @@ const renderIcon = (h, column, type) => {
   let content = ``
   switch (type) {
     case 1:
-      content = `M01006002-Pt`
+      content = `补差金额备注说明，待确定`
       break
     case 2:
-      content = `M01006001-Pd`
-      break
-    case 3:
-      content = `M01006003-Rh`
+      content = ``
       break
   }
   return h('div', [
@@ -166,7 +163,8 @@ export const tableSetting = [
     width: '100px',
     align: 'center',
     i18n: '补差金额',
-    width: 150
+    width: 150,
+    headerRender: (h, { column }) => renderIcon(h, column, 1)
   },
   {
     prop: 'currency',
