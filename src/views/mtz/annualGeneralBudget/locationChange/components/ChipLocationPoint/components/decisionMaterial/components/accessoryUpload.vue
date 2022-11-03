@@ -130,7 +130,7 @@ export default {
         saveAtta({
           appId: this.$route.query.appId,
           fileId: data.id,
-          fileType: 1
+          fileType: 2 // 申请单审批附件
         }).then((res) => {
           console.log(res)
           if (res?.code == '200') {

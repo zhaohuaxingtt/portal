@@ -99,7 +99,7 @@
         <el-table-column
           v-else
           :render-header="item.headerRender"
-          :key="index"
+          :key="index + (item.prop || '')"
           :type="item.type"
           :align="item.align || 'center'"
           :header-align="item.headerAlign"

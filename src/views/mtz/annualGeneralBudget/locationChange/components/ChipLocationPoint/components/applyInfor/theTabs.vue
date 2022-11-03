@@ -4,53 +4,49 @@
 <template>
   <iCard class="margin-top20">
     <template v-slot:header>
-      <span>
-        {{ language('维护芯片补差规则', '维护芯片补差规则') }}
-      </span>
+      <div class="table-search">
+        <span class="title margin-right20">
+          {{ language('维护芯片补差规则', '维护芯片补差规则') }}
+        </span>
+        <i-input
+          v-if="!editType"
+          @blur="filterData"
+          class="search"
+          clearable
+          v-model="partNum"
+          placeholder="请输入零件号"
+        ></i-input>
+      </div>
       <div>
         <uploadButton
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+          v-if="!editType && canEdit"
           ref="uploadButtonAttachment"
           :buttonText="language('DAORU', '导入')"
           :uploadByBusiness="true"
           @uploadedCallback="uploaded"
           class="margin-right20"
         />
-        <iButton
-          @click="download"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('XIAZAIMUBAN', '下载模板') }}</iButton
-        >
-        <iButton
-          @click="cancel"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('QUXIAO', '取消') }}</iButton
-        >
-        <iButton
-          @click="add"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('XINZENG', '新增') }}</iButton
-        >
-        <iButton
-          @click="edit"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('BIANJI', '编辑') }}</iButton
-        >
-        <iButton
-          @click="continueBtn"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('YANYONG', '沿用') }}</iButton
-        >
-        <iButton
-          @click="delecte"
-          v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('SHANCHU', '删除') }}</iButton
-        >
-        <iButton
-          @click="save"
-          v-if="editType && (appStatus == '草稿' || appStatus == '未通过')"
-          >{{ language('BAOCUN', '保存') }}</iButton
-        >
+        <iButton @click="download" v-if="!editType && canEdit">{{
+          language('XIAZAIMUBAN', '下载模板')
+        }}</iButton>
+        <iButton @click="cancel" v-if="editType && canEdit">{{
+          language('QUXIAO', '取消')
+        }}</iButton>
+        <iButton @click="add" v-if="!editType && canEdit">{{
+          language('XINZENG', '新增')
+        }}</iButton>
+        <iButton @click="edit" v-if="!editType && canEdit">{{
+          language('BIANJI', '编辑')
+        }}</iButton>
+        <iButton @click="continueBtn" v-if="!editType && canEdit">{{
+          language('YANYONG', '沿用')
+        }}</iButton>
+        <iButton @click="delecte" v-if="!editType && canEdit">{{
+          language('SHANCHU', '删除')
+        }}</iButton>
+        <iButton @click="save" v-if="editType && canEdit">{{
+          language('BAOCUN', '保存')
+        }}</iButton>
       </div>
     </template>
     <el-form
@@ -69,74 +65,73 @@
           type="selection"
           :selectable="selectionType"
           fixed
-          width="60"
+          width="50"
           align="center"
         >
         </el-table-column>
-        <el-table-column label="#" fixed type="index" width="60" align="center">
+        <el-table-column label="#" fixed type="index" width="50" align="center">
         </el-table-column>
         <el-table-column
           prop="ruleNo"
           align="center"
           show-overflow-tooltip
-          width="100"
+          minWidth="120"
           :label="language('GUIZEBIANHAO', '规则编号')"
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
               :rules="formRules.ruleNo ? formRules.ruleNo : ''"
             >
-              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
               <span>{{ scope.row.ruleNo }}</span>
             </el-form-item>
           </template>
         </el-table-column>
-
         <el-table-column
           prop="formalFlag"
           align="center"
           show-overflow-tooltip
-          width="100"
+          width="140"
           :label="language('补差方式', '补差方式')"
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'method'"
               :rules="formRules.method ? formRules.method : ''"
             >
-              <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{
+              <el-select
+                v-model="scope.row.method"
+                :placeholder="language('QINGXUANZE', '请选择')"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              >
+                <el-option
+                  v-for="item in methodList"
+                  :key="item.code"
+                  :label="item.message"
+                  :disabled="item.disabled"
+                  :value="item.code"
+                >
+                </el-option>
+              </el-select>
+              <span v-else>{{
                 scope.row.method == '2' ? '变价单补差' : '一次性补差'
               }}</span>
             </el-form-item>
           </template>
         </el-table-column>
-
         <el-table-column
           prop="sapCode"
           align="center"
-          :label="language('GONGYINGSHANGBIANHAO', '供应商编号')"
+          :label="language('GONGYINGSHANG', '供应商')"
           show-overflow-tooltip
-          width="90"
+          minWidth="160"
+          sortable
         >
-        </el-table-column>
-
-        <el-table-column
-          prop="supplierName"
-          align="center"
-          :label="language('供应商名称', '供应商名称')"
-          show-overflow-tooltip
-          width="150"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="materialGroup"
-          align="center"
-          :label="language('材料组', '材料组')"
-          show-overflow-tooltip
-          width="100"
-        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.sapCode + '-' + scope.row.supplierName }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="materialName"
@@ -162,9 +157,10 @@
         <el-table-column
           prop="partNum"
           align="center"
-          width="120"
+          width="110"
           :label="language('LINGJIANHAO', '零件号')"
           show-overflow-tooltip
+          sortable
         >
         </el-table-column>
         <el-table-column
@@ -178,9 +174,10 @@
         <el-table-column
           prop="amount"
           align="center"
-          width="150"
+          width="140"
           :label="language('补差金额', '补差金额')"
           show-overflow-tooltip
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
@@ -198,10 +195,20 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="unitNameZh"
+          align="center"
+          width="110"
+          :label="language('JILIANGDANWEI', '计量单位')"
+          show-overflow-tooltip
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
           prop="currency"
           align="center"
-          width="60"
+          width="100"
           :label="language('HUOBI', '货币')"
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
@@ -229,8 +236,9 @@
         <el-table-column
           prop="exchangeRate"
           align="center"
-          width="90"
+          width="100"
           :label="language('HUILV', '汇率')"
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
@@ -249,8 +257,9 @@
         <el-table-column
           prop="startDate"
           align="center"
-          width="150"
+          width="155"
           :label="language('YOUXIAOQIQI', '有效期起')"
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
@@ -271,8 +280,9 @@
         <el-table-column
           prop="endDate"
           align="center"
-          width="150"
+          width="155"
           :label="language('YOUXIAOQIZHI', '有效期止')"
+          sortable
         >
           <template slot-scope="scope">
             <el-form-item
@@ -361,9 +371,20 @@ export default {
     addGZ
   },
   watch: {},
-  props: ['appStatus', 'type', 'relationType', 'chipDetailList', 'baseData'],
+  props: ['canEdit', 'type', 'relationType', 'chipDetailList', 'baseData'],
   data() {
     return {
+      methodList: [
+        {
+          code: '1',
+          message: '一次性补差',
+          disabled: true
+        },
+        {
+          code: '2',
+          message: '变价单补差'
+        }
+      ],
       tcCurrence: [],
       formRules: formRulesGZ,
       newDataList: [], //传过来的列表数据
@@ -372,20 +393,29 @@ export default {
       selectList: [],
       mtzAddShow: false,
       addDialog: false,
-      resetNum: false,
-      dialogEditType: false, //判断是否是沿用过来的数据
-      carline: [] //车型
+      tableData: [],
+      partNum: ''
     }
   },
   watch: {
-    chipDetailList(val) {
-      console.log('val=>', val)
-      this.tableData = val
-    }
-  },
-  computed: {
-    tableData() {
-      return this.chipDetailList
+    chipDetailList: {
+      handler(val) {
+        this.tableData = JSON.parse(JSON.stringify(val)).filter(
+          (item) =>
+            item.partNum.toUpperCase().indexOf(this.partNum.toUpperCase()) != -1
+        )
+      },
+      immediate: true,
+      deep: true
+    },
+    partNum(val) {
+      this.cancel() // 取消编辑状态
+      this.tableData = JSON.parse(JSON.stringify(this.chipDetailList)).filter(
+        (item) => {
+          console.log(item)
+          return item.partNum.toUpperCase().indexOf(val.toUpperCase()) != -1
+        }
+      )
     }
   },
   created() {
@@ -395,32 +425,6 @@ export default {
     })
   },
   methods: {
-    beforeUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 20
-      if (!isLt2M) {
-        iMessage.error('上传文件大小不能超过 20MB!')
-      }
-      return isLt2M
-    },
-    handleExceed(files, fileList) {
-      iMessage.warn(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      )
-    },
-    uploadSuccess(res, file) {
-      if (res.code == 200 && res.result) {
-        this.getTableList()
-      } else {
-        if (res.data == null) {
-          iMessage.error(res.desZh)
-        } else {
-          this.errorList = res.data
-          this.cancelNo = true
-        }
-      }
-    },
     async uploaded(content) {
       const formData = new FormData()
       formData.append('file', content.file)
@@ -467,76 +471,24 @@ export default {
     add() {
       //新增
       this.addDialog = true
-      return
-      if (this.type !== 'SIGN') {
-        this.addDialog = true
-      } else {
-        iMessageBox(
-          this.language(
-            '新增芯片补差规则时，申请单类型不能为流转，继续添加会重置申请单类型，是否确认添加？',
-            '新增芯片补差规则时，申请单类型不能为流转，继续添加会重置申请单类型，是否确认添加？'
-          ),
-          this.language('LK_WENXINTISHI', '温馨提示'),
-          {
-            confirmButtonText: this.language('QUEREN', '确认'),
-            cancelButtonText: this.language('QUXIAO', '取消')
-          }
-        ).then((res) => {
-          this.addDialog = true
-          this.resetNum = true
-        })
-      }
     },
     addDialogGZList() {
       this.$emit('init')
-      //mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
-      // if (this.resetNum) {
-      //   //流转
-      //   const chipAppBase = {
-      //     ...this.baseData.chipAppBase,
-      //     type: 'MEETING'
-      //   }
-      //   const chipTTO = {
-      //     chipDetailList: this.baseData.chipDetailList,
-      //     chipAppBase: chipAppBase
-      //   }
-      //   updateApp(chipTTO).then((res) => {
-      //     console.log(res)
-      //     this.$emit('init')
-      //   })
-      //   this.resetNum = false
-      // }
       this.saveGzDialog()
     },
     edit() {
       //编辑
       if (this.selectList.length > 0) {
         this.editType = true
-        var changeArrayList = []
-        this.selectList.forEach((item) => {
-          changeArrayList.push(item.id)
-        })
-        this.editId = changeArrayList
-        this.dialogEditType = false
+        this.editId = this.selectList.map((item) => item.id)
       } else {
-        iMessage.error('请选择需要修改数据！')
+        iMessage.warn('请选择需要修改数据！')
       }
     },
 
     save() {
       this.$refs['contractForm'].validate(async (valid) => {
         if (valid) {
-          // iMessageBox(
-          //   this.language(
-          //     'GZFSBHXGLJJTBGGSFJX',
-          //     '规则发生变化，相关零件将同步更改，是否继续？'
-          //   ),
-          //   this.language('LK_WENXINTISHI', '温馨提示'),
-          //   {
-          //     confirmButtonText: this.language('QUEREN', '确认'),
-          //     cancelButtonText: this.language('QUXIAO', '取消')
-          //   }
-          // ).then((res) => {
           const params = {
             chipDetailList: this.tableData,
             chipAppBase: this.baseData.chipAppBase
@@ -550,10 +502,9 @@ export default {
               iMessage.error(res.message)
             }
           })
-          // })
           this.$refs['contractForm'].clearValidate()
         } else {
-          iMessage.error(
+          iMessage.warn(
             this.language('QINGBUQUANYANZHENGBITIANXIANG', '请补全验证必填项')
           )
           return false
@@ -562,62 +513,28 @@ export default {
     },
     cancel() {
       //取消
-      var that = this
-      iMessageBox(
-        this.language('SHIFOUQUXIAOBIANJI', '是否取消编辑？'),
-        this.language('LK_WENXINTISHI', '温馨提示'),
-        {
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-        }
+      this.editType = false
+      this.editId = []
+      this.tableData = JSON.parse(JSON.stringify(this.chipDetailList)).filter(
+        (item) =>
+          item.partNum.toUpperCase().indexOf(this.partNum.toUpperCase()) != -1
       )
-        .then((res) => {
-          this.editType = false
-          if (this.dialogEditType) {
-            this.editId.forEach((e) => {
-              this.tableData.splice(0, 1)
-            })
-            this.dialogEditType = false
-          } else {
-            this.getTableList()
-          }
-        })
-        .then((res) => {
-          this.editId = ''
-          this.$refs['contractForm'].clearValidate()
-        })
-        .catch((res) => {})
+      this.$refs['contractForm'].clearValidate()
     },
     continueBtn() {
       //沿用
       this.mtzAddShow = true
     },
     addDialogDataList(val) {
-      //沿用
-      val.forEach((item) => {
-        this.$set(item, 'source', item.sourceType)
-        item.formalFlag = 'Y'
-        delete item.sourceType
-        delete item.id
-        if (item.carline == null) {
-          item.carlineList = []
-          item.carline = ''
-        } else {
-          item.carlineList = item.carline.split(',')
-        }
-      })
       this.newDataList = val
       this.closeDiolog()
       this.tableData.unshift(...this.newDataList)
       this.editType = true
-      var changeArrayList = []
       this.$refs.moviesTable.clearSelection()
-      this.newDataList.forEach((item) => {
-        changeArrayList.push(item.id)
+      this.editId = this.newDataList.map((item) => {
         this.$refs.moviesTable.toggleRowSelection(item, true)
+        return item.id
       })
-      this.editId = changeArrayList
-      this.dialogEditType = true
     },
     delecte() {
       //删除
@@ -684,6 +601,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.table-search {
+  display: inline-flex;
+  align-items: center;
+  .title {
+    flex: 0 0 auto;
+  }
+  .search {
+    font-size: 14px !important;
+  }
+}
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;

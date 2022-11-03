@@ -290,9 +290,11 @@ export default {
         console.log(val)
 
         this.formInfo = val.chipAppBase || {}
+        this.riseId = val.chipAppBase?.workflowId
         if (
           this.formInfo.statusDesc == '草稿' ||
-          this.formInfo.statusDesc == '未通过'
+          this.formInfo.statusDesc == '未通过' ||
+          this.formInfo.statusDesc == '已提交'
         ) {
           this.flag = false
         } else {

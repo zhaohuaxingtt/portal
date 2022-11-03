@@ -26,7 +26,7 @@
       <iCard class="upload_hr" ref="tabsBoxTitle" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
-          <span class="buttonBox" style="margin-top: -10px">
+          <!-- <span class="buttonBox" style="margin-top: -10px">
             <iButton
               v-if="
                 RsObject &&
@@ -42,7 +42,7 @@
                 language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
               }}</iButton
             >
-          </span>
+          </span> -->
           <div class="tabs_box_right">
             <template v-if="meetingType">
               <div class="big_text">
@@ -307,7 +307,7 @@
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
-              <span
+              <!-- <span
                 class="buttonBox"
                 style="margin-top: -10px"
                 v-if="!editMode"
@@ -327,7 +327,7 @@
                     language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
                   }}</iButton
                 >
-              </span>
+              </span> -->
               <!-- <div class="tabs_box_right"> -->
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
