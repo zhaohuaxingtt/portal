@@ -41,13 +41,12 @@
         >
       </template>
       <div class="informationForm">
-        <iFormGroup
+        <el-form
+          inline
           ref="baseInfoForm"
+          class="baseInfoForm"
           :model="formInline"
           :rules="rules"
-          row="4"
-          label-position="left"
-          label-width="100px"
         >
           <iFormItem label="申请单名" class="formItem" prop="appName">
             <el-input
@@ -67,34 +66,44 @@
               v-model="formInline.appStatus"
             ></el-input>
           </iFormItem>
-
-          <iFormItem label="备注" :class="['formItem', 'row_line1']">
-            <el-input
-              type="textarea"
-              :placeholder="language('QINGSHURU', '请输入')"
-              v-model="formInline.remark"
-              :disabled="isView"
-              :rows="4"
-              maxlength="300"
-              show-word-limit
-            ></el-input>
+          <iFormItem label="补差类型" class="formItem">
+            <el-input :disabled="true" v-model="formInline.makeType"></el-input>
           </iFormItem>
-          <iFormItem
-            label="审批备注"
-            :class="['formItem', 'row_line1']"
-            row="24"
-          >
-            <el-input
-              type="textarea"
-              :disabled="isView"
-              :rows="4"
-              :placeholder="language('QINGSHURU', '请输入')"
-              v-model="formInline.approveRemarks"
-              maxlength="300"
-              show-word-limit
-            ></el-input>
-          </iFormItem>
-        </iFormGroup>
+        </el-form>
+        <el-form
+          inline
+          ref="baseInfoForm"
+          class="baseInfoForm"
+          :model="formInline"
+          :rules="rules"
+        >
+          <el-row>
+            <el-col>
+              <iFormItem label="备注" :class="['row_line1']">
+                <el-input
+                  type="textarea"
+                  :placeholder="language('QINGSHURU', '请输入')"
+                  v-model="formInline.remark"
+                  :disabled="isView"
+                  :rows="4"
+                  maxlength="300"
+                  show-word-limit
+                ></el-input> </iFormItem
+            ></el-col>
+            <el-col>
+              <iFormItem label="审批备注" :class="['row_line1']" row="24">
+                <el-input
+                  type="textarea"
+                  :disabled="isView"
+                  :rows="4"
+                  :placeholder="language('QINGSHURU', '请输入')"
+                  v-model="formInline.approveRemarks"
+                  maxlength="300"
+                  show-word-limit
+                ></el-input> </iFormItem
+            ></el-col>
+          </el-row>
+        </el-form>
       </div>
     </iCard>
   </div>
@@ -117,7 +126,8 @@ export default {
         appType: '',
         remark: '',
         approveRemarks: '',
-        disabled: false
+        disabled: false,
+        makeType: ''
       },
       disabled: false,
       rules: {
@@ -212,6 +222,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.baseInfoForm {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.formItem {
+  display: flex;
+  width: 15%;
+  ::v-deep .el-form-item__content {
+    flex: 1;
+  }
+}
+.row_line1 {
+  width: 100%;
+}
 .header {
   justify-content: space-between;
   margin-bottom: 20px;

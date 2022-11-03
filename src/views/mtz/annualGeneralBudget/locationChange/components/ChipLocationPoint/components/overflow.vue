@@ -338,6 +338,9 @@ export default {
         this.user = data.linieName
         this.dept = data.depteCode
         this.baseData = res.data
+        this.baseData.chipDetailList.forEach((item) => {
+          item.supplier = item.sapCode + '-' + item.supplierName
+        })
         this.setStepNum()
       })
     },

@@ -5,6 +5,7 @@ const requestChip = axios(process.env.VUE_APP_MTZ + '/web/chip')
 const req = axios(process.env.VUE_APP_APPROVAL + '/web')
 const requestParts = axios(process.env.VUE_APP_PART)
 const requestPartCode = axios(process.env.VUE_APP_MATERIEL)
+const supplier = axios(process.env.VUE_APP_SUPPLIER)
 
 export function pageMtzNomi(parmars) {
   //mtz定点列表查询
@@ -848,5 +849,14 @@ export function exportAppRecordByCondition(data) {
     method: 'POST',
     data,
     responseType: 'blob'
+  })
+}
+
+// 通过供应商SAPCode,查询供应商信息
+export function getSupplierInfoBySap(data) {
+  return supplier({
+    url: "/web/register/basic/supplierInfoQuery",
+    method: "POST",
+    data: data
   })
 }
