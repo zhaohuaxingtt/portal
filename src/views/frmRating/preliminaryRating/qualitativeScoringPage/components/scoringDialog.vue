@@ -345,13 +345,13 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      var vaild = 0;
-      this.selectTableData.forEach(arr=>{
-        if (arr.itemList.length < this.tableTitleData.length) {
-          vaild++;
-        }
-      })
-      if(vaild == 0){
+      // var vaild = 0;
+      // this.selectTableData.forEach(arr=>{
+      //   if (arr.itemList.length < this.tableTitleData.length) {
+      //     vaild++;
+      //   }
+      // })
+      // if(vaild == 0){
         try {
           this.followButtonLoading = true
           const initialIds = this.selectTableData.map((item) => {
@@ -367,14 +367,14 @@ export default {
         } catch {
           this.followButtonLoading = false
         }
-      }else{
-        iMessage.warn(
-          //   '#' + (positionIndex + 1) + ':' + this.$t('SPR_FRM_CBPJ_QWCDF')
-          // this.$t('SPR_FRM_CBPJ_QWCDF')
-          this.language('QINGWANCHENGSUOYOUXUANZE', '请完成所有选择！')
-        )
-        return false
-      }
+      // }else{
+      //   iMessage.warn(
+      //     //   '#' + (positionIndex + 1) + ':' + this.$t('SPR_FRM_CBPJ_QWCDF')
+      //     // this.$t('SPR_FRM_CBPJ_QWCDF')
+      //     this.language('QINGWANCHENGSUOYOUXUANZE', '请完成所有选择！')
+      //   )
+      //   return false
+      // }
     },
     async getViewTableList() {
       this.tableLoading = true
