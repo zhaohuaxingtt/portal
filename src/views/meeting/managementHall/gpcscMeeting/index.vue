@@ -9,7 +9,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">会议名称</div>
+            <div  class="name">会议名称</div>
             <div
               class="name-content"
               :title="meetingInfo.name"
@@ -17,6 +17,7 @@
               {{ meetingInfo.name }}
             </div>
             <iButton
+              v-permission="GPMEETINGALLBUTTON" 
               class="button"
               @click="currentButtonList.methodName"
               disabled
@@ -24,6 +25,7 @@
           </div>
           <div class="button-list">
             <iButton
+              v-permission="GPMEETINGALLBUTTON" 
               class="button"
               v-for="(item, index) of currentButtonList.rightButtonList"
               :key="index"
@@ -90,6 +92,7 @@
           >列隐藏/显示</iButton
         > -->
         <actionButtons
+        v-permission="GPMEETINGALLBUTTON" 
           :currentButtonList="tableButtonList"
           :showUpdateTopicButtonList="showUpdateTopicButtonList"
           @addRest="addRest"
