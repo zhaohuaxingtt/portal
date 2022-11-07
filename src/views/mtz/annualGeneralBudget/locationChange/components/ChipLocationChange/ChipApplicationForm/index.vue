@@ -7,23 +7,31 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\index.vue
 -->
 <template>
-  <iPage>
+  <div>
     <formInformation
       ref="formInformation"
-      :isView="isView"
+      :canEdit="canEdit"
       :formData="formData"
+      :baseDetail="baseDetail"
+      :statusList="statusList"
+      @getDetail="getDetail"
     ></formInformation>
     <enclosureList
       ref="enclosureList"
-      :isView="isView"
+      :canEdit="canEdit"
+      :detailList="detailList"
       class="margin-top20"
+      @getDetail="getDetail"
     ></enclosureList>
     <dosageDetails
       ref="dosageDetails"
-      :isView="isView"
+      :detailList="detailList"
+      :baseDetail="baseDetail"
+      :canEdit="canEdit"
       class="margin-top20"
+      @getDetail="getDetail"
     ></dosageDetails>
-  </iPage>
+  </div>
 </template>
 
 <script>
@@ -31,14 +39,21 @@ import { iPage } from 'rise'
 import dosageDetails from './components/dosageDetails'
 import enclosureList from './components/enclosureList'
 import formInformation from './components/formInformation'
-import { getDetailById } from '@/api/mtz/annualGeneralBudget/chipChange.js'
-import { getAppById } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import {
+  getDetailById,
+  addRule
+} from '@/api/mtz/annualGeneralBudget/chipChange'
+
 export default {
   data() {
     return {
+      baseDetail: {},
       formData: {},
-      appId: '',
-      isView: false
+      detailList: [],
+      statusList: [],
+      chipAttachmentBaseList: [],
+      changeId: ''
     }
   },
   components: {
@@ -47,25 +62,48 @@ export default {
     dosageDetails,
     iPage
   },
+
+  computed: {
+    canEdit() {
+      return ['NEW', 'NOPASS', ''].includes(
+        this.baseDetail?.chipChangeBase?.status
+      )
+    }
+  },
   created() {
-    this.appId = this.$route.query.appId
+    this.changeId = this.$route.query.changeId
+    this.getLocationApplyStatus()
     this.getDetail()
   },
   methods: {
+    getLocationApplyStatus() {
+      getLocationApplyStatus({}).then((res) => {
+        this.statusList = JSON.parse(JSON.stringify(res.data))
+      })
+    },
     getDetail() {
-      // getDetailById
-      getAppById({ appId: this.appId }).then((res) => {
-        if (res.code === '200') {
+      getDetailById(this.changeId).then((res) => {
+        if (res?.code === '200') {
+          this.baseDetail = res.data
           this.formData = res.data.chipChangeBase
-          if (
-            res.data.appStatus === '草稿' ||
-            res.data.appStatus === '未通过'
-          ) {
-            this.isView = false
-          } else {
-            this.isView = true
-          }
+          this.detailList = res.data.detailList.map((item) => {
+            return {
+              ...item,
+              supplier: item.sapCode + '-' + item.supplierName
+            }
+          })
+          this.chipAttachmentBaseList = res.data.chipAttachmentBaseList
         }
+      })
+    },
+    addRule(val) {
+      let params = {
+        chipId: this.changeId,
+        supplierId: 0,
+        ...val
+      }
+      addRule(params).then((res) => {
+        console.log(res)
       })
     }
   }

@@ -35,7 +35,7 @@
         <el-form-item :label="language('SHENQINGZHUANGTAI', '申请状态')">
           <custom-select
             v-model="searchForm.status"
-            :user-options="getLocationApplyStatus"
+            :user-options="locationApplyStatus"
             multiple
             clearable
             :placeholder="language('QINGXUANZE', '请选择')"
@@ -45,7 +45,7 @@
           >
           </custom-select>
         </el-form-item>
-        <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
+        <!-- <el-form-item :label="language('YUANCAILIAOPAIHAO', '原材料牌号')">
           <custom-select
             v-model="searchForm.materialName"
             :user-options="materialCode"
@@ -57,7 +57,7 @@
             value-key="code"
           >
           </custom-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item :label="language('LINGJIANHAO', '零件号')">
           <input-custom
             v-model="searchForm.partNum"
@@ -303,14 +303,15 @@ export default {
         appNo: [],
         deptName: [],
         linieName: [],
-        materialName: [],
+        // materialName: [],
         nominateDate: [],
         partNum: [],
         status: [],
         type: []
       },
       getFlowTypeList: [],
-      getLocationApplyStatus: [],
+      statusList: [],
+      locationApplyStatus: [],
       ttNominateAppId: [], //关联申请单
       linieDeptId: [], //科室
       value1: '',
@@ -329,21 +330,15 @@ export default {
   },
 
   created() {
-    // console.log(new Date("2999-12-31"));
     this.init()
   },
   methods: {
     getStatus(status) {
-      return this.getLocationApplyStatus.find((item) => item.code == status)
-        ?.message
+      return this.statusList.find((item) => item.code == status)?.message
     },
     getType(type) {
       return this.getFlowTypeList.find((item) => item.code == type)?.message
     },
-
-    // handleChange_ceshi(val){
-    //   console.log(val);
-    // },
     changeKS(e) {
       if (e.length < 1) {
         this.getCurrentUser = this.getCurrentCopy
@@ -378,8 +373,9 @@ export default {
         this.getFlowTypeList = res.data
       })
       getLocationApplyStatus({}).then((res) => {
-        this.getLocationApplyStatus = res.data
-        console.log(this.getLocationApplyStatus)
+        this.locationApplyStatus = res.data
+        // custom-select 控件会修改 locationApplyStatus 值，所以用statusList 单独存一分
+        this.statusList = JSON.parse(JSON.stringify(res.data))
       })
       getRawMaterialNos({}).then((res) => {
         this.materialCode = res.data
@@ -388,7 +384,6 @@ export default {
         appType: 'chip'
       }).then((res) => {
         this.depBuyerAll = res.data
-        // this.linieDeptId = res.data;//科室
         var linieDeptId = []
         var getCurrentUser = []
 
@@ -429,15 +424,11 @@ export default {
 
         this.getCurrentUser = getCurrentNew
         this.getCurrentCopy = getCurrentNew
-        // this.getCurrentUser = res.data;//采购员
       })
 
       getMtzGenericAppId({}).then((res) => {
         this.getMtzGenericAppId = res.data
       })
-      // getCurrentUser({}).then(res=>{
-      //   this.getCurrentUser = res.data;
-      // })
 
       this.getTableList()
     },
@@ -446,10 +437,15 @@ export default {
       let nominateDateStart = this.searchForm.nominateDate[0]
       let nominateDateEnd = this.searchForm.nominateDate[1]
       let searchForm = {}
+      // 所有list都改为逗号分隔的字符串
       Object.keys(this.searchForm).forEach((key) => {
-        if (key != 'nominateDate')
+        if (Array.isArray(this.searchForm[key])) {
           searchForm[key] = this.searchForm[key].join(',')
+        } else {
+          searchForm[key] = this.searchForm[key]
+        }
       })
+      delete searchForm.nominateDate
       getAppList({
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -505,7 +501,7 @@ export default {
         type: [],
         deptName: [],
         linieName: [],
-        materialName: [],
+        // materialName: [],
         partNum: [],
         nominateDate: []
       }

@@ -18,14 +18,14 @@
       <el-tab-pane :name="1" :label="language('规则变更', '规则变更')">
         <iCard>
           <template slot="header">
-            <div class="opration" v-if="!isView">
+            <div class="opration" v-if="canEdit">
               <div v-show="!editFlag">
                 <uploadButton
                   ref="uploadButtonAttachment"
                   :buttonText="language('SHANGCHUAN', '上传')"
                   :uploadByBusiness="true"
                   v-permission="PORTAL_MTZ_CHANGE_INFOR_SCYCLYLBG"
-                  @uploadedCallback="uploadBasePriceChange($event)"
+                  @uploadedCallback="uploadDetail($event)"
                   class="margin-right20"
                   :disabled="disabled"
                 />
@@ -53,19 +53,7 @@
             </div>
           </template>
           <div class="table-wrapper">
-            <!-- <iTableCustom
-              :ref="'paramsTable'"
-              :loading="tableLoading"
-              :data="tableList"
-              :columns="TABLE_COLUMNS"
-              @handle-selection-change="handleSelectionChange"
-            >
-              <template slot="materialCode">
-                <span>{{ '123123123' }}</span>
-              </template>
-            </iTableCustom> -->
-
-            <tableList
+            <!-- <tableList
               class="margin-top20"
               :tableData="tableList"
               :tableTitle="tableTitle"
@@ -77,8 +65,286 @@
               <template slot="effectFlag" slot-scope="scope">
                 <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
               </template>
-            </tableList>
-            <iPagination
+            </tableList> -->
+
+            <el-form
+              :rules="formRules"
+              :model="{ tableList }"
+              ref="contractForm"
+              class="formStyle"
+            >
+              <el-table
+                :data="tableList"
+                ref="moviesTable"
+                :tableLoading="tableLoading"
+                border
+                @selection-change="handleSelectionChange"
+              >
+                <el-table-column
+                  type="selection"
+                  :selectable="selectionType"
+                  fixed
+                  width="50"
+                  align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                  label="#"
+                  fixed
+                  type="index"
+                  width="50"
+                  align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="ruleNo"
+                  align="center"
+                  show-overflow-tooltip
+                  minWidth="120"
+                  :label="language('GUIZEBIANHAO', '规则编号')"
+                  sortable
+                ></el-table-column>
+                <el-table-column
+                  prop="formalFlag"
+                  align="center"
+                  show-overflow-tooltip
+                  width="140"
+                  :label="language('补差方式', '补差方式')"
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'method'"
+                      :rules="formRules.method ? formRules.method : ''"
+                    >
+                      <el-select
+                        v-model="scope.row.method"
+                        :placeholder="language('QINGXUANZE', '请选择')"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      >
+                        <el-option
+                          v-for="item in methodList"
+                          :key="item.code"
+                          :label="item.message"
+                          :disabled="item.disabled"
+                          :value="item.code"
+                        >
+                        </el-option>
+                      </el-select>
+                      <span v-else>{{
+                        scope.row.method == '2' ? '变价单补差' : '一次性补差'
+                      }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="sapCode"
+                  align="center"
+                  :label="language('GONGYINGSHANG', '供应商')"
+                  show-overflow-tooltip
+                  minWidth="160"
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'supplier'"
+                      :rules="formRules.supplier ? formRules.supplier : ''"
+                    >
+                      <i-input
+                        v-model="scope.row.supplier"
+                        @change="change($event, scope.row)"
+                        :placeholder="
+                          language('请输入供应商SAP号', '请输入供应商SAP号')
+                        "
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      ></i-input>
+                      <span v-else>{{ scope.row.supplier }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="materialName"
+                  align="center"
+                  width="120"
+                  :label="language('原材料描述', '原材料描述')"
+                  show-overflow-tooltip
+                >
+                  <template slot-scope="scope">
+                    <el-input
+                      v-model="scope.row.materialName"
+                      :placeholder="language('QINGSHURU', '请输入')"
+                      v-if="editId.indexOf(scope.row.id) !== -1"
+                    >
+                    </el-input>
+                    <span v-else>{{ scope.row.materialName }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="partNum"
+                  align="center"
+                  width="110"
+                  :label="language('LINGJIANHAO', '零件号')"
+                  show-overflow-tooltip
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'partNum'"
+                      :rules="formRules.partNum ? formRules.partNum : ''"
+                    >
+                      <el-input
+                        @blur="getPartCodeId(scope.row)"
+                        v-model.trim="scope.row.partNum"
+                        :placeholder="language('QINGSHURU', '请输入')"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      >
+                      </el-input>
+                      <span v-else>{{ scope.row.partNum }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="partName"
+                  align="center"
+                  width="120"
+                  :label="language('LINGJIANMINGCHENG', '零件名称')"
+                  show-overflow-tooltip
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="partUnit"
+                  align="center"
+                  width="110"
+                  :label="language('JILIANGDANWEI', '计量单位')"
+                  show-overflow-tooltip
+                  sortable
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="amount"
+                  align="center"
+                  width="140"
+                  :label="language('补差金额', '补差金额')"
+                  show-overflow-tooltip
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'amount'"
+                      :rules="formRules.amount ? formRules.amount : ''"
+                    >
+                      <el-input
+                        v-model="scope.row.amount"
+                        :placeholder="language('QINGSHURU', '请输入')"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      >
+                      </el-input>
+                      <span v-else>{{ scope.row.amount }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="currency"
+                  align="center"
+                  width="100"
+                  :label="language('HUOBI', '货币')"
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'currency'"
+                      :rules="formRules.currency ? formRules.currency : ''"
+                    >
+                      <el-select
+                        v-model="scope.row.currency"
+                        clearable
+                        :placeholder="language('QINGSHURU', '请输入')"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      >
+                        <el-option
+                          v-for="item in tcCurrence"
+                          :key="item.code"
+                          :label="item.code"
+                          :value="item.code"
+                        >
+                        </el-option>
+                      </el-select>
+                      <span v-else>{{ scope.row.currency }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="exchangeRate"
+                  align="center"
+                  width="100"
+                  :label="language('HUILV', '汇率')"
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'exchangeRate'"
+                      :rules="
+                        formRules.exchangeRate ? formRules.exchangeRate : ''
+                      "
+                    >
+                      <iInput
+                        type="number"
+                        v-model="scope.row.exchangeRate"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      ></iInput>
+                      <span v-else>{{ scope.row.exchangeRate }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="startDate"
+                  align="center"
+                  width="155"
+                  :label="language('YOUXIAOQIQI', '有效期起')"
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'startDate'"
+                      :rules="formRules.startDate ? formRules.startDate : ''"
+                    >
+                      <iDatePicker
+                        v-model="scope.row.startDate"
+                        type="date"
+                        value-format="yyyy-MM-dd hh:mm:ss"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      >
+                      </iDatePicker>
+                      <span v-else>{{ getDay(scope.row.startDate) }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="endDate"
+                  align="center"
+                  width="155"
+                  :label="language('YOUXIAOQIZHI', '有效期止')"
+                  sortable
+                >
+                  <template slot-scope="scope">
+                    <el-form-item
+                      :prop="'tableList.' + scope.$index + '.' + 'endDate'"
+                      :rules="formRules.endDate ? formRules.endDate : ''"
+                    >
+                      <iDatePicker
+                        v-model="scope.row.endDate"
+                        type="date"
+                        value-format="yyyy-MM-dd hh:mm:ss"
+                        v-if="editId.indexOf(scope.row.id) !== -1"
+                      >
+                      </iDatePicker>
+                      <span v-else>{{ getDay(scope.row.endDate) }}</span>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-form>
+            <!-- <iPagination
               v-update
               @size-change="
                 handleSizeChange($event, getBasePriceChangePageList)
@@ -92,7 +358,7 @@
               :page-size="page.pageSize"
               :layout="page.layout"
               :total="page.totalCount"
-            />
+            /> -->
           </div>
         </iCard>
       </el-tab-pane>
@@ -119,62 +385,6 @@
       </el-tab-pane>
     </iTabsList>
 
-    <iDialog
-      :title="language('BIANGENGYOUXIAOQI', '变更有效期')"
-      :visible.sync="visible"
-      v-if="visible"
-      append-to-body
-      width="50%"
-      :before-close="handleClose"
-    >
-      <div style="display: inline-block" class="margin-right10">
-        <div
-          v-for="item in dateList"
-          :key="item.id"
-          class="margin-bottom10 flex"
-        >
-          <iDatePicker
-            v-model="item.value"
-            type="daterange"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            @change="changeDate"
-            :pickerOptions="item.pickerOptions"
-            start-placeholder="开始月份"
-            end-placeholder="结束月份"
-          />
-          <div class="margin-left20 dosage flex">
-            <label style="width: 100px; line-height: 36px">新用量：</label>
-            <iInput v-model="item.newDosage"></iInput>
-          </div>
-          <div class="margin-left20 dosage flex">
-            <label style="width: 100px; line-height: 36px">原用量：</label>
-            <iInput v-model="item.oldDosage" disabled></iInput>
-          </div>
-        </div>
-      </div>
-      <el-button
-        type="primary"
-        style="vertical-align: top"
-        icon="el-icon-plus"
-        size="mini"
-        @click="addDate"
-        circle
-      ></el-button>
-      <el-button
-        type="primary"
-        style="vertical-align: top"
-        icon="el-icon-minus"
-        size="mini"
-        @click="delDate"
-        circle
-      ></el-button>
-      <span slot="footer" class="dialog-footer">
-        <iButton @click="reject">取 消</iButton>
-        <iButton @click="sure">确 定</iButton>
-      </span>
-    </iDialog>
     <new-chip-location-change
       :dialogVisible="dialogVisible"
       v-if="dialogVisible"
@@ -182,6 +392,16 @@
       :mtzAppId="mtzAppId"
       @close="close"
     ></new-chip-location-change>
+
+    <iDialog
+      :title="language('新增芯片补差规则', '新增芯片补差规则')"
+      :visible.sync="addDialog"
+      v-if="addDialog"
+      width="70%"
+      @close="close"
+    >
+      <addGZ @addDialogGZ="addDialogGZList"> </addGZ>
+    </iDialog>
   </div>
 </template>
 
@@ -195,27 +415,35 @@ import {
   iDialog,
   iInput,
   iTableCustom,
-  iDatePicker
+  iDatePicker,
+  iMessageBox
 } from 'rise'
 import newChipLocationChange from '../../newChipLocationChange'
+import addGZ from './addGZ'
 import uploadButton from '@/components/uploadButton'
 import tableList from '@/components/commonTable/index.vue'
 import {
   basePriceChangePageList,
   uploadBasePriceChange,
   priceChangeExport,
-  basePriceChangeDelete,
   updateBasePriceChange,
   approvalRecordList,
-  approvalExplain
-} from '@/api/mtz/annualGeneralBudget/mtzChange'
-// import iTableCustom from '@/components/iTableCustom'
+  approvalExplain,
+  exportDetail,
+  getApprovalByChangeId,
+  save,
+  deleteDetail
+} from '@/api/mtz/annualGeneralBudget/chipChange'
+import {
+  uploadData,
+  getSupplierInfoBySap
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import {
   addGenericAppChange,
   saveGenericAppChange
 } from '@/api/mtz/annualGeneralBudget/mtzChange.js'
-
-import { TABLE_COLUMNS, TABLE_COLUMNS1, tableTitle } from './data'
+import { queryWorkflowDetail } from '@/api/approval/myApplication'
+import { TABLE_COLUMNS, TABLE_COLUMNS1, tableTitle, formRulesGZ } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   components: {
@@ -229,11 +457,26 @@ export default {
     iDatePicker,
     newChipLocationChange,
     tableList,
-    iInput
+    iInput,
+    addGZ
   },
   mixins: [pageMixins],
   data() {
     return {
+      methodList: [
+        {
+          code: '1',
+          message: '一次性补差',
+          disabled: true
+        },
+        {
+          code: '2',
+          message: '变价单补差'
+        }
+      ],
+      addDialog: false,
+      formRules: formRulesGZ,
+      editId: [],
       inputProps: [],
       tabsValue: 1,
       tableTitle,
@@ -248,7 +491,6 @@ export default {
       approvalRecordList: [],
       isShow: false,
       textarea: '',
-      // isView: false,
       disabled: false,
       dialogVisible: false,
       visible: false,
@@ -277,8 +519,19 @@ export default {
     })
   },
   props: {
-    isView: {
-      type: Boolean
+    baseDetail: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    canEdit: {
+      type: Boolean,
+      default: false
+    },
+    detailList: {
+      type: Array,
+      default: () => []
     }
   },
   watch: {
@@ -304,64 +557,97 @@ export default {
           }
         }
       }
+    },
+    detailList: {
+      handler(val) {
+        this.tableList = val
+      },
+      deep: true
     }
   },
   methods: {
+    // 编辑零件号
+    getPartCodeId(row) {
+      getPartCodeId({ partsNum: row.partNum }).then((res) => {
+        console.log(res)
+        if (res?.code == '200') {
+          this.$set(row, 'partName', res.data?.partNameZh || '')
+          this.$set(row, 'partUnit', res.data?.unitNameEn || '')
+          this.$set(row, 'materialGroup', res.data?.materialGroup || '-')
+          if (!res.data) iMessage.warn('未查询到零件数据')
+        }
+      })
+    },
+    // 编辑供应商，分割输入框
+    change(val, row) {
+      if (val) {
+        let sapCode = val
+        if (val.indexOf('-') != -1) {
+          sapCode = val.split('-')[0]
+        }
+        getSupplierInfoBySap({
+          sapCode: sapCode,
+          supplierType: 'PP'
+        }).then((res) => {
+          console.log(res)
+          if (!res.data) {
+            return iMessage.error('暂无此供应商')
+          }
+          if (res?.data) {
+            this.$set(row, 'sapCode', res.data?.sapCode || '')
+            this.$set(row, 'supplierName', res.data?.nameZh || '')
+            this.$set(row, 'supplier', res.data.sapCode + '-' + res.data.nameZh)
+          }
+        })
+      }
+    },
+    getDay(date) {
+      return date ? date.split(' ')[0] : date
+    },
+    // 新增后重新查询数据
+    addDialogGZList() {
+      this.$emit('init')
+      this.addDialog = false
+    },
     init() {
-      this.mtzAppId = this.$route.query.mtzAppId
+      this.changeId = this.$route.query.changeId
       this.page.pageSize = 50
-      this.getBasePriceChangePageList()
-      this.getApprovalRecordList()
     },
-    getBasePriceChangePageList() {
-      this.tableLoading = true
-      let params = {
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        mtzAppId: this.mtzAppId
+    tableChange() {
+      if (this.tabsValue == '2') {
+        this.getDetail()
       }
-      basePriceChangePageList(params).then((res) => {
-        if (res && res.code === '200') {
-          this.tableList = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
-          this.tableList.forEach((item) => {
-            this.$set(item, 'editRow', false)
-          })
-          this.tableLoading = false
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
     },
-    getApprovalRecordList() {
-      this.tableLoading = true
-      let params = {
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        mtzAppId: this.mtzAppId || '8'
-        // mtzAppId: "8"
-      }
-      approvalRecordList(params).then((res) => {
-        if (res && res.code === '200') {
-          this.approvalRecordList = res.data
-          this.approvalRecordList.forEach((item) => {
-            this.$set(item, 'editRow', false)
-          })
-          this.tableLoading = false
-        } else {
-          iMessage.error(res.desZh)
+    getDetail() {
+      this.loading = true
+      if (this.baseDetail.chipChangeBase.workflowId || '123') {
+        try {
+          const params = {
+            processInstanceId:
+              this.baseDetail.chipChangeBase.workflowId || '123',
+            currentUserId: this.$store.state.permission.userInfo.id
+          }
+          queryWorkflowDetail(params)
+            .then((res) => {
+              this.approvalRecordList = res.data
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } catch (err) {
+          this.loading = false
         }
-      })
+      } else {
+        this.loading = false
+      }
     },
     add() {
-      this.dialogVisible = true
+      this.addDialog = true
     },
     close(val) {
       this.dialogVisible = val
-      this.getBasePriceChangePageList()
-      this.getApprovalRecordList()
+      this.$emit('getDetail')
     },
     edit() {
       try {
@@ -376,269 +662,132 @@ export default {
       } catch (error) {
         console.log(error)
       }
-      this.$set(
-        this,
-        'inputProps',
-        Object.keys(this.tableList[0]).filter((item) => item != 'ruleNo')
-      )
-      // this.tableList.forEach((item) => {
-      //   item.editRow = true
-      // })
+      this.tableListOld = JSON.parse(JSON.stringify(this.tableList))
+      this.editId = this.muliteList.map((item) => item.id)
       this.editFlag = true
     },
     cancel() {
-      this.tableList.forEach((item) => {
-        item.editRow = false
-      })
+      this.editId = []
+      this.tableList = JSON.parse(JSON.stringify(this.tableListOld))
       this.editFlag = false
     },
     handleSelectionChange(val) {
       this.muliteList = val
-      // if (val.length > 1) {
-      //   var duoxuans = val.pop();
-      //   this.muliteList = val.pop();
-      //   //清除所有选中
-      //   this.$refs.paramsTable.clearSelection();
-      //   //给最后一个加上选中
-      //   this.$refs.paramsTable.toggleRowSelection(duoxuans);
-      // } else {
-      //   this.muliteList = val
-      // }
     },
     handleSelectionChange1(val) {
       this.muliteList1 = val
     },
-    save() {
-      this.tableList.forEach((item) => {
-        item.editRow = false
+    // 检查表单
+    check() {
+      return new Promise((r, j) => {
+        this.$refs['contractForm'].validate(async (valid) => {
+          if (valid) {
+            r(true)
+          } else {
+            j(false)
+          }
+        })
       })
-      this.editFlag = false
-      let editList = this.tableList.map((item) => {
-        return {
-          dosage: item.newDosage,
-          endDate: item.endDate,
-          id: item.id,
-          startDate: item.startDate
+    },
+    // 保存
+    async save() {
+      let check = await this.check()
+      if (check) {
+        let params = {
+          chipAttachmentBaseList: this.baseDetail.chipAttachmentBaseList,
+          chipChangeBase: this.baseDetail.chipChangeBase,
+          detailList: this.tableList
         }
-      })
-      updateBasePriceChange({
-        changeList: editList,
-        isDeptLead: true,
-        mtzAppId: this.mtzAppId
-      }).then((res) => {
-        this.getBasePriceChangePageList()
-      })
-    },
-    uploadBasePriceChange(val) {
-      let params = {
-        multifile: val.file,
-        mtzAppId: this.mtzAppId
+        save(params).then((res) => {
+          if (res?.code === '200') {
+            iMessage.success(res.desZh)
+            this.editId = []
+            this.editFlag = false
+            this.$emit('getDetail')
+            return true
+          } else {
+            iMessage.error(res.desZh)
+          }
+        })
       }
-      uploadBasePriceChange(params).then((res) => {
-        if (res.code === '200') {
-          this.getBasePriceChangePageList()
-          iMessage.success(res.desZh)
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
     },
-    downFile() {
-      priceChangeExport({
-        mtzAppId: this.mtzAppId
-      }).then((res) => {})
-    },
-    explain() {
-      if (this.muliteList.length === 0) {
-        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
-        return
-      }
-      this.isShow = true
-    },
-    handleSave() {
-      let params = {
-        comment: this.textarea,
-        isDeptLead: true,
-        riseId: this.muliteList1[0].riseId || '',
-        taskId: this.muliteList1[0].taskId || ''
-      }
-      approvalExplain(params).then((res) => {
+    // 上传导入
+    uploadDetail(content) {
+      uploadDetail(this.changeId, content.file).then((res) => {
         if (res?.code === '200') {
-          this.isShow = false
-          this.getApprovalRecordList()
+          this.$emit('getDetail')
           iMessage.success(res.desZh)
         } else {
-          this.isShow = false
           iMessage.error(res.desZh)
         }
       })
     },
-    handleSure() {
-      let params = {
-        isDeptLead: true,
-        mtzBasePriceList: []
+
+    // 导入
+    async uploaded(content) {
+      const formData = new FormData()
+      formData.append('file', content.file)
+      formData.append('applicationName', 'rise')
+      const res = await uploadData(formData, { appId: this.$route.query.appId })
+      if (res?.code == '200') {
+        iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
+        this.$emit('init')
+      } else {
+        iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
       }
-      let selectList = this.muliteList.map((item) => {
-        return {
-          // dosage: item.newDosage || "",
-          id: item.id,
-          endDate: this.dateList[this.dateList.length - 1].value[1],
-          mtzBasePriceId: item.mtzBasePriceId || '',
-          startDate: this.dateList[0].value[0],
-          childBasePriceList: this.dateList.map((item) => {
-            return {
-              startDate: item.value[0],
-              endDate: item.value[1],
-              dosage: item.newDosage
-            }
-          })
+    },
+
+    download() {
+      iMessageBox(
+        this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'),
+        this.language('LK_WENXINTISHI', '温馨提示'),
+        {
+          confirmButtonText: this.language('QUEREN', '确认'),
+          cancelButtonText: this.language('QUXIAO', '取消')
         }
+      ).then((res) => {
+        exportDetail(this.$route.query.changeId).then((res) => {
+          let url = window.URL.createObjectURL(res)
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          let fname = '芯片补差规则变更模板.xlsx'
+          link.setAttribute('download', fname)
+          document.body.appendChild(link)
+          link.click()
+          link.parentNode.removeChild(link)
+        })
       })
-      params.mtzBasePriceList = selectList
-      params.mtzAppId = this.mtzAppId
-      saveGenericAppChange(params).then((res) => {
-        if (res && res.code === '200') {
-          this.getBasePriceChangePageList()
-        } else {
-          iMessage.error(res.desZh)
-        }
+    },
+    // 导出
+    downFile() {
+      // this.download()
+      exportDetail(this.changeId).then((res) => {
+        console.log(res)
+        let url = window.URL.createObjectURL(res)
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        let fname = '芯片补差规则变更模板.xlsx'
+        link.setAttribute('download', fname)
+        document.body.appendChild(link)
+        link.click()
+        link.parentNode.removeChild(link)
       })
     },
-    handleCancel() {
-      this.isShow = false
-    },
-    handleChangeDate() {
-      if (this.muliteList.length === 0) {
-        iMessage.error('请选择数据')
-        return
-      }
-      if (this.muliteList.length > 1) {
-        iMessage.error('变更有效期仅能对单条数据进行操作')
-        return
-      }
-      this.dateList[0].value[0] = this.muliteList[0].startDate
-      this.dateList[0].value[1] = this.muliteList[0].endDate
-      this.dateList[0].newDosage = this.muliteList[0].newDosage
-      this.dateList[0].oldDosage = this.muliteList[0].oldDosage
-      this.visible = true
-    },
-    getNewDay(dateTemp, days) {
-      var dateTemp = dateTemp.split('-')
-      var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]) //转换为MM-DD-YYYY格式
-      console.log(nDate, Math.abs(nDate))
-      var millSeconds = Math.abs(nDate) + days * 24 * 60 * 60 * 1000
-      var rDate = new Date(millSeconds)
-      var year = rDate.getFullYear()
-      var month = rDate.getMonth() + 1
-      if (month < 10) month = '0' + month
-      var date = rDate.getDate()
-      if (date < 10) date = '0' + date
-      return year + '-' + month + '-' + date
-    },
+    // 删除
     del() {
-      let ids = this.muliteList.map((item) => {
-        return item.id
-      })
-      let params = {
-        id: ids
-      }
-      basePriceChangeDelete(params).then((res) => {
+      deleteDetail(
+        this.muliteList.map((item) => {
+          return item.id
+        })
+      ).then((res) => {
         if (res && res.code === '200') {
-          this.getBasePriceChangePageList()
+          this.$emit('getDetail')
         } else {
           iMessage.error(res.desZh)
         }
       })
-    },
-    reject() {
-      this.visible = false
-      this.dateList = [
-        {
-          id: 1,
-          value: []
-        }
-      ]
-    },
-    handleClose(done) {
-      this.dateList = [
-        {
-          id: 1,
-          value: [],
-          newDosage: '',
-          oldDosage: ''
-        }
-      ]
-      done()
-    },
-    addDate() {
-      this.dateList.push({
-        id: this.dateList.length + 1,
-        value: [],
-        oldDosage: this.dateList[0].oldDosage,
-        newDosage: '',
-        pickerOptions: {}
-      })
-      let date = this.dateList[this.dateList.length - 2].value[1]
-      this.dateList[this.dateList.length - 1].value[0] = window
-        .moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000)
-        .format('YYYY-MM-DD')
-      this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(
-        this.dateList[this.dateList.length - 1].value[0],
-        364
-      )
-      // this.dataList[this.dataList.length - 1].value = new Date(date.replace(/-/g, '/')).getTime() + 86400000
-      this.dateList.forEach((item, index) => {
-        item.pickerOptions = {
-          onPick: ({ maxDate, minDate }) => {
-            console.log(maxDate, minDate)
-          },
-          disabledDate: (time) => {
-            if (item.id !== 1) {
-              if (this.dateList.length === 1) {
-                return
-              }
-              return (
-                time <
-                new Date(
-                  this.dateList[index - 1].value[1].replace(/-/g, '/')
-                ).getTime() +
-                  86400000
-              )
-            }
-          },
-          shortcuts: [
-            {
-              text: '直到2999年',
-              onClick: (picker) => {
-                console.log(this.dateList, 'dataList')
-                const end = new Date('2999-12-31')
-                const start = new Date(
-                  new Date(
-                    this.dateList[index - 1].value[1].replace(/-/g, '/')
-                  ).getTime() + 86400000
-                )
-                picker.$emit('pick', [start, end])
-              }
-            }
-          ]
-        }
-      })
-    },
-    delDate() {
-      if (this.dateList.length === 1) {
-        return
-      }
-      this.dateList.splice(this.dateList.length - 1, 1)
-    },
-    sure() {
-      this.visible = false
-      this.handleSure()
-      this.dateList = [
-        {
-          id: 1,
-          value: []
-        }
-      ]
     }
   }
 }
@@ -655,5 +804,9 @@ export default {
 .dosage {
   width: 160px;
   line-height: 36px;
+}
+.formStyle ::v-deep .el-form-item {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 </style>

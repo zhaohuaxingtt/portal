@@ -113,7 +113,8 @@ import {
   getPageList,
   deleteData,
   recall,
-  mtzRecall
+  mtzRecall,
+  deleteApproval
 } from '@/api/mtz/annualGeneralBudget/chipChange'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
@@ -136,24 +137,32 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    this.getTableList()
   },
   methods: {
-    init() {
-      this.$nextTick(() => {
-        this.getTableList()
-      })
-    },
     addChip() {
       this.dialogVisible = true
     },
     //获取列表
     getTableList() {
+      let searchForm = {}
+      let searchForm_ = JSON.parse(
+        JSON.stringify(this.$parent.$refs.theSearch.searchForm)
+      )
+      console.log(searchForm_)
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(searchForm_).forEach((key) => {
+        if (Array.isArray(searchForm_[key])) {
+          searchForm[key] = searchForm_[key].join(',')
+        } else {
+          searchForm[key] = searchForm_[key]
+        }
+      })
       this.loading = true
       let params = {
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
-        ...this.$parent.$refs.theSearch.searchForm
+        ...searchForm
       }
       getPageList(params).then((res) => {
         try {
@@ -171,11 +180,12 @@ export default {
         }
       })
     },
+    // 跳转详情
     detail(val) {
       let routerPath = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/ChipApplicationForm',
         query: {
-          appId: val.appId || ''
+          changeId: val.appId || ''
         }
       })
       this.$store.dispatch('setMtzChangeBtn', false)
@@ -184,6 +194,7 @@ export default {
     handleSelectionChange(val) {
       this.muilteList = val
     },
+    // 删除
     del() {
       if (this.muilteList.length === 0) {
         iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
@@ -196,9 +207,9 @@ export default {
           type: 'warning'
         })
           .then(() => {
-            deleteData(this.muilteList.map((item) => item.appId)).then(
+            deleteApproval(this.muilteList.map((item) => item.id)).then(
               (res) => {
-                if (res && res.code === '200') {
+                if (res?.code === '200') {
                   iMessage.success(res.desZh)
                   this.getTableList()
                 } else {
@@ -214,13 +225,14 @@ export default {
         )
       }
     },
+    // 撤回
     recall() {
       if (this.muilteList.length === 0) {
         iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
         return
       }
-      recall(this.muilteList.map((item) => item.appId)).then((res) => {
-        if (res && res.code === '200') {
+      recall(this.muilteList.map((item) => item.id)).then((res) => {
+        if (res?.code === '200') {
           iMessage.success(res.desZh)
           this.getTableList()
         } else {

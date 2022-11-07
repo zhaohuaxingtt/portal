@@ -17,11 +17,11 @@
               )
             "
             :title="language('LK_LINGJIANHAO', '零件号')"
-            v-model="formData[item.props]"
+            v-model="searchForm[item.props]"
           ></iMultiLineInput>
-          <custom-select
+          <!-- <custom-select
             v-else-if="item.type == 'select'"
-            v-model="formData[item.props]"
+            v-model="searchForm[item.props]"
             :user-options="options[item.selectOption]"
             :multiple="item.multiple || false"
             style="width: 100%"
@@ -31,9 +31,25 @@
             display-member="label"
             value-member="value"
             value-key="value"
-          />
+          /> -->
+          <i-select
+            v-else-if="item.type == 'select'"
+            v-model="searchForm[item.props]"
+            :multiple="item.multiple || false"
+            style="width: 100%"
+            filterable
+            collapse-tags
+            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+          >
+            <el-option
+              :key="index"
+              v-for="(item, index) in options[item.selectOption]"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </i-select>
           <iDatePicker
-            v-model="formData[item.props]"
+            v-model="searchForm[item.props]"
             v-else-if="item.type == 'date'"
             valueFormat="yyyy-MM-dd"
             type="date"
@@ -41,7 +57,7 @@
           />
           <iInput
             v-else
-            v-model="formData[item.props]"
+            v-model="searchForm[item.props]"
             :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
           ></iInput>
         </iFormItem>
@@ -200,7 +216,7 @@ export default {
       },
       onlySeeMySelf: false,
       isShow: false, //零件号
-      formData: {
+      searchForm: {
         ruleNo: '',
         method: '',
         materialGroup: '',
@@ -210,14 +226,13 @@ export default {
         supplierName: '',
         deptCode: '',
         buyerName: '',
-        effectFlag: true,
+        effectFlag: '',
         startDate: '',
         endDate: ''
       }, //表单数据
       tableListData: [], //表格数据
       tableSetting,
       ruleQueryFormData,
-      getMtzMarketSourceListDrop: [],
       sendersCycle: [],
       selectedData: []
     }
@@ -229,14 +244,11 @@ export default {
         this.options,
         'deptList',
         res.data.map((item) => ({
-          value: item.departId,
+          value: item.departNameEn,
           label: item.departNameEn
         }))
       )
     }) //初始化科室
-    getMtzMarketSourceList().then((res) => {
-      this.getMtzMarketSourceListDrop = res.data
-    })
   },
   methods: {
     changeSwitch() {
@@ -261,15 +273,30 @@ export default {
       this.isShowSource = true
     },
     getList() {
-      let formData = JSON.parse(JSON.stringify(this.formData))
-      if (Array.isArray(formData.deptCode))
-        formData.deptCode = formData.deptCode.join(',')
-      getAppRecordByCondition({
-        onlySeeMySelf: this.onlySeeMySelf,
+      let searchForm = {}
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(this.searchForm).forEach((key) => {
+        if (Array.isArray(this.searchForm[key])) {
+          searchForm[key] = this.searchForm[key].join(',')
+        } else {
+          searchForm[key] = this.searchForm[key]
+        }
+      })
+      if (searchForm.startDate)
+        searchForm.startDate = window
+          .moment(searchForm.startDate)
+          .format('YYYY-01-01 00:00:00')
+      if (searchForm.endDate)
+        searchForm.endDate = window
+          .moment(searchForm.endDate)
+          .format('YYYY-01-01 23:59:59')
+      let params = {
+        ...searchForm,
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage,
-        ...formData
-      }).then((res) => {
+        onlySeeMySelf: this.onlySeeMySelf
+      }
+      getAppRecordByCondition(params).then((res) => {
         if (res?.code == '200') {
           this.tableListData = res.data.records
           this.page.totalCount = res.data.total || 0
@@ -285,7 +312,7 @@ export default {
     reset() {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.formData = {
+      this.searchForm = {
         ruleNo: '',
         method: '',
         materialGroup: '',
@@ -295,14 +322,14 @@ export default {
         supplierName: '',
         deptCode: '',
         buyerName: '',
-        effectFlag: true,
+        effectFlag: '',
         startDate: '',
         endDate: ''
       }
       this.getList()
     },
     handleExportAll() {
-      exportAppRecordByCondition(this.formData).then((res) => {
+      exportAppRecordByCondition(this.searchForm).then((res) => {
         let url = window.URL.createObjectURL(res)
         let link = document.createElement('a')
         link.style.display = 'none'

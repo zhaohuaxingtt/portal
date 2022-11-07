@@ -90,23 +90,9 @@
             range-separator="至"
             style="width: 100%"
             format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd hh:mm:ss"
           >
           </iDatePicker>
-        </iFormItem>
-        <iFormItem label="原材料牌号" class="searchFormItem">
-          <custom-select
-            v-model="searchForm.materialNames"
-            style="width: 100%"
-            :user-options="RawMaterialNos"
-            multiple
-            clearable
-            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-            display-member="codeMessage"
-            value-member="code"
-            value-key="code"
-          >
-          </custom-select>
         </iFormItem>
         <iFormItem label="零件号" class="searchFormItem">
           <input-custom
@@ -138,7 +124,6 @@ import {
   getLocationApplyFilter
 } from '@/api/mtz/annualGeneralBudget/chipChange'
 import { getDeptAndBuyerByMtzNomi } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
-import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import inputCustom from '@/components/inputCustom'
 export default {
@@ -157,6 +142,12 @@ export default {
   data() {
     return {
       searchForm: {
+        changeNos: [],
+        statusList: [],
+        linieIds: [],
+        deptCodes: [],
+        partNum: [],
+        makeType: '',
         approvalDateStart: '',
         approvalDateEnd: ''
       },
@@ -176,7 +167,6 @@ export default {
           message: 'MTZ'
         }
       ],
-      RawMaterialNos: [],
       locationApplyFilters: [],
       locationApplyFilterLinie: [],
       resolutionPassTime: [],
@@ -218,7 +208,6 @@ export default {
       console.log(e)
     },
     init() {
-      this.getRawMaterialNos()
       this.getDeptData()
       this.getLocationApplyStatus()
       this.getLocationApplyFilter()
@@ -296,18 +285,6 @@ export default {
       })
     },
 
-    //原材料编号
-    getRawMaterialNos(key) {
-      getRawMaterialNos({
-        keyWords: key || ''
-      }).then((res) => {
-        if (res.code === '200') {
-          this.RawMaterialNos = res.data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
     //申请单
     getLocationApplyFilter(key) {
       getLocationApplyFilter({
@@ -323,13 +300,14 @@ export default {
 
     handleSearchReset() {
       this.searchForm = {
-        mtzAppId: [],
-        appStatus: [],
-        buyerNameList: [],
-        buyerDeptId: [],
+        changeNos: [],
+        statusList: [],
+        linieIds: [],
+        deptCodes: [],
+        partNum: [],
         makeType: '',
-        materialCode: [],
-        assemblyPartnum: []
+        approvalDateStart: '',
+        approvalDateEnd: ''
       }
       this.resolutionPassTime = []
       this.$parent.$refs.theTable.getTableList()

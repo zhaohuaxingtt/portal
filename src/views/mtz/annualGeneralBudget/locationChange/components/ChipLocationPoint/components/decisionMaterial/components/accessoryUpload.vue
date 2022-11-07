@@ -17,28 +17,6 @@
             v-if="appStatus == '草稿' || appStatus == '未通过'"
             >{{ language('SHANCHU', '删除') }}</iButton
           >
-          <!-- <el-upload
-            v-if="appStatus == '草稿' || appStatus == '未通过'"
-            class="upload-demo"
-            style="margin-left: 10px"
-            multiple
-            accept=".xlsx"
-            :action="uploadUrl"
-            :show-file-list="false"
-            :on-success="uploadSuccess"
-            :on-progress="uploadProgress"
-            :data="uploadData"
-            :before-upload="beforeUpload"
-            :on-exceed="handleExceed"
-          >
-            <el-tooltip
-              content="文件大小不超过20MB"
-              placement="top"
-              effect="light"
-            >
-              <iButton>{{ language('SHANGCHUAN', '上传') }}</iButton>
-            </el-tooltip>
-          </el-upload> -->
           <uploadButton
             class="margin-left10"
             ref="uploadButtonAttachment"
@@ -208,35 +186,6 @@ export default {
         )
       })
     }
-    // 点击上传
-    // handleClickUpload() {
-    //   this.$refs.uploadButton.$refs.upload.$refs['upload-inner'].handleClick();
-    // },
-    // 上传文件
-    // handleUpload(content) {
-    // uploadAttach({multifile: content.file}).then(res=>{
-    //   console.log(res);
-    // })
-    // uploads({
-    //   multifile: content.file
-    // }).then(res => {
-    //   if(res && res.code == 200) {
-    //     const data = res.data[0]
-    //     fetchAppNomiDecisionDataSave({
-    //       mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-    //       fileId: data.id,
-    //       fileName: data.name,
-    //       fileSize: data.size,
-    //       fileUrl: data.path
-    //     }).then(res => {
-    //       if(res && res.code == 200){
-    //         iMessage.success(res.desZh)
-    //         this.handleSubmitSearch()
-    //       } else iMessage.error(res.desZh)
-    //     })
-    //   } else iMessage.error(res.desZh)
-    // })
-    // },
   }
 }
 </script>

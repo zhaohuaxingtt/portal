@@ -13,74 +13,10 @@ const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 const requestDown = download(process.env.VUE_APP_MTZ + '/web/mtz')
 const requestChip = axios(process.env.VUE_APP_MTZ + '/web/chip')
 
-// mtz变更(分页查询)
-export function pageList(params) {
-  return request({
-    url: '/mtzBasePriceChange/pageList',
-    method: 'POST',
-    data: params
-  })
-}
 //申请状态下拉
 export function getLocationApplyStatus(params) {
   return request({
     url: '/mtzBasePriceChange/getLocationApplyStatus',
-    method: 'POST',
-    data: params
-  })
-}
-//新建mtz变更列表查询
-export function mtzBasePricePageList(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageList',
-    method: 'POST',
-    data: params
-  })
-}
-// MTZ变更申请-原材料基价-下拉筛选-科室
-export function mtzBasePricePageFilterDept(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageFilterDept',
-    method: 'POST',
-    data: params
-  })
-}
-// MTZ变更申请-原材料基价-下拉筛选-原材料牌号
-export function mtzBasePricePageFilterMaterial(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageFilterMaterial',
-    method: 'POST',
-    data: params
-  })
-}
-// MTZ变更申请-原材料基价-下拉筛选-零件名
-export function mtzBasePricePageFilterPartName(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageFilterPartName',
-    method: 'POST',
-    data: params
-  })
-}
-//  MTZ变更申请-原材料基价-下拉筛选-补差周期
-export function mtzBasePricePageFilterPeriod(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageFilterPeriod',
-    method: 'POST',
-    data: params
-  })
-}
-//  MTZ变更申请-原材料基价-下拉筛选-规则编号
-export function mtzBasePricePageFilterRule(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageFilterRule',
-    method: 'POST',
-    data: params
-  })
-}
-//  MTZ变更申请-原材料基价-下拉筛选-市场价来源
-export function mtzBasePricePageFilterSource(params) {
-  return request({
-    url: '/mtzBasePriceChange/mtzBasePricePageFilterSource',
     method: 'POST',
     data: params
   })
@@ -246,21 +182,97 @@ export function getLocationApplyFilter(params) {
     data: params
   })
 }
-// MTZ变更申请-分页-下拉筛选-采购员
-export function getLocationApplyFilterLinie(params) {
-  return request({
-    url: '/mtzBasePriceChange/getLocationApplyFilterLinie',
+
+// ============================ chip ================================
+// ============================ chip ================================
+// ============================ chip ================================
+// ============================ chip ================================
+
+// 删除审批附件
+export function deleteFile(data) {
+  return requestChip({
+    url: '/change/approval/deleteFile',
     method: 'POST',
-    data: params
+    data
   })
 }
 
-// ============================ chip ================================
-// ============================ chip ================================
-// ============================ chip ================================
-// ============================ chip ================================
+// 查询审批附件
+export function getApprovalByChangeId(changeId) {
+  return requestChip({
+    url: `/change/approval/list/${changeId}`,
+    method: 'POST',
+  })
+}
 
-// 表格数据查询
+// 上传审批附件
+export function uploadApproval(changeId, fileId) {
+  return requestChip({
+    url: `/change/approval/upload/${changeId}/${fileId}`,
+    method: 'POST',
+  })
+}
+
+// 删除变更单
+export function deleteApproval(data) {
+  return requestChip({
+    url: `/change/delete`,
+    method: 'POST',
+    data
+  })
+}
+
+// 获取单个定点申请单
+export function getDetailById(id) {
+  return requestChip({
+    url: `/change/detail/${id}`,
+    method: 'POST',
+  })
+}
+
+// 新增变更规则
+export function addRule(data) {
+  return requestChip({
+    url: '/change/detail/add',
+    method: 'POST',
+    data
+  })
+}
+// 删除变更规则
+export function deleteDetail(data) {
+  return requestChip({
+    url: `/change/detail/delete`,
+    method: 'POST',
+    data
+  })
+}
+
+// 导出变更规则附件
+export function exportDetail(changeId) {
+  return requestChip({
+    url: `/change/detail/export/${changeId}`,
+    method: 'POST',
+    responseType: 'blob'
+  })
+}
+// 上传变更单附件
+export function uploadDetail(changeId, data) {
+  return requestChip({
+    url: `/change/detail/upload/${changeId}`,
+    method: 'POST',
+    data
+  })
+}
+// 新增变更申请单初始化
+export function initData(data) {
+  return requestChip({
+    url: '/change/init',
+    method: 'POST',
+    data
+  })
+}
+
+// 查询变更单
 export function getPageList(data) {
   return requestChip({
     url: '/change/page',
@@ -278,37 +290,19 @@ export function recall(data, params) {
     params,
   })
 }
-
-// 删除
-export function deleteData(data) {
+// 保存变更单
+export function save(data) {
   return requestChip({
-    url: '/change/delete',
-    method: 'POST',
-    data,
-  })
-}
-
-// 新建变更单规则沿用查询
-export function listByCondition(data) {
-  return requestChip({
-    url: '/change/record/listByCondition',
+    url: '/change/save',
     method: 'POST',
     data
   })
 }
-// 新增变更申请单初始化
-export function initData(data) {
+// 提价变更单
+export function submit(params) {
   return requestChip({
-    url: '/change/init',
+    url: '/change/submit',
     method: 'POST',
-    data
-  })
-}
-
-// 获取单个定点申请单
-export function getDetailById(id) {
-  return requestChip({
-    url: `/change/detail/${id}`,
-    method: 'POST',
+    params
   })
 }

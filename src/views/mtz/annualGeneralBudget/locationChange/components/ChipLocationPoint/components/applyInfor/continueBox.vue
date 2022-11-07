@@ -224,13 +224,23 @@ export default {
     },
     getTableList() {
       this.loading = true
-      let searchForm = JSON.parse(JSON.stringify(this.searchForm))
-      if (Array.isArray(searchForm.deptCode))
-        searchForm.deptCode = searchForm.deptCode.join(',')
-      if (Array.isArray(searchForm.effectFlag))
-        searchForm.effectFlag = searchForm.effectFlag.join(',')
-      if (Array.isArray(searchForm.method))
-        searchForm.method = searchForm.method.join(',')
+      let searchForm = {}
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(this.searchForm).forEach((key) => {
+        if (Array.isArray(this.searchForm[key])) {
+          searchForm[key] = this.searchForm[key].join(',')
+        } else {
+          searchForm[key] = this.searchForm[key]
+        }
+      })
+      if (searchForm.startDate)
+        searchForm.startDate = window
+          .moment(searchForm.startDate)
+          .format('YYYY-01-01 00:00:00')
+      if (searchForm.endDate)
+        searchForm.endDate = window
+          .moment(searchForm.endDate)
+          .format('YYYY-01-01 23:59:59')
       let params = {
         ...searchForm,
         pageSize: this.page.pageSize,
