@@ -95,7 +95,7 @@
             <el-option
               v-for="(item, index) in sealtypes"
               :value="item.docTypeNo"
-              :label="item.signName+'-'+item.companyCode"
+              :label="item.signName + '-' + item.companyCode"
               :key="index"
             ></el-option>
           </i-select>
@@ -415,10 +415,14 @@ export default {
       this.tabloading = true
       contractSigning(reqData).then((res) => {
         this.tabloading = false
-        if (res.code == 200) {
+        if (res?.code == 200) {
           this.loadContractList()
           this.$message.success(res.desZh)
-          window.open(res.data)
+          if (res?.data) {
+            window.open(res.data)
+          } else {
+            this.$message.warning('签署失败')
+          }
         } else {
           this.$message.error(res.desZh)
         }
