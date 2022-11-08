@@ -380,15 +380,15 @@ export default {
     }
   },
   watch: {
-    materialCodes: {
-      handler (val) {
-        this.$nextTick(() => {
-          this.$set(this.searchForm, "secondSupplierList", val)
-        });
-      },
-      deep: true,
-      immediate: true
-    },
+    // materialCodes: {
+    //   handler (val) {
+    //     this.$nextTick(() => {
+    //       this.$set(this.searchForm, "secondSupplierList", val)
+    //     });
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
     minDate (val) {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
@@ -532,13 +532,13 @@ export default {
         this.searchForm.compTimeStart = obj.balanceStartDate;
         this.searchForm.effPriceTo = obj.effPriceEndDate;
         this.searchForm.effPriceFrom = obj.effPriceStartDate;
-        this.searchForm.secondSupplierList = obj.ssupplierCodeList;
+        this.searchForm.secondSupplierList = obj.sSupplierCodeList;
         this.$set(this.searchForm,"materialKindList",obj.materialKindList)
         this.searchForm.sapOrderNo = obj.sapOrderNoList;
         this.searchForm.materialCode = obj.materialCodeList;
         this.searchForm.ekGroupList = obj.purchaseGroupList;
         this.searchForm.fpartNo = obj.fPartNoList;
-        this.searchForm.spartNo = obj.spartNoList;
+        this.searchForm.spartNo = obj.sPartNoList;
         this.searchForm.isEffAvg = obj.isEffAvg
 
         if(obj.effPriceStartDate && obj.effPriceEndDate){

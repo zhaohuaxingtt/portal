@@ -236,7 +236,44 @@ export const tableSetting = [
     align: 'center',
     i18n: '贵金属用量&基价单位',
     width: 200
-  }
+  },
+  {
+    prop: 'substrateExw',
+    label: '载体费用',
+    align: 'center',
+    i18n: '载体费用',
+    width: 150
+  },{
+    prop: 'substrateImpDuty',
+    label: '载体税率(%)',
+    align: 'center',
+    i18n: '载体税率(%)',
+    width: 150
+  },{
+    prop: 'substrateHandling',
+    label: '载体管理费率(%)',
+    align: 'center',
+    i18n: '载体管理费率(%)',
+    width: 150
+  },{
+    prop: 'pgmHandling',
+    label: '贵金属管理费率(%)',
+    align: 'center',
+    i18n: '贵金属管理费率(%)',
+    width: 150
+  },{
+    prop: 'manufacture',
+    label: '制造费用',
+    align: 'center',
+    i18n: '制造费用',
+    width: 150
+  },{
+    prop: 'transport',
+    label: '运输费用',
+    align: 'center',
+    i18n: '运输费用',
+    width: 150
+  },
 ]
 
 export const ruleQueryFormData = [

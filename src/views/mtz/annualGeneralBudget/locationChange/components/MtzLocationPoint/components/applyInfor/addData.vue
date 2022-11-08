@@ -285,7 +285,71 @@
                 :disabled="true"
                 />
             </iFormItem>
+
+
+
+            <!-- 载体费用 -->
+            <iFormItem prop="substrateExw">
+                <iLabel :label="$t('载体费用')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.substrateExw"
+                type="number"
+                placeholder="请输入载体费用"
+                :disabled="true"
+                />
+            </iFormItem>
+            <!-- 载体税率 -->
+            <iFormItem prop="substrateImpDuty">
+                <iLabel :label="$t('载体税率(%)')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.substrateImpDuty"
+                type="number"
+                placeholder="请输入载体税率(%)"
+                :disabled="true"
+                />
+            </iFormItem>
+            <!-- 载体管理费率 -->
+            <iFormItem prop="substrateHandling">
+                <iLabel :label="$t('载体管理费率(%)')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.substrateHandling"
+                type="number"
+                placeholder="请输入载体管理费率(%)"
+                :disabled="true"
+                />
+            </iFormItem>
+            <!-- 贵金属管理费率 -->
+            <iFormItem prop="pgmHandling">
+                <iLabel :label="$t('贵金属管理费率(%)')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.pgmHandling"
+                type="number"
+                placeholder="请输入贵金属管理费率(%)"
+                :disabled="true"
+                />
+            </iFormItem>
+            <!-- 制造费用 -->
+            <iFormItem prop="manufacture">
+                <iLabel :label="$t('制造费用')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.manufacture"
+                type="number"
+                placeholder="请输入制造费用"
+                :disabled="true"
+                />
+            </iFormItem>
+            <!-- 运输费用 -->
+            <iFormItem prop="transport">
+                <iLabel :label="$t('运输费用')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.transport"
+                type="number"
+                placeholder="请输入运输费用"
+                :disabled="true"
+                />
+            </iFormItem>
             </iFormGroup>
+        
         </div>
         <span slot="footer" class="dialog-footer">
             <i-button @click="handleSave" :disabled="saveLoading">保存</i-button>

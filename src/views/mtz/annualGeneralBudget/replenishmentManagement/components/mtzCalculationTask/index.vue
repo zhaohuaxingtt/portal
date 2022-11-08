@@ -207,7 +207,12 @@ export default {
             if(num == 2 || num == 3){
                 this.dialogVisible = true
                 const dataList = val;
+                
+                // const ttt = '{"balanceEndDate":"2021-12-31","balanceStartDate":"2021-01-01","deptId":50002000,"deptNameZh":"采购数字化","email":"TianYimeng@csvw.com","fPartNoList":["111","222"],"fSupplierId":50003027,"fSupplierName":"10097-上海汇众汽车制造有限公司","isDeptLead":false,"isEffAvg":false,"isManual":true,"loginUserNameZh":"田一萌","materialCodeList":["111"],"materialKindList":["02004"],"purchaseGroupList":["111"],"sPartNoList":["5QD505315D"],"sSupplierCodeList":["10488"],"sapOrderNoList":["111"],"userId":3000072,"userType":1}'
+
+                // dataList.params = ttt;
                 let obj = JSON.parse(val.params)
+                // let obj = JSON.parse(ttt)
                 this.date = [obj.balanceStartDate,obj.balanceEndDate]
                 dataList.echoShow = true;
                 this.selectData = [dataList];
