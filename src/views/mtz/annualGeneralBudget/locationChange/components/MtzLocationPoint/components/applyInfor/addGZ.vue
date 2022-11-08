@@ -299,6 +299,80 @@
                     </el-option>
                 </i-select>
             </iFormItem>
+
+
+
+
+
+
+            <!-- 载体费用 -->
+            <iFormItem prop="substrateExw">
+                <iLabel :label="$t('载体费用')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.substrateExw"
+                type="number"
+                placeholder="请输入载体费用"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <!-- 载体税率 -->
+            <iFormItem prop="substrateImpDuty">
+                <iLabel :label="$t('载体税率(%)')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.substrateImpDuty"
+                type="number"
+                placeholder="请输入载体税率(%)"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <!-- 载体管理费率 -->
+            <iFormItem prop="substrateHandling">
+                <iLabel :label="$t('载体管理费率(%)')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.substrateHandling"
+                type="number"
+                placeholder="请输入载体管理费率(%)"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <!-- 贵金属管理费率 -->
+            <iFormItem prop="pgmHandling">
+                <iLabel :label="$t('贵金属管理费率(%)')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.pgmHandling"
+                type="number"
+                placeholder="请输入贵金属管理费率(%)"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <!-- 制造费用 -->
+            <iFormItem prop="manufacture">
+                <iLabel :label="$t('制造费用')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.manufacture"
+                type="number"
+                placeholder="请输入制造费用"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <!-- 运输费用 -->
+            <iFormItem prop="transport">
+                <iLabel :label="$t('运输费用')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.transport"
+                type="number"
+                placeholder="请输入运输费用"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+
+
             </iFormGroup>
         </div>
         <span slot="footer" class="dialog-footer">
@@ -417,6 +491,13 @@ export default {components: {
             callback();
         }
     }
+    var validatePass5 = (rule, value, callback) => {
+        if(value>=0 && value<=100){
+            callback();
+        }else{
+            callback(new Error('百分比只能大于等于0且小于等于100'));
+        }
+    }
     return {
         thresholdCompensationLogic:[//阈值补差逻辑,全额补差/超额补差
             {
@@ -464,7 +545,14 @@ export default {components: {
             rhodiumPrice:'',
             rhodiumDosage:'',
             palladiumPrice:"",
-            preciousMetalDosageUnit:"OZ"
+            preciousMetalDosageUnit:"OZ",
+            substrateExw:"",
+            substrateImpDuty:"",
+            substrateHandling:"",
+            pgmHandling:"",
+            manufacture:"",
+            transport:"",
+
         },
         carlineNumber:[],
         rules: {
@@ -516,6 +604,25 @@ export default {components: {
             endDate: [
                 { required: true, message: '请选择', trigger: 'blur' },
                 { validator:validatePass4, trigger: 'blur' }
+            ],
+
+
+            ///////////////////
+            substrateExw: [{ required: true, message: '请输入', trigger: 'blur' }],
+            manufacture: [{ required: true, message: '请输入', trigger: 'blur' }],
+            transport: [{ required: true, message: '请输入', trigger: 'blur' }],
+
+            substrateImpDuty: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass5, trigger: 'blur' }
+            ],
+            substrateHandling: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass5, trigger: 'blur' }
+            ],
+            pgmHandling: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass5, trigger: 'blur' }
             ],
         },
         effectFlag:[
@@ -592,32 +699,26 @@ export default {components: {
             this.contractForm.palladiumDosage?this.contractForm.palladiumDosage:0,
             this.contractForm.rhodiumDosage?this.contractForm.rhodiumDosage:0,
         ];
-
-        var number = 0;
         
+        // 铂钯铑计算number
+        var number = 0;
         for(var i=0;i<jijia.length;i++){
             number = numAdd(number,(Mul(Number(jijia[i]),Number(yongliang[i]))));
         }
-        
-        this.contractForm.price = formatDecimal(number,6);
-
-        if(Number(number) == 0){
+        // Mul()//js小数点乘
+        // formatDecimal()//保留小数点后几位，超出截掉
+        // numAdd()/小数点加法运算
+        // PGM基价计算公式（新）=Substrate EXW*[1+Substrate Imp. Duty]*[1+Substrate Handling]+(Pt 基价*Pt用量+Pd基价*Pd用量+Rh基价*Rh用量)（1+PGM Handling）+Manufacture+Transport
+        const substrateImpDutyBaifenbi = (Number(this.contractForm.substrateImpDuty)/100).toFixed(2)
+        const substrateHandlingBaifenbi = (Number(this.contractForm.substrateHandling)/100).toFixed(2)
+        const pgmHandlingBaifenbi = (Number(this.contractForm.pgmHandling)/100).toFixed(2)
+        const priceNumber1 = Mul(Number(this.contractForm.substrateExw),Mul(numAdd(1,substrateImpDutyBaifenbi),numAdd(1,substrateHandlingBaifenbi)))
+        const priceNumber2 = numAdd(Mul(number,numAdd(1,pgmHandlingBaifenbi)),numAdd(Number(this.contractForm.manufacture),Number(this.contractForm.transport)))
+        const priceNumberAll = numAdd(priceNumber1,priceNumber2)
+        this.contractForm.price = formatDecimal(priceNumberAll,6);
+        if(Number(priceNumberAll) == 0){
             this.contractForm.price = "";
         }
-
-        
-        // if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
-        //     var number = 0;
-        //     // Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage))
-        //     // Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage))
-        //     // number = numAdd(,)
-        //     number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
-
-        //     this.contractForm.price = formatDecimal(number,6);
-
-        // }else{
-        //     this.contractForm.price = "";
-        // }
     },
     MaterialGrade(value){
         this.contractForm.priceMeasureUnit = "",
@@ -757,6 +858,12 @@ export default {components: {
         palladiumPrice:"",
         preciousMetalDosageUnit:"",
         tcCurrence:"RMB",
+        substrateExw:"",
+        substrateImpDuty:"",
+        substrateHandling:"",
+        pgmHandling:"",
+        manufacture:"",
+        transport:"",
       }
       this.carlineNumber = []
       this.metalType = false;
