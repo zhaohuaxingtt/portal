@@ -37,11 +37,13 @@ export default {
         {
           prop: 'partsId',
           label: '零件号',
+          i18n:"LK_LINGJIANHAO",
           width: 120
         },
         {
           prop: 'partsNameZh',
           label: '零件名称',
+          i18n:"LK_LINGJIANMINGCHENG",
           customRender: (h, scope, column, e) => {
             if (scope.row.partsNameZh) {
               return (
@@ -57,6 +59,7 @@ export default {
         },
         {
           prop: 'reductionPotential',
+          i18n:"LK_ZHANGFU",
           label: '增幅%'
         }
       ],

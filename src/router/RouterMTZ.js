@@ -45,7 +45,7 @@ export default [
                   title: '年度预算',
                   showFooter: true
                 },
-                component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/index.vue' ),
+                component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/index.vue'),
                 redirect: 'mtzAnnualBudget/classMaterial',
                 children: [
                   {
@@ -55,7 +55,7 @@ export default [
                       title: '材料中类',
                       showFooter: true
                     },
-                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/classmaterial/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/classmaterial/index'),
                   },
                   {
                     path: 'materialGroup',
@@ -64,7 +64,7 @@ export default [
                       title: '材料组',
                       showFooter: true
                     },
-                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/materialgroup/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/materialgroup/index'),
                   },
                   {
                     path: 'department',
@@ -73,7 +73,7 @@ export default [
                       title: '科室',
                       showFooter: true
                     },
-                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/department/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/department/index'),
                   },
                   {
                     path: 'brand',
@@ -82,7 +82,7 @@ export default [
                       title: '品牌',
                       showFooter: true
                     },
-                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/brand/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/brand/index'),
                   },
                   {
                     path: 'model',
@@ -91,7 +91,7 @@ export default [
                       title: '车型',
                       showFooter: true
                     },
-                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/model/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/model/index'),
                   }
                 ]
               },
@@ -102,9 +102,9 @@ export default [
                   title: '月度跟踪',
                   showFooter: true
                 },
-                component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/index.vue' ),
+                component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/index.vue'),
                 redirect: 'monthlyTracking/monthlyBudgetTracking',
-                children:[
+                children: [
                   {
                     path: 'monthlyBudgetTracking',
                     name: 'monthlyBudgetTracking',
@@ -112,7 +112,7 @@ export default [
                       title: '预算月度跟踪',
                       showFooter: true
                     },
-                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/monthlybudgettracking/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/monthlybudgettracking/index'),
 
                   },
                   {
@@ -122,7 +122,7 @@ export default [
                       title: '差异原因分析',
                       showFooter: true
                     },
-                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/causeanalysisdifference/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/causeanalysisdifference/index'),
 
                   },
                   {
@@ -132,7 +132,7 @@ export default [
                       title: '支付金额月度跟踪',
                       showFooter: true
                     },
-                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/monthlytrackingpayment/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/monthlytrackingpayment/index'),
 
                   },
                   {
@@ -142,7 +142,7 @@ export default [
                       title: '车型月度预算跟踪',
                       showFooter: true
                     },
-                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/modelmonthlybudgettracking/index' ),
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/modelmonthlybudgettracking/index'),
 
                   }
                 ]
@@ -251,6 +251,95 @@ export default [
                       )
                   }
                 ]
+              }, {
+                path: 'ChipLocationPoint',
+                name: 'ChipLocationPoint',
+                meta: {
+                  title: '芯片定点',
+                  showFooter: true, //隐藏
+                  activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/index.vue'
+                  ),
+                children: [
+                  {
+                    path: 'overflow',
+                    name: 'overflow',
+                    meta: {
+                      title: '芯片定点',
+                      showFooter: false //隐藏
+                    },
+                    redirect: 'overflow/applyInfor',
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/overflow'
+                      ),
+                    children: [
+                      {
+                        path: 'applyInfor',
+                        name: 'applyInfor',
+                        meta: {
+                          title: '芯片申请单详情',
+                          showFooter: false //隐藏
+                        },
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/applyInfor/index.vue'
+                          )
+                      },
+                      {
+                        path: 'approverRecord',
+                        name: 'approverRecord',
+                        meta: {
+                          title: '审批人&审批记录',
+                          showFooter: false //隐藏
+                        },
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/approverRecord'
+                          )
+                      },
+                      {
+                        path: 'decisionMaterial',
+                        name: 'decisionMaterial',
+                        meta: {
+                          title: '决策资料',
+                          showFooter: false //隐藏
+                        },
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/decisionMaterial'
+                          )
+                      }
+                    ]
+                  },
+                  {
+                    path: 'signPreview',
+                    name: 'signPreview',
+                    meta: {
+                      title: '流转预览',
+                      showFooter: false //隐藏
+                    },
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/decisionMaterial/components/signPreview'
+                      )
+                  },
+                  {
+                    path: 'signPreviewBefore',
+                    name: 'signPreviewBefore',
+                    meta: {
+                      title: '流转预览跳转',
+                      showFooter: false //隐藏
+                    },
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/decisionMaterial/components/signPreviewBefore'
+                      )
+                  }
+                ]
               },
               {
                 path: 'MtzLocationChange',
@@ -263,7 +352,19 @@ export default [
                   import(
                     '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/MtzLocationChangeOverview/index.vue'
                   )
-              }
+              },
+              {
+                path: 'ChipLocationChange',
+                name: 'ChipLocationChange',
+                meta: {
+                  title: '芯片变更',
+                  showFooter: true //隐藏
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipLocationChangeOverview/index.vue'
+                  )
+              },
             ]
           },
           {
@@ -286,6 +387,28 @@ export default [
             component: () =>
               import(
                 '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/MTZapplicationForm/index.vue'
+              )
+          },
+          {
+            path: 'newMtzLocationChange',
+            name: 'newMtzLocationChange',
+            meta: {
+              title: '新建芯片补差变更申请'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/newChipLocationChange/index.vue'
+              )
+          },
+          {
+            path: 'ChipApplicationForm',
+            name: 'ChipApplicationForm',
+            meta: {
+              title: '芯片补差申请单'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipApplicationForm/index.vue'
               )
           },
           {
@@ -467,6 +590,14 @@ export default [
             component: () => import('@/views/mtz/dataBase/rulesQuery/index.vue')
           },
           {
+            path: 'chipRulesQuery',
+            name: 'chipRulesQuery',
+            meta: {
+              title: '芯片补差规则查询'
+            },
+            component: () => import('@/views/mtz/dataBase/chipRulesQuery/index.vue')
+          },
+          {
             path: 'sourceMarketPrice',
             name: 'sourceMarketPrice',
             meta: {
@@ -483,6 +614,295 @@ export default [
             },
             component: () =>
               import('@/views/mtz/dataBase/marketPriceEnquiry/index.vue')
+          },
+          {
+            path: 'partsRelationship',
+            name: 'partsRelationship',
+            meta: {
+              title: '一二次件零件关系'
+            },
+            component: () =>
+              import('@/views/mtz/dataBase/partsRelationship/index.vue')
+          }
+        ]
+      }
+    ]
+  }, {
+    path: '/chip',
+    name: 'chip',
+    redirect: 'chip/annualGeneralBudget',
+    meta: {
+      activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+    },
+    component: () => import('@/views/mtz/router.vue'),
+    children: [
+      {
+        path: 'annualGeneralBudget',
+        name: 'annualGeneralBudget',
+        component: () => import('@/views/mtz/annualGeneralBudget/index.vue'),
+        meta: {
+          activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+        },
+        redirect: 'annualGeneralBudget/annualBudget',
+        children: [
+          {
+            path: 'locationChange',
+            name: 'locationChange',
+            meta: {
+              title: '定点与变更',
+              activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/index.vue'
+              ),
+            redirect: 'locationChange/MtzLocationPoint',
+            children: [
+              {
+                path: 'ChipLocationPoint',
+                name: 'ChipLocationPoint',
+                meta: {
+                  title: '芯片定点',
+                  showFooter: true, //隐藏
+                  activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/index.vue'
+                  ),
+                children: [
+                  {
+                    path: 'overflow',
+                    name: 'overflow',
+                    meta: {
+                      title: '芯片定点',
+                      showFooter: false //隐藏
+                    },
+                    redirect: 'overflow/applyInfor',
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/overflow'
+                      ),
+                    children: [
+                      {
+                        path: 'applyInfor',
+                        name: 'applyInfor',
+                        meta: {
+                          title: '芯片申请单详情',
+                          showFooter: false //隐藏
+                        },
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/applyInfor/index.vue'
+                          )
+                      },
+                      {
+                        path: 'approverRecord',
+                        name: 'approverRecord',
+                        meta: {
+                          title: '审批人&审批记录',
+                          showFooter: false //隐藏
+                        },
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/approverRecord'
+                          )
+                      },
+                      {
+                        path: 'decisionMaterial',
+                        name: 'decisionMaterial',
+                        meta: {
+                          title: '决策资料',
+                          showFooter: false //隐藏
+                        },
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/decisionMaterial'
+                          )
+                      }
+                    ]
+                  },
+                  {
+                    path: 'signPreview',
+                    name: 'signPreview',
+                    meta: {
+                      title: '流转预览',
+                      showFooter: false //隐藏
+                    },
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/decisionMaterial/components/signPreview'
+                      )
+                  },
+                  {
+                    path: 'signPreviewBefore',
+                    name: 'signPreviewBefore',
+                    meta: {
+                      title: '流转预览跳转',
+                      showFooter: false //隐藏
+                    },
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationPoint/components/decisionMaterial/components/signPreviewBefore'
+                      )
+                  }
+                ]
+              },
+              {
+                path: 'ChipLocationChange',
+                name: 'ChipLocationChange',
+                meta: {
+                  title: '芯片变更',
+                  showFooter: true //隐藏
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipLocationChangeOverview/index.vue'
+                  )
+              },
+            ]
+          },
+          {
+            path: 'newMtzLocationChange',
+            name: 'newMtzLocationChange',
+            meta: {
+              title: '新建芯片补差变更申请'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/newChipLocationChange/index.vue'
+              )
+          },
+          {
+            path: 'ChipApplicationForm',
+            name: 'ChipApplicationForm',
+            meta: {
+              title: '芯片补差申请单'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipApplicationForm/index.vue'
+              )
+          },
+        ]
+      },
+      {
+        path: 'annualBudgetEdit',
+        name: 'annualBudgetEdit',
+        redirect: 'annualBudgetEdit/buyerOverview',
+        component: () => import('@/views/mtz/annualBudgetEdit/index.vue'),
+        meta: {
+          title: '年度预算编辑'
+        },
+        children: [
+          {
+            path: 'buyerOverview',
+            name: 'buyerOverview',
+            meta: {
+              title: '采购员预算总览'
+            },
+            component: () =>
+              import('@/views/mtz/annualBudgetEdit/buyerOverview/index.vue')
+          },
+          {
+            path: 'officeOverview',
+            name: 'officeOverview',
+            meta: {
+              title: '科室预算总览'
+            },
+            component: () =>
+              import('@/views/mtz/annualBudgetEdit/officeOverview/index.vue')
+          },
+          {
+            path: 'brandOverview',
+            name: 'brandOverview',
+            meta: {
+              title: '品牌预算总览'
+            },
+            component: () =>
+              import('@/views/mtz/annualBudgetEdit/brandOverview/index.vue')
+          },
+          {
+            path: 'otherOverview',
+            name: 'otherOverview',
+            meta: {
+              title: '编辑其他'
+            },
+            component: () =>
+              import('@/views/mtz/annualBudgetEdit/otherOverview/index.vue')
+          }
+        ]
+      },
+      {
+        path: 'dataBase',
+        name: 'dataBase',
+        meta: {
+          title: '数据库'
+        },
+        component: () => import('@/views/mtz/dataBase/index.vue'),
+        redirect: 'dataBase/partsQuery',
+        children: [
+          {
+            path: 'partsQuery',
+            name: 'partsQuery',
+            meta: {
+              title: 'MTZ零件查询'
+            },
+            component: () => import('@/views/mtz/dataBase/partsQuery/index.vue')
+          },
+          {
+            path: 'preciousMetalMarketPriceInquiry',
+            name: 'preciousMetalMarketPriceInquiry',
+            meta: {
+              title: '贵金属市场价查询'
+            },
+            component: () =>
+              import(
+                '@/views/mtz/dataBase/preciousMetalMarketPriceInquiry/index.vue'
+              )
+          },
+          {
+            path: 'rulesQuery',
+            name: 'rulesQuery',
+            meta: {
+              title: 'mtz规则查询'
+            },
+            component: () => import('@/views/mtz/dataBase/rulesQuery/index.vue')
+          },
+          {
+            path: 'chipRulesQuery',
+            name: 'chipRulesQuery',
+            meta: {
+              title: '芯片补差规则查询'
+            },
+            component: () => import('@/views/mtz/dataBase/chipRulesQuery/index.vue')
+          },
+          {
+            path: 'sourceMarketPrice',
+            name: 'sourceMarketPrice',
+            meta: {
+              title: 'mtz市场价来源'
+            },
+            component: () =>
+              import('@/views/mtz/dataBase/sourceMarketPrice/index.vue')
+          },
+          {
+            path: 'marketPriceEnquiry',
+            name: 'marketPriceEnquiry',
+            meta: {
+              title: 'mtz市场价查询'
+            },
+            component: () =>
+              import('@/views/mtz/dataBase/marketPriceEnquiry/index.vue')
+          },
+          {
+            path: 'partsRelationship',
+            name: 'partsRelationship',
+            meta: {
+              title: '一二次件零件关系'
+            },
+            component: () =>
+              import('@/views/mtz/dataBase/partsRelationship/index.vue')
           }
         ]
       }
