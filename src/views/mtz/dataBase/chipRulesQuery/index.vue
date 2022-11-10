@@ -1,54 +1,14 @@
 <template>
-  <div class="mtz-select">
-    <i-search @sure="sure" @reset="reset">
-      <iFormGroup>
-        <iFormItem
-          v-for="(item, index) in ruleQueryFormData"
-          :key="index"
-          :label="language(item.key, item.name)"
-          class="SearchOption"
-        >
-          <iMultiLineInput
-            v-if="item.type == 'iMultiLineInput'"
-            :placeholder="
-              language(
-                'partsprocure.PARTSPROCURE',
-                '请输入零件号，多个逗号分隔'
-              )
-            "
-            :title="language('LK_LINGJIANHAO', '零件号')"
-            v-model="formData[item.props]"
-          ></iMultiLineInput>
-          <custom-select
-            v-else-if="item.type == 'select'"
-            v-model="formData[item.props]"
-            :user-options="options[item.selectOption]"
-            :multiple="item.multiple || false"
-            style="width: 100%"
-            filterable
-            collapse-tags
-            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-            display-member="label"
-            value-member="value"
-            value-key="value"
-          />
-          <iDatePicker
-            v-model="formData[item.props]"
-            v-else-if="item.type == 'date'"
-            valueFormat="yyyy-MM-dd"
-            type="date"
-            :placeholder="language('QINGXUANZE', '请选择')"
-          />
-          <iInput
-            v-else
-            v-model="formData[item.props]"
-            :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-          ></iInput>
-        </iFormItem>
-      </iFormGroup>
-    </i-search>
+  <div>
+    <search
+      @sure="sure"
+      @reset="reset"
+      :searchFormData="ruleQueryFormData"
+      :searchForm="searchForm"
+      :options="options"
+    />
     <iCard class="OrganizationTable">
-      <div class="export">
+      <div class="table-header">
         <el-switch
           v-model="onlySeeMySelf"
           @change="changeSwitch"
@@ -78,7 +38,6 @@
       <div>
         <iTableCustom
           ref="testTable"
-          class="customClass"
           :loading="tableLoading"
           :data="tableListData"
           :columns="tableSetting"
@@ -107,36 +66,11 @@
 </template>
 
 <script>
-import {
-  iSearch,
-  iInput,
-  iSelect,
-  iPage,
-  iCard,
-  iButton,
-  iPagination,
-  iFormItem,
-  iFormGroup,
-  iDialog,
-  iDatePicker,
-  iMessage,
-  icon,
-  iMultiLineInput
-  // iTableCustom
-} from 'rise'
-import iTableCustom from '@/components/iTableCustom'
+import { iCard, iButton, iPagination, iMessage, iTableCustom } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, ruleQueryFormData } from './components/data'
-import Detail from './components/detail'
-import {
-  rulePage,
-  getDeptData,
-  getMtzMarketSourceList,
-  exportRuleData,
-  ruleEntityEdit,
-  queryDeptSectionForRule
-} from '@/api/mtz/database/partsQuery'
-import { selectDictByKeys } from '@/api/dictionary'
+import search from './components/search'
+import { queryDeptSectionForRule } from '@/api/mtz/database/partsQuery'
 import buttonTableSetting from '@/components/buttonTableSetting'
 
 import {
@@ -146,22 +80,12 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   components: {
-    iSearch,
-    iInput,
-    icon,
-    iSelect,
-    iPage,
+    search,
     iCard,
     iButton,
     iTableCustom,
     iPagination,
-    iFormItem,
-    iFormGroup,
-    iDialog,
-    iDatePicker,
-    Detail,
-    buttonTableSetting,
-    iMultiLineInput
+    buttonTableSetting
   },
   mixins: [pageMixins],
   data() {
@@ -200,7 +124,7 @@ export default {
       },
       onlySeeMySelf: false,
       isShow: false, //零件号
-      formData: {
+      searchForm: {
         ruleNo: '',
         method: '',
         materialGroup: '',
@@ -210,14 +134,13 @@ export default {
         supplierName: '',
         deptCode: '',
         buyerName: '',
-        effectFlag: true,
+        effectFlag: '',
         startDate: '',
         endDate: ''
       }, //表单数据
       tableListData: [], //表格数据
       tableSetting,
       ruleQueryFormData,
-      getMtzMarketSourceListDrop: [],
       sendersCycle: [],
       selectedData: []
     }
@@ -229,14 +152,11 @@ export default {
         this.options,
         'deptList',
         res.data.map((item) => ({
-          value: item.departId,
+          value: item.departNameEn,
           label: item.departNameEn
         }))
       )
     }) //初始化科室
-    getMtzMarketSourceList().then((res) => {
-      this.getMtzMarketSourceListDrop = res.data
-    })
   },
   methods: {
     changeSwitch() {
@@ -261,15 +181,30 @@ export default {
       this.isShowSource = true
     },
     getList() {
-      let formData = JSON.parse(JSON.stringify(this.formData))
-      if (Array.isArray(formData.deptCode))
-        formData.deptCode = formData.deptCode.join(',')
-      getAppRecordByCondition({
-        onlySeeMySelf: this.onlySeeMySelf,
+      let searchForm = {}
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(this.searchForm).forEach((key) => {
+        if (Array.isArray(this.searchForm[key])) {
+          searchForm[key] = this.searchForm[key].join(',')
+        } else {
+          searchForm[key] = this.searchForm[key]
+        }
+      })
+      if (searchForm.startDate)
+        searchForm.startDate = window
+          .moment(searchForm.startDate)
+          .format('YYYY-MM-DD 00:00:00')
+      if (searchForm.endDate)
+        searchForm.endDate = window
+          .moment(searchForm.endDate)
+          .format('YYYY-MM-DD 23:59:59')
+      let params = {
+        ...searchForm,
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage,
-        ...formData
-      }).then((res) => {
+        onlySeeMySelf: this.onlySeeMySelf
+      }
+      getAppRecordByCondition(params).then((res) => {
         if (res?.code == '200') {
           this.tableListData = res.data.records
           this.page.totalCount = res.data.total || 0
@@ -285,7 +220,7 @@ export default {
     reset() {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.formData = {
+      this.searchForm = {
         ruleNo: '',
         method: '',
         materialGroup: '',
@@ -295,14 +230,14 @@ export default {
         supplierName: '',
         deptCode: '',
         buyerName: '',
-        effectFlag: true,
+        effectFlag: '',
         startDate: '',
         endDate: ''
       }
       this.getList()
     },
     handleExportAll() {
-      exportAppRecordByCondition(this.formData).then((res) => {
+      exportAppRecordByCondition(this.searchForm).then((res) => {
         let url = window.URL.createObjectURL(res)
         let link = document.createElement('a')
         link.style.display = 'none'
@@ -326,14 +261,11 @@ export default {
           if (res.result) {
             this.getList()
             iMessage.success(res.desZh)
-            // this.$message(res.desZh)
           } else {
-            // this.$message({type:'warning',message:res.desZh})
             iMessage.error(res.desZh)
           }
         })
       } else {
-        // this.$message({type:'warning',message:"请至少勾选一条数据"})
         iMessage.warn(
           this.language('QINGZHISHAOXUANZHONGYITIAOSHUJU', '请至少选中一条数据')
         )
@@ -344,13 +276,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.routerpage {
-  overflow: hidden;
-}
 .OrganizationTable {
   margin-top: 20px;
 }
-.export {
+.table-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -360,32 +289,5 @@ export default {
     font-weight: bold;
     color: #000;
   }
-  .export_title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .tt {
-    margin-right: 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-}
-// .SearchOption {
-//   margin-bottom: 20px !important;
-// }
-.open-link-text {
-  text-decoration: underline;
-}
-.mtz-select {
-  margin-top: 25px;
-}
-::v-deep.customClass {
-  .open-link-text {
-    text-decoration: underline;
-  }
-}
-::v-deep .el-form-item {
-  flex-direction: column;
 }
 </style>

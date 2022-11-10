@@ -388,3 +388,15 @@ export const tableTitle = [
     width: 150,
   }
 ]
+
+// 规则表格编辑校验
+export const formRulesGZ = {
+  partNum: [{ required: true, message: '请输入', trigger: 'blur' }],
+  method: [{ required: true, message: '请选择', trigger: 'change' }],
+  startDate: [{ required: true, message: '请选择', trigger: 'change' }], //开始日期
+  endDate: [{ required: true, message: '请选择', trigger: 'change' }], //结束日期
+  supplier: [{ required: true, message: '请输入', trigger: 'blur' }],//供应商
+  currency: [{ required: true, message: '请选择', trigger: 'change' }], //货币
+  exchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }], //汇率
+  amount: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
+}

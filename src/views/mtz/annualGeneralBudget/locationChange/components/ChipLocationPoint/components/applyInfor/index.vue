@@ -277,7 +277,7 @@ export default {
           this.language('SHENQINGDANMINGBUNENGWEIKONG', '申请单名不能为空')
         )
       }
-      if (this.inforData.type == 'SIGN' && this.numIsNomi !== 0) {
+      if (this.inforData.workflowType == 'SIGN' && this.numIsNomi !== 0) {
         //流转
         return iMessage.error(
           this.language(

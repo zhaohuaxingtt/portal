@@ -852,6 +852,15 @@ export function exportAppRecordByCondition(data) {
   })
 }
 
+// 获取定点科室和采购员数据
+export function getDeptAndBuyerByChipNom(params) {
+  return requestChip({
+    url: "/getDeptAndBuyerByChipNomi",
+    method: "POST",
+    params
+  })
+}
+
 // 通过供应商SAPCode,查询供应商信息
 export function getSupplierInfoBySap(data) {
   return supplier({

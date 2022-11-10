@@ -8,11 +8,6 @@
 -->
 <template>
   <div style="padding-bottom: 30px; position: relative">
-    <div class="download_btn">
-      <iButton v-if="!RsObject" @click="downPdf">{{
-        language('DAOCHUPDF', '导出PDF')
-      }}</iButton>
-    </div>
     <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv" id="qrCodeDiv" style="position: relative">
       <!-- 水印 class="content_dialog" -->
@@ -26,23 +21,6 @@
       <iCard class="upload_hr" ref="tabsBoxTitle" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
-          <!-- <span class="buttonBox" style="margin-top: -10px">
-            <iButton
-              v-if="
-                RsObject &&
-                formData.type == 'SIGN' &&
-                !(
-                  formData.statusDesc == '流转完成' ||
-                  formData.statusDesc == '定点' ||
-                  formData.statusDesc == '未通过'
-                )
-              "
-              @click="handleToSignPreview"
-              >{{
-                language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
-              }}</iButton
-            >
-          </span> -->
           <div class="tabs_box_right">
             <template v-if="meetingType">
               <div class="big_text">
@@ -212,19 +190,7 @@
           <iCard ref="remark-card" class="margin-top20 computed">
             <div slot="header" ref="remark-title" class="headBox">
               <p class="headTitle">{{ language('BEIZHU', '备注') }}-Remarks</p>
-              <span class="buttonBox">
-                <iButton
-                  v-if="
-                    RsObject &&
-                    (formData.statusDesc == '草稿' ||
-                      formData.statusDesc == '未通过') &&
-                    meetingNumber == 0
-                  "
-                  @click="handleClickSave($event)"
-                  v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN"
-                  >{{ language('BAOCUN', '保存') }}</iButton
-                >
-              </span>
+              <span class="buttonBox"> </span>
             </div>
             <div class="beizhu-value" ref="remark">
               <p
@@ -307,28 +273,6 @@
           <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
             <div slot="header" class="headBox">
               <p class="headTitle">{{ title }}</p>
-              <!-- <span
-                class="buttonBox"
-                style="margin-top: -10px"
-                v-if="!editMode"
-              >
-                <iButton
-                  v-if="
-                    RsObject &&
-                    formData.flowTypeName == '流转' &&
-                    !(
-                      formData.statusDesc == '流转完成' ||
-                      formData.statusDesc == '定点' ||
-                      formData.statusDesc == '未通过'
-                    )
-                  "
-                  @click="handleToSignPreview"
-                  >{{
-                    language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
-                  }}</iButton
-                >
-              </span> -->
-              <!-- <div class="tabs_box_right"> -->
               <div class="tabs_box_right" v-if="meetingType">
                 <div class="big_text">
                   <span class="samll_val"
@@ -336,17 +280,14 @@
                   >
                 </div>
                 <div class="small_text">
-                  <!-- <span>{{language("SHENQINGRIQI","申请日期")}}：</span> -->
                   <span>Application date：</span>
                   <span class="samll_val">{{ formData.createDate }}</span>
                 </div>
                 <div class="small_text">
-                  <!-- <span>{{language("KESHI","科室")}}：</span> -->
                   <span>Commodity：</span>
                   <span class="samll_val">{{ formData.depteName }}</span>
                 </div>
                 <div>
-                  <!-- <span>{{language("CAIGOUYUAN","采购员")}}：</span> -->
                   <span>Buyer：</span>
                   <span class="samll_val">{{ formData.linieName }}</span>
                 </div>
@@ -442,19 +383,7 @@
                 <p class="headTitle">
                   {{ language('BEIZHU', '备注') }}-Remarks
                 </p>
-                <span class="buttonBox">
-                  <iButton
-                    v-if="
-                      RsObject &&
-                      (formData.statusDesc == '草稿' ||
-                        formData.statusDesc == '未通过') &&
-                      meetingNumber == 0
-                    "
-                    @click="handleClickSave($event)"
-                    v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN"
-                    >{{ language('BAOCUN', '保存') }}</iButton
-                  >
-                </span>
+                <span class="buttonBox"> </span>
               </div>
               <div class="beizhu-value">
                 <p class="remarkItem" v-for="(item, i) in remark" :key="i">
@@ -669,7 +598,7 @@ export default {
         this.$set(this, 'formData', val.chipAppBase || {})
         this.$set(this, 'ruleTableListData', val.chipDetailList || [])
         if (
-          this.formData.type == 'SIGN' &&
+          this.formData.workflowType == 'SIGN' &&
           !(
             this.formData.statusDesc == '流转完成' ||
             this.formData.statusDesc == '定点' ||
@@ -705,7 +634,7 @@ export default {
   computed: {
     title() {
       let res = '---'
-      switch (this.baseData?.chipAppBase?.type) {
+      switch (this.baseData?.chipAppBase?.workflowType) {
         case 'MEETING':
           // 上会
           res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
@@ -724,7 +653,10 @@ export default {
       return res
     },
     isMeeting() {
-      return this.formData.type == 'MEETING' || this.formData.type == 'SIGN'
+      return (
+        this.formData.workflowType == 'MEETING' ||
+        this.formData.workflowType == 'SIGN'
+      )
     },
 
     getRemarkAll() {
@@ -788,6 +720,7 @@ export default {
       }
       this.remarkList = remarkList
     },
+    // 在外层overflow中调用
     downPdf() {
       this.percentage = '0'
       var name = ''
