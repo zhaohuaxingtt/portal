@@ -24,15 +24,6 @@
                    v-show="!addFlag">{{language('DAOCHU', '导出')}}</iButton> -->
       </div>
     </template>
-    <!-- <iTableCustom
-      :data="tableList"
-      :columns="tableTitle"
-      :loading="tableLoading"
-      index
-      @go-detail="goDetail"
-      @handle-selection-change="handleSelectionChange"
-    >
-    </iTableCustom> -->
 
     <tableList
       class="margin-top20"
@@ -69,7 +60,7 @@ import {
   initData,
   listByCondition
 } from '@/api/mtz/annualGeneralBudget/chipChange.js'
-
+import { getAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle } from './data'
 export default {
@@ -120,13 +111,25 @@ export default {
     },
     getTableList() {
       this.tableLoading = true
+      let searchForm = {}
+      let searchForm_ = JSON.parse(
+        JSON.stringify(this.$parent.$refs.theSearch.searchForm)
+      )
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(searchForm_).forEach((key) => {
+        if (Array.isArray(searchForm_[key])) {
+          searchForm[key] = searchForm_[key].join(',')
+        } else {
+          searchForm[key] = searchForm_[key]
+        }
+      })
       let params = {
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
         onlySeeMySelf: this.onlySeeMySelf,
-        ...this.$parent.$refs.theSearch.searchForm
+        ...searchForm
       }
-      listByCondition(params).then((res) => {
+      getAppRecordByCondition(params).then((res) => {
         if (res && res.code === '200') {
           this.tableList = res.data.records
           this.page.currPage = res.pageNum
@@ -140,13 +143,13 @@ export default {
       this.muilteList = val
     },
     handleSure() {
-      initData(this.muilteList).then((res) => {
+      initData(this.muilteList.map((item) => item.id)).then((res) => {
         if (res && res.code === '200') {
           let data = res.data
           let routerPath = this.$router.resolve({
             path: '/mtz/annualGeneralBudget/ChipApplicationForm',
             query: {
-              appId: data
+              changeId: data
             }
           })
           this.$store.dispatch('setMtzChangeBtn', false)

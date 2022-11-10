@@ -18,14 +18,14 @@
             <span>申请单类型：</span>
             <iSelect
               :disabled="!canEdit"
-              v-model="formInfo.type"
+              v-model="formInfo.workflowType"
               :placeholder="language('QINGXUANZE', '请选择')"
               @change="saveEdit($event)"
             >
               <el-option
                 :value="item.code"
                 :label="item.message"
-                v-for="item in getFlowTypeList"
+                v-for="item in flowTypeList"
                 :key="item.code"
               ></el-option>
             </iSelect>
@@ -102,13 +102,24 @@
       width="99%"
       @close="closeRS"
     >
-      <RsPdf
+      <template slot="title">
+        <div class="title-box">
+          <span class="el-dialog__title">
+            {{ language('DAOCHURS', '导出RS') }}
+          </span>
+          <iButton class="export" @click="downPdf">{{
+            language('DAOCHUPDF', '导出PDF')
+          }}</iButton>
+        </div>
+      </template>
+      <mtz
         @close="closeType"
         :RsType="downType"
         :appStatus="appStatus"
         key="rsPdf"
+        ref="rsPdf"
         :baseData="baseData"
-      ></RsPdf>
+      ></mtz>
     </iDialog>
     <iDialog
       :title="language('芯片补差新增', '芯片补差新增')"
@@ -134,7 +145,7 @@
 import { iButton, iDialog, iMessage, iMessageBox, iSelect } from 'rise'
 import { topImgList } from './data'
 import subSelect from './subSelect'
-import RsPdf from './decisionMaterial/index'
+import mtz from './decisionMaterial/components/mtz'
 import MtzAdd from './MtzAdd'
 import store from '@/store'
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
@@ -155,7 +166,7 @@ export default {
     iButton,
     iDialog,
     subSelect,
-    RsPdf,
+    mtz,
     MtzAdd,
     iSelect
   },
@@ -180,7 +191,7 @@ export default {
       appStatus: '',
       stepNum: 1,
       meetingNumber: Number(this.$route.query.meeting) || 0,
-      getFlowTypeList: [],
+      flowTypeList: [],
       formInfo: {},
       pageTitle: {
         title: ''
@@ -213,7 +224,7 @@ export default {
       this.beforeReturn = true
     }
     getFlowTypeList({}).then((res) => {
-      this.getFlowTypeList = res.data
+      this.flowTypeList = res.data
     })
   },
   methods: {
@@ -273,6 +284,7 @@ export default {
         }
       })
     },
+    // 申请单状态
     async getLocationApplyStatus() {
       getLocationApplyStatus({}).then((res) => {
         this.statusList = res.data
@@ -372,17 +384,17 @@ export default {
           this.language('芯片补差规则不能为空', '芯片补差规则不能为空')
         )
       }
-      if (this.baseData.chipAppBase.type !== 'FILING') {
+      if (this.baseData.chipAppBase.workflowType !== 'FILING') {
         //上会/流转
         if (this.baseData.approveList.length < 1) {
           iMessage.error(
             this.language('ZANWUSHENPIRENXINXI', '暂无审批人信息！')
           )
         } else {
-          if (this.baseData.chipAppBase.type === 'MEETING') {
+          if (this.baseData.chipAppBase.workflowType === 'MEETING') {
             //上会
             this.mtzAddShow = true
-          } else if (this.baseData.chipAppBase.type === 'SIGN') {
+          } else if (this.baseData.chipAppBase.workflowType === 'SIGN') {
             //流转
             this.submitRequest()
           }
@@ -398,25 +410,6 @@ export default {
             iMessage.error(res.desZh)
           }
         })
-        // //备案
-        // submitRequest({
-        //   pageNo: 1,
-        //   pageSize: 10,
-        //   appId: this.$route.query.appId
-        // }).then((res) => {
-        //   if (res && res?.code == 200) {
-        //     if (res.data.length < 1) {
-        //       return iMessage.error(
-        //         this.language(
-        //           'SQDLXWBASTJSJCZLZDJCFJBNWK',
-        //           '申请单类型为备案时，提交时决策资料中的附件不能为空！'
-        //         )
-        //       )
-        //     } else {
-        //       this.submitRequest()
-        //     }
-        //   } else iMessage.error(res.desZh)
-        // })
       }
     },
     submitRequest() {
@@ -425,22 +418,18 @@ export default {
         Tips: this.language('SHIROUQUERENTIJIAO', '是否确认提交？'),
         cancelButtonText: this.language('QUXIAO', '取消'),
         confirmButtonText: this.language('QUEREN', '确认')
+      }).then(() => {
+        submit({
+          appId: this.$route.query.appId
+        }).then((res) => {
+          if (res.result && res.code == 200) {
+            iMessage.success(this.language(res.desEn, res.desZh))
+            this.getAppById()
+          } else {
+            iMessage.error(res.desZh)
+          }
+        })
       })
-        .then(() => {
-          submit({
-            appId: this.$route.query.appId
-          }).then((res) => {
-            if (res.result && res.code == 200) {
-              iMessage.success(this.language(res.desEn, res.desZh))
-              this.getAppById()
-            } else {
-              iMessage.error(res.desZh)
-            }
-          })
-        })
-        .catch((err) => {
-          // console.log(err)
-        })
     },
     // 点击步骤
     handleClickStep(data) {
@@ -504,6 +493,10 @@ export default {
     },
     closeTyoe() {
       this.beforeReturn = false
+    },
+    // 导出PDF
+    downPdf() {
+      this.$refs.rsPdf.downPdf()
     }
   },
   destroyed() {
@@ -513,6 +506,13 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.title-box {
+  display: flex;
+  justify-content: space-between;
+  .export {
+    margin-right: 20px;
+  }
+}
 .title_name {
   font-size: 20px;
   font-weight: bold;

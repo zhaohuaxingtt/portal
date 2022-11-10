@@ -7,124 +7,255 @@
  * @FilePath: \front-portal-new\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\preview.vue
 -->
 <template>
-  <div :class="ifSelf?'page':''">
+  <div>
     <iCard class="margin-bottom20">
-      <el-form :inline="true"
-               ref="baseInfoForm"
-               :model="formInline"
-               :rules="rules"
-               class="demo-form-inline"
-               label-position="left">
+      <el-form
+        :inline="true"
+        :model="formInline"
+        label-position="left"
+        class="baseInfoForm"
+      >
         <div class="baseInformation">
-          <el-form-item label="申请单名"
-                        class="formItem"
-                        prop="appName">
-            <el-input :disabled="true"
-                      v-model="formInline.appName"></el-input>
-          </el-form-item>
-          <el-form-item label="申请单Id"
-                        class="formItem">
-            <el-input v-model="formInline.mtzAppId"
-                      :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="申请单类型"
-                        class="formItem">
-            <el-input :disabled="true"
-                      v-model="formInline.appType"></el-input>
-          </el-form-item>
-          <el-form-item label="申请状态"
-                        class="formItem">
-            <el-input :disabled="true"
-                      v-model="formInline.appStatus"></el-input>
-          </el-form-item>
+          <iFormItem label="申请单名" class="formItem" prop="appName">
+            <el-input
+              :disabled="!canEdit ? true : false"
+              v-model="formInline.appName"
+            ></el-input>
+          </iFormItem>
+          <iFormItem label="申请单Id" class="formItem">
+            <iText>{{ formInline.appNo }}</iText>
+          </iFormItem>
+          <iFormItem label="申请单类型" class="formItem" label-width="100px">
+            <iText>{{ getAppType(formInline.appType) }}</iText>
+          </iFormItem>
+          <iFormItem label="申请状态" class="formItem">
+            <iText>{{ getStatus(formInline.status) }}</iText>
+          </iFormItem>
+          <iFormItem label="补差类型" class="formItem">
+            <iText>{{ getMakeType(formInline.makeType) }}</iText>
+          </iFormItem>
         </div>
       </el-form>
     </iCard>
-    <iTabsList v-model="tabsValue"
-               @tab-click="tableChange"
-               type="card"
-               calss="iTabsList">
-      <el-tab-pane :name="1"
-                   :label="language('WEIHULINGJIANYUANCAILIAOYONGLIANG','维护零件原材料用量')">
+    <iTabsList
+      v-model="tabsValue"
+      @tab-click="tableChange"
+      type="card"
+      calss="iTabsList"
+    >
+      <el-tab-pane :name="1" :label="language('规则变更', '规则变更')">
         <iCard>
-          <template slot="header">
-            <span>
-              {{language('YONGLIANGXIANGQING','用量详情')}}
-            </span>
-          </template>
           <div class="table-wrapper">
-            <iTableCustom :ref="'paramsTable'"
-                          :loading="tableLoading"
-                          :data="tableList"
-                          :columns="TABLE_COLUMNS"
-                          highlight-current-row
-                          @handle-selection-change="handleSelectionChange">
-            </iTableCustom>
-            <iPagination v-update
-                         @size-change="handleSizeChange($event, getBasePriceChangePageList)"
-                         @current-change="handleCurrentChange($event, getBasePriceChangePageList)"
-                         background
-                         :current-page="page.currPage"
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :total="page.totalCount" />
+            <el-table
+              :data="tableList"
+              ref="moviesTable"
+              :tableLoading="tableLoading"
+              border
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                type="selection"
+                :selectable="selectionType"
+                fixed
+                width="50"
+                align="center"
+              >
+              </el-table-column>
+              <el-table-column
+                label="#"
+                fixed
+                type="index"
+                width="50"
+                align="center"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="ruleNo"
+                align="center"
+                show-overflow-tooltip
+                minWidth="120"
+                :label="language('GUIZEBIANHAO', '规则编号')"
+                sortable
+              ></el-table-column>
+              <el-table-column
+                prop="formalFlag"
+                align="center"
+                show-overflow-tooltip
+                width="140"
+                :label="language('补差方式', '补差方式')"
+                sortable
+              >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.method == '2' ? '变价单补差' : '一次性补差'
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="sapCode"
+                align="center"
+                :label="language('GONGYINGSHANG', '供应商')"
+                show-overflow-tooltip
+                minWidth="160"
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="materialName"
+                align="center"
+                width="120"
+                :label="language('原材料描述', '原材料描述')"
+                show-overflow-tooltip
+              >
+              </el-table-column>
+              <el-table-column
+                prop="partNum"
+                align="center"
+                width="110"
+                :label="language('LINGJIANHAO', '零件号')"
+                show-overflow-tooltip
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="partName"
+                align="center"
+                width="120"
+                :label="language('LINGJIANMINGCHENG', '零件名称')"
+                show-overflow-tooltip
+              >
+              </el-table-column>
+              <el-table-column
+                prop="partUnit"
+                align="center"
+                width="110"
+                :label="language('JILIANGDANWEI', '计量单位')"
+                show-overflow-tooltip
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="amount"
+                align="center"
+                width="140"
+                :label="language('补差金额', '补差金额')"
+                show-overflow-tooltip
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="currency"
+                align="center"
+                width="100"
+                :label="language('HUOBI', '货币')"
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="exchangeRate"
+                align="center"
+                width="100"
+                :label="language('HUILV', '汇率')"
+                sortable
+              >
+              </el-table-column>
+              <el-table-column
+                prop="startDate"
+                align="center"
+                width="155"
+                :label="language('YOUXIAOQIQI', '有效期起')"
+                sortable
+              >
+                <template slot-scope="scope">
+                  <span>{{ getDay(scope.row.startDate) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="endDate"
+                align="center"
+                width="155"
+                :label="language('YOUXIAOQIZHI', '有效期止')"
+                sortable
+              >
+                <template slot-scope="scope">
+                  <span>{{ getDay(scope.row.endDate) }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
         </iCard>
       </el-tab-pane>
-      <el-tab-pane :name="2"
-                   :label="language('SHENPIJILU','审批记录')">
+      <el-tab-pane :name="2" :label="language('SHENPIJILU', '审批记录')">
         <iCard>
           <template slot="header">
             <span>
-              {{language('SHENPIXIANGQING','审批详情')}}
+              {{ language('SHENPIXIANGQING', '审批详情') }}
             </span>
           </template>
           <div class="table-wrapper">
-            <iTableCustom :ref="'SPTable'"
-                          :loading="tableLoading"
-                          :data="approvalRecordList"
-                          :columns="TABLE_COLUMNS1"
-                          singleChoice
-                          highlight-current-row
-                          @handle-selection-change="handleSelectionChange1">
+            <iTableCustom
+              :ref="'SPTable'"
+              :loading="tableLoading"
+              :data="approvalRecordList"
+              :columns="TABLE_COLUMNS1"
+              singleChoice
+              highlight-current-row
+            >
             </iTableCustom>
           </div>
         </iCard>
       </el-tab-pane>
     </iTabsList>
-
   </div>
 </template>
 
 <script>
 import { iPage, iCard, iTabsList, iPagination, iMessage } from 'rise'
-import { genericAppChangeDetail } from '@/api/mtz/annualGeneralBudget/mtzChange.js'
-import { basePriceChangePageList, approvalRecordList } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import iTableCustom from '@/components/iTableCustom'
-import { TABLE_COLUMNS, TABLE_COLUMNS1 } from './components/data'
-import { pageMixins } from '@/utils/pageMixins'
+import { TABLE_COLUMNS1 } from './components/data'
+import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import {
+  getDetailById,
+  approvalRecordList
+} from '@/api/mtz/annualGeneralBudget/chipChange'
 export default {
-  data () {
+  data() {
     return {
+      changeId: '',
       tabsValue: 1,
-      TABLE_COLUMNS,
       TABLE_COLUMNS1,
       tableList: [],
-      mtzAppId: "",
       editFlag: false,
       tableLoading: false,
       approvalRecordList: [],
       formInline: {
-        appName: "",
-        appStatus: "",
-        appType: ""
+        appName: '',
+        appStatus: '',
+        appType: ''
       },
-      ifSelf:true
-
+      statusList: [],
+      makeTypeList: [
+        {
+          code: '1',
+          message: '芯片补差'
+        },
+        {
+          code: '2',
+          message: 'MTZ补差'
+        }
+      ],
+      appTypeList: [
+        {
+          code: '1',
+          message: 'mtz变更'
+        },
+        {
+          code: '2',
+          message: '芯片补差变更'
+        }
+      ]
     }
   },
-  mixins: [pageMixins],
   components: {
     iCard,
     iPage,
@@ -133,109 +264,78 @@ export default {
     iTableCustom
   },
 
-  created () {
+  created() {
+    this.changeId = this.$route.query.changeId
     this.init()
-     if (window.top === window.self) {
-      this.ifSelf = true
-    } else {
-      this.ifSelf = false
-    }
   },
-    updated () {
+  updated() {
     var tbody = window.document.getElementById('appRouterView')
     var height = tbody.clientHeight
-    window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
+    window.parent.postMessage(
+      { key: 'setFormHeight', value: height + 'px' },
+      '*'
+    )
   },
   methods: {
-    init () {
-      this.formInline.mtzAppId = this.$route.query.mtzAppId
-      this.getGenericAppChangeDetail()
-      this.getBasePriceChangePageList()
+    // 申请状态
+    getStatus(status) {
+      return this.statusList.find((item) => item.code == status)?.message
+    },
+    // 申请单类型
+    getAppType(status) {
+      return this.appTypeList.find((item) => item.code == status)?.message
+    },
+    // 补差类型
+    getMakeType(status) {
+      return this.makeTypeList.find((item) => item.code == status)?.message
+    },
+    getLocationApplyStatus() {
+      getLocationApplyStatus({}).then((res) => {
+        this.statusList = JSON.parse(JSON.stringify(res.data))
+      })
+    },
+    init() {
+      this.getDetail()
       this.getApprovalRecordList()
+      this.getLocationApplyStatus()
     },
-    getGenericAppChangeDetail () {
-      genericAppChangeDetail({
-        mtzAppId: this.formInline.mtzAppId
-      }).then(res => {
-        if (res.code === '200') {
-          this.formInline.appName = res.data.appName
-          this.formInline.appStatus = res.data.appStatus
-          this.formInline.appType = res.data.appType
-          this.formInline.remark = res.data.remark
-          this.formInline.approveRemarks = res.data.approveRemarks
-          this.linieName = res.data.linieName
-          this.linieDeptNum = res.data.linieDeptNum
-        }
-      })
-    },
-    getBasePriceChangePageList () {
-      this.tableLoading = true
-      let params = {
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        mtzAppId: this.formInline.mtzAppId
-      }
-      basePriceChangePageList(params).then((res) => {
-        if (res && res.code === '200') {
-          this.tableList = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
-          this.tableList.forEach(item => {
-            this.$set(item, 'editRow', false);
+    getDetail() {
+      getDetailById(this.changeId).then((res) => {
+        if (res?.code === '200') {
+          this.baseDetail = res.data
+          this.formInline = res.data.chipChangeBase
+          this.tableList = res.data.detailList.map((item) => {
+            return {
+              ...item,
+              supplier: item.sapCode + '-' + item.supplierName
+            }
           })
-          this.tableLoading = false
-        } else {
-          iMessage.error(res.desZh)
         }
       })
     },
-    getApprovalRecordList () {
+    getApprovalRecordList() {
       this.tableLoading = true
       let params = {
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        mtzAppId: this.formInline.mtzAppId || "8"
-        // mtzAppId: "8"
+        appId: this.changeId
       }
       approvalRecordList(params).then((res) => {
-        if (res && res.code === '200') {
+        if (res?.code === '200') {
           this.approvalRecordList = res.data
-          this.approvalRecordList.forEach(item => {
-            this.$set(item, 'editRow', false);
-          })
           this.tableLoading = false
         } else {
           iMessage.error(res.desZh)
         }
       })
-    },
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.page {
-  padding: 30px 40px 30px 40px;
-
-}
-.header {
-  justify-content: space-between;
-  margin-bottom: 20px;
-  .title {
-    font-size: 20px;
-    font-family: Arial;
-    font-weight: bold;
-    line-height: 23px;
-  }
-}
-.baseInformation {
+.baseInfoForm {
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
-}
-.remarks {
-  display: flex;
-  flex-direction: column;
 }
 ::v-deep .el-form-item__content {
   width: 100%;

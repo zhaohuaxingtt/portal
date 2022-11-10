@@ -41,7 +41,7 @@
         <iButton @click="continueBtn" v-if="!editType && canEdit">{{
           language('YANYONG', '沿用')
         }}</iButton>
-        <iButton @click="delecte" v-if="!editType && canEdit">{{
+        <iButton @click="deleteItem" v-if="!editType && canEdit">{{
           language('SHANCHU', '删除')
         }}</iButton>
         <iButton @click="save" v-if="editType && canEdit">{{
@@ -130,13 +130,20 @@
           sortable
         >
           <template slot-scope="scope">
-            <i-input
-              v-model="scope.row.supplier"
-              @change="change($event, scope.row)"
-              :placeholder="language('请输入供应商SAP号', '请输入供应商SAP号')"
-              v-if="editId.indexOf(scope.row.id) !== -1"
-            ></i-input>
-            <span>{{ scope.row.supplier }}</span>
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'supplier'"
+              :rules="formRules.supplier ? formRules.supplier : ''"
+            >
+              <i-input
+                v-model="scope.row.supplier"
+                @change="change($event, scope.row)"
+                :placeholder="
+                  language('请输入供应商SAP号', '请输入供应商SAP号')
+                "
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              ></i-input>
+              <span v-else>{{ scope.row.supplier }}</span>
+            </el-form-item>
           </template>
         </el-table-column>
         <el-table-column
@@ -147,17 +154,13 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'materialName'"
+            <el-input
+              v-model="scope.row.materialName"
+              :placeholder="language('QINGSHURU', '请输入')"
+              v-if="editId.indexOf(scope.row.id) !== -1"
             >
-              <el-input
-                v-model="scope.row.materialName"
-                :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
-              >
-              </el-input>
-              <span v-else>{{ scope.row.materialName }}</span>
-            </el-form-item>
+            </el-input>
+            <span v-else>{{ scope.row.materialName }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -168,6 +171,21 @@
           show-overflow-tooltip
           sortable
         >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="'tableData.' + scope.$index + '.' + 'partNum'"
+              :rules="formRules.partNum ? formRules.partNum : ''"
+            >
+              <el-input
+                @blur="getPartCodeId(scope.row)"
+                v-model.trim="scope.row.partNum"
+                :placeholder="language('QINGSHURU', '请输入')"
+                v-if="editId.indexOf(scope.row.id) !== -1"
+              >
+              </el-input>
+              <span v-else>{{ scope.row.partNum }}</span>
+            </el-form-item>
+          </template>
         </el-table-column>
         <el-table-column
           prop="partName"
@@ -175,6 +193,15 @@
           width="120"
           :label="language('LINGJIANMINGCHENG', '零件名称')"
           show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          prop="partUnit"
+          align="center"
+          width="110"
+          :label="language('JILIANGDANWEI', '计量单位')"
+          show-overflow-tooltip
+          sortable
         >
         </el-table-column>
         <el-table-column
@@ -199,15 +226,6 @@
               <span v-else>{{ scope.row.amount }}</span>
             </el-form-item>
           </template>
-        </el-table-column>
-        <el-table-column
-          prop="partUnit"
-          align="center"
-          width="110"
-          :label="language('JILIANGDANWEI', '计量单位')"
-          show-overflow-tooltip
-          sortable
-        >
         </el-table-column>
         <el-table-column
           prop="currency"
@@ -326,12 +344,7 @@
       width="70%"
       @close="saveGzDialog"
     >
-      <addGZ
-        :resetType="resetType"
-        @close="saveGzClose"
-        @addDialogGZ="addDialogGZList"
-      >
-      </addGZ>
+      <addGZ @close="saveGzClose" @addDialogGZ="addDialogGZList"> </addGZ>
     </iDialog>
   </iCard>
 </template>
@@ -341,7 +354,6 @@ import {
   iCard,
   iButton,
   iPagination,
-  icon,
   iMessage,
   iMessageBox,
   iInput,
@@ -359,7 +371,8 @@ import {
   deleteAppDetail,
   uploadData,
   downloadFile,
-  getSupplierInfoBySap
+  getSupplierInfoBySap,
+  getPartCodeId
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 
 export default {
@@ -409,7 +422,9 @@ export default {
       handler(val) {
         this.tableData = JSON.parse(JSON.stringify(val)).filter(
           (item) =>
-            item.partNum.toUpperCase().indexOf(this.partNum.toUpperCase()) != -1
+            (item.partNum || '')
+              .toUpperCase()
+              .indexOf(this.partNum?.toUpperCase()) != -1
         )
       },
       immediate: true,
@@ -432,45 +447,42 @@ export default {
     })
   },
   methods: {
-    // 分割供应商输入框
+    // 编辑供应商，分割输入框
     change(val, row) {
-      console.log(val)
-      console.log(row)
       if (val) {
-        let arr = val.split('-')
-        if (arr.length >= 1) {
-          getSupplierInfoBySap({
-            sapCode: arr[0],
-            supplierType: 'PP'
-          })
-            .then((res) => {
-              console.log(res)
-              if (!res.data) {
-                return iMessage.error('暂无此供应商')
-              }
-              if (res?.code == '200') {
-                this.$set(row, 'sapCode', res.data.sapCode)
-                this.$set(row, 'supplierName', res.data.nameZh)
-                this.$set(
-                  row,
-                  'supplier',
-                  res.data.sapCode + '-' + res.data.nameZh
-                )
-              }
-            })
-            .then((res) => {
-              if (!res.data) {
-                return iMessage.error('暂无此供应商')
-              } else {
-                this.orderDetails.supplierInfo = `${res?.data?.sapCode}-${res?.data?.nameZh}`
-                this.orderDetails.supplierShortNameZh = res?.data?.shortNameZh
-                this.orderDetails.supplierSapCode = res?.data?.sapCode
-                this.orderDetails.tmSupplierId = res?.data?.supplierId
-              }
-            })
+        let sapCode = val
+        if (val.indexOf('-') != -1) {
+          sapCode = val.split('-')[0]
         }
+        getSupplierInfoBySap({
+          sapCode: sapCode,
+          supplierType: 'PP'
+        }).then((res) => {
+          console.log(res)
+          if (!res.data) {
+            return iMessage.error('暂无此供应商')
+          }
+          if (res?.data) {
+            this.$set(row, 'sapCode', res.data?.sapCode || '')
+            this.$set(row, 'supplierName', res.data?.nameZh || '')
+            this.$set(row, 'supplier', res.data.sapCode + '-' + res.data.nameZh)
+          }
+        })
       }
     },
+    // 编辑零件号
+    getPartCodeId(row) {
+      getPartCodeId({ partsNum: row.partNum }).then((res) => {
+        console.log(res)
+        if (res?.code == '200') {
+          this.$set(row, 'partName', res.data?.partNameZh || '')
+          this.$set(row, 'partUnit', res.data?.unitNameEn || '')
+          this.$set(row, 'materialGroup', res.data?.materialGroup || '-')
+          if (!res.data) iMessage.warn('未查询到零件数据')
+        }
+      })
+    },
+    // 导入
     async uploaded(content) {
       const formData = new FormData()
       formData.append('file', content.file)
@@ -510,9 +522,6 @@ export default {
     },
     getDay(date) {
       return date ? date.split(' ')[0] : date
-    },
-    sourceChange(e, val) {
-      this.$set(e, 'source', val)
     },
     add() {
       //新增
@@ -585,7 +594,7 @@ export default {
         return item.id
       })
     },
-    delecte() {
+    deleteItem() {
       //删除
       // console.log(this.$parent.$refs)
       iMessageBox(
@@ -612,9 +621,6 @@ export default {
         })
         .catch((res) => {})
     },
-    saveClose() {
-      this.closeDiolog()
-    },
     closeDiolog() {
       this.mtzAddShow = false
     },
@@ -633,17 +639,7 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      console.log(val)
       this.selectList = val
-    },
-    ratioRules(arr) {
-      var str = arr.row
-      if (str.compensationRatio < 0) {
-        str.compensationRatio = ''
-        iMessage.error(
-          this.language('BUCHAXISHUBUNENGWEIFUSHU', '补差系数不能为负数')
-        )
-      }
     }
   }
 }

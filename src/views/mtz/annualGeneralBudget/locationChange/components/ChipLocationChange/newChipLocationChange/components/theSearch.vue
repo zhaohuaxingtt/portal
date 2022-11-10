@@ -8,174 +8,6 @@
 -->
 <template>
   <div>
-    <!-- <iSearch @reset="handleSearchReset"
-             @sure="handleSubmitSearch">
-      <iFormGroup :inline="true"
-                  :model="searchForm">
-        <iFormItem label="零件号"
-                   class="searchFormItem">
-          <inputCustom v-model="searchForm.partnumList"
-                       :editPlaceholder="language('QINGSHURU','请输入')"
-                       :placeholder="language('QINGSHURU','请输入')"
-                       style="width:100%"></inputCustom>
-        </iFormItem>
-        <iFormItem label="零件名"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.partNameList"
-                         :user-options="mtzPartNameList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </iFormItem>
-        <iFormItem label="供应商SAP号"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.supplierSapList"
-                         :user-options="mtzSupplierSapList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </iFormItem>
-        <iFormItem label="供应商名称"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.supplierNameList"
-                         :user-options="mtzSupplierNameList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </iFormItem>
-        <iFormItem label="原材料牌号"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.materialCodeList"
-                         :user-options="rawMaterialNos"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         @change="handleChangmater"
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </iFormItem>
-        <iFormItem label="规则编号"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.ruleNoList"
-                         :user-options="mtzRuleList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         @change="handleChangmater"
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-          </custom-select>
-        </iFormItem>
-        <iFormItem label="科室"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.buyerDeptId"
-                         :user-options="deptList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         @change="handleChangmater"
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="departNameEn"
-                         value-member="departId"
-                         value-key="departId">
-          </custom-select>
-        </iFormItem>
-        <iFormItem label="采购员"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.buyerNameList"
-                         :user-options="mtzUserList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         @change="handleChangmater"
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code" />
-        </iFormItem>
-        <iFormItem label="市场价来源"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.marketSource"
-                         :user-options="mtzSourceList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         @change="handleChangmater"
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code" />
-        </iFormItem>
-        <iFormItem label="有效期起"
-                   class="searchFormItem">
-          <iDatePicker v-model="searchForm.startDate"
-                       :disabled="editDisabled"
-                       @change="handleChangeDate"
-                       :placeholder="language('QINGXUANZE', '请选择')"
-                       type="date"
-                       style="width:100%"
-                       format="yyyy-MM-dd"
-                       value-format="yyyy-MM-dd" />
-        </iFormItem>
-        <iFormItem label="有效期止"
-                   class="searchFormItem">
-          <iDatePicker v-model="searchForm.endDate"
-                       :disabled="editDisabled"
-                       @change="handleChangeDate"
-                       :picker-options="pickerOptions"
-                       :placeholder="language('QINGXUANZE', '请选择')"
-                       type="date"
-                       style="width:100%"
-                       format="yyyy-MM-dd"
-                       value-format="yyyy-MM-dd" />
-        </iFormItem>
-        <iFormItem label="补差周期"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.compensationPeriod"
-                         :user-options="mtzPeriodList"
-                         style="width:100%"
-                         multiple
-                         clearable
-                         @change="handleChangmater"
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code" />
-        </iFormItem>
-        <iFormItem label="是否生效"
-                   class="searchFormItem">
-          <custom-select v-model="searchForm.effectFlag"
-                         :user-options="effectFlagList"
-                         style="width:100%"
-                         clearable
-                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code" />
-        </iFormItem>
-      </iFormGroup>
-    </iSearch> -->
-
     <i-search @sure="handleSubmitSearch" @reset="handleSearchReset">
       <el-form
         :inline="true"
@@ -253,9 +85,6 @@ import {
 import inputCustom from '@/components/inputCustom'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import {
-  mtzBasePricePageFilterPartName,
-  mtzBasePricePageFilterPeriod,
-  mtzBasePricePageFilterRule,
   mtzBasePricePageFilterSource,
   mtzBasePricePageFilterSupplierName,
   mtzBasePricePageFilterSupplierSap,
@@ -322,12 +151,9 @@ export default {
       },
       deptList: [],
       rawMaterialNos: [],
-      mtzPartNameList: [],
       mtzSupplierSapList: [],
       mtzSupplierNameList: [],
-      mtzRuleList: [],
       mtzUserList: [],
-      mtzPeriodList: [],
       mtzSourceList: [],
       effectFlagList: [
         {
@@ -374,15 +200,6 @@ export default {
           }))
         )
       })
-      // this.getDeptData()
-      // this.getRawMaterialNos()
-      // this.mtzBasePricePageFilterPartName()
-      // this.mtzBasePricePageFilterSupplierSap()
-      // this.mtzBasePricePageFilterSupplierName()
-      // this.mtzBasePricePageFilterRule()
-      // this.mtzBasePricePageFilterUser()
-      // this.mtzBasePricePageFilterPeriod()
-      // this.mtzBasePricePageFilterSource()
     },
     // 获取部门数据
     getDeptData() {
@@ -399,16 +216,6 @@ export default {
       }).then((res) => {
         if (res.code === '200') {
           this.rawMaterialNos = res.data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
-    //零件名
-    mtzBasePricePageFilterPartName() {
-      mtzBasePricePageFilterPartName().then((res) => {
-        if (res.code === '200') {
-          this.mtzPartNameList = res.data
         } else {
           iMessage.error(res.desZh)
         }
@@ -434,31 +241,11 @@ export default {
         }
       })
     },
-    //规则编号
-    mtzBasePricePageFilterRule() {
-      mtzBasePricePageFilterRule().then((res) => {
-        if (res.code === '200') {
-          this.mtzRuleList = res.data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
     //采购员
     mtzBasePricePageFilterUser() {
       mtzBasePricePageFilterUser().then((res) => {
         if (res.code === '200') {
           this.mtzUserList = res.data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
-    //补差周期
-    mtzBasePricePageFilterPeriod() {
-      mtzBasePricePageFilterPeriod().then((res) => {
-        if (res.code === '200') {
-          this.mtzPeriodList = res.data
         } else {
           iMessage.error(res.desZh)
         }

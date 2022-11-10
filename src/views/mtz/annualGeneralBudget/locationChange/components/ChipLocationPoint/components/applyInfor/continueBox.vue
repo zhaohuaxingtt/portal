@@ -2,65 +2,13 @@
 <template>
   <div style="padding-bottom: 30px">
     <div class="searchBox">
-      <i-search @sure="handleSubmitSearch" @reset="handleSearchReset">
-        <el-form
-          :inline="true"
-          :model="searchForm"
-          label-position="top"
-          class="search-form"
-        >
-          <el-form-item
-            v-for="(item, index) in QueryFormData"
-            :key="index"
-            :label="language(item.key, item.name)"
-            class="SearchOption"
-          >
-            <inputCustom
-              v-if="item.type == 'inputCustom'"
-              v-model="searchForm[item.props]"
-              :editPlaceholder="language('QINGSHURU', '请输入')"
-              :placeholder="language('QINGSHURU', '请输入')"
-              style="width: 100%"
-            ></inputCustom>
-            <iMultiLineInput
-              v-else-if="item.type == 'iMultiLineInput'"
-              :placeholder="
-                language(
-                  'partsprocure.PARTSPROCURE',
-                  '请输入零件号，多个逗号分隔'
-                )
-              "
-              :title="language('LK_LINGJIANHAO', '零件号')"
-              v-model="searchForm[item.props]"
-            ></iMultiLineInput>
-            <custom-select
-              v-else-if="item.type == 'select'"
-              v-model="searchForm[item.props]"
-              :user-options="options[item.selectOption]"
-              :multiple="item.multiple || false"
-              style="width: 100%"
-              filterable
-              collapse-tags
-              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-              display-member="label"
-              value-member="value"
-              value-key="value"
-            />
-            <iDatePicker
-              v-model="searchForm[item.props]"
-              v-else-if="item.type == 'date'"
-              valueFormat="yyyy-MM-dd"
-              type="date"
-              :placeholder="language('QINGXUANZE', '请选择')"
-            />
-            <iInput
-              v-else
-              v-model="searchForm[item.props]"
-              :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-            ></iInput>
-          </el-form-item>
-        </el-form>
-      </i-search>
+      <search
+        @sure="handleSubmitSearch"
+        @reset="handleSearchReset"
+        :searchForm="searchForm"
+        :searchFormData="QueryFormData"
+        :options="options"
+      />
     </div>
     <el-divider class="margin-top20"></el-divider>
     <div class="BtnTitle">
@@ -70,7 +18,6 @@
       </div>
     </div>
     <tableList
-      class="margin-top20"
       :tableData="tableData"
       :tableTitle="tableTitle"
       :tableLoading="loading"
@@ -115,6 +62,7 @@ import {
   iMultiLineInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
+import search from '../../../components/search.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import { continueBox, QueryFormData } from './data.js'
 import tableList from '@/components/commonTable/index.vue'
@@ -126,6 +74,7 @@ import {
 
 export default {
   components: {
+    search,
     iCard,
     iSelect,
     iDatePicker,
@@ -224,13 +173,23 @@ export default {
     },
     getTableList() {
       this.loading = true
-      let searchForm = JSON.parse(JSON.stringify(this.searchForm))
-      if (Array.isArray(searchForm.deptCode))
-        searchForm.deptCode = searchForm.deptCode.join(',')
-      if (Array.isArray(searchForm.effectFlag))
-        searchForm.effectFlag = searchForm.effectFlag.join(',')
-      if (Array.isArray(searchForm.method))
-        searchForm.method = searchForm.method.join(',')
+      let searchForm = {}
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(this.searchForm).forEach((key) => {
+        if (Array.isArray(this.searchForm[key])) {
+          searchForm[key] = this.searchForm[key].join(',')
+        } else {
+          searchForm[key] = this.searchForm[key]
+        }
+      })
+      if (searchForm.startDate)
+        searchForm.startDate = window
+          .moment(searchForm.startDate)
+          .format('YYYY-01-01 00:00:00')
+      if (searchForm.endDate)
+        searchForm.endDate = window
+          .moment(searchForm.endDate)
+          .format('YYYY-01-01 23:59:59')
       let params = {
         ...searchForm,
         pageSize: this.page.pageSize,
@@ -303,8 +262,8 @@ export default {
 }
 
 .BtnTitle {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

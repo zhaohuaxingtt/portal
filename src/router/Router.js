@@ -103,6 +103,17 @@ export default {
         )
     },
     {
+      path: '/chipChangeOrder',
+      name: 'chipChangeOrder',
+      meta: {
+        title: '芯片补差变更单'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/locationChange/components/ChipLocationChange/ChipApplicationForm/preview.vue'
+        )
+    },
+    {
       path: '/supplier/joinBlackApply',
       name: 'joinBlackApply',
       meta: {

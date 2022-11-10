@@ -201,6 +201,7 @@ export const continueBox = [
     name: '一次零件名称',
     key: '一次零件名称',
     align: 'center',
+    tooltip: true,
     width: 150
   },
   {
@@ -216,6 +217,7 @@ export const continueBox = [
     width: '100px',
     align: 'center',
     key: '一次件供应商名称',
+    tooltip: true,
     width: 150
   },
   {
@@ -244,6 +246,7 @@ export const continueBox = [
     name: '二次零件名称',
     key: '二次零件名称',
     align: 'center',
+    tooltip: true,
     width: 150
   },
   {
@@ -259,6 +262,7 @@ export const continueBox = [
     width: '100px',
     align: 'center',
     key: '二次件供应商名称',
+    tooltip: true,
     width: 150
   },
   {
@@ -290,6 +294,7 @@ export const continueBox = [
     name: '有效期起',
     align: 'center',
     key: 'YOUXIAOQIQI',
+    tooltip: true,
     width: 150
   },
   {
@@ -297,6 +302,7 @@ export const continueBox = [
     name: '有效期止',
     align: 'center',
     key: 'YOUXIAOQIZHI',
+    tooltip: true,
     width: 150
   },
   {
@@ -314,7 +320,8 @@ export const continueBox = [
     name: '更新时间',
     align: 'center',
     key: '更新时间',
-    width: 150
+    width: 150,
+    tooltip: true,
   },
   {
     props: 'sourceCode',
@@ -464,60 +471,14 @@ export const tableTitleHistory = [
 ]
 
 export const formRulesGZ = {
-  effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
-  materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }], //MTZ-材料组
+  partNum: [{ required: true, message: '请输入', trigger: 'blur' }],
+  method: [{ required: true, message: '请选择', trigger: 'change' }],
   startDate: [{ required: true, message: '请选择', trigger: 'change' }], //开始日期
   endDate: [{ required: true, message: '请选择', trigger: 'change' }], //结束日期
-
-  // supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
-  // supplierName:[{required: true, message: '请选择', trigger: 'blur'}],//供应商名
-  // materialCode:[{required: true, message: '请选择', trigger: 'blur'}],//原材料牌号
-  // materialName:[{required: true, message: '请输入', trigger: 'blur'}],//原材料
-  // price:[{required: true, message: '请输入', trigger: 'blur'}],//基价
-  // priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],//基价计量单位
-
-  tcCurrence: [{ required: true, message: '请输入', trigger: 'blur' }], //货币
-  tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }], //汇率
-  source: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
-  compensationRatio: [
-    //补差系数
-    { required: true, message: '请输入', trigger: 'blur' },
-    {
-      validator: function (rule, value, callback) {
-        if (value < 0) {
-          callback(new Error('不能为负数'))
-        } else {
-          callback()
-        }
-      },
-      trigger: 'blur'
-    }
-  ],
-  compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }], //补差周期
-  threshold: [
-    //阈值
-    { required: true, message: '请输入', trigger: 'blur' },
-    {
-      validator: function (rule, value, callback) {
-        if (value.toString().split('.')[1] !== undefined) {
-          if (value.toString().split('.')[1].length > 4) {
-            console.log(11111111)
-            callback(new Error('最多输入小数点后4位'))
-          } else {
-            callback()
-          }
-        } else {
-          callback()
-        }
-      }
-    }
-  ],
-  thresholdCompensationLogic: [
-    { required: true, message: '请选择', trigger: 'blur' }
-  ] //阈值补差逻辑
-
-  // startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
-  // endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
+  supplier: [{ required: true, message: '请输入', trigger: 'blur' }],//供应商
+  currency: [{ required: true, message: '请选择', trigger: 'change' }], //货币
+  exchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }], //汇率
+  amount: [{ required: true, message: '请输入', trigger: 'blur' }], //市场价来源
 }
 
 export const partNumberTitle = [
