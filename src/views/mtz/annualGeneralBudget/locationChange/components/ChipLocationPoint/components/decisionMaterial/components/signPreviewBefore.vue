@@ -186,7 +186,7 @@ export default {
   computed: {
     title() {
       let res = '---'
-      switch (this.formInfo?.type) {
+      switch (this.formInfo?.workflowType) {
         case 'MEETING':
           // 上会
           res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
@@ -205,7 +205,10 @@ export default {
       return res
     },
     isMeeting() {
-      return this.formInfo.type == 'MEETING' || this.formInfo.type == 'SIGN'
+      return (
+        this.formInfo.workflowType == 'MEETING' ||
+        this.formInfo.workflowType == 'SIGN'
+      )
     }
   },
   methods: {
