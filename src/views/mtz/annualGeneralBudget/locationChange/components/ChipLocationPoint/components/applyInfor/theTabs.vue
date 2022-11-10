@@ -582,7 +582,7 @@ export default {
     },
     addDialogDataList(val) {
       this.newDataList = val.map((item) => {
-        item.supplier = item.sapCode + '-' + item.supplierName
+        this.$set(item, 'supplier', item.sapCode + '-' + item.supplierName)
         return item
       })
       this.closeDiolog()

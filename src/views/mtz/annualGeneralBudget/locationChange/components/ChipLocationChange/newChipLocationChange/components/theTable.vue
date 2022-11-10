@@ -20,8 +20,6 @@
       </div>
       <div class="opration">
         <iButton @click="handleSure">{{ language('QUEREN', '确认') }}</iButton>
-        <!-- <iButton @click="handleRedeploy"
-                   v-show="!addFlag">{{language('DAOCHU', '导出')}}</iButton> -->
       </div>
     </template>
 
@@ -39,11 +37,20 @@
       <template slot="effectFlag" slot-scope="scope">
         <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
       </template>
+      <template slot="startDate" slot-scope="scope">
+        <span>{{ getDay(scope.row.startDate) }}</span>
+      </template>
+      <template slot="endDate" slot-scope="scope">
+        <span>{{ getDay(scope.row.endDate) }}</span>
+      </template>
+      <template slot="updateDate" slot-scope="scope">
+        <span>{{ getDay(scope.row.updateDate) }}</span>
+      </template>
     </tableList>
     <iPagination
       @size-change="handleSizeChange($event, getTableList)"
       @current-change="handleCurrentChange($event, getTableList)"
-      :page-sizes="[50, 100, 200, 500, 1000]"
+      :page-sizes="page.pageSizes"
       :page-size="page.pageSize"
       :current-page="page.currPage"
       :total="page.totalCount"
@@ -54,12 +61,9 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, icon, iMessage } from 'rise'
+import { iCard, iButton, iPagination, iMessage } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
-import {
-  initData,
-  listByCondition
-} from '@/api/mtz/annualGeneralBudget/chipChange.js'
+import { initData } from '@/api/mtz/annualGeneralBudget/chipChange.js'
 import { getAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle } from './data'
@@ -76,10 +80,6 @@ export default {
     addFlag: {
       type: Boolean,
       default: false
-    },
-    mtzAppId: {
-      type: String,
-      default: ''
     },
     dateList: {
       type: Array,
@@ -103,10 +103,11 @@ export default {
     this.init()
   },
   methods: {
+    getDay(date) {
+      return date ? date.split(' ')[0] : date
+    },
     init() {
-      // this.addFlag = this.addFlag || false
-      // this.mtzAppId = this.mtzAppId || ""
-      this.page.pageSize = 50
+      this.page.currPage = 1
       this.getTableList()
     },
     getTableList() {
@@ -123,6 +124,14 @@ export default {
           searchForm[key] = searchForm_[key]
         }
       })
+      if (searchForm.startDate)
+        searchForm.startDate = window
+          .moment(searchForm.startDate)
+          .format('YYYY-MM-DD 00:00:00')
+      if (searchForm.endDate)
+        searchForm.endDate = window
+          .moment(searchForm.endDate)
+          .format('YYYY-MM-DD 23:59:59')
       let params = {
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -132,9 +141,7 @@ export default {
       getAppRecordByCondition(params).then((res) => {
         if (res && res.code === '200') {
           this.tableList = res.data.records
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
+          this.page.totalCount = res.data.total
           this.tableLoading = false
         }
       })

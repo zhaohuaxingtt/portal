@@ -351,7 +351,7 @@ export default {
         this.dept = data.depteCode
         this.baseData = res.data
         this.baseData.chipDetailList.forEach((item) => {
-          item.supplier = item.sapCode + '-' + item.supplierName
+          this.$set(item, 'supplier', item.sapCode + '-' + item.supplierName)
         })
         this.setStepNum()
       })
