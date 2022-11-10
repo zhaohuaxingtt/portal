@@ -226,6 +226,7 @@ export default {
             submit({ changeId: this.$route.query.changeId }).then((res) => {
               if (res?.code == '200') {
                 iMessage.success('提交成功')
+                this.$emit('getDetail')
               } else {
                 iMessage.error(res.desZh)
               }
@@ -300,10 +301,6 @@ export default {
     font-weight: bold;
     line-height: 23px;
   }
-}
-.baseInformation {
-  display: flex;
-  justify-content: space-between;
 }
 ::v-deep .el-form-item__content {
   width: 100%;

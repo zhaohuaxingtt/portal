@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2021-09-13 16:56:57
- * @LastEditTime: 2021-12-03 15:17:50
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\rulesQuery\components\data.js
- */
+// 表头icon
 const renderIcon = (h, column, type) => {
   let content = ``
   switch (type) {
@@ -38,6 +31,7 @@ const renderIcon = (h, column, type) => {
   ])
 }
 
+// 调整日期格式
 function getDay(date) {
   return date ? date.split(' ')[0] : date
 }
@@ -230,6 +224,7 @@ export const tableSetting = [
     }
   },
 ]
+
 // 查询条件
 export const ruleQueryFormData = [
   { props: 'ruleNo', name: '规则编号', key: 'GUIZHEBIANHAO' },

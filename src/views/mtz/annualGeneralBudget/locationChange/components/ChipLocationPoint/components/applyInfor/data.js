@@ -201,6 +201,7 @@ export const continueBox = [
     name: '一次零件名称',
     key: '一次零件名称',
     align: 'center',
+    tooltip: true,
     width: 150
   },
   {
@@ -216,6 +217,7 @@ export const continueBox = [
     width: '100px',
     align: 'center',
     key: '一次件供应商名称',
+    tooltip: true,
     width: 150
   },
   {
@@ -244,6 +246,7 @@ export const continueBox = [
     name: '二次零件名称',
     key: '二次零件名称',
     align: 'center',
+    tooltip: true,
     width: 150
   },
   {
@@ -259,6 +262,7 @@ export const continueBox = [
     width: '100px',
     align: 'center',
     key: '二次件供应商名称',
+    tooltip: true,
     width: 150
   },
   {
@@ -290,6 +294,7 @@ export const continueBox = [
     name: '有效期起',
     align: 'center',
     key: 'YOUXIAOQIQI',
+    tooltip: true,
     width: 150
   },
   {
@@ -297,6 +302,7 @@ export const continueBox = [
     name: '有效期止',
     align: 'center',
     key: 'YOUXIAOQIZHI',
+    tooltip: true,
     width: 150
   },
   {
@@ -314,7 +320,8 @@ export const continueBox = [
     name: '更新时间',
     align: 'center',
     key: '更新时间',
-    width: 150
+    width: 150,
+    tooltip: true,
   },
   {
     props: 'sourceCode',

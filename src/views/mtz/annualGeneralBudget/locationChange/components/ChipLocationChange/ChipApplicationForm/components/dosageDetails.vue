@@ -18,55 +18,43 @@
       <el-tab-pane :name="1" :label="language('规则变更', '规则变更')">
         <iCard>
           <template slot="header">
-            <div class="opration" v-if="canEdit">
-              <div v-show="!editFlag">
-                <uploadButton
-                  ref="uploadButtonAttachment"
-                  :buttonText="language('SHANGCHUAN', '上传')"
-                  :uploadByBusiness="true"
-                  v-permission="PORTAL_MTZ_CHANGE_INFOR_SCYCLYLBG"
-                  @uploadedCallback="uploadDetail($event)"
-                  class="margin-right20"
-                  :disabled="disabled"
-                />
-                <iButton @click="downFile" :disabled="disabled">
-                  {{ language('导出', '导出') }}
-                </iButton>
-                <iButton @click="edit" :disabled="disabled">
-                  {{ language('BIANJI', '编辑') }}
-                </iButton>
-                <iButton @click="add" :disabled="disabled">
-                  {{ language('XINZENG', '新增') }}
-                </iButton>
-                <iButton @click="del" :disabled="disabled">
-                  {{ language('SHANCHU', '删除') }}
-                </iButton>
-              </div>
-              <div v-show="editFlag">
-                <iButton @click="cancel" :disabled="disabled">
-                  {{ language('QUXIAO', '取消') }}</iButton
-                >
-                <iButton @click="save" :disabled="disabled">
-                  {{ language('BAOCUN', '保存') }}</iButton
-                >
-              </div>
+            <div class="opration">
+              <template v-if="canEdit">
+                <div v-show="!editFlag">
+                  <uploadButton
+                    ref="uploadButtonAttachment"
+                    :buttonText="language('SHANGCHUAN', '上传')"
+                    :uploadByBusiness="true"
+                    v-permission="PORTAL_MTZ_CHANGE_INFOR_SCYCLYLBG"
+                    @uploadedCallback="uploaded"
+                    class="margin-right20"
+                    :disabled="disabled"
+                  />
+                  <iButton @click="download" :disabled="disabled">
+                    {{ language('导出', '导出') }}
+                  </iButton>
+                  <iButton @click="edit" :disabled="disabled">
+                    {{ language('BIANJI', '编辑') }}
+                  </iButton>
+                  <iButton @click="add" :disabled="disabled">
+                    {{ language('XINZENG', '新增') }}
+                  </iButton>
+                  <iButton @click="del" :disabled="disabled">
+                    {{ language('SHANCHU', '删除') }}
+                  </iButton>
+                </div>
+                <div v-show="editFlag">
+                  <iButton @click="cancel" :disabled="disabled">
+                    {{ language('QUXIAO', '取消') }}</iButton
+                  >
+                  <iButton @click="save" :disabled="disabled">
+                    {{ language('BAOCUN', '保存') }}</iButton
+                  >
+                </div>
+              </template>
             </div>
           </template>
           <div class="table-wrapper">
-            <!-- <tableList
-              class="margin-top20"
-              :tableData="tableList"
-              :tableTitle="tableTitle"
-              :tableLoading="tableLoading"
-              :inputProps="inputProps"
-              @handleSelectionChange="handleSelectionChange"
-              index
-            >
-              <template slot="effectFlag" slot-scope="scope">
-                <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
-              </template>
-            </tableList> -->
-
             <el-form
               :rules="formRules"
               :model="{ tableList }"
@@ -377,28 +365,17 @@
               :columns="TABLE_COLUMNS1"
               singleChoice
               highlight-current-row
-              @handle-selection-change="handleSelectionChange1"
             >
             </iTableCustom>
           </div>
         </iCard>
       </el-tab-pane>
     </iTabsList>
-
-    <new-chip-location-change
-      :dialogVisible="dialogVisible"
-      v-if="dialogVisible"
-      :addFlag="true"
-      :mtzAppId="mtzAppId"
-      @close="close"
-    ></new-chip-location-change>
-
     <iDialog
       :title="language('新增芯片补差规则', '新增芯片补差规则')"
       :visible.sync="addDialog"
       v-if="addDialog"
       width="70%"
-      @close="close"
     >
       <addGZ @addDialogGZ="addDialogGZList"> </addGZ>
     </iDialog>
@@ -423,27 +400,18 @@ import addGZ from './addGZ'
 import uploadButton from '@/components/uploadButton'
 import tableList from '@/components/commonTable/index.vue'
 import {
-  basePriceChangePageList,
-  uploadBasePriceChange,
-  priceChangeExport,
-  updateBasePriceChange,
-  approvalRecordList,
-  approvalExplain,
-  exportDetail,
-  getApprovalByChangeId,
   save,
-  deleteDetail
+  deleteDetail,
+  approvalRecordList
 } from '@/api/mtz/annualGeneralBudget/chipChange'
 import {
   uploadData,
-  getSupplierInfoBySap
+  getSupplierInfoBySap,
+  downloadFile,
+  getPartCodeId
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
-import {
-  addGenericAppChange,
-  saveGenericAppChange
-} from '@/api/mtz/annualGeneralBudget/mtzChange.js'
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
-import { TABLE_COLUMNS, TABLE_COLUMNS1, tableTitle, formRulesGZ } from './data'
+import { TABLE_COLUMNS1, tableTitle, formRulesGZ } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   components: {
@@ -480,7 +448,6 @@ export default {
       inputProps: [],
       tabsValue: 1,
       tableTitle,
-      TABLE_COLUMNS,
       TABLE_COLUMNS1,
       tableList: [],
       muliteList: [],
@@ -492,7 +459,6 @@ export default {
       isShow: false,
       textarea: '',
       disabled: false,
-      dialogVisible: false,
       visible: false,
       dateList: [
         {
@@ -601,6 +567,7 @@ export default {
         })
       }
     },
+    // 调整日期格式
     getDay(date) {
       return date ? date.split(' ')[0] : date
     },
@@ -615,39 +582,25 @@ export default {
     },
     tableChange() {
       if (this.tabsValue == '2') {
-        this.getDetail()
+        this.getApprovalRecordList()
       }
     },
-    getDetail() {
-      this.loading = true
-      if (this.baseDetail.chipChangeBase.workflowId || '123') {
-        try {
-          const params = {
-            processInstanceId:
-              this.baseDetail.chipChangeBase.workflowId || '123',
-            currentUserId: this.$store.state.permission.userInfo.id
-          }
-          queryWorkflowDetail(params)
-            .then((res) => {
-              this.approvalRecordList = res.data
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } catch (err) {
-          this.loading = false
-        }
-      } else {
-        this.loading = false
+    getApprovalRecordList() {
+      this.tableLoading = true
+      let params = {
+        appId: this.changeId
       }
+      approvalRecordList(params).then((res) => {
+        if (res && res.code === '200') {
+          this.approvalRecordList = res.data
+          this.tableLoading = false
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
     },
     add() {
       this.addDialog = true
-    },
-    close(val) {
-      this.dialogVisible = val
-      this.$emit('getDetail')
     },
     edit() {
       try {
@@ -673,9 +626,6 @@ export default {
     },
     handleSelectionChange(val) {
       this.muliteList = val
-    },
-    handleSelectionChange1(val) {
-      this.muliteList1 = val
     },
     // 检查表单
     check() {
@@ -711,24 +661,15 @@ export default {
         })
       }
     },
-    // 上传导入
-    uploadDetail(content) {
-      uploadDetail(this.changeId, content.file).then((res) => {
-        if (res?.code === '200') {
-          this.$emit('getDetail')
-          iMessage.success(res.desZh)
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
 
     // 导入
     async uploaded(content) {
       const formData = new FormData()
       formData.append('file', content.file)
       formData.append('applicationName', 'rise')
-      const res = await uploadData(formData, { appId: this.$route.query.appId })
+      const res = await uploadData(formData, {
+        appId: this.$route.query.changeId
+      })
       if (res?.code == '200') {
         iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
         this.$emit('init')
@@ -737,6 +678,7 @@ export default {
       }
     },
 
+    // 导出
     download() {
       iMessageBox(
         this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'),
@@ -746,7 +688,7 @@ export default {
           cancelButtonText: this.language('QUXIAO', '取消')
         }
       ).then((res) => {
-        exportDetail(this.$route.query.changeId).then((res) => {
+        downloadFile({ appId: this.$route.query.changeId }).then((res) => {
           let url = window.URL.createObjectURL(res)
           let link = document.createElement('a')
           link.style.display = 'none'
@@ -757,22 +699,6 @@ export default {
           link.click()
           link.parentNode.removeChild(link)
         })
-      })
-    },
-    // 导出
-    downFile() {
-      // this.download()
-      exportDetail(this.changeId).then((res) => {
-        console.log(res)
-        let url = window.URL.createObjectURL(res)
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        let fname = '芯片补差规则变更模板.xlsx'
-        link.setAttribute('download', fname)
-        document.body.appendChild(link)
-        link.click()
-        link.parentNode.removeChild(link)
       })
     },
     // 删除

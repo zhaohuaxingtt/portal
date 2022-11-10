@@ -1,70 +1,14 @@
 <template>
-  <div class="mtz-select">
-    <i-search @sure="sure" @reset="reset">
-      <iFormGroup>
-        <iFormItem
-          v-for="(item, index) in ruleQueryFormData"
-          :key="index"
-          :label="language(item.key, item.name)"
-          class="SearchOption"
-        >
-          <iMultiLineInput
-            v-if="item.type == 'iMultiLineInput'"
-            :placeholder="
-              language(
-                'partsprocure.PARTSPROCURE',
-                '请输入零件号，多个逗号分隔'
-              )
-            "
-            :title="language('LK_LINGJIANHAO', '零件号')"
-            v-model="searchForm[item.props]"
-          ></iMultiLineInput>
-          <!-- <custom-select
-            v-else-if="item.type == 'select'"
-            v-model="searchForm[item.props]"
-            :user-options="options[item.selectOption]"
-            :multiple="item.multiple || false"
-            style="width: 100%"
-            filterable
-            collapse-tags
-            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-            display-member="label"
-            value-member="value"
-            value-key="value"
-          /> -->
-          <i-select
-            v-else-if="item.type == 'select'"
-            v-model="searchForm[item.props]"
-            :multiple="item.multiple || false"
-            style="width: 100%"
-            filterable
-            collapse-tags
-            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-          >
-            <el-option
-              :key="index"
-              v-for="(item, index) in options[item.selectOption]"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </i-select>
-          <iDatePicker
-            v-model="searchForm[item.props]"
-            v-else-if="item.type == 'date'"
-            valueFormat="yyyy-MM-dd"
-            type="date"
-            :placeholder="language('QINGXUANZE', '请选择')"
-          />
-          <iInput
-            v-else
-            v-model="searchForm[item.props]"
-            :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
-          ></iInput>
-        </iFormItem>
-      </iFormGroup>
-    </i-search>
+  <div>
+    <search
+      @sure="sure"
+      @reset="reset"
+      :searchFormData="ruleQueryFormData"
+      :searchForm="searchForm"
+      :options="options"
+    />
     <iCard class="OrganizationTable">
-      <div class="export">
+      <div class="table-header">
         <el-switch
           v-model="onlySeeMySelf"
           @change="changeSwitch"
@@ -94,7 +38,6 @@
       <div>
         <iTableCustom
           ref="testTable"
-          class="customClass"
           :loading="tableLoading"
           :data="tableListData"
           :columns="tableSetting"
@@ -123,36 +66,11 @@
 </template>
 
 <script>
-import {
-  iSearch,
-  iInput,
-  iSelect,
-  iPage,
-  iCard,
-  iButton,
-  iPagination,
-  iFormItem,
-  iFormGroup,
-  iDialog,
-  iDatePicker,
-  iMessage,
-  icon,
-  iMultiLineInput
-  // iTableCustom
-} from 'rise'
-import iTableCustom from '@/components/iTableCustom'
+import { iCard, iButton, iPagination, iMessage, iTableCustom } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, ruleQueryFormData } from './components/data'
-import Detail from './components/detail'
-import {
-  rulePage,
-  getDeptData,
-  getMtzMarketSourceList,
-  exportRuleData,
-  ruleEntityEdit,
-  queryDeptSectionForRule
-} from '@/api/mtz/database/partsQuery'
-import { selectDictByKeys } from '@/api/dictionary'
+import search from './components/search'
+import { queryDeptSectionForRule } from '@/api/mtz/database/partsQuery'
 import buttonTableSetting from '@/components/buttonTableSetting'
 
 import {
@@ -162,22 +80,12 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 export default {
   components: {
-    iSearch,
-    iInput,
-    icon,
-    iSelect,
-    iPage,
+    search,
     iCard,
     iButton,
     iTableCustom,
     iPagination,
-    iFormItem,
-    iFormGroup,
-    iDialog,
-    iDatePicker,
-    Detail,
-    buttonTableSetting,
-    iMultiLineInput
+    buttonTableSetting
   },
   mixins: [pageMixins],
   data() {
@@ -285,11 +193,11 @@ export default {
       if (searchForm.startDate)
         searchForm.startDate = window
           .moment(searchForm.startDate)
-          .format('YYYY-01-01 00:00:00')
+          .format('YYYY-MM-DD 00:00:00')
       if (searchForm.endDate)
         searchForm.endDate = window
           .moment(searchForm.endDate)
-          .format('YYYY-01-01 23:59:59')
+          .format('YYYY-MM-DD 23:59:59')
       let params = {
         ...searchForm,
         pageSize: this.page.pageSize,
@@ -353,14 +261,11 @@ export default {
           if (res.result) {
             this.getList()
             iMessage.success(res.desZh)
-            // this.$message(res.desZh)
           } else {
-            // this.$message({type:'warning',message:res.desZh})
             iMessage.error(res.desZh)
           }
         })
       } else {
-        // this.$message({type:'warning',message:"请至少勾选一条数据"})
         iMessage.warn(
           this.language('QINGZHISHAOXUANZHONGYITIAOSHUJU', '请至少选中一条数据')
         )
@@ -371,13 +276,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.routerpage {
-  overflow: hidden;
-}
 .OrganizationTable {
   margin-top: 20px;
 }
-.export {
+.table-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -387,32 +289,5 @@ export default {
     font-weight: bold;
     color: #000;
   }
-  .export_title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .tt {
-    margin-right: 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-}
-// .SearchOption {
-//   margin-bottom: 20px !important;
-// }
-.open-link-text {
-  text-decoration: underline;
-}
-.mtz-select {
-  margin-top: 25px;
-}
-::v-deep.customClass {
-  .open-link-text {
-    text-decoration: underline;
-  }
-}
-::v-deep .el-form-item {
-  flex-direction: column;
 }
 </style>

@@ -9,9 +9,12 @@
 <!-- MTZ变更分页页面 -->
 <template>
   <div>
-    <theSearch ref="theSearch"></theSearch>
-    <theTable class="margin-top20"
-              ref="theTable"></theTable>
+    <theSearch ref="theSearch" :statusList="statusList"></theSearch>
+    <theTable
+      class="margin-top20"
+      ref="theTable"
+      :statusList="statusList"
+    ></theTable>
   </div>
 </template>
 
@@ -19,22 +22,39 @@
 import { iPage, iCard } from 'rise'
 import theSearch from './components/theSearch'
 import theTable from './components/theTable'
+import {
+  getLocationApplyStatus,
+  getLocationApplyFilter
+} from '@/api/mtz/annualGeneralBudget/chipChange'
 export default {
   name: '',
   components: {
     theSearch,
     theTable
   },
-  data () {
+  data() {
     return {
-
+      statusList: []
     }
   },
-  created () {
+  created() {
     console.log(this.$i18n.locale)
+    this.getLocationApplyStatus()
   },
   methods: {
-
+    //申请状态下拉
+    getLocationApplyStatus() {
+      getLocationApplyStatus({ keyWords: '' }).then((res) => {
+        if (res && res.code === '200') {
+          this.statusList = res.data.map((item) => ({
+            value: item.code,
+            label: item.message
+          }))
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    }
   }
 }
 </script>

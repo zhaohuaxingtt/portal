@@ -13,19 +13,14 @@
         {{ language('SHENPIFUJIAN', '审批附件') }}
       </span>
       <div>
-        <iButton
-          @click="handleClickDel"
-          v-if="canEdit"
-          :disabled="disabled"
-          v-permission="PORTAL_MTZ_CHANGE_INFOR_DEL"
-          >{{ language('SHANCHU', '删除') }}</iButton
-        >
+        <iButton @click="handleClickDel" :loading="btnLoading" v-if="canEdit">{{
+          language('SHANCHU', '删除')
+        }}</iButton>
         <uploadButton
           ref="uploadButtonAttachment"
           :buttonText="language('SHANGCHUAN', '上传')"
-          v-permission="PORTAL_MTZ_CHANGE_INFOR_SHANGCHUAN"
+          :uploadButtonLoading="btnLoading"
           v-if="canEdit"
-          :disabled="disabled"
           @uploadedCallback="uploadSuccess"
           class="margin-left20"
         />
@@ -71,9 +66,9 @@ export default {
     return {
       changeId: '',
       loading: false,
+      btnLoading: false,
       tableData: [],
-      mutileList: [],
-      disabled: false
+      mutileList: []
     }
   },
   components: {
@@ -92,15 +87,6 @@ export default {
       default: false
     }
   },
-  watch: {
-    '$store.state.location.disabled': {
-      handler(val) {
-        this.disabled = JSON.parse(val)
-      },
-      deep: true,
-      immediate: true
-    }
-  },
   methods: {
     init() {
       this.changeId = this.$route.query.changeId
@@ -109,9 +95,11 @@ export default {
 
     // 查询附件列表
     getAttachList() {
+      this.loading = true
       getApprovalByChangeId(this.$route.query.changeId).then((res) => {
         if (res.code === '200') {
           this.tableData = res.data
+          this.loading = false
         } else {
           iMessage.error(res.desZh)
         }
@@ -120,17 +108,22 @@ export default {
     // 上传
     uploadSuccess(data) {
       if (data) {
+        this.btnLoading = true
         saveAtta({
           appId: this.changeId,
           fileId: data.id,
           fileType: 4 // 变更申请单审批附件
-        }).then((res) => {
-          console.log(res)
-          if (res?.code == '200') {
-            iMessage.success('上传成功')
-            this.getAttachList()
-          }
         })
+          .then((res) => {
+            console.log(res)
+            if (res?.code == '200') {
+              iMessage.success('上传成功')
+              this.getAttachList()
+            }
+          })
+          .finally(() => {
+            this.btnLoading = false
+          })
       }
     },
     // 点击删除
@@ -146,14 +139,19 @@ export default {
           cancelButtonText: this.language('QUXIAO', '取消')
         }
       ).then((res) => {
-        deleteAtta(this.mutileList.map((item) => item.attachmentId)).then(
-          (res) => {
+        this.btnLoading = true
+        deleteAtta(this.mutileList.map((item) => item.attachmentId))
+          .then((res) => {
             if (res && res.code == 200) {
               iMessage.success(res.desZh)
               this.getAttachList()
-            } else iMessage.error(res.desZh)
-          }
-        )
+            } else {
+              iMessage.error(res.desZh)
+            }
+          })
+          .finally(() => {
+            this.btnLoading = false
+          })
       })
     },
     handleSelectionChange(val) {

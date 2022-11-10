@@ -6,6 +6,17 @@
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\data.js
  */
+
+export const searchFormData = [
+  { props: 'appNo', name: '申请单号', key: 'SHENQINGDANHAO' },
+  { props: 'workflowType', name: '流程类型', key: 'LIUCHENGLEIXING', type: 'select', selectOption: 'flowTypeList', multiple: true },
+  { props: 'status', name: '申请状态', key: 'SHENQINGZHUANGTAI', type: 'select', selectOption: 'locationApplyStatus', multiple: true },
+  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO', type: "iMultiLineInput" },
+  { props: 'deptName', name: '科室', key: 'KESHI', type: 'select', selectOption: 'deptList', multiple: true },
+  { props: 'linieName', name: '采购员', key: 'CAIGOUYUAN', type: 'select', selectOption: 'linieList', multiple: true },
+  { props: 'nominateDate', name: '定点时间', key: '定点时间', type: 'daterange' }
+]
+
 export const tableTitle = [
   { props: 'appNo', name: '申请单号', key: 'SHENQINGDANHAO', width: 120 },
   {
@@ -47,7 +58,7 @@ export const tableTitle = [
     width: 125
   },
   { props: 'linieName', name: '采购员', key: 'CAIGOUYUAN' },
-  { props: 'depteName', name: '科室', key: 'KESHI' }
+  { props: 'depteCode', name: '科室', key: 'KESHI' }
 ]
 
 export const tableTitleCp = [

@@ -17,7 +17,9 @@
           <iButton @click="addChip">{{
             language('XINJIANCHIPBIANGENGSHENQING', '新建芯片补差变更申请')
           }}</iButton>
-          <iButton @click="recall">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="openRecall">{{
+            language('CHEHUI', '撤回')
+          }}</iButton>
           <iButton @click="del">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </template>
@@ -31,7 +33,7 @@
         <el-table-column type="selection" width="60"> </el-table-column>
         <el-table-column label="#" type="index" width="60"> </el-table-column>
         <el-table-column
-          prop="mtzAppId"
+          prop="appNo"
           align="center"
           show-overflow-tooltip
           width="240"
@@ -39,13 +41,9 @@
         >
           <template slot-scope="scope">
             <div>
-              <iButton
-                type="text"
-                v-if="scope.row.viewDetailsFlag"
-                @click="detail(scope.row)"
-                >{{ scope.row.mtzAppId }}</iButton
-              >
-              <p v-else>{{ scope.row.mtzAppId }}</p>
+              <iButton type="text" @click="detail(scope.row)">{{
+                scope.row.appNo
+              }}</iButton>
             </div>
           </template>
         </el-table-column>
@@ -58,15 +56,18 @@
         >
         </el-table-column>
         <el-table-column
-          prop="appStatus"
+          prop="status"
           align="center"
           label="申请状态"
           show-overflow-tooltip
           width="180"
         >
+          <template slot-scope="scope">
+            {{ getStatus(scope.row.status) }}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="buyerName"
+          prop="linieName"
           align="center"
           label="采购员"
           show-overflow-tooltip
@@ -74,14 +75,14 @@
         >
         </el-table-column>
         <el-table-column
-          prop="buyerDeptName"
+          prop="depteCode"
           align="center"
           label="科室"
           show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
-          prop="updateDate"
+          prop="approvalTime"
           align="center"
           label="审批完成时间"
           show-overflow-tooltip
@@ -103,17 +104,31 @@
       :dialogVisible="dialogVisible"
       @close="close"
     ></new-chipLocation-change>
+    <iDialog
+      :title="language('CHEHUIYUANYIN', '撤回原因')"
+      :visible.sync="reasonShow"
+      v-if="reasonShow"
+      width="40%"
+    >
+      <div>
+        <div class="tanc_book">
+          <iInput v-model="reason" type="textarea" :rows="10"></iInput>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <iButton @click="recall">{{ language('QUEREN', '确认') }}</iButton>
+          <iButton @click="cancel">{{ language('QUXIAO', '取消') }}</iButton>
+        </div>
+      </div>
+    </iDialog>
   </div>
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage } from 'rise'
+import { iCard, iButton, iPagination, iMessage, iDialog, iInput } from 'rise'
 import newChipLocationChange from '../../newChipLocationChange'
 import {
   getPageList,
-  deleteData,
   recall,
-  mtzRecall,
   deleteApproval
 } from '@/api/mtz/annualGeneralBudget/chipChange'
 import { pageMixins } from '@/utils/pageMixins'
@@ -124,22 +139,36 @@ export default {
     iCard,
     iButton,
     iPagination,
-    newChipLocationChange
+    newChipLocationChange,
+    iDialog,
+    iInput
   },
   watch: {},
   mixins: [pageMixins],
+  props: {
+    statusList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       tableData: [],
       loading: false,
       muilteList: [],
-      dialogVisible: false
+      dialogVisible: false,
+      reasonShow: false,
+      reason: ''
     }
   },
   mounted() {
     this.getTableList()
   },
   methods: {
+    // 申请状态
+    getStatus(status) {
+      return this.statusList.find((item) => item.value == status)?.label
+    },
     addChip() {
       this.dialogVisible = true
     },
@@ -185,7 +214,7 @@ export default {
       let routerPath = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/ChipApplicationForm',
         query: {
-          changeId: val.appId || ''
+          changeId: val.id
         }
       })
       this.$store.dispatch('setMtzChangeBtn', false)
@@ -225,15 +254,23 @@ export default {
         )
       }
     },
+    openRecall() {
+      if (this.muilteList.length === 0)
+        return iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
+      this.reasonShow = true
+    },
+    cancel() {
+      this.reasonShow = false
+    },
     // 撤回
     recall() {
-      if (this.muilteList.length === 0) {
-        iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
-        return
-      }
-      recall(this.muilteList.map((item) => item.id)).then((res) => {
+      recall(
+        this.muilteList.map((item) => item.id),
+        { reason: this.reason }
+      ).then((res) => {
         if (res?.code === '200') {
           iMessage.success(res.desZh)
+          this.reasonShow = false
           this.getTableList()
         } else {
           iMessage.error(res.desZh)
@@ -247,4 +284,20 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tanc_book {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  span {
+    font-size: 16px;
+  }
+}
+.dialog-footer {
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+</style>
