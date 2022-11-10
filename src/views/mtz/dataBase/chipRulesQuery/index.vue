@@ -237,7 +237,30 @@ export default {
       this.getList()
     },
     handleExportAll() {
-      exportAppRecordByCondition(this.searchForm).then((res) => {
+      let searchForm = {}
+      // 所有list都改为逗号分隔的字符串
+      Object.keys(this.searchForm).forEach((key) => {
+        if (Array.isArray(this.searchForm[key])) {
+          searchForm[key] = this.searchForm[key].join(',')
+        } else {
+          searchForm[key] = this.searchForm[key]
+        }
+      })
+      if (searchForm.startDate)
+        searchForm.startDate = window
+          .moment(searchForm.startDate)
+          .format('YYYY-MM-DD 00:00:00')
+      if (searchForm.endDate)
+        searchForm.endDate = window
+          .moment(searchForm.endDate)
+          .format('YYYY-MM-DD 23:59:59')
+      let params = {
+        ...searchForm,
+        pageSize: this.page.pageSize,
+        currentPage: this.page.currPage,
+        onlySeeMySelf: this.onlySeeMySelf
+      }
+      exportAppRecordByCondition(params).then((res) => {
         let url = window.URL.createObjectURL(res)
         let link = document.createElement('a')
         link.style.display = 'none'

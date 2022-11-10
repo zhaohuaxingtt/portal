@@ -140,7 +140,7 @@ export default {
       this.loading = true
       getAtta({
         appId: this.$route.query.appId,
-        fileType: 1
+        fileType: 2
       })
         .then((res) => {
           if (res && res.code == 200) {

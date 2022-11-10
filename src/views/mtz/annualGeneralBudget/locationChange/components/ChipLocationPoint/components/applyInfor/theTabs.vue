@@ -133,6 +133,7 @@
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'supplier'"
               :rules="formRules.supplier ? formRules.supplier : ''"
+              v-if="editId.indexOf(scope.row.id) !== -1"
             >
               <i-input
                 v-model="scope.row.supplier"
@@ -140,10 +141,9 @@
                 :placeholder="
                   language('请输入供应商SAP号', '请输入供应商SAP号')
                 "
-                v-if="editId.indexOf(scope.row.id) !== -1"
               ></i-input>
-              <span v-else>{{ scope.row.supplier }}</span>
             </el-form-item>
+            <span v-else>{{ scope.row.supplier }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -166,7 +166,7 @@
         <el-table-column
           prop="partNum"
           align="center"
-          width="110"
+          width="120"
           :label="language('LINGJIANHAO', '零件号')"
           show-overflow-tooltip
           sortable
@@ -175,16 +175,16 @@
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'partNum'"
               :rules="formRules.partNum ? formRules.partNum : ''"
+              v-if="editId.indexOf(scope.row.id) !== -1"
             >
               <el-input
                 @blur="getPartCodeId(scope.row)"
                 v-model.trim="scope.row.partNum"
                 :placeholder="language('QINGSHURU', '请输入')"
-                v-if="editId.indexOf(scope.row.id) !== -1"
               >
               </el-input>
-              <span v-else>{{ scope.row.partNum }}</span>
             </el-form-item>
+            <span v-else>{{ scope.row.partNum }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -207,7 +207,7 @@
         <el-table-column
           prop="amount"
           align="center"
-          width="140"
+          width="130"
           :label="language('补差金额', '补差金额')"
           show-overflow-tooltip
           sortable
@@ -582,7 +582,7 @@ export default {
     },
     addDialogDataList(val) {
       this.newDataList = val.map((item) => {
-        item.supplier = item.sapCode + '-' + item.supplierName
+        this.$set(item, 'supplier', item.sapCode + '-' + item.supplierName)
         return item
       })
       this.closeDiolog()

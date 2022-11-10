@@ -30,6 +30,15 @@
       <template slot="effectFlag" slot-scope="scope">
         <span>{{ scope.row.effectFlag ? '生效' : '未生效' }}</span>
       </template>
+      <template slot="startDate" slot-scope="scope">
+        <span>{{ getDay(scope.row.startDate) }}</span>
+      </template>
+      <template slot="endDate" slot-scope="scope">
+        <span>{{ getDay(scope.row.endDate) }}</span>
+      </template>
+      <template slot="updateDate" slot-scope="scope">
+        <span>{{ getDay(scope.row.updateDate) }}</span>
+      </template>
     </tableList>
     <iPagination
       @size-change="handleSizeChange($event, getTableList)"
@@ -45,28 +54,11 @@
 </template>
 
 <script>
-import {
-  iInput,
-  iCard,
-  iSearch,
-  iSelect,
-  iDatePicker,
-  iMessage,
-  iDialog,
-  iButton,
-  iTabs,
-  iTabsList,
-  iFormGroup,
-  iFormItem,
-  iPagination,
-  iMultiLineInput
-} from 'rise'
-import iTableCustom from '@/components/iTableCustom'
+import { iMessage, iButton, iPagination } from 'rise'
 import search from '../../../components/search.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import { continueBox, QueryFormData } from './data.js'
 import tableList from '@/components/commonTable/index.vue'
-import inputCustom from '@/components/inputCustom'
 import {
   getAppRecordByCondition,
   getDeptLimitLevel
@@ -75,24 +67,10 @@ import {
 export default {
   components: {
     search,
-    iCard,
-    iSelect,
-    iDatePicker,
-    iDialog,
     iButton,
-    iTabs,
-    iTabsList,
-    iInput,
     iPagination,
-    iFormGroup,
-    iFormItem,
-    tableList,
-    iMultiLineInput,
-    inputCustom,
-    iTableCustom,
-    iSearch
+    tableList
   },
-  props: ['detailObj', 'selectList'],
   mixins: [pageMixins],
   data() {
     return {
@@ -157,6 +135,9 @@ export default {
     })
   },
   methods: {
+    getDay(date) {
+      return date ? date.split(' ')[0] : date
+    },
     init() {
       getDeptLimitLevel({}).then((res) => {
         this.$set(
@@ -185,11 +166,11 @@ export default {
       if (searchForm.startDate)
         searchForm.startDate = window
           .moment(searchForm.startDate)
-          .format('YYYY-01-01 00:00:00')
+          .format('YYYY-MM-DD 00:00:00')
       if (searchForm.endDate)
         searchForm.endDate = window
           .moment(searchForm.endDate)
-          .format('YYYY-01-01 23:59:59')
+          .format('YYYY-MM-DD 23:59:59')
       let params = {
         ...searchForm,
         pageSize: this.page.pageSize,
