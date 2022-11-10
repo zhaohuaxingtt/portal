@@ -106,7 +106,7 @@ export function initData(data) {
 // 查询变更单
 export function getPageList(data) {
   return requestChip({
-    url: '/change/page',
+    url: '/change/getChangeList',
     method: 'POST',
     data: data
   })
