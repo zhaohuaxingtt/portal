@@ -15,26 +15,21 @@
         label-position="left"
         class="baseInfoForm"
       >
-        <div class="baseInformation">
-          <iFormItem label="申请单名" class="formItem" prop="appName">
-            <el-input
-              :disabled="!canEdit ? true : false"
-              v-model="formInline.appName"
-            ></el-input>
-          </iFormItem>
-          <iFormItem label="申请单Id" class="formItem">
-            <iText>{{ formInline.appNo }}</iText>
-          </iFormItem>
-          <iFormItem label="申请单类型" class="formItem" label-width="100px">
-            <iText>{{ getAppType(formInline.appType) }}</iText>
-          </iFormItem>
-          <iFormItem label="申请状态" class="formItem">
-            <iText>{{ getStatus(formInline.status) }}</iText>
-          </iFormItem>
-          <iFormItem label="补差类型" class="formItem">
-            <iText>{{ getMakeType(formInline.makeType) }}</iText>
-          </iFormItem>
-        </div>
+        <iFormItem label="申请单名" class="formItem" prop="appName">
+          <iText>{{ formInline.appName }}</iText>
+        </iFormItem>
+        <iFormItem label="申请单Id" class="formItem">
+          <iText>{{ formInline.appNo }}</iText>
+        </iFormItem>
+        <iFormItem label="申请单类型" class="formItem" label-width="100px">
+          <iText>{{ getAppType(formInline.appType) }}</iText>
+        </iFormItem>
+        <iFormItem label="申请状态" class="formItem">
+          <iText>{{ getStatus(formInline.status) }}</iText>
+        </iFormItem>
+        <iFormItem label="补差类型" class="formItem">
+          <iText>{{ getMakeType(formInline.makeType) }}</iText>
+        </iFormItem>
       </el-form>
     </iCard>
     <iTabsList
@@ -111,7 +106,7 @@
               <el-table-column
                 prop="partNum"
                 align="center"
-                width="110"
+                width="120"
                 :label="language('LINGJIANHAO', '零件号')"
                 show-overflow-tooltip
                 sortable
@@ -210,7 +205,15 @@
 </template>
 
 <script>
-import { iPage, iCard, iTabsList, iPagination, iMessage } from 'rise'
+import {
+  iPage,
+  iCard,
+  iTabsList,
+  iPagination,
+  iMessage,
+  iFormItem,
+  iText
+} from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { TABLE_COLUMNS1 } from './components/data'
 import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
@@ -261,7 +264,9 @@ export default {
     iPage,
     iTabsList,
     iPagination,
-    iTableCustom
+    iTableCustom,
+    iFormItem,
+    iText
   },
 
   created() {
@@ -277,6 +282,10 @@ export default {
     )
   },
   methods: {
+    // 调整日期格式
+    getDay(date) {
+      return date ? date.split(' ')[0] : date
+    },
     // 申请状态
     getStatus(status) {
       return this.statusList.find((item) => item.code == status)?.message
@@ -336,6 +345,13 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+  .formItem {
+    display: inline-flex;
+    width: 18%;
+    ::v-deep .el-form-item__content {
+      flex: 1;
+    }
+  }
 }
 ::v-deep .el-form-item__content {
   width: 100%;
