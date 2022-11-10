@@ -170,7 +170,7 @@
                 <el-table-column
                   prop="partNum"
                   align="center"
-                  width="110"
+                  width="120"
                   :label="language('LINGJIANHAO', '零件号')"
                   show-overflow-tooltip
                   sortable
