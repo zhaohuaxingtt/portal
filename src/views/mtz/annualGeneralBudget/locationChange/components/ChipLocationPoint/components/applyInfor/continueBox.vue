@@ -176,15 +176,16 @@ export default {
         pageSize: this.page.pageSize,
         currentPage: this.page.currPage
       }
-      getAppRecordByCondition(params).then((res) => {
-        if (res?.code == 200) {
-          this.tableData = res.data.records
-          this.page.totalCount = res.data.total
-          this.loading = false
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
+      getAppRecordByCondition(params)
+        .then((res) => {
+          if (res?.code == 200) {
+            this.tableData = res.data.records
+            this.page.totalCount = res.data.total
+          } else {
+            iMessage.error(res.desZh)
+          }
+        })
+        .finally(() => (this.loading = false))
     },
     // 重置
     handleSearchReset(form) {
