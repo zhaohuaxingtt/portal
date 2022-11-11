@@ -14,8 +14,8 @@ export function selectFinance(parmars, type) {
     url: `/finance/list`,
     method: 'POST',
     data: {
+      supplierToken: store.state.home.valiCode,
       ...parmars,
-      supplierToken: store.state.home.valiCode
     },
     baseURL:
       type < 4

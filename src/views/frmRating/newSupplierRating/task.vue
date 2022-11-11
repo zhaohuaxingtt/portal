@@ -8,11 +8,14 @@
 <template>
   <div>
     <supplierMessage class="margin-bottom20"/>
+    <newSupplierRating1></newSupplierRating1>
     <supplierAddMaterialsTable/>
   </div>
 </template>
 
 <script>
+import newSupplierRating1 from "./newSupplierRating1/indexTask";
+
 import supplierAddMaterialsTable from "./components/supplierAddMaterialsTable";
 import {tabRouterList} from '../data';
 import supplierMessage from './newSupplierRating1/components/supplierMessage'
@@ -20,7 +23,8 @@ import supplierMessage from './newSupplierRating1/components/supplierMessage'
 export default {
   components: {
     supplierAddMaterialsTable,
-    supplierMessage
+    supplierMessage,
+    newSupplierRating1
   },
   data() {
     return {
