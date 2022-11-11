@@ -81,7 +81,7 @@ export default {
           this.options,
           'deptList',
           res.data.map((item) => ({
-            value: item.code,
+            value: item.message,
             label: item.message
           }))
         )
