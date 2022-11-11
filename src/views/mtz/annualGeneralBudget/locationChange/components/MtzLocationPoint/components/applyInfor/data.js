@@ -282,7 +282,13 @@ export const continueBox = [
     props: 'preciousMetalDosageUnit',
     name: '贵金属用量&基价单位',
     key: 'GUIJINSHUYONGLIANGJIJIADANWEI'
-  }
+  },
+  { width: 150, props: 'substrateExw', name: '载体费用', key: '载体费用' },
+  { width: 150, props: 'substrateImpDuty', name: '载体税率(%)', key: '载体税率(%)' },
+  { width: 150, props: 'substrateHandling', name: '载体管理费率(%)', key: '载体管理费率(%)' },
+  { width: 150, props: 'pgmHandling', name: '贵金属管理费率(%)', key: '贵金属管理费率(%)' },
+  { width: 150, props: 'manufacture', name: '制造费用', key: '制造费用' },
+  { width: 150, props: 'transport', name: '运输费用', key: '运输费用' },
 ]
 
 export const tableLeftTitle = [
