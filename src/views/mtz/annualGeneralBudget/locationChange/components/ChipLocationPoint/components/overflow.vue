@@ -15,7 +15,7 @@
         <span class="title_name">-{{ appName }}-{{ user }}-{{ dept }}</span>
         <div class="title_type">
           <div class="title_block">
-            <span>申请单类型：</span>
+            <span>{{ $t('SHENQINGDANLEIXING') }}：</span>
             <iSelect
               :disabled="!canEdit"
               v-model="formInfo.workflowType"

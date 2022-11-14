@@ -5,28 +5,6 @@
       <div slot="header" class="flex-between-center" style="width: 100%">
         <div>
           <span>{{ language('SHENQINGDANXINXI', '申请单信息') }}</span>
-          <a v-if="applyNumber !== ''">-</a>
-          <a class="number_color" @click="jumpInforBtn">{{ applyNumber }}</a>
-          <el-tooltip
-            effect="light"
-            placement="right"
-            v-if="applyNumber !== ''"
-          >
-            <div slot="content">
-              <p>
-                {{
-                  language(
-                    'CSQDYYGLLDDDSQDJCLJKCKXQHQXGL',
-                    '此申请单已有关联零点定点申请，点击超链接可查看详情，或取消关联'
-                  )
-                }}
-              </p>
-            </div>
-            <i
-              class="el-icon-warning-outline margin-left10"
-              style="color: blue"
-            ></i>
-          </el-tooltip>
         </div>
         <div class="opration">
           <iButton @click="edit" v-show="disabled && canEdit">{{
@@ -99,8 +77,6 @@
     </iCard>
     <theTabs
       ref="theTabs"
-      @isNomiNumber="isNomiNum"
-      @handleReset="handleReset"
       :canEdit="canEdit"
       :type="inforData.type"
       :chipDetailList="chipDetailList"
@@ -108,61 +84,22 @@
       @init="init"
     >
     </theTabs>
-    <iDialog
-      :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
-      :visible.sync="mtzAddShow"
-      v-if="mtzAddShow"
-      width="85%"
-      @close="closeDiolog"
-    >
-      <partApplication
-        @close="saveClose"
-        :numIsNomi="numIsNomi"
-        :inforData="inforData"
-      ></partApplication>
-    </iDialog>
   </div>
 </template>
 
 <script>
-import {
-  iInput,
-  iSelect,
-  iDialog,
-  iMessage,
-  iDatePicker,
-  iCard,
-  iButton,
-  iMessageBox
-} from 'rise'
+import { iInput, iDialog, iMessage, iCard, iButton, iMessageBox } from 'rise'
 import { tabsInforList } from './data'
 import theTabs from './theTabs'
-import theDataTabs from './theDataTabs'
-import partApplication from './partApplication'
-import store from '@/store'
-import { page } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
-import {
-  getAppFormInfo,
-  modifyAppFormInfo,
-  // getFlowTypeList,
-  disassociate,
-  fetchAppNomiDecisionDataPage
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { updateApp } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
-import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-import chip from '@/i18n/zh/chip'
 export default {
   name: 'searchTabs',
   components: {
     iDialog,
     iInput,
-    iDatePicker,
     iCard,
     iButton,
-    theTabs,
-    partApplication,
-    theDataTabs,
-    iSelect
+    theTabs
   },
   props: {
     baseData: {
@@ -172,7 +109,6 @@ export default {
   },
   data() {
     return {
-      mtzAddShow: false,
       disabled: true,
       textarea: '',
       tabsInforList: tabsInforList,
@@ -202,8 +138,7 @@ export default {
 
       applyNumber: '',
       showType: false,
-      appIdType: true,
-      numIsNomi: 0
+      appIdType: true
     }
   },
   computed: {
@@ -232,42 +167,6 @@ export default {
     init() {
       this.$emit('getAppById')
     },
-    getsyncAuther() {
-      syncAuther({ mtzAppId: this.$route.query.mtzAppId, tag: '' })
-    },
-    // getListData () {
-    // getFlowTypeList({}).then(res => {
-    //   this.getFlowTypeList = res.data;
-    // })
-    // },
-    handleChange(val) {
-      // this.searchForm.monthFrom = window.moment(val[0]).format('yyyy-MM-DD')
-      // this.searchForm.monthTo = window.moment(val[1]).format('yyyy-MM-DD')
-    },
-    handleChange1(val) {},
-    handleReset() {
-      modifyAppFormInfo({
-        ...this.inforData,
-        type: 'MEETING'
-      }).then((res) => {
-        if (res.code == 200) {
-          setTimeout(() => {
-            disassociate({
-              mtzAppId:
-                this.$route.query.mtzAppId ||
-                JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-            }).then((res) => {
-              if (res.code == 200) {
-                this.applyNumber = ''
-                this.init()
-              } else {
-                iMessage.error(res.desZh)
-              }
-            })
-          }, 100)
-        }
-      })
-    },
     edit() {
       this.disabled = false
     },
@@ -277,17 +176,7 @@ export default {
           this.language('SHENQINGDANMINGBUNENGWEIKONG', '申请单名不能为空')
         )
       }
-      if (this.inforData.workflowType == 'SIGN' && this.numIsNomi !== 0) {
-        //流转
-        return iMessage.error(
-          this.language(
-            'WHMTZYCLGZCZXGZSQDLXWFXZLZ',
-            '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'
-          )
-        )
-      } else {
-        this.saveEdit()
-      }
+      this.saveEdit()
     },
     saveEdit() {
       iMessageBox(
@@ -314,50 +203,7 @@ export default {
     },
     cancel() {
       this.disabled = true
-      this.init('取消')
-    },
-    relation() {
-      //关联零件定点申请
-      iMessageBox(
-        this.language(
-          'GLSQDHWFCMTZJMFQTJCHHWLZDJQXDDDCZ',
-          '关联申请单后，无法从MTZ界面发起提交、撤回、会外流转、冻结、取消定点等操作'
-        ),
-        this.language('LK_WENXINTISHI', '温馨提示'),
-        {
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-        }
-      ).then((res) => {
-        this.mtzAddShow = true
-      })
-    },
-    cancelRelation() {
-      iMessageBox(
-        this.language('QDYQXGL', '确定要取消关联？'),
-        this.language('LK_WENXINTISHI', '温馨提示'),
-        {
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-        }
-      )
-        .then((res) => {
-          disassociate({
-            mtzAppId:
-              this.$route.query.mtzAppId ||
-              JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-          }).then((res) => {
-            if (res.code == 200) {
-              iMessage.success(res.desZh)
-              this.applyNumber = ''
-              this.getsyncAuther()
-              this.init()
-            } else {
-              iMessage.error(res.desZh)
-            }
-          })
-        })
-        .catch((res) => {})
+      this.init()
     },
     reset() {
       this.searchForm = {
@@ -375,63 +221,12 @@ export default {
       }
     },
     handleClickFsupplierName(val) {},
-    closeDiolog() {
-      this.mtzAddShow = false
-    },
     saveClose(val) {
       this.applyNumber = val
-      this.closeDiolog()
       this.init()
     },
     chioce(e, name) {
       this.inforData[name] = e
-    },
-    isNomiNum(val) {
-      this.numIsNomi = val
-    },
-
-    // getLjLocation(){
-    //   page({
-    //     current: 1,
-    //     size: 9999,
-    //     nominateId:this.applyNumber
-    //   }).then(res=>{
-    //     if(res.code == 200 && res.result){
-    //       this.relationType = res.data.records[0].nominateProcessType;
-    //     }else{
-    //       iMessage.error(this.language(res.desEn,res.desZh))
-    //     }
-    //   })
-    // },
-    jumpInforBtn() {
-      page({
-        current: 1,
-        size: 9999,
-        nominateId: this.applyNumber
-      }).then((res) => {
-        if (res.code == 200 && res.result) {
-          var jumpData = res.data.records[0]
-          var partProjType = ''
-          if (jumpData.partProjType == null) {
-            partProjType = ''
-          } else {
-            partProjType = jumpData.partProjType
-          }
-          var path = ''
-          path =
-            'designate/decisiondata/rs?desinateId=' +
-            jumpData.id +
-            '&designateType=' +
-            jumpData.nominateProcessType +
-            '&partProjType' +
-            partProjType +
-            '&applicationStatus=' +
-            jumpData.applicationStatus
-          window.open(process.env.VUE_APP_SOURCING_URL + path)
-        } else {
-          iMessage.error(this.language(res.desEn, res.desZh))
-        }
-      })
     }
   },
   destroyed() {}
