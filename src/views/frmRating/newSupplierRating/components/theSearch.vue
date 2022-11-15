@@ -144,7 +144,10 @@ export default {
         dunsCode: "",
         buyerDeptId: "",
         ratingResult: "",
+        newVendorRatingStatus:"",
       };
+      this.valueSQ = ""
+      this.valuePJ = ""
       this.getTableList();
     },
     getTableList () {
