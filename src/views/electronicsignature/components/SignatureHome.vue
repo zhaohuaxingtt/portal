@@ -421,7 +421,7 @@ export default {
           if (res?.data) {
             window.open(res.data)
           } else {
-            this.$message.warning('签署失败')
+            this.$message.warning($t('法大大返回路径地址为空,请联系系统管理员'))
           }
         } else {
           this.$message.error(res.desZh)
