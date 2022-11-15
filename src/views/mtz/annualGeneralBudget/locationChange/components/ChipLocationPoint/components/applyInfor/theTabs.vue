@@ -14,7 +14,7 @@
           class="search"
           clearable
           v-model="partNum"
-          placeholder="请输入零件号"
+          :placeholder="$t('请输入零件号')"
         ></i-input>
       </div>
       <div>
@@ -79,14 +79,6 @@
           :label="language('GUIZEBIANHAO', '规则编号')"
           sortable
         >
-          <template slot-scope="scope">
-            <el-form-item
-              :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
-              :rules="formRules.ruleNo ? formRules.ruleNo : ''"
-            >
-              <span>{{ scope.row.ruleNo }}</span>
-            </el-form-item>
-          </template>
         </el-table-column>
         <el-table-column
           prop="formalFlag"
@@ -374,7 +366,7 @@ import {
   getSupplierInfoBySap,
   getPartCodeId
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
-
+import { timeTransformation } from './util'
 export default {
   name: 'Search',
   componentName: 'theTabs',
@@ -393,6 +385,17 @@ export default {
   watch: {},
   props: ['canEdit', 'type', 'relationType', 'chipDetailList', 'baseData'],
   data() {
+    var validate = (rule, value, callback, data) => {
+      let index = Object.keys(data)[0].split('.')[1]
+      let item = this.tableData[index]
+      if (
+        timeTransformation(item.startDate) >= timeTransformation(item.endDate)
+      ) {
+        callback(new Error('有效期起不能大于等于有效期止'))
+      } else {
+        callback()
+      }
+    }
     return {
       methodList: [
         {
@@ -406,7 +409,17 @@ export default {
         }
       ],
       tcCurrence: [],
-      formRules: formRulesGZ,
+      formRules: {
+        ...formRulesGZ,
+        startDate: [
+          { required: true, message: '请选择', trigger: 'change' },
+          { validator: validate, trigger: 'change' }
+        ], //开始日期
+        endDate: [
+          { required: true, message: '请选择', trigger: 'change' },
+          { validator: validate, trigger: 'change' }
+        ] //结束日期
+      },
       newDataList: [], //传过来的列表数据
       editType: false,
       editId: '',

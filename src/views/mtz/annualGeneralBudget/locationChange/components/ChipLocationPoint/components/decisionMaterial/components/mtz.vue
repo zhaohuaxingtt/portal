@@ -637,7 +637,7 @@ export default {
       switch (this.baseData?.chipAppBase?.workflowType) {
         case 'MEETING':
           // 上会
-          res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
+          res = 'CSC 定点推荐 - 芯片补差 CSC Nomination Recommendation - Chip'
           break
         case 'SIGN':
           // 流转

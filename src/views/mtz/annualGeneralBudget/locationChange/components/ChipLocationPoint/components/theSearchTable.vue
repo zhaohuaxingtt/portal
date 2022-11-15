@@ -10,8 +10,8 @@
     />
 
     <iCard class="margin-top20">
-      <div slot="header" class="flex-between-center" style="width: 100%">
-        <span>详情列表</span>
+      <template v-slot:header>
+        <span class="headTitle">{{ $t('XIANGQINGLIEBIAO') }}</span>
         <div class="opration">
           <iButton
             @click="handleClickFreeze"
@@ -61,7 +61,7 @@
             >{{ language('SHANCHU', '删除') }}</iButton
           >
         </div>
-      </div>
+      </template>
       <tableList
         class="margin-top20"
         :tableData="tableListData"
@@ -662,5 +662,10 @@ export default {
 .date-time-cell {
   margin: 5px 0;
   line-height: 1em;
+}
+.headTitle {
+  display: inline-block;
+  font-weight: bold;
+  color: #000000;
 }
 </style>

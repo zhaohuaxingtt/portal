@@ -51,7 +51,7 @@
       >
         <el-table-column type="selection" width="60"> </el-table-column>
         <el-table-column type="index" label="#" width="60"> </el-table-column>
-        <el-table-column label="审批部门" width="240">
+        <el-table-column :label="$t('审批部门')" width="240">
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'approvalDepartment'"
@@ -88,7 +88,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="审批科室" width="240">
+        <el-table-column :label="$t('审批科室')" width="240">
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'approvalSection'"
@@ -124,7 +124,7 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="审批人">
+        <el-table-column :label="$t('审批人')">
           <template slot-scope="scope">
             <el-form-item
               :prop="'tableData.' + scope.$index + '.' + 'approvalName'"
@@ -165,7 +165,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="生成时间">
+        <el-table-column :label="$t('生成时间')">
           <template slot-scope="scope">
             <iDatePicker
               v-model="scope.row.startDate"
@@ -176,7 +176,7 @@
             <span v-else> {{ scope.row.startDate }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="截止时间">
+        <el-table-column :label="$t('截止时间')">
           <template slot-scope="scope">
             <iDatePicker
               v-model="scope.row.endDate"
@@ -190,19 +190,8 @@
       </el-table>
     </el-form>
 
-    <!-- <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :current-page="page.currPage"
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :total="page.totalCount"
-    /> -->
     <el-dialog
-      title="审批流"
+      :title="$t('审批流')"
       :visible.sync="dialogVisible"
       v-if="dialogVisible"
       width="40%"

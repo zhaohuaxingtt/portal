@@ -1,7 +1,6 @@
 <!-- 维护MTZ原材料规则新增弹窗 -->
 <template>
   <div style="padding-bottom: 30px">
-    <!-- :rules="metalType?rules1:rules2" -->
     <div class="form-wrapper">
       <iFormGroup
         :row="2"
@@ -109,7 +108,7 @@
             v-model.trim="contractForm.materialName"
           ></iInput>
         </iFormItem>
-        <iFormItem prop="tcExchangeRate">
+        <iFormItem prop="amount">
           <iLabel
             :label="language('补差金额', '补差金额')"
             slot="label"
@@ -186,41 +185,20 @@
       </iFormGroup>
     </div>
     <span slot="footer" class="dialog-footer">
-      <!-- <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span> -->
-      <i-button @click="handleSave" :disabled="saveLoading">保存</i-button>
-      <i-button @click="handleReset">重置</i-button>
-      <i-button @click="handleCancel">取消</i-button>
+      <i-button @click="handleSave" :disabled="saveLoading">{{
+        $t('保存')
+      }}</i-button>
+      <i-button @click="handleReset">{{ $t('重置') }}</i-button>
+      <i-button @click="handleCancel">{{ $t('取消') }}</i-button>
     </span>
   </div>
 </template>
 
 <script>
-import {
-  getMtzSupplierList //获取原材料牌号
-} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
-import {
-  cartypePaged, //车型
-  currencyDict
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
-import {
-  addAppRule, //维护MTZ原材料规则-新增
-  checkPreciousMetal,
-  queryMaterialList,
-  getMtzMarketSourceList,
-  getPreciousMetalDosageUnit
-} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
-import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
-import {
-  fetchRemoteMtzMaterial //查询MTZ材料组
-} from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import {
-  isNumber,
-  timeCoincide,
-  timeTransformation,
-  Mul,
-  numAdd,
-  formatDecimal
-} from './util'
+//获取供应商下拉
+import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+// 货币
+import { currencyDict } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails'
 
 import {
   iButton,
@@ -234,10 +212,11 @@ import {
   iDatePicker
 } from 'rise'
 import {
-  addAppDetailCheck,
   getPartCodeId,
   addAppDetail
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import { formRulesGZ } from './data'
+import { timeTransformation } from './util'
 export default {
   components: {
     iButton,
@@ -265,42 +244,6 @@ export default {
     }
   },
   data() {
-    var validatePass1 = (rule, value, callback) => {
-      //非负数字
-      if (value < 0) {
-        callback(new Error('不能为负数'))
-      } else {
-        callback()
-      }
-    }
-    var validatePass2 = (rule, value, callback) => {
-      //阈值
-      if (value.toString().split('.')[1] !== undefined) {
-        if (value.toString().split('.')[1].length > 4) {
-          callback(new Error('最多输入小数点后4位'))
-        } else {
-          callback()
-        }
-      } else {
-        callback()
-      }
-    }
-    var validatePass3 = (rule, value, callback) => {
-      //用量
-      if (value == '' || value == undefined) {
-        callback()
-      } else {
-        if (value.toString().split('.')[1] !== undefined) {
-          if (value.toString().split('.')[1].length > 6) {
-            callback(new Error('最多输入小数点后6位'))
-          } else {
-            callback()
-          }
-        } else {
-          callback()
-        }
-      }
-    }
     var validatePass4 = (rule, value, callback) => {
       if (
         timeTransformation(this.contractForm.startDate) >=
@@ -319,7 +262,6 @@ export default {
         currency: 'RMB',
         endDate: '2999-12-31 23:59:59',
         exchangeRate: 1,
-        materialGroup: '',
         materialName: '',
         method: '2',
         type: '1',
@@ -330,37 +272,15 @@ export default {
         supplierName: ''
       },
       rules: {
-        method: [{ required: true, message: '请选择', trigger: 'blur' }],
-        materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }],
-        sapCode: [{ required: true, message: '请选择', trigger: 'blur' }],
-        supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
-        materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
-        currency: [{ required: true, message: '请选择', trigger: 'blur' }],
-        partNum: [
-          { required: true, message: '请输入正确零件号', trigger: 'change' }
-        ],
-        exchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
-        source: [{ required: true, message: '请输入', trigger: 'blur' }],
-        compensationRatio: [
-          { required: true, message: '请输入', trigger: 'blur' },
-          { validator: validatePass1, trigger: 'blur' }
-        ],
-        threshold: [
-          {
-            required: true,
-            message: '请输入',
-            trigger: 'blur'
-          },
-          { validator: validatePass2, trigger: 'blur' }
-        ],
+        ...formRulesGZ,
         startDate: [
           { required: true, message: '请选择', trigger: 'change' },
           { validator: validatePass4, trigger: 'change' }
-        ],
+        ], //开始日期
         endDate: [
           { required: true, message: '请选择', trigger: 'change' },
           { validator: validatePass4, trigger: 'change' }
-        ]
+        ] //结束日期
       },
       methodList: [
         {
@@ -379,17 +299,6 @@ export default {
           message: '芯片补差'
         }
       ],
-      materialCode: [],
-      materialGroup: [],
-      getMtzMarketSourceList: [],
-      getPreciousMetalDosageUnit: [],
-
-      supplierType1: false,
-      supplierType2: false,
-      metalType: false,
-      timeShow: false, //重叠时间显示
-      startTime: '',
-      endTime: '',
       saveLoading: false
     }
   },
@@ -397,31 +306,10 @@ export default {
     getMtzSupplierList({}).then((res) => {
       this.supplierList = res.data
     })
-    getRawMaterialNos({}).then((res) => {
-      this.materialCode = res.data
-    })
-    fetchRemoteMtzMaterial({}).then((res) => {
-      this.materialGroup = res.data
-    })
-    cartypePaged({
-      current: 1,
-      size: 99999
-    }).then((res) => {
-      this.carline = res.data
-    })
-
+    // 货币
     currencyDict().then((res) => {
       this.tcCurrence = res.data
     })
-
-    getMtzMarketSourceList({}).then((res) => {
-      this.getMtzMarketSourceList = res.data
-    })
-
-    getPreciousMetalDosageUnit({}).then((res) => {
-      this.getPreciousMetalDosageUnit = res.data
-    })
-    console.log(this.contractForm)
   },
   methods: {
     getPartCodeId(partNum) {
@@ -431,122 +319,23 @@ export default {
           this.contractForm.partNum = res.data?.partNum || ''
           this.contractForm.partName = res.data?.partNameZh || ''
           this.contractForm.partUnit = res.data?.unitNameEn || ''
-          this.contractForm.materialGroup = res.data?.materialGroup || '-'
         } else {
           this.contractForm.partNum = ''
           this.contractForm.partName = ''
-          this.contractForm.materialGroup = ''
           this.contractForm.partUnit = ''
         }
       })
     },
-    jijiaCompute() {
-      var jijia = [
-        this.contractForm.platinumPrice ? this.contractForm.platinumPrice : 0,
-        this.contractForm.palladiumPrice ? this.contractForm.palladiumPrice : 0,
-        this.contractForm.rhodiumPrice ? this.contractForm.rhodiumPrice : 0
-      ]
-      var yongliang = [
-        this.contractForm.platinumDosage ? this.contractForm.platinumDosage : 0,
-        this.contractForm.palladiumDosage
-          ? this.contractForm.palladiumDosage
-          : 0,
-        this.contractForm.rhodiumDosage ? this.contractForm.rhodiumDosage : 0
-      ]
-
-      var number = 0
-
-      for (var i = 0; i < jijia.length; i++) {
-        number = numAdd(number, Mul(Number(jijia[i]), Number(yongliang[i])))
-      }
-
-      this.contractForm.price = formatDecimal(number, 6)
-
-      if (Number(number) == 0) {
-        this.contractForm.price = ''
-      }
-    },
-    MaterialGrade(value) {
-      ;(this.contractForm.priceMeasureUnit = ''),
-        (this.contractForm.price = ''),
-        (this.contractForm.platinumPrice = ''),
-        (this.contractForm.platinumDosage = ''),
-        (this.contractForm.palladiumPrice = ''),
-        (this.contractForm.palladiumDosage = ''),
-        (this.contractForm.rhodiumPrice = ''),
-        (this.contractForm.rhodiumDosage = ''),
-        (this.contractForm.preciousMetalDosageUnit = '')
-      queryMaterialList({ materialCode: value }).then((res) => {
-        this.contractForm.priceMeasureUnit = res.data.countUnit
-      })
-      try {
-        this.materialCode.forEach((e) => {
-          if (e.code == value) {
-            this.contractForm.materialName = e.message
-            throw new Error('EndIterative')
-          }
-        })
-      } catch (e) {
-        if (e.message != 'EndIterative') throw e
-      }
-
-      checkPreciousMetal({
-        code: value,
-        message: this.contractForm.materialName
-      }).then((res) => {
-        this.metalType = res.data
-        if (res.data) {
-          this.contractForm.preciousMetalDosageUnit = 'OZ'
-        } else {
-          this.contractForm.preciousMetalDosageUnit = ''
-        }
-      })
-    },
     supplierBH(value) {
-      if (this.supplierType2 == true) return false
-      this.supplierType1 = true
       if (value == '') {
         this.contractForm.supplierName = ''
         this.contractForm.sapCode = ''
-        setTimeout(() => {
-          this.supplierType1 = false
-        }, 100)
       }
       try {
         this.supplierList.forEach((e) => {
           if (e.code == value) {
             this.contractForm.supplierName = e.message
             this.contractForm.sapCode = value
-            setTimeout(() => {
-              this.supplierType1 = false
-            }, 100)
-            throw new Error('EndIterative')
-          }
-        })
-      } catch (e) {
-        if (e.message != 'EndIterative') throw e
-      }
-    },
-    supplierNC(value) {
-      if (this.supplierType1 == true) return false
-      this.supplierType2 = true
-      if (value == '') {
-        this.contractForm.supplierName = ''
-        this.contractForm.sapCode = ''
-        setTimeout(() => {
-          this.supplierType2 = false
-        }, 100)
-      }
-      try {
-        this.supplierList.forEach((e) => {
-          if (e.message == value) {
-            // console.log(e.code,2222222)
-            // console.log(value,2222222)
-            this.contractForm.supplierName = value
-            this.contractForm.sapCode = e.code
-            setTimeout(() => {
-              this.supplierType2 = false
-            }, 100)
             throw new Error('EndIterative')
           }
         })
@@ -582,19 +371,18 @@ export default {
     handleReset() {
       this.contractForm = {
         amount: 0,
-        currency: '',
-        endDate: '2999-12-31',
-        exchangeRate: 0,
-        materialGroup: '',
+        currency: 'RMB',
+        endDate: '2999-12-31 23:59:59',
+        exchangeRate: 1,
         materialName: '',
-        method: 0,
+        method: '2',
+        type: '1',
         partName: '',
         partNum: '',
         sapCode: '',
-        startDate: '',
+        startDate: null,
         supplierName: ''
       }
-      this.metalType = false
     },
     handleCancel() {
       this.$emit('close', '')
