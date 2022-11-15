@@ -15,6 +15,7 @@ export default {
   维护芯片补差规则: 'Maintain chip rules',
   新增芯片补差规则: 'Add chip rules',
   沿用芯片补差规则: 'COP chip rules',
+  请填写申请单名称: 'Please fill in the chip repair application single name!',
   补差方式: 'Method',
   补差类型: 'MakeType',
   原材料描述: 'Material description',
