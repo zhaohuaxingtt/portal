@@ -10,9 +10,7 @@
   <div>
     <iCard>
       <template v-slot:header>
-        <span>
-          {{ language('LIEBIAOXIANGQING', '列表详情') }}
-        </span>
+        <span class="headTitle">{{ $t('XIANGQINGLIEBIAO') }}</span>
         <div>
           <iButton @click="addChip">{{
             language('XINJIANCHIPBIANGENGSHENQING', '新建芯片补差变更申请')
@@ -299,5 +297,11 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.headTitle {
+  display: inline-block;
+  font-weight: bold;
+  color: #000000;
 }
 </style>
