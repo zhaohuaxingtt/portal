@@ -155,7 +155,7 @@ export default {
       this.tableLoading = true
 
       var req = {};
-      if(this.$route.path == "/supplier/frmrating/newsupplierrating/rating1"){
+      if(this.$route.path == "/supplier/frmrating/newsupplierrating/rating1" || this.$route.path == '/supplier/frmrating/newsupplierrating/task'){
         req = {
           list: [
             {
