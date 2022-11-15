@@ -2,7 +2,7 @@
   <div>
     <div class="tanc_book">
       <div>
-        <span>{{ language('MTZSHENQINGDANMING', 'MTZ申请单名') }}</span>
+        <span>{{ language('MTZSHENQINGDANMING', '申请单名') }}</span>
         <span style="color: red">*</span>
       </div>
       <iInput
@@ -47,7 +47,7 @@ export default {
   created() {
     this.form.creatTime = getNowFormatDate()
     if (this.$route.query.appName) {
-      this.form.name = this.$route.query.appName + '-MTZ'
+      this.form.name = this.$route.query.appName + '-Chip'
     }
   },
   methods: {
@@ -57,7 +57,7 @@ export default {
     handleSubmit() {
       this.loading = true
       if (!this.form.name || this.form.name == '') {
-        iMessage.error('请填写MTZ申请单名！')
+        iMessage.error('请填写申请单名称')
         this.loading = false
         return false
       } else {
