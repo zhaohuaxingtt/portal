@@ -2914,8 +2914,8 @@ export default {
           num = 3
         }
         const documentTypeList = ['14', '15']
-        if (!documentTypeList.includes(row.documentType)) {
-          window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${num}`)
+        if (documentTypeList.includes(row.documentType)) {
+          window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${1}`)
           } else {
             window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
 
