@@ -2913,7 +2913,13 @@ export default {
         } else {
           num = 3
         }
-        window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+        const documentTypeList = ['14', '15']
+        if (!documentTypeList.includes(row.documentType)) {
+          window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/auditChangeDetail/${row.fixedPointApplyId}?current=${num}`)
+          } else {
+            window.open(`${process.env.VUE_APP_HOST}/gp-portal/#/myCscDetails/${row.fixedPointApplyId}?current=${num}`)
+
+          }
       }
     }
   }
