@@ -260,7 +260,7 @@ export default {
       contractForm: {
         amount: 0,
         currency: 'RMB',
-        endDate: '2999-12-31 23:59:59',
+        endDate: window.moment(new Date()).format('YYYY-12-31 23:59:59'),
         exchangeRate: 1,
         materialName: '',
         method: '2',
@@ -372,7 +372,7 @@ export default {
       this.contractForm = {
         amount: 0,
         currency: 'RMB',
-        endDate: '2999-12-31 23:59:59',
+        endDate: window.moment(new Date()).format('YYYY-12-31 23:59:59'),
         exchangeRate: 1,
         materialName: '',
         method: '2',
