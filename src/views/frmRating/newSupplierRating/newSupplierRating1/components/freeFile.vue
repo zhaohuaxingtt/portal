@@ -99,7 +99,7 @@ export default {
     async getTableList () {
       this.tableLoading = true
       var req = {}
-      if(this.$route.path == "/supplier/frmrating/newsupplierrating/rating1"){
+      if(this.$route.path == "/supplier/frmrating/newsupplierrating/rating1" || this.$route.path == "/supplier/frmrating/newsupplierrating/task"){
         req = {
           pageNo: 1,
           pageSize: 9999,
@@ -154,8 +154,10 @@ export default {
       console.log(event)
       this.tableLoading = true
 
+
+      console.log(this.$route.path)
       var req = {};
-      if(this.$route.path == "/supplier/frmrating/newsupplierrating/rating1"){
+      if(this.$route.path == "/supplier/frmrating/newsupplierrating/rating1" || this.$route.path == '/supplier/frmrating/newsupplierrating/task'){
         req = {
           list: [
             {
