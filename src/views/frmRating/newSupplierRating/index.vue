@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     getTableList(req) {
+      this.$refs.theTable.getReset();
       this.$refs.theTable.getTableList(req);
     },
   },

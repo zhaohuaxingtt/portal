@@ -82,15 +82,21 @@ export default {
         ...this.reqParams
       })
     },
+    getReset(){
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+    },
     async getTableList (reqParams) {
-      this.reqParams = reqParams;
+      if(reqParams){
+        this.reqParams = reqParams;
+      }
       this.tableLoading = true
       try {
         const req = {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
           ratingStatusList: this.$route.query.ratingStatusList ? JSON.parse(this.$route.query.ratingStatusList) : [],
-          ...reqParams
+          ...this.reqParams
         }
         const res = await getNewSupplierRating(req)
         if (res.result) {
