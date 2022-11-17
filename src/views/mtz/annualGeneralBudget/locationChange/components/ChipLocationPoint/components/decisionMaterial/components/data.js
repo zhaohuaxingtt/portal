@@ -60,14 +60,6 @@ export const ruleTableTitle1_1 = [
     minWidth: 80
   },
   {
-    props: 'materialGroup',
-    name: '材料组',
-    key: '材料组',
-    overlap: true,
-    overlapbottom: 'Material Group',
-    minWidth: 95
-  },
-  {
     props: 'materialName',
     name: '原材料描述',
     key: '原材料描述',
