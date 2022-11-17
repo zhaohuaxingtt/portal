@@ -4,46 +4,40 @@
  * @Descripttion: your project
 -->
 <template>
-  <iPage>
-    <!-- 供应商信息 -->
-    <supplierMessage @handleSumbit='handleSumbit'
-                      @requestBtn="requestBtn"
-                      v-if="$route.path!='/supplier/frmrating/newsupplierrating/task'"
-                     class="margin-bottom20" />
-    <!-- 财务数据 -->
-    <financialDataTable @submitCalculateRefresh="submitCalculateRefresh"
-                        ref="financialDataTable"
-                        class="margin-bottom20"></financialDataTable>
-    <!-- 供应商准入评估模型-基本信息 -->
-    <basicInformationTable v-loading='loading'
-                           :basicDTO='basicDTO'
-                           ref="basicInformationTable"
-                           class="margin-bottom20" />
-    <!-- 股东信息 -->
-    <shareholderInformationTable class="margin-bottom20" />
-    <!-- 供应商准入评估模型-财务状况 -->
-    <financialOverview v-loading='loading'
-                       :financeDTO='financeDTO'
-                       class="margin-bottom20" />
-    <!-- 供应商准入评估模型-得分指标 -->
-    <pkpiTable v-loading='loading'
-               :resultVO='resultVO'
-               :otherVO='otherVO'
-               :scoreDTO='scoreDTO'
-               ref="pkpiTable"
-               class="margin-bottom20" />
-    <!-- 供应商准入评估模型-风险预警 -->
-    <riskEarlyWarningTable v-loading='loading'
-                           :riskDTO='riskDTO'
-                           class="margin-bottom20" />
-    <!-- 附件上传 -->
-    <freeFile ref="freeFile" class="margin-bottom20" />
-    <!-- 供应商准入评估模型 - 备注 -->
-    <remarks v-loading='loading'
-              v-if="$route.path!='/supplier/frmrating/newsupplierrating/task'"
-             ref="remarks"
-             class="margin-bottom20" />
-  </iPage>
+  <div>
+    <div v-if="supplierId">
+      <!-- 财务数据 -->
+      <financialDataTable @submitCalculateRefresh="submitCalculateRefresh"
+                          ref="financialDataTable"
+                          :supplierId="supplierId"
+                          :supplierToken="supplierToken"
+                          class="margin-bottom20"></financialDataTable>
+      <!-- 供应商准入评估模型-基本信息 -->
+      <basicInformationTable v-loading='loading'
+                            :basicDTO='basicDTO'
+                            ref="basicInformationTable"
+                            class="margin-bottom20" />
+      <!-- 股东信息 -->
+      <shareholderInformationTable class="margin-bottom20" :supplierId="supplierId" />
+      <!-- 供应商准入评估模型-财务状况 -->
+      <financialOverview v-loading='loading'
+                        :financeDTO='financeDTO'
+                        class="margin-bottom20" />
+      <!-- 供应商准入评估模型-得分指标 -->
+      <pkpiTable v-loading='loading'
+                :resultVO='resultVO'
+                :otherVO='otherVO'
+                :scoreDTO='scoreDTO'
+                ref="pkpiTable"
+                class="margin-bottom20" />
+      <!-- 供应商准入评估模型-风险预警 -->
+      <riskEarlyWarningTable v-loading='loading'
+                            :riskDTO='riskDTO'
+                            class="margin-bottom20" />
+      <!-- 附件上传 -->
+      <freeFile ref="freeFile" class="margin-bottom20" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -60,6 +54,8 @@ import remarks from "./components/remark";
 import { getCalculate } from "@/api/frmRating/newSupplierRating/newSupplierRating";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { getFinancialOverviewTitle } from "./components/data";
+
+import { getNewSupplierInfo } from "@/api/frmRating/newSupplierRating/newSupplierRating";
 export default {
   mixins: [generalPageMixins],
   components: {
@@ -82,13 +78,25 @@ export default {
       riskDTO: [],
       otherVO: [],
       resultVO: [],
-      loading: false
+      loading: false,
+      supplierId:"",
+      supplierToken:"",
     };
   },
-  created () {
+  async created () {
+    await this.getInformation();
     this.submitCalculate('view', false)
   },
   methods: {
+    async getInformation(){
+      const pms = {
+        ratingId: this.$route.query.ratingId || this.$route.query.id,
+        ratingSupplierId: this.$route.query.supplierId,
+      }
+      const res = await getNewSupplierInfo(pms)
+      this.supplierId = res.data.supplierId;
+      this.supplierToken = res.data.supplierToken;
+    },
     requestBtn(){
       this.$refs.financialDataTable.supplierDetail();
     },
@@ -146,8 +154,8 @@ export default {
       this.loading = true
       const pms = {
         viewType: viewType,
-        ratingSupplierId: this.$route.query.supplierId,
-        ratingId: this.$route.query.id,
+        ratingSupplierId:this.supplierId,
+        ratingId: this.$route.query.ratingId,
         isExternalRating: isExternalRating || false,
         basicDTO: this.basicDTO
       }

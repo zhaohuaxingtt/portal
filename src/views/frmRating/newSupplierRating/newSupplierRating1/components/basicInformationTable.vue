@@ -17,7 +17,7 @@
         <div v-else>{{scope.row.dataCategory}}</div>
       </template>
       <template #dataValue="scope">
-        <div v-if="scope.row.dataCategory==='注册资本（元）'">
+        <div v-if="scope.row.dataCategory==='注册资本（元）' && $route.path !== '/supplier/frmrating/newsupplierrating/task'">
           <i-input v-model="scope.row.dataValue" />
         </div>
         <div v-else>{{scope.row.dataValue}}</div>

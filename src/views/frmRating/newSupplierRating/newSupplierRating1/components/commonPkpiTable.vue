@@ -26,8 +26,13 @@
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props" :rules="items.rule ? items.rule : ''">
-              <i-input v-model="scope.row[items.props]" v-if="inputType" :type="inputType" :maxlength="items.maxlength ? items.maxlength : 300" />
-              <i-input v-model="scope.row[items.props]" v-else :maxlength="items.maxlength ? items.maxlength : 300" />
+              <template v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'">
+                <i-input v-model="scope.row[items.props]" v-if="inputType" :type="inputType" :maxlength="items.maxlength ? items.maxlength : 300" />
+                <i-input v-model="scope.row[items.props]" v-else :maxlength="items.maxlength ? items.maxlength : 300" />
+              </template>
+              <template v-else>
+                <span>{{scope.row[items.props]}}</span>
+              </template>
             </el-form-item>
           </template>
         </el-table-column>
@@ -47,9 +52,14 @@
           </template>
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props" :rules="items.rule ? items.rule : ''">
-              <i-input v-model="scope.row[items.props]" v-if="inputType" :type="inputType"
+              <template v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'">
+                <i-input v-model="scope.row[items.props]" v-if="inputType" :type="inputType"
                        :maxlength="items.maxlength ? items.maxlength : 300"/>
-              <i-input v-model="scope.row[items.props]" v-else :maxlength="items.maxlength ? items.maxlength : 300"/>
+                <i-input v-model="scope.row[items.props]" v-else :maxlength="items.maxlength ? items.maxlength : 300"/>
+              </template>
+              <template v-else>
+                <span>{{scope.row[items.props]}}</span>
+              </template>
             </el-form-item>
           </template>
         </el-table-column>

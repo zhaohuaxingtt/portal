@@ -574,6 +574,152 @@
             </el-form-item>
           </template>
         </el-table-column>
+
+
+
+        <el-table-column
+          prop="substrateExw"
+          align="center"
+          width="150"
+          :label="
+            $t('载体费用')
+          "
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="
+                'tableData.' + scope.$index + '.' + 'substrateExw'
+              "
+              :rules="
+                formRules.substrateExw
+                  ? formRules.substrateExw
+                  : ''
+              "
+            >
+              <span>{{ scope.row.substrateExw }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="substrateImpDuty"
+          align="center"
+          width="150"
+          :label="
+            $t('载体税率(%)')
+          "
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="
+                'tableData.' + scope.$index + '.' + 'substrateImpDuty'
+              "
+              :rules="
+                formRules.substrateImpDuty
+                  ? formRules.substrateImpDuty
+                  : ''
+              "
+            >
+              <span>{{ scope.row.substrateImpDuty }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="substrateHandling"
+          align="center"
+          width="150"
+          :label="
+            $t('载体管理费率(%)')
+          "
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="
+                'tableData.' + scope.$index + '.' + 'substrateHandling'
+              "
+              :rules="
+                formRules.substrateHandling
+                  ? formRules.substrateHandling
+                  : ''
+              "
+            >
+              <span>{{ scope.row.substrateHandling }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="pgmHandling"
+          align="center"
+          width="150"
+          :label="
+            $t('贵金属管理费率(%)')
+          "
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="
+                'tableData.' + scope.$index + '.' + 'pgmHandling'
+              "
+              :rules="
+                formRules.pgmHandling
+                  ? formRules.pgmHandling
+                  : ''
+              "
+            >
+              <span>{{ scope.row.pgmHandling }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="manufacture"
+          align="center"
+          width="150"
+          :label="
+            $t('制造费用')
+          "
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="
+                'tableData.' + scope.$index + '.' + 'manufacture'
+              "
+              :rules="
+                formRules.manufacture
+                  ? formRules.manufacture
+                  : ''
+              "
+            >
+              <span>{{ scope.row.manufacture }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="transport"
+          align="center"
+          width="150"
+          :label="
+            $t('运输费用')
+          "
+        >
+          <template slot-scope="scope">
+            <el-form-item
+              :prop="
+                'tableData.' + scope.$index + '.' + 'transport'
+              "
+              :rules="
+                formRules.transport
+                  ? formRules.transport
+                  : ''
+              "
+            >
+              <span>{{ scope.row.transport }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
       </el-table>
     </el-form>
     <iPagination @size-change="handleSizeChange($event, getTableList)"
