@@ -417,19 +417,21 @@ export default {
     checkButtonStatus (status) {
       let flag = true
       this.selectTableData.some((item) => {
-        if (item.operateContent === status) {
-          flag = false
-          return true
+        if(status == "分派" || status == "转派" || status == "退回"){}else{
+          if (item.operateContent === status) {
+            flag = false
+            return true
+          }
         }
       })
       if(!flag){
         switch (status){
-          case "退回":
-            iMessage.error(this.$t("所选数据已为退回状态不能再次退回"))
-            break;
-          case "转派":
-            iMessage.error(this.$t("所选数据已为转派状态不能再次转派"))
-            break;
+          // case "退回":
+          //   iMessage.error(this.$t("所选数据已为退回状态不能再次退回"))
+          //   break;
+          // case "转派":
+          //   iMessage.error(this.$t("所选数据已为转派状态不能再次转派"))
+          //   break;
           case "已取消":
             iMessage.error(this.$t("所选数据已为已取消状态不能再次取消"))
             break;
