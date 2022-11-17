@@ -51,6 +51,12 @@ export default {
     this.getDictByCode()
     this.getTableList()
   },
+  props:{
+    supplierId:{
+      type:String,
+      default:"",
+    }
+  },
   mounted () {
   },
   computed: {
@@ -73,7 +79,7 @@ export default {
       this.tableLoading = true;
       try {
         const req = {
-          ratingSupplierId: this.$route.query.supplierId
+          ratingSupplierId: this.$route.query.supplierId? this.$route.query.supplierId:this.supplierId,
         };
         const res = await getInvestorList(req);
         if (res.result) {

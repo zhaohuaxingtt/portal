@@ -13,7 +13,7 @@
     <i-card :title="$t('SUPPLIER_CAIWUSHUJU')"
             class="margin-top20">
       <div class="margin-bottom20 clearFloat">
-        <div class="floatright" v-if="$route.query.subSupplierType!=='GP'">
+        <div class="floatright" v-if="$route.query.subSupplierType!=='GP' && $route.path !== '/supplier/frmrating/newsupplierrating/task'">
           <!-- v-if="isSupplierDetail" -->
           <!-- <i-button @click="pullLevel">{{language("DIAOQUWAIBUPINGJI","调取外部评级")}}</i-button> -->
           <!-- 调取外部评级 -->
@@ -75,7 +75,7 @@
                     v-permission="SUPPLIER_FINANCIALDATA_TABLE_DAOCHUCAIBAO">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
         </div>
-        <div class="floatright" v-if="$route.query.subSupplierType=='GP'">
+        <div class="floatright" v-if="$route.query.subSupplierType=='GP' && $route.path !== '/supplier/frmrating/newsupplierrating/task'">
           <!-- 调取外部评级 -->
           <i-button @click="handleRatings" v-permission="SUPPLIER_FINANCIALDATA_TABLE_DIAOYONGWAIBUPINGJI_GP">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD_GP" @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
@@ -98,84 +98,91 @@
                  :select-props="selectProps"
                  :select-props-options-object="selectPropsOptionsObject">
         <template #dataChannelName="scope">
-          <span class="openLinkText cursor"
+          <span class="openLinkText cursor" v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'"
                 @click="handleEdit(scope.row)">
             {{ scope.row.dataChannelName }}
           </span>
+          <span v-else>{{ scope.row.dataChannelName }}</span>
         </template>
         <template v-slot:currency="scope">
-          <iSelect v-model="scope.row['currency']">
+          <iSelect v-model="scope.row['currency']" v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'">
             <el-option v-for="item in currencyList"
                        :key="item.id"
                        :label="item.name"
                        :value="item.code">
             </el-option>
           </iSelect>
+          <span v-else>{{scope.row['currency']}}</span>
         </template>
         <template #operation="scope">
-          <uploadButton :showText="true"
-                        @uploadedCallback="handleUploadedCallback($event, scope.row)"
-                        button-text="LK_SHANGCHUAN"
-                        v-if="scope.row.dataChannelName==='供应商数据'" />
-          <el-popover placement="bottom"
-                      width="400"
-                      trigger="click"
-                      v-if="scope.row.dataChannelName==='供应商数据'">
-            <table-list :selection="false"
-                        :index="true"
-                        :tableData="scope.row.attachList"
-                        :tableTitle="[
-                {
-                  props: 'fileName',
-                  name: '文件名称',
-                  key: 'LK_WENJIANMINGCHENG'
-                },
-                { props: 'operation', name: '操作', key: 'SUPPLIER_CAOZUO' }
-              ]">
-              <template #operation="scope">
-                <template slot="header">
-                  <el-tooltip effect="light"
-                              :content="$t('SUPPLIER_EXAMPLEDSEC')"
-                              placement="top-start">
-                    <icon symbol
-                          name="iconxinxitishi"
-                          class="exampleFileIconStle" />
-                  </el-tooltip>
+          <div v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'">
+            <uploadButton :showText="true"
+                          @uploadedCallback="handleUploadedCallback($event, scope.row)"
+                          button-text="LK_SHANGCHUAN"
+                          v-if="scope.row.dataChannelName==='供应商数据'" />
+            <el-popover placement="bottom"
+                        width="400"
+                        trigger="click"
+                        v-if="scope.row.dataChannelName==='供应商数据'">
+              <table-list :selection="false"
+                          :index="true"
+                          :tableData="scope.row.attachList"
+                          :tableTitle="[
+                  {
+                    props: 'fileName',
+                    name: '文件名称',
+                    key: 'LK_WENJIANMINGCHENG'
+                  },
+                  { props: 'operation', name: '操作', key: 'SUPPLIER_CAOZUO' }
+                ]">
+                <template #operation="scope">
+                  <template slot="header">
+                    <el-tooltip effect="light"
+                                :content="$t('SUPPLIER_EXAMPLEDSEC')"
+                                placement="top-start">
+                      <icon symbol
+                            name="iconxinxitishi"
+                            class="exampleFileIconStle" />
+                    </el-tooltip>
+                  </template>
+                  <span class="openLinkText cursor"
+                        @click="handleExampleDownload(scope.row)">{{ $t('LK_XIAZAI') }}</span>
                 </template>
-                <span class="openLinkText cursor"
-                      @click="handleExampleDownload(scope.row)">{{ $t('LK_XIAZAI') }}</span>
-              </template>
-            </table-list>
+              </table-list>
+              <span class="openLinkText cursor"
+                    slot="reference">
+                {{ $t('LK_XIAZAI') }}
+              </span>
+            </el-popover>
             <span class="openLinkText cursor"
-                  slot="reference">
+                  @click="hanldeDownload(scope.row)"
+                  v-else-if="scope.row.dataChannelName==='资信报告'&&scope.row.reportUrlPdf">
               {{ $t('LK_XIAZAI') }}
             </span>
-          </el-popover>
-          <span class="openLinkText cursor"
-                @click="hanldeDownload(scope.row)"
-                v-else-if="scope.row.dataChannelName==='资信报告'&&scope.row.reportUrlPdf">
-            {{ $t('LK_XIAZAI') }}
-          </span>
+          </div>
         </template>
         <template #year="scope">
-          <iDatePicker v-model="scope.row.year"
+          <iDatePicker v-model="scope.row.year" v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'"
                        value-format="yyyy"
                        type="year"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
+          <span v-else>{{scope.row.year}}</span>
         </template>
         <template #startAccountCycle="scope">
-          <iDatePicker style="width: 100%"
+          <iDatePicker style="width: 100%" v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'"
                        v-model="scope.row.startAccountCycle"
                        value-format="yyyy-MM-dd"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
+          <span v-else>{{scope.row.startAccountCycle}}</span>
         </template>
         <template #endAccountCycle="scope">
-          <iDatePicker style="width: 100%"
+          <iDatePicker style="width: 100%" v-if="$route.path !== '/supplier/frmrating/newsupplierrating/task'"
                        v-model="scope.row.endAccountCycle"
                        value-format="yyyy-MM-dd"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
+          <span v-else>{{scope.row.endAccountCycle}}</span>
         </template>
       </tableList>
     </i-card>
@@ -228,6 +235,16 @@ export default {
     fetchExternalRatingsDialog,
     iSelect,
     iInput
+  },
+  props:{
+    supplierId:{
+      type:String,
+      default:""
+    },
+    supplierToken:{
+      type:String,
+      default:""
+    },
   },
   data () {
     return {
@@ -290,7 +307,7 @@ export default {
       this.currencyList = res.data[0].subDictResultVo
     },
     supplierDetail () {
-      supplierDetail(this.supplierType,this.$store.state.home.valiCode).then(res => {
+      supplierDetail(this.supplierType,this.supplierToken?this.supplierToken:this.$store.state.home.valiCode).then(res => {
         if (res.data) {
           //初始数据很多为null 需要重置为“” 不然会触发表单验证
           let baseInfo = this.reView(res.data)
@@ -431,6 +448,10 @@ export default {
           pageNo: 1,
           pageSize: 9999,
           ...form
+        }
+        if(this.$route.path == "/supplier/frmrating/newsupplierrating/task"){
+          pms['ratingSupplierId'] = this.supplierId
+          pms.supplierToken = this.supplierToken
         }
         var res = []
         if (
