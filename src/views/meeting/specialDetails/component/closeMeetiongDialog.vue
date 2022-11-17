@@ -223,7 +223,7 @@ export default {
         .then((res) => {
           if (res.code === 200) {
             // iMessage.success('关闭成功')
-            this.$emit('handleOK', 'close',res.data)
+            this.$emit('handleOK', 'close',res)
             this.handleClose()
           } else {
             this.loading = false
