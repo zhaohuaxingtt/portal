@@ -348,8 +348,8 @@ export default {
       this.$refs['contractForm'].validate(async (valid) => {
         if (valid) {
           // console.log("验证成功")
-          addAppDetail(this.contractForm, this.$route.query.appId).then(
-            (res) => {
+          addAppDetail(this.contractForm, this.$route.query.appId)
+            .then((res) => {
               if (res.code == 200 && res.result) {
                 iMessage.success(this.language(res.desEn, res.desZh))
                 this.saveLoading = false
@@ -358,8 +358,10 @@ export default {
                 iMessage.error(this.language(res.desEn, res.desZh))
                 this.saveLoading = false
               }
-            }
-          )
+            })
+            .finally(() => {
+              this.saveLoading = false
+            })
         } else {
           setTimeout(() => {
             this.saveLoading = false
