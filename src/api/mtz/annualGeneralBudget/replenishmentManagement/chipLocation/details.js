@@ -484,14 +484,6 @@ export function getDosageUnitList(params) {
 //     data: params
 //   })
 // }
-export function approvalList(params) {
-  //用量单位下拉
-  return request({
-    url: '/mtzAppNomiDecisionData/approvalList',
-    method: 'POST',
-    data: params
-  })
-}
 
 export function getPreciousMetalDosageUnit(params) {//贵金属单位下拉
   return request({
@@ -857,6 +849,25 @@ export function getDeptAndBuyerByChipNom(params) {
   return requestChip({
     url: "/getDeptAndBuyerByChipNomi",
     method: "POST",
+    params
+  })
+}
+
+// 芯片定点决策资料-审批列表
+export function approvalList(params) {
+  //用量单位下拉
+  return requestChip({
+    url: '/approvalList',
+    method: 'POST',
+    params
+  })
+}
+
+//审批记录
+export function approvalRecordList(params) {
+  return requestChip({
+    url: '/approvalRecordList',
+    method: 'POST',
     params
   })
 }
