@@ -219,7 +219,14 @@ export default {
         iMessage.error(this.language('QXZYTSJJXGL', '请选择一条数据进行关联！'))
         return false
       }
-      this.$emit('addDialogData', this.changeData)
+      this.$emit(
+        'addDialogData',
+        this.changeData.map((item) => {
+          item.id = ''
+          item.ruleNo = ''
+          return item
+        })
+      )
     }
   }
 }

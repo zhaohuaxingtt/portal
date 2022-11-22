@@ -539,8 +539,10 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1 } from './data'
-import { approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
-import { updateApp } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import {
+  updateApp,
+  approvalList
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
