@@ -67,12 +67,12 @@ export const continueBox = [
       return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
     }
   }, {
-    props: 'materialGroup',
-    name: '材料组',
-    key: '材料组',
-    align: 'center',
-    width: 150
-  }, {
+    //   props: 'materialGroup',
+    //   name: '材料组',
+    //   key: '材料组',
+    //   align: 'center',
+    //   width: 150
+    // }, {
     props: 'materialName',
     name: '原材料描述',
     key: '原材料描述',
