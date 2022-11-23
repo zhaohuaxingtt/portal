@@ -7,6 +7,8 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    CSQCAIGOUYUAN:'CSQ采购员',
+    QUERENRENKESHI:'确认人科室',
     delete: '删除',
     deleteSure: '您确定要执行删除操作吗？',
     all: '全部',
