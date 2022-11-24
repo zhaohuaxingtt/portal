@@ -70,6 +70,7 @@ export default {
 
   },
   created () {
+    this.id = this.$route.query.id;
     if (this.$route.query.flag !== 'creat') {
       this.getTableList()
     }
