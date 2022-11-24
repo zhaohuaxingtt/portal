@@ -7,6 +7,8 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    CSQCAIGOUYUAN:'CSQ采购员',
+    QUERENRENKESHI:'确认人科室',
     delete: '删除',
     deleteSure: '您确定要执行删除操作吗？',
     all: '全部',
@@ -1097,7 +1099,7 @@
     SUPPLIER_DAOCHUQUANBU: '导出全部', //导出全部
     // BDL审批
     SUPPLIER_FUJIANCAILIAOZUBUXUYAOXUANZE_LINIE_KESHIHE_LINIE:
-      '附件材料组不需要选择Linie科室和Linie',
+      '附件材料组不需要选择科室和采购员',
     SUPPLIER_VW_LINIE_KESHI: 'LINIE科室',
     SUPPLIER_VW_LINIE_CAIGOUYUAN: 'LINIE采购员',
     SUPPLIER_CAILIAOZUBIANHAO: '材料组编号',
@@ -3116,6 +3118,10 @@
     "手动创建":"手动创建",
 
     SFCXGSSTJXSYSJ:"是否冲销该搜索条件下所有数据？",
+    "已取消状态不能点击退回":"已取消状态不能点击退回",
+    "所选数据已为退回状态不能再次退回":"所选数据已为退回状态，不能再次退回",
+    "所选数据已为转派状态不能再次转派":"所选数据已为转派状态，不能再次转派",
+    "所选数据已为已取消状态不能再次取消":"所选数据已为已取消状态，不能再次取消",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })

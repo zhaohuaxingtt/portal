@@ -119,14 +119,26 @@ export default {
   created() {
     this.getTableList()
   },
+  props: {
+    form: {
+      type: Object,
+      default: () => {}
+    }
+  },
   methods: {
-    async getTableList(reqParams) {
+      // 搜索
+    search() {
+      this.page.currPage = 1
+      this.getTableList()
+    },
+    async getTableList() {
+      console.log(this.form)
       this.tableLoading = true
       try {
         const req = {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize,
-          ...reqParams
+          ...this.form
         }
         const res = await getRiskSignal(req)
         if (res.result) {

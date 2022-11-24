@@ -14,7 +14,8 @@
                 justify='space-between'
                 align='middle'>
           <el-col :span="5">
-            <el-form-item :label="mbdl?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
+            <!-- <el-form-item :label="mbdl?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')"> -->
+              <el-form-item :label="$t('SUPPLIER_KESHI')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
@@ -28,9 +29,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item prop="linieId"
+            <!-- <el-form-item prop="linieId"
                           :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
-                          :label="mbdl?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
+                          :label="mbdl?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')"> -->
+            <el-form-item prop="linieId"
+            :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
+            :label="$t('SPR_FRM_XGYSPJ_CGY')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
                        v-model="form.linieId"
