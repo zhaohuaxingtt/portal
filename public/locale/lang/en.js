@@ -7,6 +7,8 @@
 })(this, function (i18n) {
   'use strict'
   var oldLanguage = {
+    CSQCAIGOUYUAN:'CSQ采购员',
+    QUERENRENKESHI:'确认人科室',
     delete: 'delete',
     deleteSure: 'are you sureAre you sure you want to do this?',
     all: 'all',
