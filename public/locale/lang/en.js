@@ -2370,6 +2370,10 @@
     "手动创建":"Create Manually",
 
     SFCXGSSTJXSYSJ:"Reverse all data write-off this search condition?",
+    "已取消状态不能点击退回":"Canceled status cannot be returned by clicking",
+    "所选数据已为退回状态不能再次退回":"The selected data has been returned and cannot be returned again",
+    "所选数据已为转派状态不能再次转派":"The selected data has been transferred, and cannot be transferred again",
+    "所选数据已为已取消状态不能再次取消":"The selected data has been canceled, and cannot be canceled again",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
