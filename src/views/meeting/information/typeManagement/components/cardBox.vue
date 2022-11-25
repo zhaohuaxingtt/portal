@@ -29,9 +29,9 @@
           {{ i.name }}
         </div>
       </div>
-      <iButton class="button" @click="$emit('editMeetingType', item)"
-        >{{$t('MT_XIUGAIHUIYILEIXINGXINXI')}}</iButton
-      >
+      <iButton class="button" @click="$emit('editMeetingType', item)">{{
+        $t('MT_XIUGAIHUIYILEIXINGXINXI')
+      }}</iButton>
     </iCard>
   </div>
 </template>
@@ -58,18 +58,22 @@ export default {
     // 附件下载
     downLoadFileInfo(i) {
       getFileByIds([i.id]).then((data) => {
-        const { name } = data.data[0]
-        download({
-          // url: MOCK_FILE_URL + i.id,
-          // filename: name,
-          fileIds: i.id,
-          filename: name,
-          callback: (e) => {
-            if (!e) {
-              iMessage.error(this.$t('下载失败'))
+        const { name, path } = data.data[0]
+        if (path) {
+          window.open(`${path}`, '_blank')
+        } else {
+          download({
+            // url: MOCK_FILE_URL + i.id,
+            // filename: name,
+            fileIds: i.id,
+            filename: name,
+            callback: (e) => {
+              if (!e) {
+                iMessage.error(this.$t('下载失败'))
+              }
             }
-          }
-        })
+          })
+        }
       })
     }
   }

@@ -2,7 +2,7 @@
   <div class="my-topics-box">
     <el-row class="row-el">
       <iButton @click="handleDownLoad" :disabled="selectVal.length < 1">{{
-     $t('MT_XIAZAI')
+        $t('MT_XIAZAI')
       }}</iButton>
     </el-row>
     <iTableML
@@ -26,7 +26,12 @@
         type="index"
       >
       </el-table-column>
-      <el-table-column prop="name" align="center" :label="$t('MT_XAIZAIMINGCHENG')" width="756">
+      <el-table-column
+        prop="name"
+        align="center"
+        :label="$t('MT_XAIZAIMINGCHENG')"
+        width="756"
+      >
         <template slot-scope="scope">
           <span class="doc-name" @click="handleDownLoadSingle(scope.row)">{{
             scope.row.name
@@ -65,19 +70,19 @@
 </template>
 
 <script>
-import { iPagination, iMessage } from "rise";
-import { iButton } from "rise";
-import iTableML from "@/components/iTableML";
+import { iPagination, iMessage } from 'rise'
+import { iButton } from 'rise'
+import iTableML from '@/components/iTableML'
 // import { MOCK_FILE_URL } from "@/constants";
-import { download } from "@/utils/downloadUtil";
-import { getFileByIds } from "@/api/file/filedownload.js";
-import { MIME_TYPE } from "@/api/file/type.js";
-import dayjs from "dayjs";
+import { download } from '@/utils/downloadUtil'
+import { getFileByIds } from '@/api/file/filedownload.js'
+import { MIME_TYPE } from '@/api/file/type.js'
+import dayjs from 'dayjs'
 export default {
   components: {
     iButton,
     iPagination,
-    iTableML,
+    iTableML
   },
   data() {
     return {
@@ -85,18 +90,18 @@ export default {
       tableData: [],
       page: {
         pageSize: 10,
-        pageNum: 1,
+        pageNum: 1
       },
-      total: 1,
-    };
+      total: 1
+    }
   },
   props: {
     documents: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   watch: {
     documents: {
@@ -122,45 +127,45 @@ export default {
         //   console.log(this.tableData);
         //   this.total = docs.length;
         // });
-        let d = [];
+        let d = []
         for (let item of docs) {
           let a = new Promise((resolve) => {
             getFileByIds([item.attachmentId]).then((data) => {
-              resolve(data.data[0]);
-            });
-          });
-          d.push(a);
+              resolve(data.data[0])
+            })
+          })
+          d.push(a)
         }
         Promise.all(d).then((dArr) => {
-          console.log("dArr", dArr);
+          console.log('dArr', dArr)
           dArr = dArr
             .filter((item) => {
-              return item;
+              return item
             })
             .map((it) => {
               return {
                 ...it,
-                updateDate: dayjs(it.createDate).format("YYYY-MM-DD HH:mm"),
-              };
-            });
-          this.tableData = dArr.slice(0, 1 * this.page.pageSize);
-          this.total = dArr.length;
-        });
+                updateDate: dayjs(it.createDate).format('YYYY-MM-DD HH:mm')
+              }
+            })
+          this.tableData = dArr.slice(0, 1 * this.page.pageSize)
+          this.total = dArr.length
+        })
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     handleSelectionChange(val) {
-      this.selectVal = [...val];
+      this.selectVal = [...val]
     },
     // 下载更多
     handleDownLoad() {
-      let promiseList = [];
+      let promiseList = []
       this.selectVal.forEach((item) => {
-        const arr = item.name.split(".");
-        const suffix = arr[arr.length - 1];
+        const arr = item.name.split('.')
+        const suffix = arr[arr.length - 1]
         let p = new Promise((resolve, reject) => {
           download({
             // url: MOCK_FILE_URL + item.attachmentId,
@@ -168,17 +173,17 @@ export default {
             filename: item.name,
             callback: (e) => {
               if (!e) {
-                reject(e);
-                iMessage.error(this.$t("MT_XIAZAISHIBAI"));
+                reject(e)
+                iMessage.error(this.$t('MT_XIAZAISHIBAI'))
               }
-              resolve(e);
+              resolve(e)
             },
-            type: MIME_TYPE[suffix],
-          });
-        });
-        promiseList.push(p);
-      });
-      Promise.all(promiseList);
+            type: MIME_TYPE[suffix]
+          })
+        })
+        promiseList.push(p)
+      })
+      Promise.all(promiseList)
     },
     // async getDocType(id) {
     //   const res = await getDoucumentsById(id);
@@ -197,33 +202,37 @@ export default {
     //   return "";
     // },
     handleDownLoadSingle(item) {
-      const arr = item.name.split(".");
-      const suffix = arr[arr.length - 1];
-      download({
-        // url: MOCK_FILE_URL + item.attachmentId,
-        fileIds: item.id,
-        filename: item.name,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t("MT_XIAZAISHIBAI"));
-          }
-        },
-        type: MIME_TYPE[suffix],
-      });
+      const arr = item.name.split('.')
+      const suffix = arr[arr.length - 1]
+      if (item.path) {
+        window.open(`${item.path}`, '_blank')
+      } else {
+        download({
+          // url: MOCK_FILE_URL + item.attachmentId,
+          fileIds: item.id,
+          filename: item.name,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            }
+          },
+          type: MIME_TYPE[suffix]
+        })
+      }
     },
     //选择页数
     handleCurrentChange(curPage) {
-      this.page.pageNum = curPage;
-      this.currentChangePage(this.documents, this.page.pageNum);
+      this.page.pageNum = curPage
+      this.currentChangePage(this.documents, this.page.pageNum)
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.page.pageSize;
-      let to = pageNum * this.page.pageSize;
-      this.tableData = data.slice(from, to);
-    },
-  },
-};
+      let from = (pageNum - 1) * this.page.pageSize
+      let to = pageNum * this.page.pageSize
+      this.tableData = data.slice(from, to)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

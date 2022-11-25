@@ -932,15 +932,16 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
-          }
-        }
-      })
+      window.open(`${row.attachmentUrl}`, '_blank')
+      // download({
+      //   fileIds: row.attachmentId,
+      //   filename: row.attachmentName,
+      //   callback: (e) => {
+      //     if (!e) {
+      //       iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      //     }
+      //   }
+      // })
     },
     handleFocus() {
       this.remoteMethod()
