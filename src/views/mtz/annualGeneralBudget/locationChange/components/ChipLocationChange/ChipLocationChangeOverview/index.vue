@@ -48,7 +48,8 @@ export default {
         if (res && res.code === '200') {
           this.statusList = res.data.map((item) => ({
             value: item.code,
-            label: item.message
+            label: item.message,
+            labelEn: item.code
           }))
         } else {
           iMessage.error(res.desZh)

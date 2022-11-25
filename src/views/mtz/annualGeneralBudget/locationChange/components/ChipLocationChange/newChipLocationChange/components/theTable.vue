@@ -11,7 +11,7 @@
   <iCard>
     <template v-slot:header>
       <div class="tableTitle">
-        <span class="margin-right10">只看自己</span>
+        <span class="margin-right10">{{ $t('ZHIKANZIJI') }}</span>
         <el-switch
           v-model="onlySeeMySelf"
           :active-value="true"
@@ -24,7 +24,6 @@
     </template>
 
     <tableList
-      class="margin-top20"
       :tableData="tableList"
       :tableTitle="tableTitle"
       :tableLoading="tableLoading"

@@ -35,7 +35,7 @@
           align="center"
           show-overflow-tooltip
           width="240"
-          label="申请单号"
+          :label="$t('SHENQINGDANHAO')"
         >
           <template slot-scope="scope">
             <div>
@@ -48,7 +48,7 @@
         <el-table-column
           prop="appName"
           align="center"
-          label="申请单名称"
+          :label="$t('SHENQINGDANMINGCHENG')"
           show-overflow-tooltip
           width="180"
         >
@@ -56,7 +56,7 @@
         <el-table-column
           prop="status"
           align="center"
-          label="申请状态"
+          :label="$t('SHENQINGZHUANGTAI')"
           show-overflow-tooltip
           width="180"
         >
@@ -67,7 +67,7 @@
         <el-table-column
           prop="linieName"
           align="center"
-          label="采购员"
+          :label="$t('CAIGOUYUAN')"
           show-overflow-tooltip
           width="180"
         >
@@ -75,14 +75,14 @@
         <el-table-column
           prop="depteCode"
           align="center"
-          label="科室"
+          :label="$t('KESHI')"
           show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
           prop="approvalTime"
           align="center"
-          label="审批完成时间"
+          :label="$t('审批完成时间')"
           show-overflow-tooltip
         >
         </el-table-column>
@@ -165,7 +165,8 @@ export default {
   methods: {
     // 申请状态
     getStatus(status) {
-      return this.statusList.find((item) => item.value == status)?.label
+      let item = this.statusList.find((item) => item.value == status) || {}
+      return this.$getLabel(item.label, item.labelEn)
     },
     addChip() {
       this.dialogVisible = true

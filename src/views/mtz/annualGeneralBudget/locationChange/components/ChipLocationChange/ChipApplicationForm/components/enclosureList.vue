@@ -34,15 +34,20 @@
     >
       <el-table-column type="selection" width="60"> </el-table-column>
       <el-table-column type="index" label="#" width="60"> </el-table-column>
-      <el-table-column label="文件名" width="600">
+      <el-table-column :label="$t('LK_WENJIANMINGCHENG')" width="600">
         <template slot-scope="scope">
           <el-button type="text" @click="downFile(scope.row)">{{
             scope.row.attachmentName
           }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="updateDate" label="上传日期"> </el-table-column>
-      <el-table-column prop="updateUserName" label="上传人"> </el-table-column>
+      <el-table-column prop="updateDate" :label="$t('SUPPLIER_SHANGCHUQNRQI')">
+      </el-table-column>
+      <el-table-column
+        prop="updateUserName"
+        :label="$t('SUPPLIER_SHANGCHUANREN')"
+      >
+      </el-table-column>
     </el-table>
   </iCard>
 </template>
