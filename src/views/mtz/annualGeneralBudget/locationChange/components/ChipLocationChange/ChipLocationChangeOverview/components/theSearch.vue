@@ -52,11 +52,13 @@ export default {
         makeTypeList: [
           {
             value: '',
-            label: '全部'
+            label: '全部',
+            labelEn: 'All'
           },
           {
             value: '1',
-            label: '芯片补差'
+            label: '芯片补差',
+            labelEn: 'Chip'
           },
           {
             value: '2',

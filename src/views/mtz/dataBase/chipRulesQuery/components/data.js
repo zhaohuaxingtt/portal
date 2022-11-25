@@ -56,12 +56,12 @@ export const tableSetting = [
       return <span>{scope.row.method == '1' ? '一次性补差' : '变价单补差'}</span>
     }
   }, {
-    prop: 'materialGroup',
-    label: '材料组',
-    i18n: '材料组',
-    align: 'center',
-    width: 150
-  }, {
+    //   prop: 'materialGroup',
+    //   label: '材料组',
+    //   i18n: '材料组',
+    //   align: 'center',
+    //   width: 150
+    // }, {
     prop: 'materialName',
     label: '原材料描述',
     i18n: '原材料描述',
@@ -103,7 +103,7 @@ export const tableSetting = [
     label: '采购员',
     width: '100px',
     align: 'center',
-    i18n: '采购员',
+    i18n: 'CAIGOUYUAN',
     width: 100
   },
   {
@@ -111,7 +111,7 @@ export const tableSetting = [
     label: '科室',
     width: '100px',
     align: 'center',
-    i18n: '科室',
+    i18n: 'KESHI',
     width: 100
   }, {
     prop: 'partNameSec',
@@ -234,7 +234,7 @@ export const ruleQueryFormData = [
   { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
   { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList', multiple: true },
+  { props: 'deptCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'deptList', multiple: true },
   { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
   { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },

@@ -31,7 +31,7 @@
           <el-option
             :key="index"
             v-for="(item, index) in options[item.selectOption]"
-            :label="item.label"
+            :label="$getLabel(item.label, item.labelEn)"
             :value="item.value"
           ></el-option>
         </i-select>

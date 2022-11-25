@@ -22,7 +22,17 @@ export default {
   补差金额: 'Amount',
   审批部门: 'approvalDepartment',
   审批科室: 'approvalSection',
-  // 审批人: 'approvalName',
+  审批状态: 'approval Statue',
   生成时间: 'startDate',
-  // 截止时间: 'endDate'
+  审批完成时间: 'Approval completion time',
+  一次零件号: 'Tier-1 Part No.',
+  一次零件名称: 'Tier-1 Part Name',
+  一次件供应商编号: 'Tier-1 Supplier Sap',
+  一次件供应商名称: 'Tier-1 Supplier Name',
+  二次零件名称: 'Tier-2 Part Name',
+  二次件供应商编号: 'Tier-2 Supplier Sap',
+  补差来源: 'Make source',
+  规则变更: 'Change Rules',
+  芯片补差规则查询: 'Chip Gap Rules Query',
+  一二次件关系查询: 'Tier-1/Tier-2 Relationship'
 }

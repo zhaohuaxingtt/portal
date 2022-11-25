@@ -113,7 +113,7 @@ export const continueBox = [
     name: '采购员',
     width: '100px',
     align: 'center',
-    key: '采购员',
+    key: 'CAIGOUYUAN',
     width: 100
   },
   {
@@ -121,7 +121,7 @@ export const continueBox = [
     name: '科室',
     width: '100px',
     align: 'center',
-    key: '科室',
+    key: 'KESHI',
     width: 100
   }, {
     props: 'partNameSec',

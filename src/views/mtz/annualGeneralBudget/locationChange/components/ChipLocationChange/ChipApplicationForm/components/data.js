@@ -175,16 +175,19 @@ export const TABLE_COLUMNS1 = [
   {
     prop: 'approvalUser',
     label: '审批人',
+    i18n: '审批人',
     minWidth: 120
   },
   {
     prop: 'appStatus',
     label: '审批状态',
+    i18n: '审批状态',
     minWidth: 160
   },
   {
     prop: 'idea',
-    label: '意见',
+    label: '审批意见',
+    i18n: '审批意见',
     minWidth: 120
   },
   {
