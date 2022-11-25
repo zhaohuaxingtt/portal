@@ -47,22 +47,30 @@
           label-width="80px"
           :rules="rules"
         >
-          <iFormItem label="申请单名" class="formItem" prop="appName">
+          <iFormItem
+            :label="$t('MTZSHENQINGDANMING')"
+            class="formItem"
+            prop="appName"
+          >
             <el-input
               :disabled="!canEdit ? true : false"
               v-model="formInline.appName"
             ></el-input>
           </iFormItem>
-          <iFormItem label="申请单Id" class="formItem">
+          <iFormItem :label="$t('申请单号')" class="formItem">
             <iText>{{ formInline.appNo }}</iText>
           </iFormItem>
-          <iFormItem label="申请单类型" class="formItem" label-width="100px">
+          <iFormItem
+            :label="$t('SHENQINGDANLEIXING')"
+            class="formItem"
+            label-width="100px"
+          >
             <iText>{{ getAppType(formInline.appType) }}</iText>
           </iFormItem>
-          <iFormItem label="申请状态" class="formItem">
+          <iFormItem :label="$t('SHENQINGZHUANGTAI')" class="formItem">
             <iText>{{ getStatus(formInline.status) }}</iText>
           </iFormItem>
-          <iFormItem label="补差类型" class="formItem">
+          <iFormItem :label="$t('补差类型')" class="formItem">
             <iText>{{ getMakeType(formInline.makeType) }}</iText>
           </iFormItem>
         </el-form>
@@ -74,7 +82,7 @@
         >
           <el-row class="form-row">
             <el-col>
-              <iFormItem label="备注" :class="['row_line']">
+              <iFormItem :label="$t('备注')" :class="['row_line']">
                 <el-input
                   type="textarea"
                   :placeholder="language('QINGSHURU', '请输入')"
@@ -86,7 +94,7 @@
                 ></el-input> </iFormItem
             ></el-col>
             <el-col>
-              <iFormItem label="审批备注" :class="['row_line']" row="24">
+              <iFormItem :label="$t('审批备注')" :class="['row_line']" row="24">
                 <el-input
                   type="textarea"
                   :disabled="!canEdit"

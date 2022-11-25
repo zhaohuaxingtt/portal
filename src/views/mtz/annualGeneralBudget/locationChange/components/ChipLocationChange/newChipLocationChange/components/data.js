@@ -8,7 +8,7 @@ export const QueryFormData = [
   { props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG' },
   { props: 'sapCode', name: '供应商SAP号', key: 'GONGYINGSHANGSAPHAO' },
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'deptCode', name: '科室', key: '科室', type: 'select', selectOption: 'deptList' },
+  { props: 'deptCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'deptList' },
   { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
   { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },
@@ -77,7 +77,7 @@ export const tableTitle = [
     name: '采购员',
     width: '100px',
     align: 'center',
-    key: '采购员',
+    key: 'CAIGOUYUAN',
     width: 100
   },
   {
@@ -85,7 +85,7 @@ export const tableTitle = [
     name: '科室',
     width: '100px',
     align: 'center',
-    key: '科室',
+    key: 'KESHI',
     width: 100
   }, {
     props: 'partNumSec',

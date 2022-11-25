@@ -41,30 +41,36 @@ export default {
         effectFlagList: [
           {
             value: '',
-            label: '全部'
+            label: '全部',
+            labelEn: 'All'
           },
           {
             value: false,
-            label: '未生效'
+            label: '未生效',
+            labelEn: 'Not Effect'
           },
           {
             value: true,
-            label: '生效'
+            label: '生效',
+            labelEn: 'Effect'
           }
         ],
         methodList: [
           {
             value: '',
-            label: '全部'
+            label: '全部',
+            labelEn: 'All'
           },
           {
             value: 1,
             label: '一次性补差',
+            labelEn: 'One time difference',
             disabled: true
           },
           {
             value: 2,
-            label: '变价单补差'
+            label: '变价单补差',
+            labelEn: 'Intending to single senders'
           }
         ],
         deptList: []
