@@ -44,7 +44,8 @@ export default {
         partNum: [],
         makeType: '',
         approvalDateStart: '',
-        approvalDateEnd: ''
+        approvalDateEnd: '',
+        resolutionPassTime: []
       },
       searchFormData,
       options: {
@@ -77,6 +78,17 @@ export default {
       },
       immediate: true,
       deep: true
+    },
+    'searchForm.resolutionPassTime'(val) {
+      if (val) {
+        this.searchForm.approvalDateStart = val[0]
+        this.searchForm.approvalDateEnd = window
+          .moment(this.searchForm.resolutionPassTime[1])
+          .format('YYYY-MM-DD 23:59:59')
+      } else {
+        this.searchForm.approvalDateStart = ''
+        this.searchForm.approvalDateEnd = ''
+      }
     }
   },
   created() {
@@ -111,7 +123,8 @@ export default {
         partNum: [],
         makeType: '',
         approvalDateStart: '',
-        approvalDateEnd: ''
+        approvalDateEnd: '',
+        resolutionPassTime: []
       }
       this.$parent.$refs.theTable.getTableList()
     },

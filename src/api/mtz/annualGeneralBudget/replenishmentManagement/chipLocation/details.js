@@ -16,15 +16,6 @@ export function pageMtzNomi(parmars) {
   })
 }
 
-export function getLocationApplyStatus(parmars) {
-  //mtz定点申请状态下拉
-  return request({
-    url: '/mtzNomiList/getLocationApplyStatus',
-    method: 'POST',
-    data: parmars
-  })
-}
-
 export function getRsBillStatusList(parmars) {
   //mtz定点RS单状态下拉
   return request({
@@ -878,5 +869,14 @@ export function getSupplierInfoBySap(data) {
     url: "/web/register/basic/supplierInfoQuery",
     method: "POST",
     data: data
+  })
+}
+
+export function getLocationApplyStatus(parmars) {
+  //mtz定点申请状态下拉
+  return request({
+    url: '/mtzNomiList/getLocationApplyStatus',
+    method: 'POST',
+    data: parmars
   })
 }
