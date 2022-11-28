@@ -19,13 +19,9 @@
 </template>
 
 <script>
-import { iPage, iCard } from 'rise'
 import theSearch from './components/theSearch'
 import theTable from './components/theTable'
-import {
-  getLocationApplyStatus,
-  getLocationApplyFilter
-} from '@/api/mtz/annualGeneralBudget/chipChange'
+import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/chipChange'
 export default {
   name: '',
   components: {

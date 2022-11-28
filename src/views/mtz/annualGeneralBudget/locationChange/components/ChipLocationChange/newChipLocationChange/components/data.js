@@ -29,13 +29,13 @@ export const tableTitle = [
     align: 'center',
     width: 150
   }, {
-    props: 'materialGroup',
-    name: '材料组',
-    key: '材料组',
-    align: 'center',
-    width: 150,
-    tooltip: true
-  }, {
+    //   props: 'materialGroup',
+    //   name: '材料组',
+    //   key: '材料组',
+    //   align: 'center',
+    //   width: 150,
+    //   tooltip: true
+    // }, {
     props: 'materialName',
     name: '原材料描述',
     key: '原材料描述',

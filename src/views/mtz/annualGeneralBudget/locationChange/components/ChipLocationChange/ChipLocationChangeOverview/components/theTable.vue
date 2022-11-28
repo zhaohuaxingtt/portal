@@ -177,7 +177,6 @@ export default {
       let searchForm_ = JSON.parse(
         JSON.stringify(this.$parent.$refs.theSearch.searchForm)
       )
-      console.log(searchForm_)
       // 所有list都改为逗号分隔的字符串
       Object.keys(searchForm_).forEach((key) => {
         if (Array.isArray(searchForm_[key])) {
@@ -228,7 +227,7 @@ export default {
         iMessage.warn(this.language('QINGXUANZESHUJU', '请选择数据'))
         return
       }
-      if (this.muilteList[0].appStatus === '草稿') {
+      if (this.muilteList[0].status === 'NEW') {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
