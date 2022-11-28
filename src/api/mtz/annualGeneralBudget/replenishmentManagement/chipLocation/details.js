@@ -333,46 +333,11 @@ export function mtzAppNomiSubmit(params) {
   })
 }
 
-export function mtzConfirm(params) {
-  //mtz列表确认
-  return request({
-    url: '/mtzNomiList/mtzConfirm',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function listPartNumSupplierIdData(params) {
-  //查询跳转后零件主数据展示
-  return request({
-    url: '/mtzAppNomi/listPartNumSupplierIdData',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function checkPreciousMetal(params) {
-  //判断是否为贵金属
-  return request({
-    url: '/common/checkPreciousMetal',
-    method: 'POST',
-    data: params
-  })
-}
 
 export function getDeptLimitLevel(params) {
   //科室下拉选择
   return request({
     url: '/commonDropDown/getDeptLimitLevel',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function getMtzGenericAppId(params) {
-  //获取MTZ申请单号
-  return request({
-    url: '/commonDropDown/getMtzGenericAppId',
     method: 'POST',
     data: params
   })
@@ -387,23 +352,6 @@ export function getCurrentUser(params) {
   })
 }
 
-export function queryMaterialList(params) {
-  //获取基价计量单位
-  return request({
-    url: '/common/queryMaterialList',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function getRawMaterial(params) {
-  //原材料牌号下拉选择(材料小类)
-  return request({
-    url: '/commonDropDown/getRawMaterial',
-    method: 'POST',
-    data: params
-  })
-}
 
 export function getSupplierByUser(params) {
   //获取供应商下拉选择(当前用户权限)
@@ -413,16 +361,6 @@ export function getSupplierByUser(params) {
     data: params
   })
 }
-
-export function getMtzRuleCode(params) {
-  //获取MTZ规则编号
-  return request({
-    url: '/commonDropDown/getMtzRuleCode',
-    method: 'POST',
-    data: params
-  })
-}
-
 export function getOneSecondPartNo(params) {
   //一次、二次零件号下拉选择
   return request({
@@ -431,74 +369,12 @@ export function getOneSecondPartNo(params) {
     data: params
   })
 }
-
-export function getMtzAppCheckVO(params) {
-  //获取值
-  return request({
-    url: '/mtzAppNomi/getMtzAppCheckVO',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function setMtzAppCheckVO(params) {
-  //设置值
-  return request({
-    url: '/mtzAppNomi/setMtzAppCheckVO',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function removePartMasterData(params) {
-  //清空维护mtz零件主数据
-  return request({
-    url: '/mtzAppNomi/removePartMasterData',
-    method: 'POST',
-    data: params
-  })
-}
-
 export function getDosageUnitList(params) {
   //用量单位下拉
   return request({
     url: '/mtzNomiList/getDosageUnitList',
     method: 'POST',
     data: params
-  })
-}
-// export function panorama(params) {
-//   //用量单位下拉
-//   return req({
-//     url: '/preview/panorama/' + params,
-//     method: 'GET',
-//     data: params
-//   })
-// }
-
-export function getPreciousMetalDosageUnit(params) {//贵金属单位下拉
-  return request({
-    url: '/mtzNomiList/getPreciousMetalDosageUnit',
-    method: 'POST',
-    data: params
-  })
-}
-
-export function downloadError(params) {//导出错误信息
-  return request({
-    url: '/mtzAppNomi/downloadError',
-    method: 'POST',
-    responseType: 'blob',
-    data: params
-  })
-}
-
-
-export function getNominateAppIdList(parmars) {//关联单号下拉
-  return request({
-    url: '/mtzNomiList/getNominateAppIdList',
-    method: 'POST',
-    data: parmars
   })
 }
 

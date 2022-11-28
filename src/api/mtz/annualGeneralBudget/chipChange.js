@@ -1,24 +1,14 @@
 import axios from '@/utils/axios'
-const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 const requestChip = axios(process.env.VUE_APP_MTZ + '/web/chip')
 
 //申请状态下拉
 export function getLocationApplyStatus(params) {
-  return request({
-    url: '/mtzBasePriceChange/getLocationApplyStatus',
+  return requestChip({
+    url: '/change/getLocationApplyStatus',
     method: 'POST',
     data: params
   })
 }
-// MTZ变更申请-分页-下拉筛选-申请单
-export function getLocationApplyFilter(params) {
-  return request({
-    url: '/mtzBasePriceChange/getLocationApplyFilter',
-    method: 'POST',
-    data: params
-  })
-}
-
 // 删除审批附件
 export function deleteFile(data) {
   return requestChip({

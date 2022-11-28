@@ -39,7 +39,7 @@ import { iPage } from 'rise'
 import dosageDetails from './components/dosageDetails'
 import enclosureList from './components/enclosureList'
 import formInformation from './components/formInformation'
-import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
+import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/chipChange'
 import {
   getDetailById,
   addRule
