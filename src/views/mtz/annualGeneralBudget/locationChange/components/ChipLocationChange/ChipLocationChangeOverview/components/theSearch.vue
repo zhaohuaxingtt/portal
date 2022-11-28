@@ -80,10 +80,10 @@ export default {
       deep: true
     },
     'searchForm.resolutionPassTime'(val) {
-      if (val) {
+      if (Array.isArray(val) && val.length) {
         this.searchForm.approvalDateStart = val[0]
         this.searchForm.approvalDateEnd = window
-          .moment(this.searchForm.resolutionPassTime[1])
+          .moment(val[1])
           .format('YYYY-MM-DD 23:59:59')
       } else {
         this.searchForm.approvalDateStart = ''
