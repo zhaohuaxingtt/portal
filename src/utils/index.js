@@ -1,8 +1,8 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-01-27 14:33:26
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-29 15:53:19
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: 公共utils部分
  * @FilePath: \front-portal\src\utils\index.js
  */
@@ -352,5 +352,31 @@ export function reloadOpener() {
     }
   } catch (error) {
     console.log('error', error)
+  }
+}
+
+// 电话号码脱敏
+export function DesensitizationPhone(phone){
+  if(['string', 'number'].includes(typeof phone)){
+    let result = phone.toString()
+    let length = result.length
+    startIndex = parseInt((length-4)/2)
+    endIndex = startIndex + 4
+    return result.slice(0,startIndex)+'****'+result.slice(endIndex,length)
+  }else{
+    return phone
+  }
+}
+// 邮箱脱敏 并没有在此校验邮箱格式，默认email格式正确进行处理
+export function DesensitizationEmail(email){
+  if(typeof email == 'string'){
+    let index = email.indexOf('@')
+    if(index<1){
+      return email
+    }else{
+      return email.slice(0,1)+'****'+email.slice(index,email.length)
+    }
+  }else{
+    return email
   }
 }
