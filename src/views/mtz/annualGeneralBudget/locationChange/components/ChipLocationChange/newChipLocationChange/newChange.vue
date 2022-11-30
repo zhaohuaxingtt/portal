@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-12-02 16:17:31
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-30 22:31:21
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
 -->
@@ -14,7 +14,6 @@
       ref="theTable"
       v-bind="$attrs"
       v-on="$listeners"
-      :dateList="dateList"
       class="margin-top20"
     ></theTable>
   </div>
