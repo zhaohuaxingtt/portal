@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-05-16 14:59:37
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2022-11-30 09:55:03
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
 -->
@@ -371,14 +371,13 @@
         </iCard>
       </el-tab-pane>
     </iTabsList>
-    <iDialog
-      :title="language('新增芯片补差规则', '新增芯片补差规则')"
-      :visible.sync="addDialog"
-      v-if="addDialog"
-      width="70%"
-    >
-      <addGZ @addDialogGZ="addDialogGZList"> </addGZ>
-    </iDialog>
+    
+    <new-chipLocation-change
+      :dialogVisible="addDialog"
+      :addFlag="true"
+      @close="close"
+      @addItem="addItem"
+    ></new-chipLocation-change>
   </div>
 </template>
 
@@ -396,7 +395,6 @@ import {
   iMessageBox
 } from 'rise'
 import newChipLocationChange from '../../newChipLocationChange'
-import addGZ from './addGZ'
 import uploadButton from '@/components/uploadButton'
 import tableList from '@/components/commonTable/index.vue'
 import {
@@ -426,7 +424,6 @@ export default {
     newChipLocationChange,
     tableList,
     iInput,
-    addGZ
   },
   mixins: [pageMixins],
   data() {
@@ -532,6 +529,10 @@ export default {
     }
   },
   methods: {
+    addItem(addList){
+      this.tableList = [...this.tableList,...addList]
+      this.close()
+    },
     // 编辑零件号
     getPartCodeId(row) {
       getPartCodeId({ partsNum: row.partNum }).then((res) => {
@@ -601,6 +602,10 @@ export default {
     },
     add() {
       this.addDialog = true
+    },
+    
+    close() {
+      this.addDialog = false
     },
     edit() {
       try {
