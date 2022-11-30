@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-01 22:10:51
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-30 09:40:43
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -275,8 +275,8 @@ export default {
         }
       })
     },
-    close(val) {
-      this.dialogVisible = val
+    close() {
+      this.dialogVisible = false
     }
   }
 }

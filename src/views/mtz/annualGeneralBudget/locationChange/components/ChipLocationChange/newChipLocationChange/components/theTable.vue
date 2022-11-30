@@ -2,8 +2,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-13 11:11:09
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2022-11-30 10:02:37
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -62,7 +62,7 @@
 <script>
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
-import { initData } from '@/api/mtz/annualGeneralBudget/chipChange.js'
+import { initData, addRule } from '@/api/mtz/annualGeneralBudget/chipChange.js'
 import { getAppRecordByCondition } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle } from './data'
@@ -149,21 +149,56 @@ export default {
       this.muilteList = val
     },
     handleSure() {
-      initData(this.muilteList.map((item) => item.id)).then((res) => {
-        if (res && res.code === '200') {
-          let data = res.data
-          let routerPath = this.$router.resolve({
-            path: '/mtz/annualGeneralBudget/ChipApplicationForm',
-            query: {
-              changeId: data
-            }
-          })
-          this.$store.dispatch('setMtzChangeBtn', false)
-          window.open(routerPath.href, '_blank')
-        } else {
-          iMessage.error(res.desZh)
-        }
+      if(!this.muilteList.length) return iMessage.warn(
+            this.language(
+              'LK_QINGXUANZEZHISHAOYITIAOSHUJU',
+              '请选择至少一条数据'
+            )
+          )
+      // 新增
+      if(this.addFlag){
+        // 不能直接添加，需调用新增接口
+        console.log('====此处需调用新增接口====')
+        let params = this.muilteList.map(item=>{
+          console.log(item);
+          return {
+            chipId: this.$route.query.changeId,
+            partName:item.oncePartName,
+            partNum:item.oncePartNum,
+            sapCode:item.onceSapCode,
+            supplierId:item.supplierId,
+            supplierName:item.onceSupplierName,
+            ...item
+          }
       })
+        addRule(params).then(res=>{
+          if (res.code == 200 && res.result) {
+              iMessage.success(this.language(res.desEn, res.desZh))
+              this.$emit('close')
+              this.$emit('addItem',this.muilteList)
+            } else {
+              iMessage.error(this.language(res.desEn, res.desZh))
+            }
+        })
+      // 新建
+      }else{
+        initData(this.muilteList.map((item) => item.id)).then((res) => {
+          if (res && res.code === '200') {
+            let data = res.data
+            let routerPath = this.$router.resolve({
+              path: '/mtz/annualGeneralBudget/ChipApplicationForm',
+              query: {
+                changeId: data
+              }
+            })
+            this.$store.dispatch('setMtzChangeBtn', false)
+            window.open(routerPath.href, '_blank')
+            this.$emit('close')
+          } else {
+            iMessage.error(res.desZh)
+          }
+        })
+      }
     }
   }
 }
