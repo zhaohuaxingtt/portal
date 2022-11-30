@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-11-30 11:46:21
+ * @LastEditTime: 2022-11-30 16:55:19
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -201,7 +201,7 @@
                   show-overflow-tooltip
                 >
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                   prop="partUnit"
                   align="center"
                   width="110"
@@ -209,7 +209,7 @@
                   show-overflow-tooltip
                   sortable
                 >
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                   prop="amount"
                   align="center"
