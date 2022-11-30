@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-11-30 10:30:45
+ * @LastEditTime: 2022-11-30 11:46:21
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -134,7 +134,7 @@
                   sortable
                 >
                   <template slot-scope="scope">
-                    <el-form-item
+                    <!-- <el-form-item
                       :prop="'tableList.' + scope.$index + '.' + 'supplier'"
                       :rules="formRules.supplier ? formRules.supplier : ''"
                     >
@@ -147,7 +147,8 @@
                         v-if="editId.indexOf(scope.row.id) !== -1"
                       ></i-input>
                       <span v-else>{{ scope.row.supplier }}</span>
-                    </el-form-item>
+                    </el-form-item> -->
+                    <span>{{ scope.row.supplier }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -176,7 +177,7 @@
                   sortable
                 >
                   <template slot-scope="scope">
-                    <el-form-item
+                    <!-- <el-form-item
                       :prop="'tableList.' + scope.$index + '.' + 'partNum'"
                       :rules="formRules.partNum ? formRules.partNum : ''"
                     >
@@ -188,7 +189,8 @@
                       >
                       </el-input>
                       <span v-else>{{ scope.row.partNum }}</span>
-                    </el-form-item>
+                    </el-form-item> -->
+                    <span >{{ scope.row.partNum }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column
