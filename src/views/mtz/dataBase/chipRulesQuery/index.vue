@@ -245,7 +245,7 @@ export default {
     },
     // 生效/失效
     takeEffect(x) {
-      let flag = this.selectData.some(item => item.effectFlag = x)
+      let flag = this.selectData.some(item => item.effectFlag == x)
       if (flag) {
         return iMessage.warn(
           x
