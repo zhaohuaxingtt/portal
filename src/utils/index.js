@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-11-29 15:53:19
+ * @LastEditTime: 2022-11-30 20:28:21
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: 公共utils部分
  * @FilePath: \front-portal\src\utils\index.js
@@ -40,7 +40,7 @@ export function setToken(tokenData) {
 export function removeToken() {
   const keys = document.cookie.match(/[^ =;]+(?==)/g)
   if (keys) {
-    for (let i = keys.length; i--; ) {
+    for (let i = keys.length; i--;) {
       document.cookie =
         keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString() // 清除当前域名下的,例如：m.ratingdog.cn
       document.cookie =
@@ -356,27 +356,31 @@ export function reloadOpener() {
 }
 
 // 电话号码脱敏
-export function DesensitizationPhone(phone){
-  if(['string', 'number'].includes(typeof phone)){
+export function desensitizationPhone(phone, dataUserId) {
+  let userId = store.state.permission.userInfo.id
+  if (userId == dataUserId) return email
+  if (['string', 'number'].includes(typeof phone)) {
     let result = phone.toString()
     let length = result.length
-    startIndex = parseInt((length-4)/2)
+    startIndex = parseInt((length - 4) / 2)
     endIndex = startIndex + 4
-    return result.slice(0,startIndex)+'****'+result.slice(endIndex,length)
-  }else{
+    return result.slice(0, startIndex) + '****' + result.slice(endIndex, length)
+  } else {
     return phone
   }
 }
 // 邮箱脱敏 并没有在此校验邮箱格式，默认email格式正确进行处理
-export function DesensitizationEmail(email){
-  if(typeof email == 'string'){
+export function desensitizationEmail(email, dataUserId) {
+  let userId = store.state.permission.userInfo.id
+  if (userId == dataUserId) return email
+  if (typeof email == 'string') {
     let index = email.indexOf('@')
-    if(index<1){
+    if (index < 1) {
       return email
-    }else{
-      return email.slice(0,1)+'****'+email.slice(index,email.length)
+    } else {
+      return email.slice(0, 1) + '****' + email.slice(index, email.length)
     }
-  }else{
+  } else {
     return email
   }
 }

@@ -27,7 +27,7 @@
           <el-option v-for="item in purchaseListCopy"
                      :key="item.purchaserId"
                      :value="item.purchaserEmail"
-                     :label="item.purchaserEmail"></el-option>
+                     :label="item.purchaserEmailHidden"></el-option>
         </iSelect>
       </iFormItem>
       <iFormItem :label="$t('SUPPLIER_PURCHASERNAME')"
@@ -82,6 +82,7 @@ import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect, iMessage, iButto
 import { purchaseRules, dictByCode } from './data'
 import { getUserInfo, getPurchaseInfo, isHaveUnfinishedTaskOrProcess, savePurchaserEmail } from '@/api/register/home'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
+import { desensitizationEmail } from "@/utils";
 export default {
   mixins: [generalPageMixins],
   components: {
@@ -211,8 +212,11 @@ export default {
       }
       getPurchaseInfo(req).then(res => {
         if (res?.code == '200') {
-          console.log(res.data);
-          this.purchaseList = res.data.filter(item=>item.purchaserEmail)
+          this.purchaseList = res.data.filter(item=>item.purchaserEmail).map(item=>{
+            item.purchaserEmailHidden = desensitizationEmail(item.purchaserEmail)
+            return item
+          })
+          console.log(this.purchaseList);
           this.purchaseListCopy = JSON.parse(JSON.stringify(this.purchaseList))
         } else {
           iMessage.error(res.desZh)
