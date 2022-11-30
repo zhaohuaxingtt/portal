@@ -395,7 +395,7 @@ export default {
       font-size: 48px;
       color: #1ab5c7;
       font-weight: bold;
-      > span {
+       span {
         font-size: 32px;
       }
     }
@@ -442,6 +442,21 @@ export default {
     position: relative;
   }
 }
+.flex-wrap{
+  margin-top: 10px;
+  align-items: unset!important;
+}
+.center-number{
+  font-size: 26px!important;
+  margin-left:12px;
+}
+.margin-bottom2{
+  margin-bottom:2px!important;
+}
+.width_auto{
+  width:auto!important;
+  min-width: auto!important;
+}
 </style>
 <style lang="scss">
 .ekl-container {
@@ -468,20 +483,5 @@ export default {
       }
     }
   }
-}
-.flex-wrap{
-  margin-top: 10px;
-  align-items: unset!important;
-}
-.center-number{
-  font-size: 26px!important;
-  margin-left:12px;
-}
-.margin-bottom2{
-  margin-bottom:2px!important;
-}
-.width_auto{
-  width:auto!important;
-  min-width: auto!important;
 }
 </style>

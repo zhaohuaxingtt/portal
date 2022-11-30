@@ -1,14 +1,16 @@
 <template>
   <div class="flex-between-center-center ekl-header">
     <div class="tab-tabs">
-      <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
-        <el-tab-pane
-          v-for="item in tabList"
-          :key="item.id"
-          :label="item.name"
-          :name="item.name"
-        />
-      </el-tabs>
+      <div style="width: 100%">
+        <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick">
+          <el-tab-pane
+            v-for="item in tabList"
+            :key="item.id"
+            :label="item.name"
+            :name="item.name"
+          />
+        </el-tabs>
+      </div>
     </div>
     <div class="unit">单位：百万元</div>
   </div>
@@ -94,10 +96,10 @@ export default {
   .el-tabs__header {
     margin-bottom: 0px;
   }
-  .el-tabs__active-bar {
-    height: 3px;
-    bottom: -4px;
-  }
+  // .el-tabs__active-bar {
+  //   height: 3px;
+  //   bottom: -4px;
+  // }
   .el-tabs__nav-scroll,
   .el-tabs__nav-wrap {
     overflow: visible;
@@ -111,5 +113,10 @@ export default {
 }
 ::v-deep .el-tabs__nav-next {
   display: none;
+}
+.unit{
+  position: absolute;
+  bottom:-30px;
+  left:0;
 }
 </style>
