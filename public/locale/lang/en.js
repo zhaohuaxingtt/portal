@@ -2374,6 +2374,22 @@
     "所选数据已为退回状态不能再次退回":"The selected data has been returned and cannot be returned again",
     "所选数据已为转派状态不能再次转派":"The selected data has been transferred, and cannot be transferred again",
     "所选数据已为已取消状态不能再次取消":"The selected data has been canceled, and cannot be canceled again",
+
+    "舆情概览":"PublicOpinion Overview",
+    "舆情列表":"PublicOpinion List",
+    "报表统计":"Report Statistics",
+    "组织机构代码":"Organization code",
+    "内容分类":"Content classification",
+    "发布日期起止":"Date of issue",
+    "仅看我关注的供应商":"Just look at the suppliers I care about",
+    "我关注的供应商":"Suppliers I care about",
+    "舆情拉取范围设置":"Setting of public opinion pull range",
+    "舆情供应商设置":"Public opinion supplier settings",
+    "设置":"setting",
+    "移除":"remove",
+    "供应商简称": 'Supplier Abbreviation',
+    "加入关注时间":"Join the following time",
+    "订阅状态":"Subscription Status",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

@@ -89,3 +89,37 @@ export const preliminaryRatingRouterList = [
     permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_CHUBUPINGJI'
   }
 ]
+
+export const publicOpinionList = [
+  {
+    value: 1,
+    name: '舆情概览',
+    url: '/supplier/frmrating/publicOpinion/overview',
+    activePath: '/supplier/frmrating/publicOpinion/overview',
+    key: '舆情概览',
+    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+  },
+  {
+    value: 2,
+    name: '舆情列表',
+    url: '/supplier/frmrating/publicOpinion/list',
+    activePath: '/supplier/frmrating/publicOpinion/list',
+    key: '舆情列表',
+    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+  },
+  {
+    value: 3,
+    name: '报表统计',
+    url: '/supplier/frmrating/publicOpinion/reportStistics',
+    activePath: '/supplier/frmrating/publicOpinion/reportStistics',
+    key: '报表统计',
+    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+  },{
+    value: 4,
+    name: '设置',
+    url: '/supplier/frmrating/publicOpinion/setting',
+    activePath: '/supplier/frmrating/publicOpinion/setting',
+    key: '设置',
+    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+  },
+]
