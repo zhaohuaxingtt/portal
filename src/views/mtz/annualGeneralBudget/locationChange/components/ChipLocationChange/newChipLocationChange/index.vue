@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-11-18 15:18:08
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-30 09:42:20
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
 -->
@@ -16,7 +16,7 @@
     <div slot="title" class="flex title margin-bottom20">
       <span class="titleText">{{ language('CHIPBIANGENG', '芯片变更') }}</span>
     </div>
-    <newChange v-bind="$attrs" v-on="$listeners" @close="close"></newChange>
+    <newChange v-bind="$attrs" v-on="$listeners"></newChange>
     <span slot="footer" class="dialog-footer"> </span>
   </el-dialog>
 </template>
@@ -42,11 +42,6 @@ export default {
     handleClose() {
       this.$emit('close', false)
     },
-    close(val) {
-      if (!val) {
-        this.handleClose()
-      }
-    }
   }
 }
 </script>

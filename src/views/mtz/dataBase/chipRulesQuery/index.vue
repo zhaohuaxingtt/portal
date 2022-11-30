@@ -1,65 +1,32 @@
 <template>
   <div>
-    <search
-      @sure="sure"
-      @reset="reset"
-      :searchFormData="ruleQueryFormData"
-      :searchForm="searchForm"
-      :options="options"
-    />
+    <search @sure="sure" @reset="reset" :searchFormData="ruleQueryFormData" :searchForm="searchForm"
+      :options="options" />
     <iCard class="OrganizationTable">
       <div class="table-header">
-        <el-switch
-          v-model="onlySeeMySelf"
-          @change="changeSwitch"
-          :inactive-text="language('ZHIKANZIJI', '只看自己')"
-        />
+        <el-switch v-model="onlySeeMySelf" @change="changeSwitch" :inactive-text="language('ZHIKANZIJI', '只看自己')" />
         <div>
-          <iButton
-            @click="takeEffect(true)"
-            v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHENGXIAO"
-            >{{ language('SHENGXIAO', '生效') }}</iButton
-          >
-          <iButton
-            @click="takeEffect(false)"
-            v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHIXIAO"
-            >{{ language('SHIXIAO', '失效') }}</iButton
-          >
-          <iButton
-            @click="handleExportAll"
-            v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_DAOCHU"
-            >{{ language('DAOCHU', '导出') }}</iButton
-          >
-          <button-table-setting
-            @click="$refs.testTable.openSetting()"
-          ></button-table-setting>
+          <iButton @click="takeEffect(true)" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHENGXIAO">{{
+              language('SHENGXIAO', '生效')
+          }}</iButton>
+          <iButton @click="takeEffect(false)" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_SHIXIAO">{{
+              language('SHIXIAO', '失效')
+          }}</iButton>
+          <iButton @click="handleExportAll" v-permission="PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN_DAOCHU">{{ language('DAOCHU',
+              '导出')
+          }}</iButton>
+          <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
         </div>
       </div>
       <div>
-        <iTableCustom
-          ref="testTable"
-          :loading="tableLoading"
-          :data="tableListData"
-          :columns="tableSetting"
-          permissionKey="chip-database-query"
-          @go-detail="handlecreatemtz"
-          @go-partNumber="handlePartNumberDetail"
-          @go-source="handleSource"
-          @handle-selection-change="handleSelectChange"
-        >
+        <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting"
+          permissionKey="chip-database-query" @go-detail="handlecreatemtz" @go-partNumber="handlePartNumberDetail"
+          @go-source="handleSource" @handle-selection-change="handleSelectChange">
         </iTableCustom>
         <!-- 分页标签 -->
-        <iPagination
-          v-update
-          @size-change="handleSizeChange($event, sure)"
-          @current-change="handleCurrentChange($event, getList)"
-          background
-          :page-sizes="page.pageSizes"
-          :page-size="page.pageSize"
-          :layout="page.layout"
-          :current-page="page.currPage"
-          :total="page.totalCount"
-        />
+        <iPagination v-update @size-change="handleSizeChange($event, sure)"
+          @current-change="handleCurrentChange($event, getList)" background :page-sizes="page.pageSizes"
+          :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
       </div>
     </iCard>
   </div>
@@ -278,6 +245,14 @@ export default {
     },
     // 生效/失效
     takeEffect(x) {
+      let flag = this.selectData.some(item => item.effectFlag = x)
+      if (flag) {
+        return iMessage.warn(
+          x
+            ? this.language('生效状态不能点击【生效】按钮，请重新选择', '生效状态不能点击【生效】按钮，请重新选择')
+            : this.language('失效状态不能点击【失效】按钮，请重新选择', '失效状态不能点击【失效】按钮，请重新选择')
+        )
+      }
       if (this.selectedData.length > 0) {
         let ids = this.selectedData.map((y) => y.id)
         partEnable(ids, { effectFlag: x }).then((res) => {
@@ -302,12 +277,14 @@ export default {
 .OrganizationTable {
   margin-top: 20px;
 }
+
 .table-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
   ::v-deep .el-switch__label {
     font-weight: bold;
     color: #000;
