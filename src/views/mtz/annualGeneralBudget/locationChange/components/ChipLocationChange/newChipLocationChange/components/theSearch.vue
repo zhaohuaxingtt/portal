@@ -33,7 +33,7 @@ export default {
         supplierName: '',
         deptCode: '',
         buyerName: '',
-        effectFlag: '',
+        effectFlag: true, // 只查询生效
         startDate: '',
         endDate: ''
       },
@@ -104,7 +104,7 @@ export default {
         supplierName: '',
         deptCode: '',
         buyerName: '',
-        effectFlag: '',
+        effectFlag: true, // 只查询生效
         startDate: '',
         endDate: ''
       }
