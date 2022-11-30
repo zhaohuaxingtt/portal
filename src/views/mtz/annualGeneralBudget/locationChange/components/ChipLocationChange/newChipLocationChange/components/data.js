@@ -10,7 +10,7 @@ export const QueryFormData = [
   { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
   { props: 'deptCode', name: '科室', key: 'KESHI', type: 'select', selectOption: 'deptList' },
   { props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
-  { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
+  // { props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO', type: 'select', selectOption: 'effectFlagList' },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', type: 'date' },
   { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', type: 'date' },
 ]
