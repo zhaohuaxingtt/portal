@@ -73,7 +73,7 @@ export const tableTitle = [
     tooltip: true
   },
   {
-    props: 'buyer',
+    props: 'buyerName',
     name: '采购员',
     width: '100px',
     align: 'center',
@@ -81,7 +81,7 @@ export const tableTitle = [
     width: 100
   },
   {
-    props: 'dept',
+    props: 'deptCode',
     name: '科室',
     width: '100px',
     align: 'center',

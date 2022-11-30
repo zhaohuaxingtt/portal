@@ -52,10 +52,11 @@ export function getDetailById(id) {
 }
 
 // 新增变更规则
-export function addRule(data) {
+export function addRule(params,data) {
   return requestChip({
     url: '/change/detail/add',
     method: 'POST',
+    params,
     data
   })
 }

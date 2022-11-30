@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-11-30 10:02:37
+ * @LastEditTime: 2022-11-30 11:42:18
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -12,24 +12,15 @@
     <template v-slot:header>
       <div class="tableTitle">
         <span class="margin-right10">{{ $t('ZHIKANZIJI') }}</span>
-        <el-switch
-          v-model="onlySeeMySelf"
-          :active-value="true"
-          :inactive-value="false"
-        />
+        <el-switch v-model="onlySeeMySelf" :active-value="true" :inactive-value="false" />
       </div>
       <div class="opration">
         <iButton @click="handleSure">{{ language('QUEREN', '确认') }}</iButton>
       </div>
     </template>
 
-    <tableList
-      :tableData="tableList"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      @handleSelectionChange="handleSelectionChange"
-      index
-    >
+    <tableList :tableData="tableList" :tableTitle="tableTitle" :tableLoading="tableLoading"
+      @handleSelectionChange="handleSelectionChange" index>
       <template slot="method" slot-scope="scope">
         <span>{{ scope.row.method == '1' ? '一次性补差' : '变价单补差' }}</span>
       </template>
@@ -46,15 +37,9 @@
         <span>{{ getDay(scope.row.updateDate) }}</span>
       </template>
     </tableList>
-    <iPagination
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-      :layout="page.layout"
-    >
+    <iPagination @size-change="handleSizeChange($event, getTableList)"
+      @current-change="handleCurrentChange($event, getTableList)" :page-sizes="page.pageSizes"
+      :page-size="page.pageSize" :current-page="page.currPage" :total="page.totalCount" :layout="page.layout">
     </iPagination>
   </iCard>
 </template>
@@ -132,6 +117,7 @@ export default {
           .moment(searchForm.endDate)
           .format('YYYY-MM-DD 23:59:59')
       let params = {
+        isChangeSearch: true, // 变更查询
         currentPage: this.page.currPage,
         pageSize: this.page.pageSize,
         onlySeeMySelf: this.onlySeeMySelf,
@@ -149,39 +135,37 @@ export default {
       this.muilteList = val
     },
     handleSure() {
-      if(!this.muilteList.length) return iMessage.warn(
-            this.language(
-              'LK_QINGXUANZEZHISHAOYITIAOSHUJU',
-              '请选择至少一条数据'
-            )
-          )
+      if (!this.muilteList.length) return iMessage.warn(
+        this.language(
+          'LK_QINGXUANZEZHISHAOYITIAOSHUJU',
+          '请选择至少一条数据'
+        )
+      )
       // 新增
-      if(this.addFlag){
+      if (this.addFlag) {
+        let ruleNoList = this.dateList.map(item => item.ruleNo) || []
         // 不能直接添加，需调用新增接口
         console.log('====此处需调用新增接口====')
-        let params = this.muilteList.map(item=>{
+        let changeId = this.$route.query.changeId
+        let params = []
+        let msg = ''
+        this.muilteList.forEach(item => {
           console.log(item);
-          return {
-            chipId: this.$route.query.changeId,
-            partName:item.oncePartName,
-            partNum:item.oncePartNum,
-            sapCode:item.onceSapCode,
-            supplierId:item.supplierId,
-            supplierName:item.onceSupplierName,
-            ...item
-          }
-      })
-        addRule(params).then(res=>{
-          if (res.code == 200 && res.result) {
-              iMessage.success(this.language(res.desEn, res.desZh))
-              this.$emit('close')
-              this.$emit('addItem',this.muilteList)
-            } else {
-              iMessage.error(this.language(res.desEn, res.desZh))
-            }
+          if (ruleNoList.includes(item.ruleNo)) msg = this.$t('请不要添加重复规则')
+          params.push(item.id)
         })
-      // 新建
-      }else{
+        if (msg) return iMessage.warn(msg)
+        addRule({changeId},params).then(res => {
+          if (res.code == 200 && res.result) {
+            iMessage.success(this.language(res.desEn, res.desZh))
+            this.$emit('close')
+            this.$emit('addItem', this.muilteList)
+          } else {
+            iMessage.error(this.language(res.desEn, res.desZh))
+          }
+        })
+        // 新建
+      } else {
         initData(this.muilteList.map((item) => item.id)).then((res) => {
           if (res && res.code === '200') {
             let data = res.data
@@ -205,4 +189,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>
