@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-11-30 11:42:18
+ * @LastEditTime: 2022-11-30 22:30:58
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -65,14 +65,22 @@ export default {
       type: Boolean,
       default: false
     },
-    dateList: {
+    detailList: {
       type: Array,
       default: () => {
         return []
       }
     }
   },
-  watch: {},
+  watch: {
+    detailList: {
+      handler(val) {
+        console.log('val=>',val);
+      },
+      immediate:true,
+      deep: true
+    }
+  },
   mixins: [pageMixins],
   data() {
     return {
@@ -143,9 +151,8 @@ export default {
       )
       // 新增
       if (this.addFlag) {
-        let ruleNoList = this.dateList.map(item => item.ruleNo) || []
+        let ruleNoList = this.detailList.map(item => item.ruleNo) || []
         // 不能直接添加，需调用新增接口
-        console.log('====此处需调用新增接口====')
         let changeId = this.$route.query.changeId
         let params = []
         let msg = ''
