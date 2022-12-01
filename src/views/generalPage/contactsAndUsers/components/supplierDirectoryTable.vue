@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: YoHo
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierDirectoryTable.vue
 -->
@@ -71,7 +71,6 @@ import {
   saveContacts
 } from '../../../../api/register/contactsAndUsers'
 import { getDictByCode } from '../../../../api/dictionary/index'
-import { desensitizationPhone, desensitizationEmail } from "@/utils";
 export default {
   mixins: [generalPageMixins],
   components: {

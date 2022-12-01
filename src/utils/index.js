@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-11-30 20:28:21
+ * @LastEditTime: 2022-12-01 18:12:07
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: 公共utils部分
  * @FilePath: \front-portal\src\utils\index.js
@@ -357,13 +357,14 @@ export function reloadOpener() {
 
 // 电话号码脱敏
 export function desensitizationPhone(phone, dataUserId) {
+  if(!phone) return phone
   let userId = store.state.permission.userInfo.id
   if (userId == dataUserId) return email
   if (['string', 'number'].includes(typeof phone)) {
     let result = phone.toString()
     let length = result.length
-    startIndex = parseInt((length - 4) / 2)
-    endIndex = startIndex + 4
+    let startIndex = parseInt((length - 4) / 2)
+    let endIndex = startIndex + 4
     return result.slice(0, startIndex) + '****' + result.slice(endIndex, length)
   } else {
     return phone
@@ -371,6 +372,7 @@ export function desensitizationPhone(phone, dataUserId) {
 }
 // 邮箱脱敏 并没有在此校验邮箱格式，默认email格式正确进行处理
 export function desensitizationEmail(email, dataUserId) {
+  if(!email) return email
   let userId = store.state.permission.userInfo.id
   if (userId == dataUserId) return email
   if (typeof email == 'string') {
