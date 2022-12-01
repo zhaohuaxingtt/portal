@@ -80,9 +80,9 @@ export default {
   align-items: center;
   max-width: calc(100% - 60px);
   .tab-tabs {
-    max-width: 70%;
-    overflow-x: auto;
-    overflow-y: hidden;
+    width: 100%;
+    // overflow-x: auto;
+    // overflow-y: hidden;
   }
 }
 ::v-deep .ekl-tabs {
