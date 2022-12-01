@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-11-30 22:28:16
+ * @LastEditTime: 2022-12-01 14:08:43
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -68,7 +68,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column prop="sapCode" align="center" :label="language('GONGYINGSHANG', '供应商')"
-                  show-overflow-tooltip minWidth="160" sortable>
+                  show-overflow-tooltip minWidth="140" sortable>
                   <template slot-scope="scope">
                     <!-- <el-form-item
                       :prop="'tableList.' + scope.$index + '.' + 'supplier'"
@@ -164,7 +164,7 @@
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column prop="startDate" align="center" width="155" :label="language('YOUXIAOQIQI', '有效期起')"
+                <el-table-column prop="startDate" align="center" width="160" :label="language('YOUXIAOQIQI', '有效期起')"
                   sortable>
                   <template slot-scope="scope">
                     <el-form-item :prop="'tableList.' + scope.$index + '.' + 'startDate'"
@@ -176,7 +176,7 @@
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column prop="endDate" align="center" width="155" :label="language('YOUXIAOQIZHI', '有效期止')"
+                <el-table-column prop="endDate" align="center" width="160" :label="language('YOUXIAOQIZHI', '有效期止')"
                   sortable>
                   <template slot-scope="scope">
                     <el-form-item :prop="'tableList.' + scope.$index + '.' + 'endDate'"
@@ -244,7 +244,6 @@ import {
 } from 'rise'
 import newChipLocationChange from '../../newChipLocationChange'
 import uploadButton from '@/components/uploadButton'
-import tableList from '@/components/commonTable/index.vue'
 import {
   save,
   deleteDetail,
@@ -270,7 +269,6 @@ export default {
     iDialog,
     iDatePicker,
     newChipLocationChange,
-    tableList,
     iInput,
   },
   mixins: [pageMixins],
@@ -559,5 +557,9 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+::v-deep .el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
 }
 </style>
