@@ -4,6 +4,7 @@
       :data="data"
       @toggle-active="toggleActive"
       :active-index.sync="activeIndex"
+      :filterType="true"
       numVisible
     />
 

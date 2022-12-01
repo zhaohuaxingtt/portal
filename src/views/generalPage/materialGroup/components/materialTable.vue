@@ -115,6 +115,11 @@
         label-position="left"
         :inline-message="true"
       >
+      <!-- :label="
+        type === 'QQCGY'
+          ? language('QIANQICAIGOUKESHI', '前期采购科室')
+          : language('LINIEKESHICSS3', 'LINIE科室')
+      " -->
         <el-row :gutter="20" align="middle">
           <el-col :span="10">
             <el-form-item
@@ -122,9 +127,7 @@
               prop="deptId"
               :rules="{ required: true, message: '请选择' }"
               :label="
-                type === 'QQCGY'
-                  ? language('QIANQICAIGOUKESHI', '前期采购科室')
-                  : language('LINIEKESHICSS3', 'LINIE科室')
+                $t('SUPPLIER_KESHI')
               "
             >
               <iSelect
@@ -149,9 +152,7 @@
               label-width="120px"
               :rules="isAcc ? [] : [{ required: true, message: '请选择' }]"
               :label="
-                type === 'QQCGY'
-                  ? language('QIANQICAIGOUYUAN', '前期采购员')
-                  : language('LINICAIGOUYUAN', 'LINIE采购员')
+               $t('SPR_FRM_XGYSPJ_CGY')
               "
             >
               <iSelect
@@ -377,7 +378,7 @@ export default {
                 }
               }
             })
-            this.papgeTitle = '附件材料组不需要选择Linie科室和Linie'
+            this.papgeTitle = '附件材料组不需要选择科室和采购员'
             this.show = true
             this.type = 'LINIE'
             let req = await getPurchaseDeptList({
@@ -425,7 +426,7 @@ export default {
               }
             })
             this.papgeTitle =
-              '附件材料组不需要选择前期采购员所属科室和前期采购员'
+              '附件材料组不需要选择采购员所属科室和采购员'
             this.show = true
             this.type = 'QQCGY'
             let req = await getPurchaseDeptList({

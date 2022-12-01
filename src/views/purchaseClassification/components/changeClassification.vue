@@ -137,11 +137,8 @@ export default {
     save(){
       // this.formData.materialGroupLevel=this.formData.parentMaterialGroupLevel
       // this.formData.organizationId=this.formData.isActive1
-     this.formData.organizationId=parseInt(this.formData.organizationId)
+    //  this.formData.organizationId=parseInt(this.formData.organizationId)
      this.formData.organizationCode=this.AllBelongOrgList.find(val=>val.belongToOrgId==this.formData.organizationId)?.belongToOrgCode||''
-     console.log(this.formData)
-     console.log(this.AllBelongOrgList.find(val=>val.belongToOrgId==this.formData.organizationId)?.belongToOrgCode||'')
-
       updateList(this.formData).then((res) => {
         iMessage.success('修改成功')
         this.getListData()
