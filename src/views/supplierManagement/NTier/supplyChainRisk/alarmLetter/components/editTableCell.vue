@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-08 18:53:14
- * @LastEditTime: 2021-09-15 14:14:49
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-01 12:31:19
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\supplierManagement\NTier\supplyChainRisk\components\editTableCell.vue
 -->
@@ -123,20 +123,22 @@ export default {
   }
 };
 </script>
-<style>
-.cell-content {
-  min-height: 40px;
-  padding-left: 5px;
-  padding-top: 5px;
-  border: 1px solid transparent;
-}
-/* .edit-enabled-cell {
-  border: 1px dashed #409eff;
-} */
-::v-deep .el-table .el-table__row .el-input {
-  width: 220px !important;
-}
-:v-deep .el-input__inner {
-  width: 220px !important;
+<style lang="scss" scoped>
+.edit-cell{
+  .cell-content {
+    min-height: 40px;
+    padding-left: 5px;
+    padding-top: 5px;
+    border: 1px solid transparent;
+  }
+  /* .edit-enabled-cell {
+    border: 1px dashed #409eff;
+  } */
+  ::v-deep .el-table .el-table__row .el-input {
+    width: 220px !important;
+  }
+  :v-deep .el-input__inner {
+    width: 220px !important;
+  }
 }
 </style>

@@ -63,7 +63,7 @@
       </div>
       <div class="base flex-between-center-center flex-wrap">
         <div class="left">
-          <div class="title panel-title">业绩基础</div>
+          <div class="title panel-title">{{$t("LK_YJJC")}}</div>
         </div>
         <div style="display: flex;justify-content: space-between;flex:1">
           <div class="middle center-number number_margin">
@@ -248,7 +248,7 @@ export default {
     setEcharts() {
       const option = {
         title: {
-          text: '当前完成(持续)',
+          text: this.$t("DANGQIANWANCHENGCHIXU"),
           left: '-4',
           textStyle: {
             fontSize: '12px'
@@ -264,7 +264,7 @@ export default {
           color: ['#1AB5C7', '#B9EBF2'],
           right: '10',
           icon: 'circle',
-          top: '0%',
+          top: '6%',
           tooltip: {
             show: true,
             formatter: (data) => {
@@ -312,14 +312,14 @@ export default {
                 itemStyle: {
                   color: '#1AB5C7'
                 },
-                name: '完成'
+                name: this.$t("LK_YWC")
               },
               {
                 value: this.tabsData.subtract,
                 itemStyle: {
                   color: '#B9EBF2'
                 },
-                name: '待完成'
+                name: this.$t("LK_WWC")
               }
             ]
           }

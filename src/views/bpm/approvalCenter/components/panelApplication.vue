@@ -4,6 +4,7 @@
       :data="data"
       @toggle-active="toggleActive"
       :active-index.sync="activeIndex"
+      :filterType="true"
       numVisible
     />
 
@@ -111,6 +112,7 @@ export default {
         })
         e.totalTodoNum = totalTodoNum
       })
+      console.log(data);
       this.data = data
       this.$emit('set-num', totalNum)
     }

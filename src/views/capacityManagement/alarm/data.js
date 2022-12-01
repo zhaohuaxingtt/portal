@@ -184,8 +184,8 @@ export const statusList = [
 export const reasonList = [
   { value: 'SEND_ALARM_LETTER', label: '已补报警信' },
   { value: 'LIFT_RED_LIGHT', label: '已解除红灯' },
-  { value: 'UPDATE_YELLOW_LIGHT', label: '已改为黄灯' },
-  { value: 'UPDATE_GREEN_LIGHT', label: 'BKA已更新（绿灯）' },
+  { value: 'UPDATE_YELLOW_LIGHT', label: 'BKA已更新为黄灯' },
+  { value: 'UPDATE_GREEN_LIGHT', label: 'BKA已更新为绿灯' },
 ]
 
 

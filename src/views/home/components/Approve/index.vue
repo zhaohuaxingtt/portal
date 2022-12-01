@@ -1,30 +1,59 @@
 <template>
-  <div class="task-container">
-    <div v-for="item in moduleData" :key="item.id" class="task-card">
-      <div class="left">
-        <div class="name single-ellipsis">{{ item.value }}</div>
-        <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>
-      </div>
-      <div class="right">
-        <div class="overdue" @click="handleToApply(item)">
-          <div :class="item.overdue">
-            {{ getLaunchNum(item.subType) | overNum }}
-            <span v-if="getLaunchNum(item.subType) > 99">+</span>
+  <!-- iAgree -->
+  <div class="task-wrap">
+    <div class="task-container">
+      <!-- <div v-for="item in moduleData" :key="item.id" class="task-card">
+        <div class="left">
+          <div class="name single-ellipsis">{{ item.value }}</div>
+          <div class="abs single-ellipsis">{{ getAbs(item.typeName) }}</div>
+        </div>
+        <div class="right">
+          <div class="overdue" @click="handleToApply(item)">
+            <div :class="item.overdue">
+              {{ getLaunchNum(item.subType) | overNum }}
+              <span v-if="getLaunchNum(item.subType) > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+            </div>
           </div>
-          <div class="numName flex-align-center">
-            <!-- <icon symbol class="icon" name="icona-MyApplication" /> -->
-            <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+          <div class="line">/</div>
+          <div class="approval" @click="handleToApproval(item)">
+            <div>
+              {{ getTodoNum(item.subType) | overNum }}
+              <span v-if="getTodoNum(item.subType) > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+            </div>
           </div>
         </div>
-        <div class="line">/</div>
-        <div class="approval" @click="handleToApproval(item)">
-          <div>
-            {{ getTodoNum(item.subType) | overNum }}
-            <span v-if="getTodoNum(item.subType) > 99">+</span>
+      </div> -->
+
+      <div v-for="item in dataListNow" :key="item.id" class="task-card">
+        <div class="left">
+          <div class="name single-ellipsis">{{ item.title }}</div>
+          <div class="abs single-ellipsis">{{ item.name }}</div>
+        </div>
+        <div class="right">
+          <div class="overdue" @click="handleToApply(item)">
+            <div :class="item.overdue">
+              {{ getLaunchNum(item.applyNumber)}}
+              <span v-if="item.applyNumber > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+            </div>
           </div>
-          <div class="numName flex-align-center">
-            <!-- <icon symbol class="icon" name="icona-MyApproval" /> -->
-            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+          <div class="line">/</div>
+          <div class="approval" @click="handleToApproval(item)">
+            <div>
+              {{ getTodoNum(item.approvalNumber)}}
+              <span v-if="item.approvalNumber > 99">+</span>
+            </div>
+            <div class="numName flex-align-center">
+              <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -35,6 +64,8 @@
 <script>
 import { Icon } from 'rise'
 import { getApprovalList } from '@/api/home'
+
+import { queryApplyOverview,queryApprovalOverview } from '@/api/approval/statistics'
 
 export default {
   components: { Icon },
@@ -61,7 +92,15 @@ export default {
     return {
       valueNumbers: {},
       moduleData: [],
-      absMap: {}
+      absMap: {},
+      dataList:[],
+      dataListNow:[],
+      dataObject:{
+        title:"",
+        name:"",
+        applyNumber:"",//申请
+        approvalNumber:"",//审批
+      }
     }
   },
   watch: {
@@ -73,9 +112,62 @@ export default {
     this.queryAllData()
     this.initModuleData()
   },
+  mounted(){
+    this.$nextTick(()=>{
+      this.queryApplyOverview();
+    })
+  },
   methods: {
+    queryApplyOverview(){//我的申请
+      queryApplyOverview({
+        userID: this.$store.state.permission.userInfo.id
+      }).then(res=>{
+        if(res.data&&res.data.length>0){
+          res.data.forEach(e=>{
+            if(e.wfCategoryList&&e.wfCategoryList.length>0){
+              e.wfCategoryList.forEach(item=>{
+                this.dataList.push({
+                  title:item.value,
+                  name:e.typeValue,
+                  applyNumber:item.todoNum,
+                  subType:item.subType,
+                  categoryList:item.categoryList,
+                })
+              })
+            }
+          })
+        }
+      }).then(res=>{
+        this.queryApprovalOverview();
+      })
+    },
+    queryApprovalOverview(){//我的审批
+      queryApprovalOverview({
+        userID: this.$store.state.permission.userInfo.id
+      }).then(res=>{
+        console.log(res);
+        if(res.data&&res.data.length>0){
+          res.data.forEach(e=>{
+            if(e.wfCategoryList&&e.wfCategoryList.length>0){
+              e.wfCategoryList.forEach(item=>{
+                this.dataList.forEach(val=>{
+                  if(val.title == item.value){
+                    val.approvalNumber = item.todoNum
+                    val.cardUrl = item.cardUrl
+                  }
+                })
+              })
+            }
+          })
+        }
+
+        const list = this.dataList.filter(e=>!(e.applyNumber==0&&e.approvalNumber==0))
+        this.dataListNow = list;
+      })
+    },
     initModuleData() {
       const data = JSON.parse(this.data.moduleData)
+      console.log(data);
       if (data.length <= 5) {
         this.moduleData = data
       }
@@ -93,16 +185,26 @@ export default {
       this.initModuleData()
     },
     getLaunchNum(subType) {
-      if (this.valueNumbers[subType]) {
-        return this.valueNumbers[subType].launchNum || 0
+      // if (this.valueNumbers[subType]) {
+      //   return this.valueNumbers[subType].launchNum || 0
+      // }
+      // return 0
+      if(Number(subType)>99){
+        return "99+"
+      }else{
+        return subType
       }
-      return 0
     },
     getTodoNum(subType) {
-      if (this.valueNumbers[subType]) {
-        return this.valueNumbers[subType].todoNum || 0
+      // if (this.valueNumbers[subType]) {
+      //   return this.valueNumbers[subType].todoNum || 0
+      // }
+      // return 0
+      if(Number(subType)>99){
+        return "99+"
+      }else{
+        return subType
       }
-      return 0
     },
     getAbs(typeName) {
       if (this.absMap[typeName]) {
@@ -164,6 +266,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.task-wrap{
+  height:100%;
+  overflow-y: auto;
+}
 .numName {
   > img {
     width: 15px;
@@ -190,6 +296,7 @@ export default {
   overflow: auto;
 }
 .task-card {
+  width: 99.3%;
   height: 97px;
   box-sizing: border-box;
   border-radius: 10px;

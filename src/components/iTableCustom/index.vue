@@ -36,7 +36,7 @@
     >
       <template v-for="(item, index) in tableVisibleColumns">
         <el-table-column
-          :key="index"
+          :key="index + item.type"
           v-if="['selection', 'index'].includes(item.type)"
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
@@ -52,7 +52,7 @@
           :fixed="item.fixed"
         />
         <el-table-column
-          :key="index"
+          :key="index + item.type"
           v-else-if="['customSelection'].includes(item.type)"
           reserve-selection
           :type="item.type"
@@ -83,7 +83,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          :key="index"
+          :key="index + item.type"
           v-else-if="['fullIndex'].includes(item.type)"
           :type="item.type"
           :label="item.i18n ? language(item.i18n, item.label) : item.label"
@@ -99,7 +99,7 @@
         <el-table-column
           v-else
           :render-header="item.headerRender"
-          :key="index"
+          :key="index + (item.prop || '')"
           :type="item.type"
           :align="item.align || 'center'"
           :header-align="item.headerAlign"
