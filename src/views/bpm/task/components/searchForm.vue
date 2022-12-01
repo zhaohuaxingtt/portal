@@ -165,76 +165,117 @@ export default {
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST,
       userDefaultOptions: [],
-      deptDefaultOptions: []
+      deptDefaultOptions: [],
+      dataList:[],
     }
   },
   created() {
-    if (!this.isFinished && this.$route.query.modelTemplate) {
-      const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
-      console.log('module-template', moduleTemplate)
-      if (
-        moduleTemplate.length === 1 &&
-        BPM_SINGL_CATEGORY_LIST.includes(moduleTemplate[0])
-      ) {
-        this.multipleCategoryList = false
-        this.form.categoryList = moduleTemplate[0]
-      } else {
-        this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
-      }
-    }
-    // CRW-8311
-    // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
-    if (this.isFinished) {
-      if (this.$route.query.doneQueryStr) {
-        try {
-          const queryForm = JSON.parse(
-            decodeURIComponent(this.$route.query.doneQueryStr)
-          )
-          if (queryForm.startTime && queryForm.endTime) {
-            this.date = [
-              moment(queryForm.startTime).format('YYYY-MM-DD'),
-              moment(queryForm.endTime).format('YYYY-MM-DD')
-            ]
-          }
-          this.form = queryForm
-          if (this.form.applyUserId) {
-            this.queryUserOptions()
-          }
-          if (this.form.applyUserDeptId) {
-            this.queryDeptOptions()
-          }
-        } catch (err) {
-          console.log(err)
-        }
-      }
-    } else {
-      if (this.$route.query.todoQueryStr) {
-        try {
-          const queryForm = JSON.parse(
-            decodeURIComponent(this.$route.query.todoQueryStr)
-          )
-          if (queryForm.startTime && queryForm.endTime) {
-            this.date = [
-              moment(queryForm.startTime).format('YYYY-MM-DD'),
-              moment(queryForm.endTime).format('YYYY-MM-DD')
-            ]
-          }
-          this.form = queryForm
-          if (this.form.applyUserId) {
-            this.queryUserOptions()
-          }
-          if (this.form.applyUserDeptId) {
-            this.queryDeptOptions()
-          }
-        } catch (err) {
-          console.log(err)
-        }
-      }
-    }
-
-    this.queryModelTemplate()
+    this.refresh();
   },
   methods: {
+    refresh(){
+      console.log(this.isFinished)
+      if (!this.isFinished && this.$route.query.modelTemplate) {
+        const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
+        console.log('module-template', moduleTemplate)
+        if (
+          moduleTemplate.length === 1 &&
+          BPM_SINGL_CATEGORY_LIST.includes(moduleTemplate[0])
+        ) {
+          this.multipleCategoryList = false
+          this.form.categoryList = moduleTemplate[0]
+        } else {
+          this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+        }
+        console.log(this.form);
+      }
+      // CRW-8311
+      // 【CF】审批人界面从[已审批]切换到[待审批]查不到待审批单据
+      if (this.isFinished) {//已审批
+        console.log(this.$route.query)
+        if (this.$route.query.doneQueryStr) {
+          try {
+            const queryForm = JSON.parse(
+              decodeURIComponent(this.$route.query.doneQueryStr)
+            )
+            console.log(queryForm)
+            if (queryForm.startTime && queryForm.endTime) {
+              this.date = [
+                moment(queryForm.startTime).format('YYYY-MM-DD'),
+                moment(queryForm.endTime).format('YYYY-MM-DD')
+              ]
+            }
+            this.form = queryForm
+            if (this.form.applyUserId) {
+              this.queryUserOptions()
+            }
+            if (this.form.applyUserDeptId) {
+              this.queryDeptOptions()
+            }
+          } catch (err) {
+            console.log(err)
+          }
+        }else if(this.$route.query.todoQueryStr){
+          try {
+            const queryForm = JSON.parse(
+              decodeURIComponent(this.$route.query.todoQueryStr)
+            )
+            this.dataList = _.cloneDeep(queryForm)
+
+            console.log(this.dataList)
+            // return;
+            this.$set(this,"form",_.cloneDeep(queryForm))
+            // this.form = _.cloneDeep(queryForm)
+            console.log(this.form)
+            console.log(this.form.categoryList)
+            console.log(JSON.stringify(this.form))
+
+            if (this.form.startTime && this.form.endTime) {
+              this.date = [
+                moment(this.form.startTime).format('YYYY-MM-DD'),
+                moment(this.form.endTime).format('YYYY-MM-DD')
+              ]
+            }
+            if (this.form.applyUserId) {
+              this.queryUserOptions()
+            }
+            if (this.form.applyUserDeptId) {
+              this.queryDeptOptions()
+            }
+          } catch (err) {
+            console.log(err)
+          }
+        }
+      } else {//待审批
+        console.log(1111)
+        if (this.$route.query.todoQueryStr) {
+          try {
+            const queryForm = JSON.parse(
+              decodeURIComponent(this.$route.query.todoQueryStr)
+            )
+
+            console.log(queryForm);
+            if (queryForm.startTime && queryForm.endTime) {
+              this.date = [
+                moment(queryForm.startTime).format('YYYY-MM-DD'),
+                moment(queryForm.endTime).format('YYYY-MM-DD')
+              ]
+            }
+            this.form = queryForm
+            if (this.form.applyUserId) {
+              this.queryUserOptions()
+            }
+            if (this.form.applyUserDeptId) {
+              this.queryDeptOptions()
+            }
+          } catch (err) {
+            console.log(err)
+          }
+        }
+      }
+
+      // this.queryModelTemplate()
+    },
     search() {
       const searchData = { ...this.form }
       if (this.date && this.date.length === 2) {
@@ -264,6 +305,7 @@ export default {
       this.$emit('search', this.form, this.templates)
     },
     async queryModelTemplate() {
+      console.log(this.form);
       const data = {
         pageNo: 1,
         pageSize: 100,
