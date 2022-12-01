@@ -81,7 +81,7 @@ export default {
   align-items: center;
   max-width: calc(100% - 60px);
   .tab-tabs {
-    max-width: 60%;
+    max-width: 100%;
     /* overflow-x: auto;
     overflow-y: hidden; */
   }
@@ -97,10 +97,10 @@ export default {
   .el-tabs__header {
     margin-bottom: 0px;
   }
-  .el-tabs__active-bar {
-    height: 3px;
-    bottom: -4px;
-  }
+  // .el-tabs__active-bar {
+  //   height: 3px;
+  //   bottom: -4px;
+  // }
   .el-tabs__nav-wrap::after {
     background-color: transparent;
   }
@@ -110,5 +110,10 @@ export default {
 }
 ::v-deep .el-tabs__nav-next {
   display: none;
+}
+.unit{
+  position: absolute;
+  bottom:-30px;
+  left:0;
 }
 </style>
