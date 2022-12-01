@@ -5,6 +5,7 @@
       @toggle-active="toggleActive"
       :active-index.sync="activeIndex"
       numVisible
+      :fileter="true"
     />
 
     <div v-for="(item, index) in activeData" :key="index">
