@@ -316,18 +316,20 @@ export default {
   }
 }
 </style>
-<style lang="scss">
-.custom-select-input {
-  width: 100%;
-  > input {
-    text-overflow: ellipsis;
-    overflow: hidden;
+<style lang="scss" scoped>
+.custom-select{
+  .custom-select-input {
+    width: 100%;
+    > input {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
-}
-::v-deep .el-table .el-table__row .el-input {
-  width: 220px !important;
-}
-:v-deep .el-input__inner {
-  width: 220px !important;
+  ::v-deep .el-table .el-table__row .el-input {
+    width: 220px !important;
+  }
+  :v-deep .el-input__inner {
+    width: 220px !important;
+  }
 }
 </style>
