@@ -13,7 +13,7 @@
     :close-on-click-modal="false"
     @close="close"
   >
-  123123
+    123123
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
@@ -167,7 +167,7 @@
               :disabled="ruleForm.state === '02'"
             ></iInput>
           </iFormItem>
-<!-- 采购员 -->
+          <!-- 采购员 -->
           <iFormItem
             label="Supporter"
             prop="supporter"
@@ -306,7 +306,7 @@
             <iLabel :label="$t('Supporter Department')" slot="label"></iLabel>
             <iInput v-model="ruleForm.supporterDept" disabled></iInput>
           </iFormItem>
-          
+
           <iFormItem
             label="Supporter (Not System User)"
             prop="supporterNosys"
@@ -879,15 +879,19 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error('下载失败')
+      if (row.attachmentUrl) {
+        window.open(`${row.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: row.attachmentId,
+          filename: row.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error('下载失败')
+            }
           }
-        }
-      })
+        })
+      }
     },
     handleFocus() {
       this.remoteMethod()

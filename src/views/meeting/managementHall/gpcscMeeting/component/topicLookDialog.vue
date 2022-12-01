@@ -9,12 +9,11 @@
   >
     <ul class="content-top">
       <li class="info-row">
-        <div class="left">{{topicInfo.topic}}</div>
+        <div class="left">{{ topicInfo.topic }}</div>
         <div class="right">
           {{ start }}~{{ end
-          }}<span style="margin-left:5px">{{ status[topicInfo.state] }}</span>
+          }}<span style="margin-left: 5px">{{ status[topicInfo.state] }}</span>
         </div>
-        
       </li>
       <!-- 议题寻源号 -->
       <li class="info-row">
@@ -50,9 +49,7 @@
 
       <!-- 支持者 -->
       <li class="info-row">
-        <div class="left">
-          Sourcing Buyer
-        </div>
+        <div class="left">Sourcing Buyer</div>
         <div class="right">
           {{ topicInfo.supporter }}
         </div>
@@ -65,7 +62,7 @@
           {{ topicInfo.presenter }}
         </div>
       </li>
-      
+
       <!-- EP -->
       <li class="info-row">
         <div class="left">EP</div>
@@ -86,7 +83,9 @@
       <li class="info-row">
         <div class="left">Status</div>
         <div class="right">
-          <span >{{ (topicInfo.cscCount || 0) +'/' + (topicInfo.preCount || 0)}}</span>
+          <span>{{
+            (topicInfo.cscCount || 0) + '/' + (topicInfo.preCount || 0)
+          }}</span>
         </div>
       </li>
     </ul>
@@ -107,115 +106,118 @@
 </template>
 
 <script>
-import { iDialog, iMessage } from "rise";
-import dayjs from "dayjs";
-import enclosure from "@/assets/images/enclosure.svg";
-import { download } from "@/utils/downloadUtil";
+import { iDialog, iMessage } from 'rise'
+import dayjs from 'dayjs'
+import enclosure from '@/assets/images/enclosure.svg'
+import { download } from '@/utils/downloadUtil'
 export default {
   components: {
-    iDialog,
+    iDialog
   },
   props: {
     openAddTopic: { type: Boolean, default: false },
     topicInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
       enclosure: enclosure,
       status: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
-      },
-    };
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      }
+    }
   },
   computed: {
     start() {
       return dayjs(new Date(`2021-9-23 ${this.topicInfo.startTime}`)).format(
-        "HH:mm"
-      );
+        'HH:mm'
+      )
     },
     end() {
       return dayjs(new Date(`2021-9-23 ${this.topicInfo.endTime}`)).format(
-        "HH:mm"
-      );
+        'HH:mm'
+      )
     },
     compuSupporter() {
       return this.compuShouldShow(
         this.topicInfo.supporter,
         this.topicInfo.supporterDept
-      );
+      )
     },
     compuSupporDept() {
       return this.compuShouldShow(
         this.topicInfo.supporterDept,
         this.topicInfo.supporterDeptNosys
-      );
+      )
     },
     compuPresenter() {
       return this.compuShouldShow(
         this.topicInfo.presenter,
         this.topicInfo.presenterNosys
-      );
+      )
     },
     compuPresenterDept() {
       return this.compuShouldShow(
         this.topicInfo.presenterDept,
         this.topicInfo.presenterDeptNosys
-      );
-    },
+      )
+    }
   },
-  mounted(){
+  mounted() {
     console.log(this.topicInfo)
   },
   methods: {
     compuShouldShow(p, pNosys) {
-      let s1 = p;
-      let s2 = pNosys ? (p ? "," + pNosys : pNosys) : "";
-      let s3 = s1 + s2;
-      const arrs = s3 ? s3.split(",") : [];
+      let s1 = p
+      let s2 = pNosys ? (p ? ',' + pNosys : pNosys) : ''
+      let s3 = s1 + s2
+      const arrs = s3 ? s3.split(',') : []
       if (arrs.length > 3) {
         return {
           hiddenS: s3,
-          showS: arrs.slice(0, 3).join(","),
-        };
+          showS: arrs.slice(0, 3).join(',')
+        }
       }
       return {
-        hiddenS: "",
-        showS: s3,
-      };
+        hiddenS: '',
+        showS: s3
+      }
     },
     clearDiolog() {
-      this.$emit("closeDialog");
+      this.$emit('closeDialog')
     },
     // 下载附件
     handleDownLoad(e) {
-      console.log(198,e)
-      download({
-        fileIds: e.attachmentId,
-        // url: MOCK_FILE_URL + e.attachmentId,
-        filename: e.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error("下载失败");
+      if (e.attachmentUrl) {
+        window.open(`${e.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: e.attachmentId,
+          // url: MOCK_FILE_URL + e.attachmentId,
+          filename: e.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error('下载失败')
+            }
           }
-        },
-      });
-    },
-  },
-};
+        })
+      }
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
-::v-deep .el-dialog{
+::v-deep .el-dialog {
   margin-top: 12vh !important;
 }
-.form-item-att{
+.form-item-att {
   margin-top: 1.5rem;
   font-weight: 400;
   line-height: 17px;
