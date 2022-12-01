@@ -410,7 +410,7 @@ export default {
       min-width: 120px;
     }
      .middle-m {
-      margin-top: -36px;
+      // margin-top: -36px;
       font-size: 24px;
     }
   }
