@@ -225,7 +225,7 @@ export default {
             console.log(this.dataList)
             // return;
             this.$set(this,"form",_.cloneDeep(queryForm))
-            // this.form = _.cloneDeep(queryForm)
+            this.form.categoryList = [this.dataList.categoryList]
             console.log(this.form)
             console.log(this.form.categoryList)
             console.log(JSON.stringify(this.form))
@@ -274,7 +274,7 @@ export default {
         }
       }
 
-      // this.queryModelTemplate()
+      this.queryModelTemplate()
     },
     search() {
       const searchData = { ...this.form }
