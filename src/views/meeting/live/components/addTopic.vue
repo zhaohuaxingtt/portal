@@ -860,13 +860,12 @@ export default {
     supporterIdArrAndCurrentSearchUserData: {
       handler(newV) {
         if (this.editOrAdd !== 'look') {
-          this.ruleForm.supporter = newV.currentSearchUserData.filter(
-            (item) => {
+          this.ruleForm.supporter =
+            newV.currentSearchUserData.filter((item) => {
               return newV.supporterIdArr.some((it) => {
                 return Number(item.id) === Number(it)
               })
-            }
-          )
+            }) || []
           // console.log(this.ruleForm.supporter);
           this.ruleForm.presenter = newV.currentSearchUserData.filter(
             (item) => {
@@ -915,7 +914,7 @@ export default {
     },
     'ruleForm.supporter': {
       handler: function (newVV) {
-        let newV = typeof newVV === 'string' ? [] : newVV
+        let newV = typeof newVV === 'string' || !newVV ? [] : newVV
         let arr = newV.map((item) => {
           return item.id
         })
@@ -1078,21 +1077,12 @@ export default {
         meetingId: this.lookThemenObj.meetingId
       }
       findTheThemenById(data).then((res) => {
-        this.supporterIdArr = res.supporter.split(',')
-        this.presenterIdArr = res.presenter.split(',')
+        this.supporterIdArr = res.supporter?.split(',') || []
+        this.presenterIdArr = res.presenter?.split(',') || []
       })
     },
     handleDownload(row) {
-      download({
-        // url: MOCK_FILE_URL + row.attachmentId,
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
-          }
-        }
-      })
+      window.open(`${row.attachmentUrl}`, '_blank')
     },
     async getMettingListAll() {
       const params = {

@@ -1083,16 +1083,17 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        // url: MOCK_FILE_URL + row.attachmentId,
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
-          }
-        }
-      })
+      window.open(`${row.attachmentUrl}`, '_blank')
+      // download({
+      //   // url: MOCK_FILE_URL + row.attachmentId,
+      //   fileIds: row.attachmentId,
+      //   filename: row.attachmentName,
+      //   callback: (e) => {
+      //     if (!e) {
+      //       iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      //     }
+      //   }
+      // })
     },
     async getMettingListAll() {
       const params = {

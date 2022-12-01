@@ -569,7 +569,7 @@
         prop="weekOfYear"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/{{handleWeeks()}}</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="20" align="center" label=""></el-table-column>
@@ -877,7 +877,7 @@ export default {
     }
   },
   methods: {
-        handleWeeks() {
+    handleWeeks() {
       const currentFistYearDay = `${dayjs().year()}-01-01`
       const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
       const totalDay = isLeap ? 366 : 365
@@ -1131,16 +1131,20 @@ export default {
     },
     // 下载附件
     downloadEnclosure(e) {
-      download({
-        fileIds: e.attachmentId,
-        // url: MOCK_FILE_URL + e.attachmentId,
-        filename: e.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error('下载失败')
+      if (e.attachmentUrl) {
+        window.open(`${e.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: e.attachmentId,
+          // url: MOCK_FILE_URL + e.attachmentId,
+          filename: e.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error('下载失败')
+            }
           }
-        }
-      })
+        })
+      }
     },
     // 下载模版
     downDemo() {
@@ -1440,21 +1444,18 @@ export default {
     // 跳转详情页
     goDetail(e, b) {
       //b是状态
-      console.log(e,b);
-      console.log(e.isCSC,e.isPreCSC);
+      console.log(e, b)
+      console.log(e.isCSC, e.isPreCSC)
       // return
       if (b == '01') {
         return
       }
       this.$router.push({
-          path: '/meeting/managementHall/mbdlMeeting',
-          query: {
-            id: e.id
-          }
+        path: '/meeting/managementHall/mbdlMeeting',
+        query: {
+          id: e.id
+        }
       })
-
-
-
 
       // if (
       //   e.meetingTypeName === 'CSC' ||
@@ -1478,9 +1479,9 @@ export default {
       //     }
       //   })
       // }
-return
+      return
       //会议分别跳转路由
-      if ( e.isPreCSC) {
+      if (e.isPreCSC) {
         this.$router.push({
           path: '/meeting/specialDetails',
           query: {
@@ -1488,11 +1489,11 @@ return
             // type: e.meetingTypeName
           }
         })
-      } else if(e.isCSC){
-       //走我改的
-      }else if(e.MDBl){
+      } else if (e.isCSC) {
+        //走我改的
+      } else if (e.MDBl) {
         //走我我写
-      }else{
+      } else {
         //通用会议
         this.$router.push({
           path: '/meeting/details',

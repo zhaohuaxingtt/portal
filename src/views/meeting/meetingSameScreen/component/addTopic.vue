@@ -1,7 +1,11 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="editOrAdd === 'add' ? $t('MT_XINZENGSHOUGONGYITI') : $t('MT_XIUGAISHOUGONGYITI')"
+    :title="
+      editOrAdd === 'add'
+        ? $t('MT_XINZENGSHOUGONGYITI')
+        : $t('MT_XIUGAISHOUGONGYITI')
+    "
     :visible.sync="openDialog"
     width="58.25rem"
     :close-on-click-modal="false"
@@ -179,9 +183,13 @@
                 :uploadLoading="uploadLoading"
               >
                 <span class="upload-text"><img :src="uploadIcon" /></span>
-                <span class="upload-text-content">{{$t('MT_XUANZEWENJIAN')}}</span>
+                <span class="upload-text-content">{{
+                  $t('MT_XUANZEWENJIAN')
+                }}</span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}30M</div>
+              <div slot="tip" class="el-upload__tip">
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}30M
+              </div>
             </el-upload>
             <ul class="file-list">
               <li v-for="(item, index) of ruleForm.attachments" :key="index">
@@ -328,8 +336,12 @@ export default {
             validator: validateTopic
           }
         ],
-        supporter: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }],
-        presenter: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }],
+        supporter: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }
+        ],
+        presenter: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'blur' }
+        ],
         duration: [
           { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
           {
@@ -360,15 +372,47 @@ export default {
         ],
         benCn: [
           { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         sourcingNo: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
-        tnr: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
-        benDe: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
-        carline: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
-        ep: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }]
+        tnr: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        benDe: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        carline: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        ep: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ]
       },
       subButtonFlag: false
     }
@@ -507,15 +551,19 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      if (row.attachmentUrl) {
+        window.open(`${row.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: row.attachmentId,
+          filename: row.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            }
           }
-        }
-      })
+        })
+      }
     },
     handleFocus() {
       this.remoteMethod()
@@ -648,11 +696,15 @@ export default {
       })
     },
     handleSubmit() {
-      this.$confirm(this.$t('MT_SHIFOUBAOCUNYITI'), this.$t('MT_TISHI:"提示",'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.$t('MT_SHIFOUBAOCUNYITI'),
+        this.$t('MT_TISHI:"提示",'),
+        {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
+          type: 'warning'
+        }
+      ).then(() => {
         this.submitForm('ruleForm')
       })
     },
