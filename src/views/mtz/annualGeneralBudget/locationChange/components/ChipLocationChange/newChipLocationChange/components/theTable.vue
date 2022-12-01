@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-11-30 22:30:58
+ * @LastEditTime: 2022-11-30 22:41:16
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -15,7 +15,7 @@
         <el-switch v-model="onlySeeMySelf" :active-value="true" :inactive-value="false" />
       </div>
       <div class="opration">
-        <iButton @click="handleSure">{{ language('QUEREN', '确认') }}</iButton>
+        <iButton @click="handleSure" :loading="saveLoading">{{ language('QUEREN', '确认') }}</iButton>
       </div>
     </template>
 
@@ -75,9 +75,9 @@ export default {
   watch: {
     detailList: {
       handler(val) {
-        console.log('val=>',val);
+        console.log('val=>', val);
       },
-      immediate:true,
+      immediate: true,
       deep: true
     }
   },
@@ -88,7 +88,8 @@ export default {
       tableTitle,
       onlySeeMySelf: true,
       muilteList: [],
-      tableLoading: false
+      tableLoading: false,
+      saveLoading: false
     }
   },
   created() {
@@ -162,7 +163,8 @@ export default {
           params.push(item.id)
         })
         if (msg) return iMessage.warn(msg)
-        addRule({changeId},params).then(res => {
+        this.saveLoading = true
+        addRule({ changeId }, params).then(res => {
           if (res.code == 200 && res.result) {
             iMessage.success(this.language(res.desEn, res.desZh))
             this.$emit('close')
@@ -170,6 +172,8 @@ export default {
           } else {
             iMessage.error(this.language(res.desEn, res.desZh))
           }
+        }).finally(() => {
+          this.saveLoading = false
         })
         // 新建
       } else {
