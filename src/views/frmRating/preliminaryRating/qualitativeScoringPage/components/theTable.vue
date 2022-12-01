@@ -208,9 +208,9 @@ export default {
       }
     },
     handleOpenAssign () {//分派
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -229,9 +229,9 @@ export default {
       status && (this.assignDialog = true)
     },
     handleReturn () {//退回
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if(this.selectTableData[0].qualitativeScoreStatus == "已取消"){
         return iMessage.error(this.$t("已取消状态不能点击退回"))
       }
@@ -245,12 +245,12 @@ export default {
       status && (this.returnDialog = true)
     },
     handleTransfer () {//转派
-      if (!this.gzOperationCheck()) {
-        return false
-      }
-      if (!this.frmOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
+      // if (!this.frmOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -263,10 +263,10 @@ export default {
       const status = this.checkButtonStatus('转派')
       status && (this.transferDialog = true)
     },
-    handleCancel () {
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+    handleCancel () {//取消
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -289,20 +289,20 @@ export default {
           })
         })
     },
-    handleQualitativeScoring () {
+    handleQualitativeScoring () {//定性打分
         this.isView=false
-      if (!this.gzOperationCheck()) {
-        return false
-      }
-      if (!this.frmOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
+      // if (!this.frmOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       let flag = true
       this.selectTableData.some((item) => {
-        if (item.qualitativeScoreStatus !== '草稿') {
+        if (item.qualitativeScoreStatus !== '草稿' || item.qualitativeScoreStatus !== '退回') {
           flag = false
           return true
         }
@@ -310,14 +310,14 @@ export default {
       if (flag) {
         this.qualitativeScoringDialog = true
       } else {
-        iMessage.error(this.$t('SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF'))
+        iMessage.error(this.$t('SPR_FRM_CBPJ_ZYZTWCGCNJXDXDFNOW'))
       }
     },
-    async handleReScoring () {
+    async handleReScoring () {//重新打分
         this.isView=false
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
