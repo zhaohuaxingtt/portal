@@ -239,7 +239,7 @@
       ref="endRating"
     ></endRatingList>
     <!-- 上传附件 -->
-    <upload v-model="uploadShow" ref="upload"></upload>
+    <upload v-model="uploadShow" :deepCommentSupplierId="deepCommentSupplierId" v-if="uploadShow" ref="upload"></upload>
     <!-- 加入集团 -->
     <joinGroup
       v-model="joinGroupShow"
@@ -316,6 +316,7 @@ export default {
   },
   data() {
     return {
+      deepCommentSupplierId:"",
       tableListData: [],
       fromGroup: [], //下拉框数据
       currentSelect: [], //当前选择的数据
@@ -572,8 +573,9 @@ export default {
     },
     // 上传附件
     openUpload(id) {
-      this.$refs.upload.getTableList(id)
+      this.deepCommentSupplierId = id;
       this.uploadShow = true
+      // this.$refs.upload.getTableList()
     },
     // 打开加入集团
     openJoinGroup() {
