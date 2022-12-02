@@ -35,7 +35,6 @@
       </template>
 
       <tableList
-        class="margin-top20"
         :tableData="tableData"
         :tableTitle="tableTitle"
         :tableLoading="loading"

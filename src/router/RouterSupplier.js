@@ -31,6 +31,14 @@ import dispersedSupplier from '@/views/supplierManagement/dispersedSupplier'
 
 export default [
   {
+    path: '/supplier/sentimentInfor',
+    name: 'sentimentInfor',
+    component: () =>
+      import(
+        '@/views/supplierManagement/yuqingjiance/setting/com/supplierSetting/infor'
+      )
+  },
+  {
     path: '/supplier/supplierListDis/supplierDisDetails',
     name: 'supplierDisDetails',
     component: () =>

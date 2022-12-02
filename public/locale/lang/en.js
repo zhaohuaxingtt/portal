@@ -2390,6 +2390,13 @@
     "供应商简称": 'Supplier Abbreviation',
     "加入关注时间":"Join the following time",
     "订阅状态":"Subscription Status",
+    "情感状态":"Emotional state",
+    "消极":"negative",
+    "中立":"neutral",
+    "积极":"positive",
+    "添加来源":"Add Source",
+    "添加时间起止":"Start and end of adding time",
+    "舆情供应商清单":"List of public opinion suppliers",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

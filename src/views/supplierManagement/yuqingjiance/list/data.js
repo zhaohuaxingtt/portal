@@ -39,13 +39,14 @@ export const tableTitle = [
         li8n: 'SPR_FRM_CBPJ_CZJL',
         tooltip: true,
         emit: 'go-title',
-        // customRender: (h, scope) => {
-        //     return (
-        //     <span class="cursor" style="color:#1763F7">
-        //         查看
-        //     </span>
-        //     )
-        // }
+        customRender: (h, scope) => {
+            const val = scope.row.view
+            return (
+            <span class="cursor" style="color:#1763F7">
+                {val}
+            </span>
+            )
+        }
     },
     { 
         prop: 'sectionName', 

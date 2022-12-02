@@ -87,7 +87,9 @@ export default {
         return{
             tableLoading:false,
             tableTitle,
-            tableListData:[],
+            tableListData:[{
+                view:"测试新闻"
+            }],
             form:{
                 supplierName:"",
                 code:'',
@@ -108,8 +110,14 @@ export default {
         handleSelectionChange(){
 
         },
-        handleOpenPage(){
-            
+        handleOpenPage(val){
+            const routeData = this.$router.resolve({
+                path: '/supplier/sentimentInfor',
+                query: {
+                    
+                }
+            })
+            window.open(routeData.href)
         },
     }
 }
