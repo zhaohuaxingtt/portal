@@ -1420,6 +1420,11 @@ export default {
             `${this.processUrlGpPortal}/myCscDetails/${themen.fixedPointApplyId}?current=3`,
             '_blank'
           )
+        } else if (themen.type === 'CHIP') {
+          window.open(
+            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/overflow/decisionMaterial?meeting=1&appId=${themen.fixedPointApplyId}`,
+            '_blank'
+          )
         } else {
             window.open(
               `${this.processUrl}/desinatepreview/title?route=force&desinateId=${themen.fixedPointApplyId}&isPreview=1`,
