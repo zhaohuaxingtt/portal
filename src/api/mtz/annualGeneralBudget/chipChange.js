@@ -70,19 +70,21 @@ export function deleteDetail(data) {
 }
 
 // 导出变更规则附件
-export function exportDetail(changeId) {
+export function exportDetail(params) {
   return requestChip({
-    url: `/change/detail/export/${changeId}`,
+    url: `/change/downloadFile`,
     method: 'POST',
-    responseType: 'blob'
+    responseType: 'blob',
+    params
   })
 }
 // 上传变更单附件
-export function uploadDetail(changeId, data) {
+export function uploadDetail(data, params) {
   return requestChip({
-    url: `/change/detail/upload/${changeId}`,
+    url: `/change/uploadData`,
     method: 'POST',
-    data
+    data,
+    params
   })
 }
 // 新增变更申请单初始化
