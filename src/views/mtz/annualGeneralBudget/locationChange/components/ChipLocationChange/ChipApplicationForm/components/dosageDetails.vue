@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-12-05 15:33:59
+ * @LastEditTime: 2022-12-05 19:22:08
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -489,7 +489,7 @@ export default {
       const formData = new FormData()
       formData.append('file', content.file)
       formData.append('applicationName', 'rise')
-      const res = await uploadDetail(formData, this.$route.query.changeId)
+      const res = await uploadDetail(formData, {appId:this.$route.query.changeId})
       if (res?.code == '200') {
         iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
         this.$emit('init')
@@ -508,7 +508,7 @@ export default {
           cancelButtonText: this.language('QUXIAO', '取消')
         }
       ).then((res) => {
-        exportDetail(this.$route.query.changeId).then((res) => {
+        exportDetail({appId:this.$route.query.changeId}).then((res) => {
           let url = window.URL.createObjectURL(res)
           let link = document.createElement('a')
           link.style.display = 'none'
