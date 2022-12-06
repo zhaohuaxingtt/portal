@@ -98,6 +98,38 @@ export function financeFieldDisplaySave(parmars, type) {
         : `${process.env.VUE_APP_SUPPLIER}/web`
   })
 }
+// 弹框保存
+export function getByParam(parmars, type) {
+  return requst({
+    url: `/financeBase/getByParam`,
+    method: 'POST',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    },
+    baseURL:
+      type < 4
+        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+        : `${process.env.VUE_APP_SUPPLIER}/web`
+  })
+}
+// 弹框保存
+export function saveOrUpdate(parmars, type) {
+  return requst({
+    url: `/financeBase/saveOrUpdate`,
+    method: 'POST',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    },
+    baseURL:
+      type < 4
+        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+        : `${process.env.VUE_APP_SUPPLIER}/web`
+  })
+}
+
+
 // 供应商准入评级查询-财务数据
 export function getRatingList(parmars, type) {
   return requst({

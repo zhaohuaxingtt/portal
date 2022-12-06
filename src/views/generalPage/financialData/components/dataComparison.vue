@@ -9,6 +9,7 @@
 <template>
   <i-dialog :title="title"
             :visible.sync="value"
+            v-if="value"
             width="90%"
             @close="clearDiolog">
     <div class="changeContent">
@@ -64,7 +65,9 @@ export default {
       this.$refs.dataComparsionTable.getTableList();
     },
     clearDiolog () {
+      this.tableListData = [];
       this.comparisonTableData = [];
+      this.tabValue = "balance";
       this.$emit("input", false);
     },
     handleTabClick (value) {
