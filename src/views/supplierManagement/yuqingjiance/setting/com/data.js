@@ -34,34 +34,33 @@ export const tableTitle = [
 export const tableSetTitle = [
     {
     width: 300,
-    props: 'id',
+    props: 'nameZh',
     name: '供应商名称',
     key: 'LK_GONGYINGSHANGMINGCHENG1'
     },
     {
-    props: 'nominateName',
+    props: 'shortNameZh',
     name: '供应商简称',
     key: '供应商简称'
     },
-    { props: 'carType', name: '统一社会信用代码', key: 'LK_YQ_TONGYISHEHUIXINYONGDAIMA' },
+    { props: 'socialcreditNo', name: '统一社会信用代码', key: 'LK_YQ_TONGYISHEHUIXINYONGDAIMA' },
     {
-    props: 'nominateProcessTypeDesc',
+    props: 'addType',
     name: '添加来源',
     key: '添加来源'
     },
     {
-    props: 'applicationStatusDesc',
+    props: 'createDate',
     name: '添加时间',
     key: '添加时间'
     },
     {
-    props: 'partProjTypeDesc',
+    props: 'supplierType',
     name: '供应商类型',
     key: 'SUPPLIER_SUPPLIERTYPE'
     },
     {
-    width: 230,
-    props: 'partProjTypeDesc',
+    props: 'existSectionName',
     name: '相关科室',
     key: 'SUPPLIER_CAILIAOZU_XIANGGUANKESHI'
     },

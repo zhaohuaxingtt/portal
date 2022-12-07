@@ -2397,6 +2397,7 @@
     "添加来源":"Add Source",
     "添加时间起止":"Start and end of adding time",
     "舆情供应商清单":"List of public opinion suppliers",
+    "情感状态不能为空":"The emotional state cannot be empty",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

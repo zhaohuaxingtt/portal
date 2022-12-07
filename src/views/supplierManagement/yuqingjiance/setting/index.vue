@@ -14,20 +14,20 @@
                  >{{$t("舆情供应商设置")}}</div>
           </div>
         </div>
-        <div v-show="tabsValue == 1">
+        <div v-if="tabsValue == 1">
             <careSupplier />
         </div>
-        <div v-show="tabsValue == 2">
+        <div v-if="tabsValue == 2">
             <rangeSetting />
         </div>
-        <div v-show="tabsValue == 3">
+        <div v-if="tabsValue == 3">
             <supplierSetting />
         </div>
     </iPage>
 </template>
   
 <script>
-import { iPage,i } from "rise"
+import { iPage } from "rise"
 import headerNav from "../components/headerNav"
 import careSupplier from "./com/careSupplier"
 import rangeSetting from "./com/rangeSetting"

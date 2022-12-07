@@ -15,39 +15,84 @@
       </el-checkbox-group>
     </div>
     <div class="footer">
-      <iButton>{{$t("LK_BAOCUN")}}</iButton>
-      <iButton>{{$t("MT_QUXIAO")}}</iButton>
+      <iButton @click="save" :loading="loading">{{$t("LK_BAOCUN")}}</iButton>
+      <iButton @click="cancel">{{$t("MT_QUXIAO")}}</iButton>
     </div>
   </iCard>
 </template>
 
 <script>
-import { iCard,iButton } from "rise"
+import { iCard,iButton,iMessage } from "rise"
+
+import {
+  getRange,
+  updateRange
+} from "@/api/supplierManagement/yuqingjiance"
+
 export default{
   components:{
     iCard,
     iButton
-},
+  },
   data(){
     return{
       checkList:[
         {
-          value:0,
+          value:"1",
           name:"消极"
         },{
-          value:1,
+          value:"2",
           name:"中立"
         },{
-          value:2,
+          value:"3",
           name:"积极"
         },
       ],
-      checkVal:[0]
+      checkVal:[0],
+      dataObj:{},
+      loading:false,
     }
   },
+  created(){
+    this.getData();
+  },
   methods:{
+    getData(){
+      getRange({}).then(res=>{
+        if(res.result){
+          this.dataObj = res.data;
+          const list = res.data.emotionalState.split(",");
+          this.checkVal = list;
+        }
+      })
+    },
+    save(){
+      this.loading = true;
+      if(this.checkVal.length<1){
+        iMessage.warn(this.$t("情感状态不能为空"))
+        this.loading = false;
+      }else{
+        const obj = {
+          id:this.dataObj.id,
+          emotionalState:this.checkVal.toString()
+        }
+        updateRange(obj).then(res=>{
+          if(res.result){
+            iMessage.success(res.desZh)
+          }else{
+            iMessage.success(res.desZh)
+          }
+          this.loading = false;
+        }).catch(e=>{
+          this.loading = false;
+        })
+      }
+    },
+    cancel(){
+      this.getData();
+    },
     handleCheckedCitiesChange(val){
-      console.log(val);
+      
     }
   }
 }
