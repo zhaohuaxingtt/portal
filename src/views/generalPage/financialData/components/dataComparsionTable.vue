@@ -177,29 +177,55 @@ export default {
             isEdit = true;
           }
 
-          this.tableListData2 = [
-            {
-              displayName:"成立时间",
-              year:res.data[0].establishDate,
-              isEdit:isEdit,
-            },{
-              displayName:"是否上市",
-              year:res.data[0].listing,
-              isEdit:isEdit,
-            },{
-              displayName:"企业类型",
-              year:res.data[0].enterpriseType,
-              isEdit:isEdit,
-            },{
-              displayName:"最终控股股东所在国家",
-              year:res.data[0].shareholderCountry,
-              isEdit:isEdit,
-            },{
-              displayName:"最终控股股东类型(自然人/法人)",
-              year:res.data[0].shareholderType,
-              isEdit:isEdit,
-            },
-          ]
+          if(res.data.length>0){
+            this.tableListData2 = [
+              {
+                displayName:"成立时间",
+                year:res.data[0].establishDate,
+                isEdit:isEdit,
+              },{
+                displayName:"是否上市",
+                year:res.data[0].listing,
+                isEdit:isEdit,
+              },{
+                displayName:"企业类型",
+                year:res.data[0].enterpriseType,
+                isEdit:isEdit,
+              },{
+                displayName:"最终控股股东所在国家",
+                year:res.data[0].shareholderCountry,
+                isEdit:isEdit,
+              },{
+                displayName:"最终控股股东类型(自然人/法人)",
+                year:res.data[0].shareholderType,
+                isEdit:isEdit,
+              },
+            ]
+          }else{
+            this.tableListData2 = [
+              {
+                displayName:"成立时间",
+                year:"",
+                isEdit:isEdit,
+              },{
+                displayName:"是否上市",
+                year:"",
+                isEdit:isEdit,
+              },{
+                displayName:"企业类型",
+                year:"",
+                isEdit:isEdit,
+              },{
+                displayName:"最终控股股东所在国家",
+                year:"",
+                isEdit:isEdit,
+              },{
+                displayName:"最终控股股东类型(自然人/法人)",
+                year:"",
+                isEdit:isEdit,
+              },
+            ]
+          }
         }
         this.tableLoading = false;
         this.loadPage = false;
@@ -226,9 +252,10 @@ export default {
       if(this.tabValue == "infor"){
         const pms = {
           financeId: this.comparisonTableData[0].id,
-          supplierId: this.dataList[0].supplierId,
-          id: this.dataList[0].id,
+          supplierId: this.comparisonTableData[0].supplierId,
+          id: this.dataList.length>0?this.dataList[0].id:undefined
         };
+        
         this.tableListData2.forEach(e=>{
           if(e.displayName=="成立时间"){
             pms.establishDate = e.year;
