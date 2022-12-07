@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-12-05 19:22:08
+ * @LastEditTime: 2022-12-07 16:53:00
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -308,9 +308,7 @@ export default {
     }
   },
   created() {
-    this.$nextTick(() => {
-      this.init()
-    })
+    this.changeId = this.$route.query.changeId
   },
   props: {
     baseDetail: {
@@ -391,12 +389,8 @@ export default {
     },
     // 新增后重新查询数据
     addDialogGZList() {
-      this.$emit('init')
+      this.$emit('getDetail')
       this.addDialog = false
-    },
-    init() {
-      this.changeId = this.$route.query.changeId
-      this.page.pageSize = 50
     },
     tableChange() {
       if (this.tabsValue == '2') {
@@ -492,7 +486,7 @@ export default {
       const res = await uploadDetail(formData, {appId:this.$route.query.changeId})
       if (res?.code == '200') {
         iMessage.success(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
-        this.$emit('init')
+        this.$emit('getDetail')
       } else {
         iMessage.error(this.$i18n.locale == 'zh' ? res.desZh : res.desEn)
       }
