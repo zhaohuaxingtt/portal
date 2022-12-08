@@ -1,8 +1,8 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-10 14:12:02
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-08 20:05:11
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
   tabsBoxWrap打印div
@@ -23,7 +23,7 @@
               >
             </div>
             <div class="small_text">
-              <span>Application date：</span>
+              <span>Application Date：</span>
               <span class="samll_val">{{ formInfo.createDate }}</span>
             </div>
             <div class="small_text">
