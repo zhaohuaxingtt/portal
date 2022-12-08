@@ -1,3 +1,4 @@
+import { desensitizationPhone, desensitizationEmail } from "@/utils";
 // 员工列表Table配置
 export const tableSetting = [
   {
@@ -64,19 +65,28 @@ export const tableSetting = [
     prop: 'email',
     label: '邮箱',
     align: 'center',
-    i18n: 'staffManagement.EMAIL'
+    i18n: 'staffManagement.EMAIL',
+    customRender: (h, scope) => {
+      return desensitizationEmail(scope.row.email)
+    }
   },
   {
     prop: 'mobile',
     label: '手机',
     align: 'center',
-    i18n: 'staffManagement.MOBILEPHONE'
+    i18n: 'staffManagement.MOBILEPHONE',
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.mobile)
+    }
   },
   {
     prop: 'phone',
     label: '电话',
     align: 'center',
-    i18n: 'staffManagement.PHONE'
+    i18n: 'staffManagement.PHONE',
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.phone)
+    }
   },
   {
     prop: 'nation',
@@ -179,19 +189,28 @@ export const levelSetting = [
     prop: 'email',
     label: '邮箱',
     align: 'center',
-    i18n: 'staffManagement.EMAIL'
+    i18n: 'staffManagement.EMAIL',
+    customRender: (h, scope) => {
+      return desensitizationEmail(scope.row.email)
+    }
   },
   {
     prop: 'mobile',
     label: '手机',
     align: 'center',
-    i18n: 'staffManagement.MOBILEPHONE'
+    i18n: 'staffManagement.MOBILEPHONE',
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.phone)
+    }
   },
   {
     prop: 'phone',
     label: '电话',
     align: 'center',
-    i18n: 'staffManagement.PHONE'
+    i18n: 'staffManagement.PHONE',
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.phone)
+    }
   },
   {
     prop: 'nation',

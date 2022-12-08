@@ -1,3 +1,4 @@
+import { desensitizationPhone, desensitizationEmail } from "@/utils";
 // 员工列表Table配置
 export const tableSetting = [
   {
@@ -95,7 +96,10 @@ export const tableSetting = [
     align: 'center',
     i18n: 'staffManagement.EMAIL',
     tooltip: true,
-    sortable: true
+    sortable: true,
+    customRender: (h, scope) => {
+      return desensitizationEmail(scope.row.email)
+    }
   },
   {
     prop: 'mobile',
@@ -103,7 +107,10 @@ export const tableSetting = [
     align: 'center',
     i18n: 'staffManagement.MOBILEPHONE',
     tooltip: true,
-    sortable: true
+    sortable: true,
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.mobile)
+    }
   },
   {
     prop: 'phone',
@@ -111,7 +118,10 @@ export const tableSetting = [
     align: 'center',
     i18n: 'staffManagement.PHONE',
     tooltip: true,
-    sortable: true
+    sortable: true,
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.phone)
+    }
   },
   {
     prop: 'lastLoginDate',
@@ -164,15 +174,24 @@ export const exportTableSetting = [
   },
   {
     props: 'email',
-    name: '邮箱'
+    name: '邮箱',
+    customRender: (h, scope) => {
+      return desensitizationEmail(scope.row.email)
+    }
   },
   {
     props: 'mobile',
-    name: '手机'
+    name: '手机',
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.mobile)
+    }
   },
   {
     props: 'phone',
-    name: '电话'
+    name: '电话',
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.phone)
+    }
   },
   {
     props: 'remark',
