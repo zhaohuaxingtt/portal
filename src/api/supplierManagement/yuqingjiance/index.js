@@ -84,3 +84,30 @@ export function updateSubscribe(params) {
         data:params
     })
 }
+
+//获取添加供应商关注弹窗
+export function getSentimentSupplierList(params) {
+    return requst({
+        url: `/sentimentUserSupplier/getSentimentSupplierList`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//添加关注
+export function addFollow(params) {
+    return requst({
+        url: `/sentimentUserSupplier/addFollow`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//移除用户供应商信息
+export function deleteUserSupplier(params) {
+    return requst({
+        url: `/sentimentUserSupplier/deleteUserSupplier`,
+        method: 'POST',
+        data:params
+    })
+}

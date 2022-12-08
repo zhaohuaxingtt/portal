@@ -226,16 +226,24 @@ export default {
       })
     },
     sure(){
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
       this.getData();
     },
     reset(){
-
+      this.form = {
+        supplierName:"",
+        agencyCode:'',
+        dept:"",
+        addType:"",
+      }
+      this.time = [];
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+      this.getData();
     },
     handleSelectionChange(val){
       this.selectData = val;
-    },
-    handleOpenPage(){
-        
     },
   }
 }

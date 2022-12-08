@@ -30,8 +30,8 @@
     </i-search>
     <iCard class="margin-top20" :title="$t('我关注的供应商')">
       <template v-slot:header-control>
-        <iButton @click="add" >{{language("TIANJIA", "添加")}}</iButton>
-        <iButton @click="del" >{{ $t("移除") }}</iButton>
+        <iButton @click="addSupplier" >{{language("TIANJIA", "添加")}}</iButton>
+        <iButton @click="delSupplier" >{{ $t("移除") }}</iButton>
       </template>
 
       <tableList
@@ -48,7 +48,7 @@
             <span class="color" v-if="(scope.row.subscribeStatus == 1)" @click="subscribe(scope.row,2)">取消订阅</span>
             <span class="color" v-else @click="subscribe(scope.row,1)">订阅</span>
             &nbsp;|&nbsp; 
-            <span class="color">移除</span>
+            <span class="color" @click="removeSupplier(scope.row)">移除</span>
           </template>
       </tableList>
       <iPagination @size-change="handleSizeChange($event, getData)"
@@ -60,18 +60,30 @@
                     :layout="page.layout">
       </iPagination>
     </iCard>
+
+    <iDialog
+      :title="$t('添加关注供应商')"
+      :visible.sync="addSupplierType"
+      v-if="addSupplierType"
+      width="90%"
+      @close="closeDiolog"
+    >
+      <addSupplierDialog @addSave="addSave" @addCancel="closeDiolog"></addSupplierDialog>
+    </iDialog>
   </div>
 </template>
 
 <script>
-import { iSearch,iInput,iSelect,iDatePicker,iCard,iButton,iPagination,iMessage,iMessageBox } from "rise"
+import { iSearch,iInput,iSelect,iDatePicker,iCard,iButton,iPagination,iMessage,iMessageBox,iDialog } from "rise"
 import tableList from '@/components/commonTable/index.vue';
 import { pageMixins } from "@/utils/pageMixins"
 import { tableTitle } from "../data";
+import addSupplierDialog from "./addSupplierDialog";
 
 import {
   sentimentUserSupplierPageList,
   updateSubscribe,
+  deleteUserSupplier,
 } from "@/api/supplierManagement/yuqingjiance"
 
 export default {
@@ -83,7 +95,9 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination
+    iPagination,
+    iDialog,
+    addSupplierDialog
   },
   mixins: [pageMixins],
   data(){
@@ -95,16 +109,43 @@ export default {
         supplierName:"",
         agencyCode:"",
         dept:"",
-        createTime:"",
       },
       keshiList:[],
       releaseTime:[],
+      addSupplierType:false,
+      selectList:[],
     }
   },
   created(){
     this.getData();
   },
   methods:{
+    removeSupplier(row){
+      iMessageBox(this.$t("确认移除")).then(() => {
+        const list = [row].map(function(e){
+          return e.id;
+        });
+        deleteUserSupplier({
+          ids:list
+        }).then(res=>{
+          if(res.result){
+            iMessage.success(res.desZh)
+            this.getData();
+          }else{
+            iMessage.error(res.desZh)
+          }
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    addSave(){
+      this.addSupplierType = false;
+      this.getData();
+    },
+    closeDiolog(){
+      this.addSupplierType = false;
+    },
     subscribe(val,type){
       if(type == 1){
         this.setDY(val,type)
@@ -154,22 +195,45 @@ export default {
       })
     },
     handleSelectionChange(val){
-
-    },
-    getTableList(){
-
+      this.selectList = val;
     },
     sure(){
-
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+      this.getData();
     },
     reset(){
-
+      this.form = {
+        supplierName:"",
+        agencyCode:"",
+        dept:"",
+      }
+      this.releaseTime = [];
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+      this.getData();
     },
-    add(){
-
+    addSupplier(){
+      this.addSupplierType = true;
     },
-    del(){
-
+    delSupplier(){
+      if(this.selectList.length>0){
+        const list = this.selectList.map(function(e){
+          return e.id;
+        });
+        deleteUserSupplier({
+          ids:list
+        }).then(res=>{
+          if(res.result){
+            iMessage.success(res.desZh)
+            this.getData();
+          }else{
+            iMessage.error(res.desZh)
+          }
+        })
+      }else{
+        iMessage.error(this.$t("请选择需要移除的供应商"))
+      }
     }
   }
 }
@@ -180,5 +244,10 @@ export default {
   color:#1660f1;
   cursor: pointer;
   font-weight: bold;
+}
+::v-deep .cell>div{
+  span:first-child{
+    margin-right:0!important;
+  }
 }
 </style>

@@ -2400,6 +2400,10 @@
     "情感状态不能为空":"The emotional state cannot be empty",
     "请选择需删除的舆情供应商清单":"Please select the list of public opinion providers to be deleted",
     "确认取消订阅？":"Are you sure you want to unsubscribe?",
+    "添加关注供应商":"Add following suppliers",
+    "请选择需要添加的舆情供应商":"Please select the public opinion provider to be added",
+    "确认移除":"Are you sure to remove?",
+    "请选择需要移除的供应商":"Please select the supplier to be removed"
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
