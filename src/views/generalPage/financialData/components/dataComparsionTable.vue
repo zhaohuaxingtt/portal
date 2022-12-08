@@ -287,7 +287,7 @@ export default {
             iMessage.error(this.$t(APPROVAL.OPERATION_FAILED))
           })
         }else{
-          iMessage.error($t("请填写完以下信息"))
+          iMessage.error(this.$t("请填写完以下信息"))
         }
       }else{
         const pms = {
