@@ -282,12 +282,18 @@ export default {
               this.getInfor();
             }else{
               iMessage.error(res.desZh)
+              this.loadPage = false
+              this.tableLoading = false
             }
           }).catch(e=>{
             iMessage.error(this.$t(APPROVAL.OPERATION_FAILED))
+            this.loadPage = false
+            this.tableLoading = false
           })
         }else{
           iMessage.error(this.$t("请填写完以下信息"))
+          this.loadPage = false
+          this.tableLoading = false
         }
       }else{
         const pms = {
