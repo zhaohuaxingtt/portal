@@ -2374,6 +2374,7 @@
     "所选数据已为退回状态不能再次退回":"The selected data has been returned and cannot be returned again",
     "所选数据已为转派状态不能再次转派":"The selected data has been transferred, and cannot be transferred again",
     "所选数据已为已取消状态不能再次取消":"The selected data has been canceled, and cannot be canceled again",
+    "请填写完以下信息":"Please complete the following information",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })
