@@ -302,7 +302,10 @@ export default {
       }
       let flag = true
       this.selectTableData.some((item) => {
-        if (item.qualitativeScoreStatus !== '草稿' || item.qualitativeScoreStatus !== '退回') {
+        if (item.qualitativeScoreStatus == '草稿' || item.qualitativeScoreStatus == '退回') {
+          flag = true
+          return true
+        }else{
           flag = false
           return true
         }
