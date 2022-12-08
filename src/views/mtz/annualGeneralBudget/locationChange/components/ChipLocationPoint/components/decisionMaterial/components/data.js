@@ -47,8 +47,8 @@ export const ruleTableTitle1_1 = [
     name: '供应商编号',
     key: 'GONGYINGSHANGBIANHAO',
     overlap: true,
-    overlapbottom: 'Supplier sapCode',
-    minWidth: 50
+    overlapbottom: 'Supplier Sap Code',
+    minWidth: 120
   },
   {
     props: 'supplierName',
@@ -72,7 +72,7 @@ export const ruleTableTitle1_1 = [
     name: '零件号',
     key: 'LINGJIANHAO',
     overlap: true,
-    overlapbottom: 'partNum',
+    overlapbottom: 'Part Num',
     minWidth: 70
   },
   {
@@ -80,7 +80,7 @@ export const ruleTableTitle1_1 = [
     name: '零件名称',
     key: 'LINGJIANMINGCHENG',
     overlap: true,
-    overlapbottom: 'partName',
+    overlapbottom: 'Part Name',
     width: 120
   },
   {
@@ -88,8 +88,8 @@ export const ruleTableTitle1_1 = [
     name: '补差金额',
     key: '补差金额',
     overlap: true,
-    overlapbottom: 'amount',
-    width: 120
+    overlapbottom: 'Amount',
+    width: 80
   },
   {
     props: 'currency',

@@ -1,8 +1,8 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-05-10 14:28:23
- * @LastEditors: zhaohuaxing 5359314+zhaohuaxing@user.noreply.gitee.com
+ * @LastEditTime: 2022-12-08 20:04:33
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
@@ -29,7 +29,7 @@
                 >
               </div>
               <div class="small_text">
-                <span>Application date：</span>
+                <span>Application Date：</span>
                 <span class="samll_val">{{ getDay(formData.createDate) }}</span>
               </div>
               <div class="small_text">
@@ -280,7 +280,7 @@
                   >
                 </div>
                 <div class="small_text">
-                  <span>Application date：</span>
+                  <span>Application Date：</span>
                   <span class="samll_val">{{ formData.createDate }}</span>
                 </div>
                 <div class="small_text">
