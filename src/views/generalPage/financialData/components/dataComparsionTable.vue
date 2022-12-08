@@ -253,32 +253,42 @@ export default {
         const pms = {
           financeId: this.comparisonTableData[0].id,
           supplierId: this.comparisonTableData[0].supplierId,
-          id: this.dataList.length>0?this.dataList[0].id:undefined
+          id: this.dataList.length>0?this.dataList[0].id:null
         };
         
+        var num = 0;
         this.tableListData2.forEach(e=>{
           if(e.displayName=="成立时间"){
             pms.establishDate = e.year;
+            if(!e.year) num++;
           }else if(e.displayName=="是否上市"){
             pms.listing = e.year;
+            if(!e.year) num++;
           }else if(e.displayName=="企业类型"){
             pms.enterpriseType = e.year;
+            if(!e.year) num++;
           }else if(e.displayName=="最终控股股东所在国家"){
             pms.shareholderCountry = e.year;
+            if(!e.year) num++;
           }else if(e.displayName=="最终控股股东类型(自然人/法人)"){
             pms.shareholderType = e.year;
+            if(!e.year) num++;
           }
         })
-        saveOrUpdate(pms).then(res=>{
-          if(res.result){
-            iMessage.success(res.desZh)
-            this.getInfor();
-          }else{
-            iMessage.error(res.desZh)
-          }
-        }).catch(e=>{
-          iMessage.error(this.$t(APPROVAL.OPERATION_FAILED))
-        })
+        if(num == 0){
+          saveOrUpdate(pms).then(res=>{
+            if(res.result){
+              iMessage.success(res.desZh)
+              this.getInfor();
+            }else{
+              iMessage.error(res.desZh)
+            }
+          }).catch(e=>{
+            iMessage.error(this.$t(APPROVAL.OPERATION_FAILED))
+          })
+        }else{
+          iMessage.error($t("请填写完以下信息"))
+        }
       }else{
         const pms = {
           displayType: this.tabValue,
