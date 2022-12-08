@@ -388,7 +388,7 @@ export default {
               saveNews(formData).then((res) => {
                 this.saveFlag = false
                 this.id = res.id
-                // this.ruleForm.id=res.id;
+                this.ruleForm.id = this.ruleForm.id || res.id
                 if (this.ruleForm.category === 0 && this.ruleForm.linkUrl) {
                   increasePageViews({ id: res.id })
                   window.open(this.ruleForm.linkUrl, '_blank')

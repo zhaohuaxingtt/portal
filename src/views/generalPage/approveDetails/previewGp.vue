@@ -220,6 +220,8 @@ export default {
             this.buttonLoad = false
             iMessage.error(res.desZh)
           }
+        }).catch(e=>{
+          this.buttonLoad = false
         })
       }
 

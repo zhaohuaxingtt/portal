@@ -53,7 +53,7 @@
 			></el-pagination>
 		</div>
 
-		<div class="list-content" v-show="currentMoudleId  && currentFlag === 'listPage'">
+		<div class="list-content" v-else v-show="currentMoudleId  && currentFlag === 'listPage'">
 			<!-- <div class="flex flex-row label-title items-center">
 				<div class="blue-box"></div>
 				<div class="label-text">{{ labelText }}</div>

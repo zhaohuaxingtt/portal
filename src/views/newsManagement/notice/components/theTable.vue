@@ -42,7 +42,7 @@
                   :title="scope.row['title']"
                   :class="'open-link-text cursor'"
                   @click="handleGoDetail(scope.row)"
-              >{{ scope.row["title"].length > 15 ? scope.row["title"].substring(0, 15) + '...' : scope.row["title"]
+              >{{ (scope.row["title"] && scope.row["title"].length > 15) ? scope.row["title"].substring(0, 15) + '...' : scope.row["title"]
                 }}</span
               >
             </div>

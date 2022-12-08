@@ -1668,6 +1668,7 @@
     SPR_FRM_FRMGL_QXZSYMX: '请选择适用模型', //请选择适用模型
     SPR_FRM_CBPJ_QWCDF: '请完成打分', //请完成打分
     SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF: '只能状态为草稿才能进行定性打分。', //只能状态为草稿才能进行定性打分
+    SPR_FRM_CBPJ_ZYZTWCGCNJXDXDFNOW: '只能状态为草稿或退回才能进行定性打分。', //只能状态为草稿才能进行定性打分
     SPR_FRM_CBPJ_SXZTYWQCXQZ: '所选状态为无法评级，请重新选择。', //所选状态有误，请重新选择。
     SPR_FRM_CBPJ_GZPANDUAN: '退回状态，股长不能做其他操作，请重新选择！', //退回状态，股长不能做其他操作，请重新选择！
     SPR_FRM_CBPJ_FRMPANDUAN:
@@ -3122,6 +3123,7 @@
     "所选数据已为退回状态不能再次退回":"所选数据已为退回状态，不能再次退回",
     "所选数据已为转派状态不能再次转派":"所选数据已为转派状态，不能再次转派",
     "所选数据已为已取消状态不能再次取消":"所选数据已为已取消状态，不能再次取消",
+    "请填写完以下信息":"请填写完以下信息",
   }
   i18n.setLocaleMessage('zh', oldLanguage)
 })
