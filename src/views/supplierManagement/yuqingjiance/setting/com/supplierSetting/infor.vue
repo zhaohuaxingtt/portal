@@ -2,25 +2,25 @@
   <iPage>
     <el-col :span="15">
         <iCard>
-            <news></news>
+            <news :dataObj="dataObj"></news>
         </iCard>
     </el-col>
     <el-col :span="9">
         <div class="right">
             <iCard>
                 <div>
-                    <span class="title">宁波华德汽车零件厂</span>
-                    <iButton :icon="type?'el-icon-star-on':'el-icon-star-off'" @click="follow">关注</iButton>
+                    <span class="title">{{dataObj.nameEn}}</span>
+                    <iButton :loading="loading" :icon="dataObj.follow?'el-icon-star-on':'el-icon-star-off'" @click="follow(dataObj.follow)">关注</iButton>
                 </div>
                 <ul class="news_wrap">
-                    <li v-for="(item,index) in newsList" :key="index" class="li_class">
+                    <li v-for="(item,index) in dataObj.otherList" :key="index" class="li_class">
                         <div class="new_top disf">
-                            <span class="flex1 new_top_color" @click="getInfor">{{item.title}}</span>
-                            <span class="flexgd">{{item.time}}</span>
+                            <span class="flex1 new_top_color" @click="getInfor(item.newId)">{{item.title}}</span>
+                            <span class="flexgd">{{item.releaseDate}}</span>
                         </div>
                         <div class="new_bottom disf">
-                            <span class="flex1">{{item.name}}</span>
-                            <span class="flexgd">{{item.type}}</span>
+                            <span class="flex1">{{item.newsTags}}</span>
+                            <span class="flexgd">{{item.emotionType}}</span>
                         </div>
                     </li>
                 </ul>
@@ -33,6 +33,13 @@
 <script>
 import { iPage,iCard,iButton } from "rise"
 import news from "./com/news"
+
+import {
+    newDetail,
+    addFollow,
+    deleteUserSupplier
+} from "@/api/supplierManagement/yuqingjiance"
+
 export default {
     components:{
         iPage,
@@ -43,27 +50,63 @@ export default {
     data(){
         return{
             type:true,
-            newsList:[
-                {
-                    title:"“旋涡”中的富士康“旋涡”中的富士康“旋涡”中的富士康“旋涡”中的富士康“旋涡”中的富士康“旋涡”中的富士康",
-                    name:"陷入员工徒步返乡传闻的超级工厂富士康仍在努力维持运转陷入员工徒步返乡传闻的超级工厂富士康仍在努力维持运转",
-                    time:"11-02 13:00",
-                    type:"消极"
-                },{
-                    title:"“旋涡”中的富士康",
-                    name:"陷入员工徒步返乡传闻的超级工厂富士康仍在努力维持运转",
-                    time:"11-02 13:00",
-                    type:"消极"
-                },
-            ]
+            dataObj:{},
+            loading:false,
         }
     },
+    created(){
+        this.getData();
+    },
     methods:{
-        getInfor(){
-
+        getInfor(id){
+            this.$router.push({
+                path:"/supplier/sentimentInfor",
+                query:{
+                    id:id
+                }
+            })
         },
-        follow(){
-            this.type = !this.type
+        getData(){
+            newDetail({
+                id:this.$route.query.id
+            }).then(res=>{
+                if(res.result){
+                    this.dataObj = res.data;
+                }
+            })
+        },
+        follow(type){
+            this.loading = true;
+            var list = [this.dataObj.sentimentSupplierId]
+            if(type){
+                deleteUserSupplier({
+                    ids:list
+                }).then(res=>{
+                    if(res.result){
+                        this.dataObj.follow = !this.dataObj.follow
+                        iMessage.success(res.desZh)
+                    }else{
+                        iMessage.error(res.desZh)
+                    }
+                    this.loading = false;
+                }).catch(e=>{
+                    this.loading = false;
+                })
+            }else{
+                addFollow({
+                    ids:list
+                }).then(res=>{
+                    if(res.result){
+                        this.dataObj.follow = !this.dataObj.follow
+                        iMessage.success(this.$t(res.desZh))
+                    }else{
+                        iMessage.error(this.$t(res.desZh))
+                    }
+                    this.loading = false;
+                }).catch(e=>{
+                    this.loading = false;
+                })
+            }
         },
     }
 }
@@ -102,7 +145,7 @@ export default {
     flex:1;
 }
 .flexgd{
-    width:120px;
+    width:160px;
     text-align: end;
 }
 </style>

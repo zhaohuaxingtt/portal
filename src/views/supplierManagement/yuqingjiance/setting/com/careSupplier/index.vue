@@ -13,11 +13,11 @@
             <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.agencyCode"></iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_KESHI')">
-            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.dept">
-                <el-option :value="item.name"
-                            :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
+            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.dept" filterable clearable>
+                <el-option :value="item.deptId"
+                            :label="item.commodity"
                             v-for="item of keshiList"
-                            :key="item.name">
+                            :key="item.deptId">
                 </el-option>
             </iSelect>
         </el-form-item>
@@ -84,6 +84,7 @@ import {
   sentimentUserSupplierPageList,
   updateSubscribe,
   deleteUserSupplier,
+  getDeptList
 } from "@/api/supplierManagement/yuqingjiance"
 
 export default {
@@ -117,9 +118,20 @@ export default {
     }
   },
   created(){
-    this.getData();
+    this.init();
   },
   methods:{
+    async init(){
+      await this.getDept();
+      this.getData();
+    },
+    getDept(){
+      getDeptList().then(res=>{
+        if(res.result){
+            this.keshiList = res.data;
+        }
+      })
+    },
     removeSupplier(row){
       iMessageBox(this.$t("确认移除")).then(() => {
         const list = [row].map(function(e){

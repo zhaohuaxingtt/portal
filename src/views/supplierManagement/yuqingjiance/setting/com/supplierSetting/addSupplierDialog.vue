@@ -8,50 +8,24 @@
         <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG1')">
             <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierName"></iInput>
         </el-form-item>
-        <el-form-item :label="$t('组织机构代码')">
-            <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.agencyCode"></iInput>
-        </el-form-item>
-        <el-form-item :label="$t('SUPPLIER_KESHI')">
-            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.dept" multiple clearable filterable collapse-tags>
-                <el-option :value="item.deptId"
-                            :label="item.commodity"
-                            v-for="item of keshiList"
-                            :key="item.deptId">
-                </el-option>
-            </iSelect>
-        </el-form-item>
-        <el-form-item :label="$t('添加来源')">
-            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.addType" filterable clearable>
-                <el-option :value="item.value"
-                            :label="$i18n.locale === 'zh'  ? item.label : item.labelE"
-                            v-for="item of addFrom"
-                            :key="item.value">
-                </el-option>
-            </iSelect>
-        </el-form-item>
-        <el-form-item :label="$t('添加时间起止')">
-            <iDatePicker value-format="yyyy-MM-dd"
-              type="daterange"
-              v-model="timeSE" />
+        <el-form-item :label="$t('UnifySocialCreditCode')">
+            <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.socialcreditNo"></iInput>
         </el-form-item>
       </el-form>
     </iSearch>
 
-    <iCard class="margin-top20" :title="$t('舆情供应商清单')">
+    <iCard class="margin-top20">
       <template v-slot:header-control>
         <iButton @click="addBingo" :loading="addLoading">{{ $t('LK_TIANJIA') }}</iButton><!-- 添加 -->
         <iButton @click="cancelClose">{{ $t('MT_QUXIAO') }}</iButton><!-- 取消 -->
       </template>
       <tableList
         :tableData="tableListData"
-        :tableTitle="tableSetTitle"
+        :tableTitle="tableSTitle"
         :tableLoading="tableLoading"
         border
         @handleSelectionChange="handleSelectionChange"
         :index="true">
-        <template #addType="scope">
-          <span>{{(scope.row.addType==1?"手动添加":scope.row.addType==2?"初步评级":scope.row.addType==3?"手工导入":"")}}</span>
-        </template>
       </tableList>
       <iPagination
           v-update
@@ -72,13 +46,12 @@
 <script>
 import { iSearch,iInput,iSelect,iDatePicker,iCard,iButton,iPagination,iMessage } from "rise";
 import { pageMixins } from '@/utils/pageMixins'
-import { tableSetTitle } from "../data"
+import { tableSTitle } from "../data"
 import tableList from '@/components/commonTable/index.vue';
 
 import {
-    getSentimentSupplierList,
-    addFollow,
-    getDeptList
+    addSentimentSuppler,
+    getSupplierList
 } from "@/api/supplierManagement/yuqingjiance"
 
 export default {
@@ -95,51 +68,21 @@ export default {
     },
     data(){
         return{
-            tableSetTitle,
+            tableSTitle,
             tableListData:[],
             form:{
                 supplierName:"",
-                agencyCode:"",
-                dept:[],
-                addType:"",
+                socialcreditNo:"",
             },
-            timeSE:[],
-            addFrom:[
-                {
-                value:"1",
-                label:"手动添加",
-                labelE:"Add Manually"
-                },{
-                value:"2",
-                label:"初步评级",
-                labelE:"Preliminary rating"
-                },{
-                value:"3",
-                label:"手工导入",
-                labelE:"Manual import"
-                },
-            ],
-            keshiList:[],
             tableLoading:false,
             addLoading:false,
             selectList:[],
         }
     },
     created(){
-        this.init();
+        this.getData();
     },
     methods:{
-        async init(){
-            await this.getDept()
-            this.getData();
-        },
-        getDept(){
-            getDeptList().then(res=>{
-                if(res.result){
-                    this.keshiList = res.data;
-                }
-            })
-        },
         sure(){
             this.page.pageSize = 10;
             this.page.currPage = 1;
@@ -148,11 +91,8 @@ export default {
         reset(){
             this.form = {
                 supplierName:"",
-                agencyCode:"",
-                dept:[],
-                addType:"",
+                socialcreditNo:"",
             }
-            this.timeSE = [];
             this.page.pageSize = 10;
             this.page.currPage = 1;
             this.getData();
@@ -166,7 +106,7 @@ export default {
                 const list = this.selectList.map(function(e){
                     return e.id
                 });
-                addFollow({
+                addSentimentSuppler({
                     ids:list
                 }).then(res=>{
                     if(res.result){
@@ -191,12 +131,10 @@ export default {
             this.tableLoading = true;
             const obj = {
                 ...this.form,
-                beginTime:this?.timeSE[0]?this.timeSE[0]:"",
-                endTime:this?.timeSE[1]?this.timeSE[1]:"",
                 size:this.page.pageSize,
                 current:this.page.currPage,
             }
-            getSentimentSupplierList(obj).then(res=>{
+            getSupplierList(obj).then(res=>{
                 if(res.result){
                     this.tableListData = res.data;
                     this.page.pageSize = res.pageSize

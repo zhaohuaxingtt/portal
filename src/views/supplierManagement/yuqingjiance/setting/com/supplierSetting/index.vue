@@ -12,16 +12,16 @@
             <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.agencyCode"></iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_KESHI')">
-            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.dept">
-                <el-option :value="item.name"
-                            :label="$i18n.locale === 'zh'  ? item.name : item.nameEn"
-                            v-for="item of deptList"
-                            :key="item.name">
-                </el-option>
+            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.dept" multiple clearable filterable collapse-tags>
+              <el-option :value="item.deptId"
+                          :label="item.commodity"
+                          v-for="item of keshiList"
+                          :key="item.deptId">
+              </el-option>
             </iSelect>
         </el-form-item>
         <el-form-item :label="$t('添加来源')">
-            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.addType">
+            <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.addType" filterable clearable>
                 <el-option :value="item.value"
                             :label="$i18n.locale === 'zh'  ? item.label : item.labelE"
                             v-for="item of addFrom"
@@ -40,7 +40,7 @@
     <iCard class="margin-top20" :title="$t('舆情供应商清单')">
       <template v-slot:header-control>
         <iButton @click="handleNotRated">{{ $t('MT_BIANJI') }}</iButton><!-- 编辑 -->
-        <iButton @click="handleNotRated">{{ $t('LK_TIANJIA') }}</iButton><!-- 添加 -->
+        <iButton @click="addSupllier">{{ $t('LK_TIANJIA') }}</iButton><!-- 添加 -->
         <iButton @click="download" :loading="loading">{{ $t('LK_XZMB') }}</iButton><!-- 下载导入模板 -->
         <!-- 导入 -->
         <el-upload class="upload"
@@ -65,7 +65,6 @@
         <template #addType="scope">
           <span>{{(scope.row.addType==1?"手动添加":scope.row.addType==2?"初步评级":scope.row.addType==3?"手工导入":"")}}</span>
         </template>
-
       </tableList>
       <iPagination
           v-update
@@ -80,17 +79,29 @@
           :total='page.totalCount'
         />
     </iCard>
+
+    <iDialog
+      :title="$t('添加关注供应商')"
+      :visible.sync="addSupplierType"
+      v-if="addSupplierType"
+      width="90%"
+      @close="closeDiolog"
+    >
+      <addSupplierDialog @addSave="addSave" @addCancel="closeDiolog"></addSupplierDialog>
+    </iDialog>
   </div>
 </template>
 
 <script>
-import { iSearch,iInput,iSelect,iDatePicker,iCard,iButton,iPagination,iMessage } from "rise"
+import { iSearch,iInput,iSelect,iDatePicker,iCard,iButton,iPagination,iMessage,iMessageBox,iDialog } from "rise"
+import addSupplierDialog from "./addSupplierDialog";
 import {
   pageList,
   getTemplate,
   sentimentSupplierImport,
   sentimentSupplierExport,
-  deleteByIds
+  deleteByIds,
+  getDeptList
 } from "@/api/supplierManagement/yuqingjiance"
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable/index.vue';
@@ -106,10 +117,13 @@ export default {
       iButton,
       tableList,
       iPagination,
+      iDialog,
+      addSupplierDialog
   },
   mixins: [pageMixins,resultMessageMixin],
   data(){
     return{
+      addSupplierType:false,
       downloadAllLoading:false,
       loading:false,
       tableLoading:false,
@@ -118,13 +132,11 @@ export default {
       form:{
           supplierName:"",
           agencyCode:'',
-          dept:"",
+          dept:[],
           addType:"",
       },
       time:[],
-      deptList:[
-        
-      ],
+      keshiList:[],
       addFrom:[
         {
           value:"1",
@@ -145,27 +157,52 @@ export default {
     }
   },
   created(){
-    this.getData();
+    this.init();
   },
   methods:{
+    async init(){
+      await this.getDept();
+      this.getData();
+    },
+    getDept(){
+      getDeptList().then(res=>{
+        if(res.result){
+          this.keshiList = res.data;
+        }
+      })
+    },
+    closeDiolog(){
+      this.addSupplierType = false;
+    },
+    addSave(){
+      this.addSupplierType = false;
+      this.getData();
+    },
+    addSupllier(){
+      this.addSupplierType = true;
+    },
     delBtn(){
       if(this.selectData.length<1){
         return iMessage.error(this.$t("请选择需删除的舆情供应商清单"))
       }
-      const list = this.selectData.map(function(e){
-        return e.id
-      })
-      deleteByIds({
-        ids:list
-      }).then(res=>{
-        if(res?.result){
-          iMessage.success(this.$t(res.desZh))
-          this.getData();
-        }else{
-          iMessage.error(this.$t(res.desZh))
-        }
-      }).catch(e=>{
+      iMessageBox(this.$t("LK_SHIFOUQUERENSHANCHU")).then(() => {
+        const list = this.selectData.map(function(e){
+          return e.id
+        })
+        deleteByIds({
+          ids:list
+        }).then(res=>{
+          if(res?.result){
+            iMessage.success(this.$t(res.desZh))
+            this.getData();
+          }else{
+            iMessage.error(this.$t(res.desZh))
+          }
+        }).catch(e=>{
 
+        })
+      }).catch((err) => {
+        console.log(err)
       })
     },
     downloadAll(){
@@ -234,7 +271,7 @@ export default {
       this.form = {
         supplierName:"",
         agencyCode:'',
-        dept:"",
+        dept:[],
         addType:"",
       }
       this.time = [];

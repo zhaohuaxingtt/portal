@@ -111,3 +111,93 @@ export function deleteUserSupplier(params) {
         data:params
     })
 }
+
+//添加舆情供应商
+export function addSentimentSuppler(params) {
+    return requst({
+        url: `/sentimentSupplier/addSentimentSuppler`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//获取添加供应商关注弹窗
+export function getSupplierList(params) {
+    return requst({
+        url: `/sentimentSupplier/getSupplierList`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//舆情新闻分页查询接口
+export function newsPageList(params) {
+    return requst({
+        url: `/sentimentMonitoring/pageList`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//获取科室下拉选项
+export function getDeptList(params) {
+    return requst({
+        url: `/sentimentSupplier/getDeptList`,
+        method: 'GET',
+        params:params
+    })
+}
+
+//获取内容分类下拉框
+export function getContentTypeList(params) {
+    return requst({
+        url: `/sentimentMonitoring/getContentTypeList`,
+        method: 'GET',
+        params:params
+    })
+}
+
+//导出舆情供应商信息
+export function sentimentMonitoringExport(params) {
+    return requstDownload({
+        url: `/sentimentMonitoring/export`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//excel模板文件导入
+export function sentimentMonitoringImport(params) {
+    return requst({
+        url: `/sentimentMonitoring/import`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//舆情新闻导入模板
+export function sentimentMonitoringGetTemplate(params) {
+    return requstDownload({
+        url: `/sentimentMonitoring/getTemplate`,
+        method: 'GET',
+        params:params
+    })
+}
+
+//删除舆情新闻
+export function sentimentMonitoringDelete(params) {
+    return requst({
+        url: `/sentimentMonitoring/delete`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//新闻详情
+export function newDetail(params) {
+    return requst({
+        url: `/sentimentMonitoring/newDetail`,
+        method: 'GET',
+        params:params
+    })
+}

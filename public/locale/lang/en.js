@@ -2391,6 +2391,7 @@
     "加入关注时间":"Join the following time",
     "订阅状态":"Subscription Status",
     "情感状态":"Emotional state",
+    "情感类型":"Emotional Type",
     "消极":"negative",
     "中立":"neutral",
     "积极":"positive",
@@ -2403,7 +2404,12 @@
     "添加关注供应商":"Add following suppliers",
     "请选择需要添加的舆情供应商":"Please select the public opinion provider to be added",
     "确认移除":"Are you sure to remove?",
-    "请选择需要移除的供应商":"Please select the supplier to be removed"
+    "请选择需要移除的供应商":"Please select the supplier to be removed",
+    "标题":"title",
+    "分类":"sort",
+    "发布日期":"Release Date",
+    "设置供应商":"Set Supplier",
+    "请选择需删除的内容":"Please select the content to be deleted",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

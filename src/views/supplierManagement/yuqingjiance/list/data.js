@@ -1,75 +1,59 @@
 export const tableTitle = [
     {
-        type: 'selection',
-        width: 50
-    },
-    {
-        type: 'index',
-        width: 60,
-        label: '序号'
-    },
-    {
-        prop: 'nameZh',
-        label: '供应商名称',
-        li8n: 'LK_GONGYINGSHANGMINGCHENG1',
-        width: 300,
+        props: 'nameZh',
+        name: '供应商名称',
+        key: 'LK_GONGYINGSHANGMINGCHENG1',
+        width: 250,
         tooltip: true
     },
     {
-        prop: 'qualitativeScoreStatus',
-        label: '供应商简称',
-        li8n: 'LK_ZHUANGTAI',
+        props: 'shortNameZh',
+        name: '供应商简称',
+        key: '供应商简称',
         tooltip: true
     },
     { 
-        prop: 'versionNum', 
-        label: '统一社会信用代码', 
-        li8n: 'SPR_FRM_CBPJ_BB', 
+        props: 'socialcreditNo', 
+        name: '统一社会信用代码', 
+        key: 'UnifySocialCreditCode', 
         tooltip: true 
     },
     {
-        prop: 'createDate',
-        label: '相关科室',
-        li8n: 'SPR_FRM_CBPJ_PFFCSJ',
+        props: 'existSectionName',
+        name: '相关科室',
+        key: 'SUPPLIER_CAILIAOZU_XIANGGUANKESHI',
         tooltip: true
     },
     {
-        prop: 'view',
-        label: '标题',
-        li8n: 'SPR_FRM_CBPJ_CZJL',
-        tooltip: true,
-        emit: 'go-title',
-        customRender: (h, scope) => {
-            const val = scope.row.view
-            return (
-            <span class="cursor" style="color:#1763F7">
-                {val}
-            </span>
-            )
-        }
-    },
-    { 
-        prop: 'sectionName', 
-        label: '分类', 
-        li8n: 'FUZEKEGU', 
-        tooltip: true 
-    },
-    {
-        prop: 'operateContent',
-        label: '发布日期',
-        li8n: 'SPR_FRM_CBPJ_ZXCZ',
+        props: 'title',
+        name: '标题',
+        width: 250,
+        key: '标题',
         tooltip: true
     },
     { 
-        prop: 'nr', 
-        label: '内容分类', 
-        li8n: 'Nr.', 
+        width:80,
+        props: 'emotionType', 
+        name: '分类', 
+        key: '分类', 
         tooltip: true 
     },
     {
-        prop: 'returnReason',
-        label: '来源',
-        li8n: 'SPR_FRM_CBPJ_THLY',
+        props: 'releaseDate',
+        name: '发布日期',
+        key: '发布日期',
+        tooltip: true
+    },
+    { 
+        props: 'category', 
+        name: '内容分类', 
+        key: '内容分类', 
+        tooltip: true 
+    },
+    {
+        props: 'source',
+        name: '来源',
+        key: 'SUPPLIER_LAIYUAN',
         tooltip: true
     }
 ]
