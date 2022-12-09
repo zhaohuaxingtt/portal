@@ -2360,6 +2360,17 @@
     SKTZQZSJ:"受控停止起止时间",
     GGYSYZSYKNDGYZDMDZWXCFTJ:'该供应商已在所有可能的工艺组的黑名单中，无需重复添加！',
     CHAKANRSDAN:"查看RS单",
+
+    // 2022/7/7
+    YEJIMUBIAO:"Performance objectives",
+    DANWEIBAIWANRMB: 'unit: million (RMB)',
+    MUBIAOZHIANDCHENGNUOZHI:"Target No. / Commitment No.",
+    DANGQIANWANCHENGLV:"Current completion rate",
+    ZHONGQIGAIKUAN:"Metaphase Alteration",
+    DANGQIANWANCHENGCHIXU:"Current completion (continuous)",
+
+    MT_CHEHUIYITI:"Withdraw Topics",
+    MT_ZILIAOSHANGCHUANREN: 'Data Uploaded By',
     GONGYONG:"sharing",
     SUPPLIER_DIANHUAHAOMA: 'Phone Number', // 电话号码
 

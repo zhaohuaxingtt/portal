@@ -25,8 +25,9 @@ export const tabRouterList = [
   },
   {
     value: 3,
+    group: 3,
     name: '定点与变更',
-    url: '/mtz/annualGeneralBudget/locationChange',
+    url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint',
     activePath: '/mtz/annualGeneralBudget/locationChange',
     key: '定点与变更',
     // permissionKey: 'PORTAL_MTZ_NAV_DINGDIANYUBIANGENG',
@@ -49,3 +50,46 @@ export const tabRouterList = [
     permissionKey: 'PORTAL_MTZ_NAV_SHUJUKU'
   }
 ]
+
+export const rightNavList = [
+  {
+    value: 1,
+    group: 3,
+    name: 'MTZ定点',
+    url: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint',
+    activePath: '/locationChange/MtzLocationPoint',
+    key: 'MTZDINGDIAN',
+    permissionKey: 'WORKBENCH_MTZ_SOURCING',
+    permissionName: 'WORKBENCH_MTZ_SOURCING',
+  },
+  {
+    value: 2,
+    group: 3,
+    name: 'MTZ变更',
+    url: '/mtz/annualGeneralBudget/locationChange/MtzLocationChange',
+    activePath: '/locationChange/MtzLocationChange',
+    key: 'MTZBIANGENG',
+    permissionKey: 'WORKBENCH_MTZ_SOURCING',
+    permissionName: 'WORKBENCH_MTZ_SOURCING',
+  },
+  {
+    value: 3,
+    group: 3,
+    name: '芯片定点',
+    url: '/mtz/annualGeneralBudget/locationChange/ChipLocationPoint',
+    activePath: '/locationChange/ChipLocationPoint',
+    key: 'CHIPDINGDIAN',
+    permissionKey: 'WORKBENCH_MTZ_SOURCING',
+    permissionName: 'WORKBENCH_MTZ_SOURCING',
+  },
+  {
+    value: 4,
+    group: 3,
+    name: '芯片变更',
+    url: '/mtz/annualGeneralBudget/locationChange/ChipLocationChange',
+    activePath: '/locationChange/ChipLocationChange',
+    key: 'CHIPBIANGENG',
+    permissionKey: 'WORKBENCH_MTZ_SOURCING',
+    permissionName: 'WORKBENCH_MTZ_SOURCING',
+  },
+];

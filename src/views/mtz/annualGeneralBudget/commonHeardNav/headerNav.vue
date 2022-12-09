@@ -9,23 +9,33 @@
 <template>
   <div>
     <div class="navBox">
-      <iNavMvp :list="tabRouterList" class="margin-bottom20 lines" routerPage :lev="1" v-if="$route.meta.showFooter"/>
+      <iNavMvp
+        :list="tabRouterList"
+        class="margin-bottom20 lines"
+        routerPage
+        @change="change"
+        :lev="1"
+        v-if="$route.meta.showFooter"
+      />
+      <div class="rightNav">
+        <iNavMvp :list="rightNav2" routerPage @change="change" :lev="2" right />
+        <logButton
+          class="logButton"
+          @toLogPage="toLog"
+          @toSql="toloSql"
+          :sqlShow="true"
+          v-if="$route.meta.showFooter"
+        />
+        <iUserLog :show.sync="showDialog" menuId="MTZ-013" is-page />
+      </div>
       <router-view />
-      <logButton class="logButton" @toLogPage="toLog" @toSql="toloSql" :sqlShow="true" v-if="$route.meta.showFooter"/>
-      <iUserLog :show.sync="showDialog"
-            menuId="MTZ-013"
-            is-page />
     </div>
   </div>
 </template>
 
 <script>
 import { iNavMvp } from 'rise'
-import { tabRouterList } from './navData'
-// import { subNavListOne,monthlyTrackingNavList } from '../reportsShow/config/config'
-// import { navList } from '../replenishmentManagement/components/data'
-
-
+import { tabRouterList, rightNavList } from './navData.js'
 import logButton from '@/components/logButton'
 import iUserLog from '@/components/iUserLog'
 
@@ -35,36 +45,44 @@ export default {
     logButton,
     iUserLog
   },
-  created(){
-    this.checkHasEnterMenu();
+  created() {
+    this.group =
+      this.rightNavList.find((i) => i.url == this.$route.path)?.group || ''
+    this.checkHasEnterMenu()
   },
   data() {
     return {
       tabRouterList,
-      // subNavListOne,
-      // monthlyTrackingNavList,
-      // navList,
-      showDialog:false,
+      rightNavList,
+      showDialog: false,
+      group: null
     }
   },
   computed: {
     whiteBtnList() {
       return this.$store.state.permission.whiteBtnList
+    },
+    rightNav2() {
+      return this.rightNavList.filter((item) => {
+        return item.group == this.group
+      })
     }
   },
-  methods:{
-    toloSql(){
+  methods: {
+    change(val) {
+      this.group = val.group
+    },
+    toloSql() {
       let routeData = this.$router.resolve({
         path: `/mtz/dataBase/partsQuery`,
-        query: {
-        }
+        query: {}
       })
       window.open(routeData.href)
     },
     checkHasEnterMenu() {
       const { path } = this.$route
       const menuList = [
-        ...this.tabRouterList,
+        ...this.tabRouterList
         // ...this.subNavListOne,
         // ...this.monthlyTrackingNavList,
         // ...this.navList
@@ -95,7 +113,7 @@ export default {
         }
       }
     },
-    toLog () {
+    toLog() {
       this.showDialog = true
     }
   }
@@ -103,15 +121,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.lines{
-  border-bottom: 1px #E1E2ED solid;
+.lines {
+  border-bottom: 1px #e1e2ed solid;
   padding-bottom: 10px;
 }
 .navBox {
   position: relative;
-  .logButton {
+  .rightNav {
+    display: flex;
     position: absolute;
-    top: 5px;
+    align-items: center;
+    top: 0;
     right: 0;
   }
 }
