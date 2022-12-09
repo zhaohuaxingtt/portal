@@ -109,9 +109,13 @@ export default {
     top: 5px;
     right: 0;
   }
+
+  ::v-deep .nav div{
+    max-width: 170px!important;
+  }
 }
 
-::v-deep .nav>div{
+::v-deep .nav div{
   max-width: 170px!important;
 }
 

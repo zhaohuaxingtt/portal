@@ -31,6 +31,14 @@ import dispersedSupplier from '@/views/supplierManagement/dispersedSupplier'
 
 export default [
   {
+    path: '/supplier/sentimentInfor',
+    name: 'sentimentInfor',
+    component: () =>
+      import(
+        '@/views/supplierManagement/yuqingjiance/setting/com/supplierSetting/infor'
+      )
+  },
+  {
     path: '/supplier/supplierListDis/supplierDisDetails',
     name: 'supplierDisDetails',
     component: () =>
@@ -76,8 +84,51 @@ export default [
   {
     path: '/supplier/frmrating/publicOpinion',
     name: 'PublicOpinionDetection',
-    component: PublicOpinionDetection
+    redirect: '/supplier/frmrating/publicOpinion/overview',
+    component: PublicOpinionDetection,
+    meta: {
+      title: '舆情概览'
+    }
   },
+  {
+    path: '/supplier/frmrating/publicOpinion/overview',
+    meta: {
+      title: '舆情概览'
+    },
+    component: PublicOpinionDetection,
+  },
+  {
+    path: '/supplier/frmrating/publicOpinion/list',
+    meta: {
+      title: '舆情列表'
+    },
+    component: () =>
+      import(
+        '@/views/supplierManagement/yuqingjiance/list'
+      )
+  },
+  {
+    path: '/supplier/frmrating/publicOpinion/reportStistics',
+    meta: {
+      title: '报表统计'
+    },
+    component: () =>
+      import(
+        '@/views/supplierManagement/yuqingjiance/reportStistics'
+      )
+  },
+  {
+    path: '/supplier/frmrating/publicOpinion/setting',
+    meta: {
+      title: '设置'
+    },
+    component: () =>
+      import(
+        '@/views/supplierManagement/yuqingjiance/setting'
+      )
+  },
+
+
   {
     path: '/supplier/frmrating/depthRating/interView',
     name: 'supplierFrmDepthRatingInterView',
