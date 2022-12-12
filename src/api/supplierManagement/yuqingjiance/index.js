@@ -201,3 +201,21 @@ export function newDetail(params) {
         params:params
     })
 }
+
+//获取报表信息
+export function getReportBobOverview(params) {
+    return requst({
+        url: `/sentimentMonitoring/getReportBobOverview`,
+        method: 'POST',
+        data:params
+    })
+}
+
+//取消订阅供应商
+export function cancelSupplier(params) {
+    return requst({
+        url: `/sentimentMonitoring/cancelSupplier`,
+        method: 'GET',
+        params:params
+    })
+}
