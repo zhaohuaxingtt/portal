@@ -37,7 +37,7 @@ import news from "./com/news"
 import {
     newDetail,
     addFollow,
-    deleteUserSupplier
+    cancelSupplier
 } from "@/api/supplierManagement/yuqingjiance"
 
 export default {
@@ -78,9 +78,9 @@ export default {
         follow(type){
             this.loading = true;
             var list = [this.dataObj.sentimentSupplierId]
-            if(type){
-                deleteUserSupplier({
-                    ids:list
+            if(type){//取消关注
+                cancelSupplier({
+                    sentimentSupplierId:list[0]
                 }).then(res=>{
                     if(res.result){
                         this.dataObj.follow = !this.dataObj.follow
@@ -92,7 +92,7 @@ export default {
                 }).catch(e=>{
                     this.loading = false;
                 })
-            }else{
+            }else{//关注
                 addFollow({
                     ids:list
                 }).then(res=>{
