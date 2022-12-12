@@ -39,6 +39,9 @@ export default {
             tabsValue:1,
         }
     },
+    created(){
+        
+    },
     components:{
         headerNav,
         iPage,
@@ -48,12 +51,15 @@ export default {
     },
     mounted () {
         this.$nextTick(_ => {
-            // this.initSearch()
-            // this.getTableData()
-            var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
-            if (navList.length !== 0) {
-                navList[0].click();
+            if(this.$route.query.page){
+                this.tabsValue = Number(this.$route.query.page)
+            }else{
+                var navList = document.querySelectorAll(".mtz_ndys_nav_all>div");
+                if (navList.length !== 0) {
+                    navList[0].click();
+                }
             }
+            
         })
     },
     methods:{
