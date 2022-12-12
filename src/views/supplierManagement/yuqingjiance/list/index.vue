@@ -177,7 +177,12 @@ export default {
             this.getData();
         },
         handleNotRated(){
-            this.$router.push({path: '/supplier/frmrating/publicOpinion/setting'})
+            this.$router.push({
+                path: '/supplier/frmrating/publicOpinion/setting',
+                query:{
+                    page:3
+                }
+            })
         },
         delSupplier(){
             if(this.selectList.length>0){
