@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-21 16:34:50
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-13 21:46:53
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
 -->
@@ -419,12 +419,13 @@ export default {
       this.loading = true
       this.$refs['tableForm'].validate((valid) => {
         if (valid) {
-          this.muilteList.forEach((item) => {
-            delete item.selectDeptList
-            delete item.selectSectionList
-            delete item.userList
-          })
-          modifyApprove(this.muilteList, this.$route.query.appId)
+          let tableData = JSON.parse(JSON.stringify(this.tableData))
+          // this.muilteList.forEach((item) => {
+          //   delete item.selectDeptList
+          //   delete item.selectSectionList
+          //   delete item.userList
+          // })
+          modifyApprove(tableData, this.$route.query.appId)
             .then((res) => {
               if (res.code == '200' && res.result) {
                 this.editFlag = false
