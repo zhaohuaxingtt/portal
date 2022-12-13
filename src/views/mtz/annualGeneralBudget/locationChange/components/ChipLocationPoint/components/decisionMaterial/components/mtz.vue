@@ -1,11 +1,3 @@
-<!--
- * @Author: youyuan
- * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-12-08 20:04:33
- * @LastEditors: 余继鹏 917955345@qq.com
- * @Description: mtz
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
--->
 <template>
   <div style="padding-bottom: 30px; position: relative">
     <!-- RsObject?mtz决策资料:导出 -->
@@ -46,11 +38,11 @@
         <div ref="ruleTableTitle">
           <el-divider class="hr_divider" />
 
-          <p class="tableTitle" v-if="RsObject">
+          <p class="tableTitle padding-bottom20" v-if="RsObject">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
           </p>
           <p
-            class="tableTitle"
+            class="tableTitle padding-bottom20"
             v-if="!RsObject && ruleTableListData.length > 0"
           >
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
@@ -58,7 +50,6 @@
         </div>
         <!-- highlight-current-row -->
         <tableList
-          class="margin-top20"
           ref="moviesTable"
           :tableData="ruleTableListData"
           :tableTitle="ruleTableTitle1_1"
@@ -87,7 +78,6 @@
         </tableList>
         <!-- 导出规则表格 -->
         <tableList
-          class="margin-top20"
           ref="moviesTable"
           :tableData="ruleTableListData"
           :tableTitle="ruleTableTitle1_1"
@@ -101,7 +91,7 @@
         >
           <template slot-scope="scope" slot="method">
             <span>{{
-              scope.row.method == '0' ? '变价单补差' : '一次性补差'
+              scope.row.method == '2' ? '变价单补差' : '一次性补差'
             }}</span>
           </template>
           <template slot-scope="scope" slot="sapCode">
@@ -270,92 +260,109 @@
                 formData.statusDesc == '定点')
             "
           ></div>
-          <iCard class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
-            <div slot="header" class="headBox">
-              <p class="headTitle">{{ title }}</p>
-              <div class="tabs_box_right" v-if="meetingType">
-                <div class="big_text">
-                  <span class="samll_val"
-                    >{{ formData.appNo }}-{{ formData.appName }}</span
-                  >
-                </div>
-                <div class="small_text">
-                  <span>Application Date：</span>
-                  <span class="samll_val">{{ formData.createDate }}</span>
-                </div>
-                <div class="small_text">
-                  <span>Commodity：</span>
-                  <span class="samll_val">{{ formData.depteName }}</span>
-                </div>
-                <div>
-                  <span>Buyer：</span>
-                  <span class="samll_val">{{ formData.linieName }}</span>
+          <div class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
+            <iCard>
+              <div slot="header" class="headBox">
+                <p class="headTitle">{{ title }}</p>
+                <div class="tabs_box_right" v-if="meetingType">
+                  <div class="big_text">
+                    <span class="samll_val"
+                      >{{ formData.appNo }}-{{ formData.appName }}</span
+                    >
+                  </div>
+                  <div class="small_text">
+                    <span>Application Date：</span>
+                    <span class="samll_val">{{ formData.createDate }}</span>
+                  </div>
+                  <div class="small_text">
+                    <span>Commodity：</span>
+                    <span class="samll_val">{{ formData.depteName }}</span>
+                  </div>
+                  <div>
+                    <span>Buyer：</span>
+                    <span class="samll_val">{{ formData.linieName }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <el-divider class="hr_divider" />
-            <p class="tableTitle" v-if="RsObject">
-              {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
-            </p>
-            <p
-              class="tableTitle"
-              v-if="!RsObject && ruleTableListData.length > 0"
-            >
-              {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
-            </p>
-            <!-- highlight-current-row -->
-            <tableList
-              class="margin-top20"
-              :tableData="tableData"
-              :tableTitle="ruleTableTitle1_1"
-              :tableLoading="loadingRule"
-              :index="true"
-              v-if="RsObject"
-              :selection="false"
-              border
-            >
-              <template slot-scope="scope" slot="method">
-                <span>{{
-                  scope.row.method == '0' ? '变价单补差' : '一次性补差'
-                }}</span>
-              </template>
-              <template slot-scope="scope" slot="sapCode">
-                <span>{{ scope.row.sapCode }}</span>
-              </template>
-              <template slot-scope="scope" slot="startDate">
-                <span>{{ getDay(scope.row.startDate) }}</span>
-              </template>
-              <template slot-scope="scope" slot="endDate">
-                <span>{{ getDay(scope.row.endDate) }}</span>
-              </template>
-            </tableList>
-            <!-- 导出规则表格 -->
-            <tableList
-              class="margin-top20"
-              :tableData="tableData"
-              :tableTitle="ruleTableTitle1_1"
-              :tableLoading="loadingRule"
-              v-if="!RsObject && tableData.length > 0"
-              :index="true"
-              :selection="false"
-              border
-            >
-              <template slot-scope="scope" slot="method">
-                <span>{{
-                  scope.row.method == '0' ? '变价单补差' : '一次性补差'
-                }}</span>
-              </template>
-              <template slot-scope="scope" slot="sapCode">
-                <span>{{ scope.row.sapCode }}</span>
-              </template>
-              <template slot-scope="scope" slot="startDate">
-                <span>{{ getDay(scope.row.startDate) }}</span>
-              </template>
-              <template slot-scope="scope" slot="endDate">
-                <span>{{ getDay(scope.row.endDate) }}</span>
-              </template>
-            </tableList>
-          </iCard>
+              <el-divider class="hr_divider" />
+              <p class="tableTitle" v-if="RsObject">
+                {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
+              </p>
+              <p
+                class="tableTitle"
+                v-if="!RsObject && ruleTableListData.length > 0"
+              >
+                {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
+              </p>
+              <!-- highlight-current-row -->
+              <tableList
+                class="margin-top20"
+                :tableData="tableData"
+                :tableTitle="ruleTableTitle1_1"
+                :tableLoading="loadingRule"
+                :index="true"
+                v-if="RsObject"
+                :selection="false"
+                border
+              >
+                <template slot-scope="scope" slot="method">
+                  <span>{{
+                    scope.row.method == '2' ? '变价单补差' : '一次性补差'
+                  }}</span>
+                </template>
+                <template slot-scope="scope" slot="sapCode">
+                  <span>{{ scope.row.sapCode }}</span>
+                </template>
+                <template slot-scope="scope" slot="startDate">
+                  <span>{{ getDay(scope.row.startDate) }}</span>
+                </template>
+                <template slot-scope="scope" slot="endDate">
+                  <span>{{ getDay(scope.row.endDate) }}</span>
+                </template>
+              </tableList>
+              <!-- 导出规则表格 -->
+              <tableList
+                class="margin-top20"
+                :tableData="tableData"
+                :tableTitle="ruleTableTitle1_1"
+                :tableLoading="loadingRule"
+                v-if="!RsObject && tableData.length > 0"
+                :index="true"
+                :selection="false"
+                border
+              >
+                <template slot-scope="scope" slot="method">
+                  <span>{{
+                    scope.row.method == '2' ? '变价单补差' : '一次性补差'
+                  }}</span>
+                </template>
+                <template slot-scope="scope" slot="sapCode">
+                  <span>{{ scope.row.sapCode }}</span>
+                </template>
+                <template slot-scope="scope" slot="startDate">
+                  <span>{{ getDay(scope.row.startDate) }}</span>
+                </template>
+                <template slot-scope="scope" slot="endDate">
+                  <span>{{ getDay(scope.row.endDate) }}</span>
+                </template>
+              </tableList>
+            </iCard>
+            <template v-if="oncePage">
+              <iCard>
+                <div slot="header" class="headBox">
+                  <p class="headTitle">
+                    {{ language('BEIZHU', '备注') }}-Remarks
+                  </p>
+                  <span class="buttonBox"> </span>
+                </div>
+                <div class="beizhu-value">
+                  <p class="remarkItem" v-for="(item, i) in onceTabel" :key="i">
+                    {{ item }}<br />
+                  </p>
+                </div>
+              </iCard>
+            </template>
+          </div>
           <div class="page-logo">
             <div>
               <p class="pageNum"></p>
@@ -585,7 +592,10 @@ export default {
       pdfItemHeight: 0,
       remarkPageHeight: 0,
       percentageText: '下载中，请稍后',
-      remarkList: [[]]
+      remarkList: [[]],
+      oncePage: true,
+      onceTabel: [],
+      residualHeight: 0
     }
   },
   watch: {
@@ -678,33 +688,44 @@ export default {
   },
   methods: {
     getDay(date) {
-      console.log(date)
       return date ? date.split(' ')[0] : date
     },
     // 计算备注高度
     computedRemark() {
+      this.computedRuleTableHeight()
       // 考虑边框问题 test（28）.pdf
       let remarkCardHeight = this.$refs['remark-card']?.$el.offsetHeight
       let remarkContentHeight = this.$refs['remark']?.offsetHeight
       let applayDateData = this.$refs['applayDateData']?.$el.offsetHeight || 0
-      let otherHeight = remarkCardHeight - remarkContentHeight
+      let otherHeight = remarkCardHeight - remarkContentHeight // 备注标题高度
       let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
       // let remarkTitleHeight = this.$refs.remarkTitle.offsetHeight
       let list = this.$refs.remark.getElementsByClassName('remarkItem')
       let pageWidth = this.$refs.qrCodeDiv?.clientWidth || 0
       let pageHeight = (pageWidth / 841.89) * 595.28
+      // 备注页面高度 = 完整高度 - 页码高度
       this.remarkPageHeight = pageHeight - pageNumHeight
       let arr = []
+      let onceTabel = []
       let remarkList = []
       let sumHeight = 0
       list.forEach((item, i) => {
-        sumHeight += item.offsetHeight
-        if (sumHeight < pageHeight - otherHeight - pageNumHeight) {
-          arr.push(this.getRemarkAll[i])
+        // 填充上一页剩余空间
+        if (item.offsetHeight < this.residualHeight - otherHeight) {
+          this.residualHeight -= item.offsetHeight
+          this.oncePage = true
+          onceTabel.push(this.getRemarkAll[i])
         } else {
-          remarkList.push(JSON.parse(JSON.stringify(arr)))
-          arr = [this.getRemarkAll[i]]
-          sumHeight = item.offsetHeight
+          // 清空剩余空间高度
+          this.residualHeight = 0
+          sumHeight += item.offsetHeight
+          if (sumHeight < pageHeight - otherHeight - pageNumHeight) {
+            arr.push(this.getRemarkAll[i])
+          } else {
+            remarkList.push(JSON.parse(JSON.stringify(arr)))
+            arr = [this.getRemarkAll[i]]
+            sumHeight = item.offsetHeight
+          }
         }
       })
       if (arr.length) {
@@ -720,6 +741,7 @@ export default {
           this.appPage = true
         }
       }
+      this.onceTabel = onceTabel
       this.remarkList = remarkList
     },
     // 在外层overflow中调用
@@ -754,19 +776,25 @@ export default {
       let rowList =
         this.$refs['moviesTable']?.$el.getElementsByClassName('table-row') || []
       let pageWidth = this.$refs.tabsBoxTitle?.$el.clientWidth || 0
+      // card 顶部内容高度
       let cardTitle =
         this.$refs.tabsBoxTitle.$el.getElementsByClassName('cardHeader')[0]
           .clientHeight
+      // 规则列表顶部内容高度
       let ruleTableTitle = this.$refs.ruleTableTitle.offsetHeight
+      // 对应页面A4高度
       this.pageHeight = (pageWidth / 841.89) * 595.28
+      // 表头高度
       let ruleTableHeader =
         this.$refs['moviesTable']?.$el.getElementsByClassName(
           'ruleTableHeader'
         )[0].offsetHeight || 0
-      let pageNumHeight = this.$refs.pageNum.offsetHeight // 页码高度
+      // 页码高度
+      let pageNumHeight = this.$refs.pageNum.offsetHeight
       let sumHeight = 0
       let arr = []
       let tableList = []
+      // 表格页面高度 = 完整高度 - 页码高度
       this.pdfItemHeight = this.pageHeight - pageNumHeight
       rowList.forEach((item, i) => {
         sumHeight += item.clientHeight
@@ -786,6 +814,14 @@ export default {
           arr.push(this.ruleTableListData[i])
         }
       })
+      // 表格也剩余的备注区域高度
+      this.residualHeight =
+        this.pageHeight -
+        ruleTableTitle -
+        cardTitle -
+        ruleTableHeader -
+        pageNumHeight -
+        sumHeight
       if (arr.length) tableList.push(arr)
       this.ruleTableList = tableList
     },
@@ -906,7 +942,7 @@ export default {
 $tabsInforHeight: 35px;
 
 ::v-deep .cardHeader {
-  padding: 1.875rem 1.5625rem 0 2.4rem !important;
+  padding: 30px 40px 0 !important;
 }
 
 .tableTitle {
@@ -1095,13 +1131,14 @@ $tabsInforHeight: 35px;
   position: absolute;
   ::v-deep .cardBody {
     padding-top: 0px !important;
+    padding: 0 40px;
   }
 }
 .pdfPage-box {
   position: absolute;
   width: 100%;
-  height: 0px;
-  overflow: hidden;
+  // height: 0px;
+  // overflow: hidden;
   ::v-deep .card {
     .cardBody {
       padding: 0 40px;
