@@ -97,7 +97,7 @@ export const publicOpinionList = [
     url: '/supplier/frmrating/publicOpinion/overview',
     activePath: '/supplier/frmrating/publicOpinion/overview',
     key: '舆情概览',
-    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+    permissionKey: 'PORTAL_SUPPLIER_NAV_YUQINGJIANCE_OVERVIEW'
   },
   {
     value: 2,
@@ -105,7 +105,7 @@ export const publicOpinionList = [
     url: '/supplier/frmrating/publicOpinion/list',
     activePath: '/supplier/frmrating/publicOpinion/list',
     key: '舆情列表',
-    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+    permissionKey: 'PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST'
   },
   {
     value: 3,
@@ -113,13 +113,13 @@ export const publicOpinionList = [
     url: '/supplier/frmrating/publicOpinion/reportStistics',
     activePath: '/supplier/frmrating/publicOpinion/reportStistics',
     key: '报表统计',
-    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+    permissionKey: 'PORTAL_SUPPLIER_NAV_YUQINGJIANCE_STISTICS'
   },{
     value: 4,
     name: '设置',
     url: '/supplier/frmrating/publicOpinion/setting',
     activePath: '/supplier/frmrating/publicOpinion/setting',
     key: '设置',
-    permissionKey: 'PORTAL_SUPPLIER_NAV_CUBUPJNGJI_DINGXINGDAFEN'
+    permissionKey: 'PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING'
   },
 ]

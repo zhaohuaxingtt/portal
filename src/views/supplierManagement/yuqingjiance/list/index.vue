@@ -55,9 +55,9 @@
                 </div>
 
                 <div class="floatright">
-                    <iButton @click="handleNotRated">{{ $t('设置供应商') }}</iButton>
-                    <iButton @click="download" :loading="loading">{{ $t('LK_XZMB') }}</iButton><!-- 下载导入模板 -->
-                    <el-upload class="upload"
+                    <iButton @click="handleNotRated" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_SHEZHISUPPLIER">{{ $t('设置供应商') }}</iButton>
+                    <iButton @click="download" :loading="loading" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_DOWNLOADMUBAN">{{ $t('LK_XZMB') }}</iButton><!-- 下载导入模板 -->
+                    <el-upload class="upload"  v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_DAORU"
                                 style="display:inline-block;margin:0 10px;"
                                 :show-file-list="false"
                                 name="multipartFile"
@@ -66,8 +66,8 @@
                                 :http-request="myUpload">
                         <iButton>{{ $t('DAORU') }}</iButton>
                     </el-upload>
-                    <iButton @click="exportAll" :loading="exportType">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
-                    <iButton @click="delSupplier">{{ $t('删除') }}</iButton>
+                    <iButton @click="exportAll" :loading="exportType" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_DAOCHUALL">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
+                    <iButton @click="delSupplier" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_LIST_DEL">{{ $t('删除') }}</iButton>
                 </div>
             </div>
 
