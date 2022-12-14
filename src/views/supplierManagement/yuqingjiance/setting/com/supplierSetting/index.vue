@@ -39,11 +39,11 @@
 
     <iCard class="margin-top20" :title="$t('舆情供应商清单')">
       <template v-slot:header-control>
-        <iButton @click="handleNotRated">{{ $t('MT_BIANJI') }}</iButton><!-- 编辑 -->
-        <iButton @click="addSupllier">{{ $t('LK_TIANJIA') }}</iButton><!-- 添加 -->
-        <iButton @click="download" :loading="loading">{{ $t('LK_XZMB') }}</iButton><!-- 下载导入模板 -->
+        <!-- <iButton @click="handleNotRated">{{ $t('MT_BIANJI') }}</iButton>编辑 -->
+        <iButton @click="addSupllier" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_ADD">{{ $t('LK_TIANJIA') }}</iButton><!-- 添加 -->
+        <iButton @click="download" :loading="loading" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_DOWNLOADMUBAN">{{ $t('LK_XZMB') }}</iButton><!-- 下载导入模板 -->
         <!-- 导入 -->
-        <el-upload class="upload"
+        <el-upload class="upload" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_DAORU"
                    style="display:inline-block;margin:0 10px;"
                    :show-file-list="false"
                    name="multipartFile"
@@ -52,8 +52,8 @@
                    :http-request="myUpload">
           <iButton>{{ $t('DAORU') }}</iButton>
         </el-upload>
-        <iButton @click="downloadAll" :loading="downloadAllLoading">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton><!-- 到处全部 -->
-        <iButton @click="delBtn">{{ $t('MT_SHANCHU') }}</iButton><!-- 删除 -->
+        <iButton @click="downloadAll" :loading="downloadAllLoading" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_DAOCHUALL">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton><!-- 到处全部 -->
+        <iButton @click="delBtn" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET_DEL">{{ $t('MT_SHANCHU') }}</iButton><!-- 删除 -->
       </template>
       <tableList
         :tableData="tableListData"

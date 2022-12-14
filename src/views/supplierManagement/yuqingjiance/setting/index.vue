@@ -3,13 +3,13 @@
         <headerNav/>
         <div class="mtz_ndys_nav">
           <div class="mtz_ndys_nav_all">
-            <div :class="tabsValue==1?'active':''"
+            <div :class="tabsValue==1?'active':''" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_WOGUANZHU"
                  @click="tableChange(1)"
                  >{{$t("我关注的供应商")}}</div>
-            <div :class="tabsValue==2?'active':''"
+            <div :class="tabsValue==2?'active':''" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGLAQUFANWEI"
                  @click="tableChange(2)"
                  >{{$t("舆情拉取范围设置")}}</div>
-            <div :class="tabsValue==3?'active':''"
+            <div :class="tabsValue==3?'active':''" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGSUPPLIERSET"
                  @click="tableChange(3)"
                  >{{$t("舆情供应商设置")}}</div>
           </div>
