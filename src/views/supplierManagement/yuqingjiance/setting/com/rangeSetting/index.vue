@@ -15,8 +15,8 @@
       </el-checkbox-group>
     </div>
     <div class="footer">
-      <iButton @click="save" :loading="loading">{{$t("LK_BAOCUN")}}</iButton>
-      <iButton @click="cancel">{{$t("MT_QUXIAO")}}</iButton>
+      <iButton @click="save" :loading="loading" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGLAQUFANWEI_SAVE">{{$t("LK_BAOCUN")}}</iButton>
+      <iButton @click="cancel" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_YUQINGLAQUFANWEI_CANCEL">{{$t("MT_QUXIAO")}}</iButton>
     </div>
   </iCard>
 </template>

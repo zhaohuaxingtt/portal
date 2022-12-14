@@ -30,8 +30,8 @@
     </i-search>
     <iCard class="margin-top20" :title="$t('我关注的供应商')">
       <template v-slot:header-control>
-        <iButton @click="addSupplier" >{{language("TIANJIA", "添加")}}</iButton>
-        <iButton @click="delSupplier" >{{ $t("移除") }}</iButton>
+        <iButton @click="addSupplier" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_WOGUANZHU_ADD">{{language("TIANJIA", "添加")}}</iButton>
+        <iButton @click="delSupplier" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_WOGUANZHU_DEL">{{ $t("移除") }}</iButton>
       </template>
 
       <tableList
@@ -45,10 +45,10 @@
             <span>{{(scope.row.subscribeStatus == 1?"已订阅":scope.row.subscribeStatus == 2?"未订阅":"")}}</span>
           </template>
           <template slot="ap8pAmt" slot-scope="scope">
-            <span class="color" v-if="(scope.row.subscribeStatus == 1)" @click="subscribe(scope.row,2)">取消订阅</span>
-            <span class="color" v-else @click="subscribe(scope.row,1)">订阅</span>
+            <span class="color" v-if="(scope.row.subscribeStatus == 1)" @click="subscribe(scope.row,2)" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_WOGUANZHU_DINGYUE">取消订阅</span>
+            <span class="color" v-else @click="subscribe(scope.row,1)" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_WOGUANZHU_DINGYUE">订阅</span>
             &nbsp;|&nbsp; 
-            <span class="color" @click="removeSupplier(scope.row)">移除</span>
+            <span class="color" @click="removeSupplier(scope.row)" v-permission="PORTAL_SUPPLIER_NAV_YUQINGJIANCE_SETTING_WOGUANZHU_DEL">移除</span>
           </template>
       </tableList>
       <iPagination @size-change="handleSizeChange($event, getData)"
