@@ -22,8 +22,12 @@
     <el-table tooltip-effect='light' height="300" :data="tableDataList" style="width: 100%">
       <el-table-column show-overflow-tooltip prop="tierPartNum" label="散件零件">
         <template slot-scope="scope">
-          <div>{{scope.row.tierPartNum}}</div>
-          <div>{{scope.row.tierPartName}}</div>
+          <template v-if="scope.row.tierPartNum == scope.row.tierOnePartNum && scope.row.tierPartName == scope.row.tierOnePartName">
+          </template>
+          <template v-else>
+            <div>{{scope.row.tierPartNum}}</div>
+            <div>{{scope.row.tierPartName}}</div>
+          </template>
         </template>
       </el-table-column>
       <el-table-column show-overflow-tooltip prop="tierPartType" label="散件零件类型">
