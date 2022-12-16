@@ -13,6 +13,23 @@
       <iCard class="upload_hr" ref="tabsBoxTitle" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
+          <!-- <span class="buttonBox" style="margin-top: -10px" v-if="!editMode">
+            <iButton
+              v-if="
+                RsObject &&
+                formData.workflowType == 'SIGN' &&
+                !(
+                  formData.statusDesc == '流转完成' ||
+                  formData.statusDesc == '定点' ||
+                  formData.statusDesc == '未通过'
+                )
+              "
+              @click="handleToSignPreview"
+              >{{
+                language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
+              }}</iButton
+            >
+          </span> -->
           <div class="tabs_box_right">
             <template v-if="meetingType">
               <div class="big_text">

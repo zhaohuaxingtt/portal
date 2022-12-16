@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2022-12-08 20:05:11
+ * @LastEditTime: 2022-12-16 15:21:38
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
@@ -90,26 +90,15 @@
             v-for="(item, index) in applayDateData"
             :key="index"
           >
-            <img
-              class="margin-left5 applayDateIcon"
-              :src="
-                item.taskStatus === '同意'
-                  ? require('@/assets/images/icon/yes.png')
-                  : require('@/assets/images/icon/no.png')
-              "
-              :fit="fit"
-            />
             <div class="applayDateContentItem first_one">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{ item.deptFullCode }}</span>
+              <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
             </div>
             <div class="applayDateContentItem">
               <span>审批人：</span>
-              <span>{{ item.nameZh }}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
-              <span>{{ item.endTime }}</span>
             </div>
           </div>
         </div>
@@ -145,6 +134,7 @@ export default {
   data() {
     return {
       formInfo: {},
+      baseData:{},
       ruleTableTitle1_1,
       ruleTableListData: [],
       rulePageParams: {
@@ -170,17 +160,17 @@ export default {
     // this.$nextTick(e=>{
     console.log(this.m1)
     this.getAppById()
-    this.initApplayDateData()
+    // this.initApplayDateData()
     // this.getSignPreviewDept()
     // })
   },
   computed: {
     title() {
       let res = '---'
-      switch (this.formInfo?.type) {
+      switch (this.formInfo?.workflowType) {
         case 'MEETING':
           // 上会
-          res = 'CSC 定点推荐 - 芯片补差  CSC Nomination Recommendation - Chip'
+          res = 'CSC 定点推荐 - 芯片补差 CSC Nomination Recommendation - Chip'
           break
         case 'SIGN':
           // 流转
@@ -196,7 +186,7 @@ export default {
       return res
     },
     isMeeting() {
-      return this.formInfo.type == 'MEETING'
+      return this.formInfo.workflowType == 'MEETING'
     }
   },
   methods: {
@@ -215,19 +205,6 @@ export default {
         this.statusList?.find((item) => item.code == status)?.message || status
       )
     },
-    initApplayDateData() {
-      approvalList({
-        appId: this.$route.query.appId
-      }).then((res) => {
-        if (res?.code === '200') {
-          let data = res.data
-          this.applayDateData = data
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
-    },
-
     getAppById() {
       getAppById({
         appId: this.$route.query.appId
@@ -243,7 +220,7 @@ export default {
         this.user = data.linieName
         this.dept = data.depteCode
         this.baseData = res.data
-        console.log(this.baseData)
+        this.applayDateData = res.data.approveList
       })
     },
     // 获取部门数据
@@ -293,7 +270,17 @@ $tabsInforHeight: 35px;
   display: flex;
   align-items: center;
   flex-flow: wrap;
-  margin-top: 20px;
+  
+  .applayDateContent {
+    display: inline-block;
+    background-color: #cdd4e2;
+    height: 178px;
+    max-width: 220px;
+    min-width: 180px;
+    margin: 10px 0.3% 0;
+    border-radius: 15px;
+    text-align: center;
+  }
 }
 .applayDateIcon {
   margin-top: 10px;
@@ -313,15 +300,6 @@ $tabsInforHeight: 35px;
 }
 .first_one {
   margin-top: 30px !important;
-}
-.applayDateContent {
-  display: inline-block;
-  background-color: #cdd4e2;
-  height: 178px;
-  width: 16%;
-  margin: 10px 0.3% 0;
-  border-radius: 15px;
-  text-align: center;
 }
 
 .tabsBoxInfor {
