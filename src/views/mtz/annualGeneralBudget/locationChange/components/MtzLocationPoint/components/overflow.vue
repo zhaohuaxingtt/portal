@@ -514,7 +514,7 @@ export default {
   font-weight: bold;
 }
 .opration {
-  margin-right: 100px;
+  margin-right: 20px;
 }
 .stepBoxMap {
   width: 100%;
