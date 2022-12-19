@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 14:51:25
- * @LastEditTime: 2022-12-16 14:18:42
+ * @LastEditTime: 2022-12-19 18:14:00
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: 公共步骤条封装
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\commonFlow.vue
@@ -435,8 +435,6 @@ export default {
     handleClickStep(data) {
       if (this.$route.query.currentStep == data.id) return false
       // 跳转步骤在当前步骤之后，提示保存数据
-      console.log(data.id)
-      console.log(this.stepNum)
       const stepNum = this.$route.query.stepNum || 1
       if (data.id > stepNum) {
         iMessageBox(
