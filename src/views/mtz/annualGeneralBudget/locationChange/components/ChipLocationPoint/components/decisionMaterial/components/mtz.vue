@@ -1,18 +1,34 @@
 <template>
   <div style="padding-bottom: 30px; position: relative">
-    <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv" id="qrCodeDiv" style="position: relative">
-      <!-- 水印 class="content_dialog" -->
-      <div
-        class=""
+      <!-- 弹窗水印 -->
+      <!-- <div
+        class="content_dialog"
         v-if="
           !RsObject &&
           (formData.statusDesc == '流转完成' || formData.statusDesc == '定点')
         "
-      ></div>
+      ></div> -->
       <iCard class="upload_hr" ref="tabsBoxTitle" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{ title }}</p>
+          <span class="buttonBox" style="margin-top: -10px" v-if="!editMode">
+            <iButton
+              v-if="
+                RsObject &&
+                formData.workflowType == 'SIGN' &&
+                !(
+                  formData.statusDesc == '流转完成' ||
+                  formData.statusDesc == '定点' ||
+                  formData.statusDesc == '未通过'
+                )
+              "
+              @click="handleToSignPreview"
+              >{{
+                language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')
+              }}</iButton
+            >
+          </span>
           <div class="tabs_box_right">
             <template v-if="meetingType">
               <div class="big_text">
@@ -37,18 +53,10 @@
         </div>
         <div ref="ruleTableTitle">
           <el-divider class="hr_divider" />
-
-          <p class="tableTitle padding-bottom20" v-if="RsObject">
-            {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
-          </p>
-          <p
-            class="tableTitle padding-bottom20"
-            v-if="!RsObject && ruleTableListData.length > 0"
-          >
+          <p class="tableTitle padding-bottom20">
             {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
           </p>
         </div>
-        <!-- highlight-current-row -->
         <tableList
           ref="moviesTable"
           :tableData="ruleTableListData"
@@ -57,35 +65,6 @@
           :header-row-class-name="'ruleTableHeader'"
           :index="true"
           :rowClassName="'table-row'"
-          v-if="RsObject"
-          :selection="false"
-          border
-        >
-          <template slot-scope="scope" slot="method">
-            <span>{{
-              scope.row.method == '2' ? '变价单补差' : '一次性补差'
-            }}</span>
-          </template>
-          <template slot-scope="scope" slot="sapCode">
-            <span>{{ scope.row.sapCode }}</span>
-          </template>
-          <template slot-scope="scope" slot="startDate">
-            <span>{{ getDay(scope.row.startDate) }}</span>
-          </template>
-          <template slot-scope="scope" slot="endDate">
-            <span>{{ getDay(scope.row.endDate) }}</span>
-          </template>
-        </tableList>
-        <!-- 导出规则表格 -->
-        <tableList
-          ref="moviesTable"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_1"
-          :tableLoading="loadingRule"
-          v-if="!RsObject && ruleTableListData.length > 0"
-          :index="true"
-          :rowClassName="'table-row'"
-          :header-row-class-name="'ruleTableHeader'"
           :selection="false"
           border
         >
@@ -252,14 +231,15 @@
     <div id="pdfPage-box" ref="pdfPage-box" class="pdfPage-box">
       <template v-for="(tableData, index) in ruleTableList">
         <div :key="index" class="page-item">
-          <!-- class="content_dialog" -->
-          <div
+          <!-- 水印 -->
+          <!-- <div
+          class="content_dialog"
             v-if="
               !RsObject &&
               (formData.statusDesc == '流转完成' ||
                 formData.statusDesc == '定点')
             "
-          ></div>
+          ></div> -->
           <div class="upload_hr" :style="{ height: pdfItemHeight + 'px' }">
             <iCard>
               <div slot="header" class="headBox">
@@ -285,13 +265,7 @@
                 </div>
               </div>
               <el-divider class="hr_divider" />
-              <p class="tableTitle" v-if="RsObject">
-                {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
-              </p>
-              <p
-                class="tableTitle"
-                v-if="!RsObject && ruleTableListData.length > 0"
-              >
+              <p class="tableTitle">
                 {{ language('GUIZEQINGDAN', '规则清单') }}-Regulation
               </p>
               <!-- highlight-current-row -->
@@ -300,33 +274,6 @@
                 :tableData="tableData"
                 :tableTitle="ruleTableTitle1_1"
                 :tableLoading="loadingRule"
-                :index="true"
-                v-if="RsObject"
-                :selection="false"
-                border
-              >
-                <template slot-scope="scope" slot="method">
-                  <span>{{
-                    scope.row.method == '2' ? '变价单补差' : '一次性补差'
-                  }}</span>
-                </template>
-                <template slot-scope="scope" slot="sapCode">
-                  <span>{{ scope.row.sapCode }}</span>
-                </template>
-                <template slot-scope="scope" slot="startDate">
-                  <span>{{ getDay(scope.row.startDate) }}</span>
-                </template>
-                <template slot-scope="scope" slot="endDate">
-                  <span>{{ getDay(scope.row.endDate) }}</span>
-                </template>
-              </tableList>
-              <!-- 导出规则表格 -->
-              <tableList
-                class="margin-top20"
-                :tableData="tableData"
-                :tableTitle="ruleTableTitle1_1"
-                :tableLoading="loadingRule"
-                v-if="!RsObject && tableData.length > 0"
                 :index="true"
                 :selection="false"
                 border
@@ -361,6 +308,52 @@
                   </p>
                 </div>
               </iCard>
+              <iCard
+                v-if="
+                  applayDateData.length > 0 &&
+                  !appPage &&
+                  remarkList.length == 0
+                "
+              >
+                <div slot="header" class="headBox">
+                  <p class="headTitle">
+                    {{ language('SHENQINGRIQI', '申请日期') }}:{{
+                      moment(new Date()).format('YYYY-MM-DD')
+                    }}
+                  </p>
+                </div>
+                <div :class="RsObject ? 'applayDateBox' : 'applayDateBox1'">
+                  <div
+                    class="applayDateContent"
+                    v-for="(item, index) in applayDateData"
+                    :key="index"
+                  >
+                    <img
+                      class="margin-left5 applayDateIcon"
+                      :src="
+                        item.taskStatus === '同意'
+                          ? require('@/assets/images/icon/yes.png')
+                          : require('@/assets/images/icon/no.png')
+                      "
+                      :fit="fit"
+                    />
+                    <div class="applayDateContentItem first_one">
+                      <span>部门：</span>
+                      <span class="applayDateDeptTitle">{{
+                        item.deptFullCode
+                      }}</span>
+                    </div>
+                    <div class="applayDateContentItem">
+                      <span>审批人：</span>
+                      <span>{{ item.nameZh }}</span>
+                    </div>
+                    <div class="applayDateContentItem">
+                      <span>日期：</span>
+                      <span>{{ item.endTime }}</span>
+                    </div>
+                  </div>
+                </div>
+              </iCard>
             </template>
           </div>
           <div class="page-logo">
@@ -376,14 +369,15 @@
       </template>
       <template v-for="(remark, index) in remarkList">
         <div :key="index" class="page-item remarkCard">
-          <!-- class="content_dialog" -->
-          <div
+          <!-- 水印 -->
+          <!-- <div
+            class="content_dialog"
             v-if="
               !RsObject &&
               (formData.statusDesc == '流转完成' ||
                 formData.statusDesc == '定点')
             "
-          ></div>
+          ></div> -->
           <div :style="{ height: remarkPageHeight + 'px', background: '#fff' }">
             <iCard>
               <div slot="header" class="headBox">
@@ -400,12 +394,10 @@
             </iCard>
             <iCard
               v-if="
-                isMeeting &&
                 applayDateData.length > 0 &&
                 !appPage &&
                 index == remarkList.length - 1
               "
-              class="margin-top20"
             >
               <div slot="header" class="headBox">
                 <p class="headTitle">
@@ -459,18 +451,15 @@
         </div>
       </template>
       <div v-if="appPage" class="page-item remarkCard">
-        <!-- class="content_dialog" -->
-        <div
+        <!-- <div
+          class="content_dialog"
           v-if="
             !RsObject &&
             (formData.statusDesc == '流转完成' || formData.statusDesc == '定点')
           "
-        ></div>
+        ></div> -->
         <div :style="{ height: remarkPageHeight + 'px', background: '#fff' }">
-          <iCard
-            v-if="isMeeting && applayDateData.length > 0"
-            class="margin-top20"
-          >
+          <iCard v-if="isMeeting && applayDateData.length > 0">
             <div slot="header" class="headBox">
               <p class="headTitle">
                 {{ language('SHENQINGRIQI', '申请日期') }}:{{
@@ -539,19 +528,33 @@
     <div class="pdf-containr">
       <div ref="pdf-containr" class="page-item"></div>
     </div>
+    <signPreview
+      v-if="
+        RsObject &&
+        formData.workflowType == 'SIGN' &&
+        !(
+          formData.statusDesc == '流转完成' ||
+          formData.statusDesc == '定点' ||
+          formData.statusDesc == '未通过'
+        )
+      "
+      ref="signPreview"
+      :baseData="baseData"
+      style="overflow: hidden; height: 0"
+    />
   </div>
 </template>
 
 <script>
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
+import signPreview from './signPreview.vue'
 import { ruleTableTitle1_1 } from './data'
 import {
   updateApp,
   approvalList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { dataURLtoFile, transverseDownloadPDF } from '@/utils/pdf'
 import JsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 export default {
@@ -562,10 +565,11 @@ export default {
     iInput,
     iButton,
     iPagination,
-    tableList
+    tableList,
+    signPreview
   },
   props: {
-    RsType: { type: Boolean },
+    RsType: { type: Boolean }, // true:为预览弹窗，false：为决策资料TAB页
 
     baseData: {
       type: Object,
@@ -607,6 +611,9 @@ export default {
     },
     baseData: {
       handler(val) {
+        if (this.RsType) {
+          this.RsObject = false // 在弹窗时为false，TAB页为true
+        }
         this.$set(this, 'formData', val.chipAppBase || {})
         this.$set(this, 'ruleTableListData', val.chipDetailList || [])
         if (
@@ -639,7 +646,7 @@ export default {
   },
   created() {
     if (this.RsType) {
-      this.RsObject = false
+      this.RsObject = false // 在弹窗时为false，TAB页为true
     }
     this.initApplayDateData()
   },
@@ -731,14 +738,29 @@ export default {
       if (arr.length) {
         remarkList.push(JSON.parse(JSON.stringify(arr)))
       }
-      if (applayDateData) {
-        if (
-          pageHeight - sumHeight - otherHeight - pageNumHeight >
-          applayDateData
-        ) {
-          this.appPage = false
-        } else {
-          this.appPage = true
+      if (this.residualHeight) {
+        // 列表页可以放下全部
+        if (applayDateData) {
+          if (this.residualHeight > applayDateData) {
+            // 备注页剩余空间足够放下 审批节点，则不用另起一页
+            this.appPage = false
+          } else {
+            // 否则另起一页
+            this.appPage = true
+          }
+        }
+      } else {
+        if (applayDateData) {
+          if (
+            pageHeight - sumHeight - otherHeight - pageNumHeight >
+            applayDateData
+          ) {
+            // 备注页剩余空间足够放下 审批节点，则不用另起一页
+            this.appPage = false
+          } else {
+            // 否则另起一页
+            this.appPage = true
+          }
         }
       }
       this.onceTabel = onceTabel
@@ -840,13 +862,14 @@ export default {
     },
     // 导出会外流转单
     handleToSignPreview() {
-      const { href } = this.$router.resolve({
-        path: '/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/signPreview',
-        query: {
-          appId: this.$route.query.appId
-        }
-      })
-      window.open(href, '_blank')
+      this.$refs.signPreview.downPdf()
+      // const { href } = this.$router.resolve({
+      //   path: '/mtz/annualGeneralBudget/locationChange/ChipLocationPoint/signPreview',
+      //   query: {
+      //     appId: this.$route.query.appId
+      //   }
+      // })
+      // window.open(href, '_blank')
     },
     // 导出pdf
     handleExportPdf(name) {
