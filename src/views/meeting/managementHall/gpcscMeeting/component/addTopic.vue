@@ -13,7 +13,6 @@
     :close-on-click-modal="false"
     @close="close"
   >
-  
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
@@ -871,15 +870,19 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error('下载失败')
+      if (row.attachmentUrl) {
+        window.open(`${row.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: row.attachmentId,
+          filename: row.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error('下载失败')
+            }
           }
-        }
-      })
+        })
+      }
     },
     handleFocus() {
       this.remoteMethod()

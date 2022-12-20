@@ -596,7 +596,11 @@ export default {
         (!value || (value && value.length === 0)) &&
         this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -609,7 +613,11 @@ export default {
         !value.trim() &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -622,7 +630,11 @@ export default {
         (!value || (value && value.length === 0)) &&
         this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -635,7 +647,11 @@ export default {
         !value.trim() &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -683,7 +699,9 @@ export default {
       attachment: {},
       attachments: [],
       rules: {
-        meeting: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }],
+        meeting: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }
+        ],
         // topic: [
         //   { required: true, message: "必填", trigger: "blur" },
         //   { min: 1, max: 255, message: "最大长度 255 字符", trigger: "blur" },
@@ -694,14 +712,28 @@ export default {
             validator: validateTopic
           }
         ],
-        remark: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        remark: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterNosys: [
           {
@@ -713,10 +745,18 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterNosys: [
           {
@@ -1035,16 +1075,20 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        // url: MOCK_FILE_URL + row.attachmentId,
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      if (row.attachmentUrl) {
+        window.open(`${row.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          // url: MOCK_FILE_URL + row.attachmentId,
+          fileIds: row.attachmentId,
+          filename: row.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            }
           }
-        }
-      })
+        })
+      }
     },
     async getMettingListAll() {
       const params = {
