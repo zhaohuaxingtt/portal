@@ -1,12 +1,7 @@
 <!--舆情检测-->
 <template>
   <iPage>
-    <iNavMvp
-      :list='tabRouterList'
-      class='margin-bottom20'
-      routerPage
-      :lev='1'
-    />
+    <headerNav />
     <!--搜索区-->
     <i-search
       class='margin-bottom20 margin-top10'
@@ -162,8 +157,8 @@ import {
   iPagination,
   iDatePicker,
   iPage,
-  iNavMvp
 } from 'rise'
+import headerNav from "./components/headerNav"
 import {
   selectConfig,
   indexConfig,
@@ -171,7 +166,6 @@ import {
 } from './config/data'
 import tablelist from 'rise/web/components/iFile/tableList'
 import { pageMixins } from '@/utils/pageMixins'
-import { tabRouterList } from '../../frmRating/data'
 import yuqingjianceDialog from './components/yuqingjianceDialog'
 import Upload from '@/components/Upload'
 import {
@@ -194,13 +188,12 @@ export default {
     iDatePicker,
     tablelist,
     iPage,
-    iNavMvp,
     yuqingjianceDialog,
-    Upload
+    Upload,
+    headerNav
   },
   data() {
     return {
-      tabRouterList,
       selectConfig,
       indexConfig,
       queryForm: {
@@ -326,5 +319,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
 </style>
