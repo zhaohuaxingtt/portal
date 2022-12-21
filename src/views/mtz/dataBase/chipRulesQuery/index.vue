@@ -245,15 +245,15 @@ export default {
     },
     // 生效/失效
     takeEffect(x) {
-      let flag = this.selectData.some(item => item.effectFlag == x)
-      if (flag) {
-        return iMessage.warn(
-          x
-            ? this.language('生效状态不能点击【生效】按钮，请重新选择', '生效状态不能点击【生效】按钮，请重新选择')
-            : this.language('失效状态不能点击【失效】按钮，请重新选择', '失效状态不能点击【失效】按钮，请重新选择')
-        )
-      }
       if (this.selectedData.length > 0) {
+        let flag = this.selectedData.some(item => item.effectFlag == x)
+        if (flag) {
+          return iMessage.warn(
+            x
+              ? this.language('生效状态不能点击【生效】按钮，请重新选择', '生效状态不能点击【生效】按钮，请重新选择')
+              : this.language('失效状态不能点击【失效】按钮，请重新选择', '失效状态不能点击【失效】按钮，请重新选择')
+          )
+        }
         let ids = this.selectedData.map((y) => y.id)
         partEnable(ids, { effectFlag: x }).then((res) => {
           if (res.result) {
