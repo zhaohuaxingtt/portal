@@ -1,4 +1,4 @@
-<!-- 维护MTZ原材料规则新增弹窗 -->
+<!-- 新增规则弹窗 -->
 <template>
   <div style="padding-bottom: 30px">
     <div class="form-wrapper">
@@ -117,7 +117,7 @@
           <iInput
             v-model="contractForm.amount"
             type="number"
-            placeholder="请输入"
+            :placeholder="language('QINGSHURU', '请输入')"
             :disabled="disabled"
           />
         </iFormItem>
@@ -126,6 +126,8 @@
             :label="language('HUOBI', '货币')"
             slot="label"
             :required="true"
+            icons="iconxinxitishi"
+            :tip="$t('与零件台账货币一致')"
           ></iLabel>
           <i-select
             v-model="contractForm.currency"
@@ -146,12 +148,12 @@
             slot="label"
             :required="true"
             icons="iconxinxitishi"
-            tip="货币比人民币"
+            :tip="$t('货币比人民币')"
           ></iLabel>
           <iInput
             v-model="contractForm.exchangeRate"
             type="number"
-            placeholder="请输入汇率"
+            :placeholder="language('QINGSHURU', '请输入')"
             :disabled="disabled"
           />
         </iFormItem>
@@ -213,7 +215,9 @@ import {
 } from 'rise'
 import {
   getPartCodeId,
-  addAppDetail
+  addAppDetail,
+  findByIdOfCostBook,
+  getSupplierInfoBySap
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/chipLocation/details'
 import { formRulesGZ } from './data'
 import { timeTransformation } from './util'
@@ -313,34 +317,70 @@ export default {
   },
   methods: {
     getPartCodeId(partNum) {
-      getPartCodeId({ partsNum: partNum }).then((res) => {
-        console.log(res)
-        if (res?.code == '200') {
-          this.contractForm.partNum = res.data?.partNum || ''
-          this.contractForm.partName = res.data?.partNameZh || ''
-          this.contractForm.partUnit = res.data?.unitNameEn || ''
-        } else {
-          this.contractForm.partNum = ''
-          this.contractForm.partName = ''
-          this.contractForm.partUnit = ''
-        }
-      })
+      if(partNum == this.oldPartNum) return // 零件号未修改则不做查询
+      this.oldPartNum = partNum
+      if(partNum){
+        getPartCodeId({ partsNum: partNum }).then((res) => {
+          if (res?.code == '200') {
+            this.contractForm.partNum = res.data?.partNum || ''
+            this.contractForm.partName = res.data?.partNameZh || ''
+            this.contractForm.partUnit = res.data?.unitNameEn || ''
+            this.partType = res.data?.partType || ''
+            this.findByIdOfCostBook()
+          } else {
+            this.contractForm.partNum = ''
+            this.contractForm.partName = ''
+            this.contractForm.partUnit = ''
+            this.partType = ''
+          }
+        })
+      }else{
+        this.contractForm.partNum = ''
+        this.contractForm.partName = ''
+        this.contractForm.partUnit = ''
+        this.partType = ''
+      }
     },
     supplierBH(value) {
       if (value == '') {
         this.contractForm.supplierName = ''
         this.contractForm.sapCode = ''
+        this.tmSupplierId = ''
       }
       try {
         this.supplierList.forEach((e) => {
           if (e.code == value) {
             this.contractForm.supplierName = e.message
             this.contractForm.sapCode = value
+            // 根据sapCode查询供应商信息
+            getSupplierInfoBySap({
+              sapCode: value,
+              supplierType: 'PP'
+            }).then(res=>{
+              this.tmSupplierId = res.data.supplierId
+              this.findByIdOfCostBook()
+            })
             throw new Error('EndIterative')
           }
         })
       } catch (e) {
         if (e.message != 'EndIterative') throw e
+      }
+    },
+    // 零件查询接口查询不到对应货币，为了获取零件对应的货币，所以绕一圈写了这个方法
+    findByIdOfCostBook(){
+      if(this.tmSupplierId&&this.contractForm.partNum){
+        let params={
+          type: 2, // 1 批量， 2 配附件
+          partNum: this.contractForm.partNum,
+          tmSupplierId: this.tmSupplierId,
+          partType:this.partType || 'P',
+        }
+        findByIdOfCostBook(params).then(res=>{
+          if(res?.data){ // 错误时code也返回了200，所以用data来判断，查询到结果则替换货币，查询不到则不做处理
+            this.contractForm.currency = res.data?.currency || this.contractForm.currency 
+          }
+        })
       }
     },
     handleSave() {

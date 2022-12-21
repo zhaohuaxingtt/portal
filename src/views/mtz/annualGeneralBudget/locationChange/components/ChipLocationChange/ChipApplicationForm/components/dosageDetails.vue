@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2022-12-07 16:53:00
- * @LastEditors: 余继鹏 917955345@qq.com
- * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
--->
 <template>
   <div>
     <iTabsList v-model="tabsValue" @tab-click="tableChange" type="card" slot="components" calss="iTabsList">
