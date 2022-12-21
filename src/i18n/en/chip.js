@@ -16,6 +16,8 @@ export default {
   新增芯片补差规则: 'Add chip rules',
   沿用芯片补差规则: 'COP chip rules',
   请填写申请单名称: 'Please fill in the chip repair application single name!',
+  与零件台账货币一致: 'Consistent with parts ledger currency',
+  货币比人民币: 'Currency ratio of RMB',
   补差方式: 'Method',
   补差类型: 'MakeType',
   原材料描述: 'Material description',

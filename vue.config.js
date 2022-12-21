@@ -387,7 +387,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BKM]: ''
         }
-      }
+      },
+      // 零件台账
+      [process.env.VUE_APP_PRICELEDGER]: {
+        target: `${BASE_IP}/priceledger`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_PRICELEDGER]: '',
+        },
+      },
     }
   }
 }
