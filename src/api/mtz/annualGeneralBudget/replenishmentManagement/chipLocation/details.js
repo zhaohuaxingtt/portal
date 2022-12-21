@@ -5,8 +5,16 @@ const requestChip = axios(process.env.VUE_APP_MTZ + '/web/chip')
 const req = axios(process.env.VUE_APP_APPROVAL + '/web')
 const requestParts = axios(process.env.VUE_APP_PART)
 const requestPartCode = axios(process.env.VUE_APP_MATERIEL)
+const logisticpriceAPI = axios(process.env.VUE_APP_PRICELEDGER + '/web')
 const supplier = axios(process.env.VUE_APP_SUPPLIER)
-
+///查询台账信息
+export function findByIdOfCostBook(parmars) {
+  return logisticpriceAPI({
+      url: '/costBook/findById',
+      method: 'GET',
+      params: parmars
+  })
+}
 export function pageMtzNomi(parmars) {
   //mtz定点列表查询
   return request({
