@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-12-20 16:24:20
+ * @LastEditTime: 2022-12-21 16:13:18
  * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -163,14 +163,16 @@
             :key="index"
           >
             <div class="applayDateContentItem first_one">
-              <span>部门：</span>
+              <span class="name">部门：</span>
               <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
             </div>
             <div class="applayDateContentItem">
-              <span>审批人：</span>
+              <span class="name">审批人：</span>
+              <span class="line"></span>
             </div>
             <div class="applayDateContentItem">
-              <span>日期：</span>
+              <span class="name">日期：</span>
+              <span class="line"></span>
             </div>
           </div>
         </div>
@@ -210,16 +212,16 @@
                 :key="index"
               >
                 <div class="applayDateContentItem first_one">
-                  <span>部门：</span>
-                  <span class="applayDateDeptTitle">{{
-                    item.approvalDepartment
-                  }}</span>
+                  <span class="name">部门：</span>
+                  <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>审批人：</span>
+                  <span class="name">审批人：</span>
+                  <span class="line"></span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>日期：</span>
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
                 </div>
               </div>
             </div>
@@ -448,16 +450,16 @@
                   :key="index"
                 >
                   <div class="applayDateContentItem first_one">
-                    <span>部门：</span>
-                    <span class="applayDateDeptTitle">{{
-                      item.approvalDepartment
-                    }}</span>
+                    <span class="name">部门：</span>
+                    <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                   </div>
                   <div class="applayDateContentItem">
-                    <span>审批人：</span>
+                    <span class="name">审批人：</span>
+                    <span class="line"></span>
                   </div>
                   <div class="applayDateContentItem">
-                    <span>日期：</span>
+                    <span class="name">日期：</span>
+                    <span class="line"></span>
                   </div>
                 </div>
               </div>
@@ -493,16 +495,16 @@
                 :key="index"
               >
                 <div class="applayDateContentItem first_one">
-                  <span>部门：</span>
-                  <span class="applayDateDeptTitle">{{
-                    item.approvalDepartment
-                  }}</span>
+                  <span class="name">部门：</span>
+                  <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>审批人：</span>
+                  <span class="name">审批人：</span>
+                  <span class="line"></span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>日期：</span>
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
                 </div>
               </div>
             </div>
@@ -929,7 +931,7 @@ $tabsInforHeight: 35px;
 .applayDateContentItem {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
@@ -942,7 +944,7 @@ $tabsInforHeight: 35px;
 }
 .applayDateContent {
   display: inline-block;
-  background-color: #cdd4e2;
+  // background-color: #cdd4e2;
   height: 138px;
   width: 16%;
   margin: 10px 0.3% 0;
@@ -1116,5 +1118,15 @@ $tabsInforHeight: 35px;
   ::v-deep .card {
     box-shadow: none;
   }
+}
+.name{
+  display: inline-flex;
+  width: 80px;
+  justify-content: space-between;
+}
+.line{
+  border-bottom: 1px solid black;
+  display: inline-block;
+  width: 140px;
 }
 </style>
