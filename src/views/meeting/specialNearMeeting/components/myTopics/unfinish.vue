@@ -77,7 +77,7 @@
         prop="topic"
         align="center"
         label="Present Items"
-        :width="setColumnWidth(tabData)"
+        :min-width="setColumnWidth(tabData)"
       >
         <!-- min-width="223" -->
         <template slot-scope="scope">
