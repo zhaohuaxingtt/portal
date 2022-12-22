@@ -182,6 +182,7 @@ export default {
       });
     },
     handlePartSearch (val) {
+      console.log(val);
       this.formGoup.partList = this.formGoupCopy.partList.filter(item => {
         return item.partNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
@@ -407,9 +408,18 @@ export default {
             res3 = await listSelectSupplier(this.form)
             this.formGoup.supplierList = res3.data
             this.formGoupCopy.supplierList = res3.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
             break;
           case 'categoryCodeList':
             res1 = await listSelectCarModel(this.form)
@@ -418,9 +428,18 @@ export default {
             res3 = await listSelectSupplier(this.form)
             this.formGoup.supplierList = res3.data
             this.formGoupCopy.supplierList = res3.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
             break;
           case 'supplierIdList':
             res1 = await listSelectCarModel(this.form)
@@ -429,9 +448,18 @@ export default {
             res2 = await listSelectCategory(this.form)
             this.formGoup.categoryList = res2.data
             this.formGoupCopy.categoryList = res2.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
             break;
           case 'partNumList':
             res1 = await listSelectCarModel(this.form)
@@ -455,9 +483,21 @@ export default {
             res3 = await listSelectSupplier(this.form)
             this.formGoup.supplierList = res3.data
             this.formGoupCopy.supplierList = res3.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
+            // res4 = await listSelectPart(this.form)
+            // console.log(res4)
             break;
         }
       } catch (error) {
