@@ -84,14 +84,16 @@
             :key="index"
           >
             <div class="applayDateContentItem first_one">
-              <span>部门：</span>
+              <span class="name">部门：</span>
               <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
             </div>
             <div class="applayDateContentItem">
-              <span>审批人：</span>
+              <span class="name">审批人：</span>
+              <span class="line"></span>
             </div>
             <div class="applayDateContentItem">
-              <span>日期：</span>
+              <span class="name">日期：</span>
+              <span class="line"></span>
             </div>
           </div>
         </div>
@@ -133,14 +135,16 @@
                 :key="index"
               >
                 <div class="applayDateContentItem first_one">
-                  <span>部门：</span>
+                  <span class="name">部门：</span>
                   <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>审批人：</span>
+                  <span class="name">审批人：</span>
+                  <span class="line"></span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>日期：</span>
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
                 </div>
               </div>
             </div>
@@ -250,14 +254,16 @@
                     :key="index"
                   >
                     <div class="applayDateContentItem first_one">
-                      <span>部门：</span>
+                      <span class="name">部门：</span>
                       <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                     </div>
                     <div class="applayDateContentItem">
-                      <span>审批人：</span>
+                      <span class="name">审批人：</span>
+                      <span class="line"></span>
                     </div>
                     <div class="applayDateContentItem">
-                      <span>日期：</span>
+                      <span class="name">日期：</span>
+                      <span class="line"></span>
                     </div>
                   </div>
                 </div>
@@ -312,14 +318,16 @@
                   :key="index"
                 >
                   <div class="applayDateContentItem first_one">
-                    <span>部门：</span>
+                    <span class="name">部门：</span>
                     <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                   </div>
                   <div class="applayDateContentItem">
-                    <span>审批人：</span>
+                    <span class="name">审批人：</span>
+                    <span class="line"></span>
                   </div>
                   <div class="applayDateContentItem">
-                    <span>日期：</span>
+                    <span class="name">日期：</span>
+                    <span class="line"></span>
                   </div>
                 </div>
               </div>
@@ -353,14 +361,16 @@
                 :key="index"
               >
                 <div class="applayDateContentItem first_one">
-                  <span>部门：</span>
+                  <span class="name">部门：</span>
                   <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>审批人：</span>
+                  <span class="name">审批人：</span>
+                  <span class="line"></span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>日期：</span>
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
                 </div>
               </div>
             </div>
@@ -459,7 +469,7 @@ export default {
       handler(val) {
         this.$set(this, 'formData', val.chipAppBase || {})
         this.$set(this, 'ruleTableListData', val.chipDetailList || [])
-        this.applayDateData = val.approveList
+        this.applayDateData = [...val.approveList,...val.approveList,...val.approveList,...val.approveList,...val.approveList,...val.approveList,...val.approveList,]
         this.$nextTick(() => {
           this.computedRuleTableHeight()
         })
@@ -677,16 +687,18 @@ export default {
     },
     // 导出pdf
     handleExportPdf(name) {
+      if(!this.ruleTableListData.length) return iMessage.warn('暂无导出数据')
       this.loading = true
-      console.time('截图')
       this.fileList = []
       let elList = this.$refs['pdfPage-box'].getElementsByClassName('page-item')
       this.elList = elList
       if (!elList.length) {
         iMessage.warn('请稍等')
         this.$emit('changeStatus', 'exportLoading', false)
+        this.loading = false
         return
       }
+      console.time('截图')
       this.pageLength = elList.length
       this.showPage = false
       setTimeout(async () => {
@@ -824,7 +836,7 @@ $tabsInforHeight: 35px;
 .applayDateContentItem {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
@@ -837,7 +849,7 @@ $tabsInforHeight: 35px;
 }
 .applayDateContent {
   display: inline-block;
-  background-color: #cdd4e2;
+  // background-color: #cdd4e2;
   height: 178px;
   width: 16%;
   margin: 10px 0.3% 0;
@@ -1012,5 +1024,15 @@ $tabsInforHeight: 35px;
   ::v-deep .card {
     box-shadow: none;
   }
+}
+.name{
+  display: inline-flex;
+  width: 80px;
+  justify-content: space-between;
+}
+.line{
+  border-bottom: 1px solid black;
+  display: inline-block;
+  width: 140px;
 }
 </style>
