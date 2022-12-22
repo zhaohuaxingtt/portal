@@ -73,7 +73,7 @@
         prop="topic"
         align="center"
         label="Present Items"
-        :width="setColumnWidth(tableData)"
+        :min-width="setColumnWidth(tableData)"
       >
         <!-- min-width="223" -->
         <template slot-scope="scope">
