@@ -89,7 +89,7 @@
             </div>
             <div class="applayDateContentItem">
               <span class="name">审批人：</span>
-              <span class="line"></span>
+              <!-- <span class="line"></span> -->
             </div>
             <div class="applayDateContentItem">
               <span class="name">日期：</span>
@@ -140,7 +140,7 @@
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">审批人：</span>
-                  <span class="line"></span>
+                  <!-- <span class="line"></span> -->
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">日期：</span>
@@ -259,7 +259,7 @@
                     </div>
                     <div class="applayDateContentItem">
                       <span class="name">审批人：</span>
-                      <span class="line"></span>
+                      <!-- <span class="line"></span> -->
                     </div>
                     <div class="applayDateContentItem">
                       <span class="name">日期：</span>
@@ -323,7 +323,7 @@
                   </div>
                   <div class="applayDateContentItem">
                     <span class="name">审批人：</span>
-                    <span class="line"></span>
+                    <!-- <span class="line"></span> -->
                   </div>
                   <div class="applayDateContentItem">
                     <span class="name">日期：</span>
@@ -366,7 +366,7 @@
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">审批人：</span>
-                  <span class="line"></span>
+                  <!-- <span class="line"></span> -->
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">日期：</span>
