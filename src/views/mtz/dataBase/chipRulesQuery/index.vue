@@ -112,6 +112,10 @@ export default {
       selectedData: []
     }
   },
+  created(){
+    let ruleNo = this.$route.query.makeSource || ''
+    this.$set(this.searchForm,'ruleNo',ruleNo)
+  },
   mounted() {
     this.getList()
     queryDeptSectionForRule({}).then((res) => {
