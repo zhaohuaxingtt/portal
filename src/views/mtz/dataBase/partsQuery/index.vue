@@ -136,8 +136,8 @@
                      :inactive-text="language('ZHIKANZIJI','只看自己')" />
         </div>
         <div>
-          <iButton @click="handleExportCurrent"
-                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton>
+          <!-- <iButton @click="handleExportCurrent"
+                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton> -->
           <iButton @click="handleSeePartsRelationship"
                    v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX">查看一/二次件零件关系</iButton>
           <uploadButton ref="uploadButton"

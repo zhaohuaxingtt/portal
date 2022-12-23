@@ -44,6 +44,7 @@
     </i-search>
     <iCard class="OrganizationTable">
       <div class="export">
+        <iButton @click="handleExportCurrent" v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton>
         <uploadButton
           ref="uploadButton"
           v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
@@ -114,7 +115,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { partsRelationship, partsRelationshipTableSetting } from './data'
 import Detail from './partsRelationshipDetail'
-import { infoPage, uploadPartExcel } from '@/api/mtz/database/partsQuery'
+import { infoPage, uploadPartExcel, feignDownload } from '@/api/mtz/database/partsQuery'
 import { downloadUdFile } from '@/api/file'
 import uploadButton from '@/components/uploadButton'
 import buttonTableSetting from '@/components/buttonTableSetting'
@@ -154,6 +155,13 @@ export default {
     this.getList()
   },
   methods: {
+    handleExportCurrent () {
+      feignDownload('1491338755962384386').then(res => {
+        if (res.data) {
+          downloadUdFile(res.data)
+        }
+      })
+    },
     handleUpload(content) {
       let formdata = new FormData()
       formdata.append('file', content.file)
