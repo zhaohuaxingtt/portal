@@ -469,7 +469,7 @@ export default {
       handler(val) {
         this.$set(this, 'formData', val.chipAppBase || {})
         this.$set(this, 'ruleTableListData', val.chipDetailList || [])
-        this.applayDateData = [...val.approveList,...val.approveList,...val.approveList,...val.approveList,...val.approveList,...val.approveList,...val.approveList,]
+        this.applayDateData = val.approveList
         this.$nextTick(() => {
           this.computedRuleTableHeight()
         })
