@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-12-21 16:13:18
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2022-12-23 19:27:20
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: mtz
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signExport.vue
 -->
 <template>
   <div style="padding-bottom: 30px; position: relative">
@@ -168,7 +168,6 @@
             </div>
             <div class="applayDateContentItem">
               <span class="name">审批人：</span>
-              <span class="line"></span>
             </div>
             <div class="applayDateContentItem">
               <span class="name">日期：</span>
@@ -217,7 +216,6 @@
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">审批人：</span>
-                  <span class="line"></span>
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">日期：</span>
@@ -455,7 +453,6 @@
                   </div>
                   <div class="applayDateContentItem">
                     <span class="name">审批人：</span>
-                    <span class="line"></span>
                   </div>
                   <div class="applayDateContentItem">
                     <span class="name">日期：</span>
@@ -500,7 +497,6 @@
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">审批人：</span>
-                  <span class="line"></span>
                 </div>
                 <div class="applayDateContentItem">
                   <span class="name">日期：</span>
