@@ -371,10 +371,10 @@ export default {
     findByIdOfCostBook(){
       if(this.tmSupplierId&&this.contractForm.partNum){
         let params={
-          type: 2, // 1 批量， 2 配附件
+          type: 1, // 1 批量， 2 配附件
           partNum: this.contractForm.partNum,
           tmSupplierId: this.tmSupplierId,
-          partType:this.partType || 'P',
+          partType: 'P',
         }
         findByIdOfCostBook(params).then(res=>{
           if(res?.data){ // 错误时code也返回了200，所以用data来判断，查询到结果则替换货币，查询不到则不做处理
