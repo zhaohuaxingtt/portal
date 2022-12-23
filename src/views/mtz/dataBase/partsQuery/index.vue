@@ -156,11 +156,11 @@
           />
         </div>
         <div>
-          <iButton
+          <!-- <iButton
             @click="handleExportCurrent"
             v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB"
             >下载模板</iButton
-          >
+          > -->
           <iButton
             @click="handleSeePartsRelationship"
             v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX"

@@ -1,0 +1,78 @@
+// 查看一二次零件部分form表单
+export const partsRelationship = [
+  // { props: 'partNum', name: 'SAP零件号', key: 'SAPLINGJIANHAO' },
+  { props: 'partNameZh', name: '零件名(中)', key: 'LK_LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名(德)', key: 'LK_LINGJIANMINGDE' },
+  { props: 'carType', name: '车  型', key: 'CHEXING' }
+]
+
+// 查看一二次零件表头
+export const partsRelationshipTableSetting = [
+  { type: 'selection', width: 50 },
+  { type: 'index', label: '#', i18n: '#', width: 50 },
+  {
+    prop: 'partNum',
+    label: 'SAP零件号',
+    i18n: 'SAPLINGJIANHAO',
+    tooltip: true,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return <pre class="open-link-text">{scope.row.partNum}</pre>
+    }
+  },
+  {
+    prop: 'partNameZh',
+    label: '零件名（中）',
+    i18n: 'LK_LINGJIANMINGZHONG',
+    tooltip: true
+  },
+  {
+    prop: 'partNameDe',
+    label: '零件名（德）',
+    tooltip: true,
+    i18n: 'LK_LINGJIANMINGDE'
+  },
+  { prop: 'carType', label: '车型', tooltip: true, i18n: 'CHEXING' },
+  {
+    prop: 'importDate',
+    label: '导入时间',
+    tooltip: true,
+    i18n: 'DAORUSHIJIAN'
+  },
+  {
+    prop: 'startDate',
+    label: '开始时间',
+    tooltip: true,
+    i18n: 'KAISHISHIJIAN'
+  },
+  { prop: 'version', label: '版本', tooltip: true, i18n: 'BANBEN' }
+]
+
+//  查看一二次零件详情
+export const partsRelationshipDetailTableSetting = [
+  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO', tooltip: true },
+  {
+    props: 'partNameZh',
+    name: '零件名（中）',
+    key: 'LK_LINGJIANMINGZHONG',
+    tooltip: true
+  },
+  {
+    props: 'partNameDe',
+    name: '零件名（德）',
+    tooltip: true,
+    key: 'LK_LINGJIANMINGDE'
+  },
+  { props: 'lcOrCkd', name: 'Bezug类型', key: 'BEZUGLEIXING', tooltip: true },
+  { props: 'dosage', name: '用量', tooltip: true, key: 'YONGLIANG' }
+]
+
+// 查看一二次零件-sap号详情
+export const partsRelationshipDetailFormData = [
+  { props: 'partNum', name: '总成编号' },
+  { props: 'partNameZh', name: '零件名(中)' },
+  { props: 'partNameDe', name: '零件名(德)' },
+  // { props: 'carType', name: '车型' },
+  { props: 'startDate', name: '开始时间' },
+  { props: 'importDate', name: '导入时间' }
+]
