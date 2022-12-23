@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 14:51:25
- * @LastEditTime: 2022-12-19 18:14:00
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2022-12-23 18:23:17
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 公共步骤条封装
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\commonFlow.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationPoint\components\overflow.vue
 -->
 <template>
   <div>
@@ -316,7 +316,8 @@ export default {
     saveEdit() {
       const params = {
         chipDetailList: this.baseData.chipDetailList,
-        chipAppBase: this.formInfo
+        chipAppBase: this.formInfo,
+        approveList:[]
       }
       updateApp(params).then((res) => {
         iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
