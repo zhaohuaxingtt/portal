@@ -4,7 +4,7 @@
  * @Descripttion: your project
 -->
 <template>
-  <div>
+  <div class="cell">
     <commonPkpiTable :tableData="tableListData" :tableTitle="tableTitle" :inputProps="['description','result']" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange">
     </commonPkpiTable>
   </div>
@@ -69,8 +69,10 @@ export default {
 };
 </script>
 
-<style >
-.el-table .el-table__row .el-input {
+<style lang="scss" scoped>
+.cell{
+  ::v-deep .el-table .el-table__row .el-input {
   width: 120px !important;
+}
 }
 </style>

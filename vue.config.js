@@ -272,7 +272,7 @@ module.exports = {
       },
       [process.env.VUE_APP_MTZ]: {
         target: `${BASE_IP}/mtz/`,
-        // target: `http://${BASE_IP}:8046/mtz`,
+        // target: `http://192.168.50.172:8080/mtz`,
         // target: `http://rise-gateway-runtime.apps.vmocp-uat.csvw.com/mtz/`,
         changeOrigin: true,
         pathRewrite: {
@@ -387,7 +387,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BKM]: ''
         }
-      }
+      },
+      // 零件台账
+      [process.env.VUE_APP_PRICELEDGER]: {
+        target: `${BASE_IP}/priceledger`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_PRICELEDGER]: '',
+        },
+      },
     }
   }
 }

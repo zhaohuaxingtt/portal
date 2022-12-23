@@ -4,7 +4,7 @@
  * @Description:财务
  -->
 <template>
-  <div>
+  <div class="finance">
     <!-- 盈利能力 -->
     <iCard :title="$t('SPR_FRM_DEP_YLNL')"
            collapse
@@ -232,16 +232,16 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="scss" scoped>
+.finance{
+  ::v-deep .el-table .el-table__row .el-input {
+    width: 100px !important;
+  }
+}
 .title {
   font-weight: bold;
   font-size: 18px;
   color: $color-black;
   margin: 20px 0;
-}
-</style>
-<style lang="scss">
-.el-table .el-table__row .el-input {
-  width: 100px !important;
 }
 </style>

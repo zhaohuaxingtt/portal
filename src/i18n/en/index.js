@@ -11,6 +11,7 @@ import questionnaire from './questionnaire'
 import terms from './terms'
 import meeting from './meeting'
 import supplier from './supplier'
+import chip from './chip'
 export default {
   ...online,
   ...mainData,
@@ -25,5 +26,6 @@ export default {
   ...questionnaire,
   ...terms,
   ...meeting,
-  ...supplier
+  ...supplier,
+  ...chip
 }

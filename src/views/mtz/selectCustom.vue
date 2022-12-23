@@ -1,60 +1,74 @@
 <template>
   <div class="custom-select">
-    <el-popover placement="bottom"
-                trigger="click"
-                @show="handleShow"
-                @hide="handleHide"
-                :popper-class="`${popoverClass} custom-select-popover`"
-                :disabled="disabled"
-                ref="selectPopover">
-      <div class="search-wrapper"
-           v-if="typeof searchMethod === 'function'">
-        <el-input v-model="query"
-                  placeholder="开始搜索吧..."
-                  @input="handleInputChange"
-                  ref="searchInput"></el-input>
+    <el-popover
+      placement="bottom"
+      trigger="click"
+      @show="handleShow"
+      @hide="handleHide"
+      :popper-class="`${popoverClass} custom-select-popover`"
+      :disabled="disabled"
+      ref="selectPopover"
+    >
+      <div class="search-wrapper" v-if="typeof searchMethod === 'function'">
+        <el-input
+          v-model="query"
+          placeholder="开始搜索吧..."
+          @input="handleInputChange"
+          ref="searchInput"
+        ></el-input>
       </div>
-      <div class="btns-wrapper"
-           v-if="multiple">
+      <div class="btns-wrapper" v-if="multiple">
         <el-button-group>
-          <el-button @click="handleSelect(true)"
-                     :disabled="multiple && multipleLimit">全选</el-button>
-          <el-button @click="handleSelect(false)">
-            全不选
-          </el-button>
+          <el-button
+            @click="handleSelect(true)"
+            :disabled="multiple && multipleLimit"
+            >全选</el-button
+          >
+          <el-button @click="handleSelect(false)"> 全不选 </el-button>
         </el-button-group>
       </div>
       <div :class="`${popoverClass} list-container`">
-        <div class="selected-container"
-             v-if="selectedData.length">
+        <div class="selected-container" v-if="selectedData.length">
           <div class="title">已选择</div>
-          <div v-for="(item, index) in selectedData"
-               :key="index"
-               @click="handleSelectItem(item)"
-               class="selected">
+          <div
+            v-for="(item, index) in selectedData"
+            :key="index"
+            @click="handleSelectItem(item)"
+            class="selected"
+          >
             <div>
-              {{ secordLabel?item[label] +'/'+item[secordLabel]:item[label]}}
+              {{
+                secordLabel
+                  ? item[label] + '/' + item[secordLabel]
+                  : item[label]
+              }}
             </div>
             <i class="el-icon-check"></i>
           </div>
           <el-divider></el-divider>
         </div>
         <div class="origin-container">
-          <div class="loading"
-               v-if="loading">
+          <div class="loading" v-if="loading">
             <i class="el-icon-loading"></i>
           </div>
           <div v-else>
-            <div v-for="(item, index) in originData"
-                 :key="index"
-                 @click="handleSelectItem(item)"
-                 :class="{
+            <div
+              v-for="(item, index) in originData"
+              :key="index"
+              @click="handleSelectItem(item)"
+              :class="{
                 disabled:
                   multiple && multipleLimit
-                    ? selectedData.length === multipleLimit || selectedData.length > multipleLimit
+                    ? selectedData.length === multipleLimit ||
+                      selectedData.length > multipleLimit
                     : false
-              }">
-              {{ secordLabel?item[label] +'/'+item[secordLabel]:item[label]}}
+              }"
+            >
+              {{
+                secordLabel
+                  ? item[label] + '/' + item[secordLabel]
+                  : item[label]
+              }}
             </div>
           </div>
         </div>
@@ -67,32 +81,40 @@
                 placeholder="请选择"
                 :title="inputData"
                 ref="selectInput"></el-input> -->
-      <div :class="`${inputClass} custom-select-input custom-width`"
-           slot="reference">
-        <el-input :disabled="disabled"
-                  v-if="multiple"
-                  :readonly="true"
-                  placeholder="请选择"
-                  :title="inputData"
-                  ref="selectInput"
-                  @focus="handleFocus">
+      <div
+        :class="`${inputClass} custom-select-input custom-width`"
+        slot="reference"
+      >
+        <el-input
+          :disabled="disabled"
+          v-if="multiple"
+          :readonly="true"
+          placeholder="请选择"
+          :title="inputData"
+          ref="selectInput"
+          @focus="handleFocus"
+        >
         </el-input>
-        <el-input :disabled="disabled"
-                  v-else
-                  v-model="inputData"
-                  :readonly="true"
-                  placeholder="请选择"
-                  :title="inputData"
-                  ref="selectInput"
-                  @focus="handleFocus">
+        <el-input
+          :disabled="disabled"
+          v-else
+          v-model="inputData"
+          :readonly="true"
+          placeholder="请选择"
+          :title="inputData"
+          ref="selectInput"
+          @focus="handleFocus"
+        >
         </el-input>
         <div class="inputClass">
-          <el-tag v-for="(x) in selectedData"
-                  :key="x.key"
-                  type="info"
-                  closable
-                  @close="deleteTag(x)"
-                  disable-transitions>
+          <el-tag
+            v-for="x in selectedData"
+            :key="x.key"
+            type="info"
+            closable
+            @close="deleteTag(x)"
+            disable-transitions
+          >
             <p class="el-select__tags-text">{{ x[label] }}</p>
             <p class="el-select__tags-text">{{ x.value }}</p>
           </el-tag>
@@ -103,7 +125,6 @@
                  @click.stop="handleDelete(index)"></i></p>
           </span> -->
         </div>
-
       </div>
     </el-popover>
   </div>
@@ -181,7 +202,7 @@ export default {
     prop: 'values',
     event: 'change'
   },
-  data () {
+  data() {
     return {
       visable: false,
       inputData: '',
@@ -194,106 +215,117 @@ export default {
   },
   watch: {
     data: {
-      handler (newValue) {
+      handler(newValue) {
         this.loading = !(newValue instanceof Array)
         let originData = _.cloneDeep(newValue)
         this.originData = originData
         if (this.selectedData.length) {
-          const codes = this.selectedData.map(sd => {
+          const codes = this.selectedData.map((sd) => {
             return sd[this.value].toString()
           })
-          originData = originData.filter(od => {
+          originData = originData.filter((od) => {
             return !codes.includes(od[this.value].toString())
           })
           this.originData = originData
-          console.log(this.originData, "666")
-          console.log(codes, "666")
+          console.log(this.originData, '666')
+          console.log(codes, '666')
         }
       },
       immediate: true
     },
     values: {
       immediate: true,
-      handler (newValue) {
+      handler(newValue) {
         console.log(newValue)
         this.inputData =
           newValue instanceof Array
             ? newValue
-              .map(d => {
-                return d[this.label]
-              })
-              .join(',')
+                .map((d) => {
+                  return d[this.label]
+                })
+                .join(',')
             : newValue && newValue[this.label]
-        this.selectedData = newValue instanceof Array ? newValue : newValue[this.value] ? [newValue] : []
+        this.selectedData =
+          newValue instanceof Array
+            ? newValue
+            : newValue[this.value]
+            ? [newValue]
+            : []
       }
     }
   },
-  mounted () {
+  mounted() {
     const values = _.cloneDeep(this.values)
-    this.selectedData = values instanceof Array ? values : values[this.value] ? [values] : []
-    this.selectedData.forEach(item => {
+    this.selectedData =
+      values instanceof Array ? values : values[this.value] ? [values] : []
+    this.selectedData.forEach((item) => {
       this.$set(item, 'selected', true)
     })
   },
   methods: {
-    handleInputChange (val) {
+    handleInputChange(val) {
       this.query = val
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         typeof this.searchMethod === 'function' ? this.searchMethod(val) : ''
       }, 200)
     },
-    handleHide () {
+    handleHide() {
       this.query = ''
       typeof this.searchMethod === 'function' ? this.searchMethod('') : ''
       this.loading = false
     },
-    handleShow () {
+    handleShow() {
       let data = _.cloneDeep(this.data)
       const values = _.cloneDeep(this.values)
-      this.selectedData = values instanceof Array ? values : values && values[this.value] ? [values] : []
+      this.selectedData =
+        values instanceof Array
+          ? values
+          : values && values[this.value]
+          ? [values]
+          : []
       console.log(this.selectedData)
-      this.selectedData.forEach(item => {
+      this.selectedData.forEach((item) => {
         this.$set(item, 'selected', true)
       })
       if (this.selectedData.length) {
-        const codes = this.selectedData.map(sd => {
+        const codes = this.selectedData.map((sd) => {
           return sd[this.value].toString()
         })
-        data = data.filter(od => {
+        data = data.filter((od) => {
           return !codes.includes(od[this.value].toString())
         })
         this.originData = _.cloneDeep(data)
-
       }
       this.$nextTick(() => {
         this.$refs['searchInput']?.focus()
       })
     },
-    handleSelect (flag) {
+    handleSelect(flag) {
       const array = _.cloneDeep(this.data)
       this.originData = flag ? [] : _.cloneDeep(this.data)
-      array.forEach(item => {
+      array.forEach((item) => {
         item.selected = flag
       })
       this.selectedData = flag ? array : []
       this.inputData = this.selectedData
-        .map(d => {
+        .map((d) => {
           return d[this.label]
         })
         .join(',')
       this.$emit('change', this.selectedData)
     },
-    handleSelectItem (item) {
+    handleSelectItem(item) {
       if (
         this.multiple &&
         this.multipleLimit &&
-        (this.selectedData.length === this.multipleLimit || this.selectedData.length > this.multipleLimit) &&
+        (this.selectedData.length === this.multipleLimit ||
+          this.selectedData.length > this.multipleLimit) &&
         !item.selected
       ) {
         return
       }
-      const dataCodes = this.data.map(i => {
+      const dataCodes = this.data.map((i) => {
         return i[this.value]
       })
       let selectedData = _.cloneDeep(this.selectedData)
@@ -303,11 +335,11 @@ export default {
         !this.multiple ? (selectedData = []) : ''
         originData = this.multiple ? originData : _.cloneDeep(this.data)
         selectedData.push(item)
-        originData = originData.filter(d => {
+        originData = originData.filter((d) => {
           return d[this.value] !== item[this.value]
         })
       } else {
-        selectedData = selectedData.filter(d => {
+        selectedData = selectedData.filter((d) => {
           return d[this.value] !== item[this.value]
         })
         const index = dataCodes.indexOf(item[this.value])
@@ -326,23 +358,27 @@ export default {
         this.selectedData.length === 1
           ? this.selectedData[0][this.label]
           : this.selectedData
-            .map(d => {
-              return d[this.label]
-            })
-            .join(',')
-      this.$emit('change', this.multiple ? this.selectedData : this.selectedData[0])
+              .map((d) => {
+                return d[this.label]
+              })
+              .join(',')
+      this.$emit(
+        'change',
+        this.multiple ? this.selectedData : this.selectedData[0]
+      )
       !this.multiple ? this.$refs['selectPopover'].doClose() : ''
     },
-    deleteTag (x) {
+    deleteTag(x) {
       if (
         this.multiple &&
         this.multipleLimit &&
-        (this.selectedData.length === this.multipleLimit || this.selectedData.length > this.multipleLimit) &&
+        (this.selectedData.length === this.multipleLimit ||
+          this.selectedData.length > this.multipleLimit) &&
         !x.selected
       ) {
         return
       }
-      const dataCodes = this.data.map(i => {
+      const dataCodes = this.data.map((i) => {
         return i[this.value]
       })
       let selectedData = _.cloneDeep(this.selectedData)
@@ -351,10 +387,10 @@ export default {
       !this.multiple ? (selectedData = []) : ''
       originData = this.multiple ? originData : _.cloneDeep(this.data)
       selectedData.push(x)
-      originData = originData.filter(d => {
+      originData = originData.filter((d) => {
         return d[this.value] !== x[this.value]
       })
-      selectedData = selectedData.filter(d => {
+      selectedData = selectedData.filter((d) => {
         return d[this.value] !== x[this.value]
       })
       const index = dataCodes.indexOf(x[this.value])
@@ -369,7 +405,10 @@ export default {
       //         return d[this.label]
       //       })
       //       .join(',')
-      this.$emit('change', this.multiple ? this.selectedData : this.selectedData[0])
+      this.$emit(
+        'change',
+        this.multiple ? this.selectedData : this.selectedData[0]
+      )
       !this.multiple ? this.$refs['selectPopover'].doClose() : ''
     }
   }
