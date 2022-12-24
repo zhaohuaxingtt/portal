@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2022-12-24 12:03:52
+ * @LastEditTime: 2022-12-24 20:16:07
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationChange\ChipApplicationForm\components\enclosureList.vue
@@ -13,7 +13,8 @@
         {{ language('SHENPIFUJIAN', '审批附件') }}
       </span>
       <div>
-        <iButton @click="handleClickDel" :loading="btnLoading" v-if="canEdit">{{
+        <iButton @click="handleClickDel" :loading="btnLoading" v-if="canEdit"
+          v-permission="PORTAL_CHIP_CHANGE_DETAIL_SHANCHUSHENPIFUJIAN">{{
           language('SHANCHU', '删除')
         }}</iButton>
         <uploadButton
