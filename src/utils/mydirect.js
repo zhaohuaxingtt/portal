@@ -1,10 +1,10 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2022-03-17 11:51:22
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-24 13:34:41
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 自定义指令文件。
- * @FilePath: \front-portal-new\src\utils\mydirect.js
+ * @FilePath: \front-portal\src\utils\mydirect.js
  */
 
 import store from '../store'
@@ -27,7 +27,6 @@ Vue.directive('permission', {
     }
   },
   inserted: function (el, binding, Nodes) {
-    return
     //如果是个变量则使用变量，否则当做字符串处理
 
     var proValue = ''
