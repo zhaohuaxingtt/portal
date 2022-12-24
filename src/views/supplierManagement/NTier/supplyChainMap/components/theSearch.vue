@@ -182,6 +182,7 @@ export default {
       });
     },
     handlePartSearch (val) {
+      console.log(val);
       this.formGoup.partList = this.formGoupCopy.partList.filter(item => {
         return item.partNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
@@ -259,7 +260,11 @@ export default {
     },
     getCityInfo () {
       var that = this;
+
+      var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
+      var enRule = /^[a-zA-Z]+$/;//英文
       return new Promise((resolve, reject) => {
+        console.log(that.$i18n.locale);
         getCityInfo().then(res=>{
           if(res?.result){
             let areaList = []
@@ -267,19 +272,23 @@ export default {
             res.data.map((item) => {
               if (item.locationType === 'Nation') {
                 if(that.$i18n.locale === "zh"){
-                  areaList.push({
-                    value: item.cityNameCn,
-                    label: item.cityNameCn,
-                    cityId: item.cityId,
-                    children: []
-                  })
+                  if(zhRule.test(item.cityNameCn)){
+                    areaList.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameCn,
+                      cityId: item.cityId,
+                      children: []
+                    })
+                  }
                 }else{
-                  areaList.push({
-                    value: item.cityNameCn,
-                    label: item.cityNameEn,
-                    cityId: item.cityId,
-                    children: []
-                  })
+                  if(enRule.test(item.cityNameEn)){
+                    areaList.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameEn,
+                      cityId: item.cityId,
+                      children: []
+                    })
+                  }
                 }
               }
             })
@@ -291,21 +300,25 @@ export default {
                   item.parentCityId === val.cityId
                 ) {
                   if(that.$i18n.locale === "zh"){
-                    areaList[index].children.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameCn,
-                      cityId: item.cityId,
-                      parentCityId: item.parentCityId,
-                      children: []
-                    })
+                    if(zhRule.test(item.cityNameCn)){
+                      areaList[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameCn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId,
+                        children: []
+                      })
+                    }
                   }else{
-                    areaList[index].children.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameEn,
-                      cityId: item.cityId,
-                      parentCityId: item.parentCityId,
-                      children: []
-                    })
+                    if(enRule.test(item.cityNameEn)){
+                      areaList[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameEn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId,
+                        children: []
+                      })
+                    }
                   }
                 }
               })
@@ -316,25 +329,30 @@ export default {
                 val.children.forEach((i, index) => {
                   if (item.locationType === 'City' && item.parentCityId === i.cityId) {
                     if(that.$i18n.locale === "zh"){
-                      areaList[j].children[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameCn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId
-                      })
+                      if(zhRule.test(item.cityNameCn)){
+                        areaList[j].children[index].children.push({
+                          value: item.cityNameCn,
+                          label: item.cityNameCn,
+                          cityId: item.cityId,
+                          parentCityId: item.parentCityId
+                        })
+                      }
                     }else{
-                      areaList[j].children[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameEn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId
-                      })
+                      if(enRule.test(item.cityNameEn)){
+                        areaList[j].children[index].children.push({
+                          value: item.cityNameCn,
+                          label: item.cityNameEn,
+                          cityId: item.cityId,
+                          parentCityId: item.parentCityId
+                        })
+                      }
                     }
                   }
                 })
               })
             })
             // 删除空数组
+            console.log(areaList)
             areaList.map((item) => {
               if (item.children.length) {
                 item.children.map((val) => {
@@ -349,7 +367,7 @@ export default {
             areaList.map((item) => {
               return item.children && item.children
             })
-            // console.log(areaList)
+            console.log(areaList)
             resolve(areaList)
           }
         }).catch(res=>{
@@ -390,9 +408,18 @@ export default {
             res3 = await listSelectSupplier(this.form)
             this.formGoup.supplierList = res3.data
             this.formGoupCopy.supplierList = res3.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
             break;
           case 'categoryCodeList':
             res1 = await listSelectCarModel(this.form)
@@ -401,9 +428,18 @@ export default {
             res3 = await listSelectSupplier(this.form)
             this.formGoup.supplierList = res3.data
             this.formGoupCopy.supplierList = res3.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
             break;
           case 'supplierIdList':
             res1 = await listSelectCarModel(this.form)
@@ -412,9 +448,18 @@ export default {
             res2 = await listSelectCategory(this.form)
             this.formGoup.categoryList = res2.data
             this.formGoupCopy.categoryList = res2.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
             break;
           case 'partNumList':
             res1 = await listSelectCarModel(this.form)
@@ -438,9 +483,21 @@ export default {
             res3 = await listSelectSupplier(this.form)
             this.formGoup.supplierList = res3.data
             this.formGoupCopy.supplierList = res3.data
-            res4 = await listSelectPart(this.form)
-            this.formGoup.partList = res4.data
-            this.formGoupCopy.partList = res4.data
+
+            var list4 = [];
+            listSelectPart(this.form).then(res4=>{
+              res4.data.forEach(e=>{
+                e.partNameCn = e.partNameCn + "-" + e.partNum
+                e.partNameDe = e.partNameDe + "-" + e.partNum
+              })
+              list4 = res4.data
+              console.log(list4)
+            }).then(red=>{
+              this.formGoup.partList = list4
+              this.formGoupCopy.partList = list4
+            })
+            // res4 = await listSelectPart(this.form)
+            // console.log(res4)
             break;
         }
       } catch (error) {

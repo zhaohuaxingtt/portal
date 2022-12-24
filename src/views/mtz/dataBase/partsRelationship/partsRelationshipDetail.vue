@@ -44,7 +44,7 @@ import {
   iButton,
   iPagination
 } from 'rise'
-import { tableSetting,partsRelationshipDetailFormData,partsRelationshipDetailTableSetting } from './data'
+import { partsRelationshipDetailFormData,partsRelationshipDetailTableSetting } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import {partPageByBomInfoId,partExportByBomInfoId} from '@/api/mtz/database/partsQuery'
 import tableList from '@/components/commonTable';
@@ -67,7 +67,6 @@ export default {
     data(){
       return {
         value:"",
-        tableSetting,
         searchForm:[],
         partsRelationshipDetailFormData,
         partsRelationshipDetailTableSetting,

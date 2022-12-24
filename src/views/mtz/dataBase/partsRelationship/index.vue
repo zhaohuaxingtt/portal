@@ -11,6 +11,15 @@
             v-model="formData.partNum"
           ></iMultiLineInput>
         </el-form-item>
+        <!-- <el-form-item
+          :label="language('二次件零件号', '二次件零件号')"
+          class="SearchOption"
+        >
+          <iMultiLineInput
+            :title="language('二次件零件号', '二次件零件号')"
+            v-model="formData.piecePartnum"
+          ></iMultiLineInput>
+        </el-form-item> -->
         <el-form-item
           v-for="(x, index) in partsRelationship"
           :key="index"

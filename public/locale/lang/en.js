@@ -2421,6 +2421,8 @@
     "发布日期":"Release Date",
     "设置供应商":"Set Supplier",
     "请选择需删除的内容":"Please select the content to be deleted",
+    "添加舆情供应商":"Add public opinion supplier",
+    "请填写完以下信息":"Please complete the following information",
   }
   i18n.setLocaleMessage('en', oldLanguage)
 })

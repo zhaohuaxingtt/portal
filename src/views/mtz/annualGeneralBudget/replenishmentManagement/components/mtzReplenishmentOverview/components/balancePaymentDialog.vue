@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-17 14:42:18
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-06 14:59:24
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -678,7 +678,8 @@ export default {
     handleChange (val) {
       console.log(val)
       this.searchForm.compTimeStart = val[0]
-      this.searchForm.compTimeEnd = val[1]
+      // 结束时间选择当月最后一天
+      this.searchForm.compTimeEnd = window.moment(val[1]).endOf('month').format('YYYY-MM-DD')
     },
     handleChangeDate (val) {
       console.log(val)

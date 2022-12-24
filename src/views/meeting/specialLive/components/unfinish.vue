@@ -82,7 +82,7 @@
         prop="topic"
         align="center"
         label="Present Items"
-        :width="setColumnWidth(tabData)"
+        :min-width="setColumnWidth(tableData)"
       >
         <!-- min-width="223" -->
         <template slot-scope="scope">
@@ -109,7 +109,7 @@
         prop="tnr"
       >
       </el-table-column>
-      <el-table-column align="center" width="30"></el-table-column>
+      <!-- <el-table-column align="center" width="30"></el-table-column> -->
       <!-- <el-table-column
         show-overflow-tooltip
         align="center"

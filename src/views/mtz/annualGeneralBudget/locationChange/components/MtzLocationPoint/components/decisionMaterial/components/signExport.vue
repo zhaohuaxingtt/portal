@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2022-12-19 22:00:11
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2022-12-24 13:02:58
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: mtz
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signExport.vue
 -->
 <template>
   <div style="padding-bottom: 30px; position: relative">
@@ -163,16 +163,15 @@
             :key="index"
           >
             <div class="applayDateContentItem first_one">
-              <span>部门：</span>
-              <span class="applayDateDeptTitle">{{ item.deptFullCode }}</span>
+              <span class="name">部门：</span>
+              <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
             </div>
             <div class="applayDateContentItem">
-              <span>审批人：</span>
-              <span>{{ item.nameZh }}</span>
+              <span class="name">审批人：</span>
             </div>
             <div class="applayDateContentItem">
-              <span>日期：</span>
-              <span>{{ item.endTime }}</span>
+              <span class="name">日期：</span>
+              <span class="line"></span>
             </div>
           </div>
         </div>
@@ -212,18 +211,15 @@
                 :key="index"
               >
                 <div class="applayDateContentItem first_one">
-                  <span>部门：</span>
-                  <span class="applayDateDeptTitle">{{
-                    item.deptFullCode
-                  }}</span>
+                  <span class="name">部门：</span>
+                  <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>审批人：</span>
-                  <span>{{ item.nameZh }}</span>
+                  <span class="name">审批人：</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>日期：</span>
-                  <span>{{ item.endTime }}</span>
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
                 </div>
               </div>
             </div>
@@ -452,18 +448,15 @@
                   :key="index"
                 >
                   <div class="applayDateContentItem first_one">
-                    <span>部门：</span>
-                    <span class="applayDateDeptTitle">{{
-                      item.deptFullCode
-                    }}</span>
+                    <span class="name">部门：</span>
+                    <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                   </div>
                   <div class="applayDateContentItem">
-                    <span>审批人：</span>
-                    <span>{{ item.nameZh }}</span>
+                    <span class="name">审批人：</span>
                   </div>
                   <div class="applayDateContentItem">
-                    <span>日期：</span>
-                    <span>{{ item.endTime }}</span>
+                    <span class="name">日期：</span>
+                    <span class="line"></span>
                   </div>
                 </div>
               </div>
@@ -499,18 +492,15 @@
                 :key="index"
               >
                 <div class="applayDateContentItem first_one">
-                  <span>部门：</span>
-                  <span class="applayDateDeptTitle">{{
-                    item.deptFullCode
-                  }}</span>
+                  <span class="name">部门：</span>
+                  <span class="applayDateDeptTitle">{{ item.approvalDepartment }}</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>审批人：</span>
-                  <span>{{ item.nameZh }}</span>
+                  <span class="name">审批人：</span>
                 </div>
                 <div class="applayDateContentItem">
-                  <span>日期：</span>
-                  <span>{{ item.endTime }}</span>
+                  <span class="name">日期：</span>
+                  <span class="line"></span>
                 </div>
               </div>
             </div>
@@ -937,7 +927,7 @@ $tabsInforHeight: 35px;
 .applayDateContentItem {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
@@ -950,7 +940,7 @@ $tabsInforHeight: 35px;
 }
 .applayDateContent {
   display: inline-block;
-  background-color: #cdd4e2;
+  // background-color: #cdd4e2;
   height: 138px;
   width: 16%;
   margin: 10px 0.3% 0;
@@ -1124,5 +1114,15 @@ $tabsInforHeight: 35px;
   ::v-deep .card {
     box-shadow: none;
   }
+}
+.name{
+  display: inline-flex;
+  width: 80px;
+  justify-content: space-between;
+}
+.line{
+  border-bottom: 1px solid black;
+  display: inline-block;
+  width: 140px;
 }
 </style>

@@ -5,7 +5,8 @@
 -->
 <template>
   <div class="cell">
-    <commonPkpiTable :tableData="tableListData" :tableTitle="tableTitle" :inputProps="['description','result']" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange" />
+    <commonPkpiTable :tableData="tableListData" :tableTitle="tableTitle" :inputProps="['description','result']" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange">
+    </commonPkpiTable>
   </div>
 </template>
 

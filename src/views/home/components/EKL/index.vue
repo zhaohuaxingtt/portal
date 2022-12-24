@@ -86,8 +86,8 @@
       </div>
       <div class="echart">
         <div class="ekl-pie" ref="pie" style="height: 240px"></div>
-        <div class="tips">
-          <div class="title" style="color: #333333">当前完成率</div>
+        <div class="tips" style="max-width:42%;">
+          <div class="title" style="color: #333333">{{$t("DANGQIANWANCHENGLV")}}</div>
           <div class="font-echarts">
             {{
               String(Number(tabsData.valEklType) / Number(tabsData.sumAll)) !=

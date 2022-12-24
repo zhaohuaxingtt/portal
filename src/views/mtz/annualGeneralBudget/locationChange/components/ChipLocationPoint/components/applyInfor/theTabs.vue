@@ -21,27 +21,28 @@
         <uploadButton
           v-if="!editType && canEdit"
           ref="uploadButtonAttachment"
+          v-permission="PORTAL_CHIP_POINT_DETAIL_DAORU"
           :buttonText="language('DAORU', '导入')"
           :uploadByBusiness="true"
           @uploadedCallback="uploaded"
           class="margin-right20"
         />
-        <iButton @click="download" v-if="!editType && canEdit">{{
+        <iButton @click="download" v-if="!editType && canEdit" v-permission="PORTAL_CHIP_POINT_DETAIL_XIAZAI">{{
           language('XIAZAIMUBAN', '下载模板')
         }}</iButton>
         <iButton @click="cancel" v-if="editType && canEdit">{{
           language('QUXIAO', '取消')
         }}</iButton>
-        <iButton @click="add" v-if="!editType && canEdit">{{
+        <iButton @click="add" v-if="!editType && canEdit" v-permission="PORTAL_CHIP_POINT_DETAIL_XINZENG">{{
           language('XINZENG', '新增')
         }}</iButton>
-        <iButton @click="edit" v-if="!editType && canEdit">{{
+        <iButton @click="edit" v-if="!editType && canEdit" v-permission="PORTAL_CHIP_POINT_DETAIL_RULE_BIANJI">{{
           language('BIANJI', '编辑')
         }}</iButton>
-        <iButton @click="continueBtn" v-if="!editType && canEdit">{{
+        <iButton @click="continueBtn" v-if="!editType && canEdit" v-permission="PORTAL_CHIP_POINT_DETAIL_YANYONG">{{
           language('YANYONG', '沿用')
         }}</iButton>
-        <iButton @click="deleteItem" v-if="!editType && canEdit">{{
+        <iButton @click="deleteItem" v-if="!editType && canEdit" v-permission="PORTAL_CHIP_POINT_DETAIL_SHANCHU">{{
           language('SHANCHU', '删除')
         }}</iButton>
         <iButton @click="save" v-if="editType && canEdit">{{
