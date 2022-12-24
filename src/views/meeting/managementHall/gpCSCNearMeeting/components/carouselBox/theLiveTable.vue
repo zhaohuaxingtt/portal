@@ -239,7 +239,10 @@ export default {
       const currentFistYearDay = `${dayjs().year()}-01-01`
       const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
       const totalDay = isLeap ? 366 : 365
-      const weekNum2 = new Date(currentFistYearDay).getDay()===0?7:new Date(currentFistYearDay).getDay()
+      const weekNum2 =
+        new Date(currentFistYearDay).getDay() === 0
+          ? 7
+          : new Date(currentFistYearDay).getDay()
       const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
       const weekNum = Math.ceil((totalDay - shouldDel) / 7)
       return weekNum
@@ -276,15 +279,19 @@ export default {
 
     // 下载附件
     downloadEnclosure(e) {
-      download({
-        fileIds: e.attachmentId,
-        filename: e.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      if (e.attachmentUrl) {
+        window.open(`${e.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: e.attachmentId,
+          filename: e.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            }
           }
-        }
-      })
+        })
+      }
     },
 
     // 生成会议纪要

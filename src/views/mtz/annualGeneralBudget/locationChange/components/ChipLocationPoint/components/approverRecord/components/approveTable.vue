@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2022-12-13 21:46:53
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2022-12-24 13:02:08
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationPoint\components\approverRecord\components\approveTable.vue
 -->
 <template>
   <iCard>
@@ -13,26 +13,26 @@
       <div v-if="!editFlag">
         <iButton
           @click="approveStream"
-          v-permission="PORTAL_MTZ_POINT_SHENPIREN_SHENPIREN"
+          v-permission="PORTAL_CHIP_POINT_SHENPIREN_SHENPILIU"
           >{{ language('SHENPILIU', '审批流') }}</iButton
         >
         <iButton
           @click="addStream"
           v-show="!flag"
-          v-permission="PORTAL_MTZ_POINT_SHENPIREN_ADD"
+          v-permission="PORTAL_CHIP_POINT_SHENPIREN_ADD"
           :disabled="disabled"
           >{{ language('XINZENG', '新增') }}</iButton
         >
         <iButton
           v-show="!flag"
           :disabled="disabled"
-          v-permission="PORTAL_MTZ_POINT_SHENPIREN_EDIT"
+          v-permission="PORTAL_CHIP_POINT_SHENPIREN_EDIT"
           @click="edit"
           >{{ language('BIANJI', '编辑') }}</iButton
         >
       </div>
       <div v-if="editFlag">
-        <iButton @click="del" v-permission="PORTAL_MTZ_POINT_SHENPIREN_DEL">{{
+        <iButton @click="del" v-permission="PORTAL_CHIP_POINT_SHENPIREN_DEL">{{
           language('SHANCHU', '删除')
         }}</iButton>
         <iButton @click="cancel">{{ language('QUXIAO', '取消') }}</iButton>

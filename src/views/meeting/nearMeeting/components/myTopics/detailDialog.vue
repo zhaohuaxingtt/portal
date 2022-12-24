@@ -1,17 +1,17 @@
 <template>
   <!--转派-->
   <iDialog
-    :title='meetingMsg.name'
+    :title="meetingMsg.name"
     :visible.sync="openDialog"
     width="30rem"
     @close="clearDiolog"
     :close-on-click-modal="false"
   >
     <div class="meeting-info">
-      <p class="meeting-desc">{{meetingMsg.meetingInfoDesc}}</p>
+      <p class="meeting-desc">{{ meetingMsg.meetingInfoDesc }}</p>
       <p class="meeting-line"></p>
       <p class="meeting-cover">
-        <img :src="meetingMsg.coverImage" alt="" srcset="">
+        <img :src="meetingMsg.coverImage" alt="" srcset="" />
       </p>
       <ul class="documents-list">
         <li
@@ -19,32 +19,34 @@
           v-for="(item, index) in documents"
           :key="item.id"
           :class="[
-            { 
-              bkg: index % 2 == 1, 
+            {
+              bkg: index % 2 == 1
             },
             'document-item'
           ]"
-          >{{item.name}}</li>
+        >
+          {{ item.name }}
+        </li>
       </ul>
     </div>
     <div class="connection-info">
-      <p class="info-title">{{$t('MT_LIANXIRENXINXI')}}</p>
+      <p class="info-title">{{ $t('MT_LIANXIRENXINXI') }}</p>
       <ul>
         <li class="info-item">
-          <span>{{$t('MT_BUMEN')}}</span>
-          <span>{{contact.dept}}</span>
+          <span>{{ $t('MT_BUMEN') }}</span>
+          <span>{{ contact.dept }}</span>
         </li>
         <li class="info-item">
-          <span>{{$t('MT_GANGWEI')}}</span>
-          <span>{{contact.office}}</span>
+          <span>{{ $t('MT_GANGWEI') }}</span>
+          <span>{{ contact.office }}</span>
         </li>
         <li class="info-item">
-          <span>{{$t('MT_DIANHUA')}}</span>
-          <span>{{contact.phone}}</span>
+          <span>{{ $t('MT_DIANHUA') }}</span>
+          <span>{{ contact.phone }}</span>
         </li>
         <li class="info-item">
-          <span>{{$t('MT_YOUXIANG')}}</span>
-          <span>{{contact.email}}</span>
+          <span>{{ $t('MT_YOUXIANG') }}</span>
+          <span>{{ contact.email }}</span>
         </li>
       </ul>
     </div>
@@ -52,73 +54,76 @@
 </template>
 
 <script>
-import { iDialog, iMessage } from "rise";
-import { findMeetingInfo } from "@/api/meeting/myMeeting";
-import { MOCK_FILE_URL } from '@/constants';
-import { getFileByIds } from "@/api/file/filedownload";
-import { download } from "@/utils/downloadUtil";
+import { iDialog, iMessage } from 'rise'
+import { findMeetingInfo } from '@/api/meeting/myMeeting'
+import { MOCK_FILE_URL } from '@/constants'
+import { getFileByIds } from '@/api/file/filedownload'
+import { download } from '@/utils/downloadUtil'
 
 export default {
   components: {
-    iDialog,
+    iDialog
   },
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number || String, default: '' },
-    approvalProcess: { type: Array },
+    approvalProcess: { type: Array }
   },
   data() {
     return {
       meetingMsg: {},
       documents: [],
-      contact: {},
-    };
+      contact: {}
+    }
   },
   mounted() {
-    let param = { id: this.id };
+    let param = { id: this.id }
     findMeetingInfo(param)
       .then((res) => {
-        this.meetingMsg = res.meetingDocument.meetingType;
-        this.documents = res.meetingDocument.documents;
-        this.contact = res.contact ? res.contact : {};
+        this.meetingMsg = res.meetingDocument.meetingType
+        this.documents = res.meetingDocument.documents
+        this.contact = res.contact ? res.contact : {}
       })
       .catch((err) => {
-        console.log("err", err);
-      });
+        console.log('err', err)
+      })
   },
   methods: {
     clearDiolog() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     // 下载附件
     downloadEnclosure(e) {
       getFileByIds([e.attachmentId]).then((data) => {
-        const { name } = data.data[0];
-        download({
-          url: MOCK_FILE_URL + e.attachmentId,
-          filename: name,
-          callback: (e) => {
-            if (!e) {
-              iMessage.error(this.$t("MT_XIAZAISHIBAI"));
+        const { name, path } = data.data[0]
+        if (path) {
+          window.open(`${path}`, '_blank')
+        } else {
+          download({
+            url: MOCK_FILE_URL + e.attachmentId,
+            filename: name,
+            callback: (e) => {
+              if (!e) {
+                iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+              }
             }
-          },
-        });
-      });
-    },
-  },
-};
+          })
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .meeting-info {
-
-  .meeting-desc{
+  .meeting-desc {
     font-size: 16px;
     color: #000000;
     letter-spacing: 0;
   }
   .meeting-line {
-    background: #DEE3ED;
+    background: #dee3ed;
     height: 1px;
     margin: 10px 0;
   }
@@ -163,7 +168,7 @@ export default {
 
   .info-item {
     line-height: 34px;
-    border-bottom: 1px solid #D8D8D8;
+    border-bottom: 1px solid #d8d8d8;
     font-size: 16px;
     color: #000000;
     letter-spacing: 0;
@@ -177,7 +182,7 @@ export default {
   font-size: 36px !important;
   line-height: 36px !important;
   font-weight: 400 !important;
-  color: #1660F1;
+  color: #1660f1;
   letter-spacing: 0;
 }
 </style>

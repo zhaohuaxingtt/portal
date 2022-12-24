@@ -62,15 +62,21 @@ export default {
     value: {
       type: Boolean
     },
+    deepCommentSupplierId:{
+      type:String,
+      default:""
+    }
   },
   data () {
     return {
       tableListData: [],
       tableTitle: uploadTitle,
       tableLoading: false,
-      deepCommentSupplierId: "",
       currentSelect: []
     };
+  },
+  created(){
+    this.getTableList();
   },
   methods: {
     handleSelectionChange (currentSelect) {
@@ -79,8 +85,7 @@ export default {
     clearDiolog () {
       this.$emit('input', false);
     },
-    getTableList (id) {
-      if (!this.deepCommentSupplierId) this.deepCommentSupplierId = id
+    getTableList () {
       let data = {
         deepCommentSupplierId: this.deepCommentSupplierId,
         pageNo: this.page.currPage,

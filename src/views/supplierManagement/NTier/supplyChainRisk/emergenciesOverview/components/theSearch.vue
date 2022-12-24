@@ -126,6 +126,9 @@ export default {
     },
     getCityInfo () {
       var that = this;
+
+      var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
+      var enRule = /^[a-zA-Z]+$/;//英文
       return new Promise((resolve, reject) => {
         console.log(that.$i18n.locale);
         getCityInfo().then(res=>{
@@ -135,19 +138,23 @@ export default {
             res.data.map((item) => {
               if (item.locationType === 'Nation') {
                 if(that.$i18n.locale === "zh"){
-                  areaList.push({
-                    value: item.cityNameCn,
-                    label: item.cityNameCn,
-                    cityId: item.cityId,
-                    children: []
-                  })
+                  if(zhRule.test(item.cityNameCn)){
+                    areaList.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameCn,
+                      cityId: item.cityId,
+                      children: []
+                    })
+                  }
                 }else{
-                  areaList.push({
-                    value: item.cityNameCn,
-                    label: item.cityNameEn,
-                    cityId: item.cityId,
-                    children: []
-                  })
+                  if(enRule.test(item.cityNameEn)){
+                    areaList.push({
+                      value: item.cityNameCn,
+                      label: item.cityNameEn,
+                      cityId: item.cityId,
+                      children: []
+                    })
+                  }
                 }
               }
             })
@@ -159,21 +166,25 @@ export default {
                   item.parentCityId === val.cityId
                 ) {
                   if(that.$i18n.locale === "zh"){
-                    areaList[index].children.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameCn,
-                      cityId: item.cityId,
-                      parentCityId: item.parentCityId,
-                      children: []
-                    })
+                    if(zhRule.test(item.cityNameCn)){
+                      areaList[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameCn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId,
+                        children: []
+                      })
+                    }
                   }else{
-                    areaList[index].children.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameEn,
-                      cityId: item.cityId,
-                      parentCityId: item.parentCityId,
-                      children: []
-                    })
+                    if(enRule.test(item.cityNameEn)){
+                      areaList[index].children.push({
+                        value: item.cityNameCn,
+                        label: item.cityNameEn,
+                        cityId: item.cityId,
+                        parentCityId: item.parentCityId,
+                        children: []
+                      })
+                    }
                   }
                 }
               })
@@ -184,25 +195,30 @@ export default {
                 val.children.forEach((i, index) => {
                   if (item.locationType === 'City' && item.parentCityId === i.cityId) {
                     if(that.$i18n.locale === "zh"){
-                      areaList[j].children[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameCn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId
-                      })
+                      if(zhRule.test(item.cityNameCn)){
+                        areaList[j].children[index].children.push({
+                          value: item.cityNameCn,
+                          label: item.cityNameCn,
+                          cityId: item.cityId,
+                          parentCityId: item.parentCityId
+                        })
+                      }
                     }else{
-                      areaList[j].children[index].children.push({
-                        value: item.cityNameCn,
-                        label: item.cityNameEn,
-                        cityId: item.cityId,
-                        parentCityId: item.parentCityId
-                      })
+                      if(enRule.test(item.cityNameEn)){
+                        areaList[j].children[index].children.push({
+                          value: item.cityNameCn,
+                          label: item.cityNameEn,
+                          cityId: item.cityId,
+                          parentCityId: item.parentCityId
+                        })
+                      }
                     }
                   }
                 })
               })
             })
             // 删除空数组
+            console.log(areaList)
             areaList.map((item) => {
               if (item.children.length) {
                 item.children.map((val) => {

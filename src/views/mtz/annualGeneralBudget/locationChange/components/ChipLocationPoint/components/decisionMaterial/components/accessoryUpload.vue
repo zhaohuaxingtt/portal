@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:46:11
- * @LastEditTime: 2021-11-10 11:25:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-24 13:02:16
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 附件上传
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\accessory.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationPoint\components\decisionMaterial\components\accessoryUpload.vue
 -->
 <template>
   <div>
@@ -14,11 +14,13 @@
         <span class="buttonBox">
           <iButton
             @click="handleClickDel"
+            v-permission="PORTAL_CHIP_POINT_JUECEDATA_SHANCHU"
             v-if="appStatus == '草稿' || appStatus == '未通过'"
             >{{ language('SHANCHU', '删除') }}</iButton
           >
           <uploadButton
             class="margin-left10"
+            v-permission="PORTAL_CHIP_POINT_JUECEDATA_SHANGCHUAN"
             ref="uploadButtonAttachment"
             :buttonText="language('SHANGCHUAN', '上传')"
             @uploadedCallback="uploadSuccess"

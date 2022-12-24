@@ -81,7 +81,7 @@
     </iCard>
 
     <iDialog
-      :title="$t('添加关注供应商')"
+      :title="$t('添加舆情供应商')"
       :visible.sync="addSupplierType"
       v-if="addSupplierType"
       width="90%"
