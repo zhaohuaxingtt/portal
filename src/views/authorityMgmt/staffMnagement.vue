@@ -190,12 +190,13 @@
                       :label="$t('staffManagement.EMAIL')"
                       class="LastSearchOption"
                     >
-                      <iInput
+                      <!-- <iInput
                         :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
                         class=""
                         v-model="formData.email"
                         disabled
-                      />
+                      /> -->
+                      <i-text class="text-cell">{{ desensitizationEmail(formData.email) }}</i-text>
                     </iFormItem>
                   </el-col>
                   <el-col :span="6">
@@ -207,8 +208,9 @@
                         :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
                         class=""
                         v-model="formData.mobile"
-                        :disabled="isEdit"
+                        v-if="!isEdit"
                       />
+                      <i-text v-else class="text-cell">{{ desensitizationPhone(formData.mobile) }}</i-text>
                     </iFormItem>
                   </el-col>
                   <el-col :span="6">
@@ -217,11 +219,12 @@
                       class="LastSearchOption"
                     >
                       <iInput
+                      v-if="!isEdit"
                         :placeholder="$t('staffManagement.INPUT_PLACEHOLDER')"
                         class=""
                         v-model="formData.phone"
-                        :disabled="isEdit"
                       />
+                      <i-text v-else class="text-cell">{{ desensitizationPhone(formData.phone) }}</i-text>
                     </iFormItem>
                   </el-col>
                   <el-col :span="6">
@@ -348,7 +351,7 @@
 </template>
 
 <script>
-import { iInput, iSelect, iPage, iCard, iFormItem, iMessage } from 'rise'
+import { iInput, iSelect, iPage, iCard, iFormItem, iMessage, iText } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { levelSetting, roleTableSetting, tempPurchaseGroupSet } from './data.js'
 import pageHeader from '@/components/pageHeader'
@@ -359,6 +362,7 @@ import { orgSelect } from '@/components/remoteSelect'
 import { debounce } from 'vue-debounce'
 import uploadSign from './components/uploadSignCutter'
 import purchaseGroup from './components/purchaseGroup'
+import { desensitizationPhone, desensitizationEmail } from "@/utils";
 export default {
   components: {
     iInput,
@@ -372,7 +376,8 @@ export default {
     iFormItem,
     orgSearch: orgSelect,
     uploadSign,
-    purchaseGroup
+    purchaseGroup,
+    iText
   },
   computed: {
     isPositionLead() {
@@ -524,6 +529,8 @@ export default {
     }
   },
   methods: {
+    desensitizationPhone,
+    desensitizationEmail,
     getDetail() {
       this.tableLoading = true
       detail({ ...this.$route.query }).then((res) => {
@@ -942,6 +949,19 @@ export default {
   ::v-deep .el-input__inner {
     text-transform: capitalize;
   }
+}
+// iText 模拟 iInput 样式
+.text-cell{
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #DCDFE6;
+  box-shadow: 0 0 3px rgba(0,38,98,0.15);
+  padding-left: 20px;
+  text-align: left;
+  background-color: #F5F7FA;
+  border-color: #E4E7ED;
+  color: #C0C4CC;
+  cursor: not-allowed;
 }
 // ::v-deep.el-table tr:nth-child(even){
 //   background-color: #fff;

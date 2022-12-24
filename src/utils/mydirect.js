@@ -67,7 +67,7 @@ Vue.directive('permission', {
             ) {
               el.classList.add('is-disabled')
             } else {
-              // el.parentNode.removeChild(el)
+              el.parentNode.removeChild(el)
             }
           }
         }

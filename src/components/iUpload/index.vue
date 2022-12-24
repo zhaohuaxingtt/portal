@@ -10,9 +10,12 @@
       :on-progress="handleProgress"
       :file-list="fileList"
       :data="extraData"
+      :headers="{
+        token: getToken()
+      }"
       :accept="
         fileTypes
-          .map(type => {
+          .map((type) => {
             return `.${type}`
           })
           .join(',')
@@ -34,17 +37,18 @@
 </template>
 
 <script>
+import { getToken } from '@/utils'
 export default {
   props: {
     fileIds: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     extraData: {
       type: Array,
-      default: function() {
+      default: function () {
         return {
           applicationName: 'rise-dev',
           type: '1',
@@ -56,7 +60,7 @@ export default {
     },
     fileTypes: {
       type: Array,
-      default: function() {
+      default: function () {
         return [
           'mpg',
           'mp4',
@@ -126,6 +130,7 @@ export default {
     }
   },
   methods: {
+    getToken,
     handlePreview(file) {
       console.log('preview', file)
       window.open(file.path || file.response.path, '_blank')

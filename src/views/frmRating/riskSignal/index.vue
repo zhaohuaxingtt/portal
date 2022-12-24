@@ -10,7 +10,7 @@
   <iPage>
     <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" />
     <theSearch @getTableList="getTableList" class="margin-bottom20"></theSearch>
-    <theTable ref="theTable"></theTable>
+    <theTable :form="form" ref="theTable"></theTable>
   </iPage>
 </template>
 
@@ -29,15 +29,34 @@ export default {
   data() {
     return {
       tabRouterList,
+      form:{}
     };
   },
   methods: {
     async getTableList(req) {
-      this.$refs.theTable.getTableList(req)
-    },
+      this.form=req
+      console.log(req)
+      this.$nextTick(() => {
+        this.$refs.theTable.search()
+      })
+    }
   },
 };
 </script>
 
 <style scoped>
+
+</style>
+
+<style lang="scss" scoped>
+::v-deep .nav>div{
+  max-width: 170px!important;
+}
+
+::v-deep .nav>div:last-child{
+  max-width: 180px!important;
+  span{
+    margin-right:0
+  }
+}
 </style>

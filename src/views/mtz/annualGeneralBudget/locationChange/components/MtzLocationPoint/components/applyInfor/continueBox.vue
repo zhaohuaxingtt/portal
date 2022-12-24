@@ -94,6 +94,7 @@
         :tableData="tableData"
         :tableTitle="tableTitle"
         :tableLoading="loading"
+        border
         @handleSelectionChange="handleSelectionChange"
         :index="true">
         <template slot="effectFlag" slot-scope="scope">

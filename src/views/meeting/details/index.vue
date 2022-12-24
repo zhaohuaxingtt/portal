@@ -426,7 +426,7 @@
       :dialogStatusManageObj="dialogStatusManageObj"
       v-if="dialogStatusManageObj.openAddRestDialog"
       :meetingInfo="meetingInfo"
-      @flushTable="flushTable"
+      @flushTable="getTableData"
       :typeObject="typeObject"
       :selectedTableData="selectedTableData"
       :editOrAdd="editOrAdd"
@@ -436,17 +436,19 @@
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
       v-if="dialogStatusManageObj.openAddTopicDialog"
-      @flushTable="flushTable"
+      @flushTable="getTableData"
       :meetingInfo="meetingInfo"
       :editOrAdd="editOrAdd"
       :selectedTableData="selectedTableData"
       :lookThemenObj="lookThemenObj"
     />
+    <!-- @flushTable="flushTable": 刷新数据，改变页码 -->
+    <!-- @flushTable="getTableData": 刷新数据，不改变页码 -->
     <newProtectInfo
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
       v-if="dialogStatusManageObj.openProtectInfoDialog"
-      @flushTable="flushTable"
+      @flushTable="getTableData"
       :selectedTableData="selectedTableData"
       :meetingInfo="meetingInfo"
     />
@@ -456,17 +458,17 @@
       @flushTable="flushTable"
       :selectedTableData="selectedTableData"
     ></confirmDelete> -->
-    <confirmSplit
+    <!-- <confirmSplit
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
       @flushTable="flushTable"
       :meetingInfo="meetingInfo"
       :selectedTableData="selectedTableData"
-    ></confirmSplit>
+    ></confirmSplit> -->
     <updateDate
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
-      @flushTable="flushTable"
+      @flushTable="getTableData"
       :typeObject="typeObject"
       :meetingInfo="meetingInfo"
       :selectedTableData="selectedTableData"
@@ -519,7 +521,7 @@
       :typeObject="typeObject"
       @handleSubmit="handleUpdateSubmit"
       @closeDialog="closeDialog"
-      @refreshTable="flushTable"
+      @refreshTable="getTableData"
     />
     <newSummaryDialog
       v-if="dialogStatusManageObj.openNewSummaryDialog"
@@ -527,7 +529,7 @@
       :id="$route.query.id"
       @handleCancel="handleCancelTopics"
       @handleOK="handleOKTopics"
-      @refreshTable="flushTable"
+      @refreshTable="getTableData"
       :edit="editNewSummary"
     ></newSummaryDialog>
 
@@ -1071,7 +1073,7 @@ export default {
       this.page.totalCount = data.length
       this.page.pageSize = 10
       this.tableData = data.filter((item, index) => {
-        return index < 10
+        return (this.page.currPage-1)*10 <= index && index < this.page.currPage*10
       })
       this.tableData = this.tableData.map((item) => {
         // startTime = endTime ? endTime + 60 * 1000 : startTime;

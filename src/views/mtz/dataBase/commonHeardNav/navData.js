@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-06-22 11:05:40
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
  */
 /*
@@ -17,15 +17,6 @@ export const tabRouterList1 = [
     activePath: '/mtz/dataBase',
     key: 'SHUJUKU',
     permissionKey: "PORTAL_MTZ_SHUJUKU"
-  },
-  {
-    value: 2,
-    name: '定点与变更',
-    url: '/mtz/annualGeneralBudget/locationChange',
-    activePath: '/mtz/annualGeneralBudget/locationChange',
-    key: '定点与变更',
-    // permissionKey: 'PORTAL_MTZ_NAV_DINGDIANYUBIANGENG',
-    permissionKey: 'WORKBENCH_MTZ_SOURCING'
   },
 ];
 

@@ -156,23 +156,44 @@
           />
         </div>
         <div>
-          <!-- <iButton @click="handleExportCurrent"
-                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB">下载模板</iButton> -->
-          <iButton @click="handleSeePartsRelationship"
-                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX">查看一/二次件零件关系</iButton>
-          <uploadButton ref="uploadButton"
-                        v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
-                        :buttonText="language('SHANGCHUANYIERCIJIANGUANXI', '上传一/二次件零件关系')"
-                        :uploadByBusiness="true"
-                        @uploadedCallback="handleUpload($event)"
-                        class="margin-left10 margin-right10" />
-          <iButton @click="takeEffect(1)"
-                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHENGXIAO">{{language('SHENGXIAO', '生效')}}</iButton>
-          <iButton @click="takeEffect(0)"
-                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHIXIAO">{{language('SHIXIAO', '失效')}}</iButton>
-          <iButton @click="handleExportAll"
-                   v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_DAOCHUDANGYE">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
-          <button-table-setting @click="$refs.testTable.openSetting()"></button-table-setting>
+          <!-- <iButton
+            @click="handleExportCurrent"
+            v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_XZMB"
+            >下载模板</iButton
+          > -->
+          <iButton
+            @click="handleSeePartsRelationship"
+            v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_CKYECJLJGX"
+            >查看一/二次件零件关系</iButton
+          >
+          <uploadButton
+            ref="uploadButton"
+            v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SCYECJLJGX"
+            :buttonText="
+              language('SHANGCHUANYIERCIJIANGUANXI', '上传一/二次件零件关系')
+            "
+            :uploadByBusiness="true"
+            @uploadedCallback="handleUpload($event)"
+            class="margin-left10 margin-right10"
+          />
+          <iButton
+            @click="takeEffect(1)"
+            v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHENGXIAO"
+            >{{ language('SHENGXIAO', '生效') }}</iButton
+          >
+          <iButton
+            @click="takeEffect(0)"
+            v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_SHIXIAO"
+            >{{ language('SHIXIAO', '失效') }}</iButton
+          >
+          <iButton
+            @click="handleExportAll"
+            v-permission="PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN_DAOCHUDANGYE"
+            >{{ language('DAOCHUDANGYE', '导出当页') }}</iButton
+          >
+          <button-table-setting
+            @click="$refs.testTable.openSetting()"
+          ></button-table-setting>
         </div>
       </div>
       <div>

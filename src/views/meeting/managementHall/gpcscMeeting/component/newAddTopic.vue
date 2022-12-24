@@ -27,7 +27,11 @@
       >
         <div class="row-box">
           <!-- 议题类型 -->
-          <iFormItem label="议题类型" :hideRequiredAsterisk="false" class="item">
+          <iFormItem
+            label="议题类型"
+            :hideRequiredAsterisk="false"
+            class="item"
+          >
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
             <iInput class="disabledAll" value="CSC会议" disabled>123</iInput>
           </iFormItem>
@@ -71,11 +75,11 @@
             ></iInput>
           </iFormItem>
           <!-- 采购员 选择采购员带出申请部门  presenter  -->
-         <iFormItem
+          <iFormItem
             label="presenter"
             :hideRequiredAsterisk="true"
             prop="presenter"
-            class="item"  
+            class="item"
           >
             <iLabel :label="$t('采购员')" slot="label" required></iLabel>
             <el-select
@@ -103,17 +107,10 @@
             </el-select>
           </iFormItem>
           <!-- 股别 -->
-          <iFormItem
-            label="BEN(CN)"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
-          <!-- required 校验-->
+          <iFormItem label="BEN(CN)" :hideRequiredAsterisk="true" class="item">
+            <!-- required 校验-->
             <iLabel :label="$t('股别')" slot="label" required></iLabel>
-            <iInput
-              v-model="ruleForm.presenterDept"
-              disabled
-            ></iInput>
+            <iInput v-model="ruleForm.presenterDept" disabled></iInput>
           </iFormItem>
           <!-- 申请人 supporter  -->
           <!-- <iFormItem
@@ -137,7 +134,6 @@
             <el-select
               class="autoSearch"
               v-model="ruleForm.supporter"
-              
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
@@ -166,18 +162,20 @@
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <el-select class="autoSearch" v-model="ruleForm.supporterDept"
-            :disabled="editOrAdd === 'edit'">
+            <el-select
+              class="autoSearch"
+              v-model="ruleForm.supporterDept"
+              :disabled="editOrAdd === 'edit'"
+            >
               <el-option></el-option>
             </el-select>
           </iFormItem>
 
-         
           <!-- 附件  备注 -->
           <div>
             <iFormItem label="附件" :hideRequiredAsterisk="true" class="item">
-                <iLabel :label="$t('附件')" slot="label"></iLabel>
-                <el-upload
+              <iLabel :label="$t('附件')" slot="label"></iLabel>
+              <el-upload
                 class="upload-file"
                 action="1"
                 :on-success="handleAvatarSuccess"
@@ -186,57 +184,59 @@
                 :http-request="httpUpload"
                 :file-list="fileList"
                 :disabled="editOrAdd === 'look'"
-                >
+              >
                 <iButton
-                    type="button"
-                    class="upload-button"
-                    :uploadLoading="uploadLoading"
-                    :disabled="editOrAdd === 'look'"
+                  type="button"
+                  class="upload-button"
+                  :uploadLoading="uploadLoading"
+                  :disabled="editOrAdd === 'look'"
                 >
-                    <span class="upload-text"><img :src="uploadIcon" /></span>
-                    <span class="upload-text-content">选择文件</span>
+                  <span class="upload-text"><img :src="uploadIcon" /></span>
+                  <span class="upload-text-content">选择文件</span>
                 </iButton>
                 <div slot="tip" class="el-upload__tip">文件大小最大限制30M</div>
-                </el-upload>
-                <ul class="file-list">
+              </el-upload>
+              <ul class="file-list">
                 <li v-for="(item, index) of ruleForm.attachments" :key="index">
-                    <div
+                  <div
                     class="download"
                     @click="
-                        () => {
+                      () => {
                         handleDownload(item)
-                        }
+                      }
                     "
-                    >
+                  >
                     {{ item.attachmentName }}
-                    </div>
-                    <div
+                  </div>
+                  <div
                     class="delete"
                     @click="handleDeleteFile(item)"
                     v-if="editOrAdd === 'add' || editOrAdd === 'edit'"
-                    >
+                  >
                     <i class="el-icon-close"></i>
-                    </div>
+                  </div>
                 </li>
-                </ul>
+              </ul>
             </iFormItem>
             <!-- 备注 -->
             <el-row>
               <el-col :span="24">
                 <iFormItem
-                    label="备注"
-                    :hideRequiredAsterisk="true"
-                    prop="carline"
-                    class="item"
+                  label="备注"
+                  :hideRequiredAsterisk="true"
+                  prop="carline"
+                  class="item"
                 >
-                    <iLabel :label="$t('备注')" slot="label"></iLabel>
-                    <el-input type="textarea" class="remarkinput"
-                    :autosize="{ minRows: 2, maxRows: 4}"
+                  <iLabel :label="$t('备注')" slot="label"></iLabel>
+                  <el-input
+                    type="textarea"
+                    class="remarkinput"
+                    :autosize="{ minRows: 2, maxRows: 4 }"
                     v-model="ruleForm.remark"
                     :disabled="editOrAdd === 'look'"
-                    ></el-input>
+                  ></el-input>
                 </iFormItem>
-                    </el-col>
+              </el-col>
             </el-row>
           </div>
         </div>
@@ -364,7 +364,7 @@ export default {
         attachments: [],
         presenterDept: '',
         supporterDept: '',
-        department:''
+        department: ''
       },
       presenterStr: '',
       supporterStr: '',
@@ -440,98 +440,98 @@ export default {
       return {
         currentSearchUserData: this.currentSearchUserData,
         supporterIdArr: this.supporterIdArr,
-        presenterIdArr: this.presenterIdArr,
+        presenterIdArr: this.presenterIdArr
       }
-    },
+    }
   },
   watch: {
     supporterIdArrAndCurrentSearchUserData: {
       handler(newV) {
         this.ruleForm.supporter = newV.currentSearchUserData.filter((item) => {
           return newV.supporterIdArr.some((it) => {
-            return Number(item.id) === Number(it);
-          });
-        });
+            return Number(item.id) === Number(it)
+          })
+        })
         this.ruleForm.presenter = newV.currentSearchUserData.filter((item) => {
           return newV.presenterIdArr.some((it) => {
-            return Number(item.id) === Number(it);
-          });
-        });
+            return Number(item.id) === Number(it)
+          })
+        })
       },
-      deep: true,
+      deep: true
     },
     presenterIdArr: {
-      handler(newV) {},
+      handler(newV) {}
     },
     lookThemenObj: {
       handler(newV) {
         // console.log(newV);
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
-    "ruleForm.count": {
+    'ruleForm.count': {
       handler(newV) {
         this.ruleForm = {
           ...this.ruleForm,
-          count: newV ? newV : null,
-        };
-      },
+          count: newV ? newV : null
+        }
+      }
     },
-    "ruleForm.presenter": {
+    'ruleForm.presenter': {
       handler: function () {
         let arr = newV.map((item) => {
-          return item.id;
-        });
-        let arrStr = arr.join(",");
-        if (typeof arrStr === "string") {
-          this.presenterStr = arrStr;
+          return item.id
+        })
+        let arrStr = arr.join(',')
+        if (typeof arrStr === 'string') {
+          this.presenterStr = arrStr
         }
-        if (this.editOrAdd !== "look") {
+        if (this.editOrAdd !== 'look') {
           this.ruleForm.presenterDept = Array.from(
             new Set(
               this.currentSearchUserData
                 .filter((item) => {
                   return arr.some((it) => {
-                    return it === item.id;
-                  });
+                    return it === item.id
+                  })
                 })
                 .map((item) => {
-                  return item.department;
+                  return item.department
                 })
             )
-          ).join(",");
+          ).join(',')
         }
       },
-      immediate: true,
+      immediate: true
     },
-    "ruleForm.supporter": {
+    'ruleForm.supporter': {
       handler: function (newV) {
         let arr = newV.map((item) => {
-          return item.id;
-        });
-        let arrStr = arr.join(",");
-        if (typeof arrStr === "string") {
-          this.supporterStr = arrStr;
+          return item.id
+        })
+        let arrStr = arr.join(',')
+        if (typeof arrStr === 'string') {
+          this.supporterStr = arrStr
         }
-        if (this.editOrAdd !== "look") {
+        if (this.editOrAdd !== 'look') {
           this.ruleForm.supporterDept = Array.from(
             new Set(
               this.currentSearchUserData
                 .filter((item) => {
                   return arr.some((it) => {
-                    return it === item.id;
-                  });
+                    return it === item.id
+                  })
                 })
                 .map((item) => {
-                  return item.department;
+                  return item.department
                 })
             )
-          ).join(",");
+          ).join(',')
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     handleDeleteFile(file) {
@@ -546,23 +546,27 @@ export default {
         meetingId: this.meetingInfo.id
       }
       findTheThemenById(data).then((res) => {
-        console.log(res,'重要');
-        this.ruleForm.supporter = res.supporter  //申请人
-        console.log(res.supporter,res.presenter);
-        this.ruleForm.presenter = res.presenter  //采购员
+        console.log(res, '重要')
+        this.ruleForm.supporter = res.supporter //申请人
+        console.log(res.supporter, res.presenter)
+        this.ruleForm.presenter = res.presenter //采购员
         this.ruleForm.supporterDept = res.supporterDept
       })
     },
     handleDownload(row) {
-      download({
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error('下载失败')
+      if (row.attachmentUrl) {
+        window.open(`${row.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: row.attachmentId,
+          filename: row.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error('下载失败')
+            }
           }
-        }
-      })
+        })
+      }
     },
     handleFocus() {
       this.remoteMethod()
@@ -573,10 +577,10 @@ export default {
         ? this.userData.filter(this.createStateFilter(queryString))
         : this.userData
       this.selectUserArr = currentSearchUserData
-      console.log(this.selectUserArr,'重要');
+      console.log(this.selectUserArr, '重要')
       if (this.editOrAdd === 'edit') {
-        this.ruleForm.presenter =  this.selectUserArr
-        this.ruleForm.supporter =  this.selectUserArr
+        this.ruleForm.presenter = this.selectUserArr
+        this.ruleForm.supporter = this.selectUserArr
       }
     },
 
@@ -749,8 +753,8 @@ export default {
               // supporterDept:
               //   this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
               //     .department || '',
-                presenter:this.ruleForm.presenter[0].id,
-                supporter:this.ruleForm.supporter[0].id,
+              presenter: this.ruleForm.presenter[0].id,
+              supporter: this.ruleForm.supporter[0].id
             }
             updateThemen(formData)
               .then((data) => {
@@ -769,14 +773,14 @@ export default {
                 this.subButtonFlag = false
               })
           } else {
-            console.log(this.ruleForm.supporter );
+            console.log(this.ruleForm.supporter)
             const formData = {
-              themen: { 
+              themen: {
                 // supporter是  string
                 ...this.ruleForm,
                 id: '',
                 meetingId: this.meetingInfo.id,
-                isBreak: false,
+                isBreak: false
                 // presenterDept:
                 //   this.userData.filter((e) => e.id === this.ruleForm.presenter)
                 //     .length > 0
@@ -789,14 +793,12 @@ export default {
                 // )[0].department
                 // presenter:this.ruleForm.presenter[0].id,
                 // supporter:this.ruleForm.supporter[0].id,
-               
-                
               }
             }
             // 采购员 id
-            console.log(this.userData);
-            console.log(this.ruleForm);
-            console.log(formData);
+            console.log(this.userData)
+            console.log(this.ruleForm)
+            console.log(formData)
             // return
             saveThemen(formData)
               .then((data) => {
@@ -808,7 +810,8 @@ export default {
                 this.loading = false
                 this.subButtonFlag = false
                 this.close()
-              }).catch((err) => {
+              })
+              .catch((err) => {
                 this.loading = false
                 console.log('err', err)
                 this.subButtonFlag = false
@@ -991,6 +994,6 @@ export default {
   }
 }
 .remarkinput {
-    width: 53rem !important;
+  width: 53rem !important;
 }
 </style>

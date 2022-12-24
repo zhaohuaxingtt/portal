@@ -349,9 +349,8 @@
                     :loading="uploadLoading"
                     disabled
                   >
-                    {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
-                      ><img :src="uploadIcon"
-                    /></span>
+                    {{ $t('MT_QINGXUANZEWENJIAN')
+                    }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
                   文件大小最大限制10M
@@ -373,16 +372,17 @@
                     :loading="uploadLoading"
                     :disabled="ruleForm.state === '02'"
                   >
-                    {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
-                      ><img :src="uploadIcon"
-                    /></span>
+                    {{ $t('MT_QINGXUANZEWENJIAN')
+                    }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
                   文件大小最大限制10M
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}30M</div>
+              <div class="el-upload-text">
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}30M
+              </div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">
@@ -506,7 +506,11 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -519,7 +523,11 @@ export default {
         !value.trim() &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -532,7 +540,11 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -545,7 +557,11 @@ export default {
         !value.trim() &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error(this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
           callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
@@ -600,14 +616,28 @@ export default {
             validator: validateTopic
           }
         ],
-        remark: [{ max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }],
+        remark: [
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterNosys: [
           {
@@ -619,10 +649,18 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterDeptNosys: [
-          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterNosys: [
           {
@@ -870,15 +908,19 @@ export default {
       })
     },
     handleDownload(row) {
-      download({
-        fileIds: row.attachmentId,
-        filename: row.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      if (row.attachmentUrl) {
+        window.open(`${row.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: row.attachmentId,
+          filename: row.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            }
           }
-        }
-      })
+        })
+      }
     },
     handleFocus() {
       this.remoteMethod()

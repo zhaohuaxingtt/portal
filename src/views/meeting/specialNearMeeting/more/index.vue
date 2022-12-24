@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <iPage class="container">
     <iCard class="my-topics-box">
       <div class="iSearch-content">
         <div class="serch" :style="`margin-right:${stypeWidth}px;`">
@@ -289,11 +289,11 @@
       >
       </addTopicNew>
     </iCard>
-  </div>
+  </iPage>
 </template>
 
 <script>
-import { iCard, iPagination, iMessage } from 'rise'
+import { iCard, iPagination, iMessage, iPage } from 'rise'
 import { iSelect, iButton } from 'rise'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iTableML from '@/components/iTableML'
@@ -318,6 +318,7 @@ export default {
     // iSearch,
     iPagination,
     iTableML,
+    iPage,
     detailDialog,
     addTopicNew
   },

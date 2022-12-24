@@ -255,7 +255,6 @@ export default {
     }
   },
   mounted() {
-    console.log('===============123')
     const values = _.cloneDeep(this.values)
     this.selectedData =
       values instanceof Array ? values : values[this.value] ? [values] : []
