@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-01-12 19:22:23
- * @LastEditors: 水痕
+ * @LastEditTime: 2022-12-24 12:33:02
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: /front-portal/src/views/mtz/annualGeneralBudget/commonHeardNav/navData.js
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\commonHeardNav\navData.js
  */
 export const tabRouterList = [
   {
@@ -79,8 +79,8 @@ export const rightNavList = [
     url: '/mtz/annualGeneralBudget/locationChange/ChipLocationPoint',
     activePath: '/locationChange/ChipLocationPoint',
     key: 'CHIPDINGDIAN',
-    permissionKey: 'WORKBENCH_MTZ_SOURCING',
-    permissionName: 'WORKBENCH_MTZ_SOURCING',
+    permissionKey: 'PORTAL_CHIP_POINT',
+    permissionName: 'PORTAL_CHIP_POINT',
   },
   {
     value: 4,
@@ -89,7 +89,7 @@ export const rightNavList = [
     url: '/mtz/annualGeneralBudget/locationChange/ChipLocationChange',
     activePath: '/locationChange/ChipLocationChange',
     key: 'CHIPBIANGENG',
-    permissionKey: 'WORKBENCH_MTZ_SOURCING',
-    permissionName: 'WORKBENCH_MTZ_SOURCING',
+    permissionKey: 'PORTAL_CHIP_CHANGE',
+    permissionName: 'PORTAL_CHIP_CHANGE',
   },
 ];

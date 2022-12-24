@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 14:51:25
- * @LastEditTime: 2022-12-23 18:23:17
+ * @LastEditTime: 2022-12-24 12:15:29
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 公共步骤条封装
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationPoint\components\overflow.vue
@@ -36,6 +36,7 @@
         <template v-if="formInfo.status == 'PASS'">
           <iButton
             @click="submitPass"
+            v-permission="PORTAL_CHIP_POINT_DETAIL_TIJIAO"
             v-show="locationNow == 3 && meetingNumber == 0"
             >{{ language('TIJIAO', '提交') }}</iButton
           >
@@ -45,10 +46,11 @@
             @click="submit"
             v-show="locationNow == 3 && meetingNumber == 0"
             :disabled="!canEdit"
+            v-permission="PORTAL_CHIP_POINT_DETAIL_TIJIAO"
             >{{ language('TIJIAO', '提交') }}</iButton
           >
         </template>
-        <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
+        <iButton @click="downRS" v-permission="PORTAL_CHIP_POINT_DETAIL_YULAN">{{ language('YULAN', '预览') }}</iButton>
       </div>
     </div>
     <div class="stepBoxMap" v-if="meetingNumber == 0">

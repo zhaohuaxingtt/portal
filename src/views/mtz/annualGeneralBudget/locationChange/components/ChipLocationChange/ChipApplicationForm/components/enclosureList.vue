@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2021-11-23 15:27:09
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-24 12:03:52
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\enclosureList.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationChange\ChipApplicationForm\components\enclosureList.vue
 -->
 <template>
   <iCard>
@@ -20,6 +20,7 @@
           ref="uploadButtonAttachment"
           :buttonText="language('SHANGCHUAN', '上传')"
           :uploadButtonLoading="btnLoading"
+          v-permission="PORTAL_CHIP_CHANGE_DETAIL_SHANGCHUANSHENPIFUJIAN"
           v-if="canEdit"
           @uploadedCallback="uploadSuccess"
           class="margin-left20"

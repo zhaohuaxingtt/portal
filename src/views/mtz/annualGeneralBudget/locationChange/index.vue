@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-07 15:05:40
- * @LastEditTime: 2021-10-28 15:56:37
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-24 12:26:15
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\index.vue
 -->
@@ -63,7 +63,6 @@ export default {
   },
   created() {},
   beforeRouteEnter: (to, from, next) => {
-    console.log(to)
     if (to.name == 'MtzLocationPoint') {
       store.commit('locationBtnChange', 1)
     } else if (to.name == 'MtzLocationChange') {

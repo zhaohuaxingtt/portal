@@ -97,7 +97,7 @@
                 meetingNumber == 0
               "
               @click="handleClickSave($event)"
-              v-permission="PORTAL_MTZ_POINT_JUECEDATA_BAOCUN"
+              v-permission="PORTAL_CHIP_POINT_JUECEDATA_BAOCUN"
               >{{ language('BAOCUN', '保存') }}</iButton
             >
           </span>
