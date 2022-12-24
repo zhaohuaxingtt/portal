@@ -13,7 +13,8 @@
         {{ language('SHENPIFUJIAN', '审批附件') }}
       </span>
       <div>
-        <iButton @click="handleClickDel" :loading="btnLoading" v-if="canEdit">{{
+        <iButton @click="handleClickDel" :loading="btnLoading" v-if="canEdit"
+          v-permission="PORTAL_CHIP_CHANGE_DETAIL_SHANCHUSHENPIFUJIAN">{{
           language('SHANCHU', '删除')
         }}</iButton>
         <uploadButton
