@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2022-03-03 15:54:42
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-24 13:01:06
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationChange\ChipApplicationForm\components\formInformation.vue
 -->
 <template>
   <div>
@@ -21,7 +21,7 @@
         <iButton
           v-if="canEdit"
           @click="submit"
-          v-permission="PORTAL_MTZ_CHANGE_INFOR_TIJIAO"
+          v-permission="PORTAL_CHIP_CHANGE_DETAIL_TIJIAO"
           >{{ language('TIJIAO', '提交') }}</iButton
         >
       </div>
@@ -34,7 +34,7 @@
         <iButton
           v-if="canEdit"
           @click="save(1)"
-          v-permission="PORTAL_MTZ_CHANGE_INFOR_BAOCUN"
+          v-permission="PORTAL_CHIP_CHANGE_DETAIL_BAOCUN"
           >{{ language('BAOCUN', '保存') }}</iButton
         >
       </template>

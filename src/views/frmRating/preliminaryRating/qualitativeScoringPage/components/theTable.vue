@@ -208,9 +208,9 @@ export default {
       }
     },
     handleOpenAssign () {//分派
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -224,12 +224,16 @@ export default {
       this.selectTableData.map((item) => {
         this.assignDialogSelectId = item.id
       })
-      const status = this.checkButtonStatus('分派')
+      const status = true
+      // const status = this.checkButtonStatus('分派')
       status && (this.assignDialog = true)
     },
-    handleReturn () {
-      if (!this.gzOperationCheck()) {
-        return false
+    handleReturn () {//退回
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
+      if(this.selectTableData[0].qualitativeScoreStatus == "已取消"){
+        return iMessage.error(this.$t("已取消状态不能点击退回"))
       }
       if (!this.frmOperationCheck()) {
         return false
@@ -241,12 +245,12 @@ export default {
       status && (this.returnDialog = true)
     },
     handleTransfer () {//转派
-      if (!this.gzOperationCheck()) {
-        return false
-      }
-      if (!this.frmOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
+      // if (!this.frmOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -259,10 +263,10 @@ export default {
       const status = this.checkButtonStatus('转派')
       status && (this.transferDialog = true)
     },
-    handleCancel () {
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+    handleCancel () {//取消
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -285,20 +289,23 @@ export default {
           })
         })
     },
-    handleQualitativeScoring () {
+    handleQualitativeScoring () {//定性打分
         this.isView=false
-      if (!this.gzOperationCheck()) {
-        return false
-      }
-      if (!this.frmOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
+      // if (!this.frmOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       let flag = true
       this.selectTableData.some((item) => {
-        if (item.qualitativeScoreStatus !== '草稿') {
+        if (item.qualitativeScoreStatus == '草稿' || item.qualitativeScoreStatus == '退回') {
+          flag = true
+          return true
+        }else{
           flag = false
           return true
         }
@@ -306,14 +313,14 @@ export default {
       if (flag) {
         this.qualitativeScoringDialog = true
       } else {
-        iMessage.error(this.$t('SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF'))
+        iMessage.error(this.$t('SPR_FRM_CBPJ_ZYZTWCGCNJXDXDFNOW'))
       }
     },
-    async handleReScoring () {
+    async handleReScoring () {//重新打分
         this.isView=false
-      if (!this.gzOperationCheck()) {
-        return false
-      }
+      // if (!this.gzOperationCheck()) {
+      //   return false
+      // }
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -413,12 +420,27 @@ export default {
     checkButtonStatus (status) {
       let flag = true
       this.selectTableData.some((item) => {
-        if (item.operateContent === status) {
-          flag = false
-          return true
+        if(status == "分派" || status == "转派" || status == "退回"){}else{
+          if (item.operateContent === status) {
+            flag = false
+            return true
+          }
         }
       })
-      !flag && iMessage.error(this.$t('SPR_FRM_CBPJ_SXZTYWQCXQZ'))
+      if(!flag){
+        switch (status){
+          // case "退回":
+          //   iMessage.error(this.$t("所选数据已为退回状态不能再次退回"))
+          //   break;
+          // case "转派":
+          //   iMessage.error(this.$t("所选数据已为转派状态不能再次转派"))
+          //   break;
+          case "已取消":
+            iMessage.error(this.$t("所选数据已为已取消状态不能再次取消"))
+            break;
+        }
+      }
+      //  && iMessage.error(this.$t('SPR_FRM_CBPJ_SXZTYWQCXQZ'))
       return flag
     },
     checkRolePermission () {

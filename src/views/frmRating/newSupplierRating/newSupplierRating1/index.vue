@@ -8,6 +8,7 @@
     <!-- 供应商信息 -->
     <supplierMessage @handleSumbit='handleSumbit'
                       @requestBtn="requestBtn"
+                      v-if="$route.path!='/supplier/frmrating/newsupplierrating/task'"
                      class="margin-bottom20" />
     <!-- 财务数据 -->
     <financialDataTable @submitCalculateRefresh="submitCalculateRefresh"
@@ -39,6 +40,7 @@
     <freeFile ref="freeFile" class="margin-bottom20" />
     <!-- 供应商准入评估模型 - 备注 -->
     <remarks v-loading='loading'
+              v-if="$route.path!='/supplier/frmrating/newsupplierrating/task'"
              ref="remarks"
              class="margin-bottom20" />
   </iPage>

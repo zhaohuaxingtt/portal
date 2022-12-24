@@ -1,4 +1,4 @@
-// 表头icon
+// 表头icon 未确定icon信息，所以先隐藏
 const renderIcon = (h, column, type) => {
   let content = ``
   switch (type) {
@@ -158,7 +158,7 @@ export const tableSetting = [
     align: 'center',
     i18n: '补差金额',
     width: 150,
-    headerRender: (h, { column }) => renderIcon(h, column, 1)
+    // headerRender: (h, { column }) => renderIcon(h, column, 1)
   },
   {
     prop: 'currency',

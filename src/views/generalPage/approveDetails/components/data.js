@@ -45,20 +45,20 @@ export const TableTitle = [
   },
   {
     props: 'prePurchase',
-    name: '前期采购员',
-    key: 'QIANQICAIGOUYUAN',
+    name: 'LINIE采购员',
+    key: 'SUPPLIER_VW_LINIE_CAIGOUYUAN',
     tooltip: true
   },
   {
     props: 'linieGroup',
-    name: 'Linie组别',
-    key: 'SUPPLIER_LINIEJIBIE',
+    name: '确认人科室',
+    key: 'QUERENRENKESHI',
     tooltip: true
   },
   {
     props: 'linieNames',
-    name: 'Linie人员',
-    key: 'SUPPLIER_LINIERENYUAN',
+    name: 'CSQ采购员',
+    key: 'CSQCAIGOUYUAN',
     tooltip: true
   }
 ]

@@ -1,3 +1,4 @@
+import { desensitizationPhone, desensitizationEmail } from "@/utils";
 export const tableColumnSetting = [
   {
     type: 'selection',
@@ -104,7 +105,10 @@ export const tableColumnSetting = [
     align: 'center',
     tooltip: true,
     width: '120px',
-    sortable: true
+    sortable: true,
+    customRender: (h, scope) => {
+      return desensitizationPhone(scope.row.telephoneO)
+    }
   },
   {
     prop: 'email',
@@ -113,7 +117,10 @@ export const tableColumnSetting = [
     align: 'center',
     tooltip: true,
     minWidth: '180px',
-    sortable: true
+    sortable: true,
+    customRender: (h, scope) => {
+      return desensitizationEmail(scope.row.email)
+    }
   },
   {
     prop: 'isExpired',

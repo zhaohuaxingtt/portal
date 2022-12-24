@@ -1446,8 +1446,8 @@ export default {
 
     handleOKTopics(info, list) {
       if (info === 'close') {
-        iMessage.success(this.$t('MT_GUANBICHENGGONG'))
-        this.handleSendEmail(list)
+        iMessage.success(list.message);
+        this.handleSendEmail(list.data);
       }
       this.closeDialog()
       this.flushTable()

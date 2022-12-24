@@ -41,7 +41,8 @@ export default {
           { title: "资产负债表", value: "balance" },
           { title: "利润表", value: "income" },
           { title: "现金流量表", value: "cashFlow" },
-          { title: "其他财务数据", value: "other" }
+          { title: "其他财务数据", value: "other" },
+          { title: "基础信息", value: "infor" }
         ];
       }
     },

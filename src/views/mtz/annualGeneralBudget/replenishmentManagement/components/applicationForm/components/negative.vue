@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-bottom:5px;">
+  <div style="padding-bottom: 5px">
     <el-input
       type="textarea"
       :rows="8"
@@ -21,6 +21,9 @@
           :data="uploadData"
           :before-upload="beforeUpload"
           :on-exceed="handleExceed"
+          :headers="{
+            token: getToken()
+          }"
         >
           <el-tooltip content="文件大小不超过20MB" placement="bottom">
             <iButton>{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
@@ -56,7 +59,7 @@ import {
   deleteRejectReasonAttach,
   saveRejectReason
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details'
-
+import { getToken } from '@/utils'
 export default {
   name: 'negative',
   props: ['mtzDocId'],
@@ -88,9 +91,10 @@ export default {
     this.getData()
   },
   methods: {
+    getToken,
     handleSelectionChange(val) {
       var delAray = []
-      val.forEach(e => {
+      val.forEach((e) => {
         delAray.push(e.fileId)
       })
       this.delAray = delAray
@@ -98,19 +102,19 @@ export default {
     getData() {
       this.loading = true
       getRejectReasonAndFile(this.mtzDocId)
-        .then(res => {
+        .then((res) => {
           this.textarea = res.data.rejectReason
           this.tableListData = res.data.fileList
         })
-        .then(red => {
+        .then((red) => {
           this.loading = false
         })
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
       )
     },
     beforeUpload(file) {
@@ -130,7 +134,7 @@ export default {
       saveRejectReason({
         id: this.mtzDocId,
         rejectReason: this.textarea
-      }).then(res => {
+      }).then((res) => {
         iMessage.success(res.data)
         this.$emit('closeTc', '')
       })
@@ -143,12 +147,12 @@ export default {
           .then(() => {
             deleteRejectReasonAttach({
               fileIdList: this.delAray
-            }).then(res => {
+            }).then((res) => {
               iMessage.success('删除成功！')
               this.getData()
             })
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err)
           })
       }

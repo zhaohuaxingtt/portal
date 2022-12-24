@@ -20,9 +20,9 @@
     </div> -->
     <!-- <eklHeader @tab-switch="handleClick" /> -->
     <div class="ekl-content">
-      <div class="target flex-between-center-center">
+      <div class="target flex-between-center-center flex-wrap">
         <div class="left">
-          <div class="panel-title margin-bottom12"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">{{$t("YEJIMUBIAO")}}</a></div>
+          <div class="panel-title margin-bottom12 margin-bottom2"><a :href="`${turnUrl}/portal/#/achievement/baseData/mymerit`" target="_blank" class="a-title">业绩目标</a></div>
           <el-select v-model="query.year" @change="handleCheckYear">
             <el-option
               v-for="item in options"
@@ -33,54 +33,62 @@
             </el-option>
           </el-select>
         </div>
-        <div
-          class="middle middle-m"
-          v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
-        >
-          {{
-            parseFloat(tabsData.totalTarget)
-              ? parseFloat(tabsData.totalTarget).toFixed(2)
-              : '0.00'
-          }} <span style="color: #1763f7;">%</span>
-        </div>
-        <div class="right">
-          <div style="font-family: Arial; font-weight: bold; color: #343434">
-            {{$t("MUBIAOZHIANDCHENGNUOZHI")}}
-          </div>
+        <div style="display: flex;justify-content: space-between;flex:1">
           <div
-            v-if="tabsData.totalTarget && tabsData.totalCommitment"
-            style="color: #000000; margin-top: 18px"
+            class="middle middle-m"
+            v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
           >
-            {{ tabsData.totalTarget }}/{{ tabsData.totalCommitment }}
+            <div class="center-flex">
+              <span class="center-number">{{
+                  parseFloat(tabsData.totalTarget)
+                    ? parseFloat(tabsData.totalTarget).toFixed(2)
+                    : '0.00'
+                }}</span>  
+              <span style="color: #1763f7;">%</span>
+            </div>
+          </div>
+          <div></div>
+          <div class="right">
+            <div style="font-family: Arial; font-weight: bold; color: #343434">
+              目标值/承诺值
+            </div>
+            <div
+              v-if="tabsData.totalTarget && tabsData.totalCommitment"
+              style="color: #000000; margin-top: 2px"
+            >
+              {{ tabsData.totalTarget }}/{{ tabsData.totalCommitment }}
+            </div>
           </div>
         </div>
       </div>
-      <div class="base flex-between-center-center">
+      <div class="base flex-between-center-center flex-wrap">
         <div class="left">
           <div class="title panel-title">{{$t("LK_YJJC")}}</div>
         </div>
-        <div class="middle">
-          {{
-            tabsData.sumAll
-              ? (tabsData.sumAll + '').replace(
-                  /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
-                  '$1,'
-                )
-              : ''
-          }}
-        </div>
-        <div class="right">
-          <div style="font-family: Arial; font-weight: bold; color: #aaa">
-            {{$t("ZHONGQIGAIKUAN")}}
+        <div style="display: flex;justify-content: space-between;flex:1">
+          <div class="middle center-number number_margin">
+            {{
+              tabsData.sumAll
+                ? (tabsData.sumAll + '').replace(
+                    /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
+                    '$1,'
+                  )
+                : ''
+            }}
           </div>
-          <!-- <div>{{tabsData.subtract}}</div> -->
+          <div class="right width_auto">
+            <div style="font-family: Arial; font-weight: bold; color: #aaa;margin-top:6px;">
+              中期改款
+            </div>
+            <!-- <div>{{tabsData.subtract}}</div> -->
+          </div>
         </div>
       </div>
       <div class="echart">
         <div class="ekl-pie" ref="pie" style="height: 240px"></div>
         <div class="tips" style="max-width:42%;">
           <div class="title" style="color: #333333">{{$t("DANGQIANWANCHENGLV")}}</div>
-          <div>
+          <div class="font-echarts">
             {{
               String(Number(tabsData.valEklType) / Number(tabsData.sumAll)) !=
               'NaN'
@@ -332,21 +340,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.font-echarts{
+  font-size: 28px!important;
+}
 .a-title {
   color: #1763F7;
   cursor: pointer;
   text-decoration: underline;
+  font-size: 19px;
 }
 .panel-title {
   font-family: Arial;
   font-weight: bold;
   color: #333;
-  font-size: 20px;
+  font-size: 19px;
 }
 .ekl-container {
   /* position: absolute;
   top: 20px;
   left: 0; */
+  padding-top: 10px;
   width: 100%;
   height: 100%;
   /* padding: 8px 16px 16px 16px; */
@@ -371,9 +384,9 @@ export default {
   }
   .tips {
     position: absolute;
-    bottom: 30%;
-    right: 3%;
-    > 
+    bottom: 35%;
+    left: 60%;
+    
     // .title {
     //   font-size: 18px;
     //   color: #1763f7;
@@ -382,7 +395,7 @@ export default {
       font-size: 48px;
       color: #1ab5c7;
       font-weight: bold;
-      > span {
+       span {
         font-size: 32px;
       }
     }
@@ -400,28 +413,27 @@ export default {
   .base {
     font-weight: bold;
     margin-bottom: 30px;
-    > .left {
+    .left {
       margin-right: 10px;
       min-width: 96px;
     }
-    > .right {
+    .right {
       min-width: 120px;
     }
-    > .left,
-    > .right {
+     .left,
+     .right {
       font-size: 16px;
-      > .title {
+       .title {
         color: #333;
         margin-bottom: 10px;
       }
     }
-    > .middle {
+     .middle {
       color: #1763f7;
       font-size: 26px;
       min-width: 120px;
     }
-    > .middle-m {
-      margin-top: -36px;
+     .middle-m {
       font-size: 24px;
     }
   }
@@ -429,6 +441,21 @@ export default {
   .echart {
     position: relative;
   }
+}
+.flex-wrap{
+  margin-top: 10px;
+  align-items: unset!important;
+}
+.center-number{
+  font-size: 26px!important;
+  margin-left:12px;
+}
+.margin-bottom2{
+  margin-bottom:2px!important;
+}
+.width_auto{
+  width:auto!important;
+  min-width: auto!important;
 }
 </style>
 <style lang="scss">
@@ -449,9 +476,9 @@ export default {
   }
   .target,
   .base {
-    > .left,
-    > .right {
-      > .el-select {
+     .left,
+     .right {
+       .el-select {
         width: 80px;
       }
     }

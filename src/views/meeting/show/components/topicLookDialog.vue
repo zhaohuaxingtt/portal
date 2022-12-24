@@ -329,16 +329,20 @@ export default {
     },
     // 下载附件
     handleDownLoad(e) {
-      download({
-        fileIds: e.attachmentId,
-        // url: MOCK_FILE_URL + e.attachmentId,
-        filename: e.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+      if (e.attachmentUrl) {
+        window.open(`${e.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: e.attachmentId,
+          // url: MOCK_FILE_URL + e.attachmentId,
+          filename: e.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            }
           }
-        }
-      })
+        })
+      }
     }
   }
 }

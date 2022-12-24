@@ -8,18 +8,18 @@
               <template v-if="canEdit">
                 <div v-show="!editFlag">
                   <uploadButton ref="uploadButtonAttachment" :buttonText="language('SHANGCHUAN', '上传')"
-                    :uploadByBusiness="true" v-permission="PORTAL_MTZ_CHANGE_INFOR_SCYCLYLBG"
+                    :uploadByBusiness="true" v-permission="PORTAL_CHIP_CHANGE_DETAIL_SHANGCHUAN"
                     @uploadedCallback="uploaded" class="margin-right20" :disabled="disabled" />
-                  <iButton @click="download" :disabled="disabled">
+                  <iButton @click="download" :disabled="disabled" v-permission="PORTAL_CHIP_CHANGE_DETAIL_DAOCHU">
                     {{ language('导出', '导出') }}
                   </iButton>
-                  <iButton @click="edit" :disabled="disabled">
+                  <iButton @click="edit" :disabled="disabled" v-permission="PORTAL_CHIP_CHANGE_DETAIL_BIANJI">
                     {{ language('BIANJI', '编辑') }}
                   </iButton>
-                  <iButton @click="add" :disabled="disabled">
+                  <iButton @click="add" :disabled="disabled" v-permission="PORTAL_CHIP_CHANGE_DETAIL_XINZENG">
                     {{ language('XINZENG', '新增') }}
                   </iButton>
-                  <iButton @click="del" :disabled="disabled">
+                  <iButton @click="del" :disabled="disabled" v-permission="PORTAL_CHIP_CHANGE_DETAIL_SHANCHU">
                     {{ language('SHANCHU', '删除') }}
                   </iButton>
                 </div>

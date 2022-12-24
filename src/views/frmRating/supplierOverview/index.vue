@@ -177,3 +177,16 @@ export default {
   }
 }
 </style>
+
+<style lang="scss" scoped>
+::v-deep .nav>div{
+  max-width: 170px!important;
+}
+
+::v-deep .nav>div:last-child{
+  max-width: 180px!important;
+  span{
+    margin-right:0
+  }
+}
+</style>

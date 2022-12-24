@@ -43,14 +43,15 @@
               ></el-option>
             </iSelect>
           </el-form-item>
+          <!-- 去除时间限制，组件中仍有部分预定时间限制，结束时间不能小于开始时间，开始时间大于结束时间则，清空结束时间 -->
+            <!-- :pickerOptionsStartProps="datePickerOptionsStart"
+            :pickerOptionsEndProps="datePickerOptionsEnd"
+            :pickerOptionsEndFun="pickerOptionsEndFun" -->
           <iDateRangePicker
             :startDateProps="form.startDateBegin"
             :endDateProps="form.startDateEnd"
             @change-start="changeStart"
             @change-end="changeEnd"
-            :pickerOptionsStartProps="datePickerOptionsStart"
-            :pickerOptionsEndProps="datePickerOptionsEnd"
-            :pickerOptionsEndFun="pickerOptionsEndFun"
             ref="iDateRangePicker"
             :label="$t('MT_HUIYIRIQI')"
           />

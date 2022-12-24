@@ -2,7 +2,9 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton :loading="loading" @click="handleSaveOk">{{ $t('提交') }}</iButton>
+        <iButton :loading="loading" @click="handleSaveOk">{{
+          $t('提交')
+        }}</iButton>
       </div>
     </div>
     <iTableML
@@ -671,7 +673,7 @@ export default {
   },
   data() {
     return {
-      loading:false,
+      loading: false,
       isGenerating: false,
       isCanRecall: false,
       isCanOpen: false,
@@ -754,7 +756,7 @@ export default {
     },
     // 提交接口   单选 sendBigMeetingThemen
     handleSaveOk() {
-      console.log(this.rowId);
+      console.log(this.rowId)
       // return
       if (this.selectedRow.length < 1) {
         iMessage.success('请选择一条数据')
@@ -763,26 +765,27 @@ export default {
       } else {
         const param = {
           meetingId: this.$route.query.id,
-          relationMeetingId:this.selectedRow[0].id,//勾选数据
-          themenIds:this.rowId //当前议题的id
+          relationMeetingId: this.selectedRow[0].id, //勾选数据
+          themenIds: this.rowId //当前议题的id
         }
-        console.log(param);
-        this.loading=true
-        sendBigMeetingThemen(param).then((res) => {
-          this.$alert(res.message, this.$t('GP_PROMPT'), {
-            type: 'warning'
+        console.log(param)
+        this.loading = true
+        sendBigMeetingThemen(param)
+          .then((res) => {
+            this.$alert(res.message, this.$t('GP_PROMPT'), {
+              type: 'warning'
+            })
+            this.loading = false
+            // iMessage.success('发送大会议程成功!');
+            //关闭弹窗
+            this.$emit('handleCloseSaveOk')
           })
-           this.loading=false
-          // iMessage.success('发送大会议程成功!');
-          //关闭弹窗
-          this.$emit('handleCloseSaveOk')
-        })
-        .catch((err)=>{
-          this.loading=false
-           this.$alert('系统异常', this.$t('GP_PROMPT'), {
-            type: 'warning'
+          .catch((err) => {
+            this.loading = false
+            this.$alert('系统异常', this.$t('GP_PROMPT'), {
+              type: 'warning'
+            })
           })
-        })
       }
     },
     handleEndTime(row) {
@@ -1030,16 +1033,20 @@ export default {
     },
     // 下载附件
     downloadEnclosure(e) {
-      download({
-        fileIds: e.attachmentId,
-        // url: MOCK_FILE_URL + e.attachmentId,
-        filename: e.attachmentName,
-        callback: (e) => {
-          if (!e) {
-            iMessage.error('下载失败')
+      if (e.attachmentUrl) {
+        window.open(`${e.attachmentUrl}`, '_blank')
+      } else {
+        download({
+          fileIds: e.attachmentId,
+          // url: MOCK_FILE_URL + e.attachmentId,
+          filename: e.attachmentName,
+          callback: (e) => {
+            if (!e) {
+              iMessage.error('下载失败')
+            }
           }
-        }
-      })
+        })
+      }
     },
     // 下载模版
     downDemo() {

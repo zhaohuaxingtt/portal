@@ -244,7 +244,7 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      let valid = true
+      let valid = 0
       //   const requiredPropsArray = this.tableTitle.filter((item) => {
       //     return item.required
       //   })
@@ -263,9 +263,7 @@ export default {
       //     })
       this.selectTableData.forEach((arr) => {
         if (arr.itemList.length < this.tableTitleData.length) {
-          valid = false
-        } else {
-          valid = true
+          valid++;
         }
         arr.itemList.forEach((r) => {
           r.versionNum = 0
@@ -302,10 +300,10 @@ export default {
         })
       })
       if (step === 'tempStore') {
-        valid = true
+        valid = 0
       }
       console.log(this.selectTableData)
-      if (valid) {
+      if (valid == 0) {
         try {
           this.handleSubmitOrTemporaryStorageButtonLoading(step, true)
           const req = {
@@ -347,21 +345,36 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      try {
-        this.followButtonLoading = true
-        const initialIds = this.selectTableData.map((item) => {
-          return item.initialId
-        })
-        const req = { initialIds }
-        const res = await followQualitativeScore(req)
-        this.resultMessage(res, () => {
-          this.$emit('handleSubmitCallback')
-          this.getTableList()
-        })
-        this.followButtonLoading = false
-      } catch {
-        this.followButtonLoading = false
-      }
+      // var vaild = 0;
+      // this.selectTableData.forEach(arr=>{
+      //   if (arr.itemList.length < this.tableTitleData.length) {
+      //     vaild++;
+      //   }
+      // })
+      // if(vaild == 0){
+        try {
+          this.followButtonLoading = true
+          const initialIds = this.selectTableData.map((item) => {
+            return item.initialId
+          })
+          const req = { initialIds }
+          const res = await followQualitativeScore(req)
+          this.resultMessage(res, () => {
+            this.$emit('handleSubmitCallback')
+            this.getTableList()
+          })
+          this.followButtonLoading = false
+        } catch {
+          this.followButtonLoading = false
+        }
+      // }else{
+      //   iMessage.warn(
+      //     //   '#' + (positionIndex + 1) + ':' + this.$t('SPR_FRM_CBPJ_QWCDF')
+      //     // this.$t('SPR_FRM_CBPJ_QWCDF')
+      //     this.language('QINGWANCHENGSUOYOUXUANZE', '请完成所有选择！')
+      //   )
+      //   return false
+      // }
     },
     async getViewTableList() {
       this.tableLoading = true

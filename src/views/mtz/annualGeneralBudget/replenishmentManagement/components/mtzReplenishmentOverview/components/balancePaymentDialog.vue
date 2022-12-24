@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-05-17 14:42:18
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-06 14:59:24
+ * @LastEditors: 余继鹏 917955345@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
@@ -380,15 +380,15 @@ export default {
     }
   },
   watch: {
-    materialCodes: {
-      handler (val) {
-        this.$nextTick(() => {
-          this.$set(this.searchForm, "secondSupplierList", val)
-        });
-      },
-      deep: true,
-      immediate: true
-    },
+    // materialCodes: {
+    //   handler (val) {
+    //     this.$nextTick(() => {
+    //       this.$set(this.searchForm, "secondSupplierList", val)
+    //     });
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
     minDate (val) {
       this.pickerOptions = {
         onPick: ({ minDate }) => {
@@ -532,13 +532,13 @@ export default {
         this.searchForm.compTimeStart = obj.balanceStartDate;
         this.searchForm.effPriceTo = obj.effPriceEndDate;
         this.searchForm.effPriceFrom = obj.effPriceStartDate;
-        this.searchForm.secondSupplierList = obj.ssupplierCodeList;
+        this.searchForm.secondSupplierList = obj.sSupplierCodeList;
         this.$set(this.searchForm,"materialKindList",obj.materialKindList)
         this.searchForm.sapOrderNo = obj.sapOrderNoList;
         this.searchForm.materialCode = obj.materialCodeList;
         this.searchForm.ekGroupList = obj.purchaseGroupList;
         this.searchForm.fpartNo = obj.fPartNoList;
-        this.searchForm.spartNo = obj.spartNoList;
+        this.searchForm.spartNo = obj.sPartNoList;
         this.searchForm.isEffAvg = obj.isEffAvg
 
         if(obj.effPriceStartDate && obj.effPriceEndDate){
@@ -678,7 +678,8 @@ export default {
     handleChange (val) {
       console.log(val)
       this.searchForm.compTimeStart = val[0]
-      this.searchForm.compTimeEnd = val[1]
+      // 结束时间选择当月最后一天
+      this.searchForm.compTimeEnd = window.moment(val[1]).endOf('month').format('YYYY-MM-DD')
     },
     handleChangeDate (val) {
       console.log(val)
