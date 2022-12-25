@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-11-30 09:40:43
- * @LastEditors: 余继鹏 917955345@qq.com
+ * @LastEditTime: 2022-12-24 12:15:17
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\ChipLocationChange\ChipLocationChangeOverview\components\theTable.vue
 -->
 <template>
   <div>
@@ -12,13 +12,13 @@
       <template v-slot:header>
         <span class="headTitle">{{ $t('XIANGQINGLIEBIAO') }}</span>
         <div>
-          <iButton @click="addChip">{{
+          <iButton @click="addChip" v-permission="PORTAL_CHIP_CHANGE_ADD">{{
             language('XINJIANCHIPBIANGENGSHENQING', '新建芯片补差变更申请')
           }}</iButton>
-          <iButton @click="openRecall">{{
+          <iButton @click="openRecall" v-permission="PORTAL_CHIP_CHANGE_CHEHUI">{{
             language('CHEHUI', '撤回')
           }}</iButton>
-          <iButton @click="del">{{ language('SHANCHU', '删除') }}</iButton>
+          <iButton @click="del" v-permission="PORTAL_CHIP_CHANGE_SHANCHU">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </template>
       <el-table

@@ -7,7 +7,8 @@
           <span>{{ language('SHENQINGDANXINXI', '申请单信息') }}</span>
         </div>
         <div class="opration">
-          <iButton @click="edit" v-show="disabled && canEdit">{{
+          <iButton @click="edit" v-show="disabled && canEdit" 
+          v-permission="PORTAL_CHIP_POINT_DETAIL_BIANJI">{{
             language('BIANJI', '编辑')
           }}</iButton>
           <iButton @click="cancel" v-show="!disabled">{{
