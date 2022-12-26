@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-08 14:57:16
- * @LastEditTime: 2021-11-01 18:16:47
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 19:08:26
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 编辑
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualBudgetEdit\buyerOverview\components\detail.vue
+ * @FilePath: \front-portal\src\views\mtz\annualBudgetEdit\buyerOverview\components\editDetail.vue
 -->
 <template>
   <div>
@@ -72,9 +72,9 @@
         <el-divider class="margin-top20"></el-divider>
         <div class="contentBox">
           <div class="tableOptionBox">
-            <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{money(params.initPrice)}} </p>
+            <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{moneyInfo(money(params.initPrice))}} </p>
             <p class="tableTitle">{{language('XISHUMAOHAO', '系数：')}} {{ratio(money(params.initPrice), money(params.totalPrice))}} </p>
-            <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{money(params.totalPrice)}} </p>
+            <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{moneyInfo(money(params.totalPrice))}} </p>
             <iButton v-if="!editMode"
                      @click="handleEdit">{{language('BIANJI', '编辑')}}</iButton>
             <iButton v-if="editMode"
@@ -95,7 +95,7 @@
               <el-tooltip :content="moneyInfo(scope.row['initPrTotal'])"
                           placement="top"
                           effect="light">
-                <p>{{money(scope.row['initPrTotal'])}}</p>
+                <p>{{moneyInfo(money(scope.row['initPrTotal']))}}</p>
               </el-tooltip>
             </template>
             <template #coefValue="scope">
@@ -110,7 +110,7 @@
               <el-tooltip :content="moneyInfo(scope.row['prTotal'])"
                           placement="top"
                           effect="light">
-                <p>{{money(scope.row['prTotal'])}}</p>
+                <p>{{moneyInfo(money(scope.row['prTotal']))}}</p>
               </el-tooltip>
             </template>
           </tableList>
@@ -134,7 +134,7 @@ import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import { editDetailTableTitle } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { getMoney, getMoneyInfo, getRatio } from '@/views/mtz/moneyComputation'
+import {  money, moneyInfo, getRatio } from '@/views/mtz/moneyComputation'
 import { fetchEditBuyerDataPage, fetchEditBuyerSave, fetchGroups, fetchRemoteMtzMaterial } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { debounce } from '@/views/mtz/debounce.js'
 export default {
@@ -183,25 +183,25 @@ export default {
     }
   },
   computed: {
-    money () {
-      return function (val) {
-        let res = ''
-        if (val) {
-          // res = Number(val/1000000).toFixed(2)
-          res = getMoney(val)
-        }
-        return res
-      }
-    },
-    moneyInfo () {
-      return function (val) {
-        let res = ''
-        if (val) {
-          res = getMoneyInfo(val)
-        }
-        return res
-      }
-    },
+    // money () {
+    //   return function (val) {
+    //     let res = ''
+    //     if (val) {
+    //       // res = Number(val/1000000).toFixed(2)
+    //       res = getMoney(val)
+    //     }
+    //     return res
+    //   }
+    // },
+    // moneyInfo () {
+    //   return function (val) {
+    //     let res = ''
+    //     if (val) {
+    //       res = getMoneyInfo(val)
+    //     }
+    //     return res
+    //   }
+    // },
     ratio () {
       return function (initPrice, totalPrice) {
         let res = ''
@@ -218,6 +218,7 @@ export default {
     this.remoteGetRawMaterial()
   },
   methods: {
+    money, moneyInfo,
     // 获取数据
     getTableData () {
       // this.tableListData = [

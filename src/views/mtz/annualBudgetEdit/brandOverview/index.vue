@@ -1,19 +1,19 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-03 16:33:28
- * @LastEditTime: 2021-10-21 16:35:00
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 19:14:21
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑-品牌总览
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualBudgetEdit\buyerOverview\index.vue
+ * @FilePath: \front-portal\src\views\mtz\annualBudgetEdit\brandOverview\index.vue
 -->
 <template>
   <iCard>
     <div class="contentBox">
       <div class="tableOptionBox">
-        <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{money(params.initPrice)}} </p>
-        <p class="tableTitle">{{language('TZHYSZJEBWMH', '调整后预算总金额（百万元）：')}} {{money(params.adjustTotal)}} </p>
+        <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{moneyInfo(money(params.initPrice))}} </p>
+        <p class="tableTitle">{{language('TZHYSZJEBWMH', '调整后预算总金额（百万元）：')}} {{moneyInfo(money(params.adjustTotal))}} </p>
         <p class="tableTitle">{{language('XISHUMAOHAO', '系数：')}} {{ratio(money(params.initPrice), money(params.totalPrice))}} </p>
-        <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{money(params.totalPrice)}} </p>
+        <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{moneyInfo(money(params.totalPrice))}} </p>
         <iButton v-if="!editMode" @click="handleEdit">{{language('BIANJI', '编辑')}}</iButton>
         <iButton v-if="editMode" @click="handleSave">{{language('BAOCUN', '保存')}}</iButton>
         <iButton v-if="editMode" @click="handleCancel">{{language('QUXIAO', '取消')}}</iButton>
@@ -26,8 +26,8 @@
         :index="true"
         :selection="false">
         <template #initPrTotal="scope">
-          <el-tooltip :content="scope.row['initPrTotal']" placement="top" effect="light">
-            <p>{{money(scope.row['initPrTotal'])}}</p>
+          <el-tooltip :content="moneyInfo(scope.row['initPrTotal'])" placement="top" effect="light">
+            <p>{{moneyInfo(money(scope.row['initPrTotal']))}}</p>
           </el-tooltip>
         </template>
         <template #coefValue="scope">
@@ -38,12 +38,12 @@
         </template>
         <template #prTotal="scope">
           <el-tooltip :content="moneyInfo(scope.row['prTotal'])" placement="top" effect="light">
-            <p>{{money(scope.row['prTotal'])}}</p>
+            <p>{{moneyInfo(money(scope.row['prTotal']))}}</p>
           </el-tooltip>
         </template>
         <template #adjustTotal="scope">
           <el-tooltip :content="moneyInfo(scope.row['adjustTotal'])" placement="top" effect="light">
-            <p>{{money(scope.row['adjustTotal'])}}</p>
+            <p>{{moneyInfo(money(scope.row['adjustTotal']))}}</p>
           </el-tooltip>
         </template>
       </tableList>
@@ -66,7 +66,8 @@ import { iCard, iInput, iButton, iPagination, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins';
 import { tableTitle } from './components/data'
 import tableList from '@/components/commonTable/index.vue'
-import { getMoney, getMoneyInfo, getRatio } from '@/views/mtz/moneyComputation'
+// import { getMoney, getMoneyInfo, getRatio } from '@/views/mtz/moneyComputation'
+import { money, moneyInfo, getRatio } from '@/views/mtz/moneyComputation'
 import { fetchBrandDataPage, fetchBrandSave } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 export default {
   mixins: [pageMixins],
@@ -90,25 +91,25 @@ export default {
     }
   },
   computed: {
-    money() {
-      return function(val) {
-        let res = ''
-        if(val) {
-          // res = Number(val/1000000).toFixed(2)
-          res = getMoney(val)
-        }
-        return res
-      }
-    },
-    moneyInfo() {
-      return function(val) {
-        let res = ''
-        if(val) {
-          res = getMoneyInfo(val)
-        }
-        return res
-      }
-    },
+    // money() {
+    //   return function(val) {
+    //     let res = ''
+    //     if(val) {
+    //       // res = Number(val/1000000).toFixed(2)
+    //       res = getMoney(val)
+    //     }
+    //     return res
+    //   }
+    // },
+    // moneyInfo() {
+    //   return function(val) {
+    //     let res = ''
+    //     if(val) {
+    //       res = getMoneyInfo(val)
+    //     }
+    //     return res
+    //   }
+    // },
     ratio() {
       return function(initPrice, totalPrice) {
         let res = ''
@@ -123,6 +124,7 @@ export default {
     this.getTableData()
   },
   methods: {
+    money, moneyInfo,
     // 获取数据
     getTableData() {
       // this.tableListData = [
