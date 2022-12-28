@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2022-12-28 15:19:22
+ * @LastEditTime: 2022-12-28 18:00:10
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 首页
  * @FilePath: \front-portal\src\views\meeting\home\index.vue
@@ -14,6 +14,7 @@
       @setTypeObj="setTypeObj"
       @deleteWeek="deleteWeek"
       :form="form"
+      :meetingTypeList="meetingTypeList"
     />
     <theTable
     :form="form"
@@ -39,7 +40,7 @@
 import theSearch from './components/theSearch.vue'
 import theTable from './components/theTable.vue'
 import { getMettingList } from '@/api/meeting/home'
-import { getAttendee, getReceiver } from '@/api/meeting/type'
+import { getAttendee, getReceiver, getMettingType } from '@/api/meeting/type'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { tableListColumns } from './components/data'
@@ -90,17 +91,17 @@ export default {
     }
   },
   mounted() {
- 
-
-      if(sessionStorage.getItem('msgInfo')){
-        let data=JSON.parse(sessionStorage.getItem('search'))
-        this.form=data||this.form
-           this.getTableList()
-    this.getSelectListAll()
+    if(sessionStorage.getItem('msgInfo')){
+      let data=JSON.parse(sessionStorage.getItem('search'))
+      this.form=data||this.form
+      this.getAllSelectList()
+      // this.getTableList()
+      this.getSelectListAll()
     }else{
-        sessionStorage.removeItem('search')
-           this.getTableList()
-    this.getSelectListAll()
+      sessionStorage.removeItem('search')
+      this.getAllSelectList()
+      // this.getTableList()
+      this.getSelectListAll()
     }
   },
   // watch: {
@@ -113,10 +114,22 @@ export default {
   //   },
   // },
   methods: {
+    getAllSelectList() {
+      let param = {
+        pageSize: 1000,
+        pageNum: 1,
+        isCurrentUser: true
+      }
+      getMettingType(param).then((res) => {
+        this.meetingTypeList = res.data
+        this.setTypeObj(res.data)
+        this.getTableList()
+      })
+    },
     getTableList() {
       let param = {}
-      let meetingTypeIdList = this.meetingTypeList.map(item=>item.id)
-      if(this.form?.meetingType){
+      let meetingTypeIdList = this.meetingTypeList?.map(item=>item.id)
+      if(this.form?.meetingType?.id){
         meetingTypeIdList = [this.form.meetingType ? this.form.meetingType.id : '']
       }
       if (!this.form) {

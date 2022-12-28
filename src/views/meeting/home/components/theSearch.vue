@@ -96,7 +96,7 @@
 
 <script>
 import { iSearch, iInput, iSelect, iMessage } from 'rise'
-import { getMettingType } from '@/api/meeting/type'
+
 import { statusList } from './data'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import dayjs from '@/utils/dayjs.js'
@@ -114,12 +114,16 @@ export default {
       default: () => {
         return {}
       }
+    },
+    meetingTypeList:{
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
       sortArr: [],
-      meetingTypeList: [],
+      // meetingTypeList: [],
       statusList,
       // startWeek: curWeekNum - 1,
       // endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
@@ -152,9 +156,6 @@ export default {
   created() {
     this.weekListInit = this.getWeekList(this.form.startDateBegin)
     this.weekList = [...this.weekListInit]
-  },
-  mounted() {
-    this.getAllSelectList()
   },
   watch: {
     'form.meetingType': {
@@ -407,17 +408,6 @@ export default {
     },
     searchTableList() {
       this.$emit('searchTableList')
-    },
-    getAllSelectList() {
-      let param = {
-        pageSize: 1000,
-        pageNum: 1,
-        isCurrentUser: true
-      }
-      getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data
-        this.$emit('setTypeObj', res.data)
-      })
     },
     changeStart(e) {
       this.form.startDateBegin = e
