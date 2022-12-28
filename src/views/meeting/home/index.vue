@@ -1,8 +1,8 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2022-09-27 16:29:47
- * @LastEditors: caopeng
+ * @LastEditTime: 2022-12-28 15:19:22
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 首页
  * @FilePath: \front-portal\src\views\meeting\home\index.vue
 -->
@@ -67,6 +67,7 @@ export default {
         states: [],
         name: '',
         // meetingTypeId: "",
+        meetingTypeIdList:[],
         meetingType: {},
         startDate: '',
         startTime: '',
@@ -114,9 +115,14 @@ export default {
   methods: {
     getTableList() {
       let param = {}
+      let meetingTypeIdList = this.meetingTypeList.map(item=>item.id)
+      if(this.form?.meetingType){
+        meetingTypeIdList = [this.form.meetingType ? this.form.meetingType.id : '']
+      }
       if (!this.form) {
         param = {
           meetingTypeId: '',
+          meetingTypeIdList: meetingTypeIdList,
           pageNum: this.page.currPage,
           pageSize: this.page.pageSize,
           states: []
@@ -125,6 +131,7 @@ export default {
         param = {
           ...this.form,
           meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
+          meetingTypeIdList: meetingTypeIdList,
           pageNum: this.page.currPage,
           pageSize: this.page.pageSize,
           states: this.form.states ? [this.form.states] : []
