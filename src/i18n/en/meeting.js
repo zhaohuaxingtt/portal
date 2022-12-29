@@ -231,5 +231,14 @@ export default {
   MT_HUIYIZHIBO: 'Live meeting',
   MT_TONGYONGHUIYI: 'General meeting',
   MT_SHENGCHANCAIGOUSCC: 'Production procurement CSC',
-  MT_YIBANCAIGOUCSG: 'General procurement CSG'
+  MT_YIBANCAIGOUCSG: 'General procurement CSG',
+  MT_DAIDING:'To be determined',
+  MT_DINGDIAN:'Nomi.',
+  MT_FALOI:'LOI',
+  MT_ZHUANTER:'To TER/TOP-TER',
+  MT_XIACIPRE:'Pre CSC next time',
+  MT_ZHUANCSC:'Convert CSC',
+  MT_CHEHUIYITI:'Recall',
+  MT_QUANBU:'All',
+  MT_WODE:'Mine'
 }

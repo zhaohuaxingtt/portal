@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-27 15:12:49
- * @LastEditTime: 2021-10-18 21:07:46
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 19:27:12
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 上传点价单错误信息展示弹窗
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\preciousMetalMarketPriceInquiry\components\orderDialog.vue
+ * @FilePath: \front-portal\src\views\mtz\dataBase\marketPriceEnquiry\components\uploadInfoDialog.vue
 -->
 <template>
   <div>
@@ -17,6 +17,9 @@
         :tableTitle="tableTitle"
         :selection="false"
         :index="index">
+        <template #budget="scope">
+          <p>{{moneyInfo(scope.row['budget'])}}</p>
+        </template>
       </tableList>
     </iDialog>
   </div>
@@ -25,6 +28,7 @@
 <script>
 import { iDialog } from 'rise'
 import tableList from '@/components/commonTable';
+import { money, moneyInfo } from '@/views/mtz/moneyComputation'
 export default {
   components: {
     iDialog,
@@ -56,6 +60,7 @@ export default {
     
   },
   methods: {
+    money, moneyInfo,
     closeDiolog() {
       this.$emit('handleCloseDialog')
     }

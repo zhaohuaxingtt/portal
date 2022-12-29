@@ -9,6 +9,7 @@
                 <iSelect
                   :placeholder="$t('LK_QINGXUANZE')"
                   v-model="form.meetingTypeId"
+                  clearable
                 >
                   <el-option
                     :value="item.id"
@@ -35,10 +36,11 @@
                 <iSelect
                   :placeholder="$t('LK_QINGXUANZE')"
                   v-model="form.commodity"
+                  clearable
                 >
                   <el-option
                     :value="item.fullCode"
-                    :label="item.fullCode"
+                    :label="$getLabel(item.nameZh,item.nameEn)"
                     v-for="item of commodityList"
                     :key="item.fullCode"
                   ></el-option>
@@ -48,10 +50,11 @@
                 <iSelect
                   :placeholder="$t('LK_QINGXUANZE')"
                   v-model="form.result"
+                  clearable
                 >
                   <el-option
                     :value="item.conclusionCsc"
-                    :label="item.i18n"
+                    :label="$t(item.i18n)"
                     v-for="item of resultList"
                     :key="item.conclusionCsc"
                   ></el-option>
@@ -70,10 +73,10 @@
         </div>
         <div class="operation" v-if="!hiddenRight">
           <slot name="button">
-            <iButton @click="query('search')" v-permission="searchKey">{{
+            <iButton @click="query('search')">{{
               $t('MT_SOUSUO')
             }}</iButton>
-            <iButton @click="goBack" v-permission="resetKey">{{
+            <iButton @click="goBack">{{
               $t('MT_FANHUI')
             }}</iButton>
           </slot>
@@ -168,7 +171,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           prop="meetingName"
@@ -177,16 +180,16 @@
           min-width="404"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Part No."
-          min-width="164"
+          min-width="144"
           prop="tnr"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -195,7 +198,7 @@
           prop="benCn"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -204,7 +207,7 @@
           prop="carline"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -213,7 +216,7 @@
           prop="supporter"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -222,7 +225,7 @@
           prop="presenter"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -231,7 +234,7 @@
           prop="presenterDept"
         >
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -246,18 +249,18 @@
             >
           </template>
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
           label="Result"
-          min-width="45"
+          min-width="65"
         >
           <template slot-scope="scope">
             <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="30"></el-table-column>
+        <el-table-column align="center" width="15"></el-table-column>
       </iTableML>
       <iPagination
         v-update
@@ -293,8 +296,7 @@
 </template>
 
 <script>
-import { iCard, iPagination, iMessage, iPage } from 'rise'
-import { iSelect, iButton } from 'rise'
+import { iCard, iPagination, iMessage, iPage, iSelect, iButton } from 'rise'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iTableML from '@/components/iTableML'
 import { findMyThemens } from '@/api/meeting/myMeeting'
@@ -826,11 +828,12 @@ export default {
   padding: 0 !important;
   width: 100% !important;
   min-width: initial !important;
-  span {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
+  // 导致超出后无法省略
+  // span {
+  //   display: block;
+  //   width: 100%;
+  //   text-align: center;
+  // }
   .el-checkbox {
     width: 100%;
     display: flex;
@@ -909,12 +912,12 @@ export default {
     ::v-deep .operation {
       transition: 0.5s;
       /* margin-top: 22px; */
-      transform: translateY(-5px);
+      // transform: translateY(-5px);
       width: 230px;
-      position: relative;
-      text-align: right;
-      flex-shrink: 0;
-      align-self: flex-end;
+      // position: relative;
+      // text-align: right;
+      // flex-shrink: 0;
+      align-self: center;
       padding-bottom: 6px;
       .icon {
         position: absolute;
