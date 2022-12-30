@@ -141,6 +141,16 @@ export const TABLE_COLUMNS = [
     minWidth: 120
   },
   {
+    prop: 'sPartNum',
+    label: '二次零件号',
+    minWidth: 120
+  },
+  {
+    prop: 'sSupplierCodeName',
+    label: '二次供应商',
+    minWidth: 120
+  },
+  {
     prop: 'compensationRatio',
     label: '补差系数',
     minWidth: 120
