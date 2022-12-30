@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-02 09:56:38
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -14,9 +14,9 @@
               class="search"
               :category-code="categoryCode"
               @handleSave="handleSave" />
-      <theCard :area="area"
+      <!-- <theCard :area="area"
             :object="object"
-            class="card-right" />
+            class="card-right" /> -->
       <chartMap ref="chartMap"
               :object="object" />
     </div>
@@ -86,7 +86,6 @@ export default {
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
     this.categoryCode = this.$route.query.categoryCode
-    console.log(this.categoryCode)
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {

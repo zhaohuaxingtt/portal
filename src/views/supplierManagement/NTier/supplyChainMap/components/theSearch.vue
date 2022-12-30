@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-02 20:01:05
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -182,7 +182,6 @@ export default {
       });
     },
     handlePartSearch (val) {
-      console.log(val);
       this.formGoup.partList = this.formGoupCopy.partList.filter(item => {
         return item.partNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
@@ -251,128 +250,127 @@ export default {
         return vnode.text;
       }
     },
-    getData(){
-      this.getCityInfo().then(res=>{
-        // console.log(res);
-        this.formGoup.areaList = _.cloneDeep(res);
-        console.log(this.form)
-      })
-    },
     getCityInfo () {
+      console.log('getCityInfo=>:Start')
+      console.time('getCityInfoTime')
       var that = this;
-
       var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
       var enRule = /^[a-zA-Z]+$/;//英文
-      return new Promise((resolve, reject) => {
-        console.log(that.$i18n.locale);
         getCityInfo().then(res=>{
-          if(res?.result){
-            let areaList = []
-            // 筛选国家
-            res.data.map((item) => {
-              if (item.locationType === 'Nation') {
-                if(that.$i18n.locale === "zh"){
-                  if(zhRule.test(item.cityNameCn)){
-                    areaList.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameCn,
-                      cityId: item.cityId,
-                      children: []
-                    })
-                  }
-                }else{
-                  if(enRule.test(item.cityNameEn)){
-                    areaList.push({
-                      value: item.cityNameCn,
-                      label: item.cityNameEn,
-                      cityId: item.cityId,
-                      children: []
-                    })
-                  }
-                }
-              }
-            })
-            // 筛选省
-            res.data.forEach((item) => {
-              areaList.forEach((val, index) => {
-                if (
-                  item.locationType === 'Province' &&
-                  item.parentCityId === val.cityId
-                ) {
+          console.time('worker')
+          if (window.Worker) {
+            const myWorker = new Worker("./worker.js");
+            myWorker.postMessage(res);
+            myWorker.onmessage = function(result) {
+              that.formGoup.areaList = _.cloneDeep(result.data);
+              console.timeEnd('worker')
+            }
+          } else {
+            if(res?.result){
+              let areaList = []
+              // 筛选国家
+              res.data.map((item) => {
+                if (item.locationType === 'Nation') {
                   if(that.$i18n.locale === "zh"){
                     if(zhRule.test(item.cityNameCn)){
-                      areaList[index].children.push({
+                      areaList.push({
                         value: item.cityNameCn,
                         label: item.cityNameCn,
                         cityId: item.cityId,
-                        parentCityId: item.parentCityId,
                         children: []
                       })
                     }
                   }else{
                     if(enRule.test(item.cityNameEn)){
-                      areaList[index].children.push({
+                      areaList.push({
                         value: item.cityNameCn,
                         label: item.cityNameEn,
                         cityId: item.cityId,
-                        parentCityId: item.parentCityId,
                         children: []
                       })
                     }
                   }
                 }
               })
-            })
-            // 筛选市
-            res.data.forEach((item) => {
-              areaList.forEach((val, j) => {
-                val.children.forEach((i, index) => {
-                  if (item.locationType === 'City' && item.parentCityId === i.cityId) {
+              // 筛选省
+              res.data.forEach((item) => {
+                areaList.forEach((val, index) => {
+                  if (
+                    item.locationType === 'Province' &&
+                    item.parentCityId === val.cityId
+                  ) {
                     if(that.$i18n.locale === "zh"){
                       if(zhRule.test(item.cityNameCn)){
-                        areaList[j].children[index].children.push({
+                        areaList[index].children.push({
                           value: item.cityNameCn,
                           label: item.cityNameCn,
                           cityId: item.cityId,
-                          parentCityId: item.parentCityId
+                          parentCityId: item.parentCityId,
+                          children: []
                         })
                       }
                     }else{
                       if(enRule.test(item.cityNameEn)){
-                        areaList[j].children[index].children.push({
+                        areaList[index].children.push({
                           value: item.cityNameCn,
                           label: item.cityNameEn,
                           cityId: item.cityId,
-                          parentCityId: item.parentCityId
+                          parentCityId: item.parentCityId,
+                          children: []
                         })
                       }
                     }
                   }
                 })
               })
-            })
-            // 删除空数组
-            console.log(areaList)
-            areaList.map((item) => {
-              if (item.children.length) {
-                item.children.map((val) => {
-                  if (item.children.length === 0) {
-                    delete val.children
-                  }
+              // 筛选市
+              res.data.forEach((item) => {
+                areaList.forEach((val, j) => {
+                  val.children.forEach((i, index) => {
+                    if (item.locationType === 'City' && item.parentCityId === i.cityId) {
+                      if(that.$i18n.locale === "zh"){
+                        if(zhRule.test(item.cityNameCn)){
+                          areaList[j].children[index].children.push({
+                            value: item.cityNameCn,
+                            label: item.cityNameCn,
+                            cityId: item.cityId,
+                            parentCityId: item.parentCityId
+                          })
+                        }
+                      }else{
+                        if(enRule.test(item.cityNameEn)){
+                          areaList[j].children[index].children.push({
+                            value: item.cityNameCn,
+                            label: item.cityNameEn,
+                            cityId: item.cityId,
+                            parentCityId: item.parentCityId
+                          })
+                        }
+                      }
+                    }
+                  })
                 })
-              } else {
-                delete item.children
-              }
-            })
-            areaList.map((item) => {
-              return item.children && item.children
-            })
-            console.log(areaList)
-            resolve(areaList)
+              })
+              // 删除空数组
+              areaList.map((item) => {
+                if (item.children.length) {
+                  item.children.map((val) => {
+                    if (item.children.length === 0) {
+                      delete val.children
+                    }
+                  })
+                } else {
+                  delete item.children
+                }
+              })
+              areaList.map((item) => {
+                return item.children && item.children
+              })
+              this.formGoup.areaList = _.cloneDeep(areaList);
+            }
           }
-        }).catch(res=>{
-          reject();
-        })
+          
+        console.timeEnd('getCityInfoTime')
       })
     },
     // 重置
@@ -398,6 +396,7 @@ export default {
       this.getMapList()
     },
     async getSelectList (flag) {
+      console.time('getSelectListTime=>')
       try {
         let res1, res2, res3, res4
         switch (flag) {
@@ -410,12 +409,11 @@ export default {
             this.formGoupCopy.supplierList = res3.data
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
-              res4.data.forEach(e=>{
-                e.partNameCn = e.partNameCn + "-" + e.partNum
-                e.partNameDe = e.partNameDe + "-" + e.partNum
-              })
+              // res4.data.forEach(e=>{
+              //   e.partNameCn = e.partNameCn + "-" + e.partNum
+              //   e.partNameDe = e.partNameDe + "-" + e.partNum
+              // })
               list4 = res4.data
-              console.log(list4)
             }).then(red=>{
               this.formGoup.partList = list4
               this.formGoupCopy.partList = list4
@@ -430,12 +428,11 @@ export default {
             this.formGoupCopy.supplierList = res3.data
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
-              res4.data.forEach(e=>{
-                e.partNameCn = e.partNameCn + "-" + e.partNum
-                e.partNameDe = e.partNameDe + "-" + e.partNum
-              })
+              // res4.data.forEach(e=>{
+              //   e.partNameCn = e.partNameCn + "-" + e.partNum
+              //   e.partNameDe = e.partNameDe + "-" + e.partNum
+              // })
               list4 = res4.data
-              console.log(list4)
             }).then(red=>{
               this.formGoup.partList = list4
               this.formGoupCopy.partList = list4
@@ -450,12 +447,11 @@ export default {
             this.formGoupCopy.categoryList = res2.data
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
-              res4.data.forEach(e=>{
-                e.partNameCn = e.partNameCn + "-" + e.partNum
-                e.partNameDe = e.partNameDe + "-" + e.partNum
-              })
+              // res4.data.forEach(e=>{
+              //   e.partNameCn = e.partNameCn + "-" + e.partNum
+              //   e.partNameDe = e.partNameDe + "-" + e.partNum
+              // })
               list4 = res4.data
-              console.log(list4)
             }).then(red=>{
               this.formGoup.partList = list4
               this.formGoupCopy.partList = list4
@@ -486,29 +482,28 @@ export default {
 
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
-              res4.data.forEach(e=>{
-                e.partNameCn = e.partNameCn + "-" + e.partNum
-                e.partNameDe = e.partNameDe + "-" + e.partNum
-              })
+              // res4.data.forEach(e=>{
+              //   e.partNameCn = e.partNameCn + "-" + e.partNum
+              //   e.partNameDe = e.partNameDe + "-" + e.partNum
+              // })
               list4 = res4.data
-              console.log(list4)
             }).then(red=>{
               this.formGoup.partList = list4
               this.formGoupCopy.partList = list4
             })
-            // res4 = await listSelectPart(this.form)
-            // console.log(res4)
             break;
         }
+        
+      console.timeEnd('getSelectListTime=>')
       } catch (error) {
       }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   async created () {
-    await this.getSelectList()
+    this.getSelectList()
     this.getMapList()
-    this.getData()
+    this.getCityInfo()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {

@@ -210,7 +210,6 @@ export default {
           content: '',
           offset: new AMap.Pixel(0, -320),
         })
-        console.log(this.tips)
         const infowindowWrap = Vue.extend({
           template: `<tipTable :rate="rate" :tableDataList="tableDataList"> </tipTable>`,
           name: "infowindowWrap",
@@ -224,7 +223,6 @@ export default {
             };
           },
         });
-        console.log(infowindowWrap)
         const component = new infowindowWrap().$mount();
         this.tips.setContent(component.$el)
         this.tips.open(this.map, [item.lon, item.lat])
@@ -235,7 +233,6 @@ export default {
     },
     // 生成贝塞尔曲线row:选择的数据
     handleRecursion (data, partNum, viewType) {
-      console.log(data);
       data.map((item, index) => {
         if(!item.address) return false;
         this.markerChain[index] = new AMap.Marker({
@@ -343,7 +340,6 @@ export default {
           this.handleRecursion(item.child, partNum, viewType)
         }
       })
-      console.log(this.marker, "marker")
     },
     // 点击零件|供应商
     async handleCurrentChange (row, viewType) {
@@ -370,7 +366,6 @@ export default {
       }
       const res = await getRetrieveChain(pms)
       this.handleRecursion(res.data, row.partNum, viewType)
-      console.log(this.bezierCurve)
       this.bezierCurve.forEach((item, index) => {
         this.bezierCurve[index].setMap(this.map)
       })

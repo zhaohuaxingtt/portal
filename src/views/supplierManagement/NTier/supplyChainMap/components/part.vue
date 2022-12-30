@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-06 12:45:45
- * @LastEditors: zbin
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -58,7 +58,6 @@ export default {
   watch: {
     object: {
       handler(data) {
-        console.log(data);
         this.tableListData = data.partList
       }
     }
