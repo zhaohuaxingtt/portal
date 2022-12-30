@@ -140,6 +140,7 @@ export const TABLE_COLUMNS = [
     label: '市场价来源',
     minWidth: 120
   },
+  
   {
     prop: 'sPartNum',
     label: '二次零件号',
