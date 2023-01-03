@@ -35,7 +35,7 @@
           style="white-space:nowrap"
         ><span>{{$t('MT_SHIFOUDONGJIE')}}:</span></span>
         <div class="conclusion-content">
-          {{ selectedTableData[0].isFrozenRs ? $t('MT_SHI') : $t('MT_FOU') }}
+          {{ selectedTableData[0].isFixedFrozenRs ? $t('MT_SHI') : $t('MT_FOU') }}
         </div>
       </div>
       <div class="conclusion-box">
