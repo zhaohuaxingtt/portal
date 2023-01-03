@@ -109,7 +109,6 @@ export default {
   },
   methods: {
     getTableDate(category) {
-      console.log(this.totalData)
       return this.totalData.filter((item) => {
         return item.category === category
       })
@@ -237,6 +236,9 @@ export default {
       let url = '/meeting/near-meeting'
       if (e.state == '04') {
         url = '/meeting/live'
+      }
+      if (e.category=='02') {
+          url = '/meeting/specialLive'
       }
       if (e.category=='03') {
         if (e.name == "MBDL会议") {
