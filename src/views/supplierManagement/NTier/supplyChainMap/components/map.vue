@@ -128,6 +128,8 @@ export default {
     },
     // 生成点
     handleMarker () {
+      if(this.svwList.length)
+      console.log('this.svwList====>',this.svwList);
       // svw
       this.svwList.map((item, index) => {
         if (item.procureFactory == '1000') {
@@ -154,6 +156,8 @@ export default {
         }
         this.svwList[index].setMap(this.map)
       })
+      if(this.markerList.length)
+      console.log('this.markerList====>',this.markerList);
       // supplier
       this.markerList.map((item, index) => {
         this.marker[index] = new AMap.Marker({
