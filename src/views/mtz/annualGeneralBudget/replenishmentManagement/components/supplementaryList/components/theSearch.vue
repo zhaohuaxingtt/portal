@@ -74,10 +74,10 @@
 
         </el-form-item>
         <el-form-item label="一次零件号">
-            <iMultiLineInput :title="'一次零件号'" v-model="searchForm.fPartNo"></iMultiLineInput>
+            <iMultiLineInput :title="'一次零件号'" v-model="searchForm.fpartNo"></iMultiLineInput>
           </el-form-item>
           <el-form-item label="二次零件号">
-            <iMultiLineInput :title="'二次零件号'" v-model="searchForm.sPartNo"></iMultiLineInput>
+            <iMultiLineInput :title="'二次零件号'" v-model="searchForm.spartNo"></iMultiLineInput>
           </el-form-item>
           <el-form-item :label="'采购框架号'">
             <iMultiLineInput :title="'采购框架号'" v-model="searchForm.saNo"></iMultiLineInput>
