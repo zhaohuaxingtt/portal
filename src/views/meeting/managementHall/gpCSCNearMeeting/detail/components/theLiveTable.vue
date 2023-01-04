@@ -704,5 +704,8 @@ export default {
 ::v-deep .el-table__body tr.active-row > td {
   background: #1660f1;
   color: #fff;
+  .open-link-text{
+    color: #fff;
+  }
 }
 </style>

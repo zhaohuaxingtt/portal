@@ -42,4 +42,5 @@ export default {
   '此操作将永久删除该模板, 是否继续?':
     'This operation will permanently delete this template. Do you want to continue? ',
   'BDL待审批列表': 'BDL Pending approval list',
+  '法大大返回路径地址为空,请联系系统管理员': 'If the return path is empty, contact your system administrator'
 }

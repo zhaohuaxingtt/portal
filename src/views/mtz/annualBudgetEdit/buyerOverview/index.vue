@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-03 16:33:28
- * @LastEditTime: 2021-11-01 20:35:59
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 18:25:12
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑-采购员总览
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualBudgetEdit\buyerOverview\index.vue
+ * @FilePath: \front-portal\src\views\mtz\annualBudgetEdit\buyerOverview\index.vue
 -->
 <template>
   <div>
@@ -132,9 +132,9 @@
     </iSearch>
     <iCard class="margin-top20">
       <div slot="header" class="tableOptionBox">
-        <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{money(params.initPrice)}} </p>
+        <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{moneyInfo(money(params.initPrice))}} </p>
         <p class="tableTitle">{{language('XISHUMAOHAO', '系数：')}} {{ratio(money(params.initPrice), money(params.totalPrice))}} </p>
-        <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{money(params.totalPrice)}} </p>
+        <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{moneyInfo(money(params.totalPrice))}} </p>
         <span class="buttonBox">
           <iButton @click="handleClickLinie">{{language('TZLINIE', '通知Linie')}}</iButton>
           <iButton @click="handleClickExport">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
@@ -149,12 +149,12 @@
           @handleSelectionChange="handleSelectionChange">
           <template #initPrTotal="scope">
             <el-tooltip :content="moneyInfo(scope.row['initPrTotal'])" placement="top" effect="light">
-              <p>{{money(scope.row['initPrTotal'])}}</p>
+              <p>{{moneyInfo(money(scope.row['initPrTotal']))}}</p>
             </el-tooltip>
           </template>
           <template #prTotal="scope">
             <el-tooltip :content="moneyInfo(scope.row['prTotal'])" placement="top" effect="light">
-              <p>{{money(scope.row['prTotal'])}}</p>
+              <p>{{moneyInfo(money(scope.row['prTotal']))}}</p>
             </el-tooltip>
           </template>
           <template #option="scope">
@@ -188,7 +188,7 @@ import editDetail from './components/editDetail'
 import { excelExport } from "@/utils/filedowLoad"
 import { fetchBuyerDataPage, fetchNoticeLinie, fetchRemoteMtzMaterial, fetchBuyerList, fetchGroups } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import { getMoney, getMoneyInfo, getRatio } from '@/views/mtz/moneyComputation'
+import {  money, moneyInfo, getRatio } from '@/views/mtz/moneyComputation'
 import { debounce } from '@/views/mtz/debounce.js'
 import { getDeptData } from '@/api/kpiChart/index'
 
@@ -245,24 +245,24 @@ export default {
     this.remoteGetRawMaterial()
   },
   computed: {
-    money() {
-      return function(val) {
-        let res = ''
-        if(val) {
-          res = getMoney(val)
-        }
-        return res
-      }
-    },
-    moneyInfo() {
-      return function(val) {
-        let res = ''
-        if(val) {
-          res = getMoneyInfo(val)
-        }
-        return res
-      }
-    },
+    // money() {
+    //   return function(val) {
+    //     let res = ''
+    //     if(val) {
+    //       res = getMoney(val)
+    //     }
+    //     return res
+    //   }
+    // },
+    // moneyInfo() {
+    //   return function(val) {
+    //     let res = ''
+    //     if(val) {
+    //       res = getMoneyInfo(val)
+    //     }
+    //     return res
+    //   }
+    // },
     ratio() {
       return function(initPrice, totalPrice) {
         let res = ''
@@ -274,6 +274,7 @@ export default {
     }
   },
   methods: {
+     money, moneyInfo,
     // 初始化检索条件
     initSearchData() {
       this.searchForm = {

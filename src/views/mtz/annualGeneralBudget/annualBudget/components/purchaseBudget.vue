@@ -1,10 +1,10 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-31 15:34:13
- * @LastEditTime: 2021-11-01 20:37:34
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 18:24:48
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 采购员预算总览
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\purchaseBudget.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\purchaseBudget.vue
 -->
 <template>
   <div>
@@ -62,8 +62,8 @@
         <el-divider class="margin-top20"></el-divider>
         <div class="contentBox">
           <div class="tableOptionBox">
-            <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{money(params.initPrice)}} </p>
-            <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{money(params.totalPrice)}} </p>
+            <p class="tableTitle">{{language('CSYSZJEBWMH', '初始预算总金额（百万元）：')}} {{moneyInfo(money(params.initPrice))}} </p>
+            <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{moneyInfo(money(params.totalPrice))}} </p>
             <iButton @click="handleExportCurrent">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
           </div>
           <tableList
@@ -74,12 +74,12 @@
             :index="true">
             <template #initPrTotal="scope">
               <el-tooltip :content="moneyInfo(scope.row['initPrTotal'])" placement="top" effect="light">
-                <p>{{money(scope.row['initPrTotal'])}}</p>
+                <p>{{moneyInfo(money(scope.row['initPrTotal']))}}</p>
               </el-tooltip>
             </template>
             <template #prTotal="scope">
               <el-tooltip :content="moneyInfo(scope.row['prTotal'])" placement="top" effect="light">
-                <p>{{money(scope.row['prTotal'])}}</p>
+                <p>{{moneyInfo(money(scope.row['prTotal']))}}</p>
               </el-tooltip>
             </template>
           </tableList>
@@ -106,7 +106,7 @@ import { purchaseBudgetTitle } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { getDeptData } from '@/api/kpiChart/index.js'
 import { excelExport } from "@/utils/filedowLoad";
-import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
+import { money, moneyInfo } from '@/views/mtz/moneyComputation'
 import { fetchPurchaseBudget } from '@/api/mtz/annualGeneralBudget/annualBudget.js'
 import { fetchBuyerDataPage } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 export default {
@@ -139,33 +139,37 @@ export default {
       deptList: []
     }
   },
-  computed: {
-    money() {
-      return function(val) {
-        let res = ''
-        if(val) {
-          // res = Number(val/1000000).toFixed(2)
-          res = getMoney(val)
-        }
-        return res
-      }
-    },
-    moneyInfo() {
-      return function(val) {
-        let res = ''
-        if(val) {
-          res = getMoneyInfo(val)
-        }
-        return res
-      }
-    }
-  },
+  // computed: {
+  //   money() {
+  //     return function(val) {
+  //       let res = ''
+  //       if(val) {
+  //         // res = Number(val/1000000).toFixed(2)
+  //         res = getMoney(val)
+  //       }
+  //       return res
+  //     }
+  //   },
+  //   moneyInfo() {
+  //     return function(val) {
+  //       let res = ''
+  //       if(val) {
+  //         res = getMoneyInfo(val)
+  //       }
+  //       return res
+  //     }
+  //   }
+  // },
   created() {
     this.initSearchData()
     this.getTableData()
     this.getDeptList()
   },
   methods: {
+    // 截取金额数据，不四舍五入
+    money,
+    // 千分位展示
+    moneyInfo,
     // 初始化检索条件
     initSearchData() {
       this.searchForm = {
