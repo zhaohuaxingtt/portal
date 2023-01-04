@@ -74,17 +74,10 @@
 
         </el-form-item>
         <el-form-item label="一次零件号">
-            <iInput
-              v-model="searchForm.fPartNo"
-              :placeholder="language('请输入', '请输入')"
-            ></iInput>
+            <iMultiLineInput :title="'一次零件号'" v-model="searchForm.fPartNo"></iMultiLineInput>
           </el-form-item>
           <el-form-item label="二次零件号">
-            <iInput
-              v-model="searchForm.sPartNo"
-              :placeholder="language('请输入', '请输入')"
-            ></iInput>
-
+            <iMultiLineInput :title="'二次零件号'" v-model="searchForm.sPartNo"></iMultiLineInput>
           </el-form-item>
           <el-form-item :label="'采购框架号'">
             <iMultiLineInput :title="'采购框架号'" v-model="searchForm.saNo"></iMultiLineInput>
