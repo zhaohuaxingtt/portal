@@ -1,16 +1,16 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-09-03 16:33:28
- * @LastEditTime: 2022-02-24 16:20:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 19:21:47
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算编辑-编辑其他
- * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualBudgetEdit\buyerOverview\index.vue
+ * @FilePath: \front-portal\src\views\mtz\annualBudgetEdit\otherOverview\index.vue
 -->
 <template>
   <iCard>
     <div class="contentBox">
       <div class="tableOptionBox">
-        <p class="tableTitle">{{language('ZONGYUSUANJINEMAOHAO', '总预算金额：')}} {{money(params.totalBudget)}} </p>
+        <p class="tableTitle">{{language('ZONGYUSUANJINEMAOHAO', '总预算金额：')}} {{moneyInfo(money(params.totalBudget))}} </p>
         <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
         <iButton v-if="!editMode"
                  @click="handleAdd">{{language('XINZENG', '新增')}}</iButton>
@@ -80,7 +80,7 @@
             <el-tooltip :content="moneyInfo(scope.row['budget'])"
                         placement="top"
                         effect="light">
-              <p>{{money(scope.row['budget'])}}</p>
+              <p>{{moneyInfo(money(scope.row['budget']))}}</p>
             </el-tooltip>
           </div>
         </template>
@@ -193,7 +193,8 @@ import { tableTitle, uploadInfoTableTitle } from './components/data'
 import tableList from '@/components/commonTable/index.vue'
 import { fetchOtherDataPage, fetchSaveOther, fetchRemoteBrand, fetchRemoteMaterialMedium, fetchRemoteMtzMaterial, fetchRemoteUser, fetchDelOther, fetchRemoteDept, getDeptSection } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getDeptData } from '@/api/kpiChart/index'
-import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
+// import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
+import { money, moneyInfo } from '@/views/mtz/moneyComputation'
 import { debounce } from '@/views/mtz/debounce.js'
 import addDialog from './components/addDialog';
 import uploadInfoDialog from '@/views/mtz/dataBase/marketPriceEnquiry/components/uploadInfoDialog'
@@ -243,30 +244,31 @@ export default {
       uploadInfoTableTitle
     }
   },
-  computed: {
-    money () {
-      return function (val) {
-        let res = ''
-        if (val) {
-          res = getMoney(val)
-        }
-        return res
-      }
-    },
-    moneyInfo () {
-      return function (val) {
-        let res = ''
-        if (val) {
-          res = getMoneyInfo(val)
-        }
-        return res
-      }
-    }
-  },
+  // computed: {
+  //   money () {
+  //     return function (val) {
+  //       let res = ''
+  //       if (val) {
+  //         res = getMoney(val)
+  //       }
+  //       return res
+  //     }
+  //   },
+  //   moneyInfo () {
+  //     return function (val) {
+  //       let res = ''
+  //       if (val) {
+  //         res = getMoneyInfo(val)
+  //       }
+  //       return res
+  //     }
+  //   }
+  // },
   created () {
     this.getTableData()
   },
   methods: {
+    money, moneyInfo,
     // 获取数据
     getTableData () {
       this.loading = true

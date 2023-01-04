@@ -24,6 +24,7 @@
           </custom-select>
 
         </el-form-item>
+ 
         <el-form-item label="凭证Id">
           <custom-select v-model="searchForm.sapPayBalanceNo"
                          :user-options="sapPayBalanceNos"
@@ -71,6 +72,32 @@
                          value-key="code">
           </custom-select>
 
+        </el-form-item>
+        <el-form-item label="一次零件号">
+            <iInput
+              v-model="searchForm.fPartNo"
+              :placeholder="language('请输入', '请输入')"
+            ></iInput>
+          </el-form-item>
+          <el-form-item label="二次零件号">
+            <iInput
+              v-model="searchForm.sPartNo"
+              :placeholder="language('请输入', '请输入')"
+            ></iInput>
+
+          </el-form-item>
+          <el-form-item :label="'采购框架号'">
+            <iMultiLineInput :title="'采购框架号'" v-model="searchForm.saNo"></iMultiLineInput>
+          </el-form-item>
+          <el-form-item label="补差时间段">
+          <iDatePicker v-model="value"
+                       @change="handleChange"
+                       type="daterange"
+                       format="yyyyMM"
+                       range-separator="至"
+                       start-placeholder="开始日期"
+                       end-placeholder="结束日期">
+          </iDatePicker>
         </el-form-item>
         <el-form-item label="一次件供应商">
           <custom-select v-model="searchForm.fsupplierIds"
@@ -120,24 +147,14 @@
           </custom-select>
 
         </el-form-item>
-        <el-form-item label="补差时间段">
-          <iDatePicker v-model="value"
-                       @change="handleChange"
-                       type="daterange"
-                       format="yyyyMM"
-                       range-separator="至"
-                       start-placeholder="开始日期"
-                       end-placeholder="结束日期">
-          </iDatePicker>
-        </el-form-item>
-
+        
       </el-form>
     </iSearch>
   </div>
 </template>
 
 <script>
-import { iSearch, iMessage, iDatePicker } from 'rise'
+import { iSearch, iMessage, iDatePicker,iMultiLineInput,iInput } from 'rise'
 import { getMtzDocNos, getSapPayBalanceNos, getApplicants, getApprovalStatus } from '@/api/mtz/annualGeneralBudget/supplementaryList'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getMtzGroups, getRawMaterialNos, getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
@@ -146,7 +163,9 @@ export default {
   name: "theSearch",
   components: {
     iSearch,
-    iDatePicker
+    iDatePicker,
+    iMultiLineInput,
+    iInput
   },
   data () {
     return {
@@ -314,6 +333,9 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-form-item {
   margin-right: 20px;
+}
+.box{
+  display: block;
 }
 // ::v-deep .el-date-editor .el-range-separator {
 //   width: 8%;

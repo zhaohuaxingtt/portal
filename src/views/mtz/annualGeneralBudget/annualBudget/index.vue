@@ -1,8 +1,8 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-27 15:07:07
- * @LastEditTime: 2022-02-23 14:39:41
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-12-26 19:32:27
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 年度预算总览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\index.vue
 -->
@@ -60,7 +60,7 @@
                 <el-tooltip :content="moneyInfo(scope.row['endForecastAmount'])"
                             placement="top"
                             effect="light">
-                  <p>{{money(scope.row['endForecastAmount'])}}</p>
+                  <p>{{moneyInfo(money(scope.row['endForecastAmount']))}}</p>
                 </el-tooltip>
               </template>
             </tableList>
@@ -109,7 +109,7 @@
                 <el-tooltip :content="moneyInfo(scope.row['endForecastAmount'])"
                             placement="top"
                             effect="light">
-                  <p>{{money(scope.row['endForecastAmount'])}}</p>
+                  <p>{{moneyInfo(money(scope.row['endForecastAmount']))}}</p>
                 </el-tooltip>
               </template>
             </tableList>
@@ -185,14 +185,14 @@
                 <el-tooltip :content="moneyInfo(scope.row['startForecastAmount'])"
                             placement="top"
                             effect="light">
-                  <p>{{money(scope.row['startForecastAmount'])}}</p>
+                  <p>{{moneyInfo(money(scope.row['startForecastAmount']))}}</p>
                 </el-tooltip>
               </template>
               <template #endForecastAmount="scope">
                 <el-tooltip :content="moneyInfo(scope.row['endForecastAmount'])"
                             placement="top"
                             effect="light">
-                  <p>{{money(scope.row['endForecastAmount'])}}</p>
+                  <p>{{moneyInfo(money(scope.row['endForecastAmount']))}}</p>
                 </el-tooltip>
               </template>
             </tableList>
@@ -254,7 +254,7 @@ import { pageMixins } from '@/utils/pageMixins';
 import tableList from '@/components/commonTable/index.vue'
 import { fetchTableDataOfBuyer, fetchReviewOrSubmit, fetchExport, fetchTableDataOfLeader, fetchAddBudgetLeader, fetchExportFinance, fetchEditDemand, fetchRecount, fetchPublish, fetchCheckAdd, fetchDel, fetchCheckPublish,pageOfCoordinator } from '@/api/mtz/annualGeneralBudget/annualBudget.js'
 import { fetchNoticeLinie } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
-import { getMoney, getMoneyInfo } from '@/views/mtz/moneyComputation'
+import { money, moneyInfo } from '@/views/mtz/moneyComputation'
 export default {
   mixins: [pageMixins],
   components: {
@@ -358,28 +358,30 @@ export default {
       // }, 100);
     })
   },
-  computed: {
-    money () {
-      return function (val) {
-        let res = ''
-        if (val) {
-          // res = Number(val/1000000).toFixed(2)
-          res = getMoney(val)
-        }
-        return res
-      }
-    },
-    moneyInfo () {
-      return function (val) {
-        let res = ''
-        if (val) {
-          res = getMoneyInfo(val)
-        }
-        return res
-      }
-    }
-  },
+  // computed: {
+  //   money () {
+  //     return function (val) {
+  //       let res = ''
+  //       if (val) {
+  //         // res = Number(val/1000000).toFixed(2)
+  //         res = getMoney(val)
+  //       }
+  //       return res
+  //     }
+  //   },
+  //   moneyInfo () {
+  //     return function (val) {
+  //       let res = ''
+  //       if (val) {
+  //         res = getMoneyInfo(val)
+  //       }
+  //       return res
+  //     }
+  //   }
+  // },
   methods: {
+    money,
+    moneyInfo,
     handleSizeChange1(e){
       console.log(e);
       this.page.currPage = 1;
