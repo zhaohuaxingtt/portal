@@ -470,7 +470,43 @@ export default [
                   import(
                     '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/vwptUploadQuantity/index.vue'
                   )
-              }
+              },
+              {
+                path: 'chipCalculationTask',
+                name: 'chipCalculationTask',
+                meta: {
+                  title: '芯片补差计算任务',
+                  showFooter: true
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/chipCalculationTask/index.vue'
+                  )
+              },
+              {
+                path: 'chipReplenishmentOverview',
+                name: 'chipReplenishmentOverview',
+                meta: {
+                  title: 'MTZ补差总览',
+                  showFooter: true
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/chipReplenishmentOverview/index.vue'
+                  )
+              },
+              {
+                path: 'chipSupplementaryList',
+                name: 'chipSupplementaryList',
+                meta: {
+                  title: '芯片补差单列表',
+                  showFooter: true
+                },
+                component: () =>
+                  import(
+                    '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/chipSupplementaryList/index.vue'
+                  )
+              },
             ]
           }
         ]
