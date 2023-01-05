@@ -146,7 +146,7 @@
                 <a
                   class="el-upload-list__item-name"
                   @click="
-                    handleDownloadFile(item.attachmentUrl, item.attachmentTitle)
+                    handleDownloadFile(item.attachmentUrl, item.attachmentTitle, item.attachmentId)
                   "
                 >
                   <i class="el-icon-paperclip" style="color: #1763f7">
@@ -228,7 +228,7 @@
                 :key="item.id"
                 class="open-link-text enclosure-item"
                 @click="
-                  downloadEnclosure(item.attachmentUrl, item.attachmentTitle)
+                  downloadEnclosure(item.attachmentUrl, item.attachmentTitle, )
                 "
               >
                 <img :src="enclosure" alt="" srcset="" class="img" />
@@ -487,11 +487,19 @@ export default {
           this.uploadLoading = false;
         });
     },
-    handleDownloadFile(url, name) {
-      createAnchorLink(
-        url, // 前端跨域问题，将api地址替换为反向代理地址
-        name
-      );
+    handleDownloadFile(url, name, attachmentId) {
+      // const arr = name ? name.split('.') : []
+      // const suffix = arr[arr.length - 1]
+      // pdf 格式要求在线预览，其余的下载
+      // if(suffix=='pdf'){
+        url = `${origin}/fileApi/fileud/getFileByFileId?fileId=${attachmentId}`
+        window.open(url)
+        return
+      // }
+      // createAnchorLink(
+      //   url, // 前端跨域问题，将api地址替换为反向代理地址
+      //   name
+      // );
     },
     // 预览页-下载附件
     downloadEnclosure(url, name) {
