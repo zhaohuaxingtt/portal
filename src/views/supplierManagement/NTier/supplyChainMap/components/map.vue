@@ -80,6 +80,7 @@ export default {
   watch: {
     object: {
       async handler (data) {
+        console.time('objectTime')
         this.marker = []
         this.markerList = data.areaList || []
         this.markerList.map(item => item.flag = 'supplier')
@@ -87,6 +88,7 @@ export default {
         if (this.$refs.charMap) {
           this.showCityInfo()
         }
+        console.timeEnd('objectTime')
       }
     }
   },

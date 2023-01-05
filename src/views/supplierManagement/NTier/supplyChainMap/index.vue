@@ -14,9 +14,9 @@
               class="search"
               :category-code="categoryCode"
               @handleSave="handleSave" />
-      <!-- <theCard :area="area"
+      <theCard :area="area"
             :object="object"
-            class="card-right" /> -->
+            class="card-right" />
       <chartMap ref="chartMap"
               :object="object" />
     </div>

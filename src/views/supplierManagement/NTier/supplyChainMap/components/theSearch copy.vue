@@ -19,9 +19,8 @@
     </div>
     <el-row type="flex"
             justify="space-between">
-      <el-col :span="4">
-        <mySelect :data="formGoup.carModelList" propLabel="carTypeName" propValue="carTypeCode" popperClass="carModelList" />
-        <!-- <iSelectCustom :search-method="handleCarTypeSearch"
+      <el-col :span="3">
+        <iSelectCustom :search-method="handleCarTypeSearch"
                        @change="handleCarType"
                        ref="iSelectCustom"
                        :placeholder="language('CHEXING','车型')"
@@ -30,12 +29,11 @@
                        value="carTypeCode"
                        v-model="formSelect.carTypeCodeList"
                        :multiple="true"
-                       :popoverClass="'dropDown '" /> -->
+                       :popoverClass="'dropDown '" />
       </el-col>
       <!-- 材料组 -->
       <el-col :span="3">
-        <mySelect :data="formGoup.categoryList" propLabel="categoryName" propValue="categoryCode" popperClass="categoryList" />
-        <!-- <iSelectCustom :multiple-limit="30"
+        <iSelectCustom :multiple-limit="30"
                        :search-method="handleCategorySearch"
                        :placeholder="language('CAILIAOZU','材料组')"
                        @change="handleCategory"
@@ -45,11 +43,10 @@
                        value="categoryCode"
                        v-model="formSelect.categoryCodeList"
                        :multiple="true"
-                       :popoverClass="'popover-class'" /> -->
+                       :popoverClass="'popover-class'" />
       </el-col>
       <el-col :span="3">
-        <mySelect :data="formGoup.supplierList" propLabel="supplierNameCn" propValue="supplierId" popperClass="supplierList" />
-        <!-- <iSelectCustom :search-method="handleSupplierSearch"
+        <iSelectCustom :search-method="handleSupplierSearch"
                        :placeholder="language('GONGYINGSHANG','供应商')"
                        @change="handleSupplier"
                        :data="formGoup.supplierList"
@@ -57,11 +54,10 @@
                        value="supplierId"
                        v-model="formSelect.supplierIdList "
                        :multiple="true"
-                       :popoverClass="'popover-class'" /> -->
+                       :popoverClass="'popover-class'" />
       </el-col>
       <el-col :span="3">
-        <mySelect :data="formGoup.partList" propLabel="partNameCn" propValue="partNum" popperClass="partList" />
-        <!-- <iSelectCustom :search-method="handlePartSearch"
+        <iSelectCustom :search-method="handlePartSearch"
                        :placeholder="language('LINGJIAN','零件')"
                        @change="handlePart"
                        :data="formGoup.partList"
@@ -69,7 +65,7 @@
                        value="partNum"
                        v-model="formSelect.partNumList "
                        :multiple="true"
-                       :popoverClass="'popover-class'" /> -->
+                       :popoverClass="'popover-class'" />
       </el-col>
       <el-col :span="4">
         <el-cascader v-model="form.area" :filter-method="filterZR"
@@ -93,14 +89,12 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { listSelectCarModel, listSelectCategory, listSelectPart, listSelectSupplier } from "@/api/supplierManagement/supplyChainOverall/index.js";
-import { iInput, iButton, iSelectCustom } from 'rise'
-import { iSelect } from '@/components/iSelect'
-import mySelect from "./mySelect";
+import { iSelect, iInput, iButton, iSelectCustom } from 'rise'
 import { getCity,getCityInfo } from "@/api/supplierManagement/supplyChainOverall/index.js";
 
 export default {
   // import引入的组件需要注入到对象中才能使用
-  components: { iSelect, iInput, iButton, iSelectCustom,mySelect },
+  components: { iSelect, iInput, iButton, iSelectCustom },
   props: {
     categoryCode: {
       type: String,
@@ -141,17 +135,11 @@ export default {
         partList: [],
         supplierList: [],
       },
-      disabled: false,
-      partPage:0
+      disabled: false
     }
   },
   // 监听属性 类似于data概念
-  computed: {
-    // 下拉显示的零件号
-    showPartList(){
-      return this.formGoup.carModelList.splice(this.partPage*50,(this.partPage+1)*50)
-    }
-  },
+  computed: {},
   // 监控data中的数据变化
   watch: {
     categoryCode: {
@@ -170,14 +158,10 @@ export default {
         }
       },
       immediate: true
-    },
+    }
   },
   // 方法集合
   methods: {
-    // 零件下拉滚动
-    partPageChange(e){
-      console.log(e);
-    },
     // 返回
     handleBack () {
       this.$router.go(-1)
@@ -185,7 +169,7 @@ export default {
     handleCarTypeSearch (val) {
       this.formGoup.carModelList = this.formGoupCopy.carModelList.filter(item => {
         return item.carTypeName.toLowerCase().indexOf(val.toLowerCase()) > -1;
-      }).splice(0,50);
+      });
     },
     handleCategorySearch (val) {
       this.formGoup.categoryList = this.formGoupCopy.categoryList.filter(item => {
@@ -523,10 +507,10 @@ export default {
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {
-    // document.getElementsByClassName('list-container')[0].style.height = '17rem'
-    // document.getElementsByClassName('list-container')[1].style.height = '17rem'
-    // document.getElementsByClassName('list-container')[2].style.height = '17rem'
-    // document.getElementsByClassName('list-container')[3].style.height = '17rem'
+    document.getElementsByClassName('list-container')[0].style.height = '17rem'
+    document.getElementsByClassName('list-container')[1].style.height = '17rem'
+    document.getElementsByClassName('list-container')[2].style.height = '17rem'
+    document.getElementsByClassName('list-container')[3].style.height = '17rem'
   },
 }
 </script>
