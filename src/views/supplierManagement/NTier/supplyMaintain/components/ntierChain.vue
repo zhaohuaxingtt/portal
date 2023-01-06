@@ -2,11 +2,11 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
-  <iCard id="app"
+  <iCard
          v-loading="appLoading"
          loading-text="加载中......"
          style="width: 100%;height: 100%;">

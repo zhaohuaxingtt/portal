@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-06 12:45:45
- * @LastEditors: zbin
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -35,7 +35,8 @@ export default {
   // import引入的组件需要注入到对象中才能使用
   components: { iCard, icon, tableList },
   props: {
-    object: { type: Object, default: {} }
+    object: { type: Object, default: {} },
+    tableLoading:Boolean,
   },
   data() {
     // 这里存放数据
@@ -43,7 +44,7 @@ export default {
       supplier: supplier,
       tableListData: [],
       tableTitle: supplierTableTitle,
-      tableLoading: false,
+      // tableLoading: false,
     }
   },
   // 监听属性 类似于data概念

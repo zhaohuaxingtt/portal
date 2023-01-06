@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:57:42
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -332,7 +332,7 @@ export default {
         )
         return
       }
-      await this.$parent.$refs.view.getCardChain(this.form)
+      await this.$parent.$refs.view && this.$parent.$refs.view.getCardChain(this.form)
     },
     handleSearchReset() {
       this.form = {
