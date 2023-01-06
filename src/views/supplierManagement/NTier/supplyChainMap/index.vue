@@ -12,10 +12,12 @@
       <theSearch ref="theSearch"
               @getMapList="getMapList"
               class="search"
+               v-bind="$attrs"
               :category-code="categoryCode"
               @handleSave="handleSave" />
       <theCard :area="area"
             :object="object"
+            @handleCurrentChange="handleCurrentChange"
             :tableLoading="tableLoading"
             class="card-right" />
       <chartMap ref="chartMap"
@@ -55,6 +57,9 @@ export default {
   watch: {},
   // 方法集合
   methods: {
+    handleCurrentChange(val,type){
+      this.$refs.chartMap.handleCurrentChange(val,type)
+    },
     async getMapList (par) {
       this.tableLoading = true
       console.time('this.object====>')
