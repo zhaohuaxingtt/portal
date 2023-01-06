@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-02 09:56:38
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -16,6 +16,7 @@
               @handleSave="handleSave" />
       <theCard :area="area"
             :object="object"
+            :tableLoading="tableLoading"
             class="card-right" />
       <chartMap ref="chartMap"
               :object="object" />
@@ -43,6 +44,7 @@ export default {
     return {
       saveButtonLoading: false,
       object: {},
+      tableLoading:false,
       area: '',
       categoryCode: ""
     }
@@ -54,12 +56,17 @@ export default {
   // 方法集合
   methods: {
     async getMapList (par) {
+      this.tableLoading = true
+      console.time('this.object====>')
       const pms = {
         ...par
       }
       this.area = pms.area
       const res = await getNTierMap(pms)
       this.object = res.data
+      this.tableLoading = false
+      console.timeEnd('this.object====>')
+      console.log('this.object====>',this.object);
     },
     async handleSave (params, id) {
       this.$refs.theSearch.saveButtonLoading = true;
@@ -86,7 +93,6 @@ export default {
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
     this.categoryCode = this.$route.query.categoryCode
-    console.log(this.categoryCode)
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {

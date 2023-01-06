@@ -2,11 +2,12 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-25 18:24:55
- * @LastEditors: zbin
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
-  <div style="width:615px" class="tooltip">
+<!-- 阻止滚动冒泡 -->
+  <div style="width:615px" class="tooltip" @mousewheel.stop="''">
     <div class="flex-align-center">
       <img :src="supplier" alt="" width="40px">
       <div class="margin-left20">
@@ -62,14 +63,6 @@ export default {
     // 这里存放数据
     return {
       supplier: supplier,
-    }
-  },
-  // 监听属性 类似于data概念
-  computed: {},
-  // 监控data中的数据变化
-  watch: {
-    tableDataList(data) {
-      console.log(data);
     }
   },
   // 方法集合
