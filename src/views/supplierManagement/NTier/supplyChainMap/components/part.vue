@@ -53,7 +53,8 @@ export default {
     object: {
       type: Object,
       default: {}
-    }
+    },
+    tableLoading:Boolean,
   },
   data() {
     // 这里存放数据
@@ -62,7 +63,7 @@ export default {
       initData:[],
       tableListData: [],
       tableTitle: partTableTitle,
-      tableLoading: false,
+      // tableLoading: false,
       tableData:[],
       dataAll:[],
       pageSize:'20',

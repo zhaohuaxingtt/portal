@@ -16,6 +16,7 @@
               @handleSave="handleSave" />
       <theCard :area="area"
             :object="object"
+            :tableLoading="tableLoading"
             class="card-right" />
       <chartMap ref="chartMap"
               :object="object" />
@@ -43,6 +44,7 @@ export default {
     return {
       saveButtonLoading: false,
       object: {},
+      tableLoading:false,
       area: '',
       categoryCode: ""
     }
@@ -54,12 +56,16 @@ export default {
   // 方法集合
   methods: {
     async getMapList (par) {
+      this.tableLoading = true
+      console.time('this.object====>')
       const pms = {
         ...par
       }
       this.area = pms.area
       const res = await getNTierMap(pms)
       this.object = res.data
+      this.tableLoading = false
+      console.timeEnd('this.object====>')
       console.log('this.object====>',this.object);
     },
     async handleSave (params, id) {
