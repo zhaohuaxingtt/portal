@@ -24,7 +24,7 @@
                        @change="handleCarType"
                        ref="iSelectCustom"
                        :placeholder="language('CHEXING','车型')"
-                       :data="formGoup.carModelList"
+                       :data="formGroup.carModelList"
                        label="carTypeName"
                        value="carTypeCode"
                        v-model="formSelect.carTypeCodeList"
@@ -38,7 +38,7 @@
                        :placeholder="language('CAILIAOZU','材料组')"
                        @change="handleCategory"
                        :disabled="disabled"
-                       :data="formGoup.categoryList"
+                       :data="formGroup.categoryList"
                        :label="$getLabel('categoryName','categoryNameDe')"
                        value="categoryCode"
                        v-model="formSelect.categoryCodeList"
@@ -49,7 +49,7 @@
         <iSelectCustom :search-method="handleSupplierSearch"
                        :placeholder="language('GONGYINGSHANG','供应商')"
                        @change="handleSupplier"
-                       :data="formGoup.supplierList"
+                       :data="formGroup.supplierList"
                        :label="$getLabel('supplierNameCn','supplierNameEn')"
                        value="supplierId"
                        v-model="formSelect.supplierIdList "
@@ -60,7 +60,7 @@
         <iSelectCustom :search-method="handlePartSearch"
                        :placeholder="language('LINGJIAN','零件')"
                        @change="handlePart"
-                       :data="formGoup.partList"
+                       :data="formGroup.partList"
                        :label="$getLabel('partNameCn','partNameDe')"
                        value="partNum"
                        v-model="formSelect.partNumList "
@@ -70,7 +70,7 @@
       <el-col :span="4">
         <el-cascader v-model="form.area" :filter-method="filterZR"
                      :placeholder="language('QUYU','区域')"
-                     :options="formGoup.areaList"
+                     :options="formGroup.areaList"
                      :props="{multiple:true}"
                      :clearable="true"
                      popper-class="area-select"
@@ -122,14 +122,14 @@ export default {
         provinceList: [],
         cityList: [],
       },
-      formGoup: {
+      formGroup: {
         carModelList: [],
         categoryList: [],
         partList: [],
         supplierList: [],
         areaList: []
       },
-      formGoupCopy: {
+      formGroupCopy: {
         carModelList: [],
         categoryList: [],
         partList: [],
@@ -148,7 +148,7 @@ export default {
           await this.getSelectList()
           this.disabled = true
           let arr = val.split(",")
-          this.formGoup.categoryList.forEach(item => {
+          this.formGroup.categoryList.forEach(item => {
             if (arr.indexOf(item.categoryCode) > -1) {
               this.formSelect.categoryCodeList.push(item)
             }
@@ -167,22 +167,22 @@ export default {
       this.$router.go(-1)
     },
     handleCarTypeSearch (val) {
-      this.formGoup.carModelList = this.formGoupCopy.carModelList.filter(item => {
+      this.formGroup.carModelList = this.formGroupCopy.carModelList.filter(item => {
         return item.carTypeName.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
     handleCategorySearch (val) {
-      this.formGoup.categoryList = this.formGoupCopy.categoryList.filter(item => {
+      this.formGroup.categoryList = this.formGroupCopy.categoryList.filter(item => {
         return item.categoryName.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
     handleSupplierSearch (val) {
-      this.formGoup.supplierList = this.formGoupCopy.supplierList.filter(item => {
+      this.formGroup.supplierList = this.formGroupCopy.supplierList.filter(item => {
         return item.supplierNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
     handlePartSearch (val) {
-      this.formGoup.partList = this.formGoupCopy.partList.filter(item => {
+      this.formGroup.partList = this.formGroupCopy.partList.filter(item => {
         return item.partNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
@@ -243,7 +243,7 @@ export default {
     // 
     // async getCityInfo () {
     //   const res = await getCity()
-    //   this.formGoup.areaList = res
+    //   this.formGroup.areaList = res
     // },
     filterZR(vnode,val){
       if(vnode.text.toLowerCase().indexOf(val.toLowerCase()) > -1){
@@ -251,19 +251,15 @@ export default {
       }
     },
     getCityInfo () {
-      console.log('getCityInfo=>:Start')
-      console.time('getCityInfoTime')
       var that = this;
       var zhRule = /^[\u4e00-\u9fa5]+$/i;//中文
       var enRule = /^[a-zA-Z]+$/;//英文
         getCityInfo().then(res=>{
-          console.time('worker')
           if (window.Worker) {
             const myWorker = new Worker("./worker.js");
             myWorker.postMessage(res);
             myWorker.onmessage = function(result) {
-              that.formGoup.areaList = _.cloneDeep(result.data);
-              console.timeEnd('worker')
+              that.formGroup.areaList = _.cloneDeep(result.data);
             }
           } else {
             if(res?.result){
@@ -366,11 +362,10 @@ export default {
               areaList.map((item) => {
                 return item.children && item.children
               })
-              this.formGoup.areaList = _.cloneDeep(areaList);
+              this.formGroup.areaList = _.cloneDeep(areaList);
             }
           }
           
-        console.timeEnd('getCityInfoTime')
       })
     },
     // 重置
@@ -396,17 +391,16 @@ export default {
       this.getMapList()
     },
     async getSelectList (flag) {
-      console.time('getSelectListTime=>')
       try {
         let res1, res2, res3, res4
         switch (flag) {
           case 'carTypeCodeList':
             res2 = await listSelectCategory(this.form)
-            this.formGoup.categoryList = res2.data
-            this.formGoupCopy.categoryList = res2.data
+            this.formGroup.categoryList = res2.data
+            this.formGroupCopy.categoryList = res2.data
             res3 = await listSelectSupplier(this.form)
-            this.formGoup.supplierList = res3.data
-            this.formGoupCopy.supplierList = res3.data
+            this.formGroup.supplierList = res3.data
+            this.formGroupCopy.supplierList = res3.data
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
               // res4.data.forEach(e=>{
@@ -415,17 +409,17 @@ export default {
               // })
               list4 = res4.data
             }).then(red=>{
-              this.formGoup.partList = list4
-              this.formGoupCopy.partList = list4
+              this.formGroup.partList = list4
+              this.formGroupCopy.partList = list4
             })
             break;
           case 'categoryCodeList':
             res1 = await listSelectCarModel(this.form)
-            this.formGoup.carModelList = res1.data
-            this.formGoupCopy.carModelList = res1.data
+            this.formGroup.carModelList = res1.data
+            this.formGroupCopy.carModelList = res1.data
             res3 = await listSelectSupplier(this.form)
-            this.formGoup.supplierList = res3.data
-            this.formGoupCopy.supplierList = res3.data
+            this.formGroup.supplierList = res3.data
+            this.formGroupCopy.supplierList = res3.data
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
               // res4.data.forEach(e=>{
@@ -434,17 +428,17 @@ export default {
               // })
               list4 = res4.data
             }).then(red=>{
-              this.formGoup.partList = list4
-              this.formGoupCopy.partList = list4
+              this.formGroup.partList = list4
+              this.formGroupCopy.partList = list4
             })
             break;
           case 'supplierIdList':
             res1 = await listSelectCarModel(this.form)
-            this.formGoup.carModelList = res1.data
-            this.formGoupCopy.carModelList = res1.data
+            this.formGroup.carModelList = res1.data
+            this.formGroupCopy.carModelList = res1.data
             res2 = await listSelectCategory(this.form)
-            this.formGoup.categoryList = res2.data
-            this.formGoupCopy.categoryList = res2.data
+            this.formGroup.categoryList = res2.data
+            this.formGroupCopy.categoryList = res2.data
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
               // res4.data.forEach(e=>{
@@ -453,32 +447,32 @@ export default {
               // })
               list4 = res4.data
             }).then(red=>{
-              this.formGoup.partList = list4
-              this.formGoupCopy.partList = list4
+              this.formGroup.partList = list4
+              this.formGroupCopy.partList = list4
             })
             break;
           case 'partNumList':
             res1 = await listSelectCarModel(this.form)
-            this.formGoup.carModelList = res1.data
-            this.formGoupCopy.carModelList = res1.data
+            this.formGroup.carModelList = res1.data
+            this.formGroupCopy.carModelList = res1.data
             res2 = await listSelectCategory(this.form)
-            this.formGoup.categoryList = res2.data
-            this.formGoupCopy.categoryList = res2.data
+            this.formGroup.categoryList = res2.data
+            this.formGroupCopy.categoryList = res2.data
             res3 = await listSelectSupplier(this.form)
-            this.formGoup.supplierList = res3.data
-            this.formGoupCopy.supplierList = res3.data
+            this.formGroup.supplierList = res3.data
+            this.formGroupCopy.supplierList = res3.data
             break;
 
           default:
             res1 = await listSelectCarModel(this.form)
-            this.formGoup.carModelList = res1.data
-            this.formGoupCopy.carModelList = res1.data
+            this.formGroup.carModelList = res1.data
+            this.formGroupCopy.carModelList = res1.data
             res2 = await listSelectCategory(this.form)
-            this.formGoup.categoryList = res2.data
-            this.formGoupCopy.categoryList = res2.data
+            this.formGroup.categoryList = res2.data
+            this.formGroupCopy.categoryList = res2.data
             res3 = await listSelectSupplier(this.form)
-            this.formGoup.supplierList = res3.data
-            this.formGoupCopy.supplierList = res3.data
+            this.formGroup.supplierList = res3.data
+            this.formGroupCopy.supplierList = res3.data
 
             var list4 = [];
             listSelectPart(this.form).then(res4=>{
@@ -488,13 +482,11 @@ export default {
               // })
               list4 = res4.data
             }).then(red=>{
-              this.formGoup.partList = list4
-              this.formGoupCopy.partList = list4
+              this.formGroup.partList = list4
+              this.formGroupCopy.partList = list4
             })
             break;
         }
-        
-      console.timeEnd('getSelectListTime=>')
       } catch (error) {
       }
     }

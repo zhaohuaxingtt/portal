@@ -1,32 +1,31 @@
 <!--
  * @Author: YoHo
  * @Date: 2021-06-21 10:50:37
- * @LastEditTime: 2023-01-04 17:42:05
+ * @LastEditTime: 2023-01-06 18:49:48
  * @LastEditors: YoHo && 917955345@qq.com
  * @Description: 
 -->
 <template>
   <el-select
     :popper-class="popperClass"
-    v-model="value"
-    @visible-change="visibleChange"
+    v-model="searchValue"
+    v-el-select-loadmore="loadmore"
     @change="changeValue"
     multiple
     collapse-tags
     filterable
-    :filter-method="filterData"
   >
     <el-option
       v-for="item in options"
       :value="item[propValue]"
       :key="item[propValue]"
-      :label="item[propLabel]"
+      :label="$getLabel(item[propLabel],item[propLabelEn])+ (subLabel ? '-'+item[subLabel] : '')"
     ></el-option>
   </el-select>
 </template>
 
 <script>
-import { chunk, debounce } from "lodash";
+import { chunk } from "lodash";
 export default {
   props:{
     data:{
@@ -35,10 +34,28 @@ export default {
     },
     propLabel:String,
     propValue:String,
+    propLabelEn:String,
+    subLabel:String,
     popperClass:String,
+    searchValue:[Array,String]
+  },
+  directives: {
+    'el-select-loadmore': {
+      bind(el, binding) {
+        const SELECTWRAP_DOM = el.querySelector(
+          '.el-select-dropdown .el-select-dropdown__wrap'
+        )
+        SELECTWRAP_DOM.addEventListener('scroll', function () {
+          if (this.scrollHeight - this.scrollTop <= this.clientHeight) {
+            binding.value()
+          }
+        })
+      }
+    }
   },
   watch:{
     data(val){
+      console.log('init:data',this.searchValue);
       this.init()
     }
   },
@@ -47,7 +64,7 @@ export default {
       initData: [], // 接口返回的原始数据
       options: [], // 下拉框展示数据
       dataAll: [], // 通过筛选条件的数据
-      value: "",
+      value:'',
       pageSize: "20", // 每次下拉到底后新增数据量
       page: 0, // 初始显示第一页数据
     };
@@ -62,9 +79,16 @@ export default {
     },
   },
   methods: {
-    // changeValue
+    loadmore(){
+      if (this.page < this.pageData.length) {
+        this.page++;
+        this.$nextTick(() => {
+          this.load();
+        });
+      }
+    },
     changeValue(val){
-      this.$emit('update:value',val)
+      this.$emit('change',val)
     },
     load() {
       // 如果新一页还有数据的话，拼接当前数据和新一页数据
@@ -82,62 +106,13 @@ export default {
         this.load();
       });
     },
-    // 打开下拉框，添加
-    visibleChange(boolean) {
-      if (boolean) {
-        let stop = false; // 鼠标滚动过快会同时触发两个方法
-        const menu = document.querySelector(
-          `.${this.popperClass} .el-select-dropdown__wrap`
-        );
-        menu.addEventListener("mousewheel", (e) => {
-          if (e.wheelDeltaY < 0)
-            if (
-              menu.scrollTop + menu.clientHeight >
-              menu.scrollHeight - menu.clientHeight / 2
-            ) {
-              // 向下滚动的话，触发新数据加载，向上不触发
-              // 快要到底时就触发新的数据加载menu.clientHeight/2
-              if (this.page < this.pageData.length) {
-                stop = true;
-                this.page++;
-                this.$nextTick(() => {
-                  this.load();
-                  stop = false;
-                });
-              }
-            }
-        });
-        menu.addEventListener("scroll", (e) => {
-          if (menu.scrollTop + menu.clientHeight == menu.scrollHeight) {
-            if (this.page < this.pageData.length && !stop) {
-              this.page++;
-              stop = true;
-              this.$nextTick(() => {
-                this.load();
-                stop = false;
-              });
-            }
-          }
-        });
-      }else{
-        this.filterData('')
-      }
-    },
     // 数据初始化
     init() {
-        let initData = JSON.parse(JSON.stringify(this.data));
-        // let arr = new Array(50000);
-        // for (let i = 0; i < arr.length; i++) {
-        //   initData.push({
-        //     code: i,
-        //     label: "label" + i,
-        //     value: i,
-        //   });
-        // }
-        this.initData = initData;
-        this.$nextTick(() => {
-          this.filterData("");
-        });
+      let initData = JSON.parse(JSON.stringify(this.data));
+      this.initData = initData;
+      this.$nextTick(() => {
+        this.filterData("");
+      });
     },
   },
 };
