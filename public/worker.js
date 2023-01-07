@@ -15,8 +15,8 @@ onmessage = function (obj) {
       if (item.locationType === 'Nation') {
         areaList.push({
           value: item.cityNameCn,
-          label: item.cityNameEn,
-          labelEn: item.cityNameCn,
+          label: item.cityNameCn,
+          labelEn: item.cityNameEn,
           cityId: item.cityId,
           children: []
         })

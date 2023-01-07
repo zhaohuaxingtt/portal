@@ -80,7 +80,6 @@ export default {
   watch: {
     object: {
       async handler (data) {
-        console.time('objectTime')
         this.marker = []
         this.markerList = data.areaList || []
         this.markerList.map(item => item.flag = 'supplier')
@@ -88,7 +87,6 @@ export default {
         if (this.$refs.charMap) {
           this.showCityInfo()
         }
-        console.timeEnd('objectTime')
       }
     }
   },
@@ -131,7 +129,6 @@ export default {
     // 生成点
     handleMarker () {
       if(this.svwList.length)
-      console.log('this.svwList====>',this.svwList);
       // svw
       this.svwList.map((item, index) => {
         if (item.procureFactory == '1000') {
@@ -146,6 +143,7 @@ export default {
             clickable: true
           });
         } else {
+          if(item.lon && item.lat)
           this.svwList[index] = new AMap.Marker({
             position: new AMap.LngLat(item.lon, item.lat),
             icon: this.svwIcon,
@@ -159,7 +157,6 @@ export default {
         this.svwList[index].setMap(this.map)
       })
       if(this.markerList.length)
-      console.log('this.markerList====>',this.markerList);
       // supplier
       this.markerList.map((item, index) => {
         this.marker[index] = new AMap.Marker({

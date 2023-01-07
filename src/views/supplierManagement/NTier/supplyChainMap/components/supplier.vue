@@ -15,8 +15,8 @@
         <img :src="supplier" alt="" width="50px">
       </div>
       <div class="flex-ver" style="width: 87%;">
-        <tableList :highlightCurrentRow="true" :height="200" style="width: 100%;" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :selection='false' :index="false" @handleCurrentChange="handleCurrentChange">
-        </tableList>
+        <myTable maxHeight="250px" :tableData="tableListData" :tableTitle="tableTitle" v-bind="$attrs" @handleCurrentChange="handleCurrentChange">
+        </myTable>
       </div>
     </div>
 
@@ -27,16 +27,15 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { iCard, icon } from "rise";
-import tableList from '@/components/commonTable';
+import myTable from './myTable.vue';
 import { supplierTableTitle } from "./data.js";
 import supplier from "@/assets/images/supplyChainOverall/supplier.png";
 
 export default {
   // import引入的组件需要注入到对象中才能使用
-  components: { iCard, icon, tableList },
+  components: { iCard, icon, myTable },
   props: {
     object: { type: Object, default: {} },
-    tableLoading:Boolean,
   },
   data() {
     // 这里存放数据
@@ -44,7 +43,6 @@ export default {
       supplier: supplier,
       tableListData: [],
       tableTitle: supplierTableTitle,
-      // tableLoading: false,
     }
   },
   // 监听属性 类似于data概念
@@ -60,7 +58,7 @@ export default {
   // 方法集合
   methods: {
     handleCurrentChange(row) {
-      row && this.$parent.$parent.$children[2].handleCurrentChange(row, 'supplier')
+      row && this.$emit('handleCurrentChange', row, 'supplier')
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
