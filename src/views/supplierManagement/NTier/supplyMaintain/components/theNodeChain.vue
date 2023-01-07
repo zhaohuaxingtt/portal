@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -118,12 +118,13 @@
       </template>
     </node-chain>
     <!-- 新增上游供应商  -->
-    <addSupplierDialog :areaList="formGroup.areaList"
+    <addSupplierDialog :formGroup="formGroup"
                        @creatSupplier="creatSupplier"
                        v-model="addNodeDialog"
                        :node="node" />
     <!-- 双击-- 编辑供应商信息 -->
     <supplierInfoDialog @modifyNode="modifyNode"
+                        :formGroup="formGroup"
                         :flag="flag"
                         v-model="modifyNodeDialog"
                         :node="node" />
@@ -198,12 +199,23 @@ import copySupplierDialog from "./copySupplierDialog.vue";
 import "./component.css";
 import { cardChain, deleteNode, change } from "@/api/supplierManagement/supplyMaintain/index.js";
 import { iCard, iDialog, iButton, iInput, iLabel, iFormGroup, iFormItem, icon, iSelect } from 'rise'
-import { getCity } from "@/api/supplierManagement/supplyChainOverall/index.js";
 import resultMessageMixin from "@/mixins/resultMessageMixin.js";
 import { dictByCode } from "./data";
 export default {
   components: { nodeChain, iCard, iDialog, iButton, iInput, iLabel, iFormGroup, iFormItem, icon, iSelect, supplierInfoDialog, addSupplierDialog, copySupplierDialog },
   mixins: [resultMessageMixin],
+  props: {
+    areaList:Array
+  },
+  watch:{
+    areaList: {
+      handler(val){
+        this.formGroup.areaList = _.cloneDeep(val)
+      },
+      deep:true,
+      immediate:true
+    }
+  },
   data () {
     return {
       onDataLoading: false,
@@ -247,8 +259,6 @@ export default {
     }
   },
   mounted () {
-    // this.getCardChain()
-    this.getCity()
     this.dictByCode()
     this.$nextTick(() => {
       this.outboxHeight = document.documentElement.getBoundingClientRect().height - this.$refs.nodeChain.$el.getBoundingClientRect().y - 60;
@@ -271,11 +281,6 @@ export default {
       })
       this.formGroup.partList = res
     },
-    // 获取区域
-    async getCity () {
-      const res = await getCity()
-      this.formGroup.areaList = res
-    },
     handleEdit (node) {
       this.node = node
       this.flag = 'edit'
@@ -287,7 +292,7 @@ export default {
     },
     // 查询 卡片信息
     async getCardChain (par) {
-
+      
       this.onDataLoading = true
       const pms = {
         ...par

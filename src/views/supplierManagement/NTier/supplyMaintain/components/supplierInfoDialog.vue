@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 14:38:15
- * @LastEditors: Please set LastEditors
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Descripttion: your project
 -->
 <template>
@@ -376,12 +376,10 @@ import {
   iSelect,
   iMessage
 } from 'rise'
-import { dictByCode } from './data.js'
 import {
   querycardChainId,
   mainSave
 } from '@/api/supplierManagement/supplyMaintain/index.js'
-import { getCity } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import resultMessageMixin from '@/mixins/resultMessageMixin.js'
@@ -403,7 +401,14 @@ export default {
   props: {
     value: { type: Boolean },
     node: { type: Object },
-    flag: { type: String, default: 'create' }
+    flag: { type: String, default: 'create' },
+    formGroup:{
+      type: Object,
+      default:{
+        partList: [],
+        areaList: []
+      }
+    }
   },
   data() {
     // 这里存放数据
@@ -440,10 +445,6 @@ export default {
         areaCovered: '',
         area: [],
         factoryName: ''
-      },
-      formGroup: {
-        partList: [],
-        areaList: []
       },
       // 零件类型
       part: '',
@@ -661,11 +662,6 @@ export default {
         }
       })
     },
-    // 获取区域
-    async getCity() {
-      const res = await getCity()
-      this.formGroup.areaList = res
-    },
     clearDiolog() {
       this.supplier = {}
       this.tableListData = []
@@ -714,17 +710,6 @@ export default {
         id: res.data.plant['factoryId']
       })
       delete this.plant['factoryId']
-      // let arr = Object.keys(this.plant)
-      // arr.push('id')
-      // this.plant = arr.reduce((pre, cur) => {
-      //   console.log(pre, cur)
-      //   pre[cur] = this.plant[cur]
-      //   if (cur === 'id') {
-      //     pre[cur] = this.plant['factoryId']
-      //   }
-      //   return pre;
-      // }, {})
-      // delete this.plant['factoryId']
       this.plant.area = [
         this.plant.country || '',
         this.plant.province || '',
@@ -739,29 +724,7 @@ export default {
           )) ||
         ''
     },
-    // 零件类型
-    async dictByCode() {
-      const res = await dictByCode('NTIER_CHAIN_PART_TYPE')
-      res.map((item) => {
-        item.label = item.name
-        item.value = item.code
-        item.subDictResultVo &&
-          item.subDictResultVo.map((val) => {
-            val.label = val.name
-            return (val.value = val.code)
-          })
-        return (item.children = item.subDictResultVo)
-      })
-      this.formGroup.partList = res
-    }
   },
-  // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-    this.dictByCode()
-    this.getCity()
-  },
-  // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {}
 }
 </script>
 <style lang='scss' scoped>

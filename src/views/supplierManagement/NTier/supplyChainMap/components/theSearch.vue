@@ -27,7 +27,7 @@
     <el-row type="flex" justify="space-between">
       <el-col :span="4">
         <mySelect
-          :data="formGoup.carModelList"
+          :data="formGroup.carModelList"
           @change="handleCarType"
           propLabel="carTypeName"
           propValue="carTypeCode"
@@ -37,7 +37,7 @@
       <!-- 材料组 -->
       <el-col :span="3">
         <mySelect
-          :data="formGoup.categoryList"
+          :data="formGroup.categoryList"
           @change="handleCategory"
           propLabel="categoryName"
           propValue="categoryCode"
@@ -46,7 +46,7 @@
       </el-col>
       <el-col :span="3">
         <mySelect
-          :data="formGoup.supplierList"
+          :data="formGroup.supplierList"
           @change="handleSupplier"
           :searchValue="form.supplierIdList"
           propLabel="supplierNameCn"
@@ -56,7 +56,7 @@
       </el-col>
       <el-col :span="3">
         <mySelect
-          :data="formGoup.partList"
+          :data="formGroup.partList"
           @change="handlePart"
           :searchValue="form.partNumList"
           propLabel="partNameCn"
@@ -71,7 +71,7 @@
           v-model="form.area"
           :filter-method="filterZR"
           :placeholder="language('QUYU', '区域')"
-          :options="formGoup.areaList"
+          :options="formGroup.areaList"
           :props="{ multiple: true }"
           :clearable="true"
           popper-class="area-select"
@@ -101,7 +101,7 @@ import {
 import { iInput, iButton, iSelectCustom } from 'rise'
 import { iSelect } from '@/components/iSelect'
 import mySelect from './mySelect'
-import { getCityInfo } from '@/api/supplierManagement/supplyChainOverall/index.js'
+import { getCityInfo } from "@/api/supplierManagement/supplyChainOverall/index.js";
 
 export default {
   // import引入的组件需要注入到对象中才能使用
@@ -110,7 +110,7 @@ export default {
     categoryCode: {
       type: String,
       default: ''
-    }
+    },
   },
   data() {
     // 这里存放数据
@@ -133,14 +133,14 @@ export default {
         provinceList: [],
         cityList: []
       },
-      formGoup: {
+      formGroup: {
         carModelList: [],
         categoryList: [],
         partList: [],
         supplierList: [],
         areaList: []
       },
-      formGoupCopy: {
+      formGroupCopy: {
         carModelList: [],
         categoryList: [],
         partList: [],
@@ -157,7 +157,7 @@ export default {
           await this.getSelectList()
           this.disabled = true
           let arr = val.split(',')
-          this.formGoup.categoryList.forEach((item) => {
+          this.formGroup.categoryList.forEach((item) => {
             if (arr.indexOf(item.categoryCode) > -1) {
               this.form.categoryCodeList.push(item)
             }
@@ -176,21 +176,21 @@ export default {
       this.$router.go(-1)
     },
     handleCarTypeSearch(val) {
-      this.formGoup.carModelList = this.formGoupCopy.carModelList.filter(
+      this.formGroup.carModelList = this.formGroupCopy.carModelList.filter(
         (item) => {
           return item.carTypeName.toLowerCase().indexOf(val.toLowerCase()) > -1
         }
       )
     },
     handleCategorySearch(val) {
-      this.formGoup.categoryList = this.formGoupCopy.categoryList.filter(
+      this.formGroup.categoryList = this.formGroupCopy.categoryList.filter(
         (item) => {
           return item.categoryName.toLowerCase().indexOf(val.toLowerCase()) > -1
         }
       )
     },
     handleSupplierSearch(val) {
-      this.formGoup.supplierList = this.formGoupCopy.supplierList.filter(
+      this.formGroup.supplierList = this.formGroupCopy.supplierList.filter(
         (item) => {
           return (
             item.supplierNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1
@@ -199,7 +199,7 @@ export default {
       )
     },
     handlePartSearch(val) {
-      this.formGoup.partList = this.formGoupCopy.partList.filter((item) => {
+      this.formGroup.partList = this.formGroupCopy.partList.filter((item) => {
         return item.partNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1
       })
     },
@@ -243,7 +243,7 @@ export default {
           const myWorker = new Worker('./worker.js')
           myWorker.postMessage(res)
           myWorker.onmessage = function (result) {
-            that.formGoup.areaList = _.cloneDeep(result.data)
+            that.formGroup.areaList = _.cloneDeep(result.data)
           }
         } else {
           if (res?.result) {
@@ -349,7 +349,7 @@ export default {
             areaList.map((item) => {
               return item.children && item.children
             })
-            this.formGoup.areaList = _.cloneDeep(areaList)
+            this.formGroup.areaList = _.cloneDeep(areaList)
           }
         }
       })
@@ -427,32 +427,32 @@ export default {
     listSelectCarModel() {
       listSelectCarModel(this.form).then((res) => {
         if (res?.code == '200') {
-          this.$set(this.formGoup, 'carModelList', res.data || [])
-          this.$set(this.formGoupCopy, 'carModelList', res.data || [])
+          this.$set(this.formGroup, 'carModelList', res.data || [])
+          this.$set(this.formGroupCopy, 'carModelList', res.data || [])
         }
       })
     },
     listSelectCategory() {
       listSelectCategory(this.form).then((res) => {
         if (res?.code == '200') {
-          this.$set(this.formGoup, 'categoryList', res.data || [])
-          this.$set(this.formGoupCopy, 'categoryList', res.data || [])
+          this.$set(this.formGroup, 'categoryList', res.data || [])
+          this.$set(this.formGroupCopy, 'categoryList', res.data || [])
         }
       })
     },
     listSelectSupplier() {
       listSelectSupplier(this.form).then((res) => {
         if (res?.code == '200') {
-          this.$set(this.formGoup, 'supplierList', res.data || [])
-          this.$set(this.formGoupCopy, 'supplierList', res.data || [])
+          this.$set(this.formGroup, 'supplierList', res.data || [])
+          this.$set(this.formGroupCopy, 'supplierList', res.data || [])
         }
       })
     },
     listSelectPart() {
       listSelectPart(this.form).then((res) => {
         if (res?.code == '200') {
-          this.$set(this.formGoup, 'partList', res.data || [])
-          this.$set(this.formGoupCopy, 'partList', res.data || [])
+          this.$set(this.formGroup, 'partList', res.data || [])
+          this.$set(this.formGroupCopy, 'partList', res.data || [])
         }
       })
     }
