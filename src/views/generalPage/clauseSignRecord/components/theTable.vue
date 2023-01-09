@@ -22,7 +22,6 @@
         :extraData="extraData"
         @handle-selection-change="handleSelectionChange"
         @go-detail="handleGoDetail"
-        @operation="operation"
       />
       <iPagination
         v-update
@@ -38,16 +37,11 @@
         :total="page.total"
       />
     </iCard>
-    <clauseDialog
-    v-if="openDialog"
-      :openDialog="openDialog"
-    />
   </div>
 </template>
 
 <script>
 import iTableCustom from '@/components/iTableCustom'
-import clauseDialog from './clauseDialog/single'
 import { iCard, iButton, iPagination } from 'rise'
 import { excelExport } from '@/utils/filedowLoad'
 import { getDictByCode } from '@/api/dictionary/index'
@@ -63,7 +57,6 @@ import {
 
 export default {
   components: {
-    clauseDialog,
     iCard,
     iButton,
     iPagination,
@@ -112,8 +105,7 @@ export default {
       approvalProcess: [],
       signTitle: {},
       extraData: { signNodeListObj: {} },
-      tableColumns,
-      openDialog:false,
+      tableColumns
     }
   },
   watch: {
@@ -251,7 +243,9 @@ export default {
     handleSelectionChange(val) {
       this.selectedTableData = val
     },
-    handleGoDetail(e) {
+    handleGoDetail(e,a) {
+      console.log(e);
+      console.log(a);
       if (e.state == '01' || e.state == '02') {
         this.$router.push({
           path: '/terms/management/addClause',
@@ -268,17 +262,8 @@ export default {
         })
       }
     },
-    operation(row){
-      console.log(row);
-      if(row.state=='04'){
-        this.openDialog=true
-        console.log('this.openDialog:',this.openDialog);
-      }else{
-        console.log('下载非标条款');
-      }
-    },
     closeSignDetailDialog(bol) {
-      this.openDialog = bol
+      this.openSignDetailDialog = bol
     }
   }
 }

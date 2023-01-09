@@ -1,4 +1,5 @@
 import language from '@/utils/language'
+
 // 导出表格
 export const tableTitle = [
   { props: 'termsCode', name: '条款编码', i18n: 'TM_TIAOKUANBIANMA' },
@@ -194,12 +195,11 @@ export const supplierIdentityObj = {
 }
 
 export const searchFormData = [
-  { props: 'termsCode', name: '条款编码', key: 'TM_TIAOKUANBIANMA' },
+  { props: 'signSupplier', name: '签署供应商', key: '签署供应商', disabled:true },
   { props: 'name', name: '条款名称', key: 'TM_TIAOKUANMINGCHENG' },
   { props: 'signUser', name: '签署用户', key: '签署用户' },
-  { props: 'signSupplier', name: '签署供应商', key: '签署供应商' },
-  { props: 'signDate', name: '签署日期起止', key: '签署日期起止', type: 'daterange' },
   { props: 'signStatus', name: '签署状态', key: '签署状态', type: 'select', selectOption: 'signStatusList', multiple: true },
+  { props: 'signDate', name: '签署日期起止', key: '签署日期起止', type: 'daterange' },
 ]
 
 // 字段对应prop尚未提供
@@ -210,7 +210,7 @@ export const tableColumns = [
   {
     type: 'index',
     label: '#',
-    i18n: 'TM_XUHAO'
+    i18n: '#'
   },
   {
     i18n: '条款编号',
@@ -283,7 +283,7 @@ export const tableColumns = [
   },
   {
     i18n: '签署状态',
-    prop: 'supplierIdentity',
+    prop: 'state',
     sortable: true,
     minWidth: 140,
     customRender: (h, scope) => {
@@ -313,11 +313,10 @@ export const tableColumns = [
   {
     i18n: '操作',
     prop: 'CAOZUO',
-    emit: 'operation',
     minWidth: 120,
     customRender: (h, scope) => {
-      if (scope.row.state=='04') {
-        return <span class="link-text">查看</span>
+      if (scope.$index % 2) {
+        return <span class="link-text" onclick={() => this.handleGoDetail(scope.row)}>查看</span>
       } else {
         return <span class="link-text">下载非标条款</span>
       }

@@ -28,7 +28,7 @@ import theTable from './components/theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'
 import { findByPage } from '@/api/terms/terms'
 import { exportFile } from '@/utils/exportFileUtil'
-import { searchFormData, signStatusList } from "./components/data";
+import { searchFormData,signStatusList } from "./components/data";
 import store from '@/store'
 
 export default {
@@ -44,7 +44,7 @@ export default {
       searchFormData,
       searchForm:{},
       options:{
-        signStatusList,
+        signStatusList:signStatusList
       },
       tableLoading: false,
       tableListData: [],

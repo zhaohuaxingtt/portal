@@ -896,7 +896,7 @@ export default {
     if (this.$route.query.id) {
       // 根据ID查询条款信息
       let param = { id: this.$route.query.id }
-      // this.query(param)
+      this.query(param)
     }
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
