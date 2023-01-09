@@ -51,6 +51,8 @@
             v-if="ruleForm.isNewest != false"
             >{{ $t('TM_FABU') }}</iButton
           >
+          <!-- 签署节点设置 -->
+          <iButton @click="openSetting">{{ $t('签署节点设置') }}</iButton>
           <!-- 返回 -->
           <iButton @click="clearDiolog">{{ $t('TM_FANHUI') }}</iButton>
         </div>
@@ -362,7 +364,7 @@
         >
           <div class="form">
             <div class="input-box">
-              <el-col :span="23" class="form-item" id="editMode">
+              <el-col :span="8" class="form-item" id="editMode">
                 <iFormItem label="编辑方式" prop="editMode">
                   <iLabel
                     :label="$t('TM_BIANJIFANGSHI')"
@@ -383,12 +385,41 @@
                   </el-radio-group>
                 </iFormItem>
               </el-col>
+              <el-col :span="10" class="form-item" id="editMode">
+                <iFormItem label="条款说明" prop="editMode">
+                  <iLabel
+                    :label="$t('条款说明')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iInput
+                    :disabled="ruleForm.isNewest == false"
+                    v-model="ruleForm.clauseRemark"
+                  ></iInput>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item" id="editMode">
+                <iFormItem label="条款签署按钮" prop="editMode">
+                  <iSelect
+                    v-model="ruleForm.signBtn"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-option
+                      v-for="item in signBtnList"
+                      :key="item.value"
+                      :label="$t(item.i18n)"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </el-col>
               <el-col
                 :span="24"
                 v-show="ruleForm.editMode == '01'"
                 class="form-item"
               >
-                <div style="float: right; margin-top: -3rem">
+                <div class="preview">
                   <iButton @click="handlePreEdit()">{{
                     $t('TM_YULAN')
                   }}</iButton>
@@ -561,6 +592,11 @@
         :supplierList="this.ruleForm.supplierList"
         @closeDialog="closeSupplierListDialog"
       />
+      <signNodeSetting
+        v-if="opensignNodeSettingDialog"
+        :openDialog="opensignNodeSettingDialog"
+        @closeDialog="closeSignNodeSettingDialog"
+      />
       <supplierChooseDialog
         v-if="openSupplierChooseDialog"
         :openDialog="openSupplierChooseDialog"
@@ -601,6 +637,8 @@ import { getDictByCode } from '@/api/dictionary/index'
 import { download, downloadZip } from '@/utils/downloadUtil'
 import supplierListDialog from './supplierListDialog.vue'
 import supplierChooseDialog from './supplierChooseDialog.vue'
+import signNodeSetting from './signNodeSetting.vue'
+
 import dayjs from 'dayjs'
 import {
   saveTerms,
@@ -625,7 +663,8 @@ export default {
     iTableML,
     // iPagination,
     supplierListDialog,
-    supplierChooseDialog
+    supplierChooseDialog,
+    signNodeSetting
   },
   data() {
     return {
@@ -770,10 +809,29 @@ export default {
           i18n: 'TM_FOU'
         }
       ],
+      // 条款签署按钮
+      signBtnList: [
+        {
+          label: '签署/暂不签署',
+          value: 0,
+          i18n: '签署/暂不签署'
+        },
+        {
+          label: '同意/拒绝',
+          value: 1,
+          i18n: '同意/拒绝'
+        },
+        {
+          label: '确认/取消',
+          value: 2,
+          i18n: '确认/取消'
+        }
+      ],
       uploadLoading: false,
       submitLoading: false,
       openSupplierListDialog: false,
       openSupplierChooseDialog: false,
+      opensignNodeSettingDialog:false,
       supplierCheckList: [],
       exc: -1,
       supplierExcCheckList: []
@@ -788,9 +846,9 @@ export default {
           if (this.ruleForm.supplierIdentity.indexOf('2') == -1) {
             this.ruleForm.supplierIdentity.push('2')
           } else if (val.length == 1 && val[0] == 'NT') {
-              this.ruleForm.supplierIdentity = []
-              this.ruleForm.supplierIdentity.push('2')
-            }
+            this.ruleForm.supplierIdentity = []
+            this.ruleForm.supplierIdentity.push('2')
+          }
         } else if (val.includes('CM')) {
           this.ruleForm.supplierIdentity = []
         } else {
@@ -833,6 +891,13 @@ export default {
     this.createEditor()
   },
   methods: {
+    openSetting() {
+      console.log('openSetting:打开条款设置弹窗')
+      this.opensignNodeSettingDialog = true
+    },
+    closeSignNodeSettingDialog(){
+      this.opensignNodeSettingDialog = false
+    },
     // handleChangePage(e) {
     //   this.page.currPage = e;
     //   this.tableListDataSub = this.ruleForm.attachments.slice(
@@ -1334,6 +1399,11 @@ export default {
     margin-left: -2rem;
     .form-item {
       padding-left: 2rem;
+    }
+    .preview{
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
     }
   }
   // .input-box {

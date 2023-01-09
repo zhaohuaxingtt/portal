@@ -49,6 +49,11 @@
             "
             >{{ $t('TM_GENGXINBANBEN') }}</iButton
           >
+          <!-- 签署节点设置 -->
+          <iButton
+            @click="openSetting"
+            >{{ $t('签署节点设置') }}</iButton
+          >
           <!-- 返回 -->
           <iButton @click="clearDiolog">{{ $t('TM_FANHUI') }}</iButton>
         </div>
@@ -382,7 +387,7 @@
         >
           <div class="form">
             <div class="input-box">
-              <el-col :span="23" class="form-item" id="editMode">
+              <el-col :span="8" class="form-item" id="editMode">
                 <iFormItem label="编辑方式" prop="editMode">
                   <iLabel
                     :label="$t('TM_BIANJIFANGSHI')"
@@ -403,12 +408,41 @@
                   </el-radio-group>
                 </iFormItem>
               </el-col>
+              <el-col :span="10" class="form-item" id="editMode">
+                <iFormItem label="条款说明" prop="editMode">
+                  <iLabel
+                    :label="$t('条款说明')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iInput
+                    :disabled="ruleForm.isNewest == false"
+                    v-model="ruleForm.clauseRemark"
+                  ></iInput>
+                </iFormItem>
+              </el-col>
+              <el-col :span="6" class="form-item" id="editMode">
+                <iFormItem label="条款签署按钮" prop="editMode">
+                  <iSelect
+                    v-model="ruleForm.signBtn"
+                    :disabled="ruleForm.isNewest == false"
+                  >
+                    <el-option
+                      v-for="item in signBtnList"
+                      :key="item.value"
+                      :label="$t(item.i18n)"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </el-col>
               <el-col
                 :span="24"
                 v-show="ruleForm.editMode == '01'"
                 class="form-item"
               >
-                <div style="float: right; margin-top: -3rem">
+                <div class="preview">
                   <iButton @click="handlePreEdit()">{{
                     $t('TM_YULAN')
                   }}</iButton>
@@ -565,6 +599,11 @@
         :supplierList="this.ruleForm.supplierList"
         @closeDialog="closeSupplierListDialog"
       />
+      <signNodeSetting
+        v-if="opensignNodeSettingDialog"
+        :openDialog="opensignNodeSettingDialog"
+        @closeDialog="closeSignNodeSettingDialog"
+      />
       <supplierChooseDialog
         v-if="openSupplierChooseDialog"
         :openDialog="openSupplierChooseDialog"
@@ -612,6 +651,7 @@ import supplierListDialog from './supplierListDialog.vue'
 import supplierChooseDialog from './supplierChooseDialog.vue'
 import { invalidateTerms, releaseTerms } from '@/api/terms/terms'
 import { getFileByIds } from '@/api/terms/uploadFile'
+import signNodeSetting from './signNodeSetting.vue'
 import dayjs from 'dayjs'
 export default {
   components: {
@@ -625,7 +665,8 @@ export default {
     iDatePicker,
     iTableML,
     supplierListDialog,
-    supplierChooseDialog
+    supplierChooseDialog,
+    signNodeSetting
   },
   props: {
     // loading: { type: Boolean, default: false },
@@ -784,10 +825,30 @@ export default {
           i18n: 'TM_FOU'
         }
       ],
+      
+      // 条款签署按钮
+      signBtnList: [
+        {
+          label: '签署/暂不签署',
+          value: 0,
+          i18n: '签署/暂不签署'
+        },
+        {
+          label: '同意/拒绝',
+          value: 1,
+          i18n: '同意/拒绝'
+        },
+        {
+          label: '确认/取消',
+          value: 2,
+          i18n: '确认/取消'
+        }
+      ],
       uploadLoading: false,
       submitLoading: false,
       openSupplierListDialog: false,
       openSupplierChooseDialog: false,
+      opensignNodeSettingDialog:false,
       supplierCheckList: [],
       exc: -1,
       supplierExcCheckList: []
@@ -835,7 +896,7 @@ export default {
     if (this.$route.query.id) {
       // 根据ID查询条款信息
       let param = { id: this.$route.query.id }
-      this.query(param)
+      // this.query(param)
     }
     getDictByCode('SIGN_NODE').then((res) => {
       if (res && res.data !== null && res.data.length > 0) {
@@ -845,6 +906,13 @@ export default {
     this.createEditor()
   },
   methods: {
+    openSetting() {
+      console.log('openSetting:打开条款设置弹窗')
+      this.opensignNodeSettingDialog = true
+    },
+    closeSignNodeSettingDialog(){
+      this.opensignNodeSettingDialog = false
+    },
     createEditor() {
       let that = this
       this.editor = new E('#editer')
@@ -1290,6 +1358,11 @@ export default {
     .form-item {
       padding-left: 2rem;
     }
+  }
+  .preview{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
   }
   // .input-box {
   //   :nth-child(4n + 5) {

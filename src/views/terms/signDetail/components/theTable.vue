@@ -51,7 +51,8 @@ import {
   stateObj,
   supplierRangeObj,
   supplierContactsObj,
-  supplierIdentityObj
+  supplierIdentityObj,
+  tableColumns
 } from './data'
 
 export default {
@@ -104,135 +105,7 @@ export default {
       approvalProcess: [],
       signTitle: {},
       extraData: { signNodeListObj: {} },
-      tableColumns: [
-        {
-          type: 'selection'
-        },
-        {
-          type: 'index',
-          label: '序号',
-          i18n: 'TM_XUHAO'
-        },
-        {
-          i18n: 'TM_TIAOKUANBIANMA',
-          prop: 'termsCode',
-          sortable: true,
-          minWidth: 100
-        },
-        {
-          i18n: '条款名称/版本',
-          prop: 'name',
-          emit: 'go-detail',
-          sortable: true,
-          minWidth: 200,
-          customRender: (h, scope) => {
-            return <span class="link-text">{scope.row.name}/{scope.row.termsVersion}</span>
-          }
-        },
-        {
-          i18n: '供应商名称',
-          prop: 'supplierName',
-          minWidth: 140,
-          sortable: true
-        },
-        {
-          i18n: '业务编码',
-          prop: 'publishDate',
-          minWidth: 120,
-          sortable: true
-        },
-        {
-          i18n: '临时号',
-          prop: 'signNode',
-          sortable: true,
-          minWidth: 120,
-          customRender: (h, scope, column, extraData) => {
-            return extraData.signNodeListObj[scope.row.signNode]
-          }
-        },
-        {
-          i18n: 'SVW号',
-          prop: 'signResult',
-          sortable: true,
-          minWidth: 100,
-        },
-        {
-          i18n: 'SAP号',
-          prop: 'isPersonalTerms',
-          sortable: true,
-          minWidth: 120,
-        },
-        {
-          i18n: '供应商类型',
-          prop: 'supplierRange',
-          sortable: true,
-          minWidth: 140,
-          tooltip: true,
-          customRender: (h, scope) => {
-            const map = {
-              PP: 'TM_SHENGCHANGONGYINGSHANG',
-              GP: 'TM_YIBANGONGYINGSHANG',
-              NT: 'N-Tier',
-              CM: 'TM_ZIDINGYI'
-            }
-
-            const res =
-              scope.row.supplierRange?.split(',').map((e) => this.$t(map[e])) ||
-              []
-            return res.join(',')
-          }
-        },
-        {
-          i18n: '签署状态',
-          prop: 'supplierIdentity',
-          sortable: true,
-          minWidth: 140,
-          customRender: (h, scope) => {
-            const map = {
-              0: 'TM_LINSHI',
-              1: 'TM_ZHENGSHI',
-              2: 'TM_CHUXUCHI'
-            }
-
-            const res =
-              scope.row.supplierIdentity
-                ?.split(',')
-                .map((e) => this.$t(map[e])) || []
-            return res.join(',')
-          }
-        },
-        {
-          i18n: '签署人',
-          prop: 'supplierContacts',
-          sortable: true,
-          minWidth: 120,
-          customRender: (h, scope) => {
-            const map = {
-              '01': 'TM_QUANBU',
-              '02': 'TM_ZHULIANXIREN'
-            }
-            return this.$t(map[scope.row.supplierContacts])
-          }
-        },
-        {
-          i18n: '签署时间',
-          prop: 'chargeName',
-          minWidth: 120,
-          sortable: true
-        },
-        {
-          i18n: '操作',
-          prop: 'CAOZUO',
-          minWidth: 120,
-          customRender: (h, scope) => {
-            if(scope.$index%2){
-              return <span class="link-text" onclick={() => this.handleGoDetail(scope.row)}>查看</span>
-            }else{
-              return <span class="link-text">下载非标条款</span>
-            }
-          }
-        }
-      ]
+      tableColumns
     }
   },
   watch: {
