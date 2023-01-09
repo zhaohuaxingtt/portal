@@ -25,7 +25,7 @@
               :key="item.id"
               class="open-link-text enclosure-item margin-bottom20"
               @click="
-                downloadEnclosure(item.attachmentUrl, item.attachmentTitle, item.attachmentId)
+                downloadEnclosure(item.attachmentUrl)
               "
             >
               <img :src="enclosure" alt="" srcset="" class="img" />
@@ -83,19 +83,8 @@ export default {
       this.$router.go(-1)
     },
     // 预览页-下载附件
-    downloadEnclosure(url, name, attachmentId) {
-      // const arr = name ? name.split('.') : []
-      // const suffix = arr[arr.length - 1]
-      // // pdf 格式要求在线预览，其余的下载
-      // if(suffix=='pdf'){
-        url = `${origin}/fileApi/fileud/getFileByFileId?fileId=${attachmentId}`
-        window.open(url)
-        return
-      // }
-      // createAnchorLink(
-      //   url, // 前端跨域问题，将api地址替换为反向代理地址
-      //   name
-      // )
+    downloadEnclosure(url) {
+        return window.open(url)
     }
   }
 }
