@@ -48,6 +48,7 @@
             :tableData="tableListData"
             :tableTitle="tableTitle"
             :tableLoading="tableLoading"
+            :selection="false"
             :index="true"
             border
             @handleSelectionChange="handleSelectionChange"

@@ -1,21 +1,48 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2022-03-09 14:59:49
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-01-09 16:49:51
+ * @LastEditors: YoHo && 917955345@qq.com
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\chipReplenishmentOverview\components\theTable.vue
 -->
 <template>
   <div>
     <iCard>
       <template v-slot:header>
-        <span>
-          {{ language('BUCHAXIANGQING', '补差详情') }}
-        </span>
-        <iButton @click="add" v-permission="PORTAL_MTZ_FAQIBUCHA">{{
-          language('FAQIBUCHA', '发起补差')
-        }}</iButton>
+        <div class="showMe">
+          <span>{{ language('只看自己 ') }}</span>
+          <el-switch
+            v-model="onlySeeMySelf"
+            class="margin-right10"
+            @change="showOnlyMyselfData($event)"
+            active-color="#1660F1"
+            inactive-color="#cccccc"
+          >
+          </el-switch>
+          <el-radio-group v-model="type" @change="change">
+            <el-radio-button label="1">{{$t('一次件补差')}}</el-radio-button>
+            <el-radio-button label="2">{{$t('散件补差')}}</el-radio-button>
+          </el-radio-group>
+        </div>
+        <el-dropdown
+          class="btndropdown margin-left10 margin-right10"
+          size="mini"
+          @command="handleCommand"
+        >
+          <iButton v-permission="PORTAL_MTZ_FAQIBUCHA"
+            >{{ $t('FAQIBUCHA')
+            }}<i class="el-icon-arrow-down el-icon--right"></i>
+          </iButton>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="Tier-1">{{
+              $t('一次件供应商')
+            }}</el-dropdown-item>
+            <el-dropdown-item command="Tier-2">{{
+              $t('散件供应商')
+            }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </template>
       <el-table
         :data="tableData"
@@ -32,7 +59,7 @@
           prop="fsupplierName"
           align="center"
           show-overflow-tooltip
-          width="240"
+          minWidth="240"
         >
           <template slot="header">
             <div>{{ language('YICIJIANGONGYINGSHANG', '一次件供应商') }}</div>
@@ -44,74 +71,10 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="compMoney1"
-          align="center"
-          show-overflow-tooltip
-          width="180"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('BUCHAJINE', '补差金额 ') }}</span>
-              <el-tooltip effect="light" content="" placement="top">
-                <div slot="content">
-                  {{
-                    language(
-                      'BUCHASHIJIANDUANNEIGENGJUGUIZELINGJIANSHOUHUOSHULIANGJISUANDEBUCHAJIEGUO',
-                      '补差时间段内根据规则&零件收货数量计算的补差结果'
-                    )
-                  }}
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-            <div>
-              {{
-                language('SHOUHUOSHULIANGJISUANJIEGUO', '（收货数量计算结果）')
-              }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="compMoney2"
-          align="center"
-          show-overflow-tooltip
-          width="180"
-          :formatter="formatterNumber"
-        >
-          <template slot="header">
-            <div>
-              <span>{{ language('BUCHAJINE', '补差金额') }}</span>
-              <el-tooltip effect="light" placement="top">
-                <div slot="content">
-                  {{
-                    language(
-                      'BUCHASHIJIANDUANNEISHOUHUOSHULIANGDUIYINGDEJIESUANSHULIANGBUCHAJISUANJIEGUO',
-                      '补差时间段内收货数量对应的结算数量补差计算结果'
-                    )
-                  }}
-                </div>
-                <i
-                  class="el-icon-warning-outline margin-left10"
-                  style="color: blue"
-                ></i>
-              </el-tooltip>
-            </div>
-            <div>
-              {{
-                language('JIESUANSHULIANGJISUANJIEGUO', '（结算数量计算结果）')
-              }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
           prop="waitLaunchedDocMoney"
           align="center"
           show-overflow-tooltip
-          width="180"
+          minWidth="180"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -139,7 +102,7 @@
           prop="hasLaunchedDocMoney"
           align="center"
           show-overflow-tooltip
-          width="180"
+          minWidth="180"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -166,7 +129,7 @@
           prop="trueCompMoney"
           align="center"
           show-overflow-tooltip
-          width="180"
+          minWidth="180"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -203,7 +166,7 @@
           prop="waitVerifyMoney"
           align="center"
           show-overflow-tooltip
-          width="180"
+          minWidth="180"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -241,7 +204,7 @@
           prop="hasVerifyMoney"
           align="center"
           show-overflow-tooltip
-          width="140"
+          minWidth="140"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -272,14 +235,13 @@
                 ></i>
               </el-tooltip>
             </div>
-            <!-- <div>{{language('GONGYINGSHANGQUERENJINE','（供应商确认金额）')}}</div> -->
           </template>
         </el-table-column>
         <el-table-column
           prop="hasRatifyMoney"
           align="center"
           show-overflow-tooltip
-          width="140"
+          minWidth="140"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -300,14 +262,13 @@
                 ></i>
               </el-tooltip>
             </div>
-            <!-- <div>{{language('BUCHAPINZHENGSHENPITONGUOJINE','（补差凭证审批通过金额）')}}</div> -->
           </template>
         </el-table-column>
         <el-table-column
           prop="hasPayMoney"
           align="center"
           show-overflow-tooltip
-          width="140"
+          minWidth="140"
           :formatter="formatterNumber"
         >
           <template slot="header">
@@ -325,7 +286,6 @@
                 ></i>
               </el-tooltip>
             </div>
-            <!-- <div>{{language('BUCHAPINZHENGYIZHIFUJINE','（补差凭证已支付金额）')}}</div> -->
           </template>
         </el-table-column>
       </el-table>
@@ -379,6 +339,7 @@ export default {
   mixins: [pageMixins],
   data() {
     return {
+      type: 1,
       detailParams: {
         key: 0,
         visible: false,
@@ -398,14 +359,29 @@ export default {
     this.getTableList()
   },
   methods: {
+    //仅看自己
+    showOnlyMyselfData(val) {
+      this.onlySeeMySelf = val
+      this.getTableList()
+    },
+    // 参照
+    handleCommand(command) {
+      // 一次件
+      if (command == 'Tier-1') {
+        this.openDialogOfIntending = true
+      }
+      // 二次件/散件
+      if (command == 'Tier-2') {
+        this.openDialogOfFrameworkport = true
+      }
+    },
     formatterNumber(row, column, cellValue, index) {
       return VueUtil.formatNumber(cellValue)
     },
+    change(e){
+      console.log(e);
+    },
     add() {
-      if (this.handleSelectArr.length === 0) {
-        iMessage.error('请选择数据')
-        return
-      }
       let params = {
         dialogVisible: true,
         selectData: this.handleSelectArr,
